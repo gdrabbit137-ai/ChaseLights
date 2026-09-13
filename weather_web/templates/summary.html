@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PhotoWeather — 今日最佳攝影點</title>
+<script>window.API_BASE = '{{ API_BASE|default("") }}';</script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<style>
+/* 語言切換按鈕 */
+.lang-btn {
+  padding: 4px 10px; border-radius: 4px; border: 1px solid #3a4a5a;
+  background: transparent; color: #667788; cursor: pointer; font-size: 12px;
+  transition: all 0.2s;
+}
+.lang-btn:hover { background: #1a2a3a; color: #fff; }
+.lang-btn.active { background: #2a3a5a; color: #ffd54f; border-color: #ffd54f; }
+
+/* 新卡片佈局 */
+.spot-card { padding: 14px 16px; }
+.spot-card-header { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.spot-meta-grid {
+  display: flex; gap: 4px; flex-wrap: wrap; width: 100%;
+  margin: 8px 0;
+}
+.meta-cell {
+  flex: 1; min-width: 80px;
+  background: rgba(255,255,255,0.03); border: 1px solid #1a2a3a;
+  border-radius: 6px; padding: 6px 8px; text-align: center;
+}
+.meta-label {
+  font-size: 10px; color: #667788; margin-bottom: 2px;
+  display: block; letter-spacing: 0.5px;
+}
+.meta-value {
+  font-size: 15px; font-weight: 600; color: #e0e0e0;
+}
+.spot-score-row {
+  display: flex; align-items: center; gap: 12px;
+  margin: 6px 0;
+}
+.spot-time {
+  font-size: 13px; color: #8899aa; font-family: 'Courier New', monospace;
+}
+.spot-tip {
+  font-size: 13px; color: #aabbcc; margin-top: 8px;
+  padding: 8px 10px; background: rgba(255,213,79,0.06);
+  border-radius: 6px; border: 1px solid rgba(255,213,79,0.1);
+  line-height: 1.5;
+}
+/* 子區域分頁 */
+.sub-tab-row { display: flex; gap: 6px; flex-wrap: wrap; margin: 8px 0; }
+.sub-tab {
+  padding: 4px 12px; border-radius: 6px; border: 1px solid #2a3a4a;
+  background: transparent; color: #8899aa; cursor: pointer; font-size: 12px;
+  transition: all 0.2s;
+}
+.sub-tab:hover { background: #1a2a3a; color: #c0d0e0; }
+.sub-tab.active { background: #1a2a3a; color: #ffd54f; border-color: #ffd54f44; }
+
+#sub-tab-container { min-height: 36px; }
+.genre-badge {
+  display: inline-block; font-size: 11px; font-weight: 600;
+  padding: 2px 8px; border-radius: 10px;
+  background: rgba(255,213,79,0.15); color: #ffd54f;
+  margin-right: 6px;
+}
+</style>
+</head>
+<body>
+
+<div id="header">
+  <div class="header-left">
+      <h1>📷 PhotoWeather</h1>
+      <span class="subtitle" id="header-subtitle">🇹🇼 台灣 - 最佳攝影點</span>
+    </div>
+  <div class="header-right">
+        <button class="nav-btn" id="btn-home" onclick="location.href='/'">🏠 首頁</button>
+        <button class="lang-btn active" id="lang-zh" onclick="setLang('zh')">中文</button>
+        <button class="lang-btn" id="lang-en" onclick="setLang('en')">EN</button>
+                      </div>
+         </div>
+
+<div id="content">
+  <div class="summary-container">
+    <div class="summary-tabs">
+          <button class="tab-btn active" data-tab="today" data-zh="今日最佳" data-en="Best Today">今日最佳</button>
+          <button class="tab-btn" data-tab="tomorrow" data-zh="明日預測" data-en="Tomorrow">明日預測</button>
+          <button class="tab-btn" data-tab="dayafter" data-zh="後日預測" data-en="Day After">後日預測</button>
+              </div>  <!-- close summary-tabs -->
+
+          <div id="sub-tab-container"></div>
+
+        <div id="tab-today" class="tab-content active">
+          <div class="summary-header">
+            <h2 class="section-title" data-zh="📸 今日最佳攝影點" data-en="📸 Best Photography Spots Today">📸 今日最佳攝影點</h2>
+            <span class="subtitle" data-zh="依天氣預報評分排名（0-100）" data-en="Scored 0-100 based on weather forecast">依天氣預報評分排名（0-100）</span>
+            <div id="time-display" style="text-align:center;padding:6px 0;color:#667788;font-size:13px;font-family:'Courier New',monospace"></div>
+        <button class="refresh-btn" onclick="refreshData()">🔄 <span data-zh="重新整理" data-en="Refresh">重新整理</span></button>
+      </div>
+      <div id="today-list" class="spot-list"><div class="loading">載入中...</div></div>
+    </div>
+
+    <div id="tab-tomorrow" class="tab-content">
+      <div class="summary-header">
+        <h2 class="section-title" data-zh="📸 明日預測最佳攝影點" data-en="📸 Best Spots Tomorrow">📸 明日預測最佳攝影點</h2>
+        <span class="subtitle" data-zh="依明日天氣預報評分排名" data-en="Based on tomorrow's forecast">依明日天氣預報評分排名</span>
+      </div>
+      <div id="tomorrow-list" class="spot-list"><div class="loading">載入中...</div></div>
+    </div>
+
+    <div id="tab-dayafter" class="tab-content">
+      <div class="summary-header">
+        <h2 class="section-title" data-zh="📸 後日預測最佳攝影點" data-en="📸 Best Spots Day After">📸 後日預測最佳攝影點</h2>
+        <span class="subtitle" data-zh="依後天天氣預報評分排名" data-en="Based on day-after forecast">依後天天氣預報評分排名</span>
+      </div>
+      <div id="dayafter-list" class="spot-list"><div class="loading">載入中...</div></div>
+    </div>  <!-- close dayafter tab-content -->
+      </div>  <!-- close summary-container -->
+    </div>  <!-- close content -->
+
+    <div id="update-info" style="text-align:center;padding:20px;color:#556677;font-size:12px"></div>
+
+    <script>
+let bestSpotsData = null;
+let currentLang = 'zh';
+// 從 URL 讀取地區（支援 ?region=xx）
+const urlParams = new URLSearchParams(window.location.search);
+let currentRegion = urlParams.get('region') || 'tw';
+
+const REGION_LABELS = {
+  tw: { zh: '台灣', en: 'Taiwan', flag: '🇹🇼' },
+  jp: { zh: '日本', en: 'Japan', flag: '🇯🇵' },
+  ak: { zh: '阿拉斯加', en: 'Alaska', flag: '🏔️' },
+  us: { zh: '美國', en: 'USA', flag: '🇺🇸' },
+};
+
+const LANG = {
+  zh: {
+    headerSubtitle: '最佳攝影點摘要',
+    loading: '載入中...',
+    empty: '今日無適合拍攝的景點（天氣不佳）',
+    emptyTomorrow: '明日預報資料尚未完整',
+    error: '⚠️ 資料載入失敗',
+    refresh: '重新整理',
+    bestSpots: '最佳攝影點',
+    clockSuffix: '(台灣)',
+        refreshing: '載入中...',
+    scoreLabels: ['絕佳大景', '推薦出動', '可試試看', '天氣普通'],
+    visibility: '能見度', temperature: '氣溫', rain: '降雨機率',
+    copyGPS: '📋 複製GPS',
+    bestGenre: '最佳題材',
+    noTip: '📷 查看天氣即時狀況，攜帶相機出發',
+  },
+  en: {
+    headerSubtitle: 'Best Photography Spots',
+    loading: 'Loading...',
+    empty: 'No suitable spots today (poor weather)',
+    emptyTomorrow: 'Tomorrow forecast not ready yet',
+    error: '⚠️ Failed to load data',
+    refresh: 'Refresh',
+    bestSpots: 'Best Photography Spots',
+    clockSuffix: '(TW)',
+    refreshing: 'Refreshing...',
+    scoreLabels: ['Excellent!', 'Good to Go', 'Maybe', 'Poor Weather'],
+    visibility: 'Visibility', temperature: 'Temperature', rain: 'Rain Chance',
+    copyGPS: '📋 Copy GPS',
+    bestGenre: 'Best Genre',
+    noTip: '📷 Check current weather, bring your camera',
+  }
+};
+
+function t(key) { return LANG[currentLang][key] || key; }
+
+// ─── 語系切換 ──────────────────────────────────────────────
+
+function setLang(lang) {
+  currentLang = lang;
+  document.getElementById('lang-zh').classList.toggle('active', lang === 'zh');
+  document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+  document.documentElement.lang = lang === 'en' ? 'en' : 'zh-TW';
+  
+  // 更新所有 data-zh/data-en 元素
+  document.querySelectorAll('[data-zh]').forEach(el => {
+    el.textContent = el.getAttribute('data-' + lang);
+  });
+  
+  renderToday();
+  renderTomorrow();
+}
+
+// ─── 區 域 切 換 ──────────────────────────────────────────────
+
+function switchRegion(region) {
+  currentRegion = region;
+  // Update header subtitle
+  const label = REGION_LABELS[region];
+  const lang = currentLang === 'zh' ? 'zh' : 'en';
+  document.getElementById('header-subtitle').textContent =
+    `${label.flag} ${label[lang]} - ${LANG[currentLang].bestSpots || 'Best Spots'}`;
+  // Check URL sub-region param BEFORE rendering
+  const urlParams = new URLSearchParams(window.location.search);
+  const urlSub = urlParams.get('sub');
+  currentSubRegion = urlSub || null;
+  const container = document.getElementById('sub-tab-container');
+  if (container) container.innerHTML = getSubRegionTabs(region);
+  loadBestSpots();
+}
+
+// ─── 子 區 域 分 頁 ──────────────────────────────────────────
+
+// Spot → sub-region mapping (from countries_list.md)
+const SUB_REGION_MAP = {
+  "Antelope Canyon": "west","Arches NP": "west","Boston Skyline": "east",
+  "Bryce Canyon": "west","Canyonlands Mesa Arch": "west","Chicago Skyline": "central",
+  "Crater Lake": "west","Death Valley": "west","Denver Skyline": "central",
+  "Fort Worth Stockyards": "east","Glacier NP": "central","Golden Gate Bridge SF": "west",
+  "Grand Canyon": "west","Grand Teton NP": "central","Great Smoky Mountains": "central",
+  "Horseshoe Bend": "west","Joshua Tree NP": "west","Las Vegas Strip": "west",
+  "Los Angeles Observatory": "west","Manhattan Skyline": "east","Miami Beach": "east",
+  "Monument Valley": "west","Mount Rainier": "west","Mount St. Helens": "west",
+  "New Orleans French Quarter": "east","Niagara Falls": "east","Olympic NP": "west",
+  "Pike Place Market": "west","Redwood NP": "west","Rocky Mountains": "central",
+  "Saguaro NP": "west","Santa Monica Pier": "west","Sawtooth Mountains": "central",
+  "Seattle Space Needle": "west","St Louis Gateway Arch": "central","White Sands": "west",
+  "Yellowstone Grand Prismatic": "central","Yosemite Half Dome": "west",
+  "Yosemite Tunnel View": "west","Zion NP": "west",
+  "みなとみらい(横浜)": "kanto","七星潭": "mainland","七美雙心石滬": "penghu",
+  "三仙台": "mainland","九份不厭亭": "mainland","二寮": "mainland","二延平步道": "mainland",
+  "五峰旗瀑布": "mainland","井仔腳鹽田": "mainland","伊賀上野城": "kansai",
+  "倉敷美観地区": "chugoku_shikoku","六十石山": "mainland","六甲山(神戶)": "kansai",
+  "出雲大社": "chugoku_shikoku","函館山": "hokkaido","北大武山": "mainland",
+  "北竿芹壁": "matsu","十和田湖": "tohoku","南湖大山": "mainland","合歡山主峰": "mainland",
+  "名古屋城": "chubu","和平島": "mainland","品田山": "mainland","唐津城": "kyushu",
+  "嘉明湖": "mainland","墾丁鵝鑾鼻": "mainland","多良車站": "mainland","大古山": "mainland",
+  "大屯山助航站": "mainland","大稻埕碼頭": "mainland","大阪城": "kansai",
+  "大霸尖山": "mainland","奇萊主峰": "mainland","奎壁山": "penghu","富士山(山梨)": "chubu",
+  "小崗山雲臺": "mainland","小樽運河": "hokkaido","小琉球花瓶岩": "liuqiu",
+  "屏東關山": "mainland","弥彦山": "chubu","抹茶山": "mainland","摩周湖": "hokkaido",
+  "新穂高ロープウェイ": "chubu","日月潭": "mainland","旭岳(北海道)": "hokkaido",
+  "望幽谷": "mainland","杉林溪": "mainland","東京鐵塔": "kanto","東引燈塔": "matsu",
+  "松島": "tohoku","桃山": "mainland","横浜山下公園": "kanto","正濱漁港": "mainland",
+  "武界部落": "mainland","永安漁港": "mainland","池上伯朗大道": "mainland","池有山": "mainland",
+  "浜名湖": "chubu","淡水漁人碼頭": "mainland","清水寺(京都)": "kansai","清水斷崖": "mainland",
+  "澎湖觀音亭": "penghu","澎湖跨海大橋": "penghu","火炎山": "mainland","玉山主峰": "mainland",
+  "王功漁港": "mainland","田寮月世界": "mainland","皇居(東京)": "kanto","碧潭": "mainland",
+  "磐梯山": "tohoku","福岡タワー": "kyushu","福岡城跡": "kyushu","等々力渓谷(東京)": "kanto",
+  "粉鳥林": "mainland","綠島朝日溫泉": "green_island","美瑛青い池": "hokkaido","翟山坑道": "kinmen",
+  "萩市城下町": "chugoku_shikoku","蘭嶼東清灣": "lanyu","蘭嶼青青草原": "lanyu",
+  "見晴懷古步道": "mainland","觀音山硬漢嶺": "mainland","諏訪湖": "chubu","象山": "mainland",
+  "金沢兼六園": "chubu","金瓜石茶壺山": "mainland","金門得月樓": "kinmen","金門慈湖": "kinmen",
+  "金龍山": "mainland","釧路湿原": "hokkaido","鎌倉大仏": "kanto","長崎グラバー園": "kyushu",
+  "關渡大橋": "mainland","阿里山": "mainland","雪山主峰": "mainland","雪山北峰": "mainland",
+  "雲洞山莊": "mainland","頂石棹": "mainland","香山濕地": "mainland","馬祖南竿": "matsu",
+  "駁二藝術特區": "mainland","高美濕地": "mainland","高野山": "kansai","鳴門海峡(徳島)": "chugoku_shikoku",
+  "鳶嘴山": "mainland",
+};
+const SUB_REGIONS = {
+  tw: [["mainland","台灣本島","Mainland"],["penghu","澎湖","Penghu"],["kinmen","金門","Kinmen"],["matsu","馬祖","Matsu"],["lanyu","蘭嶼","Lanyu"],["green_island","綠島","Green I."],["liuqiu","小琉球","Liuqiu"]],
+  jp: [["hokkaido","北海道","Hokkaido"],["tohoku","東北","Tohoku"],["kanto","關東","Kanto"],["chubu","中部北陸","Chubu"],["kansai","關西","Kansai"],["chugoku_shikoku","中國四國","Chugoku/Shikoku"],["kyushu","九州","Kyushu"]],
+  us: [["west","美西","West"],["central","美中","Central"],["east","美東","East"]],
+  ak: [["alaska","阿拉斯加","Alaska"]],
+};
+let currentSubRegion = null;
+
+function switchSubRegion(subId) {
+  currentSubRegion = subId || null;
+  document.querySelectorAll('.sub-tab').forEach(b => b.classList.toggle('active', b.dataset.sub === subId));
+  renderToday(); renderTomorrow(); renderDayAfter();
+}
+
+// ─── 子 區 域 按 鈕 ──────────────────────────────────────────
+
+function getSubRegionTabs(region) {
+  const subs = SUB_REGIONS[region] || [];
+  if (subs.length < 2) return '';
+  const lang = currentLang === 'zh' ? 1 : 2;
+  let html = '<div class="sub-tab-row">';
+  html += `<button class="sub-tab${currentSubRegion === '' || !currentSubRegion ? ' active' : ''}" data-sub="" onclick="switchSubRegion('')">${currentLang === 'zh' ? '🗺️ 全部' : '🗺️ All'}</button>`;
+  subs.forEach(s => {
+    html += `<button class="sub-tab${currentSubRegion === s[0] ? ' active' : ''}" data-sub="${s[0]}" onclick="switchSubRegion('${s[0]}')">${s[lang]}</button>`;
+  });
+  html += '</div>';
+  return html;
+}
+
+// ─── 分 頁 切 換 ──────────────────────────────────────────────
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    this.classList.add('active');
+    document.getElementById('tab-' + this.dataset.tab).classList.add('active');
+  });
+});
+
+// ─── 載入資料 ──────────────────────────────────────────────
+
+async function loadBestSpots() {
+  try {
+    const resp = await fetch(`${window.API_BASE || ''}/api/best-spots?region=${currentRegion}`);
+    bestSpotsData = await resp.json();
+    renderToday(); renderTomorrow(); renderDayAfter(); updateClock();
+  } catch (e) {
+    document.getElementById('today-list').innerHTML = `<div class="error">${t('error')}</div>`;
+  }
+}
+
+async function refreshData() {
+  document.getElementById('today-list').innerHTML = `<div class="loading">${t('refreshing')}</div>`;
+  document.getElementById('tomorrow-list').innerHTML = `<div class="loading">${t('refreshing')}</div>`;
+  document.getElementById('dayafter-list').innerHTML = `<div class="loading">${t('refreshing')}</div>`;
+  try {
+    await fetch(`${window.API_BASE || ''}/api/refresh?region=${currentRegion}`);
+    await loadBestSpots();
+  } catch (e) {}
+}
+
+// ─── 更 新 時 間 顯 示 ──────────────────────────────────────
+async function loadUpdateStatus() {
+  try {
+    const r = await fetch('/api/update-status');
+    const data = await r.json();
+    const el = document.getElementById('update-info');
+    const s = data[currentRegion];
+    if (s && s.last_update) {
+      const lu = new Date(s.last_update).toLocaleString();
+      const nu = new Date(s.next_update).toLocaleString();
+      el.textContent = `📡 ${currentRegion.toUpperCase()}: ${lu} → ${nu}`;
+    } else {
+      el.textContent = '';
+    }
+  } catch(e) {}
+}
+loadUpdateStatus();
+setInterval(loadUpdateStatus, 60000);
+
+// ─── 渲 染 列 表 ──────────────────────────────────────────────
+
+function getScoreColor(s) { return s >= 80 ? '#00c853' : s >= 60 ? '#64dd17' : s >= 40 ? '#ffd600' : s >= 20 ? '#ff6d00' : '#d50000'; }
+function getScoreEmoji(s) { return ''; }
+
+function renderSpotCard(spot, dayKey) {
+  const info = spot[dayKey];
+  if (!info || !info.score) return '';
+  
+  const score = info.score;
+  const color = getScoreColor(score);
+  const emoji = getScoreEmoji(score);
+  const visKm = info.best_visibility ? Math.round(info.best_visibility / 1000) : '?';
+  const temp = info.best_temp ? Math.round(info.best_temp) : '?';
+  const pop = info.best_pop !== undefined ? info.best_pop : '?';
+  const bestTime = info.best_time ? info.best_time.replace('T', ' ') : '?';
+  const elev = spot.elevation !== undefined ? `${spot.elevation}m` : '';
+
+  // 類型圖示
+  const icons = { mountain: '🏔️', coastal: '🌊', waterfall: '🌿', forest: '🌲', general: '📍' };
+  const st = info.scene_type || '';
+  const icon = icons[st] || '📍';
+  const typeLabel = elev && parseInt(elev) > 2500 ? `${icon} ${currentLang === 'en' ? 'Alpine' : '高山'}` : 
+    st === 'coastal' ? `${icon} ${currentLang === 'en' ? 'Coastal' : '海岸'}` :
+    st === 'waterfall' ? `${icon} ${currentLang === 'en' ? 'Waterfall' : '瀑布'}` :
+    st === 'forest' ? `${icon} ${currentLang === 'en' ? 'Forest' : '森林'}` : `${icon} ${currentLang === 'en' ? 'Scenic' : '景點'}`;
+
+  // 評分標籤
+  const sl = currentLang === 'en' ? 
+    (score >= 80 ? 'Excellent!' : score >= 60 ? 'Good to Go' : score >= 40 ? 'Maybe' : 'Poor') :
+    (score >= 80 ? '絕佳大景' : score >= 60 ? '推薦出動' : score >= 40 ? '可試試看' : '天氣普通');
+
+  const tipKey = dayKey === 'today' ? 'tip_today' : dayKey === 'tomorrow' ? 'tip_tomorrow' : 'tip_dayafter';
+  const tip = spot[tipKey] || t('noTip');
+  const genreLabels = { mountain: 'Alpine', coastal: 'Coastal', waterfall: 'Waterfall', forest: 'Forest', general: 'Scenic' };
+  const bestGenre = info.best_genre || '';
+
+  return `
+    <div class="spot-card" style="border-left: 4px solid ${color}">
+      <div class="spot-card-header">
+        <span class="spot-name">${spot.name}</span>
+        <span class="spot-type">${icon} ${genreLabels[st] || 'Scenic'}</span>
+        <span class="spot-elev">${elev}</span>
+      </div>
+      <div class="spot-score-row">
+        <span class="score-value" style="color:${color};font-size:22px;font-weight:700">${emoji}${score}</span>
+        <span class="score-label" style="color:#8899aa;font-size:12px">${sl}</span>
+        <span class="spot-time"><span class="genre-badge">${bestGenre}</span> 🕐 ${bestTime}</span>
+      </div>
+      <div class="spot-meta-grid">
+        <div class="meta-cell" title="${t('visibility')}">
+          <span class="meta-label">${t('visibility')}</span>
+          <span class="meta-value">${visKm} km</span>
+        </div>
+        <div class="meta-cell" title="${t('temperature')}">
+          <span class="meta-label">${t('temperature')}</span>
+          <span class="meta-value">${temp}°C</span>
+        </div>
+        <div class="meta-cell" title="${t('rain')}">
+          <span class="meta-label">${t('rain')}</span>
+          <span class="meta-value">${pop}%</span>
+        </div>
+      </div>
+      <div class="spot-tip">${tip}</div>
+      <div class="spot-coords">
+        ${spot.lat.toFixed(2)}°N, ${spot.lon.toFixed(2)}°E
+        <span class="copy-btn" onclick="navigator.clipboard.writeText('${spot.lat},${spot.lon}')">${t('copyGPS')}</span>
+      </div>
+    </div>
+  `;
+}
+
+function renderToday() {
+  const c = document.getElementById('today-list');
+  if (!bestSpotsData || !bestSpotsData.today || bestSpotsData.today.length === 0) {
+    c.innerHTML = `<div class="empty">${t('empty')}</div>`; return;
+  }
+  let items = bestSpotsData.today;
+  if (currentSubRegion) items = items.filter(s => SUB_REGION_MAP[s.name] === currentSubRegion);
+  c.innerHTML = items.map(s => renderSpotCard(s, 'today')).join('');
+}
+
+function renderTomorrow() {
+  const c = document.getElementById('tomorrow-list');
+  if (!bestSpotsData || !bestSpotsData.tomorrow || bestSpotsData.tomorrow.length === 0) {
+    c.innerHTML = `<div class="empty">${t('emptyTomorrow')}</div>`; return;
+  }
+  let items = bestSpotsData.tomorrow;
+  if (currentSubRegion) items = items.filter(s => SUB_REGION_MAP[s.name] === currentSubRegion);
+  c.innerHTML = items.map(s => renderSpotCard(s, 'tomorrow')).join('');
+}
+
+function renderDayAfter() {
+  const c = document.getElementById('dayafter-list');
+  if (!bestSpotsData || !bestSpotsData.dayafter || bestSpotsData.dayafter.length === 0) {
+    c.innerHTML = `<div class="empty">${t('emptyTomorrow')}</div>`; return;
+  }
+  let items = bestSpotsData.dayafter;
+  if (currentSubRegion) items = items.filter(s => SUB_REGION_MAP[s.name] === currentSubRegion);
+  c.innerHTML = items.map(s => renderSpotCard(s, 'dayafter')).join('');
+}
+
+function updateClock() {
+  const now = new Date();
+  const tw = new Date(now.getTime() + (now.getTimezoneOffset() + 480) * 60000);
+  const el = document.getElementById('time-display');
+  if (el) el.textContent = tw.toISOString().replace('T', ' ').substring(0, 16) + ' ' + t('clockSuffix');
+}
+document.addEventListener('DOMContentLoaded', function() {
+  switchRegion(currentRegion);
+  updateClock();
+  setInterval(updateClock, 10000);
+});
+</script>
+</body>
+</html>
