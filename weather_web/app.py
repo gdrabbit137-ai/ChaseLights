@@ -353,7 +353,7 @@ def extract_hr(time_str):
 KNOWLEDGE_SPOTS = {}
 _kb_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "Knowledge Base")
 for fname in ["共用型_攝影知識庫.md", "台灣攝影景點指南.md",
-              "日本攝影景點指南.md", "阿拉斯加攝影景點指南.md",
+              "日本攝影景點指南.md",
               "美國攝影景點指南.md"]:
     try:
         fp = os.path.join(_kb_dir, fname)
