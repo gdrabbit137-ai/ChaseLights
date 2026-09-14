@@ -1,19 +1,15 @@
 """
-PhotoWeather v0.2 — Flask 主程式
+PhotoWeather Web — Flask 主程式
 
-v0.2 新功能：
-- 使用者系統與個人化推薦
-- 擴展天氣資料（月相、潮汐、AQI）
-- 智慧拍攝建議
-- 景點評論與收藏
-- 即時互動功能
-- 原有功能（台灣全島能見度預報、今日/明日最佳攝影點）
+提供：
+- 台灣全島能見度預報動態地圖（24小時，每小時一幀）
+- 今日/明日最佳攝影點摘要
+- 靜態檔案服務
 """
 
 import json, os, sys, time, tempfile
 from datetime import datetime, timedelta, timezone
-from flask import Flask, render_template, jsonify, request, session, redirect, url_for
-import secrets
+from flask import Flask, render_template, jsonify, request
 
 CACHE_DIR = os.path.join(os.path.dirname(__file__), ".cache")
 REGIONS_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -22,20 +18,7 @@ if REGIONS_DIR not in sys.path:
 
 from regions import REGIONS
 
-# 導入新模組
-from database import (
-    init_database, create_user, get_user, add_favorite, remove_favorite, 
-    get_user_favorites, add_review, get_spot_reviews, save_weather_history,
-    get_weather_history
-)
-from enhanced_weather import enhanced_weather
-from smart_recommendations import recommendation_engine
-
 app = Flask(__name__)
-app.secret_key = secrets.token_hex(16)  # 用於session管理
-
-# 初始化資料庫
-init_database()
 
 TW = timezone(timedelta(hours=8))  # 台灣時區
 
@@ -800,9 +783,9 @@ def home():
 
 @app.route("/summary")
 def summary():
-    """v0.2 增強版景點摘要頁，支援 ?region=xx 參數"""
+    """最佳景點摘要頁，支援 ?region=xx 參數"""
     region = request.args.get("region", "tw") or "tw"
-    return render_template("summary_v2.html", region=region)
+    return render_template("summary.html", region=region)
 
 
 @app.route("/weather-guide")
@@ -890,280 +873,6 @@ def api_best_spots():
     })
 
 
-# ═══════════════════ v0.2 新增 API 路由 ═══════════════════
-
-# ─── 使用者系統 ───
-@app.route("/api/auth/login", methods=["POST"])
-def api_login():
-    """使用者登入"""
-    data = request.get_json()
-    username = data.get('username')
-    
-    if not username:
-        return jsonify({"error": "使用者名稱不能為空"}), 400
-    
-    user = get_user(username=username)
-    if not user:
-        # 自動創建新使用者
-        user_id = create_user(username)
-        if not user_id:
-            return jsonify({"error": "創建使用者失敗"}), 500
-        user = get_user(user_id=user_id)
-    
-    session['user_id'] = user['id']
-    session['username'] = user['username']
-    
-    return jsonify({
-        "success": True,
-        "user": {
-            "id": user['id'],
-            "username": user['username'],
-            "preferences": user['preferences']
-        }
-    })
-
-@app.route("/api/auth/logout", methods=["POST"])
-def api_logout():
-    """使用者登出"""
-    session.clear()
-    return jsonify({"success": True})
-
-@app.route("/api/auth/profile")
-def api_profile():
-    """取得使用者資料"""
-    if 'user_id' not in session:
-        return jsonify({"error": "未登入"}), 401
-    
-    user = get_user(user_id=session['user_id'])
-    if not user:
-        return jsonify({"error": "使用者不存在"}), 404
-    
-    return jsonify({
-        "user": {
-            "id": user['id'],
-            "username": user['username'],
-            "preferences": user['preferences']
-        }
-    })
-
-@app.route("/api/auth/preferences", methods=["PUT"])
-def api_update_preferences():
-    """更新使用者偏好"""
-    if 'user_id' not in session:
-        return jsonify({"error": "未登入"}), 401
-    
-    data = request.get_json()
-    # 這裡需要添加更新偏好的資料庫函數
-    # 暫時返回成功
-    return jsonify({"success": True})
-
-# ─── 收藏系統 ───
-@app.route("/api/favorites", methods=["GET"])
-def api_get_favorites():
-    """取得使用者收藏列表"""
-    if 'user_id' not in session:
-        return jsonify({"error": "未登入"}), 401
-    
-    favorites = get_user_favorites(session['user_id'])
-    return jsonify({"favorites": favorites})
-
-@app.route("/api/favorites", methods=["POST"])
-def api_add_favorite():
-    """新增收藏"""
-    if 'user_id' not in session:
-        return jsonify({"error": "未登入"}), 401
-    
-    data = request.get_json()
-    spot_name = data.get('spot_name')
-    region = data.get('region')
-    
-    if not spot_name or not region:
-        return jsonify({"error": "缺少必要參數"}), 400
-    
-    success = add_favorite(session['user_id'], spot_name, region)
-    
-    if success:
-        return jsonify({"success": True})
-    else:
-        return jsonify({"error": "已經收藏過了或新增失敗"}), 400
-
-@app.route("/api/favorites", methods=["DELETE"])
-def api_remove_favorite():
-    """移除收藏"""
-    if 'user_id' not in session:
-        return jsonify({"error": "未登入"}), 401
-    
-    data = request.get_json()
-    spot_name = data.get('spot_name')
-    region = data.get('region')
-    
-    if not spot_name or not region:
-        return jsonify({"error": "缺少必要參數"}), 400
-    
-    success = remove_favorite(session['user_id'], spot_name, region)
-    
-    if success:
-        return jsonify({"success": True})
-    else:
-        return jsonify({"error": "移除失敗"}), 400
-
-# ─── 評論系統 ───
-@app.route("/api/reviews/<region>/<spot_name>")
-def api_get_spot_reviews(region, spot_name):
-    """取得景點評論"""
-    reviews = get_spot_reviews(spot_name, region)
-    return jsonify({"reviews": reviews})
-
-@app.route("/api/reviews", methods=["POST"])
-def api_add_review():
-    """新增評論"""
-    if 'user_id' not in session:
-        return jsonify({"error": "未登入"}), 401
-    
-    data = request.get_json()
-    spot_name = data.get('spot_name')
-    region = data.get('region')
-    rating = data.get('rating')
-    comment = data.get('comment', '')
-    weather_conditions = data.get('weather_conditions', '')
-    photo_url = data.get('photo_url', '')
-    
-    if not spot_name or not region or not rating:
-        return jsonify({"error": "缺少必要參數"}), 400
-    
-    if not (1 <= rating <= 5):
-        return jsonify({"error": "評分必須在1-5之間"}), 400
-    
-    review_id = add_review(
-        session['user_id'], spot_name, region, 
-        rating, comment, weather_conditions, photo_url
-    )
-    
-    return jsonify({"success": True, "review_id": review_id})
-
-# ─── 擴展天氣資料 ───
-@app.route("/api/enhanced-weather/<region>/<spot_name>")
-def api_enhanced_weather(region, spot_name):
-    """取得景點擴展天氣資料"""
-    if region not in REGIONS:
-        return jsonify({"error": "地區不存在"}), 404
-    
-    # 找到景點座標
-    spot_data = None
-    for spot in REGIONS[region]['spots']:
-        if spot['name'] == spot_name:
-            spot_data = spot
-            break
-    
-    if not spot_data:
-        return jsonify({"error": "景點不存在"}), 404
-    
-    # 取得擴展天氣資料
-    enhanced_data = enhanced_weather.get_enhanced_forecast(
-        spot_data['lat'], spot_data['lon']
-    )
-    
-    # 加入黃金時刻資訊
-    golden_blue_hours = enhanced_weather.calculate_golden_blue_hours(
-        spot_data['lat'], spot_data['lon'], datetime.now()
-    )
-    
-    enhanced_data['golden_blue_hours'] = golden_blue_hours
-    
-    return jsonify(enhanced_data)
-
-@app.route("/api/moon-phase")
-def api_moon_phase():
-    """取得月相資訊"""
-    date_str = request.args.get('date')
-    if date_str:
-        try:
-            date = datetime.strptime(date_str, '%Y-%m-%d')
-        except ValueError:
-            return jsonify({"error": "日期格式錯誤，請使用 YYYY-MM-DD"}), 400
-    else:
-        date = datetime.now()
-    
-    moon_data = enhanced_weather.get_moon_phase(date)
-    return jsonify(moon_data)
-
-# ─── 個人化推薦 ───
-@app.route("/api/recommendations/<region>")
-def api_personalized_recommendations(region):
-    """取得個人化推薦"""
-    if 'user_id' not in session:
-        # 未登入用戶返回一般推薦
-        return jsonify({"error": "需要登入才能取得個人化推薦"}), 401
-    
-    if region not in REGIONS:
-        return jsonify({"error": "地區不存在"}), 404
-    
-    # 取得天氣資料和景點資料
-    try:
-        with open(os.path.join(CACHE_DIR, f"forecast_{region}.json"), "r", encoding="utf-8") as f:
-            weather_data = json.load(f)
-    except FileNotFoundError:
-        return jsonify({"error": "天氣資料不存在"}), 404
-    
-    # 簡化版：使用現有的景點評分結果
-    spots_data = []  # 這裡應該從 best-spots API 取得資料
-    
-    recommendations = recommendation_engine.get_personalized_recommendations(
-        session['user_id'], region, weather_data, spots_data
-    )
-    
-    return jsonify({"recommendations": recommendations})
-
-@app.route("/api/smart-tips/<region>/<spot_name>")
-def api_smart_tips(region, spot_name):
-    """取得智慧拍攝建議"""
-    if 'user_id' not in session:
-        return jsonify({"error": "需要登入才能取得個人化建議"}), 401
-    
-    if region not in REGIONS:
-        return jsonify({"error": "地區不存在"}), 404
-    
-    # 找到景點資料
-    spot_data = None
-    for spot in REGIONS[region]['spots']:
-        if spot['name'] == spot_name:
-            spot_data = spot
-            break
-    
-    if not spot_data:
-        return jsonify({"error": "景點不存在"}), 404
-    
-    # 取得天氣資料
-    try:
-        with open(os.path.join(CACHE_DIR, f"forecast_{region}.json"), "r", encoding="utf-8") as f:
-            weather_data = json.load(f)
-    except FileNotFoundError:
-        return jsonify({"error": "天氣資料不存在"}), 404
-    
-    # 取得智慧建議
-    tips = recommendation_engine.get_smart_tips(
-        session['user_id'], spot_data, weather_data
-    )
-    
-    return jsonify(tips)
-
-@app.route("/api/trending/<region>")
-def api_trending_spots(region):
-    """取得熱門趨勢景點"""
-    if region not in REGIONS:
-        return jsonify({"error": "地區不存在"}), 404
-    
-    trending = recommendation_engine.get_trending_spots(region)
-    return jsonify({"trending": trending})
-
-# ─── 天氣歷史 ───
-@app.route("/api/weather-history/<region>/<spot_name>")
-def api_weather_history(region, spot_name):
-    """取得景點天氣歷史"""
-    days = int(request.args.get('days', 30))
-    history = get_weather_history(spot_name, region, days)
-    return jsonify({"history": history})
-
 @app.route("/api/refresh")
 def api_refresh():
     """重新抓取指定區域的天氣資料（預設 tw）"""
@@ -1184,21 +893,14 @@ if __name__ == "__main__":
     app.config["TEMPLATES_AUTO_RELOAD"] = True
     print("""
 ╔══════════════════════════════════════════╗
-║  📷 PhotoWeather v0.2 — 攝影天氣助手     ║
+║  📷 PhotoWeather — 攝影天氣地圖          ║
 ║                                          ║
 ║  🌐 http://localhost:5000                ║
-║     → 首頁 (地區選單)                    ║
+║     → 能見度動態地圖                     ║
 ║  📋 http://localhost:5000/summary        ║
 ║     → 今日/明日最佳攝影點                ║
-║  🧭 http://localhost:5000/weather-guide  ║
-║     → 天氣對策指南                       ║
 ║                                          ║
 ║  🔄 資料更新：python build_cache.py      ║
-║                                          ║
-║  ✨ v0.2 新功能：                        ║
-║     • 使用者系統與個人化推薦             ║
-║     • 擴展天氣資料 (月相/潮汐/AQI)       ║
-║     • 智慧拍攝建議 & 景點評論收藏        ║
 ╚══════════════════════════════════════════╝
     """)
     app.run(host="0.0.0.0", port=5000, debug=False)

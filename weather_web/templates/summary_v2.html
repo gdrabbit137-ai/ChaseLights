@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PhotoWeather v0.2 — 智慧攝影天氣助手</title>
+<script>window.API_BASE = '{{ API_BASE|default("") }}';</script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<style>
+/* v0.2 新增樣式 */
+.user-area, .login-area {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-right: 12px;
+}
+
+#username-input {
+  padding: 6px 10px;
+  border-radius: 4px;
+  border: 1px solid #3a4a5a;
+  background: #1a2a3a;
+  color: #fff;
+  font-size: 14px;
+  width: 120px;
+}
+
+#username-input:focus {
+  outline: none;
+  border-color: #ffd54f;
+  background: #2a3a4a;
+}
+
+.spot-card-enhanced {
+  position: relative;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  background: rgba(26, 42, 58, 0.4);
+  border: 1px solid #2a3a4a;
+  border-radius: 8px;
+  transition: all 0.3s;
+}
+
+.spot-card-enhanced:hover {
+  background: rgba(26, 42, 58, 0.7);
+  border-color: #4a5a6a;
+}
+
+.spot-actions {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  gap: 8px;
+}
+
+.action-btn {
+  background: rgba(255, 213, 79, 0.1);
+  border: 1px solid rgba(255, 213, 79, 0.3);
+  color: #ffd54f;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s;
+}
+
+.action-btn:hover {
+  background: rgba(255, 213, 79, 0.2);
+  border-color: #ffd54f;
+}
+
+.action-btn.favorited {
+  background: rgba(255, 213, 79, 0.3);
+  color: #fff;
+}
+
+.enhanced-weather {
+  display: flex;
+  gap: 12px;
+  margin: 8px 0;
+  flex-wrap: wrap;
+}
+
+.weather-item {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  padding: 8px 10px;
+  text-align: center;
+  min-width: 80px;
+  flex: 1;
+}
+
+.weather-label {
+  font-size: 10px;
+  color: #889;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.weather-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: #e0e0e0;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.modal-content {
+  background-color: #1a2a3a;
+  margin: 5% auto;
+  padding: 20px;
+  border: 1px solid #3a4a5a;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #3a4a5a;
+  padding-bottom: 10px;
+}
+
+.close {
+  color: #aaa;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: #fff;
+}
+
+.tabs-enhanced {
+  display: flex;
+  margin-bottom: 16px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
+  padding: 4px;
+}
+
+.tab-enhanced {
+  flex: 1;
+  padding: 8px 16px;
+  background: transparent;
+  border: none;
+  color: #aaa;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.tab-enhanced.active {
+  background: #ffd54f;
+  color: #000;
+}
+
+.smart-tips {
+  background: rgba(255, 213, 79, 0.1);
+  border: 1px solid rgba(255, 213, 79, 0.2);
+  border-radius: 6px;
+  padding: 12px;
+  margin-top: 10px;
+}
+
+.smart-tips h4 {
+  margin: 0 0 8px 0;
+  color: #ffd54f;
+}
+
+.tips-section {
+  margin-bottom: 10px;
+}
+
+.tips-section h5 {
+  margin: 0 0 4px 0;
+  color: #ccc;
+  font-size: 13px;
+}
+
+.tips-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tips-list li {
+  color: #aaa;
+  font-size: 12px;
+  margin-bottom: 2px;
+  padding-left: 12px;
+  position: relative;
+}
+
+.tips-list li:before {
+  content: "•";
+  color: #ffd54f;
+  position: absolute;
+  left: 0;
+}
+
+/* 語言切換按鈕保持原樣 */
+.lang-btn {
+  padding: 4px 10px; border-radius: 4px; border: 1px solid #3a4a5a;
+  background: transparent; color: #667788; cursor: pointer; font-size: 12px;
+  transition: all 0.2s;
+}
+.lang-btn:hover { background: #1a2a3a; color: #fff; }
+.lang-btn.active { background: #2a3a5a; color: #ffd54f; border-color: #ffd54f; }
+
+/* 新卡片佈局保持原樣 */
+.spot-card { padding: 14px 16px; }
+.spot-card-header { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.spot-meta-grid {
+  display: flex; gap: 4px; flex-wrap: wrap; width: 100%;
+  margin: 8px 0;
+}
+.meta-cell {
+  flex: 1; min-width: 80px;
+  background: rgba(255,255,255,0.03); border: 1px solid #1a2a3a;
+  border-radius: 6px; padding: 6px 8px; text-align: center;
+}
+.meta-label {
+  font-size: 10px; color: #667788; margin-bottom: 2px;
+  display: block; letter-spacing: 0.5px;
+}
+.meta-value {
+  font-size: 15px; font-weight: 600; color: #e0e0e0;
+}
+.spot-score-row {
+  display: flex; align-items: center; gap: 12px;
+  margin: 6px 0;
+}
+.spot-time {
+  font-size: 13px; color: #8899aa; font-family: 'Courier New', monospace;
+}
+.spot-tip {
+  font-size: 13px; color: #aabbcc; margin-top: 8px;
+  padding: 8px 10px; background: rgba(255,213,79,0.06);
+  border-radius: 6px; border: 1px solid rgba(255,213,79,0.1);
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+      <h1>📷 PhotoWeather v0.2</h1>
+      <span class="subtitle" id="header-subtitle">🇹🇼 台灣 - 智慧攝影助手</span>
+    </div>
+  <div class="header-right">
+        <!-- v0.2 新增：使用者登入 -->
+        <div id="user-area" class="user-area" style="display: none;">
+          <span id="user-greeting">👋 歡迎！</span>
+          <button class="nav-btn" onclick="showFavorites()">⭐ 我的收藏</button>
+          <button class="nav-btn" onclick="logout()">🚪 登出</button>
+        </div>
+        <div id="login-area" class="login-area">
+          <input type="text" id="username-input" placeholder="輸入暱稱登入" onkeypress="if(event.key==='Enter') login()">
+          <button class="nav-btn" onclick="login()">🚀 登入</button>
+        </div>
+        
+        <button class="nav-btn" id="btn-home" onclick="location.href='/'">🏠 首頁</button>
+        <button class="lang-btn active" id="lang-zh" onclick="setLang('zh')">中文</button>
+        <button class="lang-btn" id="lang-en" onclick="setLang('en')">EN</button>
+  </div>
+</div>
+
+<div id="content">
+  <div class="summary-container">
+    <div class="summary-tabs">
+          <button class="tab-btn active" data-tab="today" data-zh="今日最佳" data-en="Best Today">今日最佳</button>
+          <button class="tab-btn" data-tab="tomorrow" data-zh="明日預測" data-en="Tomorrow">明日預測</button>
+          <button class="tab-btn" data-tab="dayafter" data-zh="後日預測" data-en="Day After">後日預測</button>
+          <button class="tab-btn" data-tab="personalized" data-zh="個人推薦" data-en="For You" style="background: linear-gradient(45deg, #ffd54f, #ff6b6b); color: #000;">✨ 個人推薦</button>
+              </div>
+
+          <div id="sub-tab-container"></div>
+
+          <div id="time-display" class="time-display"></div>
+
+          <div class="tab-content">
+              <div id="today-list" class="spot-list active"></div>
+              <div id="tomorrow-list" class="spot-list"></div>
+              <div id="dayafter-list" class="spot-list"></div>
+              <div id="personalized-list" class="spot-list"></div>
+          </div>
+
+  </div>
+  <div class="update-status" id="update-status"></div>
+</div>
+
+<!-- v0.2 新增：各種彈窗 -->
+
+<!-- 收藏彈窗 -->
+<div id="favorites-modal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>⭐ 我的收藏</h2>
+      <span class="close" onclick="closeFavorites()">&times;</span>
+    </div>
+    <div id="favorites-content">
+      <p>暫無收藏景點</p>
+    </div>
+  </div>
+</div>
+
+<!-- 景點詳情彈窗 -->
+<div id="spot-detail-modal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 id="spot-detail-title">景點詳情</h2>
+      <span class="close" onclick="closeSpotDetail()">&times;</span>
+    </div>
+    
+    <div class="tabs-enhanced">
+      <button class="tab-enhanced active" onclick="switchDetailTab('weather')">🌤️ 天氣詳情</button>
+      <button class="tab-enhanced" onclick="switchDetailTab('tips')">💡 拍攝建議</button>
+      <button class="tab-enhanced" onclick="switchDetailTab('reviews')">📝 評論</button>
+    </div>
+    
+    <div id="spot-detail-weather" class="detail-tab active">
+      <div id="enhanced-weather-info">載入中...</div>
+    </div>
+    
+    <div id="spot-detail-tips" class="detail-tab" style="display: none;">
+      <div id="smart-tips-info">載入中...</div>
+    </div>
+    
+    <div id="spot-detail-reviews" class="detail-tab" style="display: none;">
+      <div id="reviews-info">載入中...</div>
+      <div id="add-review-section" style="display: none;">
+        <h4>新增評論</h4>
+        <div>
+          <label>評分 (1-5):</label>
+          <select id="review-rating">
+            <option value="5">⭐⭐⭐⭐⭐ 極佳</option>
+            <option value="4">⭐⭐⭐⭐ 很好</option>
+            <option value="3">⭐⭐⭐ 普通</option>
+            <option value="2">⭐⭐ 一般</option>
+            <option value="1">⭐ 不佳</option>
+          </select>
+        </div>
+        <div>
+          <label>評論內容:</label>
+          <textarea id="review-comment" placeholder="分享您的拍攝體驗..." rows="3" style="width: 100%; margin-top: 4px;"></textarea>
+        </div>
+        <div>
+          <label>當時天氣:</label>
+          <input type="text" id="review-weather" placeholder="例：晴天微風、雨後放晴" style="width: 100%; margin-top: 4px;">
+        </div>
+        <button onclick="submitReview()" style="margin-top: 8px;">提交評論</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════ v0.2 新增 JavaScript ═══════════════════
+
+// 全局變量
+let currentUser = null;
+let userFavorites = new Set();
+let currentSpot = null;
+
+// 使用者認證
+async function login() {
+  const username = document.getElementById('username-input').value.trim();
+  if (!username) {
+    alert('請輸入暱稱');
+    return;
+  }
+  
+  try {
+    const response = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({username})
+    });
+    
+    const data = await response.json();
+    if (data.success) {
+      currentUser = data.user;
+      document.getElementById('user-greeting').textContent = `👋 ${currentUser.username}`;
+      document.getElementById('login-area').style.display = 'none';
+      document.getElementById('user-area').style.display = 'flex';
+      
+      // 載入使用者收藏
+      await loadFavorites();
+      
+      // 重新渲染頁面以顯示個人化內容
+      if (bestSpotsData) {
+        renderAll();
+      }
+    } else {
+      alert('登入失敗：' + data.error);
+    }
+  } catch (error) {
+    alert('登入錯誤：' + error.message);
+  }
+}
+
+async function logout() {
+  try {
+    await fetch('/api/auth/logout', {method: 'POST'});
+    currentUser = null;
+    userFavorites.clear();
+    document.getElementById('login-area').style.display = 'flex';
+    document.getElementById('user-area').style.display = 'none';
+    document.getElementById('username-input').value = '';
+    
+    // 重新渲染移除個人化內容
+    if (bestSpotsData) {
+      renderAll();
+    }
+  } catch (error) {
+    console.error('登出錯誤：', error);
+  }
+}
+
+async function loadFavorites() {
+  if (!currentUser) return;
+  
+  try {
+    const response = await fetch('/api/favorites');
+    const data = await response.json();
+    if (data.favorites) {
+      userFavorites.clear();
+      data.favorites.forEach(fav => {
+        userFavorites.add(`${fav.region}:${fav.spot_name}`);
+      });
+    }
+  } catch (error) {
+    console.error('載入收藏失敗：', error);
+  }
+}
+
+async function toggleFavorite(spotName, region) {
+  if (!currentUser) {
+    alert('請先登入才能收藏景點');
+    return;
+  }
+  
+  const key = `${region}:${spotName}`;
+  const isFavorited = userFavorites.has(key);
+  
+  try {
+    const response = await fetch('/api/favorites', {
+      method: isFavorited ? 'DELETE' : 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({spot_name: spotName, region: region})
+    });
+    
+    const data = await response.json();
+    if (data.success) {
+      if (isFavorited) {
+        userFavorites.delete(key);
+      } else {
+        userFavorites.add(key);
+      }
+      
+      // 更新按鈕狀態
+      const btn = document.querySelector(`[data-spot="${spotName}"][data-region="${region}"]`);
+      if (btn) {
+        btn.textContent = isFavorited ? '⭐' : '★';
+        btn.classList.toggle('favorited', !isFavorited);
+      }
+    } else {
+      alert('操作失敗：' + data.error);
+    }
+  } catch (error) {
+    alert('操作錯誤：' + error.message);
+  }
+}
+
+async function showFavorites() {
+  if (!currentUser) return;
+  
+  try {
+    const response = await fetch('/api/favorites');
+    const data = await response.json();
+    
+    const content = document.getElementById('favorites-content');
+    if (data.favorites && data.favorites.length > 0) {
+      content.innerHTML = data.favorites.map(fav => 
+        `<div style="padding: 10px; border-bottom: 1px solid #3a4a5a;">
+          <strong>${fav.spot_name}</strong> (${fav.region})
+          <br><small>收藏於 ${new Date(fav.created_at).toLocaleDateString()}</small>
+          <button onclick="removeFavorite('${fav.spot_name}', '${fav.region}')" 
+                  style="float: right; background: #ff6b6b; color: white; border: none; padding: 4px 8px; border-radius: 4px;">
+            移除
+          </button>
+        </div>`
+      ).join('');
+    } else {
+      content.innerHTML = '<p>暫無收藏景點</p>';
+    }
+    
+    document.getElementById('favorites-modal').style.display = 'block';
+  } catch (error) {
+    console.error('載入收藏失敗：', error);
+  }
+}
+
+function closeFavorites() {
+  document.getElementById('favorites-modal').style.display = 'none';
+}
+
+async function removeFavorite(spotName, region) {
+  try {
+    const response = await fetch('/api/favorites', {
+      method: 'DELETE',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({spot_name: spotName, region: region})
+    });
+    
+    if (response.ok) {
+      userFavorites.delete(`${region}:${spotName}`);
+      showFavorites(); // 重新載入
+    }
+  } catch (error) {
+    console.error('移除收藏失敗：', error);
+  }
+}
+
+// 景點詳情彈窗
+async function showSpotDetail(spotName, region) {
+  currentSpot = {name: spotName, region: region};
+  document.getElementById('spot-detail-title').textContent = `📍 ${spotName}`;
+  document.getElementById('spot-detail-modal').style.display = 'block';
+  
+  // 載入天氣詳情
+  switchDetailTab('weather');
+}
+
+function closeSpotDetail() {
+  document.getElementById('spot-detail-modal').style.display = 'none';
+}
+
+function switchDetailTab(tabName) {
+  // 切換標籤
+  document.querySelectorAll('.tab-enhanced').forEach(tab => tab.classList.remove('active'));
+  document.querySelector(`[onclick="switchDetailTab('${tabName}')"]`).classList.add('active');
+  
+  // 切換內容
+  document.querySelectorAll('.detail-tab').forEach(tab => tab.style.display = 'none');
+  document.getElementById(`spot-detail-${tabName}`).style.display = 'block';
+  
+  // 載入對應內容
+  if (tabName === 'weather') {
+    loadEnhancedWeather();
+  } else if (tabName === 'tips') {
+    loadSmartTips();
+  } else if (tabName === 'reviews') {
+    loadReviews();
+  }
+}
+
+async function loadEnhancedWeather() {
+  if (!currentSpot) return;
+  
+  const content = document.getElementById('enhanced-weather-info');
+  content.innerHTML = '載入中...';
+  
+  try {
+    const response = await fetch(`/api/enhanced-weather/${currentSpot.region}/${currentSpot.name}`);
+    const data = await response.json();
+    
+    if (data.error) {
+      content.innerHTML = `<p>載入失敗：${data.error}</p>`;
+      return;
+    }
+    
+    // 顯示擴展天氣資訊
+    let html = '<h4>🌤️ 詳細天氣資料</h4>';
+    
+    if (data.golden_blue_hours) {
+      const hours = data.golden_blue_hours;
+      html += `
+        <div class="enhanced-weather">
+          <div class="weather-item">
+            <span class="weather-label">🌅 日出</span>
+            <div class="weather-value">${hours.sunrise}</div>
+          </div>
+          <div class="weather-item">
+            <span class="weather-label">🌇 日落</span>
+            <div class="weather-value">${hours.sunset}</div>
+          </div>
+          <div class="weather-item">
+            <span class="weather-label">🏔️ 黃金時刻</span>
+            <div class="weather-value">${hours.golden_hour_evening.start}-${hours.golden_hour_evening.end}</div>
+          </div>
+          <div class="weather-item">
+            <span class="weather-label">🌌 藍調時刻</span>
+            <div class="weather-value">${hours.blue_hour_evening.start}-${hours.blue_hour_evening.end}</div>
+          </div>
+        </div>`;
+    }
+    
+    if (data.moon_phases && data.moon_phases.length > 0) {
+      const moon = data.moon_phases[0];
+      html += `
+        <h5>🌙 月相資訊</h5>
+        <div class="enhanced-weather">
+          <div class="weather-item">
+            <span class="weather-label">月相</span>
+            <div class="weather-value">${moon.phase_emoji} ${moon.phase_name}</div>
+          </div>
+          <div class="weather-item">
+            <span class="weather-label">亮度</span>
+            <div class="weather-value">${Math.round(moon.illumination * 100)}%</div>
+          </div>
+          <div class="weather-item">
+            <span class="weather-label">銀河攝影</span>
+            <div class="weather-value">${moon.is_good_for_milkyway ? '✅ 適合' : '❌ 不適合'}</div>
+          </div>
+        </div>`;
+    }
+    
+    if (data.air_quality) {
+      const aqi = data.air_quality;
+      html += `
+        <h5>🏭 空氣品質</h5>
+        <div class="enhanced-weather">
+          <div class="weather-item">
+            <span class="weather-label">PM2.5</span>
+            <div class="weather-value">${aqi.pm25 || 'N/A'}</div>
+          </div>
+          <div class="weather-item">
+            <span class="weather-label">等級</span>
+            <div class="weather-value" style="color: ${aqi.aqi_color};">${aqi.aqi_level}</div>
+          </div>
+          <div class="weather-item">
+            <span class="weather-label">能見度影響</span>
+            <div class="weather-value">${aqi.visibility_impact}</div>
+          </div>
+        </div>`;
+    }
+    
+    content.innerHTML = html;
+    
+  } catch (error) {
+    content.innerHTML = `<p>載入錯誤：${error.message}</p>`;
+  }
+}
+
+async function loadSmartTips() {
+  if (!currentSpot || !currentUser) {
+    document.getElementById('smart-tips-info').innerHTML = '<p>需要登入才能查看個人化建議</p>';
+    return;
+  }
+  
+  const content = document.getElementById('smart-tips-info');
+  content.innerHTML = '載入中...';
+  
+  try {
+    const response = await fetch(`/api/smart-tips/${currentSpot.region}/${currentSpot.name}`);
+    const data = await response.json();
+    
+    if (data.error) {
+      content.innerHTML = `<p>載入失敗：${data.error}</p>`;
+      return;
+    }
+    
+    let html = '<div class="smart-tips">';
+    html += '<h4>💡 智慧拍攝建議</h4>';
+    
+    if (data.camera_settings) {
+      html += '<div class="tips-section"><h5>📷 相機設定</h5><ul class="tips-list">';
+      data.camera_settings.forEach(tip => html += `<li>${tip}</li>`);
+      html += '</ul></div>';
+    }
+    
+    if (data.equipment_advice) {
+      html += '<div class="tips-section"><h5>🎒 器材建議</h5><ul class="tips-list">';
+      data.equipment_advice.forEach(tip => html += `<li>${tip}</li>`);
+      html += '</ul></div>';
+    }
+    
+    if (data.composition_tips) {
+      html += '<div class="tips-section"><h5>🖼️ 構圖技巧</h5><ul class="tips-list">';
+      data.composition_tips.forEach(tip => html += `<li>${tip}</li>`);
+      html += '</ul></div>';
+    }
+    
+    if (data.timing_advice) {
+      html += '<div class="tips-section"><h5>⏰ 時機建議</h5><ul class="tips-list">';
+      data.timing_advice.forEach(tip => html += `<li>${tip}</li>`);
+      html += '</ul></div>';
+    }
+    
+    if (data.safety_notes) {
+      html += '<div class="tips-section"><h5>⚠️ 安全提醒</h5><ul class="tips-list">';
+      data.safety_notes.forEach(tip => html += `<li>${tip}</li>`);
+      html += '</ul></div>';
+    }
+    
+    html += '</div>';
+    content.innerHTML = html;
+    
+  } catch (error) {
+    content.innerHTML = `<p>載入錯誤：${error.message}</p>`;
+  }
+}
+
+async function loadReviews() {
+  if (!currentSpot) return;
+  
+  const content = document.getElementById('reviews-info');
+  content.innerHTML = '載入中...';
+  
+  try {
+    const response = await fetch(`/api/reviews/${currentSpot.region}/${currentSpot.name}`);
+    const data = await response.json();
+    
+    let html = '<h4>📝 景點評論</h4>';
+    
+    if (data.reviews && data.reviews.length > 0) {
+      html += data.reviews.map(review => `
+        <div style="border-bottom: 1px solid #3a4a5a; padding: 10px 0;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <strong>${review.username}</strong>
+            <div>${'⭐'.repeat(review.rating)}</div>
+          </div>
+          ${review.comment ? `<p>${review.comment}</p>` : ''}
+          ${review.weather_conditions ? `<small>天氣：${review.weather_conditions}</small>` : ''}
+          <small style="color: #888; display: block; margin-top: 4px;">
+            ${new Date(review.created_at).toLocaleDateString()}
+          </small>
+        </div>
+      `).join('');
+    } else {
+      html += '<p>暫無評論</p>';
+    }
+    
+    content.innerHTML = html;
+    
+    // 顯示新增評論區域（如果已登入）
+    const addReviewSection = document.getElementById('add-review-section');
+    if (currentUser) {
+      addReviewSection.style.display = 'block';
+    } else {
+      addReviewSection.style.display = 'none';
+    }
+    
+  } catch (error) {
+    content.innerHTML = `<p>載入錯誤：${error.message}</p>`;
+  }
+}
+
+async function submitReview() {
+  if (!currentUser || !currentSpot) return;
+  
+  const rating = parseInt(document.getElementById('review-rating').value);
+  const comment = document.getElementById('review-comment').value.trim();
+  const weather = document.getElementById('review-weather').value.trim();
+  
+  try {
+    const response = await fetch('/api/reviews', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        spot_name: currentSpot.name,
+        region: currentSpot.region,
+        rating: rating,
+        comment: comment,
+        weather_conditions: weather
+      })
+    });
+    
+    const data = await response.json();
+    if (data.success) {
+      alert('評論提交成功！');
+      // 清空表單
+      document.getElementById('review-comment').value = '';
+      document.getElementById('review-weather').value = '';
+      // 重新載入評論
+      loadReviews();
+    } else {
+      alert('提交失敗：' + data.error);
+    }
+  } catch (error) {
+    alert('提交錯誤：' + error.message);
+  }
+}
+
+// ═══════════════════ 原有 JavaScript 保持不變 ═══════════════════
+// 以下是原有的代碼，修改renderSpotCard函數以支援新功能
+
+const TW = 8 * 3600000;
+let bestSpotsData = null;
+let currentRegion = 'tw';
+let currentLang = 'zh';
+let currentSubRegion = null;
+
+const LANG = {
+  zh: {
+    empty: "今日無推薦景點，請嘗試其他地區。",
+    emptyTomorrow: "明日無推薦景點，請嘗試其他地區。",
+    updateTime: "更新時間",
+    scoreLabels: { visibility: "能見度", cloud: "雲量", rain: "降雨", time: "時段" },
+    clockSuffix: "(台灣時間)",
+    today: "今日最佳攝影點",
+    tomorrow: "明日預測",
+    dayafter: "後日預測"
+  },
+  en: {
+    empty: "No recommended spots for today, try other regions.",
+    emptyTomorrow: "No recommended spots for tomorrow, try other regions.",
+    updateTime: "Updated",
+    scoreLabels: { visibility: "Visibility", cloud: "Cloud", rain: "Rain", time: "Time" },
+    clockSuffix: "(Taiwan Time)",
+    today: "Best Spots Today",
+    tomorrow: "Tomorrow Forecast", 
+    dayafter: "Day After Tomorrow"
+  }
+};
+
+const REGION_LABELS = {
+  tw: { zh: "🇹🇼 台灣", en: "🇹🇼 Taiwan" },
+  jp: { zh: "🇯🇵 日本", en: "🇯🇵 Japan" },
+  us: { zh: "🇺🇸 美國", en: "🇺🇸 USA" }
+};
+
+const SUB_REGIONS = {
+  tw: [
+    { id: null, zh: "🗺️ 全部", en: "🗺️ All" },
+    { id: "mainland", zh: "台灣本島", en: "Taiwan Island" },
+    { id: "penghu", zh: "澎湖", en: "Penghu" },
+    { id: "kinmen", zh: "金門", en: "Kinmen" },
+    { id: "matsu", zh: "馬祖", en: "Matsu" },
+    { id: "green_island", zh: "綠島", en: "Green Island" },
+    { id: "orchid_island", zh: "蘭嶼", en: "Orchid Island" },
+    { id: "outlier", zh: "小琉球", en: "Liuqiu" }
+  ],
+  jp: [
+    { id: null, zh: "🗺️ 全部", en: "🗺️ All" },
+    { id: "hokkaido", zh: "北海道", en: "Hokkaido" },
+    { id: "tohoku", zh: "東北", en: "Tohoku" },
+    { id: "kanto", zh: "關東", en: "Kanto" },
+    { id: "chubu_hokuriku", zh: "中部北陸", en: "Chubu/Hokuriku" },
+    { id: "kansai", zh: "關西", en: "Kansai" },
+    { id: "chugoku_shikoku", zh: "中國四國", en: "Chugoku/Shikoku" },
+    { id: "kyushu", zh: "九州", en: "Kyushu" }
+  ],
+  us: [
+    { id: null, zh: "🗺️ 全部", en: "🗺️ All" },
+    { id: "west", zh: "美西", en: "US West" },
+    { id: "central", zh: "美中", en: "US Central" },
+    { id: "east", zh: "美東", en: "US East" },
+    { id: "alaska", zh: "阿拉斯加", en: "Alaska" }
+  ]
+};
+
+const SUB_REGION_MAP = {
+  "大屯山助航站": "mainland", "象山": "mainland", "淡水漁人碼頭": "mainland",
+  "九份不厭亭": "mainland", "金瓜石茶壺山": "mainland", "大稻埕碼頭": "mainland",
+  "關渡大橋": "mainland", "碧潭": "mainland", "觀音山硬漢嶺": "mainland",
+  "高美濕地": "mainland", "合歡山主峰": "mainland", "二延平步道": "mainland",
+  "頂石棹": "mainland", "阿里山": "mainland", "二寮": "mainland",
+  "抹茶山": "mainland", "見晴懷古步道": "mainland", "清水斷崖": "mainland",
+  "六十石山": "mainland", "七星潭": "mainland", "多良車站": "mainland",
+  "三仙台": "mainland", "池上伯朗大道": "mainland", "玉山主峰": "mainland",
+  "雪山主峰": "mainland", "奇萊主峰": "mainland", "南湖大山": "mainland",
+  "嘉明湖": "mainland", "大霸尖山": "mainland", "北大武山": "mainland",
+  "池有山": "mainland", "桃山": "mainland", "品田山": "mainland",
+  "澎湖跨海大橋": "penghu", "奎壁山": "penghu", "七美雙心石滬": "penghu",
+  "金門得月樓": "kinmen", "翟山坑道": "kinmen",
+  "馬祖南竿": "matsu", "東引燈塔": "matsu", "北竿芹壁": "matsu",
+  "綠島朝日溫泉": "green_island", "蘭嶼東清灣": "orchid_island", "蘭嶼青青草原": "orchid_island",
+  "小琉球花瓶岩": "outlier", "日月潭": "mainland", "金龍山": "mainland",
+  "武界部落": "mainland", "火炎山": "mainland", "雲洞山莊": "mainland",
+  "鳶嘴山": "mainland", "香山濕地": "mainland", "永安漁港": "mainland"
+};
+
+function t(key) {
+  return LANG[currentLang][key] || key;
+}
+
+function setLang(lang) {
+  currentLang = lang;
+  document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+  document.getElementById(`lang-${lang}`).classList.add('active');
+  renderAll();
+}
+
+// 修改renderSpotCard函數以支援新功能
+function renderSpotCard(spot, day) {
+  const key = `${currentRegion}:${spot.name}`;
+  const isFavorited = userFavorites.has(key);
+  
+  return `
+  <div class="spot-card spot-card-enhanced">
+    ${currentUser ? `
+      <div class="spot-actions">
+        <button class="action-btn ${isFavorited ? 'favorited' : ''}" 
+                onclick="toggleFavorite('${spot.name}', '${currentRegion}')"
+                data-spot="${spot.name}" data-region="${currentRegion}">
+          ${isFavorited ? '★' : '⭐'}
+        </button>
+        <button class="action-btn" onclick="showSpotDetail('${spot.name}', '${currentRegion}')">
+          🔍
+        </button>
+      </div>
+    ` : ''}
+    
+    <div class="spot-card-header">
+      <h3 class="spot-name" onclick="showSpotDetail('${spot.name}', '${currentRegion}')" style="cursor: pointer; color: #ffd54f;">
+        ${spot.name}
+      </h3>
+      ${spot.scene_badges ? spot.scene_badges.map(badge => 
+        `<span class="scene-badge ${badge.type}">${badge.text}</span>`
+      ).join('') : ''}
+    </div>
+    
+    <div class="spot-score-row">
+      <div class="spot-score">${spot.score}</div>
+      <div class="spot-best-genre">${spot.best_genre || '📷 一般攝影'}</div>
+    </div>
+    
+    <div class="spot-meta-grid">
+      <div class="meta-cell">
+        <span class="meta-label">${t('scoreLabels').visibility}</span>
+        <div class="meta-value">${spot.best_visibility || 'N/A'}km</div>
+      </div>
+      <div class="meta-cell">
+        <span class="meta-label">溫度</span>
+        <div class="meta-value">${spot.best_temp || 'N/A'}°</div>
+      </div>
+      <div class="meta-cell">
+        <span class="meta-label">降雨機率</span>
+        <div class="meta-value">${spot.best_pop || 'N/A'}%</div>
+      </div>
+    </div>
+    
+    <div class="spot-time">
+      ⏰ 最佳時間：${spot.best_time ? new Date(spot.best_time + 'Z').toLocaleTimeString('zh-TW', {
+        hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Taipei'
+      }) : 'N/A'}
+      ${spot.sunrise && spot.sunset ? ` | 🌅 ${spot.sunrise.substring(11,16)} 🌇 ${spot.sunset.substring(11,16)}` : ''}
+    </div>
+    
+    <div class="spot-tip">
+      💡 ${spot.tip || '無特殊提示'}
+    </div>
+  </div>`;
+}
+
+// 其餘原有函數保持不變...
+function switchTab(tabName) {
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+  
+  document.querySelectorAll('.spot-list').forEach(list => list.classList.remove('active'));
+  document.getElementById(`${tabName}-list`).classList.add('active');
+  
+  if (tabName === 'personalized' && currentUser) {
+    renderPersonalized();
+  }
+}
+
+async function renderPersonalized() {
+  if (!currentUser) {
+    document.getElementById('personalized-list').innerHTML = '<div class="empty">請先登入以查看個人化推薦</div>';
+    return;
+  }
+  
+  const content = document.getElementById('personalized-list');
+  content.innerHTML = '<div style="text-align: center; padding: 20px;">載入個人化推薦中...</div>';
+  
+  try {
+    const response = await fetch(`/api/recommendations/${currentRegion}`);
+    const data = await response.json();
+    
+    if (data.recommendations && data.recommendations.length > 0) {
+      content.innerHTML = data.recommendations.map(spot => renderSpotCard(spot, 'personalized')).join('');
+    } else {
+      content.innerHTML = '<div class="empty">暫無個人化推薦，請先收藏一些景點以建立偏好</div>';
+    }
+  } catch (error) {
+    content.innerHTML = `<div class="empty">載入失敗：${error.message}</div>`;
+  }
+}
+
+// 其他原有函數...
+async function switchRegion(region) {
+  currentRegion = region;
+  
+  document.getElementById('header-subtitle').textContent = REGION_LABELS[region][currentLang] + ' - 智慧攝影助手';
+  
+  // 更新子區域按鈕
+  const subContainer = document.getElementById('sub-tab-container');
+  const subRegions = SUB_REGIONS[region] || [];
+  
+  if (subRegions.length > 0) {
+    subContainer.innerHTML = '<div class="sub-region-tabs">' + 
+      subRegions.map(sub => 
+        `<button class="sub-region-btn ${!sub.id ? 'active' : ''}" 
+                 onclick="switchSubRegion('${sub.id || ''}')">${sub[currentLang]}</button>`
+      ).join('') + '</div>';
+  } else {
+    subContainer.innerHTML = '';
+  }
+  
+  currentSubRegion = null;
+  
+  try {
+    const response = await fetch(`${window.API_BASE}/api/best-spots?region=${region}`);
+    bestSpotsData = await response.json();
+    renderAll();
+    
+    const statusResponse = await fetch(`${window.API_BASE}/api/update-status`);
+    const statusData = await statusResponse.json();
+    updateStatusDisplay(statusData);
+  } catch (error) {
+    console.error('Error loading data:', error);
+    document.querySelectorAll('.spot-list').forEach(list => {
+      list.innerHTML = '<div class="empty">載入失敗，請稍後再試。</div>';
+    });
+  }
+}
+
+function switchSubRegion(subId) {
+  currentSubRegion = subId || null;
+  
+  document.querySelectorAll('.sub-region-btn').forEach(btn => btn.classList.remove('active'));
+  document.querySelector(`[onclick="switchSubRegion('${subId || ''}')"]`).classList.add('active');
+  
+  renderAll();
+}
+
+function renderAll() {
+  renderToday();
+  renderTomorrow(); 
+  renderDayAfter();
+  if (currentUser) {
+    renderPersonalized();
+  }
+}
+
+function renderToday() {
+  const c = document.getElementById('today-list');
+  if (!bestSpotsData || !bestSpotsData.today || bestSpotsData.today.length === 0) {
+    c.innerHTML = `<div class="empty">${t('empty')}</div>`; return;
+  }
+  let items = bestSpotsData.today;
+  if (currentSubRegion) items = items.filter(s => SUB_REGION_MAP[s.name] === currentSubRegion);
+  c.innerHTML = items.map(s => renderSpotCard(s, 'today')).join('');
+}
+
+function renderTomorrow() {
+  const c = document.getElementById('tomorrow-list');
+  if (!bestSpotsData || !bestSpotsData.tomorrow || bestSpotsData.tomorrow.length === 0) {
+    c.innerHTML = `<div class="empty">${t('emptyTomorrow')}</div>`; return;
+  }
+  let items = bestSpotsData.tomorrow;
+  if (currentSubRegion) items = items.filter(s => SUB_REGION_MAP[s.name] === currentSubRegion);
+  c.innerHTML = items.map(s => renderSpotCard(s, 'tomorrow')).join('');
+}
+
+function renderDayAfter() {
+  const c = document.getElementById('dayafter-list');
+  if (!bestSpotsData || !bestSpotsData.dayafter || bestSpotsData.dayafter.length === 0) {
+    c.innerHTML = `<div class="empty">${t('emptyTomorrow')}</div>`; return;
+  }
+  let items = bestSpotsData.dayafter;
+  if (currentSubRegion) items = items.filter(s => SUB_REGION_MAP[s.name] === currentSubRegion);
+  c.innerHTML = items.map(s => renderSpotCard(s, 'dayafter')).join('');
+}
+
+function updateStatusDisplay(statusData) {
+  const statusDiv = document.getElementById('update-status');
+  if (statusData && statusData[currentRegion] && statusData[currentRegion].time) {
+    const updateTime = new Date(statusData[currentRegion].time).toLocaleString('zh-TW', {timeZone: 'Asia/Taipei'});
+    statusDiv.innerHTML = `${t('updateTime')}：${updateTime}`;
+  }
+}
+
+function updateClock() {
+  const now = new Date();
+  const tw = new Date(now.getTime() + (now.getTimezoneOffset() + 480) * 60000);
+  const el = document.getElementById('time-display');
+  if (el) el.textContent = tw.toISOString().replace('T', ' ').substring(0, 16) + ' ' + t('clockSuffix');
+}
+
+// 檢查登入狀態
+async function checkLoginStatus() {
+  try {
+    const response = await fetch('/api/auth/profile');
+    if (response.ok) {
+      const data = await response.json();
+      currentUser = data.user;
+      document.getElementById('user-greeting').textContent = `👋 ${currentUser.username}`;
+      document.getElementById('login-area').style.display = 'none';
+      document.getElementById('user-area').style.display = 'flex';
+      await loadFavorites();
+    }
+  } catch (error) {
+    // 未登入，保持預設狀態
+  }
+}
+
+// 添加標籤點擊事件監聽
+document.addEventListener('DOMContentLoaded', function() {
+  // 為標籤添加點擊事件
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const tabName = this.getAttribute('data-tab');
+      switchTab(tabName);
+    });
+  });
+  
+  checkLoginStatus();
+  switchRegion(currentRegion);
+  updateClock();
+  setInterval(updateClock, 10000);
+});
+
+</script>
+</body>
+</html>
