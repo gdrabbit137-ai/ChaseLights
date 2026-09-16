@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ChaseLights — 台灣攝影天氣地圖</title>
+<script>window.API_BASE = '{{ API_BASE|default("") }}';</script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<style>
+/* 地圖上方的 Canvas 覆蓋層 */
+#vis-canvas {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 500;
+}
+</style>
+</head>
+<body>
+
+<div id="header">
+  <div class="header-left">
+    <h1>📷 ChaseLights</h1>
+    <span class="subtitle" id="header-subtitle">台灣攝影天氣預報地圖</span>
+  </div>
+  <div class="header-right">
+    <button class="nav-btn active" data-region="tw" onclick="switchRegion('tw')">🇹🇼 台灣</button>
+    <button class="nav-btn" data-region="jp" onclick="switchRegion('jp')">🇯🇵 日本</button>
+    <button class="nav-btn" data-region="ak" onclick="switchRegion('ak')">🏔️ 阿拉斯加</button>
+    <button class="nav-btn" data-region="us" onclick="switchRegion('us')">🇺🇸 美國</button>
+    <button class="nav-btn" id="btn-home" onclick="location.href='/'">🏠 首頁</button>
+    <button class="nav-btn" id="btn-map" style="display:none">🗺️ 地圖</button>
+    <button class="nav-btn" id="btn-summary" onclick="location.href='/summary'">📋 景點</button>
+    <button class="lang-btn active" id="lang-zh" onclick="setLang('zh')">中文</button>
+    <button class="lang-btn" id="lang-en" onclick="setLang('en')">EN</button>
+    <span id="time-display" class="time-display"></span>
+  </div>
+</div>
+
+<div id="content">
+  <div id="map-container">
+    <div id="map"></div>
+    <canvas id="vis-canvas"></canvas>
+
+    <!-- 控制面板 -->
+    <div id="controls">
+      <div class="control-row">
+        <button id="play-btn" title="播放/暫停">▶</button>
+        <input type="range" id="time-slider" min="0" max="47" value="0" step="1">
+        <span id="time-label">--:--</span>
+      </div>
+      <div class="control-info">
+        <span id="frame-info">--</span>
+      </div>
+    </div>
+
+    <!-- 圖例 -->
+    <div id="legend">
+      <div class="legend-title" id="legend-title">能見度</div>
+      <div class="legend-bar">
+        <span class="legend-label">0km</span>
+        <div class="legend-gradient"></div>
+        <span class="legend-label">50km+</span>
+      </div>
+      <div class="legend-items">
+        <span class="ll">🔴 極差</span>
+        <span class="ll">🟠 差</span>
+        <span class="ll">🟡 普通</span>
+        <span class="ll">🟢 佳</span>
+        <span class="ll">✅ 極佳</span>
+      </div>
+    </div>
+
+    <!-- 載入遮罩 -->
+    <div id="loading-overlay" class="loading-hidden">
+      <div class="loading-spinner"></div>
+      <div class="loading-text">正在載入天氣資料...</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// ChaseLights — 主地圖程式（簡化版，直繪 Canvas）
+// ═══════════════════════════════════════════════════════════════
+
+const COLOR_MAP = {
+  excellent: [0, 120, 0],     // 深綠 >30km
+  very_good: [60, 180, 30],   // 綠 20-30km
+  good:      [120, 200, 60],  // 淺綠 15-20km
+  fair:      [220, 200, 30],  // 黃 10-15km
+  poor:      [220, 120, 20],  // 橙 5-10km
+  very_poor: [200, 40, 20],   // 紅 <5km
+  nodata:    [100, 100, 100], // 灰
+};
+
+let map, canvas, ctx;
+let forecastData = null;
+let currentFrame = 0;
+let totalFrames = 24;
+let isPlaying = false;
+let playInterval = null;
+let gridPoints = [];
+let currentRegion = 'tw';
+
+// 區域設定（與後端 regions.py 同步）
+const REGION_CONFIG = {
+  tw: { label: '台灣', center: [23.8, 120.9], zoom: 8,
+        latRange: [21.5, 26.5], lonRange: [117.5, 122.5],
+        maxBounds: [[21.0, 117.0], [27.0, 123.0]] },
+  jp: { label: '日本', center: [36.0, 138.0], zoom: 5,
+        latRange: [29.5, 46.5], lonRange: [128.5, 146.5],
+        maxBounds: [[29.0, 128.0], [47.0, 147.0]] },
+  ak: { label: 'Alaska', center: [63.0, -150.0], zoom: 4,
+        latRange: [53.5, 71.5], lonRange: [-180.0, -129.5],
+        maxBounds: [[53.0, -181.0], [72.0, -129.0]] },
+  us: { label: 'USA', center: [39.8, -98.0], zoom: 4,
+        latRange: [23.5, 50.5], lonRange: [-125.5, -65.5],
+        maxBounds: [[23.0, -126.0], [51.0, -65.0]] },
+};
+
+// ─── 語 言 切 換 ──────────────────────────────────────────
+
+let currentLangMap = 'zh';
+const LANG_MAP = {
+  zh: {
+    subtitle: '攝影天氣預報地圖',
+    loading: '載入中...',
+    loadFail: '⚠️ 資料載入失敗',
+    frameInfo: '幀 {f}/{t} | 均能見度 {avg}km | 最高 {max}km',
+    legendTitle: '能見度',
+    poor: '極差', bad: '差', fair: '普通', good: '佳', great: '極佳',
+    play: '播放/暫停',
+    clockSuffix: '(台灣)',
+  },
+  en: {
+    subtitle: 'Photography Weather Forecast Map',
+    loading: 'Loading...',
+    loadFail: '⚠️ Data load failed',
+    frameInfo: 'Frame {f}/{t} | Avg {avg}km | Max {max}km',
+    legendTitle: 'Visibility',
+    poor: 'Poor', bad: 'Bad', fair: 'Fair', good: 'Good', great: 'Excellent',
+    play: 'Play/Pause',
+    clockSuffix: '(TW)',
+  }
+};
+
+function tMap(key) { return LANG_MAP[currentLangMap][key] || key; }
+
+function tr(str, vars) {
+  return str.replace(/\{(\w+)\}/g, (_, k) => vars[k] !== undefined ? vars[k] : _);
+}
+
+function setLang(lang) {
+  currentLangMap = lang;
+  document.getElementById('lang-zh').classList.toggle('active', lang === 'zh');
+  document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+  updateUIText();
+  const cfg = REGION_CONFIG[currentRegion];
+  document.getElementById('header-subtitle').textContent = `${cfg.label}${tMap('subtitle')}`;
+  document.getElementById('legend-title').textContent = tMap('legendTitle');
+}
+
+function updateUIText() {
+  document.getElementById('play-btn').title = tMap('play');
+  if (isPlaying) document.getElementById('play-btn').textContent = '⏸';
+  else document.getElementById('play-btn').textContent = '▶';
+  const ll = document.querySelectorAll('.ll');
+  if (ll.length >= 5) {
+    ll[0].textContent = '🔴 ' + tMap('poor');
+    ll[1].textContent = '🟠 ' + tMap('bad');
+    ll[2].textContent = '🟡 ' + tMap('fair');
+    ll[3].textContent = '🟢 ' + tMap('good');
+    ll[4].textContent = '🔵 ' + tMap('great');
+  }
+}
+
+// ─── 初 始 化 地 圖 ──────────────────────────────────────────
+
+function initMap() {
+  const cfg = REGION_CONFIG[currentRegion];
+  map = L.map('map', {
+    center: cfg.center,
+    zoom: cfg.zoom,
+    minZoom: 4,
+    maxZoom: 12,
+    zoomControl: true,
+  });
+
+  // 底圖（OpenStreetMap）
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap',
+    maxZoom: 18,
+  }).addTo(map);
+
+  // 限制地圖拖曳範圍
+  map.setMaxBounds(cfg.maxBounds);
+
+  canvas = document.getElementById('vis-canvas');
+  ctx = canvas.getContext('2d');
+
+  // 地圖事件 → 重繪
+  map.on('moveend', drawHeatmap);
+  map.on('resize', resizeCanvas);
+}
+
+function resizeCanvas() {
+  if (!map || !canvas) return;
+  const size = map.getSize();
+  canvas.width = size.x;
+  canvas.height = size.y;
+  // 用 CSS 保持一致
+  canvas.style.width = size.x + 'px';
+  canvas.style.height = size.y + 'px';
+  drawHeatmap();
+}
+
+// ─── 能 見 度 插 值 ──────────────────────────────────────────
+
+function idwWeight(dist, power) {
+  if (dist < 0.001) return 1e10;
+  return 1.0 / Math.pow(dist, power || 2.5);
+}
+
+function interpolatePoint(lat, lon, frameIdx) {
+  let weights = [], values = [], totalWeight = 0;
+
+  for (const gp of gridPoints) {
+    const vis = gp.vis[frameIdx];
+    if (vis === null || vis === undefined || vis <= 0) continue;
+
+    const dlat = gp.lat - lat;
+    const dlon = gp.lon - lon;
+    const dist = Math.sqrt(dlat*dlat + dlon*dlon);
+    if (dist < 0.005) return vis;  // 很近直接回傳
+
+    const w = idwWeight(dist, 2.5);
+    weights.push(w);
+    values.push(vis);
+    totalWeight += w;
+  }
+
+  if (totalWeight === 0) return null;
+  let weighted = 0;
+  for (let i = 0; i < values.length; i++) weighted += values[i] * weights[i];
+  return weighted / totalWeight;
+}
+
+function getVisColor(vis) {
+  if (vis === null || vis <= 0) return COLOR_MAP.nodata;
+  if (vis > 30000) return COLOR_MAP.excellent;
+  if (vis > 20000) return COLOR_MAP.very_good;
+  if (vis > 15000) return COLOR_MAP.good;
+  if (vis > 10000) return COLOR_MAP.fair;
+  if (vis > 5000) return COLOR_MAP.poor;
+  return COLOR_MAP.very_poor;
+}
+
+// ─── 繪 製 熱 區 圖 ──────────────────────────────────────────
+
+function drawHeatmap() {
+  if (!ctx || !forecastData || !map) return;
+
+  const bounds = map.getBounds();
+  const size = map.getSize();
+  canvas.width = size.x;
+  canvas.height = size.y;
+
+  const pixelPerLat = size.y / (bounds.getNorth() - bounds.getSouth());
+  const pixelPerLon = size.x / (bounds.getEast() - bounds.getWest());
+  const step = 4;  // 4px 取樣，夠快也夠清晰
+
+  const imageData = ctx.createImageData(size.x, size.y);
+  const data = imageData.data;
+
+  for (let py = 0; py < size.y; py += step) {
+    const lat = bounds.getNorth() - py / pixelPerLat;
+    // 依區域範圍繪製
+    const { latRange, lonRange } = REGION_CONFIG[currentRegion];
+    if (lat < latRange[0] || lat > latRange[1]) continue;
+    for (let px = 0; px < size.x; px += step) {
+      const lon = bounds.getWest() + px / pixelPerLon;
+      if (lon < lonRange[0] || lon > lonRange[1]) continue;
+
+      const vis = interpolatePoint(lat, lon, currentFrame);
+      const color = getVisColor(vis);
+
+      for (let dy = 0; dy < step && py + dy < size.y; dy++) {
+        for (let dx = 0; dx < step && px + dx < size.x; dx++) {
+          const idx = ((py + dy) * size.x + (px + dx)) * 4;
+          data[idx] = color[0];
+          data[idx+1] = color[1];
+          data[idx+2] = color[2];
+          data[idx+3] = 120;  // 半透明
+        }
+      }
+    }
+  }
+
+  ctx.putImageData(imageData, 0, 0);
+  drawSpotMarkers();
+}
+
+function drawSpotMarkers() {
+  if (!ctx || !forecastData || !map) return;
+  const spots = forecastData.points.filter(p => p.type === 'spot');
+  if (spots.length === 0) return;
+
+  const bounds = map.getBounds();
+  const size = map.getSize();
+  const ppl = size.y / (bounds.getNorth() - bounds.getSouth());
+  const pplon = size.x / (bounds.getEast() - bounds.getWest());
+
+  ctx.font = '12px "Noto Sans TC", sans-serif';
+  ctx.textAlign = 'center';
+
+  for (const spot of spots) {
+    const px = (spot.lon - bounds.getWest()) * pplon;
+    const py = (bounds.getNorth() - spot.lat) * ppl;
+    if (px < -20 || px > size.x + 20 || py < -20 || py > size.y + 20) continue;
+
+    if (!spot.hourly || !spot.hourly.visibility) continue;
+    const vis = spot.hourly.visibility[currentFrame] || 0;
+    const color = getVisColor(vis);
+    const colorStr = `rgb(${color[0]},${color[1]},${color[2]})`;
+
+    // 圓點
+    ctx.beginPath();
+    ctx.arc(px, py, 5, 0, Math.PI * 2);
+    ctx.fillStyle = colorStr;
+    ctx.fill();
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    // 名稱
+    if (map.getZoom() >= 8 && spot.name) {
+      ctx.strokeStyle = 'rgba(0,0,0,0.7)';
+      ctx.lineWidth = 3;
+      ctx.strokeText(spot.name, px, py - 10);
+      ctx.fillStyle = '#fff';
+      ctx.fillText(spot.name, px, py - 10);
+    }
+  }
+}
+
+// ─── 區 域 切 換 ──────────────────────────────────────────────
+
+function switchRegion(region) {
+  currentRegion = region;
+  const cfg = REGION_CONFIG[region];
+  document.querySelectorAll('[data-region]').forEach(b => b.classList.toggle('active', b.dataset.region === region));
+  document.getElementById('header-subtitle').textContent = `${cfg.label}${tMap('subtitle')}`;
+  map.setView(cfg.center, cfg.zoom);
+  map.setMaxBounds(cfg.maxBounds);
+  stopPlayback();
+  showLoading(true);
+  loadData();
+}
+
+// ─── 載 入 資 料 ──────────────────────────────────────────────
+
+const API_BASE = window.API_BASE || '';
+
+async function loadData() {
+  showLoading(true);
+  try {
+    const resp = await fetch(`${API_BASE}/api/forecast?region=${currentRegion}`);
+    const raw = await resp.json();
+
+    // 濾掉不在當前區域範圍的 grid 點
+    const { latRange, lonRange } = REGION_CONFIG[currentRegion];
+    forecastData = raw;
+    forecastData.points = raw.points.filter(p => {
+          if (p.type === 'grid') {
+            return p.lat >= latRange[0] && p.lat <= latRange[1] 
+                && p.lon >= lonRange[0] && p.lon <= lonRange[1];
+          }
+          return true;
+        });
+
+    // 建立能見度陣列
+    gridPoints = forecastData.points.map(p => ({
+      lat: p.lat, lon: p.lon, type: p.type, name: p.name,
+      vis: (p.hourly && p.hourly.visibility) || [],
+    }));
+
+    totalFrames = 24;
+    if (gridPoints.length > 0 && gridPoints[0].vis.length > 0) {
+      totalFrames = Math.min(gridPoints[0].vis.length, 48);
+    }
+
+    const slider = document.getElementById('time-slider');
+    slider.max = totalFrames - 1;
+    slider.value = 0;
+
+    resizeCanvas();
+    updateTimeLabel(0);
+    showLoading(false);
+    startPlayback();
+  } catch (e) {
+    console.error('載入失敗:', e);
+    document.getElementById('frame-info').textContent = tMap('loadFail');
+    showLoading(false);
+  }
+}
+
+// ─── 時 間 控 制 ──────────────────────────────────────────────
+
+function updateTimeLabel(frame) {
+  if (!forecastData || !forecastData.points.length) return;
+  const t = forecastData.points[0].hourly?.time?.[frame];
+  document.getElementById('time-label').textContent = t ? t.replace('T', ' ') : '--:--';
+
+  let totalVis = 0, count = 0, maxVis = 0;
+  for (const gp of gridPoints) {
+    const v = gp.vis[frame];
+    if (v && v > 0) { totalVis += v; count++; if (v > maxVis) maxVis = v; }
+  }
+  const avg = count > 0 ? Math.round(totalVis / count / 1000) : 0;
+  document.getElementById('frame-info').textContent =
+    tr(tMap('frameInfo'), {f: frame+1, t: totalFrames, avg, max: Math.round(maxVis/1000)});
+}
+
+document.getElementById('time-slider').addEventListener('input', function() {
+  currentFrame = parseInt(this.value);
+  updateTimeLabel(currentFrame);
+  drawHeatmap();
+});
+
+document.getElementById('play-btn').addEventListener('click', function() {
+  if (isPlaying) stopPlayback(); else startPlayback();
+});
+
+function startPlayback() {
+  if (isPlaying) return;
+  isPlaying = true;
+  document.getElementById('play-btn').textContent = '⏸';
+  playInterval = setInterval(() => {
+    currentFrame = (currentFrame + 1) % totalFrames;
+    document.getElementById('time-slider').value = currentFrame;
+    updateTimeLabel(currentFrame);
+    drawHeatmap();
+  }, 500);
+}
+
+function stopPlayback() {
+  isPlaying = false;
+  document.getElementById('play-btn').textContent = '▶';
+  if (playInterval) { clearInterval(playInterval); playInterval = null; }
+}
+
+function showLoading(show) {
+  const el = document.getElementById('loading-overlay');
+  if (show) el.classList.remove('loading-hidden');
+  else el.classList.add('loading-hidden');
+}
+
+function updateClock() {
+  const now = new Date();
+  const tw = new Date(now.getTime() + (now.getTimezoneOffset() + 480) * 60000);
+  document.getElementById('time-display').textContent =
+    tw.toISOString().replace('T', ' ').substring(0, 16) + ' ' + tMap('clockSuffix');
+}
+
+// ─── 啟 動 ────────────────────────────────────────────────────
+
+document.addEventListener('DOMContentLoaded', function() {
+  setLang('zh');
+  initMap();
+  loadData();
+  updateClock();
+  setInterval(updateClock, 10000);
+});
+</script>
+
+</body>
+</html>
