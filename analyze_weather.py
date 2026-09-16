@@ -2,12 +2,11 @@ import sys
 import json
 from datetime import datetime
 from regions import get_spots
-from fetch_data import fetch_weather_for_spot  # 依據你的專案抓取資料函式
+from fetch_data import fetch_weather_for_spot  # 依據專案抓取資料函式
 
 def analyze_spot(spot):
     """
     抓取並分析單一景點的氣象資料
-    （此處示範整合邏輯，若原 fetch_data 已經完成分析，可直接回傳其結果）
     """
     try:
         raw_data = fetch_weather_for_spot(spot)
@@ -19,10 +18,10 @@ def analyze_spot(spot):
         # 基礎結構備援（若原 fetch 僅傳回原始資料，可在此做評分邏輯）
         return {
             "name": spot.get("name", "未知景點"),
-            "score": raw_data.get("score", 30),
-            "best_time": raw_data.get("best_time", "23:00"),
-            "position": raw_data.get("position", "晴朗無雲 - 適合一般風景攝影"),
-            "reason": raw_data.get("reason", "條件不足")
+            "score": raw_data.get("score", 30) if isinstance(raw_data, dict) else 30,
+            "best_time": raw_data.get("best_time", "23:00") if isinstance(raw_data, dict) else "23:00",
+            "position": raw_data.get("position", "晴朗無雲 - 適合一般風景攝影") if isinstance(raw_data, dict) else "晴朗無雲",
+            "reason": raw_data.get("reason", "條件不足") if isinstance(raw_data, dict) else "條件不足"
         }
     except Exception as e:
         print(f"⚠️ 讀取景點 {spot.get('name')} 失敗: {e}")
@@ -38,11 +37,10 @@ def main():
     # 預設區域為 台灣 (tw)
     region = sys.argv[1].lower() if len(sys.argv) > 1 else "tw"
 
-    # 區域檔名對照表
+    # 區域檔名對照表 (已整合阿拉斯加至 us)
     filename_map = {
         "tw": "latest_weather.json",
         "jp": "japan_weather.json",
-        "ak": "alaska_weather.json",
         "us": "usa_weather.json"
     }
 
@@ -53,7 +51,7 @@ def main():
     spots = get_spots(region)
     if not spots:
         print(f"❌ 找不到區域 [{region}] 的景點清單！")
-        return
+        sys.exit(1)
 
     analyzed_spots = []
     for spot in spots:
