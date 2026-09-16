@@ -1,423 +1,79 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-ChaseLights - 攝影天氣分析工具（全靜態 JSON 匯出版）
-支援台灣、日本、美國、阿拉斯加等區域的攝影天氣分析
-"""
-
-import os, sys
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, os.path.join(BASE_DIR, 'weather_web'))
-sys.path.insert(0, BASE_DIR)
-
+import sys
 import json
 from datetime import datetime
-from pathlib import Path
-import argparse
+from regions import get_spots
+from fetch_data import fetch_weather_for_spot  # 依據你的專案抓取資料函式
 
-if sys.stdout.encoding != 'utf-8':
-    import io
-    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
-    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
-
-current_dir = Path(__file__).parent
-project_root = current_dir.parent if current_dir.name == 'weather_web' else current_dir
-sys.path.insert(0, str(project_root))
-
-try:
-    import regions
-    import fetch_data
-    MODULES_AVAILABLE = True
-    print("✓ 成功載入景點與天氣模組")
-except ImportError as e:
-    print(f"❌ 無法載入必要模組: {e}")
-    sys.exit(1)
-
-WMO_DESC = {
-    0: "☀️ 晴天", 1: "🌤️ 晴時多雲", 2: "⛅ 局部多雲", 3: "☁️ 陰天",
-    45: "🌫️ 霧", 48: "🌫️ 霧淞",
-    51: "🌦️ 小毛毛雨", 53: "🌦️ 中毛毛雨", 55: "🌧️ 大毛毛雨",
-    61: "🌧️ 小雨", 63: "🌧️ 中雨", 65: "🌧️ 大雨",
-    80: "🌦️ 小陣雨", 81: "🌦️ 中陣雨", 82: "🌧️ 大陣雨",
-    95: "⛈️ 雷陣雨", 96: "⛈️ 雷+冰雹", 99: "⛈️ 強雷+冰雹",
-}
-
-CLOUD_LAYERS = {
-    'low':  (0, 2000),
-    'mid':  (2000, 6000),
-    'high': (6000, 12000),
-}
-
-def calc_cloud_base(temp_c, dew_c):
-    spread = temp_c - dew_c
-    if spread <= 0:
-        return 0
-    base_agl = spread * 125
-    return min(base_agl, 3500)
-
-def fetch_spots(region_code):
-    raw_data = None
-    if hasattr(regions, 'get_region_spots'):
-        raw_data = regions.get_region_spots(region_code)
-    elif hasattr(regions, 'get_spots_by_region'):
-        raw_data = regions.get_spots_by_region(region_code)
-    elif hasattr(regions, 'REGIONS'):
-        raw_data = regions.REGIONS.get(region_code, [])
+def analyze_spot(spot):
+    """
+    抓取並分析單一景點的氣象資料
+    （此處示範整合邏輯，若原 fetch_data 已經完成分析，可直接回傳其結果）
+    """
+    try:
+        raw_data = fetch_weather_for_spot(spot)
         
-    if isinstance(raw_data, dict):
-        return raw_data.get('spots', [])
-    elif isinstance(raw_data, list):
-        return raw_data
-    return []
+        # 如果 raw_data 已包含完整的 score, reason 等欄位則直接回傳
+        if isinstance(raw_data, dict) and "score" in raw_data:
+            return raw_data
 
-def classify_photographer_position(elevation, cloud_base_agl, low_cc, mid_cc, high_cc):
-    cloud_base_msl = cloud_base_agl + elevation
-    if low_cc > 40:
-        low_ceiling = CLOUD_LAYERS['low'][1]
-        if elevation > low_ceiling:
-            return ('above_low', '🏔️ 站在低雲層之上 → 絕佳雲海視角！', 1.2)
-        elif elevation > cloud_base_msl - 200:
-            if low_cc > 70:
-                return ('in_cloud', '🌫️ 身處雲層中 → 濃霧，能見度差 ⚠️', 0.3)
-            else:
-                return ('near_cloud', '🌁 接近雲層邊緣 → 局部霧氣', 0.7)
-        else:
-            return ('below_low', '☁️ 雲在頭頂上方 → 天氣陰沉', 0.5)
-
-    if mid_cc > 50:
-        if elevation > 3000:
-            return ('above_mid', '🏔️ 接近中雲層高度 → 有機會雲海或身處雲中', 1.0)
-        else:
-            return ('below_mid', '☁️ 中雲在頭頂 → 一般多雲天氣', 0.6)
-
-    if high_cc > 50:
-        return ('high_only', '☀️ 高雲為主 → 火燒雲素材！', 1.0)
-
-    return ('clear', '☀️ 晴朗無雲 → 適合一般風景攝影', 0.8)
-
-def evaluate_special_conditions(spot_name, month, hour, temp, rh, ws, vis_km, cl, cm, ch, elevation, t_td_diff):
-    if any(k in spot_name for k in ['雪山', '合歡', '大霸', '玉山']) and month in [12, 1, 2]:
-        if temp <= 0 and rh > 85:
-            return (95, f'❄️ 極致雪景/霧淞 - 氣溫{temp:.1f}°C 濕度{rh}%，高山冰雪奇景', '14-24mm 廣角鏡 + CPL 偏光鏡')
-
-    if '阿里山' in spot_name or '小笠原' in spot_name:
-        if month in [3, 4] and hour in [5, 6] and 30 <= ch <= 60:
-            return (95, f'🌸 櫻花日出彩霞 - 櫻花季黃金晨光+高雲{ch}%霞光反光板', '24-70mm 中焦段 + 漸層減光鏡')
-
-    if any(k in spot_name for k in ['見晴', '司馬庫斯', '忘憂森林', '棲蘭', '明池']):
-        if 8 <= hour <= 11 and 0.5 <= t_td_diff <= 2.0 and 40 <= (cl + cm) <= 70:
-            return (92, f'✨ 森林耶穌光（丁達爾效應）- 輕霧(T-Td={t_td_diff:.1f}°C)與透射林光', '35-85mm 定焦/標準變焦')
-
-    if '老梅' in spot_name:
-        if month in [3, 4, 5] and vis_km >= 10.0 and ws < 8.0:
-            return (95, f'🌊 綠石槽黃金期 - 春季綠藻生長盛期+浪花長曝（風速{ws:.1f}m/s）', '24-70mm + ND1000 減光鏡')
-
-    if any(k in spot_name for k in ['和平島', '野柳', '石門洞', '鼻頭角', '三貂角']):
-        if month in [3, 4, 5] and hour in [5, 6, 17, 18] and vis_km >= 15.0:
-            return (90, f'🪨 海岸奇岩黃金光 - 春季藻類與極佳能見度({vis_km:.0f}km)', '16-35mm 超廣角 + 腳架低角度張力')
-
-    if any(k in spot_name for k in ['二延平', '頂石棹', '隙頂']):
-        if 17 <= hour <= 21 and 70 <= cl <= 95 and t_td_diff < 1.0:
-            return (98, f'🌃 絕美琉璃光 - 低雲滿溢蓋城鎮(低雲{cl}%)，夜間燈光透出', '24-70mm + 長曝光 15-30s')
-
-    if '日月潭' in spot_name or '朝霧' in spot_name or '水社' in spot_name:
-        if hour in [5, 6, 7] and t_td_diff <= 1.0 and ws <= 1.5:
-            return (94, f'🌫️ 水沙連蒸氣晨霧 - 微風({ws:.1f}m/s)湖面如鏡，倒影與霧氣繚繞', '50-135mm 中長焦')
-
-    if '伯朗大道' in spot_name or '池上' in spot_name:
-        if month in [5, 6, 10, 11] and hour in [6, 7, 16, 17] and 2.5 <= ws <= 5.5:
-            return (92, f'🌾 黃金稻浪盛景 - 收割季光影+微風({ws:.1f}m/s)吹拂動態稻浪', '70-200mm 長焦')
-
-    if '六十石' in spot_name or '赤柯山' in spot_name:
-        if month in [8, 9] and 14 <= hour <= 16 and 50 <= (cl + cm) <= 80:
-            return (96, f'🌼 金針花海雲隙光 - 盛開季山谷積雲帶出強烈耶穌光', '16-35mm 超廣角 + CPL 偏光鏡')
-
-    if '九份' in spot_name or '阿妹茶樓' in spot_name:
-        if hour in [17, 18, 19] and vis_km >= 8.0:
-            return (88, f'🏮 藍調山城燈火 - 夕照後藍調時段與地面濕潤光影反射', '35mm/50mm 大光圈定焦')
-
-    if any(k in spot_name for k in ['大霸', '水漾', '武嶺', '合歡', '龍磐', '石梯坪']):
-        if (hour >= 21 or hour <= 4) and (cl + cm + ch) < 15 and vis_km >= 20.0:
-            return (95, f'🌌 極致璀璨銀河 - 超高大氣透明度(能見度{vis_km:.0f}km)，零雲層干擾', '14-24mm F2.8 超廣角')
-
-    if '奎壁山' in spot_name or '雙心石滬' in spot_name:
-        if 9 <= hour <= 15 and vis_km >= 15.0 and (cl + cm) < 40:
-            return (90, f'🏝️ 澎湖果凍海與石滬地景 - 太陽直射透光度極佳(海藍色清澈)', '24-70mm + CPL 偏光鏡')
-
-    if '101' in spot_name or '象山' in spot_name:
-        if hour in [6, 7] and cl > 70 and elevation < 300:
-            return (88, f'🏢 台北 101 竹雲出土 - 晨間輻射低雲籠罩盆地，高樓伸出雲海', '70-200mm 長焦')
-
-    return None
-
-def get_weather_data_for_spot(spot):
-    try:
-        lat = float(spot['lat'])
-        lon = float(spot['lon'])
-        spot_name = spot.get('name', '未命名景點')
-    except (ValueError, KeyError, TypeError):
-        return None
-
-    print(f"  🌐 即時抓取資料: {spot_name} ({lat}, {lon})")
-    
-    weather_data = None
-    try:
-        if hasattr(fetch_data, 'fetch_point'):
-            weather_data = fetch_data.fetch_point(lat, lon, forecast_days=3)
-        elif hasattr(fetch_data, 'fetch_weather'):
-            weather_data = fetch_data.fetch_weather(lat, lon)
+        # 基礎結構備援（若原 fetch 僅傳回原始資料，可在此做評分邏輯）
+        return {
+            "name": spot.get("name", "未知景點"),
+            "score": raw_data.get("score", 30),
+            "best_time": raw_data.get("best_time", "23:00"),
+            "position": raw_data.get("position", "晴朗無雲 - 適合一般風景攝影"),
+            "reason": raw_data.get("reason", "條件不足")
+        }
     except Exception as e:
-        print(f"  ⚠️ 即時抓取 Exception: {e}")
-
-    if weather_data and isinstance(weather_data, dict) and 'hourly' in weather_data:
-        print(f"  ✅ 即時抓取成功: {spot_name}")
-        return weather_data
-    return None
-
-def analyze_spot_weather(spot, weather_data, region):
-    if not weather_data or 'error' in weather_data:
-        return None
-        
-    spot_name = spot['name']
-    elevation = spot.get('elevation', weather_data.get('elevation', 0))
-    is_mountain = elevation > 1000 or '山' in spot_name or '峰' in spot_name
-    
-    h = weather_data['hourly']
-    times = h['time']
-    
-    now = datetime.now()
-    now_s = now.strftime('%Y-%m-%dT%H:00')
-    current_index = 0
-    for i, time_str in enumerate(times):
-        if time_str >= now_s:
-            current_index = i
-            break
-    
-    sunrise_str = weather_data.get('sunrise', '')
-    sunset_str = weather_data.get('sunset', '')
-    
-    print(f'\n📍 {spot_name}  (海拔 {elevation:.0f}m)')
-    if sunrise_str and sunset_str:
-        print(f'   🌅 日出 {sunrise_str[-5:]}   🌇 日落 {sunset_str[-5:]}')
-    print('─' * 95)
-    
-    best_score = 0
-    best_time = ""
-    best_reason = ""
-    best_position = ""
-    best_lens_custom = None
-    
-    display_hours = min(12, len(times) - current_index)
-    
-    for i in range(current_index, current_index + display_hours):
-        if i >= len(times):
-            break
-            
-        time_str = times[i]
-        hour = time_str[-5:]
-        dt_obj = datetime.fromisoformat(time_str)
-        month = dt_obj.month
-        current_hour = dt_obj.hour
-        
-        rh = h.get('relative_humidity_2m', [None] * len(times))[i] or 0
-        cl = h.get('cloud_cover_low', [None] * len(times))[i] or 0
-        cm = h.get('cloud_cover_mid', [None] * len(times))[i] or 0
-        ch = h.get('cloud_cover_high', [None] * len(times))[i] or 0
-        ws = h.get('wind_speed_10m', [None] * len(times))[i] or 0
-        vis = h.get('visibility', [None] * len(times))[i] or 0
-        wc = h.get('weather_code', [None] * len(times))[i]
-        ppt = h.get('precipitation_probability', [None] * len(times))[i] or 0
-        temp = h.get('temperature_2m', [None] * len(times))[i] or 0
-        dew = h.get('dew_point_2m', [None] * len(times))[i] or 0
-        
-        if wc in (61, 63, 65, 80, 81, 82, 95, 96, 99) or ppt > 60:
-            continue
-            
-        cloud_base_agl = calc_cloud_base(temp, dew)
-        pos, pos_desc, mod = classify_photographer_position(elevation, cloud_base_agl, cl, cm, ch)
-        
-        score = 0
-        reason = ""
-        lens_rec = None
-        
-        vis_km = vis / 1000.0 if vis > 0 else 0
-        t_td_diff = temp - dew
-        is_in_fog = vis_km < 1.0 or t_td_diff < 0.8
-        
-        if is_in_fog:
-            score = 15
-            reason = f'🌫️ 濃霧白牆 - 身處雲霧中，視線受阻（能見度{vis_km:.1f}km，T-Td={t_td_diff:.1f}°C）'
-        else:
-            spec_eval = evaluate_special_conditions(
-                spot_name, month, current_hour, temp, rh, ws, vis_km, cl, cm, ch, elevation, t_td_diff
-            )
-            if spec_eval:
-                score, reason, lens_rec = spec_eval
-            else:
-                is_golden_hour = current_hour in [5, 6, 17, 18]
-                if is_mountain:
-                    if pos == 'above_low' and cl > 60 and ws < 10 and vis >= 2000:
-                        score = 100
-                        reason = f'⛰️ 絕佳雲海 - 站在低雲層上方(海拔{elevation:.0f}m)↓雲底{cloud_base_agl:.0f}m'
-                    elif pos == 'above_low' and cl > 40 and ws < 15 and vis >= 2000:
-                        score = 82
-                        reason = f'低雲層在腳下，微風，雲底{cloud_base_agl:.0f}m AGL'
-                    elif pos == 'in_cloud':
-                        score = 20
-                        reason = '⚠️ 身處雲中=濃霧，不適合拍照'
-                    elif rh > 85 and cl > 50 and ws < 15:
-                        score = 70
-                        reason = f'雲量充足，但海拔{elevation:.0f}m與低雲層關係普通'
-                    elif rh > 75 and cl > 30:
-                        score = 50
-                        reason = '條件一般'
-                    else:
-                        score = 30
-                        reason = '雲量不足'
-                else:
-                    if is_golden_hour and wc in (0, 1, 2) and ch and 30 <= ch <= 70 and cl < 20 and vis > 15000:
-                        score = 92
-                        reason = f'🌅 火燒雲潛力 - 黃金時段高雲{ch}%+能見{vis_km:.0f}km→完美火燒雲'
-                    elif is_golden_hour and ch and 20 <= ch <= 80 and cl < 30 and vis > 10000:
-                        score = 65
-                        reason = f'黃金時段+高雲{ch}% 能見{vis_km:.0f}km 有機會火燒雲'
-                    elif not is_golden_hour and ch and 30 <= ch <= 70 and vis > 10000:
-                        score = 55
-                        reason = f'高雲景致{ch}% 能見{vis_km:.0f}km（非火燒雲時段）'
-                    elif not is_golden_hour and ch and 20 <= ch <= 80:
-                        score = 45
-                        reason = f'高雲{ch}% 一般景致（非火燒雲時段）'
-                    else:
-                        score = 30
-                        reason = f'條件不足'
-                        
-        if ws >= 10.0 and score > 20:
-            score = max(20, score - 15)
-            reason += f' ⚠️ 強風警告({ws:.1f}m/s)'
-            
-        if is_mountain and not is_in_fog and not spec_eval:
-            score = int(score * mod)
-        
-        score = min(score, 100)
-        
-        if score > best_score:
-            best_score = score
-            best_time = hour
-            best_reason = reason
-            best_position = pos_desc
-            best_lens_custom = lens_rec
-        
-        is_golden = False
-        if sunrise_str:
-            sr_h = int(sunrise_str[-5:][:2])
-            if abs(current_hour - sr_h) <= 1:
-                is_golden = True
-        if sunset_str and not is_golden:
-            ss_h = int(sunset_str[-5:][:2])
-            if abs(current_hour - ss_h) <= 1:
-                is_golden = True
-        
-        tag = '🔥🔥絕佳' if score >= 90 else '🔥優秀' if score >= 80 else '⭐良好' if score >= 70 else '⬜普通' if score >= 50 else '❌不佳'
-        golden_mark = ' 🌅' if is_golden else ''
-        bar = '█' * (score // 10) + '░' * (10 - score // 10)
-        vis_str = f'{vis_km:.0f}km' if vis else 'N/A'
-        ppt_s = f'  {ppt}%☂' if ppt > 20 else ''
-        
-        pos_hint = {'above_low': '⛰️雲上', 'in_cloud': '🌫️霧中', 'near_cloud': '🌁雲邊',
-                    'below_low': '☁️雲下', 'above_mid': '🏔️中雲', 'below_mid': '⛅中雲下',
-                    'high_only': '☀️高雲', 'clear': '☀️晴'}.get(pos, '❓')
-        
-        print(f'{hour}{golden_mark} {bar} {score:2d}分 {tag:8s} | {pos_hint:4s} 雲底{cloud_base_agl:3.0f}m | {temp:3.0f}°C 濕{rh:3d}% 低雲{cl:3d}% 中雲{cm:3d}% 高雲{ch:3d}% 風{ws:4.1f} 能見{vis_str}{ppt_s}')
-    
-    if best_score > 0:
-        print(f'  🏆 最佳：{best_time}（{best_score}分） | 📋 {best_reason}')
-        
-    return {
-        'score': best_score,
-        'time': best_time,
-        'reason': best_reason,
-        'position': best_position,
-        'lens_custom': best_lens_custom
-    }
+        print(f"⚠️ 讀取景點 {spot.get('name')} 失敗: {e}")
+        return {
+            "name": spot.get("name", "未知景點"),
+            "score": 0,
+            "best_time": "N/A",
+            "position": "資料擷取失敗",
+            "reason": "無法取得即時氣象資料"
+        }
 
 def main():
-    parser = argparse.ArgumentParser(description='ChaseLights - 攝影天氣分析工具')
-    parser.add_argument('region', nargs='?', default='tw', choices=['tw', 'jp', 'us', 'ak'])
-    args = parser.parse_args()
-    region = args.region
-    
-    now = datetime.now()
-    print(f'📸 ChaseLights 全球攝影天氣報告 ({region.upper()}) - {now.strftime("%Y/%m/%d %H:%M")}')
-    print('=' * 95)
-    
-    try:
-        spots = fetch_spots(region)
-        if not spots:
-            print(f'❌ 無法取得景點列表')
-            return
-            
-        analyzed_spots = []
-        json_output_spots = []
-        
-        for i, spot in enumerate(spots, 1):
-            if isinstance(spot, dict):
-                spot_name = spot.get('name', f'景點_{i}')
-                spot_lat = spot.get('lat')
-                spot_lon = spot.get('lon')
-            elif isinstance(spot, (list, tuple)):
-                str_item = next((x for x in spot if isinstance(x, str)), f'景點_{i}')
-                num_items = [x for x in spot if isinstance(x, (int, float))]
-                spot_name = str_item
-                spot_lat = num_items[0] if len(num_items) > 0 else None
-                spot_lon = num_items[1] if len(num_items) > 1 else None
-            else:
-                spot_name, spot_lat, spot_lon = str(spot), None, None
-            
-            if spot_lat is None or spot_lon is None:
-                continue
-                
-            normalized_spot = {'name': spot_name, 'lat': float(spot_lat), 'lon': float(spot_lon)}
-            weather_data = get_weather_data_for_spot(normalized_spot)
-            
-            if weather_data:
-                result = analyze_spot_weather(normalized_spot, weather_data, region)
-                if result:
-                    analyzed_spots.append({'spot': normalized_spot, 'analysis': result})
-                    json_output_spots.append({
-                        'name': spot_name,
-                        'lat': normalized_spot['lat'],
-                        'lon': normalized_spot['lon'],
-                        'score': result['score'],
-                        'best_time': result['time'],
-                        'reason': result['reason'],
-                        'position': result['position']
-                    })
-        
-        if analyzed_spots:
-            print(f'\n{"=" * 95}\n🏆 今日最佳攝影景點排名\n{"=" * 95}')
-            analyzed_spots.sort(key=lambda x: x['analysis']['score'], reverse=True)
-            for i, item in enumerate(analyzed_spots[:10], 1):
-                spot = item['spot']
-                analysis = item['analysis']
-                score_emoji = '🔥🔥' if analysis['score'] >= 90 else '🔥' if analysis['score'] >= 80 else '⭐' if analysis['score'] >= 70 else '⬜'
-                print(f'{i:2d}. {score_emoji} {spot["name"]:20s} | {analysis["score"]:3d}分 | {analysis["time"]} | {analysis["reason"]}')
-            
-            # 💾 匯出至 JSON
-            export_payload = {
-                'updated_at': now.strftime('%Y-%m-%d %H:%M:%S'),
-                'region': region,
-                'total_spots': len(json_output_spots),
-                'spots': json_output_spots
-            }
-            json_path = os.path.join(BASE_DIR, 'latest_weather.json')
-            with open(json_path, 'w', encoding='utf-8') as f:
-                json.dump(export_payload, f, ensure_ascii=False, indent=2)
-            print(f'\n💾 已成功匯出最新數據至：{json_path}')
-            
-    except Exception as e:
-        print(f'❌ 程式執行錯誤: {e}')
-        import traceback
-        traceback.print_exc()
+    # 預設區域為 台灣 (tw)
+    region = sys.argv[1].lower() if len(sys.argv) > 1 else "tw"
 
-if __name__ == '__main__':
+    # 區域檔名對照表
+    filename_map = {
+        "tw": "latest_weather.json",
+        "jp": "japan_weather.json",
+        "ak": "alaska_weather.json",
+        "us": "usa_weather.json"
+    }
+
+    output_filename = filename_map.get(region, f"{region}_weather.json")
+    print(f"🚀 開始分析區域: [{region.upper()}] ...")
+
+    # 從 regions.py 獲取景點清單
+    spots = get_spots(region)
+    if not spots:
+        print(f"❌ 找不到區域 [{region}] 的景點清單！")
+        return
+
+    analyzed_spots = []
+    for spot in spots:
+        print(f"🔍 正在分析: {spot.get('name')}...")
+        result = analyze_spot(spot)
+        analyzed_spots.append(result)
+
+    # 組合最終 JSON 格式
+    now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    output_data = {
+        "updated_at": now_str,
+        "region": region,
+        "spots": analyzed_spots
+    }
+
+    # 寫入 JSON 檔案
+    with open(output_filename, "w", encoding="utf-8") as f:
+        json.dump(output_data, f, ensure_ascii=False, indent=2)
+
+    print(f"✅ 完成！已成功生成 {output_filename} (更新時間: {now_str})")
+
+if __name__ == "__main__":
     main()
