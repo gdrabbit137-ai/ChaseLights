@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ChaseLights — 攝影天氣預報</title>
+  <title>ChaseLights — 台灣攝影天氣預報</title>
   <style>
     :root {
       --bg: #0f172a;
@@ -21,15 +21,42 @@
     }
     header {
       max-width: 1000px;
-      margin: 0 auto 24px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      margin: 0 auto 20px;
       border-bottom: 1px solid #334155;
       padding-bottom: 16px;
     }
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
     h1 { margin: 0; font-size: 1.8rem; color: var(--accent); }
     .updated { font-size: 0.85rem; color: var(--muted); }
+    
+    /* 地區與導覽選單樣式 */
+    .nav-bar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .nav-btn {
+      background: #334155;
+      color: var(--text);
+      border: 1px solid #475569;
+      padding: 6px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .nav-btn:hover, .nav-btn.active {
+      background: #0284c7;
+      border-color: #38bdf8;
+      color: #fff;
+    }
+
     .container {
       max-width: 1000px;
       margin: 0 auto;
@@ -72,11 +99,21 @@
 <body>
 
   <header>
-    <h1>📸 ChaseLights</h1>
-    <div class="updated" id="update-time">載入中...</div>
+    <div class="header-top">
+      <h1>📸 ChaseLights</h1>
+      <div class="updated" id="update-time">載入中...</div>
+    </div>
+    
+    <!-- 地區與導覽按鈕列表 -->
+    <div class="nav-bar">
+      <a href="index.html" class="nav-btn active">🇹🇼 台灣</a>
+      <a href="japan.html" class="nav-btn">🇯🇵 日本</a>
+      <a href="alaska.html" class="nav-btn">🏔️ 阿拉斯加</a>
+      <a href="usa.html" class="nav-btn">🇺🇸 美國</a>
+    </div>
   </header>
 
-  <div id="loading">正在獲取最新攝影氣象數據...</div>
+  <div id="loading">正在獲取最新台灣攝影氣象數據...</div>
   <div class="container" id="spots-container"></div>
 
   <script>
