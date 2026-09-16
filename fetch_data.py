@@ -1,8 +1,5 @@
 """
-ChaseLights — 天氣網格資料擷取模組
-
-從 Open-Meteo API 擷取氣象網格資料，
-包含能見度、雲量、溫度、露點、風速等攝影相關參數。
+ChaseLights — 天氣網格資料擷取模組 (含過去24H + 未來48H 專業攝影氣象欄位)
 """
 
 import json, os, time, hashlib
@@ -14,7 +11,6 @@ from regions import get_spots
 CACHE_DIR = os.path.join(os.path.dirname(__file__), ".cache")
 CACHE_TTL = 600  # 10 分鐘快取
 
-# 確保快取目錄存在
 os.makedirs(CACHE_DIR, exist_ok=True)
 
 GRID_LATS = [21.8, 22.2, 22.6, 23.0, 23.4, 23.8, 24.2, 24.6, 25.0, 25.4, 25.8, 26.2]
@@ -28,7 +24,6 @@ def build_grid_points():
     return points
 
 def build_spot_points(region="tw"):
-    """從 regions.py 讀取景點，包含類別 category 資訊"""
     spots = get_spots(region)
     return [{
         "lat": round(s["lat"], 4),
@@ -58,7 +53,8 @@ def cache_key(lat, lon):
     raw = f"{lat:.4f}_{lon:.4f}"
     return hashlib.md5(raw.encode()).hexdigest()[:12]
 
-def fetch_point(lat, lon, forecast_days=3):
+def fetch_point(lat, lon, past_days=1, forecast_days=2):
+    """抓取過去 24 小時 + 未來 48 小時氣象"""
     cache_path = os.path.join(CACHE_DIR, f"{cache_key(lat, lon)}.json")
     if os.path.exists(cache_path):
         age = time.time() - os.path.getmtime(cache_path)
@@ -71,9 +67,9 @@ def fetch_point(lat, lon, forecast_days=3):
         f"&hourly=relative_humidity_2m,cloud_cover_low,cloud_cover_mid,cloud_cover_high,"
         f"wind_speed_10m,visibility,weather_code,precipitation_probability,"
         f"temperature_2m,dew_point_2m"
-        f"&daily=sunrise,sunset,weather_code,precipitation_sum"
-        f"&timezone=Asia/Taipei"
+        f"&past_days={past_days}"
         f"&forecast_days={forecast_days}"
+        f"&timezone=Asia/Taipei"
     )
     try:
         resp = requests.get(url, timeout=15)
@@ -84,44 +80,112 @@ def fetch_point(lat, lon, forecast_days=3):
     except Exception as e:
         return {"error": str(e), "lat": lat, "lon": lon}
 
+def calculate_cloud_base(temp, dew_point):
+    """估算低雲雲底高度 (公尺) - 依據溫度與露點差 (Temp - DewPoint) * 125"""
+    spread = max(0.0, temp - dew_point)
+    return int(spread * 125)
+
+def evaluate_hour_condition(c_low, c_mid, c_high, vis_km, wind_spd, prec_prob):
+    """計算單時段專業評分與出景狀態"""
+    total_cloud = max(c_low, c_mid, c_high)
+    score = 50
+    status = "❌ 不佳"
+
+    if prec_prob > 50:
+        score = 15
+        status = "🌧️ 降雨"
+    elif c_low < 30 and vis_km >= 15:
+        score = 85
+        status = "☀️ 晴朗通透"
+    elif c_high > 40 and c_low < 30 and vis_km >= 12:
+        score = 78
+        status = "🌅 高雲彩霞"
+    elif c_low > 70:
+        score = 25
+        status = "☁️ 濃雲"
+
+    if wind_spd > 15:
+        score = max(10, score - 15)
+        status += " (強風)"
+
+    return score, status
+
 def fetch_weather_for_spot(spot):
     """供 analyze_weather.py 單點調用的標準介面"""
     lat = spot.get("lat")
     lon = spot.get("lon")
-    raw_weather = fetch_point(lat, lon, forecast_days=3)
+    raw_weather = fetch_point(lat, lon, past_days=1, forecast_days=2)
     
     if "error" in raw_weather:
-        return {"score": 0, "reason": "API 讀取失敗", "category": spot.get("category", "本島")}
+        return {"score": 0, "reason": "API 讀取失敗", "category": spot.get("category", "本島"), "hourly_forecast": []}
         
     hourly = raw_weather.get("hourly", {})
-    clouds = hourly.get("cloud_cover_low", [0])
-    visibility = hourly.get("visibility", [10000])
-    wind = hourly.get("wind_speed_10m", [0])
+    times = hourly.get("time", [])
+    c_low_arr = hourly.get("cloud_cover_low", [])
+    c_mid_arr = hourly.get("cloud_cover_mid", [])
+    c_high_arr = hourly.get("cloud_cover_high", [])
+    vis_arr = hourly.get("visibility", [])
+    wind_arr = hourly.get("wind_speed_10m", [])
+    temp_arr = hourly.get("temperature_2m", [])
+    dew_arr = hourly.get("dew_point_2m", [])
+    rh_arr = hourly.get("relative_humidity_2m", [])
+    prec_arr = hourly.get("precipitation_probability", [])
 
-    avg_cloud = clouds[0] if clouds else 0
-    vis_km = (visibility[0] / 1000.0) if visibility else 10
-    wind_spd = wind[0] if wind else 0
+    now_iso = datetime.now(timezone(timedelta(hours=8))).strftime("%Y-%m-%dT%H:00")
 
-    score = 30
-    reason = "出景機率普通"
+    hourly_forecast = []
+    max_score = 0
+    best_time_str = "N/A"
 
-    if avg_cloud < 30 and vis_km >= 15:
-        score = 85
-        reason = "大晴天、能見度高，極適合風景與星空拍攝"
-    elif avg_cloud > 80:
-        score = 20
-        reason = "雲量過厚，出景機率較低"
-    elif wind_spd > 15:
-        score = 40
-        reason = f"風速較大 ({wind_spd}m/s)，請注意立三腳架安全"
+    for i in range(len(times)):
+        t_raw = times[i]
+        t_formatted = t_raw.replace("T", " ")
+        c_low = c_low_arr[i] if i < len(c_low_arr) else 0
+        c_mid = c_mid_arr[i] if i < len(c_mid_arr) else 0
+        c_high = c_high_arr[i] if i < len(c_high_arr) else 0
+        v_val = (vis_arr[i] / 1000.0) if i < len(vis_arr) else 10.0
+        w_val = wind_arr[i] if i < len(wind_arr) else 0.0
+        tp_val = temp_arr[i] if i < len(temp_arr) else 0.0
+        dw_val = dew_arr[i] if i < len(dew_arr) else 0.0
+        rh_val = rh_arr[i] if i < len(rh_arr) else 0
+        p_val = prec_arr[i] if i < len(prec_arr) else 0
+
+        cloud_base = calculate_cloud_base(tp_val, dw_val)
+        h_score, status = evaluate_hour_condition(c_low, c_mid, c_high, v_val, w_val, p_val)
+
+        # 標記是否為歷史資料
+        is_past = t_raw < now_iso
+
+        if not is_past and h_score > max_score:
+            max_score = h_score
+            best_time_str = t_formatted.split(" ")[1]
+
+        hourly_forecast.append({
+            "time": t_formatted,
+            "is_past": is_past,
+            "score": h_score,
+            "status": status,
+            "cloud_base": cloud_base,
+            "temp": round(tp_val, 1),
+            "rh": rh_val,
+            "c_low": c_low,
+            "c_mid": c_mid,
+            "c_high": c_high,
+            "wind": round(w_val, 1),
+            "visibility": round(v_val, 1)
+        })
+
+    avg_c_low = c_low_arr[0] if c_low_arr else 0
+    vis_km = (vis_arr[0] / 1000.0) if vis_arr else 10
 
     return {
         "name": spot.get("name"),
         "category": spot.get("category", "本島"),
-        "score": score,
-        "best_time": "23:00",
-        "position": f"雲量: {avg_cloud}% | 能見度: {vis_km:.1f}km",
-        "reason": reason
+        "score": max_score if max_score > 0 else 30,
+        "best_time": best_time_str,
+        "position": f"☀️ 晴朗無雲 雲底 {calculate_cloud_base(temp_arr[0], dew_arr[0])}m",
+        "reason": "氣象條件評估完成",
+        "hourly_forecast": hourly_forecast
     }
 
 def fetch_all(region="tw", max_workers=10):
@@ -131,7 +195,7 @@ def fetch_all(region="tw", max_workers=10):
     with ThreadPoolExecutor(max_workers=max_workers) as pool:
         fut_map = {}
         for p in points:
-            fut = pool.submit(fetch_point, p["lat"], p["lon"], 3)
+            fut = pool.submit(fetch_point, p["lat"], p["lon"], 1, 2)
             fut_map[fut] = p
             time.sleep(0.02)
         done = 0
@@ -157,7 +221,6 @@ def fetch_all(region="tw", max_workers=10):
 
 def update_all(region="tw"):
     raw = fetch_all(region=region, max_workers=10)
-    print(f"Fetch completed for region {region}.")
     return raw
 
 if __name__ == "__main__":
