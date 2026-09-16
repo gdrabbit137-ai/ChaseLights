@@ -193,9 +193,13 @@
       const container = document.getElementById('spots-container');
       container.innerHTML = '';
 
-      const filtered = currentCategory === "全部" 
+      // 分類篩選
+      let filtered = currentCategory === "全部" 
         ? currentSpots 
         : currentSpots.filter(s => s.category === currentCategory);
+
+      // 高分到低分排序 (降序)
+      filtered.sort((a, b) => (b.score || 0) - (a.score || 0));
 
       if (filtered.length === 0) {
         container.innerHTML = '<p style="color: var(--muted);">該分類下暫無景點資料</p>';
