@@ -34,13 +34,13 @@
     h1 { margin: 0; font-size: 1.8rem; color: var(--accent); }
     .updated { font-size: 0.85rem; color: var(--muted); }
     
-    /* 地區按鈕樣式 */
-    .nav-bar {
+    .nav-bar, .sub-nav-bar {
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
+      margin-bottom: 10px;
     }
-    .nav-btn {
+    .nav-btn, .sub-btn {
       background: #334155;
       color: var(--text);
       border: 1px solid #475569;
@@ -50,10 +50,8 @@
       font-size: 0.9rem;
       transition: all 0.2s ease;
     }
-    .nav-btn:hover {
-      background: #475569;
-    }
-    .nav-btn.active {
+    .sub-btn { font-size: 0.82rem; padding: 4px 10px; background: #1e293b; }
+    .nav-btn.active, .sub-btn.active {
       background: #0284c7;
       border-color: #38bdf8;
       color: #fff;
@@ -88,6 +86,14 @@
       border-radius: 6px;
       font-weight: bold;
     }
+    .category-tag {
+      font-size: 0.75rem;
+      background: #334155;
+      color: var(--accent);
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-left: 6px;
+    }
     .info-row { font-size: 0.9rem; color: var(--muted); margin: 4px 0; }
     .reason {
       margin-top: 10px;
@@ -107,78 +113,117 @@
       <div class="updated" id="update-time">載入中...</div>
     </div>
     
-    <!-- 地區切換按鈕（已整合阿拉斯加至美國） -->
+    <!-- 第一層：國家選擇 -->
     <div class="nav-bar">
       <button class="nav-btn active" onclick="switchRegion('tw', this)">🇹🇼 台灣</button>
       <button class="nav-btn" onclick="switchRegion('jp', this)">🇯🇵 日本</button>
       <button class="nav-btn" onclick="switchRegion('us', this)">🇺🇸 美國</button>
     </div>
+
+    <!-- 第二層：子分類動態篩選 -->
+    <div class="sub-nav-bar" id="sub-nav"></div>
   </header>
 
   <div id="loading">正在獲取攝影氣象數據...</div>
   <div class="container" id="spots-container"></div>
 
   <script>
-    // 各地區對應的 JSON 資料檔名 (整合 ak 至 us)
     const regionFiles = {
       'tw': './latest_weather.json',
       'jp': './japan_weather.json',
       'us': './usa_weather.json'
     };
 
-    let currentRegion = 'tw';
+    const categoriesMap = {
+      'tw': ["全部", "本島", "澎湖", "金門", "馬祖", "綠島/蘭嶼/小琉球"],
+      'jp': ["全部", "北海道/東北", "關東/中部", "關西/中四國", "九州/沖繩"],
+      'us': ["全部", "美西", "美中", "美東", "阿拉斯加"]
+    };
+
+    let currentSpots = [];
+    let currentCategory = "全部";
 
     async function loadData(regionKey) {
       const container = document.getElementById('spots-container');
       const loading = document.getElementById('loading');
       
       loading.style.display = 'block';
-      loading.innerText = '正在獲取最新攝影氣象數據...';
       container.innerHTML = '';
 
-      const filePath = regionFiles[regionKey] || regionFiles['tw'];
+      renderSubNav(regionKey);
 
       try {
-        const res = await fetch(`${filePath}?t=${Date.now()}`);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const res = await fetch(`${regionFiles[regionKey]}?t=${Date.now()}`);
+        if (!res.ok) throw new Error(`HTTP status ${res.status}`);
         
         const data = await res.json();
-        
         document.getElementById('update-time').innerText = `最後更新：${data.updated_at || '未提供'}`;
         loading.style.display = 'none';
 
-        if (!data.spots || data.spots.length === 0) {
-          container.innerHTML = '<p style="color: var(--muted);">目前該地區尚無景點分析資料</p>';
-          return;
-        }
+        currentSpots = data.spots || [];
+        filterAndRender();
 
-        data.spots.forEach(spot => {
-          const card = document.createElement('div');
-          card.className = 'card';
-          card.innerHTML = `
-            <div class="card-header">
-              <span class="spot-name">${spot.name}</span>
-              <span class="score-badge">${spot.score}分</span>
-            </div>
-            <div class="info-row">⏱️ 最佳時段：${spot.best_time || 'N/A'}</div>
-            <div class="info-row">📍 雲層結構：${spot.position || '無'}</div>
-            <div class="reason">💡 ${spot.reason}</div>
-          `;
-          container.appendChild(card);
-        });
       } catch (err) {
-        loading.innerText = `⚠️ 尚未找到該地區的氣象資料檔 (${filePath.replace('./', '')})`;
-        console.warn(`無法讀取 ${filePath}:`, err);
+        loading.innerText = `⚠️ 尚未找到該地區氣象資料檔 (${regionFiles[regionKey].replace('./', '')})`;
+        console.warn(err);
       }
     }
 
+    function renderSubNav(regionKey) {
+      const subNav = document.getElementById('sub-nav');
+      subNav.innerHTML = '';
+      currentCategory = "全部";
+
+      const cats = categoriesMap[regionKey] || ["全部"];
+      cats.forEach((cat, index) => {
+        const btn = document.createElement('button');
+        btn.className = `sub-btn ${index === 0 ? 'active' : ''}`;
+        btn.innerText = cat;
+        btn.onclick = () => {
+          document.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentCategory = cat;
+          filterAndRender();
+        };
+        subNav.appendChild(btn);
+      });
+    }
+
+    function filterAndRender() {
+      const container = document.getElementById('spots-container');
+      container.innerHTML = '';
+
+      const filtered = currentCategory === "全部" 
+        ? currentSpots 
+        : currentSpots.filter(s => s.category === currentCategory);
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<p style="color: var(--muted);">該分類下暫無景點資料</p>';
+        return;
+      }
+
+      filtered.forEach(spot => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <div class="card-header">
+            <div>
+              <span class="spot-name">${spot.name}</span>
+              <span class="category-tag">${spot.category || '未分類'}</span>
+            </div>
+            <span class="score-badge">${spot.score}分</span>
+          </div>
+          <div class="info-row">⏱️ 最佳時段：${spot.best_time || 'N/A'}</div>
+          <div class="info-row">📍 雲層結構：${spot.position || '無'}</div>
+          <div class="reason">💡 ${spot.reason}</div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
     function switchRegion(regionKey, btnElement) {
-      currentRegion = regionKey;
-      
-      // 切換按鈕高亮狀態
       document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
       if (btnElement) btnElement.classList.add('active');
-
       loadData(regionKey);
     }
 
