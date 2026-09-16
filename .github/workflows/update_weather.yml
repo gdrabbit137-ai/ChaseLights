@@ -2,37 +2,40 @@ name: Update ChaseLights Data
 
 on:
   schedule:
-    # 每小時第 5 分鐘自動執行一次
-    - cron: '5 * * * *'
-  # 支援在 GitHub Actions 頁面手動點擊觸發
-  workflow_dispatch:
+    - cron: '0 */3 * * *'  # 每 3 小時自動執行一次
+  workflow_dispatch:       # 支援手動觸發
 
 jobs:
   update-data:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write     # 必須開啟寫入權限以 Commit/Push 檔案
+
     steps:
-    - name: 檢出專案程式碼
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: 設定 Python 環境
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.10'
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
 
-    - name: 安裝相依套件
-      run: |
-        python -m pip install --upgrade pip
-        pip install requests
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
 
-    - name: 執行氣象分析腳本 (台灣 & 日本)
-      run: |
-        python analyze_weather.py tw
-        python analyze_weather.py jp
+      - name: Run weather analysis
+        run: |
+          python analyze_weather.py tw
+          python analyze_weather.py jp
+          python analyze_weather.py us
 
-    - name: 自動 Commit 與 Push 變更
-      run: |
-        git config --local user.email "github-actions[bot]@users.noreply.github.com"
-        git config --local user.name "github-actions[bot]"
-        git add latest_weather.json japan_weather.json
-        git diff --quiet && git diff --staged --quiet || (git commit -m "chore: ⏱️ ChaseLights 自動更新台灣與日本氣象預報 [skip ci]" && git push)
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git status
+          git add latest_weather.json japan_weather.json usa_weather.json
+          git diff-index --quiet HEAD || git commit -m "Auto-update weather data [skip ci]"
+          git push
