@@ -2,7 +2,9 @@ name: Update ChaseLights Data
 
 on:
   schedule:
+    # 每小時第 5 分鐘自動執行一次
     - cron: '5 * * * *'
+  # 支援在 GitHub Actions 頁面手動點擊觸發
   workflow_dispatch:
 
 jobs:
@@ -23,13 +25,14 @@ jobs:
         pip install requests
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-    - name: 執行氣象分析腳本
+    - name: 執行氣象分析腳本 (台灣 & 日本)
       run: |
         python analyze_weather.py tw
+        python analyze_weather.py jp
 
     - name: 自動 Commit 與 Push 變更
       run: |
         git config --local user.email "github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
-        git add latest_weather.json
-        git diff --quiet && git diff --staged --quiet || (git commit -m "chore: ⏱️ ChaseLights 自動更新即時氣象預報 [skip ci]" && git push)
+        git add latest_weather.json japan_weather.json
+        git diff --quiet && git diff --staged --quiet || (git commit -m "chore: ⏱️ ChaseLights 自動更新台灣與日本氣象預報 [skip ci]" && git push)
