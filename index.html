@@ -107,11 +107,10 @@
       <div class="updated" id="update-time">載入中...</div>
     </div>
     
-    <!-- 地區切換按鈕 -->
+    <!-- 地區切換按鈕（已整合阿拉斯加至美國） -->
     <div class="nav-bar">
       <button class="nav-btn active" onclick="switchRegion('tw', this)">🇹🇼 台灣</button>
       <button class="nav-btn" onclick="switchRegion('jp', this)">🇯🇵 日本</button>
-      <button class="nav-btn" onclick="switchRegion('ak', this)">🏔️ 阿拉斯加</button>
       <button class="nav-btn" onclick="switchRegion('us', this)">🇺🇸 美國</button>
     </div>
   </header>
@@ -120,11 +119,10 @@
   <div class="container" id="spots-container"></div>
 
   <script>
-    // 各地區對應的 JSON 資料檔名
+    // 各地區對應的 JSON 資料檔名 (整合 ak 至 us)
     const regionFiles = {
       'tw': './latest_weather.json',
       'jp': './japan_weather.json',
-      'ak': './alaska_weather.json',
       'us': './usa_weather.json'
     };
 
