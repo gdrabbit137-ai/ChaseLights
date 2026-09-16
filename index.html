@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ChaseLights — 台灣攝影天氣預報</title>
+  <title>ChaseLights — 攝影天氣預報</title>
   <style>
     :root {
       --bg: #0f172a;
@@ -34,7 +34,7 @@
     h1 { margin: 0; font-size: 1.8rem; color: var(--accent); }
     .updated { font-size: 0.85rem; color: var(--muted); }
     
-    /* 地區與導覽選單樣式 */
+    /* 地區按鈕樣式 */
     .nav-bar {
       display: flex;
       gap: 8px;
@@ -48,13 +48,16 @@
       border-radius: 6px;
       cursor: pointer;
       font-size: 0.9rem;
-      text-decoration: none;
       transition: all 0.2s ease;
     }
-    .nav-btn:hover, .nav-btn.active {
+    .nav-btn:hover {
+      background: #475569;
+    }
+    .nav-btn.active {
       background: #0284c7;
       border-color: #38bdf8;
       color: #fff;
+      font-weight: bold;
     }
 
     .container {
@@ -104,33 +107,50 @@
       <div class="updated" id="update-time">載入中...</div>
     </div>
     
-    <!-- 地區與導覽按鈕列表 -->
+    <!-- 地區切換按鈕 -->
     <div class="nav-bar">
-      <a href="index.html" class="nav-btn active">🇹🇼 台灣</a>
-      <a href="japan.html" class="nav-btn">🇯🇵 日本</a>
-      <a href="alaska.html" class="nav-btn">🏔️ 阿拉斯加</a>
-      <a href="usa.html" class="nav-btn">🇺🇸 美國</a>
+      <button class="nav-btn active" onclick="switchRegion('tw', this)">🇹🇼 台灣</button>
+      <button class="nav-btn" onclick="switchRegion('jp', this)">🇯🇵 日本</button>
+      <button class="nav-btn" onclick="switchRegion('ak', this)">🏔️ 阿拉斯加</button>
+      <button class="nav-btn" onclick="switchRegion('us', this)">🇺🇸 美國</button>
     </div>
   </header>
 
-  <div id="loading">正在獲取最新台灣攝影氣象數據...</div>
+  <div id="loading">正在獲取攝影氣象數據...</div>
   <div class="container" id="spots-container"></div>
 
   <script>
-    async function loadData() {
+    // 各地區對應的 JSON 資料檔名
+    const regionFiles = {
+      'tw': './latest_weather.json',
+      'jp': './japan_weather.json',
+      'ak': './alaska_weather.json',
+      'us': './usa_weather.json'
+    };
+
+    let currentRegion = 'tw';
+
+    async function loadData(regionKey) {
+      const container = document.getElementById('spots-container');
+      const loading = document.getElementById('loading');
+      
+      loading.style.display = 'block';
+      loading.innerText = '正在獲取最新攝影氣象數據...';
+      container.innerHTML = '';
+
+      const filePath = regionFiles[regionKey] || regionFiles['tw'];
+
       try {
-        const res = await fetch('./latest_weather.json?t=' + Date.now());
-        if (!res.ok) throw new Error('HTTP status ' + res.status);
+        const res = await fetch(`${filePath}?t=${Date.now()}`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        
         const data = await res.json();
         
         document.getElementById('update-time').innerText = `最後更新：${data.updated_at || '未提供'}`;
-        document.getElementById('loading').style.display = 'none';
-
-        const container = document.getElementById('spots-container');
-        container.innerHTML = '';
+        loading.style.display = 'none';
 
         if (!data.spots || data.spots.length === 0) {
-          container.innerHTML = '<p>目前沒有景點分析資料</p>';
+          container.innerHTML = '<p style="color: var(--muted);">目前該地區尚無景點分析資料</p>';
           return;
         }
 
@@ -149,12 +169,23 @@
           container.appendChild(card);
         });
       } catch (err) {
-        document.getElementById('loading').innerText = '⚠️ 無法取得資料，請確認 GitHub Actions 是否已順利跑完並更新 latest_weather.json';
-        console.error(err);
+        loading.innerText = `⚠️ 尚未找到該地區的氣象資料檔 (${filePath.replace('./', '')})`;
+        console.warn(`無法讀取 ${filePath}:`, err);
       }
     }
 
-    loadData();
+    function switchRegion(regionKey, btnElement) {
+      currentRegion = regionKey;
+      
+      // 切換按鈕高亮狀態
+      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+      if (btnElement) btnElement.classList.add('active');
+
+      loadData(regionKey);
+    }
+
+    // 預設載入台灣資料
+    loadData('tw');
   </script>
 </body>
 </html>
