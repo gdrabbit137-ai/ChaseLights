@@ -1,13 +1,5 @@
 """
-ChaseLights — 區域定義設定
-
-每個區域包含：
-  name       顯示名稱
-  grid_bounds (lat_min, lat_max, lon_min, lon_max)  網格範圍
-  grid_step   網格間距（度）
-  spots       攝影景點列表 (lat, lon, name)
-  map_center  地圖初始中心
-  map_zoom    地圖初始縮放
+ChaseLights — 區域定義設定 (已整合阿拉斯加至美國)
 """
 
 REGIONS = {
@@ -120,7 +112,7 @@ REGIONS = {
             (33.4500, 129.9600, "唐津城"),
             (32.7500, 129.8700, "長崎グラバー園"),
             (33.5900, 130.3800, "福岡タワー"),
-            (34.6300, 133.8900, "倉敷美観地区"),
+            (34.6300, 133.8900, "倉敷美観地區"),
             (35.4400, 139.6400, "みなとみらい(横浜)"),
             (36.1600, 137.2600, "新穂高ロープウェイ"),
             (37.4500, 138.8600, "弥彦山"),
@@ -135,54 +127,15 @@ REGIONS = {
             (43.1900, 141.0100, "小樽運河"),
         ],
     },
-    "ak": {
-        "name_zh": "阿拉斯加",
-        "name_en": "Alaska",
-        "grid_bounds": (54.0, 71.0, -180.0, -130.0),
-        "grid_step": 1.5,
-        "map_center": (63.0, -150.0),
-        "map_zoom": 4,
-        "spots": [
-            (63.0690, -151.0080, "Denali National Park"),
-            (64.8410, -147.7180, "Fairbanks Aurora"),
-            (65.0520, -146.0570, "Chena Hot Springs"),
-            (61.2180, -149.9000, "Anchorage"),
-            (60.1040, -149.4430, "Seward"),
-            (61.6400, -149.2870, "Hatcher Pass"),
-            (61.6530, -148.5970, "Matanuska Glacier"),
-            (60.7830, -148.9070, "Portage Glacier"),
-            (61.1310, -146.3480, "Valdez"),
-            (58.3020, -134.4200, "Juneau"),
-            (58.4960, -134.5780, "Mendenhall Glacier"),
-            (59.6430, -151.5380, "Homer Spit"),
-            (55.3430, -131.6470, "Ketchikan"),
-            (59.4580, -135.3140, "Skagway"),
-            (61.4520, -142.9690, "Wrangell-St.Elias"),
-            (68.1330, -149.4800, "Brooks Range"),
-            (66.5620, -150.8130, "Arctic Circle"),
-            (64.5010, -165.4060, "Nome"),
-            (58.5600, -155.1010, "Katmai National Park"),
-            (58.4150, -135.7360, "Glacier Bay"),
-            (57.7900, -152.4060, "Kodiak Island"),
-            (61.4070, -149.1220, "Eklutna Lake"),
-            (62.3230, -150.1070, "Talkeetna"),
-            (60.9450, -149.1630, "Alyeska Girdwood"),
-            (61.0660, -149.6500, "Chugach State Park"),
-            (66.0010, -166.6150, "Bering Land Bridge"),
-            (64.7390, -156.8990, "Yukon River"),
-            (68.5090, -161.0180, "Noatak River"),
-            (59.1050, -157.5500, "Lake Clark"),
-            (61.7890, -149.2730, "Independence Mine"),
-        ],
-    },
     "us": {
         "name_zh": "美國",
         "name_en": "United States",
-        "grid_bounds": (24.0, 50.0, -125.0, -66.0),
+        "grid_bounds": (24.0, 71.0, -180.0, -66.0),
         "grid_step": 2.0,
         "map_center": (39.8, -98.0),
         "map_zoom": 4,
         "spots": [
+            # 美國本土景點
             (36.1070, -112.1130, "Grand Canyon"),
             (36.8790, -111.5100, "Horseshoe Bend"),
             (36.8620, -111.3740, "Antelope Canyon"),
@@ -223,6 +176,54 @@ REGIONS = {
             (32.7550, -97.3310, "Fort Worth Stockyards"),
             (44.0680, -114.8520, "Sawtooth Mountains"),
             (34.1610, -118.1670, "Los Angeles Observatory"),
+            # 合併之阿拉斯加景點 (Alaska)
+            (63.0690, -151.0080, "Denali National Park (AK)"),
+            (64.8410, -147.7180, "Fairbanks Aurora (AK)"),
+            (65.0520, -146.0570, "Chena Hot Springs (AK)"),
+            (61.2180, -149.9000, "Anchorage (AK)"),
+            (60.1040, -149.4430, "Seward (AK)"),
+            (61.6400, -149.2870, "Hatcher Pass (AK)"),
+            (61.6530, -148.5970, "Matanuska Glacier (AK)"),
+            (60.7830, -148.9070, "Portage Glacier (AK)"),
+            (61.1310, -146.3480, "Valdez (AK)"),
+            (58.3020, -134.4200, "Juneau (AK)"),
+            (58.4960, -134.5780, "Mendenhall Glacier (AK)"),
+            (59.6430, -151.5380, "Homer Spit (AK)"),
+            (55.3430, -131.6470, "Ketchikan (AK)"),
+            (59.4580, -135.3140, "Skagway (AK)"),
+            (61.4520, -142.9690, "Wrangell-St.Elias (AK)"),
+            (68.1330, -149.4800, "Brooks Range (AK)"),
+            (66.5620, -150.8130, "Arctic Circle (AK)"),
+            (64.5010, -165.4060, "Nome (AK)"),
+            (58.5600, -155.1010, "Katmai National Park (AK)"),
+            (58.4150, -135.7360, "Glacier Bay (AK)"),
+            (57.7900, -152.4060, "Kodiak Island (AK)"),
+            (61.4070, -149.1220, "Eklutna Lake (AK)"),
+            (62.3230, -150.1070, "Talkeetna (AK)"),
+            (60.9450, -149.1630, "Alyeska Girdwood (AK)"),
+            (61.0660, -149.6500, "Chugach State Park (AK)"),
+            (66.0010, -166.6150, "Bering Land Bridge (AK)"),
+            (64.7390, -156.8990, "Yukon River (AK)"),
+            (68.5090, -161.0180, "Noatak River (AK)"),
+            (59.1050, -157.5500, "Lake Clark (AK)"),
+            (61.7890, -149.2730, "Independence Mine (AK)"),
         ],
     },
 }
+
+def get_spots(region="tw"):
+    """
+    提供 analyze_weather.py 調用的介面函式，
+    將 (lat, lon, name) 元組轉換為字典格式回傳。
+    """
+    region_key = region.lower()
+    region_data = REGIONS.get(region_key, REGIONS["tw"])
+    
+    formatted_spots = []
+    for spot in region_data.get("spots", []):
+        formatted_spots.append({
+            "lat": spot[0],
+            "lon": spot[1],
+            "name": spot[2]
+        })
+    return formatted_spots
