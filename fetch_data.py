@@ -87,13 +87,12 @@ def calculate_cloud_base(temp, dew_point):
 
 def evaluate_hour_condition(c_low, c_mid, c_high, vis_km, wind_spd, prec_prob):
     """計算單時段專業評分與出景狀態"""
-    total_cloud = max(c_low, c_mid, c_high)
     score = 50
-    status = "❌ 不佳"
+    status = "☁️ 條件普通"
 
     if prec_prob > 50:
         score = 15
-        status = "🌧️ 降雨"
+        status = "🌧️ 降雨不佳"
     elif c_low < 30 and vis_km >= 15:
         score = 85
         status = "☀️ 晴朗通透"
@@ -102,11 +101,11 @@ def evaluate_hour_condition(c_low, c_mid, c_high, vis_km, wind_spd, prec_prob):
         status = "🌅 高雲彩霞"
     elif c_low > 70:
         score = 25
-        status = "☁️ 濃雲"
+        status = "☁️ 濃雲籠罩"
 
     if wind_spd > 15:
         score = max(10, score - 15)
-        status += " (強風)"
+        status += " (強風警告)"
 
     return score, status
 
@@ -136,6 +135,8 @@ def fetch_weather_for_spot(spot):
     hourly_forecast = []
     max_score = 0
     best_time_str = "N/A"
+    best_status = "條件普通"
+    best_cloud_base = 500
 
     for i in range(len(times)):
         t_raw = times[i]
@@ -153,12 +154,13 @@ def fetch_weather_for_spot(spot):
         cloud_base = calculate_cloud_base(tp_val, dw_val)
         h_score, status = evaluate_hour_condition(c_low, c_mid, c_high, v_val, w_val, p_val)
 
-        # 標記是否為歷史資料
         is_past = t_raw < now_iso
 
         if not is_past and h_score > max_score:
             max_score = h_score
             best_time_str = t_formatted.split(" ")[1]
+            best_status = status
+            best_cloud_base = cloud_base
 
         hourly_forecast.append({
             "time": t_formatted,
@@ -175,16 +177,13 @@ def fetch_weather_for_spot(spot):
             "visibility": round(v_val, 1)
         })
 
-    avg_c_low = c_low_arr[0] if c_low_arr else 0
-    vis_km = (vis_arr[0] / 1000.0) if vis_arr else 10
-
     return {
         "name": spot.get("name"),
         "category": spot.get("category", "本島"),
         "score": max_score if max_score > 0 else 30,
         "best_time": best_time_str,
-        "position": f"☀️ 晴朗無雲 雲底 {calculate_cloud_base(temp_arr[0], dew_arr[0])}m",
-        "reason": "氣象條件評估完成",
+        "position": f"{best_status} | 雲底高度 {best_cloud_base}m",
+        "reason": f"預測最佳拍攝時段於 {best_time_str}，狀態：{best_status}",
         "hourly_forecast": hourly_forecast
     }
 
