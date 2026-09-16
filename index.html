@@ -193,10 +193,12 @@
       const container = document.getElementById('spots-container');
       container.innerHTML = '';
 
-      // 分類篩選
-      let filtered = currentCategory === "全部" 
-        ? currentSpots 
-        : currentSpots.filter(s => s.category === currentCategory);
+      // 分類篩選（加上相容備援：若沒有 category 欄位，預設視為 "本島"）
+      let filtered = currentSpots.filter(s => {
+        if (currentCategory === "全部") return true;
+        const spotCat = s.category || "本島"; // 備援預設為本島
+        return spotCat === currentCategory;
+      });
 
       // 高分到低分排序 (降序)
       filtered.sort((a, b) => (b.score || 0) - (a.score || 0));
@@ -213,7 +215,7 @@
           <div class="card-header">
             <div>
               <span class="spot-name">${spot.name}</span>
-              <span class="category-tag">${spot.category || '未分類'}</span>
+              <span class="category-tag">${spot.category || '本島'}</span>
             </div>
             <span class="score-badge">${spot.score}分</span>
           </div>
