@@ -49,7 +49,7 @@ def main():
     region = sys.argv[1].lower() if len(sys.argv) > 1 else "tw"
 
     filename_map = {
-        "tw": "latest_weather.json",
+        "tw": "tw_weather.json",
         "jp": "japan_weather.json",
         "us": "usa_weather.json"
     }
