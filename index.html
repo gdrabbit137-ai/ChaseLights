@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChaseLights — 攝影天氣預報</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --accent: #38bdf8;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+    }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 20px;
+    }
+    header {
+      max-width: 1000px;
+      margin: 0 auto 20px;
+      border-bottom: 1px solid #334155;
+      padding-bottom: 16px;
+    }
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    h1 { margin: 0; font-size: 1.8rem; color: var(--accent); }
+    .updated { font-size: 0.85rem; color: var(--muted); text-align: right; }
+    
+    .nav-bar, .sub-nav-bar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .nav-btn, .sub-btn {
+      background: #334155;
+      color: var(--text);
+      border: 1px solid #475569;
+      padding: 6px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+    }
+    .sub-btn { font-size: 0.82rem; padding: 4px 10px; background: #1e293b; }
+    .nav-btn.active, .sub-btn.active {
+      background: #0284c7;
+      border-color: #38bdf8;
+      color: #fff;
+      font-weight: bold;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+    }
+    .card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.3);
+      border: 1px solid #334155;
+      cursor: pointer;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .card:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent);
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .spot-name { font-size: 1.2rem; font-weight: bold; }
+    .score-badge {
+      background: #0284c7;
+      color: #fff;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+    .category-tag {
+      font-size: 0.75rem;
+      background: #334155;
+      color: var(--accent);
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-left: 6px;
+    }
+    .info-row { font-size: 0.9rem; color: var(--muted); margin: 4px 0; }
+    .reason {
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px dashed #334155;
+      font-size: 0.95rem;
+      color: #e2e8f0;
+    }
+    #loading { text-align: center; font-size: 1.2rem; color: var(--muted); margin-top: 40px; }
+
+    /* 黑底終端機風格 Modal 彈窗 */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(4px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 15px;
+    }
+    .modal {
+      background: #0c0c0c;
+      border: 1px solid #333;
+      border-radius: 8px;
+      max-width: 950px;
+      width: 100%;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      font-family: "Courier New", Courier, monospace;
+      color: #e0e0e0;
+      box-shadow: 0 0 20px rgba(0,255,255,0.1);
+    }
+    .modal-header {
+      padding: 12px 16px;
+      background: #181818;
+      border-bottom: 1px solid #333;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .modal-title { font-size: 1.1rem; font-weight: bold; color: #38bdf8; }
+    .close-btn {
+      background: none;
+      border: none;
+      color: #888;
+      font-size: 1.4rem;
+      cursor: pointer;
+    }
+    .close-btn:hover { color: #fff; }
+    .modal-body {
+      padding: 12px;
+      overflow-y: auto;
+    }
+    .terminal-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      white-space: nowrap;
+    }
+    .terminal-table th, .terminal-table td {
+      padding: 6px 8px;
+      text-align: left;
+      border-bottom: 1px solid #222;
+    }
+    .terminal-table th { background: #141414; color: #ff79c6; position: sticky; top: 0; }
+    .terminal-table tr.past-row { color: #666; background: #080808; }
+    .terminal-table tr:hover { background: #1a1a1a; }
+    .tag-past { font-size: 0.7rem; color: #888; border: 1px solid #444; padding: 1px 4px; border-radius: 3px; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-top">
+      <h1>📸 ChaseLights</h1>
+      <div class="updated" id="update-time">載入中...</div>
+    </div>
+    
+    <div class="nav-bar">
+      <button class="nav-btn active" onclick="switchRegion('tw', this)">🇹🇼 台灣</button>
+      <button class="nav-btn" onclick="switchRegion('jp', this)">🇯🇵 日本</button>
+      <button class="nav-btn" onclick="switchRegion('us', this)">🇺🇸 美國</button>
+    </div>
+
+    <div class="sub-nav-bar" id="sub-nav"></div>
+  </header>
+
+  <div id="loading">正在獲取攝影氣象數據...</div>
+  <div class="container" id="spots-container"></div>
+
+  <!-- 黑底終端機風格 Modal 彈窗 -->
+  <div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-title" id="modal-spot-name">📍 景點氣象分析</div>
+        <button class="close-btn" onclick="closeModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="color: #888; font-size: 0.8rem; margin-bottom: 10px;">
+          ⏱️ 涵蓋範圍：過去 24 小時 [歷史實測] + 未來 48 小時 [氣象預報]
+        </div>
+        <div style="overflow-x: auto;">
+          <table class="terminal-table">
+            <thead>
+              <tr>
+                <th>時間</th>
+                <th>評分</th>
+                <th>狀態</th>
+                <th>雲底高度</th>
+                <th>氣溫</th>
+                <th>濕度</th>
+                <th>低雲</th>
+                <th>中雲</th>
+                <th>高雲</th>
+                <th>風速</th>
+                <th>能見度</th>
+              </tr>
+            </thead>
+            <tbody id="timeline-body">
+              <!-- 動態填入 -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const regionFiles = {
+      'tw': './tw_weather.json',
+      'jp': './japan_weather.json',
+      'us': './usa_weather.json'
+    };
+
+    const categoriesMap = {
+      'tw': ["全部", "本島", "澎湖", "金門", "馬祖", "綠島/蘭嶼/小琉球"],
+      'jp': ["全部", "北海道/東北", "關東/中部", "關西/中四國", "九州/沖繩"],
+      'us': ["全部", "美西", "美中", "美東", "阿拉斯加"]
+    };
+
+    let currentSpots = [];
+    let currentCategory = "全部";
+
+    // 將 ISO 8601 UTC 時間轉換為使用者裝置的本地時間與時區名稱
+    function formatToLocalTime(utcTimeStr) {
+      if (!utcTimeStr) return '未提供';
+      
+      const date = new Date(utcTimeStr);
+      if (isNaN(date.getTime())) {
+        return utcTimeStr; // 舊格式向下相容退回原字串
+      }
+
+      // 格式化年月日時分秒
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      const hours = String(date.getHours()).padStart(2, '0');
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+      const seconds = String(date.getSeconds()).padStart(2, '0');
+
+      // 取得裝置當前時區縮寫或偏移量 (例如 GMT+8 或 CST)
+      const tzName = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const offsetMinutes = -date.getTimezoneOffset();
+      const offsetHours = offsetMinutes / 60;
+      const tzOffsetStr = `UTC${offsetHours >= 0 ? '+' : ''}${offsetHours}`;
+
+      return `${year}-${month}-${day} ${hours}:${minutes}:${seconds} (${tzOffsetStr})`;
+    }
+
+    async function loadData(regionKey) {
+      const container = document.getElementById('spots-container');
+      const loading = document.getElementById('loading');
+      
+      loading.style.display = 'block';
+      container.innerHTML = '';
+
+      renderSubNav(regionKey);
+
+      try {
+        const res = await fetch(`${regionFiles[regionKey]}?t=${Date.now()}`);
+        if (!res.ok) throw new Error(`HTTP status ${res.status}`);
+        
+        const data = await res.json();
+        
+        // 自動轉換為使用者手機/電腦所在地時間
+        const localTimeFormatted = formatToLocalTime(data.updated_at);
+        document.getElementById('update-time').innerText = `最後更新：${localTimeFormatted}`;
+        
+        loading.style.display = 'none';
+
+        currentSpots = data.spots || [];
+        filterAndRender();
+
+      } catch (err) {
+        loading.innerText = `⚠️ 尚未找到該地區氣象資料檔 (${regionFiles[regionKey].replace('./', '')})`;
+        console.warn(err);
+      }
+    }
+
+    function renderSubNav(regionKey) {
+      const subNav = document.getElementById('sub-nav');
+      subNav.innerHTML = '';
+      currentCategory = "全部";
+
+      const cats = categoriesMap[regionKey] || ["全部"];
+      cats.forEach((cat, index) => {
+        const btn = document.createElement('button');
+        btn.className = `sub-btn ${index === 0 ? 'active' : ''}`;
+        btn.innerText = cat;
+        btn.onclick = () => {
+          document.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentCategory = cat;
+          filterAndRender();
+        };
+        subNav.appendChild(btn);
+      });
+    }
+
+    function filterAndRender() {
+      const container = document.getElementById('spots-container');
+      container.innerHTML = '';
+
+      let filtered = currentCategory === "全部" 
+        ? currentSpots 
+        : currentSpots.filter(s => (s.category || "本島") === currentCategory);
+
+      // 依分數高到低降序排序
+      filtered.sort((a, b) => (b.score || 0) - (a.score || 0));
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<p style="color: var(--muted);">該分類下暫無景點資料</p>';
+        return;
+      }
+
+      filtered.forEach(spot => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.onclick = () => openModal(spot);
+        card.innerHTML = `
+          <div class="card-header">
+            <div>
+              <span class="spot-name">${spot.name}</span>
+              <span class="category-tag">${spot.category || '未分類'}</span>
+            </div>
+            <span class="score-badge">${spot.score}分</span>
+          </div>
+          <div class="info-row">⏱️ 最佳時段：${spot.best_time || 'N/A'}</div>
+          <div class="info-row">📍 雲層結構：${spot.position || '無'}</div>
+          <div class="reason">💡 ${spot.reason}</div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function openModal(spot) {
+      document.getElementById('modal-spot-name').innerText = `📍 ${spot.name} (歷史 24H + 預報 48H 明細)`;
+      const tbody = document.getElementById('timeline-body');
+      tbody.innerHTML = '';
+
+      const forecast = spot.hourly_forecast || [];
+      if (forecast.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="11" style="color:#666; text-align:center;">暫無詳細時序氣象資料</td></tr>';
+      } else {
+        forecast.forEach(item => {
+          const tr = document.createElement('tr');
+          if (item.is_past) tr.className = 'past-row';
+
+          let scoreColor = '#50fa7b';
+          if (item.score <= 30) scoreColor = '#ff5555';
+          else if (item.score < 75) scoreColor = '#f1fa8c';
+
+          const timeTag = item.is_past ? `<span class="tag-past">歷史</span> ${item.time.split(" ")[1]}` : item.time;
+
+          tr.innerHTML = `
+            <td>${timeTag}</td>
+            <td style="color:${scoreColor}; font-weight:bold;">${item.score}分</td>
+            <td>${item.status}</td>
+            <td>雲底${item.cloud_base}m</td>
+            <td>${item.temp}°C</td>
+            <td>濕${item.rh}%</td>
+            <td>低${item.c_low}%</td>
+            <td>中${item.c_mid}%</td>
+            <td>高${item.c_high}%</td>
+            <td>風${item.wind}m/s</td>
+            <td>能見${item.visibility}km</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+
+      document.getElementById('modal-overlay').style.display = 'flex';
+    }
+
+    function closeModal(event) {
+      document.getElementById('modal-overlay').style.display = 'none';
+    }
+
+    function switchRegion(regionKey, btnElement) {
+      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+      if (btnElement) btnElement.classList.add('active');
+      loadData(regionKey);
+    }
+
+    // 預設載入台灣資料
+    loadData('tw');
+  </script>
+</body>
+</html>
