@@ -1,5 +1,5 @@
 """
-PhotoWeather v0.2 - 擴展天氣資料模組
+ChaseLights v0.2 - 擴展天氣資料模組
 增加月相、潮汐、AQI、更詳細的天氣預測
 """
 import json

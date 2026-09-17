@@ -1,6 +1,6 @@
 import json, os
 
-cache_path = os.path.join(r"D:\Dick\Project\PhotoWeather\weather_web\.cache", "forecast_data.json")
+cache_path = os.path.join(r"D:\Dick\Project\ChaseLights\weather_web\.cache", "forecast_data.json")
 with open(cache_path, "r", encoding="utf-8") as f:
     data = json.load(f)
 

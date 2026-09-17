@@ -1,5 +1,5 @@
 """
-PhotoWeather — 公開分享啟動器
+ChaseLights — 公開分享啟動器
 啟動 Flask 伺服器 + ngrok 隧道，讓其他人可以瀏覽
 """
 import os
@@ -26,7 +26,7 @@ def start_flask():
 
 def main():
     print("╔══════════════════════════════════════════╗")
-    print("║ 📷 PhotoWeather — 公開分享啟動器         ║")
+    print("║ 📷 ChaseLights — 公開分享啟動器         ║")
     print("║                                          ║")
     print("║  正在啟動 Flask 伺服器...                ║")
     print("╚══════════════════════════════════════════╝")

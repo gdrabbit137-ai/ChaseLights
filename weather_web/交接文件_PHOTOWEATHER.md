@@ -1,15 +1,15 @@
-# 📷 PhotoWeather — 專案交接文件
+# 📷 ChaseLights — 專案交接文件
 
 > 撰寫日期：2026/9/14
 > 當前版本：v0.1（git tag: v0.1）
 > 開發者交接給 Claude-3-Haiku
-> 專案路徑：`D:\Dick\Project\PhotoWeather`
+> 專案路徑：`D:\Dick\Project\ChaseLights`
 
 ---
 
 ## 1. 專案概覽
 
-PhotoWeather 是一個攝影天氣助手網站，為攝影愛好者提供：
+ChaseLights 是一個攝影天氣助手網站，為攝影愛好者提供：
 - **今日/明日/後日最佳景點排名**（0-100 評分）
 - **天氣感知的拍攝建議**（依實際天氣動態調整 tip）
 - **季節限定過濾**（非當季題材自動標示）
@@ -31,14 +31,14 @@ Flask (Python) + Leaflet.js + Open-Meteo API
 ## 2. 專案目錄結構
 
 ```
-D:\Dick\Project\PhotoWeather\
+D:\Dick\Project\ChaseLights\
 ├── weather_web\                   ← Web 主目錄
 │   ├── app.py                     ← Flask 主程式（905行）
 │   ├── regions.py                 ← 4 國區域/景點定義（227行）
 │   ├── build_cache.py             ← 快取產生器（146行）
 │   ├── scheduler.py               ← 自動排程（155行）
 │   ├── fetch_data.py              ← Open-Meteo API 客戶端
-│   ├── photoweather_UX_flow.md    ← UX 流程文件（463行）
+│   ├── chaselights_UX_flow.md    ← UX 流程文件（463行）
 │   ├── DEPLOY.md                  ← 部署指南
 │   ├── static/
 │   │   └── style.css              ← 共用樣式表
@@ -279,7 +279,7 @@ netstat -ano | grep ":5000" | grep LISTENING | awk '{print $5}' | sort -u
 ### 9.3 git 版本回退
 
 ```bash
-cd D:\Dick\Project\PhotoWeather
+cd D:\Dick\Project\ChaseLights
 git checkout v0.1     # 退回當前穩定版
 git tag -l            # 列出所有 tag
 ```
@@ -302,7 +302,7 @@ Open-Meteo 的 7km 網格在山區誤差可達 900m，`app.py` 中有 `TRUE_ELEV
 
 ```bash
 # 啟動伺服器
-cd D:\Dick\Project\PhotoWeather\weather_web
+cd D:\Dick\Project\ChaseLights\weather_web
 python app.py                     # → http://localhost:5000
 
 # 更新天氣快取（先 kill 所有舊 Flask）
@@ -313,7 +313,7 @@ python build_cache.py tw jp us ak  # 全部 4 區
 python scheduler.py               # 背景，每日 00/06/12/18 更新
 
 # 知識庫位置
-cd D:\Dick\Project\PhotoWeather\Knowledge Base
+cd D:\Dick\Project\ChaseLights\Knowledge Base
 
 # git 版本管理
 git tag -a v0.2 -m "version 0.2"
@@ -331,10 +331,10 @@ git checkout v0.1                 # 退回 v0.1
 5. **景點分類三層**：multi_scene 精準 → 關鍵詞自動 → general 通用
 6. **國家區域分類列表.md** 是子區域分組的權威來源，改分類前先更新它
 7. **v0.1 是當前穩定版**，重大改動前先 `git tag` 再做
-8. **專案路徑**：`D:\Dick\Project\PhotoWeather\`
+8. **專案路徑**：`D:\Dick\Project\ChaseLights\`
 
 ---
 
-> 交接完成。PhotoWeather v0.1 已在 Production 運行。
+> 交接完成。ChaseLights v0.1 已在 Production 運行。
 > 天氣每 6 小時更新一次，支援 4 國 174 景點，中英文雙語，天氣感知 Tip 系統。
 > 緊急問題：kill port 5000 → rebuild cache → restart Flask。

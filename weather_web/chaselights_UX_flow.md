@@ -1,11 +1,11 @@
-# 📷 PhotoWeather 專案開發文件 — UX 流程與天氣應用
+# 📷 ChaseLights 專案開發文件 — UX 流程與天氣應用
 
 > 開發者視角：設計目的、使用者流程、核心 API、天氣參數
 > 更新日期：2026/9/13
 
 ---
 
-## 1. 專案定位：為什麼設計 PhotoWeather？
+## 1. 專案定位：為什麼設計 ChaseLights？
 
 ### 1.1 解決的問題
 
@@ -18,7 +18,7 @@
 2️⃣ 上景點 IG 看照片 → 昨天拍的，不代表今天
 3️⃣ 問社團前輩 → 很多人答非所問
 
-**PhotoWeather 的解法：**
+**ChaseLights 的解法：**
 直接用 `Open-Meteo API` 抓未來 3 天的氣象預報，套進「攝影評分公式」：
 - 能見度、雲量、降雨、黃金時段 **→ 量化成 0-100 分**
 - 依景點屬性（山區/海岸/瀑布/森林）**用不同標準**
@@ -326,7 +326,7 @@ Leaflet 地圖
 
 ## 7. 知識庫體系（Knowledge Base）
 
-地點：`D:\Dick\Project\PhotoWeather\Knowledge Base\`
+地點：`D:\Dick\Project\ChaseLights\Knowledge Base\`
 
 ```
 共用型_攝影知識庫.md         7.5 KB   攝影常識・技巧・天氣條件

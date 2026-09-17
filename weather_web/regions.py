@@ -1,5 +1,5 @@
 """
-PhotoWeather — 區域定義設定
+ChaseLights — 區域定義設定
 
 每個區域包含：
   name       顯示名稱

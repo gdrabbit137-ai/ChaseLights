@@ -1,4 +1,4 @@
-# 🚀 PhotoWeather 上線部署指南
+# 🚀 ChaseLights 上線部署指南
 
 > 推薦方案：**DigitalOcean $6/月 + Cloudflare CDN**
 
@@ -52,8 +52,8 @@ ssh root@你的VPS_IP
 apt update && apt install -y python3 python3-pip git
 
 # 複製專案（從你的 GitHub）
-git clone https://github.com/你的帳號/PhotoWeather.git
-cd PhotoWeather
+git clone https://github.com/你的帳號/ChaseLights.git
+cd ChaseLights
 
 # 安裝依賴
 pip3 install flask requests waitress
@@ -91,7 +91,7 @@ cd weather_web/cloudflare
 wrangler deploy
 
 # 6. 部署前端 Pages
-wrangler pages deploy ../templates/ --name=photoweather
+wrangler pages deploy ../templates/ --name=chaselights
 ```
 
 ### Step 5️⃣ 啟動排程（在本機或 VPS）

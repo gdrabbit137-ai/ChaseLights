@@ -1,5 +1,5 @@
 """
-PhotoWeather — 快取產生器（多區域版）
+ChaseLights — 快取產生器（多區域版）
 支援依區域 fetch 天氣資料，各區獨立快取
 """
 

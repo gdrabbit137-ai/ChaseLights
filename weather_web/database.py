@@ -1,5 +1,5 @@
 """
-PhotoWeather v0.2 - 資料庫模組
+ChaseLights v0.2 - 資料庫模組
 提供使用者系統、收藏、評論等功能
 """
 import sqlite3
@@ -7,7 +7,7 @@ import json
 from datetime import datetime
 import os
 
-DB_PATH = os.path.join(os.path.dirname(__file__), "photoweather.db")
+DB_PATH = os.path.join(os.path.dirname(__file__), "chaselights.db")
 
 def init_database():
     """初始化資料庫表格"""

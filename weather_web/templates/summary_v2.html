@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PhotoWeather v0.2 — 智慧攝影天氣助手</title>
+<title>ChaseLights v0.2 — 智慧攝影天氣助手</title>
 <script>window.API_BASE = '{{ API_BASE|default("") }}';</script>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -118,6 +118,16 @@
   background-color: rgba(0, 0, 0, 0.7);
 }
 
+/* 修復：spot-list 顯示樣式 */
+.spot-list {
+  display: none;
+  min-height: 200px;
+}
+
+.spot-list.active {
+  display: block;
+}
+
 .modal-content {
   background-color: #1a2a3a;
   margin: 5% auto;
@@ -227,6 +237,49 @@
 .lang-btn:hover { background: #1a2a3a; color: #fff; }
 .lang-btn.active { background: #2a3a5a; color: #ffd54f; border-color: #ffd54f; }
 
+/* 載入和錯誤狀態樣式 */
+.loading, .error, .empty {
+  text-align: center; padding: 40px 20px; color: #8899aa;
+}
+
+.loading .spinner {
+  width: 32px; height: 32px; margin: 0 auto 16px;
+  border: 3px solid #1a2a3a; border-top: 3px solid #ffd54f;
+  border-radius: 50%; animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.error {
+  background: rgba(213, 0, 0, 0.1); border: 1px solid rgba(213, 0, 0, 0.2);
+  border-radius: 8px; color: #ff6b6b;
+}
+
+.error-icon {
+  font-size: 48px; margin-bottom: 12px;
+}
+
+.error-title {
+  font-size: 18px; font-weight: 600; margin-bottom: 8px;
+}
+
+.error-detail {
+  font-size: 14px; color: #ff9999; margin-bottom: 16px;
+}
+
+.retry-btn {
+  padding: 8px 16px; background: #ff6b6b; color: #fff;
+  border: none; border-radius: 4px; cursor: pointer;
+  font-size: 14px; transition: all 0.2s;
+}
+
+.retry-btn:hover {
+  background: #ff5252; transform: translateY(-1px);
+}
+
 /* 新卡片佈局保持原樣 */
 .spot-card { padding: 14px 16px; }
 .spot-card-header { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
@@ -258,13 +311,20 @@
   padding: 8px 10px; background: rgba(255,213,79,0.06);
   border-radius: 6px; border: 1px solid rgba(255,213,79,0.1);
 }
+
+/* 修復 tab 內容顯示問題 */
+.tab-content {
+  display: block !important;
+  overflow: visible !important;
+  min-height: auto !important;
+}
 </style>
 </head>
 <body>
 
 <div class="header">
   <div class="header-left">
-      <h1>📷 PhotoWeather v0.2</h1>
+      <h1>📷 ChaseLights v0.2</h1>
       <span class="subtitle" id="header-subtitle">🇹🇼 台灣 - 智慧攝影助手</span>
     </div>
   <div class="header-right">
@@ -908,6 +968,11 @@ function renderSpotCard(spot, day) {
   const key = `${currentRegion}:${spot.name}`;
   const isFavorited = userFavorites.has(key);
   
+  // 根據 day 參數選擇正確的資料
+  const dayData = spot[day] || spot.today || {};
+  const tipKey = `tip_${day}`;
+  const tip = spot[tipKey] || spot.tip_today || '無特殊提示';
+  
   return `
   <div class="spot-card spot-card-enhanced">
     ${currentUser ? `
@@ -933,34 +998,34 @@ function renderSpotCard(spot, day) {
     </div>
     
     <div class="spot-score-row">
-      <div class="spot-score">${spot.score}</div>
-      <div class="spot-best-genre">${spot.best_genre || '📷 一般攝影'}</div>
+      <div class="spot-score">${dayData.score || 'N/A'}</div>
+      <div class="spot-best-genre">${dayData.best_genre || '📷 一般攝影'}</div>
     </div>
     
     <div class="spot-meta-grid">
       <div class="meta-cell">
         <span class="meta-label">${t('scoreLabels').visibility}</span>
-        <div class="meta-value">${spot.best_visibility || 'N/A'}km</div>
+        <div class="meta-value">${dayData.best_visibility ? Math.round(dayData.best_visibility/1000) : 'N/A'}km</div>
       </div>
       <div class="meta-cell">
         <span class="meta-label">溫度</span>
-        <div class="meta-value">${spot.best_temp || 'N/A'}°</div>
+        <div class="meta-value">${dayData.best_temp ? Math.round(dayData.best_temp*10)/10 : 'N/A'}°</div>
       </div>
       <div class="meta-cell">
         <span class="meta-label">降雨機率</span>
-        <div class="meta-value">${spot.best_pop || 'N/A'}%</div>
+        <div class="meta-value">${dayData.best_pop !== undefined ? dayData.best_pop : 'N/A'}%</div>
       </div>
     </div>
     
     <div class="spot-time">
-      ⏰ 最佳時間：${spot.best_time ? new Date(spot.best_time + 'Z').toLocaleTimeString('zh-TW', {
+      ⏰ 最佳時間：${dayData.best_time ? new Date(dayData.best_time + 'Z').toLocaleTimeString('zh-TW', {
         hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Taipei'
       }) : 'N/A'}
-      ${spot.sunrise && spot.sunset ? ` | 🌅 ${spot.sunrise.substring(11,16)} 🌇 ${spot.sunset.substring(11,16)}` : ''}
+      ${dayData.sunrise && dayData.sunset ? ` | 🌅 ${dayData.sunrise.substring(11,16)} 🌇 ${dayData.sunset.substring(11,16)}` : ''}
     </div>
     
     <div class="spot-tip">
-      💡 ${spot.tip || '無特殊提示'}
+      💡 ${tip}
     </div>
   </div>`;
 }
@@ -1007,6 +1072,11 @@ async function switchRegion(region) {
   
   document.getElementById('header-subtitle').textContent = REGION_LABELS[region][currentLang] + ' - 智慧攝影助手';
   
+  // 顯示載入狀態
+  document.querySelectorAll('.spot-list').forEach(list => {
+    list.innerHTML = '<div class="loading"><div class="spinner"></div>載入中...</div>';
+  });
+  
   // 更新子區域按鈕
   const subContainer = document.getElementById('sub-tab-container');
   const subRegions = SUB_REGIONS[region] || [];
@@ -1024,17 +1094,31 @@ async function switchRegion(region) {
   currentSubRegion = null;
   
   try {
-    const response = await fetch(`${window.API_BASE}/api/best-spots?region=${region}`);
-    bestSpotsData = await response.json();
+    // 載入資料
+    const response = await fetch(`/api/best-spots?region=${region}`);
+    
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
+    
+    const data = await response.json();
+    bestSpotsData = data;
     renderAll();
     
-    const statusResponse = await fetch(`${window.API_BASE}/api/update-status`);
+    const statusResponse = await fetch(`/api/update-status`);
     const statusData = await statusResponse.json();
     updateStatusDisplay(statusData);
   } catch (error) {
     console.error('Error loading data:', error);
     document.querySelectorAll('.spot-list').forEach(list => {
-      list.innerHTML = '<div class="empty">載入失敗，請稍後再試。</div>';
+      list.innerHTML = `
+        <div class="error">
+          <div class="error-icon">⚠️</div>
+          <div class="error-title">載入失敗</div>
+          <div class="error-detail">${error.message}</div>
+          <button class="retry-btn" onclick="switchRegion('${region}')">重試</button>
+        </div>
+      `;
     });
   }
 }
@@ -1128,9 +1212,13 @@ document.addEventListener('DOMContentLoaded', function() {
       switchTab(tabName);
     });
   });
-  
+
   checkLoginStatus();
   switchRegion(currentRegion);
+  
+  // 修復：確保頁面載入時顯示今日分頁
+  switchTab('today');
+  
   updateClock();
   setInterval(updateClock, 10000);
 });

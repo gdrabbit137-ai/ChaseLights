@@ -1,5 +1,5 @@
 """
-PhotoWeather v0.2 - 智慧推薦系統
+ChaseLights v0.2 - 智慧推薦系統
 基於使用者偏好、歷史行為和天氣條件提供個人化推薦
 """
 import json

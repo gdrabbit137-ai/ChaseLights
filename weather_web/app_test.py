@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-PhotoWeather v0.2 測試啟動版本
+ChaseLights v0.2 測試啟動版本
 """
 import json, os, sys
 from datetime import datetime, timedelta, timezone
@@ -149,7 +149,7 @@ def api_update_status():
 if __name__ == "__main__":
     print("""
 ╔══════════════════════════════════════════╗
-║  📷 PhotoWeather v0.2 (測試版)           ║
+║  📷 ChaseLights v0.2 (測試版)           ║
 ║                                          ║
 ║  🌐 http://localhost:5000                ║
 ║     → 首頁 (地區選單)                    ║

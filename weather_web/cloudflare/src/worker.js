@@ -1,5 +1,5 @@
 /**
- * PhotoWeather — Cloudflare Worker API Proxy
+ * ChaseLights — Cloudflare Worker API Proxy
  * 
  * 架構：
  *   前端 (Cloudflare Pages) → Worker API Proxy → Python 後端 (VPS)
@@ -64,7 +64,7 @@ export default {
         method: request.method,
         headers: {
           'Content-Type': 'application/json',
-          'User-Agent': 'PhotoWeather-CF-Worker',
+          'User-Agent': 'ChaseLights-CF-Worker',
         },
       });
 

@@ -1,5 +1,5 @@
 """
-PhotoWeather — 自動排程更新器
+ChaseLights — 自動排程更新器
 每小時自動執行 build_cache.py 更新天氣資料
 支援 Windows (Task Scheduler) 和 Linux (systemd/cron) 兩種模式
 """
@@ -51,7 +51,7 @@ def run_build_cache():
 
 def create_windows_task():
     """建立 Windows 工作排程器任務"""
-    task_name = "PhotoWeather-DataRefresh"
+    task_name = "ChaseLights-DataRefresh"
     script_path = sys.executable
     args = f'"{BUILD_CACHE}"'
     working_dir = str(PROJECT_DIR)
@@ -73,7 +73,7 @@ def create_windows_task():
 def create_linux_service():
     """建立 Linux systemd service + timer"""
     service_content = """[Unit]
-Description=PhotoWeather Data Refresh Service
+Description=ChaseLights Data Refresh Service
 After=network.target
 
 [Service]
@@ -86,7 +86,7 @@ User={user}
 WantedBy=multi-user.target
 """
     timer_content = """[Unit]
-Description=Run PhotoWeather refresh every hour
+Description=Run ChaseLights refresh every hour
 
 [Timer]
 OnCalendar=hourly
@@ -97,7 +97,7 @@ WantedBy=timers.target
 """
     print("Linux systemd 設定：")
     print()
-    print(f"/etc/systemd/system/photoweather-refresh.service:")
+    print(f"/etc/systemd/system/chaselights-refresh.service:")
     print(service_content.format(
         python=sys.executable,
         script=BUILD_CACHE,
@@ -105,17 +105,17 @@ WantedBy=timers.target
         user=os.getenv("USER", "nobody"),
     ))
     print()
-    print("/etc/systemd/system/photoweather-refresh.timer:")
+    print("/etc/systemd/system/chaselights-refresh.timer:")
     print(timer_content)
     print()
     print("啟用：")
     print("  sudo systemctl daemon-reload")
-    print("  sudo systemctl enable --now photoweather-refresh.timer")
+    print("  sudo systemctl enable --now chaselights-refresh.timer")
 
 
 def loop_mode():
     """簡易迴圈模式：適合長時間執行的背景程序，每日00/06/12/18更新"""
-    logging.info(f"🚀 PhotoWeather 自動排程啟動")
+    logging.info(f"🚀 ChaseLights 自動排程啟動")
     logging.info(f"   每日 00:00 / 06:00 / 12:00 / 18:00 更新")
     logging.info(f"   快取目錄: {PROJECT_DIR / 'weather_web' / '.cache'}")
     

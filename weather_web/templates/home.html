@@ -3,7 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PhotoWeather — 攝影天氣助手</title>
+<title>ChaseLights — 攝影天氣助手</title>
+<!-- Leaflet.js 地圖 CDN -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -35,6 +38,66 @@ body {
 .region-grid {
   display: grid; gap: 16px; max-width: 860px; margin: 0 auto; padding: 0 20px 48px;
 }
+
+/* 地圖區域 */
+.map-section {
+  max-width: 860px; margin: 32px auto; padding: 0 20px;
+}
+.map-header {
+  text-align: center; margin-bottom: 16px;
+}
+.map-header h3 {
+  font-size: 18px; color: #f0f0f0; margin-bottom: 6px; font-weight: 500;
+}
+.map-header p {
+  font-size: 13px; color: #667788;
+}
+#chaselights-map {
+  border: 1px solid #1a2a3a; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* 地圖彈出視窗樣式 */
+.leaflet-popup-content-wrapper {
+  background: #0d1520 !important;
+  border: 1px solid #1a2a3a !important;
+  border-radius: 8px !important;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.4) !important;
+}
+.leaflet-popup-tip {
+  background: #0d1520 !important;
+  border: 1px solid #1a2a3a !important;
+}
+.map-popup {
+  color: #e0e0e0; min-width: 160px;
+}
+.popup-title {
+  font-size: 14px; font-weight: 600; margin-bottom: 8px;
+  color: #f0f0f0; border-bottom: 1px solid #1a2a3a; padding-bottom: 6px;
+}
+.popup-score {
+  display: flex; justify-content: space-between; align-items: center;
+  margin: 6px 0;
+}
+.score-label {
+  font-size: 12px; color: #8899aa;
+}
+.score-value {
+  font-size: 16px; font-weight: 700;
+}
+.popup-genre {
+  font-size: 12px; color: #aabbcc; margin: 6px 0;
+  font-style: italic;
+}
+.popup-link {
+  display: inline-block; margin-top: 8px; padding: 4px 8px;
+  background: #ffd54f; color: #0d1520; text-decoration: none;
+  border-radius: 4px; font-size: 12px; font-weight: 500;
+  transition: all 0.2s;
+}
+.popup-link:hover {
+  background: #ffcc02; transform: translateY(-1px);
+}
+
 .region-card {
   background: linear-gradient(135deg, #111a28 0%, #0d1520 100%);
   border: 1px solid #1a2a3a; border-radius: 10px; padding: 20px 24px;
@@ -67,7 +130,7 @@ body {
 <body>
 
 <div class="header">
-  <h1>📷 PhotoWeather</h1>
+  <h1>📷 ChaseLights</h1>
   <div>
     <button class="lang-btn active" id="lang-zh" onclick="setLang('zh')">中文</button>
     <button class="lang-btn" id="lang-en" onclick="setLang('en')">EN</button>
@@ -83,12 +146,21 @@ body {
   <!-- 由 JS 動態渲染 -->
 </div>
 
-<div style="text-align:center;margin:8px 0 32px">
+<!-- 全球景點地圖 -->
+<div class="map-section">
+  <div class="map-header">
+    <h3 id="map-title">🗺️ 全球攝影景點地圖</h3>
+    <p id="map-desc">點擊標記查看景點評分</p>
+  </div>
+  <div id="chaselights-map" style="height: 400px; border-radius: 8px; overflow: hidden;"></div>
+</div>
+
+<div style="text-align:center;margin:8px 0 32px;">
   <a class="sub-btn" href="/weather-guide" id="guide-link" style="cursor:pointer;display:inline-flex">🌤️ 天氣對策指南</a>
 </div>
 
 <div class="footer">
-  <span id="footer-text">PhotoWeather © 2026 · 資料來源 Open-Meteo API</span>
+  <span id="footer-text">ChaseLights © 2026 · 資料來源 Open-Meteo API</span>
 </div>
 
 <script>
@@ -134,7 +206,7 @@ const LANG = {
                 ],
               },
     ],
-    footer: 'PhotoWeather © 2026 · 資料來源 Open-Meteo API',
+    footer: 'ChaseLights © 2026 · 資料來源 Open-Meteo API',
         guide: '🌤️ 天氣對策指南',
         lastUpdate: '上次更新', nextUpdate: '下次更新', noData: '無資料',
   },
@@ -179,7 +251,7 @@ const LANG = {
                     ],
                   },
     ],
-    footer: 'PhotoWeather © 2026 · Data via Open-Meteo API',
+    footer: 'ChaseLights © 2026 · Data via Open-Meteo API',
         guide: '🌤️ Weather Guide',
         lastUpdate: 'Last update', nextUpdate: 'Next update', noData: 'No data',
   }
@@ -187,12 +259,17 @@ const LANG = {
 
 let currentLang = 'zh';
 
+// 地圖相關變數
+let photoMap = null;
+let allSpots = [];
+
 function setLang(lang) {
   currentLang = lang;
   document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('lang-' + lang).classList.add('active');
   renderPage();
-  }
+  updateMapLanguage();
+}
   function loadSubRegion(region, sub) {
   window.location.href = `/summary?region=${region}&sub=${sub}`;
 }
@@ -204,6 +281,14 @@ function renderPage() {
     document.getElementById('footer-text').textContent = t.footer;
     const guideLink = document.getElementById('guide-link');
     if (guideLink) guideLink.textContent = t.guide;
+    
+    // 更新地圖標題
+    const mapTitle = document.getElementById('map-title');
+    const mapDesc = document.getElementById('map-desc');
+    if (mapTitle) {
+      mapTitle.textContent = currentLang === 'zh' ? '🗺️ 全球攝影景點地圖' : '🗺️ Global Photography Spots';
+      mapDesc.textContent = currentLang === 'zh' ? '點擊標記查看景點評分' : 'Click markers to view spot ratings';
+    }
 
   const grid = document.getElementById('region-grid');
   grid.innerHTML = t.regions.map(r => {
@@ -218,9 +303,110 @@ function renderPage() {
         </div>
       `;
     }).join('');
-    }
+}
 
-    renderPage();
+// 地圖初始化
+function initMap() {
+  // 初始化地圖（以台灣為中心）
+  photoMap = L.map('chaselights-map').setView([23.8, 121.0], 6);
+  
+  // 使用 OpenStreetMap 免費圖磚
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 18,
+    attribution: '© OpenStreetMap contributors'
+  }).addTo(photoMap);
+  
+  // 載入景點資料
+  loadAllSpots();
+}
+
+// 載入所有區域的景點資料
+async function loadAllSpots() {
+  const regions = ['tw', 'jp', 'us', 'ak'];
+  
+  for (const region of regions) {
+    try {
+      const response = await fetch(`/api/best-spots?region=${region}`);
+      const data = await response.json();
+      
+      if (data && data.today) {
+        // 為每個景點添加標記
+        data.today.forEach(spot => {
+          if (spot.lat && spot.lon) {
+            addSpotMarker(spot, region);
+          }
+        });
+      }
+    } catch (e) {
+      console.warn(`Failed to load ${region} spots:`, e);
+    }
+  }
+}
+
+// 添加景點標記
+function addSpotMarker(spot, region) {
+  const score = spot.today?.score || 0;
+  const color = getMarkerColor(score);
+  
+  // 創建客製化標記
+  const marker = L.circleMarker([spot.lat, spot.lon], {
+    radius: 8,
+    fillColor: color,
+    color: '#fff',
+    weight: 2,
+    opacity: 1,
+    fillOpacity: 0.8
+  }).addTo(photoMap);
+  
+  // 創建彈出視窗
+  const popupContent = `
+    <div class="map-popup">
+      <div class="popup-title">${spot.name}</div>
+      <div class="popup-score">
+        <span class="score-label">${currentLang === 'zh' ? '出景指數' : 'Score'}</span>
+        <span class="score-value" style="color:${color}">${score}</span>
+      </div>
+      <div class="popup-genre">${spot.today?.best_genre || 'N/A'}</div>
+      <a href="/summary?region=${region}" class="popup-link">
+        ${currentLang === 'zh' ? '📋 查看詳細' : '📋 View Details'}
+      </a>
+    </div>
+  `;
+  
+  marker.bindPopup(popupContent);
+}
+
+// 根據評分獲取標記顏色
+function getMarkerColor(score) {
+  if (score >= 80) return '#00c853';
+  if (score >= 60) return '#64dd17';
+  if (score >= 40) return '#ffd600';
+  if (score >= 20) return '#ff6d00';
+  return '#d50000';
+}
+
+// 更新地圖語言
+function updateMapLanguage() {
+  // 重新載入彈出視窗內容（如果有需要）
+  if (photoMap) {
+    photoMap.eachLayer(layer => {
+      if (layer.getPopup) {
+        const popup = layer.getPopup();
+        if (popup) {
+          // 這裡可以重新設置彈出視窗內容
+          // 暫時保持簡單，不重新載入
+        }
+      }
+    });
+  }
+}
+
+renderPage();
+
+// 頁面載入完成後初始化地圖
+document.addEventListener('DOMContentLoaded', function() {
+  setTimeout(initMap, 500); // 稍微延遲確保 DOM 完全載入
+});
 </script>
 </body>
 </html>

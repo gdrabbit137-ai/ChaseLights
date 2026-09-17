@@ -1,10 +1,10 @@
 # ═══════════════════════════════════════════════════════════════
-# PhotoWeather — Cloudflare Pages 部署設定
+# ChaseLights — Cloudflare Pages 部署設定
 # ═══════════════════════════════════════════════════════════════
 # 部署前端（靜態檔案）：
 #   1. cd weather_web/cloudflare
 #   2. npm install -g wrangler
-#   3. wrangler pages deploy ../templates/ --name=photoweather
+#   3. wrangler pages deploy ../templates/ --name=chaselights
 #
 # 部署 API Worker：
 #   1. cd weather_web/cloudflare
@@ -16,7 +16,7 @@
 # ═══════════════════════════════════════════════════════════════
 
 # Pages 專案名稱
-name = "photoweather"
+name = "chaselights"
 
 # 相容性日期
 compatibility_date = "2026-09-01"

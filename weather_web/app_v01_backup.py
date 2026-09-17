@@ -1,5 +1,5 @@
 """
-PhotoWeather Web — Flask 主程式
+ChaseLights Web — Flask 主程式
 
 提供：
 - 台灣全島能見度預報動態地圖（24小時，每小時一幀）
@@ -893,7 +893,7 @@ if __name__ == "__main__":
     app.config["TEMPLATES_AUTO_RELOAD"] = True
     print("""
 ╔══════════════════════════════════════════╗
-║  📷 PhotoWeather — 攝影天氣地圖          ║
+║  📷 ChaseLights — 攝影天氣地圖          ║
 ║                                          ║
 ║  🌐 http://localhost:5000                ║
 ║     → 能見度動態地圖                     ║

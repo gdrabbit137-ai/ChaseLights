@@ -1,5 +1,5 @@
 """
-PhotoWeather v0.2 — Flask 主程式
+ChaseLights v0.2 — Flask 主程式
 
 v0.2 新功能：
 - 使用者系統與個人化推薦
@@ -22,20 +22,38 @@ if REGIONS_DIR not in sys.path:
 
 from regions import REGIONS
 
-# 導入新模組
-from database import (
-    init_database, create_user, get_user, add_favorite, remove_favorite, 
-    get_user_favorites, add_review, get_spot_reviews, save_weather_history,
-    get_weather_history
-)
-from enhanced_weather import enhanced_weather
-from smart_recommendations import recommendation_engine
+# 導入新模組 (v0.2)，如果失敗則禁用對應功能
+try:
+    from database import (
+        init_database, create_user, get_user, add_favorite, remove_favorite, 
+        get_user_favorites, add_review, get_spot_reviews, save_weather_history,
+        get_weather_history
+    )
+    init_database()
+    DATABASE_AVAILABLE = True
+    print("✓ 資料庫模組載入成功")
+except Exception as e:
+    DATABASE_AVAILABLE = False
+    print(f"⚠ 資料庫模組載入失敗: {e}")
+
+try:
+    from enhanced_weather import enhanced_weather
+    ENHANCED_WEATHER_AVAILABLE = True
+    print("✓ 增強天氣模組載入成功")
+except Exception as e:
+    ENHANCED_WEATHER_AVAILABLE = False
+    print(f"⚠ 增強天氣模組載入失敗: {e}")
+
+try:
+    from smart_recommendations import recommendation_engine
+    RECOMMENDATIONS_AVAILABLE = True
+    print("✓ 智慧推薦模組載入成功")
+except Exception as e:
+    RECOMMENDATIONS_AVAILABLE = False
+    print(f"⚠ 智慧推薦模組載入失敗: {e}")
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)  # 用於session管理
-
-# 初始化資料庫
-init_database()
 
 TW = timezone(timedelta(hours=8))  # 台灣時區
 
@@ -847,6 +865,33 @@ def api_best_spots():
             continue
         hourly = p.get("hourly")
         daily = p.get("daily")
+        
+        # 防禦邏輯：如果沒有天氣資料，嘗試即時補抓
+        if not hourly or not hourly.get("time"):
+            print(f"嘗試即時補抓天氣資料：{p.get('name', '')} ({p.get('lat')}, {p.get('lon')})")
+            try:
+                # 這裡需要匯入 fetch_weather_grid 函式
+                import subprocess
+                result = subprocess.run([
+                    "python", "get_weather.py", str(p.get('lat')), str(p.get('lon'))
+                ], capture_output=True, text=True, cwd=os.path.dirname(__file__))
+                
+                if result.returncode == 0:
+                    weather_data = json.loads(result.stdout)
+                    if weather_data and not weather_data.get('error'):
+                        hourly = weather_data.get('hourly')
+                        daily = weather_data.get('daily')
+                        print(f"即時補抓成功：{p.get('name', '')}")
+                    else:
+                        print(f"即時補抓失敗：{p.get('name', '')} - {weather_data.get('error', 'Unknown error')}")
+                        continue
+                else:
+                    print(f"即時補抓失敗：{p.get('name', '')} - subprocess failed")
+                    continue
+            except Exception as e:
+                print(f"即時補抓異常：{p.get('name', '')} - {e}")
+                continue
+        
         if not hourly or not hourly.get("time"):
             continue
         try:
@@ -896,6 +941,9 @@ def api_best_spots():
 @app.route("/api/auth/login", methods=["POST"])
 def api_login():
     """使用者登入"""
+    if not DATABASE_AVAILABLE:
+        return jsonify({"error": "資料庫服務不可用"}), 503
+        
     data = request.get_json()
     username = data.get('username')
     
@@ -1184,11 +1232,11 @@ if __name__ == "__main__":
     app.config["TEMPLATES_AUTO_RELOAD"] = True
     print("""
 ╔══════════════════════════════════════════╗
-║  📷 PhotoWeather v0.2 — 攝影天氣助手     ║
+║  📷 ChaseLights v0.2 — 攝影天氣助手     ║
 ║                                          ║
-║  🌐 http://localhost:5000                ║
+║  🌐 http://localhost:5001                ║
 ║     → 首頁 (地區選單)                    ║
-║  📋 http://localhost:5000/summary        ║
+║  📋 http://localhost:5001/summary        ║
 ║     → 今日/明日最佳攝影點                ║
 ║  🧭 http://localhost:5000/weather-guide  ║
 ║     → 天氣對策指南                       ║
@@ -1201,4 +1249,4 @@ if __name__ == "__main__":
 ║     • 智慧拍攝建議 & 景點評論收藏        ║
 ╚══════════════════════════════════════════╝
     """)
-    app.run(host="0.0.0.0", port=5000, debug=False)
+    app.run(host="0.0.0.0", port=5001, debug=False)
