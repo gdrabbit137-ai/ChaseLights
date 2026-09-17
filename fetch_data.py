@@ -1,5 +1,5 @@
 """
-ChaseLights — 天氣網格資料擷取模組 (含月相干擾與露點差雲海演算法)
+ChaseLights — 天氣網格資料擷取模組 (含月相干擾、露點差雲海與未來時間過濾)
 """
 
 import json, os, time, hashlib
@@ -94,7 +94,6 @@ def calculate_cloud_base(temp, dew_point):
     return int(spread * 125)
 
 def evaluate_hour_condition(c_low, c_mid, c_high, vis_km, wind_spd, rh, temp, dew_point, prec_prob, hour=12, moon_phase=0.5, tags=None):
-    """專業多標籤動態評分 (含月相干擾與露點差雲海)"""
     if not tags:
         tags = ["mountain"]
 
@@ -103,9 +102,8 @@ def evaluate_hour_condition(c_low, c_mid, c_high, vis_km, wind_spd, rh, temp, de
 
     candidates = []
     total_cloud = max(c_low, c_mid, c_high)
-    dew_spread = max(0.0, temp - dew_point) # 露點差 (Dew Point Depression)
+    dew_spread = max(0.0, temp - dew_point)
 
-    # 🌊 1. 湖泊標籤 (lake)
     if "lake" in tags:
         if 5 <= hour <= 8 and wind_spd < 2.0:
             if rh >= 80:
@@ -113,16 +111,13 @@ def evaluate_hour_condition(c_low, c_mid, c_high, vis_km, wind_spd, rh, temp, de
             else:
                 candidates.append((88, "🏞️ 湖面靜止倒影"))
 
-    # ☁️ 2. 雲海/琉璃光標籤 (cloud_sea)
     if "cloud_sea" in tags:
-        # 雲海黃金條件：露點差 <= 2.5度 (水氣極度飽和)，低雲量在 30%-70% (不全白也不空)，風速低
         if dew_spread <= 2.5 and 30 <= c_low <= 75 and wind_spd < 3.5:
             if 18 <= hour or hour <= 6:
                 candidates.append((94, "☁️ 經典高山瀑布雲海/琉璃光"))
             else:
                 candidates.append((90, "☁️ 翻騰高山雲海"))
 
-    # 🌲 3. 森林標籤 (forest)
     if "forest" in tags:
         if rh >= 85 and c_low >= 50 and wind_spd < 3.0:
             if 6 <= hour <= 9:
@@ -130,10 +125,8 @@ def evaluate_hour_condition(c_low, c_mid, c_high, vis_km, wind_spd, rh, temp, de
             else:
                 candidates.append((85, "🌲 夢幻迷霧森林"))
 
-    # 🌌 4. 觀星/銀河標籤 (starlight) - 引入月相考量 (moon_phase: 0新月 ~ 0.5滿月)
     if "starlight" in tags:
         if (hour >= 21 or hour <= 4) and total_cloud < 15 and vis_km >= 15:
-            # 月相干擾判斷: 0.15 以下接近新月，無月光干擾
             if moon_phase <= 0.15 or moon_phase >= 0.85:
                 candidates.append((95, "🌌 絕佳無月光純淨銀河"))
             elif 0.35 <= moon_phase <= 0.65:
@@ -141,17 +134,14 @@ def evaluate_hour_condition(c_low, c_mid, c_high, vis_km, wind_spd, rh, temp, de
             else:
                 candidates.append((88, "🌌 清透星空銀河"))
 
-    # 🌌 5. 極光標籤 (aurora)
     if "aurora" in tags:
         if (hour >= 20 or hour <= 5) and total_cloud < 20 and prec_prob < 10:
             candidates.append((93, "🌌 夜間爆發極光出景"))
 
-    # 🌊 6. 海岸/漁港標籤 (coast)
     if "coast" in tags:
         if (5 <= hour <= 7 or 17 <= hour <= 19) and c_high > 30 and c_low < 40:
             candidates.append((88, "🌅 海岸晨昏大霞"))
 
-    # 🏔️ 7. 通用 / 高山觀景標籤 (mountain/default)
     if c_low < 30 and vis_km >= 15:
         candidates.append((85, "☀️ 晴朗通透"))
     elif c_high > 40 and c_low < 30 and vis_km >= 12:
@@ -211,6 +201,8 @@ def fetch_weather_for_spot(spot):
     best_status = "條件普通"
     best_cloud_base = 500
 
+    week_map = ["一", "二", "三", "四", "五", "六", "日"]
+
     for i in range(len(times)):
         t_raw = times[i]
         t_formatted = t_raw.replace("T", " ")
@@ -234,9 +226,15 @@ def fetch_weather_for_spot(spot):
 
         is_past = t_raw < now_iso
 
+        # 核心優化：只針對【未來的時段】計算預設顯示的最高分與最佳時間
         if not is_past and h_score > max_score:
             max_score = h_score
-            best_time_str = t_formatted.split(" ")[1]
+            t_dt = datetime.fromisoformat(t_raw)
+            date_part = t_dt.strftime("%m/%d")
+            week_part = week_map[t_dt.weekday()]
+            time_part = t_formatted.split(" ")[1]
+            
+            best_time_str = f"{date_part} ({week_part}) {time_part}"
             best_status = status
             best_cloud_base = cloud_base
 
