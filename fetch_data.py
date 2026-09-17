@@ -3,6 +3,7 @@ import urllib.request
 import os
 
 def fetch_noaa_kp():
+    """ 抓取 NOAA 官方太空天氣 Kp 指數 """
     url = "https://services.swpc.noaa.gov/products/noaa-planetary-k-index.json"
     try:
         req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
@@ -19,7 +20,7 @@ def fetch_noaa_kp():
     return None
 
 def fetch_weather_for_spot(spot):
-    """ 搭配 analyze_weather.py 呼叫介面 """
+    """ 供 analyze_weather.py 呼叫的完整景點氣象抓取與分析函式 """
     lat = spot.get("lat")
     lon = spot.get("lon")
     
@@ -30,7 +31,7 @@ def fetch_weather_for_spot(spot):
         url = (
             f"https://api.open-meteo.com/v1/forecast"
             f"?latitude={lat}&longitude={lon}"
-            f"&hourly=temperature_2m,relative_humidity_2m,cloud_cover_low,cloud_cover_mid,cloud_cover_high,wind_speed_10m,visibility"
+            f"&hourly=temperature_2m,relative_humidity_2m,cloud_cover_low,cloud_cover_mid,cloud_cover_high,wind_speed_10m,visibility,precipitation_probability"
             f"&forecast_days=3&timezone=auto"
         )
         req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
@@ -46,6 +47,7 @@ def fetch_weather_for_spot(spot):
             c_highs = hourly.get("cloud_cover_high", [])
             winds = hourly.get("wind_speed_10m", [])
             visibilities = hourly.get("visibility", [])
+            pops = hourly.get("precipitation_probability", [])
 
             # 抓取即時 Kp 指數
             kp_info = fetch_noaa_kp()
@@ -54,13 +56,36 @@ def fetch_weather_for_spot(spot):
             hourly_forecast = []
             for i in range(len(times)):
                 t_str = times[i].replace("T", " ")
+                
                 c_low = c_lows[i] if i < len(c_lows) else 0
                 c_mid = c_mids[i] if i < len(c_mids) else 0
                 c_high = c_highs[i] if i < len(c_highs) else 0
+                pop = pops[i] if i < len(pops) else 0
+                vis = visibilities[i] if i < len(visibilities) else 10000
                 
-                total_cloud = (c_low + c_mid + c_high) / 3
-                score = max(10, int(100 - total_cloud))
-                status = "☀️ 晴朗" if total_cloud < 20 else ("⛅ 多雲" if total_cloud < 70 else "☁️ 陰天")
+                # --- 多因子綜合評分權重 ---
+                # 低雲遮擋視線權重最重(1.0)，中雲(0.6)，高雲(0.3)
+                cloud_penalty = (c_low * 1.0) + (c_mid * 0.6) + (c_high * 0.3)
+                score = 100 - (cloud_penalty * 0.7)
+                
+                # 降雨機率扣分
+                score -= (pop * 0.5)
+                
+                # 能見度扣分 (低於 15km 開始微幅扣分)
+                if vis < 15000:
+                    score -= ((15000 - vis) / 1000) * 1.0
+                
+                score = max(10, min(100, int(score)))
+
+                # 天氣狀態文字描述
+                if pop > 40:
+                    status = "🌧️ 降雨機率高"
+                elif score >= 85:
+                    status = "☀️ 晴朗通透"
+                elif score >= 65:
+                    status = "⛅ 多雲"
+                else:
+                    status = "☁️ 陰天"
 
                 hourly_forecast.append({
                     "time": t_str,
@@ -74,16 +99,17 @@ def fetch_weather_for_spot(spot):
                     "c_mid": c_mid,
                     "c_high": c_high,
                     "wind": winds[i] if i < len(winds) else 0,
-                    "visibility": round((visibilities[i] if i < len(visibilities) else 10000) / 1000, 1),
+                    "visibility": round(vis / 1000, 1),
                     "is_past": False
                 })
 
+            # 選出未來最佳時段
             best_item = max(hourly_forecast, key=lambda x: x["score"]) if hourly_forecast else {}
 
             return {
                 "score": best_item.get("score", 50),
                 "best_time": best_item.get("time", "12:00"),
-                "reason": "氣象條件良好",
+                "reason": "綜合氣象條件良好",
                 "position": best_item.get("status", "☀️ 晴朗"),
                 "hourly_forecast": hourly_forecast
             }
