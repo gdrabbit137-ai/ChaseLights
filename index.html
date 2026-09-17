@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChaseLights - 極光與天氣追蹤儀表板</title>
+    <title>ChaseLights - 多地區極光與氣象追蹤儀表板</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -37,8 +37,14 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
             border-top: 4px solid #3f51b5;
         }
-        .weather-card.alaska {
-            border-top-color: #ffeb3b;
+        .weather-card.us {
+            border-top-color: #ffeb3b; /* 阿拉斯加極光用金黃色高亮 */
+        }
+        .weather-card.jp {
+            border-top-color: #e91e63;
+        }
+        .weather-card.tw {
+            border-top-color: #00bcd4;
         }
         .weather-card h3 {
             margin-top: 0;
@@ -52,7 +58,7 @@
             font-size: 0.95rem;
         }
         .kp-value {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: bold;
             color: #ffeb3b;
         }
@@ -67,74 +73,94 @@
 
     <header>
         <h1>ChaseLights 追光儀表板</h1>
-        <p>即時氣象與極光指數監控</p>
+        <p>台灣、日本、美國多地區即時氣象與極光指數監控</p>
     </header>
 
     <div class="dashboard-container">
-        <!-- 阿拉斯加景點卡片 -->
-        <div class="weather-card alaska" id="alaska-card">
-            <h3>阿拉斯加 (Alaska) 極光觀測</h3>
+        <!-- 台灣 (TW) 卡片 -->
+        <div class="weather-card tw" id="tw-card">
+            <h3>台灣 (Taiwan) 觀測點</h3>
+            <div class="weather-info">
+                <p>氣溫: <span id="tw-temp">載入中...</span></p>
+                <p>天氣狀況: <span id="tw-condition">載入中...</span></p>
+            </div>
+            <div class="update-time">更新時間: <span id="tw-time">-</span></div>
+        </div>
+
+        <!-- 日本 (JP) 卡片 -->
+        <div class="weather-card jp" id="jp-card">
+            <h3>日本 (Japan) 觀測點</h3>
+            <div class="weather-info">
+                <p>氣溫: <span id="jp-temp">載入中...</span></p>
+                <p>天氣狀況: <span id="jp-condition">載入中...</span></p>
+            </div>
+            <div class="update-time">更新時間: <span id="jp-time">-</span></div>
+        </div>
+
+        <!-- 美國 / 阿拉斯加 (US) 極光卡片 -->
+        <div class="weather-card us" id="us-card">
+            <h3>美國 / 阿拉斯加 (US) 極光觀測</h3>
             <div class="weather-info">
                 <p>目前 Kp 指數: <span id="kp-index-value" class="kp-value">載入中...</span></p>
                 <p>觀測狀態: <span id="kp-status">分析中</span></p>
             </div>
-            <div class="update-time">
-                更新時間: <span id="kp-time-value">-</span>
-            </div>
-        </div>
-
-        <!-- 之後可以擴充其他地區的卡片 -->
-        <div class="weather-card">
-            <h3>其他觀測點</h3>
-            <div class="weather-info">
-                <p>系統狀態: <span style="color: #4caf50;">運行中</span></p>
-            </div>
+            <div class="update-time">更新時間: <span id="kp-time-value">-</span></div>
         </div>
     </div>
 
     <script>
-        async function loadAlaskaKp() {
+        // 載入美國/阿拉斯加與 Kp 指數資料
+        async function loadUsWeather() {
             try {
-                // 讀取根目錄下的 usa_weather.json
                 const response = await fetch('usa_weather.json');
-                if (!response.ok) {
-                    throw new Error('無法取得 usa_weather.json 檔案');
-                }
+                if (!response.ok) throw new Error('無法取得 usa_weather.json');
                 const data = await response.json();
                 
-                // 取得對應的 Kp 數值與時間
                 const kpValue = data.alaska?.kp_index ?? data.latest_kp ?? "無資料";
                 const kpTime = data.alaska?.kp_time ?? "";
 
                 document.getElementById('kp-index-value').innerText = kpValue;
                 
-                // 簡單判斷 Kp 強度給予提示文字
                 let statusText = "活動平靜";
                 const numKp = parseFloat(kpValue);
                 if (!isNaN(numKp)) {
-                    if (numKp >= 5) {
-                        statusText = "🔥 磁暴發生中 (極光強烈)";
-                    } else if (numKp >= 4) {
-                        statusText = "✨ 活躍狀態 (有機會見到極光)";
-                    } else {
-                        statusText = "🌙 較為平靜";
-                    }
+                    if (numKp >= 5) statusText = "🔥 磁暴發生中 (極光強烈)";
+                    else if (numKp >= 4) statusText = "✨ 活躍狀態 (有機會見到極光)";
+                    else statusText = "🌙 較為平靜";
                 }
                 document.getElementById('kp-status').innerText = statusText;
-
-                if (kpTime) {
-                    document.getElementById('kp-time-value').innerText = kpTime;
-                }
+                if (kpTime) document.getElementById('kp-time-value').innerText = kpTime;
             } catch (error) {
-                console.error("載入 Kp 指數失敗:", error);
+                console.error("載入美國氣象失敗:", error);
                 document.getElementById('kp-index-value').innerText = "讀取失敗";
-                document.getElementById('kp-status').innerText = "無法連線";
             }
         }
 
-        // 當網頁載入完成時執行
+        // 載入台灣與日本資料（假設對應 tw_weather.json 與 jp_weather.json）
+        async function loadRegionalWeather(region, tempId, condId, timeId) {
+            try {
+                const response = await fetch(`${region}_weather.json`);
+                if (!response.ok) return;
+                const data = await response.json();
+                
+                if (data.temperature !== undefined) {
+                    document.getElementById(tempId).innerText = `${data.temperature} °C`;
+                }
+                if (data.condition !== undefined) {
+                    document.getElementById(condId).innerText = data.condition;
+                }
+                if (data.update_time !== undefined) {
+                    document.getElementById(timeId).innerText = data.update_time;
+                }
+            } catch (error) {
+                console.error(`載入 ${region} 氣象失敗:`, error);
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
-            loadAlaskaKp();
+            loadUsWeather();
+            loadRegionalWeather('tw', 'tw-temp', 'tw-condition', 'tw-time');
+            loadRegionalWeather('jp', 'jp-temp', 'jp-condition', 'jp-time');
         });
     </script>
 </body>
