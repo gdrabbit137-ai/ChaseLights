@@ -34,13 +34,13 @@
     h1 { margin: 0; font-size: 1.8rem; color: var(--accent); }
     .updated { font-size: 0.85rem; color: var(--muted); text-align: right; }
     
-    .nav-bar, .sub-nav-bar, .tag-nav-bar {
+    .nav-bar, .sub-nav-bar, .tag-nav-bar, .day-nav-bar {
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
       margin-bottom: 10px;
     }
-    .nav-btn, .sub-btn, .tag-btn {
+    .nav-btn, .sub-btn, .tag-btn, .day-btn {
       background: #334155;
       color: var(--text);
       border: 1px solid #475569;
@@ -52,6 +52,7 @@
     }
     .sub-btn { font-size: 0.82rem; padding: 4px 10px; background: #1e293b; }
     .tag-btn { font-size: 0.78rem; padding: 3px 8px; background: #0f172a; border-color: #334155; border-radius: 12px; }
+    .day-btn { font-size: 0.82rem; padding: 4px 12px; background: #1e293b; border-color: #0284c7; color: #38bdf8; }
     
     .nav-btn.active, .sub-btn.active {
       background: #0284c7;
@@ -63,6 +64,11 @@
       background: #38bdf8;
       color: #0f172a;
       border-color: #38bdf8;
+      font-weight: bold;
+    }
+    .day-btn.active {
+      background: #0284c7;
+      color: #fff;
       font-weight: bold;
     }
 
@@ -99,7 +105,6 @@
     }
     .spot-name { font-size: 1.2rem; font-weight: bold; }
     
-    /* 收藏按鈕 */
     .fav-btn {
       position: absolute;
       top: 14px;
@@ -111,12 +116,8 @@
       color: #475569;
       transition: transform 0.2s ease;
     }
-    .fav-btn.active {
-      color: #f59e0b;
-    }
-    .fav-btn:hover {
-      transform: scale(1.2);
-    }
+    .fav-btn.active { color: #f59e0b; }
+    .fav-btn:hover { transform: scale(1.2); }
 
     .score-badge {
       padding: 4px 8px;
@@ -167,9 +168,7 @@
       border: 1px solid #334155;
       transition: background 0.2s ease;
     }
-    .tool-link:hover {
-      background: #334155;
-    }
+    .tool-link:hover { background: #334155; }
 
     #loading { text-align: center; font-size: 1.2rem; color: var(--muted); margin-top: 40px; }
 
@@ -215,10 +214,7 @@
       cursor: pointer;
     }
     .close-btn:hover { color: #fff; }
-    .modal-body {
-      padding: 12px;
-      overflow-y: auto;
-    }
+    .modal-body { padding: 12px; overflow-y: auto; }
     .terminal-table {
       width: 100%;
       border-collapse: collapse;
@@ -252,6 +248,14 @@
 
     <div class="sub-nav-bar" id="sub-nav"></div>
     <div class="tag-nav-bar" id="tag-nav"></div>
+
+    <!-- 新增日期快篩欄 -->
+    <div class="day-nav-bar" id="day-nav">
+      <button class="day-btn active" onclick="switchDay('all', this)">⏱️ 全時段預報 (未來48H)</button>
+      <button class="day-btn" onclick="switchDay('today', this)">📅 今天</button>
+      <button class="day-btn" onclick="switchDay('tomorrow', this)">📅 明天</button>
+      <button class="day-btn" onclick="switchDay('after_tomorrow', this)">📅 後天</button>
+    </div>
   </header>
 
   <div id="loading">正在獲取攝影氣象數據...</div>
@@ -321,6 +325,7 @@
     let currentSpots = [];
     let currentCategory = "全部";
     let currentTag = "all";
+    let currentDayFilter = "all";
     let favorites = JSON.parse(localStorage.getItem('chaselights_favs') || '[]');
 
     function formatToLocalTime(utcTimeStr) {
@@ -406,6 +411,13 @@
       });
     }
 
+    function switchDay(dayKey, btnElement) {
+      document.querySelectorAll('.day-btn').forEach(btn => btn.classList.remove('active'));
+      if (btnElement) btnElement.classList.add('active');
+      currentDayFilter = dayKey;
+      filterAndRender();
+    }
+
     function toggleFavorite(spotName, event) {
       event.stopPropagation();
       if (favorites.includes(spotName)) {
@@ -433,14 +445,54 @@
         filtered = filtered.filter(s => s.tags && s.tags.includes(currentTag));
       }
 
-      filtered.sort((a, b) => (b.score || 0) - (a.score || 0));
+      // 日期過濾與重新計算最佳分數
+      const now = new Date();
+      const weekNames = ["一", "二", "三", "四", "五", "六", "日"];
+      
+      const getDateStr = (d) => `${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}`;
+      
+      const todayStr = getDateStr(now);
+      const tomDate = new Date(now); tomDate.setDate(now.getDate() + 1);
+      const tomStr = getDateStr(tomDate);
+      const afterTomDate = new Date(now); afterTomDate.setDate(now.getDate() + 2);
+      const afterTomStr = getDateStr(afterTomDate);
 
-      if (filtered.length === 0) {
+      let processedSpots = [];
+
+      filtered.forEach(spot => {
+        let validForecast = (spot.hourly_forecast || []).filter(h => !h.is_past);
+
+        if (currentDayFilter === "today") {
+          validForecast = validForecast.filter(h => h.time.includes(todayStr));
+        } else if (currentDayFilter === "tomorrow") {
+          validForecast = validForecast.filter(h => h.time.includes(tomStr));
+        } else if (currentDayFilter === "after_tomorrow") {
+          validForecast = validForecast.filter(h => h.time.includes(afterTomStr));
+        }
+
+        if (validForecast.length === 0) return;
+
+        let bestItem = validForecast.reduce((max, item) => item.score > max.score ? item : max, validForecast[0]);
+
+        const tDt = new Date(bestItem.time.replace(" ", "T"));
+        const dateFormatted = `${getDateStr(tDt)} (${weekNames[(tDt.getDay() + 6) % 7]}) ${bestItem.time.split(" ")[1]}`;
+
+        processedSpots.push({
+          ...spot,
+          score: bestItem.score,
+          best_time: dateFormatted,
+          position: `${bestItem.status} | 雲底高度 ${bestItem.cloud_base}m`
+        });
+      });
+
+      processedSpots.sort((a, b) => (b.score || 0) - (a.score || 0));
+
+      if (processedSpots.length === 0) {
         container.innerHTML = '<p style="color: var(--muted); grid-column: 1/-1; text-align: center;">該條件下暫無景點資料</p>';
         return;
       }
 
-      filtered.forEach(spot => {
+      processedSpots.forEach(spot => {
         const card = document.createElement('div');
         card.className = 'card';
         card.onclick = () => openModal(spot);
@@ -492,7 +544,7 @@
         forecast.forEach(item => {
           const tr = document.createElement('tr');
           
-          const isBest = !item.is_past && spot.best_time && item.time.includes(spot.best_time);
+          const isBest = !item.is_past && spot.best_time && item.time.includes(spot.best_time.split(" ")[2] || "23:00");
           if (item.is_past) tr.className = 'past-row';
           else if (isBest) tr.className = 'best-row';
 
