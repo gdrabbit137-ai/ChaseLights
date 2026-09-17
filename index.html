@@ -294,7 +294,7 @@
     </div>
   </div>
 
-  <script>
+ <script>
     const regionFiles = {
       'tw': './tw_weather.json',
       'jp': './japan_weather.json',
@@ -427,6 +427,14 @@
       filterAndRender();
     }
 
+    // 格式化 Date 為 YYYY-MM-DD
+    function toIsoDateStr(d) {
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
+
     function filterAndRender() {
       const container = document.getElementById('spots-container');
       container.innerHTML = '';
@@ -443,25 +451,17 @@
         filtered = filtered.filter(s => s.tags && s.tags.includes(currentTag));
       }
 
+      // 零時區誤差：使用用戶當前本地日期作為今天基準
       const now = new Date();
-      const weekNames = ["日", "一", "二", "三", "四", "五", "六"];
-      
-      const getIsoDateStr = (d) => {
-        const year = d.getFullYear();
-        const month = String(d.getMonth() + 1).padStart(2, '0');
-        const day = String(d.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
-      };
-
-      const getDisplayDateStr = (d) => `${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}`;
-      
-      const todayIso = getIsoDateStr(now);
+      const todayIso = toIsoDateStr(now);
       
       const tomDate = new Date(now); tomDate.setDate(now.getDate() + 1);
-      const tomIso = getIsoDateStr(tomDate);
+      const tomIso = toIsoDateStr(tomDate);
       
       const afterTomDate = new Date(now); afterTomDate.setDate(now.getDate() + 2);
-      const afterTomIso = getIsoDateStr(afterTomDate);
+      const afterTomIso = toIsoDateStr(afterTomDate);
+
+      const weekNames = ["日", "一", "二", "三", "四", "五", "六"];
 
       let processedSpots = [];
 
@@ -480,8 +480,16 @@
 
         let bestItem = validForecast.reduce((max, item) => item.score > max.score ? item : max, validForecast[0]);
 
-        const tDt = new Date(bestItem.time.replace(" ", "T"));
-        const dateFormatted = `${getDisplayDateStr(tDt)} (${weekNames[tDt.getDay()]}) ${bestItem.time.split(" ")[1]}`;
+        // 直接拆解字串： "2026-09-19 07:00" -> 日期: 09/19, 時間: 07:00
+        const timeParts = bestItem.time.split(" ");
+        const dateParts = timeParts[0].split("-");
+        const displayDate = `${dateParts[1]}/${dateParts[2]}`;
+
+        // 計算星期
+        const dateObj = new Date(parseInt(dateParts[0]), parseInt(dateParts[1]) - 1, parseInt(dateParts[2]));
+        const weekStr = weekNames[dateObj.getDay()];
+
+        const dateFormatted = `${displayDate} (${weekStr}) ${timeParts[1]}`;
 
         processedSpots.push({
           ...spot,
