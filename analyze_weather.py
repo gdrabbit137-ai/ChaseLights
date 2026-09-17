@@ -1,6 +1,6 @@
 import sys
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 from regions import get_spots
 from fetch_data import fetch_weather_for_spot
 
@@ -26,7 +26,7 @@ def analyze_spot(spot):
             "best_time": best_time,
             "reason": reason,
             "position": position,
-            "hourly_forecast": hourly_forecast  # 帶入 72 小時專業氣象時序資料
+            "hourly_forecast": hourly_forecast
         }
     except Exception as e:
         print(f"⚠️ 讀取景點 {spot.get('name')} 失敗: {e}")
@@ -65,9 +65,11 @@ def main():
         result = analyze_spot(spot)
         analyzed_spots.append(result)
 
-    now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    # 輸出 ISO 8601 UTC 標準時間，例如 2026-09-17T00:28:25Z
+    now_utc_str = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    
     output_data = {
-        "updated_at": now_str,
+        "updated_at": now_utc_str,
         "region": region,
         "total_spots": len(analyzed_spots),
         "spots": analyzed_spots
@@ -76,7 +78,7 @@ def main():
     with open(output_filename, "w", encoding="utf-8") as f:
         json.dump(output_data, f, ensure_ascii=False, indent=2)
 
-    print(f"✅ 完成！成功生成 {output_filename} (共 {len(analyzed_spots)} 個景點，更新時間: {now_str})")
+    print(f"✅ 完成！成功生成 {output_filename} (共 {len(analyzed_spots)} 個景點，UTC時間: {now_utc_str})")
 
 if __name__ == "__main__":
     main()
