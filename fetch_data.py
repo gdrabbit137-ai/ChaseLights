@@ -1,5 +1,5 @@
 """
-ChaseLights — 天氣網格資料擷取模組 (含月相干擾、露點差雲海與未來72H預報過濾)
+ChaseLights — 天氣網格資料擷取模組 (含月光地景/月光雲海、月相干擾、露點差與未來72H預報)
 """
 
 import json, os, time, hashlib
@@ -55,7 +55,7 @@ def cache_key(lat, lon):
     return hashlib.md5(raw.encode()).hexdigest()[:12]
 
 def fetch_point(lat, lon, past_days=1, forecast_days=3, retries=3):
-    """抓取過去 24 小時 + 未來 72 小時氣象"""
+    """抓取過去 24 小時 + 未來 72 小時氣象數據"""
     cache_path = os.path.join(CACHE_DIR, f"{cache_key(lat, lon)}.json")
     if os.path.exists(cache_path):
         age = time.time() - os.path.getmtime(cache_path)
@@ -99,66 +99,83 @@ def evaluate_hour_condition(c_low, c_mid, c_high, vis_km, wind_spd, rh, temp, de
         tags = ["mountain"]
 
     if prec_prob > 50:
-        return 15, "🌧️ 降雨不佳"
+        return 15, "🌧️ 降雨不佳", "🌧️ 降雨機率高"
 
     candidates = []
     total_cloud = max(c_low, c_mid, c_high)
-    dew_spread = max(0.0, temp - dew_point)
+    dew_spread = round(max(0.0, temp - dew_point), 1)
 
+    # 1. 月光地景 / 月光琉璃光與雲海 (Moonlit Landscape & Cloud Sea)
+    is_night = (hour >= 20 or hour <= 4)
+    is_full_moon = (0.35 <= moon_phase <= 0.65)
+
+    if is_night and is_full_moon:
+        if "cloud_sea" in tags and dew_spread <= 2.5 and c_low <= 70 and wind_spd < 4.0:
+            candidates.append((96, "🌕 絕佳月光琉璃雲海", f"🌕 滿月柔光 | 露點差 {dew_spread}°C"))
+        elif total_cloud < 20 and vis_km >= 12:
+            candidates.append((92, "🌕 夢幻月光夜景地景", f"🌕 滿月照明 | 能見度 {vis_km:.0f}km"))
+
+    # 2. 湖泊晨霧
     if "lake" in tags:
         if 5 <= hour <= 8 and wind_spd < 2.0:
             if rh >= 80:
-                candidates.append((95, "🌫️ 湖面晨霧/斜射光"))
+                candidates.append((95, "🌫️ 湖面晨霧/斜射光", f"💧 濕度 {rh}% | 靜風"))
             else:
-                candidates.append((88, "🏞️ 湖面靜止倒影"))
+                candidates.append((88, "🏞️ 湖面靜止倒影", f"🍃 風速 {wind_spd:.1f}m/s"))
 
+    # 3. 日間/傳統高山雲海
     if "cloud_sea" in tags:
         if dew_spread <= 2.5 and 30 <= c_low <= 75 and wind_spd < 3.5:
             if 18 <= hour or hour <= 6:
-                candidates.append((94, "☁️ 經典高山瀑布雲海/琉璃光"))
+                candidates.append((94, "☁️ 經典高山瀑布雲海/琉璃光", f"💧 露點差 {dew_spread}°C (水氣飽和)"))
             else:
-                candidates.append((90, "☁️ 翻騰高山雲海"))
+                candidates.append((90, "☁️ 翻騰高山雲海", f"💧 露點差 {dew_spread}°C"))
 
+    # 4. 迷霧森林
     if "forest" in tags:
         if rh >= 85 and c_low >= 50 and wind_spd < 3.0:
             if 6 <= hour <= 9:
-                candidates.append((92, "🌲 迷霧森林/耶穌光"))
+                candidates.append((92, "🌲 迷霧森林/耶穌光", f"💧 濕度 {rh}% | 低雲 {c_low}%"))
             else:
-                candidates.append((85, "🌲 夢幻迷霧森林"))
+                candidates.append((85, "🌲 夢幻迷霧森林", f"💧 濕度 {rh}%"))
 
+    # 5. 純暗夜銀河 (無月光極佳，滿月則扣分)
     if "starlight" in tags:
-        if (hour >= 21 or hour <= 4) and total_cloud < 15 and vis_km >= 15:
+        if is_night and total_cloud < 15 and vis_km >= 15:
             if moon_phase <= 0.15 or moon_phase >= 0.85:
-                candidates.append((95, "🌌 絕佳無月光純淨銀河"))
-            elif 0.35 <= moon_phase <= 0.65:
-                candidates.append((70, "🌕 晴朗星空 (強烈月光干擾)"))
+                candidates.append((95, "🌌 絕佳無月光純淨銀河", "🌙 月相干擾：無 (新月/暗月)"))
+            elif is_full_moon:
+                candidates.append((68, "🌕 晴朗夜空 (滿月宜拍地景星軌)", "🌕 月相干擾：強 (建議轉拍月光地景)"))
             else:
-                candidates.append((88, "🌌 清透星空銀河"))
+                candidates.append((88, "🌌 清透星空銀河", "🌙 月相干擾：中等"))
 
+    # 6. 夜間極光
     if "aurora" in tags:
-        if (hour >= 20 or hour <= 5) and total_cloud < 20 and prec_prob < 10:
-            candidates.append((93, "🌌 夜間爆發極光出景"))
+        if is_night and total_cloud < 20 and prec_prob < 10:
+            candidates.append((93, "🌌 夜間爆發極光出景", f"🌌 能見度 {vis_km:.0f}km | 雲量低"))
 
+    # 7. 海岸彩霞
     if "coast" in tags:
         if (5 <= hour <= 7 or 17 <= hour <= 19) and c_high > 30 and c_low < 40:
-            candidates.append((88, "🌅 海岸晨昏大霞"))
+            candidates.append((88, "🌅 海岸晨昏大霞", f"☁️ 高雲 {c_high}% (燒雲條件佳)"))
 
+    # 通用基準
     if c_low < 30 and vis_km >= 15:
-        candidates.append((85, "☀️ 晴朗通透"))
+        candidates.append((85, "☀️ 晴朗通透", f"👁️ 能見度 {vis_km:.0f}km"))
     elif c_high > 40 and c_low < 30 and vis_km >= 12:
-        candidates.append((78, "🌅 高雲彩霞"))
+        candidates.append((78, "🌅 高雲彩霞", f"☁️ 高雲 {c_high}%"))
     elif c_low > 70:
-        candidates.append((25, "☁️ 濃雲籠罩"))
+        candidates.append((25, "☁️ 濃雲籠罩", f"☁️ 低雲籠罩 {c_low}%"))
     else:
-        candidates.append((50, "☁️ 條件普通"))
+        candidates.append((50, "☁️ 條件普通", f"☁️ 雲量 {total_cloud}%"))
 
-    best_score, best_status = max(candidates, key=lambda x: x[0])
+    best_score, best_status, key_indicator = max(candidates, key=lambda x: x[0])
 
     if wind_spd > 15:
         best_score = max(10, best_score - 20)
         best_status += " (強風警告)"
 
-    return best_score, best_status
+    return best_score, best_status, key_indicator
 
 def fetch_weather_for_spot(spot):
     lat = spot.get("lat")
@@ -201,6 +218,7 @@ def fetch_weather_for_spot(spot):
     best_time_str = "N/A"
     best_status = "條件普通"
     best_cloud_base = 500
+    best_indicator = "指標正常"
 
     week_map = ["一", "二", "三", "四", "五", "六", "日"]
 
@@ -220,7 +238,7 @@ def fetch_weather_for_spot(spot):
         p_val = prec_arr[i] if i < len(prec_arr) else 0
 
         cloud_base = calculate_cloud_base(tp_val, dw_val)
-        h_score, status = evaluate_hour_condition(
+        h_score, status, indicator = evaluate_hour_condition(
             c_low, c_mid, c_high, v_val, w_val, rh_val, tp_val, dw_val, p_val,
             hour=hour_val, moon_phase=today_moon_phase, tags=tags
         )
@@ -237,6 +255,7 @@ def fetch_weather_for_spot(spot):
             best_time_str = f"{date_part} ({week_part}) {time_part}"
             best_status = status
             best_cloud_base = cloud_base
+            best_indicator = indicator
 
         hourly_forecast.append({
             "time": t_formatted,
@@ -244,6 +263,7 @@ def fetch_weather_for_spot(spot):
             "score": h_score,
             "status": status,
             "cloud_base": cloud_base,
+            "key_indicator": indicator,
             "temp": round(tp_val, 1),
             "rh": rh_val,
             "c_low": c_low,
@@ -259,6 +279,7 @@ def fetch_weather_for_spot(spot):
         "tags": tags,
         "score": max_score if max_score > 0 else 30,
         "best_time": best_time_str,
+        "key_indicator": best_indicator,
         "position": f"{best_status} | 雲底高度 {best_cloud_base}m",
         "reason": f"預測最佳拍攝時段於 {best_time_str}，狀態：{best_status}",
         "hourly_forecast": hourly_forecast
