@@ -19,7 +19,6 @@ def fetch_noaa_kp():
     return None
 
 def calculate_spot_score(spot, item):
-    """ 依據景點主題標籤與即時氣象進行動態加扣分 """
     tags = spot.get("tags", [])
     c_low = item.get("c_low", 0)
     c_mid = item.get("c_mid", 0)
@@ -30,35 +29,28 @@ def calculate_spot_score(spot, item):
     wind = item.get("wind", 0)
     
     score = 100
-    
-    # 基礎降雨與能見度扣分
     score -= (pop * 0.7)
     if vis < 15000:
         score -= ((15000 - vis) / 1000) * 1.2
 
-    # 針對不同攝影題材進行客製化條件評估
     if "starlight" in tags or "aurora" in tags:
-        # 星空/極光：極度依賴無雲與低濕度
         cloud_penalty = (c_low * 1.0) + (c_mid * 0.9) + (c_high * 0.5)
         score -= cloud_penalty
         if rh > 85:
             score -= 15
     elif "cloud_sea" in tags:
-        # 雲海：需要高濕度與適當中低雲量
         if 40 <= c_low <= 85 and rh >= 80:
             score += 10
         else:
             score -= 20
     else:
-        # 一般風景/高山：常規雲量扣分
         cloud_penalty = (c_low * 0.8) + (c_mid * 0.5) + (c_high * 0.2)
         score -= cloud_penalty
 
-    # 強風扣分 (影響長曝腳架穩定度)
     if wind > 8.0:
         score -= (wind - 8.0) * 3.0
 
-    return max(15, min(98, int(score)))
+    return max(15, min(99, int(score)))
 
 def fetch_weather_for_spot(spot):
     lat = spot.get("lat")
@@ -71,7 +63,7 @@ def fetch_weather_for_spot(spot):
         url = (
             f"https://api.open-meteo.com/v1/forecast"
             f"?latitude={lat}&longitude={lon}"
-            f"&hourly=temperature_2m,relative_humidity_2m,cloud_cover_low,cloud_cover_mid,cloud_cover_high,wind_speed_10m,visibility,precipitation_probability"
+            f"&hourly=temperature_2m,dew_point_2m,relative_humidity_2m,cloud_cover_low,cloud_cover_mid,cloud_cover_high,wind_speed_10m,visibility,precipitation_probability"
             f"&forecast_days=3&timezone=auto"
         )
         req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
@@ -81,6 +73,7 @@ def fetch_weather_for_spot(spot):
             hourly = raw.get("hourly", {})
             times = hourly.get("time", [])
             temps = hourly.get("temperature_2m", [])
+            dews = hourly.get("dew_point_2m", [])
             rhs = hourly.get("relative_humidity_2m", [])
             c_lows = hourly.get("cloud_cover_low", [])
             c_mids = hourly.get("cloud_cover_mid", [])
@@ -95,6 +88,12 @@ def fetch_weather_for_spot(spot):
             hourly_forecast = []
             for i in range(len(times)):
                 t_str = times[i].replace("T", " ")
+                temp = temps[i] if i < len(temps) else 0
+                dew = dews[i] if i < len(dews) else 0
+                
+                # 計算理論估算雲底高度：(T - Td) * 125 公尺
+                estimated_cloud_base = max(100, int((temp - dew) * 125))
+
                 item_data = {
                     "c_low": c_lows[i] if i < len(c_lows) else 0,
                     "c_mid": c_mids[i] if i < len(c_mids) else 0,
@@ -105,35 +104,42 @@ def fetch_weather_for_spot(spot):
                     "wind": winds[i] if i < len(winds) else 0
                 }
                 
-                # 計算動態分數
                 score = calculate_spot_score(spot, item_data)
 
-                if item_data["pop"] > 40:
+                # 判定狀態與動態關鍵指標
+                if item_data["pop"] > 50:
                     status = "🌧️ 降雨風險高"
-                elif score >= 80:
-                    status = "☀️ 條件優良"
-                elif score >= 55:
-                    status = "⛅ 條件普通"
+                    indicator = "🌧️ 攜帶雨具預防"
+                elif visibilities[i] >= 20000 and (item_data["c_low"] + item_data["c_mid"]) < 20:
+                    status = "☀️ 條件極佳"
+                    indicator = "💎 極佳大氣通透度"
+                elif item_data["rh"] >= 80 and 30 <= item_data["c_low"] <= 80:
+                    status = "☁️ 雲海機率高"
+                    indicator = "☁️ 翻騰雲海黃金期"
+                elif item_data["wind"] > 8.0:
+                    status = "💨 風速強勁"
+                    indicator = "💨 強風注意腳架穩定"
                 else:
-                    status = "☁️ 出景機率低"
+                    status = "⛅ 氣象平穩"
+                    indicator = "✅ 風和日麗良好"
 
                 hourly_forecast.append({
                     "time": t_str,
                     "score": score,
                     "status": status,
                     "kp": current_kp,
-                    "cloud_base": 1000,
-                    "temp": temps[i] if i < len(temps) else 0,
+                    "cloud_base": estimated_cloud_base,
+                    "temp": temp,
                     "rh": item_data["rh"],
                     "c_low": item_data["c_low"],
                     "c_mid": item_data["c_mid"],
                     "c_high": item_data["c_high"],
                     "wind": item_data["wind"],
                     "visibility": round(item_data["vis"] / 1000, 1),
+                    "key_indicator": indicator,
                     "is_past": False
                 })
 
-            # 計算當前黃金視窗（平均權重而非極端單一最高分）
             sorted_items = sorted(hourly_forecast, key=lambda x: x["score"], reverse=True)
             best_item = sorted_items[0] if sorted_items else {}
 
@@ -142,11 +148,9 @@ def fetch_weather_for_spot(spot):
                 "best_time": best_item.get("time", "12:00"),
                 "reason": "多因子氣象權重分析",
                 "position": best_item.get("status", "⛅ 多雲"),
+                "key_indicator": best_item.get("key_indicator", "✅ 風和日麗良好"),
                 "hourly_forecast": hourly_forecast
             }
     except Exception as e:
         print(f"Fetch weather error for {spot.get('name')}: {e}")
         return {}
-
-def update_usa_weather():
-    pass
