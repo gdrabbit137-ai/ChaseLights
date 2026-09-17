@@ -563,14 +563,18 @@
         const dateObj = new Date(parseInt(dateParts[0]), parseInt(dateParts[1]) - 1, parseInt(dateParts[2]));
         const weekStr = weekNames[dateObj.getDay()];
 
-        const dateFormatted = `${displayDate} (${weekStr}) ${timeParts[1]}`;
+        // 標記日夜圖示 ☀️ / 🌙
+        const hourNum = parseInt(timeParts[1].split(":")[0]);
+        const dayNightIcon = (hourNum >= 18 || hourNum < 6) ? '🌙 ' : '☀️ ';
+
+        const dateFormatted = `${dayNightIcon}${displayDate} (${weekStr}) ${timeParts[1]}`;
 
         processedSpots.push({
           ...spot,
           score: bestItem.score,
           best_time: dateFormatted,
-          key_indicator: bestItem.key_indicator || spot.key_indicator || '指標正常',
-          position: `${bestItem.status} | 雲底高度 ${bestItem.cloud_base}m`
+          key_indicator: bestItem.key_indicator || spot.key_indicator || '✅ 風和日麗良好',
+          position: `${bestItem.status} | 雲底${bestItem.cloud_base}m`
         });
       });
 
@@ -614,7 +618,7 @@
             <div class="info-row">⏱️ 最佳窗口：<b>${spot.best_time || 'N/A'}</b></div>
             <div class="info-row">📍 預報狀態：${spot.position || '無'}</div>
             <div>
-              <span class="indicator-pill">${spot.key_indicator || '指標正常'}</span>
+              <span class="indicator-pill">${spot.key_indicator}</span>
             </div>
           </div>
 
