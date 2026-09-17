@@ -52,7 +52,7 @@
     }
     .sub-btn { font-size: 0.82rem; padding: 4px 10px; background: #1e293b; }
     .tag-btn { font-size: 0.78rem; padding: 3px 8px; background: #0f172a; border-color: #334155; border-radius: 12px; }
-    .day-btn { font-size: 0.82rem; padding: 4px 12px; background: #1e293b; border-color: #0284c7; color: #38bdf8; }
+    .day-btn { font-size: 0.82rem; padding: 4px 14px; background: #1e293b; border-color: #0284c7; color: #38bdf8; }
     
     .nav-btn.active, .sub-btn.active {
       background: #0284c7;
@@ -249,9 +249,9 @@
     <div class="sub-nav-bar" id="sub-nav"></div>
     <div class="tag-nav-bar" id="tag-nav"></div>
 
+    <!-- 精簡後的日期選單：預設選取今天 -->
     <div class="day-nav-bar" id="day-nav">
-      <button class="day-btn active" onclick="switchDay('all', this)">⏱️ 全時段預報 (未來72H)</button>
-      <button class="day-btn" onclick="switchDay('today', this)">📅 今天</button>
+      <button class="day-btn active" onclick="switchDay('today', this)">📅 今天</button>
       <button class="day-btn" onclick="switchDay('tomorrow', this)">📅 明天</button>
       <button class="day-btn" onclick="switchDay('after_tomorrow', this)">📅 後天</button>
     </div>
@@ -294,7 +294,7 @@
     </div>
   </div>
 
- <script>
+  <script>
     const regionFiles = {
       'tw': './tw_weather.json',
       'jp': './japan_weather.json',
@@ -323,7 +323,7 @@
     let currentSpots = [];
     let currentCategory = "全部";
     let currentTag = "all";
-    let currentDayFilter = "all";
+    let currentDayFilter = "today"; // 預設專註於「今天」
     let favorites = JSON.parse(localStorage.getItem('chaselights_favs') || '[]');
 
     function formatToLocalTime(utcTimeStr) {
@@ -427,7 +427,6 @@
       filterAndRender();
     }
 
-    // 格式化 Date 為 YYYY-MM-DD
     function toIsoDateStr(d) {
       const year = d.getFullYear();
       const month = String(d.getMonth() + 1).padStart(2, '0');
@@ -451,14 +450,28 @@
         filtered = filtered.filter(s => s.tags && s.tags.includes(currentTag));
       }
 
-      // 零時區誤差：使用用戶當前本地日期作為今天基準
-      const now = new Date();
-      const todayIso = toIsoDateStr(now);
-      
-      const tomDate = new Date(now); tomDate.setDate(now.getDate() + 1);
+      // 動態找出 JSON 預報資料中的「第一筆未來預報日期」作為【今天】的絕對基準
+      let baseTodayIso = "";
+      for (const s of currentSpots) {
+        const firstValid = (s.hourly_forecast || []).find(h => !h.is_past);
+        if (firstValid && firstValid.time) {
+          baseTodayIso = firstValid.time.split(" ")[0];
+          break;
+        }
+      }
+
+      if (!baseTodayIso) {
+        baseTodayIso = toIsoDateStr(new Date());
+      }
+
+      const [bY, bM, bD] = baseTodayIso.split("-").map(Number);
+      const todayDate = new Date(bY, bM - 1, bD);
+
+      const tomDate = new Date(todayDate); tomDate.setDate(todayDate.getDate() + 1);
+      const afterTomDate = new Date(todayDate); afterTomDate.setDate(todayDate.getDate() + 2);
+
+      const todayIso = baseTodayIso;
       const tomIso = toIsoDateStr(tomDate);
-      
-      const afterTomDate = new Date(now); afterTomDate.setDate(now.getDate() + 2);
       const afterTomIso = toIsoDateStr(afterTomDate);
 
       const weekNames = ["日", "一", "二", "三", "四", "五", "六"];
@@ -480,12 +493,10 @@
 
         let bestItem = validForecast.reduce((max, item) => item.score > max.score ? item : max, validForecast[0]);
 
-        // 直接拆解字串： "2026-09-19 07:00" -> 日期: 09/19, 時間: 07:00
         const timeParts = bestItem.time.split(" ");
         const dateParts = timeParts[0].split("-");
         const displayDate = `${dateParts[1]}/${dateParts[2]}`;
 
-        // 計算星期
         const dateObj = new Date(parseInt(dateParts[0]), parseInt(dateParts[1]) - 1, parseInt(dateParts[2]));
         const weekStr = weekNames[dateObj.getDay()];
 
