@@ -2,12 +2,9 @@ import sys
 import json
 from datetime import datetime, timezone
 from regions import get_spots
-from fetch_data import fetch_weather_for_spot
+from fetch_data import fetch_weather_for_spot, fetch_noaa_kp
 
 def analyze_spot(spot):
-    """
-    抓取並分析單一景點氣象 (包含歷史24H + 預報48H 逐小時數據，並帶入主題標籤)
-    """
     try:
         raw_data = fetch_weather_for_spot(spot)
         
@@ -68,7 +65,6 @@ def main():
         result = analyze_spot(spot)
         analyzed_spots.append(result)
 
-    # 輸出 ISO 8601 UTC 標準時間，例如 2026-09-17T00:28:25Z
     now_utc_str = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     
     output_data = {
@@ -77,6 +73,11 @@ def main():
         "total_spots": len(analyzed_spots),
         "spots": analyzed_spots
     }
+
+    if region == "us":
+        kp_info = fetch_noaa_kp()
+        if kp_info:
+            output_data["latest_kp"] = kp_info["kp_index"]
 
     with open(output_filename, "w", encoding="utf-8") as f:
         json.dump(output_data, f, ensure_ascii=False, indent=2)
