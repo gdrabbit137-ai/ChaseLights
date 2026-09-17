@@ -11,6 +11,7 @@ jobs:
     permissions:
       contents: write
     strategy:
+      fail-fast: false  # 防止單一矩陣任務失敗影響其他任務
       matrix:
         region: [tw, jp, us]
 
@@ -36,7 +37,14 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git pull --rebase
           git add *_weather.json
-          git diff-index --quiet HEAD || git commit -m "Auto-update ${{ matrix.region }} weather data [skip ci]"
-          git push
+          
+          # 防止併發 Git Push 衝突的重試機制
+          if ! git diff-index --quiet HEAD; then
+            git commit -m "Auto-update ${{ matrix.region }} weather data [skip ci]"
+            
+            # 嘗試重試 5 次 pull --rebase + push
+            for i in {1..5}; do
+              git pull --rebase && git push && break || sleep 5
+            done
+          fi
