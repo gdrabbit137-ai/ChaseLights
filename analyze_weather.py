@@ -5,9 +5,6 @@ from regions import get_spots
 from fetch_data import fetch_weather_for_spot, fetch_noaa_kp
 
 def analyze_spot(spot):
-    """
-    抓取並分析單一景點氣象 (包含歷史與預報數據，並帶入主題標籤與動態氣象指標)
-    """
     try:
         raw_data = fetch_weather_for_spot(spot)
         
@@ -71,7 +68,6 @@ def main():
         result = analyze_spot(spot)
         analyzed_spots.append(result)
 
-    # 輸出 ISO 8601 UTC 標準時間，例如 2026-09-18T03:14:10Z
     now_utc_str = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     
     output_data = {
@@ -81,7 +77,7 @@ def main():
         "spots": analyzed_spots
     }
 
-    # 抓取最新 NOAA Kp 指數並寫入 JSON 根層級，確保前端 Header 隨時能讀取
+    # 抓取最新 Kp 指數並寫入 JSON 外層
     kp_info = fetch_noaa_kp()
     if kp_info:
         output_data["latest_kp"] = kp_info["kp_index"]
