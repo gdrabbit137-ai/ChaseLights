@@ -1,6 +1,7 @@
 import json
 import urllib.request
 import os
+from datetime import datetime
 
 def fetch_noaa_kp():
     url = "https://services.swpc.noaa.gov/products/noaa-planetary-k-index.json"
@@ -29,28 +30,31 @@ def calculate_spot_score(spot, item):
     wind = item.get("wind", 0)
     
     score = 100
-    score -= (pop * 0.7)
+    # 降雨機率與能見度平滑扣分
+    score -= (pop * 0.6)
     if vis < 15000:
-        score -= ((15000 - vis) / 1000) * 1.2
+        score -= ((15000 - vis) / 1000) * 1.0
 
+    # 依題材評估雲量影響
     if "starlight" in tags or "aurora" in tags:
-        cloud_penalty = (c_low * 1.0) + (c_mid * 0.9) + (c_high * 0.5)
+        cloud_penalty = (c_low * 0.9) + (c_mid * 0.7) + (c_high * 0.4)
         score -= cloud_penalty
         if rh > 85:
-            score -= 15
+            score -= 10
     elif "cloud_sea" in tags:
         if 40 <= c_low <= 85 and rh >= 80:
             score += 10
         else:
-            score -= 20
+            score -= 15
     else:
-        cloud_penalty = (c_low * 0.8) + (c_mid * 0.5) + (c_high * 0.2)
+        cloud_penalty = (c_low * 0.6) + (c_mid * 0.4) + (c_high * 0.2)
         score -= cloud_penalty
 
+    # 平滑風速扣分
     if wind > 8.0:
-        score -= (wind - 8.0) * 3.0
+        score -= (wind - 8.0) * 2.0
 
-    return max(15, min(99, int(score)))
+    return max(20, min(99, int(score)))
 
 def fetch_weather_for_spot(spot):
     lat = spot.get("lat")
@@ -85,13 +89,15 @@ def fetch_weather_for_spot(spot):
             kp_info = fetch_noaa_kp()
             current_kp = kp_info["kp_index"] if kp_info else "-"
 
+            now_str = datetime.now().strftime("%Y-%m-%d %H:00")
+
             hourly_forecast = []
             for i in range(len(times)):
                 t_str = times[i].replace("T", " ")
                 temp = temps[i] if i < len(temps) else 0
                 dew = dews[i] if i < len(dews) else 0
                 
-                # 計算理論估算雲底高度：(T - Td) * 125 公尺
+                # 計算真實估算雲底高度：(T - Td) * 125m
                 estimated_cloud_base = max(100, int((temp - dew) * 125))
 
                 item_data = {
@@ -106,7 +112,7 @@ def fetch_weather_for_spot(spot):
                 
                 score = calculate_spot_score(spot, item_data)
 
-                # 判定狀態與動態關鍵指標
+                # 判定動態氣象指標
                 if item_data["pop"] > 50:
                     status = "🌧️ 降雨風險高"
                     indicator = "🌧️ 攜帶雨具預防"
@@ -137,11 +143,13 @@ def fetch_weather_for_spot(spot):
                     "wind": item_data["wind"],
                     "visibility": round(item_data["vis"] / 1000, 1),
                     "key_indicator": indicator,
-                    "is_past": False
+                    "is_past": t_str < now_str
                 })
 
-            sorted_items = sorted(hourly_forecast, key=lambda x: x["score"], reverse=True)
-            best_item = sorted_items[0] if sorted_items else {}
+            # 選出未來未過期的最佳時段
+            future_items = [h for h in hourly_forecast if not h["is_past"]]
+            search_pool = future_items if future_items else hourly_forecast
+            best_item = max(search_pool, key=lambda x: x["score"]) if search_pool else {}
 
             return {
                 "score": best_item.get("score", 50),
@@ -154,3 +162,6 @@ def fetch_weather_for_spot(spot):
     except Exception as e:
         print(f"Fetch weather error for {spot.get('name')}: {e}")
         return {}
+
+def update_usa_weather():
+    pass
