@@ -249,7 +249,6 @@
     <div class="sub-nav-bar" id="sub-nav"></div>
     <div class="tag-nav-bar" id="tag-nav"></div>
 
-    <!-- 新增日期快篩欄 -->
     <div class="day-nav-bar" id="day-nav">
       <button class="day-btn active" onclick="switchDay('all', this)">⏱️ 全時段預報 (未來48H)</button>
       <button class="day-btn" onclick="switchDay('today', this)">📅 今天</button>
@@ -261,7 +260,6 @@
   <div id="loading">正在獲取攝影氣象數據...</div>
   <div class="container" id="spots-container"></div>
 
-  <!-- Modal 彈窗 -->
   <div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
     <div class="modal" onclick="event.stopPropagation()">
       <div class="modal-header">
@@ -445,17 +443,25 @@
         filtered = filtered.filter(s => s.tags && s.tags.includes(currentTag));
       }
 
-      // 日期過濾與重新計算最佳分數
       const now = new Date();
-      const weekNames = ["一", "二", "三", "四", "五", "六", "日"];
+      const weekNames = ["日", "一", "二", "三", "四", "五", "六"];
       
-      const getDateStr = (d) => `${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}`;
+      const getIsoDateStr = (d) => {
+        const year = d.getFullYear();
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+      };
+
+      const getDisplayDateStr = (d) => `${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}`;
       
-      const todayStr = getDateStr(now);
+      const todayIso = getIsoDateStr(now);
+      
       const tomDate = new Date(now); tomDate.setDate(now.getDate() + 1);
-      const tomStr = getDateStr(tomDate);
+      const tomIso = getIsoDateStr(tomDate);
+      
       const afterTomDate = new Date(now); afterTomDate.setDate(now.getDate() + 2);
-      const afterTomStr = getDateStr(afterTomDate);
+      const afterTomIso = getIsoDateStr(afterTomDate);
 
       let processedSpots = [];
 
@@ -463,11 +469,11 @@
         let validForecast = (spot.hourly_forecast || []).filter(h => !h.is_past);
 
         if (currentDayFilter === "today") {
-          validForecast = validForecast.filter(h => h.time.includes(todayStr));
+          validForecast = validForecast.filter(h => h.time.startsWith(todayIso));
         } else if (currentDayFilter === "tomorrow") {
-          validForecast = validForecast.filter(h => h.time.includes(tomStr));
+          validForecast = validForecast.filter(h => h.time.startsWith(tomIso));
         } else if (currentDayFilter === "after_tomorrow") {
-          validForecast = validForecast.filter(h => h.time.includes(afterTomStr));
+          validForecast = validForecast.filter(h => h.time.startsWith(afterTomIso));
         }
 
         if (validForecast.length === 0) return;
@@ -475,7 +481,7 @@
         let bestItem = validForecast.reduce((max, item) => item.score > max.score ? item : max, validForecast[0]);
 
         const tDt = new Date(bestItem.time.replace(" ", "T"));
-        const dateFormatted = `${getDateStr(tDt)} (${weekNames[(tDt.getDay() + 6) % 7]}) ${bestItem.time.split(" ")[1]}`;
+        const dateFormatted = `${getDisplayDateStr(tDt)} (${weekNames[tDt.getDay()]}) ${bestItem.time.split(" ")[1]}`;
 
         processedSpots.push({
           ...spot,
