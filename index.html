@@ -39,7 +39,6 @@
     h1 { margin: 0; font-size: 1.8rem; color: var(--accent); }
     .updated { font-size: 0.85rem; color: var(--muted); text-align: right; }
     
-    /* 極光 Kp 指數徽章樣式 */
     .aurora-badge {
       background: #1e293b;
       border: 1px solid #ffeb3b;
@@ -139,7 +138,6 @@
     .fav-btn.active { color: #f59e0b; }
     .fav-btn:hover { transform: scale(1.2); }
 
-    /* 分數徽章視覺優化 */
     .score-badge {
       padding: 4px 10px;
       border-radius: 8px;
@@ -153,11 +151,10 @@
       background: linear-gradient(135deg, #f59e0b, #d97706); 
       color: #fff; 
       border: 1px solid #fef08a;
-    }  /* >=90分：金黃爆景 */
-    .score-high { background: #10b981; }  /* 75-89分：翡翠綠 */
-    .score-low { background: #475569; }   /* <75分：沉穩灰藍 */
+    }
+    .score-high { background: #10b981; }
+    .score-low { background: #475569; }
 
-    /* 關鍵出景指標標籤 */
     .indicator-pill {
       display: inline-block;
       margin-top: 6px;
@@ -212,7 +209,6 @@
 
     #loading { text-align: center; font-size: 1.2rem; color: var(--muted); margin-top: 40px; }
 
-    /* Modal 彈窗 */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -278,7 +274,6 @@
     <div class="header-top">
       <h1>📸 ChaseLights</h1>
       <div class="header-right">
-        <!-- NOAA Kp 即時指數顯示徽章 -->
         <div class="aurora-badge" id="aurora-badge">
           🌌 NOAA Kp: <span id="header-kp-val">載入中...</span>
         </div>
@@ -390,14 +385,13 @@
       return `${year}-${month}-${day} ${hours}:${minutes} (${tzOffsetStr})`;
     }
 
-    // 獨立載入 NOAA Kp 指數並顯示於 Header 徽章
     async function loadAuroraKp() {
       try {
         const res = await fetch('./usa_weather.json?t=' + Date.now());
         if (!res.ok) return;
         const data = await res.json();
         
-        const kpValue = data.alaska?.kp_index ?? data.latest_kp ?? "N/A";
+        const kpValue = data.latest_kp ?? "N/A";
         const kpSpan = document.getElementById('header-kp-val');
         
         let prefix = "";
@@ -557,6 +551,7 @@
           validForecast = validForecast.filter(h => h.time.startsWith(afterTomIso));
         }
 
+        if (validForecast.length === 0) validForecast = spot.hourly_forecast || [];
         if (validForecast.length === 0) return;
 
         let bestItem = validForecast.reduce((max, item) => item.score > max.score ? item : max, validForecast[0]);
@@ -591,7 +586,6 @@
         card.className = 'card';
         card.onclick = () => openModal(spot);
 
-        // 視覺化分數階層
         let scoreClass = 'score-low';
         let scorePrefix = '';
         if (spot.score >= 90) {
@@ -619,8 +613,6 @@
             <div class="tags-wrapper">${pillsHtml}</div>
             <div class="info-row">⏱️ 最佳窗口：<b>${spot.best_time || 'N/A'}</b></div>
             <div class="info-row">📍 預報狀態：${spot.position || '無'}</div>
-            
-            <!-- 關鍵理據指標 -->
             <div>
               <span class="indicator-pill">${spot.key_indicator || '指標正常'}</span>
             </div>
@@ -692,7 +684,6 @@
       loadData(regionKey);
     }
 
-    // 初始化載入
     loadAuroraKp();
     loadData('tw');
   </script>
