@@ -84,6 +84,7 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      position: relative;
     }
     .card:hover {
       transform: translateY(-2px);
@@ -94,10 +95,29 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 6px;
+      padding-right: 28px;
     }
     .spot-name { font-size: 1.2rem; font-weight: bold; }
     
-    /* 動態分數 Badge 色階 */
+    /* 收藏按鈕 */
+    .fav-btn {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: #475569;
+      transition: transform 0.2s ease;
+    }
+    .fav-btn.active {
+      color: #f59e0b;
+    }
+    .fav-btn:hover {
+      transform: scale(1.2);
+    }
+
     .score-badge {
       padding: 4px 8px;
       border-radius: 6px;
@@ -153,7 +173,7 @@
 
     #loading { text-align: center; font-size: 1.2rem; color: var(--muted); margin-top: 40px; }
 
-    /* Modal 彈窗 (終端機風格) */
+    /* Modal 彈窗 */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -213,8 +233,6 @@
     .terminal-table th { background: #141414; color: #ff79c6; position: sticky; top: 0; }
     .terminal-table tr.past-row { color: #666; background: #080808; }
     .terminal-table tr.best-row { background: rgba(56, 189, 248, 0.18); border-left: 3px solid #38bdf8; }
-    .terminal-table tr.now-divider { border-bottom: 2px solid #38bdf8; }
-    .terminal-table tr:hover { background: #1a1a1a; }
     .tag-past { font-size: 0.7rem; color: #888; border: 1px solid #444; padding: 1px 4px; border-radius: 3px; }
   </style>
 </head>
@@ -282,17 +300,18 @@
     };
 
     const categoriesMap = {
-      'tw': ["全部", "本島", "澎湖", "金門", "馬祖", "綠島/蘭嶼/小琉球"],
-      'jp': ["全部", "北海道/東北", "關東/中部", "關西/中四國", "九州/沖繩"],
-      'us': ["全部", "美西", "美中", "美東", "阿拉斯加"]
+      'tw': ["全部", "⭐ 我的最愛", "本島", "澎湖", "金門", "馬祖", "綠島/蘭嶼/小琉球"],
+      'jp': ["全部", "⭐ 我的最愛", "北海道/東北", "關東/中部", "關西/中四國", "九州/沖繩"],
+      'us': ["全部", "⭐ 我的最愛", "美西", "美中", "美東", "阿拉斯加"]
     };
 
     const tagLabels = {
       "all": "🌐 全部題材",
       "lake": "🌊 湖泊晨霧",
+      "cloud_sea": "☁️ 翻騰雲海",
       "forest": "🌲 迷霧森林",
       "starlight": "🌌 銀河星空",
-      "mountain": "🏔️ 高山雲海",
+      "mountain": "🏔️ 高山通透",
       "coast": "🌅 海岸彩霞",
       "waterfall": "瀑布溪流",
       "aurora": "🌌 夜間極光",
@@ -302,6 +321,7 @@
     let currentSpots = [];
     let currentCategory = "全部";
     let currentTag = "all";
+    let favorites = JSON.parse(localStorage.getItem('chaselights_favs') || '[]');
 
     function formatToLocalTime(utcTimeStr) {
       if (!utcTimeStr) return '未提供';
@@ -386,13 +406,26 @@
       });
     }
 
+    function toggleFavorite(spotName, event) {
+      event.stopPropagation();
+      if (favorites.includes(spotName)) {
+        favorites = favorites.filter(name => name !== spotName);
+      } else {
+        favorites.push(spotName);
+      }
+      localStorage.setItem('chaselights_favs', JSON.stringify(favorites));
+      filterAndRender();
+    }
+
     function filterAndRender() {
       const container = document.getElementById('spots-container');
       container.innerHTML = '';
 
       let filtered = currentSpots;
 
-      if (currentCategory !== "全部") {
+      if (currentCategory === "⭐ 我的最愛") {
+        filtered = filtered.filter(s => favorites.includes(s.name));
+      } else if (currentCategory !== "全部") {
         filtered = filtered.filter(s => (s.category || "本島") === currentCategory);
       }
 
@@ -412,15 +445,17 @@
         card.className = 'card';
         card.onclick = () => openModal(spot);
 
-        // 三色動態色階
         let scoreClass = 'score-low';
         if (spot.score >= 85) scoreClass = 'score-high';
         else if (spot.score >= 70) scoreClass = 'score-mid';
 
+        const isFav = favorites.includes(spot.name);
+        const favClass = isFav ? 'fav-btn active' : 'fav-btn';
         const pillsHtml = (spot.tags || []).map(t => `<span class="scene-pill">${tagLabels[t] || t}</span>`).join('');
         const navUrl = `https://www.google.com/maps/search/?api=1&query=${spot.lat},${spot.lon}`;
 
         card.innerHTML = `
+          <button class="${favClass}" onclick="toggleFavorite('${spot.name}', event)">★</button>
           <div>
             <div class="card-header">
               <div>
@@ -434,7 +469,7 @@
             <div class="info-row">📍 預報狀態：${spot.position || '無'}</div>
           </div>
           <div class="card-footer-tools" onclick="event.stopPropagation()">
-            <span style="font-size: 0.78rem; color: #94a3b8;">💡 點擊卡片看 72H 明細</span>
+            <span style="font-size: 0.78rem; color: #94a3b8;">💡 點擊看 72H 明細</span>
             <div>
               <a href="${navUrl}" target="_blank" class="tool-link">🗺️ 導航</a>
               <a href="https://www.cwa.gov.tw/V8/C/W/OBS_Radar.html" target="_blank" class="tool-link">📡 雷達</a>
