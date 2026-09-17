@@ -1,8 +1,141 @@
-<!-- 阿拉斯加景點卡片 -->
-<div class="weather-card" id="alaska-card">
-    <h3>阿拉斯加 (Alaska) 极光观测</h3>
-    <div class="weather-info">
-        <p>目前 Kp 極光指數: <span id="kp-index-value" style="font-weight: bold; color: #ffeb3b;">載入中...</span></p>
-        <p class="update-time" style="font-size: 0.85rem; color: #aaa;">更新時間: <span id="kp-time-value">-</span></p>
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChaseLights - 極光與天氣追蹤儀表板</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        header h1 {
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+        header p {
+            color: #888;
+        }
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .weather-card {
+            background-color: #1e1e1e;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            border-top: 4px solid #3f51b5;
+        }
+        .weather-card.alaska {
+            border-top-color: #ffeb3b;
+        }
+        .weather-card h3 {
+            margin-top: 0;
+            color: #ffffff;
+            font-size: 1.25rem;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+        }
+        .weather-info p {
+            margin: 10px 0;
+            font-size: 0.95rem;
+        }
+        .kp-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ffeb3b;
+        }
+        .update-time {
+            font-size: 0.8rem;
+            color: #888;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>ChaseLights 追光儀表板</h1>
+        <p>即時氣象與極光指數監控</p>
+    </header>
+
+    <div class="dashboard-container">
+        <!-- 阿拉斯加景點卡片 -->
+        <div class="weather-card alaska" id="alaska-card">
+            <h3>阿拉斯加 (Alaska) 極光觀測</h3>
+            <div class="weather-info">
+                <p>目前 Kp 指數: <span id="kp-index-value" class="kp-value">載入中...</span></p>
+                <p>觀測狀態: <span id="kp-status">分析中</span></p>
+            </div>
+            <div class="update-time">
+                更新時間: <span id="kp-time-value">-</span>
+            </div>
+        </div>
+
+        <!-- 之後可以擴充其他地區的卡片 -->
+        <div class="weather-card">
+            <h3>其他觀測點</h3>
+            <div class="weather-info">
+                <p>系統狀態: <span style="color: #4caf50;">運行中</span></p>
+            </div>
+        </div>
     </div>
-</div>
+
+    <script>
+        async function loadAlaskaKp() {
+            try {
+                // 讀取根目錄下的 usa_weather.json
+                const response = await fetch('usa_weather.json');
+                if (!response.ok) {
+                    throw new Error('無法取得 usa_weather.json 檔案');
+                }
+                const data = await response.json();
+                
+                // 取得對應的 Kp 數值與時間
+                const kpValue = data.alaska?.kp_index ?? data.latest_kp ?? "無資料";
+                const kpTime = data.alaska?.kp_time ?? "";
+
+                document.getElementById('kp-index-value').innerText = kpValue;
+                
+                // 簡單判斷 Kp 強度給予提示文字
+                let statusText = "活動平靜";
+                const numKp = parseFloat(kpValue);
+                if (!isNaN(numKp)) {
+                    if (numKp >= 5) {
+                        statusText = "🔥 磁暴發生中 (極光強烈)";
+                    } else if (numKp >= 4) {
+                        statusText = "✨ 活躍狀態 (有機會見到極光)";
+                    } else {
+                        statusText = "🌙 較為平靜";
+                    }
+                }
+                document.getElementById('kp-status').innerText = statusText;
+
+                if (kpTime) {
+                    document.getElementById('kp-time-value').innerText = kpTime;
+                }
+            } catch (error) {
+                console.error("載入 Kp 指數失敗:", error);
+                document.getElementById('kp-index-value').innerText = "讀取失敗";
+                document.getElementById('kp-status').innerText = "無法連線";
+            }
+        }
+
+        // 當網頁載入完成時執行
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAlaskaKp();
+        });
+    </script>
+</body>
+</html>
