@@ -3,7 +3,6 @@ import urllib.request
 import os
 
 def fetch_noaa_kp():
-    """ 抓取 NOAA 官方太空天氣 Kp 指數 """
     url = "https://services.swpc.noaa.gov/products/noaa-planetary-k-index.json"
     try:
         req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
@@ -19,8 +18,49 @@ def fetch_noaa_kp():
         print(f"Failed to fetch NOAA Kp data: {e}")
     return None
 
+def calculate_spot_score(spot, item):
+    """ 依據景點主題標籤與即時氣象進行動態加扣分 """
+    tags = spot.get("tags", [])
+    c_low = item.get("c_low", 0)
+    c_mid = item.get("c_mid", 0)
+    c_high = item.get("c_high", 0)
+    pop = item.get("pop", 0)
+    vis = item.get("vis", 10000)
+    rh = item.get("rh", 50)
+    wind = item.get("wind", 0)
+    
+    score = 100
+    
+    # 基礎降雨與能見度扣分
+    score -= (pop * 0.7)
+    if vis < 15000:
+        score -= ((15000 - vis) / 1000) * 1.2
+
+    # 針對不同攝影題材進行客製化條件評估
+    if "starlight" in tags or "aurora" in tags:
+        # 星空/極光：極度依賴無雲與低濕度
+        cloud_penalty = (c_low * 1.0) + (c_mid * 0.9) + (c_high * 0.5)
+        score -= cloud_penalty
+        if rh > 85:
+            score -= 15
+    elif "cloud_sea" in tags:
+        # 雲海：需要高濕度與適當中低雲量
+        if 40 <= c_low <= 85 and rh >= 80:
+            score += 10
+        else:
+            score -= 20
+    else:
+        # 一般風景/高山：常規雲量扣分
+        cloud_penalty = (c_low * 0.8) + (c_mid * 0.5) + (c_high * 0.2)
+        score -= cloud_penalty
+
+    # 強風扣分 (影響長曝腳架穩定度)
+    if wind > 8.0:
+        score -= (wind - 8.0) * 3.0
+
+    return max(15, min(98, int(score)))
+
 def fetch_weather_for_spot(spot):
-    """ 供 analyze_weather.py 呼叫的完整景點氣象抓取與分析函式 """
     lat = spot.get("lat")
     lon = spot.get("lon")
     
@@ -49,43 +89,33 @@ def fetch_weather_for_spot(spot):
             visibilities = hourly.get("visibility", [])
             pops = hourly.get("precipitation_probability", [])
 
-            # 抓取即時 Kp 指數
             kp_info = fetch_noaa_kp()
             current_kp = kp_info["kp_index"] if kp_info else "-"
 
             hourly_forecast = []
             for i in range(len(times)):
                 t_str = times[i].replace("T", " ")
+                item_data = {
+                    "c_low": c_lows[i] if i < len(c_lows) else 0,
+                    "c_mid": c_mids[i] if i < len(c_mids) else 0,
+                    "c_high": c_highs[i] if i < len(c_highs) else 0,
+                    "pop": pops[i] if i < len(pops) else 0,
+                    "vis": visibilities[i] if i < len(visibilities) else 10000,
+                    "rh": rhs[i] if i < len(rhs) else 50,
+                    "wind": winds[i] if i < len(winds) else 0
+                }
                 
-                c_low = c_lows[i] if i < len(c_lows) else 0
-                c_mid = c_mids[i] if i < len(c_mids) else 0
-                c_high = c_highs[i] if i < len(c_highs) else 0
-                pop = pops[i] if i < len(pops) else 0
-                vis = visibilities[i] if i < len(visibilities) else 10000
-                
-                # --- 多因子綜合評分權重 ---
-                # 低雲遮擋視線權重最重(1.0)，中雲(0.6)，高雲(0.3)
-                cloud_penalty = (c_low * 1.0) + (c_mid * 0.6) + (c_high * 0.3)
-                score = 100 - (cloud_penalty * 0.7)
-                
-                # 降雨機率扣分
-                score -= (pop * 0.5)
-                
-                # 能見度扣分 (低於 15km 開始微幅扣分)
-                if vis < 15000:
-                    score -= ((15000 - vis) / 1000) * 1.0
-                
-                score = max(10, min(100, int(score)))
+                # 計算動態分數
+                score = calculate_spot_score(spot, item_data)
 
-                # 天氣狀態文字描述
-                if pop > 40:
-                    status = "🌧️ 降雨機率高"
-                elif score >= 85:
-                    status = "☀️ 晴朗通透"
-                elif score >= 65:
-                    status = "⛅ 多雲"
+                if item_data["pop"] > 40:
+                    status = "🌧️ 降雨風險高"
+                elif score >= 80:
+                    status = "☀️ 條件優良"
+                elif score >= 55:
+                    status = "⛅ 條件普通"
                 else:
-                    status = "☁️ 陰天"
+                    status = "☁️ 出景機率低"
 
                 hourly_forecast.append({
                     "time": t_str,
@@ -94,23 +124,24 @@ def fetch_weather_for_spot(spot):
                     "kp": current_kp,
                     "cloud_base": 1000,
                     "temp": temps[i] if i < len(temps) else 0,
-                    "rh": rhs[i] if i < len(rhs) else 0,
-                    "c_low": c_low,
-                    "c_mid": c_mid,
-                    "c_high": c_high,
-                    "wind": winds[i] if i < len(winds) else 0,
-                    "visibility": round(vis / 1000, 1),
+                    "rh": item_data["rh"],
+                    "c_low": item_data["c_low"],
+                    "c_mid": item_data["c_mid"],
+                    "c_high": item_data["c_high"],
+                    "wind": item_data["wind"],
+                    "visibility": round(item_data["vis"] / 1000, 1),
                     "is_past": False
                 })
 
-            # 選出未來最佳時段
-            best_item = max(hourly_forecast, key=lambda x: x["score"]) if hourly_forecast else {}
+            # 計算當前黃金視窗（平均權重而非極端單一最高分）
+            sorted_items = sorted(hourly_forecast, key=lambda x: x["score"], reverse=True)
+            best_item = sorted_items[0] if sorted_items else {}
 
             return {
                 "score": best_item.get("score", 50),
                 "best_time": best_item.get("time", "12:00"),
-                "reason": "綜合氣象條件良好",
-                "position": best_item.get("status", "☀️ 晴朗"),
+                "reason": "多因子氣象權重分析",
+                "position": best_item.get("status", "⛅ 多雲"),
                 "hourly_forecast": hourly_forecast
             }
     except Exception as e:
