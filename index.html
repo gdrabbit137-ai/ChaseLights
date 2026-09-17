@@ -250,7 +250,7 @@
     <div class="tag-nav-bar" id="tag-nav"></div>
 
     <div class="day-nav-bar" id="day-nav">
-      <button class="day-btn active" onclick="switchDay('all', this)">⏱️ 全時段預報 (未來48H)</button>
+      <button class="day-btn active" onclick="switchDay('all', this)">⏱️ 全時段預報 (未來72H)</button>
       <button class="day-btn" onclick="switchDay('today', this)">📅 今天</button>
       <button class="day-btn" onclick="switchDay('tomorrow', this)">📅 明天</button>
       <button class="day-btn" onclick="switchDay('after_tomorrow', this)">📅 後天</button>
@@ -268,7 +268,7 @@
       </div>
       <div class="modal-body">
         <div style="color: #888; font-size: 0.8rem; margin-bottom: 10px;">
-          ⏱️ 涵蓋範圍：過去 24 小時 [歷史實測] + 未來 48 小時 [氣象預報] (藍底高亮為預測最佳出景窗口)
+          ⏱️ 涵蓋範圍：過去 24 小時 [歷史實測] + 未來 72 小時 [氣象預報] (藍底高亮為預測最佳出景窗口)
         </div>
         <div style="overflow-x: auto;">
           <table class="terminal-table">
@@ -527,7 +527,7 @@
             <div class="info-row">📍 預報狀態：${spot.position || '無'}</div>
           </div>
           <div class="card-footer-tools" onclick="event.stopPropagation()">
-            <span style="font-size: 0.78rem; color: #94a3b8;">💡 點擊看 72H 明細</span>
+            <span style="font-size: 0.78rem; color: #94a3b8;">💡 點擊看 96H 明細</span>
             <div>
               <a href="${navUrl}" target="_blank" class="tool-link">🗺️ 導航</a>
               <a href="https://www.cwa.gov.tw/V8/C/W/OBS_Radar.html" target="_blank" class="tool-link">📡 雷達</a>
@@ -539,7 +539,7 @@
     }
 
     function openModal(spot) {
-      document.getElementById('modal-spot-name').innerText = `📍 ${spot.name} (歷史 24H + 預報 48H 明細)`;
+      document.getElementById('modal-spot-name').innerText = `📍 ${spot.name} (歷史 24H + 預報 72H 明細)`;
       const tbody = document.getElementById('timeline-body');
       tbody.innerHTML = '';
 
