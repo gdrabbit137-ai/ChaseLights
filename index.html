@@ -1,167 +1,700 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-TW">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChaseLights - 多地區極光與氣象追蹤儀表板</title>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: #121212;
-            color: #e0e0e0;
-            margin: 0;
-            padding: 20px;
-        }
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        header h1 {
-            color: #ffffff;
-            margin-bottom: 5px;
-        }
-        header p {
-            color: #888;
-        }
-        .dashboard-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .weather-card {
-            background-color: #1e1e1e;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-            border-top: 4px solid #3f51b5;
-        }
-        .weather-card.us {
-            border-top-color: #ffeb3b; /* 阿拉斯加極光用金黃色高亮 */
-        }
-        .weather-card.jp {
-            border-top-color: #e91e63;
-        }
-        .weather-card.tw {
-            border-top-color: #00bcd4;
-        }
-        .weather-card h3 {
-            margin-top: 0;
-            color: #ffffff;
-            font-size: 1.25rem;
-            border-bottom: 1px solid #333;
-            padding-bottom: 10px;
-        }
-        .weather-info p {
-            margin: 10px 0;
-            font-size: 0.95rem;
-        }
-        .kp-value {
-            font-size: 1.4rem;
-            font-weight: bold;
-            color: #ffeb3b;
-        }
-        .update-time {
-            font-size: 0.8rem;
-            color: #888;
-            margin-top: 15px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChaseLights — 攝影天氣預報</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --accent: #38bdf8;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+    }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 20px;
+    }
+    header {
+      max-width: 1000px;
+      margin: 0 auto 20px;
+      border-bottom: 1px solid #334155;
+      padding-bottom: 16px;
+    }
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    h1 { margin: 0; font-size: 1.8rem; color: var(--accent); }
+    .updated { font-size: 0.85rem; color: var(--muted); text-align: right; }
+    
+    /* 極光 Kp 指數徽章樣式 */
+    .aurora-badge {
+      background: #1e293b;
+      border: 1px solid #ffeb3b;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      color: #ffeb3b;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 0 10px rgba(255, 235, 59, 0.2);
+    }
+    
+    .nav-bar, .sub-nav-bar, .tag-nav-bar, .day-nav-bar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .nav-btn, .sub-btn, .tag-btn, .day-btn {
+      background: #334155;
+      color: var(--text);
+      border: 1px solid #475569;
+      padding: 6px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+    }
+    .sub-btn { font-size: 0.82rem; padding: 4px 10px; background: #1e293b; }
+    .tag-btn { font-size: 0.78rem; padding: 3px 8px; background: #0f172a; border-color: #334155; border-radius: 12px; }
+    .day-btn { font-size: 0.82rem; padding: 4px 12px; background: #1e293b; border-color: #0284c7; color: #38bdf8; }
+    
+    .nav-btn.active, .sub-btn.active {
+      background: #0284c7;
+      border-color: #38bdf8;
+      color: #fff;
+      font-weight: bold;
+    }
+    .tag-btn.active {
+      background: #38bdf8;
+      color: #0f172a;
+      border-color: #38bdf8;
+      font-weight: bold;
+    }
+    .day-btn.active {
+      background: #0284c7;
+      color: #fff;
+      font-weight: bold;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+    }
+    .card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.3);
+      border: 1px solid #334155;
+      cursor: pointer;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+    .card:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent);
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+      padding-right: 28px;
+    }
+    .spot-name { font-size: 1.2rem; font-weight: bold; }
+    
+    .fav-btn {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: #475569;
+      transition: transform 0.2s ease;
+    }
+    .fav-btn.active { color: #f59e0b; }
+    .fav-btn:hover { transform: scale(1.2); }
+
+    /* 分數徽章視覺優化 */
+    .score-badge {
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-weight: 800;
+      color: #fff;
+      font-size: 0.95rem;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    .score-gold { 
+      background: linear-gradient(135deg, #f59e0b, #d97706); 
+      color: #fff; 
+      border: 1px solid #fef08a;
+    }  /* >=90分：金黃爆景 */
+    .score-high { background: #10b981; }  /* 75-89分：翡翠綠 */
+    .score-low { background: #475569; }   /* <75分：沉穩灰藍 */
+
+    /* 關鍵出景指標標籤 */
+    .indicator-pill {
+      display: inline-block;
+      margin-top: 6px;
+      font-size: 0.8rem;
+      background: rgba(56, 189, 248, 0.12);
+      color: #38bdf8;
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+
+    .category-tag {
+      font-size: 0.75rem;
+      background: #334155;
+      color: var(--accent);
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-left: 6px;
+    }
+    .scene-pill {
+      font-size: 0.7rem;
+      background: #0f172a;
+      border: 1px solid #334155;
+      color: #cbd5e1;
+      padding: 1px 6px;
+      border-radius: 10px;
+      margin-right: 4px;
+    }
+    .tags-wrapper { margin-top: 2px; margin-bottom: 8px; }
+    .info-row { font-size: 0.88rem; color: #cbd5e1; margin: 4px 0; }
+    
+    .card-footer-tools {
+      margin-top: 12px;
+      padding-top: 8px;
+      border-top: 1px dashed #334155;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .tool-link {
+      font-size: 0.78rem;
+      color: var(--accent);
+      text-decoration: none;
+      background: #0f172a;
+      padding: 3px 8px;
+      border-radius: 4px;
+      border: 1px solid #334155;
+      transition: background 0.2s ease;
+    }
+    .tool-link:hover { background: #334155; }
+
+    #loading { text-align: center; font-size: 1.2rem; color: var(--muted); margin-top: 40px; }
+
+    /* Modal 彈窗 */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(4px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 15px;
+    }
+    .modal {
+      background: #0c0c0c;
+      border: 1px solid #333;
+      border-radius: 8px;
+      max-width: 950px;
+      width: 100%;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      font-family: "Courier New", Courier, monospace;
+      color: #e0e0e0;
+      box-shadow: 0 0 20px rgba(0,255,255,0.1);
+    }
+    .modal-header {
+      padding: 12px 16px;
+      background: #181818;
+      border-bottom: 1px solid #333;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .modal-title { font-size: 1.1rem; font-weight: bold; color: #38bdf8; }
+    .close-btn {
+      background: none;
+      border: none;
+      color: #888;
+      font-size: 1.4rem;
+      cursor: pointer;
+    }
+    .close-btn:hover { color: #fff; }
+    .modal-body { padding: 12px; overflow-y: auto; }
+    .terminal-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      white-space: nowrap;
+    }
+    .terminal-table th, .terminal-table td {
+      padding: 6px 8px;
+      text-align: left;
+      border-bottom: 1px solid #222;
+    }
+    .terminal-table th { background: #141414; color: #ff79c6; position: sticky; top: 0; }
+    .terminal-table tr.past-row { color: #666; background: #080808; }
+    .terminal-table tr.best-row { background: rgba(56, 189, 248, 0.18); border-left: 3px solid #38bdf8; }
+    .tag-past { font-size: 0.7rem; color: #888; border: 1px solid #444; padding: 1px 4px; border-radius: 3px; }
+  </style>
 </head>
 <body>
 
-    <header>
-        <h1>ChaseLights 追光儀表板</h1>
-        <p>台灣、日本、美國多地區即時氣象與極光指數監控</p>
-    </header>
-
-    <div class="dashboard-container">
-        <!-- 台灣 (TW) 卡片 -->
-        <div class="weather-card tw" id="tw-card">
-            <h3>台灣 (Taiwan) 觀測點</h3>
-            <div class="weather-info">
-                <p>氣溫: <span id="tw-temp">載入中...</span></p>
-                <p>天氣狀況: <span id="tw-condition">載入中...</span></p>
-            </div>
-            <div class="update-time">更新時間: <span id="tw-time">-</span></div>
+  <header>
+    <div class="header-top">
+      <h1>📸 ChaseLights</h1>
+      <div class="header-right">
+        <!-- NOAA Kp 即時指數顯示徽章 -->
+        <div class="aurora-badge" id="aurora-badge">
+          🌌 NOAA Kp: <span id="header-kp-val">載入中...</span>
         </div>
-
-        <!-- 日本 (JP) 卡片 -->
-        <div class="weather-card jp" id="jp-card">
-            <h3>日本 (Japan) 觀測點</h3>
-            <div class="weather-info">
-                <p>氣溫: <span id="jp-temp">載入中...</span></p>
-                <p>天氣狀況: <span id="jp-condition">載入中...</span></p>
-            </div>
-            <div class="update-time">更新時間: <span id="jp-time">-</span></div>
-        </div>
-
-        <!-- 美國 / 阿拉斯加 (US) 極光卡片 -->
-        <div class="weather-card us" id="us-card">
-            <h3>美國 / 阿拉斯加 (US) 極光觀測</h3>
-            <div class="weather-info">
-                <p>目前 Kp 指數: <span id="kp-index-value" class="kp-value">載入中...</span></p>
-                <p>觀測狀態: <span id="kp-status">分析中</span></p>
-            </div>
-            <div class="update-time">更新時間: <span id="kp-time-value">-</span></div>
-        </div>
+        <div class="updated" id="update-time">載入中...</div>
+      </div>
+    </div>
+    
+    <div class="nav-bar">
+      <button class="nav-btn active" onclick="switchRegion('tw', this)">🇹🇼 台灣</button>
+      <button class="nav-btn" onclick="switchRegion('jp', this)">🇯🇵 日本</button>
+      <button class="nav-btn" onclick="switchRegion('us', this)">🇺🇸 美國</button>
     </div>
 
-    <script>
-        // 載入美國/阿拉斯加與 Kp 指數資料
-        async function loadUsWeather() {
-            try {
-                const response = await fetch('usa_weather.json');
-                if (!response.ok) throw new Error('無法取得 usa_weather.json');
-                const data = await response.json();
-                
-                const kpValue = data.alaska?.kp_index ?? data.latest_kp ?? "無資料";
-                const kpTime = data.alaska?.kp_time ?? "";
+    <div class="sub-nav-bar" id="sub-nav"></div>
+    <div class="tag-nav-bar" id="tag-nav"></div>
 
-                document.getElementById('kp-index-value').innerText = kpValue;
-                
-                let statusText = "活動平靜";
-                const numKp = parseFloat(kpValue);
-                if (!isNaN(numKp)) {
-                    if (numKp >= 5) statusText = "🔥 磁暴發生中 (極光強烈)";
-                    else if (numKp >= 4) statusText = "✨ 活躍狀態 (有機會見到極光)";
-                    else statusText = "🌙 較為平靜";
-                }
-                document.getElementById('kp-status').innerText = statusText;
-                if (kpTime) document.getElementById('kp-time-value').innerText = kpTime;
-            } catch (error) {
-                console.error("載入美國氣象失敗:", error);
-                document.getElementById('kp-index-value').innerText = "讀取失敗";
-            }
+    <div class="day-nav-bar" id="day-nav">
+      <button class="day-btn active" onclick="switchDay('today', this)">📅 今天</button>
+      <button class="day-btn" onclick="switchDay('tomorrow', this)">📅 明天</button>
+      <button class="day-btn" onclick="switchDay('after_tomorrow', this)">📅 後天</button>
+    </div>
+  </header>
+
+  <div id="loading">正在獲取攝影氣象數據...</div>
+  <div class="container" id="spots-container"></div>
+
+  <div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-title" id="modal-spot-name">📍 景點氣象分析</div>
+        <button class="close-btn" onclick="closeModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="color: #888; font-size: 0.8rem; margin-bottom: 10px;">
+          ⏱️ 涵蓋範圍：過去 24 小時 [歷史實測] + 未來 72 小時 [氣象預報] (藍底高亮為預測最佳出景窗口)
+        </div>
+        <div style="overflow-x: auto;">
+          <table class="terminal-table">
+            <thead>
+              <tr>
+                <th>時間</th>
+                <th>評分</th>
+                <th>狀態</th>
+                <th>Kp指數</th>
+                <th>雲底高度</th>
+                <th>氣溫</th>
+                <th>濕度</th>
+                <th>低雲</th>
+                <th>中雲</th>
+                <th>高雲</th>
+                <th>風速</th>
+                <th>能見度</th>
+              </tr>
+            </thead>
+            <tbody id="timeline-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const regionFiles = {
+      'tw': './tw_weather.json',
+      'jp': './japan_weather.json',
+      'us': './usa_weather.json'
+    };
+
+    const categoriesMap = {
+      'tw': ["全部", "⭐ 我的最愛", "本島", "澎湖", "金門", "馬祖", "綠島/蘭嶼/小琉球"],
+      'jp': ["全部", "⭐ 我的最愛", "北海道/東北", "關東/中部", "關西/中四國", "九州/沖繩"],
+      'us': ["全部", "⭐ 我的最愛", "美西", "美中", "美東", "阿拉斯加"]
+    };
+
+    const tagLabels = {
+      "all": "🌐 全部題材",
+      "lake": "🌊 湖泊晨霧",
+      "cloud_sea": "☁️ 翻騰雲海",
+      "forest": "🌲 迷霧森林",
+      "starlight": "🌌 銀河星空",
+      "mountain": "🏔️ 高山通透",
+      "coast": "🌅 海岸彩霞",
+      "waterfall": "瀑布溪流",
+      "aurora": "🌌 夜間極光",
+      "city": "🏙️ 城市夜景"
+    };
+
+    let currentSpots = [];
+    let currentCategory = "全部";
+    let currentTag = "all";
+    let currentDayFilter = "today";
+    let favorites = JSON.parse(localStorage.getItem('chaselights_favs') || '[]');
+
+    function formatToLocalTime(utcTimeStr) {
+      if (!utcTimeStr) return '未提供';
+      const date = new Date(utcTimeStr);
+      if (isNaN(date.getTime())) return utcTimeStr;
+
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      const hours = String(date.getHours()).padStart(2, '0');
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+
+      const offsetMinutes = -date.getTimezoneOffset();
+      const offsetHours = offsetMinutes / 60;
+      const tzOffsetStr = `UTC${offsetHours >= 0 ? '+' : ''}${offsetHours}`;
+
+      return `${year}-${month}-${day} ${hours}:${minutes} (${tzOffsetStr})`;
+    }
+
+    // 獨立載入 NOAA Kp 指數並顯示於 Header 徽章
+    async function loadAuroraKp() {
+      try {
+        const res = await fetch('./usa_weather.json?t=' + Date.now());
+        if (!res.ok) return;
+        const data = await res.json();
+        
+        const kpValue = data.alaska?.kp_index ?? data.latest_kp ?? "N/A";
+        const kpSpan = document.getElementById('header-kp-val');
+        
+        let prefix = "";
+        const numKp = parseFloat(kpValue);
+        if (!isNaN(numKp)) {
+          if (numKp >= 5) prefix = "🔥 ";
+          else if (numKp >= 4) prefix = "✨ ";
+        }
+        
+        kpSpan.innerText = `${prefix}${kpValue}`;
+      } catch (e) {
+        console.error("Kp 數據載入失敗", e);
+      }
+    }
+
+    async function loadData(regionKey) {
+      const container = document.getElementById('spots-container');
+      const loading = document.getElementById('loading');
+      
+      loading.style.display = 'block';
+      container.innerHTML = '';
+
+      renderSubNav(regionKey);
+      renderTagNav();
+
+      try {
+        const res = await fetch(`${regionFiles[regionKey]}?t=${Date.now()}`);
+        if (!res.ok) throw new Error(`HTTP status ${res.status}`);
+        
+        const data = await res.json();
+        document.getElementById('update-time').innerText = `最後更新：${formatToLocalTime(data.updated_at)}`;
+        
+        loading.style.display = 'none';
+        currentSpots = data.spots || [];
+        filterAndRender();
+
+      } catch (err) {
+        loading.innerText = `⚠️ 讀取氣象資料檔失敗 (${regionFiles[regionKey].replace('./', '')})`;
+      }
+    }
+
+    function renderSubNav(regionKey) {
+      const subNav = document.getElementById('sub-nav');
+      subNav.innerHTML = '';
+      currentCategory = "全部";
+
+      const cats = categoriesMap[regionKey] || ["全部"];
+      cats.forEach((cat, index) => {
+        const btn = document.createElement('button');
+        btn.className = `sub-btn ${index === 0 ? 'active' : ''}`;
+        btn.innerText = cat;
+        btn.onclick = () => {
+          document.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentCategory = cat;
+          filterAndRender();
+        };
+        subNav.appendChild(btn);
+      });
+    }
+
+    function renderTagNav() {
+      const tagNav = document.getElementById('tag-nav');
+      tagNav.innerHTML = '';
+      currentTag = "all";
+
+      Object.keys(tagLabels).forEach(tagKey => {
+        const btn = document.createElement('button');
+        btn.className = `tag-btn ${tagKey === 'all' ? 'active' : ''}`;
+        btn.innerText = tagLabels[tagKey];
+        btn.onclick = () => {
+          document.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentTag = tagKey;
+          filterAndRender();
+        };
+        tagNav.appendChild(btn);
+      });
+    }
+
+    function switchDay(dayKey, btnElement) {
+      document.querySelectorAll('.day-btn').forEach(btn => btn.classList.remove('active'));
+      if (btnElement) btnElement.classList.add('active');
+      currentDayFilter = dayKey;
+      filterAndRender();
+    }
+
+    function toggleFavorite(spotName, event) {
+      event.stopPropagation();
+      if (favorites.includes(spotName)) {
+        favorites = favorites.filter(name => name !== spotName);
+      } else {
+        favorites.push(spotName);
+      }
+      localStorage.setItem('chaselights_favs', JSON.stringify(favorites));
+      filterAndRender();
+    }
+
+    function toIsoDateStr(d) {
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
+
+    function filterAndRender() {
+      const container = document.getElementById('spots-container');
+      container.innerHTML = '';
+
+      let filtered = currentSpots;
+
+      if (currentCategory === "⭐ 我的最愛") {
+        filtered = filtered.filter(s => favorites.includes(s.name));
+      } else if (currentCategory !== "全部") {
+        filtered = filtered.filter(s => (s.category || "本島") === currentCategory);
+      }
+
+      if (currentTag !== "all") {
+        filtered = filtered.filter(s => s.tags && s.tags.includes(currentTag));
+      }
+
+      let baseTodayIso = "";
+      for (const s of currentSpots) {
+        const firstValid = (s.hourly_forecast || []).find(h => !h.is_past);
+        if (firstValid && firstValid.time) {
+          baseTodayIso = firstValid.time.split(" ")[0];
+          break;
+        }
+      }
+
+      if (!baseTodayIso) {
+        baseTodayIso = toIsoDateStr(new Date());
+      }
+
+      const [bY, bM, bD] = baseTodayIso.split("-").map(Number);
+      const todayDate = new Date(bY, bM - 1, bD);
+
+      const tomDate = new Date(todayDate); tomDate.setDate(todayDate.getDate() + 1);
+      const afterTomDate = new Date(todayDate); afterTomDate.setDate(todayDate.getDate() + 2);
+
+      const todayIso = baseTodayIso;
+      const tomIso = toIsoDateStr(tomDate);
+      const afterTomIso = toIsoDateStr(afterTomDate);
+
+      const weekNames = ["日", "一", "二", "三", "四", "五", "六"];
+
+      let processedSpots = [];
+
+      filtered.forEach(spot => {
+        let validForecast = (spot.hourly_forecast || []).filter(h => !h.is_past);
+
+        if (currentDayFilter === "today") {
+          validForecast = validForecast.filter(h => h.time.startsWith(todayIso));
+        } else if (currentDayFilter === "tomorrow") {
+          validForecast = validForecast.filter(h => h.time.startsWith(tomIso));
+        } else if (currentDayFilter === "after_tomorrow") {
+          validForecast = validForecast.filter(h => h.time.startsWith(afterTomIso));
         }
 
-        // 載入台灣與日本資料（假設對應 tw_weather.json 與 jp_weather.json）
-        async function loadRegionalWeather(region, tempId, condId, timeId) {
-            try {
-                const response = await fetch(`${region}_weather.json`);
-                if (!response.ok) return;
-                const data = await response.json();
-                
-                if (data.temperature !== undefined) {
-                    document.getElementById(tempId).innerText = `${data.temperature} °C`;
-                }
-                if (data.condition !== undefined) {
-                    document.getElementById(condId).innerText = data.condition;
-                }
-                if (data.update_time !== undefined) {
-                    document.getElementById(timeId).innerText = data.update_time;
-                }
-            } catch (error) {
-                console.error(`載入 ${region} 氣象失敗:`, error);
-            }
-        }
+        if (validForecast.length === 0) return;
 
-        document.addEventListener('DOMContentLoaded', () => {
-            loadUsWeather();
-            loadRegionalWeather('tw', 'tw-temp', 'tw-condition', 'tw-time');
-            loadRegionalWeather('jp', 'jp-temp', 'jp-condition', 'jp-time');
+        let bestItem = validForecast.reduce((max, item) => item.score > max.score ? item : max, validForecast[0]);
+
+        const timeParts = bestItem.time.split(" ");
+        const dateParts = timeParts[0].split("-");
+        const displayDate = `${dateParts[1]}/${dateParts[2]}`;
+
+        const dateObj = new Date(parseInt(dateParts[0]), parseInt(dateParts[1]) - 1, parseInt(dateParts[2]));
+        const weekStr = weekNames[dateObj.getDay()];
+
+        const dateFormatted = `${displayDate} (${weekStr}) ${timeParts[1]}`;
+
+        processedSpots.push({
+          ...spot,
+          score: bestItem.score,
+          best_time: dateFormatted,
+          key_indicator: bestItem.key_indicator || spot.key_indicator || '指標正常',
+          position: `${bestItem.status} | 雲底高度 ${bestItem.cloud_base}m`
         });
-    </script>
+      });
+
+      processedSpots.sort((a, b) => (b.score || 0) - (a.score || 0));
+
+      if (processedSpots.length === 0) {
+        container.innerHTML = '<p style="color: var(--muted); grid-column: 1/-1; text-align: center;">該條件下暫無景點資料</p>';
+        return;
+      }
+
+      processedSpots.forEach(spot => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.onclick = () => openModal(spot);
+
+        // 視覺化分數階層
+        let scoreClass = 'score-low';
+        let scorePrefix = '';
+        if (spot.score >= 90) {
+          scoreClass = 'score-gold';
+          scorePrefix = '🔥 ';
+        } else if (spot.score >= 75) {
+          scoreClass = 'score-high';
+        }
+
+        const isFav = favorites.includes(spot.name);
+        const favClass = isFav ? 'fav-btn active' : 'fav-btn';
+        const pillsHtml = (spot.tags || []).map(t => `<span class="scene-pill">${tagLabels[t] || t}</span>`).join('');
+        const navUrl = `https://www.google.com/maps/search/?api=1&query=${spot.lat},${spot.lon}`;
+
+        card.innerHTML = `
+          <button class="${favClass}" onclick="toggleFavorite('${spot.name}', event)">★</button>
+          <div>
+            <div class="card-header">
+              <div>
+                <span class="spot-name">${spot.name}</span>
+                <span class="category-tag">${spot.category || '未分類'}</span>
+              </div>
+              <span class="score-badge ${scoreClass}">${scorePrefix}${spot.score}分</span>
+            </div>
+            <div class="tags-wrapper">${pillsHtml}</div>
+            <div class="info-row">⏱️ 最佳窗口：<b>${spot.best_time || 'N/A'}</b></div>
+            <div class="info-row">📍 預報狀態：${spot.position || '無'}</div>
+            
+            <!-- 關鍵理據指標 -->
+            <div>
+              <span class="indicator-pill">${spot.key_indicator || '指標正常'}</span>
+            </div>
+          </div>
+
+          <div class="card-footer-tools" onclick="event.stopPropagation()">
+            <span style="font-size: 0.78rem; color: #94a3b8;">💡 點擊看 96H 明細</span>
+            <div>
+              <a href="${navUrl}" target="_blank" class="tool-link">🗺️ 導航</a>
+              <a href="https://www.cwa.gov.tw/V8/C/W/OBS_Radar.html" target="_blank" class="tool-link">📡 雷達</a>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function openModal(spot) {
+      document.getElementById('modal-spot-name').innerText = `📍 ${spot.name} (歷史 24H + 預報 72H 明細)`;
+      const tbody = document.getElementById('timeline-body');
+      tbody.innerHTML = '';
+
+      const forecast = spot.hourly_forecast || [];
+      if (forecast.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="12" style="color:#666; text-align:center;">暫無詳細時序氣象資料</td></tr>';
+      } else {
+        forecast.forEach(item => {
+          const tr = document.createElement('tr');
+          
+          const isBest = !item.is_past && spot.best_time && item.time.includes(spot.best_time.split(" ")[2] || "23:00");
+          if (item.is_past) tr.className = 'past-row';
+          else if (isBest) tr.className = 'best-row';
+
+          let scoreColor = '#50fa7b';
+          if (item.score <= 30) scoreColor = '#ff5555';
+          else if (item.score < 75) scoreColor = '#f1fa8c';
+
+          const timeTag = item.is_past ? `<span class="tag-past">歷史</span> ${item.time.split(" ")[1]}` : item.time;
+          const kpValue = item.kp !== undefined ? item.kp : '-';
+
+          tr.innerHTML = `
+            <td>${timeTag}</td>
+            <td style="color:${scoreColor}; font-weight:bold;">${item.score}分</td>
+            <td>${item.status}</td>
+            <td style="color: #ffeb3b; font-weight: bold;">${kpValue}</td>
+            <td>雲底${item.cloud_base}m</td>
+            <td>${item.temp}°C</td>
+            <td>濕${item.rh}%</td>
+            <td>低${item.c_low}%</td>
+            <td>中${item.c_mid}%</td>
+            <td>高${item.c_high}%</td>
+            <td>風${item.wind}m/s</td>
+            <td>能見${item.visibility}km</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+
+      document.getElementById('modal-overlay').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('modal-overlay').style.display = 'none';
+    }
+
+    function switchRegion(regionKey, btnElement) {
+      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+      if (btnElement) btnElement.classList.add('active');
+      loadData(regionKey);
+    }
+
+    // 初始化載入
+    loadAuroraKp();
+    loadData('tw');
+  </script>
 </body>
 </html>
