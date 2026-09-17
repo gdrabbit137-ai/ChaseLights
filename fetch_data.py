@@ -1,5 +1,5 @@
 """
-ChaseLights — 天氣網格資料擷取模組 (含過去24H + 未來48H 專業攝影氣象欄位)
+ChaseLights — 天氣網格資料擷取模組 (含多標籤專業攝影氣象評分)
 """
 
 import json, os, time, hashlib
@@ -30,6 +30,7 @@ def build_spot_points(region="tw"):
         "lon": round(s["lon"], 4),
         "name": s["name"],
         "category": s.get("category", "本島"),
+        "tags": s.get("tags", ["mountain"]),
         "type": "spot"
     } for s in spots]
 
@@ -53,14 +54,15 @@ def cache_key(lat, lon):
     raw = f"{lat:.4f}_{lon:.4f}"
     return hashlib.md5(raw.encode()).hexdigest()[:12]
 
-def fetch_point(lat, lon, past_days=1, forecast_days=2):
-    """抓取過去 24 小時 + 未來 48 小時氣象"""
+def fetch_point(lat, lon, past_days=1, forecast_days=2, retries=3):
+    """抓取過去 24 小時 + 未來 48 小時氣象 (含失敗重試機制)"""
     cache_path = os.path.join(CACHE_DIR, f"{cache_key(lat, lon)}.json")
     if os.path.exists(cache_path):
         age = time.time() - os.path.getmtime(cache_path)
         if age < CACHE_TTL:
             with open(cache_path, "r", encoding="utf-8") as f:
                 return json.load(f)
+
     url = (
         f"https://api.open-meteo.com/v1/forecast"
         f"?latitude={lat}&longitude={lon}"
@@ -69,54 +71,109 @@ def fetch_point(lat, lon, past_days=1, forecast_days=2):
         f"temperature_2m,dew_point_2m"
         f"&past_days={past_days}"
         f"&forecast_days={forecast_days}"
-        f"&timezone=Asia/Taipei"
+        f"&timezone=auto"
     )
-    try:
-        resp = requests.get(url, timeout=15)
-        data = resp.json()
-        with open(cache_path, "w", encoding="utf-8") as f:
-            json.dump(data, f, ensure_ascii=False)
-        return data
-    except Exception as e:
-        return {"error": str(e), "lat": lat, "lon": lon}
+
+    for attempt in range(retries):
+        try:
+            resp = requests.get(url, timeout=15)
+            if resp.status_code == 200:
+                data = resp.json()
+                with open(cache_path, "w", encoding="utf-8") as f:
+                    json.dump(data, f, ensure_ascii=False)
+                return data
+            elif resp.status_code == 429:  # Rate limited
+                time.sleep(1.5 * (attempt + 1))
+        except Exception:
+            time.sleep(1.0 * (attempt + 1))
+
+    return {"error": "API Limit or Timeout", "lat": lat, "lon": lon}
 
 def calculate_cloud_base(temp, dew_point):
-    """估算低雲雲底高度 (公尺) - 依據溫度與露點差 (Temp - DewPoint) * 125"""
+    """估算低雲雲底高度 (公尺)"""
     spread = max(0.0, temp - dew_point)
     return int(spread * 125)
 
-def evaluate_hour_condition(c_low, c_mid, c_high, vis_km, wind_spd, prec_prob):
-    """計算單時段專業評分與出景狀態"""
-    score = 50
-    status = "☁️ 條件普通"
+def evaluate_hour_condition(c_low, c_mid, c_high, vis_km, wind_spd, rh, prec_prob, hour=12, tags=None):
+    """根據景點多重標籤 (tags) 計算最高權重出景條件"""
+    if not tags:
+        tags = ["mountain"]
 
     if prec_prob > 50:
-        score = 15
-        status = "🌧️ 降雨不佳"
-    elif c_low < 30 and vis_km >= 15:
-        score = 85
-        status = "☀️ 晴朗通透"
+        return 15, "🌧️ 降雨不佳"
+
+    candidates = []
+    total_cloud = max(c_low, c_mid, c_high)
+
+    # 🌊 1. 湖泊標籤 (lake)
+    if "lake" in tags:
+        if 5 <= hour <= 8 and wind_spd < 2.0:
+            if rh >= 80:
+                candidates.append((95, "🌫️ 湖面晨霧/斜射光"))
+            else:
+                candidates.append((88, "🏞️ 湖面靜止倒影"))
+
+    # 🌲 2. 森林標籤 (forest)
+    if "forest" in tags:
+        if rh >= 85 and c_low >= 50 and wind_spd < 3.0:
+            if 6 <= hour <= 9:
+                candidates.append((92, "🌲 迷霧森林/耶穌光"))
+            else:
+                candidates.append((85, "🌲 夢幻迷霧森林"))
+
+    # 🌌 3. 觀星/銀河標籤 (starlight)
+    if "starlight" in tags:
+        if (hour >= 21 or hour <= 4) and total_cloud < 15 and vis_km >= 15:
+            candidates.append((90, "🌌 絕佳清透銀河星空"))
+
+    # 🌌 4. 極光標籤 (aurora)
+    if "aurora" in tags:
+        if (hour >= 20 or hour <= 5) and total_cloud < 20 and prec_prob < 10:
+            candidates.append((93, "🌌 夜間爆發極光出景"))
+
+    # 🌊 5. 海岸/漁港標籤 (coast)
+    if "coast" in tags:
+        if (5 <= hour <= 7 or 17 <= hour <= 19) and c_high > 30 and c_low < 40:
+            candidates.append((88, "🌅 海岸晨昏大霞"))
+
+    # 🏔️ 6. 通用 / 高山觀景標籤 (mountain/default)
+    if c_low < 30 and vis_km >= 15:
+        candidates.append((85, "☀️ 晴朗通透"))
     elif c_high > 40 and c_low < 30 and vis_km >= 12:
-        score = 78
-        status = "🌅 高雲彩霞"
+        candidates.append((78, "🌅 高雲彩霞"))
     elif c_low > 70:
-        score = 25
-        status = "☁️ 濃雲籠罩"
+        candidates.append((25, "☁️ 濃雲籠罩"))
+    else:
+        candidates.append((50, "☁️ 條件普通"))
 
+    # 取出所有評分結果最高者
+    best_score, best_status = max(candidates, key=lambda x: x[0])
+
+    # 強風懲罰
     if wind_spd > 15:
-        score = max(10, score - 15)
-        status += " (強風警告)"
+        best_score = max(10, best_score - 20)
+        best_status += " (強風警告)"
 
-    return score, status
+    return best_score, best_status
 
 def fetch_weather_for_spot(spot):
     """供 analyze_weather.py 單點調用的標準介面"""
     lat = spot.get("lat")
     lon = spot.get("lon")
+    tags = spot.get("tags", ["mountain"])
     raw_weather = fetch_point(lat, lon, past_days=1, forecast_days=2)
     
     if "error" in raw_weather:
-        return {"score": 0, "reason": "API 讀取失敗", "category": spot.get("category", "本島"), "hourly_forecast": []}
+        return {
+            "name": spot.get("name"),
+            "category": spot.get("category", "本島"),
+            "tags": tags,
+            "score": 0,
+            "best_time": "N/A",
+            "position": "資料擷取失敗",
+            "reason": "API 讀取失敗（請稍後重新整理）",
+            "hourly_forecast": []
+        }
         
     hourly = raw_weather.get("hourly", {})
     times = hourly.get("time", [])
@@ -141,6 +198,8 @@ def fetch_weather_for_spot(spot):
     for i in range(len(times)):
         t_raw = times[i]
         t_formatted = t_raw.replace("T", " ")
+        hour_val = int(t_raw.split("T")[1].split(":")[0]) if "T" in t_raw else 12
+
         c_low = c_low_arr[i] if i < len(c_low_arr) else 0
         c_mid = c_mid_arr[i] if i < len(c_mid_arr) else 0
         c_high = c_high_arr[i] if i < len(c_high_arr) else 0
@@ -152,7 +211,9 @@ def fetch_weather_for_spot(spot):
         p_val = prec_arr[i] if i < len(prec_arr) else 0
 
         cloud_base = calculate_cloud_base(tp_val, dw_val)
-        h_score, status = evaluate_hour_condition(c_low, c_mid, c_high, v_val, w_val, p_val)
+        h_score, status = evaluate_hour_condition(
+            c_low, c_mid, c_high, v_val, w_val, rh_val, p_val, hour=hour_val, tags=tags
+        )
 
         is_past = t_raw < now_iso
 
@@ -180,6 +241,7 @@ def fetch_weather_for_spot(spot):
     return {
         "name": spot.get("name"),
         "category": spot.get("category", "本島"),
+        "tags": tags,
         "score": max_score if max_score > 0 else 30,
         "best_time": best_time_str,
         "position": f"{best_status} | 雲底高度 {best_cloud_base}m",
@@ -187,7 +249,8 @@ def fetch_weather_for_spot(spot):
         "hourly_forecast": hourly_forecast
     }
 
-def fetch_all(region="tw", max_workers=10):
+def fetch_all(region="tw", max_workers=5):
+    """併發抓取氣象資料"""
     points = merge_points(region)
     results = {}
     print(f"Fetching {len(points)} points for [{region}] with {max_workers} workers...")
@@ -196,7 +259,7 @@ def fetch_all(region="tw", max_workers=10):
         for p in points:
             fut = pool.submit(fetch_point, p["lat"], p["lon"], 1, 2)
             fut_map[fut] = p
-            time.sleep(0.02)
+            time.sleep(0.05)
         done = 0
         for fut in as_completed(fut_map):
             p = fut_map[fut]
@@ -209,6 +272,7 @@ def fetch_all(region="tw", max_workers=10):
                     "type": p.get("type", "grid"),
                     "name": p.get("name", ""),
                     "category": p.get("category", "本島"),
+                    "tags": p.get("tags", ["mountain"]),
                     "data": data,
                 }
             except Exception as e:
@@ -219,7 +283,7 @@ def fetch_all(region="tw", max_workers=10):
     return results
 
 def update_all(region="tw"):
-    raw = fetch_all(region=region, max_workers=10)
+    raw = fetch_all(region=region, max_workers=5)
     return raw
 
 if __name__ == "__main__":
