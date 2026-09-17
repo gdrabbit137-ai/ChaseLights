@@ -6,7 +6,7 @@ from fetch_data import fetch_weather_for_spot
 
 def analyze_spot(spot):
     """
-    抓取並分析單一景點氣象 (包含歷史24H + 預報48H 逐小時數據)
+    抓取並分析單一景點氣象 (包含歷史24H + 預報48H 逐小時數據，並帶入主題標籤)
     """
     try:
         raw_data = fetch_weather_for_spot(spot)
@@ -16,10 +16,12 @@ def analyze_spot(spot):
         reason = raw_data.get("reason", "條件不足") if isinstance(raw_data, dict) else "條件不足"
         position = raw_data.get("position", "☀️ 晴朗無雲 → 適合一般風景攝影") if isinstance(raw_data, dict) else "☀️ 晴朗無雲"
         hourly_forecast = raw_data.get("hourly_forecast", []) if isinstance(raw_data, dict) else []
+        tags = spot.get("tags", ["mountain"])
 
         return {
             "name": spot.get("name", "未知景點"),
             "category": spot.get("category", "未分類"),
+            "tags": tags,
             "lat": spot.get("lat"),
             "lon": spot.get("lon"),
             "score": score,
@@ -33,6 +35,7 @@ def analyze_spot(spot):
         return {
             "name": spot.get("name", "未知景點"),
             "category": spot.get("category", "未分類"),
+            "tags": spot.get("tags", ["mountain"]),
             "lat": spot.get("lat"),
             "lon": spot.get("lon"),
             "score": 0,
