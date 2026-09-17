@@ -5,6 +5,9 @@ from regions import get_spots
 from fetch_data import fetch_weather_for_spot, fetch_noaa_kp
 
 def analyze_spot(spot):
+    """
+    抓取並分析單一景點氣象 (包含歷史與預報數據，並帶入主題標籤與動態氣象指標)
+    """
     try:
         raw_data = fetch_weather_for_spot(spot)
         
@@ -12,6 +15,7 @@ def analyze_spot(spot):
         best_time = raw_data.get("best_time", "23:00") if isinstance(raw_data, dict) else "23:00"
         reason = raw_data.get("reason", "條件不足") if isinstance(raw_data, dict) else "條件不足"
         position = raw_data.get("position", "☀️ 晴朗無雲 → 適合一般風景攝影") if isinstance(raw_data, dict) else "☀️ 晴朗無雲"
+        key_indicator = raw_data.get("key_indicator", "✅ 風和日麗良好") if isinstance(raw_data, dict) else "✅ 風和日麗良好"
         hourly_forecast = raw_data.get("hourly_forecast", []) if isinstance(raw_data, dict) else []
         tags = spot.get("tags", ["mountain"])
 
@@ -25,6 +29,7 @@ def analyze_spot(spot):
             "best_time": best_time,
             "reason": reason,
             "position": position,
+            "key_indicator": key_indicator,
             "hourly_forecast": hourly_forecast
         }
     except Exception as e:
@@ -39,6 +44,7 @@ def analyze_spot(spot):
             "best_time": "N/A",
             "reason": "無法取得即時氣象資料",
             "position": "資料擷取失敗",
+            "key_indicator": "⚠️ 資料擷取失敗",
             "hourly_forecast": []
         }
 
@@ -65,6 +71,7 @@ def main():
         result = analyze_spot(spot)
         analyzed_spots.append(result)
 
+    # 輸出 ISO 8601 UTC 標準時間，例如 2026-09-18T03:14:10Z
     now_utc_str = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     
     output_data = {
@@ -74,10 +81,10 @@ def main():
         "spots": analyzed_spots
     }
 
-    if region == "us":
-        kp_info = fetch_noaa_kp()
-        if kp_info:
-            output_data["latest_kp"] = kp_info["kp_index"]
+    # 抓取最新 NOAA Kp 指數並寫入 JSON 根層級，確保前端 Header 隨時能讀取
+    kp_info = fetch_noaa_kp()
+    if kp_info:
+        output_data["latest_kp"] = kp_info["kp_index"]
 
     with open(output_filename, "w", encoding="utf-8") as f:
         json.dump(output_data, f, ensure_ascii=False, indent=2)
