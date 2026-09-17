@@ -52,7 +52,7 @@
     }
     .sub-btn { font-size: 0.82rem; padding: 4px 10px; background: #1e293b; }
     .tag-btn { font-size: 0.78rem; padding: 3px 8px; background: #0f172a; border-color: #334155; border-radius: 12px; }
-    .day-btn { font-size: 0.82rem; padding: 4px 14px; background: #1e293b; border-color: #0284c7; color: #38bdf8; }
+    .day-btn { font-size: 0.82rem; padding: 4px 12px; background: #1e293b; border-color: #0284c7; color: #38bdf8; }
     
     .nav-btn.active, .sub-btn.active {
       background: #0284c7;
@@ -119,16 +119,36 @@
     .fav-btn.active { color: #f59e0b; }
     .fav-btn:hover { transform: scale(1.2); }
 
+    /* 分數徽章視覺優化 */
     .score-badge {
-      padding: 4px 8px;
-      border-radius: 6px;
-      font-weight: bold;
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-weight: 800;
       color: #fff;
       font-size: 0.95rem;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     }
-    .score-high { background: #10b981; }  /* 翡翠綠 (>=85分) */
-    .score-mid { background: #0284c7; }   /* 天藍色 (70-84分) */
-    .score-low { background: #64748b; }   /* 沉穩灰 (<70分) */
+    .score-gold { 
+      background: linear-gradient(135deg, #f59e0b, #d97706); 
+      color: #fff; 
+      border: 1px solid #fef08a;
+    }  /* >=90分：金黃爆景 */
+    .score-high { background: #10b981; }  /* 75-89分：翡翠綠 */
+    .score-low { background: #475569; }   /* <75分：沉穩灰藍 */
+
+    /* 關鍵出景指標標籤 */
+    .indicator-pill {
+      display: inline-block;
+      margin-top: 6px;
+      font-size: 0.8rem;
+      background: rgba(56, 189, 248, 0.12);
+      color: #38bdf8;
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-weight: 600;
+    }
 
     .category-tag {
       font-size: 0.75rem;
@@ -148,7 +168,7 @@
       margin-right: 4px;
     }
     .tags-wrapper { margin-top: 2px; margin-bottom: 8px; }
-    .info-row { font-size: 0.9rem; color: #cbd5e1; margin: 4px 0; }
+    .info-row { font-size: 0.88rem; color: #cbd5e1; margin: 4px 0; }
     
     .card-footer-tools {
       margin-top: 12px;
@@ -249,7 +269,6 @@
     <div class="sub-nav-bar" id="sub-nav"></div>
     <div class="tag-nav-bar" id="tag-nav"></div>
 
-    <!-- 精簡後的日期選單：預設選取今天 -->
     <div class="day-nav-bar" id="day-nav">
       <button class="day-btn active" onclick="switchDay('today', this)">📅 今天</button>
       <button class="day-btn" onclick="switchDay('tomorrow', this)">📅 明天</button>
@@ -323,7 +342,7 @@
     let currentSpots = [];
     let currentCategory = "全部";
     let currentTag = "all";
-    let currentDayFilter = "today"; // 預設專註於「今天」
+    let currentDayFilter = "today";
     let favorites = JSON.parse(localStorage.getItem('chaselights_favs') || '[]');
 
     function formatToLocalTime(utcTimeStr) {
@@ -450,7 +469,6 @@
         filtered = filtered.filter(s => s.tags && s.tags.includes(currentTag));
       }
 
-      // 動態找出 JSON 預報資料中的「第一筆未來預報日期」作為【今天】的絕對基準
       let baseTodayIso = "";
       for (const s of currentSpots) {
         const firstValid = (s.hourly_forecast || []).find(h => !h.is_past);
@@ -506,6 +524,7 @@
           ...spot,
           score: bestItem.score,
           best_time: dateFormatted,
+          key_indicator: bestItem.key_indicator || spot.key_indicator || '指標正常',
           position: `${bestItem.status} | 雲底高度 ${bestItem.cloud_base}m`
         });
       });
@@ -522,9 +541,15 @@
         card.className = 'card';
         card.onclick = () => openModal(spot);
 
+        // 視覺化分數階層
         let scoreClass = 'score-low';
-        if (spot.score >= 85) scoreClass = 'score-high';
-        else if (spot.score >= 70) scoreClass = 'score-mid';
+        let scorePrefix = '';
+        if (spot.score >= 90) {
+          scoreClass = 'score-gold';
+          scorePrefix = '🔥 ';
+        } else if (spot.score >= 75) {
+          scoreClass = 'score-high';
+        }
 
         const isFav = favorites.includes(spot.name);
         const favClass = isFav ? 'fav-btn active' : 'fav-btn';
@@ -539,12 +564,18 @@
                 <span class="spot-name">${spot.name}</span>
                 <span class="category-tag">${spot.category || '未分類'}</span>
               </div>
-              <span class="score-badge ${scoreClass}">${spot.score}分</span>
+              <span class="score-badge ${scoreClass}">${scorePrefix}${spot.score}分</span>
             </div>
             <div class="tags-wrapper">${pillsHtml}</div>
-            <div class="info-row">⏱️ 最佳窗口：${spot.best_time || 'N/A'}</div>
+            <div class="info-row">⏱️ 最佳窗口：<b>${spot.best_time || 'N/A'}</b></div>
             <div class="info-row">📍 預報狀態：${spot.position || '無'}</div>
+            
+            <!-- 關鍵理據指標 -->
+            <div>
+              <span class="indicator-pill">${spot.key_indicator || '指標正常'}</span>
+            </div>
           </div>
+
           <div class="card-footer-tools" onclick="event.stopPropagation()">
             <span style="font-size: 0.78rem; color: #94a3b8;">💡 點擊看 96H 明細</span>
             <div>
