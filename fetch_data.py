@@ -1,5 +1,5 @@
 """
-ChaseLights — 天氣網格資料擷取模組 (含月相干擾、露點差雲海與未來時間過濾)
+ChaseLights — 天氣網格資料擷取模組 (含月相干擾、露點差雲海與未來72H預報過濾)
 """
 
 import json, os, time, hashlib
@@ -54,7 +54,8 @@ def cache_key(lat, lon):
     raw = f"{lat:.4f}_{lon:.4f}"
     return hashlib.md5(raw.encode()).hexdigest()[:12]
 
-def fetch_point(lat, lon, past_days=1, forecast_days=2, retries=3):
+def fetch_point(lat, lon, past_days=1, forecast_days=3, retries=3):
+    """抓取過去 24 小時 + 未來 72 小時氣象"""
     cache_path = os.path.join(CACHE_DIR, f"{cache_key(lat, lon)}.json")
     if os.path.exists(cache_path):
         age = time.time() - os.path.getmtime(cache_path)
@@ -163,7 +164,7 @@ def fetch_weather_for_spot(spot):
     lat = spot.get("lat")
     lon = spot.get("lon")
     tags = spot.get("tags", ["mountain"])
-    raw_weather = fetch_point(lat, lon, past_days=1, forecast_days=2)
+    raw_weather = fetch_point(lat, lon, past_days=1, forecast_days=3)
     
     if "error" in raw_weather:
         return {
@@ -179,7 +180,7 @@ def fetch_weather_for_spot(spot):
         
     hourly = raw_weather.get("hourly", {})
     daily = raw_weather.get("daily", {})
-    moon_phases = daily.get("moon_phase", [0.5, 0.5, 0.5])
+    moon_phases = daily.get("moon_phase", [0.5, 0.5, 0.5, 0.5])
     today_moon_phase = moon_phases[1] if len(moon_phases) > 1 else 0.5
 
     times = hourly.get("time", [])
@@ -226,7 +227,6 @@ def fetch_weather_for_spot(spot):
 
         is_past = t_raw < now_iso
 
-        # 核心優化：只針對【未來的時段】計算預設顯示的最高分與最佳時間
         if not is_past and h_score > max_score:
             max_score = h_score
             t_dt = datetime.fromisoformat(t_raw)
@@ -271,7 +271,7 @@ def fetch_all(region="tw", max_workers=5):
     with ThreadPoolExecutor(max_workers=max_workers) as pool:
         fut_map = {}
         for p in points:
-            fut = pool.submit(fetch_point, p["lat"], p["lon"], 1, 2)
+            fut = pool.submit(fetch_point, p["lat"], p["lon"], 1, 3)
             fut_map[fut] = p
             time.sleep(0.05)
         done = 0
