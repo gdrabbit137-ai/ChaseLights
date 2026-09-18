@@ -173,22 +173,35 @@ def evaluate_tag_condition(tag, item_data, hour):
                 status = "🌫️ 城市視線受阻"
                 indicator = "🌫️ 霾害或能見度差"
 
-    # --- 8. 山景展望 (mountain) ---
+# --- 8. 山景展望 (mountain) ---
     else:
         score = 95 - (c_low * 0.6 + c_mid * 0.4) - (pop * 0.7)
         if vis >= 18000: score += 5
         else: score -= max(0, (15000 - vis) / 400)
         score -= max(0, wind - 8.0) * 2.5
 
-        if score >= 85:
-            status = "☀️ 山景展望極佳"
-            indicator = "🏔️ 遠眺群峰通透無瑕"
-        elif score >= 60:
-            status = "⛅ 山景氣象平穩"
-            indicator = "⛅ 局部雲量普通"
+        if is_night:
+            # 夜間山區：不使用太陽圖示與「日照山景」字眼
+            if score >= 85:
+                status = "🌙 夜間大氣清透"
+                indicator = "🌌 高空無視線阻礙"
+            elif score >= 60:
+                status = "🌙 夜間氣象平穩"
+                indicator = "⛅ 局部微雲干擾"
+            else:
+                status = "☁️ 夜間濃霧雲覆"
+                indicator = "☁️ 視線受阻"
         else:
-            status = "☁️ 山區濃霧雲覆"
-            indicator = "☁️ 展望受限無視線"
+            # 白天山區：評估山景展望
+            if score >= 85:
+                status = "☀️ 山景展望極佳"
+                indicator = "🏔️ 遠眺群峰通透無瑕"
+            elif score >= 60:
+                status = "⛅ 山景氣象平穩"
+                indicator = "⛅ 局部雲量普通"
+            else:
+                status = "☁️ 山區濃霧雲覆"
+                indicator = "☁️ 展望受限無視線"
 
     if pop >= 50:
         score = min(score, 40)
