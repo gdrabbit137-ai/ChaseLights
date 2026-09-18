@@ -252,7 +252,6 @@
     .close-btn:hover { color: #fff; }
     .modal-body { padding: 12px; overflow-y: auto; }
     
-    /* 彈窗表格顏色控制：預設為亮白色，歷史列強制為亮灰色 */
     .terminal-table {
       width: 100%;
       border-collapse: collapse;
@@ -267,12 +266,10 @@
     }
     .terminal-table th { background: #141414; color: #ff79c6; position: sticky; top: 0; }
     
-    /* 歷史時間（過去列）：清晰灰 */
     .terminal-table tr.past-row { 
       color: #888888 !important; 
       background: #080808; 
     }
-    /* 預測最佳黃金時間列：高亮藍邊框 */
     .terminal-table tr.best-row { 
       background: rgba(56, 189, 248, 0.22); 
       border-left: 3px solid #38bdf8; 
@@ -379,6 +376,15 @@
     let currentTag = "all";
     let currentDayFilter = "today";
     let favorites = JSON.parse(localStorage.getItem('chaselights_favs') || '[]');
+
+    function getLocalNowStr() {
+      const d = new Date();
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      const hours = String(d.getHours()).padStart(2, '0');
+      return `${year}-${month}-${day} ${hours}:00`;
+    }
 
     function formatToLocalTime(utcTimeStr) {
       if (!utcTimeStr) return '未提供';
@@ -526,9 +532,11 @@
         filtered = filtered.filter(s => s.tags && s.tags.includes(currentTag));
       }
 
+      const localNowStr = getLocalNowStr();
+
       let baseTodayIso = "";
       for (const s of currentSpots) {
-        const firstValid = (s.hourly_forecast || []).find(h => !h.is_past);
+        const firstValid = (s.hourly_forecast || []).find(h => h.time >= localNowStr);
         if (firstValid && firstValid.time) {
           baseTodayIso = firstValid.time.split(" ")[0];
           break;
@@ -554,7 +562,8 @@
       let processedSpots = [];
 
       filtered.forEach(spot => {
-        let validForecast = (spot.hourly_forecast || []).filter(h => !h.is_past);
+        // 使用瀏覽器本地當前時間精準過濾歷史紀錄
+        let validForecast = (spot.hourly_forecast || []).filter(h => h.time >= localNowStr);
 
         if (currentDayFilter === "today") {
           validForecast = validForecast.filter(h => h.time.startsWith(todayIso));
@@ -651,6 +660,7 @@
       const tbody = document.getElementById('timeline-body');
       tbody.innerHTML = '';
 
+      const localNowStr = getLocalNowStr();
       const forecast = spot.hourly_forecast || [];
       if (forecast.length === 0) {
         tbody.innerHTML = '<tr><td colspan="12" style="color:#666; text-align:center;">暫無詳細時序氣象資料</td></tr>';
@@ -658,15 +668,18 @@
         forecast.forEach(item => {
           const tr = document.createElement('tr');
           
-          const isBest = !item.is_past && spot.best_time && item.time.includes(spot.best_time.split(" ")[2] || "23:00");
-          if (item.is_past) tr.className = 'past-row';
+          // 前端即時根據瀏覽器本地時間判定 isPast
+          const isPast = item.time < localNowStr;
+          const isBest = !isPast && spot.best_time && item.time.includes(spot.best_time.split(" ")[2] || "23:00");
+
+          if (isPast) tr.className = 'past-row';
           else if (isBest) tr.className = 'best-row';
 
           let scoreColor = '#50fa7b';
           if (item.score <= 30) scoreColor = '#ff5555';
           else if (item.score < 75) scoreColor = '#f1fa8c';
 
-          const timeTag = item.is_past ? `<span class="tag-past">歷史</span> ${item.time.split(" ")[1]}` : item.time;
+          const timeTag = isPast ? `<span class="tag-past">歷史</span> ${item.time.split(" ")[1]}` : item.time;
           const kpValue = item.kp !== undefined ? item.kp : '-';
 
           tr.innerHTML = `
