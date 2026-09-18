@@ -1,7 +1,7 @@
 import json
 import urllib.request
 import os
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 
 def fetch_noaa_kp():
     url = "https://services.swpc.noaa.gov/products/noaa-planetary-k-index.json"
@@ -30,12 +30,10 @@ def calculate_spot_score(spot, item):
     wind = item.get("wind", 0)
     
     score = 100
-    # 降雨機率與能見度平滑扣分
     score -= (pop * 0.6)
     if vis < 15000:
         score -= ((15000 - vis) / 1000) * 1.0
 
-    # 依題材評估雲量影響
     if "starlight" in tags or "aurora" in tags:
         cloud_penalty = (c_low * 0.9) + (c_mid * 0.7) + (c_high * 0.4)
         score -= cloud_penalty
@@ -50,7 +48,6 @@ def calculate_spot_score(spot, item):
         cloud_penalty = (c_low * 0.6) + (c_mid * 0.4) + (c_high * 0.2)
         score -= cloud_penalty
 
-    # 平滑風速扣分
     if wind > 8.0:
         score -= (wind - 8.0) * 2.0
 
@@ -89,7 +86,9 @@ def fetch_weather_for_spot(spot):
             kp_info = fetch_noaa_kp()
             current_kp = kp_info["kp_index"] if kp_info else "-"
 
-            now_str = datetime.now().strftime("%Y-%m-%d %H:00")
+            # 強制使用 UTC+8 時間比對歷史時段，解決 GitHub Actions (UTC+0) 的 8 小時時差問題
+            tz_tw = timezone(timedelta(hours=8))
+            now_str = datetime.now(tz_tw).strftime("%Y-%m-%d %H:00")
 
             hourly_forecast = []
             for i in range(len(times)):
@@ -97,7 +96,6 @@ def fetch_weather_for_spot(spot):
                 temp = temps[i] if i < len(temps) else 0
                 dew = dews[i] if i < len(dews) else 0
                 
-                # 計算真實估算雲底高度：(T - Td) * 125m
                 estimated_cloud_base = max(100, int((temp - dew) * 125))
 
                 item_data = {
@@ -112,7 +110,6 @@ def fetch_weather_for_spot(spot):
                 
                 score = calculate_spot_score(spot, item_data)
 
-                # 判定動態氣象指標
                 if item_data["pop"] > 50:
                     status = "🌧️ 降雨風險高"
                     indicator = "🌧️ 攜帶雨具預防"
@@ -146,7 +143,6 @@ def fetch_weather_for_spot(spot):
                     "is_past": t_str < now_str
                 })
 
-            # 選出未來未過期的最佳時段
             future_items = [h for h in hourly_forecast if not h["is_past"]]
             search_pool = future_items if future_items else hourly_forecast
             best_item = max(search_pool, key=lambda x: x["score"]) if search_pool else {}
