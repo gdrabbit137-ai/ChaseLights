@@ -39,20 +39,6 @@
     h1 { margin: 0; font-size: 1.8rem; color: var(--accent); }
     .updated { font-size: 0.85rem; color: var(--muted); text-align: right; }
     
-    .aurora-badge {
-      background: #1e293b;
-      border: 1px solid #ffeb3b;
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      font-weight: bold;
-      color: #ffeb3b;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      box-shadow: 0 0 10px rgba(255, 235, 59, 0.2);
-    }
-    
     .nav-bar, .sub-nav-bar, .tag-nav-bar, .day-nav-bar {
       display: flex;
       gap: 8px;
@@ -162,6 +148,19 @@
       background: rgba(56, 189, 248, 0.12);
       color: #38bdf8;
       border: 1px solid rgba(56, 189, 248, 0.3);
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+
+    .kp-pill {
+      display: inline-block;
+      margin-top: 6px;
+      margin-left: 4px;
+      font-size: 0.8rem;
+      background: rgba(255, 235, 59, 0.15);
+      color: #ffeb3b;
+      border: 1px solid rgba(255, 235, 59, 0.4);
       padding: 3px 8px;
       border-radius: 6px;
       font-weight: 600;
@@ -284,9 +283,6 @@
     <div class="header-top">
       <h1>📸 ChaseLights</h1>
       <div class="header-right">
-        <div class="aurora-badge" id="aurora-badge">
-          🌌 NOAA Kp: <span id="header-kp-val">載入中...</span>
-        </div>
         <div class="updated" id="update-time">載入中...</div>
       </div>
     </div>
@@ -322,22 +318,7 @@
         </div>
         <div style="overflow-x: auto;">
           <table class="terminal-table">
-            <thead>
-              <tr>
-                <th>時間</th>
-                <th>評分</th>
-                <th>狀態</th>
-                <th>Kp指數</th>
-                <th>雲底高度</th>
-                <th>氣溫</th>
-                <th>濕度</th>
-                <th>低雲</th>
-                <th>中雲</th>
-                <th>高雲</th>
-                <th>風速</th>
-                <th>能見度</th>
-              </tr>
-            </thead>
+            <thead id="timeline-head"></thead>
             <tbody id="timeline-body"></tbody>
           </table>
         </div>
@@ -403,29 +384,6 @@
 
       return `${year}-${month}-${day} ${hours}:${minutes} (${tzOffsetStr})`;
     }
-
-      async function loadAuroraKp() {
-        try {
-          // 改為讀取目前區域的天氣資料檔（例如台灣檔 tw_weather.json）
-          const res = await fetch(`${regionFiles[currentRegion || 'tw']}?t=` + Date.now());
-          if (!res.ok) return;
-          const data = await res.json();
-    
-          const kpValue = data.latest_kp ?? "N/A";
-          const kpSpan = document.getElementById('header-kp-val');
-    
-          let prefix = "";
-          const numKp = parseFloat(kpValue);
-          if (!isNaN(numKp)) {
-            if (numKp >= 5) prefix = "🔥 ";
-            else if (numKp >= 4) prefix = "✨ ";
-          }
-    
-          kpSpan.innerText = `${prefix}${kpValue}`;
-        } catch (e) {
-          console.error("Kp 數據載入失敗", e);
-        }
-      }
 
     async function loadData(regionKey) {
       const container = document.getElementById('spots-container');
@@ -563,7 +521,6 @@
       let processedSpots = [];
 
       filtered.forEach(spot => {
-        // 使用瀏覽器本地當前時間精準過濾歷史紀錄
         let validForecast = (spot.hourly_forecast || []).filter(h => h.time >= localNowStr);
 
         if (currentDayFilter === "today") {
@@ -594,6 +551,7 @@
         processedSpots.push({
           ...spot,
           score: bestItem.score,
+          best_kp: bestItem.kp,
           best_time: dateFormatted,
           key_indicator: bestItem.key_indicator || spot.key_indicator || '✅ 風和日麗良好',
           position: `${bestItem.status} | 雲底${bestItem.cloud_base}m`
@@ -626,6 +584,11 @@
         const pillsHtml = (spot.tags || []).map(t => `<span class="scene-pill">${tagLabels[t] || t}</span>`).join('');
         const navUrl = `https://www.google.com/maps/search/?api=1&query=${spot.lat},${spot.lon}`;
 
+        // 僅當景點帶有 aurora 標籤時，在卡片印出即時 Kp 徽章
+        const isAurora = spot.tags && spot.tags.includes('aurora');
+        const kpValue = spot.best_kp !== undefined ? spot.best_kp : '-';
+        const kpBadgeHtml = isAurora ? `<span class="kp-pill">🌌 Kp ${kpValue}</span>` : '';
+
         card.innerHTML = `
           <button class="${favClass}" onclick="toggleFavorite('${spot.name}', event)">★</button>
           <div>
@@ -641,6 +604,7 @@
             <div class="info-row">📍 預報狀態：${spot.position || '無'}</div>
             <div>
               <span class="indicator-pill">${spot.key_indicator}</span>
+              ${kpBadgeHtml}
             </div>
           </div>
 
@@ -658,18 +622,39 @@
 
     function openModal(spot) {
       document.getElementById('modal-spot-name').innerText = `📍 ${spot.name} (歷史 24H + 預報 72H 明細)`;
+      
+      const isAurora = spot.tags && spot.tags.includes('aurora');
+      const thead = document.getElementById('timeline-head');
       const tbody = document.getElementById('timeline-body');
+      
+      // 動態設置表格 Header (非極光景點自動隱藏 Kp 指數欄)
+      thead.innerHTML = `
+        <tr>
+          <th>時間</th>
+          <th>評分</th>
+          <th>狀態</th>
+          ${isAurora ? '<th>Kp指數</th>' : ''}
+          <th>雲底高度</th>
+          <th>氣溫</th>
+          <th>濕度</th>
+          <th>低雲</th>
+          <th>中雲</th>
+          <th>高雲</th>
+          <th>風速</th>
+          <th>能見度</th>
+        </tr>
+      `;
+
       tbody.innerHTML = '';
 
       const localNowStr = getLocalNowStr();
       const forecast = spot.hourly_forecast || [];
       if (forecast.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="12" style="color:#666; text-align:center;">暫無詳細時序氣象資料</td></tr>';
+        tbody.innerHTML = `<tr><td colspan="${isAurora ? 12 : 11}" style="color:#666; text-align:center;">暫無詳細時序氣象資料</td></tr>`;
       } else {
         forecast.forEach(item => {
           const tr = document.createElement('tr');
           
-          // 前端即時根據瀏覽器本地時間判定 isPast
           const isPast = item.time < localNowStr;
           const isBest = !isPast && spot.best_time && item.time.includes(spot.best_time.split(" ")[2] || "23:00");
 
@@ -687,7 +672,7 @@
             <td>${timeTag}</td>
             <td style="color:${scoreColor}; font-weight:bold;">${item.score}分</td>
             <td>${item.status}</td>
-            <td style="color: #ffeb3b; font-weight: bold;">${kpValue}</td>
+            ${isAurora ? `<td style="color: #ffeb3b; font-weight: bold;">${kpValue}</td>` : ''}
             <td>雲底${item.cloud_base}m</td>
             <td>${item.temp}°C</td>
             <td>濕${item.rh}%</td>
@@ -714,7 +699,6 @@
       loadData(regionKey);
     }
 
-    loadAuroraKp();
     loadData('tw');
   </script>
 </body>
