@@ -404,27 +404,28 @@
       return `${year}-${month}-${day} ${hours}:${minutes} (${tzOffsetStr})`;
     }
 
-    async function loadAuroraKp() {
-      try {
-        const res = await fetch('./usa_weather.json?t=' + Date.now());
-        if (!res.ok) return;
-        const data = await res.json();
-        
-        const kpValue = data.latest_kp ?? "N/A";
-        const kpSpan = document.getElementById('header-kp-val');
-        
-        let prefix = "";
-        const numKp = parseFloat(kpValue);
-        if (!isNaN(numKp)) {
-          if (numKp >= 5) prefix = "🔥 ";
-          else if (numKp >= 4) prefix = "✨ ";
+      async function loadAuroraKp() {
+        try {
+          // 改為讀取目前區域的天氣資料檔（例如台灣檔 tw_weather.json）
+          const res = await fetch(`${regionFiles[currentRegion || 'tw']}?t=` + Date.now());
+          if (!res.ok) return;
+          const data = await res.json();
+    
+          const kpValue = data.latest_kp ?? "N/A";
+          const kpSpan = document.getElementById('header-kp-val');
+    
+          let prefix = "";
+          const numKp = parseFloat(kpValue);
+          if (!isNaN(numKp)) {
+            if (numKp >= 5) prefix = "🔥 ";
+            else if (numKp >= 4) prefix = "✨ ";
+          }
+    
+          kpSpan.innerText = `${prefix}${kpValue}`;
+        } catch (e) {
+          console.error("Kp 數據載入失敗", e);
         }
-        
-        kpSpan.innerText = `${prefix}${kpValue}`;
-      } catch (e) {
-        console.error("Kp 數據載入失敗", e);
       }
-    }
 
     async function loadData(regionKey) {
       const container = document.getElementById('spots-container');
