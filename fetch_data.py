@@ -56,6 +56,7 @@ def calculate_spot_score(spot, item):
 def fetch_weather_for_spot(spot):
     lat = spot.get("lat")
     lon = spot.get("lon")
+    tags = spot.get("tags", [])
     
     if not lat or not lon:
         return {}
@@ -86,7 +87,6 @@ def fetch_weather_for_spot(spot):
             kp_info = fetch_noaa_kp()
             current_kp = kp_info["kp_index"] if kp_info else "-"
 
-            # 強制使用 UTC+8 時間比對歷史時段，解決 GitHub Actions (UTC+0) 的 8 小時時差問題
             tz_tw = timezone(timedelta(hours=8))
             now_str = datetime.now(tz_tw).strftime("%Y-%m-%d %H:00")
 
@@ -110,6 +110,7 @@ def fetch_weather_for_spot(spot):
                 
                 score = calculate_spot_score(spot, item_data)
 
+                # 判定動態氣象指標 (嚴格結合景點標籤)
                 if item_data["pop"] > 50:
                     status = "🌧️ 降雨風險高"
                     indicator = "🌧️ 攜帶雨具預防"
@@ -117,8 +118,15 @@ def fetch_weather_for_spot(spot):
                     status = "☀️ 條件極佳"
                     indicator = "💎 極佳大氣通透度"
                 elif item_data["rh"] >= 80 and 30 <= item_data["c_low"] <= 80:
-                    status = "☁️ 雲海機率高"
-                    indicator = "☁️ 翻騰雲海黃金期"
+                    if "cloud_sea" in tags:
+                        status = "☁️ 雲海機率高"
+                        indicator = "☁️ 翻騰雲海黃金期"
+                    elif "lake" in tags or "forest" in tags:
+                        status = "🌫️ 濃霧晨霧機率高"
+                        indicator = "🌫️ 夢幻晨霧水氣足"
+                    else:
+                        status = "☁️ 雲量較多"
+                        indicator = "☁️ 多雲濕氣重"
                 elif item_data["wind"] > 8.0:
                     status = "💨 風速強勁"
                     indicator = "💨 強風注意腳架穩定"
