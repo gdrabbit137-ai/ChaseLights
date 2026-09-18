@@ -31,7 +31,6 @@ def evaluate_tag_condition(tag, item_data, hour):
     rh = item_data.get("rh", 50)
     wind = item_data.get("wind", 0)
 
-    # 判定是否為夜間時段 (18:00 - 05:59)
     is_night = (hour >= 18 or hour < 6)
 
     score = 75
@@ -41,7 +40,6 @@ def evaluate_tag_condition(tag, item_data, hour):
     # --- 1. 星空 / 極光 (starlight / aurora) ---
     if tag in ["starlight", "aurora"]:
         if not is_night:
-            # 白天日光強烈，星空/極光得分直接給予最低分
             return 15, "☀️ 白天日光強烈", "☀️ 白天無法觀測極光" if tag == "aurora" else "☀️ 白天無法觀測星空"
         
         cloud_loss = (c_low * 0.9) + (c_mid * 0.7) + (c_high * 0.4)
@@ -50,7 +48,6 @@ def evaluate_tag_condition(tag, item_data, hour):
         if vis < 15000: score -= ((15000 - vis) / 1000) * 1.2
         if wind > 7.0: score -= (wind - 7.0) * 2
 
-        # 針對極光題材：結合大氣條件與即時 NOAA Kp 指數
         if tag == "aurora":
             kp_val = 0
             try:
@@ -58,7 +55,6 @@ def evaluate_tag_condition(tag, item_data, hour):
             except (ValueError, TypeError):
                 kp_val = 0
 
-            # Kp >= 5 代表發生地磁暴 (Geomagnetic Storm)
             if kp_val >= 5:
                 score += 15
                 if score >= 70:
@@ -76,8 +72,6 @@ def evaluate_tag_condition(tag, item_data, hour):
             else:
                 status = "☁️ 雲層過厚無視線"
                 indicator = "☁️ 不宜觀測極光"
-
-        # 針對星空題材
         else:
             if score >= 85:
                 status = "🌌 銀河觀星極佳"
@@ -180,7 +174,6 @@ def evaluate_tag_condition(tag, item_data, hour):
         score -= max(0, wind - 8.0) * 2
 
         if is_night:
-            # 夜間時段：評估夜景
             if score >= 85:
                 status = "🏙️ 璀璨夜景通透"
                 indicator = "💎 城市燈火清晰無霧"
@@ -191,7 +184,6 @@ def evaluate_tag_condition(tag, item_data, hour):
                 status = "☁️ 夜景視線受阻"
                 indicator = "☁️ 低雲壓頂或濃霧"
         else:
-            # 白天時段：評估城市全景
             if score >= 85:
                 status = "🏙️ 城市遠眺極佳"
                 indicator = "💎 城市全景清晰通透"
@@ -210,7 +202,6 @@ def evaluate_tag_condition(tag, item_data, hour):
         score -= max(0, wind - 8.0) * 2.5
 
         if is_night:
-            # 夜間山區：不使用太陽圖示與「日照山景」字眼
             if score >= 85:
                 status = "🌙 夜間大氣清透"
                 indicator = "🌌 高空無視線阻礙"
@@ -221,7 +212,6 @@ def evaluate_tag_condition(tag, item_data, hour):
                 status = "☁️ 夜間濃霧雲覆"
                 indicator = "☁️ 視線受阻"
         else:
-            # 白天山區：評估山景展望
             if score >= 85:
                 status = "☀️ 山景展望極佳"
                 indicator = "🏔️ 遠眺群峰通透無瑕"
@@ -248,11 +238,12 @@ def fetch_weather_for_spot(spot):
         return {}
 
     try:
+        # 加入 past_days=1 確保 API 回傳過去 24 小時資料
         url = (
             f"https://api.open-meteo.com/v1/forecast"
             f"?latitude={lat}&longitude={lon}"
             f"&hourly=temperature_2m,dew_point_2m,relative_humidity_2m,cloud_cover_low,cloud_cover_mid,cloud_cover_high,wind_speed_10m,visibility,precipitation_probability"
-            f"&forecast_days=3&timezone=auto"
+            f"&forecast_days=3&past_days=1&timezone=auto"
         )
         req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
         with urllib.request.urlopen(req, timeout=10) as response:
@@ -280,7 +271,6 @@ def fetch_weather_for_spot(spot):
             for i in range(len(times)):
                 t_str = times[i].replace("T", " ")
                 
-                # 擷取該小時的小時數 (0~23)
                 time_part = t_str.split(" ")[1] if " " in t_str else "12:00"
                 hour = int(time_part.split(":")[0])
 
@@ -300,7 +290,6 @@ def fetch_weather_for_spot(spot):
                     "kp": current_kp
                 }
                 
-                # 多題材動態比對 (傳入 hour 變數)
                 best_score = -1
                 best_status = "⛅ 氣象平穩"
                 best_indicator = "✅ 風和日麗良好"
