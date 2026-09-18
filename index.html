@@ -230,7 +230,7 @@
       display: flex;
       flex-direction: column;
       font-family: "Courier New", Courier, monospace;
-      color: #e0e0e0;
+      color: #ffffff;
       box-shadow: 0 0 20px rgba(0,255,255,0.1);
     }
     .modal-header {
@@ -251,11 +251,14 @@
     }
     .close-btn:hover { color: #fff; }
     .modal-body { padding: 12px; overflow-y: auto; }
+    
+    /* 彈窗表格顏色控制：預設為亮白色，歷史列強制為亮灰色 */
     .terminal-table {
       width: 100%;
       border-collapse: collapse;
       font-size: 0.82rem;
       white-space: nowrap;
+      color: #ffffff;
     }
     .terminal-table th, .terminal-table td {
       padding: 6px 8px;
@@ -263,9 +266,19 @@
       border-bottom: 1px solid #222;
     }
     .terminal-table th { background: #141414; color: #ff79c6; position: sticky; top: 0; }
-    .terminal-table tr.past-row { color: #666; background: #080808; }
-    .terminal-table tr.best-row { background: rgba(56, 189, 248, 0.18); border-left: 3px solid #38bdf8; }
-    .tag-past { font-size: 0.7rem; color: #888; border: 1px solid #444; padding: 1px 4px; border-radius: 3px; }
+    
+    /* 歷史時間（過去列）：清晰灰 */
+    .terminal-table tr.past-row { 
+      color: #888888 !important; 
+      background: #080808; 
+    }
+    /* 預測最佳黃金時間列：高亮藍邊框 */
+    .terminal-table tr.best-row { 
+      background: rgba(56, 189, 248, 0.22); 
+      border-left: 3px solid #38bdf8; 
+      color: #ffffff !important;
+    }
+    .tag-past { font-size: 0.7rem; color: #aaa; border: 1px solid #555; padding: 1px 4px; border-radius: 3px; }
   </style>
 </head>
 <body>
@@ -307,7 +320,7 @@
         <button class="close-btn" onclick="closeModal()">&times;</button>
       </div>
       <div class="modal-body">
-        <div style="color: #888; font-size: 0.8rem; margin-bottom: 10px;">
+        <div style="color: #aaa; font-size: 0.8rem; margin-bottom: 10px;">
           ⏱️ 涵蓋範圍：過去 24 小時 [歷史實測] + 未來 72 小時 [氣象預報] (藍底高亮為預測最佳出景窗口)
         </div>
         <div style="overflow-x: auto;">
@@ -563,7 +576,6 @@
         const dateObj = new Date(parseInt(dateParts[0]), parseInt(dateParts[1]) - 1, parseInt(dateParts[2]));
         const weekStr = weekNames[dateObj.getDay()];
 
-        // 標記日夜圖示 ☀️ / 🌙
         const hourNum = parseInt(timeParts[1].split(":")[0]);
         const dayNightIcon = (hourNum >= 18 || hourNum < 6) ? '🌙 ' : '☀️ ';
 
