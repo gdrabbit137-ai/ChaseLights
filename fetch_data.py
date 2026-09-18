@@ -110,14 +110,14 @@ def fetch_weather_for_spot(spot):
                 
                 score = calculate_spot_score(spot, item_data)
 
-                # 判定動態氣象指標 (嚴格結合景點標籤)
+                # 判定動態氣象指標 (嚴格要求 cloud_sea 標籤才允許出雲海提示)
                 if item_data["pop"] > 50:
                     status = "🌧️ 降雨風險高"
                     indicator = "🌧️ 攜帶雨具預防"
                 elif visibilities[i] >= 20000 and (item_data["c_low"] + item_data["c_mid"]) < 20:
                     status = "☀️ 條件極佳"
                     indicator = "💎 極佳大氣通透度"
-                elif item_data["rh"] >= 80 and 30 <= item_data["c_low"] <= 80:
+                elif item_data["rh"] >= 80 and 30 <= item_data["c_low"] <= 85:
                     if "cloud_sea" in tags:
                         status = "☁️ 雲海機率高"
                         indicator = "☁️ 翻騰雲海黃金期"
@@ -126,7 +126,7 @@ def fetch_weather_for_spot(spot):
                         indicator = "🌫️ 夢幻晨霧水氣足"
                     else:
                         status = "☁️ 雲量較多"
-                        indicator = "☁️ 多雲濕氣重"
+                        indicator = "☁️ 濕氣重多雲"
                 elif item_data["wind"] > 8.0:
                     status = "💨 風速強勁"
                     indicator = "💨 強風注意腳架穩定"
