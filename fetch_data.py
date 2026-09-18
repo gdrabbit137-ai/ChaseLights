@@ -19,44 +19,169 @@ def fetch_noaa_kp():
         print(f"Failed to fetch NOAA Kp data: {e}")
     return None
 
-def calculate_spot_score(spot, item):
-    tags = spot.get("tags", [])
-    c_low = item.get("c_low", 0)
-    c_mid = item.get("c_mid", 0)
-    c_high = item.get("c_high", 0)
-    pop = item.get("pop", 0)
-    vis = item.get("vis", 10000)
-    rh = item.get("rh", 50)
-    wind = item.get("wind", 0)
-    
-    score = 100
-    score -= (pop * 0.6)
-    if vis < 15000:
-        score -= ((15000 - vis) / 1000) * 1.0
+def evaluate_tag_condition(tag, item_data):
+    """
+    核心演算法：依據單一攝影題材評估當前氣象條件的符合度
+    """
+    c_low = item_data.get("c_low", 0)
+    c_mid = item_data.get("c_mid", 0)
+    c_high = item_data.get("c_high", 0)
+    pop = item_data.get("pop", 0)
+    vis = item_data.get("vis", 10000)
+    rh = item_data.get("rh", 50)
+    wind = item_data.get("wind", 0)
 
-    if "starlight" in tags or "aurora" in tags:
-        cloud_penalty = (c_low * 0.9) + (c_mid * 0.7) + (c_high * 0.4)
-        score -= cloud_penalty
-        if rh > 85:
-            score -= 10
-    elif "cloud_sea" in tags:
-        if 40 <= c_low <= 85 and rh >= 80:
-            score += 10
+    score = 75
+    status = "⛅ 氣象平穩"
+    indicator = "✅ 風和日麗良好"
+
+    # --- 1. 星空 / 極光 (starlight / aurora) ---
+    if tag in ["starlight", "aurora"]:
+        cloud_loss = (c_low * 0.9) + (c_mid * 0.7) + (c_high * 0.4)
+        score = 100 - cloud_loss - (pop * 0.8)
+        if rh > 85: score -= 15
+        if vis < 15000: score -= ((15000 - vis) / 1000) * 1.2
+        if wind > 7.0: score -= (wind - 7.0) * 2
+
+        if score >= 85:
+            status = "🌌 銀河觀星極佳" if tag == "starlight" else "🌌 夜間極光視野清透"
+            indicator = "💎 零雲量大氣極通透"
+        elif score >= 60:
+            status = "✨ 星空條件普通"
+            indicator = "⛅ 些許薄雲干擾"
         else:
-            score -= 15
+            status = "☁️ 雲層過厚無視線"
+            indicator = "☁️ 不宜觀星攝影"
+
+    # --- 2. 雲海 / 琉璃光 (cloud_sea) ---
+    elif tag == "cloud_sea":
+        if rh >= 75 and 30 <= c_low <= 85 and pop < 30:
+            score = 95 - (wind * 2)
+            if 40 <= rh <= 95: score += 4
+            status = "☁️ 翻騰雲海黃金期"
+            indicator = "☁️ 水氣與低雲完美配合"
+        elif rh >= 70 and (c_low > 85 or c_low < 30):
+            score = 60
+            status = "⛅ 雲霧條件普通"
+            indicator = "⛅ 低雲高度或雲量稍偏"
+        else:
+            score = 30
+            status = "☀️ 乾燥無雲海條件"
+            indicator = "☀️ 大氣乾燥或無低雲"
+
+    # --- 3. 迷霧森林 / 耶穌光 (forest) ---
+    elif tag == "forest":
+        if rh >= 80 and vis <= 8000 and wind <= 5.0:
+            score = 96 - (wind * 3) - (pop * 0.4)
+            status = "🌫️ 夢幻迷霧森林"
+            indicator = "🌲 濃郁霧氣瀰漫林間"
+        elif vis >= 15000 and c_low <= 30 and pop < 20:
+            score = 90 - (wind * 2)
+            status = "☀️ 森林斜射光極佳"
+            indicator = "🌲 大氣通透耶穌光強"
+        else:
+            score = 65 - (pop * 0.5) - (c_low * 0.3)
+            status = "🌲 森林一般氣象"
+            indicator = "🌲 無特別霧氣或強光"
+
+    # --- 4. 湖泊晨霧 / 靜止倒影 (lake) ---
+    elif tag == "lake":
+        if wind <= 4.0:
+            if rh >= 80 and vis <= 10000:
+                score = 95
+                status = "🌫️ 湖面夢幻晨霧"
+                indicator = "🌊 湖面水氣飄渺極美"
+            elif vis >= 15000 and (c_low + c_mid) < 30:
+                score = 92
+                status = "🪞 靜止鏡面倒影"
+                indicator = "🌊 無風微波鏡面絕佳"
+            else:
+                score = 80
+                status = "🌊 湖景條件良好"
+                indicator = "🌊 風速微弱適合拍攝"
+        else:
+            score = 55 - (wind - 4.0) * 5
+            status = "🌬️ 湖面風大波浪興起"
+            indicator = "🌊 風速過強無倒影"
+
+    # --- 5. 瀑布溪流 (waterfall) ---
+    elif tag == "waterfall":
+        # 瀑布最喜愛陰天漫射柔光，避免強光高反差
+        if (c_low + c_mid) >= 40:
+            score = 95 - (wind * 1.5)
+            status = "🌊 瀑布漫射柔光"
+            indicator = "💦 陰天無強光高反差"
+        elif (c_low + c_mid) < 15:
+            score = 65
+            status = "☀️ 頂光強烈反差大"
+            indicator = "☀️ 陽光過強對比過高"
+        else:
+            score = 80
+            status = "💦 瀑布條件平穩"
+            indicator = "💦 水流與光線良好"
+        score -= (pop * 0.3)
+
+    # --- 6. 海岸彩霞 / 晨昏 (coast) ---
+    elif tag == "coast":
+        if 20 <= (c_high + c_mid) <= 75 and c_low < 35 and pop < 20:
+            score = 95 - (wind * 1.5)
+            status = "🌅 暮光彩霞絕佳"
+            indicator = "🌅 中高雲形成壯麗彩霞"
+        elif c_low >= 70:
+            score = 45
+            status = "☁️ 海面低雲壓頂"
+            indicator = "☁️ 遮蔽地平線日落"
+        else:
+            score = 75 - (pop * 0.6)
+            status = "🌊 海景氣象常規"
+            indicator = "🌊 大氣狀況平穩"
+
+    # --- 7. 城市夜景 / 燈軌 (city) ---
+    elif tag == "city":
+        score = 90 - (c_low * 0.5) - (pop * 0.7)
+        if vis >= 15000: score += 8
+        else: score -= ((15000 - vis) / 1000) * 1.5
+        score -= max(0, wind - 8.0) * 2
+
+        if score >= 85:
+            status = "🏙️ 璀璨夜景通透"
+            indicator = "💎 城市燈火清晰無霧"
+        elif score >= 60:
+            status = "🌃 夜景條件普通"
+            indicator = "⛅ 些許霧氣或輕微低雲"
+        else:
+            status = "☁️ 夜景視線受阻"
+            indicator = "☁️ 低雲壓頂或濃霧"
+
+    # --- 8. 高山通透 (mountain) ---
     else:
-        cloud_penalty = (c_low * 0.6) + (c_mid * 0.4) + (c_high * 0.2)
-        score -= cloud_penalty
+        score = 95 - (c_low * 0.6 + c_mid * 0.4) - (pop * 0.7)
+        if vis >= 18000: score += 5
+        else: score -= max(0, (15000 - vis) / 400)
+        score -= max(0, wind - 8.0) * 2.5
 
-    if wind > 8.0:
-        score -= (wind - 8.0) * 2.0
+        if score >= 85:
+            status = "☀️ 高山展望極佳"
+            indicator = "🏔️ 遠眺群峰通透無瑕"
+        elif score >= 60:
+            status = "⛅ 高山氣象平穩"
+            indicator = "⛅ 局部雲量普通"
+        else:
+            status = "☁️ 高山濃霧雲覆"
+            indicator = "☁️ 展望受限無視線"
 
-    return max(20, min(99, int(score)))
+    # 降雨風險為全題材通用限制
+    if pop >= 50:
+        score = min(score, 40)
+        status = "🌧️ 降雨風險高"
+        indicator = "🌧️ 雨勢明顯不宜外拍"
+
+    return max(15, min(99, int(score))), status, indicator
 
 def fetch_weather_for_spot(spot):
     lat = spot.get("lat")
     lon = spot.get("lon")
-    tags = spot.get("tags", [])
+    tags = spot.get("tags", ["mountain"])
     
     if not lat or not lon:
         return {}
@@ -108,36 +233,22 @@ def fetch_weather_for_spot(spot):
                     "wind": winds[i] if i < len(winds) else 0
                 }
                 
-                score = calculate_spot_score(spot, item_data)
+                # 多題材比對：選擇符合度最高（得分最高）的攝影主題作為該小時表現
+                best_score = -1
+                best_status = "⛅ 氣象平穩"
+                best_indicator = "✅ 風和日麗良好"
 
-                # 判定動態氣象指標 (嚴格要求 cloud_sea 標籤才允許出雲海提示)
-                if item_data["pop"] > 50:
-                    status = "🌧️ 降雨風險高"
-                    indicator = "🌧️ 攜帶雨具預防"
-                elif visibilities[i] >= 20000 and (item_data["c_low"] + item_data["c_mid"]) < 20:
-                    status = "☀️ 條件極佳"
-                    indicator = "💎 極佳大氣通透度"
-                elif item_data["rh"] >= 80 and 30 <= item_data["c_low"] <= 85:
-                    if "cloud_sea" in tags:
-                        status = "☁️ 雲海機率高"
-                        indicator = "☁️ 翻騰雲海黃金期"
-                    elif "lake" in tags or "forest" in tags:
-                        status = "🌫️ 濃霧晨霧機率高"
-                        indicator = "🌫️ 夢幻晨霧水氣足"
-                    else:
-                        status = "☁️ 雲量較多"
-                        indicator = "☁️ 濕氣重多雲"
-                elif item_data["wind"] > 8.0:
-                    status = "💨 風速強勁"
-                    indicator = "💨 強風注意腳架穩定"
-                else:
-                    status = "⛅ 氣象平穩"
-                    indicator = "✅ 風和日麗良好"
+                for tag in tags:
+                    s, stat, ind = evaluate_tag_condition(tag, item_data)
+                    if s > best_score:
+                        best_score = s
+                        best_status = stat
+                        best_indicator = ind
 
                 hourly_forecast.append({
                     "time": t_str,
-                    "score": score,
-                    "status": status,
+                    "score": best_score,
+                    "status": best_status,
                     "kp": current_kp,
                     "cloud_base": estimated_cloud_base,
                     "temp": temp,
@@ -147,7 +258,7 @@ def fetch_weather_for_spot(spot):
                     "c_high": item_data["c_high"],
                     "wind": item_data["wind"],
                     "visibility": round(item_data["vis"] / 1000, 1),
-                    "key_indicator": indicator,
+                    "key_indicator": best_indicator,
                     "is_past": t_str < now_str
                 })
 
@@ -158,7 +269,7 @@ def fetch_weather_for_spot(spot):
             return {
                 "score": best_item.get("score", 50),
                 "best_time": best_item.get("time", "12:00"),
-                "reason": "多因子氣象權重分析",
+                "reason": "題材導向氣象符合度分析",
                 "position": best_item.get("status", "⛅ 多雲"),
                 "key_indicator": best_item.get("key_indicator", "✅ 風和日麗良好"),
                 "hourly_forecast": hourly_forecast
