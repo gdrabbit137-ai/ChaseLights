@@ -42,7 +42,7 @@ def evaluate_tag_condition(tag, item_data, hour):
     if tag in ["starlight", "aurora"]:
         if not is_night:
             # 白天日光強烈，星空/極光得分直接給予最低分
-            return 15, "☀️ 白天日光強烈", "☀️ 白天無法觀測星空"
+            return 15, "☀️ 白天日光強烈", "☀️ 白天無法觀測極光" if tag == "aurora" else "☀️ 白天無法觀測星空"
         
         cloud_loss = (c_low * 0.9) + (c_mid * 0.7) + (c_high * 0.4)
         score = 100 - cloud_loss - (pop * 0.8)
@@ -50,15 +50,44 @@ def evaluate_tag_condition(tag, item_data, hour):
         if vis < 15000: score -= ((15000 - vis) / 1000) * 1.2
         if wind > 7.0: score -= (wind - 7.0) * 2
 
-        if score >= 85:
-            status = "🌌 銀河觀星極佳" if tag == "starlight" else "🌌 夜間極光視野清透"
-            indicator = "💎 零雲量大氣極通透"
-        elif score >= 60:
-            status = "✨ 星空條件普通"
-            indicator = "⛅ 些許薄雲干擾"
+        # 針對極光題材：結合大氣條件與即時 NOAA Kp 指數
+        if tag == "aurora":
+            kp_val = 0
+            try:
+                kp_val = float(item_data.get("kp", 0))
+            except (ValueError, TypeError):
+                kp_val = 0
+
+            # Kp >= 5 代表發生地磁暴 (Geomagnetic Storm)
+            if kp_val >= 5:
+                score += 15
+                if score >= 70:
+                    status = f"🔥 極光大爆發 (Kp {kp_val})"
+                    indicator = "🌌 磁暴強烈且夜空視野良好"
+                else:
+                    status = f"☁️ 磁暴強烈但有雲 (Kp {kp_val})"
+                    indicator = "☁️ 極光爆發中但被雲層遮蔽"
+            elif score >= 85:
+                status = "🌌 夜間極光視野清透"
+                indicator = "💎 夜空無雲極適合追極光"
+            elif score >= 60:
+                status = "🌌 極光觀察條件普通"
+                indicator = "⛅ 些許薄雲干擾"
+            else:
+                status = "☁️ 雲層過厚無視線"
+                indicator = "☁️ 不宜觀測極光"
+
+        # 針對星空題材
         else:
-            status = "☁️ 雲層過厚無視線"
-            indicator = "☁️ 不宜觀星攝影"
+            if score >= 85:
+                status = "🌌 銀河觀星極佳"
+                indicator = "💎 零雲量大氣極通透"
+            elif score >= 60:
+                status = "✨ 星空條件普通"
+                indicator = "⛅ 些許薄雲干擾"
+            else:
+                status = "☁️ 雲層過厚無視線"
+                indicator = "☁️ 不宜觀星攝影"
 
     # --- 2. 雲海 / 琉璃光 (cloud_sea) ---
     elif tag == "cloud_sea":
@@ -173,7 +202,7 @@ def evaluate_tag_condition(tag, item_data, hour):
                 status = "🌫️ 城市視線受阻"
                 indicator = "🌫️ 霾害或能見度差"
 
-# --- 8. 山景展望 (mountain) ---
+    # --- 8. 山景展望 (mountain) ---
     else:
         score = 95 - (c_low * 0.6 + c_mid * 0.4) - (pop * 0.7)
         if vis >= 18000: score += 5
@@ -267,7 +296,8 @@ def fetch_weather_for_spot(spot):
                     "pop": pops[i] if i < len(pops) else 0,
                     "vis": visibilities[i] if i < len(visibilities) else 10000,
                     "rh": rhs[i] if i < len(rhs) else 50,
-                    "wind": winds[i] if i < len(winds) else 0
+                    "wind": winds[i] if i < len(winds) else 0,
+                    "kp": current_kp
                 }
                 
                 # 多題材動態比對 (傳入 hour 變數)
