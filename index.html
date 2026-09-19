@@ -118,9 +118,12 @@
       position: relative;
     }
     .card:hover { transform: translateY(-2px); border-color: var(--accent); }
-    .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; padding-right: 28px; }
-    .spot-name { font-size: 1.2rem; font-weight: bold; }
+    .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; padding-right: 28px; }
     
+    /* 雙語景點名稱樣式 */
+    .spot-name { font-size: 1.15rem; font-weight: bold; color: #f8fafc; }
+    .spot-local-name { font-size: 0.8rem; color: #94a3b8; margin-left: 6px; font-weight: normal; }
+
     .fav-btn { position: absolute; top: 14px; right: 14px; background: none; border: none; font-size: 1.2rem; cursor: pointer; color: #475569; transition: transform 0.2s ease; }
     .fav-btn.active { color: #f59e0b; }
     .fav-btn:hover { transform: scale(1.2); }
@@ -133,7 +136,7 @@
     .indicator-pill { display: inline-block; margin-top: 6px; font-size: 0.8rem; background: rgba(56, 189, 248, 0.12); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); padding: 3px 8px; border-radius: 6px; font-weight: 600; }
     .kp-pill { display: inline-block; margin-top: 6px; margin-left: 4px; font-size: 0.8rem; background: rgba(255, 235, 59, 0.15); color: #ffeb3b; border: 1px solid rgba(255, 235, 59, 0.4); padding: 3px 8px; border-radius: 6px; font-weight: 600; }
 
-    .category-tag { font-size: 0.75rem; background: #334155; color: var(--accent); padding: 2px 6px; border-radius: 4px; margin-left: 6px; }
+    .category-tag { font-size: 0.75rem; background: #334155; color: var(--accent); padding: 2px 6px; border-radius: 4px; margin-left: 6px; display: inline-block; margin-top: 4px; }
     .scene-pill { font-size: 0.7rem; background: #0f172a; border: 1px solid #334155; color: #cbd5e1; padding: 1px 6px; border-radius: 10px; margin-right: 4px; }
     .tags-wrapper { margin-top: 2px; margin-bottom: 8px; }
     .info-row { font-size: 0.88rem; color: #cbd5e1; margin: 4px 0; }
@@ -352,6 +355,10 @@
     async function switchRegion(regionKey) {
       currentRegion = regionKey;
       currentCategoryIndex = 0;
+      
+      const countrySelect = document.getElementById('country-select');
+      if (countrySelect) countrySelect.value = regionKey;
+
       await loadData(regionKey, currentLang);
     }
 
@@ -580,12 +587,19 @@
         const kpValue = spot.best_kp !== undefined ? spot.best_kp : '-';
         const kpBadgeHtml = isAurora ? `<span class="kp-pill">🌌 Kp ${kpValue}</span>` : '';
 
+        // 💡 若主名稱與當地原文不同，才顯示灰色的當地原文 (如：大峽谷國家公園 Grand Canyon NP)
+        const localNameHtml = (spot.name_local && spot.name_local !== spot.name) 
+          ? `<span class="spot-local-name">${spot.name_local}</span>` 
+          : '';
+
         card.innerHTML = `
           <button class="${favClass}" onclick="toggleFavorite('${spot.name}', event)">★</button>
           <div>
             <div class="card-header">
               <div>
                 <span class="spot-name">${spot.name}</span>
+                ${localNameHtml}
+                <br>
                 <span class="category-tag">${spot.category || 'N/A'}</span>
               </div>
               <span class="score-badge ${scoreClass}">${scorePrefix}${spot.score}</span>
@@ -613,7 +627,8 @@
 
     function openModal(spot) {
       const dict = i18nDict[currentLang] || i18nDict['zh-TW'];
-      document.getElementById('modal-spot-name').innerText = `📍 ${spot.name}`;
+      const titleLocal = (spot.name_local && spot.name_local !== spot.name) ? ` (${spot.name_local})` : '';
+      document.getElementById('modal-spot-name').innerText = `📍 ${spot.name}${titleLocal}`;
       
       const isAurora = spot.tags && spot.tags.includes('aurora');
       const thead = document.getElementById('timeline-head');
