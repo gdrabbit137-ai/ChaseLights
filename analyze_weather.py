@@ -4,21 +4,40 @@ from datetime import datetime, timezone
 from regions import get_spots
 from fetch_data import fetch_weather_for_spot, fetch_noaa_kp
 
-def analyze_spot(spot):
+CATEGORY_I18N = {
+    "本島": {"zh-TW": "本島", "en": "Main Island", "ja": "本島"},
+    "澎湖": {"zh-TW": "澎湖", "en": "Penghu", "ja": "澎湖"},
+    "金門": {"zh-TW": "金門", "en": "Kinmen", "ja": "金門"},
+    "馬祖": {"zh-TW": "馬祖", "en": "Matsu", "ja": "馬祖"},
+    "綠島/蘭嶼/小琉球": {"zh-TW": "綠島/蘭嶼/小琉球", "en": "Islands", "ja": "離島"},
+    "北海道/東北": {"zh-TW": "北海道/東北", "en": "Hokkaido/Tohoku", "ja": "北海道/東北"},
+    "關東/中部": {"zh-TW": "關東/中部", "en": "Kanto/Chubu", "ja": "関東/中部"},
+    "關西/中四國": {"zh-TW": "關西/中四國", "en": "Kansai/Chugoku", "ja": "関西/中国・四国"},
+    "九州/沖繩": {"zh-TW": "九州/沖繩", "en": "Kyushu/Okinawa", "ja": "九州/沖縄"},
+    "美西": {"zh-TW": "美西", "en": "US West", "ja": "全米西部"},
+    "美中": {"zh-TW": "美中", "en": "US Central", "ja": "全米中部"},
+    "美東": {"zh-TW": "美東", "en": "US East", "ja": "全米東部"},
+    "阿拉斯加": {"zh-TW": "阿拉斯加", "en": "Alaska", "ja": "アラスカ"}
+}
+
+def analyze_spot(spot, lang="zh-TW"):
     try:
-        raw_data = fetch_weather_for_spot(spot)
+        raw_data = fetch_weather_for_spot(spot, lang)
         
         score = raw_data.get("score", 30) if isinstance(raw_data, dict) else 30
         best_time = raw_data.get("best_time", "23:00") if isinstance(raw_data, dict) else "23:00"
-        reason = raw_data.get("reason", "條件不足") if isinstance(raw_data, dict) else "條件不足"
-        position = raw_data.get("position", "☀️ 晴朗無雲 → 適合一般風景攝影") if isinstance(raw_data, dict) else "☀️ 晴朗無雲"
-        key_indicator = raw_data.get("key_indicator", "✅ 風和日麗良好") if isinstance(raw_data, dict) else "✅ 風和日麗良好"
+        reason = raw_data.get("reason", "N/A") if isinstance(raw_data, dict) else "N/A"
+        position = raw_data.get("position", "") if isinstance(raw_data, dict) else ""
+        key_indicator = raw_data.get("key_indicator", "") if isinstance(raw_data, dict) else ""
         hourly_forecast = raw_data.get("hourly_forecast", []) if isinstance(raw_data, dict) else []
         tags = spot.get("tags", ["mountain"])
 
+        orig_category = spot.get("category", "未分類")
+        translated_category = CATEGORY_I18N.get(orig_category, {}).get(lang, orig_category)
+
         return {
-            "name": spot.get("name", "未知景點"),
-            "category": spot.get("category", "未分類"),
+            "name": spot.get("name", "Unknown"),
+            "category": translated_category,
             "tags": tags,
             "lat": spot.get("lat"),
             "lon": spot.get("lon"),
@@ -31,61 +50,43 @@ def analyze_spot(spot):
         }
     except Exception as e:
         print(f"⚠️ 讀取景點 {spot.get('name')} 失敗: {e}")
-        return {
-            "name": spot.get("name", "未知景點"),
-            "category": spot.get("category", "未分類"),
-            "tags": spot.get("tags", ["mountain"]),
-            "lat": spot.get("lat"),
-            "lon": spot.get("lon"),
-            "score": 0,
-            "best_time": "N/A",
-            "reason": "無法取得即時氣象資料",
-            "position": "資料擷取失敗",
-            "key_indicator": "⚠️ 資料擷取失敗",
-            "hourly_forecast": []
-        }
+        return {}
 
 def main():
     region = sys.argv[1].lower() if len(sys.argv) > 1 else "tw"
-
-    filename_map = {
-        "tw": "tw_weather.json",
-        "jp": "japan_weather.json",
-        "us": "usa_weather.json"
-    }
-
-    output_filename = filename_map.get(region, f"{region}_weather.json")
-    print(f"🚀 開始分析區域: [{region.upper()}] ...")
-
     spots = get_spots(region)
     if not spots:
         print(f"❌ 找不到區域 [{region}] 的景點清單！")
         sys.exit(1)
 
-    analyzed_spots = []
-    for spot in spots:
-        print(f"🔍 正在分析: {spot.get('name')}...")
-        result = analyze_spot(spot)
-        analyzed_spots.append(result)
-
-    now_utc_str = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-    
-    output_data = {
-        "updated_at": now_utc_str,
-        "region": region,
-        "total_spots": len(analyzed_spots),
-        "spots": analyzed_spots
-    }
-
-    # 抓取最新 Kp 指數並寫入 JSON 外層
+    languages = ["zh-TW", "en", "ja"]
     kp_info = fetch_noaa_kp()
-    if kp_info:
-        output_data["latest_kp"] = kp_info["kp_index"]
+    latest_kp = kp_info["kp_index"] if kp_info else "N/A"
+    now_utc_str = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
-    with open(output_filename, "w", encoding="utf-8") as f:
-        json.dump(output_data, f, ensure_ascii=False, indent=2)
+    for lang in languages:
+        output_filename = f"{region}_weather_{lang}.json"
+        print(f"🚀 開始生成 [{region.upper()}] - 語系 [{lang}] -> {output_filename} ...")
 
-    print(f"✅ 完成！成功生成 {output_filename} (共 {len(analyzed_spots)} 個景點，UTC時間: {now_utc_str})")
+        analyzed_spots = []
+        for spot in spots:
+            result = analyze_spot(spot, lang)
+            if result:
+                analyzed_spots.append(result)
+
+        output_data = {
+            "updated_at": now_utc_str,
+            "region": region,
+            "lang": lang,
+            "latest_kp": latest_kp,
+            "total_spots": len(analyzed_spots),
+            "spots": analyzed_spots
+        }
+
+        with open(output_filename, "w", encoding="utf-8") as f:
+            json.dump(output_data, f, ensure_ascii=False, indent=2)
+
+        print(f"✅ 成功生成 {output_filename}")
 
 if __name__ == "__main__":
     main()
