@@ -35,8 +35,14 @@ def analyze_spot(spot, lang="zh-TW"):
         orig_category = spot.get("category", "未分類")
         translated_category = CATEGORY_I18N.get(orig_category, {}).get(lang, orig_category)
 
+        # 💡 取得多國語言名稱與當地原文名稱
+        name_i18n = spot.get("name_i18n", {})
+        name_main = name_i18n.get(lang) or name_i18n.get("zh-TW") or spot.get("name", "Unknown")
+        name_local = spot.get("name_local", spot.get("name", ""))
+
         return {
-            "name": spot.get("name", "Unknown"),
+            "name": name_main,          # 主標題：依據當前語言顯示
+            "name_local": name_local,   # 副標題：當地官方原文名稱
             "category": translated_category,
             "tags": tags,
             "lat": spot.get("lat"),
