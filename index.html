@@ -95,6 +95,9 @@
     
     .sub-btn.active { background: #0284c7; border-color: #38bdf8; color: #fff; font-weight: bold; }
     .tag-btn.active { background: #38bdf8; color: #0f172a; border-color: #38bdf8; font-weight: bold; }
+    .tag-btn[aria-pressed="true"] { background: #38bdf8; color: #0f172a; border-color: #38bdf8; font-weight: bold; }
+    .tag-btn:focus { outline: 1px solid #475569; outline-offset: 1px; }
+    .tag-btn.active:focus { outline-color: #38bdf8; }
     .day-btn.active { background: #0284c7; color: #fff; font-weight: bold; }
 
     .container {
@@ -305,7 +308,7 @@
     let currentData=null, currentSpots=[];
     let activeLoadController=null, activeLoadSequence=0;
     const memorySummary=new Map(), memoryDetails=new Map();
-    const CACHE_NAME='chaselights-v5-weather';
+    const CACHE_NAME='chaselights-v7-weather';
 
     const d=()=>i18nDict[currentLang]||i18nDict['zh-TW'];
     const spotName=s=>s?.name_i18n?.[currentLang]||s?.name_i18n?.['zh-TW']||s?.name_local||'Unknown';
@@ -332,11 +335,27 @@
       if(currentCategoryKey==='__all__')return currentSpots;
       return currentSpots.filter(s=>s.category===currentCategoryKey);
     }
+    function setFilterPressed(button,on){
+      button.classList.toggle('active',on);
+      button.setAttribute('aria-pressed',on?'true':'false');
+      button.style.background=on?'#38bdf8':'';
+      button.style.color=on?'#0f172a':'';
+      button.style.borderColor=on?'#38bdf8':'';
+      button.style.fontWeight=on?'700':'';
+    }
+    function syncFilterHighlights(){
+      document.querySelectorAll('#scene-nav .tag-btn').forEach(b=>setFilterPressed(b,b.dataset.key===currentScene));
+      document.querySelectorAll('#theme-nav .tag-btn').forEach(b=>setFilterPressed(b,b.dataset.key===currentTheme));
+    }
     function renderSceneNav(){
       const el=document.getElementById('scene-nav');el.innerHTML='';const present=new Set();categoryBaseSpots().forEach(s=>(s.scenes||[]).forEach(x=>present.add(x)));
       const order=['all','mountain','coast','lake','river','waterfall','forest','wetland','geology','desert','grassland','rural','snow_ice','city','architecture'];
       if(currentScene!=='all'&&!present.has(currentScene)){currentScene='all';localStorage.setItem('chaselights_scene','all');}
-      order.filter(k=>k==='all'||present.has(k)).forEach(k=>{const b=document.createElement('button');b.className=`tag-btn ${k===currentScene?'active':''}`;b.innerText=sceneLabel(k);b.onclick=()=>{currentScene=k;localStorage.setItem('chaselights_scene',k);renderSceneNav();filterAndRender();};el.appendChild(b);});
+      order.filter(k=>k==='all'||present.has(k)).forEach(k=>{
+        const b=document.createElement('button');b.className='tag-btn';b.dataset.key=k;b.dataset.filter='scene';b.setAttribute('aria-pressed','false');b.innerText=sceneLabel(k);
+        b.onclick=(e)=>{e.preventDefault();currentScene=k;localStorage.setItem('chaselights_scene',k);syncFilterHighlights();requestAnimationFrame(syncFilterHighlights);filterAndRender();};el.appendChild(b);
+      });
+      syncFilterHighlights();
     }
     function renderThemeNav(){
       const el=document.getElementById('theme-nav');el.innerHTML='';const present=new Set();categoryBaseSpots().forEach(s=>(s.themes||[]).forEach(x=>present.add(x)));
@@ -344,7 +363,11 @@
       if(!(currentRegion==='us'&&currentCategoryKey==='阿拉斯加'))present.delete('aurora');
       const order=['all','sunrise','sunset','sky_glow','blue_hour','cloud_sea','fog_mist','reflection','sunbeam','mountain_view','milky_way','long_exposure','snow_scene','city_night','aurora'];
       if(currentTheme!=='all'&&!present.has(currentTheme)){currentTheme='all';localStorage.setItem('chaselights_theme','all');}
-      order.filter(k=>k==='all'||present.has(k)).forEach(k=>{const b=document.createElement('button');b.className=`tag-btn ${k===currentTheme?'active':''}`;b.innerText=themeLabel(k);b.onclick=()=>{currentTheme=k;localStorage.setItem('chaselights_theme',k);renderThemeNav();filterAndRender();};el.appendChild(b);});
+      order.filter(k=>k==='all'||present.has(k)).forEach(k=>{
+        const b=document.createElement('button');b.className='tag-btn';b.dataset.key=k;b.dataset.filter='theme';b.setAttribute('aria-pressed','false');b.innerText=themeLabel(k);
+        b.onclick=(e)=>{e.preventDefault();currentTheme=k;localStorage.setItem('chaselights_theme',k);syncFilterHighlights();requestAnimationFrame(syncFilterHighlights);filterAndRender();};el.appendChild(b);
+      });
+      syncFilterHighlights();
     }
     function syncDayButtons(){const map={today:0,tomorrow:1,after_tomorrow:2};document.querySelectorAll('.day-btn').forEach((b,i)=>b.classList.toggle('active',i===map[currentDayFilter]));}
     function switchDay(k){currentDayFilter=k;localStorage.setItem('chaselights_day',k);syncDayButtons();filterAndRender();}
@@ -352,8 +375,8 @@
     function switchRegion(k){if(!VALID_REGIONS.includes(k))k='tw';currentRegion=k;localStorage.setItem('chaselights_region',k);currentCategoryKey=localStorage.getItem(`chaselights_category_${k}`)||'__all__';document.getElementById('country-select').value=k;loadData(k);}
     function toggleFavorite(id,event){event?.stopPropagation();favorites=favorites.includes(id)?favorites.filter(x=>x!==id):[...favorites,id];localStorage.setItem('chaselights_favs_v2',JSON.stringify(favorites));filterAndRender();}
 
-    async function cacheMatch(url){try{if(!('caches'in window))return null;const c=await caches.open(CACHE_NAME);const r=await c.match(url);if(!r)return null;const j=await r.json();return j?.schema_version===5?j:null;}catch{return null;}}
-    async function fetchAndCache(url,signal){const opts={cache:'no-cache'};if(signal)opts.signal=signal;const r=await fetch(url,opts);if(!r.ok)throw new Error(`HTTP ${r.status}`);const clone=r.clone();try{if('caches'in window){const c=await caches.open(CACHE_NAME);await c.put(url,clone);}}catch{}const j=await r.json();if(j?.schema_version!==5)throw new Error('Schema mismatch');return j;}
+    async function cacheMatch(url){try{if(!('caches'in window))return null;const c=await caches.open(CACHE_NAME);const r=await c.match(url);if(!r)return null;const j=await r.json();return j?.schema_version===7?j:null;}catch{return null;}}
+    async function fetchAndCache(url,signal){const opts={cache:'no-cache'};if(signal)opts.signal=signal;const r=await fetch(url,opts);if(!r.ok)throw new Error(`HTTP ${r.status}`);const clone=r.clone();try{if('caches'in window){const c=await caches.open(CACHE_NAME);await c.put(url,clone);}}catch{}const j=await r.json();if(j?.schema_version!==7)throw new Error('Schema mismatch');return j;}
     function applyData(data,region,seq){if(seq!==activeLoadSequence||region!==currentRegion||data.region!==region)return false;currentData=data;currentSpots=data.spots||[];memorySummary.set(region,data);document.getElementById('loading').style.display='none';migrateFavorites();renderSubNav();renderSceneNav();renderThemeNav();syncDayButtons();updateHeader();filterAndRender();return true;}
     function migrateFavorites(){if(!legacyFavorites.length)return;currentSpots.forEach(s=>{const names=Object.values(s.name_i18n||{});if(names.some(n=>legacyFavorites.includes(n))&&!favorites.includes(s.spot_id))favorites.push(s.spot_id);});localStorage.setItem('chaselights_favs_v2',JSON.stringify(favorites));legacyFavorites=[];}
     async function refreshSummary(region,url,seq,controller,silent=false){try{const fresh=await fetchAndCache(url,controller.signal);if(applyData(fresh,region,seq))memorySummary.set(region,fresh);}catch(e){if(e?.name==='AbortError'||seq!==activeLoadSequence)return;if(!silent){const l=document.getElementById('loading');l.style.display='block';l.innerText=`⚠️ ${url}`;}}}
@@ -373,6 +396,7 @@
     function radarUrl(){if(currentRegion==='jp')return'https://www.jma.go.jp/bosai/nowc/';if(currentRegion==='us')return'https://radar.weather.gov/';return'https://www.cwa.gov.tw/V8/C/W/OBS_Radar.html';}
 
     function filterAndRender(){
+      syncFilterHighlights();
       const container=document.getElementById('spots-container');container.innerHTML='';if(!currentData)return;
       let filtered=categoryBaseSpots();if(currentScene!=='all')filtered=filtered.filter(s=>(s.scenes||[]).includes(currentScene));if(currentTheme!=='all')filtered=filtered.filter(s=>(s.themes||[]).includes(currentTheme));
       const rows=[];for(const spot of filtered){const metric=getMetric(spot);if(metric)rows.push({spot,metric});}rows.sort((a,b)=>(b.metric.score||0)-(a.metric.score||0));
@@ -381,8 +405,8 @@
         const card=document.createElement('div');card.className='card';card.onclick=()=>openModal(spot,metric);
         const score=metric.score||0;const scoreClass=score>=92?'score-gold':score>=80?'score-high':score>=65?'score-mid':'score-low';const flame=score>=92?'🔥 ':'';
         const fav=favorites.includes(spot.spot_id);const scenePills=(spot.scenes||[]).slice(0,4).map(x=>`<span class="scene-pill">${sceneLabel(x)}</span>`).join('');
-        const status=trMessage(metric.status_key),indicator=trMessage(metric.indicator_key),theme=metric.theme||currentTheme;const astro=astroText(metric,theme);const nav=`https://www.google.com/maps/search/?api=1&query=${spot.lat},${spot.lon}`;const access=spot.access_note_i18n?.[currentLang]||spot.access_note_i18n?.['zh-TW'];const factorHtml=(metric.factors||[]).map(f=>`<span class="factor-pill ${f.type==='minus'?'factor-minus':'factor-plus'}">${f.type==='minus'?'−':'＋'} ${trFactor(f)}</span>`).join('');
-        card.innerHTML=`<button class="fav-btn ${fav?'active':''}" data-fav>★</button><div><div class="card-header"><div class="spot-title-group"><span class="spot-name"></span><div class="spot-local-name"></div><div style="margin-top:4px"><span class="category-tag">${categoryLabel(spot.category)}</span></div></div><span class="score-badge ${scoreClass}">${flame}${score}</span></div><div class="tags-wrapper">${scenePills}</div><div class="theme-winner">${d().best_theme}${themeLabel(theme)}</div><div class="info-row">${d().best_window}<b>${fmtWindow(metric)}</b></div><div class="info-row">🕒 ${d().local_time}：${metric.timezone_abbr||spot.timezone_abbr||spot.timezone||'—'}</div><div class="info-row">${d().forecast_status}${status}${metric.cloud_base_agl!=null?` | ${d().cloud_base_label} ${metric.cloud_base_agl}m AGL`:''}</div><div><span class="indicator-pill">${indicator}</span></div>${factorHtml?`<div class="factor-row">${factorHtml}</div>`:''}${astro?`<div class="info-row" style="margin-top:6px">${astro}</div>`:''}${access?`<div class="info-row" style="color:#fbbf24">⏰ ${access}</div>`:''}</div><div class="card-footer-tools" data-tools><span style="font-size:.78rem;color:#94a3b8">${d().click_detail}</span><div><a href="${nav}" target="_blank" class="tool-link">${d().nav_link}</a><a href="${radarUrl()}" target="_blank" class="tool-link">${d().radar_link}</a></div></div>`;
+        const status=trMessage(metric.status_key),indicator=trMessage(metric.indicator_key),theme=metric.theme||currentTheme;const astro=astroText(metric,theme);const navQuery=spot.map_query||`${spot.lat},${spot.lon}`;const nav=`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(navQuery)}`;const access=spot.access_note_i18n?.[currentLang]||spot.access_note_i18n?.['zh-TW'];const factorHtml=(metric.factors||[]).map(f=>`<span class="factor-pill ${f.type==='minus'?'factor-minus':'factor-plus'}">${f.type==='minus'?'−':'＋'} ${trFactor(f)}</span>`).join('');
+        card.innerHTML=`<button class="fav-btn ${fav?'active':''}" data-fav>★</button><div><div class="card-header"><div class="spot-title-group"><span class="spot-name"></span><div class="spot-local-name"></div><div style="margin-top:4px"><span class="category-tag">${categoryLabel(spot.category)}</span></div></div><span class="score-badge ${scoreClass}">${flame}${score}</span></div><div class="tags-wrapper">${scenePills}</div><div class="theme-winner">${d().best_theme}${themeLabel(theme)}</div><div class="info-row">${d().best_window}<b>${fmtWindow(metric)}</b></div><div class="info-row">🕒 ${d().local_time}：${((spot.timezone==='Asia/Taipei'||metric.timezone_abbr==='CST')?'UTC+8':(metric.timezone_abbr||spot.timezone_abbr||spot.timezone||'—'))}</div><div class="info-row">${d().forecast_status}${status}${metric.cloud_base_agl!=null?` | ${d().cloud_base_label} ${metric.cloud_base_agl}m AGL`:''}</div><div><span class="indicator-pill">${indicator}</span></div>${factorHtml?`<div class="factor-row">${factorHtml}</div>`:''}${astro?`<div class="info-row" style="margin-top:6px">${astro}</div>`:''}${access?`<div class="info-row" style="color:#fbbf24">⏰ ${access}</div>`:''}</div><div class="card-footer-tools" data-tools><span style="font-size:.78rem;color:#94a3b8">${d().click_detail}</span><div><a href="${nav}" target="_blank" class="tool-link">${d().nav_link}</a><a href="${radarUrl()}" target="_blank" class="tool-link">${d().radar_link}</a></div></div>`;
         card.querySelector('.spot-name').textContent=spotName(spot);const local=card.querySelector('.spot-local-name');local.textContent=spot.name_local&&spot.name_local!==spotName(spot)?spot.name_local:'';card.querySelector('[data-fav]').onclick=e=>toggleFavorite(spot.spot_id,e);card.querySelector('[data-tools]').onclick=e=>e.stopPropagation();container.appendChild(card);
       });
     }
