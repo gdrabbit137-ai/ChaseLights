@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "updated_at": "2026-09-20T08:21:42.787582Z",
+  "updated_at": "2026-09-20T09:16:09.046488Z",
   "region": "jp",
   "lang": "en",
   "latest_kp": "N/A",
@@ -29,48 +29,6 @@
       "position": "🌫️ Misty Lake Morning",
       "key_indicator": "🌊 Ethereal Lake Mist",
       "hourly_forecast": [
-        {
-          "time": "2026-09-19 17:00",
-          "time_utc": "2026-09-19T08:00:00Z",
-          "local_date": "2026-09-19",
-          "timezone": "Asia/Tokyo",
-          "score": 80,
-          "status": "🌊 Good Lake Conditions",
-          "status_key": "LAKE_GOOD",
-          "key_indicator": "🌊 Gentle Wind / Good Shooting",
-          "indicator_key": "IND_LAKE_GOOD",
-          "best_tag": "lake",
-          "tag_scores": {
-            "lake": {
-              "score": 80,
-              "status": "🌊 Good Lake Conditions",
-              "status_key": "LAKE_GOOD",
-              "key_indicator": "🌊 Gentle Wind / Good Shooting",
-              "indicator_key": "IND_LAKE_GOOD"
-            },
-            "forest": {
-              "score": 24,
-              "status": "🌲 Normal Forest Weather",
-              "status_key": "FOREST_NORMAL",
-              "key_indicator": "🌲 Regular Forest Lighting",
-              "indicator_key": "IND_FOREST_NORM"
-            }
-          },
-          "kp": null,
-          "kp_source": "unavailable",
-          "cloud_base": 137,
-          "temp": 14.6,
-          "rh": 93,
-          "c_low": 54,
-          "c_mid": 5,
-          "c_high": 66,
-          "wind": 0.67,
-          "wind_unit": "m/s",
-          "visibility": 16.4,
-          "is_day": true,
-          "is_twilight": false,
-          "is_past": true
-        },
         {
           "time": "2026-09-19 18:00",
           "time_utc": "2026-09-19T09:00:00Z",
@@ -1119,7 +1077,7 @@
           "visibility": 0.5,
           "is_day": false,
           "is_twilight": true,
-          "is_past": false
+          "is_past": true
         },
         {
           "time": "2026-09-20 19:00",
@@ -4060,6 +4018,48 @@
           "is_day": true,
           "is_twilight": true,
           "is_past": false
+        },
+        {
+          "time": "2026-09-23 17:00",
+          "time_utc": "2026-09-23T08:00:00Z",
+          "local_date": "2026-09-23",
+          "timezone": "Asia/Tokyo",
+          "score": 92,
+          "status": "🪞 Mirror Reflection",
+          "status_key": "LAKE_MIRROR",
+          "key_indicator": "🌊 Calm Water & Perfect Reflection",
+          "indicator_key": "IND_LAKE_MIRROR",
+          "best_tag": "lake",
+          "tag_scores": {
+            "lake": {
+              "score": 92,
+              "status": "🪞 Mirror Reflection",
+              "status_key": "LAKE_MIRROR",
+              "key_indicator": "🌊 Calm Water & Perfect Reflection",
+              "indicator_key": "IND_LAKE_MIRROR"
+            },
+            "forest": {
+              "score": 86,
+              "status": "☀️ Great Forest Sunbeams",
+              "status_key": "FOREST_LIGHT",
+              "key_indicator": "🌲 Clear Air & Strong Sunbeams",
+              "indicator_key": "IND_FOREST_SUN"
+            }
+          },
+          "kp": null,
+          "kp_source": "unavailable",
+          "cloud_base": 387,
+          "temp": 11.1,
+          "rh": 81,
+          "c_low": 0,
+          "c_mid": 0,
+          "c_high": 0,
+          "wind": 1.72,
+          "wind_unit": "m/s",
+          "visibility": 53.9,
+          "is_day": true,
+          "is_twilight": true,
+          "is_past": false
         }
       ]
     },
@@ -4085,48 +4085,6 @@
       "position": "☀️ Excellent Mountain View",
       "key_indicator": "Clear View of Distant Peaks",
       "hourly_forecast": [
-        {
-          "time": "2026-09-19 17:00",
-          "time_utc": "2026-09-19T08:00:00Z",
-          "local_date": "2026-09-19",
-          "timezone": "Asia/Tokyo",
-          "score": 15,
-          "status": "☁️ Heavy Fog / Clouds",
-          "status_key": "MOUNTAIN_FOG_DAY",
-          "key_indicator": "☁️ Not Suitable for Stargazing",
-          "indicator_key": "IND_NO_STAR",
-          "best_tag": "mountain",
-          "tag_scores": {
-            "mountain": {
-              "score": 15,
-              "status": "☁️ Heavy Fog / Clouds",
-              "status_key": "MOUNTAIN_FOG_DAY",
-              "key_indicator": "☁️ Not Suitable for Stargazing",
-              "indicator_key": "IND_NO_STAR"
-            },
-            "starlight": {
-              "score": 15,
-              "status": "☀️ Bright Daylight",
-              "status_key": "DAYLIGHT_ONLY",
-              "key_indicator": "☁️ Not Suitable for Stargazing",
-              "indicator_key": "IND_NO_STAR"
-            }
-          },
-          "kp": null,
-          "kp_source": "unavailable",
-          "cloud_base": 475,
-          "temp": 7.3,
-          "rh": 77,
-          "c_low": 43,
-          "c_mid": 100,
-          "c_high": 11,
-          "wind": 1.43,
-          "wind_unit": "m/s",
-          "visibility": 41.2,
-          "is_day": true,
-          "is_twilight": false,
-          "is_past": true
-        },
         {
           "time": "2026-09-19 18:00",
           "time_utc": "2026-09-19T09:00:00Z",
@@ -5175,7 +5133,7 @@
           "visibility": 20.3,
           "is_day": false,
           "is_twilight": true,
-          "is_past": false
+          "is_past": true
         },
         {
           "time": "2026-09-20 19:00",
@@ -8116,6 +8074,48 @@
           "is_day": true,
           "is_twilight": true,
           "is_past": false
+        },
+        {
+          "time": "2026-09-23 17:00",
+          "time_utc": "2026-09-23T08:00:00Z",
+          "local_date": "2026-09-23",
+          "timezone": "Asia/Tokyo",
+          "score": 99,
+          "status": "☀️ Excellent Mountain View",
+          "status_key": "MOUNTAIN_EXCELLENT_DAY",
+          "key_indicator": "Clear View of Distant Peaks",
+          "indicator_key": "IND_PEAKS",
+          "best_tag": "mountain",
+          "tag_scores": {
+            "mountain": {
+              "score": 99,
+              "status": "☀️ Excellent Mountain View",
+              "status_key": "MOUNTAIN_EXCELLENT_DAY",
+              "key_indicator": "Clear View of Distant Peaks",
+              "indicator_key": "IND_PEAKS"
+            },
+            "starlight": {
+              "score": 15,
+              "status": "☀️ Bright Daylight",
+              "status_key": "DAYLIGHT_ONLY",
+              "key_indicator": "☁️ Not Suitable for Stargazing",
+              "indicator_key": "IND_NO_STAR"
+            }
+          },
+          "kp": null,
+          "kp_source": "unavailable",
+          "cloud_base": 774,
+          "temp": 4.6,
+          "rh": 64,
+          "c_low": 0,
+          "c_mid": 0,
+          "c_high": 0,
+          "wind": 1.39,
+          "wind_unit": "m/s",
+          "visibility": 46.6,
+          "is_day": true,
+          "is_twilight": true,
+          "is_past": false
         }
       ]
     },
@@ -8141,48 +8141,6 @@
       "position": "🌙 Clear Night Sky",
       "key_indicator": "🌌 Clear High-Altitude View",
       "hourly_forecast": [
-        {
-          "time": "2026-09-19 17:00",
-          "time_utc": "2026-09-19T08:00:00Z",
-          "local_date": "2026-09-19",
-          "timezone": "Asia/Tokyo",
-          "score": 45,
-          "status": "☁️ Low Coastal Clouds",
-          "status_key": "COAST_LOW_CLOUD",
-          "key_indicator": "☁️ Obstructed Horizon View",
-          "indicator_key": "IND_COAST_BLOCK",
-          "best_tag": "coast",
-          "tag_scores": {
-            "coast": {
-              "score": 45,
-              "status": "☁️ Low Coastal Clouds",
-              "status_key": "COAST_LOW_CLOUD",
-              "key_indicator": "☁️ Obstructed Horizon View",
-              "indicator_key": "IND_COAST_BLOCK"
-            },
-            "mountain": {
-              "score": 15,
-              "status": "☁️ Heavy Fog / Clouds",
-              "status_key": "MOUNTAIN_FOG_DAY",
-              "key_indicator": "☁️ Not Suitable for Stargazing",
-              "indicator_key": "IND_NO_STAR"
-            }
-          },
-          "kp": null,
-          "kp_source": "unavailable",
-          "cloud_base": 312,
-          "temp": 18.1,
-          "rh": 85,
-          "c_low": 100,
-          "c_mid": 13,
-          "c_high": 27,
-          "wind": 2.9,
-          "wind_unit": "m/s",
-          "visibility": 30.1,
-          "is_day": true,
-          "is_twilight": false,
-          "is_past": true
-        },
         {
           "time": "2026-09-19 18:00",
           "time_utc": "2026-09-19T09:00:00Z",
@@ -9231,7 +9189,7 @@
           "visibility": 18.6,
           "is_day": false,
           "is_twilight": true,
-          "is_past": false
+          "is_past": true
         },
         {
           "time": "2026-09-20 19:00",
@@ -12172,6 +12130,48 @@
           "is_day": true,
           "is_twilight": true,
           "is_past": false
+        },
+        {
+          "time": "2026-09-23 17:00",
+          "time_utc": "2026-09-23T08:00:00Z",
+          "local_date": "2026-09-23",
+          "timezone": "Asia/Tokyo",
+          "score": 94,
+          "status": "☀️ Excellent Mountain View",
+          "status_key": "MOUNTAIN_EXCELLENT_DAY",
+          "key_indicator": "Clear View of Distant Peaks",
+          "indicator_key": "IND_PEAKS",
+          "best_tag": "mountain",
+          "tag_scores": {
+            "coast": {
+              "score": 75,
+              "status": "🌊 Normal Coastal Weather",
+              "status_key": "COAST_NORMAL",
+              "key_indicator": "🌊 Stable Atmospheric Conditions",
+              "indicator_key": "IND_COAST_NORM"
+            },
+            "mountain": {
+              "score": 94,
+              "status": "☀️ Excellent Mountain View",
+              "status_key": "MOUNTAIN_EXCELLENT_DAY",
+              "key_indicator": "Clear View of Distant Peaks",
+              "indicator_key": "IND_PEAKS"
+            }
+          },
+          "kp": null,
+          "kp_source": "unavailable",
+          "cloud_base": 337,
+          "temp": 17.6,
+          "rh": 84,
+          "c_low": 10,
+          "c_mid": 0,
+          "c_high": 0,
+          "wind": 3.89,
+          "wind_unit": "m/s",
+          "visibility": 33.7,
+          "is_day": true,
+          "is_twilight": true,
+          "is_past": false
         }
       ]
     },
@@ -12197,48 +12197,6 @@
       "position": "🌙 Clear Night Sky",
       "key_indicator": "🌌 Clear High-Altitude View",
       "hourly_forecast": [
-        {
-          "time": "2026-09-19 17:00",
-          "time_utc": "2026-09-19T08:00:00Z",
-          "local_date": "2026-09-19",
-          "timezone": "Asia/Tokyo",
-          "score": 72,
-          "status": "🏙️ Normal City View",
-          "status_key": "CITY_DAY_FAIR",
-          "key_indicator": "⛅ Fair Atmospheric Visibility",
-          "indicator_key": "IND_CITY_DAY_FAIR",
-          "best_tag": "city",
-          "tag_scores": {
-            "city": {
-              "score": 72,
-              "status": "🏙️ Normal City View",
-              "status_key": "CITY_DAY_FAIR",
-              "key_indicator": "⛅ Fair Atmospheric Visibility",
-              "indicator_key": "IND_CITY_DAY_FAIR"
-            },
-            "mountain": {
-              "score": 62,
-              "status": "⛅ Stable Mountain Weather",
-              "status_key": "MOUNTAIN_STABLE_DAY",
-              "key_indicator": "⛅ Slight Cloud Interference",
-              "indicator_key": "IND_SOME_CLOUDS"
-            }
-          },
-          "kp": null,
-          "kp_source": "unavailable",
-          "cloud_base": 399,
-          "temp": 20.0,
-          "rh": 82,
-          "c_low": 24,
-          "c_mid": 24,
-          "c_high": 15,
-          "wind": 4.69,
-          "wind_unit": "m/s",
-          "visibility": 37.3,
-          "is_day": true,
-          "is_twilight": false,
-          "is_past": true
-        },
         {
           "time": "2026-09-19 18:00",
           "time_utc": "2026-09-19T09:00:00Z",
@@ -13287,7 +13245,7 @@
           "visibility": 32.1,
           "is_day": false,
           "is_twilight": true,
-          "is_past": false
+          "is_past": true
         },
         {
           "time": "2026-09-20 19:00",
@@ -16228,6 +16186,48 @@
           "is_day": true,
           "is_twilight": false,
           "is_past": false
+        },
+        {
+          "time": "2026-09-23 17:00",
+          "time_utc": "2026-09-23T08:00:00Z",
+          "local_date": "2026-09-23",
+          "timezone": "Asia/Tokyo",
+          "score": 99,
+          "status": "☀️ Excellent Mountain View",
+          "status_key": "MOUNTAIN_EXCELLENT_DAY",
+          "key_indicator": "Clear View of Distant Peaks",
+          "indicator_key": "IND_PEAKS",
+          "best_tag": "mountain",
+          "tag_scores": {
+            "city": {
+              "score": 98,
+              "status": "🏙️ Excellent City Panorama",
+              "status_key": "CITY_DAY_CLEAR",
+              "key_indicator": "💎 Crystal Clear City Panorama",
+              "indicator_key": "IND_CITY_DAY_CLEAR"
+            },
+            "mountain": {
+              "score": 99,
+              "status": "☀️ Excellent Mountain View",
+              "status_key": "MOUNTAIN_EXCELLENT_DAY",
+              "key_indicator": "Clear View of Distant Peaks",
+              "indicator_key": "IND_PEAKS"
+            }
+          },
+          "kp": null,
+          "kp_source": "unavailable",
+          "cloud_base": 712,
+          "temp": 18.5,
+          "rh": 69,
+          "c_low": 0,
+          "c_mid": 0,
+          "c_high": 0,
+          "wind": 2.38,
+          "wind_unit": "m/s",
+          "visibility": 41.5,
+          "is_day": true,
+          "is_twilight": true,
+          "is_past": false
         }
       ]
     },
@@ -16253,48 +16253,6 @@
       "position": "🏙️ Excellent City Panorama",
       "key_indicator": "💎 Crystal Clear City Panorama",
       "hourly_forecast": [
-        {
-          "time": "2026-09-19 17:00",
-          "time_utc": "2026-09-19T08:00:00Z",
-          "local_date": "2026-09-19",
-          "timezone": "Asia/Tokyo",
-          "score": 65,
-          "status": "🏙️ Normal City View",
-          "status_key": "CITY_DAY_FAIR",
-          "key_indicator": "⛅ Fair Atmospheric Visibility",
-          "indicator_key": "IND_CITY_DAY_FAIR",
-          "best_tag": "city",
-          "tag_scores": {
-            "city": {
-              "score": 65,
-              "status": "🏙️ Normal City View",
-              "status_key": "CITY_DAY_FAIR",
-              "key_indicator": "⛅ Fair Atmospheric Visibility",
-              "indicator_key": "IND_CITY_DAY_FAIR"
-            },
-            "coast": {
-              "score": 58,
-              "status": "🌊 Normal Coastal Weather",
-              "status_key": "COAST_NORMAL",
-              "key_indicator": "🌊 Stable Atmospheric Conditions",
-              "indicator_key": "IND_COAST_NORM"
-            }
-          },
-          "kp": null,
-          "kp_source": "unavailable",
-          "cloud_base": 399,
-          "temp": 20.0,
-          "rh": 82,
-          "c_low": 25,
-          "c_mid": 0,
-          "c_high": 63,
-          "wind": 0.6,
-          "wind_unit": "m/s",
-          "visibility": 39.7,
-          "is_day": true,
-          "is_twilight": false,
-          "is_past": true
-        },
         {
           "time": "2026-09-19 18:00",
           "time_utc": "2026-09-19T09:00:00Z",
@@ -17343,7 +17301,7 @@
           "visibility": 30.9,
           "is_day": false,
           "is_twilight": true,
-          "is_past": false
+          "is_past": true
         },
         {
           "time": "2026-09-20 19:00",
@@ -20284,6 +20242,48 @@
           "is_day": true,
           "is_twilight": false,
           "is_past": false
+        },
+        {
+          "time": "2026-09-23 17:00",
+          "time_utc": "2026-09-23T08:00:00Z",
+          "local_date": "2026-09-23",
+          "timezone": "Asia/Tokyo",
+          "score": 98,
+          "status": "🏙️ Excellent City Panorama",
+          "status_key": "CITY_DAY_CLEAR",
+          "key_indicator": "💎 Crystal Clear City Panorama",
+          "indicator_key": "IND_CITY_DAY_CLEAR",
+          "best_tag": "city",
+          "tag_scores": {
+            "city": {
+              "score": 98,
+              "status": "🏙️ Excellent City Panorama",
+              "status_key": "CITY_DAY_CLEAR",
+              "key_indicator": "💎 Crystal Clear City Panorama",
+              "indicator_key": "IND_CITY_DAY_CLEAR"
+            },
+            "coast": {
+              "score": 75,
+              "status": "🌊 Normal Coastal Weather",
+              "status_key": "COAST_NORMAL",
+              "key_indicator": "🌊 Stable Atmospheric Conditions",
+              "indicator_key": "IND_COAST_NORM"
+            }
+          },
+          "kp": null,
+          "kp_source": "unavailable",
+          "cloud_base": 774,
+          "temp": 19.5,
+          "rh": 67,
+          "c_low": 0,
+          "c_mid": 0,
+          "c_high": 0,
+          "wind": 3.11,
+          "wind_unit": "m/s",
+          "visibility": 44.3,
+          "is_day": true,
+          "is_twilight": true,
+          "is_past": false
         }
       ]
     },
@@ -20309,48 +20309,6 @@
       "position": "🌙 Clear Night Sky",
       "key_indicator": "🌌 Clear High-Altitude View",
       "hourly_forecast": [
-        {
-          "time": "2026-09-19 17:00",
-          "time_utc": "2026-09-19T08:00:00Z",
-          "local_date": "2026-09-19",
-          "timezone": "Asia/Tokyo",
-          "score": 80,
-          "status": "🌊 Good Lake Conditions",
-          "status_key": "LAKE_GOOD",
-          "key_indicator": "🌊 Gentle Wind / Good Shooting",
-          "indicator_key": "IND_LAKE_GOOD",
-          "best_tag": "lake",
-          "tag_scores": {
-            "lake": {
-              "score": 80,
-              "status": "🌊 Good Lake Conditions",
-              "status_key": "LAKE_GOOD",
-              "key_indicator": "🌊 Gentle Wind / Good Shooting",
-              "indicator_key": "IND_LAKE_GOOD"
-            },
-            "mountain": {
-              "score": 15,
-              "status": "☁️ Heavy Fog / Clouds",
-              "status_key": "MOUNTAIN_FOG_DAY",
-              "key_indicator": "☁️ Not Suitable for Stargazing",
-              "indicator_key": "IND_NO_STAR"
-            }
-          },
-          "kp": null,
-          "kp_source": "unavailable",
-          "cloud_base": 300,
-          "temp": 17.6,
-          "rh": 86,
-          "c_low": 100,
-          "c_mid": 39,
-          "c_high": 32,
-          "wind": 2.9,
-          "wind_unit": "m/s",
-          "visibility": 30.2,
-          "is_day": true,
-          "is_twilight": false,
-          "is_past": true
-        },
         {
           "time": "2026-09-19 18:00",
           "time_utc": "2026-09-19T09:00:00Z",
@@ -21399,7 +21357,7 @@
           "visibility": 18.0,
           "is_day": false,
           "is_twilight": true,
-          "is_past": false
+          "is_past": true
         },
         {
           "time": "2026-09-20 19:00",
@@ -24340,6 +24298,48 @@
           "is_day": true,
           "is_twilight": true,
           "is_past": false
+        },
+        {
+          "time": "2026-09-23 17:00",
+          "time_utc": "2026-09-23T08:00:00Z",
+          "local_date": "2026-09-23",
+          "timezone": "Asia/Tokyo",
+          "score": 92,
+          "status": "🪞 Mirror Reflection",
+          "status_key": "LAKE_MIRROR",
+          "key_indicator": "🌊 Calm Water & Perfect Reflection",
+          "indicator_key": "IND_LAKE_MIRROR",
+          "best_tag": "lake",
+          "tag_scores": {
+            "lake": {
+              "score": 92,
+              "status": "🪞 Mirror Reflection",
+              "status_key": "LAKE_MIRROR",
+              "key_indicator": "🌊 Calm Water & Perfect Reflection",
+              "indicator_key": "IND_LAKE_MIRROR"
+            },
+            "mountain": {
+              "score": 89,
+              "status": "☀️ Excellent Mountain View",
+              "status_key": "MOUNTAIN_EXCELLENT_DAY",
+              "key_indicator": "Clear View of Distant Peaks",
+              "indicator_key": "IND_PEAKS"
+            }
+          },
+          "kp": null,
+          "kp_source": "unavailable",
+          "cloud_base": 324,
+          "temp": 17.2,
+          "rh": 85,
+          "c_low": 17,
+          "c_mid": 0,
+          "c_high": 0,
+          "wind": 3.53,
+          "wind_unit": "m/s",
+          "visibility": 33.5,
+          "is_day": true,
+          "is_twilight": true,
+          "is_past": false
         }
       ]
     },
@@ -24365,48 +24365,6 @@
       "position": "🌫️ Misty Lake Morning",
       "key_indicator": "🌊 Ethereal Lake Mist",
       "hourly_forecast": [
-        {
-          "time": "2026-09-19 17:00",
-          "time_utc": "2026-09-19T08:00:00Z",
-          "local_date": "2026-09-19",
-          "timezone": "Asia/Tokyo",
-          "score": 80,
-          "status": "🌊 Good Lake Conditions",
-          "status_key": "LAKE_GOOD",
-          "key_indicator": "🌊 Gentle Wind / Good Shooting",
-          "indicator_key": "IND_LAKE_GOOD",
-          "best_tag": "lake",
-          "tag_scores": {
-            "lake": {
-              "score": 80,
-              "status": "🌊 Good Lake Conditions",
-              "status_key": "LAKE_GOOD",
-              "key_indicator": "🌊 Gentle Wind / Good Shooting",
-              "indicator_key": "IND_LAKE_GOOD"
-            },
-            "forest": {
-              "score": 49,
-              "status": "🌲 Normal Forest Weather",
-              "status_key": "FOREST_NORMAL",
-              "key_indicator": "🌲 Regular Forest Lighting",
-              "indicator_key": "IND_FOREST_NORM"
-            }
-          },
-          "kp": null,
-          "kp_source": "unavailable",
-          "cloud_base": 324,
-          "temp": 20.9,
-          "rh": 85,
-          "c_low": 49,
-          "c_mid": 27,
-          "c_high": 10,
-          "wind": 2.77,
-          "wind_unit": "m/s",
-          "visibility": 19.9,
-          "is_day": true,
-          "is_twilight": false,
-          "is_past": true
-        },
         {
           "time": "2026-09-19 18:00",
           "time_utc": "2026-09-19T09:00:00Z",
@@ -25455,7 +25413,7 @@
           "visibility": 20.7,
           "is_day": false,
           "is_twilight": true,
-          "is_past": false
+          "is_past": true
         },
         {
           "time": "2026-09-20 19:00",
@@ -28396,6 +28354,48 @@
           "is_day": true,
           "is_twilight": false,
           "is_past": false
+        },
+        {
+          "time": "2026-09-23 17:00",
+          "time_utc": "2026-09-23T08:00:00Z",
+          "local_date": "2026-09-23",
+          "timezone": "Asia/Tokyo",
+          "score": 80,
+          "status": "🌊 Good Lake Conditions",
+          "status_key": "LAKE_GOOD",
+          "key_indicator": "🌊 Gentle Wind / Good Shooting",
+          "indicator_key": "IND_LAKE_GOOD",
+          "best_tag": "lake",
+          "tag_scores": {
+            "lake": {
+              "score": 80,
+              "status": "🌊 Good Lake Conditions",
+              "status_key": "LAKE_GOOD",
+              "key_indicator": "🌊 Gentle Wind / Good Shooting",
+              "indicator_key": "IND_LAKE_GOOD"
+            },
+            "forest": {
+              "score": 64,
+              "status": "🌲 Normal Forest Weather",
+              "status_key": "FOREST_NORMAL",
+              "key_indicator": "🌲 Regular Forest Lighting",
+              "indicator_key": "IND_FOREST_NORM"
+            }
+          },
+          "kp": null,
+          "kp_source": "unavailable",
+          "cloud_base": 987,
+          "temp": 21.5,
+          "rh": 61,
+          "c_low": 1,
+          "c_mid": 0,
+          "c_high": 0,
+          "wind": 2.01,
+          "wind_unit": "m/s",
+          "visibility": 10.2,
+          "is_day": true,
+          "is_twilight": true,
+          "is_past": false
         }
       ]
     },
@@ -28420,41 +28420,6 @@
       "position": "🌊 Normal Coastal Weather",
       "key_indicator": "🌊 Stable Atmospheric Conditions",
       "hourly_forecast": [
-        {
-          "time": "2026-09-19 17:00",
-          "time_utc": "2026-09-19T08:00:00Z",
-          "local_date": "2026-09-19",
-          "timezone": "Asia/Tokyo",
-          "score": 45,
-          "status": "☁️ Low Coastal Clouds",
-          "status_key": "COAST_LOW_CLOUD",
-          "key_indicator": "☁️ Obstructed Horizon View",
-          "indicator_key": "IND_COAST_BLOCK",
-          "best_tag": "coast",
-          "tag_scores": {
-            "coast": {
-              "score": 45,
-              "status": "☁️ Low Coastal Clouds",
-              "status_key": "COAST_LOW_CLOUD",
-              "key_indicator": "☁️ Obstructed Horizon View",
-              "indicator_key": "IND_COAST_BLOCK"
-            }
-          },
-          "kp": null,
-          "kp_source": "unavailable",
-          "cloud_base": 212,
-          "temp": 22.1,
-          "rh": 90,
-          "c_low": 92,
-          "c_mid": 25,
-          "c_high": 94,
-          "wind": 0.4,
-          "wind_unit": "m/s",
-          "visibility": 13.2,
-          "is_day": true,
-          "is_twilight": false,
-          "is_past": true
-        },
         {
           "time": "2026-09-19 18:00",
           "time_utc": "2026-09-19T09:00:00Z",
@@ -29328,7 +29293,7 @@
           "visibility": 16.8,
           "is_day": false,
           "is_twilight": true,
-          "is_past": false
+          "is_past": true
         },
         {
           "time": "2026-09-20 19:00",
@@ -31779,6 +31744,41 @@
           "is_day": true,
           "is_twilight": false,
           "is_past": false
+        },
+        {
+          "time": "2026-09-23 17:00",
+          "time_utc": "2026-09-23T08:00:00Z",
+          "local_date": "2026-09-23",
+          "timezone": "Asia/Tokyo",
+          "score": 75,
+          "status": "🌊 Normal Coastal Weather",
+          "status_key": "COAST_NORMAL",
+          "key_indicator": "🌊 Stable Atmospheric Conditions",
+          "indicator_key": "IND_COAST_NORM",
+          "best_tag": "coast",
+          "tag_scores": {
+            "coast": {
+              "score": 75,
+              "status": "🌊 Normal Coastal Weather",
+              "status_key": "COAST_NORMAL",
+              "key_indicator": "🌊 Stable Atmospheric Conditions",
+              "indicator_key": "IND_COAST_NORM"
+            }
+          },
+          "kp": null,
+          "kp_source": "unavailable",
+          "cloud_base": 549,
+          "temp": 20.7,
+          "rh": 76,
+          "c_low": 9,
+          "c_mid": 0,
+          "c_high": 0,
+          "wind": 1.74,
+          "wind_unit": "m/s",
+          "visibility": 34.5,
+          "is_day": true,
+          "is_twilight": true,
+          "is_past": false
         }
       ]
     },
@@ -31803,41 +31803,6 @@
       "position": "☀️ Excellent Mountain View",
       "key_indicator": "Clear View of Distant Peaks",
       "hourly_forecast": [
-        {
-          "time": "2026-09-19 17:00",
-          "time_utc": "2026-09-19T08:00:00Z",
-          "local_date": "2026-09-19",
-          "timezone": "Asia/Tokyo",
-          "score": 81,
-          "status": "⛅ Stable Mountain Weather",
-          "status_key": "MOUNTAIN_STABLE_DAY",
-          "key_indicator": "⛅ Slight Cloud Interference",
-          "indicator_key": "IND_SOME_CLOUDS",
-          "best_tag": "mountain",
-          "tag_scores": {
-            "mountain": {
-              "score": 81,
-              "status": "⛅ Stable Mountain Weather",
-              "status_key": "MOUNTAIN_STABLE_DAY",
-              "key_indicator": "⛅ Slight Cloud Interference",
-              "indicator_key": "IND_SOME_CLOUDS"
-            }
-          },
-          "kp": null,
-          "kp_source": "unavailable",
-          "cloud_base": 600,
-          "temp": 25.8,
-          "rh": 75,
-          "c_low": 1,
-          "c_mid": 42,
-          "c_high": 25,
-          "wind": 1.34,
-          "wind_unit": "m/s",
-          "visibility": 33.7,
-          "is_day": true,
-          "is_twilight": false,
-          "is_past": true
-        },
         {
           "time": "2026-09-19 18:00",
           "time_utc": "2026-09-19T09:00:00Z",
@@ -32711,7 +32676,7 @@
           "visibility": 25.8,
           "is_day": false,
           "is_twilight": true,
-          "is_past": false
+          "is_past": true
         },
         {
           "time": "2026-09-20 19:00",
@@ -35162,6 +35127,41 @@
           "is_day": true,
           "is_twilight": false,
           "is_past": false
+        },
+        {
+          "time": "2026-09-23 17:00",
+          "time_utc": "2026-09-23T08:00:00Z",
+          "local_date": "2026-09-23",
+          "timezone": "Asia/Tokyo",
+          "score": 99,
+          "status": "☀️ Excellent Mountain View",
+          "status_key": "MOUNTAIN_EXCELLENT_DAY",
+          "key_indicator": "Clear View of Distant Peaks",
+          "indicator_key": "IND_PEAKS",
+          "best_tag": "mountain",
+          "tag_scores": {
+            "mountain": {
+              "score": 99,
+              "status": "☀️ Excellent Mountain View",
+              "status_key": "MOUNTAIN_EXCELLENT_DAY",
+              "key_indicator": "Clear View of Distant Peaks",
+              "indicator_key": "IND_PEAKS"
+            }
+          },
+          "kp": null,
+          "kp_source": "unavailable",
+          "cloud_base": 475,
+          "temp": 20.3,
+          "rh": 79,
+          "c_low": 0,
+          "c_mid": 0,
+          "c_high": 0,
+          "wind": 1.11,
+          "wind_unit": "m/s",
+          "visibility": 34.5,
+          "is_day": true,
+          "is_twilight": true,
+          "is_past": false
         }
       ]
     },
@@ -35188,55 +35188,6 @@
       "position": "🌫️ Misty Lake Morning",
       "key_indicator": "🌊 Ethereal Lake Mist",
       "hourly_forecast": [
-        {
-          "time": "2026-09-19 17:00",
-          "time_utc": "2026-09-19T08:00:00Z",
-          "local_date": "2026-09-19",
-          "timezone": "Asia/Tokyo",
-          "score": 40,
-          "status": "🌧️ High Rain Risk",
-          "status_key": "RAIN_RISK",
-          "key_indicator": "🌧️ Significant Rain / Avoid Shooting",
-          "indicator_key": "IND_RAIN_RISK",
-          "best_tag": "lake",
-          "tag_scores": {
-            "mountain": {
-              "score": 15,
-              "status": "🌧️ High Rain Risk",
-              "status_key": "RAIN_RISK",
-              "key_indicator": "🌧️ Significant Rain / Avoid Shooting",
-              "indicator_key": "IND_RAIN_RISK"
-            },
-            "lake": {
-              "score": 40,
-              "status": "🌧️ High Rain Risk",
-              "status_key": "RAIN_RISK",
-              "key_indicator": "🌧️ Significant Rain / Avoid Shooting",
-              "indicator_key": "IND_RAIN_RISK"
-            },
-            "starlight": {
-              "score": 15,
-              "status": "☀️ Bright Daylight",
-              "status_key": "DAYLIGHT_ONLY",
-              "key_indicator": "☁️ Not Suitable for Stargazing",
-              "indicator_key": "IND_NO_STAR"
-            }
-          },
-          "kp": null,
-          "kp_source": "unavailable",
-          "cloud_base": 100,
-          "temp": 1.9,
-          "rh": 99,
-          "c_low": 75,
-          "c_mid": 50,
-          "c_high": 58,
-          "wind": 2.19,
-          "wind_unit": "m/s",
-          "visibility": 0.3,
-          "is_day": true,
-          "is_twilight": false,
-          "is_past": true
-        },
         {
           "time": "2026-09-19 18:00",
           "time_utc": "2026-09-19T09:00:00Z",
@@ -36460,7 +36411,7 @@
           "visibility": 0.7,
           "is_day": false,
           "is_twilight": true,
-          "is_past": false
+          "is_past": true
         },
         {
           "time": "2026-09-20 19:00",
@@ -39891,6 +39842,55 @@
           "is_day": true,
           "is_twilight": false,
           "is_past": false
+        },
+        {
+          "time": "2026-09-23 17:00",
+          "time_utc": "2026-09-23T08:00:00Z",
+          "local_date": "2026-09-23",
+          "timezone": "Asia/Tokyo",
+          "score": 95,
+          "status": "🌫️ Misty Lake Morning",
+          "status_key": "LAKE_MIST",
+          "key_indicator": "🌊 Ethereal Lake Mist",
+          "indicator_key": "IND_LAKE_MIST",
+          "best_tag": "lake",
+          "tag_scores": {
+            "mountain": {
+              "score": 15,
+              "status": "☁️ Heavy Fog / Clouds",
+              "status_key": "MOUNTAIN_FOG_DAY",
+              "key_indicator": "☁️ Not Suitable for Stargazing",
+              "indicator_key": "IND_NO_STAR"
+            },
+            "lake": {
+              "score": 95,
+              "status": "🌫️ Misty Lake Morning",
+              "status_key": "LAKE_MIST",
+              "key_indicator": "🌊 Ethereal Lake Mist",
+              "indicator_key": "IND_LAKE_MIST"
+            },
+            "starlight": {
+              "score": 15,
+              "status": "☀️ Bright Daylight",
+              "status_key": "DAYLIGHT_ONLY",
+              "key_indicator": "☁️ Not Suitable for Stargazing",
+              "indicator_key": "IND_NO_STAR"
+            }
+          },
+          "kp": null,
+          "kp_source": "unavailable",
+          "cloud_base": 100,
+          "temp": 0.6,
+          "rh": 96,
+          "c_low": 100,
+          "c_mid": 8,
+          "c_high": 0,
+          "wind": 0.78,
+          "wind_unit": "m/s",
+          "visibility": 7.9,
+          "is_day": true,
+          "is_twilight": true,
+          "is_past": false
         }
       ]
     },
@@ -39915,41 +39915,6 @@
       "position": "🏙️ Excellent City Panorama",
       "key_indicator": "💎 Crystal Clear City Panorama",
       "hourly_forecast": [
-        {
-          "time": "2026-09-19 17:00",
-          "time_utc": "2026-09-19T08:00:00Z",
-          "local_date": "2026-09-19",
-          "timezone": "Asia/Tokyo",
-          "score": 15,
-          "status": "🌧️ High Rain Risk",
-          "status_key": "RAIN_RISK",
-          "key_indicator": "🌧️ Significant Rain / Avoid Shooting",
-          "indicator_key": "IND_RAIN_RISK",
-          "best_tag": "city",
-          "tag_scores": {
-            "city": {
-              "score": 15,
-              "status": "🌧️ High Rain Risk",
-              "status_key": "RAIN_RISK",
-              "key_indicator": "🌧️ Significant Rain / Avoid Shooting",
-              "indicator_key": "IND_RAIN_RISK"
-            }
-          },
-          "kp": null,
-          "kp_source": "unavailable",
-          "cloud_base": 174,
-          "temp": 21.9,
-          "rh": 92,
-          "c_low": 35,
-          "c_mid": 59,
-          "c_high": 78,
-          "wind": 2.3,
-          "wind_unit": "m/s",
-          "visibility": 12.6,
-          "is_day": true,
-          "is_twilight": false,
-          "is_past": true
-        },
         {
           "time": "2026-09-19 18:00",
           "time_utc": "2026-09-19T09:00:00Z",
@@ -40823,7 +40788,7 @@
           "visibility": 2.0,
           "is_day": false,
           "is_twilight": true,
-          "is_past": false
+          "is_past": true
         },
         {
           "time": "2026-09-20 19:00",
@@ -43274,6 +43239,41 @@
           "is_day": true,
           "is_twilight": false,
           "is_past": false
+        },
+        {
+          "time": "2026-09-23 17:00",
+          "time_utc": "2026-09-23T08:00:00Z",
+          "local_date": "2026-09-23",
+          "timezone": "Asia/Tokyo",
+          "score": 56,
+          "status": "🌫️ Obstructed City View",
+          "status_key": "CITY_DAY_POOR",
+          "key_indicator": "🌫️ Haze or Poor Visibility",
+          "indicator_key": "IND_CITY_DAY_HAZE",
+          "best_tag": "city",
+          "tag_scores": {
+            "city": {
+              "score": 56,
+              "status": "🌫️ Obstructed City View",
+              "status_key": "CITY_DAY_POOR",
+              "key_indicator": "🌫️ Haze or Poor Visibility",
+              "indicator_key": "IND_CITY_DAY_HAZE"
+            }
+          },
+          "kp": null,
+          "kp_source": "unavailable",
+          "cloud_base": 799,
+          "temp": 25.0,
+          "rh": 67,
+          "c_low": 70,
+          "c_mid": 6,
+          "c_high": 0,
+          "wind": 1.5,
+          "wind_unit": "m/s",
+          "visibility": 33.9,
+          "is_day": true,
+          "is_twilight": true,
+          "is_past": false
         }
       ]
     },
@@ -43298,41 +43298,6 @@
       "position": "🏙️ Clear City Night View",
       "key_indicator": "💎 Clear City Lights",
       "hourly_forecast": [
-        {
-          "time": "2026-09-19 17:00",
-          "time_utc": "2026-09-19T08:00:00Z",
-          "local_date": "2026-09-19",
-          "timezone": "Asia/Tokyo",
-          "score": 37,
-          "status": "🌧️ High Rain Risk",
-          "status_key": "RAIN_RISK",
-          "key_indicator": "🌧️ Significant Rain / Avoid Shooting",
-          "indicator_key": "IND_RAIN_RISK",
-          "best_tag": "city",
-          "tag_scores": {
-            "city": {
-              "score": 37,
-              "status": "🌧️ High Rain Risk",
-              "status_key": "RAIN_RISK",
-              "key_indicator": "🌧️ Significant Rain / Avoid Shooting",
-              "indicator_key": "IND_RAIN_RISK"
-            }
-          },
-          "kp": null,
-          "kp_source": "unavailable",
-          "cloud_base": 287,
-          "temp": 23.2,
-          "rh": 87,
-          "c_low": 28,
-          "c_mid": 64,
-          "c_high": 65,
-          "wind": 4.4,
-          "wind_unit": "m/s",
-          "visibility": 30.6,
-          "is_day": true,
-          "is_twilight": false,
-          "is_past": true
-        },
         {
           "time": "2026-09-19 18:00",
           "time_utc": "2026-09-19T09:00:00Z",
@@ -44206,7 +44171,7 @@
           "visibility": 1.1,
           "is_day": false,
           "is_twilight": true,
-          "is_past": false
+          "is_past": true
         },
         {
           "time": "2026-09-20 19:00",
@@ -46657,6 +46622,41 @@
           "is_day": true,
           "is_twilight": false,
           "is_past": false
+        },
+        {
+          "time": "2026-09-23 17:00",
+          "time_utc": "2026-09-23T08:00:00Z",
+          "local_date": "2026-09-23",
+          "timezone": "Asia/Tokyo",
+          "score": 77,
+          "status": "🏙️ Normal City View",
+          "status_key": "CITY_DAY_FAIR",
+          "key_indicator": "⛅ Fair Atmospheric Visibility",
+          "indicator_key": "IND_CITY_DAY_FAIR",
+          "best_tag": "city",
+          "tag_scores": {
+            "city": {
+              "score": 77,
+              "status": "🏙️ Normal City View",
+              "status_key": "CITY_DAY_FAIR",
+              "key_indicator": "⛅ Fair Atmospheric Visibility",
+              "indicator_key": "IND_CITY_DAY_FAIR"
+            }
+          },
+          "kp": null,
+          "kp_source": "unavailable",
+          "cloud_base": 687,
+          "temp": 24.6,
+          "rh": 71,
+          "c_low": 21,
+          "c_mid": 11,
+          "c_high": 0,
+          "wind": 1.35,
+          "wind_unit": "m/s",
+          "visibility": 34.2,
+          "is_day": true,
+          "is_twilight": true,
+          "is_past": false
         }
       ]
     },
@@ -46682,48 +46682,6 @@
       "position": "🏙️ Clear City Night View",
       "key_indicator": "💎 Clear City Lights",
       "hourly_forecast": [
-        {
-          "time": "2026-09-19 17:00",
-          "time_utc": "2026-09-19T08:00:00Z",
-          "local_date": "2026-09-19",
-          "timezone": "Asia/Tokyo",
-          "score": 80,
-          "status": "🌊 Good Lake Conditions",
-          "status_key": "LAKE_GOOD",
-          "key_indicator": "🌊 Gentle Wind / Good Shooting",
-          "indicator_key": "IND_LAKE_GOOD",
-          "best_tag": "lake",
-          "tag_scores": {
-            "lake": {
-              "score": 80,
-              "status": "🌊 Good Lake Conditions",
-              "status_key": "LAKE_GOOD",
-              "key_indicator": "🌊 Gentle Wind / Good Shooting",
-              "indicator_key": "IND_LAKE_GOOD"
-            },
-            "city": {
-              "score": 75,
-              "status": "🏙️ Normal City View",
-              "status_key": "CITY_DAY_FAIR",
-              "key_indicator": "⛅ Fair Atmospheric Visibility",
-              "indicator_key": "IND_CITY_DAY_FAIR"
-            }
-          },
-          "kp": null,
-          "kp_source": "unavailable",
-          "cloud_base": 400,
-          "temp": 21.6,
-          "rh": 82,
-          "c_low": 40,
-          "c_mid": 32,
-          "c_high": 98,
-          "wind": 0.5,
-          "wind_unit": "m/s",
-          "visibility": 17.4,
-          "is_day": true,
-          "is_twilight": false,
-          "is_past": true
-        },
         {
           "time": "2026-09-19 18:00",
           "time_utc": "2026-09-19T09:00:00Z",
@@ -47772,7 +47730,7 @@
           "visibility": 5.9,
           "is_day": false,
           "is_twilight": true,
-          "is_past": false
+          "is_past": true
         },
         {
           "time": "2026-09-20 19:00",
@@ -50713,6 +50671,48 @@
           "is_day": true,
           "is_twilight": false,
           "is_past": false
+        },
+        {
+          "time": "2026-09-23 17:00",
+          "time_utc": "2026-09-23T08:00:00Z",
+          "local_date": "2026-09-23",
+          "timezone": "Asia/Tokyo",
+          "score": 40,
+          "status": "🌧️ High Rain Risk",
+          "status_key": "RAIN_RISK",
+          "key_indicator": "🌧️ Significant Rain / Avoid Shooting",
+          "indicator_key": "IND_RAIN_RISK",
+          "best_tag": "lake",
+          "tag_scores": {
+            "lake": {
+              "score": 40,
+              "status": "🌧️ High Rain Risk",
+              "status_key": "RAIN_RISK",
+              "key_indicator": "🌧️ Significant Rain / Avoid Shooting",
+              "indicator_key": "IND_RAIN_RISK"
+            },
+            "city": {
+              "score": 35,
+              "status": "🌧️ High Rain Risk",
+              "status_key": "RAIN_RISK",
+              "key_indicator": "🌧️ Significant Rain / Avoid Shooting",
+              "indicator_key": "IND_RAIN_RISK"
+            }
+          },
+          "kp": null,
+          "kp_source": "unavailable",
+          "cloud_base": 250,
+          "temp": 21.0,
+          "rh": 88,
+          "c_low": 16,
+          "c_mid": 9,
+          "c_high": 0,
+          "wind": 0.91,
+          "wind_unit": "m/s",
+          "visibility": 18.0,
+          "is_day": true,
+          "is_twilight": true,
+          "is_past": false
         }
       ]
     },
@@ -50738,48 +50738,6 @@
       "position": "🌊 Soft Light Waterfall",
       "key_indicator": "💦 Overcast / Soft Lighting",
       "hourly_forecast": [
-        {
-          "time": "2026-09-19 17:00",
-          "time_utc": "2026-09-19T08:00:00Z",
-          "local_date": "2026-09-19",
-          "timezone": "Asia/Tokyo",
-          "score": 40,
-          "status": "🌧️ High Rain Risk",
-          "status_key": "RAIN_RISK",
-          "key_indicator": "🌧️ Significant Rain / Avoid Shooting",
-          "indicator_key": "IND_RAIN_RISK",
-          "best_tag": "waterfall",
-          "tag_scores": {
-            "forest": {
-              "score": 15,
-              "status": "🌧️ High Rain Risk",
-              "status_key": "RAIN_RISK",
-              "key_indicator": "🌧️ Significant Rain / Avoid Shooting",
-              "indicator_key": "IND_RAIN_RISK"
-            },
-            "waterfall": {
-              "score": 40,
-              "status": "🌧️ High Rain Risk",
-              "status_key": "RAIN_RISK",
-              "key_indicator": "🌧️ Significant Rain / Avoid Shooting",
-              "indicator_key": "IND_RAIN_RISK"
-            }
-          },
-          "kp": null,
-          "kp_source": "unavailable",
-          "cloud_base": 200,
-          "temp": 21.8,
-          "rh": 91,
-          "c_low": 38,
-          "c_mid": 60,
-          "c_high": 92,
-          "wind": 1.2,
-          "wind_unit": "m/s",
-          "visibility": 12.3,
-          "is_day": true,
-          "is_twilight": false,
-          "is_past": true
-        },
         {
           "time": "2026-09-19 18:00",
           "time_utc": "2026-09-19T09:00:00Z",
@@ -51828,7 +51786,7 @@
           "visibility": 2.8,
           "is_day": false,
           "is_twilight": true,
-          "is_past": false
+          "is_past": true
         },
         {
           "time": "2026-09-20 19:00",
@@ -54769,6 +54727,48 @@
           "is_day": true,
           "is_twilight": false,
           "is_past": false
+        },
+        {
+          "time": "2026-09-23 17:00",
+          "time_utc": "2026-09-23T08:00:00Z",
+          "local_date": "2026-09-23",
+          "timezone": "Asia/Tokyo",
+          "score": 88,
+          "status": "☀️ Great Forest Sunbeams",
+          "status_key": "FOREST_LIGHT",
+          "key_indicator": "🌲 Clear Air & Strong Sunbeams",
+          "indicator_key": "IND_FOREST_SUN",
+          "best_tag": "forest",
+          "tag_scores": {
+            "forest": {
+              "score": 88,
+              "status": "☀️ Great Forest Sunbeams",
+              "status_key": "FOREST_LIGHT",
+              "key_indicator": "🌲 Clear Air & Strong Sunbeams",
+              "indicator_key": "IND_FOREST_SUN"
+            },
+            "waterfall": {
+              "score": 76,
+              "status": "💦 Stable Waterfall Weather",
+              "status_key": "WATERFALL_NORMAL",
+              "key_indicator": "💦 Good Water Flow & Lighting",
+              "indicator_key": "IND_WATERFALL_NORM"
+            }
+          },
+          "kp": null,
+          "kp_source": "unavailable",
+          "cloud_base": 850,
+          "temp": 24.7,
+          "rh": 66,
+          "c_low": 16,
+          "c_mid": 9,
+          "c_high": 0,
+          "wind": 0.95,
+          "wind_unit": "m/s",
+          "visibility": 33.8,
+          "is_day": true,
+          "is_twilight": true,
+          "is_past": false
         }
       ]
     },
@@ -54793,41 +54793,6 @@
       "position": "🏙️ Excellent City Panorama",
       "key_indicator": "💎 Crystal Clear City Panorama",
       "hourly_forecast": [
-        {
-          "time": "2026-09-19 17:00",
-          "time_utc": "2026-09-19T08:00:00Z",
-          "local_date": "2026-09-19",
-          "timezone": "Asia/Tokyo",
-          "score": 15,
-          "status": "🌧️ High Rain Risk",
-          "status_key": "RAIN_RISK",
-          "key_indicator": "🌧️ Significant Rain / Avoid Shooting",
-          "indicator_key": "IND_RAIN_RISK",
-          "best_tag": "city",
-          "tag_scores": {
-            "city": {
-              "score": 15,
-              "status": "🌧️ High Rain Risk",
-              "status_key": "RAIN_RISK",
-              "key_indicator": "🌧️ Significant Rain / Avoid Shooting",
-              "indicator_key": "IND_RAIN_RISK"
-            }
-          },
-          "kp": null,
-          "kp_source": "unavailable",
-          "cloud_base": 162,
-          "temp": 21.8,
-          "rh": 92,
-          "c_low": 35,
-          "c_mid": 59,
-          "c_high": 78,
-          "wind": 2.3,
-          "wind_unit": "m/s",
-          "visibility": 11.8,
-          "is_day": true,
-          "is_twilight": false,
-          "is_past": true
-        },
         {
           "time": "2026-09-19 18:00",
           "time_utc": "2026-09-19T09:00:00Z",
@@ -55701,7 +55666,7 @@
           "visibility": 2.5,
           "is_day": false,
           "is_twilight": true,
-          "is_past": false
+          "is_past": true
         },
         {
           "time": "2026-09-20 19:00",
@@ -58152,6 +58117,41 @@
           "is_day": true,
           "is_twilight": false,
           "is_past": false
+        },
+        {
+          "time": "2026-09-23 17:00",
+          "time_utc": "2026-09-23T08:00:00Z",
+          "local_date": "2026-09-23",
+          "timezone": "Asia/Tokyo",
+          "score": 41,
+          "status": "🌫️ Obstructed City View",
+          "status_key": "CITY_DAY_POOR",
+          "key_indicator": "🌫️ Haze or Poor Visibility",
+          "indicator_key": "IND_CITY_DAY_HAZE",
+          "best_tag": "city",
+          "tag_scores": {
+            "city": {
+              "score": 41,
+              "status": "🌫️ Obstructed City View",
+              "status_key": "CITY_DAY_POOR",
+              "key_indicator": "🌫️ Haze or Poor Visibility",
+              "indicator_key": "IND_CITY_DAY_HAZE"
+            }
+          },
+          "kp": null,
+          "kp_source": "unavailable",
+          "cloud_base": 812,
+          "temp": 25.2,
+          "rh": 67,
+          "c_low": 100,
+          "c_mid": 8,
+          "c_high": 0,
+          "wind": 1.26,
+          "wind_unit": "m/s",
+          "visibility": 33.8,
+          "is_day": true,
+          "is_twilight": true,
+          "is_past": false
         }
       ]
     },
@@ -58177,48 +58177,6 @@
       "position": "🌅 Stunning Sunset Glow",
       "key_indicator": "🌅 Sunset Glow with Mid/High Clouds",
       "hourly_forecast": [
-        {
-          "time": "2026-09-19 17:00",
-          "time_utc": "2026-09-19T08:00:00Z",
-          "local_date": "2026-09-19",
-          "timezone": "Asia/Tokyo",
-          "score": 26,
-          "status": "🌧️ High Rain Risk",
-          "status_key": "RAIN_RISK",
-          "key_indicator": "🌧️ Significant Rain / Avoid Shooting",
-          "indicator_key": "IND_RAIN_RISK",
-          "best_tag": "coast",
-          "tag_scores": {
-            "city": {
-              "score": 23,
-              "status": "🌧️ High Rain Risk",
-              "status_key": "RAIN_RISK",
-              "key_indicator": "🌧️ Significant Rain / Avoid Shooting",
-              "indicator_key": "IND_RAIN_RISK"
-            },
-            "coast": {
-              "score": 26,
-              "status": "🌧️ High Rain Risk",
-              "status_key": "RAIN_RISK",
-              "key_indicator": "🌧️ Significant Rain / Avoid Shooting",
-              "indicator_key": "IND_RAIN_RISK"
-            }
-          },
-          "kp": null,
-          "kp_source": "unavailable",
-          "cloud_base": 212,
-          "temp": 22.0,
-          "rh": 90,
-          "c_low": 35,
-          "c_mid": 56,
-          "c_high": 66,
-          "wind": 4.81,
-          "wind_unit": "m/s",
-          "visibility": 18.7,
-          "is_day": true,
-          "is_twilight": false,
-          "is_past": true
-        },
         {
           "time": "2026-09-19 18:00",
           "time_utc": "2026-09-19T09:00:00Z",
@@ -59267,7 +59225,7 @@
           "visibility": 1.2,
           "is_day": false,
           "is_twilight": true,
-          "is_past": false
+          "is_past": true
         },
         {
           "time": "2026-09-20 19:00",
@@ -62208,6 +62166,48 @@
           "is_day": true,
           "is_twilight": false,
           "is_past": false
+        },
+        {
+          "time": "2026-09-23 17:00",
+          "time_utc": "2026-09-23T08:00:00Z",
+          "local_date": "2026-09-23",
+          "timezone": "Asia/Tokyo",
+          "score": 79,
+          "status": "🏙️ Normal City View",
+          "status_key": "CITY_DAY_FAIR",
+          "key_indicator": "⛅ Fair Atmospheric Visibility",
+          "indicator_key": "IND_CITY_DAY_FAIR",
+          "best_tag": "city",
+          "tag_scores": {
+            "city": {
+              "score": 79,
+              "status": "🏙️ Normal City View",
+              "status_key": "CITY_DAY_FAIR",
+              "key_indicator": "⛅ Fair Atmospheric Visibility",
+              "indicator_key": "IND_CITY_DAY_FAIR"
+            },
+            "coast": {
+              "score": 66,
+              "status": "🌊 Normal Coastal Weather",
+              "status_key": "COAST_NORMAL",
+              "key_indicator": "🌊 Stable Atmospheric Conditions",
+              "indicator_key": "IND_COAST_NORM"
+            }
+          },
+          "kp": null,
+          "kp_source": "unavailable",
+          "cloud_base": 712,
+          "temp": 24.4,
+          "rh": 71,
+          "c_low": 18,
+          "c_mid": 13,
+          "c_high": 0,
+          "wind": 2.56,
+          "wind_unit": "m/s",
+          "visibility": 34.3,
+          "is_day": true,
+          "is_twilight": true,
+          "is_past": false
         }
       ]
     },
@@ -62233,48 +62233,6 @@
       "position": "🏙️ Clear City Night View",
       "key_indicator": "💎 Clear City Lights",
       "hourly_forecast": [
-        {
-          "time": "2026-09-19 17:00",
-          "time_utc": "2026-09-19T08:00:00Z",
-          "local_date": "2026-09-19",
-          "timezone": "Asia/Tokyo",
-          "score": 80,
-          "status": "🌊 Good Lake Conditions",
-          "status_key": "LAKE_GOOD",
-          "key_indicator": "🌊 Gentle Wind / Good Shooting",
-          "indicator_key": "IND_LAKE_GOOD",
-          "best_tag": "lake",
-          "tag_scores": {
-            "city": {
-              "score": 71,
-              "status": "🏙️ Normal City View",
-              "status_key": "CITY_DAY_FAIR",
-              "key_indicator": "⛅ Fair Atmospheric Visibility",
-              "indicator_key": "IND_CITY_DAY_FAIR"
-            },
-            "lake": {
-              "score": 80,
-              "status": "🌊 Good Lake Conditions",
-              "status_key": "LAKE_GOOD",
-              "key_indicator": "🌊 Gentle Wind / Good Shooting",
-              "indicator_key": "IND_LAKE_GOOD"
-            }
-          },
-          "kp": null,
-          "kp_source": "unavailable",
-          "cloud_base": 350,
-          "temp": 25.3,
-          "rh": 85,
-          "c_low": 47,
-          "c_mid": 62,
-          "c_high": 100,
-          "wind": 0.61,
-          "wind_unit": "m/s",
-          "visibility": 26.6,
-          "is_day": true,
-          "is_twilight": false,
-          "is_past": true
-        },
         {
           "time": "2026-09-19 18:00",
           "time_utc": "2026-09-19T09:00:00Z",
@@ -63323,7 +63281,7 @@
           "visibility": 30.4,
           "is_day": false,
           "is_twilight": true,
-          "is_past": false
+          "is_past": true
         },
         {
           "time": "2026-09-20 19:00",
@@ -66264,6 +66222,48 @@
           "is_day": true,
           "is_twilight": false,
           "is_past": false
+        },
+        {
+          "time": "2026-09-23 17:00",
+          "time_utc": "2026-09-23T08:00:00Z",
+          "local_date": "2026-09-23",
+          "timezone": "Asia/Tokyo",
+          "score": 80,
+          "status": "🌊 Good Lake Conditions",
+          "status_key": "LAKE_GOOD",
+          "key_indicator": "🌊 Gentle Wind / Good Shooting",
+          "indicator_key": "IND_LAKE_GOOD",
+          "best_tag": "lake",
+          "tag_scores": {
+            "city": {
+              "score": 37,
+              "status": "🌫️ Obstructed City View",
+              "status_key": "CITY_DAY_POOR",
+              "key_indicator": "🌫️ Haze or Poor Visibility",
+              "indicator_key": "IND_CITY_DAY_HAZE"
+            },
+            "lake": {
+              "score": 80,
+              "status": "🌊 Good Lake Conditions",
+              "status_key": "LAKE_GOOD",
+              "key_indicator": "🌊 Gentle Wind / Good Shooting",
+              "indicator_key": "IND_LAKE_GOOD"
+            }
+          },
+          "kp": null,
+          "kp_source": "unavailable",
+          "cloud_base": 424,
+          "temp": 21.7,
+          "rh": 81,
+          "c_low": 84,
+          "c_mid": 39,
+          "c_high": 0,
+          "wind": 2.74,
+          "wind_unit": "m/s",
+          "visibility": 27.1,
+          "is_day": true,
+          "is_twilight": true,
+          "is_past": false
         }
       ]
     },
@@ -66288,41 +66288,6 @@
       "position": "🏙️ Excellent City Panorama",
       "key_indicator": "💎 Crystal Clear City Panorama",
       "hourly_forecast": [
-        {
-          "time": "2026-09-19 17:00",
-          "time_utc": "2026-09-19T08:00:00Z",
-          "local_date": "2026-09-19",
-          "timezone": "Asia/Tokyo",
-          "score": 80,
-          "status": "🏙️ Normal City View",
-          "status_key": "CITY_DAY_FAIR",
-          "key_indicator": "⛅ Fair Atmospheric Visibility",
-          "indicator_key": "IND_CITY_DAY_FAIR",
-          "best_tag": "city",
-          "tag_scores": {
-            "city": {
-              "score": 80,
-              "status": "🏙️ Normal City View",
-              "status_key": "CITY_DAY_FAIR",
-              "key_indicator": "⛅ Fair Atmospheric Visibility",
-              "indicator_key": "IND_CITY_DAY_FAIR"
-            }
-          },
-          "kp": null,
-          "kp_source": "unavailable",
-          "cloud_base": 837,
-          "temp": 27.9,
-          "rh": 67,
-          "c_low": 15,
-          "c_mid": 43,
-          "c_high": 87,
-          "wind": 1.2,
-          "wind_unit": "m/s",
-          "visibility": 36.9,
-          "is_day": true,
-          "is_twilight": false,
-          "is_past": true
-        },
         {
           "time": "2026-09-19 18:00",
           "time_utc": "2026-09-19T09:00:00Z",
@@ -67196,7 +67161,7 @@
           "visibility": 19.9,
           "is_day": false,
           "is_twilight": true,
-          "is_past": false
+          "is_past": true
         },
         {
           "time": "2026-09-20 19:00",
@@ -69647,6 +69612,41 @@
           "is_day": true,
           "is_twilight": false,
           "is_past": false
+        },
+        {
+          "time": "2026-09-23 17:00",
+          "time_utc": "2026-09-23T08:00:00Z",
+          "local_date": "2026-09-23",
+          "timezone": "Asia/Tokyo",
+          "score": 79,
+          "status": "🏙️ Normal City View",
+          "status_key": "CITY_DAY_FAIR",
+          "key_indicator": "⛅ Fair Atmospheric Visibility",
+          "indicator_key": "IND_CITY_DAY_FAIR",
+          "best_tag": "city",
+          "tag_scores": {
+            "city": {
+              "score": 79,
+              "status": "🏙️ Normal City View",
+              "status_key": "CITY_DAY_FAIR",
+              "key_indicator": "⛅ Fair Atmospheric Visibility",
+              "indicator_key": "IND_CITY_DAY_FAIR"
+            }
+          },
+          "kp": null,
+          "kp_source": "unavailable",
+          "cloud_base": 750,
+          "temp": 26.3,
+          "rh": 70,
+          "c_low": 10,
+          "c_mid": 5,
+          "c_high": 0,
+          "wind": 2.21,
+          "wind_unit": "m/s",
+          "visibility": 34.4,
+          "is_day": true,
+          "is_twilight": true,
+          "is_past": false
         }
       ]
     },
@@ -69672,48 +69672,6 @@
       "position": "🪞 Mirror Reflection",
       "key_indicator": "🌊 Calm Water & Perfect Reflection",
       "hourly_forecast": [
-        {
-          "time": "2026-09-19 17:00",
-          "time_utc": "2026-09-19T08:00:00Z",
-          "local_date": "2026-09-19",
-          "timezone": "Asia/Tokyo",
-          "score": 40,
-          "status": "🌧️ High Rain Risk",
-          "status_key": "RAIN_RISK",
-          "key_indicator": "🌧️ Significant Rain / Avoid Shooting",
-          "indicator_key": "IND_RAIN_RISK",
-          "best_tag": "lake",
-          "tag_scores": {
-            "lake": {
-              "score": 40,
-              "status": "🌧️ High Rain Risk",
-              "status_key": "RAIN_RISK",
-              "key_indicator": "🌧️ Significant Rain / Avoid Shooting",
-              "indicator_key": "IND_RAIN_RISK"
-            },
-            "coast": {
-              "score": 38,
-              "status": "🌧️ High Rain Risk",
-              "status_key": "RAIN_RISK",
-              "key_indicator": "🌧️ Significant Rain / Avoid Shooting",
-              "indicator_key": "IND_RAIN_RISK"
-            }
-          },
-          "kp": null,
-          "kp_source": "unavailable",
-          "cloud_base": 312,
-          "temp": 24.4,
-          "rh": 86,
-          "c_low": 22,
-          "c_mid": 40,
-          "c_high": 54,
-          "wind": 2.51,
-          "wind_unit": "m/s",
-          "visibility": 27.8,
-          "is_day": true,
-          "is_twilight": false,
-          "is_past": true
-        },
         {
           "time": "2026-09-19 18:00",
           "time_utc": "2026-09-19T09:00:00Z",
@@ -70762,7 +70720,7 @@
           "visibility": 1.6,
           "is_day": false,
           "is_twilight": true,
-          "is_past": false
+          "is_past": true
         },
         {
           "time": "2026-09-20 19:00",
@@ -73703,6 +73661,48 @@
           "is_day": true,
           "is_twilight": false,
           "is_past": false
+        },
+        {
+          "time": "2026-09-23 17:00",
+          "time_utc": "2026-09-23T08:00:00Z",
+          "local_date": "2026-09-23",
+          "timezone": "Asia/Tokyo",
+          "score": 92,
+          "status": "🪞 Mirror Reflection",
+          "status_key": "LAKE_MIRROR",
+          "key_indicator": "🌊 Calm Water & Perfect Reflection",
+          "indicator_key": "IND_LAKE_MIRROR",
+          "best_tag": "lake",
+          "tag_scores": {
+            "lake": {
+              "score": 92,
+              "status": "🪞 Mirror Reflection",
+              "status_key": "LAKE_MIRROR",
+              "key_indicator": "🌊 Calm Water & Perfect Reflection",
+              "indicator_key": "IND_LAKE_MIRROR"
+            },
+            "coast": {
+              "score": 71,
+              "status": "🌊 Normal Coastal Weather",
+              "status_key": "COAST_NORMAL",
+              "key_indicator": "🌊 Stable Atmospheric Conditions",
+              "indicator_key": "IND_COAST_NORM"
+            }
+          },
+          "kp": null,
+          "kp_source": "unavailable",
+          "cloud_base": 649,
+          "temp": 25.4,
+          "rh": 73,
+          "c_low": 1,
+          "c_mid": 2,
+          "c_high": 0,
+          "wind": 2.21,
+          "wind_unit": "m/s",
+          "visibility": 31.4,
+          "is_day": true,
+          "is_twilight": true,
+          "is_past": false
         }
       ]
     },
@@ -73728,48 +73728,6 @@
       "position": "🌅 Stunning Sunset Glow",
       "key_indicator": "🌅 Sunset Glow with Mid/High Clouds",
       "hourly_forecast": [
-        {
-          "time": "2026-09-19 17:00",
-          "time_utc": "2026-09-19T08:00:00Z",
-          "local_date": "2026-09-19",
-          "timezone": "Asia/Tokyo",
-          "score": 26,
-          "status": "🌧️ High Rain Risk",
-          "status_key": "RAIN_RISK",
-          "key_indicator": "🌧️ Significant Rain / Avoid Shooting",
-          "indicator_key": "IND_RAIN_RISK",
-          "best_tag": "coast",
-          "tag_scores": {
-            "city": {
-              "score": 18,
-              "status": "🌧️ High Rain Risk",
-              "status_key": "RAIN_RISK",
-              "key_indicator": "🌧️ Significant Rain / Avoid Shooting",
-              "indicator_key": "IND_RAIN_RISK"
-            },
-            "coast": {
-              "score": 26,
-              "status": "🌧️ High Rain Risk",
-              "status_key": "RAIN_RISK",
-              "key_indicator": "🌧️ Significant Rain / Avoid Shooting",
-              "indicator_key": "IND_RAIN_RISK"
-            }
-          },
-          "kp": null,
-          "kp_source": "unavailable",
-          "cloud_base": 187,
-          "temp": 21.9,
-          "rh": 91,
-          "c_low": 46,
-          "c_mid": 69,
-          "c_high": 84,
-          "wind": 2.5,
-          "wind_unit": "m/s",
-          "visibility": 15.3,
-          "is_day": true,
-          "is_twilight": false,
-          "is_past": true
-        },
         {
           "time": "2026-09-19 18:00",
           "time_utc": "2026-09-19T09:00:00Z",
@@ -74818,7 +74776,7 @@
           "visibility": 1.8,
           "is_day": false,
           "is_twilight": true,
-          "is_past": false
+          "is_past": true
         },
         {
           "time": "2026-09-20 19:00",
@@ -77759,6 +77717,48 @@
           "is_day": true,
           "is_twilight": false,
           "is_past": false
+        },
+        {
+          "time": "2026-09-23 17:00",
+          "time_utc": "2026-09-23T08:00:00Z",
+          "local_date": "2026-09-23",
+          "timezone": "Asia/Tokyo",
+          "score": 79,
+          "status": "🏙️ Normal City View",
+          "status_key": "CITY_DAY_FAIR",
+          "key_indicator": "⛅ Fair Atmospheric Visibility",
+          "indicator_key": "IND_CITY_DAY_FAIR",
+          "best_tag": "city",
+          "tag_scores": {
+            "city": {
+              "score": 79,
+              "status": "🏙️ Normal City View",
+              "status_key": "CITY_DAY_FAIR",
+              "key_indicator": "⛅ Fair Atmospheric Visibility",
+              "indicator_key": "IND_CITY_DAY_FAIR"
+            },
+            "coast": {
+              "score": 66,
+              "status": "🌊 Normal Coastal Weather",
+              "status_key": "COAST_NORMAL",
+              "key_indicator": "🌊 Stable Atmospheric Conditions",
+              "indicator_key": "IND_COAST_NORM"
+            }
+          },
+          "kp": null,
+          "kp_source": "unavailable",
+          "cloud_base": 725,
+          "temp": 24.6,
+          "rh": 70,
+          "c_low": 17,
+          "c_mid": 12,
+          "c_high": 0,
+          "wind": 2.37,
+          "wind_unit": "m/s",
+          "visibility": 34.1,
+          "is_day": true,
+          "is_twilight": true,
+          "is_past": false
         }
       ]
     },
@@ -77784,48 +77784,6 @@
       "position": "🌙 Clear Night Sky",
       "key_indicator": "🌌 Clear High-Altitude View",
       "hourly_forecast": [
-        {
-          "time": "2026-09-19 17:00",
-          "time_utc": "2026-09-19T08:00:00Z",
-          "local_date": "2026-09-19",
-          "timezone": "Asia/Tokyo",
-          "score": 80,
-          "status": "⛅ Stable Mountain Weather",
-          "status_key": "MOUNTAIN_STABLE_DAY",
-          "key_indicator": "⛅ Slight Cloud Interference",
-          "indicator_key": "IND_SOME_CLOUDS",
-          "best_tag": "mountain",
-          "tag_scores": {
-            "mountain": {
-              "score": 80,
-              "status": "⛅ Stable Mountain Weather",
-              "status_key": "MOUNTAIN_STABLE_DAY",
-              "key_indicator": "⛅ Slight Cloud Interference",
-              "indicator_key": "IND_SOME_CLOUDS"
-            },
-            "cloud_sea": {
-              "score": 60,
-              "status": "⛅ Moderate Cloud & Fog",
-              "status_key": "CLOUD_SEA_FAIR",
-              "key_indicator": "⛅ Suboptimal Cloud Height/Amount",
-              "indicator_key": "IND_CLOUD_SEA_SUB"
-            }
-          },
-          "kp": null,
-          "kp_source": "unavailable",
-          "cloud_base": 674,
-          "temp": 24.2,
-          "rh": 72,
-          "c_low": 20,
-          "c_mid": 20,
-          "c_high": 99,
-          "wind": 1.02,
-          "wind_unit": "m/s",
-          "visibility": 37.7,
-          "is_day": true,
-          "is_twilight": false,
-          "is_past": true
-        },
         {
           "time": "2026-09-19 18:00",
           "time_utc": "2026-09-19T09:00:00Z",
@@ -78874,7 +78832,7 @@
           "visibility": 24.4,
           "is_day": false,
           "is_twilight": true,
-          "is_past": false
+          "is_past": true
         },
         {
           "time": "2026-09-20 19:00",
@@ -81815,6 +81773,48 @@
           "is_day": true,
           "is_twilight": false,
           "is_past": false
+        },
+        {
+          "time": "2026-09-23 17:00",
+          "time_utc": "2026-09-23T08:00:00Z",
+          "local_date": "2026-09-23",
+          "timezone": "Asia/Tokyo",
+          "score": 40,
+          "status": "🌧️ High Rain Risk",
+          "status_key": "RAIN_RISK",
+          "key_indicator": "🌧️ Significant Rain / Avoid Shooting",
+          "indicator_key": "IND_RAIN_RISK",
+          "best_tag": "cloud_sea",
+          "tag_scores": {
+            "mountain": {
+              "score": 15,
+              "status": "🌧️ High Rain Risk",
+              "status_key": "RAIN_RISK",
+              "key_indicator": "🌧️ Significant Rain / Avoid Shooting",
+              "indicator_key": "IND_RAIN_RISK"
+            },
+            "cloud_sea": {
+              "score": 40,
+              "status": "🌧️ High Rain Risk",
+              "status_key": "RAIN_RISK",
+              "key_indicator": "🌧️ Significant Rain / Avoid Shooting",
+              "indicator_key": "IND_RAIN_RISK"
+            }
+          },
+          "kp": null,
+          "kp_source": "unavailable",
+          "cloud_base": 100,
+          "temp": 21.2,
+          "rh": 97,
+          "c_low": 88,
+          "c_mid": 62,
+          "c_high": 0,
+          "wind": 0.61,
+          "wind_unit": "m/s",
+          "visibility": 4.3,
+          "is_day": true,
+          "is_twilight": true,
+          "is_past": false
         }
       ]
     },
@@ -81839,41 +81839,6 @@
       "position": "☀️ Excellent Mountain View",
       "key_indicator": "Clear View of Distant Peaks",
       "hourly_forecast": [
-        {
-          "time": "2026-09-19 17:00",
-          "time_utc": "2026-09-19T08:00:00Z",
-          "local_date": "2026-09-19",
-          "timezone": "Asia/Tokyo",
-          "score": 76,
-          "status": "⛅ Stable Mountain Weather",
-          "status_key": "MOUNTAIN_STABLE_DAY",
-          "key_indicator": "⛅ Slight Cloud Interference",
-          "indicator_key": "IND_SOME_CLOUDS",
-          "best_tag": "mountain",
-          "tag_scores": {
-            "mountain": {
-              "score": 76,
-              "status": "⛅ Stable Mountain Weather",
-              "status_key": "MOUNTAIN_STABLE_DAY",
-              "key_indicator": "⛅ Slight Cloud Interference",
-              "indicator_key": "IND_SOME_CLOUDS"
-            }
-          },
-          "kp": null,
-          "kp_source": "unavailable",
-          "cloud_base": 750,
-          "temp": 27.1,
-          "rh": 70,
-          "c_low": 12,
-          "c_mid": 40,
-          "c_high": 100,
-          "wind": 1.9,
-          "wind_unit": "m/s",
-          "visibility": 31.2,
-          "is_day": true,
-          "is_twilight": false,
-          "is_past": true
-        },
         {
           "time": "2026-09-19 18:00",
           "time_utc": "2026-09-19T09:00:00Z",
@@ -82747,7 +82712,7 @@
           "visibility": 20.0,
           "is_day": false,
           "is_twilight": true,
-          "is_past": false
+          "is_past": true
         },
         {
           "time": "2026-09-20 19:00",
@@ -85198,6 +85163,41 @@
           "is_day": true,
           "is_twilight": false,
           "is_past": false
+        },
+        {
+          "time": "2026-09-23 17:00",
+          "time_utc": "2026-09-23T08:00:00Z",
+          "local_date": "2026-09-23",
+          "timezone": "Asia/Tokyo",
+          "score": 30,
+          "status": "☁️ Heavy Fog / Clouds",
+          "status_key": "MOUNTAIN_FOG_DAY",
+          "key_indicator": "☁️ Not Suitable for Stargazing",
+          "indicator_key": "IND_NO_STAR",
+          "best_tag": "mountain",
+          "tag_scores": {
+            "mountain": {
+              "score": 30,
+              "status": "☁️ Heavy Fog / Clouds",
+              "status_key": "MOUNTAIN_FOG_DAY",
+              "key_indicator": "☁️ Not Suitable for Stargazing",
+              "indicator_key": "IND_NO_STAR"
+            }
+          },
+          "kp": null,
+          "kp_source": "unavailable",
+          "cloud_base": 737,
+          "temp": 22.3,
+          "rh": 69,
+          "c_low": 55,
+          "c_mid": 83,
+          "c_high": 2,
+          "wind": 2.35,
+          "wind_unit": "m/s",
+          "visibility": 35.1,
+          "is_day": true,
+          "is_twilight": true,
+          "is_past": false
         }
       ]
     },
@@ -85223,48 +85223,6 @@
       "position": "☀️ Excellent Mountain View",
       "key_indicator": "Clear View of Distant Peaks",
       "hourly_forecast": [
-        {
-          "time": "2026-09-19 17:00",
-          "time_utc": "2026-09-19T08:00:00Z",
-          "local_date": "2026-09-19",
-          "timezone": "Asia/Tokyo",
-          "score": 87,
-          "status": "🏙️ Excellent City Panorama",
-          "status_key": "CITY_DAY_CLEAR",
-          "key_indicator": "💎 Crystal Clear City Panorama",
-          "indicator_key": "IND_CITY_DAY_CLEAR",
-          "best_tag": "city",
-          "tag_scores": {
-            "city": {
-              "score": 87,
-              "status": "🏙️ Excellent City Panorama",
-              "status_key": "CITY_DAY_CLEAR",
-              "key_indicator": "💎 Crystal Clear City Panorama",
-              "indicator_key": "IND_CITY_DAY_CLEAR"
-            },
-            "mountain": {
-              "score": 67,
-              "status": "⛅ Stable Mountain Weather",
-              "status_key": "MOUNTAIN_STABLE_DAY",
-              "key_indicator": "⛅ Slight Cloud Interference",
-              "indicator_key": "IND_SOME_CLOUDS"
-            }
-          },
-          "kp": null,
-          "kp_source": "unavailable",
-          "cloud_base": 649,
-          "temp": 27.0,
-          "rh": 73,
-          "c_low": 22,
-          "c_mid": 48,
-          "c_high": 87,
-          "wind": 1.02,
-          "wind_unit": "m/s",
-          "visibility": 34.6,
-          "is_day": true,
-          "is_twilight": false,
-          "is_past": true
-        },
         {
           "time": "2026-09-19 18:00",
           "time_utc": "2026-09-19T09:00:00Z",
@@ -86313,7 +86271,7 @@
           "visibility": 32.0,
           "is_day": false,
           "is_twilight": true,
-          "is_past": false
+          "is_past": true
         },
         {
           "time": "2026-09-20 19:00",
@@ -89254,6 +89212,48 @@
           "is_day": true,
           "is_twilight": false,
           "is_past": false
+        },
+        {
+          "time": "2026-09-23 17:00",
+          "time_utc": "2026-09-23T08:00:00Z",
+          "local_date": "2026-09-23",
+          "timezone": "Asia/Tokyo",
+          "score": 49,
+          "status": "🌫️ Obstructed City View",
+          "status_key": "CITY_DAY_POOR",
+          "key_indicator": "🌫️ Haze or Poor Visibility",
+          "indicator_key": "IND_CITY_DAY_HAZE",
+          "best_tag": "city",
+          "tag_scores": {
+            "city": {
+              "score": 49,
+              "status": "🌫️ Obstructed City View",
+              "status_key": "CITY_DAY_POOR",
+              "key_indicator": "🌫️ Haze or Poor Visibility",
+              "indicator_key": "IND_CITY_DAY_HAZE"
+            },
+            "mountain": {
+              "score": 29,
+              "status": "☁️ Heavy Fog / Clouds",
+              "status_key": "MOUNTAIN_FOG_DAY",
+              "key_indicator": "☁️ Not Suitable for Stargazing",
+              "indicator_key": "IND_NO_STAR"
+            }
+          },
+          "kp": null,
+          "kp_source": "unavailable",
+          "cloud_base": 412,
+          "temp": 23.6,
+          "rh": 82,
+          "c_low": 9,
+          "c_mid": 39,
+          "c_high": 0,
+          "wind": 1.26,
+          "wind_unit": "m/s",
+          "visibility": 6.5,
+          "is_day": true,
+          "is_twilight": true,
+          "is_past": false
         }
       ]
     },
@@ -89278,41 +89278,6 @@
       "position": "🏙️ Clear City Night View",
       "key_indicator": "💎 Clear City Lights",
       "hourly_forecast": [
-        {
-          "time": "2026-09-19 17:00",
-          "time_utc": "2026-09-19T08:00:00Z",
-          "local_date": "2026-09-19",
-          "timezone": "Asia/Tokyo",
-          "score": 88,
-          "status": "🏙️ Excellent City Panorama",
-          "status_key": "CITY_DAY_CLEAR",
-          "key_indicator": "💎 Crystal Clear City Panorama",
-          "indicator_key": "IND_CITY_DAY_CLEAR",
-          "best_tag": "city",
-          "tag_scores": {
-            "city": {
-              "score": 88,
-              "status": "🏙️ Excellent City Panorama",
-              "status_key": "CITY_DAY_CLEAR",
-              "key_indicator": "💎 Crystal Clear City Panorama",
-              "indicator_key": "IND_CITY_DAY_CLEAR"
-            }
-          },
-          "kp": null,
-          "kp_source": "unavailable",
-          "cloud_base": 912,
-          "temp": 28.7,
-          "rh": 65,
-          "c_low": 20,
-          "c_mid": 54,
-          "c_high": 85,
-          "wind": 0.92,
-          "wind_unit": "m/s",
-          "visibility": 38.3,
-          "is_day": true,
-          "is_twilight": false,
-          "is_past": true
-        },
         {
           "time": "2026-09-19 18:00",
           "time_utc": "2026-09-19T09:00:00Z",
@@ -90186,7 +90151,7 @@
           "visibility": 35.3,
           "is_day": false,
           "is_twilight": true,
-          "is_past": false
+          "is_past": true
         },
         {
           "time": "2026-09-20 19:00",
@@ -92637,6 +92602,41 @@
           "is_day": true,
           "is_twilight": false,
           "is_past": false
+        },
+        {
+          "time": "2026-09-23 17:00",
+          "time_utc": "2026-09-23T08:00:00Z",
+          "local_date": "2026-09-23",
+          "timezone": "Asia/Tokyo",
+          "score": 44,
+          "status": "🌫️ Obstructed City View",
+          "status_key": "CITY_DAY_POOR",
+          "key_indicator": "🌫️ Haze or Poor Visibility",
+          "indicator_key": "IND_CITY_DAY_HAZE",
+          "best_tag": "city",
+          "tag_scores": {
+            "city": {
+              "score": 44,
+              "status": "🌫️ Obstructed City View",
+              "status_key": "CITY_DAY_POOR",
+              "key_indicator": "🌫️ Haze or Poor Visibility",
+              "indicator_key": "IND_CITY_DAY_HAZE"
+            }
+          },
+          "kp": null,
+          "kp_source": "unavailable",
+          "cloud_base": 637,
+          "temp": 26.4,
+          "rh": 73,
+          "c_low": 18,
+          "c_mid": 25,
+          "c_high": 0,
+          "wind": 2.55,
+          "wind_unit": "m/s",
+          "visibility": 7.3,
+          "is_day": true,
+          "is_twilight": true,
+          "is_past": false
         }
       ]
     },
@@ -92661,41 +92661,6 @@
       "position": "🏙️ Clear City Night View",
       "key_indicator": "💎 Clear City Lights",
       "hourly_forecast": [
-        {
-          "time": "2026-09-19 17:00",
-          "time_utc": "2026-09-19T08:00:00Z",
-          "local_date": "2026-09-19",
-          "timezone": "Asia/Tokyo",
-          "score": 15,
-          "status": "🌧️ High Rain Risk",
-          "status_key": "RAIN_RISK",
-          "key_indicator": "🌧️ Significant Rain / Avoid Shooting",
-          "indicator_key": "IND_RAIN_RISK",
-          "best_tag": "city",
-          "tag_scores": {
-            "city": {
-              "score": 15,
-              "status": "🌧️ High Rain Risk",
-              "status_key": "RAIN_RISK",
-              "key_indicator": "🌧️ Significant Rain / Avoid Shooting",
-              "indicator_key": "IND_RAIN_RISK"
-            }
-          },
-          "kp": null,
-          "kp_source": "unavailable",
-          "cloud_base": 149,
-          "temp": 23.3,
-          "rh": 93,
-          "c_low": 55,
-          "c_mid": 81,
-          "c_high": 81,
-          "wind": 2.6,
-          "wind_unit": "m/s",
-          "visibility": 4.6,
-          "is_day": true,
-          "is_twilight": false,
-          "is_past": true
-        },
         {
           "time": "2026-09-19 18:00",
           "time_utc": "2026-09-19T09:00:00Z",
@@ -93569,7 +93534,7 @@
           "visibility": 31.3,
           "is_day": true,
           "is_twilight": true,
-          "is_past": false
+          "is_past": true
         },
         {
           "time": "2026-09-20 19:00",
@@ -96020,6 +95985,41 @@
           "is_day": true,
           "is_twilight": false,
           "is_past": false
+        },
+        {
+          "time": "2026-09-23 17:00",
+          "time_utc": "2026-09-23T08:00:00Z",
+          "local_date": "2026-09-23",
+          "timezone": "Asia/Tokyo",
+          "score": 94,
+          "status": "🏙️ Excellent City Panorama",
+          "status_key": "CITY_DAY_CLEAR",
+          "key_indicator": "💎 Crystal Clear City Panorama",
+          "indicator_key": "IND_CITY_DAY_CLEAR",
+          "best_tag": "city",
+          "tag_scores": {
+            "city": {
+              "score": 94,
+              "status": "🏙️ Excellent City Panorama",
+              "status_key": "CITY_DAY_CLEAR",
+              "key_indicator": "💎 Crystal Clear City Panorama",
+              "indicator_key": "IND_CITY_DAY_CLEAR"
+            }
+          },
+          "kp": null,
+          "kp_source": "unavailable",
+          "cloud_base": 762,
+          "temp": 23.1,
+          "rh": 69,
+          "c_low": 7,
+          "c_mid": 1,
+          "c_high": 0,
+          "wind": 3.21,
+          "wind_unit": "m/s",
+          "visibility": 34.7,
+          "is_day": true,
+          "is_twilight": true,
+          "is_past": false
         }
       ]
     },
@@ -96044,41 +96044,6 @@
       "position": "🏙️ Excellent City Panorama",
       "key_indicator": "💎 Crystal Clear City Panorama",
       "hourly_forecast": [
-        {
-          "time": "2026-09-19 17:00",
-          "time_utc": "2026-09-19T08:00:00Z",
-          "local_date": "2026-09-19",
-          "timezone": "Asia/Tokyo",
-          "score": 15,
-          "status": "🌧️ High Rain Risk",
-          "status_key": "RAIN_RISK",
-          "key_indicator": "🌧️ Significant Rain / Avoid Shooting",
-          "indicator_key": "IND_RAIN_RISK",
-          "best_tag": "city",
-          "tag_scores": {
-            "city": {
-              "score": 15,
-              "status": "🌧️ High Rain Risk",
-              "status_key": "RAIN_RISK",
-              "key_indicator": "🌧️ Significant Rain / Avoid Shooting",
-              "indicator_key": "IND_RAIN_RISK"
-            }
-          },
-          "kp": null,
-          "kp_source": "unavailable",
-          "cloud_base": 187,
-          "temp": 22.9,
-          "rh": 91,
-          "c_low": 50,
-          "c_mid": 57,
-          "c_high": 17,
-          "wind": 1.8,
-          "wind_unit": "m/s",
-          "visibility": 2.5,
-          "is_day": true,
-          "is_twilight": false,
-          "is_past": true
-        },
         {
           "time": "2026-09-19 18:00",
           "time_utc": "2026-09-19T09:00:00Z",
@@ -96952,7 +96917,7 @@
           "visibility": 19.1,
           "is_day": true,
           "is_twilight": true,
-          "is_past": false
+          "is_past": true
         },
         {
           "time": "2026-09-20 19:00",
@@ -99403,6 +99368,41 @@
           "is_day": true,
           "is_twilight": false,
           "is_past": false
+        },
+        {
+          "time": "2026-09-23 17:00",
+          "time_utc": "2026-09-23T08:00:00Z",
+          "local_date": "2026-09-23",
+          "timezone": "Asia/Tokyo",
+          "score": 97,
+          "status": "🏙️ Excellent City Panorama",
+          "status_key": "CITY_DAY_CLEAR",
+          "key_indicator": "💎 Crystal Clear City Panorama",
+          "indicator_key": "IND_CITY_DAY_CLEAR",
+          "best_tag": "city",
+          "tag_scores": {
+            "city": {
+              "score": 97,
+              "status": "🏙️ Excellent City Panorama",
+              "status_key": "CITY_DAY_CLEAR",
+              "key_indicator": "💎 Crystal Clear City Panorama",
+              "indicator_key": "IND_CITY_DAY_CLEAR"
+            }
+          },
+          "kp": null,
+          "kp_source": "unavailable",
+          "cloud_base": 799,
+          "temp": 23.0,
+          "rh": 67,
+          "c_low": 1,
+          "c_mid": 0,
+          "c_high": 79,
+          "wind": 2.83,
+          "wind_unit": "m/s",
+          "visibility": 35.3,
+          "is_day": true,
+          "is_twilight": true,
+          "is_past": false
         }
       ]
     },
@@ -99428,48 +99428,6 @@
       "position": "☀️ Excellent Mountain View",
       "key_indicator": "Clear View of Distant Peaks",
       "hourly_forecast": [
-        {
-          "time": "2026-09-19 17:00",
-          "time_utc": "2026-09-19T08:00:00Z",
-          "local_date": "2026-09-19",
-          "timezone": "Asia/Tokyo",
-          "score": 88,
-          "status": "🏙️ Excellent City Panorama",
-          "status_key": "CITY_DAY_CLEAR",
-          "key_indicator": "💎 Crystal Clear City Panorama",
-          "indicator_key": "IND_CITY_DAY_CLEAR",
-          "best_tag": "city",
-          "tag_scores": {
-            "mountain": {
-              "score": 67,
-              "status": "⛅ Stable Mountain Weather",
-              "status_key": "MOUNTAIN_STABLE_DAY",
-              "key_indicator": "⛅ Slight Cloud Interference",
-              "indicator_key": "IND_SOME_CLOUDS"
-            },
-            "city": {
-              "score": 88,
-              "status": "🏙️ Excellent City Panorama",
-              "status_key": "CITY_DAY_CLEAR",
-              "key_indicator": "💎 Crystal Clear City Panorama",
-              "indicator_key": "IND_CITY_DAY_CLEAR"
-            }
-          },
-          "kp": null,
-          "kp_source": "unavailable",
-          "cloud_base": 774,
-          "temp": 27.2,
-          "rh": 69,
-          "c_low": 20,
-          "c_mid": 52,
-          "c_high": 80,
-          "wind": 1.9,
-          "wind_unit": "m/s",
-          "visibility": 35.2,
-          "is_day": true,
-          "is_twilight": false,
-          "is_past": true
-        },
         {
           "time": "2026-09-19 18:00",
           "time_utc": "2026-09-19T09:00:00Z",
@@ -100518,7 +100476,7 @@
           "visibility": 26.4,
           "is_day": false,
           "is_twilight": true,
-          "is_past": false
+          "is_past": true
         },
         {
           "time": "2026-09-20 19:00",
@@ -103459,6 +103417,48 @@
           "is_day": true,
           "is_twilight": false,
           "is_past": false
+        },
+        {
+          "time": "2026-09-23 17:00",
+          "time_utc": "2026-09-23T08:00:00Z",
+          "local_date": "2026-09-23",
+          "timezone": "Asia/Tokyo",
+          "score": 72,
+          "status": "🏙️ Normal City View",
+          "status_key": "CITY_DAY_FAIR",
+          "key_indicator": "⛅ Fair Atmospheric Visibility",
+          "indicator_key": "IND_CITY_DAY_FAIR",
+          "best_tag": "city",
+          "tag_scores": {
+            "mountain": {
+              "score": 61,
+              "status": "⛅ Stable Mountain Weather",
+              "status_key": "MOUNTAIN_STABLE_DAY",
+              "key_indicator": "⛅ Slight Cloud Interference",
+              "indicator_key": "IND_SOME_CLOUDS"
+            },
+            "city": {
+              "score": 72,
+              "status": "🏙️ Normal City View",
+              "status_key": "CITY_DAY_FAIR",
+              "key_indicator": "⛅ Fair Atmospheric Visibility",
+              "indicator_key": "IND_CITY_DAY_FAIR"
+            }
+          },
+          "kp": null,
+          "kp_source": "unavailable",
+          "cloud_base": 587,
+          "temp": 25.3,
+          "rh": 75,
+          "c_low": 17,
+          "c_mid": 17,
+          "c_high": 0,
+          "wind": 2.45,
+          "wind_unit": "m/s",
+          "visibility": 16.7,
+          "is_day": true,
+          "is_twilight": true,
+          "is_past": false
         }
       ]
     },
@@ -103484,48 +103484,6 @@
       "position": "☀️ Excellent Mountain View",
       "key_indicator": "Clear View of Distant Peaks",
       "hourly_forecast": [
-        {
-          "time": "2026-09-19 17:00",
-          "time_utc": "2026-09-19T08:00:00Z",
-          "local_date": "2026-09-19",
-          "timezone": "Asia/Tokyo",
-          "score": 86,
-          "status": "☀️ Great Forest Sunbeams",
-          "status_key": "FOREST_LIGHT",
-          "key_indicator": "🌲 Clear Air & Strong Sunbeams",
-          "indicator_key": "IND_FOREST_SUN",
-          "best_tag": "forest",
-          "tag_scores": {
-            "mountain": {
-              "score": 61,
-              "status": "⛅ Stable Mountain Weather",
-              "status_key": "MOUNTAIN_STABLE_DAY",
-              "key_indicator": "⛅ Slight Cloud Interference",
-              "indicator_key": "IND_SOME_CLOUDS"
-            },
-            "forest": {
-              "score": 86,
-              "status": "☀️ Great Forest Sunbeams",
-              "status_key": "FOREST_LIGHT",
-              "key_indicator": "🌲 Clear Air & Strong Sunbeams",
-              "indicator_key": "IND_FOREST_SUN"
-            }
-          },
-          "kp": null,
-          "kp_source": "unavailable",
-          "cloud_base": 862,
-          "temp": 28.5,
-          "rh": 66,
-          "c_low": 25,
-          "c_mid": 41,
-          "c_high": 88,
-          "wind": 1.92,
-          "wind_unit": "m/s",
-          "visibility": 35.9,
-          "is_day": true,
-          "is_twilight": false,
-          "is_past": true
-        },
         {
           "time": "2026-09-19 18:00",
           "time_utc": "2026-09-19T09:00:00Z",
@@ -104574,7 +104532,7 @@
           "visibility": 32.5,
           "is_day": false,
           "is_twilight": true,
-          "is_past": false
+          "is_past": true
         },
         {
           "time": "2026-09-20 19:00",
@@ -107515,6 +107473,48 @@
           "is_day": true,
           "is_twilight": false,
           "is_past": false
+        },
+        {
+          "time": "2026-09-23 17:00",
+          "time_utc": "2026-09-23T08:00:00Z",
+          "local_date": "2026-09-23",
+          "timezone": "Asia/Tokyo",
+          "score": 87,
+          "status": "☀️ Excellent Mountain View",
+          "status_key": "MOUNTAIN_EXCELLENT_DAY",
+          "key_indicator": "Clear View of Distant Peaks",
+          "indicator_key": "IND_PEAKS",
+          "best_tag": "mountain",
+          "tag_scores": {
+            "mountain": {
+              "score": 87,
+              "status": "☀️ Excellent Mountain View",
+              "status_key": "MOUNTAIN_EXCELLENT_DAY",
+              "key_indicator": "Clear View of Distant Peaks",
+              "indicator_key": "IND_PEAKS"
+            },
+            "forest": {
+              "score": 86,
+              "status": "☀️ Great Forest Sunbeams",
+              "status_key": "FOREST_LIGHT",
+              "key_indicator": "🌲 Clear Air & Strong Sunbeams",
+              "indicator_key": "IND_FOREST_SUN"
+            }
+          },
+          "kp": null,
+          "kp_source": "unavailable",
+          "cloud_base": 649,
+          "temp": 25.9,
+          "rh": 73,
+          "c_low": 6,
+          "c_mid": 2,
+          "c_high": 0,
+          "wind": 1.7,
+          "wind_unit": "m/s",
+          "visibility": 32.8,
+          "is_day": true,
+          "is_twilight": true,
+          "is_past": false
         }
       ]
     },
@@ -107539,41 +107539,6 @@
       "position": "🏙️ Excellent City Panorama",
       "key_indicator": "💎 Crystal Clear City Panorama",
       "hourly_forecast": [
-        {
-          "time": "2026-09-19 17:00",
-          "time_utc": "2026-09-19T08:00:00Z",
-          "local_date": "2026-09-19",
-          "timezone": "Asia/Tokyo",
-          "score": 78,
-          "status": "🏙️ Normal City View",
-          "status_key": "CITY_DAY_FAIR",
-          "key_indicator": "⛅ Fair Atmospheric Visibility",
-          "indicator_key": "IND_CITY_DAY_FAIR",
-          "best_tag": "city",
-          "tag_scores": {
-            "city": {
-              "score": 78,
-              "status": "🏙️ Normal City View",
-              "status_key": "CITY_DAY_FAIR",
-              "key_indicator": "⛅ Fair Atmospheric Visibility",
-              "indicator_key": "IND_CITY_DAY_FAIR"
-            }
-          },
-          "kp": null,
-          "kp_source": "unavailable",
-          "cloud_base": 425,
-          "temp": 23.8,
-          "rh": 81,
-          "c_low": 39,
-          "c_mid": 42,
-          "c_high": 97,
-          "wind": 1.2,
-          "wind_unit": "m/s",
-          "visibility": 36.3,
-          "is_day": true,
-          "is_twilight": false,
-          "is_past": true
-        },
         {
           "time": "2026-09-19 18:00",
           "time_utc": "2026-09-19T09:00:00Z",
@@ -108447,7 +108412,7 @@
           "visibility": 29.3,
           "is_day": false,
           "is_twilight": true,
-          "is_past": false
+          "is_past": true
         },
         {
           "time": "2026-09-20 19:00",
@@ -110898,6 +110863,41 @@
           "is_day": true,
           "is_twilight": false,
           "is_past": false
+        },
+        {
+          "time": "2026-09-23 17:00",
+          "time_utc": "2026-09-23T08:00:00Z",
+          "local_date": "2026-09-23",
+          "timezone": "Asia/Tokyo",
+          "score": 51,
+          "status": "🌫️ Obstructed City View",
+          "status_key": "CITY_DAY_POOR",
+          "key_indicator": "🌫️ Haze or Poor Visibility",
+          "indicator_key": "IND_CITY_DAY_HAZE",
+          "best_tag": "city",
+          "tag_scores": {
+            "city": {
+              "score": 51,
+              "status": "🌫️ Obstructed City View",
+              "status_key": "CITY_DAY_POOR",
+              "key_indicator": "🌫️ Haze or Poor Visibility",
+              "indicator_key": "IND_CITY_DAY_HAZE"
+            }
+          },
+          "kp": null,
+          "kp_source": "unavailable",
+          "cloud_base": 424,
+          "temp": 23.2,
+          "rh": 81,
+          "c_low": 53,
+          "c_mid": 14,
+          "c_high": 0,
+          "wind": 3.48,
+          "wind_unit": "m/s",
+          "visibility": 29.2,
+          "is_day": true,
+          "is_twilight": true,
+          "is_past": false
         }
       ]
     },
@@ -110915,48 +110915,13 @@
       "api_elevation": 0.0,
       "timezone": "Asia/Tokyo",
       "utc_offset_seconds": 32400,
-      "score": 79,
-      "best_time": "2026-09-20 18:00",
-      "best_time_utc": "2026-09-20T09:00:00Z",
+      "score": 78,
+      "best_time": "2026-09-20 19:00",
+      "best_time_utc": "2026-09-20T10:00:00Z",
       "reason": "Adaptive Weather Analysis",
       "position": "🌅 Stunning Sunset Glow",
       "key_indicator": "🌅 Sunset Glow with Mid/High Clouds",
       "hourly_forecast": [
-        {
-          "time": "2026-09-19 17:00",
-          "time_utc": "2026-09-19T08:00:00Z",
-          "local_date": "2026-09-19",
-          "timezone": "Asia/Tokyo",
-          "score": 72,
-          "status": "🌊 Normal Coastal Weather",
-          "status_key": "COAST_NORMAL",
-          "key_indicator": "🌊 Stable Atmospheric Conditions",
-          "indicator_key": "IND_COAST_NORM",
-          "best_tag": "coast",
-          "tag_scores": {
-            "coast": {
-              "score": 72,
-              "status": "🌊 Normal Coastal Weather",
-              "status_key": "COAST_NORMAL",
-              "key_indicator": "🌊 Stable Atmospheric Conditions",
-              "indicator_key": "IND_COAST_NORM"
-            }
-          },
-          "kp": null,
-          "kp_source": "unavailable",
-          "cloud_base": 750,
-          "temp": 27.9,
-          "rh": 70,
-          "c_low": 22,
-          "c_mid": 42,
-          "c_high": 73,
-          "wind": 4.57,
-          "wind_unit": "m/s",
-          "visibility": 36.0,
-          "is_day": true,
-          "is_twilight": false,
-          "is_past": true
-        },
         {
           "time": "2026-09-19 18:00",
           "time_utc": "2026-09-19T09:00:00Z",
@@ -111830,7 +111795,7 @@
           "visibility": 36.0,
           "is_day": true,
           "is_twilight": true,
-          "is_past": false
+          "is_past": true
         },
         {
           "time": "2026-09-20 19:00",
@@ -114281,6 +114246,41 @@
           "is_day": true,
           "is_twilight": false,
           "is_past": false
+        },
+        {
+          "time": "2026-09-23 17:00",
+          "time_utc": "2026-09-23T08:00:00Z",
+          "local_date": "2026-09-23",
+          "timezone": "Asia/Tokyo",
+          "score": 74,
+          "status": "🌊 Normal Coastal Weather",
+          "status_key": "COAST_NORMAL",
+          "key_indicator": "🌊 Stable Atmospheric Conditions",
+          "indicator_key": "IND_COAST_NORM",
+          "best_tag": "coast",
+          "tag_scores": {
+            "coast": {
+              "score": 74,
+              "status": "🌊 Normal Coastal Weather",
+              "status_key": "COAST_NORMAL",
+              "key_indicator": "🌊 Stable Atmospheric Conditions",
+              "indicator_key": "IND_COAST_NORM"
+            }
+          },
+          "kp": null,
+          "kp_source": "unavailable",
+          "cloud_base": 824,
+          "temp": 25.9,
+          "rh": 67,
+          "c_low": 9,
+          "c_mid": 3,
+          "c_high": 0,
+          "wind": 1.82,
+          "wind_unit": "m/s",
+          "visibility": 36.3,
+          "is_day": true,
+          "is_twilight": true,
+          "is_past": false
         }
       ]
     },
@@ -114306,48 +114306,6 @@
       "position": "🏙️ Excellent City Panorama",
       "key_indicator": "💎 Crystal Clear City Panorama",
       "hourly_forecast": [
-        {
-          "time": "2026-09-19 17:00",
-          "time_utc": "2026-09-19T08:00:00Z",
-          "local_date": "2026-09-19",
-          "timezone": "Asia/Tokyo",
-          "score": 40,
-          "status": "🌧️ High Rain Risk",
-          "status_key": "RAIN_RISK",
-          "key_indicator": "🌧️ Significant Rain / Avoid Shooting",
-          "indicator_key": "IND_RAIN_RISK",
-          "best_tag": "lake",
-          "tag_scores": {
-            "city": {
-              "score": 37,
-              "status": "🌧️ High Rain Risk",
-              "status_key": "RAIN_RISK",
-              "key_indicator": "🌧️ Significant Rain / Avoid Shooting",
-              "indicator_key": "IND_RAIN_RISK"
-            },
-            "lake": {
-              "score": 40,
-              "status": "🌧️ High Rain Risk",
-              "status_key": "RAIN_RISK",
-              "key_indicator": "🌧️ Significant Rain / Avoid Shooting",
-              "indicator_key": "IND_RAIN_RISK"
-            }
-          },
-          "kp": null,
-          "kp_source": "unavailable",
-          "cloud_base": 750,
-          "temp": 28.2,
-          "rh": 70,
-          "c_low": 31,
-          "c_mid": 48,
-          "c_high": 49,
-          "wind": 0.32,
-          "wind_unit": "m/s",
-          "visibility": 31.7,
-          "is_day": true,
-          "is_twilight": false,
-          "is_past": true
-        },
         {
           "time": "2026-09-19 18:00",
           "time_utc": "2026-09-19T09:00:00Z",
@@ -115396,7 +115354,7 @@
           "visibility": 35.3,
           "is_day": true,
           "is_twilight": true,
-          "is_past": false
+          "is_past": true
         },
         {
           "time": "2026-09-20 19:00",
@@ -118337,6 +118295,48 @@
           "is_day": true,
           "is_twilight": false,
           "is_past": false
+        },
+        {
+          "time": "2026-09-23 17:00",
+          "time_utc": "2026-09-23T08:00:00Z",
+          "local_date": "2026-09-23",
+          "timezone": "Asia/Tokyo",
+          "score": 98,
+          "status": "🏙️ Excellent City Panorama",
+          "status_key": "CITY_DAY_CLEAR",
+          "key_indicator": "💎 Crystal Clear City Panorama",
+          "indicator_key": "IND_CITY_DAY_CLEAR",
+          "best_tag": "city",
+          "tag_scores": {
+            "city": {
+              "score": 98,
+              "status": "🏙️ Excellent City Panorama",
+              "status_key": "CITY_DAY_CLEAR",
+              "key_indicator": "💎 Crystal Clear City Panorama",
+              "indicator_key": "IND_CITY_DAY_CLEAR"
+            },
+            "lake": {
+              "score": 92,
+              "status": "🪞 Mirror Reflection",
+              "status_key": "LAKE_MIRROR",
+              "key_indicator": "🌊 Calm Water & Perfect Reflection",
+              "indicator_key": "IND_LAKE_MIRROR"
+            }
+          },
+          "kp": null,
+          "kp_source": "unavailable",
+          "cloud_base": 975,
+          "temp": 26.0,
+          "rh": 62,
+          "c_low": 0,
+          "c_mid": 0,
+          "c_high": 0,
+          "wind": 1.25,
+          "wind_unit": "m/s",
+          "visibility": 35.7,
+          "is_day": true,
+          "is_twilight": true,
+          "is_past": false
         }
       ]
     },
@@ -118361,41 +118361,6 @@
       "position": "🏙️ Excellent City Panorama",
       "key_indicator": "💎 Crystal Clear City Panorama",
       "hourly_forecast": [
-        {
-          "time": "2026-09-19 17:00",
-          "time_utc": "2026-09-19T08:00:00Z",
-          "local_date": "2026-09-19",
-          "timezone": "Asia/Tokyo",
-          "score": 55,
-          "status": "🌫️ Obstructed City View",
-          "status_key": "CITY_DAY_POOR",
-          "key_indicator": "🌫️ Haze or Poor Visibility",
-          "indicator_key": "IND_CITY_DAY_HAZE",
-          "best_tag": "city",
-          "tag_scores": {
-            "city": {
-              "score": 55,
-              "status": "🌫️ Obstructed City View",
-              "status_key": "CITY_DAY_POOR",
-              "key_indicator": "🌫️ Haze or Poor Visibility",
-              "indicator_key": "IND_CITY_DAY_HAZE"
-            }
-          },
-          "kp": null,
-          "kp_source": "unavailable",
-          "cloud_base": 100,
-          "temp": 20.8,
-          "rh": 95,
-          "c_low": 27,
-          "c_mid": 91,
-          "c_high": 0,
-          "wind": 2.0,
-          "wind_unit": "m/s",
-          "visibility": 29.9,
-          "is_day": true,
-          "is_twilight": false,
-          "is_past": true
-        },
         {
           "time": "2026-09-19 18:00",
           "time_utc": "2026-09-19T09:00:00Z",
@@ -119269,7 +119234,7 @@
           "visibility": 19.7,
           "is_day": true,
           "is_twilight": true,
-          "is_past": false
+          "is_past": true
         },
         {
           "time": "2026-09-20 19:00",
@@ -121720,6 +121685,41 @@
           "is_day": true,
           "is_twilight": false,
           "is_past": false
+        },
+        {
+          "time": "2026-09-23 17:00",
+          "time_utc": "2026-09-23T08:00:00Z",
+          "local_date": "2026-09-23",
+          "timezone": "Asia/Tokyo",
+          "score": 98,
+          "status": "🏙️ Excellent City Panorama",
+          "status_key": "CITY_DAY_CLEAR",
+          "key_indicator": "💎 Crystal Clear City Panorama",
+          "indicator_key": "IND_CITY_DAY_CLEAR",
+          "best_tag": "city",
+          "tag_scores": {
+            "city": {
+              "score": 98,
+              "status": "🏙️ Excellent City Panorama",
+              "status_key": "CITY_DAY_CLEAR",
+              "key_indicator": "💎 Crystal Clear City Panorama",
+              "indicator_key": "IND_CITY_DAY_CLEAR"
+            }
+          },
+          "kp": null,
+          "kp_source": "unavailable",
+          "cloud_base": 1200,
+          "temp": 22.6,
+          "rh": 55,
+          "c_low": 0,
+          "c_mid": 0,
+          "c_high": 0,
+          "wind": 2.73,
+          "wind_unit": "m/s",
+          "visibility": 36.7,
+          "is_day": true,
+          "is_twilight": true,
+          "is_past": false
         }
       ]
     },
@@ -121745,48 +121745,6 @@
       "position": "🏙️ Clear City Night View",
       "key_indicator": "💎 Clear City Lights",
       "hourly_forecast": [
-        {
-          "time": "2026-09-19 17:00",
-          "time_utc": "2026-09-19T08:00:00Z",
-          "local_date": "2026-09-19",
-          "timezone": "Asia/Tokyo",
-          "score": 40,
-          "status": "🌧️ High Rain Risk",
-          "status_key": "RAIN_RISK",
-          "key_indicator": "🌧️ Significant Rain / Avoid Shooting",
-          "indicator_key": "IND_RAIN_RISK",
-          "best_tag": "coast",
-          "tag_scores": {
-            "city": {
-              "score": 38,
-              "status": "🌧️ High Rain Risk",
-              "status_key": "RAIN_RISK",
-              "key_indicator": "🌧️ Significant Rain / Avoid Shooting",
-              "indicator_key": "IND_RAIN_RISK"
-            },
-            "coast": {
-              "score": 40,
-              "status": "🌧️ High Rain Risk",
-              "status_key": "RAIN_RISK",
-              "key_indicator": "🌧️ Significant Rain / Avoid Shooting",
-              "indicator_key": "IND_RAIN_RISK"
-            }
-          },
-          "kp": null,
-          "kp_source": "unavailable",
-          "cloud_base": 149,
-          "temp": 23.9,
-          "rh": 93,
-          "c_low": 44,
-          "c_mid": 97,
-          "c_high": 0,
-          "wind": 4.83,
-          "wind_unit": "m/s",
-          "visibility": 22.1,
-          "is_day": true,
-          "is_twilight": false,
-          "is_past": true
-        },
         {
           "time": "2026-09-19 18:00",
           "time_utc": "2026-09-19T09:00:00Z",
@@ -122835,7 +122793,7 @@
           "visibility": 8.6,
           "is_day": true,
           "is_twilight": true,
-          "is_past": false
+          "is_past": true
         },
         {
           "time": "2026-09-20 19:00",
@@ -125776,6 +125734,48 @@
           "is_day": true,
           "is_twilight": false,
           "is_past": false
+        },
+        {
+          "time": "2026-09-23 17:00",
+          "time_utc": "2026-09-23T08:00:00Z",
+          "local_date": "2026-09-23",
+          "timezone": "Asia/Tokyo",
+          "score": 98,
+          "status": "🏙️ Excellent City Panorama",
+          "status_key": "CITY_DAY_CLEAR",
+          "key_indicator": "💎 Crystal Clear City Panorama",
+          "indicator_key": "IND_CITY_DAY_CLEAR",
+          "best_tag": "city",
+          "tag_scores": {
+            "city": {
+              "score": 98,
+              "status": "🏙️ Excellent City Panorama",
+              "status_key": "CITY_DAY_CLEAR",
+              "key_indicator": "💎 Crystal Clear City Panorama",
+              "indicator_key": "IND_CITY_DAY_CLEAR"
+            },
+            "coast": {
+              "score": 75,
+              "status": "🌊 Normal Coastal Weather",
+              "status_key": "COAST_NORMAL",
+              "key_indicator": "🌊 Stable Atmospheric Conditions",
+              "indicator_key": "IND_COAST_NORM"
+            }
+          },
+          "kp": null,
+          "kp_source": "unavailable",
+          "cloud_base": 912,
+          "temp": 23.6,
+          "rh": 64,
+          "c_low": 0,
+          "c_mid": 0,
+          "c_high": 0,
+          "wind": 4.47,
+          "wind_unit": "m/s",
+          "visibility": 32.4,
+          "is_day": true,
+          "is_twilight": true,
+          "is_past": false
         }
       ]
     },
@@ -125801,48 +125801,6 @@
       "position": "🏙️ Clear City Night View",
       "key_indicator": "💎 Clear City Lights",
       "hourly_forecast": [
-        {
-          "time": "2026-09-19 17:00",
-          "time_utc": "2026-09-19T08:00:00Z",
-          "local_date": "2026-09-19",
-          "timezone": "Asia/Tokyo",
-          "score": 56,
-          "status": "🌫️ Obstructed City View",
-          "status_key": "CITY_DAY_POOR",
-          "key_indicator": "🌫️ Haze or Poor Visibility",
-          "indicator_key": "IND_CITY_DAY_HAZE",
-          "best_tag": "city",
-          "tag_scores": {
-            "city": {
-              "score": 56,
-              "status": "🌫️ Obstructed City View",
-              "status_key": "CITY_DAY_POOR",
-              "key_indicator": "🌫️ Haze or Poor Visibility",
-              "indicator_key": "IND_CITY_DAY_HAZE"
-            },
-            "coast": {
-              "score": 51,
-              "status": "🌊 Normal Coastal Weather",
-              "status_key": "COAST_NORMAL",
-              "key_indicator": "🌊 Stable Atmospheric Conditions",
-              "indicator_key": "IND_COAST_NORM"
-            }
-          },
-          "kp": null,
-          "kp_source": "unavailable",
-          "cloud_base": 387,
-          "temp": 25.7,
-          "rh": 83,
-          "c_low": 27,
-          "c_mid": 83,
-          "c_high": 0,
-          "wind": 2.18,
-          "wind_unit": "m/s",
-          "visibility": 33.5,
-          "is_day": true,
-          "is_twilight": false,
-          "is_past": true
-        },
         {
           "time": "2026-09-19 18:00",
           "time_utc": "2026-09-19T09:00:00Z",
@@ -126891,7 +126849,7 @@
           "visibility": 27.8,
           "is_day": true,
           "is_twilight": true,
-          "is_past": false
+          "is_past": true
         },
         {
           "time": "2026-09-20 19:00",
@@ -129832,6 +129790,48 @@
           "is_day": true,
           "is_twilight": false,
           "is_past": false
+        },
+        {
+          "time": "2026-09-23 17:00",
+          "time_utc": "2026-09-23T08:00:00Z",
+          "local_date": "2026-09-23",
+          "timezone": "Asia/Tokyo",
+          "score": 98,
+          "status": "🏙️ Excellent City Panorama",
+          "status_key": "CITY_DAY_CLEAR",
+          "key_indicator": "💎 Crystal Clear City Panorama",
+          "indicator_key": "IND_CITY_DAY_CLEAR",
+          "best_tag": "city",
+          "tag_scores": {
+            "city": {
+              "score": 98,
+              "status": "🏙️ Excellent City Panorama",
+              "status_key": "CITY_DAY_CLEAR",
+              "key_indicator": "💎 Crystal Clear City Panorama",
+              "indicator_key": "IND_CITY_DAY_CLEAR"
+            },
+            "coast": {
+              "score": 75,
+              "status": "🌊 Normal Coastal Weather",
+              "status_key": "COAST_NORMAL",
+              "key_indicator": "🌊 Stable Atmospheric Conditions",
+              "indicator_key": "IND_COAST_NORM"
+            }
+          },
+          "kp": null,
+          "kp_source": "unavailable",
+          "cloud_base": 1125,
+          "temp": 26.8,
+          "rh": 58,
+          "c_low": 0,
+          "c_mid": 0,
+          "c_high": 0,
+          "wind": 1.8,
+          "wind_unit": "m/s",
+          "visibility": 37.1,
+          "is_day": true,
+          "is_twilight": true,
+          "is_past": false
         }
       ]
     },
@@ -129857,48 +129857,6 @@
       "position": "🏙️ Clear City Night View",
       "key_indicator": "💎 Clear City Lights",
       "hourly_forecast": [
-        {
-          "time": "2026-09-19 17:00",
-          "time_utc": "2026-09-19T08:00:00Z",
-          "local_date": "2026-09-19",
-          "timezone": "Asia/Tokyo",
-          "score": 50,
-          "status": "🌊 Normal Coastal Weather",
-          "status_key": "COAST_NORMAL",
-          "key_indicator": "🌊 Stable Atmospheric Conditions",
-          "indicator_key": "IND_COAST_NORM",
-          "best_tag": "coast",
-          "tag_scores": {
-            "city": {
-              "score": 49,
-              "status": "🌫️ Obstructed City View",
-              "status_key": "CITY_DAY_POOR",
-              "key_indicator": "🌫️ Haze or Poor Visibility",
-              "indicator_key": "IND_CITY_DAY_HAZE"
-            },
-            "coast": {
-              "score": 50,
-              "status": "🌊 Normal Coastal Weather",
-              "status_key": "COAST_NORMAL",
-              "key_indicator": "🌊 Stable Atmospheric Conditions",
-              "indicator_key": "IND_COAST_NORM"
-            }
-          },
-          "kp": null,
-          "kp_source": "unavailable",
-          "cloud_base": 237,
-          "temp": 24.2,
-          "rh": 89,
-          "c_low": 40,
-          "c_mid": 97,
-          "c_high": 0,
-          "wind": 3.91,
-          "wind_unit": "m/s",
-          "visibility": 25.2,
-          "is_day": true,
-          "is_twilight": false,
-          "is_past": true
-        },
         {
           "time": "2026-09-19 18:00",
           "time_utc": "2026-09-19T09:00:00Z",
@@ -130947,7 +130905,7 @@
           "visibility": 11.6,
           "is_day": true,
           "is_twilight": true,
-          "is_past": false
+          "is_past": true
         },
         {
           "time": "2026-09-20 19:00",
@@ -133887,6 +133845,48 @@
           "visibility": 35.5,
           "is_day": true,
           "is_twilight": false,
+          "is_past": false
+        },
+        {
+          "time": "2026-09-23 17:00",
+          "time_utc": "2026-09-23T08:00:00Z",
+          "local_date": "2026-09-23",
+          "timezone": "Asia/Tokyo",
+          "score": 98,
+          "status": "🏙️ Excellent City Panorama",
+          "status_key": "CITY_DAY_CLEAR",
+          "key_indicator": "💎 Crystal Clear City Panorama",
+          "indicator_key": "IND_CITY_DAY_CLEAR",
+          "best_tag": "city",
+          "tag_scores": {
+            "city": {
+              "score": 98,
+              "status": "🏙️ Excellent City Panorama",
+              "status_key": "CITY_DAY_CLEAR",
+              "key_indicator": "💎 Crystal Clear City Panorama",
+              "indicator_key": "IND_CITY_DAY_CLEAR"
+            },
+            "coast": {
+              "score": 75,
+              "status": "🌊 Normal Coastal Weather",
+              "status_key": "COAST_NORMAL",
+              "key_indicator": "🌊 Stable Atmospheric Conditions",
+              "indicator_key": "IND_COAST_NORM"
+            }
+          },
+          "kp": null,
+          "kp_source": "unavailable",
+          "cloud_base": 1275,
+          "temp": 24.7,
+          "rh": 53,
+          "c_low": 0,
+          "c_mid": 0,
+          "c_high": 0,
+          "wind": 2.76,
+          "wind_unit": "m/s",
+          "visibility": 35.5,
+          "is_day": true,
+          "is_twilight": true,
           "is_past": false
         }
       ]
