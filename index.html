@@ -314,7 +314,9 @@
     let activeModalSpot=null, activeModalSummary=null;
     let activeLoadController=null, activeLoadSequence=0;
     const memorySummary=new Map(), memoryDetails=new Map();
-    const CACHE_NAME='chaselights-v8-weather';
+    const CACHE_NAME='chaselights-v8-weather-hotfix1';
+    const MIN_SCHEMA_VERSION=7, MAX_SCHEMA_VERSION=8;
+    const schemaSupported=j=>Number.isInteger(j?.schema_version)&&j.schema_version>=MIN_SCHEMA_VERSION&&j.schema_version<=MAX_SCHEMA_VERSION;
 
     const d=()=>i18nDict[currentLang]||i18nDict['zh-TW'];
     const spotName=s=>s?.name_i18n?.[currentLang]||s?.name_i18n?.['zh-TW']||s?.name_local||'Unknown';
@@ -387,11 +389,11 @@
     function switchRegion(k){if(!VALID_REGIONS.includes(k))k='tw';currentRegion=k;localStorage.setItem('chaselights_region',k);currentCategoryKey=localStorage.getItem(`chaselights_category_${k}`)||'__all__';document.getElementById('country-select').value=k;loadData(k);}
     function toggleFavorite(id,event){event?.stopPropagation();favorites=favorites.includes(id)?favorites.filter(x=>x!==id):[...favorites,id];localStorage.setItem('chaselights_favs_v2',JSON.stringify(favorites));filterAndRender();}
 
-    async function cacheMatch(url){try{if(!('caches'in window))return null;const c=await caches.open(CACHE_NAME);const r=await c.match(url);if(!r)return null;const j=await r.json();return j?.schema_version===8?j:null;}catch{return null;}}
-    async function fetchAndCache(url,signal){const opts={cache:'no-cache'};if(signal)opts.signal=signal;const r=await fetch(url,opts);if(!r.ok)throw new Error(`HTTP ${r.status}`);const clone=r.clone();try{if('caches'in window){const c=await caches.open(CACHE_NAME);await c.put(url,clone);}}catch{}const j=await r.json();if(j?.schema_version!==8)throw new Error('Schema mismatch');return j;}
+    async function cacheMatch(url){try{if(!('caches'in window))return null;const c=await caches.open(CACHE_NAME);const r=await c.match(url);if(!r)return null;const j=await r.json();return schemaSupported(j)?j:null;}catch{return null;}}
+    async function fetchAndCache(url,signal){const opts={cache:'no-cache'};if(signal)opts.signal=signal;const r=await fetch(url,opts);if(!r.ok)throw new Error(`HTTP ${r.status}`);const clone=r.clone();try{if('caches'in window){const c=await caches.open(CACHE_NAME);await c.put(url,clone);}}catch{}const j=await r.json();if(!schemaSupported(j))throw new Error(`Schema mismatch: expected ${MIN_SCHEMA_VERSION}-${MAX_SCHEMA_VERSION}, got ${j?.schema_version??'missing'}`);return j;}
     function applyData(data,region,seq){if(seq!==activeLoadSequence||region!==currentRegion||data.region!==region)return false;currentData=data;currentSpots=data.spots||[];memorySummary.set(region,data);document.getElementById('loading').style.display='none';migrateFavorites();renderSubNav();renderSceneNav();renderThemeNav();syncDayButtons();updateHeader();filterAndRender();return true;}
     function migrateFavorites(){if(!legacyFavorites.length)return;currentSpots.forEach(s=>{const names=Object.values(s.name_i18n||{});if(names.some(n=>legacyFavorites.includes(n))&&!favorites.includes(s.spot_id))favorites.push(s.spot_id);});localStorage.setItem('chaselights_favs_v2',JSON.stringify(favorites));legacyFavorites=[];}
-    async function refreshSummary(region,url,seq,controller,silent=false){try{const fresh=await fetchAndCache(url,controller.signal);if(applyData(fresh,region,seq))memorySummary.set(region,fresh);}catch(e){if(e?.name==='AbortError'||seq!==activeLoadSequence)return;if(!silent){const l=document.getElementById('loading');l.style.display='block';l.innerText=`⚠️ ${url}`;}}}
+    async function refreshSummary(region,url,seq,controller,silent=false){try{const fresh=await fetchAndCache(url,controller.signal);if(applyData(fresh,region,seq))memorySummary.set(region,fresh);}catch(e){if(e?.name==='AbortError'||seq!==activeLoadSequence)return;if(!silent){const l=document.getElementById('loading');l.style.display='block';l.innerText=`⚠️ ${url} — ${e?.message||e}`;}}}
     async function loadData(region){
       const seq=++activeLoadSequence;if(activeLoadController)activeLoadController.abort();activeLoadController=new AbortController();
       const container=document.getElementById('spots-container'), loading=document.getElementById('loading');container.innerHTML='';currentSpots=[];currentData=null;renderSubNav();loading.innerText=d().loading;loading.style.display='block';updateHeader();
