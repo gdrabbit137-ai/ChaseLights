@@ -257,6 +257,35 @@ VIEW_AZIMUTH_OVERRIDES = {
 }
 
 
+# Stable access constraints only. We intentionally avoid hard-coding seasonal
+# business hours that may change. daylight_only means the photographic subject
+# itself requires daylight; access_note_i18n warns the user to verify operator
+# or facility hours separately.
+ACCESS_RULE_OVERRIDES = {
+    "羚羊峽谷": {
+        "access_mode": "daylight_only",
+        "access_note_i18n": {
+            "zh-TW": "需參加授權導覽，實際入場時段請以營運商公告為準",
+            "en": "Authorized tour required; verify current operator entry times",
+            "ja": "認可ツアー参加が必要です。最新の入場時間を運営会社で確認してください",
+        },
+    },
+    "西雅圖太空針塔": {
+        "access_note_i18n": {
+            "zh-TW": "觀景台有營業時間與票券限制，出發前請確認",
+            "en": "Observation deck has ticketed opening hours; verify before visiting",
+            "ja": "展望台は営業時間・チケット制です。訪問前に確認してください",
+        },
+    },
+    "西雅圖派克市場": {
+        "access_note_i18n": {
+            "zh-TW": "市場各店營業時間不同，夜間部分區域氣氛與白天不同",
+            "en": "Vendor hours vary; the market experience differs after hours",
+            "ja": "店舗ごとに営業時間が異なり、夜間は雰囲気が変わります",
+        },
+    },
+}
+
 def get_spots(region="tw"):
     region_key = region.lower()
     region_data = REGIONS.get(region_key, REGIONS["tw"])
@@ -301,5 +330,8 @@ def get_spots(region="tw"):
         if view is not None:
             item["view_azimuth"] = view[0]
             item["view_tolerance"] = view[1]
+        access = ACCESS_RULE_OVERRIDES.get(name_zh)
+        if access:
+            item.update(access)
         formatted_spots.append(item)
     return formatted_spots

@@ -48,6 +48,8 @@ def analyze_spot(spot, lang="zh-TW", kp_rows=None):
             "utc_offset_seconds": raw_data.get("utc_offset_seconds"),
             "view_azimuth": raw_data.get("view_azimuth", spot.get("view_azimuth")),
             "view_tolerance": raw_data.get("view_tolerance", spot.get("view_tolerance")),
+            "access_mode": raw_data.get("access_mode", spot.get("access_mode")),
+            "access_note": (spot.get("access_note_i18n") or {}).get(lang),
             "score": raw_data.get("score", 30),
             "best_tag": raw_data.get("best_tag"),
             "best_time": raw_data.get("best_time", "N/A"),
@@ -89,7 +91,7 @@ def main():
                 analyzed_spots.append(result)
 
         output_data = {
-            "schema_version": 3,
+            "schema_version": 4,
             "updated_at": now_utc_str,
             "region": region,
             "lang": lang,

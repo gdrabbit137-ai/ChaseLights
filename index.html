@@ -245,7 +245,7 @@
         'best_window': '⏱️ 最佳窗口：', 'forecast_status': '📍 預報狀態：', 'cloud_base_label': '估算雲底',
         'best_theme': '🎯 最佳題材：', 'local_time': '當地時間', 'camera_elev': '機位', 'agl': 'AGL',
         'sun_dir': '太陽', 'moon_label': '月亮', 'mw_core': '銀河核心', 'theme_col': '題材', 'astro_col': '天文',
-        'no_spots': '該條件下暫無景點資料',
+        'no_spots': '該條件下暫無景點資料', 'astro_unavailable': '天文資料暫時不可用', 'access_limited': '非建議／可拍攝時段',
         'modal_subtitle': '⏱️ 涵蓋範圍：過去 24 小時 [模型資料] + 未來 72 小時 [氣象預報] (藍底高亮為預測最佳出景窗口)',
         'th_time': '時間', 'th_score': '評分', 'th_status': '狀態', 'th_kp': 'Kp指數',
         'th_cloud_base': '雲底高度', 'th_temp': '氣溫', 'th_rh': '濕度', 'th_clow': '低雲',
@@ -260,7 +260,7 @@
         'best_window': '⏱️ Best Window: ', 'forecast_status': '📍 Status: ', 'cloud_base_label': 'Est. Cloud Base ',
         'best_theme': '🎯 Best Theme: ', 'local_time': 'Local time', 'camera_elev': 'Camera', 'agl': 'AGL',
         'sun_dir': 'Sun', 'moon_label': 'Moon', 'mw_core': 'Galactic core', 'theme_col': 'Theme', 'astro_col': 'Astronomy',
-        'no_spots': 'No spot data available under this condition',
+        'no_spots': 'No spot data available under this condition', 'astro_unavailable': 'Astronomy data unavailable', 'access_limited': 'Outside recommended/access window',
         'modal_subtitle': '⏱️ Range: Past 24H [Model Data] + Next 72H [Forecast] (Blue highlight indicates best shooting window)',
         'th_time': 'Time', 'th_score': 'Score', 'th_status': 'Status', 'th_kp': 'Kp Index',
         'th_cloud_base': 'Cloud Base', 'th_temp': 'Temp', 'th_rh': 'Humidity', 'th_clow': 'Low Cloud',
@@ -319,14 +319,19 @@
       }
     };
 
-    let currentRegion = "tw";
+    const VALID_REGIONS = ['tw','jp','us'];
+    const VALID_LANGS = ['zh-TW','en','ja'];
+    const VALID_DAYS = ['today','tomorrow','after_tomorrow'];
+    let currentRegion = VALID_REGIONS.includes(localStorage.getItem('chaselights_region')) ? localStorage.getItem('chaselights_region') : 'tw';
     let currentSpots = [];
     let currentCategoryIndex = 0;
-    let currentTag = "all";
-    let currentDayFilter = "today";
-    let currentLang = localStorage.getItem('chaselights_lang') || 'zh-TW';
+    let currentTag = localStorage.getItem('chaselights_tag') || 'all';
+    let currentDayFilter = VALID_DAYS.includes(localStorage.getItem('chaselights_day')) ? localStorage.getItem('chaselights_day') : 'today';
+    let currentLang = VALID_LANGS.includes(localStorage.getItem('chaselights_lang')) ? localStorage.getItem('chaselights_lang') : 'zh-TW';
     let favorites = JSON.parse(localStorage.getItem('chaselights_favs_v2') || '[]');
     let legacyFavorites = JSON.parse(localStorage.getItem('chaselights_favs') || '[]');
+    let activeLoadController = null;
+    let activeLoadSequence = 0;
 
     function getLocalNowStr() {
       const d = new Date();
@@ -355,55 +360,76 @@
       return `${year}-${month}-${day} ${hours}:${minutes} (${tzOffsetStr})`;
     }
 
-    function switchLanguage(langKey) {
-      currentLang = langKey;
-      localStorage.setItem('chaselights_lang', langKey);
-
+    function applyStaticTranslations(langKey) {
       document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
-        if (i18nDict[langKey] && i18nDict[langKey][key]) {
-          el.innerText = i18nDict[langKey][key];
-        }
+        if (i18nDict[langKey] && i18nDict[langKey][key]) el.innerText = i18nDict[langKey][key];
       });
+    }
 
+    function syncDayButtons() {
+      const map = { today: 0, tomorrow: 1, after_tomorrow: 2 };
+      document.querySelectorAll('.day-btn').forEach((btn, i) => btn.classList.toggle('active', i === map[currentDayFilter]));
+    }
+
+    function switchLanguage(langKey) {
+      if (!VALID_LANGS.includes(langKey)) langKey = 'zh-TW';
+      currentLang = langKey;
+      localStorage.setItem('chaselights_lang', langKey);
+      applyStaticTranslations(langKey);
+      renderSubNav(currentRegion);
+      renderTagNav();
+      syncDayButtons();
       loadData(currentRegion, langKey);
     }
 
-    async function switchRegion(regionKey) {
+    function switchRegion(regionKey) {
+      if (!VALID_REGIONS.includes(regionKey)) regionKey = 'tw';
       currentRegion = regionKey;
       currentCategoryIndex = 0;
-      
+      localStorage.setItem('chaselights_region', regionKey);
       const countrySelect = document.getElementById('country-select');
       if (countrySelect) countrySelect.value = regionKey;
-
-      await loadData(regionKey, currentLang);
+      loadData(regionKey, currentLang);
     }
 
     async function loadData(regionKey, langKey) {
       const container = document.getElementById('spots-container');
       const loading = document.getElementById('loading');
-      
-      loading.style.display = 'block';
+      const requestedRegion = VALID_REGIONS.includes(regionKey) ? regionKey : currentRegion;
+      const requestedLang = VALID_LANGS.includes(langKey) ? langKey : currentLang;
+      const seq = ++activeLoadSequence;
+
+      // Cancel the previous language/region request. This prevents a slower old
+      // response (e.g. Taiwan/JA) from repainting after the user already chose US.
+      if (activeLoadController) activeLoadController.abort();
+      activeLoadController = new AbortController();
+
+      currentSpots = [];
       container.innerHTML = '';
+      const dict = i18nDict[requestedLang] || i18nDict['zh-TW'];
+      loading.innerText = dict['loading'] || 'Loading...';
+      loading.style.display = 'block';
 
-      currentRegion = regionKey || currentRegion;
-      const lang = langKey || currentLang;
-
-      renderSubNav(currentRegion);
+      renderSubNav(requestedRegion);
       renderTagNav();
+      syncDayButtons();
 
-      const fileName = `./${currentRegion}_weather_${lang}.json`;
-
+      const fileName = `./${requestedRegion}_weather_${requestedLang}.json`;
       try {
-        const res = await fetch(`${fileName}?t=${Date.now()}`);
+        const res = await fetch(`${fileName}?t=${Date.now()}`, { signal: activeLoadController.signal, cache: 'no-store' });
         if (!res.ok) throw new Error(`HTTP status ${res.status}`);
-        
         const data = await res.json();
-        const prefix = i18nDict[currentLang]['last_updated'] || '最後更新：';
+
+        // Ignore stale responses even on browsers where abort arrives too late.
+        if (seq !== activeLoadSequence || requestedRegion !== currentRegion || requestedLang !== currentLang) return;
+        if (data.region && data.region !== requestedRegion) return;
+        if (data.lang && data.lang !== requestedLang) return;
+
+        const prefix = (i18nDict[currentLang] || i18nDict['zh-TW'])['last_updated'] || '最後更新：';
         document.getElementById('update-time').innerText = `${prefix}${formatToLocalTime(data.updated_at)}`;
-        
-        loading.style.display = 'none';
         currentSpots = data.spots || [];
+
         if (legacyFavorites.length) {
           currentSpots.forEach(spot => {
             if (legacyFavorites.includes(spot.name) || legacyFavorites.includes(spot.name_local)) {
@@ -412,10 +438,15 @@
           });
           localStorage.setItem('chaselights_favs_v2', JSON.stringify(favorites));
         }
+        loading.style.display = 'none';
         filterAndRender();
-
       } catch (err) {
-        loading.innerText = `⚠️ 讀取氣象資料失敗 (${fileName})`;
+        if (err && err.name === 'AbortError') return;
+        if (seq !== activeLoadSequence) return;
+        currentSpots = [];
+        container.innerHTML = '';
+        loading.style.display = 'block';
+        loading.innerText = `⚠️ ${fileName}`;
       }
     }
 
@@ -457,6 +488,7 @@
           document.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('active'));
           btn.classList.add('active');
           currentTag = tagKey;
+          localStorage.setItem('chaselights_tag', tagKey);
           filterAndRender();
         };
         tagNav.appendChild(btn);
@@ -467,6 +499,7 @@
       document.querySelectorAll('.day-btn').forEach(btn => btn.classList.remove('active'));
       if (btnElement) btnElement.classList.add('active');
       currentDayFilter = dayKey;
+      localStorage.setItem('chaselights_day', dayKey);
       filterAndRender();
     }
 
@@ -489,20 +522,33 @@
       return dt.toISOString().slice(0, 10);
     }
 
+    function clientEligibilityCap(item, tag) {
+      if (!item) return 0;
+      if (item.access_open === false) return 15;
+      const astroValid = item.astronomy_valid === true;
+      const sun = Number.isFinite(Number(item.sun_elevation)) ? Number(item.sun_elevation) : null;
+      const isDay = item.is_day === true || item.is_day === 1;
+      const twi = !!item.is_twilight;
+      if (tag === 'mountain') { if (sun !== null && sun <= -6) return 38; if (sun !== null && sun <= 0) return 78; if (sun === null && !isDay && !twi) return 45; }
+      if (tag === 'cloud_sea') { if (sun !== null && sun < -8) return 62; }
+      if (tag === 'city') { if (sun !== null && sun > -2) return 68; if (sun === null && isDay) return 68; }
+      if (tag === 'coast') { if (sun !== null && sun < -8) return 48; }
+      if (tag === 'starlight') { if (!astroValid) return 55; if (sun > -12) return 45; if (sun > -18) return 72; }
+      if (tag === 'aurora') { if (!astroValid) return 55; if (item.kp == null) return 60; if (sun > -12) return 35; if (sun > -18) return 70; }
+      return 96;
+    }
+
     function metricsForTag(item, tagKey) {
       const resolvedTag = (tagKey && tagKey !== 'all') ? tagKey : (item.best_tag || null);
-      if (resolvedTag && item.tag_scores && item.tag_scores[resolvedTag]) {
-        return { ...item.tag_scores[resolvedTag], tag: resolvedTag };
+      let base;
+      if (resolvedTag && item.tag_scores && item.tag_scores[resolvedTag]) base = { ...item.tag_scores[resolvedTag], tag: resolvedTag };
+      else base = { score:item.score||0, status:item.status||'', key_indicator:item.key_indicator||'', status_key:item.status_key, indicator_key:item.indicator_key, factors:item.factors||[], tag:resolvedTag||'mountain' };
+      const cap = clientEligibilityCap(item, base.tag);
+      base.score = Math.min(Number(base.score || 0), cap);
+      if (item.access_open === false) {
+        base.status = (i18nDict[currentLang] || i18nDict['zh-TW'])['access_limited'] || base.status;
       }
-      return {
-        score: item.score || 0,
-        status: item.status || '',
-        key_indicator: item.key_indicator || '',
-        status_key: item.status_key,
-        indicator_key: item.indicator_key,
-        factors: item.factors || [],
-        tag: resolvedTag || 'mountain'
-      };
+      return base;
     }
 
     function radarUrlForRegion(regionKey) {
@@ -550,22 +596,35 @@
       const startDate = start.time.split(' ')[0], endDate = endLocal.split(' ')[0];
       const startClock = start.time.split(' ')[1], endClock = endLocal.split(' ')[1];
       const tz = timezoneDisplay(start);
-      const label = startDate === endDate ? `${startDate.slice(5)} ${startClock}–${endClock} ${tz}` : `${start.time}–${endLocal} ${tz}`;
+      const label = startDate === endDate
+        ? `${startDate.slice(5).replace('-', '/')} ${startClock}–${endClock}`
+        : `${startDate.slice(5).replace('-', '/')} ${startClock} → ${endDate.slice(5).replace('-', '/')} ${endClock}`;
       return { label, utcTimes: items.slice(left,right+1).map(x=>x.time_utc), tag: winningTag, threshold };
+    }
+
+    function astroNumber(v, digits=0) {
+      if (v === null || v === undefined || v === '' || !Number.isFinite(Number(v))) return null;
+      return Number(v).toFixed(digits);
     }
 
     function astroSummary(item, tag, dict) {
       if (!item) return '';
+      const valid = item.astronomy_valid === true;
       if (tag === 'starlight') {
-        return `🌙 ${dict['moon_label']} ${item.moon_phase||''} ${Math.round(item.moon_illumination || 0)}% / ${Number(item.moon_elevation||0).toFixed(0)}° · 🌌 ${dict['mw_core']} ${Number(item.galactic_core_elevation||0).toFixed(0)}°`;
+        if (!valid) return `⚠ ${dict['astro_unavailable'] || 'Astronomy data unavailable'}`;
+        const illum = astroNumber(item.moon_illumination,0), moonAlt = astroNumber(item.moon_elevation,0), gc = astroNumber(item.galactic_core_elevation,0);
+        return `🌙 ${dict['moon_label']} ${item.moon_phase||''} ${illum ?? 'N/A'}% / ${moonAlt ?? 'N/A'}° · 🌌 ${dict['mw_core']} ${gc ?? 'N/A'}°`;
       }
       if (tag === 'aurora') {
-        const kp = item.kp == null ? '-' : item.kp;
-        return `🌌 Kp ${kp}${item.kp_source ? ` (${item.kp_source})` : ''} · ☀ ${Number(item.sun_elevation||0).toFixed(0)}°`;
+        const kp = item.kp == null ? 'N/A' : item.kp;
+        const sun = valid ? astroNumber(item.sun_elevation,0) : null;
+        return `🌌 Kp ${kp}${item.kp_source && item.kp_source!=='unavailable' ? ` (${item.kp_source})` : ''} · ☀ ${sun ?? 'N/A'}°`;
       }
       if (tag === 'coast') {
+        if (!valid) return `⚠ ${dict['astro_unavailable'] || 'Astronomy data unavailable'}`;
+        const az=astroNumber(item.sun_azimuth,0), el=astroNumber(item.sun_elevation,0);
         const align = item.sun_alignment === 'good' ? ' ✓' : (item.sun_alignment === 'poor' ? ' △' : '');
-        return `☀ ${dict['sun_dir']} ${Number(item.sun_azimuth||0).toFixed(0)}° / ${Number(item.sun_elevation||0).toFixed(0)}°${align}`;
+        return `☀ ${dict['sun_dir']} ${az ?? 'N/A'}° / ${el ?? 'N/A'}°${align}`;
       }
       if (tag === 'cloud_sea' && item.camera_elevation != null) {
         const delta = Number(item.cloud_base_delta || 0);
@@ -656,7 +715,7 @@
         card.onclick = () => openModal(spot);
 
         let scoreClass='score-low', scorePrefix='';
-        if (spot.score >= 90) { scoreClass='score-gold'; scorePrefix='🔥 '; }
+        if (spot.score >= 92) { scoreClass='score-gold'; scorePrefix='🔥 '; }
         else if (spot.score >= 80) scoreClass='score-high';
         else if (spot.score >= 70) scoreClass='score-mid';
 
@@ -680,6 +739,7 @@
             <div><span class="indicator-pill">${spot.key_indicator||''}</span></div>
             ${astro?`<div class="astro-row">${astro}</div>`:''}
             ${factors?`<div class="factor-row">${factors}</div>`:''}
+            ${spot.access_note?`<div class="info-row" style="color:#fbbf24">⏰ ${spot.access_note}</div>`:''}
           </div>
           <div class="card-footer-tools"><span style="font-size:.78rem;color:#94a3b8">${dict['click_detail']}</span><div><a href="${navUrl}" target="_blank" rel="noopener noreferrer" class="tool-link">${dict['nav_link']}</a><a href="${radarUrl}" target="_blank" rel="noopener noreferrer" class="tool-link">${dict['radar_link']}</a></div></div>`;
         card.querySelector('.fav-btn').addEventListener('click',e=>toggleFavorite(spot.spot_id,e));
@@ -726,8 +786,17 @@
       document.getElementById('modal-overlay').style.display = 'none';
     }
 
-    document.getElementById('lang-select').value = currentLang;
-    switchLanguage(currentLang);
+    function initializeApp() {
+      document.getElementById('lang-select').value = currentLang;
+      document.getElementById('country-select').value = currentRegion;
+      applyStaticTranslations(currentLang);
+      renderSubNav(currentRegion);
+      renderTagNav();
+      syncDayButtons();
+      loadData(currentRegion, currentLang);
+    }
+
+    initializeApp();
   </script>
 </body>
 </html>

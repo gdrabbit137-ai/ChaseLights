@@ -3,7 +3,7 @@
 Usage:
     python get_weather.py <lat> <lon> [elevation_m]
 
-This helper intentionally mirrors the production request shape: local timezone,
+This helper intentionally mirrors the Score V4 production request shape: local timezone,
 24h past + 72h forecast, Unix timestamps, and wind speed in m/s.
 """
 import sys

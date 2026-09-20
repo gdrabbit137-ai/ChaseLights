@@ -42,6 +42,9 @@ I18N_MESSAGES = {
     "AURORA_CLEAR": {"zh-TW": "🌌 夜間極光視野清透", "en": "🌌 Clear Aurora View", "ja": "🌌 清透なオーロラ視界"},
     "AURORA_FAIR": {"zh-TW": "🌌 極光觀察條件普通", "en": "🌌 Fair Aurora Conditions", "ja": "🌌 普通のオーロラ条件"},
     "AURORA_POOR": {"zh-TW": "☁️ 雲層過厚無視線", "en": "☁️ Heavy Cloud Cover", "ja": "☁️ 厚い雲（視界不可）"},
+    "AURORA_NO_KP": {"zh-TW": "🌌 天空可觀測，但缺少 Kp 預報", "en": "🌌 Sky is observable, but Kp forecast is unavailable", "ja": "🌌 空は観測可能ですが Kp 予報がありません"},
+    "ASTRO_DATA_UNAVAILABLE": {"zh-TW": "⚠️ 天文資料暫時不可用", "en": "⚠️ Astronomy data unavailable", "ja": "⚠️ 天文データを取得できません"},
+    "ACCESS_TIME_LIMITED": {"zh-TW": "⏰ 非建議／可拍攝時段", "en": "⏰ Outside the recommended/access window", "ja": "⏰ 推奨・撮影可能時間外"},
     "DAYLIGHT_ONLY": {"zh-TW": "☀️ 白天日光強烈", "en": "☀️ Bright Daylight", "ja": "☀️ 強烈な日光（昼間）"},
     "RAIN_RISK": {"zh-TW": "🌧️ 降雨風險高", "en": "🌧️ High Rain Risk", "ja": "🌧️ 高い降雨リスク"},
     "STABLE_WEATHER": {"zh-TW": "⛅ 氣象平穩", "en": "⛅ Stable Weather", "ja": "⛅ 安定した気象"},
@@ -75,6 +78,9 @@ I18N_MESSAGES = {
     "IND_CITY_DAY_HAZE": {"zh-TW": "🌫️ 霾害或能見度差", "en": "🌫️ Haze or Poor Visibility", "ja": "🌫️ 煙霧または不鮮明な視程"},
     "IND_NIGHT_CLEAR": {"zh-TW": "🌌 高空無視線阻礙", "en": "🌌 Clear High-Altitude View", "ja": "🌌 上空の視界良好"},
     "IND_RAIN_RISK": {"zh-TW": "🌧️ 雨勢明顯不宜外拍", "en": "🌧️ Significant Rain / Avoid Shooting", "ja": "🌧️ 明らかな雨・屋外撮影不適"},
+    "IND_KP_UNAVAILABLE": {"zh-TW": "⚠️ Kp 資料不足，僅評估天空條件", "en": "⚠️ Kp unavailable; sky conditions only", "ja": "⚠️ Kp データなし・空の条件のみ評価"},
+    "IND_ASTRO_UNAVAILABLE": {"zh-TW": "⚠️ 天文資料不足", "en": "⚠️ Astronomy data unavailable", "ja": "⚠️ 天文データ不足"},
+    "IND_ACCESS_LIMITED": {"zh-TW": "⏰ 請確認開放／入場時段", "en": "⏰ Check access/opening hours", "ja": "⏰ 営業・入場時間を確認"},
     "IND_DEFAULT": {"zh-TW": "✅ 風和日麗良好", "en": "✅ Good Weather Conditions", "ja": "✅ 良好な天候"}
 }
 
@@ -326,7 +332,11 @@ def _astronomy(dt, lat, lon, lang="zh-TW"):
     elong = _angular_separation(sun_ra, sun_dec, moon_ra, moon_dec)
     illumination = (1.0 - __import__("math").cos(__import__("math").radians(elong))) / 2.0
     gc_az, gc_alt = _radec_to_altaz(266.41683, -29.00781, dt, lat, lon)
+    values = [sun_az, sun_alt, moon_az, moon_alt, illumination, gc_az, gc_alt]
+    if not all(__import__("math").isfinite(float(v)) for v in values):
+        raise ValueError("non-finite astronomy result")
     return {
+        "astronomy_valid": True,
         "sun_azimuth": round(sun_az, 1),
         "sun_elevation": round(sun_alt, 1),
         "moon_azimuth": round(moon_az, 1),
@@ -339,6 +349,26 @@ def _astronomy(dt, lat, lon, lang="zh-TW"):
         "civil_dark": sun_alt <= -6.0,
         "galactic_core_visible": gc_alt >= 8.0 and sun_alt <= -12.0,
     }
+
+
+def _safe_astronomy(dt, lat, lon, lang="zh-TW"):
+    try:
+        return _astronomy(dt, lat, lon, lang)
+    except Exception:
+        return {
+            "astronomy_valid": False,
+            "sun_azimuth": None,
+            "sun_elevation": None,
+            "moon_azimuth": None,
+            "moon_elevation": None,
+            "moon_illumination": None,
+            "moon_phase": None,
+            "galactic_core_azimuth": None,
+            "galactic_core_elevation": None,
+            "astronomical_dark": False,
+            "civil_dark": False,
+            "galactic_core_visible": False,
+        }
 
 
 def _factor(kind, text):
@@ -368,22 +398,32 @@ def _fmt_factor(lang, key, value=None):
         "in_cloud": {"zh-TW": "估算雲底接近機位，入霧風險", "en": "Cloud base near camera; fog risk", "ja": "推定雲底が撮影地点付近・霧リスク"},
         "sun_align": {"zh-TW": "太陽方向與主要構圖吻合", "en": "Sun aligns with main composition", "ja": "太陽方向が主構図と一致"},
         "sun_miss": {"zh-TW": "太陽方向偏離主要構圖", "en": "Sun off the main composition", "ja": "太陽方向が主構図から外れる"},
+        "kp_unavailable": {"zh-TW": "Kp 預報目前不可用", "en": "Kp forecast unavailable", "ja": "Kp 予報を取得できません"},
+        "astro_unavailable": {"zh-TW": "天文位置資料暫時不可用", "en": "Astronomy position data unavailable", "ja": "天文位置データを取得できません"},
+        "access_limited": {"zh-TW": "此時段可能無法進入／不適合拍攝", "en": "This time may be inaccessible or unsuitable", "ja": "この時間帯は入場不可・撮影不適の可能性"},
     }
     text = templates.get(key, {}).get(lang) or templates.get(key, {}).get("zh-TW") or key
     return text.format(v=value) if value is not None else text
 
 
 def _calibrate_score(raw_score, tag, item_data):
-    """Compress routine good weather and reserve 90+ for genuinely exceptional windows."""
+    """Score V4: reserve 90+ for genuinely exceptional AND eligible windows.
+
+    Routine good weather should land mostly in the 70s/80s. Time-of-day and
+    data-availability eligibility are applied after the weather calibration.
+    """
     raw = max(0.0, min(100.0, float(raw_score)))
-    score = 50.0 + (raw - 50.0) * 0.84
+    # Compress the top end so 95-100 is rare rather than routine.
+    if raw <= 50:
+        score = raw
+    else:
+        score = 50.0 + (raw - 50.0) * 0.78
 
     vis_km = float(item_data.get("vis", 10000) or 10000) / 1000.0
     wind = float(item_data.get("wind", 0) or 0)
     pop = float(item_data.get("pop", 0) or 0)
     low = float(item_data.get("c_low", 0) or 0)
 
-    # Small exceptional-condition bonuses. They are intentionally limited.
     if tag in {"mountain", "city", "starlight", "aurora"} and vis_km >= 30:
         score += 2.0
     if pop <= 5:
@@ -395,13 +435,74 @@ def _calibrate_score(raw_score, tag, item_data):
     if tag == "starlight" and item_data.get("astronomical_dark"):
         score += 2.0
     if tag == "starlight" and item_data.get("galactic_core_visible"):
-        score += 1.5
+        score += 1.0
     if tag == "coast" and item_data.get("is_twilight"):
         score += 2.0
     if tag == "cloud_sea" and item_data.get("cloud_below_camera"):
-        score += 3.0
+        score += 2.5
 
-    return int(round(max(10.0, min(97.0, score))))
+    return int(round(max(10.0, min(96.0, score))))
+
+
+def _eligibility_cap(tag, d):
+    """Hard semantic gate: can this photographic theme exist at this hour?"""
+    if d.get("access_open") is False:
+        return 15
+
+    astro_valid = bool(d.get("astronomy_valid"))
+    sun_alt = d.get("sun_elevation")
+    is_day = bool(d.get("is_day"))
+    is_twilight = bool(d.get("is_twilight"))
+
+    if tag == "mountain":
+        if astro_valid and sun_alt is not None:
+            if sun_alt <= -6: return 38
+            if sun_alt <= 0: return 78
+        elif not is_day and not is_twilight:
+            return 45
+    elif tag == "cloud_sea":
+        if astro_valid and sun_alt is not None and sun_alt < -8:
+            return 62
+        if not astro_valid and not is_day and not is_twilight:
+            return 65
+    elif tag == "city":
+        # This tag is specifically city-night photography. Daytime city views
+        # can be useful, but must not outrank a true night window.
+        if astro_valid and sun_alt is not None and sun_alt > -2:
+            return 68
+        if not astro_valid and is_day:
+            return 68
+    elif tag == "coast":
+        if astro_valid and sun_alt is not None and sun_alt < -8:
+            return 48
+        if not astro_valid and not is_day and not is_twilight:
+            return 52
+    elif tag == "forest":
+        if astro_valid and sun_alt is not None and sun_alt < -6:
+            return 45
+    elif tag == "lake":
+        if astro_valid and sun_alt is not None and sun_alt < -8:
+            return 55
+    elif tag == "waterfall":
+        if astro_valid and sun_alt is not None and sun_alt < -6:
+            return 35
+    elif tag == "starlight":
+        if not astro_valid:
+            return 55
+        if sun_alt is not None and sun_alt > -12:
+            return 45
+        if sun_alt is not None and sun_alt > -18:
+            return 72
+    elif tag == "aurora":
+        if not astro_valid:
+            return 55
+        if d.get("kp") is None:
+            return 60
+        if sun_alt is not None and sun_alt > -12:
+            return 35
+        if sun_alt is not None and sun_alt > -18:
+            return 70
+    return 96
 
 
 def _build_factors(tag, d, lang):
@@ -465,6 +566,13 @@ def _build_factors(tag, d, lang):
         elif d.get("cloud_base_near_camera"):
             minus.insert(0, _factor("minus", _fmt_factor(lang, "in_cloud")))
 
+    if d.get("access_open") is False:
+        minus.insert(0, _factor("minus", _fmt_factor(lang, "access_limited")))
+    if tag in {"starlight", "aurora", "coast"} and not d.get("astronomy_valid"):
+        minus.insert(0, _factor("minus", _fmt_factor(lang, "astro_unavailable")))
+    if tag == "aurora" and d.get("kp") is None:
+        minus.insert(0, _factor("minus", _fmt_factor(lang, "kp_unavailable")))
+
     return (plus[:2] + minus[:2])[:3]
 
 
@@ -476,13 +584,15 @@ def evaluate_tag_condition(tag, item_data, hour=None, lang="zh-TW"):
     vis = float(item_data.get("vis", 10000) or 10000)
     rh = float(item_data.get("rh", 50) or 50)
     wind = float(item_data.get("wind", 0) or 0)
-    sun_alt = float(item_data.get("sun_elevation", 0) or 0)
+    astro_valid = bool(item_data.get("astronomy_valid"))
+    sun_raw = item_data.get("sun_elevation")
+    sun_alt = float(sun_raw) if sun_raw is not None else (10.0 if item_data.get("is_day") else -10.0)
 
     if hour is None:
         hour = int(item_data.get("hour", 12))
     is_day = bool(item_data.get("is_day", sun_alt > -0.8))
-    civil_dark = bool(item_data.get("civil_dark", sun_alt <= -6))
-    astro_dark = bool(item_data.get("astronomical_dark", sun_alt <= -18))
+    civil_dark = bool(item_data.get("civil_dark", astro_valid and sun_alt <= -6))
+    astro_dark = bool(item_data.get("astronomical_dark", astro_valid and sun_alt <= -18))
     is_twilight = bool(item_data.get("is_twilight", -8 <= sun_alt <= 8))
 
     raw = 60.0
@@ -490,7 +600,10 @@ def evaluate_tag_condition(tag, item_data, hour=None, lang="zh-TW"):
     indicator_key = "IND_DEFAULT"
 
     if tag == "starlight":
-        if sun_alt > -6:
+        if not astro_valid:
+            raw = 45
+            status_key, indicator_key = "ASTRO_DATA_UNAVAILABLE", "IND_ASTRO_UNAVAILABLE"
+        elif sun_alt > -6:
             raw = 10
             status_key, indicator_key = "DAYLIGHT_ONLY", "IND_NO_STAR"
         else:
@@ -514,11 +627,21 @@ def evaluate_tag_condition(tag, item_data, hour=None, lang="zh-TW"):
                 status_key, indicator_key = "STARLIGHT_POOR", "IND_NO_STAR"
 
     elif tag == "aurora":
-        if sun_alt > -6:
+        kp_raw = item_data.get("kp")
+        if not astro_valid:
+            raw = 45
+            status_key, indicator_key = "ASTRO_DATA_UNAVAILABLE", "IND_ASTRO_UNAVAILABLE"
+        elif sun_alt > -6:
             raw = 10
             status_key, indicator_key = "DAYLIGHT_ONLY", "IND_DEFAULT"
+        elif kp_raw is None:
+            # We can still describe sky clarity, but must not claim strong aurora
+            # probability without geomagnetic activity data.
+            cloud_loss = c_low * 0.45 + c_mid * 0.25 + c_high * 0.10
+            raw = 58 - cloud_loss - pop * 0.25
+            status_key, indicator_key = "AURORA_NO_KP", "IND_KP_UNAVAILABLE"
         else:
-            kp_val = float(item_data.get("kp") or 0)
+            kp_val = float(kp_raw)
             cloud_loss = c_low * 0.60 + c_mid * 0.35 + c_high * 0.15
             raw = 45 + kp_val * 7.0 - cloud_loss - pop * 0.35 - max(0, wind - 8) * 1.2
             if sun_alt > -12:
@@ -653,8 +776,29 @@ def evaluate_tag_condition(tag, item_data, hour=None, lang="zh-TW"):
         status_key, indicator_key = "RAIN_RISK", "IND_RAIN_RISK"
 
     score = _calibrate_score(raw, tag, item_data)
+    score = min(score, _eligibility_cap(tag, item_data))
+    if item_data.get("access_open") is False:
+        status_key, indicator_key = "ACCESS_TIME_LIMITED", "IND_ACCESS_LIMITED"
     factors = _build_factors(tag, item_data, lang)
     return score, get_text(status_key, lang), get_text(indicator_key, lang), status_key, indicator_key, factors
+
+
+def _access_open_for_spot(spot, local_dt, is_day, is_twilight):
+    mode = spot.get("access_mode")
+    if mode == "daylight_only":
+        return bool(is_day or is_twilight)
+    hours = spot.get("access_hours")
+    if isinstance(hours, (list, tuple)) and len(hours) == 2:
+        try:
+            sh, sm = map(int, str(hours[0]).split(":"))
+            eh, em = map(int, str(hours[1]).split(":"))
+            cur = local_dt.hour * 60 + local_dt.minute
+            start = sh * 60 + sm
+            end = eh * 60 + em
+            return start <= cur < end if start <= end else (cur >= start or cur < end)
+        except Exception:
+            return True
+    return True
 
 
 def _build_open_meteo_url(spot):
@@ -728,11 +872,12 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
             cloud_base_asl = int(round(api_elevation + cloud_base_agl))
             cloud_base_delta = int(round(camera_elevation - cloud_base_asl))
             kp_val, kp_source = _kp_for_time(utc_dt, kp_rows)
-            astro = _astronomy(utc_dt, lat, lon, lang)
+            astro = _safe_astronomy(utc_dt, lat, lon, lang)
 
-            is_twilight = -8.0 <= astro["sun_elevation"] <= 8.0 or _near_twilight(local_dt, twilight_lookup, minutes=75)
+            near_twilight = _near_twilight(local_dt, twilight_lookup, minutes=75)
+            is_twilight = near_twilight or (astro["astronomy_valid"] and -8.0 <= astro["sun_elevation"] <= 8.0)
             sun_alignment = "unknown"
-            if view_azimuth is not None and is_twilight:
+            if view_azimuth is not None and is_twilight and astro["astronomy_valid"] and astro["sun_azimuth"] is not None:
                 diff = _angle_diff(astro["sun_azimuth"], float(view_azimuth))
                 sun_alignment = "good" if diff <= view_tolerance else ("poor" if diff >= min(100, view_tolerance + 35) else "neutral")
 
@@ -748,6 +893,7 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
                 "hour": local_dt.hour,
                 "is_day": bool(hv("is_day", i, 1)),
                 "is_twilight": is_twilight,
+                "access_open": _access_open_for_spot(spot, local_dt, bool(hv("is_day", i, 1)), is_twilight),
                 "cloud_base_agl": cloud_base_agl,
                 "cloud_base_asl": cloud_base_asl,
                 "cloud_base_delta": cloud_base_delta,
@@ -810,6 +956,8 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
                 "visibility": round(float(item_data["vis"]) / 1000, 1),
                 "is_day": item_data["is_day"],
                 "is_twilight": is_twilight,
+                "access_open": item_data["access_open"],
+                "astronomy_valid": astro["astronomy_valid"],
                 "sun_azimuth": astro["sun_azimuth"],
                 "sun_elevation": astro["sun_elevation"],
                 "sun_alignment": sun_alignment,
@@ -833,7 +981,7 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
             "best_tag": best_item.get("best_tag"),
             "best_time": best_item.get("time", "N/A"),
             "best_time_utc": best_item.get("time_utc"),
-            "reason": "Photography Weather Score V3",
+            "reason": "Photography Weather Score V4",
             "position": best_item.get("status", get_text("STABLE_WEATHER", lang)),
             "key_indicator": best_item.get("key_indicator", get_text("IND_DEFAULT", lang)),
             "timezone": tz_name,
@@ -842,6 +990,8 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
             "api_elevation": raw.get("elevation"),
             "view_azimuth": view_azimuth,
             "view_tolerance": view_tolerance if view_azimuth is not None else None,
+            "access_mode": spot.get("access_mode"),
+            "access_note_i18n": spot.get("access_note_i18n"),
             "hourly_forecast": hourly_forecast,
         }
     except Exception as e:
