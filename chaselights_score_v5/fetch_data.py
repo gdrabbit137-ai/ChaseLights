@@ -27,8 +27,7 @@ I18N_MESSAGES = {
     "WATERFALL_SOFT": {"zh-TW": "🌊 瀑布漫射柔光", "en": "🌊 Soft Light Waterfall", "ja": "🌊 拡散光の滝景"},
     "WATERFALL_HARSH": {"zh-TW": "☀️ 頂光強烈反差大", "en": "☀️ Harsh Direct Sunlight", "ja": "☀️ 強い直射光・高コントラスト"},
     "WATERFALL_NORMAL": {"zh-TW": "💦 瀑布條件平穩", "en": "💦 Stable Waterfall Weather", "ja": "💦 安定した滝条件"},
-    "COAST_GLOW": {"zh-TW": "🌈 彩霞條件極佳", "en": "🌈 Excellent Sky Glow", "ja": "🌈 朝夕焼け条件が非常に良好"},
-    "FIRE_CLOUD_LIKELY": {"zh-TW": "🔥 火燒雲條件佳", "en": "🔥 Strong Fire-Cloud Potential", "ja": "🔥 強い焼け雲の好条件"},
+    "COAST_GLOW": {"zh-TW": "🌅 暮光彩霞絕佳", "en": "🌅 Stunning Sunset Glow", "ja": "🌅 素晴らしい夕焼け"},
     "COAST_LOW_CLOUD": {"zh-TW": "☁️ 海面低雲壓頂", "en": "☁️ Low Coastal Clouds", "ja": "☁️ 沿岸の低雲覆蓋"},
     "COAST_NORMAL": {"zh-TW": "🌊 海景氣象常規", "en": "🌊 Normal Coastal Weather", "ja": "🌊 通常の沿岸気象"},
     "CITY_NIGHT_CLEAR": {"zh-TW": "🏙️ 璀璨夜景通透", "en": "🏙️ Clear City Night View", "ja": "🏙️ 清晰な都市夜景"},
@@ -68,8 +67,7 @@ I18N_MESSAGES = {
     "IND_WATERFALL_SOFT": {"zh-TW": "💦 陰天無強光高反差", "en": "💦 Overcast / Soft Lighting", "ja": "💦 曇天・拡散光で撮影好適"},
     "IND_WATERFALL_HARSH": {"zh-TW": "☀️ 陽光過強對比過高", "en": "☀️ Harsh Sunlight / High Contrast", "ja": "☀️ 直射日光・高コントラスト"},
     "IND_WATERFALL_NORM": {"zh-TW": "💦 水流與光線良好", "en": "💦 Good Water Flow & Lighting", "ja": "💦 水流と光の條件良好"},
-    "IND_COAST_GLOW": {"zh-TW": "🌈 中高雲有利形成彩霞", "en": "🌈 Mid/High Clouds Favor Color", "ja": "🌈 中高層雲が朝夕焼けに好条件"},
-    "IND_FIRE_CLOUD": {"zh-TW": "🔥 中高雲＋低地平線雲量少，火燒雲機率偏高", "en": "🔥 Mid/high clouds with a clear low horizon favor fire-cloud colors", "ja": "🔥 中高層雲＋低い地平線雲が少なく、強い焼け雲が出やすい"},
+    "IND_COAST_GLOW": {"zh-TW": "🌅 中高雲形成壯麗彩霞", "en": "🌅 Sunset Glow with Mid/High Clouds", "ja": "🌅 中高層雲による見事な夕焼け"},
     "IND_COAST_BLOCK": {"zh-TW": "☁️ 遮蔽地平線視線", "en": "☁️ Obstructed Horizon View", "ja": "☁️ 地平線視界の遮蔽"},
     "IND_COAST_NORM": {"zh-TW": "🌊 大氣狀況平穩", "en": "🌊 Stable Atmospheric Conditions", "ja": "🌊 安定した大気状態"},
     "IND_CITY_NIGHT_CLEAR": {"zh-TW": "💎 城市燈火清晰無霧", "en": "💎 Clear City Lights", "ja": "💎 霧なし・クリアな街の灯り"},
@@ -384,7 +382,6 @@ FACTOR_TEMPLATES = {
     "rain": {"zh-TW": "降雨機率達 {v}%", "en": "Rain chance {v}%", "ja": "降水確率 {v}%"},
     "twilight": {"zh-TW": "晨昏光線進入黃金窗口", "en": "Golden/twilight light window", "ja": "朝夕のゴールデンタイム"},
     "cloud_color": {"zh-TW": "中高雲量適合彩霞", "en": "Mid/high clouds favor color", "ja": "中・上層雲が焼けやすい"},
-    "fire_cloud": {"zh-TW": "低雲少且中高雲分布佳，具火燒雲條件", "en": "Clear low horizon with favorable mid/high clouds", "ja": "低層雲が少なく中高層雲の分布が焼け雲向き"},
     "astro_dark": {"zh-TW": "已進入天文黑夜", "en": "Astronomical darkness", "ja": "天文薄明終了後"},
     "not_dark": {"zh-TW": "尚未進入天文黑夜", "en": "Not astronomically dark", "ja": "まだ天文薄明中"},
     "moon_good": {"zh-TW": "月光干擾低（{v}%）", "en": "Low moonlight ({v}%)", "ja": "月光影響小（{v}%）"},
@@ -506,28 +503,6 @@ def _eligibility_cap(theme, d):
     return 96
 
 
-def _fire_cloud_likely(d):
-    """Conservative signal for intense red/orange illuminated cloud.
-
-    This is deliberately stricter than generic sky-glow: the sun must be close
-    to the horizon, low clouds should not block it, and enough mid/high cloud
-    must exist to catch the low-angle light. It is a potential flag, not a
-    guarantee of a fire-cloud display.
-    """
-    if not d.get("astronomy_valid"):
-        return False
-    sun_alt = d.get("sun_elevation")
-    if sun_alt is None or not (-7.0 <= float(sun_alt) <= 4.0):
-        return False
-    low = float(d.get("c_low", 0) or 0)
-    mid = float(d.get("c_mid", 0) or 0)
-    high = float(d.get("c_high", 0) or 0)
-    pop = float(d.get("pop", 0) or 0)
-    wind = float(d.get("wind", 0) or 0)
-    colored = mid + high
-    return low <= 22 and pop <= 25 and wind <= 8 and 45 <= colored <= 135 and max(mid, high) >= 25
-
-
 def _build_factors(theme, d, lang):
     plus, minus = [], []
     tag = _canonical_theme(theme)
@@ -547,8 +522,7 @@ def _build_factors(theme, d, lang):
     if theme in {"sunrise", "sunset", "sky_glow"}:
         if d.get("is_twilight"): plus.insert(0, _factor("plus", "twilight", None, lang))
         mid_high = float(d.get("c_mid", 0) or 0) + float(d.get("c_high", 0) or 0)
-        if _fire_cloud_likely(d): plus.insert(0, _factor("plus", "fire_cloud", None, lang))
-        elif 20 <= mid_high <= 90 and low < 35: plus.append(_factor("plus", "cloud_color", None, lang))
+        if 20 <= mid_high <= 75 and low < 35: plus.append(_factor("plus", "cloud_color", None, lang))
         if d.get("sun_alignment") == "good": plus.append(_factor("plus", "sun_align", None, lang))
         elif d.get("sun_alignment") == "poor": minus.append(_factor("minus", "sun_miss", None, lang))
     elif theme == "blue_hour":
@@ -608,12 +582,7 @@ def evaluate_tag_condition(theme, item_data, hour=None, lang="zh-TW"):
                 if 20<=mid_high<=80: raw += 8 - abs(mid_high-48)*0.08
                 if item_data.get("sun_alignment")=="good": raw+=4
                 elif item_data.get("sun_alignment")=="poor": raw-=6
-                if _fire_cloud_likely(item_data) and raw >= 82:
-                    status_key,indicator_key="FIRE_CLOUD_LIKELY","IND_FIRE_CLOUD"
-                elif raw>=78:
-                    status_key,indicator_key="COAST_GLOW","IND_COAST_GLOW"
-                else:
-                    status_key,indicator_key="COAST_NORMAL","IND_COAST_NORM"
+                status_key,indicator_key=("COAST_GLOW","IND_COAST_GLOW") if raw>=78 else ("COAST_NORMAL","IND_COAST_NORM")
             else:
                 raw=42; status_key,indicator_key="COAST_NORMAL","IND_COAST_NORM"
     elif theme=="blue_hour":

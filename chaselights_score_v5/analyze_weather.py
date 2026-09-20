@@ -131,9 +131,6 @@ def analyze_spot(spot, kp_rows=None):
         "view_tolerance": raw.get("view_tolerance", spot.get("view_tolerance")),
         "access_mode": raw.get("access_mode", spot.get("access_mode")),
         "access_note_i18n": spot.get("access_note_i18n"),
-        "map_query": spot.get("map_query"),
-        "coordinate_source": spot.get("coordinate_source"),
-        "coordinate_confidence": spot.get("coordinate_confidence"),
     }
     hourly = raw.get("hourly_forecast", [])
     summary = dict(common)
@@ -164,7 +161,7 @@ def main():
             details.append(detail)
 
     base_meta = {
-        "schema_version": 8,
+        "schema_version": 5,
         "updated_at": now_utc_str,
         "region": region,
         "latest_kp": kp_info.get("kp_index") if kp_info else None,
