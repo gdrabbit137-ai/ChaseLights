@@ -22,7 +22,7 @@ REGIONS = {
         # 格式: (lat, lon, name_zh, name_en, name_ja, name_local, category, tags)
         "spots": [
             (25.1869, 121.5208, "大屯山助航站", "Datunshan Navigation Station", "大屯山助航駅", "大屯山助航站", "本島", ["mountain", "cloud_sea", "city", "starlight"]),
-            (25.0275, 121.5700, "象山", "Xiangshan (Elephant Mountain)", "象山", "象山", "本島", ["city", "mountain"]),
+            (25.02688, 121.57419, "象山六巨石攝影平台", "Xiangshan Six Boulders Viewpoint", "象山六巨石展望台", "象山六巨石", "本島", ["city", "mountain"]),
             (25.1761, 121.4103, "淡水漁人碼頭", "Tamsui Fisherman's Wharf", "淡水フィッシャーマンズワーフ", "淡水漁人碼頭", "本島", ["coast", "city"]),
             (25.1058, 121.8403, "九份不厭亭", "Jiufen Buyan Pavilion", "九份不厭亭", "九份不厭亭", "本島", ["mountain", "coast", "cloud_sea"]),
             (25.0508, 121.5050, "大稻埕碼頭", "Dadaocheng Wharf", "大稻埕埠頭", "大稻埕碼頭", "本島", ["coast", "city"]),
@@ -39,7 +39,7 @@ REGIONS = {
             (24.2440, 120.9790, "鳶嘴山", "Yuanzui Mountain", "鳶嘴山", "鳶嘴山", "本島", ["mountain", "cloud_sea"]),
             (23.9670, 120.3340, "王功漁港", "Wanggong Fishing Port", "王功漁港", "王功漁港", "本島", ["coast"]),
             (23.8560, 120.9370, "日月潭", "Sun Moon Lake", "日月潭", "日月潭", "本島", ["lake", "cloud_sea", "starlight"]),
-            (24.1370, 121.2720, "合歡山主峰", "Mt. Hehuan Main Peak", "合歓山主峰", "合歡山主峰", "本島", ["mountain", "cloud_sea", "starlight"]),
+            (24.1426, 121.2712, "合歡山主峰", "Mt. Hehuan Main Peak", "合歓山主峰", "合歡山主峰", "本島", ["mountain", "cloud_sea", "starlight"]),
             (23.9120, 120.9310, "金龍山", "Jinlong Mountain", "金龍山", "金龍山", "本島", ["mountain", "cloud_sea", "starlight"]),
             (23.8930, 121.0140, "武界部落", "Wujie Tribe", "武界集落", "武界部落", "本島", ["mountain", "forest", "cloud_sea"]),
             (23.4720, 120.6830, "二延平步道", "Eryanping Trail", "二延平歩道", "二延平步道", "本島", ["mountain", "cloud_sea"]),
@@ -54,13 +54,13 @@ REGIONS = {
             (24.8220, 121.7270, "抹茶山", "Matcha Mountain (Marian Hiking Trail)", "抹茶山", "抹茶山", "本島", ["mountain", "cloud_sea"]),
             (24.4820, 121.4930, "見晴懷古步道", "Jianqing Historic Trail", "見晴懐古歩道", "見晴懷古步道", "本島", ["forest", "mountain"]),
             (24.4420, 121.7800, "粉鳥林", "Fenniaolin Fish Harbor", "粉鳥林漁港", "粉鳥林", "本島", ["coast"]),
-            (24.2260, 121.6880, "清水斷崖", "Qingshui Cliff", "清水断崖", "清水斷崖", "本島", ["coast", "mountain"]),
+            (24.191966, 121.661332, "崇德清水斷崖展望點", "Chongde Qingshui Cliff Viewpoint", "崇徳清水断崖展望所", "崇德清水斷崖", "本島", ["coast", "mountain"]),
             (23.2310, 121.3250, "六十石山", "Liushidan Mountain", "六十石山", "六十石山", "本島", ["mountain", "cloud_sea", "starlight"]),
             (24.0260, 121.6320, "七星潭", "Qixingtan Beach", "七星潭", "七星潭", "本島", ["coast", "starlight"]),
             (22.4440, 120.9920, "多良車站", "Duoliang Station", "多良駅", "多良車站", "本島", ["coast"]),
             (23.1260, 121.4200, "三仙台", "Sanxiantai Bridge", "三仙台", "三仙台", "本島", ["coast", "starlight"]),
             (23.1010, 121.2210, "池上伯朗大道", "Chishang Mr. Brown Avenue", "池上ブラウンロード", "池上伯朗大道", "本島", ["mountain", "starlight"]),
-            (23.4700, 120.9570, "玉山主峰", "Mt. Jade Main Peak", "玉山主峰", "玉山主峰", "本島", ["mountain", "cloud_sea", "starlight"]),
+            (23.470018, 120.95727, "玉山主峰", "Mt. Jade Main Peak", "玉山主峰", "玉山主峰", "本島", ["mountain", "cloud_sea", "starlight"]),
             (24.3830, 121.2330, "雪山主峰", "Mt. Xueshan Main Peak", "雪山主峰", "雪山主峰", "本島", ["mountain", "starlight"]),
             (24.4230, 121.2400, "雪山北峰", "Mt. Xueshan North Peak", "雪山北峰", "雪山北峰", "本島", ["mountain", "starlight"]),
             (24.1160, 121.3250, "奇萊主峰", "Mt. Qilai Main Peak", "奇莱主峰", "奇萊主峰", "本島", ["mountain", "cloud_sea", "starlight"]),
@@ -215,36 +215,66 @@ REGIONS = {
     },
 }
 
+# Known summit / high-elevation camera points.  Passing the real shooting
+# elevation helps Open-Meteo select/downscale to a terrain height closer to
+# the photographer instead of relying only on the grid-cell DEM.
+ELEVATION_OVERRIDES = {
+    "合歡山主峰": 3417,
+    "玉山主峰": 3952,
+    "雪山主峰": 3886,
+    "雪山北峰": 3703,
+    "奇萊主峰": 3560,
+    "南湖大山": 3742,
+    "嘉明湖": 3310,
+    "大霸尖山": 3492,
+    "北大武山": 3092,
+    "池有山": 3303,
+    "桃山": 3325,
+    "品田山": 3524,
+    "旭岳": 2291,
+    "富士山": 3776,
+}
+
+
 def get_spots(region="tw"):
     region_key = region.lower()
     region_data = REGIONS.get(region_key, REGIONS["tw"])
-    
+
     formatted_spots = []
-    for spot in region_data.get("spots", []):
+    for idx, spot in enumerate(region_data.get("spots", []), start=1):
         if len(spot) >= 8:
-            formatted_spots.append({
+            name_zh = spot[2]
+            item = {
+                "spot_id": f"{region_key}-{idx:03d}",
                 "lat": spot[0],
                 "lon": spot[1],
                 "name_i18n": {
-                    "zh-TW": spot[2],
+                    "zh-TW": name_zh,
                     "en": spot[3],
                     "ja": spot[4]
                 },
                 "name_local": spot[5],
                 "category": spot[6],
                 "tags": spot[7]
-            })
+            }
         else:
-            formatted_spots.append({
+            name_zh = spot[2]
+            item = {
+                "spot_id": f"{region_key}-{idx:03d}",
                 "lat": spot[0],
                 "lon": spot[1],
                 "name_i18n": {
-                    "zh-TW": spot[2],
-                    "en": spot[2],
-                    "ja": spot[2]
+                    "zh-TW": name_zh,
+                    "en": name_zh,
+                    "ja": name_zh
                 },
-                "name_local": spot[2],
+                "name_local": name_zh,
                 "category": spot[3] if len(spot) > 3 else "本島",
                 "tags": spot[4] if len(spot) > 4 else ["mountain"]
-            })
+            }
+
+        elevation = ELEVATION_OVERRIDES.get(name_zh)
+        if elevation is not None:
+            item["elevation"] = elevation
+        formatted_spots.append(item)
     return formatted_spots
