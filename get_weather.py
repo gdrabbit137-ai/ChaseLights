@@ -1,14 +1,13 @@
-"""Small development CLI for inspecting a single Open-Meteo point.
+"""Development CLI for inspecting raw Open-Meteo data used by ChaseLights.
 
 Usage:
     python get_weather.py <lat> <lon> [elevation_m]
 
-The production pipeline lives in fetch_data.py.  This tool intentionally uses
-matching units/time handling so ad-hoc tests do not disagree with production.
+This helper intentionally mirrors the production request shape: local timezone,
+24h past + 72h forecast, Unix timestamps, and wind speed in m/s.
 """
-
-import json
 import sys
+import json
 import requests
 
 WMO_CODES = {
@@ -44,14 +43,16 @@ if elevation is not None:
     params["elevation"] = elevation
 
 try:
-    res = requests.get("https://api.open-meteo.com/v1/forecast", params=params, timeout=12)
+    res = requests.get("https://api.open-meteo.com/v1/forecast", params=params, timeout=15)
     res.raise_for_status()
     raw = res.json()
     output = {
-        "lat": raw.get("latitude", lat),
-        "lon": raw.get("longitude", lon),
-        "elevation": raw.get("elevation"),
+        "lat": lat,
+        "lon": lon,
+        "requested_elevation": elevation,
+        "api_elevation": raw.get("elevation"),
         "timezone": raw.get("timezone"),
+        "timezone_abbreviation": raw.get("timezone_abbreviation"),
         "utc_offset_seconds": raw.get("utc_offset_seconds"),
         "hourly_units": raw.get("hourly_units"),
         "hourly": raw.get("hourly", {}),

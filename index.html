@@ -132,9 +132,17 @@
     .score-badge { padding: 4px 10px; border-radius: 8px; font-weight: 800; color: #fff; font-size: 0.95rem; letter-spacing: 0.5px; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
     .score-gold { background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; border: 1px solid #fef08a; }
     .score-high { background: #10b981; }
+    .score-mid { background: #0284c7; }
     .score-low { background: #475569; }
 
     .indicator-pill { display: inline-block; margin-top: 6px; font-size: 0.8rem; background: rgba(56, 189, 248, 0.12); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); padding: 3px 8px; border-radius: 6px; font-weight: 600; }
+    .factor-row { display:flex; flex-wrap:wrap; gap:5px; margin-top:7px; }
+    .factor-pill { font-size:0.72rem; padding:2px 7px; border-radius:10px; border:1px solid #334155; }
+    .factor-plus { color:#86efac; background:rgba(34,197,94,.09); border-color:rgba(34,197,94,.3); }
+    .factor-minus { color:#fca5a5; background:rgba(239,68,68,.08); border-color:rgba(239,68,68,.3); }
+    .theme-winner { display:inline-block; margin:3px 0 5px; font-size:.78rem; color:#fbbf24; font-weight:700; }
+    .astro-row { font-size:.76rem; color:#a5b4fc; margin-top:5px; }
+    .modal-summary { background:#111827; border:1px solid #273449; border-radius:7px; padding:8px 10px; margin-bottom:9px; color:#cbd5e1; font-size:.8rem; line-height:1.55; }
     .kp-pill { display: inline-block; margin-top: 6px; margin-left: 4px; font-size: 0.8rem; background: rgba(255, 235, 59, 0.15); color: #ffeb3b; border: 1px solid rgba(255, 235, 59, 0.4); padding: 3px 8px; border-radius: 6px; font-weight: 600; }
 
     .category-tag { font-size: 0.75rem; background: #334155; color: var(--accent); padding: 2px 6px; border-radius: 4px; display: inline-block; }
@@ -211,6 +219,7 @@
         <button class="close-btn" onclick="closeModal()">&times;</button>
       </div>
       <div class="modal-body">
+        <div class="modal-summary" id="modal-summary"></div>
         <div style="color: #aaa; font-size: 0.8rem; margin-bottom: 10px;" data-i18n="modal_subtitle">
           ⏱️ 涵蓋範圍：過去 24 小時 [模型資料] + 未來 72 小時 [氣象預報] (藍底高亮為預測最佳出景窗口)
         </div>
@@ -233,7 +242,9 @@
         'btn_today': '📅 今天', 'btn_tomorrow': '📅 明天', 'btn_after_tomorrow': '📅 後天',
         'loading': '正在獲取攝影氣象數據...', 'last_updated': '最後更新：',
         'click_detail': '💡 點擊看 96H 明細', 'nav_link': '🗺️ 導航', 'radar_link': '📡 雷達',
-        'best_window': '⏱️ 最佳窗口：', 'forecast_status': '📍 預報狀態：', 'cloud_base_label': '雲底',
+        'best_window': '⏱️ 最佳窗口：', 'forecast_status': '📍 預報狀態：', 'cloud_base_label': '估算雲底',
+        'best_theme': '🎯 最佳題材：', 'local_time': '當地時間', 'camera_elev': '機位', 'agl': 'AGL',
+        'sun_dir': '太陽', 'moon_label': '月亮', 'mw_core': '銀河核心', 'theme_col': '題材', 'astro_col': '天文',
         'no_spots': '該條件下暫無景點資料',
         'modal_subtitle': '⏱️ 涵蓋範圍：過去 24 小時 [模型資料] + 未來 72 小時 [氣象預報] (藍底高亮為預測最佳出景窗口)',
         'th_time': '時間', 'th_score': '評分', 'th_status': '狀態', 'th_kp': 'Kp指數',
@@ -246,7 +257,9 @@
         'btn_today': '📅 Today', 'btn_tomorrow': '📅 Tomorrow', 'btn_after_tomorrow': '📅 Day After',
         'loading': 'Fetching photography weather data...', 'last_updated': 'Last Updated: ',
         'click_detail': '💡 Click for 96H Details', 'nav_link': '🗺️ Nav', 'radar_link': '📡 Radar',
-        'best_window': '⏱️ Best Window: ', 'forecast_status': '📍 Status: ', 'cloud_base_label': 'Cloud Base ',
+        'best_window': '⏱️ Best Window: ', 'forecast_status': '📍 Status: ', 'cloud_base_label': 'Est. Cloud Base ',
+        'best_theme': '🎯 Best Theme: ', 'local_time': 'Local time', 'camera_elev': 'Camera', 'agl': 'AGL',
+        'sun_dir': 'Sun', 'moon_label': 'Moon', 'mw_core': 'Galactic core', 'theme_col': 'Theme', 'astro_col': 'Astronomy',
         'no_spots': 'No spot data available under this condition',
         'modal_subtitle': '⏱️ Range: Past 24H [Model Data] + Next 72H [Forecast] (Blue highlight indicates best shooting window)',
         'th_time': 'Time', 'th_score': 'Score', 'th_status': 'Status', 'th_kp': 'Kp Index',
@@ -259,7 +272,9 @@
         'btn_today': '📅 今日', 'btn_tomorrow': '📅 明日', 'btn_after_tomorrow': '📅 明後日',
         'loading': '撮影氣象データを取得中...', 'last_updated': '最終更新：',
         'click_detail': '💡 詳細 96H 観察', 'nav_link': '🗺️ ナビ', 'radar_link': '📡 レーダー',
-        'best_window': '⏱️ 最適時間：', 'forecast_status': '📍 予報状況：', 'cloud_base_label': '雲底',
+        'best_window': '⏱️ 最適時間：', 'forecast_status': '📍 予報状況：', 'cloud_base_label': '推定雲底',
+        'best_theme': '🎯 最適テーマ：', 'local_time': '現地時間', 'camera_elev': '撮影地点', 'agl': 'AGL',
+        'sun_dir': '太陽', 'moon_label': '月', 'mw_core': '銀河中心', 'theme_col': 'テーマ', 'astro_col': '天文',
         'no_spots': '該当する撮影スポットはありません',
         'modal_subtitle': '⏱️ 範囲：過去 24 時間 [モデルデータ] + 今後 72 時間 [予報] (青色のハイライトは最高の撮影タイミング)',
         'th_time': '時間', 'th_score': 'スコア', 'th_status': 'ステータス', 'th_kp': 'Kp指数',
@@ -475,15 +490,18 @@
     }
 
     function metricsForTag(item, tagKey) {
-      if (tagKey && tagKey !== 'all' && item.tag_scores && item.tag_scores[tagKey]) {
-        return item.tag_scores[tagKey];
+      const resolvedTag = (tagKey && tagKey !== 'all') ? tagKey : (item.best_tag || null);
+      if (resolvedTag && item.tag_scores && item.tag_scores[resolvedTag]) {
+        return { ...item.tag_scores[resolvedTag], tag: resolvedTag };
       }
       return {
-        score: item.score,
-        status: item.status,
-        key_indicator: item.key_indicator,
+        score: item.score || 0,
+        status: item.status || '',
+        key_indicator: item.key_indicator || '',
         status_key: item.status_key,
-        indicator_key: item.indicator_key
+        indicator_key: item.indicator_key,
+        factors: item.factors || [],
+        tag: resolvedTag || 'mountain'
       };
     }
 
@@ -493,17 +511,80 @@
       return 'https://www.cwa.gov.tw/V8/C/W/OBS_Radar.html';
     }
 
-    function toIsoDateStr(d) {
-      const year = d.getFullYear();
-      const month = String(d.getMonth() + 1).padStart(2, '0');
-      const day = String(d.getDate()).padStart(2, '0');
-      return `${year}-${month}-${day}`;
+    function timezoneDisplay(item) {
+      if (!item) return '—';
+      if (item.timezone === 'Asia/Taipei') return 'UTC+8';
+      if (item.timezone === 'Asia/Tokyo') return 'JST';
+      return item.timezone_abbr || item.timezone || '—';
+    }
+
+    function addHourToLocalString(localString) {
+      if (!localString) return '';
+      const [datePart, timePart] = localString.split(' ');
+      const [y,m,d] = datePart.split('-').map(Number);
+      const [hh,mm] = timePart.split(':').map(Number);
+      const dt = new Date(Date.UTC(y,m-1,d,hh,mm));
+      dt.setUTCHours(dt.getUTCHours()+1);
+      const yy=dt.getUTCFullYear(), mo=String(dt.getUTCMonth()+1).padStart(2,'0'), da=String(dt.getUTCDate()).padStart(2,'0');
+      return `${yy}-${mo}-${da} ${String(dt.getUTCHours()).padStart(2,'0')}:${String(dt.getUTCMinutes()).padStart(2,'0')}`;
+    }
+
+    function computeBestWindow(items, bestItem, selectedTag) {
+      if (!bestItem || !items.length) return { label: 'N/A', utcTimes: [] };
+      const winningTag = selectedTag === 'all' ? bestItem.best_tag : selectedTag;
+      const scoreAt = item => {
+        if (winningTag && item.tag_scores && item.tag_scores[winningTag]) return Number(item.tag_scores[winningTag].score || 0);
+        return Number(item.score || 0);
+      };
+      const maxScore = scoreAt(bestItem);
+      const threshold = Math.max(68, maxScore - 7);
+      let idx = items.findIndex(i => i.time_utc === bestItem.time_utc);
+      if (idx < 0) idx = 0;
+      let left = idx, right = idx;
+      const consecutive = (a,b) => Math.abs(Date.parse(b.time_utc)-Date.parse(a.time_utc)) <= 75*60*1000;
+      while (left > 0 && consecutive(items[left-1],items[left]) && scoreAt(items[left-1]) >= threshold) left--;
+      while (right < items.length-1 && consecutive(items[right],items[right+1]) && scoreAt(items[right+1]) >= threshold) right++;
+      const start = items[left];
+      const finish = items[right];
+      const endLocal = addHourToLocalString(finish.time);
+      const startDate = start.time.split(' ')[0], endDate = endLocal.split(' ')[0];
+      const startClock = start.time.split(' ')[1], endClock = endLocal.split(' ')[1];
+      const tz = timezoneDisplay(start);
+      const label = startDate === endDate ? `${startDate.slice(5)} ${startClock}–${endClock} ${tz}` : `${start.time}–${endLocal} ${tz}`;
+      return { label, utcTimes: items.slice(left,right+1).map(x=>x.time_utc), tag: winningTag, threshold };
+    }
+
+    function astroSummary(item, tag, dict) {
+      if (!item) return '';
+      if (tag === 'starlight') {
+        return `🌙 ${dict['moon_label']} ${item.moon_phase||''} ${Math.round(item.moon_illumination || 0)}% / ${Number(item.moon_elevation||0).toFixed(0)}° · 🌌 ${dict['mw_core']} ${Number(item.galactic_core_elevation||0).toFixed(0)}°`;
+      }
+      if (tag === 'aurora') {
+        const kp = item.kp == null ? '-' : item.kp;
+        return `🌌 Kp ${kp}${item.kp_source ? ` (${item.kp_source})` : ''} · ☀ ${Number(item.sun_elevation||0).toFixed(0)}°`;
+      }
+      if (tag === 'coast') {
+        const align = item.sun_alignment === 'good' ? ' ✓' : (item.sun_alignment === 'poor' ? ' △' : '');
+        return `☀ ${dict['sun_dir']} ${Number(item.sun_azimuth||0).toFixed(0)}° / ${Number(item.sun_elevation||0).toFixed(0)}°${align}`;
+      }
+      if (tag === 'cloud_sea' && item.camera_elevation != null) {
+        const delta = Number(item.cloud_base_delta || 0);
+        if (delta >= 80) return `☁ ${dict['cloud_base_label']} ${item.cloud_base_asl}m AMSL · ${dict['camera_elev']} ${item.camera_elevation}m · ↑${delta}m`;
+      }
+      return '';
+    }
+
+    function factorPillsHtml(factors) {
+      return (factors || []).map(f => {
+        const sign = f.type === 'minus' ? '−' : '+';
+        const cls = f.type === 'minus' ? 'factor-minus' : 'factor-plus';
+        return `<span class="factor-pill ${cls}">${sign} ${f.text}</span>`;
+      }).join('');
     }
 
     function filterAndRender() {
       const container = document.getElementById('spots-container');
       container.innerHTML = '';
-
       const dict = i18nDict[currentLang] || i18nDict['zh-TW'];
       const tagsDict = tagLabelsI18n[currentLang] || tagLabelsI18n['zh-TW'];
       const catsList = (categoriesMapI18n[currentLang] && categoriesMapI18n[currentLang][currentRegion])
@@ -511,74 +592,60 @@
                        : categoriesMapI18n['zh-TW'][currentRegion];
 
       let filtered = currentSpots;
-
-      if (currentCategoryIndex === 1) {
-        filtered = filtered.filter(s => favorites.includes(s.spot_id));
-      } else if (currentCategoryIndex > 1) {
+      if (currentCategoryIndex === 1) filtered = filtered.filter(s => favorites.includes(s.spot_id));
+      else if (currentCategoryIndex > 1) {
         const targetCat = catsList[currentCategoryIndex];
         filtered = filtered.filter(s => s.category === targetCat);
       }
-
-      if (currentTag !== 'all') {
-        filtered = filtered.filter(s => s.tags && s.tags.includes(currentTag));
-      }
+      if (currentTag !== 'all') filtered = filtered.filter(s => s.tags && s.tags.includes(currentTag));
 
       const nowMs = Date.now();
       const dayOffset = currentDayFilter === 'tomorrow' ? 1 : (currentDayFilter === 'after_tomorrow' ? 2 : 0);
-      const weekNamesMap = {
-        'zh-TW': ['日', '一', '二', '三', '四', '五', '六'],
-        'en': ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-        'ja': ['日', '月', '火', '水', '木', '金', '土']
-      };
-      const weekNames = weekNamesMap[currentLang] || weekNamesMap['zh-TW'];
       const processedSpots = [];
 
       filtered.forEach(spot => {
         const forecast = spot.hourly_forecast || [];
         const futureForecast = forecast.filter(h => h.time_utc && Date.parse(h.time_utc) >= nowMs);
-        if (futureForecast.length === 0) return;
-
-        // "Today" is evaluated in each shooting spot's timezone, not the viewer's browser timezone.
+        if (!futureForecast.length) return;
         const baseDate = futureForecast[0].local_date || futureForecast[0].time.split(' ')[0];
         const targetDate = addDaysIso(baseDate, dayOffset);
         const validForecast = futureForecast.filter(h => (h.local_date || h.time.split(' ')[0]) === targetDate);
-        if (validForecast.length === 0) return; // Never silently fall back to another date.
+        if (!validForecast.length) return;
 
-        let bestItem = null;
-        let bestMetrics = null;
-        validForecast.forEach(item => {
+        let bestItem = validForecast[0];
+        let bestMetrics = metricsForTag(bestItem, currentTag);
+        for (const item of validForecast.slice(1)) {
           const metrics = metricsForTag(item, currentTag);
-          if (!bestItem || Number(metrics.score || 0) > Number(bestMetrics.score || 0)) {
-            bestItem = item;
-            bestMetrics = metrics;
+          if (Number(metrics.score || 0) > Number(bestMetrics.score || 0)) {
+            bestItem = item; bestMetrics = metrics;
           }
-        });
-        if (!bestItem || !bestMetrics) return;
-
-        const [datePart, timePart] = bestItem.time.split(' ');
-        const [y, m, d] = datePart.split('-').map(Number);
-        const displayDate = `${String(m).padStart(2,'0')}/${String(d).padStart(2,'0')}`;
-        const weekStr = weekNames[new Date(Date.UTC(y, m - 1, d)).getUTCDay()];
-        const dayNightIcon = bestItem.is_day ? '☀️ ' : '🌙 ';
-        const dateFormatted = `${dayNightIcon}${displayDate} (${weekStr}) ${timePart}`;
-        const cloudBaseText = dict['cloud_base_label'] || '雲底';
+        }
+        const winningTag = currentTag === 'all' ? (bestItem.best_tag || bestMetrics.tag) : currentTag;
+        const window = computeBestWindow(validForecast, bestItem, currentTag);
+        const cloudRelation = bestItem.camera_elevation != null
+          ? `${dict['cloud_base_label']} ${bestItem.cloud_base_agl}m ${dict['agl']} · ${dict['camera_elev']} ${bestItem.camera_elevation}m`
+          : `${dict['cloud_base_label']} ${bestItem.cloud_base_agl || bestItem.cloud_base}m ${dict['agl']}`;
 
         processedSpots.push({
           ...spot,
-          score: bestMetrics.score,
+          score: Number(bestMetrics.score || 0),
           best_kp: bestItem.kp,
-          best_time: dateFormatted,
+          best_time: window.label,
           best_time_utc: bestItem.time_utc,
-          best_tag: currentTag === 'all' ? bestItem.best_tag : currentTag,
+          best_window_utc: window.utcTimes,
+          best_tag: winningTag,
+          best_item: bestItem,
+          best_metrics: bestMetrics,
           key_indicator: bestMetrics.key_indicator || spot.key_indicator,
-          position: `${bestMetrics.status || spot.position} | ${cloudBaseText}${bestItem.cloud_base}m`
+          factors: bestMetrics.factors || [],
+          position: `${bestMetrics.status || spot.position} | ${cloudRelation}`,
+          timezone_abbr: timezoneDisplay(bestItem)
         });
       });
 
-      processedSpots.sort((a, b) => Number(b.score || 0) - Number(a.score || 0));
-
-      if (processedSpots.length === 0) {
-        container.innerHTML = `<p style="color: var(--muted); grid-column: 1/-1; text-align: center;">${dict['no_spots']}</p>`;
+      processedSpots.sort((a,b) => b.score-a.score);
+      if (!processedSpots.length) {
+        container.innerHTML = `<p style="color:var(--muted);grid-column:1/-1;text-align:center;">${dict['no_spots']}</p>`;
         return;
       }
 
@@ -588,117 +655,71 @@
         card.className = 'card';
         card.onclick = () => openModal(spot);
 
-        let scoreClass = 'score-low';
-        let scorePrefix = '';
-        if (spot.score >= 90) {
-          scoreClass = 'score-gold';
-          scorePrefix = '🔥 ';
-        } else if (spot.score >= 75) {
-          scoreClass = 'score-high';
-        }
+        let scoreClass='score-low', scorePrefix='';
+        if (spot.score >= 90) { scoreClass='score-gold'; scorePrefix='🔥 '; }
+        else if (spot.score >= 80) scoreClass='score-high';
+        else if (spot.score >= 70) scoreClass='score-mid';
 
-        const isFav = favorites.includes(spot.spot_id);
-        const favClass = isFav ? 'fav-btn active' : 'fav-btn';
-        const pillsHtml = (spot.tags || []).map(t => `<span class="scene-pill">${tagsDict[t] || t}</span>`).join('');
-        const navUrl = `https://www.google.com/maps/search/?api=1&query=${spot.lat},${spot.lon}`;
-        const isAurora = spot.tags && spot.tags.includes('aurora');
-        const kpValue = spot.best_kp !== undefined && spot.best_kp !== null ? spot.best_kp : '-';
-        const kpBadgeHtml = isAurora ? `<span class="kp-pill">🌌 Kp ${kpValue}</span>` : '';
-        const localNameHtml = (spot.name_local && spot.name_local !== spot.name)
-          ? `<div class="spot-local-name">${spot.name_local}</div>`
-          : '';
+        const isFav=favorites.includes(spot.spot_id);
+        const pillsHtml=(spot.tags||[]).map(t=>`<span class="scene-pill">${tagsDict[t]||t}</span>`).join('');
+        const navUrl=`https://www.google.com/maps/search/?api=1&query=${spot.lat},${spot.lon}`;
+        const localNameHtml=(spot.name_local&&spot.name_local!==spot.name)?`<div class="spot-local-name">${spot.name_local}</div>`:'';
+        const bestThemeLabel=tagsDict[spot.best_tag]||spot.best_tag||'';
+        const astro=astroSummary(spot.best_item,spot.best_tag,dict);
+        const factors=factorPillsHtml(spot.factors);
 
-        card.innerHTML = `
-          <button class="${favClass}" type="button" aria-label="favorite">★</button>
+        card.innerHTML=`
+          <button class="${isFav?'fav-btn active':'fav-btn'}" type="button" aria-label="favorite">★</button>
           <div>
-            <div class="card-header">
-              <div class="spot-title-group">
-                <span class="spot-name">${spot.name}</span>
-                ${localNameHtml}
-                <div style="margin-top: 4px;">
-                  <span class="category-tag">${spot.category || 'N/A'}</span>
-                </div>
-              </div>
-              <span class="score-badge ${scoreClass}">${scorePrefix}${spot.score}</span>
-            </div>
+            <div class="card-header"><div class="spot-title-group"><span class="spot-name">${spot.name}</span>${localNameHtml}<div style="margin-top:4px"><span class="category-tag">${spot.category||'N/A'}</span></div></div><span class="score-badge ${scoreClass}">${scorePrefix}${spot.score}</span></div>
             <div class="tags-wrapper">${pillsHtml}</div>
-            <div class="info-row">${dict['best_window']}<b>${spot.best_time || 'N/A'}</b></div>
-            <div class="info-row">${dict['forecast_status']}${spot.position || 'N/A'}</div>
-            <div>
-              <span class="indicator-pill">${spot.key_indicator || ''}</span>
-              ${kpBadgeHtml}
-            </div>
+            <div class="theme-winner">${dict['best_theme']}${bestThemeLabel}</div>
+            <div class="info-row">${dict['best_window']}<b>${spot.best_time}</b></div>
+            <div class="info-row">🕒 ${dict['local_time']}：${spot.timezone_abbr||'—'}</div>
+            <div class="info-row">${dict['forecast_status']}${spot.position||'N/A'}</div>
+            <div><span class="indicator-pill">${spot.key_indicator||''}</span></div>
+            ${astro?`<div class="astro-row">${astro}</div>`:''}
+            ${factors?`<div class="factor-row">${factors}</div>`:''}
           </div>
-          <div class="card-footer-tools">
-            <span style="font-size: 0.78rem; color: #94a3b8;">${dict['click_detail']}</span>
-            <div>
-              <a href="${navUrl}" target="_blank" rel="noopener noreferrer" class="tool-link">${dict['nav_link']}</a>
-              <a href="${radarUrl}" target="_blank" rel="noopener noreferrer" class="tool-link">${dict['radar_link']}</a>
-            </div>
-          </div>`;
-
-        const favButton = card.querySelector('.fav-btn');
-        favButton.addEventListener('click', event => toggleFavorite(spot.spot_id, event));
-        const footer = card.querySelector('.card-footer-tools');
-        footer.addEventListener('click', event => event.stopPropagation());
+          <div class="card-footer-tools"><span style="font-size:.78rem;color:#94a3b8">${dict['click_detail']}</span><div><a href="${navUrl}" target="_blank" rel="noopener noreferrer" class="tool-link">${dict['nav_link']}</a><a href="${radarUrl}" target="_blank" rel="noopener noreferrer" class="tool-link">${dict['radar_link']}</a></div></div>`;
+        card.querySelector('.fav-btn').addEventListener('click',e=>toggleFavorite(spot.spot_id,e));
+        card.querySelector('.card-footer-tools').addEventListener('click',e=>e.stopPropagation());
         container.appendChild(card);
       });
     }
 
     function openModal(spot) {
-      const dict = i18nDict[currentLang] || i18nDict['zh-TW'];
-      const titleLocal = (spot.name_local && spot.name_local !== spot.name) ? ` (${spot.name_local})` : '';
-      document.getElementById('modal-spot-name').innerText = `📍 ${spot.name}${titleLocal}`;
+      const dict=i18nDict[currentLang]||i18nDict['zh-TW'];
+      const tagsDict=tagLabelsI18n[currentLang]||tagLabelsI18n['zh-TW'];
+      const titleLocal=(spot.name_local&&spot.name_local!==spot.name)?` (${spot.name_local})`:'';
+      document.getElementById('modal-spot-name').innerText=`📍 ${spot.name}${titleLocal}`;
+      const activeTag=currentTag==='all'?spot.best_tag:currentTag;
+      const bestTheme=tagsDict[activeTag]||activeTag;
+      const astro=astroSummary(spot.best_item,activeTag,dict);
+      document.getElementById('modal-summary').innerHTML=`<b>${dict['best_theme']}${bestTheme}</b> · ${dict['best_window']}${spot.best_time}<br>🕒 ${dict['local_time']}：${spot.timezone_abbr||'—'}${astro?`<br>${astro}`:''}`;
 
-      const isAurora = spot.tags && spot.tags.includes('aurora');
-      const thead = document.getElementById('timeline-head');
-      const tbody = document.getElementById('timeline-body');
-
-      thead.innerHTML = `
-        <tr>
-          <th>${dict['th_time']}</th><th>${dict['th_score']}</th><th>${dict['th_status']}</th>
-          ${isAurora ? `<th>${dict['th_kp']}</th>` : ''}
-          <th>${dict['th_cloud_base']}</th><th>${dict['th_temp']}</th><th>${dict['th_rh']}</th>
-          <th>${dict['th_clow']}</th><th>${dict['th_cmid']}</th><th>${dict['th_chigh']}</th>
-          <th>${dict['th_wind']}</th><th>${dict['th_vis']}</th>
-        </tr>`;
-
-      tbody.innerHTML = '';
-      const nowMs = Date.now();
-      const forecast = spot.hourly_forecast || [];
-      if (forecast.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="${isAurora ? 12 : 11}" style="color:#666; text-align:center;">N/A</td></tr>`;
-      } else {
-        forecast.forEach(item => {
-          const tr = document.createElement('tr');
-          const isPast = item.time_utc ? Date.parse(item.time_utc) < nowMs : !!item.is_past;
-          const isBest = !isPast && spot.best_time_utc && item.time_utc === spot.best_time_utc;
-          if (isPast) tr.className = 'past-row';
-          else if (isBest) tr.className = 'best-row';
-
-          const metrics = metricsForTag(item, currentTag);
-          const itemScore = Number(metrics.score || 0);
-          let scoreColor = '#50fa7b';
-          if (itemScore <= 30) scoreColor = '#ff5555';
-          else if (itemScore < 75) scoreColor = '#f1fa8c';
-
-          const timeLabel = item.time || item.time_utc || 'N/A';
-          const timeTag = isPast ? `<span class="tag-past">MODEL</span> ${timeLabel}` : timeLabel;
-          const kpValue = item.kp !== undefined && item.kp !== null ? item.kp : '-';
-          const kpLabel = item.kp_source && item.kp_source !== 'unavailable' ? `${kpValue} (${item.kp_source})` : kpValue;
-
-          tr.innerHTML = `
-            <td>${timeTag}</td>
-            <td style="color:${scoreColor}; font-weight:bold;">${itemScore}</td>
-            <td>${metrics.status || item.status || ''}</td>
-            ${isAurora ? `<td style="color: #ffeb3b; font-weight: bold;">${kpLabel}</td>` : ''}
-            <td>${item.cloud_base}m</td><td>${item.temp}°C</td><td>${item.rh}%</td>
-            <td>${item.c_low}%</td><td>${item.c_mid}%</td><td>${item.c_high}%</td>
-            <td>${item.wind}m/s</td><td>${item.visibility}km</td>`;
-          tbody.appendChild(tr);
-        });
-      }
-      document.getElementById('modal-overlay').style.display = 'flex';
+      const isAurora=activeTag==='aurora';
+      const thead=document.getElementById('timeline-head'), tbody=document.getElementById('timeline-body');
+      thead.innerHTML=`<tr><th>${dict['th_time']}</th><th>${dict['theme_col']}</th><th>${dict['th_score']}</th><th>${dict['th_status']}</th>${isAurora?`<th>${dict['th_kp']}</th>`:''}<th>${dict['th_cloud_base']}</th><th>${dict['th_temp']}</th><th>${dict['th_rh']}</th><th>${dict['th_clow']}</th><th>${dict['th_cmid']}</th><th>${dict['th_chigh']}</th><th>${dict['th_wind']}</th><th>${dict['th_vis']}</th><th>${dict['astro_col']}</th></tr>`;
+      tbody.innerHTML='';
+      const nowMs=Date.now(), forecast=spot.hourly_forecast||[];
+      if (!forecast.length) { tbody.innerHTML=`<tr><td colspan="14" style="color:#666;text-align:center">N/A</td></tr>`; }
+      else forecast.forEach(item=>{
+        const tr=document.createElement('tr');
+        const isPast=item.time_utc?Date.parse(item.time_utc)<nowMs:!!item.is_past;
+        const isBest=(spot.best_window_utc||[]).includes(item.time_utc);
+        if(isPast) tr.className='past-row'; else if(isBest) tr.className='best-row';
+        const metrics=metricsForTag(item,activeTag);
+        const itemScore=Number(metrics.score||0);
+        const scoreColor=itemScore<55?'#ff5555':(itemScore<75?'#f1fa8c':'#50fa7b');
+        const timeTag=`${isPast?'<span class="tag-past">MODEL</span> ':''}${item.time||item.time_utc||'N/A'} ${timezoneDisplay(item)}`;
+        const kpValue=item.kp==null?'-':item.kp;
+        const kpLabel=item.kp_source&&item.kp_source!=='unavailable'?`${kpValue} (${item.kp_source})`:kpValue;
+        const rowAstro=astroSummary(item,activeTag,dict)||'—';
+        tr.innerHTML=`<td>${timeTag}</td><td>${tagsDict[activeTag]||activeTag}</td><td style="color:${scoreColor};font-weight:bold">${itemScore}</td><td>${metrics.status||item.status||''}</td>${isAurora?`<td style="color:#ffeb3b;font-weight:bold">${kpLabel}</td>`:''}<td>≈${item.cloud_base_agl||item.cloud_base}m AGL</td><td>${item.temp}°C</td><td>${item.rh}%</td><td>${item.c_low}%</td><td>${item.c_mid}%</td><td>${item.c_high}%</td><td>${item.wind}m/s</td><td>${item.visibility}km</td><td>${rowAstro}</td>`;
+        tbody.appendChild(tr);
+      });
+      document.getElementById('modal-overlay').style.display='flex';
     }
 
     function closeModal() {

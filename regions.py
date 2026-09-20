@@ -235,6 +235,27 @@ ELEVATION_OVERRIDES = {
     "富士山": 3776,
 }
 
+# Approximate primary shooting direction (degrees clockwise from true north).
+# Only used when the composition direction is reasonably stable; omitted when
+# a spot supports many directions. This allows sunrise/sunset alignment hints
+# without pretending every landscape has one fixed composition.
+VIEW_AZIMUTH_OVERRIDES = {
+    "淡水漁人碼頭": (285, 55),
+    "大稻埕碼頭": (270, 55),
+    "高美濕地": (270, 60),
+    "王功漁港": (270, 60),
+    "井仔腳鹽田": (270, 60),
+    "屏東關山": (270, 55),
+    "崇德清水斷崖展望點": (155, 70),
+    "七星潭": (90, 60),
+    "三仙台": (90, 60),
+    "綠島朝日溫泉": (90, 60),
+    "蘭嶼東清灣": (90, 60),
+    "小樽運河": (250, 80),
+    "馬蹄灣": (250, 80),
+    "紀念碑谷": (90, 85),
+}
+
 
 def get_spots(region="tw"):
     region_key = region.lower()
@@ -276,5 +297,9 @@ def get_spots(region="tw"):
         elevation = ELEVATION_OVERRIDES.get(name_zh)
         if elevation is not None:
             item["elevation"] = elevation
+        view = VIEW_AZIMUTH_OVERRIDES.get(name_zh)
+        if view is not None:
+            item["view_azimuth"] = view[0]
+            item["view_tolerance"] = view[1]
         formatted_spots.append(item)
     return formatted_spots

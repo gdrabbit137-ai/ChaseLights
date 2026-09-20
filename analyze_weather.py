@@ -44,8 +44,12 @@ def analyze_spot(spot, lang="zh-TW", kp_rows=None):
             "elevation": spot.get("elevation"),
             "api_elevation": raw_data.get("api_elevation"),
             "timezone": raw_data.get("timezone"),
+            "timezone_abbr": raw_data.get("timezone_abbr"),
             "utc_offset_seconds": raw_data.get("utc_offset_seconds"),
+            "view_azimuth": raw_data.get("view_azimuth", spot.get("view_azimuth")),
+            "view_tolerance": raw_data.get("view_tolerance", spot.get("view_tolerance")),
             "score": raw_data.get("score", 30),
+            "best_tag": raw_data.get("best_tag"),
             "best_time": raw_data.get("best_time", "N/A"),
             "best_time_utc": raw_data.get("best_time_utc"),
             "reason": raw_data.get("reason", "N/A"),
@@ -85,7 +89,7 @@ def main():
                 analyzed_spots.append(result)
 
         output_data = {
-            "schema_version": 2,
+            "schema_version": 3,
             "updated_at": now_utc_str,
             "region": region,
             "lang": lang,
