@@ -371,417 +371,333 @@ def _safe_astronomy(dt, lat, lon, lang="zh-TW"):
         }
 
 
-def _factor(kind, text):
-    return {"type": kind, "text": text}
+FACTOR_TEMPLATES = {
+    "vis_good": {"zh-TW": "能見度 {v} km", "en": "Visibility {v} km", "ja": "視程 {v} km"},
+    "vis_low": {"zh-TW": "能見度僅 {v} km", "en": "Visibility only {v} km", "ja": "視程 {v} km のみ"},
+    "low_cloud": {"zh-TW": "低雲僅 {v}%", "en": "Low cloud {v}%", "ja": "下層雲 {v}%"},
+    "low_cloud_high": {"zh-TW": "低雲高達 {v}%", "en": "Low cloud {v}%", "ja": "下層雲 {v}%"},
+    "calm": {"zh-TW": "風速僅 {v} m/s", "en": "Wind only {v} m/s", "ja": "風速 {v} m/s"},
+    "windy": {"zh-TW": "風速 {v} m/s", "en": "Wind {v} m/s", "ja": "風速 {v} m/s"},
+    "dry": {"zh-TW": "降雨機率 {v}%", "en": "Rain chance {v}%", "ja": "降水確率 {v}%"},
+    "rain": {"zh-TW": "降雨機率達 {v}%", "en": "Rain chance {v}%", "ja": "降水確率 {v}%"},
+    "twilight": {"zh-TW": "晨昏光線進入黃金窗口", "en": "Golden/twilight light window", "ja": "朝夕のゴールデンタイム"},
+    "cloud_color": {"zh-TW": "中高雲量適合彩霞", "en": "Mid/high clouds favor color", "ja": "中・上層雲が焼けやすい"},
+    "astro_dark": {"zh-TW": "已進入天文黑夜", "en": "Astronomical darkness", "ja": "天文薄明終了後"},
+    "not_dark": {"zh-TW": "尚未進入天文黑夜", "en": "Not astronomically dark", "ja": "まだ天文薄明中"},
+    "moon_good": {"zh-TW": "月光干擾低（{v}%）", "en": "Low moonlight ({v}%)", "ja": "月光影響小（{v}%）"},
+    "moon_bad": {"zh-TW": "月光干擾高（{v}%）", "en": "Strong moonlight ({v}%)", "ja": "月光影響大（{v}%）"},
+    "mw_core": {"zh-TW": "銀河核心在地平線上", "en": "Galactic core above horizon", "ja": "銀河中心が地平線上"},
+    "kp_good": {"zh-TW": "Kp {v} 地磁活動偏強", "en": "Kp {v} geomagnetic activity", "ja": "Kp {v} 地磁気活動"},
+    "kp_low": {"zh-TW": "Kp {v} 極光活動偏弱", "en": "Kp {v} weak aurora activity", "ja": "Kp {v} オーロラ活動弱め"},
+    "cloud_below": {"zh-TW": "估算雲底低於機位約 {v} m", "en": "Est. cloud base ~{v} m below camera", "ja": "推定雲底は撮影地点より約 {v} m低い"},
+    "in_cloud": {"zh-TW": "估算雲底接近機位，入霧風險", "en": "Cloud base near camera; fog risk", "ja": "推定雲底が撮影地点付近・霧リスク"},
+    "sun_align": {"zh-TW": "太陽方向與主要構圖吻合", "en": "Sun aligns with main composition", "ja": "太陽方向が主構図と一致"},
+    "sun_miss": {"zh-TW": "太陽方向偏離主要構圖", "en": "Sun off the main composition", "ja": "太陽方向が主構図から外れる"},
+    "kp_unavailable": {"zh-TW": "Kp 預報目前不可用", "en": "Kp forecast unavailable", "ja": "Kp 予報を取得できません"},
+    "astro_unavailable": {"zh-TW": "天文位置資料暫時不可用", "en": "Astronomy position data unavailable", "ja": "天文位置データを取得できません"},
+    "access_limited": {"zh-TW": "此時段可能無法進入／不適合拍攝", "en": "This time may be inaccessible or unsuitable", "ja": "この時間帯は入場不可・撮影不適の可能性"},
+    "fog_good": {"zh-TW": "濕度高且風弱，霧景機率佳", "en": "High humidity and light wind favor mist", "ja": "高湿度・弱風で霧景向き"},
+    "reflection_good": {"zh-TW": "風弱，水面倒影條件佳", "en": "Light wind favors reflections", "ja": "弱風で水面反射に好条件"},
+    "blue_hour": {"zh-TW": "太陽高度進入藍調時段", "en": "Sun altitude is in blue-hour range", "ja": "太陽高度がブルーアワー帯"},
+    "sunbeam_good": {"zh-TW": "斜射光與雲霧條件利於光束", "en": "Low-angle light and haze favor sunbeams", "ja": "斜光と霞で光芒が出やすい"},
+    "snow_cold": {"zh-TW": "低溫且視程良好，冰雪景觀條件佳", "en": "Cold air and good visibility favor snow/ice scenery", "ja": "低温・良視程で雪氷景観向き"},
+}
 
 
 def _fmt_factor(lang, key, value=None):
-    templates = {
-        "vis_good": {"zh-TW": "能見度 {v} km", "en": "Visibility {v} km", "ja": "視程 {v} km"},
-        "vis_low": {"zh-TW": "能見度僅 {v} km", "en": "Visibility only {v} km", "ja": "視程 {v} km のみ"},
-        "low_cloud": {"zh-TW": "低雲僅 {v}%", "en": "Low cloud {v}%", "ja": "下層雲 {v}%"},
-        "low_cloud_high": {"zh-TW": "低雲高達 {v}%", "en": "Low cloud {v}%", "ja": "下層雲 {v}%"},
-        "calm": {"zh-TW": "風速僅 {v} m/s", "en": "Wind only {v} m/s", "ja": "風速 {v} m/s"},
-        "windy": {"zh-TW": "風速 {v} m/s", "en": "Wind {v} m/s", "ja": "風速 {v} m/s"},
-        "dry": {"zh-TW": "降雨機率 {v}%", "en": "Rain chance {v}%", "ja": "降水確率 {v}%"},
-        "rain": {"zh-TW": "降雨機率達 {v}%", "en": "Rain chance {v}%", "ja": "降水確率 {v}%"},
-        "twilight": {"zh-TW": "晨昏光線進入黃金窗口", "en": "Golden/twilight light window", "ja": "朝夕のゴールデンタイム"},
-        "cloud_color": {"zh-TW": "中高雲量適合彩霞", "en": "Mid/high clouds favor color", "ja": "中・上層雲が焼けやすい"},
-        "astro_dark": {"zh-TW": "已進入天文黑夜", "en": "Astronomical darkness", "ja": "天文薄明終了後"},
-        "not_dark": {"zh-TW": "尚未進入天文黑夜", "en": "Not astronomically dark", "ja": "まだ天文薄明中"},
-        "moon_good": {"zh-TW": "月光干擾低（{v}%）", "en": "Low moonlight ({v}%)", "ja": "月光影響小（{v}%）"},
-        "moon_bad": {"zh-TW": "月光干擾高（{v}%）", "en": "Strong moonlight ({v}%)", "ja": "月光影響大（{v}%）"},
-        "mw_core": {"zh-TW": "銀河核心在地平線上", "en": "Galactic core above horizon", "ja": "銀河中心が地平線上"},
-        "kp_good": {"zh-TW": "Kp {v} 地磁活動偏強", "en": "Kp {v} geomagnetic activity", "ja": "Kp {v} 地磁気活動"},
-        "kp_low": {"zh-TW": "Kp {v} 極光活動偏弱", "en": "Kp {v} weak aurora activity", "ja": "Kp {v} オーロラ活動弱め"},
-        "cloud_below": {"zh-TW": "估算雲底低於機位約 {v} m", "en": "Est. cloud base ~{v} m below camera", "ja": "推定雲底は撮影地点より約 {v} m低い"},
-        "in_cloud": {"zh-TW": "估算雲底接近機位，入霧風險", "en": "Cloud base near camera; fog risk", "ja": "推定雲底が撮影地点付近・霧リスク"},
-        "sun_align": {"zh-TW": "太陽方向與主要構圖吻合", "en": "Sun aligns with main composition", "ja": "太陽方向が主構図と一致"},
-        "sun_miss": {"zh-TW": "太陽方向偏離主要構圖", "en": "Sun off the main composition", "ja": "太陽方向が主構図から外れる"},
-        "kp_unavailable": {"zh-TW": "Kp 預報目前不可用", "en": "Kp forecast unavailable", "ja": "Kp 予報を取得できません"},
-        "astro_unavailable": {"zh-TW": "天文位置資料暫時不可用", "en": "Astronomy position data unavailable", "ja": "天文位置データを取得できません"},
-        "access_limited": {"zh-TW": "此時段可能無法進入／不適合拍攝", "en": "This time may be inaccessible or unsuitable", "ja": "この時間帯は入場不可・撮影不適の可能性"},
-    }
-    text = templates.get(key, {}).get(lang) or templates.get(key, {}).get("zh-TW") or key
+    text = FACTOR_TEMPLATES.get(key, {}).get(lang) or FACTOR_TEMPLATES.get(key, {}).get("zh-TW") or key
     return text.format(v=value) if value is not None else text
 
 
-def _calibrate_score(raw_score, tag, item_data):
-    """Score V4: reserve 90+ for genuinely exceptional AND eligible windows.
+def _factor(kind, key, value=None, lang="zh-TW"):
+    return {"type": kind, "key": key, "value": value, "text": _fmt_factor(lang, key, value)}
 
-    Routine good weather should land mostly in the 70s/80s. Time-of-day and
-    data-availability eligibility are applied after the weather calibration.
-    """
+
+def _canonical_theme(theme):
+    return {
+        "mountain_view": "mountain",
+        "milky_way": "starlight",
+        "city_night": "city",
+        "sunrise": "coast",
+        "sunset": "coast",
+        "sky_glow": "coast",
+        "blue_hour": "city",
+        "fog_mist": "forest",
+        "reflection": "lake",
+        "sunbeam": "forest",
+        "long_exposure": "waterfall",
+        "snow_scene": "mountain",
+    }.get(theme, theme)
+
+
+def _calibrate_score(raw_score, theme, item_data):
     raw = max(0.0, min(100.0, float(raw_score)))
-    # Compress the top end so 95-100 is rare rather than routine.
-    if raw <= 50:
-        score = raw
-    else:
-        score = 50.0 + (raw - 50.0) * 0.78
-
+    score = raw if raw <= 50 else 50.0 + (raw - 50.0) * 0.78
+    tag = _canonical_theme(theme)
     vis_km = float(item_data.get("vis", 10000) or 10000) / 1000.0
     wind = float(item_data.get("wind", 0) or 0)
     pop = float(item_data.get("pop", 0) or 0)
     low = float(item_data.get("c_low", 0) or 0)
-
-    if tag in {"mountain", "city", "starlight", "aurora"} and vis_km >= 30:
-        score += 2.0
-    if pop <= 5:
-        score += 1.0
-    if wind <= 2.0:
-        score += 1.5
-    if tag in {"mountain", "city", "starlight", "aurora", "coast"} and low <= 8:
-        score += 1.5
-    if tag == "starlight" and item_data.get("astronomical_dark"):
-        score += 2.0
-    if tag == "starlight" and item_data.get("galactic_core_visible"):
-        score += 1.0
-    if tag == "coast" and item_data.get("is_twilight"):
-        score += 2.0
-    if tag == "cloud_sea" and item_data.get("cloud_below_camera"):
-        score += 2.5
-
+    if tag in {"mountain", "city", "starlight", "aurora"} and vis_km >= 30: score += 2.0
+    if pop <= 5: score += 1.0
+    if wind <= 2.0: score += 1.5
+    if tag in {"mountain", "city", "starlight", "aurora", "coast"} and low <= 8: score += 1.5
+    if theme == "milky_way" and item_data.get("astronomical_dark"): score += 2.0
+    if theme == "milky_way" and item_data.get("galactic_core_visible"): score += 1.0
+    if theme in {"sunrise", "sunset", "sky_glow"} and item_data.get("is_twilight"): score += 2.0
+    if theme == "cloud_sea" and item_data.get("cloud_below_camera"): score += 2.5
     return int(round(max(10.0, min(96.0, score))))
 
 
-def _eligibility_cap(tag, d):
-    """Hard semantic gate: can this photographic theme exist at this hour?"""
+def _eligibility_cap(theme, d):
     if d.get("access_open") is False:
         return 15
-
     astro_valid = bool(d.get("astronomy_valid"))
     sun_alt = d.get("sun_elevation")
+    hour = int(d.get("hour", 12))
     is_day = bool(d.get("is_day"))
     is_twilight = bool(d.get("is_twilight"))
+    tag = _canonical_theme(theme)
 
-    if tag == "mountain":
+    if theme == "sunrise":
+        if hour >= 12: return 18
+        if astro_valid and sun_alt is not None and not (-10 <= sun_alt <= 10): return 42
+    elif theme == "sunset":
+        if hour < 12: return 18
+        if astro_valid and sun_alt is not None and not (-10 <= sun_alt <= 10): return 42
+    elif theme == "sky_glow":
+        if astro_valid and sun_alt is not None and not (-12 <= sun_alt <= 10): return 45
+    elif theme == "blue_hour":
+        if not astro_valid: return 55
+        if sun_alt is None or not (-10 <= sun_alt <= -2): return 30
+    elif theme == "fog_mist":
+        if not is_day and not is_twilight: return 45
+    elif theme == "reflection":
+        if astro_valid and sun_alt is not None and sun_alt < -8: return 55
+    elif theme == "sunbeam":
+        if not is_day or (astro_valid and sun_alt is not None and sun_alt < 3): return 30
+    elif theme == "long_exposure":
+        if astro_valid and sun_alt is not None and sun_alt < -8: return 55
+    elif theme == "snow_scene":
+        if astro_valid and sun_alt is not None and sun_alt < -8: return 45
+    elif tag == "mountain":
         if astro_valid and sun_alt is not None:
             if sun_alt <= -6: return 38
             if sun_alt <= 0: return 78
-        elif not is_day and not is_twilight:
-            return 45
-    elif tag == "cloud_sea":
-        if astro_valid and sun_alt is not None and sun_alt < -8:
-            return 62
-        if not astro_valid and not is_day and not is_twilight:
-            return 65
+        elif not is_day and not is_twilight: return 45
+    elif theme == "cloud_sea":
+        if astro_valid and sun_alt is not None and sun_alt < -8: return 62
+        if not astro_valid and not is_day and not is_twilight: return 65
     elif tag == "city":
-        # This tag is specifically city-night photography. Daytime city views
-        # can be useful, but must not outrank a true night window.
-        if astro_valid and sun_alt is not None and sun_alt > -2:
-            return 68
-        if not astro_valid and is_day:
-            return 68
-    elif tag == "coast":
-        if astro_valid and sun_alt is not None and sun_alt < -8:
-            return 48
-        if not astro_valid and not is_day and not is_twilight:
-            return 52
-    elif tag == "forest":
-        if astro_valid and sun_alt is not None and sun_alt < -6:
-            return 45
-    elif tag == "lake":
-        if astro_valid and sun_alt is not None and sun_alt < -8:
-            return 55
-    elif tag == "waterfall":
-        if astro_valid and sun_alt is not None and sun_alt < -6:
-            return 35
+        if astro_valid and sun_alt is not None and sun_alt > -2: return 68
+        if not astro_valid and is_day: return 68
     elif tag == "starlight":
-        if not astro_valid:
-            return 55
-        if sun_alt is not None and sun_alt > -12:
-            return 45
-        if sun_alt is not None and sun_alt > -18:
-            return 72
+        if not astro_valid: return 55
+        if sun_alt is not None and sun_alt > -12: return 45
+        if sun_alt is not None and sun_alt > -18: return 72
     elif tag == "aurora":
-        if not astro_valid:
-            return 55
-        if d.get("kp") is None:
-            return 60
-        if sun_alt is not None and sun_alt > -12:
-            return 35
-        if sun_alt is not None and sun_alt > -18:
-            return 70
+        if not astro_valid: return 55
+        if d.get("kp") is None: return 60
+        if sun_alt is not None and sun_alt > -12: return 35
+        if sun_alt is not None and sun_alt > -18: return 70
     return 96
 
 
-def _build_factors(tag, d, lang):
+def _build_factors(theme, d, lang):
     plus, minus = [], []
+    tag = _canonical_theme(theme)
     vis_km = round(float(d.get("vis", 0) or 0) / 1000.0, 1)
     wind = round(float(d.get("wind", 0) or 0), 1)
     pop = round(float(d.get("pop", 0) or 0))
     low = round(float(d.get("c_low", 0) or 0))
+    if vis_km >= 20: plus.append(_factor("plus", "vis_good", vis_km, lang))
+    elif vis_km < 8 and theme not in {"fog_mist"}: minus.append(_factor("minus", "vis_low", vis_km, lang))
+    if low <= 15 and tag in {"mountain", "city", "coast", "starlight", "aurora"}: plus.append(_factor("plus", "low_cloud", low, lang))
+    elif low >= 65 and tag in {"mountain", "city", "coast", "starlight", "aurora"}: minus.append(_factor("minus", "low_cloud_high", low, lang))
+    if wind <= 2.5: plus.append(_factor("plus", "calm", wind, lang))
+    elif wind >= 6: minus.append(_factor("minus", "windy", wind, lang))
+    if pop <= 10: plus.append(_factor("plus", "dry", pop, lang))
+    elif pop >= 40: minus.append(_factor("minus", "rain", pop, lang))
 
-    if vis_km >= 20:
-        plus.append(_factor("plus", _fmt_factor(lang, "vis_good", vis_km)))
-    elif vis_km < 8 and tag not in {"forest", "lake"}:
-        minus.append(_factor("minus", _fmt_factor(lang, "vis_low", vis_km)))
-    if low <= 15 and tag in {"mountain", "city", "coast", "starlight", "aurora"}:
-        plus.append(_factor("plus", _fmt_factor(lang, "low_cloud", low)))
-    elif low >= 65 and tag in {"mountain", "city", "coast", "starlight", "aurora"}:
-        minus.append(_factor("minus", _fmt_factor(lang, "low_cloud_high", low)))
-    if wind <= 2.5:
-        plus.append(_factor("plus", _fmt_factor(lang, "calm", wind)))
-    elif wind >= 6:
-        minus.append(_factor("minus", _fmt_factor(lang, "windy", wind)))
-    if pop <= 10:
-        plus.append(_factor("plus", _fmt_factor(lang, "dry", pop)))
-    elif pop >= 40:
-        minus.append(_factor("minus", _fmt_factor(lang, "rain", pop)))
-
-    if tag == "coast":
-        if d.get("is_twilight"):
-            plus.insert(0, _factor("plus", _fmt_factor(lang, "twilight")))
+    if theme in {"sunrise", "sunset", "sky_glow"}:
+        if d.get("is_twilight"): plus.insert(0, _factor("plus", "twilight", None, lang))
         mid_high = float(d.get("c_mid", 0) or 0) + float(d.get("c_high", 0) or 0)
-        if 20 <= mid_high <= 75 and low < 35:
-            plus.append(_factor("plus", _fmt_factor(lang, "cloud_color")))
-        if d.get("sun_alignment") == "good":
-            plus.append(_factor("plus", _fmt_factor(lang, "sun_align")))
-        elif d.get("sun_alignment") == "poor":
-            minus.append(_factor("minus", _fmt_factor(lang, "sun_miss")))
-    elif tag == "starlight":
-        if d.get("astronomical_dark"):
-            plus.insert(0, _factor("plus", _fmt_factor(lang, "astro_dark")))
-        else:
-            minus.insert(0, _factor("minus", _fmt_factor(lang, "not_dark")))
-        moon_illum = round(float(d.get("moon_illumination", 0) or 0))
-        moon_alt = float(d.get("moon_elevation", -90) or -90)
-        if moon_alt <= 0 or moon_illum <= 25:
-            plus.append(_factor("plus", _fmt_factor(lang, "moon_good", moon_illum)))
-        elif moon_alt > 10 and moon_illum >= 60:
-            minus.append(_factor("minus", _fmt_factor(lang, "moon_bad", moon_illum)))
-        if d.get("galactic_core_visible"):
-            plus.append(_factor("plus", _fmt_factor(lang, "mw_core")))
-    elif tag == "aurora":
-        kp = d.get("kp")
+        if 20 <= mid_high <= 75 and low < 35: plus.append(_factor("plus", "cloud_color", None, lang))
+        if d.get("sun_alignment") == "good": plus.append(_factor("plus", "sun_align", None, lang))
+        elif d.get("sun_alignment") == "poor": minus.append(_factor("minus", "sun_miss", None, lang))
+    elif theme == "blue_hour":
+        plus.insert(0, _factor("plus", "blue_hour", None, lang))
+    elif theme == "fog_mist":
+        if float(d.get("rh",0) or 0) >= 80 and wind <= 4: plus.insert(0, _factor("plus", "fog_good", None, lang))
+    elif theme == "reflection":
+        if wind <= 2.2: plus.insert(0, _factor("plus", "reflection_good", None, lang))
+    elif theme == "sunbeam":
+        plus.insert(0, _factor("plus", "sunbeam_good", None, lang))
+    elif theme == "snow_scene":
+        if float(d.get("temp", 99) or 99) <= 4: plus.insert(0, _factor("plus", "snow_cold", None, lang))
+    elif theme == "milky_way":
+        if d.get("astronomical_dark"): plus.insert(0, _factor("plus", "astro_dark", None, lang))
+        else: minus.insert(0, _factor("minus", "not_dark", None, lang))
+        moon_illum = round(float(d.get("moon_illumination", 0) or 0)); moon_alt = float(d.get("moon_elevation", -90) or -90)
+        if moon_alt <= 0 or moon_illum <= 25: plus.append(_factor("plus", "moon_good", moon_illum, lang))
+        elif moon_alt > 10 and moon_illum >= 60: minus.append(_factor("minus", "moon_bad", moon_illum, lang))
+        if d.get("galactic_core_visible"): plus.append(_factor("plus", "mw_core", None, lang))
+    elif theme == "aurora":
+        kp=d.get("kp")
         if kp is not None:
-            if float(kp) >= 4:
-                plus.append(_factor("plus", _fmt_factor(lang, "kp_good", f"{float(kp):g}")))
-            else:
-                minus.append(_factor("minus", _fmt_factor(lang, "kp_low", f"{float(kp):g}")))
-    elif tag == "cloud_sea":
-        delta = d.get("cloud_base_delta")
-        if delta is not None and delta >= 80:
-            plus.insert(0, _factor("plus", _fmt_factor(lang, "cloud_below", int(delta))))
-        elif d.get("cloud_base_near_camera"):
-            minus.insert(0, _factor("minus", _fmt_factor(lang, "in_cloud")))
+            key="kp_good" if float(kp)>=4 else "kp_low"
+            (plus if float(kp)>=4 else minus).append(_factor("plus" if float(kp)>=4 else "minus", key, f"{float(kp):g}", lang))
+    elif theme == "cloud_sea":
+        delta=d.get("cloud_base_delta")
+        if delta is not None and delta>=80: plus.insert(0,_factor("plus","cloud_below",int(delta),lang))
+        elif d.get("cloud_base_near_camera"): minus.insert(0,_factor("minus","in_cloud",None,lang))
 
-    if d.get("access_open") is False:
-        minus.insert(0, _factor("minus", _fmt_factor(lang, "access_limited")))
-    if tag in {"starlight", "aurora", "coast"} and not d.get("astronomy_valid"):
-        minus.insert(0, _factor("minus", _fmt_factor(lang, "astro_unavailable")))
-    if tag == "aurora" and d.get("kp") is None:
-        minus.insert(0, _factor("minus", _fmt_factor(lang, "kp_unavailable")))
+    if d.get("access_open") is False: minus.insert(0,_factor("minus","access_limited",None,lang))
+    if theme in {"milky_way","aurora","sunrise","sunset","sky_glow","blue_hour"} and not d.get("astronomy_valid"):
+        minus.insert(0,_factor("minus","astro_unavailable",None,lang))
+    if theme=="aurora" and d.get("kp") is None: minus.insert(0,_factor("minus","kp_unavailable",None,lang))
+    return (plus[:2]+minus[:2])[:3]
 
-    return (plus[:2] + minus[:2])[:3]
+def evaluate_tag_condition(theme, item_data, hour=None, lang="zh-TW"):
+    c_low=float(item_data.get("c_low",0) or 0); c_mid=float(item_data.get("c_mid",0) or 0); c_high=float(item_data.get("c_high",0) or 0)
+    pop=float(item_data.get("pop",0) or 0); vis=float(item_data.get("vis",10000) or 10000); rh=float(item_data.get("rh",50) or 50); wind=float(item_data.get("wind",0) or 0)
+    temp=float(item_data.get("temp",10) if item_data.get("temp") is not None else 10)
+    astro_valid=bool(item_data.get("astronomy_valid")); sun_raw=item_data.get("sun_elevation")
+    sun_alt=float(sun_raw) if sun_raw is not None else (10.0 if item_data.get("is_day") else -10.0)
+    if hour is None: hour=int(item_data.get("hour",12))
+    is_day=bool(item_data.get("is_day",sun_alt>-0.8)); astro_dark=bool(item_data.get("astronomical_dark",astro_valid and sun_alt<=-18)); is_twilight=bool(item_data.get("is_twilight",-8<=sun_alt<=8))
+    tag=_canonical_theme(theme)
+    raw=60.0; status_key="STABLE_WEATHER"; indicator_key="IND_DEFAULT"
 
-
-def evaluate_tag_condition(tag, item_data, hour=None, lang="zh-TW"):
-    c_low = float(item_data.get("c_low", 0) or 0)
-    c_mid = float(item_data.get("c_mid", 0) or 0)
-    c_high = float(item_data.get("c_high", 0) or 0)
-    pop = float(item_data.get("pop", 0) or 0)
-    vis = float(item_data.get("vis", 10000) or 10000)
-    rh = float(item_data.get("rh", 50) or 50)
-    wind = float(item_data.get("wind", 0) or 0)
-    astro_valid = bool(item_data.get("astronomy_valid"))
-    sun_raw = item_data.get("sun_elevation")
-    sun_alt = float(sun_raw) if sun_raw is not None else (10.0 if item_data.get("is_day") else -10.0)
-
-    if hour is None:
-        hour = int(item_data.get("hour", 12))
-    is_day = bool(item_data.get("is_day", sun_alt > -0.8))
-    civil_dark = bool(item_data.get("civil_dark", astro_valid and sun_alt <= -6))
-    astro_dark = bool(item_data.get("astronomical_dark", astro_valid and sun_alt <= -18))
-    is_twilight = bool(item_data.get("is_twilight", -8 <= sun_alt <= 8))
-
-    raw = 60.0
-    status_key = "STABLE_WEATHER"
-    indicator_key = "IND_DEFAULT"
-
-    if tag == "starlight":
-        if not astro_valid:
-            raw = 45
-            status_key, indicator_key = "ASTRO_DATA_UNAVAILABLE", "IND_ASTRO_UNAVAILABLE"
-        elif sun_alt > -6:
-            raw = 10
-            status_key, indicator_key = "DAYLIGHT_ONLY", "IND_NO_STAR"
+    if theme in {"sunrise","sunset","sky_glow"}:
+        morning=hour<12
+        if (theme=="sunrise" and not morning) or (theme=="sunset" and morning):
+            raw=12; status_key,indicator_key="DAYLIGHT_ONLY","IND_DEFAULT"
+        elif not astro_valid:
+            raw=48; status_key,indicator_key="ASTRO_DATA_UNAVAILABLE","IND_ASTRO_UNAVAILABLE"
         else:
-            cloud_loss = c_low * 0.55 + c_mid * 0.35 + c_high * 0.18
-            raw = 94 - cloud_loss - pop * 0.45 - max(0, wind - 5) * 2.0
-            if not astro_dark:
-                raw = min(raw, 55)
-            moon_alt = float(item_data.get("moon_elevation", -90) or -90)
-            moon_illum = float(item_data.get("moon_illumination", 0) or 0)
-            if moon_alt > 0:
-                raw -= (moon_illum / 100.0) * min(24.0, 8.0 + moon_alt * 0.35)
-            if item_data.get("galactic_core_visible"):
-                raw += 5
-            if vis < 15000:
-                raw -= max(0, (15000 - vis) / 1500)
-            if raw >= 86:
-                status_key, indicator_key = "STARLIGHT_GREAT", "IND_CLEAR_SKY"
-            elif raw >= 62:
-                status_key, indicator_key = "STARLIGHT_FAIR", "IND_SOME_CLOUDS"
+            mid_high=c_mid+c_high
+            if -10<=sun_alt<=10:
+                raw=88 - c_low*0.45 - pop*0.45 - max(0,wind-5)*1.2
+                if 20<=mid_high<=80: raw += 8 - abs(mid_high-48)*0.08
+                if item_data.get("sun_alignment")=="good": raw+=4
+                elif item_data.get("sun_alignment")=="poor": raw-=6
+                status_key,indicator_key=("COAST_GLOW","IND_COAST_GLOW") if raw>=78 else ("COAST_NORMAL","IND_COAST_NORM")
             else:
-                status_key, indicator_key = "STARLIGHT_POOR", "IND_NO_STAR"
-
-    elif tag == "aurora":
-        kp_raw = item_data.get("kp")
+                raw=42; status_key,indicator_key="COAST_NORMAL","IND_COAST_NORM"
+    elif theme=="blue_hour":
         if not astro_valid:
-            raw = 45
-            status_key, indicator_key = "ASTRO_DATA_UNAVAILABLE", "IND_ASTRO_UNAVAILABLE"
-        elif sun_alt > -6:
-            raw = 10
-            status_key, indicator_key = "DAYLIGHT_ONLY", "IND_DEFAULT"
+            raw=45; status_key,indicator_key="ASTRO_DATA_UNAVAILABLE","IND_ASTRO_UNAVAILABLE"
+        elif -10<=sun_alt<=-2:
+            raw=88-c_low*0.35-pop*0.4-max(0,wind-7)*1.2
+            if vis>=18000: raw+=5
+            status_key,indicator_key="CITY_NIGHT_CLEAR","IND_CITY_NIGHT_CLEAR"
+        else:
+            raw=25; status_key,indicator_key="CITY_DAY_FAIR","IND_CITY_DAY_FAIR"
+    elif theme=="fog_mist":
+        if not is_day and not is_twilight:
+            raw=35; status_key,indicator_key="FOREST_NORMAL","IND_FOREST_NORM"
+        else:
+            # Photogenic mist needs moisture and reduced visibility, but not a total whiteout.
+            vis_km=vis/1000.0
+            raw=45+(rh-70)*1.1-max(0,wind-2.5)*5-pop*0.2
+            if 1.0<=vis_km<=10: raw+=14
+            elif vis_km>18: raw-=15
+            if is_twilight: raw+=5
+            status_key,indicator_key=("FOREST_MIST","IND_FOREST_MIST") if raw>=72 else ("FOREST_NORMAL","IND_FOREST_NORM")
+    elif theme=="reflection":
+        if not is_day and not is_twilight:
+            raw=42; status_key,indicator_key="LAKE_GOOD","IND_LAKE_GOOD"
+        else:
+            raw=92-pop*0.35-c_low*0.12-max(0,wind-1.0)*8
+            if is_twilight: raw+=3
+            if wind<=2.0: status_key,indicator_key="LAKE_MIRROR","IND_LAKE_MIRROR"
+            elif wind<=4.0: status_key,indicator_key="LAKE_GOOD","IND_LAKE_GOOD"
+            else: status_key,indicator_key="LAKE_WINDY","IND_LAKE_WIND"
+    elif theme=="sunbeam":
+        if not is_day or sun_alt<3:
+            raw=25; status_key,indicator_key="FOREST_NORMAL","IND_FOREST_NORM"
+        else:
+            cloud_mix=c_low+c_mid
+            raw=72-pop*0.35-max(0,wind-5)*1.5
+            if 15<=cloud_mix<=75: raw+=12
+            if 70<=rh<=95: raw+=7
+            if vis<3000: raw-=12
+            status_key,indicator_key=("FOREST_LIGHT","IND_FOREST_SUN") if raw>=78 else ("FOREST_NORMAL","IND_FOREST_NORM")
+    elif theme=="long_exposure":
+        if not is_day and not is_twilight:
+            raw=42; status_key,indicator_key="WATERFALL_NORMAL","IND_WATERFALL_NORM"
+        else:
+            raw=78-pop*0.25-max(0,wind-8)*1.0
+            if c_low+c_mid>=40: raw+=10; status_key,indicator_key="WATERFALL_SOFT","IND_WATERFALL_SOFT"
+            elif sun_alt>25 and c_low+c_mid<15: raw-=12; status_key,indicator_key="WATERFALL_HARSH","IND_WATERFALL_HARSH"
+            else: status_key,indicator_key="WATERFALL_NORMAL","IND_WATERFALL_NORM"
+    elif theme=="snow_scene":
+        if not is_day and not is_twilight:
+            raw=35; status_key,indicator_key="MOUNTAIN_STABLE_NIGHT","IND_NIGHT_CLEAR"
+        else:
+            raw=82-c_low*0.32-c_mid*0.15-pop*0.3-max(0,wind-5)*1.8
+            if vis>=20000: raw+=6
+            if temp<=4: raw+=5
+            elif temp>10: raw-=12
+            status_key,indicator_key=("MOUNTAIN_EXCELLENT_DAY","IND_PEAKS") if raw>=82 else ("MOUNTAIN_STABLE_DAY","IND_SOME_CLOUDS")
+    elif tag=="starlight":
+        if not astro_valid:
+            raw=45; status_key,indicator_key="ASTRO_DATA_UNAVAILABLE","IND_ASTRO_UNAVAILABLE"
+        elif sun_alt>-6:
+            raw=10; status_key,indicator_key="DAYLIGHT_ONLY","IND_NO_STAR"
+        else:
+            cloud_loss=c_low*0.55+c_mid*0.35+c_high*0.18
+            raw=94-cloud_loss-pop*0.45-max(0,wind-5)*2.0
+            if not astro_dark: raw=min(raw,55)
+            moon_alt=float(item_data.get("moon_elevation",-90) or -90); moon_illum=float(item_data.get("moon_illumination",0) or 0)
+            if moon_alt>0: raw-=(moon_illum/100.0)*min(24.0,8.0+moon_alt*0.35)
+            if item_data.get("galactic_core_visible"): raw+=5
+            if vis<15000: raw-=max(0,(15000-vis)/1500)
+            status_key,indicator_key=("STARLIGHT_GREAT","IND_CLEAR_SKY") if raw>=86 else (("STARLIGHT_FAIR","IND_SOME_CLOUDS") if raw>=62 else ("STARLIGHT_POOR","IND_NO_STAR"))
+    elif tag=="aurora":
+        kp_raw=item_data.get("kp")
+        if not astro_valid:
+            raw=45; status_key,indicator_key="ASTRO_DATA_UNAVAILABLE","IND_ASTRO_UNAVAILABLE"
+        elif sun_alt>-6:
+            raw=10; status_key,indicator_key="DAYLIGHT_ONLY","IND_DEFAULT"
         elif kp_raw is None:
-            # We can still describe sky clarity, but must not claim strong aurora
-            # probability without geomagnetic activity data.
-            cloud_loss = c_low * 0.45 + c_mid * 0.25 + c_high * 0.10
-            raw = 58 - cloud_loss - pop * 0.25
-            status_key, indicator_key = "AURORA_NO_KP", "IND_KP_UNAVAILABLE"
+            raw=58-(c_low*0.45+c_mid*0.25+c_high*0.10)-pop*0.25; status_key,indicator_key="AURORA_NO_KP","IND_KP_UNAVAILABLE"
         else:
-            kp_val = float(kp_raw)
-            cloud_loss = c_low * 0.60 + c_mid * 0.35 + c_high * 0.15
-            raw = 45 + kp_val * 7.0 - cloud_loss - pop * 0.35 - max(0, wind - 8) * 1.2
-            if sun_alt > -12:
-                raw -= 15
-            if kp_val >= 5 and raw >= 72:
-                status_key, indicator_key = "AURORA_CLEAR", "IND_CLEAR_SKY"
-            elif raw >= 58:
-                status_key, indicator_key = "AURORA_FAIR", "IND_SOME_CLOUDS"
-            else:
-                status_key, indicator_key = "AURORA_POOR", "IND_NO_STAR"
-
-    elif tag == "cloud_sea":
-        delta = item_data.get("cloud_base_delta")
-        near = item_data.get("cloud_base_near_camera")
-        below = item_data.get("cloud_below_camera")
-        raw = 50 + (rh - 65) * 0.7 + min(c_low, 70) * 0.28 - pop * 0.35 - wind * 2.4
-        if below:
-            raw += 15
-        if near and c_low >= 55:
-            raw -= 22
-        if delta is not None and delta < -150:
-            raw -= 12
-        if raw >= 86:
-            status_key, indicator_key = "CLOUD_SEA_GOLD", "IND_CLOUD_SEA"
-        elif raw >= 60:
-            status_key, indicator_key = "CLOUD_SEA_FAIR", "IND_CLOUD_SEA_SUB"
+            kp_val=float(kp_raw); raw=45+kp_val*7.0-(c_low*0.60+c_mid*0.35+c_high*0.15)-pop*0.35-max(0,wind-8)*1.2
+            if sun_alt>-12: raw-=15
+            status_key,indicator_key=("AURORA_CLEAR","IND_CLEAR_SKY") if kp_val>=5 and raw>=72 else (("AURORA_FAIR","IND_SOME_CLOUDS") if raw>=58 else ("AURORA_POOR","IND_NO_STAR"))
+    elif theme=="cloud_sea":
+        delta=item_data.get("cloud_base_delta"); near=item_data.get("cloud_base_near_camera"); below=item_data.get("cloud_below_camera")
+        raw=50+(rh-65)*0.7+min(c_low,70)*0.28-pop*0.35-wind*2.4
+        if below: raw+=15
+        if near and c_low>=55: raw-=22
+        if delta is not None and delta<-150: raw-=12
+        status_key,indicator_key=("CLOUD_SEA_GOLD","IND_CLOUD_SEA") if raw>=86 else (("CLOUD_SEA_FAIR","IND_CLOUD_SEA_SUB") if raw>=60 else ("CLOUD_SEA_DRY","IND_DRY_AIR"))
+    elif tag=="city":
+        if sun_alt>-2:
+            raw=60-pop*0.3; status_key,indicator_key="CITY_DAY_FAIR","IND_CITY_DAY_FAIR"
         else:
-            status_key, indicator_key = "CLOUD_SEA_DRY", "IND_DRY_AIR"
-
-    elif tag == "forest":
-        if not is_day and not is_twilight:
-            raw = 35
-            status_key, indicator_key = "FOREST_NORMAL", "IND_FOREST_NORM"
-        elif rh >= 82 and vis <= 9000 and wind <= 4.0:
-            raw = 92 - wind * 2.2 - pop * 0.25
-            status_key, indicator_key = "FOREST_MIST", "IND_FOREST_MIST"
-        elif vis >= 16000 and c_low <= 30 and pop < 20 and sun_alt > 5:
-            raw = 88 - wind * 1.5
-            status_key, indicator_key = "FOREST_LIGHT", "IND_FOREST_SUN"
+            raw=88-c_low*0.32-pop*0.45-max(0,wind-8)*1.5
+            if vis>=20000: raw+=5
+            elif vis<10000: raw-=(10000-vis)/1000*2.0
+            status_key,indicator_key=("CITY_NIGHT_CLEAR","IND_CITY_NIGHT_CLEAR") if raw>=85 else (("CITY_NIGHT_FAIR","IND_CITY_NIGHT_HAZE") if raw>=60 else ("CITY_NIGHT_POOR","IND_CITY_NIGHT_BLOCK"))
+    else:  # mountain_view / mountain
+        if sun_alt<=-6:
+            raw=45-pop*0.2; status_key,indicator_key="MOUNTAIN_STABLE_NIGHT","IND_NIGHT_CLEAR"
         else:
-            raw = 65 - pop * 0.3 - c_low * 0.15
-            status_key, indicator_key = "FOREST_NORMAL", "IND_FOREST_NORM"
+            raw=91-c_low*0.42-c_mid*0.22-pop*0.42-max(0,wind-4)*2.0
+            if vis>=30000: raw+=7
+            elif vis>=20000: raw+=4
+            elif vis<10000: raw-=(10000-vis)/700
+            status_key,indicator_key=("MOUNTAIN_EXCELLENT_DAY","IND_PEAKS") if raw>=86 else (("MOUNTAIN_STABLE_DAY","IND_SOME_CLOUDS") if raw>=60 else ("MOUNTAIN_FOG_DAY","IND_NO_STAR"))
 
-    elif tag == "lake":
-        if not is_day and not is_twilight:
-            raw = 48
-            status_key, indicator_key = "LAKE_GOOD", "IND_LAKE_GOOD"
-        elif wind <= 1.8 and rh >= 80 and (is_twilight or 4 <= hour <= 9):
-            raw = 94 - pop * 0.25
-            status_key, indicator_key = "LAKE_MIST", "IND_LAKE_MIST"
-        elif wind <= 2.2 and vis >= 15000 and (c_low + c_mid) < 35:
-            raw = 90 - pop * 0.2
-            status_key, indicator_key = "LAKE_MIRROR", "IND_LAKE_MIRROR"
-        elif wind <= 4.0:
-            raw = 77 - pop * 0.25
-            status_key, indicator_key = "LAKE_GOOD", "IND_LAKE_GOOD"
-        else:
-            raw = 62 - (wind - 4.0) * 5
-            status_key, indicator_key = "LAKE_WINDY", "IND_LAKE_WIND"
-
-    elif tag == "waterfall":
-        if not is_day and not is_twilight:
-            raw = 25
-            status_key, indicator_key = "WATERFALL_NORMAL", "IND_WATERFALL_NORM"
-        elif (c_low + c_mid) >= 45:
-            raw = 90 - wind * 1.0 - pop * 0.2
-            status_key, indicator_key = "WATERFALL_SOFT", "IND_WATERFALL_SOFT"
-        elif (c_low + c_mid) < 15 and sun_alt > 25:
-            raw = 58
-            status_key, indicator_key = "WATERFALL_HARSH", "IND_WATERFALL_HARSH"
-        else:
-            raw = 75 - pop * 0.25
-            status_key, indicator_key = "WATERFALL_NORMAL", "IND_WATERFALL_NORM"
-
-    elif tag == "coast":
-        mid_high = c_mid + c_high
-        if is_twilight and 18 <= mid_high <= 80 and c_low < 40 and pop < 25:
-            raw = 96 - wind * 1.4 - abs(mid_high - 48) * 0.08
-            if item_data.get("sun_alignment") == "good":
-                raw += 4
-            elif item_data.get("sun_alignment") == "poor":
-                raw -= 6
-            status_key, indicator_key = "COAST_GLOW", "IND_COAST_GLOW"
-        elif c_low >= 70:
-            raw = 43
-            status_key, indicator_key = "COAST_LOW_CLOUD", "IND_COAST_BLOCK"
-        elif is_day or is_twilight:
-            raw = 71 - pop * 0.4 - max(0, wind - 6) * 1.4
-            status_key, indicator_key = "COAST_NORMAL", "IND_COAST_NORM"
-        else:
-            raw = 42
-            status_key, indicator_key = "COAST_NORMAL", "IND_COAST_NORM"
-
-    elif tag == "city":
-        if sun_alt > -2:
-            raw = 60 - pop * 0.3
-            status_key, indicator_key = "CITY_DAY_FAIR", "IND_CITY_DAY_FAIR"
-        else:
-            raw = 88 - c_low * 0.32 - pop * 0.45 - max(0, wind - 8) * 1.5
-            if vis >= 20000:
-                raw += 5
-            elif vis < 10000:
-                raw -= (10000 - vis) / 1000 * 2.0
-            if raw >= 85:
-                status_key, indicator_key = "CITY_NIGHT_CLEAR", "IND_CITY_NIGHT_CLEAR"
-            elif raw >= 60:
-                status_key, indicator_key = "CITY_NIGHT_FAIR", "IND_CITY_NIGHT_HAZE"
-            else:
-                status_key, indicator_key = "CITY_NIGHT_POOR", "IND_CITY_NIGHT_BLOCK"
-
-    else:  # mountain
-        if sun_alt <= -6:
-            raw = 45 - pop * 0.2
-            status_key, indicator_key = "MOUNTAIN_STABLE_NIGHT", "IND_NIGHT_CLEAR"
-        else:
-            raw = 91 - c_low * 0.42 - c_mid * 0.22 - pop * 0.42 - max(0, wind - 4) * 2.0
-            if vis >= 30000:
-                raw += 7
-            elif vis >= 20000:
-                raw += 4
-            elif vis < 10000:
-                raw -= (10000 - vis) / 700
-            if raw >= 86:
-                status_key, indicator_key = "MOUNTAIN_EXCELLENT_DAY", "IND_PEAKS"
-            elif raw >= 60:
-                status_key, indicator_key = "MOUNTAIN_STABLE_DAY", "IND_SOME_CLOUDS"
-            else:
-                status_key, indicator_key = "MOUNTAIN_FOG_DAY", "IND_NO_STAR"
-
-    if pop >= 55:
-        raw = min(raw, 42)
-        status_key, indicator_key = "RAIN_RISK", "IND_RAIN_RISK"
-
-    score = _calibrate_score(raw, tag, item_data)
-    score = min(score, _eligibility_cap(tag, item_data))
-    if item_data.get("access_open") is False:
-        status_key, indicator_key = "ACCESS_TIME_LIMITED", "IND_ACCESS_LIMITED"
-    factors = _build_factors(tag, item_data, lang)
-    return score, get_text(status_key, lang), get_text(indicator_key, lang), status_key, indicator_key, factors
-
+    if pop>=55:
+        raw=min(raw,42); status_key,indicator_key="RAIN_RISK","IND_RAIN_RISK"
+    score=_calibrate_score(raw,theme,item_data); score=min(score,_eligibility_cap(theme,item_data))
+    if item_data.get("access_open") is False: status_key,indicator_key="ACCESS_TIME_LIMITED","IND_ACCESS_LIMITED"
+    factors=_build_factors(theme,item_data,lang)
+    return score,get_text(status_key,lang),get_text(indicator_key,lang),status_key,indicator_key,factors
 
 def _access_open_for_spot(spot, local_dt, is_day, is_twilight):
     mode = spot.get("access_mode")
@@ -833,7 +749,7 @@ def _fetch_weather_response(spot):
 def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
     lat = spot.get("lat")
     lon = spot.get("lon")
-    tags = spot.get("tags", ["mountain"])
+    themes = spot.get("themes") or spot.get("tags", ["mountain_view"])
     if lat is None or lon is None:
         return {}
 
@@ -889,6 +805,7 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
                 "vis": hv("visibility", i, 10000),
                 "rh": hv("relative_humidity_2m", i, 50),
                 "wind": hv("wind_speed_10m", i, 0),
+                "temp": temp,
                 "kp": kp_val,
                 "hour": local_dt.hour,
                 "is_day": bool(hv("is_day", i, 1)),
@@ -903,10 +820,10 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
                 **astro,
             }
 
-            tag_scores = {}
-            for tag in tags:
-                score, status, indicator, status_key, indicator_key, factors = evaluate_tag_condition(tag, item_data, local_dt.hour, lang)
-                tag_scores[tag] = {
+            theme_scores = {}
+            for theme in themes:
+                score, status, indicator, status_key, indicator_key, factors = evaluate_tag_condition(theme, item_data, local_dt.hour, lang)
+                theme_scores[theme] = {
                     "score": score,
                     "status": status,
                     "status_key": status_key,
@@ -915,8 +832,8 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
                     "factors": factors,
                 }
 
-            best_tag = max(tag_scores, key=lambda t: tag_scores[t]["score"]) if tag_scores else "mountain"
-            best = tag_scores.get(best_tag, {
+            best_theme = max(theme_scores, key=lambda t: theme_scores[t]["score"]) if theme_scores else "mountain_view"
+            best = theme_scores.get(best_theme, {
                 "score": 50,
                 "status": get_text("STABLE_WEATHER", lang),
                 "key_indicator": get_text("IND_DEFAULT", lang),
@@ -937,8 +854,10 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
                 "key_indicator": best["key_indicator"],
                 "indicator_key": best["indicator_key"],
                 "factors": best.get("factors", []),
-                "best_tag": best_tag,
-                "tag_scores": tag_scores,
+                "best_theme": best_theme,
+                "theme_scores": theme_scores,
+                "best_tag": best_theme,  # V4 compatibility
+                "tag_scores": theme_scores,  # V4 compatibility
                 "kp": kp_val,
                 "kp_source": kp_source,
                 "cloud_base": cloud_base_agl,  # backward compatibility
@@ -978,10 +897,11 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
 
         return {
             "score": best_item.get("score", 50),
-            "best_tag": best_item.get("best_tag"),
+            "best_theme": best_item.get("best_theme", best_item.get("best_tag")),
+            "best_tag": best_item.get("best_theme", best_item.get("best_tag")),
             "best_time": best_item.get("time", "N/A"),
             "best_time_utc": best_item.get("time_utc"),
-            "reason": "Photography Weather Score V4",
+            "reason": "Photography Weather Score V5",
             "position": best_item.get("status", get_text("STABLE_WEATHER", lang)),
             "key_indicator": best_item.get("key_indicator", get_text("IND_DEFAULT", lang)),
             "timezone": tz_name,

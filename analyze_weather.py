@@ -1,67 +1,144 @@
 import sys
 import json
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
+from collections import defaultdict
 
 from regions import get_spots
-from fetch_data import fetch_weather_for_spot, fetch_noaa_kp, fetch_noaa_kp_series
-
-CATEGORY_I18N = {
-    "本島": {"zh-TW": "本島", "en": "Main Island", "ja": "本島"},
-    "澎湖": {"zh-TW": "澎湖", "en": "Penghu", "ja": "澎湖"},
-    "金門": {"zh-TW": "金門", "en": "Kinmen", "ja": "金門"},
-    "馬祖": {"zh-TW": "馬祖", "en": "Matsu", "ja": "馬祖"},
-    "綠島/蘭嶼/小琉球": {"zh-TW": "綠島/蘭嶼/小琉球", "en": "Islands", "ja": "離島"},
-    "北海道/東北": {"zh-TW": "北海道/東北", "en": "Hokkaido/Tohoku", "ja": "北海道/東北"},
-    "關東/中部": {"zh-TW": "關東/中部", "en": "Kanto/Chubu", "ja": "関東/中部"},
-    "關西/中四國": {"zh-TW": "關西/中四國", "en": "Kansai/Chugoku", "ja": "関西/中国・四国"},
-    "九州/沖繩": {"zh-TW": "九州/沖繩", "en": "Kyushu/Okinawa", "ja": "九州/沖縄"},
-    "美西": {"zh-TW": "美西", "en": "US West", "ja": "全米西部"},
-    "美中": {"zh-TW": "美中", "en": "US Central", "ja": "全米中部"},
-    "美東": {"zh-TW": "美東", "en": "US East", "ja": "全米東部"},
-    "阿拉斯加": {"zh-TW": "阿拉斯加", "en": "Alaska", "ja": "アラスカ"},
-}
+from fetch_data import (
+    fetch_weather_for_spot,
+    fetch_noaa_kp,
+    fetch_noaa_kp_series,
+    I18N_MESSAGES,
+    FACTOR_TEMPLATES,
+)
 
 
-def analyze_spot(spot, lang="zh-TW", kp_rows=None):
+def _metric_for_theme(item, theme):
+    scores = item.get("theme_scores") or item.get("tag_scores") or {}
+    return scores.get(theme) or {}
+
+
+def _window_for_theme(items, best_index, theme):
+    if not items:
+        return None, None
+    best_score = (_metric_for_theme(items[best_index], theme) or {}).get("score", 0)
+    threshold = max(55, best_score - 4)
+    left = right = best_index
+    while left > 0:
+        score = (_metric_for_theme(items[left - 1], theme) or {}).get("score", -1)
+        if score < threshold:
+            break
+        left -= 1
+    while right + 1 < len(items):
+        score = (_metric_for_theme(items[right + 1], theme) or {}).get("score", -1)
+        if score < threshold:
+            break
+        right += 1
+    start = items[left].get("time")
     try:
-        raw_data = fetch_weather_for_spot(spot, lang, kp_rows=kp_rows)
-        if not isinstance(raw_data, dict) or not raw_data:
-            return {}
+        end_dt = datetime.strptime(items[right].get("time"), "%Y-%m-%d %H:%M") + timedelta(hours=1)
+        end = end_dt.strftime("%Y-%m-%d %H:%M")
+    except Exception:
+        end = items[right].get("time")
+    return start, end
 
-        name_i18n = spot.get("name_i18n", {})
-        name_main = name_i18n.get(lang) or name_i18n.get("zh-TW") or spot.get("name", "Unknown")
-        name_local = spot.get("name_local", spot.get("name", ""))
-        orig_category = spot.get("category", "未分類")
 
-        return {
-            "spot_id": spot.get("spot_id"),
-            "name": name_main,
-            "name_local": name_local,
-            "category": CATEGORY_I18N.get(orig_category, {}).get(lang, orig_category),
-            "tags": spot.get("tags", ["mountain"]),
-            "lat": spot.get("lat"),
-            "lon": spot.get("lon"),
-            "elevation": spot.get("elevation"),
-            "api_elevation": raw_data.get("api_elevation"),
-            "timezone": raw_data.get("timezone"),
-            "timezone_abbr": raw_data.get("timezone_abbr"),
-            "utc_offset_seconds": raw_data.get("utc_offset_seconds"),
-            "view_azimuth": raw_data.get("view_azimuth", spot.get("view_azimuth")),
-            "view_tolerance": raw_data.get("view_tolerance", spot.get("view_tolerance")),
-            "access_mode": raw_data.get("access_mode", spot.get("access_mode")),
-            "access_note": (spot.get("access_note_i18n") or {}).get(lang),
-            "score": raw_data.get("score", 30),
-            "best_tag": raw_data.get("best_tag"),
-            "best_time": raw_data.get("best_time", "N/A"),
-            "best_time_utc": raw_data.get("best_time_utc"),
-            "reason": raw_data.get("reason", "N/A"),
-            "position": raw_data.get("position", ""),
-            "key_indicator": raw_data.get("key_indicator", ""),
-            "hourly_forecast": raw_data.get("hourly_forecast", []),
-        }
-    except Exception as exc:
-        print(f"⚠️ 讀取景點 {spot.get('spot_id', spot.get('name'))} 失敗: {exc}")
-        return {}
+def _compact_snapshot(item, theme, window_start=None, window_end=None):
+    metric = _metric_for_theme(item, theme)
+    return {
+        "theme": theme,
+        "score": metric.get("score", item.get("score", 0)),
+        "status_key": metric.get("status_key", item.get("status_key")),
+        "indicator_key": metric.get("indicator_key", item.get("indicator_key")),
+        "factors": metric.get("factors", item.get("factors", [])),
+        "best_time": item.get("time"),
+        "best_time_utc": item.get("time_utc"),
+        "window_start": window_start or item.get("time"),
+        "window_end": window_end or item.get("time"),
+        "timezone_abbr": item.get("timezone_abbr"),
+        "kp": item.get("kp"),
+        "kp_source": item.get("kp_source"),
+        "cloud_base_agl": item.get("cloud_base_agl"),
+        "cloud_base_asl": item.get("cloud_base_asl"),
+        "cloud_base_delta": item.get("cloud_base_delta"),
+        "camera_elevation": item.get("camera_elevation"),
+        "temp": item.get("temp"),
+        "rh": item.get("rh"),
+        "c_low": item.get("c_low"),
+        "c_mid": item.get("c_mid"),
+        "c_high": item.get("c_high"),
+        "wind": item.get("wind"),
+        "visibility": item.get("visibility"),
+        "astronomy_valid": item.get("astronomy_valid"),
+        "sun_azimuth": item.get("sun_azimuth"),
+        "sun_elevation": item.get("sun_elevation"),
+        "moon_azimuth": item.get("moon_azimuth"),
+        "moon_elevation": item.get("moon_elevation"),
+        "moon_illumination": item.get("moon_illumination"),
+        "galactic_core_azimuth": item.get("galactic_core_azimuth"),
+        "galactic_core_elevation": item.get("galactic_core_elevation"),
+    }
+
+
+def _build_day_summaries(hourly, themes):
+    future = [h for h in hourly if not h.get("is_past")]
+    by_date = defaultdict(list)
+    for h in future:
+        if h.get("local_date"):
+            by_date[h["local_date"]].append(h)
+    days = []
+    for date in sorted(by_date)[:3]:
+        items = sorted(by_date[date], key=lambda x: x.get("time_utc", ""))
+        theme_summaries = {}
+        for theme in themes:
+            candidates = [(i, (_metric_for_theme(it, theme) or {}).get("score", -1)) for i, it in enumerate(items)]
+            candidates = [x for x in candidates if x[1] >= 0]
+            if not candidates:
+                continue
+            best_idx, _ = max(candidates, key=lambda x: x[1])
+            ws, we = _window_for_theme(items, best_idx, theme)
+            theme_summaries[theme] = _compact_snapshot(items[best_idx], theme, ws, we)
+        if theme_summaries:
+            winner_theme = max(theme_summaries, key=lambda t: theme_summaries[t]["score"])
+            winner = dict(theme_summaries[winner_theme])
+            winner["theme"] = winner_theme
+        else:
+            winner = {"theme": None, "score": 0}
+        days.append({"date": date, "all": winner, "themes": theme_summaries})
+    return days
+
+
+def analyze_spot(spot, kp_rows=None):
+    raw = fetch_weather_for_spot(spot, "zh-TW", kp_rows=kp_rows)
+    if not isinstance(raw, dict) or not raw:
+        return None, None
+
+    common = {
+        "spot_id": spot.get("spot_id"),
+        "name_i18n": spot.get("name_i18n", {}),
+        "name_local": spot.get("name_local", ""),
+        "category": spot.get("category", ""),
+        "scenes": spot.get("scenes", []),
+        "themes": spot.get("themes", []),
+        "lat": spot.get("lat"),
+        "lon": spot.get("lon"),
+        "elevation": spot.get("elevation"),
+        "api_elevation": raw.get("api_elevation"),
+        "timezone": raw.get("timezone"),
+        "timezone_abbr": raw.get("timezone_abbr"),
+        "utc_offset_seconds": raw.get("utc_offset_seconds"),
+        "view_azimuth": raw.get("view_azimuth", spot.get("view_azimuth")),
+        "view_tolerance": raw.get("view_tolerance", spot.get("view_tolerance")),
+        "access_mode": raw.get("access_mode", spot.get("access_mode")),
+        "access_note_i18n": spot.get("access_note_i18n"),
+    }
+    hourly = raw.get("hourly_forecast", [])
+    summary = dict(common)
+    summary["daily"] = _build_day_summaries(hourly, spot.get("themes", []))
+
+    details = dict(common)
+    details["hourly_forecast"] = hourly
+    return summary, details
 
 
 def main():
@@ -69,42 +146,44 @@ def main():
     spots = get_spots(region)
     if not spots:
         print(f"❌ 找不到區域 [{region}] 的景點清單！")
-        sys.exit(1)
+        raise SystemExit(1)
 
-    languages = ["zh-TW", "en", "ja"]
     kp_rows = fetch_noaa_kp_series()
     kp_info = fetch_noaa_kp()
-    latest_kp = kp_info["kp_index"] if kp_info else "N/A"
-    latest_kp_source = kp_info.get("source") if kp_info else "unavailable"
     now_utc_str = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
-    # fetch_data.py internally caches the Open-Meteo response by coordinate/elevation,
-    # so generating the 3 languages does not triple the external weather requests.
-    for lang in languages:
-        output_filename = f"{region}_weather_{lang}.json"
-        print(f"🚀 開始生成 [{region.upper()}] - 語系 [{lang}] -> {output_filename} ...")
+    summaries, details = [], []
+    for n, spot in enumerate(spots, 1):
+        print(f"[{n}/{len(spots)}] {spot['name_i18n'].get('zh-TW')} ...")
+        summary, detail = analyze_spot(spot, kp_rows=kp_rows)
+        if summary:
+            summaries.append(summary)
+            details.append(detail)
 
-        analyzed_spots = []
-        for spot in spots:
-            result = analyze_spot(spot, lang, kp_rows=kp_rows)
-            if result:
-                analyzed_spots.append(result)
+    base_meta = {
+        "schema_version": 5,
+        "updated_at": now_utc_str,
+        "region": region,
+        "latest_kp": kp_info.get("kp_index") if kp_info else None,
+        "latest_kp_source": kp_info.get("source") if kp_info else "unavailable",
+        "total_spots": len(summaries),
+    }
+    summary_data = {
+        **base_meta,
+        "translations": {"messages": I18N_MESSAGES, "factors": FACTOR_TEMPLATES},
+        "spots": summaries,
+    }
+    detail_data = {**base_meta, "spots": details}
 
-        output_data = {
-            "schema_version": 4,
-            "updated_at": now_utc_str,
-            "region": region,
-            "lang": lang,
-            "latest_kp": latest_kp,
-            "latest_kp_source": latest_kp_source,
-            "total_spots": len(analyzed_spots),
-            "spots": analyzed_spots,
-        }
+    summary_name = f"{region}_weather.json"
+    details_name = f"{region}_weather_details.json"
+    with open(summary_name, "w", encoding="utf-8") as f:
+        json.dump(summary_data, f, ensure_ascii=False, separators=(",", ":"))
+    with open(details_name, "w", encoding="utf-8") as f:
+        json.dump(detail_data, f, ensure_ascii=False, separators=(",", ":"))
 
-        with open(output_filename, "w", encoding="utf-8") as fh:
-            json.dump(output_data, fh, ensure_ascii=False, indent=2)
-
-        print(f"✅ 成功生成 {output_filename}")
+    print(f"✅ {summary_name}: {len(summaries)} spots")
+    print(f"✅ {details_name}: 96H details on demand")
 
 
 if __name__ == "__main__":

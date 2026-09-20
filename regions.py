@@ -2,17 +2,25 @@
 ChaseLights — 區域與景點分類與主題標籤完整定義設定
 """
 
-AVAILABLE_TAGS = {
-    "lake",        # 湖泊 / 潭 / 沼澤 (特色: 湖面晨霧, 鏡面靜止倒影)
-    "mountain",    # 高山 / 觀景台 (特色: 遠眺通透, 日出日落)
-    "cloud_sea",   # 雲海 / 琉璃光 (特色: 高水氣低雲)
-    "forest",      # 森林 / 步道 (特色: 迷霧森林, 樹林耶穌光)
-    "starlight",   # 暗空觀星 (特色: 拍攝銀河/星軌)
-    "coast",       # 海岸 / 漁港 (特色: 晨昏彩霞, 慢快門浪花)
-    "waterfall",   # 瀑布 / 溪流 (特色: 陰天漫射光, 絹絲水流)
-    "aurora",      # 夜間極光
-    "city",        # 城市夜景 / 建築車軌
+SCENE_TYPES = {
+    "mountain", "coast", "lake", "river", "waterfall", "forest", "wetland",
+    "geology", "desert", "grassland", "rural", "snow_ice", "city", "architecture",
 }
+
+THEME_TYPES = {
+    "mountain_view", "sunrise", "sunset", "blue_hour", "sky_glow", "cloud_sea",
+    "fog_mist", "reflection", "sunbeam", "milky_way", "long_exposure",
+    "city_night", "snow_scene", "aurora",
+}
+
+# Legacy tags are retained inside REGIONS for backward compatibility. get_spots()
+# converts them into the V5 two-layer model: scenes describe what is there;
+# themes describe the photographic condition the weather engine predicts.
+AVAILABLE_TAGS = {
+    "lake", "mountain", "cloud_sea", "forest", "starlight", "coast",
+    "waterfall", "aurora", "city",
+}
+
 
 REGIONS = {
     "tw": {
@@ -286,6 +294,75 @@ ACCESS_RULE_OVERRIDES = {
     },
 }
 
+def _derive_scenes_themes(name_zh, legacy_tags, category, region_key):
+    tags = set(legacy_tags or [])
+    scenes = set()
+    themes = set()
+
+    scene_map = {
+        "mountain": "mountain", "coast": "coast", "lake": "lake",
+        "forest": "forest", "waterfall": "waterfall", "city": "city",
+    }
+    for old, new in scene_map.items():
+        if old in tags:
+            scenes.add(new)
+
+    text = f"{name_zh} {category}".lower()
+    def has(*words):
+        return any(str(w).lower() in text for w in words)
+
+    if has("濕地", "湿原", "wetland", "marsh", "沼澤", "沼"):
+        scenes.add("wetland")
+    if has("河", "溪", "川", "river", "canal", "運河"):
+        scenes.add("river")
+    if has("峽谷", "canyon", "月世界", "火炎山", "地質", "奇岩", "arches", "arch", "mesa", "monument valley"):
+        scenes.add("geology")
+    if has("death valley", "white sands", "沙漠", "沙丘", "desert", "dune"):
+        scenes.add("desert")
+    if has("冰河", "冰川", "glacier", "氷河", "雪山", "雪景"):
+        scenes.add("snow_ice")
+    if has("草原", "青青草原", "grassland", "prairie"):
+        scenes.add("grassland")
+    if has("伯朗大道", "梯田", "稻田", "農場", "farm", "rice"):
+        scenes.add("rural")
+    if has("大橋", "bridge", "塔", "tower", "城", "castle", "寺", "神社", "市場", "market", "皇居", "大佛", "pier", "碼頭", "車站"):
+        scenes.add("architecture")
+
+    # Photographic-condition themes. These are intentionally broader than the
+    # original tag list so filters describe a photographer's actual intent.
+    if "mountain" in scenes or "geology" in scenes or "desert" in scenes or "grassland" in scenes:
+        themes.update({"mountain_view", "sunrise", "sunset"})
+    if "coast" in scenes:
+        themes.update({"sunrise", "sunset", "sky_glow", "blue_hour", "long_exposure"})
+    if "lake" in scenes or "wetland" in scenes:
+        themes.update({"sunrise", "sunset", "fog_mist", "reflection"})
+    if "river" in scenes:
+        themes.update({"fog_mist", "long_exposure"})
+    if "forest" in scenes:
+        themes.update({"fog_mist", "sunbeam"})
+    if "waterfall" in scenes:
+        themes.add("long_exposure")
+    if "city" in scenes or "architecture" in scenes:
+        themes.update({"blue_hour", "city_night"})
+    if "snow_ice" in scenes:
+        themes.update({"snow_scene", "mountain_view"})
+
+    if "cloud_sea" in tags:
+        themes.add("cloud_sea")
+    if "starlight" in tags:
+        themes.add("milky_way")
+    # Aurora is deliberately only a theme for Alaska. Taiwan/Japan and the
+    # contiguous-US category filters therefore never expose an Aurora button.
+    if "aurora" in tags and region_key == "us" and category == "阿拉斯加":
+        themes.add("aurora")
+
+    if not scenes:
+        scenes.add("mountain")
+    if not themes:
+        themes.add("mountain_view")
+    return sorted(scenes), sorted(themes)
+
+
 def get_spots(region="tw"):
     region_key = region.lower()
     region_data = REGIONS.get(region_key, REGIONS["tw"])
@@ -294,34 +371,31 @@ def get_spots(region="tw"):
     for idx, spot in enumerate(region_data.get("spots", []), start=1):
         if len(spot) >= 8:
             name_zh = spot[2]
+            category = spot[6]
+            legacy_tags = list(spot[7])
             item = {
                 "spot_id": f"{region_key}-{idx:03d}",
                 "lat": spot[0],
                 "lon": spot[1],
-                "name_i18n": {
-                    "zh-TW": name_zh,
-                    "en": spot[3],
-                    "ja": spot[4]
-                },
+                "name_i18n": {"zh-TW": name_zh, "en": spot[3], "ja": spot[4]},
                 "name_local": spot[5],
-                "category": spot[6],
-                "tags": spot[7]
+                "category": category,
+                "tags": legacy_tags,
             }
         else:
             name_zh = spot[2]
+            category = spot[3] if len(spot) > 3 else "本島"
+            legacy_tags = list(spot[4]) if len(spot) > 4 else ["mountain"]
             item = {
                 "spot_id": f"{region_key}-{idx:03d}",
-                "lat": spot[0],
-                "lon": spot[1],
-                "name_i18n": {
-                    "zh-TW": name_zh,
-                    "en": name_zh,
-                    "ja": name_zh
-                },
-                "name_local": name_zh,
-                "category": spot[3] if len(spot) > 3 else "本島",
-                "tags": spot[4] if len(spot) > 4 else ["mountain"]
+                "lat": spot[0], "lon": spot[1],
+                "name_i18n": {"zh-TW": name_zh, "en": name_zh, "ja": name_zh},
+                "name_local": name_zh, "category": category, "tags": legacy_tags,
             }
+
+        scenes, themes = _derive_scenes_themes(name_zh, legacy_tags, category, region_key)
+        item["scenes"] = scenes
+        item["themes"] = themes
 
         elevation = ELEVATION_OVERRIDES.get(name_zh)
         if elevation is not None:
