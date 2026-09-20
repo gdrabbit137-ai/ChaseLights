@@ -336,7 +336,7 @@
       const el=document.getElementById('scene-nav');el.innerHTML='';const present=new Set();categoryBaseSpots().forEach(s=>(s.scenes||[]).forEach(x=>present.add(x)));
       const order=['all','mountain','coast','lake','river','waterfall','forest','wetland','geology','desert','grassland','rural','snow_ice','city','architecture'];
       if(currentScene!=='all'&&!present.has(currentScene)){currentScene='all';localStorage.setItem('chaselights_scene','all');}
-      order.filter(k=>k==='all'||present.has(k)).forEach(k=>{const b=document.createElement('button');b.className=`tag-btn ${k===currentScene?'active':''}`;b.innerText=sceneLabel(k);b.onclick=()=>{currentScene=k;localStorage.setItem('chaselights_scene',k);filterAndRender();};el.appendChild(b);});
+      order.filter(k=>k==='all'||present.has(k)).forEach(k=>{const b=document.createElement('button');b.className=`tag-btn ${k===currentScene?'active':''}`;b.innerText=sceneLabel(k);b.onclick=()=>{currentScene=k;localStorage.setItem('chaselights_scene',k);renderSceneNav();filterAndRender();};el.appendChild(b);});
     }
     function renderThemeNav(){
       const el=document.getElementById('theme-nav');el.innerHTML='';const present=new Set();categoryBaseSpots().forEach(s=>(s.themes||[]).forEach(x=>present.add(x)));
@@ -344,7 +344,7 @@
       if(!(currentRegion==='us'&&currentCategoryKey==='阿拉斯加'))present.delete('aurora');
       const order=['all','sunrise','sunset','sky_glow','blue_hour','cloud_sea','fog_mist','reflection','sunbeam','mountain_view','milky_way','long_exposure','snow_scene','city_night','aurora'];
       if(currentTheme!=='all'&&!present.has(currentTheme)){currentTheme='all';localStorage.setItem('chaselights_theme','all');}
-      order.filter(k=>k==='all'||present.has(k)).forEach(k=>{const b=document.createElement('button');b.className=`tag-btn ${k===currentTheme?'active':''}`;b.innerText=themeLabel(k);b.onclick=()=>{currentTheme=k;localStorage.setItem('chaselights_theme',k);filterAndRender();};el.appendChild(b);});
+      order.filter(k=>k==='all'||present.has(k)).forEach(k=>{const b=document.createElement('button');b.className=`tag-btn ${k===currentTheme?'active':''}`;b.innerText=themeLabel(k);b.onclick=()=>{currentTheme=k;localStorage.setItem('chaselights_theme',k);renderThemeNav();filterAndRender();};el.appendChild(b);});
     }
     function syncDayButtons(){const map={today:0,tomorrow:1,after_tomorrow:2};document.querySelectorAll('.day-btn').forEach((b,i)=>b.classList.toggle('active',i===map[currentDayFilter]));}
     function switchDay(k){currentDayFilter=k;localStorage.setItem('chaselights_day',k);syncDayButtons();filterAndRender();}
