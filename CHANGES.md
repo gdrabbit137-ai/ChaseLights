@@ -1,3 +1,21 @@
+# ChaseLights Score V5.4
+
+## New
+- Added estimated Bortle class / dark-sky score to all Milky Way and Aurora-capable spots.
+- Milky Way scoring now applies strong light-pollution penalties and score caps; aurora uses a lighter penalty.
+- Astronomy cards/modal show `Bortle N` for transparency.
+- Added light-pollution explanation factors in Traditional Chinese, English and Japanese.
+- Fixed timezone abbreviation ambiguity: U.S. `CST` is no longer mistaken for Taiwan `UTC+8`.
+- Fixed summary/detail version drift: 96H detail cache is invalidated when a newer summary arrives.
+- Added cleanup for obsolete ChaseLights Cache Storage versions.
+- Made modal local-name behavior consistent with cards (no duplicate Chinese alias in Taiwan Traditional Chinese mode).
+- Deployment remains backward-compatible during rollout: front-end accepts schema 7–9 while new generated JSON uses schema 9.
+
+## Audit
+- Verified unique spot IDs, valid coordinates, no duplicate coordinates, valid scene/theme keys, and Aurora only in Alaska.
+- Verified every current Milky Way/Aurora spot receives a Bortle class (curated estimate or low-confidence fallback).
+- Bortle values are planning estimates, not live SQM readings; `light_pollution_confidence` and `light_pollution_source` are exported.
+
 # ChaseLights Score V5 — 2026-09-20
 
 ## 本版重點

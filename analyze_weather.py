@@ -134,6 +134,10 @@ def analyze_spot(spot, kp_rows=None):
         "map_query": spot.get("map_query"),
         "coordinate_source": spot.get("coordinate_source"),
         "coordinate_confidence": spot.get("coordinate_confidence"),
+        "bortle_class": spot.get("bortle_class"),
+        "dark_sky_score": spot.get("dark_sky_score"),
+        "light_pollution_source": spot.get("light_pollution_source"),
+        "light_pollution_confidence": spot.get("light_pollution_confidence"),
     }
     hourly = raw.get("hourly_forecast", [])
     summary = dict(common)
@@ -164,7 +168,7 @@ def main():
             details.append(detail)
 
     base_meta = {
-        "schema_version": 8,
+        "schema_version": 9,
         "updated_at": now_utc_str,
         "region": region,
         "latest_kp": kp_info.get("kp_index") if kp_info else None,

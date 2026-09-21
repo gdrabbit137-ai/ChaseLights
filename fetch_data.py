@@ -39,10 +39,12 @@ I18N_MESSAGES = {
     "CITY_DAY_POOR": {"zh-TW": "🌫️ 城市視線受阻", "en": "🌫️ Obstructed City View", "ja": "🌫️ 視界不順の都市景觀"},
     "STARLIGHT_GREAT": {"zh-TW": "🌌 銀河觀星極佳", "en": "🌌 Excellent Stargazing", "ja": "🌌 最高の星空・天の川"},
     "STARLIGHT_FAIR": {"zh-TW": "✨ 星空條件普通", "en": "✨ Moderate Stargazing", "ja": "✨ 普通の星空条件"},
-    "STARLIGHT_POOR": {"zh-TW": "☁️ 雲層過厚無視線", "en": "☁️ Heavy Cloud Cover", "ja": "☁️ 厚い雲（視界不可）"},
+    "STARLIGHT_POOR": {"zh-TW": "☁️ 星空條件不佳", "en": "☁️ Poor Stargazing Conditions", "ja": "☁️ 星空条件が不良"},
+    "STARLIGHT_LIGHT_POLLUTION": {"zh-TW": "🌃 光害限制銀河細節", "en": "🌃 Light Pollution Limits Milky Way Detail", "ja": "🌃 光害で天の川の細部が見えにくい"},
     "AURORA_CLEAR": {"zh-TW": "🌌 夜間極光視野清透", "en": "🌌 Clear Aurora View", "ja": "🌌 清透なオーロラ視界"},
     "AURORA_FAIR": {"zh-TW": "🌌 極光觀察條件普通", "en": "🌌 Fair Aurora Conditions", "ja": "🌌 普通のオーロラ条件"},
-    "AURORA_POOR": {"zh-TW": "☁️ 雲層過厚無視線", "en": "☁️ Heavy Cloud Cover", "ja": "☁️ 厚い雲（視界不可）"},
+    "AURORA_POOR": {"zh-TW": "☁️ 極光觀測條件不佳", "en": "☁️ Poor Aurora Viewing Conditions", "ja": "☁️ オーロラ観測条件が不良"},
+    "AURORA_LIGHT_POLLUTION": {"zh-TW": "🌃 光害降低極光對比", "en": "🌃 Light Pollution Reduces Aurora Contrast", "ja": "🌃 光害でオーロラのコントラストが低下"},
     "AURORA_NO_KP": {"zh-TW": "🌌 天空可觀測，但缺少 Kp 預報", "en": "🌌 Sky is observable, but Kp forecast is unavailable", "ja": "🌌 空は観測可能ですが Kp 予報がありません"},
     "ASTRO_DATA_UNAVAILABLE": {"zh-TW": "⚠️ 天文資料暫時不可用", "en": "⚠️ Astronomy data unavailable", "ja": "⚠️ 天文データを取得できません"},
     "ACCESS_TIME_LIMITED": {"zh-TW": "⏰ 非建議／可拍攝時段", "en": "⏰ Outside the recommended/access window", "ja": "⏰ 推奨・撮影可能時間外"},
@@ -384,6 +386,8 @@ FACTOR_TEMPLATES = {
     "rain": {"zh-TW": "降雨機率達 {v}%", "en": "Rain chance {v}%", "ja": "降水確率 {v}%"},
     "twilight": {"zh-TW": "晨昏光線進入黃金窗口", "en": "Golden/twilight light window", "ja": "朝夕のゴールデンタイム"},
     "cloud_color": {"zh-TW": "中高雲量適合彩霞", "en": "Mid/high clouds favor color", "ja": "中・上層雲が焼けやすい"},
+    "dark_sky_bortle": {"zh-TW": "估計 Bortle {v}，暗空良好", "en": "Est. Bortle {v} dark sky", "ja": "推定 Bortle {v} の暗い空"},
+    "light_pollution_bortle": {"zh-TW": "估計 Bortle {v}，光害影響", "en": "Est. Bortle {v} light pollution", "ja": "推定 Bortle {v} の光害影響"},
     "fire_cloud": {"zh-TW": "低雲少且中高雲分布佳，具火燒雲條件", "en": "Clear low horizon with favorable mid/high clouds", "ja": "低層雲が少なく中高層雲の分布が焼け雲向き"},
     "astro_dark": {"zh-TW": "已進入天文黑夜", "en": "Astronomical darkness", "ja": "天文薄明終了後"},
     "not_dark": {"zh-TW": "尚未進入天文黑夜", "en": "Not astronomically dark", "ja": "まだ天文薄明中"},
@@ -528,6 +532,28 @@ def _fire_cloud_likely(d):
     return low <= 22 and pop <= 25 and wind <= 8 and 45 <= colored <= 135 and max(mid, high) >= 25
 
 
+def _apply_light_pollution(score, theme, d):
+    b = d.get("bortle_class")
+    if b is None:
+        return int(score)
+    try:
+        b = max(1, min(9, int(b)))
+    except Exception:
+        return int(score)
+    tag = _canonical_theme(theme)
+    score = float(score)
+    if tag == "starlight":
+        penalty = {1:0,2:0,3:2,4:6,5:12,6:20,7:28,8:38,9:48}[b]
+        cap = {1:96,2:96,3:94,4:88,5:80,6:70,7:58,8:42,9:30}[b]
+        score = min(score - penalty, cap)
+    elif tag == "aurora":
+        # Aurora is less sensitive than Milky Way imaging, especially during strong displays.
+        penalty = {1:0,2:0,3:0,4:2,5:4,6:7,7:10,8:15,9:20}[b]
+        cap = {1:96,2:96,3:96,4:94,5:92,6:88,7:82,8:72,9:62}[b]
+        score = min(score - penalty, cap)
+    return int(round(max(10, score)))
+
+
 def _build_factors(theme, d, lang):
     plus, minus = [], []
     tag = _canonical_theme(theme)
@@ -562,6 +588,10 @@ def _build_factors(theme, d, lang):
     elif theme == "snow_scene":
         if float(d.get("temp", 99) or 99) <= 4: plus.insert(0, _factor("plus", "snow_cold", None, lang))
     elif theme == "milky_way":
+        b=d.get("bortle_class")
+        if b is not None:
+            if int(b) <= 3: plus.insert(0, _factor("plus", "dark_sky_bortle", int(b), lang))
+            elif int(b) >= 5: minus.insert(0, _factor("minus", "light_pollution_bortle", int(b), lang))
         if d.get("astronomical_dark"): plus.insert(0, _factor("plus", "astro_dark", None, lang))
         else: minus.insert(0, _factor("minus", "not_dark", None, lang))
         moon_illum = round(float(d.get("moon_illumination", 0) or 0)); moon_alt = float(d.get("moon_elevation", -90) or -90)
@@ -569,6 +599,10 @@ def _build_factors(theme, d, lang):
         elif moon_alt > 10 and moon_illum >= 60: minus.append(_factor("minus", "moon_bad", moon_illum, lang))
         if d.get("galactic_core_visible"): plus.append(_factor("plus", "mw_core", None, lang))
     elif theme == "aurora":
+        b=d.get("bortle_class")
+        if b is not None:
+            if int(b) <= 3: plus.insert(0, _factor("plus", "dark_sky_bortle", int(b), lang))
+            elif int(b) >= 7: minus.insert(0, _factor("minus", "light_pollution_bortle", int(b), lang))
         kp=d.get("kp")
         if kp is not None:
             key="kp_good" if float(kp)>=4 else "kp_low"
@@ -725,7 +759,19 @@ def evaluate_tag_condition(theme, item_data, hour=None, lang="zh-TW"):
 
     if pop>=55:
         raw=min(raw,42); status_key,indicator_key="RAIN_RISK","IND_RAIN_RISK"
-    score=_calibrate_score(raw,theme,item_data); score=min(score,_eligibility_cap(theme,item_data))
+    score=_calibrate_score(raw,theme,item_data); score=min(score,_eligibility_cap(theme,item_data)); score=_apply_light_pollution(score,theme,item_data)
+    b=item_data.get("bortle_class")
+    if tag=="starlight":
+        if score>=86: status_key,indicator_key="STARLIGHT_GREAT","IND_CLEAR_SKY"
+        elif score>=62: status_key,indicator_key="STARLIGHT_FAIR","IND_SOME_CLOUDS"
+        elif b is not None and int(b)>=6: status_key,indicator_key="STARLIGHT_LIGHT_POLLUTION","IND_LIGHT_POLLUTION"
+        else: status_key,indicator_key="STARLIGHT_POOR","IND_NO_STAR"
+    elif tag=="aurora" and item_data.get("kp") is not None:
+        kp_val=float(item_data.get("kp") or 0)
+        if kp_val>=5 and score>=72: status_key,indicator_key="AURORA_CLEAR","IND_CLEAR_SKY"
+        elif score>=58: status_key,indicator_key="AURORA_FAIR","IND_SOME_CLOUDS"
+        elif b is not None and int(b)>=7: status_key,indicator_key="AURORA_LIGHT_POLLUTION","IND_LIGHT_POLLUTION"
+        else: status_key,indicator_key="AURORA_POOR","IND_NO_STAR"
     if item_data.get("access_open") is False: status_key,indicator_key="ACCESS_TIME_LIMITED","IND_ACCESS_LIMITED"
     factors=_build_factors(theme,item_data,lang)
     return score,get_text(status_key,lang),get_text(indicator_key,lang),status_key,indicator_key,factors
@@ -848,6 +894,8 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
                 "cloud_below_camera": cloud_base_delta >= 80,
                 "cloud_base_near_camera": abs(cloud_base_delta) <= 180,
                 "sun_alignment": sun_alignment,
+                "bortle_class": spot.get("bortle_class"),
+                "dark_sky_score": spot.get("dark_sky_score"),
                 **astro,
             }
 
@@ -932,7 +980,7 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
             "best_tag": best_item.get("best_theme", best_item.get("best_tag")),
             "best_time": best_item.get("time", "N/A"),
             "best_time_utc": best_item.get("time_utc"),
-            "reason": "Photography Weather Score V5",
+            "reason": "Photography Weather Score V5.4",
             "position": best_item.get("status", get_text("STABLE_WEATHER", lang)),
             "key_indicator": best_item.get("key_indicator", get_text("IND_DEFAULT", lang)),
             "timezone": tz_name,

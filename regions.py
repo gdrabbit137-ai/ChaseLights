@@ -269,6 +269,121 @@ VIEW_AZIMUTH_OVERRIDES = {
 # business hours that may change. daylight_only means the photographic subject
 # itself requires daylight; access_note_i18n warns the user to verify operator
 # or facility hours separately.
+
+# Estimated Bortle classes for astronomy-oriented locations.
+# These are curated planning estimates, not live SQM measurements.  A confidence field
+# is exported so the UI/score can distinguish a strong estimate from a fallback.
+BORTLE_OVERRIDES = {
+    '大屯山助航站': (6, 'medium'),
+    '日月潭・水社壩湖景步道': (4, 'medium'),
+    '日月潭': (4, 'medium'),
+    '合歡山主峰': (2, 'high'),
+    '金龍山': (4, 'medium'),
+    '阿里山祝山觀日平台': (3, 'medium'),
+    '阿里山': (3, 'medium'),
+    '鵝鑾鼻燈塔': (3, 'medium'),
+    '墾丁鵝鑾鼻': (3, 'medium'),
+    '六十石山': (3, 'medium'),
+    '七星潭月牙灣': (5, 'medium'),
+    '七星潭': (5, 'medium'),
+    '三仙台': (3, 'medium'),
+    '池上伯朗大道': (4, 'medium'),
+    '玉山主峰': (2, 'high'),
+    '雪山主峰': (2, 'high'),
+    '雪山北峰': (2, 'high'),
+    '奇萊主峰': (2, 'high'),
+    '南湖大山': (1, 'high'),
+    '嘉明湖': (2, 'high'),
+    '大霸尖山': (2, 'high'),
+    '北大武山': (2, 'high'),
+    '池有山': (2, 'high'),
+    '桃山': (2, 'high'),
+    '品田山': (2, 'high'),
+    '杉林溪': (4, 'medium'),
+    '松蘿湖': (4, 'medium'),
+    '加羅湖': (3, 'medium'),
+    '奎壁山': (4, 'medium'),
+    '金門得月樓': (5, 'medium'),
+    '馬祖南竿': (4, 'medium'),
+    '東引燈塔': (3, 'medium'),
+    '綠島朝日溫泉': (3, 'medium'),
+    '蘭嶼東清灣': (2, 'high'),
+    '蘭嶼青青草原': (2, 'high'),
+    '旭岳': (2, 'high'),
+    '富士山 (河口湖)': (4, 'medium'),
+    '大峽谷國家公園': (1, 'high'),
+    '紀念碑谷': (2, 'high'),
+    '拱門國家公園': (2, 'high'),
+    '布萊斯峽谷國家公園': (2, 'high'),
+    '優勝美地半圓頂': (2, 'high'),
+    '大提頓國家公園': (2, 'high'),
+    '雷尼爾山國家公園': (2, 'high'),
+    '火山口湖國家公園': (1, 'high'),
+    '死亡谷國家公園': (1, 'high'),
+    '冰川國家公園': (2, 'high'),
+    '峽谷地國家公園 梅薩拱門': (1, 'high'),
+    '約書亞樹國家公園': (2, 'high'),
+    '巨人柱國家公園': (4, 'medium'),
+    '鋸齒山脈': (2, 'high'),
+    '洛杉磯格里斐斯天文台': (9, 'high'),
+    '白沙國家公園': (2, 'high'),
+    '落磯山國家公園': (3, 'medium'),
+    '迪納利國家公園': (1, 'high'),
+    '費爾班克斯極光': (6, 'medium'),
+    '珍娜溫泉': (3, 'medium'),
+    '安克拉治': (8, 'high'),
+    '蘇華德': (4, 'medium'),
+    '哈徹山口': (2, 'high'),
+    '馬塔努斯卡冰河': (2, 'high'),
+    '威朗格利-聖埃利亞斯國家公園': (1, 'high'),
+    '布魯克斯山脈': (1, 'high'),
+    '北極圈地標': (1, 'high'),
+    '諾姆': (4, 'medium'),
+    '埃克盧特納湖': (3, 'medium'),
+    '塔爾基特納': (3, 'medium'),
+    '楚加奇州立公園': (3, 'medium'),
+    '白令陸橋國家保護區': (1, 'high'),
+    '育空河': (1, 'high'),
+    '諾阿塔克河': (1, 'high'),
+    '克拉克湖國家公園': (1, 'high'),
+    '獨立礦山': (2, 'high')
+}
+
+def _dark_sky_meta(region_key, name_zh, category, scenes, themes):
+    if not ({"milky_way", "aurora"} & set(themes or [])):
+        return None
+    if name_zh in BORTLE_OVERRIDES:
+        cls, confidence = BORTLE_OVERRIDES[name_zh]
+        source = "curated_estimate"
+    else:
+        # Conservative fallback for newly-added astronomy spots.  It is deliberately
+        # approximate and marked low-confidence so it cannot masquerade as measured data.
+        if region_key == "us" and category == "阿拉斯加":
+            cls = 2 if "city" not in scenes else 7
+        elif region_key == "us":
+            cls = 3 if "city" not in scenes else 8
+        elif region_key == "jp":
+            cls = 3 if "mountain" in scenes else (8 if "city" in scenes else 5)
+        else:
+            if category in {"綠島/蘭嶼/小琉球", "馬祖"}:
+                cls = 3
+            elif "city" in scenes:
+                cls = 7
+            elif "mountain" in scenes:
+                cls = 3
+            else:
+                cls = 4
+        confidence = "low"
+        source = "heuristic_fallback"
+    cls = max(1, min(9, int(cls)))
+    dark_sky_score = {1:100,2:94,3:86,4:74,5:60,6:45,7:30,8:18,9:8}[cls]
+    return {
+        "bortle_class": cls,
+        "dark_sky_score": dark_sky_score,
+        "light_pollution_source": source,
+        "light_pollution_confidence": confidence,
+    }
+
 ACCESS_RULE_OVERRIDES = {
     "羚羊峽谷": {
         "access_mode": "daylight_only",
@@ -1336,5 +1451,8 @@ def get_spots(region="tw"):
         access = ACCESS_RULE_OVERRIDES.get(name_zh)
         if access:
             item.update(access)
+        dark_sky = _dark_sky_meta(region_key, name_zh, category, item.get("scenes", []), item.get("themes", []))
+        if dark_sky:
+            item.update(dark_sky)
         formatted_spots.append(item)
     return formatted_spots

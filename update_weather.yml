@@ -1,0 +1,59 @@
+name: Update ChaseLights Weather Data
+
+on:
+  schedule:
+    # 每 3 小時更新一次攝影氣象資料
+    - cron: '0 */3 * * *'
+  workflow_dispatch:
+
+# 避免前一次更新尚未完成時又啟動新的排程
+concurrency:
+  group: chaselights-weather-update
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  update-weather:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+
+      - name: Run Weather Analysis for All Regions
+        run: |
+          python analyze_weather.py tw
+          python analyze_weather.py jp
+          python analyze_weather.py us
+
+      - name: Commit and Push Updated Weather Data
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+          # Score V5.4：每個區域只產生 summary + 96H details
+          git add             tw_weather.json tw_weather_details.json             jp_weather.json jp_weather_details.json             us_weather.json us_weather_details.json
+
+          # 清除 Score V4 以前不再使用的多語系 JSON（若不存在則忽略）
+          git rm -f --ignore-unmatch             *_weather_zh-TW.json             *_weather_en.json             *_weather_ja.json
+
+          if ! git diff-index --quiet HEAD; then
+            git commit -m "Auto-update ChaseLights weather data [skip ci]"
+            for i in {1..5}; do
+              git pull --rebase && git push && break || sleep 5
+            done
+          else
+            echo "No weather data changes found."
+          fi
