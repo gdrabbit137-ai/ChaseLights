@@ -7,15 +7,24 @@ from opportunities import (
     validate_curated_opportunities,
 )
 from regions import get_spots
+from taxonomy_v004 import PRODUCT_STATUS_BY_SPOT, active_in_catalog, product_status, validate_taxonomy
 
 
 def test_adapter_integrity():
     assert ADAPTER_VERSION == "v0.04-r3-preview"
     assert validate_curated_opportunities() == []
+    assert validate_taxonomy() == []
 
     tw = get_spots("tw")
     assert len(tw) == 71
     assert [s["spot_id"] for s in tw] == [f"tw-{i:03d}" for i in range(1, 72)]
+    exit_ids = {sid for sid, status in PRODUCT_STATUS_BY_SPOT.items() if status == "exit_candidate"}
+    review_ids = {sid for sid, status in PRODUCT_STATUS_BY_SPOT.items() if status == "review"}
+    assert exit_ids == {"tw-052", "tw-058", "tw-062", "tw-063"}
+    assert len(review_ids) == 8
+    assert sum(1 for s in tw if s["active_in_catalog"]) == 67
+    assert all(not active_in_catalog(sid) for sid in exit_ids)
+    assert all(product_status(sid) == "review" for sid in review_ids)
 
     curated = {s["spot_id"]: s for s in tw if s.get("opportunities")}
     assert set(curated) == {"tw-001", "tw-035", "tw-038", "tw-046"}
