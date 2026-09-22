@@ -121,6 +121,8 @@ def analyze_spot(spot, kp_rows=None):
         "scenes": spot.get("scenes", []),
         "themes": spot.get("themes", []),
         "opportunities": spot.get("opportunities", []),
+        "product_status": spot.get("product_status", "keep"),
+        "active_in_catalog": spot.get("active_in_catalog", True),
         "lat": spot.get("lat"),
         "lon": spot.get("lon"),
         "elevation": spot.get("elevation"),
