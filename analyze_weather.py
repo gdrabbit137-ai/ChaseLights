@@ -120,6 +120,7 @@ def analyze_spot(spot, kp_rows=None):
         "category": spot.get("category", ""),
         "scenes": spot.get("scenes", []),
         "themes": spot.get("themes", []),
+        "opportunities": spot.get("opportunities", []),
         "lat": spot.get("lat"),
         "lon": spot.get("lon"),
         "elevation": spot.get("elevation"),
