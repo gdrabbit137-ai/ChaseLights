@@ -3,6 +3,7 @@ ChaseLights — 區域與景點分類與主題標籤完整定義設定
 """
 
 from opportunities import get_opportunities, merge_legacy_themes
+from taxonomy_v004 import product_status, active_in_catalog
 
 SCENE_TYPES = {
     "mountain", "coast", "lake", "river", "waterfall", "forest", "wetland",
@@ -1465,5 +1466,7 @@ def get_spots(region="tw"):
         dark_sky = _dark_sky_meta(region_key, name_zh, category, item.get("scenes", []), item.get("themes", []))
         if dark_sky:
             item.update(dark_sky)
+        item["product_status"] = product_status(item["spot_id"])
+        item["active_in_catalog"] = active_in_catalog(item["spot_id"])
         formatted_spots.append(item)
     return formatted_spots
