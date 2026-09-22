@@ -344,9 +344,10 @@
       keys.forEach(k=>{const b=document.createElement('button');b.className=`sub-btn ${k===currentCategoryKey?'active':''}`;b.dataset.key=k;b.setAttribute('aria-pressed',k===currentCategoryKey?'true':'false');b.innerText=categoryLabel(k);b.onclick=(e)=>{e.preventDefault();currentCategoryKey=k;localStorage.setItem(`chaselights_category_${currentRegion}`,k);renderSubNav();renderSceneNav();renderThemeNav();filterAndRender();};el.appendChild(b);});
     }
     function categoryBaseSpots(){
-      if(currentCategoryKey==='__fav__')return currentSpots.filter(s=>favorites.includes(s.spot_id));
-      if(currentCategoryKey==='__all__')return currentSpots;
-      return currentSpots.filter(s=>s.category===currentCategoryKey);
+      const active=currentSpots.filter(s=>s.active_in_catalog!==false);
+      if(currentCategoryKey==='__fav__')return active.filter(s=>favorites.includes(s.spot_id));
+      if(currentCategoryKey==='__all__')return active;
+      return active.filter(s=>s.category===currentCategoryKey);
     }
     function setFilterPressed(button,on){
       button.classList.toggle('active',on);
