@@ -1,3 +1,15 @@
+# ChaseLights R4 Place-first Beta deployment
+
+The public R4 beta keeps the legacy weather score/ranking as the primary production score while exposing the new Place → Photography Opportunity model as preview metadata.
+
+Deployment flow:
+1. Merge/fast-forward the tested release branch into `main`.
+2. A main-branch push touching R4 core files automatically triggers **Update ChaseLights Weather Data**.
+3. Confirm the six weather JSON files are regenerated with schema 9 and contain `opportunities`; hourly detail rows may include `opportunity_runtime`.
+4. The browser cache namespace is `chaselights-v10-r4-preview`, so old schema-9 JSON without Opportunity metadata is not reused.
+5. R4 preview statuses are diagnostic only. Unsupported/pending Opportunities do not receive a new production score.
+6. `tw-063` is retired and must not appear in the active catalog.
+
 # ChaseLights V5.4 deployment
 
 1. Replace `index.html`, `regions.py`, `fetch_data.py`, `analyze_weather.py`, and keep/update `update_weather.yml`.

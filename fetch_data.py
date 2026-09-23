@@ -5,6 +5,23 @@ from datetime import datetime, timezone, timedelta
 from bisect import bisect_right
 from zoneinfo import ZoneInfo
 
+from opportunity_runtime import evaluate_opportunity_modules
+from spatial_weather import (
+    build_spatial_request_plan,
+    index_spatial_response,
+    spatial_observations_for_timestamp,
+)
+from marine_state import (
+    index_marine_response,
+    marine_sample_for_timestamp,
+    spot_requires_marine_state,
+)
+from tide_state import (
+    index_tide_response,
+    tide_sample_for_timestamp,
+    spot_requires_tide_state,
+)
+
 # 後端多國語言狀態與指標字典
 I18N_MESSAGES = {
     # 狀態 (Status)
@@ -94,6 +111,9 @@ def get_text(key, lang="zh-TW"):
 
 _NOAA_KP_CACHE = None
 _WEATHER_RESPONSE_CACHE = {}
+_SPATIAL_WEATHER_RESPONSE_CACHE = {}
+_MARINE_RESPONSE_CACHE = {}
+_TIDE_RESPONSE_CACHE = {}
 
 
 def _request_json(url, timeout=12):
@@ -776,6 +796,19 @@ def evaluate_tag_condition(theme, item_data, hour=None, lang="zh-TW"):
     factors=_build_factors(theme,item_data,lang)
     return score,get_text(status_key,lang),get_text(indicator_key,lang),status_key,indicator_key,factors
 
+def _build_opportunity_runtime_diagnostics(spot, item_data):
+    """Preview-only module diagnostics; never emits an Opportunity score."""
+    diagnostics = {}
+    for opportunity in spot.get("opportunities", []) or []:
+        if opportunity.get("runtime_policy") != "preview_module_available":
+            continue
+        oid = opportunity.get("opportunity_id")
+        if not oid:
+            continue
+        diagnostics[oid] = evaluate_opportunity_modules(opportunity, item_data)
+    return diagnostics
+
+
 def _access_open_for_spot(spot, local_dt, is_day, is_twilight):
     mode = spot.get("access_mode")
     if mode == "daylight_only":
@@ -800,7 +833,7 @@ def _build_open_meteo_url(spot):
     params = [
         f"latitude={lat}",
         f"longitude={lon}",
-        "hourly=temperature_2m,dew_point_2m,relative_humidity_2m,cloud_cover_low,cloud_cover_mid,cloud_cover_high,wind_speed_10m,visibility,precipitation_probability,is_day",
+        "hourly=temperature_2m,dew_point_2m,relative_humidity_2m,cloud_cover_low,cloud_cover_mid,cloud_cover_high,wind_speed_10m,visibility,precipitation,precipitation_probability,snowfall,snow_depth,direct_normal_irradiance,is_day",
         "daily=sunrise,sunset",
         "past_hours=24",
         "forecast_hours=72",
@@ -823,6 +856,98 @@ def _fetch_weather_response(spot):
     return raw
 
 
+
+def _build_spatial_open_meteo_url(plan):
+    points = plan.get("points", []) if plan else []
+    if not points:
+        return None
+    latitudes = ",".join(f"{float(p['lat']):.6f}" for p in points)
+    longitudes = ",".join(f"{float(p['lon']):.6f}" for p in points)
+    params = [
+        f"latitude={latitudes}",
+        f"longitude={longitudes}",
+        "hourly=relative_humidity_2m,cloud_cover_low,visibility,precipitation,wind_speed_10m",
+        "past_hours=24",
+        "forecast_hours=72",
+        "timezone=auto",
+        "timeformat=unixtime",
+        "wind_speed_unit=ms",
+    ]
+    return "https://api.open-meteo.com/v1/forecast?" + "&".join(params)
+
+
+def _fetch_spatial_weather_response(spot):
+    plan = build_spatial_request_plan(spot)
+    if not plan.get("points"):
+        return None
+    key = tuple(
+        (round(float(p["lat"]), 5), round(float(p["lon"]), 5))
+        for p in plan["points"]
+    )
+    if key in _SPATIAL_WEATHER_RESPONSE_CACHE:
+        return _SPATIAL_WEATHER_RESPONSE_CACHE[key]
+    raw = _request_json(_build_spatial_open_meteo_url(plan))
+    indexed = index_spatial_response(plan, raw)
+    _SPATIAL_WEATHER_RESPONSE_CACHE[key] = indexed
+    return indexed
+
+
+def _build_marine_open_meteo_url(spot):
+    lat = spot.get("lat")
+    lon = spot.get("lon")
+    params = [
+        f"latitude={lat}",
+        f"longitude={lon}",
+        "hourly=wave_height,wave_direction,wave_period,wind_wave_height,wind_wave_direction,wind_wave_period,swell_wave_height,swell_wave_direction,swell_wave_period,swell_wave_peak_period",
+        "past_hours=24",
+        "forecast_hours=72",
+        "timezone=auto",
+        "timeformat=unixtime",
+        "cell_selection=sea",
+    ]
+    return "https://marine-api.open-meteo.com/v1/marine?" + "&".join(params)
+
+
+def _fetch_marine_response(spot):
+    if not spot_requires_marine_state(spot):
+        return None
+    key = (round(float(spot.get("lat")), 5), round(float(spot.get("lon")), 5))
+    if key in _MARINE_RESPONSE_CACHE:
+        return _MARINE_RESPONSE_CACHE[key]
+    raw = _request_json(_build_marine_open_meteo_url(spot))
+    indexed = index_marine_response(raw)
+    _MARINE_RESPONSE_CACHE[key] = indexed
+    return indexed
+
+
+def _build_tide_open_meteo_url(spot):
+    lat = spot.get("lat")
+    lon = spot.get("lon")
+    params = [
+        f"latitude={lat}",
+        f"longitude={lon}",
+        "hourly=sea_level_height_msl",
+        "past_hours=24",
+        "forecast_hours=72",
+        "timezone=auto",
+        "timeformat=unixtime",
+        "cell_selection=sea",
+    ]
+    return "https://marine-api.open-meteo.com/v1/marine?" + "&".join(params)
+
+
+def _fetch_tide_response(spot):
+    if not spot_requires_tide_state(spot):
+        return None
+    key = (round(float(spot.get("lat")), 5), round(float(spot.get("lon")), 5))
+    if key in _TIDE_RESPONSE_CACHE:
+        return _TIDE_RESPONSE_CACHE[key]
+    raw = _request_json(_build_tide_open_meteo_url(spot))
+    indexed = index_tide_response(raw)
+    _TIDE_RESPONSE_CACHE[key] = indexed
+    return indexed
+
+
 def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
     lat = spot.get("lat")
     lon = spot.get("lon")
@@ -836,6 +961,24 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
         timestamps = hourly.get("time", [])
         if not timestamps:
             return {}
+
+        try:
+            spatial_index = _fetch_spatial_weather_response(spot)
+        except Exception as spatial_error:
+            print(f"Spatial weather fetch error for {spot.get('spot_id')}: {spatial_error}")
+            spatial_index = None
+
+        try:
+            marine_index = _fetch_marine_response(spot)
+        except Exception as marine_error:
+            print(f"Marine weather fetch error for {spot.get('spot_id')}: {marine_error}")
+            marine_index = None
+
+        try:
+            tide_index = _fetch_tide_response(spot)
+        except Exception as tide_error:
+            print(f"Tide fetch error for {spot.get('spot_id')}: {tide_error}")
+            tide_index = None
 
         tz_name = raw.get("timezone") or "UTC"
         try:
@@ -874,11 +1017,28 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
                 diff = _angle_diff(astro["sun_azimuth"], float(view_azimuth))
                 sun_alignment = "good" if diff <= view_tolerance else ("poor" if diff >= min(100, view_tolerance + 35) else "neutral")
 
+            spatial_weather = (
+                spatial_observations_for_timestamp(spatial_index, int(ts))
+                if spatial_index is not None else {}
+            )
+            marine_forecast = (
+                marine_sample_for_timestamp(marine_index, int(ts))
+                if marine_index is not None else None
+            )
+            tide_forecast = (
+                tide_sample_for_timestamp(tide_index, int(ts))
+                if tide_index is not None else None
+            )
+
             item_data = {
                 "c_low": hv("cloud_cover_low", i, 0),
                 "c_mid": hv("cloud_cover_mid", i, 0),
                 "c_high": hv("cloud_cover_high", i, 0),
                 "pop": hv("precipitation_probability", i, 0),
+                "precipitation": hv("precipitation", i, 0),
+                "snowfall": hv("snowfall", i, None),
+                "snow_depth": hv("snow_depth", i, None),
+                "direct_normal_irradiance": hv("direct_normal_irradiance", i, None),
                 "vis": hv("visibility", i, 10000),
                 "rh": hv("relative_humidity_2m", i, 50),
                 "wind": hv("wind_speed_10m", i, 0),
@@ -896,8 +1056,13 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
                 "sun_alignment": sun_alignment,
                 "bortle_class": spot.get("bortle_class"),
                 "dark_sky_score": spot.get("dark_sky_score"),
+                "spatial_weather": spatial_weather,
+                "marine_forecast": marine_forecast,
+                "tide_forecast": tide_forecast,
                 **astro,
             }
+
+            opportunity_runtime = _build_opportunity_runtime_diagnostics(spot, item_data)
 
             theme_scores = {}
             for theme in themes:
@@ -937,6 +1102,7 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
                 "theme_scores": theme_scores,
                 "best_tag": best_theme,  # V4 compatibility
                 "tag_scores": theme_scores,  # V4 compatibility
+                "opportunity_runtime": opportunity_runtime,
                 "kp": kp_val,
                 "kp_source": kp_source,
                 "cloud_base": cloud_base_agl,  # backward compatibility
@@ -951,6 +1117,13 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
                 "c_high": item_data["c_high"],
                 "wind": item_data["wind"],
                 "wind_unit": "m/s",
+                "precipitation": item_data["precipitation"],
+                "precipitation_probability": item_data["pop"],
+                "snowfall": item_data["snowfall"],
+                "snow_depth": item_data["snow_depth"],
+                "direct_normal_irradiance": item_data["direct_normal_irradiance"],
+                "marine_forecast": item_data["marine_forecast"],
+                "tide_forecast": item_data["tide_forecast"],
                 "visibility": round(float(item_data["vis"]) / 1000, 1),
                 "is_day": item_data["is_day"],
                 "is_twilight": is_twilight,

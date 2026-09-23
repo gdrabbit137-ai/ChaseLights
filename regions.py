@@ -2,6 +2,9 @@
 ChaseLights — 區域與景點分類與主題標籤完整定義設定
 """
 
+from opportunities import get_opportunities, merge_legacy_themes
+from taxonomy_v004 import product_status, active_in_catalog
+
 SCENE_TYPES = {
     "mountain", "coast", "lake", "river", "waterfall", "forest", "wetland",
     "geology", "desert", "grassland", "rural", "snow_ice", "city", "architecture",
@@ -1451,8 +1454,19 @@ def get_spots(region="tw"):
         access = ACCESS_RULE_OVERRIDES.get(name_zh)
         if access:
             item.update(access)
+
+        # v0.04 R3 compatibility adapter: attach only manually reviewed
+        # Photography Opportunities. Legacy themes remain additive so the
+        # current V5.4 UI/scoring path continues to work unchanged.
+        opportunities = get_opportunities(region_key, item["spot_id"])
+        if opportunities:
+            item["opportunities"] = opportunities
+            item["themes"] = merge_legacy_themes(item.get("themes", []), opportunities)
+
         dark_sky = _dark_sky_meta(region_key, name_zh, category, item.get("scenes", []), item.get("themes", []))
         if dark_sky:
             item.update(dark_sky)
+        item["product_status"] = product_status(item["spot_id"])
+        item["active_in_catalog"] = active_in_catalog(item["spot_id"])
         formatted_spots.append(item)
     return formatted_spots
