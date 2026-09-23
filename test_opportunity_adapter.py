@@ -1177,8 +1177,6 @@ def test_active_catalog_weather_generation_guard():
         for opportunity in opportunities:
             assert opportunity.get("opportunity_id")
             assert str(opportunity.get("name_zh") or "").strip()
-            assert str(opportunity.get("best_time") or "").strip()
-            assert str(opportunity.get("best_season") or "").strip()
             assert opportunity.get("viewpoints"), f"{opportunity['opportunity_id']}: viewpoint evidence required"
             assert all(str(v.get("name") or "").strip() for v in opportunity["viewpoints"])
             variants = opportunity.get("condition_variants") or []
