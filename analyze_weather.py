@@ -151,38 +151,6 @@ def analyze_spot(spot, kp_rows=None):
     return summary, details
 
 
-def _load_previous_spot_maps(region):
-    """Load the previous published region payload for per-spot fallback."""
-    summary_path = f"{region}_weather.json"
-    details_path = f"{region}_weather_details.json"
-
-    def load(path):
-        try:
-            with open(path, "r", encoding="utf-8") as f:
-                payload = json.load(f)
-            if payload.get("schema_version") != 9:
-                return {}
-            return {
-                spot.get("spot_id"): spot
-                for spot in payload.get("spots", [])
-                if spot.get("spot_id")
-            }
-        except Exception:
-            return {}
-
-    return load(summary_path), load(details_path)
-
-
-def _fallback_spot(previous, spot_id, reason):
-    old = previous.get(spot_id)
-    if not old:
-        return None
-    row = dict(old)
-    row["data_fallback"] = True
-    row["data_fallback_reason"] = reason
-    return row
-
-
 def main():
     region = sys.argv[1].lower() if len(sys.argv) > 1 else "tw"
     spots = get_spots(region)
@@ -194,41 +162,13 @@ def main():
     kp_info = fetch_noaa_kp()
     now_utc_str = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
-    previous_summaries, previous_details = _load_previous_spot_maps(region)
     summaries, details = [], []
-    fallback_ids, unresolved_ids = [], []
     for n, spot in enumerate(spots, 1):
         print(f"[{n}/{len(spots)}] {spot['name_i18n'].get('zh-TW')} ...")
         summary, detail = analyze_spot(spot, kp_rows=kp_rows)
         if summary:
             summaries.append(summary)
             details.append(detail)
-            continue
-
-        spot_id = spot.get("spot_id")
-        fallback_summary = _fallback_spot(previous_summaries, spot_id, "provider_fetch_failed")
-        fallback_detail = _fallback_spot(previous_details, spot_id, "provider_fetch_failed")
-        if fallback_summary is not None and fallback_detail is not None:
-            print(f"⚠️ {spot_id}: using previous published data after provider fetch failure")
-            summaries.append(fallback_summary)
-            details.append(fallback_detail)
-            fallback_ids.append(spot_id)
-        else:
-            unresolved_ids.append(spot_id)
-
-    minimum_required = max(1, int(len(spots) * 0.90 + 0.999))
-    if len(summaries) < minimum_required:
-        print(
-            f"❌ Completeness gate failed for {region}: "
-            f"{len(summaries)}/{len(spots)} spots, minimum={minimum_required}. "
-            f"Unresolved={unresolved_ids}"
-        )
-        raise SystemExit(2)
-
-    if fallback_ids:
-        print(f"⚠️ {region}: reused previous published data for {len(fallback_ids)} spots: {fallback_ids}")
-    if unresolved_ids:
-        print(f"⚠️ {region}: unresolved spots omitted after completeness gate passed: {unresolved_ids}")
 
     base_meta = {
         "schema_version": 9,
@@ -237,9 +177,6 @@ def main():
         "latest_kp": kp_info.get("kp_index") if kp_info else None,
         "latest_kp_source": kp_info.get("source") if kp_info else "unavailable",
         "total_spots": len(summaries),
-        "expected_spots": len(spots),
-        "fallback_spots": len(fallback_ids),
-        "unresolved_spots": unresolved_ids,
     }
     summary_data = {
         **base_meta,

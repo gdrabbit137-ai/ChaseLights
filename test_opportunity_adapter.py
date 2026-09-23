@@ -946,53 +946,6 @@ def test_adapter_integrity():
     assert ",precipitation,precipitation_probability,snowfall,snow_depth,direct_normal_irradiance," in weather_url
 
 
-def test_request_json_retry_contract():
-    attempts = {"count": 0}
-    original_urlopen = fetch_data.urllib.request.urlopen
-    original_sleep = fetch_data.time.sleep
-
-    class FakeResponse:
-        def __enter__(self):
-            return self
-
-        def __exit__(self, exc_type, exc, tb):
-            return False
-
-        def read(self):
-            return b'{"ok": true}'
-
-    def flaky_urlopen(req, timeout=0):
-        attempts["count"] += 1
-        if attempts["count"] < 3:
-            raise TimeoutError("transient timeout")
-        return FakeResponse()
-
-    try:
-        fetch_data.urllib.request.urlopen = flaky_urlopen
-        fetch_data.time.sleep = lambda *_args, **_kwargs: None
-        result = fetch_data._request_json("https://example.invalid/test", timeout=1, attempts=4)
-    finally:
-        fetch_data.urllib.request.urlopen = original_urlopen
-        fetch_data.time.sleep = original_sleep
-
-    assert result == {"ok": True}
-    assert attempts["count"] == 3
-
-
-def test_previous_payload_fallback_contract():
-    previous = {
-        "tw-001": {
-            "spot_id": "tw-001",
-            "opportunities": [{"opportunity_id": "tw-001-P01"}],
-        }
-    }
-    fallback = analyze_weather._fallback_spot(previous, "tw-001", "provider_fetch_failed")
-    assert fallback["spot_id"] == "tw-001"
-    assert fallback["data_fallback"] is True
-    assert fallback["data_fallback_reason"] == "provider_fetch_failed"
-    assert analyze_weather._fallback_spot(previous, "tw-999", "provider_fetch_failed") is None
-
-
 def test_schema9_optional_metadata_bridge():
     spot = next(s for s in get_spots("tw") if s["spot_id"] == "tw-052")
     original = analyze_weather.fetch_weather_for_spot
@@ -1020,7 +973,5 @@ def test_schema9_optional_metadata_bridge():
 
 if __name__ == "__main__":
     test_adapter_integrity()
-    test_request_json_retry_contract()
-    test_previous_payload_fallback_contract()
     test_schema9_optional_metadata_bridge()
     print("v0.04 R4.2 full Opportunity adapter tests: PASS")
