@@ -24,8 +24,6 @@ MARINE_STATE_PROFILES = {
     "tw-075-P01": {"exposure": "exposed_sandy_coast"},
     "tw-077-P01": {"exposure": "exposed_rock_platform"},
     "tw-077-P02": {"exposure": "intertidal_rock_platform"},
-    "tw-078-P01": {"exposure": "sheltered_intertidal_causeway"},
-    "tw-078-P02": {"exposure": "sheltered_intertidal_causeway"},
     "tw-079-P01": {"exposure": "exposed_basalt_coast"},
     "tw-079-P02": {"exposure": "intertidal_basalt_pools"},
 }
@@ -195,7 +193,6 @@ def validate_marine_state_registry():
         "tw-072-P01", "tw-072-P02", "tw-073-P01",
         "tw-075-P01",
         "tw-077-P01", "tw-077-P02",
-        "tw-078-P01", "tw-078-P02",
         "tw-079-P01", "tw-079-P02",
     }
     if set(MARINE_STATE_PROFILES) != expected:
