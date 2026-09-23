@@ -131,7 +131,17 @@ def test_adapter_integrity():
     # city lights. Architecture alone must never auto-create a city-night Theme.
     active_spots = [spot for spot in tw if active_in_catalog(spot["spot_id"])]
     city_hint_offenders = [
-        (spot["spot_id"], spot["name_i18n"]["zh-TW"], spot["scenes"], spot["themes"])
+        (
+            spot["spot_id"],
+            spot["name_i18n"]["zh-TW"],
+            spot["scenes"],
+            spot["themes"],
+            [
+                (o.get("opportunity_id"), o.get("name_zh"), o.get("legacy_theme"))
+                for o in spot.get("opportunities", [])
+                if o.get("legacy_theme") == "city_night"
+            ],
+        )
         for spot in active_spots
         if "city_night" in spot["themes"] and "city" not in spot["scenes"]
     ]
