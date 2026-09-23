@@ -75,37 +75,37 @@ def _all_opportunities():
 
 
 def test_adapter_integrity():
-    assert ADAPTER_VERSION == "v0.04-r4.2-b28-p0-batch1-preview"
+    assert ADAPTER_VERSION == "v0.04-r4.2-b28-p0-batch2-preview"
     assert validate_curated_opportunities() == []
     assert validate_taxonomy() == []
     assert CATALOG_COUNTS == {
-        "spots": 72,
-        "opportunities": 176,
-        "condition_variants": 185,
-        "profile_viewpoint_relations": 181,
+        "spots": 74,
+        "opportunities": 179,
+        "condition_variants": 189,
+        "profile_viewpoint_relations": 184,
     }
 
     tw = get_spots("tw")
-    assert len(tw) == 73
-    assert [s["spot_id"] for s in tw] == [f"tw-{i:03d}" for i in range(1, 74)]
+    assert len(tw) == 75
+    assert [s["spot_id"] for s in tw] == [f"tw-{i:03d}" for i in range(1, 76)]
     assert PRODUCT_STATUS_BY_SPOT == {"tw-063": "retired"}
     assert product_status("tw-063") == "retired"
     assert active_in_catalog("tw-063") is False
-    assert sum(1 for s in tw if active_in_catalog(s["spot_id"])) == 72
+    assert sum(1 for s in tw if active_in_catalog(s["spot_id"])) == 74
     assert all(
         product_status(s["spot_id"]) == "keep"
         for s in tw if s["spot_id"] != "tw-063"
     )
 
     curated = {s["spot_id"]: s for s in tw if s.get("opportunities")}
-    expected_active = {f"tw-{i:03d}" for i in range(1, 74)} - {"tw-063"}
+    expected_active = {f"tw-{i:03d}" for i in range(1, 76)} - {"tw-063"}
     assert set(curated) == expected_active
     assert "tw-063" not in CURATED_OPPORTUNITIES
-    assert sum(len(s["opportunities"]) for s in curated.values()) == 176
+    assert sum(len(s["opportunities"]) for s in curated.values()) == 179
 
     all_opportunities = _all_opportunities()
-    assert sum(len(o["condition_variants"]) for o in all_opportunities) == 185
-    assert sum(len(o["viewpoints"]) for o in all_opportunities) == 181
+    assert sum(len(o["condition_variants"]) for o in all_opportunities) == 189
+    assert sum(len(o["viewpoints"]) for o in all_opportunities) == 184
     assert not any(o["formula_status"] == "legacy_fallback_pending_curated" for o in all_opportunities)
     assert not any(str(o.get("formula_version") or "").startswith("legacy_") for o in all_opportunities)
 
@@ -116,8 +116,8 @@ def test_adapter_integrity():
 
     policies = Counter(runtime_policy(o) for o in all_opportunities)
     assert policies == {
-        "module_pending": 67,
-        "preview_module_available": 66,
+        "module_pending": 69,
+        "preview_module_available": 67,
         "prototype_pending_certification": 41,
         "hold": 1,
         "data_insufficient": 1,
@@ -125,7 +125,7 @@ def test_adapter_integrity():
     assert runtime_policy(next(o for o in all_opportunities if o["opportunity_id"] == "tw-052-P01")) == "hold"
     assert runtime_policy(next(o for o in all_opportunities if o["opportunity_id"] == "tw-017-P01")) == "data_insufficient"
     assert validate_runtime_registry() == []
-    assert len(DIRECTIONAL_HORIZON_SECTORS) == 40
+    assert len(DIRECTIONAL_HORIZON_SECTORS) == 41
 
     nanya = next(o for o in all_opportunities if o["opportunity_id"] == "tw-072-P01")
     assert runtime_policy(nanya) == "preview_module_available"
@@ -136,6 +136,16 @@ def test_adapter_integrity():
     assert runtime_policy(laomei) == "module_pending"
     assert dependency_state(laomei)["ready_components"] == ("tide_state", "marine_state", "directional_horizon")
     assert dependency_state(laomei)["missing_components"] == ("seasonal_foreground",)
+
+    yehliu = next(o for o in all_opportunities if o["opportunity_id"] == "tw-074-P01")
+    assert runtime_policy(yehliu) == "module_pending"
+    assert dependency_state(yehliu)["ready_components"] == ("visibility",)
+    assert dependency_state(yehliu)["missing_components"] == ("geology_light",)
+
+    waiao = next(o for o in all_opportunities if o["opportunity_id"] == "tw-075-P01")
+    assert runtime_policy(waiao) == "preview_module_available"
+    assert dependency_state(waiao)["required_components"] == ("marine_state", "directional_horizon")
+    assert dependency_state(waiao)["complete"] is True
     directional = next(o for o in all_opportunities if o["opportunity_id"] == "tw-020-P01")
     assert runtime_policy(directional) == "preview_module_available"
     matched = evaluate_directional_horizon(directional, {
@@ -553,6 +563,7 @@ def test_adapter_integrity():
         "tw-036-P01", "tw-036-P02",
         "tw-071-P01", "tw-071-P02",
         "tw-072-P01", "tw-072-P02", "tw-073-P01",
+        "tw-075-P01",
     }
 
     calm_marine = {
@@ -960,7 +971,7 @@ def test_adapter_integrity():
 
 def test_active_catalog_weather_generation_guard():
     active_tw = analyze_weather._active_spots("tw")
-    assert len(active_tw) == 72
+    assert len(active_tw) == 74
     assert "tw-063" not in {spot["spot_id"] for spot in active_tw}
     assert all(spot.get("active_in_catalog", True) for spot in active_tw)
 
