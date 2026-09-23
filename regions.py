@@ -1471,8 +1471,14 @@ def _derive_scenes_themes(name_zh, legacy_tags, category, region_key):
         themes.update({"fog_mist", "sunbeam"})
     if "waterfall" in scenes:
         themes.add("long_exposure")
-    if "city" in scenes or "architecture" in scenes:
+    # Blue hour can suit architecture, but architecture alone is not evidence of
+    # a city-light night scene. Only an explicit city scene may auto-enable
+    # city_night; this prevents lighthouses, bridges and isolated landmarks from
+    # receiving city-light hints.
+    if "city" in scenes:
         themes.update({"blue_hour", "city_night"})
+    elif "architecture" in scenes:
+        themes.add("blue_hour")
     if "snow_ice" in scenes:
         themes.update({"snow_scene", "mountain_view"})
 
