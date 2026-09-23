@@ -4,7 +4,7 @@ This module separates content formula status from runtime implementation state.
 Every needs_* status maps to an explicit set of reusable runtime components.
 """
 
-DEPENDENCY_INVENTORY_VERSION = "r4.2-b20-deps-v3"
+DEPENDENCY_INVENTORY_VERSION = "r4.2-b21-deps-v4"
 
 FORMULA_DEPENDENCIES = {
     "needs_spatial_weather_module": ("spatial_weather_vertical_cloud",),
@@ -87,6 +87,10 @@ OPPORTUNITY_DEPENDENCY_OVERRIDES = {
     "tw-013-P02": ("radiation_DNI", "cloud_sky_glow"),
     "tw-026-P02": ("cloud_sky_glow",),
     "tw-030-P02": ("cloud_sky_glow",),
+    "tw-020-P02": ("spatial_weather_vertical_cloud", "directional_horizon"),
+    "tw-024-P02": ("spatial_weather_vertical_cloud", "directional_horizon"),
+    "tw-043-P02": ("spatial_weather_vertical_cloud", "directional_horizon"),
+    "tw-047-P02": ("spatial_weather_vertical_cloud", "directional_horizon"),
 }
 
 

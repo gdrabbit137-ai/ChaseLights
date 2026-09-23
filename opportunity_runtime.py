@@ -11,6 +11,8 @@ Implemented preview components:
 - cloud_light_state: broken-cloud/opening structure for direct-beam ray outcomes.
 - cloud_sky_glow: opportunity-specific sunset/afterglow potential using solar
   geometry plus low/mid/high cloud structure; it predicts potential, not color.
+- spatial_weather_vertical_cloud: camera-versus-lower-terrain multi-point proxy
+  for cloud sea / valley fog; it never treats single-point humidity as proof.
 
 A profile is preview_module_available only when every dependency in the formal
 runtime dependency inventory is implemented and configured for that Opportunity.
@@ -22,8 +24,14 @@ from runtime_dependencies import (
     dependencies_for_opportunity,
     validate_dependency_inventory,
 )
+from spatial_weather import (
+    SPATIAL_WEATHER_PROFILES,
+    evaluate_spatial_weather,
+    supports_spatial_weather,
+    validate_spatial_weather_registry,
+)
 
-MODULE_VERSION = "opportunity-runtime-r4-preview"
+MODULE_VERSION = "opportunity-runtime-r5-preview"
 
 IMPLEMENTED_COMPONENTS = {
     "directional_horizon",
@@ -33,6 +41,7 @@ IMPLEMENTED_COMPONENTS = {
     "radiation_DNI",
     "cloud_light_state",
     "cloud_sky_glow",
+    "spatial_weather_vertical_cloud",
 }
 
 DIRECTIONAL_HORIZON_SECTORS = {
@@ -43,15 +52,19 @@ DIRECTIONAL_HORIZON_SECTORS = {
     "tw-009-P02": {"center": 247.5, "tolerance": 67.5, "phase": "sunset"},
     "tw-011-P01": {"center": 270.0, "tolerance": 70.0, "phase": "sunset"},
     "tw-020-P01": {"center": 90.0, "tolerance": 70.0, "phase": "sunrise"},
+    "tw-020-P02": {"center": 90.0, "tolerance": 70.0, "phase": "sunrise"},
     "tw-022-P01": {"center": 270.0, "tolerance": 70.0, "phase": "sunset"},
     "tw-022-P04": {"center": 90.0, "tolerance": 70.0, "phase": "sunrise"},
     "tw-023-P01": {"center": 270.0, "tolerance": 70.0, "phase": "sunset"},
+    "tw-024-P02": {"center": 90.0, "tolerance": 75.0, "phase": "sunrise"},
     "tw-024-P04": {"center": 270.0, "tolerance": 75.0, "phase": "sunset"},
     "tw-027-P03": {"center": 270.0, "tolerance": 75.0, "phase": "sunset"},
     "tw-028-P01": {"center": 270.0, "tolerance": 90.0, "phase": "sunset"},
     "tw-030-P01": {"center": 270.0, "tolerance": 70.0, "phase": "sunset"},
     "tw-035-P03": {"center": 270.0, "tolerance": 70.0, "phase": "sunset"},
     "tw-035-P04": {"center": 270.0, "tolerance": 75.0, "phase": "sunset"},
+    "tw-043-P02": {"center": 270.0, "tolerance": 75.0, "phase": "sunset"},
+    "tw-047-P02": {"center": 270.0, "tolerance": 75.0, "phase": "sunset"},
     "tw-051-P01": {"center": 270.0, "tolerance": 75.0, "phase": "sunset"},
     "tw-061-P01": {"center": 270.0, "tolerance": 75.0, "phase": "sunset"},
     "tw-065-P01": {"center": 247.5, "tolerance": 67.5, "phase": "sunset"},
@@ -78,6 +91,8 @@ def component_ready_for_opportunity(component, opportunity):
         return opportunity.get("opportunity_id") in DIRECTIONAL_HORIZON_SECTORS
     if component == "cloud_sky_glow":
         return opportunity.get("opportunity_id") in CLOUD_SKY_GLOW_PROFILES
+    if component == "spatial_weather_vertical_cloud":
+        return supports_spatial_weather(opportunity)
     return True
 
 
@@ -528,6 +543,7 @@ _COMPONENT_EVALUATORS = {
     "radiation_DNI": lambda opportunity, item_data: evaluate_radiation_dni(item_data),
     "cloud_light_state": lambda opportunity, item_data: evaluate_cloud_light_state(item_data),
     "cloud_sky_glow": evaluate_cloud_sky_glow,
+    "spatial_weather_vertical_cloud": evaluate_spatial_weather,
 }
 
 
@@ -575,12 +591,15 @@ def evaluate_opportunity_modules(opportunity, item_data):
 
 def validate_runtime_registry():
     errors = list(validate_dependency_inventory())
-    if len(DIRECTIONAL_HORIZON_SECTORS) != 21:
+    errors.extend(validate_spatial_weather_registry())
+    if len(DIRECTIONAL_HORIZON_SECTORS) != 25:
         errors.append(
-            f"expected 21 registered directional profiles, got {len(DIRECTIONAL_HORIZON_SECTORS)}"
+            f"expected 25 registered directional profiles, got {len(DIRECTIONAL_HORIZON_SECTORS)}"
         )
     if set(CLOUD_SKY_GLOW_PROFILES) != {"tw-013-P02", "tw-026-P02", "tw-030-P02", "tw-035-P04"}:
         errors.append(f"unexpected cloud_sky_glow registry: {sorted(CLOUD_SKY_GLOW_PROFILES)}")
+    if len(SPATIAL_WEATHER_PROFILES) != 19:
+        errors.append(f"expected 19 spatial weather profiles, got {len(SPATIAL_WEATHER_PROFILES)}")
     for oid, sector in DIRECTIONAL_HORIZON_SECTORS.items():
         if not oid.startswith("tw-"):
             errors.append(f"{oid}: Taiwan Opportunity id expected")

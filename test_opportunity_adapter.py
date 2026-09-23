@@ -22,6 +22,14 @@ from runtime_dependencies import (
     dependencies_for_opportunity,
     validate_dependency_inventory,
 )
+from spatial_weather import (
+    SPATIAL_WEATHER_PROFILES,
+    build_spatial_request_plan,
+    index_spatial_response,
+    spatial_observations_for_timestamp,
+    evaluate_spatial_weather,
+    validate_spatial_weather_registry,
+)
 
 import analyze_weather
 import fetch_data
@@ -42,7 +50,7 @@ def _all_opportunities():
 
 
 def test_adapter_integrity():
-    assert ADAPTER_VERSION == "v0.04-r4.2-b20-preview"
+    assert ADAPTER_VERSION == "v0.04-r4.2-b21-preview"
     assert validate_curated_opportunities() == []
     assert validate_taxonomy() == []
     assert CATALOG_COUNTS == {
@@ -76,8 +84,8 @@ def test_adapter_integrity():
 
     policies = Counter(runtime_policy(o) for o in all_opportunities)
     assert policies == {
-        "module_pending": 98,
-        "preview_module_available": 33,
+        "module_pending": 81,
+        "preview_module_available": 50,
         "prototype_pending_certification": 41,
         "hold": 1,
         "data_insufficient": 1,
@@ -85,7 +93,7 @@ def test_adapter_integrity():
     assert runtime_policy(next(o for o in all_opportunities if o["opportunity_id"] == "tw-052-P01")) == "hold"
     assert runtime_policy(next(o for o in all_opportunities if o["opportunity_id"] == "tw-017-P01")) == "data_insufficient"
     assert validate_runtime_registry() == []
-    assert len(DIRECTIONAL_HORIZON_SECTORS) == 21
+    assert len(DIRECTIONAL_HORIZON_SECTORS) == 25
     directional = next(o for o in all_opportunities if o["opportunity_id"] == "tw-020-P01")
     assert runtime_policy(directional) == "preview_module_available"
     matched = evaluate_directional_horizon(directional, {
@@ -133,7 +141,8 @@ def test_adapter_integrity():
     assert dependencies_for_status("needs_directional_horizon_cloud_sky_glow_module") == ("directional_horizon", "cloud_sky_glow")
     assert IMPLEMENTED_COMPONENTS == {
         "directional_horizon", "visibility", "water_surface_state", "snow_state",
-        "radiation_DNI", "cloud_light_state", "cloud_sky_glow"
+        "radiation_DNI", "cloud_light_state", "cloud_sky_glow",
+        "spatial_weather_vertical_cloud"
     }
     assert dependencies_for_status("needs_radiation_module") == ("radiation_DNI", "cloud_light_state")
     assert dependencies_for_status("needs_radiation_cloud_module") == ("radiation_DNI", "cloud_sky_glow")
@@ -246,6 +255,10 @@ def test_adapter_integrity():
         "tw-013-P02": ("radiation_DNI", "cloud_sky_glow"),
         "tw-026-P02": ("cloud_sky_glow",),
         "tw-030-P02": ("cloud_sky_glow",),
+        "tw-020-P02": ("spatial_weather_vertical_cloud", "directional_horizon"),
+        "tw-024-P02": ("spatial_weather_vertical_cloud", "directional_horizon"),
+        "tw-043-P02": ("spatial_weather_vertical_cloud", "directional_horizon"),
+        "tw-047-P02": ("spatial_weather_vertical_cloud", "directional_horizon"),
     }
 
     terrain_glow = next(
@@ -299,6 +312,106 @@ def test_adapter_integrity():
     assert liushishi_result["available"] is True
     assert liushishi_result["eligible"] is True
     assert set(liushishi_result["modules"]) == {"directional_horizon", "cloud_sky_glow"}
+
+    assert validate_spatial_weather_registry() == []
+    assert len(SPATIAL_WEATHER_PROFILES) == 19
+
+    spatial_pure = [
+        o for o in all_opportunities
+        if o["formula_status"] == "needs_spatial_weather_module"
+        and o["opportunity_id"] in SPATIAL_WEATHER_PROFILES
+    ]
+    assert len(spatial_pure) == 17
+    assert all(runtime_policy(o) == "preview_module_available" for o in spatial_pure)
+
+    unsupported_spatial = {
+        o["opportunity_id"] for o in all_opportunities
+        if o["formula_status"] == "needs_spatial_weather_module"
+        and o["opportunity_id"] not in SPATIAL_WEATHER_PROFILES
+    }
+    assert unsupported_spatial == {"tw-025-P01", "tw-025-P02", "tw-026-P01"}
+    assert all(
+        runtime_policy(next(o for o in all_opportunities if o["opportunity_id"] == oid)) == "module_pending"
+        for oid in unsupported_spatial
+    )
+
+    tw020 = next(s for s in tw if s["spot_id"] == "tw-020")
+    spatial_plan = build_spatial_request_plan(tw020)
+    assert set(spatial_plan["profiles"]) == {"tw-020-P02", "tw-020-P03"}
+    assert len(spatial_plan["points"]) == 9
+    assert spatial_plan["profiles"]["tw-020-P02"]["camera_point_id"] == spatial_plan["profiles"]["tw-020-P03"]["camera_point_id"]
+
+    fake_raw = []
+    ts = 1900000000
+    for i, point in enumerate(spatial_plan["points"]):
+        is_camera = point["role"] == "camera"
+        if is_camera:
+            elevation, vis, rh, low = 820, 20000, 72, 20
+        elif i in (1, 2, 3):
+            elevation, vis, rh, low = 350, 3500, 96, 92
+        else:
+            elevation, vis, rh, low = 500, 14000, 75, 25
+        fake_raw.append({
+            "elevation": elevation,
+            "hourly": {
+                "time": [ts],
+                "relative_humidity_2m": [rh],
+                "cloud_cover_low": [low],
+                "visibility": [vis],
+                "precipitation": [0.0],
+                "wind_speed_10m": [1.5],
+            },
+        })
+    indexed = index_spatial_response(spatial_plan, fake_raw)
+    spatial_obs = spatial_observations_for_timestamp(indexed, ts)
+    p02_spatial = next(o for o in tw020["opportunities"] if o["opportunity_id"] == "tw-020-P02")
+    spatial_eval = evaluate_spatial_weather(p02_spatial, {"spatial_weather": spatial_obs})
+    assert spatial_eval["available"] is True
+    assert spatial_eval["eligible"] is True
+    assert spatial_eval["cloud_evidence_target_count"] >= 2
+    assert spatial_eval["exact_target_zone_verified"] is False
+    assert spatial_eval["target_resolution"] == "radial_lower_terrain_proxy_not_exact_target_zone"
+
+    p02_full = evaluate_opportunity_modules(p02_spatial, {
+        "spatial_weather": spatial_obs,
+        "astronomy_valid": True,
+        "sun_azimuth": 90,
+        "sun_elevation": 2,
+        "hour": 6,
+    })
+    assert p02_full["available"] is True
+    assert p02_full["eligible"] is True
+    assert set(p02_full["modules"]) == {"spatial_weather_vertical_cloud", "directional_horizon"}
+
+    fogged_raw = [dict(row) for row in fake_raw]
+    fogged_raw[0] = {
+        "elevation": 820,
+        "hourly": {
+            "time": [ts],
+            "relative_humidity_2m": [99],
+            "cloud_cover_low": [98],
+            "visibility": [1800],
+            "precipitation": [0.0],
+            "wind_speed_10m": [1.0],
+        },
+    }
+    fogged_obs = spatial_observations_for_timestamp(index_spatial_response(spatial_plan, fogged_raw), ts)
+    fogged_eval = evaluate_spatial_weather(p02_spatial, {"spatial_weather": fogged_obs})
+    assert fogged_eval["eligible"] is False
+    assert fogged_eval["reason"] == "camera_not_clear_enough"
+
+    tw014 = next(s for s in tw if s["spot_id"] == "tw-014")
+    p014 = next(o for o in tw014["opportunities"] if o["opportunity_id"] == "tw-014-P02")
+    p014_state = dependency_state(p014)
+    assert p014_state["ready_components"] == ("spatial_weather_vertical_cloud",)
+    assert p014_state["missing_components"] == ("dynamic_access",)
+    assert runtime_policy(p014) == "module_pending"
+
+    tw021 = next(s for s in tw if s["spot_id"] == "tw-021")
+    p021 = next(o for o in tw021["opportunities"] if o["opportunity_id"] == "tw-021-P02")
+    p021_state = dependency_state(p021)
+    assert "spatial_weather_vertical_cloud" in p021_state["missing_components"]
+    assert "dynamic_access" in p021_state["missing_components"]
 
     tw052 = get_opportunities("tw", "tw-052")
     assert tw052[0]["runtime_policy"] == "hold"
@@ -356,6 +469,11 @@ def test_adapter_integrity():
     assert glow_diag["tw-026-P02"]["available"] is True
     assert glow_diag["tw-026-P02"]["eligible"] is True
     assert "score" not in glow_diag["tw-026-P02"]
+
+    spatial_url = fetch_data._build_spatial_open_meteo_url(spatial_plan)
+    assert "latitude=" in spatial_url and "%2C" not in spatial_url
+    assert "cloud_cover_low" in spatial_url
+    assert spatial_url.count(",") >= 16
 
     weather_url = fetch_data._build_open_meteo_url({"lat": 25.0, "lon": 121.0})
     assert ",precipitation,precipitation_probability,snowfall,snow_depth,direct_normal_irradiance," in weather_url

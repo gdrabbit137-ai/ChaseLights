@@ -6,6 +6,11 @@ from bisect import bisect_right
 from zoneinfo import ZoneInfo
 
 from opportunity_runtime import evaluate_opportunity_modules
+from spatial_weather import (
+    build_spatial_request_plan,
+    index_spatial_response,
+    spatial_observations_for_timestamp,
+)
 
 # 後端多國語言狀態與指標字典
 I18N_MESSAGES = {
@@ -96,6 +101,7 @@ def get_text(key, lang="zh-TW"):
 
 _NOAA_KP_CACHE = None
 _WEATHER_RESPONSE_CACHE = {}
+_SPATIAL_WEATHER_RESPONSE_CACHE = {}
 
 
 def _request_json(url, timeout=12):
@@ -838,6 +844,42 @@ def _fetch_weather_response(spot):
     return raw
 
 
+
+def _build_spatial_open_meteo_url(plan):
+    points = plan.get("points", []) if plan else []
+    if not points:
+        return None
+    latitudes = ",".join(f"{float(p['lat']):.6f}" for p in points)
+    longitudes = ",".join(f"{float(p['lon']):.6f}" for p in points)
+    params = [
+        f"latitude={latitudes}",
+        f"longitude={longitudes}",
+        "hourly=relative_humidity_2m,cloud_cover_low,visibility,precipitation,wind_speed_10m",
+        "past_hours=24",
+        "forecast_hours=72",
+        "timezone=auto",
+        "timeformat=unixtime",
+        "wind_speed_unit=ms",
+    ]
+    return "https://api.open-meteo.com/v1/forecast?" + "&".join(params)
+
+
+def _fetch_spatial_weather_response(spot):
+    plan = build_spatial_request_plan(spot)
+    if not plan.get("points"):
+        return None
+    key = tuple(
+        (round(float(p["lat"]), 5), round(float(p["lon"]), 5))
+        for p in plan["points"]
+    )
+    if key in _SPATIAL_WEATHER_RESPONSE_CACHE:
+        return _SPATIAL_WEATHER_RESPONSE_CACHE[key]
+    raw = _request_json(_build_spatial_open_meteo_url(plan))
+    indexed = index_spatial_response(plan, raw)
+    _SPATIAL_WEATHER_RESPONSE_CACHE[key] = indexed
+    return indexed
+
+
 def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
     lat = spot.get("lat")
     lon = spot.get("lon")
@@ -851,6 +893,12 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
         timestamps = hourly.get("time", [])
         if not timestamps:
             return {}
+
+        try:
+            spatial_index = _fetch_spatial_weather_response(spot)
+        except Exception as spatial_error:
+            print(f"Spatial weather fetch error for {spot.get('spot_id')}: {spatial_error}")
+            spatial_index = None
 
         tz_name = raw.get("timezone") or "UTC"
         try:
@@ -889,6 +937,11 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
                 diff = _angle_diff(astro["sun_azimuth"], float(view_azimuth))
                 sun_alignment = "good" if diff <= view_tolerance else ("poor" if diff >= min(100, view_tolerance + 35) else "neutral")
 
+            spatial_weather = (
+                spatial_observations_for_timestamp(spatial_index, int(ts))
+                if spatial_index is not None else {}
+            )
+
             item_data = {
                 "c_low": hv("cloud_cover_low", i, 0),
                 "c_mid": hv("cloud_cover_mid", i, 0),
@@ -915,6 +968,7 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
                 "sun_alignment": sun_alignment,
                 "bortle_class": spot.get("bortle_class"),
                 "dark_sky_score": spot.get("dark_sky_score"),
+                "spatial_weather": spatial_weather,
                 **astro,
             }
 
