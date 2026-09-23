@@ -103,6 +103,8 @@ REGIONS = {
             (22.0670, 121.5560, "蘭嶼東清灣", "Lanyu Dongqing Bay", "蘭嶼東清湾", "蘭嶼東清灣", "綠島/蘭嶼/小琉球", ["coast", "starlight"]),
             (22.0370, 121.5370, "蘭嶼青青草原", "Lanyu Qingqing Grassland", "蘭嶼青青草原", "蘭嶼青青草原", "綠島/蘭嶼/小琉球", ["coast", "starlight"]),
             (22.3430, 120.3800, "小琉球花瓶岩", "Liuqiu Vase Rock", "小琉球花瓶岩", "小琉球花瓶岩", "綠島/蘭嶼/小琉球", ["coast"]),
+            (25.11982, 121.89314, "南雅奇岩", "Nanya Rock Formations", "南雅奇岩", "南雅奇岩", "本島", ["coast"]),
+            (25.29242, 121.54446, "老梅綠石槽", "Laomei Green Reef", "老梅緑石槽", "老梅綠石槽", "本島", ["coast"]),
         ],
     },
     "jp": {
@@ -416,7 +418,22 @@ ACCESS_RULE_OVERRIDES = {
 # broad legacy coordinates and name-derived scene heuristics.  map_query is
 # also sent to the frontend so navigation can resolve the named POI even if
 # a mountain/park covers a large area.
-SPOT_OVERRIDES = {'大屯山助航站': {'lat': 25.17614,
+SPOT_OVERRIDES = {
+ '南雅奇岩': {'lat': 25.11982,
+          'lon': 121.89314,
+          'scenes': ['coast', 'geology'],
+          'themes': ['sunrise', 'sunset', 'sky_glow', 'blue_hour'],
+          'map_query': '南雅奇岩地質步道 新北市瑞芳區',
+          'coordinate_source': 'B28 geotagged-photo Camera Zone; official Place anchor cross-check',
+          'coordinate_confidence': 'high'},
+ '老梅綠石槽': {'lat': 25.29242,
+           'lon': 121.54446,
+           'scenes': ['coast', 'geology'],
+           'themes': ['sunrise', 'sky_glow', 'blue_hour'],
+           'map_query': '老梅綠石槽 新北市石門區',
+           'coordinate_source': 'B28 geotagged-photo Camera Zone; official Place anchor cross-check',
+           'coordinate_confidence': 'high'},
+ '大屯山助航站': {'lat': 25.17614,
             'lon': 121.52244,
             'map_query': '大屯山助航站 台北',
             'coordinate_source': 'OSM/Mapcarta POI',
