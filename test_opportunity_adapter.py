@@ -552,6 +552,7 @@ def test_adapter_integrity():
         "tw-033-P01", "tw-033-P02",
         "tw-036-P01", "tw-036-P02",
         "tw-071-P01", "tw-071-P02",
+        "tw-072-P01", "tw-072-P02", "tw-073-P01",
     }
 
     calm_marine = {
@@ -686,6 +687,7 @@ def test_adapter_integrity():
         "tw-017-P02",
         "tw-059-P01",
         "tw-060-P01", "tw-060-P02", "tw-060-P03",
+        "tw-073-P01",
     }
 
     fake_tide_raw = {
