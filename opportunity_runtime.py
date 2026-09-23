@@ -5,6 +5,8 @@ Implemented preview components:
 - visibility: horizontal forecast visibility diagnostic.
 - water_surface_state: conservative reflection/calm-water diagnostic from wind,
   forecast precipitation amount, and precipitation-probability uncertainty.
+- snow_state: separates instantaneous ground snow depth from preceding-hour
+  snowfall; does not infer snow cover from air temperature and does not detect rime.
 
 A profile is preview_module_available only when every dependency in the formal
 runtime dependency inventory is implemented and configured for that Opportunity.
@@ -23,6 +25,7 @@ IMPLEMENTED_COMPONENTS = {
     "directional_horizon",
     "visibility",
     "water_surface_state",
+    "snow_state",
 }
 
 DIRECTIONAL_HORIZON_SECTORS = {
@@ -244,10 +247,67 @@ def evaluate_water_surface(item_data):
         "confidence_hint": confidence_hint,
     }
 
+def evaluate_snow_state(item_data):
+    """Evaluate modeled ground snow cover and fresh snowfall separately.
+
+    Open-Meteo semantics used by ChaseLights:
+    - snow_depth: instantaneous modeled snow depth on the ground, meters.
+    - snowfall: snowfall amount of the preceding hour, centimeters.
+
+    Air temperature is intentionally not used to invent ground snow. Rime/frost
+    accretion is also not detected by this module.
+    """
+    depth_raw = item_data.get("snow_depth")
+    snowfall_raw = item_data.get("snowfall")
+    if depth_raw is None and snowfall_raw is None:
+        return {
+            "module": "snow_state",
+            "available": False,
+            "eligible": False,
+            "reason": "snow_data_missing",
+            "rime_evaluated": False,
+        }
+
+    depth_m = None if depth_raw is None else max(0.0, float(depth_raw))
+    snowfall_cm = None if snowfall_raw is None else max(0.0, float(snowfall_raw))
+
+    existing_cover = depth_m is not None and depth_m >= 0.01
+    substantial_cover = depth_m is not None and depth_m >= 0.05
+    fresh_snow = snowfall_cm is not None and snowfall_cm >= 0.5
+
+    if existing_cover and fresh_snow:
+        state, eligible, reason = "fresh_snow_on_cover", True, "fresh_snow_with_ground_cover"
+    elif substantial_cover:
+        state, eligible, reason = "established_snow_cover", True, "ground_snow_cover"
+    elif existing_cover:
+        state, eligible, reason = "snow_cover", True, "ground_snow_cover"
+    elif fresh_snow:
+        state, eligible, reason = "fresh_snowfall", True, "fresh_snowfall_without_confirmed_depth"
+    elif snowfall_cm is not None and snowfall_cm > 0:
+        state, eligible, reason = "trace_snowfall", False, "snowfall_below_visible_cover_threshold"
+    else:
+        state, eligible, reason = "no_meaningful_snow", False, "no_meaningful_snow_cover_or_fresh_snow"
+
+    return {
+        "module": "snow_state",
+        "available": True,
+        "eligible": eligible,
+        "reason": reason,
+        "state": state,
+        "snow_depth_m": None if depth_m is None else round(depth_m, 3),
+        "snowfall_cm": None if snowfall_cm is None else round(snowfall_cm, 2),
+        "existing_snow_cover": bool(existing_cover),
+        "fresh_snowfall": bool(fresh_snow),
+        "rime_evaluated": False,
+        "confidence_hint": "medium",
+    }
+
+
 _COMPONENT_EVALUATORS = {
     "directional_horizon": evaluate_directional_horizon,
     "visibility": lambda opportunity, item_data: evaluate_visibility(item_data),
     "water_surface_state": lambda opportunity, item_data: evaluate_water_surface(item_data),
+    "snow_state": lambda opportunity, item_data: evaluate_snow_state(item_data),
 }
 
 

@@ -8,6 +8,7 @@ from opportunity_runtime import (
     evaluate_directional_horizon,
     evaluate_visibility,
     evaluate_water_surface,
+    evaluate_snow_state,
     evaluate_opportunity_modules,
     validate_runtime_registry,
 )
@@ -32,7 +33,7 @@ def _all_opportunities():
 
 
 def test_adapter_integrity():
-    assert ADAPTER_VERSION == "v0.04-r4.2-b17-preview"
+    assert ADAPTER_VERSION == "v0.04-r4.2-b18-preview"
     assert validate_curated_opportunities() == []
     assert validate_taxonomy() == []
     assert CATALOG_COUNTS == {
@@ -66,8 +67,8 @@ def test_adapter_integrity():
 
     policies = Counter(runtime_policy(o) for o in all_opportunities)
     assert policies == {
-        "module_pending": 107,
-        "preview_module_available": 24,
+        "module_pending": 103,
+        "preview_module_available": 28,
         "prototype_pending_certification": 41,
         "hold": 1,
         "data_insufficient": 1,
@@ -121,7 +122,7 @@ def test_adapter_integrity():
     assert validate_dependency_inventory(formula_statuses) == []
     assert dependencies_for_status("needs_dynamic_access_visibility_module") == ("dynamic_access", "visibility")
     assert dependencies_for_status("needs_directional_horizon_cloud_sky_glow_module") == ("directional_horizon", "cloud_sky_glow")
-    assert IMPLEMENTED_COMPONENTS == {"directional_horizon", "visibility", "water_surface_state"}
+    assert IMPLEMENTED_COMPONENTS == {"directional_horizon", "visibility", "water_surface_state", "snow_state"}
 
     water_surface_profiles = [
         o for o in all_opportunities if o["formula_status"] == "needs_water_surface_module"
@@ -168,6 +169,40 @@ def test_adapter_integrity():
     assert partial["reason"] == "runtime_contract_pending"
     assert set(partial["modules"]) == {"water_surface_state"}
 
+    snow_profiles = [
+        o for o in all_opportunities if o["formula_status"] == "needs_snow_state_module"
+    ]
+    assert {o["opportunity_id"] for o in snow_profiles} == {
+        "tw-019-P06", "tw-040-P03", "tw-041-P05", "tw-044-P03"
+    }
+    assert all(runtime_policy(o) == "preview_module_available" for o in snow_profiles)
+
+    existing = evaluate_snow_state({"snow_depth": 0.08, "snowfall": 0.0})
+    assert existing["eligible"] is True
+    assert existing["state"] == "established_snow_cover"
+    fresh = evaluate_snow_state({"snow_depth": 0.0, "snowfall": 1.2})
+    assert fresh["eligible"] is True
+    assert fresh["state"] == "fresh_snowfall"
+    fresh_on_cover = evaluate_snow_state({"snow_depth": 0.03, "snowfall": 0.8})
+    assert fresh_on_cover["eligible"] is True
+    assert fresh_on_cover["state"] == "fresh_snow_on_cover"
+    trace = evaluate_snow_state({"snow_depth": 0.0, "snowfall": 0.1})
+    assert trace["eligible"] is False
+    assert trace["state"] == "trace_snowfall"
+    missing_snow = evaluate_snow_state({})
+    assert missing_snow["available"] is False
+    assert missing_snow["rime_evaluated"] is False
+
+    snow_result = evaluate_opportunity_modules(
+        next(o for o in snow_profiles if o["opportunity_id"] == "tw-041-P05"),
+        {"snow_depth": 0.06, "snowfall": 0.0},
+    )
+    assert snow_result["available"] is True
+    assert snow_result["eligible"] is True
+    assert snow_result["required_components"] == ("snow_state",)
+    assert set(snow_result["modules"]) == {"snow_state"}
+    assert snow_result["modules"]["snow_state"]["rime_evaluated"] is False
+
     tw052 = get_opportunities("tw", "tw-052")
     assert tw052[0]["runtime_policy"] == "hold"
     assert get_opportunities("jp", "jp-001") == []
@@ -191,8 +226,17 @@ def test_adapter_integrity():
     assert diag["tw-018-P02"]["eligible"] is True
     assert "score" not in diag["tw-018-P02"]
 
+    tw019 = next(s for s in tw if s["spot_id"] == "tw-019")
+    snow_diag = fetch_data._build_opportunity_runtime_diagnostics(
+        tw019, {"snow_depth": 0.08, "snowfall": 0.0}
+    )
+    assert "tw-019-P06" in snow_diag
+    assert snow_diag["tw-019-P06"]["available"] is True
+    assert snow_diag["tw-019-P06"]["eligible"] is True
+    assert "score" not in snow_diag["tw-019-P06"]
+
     weather_url = fetch_data._build_open_meteo_url({"lat": 25.0, "lon": 121.0})
-    assert ",precipitation,precipitation_probability," in weather_url
+    assert ",precipitation,precipitation_probability,snowfall,snow_depth," in weather_url
 
 
 def test_schema9_optional_metadata_bridge():
