@@ -20,6 +20,8 @@ Implemented preview components:
   tide and never claims local shoreline safety.
 - tide_state: within-window relative sea-level percentile/trend diagnostic.
   Absolute sea-level meters are not treated as a local chart-datum tide height.
+- dynamic_access: source-aware access evaluator foundation. Unknown/stale data
+  is never interpreted as open, and provider readiness is profile-specific.
 
 A profile is preview_module_available only when every dependency in the formal
 runtime dependency inventory is implemented and configured for that Opportunity.
@@ -49,8 +51,15 @@ from tide_state import (
     supports_tide_state,
     validate_tide_state_registry,
 )
+from access_state import (
+    ACCESS_DEPENDENT_PROFILE_IDS,
+    ACCESS_RUNTIME_READY_PROFILES,
+    evaluate_dynamic_access,
+    supports_dynamic_access,
+    validate_access_registry,
+)
 
-MODULE_VERSION = "opportunity-runtime-r8-preview"
+MODULE_VERSION = "opportunity-runtime-r9-preview"
 
 IMPLEMENTED_COMPONENTS = {
     "directional_horizon",
@@ -64,6 +73,7 @@ IMPLEMENTED_COMPONENTS = {
     "astronomy_ephemeris",
     "marine_state",
     "tide_state",
+    "dynamic_access",
 }
 
 DIRECTIONAL_HORIZON_SECTORS = {
@@ -144,6 +154,8 @@ def component_ready_for_opportunity(component, opportunity):
         return supports_marine_state(opportunity)
     if component == "tide_state":
         return supports_tide_state(opportunity)
+    if component == "dynamic_access":
+        return supports_dynamic_access(opportunity)
     return True
 
 
@@ -818,6 +830,7 @@ _COMPONENT_EVALUATORS = {
     "astronomy_ephemeris": evaluate_astronomy_ephemeris,
     "marine_state": evaluate_marine_state,
     "tide_state": evaluate_tide_state,
+    "dynamic_access": evaluate_dynamic_access,
 }
 
 
@@ -868,6 +881,7 @@ def validate_runtime_registry():
     errors.extend(validate_spatial_weather_registry())
     errors.extend(validate_marine_state_registry())
     errors.extend(validate_tide_state_registry())
+    errors.extend(validate_access_registry())
     if len(DIRECTIONAL_HORIZON_SECTORS) != 37:
         errors.append(
             f"expected 37 registered directional profiles, got {len(DIRECTIONAL_HORIZON_SECTORS)}"
@@ -888,6 +902,10 @@ def validate_runtime_registry():
         errors.append(f"expected 9 marine-state profiles, got {len(MARINE_STATE_PROFILES)}")
     if len(TIDE_STATE_PROFILES) != 10:
         errors.append(f"expected 10 tide-state profiles, got {len(TIDE_STATE_PROFILES)}")
+    if len(ACCESS_DEPENDENT_PROFILE_IDS) != 41:
+        errors.append(f"expected 41 dynamic-access profiles, got {len(ACCESS_DEPENDENT_PROFILE_IDS)}")
+    if ACCESS_RUNTIME_READY_PROFILES:
+        errors.append("B25 foundation must not mark dynamic-access profiles provider-ready yet")
     for oid, sector in DIRECTIONAL_HORIZON_SECTORS.items():
         if not oid.startswith("tw-"):
             errors.append(f"{oid}: Taiwan Opportunity id expected")

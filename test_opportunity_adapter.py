@@ -46,6 +46,15 @@ from tide_state import (
     tide_sample_for_timestamp,
     validate_tide_state_registry,
 )
+from access_state import (
+    ACCESS_DEPENDENT_PROFILE_IDS,
+    ACCESS_PROFILE_CLASSIFICATION,
+    ACCESS_RUNTIME_READY_PROFILES,
+    HARD_ACCESS_HOLDS,
+    OFFICIAL_SOURCE_HINTS,
+    evaluate_dynamic_access,
+    validate_access_registry,
+)
 
 import analyze_weather
 import fetch_data
@@ -66,7 +75,7 @@ def _all_opportunities():
 
 
 def test_adapter_integrity():
-    assert ADAPTER_VERSION == "v0.04-r4.2-b24-preview"
+    assert ADAPTER_VERSION == "v0.04-r4.2-b25-preview"
     assert validate_curated_opportunities() == []
     assert validate_taxonomy() == []
     assert CATALOG_COUNTS == {
@@ -159,7 +168,7 @@ def test_adapter_integrity():
         "directional_horizon", "visibility", "water_surface_state", "snow_state",
         "radiation_DNI", "cloud_light_state", "cloud_sky_glow",
         "spatial_weather_vertical_cloud", "astronomy_ephemeris", "marine_state",
-        "tide_state"
+        "tide_state", "dynamic_access"
     }
     assert dependencies_for_status("needs_radiation_module") == ("radiation_DNI", "cloud_light_state")
     assert dependencies_for_status("needs_radiation_cloud_module") == ("radiation_DNI", "cloud_sky_glow")
@@ -736,6 +745,96 @@ def test_adapter_integrity():
     assert tide_diag["tw-060-P02"]["available"] is True
     assert tide_diag["tw-060-P02"]["eligible"] is True
     assert tide_diag["tw-060-P02"]["modules"]["tide_state"]["absolute_local_tide_height_verified"] is False
+
+    assert validate_access_registry() == []
+    dynamic_profiles = [
+        o for o in all_opportunities
+        if "dynamic_access" in dependencies_for_opportunity(o)
+    ]
+    assert len(dynamic_profiles) == 41
+    assert {o["opportunity_id"] for o in dynamic_profiles} == set(ACCESS_DEPENDENT_PROFILE_IDS)
+    assert set(ACCESS_PROFILE_CLASSIFICATION) == set(ACCESS_DEPENDENT_PROFILE_IDS)
+    assert ACCESS_RUNTIME_READY_PROFILES == frozenset()
+    assert HARD_ACCESS_HOLDS["tw-052"]["policy"] == "hold"
+    assert {"tw-005", "tw-037", "tw-038", "tw-063"} <= set(OFFICIAL_SOURCE_HINTS)
+    assert all(
+        runtime_policy(o) == "module_pending"
+        for o in dynamic_profiles
+    )
+
+    access_profile = next(
+        o for o in all_opportunities if o["opportunity_id"] == "tw-038-P01"
+    )
+    missing_access = evaluate_dynamic_access(access_profile, {"timestamp": 1900000000})
+    assert missing_access["available"] is False
+    assert missing_access["reason"] == "authoritative_access_snapshot_missing"
+
+    fresh_open = {
+        "status": "open",
+        "authoritative": True,
+        "authority": "Official Agency",
+        "source_url": "https://example.gov.tw/access",
+        "source_kind": "official_status",
+        "checked_at_epoch": 1900000000,
+        "valid_until_epoch": 1900020000,
+    }
+    open_eval = evaluate_dynamic_access(
+        access_profile,
+        {"timestamp": 1900001200, "access_state": fresh_open},
+    )
+    assert open_eval["available"] is True
+    assert open_eval["eligible"] is True
+    assert open_eval["source_freshness_verified"] is True
+    assert open_eval["runtime_provider_connected"] is False
+
+    closed_eval = evaluate_dynamic_access(
+        access_profile,
+        {
+            "timestamp": 1900001200,
+            "access_state": dict(fresh_open, status="closed"),
+        },
+    )
+    assert closed_eval["available"] is True
+    assert closed_eval["eligible"] is False
+    assert closed_eval["reason"] == "authoritative_access_not_open"
+
+    stale_eval = evaluate_dynamic_access(
+        access_profile,
+        {
+            "timestamp": 1900100000,
+            "access_state": dict(
+                fresh_open,
+                checked_at_epoch=1900000000,
+                valid_until_epoch=1900200000,
+            ),
+        },
+    )
+    assert stale_eval["available"] is False
+    assert stale_eval["reason"] == "access_snapshot_stale"
+
+    mountain_access = next(
+        o for o in all_opportunities if o["opportunity_id"] == "tw-019-P01"
+    )
+    entitlement_eval = evaluate_dynamic_access(
+        mountain_access,
+        {
+            "timestamp": 1900001200,
+            "access_state": fresh_open,
+        },
+    )
+    assert entitlement_eval["available"] is True
+    assert entitlement_eval["eligible"] is False
+    assert entitlement_eval["reason"] == "permit_booking_or_permission_unconfirmed"
+
+    entitled_eval = evaluate_dynamic_access(
+        mountain_access,
+        {
+            "timestamp": 1900001200,
+            "access_state": dict(fresh_open, entitlement_confirmed=True),
+        },
+    )
+    assert entitled_eval["available"] is True
+    assert entitled_eval["eligible"] is True
 
     tw052 = get_opportunities("tw", "tw-052")
     assert tw052[0]["runtime_policy"] == "hold"
