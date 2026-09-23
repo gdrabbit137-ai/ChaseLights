@@ -114,6 +114,9 @@ DIRECTIONAL_HORIZON_SECTORS = {
     "tw-070-P01": {"center": 247.5, "tolerance": 67.5, "phase": "sunset"},
     "tw-071-P01": {"center": 90.0, "tolerance": 75.0, "phase": "sunrise"},
     "tw-071-P02": {"center": 270.0, "tolerance": 75.0, "phase": "sunset"},
+    "tw-072-P01": {"center": 90.0, "tolerance": 75.0, "phase": "sunrise"},
+    "tw-072-P02": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
+    "tw-073-P01": {"center": 90.0, "tolerance": 75.0, "phase": "sunrise"},
 }
 
 CLOUD_SKY_GLOW_PROFILES = {
