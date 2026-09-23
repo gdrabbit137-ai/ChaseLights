@@ -130,11 +130,12 @@ def test_adapter_integrity():
     # Hint-semantic safety: blue hour is a light/time condition, not proof of
     # city lights. Architecture alone must never auto-create a city-night Theme.
     active_spots = [spot for spot in tw if active_in_catalog(spot["spot_id"])]
-    assert all(
-        "city" in spot["scenes"]
+    city_hint_offenders = [
+        (spot["spot_id"], spot["name_i18n"]["zh-TW"], spot["scenes"], spot["themes"])
         for spot in active_spots
-        if "city_night" in spot["themes"]
-    )
+        if "city_night" in spot["themes"] and "city" not in spot["scenes"]
+    ]
+    assert city_hint_offenders == [], city_hint_offenders
     dongyin = next(spot for spot in active_spots if spot["name_i18n"]["zh-TW"] == "東引燈塔")
     assert "architecture" in dongyin["scenes"]
     assert "city" not in dongyin["scenes"]
