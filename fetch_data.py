@@ -80,6 +80,13 @@ I18N_MESSAGES = {
     "RAIN_RISK": {"zh-TW": "🌧️ 降雨風險高", "en": "🌧️ High Rain Risk", "ja": "🌧️ 高い降雨リスク"},
     "STABLE_WEATHER": {"zh-TW": "⛅ 氣象平穩", "en": "⛅ Stable Weather", "ja": "⛅ 安定した気象"},
     "WEATHER_DATA_LIMITED": {"zh-TW": "⚠️ 必要氣象資料不足，暫不判定", "en": "⚠️ Required Weather Data Missing; No Verdict", "ja": "⚠️ 必要な気象データ不足・判定保留"},
+    "OPPORTUNITY_MATCH": {"zh-TW": "✅ 此拍攝題材的關鍵條件目前符合", "en": "✅ Key conditions for this opportunity currently match", "ja": "✅ この撮影機会の主要条件が一致"},
+    "OPPORTUNITY_CONDITION_MISS": {"zh-TW": "⚠️ 此拍攝題材的專屬條件目前未符合", "en": "⚠️ Opportunity-specific conditions do not currently match", "ja": "⚠️ この撮影機会の固有条件が未達"},
+    "OPPORTUNITY_RUNTIME_DATA_MISSING": {"zh-TW": "⚠️ 此拍攝題材缺少必要預報資料", "en": "⚠️ Required opportunity forecast data is missing", "ja": "⚠️ この撮影機会に必要な予報データが不足"},
+    "OPPORTUNITY_PARTIAL": {"zh-TW": "ℹ️ 僅能判斷部分條件，分數已限制", "en": "ℹ️ Only part of the conditions can be evaluated; score is capped", "ja": "ℹ️ 条件の一部のみ判定可能なためスコア上限あり"},
+    "OPPORTUNITY_PROTOTYPE": {"zh-TW": "ℹ️ 題材已查證，但完整專屬公式仍在驗證", "en": "ℹ️ Opportunity is researched; full dedicated formula is still being validated", "ja": "ℹ️ 撮影機会は調査済みだが専用式は検証中"},
+    "OPPORTUNITY_HOLD": {"zh-TW": "⛔ 此拍攝題材目前暫停推薦", "en": "⛔ This opportunity is currently on hold", "ja": "⛔ この撮影機会は現在推奨停止"},
+    "OPPORTUNITY_DATA_INSUFFICIENT": {"zh-TW": "⚠️ 此拍攝題材資料不足，暫不高分推薦", "en": "⚠️ Insufficient data for a high-confidence recommendation", "ja": "⚠️ 高信頼の推奨に必要なデータ不足"},
 
     # 關鍵指標 (Indicator)
     "IND_PEAKS": {"zh-TW": "💎 雲量、降雨與能見度符合高分門檻", "en": "💎 Cloud, Rain and Visibility Meet the High-Score Threshold", "ja": "💎 雲量・降水・視程が高スコア基準を満たす"},
@@ -892,16 +899,105 @@ def evaluate_tag_condition(theme, item_data, hour=None, lang="zh-TW"):
     return score,get_text(status_key,lang),get_text(indicator_key,lang),status_key,indicator_key,factors
 
 def _build_opportunity_runtime_diagnostics(spot, item_data):
-    """Preview-only module diagnostics; never emits an Opportunity score."""
+    """Return runtime diagnostics for all researched Opportunities.
+
+    Only preview_module_available Opportunities execute dedicated runtime modules.
+    Other policies remain explicit so the scoring layer can cap confidence instead
+    of silently falling back to a generic Theme score.
+    """
     diagnostics = {}
     for opportunity in spot.get("opportunities", []) or []:
-        if opportunity.get("runtime_policy") != "preview_module_available":
-            continue
         oid = opportunity.get("opportunity_id")
         if not oid:
             continue
-        diagnostics[oid] = evaluate_opportunity_modules(opportunity, item_data)
+        policy = opportunity.get("runtime_policy") or "unclassified"
+        if policy == "preview_module_available":
+            result = evaluate_opportunity_modules(opportunity, item_data)
+        else:
+            result = {
+                "available": False,
+                "eligible": False,
+                "reason": policy,
+                "runtime_policy": policy,
+                "modules": {},
+            }
+        diagnostics[oid] = result
     return diagnostics
+
+
+def _score_opportunity(opportunity, theme_metric, runtime_diagnostic, lang="zh-TW"):
+    """Score one researched Photography Opportunity.
+
+    The legacy Theme score is only the weather/time baseline. A score may enter
+    the 80+ recommendation band only when the Opportunity has a complete
+    place-specific runtime contract and every required module is available and
+    eligible. Pending/prototype/insufficient policies are deliberately capped.
+    """
+    policy = opportunity.get("runtime_policy") or "unclassified"
+    base = int(round(float((theme_metric or {}).get("score", 0) or 0)))
+    factors = list((theme_metric or {}).get("factors", []) or [])
+    status_key = (theme_metric or {}).get("status_key") or "STABLE_WEATHER"
+    indicator_key = (theme_metric or {}).get("indicator_key") or "IND_DEFAULT"
+    condition_state = "theme_baseline_only"
+    score_confidence = "low"
+
+    if policy == "hold":
+        score = 0
+        status_key = indicator_key = "OPPORTUNITY_HOLD"
+        condition_state = "hold"
+    elif policy == "data_insufficient":
+        score = min(base, 35)
+        status_key = indicator_key = "OPPORTUNITY_DATA_INSUFFICIENT"
+        condition_state = "data_insufficient"
+    elif policy == "module_pending":
+        score = min(base, 64)
+        status_key = indicator_key = "OPPORTUNITY_PARTIAL"
+        condition_state = "partial_runtime_contract"
+        score_confidence = "low"
+    elif policy == "prototype_pending_certification":
+        score = min(base, 79)
+        status_key = indicator_key = "OPPORTUNITY_PROTOTYPE"
+        condition_state = "researched_prototype"
+        score_confidence = "medium"
+    elif policy == "preview_module_available":
+        diag = runtime_diagnostic or {}
+        if not diag.get("available"):
+            score = min(base, 45)
+            status_key = indicator_key = "OPPORTUNITY_RUNTIME_DATA_MISSING"
+            condition_state = "runtime_data_missing"
+        elif not diag.get("eligible"):
+            score = min(base, 54)
+            status_key = indicator_key = "OPPORTUNITY_CONDITION_MISS"
+            condition_state = "dedicated_conditions_miss"
+            score_confidence = "medium"
+        else:
+            score = base
+            status_key = indicator_key = "OPPORTUNITY_MATCH"
+            condition_state = "dedicated_conditions_match"
+            score_confidence = "high"
+    else:
+        score = min(base, 35)
+        status_key = indicator_key = "OPPORTUNITY_DATA_INSUFFICIENT"
+        condition_state = "unclassified"
+
+    score = max(0, min(100, int(round(score))))
+    return {
+        "opportunity_id": opportunity.get("opportunity_id"),
+        "opportunity_name": opportunity.get("name_zh"),
+        "theme": opportunity.get("legacy_theme"),
+        "score": score,
+        "base_theme_score": base,
+        "status_key": status_key,
+        "indicator_key": indicator_key,
+        "status": get_text(status_key, lang),
+        "key_indicator": get_text(indicator_key, lang),
+        "factors": factors,
+        "runtime_policy": policy,
+        "condition_state": condition_state,
+        "score_confidence": score_confidence,
+        "formula_confidence": opportunity.get("formula_confidence"),
+        "runtime": runtime_diagnostic or {},
+    }
 
 
 def _access_open_for_spot(spot, local_dt, is_day, is_twilight):
@@ -1183,15 +1279,46 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
                     "factors": factors,
                 }
 
-            best_theme = max(theme_scores, key=lambda t: theme_scores[t]["score"]) if theme_scores else "mountain_view"
-            best = theme_scores.get(best_theme, {
-                "score": 50,
-                "status": get_text("STABLE_WEATHER", lang),
-                "key_indicator": get_text("IND_DEFAULT", lang),
-                "status_key": "STABLE_WEATHER",
-                "indicator_key": "IND_DEFAULT",
-                "factors": [],
-            })
+            opportunity_scores = {}
+            for opportunity in spot.get("opportunities", []) or []:
+                oid = opportunity.get("opportunity_id")
+                theme = opportunity.get("legacy_theme")
+                if not oid or not theme:
+                    continue
+                theme_metric = theme_scores.get(theme)
+                if theme_metric is None:
+                    score, status, indicator, status_key, indicator_key, factors = evaluate_tag_condition(theme, item_data, local_dt.hour, lang)
+                    theme_metric = {
+                        "score": score,
+                        "status": status,
+                        "status_key": status_key,
+                        "key_indicator": indicator,
+                        "indicator_key": indicator_key,
+                        "factors": factors,
+                    }
+                    theme_scores[theme] = theme_metric
+                opportunity_scores[oid] = _score_opportunity(
+                    opportunity,
+                    theme_metric,
+                    opportunity_runtime.get(oid),
+                    lang,
+                )
+
+            if opportunity_scores:
+                best_opportunity_id = max(opportunity_scores, key=lambda oid: opportunity_scores[oid]["score"])
+                best = opportunity_scores[best_opportunity_id]
+                best_theme = best.get("theme") or "mountain_view"
+            else:
+                best_opportunity_id = None
+                best_theme = max(theme_scores, key=lambda t: theme_scores[t]["score"]) if theme_scores else "mountain_view"
+                best = theme_scores.get(best_theme, {
+                    "score": 50,
+                    "status": get_text("STABLE_WEATHER", lang),
+                    "key_indicator": get_text("IND_DEFAULT", lang),
+                    "status_key": "STABLE_WEATHER",
+                    "indicator_key": "IND_DEFAULT",
+                    "factors": [],
+                })
 
             hourly_forecast.append({
                 "time": local_dt.strftime("%Y-%m-%d %H:%M"),
@@ -1206,7 +1333,10 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
                 "indicator_key": best["indicator_key"],
                 "factors": best.get("factors", []),
                 "best_theme": best_theme,
+                "best_opportunity_id": best_opportunity_id,
+                "best_opportunity_name": best.get("opportunity_name"),
                 "theme_scores": theme_scores,
+                "opportunity_scores": opportunity_scores,
                 "best_tag": best_theme,  # V4 compatibility
                 "tag_scores": theme_scores,  # V4 compatibility
                 "opportunity_runtime": opportunity_runtime,
@@ -1257,6 +1387,8 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
         return {
             "score": best_item.get("score", 50),
             "best_theme": best_item.get("best_theme", best_item.get("best_tag")),
+            "best_opportunity_id": best_item.get("best_opportunity_id"),
+            "best_opportunity_name": best_item.get("best_opportunity_name"),
             "best_tag": best_item.get("best_theme", best_item.get("best_tag")),
             "best_time": best_item.get("time", "N/A"),
             "best_time_utc": best_item.get("time_utc"),
