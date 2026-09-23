@@ -1238,8 +1238,12 @@ def test_active_catalog_weather_generation_guard():
             }
         },
     }]
+    p02_for_daily = next(
+        o for o in get_opportunities("tw", "tw-018")
+        if o["opportunity_id"] == "tw-018-P02"
+    )
     researched_days = analyze_weather._build_day_summaries(
-        researched_hour, ["reflection"], [p02]
+        researched_hour, ["reflection"], [p02_for_daily]
     )
     assert researched_days[0]["all"]["opportunity_id"] == "tw-018-P02"
     assert researched_days[0]["all"]["score"] == 88
