@@ -21,6 +21,7 @@ MARINE_STATE_PROFILES = {
     "tw-072-P01": {"exposure": "exposed_rocky_coast"},
     "tw-072-P02": {"exposure": "exposed_rocky_coast"},
     "tw-073-P01": {"exposure": "intertidal_rocky_coast"},
+    "tw-075-P01": {"exposure": "exposed_sandy_coast"},
 }
 
 
@@ -186,6 +187,7 @@ def validate_marine_state_registry():
         "tw-036-P01", "tw-036-P02",
         "tw-071-P01", "tw-071-P02",
         "tw-072-P01", "tw-072-P02", "tw-073-P01",
+        "tw-075-P01",
     }
     if set(MARINE_STATE_PROFILES) != expected:
         errors.append(f"marine profile registry mismatch: {sorted(MARINE_STATE_PROFILES)}")
