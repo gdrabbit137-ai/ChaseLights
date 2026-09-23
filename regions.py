@@ -111,6 +111,8 @@ REGIONS = {
             (23.49073, 121.51086, "石梯坪", "Shihtiping", "石梯坪", "石梯坪", "本島", ["coast"]),
             (24.426386, 118.304369, "建功嶼", "Jiangong Islet", "建功嶼", "建功嶼", "金門", ["coast"]),
             (23.60345, 119.50265, "池西岩瀑", "Chixi Columnar Basalt", "池西柱状玄武岩", "池西岩瀑", "澎湖", ["coast"]),
+            (22.63366, 121.5069, "帆船鼻大草原", "Fanchuanbi Grassland", "帆船鼻大草原", "帆船鼻大草原", "綠島/蘭嶼/小琉球", ["coast", "starlight"]),
+            (26.141922, 119.921072, "南竿鐵堡", "Iron Fort Nangan", "南竿鉄堡", "鐵堡", "馬祖", ["coast"]),
         ],
     },
     "jp": {
@@ -272,6 +274,7 @@ VIEW_AZIMUTH_OVERRIDES = {
     "石梯坪": (90, 80),
     "建功嶼": (270, 80),
     "池西岩瀑": (270, 80),
+    "帆船鼻大草原": (90, 80),
     "綠島朝日溫泉": (90, 60),
     "蘭嶼東清灣": (90, 60),
     "小樽運河": (250, 80),
@@ -300,6 +303,7 @@ BORTLE_OVERRIDES = {
     '墾丁鵝鑾鼻': (3, 'medium'),
     '六十石山': (3, 'medium'),
     '龍磐公園': (3, 'medium'),
+    '帆船鼻大草原': (3, 'medium'),
     '七星潭月牙灣': (5, 'medium'),
     '七星潭': (5, 'medium'),
     '三仙台': (3, 'medium'),
@@ -401,6 +405,14 @@ def _dark_sky_meta(region_key, name_zh, category, scenes, themes):
     }
 
 ACCESS_RULE_OVERRIDES = {
+    "南竿鐵堡": {
+        "access_mode": "opening_hours_and_weather_control",
+        "access_note_i18n": {
+            "zh-TW": "官方目前列每日 08:00–17:00；長浪或強風時可能關閉。夜間不可假設可進入。",
+            "en": "Official hours are currently 08:00–17:00 daily; long-period waves or strong winds may trigger closure. Do not assume night access.",
+            "ja": "現在の公式営業時間は毎日08:00〜17:00。長周期波や強風時は閉鎖される場合があります。夜間入場を前提にしないでください。",
+        },
+    },
     "野柳地質公園": {
         "access_mode": "opening_hours",
         "access_note_i18n": {
@@ -494,6 +506,20 @@ SPOT_OVERRIDES = {
          'map_query': '池西岩瀑 澎湖縣西嶼鄉',
          'coordinate_source': 'B28 multiple geotagged-photo Camera Zone; Penghu NSA official Place anchor cross-check',
          'coordinate_confidence': 'high'},
+ '帆船鼻大草原': {'lat': 22.63366,
+            'lon': 121.5069,
+            'scenes': ['coast', 'grassland'],
+            'themes': ['sunrise', 'milky_way'],
+            'map_query': '帆船鼻大草原 綠島',
+            'coordinate_source': 'B28 Tourism Administration official Place anchor; broad grassland Camera Zone',
+            'coordinate_confidence': 'high'},
+ '南竿鐵堡': {'lat': 26.141922,
+          'lon': 119.921072,
+          'scenes': ['coast', 'architecture'],
+          'themes': ['mountain_view'],
+          'map_query': '鐵堡 南竿',
+          'coordinate_source': 'B28 Wikimedia/Panoramio camera geotag; Matsu NSA official Place anchor cross-check',
+          'coordinate_confidence': 'high'},
  '大屯山助航站': {'lat': 25.17614,
             'lon': 121.52244,
             'map_query': '大屯山助航站 台北',
@@ -1374,6 +1400,8 @@ DISPLAY_NAME_OVERRIDES = {
     "石梯坪": {"zh-TW": "石梯坪海蝕平台／壺穴群", "en": "Shihtiping Marine Terraces · Potholes", "ja": "石梯坪・海食台と甌穴群", "local": "石梯坪"},
     "建功嶼": {"zh-TW": "建功嶼／退潮石板道", "en": "Jiangong Islet · Tidal Causeway", "ja": "建功嶼・干潮石畳道", "local": "建功嶼"},
     "池西岩瀑": {"zh-TW": "池西柱狀玄武岩／池西岩瀑九孔池", "en": "Chixi Columnar Basalt · Tidal Pools", "ja": "池西柱状玄武岩・九孔池", "local": "池西岩瀑"},
+    "帆船鼻大草原": {"zh-TW": "帆船鼻大草原／海岬", "en": "Fanchuanbi Grassland · Headland", "ja": "帆船鼻大草原・海岬", "local": "帆船鼻大草原"},
+    "南竿鐵堡": {"zh-TW": "南竿鐵堡／海防礁岩", "en": "Iron Fort · Coastal Stronghold", "ja": "南竿鉄堡・海防岩礁", "local": "鐵堡"},
     "九份不厭亭": {"zh-TW": "不厭亭", "en": "Buyan Pavilion Viewpoint", "ja": "不厭亭展望所", "local": "不厭亭"},
     "日月潭": {"zh-TW": "日月潭・水社壩湖景步道", "en": "Sun Moon Lake · Shuishe Dam Viewpoint", "ja": "日月潭・水社ダム湖畔", "local": "日月潭 水社壩"},
     "二延平步道": {"zh-TW": "二延平步道鋼構觀景平台", "en": "Eryanping Trail Viewing Platform", "ja": "二延平歩道展望台", "local": "二延平步道觀景平台"},
