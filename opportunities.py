@@ -16,7 +16,7 @@ import json
 from pathlib import Path
 
 ADAPTER_VERSION = "v0.04-r4.2-b16-preview"
-CATALOG_FILENAME = "runtime_catalog_v004_r4_2_b15.json.bz2"
+CATALOG_FILENAME = "runtime_catalog_v004_r4_2_b15.compact.b64"
 VALID_MODES = {"area_opportunity", "composition_specific"}
 VALID_TOPOLOGIES = {
     "local_area",
@@ -28,8 +28,9 @@ VALID_TOPOLOGIES = {
 
 def _load_catalog():
     path = Path(__file__).with_name(CATALOG_FILENAME)
-    with bz2.open(path, "rt", encoding="utf-8") as f:
-        catalog = json.load(f)
+    encoded = path.read_text(encoding="ascii")
+    raw = bz2.decompress(base64.b64decode(encoded))
+    catalog = json.loads(raw.decode("utf-8"))
     if catalog.get("schema_version") != "v0.04-r4.2-b15-preview":
         raise ValueError(f"Unexpected R4.2 runtime catalog version: {catalog.get('schema_version')}")
     return catalog
