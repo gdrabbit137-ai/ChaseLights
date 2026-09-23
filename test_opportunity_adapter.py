@@ -490,9 +490,9 @@ def test_adapter_integrity():
 
     marine_astro = next(o for o in all_opportunities if o["opportunity_id"] == "tw-036-P02")
     marine_astro_state = dependency_state(marine_astro)
-    assert marine_astro_state["ready_components"] == ("astronomy_ephemeris",)
-    assert marine_astro_state["missing_components"] == ("marine_state",)
-    assert runtime_policy(marine_astro) == "module_pending"
+    assert marine_astro_state["ready_components"] == ("astronomy_ephemeris", "marine_state")
+    assert marine_astro_state["missing_components"] == ()
+    assert runtime_policy(marine_astro) == "preview_module_available"
 
     lake_astro = next(o for o in all_opportunities if o["opportunity_id"] == "tw-045-P03")
     lake_astro_state = dependency_state(lake_astro)
