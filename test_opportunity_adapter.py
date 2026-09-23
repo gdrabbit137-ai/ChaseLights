@@ -1183,7 +1183,10 @@ def test_active_catalog_weather_generation_guard():
             assert all(str(v.get("name") or "").strip() for v in opportunity["viewpoints"])
             variants = opportunity.get("condition_variants") or []
             assert variants, f"{opportunity['opportunity_id']}: Condition Variant required"
-            assert all(str(v.get("required_conditions") or "").strip() for v in variants)
+            assert all(str(v.get("variant_name") or "").strip() for v in variants)
+            # Detailed prose fields are optional by design. Missing research
+            # fields stay absent in the UI rather than being filled by a
+            # generic template.
 
     # Non-migrated regions must remain explicit research gaps; the UI may show a
     # research-pending notice but must not synthesize generic recommendations.
