@@ -75,6 +75,27 @@ User review determined that 建功嶼 and 南竿鐵堡 are not major landscape-p
 - tw-078 stays simple; official tidal-access information is more important than sophisticated photo-condition scoring.
 - tw-081 stays simple; daytime attraction information is sufficient for the current product.
 
+## Forecast hint semantic safety
+
+User review found that blue-hour cards for non-city Places could display phrases such as "城市燈火清晰無霧". The root cause was legacy scoring that treated every `blue_hour` Theme as a city condition.
+
+B28 now enforces:
+
+- `blue_hour` is scene-neutral. It uses only blue-hour / low-cloud / visibility wording.
+- Blue-hour clear wording is emitted only when astronomy timing is valid and the relevant visibility / cloud / precipitation / wind inputs are present.
+- If required weather fields are unavailable, the hint explicitly reports limited data instead of claiming a clear view.
+- Architecture alone does not auto-enable `city_night`; only a `city` Scene does.
+- A curated non-city Opportunity may retain legacy `city_night` compatibility when the photographic Outcome genuinely involves night illumination, but the displayed hint becomes generic "夜間景觀" wording rather than "城市燈火".
+- Current reviewed non-city compatibility cases are:
+  - tw-020 金龍山 — 盆地低雲琉璃光
+  - tw-023 頂石棹 — 聚落琉璃光
+  - tw-027 田寮月世界 — 夜間投光地景
+  - tw-064 金門慈湖 — 對岸廈門夜景
+- The phrase "無霧" was removed from city-night clear messaging; forecast visibility is described as "能見度良好" instead of an absolute local-fog claim.
+- Automated tests assert that blue-hour output cannot contain "城市", "燈火" or "無霧", and non-city night Outcomes cannot emit city-specific status/indicator keys.
+
+Latest semantic-hint QA: PASS on `82edd7801337c50ee1d06c4aeef462438729ee64` (workflow run 35911902281).
+
 ## Final QA
 
 - Addition spot IDs: contiguous tw-072…tw-081
