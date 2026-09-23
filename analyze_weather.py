@@ -151,9 +151,38 @@ def analyze_spot(spot, kp_rows=None):
     return summary, details
 
 
+def _active_spots(region):
+    """Return only product-active Places; retired tombstones never reach output."""
+    return [
+        spot for spot in get_spots(region)
+        if spot.get("active_in_catalog", True)
+    ]
+
+
+def _load_previous_spot_map(path):
+    """Load the last committed weather rows for transient-failure fallback."""
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            payload = json.load(f)
+    except (OSError, json.JSONDecodeError, TypeError):
+        return {}
+    return {
+        row.get("spot_id"): row
+        for row in (payload.get("spots", []) or [])
+        if isinstance(row, dict) and row.get("spot_id")
+    }
+
+
+def _mark_stale(row, reason):
+    row = dict(row)
+    row["data_stale"] = True
+    row["data_stale_reason"] = reason
+    return row
+
+
 def main():
     region = sys.argv[1].lower() if len(sys.argv) > 1 else "tw"
-    spots = get_spots(region)
+    spots = _active_spots(region)
     if not spots:
         print(f"❌ 找不到區域 [{region}] 的景點清單！")
         raise SystemExit(1)
@@ -162,13 +191,44 @@ def main():
     kp_info = fetch_noaa_kp()
     now_utc_str = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
+    summary_name = f"{region}_weather.json"
+    details_name = f"{region}_weather_details.json"
+    previous_summaries = _load_previous_spot_map(summary_name)
+    previous_details = _load_previous_spot_map(details_name)
+
     summaries, details = [], []
+    stale_spot_ids, failed_spot_ids = [], []
     for n, spot in enumerate(spots, 1):
         print(f"[{n}/{len(spots)}] {spot['name_i18n'].get('zh-TW')} ...")
         summary, detail = analyze_spot(spot, kp_rows=kp_rows)
         if summary:
+            summary["data_stale"] = False
+            detail["data_stale"] = False
             summaries.append(summary)
             details.append(detail)
+            continue
+
+        spot_id = spot.get("spot_id")
+        previous_summary = previous_summaries.get(spot_id)
+        previous_detail = previous_details.get(spot_id)
+        if previous_summary and previous_detail:
+            print(f"  ↳ using previous committed weather row for {spot_id}")
+            summaries.append(_mark_stale(previous_summary, "weather_fetch_failed"))
+            details.append(_mark_stale(previous_detail, "weather_fetch_failed"))
+            stale_spot_ids.append(spot_id)
+        else:
+            failed_spot_ids.append(spot_id)
+
+    if failed_spot_ids:
+        raise RuntimeError(
+            "Refusing to publish incomplete weather catalog; no fallback for active Places: "
+            + ", ".join(failed_spot_ids)
+        )
+    if len(summaries) != len(spots) or len(details) != len(spots):
+        raise RuntimeError(
+            f"Weather catalog completeness regression: active={len(spots)} "
+            f"summary={len(summaries)} details={len(details)}"
+        )
 
     base_meta = {
         "schema_version": 9,
@@ -177,6 +237,8 @@ def main():
         "latest_kp": kp_info.get("kp_index") if kp_info else None,
         "latest_kp_source": kp_info.get("source") if kp_info else "unavailable",
         "total_spots": len(summaries),
+        "stale_spot_count": len(stale_spot_ids),
+        "stale_spot_ids": stale_spot_ids,
     }
     summary_data = {
         **base_meta,
@@ -185,8 +247,6 @@ def main():
     }
     detail_data = {**base_meta, "spots": details}
 
-    summary_name = f"{region}_weather.json"
-    details_name = f"{region}_weather_details.json"
     with open(summary_name, "w", encoding="utf-8") as f:
         json.dump(summary_data, f, ensure_ascii=False, separators=(",", ":"))
     with open(details_name, "w", encoding="utf-8") as f:
