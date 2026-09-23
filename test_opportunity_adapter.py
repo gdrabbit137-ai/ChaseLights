@@ -224,6 +224,14 @@ def test_adapter_integrity():
     assert "FILTER_UI_VERSION='3'" in index_html
     assert "return day.all||null" in index_html
 
+    assert 'id="place-modal-overlay"' in index_html
+    assert "card.onclick=()=>openPlaceModal" in index_html
+    assert "data-weather" in index_html
+    assert "🌦️ 天氣預報" in index_html
+    assert "點擊看 96H 明細" not in index_html
+    assert "op.condition_variants" in index_html
+    assert "day?.opportunities||{}" in index_html
+
     nanya = next(o for o in all_opportunities if o["opportunity_id"] == "tw-072-P01")
     assert runtime_policy(nanya) == "preview_module_available"
     assert dependency_state(nanya)["required_components"] == ("marine_state", "directional_horizon")
@@ -1032,10 +1040,48 @@ def test_adapter_integrity():
     diag = fetch_data._build_opportunity_runtime_diagnostics(
         tw018, {"wind": 1.2, "precipitation": 0.0, "pop": 10}
     )
-    assert set(diag) == {"tw-018-P02"}
+    assert set(diag) == {o["opportunity_id"] for o in tw018["opportunities"]}
     assert diag["tw-018-P02"]["available"] is True
     assert diag["tw-018-P02"]["eligible"] is True
-    assert "score" not in diag["tw-018-P02"]
+    assert all("score" not in result for result in diag.values())
+
+    # Opportunity score is authoritative. Generic Theme weather is only the
+    # baseline and cannot produce an 80+ Place recommendation by itself.
+    high_theme_metric = {
+        "score": 92,
+        "status_key": "STABLE_WEATHER",
+        "indicator_key": "IND_DEFAULT",
+        "factors": [],
+    }
+    matched = fetch_data._score_opportunity(
+        p02, high_theme_metric, diag["tw-018-P02"], "zh-TW"
+    )
+    assert matched["score"] == 92
+    assert matched["condition_state"] == "dedicated_conditions_match"
+    assert matched["score_confidence"] == "high"
+
+    missed_diag = fetch_data._build_opportunity_runtime_diagnostics(
+        tw018, {"wind": 7.0, "precipitation": 0.0, "pop": 10}
+    )["tw-018-P02"]
+    missed = fetch_data._score_opportunity(p02, high_theme_metric, missed_diag, "zh-TW")
+    assert missed["score"] <= 54
+    assert missed["condition_state"] == "dedicated_conditions_miss"
+
+    pending = next(o for o in all_opportunities if o["runtime_policy"] == "module_pending")
+    pending_score = fetch_data._score_opportunity(pending, high_theme_metric, {}, "zh-TW")
+    assert pending_score["score"] <= 64
+
+    prototype = next(o for o in all_opportunities if o["runtime_policy"] == "prototype_pending_certification")
+    prototype_score = fetch_data._score_opportunity(prototype, high_theme_metric, {}, "zh-TW")
+    assert prototype_score["score"] <= 79
+
+    held = next(o for o in all_opportunities if o["runtime_policy"] == "hold")
+    hold_score = fetch_data._score_opportunity(held, high_theme_metric, {}, "zh-TW")
+    assert hold_score["score"] == 0
+
+    insufficient = next(o for o in all_opportunities if o["runtime_policy"] == "data_insufficient")
+    insufficient_score = fetch_data._score_opportunity(insufficient, high_theme_metric, {}, "zh-TW")
+    assert insufficient_score["score"] <= 35
 
     tw019 = next(s for s in tw if s["spot_id"] == "tw-019")
     snow_diag = fetch_data._build_opportunity_runtime_diagnostics(
@@ -1121,6 +1167,28 @@ def test_active_catalog_weather_generation_guard():
     assert len(active_tw) == 80
     assert "tw-063" not in {spot["spot_id"] for spot in active_tw}
     assert all(spot.get("active_in_catalog", True) for spot in active_tw)
+
+    # Every active Taiwan Place shown in the product must have explicit,
+    # place-specific photography research. The UI is forbidden from inventing
+    # shooting advice for a Place without this catalog evidence.
+    for spot in active_tw:
+        opportunities = spot.get("opportunities") or []
+        assert opportunities, f"{spot['spot_id']}: researched Opportunity required"
+        for opportunity in opportunities:
+            assert opportunity.get("opportunity_id")
+            assert str(opportunity.get("name_zh") or "").strip()
+            assert str(opportunity.get("best_time") or "").strip()
+            assert str(opportunity.get("best_season") or "").strip()
+            assert opportunity.get("viewpoints"), f"{opportunity['opportunity_id']}: viewpoint evidence required"
+            assert all(str(v.get("name") or "").strip() for v in opportunity["viewpoints"])
+            variants = opportunity.get("condition_variants") or []
+            assert variants, f"{opportunity['opportunity_id']}: Condition Variant required"
+            assert all(str(v.get("required_conditions") or "").strip() for v in variants)
+
+    # Non-migrated regions must remain explicit research gaps; the UI may show a
+    # research-pending notice but must not synthesize generic recommendations.
+    assert all(not (spot.get("opportunities") or []) for spot in get_spots("jp"))
+    assert all(not (spot.get("opportunities") or []) for spot in get_spots("us"))
 
     stale = analyze_weather._mark_stale({"spot_id": "tw-009", "daily": []}, "weather_fetch_failed")
     assert stale["spot_id"] == "tw-009"
