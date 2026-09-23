@@ -11,6 +11,7 @@ Important:
 """
 
 from copy import deepcopy
+import base64
 import bz2
 import json
 from pathlib import Path
