@@ -13,6 +13,9 @@ Implemented preview components:
   geometry plus low/mid/high cloud structure; it predicts potential, not color.
 - spatial_weather_vertical_cloud: camera-versus-lower-terrain multi-point proxy
   for cloud sea / valley fog; it never treats single-point humidity as proof.
+- astronomy_ephemeris: non-exact night-sky visibility using astronomical
+  darkness, Galactic Core position, Moon interference, sky weather and curated
+  light-pollution metadata. Exact foreground alignment remains separate.
 
 A profile is preview_module_available only when every dependency in the formal
 runtime dependency inventory is implemented and configured for that Opportunity.
@@ -31,7 +34,7 @@ from spatial_weather import (
     validate_spatial_weather_registry,
 )
 
-MODULE_VERSION = "opportunity-runtime-r5-preview"
+MODULE_VERSION = "opportunity-runtime-r6-preview"
 
 IMPLEMENTED_COMPONENTS = {
     "directional_horizon",
@@ -42,6 +45,7 @@ IMPLEMENTED_COMPONENTS = {
     "cloud_light_state",
     "cloud_sky_glow",
     "spatial_weather_vertical_cloud",
+    "astronomy_ephemeris",
 }
 
 DIRECTIONAL_HORIZON_SECTORS = {
@@ -79,6 +83,17 @@ CLOUD_SKY_GLOW_PROFILES = {
     "tw-035-P04": {"mode": "afterglow_sky", "target_center": 270.0, "target_tolerance": 85.0},
 }
 
+ASTRONOMY_EPHEMERIS_PROFILES = {
+    "tw-019-P05": {"mode": "milky_way_or_star_field"},
+    "tw-024-P05": {"mode": "star_field"},
+    "tw-035-P05": {"mode": "milky_way_or_star_field"},
+    "tw-036-P02": {"mode": "milky_way_or_star_field"},
+    "tw-038-P02": {"mode": "milky_way_core_exact_foreground_pending"},
+    "tw-040-P06": {"mode": "milky_way_or_star_field"},
+    "tw-045-P03": {"mode": "milky_way_or_star_field"},
+    "tw-070-P02": {"mode": "milky_way_or_star_field"},
+}
+
 
 def _angle_diff(a, b):
     return abs((float(a) - float(b) + 180.0) % 360.0 - 180.0)
@@ -93,6 +108,8 @@ def component_ready_for_opportunity(component, opportunity):
         return opportunity.get("opportunity_id") in CLOUD_SKY_GLOW_PROFILES
     if component == "spatial_weather_vertical_cloud":
         return supports_spatial_weather(opportunity)
+    if component == "astronomy_ephemeris":
+        return opportunity.get("opportunity_id") in ASTRONOMY_EPHEMERIS_PROFILES
     return True
 
 
@@ -535,6 +552,226 @@ def evaluate_cloud_sky_glow(opportunity, item_data):
     }
 
 
+def _altaz_separation_deg(az1, alt1, az2, alt2):
+    import math
+    a1, h1, a2, h2 = map(math.radians, [az1, alt1, az2, alt2])
+    cos_sep = (
+        math.sin(h1) * math.sin(h2)
+        + math.cos(h1) * math.cos(h2) * math.cos(a1 - a2)
+    )
+    return math.degrees(math.acos(max(-1.0, min(1.0, cos_sep))))
+
+
+def evaluate_astronomy_ephemeris(opportunity, item_data):
+    """Preview non-exact Milky Way / star-field visibility.
+
+    The ephemeris is planning-grade, not scientific astrometry. It confirms
+    darkness and broad Galactic-Core visibility, then applies cloud/visibility,
+    Moon and light-pollution gates so an ephemeris match cannot pass through an
+    opaque sky. It never verifies foreground/Core alignment.
+    """
+    oid = opportunity.get("opportunity_id")
+    config = ASTRONOMY_EPHEMERIS_PROFILES.get(oid)
+    if not config:
+        return {
+            "module": "astronomy_ephemeris",
+            "available": False,
+            "eligible": False,
+            "reason": "opportunity_astronomy_config_missing",
+        }
+
+    if not item_data.get("astronomy_valid"):
+        return {
+            "module": "astronomy_ephemeris",
+            "available": True,
+            "eligible": False,
+            "reason": "astronomy_unavailable",
+        }
+
+    sun_alt = item_data.get("sun_elevation")
+    astronomical_dark = bool(item_data.get("astronomical_dark"))
+    if not astronomical_dark and sun_alt is not None:
+        astronomical_dark = float(sun_alt) <= -18.0
+    if not astronomical_dark:
+        return {
+            "module": "astronomy_ephemeris",
+            "available": True,
+            "eligible": False,
+            "reason": "not_astronomically_dark",
+            "exact_alignment_verified": False,
+        }
+
+    required_weather = {
+        "c_low": item_data.get("c_low"),
+        "c_mid": item_data.get("c_mid"),
+        "c_high": item_data.get("c_high"),
+    }
+    if any(value is None for value in required_weather.values()):
+        return {
+            "module": "astronomy_ephemeris",
+            "available": False,
+            "eligible": False,
+            "reason": "night_sky_cloud_layers_missing",
+            "exact_alignment_verified": False,
+        }
+
+    vis_raw = item_data.get("vis")
+    if vis_raw is None and item_data.get("visibility") is not None:
+        vis_km = float(item_data["visibility"])
+    elif vis_raw is not None:
+        vis_km = float(vis_raw) / 1000.0
+    else:
+        return {
+            "module": "astronomy_ephemeris",
+            "available": False,
+            "eligible": False,
+            "reason": "night_sky_visibility_missing",
+            "exact_alignment_verified": False,
+        }
+
+    low = max(0.0, min(100.0, float(required_weather["c_low"])))
+    mid = max(0.0, min(100.0, float(required_weather["c_mid"])))
+    high = max(0.0, min(100.0, float(required_weather["c_high"])))
+    if vis_km < 10.0:
+        return {
+            "module": "astronomy_ephemeris",
+            "available": True,
+            "eligible": False,
+            "reason": "night_sky_visibility_poor",
+            "visibility_km": round(vis_km, 1),
+            "exact_alignment_verified": False,
+        }
+    if low >= 70 or mid >= 80 or high >= 85:
+        return {
+            "module": "astronomy_ephemeris",
+            "available": True,
+            "eligible": False,
+            "reason": "night_sky_cloud_blocked",
+            "cloud_low": round(low),
+            "cloud_mid": round(mid),
+            "cloud_high": round(high),
+            "exact_alignment_verified": False,
+        }
+
+    core_alt_raw = item_data.get("galactic_core_elevation")
+    core_az_raw = item_data.get("galactic_core_azimuth")
+    if core_alt_raw is None or core_az_raw is None:
+        return {
+            "module": "astronomy_ephemeris",
+            "available": False,
+            "eligible": False,
+            "reason": "galactic_core_position_missing",
+            "exact_alignment_verified": False,
+        }
+    core_alt = float(core_alt_raw)
+    core_az = float(core_az_raw)
+
+    moon_alt_raw = item_data.get("moon_elevation")
+    moon_az_raw = item_data.get("moon_azimuth")
+    moon_illum_raw = item_data.get("moon_illumination")
+    if moon_alt_raw is None or moon_az_raw is None or moon_illum_raw is None:
+        return {
+            "module": "astronomy_ephemeris",
+            "available": False,
+            "eligible": False,
+            "reason": "moon_ephemeris_missing",
+            "exact_alignment_verified": False,
+        }
+
+    moon_alt = float(moon_alt_raw)
+    moon_az = float(moon_az_raw)
+    moon_illum = max(0.0, min(100.0, float(moon_illum_raw)))
+    moon_core_sep = None
+    if moon_alt > 0 and core_alt > 0:
+        moon_core_sep = _altaz_separation_deg(moon_az, moon_alt, core_az, core_alt)
+
+    if moon_alt > 15 and moon_illum >= 70:
+        return {
+            "module": "astronomy_ephemeris",
+            "available": True,
+            "eligible": False,
+            "reason": "bright_moon_interference",
+            "moon_elevation": round(moon_alt, 1),
+            "moon_illumination": round(moon_illum, 1),
+            "moon_core_separation_deg": None if moon_core_sep is None else round(moon_core_sep, 1),
+            "exact_alignment_verified": False,
+        }
+    if (
+        moon_alt > 5
+        and moon_illum >= 50
+        and moon_core_sep is not None
+        and moon_core_sep < 60
+    ):
+        return {
+            "module": "astronomy_ephemeris",
+            "available": True,
+            "eligible": False,
+            "reason": "moon_near_galactic_core",
+            "moon_elevation": round(moon_alt, 1),
+            "moon_illumination": round(moon_illum, 1),
+            "moon_core_separation_deg": round(moon_core_sep, 1),
+            "exact_alignment_verified": False,
+        }
+
+    bortle_raw = item_data.get("bortle_class")
+    bortle = None if bortle_raw is None else max(1, min(9, int(bortle_raw)))
+    if bortle is not None and bortle >= 7:
+        return {
+            "module": "astronomy_ephemeris",
+            "available": True,
+            "eligible": False,
+            "reason": "light_pollution_too_high",
+            "bortle_class": bortle,
+            "exact_alignment_verified": False,
+        }
+
+    mode = config["mode"]
+    if mode == "milky_way_core_exact_foreground_pending":
+        if core_alt < 10.0:
+            return {
+                "module": "astronomy_ephemeris",
+                "available": True,
+                "eligible": False,
+                "reason": "galactic_core_below_usable_altitude",
+                "galactic_core_elevation": round(core_alt, 1),
+                "galactic_core_azimuth": round(core_az, 1),
+                "exact_alignment_verified": False,
+            }
+        scene_state = "galactic_core_visible_exact_alignment_pending"
+    elif mode == "milky_way_or_star_field":
+        scene_state = "milky_way_core_visible" if core_alt >= 10.0 else "dark_star_field"
+    else:
+        scene_state = "dark_star_field"
+
+    confidence = "medium"
+    if bortle is not None and bortle <= 3 and max(low, mid, high) <= 40 and vis_km >= 20:
+        confidence = "medium_high"
+
+    return {
+        "module": "astronomy_ephemeris",
+        "available": True,
+        "eligible": True,
+        "reason": "night_sky_ephemeris_weather_match",
+        "mode": mode,
+        "scene_state": scene_state,
+        "astronomical_dark": True,
+        "galactic_core_elevation": round(core_alt, 1),
+        "galactic_core_azimuth": round(core_az, 1),
+        "moon_elevation": round(moon_alt, 1),
+        "moon_illumination": round(moon_illum, 1),
+        "moon_core_separation_deg": None if moon_core_sep is None else round(moon_core_sep, 1),
+        "cloud_low": round(low),
+        "cloud_mid": round(mid),
+        "cloud_high": round(high),
+        "visibility_km": round(vis_km, 1),
+        "bortle_class": bortle,
+        "dark_sky_score": item_data.get("dark_sky_score"),
+        "exact_alignment_verified": False,
+        "ephemeris_precision": "planning_grade_non_scientific",
+        "confidence_hint": confidence,
+    }
+
+
 _COMPONENT_EVALUATORS = {
     "directional_horizon": evaluate_directional_horizon,
     "visibility": lambda opportunity, item_data: evaluate_visibility(item_data),
@@ -544,6 +781,7 @@ _COMPONENT_EVALUATORS = {
     "cloud_light_state": lambda opportunity, item_data: evaluate_cloud_light_state(item_data),
     "cloud_sky_glow": evaluate_cloud_sky_glow,
     "spatial_weather_vertical_cloud": evaluate_spatial_weather,
+    "astronomy_ephemeris": evaluate_astronomy_ephemeris,
 }
 
 
@@ -600,6 +838,14 @@ def validate_runtime_registry():
         errors.append(f"unexpected cloud_sky_glow registry: {sorted(CLOUD_SKY_GLOW_PROFILES)}")
     if len(SPATIAL_WEATHER_PROFILES) != 19:
         errors.append(f"expected 19 spatial weather profiles, got {len(SPATIAL_WEATHER_PROFILES)}")
+    expected_astro = {
+        "tw-019-P05", "tw-024-P05", "tw-035-P05", "tw-036-P02",
+        "tw-038-P02", "tw-040-P06", "tw-045-P03", "tw-070-P02",
+    }
+    if set(ASTRONOMY_EPHEMERIS_PROFILES) != expected_astro:
+        errors.append(
+            f"unexpected astronomy ephemeris registry: {sorted(ASTRONOMY_EPHEMERIS_PROFILES)}"
+        )
     for oid, sector in DIRECTIONAL_HORIZON_SECTORS.items():
         if not oid.startswith("tw-"):
             errors.append(f"{oid}: Taiwan Opportunity id expected")

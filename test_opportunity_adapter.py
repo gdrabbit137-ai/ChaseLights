@@ -12,6 +12,8 @@ from opportunity_runtime import (
     evaluate_radiation_dni,
     evaluate_cloud_light_state,
     evaluate_cloud_sky_glow,
+    evaluate_astronomy_ephemeris,
+    ASTRONOMY_EPHEMERIS_PROFILES,
     evaluate_opportunity_modules,
     validate_runtime_registry,
 )
@@ -50,7 +52,7 @@ def _all_opportunities():
 
 
 def test_adapter_integrity():
-    assert ADAPTER_VERSION == "v0.04-r4.2-b21-preview"
+    assert ADAPTER_VERSION == "v0.04-r4.2-b22-preview"
     assert validate_curated_opportunities() == []
     assert validate_taxonomy() == []
     assert CATALOG_COUNTS == {
@@ -84,8 +86,8 @@ def test_adapter_integrity():
 
     policies = Counter(runtime_policy(o) for o in all_opportunities)
     assert policies == {
-        "module_pending": 81,
-        "preview_module_available": 50,
+        "module_pending": 79,
+        "preview_module_available": 52,
         "prototype_pending_certification": 41,
         "hold": 1,
         "data_insufficient": 1,
@@ -142,7 +144,7 @@ def test_adapter_integrity():
     assert IMPLEMENTED_COMPONENTS == {
         "directional_horizon", "visibility", "water_surface_state", "snow_state",
         "radiation_DNI", "cloud_light_state", "cloud_sky_glow",
-        "spatial_weather_vertical_cloud"
+        "spatial_weather_vertical_cloud", "astronomy_ephemeris"
     }
     assert dependencies_for_status("needs_radiation_module") == ("radiation_DNI", "cloud_light_state")
     assert dependencies_for_status("needs_radiation_cloud_module") == ("radiation_DNI", "cloud_sky_glow")
@@ -413,6 +415,96 @@ def test_adapter_integrity():
     assert "spatial_weather_vertical_cloud" in p021_state["missing_components"]
     assert "dynamic_access" in p021_state["missing_components"]
 
+    assert set(ASTRONOMY_EPHEMERIS_PROFILES) == {
+        "tw-019-P05", "tw-024-P05", "tw-035-P05", "tw-036-P02",
+        "tw-038-P02", "tw-040-P06", "tw-045-P03", "tw-070-P02",
+    }
+
+    pure_astro = [
+        o for o in all_opportunities
+        if o["formula_status"] == "needs_astronomy_ephemeris_module"
+    ]
+    assert {o["opportunity_id"] for o in pure_astro} == {"tw-035-P05", "tw-070-P02"}
+    assert all(runtime_policy(o) == "preview_module_available" for o in pure_astro)
+
+    astro_input = {
+        "astronomy_valid": True,
+        "astronomical_dark": True,
+        "sun_elevation": -28,
+        "galactic_core_azimuth": 185,
+        "galactic_core_elevation": 32,
+        "moon_azimuth": 45,
+        "moon_elevation": -8,
+        "moon_illumination": 75,
+        "c_low": 10,
+        "c_mid": 20,
+        "c_high": 25,
+        "vis": 30000,
+        "bortle_class": 3,
+        "dark_sky_score": 86,
+    }
+    astro_profile = next(o for o in pure_astro if o["opportunity_id"] == "tw-035-P05")
+    astro_ok = evaluate_astronomy_ephemeris(astro_profile, astro_input)
+    assert astro_ok["available"] is True
+    assert astro_ok["eligible"] is True
+    assert astro_ok["scene_state"] == "milky_way_core_visible"
+    assert astro_ok["exact_alignment_verified"] is False
+
+    overcast = dict(astro_input, c_low=85)
+    astro_cloud = evaluate_astronomy_ephemeris(astro_profile, overcast)
+    assert astro_cloud["eligible"] is False
+    assert astro_cloud["reason"] == "night_sky_cloud_blocked"
+
+    bright_moon = dict(
+        astro_input,
+        moon_azimuth=190,
+        moon_elevation=35,
+        moon_illumination=90,
+    )
+    astro_moon = evaluate_astronomy_ephemeris(astro_profile, bright_moon)
+    assert astro_moon["eligible"] is False
+    assert astro_moon["reason"] == "bright_moon_interference"
+
+    star_field = dict(astro_input, galactic_core_elevation=-12)
+    astro_star_field = evaluate_astronomy_ephemeris(astro_profile, star_field)
+    assert astro_star_field["eligible"] is True
+    assert astro_star_field["scene_state"] == "dark_star_field"
+
+    astro_result = evaluate_opportunity_modules(astro_profile, astro_input)
+    assert astro_result["available"] is True
+    assert astro_result["eligible"] is True
+    assert set(astro_result["modules"]) == {"astronomy_ephemeris"}
+
+    access_astro = next(o for o in all_opportunities if o["opportunity_id"] == "tw-019-P05")
+    access_astro_state = dependency_state(access_astro)
+    assert access_astro_state["ready_components"] == ("astronomy_ephemeris",)
+    assert access_astro_state["missing_components"] == ("dynamic_access",)
+    assert runtime_policy(access_astro) == "module_pending"
+
+    marine_astro = next(o for o in all_opportunities if o["opportunity_id"] == "tw-036-P02")
+    marine_astro_state = dependency_state(marine_astro)
+    assert marine_astro_state["ready_components"] == ("astronomy_ephemeris",)
+    assert marine_astro_state["missing_components"] == ("marine_state",)
+    assert runtime_policy(marine_astro) == "module_pending"
+
+    lake_astro = next(o for o in all_opportunities if o["opportunity_id"] == "tw-045-P03")
+    lake_astro_state = dependency_state(lake_astro)
+    assert lake_astro_state["ready_components"] == ("astronomy_ephemeris", "water_surface_state")
+    assert lake_astro_state["missing_components"] == ("dynamic_access",)
+    assert runtime_policy(lake_astro) == "module_pending"
+
+    exact_astro = next(o for o in all_opportunities if o["opportunity_id"] == "tw-038-P02")
+    exact_state = dependency_state(exact_astro)
+    assert exact_state["ready_components"] == ("astronomy_ephemeris",)
+    assert set(exact_state["missing_components"]) == {
+        "verified_camera_geometry", "dynamic_access", "managed_lighting_state"
+    }
+    assert runtime_policy(exact_astro) == "module_pending"
+    exact_eval = evaluate_astronomy_ephemeris(exact_astro, astro_input)
+    assert exact_eval["eligible"] is True
+    assert exact_eval["scene_state"] == "galactic_core_visible_exact_alignment_pending"
+    assert exact_eval["exact_alignment_verified"] is False
+
     tw052 = get_opportunities("tw", "tw-052")
     assert tw052[0]["runtime_policy"] == "hold"
     assert get_opportunities("jp", "jp-001") == []
@@ -474,6 +566,28 @@ def test_adapter_integrity():
     assert "latitude=" in spatial_url and "%2C" not in spatial_url
     assert "cloud_cover_low" in spatial_url
     assert spatial_url.count(",") >= 16
+
+    tw070 = next(s for s in tw if s["spot_id"] == "tw-070")
+    astro_diag = fetch_data._build_opportunity_runtime_diagnostics(
+        tw070, {
+            "astronomy_valid": True,
+            "astronomical_dark": True,
+            "sun_elevation": -28,
+            "galactic_core_azimuth": 180,
+            "galactic_core_elevation": 28,
+            "moon_azimuth": 20,
+            "moon_elevation": -5,
+            "moon_illumination": 80,
+            "c_low": 10, "c_mid": 20, "c_high": 25,
+            "vis": 30000,
+            "bortle_class": 2,
+            "dark_sky_score": 94,
+        }
+    )
+    assert "tw-070-P02" in astro_diag
+    assert astro_diag["tw-070-P02"]["available"] is True
+    assert astro_diag["tw-070-P02"]["eligible"] is True
+    assert "score" not in astro_diag["tw-070-P02"]
 
     weather_url = fetch_data._build_open_meteo_url({"lat": 25.0, "lon": 121.0})
     assert ",precipitation,precipitation_probability,snowfall,snow_depth,direct_normal_irradiance," in weather_url
