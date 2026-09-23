@@ -27,29 +27,29 @@ from tide_state import (
 # 後端多國語言狀態與指標字典
 I18N_MESSAGES = {
     # 狀態 (Status)
-    "MOUNTAIN_EXCELLENT_DAY": {"zh-TW": "☀️ 山景展望極佳", "en": "☀️ Excellent Mountain View", "ja": "☀️ 最高の山岳展望"},
-    "MOUNTAIN_STABLE_DAY": {"zh-TW": "⛅ 山景氣象平穩", "en": "⛅ Stable Mountain Weather", "ja": "⛅ 安定した山岳気象"},
-    "MOUNTAIN_FOG_DAY": {"zh-TW": "☁️ 山區濃霧雲覆", "en": "☁️ Heavy Fog / Clouds", "ja": "☁️ 山間部の濃霧・雲覆"},
+    "MOUNTAIN_EXCELLENT_DAY": {"zh-TW": "☀️ 日間能見度條件良好", "en": "☀️ Good Daytime Visibility Conditions", "ja": "☀️ 日中の視程条件良好"},
+    "MOUNTAIN_STABLE_DAY": {"zh-TW": "⛅ 日間能見度條件普通", "en": "⛅ Moderate Daytime Visibility", "ja": "⛅ 日中の視程条件は普通"},
+    "MOUNTAIN_FOG_DAY": {"zh-TW": "☁️ 低雲或低能見度影響視野", "en": "☁️ Low Clouds or Reduced Visibility", "ja": "☁️ 低雲または低視程で視界に影響"},
     "MOUNTAIN_EXCELLENT_NIGHT": {"zh-TW": "🌙 夜間大氣清透", "en": "🌙 Clear Night Sky", "ja": "🌙 清透な夜間大気"},
     "MOUNTAIN_STABLE_NIGHT": {"zh-TW": "🌙 夜間氣象平穩", "en": "🌙 Stable Night Weather", "ja": "🌙 穏やかな夜間気象"},
     "MOUNTAIN_FOG_NIGHT": {"zh-TW": "☁️ 夜間濃霧雲覆", "en": "☁️ Night Fog / Clouds", "ja": "☁️ 夜間の濃霧・雲覆"},
-    "CLOUD_SEA_GOLD": {"zh-TW": "☁️ 翻騰雲海黃金期", "en": "☁️ Prime Sea of Clouds", "ja": "☁️ 黄金の雲海期"},
-    "CLOUD_SEA_FAIR": {"zh-TW": "⛅ 雲霧條件普通", "en": "⛅ Moderate Cloud & Fog", "ja": "⛅ 普通の雲霧条件"},
-    "CLOUD_SEA_DRY": {"zh-TW": "☀️ 乾燥無雲海條件", "en": "☀️ Dry / No Sea of Clouds", "ja": "☀️ 乾燥・雲海条件なし"},
-    "FOREST_MIST": {"zh-TW": "🌫️ 夢幻迷霧森林", "en": "🌫️ Mystical Mist Forest", "ja": "🌫️ 幻想的な霧の森林"},
-    "FOREST_LIGHT": {"zh-TW": "☀️ 森林斜射光極佳", "en": "☀️ Great Forest Sunbeams", "ja": "☀️ 最高の光線・木漏れ日"},
-    "FOREST_NORMAL": {"zh-TW": "🌲 森林一般氣象", "en": "🌲 Normal Forest Weather", "ja": "🌲 通常の森林気象"},
+    "CLOUD_SEA_GOLD": {"zh-TW": "☁️ 雲海模型條件較符合", "en": "☁️ Conditions Match the Cloud-Sea Model Well", "ja": "☁️ 雲海モデル条件に比較的合致"},
+    "CLOUD_SEA_FAIR": {"zh-TW": "⛅ 雲海模型條件部分符合", "en": "⛅ Cloud-Sea Model Partially Matched", "ja": "⛅ 雲海モデル条件に一部合致"},
+    "CLOUD_SEA_DRY": {"zh-TW": "☀️ 雲海模型條件不足", "en": "☀️ Cloud-Sea Model Conditions Not Met", "ja": "☀️ 雲海モデル条件が不足"},
+    "FOREST_MIST": {"zh-TW": "🌫️ 霧景模型條件較符合", "en": "🌫️ Conditions Match the Mist Model", "ja": "🌫️ 霧景モデル条件に合致"},
+    "FOREST_LIGHT": {"zh-TW": "🌤️ 光束模型條件較符合", "en": "🌤️ Conditions Match the Sunbeam Model", "ja": "🌤️ 光芒モデル条件に合致"},
+    "FOREST_NORMAL": {"zh-TW": "⛅ 光霧條件一般", "en": "⛅ Ordinary Light/Mist Conditions", "ja": "⛅ 光・霧条件は通常"},
     "LAKE_MIST": {"zh-TW": "🌫️ 湖面夢幻晨霧", "en": "🌫️ Misty Lake Morning", "ja": "🌫️ 幻想的な湖畔の朝霧"},
-    "LAKE_MIRROR": {"zh-TW": "🪞 靜止鏡面倒影", "en": "🪞 Mirror Reflection", "ja": "🪞 鏡面の水面倒影"},
-    "LAKE_GOOD": {"zh-TW": "🌊 湖景條件良好", "en": "🌊 Good Lake Conditions", "ja": "🌊 良好な湖畔条件"},
-    "LAKE_WINDY": {"zh-TW": "🌬️ 湖面風大波浪興起", "en": "🌬️ Windy Lake / Waves", "ja": "🌬️ 強風による波立ち"},
-    "WATERFALL_SOFT": {"zh-TW": "🌊 瀑布漫射柔光", "en": "🌊 Soft Light Waterfall", "ja": "🌊 拡散光の滝景"},
-    "WATERFALL_HARSH": {"zh-TW": "☀️ 頂光強烈反差大", "en": "☀️ Harsh Direct Sunlight", "ja": "☀️ 強い直射光・高コントラスト"},
-    "WATERFALL_NORMAL": {"zh-TW": "💦 瀑布條件平穩", "en": "💦 Stable Waterfall Weather", "ja": "💦 安定した滝条件"},
-    "COAST_GLOW": {"zh-TW": "🌈 彩霞條件極佳", "en": "🌈 Excellent Sky Glow", "ja": "🌈 朝夕焼け条件が非常に良好"},
-    "FIRE_CLOUD_LIKELY": {"zh-TW": "🔥 火燒雲條件佳", "en": "🔥 Strong Fire-Cloud Potential", "ja": "🔥 強い焼け雲の好条件"},
-    "COAST_LOW_CLOUD": {"zh-TW": "☁️ 海面低雲壓頂", "en": "☁️ Low Coastal Clouds", "ja": "☁️ 沿岸の低雲覆蓋"},
-    "COAST_NORMAL": {"zh-TW": "🌊 海景氣象常規", "en": "🌊 Normal Coastal Weather", "ja": "🌊 通常の沿岸気象"},
+    "LAKE_MIRROR": {"zh-TW": "🪞 低風速，倒影條件較穩定", "en": "🪞 Low Wind; Reflection Conditions More Stable", "ja": "🪞 弱風で反射条件が比較的安定"},
+    "LAKE_GOOD": {"zh-TW": "🌊 水面風速條件較低", "en": "🌊 Lower Wind over the Water", "ja": "🌊 水面付近の風が弱め"},
+    "LAKE_WINDY": {"zh-TW": "🌬️ 風速較高，倒影穩定度下降", "en": "🌬️ Higher Wind; Reflection Stability Reduced", "ja": "🌬️ 風が強く反射の安定度が低下"},
+    "WATERFALL_SOFT": {"zh-TW": "💧 中低雲較多，光線較柔和", "en": "💧 More Low/Mid Cloud; Softer Light", "ja": "💧 中低層雲が多く光が柔らかい"},
+    "WATERFALL_HARSH": {"zh-TW": "☀️ 太陽高度高且雲量少，反差較高", "en": "☀️ High Sun and Low Cloud; Higher Contrast", "ja": "☀️ 太陽高度が高く雲が少ないため高コントラスト"},
+    "WATERFALL_NORMAL": {"zh-TW": "💧 長曝光線條件一般", "en": "💧 Ordinary Long-Exposure Light Conditions", "ja": "💧 長時間露光の光条件は通常"},
+    "COAST_GLOW": {"zh-TW": "🌈 彩霞模型條件較符合", "en": "🌈 Conditions Match the Sky-Glow Model", "ja": "🌈 朝夕焼けモデル条件に合致"},
+    "FIRE_CLOUD_LIKELY": {"zh-TW": "🔥 雲量組合符合火燒雲模型門檻", "en": "🔥 Cloud Pattern Meets Fire-Cloud Model Threshold", "ja": "🔥 雲量構成が焼け雲モデル閾値に合致"},
+    "COAST_LOW_CLOUD": {"zh-TW": "☁️ 低雲量較高", "en": "☁️ Higher Low-Cloud Cover", "ja": "☁️ 低層雲量が多め"},
+    "COAST_NORMAL": {"zh-TW": "🌅 晨昏雲量條件一般", "en": "🌅 Ordinary Dawn/Dusk Cloud Conditions", "ja": "🌅 朝夕の雲量条件は通常"},
     "BLUE_HOUR_CLEAR": {"zh-TW": "🔵 藍調時刻視野清透", "en": "🔵 Clear Blue-Hour View", "ja": "🔵 ブルーアワーの視界良好"},
     "BLUE_HOUR_FAIR": {"zh-TW": "🔵 藍調時刻條件普通", "en": "🔵 Fair Blue-Hour Conditions", "ja": "🔵 ブルーアワーの条件は普通"},
     "BLUE_HOUR_POOR": {"zh-TW": "☁️ 藍調時刻視野受雲霧影響", "en": "☁️ Blue-Hour View Affected by Clouds/Haze", "ja": "☁️ 雲・霞でブルーアワーの視界に影響"},
@@ -65,7 +65,7 @@ I18N_MESSAGES = {
     "NIGHT_SCENE_FAIR": {"zh-TW": "🌙 夜間景觀條件普通", "en": "🌙 Fair Night-Scene Conditions", "ja": "🌙 夜景条件は普通"},
     "NIGHT_SCENE_POOR": {"zh-TW": "☁️ 夜間景觀受低雲或低能見度影響", "en": "☁️ Night Scene Affected by Low Clouds/Visibility", "ja": "☁️ 低雲・低視程で夜景に影響"},
     "NIGHT_SCENE_OUTSIDE": {"zh-TW": "🕒 目前非夜間景觀時段", "en": "🕒 Outside Night-Scene Window", "ja": "🕒 現在は夜景時間外"},
-    "STARLIGHT_GREAT": {"zh-TW": "🌌 銀河觀星極佳", "en": "🌌 Excellent Stargazing", "ja": "🌌 最高の星空・天の川"},
+    "STARLIGHT_GREAT": {"zh-TW": "🌌 星空拍攝條件良好", "en": "🌌 Good Stargazing Conditions", "ja": "🌌 星空撮影条件良好"},
     "STARLIGHT_FAIR": {"zh-TW": "✨ 星空條件普通", "en": "✨ Moderate Stargazing", "ja": "✨ 普通の星空条件"},
     "STARLIGHT_POOR": {"zh-TW": "☁️ 星空條件不佳", "en": "☁️ Poor Stargazing Conditions", "ja": "☁️ 星空条件が不良"},
     "STARLIGHT_LIGHT_POLLUTION": {"zh-TW": "🌃 光害限制銀河細節", "en": "🌃 Light Pollution Limits Milky Way Detail", "ja": "🌃 光害で天の川の細部が見えにくい"},
@@ -79,38 +79,39 @@ I18N_MESSAGES = {
     "DAYLIGHT_ONLY": {"zh-TW": "☀️ 白天日光強烈", "en": "☀️ Bright Daylight", "ja": "☀️ 強烈な日光（昼間）"},
     "RAIN_RISK": {"zh-TW": "🌧️ 降雨風險高", "en": "🌧️ High Rain Risk", "ja": "🌧️ 高い降雨リスク"},
     "STABLE_WEATHER": {"zh-TW": "⛅ 氣象平穩", "en": "⛅ Stable Weather", "ja": "⛅ 安定した気象"},
+    "WEATHER_DATA_LIMITED": {"zh-TW": "⚠️ 必要氣象資料不足，暫不判定", "en": "⚠️ Required Weather Data Missing; No Verdict", "ja": "⚠️ 必要な気象データ不足・判定保留"},
 
     # 關鍵指標 (Indicator)
-    "IND_PEAKS": {"zh-TW": "🏔️ 遠眺群峰通透無瑕", "en": "Clear View of Distant Peaks", "ja": "遠くの連峰まで超高透明度"},
-    "IND_CLEAR_SKY": {"zh-TW": "💎 零雲量大氣極通透", "en": "💎 Clear Sky & High Visibility", "ja": "💎 快晴・極めて高い透明度"},
+    "IND_PEAKS": {"zh-TW": "💎 雲量、降雨與能見度符合高分門檻", "en": "💎 Cloud, Rain and Visibility Meet the High-Score Threshold", "ja": "💎 雲量・降水・視程が高スコア基準を満たす"},
+    "IND_CLEAR_SKY": {"zh-TW": "💎 雲量與能見度符合觀星高分門檻", "en": "💎 Cloud and Visibility Meet the Stargazing Threshold", "ja": "💎 雲量と視程が星空撮影の高スコア基準を満たす"},
     "IND_SOME_CLOUDS": {"zh-TW": "⛅ 些許薄雲干擾", "en": "⛅ Slight Cloud Interference", "ja": "⛅ 薄雲による僅かな影響"},
     "IND_NO_STAR": {"zh-TW": "☁️ 不宜觀星攝影", "en": "☁️ Not Suitable for Stargazing", "ja": "☁️ 星空撮影に不適"},
-    "IND_CLOUD_SEA": {"zh-TW": "☁️ 水氣與低雲完美配合", "en": "☁️ Perfect Moisture & Low Clouds", "ja": "☁️ 水蒸気と低雲の最適な調和"},
+    "IND_CLOUD_SEA": {"zh-TW": "☁️ 濕度與低雲條件符合雲海模型門檻", "en": "☁️ Humidity and Low Cloud Meet the Cloud-Sea Model Threshold", "ja": "☁️ 湿度と低層雲が雲海モデル閾値を満たす"},
     "IND_CLOUD_SEA_SUB": {"zh-TW": "⛅ 低雲高度或雲量稍偏", "en": "⛅ Suboptimal Cloud Height/Amount", "ja": "⛅ 雲量または高度がやや偏斜"},
-    "IND_DRY_AIR": {"zh-TW": "☀️ 大氣乾燥或無低雲", "en": "☀️ Dry Air / No Low Clouds", "ja": "☀️ 乾燥大氣・低雲なし"},
-    "IND_FOREST_MIST": {"zh-TW": "🌲 濃郁霧氣瀰漫林間", "en": "🌲 Dense Mist Through Forest", "ja": "🌲 森林に立ち込める濃霧"},
-    "IND_FOREST_SUN": {"zh-TW": "🌲 大氣通透耶穌光強", "en": "🌲 Clear Air & Strong Sunbeams", "ja": "🌲 高透明度・強い木漏れ日"},
-    "IND_FOREST_NORM": {"zh-TW": "🌲 無特別霧氣或強光", "en": "🌲 Regular Forest Lighting", "ja": "🌲 特段の霧や強光なし"},
+    "IND_DRY_AIR": {"zh-TW": "☀️ 濕度或低雲條件未達雲海模型門檻", "en": "☀️ Humidity or Low Cloud Does Not Meet the Cloud-Sea Threshold", "ja": "☀️ 湿度または低層雲が雲海モデル閾値未満"},
+    "IND_FOREST_MIST": {"zh-TW": "🌫️ 濕度、風速與能見度符合霧景模型門檻", "en": "🌫️ Humidity, Wind and Visibility Meet the Mist Threshold", "ja": "🌫️ 湿度・風速・視程が霧景モデル閾値を満たす"},
+    "IND_FOREST_SUN": {"zh-TW": "🌤️ 日照、雲量與濕度符合光束模型門檻", "en": "🌤️ Sun, Cloud and Humidity Meet the Sunbeam Threshold", "ja": "🌤️ 日照・雲量・湿度が光芒モデル閾値を満たす"},
+    "IND_FOREST_NORM": {"zh-TW": "⛅ 光霧條件未達高分門檻", "en": "⛅ Light/Mist Conditions Below the High-Score Threshold", "ja": "⛅ 光・霧条件が高スコア基準未満"},
     "IND_LAKE_MIST": {"zh-TW": "🌊 湖面水氣飄渺極美", "en": "🌊 Ethereal Lake Mist", "ja": "🌊 湖面上に漂う幻想的な朝霧"},
-    "IND_LAKE_MIRROR": {"zh-TW": "🌊 無風微波鏡面絕佳", "en": "🌊 Calm Water & Perfect Reflection", "ja": "🌊 無風・鏡面の絶景"},
-    "IND_LAKE_GOOD": {"zh-TW": "🌊 風速微弱適合拍攝", "en": "🌊 Gentle Wind / Good Shooting", "ja": "🌊 微風・撮影に最適"},
-    "IND_LAKE_WIND": {"zh-TW": "🌊 風速過強無倒影", "en": "🌊 High Winds / No Reflection", "ja": "🌊 強風・倒影なし"},
-    "IND_WATERFALL_SOFT": {"zh-TW": "💦 陰天無強光高反差", "en": "💦 Overcast / Soft Lighting", "ja": "💦 曇天・拡散光で撮影好適"},
-    "IND_WATERFALL_HARSH": {"zh-TW": "☀️ 陽光過強對比過高", "en": "☀️ Harsh Sunlight / High Contrast", "ja": "☀️ 直射日光・高コントラスト"},
-    "IND_WATERFALL_NORM": {"zh-TW": "💦 水流與光線良好", "en": "💦 Good Water Flow & Lighting", "ja": "💦 水流と光の條件良好"},
-    "IND_COAST_GLOW": {"zh-TW": "🌈 中高雲有利形成彩霞", "en": "🌈 Mid/High Clouds Favor Color", "ja": "🌈 中高層雲が朝夕焼けに好条件"},
-    "IND_FIRE_CLOUD": {"zh-TW": "🔥 中高雲＋低地平線雲量少，火燒雲機率偏高", "en": "🔥 Mid/high clouds with a clear low horizon favor fire-cloud colors", "ja": "🔥 中高層雲＋低い地平線雲が少なく、強い焼け雲が出やすい"},
+    "IND_LAKE_MIRROR": {"zh-TW": "🌬️ 風速低，有利水面維持平穩", "en": "🌬️ Low Wind Favors a Calmer Water Surface", "ja": "🌬️ 弱風で水面が穏やかになりやすい"},
+    "IND_LAKE_GOOD": {"zh-TW": "🌬️ 風速偏低", "en": "🌬️ Lower Wind Speed", "ja": "🌬️ 風速は低め"},
+    "IND_LAKE_WIND": {"zh-TW": "🌬️ 風速較高", "en": "🌬️ Higher Wind Speed", "ja": "🌬️ 風速は高め"},
+    "IND_WATERFALL_SOFT": {"zh-TW": "☁️ 中低雲較多，直射光反差較低", "en": "☁️ More Low/Mid Cloud; Lower Direct-Light Contrast", "ja": "☁️ 中低層雲が多く直射光のコントラストが低め"},
+    "IND_WATERFALL_HARSH": {"zh-TW": "☀️ 太陽高度高且中低雲少", "en": "☀️ High Sun with Little Low/Mid Cloud", "ja": "☀️ 太陽高度が高く中低層雲が少ない"},
+    "IND_WATERFALL_NORM": {"zh-TW": "💧 長曝光線條件一般", "en": "💧 Ordinary Long-Exposure Light Conditions", "ja": "💧 長時間露光の光条件は通常"},
+    "IND_COAST_GLOW": {"zh-TW": "🌈 中高雲量適中、低雲較少", "en": "🌈 Moderate Mid/High Cloud with Less Low Cloud", "ja": "🌈 中高層雲が適度で低層雲が少なめ"},
+    "IND_FIRE_CLOUD": {"zh-TW": "🔥 中高雲量與低雲量符合火燒雲模型門檻", "en": "🔥 Mid/High and Low Cloud Meet the Fire-Cloud Model Threshold", "ja": "🔥 中高層雲と低層雲が焼け雲モデル閾値を満たす"},
     "IND_COAST_BLOCK": {"zh-TW": "☁️ 遮蔽地平線視線", "en": "☁️ Obstructed Horizon View", "ja": "☁️ 地平線視界の遮蔽"},
-    "IND_COAST_NORM": {"zh-TW": "🌊 大氣狀況平穩", "en": "🌊 Stable Atmospheric Conditions", "ja": "🌊 安定した大気状態"},
+    "IND_COAST_NORM": {"zh-TW": "🌅 晨昏雲量條件一般", "en": "🌅 Ordinary Dawn/Dusk Cloud Conditions", "ja": "🌅 朝夕の雲量条件は通常"},
     "IND_BLUE_HOUR_CLEAR": {"zh-TW": "💎 低雲少、能見度良好", "en": "💎 Low Cloud Cover and Good Visibility", "ja": "💎 低雲が少なく視程良好"},
     "IND_BLUE_HOUR_FAIR": {"zh-TW": "⛅ 雲量或能見度普通", "en": "⛅ Moderate Clouds or Visibility", "ja": "⛅ 雲量または視程は普通"},
     "IND_BLUE_HOUR_BLOCK": {"zh-TW": "☁️ 低雲或低能見度影響視野", "en": "☁️ Low Clouds or Reduced Visibility", "ja": "☁️ 低雲または低視程で視界に影響"},
     "IND_BLUE_HOUR_OUTSIDE": {"zh-TW": "🕒 太陽高度不在藍調時段", "en": "🕒 Sun Altitude Outside Blue-Hour Range", "ja": "🕒 太陽高度がブルーアワー範囲外"},
     "IND_BLUE_HOUR_DATA_LIMITED": {"zh-TW": "⚠️ 缺少能見度或低雲資料", "en": "⚠️ Visibility or Low-Cloud Data Missing", "ja": "⚠️ 視程または低雲データ不足"},
     "IND_CITY_NIGHT_CLEAR": {"zh-TW": "💎 城市燈火能見度良好", "en": "💎 Good Visibility for City Lights", "ja": "💎 街明かりの視程良好"},
-    "IND_CITY_NIGHT_HAZE": {"zh-TW": "⛅ 些許霧氣或輕微低雲", "en": "⛅ Slight Haze / Low Clouds", "ja": "⛅ 僅かな霧または低雲"},
-    "IND_CITY_NIGHT_BLOCK": {"zh-TW": "☁️ 低雲壓頂或濃霧", "en": "☁️ Low Clouds / Dense Fog", "ja": "☁️ 低雲または濃霧覆蓋"},
-    "IND_CITY_DAY_CLEAR": {"zh-TW": "💎 城市全景清晰通透", "en": "💎 Crystal Clear City Panorama", "ja": "💎 クリアな都市パノラマ"},
+    "IND_CITY_NIGHT_HAZE": {"zh-TW": "⛅ 低雲或能見度稍受影響", "en": "⛅ Low Cloud or Visibility Slightly Affected", "ja": "⛅ 低雲または視程にやや影響"},
+    "IND_CITY_NIGHT_BLOCK": {"zh-TW": "☁️ 低雲或低能見度影響視野", "en": "☁️ Low Cloud or Reduced Visibility Affects the View", "ja": "☁️ 低雲または低視程で視界に影響"},
+    "IND_CITY_DAY_CLEAR": {"zh-TW": "💎 城市場景能見度良好", "en": "💎 Good Visibility for the City Scene", "ja": "💎 都市場景の視程良好"},
     "IND_CITY_DAY_FAIR": {"zh-TW": "⛅ 大氣能見度平穩", "en": "⛅ Fair Atmospheric Visibility", "ja": "⛅ 安定した視程"},
     "IND_CITY_DAY_HAZE": {"zh-TW": "🌫️ 霾害或能見度差", "en": "🌫️ Haze or Poor Visibility", "ja": "🌫️ 煙霧または不鮮明な視程"},
     "IND_NIGHT_SCENE_CLEAR": {"zh-TW": "💎 低雲少、夜間能見度良好", "en": "💎 Low Clouds and Good Night Visibility", "ja": "💎 低雲が少なく夜間視程良好"},
@@ -122,7 +123,8 @@ I18N_MESSAGES = {
     "IND_KP_UNAVAILABLE": {"zh-TW": "⚠️ Kp 資料不足，僅評估天空條件", "en": "⚠️ Kp unavailable; sky conditions only", "ja": "⚠️ Kp データなし・空の条件のみ評価"},
     "IND_ASTRO_UNAVAILABLE": {"zh-TW": "⚠️ 天文資料不足", "en": "⚠️ Astronomy data unavailable", "ja": "⚠️ 天文データ不足"},
     "IND_ACCESS_LIMITED": {"zh-TW": "⏰ 請確認開放／入場時段", "en": "⏰ Check access/opening hours", "ja": "⏰ 営業・入場時間を確認"},
-    "IND_DEFAULT": {"zh-TW": "✅ 風和日麗良好", "en": "✅ Good Weather Conditions", "ja": "✅ 良好な天候"}
+    "IND_WEATHER_DATA_LIMITED": {"zh-TW": "⚠️ 缺少此主題必要的氣象欄位", "en": "⚠️ Required Weather Fields Are Missing", "ja": "⚠️ このテーマに必要な気象項目が不足"},
+    "IND_DEFAULT": {"zh-TW": "ℹ️ 目前無特定出景訊號", "en": "ℹ️ No Specific Photographic Signal", "ja": "ℹ️ 現時点で特定の撮影シグナルなし"}
 }
 
 def get_text(key, lang="zh-TW"):
@@ -440,11 +442,11 @@ FACTOR_TEMPLATES = {
     "windy": {"zh-TW": "風速 {v} m/s", "en": "Wind {v} m/s", "ja": "風速 {v} m/s"},
     "dry": {"zh-TW": "降雨機率 {v}%", "en": "Rain chance {v}%", "ja": "降水確率 {v}%"},
     "rain": {"zh-TW": "降雨機率達 {v}%", "en": "Rain chance {v}%", "ja": "降水確率 {v}%"},
-    "twilight": {"zh-TW": "晨昏光線進入黃金窗口", "en": "Golden/twilight light window", "ja": "朝夕のゴールデンタイム"},
-    "cloud_color": {"zh-TW": "中高雲量適合彩霞", "en": "Mid/high clouds favor color", "ja": "中・上層雲が焼けやすい"},
+    "twilight": {"zh-TW": "太陽高度進入晨昏時段", "en": "Sun altitude is in the twilight range", "ja": "太陽高度が朝夕の薄明範囲"},
+    "cloud_color": {"zh-TW": "中高雲量位於彩霞模型範圍", "en": "Mid/high cloud is within the sky-color model range", "ja": "中高層雲量が朝夕焼けモデル範囲内"},
     "dark_sky_bortle": {"zh-TW": "估計 Bortle {v}，暗空良好", "en": "Est. Bortle {v} dark sky", "ja": "推定 Bortle {v} の暗い空"},
     "light_pollution_bortle": {"zh-TW": "估計 Bortle {v}，光害影響", "en": "Est. Bortle {v} light pollution", "ja": "推定 Bortle {v} の光害影響"},
-    "fire_cloud": {"zh-TW": "低雲少且中高雲分布佳，具火燒雲條件", "en": "Clear low horizon with favorable mid/high clouds", "ja": "低層雲が少なく中高層雲の分布が焼け雲向き"},
+    "fire_cloud": {"zh-TW": "雲量組合符合火燒雲模型門檻", "en": "Cloud pattern meets the fire-cloud model threshold", "ja": "雲量構成が焼け雲モデル閾値に合致"},
     "astro_dark": {"zh-TW": "已進入天文黑夜", "en": "Astronomical darkness", "ja": "天文薄明終了後"},
     "not_dark": {"zh-TW": "尚未進入天文黑夜", "en": "Not astronomically dark", "ja": "まだ天文薄明中"},
     "moon_good": {"zh-TW": "月光干擾低（{v}%）", "en": "Low moonlight ({v}%)", "ja": "月光影響小（{v}%）"},
@@ -459,11 +461,11 @@ FACTOR_TEMPLATES = {
     "kp_unavailable": {"zh-TW": "Kp 預報目前不可用", "en": "Kp forecast unavailable", "ja": "Kp 予報を取得できません"},
     "astro_unavailable": {"zh-TW": "天文位置資料暫時不可用", "en": "Astronomy position data unavailable", "ja": "天文位置データを取得できません"},
     "access_limited": {"zh-TW": "此時段可能無法進入／不適合拍攝", "en": "This time may be inaccessible or unsuitable", "ja": "この時間帯は入場不可・撮影不適の可能性"},
-    "fog_good": {"zh-TW": "濕度高且風弱，霧景機率佳", "en": "High humidity and light wind favor mist", "ja": "高湿度・弱風で霧景向き"},
-    "reflection_good": {"zh-TW": "風弱，水面倒影條件佳", "en": "Light wind favors reflections", "ja": "弱風で水面反射に好条件"},
+    "fog_good": {"zh-TW": "濕度與風速符合霧景模型門檻", "en": "Humidity and wind meet the mist-model threshold", "ja": "湿度と風速が霧景モデル閾値を満たす"},
+    "reflection_good": {"zh-TW": "風速低，水面受風擾動較小", "en": "Low wind means less wind-driven water disturbance", "ja": "弱風で風による水面擾乱が少ない"},
     "blue_hour": {"zh-TW": "太陽高度進入藍調時段", "en": "Sun altitude is in blue-hour range", "ja": "太陽高度がブルーアワー帯"},
-    "sunbeam_good": {"zh-TW": "斜射光與雲霧條件利於光束", "en": "Low-angle light and haze favor sunbeams", "ja": "斜光と霞で光芒が出やすい"},
-    "snow_cold": {"zh-TW": "低溫且視程良好，冰雪景觀條件佳", "en": "Cold air and good visibility favor snow/ice scenery", "ja": "低温・良視程で雪氷景観向き"},
+    "sunbeam_good": {"zh-TW": "日照、雲量與濕度符合光束模型門檻", "en": "Sun, cloud and humidity meet the sunbeam-model threshold", "ja": "日照・雲量・湿度が光芒モデル閾値を満たす"},
+    "snow_cold": {"zh-TW": "氣溫 {v}°C", "en": "Temperature {v}°C", "ja": "気温 {v}°C"},
 }
 
 
@@ -492,6 +494,35 @@ def _canonical_theme(theme):
         "snow_scene": "mountain",
     }.get(theme, theme)
 
+
+THEME_REQUIRED_WEATHER_INPUTS = {
+    "mountain_view": ("c_low", "c_mid", "pop", "wind", "vis"),
+    "sunrise": ("c_low", "c_mid", "c_high", "pop", "wind"),
+    "sunset": ("c_low", "c_mid", "c_high", "pop", "wind"),
+    "sky_glow": ("c_low", "c_mid", "c_high", "pop", "wind"),
+    "blue_hour": ("c_low", "pop", "wind", "vis"),
+    "fog_mist": ("rh", "wind", "vis", "pop"),
+    "reflection": ("wind", "pop", "c_low"),
+    "sunbeam": ("c_low", "c_mid", "rh", "vis", "pop", "wind"),
+    "long_exposure": ("c_low", "c_mid", "pop", "wind"),
+    "snow_scene": ("c_low", "c_mid", "pop", "wind", "vis", "temp"),
+    "milky_way": ("c_low", "c_mid", "c_high", "pop", "wind", "vis"),
+    "city_night": ("c_low", "pop", "wind", "vis"),
+    "cloud_sea": ("rh", "c_low", "pop", "wind", "temp", "dew"),
+    "aurora": ("c_low", "c_mid", "c_high", "pop", "wind"),
+}
+
+def _field_available(d, key):
+    marker = f"{key}_available"
+    if marker in d:
+        return bool(d.get(marker))
+    return d.get(key) is not None
+
+def _missing_required_weather_inputs(theme, d):
+    return tuple(
+        key for key in THEME_REQUIRED_WEATHER_INPUTS.get(theme, ())
+        if not _field_available(d, key)
+    )
 
 def _calibrate_score(raw_score, theme, item_data):
     raw = max(0.0, min(100.0, float(raw_score)))
@@ -617,14 +648,18 @@ def _build_factors(theme, d, lang):
     wind = round(float(d.get("wind", 0) or 0), 1)
     pop = round(float(d.get("pop", 0) or 0))
     low = round(float(d.get("c_low", 0) or 0))
-    if vis_km >= 20: plus.append(_factor("plus", "vis_good", vis_km, lang))
-    elif vis_km < 8 and theme not in {"fog_mist"}: minus.append(_factor("minus", "vis_low", vis_km, lang))
-    if low <= 15 and tag in {"mountain", "city", "coast", "twilight", "starlight", "aurora"}: plus.append(_factor("plus", "low_cloud", low, lang))
-    elif low >= 65 and tag in {"mountain", "city", "coast", "starlight", "aurora"}: minus.append(_factor("minus", "low_cloud_high", low, lang))
-    if wind <= 2.5: plus.append(_factor("plus", "calm", wind, lang))
-    elif wind >= 6: minus.append(_factor("minus", "windy", wind, lang))
-    if pop <= 10: plus.append(_factor("plus", "dry", pop, lang))
-    elif pop >= 40: minus.append(_factor("minus", "rain", pop, lang))
+    if _field_available(d, "vis"):
+        if vis_km >= 20: plus.append(_factor("plus", "vis_good", vis_km, lang))
+        elif vis_km < 8 and theme not in {"fog_mist"}: minus.append(_factor("minus", "vis_low", vis_km, lang))
+    if _field_available(d, "c_low"):
+        if low <= 15 and tag in {"mountain", "city", "coast", "twilight", "starlight", "aurora"}: plus.append(_factor("plus", "low_cloud", low, lang))
+        elif low >= 65 and tag in {"mountain", "city", "coast", "twilight", "starlight", "aurora"}: minus.append(_factor("minus", "low_cloud_high", low, lang))
+    if _field_available(d, "wind"):
+        if wind <= 2.5: plus.append(_factor("plus", "calm", wind, lang))
+        elif wind >= 6: minus.append(_factor("minus", "windy", wind, lang))
+    if _field_available(d, "pop"):
+        if pop <= 10: plus.append(_factor("plus", "dry", pop, lang))
+        elif pop >= 40: minus.append(_factor("minus", "rain", pop, lang))
 
     if theme in {"sunrise", "sunset", "sky_glow"}:
         if d.get("is_twilight"): plus.insert(0, _factor("plus", "twilight", None, lang))
@@ -642,7 +677,7 @@ def _build_factors(theme, d, lang):
     elif theme == "sunbeam":
         plus.insert(0, _factor("plus", "sunbeam_good", None, lang))
     elif theme == "snow_scene":
-        if float(d.get("temp", 99) or 99) <= 4: plus.insert(0, _factor("plus", "snow_cold", None, lang))
+        if _field_available(d, "temp") and float(d.get("temp", 99) or 99) <= 4: plus.insert(0, _factor("plus", "snow_cold", round(float(d.get("temp")), 1), lang))
     elif theme == "milky_way":
         b=d.get("bortle_class")
         if b is not None:
@@ -675,6 +710,13 @@ def _build_factors(theme, d, lang):
     return (plus[:2]+minus[:2])[:3]
 
 def evaluate_tag_condition(theme, item_data, hour=None, lang="zh-TW"):
+    missing_inputs = _missing_required_weather_inputs(theme, item_data)
+    if missing_inputs:
+        factors = _build_factors(theme, item_data, lang)
+        if item_data.get("access_open") is False:
+            return 15, get_text("ACCESS_TIME_LIMITED", lang), get_text("IND_ACCESS_LIMITED", lang), "ACCESS_TIME_LIMITED", "IND_ACCESS_LIMITED", factors
+        return 35, get_text("WEATHER_DATA_LIMITED", lang), get_text("IND_WEATHER_DATA_LIMITED", lang), "WEATHER_DATA_LIMITED", "IND_WEATHER_DATA_LIMITED", factors
+
     c_low=float(item_data.get("c_low",0) or 0); c_mid=float(item_data.get("c_mid",0) or 0); c_high=float(item_data.get("c_high",0) or 0)
     pop=float(item_data.get("pop",0) or 0); vis=float(item_data.get("vis",10000) or 10000); rh=float(item_data.get("rh",50) or 50); wind=float(item_data.get("wind",0) or 0)
     temp=float(item_data.get("temp",10) if item_data.get("temp") is not None else 10)
@@ -1089,7 +1131,9 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
                 "c_low": hv("cloud_cover_low", i, 0),
                 "c_low_available": hv("cloud_cover_low", i, None) is not None,
                 "c_mid": hv("cloud_cover_mid", i, 0),
+                "c_mid_available": hv("cloud_cover_mid", i, None) is not None,
                 "c_high": hv("cloud_cover_high", i, 0),
+                "c_high_available": hv("cloud_cover_high", i, None) is not None,
                 "pop": hv("precipitation_probability", i, 0),
                 "pop_available": hv("precipitation_probability", i, None) is not None,
                 "precipitation": hv("precipitation", i, 0),
@@ -1099,9 +1143,13 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
                 "vis": hv("visibility", i, 10000),
                 "vis_available": hv("visibility", i, None) is not None,
                 "rh": hv("relative_humidity_2m", i, 50),
+                "rh_available": hv("relative_humidity_2m", i, None) is not None,
                 "wind": hv("wind_speed_10m", i, 0),
                 "wind_available": hv("wind_speed_10m", i, None) is not None,
                 "temp": temp,
+                "temp_available": hv("temperature_2m", i, None) is not None,
+                "dew": dew,
+                "dew_available": hv("dew_point_2m", i, None) is not None,
                 "kp": kp_val,
                 "hour": local_dt.hour,
                 "is_day": bool(hv("is_day", i, 1)),
