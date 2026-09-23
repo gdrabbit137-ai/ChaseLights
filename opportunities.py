@@ -16,6 +16,8 @@ import bz2
 import json
 from pathlib import Path
 
+from opportunity_runtime import supports_opportunity as directional_horizon_supported
+
 ADAPTER_VERSION = "v0.04-r4.2-b16-preview"
 CATALOG_PART_PATTERN = "runtime_catalog_v004_r4_2_b15.compact.part{part}.b64"
 VALID_MODES = {"area_opportunity", "composition_specific"}
@@ -72,6 +74,8 @@ def runtime_policy(opportunity):
         return "data_insufficient"
     if status == "prototype_formula_available":
         return "prototype_pending_certification"
+    if directional_horizon_supported(opportunity):
+        return "preview_module_available"
     if status.startswith("needs_"):
         return "module_pending"
     return "unclassified"

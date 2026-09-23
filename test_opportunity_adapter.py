@@ -1,6 +1,8 @@
 import json
 from collections import Counter
 
+from opportunity_runtime import DIRECTIONAL_HORIZON_SECTORS, evaluate_directional_horizon, validate_directional_horizon_registry
+
 import analyze_weather
 from opportunities import (
     ADAPTER_VERSION,
@@ -53,13 +55,34 @@ def test_adapter_integrity():
 
     policies = Counter(runtime_policy(o) for o in all_opportunities)
     assert policies == {
-        "module_pending": 131,
+        "module_pending": 114,
+        "preview_module_available": 17,
         "prototype_pending_certification": 41,
         "hold": 1,
         "data_insufficient": 1,
     }
     assert runtime_policy(next(o for o in all_opportunities if o["opportunity_id"] == "tw-052-P01")) == "hold"
     assert runtime_policy(next(o for o in all_opportunities if o["opportunity_id"] == "tw-017-P01")) == "data_insufficient"
+    assert validate_directional_horizon_registry() == []
+    assert len(DIRECTIONAL_HORIZON_SECTORS) == 17
+    directional = next(o for o in all_opportunities if o["opportunity_id"] == "tw-020-P01")
+    assert runtime_policy(directional) == "preview_module_available"
+    matched = evaluate_directional_horizon(directional, {
+        "astronomy_valid": True,
+        "sun_azimuth": 88.0,
+        "sun_elevation": 1.5,
+        "hour": 6,
+    })
+    assert matched["eligible"] is True
+    assert matched["reason"] == "sector_match"
+    wrong_daypart = evaluate_directional_horizon(directional, {
+        "astronomy_valid": True,
+        "sun_azimuth": 88.0,
+        "sun_elevation": 1.5,
+        "hour": 18,
+    })
+    assert wrong_daypart["eligible"] is False
+    assert wrong_daypart["reason"] == "wrong_daypart"
 
     tw052 = get_opportunities("tw", "tw-052")
     assert tw052[0]["runtime_policy"] == "hold"
