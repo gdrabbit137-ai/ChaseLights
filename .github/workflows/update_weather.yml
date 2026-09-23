@@ -1,6 +1,23 @@
 name: Update ChaseLights Weather Data
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - "regions.py"
+      - "analyze_weather.py"
+      - "fetch_data.py"
+      - "opportunities.py"
+      - "opportunity_runtime.py"
+      - "runtime_dependencies.py"
+      - "spatial_weather.py"
+      - "marine_state.py"
+      - "tide_state.py"
+      - "access_state.py"
+      - "taxonomy_v004.py"
+      - "runtime_catalog_v004_r4_2_b15.compact.part*.b64"
+      - ".github/workflows/update_weather.yml"
   schedule:
     # 每 3 小時更新一次攝影氣象資料
     - cron: '0 */3 * * *'
