@@ -26,6 +26,7 @@ FORMULA_DEPENDENCIES = {
     "needs_geology_light_visibility_module": ("geology_light", "visibility"),
     "needs_lake_level_water_surface_access_module": ("lake_water_level", "water_surface_state", "dynamic_access"),
     "needs_seasonal_foreground_module": ("seasonal_foreground",),
+    "needs_seasonal_foreground_tide_marine_directional_horizon_module": ("seasonal_foreground", "tide_state", "marine_state", "directional_horizon"),
     "needs_tide_water_surface_access_module": ("tide_state", "water_surface_state", "dynamic_access"),
     "needs_event_state_access_module": ("event_state", "dynamic_access"),
     "needs_marine_tide_directional_horizon_access_module": ("marine_state", "tide_state", "directional_horizon", "dynamic_access"),
