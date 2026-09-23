@@ -105,6 +105,8 @@ REGIONS = {
             (22.3430, 120.3800, "小琉球花瓶岩", "Liuqiu Vase Rock", "小琉球花瓶岩", "小琉球花瓶岩", "綠島/蘭嶼/小琉球", ["coast"]),
             (25.11982, 121.89314, "南雅奇岩", "Nanya Rock Formations", "南雅奇岩", "南雅奇岩", "本島", ["coast"]),
             (25.29242, 121.54446, "老梅綠石槽", "Laomei Green Reef", "老梅緑石槽", "老梅綠石槽", "本島", ["coast"]),
+            (25.20886, 121.69314, "野柳地質公園", "Yehliu Geopark", "野柳地質公園", "野柳地質公園", "本島", ["coast"]),
+            (24.87516, 121.84257, "外澳沙灘", "Waiao Beach", "外澳ビーチ", "外澳沙灘", "本島", ["coast"]),
         ],
     },
     "jp": {
@@ -390,6 +392,14 @@ def _dark_sky_meta(region_key, name_zh, category, scenes, themes):
     }
 
 ACCESS_RULE_OVERRIDES = {
+    "野柳地質公園": {
+        "access_mode": "opening_hours",
+        "access_note_i18n": {
+            "zh-TW": "一般開園 08:00–17:00，夏季通常至 18:00；特殊活動可能調整，拍攝前請查官方公告",
+            "en": "Normally open 08:00–17:00, usually to 18:00 in summer; verify official notices for event changes",
+            "ja": "通常08:00〜17:00、夏季は通常18:00まで。イベント時は公式案内を確認してください",
+        },
+    },
     "羚羊峽谷": {
         "access_mode": "daylight_only",
         "access_note_i18n": {
@@ -433,6 +443,20 @@ SPOT_OVERRIDES = {
            'map_query': '老梅綠石槽 新北市石門區',
            'coordinate_source': 'B28 geotagged-photo Camera Zone; official Place anchor cross-check',
            'coordinate_confidence': 'high'},
+ '野柳地質公園': {'lat': 25.20886,
+           'lon': 121.69314,
+           'scenes': ['coast', 'geology'],
+           'themes': ['mountain_view'],
+           'map_query': '野柳地質公園 女王頭 新北市萬里區',
+           'coordinate_source': 'B28 geotagged Queen Head Camera Zone; official park access cross-check',
+           'coordinate_confidence': 'high'},
+ '外澳沙灘': {'lat': 24.87516,
+         'lon': 121.84257,
+         'scenes': ['coast'],
+         'themes': ['sunrise', 'sky_glow', 'blue_hour'],
+         'map_query': '外澳沙灘 宜蘭縣頭城鎮',
+         'coordinate_source': 'B28 geotagged beach Camera Zone; official Waiao/Gueishan cross-check',
+         'coordinate_confidence': 'high'},
  '大屯山助航站': {'lat': 25.17614,
             'lon': 121.52244,
             'map_query': '大屯山助航站 台北',
@@ -1308,6 +1332,7 @@ SPOT_OVERRIDES.update({
 # is now an actual shooting position. spot_id remains stable because the source
 # tuple order is unchanged.
 DISPLAY_NAME_OVERRIDES = {
+    "外澳沙灘": {"zh-TW": "外澳沙灘／龜山朝日", "en": "Waiao Beach · Gueishan Sunrise", "ja": "外澳ビーチ・亀山島朝日", "local": "外澳沙灘"},
     "九份不厭亭": {"zh-TW": "不厭亭", "en": "Buyan Pavilion Viewpoint", "ja": "不厭亭展望所", "local": "不厭亭"},
     "日月潭": {"zh-TW": "日月潭・水社壩湖景步道", "en": "Sun Moon Lake · Shuishe Dam Viewpoint", "ja": "日月潭・水社ダム湖畔", "local": "日月潭 水社壩"},
     "二延平步道": {"zh-TW": "二延平步道鋼構觀景平台", "en": "Eryanping Trail Viewing Platform", "ja": "二延平歩道展望台", "local": "二延平步道觀景平台"},
