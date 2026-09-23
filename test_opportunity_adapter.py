@@ -1,7 +1,17 @@
 import json
 from collections import Counter
 
-from opportunity_runtime import DIRECTIONAL_HORIZON_SECTORS, evaluate_directional_horizon, evaluate_visibility, evaluate_opportunity_modules, validate_runtime_registry
+from opportunity_runtime import (
+    DIRECTIONAL_HORIZON_SECTORS,
+    IMPLEMENTED_COMPONENTS,
+    dependency_state,
+    evaluate_directional_horizon,
+    evaluate_visibility,
+    evaluate_water_surface,
+    evaluate_opportunity_modules,
+    validate_runtime_registry,
+)
+from runtime_dependencies import FORMULA_DEPENDENCIES, dependencies_for_status, validate_dependency_inventory
 
 import analyze_weather
 from opportunities import (
@@ -21,7 +31,7 @@ def _all_opportunities():
 
 
 def test_adapter_integrity():
-    assert ADAPTER_VERSION == "v0.04-r4.2-b16-preview"
+    assert ADAPTER_VERSION == "v0.04-r4.2-b17-preview"
     assert validate_curated_opportunities() == []
     assert validate_taxonomy() == []
     assert CATALOG_COUNTS == {
@@ -55,8 +65,8 @@ def test_adapter_integrity():
 
     policies = Counter(runtime_policy(o) for o in all_opportunities)
     assert policies == {
-        "module_pending": 111,
-        "preview_module_available": 20,
+        "module_pending": 107,
+        "preview_module_available": 24,
         "prototype_pending_certification": 41,
         "hold": 1,
         "data_insufficient": 1,
@@ -103,6 +113,50 @@ def test_adapter_integrity():
     assert compound_result["available"] is True
     assert compound_result["eligible"] is True
     assert set(compound_result["modules"]) == {"directional_horizon", "visibility"}
+
+    formula_statuses = {o["formula_status"] for o in all_opportunities}
+    needs_statuses = {s for s in formula_statuses if s.startswith("needs_")}
+    assert needs_statuses == set(FORMULA_DEPENDENCIES)
+    assert validate_dependency_inventory(formula_statuses) == []
+    assert dependencies_for_status("needs_dynamic_access_visibility_module") == ("dynamic_access", "visibility")
+    assert dependencies_for_status("needs_directional_horizon_cloud_sky_glow_module") == ("directional_horizon", "cloud_sky_glow")
+    assert IMPLEMENTED_COMPONENTS == {"directional_horizon", "visibility", "water_surface_state"}
+
+    water_surface_profiles = [
+        o for o in all_opportunities if o["formula_status"] == "needs_water_surface_module"
+    ]
+    assert len(water_surface_profiles) == 4
+    assert all(runtime_policy(o) == "preview_module_available" for o in water_surface_profiles)
+
+    calm = evaluate_water_surface({"wind": 1.4, "pop": 15})
+    assert calm["eligible"] is True
+    assert calm["quality"] == "mirror_candidate"
+    usable = evaluate_water_surface({"wind": 3.2, "pop": 30})
+    assert usable["eligible"] is True
+    assert usable["quality"] == "reflection_usable"
+    rough = evaluate_water_surface({"wind": 5.5, "pop": 10})
+    assert rough["eligible"] is False
+    assert rough["reason"] == "wind_too_strong"
+
+    pure_water = water_surface_profiles[0]
+    water_result = evaluate_opportunity_modules(pure_water, {"wind": 1.6, "pop": 20})
+    assert water_result["available"] is True
+    assert water_result["eligible"] is True
+    assert water_result["required_components"] == ("water_surface_state",)
+    assert set(water_result["modules"]) == {"water_surface_state"}
+
+    lighting_water = next(
+        o for o in all_opportunities
+        if o["formula_status"] == "needs_lighting_water_surface_module"
+    )
+    lighting_state = dependency_state(lighting_water)
+    assert lighting_state["ready_components"] == ("water_surface_state",)
+    assert lighting_state["missing_components"] == ("managed_lighting_state",)
+    assert runtime_policy(lighting_water) == "module_pending"
+    partial = evaluate_opportunity_modules(lighting_water, {"wind": 1.0, "pop": 10})
+    assert partial["available"] is False
+    assert partial["reason"] == "runtime_contract_pending"
+    assert set(partial["modules"]) == {"water_surface_state"}
 
     tw052 = get_opportunities("tw", "tw-052")
     assert tw052[0]["runtime_policy"] == "hold"
