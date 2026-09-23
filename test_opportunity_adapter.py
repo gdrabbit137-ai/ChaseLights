@@ -1,67 +1,78 @@
 import json
+from collections import Counter
 
 import analyze_weather
 from opportunities import (
     ADAPTER_VERSION,
+    CATALOG_COUNTS,
     CURATED_OPPORTUNITIES,
+    get_opportunities,
+    runtime_policy,
     validate_curated_opportunities,
 )
 from regions import get_spots
 from taxonomy_v004 import PRODUCT_STATUS_BY_SPOT, active_in_catalog, product_status, validate_taxonomy
 
 
+def _all_opportunities():
+    return [o for opportunities in CURATED_OPPORTUNITIES.values() for o in opportunities]
+
+
 def test_adapter_integrity():
-    assert ADAPTER_VERSION == "v0.04-r3-preview"
+    assert ADAPTER_VERSION == "v0.04-r4.2-b16-preview"
     assert validate_curated_opportunities() == []
     assert validate_taxonomy() == []
+    assert CATALOG_COUNTS == {
+        "spots": 71,
+        "opportunities": 174,
+        "condition_variants": 182,
+        "profile_viewpoint_relations": 179,
+    }
 
     tw = get_spots("tw")
     assert len(tw) == 71
     assert [s["spot_id"] for s in tw] == [f"tw-{i:03d}" for i in range(1, 72)]
-    exit_ids = {sid for sid, status in PRODUCT_STATUS_BY_SPOT.items() if status == "exit_candidate"}
-    review_ids = {sid for sid, status in PRODUCT_STATUS_BY_SPOT.items() if status == "review"}
-    assert exit_ids == {"tw-052", "tw-058", "tw-062", "tw-063"}
-    assert len(review_ids) == 8
-    assert sum(1 for s in tw if s["active_in_catalog"]) == 67
-    assert all(not active_in_catalog(sid) for sid in exit_ids)
-    assert all(product_status(sid) == "review" for sid in review_ids)
+    assert PRODUCT_STATUS_BY_SPOT == {}
+    assert all(product_status(s["spot_id"]) == "keep" for s in tw)
+    assert all(active_in_catalog(s["spot_id"]) for s in tw)
 
     curated = {s["spot_id"]: s for s in tw if s.get("opportunities")}
-    assert set(curated) == {"tw-001", "tw-035", "tw-038", "tw-046"}
-    assert {sid: len(s["opportunities"]) for sid, s in curated.items()} == {
-        "tw-001": 3,
-        "tw-035": 6,
-        "tw-038": 2,
-        "tw-046": 2,
+    assert set(curated) == {f"tw-{i:03d}" for i in range(1, 72)}
+    assert sum(len(s["opportunities"]) for s in curated.values()) == 174
+
+    all_opportunities = _all_opportunities()
+    assert sum(len(o["condition_variants"]) for o in all_opportunities) == 182
+    assert sum(len(o["viewpoints"]) for o in all_opportunities) == 179
+    assert not any(o["formula_status"] == "legacy_fallback_pending_curated" for o in all_opportunities)
+    assert not any(str(o.get("formula_version") or "").startswith("legacy_") for o in all_opportunities)
+
+    exact = {o["opportunity_id"] for o in all_opportunities if o["geometry_required"]}
+    assert exact == {"tw-017-P01", "tw-028-P04", "tw-038-P02"}
+    assert all(o["mode"] == "composition_specific" for o in all_opportunities if o["geometry_required"])
+    assert all(o["geometry_required"] is False for o in all_opportunities if o["mode"] == "area_opportunity")
+
+    policies = Counter(runtime_policy(o) for o in all_opportunities)
+    assert policies == {
+        "module_pending": 131,
+        "prototype_pending_certification": 41,
+        "hold": 1,
+        "data_insufficient": 1,
     }
-    assert sum(len(s["opportunities"]) for s in curated.values()) == 13
+    assert runtime_policy(next(o for o in all_opportunities if o["opportunity_id"] == "tw-052-P01")) == "hold"
+    assert runtime_policy(next(o for o in all_opportunities if o["opportunity_id"] == "tw-017-P01")) == "data_insufficient"
 
-    for sid, spot in curated.items():
-        legacy_themes = set(spot["themes"])
-        for opportunity in spot["opportunities"]:
-            assert opportunity["legacy_theme"] in legacy_themes
+    tw052 = get_opportunities("tw", "tw-052")
+    assert tw052[0]["runtime_policy"] == "hold"
+    assert get_opportunities("jp", "jp-001") == []
+    assert get_opportunities("us", "us-001") == []
 
-    all_opportunities = [
-        opportunity
-        for opportunities in CURATED_OPPORTUNITIES.values()
-        for opportunity in opportunities
-    ]
-    area = [o for o in all_opportunities if o["mode"] == "area_opportunity"]
-    composition = [o for o in all_opportunities if o["mode"] == "composition_specific"]
-    assert len(area) == 12
-    assert len(composition) == 1
-    assert composition[0]["opportunity_id"] == "tw-038-P02"
-    assert composition[0]["sampling_topology"] == "exact_alignment"
-    assert composition[0]["geometry_required"] is True
-    assert all(o["geometry_required"] is False for o in area)
-
-    # R3 representative opportunities are Taiwan-only.
-    assert not any(s.get("opportunities") for s in get_spots("jp"))
-    assert not any(s.get("opportunities") for s in get_spots("us"))
+    copy = get_opportunities("tw", "tw-001")
+    copy[0]["condition_variants"][0]["variant_name"] = "mutated"
+    assert CURATED_OPPORTUNITIES["tw-001"][0]["condition_variants"][0]["variant_name"] != "mutated"
 
 
 def test_schema9_optional_metadata_bridge():
-    spot = next(s for s in get_spots("tw") if s["spot_id"] == "tw-035")
+    spot = next(s for s in get_spots("tw") if s["spot_id"] == "tw-052")
     original = analyze_weather.fetch_weather_for_spot
     try:
         analyze_weather.fetch_weather_for_spot = lambda *args, **kwargs: {
@@ -75,19 +86,17 @@ def test_schema9_optional_metadata_bridge():
     finally:
         analyze_weather.fetch_weather_for_spot = original
 
-    assert summary["spot_id"] == "tw-035"
-    assert details["spot_id"] == "tw-035"
-    assert len(summary["opportunities"]) == 6
+    assert summary["spot_id"] == "tw-052"
+    assert details["spot_id"] == "tw-052"
     assert summary["opportunities"] == details["opportunities"]
+    assert summary["opportunities"][0]["runtime_policy"] == "hold"
     assert summary["themes"] == spot["themes"]
     assert summary["daily"] == []
     assert details["hourly_forecast"] == []
-
-    # Ensure optional opportunity metadata remains JSON-serializable inside schema 9.
     json.dumps({"schema_version": 9, "spots": [summary]}, ensure_ascii=False)
 
 
 if __name__ == "__main__":
     test_adapter_integrity()
     test_schema9_optional_metadata_bridge()
-    print("v0.04 R3 opportunity adapter tests: PASS")
+    print("v0.04 R4.2 full Opportunity adapter tests: PASS")

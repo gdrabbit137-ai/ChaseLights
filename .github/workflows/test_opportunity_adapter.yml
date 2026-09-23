@@ -4,8 +4,11 @@ on:
   push:
     branches:
       - v0.04-opportunity-adapter-r3
+      - v0.04-opportunity-adapter-r4
     paths:
       - "opportunities.py"
+      - "runtime_catalog_v004_r4_2_b15.json.bz2"
+      - "taxonomy_v004.py"
       - "regions.py"
       - "analyze_weather.py"
       - "fetch_data.py"
@@ -26,6 +29,6 @@ jobs:
         with:
           python-version: "3.10"
       - name: Compile
-        run: python -m py_compile opportunities.py regions.py analyze_weather.py fetch_data.py test_opportunity_adapter.py
+        run: python -m py_compile opportunities.py taxonomy_v004.py regions.py analyze_weather.py fetch_data.py test_opportunity_adapter.py
       - name: Run adapter tests
         run: python test_opportunity_adapter.py

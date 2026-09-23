@@ -1,17 +1,22 @@
-"""ChaseLights v0.04 Opportunity compatibility adapter.
+"""ChaseLights v0.04 R4.2 full Taiwan Opportunity compatibility adapter.
 
-Preview-only bridge between the current Place + Theme runtime and the v0.04
-Place -> Photography Opportunity -> Condition Variant model.
+This preview adapter loads the curated B15 runtime catalog and bridges it into
+existing schema-9 output without changing legacy Theme score semantics.
 
 Important:
-- This file does NOT change the public weather JSON schema.
-- Legacy themes remain available for the existing UI.
-- Only manually reviewed opportunities are listed here.
-- Unreviewed places continue to use the V5.4 theme fallback unchanged.
+- Place -> Photography Opportunity -> Condition Variant is the governing model.
+- Viewpoints are reference/precision geography, not universal tripod points.
+- Explicit runtime blockers never silently become a generic Theme fallback.
+- Prototype formulas are metadata-ready but not production-certified.
 """
 
-ADAPTER_VERSION = "v0.04-r3-preview"
+from copy import deepcopy
+import bz2
+import json
+from pathlib import Path
 
+ADAPTER_VERSION = "v0.04-r4.2-b16-preview"
+CATALOG_FILENAME = "runtime_catalog_v004_r4_2_b15.json.bz2"
 VALID_MODES = {"area_opportunity", "composition_specific"}
 VALID_TOPOLOGIES = {
     "local_area",
@@ -20,174 +25,67 @@ VALID_TOPOLOGIES = {
     "exact_alignment",
 }
 
-# R2 representative classification only. Do not extrapolate by theme.
+
+def _load_catalog():
+    path = Path(__file__).with_name(CATALOG_FILENAME)
+    with bz2.open(path, "rt", encoding="utf-8") as f:
+        catalog = json.load(f)
+    if catalog.get("schema_version") != "v0.04-r4.2-b15-preview":
+        raise ValueError(f"Unexpected R4.2 runtime catalog version: {catalog.get('schema_version')}")
+    return catalog
+
+
+_RUNTIME_CATALOG = _load_catalog()
+CATALOG_SCHEMA_VERSION = _RUNTIME_CATALOG["schema_version"]
+CATALOG_SOURCE_DATABASE = _RUNTIME_CATALOG.get("source_database")
+CATALOG_COUNTS = {
+    "spots": _RUNTIME_CATALOG.get("spot_count"),
+    "opportunities": _RUNTIME_CATALOG.get("opportunity_count"),
+    "condition_variants": _RUNTIME_CATALOG.get("condition_variant_count"),
+    "profile_viewpoint_relations": _RUNTIME_CATALOG.get("profile_viewpoint_relation_count"),
+}
+
 CURATED_OPPORTUNITIES = {
-    "tw-001": [
-        {
-            "opportunity_id": "tw-001-P01",
-            "name_zh": "大屯夕照與芒草",
-            "legacy_theme": "sunset",
-            "mode": "area_opportunity",
-            "sampling_topology": "directional_sector",
-            "geometry_required": False,
-            "formula_status": "legacy_fallback_pending_curated",
-            "formula_version": "legacy_v5_4",
-            "formula_confidence": 55,
-        },
-        {
-            "opportunity_id": "tw-001-P02",
-            "name_zh": "大屯雲海／琉璃光",
-            "legacy_theme": "cloud_sea",
-            "mode": "area_opportunity",
-            "sampling_topology": "area_plus_environment",
-            "geometry_required": False,
-            "formula_status": "prototype_formula_available",
-            "formula_version": "photo_first_r3",
-            "formula_confidence": 66,
-        },
-        {
-            "opportunity_id": "tw-001-P03",
-            "name_zh": "台北盆地藍調／夜景",
-            "legacy_theme": "city_night",
-            "mode": "area_opportunity",
-            "sampling_topology": "area_plus_environment",
-            "geometry_required": False,
-            "formula_status": "legacy_fallback_pending_curated",
-            "formula_version": "legacy_v5_4",
-            "formula_confidence": 60,
-        },
-    ],
-    "tw-035": [
-        {
-            "opportunity_id": "tw-035-P01",
-            "name_zh": "六十石山縱谷層巒遠眺",
-            "legacy_theme": "mountain_view",
-            "mode": "area_opportunity",
-            "sampling_topology": "area_plus_environment",
-            "geometry_required": False,
-            "formula_status": "needs_seasonal_foreground_module",
-            "formula_version": "legacy_v5_4",
-            "formula_confidence": 50,
-        },
-        {
-            "opportunity_id": "tw-035-P02",
-            "name_zh": "六十石山雲隙光",
-            "legacy_theme": "sunbeam",
-            "mode": "area_opportunity",
-            "sampling_topology": "directional_sector",
-            "geometry_required": False,
-            "formula_status": "needs_radiation_module",
-            "formula_version": "photo_first_r3",
-            "formula_confidence": 56,
-        },
-        {
-            "opportunity_id": "tw-035-P03",
-            "name_zh": "六十石山夕照",
-            "legacy_theme": "sunset",
-            "mode": "area_opportunity",
-            "sampling_topology": "directional_sector",
-            "geometry_required": False,
-            "formula_status": "legacy_fallback_pending_curated",
-            "formula_version": "legacy_v5_4",
-            "formula_confidence": 55,
-        },
-        {
-            "opportunity_id": "tw-035-P04",
-            "name_zh": "六十石山彩霞",
-            "legacy_theme": "sky_glow",
-            "mode": "area_opportunity",
-            "sampling_topology": "directional_sector",
-            "geometry_required": False,
-            "formula_status": "legacy_fallback_pending_curated",
-            "formula_version": "legacy_v5_4",
-            "formula_confidence": 55,
-        },
-        {
-            "opportunity_id": "tw-035-P05",
-            "name_zh": "六十石山銀河",
-            "legacy_theme": "milky_way",
-            "mode": "area_opportunity",
-            "sampling_topology": "local_area",
-            "geometry_required": False,
-            "formula_status": "legacy_fallback_pending_curated",
-            "formula_version": "legacy_v5_4",
-            "formula_confidence": 65,
-        },
-        {
-            "opportunity_id": "tw-035-P06",
-            "name_zh": "六十石山雲海",
-            "legacy_theme": "cloud_sea",
-            "mode": "area_opportunity",
-            "sampling_topology": "area_plus_environment",
-            "geometry_required": False,
-            "formula_status": "needs_spatial_weather_module",
-            "formula_version": "legacy_v5_4",
-            "formula_confidence": 50,
-        },
-    ],
-    "tw-038": [
-        {
-            "opportunity_id": "tw-038-P01",
-            "name_zh": "三仙台日出",
-            "legacy_theme": "sunrise",
-            "mode": "area_opportunity",
-            "sampling_topology": "directional_sector",
-            "geometry_required": False,
-            "formula_status": "access_hold_construction",
-            "formula_version": "legacy_v5_4",
-            "formula_confidence": 60,
-        },
-        {
-            "opportunity_id": "tw-038-P02",
-            "name_zh": "三仙台銀河",
-            "legacy_theme": "milky_way",
-            "mode": "composition_specific",
-            "sampling_topology": "exact_alignment",
-            "geometry_required": True,
-            "formula_status": "geometry_pending_construction_hold",
-            "formula_version": "legacy_v5_4",
-            "formula_confidence": 45,
-        },
-    ],
-    "tw-046": [
-        {
-            "opportunity_id": "tw-046-P01",
-            "name_zh": "中霸坪大小霸經典遠眺",
-            "legacy_theme": "mountain_view",
-            "mode": "area_opportunity",
-            "sampling_topology": "area_plus_environment",
-            "geometry_required": False,
-            "formula_status": "legacy_fallback_pending_curated",
-            "formula_version": "legacy_v5_4",
-            "formula_confidence": 70,
-        },
-        {
-            "opportunity_id": "tw-046-P02",
-            "name_zh": "霸基近距離大霸峰體",
-            "legacy_theme": "mountain_view",
-            "mode": "area_opportunity",
-            "sampling_topology": "local_area",
-            "geometry_required": False,
-            "formula_status": "legacy_fallback_pending_curated",
-            "formula_version": "legacy_v5_4",
-            "formula_confidence": 65,
-        },
-    ],
+    spot["spot_id"]: spot.get("opportunities", [])
+    for spot in _RUNTIME_CATALOG.get("spots", [])
 }
 
 
+def runtime_policy(opportunity):
+    """Return the safe runtime action for a curated Opportunity.
+
+    This deliberately has no legacy Theme-score fallback. Missing modules,
+    explicit holds, and insufficient data remain visible blockers until the
+    corresponding runtime dependency is implemented and tested.
+    """
+    status = str(opportunity.get("formula_status") or "")
+    if status.startswith("access_hold_") or status.endswith("_hold") or "_hold_" in status:
+        return "hold"
+    if status.startswith("data_insufficient_"):
+        return "data_insufficient"
+    if status == "prototype_formula_available":
+        return "prototype_pending_certification"
+    if status.startswith("needs_"):
+        return "module_pending"
+    return "unclassified"
+
+
 def get_opportunities(region_key, spot_id):
-    """Return manually reviewed opportunities for one place."""
+    """Return curated Opportunities for one Place, including runtime policy."""
     if region_key != "tw":
         return []
-    return [dict(x) for x in CURATED_OPPORTUNITIES.get(spot_id, [])]
+    opportunities = deepcopy(CURATED_OPPORTUNITIES.get(spot_id, []))
+    for opportunity in opportunities:
+        opportunity["runtime_policy"] = runtime_policy(opportunity)
+    return opportunities
 
 
 def merge_legacy_themes(themes, opportunities):
-    """Keep legacy UI themes while ensuring curated opportunities remain addressable.
+    """Preserve schema-9 legacy UI labels while the R4 scorer is built.
 
-    This is intentionally additive. R3 does not remove legacy themes because
-    unreviewed opportunities still rely on V5.4 fallback behavior.
+    This function is additive for backward compatibility only. It must not be
+    interpreted as permission to score an Opportunity whose runtime_policy is
+    hold, data_insufficient, or module_pending with a generic Theme formula.
     """
     merged = set(themes or [])
     for opportunity in opportunities or []:
@@ -197,32 +95,37 @@ def merge_legacy_themes(themes, opportunities):
     return sorted(merged)
 
 
-def runtime_policy(opportunity):
-    """Map curation state to an adapter action without changing score semantics."""
-    status = opportunity.get("formula_status")
-    if status in {"access_hold_construction", "geometry_pending_construction_hold"}:
-        return "hold"
-    if status == "prototype_formula_available":
-        return "prototype_pending_runtime_inputs"
-    if status and status.startswith("needs_"):
-        return "module_pending"
-    return "legacy_fallback"
-
-
 def validate_curated_opportunities():
     errors = []
-    ids = set()
+    opportunity_ids = set()
+    variant_ids = set()
+    viewpoint_relations = 0
+
+    expected_spots = {f"tw-{i:03d}" for i in range(1, 72)}
+    actual_spots = set(CURATED_OPPORTUNITIES)
+    if actual_spots != expected_spots:
+        errors.append(
+            f"expected Taiwan spot keys tw-001..tw-071; missing={sorted(expected_spots-actual_spots)} "
+            f"extra={sorted(actual_spots-expected_spots)}"
+        )
+
     for spot_id, opportunities in CURATED_OPPORTUNITIES.items():
         if not spot_id.startswith("tw-"):
-            errors.append(f"{spot_id}: curated R3 sample must be Taiwan")
+            errors.append(f"{spot_id}: Taiwan catalog key expected")
+        if not opportunities:
+            errors.append(f"{spot_id}: at least one curated Opportunity expected")
+
         for opportunity in opportunities:
             oid = opportunity.get("opportunity_id")
             if not oid:
                 errors.append(f"{spot_id}: missing opportunity_id")
-            elif oid in ids:
+                continue
+            if oid in opportunity_ids:
                 errors.append(f"{spot_id}: duplicate opportunity_id {oid}")
-            else:
-                ids.add(oid)
+            opportunity_ids.add(oid)
+
+            if opportunity.get("spot_id") != spot_id:
+                errors.append(f"{oid}: spot_id mismatch {opportunity.get('spot_id')} != {spot_id}")
 
             mode = opportunity.get("mode")
             topology = opportunity.get("sampling_topology")
@@ -234,17 +137,61 @@ def validate_curated_opportunities():
             geometry_required = bool(opportunity.get("geometry_required"))
             if mode == "composition_specific" and not geometry_required:
                 errors.append(f"{oid}: composition_specific must require geometry")
-            if topology == "exact_alignment" and not geometry_required:
-                errors.append(f"{oid}: exact_alignment must require geometry")
+            if topology == "exact_alignment" and (mode != "composition_specific" or not geometry_required):
+                errors.append(f"{oid}: exact_alignment contract invalid")
             if mode == "area_opportunity" and geometry_required:
-                errors.append(f"{oid}: area_opportunity must not require exact geometry in R3")
+                errors.append(f"{oid}: area_opportunity cannot require exact geometry")
 
             confidence = opportunity.get("formula_confidence")
             if not isinstance(confidence, (int, float)) or not 0 <= confidence <= 100:
                 errors.append(f"{oid}: invalid formula_confidence {confidence}")
+
+            status = str(opportunity.get("formula_status") or "")
+            version = str(opportunity.get("formula_version") or "")
+            if status == "legacy_fallback_pending_curated":
+                errors.append(f"{oid}: legacy fallback forbidden after B14")
+            if version.startswith("legacy_"):
+                errors.append(f"{oid}: legacy formula version forbidden after B15")
+            if runtime_policy(opportunity) == "unclassified":
+                errors.append(f"{oid}: formula_status has no safe runtime policy: {status}")
+
+            variants = opportunity.get("condition_variants") or []
+            if not variants:
+                errors.append(f"{oid}: missing Condition Variant")
+            for variant in variants:
+                vid = variant.get("variant_id")
+                if not vid:
+                    errors.append(f"{oid}: missing variant_id")
+                elif vid in variant_ids:
+                    errors.append(f"{oid}: duplicate variant_id {vid}")
+                else:
+                    variant_ids.add(vid)
+
+            viewpoints = opportunity.get("viewpoints") or []
+            if not viewpoints:
+                errors.append(f"{oid}: missing profile_viewpoint relation")
+            viewpoint_relations += len(viewpoints)
+
+    if len(opportunity_ids) != 174:
+        errors.append(f"expected 174 opportunities, got {len(opportunity_ids)}")
+    if len(variant_ids) != 182:
+        errors.append(f"expected 182 variants, got {len(variant_ids)}")
+    if viewpoint_relations != 179:
+        errors.append(f"expected 179 profile_viewpoint relations, got {viewpoint_relations}")
+
+    exact = {
+        opportunity["opportunity_id"]
+        for opportunities in CURATED_OPPORTUNITIES.values()
+        for opportunity in opportunities
+        if opportunity.get("geometry_required")
+    }
+    expected_exact = {"tw-017-P01", "tw-028-P04", "tw-038-P02"}
+    if exact != expected_exact:
+        errors.append(f"exact geometry regression: {sorted(exact)}")
+
     return errors
 
 
 _ADAPTER_ERRORS = validate_curated_opportunities()
 if _ADAPTER_ERRORS:
-    raise ValueError("Invalid v0.04 opportunity adapter: " + "; ".join(_ADAPTER_ERRORS))
+    raise ValueError("Invalid v0.04 R4.2 Opportunity adapter: " + "; ".join(_ADAPTER_ERRORS))
