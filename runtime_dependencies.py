@@ -80,6 +80,7 @@ KNOWN_COMPONENTS = {
 SPECIAL_NON_MODULE_STATUSES = {
     "prototype_formula_available",
     "access_hold_construction",
+    "access_hold_current_hours_night_bioluminescence",
     "data_insufficient_geometry",
 }
 
