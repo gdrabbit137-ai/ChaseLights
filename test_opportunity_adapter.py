@@ -203,8 +203,8 @@ def test_adapter_integrity():
     _, _, _, limited_status_key, limited_indicator_key, _ = fetch_data.evaluate_tag_condition(
         "blue_hour", limited_probe, 18, "zh-TW"
     )
-    assert limited_status_key == "BLUE_HOUR_DATA_LIMITED"
-    assert limited_indicator_key == "IND_BLUE_HOUR_DATA_LIMITED"
+    assert limited_status_key == "WEATHER_DATA_LIMITED"
+    assert limited_indicator_key == "IND_WEATHER_DATA_LIMITED"
 
     outside_probe = dict(blue_hour_probe, sun_elevation=-14.0, is_twilight=False)
     _, _, _, outside_status_key, outside_indicator_key, _ = fetch_data.evaluate_tag_condition(
@@ -212,6 +212,16 @@ def test_adapter_integrity():
     )
     assert outside_status_key == "BLUE_HOUR_OUTSIDE"
     assert outside_indicator_key == "IND_BLUE_HOUR_OUTSIDE"
+
+    # Homepage discovery must remain place-first. Scene/theme semantics belong to
+    # the ranked result/explanation, not intersecting homepage filters.
+    index_html = Path("index.html").read_text(encoding="utf-8")
+    assert 'id="theme-nav"' not in index_html
+    assert 'id="scene-nav"' not in index_html
+    assert 'id="discovery-title"' in index_html
+    assert 'id="place-search"' in index_html
+    assert "FILTER_UI_VERSION='3'" in index_html
+    assert "return day.all||null" in index_html
 
     nanya = next(o for o in all_opportunities if o["opportunity_id"] == "tw-072-P01")
     assert runtime_policy(nanya) == "preview_module_available"
