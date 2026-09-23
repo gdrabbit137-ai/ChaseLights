@@ -1,7 +1,6 @@
 import json
 import urllib.request
 import os
-import time
 from datetime import datetime, timezone, timedelta
 from bisect import bisect_right
 from zoneinfo import ZoneInfo
@@ -117,26 +116,10 @@ _MARINE_RESPONSE_CACHE = {}
 _TIDE_RESPONSE_CACHE = {}
 
 
-def _request_json(url, timeout=20, attempts=4):
-    """Fetch JSON with bounded retry/backoff for transient provider failures."""
-    last_error = None
-    for attempt in range(max(1, int(attempts))):
-        req = urllib.request.Request(
-            url,
-            headers={
-                "User-Agent": "ChaseLights/2.0 (+weather photography)",
-                "Connection": "close",
-            },
-        )
-        try:
-            with urllib.request.urlopen(req, timeout=timeout) as response:
-                return json.loads(response.read().decode("utf-8"))
-        except Exception as exc:
-            last_error = exc
-            if attempt + 1 >= max(1, int(attempts)):
-                raise
-            time.sleep(min(1.5 * (2 ** attempt), 6.0))
-    raise last_error
+def _request_json(url, timeout=12):
+    req = urllib.request.Request(url, headers={"User-Agent": "ChaseLights/2.0 (+weather photography)"})
+    with urllib.request.urlopen(req, timeout=timeout) as response:
+        return json.loads(response.read().decode("utf-8"))
 
 
 def fetch_noaa_kp_series(force=False):

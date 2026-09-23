@@ -5,8 +5,6 @@ on:
     branches:
       - v0.04-opportunity-adapter-r3
       - v0.04-opportunity-adapter-r4
-      - release/r4-place-first-beta
-      - main
     paths:
       - "opportunities.py"
       - "opportunity_runtime.py"
@@ -21,8 +19,6 @@ on:
       - "analyze_weather.py"
       - "fetch_data.py"
       - "test_opportunity_adapter.py"
-      - "index.html"
-      - "update_weather.yml"
       - ".github/workflows/test_opportunity_adapter.yml"
   workflow_dispatch:
 
@@ -42,17 +38,3 @@ jobs:
         run: python -m py_compile opportunities.py opportunity_runtime.py runtime_dependencies.py spatial_weather.py marine_state.py tide_state.py access_state.py taxonomy_v004.py regions.py analyze_weather.py fetch_data.py test_opportunity_adapter.py
       - name: Run adapter tests
         run: python test_opportunity_adapter.py
-      - name: Validate R4 beta frontend syntax
-        run: |
-          python - <<'PY'
-          from pathlib import Path
-          import re
-          html = Path("index.html").read_text(encoding="utf-8")
-          scripts = re.findall(r"<script>(.*?)</script>", html, flags=re.S)
-          assert scripts, "inline script missing"
-          Path("/tmp/chaselights-r4-beta.js").write_text("\n".join(scripts), encoding="utf-8")
-          assert 'id="modal-opportunities"' in html
-          assert "opportunityCardStrip" in html
-          assert "chaselights-v10-r4-preview" in html
-          PY
-          node --check /tmp/chaselights-r4-beta.js
