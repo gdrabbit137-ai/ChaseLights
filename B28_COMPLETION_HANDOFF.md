@@ -4,9 +4,9 @@
 
 B28 P0 missing-place curation is complete on branch `r4.2-b28-p0-missing-places`.
 
-Final validated code head: `13393e032b3e09e0bc67579d4c1be2e4f10c4a38`
+Final validated code head: `bbdacaab5b17769ca3be5c7e0f52072e70d4bf6e`
 
-GitHub adapter CI: PASS (run 35910563850).
+GitHub adapter CI: PASS (run 35913254833).
 
 ## Catalog delta
 
@@ -94,7 +94,25 @@ B28 now enforces:
 - The phrase "無霧" was removed from city-night clear messaging; forecast visibility is described as "能見度良好" instead of an absolute local-fog claim.
 - Automated tests assert that blue-hour output cannot contain "城市", "燈火" or "無霧", and non-city night Outcomes cannot emit city-specific status/indicator keys.
 
-Latest semantic-hint QA: PASS on `82edd7801337c50ee1d06c4aeef462438729ee64` (workflow run 35911902281).
+Latest combined semantic-hint + place-first homepage QA: PASS on `bbdacaab5b17769ca3be5c7e0f52072e70d4bf6e` (workflow run 35913254833).
+
+## Place-first homepage UX
+
+User review confirmed that the photographer's normal question is not "what Theme do I want to shoot?" but "where should I go shoot today?".
+
+B28 therefore changes homepage discovery to Place-first:
+
+- The homepage no longer exposes Scene and Theme as intersecting filters.
+- The main flow is: Region / sub-region → Day → ranked Places.
+- The heading is date-aware: "今天／明天／後天去哪裡拍？".
+- An optional place-name search is available for photographers who already have a destination in mind.
+- Cards are ranked by each Place's best Opportunity for the selected day.
+- Theme/Scene semantics are explanatory output on a Place card/detail, not prerequisites the user must choose before seeing Places.
+- Old Scene/Theme localStorage is reset by `FILTER_UI_VERSION='3'` so hidden legacy filters cannot silently remove results.
+- The homepage regression test asserts that `theme-nav` and `scene-nav` are absent and that ranking uses `day.all`.
+- Scene pills may remain on cards as descriptive context; they are not homepage filters.
+
+This decision should be preserved unless a future user-research finding clearly supports a different discovery model. Do not restore dual Scene/Theme filters to the homepage merely because the underlying taxonomy exists.
 
 ## Final QA
 
@@ -108,6 +126,8 @@ Latest semantic-hint QA: PASS on `82edd7801337c50ee1d06c4aeef462438729ee64` (wor
 - Dependency inventory exact-match validation: PASS
 - Adapter integration tests: PASS
 - Final simplification CI: PASS
+- Forecast-hint semantic safety QA: PASS
+- Place-first homepage regression QA: PASS
 - Branch was not behind main at the last validation checkpoint.
 
 ## PR
