@@ -75,37 +75,37 @@ def _all_opportunities():
 
 
 def test_adapter_integrity():
-    assert ADAPTER_VERSION == "v0.04-r4.2-b28-p0-batch4-preview"
+    assert ADAPTER_VERSION == "v0.04-r4.2-b28-p0-batch5-preview"
     assert validate_curated_opportunities() == []
     assert validate_taxonomy() == []
     assert CATALOG_COUNTS == {
-        "spots": 78,
-        "opportunities": 187,
-        "condition_variants": 197,
-        "profile_viewpoint_relations": 192,
+        "spots": 80,
+        "opportunities": 191,
+        "condition_variants": 201,
+        "profile_viewpoint_relations": 196,
     }
 
     tw = get_spots("tw")
-    assert len(tw) == 79
-    assert [s["spot_id"] for s in tw] == [f"tw-{i:03d}" for i in range(1, 80)]
+    assert len(tw) == 81
+    assert [s["spot_id"] for s in tw] == [f"tw-{i:03d}" for i in range(1, 82)]
     assert PRODUCT_STATUS_BY_SPOT == {"tw-063": "retired"}
     assert product_status("tw-063") == "retired"
     assert active_in_catalog("tw-063") is False
-    assert sum(1 for s in tw if active_in_catalog(s["spot_id"])) == 78
+    assert sum(1 for s in tw if active_in_catalog(s["spot_id"])) == 80
     assert all(
         product_status(s["spot_id"]) == "keep"
         for s in tw if s["spot_id"] != "tw-063"
     )
 
     curated = {s["spot_id"]: s for s in tw if s.get("opportunities")}
-    expected_active = {f"tw-{i:03d}" for i in range(1, 80)} - {"tw-063"}
+    expected_active = {f"tw-{i:03d}" for i in range(1, 82)} - {"tw-063"}
     assert set(curated) == expected_active
     assert "tw-063" not in CURATED_OPPORTUNITIES
-    assert sum(len(s["opportunities"]) for s in curated.values()) == 187
+    assert sum(len(s["opportunities"]) for s in curated.values()) == 191
 
     all_opportunities = _all_opportunities()
-    assert sum(len(o["condition_variants"]) for o in all_opportunities) == 197
-    assert sum(len(o["viewpoints"]) for o in all_opportunities) == 192
+    assert sum(len(o["condition_variants"]) for o in all_opportunities) == 201
+    assert sum(len(o["viewpoints"]) for o in all_opportunities) == 196
     assert not any(o["formula_status"] == "legacy_fallback_pending_curated" for o in all_opportunities)
     assert not any(str(o.get("formula_version") or "").startswith("legacy_") for o in all_opportunities)
 
@@ -116,16 +116,16 @@ def test_adapter_integrity():
 
     policies = Counter(runtime_policy(o) for o in all_opportunities)
     assert policies == {
-        "module_pending": 71,
-        "preview_module_available": 73,
+        "module_pending": 72,
+        "preview_module_available": 75,
         "prototype_pending_certification": 41,
-        "hold": 1,
+        "hold": 2,
         "data_insufficient": 1,
     }
     assert runtime_policy(next(o for o in all_opportunities if o["opportunity_id"] == "tw-052-P01")) == "hold"
     assert runtime_policy(next(o for o in all_opportunities if o["opportunity_id"] == "tw-017-P01")) == "data_insufficient"
     assert validate_runtime_registry() == []
-    assert len(DIRECTIONAL_HORIZON_SECTORS) == 45
+    assert len(DIRECTIONAL_HORIZON_SECTORS) == 46
 
     nanya = next(o for o in all_opportunities if o["opportunity_id"] == "tw-072-P01")
     assert runtime_policy(nanya) == "preview_module_available"
@@ -176,6 +176,22 @@ def test_adapter_integrity():
     chixi_tide = next(o for o in all_opportunities if o["opportunity_id"] == "tw-079-P02")
     assert runtime_policy(chixi_tide) == "preview_module_available"
     assert dependency_state(chixi_tide)["required_components"] == ("marine_state", "tide_state")
+
+    fanchuanbi_sunrise = next(o for o in all_opportunities if o["opportunity_id"] == "tw-080-P01")
+    assert runtime_policy(fanchuanbi_sunrise) == "preview_module_available"
+    assert dependency_state(fanchuanbi_sunrise)["required_components"] == ("directional_horizon", "visibility")
+
+    fanchuanbi_stars = next(o for o in all_opportunities if o["opportunity_id"] == "tw-080-P02")
+    assert runtime_policy(fanchuanbi_stars) == "preview_module_available"
+    assert dependency_state(fanchuanbi_stars)["required_components"] == ("astronomy_ephemeris",)
+
+    iron_fort_day = next(o for o in all_opportunities if o["opportunity_id"] == "tw-081-P01")
+    assert runtime_policy(iron_fort_day) == "module_pending"
+    assert dependency_state(iron_fort_day)["ready_components"] == ("visibility",)
+    assert dependency_state(iron_fort_day)["missing_components"] == ("dynamic_access",)
+
+    iron_fort_tears = next(o for o in all_opportunities if o["opportunity_id"] == "tw-081-P02")
+    assert runtime_policy(iron_fort_tears) == "hold"
     directional = next(o for o in all_opportunities if o["opportunity_id"] == "tw-020-P01")
     assert runtime_policy(directional) == "preview_module_available"
     matched = evaluate_directional_horizon(directional, {
@@ -498,14 +514,14 @@ def test_adapter_integrity():
 
     assert set(ASTRONOMY_EPHEMERIS_PROFILES) == {
         "tw-019-P05", "tw-024-P05", "tw-035-P05", "tw-036-P02",
-        "tw-038-P02", "tw-040-P06", "tw-045-P03", "tw-070-P02", "tw-076-P02",
+        "tw-038-P02", "tw-040-P06", "tw-045-P03", "tw-070-P02", "tw-076-P02", "tw-080-P02",
     }
 
     pure_astro = [
         o for o in all_opportunities
         if o["formula_status"] == "needs_astronomy_ephemeris_module"
     ]
-    assert {o["opportunity_id"] for o in pure_astro} == {"tw-035-P05", "tw-070-P02", "tw-076-P02"}
+    assert {o["opportunity_id"] for o in pure_astro} == {"tw-035-P05", "tw-070-P02", "tw-076-P02", "tw-080-P02"}
     assert all(runtime_policy(o) == "preview_module_available" for o in pure_astro)
 
     astro_input = {
@@ -818,12 +834,12 @@ def test_adapter_integrity():
         o for o in all_opportunities
         if "dynamic_access" in dependencies_for_opportunity(o)
     ]
-    assert len(dynamic_profiles) == 42
+    assert len(dynamic_profiles) == 43
     assert {o["opportunity_id"] for o in dynamic_profiles} == set(ACCESS_DEPENDENT_PROFILE_IDS)
     assert set(ACCESS_PROFILE_CLASSIFICATION) == set(ACCESS_DEPENDENT_PROFILE_IDS)
     assert ACCESS_RUNTIME_READY_PROFILES == frozenset()
     assert HARD_ACCESS_HOLDS["tw-052"]["policy"] == "hold"
-    assert {"tw-005", "tw-037", "tw-038", "tw-078"} <= set(OFFICIAL_SOURCE_HINTS)
+    assert {"tw-005", "tw-037", "tw-038", "tw-078", "tw-081"} <= set(OFFICIAL_SOURCE_HINTS)
     assert "tw-063" not in OFFICIAL_SOURCE_HINTS
     assert all(
         runtime_policy(o) == "module_pending"
@@ -1008,7 +1024,7 @@ def test_adapter_integrity():
 
 def test_active_catalog_weather_generation_guard():
     active_tw = analyze_weather._active_spots("tw")
-    assert len(active_tw) == 78
+    assert len(active_tw) == 80
     assert "tw-063" not in {spot["spot_id"] for spot in active_tw}
     assert all(spot.get("active_in_catalog", True) for spot in active_tw)
 
