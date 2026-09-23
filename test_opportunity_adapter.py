@@ -127,6 +127,57 @@ def test_adapter_integrity():
     assert validate_runtime_registry() == []
     assert len(DIRECTIONAL_HORIZON_SECTORS) == 45
 
+    # Hint-semantic safety: blue hour is a light/time condition, not proof of
+    # city lights. Architecture alone must never auto-create a city-night Theme.
+    active_spots = [spot for spot in tw if active_in_catalog(spot["spot_id"])]
+    assert all(
+        "city" in spot["scenes"]
+        for spot in active_spots
+        if "city_night" in spot["themes"]
+    )
+    dongyin = next(spot for spot in active_spots if spot["name_i18n"]["zh-TW"] == "東引燈塔")
+    assert "architecture" in dongyin["scenes"]
+    assert "city" not in dongyin["scenes"]
+    assert "city_night" not in dongyin["themes"]
+
+    blue_hour_probe = {
+        "astronomy_valid": True,
+        "sun_elevation": -6.0,
+        "is_day": False,
+        "is_twilight": True,
+        "hour": 18,
+        "c_low": 8,
+        "c_mid": 20,
+        "c_high": 25,
+        "pop": 5,
+        "wind": 2.0,
+        "vis": 30000,
+    }
+    for spot in active_spots:
+        if "blue_hour" not in spot["themes"]:
+            continue
+        _, status, indicator, status_key, indicator_key, _ = fetch_data.evaluate_tag_condition(
+            "blue_hour", blue_hour_probe, 18, "zh-TW"
+        )
+        assert status_key == "BLUE_HOUR_CLEAR"
+        assert indicator_key == "IND_BLUE_HOUR_CLEAR"
+        assert all(word not in (status + indicator) for word in ("城市", "燈火", "無霧"))
+
+    limited_probe = dict(blue_hour_probe)
+    limited_probe.pop("vis")
+    _, _, _, limited_status_key, limited_indicator_key, _ = fetch_data.evaluate_tag_condition(
+        "blue_hour", limited_probe, 18, "zh-TW"
+    )
+    assert limited_status_key == "BLUE_HOUR_DATA_LIMITED"
+    assert limited_indicator_key == "IND_BLUE_HOUR_DATA_LIMITED"
+
+    outside_probe = dict(blue_hour_probe, sun_elevation=-14.0, is_twilight=False)
+    _, _, _, outside_status_key, outside_indicator_key, _ = fetch_data.evaluate_tag_condition(
+        "blue_hour", outside_probe, 18, "zh-TW"
+    )
+    assert outside_status_key == "BLUE_HOUR_OUTSIDE"
+    assert outside_indicator_key == "IND_BLUE_HOUR_OUTSIDE"
+
     nanya = next(o for o in all_opportunities if o["opportunity_id"] == "tw-072-P01")
     assert runtime_policy(nanya) == "preview_module_available"
     assert dependency_state(nanya)["required_components"] == ("marine_state", "directional_horizon")
