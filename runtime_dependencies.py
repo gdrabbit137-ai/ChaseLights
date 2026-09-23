@@ -12,6 +12,7 @@ FORMULA_DEPENDENCIES = {
     "needs_directional_horizon_dynamic_access_module": ("directional_horizon", "dynamic_access"),
     "needs_lighting_state_module": ("managed_lighting_state",),
     "needs_marine_directional_horizon_module": ("marine_state", "directional_horizon"),
+    "needs_marine_tide_module": ("marine_state", "tide_state"),
     "needs_lighting_water_surface_module": ("managed_lighting_state", "water_surface_state"),
     "needs_tide_directional_horizon_module": ("tide_state", "directional_horizon"),
     "needs_dynamic_access_directional_horizon_module": ("dynamic_access", "directional_horizon"),
