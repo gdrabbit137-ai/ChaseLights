@@ -50,6 +50,11 @@ I18N_MESSAGES = {
     "FIRE_CLOUD_LIKELY": {"zh-TW": "🔥 火燒雲條件佳", "en": "🔥 Strong Fire-Cloud Potential", "ja": "🔥 強い焼け雲の好条件"},
     "COAST_LOW_CLOUD": {"zh-TW": "☁️ 海面低雲壓頂", "en": "☁️ Low Coastal Clouds", "ja": "☁️ 沿岸の低雲覆蓋"},
     "COAST_NORMAL": {"zh-TW": "🌊 海景氣象常規", "en": "🌊 Normal Coastal Weather", "ja": "🌊 通常の沿岸気象"},
+    "BLUE_HOUR_CLEAR": {"zh-TW": "🔵 藍調時刻視野清透", "en": "🔵 Clear Blue-Hour View", "ja": "🔵 ブルーアワーの視界良好"},
+    "BLUE_HOUR_FAIR": {"zh-TW": "🔵 藍調時刻條件普通", "en": "🔵 Fair Blue-Hour Conditions", "ja": "🔵 ブルーアワーの条件は普通"},
+    "BLUE_HOUR_POOR": {"zh-TW": "☁️ 藍調時刻視野受雲霧影響", "en": "☁️ Blue-Hour View Affected by Clouds/Haze", "ja": "☁️ 雲・霞でブルーアワーの視界に影響"},
+    "BLUE_HOUR_OUTSIDE": {"zh-TW": "🕒 目前非藍調時段", "en": "🕒 Outside Blue-Hour Window", "ja": "🕒 現在はブルーアワー外"},
+    "BLUE_HOUR_DATA_LIMITED": {"zh-TW": "⚠️ 藍調時段可判定，但能見度資料不足", "en": "⚠️ Blue-Hour Timing Known, Visibility Data Limited", "ja": "⚠️ ブルーアワー判定可・視程データ不足"},
     "CITY_NIGHT_CLEAR": {"zh-TW": "🏙️ 璀璨夜景通透", "en": "🏙️ Clear City Night View", "ja": "🏙️ 清晰な都市夜景"},
     "CITY_NIGHT_FAIR": {"zh-TW": "🌃 夜景條件普通", "en": "🌃 Fair City Night View", "ja": "🌃 普通の夜景条件"},
     "CITY_NIGHT_POOR": {"zh-TW": "☁️ 夜景視線受阻", "en": "☁️ Obstructed Night View", "ja": "☁️ 視界不順の夜景"},
@@ -93,6 +98,11 @@ I18N_MESSAGES = {
     "IND_FIRE_CLOUD": {"zh-TW": "🔥 中高雲＋低地平線雲量少，火燒雲機率偏高", "en": "🔥 Mid/high clouds with a clear low horizon favor fire-cloud colors", "ja": "🔥 中高層雲＋低い地平線雲が少なく、強い焼け雲が出やすい"},
     "IND_COAST_BLOCK": {"zh-TW": "☁️ 遮蔽地平線視線", "en": "☁️ Obstructed Horizon View", "ja": "☁️ 地平線視界の遮蔽"},
     "IND_COAST_NORM": {"zh-TW": "🌊 大氣狀況平穩", "en": "🌊 Stable Atmospheric Conditions", "ja": "🌊 安定した大気状態"},
+    "IND_BLUE_HOUR_CLEAR": {"zh-TW": "💎 低雲少、能見度良好", "en": "💎 Low Cloud Cover and Good Visibility", "ja": "💎 低雲が少なく視程良好"},
+    "IND_BLUE_HOUR_FAIR": {"zh-TW": "⛅ 雲量或能見度普通", "en": "⛅ Moderate Clouds or Visibility", "ja": "⛅ 雲量または視程は普通"},
+    "IND_BLUE_HOUR_BLOCK": {"zh-TW": "☁️ 低雲或低能見度影響視野", "en": "☁️ Low Clouds or Reduced Visibility", "ja": "☁️ 低雲または低視程で視界に影響"},
+    "IND_BLUE_HOUR_OUTSIDE": {"zh-TW": "🕒 太陽高度不在藍調時段", "en": "🕒 Sun Altitude Outside Blue-Hour Range", "ja": "🕒 太陽高度がブルーアワー範囲外"},
+    "IND_BLUE_HOUR_DATA_LIMITED": {"zh-TW": "⚠️ 缺少能見度或低雲資料", "en": "⚠️ Visibility or Low-Cloud Data Missing", "ja": "⚠️ 視程または低雲データ不足"},
     "IND_CITY_NIGHT_CLEAR": {"zh-TW": "💎 城市燈火清晰無霧", "en": "💎 Clear City Lights", "ja": "💎 霧なし・クリアな街の灯り"},
     "IND_CITY_NIGHT_HAZE": {"zh-TW": "⛅ 些許霧氣或輕微低雲", "en": "⛅ Slight Haze / Low Clouds", "ja": "⛅ 僅かな霧または低雲"},
     "IND_CITY_NIGHT_BLOCK": {"zh-TW": "☁️ 低雲壓頂或濃霧", "en": "☁️ Low Clouds / Dense Fog", "ja": "☁️ 低雲または濃霧覆蓋"},
@@ -466,7 +476,7 @@ def _canonical_theme(theme):
         "sunrise": "coast",
         "sunset": "coast",
         "sky_glow": "coast",
-        "blue_hour": "city",
+        "blue_hour": "twilight",
         "fog_mist": "forest",
         "reflection": "lake",
         "sunbeam": "forest",
@@ -689,14 +699,25 @@ def evaluate_tag_condition(theme, item_data, hour=None, lang="zh-TW"):
             else:
                 raw=42; status_key,indicator_key="COAST_NORMAL","IND_COAST_NORM"
     elif theme=="blue_hour":
+        blue_hour_data_complete = all(
+            item_data.get(key) is not None for key in ("vis", "c_low", "pop", "wind")
+        )
         if not astro_valid:
             raw=45; status_key,indicator_key="ASTRO_DATA_UNAVAILABLE","IND_ASTRO_UNAVAILABLE"
         elif -10<=sun_alt<=-2:
             raw=88-c_low*0.35-pop*0.4-max(0,wind-7)*1.2
             if vis>=18000: raw+=5
-            status_key,indicator_key="CITY_NIGHT_CLEAR","IND_CITY_NIGHT_CLEAR"
+            if not blue_hour_data_complete:
+                raw=min(raw,55)
+                status_key,indicator_key="BLUE_HOUR_DATA_LIMITED","IND_BLUE_HOUR_DATA_LIMITED"
+            elif vis>=18000 and c_low<=20 and pop<=25:
+                status_key,indicator_key="BLUE_HOUR_CLEAR","IND_BLUE_HOUR_CLEAR"
+            elif raw>=60 and vis>=8000 and c_low<=60:
+                status_key,indicator_key="BLUE_HOUR_FAIR","IND_BLUE_HOUR_FAIR"
+            else:
+                status_key,indicator_key="BLUE_HOUR_POOR","IND_BLUE_HOUR_BLOCK"
         else:
-            raw=25; status_key,indicator_key="CITY_DAY_FAIR","IND_CITY_DAY_FAIR"
+            raw=25; status_key,indicator_key="BLUE_HOUR_OUTSIDE","IND_BLUE_HOUR_OUTSIDE"
     elif theme=="fog_mist":
         if not is_day and not is_twilight:
             raw=35; status_key,indicator_key="FOREST_NORMAL","IND_FOREST_NORM"
