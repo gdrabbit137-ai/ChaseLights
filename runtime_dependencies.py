@@ -4,7 +4,7 @@ This module separates content formula status from runtime implementation state.
 Every needs_* status maps to an explicit set of reusable runtime components.
 """
 
-DEPENDENCY_INVENTORY_VERSION = "r4.2-b17-deps-v1"
+DEPENDENCY_INVENTORY_VERSION = "r4.2-b19-deps-v2"
 
 FORMULA_DEPENDENCIES = {
     "needs_spatial_weather_module": ("spatial_weather_vertical_cloud",),
@@ -21,7 +21,7 @@ FORMULA_DEPENDENCIES = {
     "needs_water_surface_module": ("water_surface_state",),
     "needs_astronomy_ephemeris_access_module": ("astronomy_ephemeris", "dynamic_access"),
     "needs_directional_horizon_visibility_module": ("directional_horizon", "visibility"),
-    "needs_radiation_cloud_module": ("radiation_DNI",),
+    "needs_radiation_cloud_module": ("radiation_DNI", "cloud_sky_glow"),
     "needs_astronomy_ephemeris_module": ("astronomy_ephemeris",),
     "needs_geology_light_visibility_module": ("geology_light", "visibility"),
     "needs_lake_level_water_surface_access_module": ("lake_water_level", "water_surface_state", "dynamic_access"),
@@ -31,7 +31,7 @@ FORMULA_DEPENDENCIES = {
     "needs_marine_tide_directional_horizon_access_module": ("marine_state", "tide_state", "directional_horizon", "dynamic_access"),
     "needs_marine_directional_horizon_dynamic_access_module": ("marine_state", "directional_horizon", "dynamic_access"),
     "needs_geometry_aware_ephemeris_adapter": ("directional_horizon", "verified_camera_geometry"),
-    "needs_radiation_module": ("radiation_DNI",),
+    "needs_radiation_module": ("radiation_DNI", "cloud_light_state"),
     "needs_directional_horizon_cloud_sky_glow_module": ("directional_horizon", "cloud_sky_glow"),
     "needs_astronomy_ephemeris_marine_module": ("astronomy_ephemeris", "marine_state"),
     "needs_timetable_access_module": ("timetable", "dynamic_access"),
@@ -52,6 +52,7 @@ FORMULA_DEPENDENCIES = {
 KNOWN_COMPONENTS = {
     "astronomy_ephemeris",
     "cloud_sky_glow",
+    "cloud_light_state",
     "cultural_permission",
     "directional_horizon",
     "dynamic_access",

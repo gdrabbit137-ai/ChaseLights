@@ -9,6 +9,8 @@ from opportunity_runtime import (
     evaluate_visibility,
     evaluate_water_surface,
     evaluate_snow_state,
+    evaluate_radiation_dni,
+    evaluate_cloud_light_state,
     evaluate_opportunity_modules,
     validate_runtime_registry,
 )
@@ -33,7 +35,7 @@ def _all_opportunities():
 
 
 def test_adapter_integrity():
-    assert ADAPTER_VERSION == "v0.04-r4.2-b18-preview"
+    assert ADAPTER_VERSION == "v0.04-r4.2-b19-preview"
     assert validate_curated_opportunities() == []
     assert validate_taxonomy() == []
     assert CATALOG_COUNTS == {
@@ -67,8 +69,8 @@ def test_adapter_integrity():
 
     policies = Counter(runtime_policy(o) for o in all_opportunities)
     assert policies == {
-        "module_pending": 103,
-        "preview_module_available": 28,
+        "module_pending": 102,
+        "preview_module_available": 29,
         "prototype_pending_certification": 41,
         "hold": 1,
         "data_insufficient": 1,
@@ -122,7 +124,12 @@ def test_adapter_integrity():
     assert validate_dependency_inventory(formula_statuses) == []
     assert dependencies_for_status("needs_dynamic_access_visibility_module") == ("dynamic_access", "visibility")
     assert dependencies_for_status("needs_directional_horizon_cloud_sky_glow_module") == ("directional_horizon", "cloud_sky_glow")
-    assert IMPLEMENTED_COMPONENTS == {"directional_horizon", "visibility", "water_surface_state", "snow_state"}
+    assert IMPLEMENTED_COMPONENTS == {
+        "directional_horizon", "visibility", "water_surface_state", "snow_state",
+        "radiation_DNI", "cloud_light_state"
+    }
+    assert dependencies_for_status("needs_radiation_module") == ("radiation_DNI", "cloud_light_state")
+    assert dependencies_for_status("needs_radiation_cloud_module") == ("radiation_DNI", "cloud_sky_glow")
 
     water_surface_profiles = [
         o for o in all_opportunities if o["formula_status"] == "needs_water_surface_module"
@@ -203,6 +210,39 @@ def test_adapter_integrity():
     assert set(snow_result["modules"]) == {"snow_state"}
     assert snow_result["modules"]["snow_state"]["rime_evaluated"] is False
 
+    radiation_profile = next(
+        o for o in all_opportunities if o["opportunity_id"] == "tw-035-P02"
+    )
+    assert radiation_profile["formula_status"] == "needs_radiation_module"
+    assert runtime_policy(radiation_profile) == "preview_module_available"
+    strong_dni = evaluate_radiation_dni({"direct_normal_irradiance": 320})
+    assert strong_dni["eligible"] is True
+    weak_dni = evaluate_radiation_dni({"direct_normal_irradiance": 55})
+    assert weak_dni["eligible"] is False
+    broken_cloud = evaluate_cloud_light_state({
+        "c_low": 20, "c_mid": 55, "c_high": 25, "pop": 20
+    })
+    assert broken_cloud["eligible"] is True
+    opaque_cloud = evaluate_cloud_light_state({
+        "c_low": 95, "c_mid": 90, "c_high": 80, "pop": 30
+    })
+    assert opaque_cloud["eligible"] is False
+    radiation_result = evaluate_opportunity_modules(radiation_profile, {
+        "direct_normal_irradiance": 320,
+        "c_low": 20, "c_mid": 55, "c_high": 25, "pop": 20,
+    })
+    assert radiation_result["available"] is True
+    assert radiation_result["eligible"] is True
+    assert set(radiation_result["modules"]) == {"radiation_DNI", "cloud_light_state"}
+
+    glow_profile = next(
+        o for o in all_opportunities if o["opportunity_id"] == "tw-026-P02"
+    )
+    glow_state = dependency_state(glow_profile)
+    assert glow_state["ready_components"] == ("radiation_DNI",)
+    assert glow_state["missing_components"] == ("cloud_sky_glow",)
+    assert runtime_policy(glow_profile) == "module_pending"
+
     tw052 = get_opportunities("tw", "tw-052")
     assert tw052[0]["runtime_policy"] == "hold"
     assert get_opportunities("jp", "jp-001") == []
@@ -235,8 +275,21 @@ def test_adapter_integrity():
     assert snow_diag["tw-019-P06"]["eligible"] is True
     assert "score" not in snow_diag["tw-019-P06"]
 
+    tw035 = next(s for s in tw if s["spot_id"] == "tw-035")
+    radiation_diag = fetch_data._build_opportunity_runtime_diagnostics(
+        tw035, {
+            "direct_normal_irradiance": 300,
+            "c_low": 20, "c_mid": 55, "c_high": 25, "pop": 15,
+            "astronomy_valid": True, "sun_azimuth": 270, "sun_elevation": 18, "hour": 16,
+        }
+    )
+    assert "tw-035-P02" in radiation_diag
+    assert radiation_diag["tw-035-P02"]["available"] is True
+    assert radiation_diag["tw-035-P02"]["eligible"] is True
+    assert "score" not in radiation_diag["tw-035-P02"]
+
     weather_url = fetch_data._build_open_meteo_url({"lat": 25.0, "lon": 121.0})
-    assert ",precipitation,precipitation_probability,snowfall,snow_depth," in weather_url
+    assert ",precipitation,precipitation_probability,snowfall,snow_depth,direct_normal_irradiance," in weather_url
 
 
 def test_schema9_optional_metadata_bridge():

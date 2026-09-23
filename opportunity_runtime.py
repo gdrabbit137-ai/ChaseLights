@@ -7,6 +7,9 @@ Implemented preview components:
   forecast precipitation amount, and precipitation-probability uncertainty.
 - snow_state: separates instantaneous ground snow depth from preceding-hour
   snowfall; does not infer snow cover from air temperature and does not detect rime.
+- radiation_DNI: direct-beam strength from hourly direct normal irradiance.
+- cloud_light_state: broken-cloud/opening structure for direct-beam ray outcomes;
+  intentionally separate from sunset sky-glow cloud illumination.
 
 A profile is preview_module_available only when every dependency in the formal
 runtime dependency inventory is implemented and configured for that Opportunity.
@@ -26,6 +29,8 @@ IMPLEMENTED_COMPONENTS = {
     "visibility",
     "water_surface_state",
     "snow_state",
+    "radiation_DNI",
+    "cloud_light_state",
 }
 
 DIRECTIONAL_HORIZON_SECTORS = {
@@ -303,11 +308,96 @@ def evaluate_snow_state(item_data):
     }
 
 
+def evaluate_radiation_dni(item_data):
+    """Evaluate hourly direct-beam strength from direct normal irradiance.
+
+    Open-Meteo direct_normal_irradiance is an hourly mean in W/m². This preview
+    signal is intentionally a direct-light availability diagnostic, not a
+    photographic quality score.
+    """
+    raw = item_data.get("direct_normal_irradiance", item_data.get("dni"))
+    if raw is None:
+        return {
+            "module": "radiation_DNI",
+            "available": False,
+            "eligible": False,
+            "reason": "dni_missing",
+        }
+
+    dni = max(0.0, float(raw))
+    if dni >= 250:
+        quality, eligible, reason = "strong", True, "strong_direct_beam"
+    elif dni >= 100:
+        quality, eligible, reason = "usable", True, "usable_direct_beam"
+    elif dni >= 40:
+        quality, eligible, reason = "weak", False, "weak_direct_beam"
+    else:
+        quality, eligible, reason = "minimal", False, "minimal_direct_beam"
+
+    return {
+        "module": "radiation_DNI",
+        "available": True,
+        "eligible": eligible,
+        "reason": reason,
+        "quality": quality,
+        "direct_normal_irradiance_wm2": round(dni, 1),
+    }
+
+
+def evaluate_cloud_light_state(item_data):
+    """Approximate broken-cloud structure for visible direct-beam/ray scenes.
+
+    This does not evaluate sunset afterglow or fire-cloud probability; those
+    remain under the separate cloud_sky_glow dependency.
+    """
+    values = [item_data.get("c_low"), item_data.get("c_mid"), item_data.get("c_high")]
+    if all(value is None for value in values):
+        return {
+            "module": "cloud_light_state",
+            "available": False,
+            "eligible": False,
+            "reason": "cloud_layers_missing",
+        }
+
+    low = max(0.0, min(100.0, float(item_data.get("c_low") or 0.0)))
+    mid = max(0.0, min(100.0, float(item_data.get("c_mid") or 0.0)))
+    high = max(0.0, min(100.0, float(item_data.get("c_high") or 0.0)))
+    pop_raw = item_data.get("pop")
+    pop = None if pop_raw is None else max(0.0, min(100.0, float(pop_raw)))
+    peak = max(low, mid, high)
+
+    if low >= 90 or (mid >= 95 and high >= 95):
+        structure, eligible, reason = "opaque", False, "cloud_too_opaque"
+    elif peak < 15:
+        structure, eligible, reason = "too_clear", False, "insufficient_cloud_contrast"
+    elif peak <= 85:
+        structure, eligible, reason = "broken", True, "broken_cloud_openings"
+    else:
+        structure, eligible, reason = "mostly_cloudy", False, "openings_too_limited"
+
+    if eligible and pop is not None and pop >= 60:
+        eligible, reason = False, "precipitation_risk"
+
+    return {
+        "module": "cloud_light_state",
+        "available": True,
+        "eligible": eligible,
+        "reason": reason,
+        "structure": structure,
+        "cloud_low": round(low),
+        "cloud_mid": round(mid),
+        "cloud_high": round(high),
+        "precipitation_probability": None if pop is None else round(pop),
+    }
+
+
 _COMPONENT_EVALUATORS = {
     "directional_horizon": evaluate_directional_horizon,
     "visibility": lambda opportunity, item_data: evaluate_visibility(item_data),
     "water_surface_state": lambda opportunity, item_data: evaluate_water_surface(item_data),
     "snow_state": lambda opportunity, item_data: evaluate_snow_state(item_data),
+    "radiation_DNI": lambda opportunity, item_data: evaluate_radiation_dni(item_data),
+    "cloud_light_state": lambda opportunity, item_data: evaluate_cloud_light_state(item_data),
 }
 
 
