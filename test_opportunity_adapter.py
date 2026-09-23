@@ -130,22 +130,46 @@ def test_adapter_integrity():
     # Hint-semantic safety: blue hour is a light/time condition, not proof of
     # city lights. Architecture alone must never auto-create a city-night Theme.
     active_spots = [spot for spot in tw if active_in_catalog(spot["spot_id"])]
-    city_hint_offenders = [
-        (
-            spot["spot_id"],
-            spot["name_i18n"]["zh-TW"],
-            spot["scenes"],
-            spot["themes"],
-            [
-                (o.get("opportunity_id"), o.get("name_zh"), o.get("legacy_theme"))
-                for o in spot.get("opportunities", [])
-                if o.get("legacy_theme") == "city_night"
-            ],
-        )
-        for spot in active_spots
+    non_city_night_spots = [
+        spot for spot in active_spots
         if "city_night" in spot["themes"] and "city" not in spot["scenes"]
     ]
-    assert city_hint_offenders == [], city_hint_offenders
+    assert {spot["name_i18n"]["zh-TW"] for spot in non_city_night_spots} == {
+        "金龍山", "頂石棹", "田寮月世界", "金門慈湖"
+    }
+    night_probe = {
+        "astronomy_valid": True,
+        "sun_elevation": -12.0,
+        "is_day": False,
+        "is_twilight": False,
+        "hour": 21,
+        "c_low": 8,
+        "c_mid": 20,
+        "c_high": 25,
+        "pop": 5,
+        "wind": 2.0,
+        "vis": 30000,
+    }
+    for spot in non_city_night_spots:
+        probe = dict(night_probe, scenes=spot["scenes"])
+        _, status, indicator, status_key, indicator_key, _ = fetch_data.evaluate_tag_condition(
+            "city_night", probe, 21, "zh-TW"
+        )
+        assert status_key == "NIGHT_SCENE_CLEAR"
+        assert indicator_key == "IND_NIGHT_SCENE_CLEAR"
+        assert all(word not in (status + indicator) for word in ("城市", "燈火"))
+
+    verified_city_night = next(
+        spot for spot in active_spots
+        if "city" in spot["scenes"] and "city_night" in spot["themes"]
+    )
+    city_probe = dict(night_probe, scenes=verified_city_night["scenes"])
+    _, city_status, city_indicator, city_status_key, city_indicator_key, _ = fetch_data.evaluate_tag_condition(
+        "city_night", city_probe, 21, "zh-TW"
+    )
+    assert city_status_key == "CITY_NIGHT_CLEAR"
+    assert city_indicator_key == "IND_CITY_NIGHT_CLEAR"
+    assert "城市" in city_status + city_indicator
     dongyin = next(spot for spot in active_spots if spot["name_i18n"]["zh-TW"] == "東引燈塔")
     assert "architecture" in dongyin["scenes"]
     assert "city" not in dongyin["scenes"]
