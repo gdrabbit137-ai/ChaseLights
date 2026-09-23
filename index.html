@@ -527,15 +527,15 @@
         }).join('');
         const scoreHtml=score===undefined||score===null?'':`<div class="opportunity-score ${opportunityScoreClass(score)}">${score}</div>`;
         const current=m?`<div><span class="research-label">${esc(d().guide_current)}：</span>${score} · ${esc(trMessage(m.status_key))}</div>`:'';
+        const metaRows=[];
+        if(op.best_time)metaRows.push(`<div><span class="research-label">${esc(d().guide_time)}：</span>${esc(op.best_time)}</div>`);
+        if(op.best_season)metaRows.push(`<div><span class="research-label">${esc(d().guide_season)}：</span>${esc(op.best_season)}</div>`);
+        if(viewpoints.length)metaRows.push(`<div><span class="research-label">${esc(d().guide_viewpoint)}：</span>${esc(viewpoints.join('／'))}</div>`);
         return `<div class="opportunity-card">
           <div class="opportunity-head"><div class="opportunity-title">${esc(op.name_zh||themeLabel(op.legacy_theme))}</div>${scoreHtml}</div>
-          <div class="opportunity-meta">
-            <div><span class="research-label">${esc(d().guide_time)}：</span>${esc(op.best_time||'—')}</div>
-            <div><span class="research-label">${esc(d().guide_season)}：</span>${esc(op.best_season||'—')}</div>
-            <div><span class="research-label">${esc(d().guide_viewpoint)}：</span>${esc(viewpoints.join('／')||'—')}</div>
-          </div>
+          ${metaRows.length?`<div class="opportunity-meta">${metaRows.join('')}</div>`:''}
           ${current}
-          <div class="research-block">${variants}</div>
+          ${variants?`<div class="research-block">${variants}</div>`:''}
         </div>`;
       }).join('');
       body.innerHTML=`<div class="place-guide-intro"><b>${esc(d().place_suitable)}</b><br>${esc(d().researched_only)}</div><div class="opportunity-list">${cards}</div>`;
