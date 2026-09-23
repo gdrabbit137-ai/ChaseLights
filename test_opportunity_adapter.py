@@ -39,6 +39,13 @@ from marine_state import (
     marine_sample_for_timestamp,
     validate_marine_state_registry,
 )
+from tide_state import (
+    TIDE_STATE_PROFILES,
+    evaluate_tide_state,
+    index_tide_response,
+    tide_sample_for_timestamp,
+    validate_tide_state_registry,
+)
 
 import analyze_weather
 import fetch_data
@@ -59,7 +66,7 @@ def _all_opportunities():
 
 
 def test_adapter_integrity():
-    assert ADAPTER_VERSION == "v0.04-r4.2-b23-preview"
+    assert ADAPTER_VERSION == "v0.04-r4.2-b24-preview"
     assert validate_curated_opportunities() == []
     assert validate_taxonomy() == []
     assert CATALOG_COUNTS == {
@@ -93,8 +100,8 @@ def test_adapter_integrity():
 
     policies = Counter(runtime_policy(o) for o in all_opportunities)
     assert policies == {
-        "module_pending": 73,
-        "preview_module_available": 58,
+        "module_pending": 67,
+        "preview_module_available": 64,
         "prototype_pending_certification": 41,
         "hold": 1,
         "data_insufficient": 1,
@@ -102,7 +109,7 @@ def test_adapter_integrity():
     assert runtime_policy(next(o for o in all_opportunities if o["opportunity_id"] == "tw-052-P01")) == "hold"
     assert runtime_policy(next(o for o in all_opportunities if o["opportunity_id"] == "tw-017-P01")) == "data_insufficient"
     assert validate_runtime_registry() == []
-    assert len(DIRECTIONAL_HORIZON_SECTORS) == 32
+    assert len(DIRECTIONAL_HORIZON_SECTORS) == 37
     directional = next(o for o in all_opportunities if o["opportunity_id"] == "tw-020-P01")
     assert runtime_policy(directional) == "preview_module_available"
     matched = evaluate_directional_horizon(directional, {
@@ -151,7 +158,8 @@ def test_adapter_integrity():
     assert IMPLEMENTED_COMPONENTS == {
         "directional_horizon", "visibility", "water_surface_state", "snow_state",
         "radiation_DNI", "cloud_light_state", "cloud_sky_glow",
-        "spatial_weather_vertical_cloud", "astronomy_ephemeris", "marine_state"
+        "spatial_weather_vertical_cloud", "astronomy_ephemeris", "marine_state",
+        "tide_state"
     }
     assert dependencies_for_status("needs_radiation_module") == ("radiation_DNI", "cloud_light_state")
     assert dependencies_for_status("needs_radiation_cloud_module") == ("radiation_DNI", "cloud_sky_glow")
@@ -569,8 +577,8 @@ def test_adapter_integrity():
 
     tw010_p01 = next(o for o in all_opportunities if o["opportunity_id"] == "tw-010-P01")
     state_010_p01 = dependency_state(tw010_p01)
-    assert state_010_p01["ready_components"] == ("marine_state", "directional_horizon")
-    assert state_010_p01["missing_components"] == ("tide_state", "dynamic_access")
+    assert state_010_p01["ready_components"] == ("marine_state", "tide_state", "directional_horizon")
+    assert state_010_p01["missing_components"] == ("dynamic_access",)
     assert runtime_policy(tw010_p01) == "module_pending"
 
     tw010_p02 = next(o for o in all_opportunities if o["opportunity_id"] == "tw-010-P02")
@@ -643,6 +651,91 @@ def test_adapter_integrity():
     assert "tw-036-P02" in astro_marine_diag
     assert astro_marine_diag["tw-036-P02"]["available"] is True
     assert astro_marine_diag["tw-036-P02"]["eligible"] is True
+
+    assert validate_tide_state_registry() == []
+    assert set(TIDE_STATE_PROFILES) == {
+        "tw-010-P01",
+        "tw-012-P01", "tw-012-P02",
+        "tw-015-P01", "tw-015-P02",
+        "tw-017-P02",
+        "tw-059-P01",
+        "tw-060-P01", "tw-060-P02", "tw-060-P03",
+    }
+
+    fake_tide_raw = {
+        "latitude": 24.0,
+        "longitude": 120.5,
+        "hourly": {
+            "time": [1900000000 + i * 3600 for i in range(8)],
+            "sea_level_height_msl": [-0.2, -0.4, -0.5, -0.35, -0.05, 0.25, 0.45, 0.2],
+        },
+    }
+    tide_index = index_tide_response(fake_tide_raw)
+    low_sample = tide_sample_for_timestamp(tide_index, 1900000000 + 2 * 3600)
+    high_sample = tide_sample_for_timestamp(tide_index, 1900000000 + 6 * 3600)
+    assert low_sample["relative_percentile"] < high_sample["relative_percentile"]
+    assert low_sample["datum_note"] == "global_mean_sea_level_not_local_chart_datum"
+
+    strict_profile = next(
+        o for o in all_opportunities if o["opportunity_id"] == "tw-059-P01"
+    )
+    strict_eval = evaluate_tide_state(
+        strict_profile, {"tide_forecast": low_sample}
+    )
+    assert strict_eval["available"] is True
+    assert strict_eval["eligible"] is True
+    assert strict_eval["absolute_local_tide_height_verified"] is False
+    assert strict_eval["marine_state_evaluated"] is False
+
+    strict_high = evaluate_tide_state(
+        strict_profile, {"tide_forecast": high_sample}
+    )
+    assert strict_high["eligible"] is False
+
+    reflection_profile = next(
+        o for o in all_opportunities if o["opportunity_id"] == "tw-012-P02"
+    )
+    very_low = dict(low_sample, relative_percentile=5.0)
+    reflection_low = evaluate_tide_state(
+        reflection_profile, {"tide_forecast": very_low}
+    )
+    assert reflection_low["eligible"] is False
+    assert reflection_low["reason"] == "too_low_for_reflective_water_film"
+
+    tide_complete_ids = {
+        "tw-012-P01", "tw-015-P01", "tw-017-P02",
+        "tw-060-P01", "tw-060-P02", "tw-060-P03",
+    }
+    assert all(
+        runtime_policy(next(o for o in all_opportunities if o["opportunity_id"] == oid))
+        == "preview_module_available"
+        for oid in tide_complete_ids
+    )
+
+    for oid in {"tw-012-P02", "tw-015-P02"}:
+        state = dependency_state(next(o for o in all_opportunities if o["opportunity_id"] == oid))
+        assert set(state["ready_components"]) == {"tide_state", "water_surface_state"}
+        assert state["missing_components"] == ("dynamic_access",)
+
+    state_059 = dependency_state(strict_profile)
+    assert state_059["ready_components"] == ("tide_state",)
+    assert state_059["missing_components"] == ("dynamic_access",)
+
+    tw060 = next(s for s in tw if s["spot_id"] == "tw-060")
+    tide_diag = fetch_data._build_opportunity_runtime_diagnostics(
+        tw060, {
+            "tide_forecast": low_sample,
+            "astronomy_valid": True,
+            "sun_azimuth": 270,
+            "sun_elevation": 1,
+            "hour": 18,
+        }
+    )
+    assert tide_diag["tw-060-P01"]["available"] is True
+    assert tide_diag["tw-060-P01"]["eligible"] is True
+    assert tide_diag["tw-060-P02"]["available"] is True
+    assert tide_diag["tw-060-P02"]["eligible"] is True
+    assert tide_diag["tw-060-P02"]["modules"]["tide_state"]["absolute_local_tide_height_verified"] is False
 
     tw052 = get_opportunities("tw", "tw-052")
     assert tw052[0]["runtime_policy"] == "hold"
@@ -735,6 +828,12 @@ def test_adapter_integrity():
     assert "swell_wave_height" in marine_url
     assert "swell_wave_period" in marine_url
     assert "sea_level_height_msl" not in marine_url
+
+    tide_url = fetch_data._build_tide_open_meteo_url({"lat": 24.0, "lon": 120.5})
+    assert tide_url.startswith("https://marine-api.open-meteo.com/v1/marine?")
+    assert "hourly=sea_level_height_msl" in tide_url
+    assert "cell_selection=sea" in tide_url
+    assert "wave_height" not in tide_url
 
     weather_url = fetch_data._build_open_meteo_url({"lat": 25.0, "lon": 121.0})
     assert ",precipitation,precipitation_probability,snowfall,snow_depth,direct_normal_irradiance," in weather_url

@@ -16,6 +16,11 @@ from marine_state import (
     marine_sample_for_timestamp,
     spot_requires_marine_state,
 )
+from tide_state import (
+    index_tide_response,
+    tide_sample_for_timestamp,
+    spot_requires_tide_state,
+)
 
 # 後端多國語言狀態與指標字典
 I18N_MESSAGES = {
@@ -108,6 +113,7 @@ _NOAA_KP_CACHE = None
 _WEATHER_RESPONSE_CACHE = {}
 _SPATIAL_WEATHER_RESPONSE_CACHE = {}
 _MARINE_RESPONSE_CACHE = {}
+_TIDE_RESPONSE_CACHE = {}
 
 
 def _request_json(url, timeout=12):
@@ -914,6 +920,34 @@ def _fetch_marine_response(spot):
     return indexed
 
 
+def _build_tide_open_meteo_url(spot):
+    lat = spot.get("lat")
+    lon = spot.get("lon")
+    params = [
+        f"latitude={lat}",
+        f"longitude={lon}",
+        "hourly=sea_level_height_msl",
+        "past_hours=24",
+        "forecast_hours=72",
+        "timezone=auto",
+        "timeformat=unixtime",
+        "cell_selection=sea",
+    ]
+    return "https://marine-api.open-meteo.com/v1/marine?" + "&".join(params)
+
+
+def _fetch_tide_response(spot):
+    if not spot_requires_tide_state(spot):
+        return None
+    key = (round(float(spot.get("lat")), 5), round(float(spot.get("lon")), 5))
+    if key in _TIDE_RESPONSE_CACHE:
+        return _TIDE_RESPONSE_CACHE[key]
+    raw = _request_json(_build_tide_open_meteo_url(spot))
+    indexed = index_tide_response(raw)
+    _TIDE_RESPONSE_CACHE[key] = indexed
+    return indexed
+
+
 def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
     lat = spot.get("lat")
     lon = spot.get("lon")
@@ -939,6 +973,12 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
         except Exception as marine_error:
             print(f"Marine weather fetch error for {spot.get('spot_id')}: {marine_error}")
             marine_index = None
+
+        try:
+            tide_index = _fetch_tide_response(spot)
+        except Exception as tide_error:
+            print(f"Tide fetch error for {spot.get('spot_id')}: {tide_error}")
+            tide_index = None
 
         tz_name = raw.get("timezone") or "UTC"
         try:
@@ -985,6 +1025,10 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
                 marine_sample_for_timestamp(marine_index, int(ts))
                 if marine_index is not None else None
             )
+            tide_forecast = (
+                tide_sample_for_timestamp(tide_index, int(ts))
+                if tide_index is not None else None
+            )
 
             item_data = {
                 "c_low": hv("cloud_cover_low", i, 0),
@@ -1014,6 +1058,7 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
                 "dark_sky_score": spot.get("dark_sky_score"),
                 "spatial_weather": spatial_weather,
                 "marine_forecast": marine_forecast,
+                "tide_forecast": tide_forecast,
                 **astro,
             }
 
@@ -1078,6 +1123,7 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
                 "snow_depth": item_data["snow_depth"],
                 "direct_normal_irradiance": item_data["direct_normal_irradiance"],
                 "marine_forecast": item_data["marine_forecast"],
+                "tide_forecast": item_data["tide_forecast"],
                 "visibility": round(float(item_data["vis"]) / 1000, 1),
                 "is_day": item_data["is_day"],
                 "is_twilight": is_twilight,

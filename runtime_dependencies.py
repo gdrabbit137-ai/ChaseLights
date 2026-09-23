@@ -4,7 +4,7 @@ This module separates content formula status from runtime implementation state.
 Every needs_* status maps to an explicit set of reusable runtime components.
 """
 
-DEPENDENCY_INVENTORY_VERSION = "r4.2-b23-deps-v5"
+DEPENDENCY_INVENTORY_VERSION = "r4.2-b24-deps-v6"
 
 FORMULA_DEPENDENCIES = {
     "needs_spatial_weather_module": ("spatial_weather_vertical_cloud",),

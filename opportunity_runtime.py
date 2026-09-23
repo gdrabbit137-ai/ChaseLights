@@ -18,6 +18,8 @@ Implemented preview components:
   light-pollution metadata. Exact foreground alignment remains separate.
 - marine_state: coarse-grid wave/swell energy diagnostic. It does not evaluate
   tide and never claims local shoreline safety.
+- tide_state: within-window relative sea-level percentile/trend diagnostic.
+  Absolute sea-level meters are not treated as a local chart-datum tide height.
 
 A profile is preview_module_available only when every dependency in the formal
 runtime dependency inventory is implemented and configured for that Opportunity.
@@ -41,8 +43,14 @@ from marine_state import (
     supports_marine_state,
     validate_marine_state_registry,
 )
+from tide_state import (
+    TIDE_STATE_PROFILES,
+    evaluate_tide_state,
+    supports_tide_state,
+    validate_tide_state_registry,
+)
 
-MODULE_VERSION = "opportunity-runtime-r7-preview"
+MODULE_VERSION = "opportunity-runtime-r8-preview"
 
 IMPLEMENTED_COMPONENTS = {
     "directional_horizon",
@@ -55,6 +63,7 @@ IMPLEMENTED_COMPONENTS = {
     "spatial_weather_vertical_cloud",
     "astronomy_ephemeris",
     "marine_state",
+    "tide_state",
 }
 
 DIRECTIONAL_HORIZON_SECTORS = {
@@ -66,6 +75,9 @@ DIRECTIONAL_HORIZON_SECTORS = {
     "tw-010-P01": {"center": 90.0, "tolerance": 75.0, "phase": "sunrise"},
     "tw-010-P03": {"center": 270.0, "tolerance": 75.0, "phase": "sunset"},
     "tw-011-P01": {"center": 270.0, "tolerance": 70.0, "phase": "sunset"},
+    "tw-012-P01": {"center": 270.0, "tolerance": 80.0, "phase": "sunset"},
+    "tw-015-P01": {"center": 270.0, "tolerance": 80.0, "phase": "sunset"},
+    "tw-017-P02": {"center": 270.0, "tolerance": 80.0, "phase": "sunset"},
     "tw-020-P01": {"center": 90.0, "tolerance": 70.0, "phase": "sunrise"},
     "tw-020-P02": {"center": 90.0, "tolerance": 70.0, "phase": "sunrise"},
     "tw-022-P01": {"center": 270.0, "tolerance": 70.0, "phase": "sunset"},
@@ -84,6 +96,8 @@ DIRECTIONAL_HORIZON_SECTORS = {
     "tw-043-P02": {"center": 270.0, "tolerance": 75.0, "phase": "sunset"},
     "tw-047-P02": {"center": 270.0, "tolerance": 75.0, "phase": "sunset"},
     "tw-051-P01": {"center": 270.0, "tolerance": 75.0, "phase": "sunset"},
+    "tw-060-P02": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
+    "tw-060-P03": {"center": 90.0, "tolerance": 80.0, "phase": "sunrise"},
     "tw-061-P01": {"center": 270.0, "tolerance": 75.0, "phase": "sunset"},
     "tw-065-P01": {"center": 247.5, "tolerance": 67.5, "phase": "sunset"},
     "tw-067-P01": {"center": 270.0, "tolerance": 75.0, "phase": "sunset"},
@@ -128,6 +142,8 @@ def component_ready_for_opportunity(component, opportunity):
         return opportunity.get("opportunity_id") in ASTRONOMY_EPHEMERIS_PROFILES
     if component == "marine_state":
         return supports_marine_state(opportunity)
+    if component == "tide_state":
+        return supports_tide_state(opportunity)
     return True
 
 
@@ -801,6 +817,7 @@ _COMPONENT_EVALUATORS = {
     "spatial_weather_vertical_cloud": evaluate_spatial_weather,
     "astronomy_ephemeris": evaluate_astronomy_ephemeris,
     "marine_state": evaluate_marine_state,
+    "tide_state": evaluate_tide_state,
 }
 
 
@@ -850,9 +867,10 @@ def validate_runtime_registry():
     errors = list(validate_dependency_inventory())
     errors.extend(validate_spatial_weather_registry())
     errors.extend(validate_marine_state_registry())
-    if len(DIRECTIONAL_HORIZON_SECTORS) != 32:
+    errors.extend(validate_tide_state_registry())
+    if len(DIRECTIONAL_HORIZON_SECTORS) != 37:
         errors.append(
-            f"expected 32 registered directional profiles, got {len(DIRECTIONAL_HORIZON_SECTORS)}"
+            f"expected 37 registered directional profiles, got {len(DIRECTIONAL_HORIZON_SECTORS)}"
         )
     if set(CLOUD_SKY_GLOW_PROFILES) != {"tw-013-P02", "tw-026-P02", "tw-030-P02", "tw-035-P04"}:
         errors.append(f"unexpected cloud_sky_glow registry: {sorted(CLOUD_SKY_GLOW_PROFILES)}")
@@ -868,6 +886,8 @@ def validate_runtime_registry():
         )
     if len(MARINE_STATE_PROFILES) != 9:
         errors.append(f"expected 9 marine-state profiles, got {len(MARINE_STATE_PROFILES)}")
+    if len(TIDE_STATE_PROFILES) != 10:
+        errors.append(f"expected 10 tide-state profiles, got {len(TIDE_STATE_PROFILES)}")
     for oid, sector in DIRECTIONAL_HORIZON_SECTORS.items():
         if not oid.startswith("tw-"):
             errors.append(f"{oid}: Taiwan Opportunity id expected")

@@ -18,7 +18,7 @@ from pathlib import Path
 
 from opportunity_runtime import dependency_state, supports_runtime_contract
 
-ADAPTER_VERSION = "v0.04-r4.2-b23-preview"
+ADAPTER_VERSION = "v0.04-r4.2-b24-preview"
 CATALOG_PART_PATTERN = "runtime_catalog_v004_r4_2_b15.compact.part{part}.b64"
 VALID_MODES = {"area_opportunity", "composition_specific"}
 VALID_TOPOLOGIES = {
