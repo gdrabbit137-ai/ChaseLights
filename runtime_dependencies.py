@@ -4,7 +4,7 @@ This module separates content formula status from runtime implementation state.
 Every needs_* status maps to an explicit set of reusable runtime components.
 """
 
-DEPENDENCY_INVENTORY_VERSION = "r4.2-b19-deps-v2"
+DEPENDENCY_INVENTORY_VERSION = "r4.2-b20-deps-v3"
 
 FORMULA_DEPENDENCIES = {
     "needs_spatial_weather_module": ("spatial_weather_vertical_cloud",),
@@ -81,17 +81,37 @@ SPECIAL_NON_MODULE_STATUSES = {
     "data_insufficient_geometry",
 }
 
+# Formula status is intentionally broad; these profiles need narrower contracts.
+# In particular, post-sunset sky-glow must not require positive DNI.
+OPPORTUNITY_DEPENDENCY_OVERRIDES = {
+    "tw-013-P02": ("radiation_DNI", "cloud_sky_glow"),
+    "tw-026-P02": ("cloud_sky_glow",),
+    "tw-030-P02": ("cloud_sky_glow",),
+}
+
 
 def dependencies_for_status(formula_status):
     return FORMULA_DEPENDENCIES.get(str(formula_status or ""), ())
 
 
 def dependencies_for_opportunity(opportunity):
+    oid = opportunity.get("opportunity_id")
+    if oid in OPPORTUNITY_DEPENDENCY_OVERRIDES:
+        return OPPORTUNITY_DEPENDENCY_OVERRIDES[oid]
     return dependencies_for_status(opportunity.get("formula_status"))
 
 
 def validate_dependency_inventory(known_formula_statuses=None):
     errors = []
+    for oid, dependencies in OPPORTUNITY_DEPENDENCY_OVERRIDES.items():
+        if not str(oid).startswith("tw-"):
+            errors.append(f"{oid}: invalid opportunity override id")
+        if not dependencies:
+            errors.append(f"{oid}: empty opportunity dependency override")
+        unknown = sorted(set(dependencies) - KNOWN_COMPONENTS)
+        if unknown:
+            errors.append(f"{oid}: unknown override components {unknown}")
+
     for status, dependencies in FORMULA_DEPENDENCIES.items():
         if not status.startswith("needs_"):
             errors.append(f"{status}: dependency status must start with needs_")

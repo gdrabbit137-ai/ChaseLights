@@ -8,8 +8,9 @@ Implemented preview components:
 - snow_state: separates instantaneous ground snow depth from preceding-hour
   snowfall; does not infer snow cover from air temperature and does not detect rime.
 - radiation_DNI: direct-beam strength from hourly direct normal irradiance.
-- cloud_light_state: broken-cloud/opening structure for direct-beam ray outcomes;
-  intentionally separate from sunset sky-glow cloud illumination.
+- cloud_light_state: broken-cloud/opening structure for direct-beam ray outcomes.
+- cloud_sky_glow: opportunity-specific sunset/afterglow potential using solar
+  geometry plus low/mid/high cloud structure; it predicts potential, not color.
 
 A profile is preview_module_available only when every dependency in the formal
 runtime dependency inventory is implemented and configured for that Opportunity.
@@ -22,7 +23,7 @@ from runtime_dependencies import (
     validate_dependency_inventory,
 )
 
-MODULE_VERSION = "opportunity-runtime-r3-preview"
+MODULE_VERSION = "opportunity-runtime-r4-preview"
 
 IMPLEMENTED_COMPONENTS = {
     "directional_horizon",
@@ -31,6 +32,7 @@ IMPLEMENTED_COMPONENTS = {
     "snow_state",
     "radiation_DNI",
     "cloud_light_state",
+    "cloud_sky_glow",
 }
 
 DIRECTIONAL_HORIZON_SECTORS = {
@@ -49,11 +51,19 @@ DIRECTIONAL_HORIZON_SECTORS = {
     "tw-028-P01": {"center": 270.0, "tolerance": 90.0, "phase": "sunset"},
     "tw-030-P01": {"center": 270.0, "tolerance": 70.0, "phase": "sunset"},
     "tw-035-P03": {"center": 270.0, "tolerance": 70.0, "phase": "sunset"},
+    "tw-035-P04": {"center": 270.0, "tolerance": 75.0, "phase": "sunset"},
     "tw-051-P01": {"center": 270.0, "tolerance": 75.0, "phase": "sunset"},
     "tw-061-P01": {"center": 270.0, "tolerance": 75.0, "phase": "sunset"},
     "tw-065-P01": {"center": 247.5, "tolerance": 67.5, "phase": "sunset"},
     "tw-067-P01": {"center": 270.0, "tolerance": 75.0, "phase": "sunset"},
     "tw-070-P01": {"center": 247.5, "tolerance": 67.5, "phase": "sunset"},
+}
+
+CLOUD_SKY_GLOW_PROFILES = {
+    "tw-013-P02": {"mode": "terrain_illumination", "target_center": 270.0, "target_tolerance": 85.0},
+    "tw-026-P02": {"mode": "afterglow_sky", "target_center": 270.0, "target_tolerance": 85.0},
+    "tw-030-P02": {"mode": "afterglow_sky", "target_center": 270.0, "target_tolerance": 85.0},
+    "tw-035-P04": {"mode": "afterglow_sky", "target_center": 270.0, "target_tolerance": 85.0},
 }
 
 
@@ -66,6 +76,8 @@ def component_ready_for_opportunity(component, opportunity):
         return False
     if component == "directional_horizon":
         return opportunity.get("opportunity_id") in DIRECTIONAL_HORIZON_SECTORS
+    if component == "cloud_sky_glow":
+        return opportunity.get("opportunity_id") in CLOUD_SKY_GLOW_PROFILES
     return True
 
 
@@ -391,6 +403,123 @@ def evaluate_cloud_light_state(item_data):
     }
 
 
+def evaluate_cloud_sky_glow(opportunity, item_data):
+    """Estimate sunset/afterglow potential without claiming observed sky color.
+
+    Point cloud-cover fields are not sector-resolved. Low cloud is therefore a
+    horizon-obstruction proxy, while mid/high cloud is a texture/illumination
+    proxy. The result is preview potential only.
+    """
+    oid = opportunity.get("opportunity_id")
+    config = CLOUD_SKY_GLOW_PROFILES.get(oid)
+    if not config:
+        return {
+            "module": "cloud_sky_glow",
+            "available": False,
+            "eligible": False,
+            "reason": "opportunity_mode_not_configured",
+        }
+
+    if not item_data.get("astronomy_valid"):
+        return {
+            "module": "cloud_sky_glow",
+            "available": True,
+            "eligible": False,
+            "reason": "astronomy_unavailable",
+        }
+
+    sun_alt = item_data.get("sun_elevation")
+    sun_az = item_data.get("sun_azimuth")
+    if sun_alt is None or sun_az is None:
+        return {
+            "module": "cloud_sky_glow",
+            "available": True,
+            "eligible": False,
+            "reason": "solar_geometry_missing",
+        }
+
+    hour = item_data.get("hour")
+    if hour is not None and int(hour) < 12:
+        return {
+            "module": "cloud_sky_glow",
+            "available": True,
+            "eligible": False,
+            "reason": "wrong_daypart",
+        }
+
+    target_diff = _angle_diff(float(sun_az), config["target_center"])
+    if target_diff > config["target_tolerance"]:
+        return {
+            "module": "cloud_sky_glow",
+            "available": True,
+            "eligible": False,
+            "reason": "sun_outside_western_sector",
+            "sun_azimuth": round(float(sun_az), 1),
+            "angle_diff": round(target_diff, 1),
+        }
+
+    low_raw = item_data.get("c_low")
+    mid_raw = item_data.get("c_mid")
+    high_raw = item_data.get("c_high")
+    if low_raw is None or mid_raw is None or high_raw is None:
+        return {
+            "module": "cloud_sky_glow",
+            "available": False,
+            "eligible": False,
+            "reason": "cloud_layers_missing",
+        }
+
+    low = max(0.0, min(100.0, float(low_raw)))
+    mid = max(0.0, min(100.0, float(mid_raw)))
+    high = max(0.0, min(100.0, float(high_raw)))
+    precip_raw = item_data.get("precipitation", item_data.get("precip"))
+    precip = None if precip_raw is None else max(0.0, float(precip_raw))
+    pop_raw = item_data.get("pop", item_data.get("precipitation_probability"))
+    pop = None if pop_raw is None else max(0.0, min(100.0, float(pop_raw)))
+
+    if precip is not None and precip >= 0.5:
+        reason, eligible = "heavy_precipitation", False
+    elif pop is not None and pop >= 80:
+        reason, eligible = "high_precipitation_risk", False
+    elif low >= 85:
+        reason, eligible = "low_horizon_cloud_blocked", False
+    else:
+        mode = config["mode"]
+        altitude = float(sun_alt)
+        if mode == "terrain_illumination":
+            if not 0.0 <= altitude <= 12.0:
+                reason, eligible = "outside_low_angle_sun_window", False
+            else:
+                reason, eligible = "terrain_light_path_open", True
+        else:
+            if not -7.0 <= altitude <= 5.0:
+                reason, eligible = "outside_sunset_civil_twilight_window", False
+            elif low >= 70 and mid >= 85 and high >= 85:
+                reason, eligible = "uniform_overcast", False
+            elif max(mid, high) < 15:
+                reason, eligible = "insufficient_mid_high_cloud_texture", False
+            else:
+                reason, eligible = "sky_glow_potential", True
+
+    return {
+        "module": "cloud_sky_glow",
+        "available": True,
+        "eligible": eligible,
+        "reason": reason,
+        "mode": config["mode"],
+        "sun_azimuth": round(float(sun_az), 1),
+        "sun_elevation": round(float(sun_alt), 1),
+        "cloud_low": round(low),
+        "cloud_mid": round(mid),
+        "cloud_high": round(high),
+        "precipitation_mm": None if precip is None else round(precip, 2),
+        "precipitation_probability": None if pop is None else round(pop),
+        "color_observed": False,
+        "direction_resolution": "point_cloud_proxy_not_sector_resolved",
+        "confidence_hint": "medium" if eligible else "low",
+    }
+
+
 _COMPONENT_EVALUATORS = {
     "directional_horizon": evaluate_directional_horizon,
     "visibility": lambda opportunity, item_data: evaluate_visibility(item_data),
@@ -398,6 +527,7 @@ _COMPONENT_EVALUATORS = {
     "snow_state": lambda opportunity, item_data: evaluate_snow_state(item_data),
     "radiation_DNI": lambda opportunity, item_data: evaluate_radiation_dni(item_data),
     "cloud_light_state": lambda opportunity, item_data: evaluate_cloud_light_state(item_data),
+    "cloud_sky_glow": evaluate_cloud_sky_glow,
 }
 
 
@@ -445,10 +575,12 @@ def evaluate_opportunity_modules(opportunity, item_data):
 
 def validate_runtime_registry():
     errors = list(validate_dependency_inventory())
-    if len(DIRECTIONAL_HORIZON_SECTORS) != 20:
+    if len(DIRECTIONAL_HORIZON_SECTORS) != 21:
         errors.append(
-            f"expected 20 registered directional profiles, got {len(DIRECTIONAL_HORIZON_SECTORS)}"
+            f"expected 21 registered directional profiles, got {len(DIRECTIONAL_HORIZON_SECTORS)}"
         )
+    if set(CLOUD_SKY_GLOW_PROFILES) != {"tw-013-P02", "tw-026-P02", "tw-030-P02", "tw-035-P04"}:
+        errors.append(f"unexpected cloud_sky_glow registry: {sorted(CLOUD_SKY_GLOW_PROFILES)}")
     for oid, sector in DIRECTIONAL_HORIZON_SECTORS.items():
         if not oid.startswith("tw-"):
             errors.append(f"{oid}: Taiwan Opportunity id expected")

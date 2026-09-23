@@ -11,10 +11,17 @@ from opportunity_runtime import (
     evaluate_snow_state,
     evaluate_radiation_dni,
     evaluate_cloud_light_state,
+    evaluate_cloud_sky_glow,
     evaluate_opportunity_modules,
     validate_runtime_registry,
 )
-from runtime_dependencies import FORMULA_DEPENDENCIES, dependencies_for_status, validate_dependency_inventory
+from runtime_dependencies import (
+    FORMULA_DEPENDENCIES,
+    OPPORTUNITY_DEPENDENCY_OVERRIDES,
+    dependencies_for_status,
+    dependencies_for_opportunity,
+    validate_dependency_inventory,
+)
 
 import analyze_weather
 import fetch_data
@@ -35,7 +42,7 @@ def _all_opportunities():
 
 
 def test_adapter_integrity():
-    assert ADAPTER_VERSION == "v0.04-r4.2-b19-preview"
+    assert ADAPTER_VERSION == "v0.04-r4.2-b20-preview"
     assert validate_curated_opportunities() == []
     assert validate_taxonomy() == []
     assert CATALOG_COUNTS == {
@@ -69,8 +76,8 @@ def test_adapter_integrity():
 
     policies = Counter(runtime_policy(o) for o in all_opportunities)
     assert policies == {
-        "module_pending": 102,
-        "preview_module_available": 29,
+        "module_pending": 98,
+        "preview_module_available": 33,
         "prototype_pending_certification": 41,
         "hold": 1,
         "data_insufficient": 1,
@@ -78,7 +85,7 @@ def test_adapter_integrity():
     assert runtime_policy(next(o for o in all_opportunities if o["opportunity_id"] == "tw-052-P01")) == "hold"
     assert runtime_policy(next(o for o in all_opportunities if o["opportunity_id"] == "tw-017-P01")) == "data_insufficient"
     assert validate_runtime_registry() == []
-    assert len(DIRECTIONAL_HORIZON_SECTORS) == 20
+    assert len(DIRECTIONAL_HORIZON_SECTORS) == 21
     directional = next(o for o in all_opportunities if o["opportunity_id"] == "tw-020-P01")
     assert runtime_policy(directional) == "preview_module_available"
     matched = evaluate_directional_horizon(directional, {
@@ -126,7 +133,7 @@ def test_adapter_integrity():
     assert dependencies_for_status("needs_directional_horizon_cloud_sky_glow_module") == ("directional_horizon", "cloud_sky_glow")
     assert IMPLEMENTED_COMPONENTS == {
         "directional_horizon", "visibility", "water_surface_state", "snow_state",
-        "radiation_DNI", "cloud_light_state"
+        "radiation_DNI", "cloud_light_state", "cloud_sky_glow"
     }
     assert dependencies_for_status("needs_radiation_module") == ("radiation_DNI", "cloud_light_state")
     assert dependencies_for_status("needs_radiation_cloud_module") == ("radiation_DNI", "cloud_sky_glow")
@@ -235,13 +242,63 @@ def test_adapter_integrity():
     assert radiation_result["eligible"] is True
     assert set(radiation_result["modules"]) == {"radiation_DNI", "cloud_light_state"}
 
+    assert OPPORTUNITY_DEPENDENCY_OVERRIDES == {
+        "tw-013-P02": ("radiation_DNI", "cloud_sky_glow"),
+        "tw-026-P02": ("cloud_sky_glow",),
+        "tw-030-P02": ("cloud_sky_glow",),
+    }
+
+    terrain_glow = next(
+        o for o in all_opportunities if o["opportunity_id"] == "tw-013-P02"
+    )
+    assert dependencies_for_opportunity(terrain_glow) == ("radiation_DNI", "cloud_sky_glow")
+    assert runtime_policy(terrain_glow) == "preview_module_available"
+    terrain_cloud = evaluate_cloud_sky_glow(terrain_glow, {
+        "astronomy_valid": True, "sun_azimuth": 270, "sun_elevation": 6, "hour": 17,
+        "c_low": 25, "c_mid": 50, "c_high": 40, "precipitation": 0.0, "pop": 20,
+    })
+    assert terrain_cloud["eligible"] is True
+    assert terrain_cloud["mode"] == "terrain_illumination"
+
     glow_profile = next(
         o for o in all_opportunities if o["opportunity_id"] == "tw-026-P02"
     )
-    glow_state = dependency_state(glow_profile)
-    assert glow_state["ready_components"] == ("radiation_DNI",)
-    assert glow_state["missing_components"] == ("cloud_sky_glow",)
-    assert runtime_policy(glow_profile) == "module_pending"
+    assert dependencies_for_opportunity(glow_profile) == ("cloud_sky_glow",)
+    assert runtime_policy(glow_profile) == "preview_module_available"
+    afterglow = evaluate_cloud_sky_glow(glow_profile, {
+        "astronomy_valid": True, "sun_azimuth": 275, "sun_elevation": -3, "hour": 18,
+        "c_low": 20, "c_mid": 55, "c_high": 35, "precipitation": 0.0, "pop": 20,
+        "direct_normal_irradiance": 0,
+    })
+    assert afterglow["eligible"] is True
+    assert afterglow["reason"] == "sky_glow_potential"
+    assert afterglow["color_observed"] is False
+
+    blocked_glow = evaluate_cloud_sky_glow(glow_profile, {
+        "astronomy_valid": True, "sun_azimuth": 275, "sun_elevation": -3, "hour": 18,
+        "c_low": 92, "c_mid": 90, "c_high": 90, "precipitation": 0.0, "pop": 20,
+    })
+    assert blocked_glow["eligible"] is False
+    assert blocked_glow["reason"] == "low_horizon_cloud_blocked"
+
+    cloudless_glow = evaluate_cloud_sky_glow(glow_profile, {
+        "astronomy_valid": True, "sun_azimuth": 275, "sun_elevation": -3, "hour": 18,
+        "c_low": 5, "c_mid": 5, "c_high": 5, "precipitation": 0.0, "pop": 10,
+    })
+    assert cloudless_glow["eligible"] is False
+    assert cloudless_glow["reason"] == "insufficient_mid_high_cloud_texture"
+
+    liushishi_glow = next(
+        o for o in all_opportunities if o["opportunity_id"] == "tw-035-P04"
+    )
+    assert runtime_policy(liushishi_glow) == "preview_module_available"
+    liushishi_result = evaluate_opportunity_modules(liushishi_glow, {
+        "astronomy_valid": True, "sun_azimuth": 272, "sun_elevation": -2, "hour": 18,
+        "c_low": 20, "c_mid": 50, "c_high": 30, "precipitation": 0.0, "pop": 15,
+    })
+    assert liushishi_result["available"] is True
+    assert liushishi_result["eligible"] is True
+    assert set(liushishi_result["modules"]) == {"directional_horizon", "cloud_sky_glow"}
 
     tw052 = get_opportunities("tw", "tw-052")
     assert tw052[0]["runtime_policy"] == "hold"
@@ -287,6 +344,18 @@ def test_adapter_integrity():
     assert radiation_diag["tw-035-P02"]["available"] is True
     assert radiation_diag["tw-035-P02"]["eligible"] is True
     assert "score" not in radiation_diag["tw-035-P02"]
+
+    tw026 = next(s for s in tw if s["spot_id"] == "tw-026")
+    glow_diag = fetch_data._build_opportunity_runtime_diagnostics(
+        tw026, {
+            "astronomy_valid": True, "sun_azimuth": 275, "sun_elevation": -3, "hour": 18,
+            "c_low": 20, "c_mid": 55, "c_high": 35, "precipitation": 0.0, "pop": 20,
+        }
+    )
+    assert "tw-026-P02" in glow_diag
+    assert glow_diag["tw-026-P02"]["available"] is True
+    assert glow_diag["tw-026-P02"]["eligible"] is True
+    assert "score" not in glow_diag["tw-026-P02"]
 
     weather_url = fetch_data._build_open_meteo_url({"lat": 25.0, "lon": 121.0})
     assert ",precipitation,precipitation_probability,snowfall,snow_depth,direct_normal_irradiance," in weather_url
