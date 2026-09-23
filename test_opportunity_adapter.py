@@ -763,7 +763,8 @@ def test_adapter_integrity():
     assert set(ACCESS_PROFILE_CLASSIFICATION) == set(ACCESS_DEPENDENT_PROFILE_IDS)
     assert ACCESS_RUNTIME_READY_PROFILES == frozenset()
     assert HARD_ACCESS_HOLDS["tw-052"]["policy"] == "hold"
-    assert {"tw-005", "tw-037", "tw-038"} <= set(OFFICIAL_SOURCE_HINTS)\n    assert "tw-063" not in OFFICIAL_SOURCE_HINTS
+    assert {"tw-005", "tw-037", "tw-038"} <= set(OFFICIAL_SOURCE_HINTS)
+    assert "tw-063" not in OFFICIAL_SOURCE_HINTS
     assert all(
         runtime_policy(o) == "module_pending"
         for o in dynamic_profiles
