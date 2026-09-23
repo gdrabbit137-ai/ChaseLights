@@ -164,12 +164,19 @@ def _build_day_summaries(hourly, themes, opportunities=None):
         if opportunity_summaries:
             winner_id = max(opportunity_summaries, key=lambda oid: opportunity_summaries[oid]["score"])
             winner = dict(opportunity_summaries[winner_id])
-        elif theme_summaries:
-            winner_theme = max(theme_summaries, key=lambda t: theme_summaries[t]["score"])
-            winner = dict(theme_summaries[winner_theme])
-            winner["theme"] = winner_theme
+            winner["research_pending"] = False
         else:
-            winner = {"theme": None, "score": 0}
+            # A Place without curated Photography Opportunities may keep legacy
+            # Theme metrics for compatibility/weather inspection, but it must
+            # not publish a photography recommendation score. Research first.
+            winner = {
+                "theme": None,
+                "score": None,
+                "research_pending": True,
+                "status_key": "OPPORTUNITY_DATA_INSUFFICIENT",
+                "indicator_key": "OPPORTUNITY_DATA_INSUFFICIENT",
+                "factors": [],
+            }
 
         days.append({
             "date": date,
