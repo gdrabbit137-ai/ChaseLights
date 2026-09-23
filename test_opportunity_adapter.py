@@ -228,7 +228,10 @@ def test_adapter_integrity():
 
     formula_statuses = {o["formula_status"] for o in all_opportunities}
     needs_statuses = {s for s in formula_statuses if s.startswith("needs_")}
-    assert needs_statuses == set(FORMULA_DEPENDENCIES)
+    assert needs_statuses == set(FORMULA_DEPENDENCIES), {
+        "missing_dependency_mappings": sorted(needs_statuses - set(FORMULA_DEPENDENCIES)),
+        "unused_dependency_mappings": sorted(set(FORMULA_DEPENDENCIES) - needs_statuses),
+    }
     assert validate_dependency_inventory(formula_statuses) == []
     assert dependencies_for_status("needs_dynamic_access_visibility_module") == ("dynamic_access", "visibility")
     assert dependencies_for_status("needs_directional_horizon_cloud_sky_glow_module") == ("directional_horizon", "cloud_sky_glow")
