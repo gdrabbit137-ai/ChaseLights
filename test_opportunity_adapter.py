@@ -1068,19 +1068,19 @@ def test_adapter_integrity():
     assert missed["condition_state"] == "dedicated_conditions_miss"
 
     pending = next(o for o in all_opportunities if runtime_policy(o) == "module_pending")
-    pending_score = fetch_data._score_opportunity(pending, high_theme_metric, {}, "zh-TW")
+    pending_score = fetch_data._score_opportunity(dict(pending, runtime_policy=runtime_policy(pending)), high_theme_metric, {}, "zh-TW")
     assert pending_score["score"] <= 64
 
     prototype = next(o for o in all_opportunities if runtime_policy(o) == "prototype_pending_certification")
-    prototype_score = fetch_data._score_opportunity(prototype, high_theme_metric, {}, "zh-TW")
+    prototype_score = fetch_data._score_opportunity(dict(prototype, runtime_policy=runtime_policy(prototype)), high_theme_metric, {}, "zh-TW")
     assert prototype_score["score"] <= 79
 
     held = next(o for o in all_opportunities if runtime_policy(o) == "hold")
-    hold_score = fetch_data._score_opportunity(held, high_theme_metric, {}, "zh-TW")
+    hold_score = fetch_data._score_opportunity(dict(held, runtime_policy=runtime_policy(held)), high_theme_metric, {}, "zh-TW")
     assert hold_score["score"] == 0
 
     insufficient = next(o for o in all_opportunities if runtime_policy(o) == "data_insufficient")
-    insufficient_score = fetch_data._score_opportunity(insufficient, high_theme_metric, {}, "zh-TW")
+    insufficient_score = fetch_data._score_opportunity(dict(insufficient, runtime_policy=runtime_policy(insufficient)), high_theme_metric, {}, "zh-TW")
     assert insufficient_score["score"] <= 35
 
     tw019 = next(s for s in tw if s["spot_id"] == "tw-019")
