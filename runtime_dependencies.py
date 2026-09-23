@@ -44,7 +44,6 @@ FORMULA_DEPENDENCIES = {
     "needs_lake_level_mist_access_module": ("lake_water_level", "mist_state", "dynamic_access"),
     "needs_tide_access_module": ("tide_state", "dynamic_access"),
     "needs_tide_module": ("tide_state",),
-    "needs_nonweather_access_surface_module": ("dynamic_access", "water_surface_state"),
     "needs_directional_horizon_wildlife_module": ("directional_horizon", "wildlife_state"),
     "needs_directional_horizon_cultural_permission_module": ("directional_horizon", "cultural_permission"),
 }
