@@ -18,7 +18,7 @@ from pathlib import Path
 
 from opportunity_runtime import dependency_state, supports_runtime_contract
 
-ADAPTER_VERSION = "v0.04-r4.2-b28-p0-batch1-preview"
+ADAPTER_VERSION = "v0.04-r4.2-b28-p0-batch2-preview"
 CATALOG_PART_PATTERN = "runtime_catalog_v004_r4_2_b15.compact.part{part}.b64"
 VALID_MODES = {"area_opportunity", "composition_specific"}
 VALID_TOPOLOGIES = {
@@ -53,7 +53,7 @@ B28_ADDITIONS_FILE = "runtime_catalog_v004_r4_2_b28_additions.json"
 def _load_b28_additions():
     path = Path(__file__).parent / B28_ADDITIONS_FILE
     payload = json.loads(path.read_text(encoding="utf-8"))
-    if payload.get("schema_version") != "v0.04-r4.2-b28-additions-1":
+    if payload.get("schema_version") != "v0.04-r4.2-b28-additions-2":
         raise ValueError(f"Unexpected B28 additions version: {payload.get('schema_version')}")
     return payload
 
@@ -143,7 +143,7 @@ def validate_curated_opportunities():
     variant_ids = set()
     viewpoint_relations = 0
 
-    expected_spots = {f"tw-{i:03d}" for i in range(1, 74)} - RETIRED_SPOT_IDS
+    expected_spots = {f"tw-{i:03d}" for i in range(1, 76)} - RETIRED_SPOT_IDS
     actual_spots = set(CURATED_OPPORTUNITIES)
     if actual_spots != expected_spots:
         errors.append(
@@ -214,12 +214,12 @@ def validate_curated_opportunities():
                 errors.append(f"{oid}: missing profile_viewpoint relation")
             viewpoint_relations += len(viewpoints)
 
-    if len(opportunity_ids) != 176:
-        errors.append(f"expected 176 opportunities, got {len(opportunity_ids)}")
-    if len(variant_ids) != 185:
-        errors.append(f"expected 185 variants, got {len(variant_ids)}")
-    if viewpoint_relations != 181:
-        errors.append(f"expected 181 profile_viewpoint relations, got {viewpoint_relations}")
+    if len(opportunity_ids) != 179:
+        errors.append(f"expected 179 opportunities, got {len(opportunity_ids)}")
+    if len(variant_ids) != 189:
+        errors.append(f"expected 189 variants, got {len(variant_ids)}")
+    if viewpoint_relations != 184:
+        errors.append(f"expected 184 profile_viewpoint relations, got {viewpoint_relations}")
 
     exact = {
         opportunity["opportunity_id"]
