@@ -18,7 +18,7 @@ from pathlib import Path
 
 from opportunity_runtime import dependency_state, supports_runtime_contract
 
-ADAPTER_VERSION = "v0.04-r4.2-b28-p0-batch5-preview"
+ADAPTER_VERSION = "v0.04-r4.2-b28-p0-final-simple-preview"
 CATALOG_PART_PATTERN = "runtime_catalog_v004_r4_2_b15.compact.part{part}.b64"
 VALID_MODES = {"area_opportunity", "composition_specific"}
 VALID_TOPOLOGIES = {
@@ -214,12 +214,12 @@ def validate_curated_opportunities():
                 errors.append(f"{oid}: missing profile_viewpoint relation")
             viewpoint_relations += len(viewpoints)
 
-    if len(opportunity_ids) != 191:
-        errors.append(f"expected 191 opportunities, got {len(opportunity_ids)}")
-    if len(variant_ids) != 201:
-        errors.append(f"expected 201 variants, got {len(variant_ids)}")
-    if viewpoint_relations != 196:
-        errors.append(f"expected 196 profile_viewpoint relations, got {viewpoint_relations}")
+    if len(opportunity_ids) != 189:
+        errors.append(f"expected 189 opportunities, got {len(opportunity_ids)}")
+    if len(variant_ids) != 199:
+        errors.append(f"expected 199 variants, got {len(variant_ids)}")
+    if viewpoint_relations != 194:
+        errors.append(f"expected 194 profile_viewpoint relations, got {viewpoint_relations}")
 
     exact = {
         opportunity["opportunity_id"]
