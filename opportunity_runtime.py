@@ -3,8 +3,8 @@
 Implemented preview components:
 - directional_horizon: broad sunrise/sunset sectors; never exact alignment.
 - visibility: horizontal forecast visibility diagnostic.
-- water_surface_state: conservative reflection/calm-water diagnostic from wind
-  and precipitation probability.
+- water_surface_state: conservative reflection/calm-water diagnostic from wind,
+  forecast precipitation amount, and precipitation-probability uncertainty.
 
 A profile is preview_module_available only when every dependency in the formal
 runtime dependency inventory is implemented and configured for that Opportunity.
@@ -193,33 +193,44 @@ def evaluate_visibility(item_data):
 
 
 def evaluate_water_surface(item_data):
-    """Conservative calm/reflection signal from existing trustworthy inputs.
+    """Conservative calm/reflection signal from forecast surface inputs.
 
-    Wind is the primary surface-state proxy. Precipitation probability is used
-    only as a risk modifier; this module does not infer tide, lake level, swell,
-    or actual rainfall from ordinary weather fields.
+    Wind is the primary surface-state proxy. Forecast precipitation amount is a
+    hard disturbance signal when available. Precipitation probability is only
+    uncertainty context; it is never treated as observed rain. This module does
+    not infer tide, lake level, swell, or marine state.
     """
     wind = item_data.get("wind")
-    pop = item_data.get("pop")
-    if wind is None or pop is None:
+    if wind is None:
         return {
             "module": "water_surface_state",
             "available": False,
             "eligible": False,
-            "reason": "wind_or_precipitation_probability_missing",
+            "reason": "wind_missing",
         }
 
     wind = max(0.0, float(wind))
-    pop = max(0.0, min(100.0, float(pop)))
+    precip_raw = item_data.get("precipitation", item_data.get("precip"))
+    precip = None if precip_raw is None else max(0.0, float(precip_raw))
+    pop_raw = item_data.get("pop", item_data.get("precipitation_probability"))
+    pop = None if pop_raw is None else max(0.0, min(100.0, float(pop_raw)))
 
-    if wind <= 2.0 and pop <= 40.0:
+    if precip is not None and precip >= 0.2:
+        quality, eligible, reason = "rain_disturbed", False, "precipitation_disturbance"
+    elif wind <= 1.5:
         quality, eligible, reason = "mirror_candidate", True, "surface_very_calm"
-    elif wind <= 4.0 and pop <= 50.0:
+    elif wind <= 2.5:
         quality, eligible, reason = "reflection_usable", True, "surface_calm_enough"
-    elif wind > 4.0:
-        quality, eligible, reason = "rough", False, "wind_too_strong"
+    elif wind <= 4.0:
+        quality, eligible, reason = "rippled", False, "surface_rippled"
     else:
-        quality, eligible, reason = "rain_risk", False, "precipitation_risk"
+        quality, eligible, reason = "rough", False, "wind_too_strong"
+
+    confidence_hint = "high"
+    if precip is None:
+        confidence_hint = "medium"
+    if pop is not None and pop >= 60:
+        confidence_hint = "medium" if confidence_hint == "high" else "low"
 
     return {
         "module": "water_surface_state",
@@ -228,9 +239,10 @@ def evaluate_water_surface(item_data):
         "reason": reason,
         "quality": quality,
         "wind_mps": round(wind, 1),
-        "precipitation_probability": round(pop),
+        "precipitation_mm": None if precip is None else round(precip, 2),
+        "precipitation_probability": None if pop is None else round(pop),
+        "confidence_hint": confidence_hint,
     }
-
 
 _COMPONENT_EVALUATORS = {
     "directional_horizon": evaluate_directional_horizon,

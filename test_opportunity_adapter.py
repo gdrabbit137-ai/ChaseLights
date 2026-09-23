@@ -129,18 +129,27 @@ def test_adapter_integrity():
     assert len(water_surface_profiles) == 4
     assert all(runtime_policy(o) == "preview_module_available" for o in water_surface_profiles)
 
-    calm = evaluate_water_surface({"wind": 1.4, "pop": 15})
+    calm = evaluate_water_surface({"wind": 1.4, "precipitation": 0.0, "pop": 15})
     assert calm["eligible"] is True
     assert calm["quality"] == "mirror_candidate"
-    usable = evaluate_water_surface({"wind": 3.2, "pop": 30})
+    usable = evaluate_water_surface({"wind": 2.2, "precipitation": 0.0, "pop": 30})
     assert usable["eligible"] is True
     assert usable["quality"] == "reflection_usable"
-    rough = evaluate_water_surface({"wind": 5.5, "pop": 10})
+    rippled = evaluate_water_surface({"wind": 3.2, "precipitation": 0.0, "pop": 30})
+    assert rippled["eligible"] is False
+    assert rippled["reason"] == "surface_rippled"
+    rainy = evaluate_water_surface({"wind": 1.0, "precipitation": 0.4, "pop": 80})
+    assert rainy["eligible"] is False
+    assert rainy["reason"] == "precipitation_disturbance"
+    rough = evaluate_water_surface({"wind": 5.5, "precipitation": 0.0, "pop": 10})
     assert rough["eligible"] is False
     assert rough["reason"] == "wind_too_strong"
+    probability_only = evaluate_water_surface({"wind": 1.0, "pop": 80})
+    assert probability_only["eligible"] is True
+    assert probability_only["confidence_hint"] == "low"
 
     pure_water = water_surface_profiles[0]
-    water_result = evaluate_opportunity_modules(pure_water, {"wind": 1.6, "pop": 20})
+    water_result = evaluate_opportunity_modules(pure_water, {"wind": 1.6, "precipitation": 0.0, "pop": 20})
     assert water_result["available"] is True
     assert water_result["eligible"] is True
     assert water_result["required_components"] == ("water_surface_state",)
@@ -154,7 +163,7 @@ def test_adapter_integrity():
     assert lighting_state["ready_components"] == ("water_surface_state",)
     assert lighting_state["missing_components"] == ("managed_lighting_state",)
     assert runtime_policy(lighting_water) == "module_pending"
-    partial = evaluate_opportunity_modules(lighting_water, {"wind": 1.0, "pop": 10})
+    partial = evaluate_opportunity_modules(lighting_water, {"wind": 1.0, "precipitation": 0.0, "pop": 10})
     assert partial["available"] is False
     assert partial["reason"] == "runtime_contract_pending"
     assert set(partial["modules"]) == {"water_surface_state"}
@@ -175,12 +184,15 @@ def test_adapter_integrity():
     assert p02["runtime_dependency_state"]["required_components"] == ("water_surface_state",)
 
     diag = fetch_data._build_opportunity_runtime_diagnostics(
-        tw018, {"wind": 1.2, "pop": 10}
+        tw018, {"wind": 1.2, "precipitation": 0.0, "pop": 10}
     )
     assert set(diag) == {"tw-018-P02"}
     assert diag["tw-018-P02"]["available"] is True
     assert diag["tw-018-P02"]["eligible"] is True
     assert "score" not in diag["tw-018-P02"]
+
+    weather_url = fetch_data._build_open_meteo_url({"lat": 25.0, "lon": 121.0})
+    assert ",precipitation,precipitation_probability," in weather_url
 
 
 def test_schema9_optional_metadata_bridge():
