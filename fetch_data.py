@@ -61,6 +61,10 @@ I18N_MESSAGES = {
     "CITY_DAY_CLEAR": {"zh-TW": "🏙️ 城市遠眺極佳", "en": "🏙️ Excellent City Panorama", "ja": "🏙️ 最高の都市遠望"},
     "CITY_DAY_FAIR": {"zh-TW": "🏙️ 城市景觀普通", "en": "🏙️ Normal City View", "ja": "🏙️ 普通の都市景觀"},
     "CITY_DAY_POOR": {"zh-TW": "🌫️ 城市視線受阻", "en": "🌫️ Obstructed City View", "ja": "🌫️ 視界不順の都市景觀"},
+    "NIGHT_SCENE_CLEAR": {"zh-TW": "🌙 夜間景觀能見度佳", "en": "🌙 Good Visibility for Night Scene", "ja": "🌙 夜景の視程良好"},
+    "NIGHT_SCENE_FAIR": {"zh-TW": "🌙 夜間景觀條件普通", "en": "🌙 Fair Night-Scene Conditions", "ja": "🌙 夜景条件は普通"},
+    "NIGHT_SCENE_POOR": {"zh-TW": "☁️ 夜間景觀受低雲或低能見度影響", "en": "☁️ Night Scene Affected by Low Clouds/Visibility", "ja": "☁️ 低雲・低視程で夜景に影響"},
+    "NIGHT_SCENE_OUTSIDE": {"zh-TW": "🕒 目前非夜間景觀時段", "en": "🕒 Outside Night-Scene Window", "ja": "🕒 現在は夜景時間外"},
     "STARLIGHT_GREAT": {"zh-TW": "🌌 銀河觀星極佳", "en": "🌌 Excellent Stargazing", "ja": "🌌 最高の星空・天の川"},
     "STARLIGHT_FAIR": {"zh-TW": "✨ 星空條件普通", "en": "✨ Moderate Stargazing", "ja": "✨ 普通の星空条件"},
     "STARLIGHT_POOR": {"zh-TW": "☁️ 星空條件不佳", "en": "☁️ Poor Stargazing Conditions", "ja": "☁️ 星空条件が不良"},
@@ -109,6 +113,10 @@ I18N_MESSAGES = {
     "IND_CITY_DAY_CLEAR": {"zh-TW": "💎 城市全景清晰通透", "en": "💎 Crystal Clear City Panorama", "ja": "💎 クリアな都市パノラマ"},
     "IND_CITY_DAY_FAIR": {"zh-TW": "⛅ 大氣能見度平穩", "en": "⛅ Fair Atmospheric Visibility", "ja": "⛅ 安定した視程"},
     "IND_CITY_DAY_HAZE": {"zh-TW": "🌫️ 霾害或能見度差", "en": "🌫️ Haze or Poor Visibility", "ja": "🌫️ 煙霧または不鮮明な視程"},
+    "IND_NIGHT_SCENE_CLEAR": {"zh-TW": "💎 低雲少、夜間能見度良好", "en": "💎 Low Clouds and Good Night Visibility", "ja": "💎 低雲が少なく夜間視程良好"},
+    "IND_NIGHT_SCENE_FAIR": {"zh-TW": "⛅ 夜間雲量或能見度普通", "en": "⛅ Moderate Night Clouds or Visibility", "ja": "⛅ 夜間の雲量または視程は普通"},
+    "IND_NIGHT_SCENE_BLOCK": {"zh-TW": "☁️ 低雲或低能見度影響夜間視野", "en": "☁️ Low Clouds or Reduced Night Visibility", "ja": "☁️ 低雲または低視程で夜間視界に影響"},
+    "IND_NIGHT_SCENE_OUTSIDE": {"zh-TW": "🕒 太陽高度尚未進入夜間條件", "en": "🕒 Sun Altitude Not Yet in Night Range", "ja": "🕒 太陽高度が夜間条件外"},
     "IND_NIGHT_CLEAR": {"zh-TW": "🌌 高空無視線阻礙", "en": "🌌 Clear High-Altitude View", "ja": "🌌 上空の視界良好"},
     "IND_RAIN_RISK": {"zh-TW": "🌧️ 雨勢明顯不宜外拍", "en": "🌧️ Significant Rain / Avoid Shooting", "ja": "🌧️ 明らかな雨・屋外撮影不適"},
     "IND_KP_UNAVAILABLE": {"zh-TW": "⚠️ Kp 資料不足，僅評估天空條件", "en": "⚠️ Kp unavailable; sky conditions only", "ja": "⚠️ Kp データなし・空の条件のみ評価"},
@@ -611,7 +619,7 @@ def _build_factors(theme, d, lang):
     low = round(float(d.get("c_low", 0) or 0))
     if vis_km >= 20: plus.append(_factor("plus", "vis_good", vis_km, lang))
     elif vis_km < 8 and theme not in {"fog_mist"}: minus.append(_factor("minus", "vis_low", vis_km, lang))
-    if low <= 15 and tag in {"mountain", "city", "coast", "starlight", "aurora"}: plus.append(_factor("plus", "low_cloud", low, lang))
+    if low <= 15 and tag in {"mountain", "city", "coast", "twilight", "starlight", "aurora"}: plus.append(_factor("plus", "low_cloud", low, lang))
     elif low >= 65 and tag in {"mountain", "city", "coast", "starlight", "aurora"}: minus.append(_factor("minus", "low_cloud_high", low, lang))
     if wind <= 2.5: plus.append(_factor("plus", "calm", wind, lang))
     elif wind >= 6: minus.append(_factor("minus", "windy", wind, lang))
@@ -700,7 +708,8 @@ def evaluate_tag_condition(theme, item_data, hour=None, lang="zh-TW"):
                 raw=42; status_key,indicator_key="COAST_NORMAL","IND_COAST_NORM"
     elif theme=="blue_hour":
         blue_hour_data_complete = all(
-            item_data.get(key) is not None for key in ("vis", "c_low", "pop", "wind")
+            item_data.get(f"{key}_available", item_data.get(key) is not None)
+            for key in ("vis", "c_low", "pop", "wind")
         )
         if not astro_valid:
             raw=45; status_key,indicator_key="ASTRO_DATA_UNAVAILABLE","IND_ASTRO_UNAVAILABLE"
@@ -799,13 +808,18 @@ def evaluate_tag_condition(theme, item_data, hour=None, lang="zh-TW"):
         if delta is not None and delta<-150: raw-=12
         status_key,indicator_key=("CLOUD_SEA_GOLD","IND_CLOUD_SEA") if raw>=86 else (("CLOUD_SEA_FAIR","IND_CLOUD_SEA_SUB") if raw>=60 else ("CLOUD_SEA_DRY","IND_DRY_AIR"))
     elif tag=="city":
+        city_scene = "city" in set(item_data.get("scenes") or [])
         if sun_alt>-2:
-            raw=60-pop*0.3; status_key,indicator_key="CITY_DAY_FAIR","IND_CITY_DAY_FAIR"
+            raw=30
+            status_key,indicator_key="NIGHT_SCENE_OUTSIDE","IND_NIGHT_SCENE_OUTSIDE"
         else:
             raw=88-c_low*0.32-pop*0.45-max(0,wind-8)*1.5
             if vis>=20000: raw+=5
             elif vis<10000: raw-=(10000-vis)/1000*2.0
-            status_key,indicator_key=("CITY_NIGHT_CLEAR","IND_CITY_NIGHT_CLEAR") if raw>=85 else (("CITY_NIGHT_FAIR","IND_CITY_NIGHT_HAZE") if raw>=60 else ("CITY_NIGHT_POOR","IND_CITY_NIGHT_BLOCK"))
+            if city_scene:
+                status_key,indicator_key=("CITY_NIGHT_CLEAR","IND_CITY_NIGHT_CLEAR") if raw>=85 else (("CITY_NIGHT_FAIR","IND_CITY_NIGHT_HAZE") if raw>=60 else ("CITY_NIGHT_POOR","IND_CITY_NIGHT_BLOCK"))
+            else:
+                status_key,indicator_key=("NIGHT_SCENE_CLEAR","IND_NIGHT_SCENE_CLEAR") if raw>=85 else (("NIGHT_SCENE_FAIR","IND_NIGHT_SCENE_FAIR") if raw>=60 else ("NIGHT_SCENE_POOR","IND_NIGHT_SCENE_BLOCK"))
     else:  # mountain_view / mountain
         if sun_alt<=-6:
             raw=45-pop*0.2; status_key,indicator_key="MOUNTAIN_STABLE_NIGHT","IND_NIGHT_CLEAR"
@@ -1070,17 +1084,23 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
             )
 
             item_data = {
+                "spot_id": spot.get("spot_id"),
+                "scenes": list(spot.get("scenes") or []),
                 "c_low": hv("cloud_cover_low", i, 0),
+                "c_low_available": hv("cloud_cover_low", i, None) is not None,
                 "c_mid": hv("cloud_cover_mid", i, 0),
                 "c_high": hv("cloud_cover_high", i, 0),
                 "pop": hv("precipitation_probability", i, 0),
+                "pop_available": hv("precipitation_probability", i, None) is not None,
                 "precipitation": hv("precipitation", i, 0),
                 "snowfall": hv("snowfall", i, None),
                 "snow_depth": hv("snow_depth", i, None),
                 "direct_normal_irradiance": hv("direct_normal_irradiance", i, None),
                 "vis": hv("visibility", i, 10000),
+                "vis_available": hv("visibility", i, None) is not None,
                 "rh": hv("relative_humidity_2m", i, 50),
                 "wind": hv("wind_speed_10m", i, 0),
+                "wind_available": hv("wind_speed_10m", i, None) is not None,
                 "temp": temp,
                 "kp": kp_val,
                 "hour": local_dt.hour,
