@@ -123,6 +123,18 @@
       color: #cbd5e1; padding: 2px 7px; font-size: .72rem; cursor: pointer;
     }
     .clear-secondary-filter:hover { border-color: #38bdf8; color: #38bdf8; }
+    .discovery-row {
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      flex-wrap:wrap; margin: 8px 0 6px;
+    }
+    .discovery-title { font-size:.95rem; font-weight:800; color:#e2e8f0; }
+    .place-search {
+      min-width:220px; flex:1; max-width:360px;
+      background:#0f172a; color:#f8fafc; border:1px solid #334155;
+      border-radius:8px; padding:7px 10px; font-size:.84rem; outline:none;
+    }
+    .place-search:focus { border-color:#38bdf8; box-shadow:0 0 0 1px rgba(56,189,248,.2); }
+    .rank-summary { color:#94a3b8; font-size:.78rem; margin-bottom:10px; }
 
     .container {
       max-width: 1000px;
@@ -235,26 +247,19 @@
     </div>
 
     <div class="sub-nav-bar" id="sub-nav"></div>
-    <div class="filter-row" style="margin-bottom:6px;">
-      <span class="select-label" data-i18n="theme_label">📸 想拍什麼：</span>
-      <div class="tag-nav-bar" id="theme-nav" style="margin-bottom:0;"></div>
-    </div>
-    <details class="advanced-filter" id="advanced-filter">
-      <summary data-i18n="advanced_filters">🔎 更多篩選</summary>
-      <div class="advanced-filter-body">
-        <div class="filter-row" style="margin-bottom:0;">
-          <span class="select-label" data-i18n="scene_label">🖼️ 景觀類型：</span>
-          <div class="tag-nav-bar" id="scene-nav" style="margin-bottom:0;"></div>
-        </div>
-      </div>
-    </details>
-    <div class="filter-result-summary" id="filter-result-summary"></div>
 
     <div class="day-nav-bar" id="day-nav">
       <button class="day-btn active" onclick="switchDay('today', this)" data-i18n="btn_today">📅 今天</button>
       <button class="day-btn" onclick="switchDay('tomorrow', this)" data-i18n="btn_tomorrow">📅 明天</button>
       <button class="day-btn" onclick="switchDay('after_tomorrow', this)" data-i18n="btn_after_tomorrow">📅 後天</button>
     </div>
+
+    <div class="discovery-row">
+      <div class="discovery-title" id="discovery-title">📍 今天去哪裡拍？</div>
+      <input id="place-search" class="place-search" type="search" autocomplete="off"
+             placeholder="搜尋景點名稱…" oninput="setPlaceSearch(this.value)">
+    </div>
+    <div class="rank-summary" id="filter-result-summary"></div>
   </header>
 
   <div id="loading" data-i18n="loading">正在獲取攝影氣象數據...</div>
@@ -286,24 +291,24 @@
       'zh-TW': {
         country_label:'📍 選擇國家/區域：', opt_tw:'🇹🇼 台灣 (Taiwan)', opt_jp:'🇯🇵 日本 (Japan)', opt_us:'🇺🇸 美國 (United States)',
         btn_today:'📅 今天', btn_tomorrow:'📅 明天', btn_after_tomorrow:'📅 後天', loading:'正在獲取攝影氣象數據...', updating:'背景更新中…',
-        last_updated:'最後更新：', click_detail:'💡 點擊看 96H 明細', nav_link:'🗺️ 導航', radar_link:'📡 雷達', scene_label:'🖼️ 景觀類型：', theme_label:'📸 想拍什麼：', advanced_filters:'🔎 更多篩選', result_count:'目前 {n} 個景點', narrow_result:'目前僅 {n} 個景點，範圍較窄', clear_scene:'清除景觀類型',
-        best_window:'⏱️ 最佳窗口：', forecast_status:'📍 預報狀態：', cloud_base_label:'估算雲底', best_theme:'🎯 最佳題材：', local_time:'當地時間', dark_sky:'暗空',
+        last_updated:'最後更新：', click_detail:'💡 點擊看 96H 明細', nav_link:'🗺️ 導航', radar_link:'📡 雷達', scene_label:'🖼️ 景觀類型：', theme_label:'📸 題材：', advanced_filters:'🔎 更多篩選', result_count:'依當日最佳拍攝機會排序 · {n} 個景點', search_result:'找到 {n} 個景點', search_placeholder:'搜尋景點名稱…', where_today:'📍 今天去哪裡拍？', where_tomorrow:'📍 明天去哪裡拍？', where_after:'📍 後天去哪裡拍？', narrow_result:'目前僅 {n} 個景點，範圍較窄', clear_scene:'清除景觀類型',
+        best_window:'⏱️ 最佳窗口：', forecast_status:'📍 預報狀態：', cloud_base_label:'估算雲底', best_theme:'📸 今日較適合：', local_time:'當地時間', dark_sky:'暗空',
         modal_subtitle:'⏱️ 涵蓋範圍：過去 24 小時 [模型資料] + 未來 72 小時 [氣象預報]（藍底為所選日期最佳窗口）',
         th_time:'時間', th_theme:'題材', th_score:'評分', th_status:'狀態', th_kp:'Kp指數', th_cloud_base:'雲底', th_temp:'氣溫', th_rh:'濕度', th_clow:'低雲', th_cmid:'中雲', th_chigh:'高雲', th_wind:'風速', th_vis:'能見度', th_astro:'天文', no_spots:'此條件下沒有景點', detail_loading:'正在載入 96H 明細…'
       },
       'en': {
         country_label:'📍 Select Region:', opt_tw:'🇹🇼 Taiwan', opt_jp:'🇯🇵 Japan', opt_us:'🇺🇸 United States',
         btn_today:'📅 Today', btn_tomorrow:'📅 Tomorrow', btn_after_tomorrow:'📅 Day After', loading:'Fetching photography weather data...', updating:'Updating in background…',
-        last_updated:'Last Updated: ', click_detail:'💡 Click for 96H Details', nav_link:'🗺️ Nav', radar_link:'📡 Radar', scene_label:'🖼️ Landscape type:', theme_label:'📸 What do you want to shoot?', advanced_filters:'🔎 More filters', result_count:'{n} spots', narrow_result:'Only {n} spots — narrow filter', clear_scene:'Clear landscape type',
-        best_window:'⏱️ Best Window: ', forecast_status:'📍 Status: ', cloud_base_label:'Est. Cloud Base', best_theme:'🎯 Best Theme: ', local_time:'Local time', dark_sky:'Dark sky',
+        last_updated:'Last Updated: ', click_detail:'💡 Click for 96H Details', nav_link:'🗺️ Nav', radar_link:'📡 Radar', scene_label:'🖼️ Landscape type:', theme_label:'📸 Subject:', advanced_filters:'🔎 More filters', result_count:'Ranked by best opportunity for the day · {n} spots', search_result:'Found {n} spots', search_placeholder:'Search places…', where_today:'📍 Where should I shoot today?', where_tomorrow:'📍 Where should I shoot tomorrow?', where_after:'📍 Where should I shoot the day after tomorrow?', narrow_result:'Only {n} spots — narrow filter', clear_scene:'Clear landscape type',
+        best_window:'⏱️ Best Window: ', forecast_status:'📍 Status: ', cloud_base_label:'Est. Cloud Base', best_theme:'📸 Best today: ', local_time:'Local time', dark_sky:'Dark sky',
         modal_subtitle:'⏱️ Range: Past 24H [model data] + Next 72H [forecast] (blue = best window for selected day)',
         th_time:'Time', th_theme:'Theme', th_score:'Score', th_status:'Status', th_kp:'Kp', th_cloud_base:'Cloud Base', th_temp:'Temp', th_rh:'RH', th_clow:'Low', th_cmid:'Mid', th_chigh:'High', th_wind:'Wind', th_vis:'Visibility', th_astro:'Astronomy', no_spots:'No spots match these filters', detail_loading:'Loading 96H details…'
       },
       'ja': {
         country_label:'📍 地域を選択：', opt_tw:'🇹🇼 台湾 (Taiwan)', opt_jp:'🇯🇵 日本 (Japan)', opt_us:'🇺🇸 アメリカ (United States)',
         btn_today:'📅 今日', btn_tomorrow:'📅 明日', btn_after_tomorrow:'📅 明後日', loading:'撮影気象データを取得中...', updating:'バックグラウンド更新中…',
-        last_updated:'最終更新：', click_detail:'💡 96H 詳細', nav_link:'🗺️ ナビ', radar_link:'📡 レーダー', scene_label:'🖼️ 景観タイプ：', theme_label:'📸 何を撮りたい？', advanced_filters:'🔎 その他の絞り込み', result_count:'{n} スポット', narrow_result:'{n} スポットのみ・絞り込みが狭いです', clear_scene:'景観タイプを解除',
-        best_window:'⏱️ 最適時間：', forecast_status:'📍 予報状況：', cloud_base_label:'推定雲底', best_theme:'🎯 最適テーマ：', local_time:'現地時間', dark_sky:'暗空',
+        last_updated:'最終更新：', click_detail:'💡 96H 詳細', nav_link:'🗺️ ナビ', radar_link:'📡 レーダー', scene_label:'🖼️ 景観タイプ：', theme_label:'📸 テーマ：', advanced_filters:'🔎 その他の絞り込み', result_count:'当日の最良撮影機会順 · {n} スポット', search_result:'{n} スポット見つかりました', search_placeholder:'スポット名を検索…', where_today:'📍 今日はどこへ撮りに行く？', where_tomorrow:'📍 明日はどこへ撮りに行く？', where_after:'📍 明後日はどこへ撮りに行く？', narrow_result:'{n} スポットのみ・絞り込みが狭いです', clear_scene:'景観タイプを解除',
+        best_window:'⏱️ 最適時間：', forecast_status:'📍 予報状況：', cloud_base_label:'推定雲底', best_theme:'📸 今日向き：', local_time:'現地時間', dark_sky:'暗空',
         modal_subtitle:'⏱️ 範囲：過去24時間 [モデル] + 未来72時間 [予報]（青色＝選択日の最適時間）',
         th_time:'時間', th_theme:'テーマ', th_score:'評価', th_status:'状態', th_kp:'Kp', th_cloud_base:'雲底', th_temp:'気温', th_rh:'湿度', th_clow:'下層雲', th_cmid:'中層雲', th_chigh:'上層雲', th_wind:'風速', th_vis:'視程', th_astro:'天文', no_spots:'該当する撮影スポットはありません', detail_loading:'96H 詳細を読み込み中…'
       }
@@ -334,14 +339,15 @@
     let currentRegion=VALID_REGIONS.includes(localStorage.getItem('chaselights_region'))?localStorage.getItem('chaselights_region'):'tw';
     let currentLang=VALID_LANGS.includes(localStorage.getItem('chaselights_lang'))?localStorage.getItem('chaselights_lang'):'zh-TW';
     let currentDayFilter=VALID_DAYS.includes(localStorage.getItem('chaselights_day'))?localStorage.getItem('chaselights_day'):'today';
-    const FILTER_UI_VERSION='2';
-    let currentScene=localStorage.getItem('chaselights_scene')||'all';
+    const FILTER_UI_VERSION='3';
+    let currentScene='all';
+    let currentTheme='all';
+    let currentSearch='';
     if(localStorage.getItem('chaselights_filter_ui_version')!==FILTER_UI_VERSION){
-      currentScene='all';
       localStorage.setItem('chaselights_scene','all');
+      localStorage.setItem('chaselights_theme','all');
       localStorage.setItem('chaselights_filter_ui_version',FILTER_UI_VERSION);
     }
-    let currentTheme=localStorage.getItem('chaselights_theme')||localStorage.getItem('chaselights_tag')||'all';
     let currentCategoryKey=localStorage.getItem(`chaselights_category_${currentRegion}`)||'__all__';
     let currentTempUnit=['C','F'].includes(localStorage.getItem('chaselights_temp_unit'))?localStorage.getItem('chaselights_temp_unit'):'C';
     let favorites=JSON.parse(localStorage.getItem('chaselights_favs_v2')||'[]');
@@ -367,9 +373,16 @@
     function trMessage(key){ const t=currentData?.translations?.messages?.[key]; return t?.[currentLang]||t?.['zh-TW']||key||'N/A'; }
     function trFactor(f){ if(!f)return''; const t=currentData?.translations?.factors?.[f.key]; let text=t?.[currentLang]||t?.['zh-TW']||f.text||f.key||''; return f.value!==null&&f.value!==undefined?text.replace('{v}',f.value):text; }
 
+    function updateDiscoveryText(){
+      const title=document.getElementById('discovery-title');
+      if(title)title.textContent=currentDayFilter==='tomorrow'?d().where_tomorrow:currentDayFilter==='after_tomorrow'?d().where_after:d().where_today;
+      const search=document.getElementById('place-search');
+      if(search)search.placeholder=d().search_placeholder;
+    }
     function applyStaticI18n(){
       document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.dataset.i18n;if(d()[k])el.innerText=d()[k];});
       document.getElementById('lang-select').value=currentLang; document.getElementById('country-select').value=currentRegion; document.getElementById('temp-unit-select').value=currentTempUnit;
+      updateDiscoveryText();
     }
     function formatUpdated(iso){ if(!iso)return '—'; const dt=new Date(iso); if(isNaN(dt))return iso; return new Intl.DateTimeFormat(currentLang==='zh-TW'?'zh-TW':currentLang==='ja'?'ja-JP':'en-US',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}).format(dt); }
     function updateHeader(){ document.getElementById('update-time').innerText=currentData?`${d().last_updated}${formatUpdated(currentData.updated_at)}`:d().loading; }
@@ -377,7 +390,7 @@
     function renderSubNav(){
       const el=document.getElementById('sub-nav'); el.innerHTML=''; const keys=categoryKeys[currentRegion]||['__all__'];
       if(!keys.includes(currentCategoryKey))currentCategoryKey='__all__';
-      keys.forEach(k=>{const b=document.createElement('button');b.className=`sub-btn ${k===currentCategoryKey?'active':''}`;b.dataset.key=k;b.setAttribute('aria-pressed',k===currentCategoryKey?'true':'false');b.innerText=categoryLabel(k);b.onclick=(e)=>{e.preventDefault();currentCategoryKey=k;localStorage.setItem(`chaselights_category_${currentRegion}`,k);renderSubNav();normalizeFilterCombination('theme');renderThemeNav();renderSceneNav();filterAndRender();};el.appendChild(b);});
+      keys.forEach(k=>{const b=document.createElement('button');b.className=`sub-btn ${k===currentCategoryKey?'active':''}`;b.dataset.key=k;b.setAttribute('aria-pressed',k===currentCategoryKey?'true':'false');b.innerText=categoryLabel(k);b.onclick=(e)=>{e.preventDefault();currentCategoryKey=k;localStorage.setItem(`chaselights_category_${currentRegion}`,k);renderSubNav();filterAndRender();};el.appendChild(b);});
     }
     function categoryBaseSpots(){
       const active=currentSpots.filter(s=>s.active_in_catalog!==false);
@@ -397,85 +410,28 @@
       document.querySelectorAll('#scene-nav .tag-btn').forEach(b=>setFilterPressed(b,b.dataset.key===currentScene));
       document.querySelectorAll('#theme-nav .tag-btn').forEach(b=>setFilterPressed(b,b.dataset.key===currentTheme));
     }
-    function spotsForThemeCounts(){
-      let spots=categoryBaseSpots();
-      if(currentScene!=='all')spots=spots.filter(s=>(s.scenes||[]).includes(currentScene));
-      return spots;
-    }
-    function spotsForSceneCounts(){
-      let spots=categoryBaseSpots();
-      if(currentTheme!=='all')spots=spots.filter(s=>(s.themes||[]).includes(currentTheme));
-      return spots;
-    }
-    function countByTheme(spots,key){return key==='all'?spots.length:spots.filter(s=>(s.themes||[]).includes(key)).length;}
-    function countByScene(spots,key){return key==='all'?spots.length:spots.filter(s=>(s.scenes||[]).includes(key)).length;}
-    function buttonWithCount(label,count){
-      const span=document.createElement('span');span.className='tag-count';span.textContent=`(${count})`;
-      const frag=document.createDocumentFragment();frag.append(document.createTextNode(label));frag.append(span);return frag;
-    }
-    function normalizeFilterCombination(prefer){
-      const base=categoryBaseSpots();
-      const comboCount=base.filter(s=>
-        (currentScene==='all'||(s.scenes||[]).includes(currentScene)) &&
-        (currentTheme==='all'||(s.themes||[]).includes(currentTheme))
-      ).length;
-      if(comboCount>0||base.length===0)return;
-      if(prefer==='theme'&&currentScene!=='all'){currentScene='all';localStorage.setItem('chaselights_scene','all');}
-      else if(prefer==='scene'&&currentTheme!=='all'){currentTheme='all';localStorage.setItem('chaselights_theme','all');}
-      else {currentScene='all';currentTheme='all';localStorage.setItem('chaselights_scene','all');localStorage.setItem('chaselights_theme','all');}
-    }
-    function renderSceneNav(){
-      const el=document.getElementById('scene-nav');el.innerHTML='';
-      const spots=spotsForSceneCounts();
-      const order=['all','mountain','coast','lake','river','waterfall','forest','wetland','geology','desert','grassland','rural','snow_ice','city','architecture'];
-      const counts=Object.fromEntries(order.map(k=>[k,countByScene(spots,k)]));
-      if(currentScene!=='all'&&!counts[currentScene]){currentScene='all';localStorage.setItem('chaselights_scene','all');}
-      order.filter(k=>k==='all'||counts[k]>0).forEach(k=>{
-        const b=document.createElement('button');b.className='tag-btn';b.dataset.key=k;b.dataset.filter='scene';b.setAttribute('aria-pressed','false');b.append(buttonWithCount(sceneLabel(k),counts[k]));
-        b.onclick=(e)=>{e.preventDefault();currentScene=k;localStorage.setItem('chaselights_scene',k);normalizeFilterCombination('scene');renderThemeNav();renderSceneNav();filterAndRender();};el.appendChild(b);
-      });
-      syncFilterHighlights();
-    }
-    function renderThemeNav(){
-      const el=document.getElementById('theme-nav');el.innerHTML='';
-      const spots=spotsForThemeCounts();
-      // Primary row is for photographic outcomes/subjects. long_exposure is a technique,
-      // so it remains available in data/details but is intentionally not a top-level discovery filter.
-      const order=['all','sunrise','sunset','sky_glow','cloud_sea','fog_mist','reflection','milky_way','blue_hour','city_night','mountain_view','sunbeam','snow_scene','aurora'];
-      const counts=Object.fromEntries(order.map(k=>[k,countByTheme(spots,k)]));
-      if(!(currentRegion==='us'&&currentCategoryKey==='阿拉斯加'))counts.aurora=0;
-      if(currentTheme!=='all'&&(!Object.prototype.hasOwnProperty.call(counts,currentTheme)||!counts[currentTheme])){
-        currentTheme='all';localStorage.setItem('chaselights_theme','all');
-      }
-      order.filter(k=>k==='all'||counts[k]>0).forEach(k=>{
-        const b=document.createElement('button');b.className='tag-btn';b.dataset.key=k;b.dataset.filter='theme';b.setAttribute('aria-pressed','false');b.append(buttonWithCount(themeLabel(k),counts[k]));
-        b.onclick=(e)=>{e.preventDefault();currentTheme=k;localStorage.setItem('chaselights_theme',k);normalizeFilterCombination('theme');renderSceneNav();renderThemeNav();filterAndRender();};el.appendChild(b);
-      });
-      syncFilterHighlights();
-    }
+    function renderSceneNav(){}
+    function renderThemeNav(){}
+    function normalizeFilterCombination(){}
     function updateFilterResultSummary(count){
       const el=document.getElementById('filter-result-summary');if(!el)return;
-      const narrow=count>0&&count<=3&&(currentTheme!=='all'||currentScene!=='all');
-      el.classList.toggle('narrow',narrow);
-      const template=narrow?d().narrow_result:d().result_count;
-      el.innerHTML='';
-      const text=document.createElement('span');text.textContent=template.replace('{n}',count);el.appendChild(text);
-      if(currentScene!=='all'){
-        const clear=document.createElement('button');clear.className='clear-secondary-filter';clear.textContent=d().clear_scene;
-        clear.onclick=()=>{currentScene='all';localStorage.setItem('chaselights_scene','all');renderSceneNav();renderThemeNav();filterAndRender();};
-        el.appendChild(clear);
-      }
+      const template=currentSearch?d().search_result:d().result_count;
+      el.textContent=template.replace('{n}',count);
+    }
+    function setPlaceSearch(value){
+      currentSearch=String(value||'').trim().toLocaleLowerCase();
+      filterAndRender();
     }
     function syncDayButtons(){const map={today:0,tomorrow:1,after_tomorrow:2};document.querySelectorAll('.day-btn').forEach((b,i)=>b.classList.toggle('active',i===map[currentDayFilter]));}
-    function switchDay(k){currentDayFilter=k;localStorage.setItem('chaselights_day',k);syncDayButtons();filterAndRender();}
-    function switchLanguage(k){if(!VALID_LANGS.includes(k))return;currentLang=k;localStorage.setItem('chaselights_lang',k);applyStaticI18n();renderSubNav();normalizeFilterCombination('theme');renderThemeNav();renderSceneNav();syncDayButtons();updateHeader();filterAndRender();}
+    function switchDay(k){currentDayFilter=k;localStorage.setItem('chaselights_day',k);syncDayButtons();updateDiscoveryText();filterAndRender();}
+    function switchLanguage(k){if(!VALID_LANGS.includes(k))return;currentLang=k;localStorage.setItem('chaselights_lang',k);applyStaticI18n();renderSubNav();syncDayButtons();updateHeader();filterAndRender();}
     function switchTempUnit(k){if(!['C','F'].includes(k))return;currentTempUnit=k;localStorage.setItem('chaselights_temp_unit',k);document.getElementById('temp-unit-select').value=k;filterAndRender();if(activeModalSpot&&document.getElementById('modal-overlay').style.display==='flex')renderModal(activeModalSpot,activeModalSummary);}
     function switchRegion(k){if(!VALID_REGIONS.includes(k))k='tw';currentRegion=k;localStorage.setItem('chaselights_region',k);currentCategoryKey=localStorage.getItem(`chaselights_category_${k}`)||'__all__';document.getElementById('country-select').value=k;loadData(k);}
     function toggleFavorite(id,event){event?.stopPropagation();favorites=favorites.includes(id)?favorites.filter(x=>x!==id):[...favorites,id];localStorage.setItem('chaselights_favs_v2',JSON.stringify(favorites));filterAndRender();}
 
     async function cacheMatch(url){try{if(!('caches'in window))return null;const c=await caches.open(CACHE_NAME);const r=await c.match(url);if(!r)return null;const j=await r.json();return schemaSupported(j)?j:null;}catch{return null;}}
     async function fetchAndCache(url,signal){const opts={cache:'no-cache'};if(signal)opts.signal=signal;const r=await fetch(url,opts);if(!r.ok)throw new Error(`HTTP ${r.status}`);const clone=r.clone();try{if('caches'in window){const c=await caches.open(CACHE_NAME);await c.put(url,clone);}}catch{}const j=await r.json();if(!schemaSupported(j))throw new Error(`Schema mismatch: expected ${MIN_SCHEMA_VERSION}-${MAX_SCHEMA_VERSION}, got ${j?.schema_version??'missing'}`);return j;}
-    function applyData(data,region,seq){if(seq!==activeLoadSequence||region!==currentRegion||data.region!==region)return false;const prev=memorySummary.get(region);if(prev?.updated_at&&data?.updated_at&&prev.updated_at!==data.updated_at)memoryDetails.delete(region);currentData=data;currentSpots=data.spots||[];memorySummary.set(region,data);document.getElementById('loading').style.display='none';migrateFavorites();renderSubNav();normalizeFilterCombination('theme');renderThemeNav();renderSceneNav();syncDayButtons();updateHeader();filterAndRender();return true;}
+    function applyData(data,region,seq){if(seq!==activeLoadSequence||region!==currentRegion||data.region!==region)return false;const prev=memorySummary.get(region);if(prev?.updated_at&&data?.updated_at&&prev.updated_at!==data.updated_at)memoryDetails.delete(region);currentData=data;currentSpots=data.spots||[];memorySummary.set(region,data);document.getElementById('loading').style.display='none';migrateFavorites();renderSubNav();syncDayButtons();updateHeader();filterAndRender();return true;}
     function migrateFavorites(){if(!legacyFavorites.length)return;currentSpots.forEach(s=>{const names=Object.values(s.name_i18n||{});if(names.some(n=>legacyFavorites.includes(n))&&!favorites.includes(s.spot_id))favorites.push(s.spot_id);});localStorage.setItem('chaselights_favs_v2',JSON.stringify(favorites));legacyFavorites=[];}
     async function refreshSummary(region,url,seq,controller,silent=false){try{const fresh=await fetchAndCache(url,controller.signal);if(applyData(fresh,region,seq))memorySummary.set(region,fresh);}catch(e){if(e?.name==='AbortError'||seq!==activeLoadSequence)return;if(!silent){const l=document.getElementById('loading');l.style.display='block';l.innerText=`⚠️ ${url} — ${e?.message||e}`;}}}
     async function loadData(region){
@@ -488,7 +444,7 @@
     }
 
     function dayIndex(){return currentDayFilter==='tomorrow'?1:currentDayFilter==='after_tomorrow'?2:0;}
-    function getMetric(spot){const day=(spot.daily||[])[dayIndex()];if(!day)return null;return currentTheme==='all'?day.all:day.themes?.[currentTheme]||null;}
+    function getMetric(spot){const day=(spot.daily||[])[dayIndex()];if(!day)return null;return day.all||null;}
     function fmtWindow(m){if(!m)return'N/A';const a=m.window_start,b=m.window_end,tz=m.timezone_abbr||'';if(!a||!b)return m.best_time||'N/A';const [ad,at]=a.split(' '),[bd,bt]=b.split(' ');const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');return ad===bd?`${ad2} ${at}–${bt} ${tz}`:`${ad2} ${at} → ${bd2} ${bt} ${tz}`;}
     function astroText(m,theme){if(!m?.astronomy_valid)return'';const parts=[];if(['sunrise','sunset','sky_glow','blue_hour'].includes(theme)&&m.sun_elevation!=null)parts.push(`☀️ ${Math.round(m.sun_azimuth)}° / ${Math.round(m.sun_elevation)}°`);if(theme==='milky_way'){if(m.moon_illumination!=null)parts.push(`🌙 ${Math.round(m.moon_illumination)}%`);if(m.galactic_core_elevation!=null)parts.push(`🌌 ${Math.round(m.galactic_core_azimuth)}° / ${Math.round(m.galactic_core_elevation)}°`);}if(theme==='aurora'&&m.kp!=null)parts.push(`🌌 Kp ${m.kp}`);return parts.join(' · ');}
     function darkSkyText(spot,theme){if(!['milky_way','aurora'].includes(theme)||!spot?.bortle_class)return'';const b=spot.bortle_class;const qual=b<=2?'★★★★★':b<=4?'★★★★☆':b<=5?'★★★☆☆':b<=7?'★★☆☆☆':'★☆☆☆☆';return `🌌 ≈Bortle ${b} · ${qual}`;}
@@ -498,18 +454,16 @@
     function filterAndRender(){
       syncFilterHighlights();
       const container=document.getElementById('spots-container');container.innerHTML='';if(!currentData)return;
-      let filtered=categoryBaseSpots();if(currentScene!=='all')filtered=filtered.filter(s=>(s.scenes||[]).includes(currentScene));if(currentTheme!=='all')filtered=filtered.filter(s=>(s.themes||[]).includes(currentTheme));
+      let filtered=categoryBaseSpots();
+      if(currentSearch){
+        filtered=filtered.filter(s=>{
+          const haystack=[...(Object.values(s.name_i18n||{})),s.name_local,s.map_query,s.category].filter(Boolean).join(' ').toLocaleLowerCase();
+          return haystack.includes(currentSearch);
+        });
+      }
       const rows=[];for(const spot of filtered){const metric=getMetric(spot);if(metric)rows.push({spot,metric});}rows.sort((a,b)=>(b.metric.score||0)-(a.metric.score||0));
       updateFilterResultSummary(rows.length);
-      if(!rows.length){
-        // A stale/unsupported filter should never strand the user on an empty grid.
-        if(currentScene!=='all'||currentTheme!=='all'){
-          currentScene='all';currentTheme='all';
-          localStorage.setItem('chaselights_scene','all');localStorage.setItem('chaselights_theme','all');
-          renderThemeNav();renderSceneNav();requestAnimationFrame(filterAndRender);return;
-        }
-        container.innerHTML=`<p style="color:var(--muted);grid-column:1/-1;text-align:center">${d().no_spots}</p>`;return;
-      }
+      if(!rows.length){container.innerHTML=`<p style="color:var(--muted);grid-column:1/-1;text-align:center">${d().no_spots}</p>`;return;}
       rows.forEach(({spot,metric})=>{
         const card=document.createElement('div');card.className='card';card.onclick=()=>openModal(spot,metric);
         const score=metric.score||0;const scoreClass=score>=92?'score-gold':score>=80?'score-high':score>=65?'score-mid':'score-low';const flame=score>=92?'🔥 ':'';
@@ -529,7 +483,7 @@
     }
     function renderModal(spot,summaryMetric){
       activeModalSpot=spot;activeModalSummary=summaryMetric;
-      const day=(spot.daily||[])[dayIndex()]||null;const activeTheme=currentTheme==='all'?(summaryMetric?.theme||'mountain_view'):currentTheme;const selectedDate=(currentSpots.find(x=>x.spot_id===spot.spot_id)?.daily||[])[dayIndex()]?.date;
+      const day=(spot.daily||[])[dayIndex()]||null;const activeTheme=summaryMetric?.theme||'mountain_view';const selectedDate=(currentSpots.find(x=>x.spot_id===spot.spot_id)?.daily||[])[dayIndex()]?.date;
       const darkSky=darkSkyText(spot,activeTheme);document.getElementById('modal-summary').innerHTML=`<b>${d().best_theme}${themeLabel(activeTheme)}</b> · ${d().best_window}${fmtWindow(summaryMetric)}${darkSky?` · ${darkSky}`:''}`;
       const isAurora=activeTheme==='aurora',thead=document.getElementById('timeline-head'),tbody=document.getElementById('timeline-body');thead.innerHTML=`<tr><th>${d().th_time}</th><th>${d().th_theme}</th><th>${d().th_score}</th><th>${d().th_status}</th>${isAurora?`<th>${d().th_kp}</th>`:''}<th>${d().th_cloud_base}</th><th>${d().th_temp} (${tempUnitLabel()})</th><th>${d().th_rh}</th><th>${d().th_clow}</th><th>${d().th_cmid}</th><th>${d().th_chigh}</th><th>${d().th_wind}</th><th>${d().th_vis}</th><th>${d().th_astro}</th></tr>`;tbody.innerHTML='';
       (spot.hourly_forecast||[]).forEach(item=>{const metrics=item.theme_scores?.[activeTheme]||item.tag_scores?.[activeTheme];if(!metrics)return;const tr=document.createElement('tr');if(item.is_past)tr.className='past-row';if(selectedDate&&item.local_date===selectedDate&&summaryMetric?.window_start&&item.time>=summaryMetric.window_start&&item.time<summaryMetric.window_end)tr.className='best-row';const astro=astroText(item,activeTheme);tr.innerHTML=`<td>${item.time}${item.is_past?' <span class="tag-past">HIST</span>':''}</td><td>${themeLabel(activeTheme)}</td><td style="font-weight:bold">${metrics.score}</td><td>${trMessage(metrics.status_key)}</td>${isAurora?`<td>${item.kp??'—'}</td>`:''}<td>${item.cloud_base_agl??'—'}m</td><td>${formatTemp(item.temp)}</td><td>${item.rh??'—'}%</td><td>${item.c_low??'—'}%</td><td>${item.c_mid??'—'}%</td><td>${item.c_high??'—'}%</td><td>${item.wind??'—'}m/s</td><td>${item.visibility??'—'}km</td><td>${astro||'—'}</td>`;tbody.appendChild(tr);});
@@ -537,7 +491,7 @@
     function closeModal(){document.getElementById('modal-overlay').style.display='none';activeModalSpot=null;activeModalSummary=null;}
 
     async function cleanupOldCaches(){try{if(!('caches'in window))return;const keys=await caches.keys();await Promise.all(keys.filter(k=>k.startsWith('chaselights-')&&k!==CACHE_NAME).map(k=>caches.delete(k)));}catch{}}
-    function initializeApp(){cleanupOldCaches();applyStaticI18n();renderSubNav();renderThemeNav();renderSceneNav();syncDayButtons();loadData(currentRegion);}
+    function initializeApp(){cleanupOldCaches();applyStaticI18n();renderSubNav();syncDayButtons();loadData(currentRegion);}
     initializeApp();
   </script>
 </body>
