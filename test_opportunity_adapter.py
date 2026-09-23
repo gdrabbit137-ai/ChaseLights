@@ -1,7 +1,7 @@
 import json
 from collections import Counter
 
-from opportunity_runtime import DIRECTIONAL_HORIZON_SECTORS, evaluate_directional_horizon, validate_directional_horizon_registry
+from opportunity_runtime import DIRECTIONAL_HORIZON_SECTORS, evaluate_directional_horizon, evaluate_visibility, evaluate_opportunity_modules, validate_runtime_registry
 
 import analyze_weather
 from opportunities import (
@@ -55,16 +55,16 @@ def test_adapter_integrity():
 
     policies = Counter(runtime_policy(o) for o in all_opportunities)
     assert policies == {
-        "module_pending": 114,
-        "preview_module_available": 17,
+        "module_pending": 111,
+        "preview_module_available": 20,
         "prototype_pending_certification": 41,
         "hold": 1,
         "data_insufficient": 1,
     }
     assert runtime_policy(next(o for o in all_opportunities if o["opportunity_id"] == "tw-052-P01")) == "hold"
     assert runtime_policy(next(o for o in all_opportunities if o["opportunity_id"] == "tw-017-P01")) == "data_insufficient"
-    assert validate_directional_horizon_registry() == []
-    assert len(DIRECTIONAL_HORIZON_SECTORS) == 17
+    assert validate_runtime_registry() == []
+    assert len(DIRECTIONAL_HORIZON_SECTORS) == 20
     directional = next(o for o in all_opportunities if o["opportunity_id"] == "tw-020-P01")
     assert runtime_policy(directional) == "preview_module_available"
     matched = evaluate_directional_horizon(directional, {
@@ -83,6 +83,26 @@ def test_adapter_integrity():
     })
     assert wrong_daypart["eligible"] is False
     assert wrong_daypart["reason"] == "wrong_daypart"
+
+    visibility = evaluate_visibility({"vis": 25000})
+    assert visibility["eligible"] is True
+    assert visibility["quality"] == "good"
+    low_visibility = evaluate_visibility({"visibility": 4.5})
+    assert low_visibility["eligible"] is False
+
+    compound = next(o for o in all_opportunities if o["opportunity_id"] == "tw-009-P02")
+    assert compound["formula_status"] == "needs_directional_horizon_visibility_module"
+    assert runtime_policy(compound) == "preview_module_available"
+    compound_result = evaluate_opportunity_modules(compound, {
+        "astronomy_valid": True,
+        "sun_azimuth": 250.0,
+        "sun_elevation": 0.5,
+        "hour": 18,
+        "vis": 24000,
+    })
+    assert compound_result["available"] is True
+    assert compound_result["eligible"] is True
+    assert set(compound_result["modules"]) == {"directional_horizon", "visibility"}
 
     tw052 = get_opportunities("tw", "tw-052")
     assert tw052[0]["runtime_policy"] == "hold"
