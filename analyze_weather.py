@@ -18,19 +18,23 @@ def _metric_for_theme(item, theme):
     return scores.get(theme) or {}
 
 
-def _window_for_theme(items, best_index, theme):
+def _metric_for_opportunity(item, opportunity_id):
+    return (item.get("opportunity_scores") or {}).get(opportunity_id) or {}
+
+
+def _window_for_metric(items, best_index, metric_getter):
     if not items:
         return None, None
-    best_score = (_metric_for_theme(items[best_index], theme) or {}).get("score", 0)
+    best_score = (metric_getter(items[best_index]) or {}).get("score", 0)
     threshold = max(55, best_score - 4)
     left = right = best_index
     while left > 0:
-        score = (_metric_for_theme(items[left - 1], theme) or {}).get("score", -1)
+        score = (metric_getter(items[left - 1]) or {}).get("score", -1)
         if score < threshold:
             break
         left -= 1
     while right + 1 < len(items):
-        score = (_metric_for_theme(items[right + 1], theme) or {}).get("score", -1)
+        score = (metric_getter(items[right + 1]) or {}).get("score", -1)
         if score < threshold:
             break
         right += 1
@@ -43,10 +47,16 @@ def _window_for_theme(items, best_index, theme):
     return start, end
 
 
-def _compact_snapshot(item, theme, window_start=None, window_end=None):
-    metric = _metric_for_theme(item, theme)
+def _window_for_theme(items, best_index, theme):
+    return _window_for_metric(items, best_index, lambda item: _metric_for_theme(item, theme))
+
+
+def _window_for_opportunity(items, best_index, opportunity_id):
+    return _window_for_metric(items, best_index, lambda item: _metric_for_opportunity(item, opportunity_id))
+
+
+def _base_snapshot(item, metric, window_start=None, window_end=None):
     return {
-        "theme": theme,
         "score": metric.get("score", item.get("score", 0)),
         "status_key": metric.get("status_key", item.get("status_key")),
         "indicator_key": metric.get("indicator_key", item.get("indicator_key")),
@@ -80,33 +90,94 @@ def _compact_snapshot(item, theme, window_start=None, window_end=None):
     }
 
 
-def _build_day_summaries(hourly, themes):
+def _compact_snapshot(item, theme, window_start=None, window_end=None):
+    metric = _metric_for_theme(item, theme)
+    snap = _base_snapshot(item, metric, window_start, window_end)
+    snap["theme"] = theme
+    return snap
+
+
+def _compact_opportunity_snapshot(item, opportunity, window_start=None, window_end=None):
+    oid = opportunity.get("opportunity_id")
+    metric = _metric_for_opportunity(item, oid)
+    snap = _base_snapshot(item, metric, window_start, window_end)
+    snap.update({
+        "opportunity_id": oid,
+        "opportunity_name": opportunity.get("name_zh"),
+        "theme": opportunity.get("legacy_theme"),
+        "runtime_policy": metric.get("runtime_policy", opportunity.get("runtime_policy")),
+        "condition_state": metric.get("condition_state"),
+        "score_confidence": metric.get("score_confidence"),
+        "base_theme_score": metric.get("base_theme_score"),
+        "formula_confidence": metric.get("formula_confidence", opportunity.get("formula_confidence")),
+    })
+    return snap
+
+
+def _build_day_summaries(hourly, themes, opportunities=None):
     future = [h for h in hourly if not h.get("is_past")]
     by_date = defaultdict(list)
     for h in future:
         if h.get("local_date"):
             by_date[h["local_date"]].append(h)
+
+    researched = [
+        opportunity for opportunity in (opportunities or [])
+        if opportunity.get("opportunity_id") and opportunity.get("name_zh")
+    ]
+
     days = []
     for date in sorted(by_date)[:3]:
         items = sorted(by_date[date], key=lambda x: x.get("time_utc", ""))
+
+        # Opportunity-first summaries are authoritative for researched Places.
+        opportunity_summaries = {}
+        for opportunity in researched:
+            oid = opportunity["opportunity_id"]
+            candidates = [
+                (i, (_metric_for_opportunity(it, oid) or {}).get("score", -1))
+                for i, it in enumerate(items)
+            ]
+            candidates = [x for x in candidates if x[1] >= 0]
+            if not candidates:
+                continue
+            best_idx, _ = max(candidates, key=lambda x: x[1])
+            ws, we = _window_for_opportunity(items, best_idx, oid)
+            opportunity_summaries[oid] = _compact_opportunity_snapshot(
+                items[best_idx], opportunity, ws, we
+            )
+
+        # Keep Theme summaries for schema-9 backward compatibility only.
         theme_summaries = {}
         for theme in themes:
-            candidates = [(i, (_metric_for_theme(it, theme) or {}).get("score", -1)) for i, it in enumerate(items)]
+            candidates = [
+                (i, (_metric_for_theme(it, theme) or {}).get("score", -1))
+                for i, it in enumerate(items)
+            ]
             candidates = [x for x in candidates if x[1] >= 0]
             if not candidates:
                 continue
             best_idx, _ = max(candidates, key=lambda x: x[1])
             ws, we = _window_for_theme(items, best_idx, theme)
             theme_summaries[theme] = _compact_snapshot(items[best_idx], theme, ws, we)
-        if theme_summaries:
+
+        if opportunity_summaries:
+            winner_id = max(opportunity_summaries, key=lambda oid: opportunity_summaries[oid]["score"])
+            winner = dict(opportunity_summaries[winner_id])
+        elif theme_summaries:
             winner_theme = max(theme_summaries, key=lambda t: theme_summaries[t]["score"])
             winner = dict(theme_summaries[winner_theme])
             winner["theme"] = winner_theme
         else:
             winner = {"theme": None, "score": 0}
-        days.append({"date": date, "all": winner, "themes": theme_summaries})
-    return days
 
+        days.append({
+            "date": date,
+            "all": winner,
+            "opportunities": opportunity_summaries,
+            "themes": theme_summaries,
+        })
+    return days
 
 def analyze_spot(spot, kp_rows=None):
     raw = fetch_weather_for_spot(spot, "zh-TW", kp_rows=kp_rows)
@@ -144,7 +215,7 @@ def analyze_spot(spot, kp_rows=None):
     }
     hourly = raw.get("hourly_forecast", [])
     summary = dict(common)
-    summary["daily"] = _build_day_summaries(hourly, spot.get("themes", []))
+    summary["daily"] = _build_day_summaries(hourly, spot.get("themes", []), spot.get("opportunities", []))
 
     details = dict(common)
     details["hourly_forecast"] = hourly
