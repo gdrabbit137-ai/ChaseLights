@@ -75,37 +75,37 @@ def _all_opportunities():
 
 
 def test_adapter_integrity():
-    assert ADAPTER_VERSION == "v0.04-r4.2-b26-preview"
+    assert ADAPTER_VERSION == "v0.04-r4.2-b28-p0-batch1-preview"
     assert validate_curated_opportunities() == []
     assert validate_taxonomy() == []
     assert CATALOG_COUNTS == {
-        "spots": 70,
-        "opportunities": 173,
-        "condition_variants": 181,
-        "profile_viewpoint_relations": 178,
+        "spots": 72,
+        "opportunities": 176,
+        "condition_variants": 185,
+        "profile_viewpoint_relations": 181,
     }
 
     tw = get_spots("tw")
-    assert len(tw) == 71
-    assert [s["spot_id"] for s in tw] == [f"tw-{i:03d}" for i in range(1, 72)]
+    assert len(tw) == 73
+    assert [s["spot_id"] for s in tw] == [f"tw-{i:03d}" for i in range(1, 74)]
     assert PRODUCT_STATUS_BY_SPOT == {"tw-063": "retired"}
     assert product_status("tw-063") == "retired"
     assert active_in_catalog("tw-063") is False
-    assert sum(1 for s in tw if active_in_catalog(s["spot_id"])) == 70
+    assert sum(1 for s in tw if active_in_catalog(s["spot_id"])) == 72
     assert all(
         product_status(s["spot_id"]) == "keep"
         for s in tw if s["spot_id"] != "tw-063"
     )
 
     curated = {s["spot_id"]: s for s in tw if s.get("opportunities")}
-    expected_active = {f"tw-{i:03d}" for i in range(1, 72)} - {"tw-063"}
+    expected_active = {f"tw-{i:03d}" for i in range(1, 74)} - {"tw-063"}
     assert set(curated) == expected_active
     assert "tw-063" not in CURATED_OPPORTUNITIES
-    assert sum(len(s["opportunities"]) for s in curated.values()) == 173
+    assert sum(len(s["opportunities"]) for s in curated.values()) == 176
 
     all_opportunities = _all_opportunities()
-    assert sum(len(o["condition_variants"]) for o in all_opportunities) == 181
-    assert sum(len(o["viewpoints"]) for o in all_opportunities) == 178
+    assert sum(len(o["condition_variants"]) for o in all_opportunities) == 185
+    assert sum(len(o["viewpoints"]) for o in all_opportunities) == 181
     assert not any(o["formula_status"] == "legacy_fallback_pending_curated" for o in all_opportunities)
     assert not any(str(o.get("formula_version") or "").startswith("legacy_") for o in all_opportunities)
 
@@ -116,8 +116,8 @@ def test_adapter_integrity():
 
     policies = Counter(runtime_policy(o) for o in all_opportunities)
     assert policies == {
-        "module_pending": 66,
-        "preview_module_available": 64,
+        "module_pending": 67,
+        "preview_module_available": 66,
         "prototype_pending_certification": 41,
         "hold": 1,
         "data_insufficient": 1,
@@ -125,7 +125,17 @@ def test_adapter_integrity():
     assert runtime_policy(next(o for o in all_opportunities if o["opportunity_id"] == "tw-052-P01")) == "hold"
     assert runtime_policy(next(o for o in all_opportunities if o["opportunity_id"] == "tw-017-P01")) == "data_insufficient"
     assert validate_runtime_registry() == []
-    assert len(DIRECTIONAL_HORIZON_SECTORS) == 37
+    assert len(DIRECTIONAL_HORIZON_SECTORS) == 40
+
+    nanya = next(o for o in all_opportunities if o["opportunity_id"] == "tw-072-P01")
+    assert runtime_policy(nanya) == "preview_module_available"
+    assert dependency_state(nanya)["required_components"] == ("marine_state", "directional_horizon")
+    assert dependency_state(nanya)["complete"] is True
+
+    laomei = next(o for o in all_opportunities if o["opportunity_id"] == "tw-073-P01")
+    assert runtime_policy(laomei) == "module_pending"
+    assert dependency_state(laomei)["ready_components"] == ("tide_state", "marine_state", "directional_horizon")
+    assert dependency_state(laomei)["missing_components"] == ("seasonal_foreground",)
     directional = next(o for o in all_opportunities if o["opportunity_id"] == "tw-020-P01")
     assert runtime_policy(directional) == "preview_module_available"
     matched = evaluate_directional_horizon(directional, {
@@ -948,7 +958,7 @@ def test_adapter_integrity():
 
 def test_active_catalog_weather_generation_guard():
     active_tw = analyze_weather._active_spots("tw")
-    assert len(active_tw) == 70
+    assert len(active_tw) == 72
     assert "tw-063" not in {spot["spot_id"] for spot in active_tw}
     assert all(spot.get("active_in_catalog", True) for spot in active_tw)
 
