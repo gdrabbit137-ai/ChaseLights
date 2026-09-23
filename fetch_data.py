@@ -11,6 +11,11 @@ from spatial_weather import (
     index_spatial_response,
     spatial_observations_for_timestamp,
 )
+from marine_state import (
+    index_marine_response,
+    marine_sample_for_timestamp,
+    spot_requires_marine_state,
+)
 
 # 後端多國語言狀態與指標字典
 I18N_MESSAGES = {
@@ -102,6 +107,7 @@ def get_text(key, lang="zh-TW"):
 _NOAA_KP_CACHE = None
 _WEATHER_RESPONSE_CACHE = {}
 _SPATIAL_WEATHER_RESPONSE_CACHE = {}
+_MARINE_RESPONSE_CACHE = {}
 
 
 def _request_json(url, timeout=12):
@@ -880,6 +886,34 @@ def _fetch_spatial_weather_response(spot):
     return indexed
 
 
+def _build_marine_open_meteo_url(spot):
+    lat = spot.get("lat")
+    lon = spot.get("lon")
+    params = [
+        f"latitude={lat}",
+        f"longitude={lon}",
+        "hourly=wave_height,wave_direction,wave_period,wind_wave_height,wind_wave_direction,wind_wave_period,swell_wave_height,swell_wave_direction,swell_wave_period,swell_wave_peak_period",
+        "past_hours=24",
+        "forecast_hours=72",
+        "timezone=auto",
+        "timeformat=unixtime",
+        "cell_selection=sea",
+    ]
+    return "https://marine-api.open-meteo.com/v1/marine?" + "&".join(params)
+
+
+def _fetch_marine_response(spot):
+    if not spot_requires_marine_state(spot):
+        return None
+    key = (round(float(spot.get("lat")), 5), round(float(spot.get("lon")), 5))
+    if key in _MARINE_RESPONSE_CACHE:
+        return _MARINE_RESPONSE_CACHE[key]
+    raw = _request_json(_build_marine_open_meteo_url(spot))
+    indexed = index_marine_response(raw)
+    _MARINE_RESPONSE_CACHE[key] = indexed
+    return indexed
+
+
 def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
     lat = spot.get("lat")
     lon = spot.get("lon")
@@ -899,6 +933,12 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
         except Exception as spatial_error:
             print(f"Spatial weather fetch error for {spot.get('spot_id')}: {spatial_error}")
             spatial_index = None
+
+        try:
+            marine_index = _fetch_marine_response(spot)
+        except Exception as marine_error:
+            print(f"Marine weather fetch error for {spot.get('spot_id')}: {marine_error}")
+            marine_index = None
 
         tz_name = raw.get("timezone") or "UTC"
         try:
@@ -941,6 +981,10 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
                 spatial_observations_for_timestamp(spatial_index, int(ts))
                 if spatial_index is not None else {}
             )
+            marine_forecast = (
+                marine_sample_for_timestamp(marine_index, int(ts))
+                if marine_index is not None else None
+            )
 
             item_data = {
                 "c_low": hv("cloud_cover_low", i, 0),
@@ -969,6 +1013,7 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
                 "bortle_class": spot.get("bortle_class"),
                 "dark_sky_score": spot.get("dark_sky_score"),
                 "spatial_weather": spatial_weather,
+                "marine_forecast": marine_forecast,
                 **astro,
             }
 
@@ -1032,6 +1077,7 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
                 "snowfall": item_data["snowfall"],
                 "snow_depth": item_data["snow_depth"],
                 "direct_normal_irradiance": item_data["direct_normal_irradiance"],
+                "marine_forecast": item_data["marine_forecast"],
                 "visibility": round(float(item_data["vis"]) / 1000, 1),
                 "is_day": item_data["is_day"],
                 "is_twilight": is_twilight,

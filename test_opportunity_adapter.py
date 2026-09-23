@@ -32,6 +32,13 @@ from spatial_weather import (
     evaluate_spatial_weather,
     validate_spatial_weather_registry,
 )
+from marine_state import (
+    MARINE_STATE_PROFILES,
+    evaluate_marine_state,
+    index_marine_response,
+    marine_sample_for_timestamp,
+    validate_marine_state_registry,
+)
 
 import analyze_weather
 import fetch_data
@@ -52,7 +59,7 @@ def _all_opportunities():
 
 
 def test_adapter_integrity():
-    assert ADAPTER_VERSION == "v0.04-r4.2-b22-preview"
+    assert ADAPTER_VERSION == "v0.04-r4.2-b23-preview"
     assert validate_curated_opportunities() == []
     assert validate_taxonomy() == []
     assert CATALOG_COUNTS == {
@@ -86,8 +93,8 @@ def test_adapter_integrity():
 
     policies = Counter(runtime_policy(o) for o in all_opportunities)
     assert policies == {
-        "module_pending": 79,
-        "preview_module_available": 52,
+        "module_pending": 73,
+        "preview_module_available": 58,
         "prototype_pending_certification": 41,
         "hold": 1,
         "data_insufficient": 1,
@@ -95,7 +102,7 @@ def test_adapter_integrity():
     assert runtime_policy(next(o for o in all_opportunities if o["opportunity_id"] == "tw-052-P01")) == "hold"
     assert runtime_policy(next(o for o in all_opportunities if o["opportunity_id"] == "tw-017-P01")) == "data_insufficient"
     assert validate_runtime_registry() == []
-    assert len(DIRECTIONAL_HORIZON_SECTORS) == 25
+    assert len(DIRECTIONAL_HORIZON_SECTORS) == 32
     directional = next(o for o in all_opportunities if o["opportunity_id"] == "tw-020-P01")
     assert runtime_policy(directional) == "preview_module_available"
     matched = evaluate_directional_horizon(directional, {
@@ -144,7 +151,7 @@ def test_adapter_integrity():
     assert IMPLEMENTED_COMPONENTS == {
         "directional_horizon", "visibility", "water_surface_state", "snow_state",
         "radiation_DNI", "cloud_light_state", "cloud_sky_glow",
-        "spatial_weather_vertical_cloud", "astronomy_ephemeris"
+        "spatial_weather_vertical_cloud", "astronomy_ephemeris", "marine_state"
     }
     assert dependencies_for_status("needs_radiation_module") == ("radiation_DNI", "cloud_light_state")
     assert dependencies_for_status("needs_radiation_cloud_module") == ("radiation_DNI", "cloud_sky_glow")
@@ -505,6 +512,138 @@ def test_adapter_integrity():
     assert exact_eval["scene_state"] == "galactic_core_visible_exact_alignment_pending"
     assert exact_eval["exact_alignment_verified"] is False
 
+    assert validate_marine_state_registry() == []
+    assert set(MARINE_STATE_PROFILES) == {
+        "tw-010-P01", "tw-010-P02", "tw-010-P03",
+        "tw-033-P01", "tw-033-P02",
+        "tw-036-P01", "tw-036-P02",
+        "tw-071-P01", "tw-071-P02",
+    }
+
+    calm_marine = {
+        "wave_height": 0.6,
+        "wave_direction": 95,
+        "wave_period": 5.5,
+        "wind_wave_height": 0.3,
+        "wind_wave_direction": 90,
+        "wind_wave_period": 4.0,
+        "swell_wave_height": 0.4,
+        "swell_wave_direction": 100,
+        "swell_wave_period": 7.0,
+        "swell_wave_peak_period": 8.0,
+        "sample_offset_seconds": 0,
+    }
+    marine_profile = next(
+        o for o in all_opportunities if o["opportunity_id"] == "tw-033-P01"
+    )
+    calm_eval = evaluate_marine_state(
+        marine_profile, {"marine_forecast": calm_marine}
+    )
+    assert calm_eval["available"] is True
+    assert calm_eval["eligible"] is True
+    assert calm_eval["tide_evaluated"] is False
+    assert calm_eval["local_shore_safety_verified"] is False
+
+    energetic_marine = dict(
+        calm_marine,
+        wave_height=1.4,
+        swell_wave_height=0.9,
+        swell_wave_period=11.0,
+    )
+    energetic_eval = evaluate_marine_state(
+        marine_profile, {"marine_forecast": energetic_marine}
+    )
+    assert energetic_eval["eligible"] is False
+    assert energetic_eval["reason"] == "elevated_marine_state"
+    assert energetic_eval["local_shore_safety_verified"] is False
+
+    marine_complete_ids = {
+        "tw-033-P01", "tw-033-P02", "tw-036-P01",
+        "tw-036-P02", "tw-071-P01", "tw-071-P02",
+    }
+    assert all(
+        runtime_policy(next(o for o in all_opportunities if o["opportunity_id"] == oid))
+        == "preview_module_available"
+        for oid in marine_complete_ids
+    )
+
+    tw010_p01 = next(o for o in all_opportunities if o["opportunity_id"] == "tw-010-P01")
+    state_010_p01 = dependency_state(tw010_p01)
+    assert state_010_p01["ready_components"] == ("marine_state", "directional_horizon")
+    assert state_010_p01["missing_components"] == ("tide_state", "dynamic_access")
+    assert runtime_policy(tw010_p01) == "module_pending"
+
+    tw010_p02 = next(o for o in all_opportunities if o["opportunity_id"] == "tw-010-P02")
+    state_010_p02 = dependency_state(tw010_p02)
+    assert state_010_p02["ready_components"] == ("marine_state",)
+    assert state_010_p02["missing_components"] == ("directional_horizon",)
+    assert runtime_policy(tw010_p02) == "module_pending"
+
+    tw010_p03 = next(o for o in all_opportunities if o["opportunity_id"] == "tw-010-P03")
+    state_010_p03 = dependency_state(tw010_p03)
+    assert state_010_p03["ready_components"] == ("marine_state", "directional_horizon")
+    assert state_010_p03["missing_components"] == ("dynamic_access",)
+
+    fake_marine_raw = {
+        "latitude": 24.0,
+        "longitude": 121.7,
+        "elevation": 0.0,
+        "hourly": {
+            "time": [1900000000, 1900003600],
+            "wave_height": [0.6, 0.8],
+            "wave_direction": [95, 100],
+            "wave_period": [5.5, 6.0],
+            "wind_wave_height": [0.3, 0.4],
+            "wind_wave_direction": [90, 95],
+            "wind_wave_period": [4.0, 4.5],
+            "swell_wave_height": [0.4, 0.5],
+            "swell_wave_direction": [100, 105],
+            "swell_wave_period": [7.0, 7.5],
+            "swell_wave_peak_period": [8.0, 8.5],
+        },
+    }
+    marine_index = index_marine_response(fake_marine_raw)
+    marine_sample = marine_sample_for_timestamp(marine_index, 1900001800)
+    assert marine_sample["wave_height"] in {0.6, 0.8}
+    assert marine_sample["sample_offset_seconds"] == 1800
+
+    tw033 = next(s for s in tw if s["spot_id"] == "tw-033")
+    marine_diag = fetch_data._build_opportunity_runtime_diagnostics(
+        tw033, {
+            "marine_forecast": calm_marine,
+            "astronomy_valid": True,
+            "sun_azimuth": 92,
+            "sun_elevation": 2,
+            "hour": 6,
+        }
+    )
+    assert "tw-033-P01" in marine_diag
+    assert marine_diag["tw-033-P01"]["available"] is True
+    assert marine_diag["tw-033-P01"]["eligible"] is True
+    assert marine_diag["tw-033-P01"]["modules"]["marine_state"]["local_shore_safety_verified"] is False
+
+    tw036 = next(s for s in tw if s["spot_id"] == "tw-036")
+    astro_marine_diag = fetch_data._build_opportunity_runtime_diagnostics(
+        tw036, {
+            "marine_forecast": calm_marine,
+            "astronomy_valid": True,
+            "astronomical_dark": True,
+            "sun_elevation": -28,
+            "galactic_core_azimuth": 180,
+            "galactic_core_elevation": 28,
+            "moon_azimuth": 20,
+            "moon_elevation": -5,
+            "moon_illumination": 80,
+            "c_low": 10, "c_mid": 20, "c_high": 25,
+            "vis": 30000,
+            "bortle_class": 5,
+            "dark_sky_score": 60,
+        }
+    )
+    assert "tw-036-P02" in astro_marine_diag
+    assert astro_marine_diag["tw-036-P02"]["available"] is True
+    assert astro_marine_diag["tw-036-P02"]["eligible"] is True
+
     tw052 = get_opportunities("tw", "tw-052")
     assert tw052[0]["runtime_policy"] == "hold"
     assert get_opportunities("jp", "jp-001") == []
@@ -588,6 +727,14 @@ def test_adapter_integrity():
     assert astro_diag["tw-070-P02"]["available"] is True
     assert astro_diag["tw-070-P02"]["eligible"] is True
     assert "score" not in astro_diag["tw-070-P02"]
+
+    marine_url = fetch_data._build_marine_open_meteo_url({"lat": 24.0, "lon": 121.7})
+    assert marine_url.startswith("https://marine-api.open-meteo.com/v1/marine?")
+    assert "cell_selection=sea" in marine_url
+    assert "wave_height" in marine_url
+    assert "swell_wave_height" in marine_url
+    assert "swell_wave_period" in marine_url
+    assert "sea_level_height_msl" not in marine_url
 
     weather_url = fetch_data._build_open_meteo_url({"lat": 25.0, "lon": 121.0})
     assert ",precipitation,precipitation_probability,snowfall,snow_depth,direct_normal_irradiance," in weather_url

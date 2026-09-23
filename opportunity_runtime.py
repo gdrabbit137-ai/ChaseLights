@@ -16,6 +16,8 @@ Implemented preview components:
 - astronomy_ephemeris: non-exact night-sky visibility using astronomical
   darkness, Galactic Core position, Moon interference, sky weather and curated
   light-pollution metadata. Exact foreground alignment remains separate.
+- marine_state: coarse-grid wave/swell energy diagnostic. It does not evaluate
+  tide and never claims local shoreline safety.
 
 A profile is preview_module_available only when every dependency in the formal
 runtime dependency inventory is implemented and configured for that Opportunity.
@@ -33,8 +35,14 @@ from spatial_weather import (
     supports_spatial_weather,
     validate_spatial_weather_registry,
 )
+from marine_state import (
+    MARINE_STATE_PROFILES,
+    evaluate_marine_state,
+    supports_marine_state,
+    validate_marine_state_registry,
+)
 
-MODULE_VERSION = "opportunity-runtime-r6-preview"
+MODULE_VERSION = "opportunity-runtime-r7-preview"
 
 IMPLEMENTED_COMPONENTS = {
     "directional_horizon",
@@ -46,6 +54,7 @@ IMPLEMENTED_COMPONENTS = {
     "cloud_sky_glow",
     "spatial_weather_vertical_cloud",
     "astronomy_ephemeris",
+    "marine_state",
 }
 
 DIRECTIONAL_HORIZON_SECTORS = {
@@ -54,6 +63,8 @@ DIRECTIONAL_HORIZON_SECTORS = {
     "tw-004-P04": {"center": 270.0, "tolerance": 70.0, "phase": "sunset"},
     "tw-006-P02": {"center": 292.5, "tolerance": 67.5, "phase": "sunset"},
     "tw-009-P02": {"center": 247.5, "tolerance": 67.5, "phase": "sunset"},
+    "tw-010-P01": {"center": 90.0, "tolerance": 75.0, "phase": "sunrise"},
+    "tw-010-P03": {"center": 270.0, "tolerance": 75.0, "phase": "sunset"},
     "tw-011-P01": {"center": 270.0, "tolerance": 70.0, "phase": "sunset"},
     "tw-020-P01": {"center": 90.0, "tolerance": 70.0, "phase": "sunrise"},
     "tw-020-P02": {"center": 90.0, "tolerance": 70.0, "phase": "sunrise"},
@@ -65,8 +76,11 @@ DIRECTIONAL_HORIZON_SECTORS = {
     "tw-027-P03": {"center": 270.0, "tolerance": 75.0, "phase": "sunset"},
     "tw-028-P01": {"center": 270.0, "tolerance": 90.0, "phase": "sunset"},
     "tw-030-P01": {"center": 270.0, "tolerance": 70.0, "phase": "sunset"},
+    "tw-033-P01": {"center": 90.0, "tolerance": 75.0, "phase": "sunrise"},
+    "tw-033-P02": {"center": 90.0, "tolerance": 75.0, "phase": "sunrise"},
     "tw-035-P03": {"center": 270.0, "tolerance": 70.0, "phase": "sunset"},
     "tw-035-P04": {"center": 270.0, "tolerance": 75.0, "phase": "sunset"},
+    "tw-036-P01": {"center": 90.0, "tolerance": 75.0, "phase": "sunrise"},
     "tw-043-P02": {"center": 270.0, "tolerance": 75.0, "phase": "sunset"},
     "tw-047-P02": {"center": 270.0, "tolerance": 75.0, "phase": "sunset"},
     "tw-051-P01": {"center": 270.0, "tolerance": 75.0, "phase": "sunset"},
@@ -74,6 +88,8 @@ DIRECTIONAL_HORIZON_SECTORS = {
     "tw-065-P01": {"center": 247.5, "tolerance": 67.5, "phase": "sunset"},
     "tw-067-P01": {"center": 270.0, "tolerance": 75.0, "phase": "sunset"},
     "tw-070-P01": {"center": 247.5, "tolerance": 67.5, "phase": "sunset"},
+    "tw-071-P01": {"center": 90.0, "tolerance": 75.0, "phase": "sunrise"},
+    "tw-071-P02": {"center": 270.0, "tolerance": 75.0, "phase": "sunset"},
 }
 
 CLOUD_SKY_GLOW_PROFILES = {
@@ -110,6 +126,8 @@ def component_ready_for_opportunity(component, opportunity):
         return supports_spatial_weather(opportunity)
     if component == "astronomy_ephemeris":
         return opportunity.get("opportunity_id") in ASTRONOMY_EPHEMERIS_PROFILES
+    if component == "marine_state":
+        return supports_marine_state(opportunity)
     return True
 
 
@@ -782,6 +800,7 @@ _COMPONENT_EVALUATORS = {
     "cloud_sky_glow": evaluate_cloud_sky_glow,
     "spatial_weather_vertical_cloud": evaluate_spatial_weather,
     "astronomy_ephemeris": evaluate_astronomy_ephemeris,
+    "marine_state": evaluate_marine_state,
 }
 
 
@@ -830,9 +849,10 @@ def evaluate_opportunity_modules(opportunity, item_data):
 def validate_runtime_registry():
     errors = list(validate_dependency_inventory())
     errors.extend(validate_spatial_weather_registry())
-    if len(DIRECTIONAL_HORIZON_SECTORS) != 25:
+    errors.extend(validate_marine_state_registry())
+    if len(DIRECTIONAL_HORIZON_SECTORS) != 32:
         errors.append(
-            f"expected 25 registered directional profiles, got {len(DIRECTIONAL_HORIZON_SECTORS)}"
+            f"expected 32 registered directional profiles, got {len(DIRECTIONAL_HORIZON_SECTORS)}"
         )
     if set(CLOUD_SKY_GLOW_PROFILES) != {"tw-013-P02", "tw-026-P02", "tw-030-P02", "tw-035-P04"}:
         errors.append(f"unexpected cloud_sky_glow registry: {sorted(CLOUD_SKY_GLOW_PROFILES)}")
@@ -846,6 +866,8 @@ def validate_runtime_registry():
         errors.append(
             f"unexpected astronomy ephemeris registry: {sorted(ASTRONOMY_EPHEMERIS_PROFILES)}"
         )
+    if len(MARINE_STATE_PROFILES) != 9:
+        errors.append(f"expected 9 marine-state profiles, got {len(MARINE_STATE_PROFILES)}")
     for oid, sector in DIRECTIONAL_HORIZON_SECTORS.items():
         if not oid.startswith("tw-"):
             errors.append(f"{oid}: Taiwan Opportunity id expected")
