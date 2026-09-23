@@ -75,14 +75,14 @@ def _all_opportunities():
 
 
 def test_adapter_integrity():
-    assert ADAPTER_VERSION == "v0.04-r4.2-b28-p0-batch5-preview"
+    assert ADAPTER_VERSION == "v0.04-r4.2-b28-p0-final-simple-preview"
     assert validate_curated_opportunities() == []
     assert validate_taxonomy() == []
     assert CATALOG_COUNTS == {
         "spots": 80,
-        "opportunities": 191,
-        "condition_variants": 201,
-        "profile_viewpoint_relations": 196,
+        "opportunities": 189,
+        "condition_variants": 199,
+        "profile_viewpoint_relations": 194,
     }
 
     tw = get_spots("tw")
@@ -101,11 +101,11 @@ def test_adapter_integrity():
     expected_active = {f"tw-{i:03d}" for i in range(1, 82)} - {"tw-063"}
     assert set(curated) == expected_active
     assert "tw-063" not in CURATED_OPPORTUNITIES
-    assert sum(len(s["opportunities"]) for s in curated.values()) == 191
+    assert sum(len(s["opportunities"]) for s in curated.values()) == 189
 
     all_opportunities = _all_opportunities()
-    assert sum(len(o["condition_variants"]) for o in all_opportunities) == 201
-    assert sum(len(o["viewpoints"]) for o in all_opportunities) == 196
+    assert sum(len(o["condition_variants"]) for o in all_opportunities) == 199
+    assert sum(len(o["viewpoints"]) for o in all_opportunities) == 194
     assert not any(o["formula_status"] == "legacy_fallback_pending_curated" for o in all_opportunities)
     assert not any(str(o.get("formula_version") or "").startswith("legacy_") for o in all_opportunities)
 
@@ -116,16 +116,16 @@ def test_adapter_integrity():
 
     policies = Counter(runtime_policy(o) for o in all_opportunities)
     assert policies == {
-        "module_pending": 72,
+        "module_pending": 71,
         "preview_module_available": 75,
         "prototype_pending_certification": 41,
-        "hold": 2,
+        "hold": 1,
         "data_insufficient": 1,
     }
     assert runtime_policy(next(o for o in all_opportunities if o["opportunity_id"] == "tw-052-P01")) == "hold"
     assert runtime_policy(next(o for o in all_opportunities if o["opportunity_id"] == "tw-017-P01")) == "data_insufficient"
     assert validate_runtime_registry() == []
-    assert len(DIRECTIONAL_HORIZON_SECTORS) == 46
+    assert len(DIRECTIONAL_HORIZON_SECTORS) == 45
 
     nanya = next(o for o in all_opportunities if o["opportunity_id"] == "tw-072-P01")
     assert runtime_policy(nanya) == "preview_module_available"
@@ -159,15 +159,11 @@ def test_adapter_integrity():
     assert runtime_policy(shihtiping_tide) == "preview_module_available"
     assert dependency_state(shihtiping_tide)["required_components"] == ("marine_state", "tide_state")
 
-    jiangong_sunset = next(o for o in all_opportunities if o["opportunity_id"] == "tw-078-P01")
-    assert runtime_policy(jiangong_sunset) == "module_pending"
-    assert dependency_state(jiangong_sunset)["ready_components"] == ("marine_state", "tide_state", "directional_horizon")
-    assert dependency_state(jiangong_sunset)["missing_components"] == ("dynamic_access",)
-
-    jiangong_tide = next(o for o in all_opportunities if o["opportunity_id"] == "tw-078-P02")
-    assert runtime_policy(jiangong_tide) == "module_pending"
-    assert dependency_state(jiangong_tide)["ready_components"] == ("marine_state", "tide_state")
-    assert dependency_state(jiangong_tide)["missing_components"] == ("dynamic_access",)
+    jiangong = next(o for o in all_opportunities if o["opportunity_id"] == "tw-078-P01")
+    assert runtime_policy(jiangong) == "module_pending"
+    assert dependency_state(jiangong)["ready_components"] == ("tide_state",)
+    assert dependency_state(jiangong)["missing_components"] == ("dynamic_access",)
+    assert not any(o["opportunity_id"] == "tw-078-P02" for o in all_opportunities)
 
     chixi_sunset = next(o for o in all_opportunities if o["opportunity_id"] == "tw-079-P01")
     assert runtime_policy(chixi_sunset) == "preview_module_available"
@@ -190,8 +186,7 @@ def test_adapter_integrity():
     assert dependency_state(iron_fort_day)["ready_components"] == ("visibility",)
     assert dependency_state(iron_fort_day)["missing_components"] == ("dynamic_access",)
 
-    iron_fort_tears = next(o for o in all_opportunities if o["opportunity_id"] == "tw-081-P02")
-    assert runtime_policy(iron_fort_tears) == "hold"
+    assert not any(o["opportunity_id"] == "tw-081-P02" for o in all_opportunities)
     directional = next(o for o in all_opportunities if o["opportunity_id"] == "tw-020-P01")
     assert runtime_policy(directional) == "preview_module_available"
     matched = evaluate_directional_horizon(directional, {
@@ -611,7 +606,6 @@ def test_adapter_integrity():
         "tw-072-P01", "tw-072-P02", "tw-073-P01",
         "tw-075-P01",
         "tw-077-P01", "tw-077-P02",
-        "tw-078-P01", "tw-078-P02",
         "tw-079-P01", "tw-079-P02",
     }
 
@@ -749,7 +743,7 @@ def test_adapter_integrity():
         "tw-060-P01", "tw-060-P02", "tw-060-P03",
         "tw-073-P01",
         "tw-077-P02",
-        "tw-078-P01", "tw-078-P02",
+        "tw-078-P01",
         "tw-079-P02",
     }
 
@@ -834,7 +828,7 @@ def test_adapter_integrity():
         o for o in all_opportunities
         if "dynamic_access" in dependencies_for_opportunity(o)
     ]
-    assert len(dynamic_profiles) == 43
+    assert len(dynamic_profiles) == 42
     assert {o["opportunity_id"] for o in dynamic_profiles} == set(ACCESS_DEPENDENT_PROFILE_IDS)
     assert set(ACCESS_PROFILE_CLASSIFICATION) == set(ACCESS_DEPENDENT_PROFILE_IDS)
     assert ACCESS_RUNTIME_READY_PROFILES == frozenset()
