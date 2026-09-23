@@ -75,30 +75,37 @@ def _all_opportunities():
 
 
 def test_adapter_integrity():
-    assert ADAPTER_VERSION == "v0.04-r4.2-b25-preview"
+    assert ADAPTER_VERSION == "v0.04-r4.2-b26-preview"
     assert validate_curated_opportunities() == []
     assert validate_taxonomy() == []
     assert CATALOG_COUNTS == {
-        "spots": 71,
-        "opportunities": 174,
-        "condition_variants": 182,
-        "profile_viewpoint_relations": 179,
+        "spots": 70,
+        "opportunities": 173,
+        "condition_variants": 181,
+        "profile_viewpoint_relations": 178,
     }
 
     tw = get_spots("tw")
     assert len(tw) == 71
     assert [s["spot_id"] for s in tw] == [f"tw-{i:03d}" for i in range(1, 72)]
-    assert PRODUCT_STATUS_BY_SPOT == {}
-    assert all(product_status(s["spot_id"]) == "keep" for s in tw)
-    assert all(active_in_catalog(s["spot_id"]) for s in tw)
+    assert PRODUCT_STATUS_BY_SPOT == {"tw-063": "retired"}
+    assert product_status("tw-063") == "retired"
+    assert active_in_catalog("tw-063") is False
+    assert sum(1 for s in tw if active_in_catalog(s["spot_id"])) == 70
+    assert all(
+        product_status(s["spot_id"]) == "keep"
+        for s in tw if s["spot_id"] != "tw-063"
+    )
 
     curated = {s["spot_id"]: s for s in tw if s.get("opportunities")}
-    assert set(curated) == {f"tw-{i:03d}" for i in range(1, 72)}
-    assert sum(len(s["opportunities"]) for s in curated.values()) == 174
+    expected_active = {f"tw-{i:03d}" for i in range(1, 72)} - {"tw-063"}
+    assert set(curated) == expected_active
+    assert "tw-063" not in CURATED_OPPORTUNITIES
+    assert sum(len(s["opportunities"]) for s in curated.values()) == 173
 
     all_opportunities = _all_opportunities()
-    assert sum(len(o["condition_variants"]) for o in all_opportunities) == 182
-    assert sum(len(o["viewpoints"]) for o in all_opportunities) == 179
+    assert sum(len(o["condition_variants"]) for o in all_opportunities) == 181
+    assert sum(len(o["viewpoints"]) for o in all_opportunities) == 178
     assert not any(o["formula_status"] == "legacy_fallback_pending_curated" for o in all_opportunities)
     assert not any(str(o.get("formula_version") or "").startswith("legacy_") for o in all_opportunities)
 
@@ -109,7 +116,7 @@ def test_adapter_integrity():
 
     policies = Counter(runtime_policy(o) for o in all_opportunities)
     assert policies == {
-        "module_pending": 67,
+        "module_pending": 66,
         "preview_module_available": 64,
         "prototype_pending_certification": 41,
         "hold": 1,
@@ -751,12 +758,12 @@ def test_adapter_integrity():
         o for o in all_opportunities
         if "dynamic_access" in dependencies_for_opportunity(o)
     ]
-    assert len(dynamic_profiles) == 41
+    assert len(dynamic_profiles) == 40
     assert {o["opportunity_id"] for o in dynamic_profiles} == set(ACCESS_DEPENDENT_PROFILE_IDS)
     assert set(ACCESS_PROFILE_CLASSIFICATION) == set(ACCESS_DEPENDENT_PROFILE_IDS)
     assert ACCESS_RUNTIME_READY_PROFILES == frozenset()
     assert HARD_ACCESS_HOLDS["tw-052"]["policy"] == "hold"
-    assert {"tw-005", "tw-037", "tw-038", "tw-063"} <= set(OFFICIAL_SOURCE_HINTS)
+    assert {"tw-005", "tw-037", "tw-038"} <= set(OFFICIAL_SOURCE_HINTS)\n    assert "tw-063" not in OFFICIAL_SOURCE_HINTS
     assert all(
         runtime_policy(o) == "module_pending"
         for o in dynamic_profiles

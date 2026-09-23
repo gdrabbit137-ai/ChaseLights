@@ -117,7 +117,7 @@ _ACCESS_GROUPS = {
     "public_attraction_notice": ("tw-038-P01", "tw-038-P02"),
     "waterfall_trail_status": ("tw-055-P01",),
     "tidal_path_notice": ("tw-059-P01",),
-    "facility_hours_notice": ("tw-063-P01", "tw-068-P01"),
+    "facility_hours_notice": ("tw-068-P01",),
 }
 
 ACCESS_PROFILE_CLASSIFICATION = {}
@@ -157,13 +157,6 @@ OFFICIAL_SOURCE_HINTS = {
         "url": "https://www.eastcoast-nsa.gov.tw/zh-tw/attractions/detail/41/",
         "verified_on": "2026-09-23",
         "note": "Attraction page lists all-day opening while separately carrying bridge-construction closure information.",
-    },
-    "tw-063": {
-        "authority": "Kinmen National Park Headquarters",
-        "source_kind": "official_hours_plus_latest_news",
-        "url": "https://www.kmnp.gov.tw/ch/titlelist/latest-news",
-        "verified_on": "2026-09-23",
-        "note": "Temporary closure notices must override regular hours.",
     },
 }
 
@@ -375,8 +368,8 @@ def evaluate_dynamic_access(opportunity, item_data):
 
 def validate_access_registry():
     errors = []
-    if len(ACCESS_DEPENDENT_PROFILE_IDS) != 41:
-        errors.append(f"expected 41 dynamic-access profiles, got {len(ACCESS_DEPENDENT_PROFILE_IDS)}")
+    if len(ACCESS_DEPENDENT_PROFILE_IDS) != 40:
+        errors.append(f"expected 40 dynamic-access profiles, got {len(ACCESS_DEPENDENT_PROFILE_IDS)}")
     if ACCESS_RUNTIME_READY_PROFILES - ACCESS_DEPENDENT_PROFILE_IDS:
         errors.append("runtime-ready access profile is not classified")
     for oid, contract in ACCESS_PROFILE_CLASSIFICATION.items():

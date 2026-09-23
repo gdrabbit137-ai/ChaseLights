@@ -1,11 +1,12 @@
 """ChaseLights v0.04 R4.2 taxonomy and post-review product-catalog policy.
 
-All 71 Taiwan Places completed R4 review and remain KEEP. Temporary closure,
-permission, lighting, event, tide, or other dynamic state is handled by the
-Opportunity runtime contract rather than by deleting the Place from catalog.
+R4 product policy now has 70 active Taiwan Places. tw-063 翟山坑道 was retired
+in B26 after product-quality review concluded it is not strong enough as a
+dedicated landscape-photography destination. Dynamic closures of otherwise
+strong Places remain runtime state rather than retirement.
 """
 
-TAXONOMY_VERSION = "v0.04-r4.2-b16-preview"
+TAXONOMY_VERSION = "v0.04-r4.2-b26-preview"
 
 SCENE_TYPES_V004 = {
     "mountain", "coast", "lake", "river", "wetland", "waterfall",
@@ -46,7 +47,7 @@ LEGACY_THEME_POLICY = {
     "aurora": "phenomenon",
 }
 
-PRODUCT_STATUS_BY_SPOT = {}
+PRODUCT_STATUS_BY_SPOT = {"tw-063": "retired"}
 
 
 def product_status(spot_id):
