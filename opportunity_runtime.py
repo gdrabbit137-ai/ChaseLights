@@ -885,9 +885,9 @@ def validate_runtime_registry():
     errors.extend(validate_marine_state_registry())
     errors.extend(validate_tide_state_registry())
     errors.extend(validate_access_registry())
-    if len(DIRECTIONAL_HORIZON_SECTORS) != 37:
+    if len(DIRECTIONAL_HORIZON_SECTORS) != 40:
         errors.append(
-            f"expected 37 registered directional profiles, got {len(DIRECTIONAL_HORIZON_SECTORS)}"
+            f"expected 40 registered directional profiles, got {len(DIRECTIONAL_HORIZON_SECTORS)}"
         )
     if set(CLOUD_SKY_GLOW_PROFILES) != {"tw-013-P02", "tw-026-P02", "tw-030-P02", "tw-035-P04"}:
         errors.append(f"unexpected cloud_sky_glow registry: {sorted(CLOUD_SKY_GLOW_PROFILES)}")
@@ -901,10 +901,10 @@ def validate_runtime_registry():
         errors.append(
             f"unexpected astronomy ephemeris registry: {sorted(ASTRONOMY_EPHEMERIS_PROFILES)}"
         )
-    if len(MARINE_STATE_PROFILES) != 9:
-        errors.append(f"expected 9 marine-state profiles, got {len(MARINE_STATE_PROFILES)}")
-    if len(TIDE_STATE_PROFILES) != 10:
-        errors.append(f"expected 10 tide-state profiles, got {len(TIDE_STATE_PROFILES)}")
+    if len(MARINE_STATE_PROFILES) != 12:
+        errors.append(f"expected 12 marine-state profiles, got {len(MARINE_STATE_PROFILES)}")
+    if len(TIDE_STATE_PROFILES) != 11:
+        errors.append(f"expected 11 tide-state profiles, got {len(TIDE_STATE_PROFILES)}")
     if len(ACCESS_DEPENDENT_PROFILE_IDS) != 40:
         errors.append(f"expected 40 dynamic-access profiles, got {len(ACCESS_DEPENDENT_PROFILE_IDS)}")
     if ACCESS_RUNTIME_READY_PROFILES:
