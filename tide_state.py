@@ -22,6 +22,7 @@ TIDE_STATE_PROFILES = {
     "tw-060-P02": {"mode": "low_exposure"},
     "tw-060-P03": {"mode": "low_exposure"},
     "tw-073-P01": {"mode": "low_exposure_strict"},
+    "tw-077-P02": {"mode": "intertidal_layers"},
 }
 
 
@@ -214,6 +215,7 @@ def validate_tide_state_registry():
         "tw-059-P01",
         "tw-060-P01", "tw-060-P02", "tw-060-P03",
         "tw-073-P01",
+        "tw-077-P02",
     }
     errors = []
     if set(TIDE_STATE_PROFILES) != expected:
