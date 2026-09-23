@@ -1067,19 +1067,19 @@ def test_adapter_integrity():
     assert missed["score"] <= 54
     assert missed["condition_state"] == "dedicated_conditions_miss"
 
-    pending = next(o for o in all_opportunities if o["runtime_policy"] == "module_pending")
+    pending = next(o for o in all_opportunities if runtime_policy(o) == "module_pending")
     pending_score = fetch_data._score_opportunity(pending, high_theme_metric, {}, "zh-TW")
     assert pending_score["score"] <= 64
 
-    prototype = next(o for o in all_opportunities if o["runtime_policy"] == "prototype_pending_certification")
+    prototype = next(o for o in all_opportunities if runtime_policy(o) == "prototype_pending_certification")
     prototype_score = fetch_data._score_opportunity(prototype, high_theme_metric, {}, "zh-TW")
     assert prototype_score["score"] <= 79
 
-    held = next(o for o in all_opportunities if o["runtime_policy"] == "hold")
+    held = next(o for o in all_opportunities if runtime_policy(o) == "hold")
     hold_score = fetch_data._score_opportunity(held, high_theme_metric, {}, "zh-TW")
     assert hold_score["score"] == 0
 
-    insufficient = next(o for o in all_opportunities if o["runtime_policy"] == "data_insufficient")
+    insufficient = next(o for o in all_opportunities if runtime_policy(o) == "data_insufficient")
     insufficient_score = fetch_data._score_opportunity(insufficient, high_theme_metric, {}, "zh-TW")
     assert insufficient_score["score"] <= 35
 
