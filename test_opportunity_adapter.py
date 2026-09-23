@@ -1196,6 +1196,55 @@ def test_active_catalog_weather_generation_guard():
     assert stale["data_stale"] is True
     assert stale["data_stale_reason"] == "weather_fetch_failed"
 
+    # Daily Place ranking is authoritative only when a researched Opportunity
+    # exists. Legacy Theme metrics may remain in the payload for compatibility,
+    # but may not publish a photography recommendation score on their own.
+    legacy_only_hour = [{
+        "is_past": False,
+        "local_date": "2026-09-24",
+        "time": "2026-09-24 06:00",
+        "time_utc": "2026-09-23T22:00:00Z",
+        "theme_scores": {
+            "sunrise": {
+                "score": 95,
+                "status_key": "STABLE_WEATHER",
+                "indicator_key": "IND_DEFAULT",
+                "factors": [],
+            }
+        },
+    }]
+    unresearched_days = analyze_weather._build_day_summaries(
+        legacy_only_hour, ["sunrise"], []
+    )
+    assert unresearched_days[0]["all"]["score"] is None
+    assert unresearched_days[0]["all"]["research_pending"] is True
+
+    researched_hour = [{
+        "is_past": False,
+        "local_date": "2026-09-24",
+        "time": "2026-09-24 06:00",
+        "time_utc": "2026-09-23T22:00:00Z",
+        "theme_scores": {"reflection": {"score": 91, "factors": []}},
+        "opportunity_scores": {
+            "tw-018-P02": {
+                "score": 88,
+                "status_key": "OPPORTUNITY_MATCH",
+                "indicator_key": "OPPORTUNITY_MATCH",
+                "factors": [],
+                "runtime_policy": "preview_module_available",
+                "condition_state": "dedicated_conditions_match",
+                "score_confidence": "high",
+                "base_theme_score": 91,
+            }
+        },
+    }]
+    researched_days = analyze_weather._build_day_summaries(
+        researched_hour, ["reflection"], [p02]
+    )
+    assert researched_days[0]["all"]["opportunity_id"] == "tw-018-P02"
+    assert researched_days[0]["all"]["score"] == 88
+    assert researched_days[0]["all"]["research_pending"] is False
+
 
 def test_schema9_optional_metadata_bridge():
     spot = next(s for s in get_spots("tw") if s["spot_id"] == "tw-052")
