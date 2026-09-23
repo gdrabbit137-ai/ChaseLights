@@ -1,5 +1,7 @@
 import json
 import urllib.request
+import urllib.error
+import time
 import os
 from datetime import datetime, timezone, timedelta
 from bisect import bisect_right
@@ -116,10 +118,26 @@ _MARINE_RESPONSE_CACHE = {}
 _TIDE_RESPONSE_CACHE = {}
 
 
-def _request_json(url, timeout=12):
+def _request_json(url, timeout=12, attempts=3):
+    """Fetch JSON with bounded retries for transient network/TLS failures."""
     req = urllib.request.Request(url, headers={"User-Agent": "ChaseLights/2.0 (+weather photography)"})
-    with urllib.request.urlopen(req, timeout=timeout) as response:
-        return json.loads(response.read().decode("utf-8"))
+    last_error = None
+    for attempt in range(max(1, int(attempts))):
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as response:
+                return json.loads(response.read().decode("utf-8"))
+        except urllib.error.HTTPError as exc:
+            # Retrying client errors only wastes time and can hide a bad request.
+            if 400 <= int(getattr(exc, "code", 0) or 0) < 500:
+                raise
+            last_error = exc
+        except (urllib.error.URLError, TimeoutError) as exc:
+            last_error = exc
+        if attempt + 1 < max(1, int(attempts)):
+            time.sleep(1.25 * (attempt + 1))
+    if last_error is not None:
+        raise last_error
+    raise RuntimeError("weather request failed without an exception")
 
 
 def fetch_noaa_kp_series(force=False):

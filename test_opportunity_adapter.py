@@ -946,6 +946,18 @@ def test_adapter_integrity():
     assert ",precipitation,precipitation_probability,snowfall,snow_depth,direct_normal_irradiance," in weather_url
 
 
+def test_active_catalog_weather_generation_guard():
+    active_tw = analyze_weather._active_spots("tw")
+    assert len(active_tw) == 70
+    assert "tw-063" not in {spot["spot_id"] for spot in active_tw}
+    assert all(spot.get("active_in_catalog", True) for spot in active_tw)
+
+    stale = analyze_weather._mark_stale({"spot_id": "tw-009", "daily": []}, "weather_fetch_failed")
+    assert stale["spot_id"] == "tw-009"
+    assert stale["data_stale"] is True
+    assert stale["data_stale_reason"] == "weather_fetch_failed"
+
+
 def test_schema9_optional_metadata_bridge():
     spot = next(s for s in get_spots("tw") if s["spot_id"] == "tw-052")
     original = analyze_weather.fetch_weather_for_spot
@@ -973,5 +985,6 @@ def test_schema9_optional_metadata_bridge():
 
 if __name__ == "__main__":
     test_adapter_integrity()
+    test_active_catalog_weather_generation_guard()
     test_schema9_optional_metadata_bridge()
     print("v0.04 R4.2 full Opportunity adapter tests: PASS")
