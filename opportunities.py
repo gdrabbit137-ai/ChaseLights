@@ -16,7 +16,7 @@ import bz2
 import json
 from pathlib import Path
 
-from opportunity_runtime import supports_runtime_contract
+from opportunity_runtime import dependency_state, supports_runtime_contract
 
 ADAPTER_VERSION = "v0.04-r4.2-b17-preview"
 CATALOG_PART_PATTERN = "runtime_catalog_v004_r4_2_b15.compact.part{part}.b64"
@@ -88,6 +88,7 @@ def get_opportunities(region_key, spot_id):
     opportunities = deepcopy(CURATED_OPPORTUNITIES.get(spot_id, []))
     for opportunity in opportunities:
         opportunity["runtime_policy"] = runtime_policy(opportunity)
+        opportunity["runtime_dependency_state"] = dependency_state(opportunity)
     return opportunities
 
 

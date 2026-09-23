@@ -14,6 +14,7 @@ from opportunity_runtime import (
 from runtime_dependencies import FORMULA_DEPENDENCIES, dependencies_for_status, validate_dependency_inventory
 
 import analyze_weather
+import fetch_data
 from opportunities import (
     ADAPTER_VERSION,
     CATALOG_COUNTS,
@@ -166,6 +167,20 @@ def test_adapter_integrity():
     copy = get_opportunities("tw", "tw-001")
     copy[0]["condition_variants"][0]["variant_name"] = "mutated"
     assert CURATED_OPPORTUNITIES["tw-001"][0]["condition_variants"][0]["variant_name"] != "mutated"
+
+    tw018 = next(s for s in tw if s["spot_id"] == "tw-018")
+    p02 = next(o for o in tw018["opportunities"] if o["opportunity_id"] == "tw-018-P02")
+    assert p02["runtime_policy"] == "preview_module_available"
+    assert p02["runtime_dependency_state"]["complete"] is True
+    assert p02["runtime_dependency_state"]["required_components"] == ("water_surface_state",)
+
+    diag = fetch_data._build_opportunity_runtime_diagnostics(
+        tw018, {"wind": 1.2, "pop": 10}
+    )
+    assert set(diag) == {"tw-018-P02"}
+    assert diag["tw-018-P02"]["available"] is True
+    assert diag["tw-018-P02"]["eligible"] is True
+    assert "score" not in diag["tw-018-P02"]
 
 
 def test_schema9_optional_metadata_bridge():

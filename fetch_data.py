@@ -5,6 +5,8 @@ from datetime import datetime, timezone, timedelta
 from bisect import bisect_right
 from zoneinfo import ZoneInfo
 
+from opportunity_runtime import evaluate_opportunity_modules
+
 # 後端多國語言狀態與指標字典
 I18N_MESSAGES = {
     # 狀態 (Status)
@@ -776,6 +778,19 @@ def evaluate_tag_condition(theme, item_data, hour=None, lang="zh-TW"):
     factors=_build_factors(theme,item_data,lang)
     return score,get_text(status_key,lang),get_text(indicator_key,lang),status_key,indicator_key,factors
 
+def _build_opportunity_runtime_diagnostics(spot, item_data):
+    """Preview-only module diagnostics; never emits an Opportunity score."""
+    diagnostics = {}
+    for opportunity in spot.get("opportunities", []) or []:
+        if opportunity.get("runtime_policy") != "preview_module_available":
+            continue
+        oid = opportunity.get("opportunity_id")
+        if not oid:
+            continue
+        diagnostics[oid] = evaluate_opportunity_modules(opportunity, item_data)
+    return diagnostics
+
+
 def _access_open_for_spot(spot, local_dt, is_day, is_twilight):
     mode = spot.get("access_mode")
     if mode == "daylight_only":
@@ -899,6 +914,8 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
                 **astro,
             }
 
+            opportunity_runtime = _build_opportunity_runtime_diagnostics(spot, item_data)
+
             theme_scores = {}
             for theme in themes:
                 score, status, indicator, status_key, indicator_key, factors = evaluate_tag_condition(theme, item_data, local_dt.hour, lang)
@@ -937,6 +954,7 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
                 "theme_scores": theme_scores,
                 "best_tag": best_theme,  # V4 compatibility
                 "tag_scores": theme_scores,  # V4 compatibility
+                "opportunity_runtime": opportunity_runtime,
                 "kp": kp_val,
                 "kp_source": kp_source,
                 "cloud_base": cloud_base_agl,  # backward compatibility
