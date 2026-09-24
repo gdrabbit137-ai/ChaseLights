@@ -1,5 +1,5 @@
 {
-  "schema_version": "v0.04-r4.2-b32-jp-batch01-10",
+  "schema_version": "v0.04-r4.2-b32-jp-batch01-11",
   "generated_at": "2026-09-24T23:45:00+08:00",
   "scope": "Japan Place-specific research migration Batch01 complete: jp-001..jp-005",
   "spot_count": 8,
@@ -882,6 +882,73 @@
               "geometry_type": "small_area",
               "geometry_extent_m": 180,
               "geometry_note": "立石公園展望平台與周邊公共觀景區；面向諏訪湖與西側山區的夕景扇區。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-019",
+      "canonical_name": "濱名湖",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH04",
+      "research_sources": [
+        {
+          "authority": "Hamamatsu City",
+          "url": "https://www.city.hamamatsu.shizuoka.jp/kanko/bentenjima-kaihinkouen/saiseibi.html",
+          "verified_on": "2026-09-25",
+          "supports": "Bentenjima Seaside Park is a representative Hamamatsu/Hamanako destination and sunset-viewing landscape throughout the year"
+        },
+        {
+          "authority": "Shizuoka Prefecture Official Tourism Guide - Hello Navi",
+          "url": "https://hellonavi.jp/article/bentenjima-akadorii",
+          "verified_on": "2026-09-25",
+          "supports": "the red symbol tower sunset alignment is a limited seasonal composition around one month either side of the winter solstice; ordinary sunset landscape and precise torii alignment must remain separate Opportunities"
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-019-P01",
+          "spot_id": "jp-019",
+          "name_zh": "弁天島海浜公園・濱名湖夕景",
+          "legacy_theme": "sunset",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04_directional_horizon_visibility",
+          "formula_confidence": 88,
+          "best_time": "日落前後／暮色（景點當地時間／JST）",
+          "best_season": "全年夕景；紅色鳥居正對夕陽的精準構圖另有季節限制",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-015",
+              "variant_name": "弁天島海浜公園濱名湖夕景",
+              "condition_geometry": "{\"camera_zone\":\"弁天島海浜公園 Camera Zone\",\"subject\":\"Hamanako water horizon + Bentenjima symbol tower area\",\"horizon\":\"west-to-southwest sunset sector\"}",
+              "hard_gates": "合法公園區域可達；日落／暮色時段有效；無明確封閉",
+              "required_conditions": "西至西南側夕陽方向可見；湖面與地平線可辨；能見度足夠；低雲未完全遮蔽夕陽方向",
+              "boosters": "中高雲可承接夕陽色彩；低雲少；湖面較平穩可增加反光層次",
+              "penalties": "西側低雲完全遮蔽；強降水；能見度過低",
+              "formula_status": "directional_horizon_visibility_runtime"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-019-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Representative public Bentenjima Seaside Park camera area. The winter-solstice torii alignment is intentionally not claimed by this broad sunset Opportunity.",
+              "name": "弁天島海浜公園 Camera Zone",
+              "lat": 34.688461,
+              "lon": 137.603753,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "existing_curated_camera_point_plus_official_sunset_destination",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 350,
+              "geometry_note": "弁天島海浜公園の公共湖岸撮影エリア。一般夕景用で、鳥居中心への精密日没アラインメントを保証しない。",
               "geometry_confidence": "high"
             }
           ]
