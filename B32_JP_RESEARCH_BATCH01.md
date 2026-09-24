@@ -270,3 +270,57 @@ Before runtime integration:
 3. jp-004 Mt. Hakodate — clear night-view Outcome, but access-source integration matters.
 4. jp-001 Shirogane Blue Pond — strong Place evidence, but winter surface-state semantics require care.
 5. jp-002 Mt. Asahidake — strong scenic value but mountain/access/season modeling is the most safety-sensitive in this batch.
+
+
+---
+
+## Implementation checkpoint
+
+### Time-zone contract — implemented
+
+- Place Guide explicitly states that shooting times use the Place's local time zone.
+- `best_time` labels are explicitly Place-local.
+- Forecast windows/hourly rows remain generated in provider-resolved Place local time.
+- Website `Last Updated` uses the viewer device/browser time zone and includes a short time-zone label.
+- Browser Smoke overrides Chrome to `America/Los_Angeles` to regress this distinction.
+
+### jp-005 Otaru Canal — runtime migration implemented on B32 branch
+
+Curated runtime state:
+- `jp-005-P01`: daytime canal + stone-warehouse view
+  - status: `minimum_sufficient_available`
+  - Camera Zone: 浅草橋街園
+  - anchor: 43.197887, 141.003034
+  - shooting times: Place-local JST
+  - high recommendation is permitted only when the explicit minimum-sufficient visibility/cloud/precipitation contract matches.
+- `jp-005-P02`: dusk gas lamps + warehouse illumination
+  - status: `module_pending`
+  - remains capped until a managed-lighting schedule runtime component is implemented.
+  - official normal schedule: canal promenade gas lamps sunset–24:00; warehouse illumination sunset–22:30.
+
+Migration isolation:
+- only `jp-005` is allowed to carry curated Japan Opportunities in this checkpoint;
+- the other 34 Japan Places must remain `research_pending`;
+- all US Places remain `research_pending`.
+
+### jp-003 Kushiro Shitsugen — research advanced, partial geometry verified
+
+**Hosooka Viewpoint sunset**
+- Environment Ministry explicitly recommends the sunset from Hosooka Viewpoint.
+- Official national-park text identifies the meandering Kushiro River, broad wetland and Akan mountain panorama.
+- Camera anchor cross-check: 43.0980769, 144.4492556.
+- This Opportunity is ready for the next runtime payload revision after the current jp-005 release gates finish.
+
+**Hokuto Observation Area sunrise**
+- Kushiro/Lake Akan official tourism explicitly calls Hokuto an excellent position for sunrise rising over Kushiro Shitsugen.
+- Hokkaido Kushiro subprefecture also identifies it as a distinct west-side wetland viewpoint.
+- Exact Camera Zone coordinate is not yet verified to the same standard.
+- Therefore the sunrise Opportunity remains research-defined only and MUST NOT enter runtime yet.
+
+Additional sources:
+- https://www.env.go.jp/nature/nationalparks/list/kushiro-shitsugen/spot/
+- https://kushirodata-center.env.go.jp/wetland/wetland_article3_12.html
+- https://www.visit-hokkaido.jp/spot/detail_10181.html
+- https://mapfan.com/spots/SCYQI%2CJ%2CAW
+- https://ja.kushiro-lakeakan.com/things_to_do/3634/
+- https://www.kushiro.pref.hokkaido.lg.jp/ts/tss/navi/zekkei/zekkei-ten02.html
