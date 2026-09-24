@@ -280,6 +280,8 @@ def test_adapter_integrity():
     assert "day?.opportunities||{}" in index_html
     assert "no_viable_opportunity" in index_html
     assert "今天剩餘時段沒有合適的已研究拍攝機會" in index_html
+    assert "const researchPending=!!metric.research_pending||!spot.opportunities?.length;const hasScore=" in index_html
+    assert "&&!researchPending&&!noViable" in index_html
 
     nanya = next(o for o in all_opportunities if o["opportunity_id"] == "tw-072-P01")
     assert runtime_policy(nanya) == "preview_module_available"
