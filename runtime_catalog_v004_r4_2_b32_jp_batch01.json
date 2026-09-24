@@ -1,11 +1,11 @@
 {
-  "schema_version": "v0.04-r4.2-b32-jp-batch01-4",
+  "schema_version": "v0.04-r4.2-b32-jp-batch01-5",
   "generated_at": "2026-09-24T23:45:00+08:00",
-  "scope": "Japan Place-specific research migration; jp-001 Blue Pond data-insufficient + jp-003 Hosooka + jp-004 Mt Hakodate + jp-005 Otaru",
-  "spot_count": 4,
-  "opportunity_count": 5,
-  "condition_variant_count": 5,
-  "profile_viewpoint_relation_count": 5,
+  "scope": "Japan Place-specific research migration Batch01 complete: jp-001..jp-005",
+  "spot_count": 5,
+  "opportunity_count": 6,
+  "condition_variant_count": 6,
+  "profile_viewpoint_relation_count": 6,
   "spots": [
     {
       "spot_id": "jp-001",
@@ -68,6 +68,73 @@
               "geometry_type": "small_area",
               "geometry_extent_m": 220,
               "geometry_note": "青池沿公共觀景步道可移動構圖；代表觀景區，不宣稱唯一腳架點。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-002",
+      "canonical_name": "旭岳",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH01",
+      "research_sources": [
+        {
+          "authority": "Daisetsuzan Asahidake Ropeway",
+          "url": "https://asahidake.hokkaido.jp/en/",
+          "verified_on": "2026-09-24",
+          "supports": "live ropeway operation status; daily hours; Sugatami Station at ~1600 m; ~1.7 km / ~1 hour Sugatami Pond walking course; mountain weather/visibility and safety warnings"
+        },
+        {
+          "authority": "Google Maps mapped POI",
+          "url": "https://www.google.com/maps/place/Sugatami+Station/",
+          "verified_on": "2026-09-24",
+          "supports": "Sugatami Station coordinate 43.6620489, 142.8250911"
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-002-P01",
+          "spot_id": "jp-002",
+          "name_zh": "姿見池周邊旭岳火山高山景觀",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_spatial_weather_dynamic_access_module",
+          "formula_version": "v0.04_pending_asahidake_ropeway_access",
+          "formula_confidence": 80,
+          "best_time": "纜車可用的白天時段（景點當地時間／JST；依當日運行與末班時間）",
+          "best_season": "依姿見池散策路／纜車官方當期資訊；冬季不可沿用夏季步道假設",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-006",
+              "variant_name": "姿見池散策區旭岳火山景觀",
+              "condition_geometry": "{\"camera_zone\":\"姿見駅—姿見池散策路 Camera Zone\",\"subject\":\"Mt Asahidake volcanic alpine landscape + Sugatami Pond area\"}",
+              "hard_gates": "標準遊客路線可合法到達；纜車／散策路條件可用；白天可見光；無官方停駛或安全性不明狀態",
+              "required_conditions": "旭岳與火山高山地貌可辨；能見度足夠；低雲／霧未嚴重遮蔽山體",
+              "boosters": "空氣透明度佳；低雲少；季節性高山色彩存在時可增加層次，但不由目前模型自行宣稱",
+              "penalties": "纜車停駛；能見度急降；低雲／濃霧遮蔽山體；強風／惡劣天候；冬季登山條件但缺乏對應裝備／安全資訊",
+              "formula_status": "research_ready_ropeway_access_and_mountain_weather_provider_pending"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-002-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Anchor is Sugatami Station; the official scenic walking course extends ~1.7 km around Sugatami Pond, so this is an area Camera Zone rather than a single tripod point.",
+              "name": "姿見駅—姿見池散策路 Camera Zone",
+              "lat": 43.6620489,
+              "lon": 142.8250911,
+              "elevation_m": 1600,
+              "coord_confidence": "high",
+              "verification_status": "official_sugatami_course_plus_mapped_station_coordinate",
+              "geometry_type": "area",
+              "geometry_extent_m": 1100,
+              "geometry_note": "以姿見駅為 anchor，涵蓋官方約 1.7 km 姿見池散策環線；不以旭岳山頂座標代替一般攝影 Camera Zone。",
               "geometry_confidence": "high"
             }
           ]
