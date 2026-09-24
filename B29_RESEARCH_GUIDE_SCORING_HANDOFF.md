@@ -174,29 +174,37 @@ Browser smoke at run `36005909042`:
 - US rendered cards: 70
 - unresearched Japan/US legacy scores hidden
 
-## Newly identified production performance issue
+## B31 production performance fix — COMPLETED
 
-The post-release weather push reported:
+The post-release performance issue was the ~69.66 MB Taiwan regional detail payload. B31 has now been merged and deployed.
 
-- `tw_weather_details.json`: approximately 69.66 MB.
+Production behavior:
+- homepage cards continue using lightweight regional summary files,
+- Weather Forecast details are published as addressable per-Place shards under `weather_details/<region>/<spot_id>.json`,
+- Weather Forecast click loads only the selected Place shard,
+- legacy regional detail files remain as a zero-downtime fallback during rollout,
+- summary/detail version consistency continues to use `updated_at`,
+- the 96H UI and Opportunity scoring semantics are unchanged.
 
-This is below GitHub's hard single-file limit but above its recommended 50 MB size.
+Production verification:
+- B31 merge commit: `e43be5cb952daaf71612b9fd8d1256aeecdd9214`
+- first production shard weather commit: `d6fef2a642630056dbc47c00a74a646411950d97`
+- production weather workflow: PASS, run `36019512647`
+- GitHub Pages deployment for first shard commit: PASS, run `36020069352`
+- published shard counts:
+  - Taiwan: 80
+  - Japan: 35
+  - US: 70
+- B31 Browser Smoke: PASS, run `36018893134`
+- B31 Taiwan Candidate Weather QA: PASS, run `36018207951`
+- final B31 Adapter CI after fallback regression fix: PASS, run `36018909670`
 
-More importantly, the current UI loads the whole regional details file on the first Weather Forecast click. For Taiwan that means a large network transfer and JSON parse before one Place's 96H forecast is displayed.
-
-Treat this as the next production performance priority. Preferred direction:
-- preserve the lightweight regional summary used by homepage cards,
-- split 96H detail payloads by Place (or another small addressable shard),
-- load only the selected Place's detail on Weather Forecast click,
-- keep cache/version consistency with the summary `updated_at`,
-- retain the current 96H UI behavior and Opportunity scoring semantics.
-
-Do not solve this by removing forecast fields or lowering research/scoring fidelity unless a separate product decision is made.
+The legacy regional details files remain temporarily available as deployment fallback; future cleanup should remove them only after production usage confirms shard loading is stable.
 
 ## Next priorities
 
-1. B31: reduce Weather Forecast detail payload from the current ~69.66 MB Taiwan regional file to true on-demand Place-level/sharded loading.
-2. Migrate Japan and US Place research before enabling photography scores there.
-3. Complete remaining Taiwan dedicated modules that materially unlock high-value Opportunities.
-4. P1 missing Places remain 水漾森林 and 加路蘭.
-5. Continue source-specific access providers only for core Opportunities where access materially gates photography value.
+1. Migrate Japan and US Place research before enabling photography scores there.
+2. Complete remaining Taiwan dedicated modules that materially unlock high-value Opportunities.
+3. P1 missing Places remain 水漾森林 and 加路蘭.
+4. Continue source-specific access providers only for core Opportunities where access materially gates photography value.
+5. After a stable production period, remove the B31 legacy regional-detail fallback and stop publishing oversized regional detail files.
