@@ -1,11 +1,11 @@
 {
-  "schema_version": "v0.04-r4.2-b32-jp-batch01-9",
+  "schema_version": "v0.04-r4.2-b32-jp-batch01-10",
   "generated_at": "2026-09-24T23:45:00+08:00",
   "scope": "Japan Place-specific research migration Batch01 complete: jp-001..jp-005",
-  "spot_count": 9,
-  "opportunity_count": 12,
-  "condition_variant_count": 12,
-  "profile_viewpoint_relation_count": 12,
+  "spot_count": 10,
+  "opportunity_count": 14,
+  "condition_variant_count": 14,
+  "profile_viewpoint_relation_count": 14,
   "spots": [
     {
       "spot_id": "jp-001",
@@ -399,6 +399,124 @@
               "geometry_type": "small_area",
               "geometry_extent_m": 45,
               "geometry_note": "淺草橋街園及橋頭公共拍攝區；代表 Camera Zone，不宣稱唯一腳架點。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-006",
+      "canonical_name": "摩周湖",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH02",
+      "research_sources": [
+        {
+          "authority": "Hokkaido official tourism",
+          "url": "https://www.visit-hokkaido.jp/en/spot/detail_10484.html",
+          "verified_on": "2026-09-25",
+          "supports": "First Observatory / Kamuy Terrace gives unobstructed lake views; calm water can mirror the sky; mist can transform the scene; rooftop terrace is available at night for stars and Milky Way"
+        },
+        {
+          "authority": "Hokkaido official tourism Google Maps link",
+          "url": "https://www.google.co.jp/maps/dir//43.555872,144.507252",
+          "verified_on": "2026-09-25",
+          "supports": "official First Observatory map link resolves to 43.555872, 144.507252"
+        },
+        {
+          "authority": "Hokkaido official tourism",
+          "url": "https://www.visit-hokkaido.jp/en/spot/detail_10483.html",
+          "verified_on": "2026-09-25",
+          "supports": "Third Observatory has early-morning Kussharo-caldera cloud-sea potential and closes from late November to early April; kept research-pending until spatial/access contract is complete"
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-006-P01",
+          "spot_id": "jp-006",
+          "name_zh": "摩周湖第一展望台・摩周藍湖景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04_visibility_minimum_sufficient",
+          "formula_confidence": 88,
+          "best_time": "白天（景點當地時間／JST）",
+          "best_season": "全年；此題材專指湖面與火山口地形清楚可辨的摩周藍景觀",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-013",
+              "variant_name": "第一展望台摩周藍＋火山口湖全景",
+              "condition_geometry": "{\"camera_zone\":\"摩周湖第一展望台／Kamuy Terrace Camera Zone\",\"subject\":\"Lake Mashu blue water + caldera landscape\"}",
+              "hard_gates": "公共屋頂／觀景區可達；可見光時段",
+              "required_conditions": "摩周湖湖面與火山口地形可辨；能見度足夠；濃霧／低雲未嚴重遮蔽湖景",
+              "boosters": "空氣透明度佳；低霾；湖面平穩時可增加天空倒影層次",
+              "penalties": "濃霧使湖面大幅不可見；低能見度；強降水造成主景不可辨",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-006-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Hokkaido official tourism identifies the First Observatory / Kamuy Terrace as the lake and night-sky viewpoint; its own Google Maps link pins this location.",
+              "name": "摩周湖第一展望台／Kamuy Terrace Camera Zone",
+              "lat": 43.555872,
+              "lon": 144.507252,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_tourism_viewpoint_plus_official_linked_map_coordinate",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 120,
+              "geometry_note": "第一展望台屋頂與公共觀景區的代表 Camera Zone；不以第三展望台或湖心座標替代。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "jp-006-P02",
+          "spot_id": "jp-006",
+          "name_zh": "摩周湖第一展望台・星空與銀河",
+          "legacy_theme": "milky_way",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_astronomy_ephemeris_module",
+          "formula_version": "v0.04_astronomy_ephemeris",
+          "formula_confidence": 86,
+          "best_time": "天文夜（景點當地時間／JST）",
+          "best_season": "全年可觀星；銀河核心依天文季節、月光與雲況判定",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-014",
+              "variant_name": "Kamuy Terrace 暗夜星空／銀河",
+              "condition_geometry": "{\"camera_zone\":\"摩周湖第一展望台／Kamuy Terrace Camera Zone\",\"subject\":\"dark-sky star field / Milky Way; exact foreground alignment not asserted\"}",
+              "hard_gates": "屋頂露台夜間可使用；天文黑夜成立",
+              "required_conditions": "夜空雲量不封閉；能見度足夠；月光干擾可接受；銀河核心天文位置可用",
+              "boosters": "低雲／中高雲少；低光害；月亮在地平線下或照度較低",
+              "penalties": "厚雲；低能見度；明亮月光干擾；非天文黑夜",
+              "formula_status": "astronomy_ephemeris_runtime"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-006-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Hokkaido official tourism identifies the First Observatory / Kamuy Terrace as the lake and night-sky viewpoint; its own Google Maps link pins this location.",
+              "name": "摩周湖第一展望台／Kamuy Terrace Camera Zone",
+              "lat": 43.555872,
+              "lon": 144.507252,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_tourism_viewpoint_plus_official_linked_map_coordinate",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 120,
+              "geometry_note": "第一展望台屋頂與公共觀景區的代表 Camera Zone；不以第三展望台或湖心座標替代。",
               "geometry_confidence": "high"
             }
           ]
