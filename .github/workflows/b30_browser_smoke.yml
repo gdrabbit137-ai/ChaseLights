@@ -117,6 +117,7 @@ jobs:
               assert "天氣預報" in weather_title
               driver.execute_script("closeModal()")
 
+              driver.execute_script("document.getElementById('spots-container').innerHTML = ''")
               Select(driver.find_element(By.ID, "country-select")).select_by_value("jp")
               wait.until(lambda d: d.execute_script("return currentRegion === 'jp' && currentSpots.length > 0 && String(currentSpots[0].spot_id || '').startsWith('jp-')"))
               wait.until(lambda d: len(d.find_elements(By.CSS_SELECTOR, "#spots-container .card")) > 0)
@@ -126,6 +127,7 @@ jobs:
               assert all(x in {"", "—"} for x in jp_scores), jp_scores[:20]
               assert any("攝影研究待補" in c.text for c in jp_cards), "Japan research-pending card notice missing"
 
+              driver.execute_script("document.getElementById('spots-container').innerHTML = ''")
               Select(driver.find_element(By.ID, "country-select")).select_by_value("us")
               wait.until(lambda d: d.execute_script("return currentRegion === 'us' && currentSpots.length > 0 && String(currentSpots[0].spot_id || '').startsWith('us-')"))
               wait.until(lambda d: len(d.find_elements(By.CSS_SELECTOR, "#spots-container .card")) > 0)
