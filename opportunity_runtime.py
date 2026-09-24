@@ -169,6 +169,7 @@ def evaluate_minimum_sufficient_visibility(opportunity, item_data):
     }
 
 DIRECTIONAL_HORIZON_SECTORS = {
+    "jp-019-P01": {"center": 250.0, "tolerance": 70.0, "phase": "sunset"},
     "jp-013-P01": {"center": 270.0, "tolerance": 65.0, "phase": "sunset"},
     "jp-008-P01": {"center": 98.0, "tolerance": 22.5, "phase": "sunrise"},
     "tw-001-P01": {"center": 247.5, "tolerance": 67.5, "phase": "sunset"},
@@ -986,9 +987,9 @@ def validate_runtime_registry():
     errors.extend(validate_marine_state_registry())
     errors.extend(validate_tide_state_registry())
     errors.extend(validate_access_registry())
-    if len(DIRECTIONAL_HORIZON_SECTORS) != 47:
+    if len(DIRECTIONAL_HORIZON_SECTORS) != 48:
         errors.append(
-            f"expected 47 registered directional profiles, got {len(DIRECTIONAL_HORIZON_SECTORS)}"
+            f"expected 48 registered directional profiles, got {len(DIRECTIONAL_HORIZON_SECTORS)}"
         )
     if set(CLOUD_SKY_GLOW_PROFILES) != {"tw-013-P02", "tw-026-P02", "tw-030-P02", "tw-035-P04"}:
         errors.append(f"unexpected cloud_sky_glow registry: {sorted(CLOUD_SKY_GLOW_PROFILES)}")
