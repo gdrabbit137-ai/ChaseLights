@@ -110,6 +110,8 @@ def _compact_opportunity_snapshot(item, opportunity, window_start=None, window_e
         "score_confidence": metric.get("score_confidence"),
         "base_theme_score": metric.get("base_theme_score"),
         "formula_confidence": metric.get("formula_confidence", opportunity.get("formula_confidence")),
+        "temporal_eligible": metric.get("temporal_eligible"),
+        "temporal_reason": metric.get("temporal_reason"),
     })
     return snap
 
@@ -137,6 +139,7 @@ def _build_day_summaries(hourly, themes, opportunities=None):
             candidates = [
                 (i, (_metric_for_opportunity(it, oid) or {}).get("score", -1))
                 for i, it in enumerate(items)
+                if (_metric_for_opportunity(it, oid) or {}).get("temporal_eligible") is not False
             ]
             candidates = [x for x in candidates if x[1] >= 0]
             if not candidates:
