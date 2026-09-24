@@ -1,0 +1,118 @@
+name: B32 Japan Candidate Weather QA
+
+on:
+  push:
+    branches:
+      - r4.2-b32-jp-research-batch01
+    paths:
+      - "regions.py"
+      - "analyze_weather.py"
+      - "fetch_data.py"
+      - "opportunities.py"
+      - "opportunity_runtime.py"
+      - "runtime_dependencies.py"
+      - "runtime_catalog_v004_r4_2_b32_jp_batch01.json"
+      - ".github/workflows/b32_jp_candidate_weather.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: b32-japan-candidate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  candidate-weather:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout B32 branch
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Generate Japan candidate weather
+        run: python analyze_weather.py jp
+
+      - name: Validate B32 Japan partial-migration contract
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          summary = json.loads(Path("jp_weather.json").read_text(encoding="utf-8"))
+          details = json.loads(Path("jp_weather_details.json").read_text(encoding="utf-8"))
+          summary_spots = summary.get("spots") if isinstance(summary, dict) else summary
+          detail_spots = details.get("spots") if isinstance(details, dict) else details
+
+          assert len(summary_spots) == 35, len(summary_spots)
+          assert len(detail_spots) == 35, len(detail_spots)
+          assert len({s["spot_id"] for s in summary_spots}) == 35
+
+          shard_dir = Path("weather_details") / "jp"
+          shard_files = sorted(shard_dir.glob("jp-*.json"))
+          assert len(shard_files) == 35, len(shard_files)
+
+          researched = [s for s in summary_spots if s.get("opportunities")]
+          pending = [s for s in summary_spots if not s.get("opportunities")]
+          assert [s["spot_id"] for s in researched] == ["jp-005"], [s["spot_id"] for s in researched]
+          assert len(pending) == 34
+
+          otaru = researched[0]
+          assert otaru.get("timezone") == "Asia/Tokyo", otaru.get("timezone")
+          assert len(otaru["opportunities"]) == 2
+          assert [o["opportunity_id"] for o in otaru["opportunities"]] == ["jp-005-P01", "jp-005-P02"]
+
+          otaru_days = otaru.get("daily") or []
+          assert otaru_days
+          for day in otaru_days:
+              winner = day.get("all") or {}
+              assert not winner.get("research_pending"), (day.get("date"), winner)
+              assert isinstance(day.get("opportunities"), dict) and day["opportunities"]
+              assert set(day["opportunities"]) == {"jp-005-P01", "jp-005-P02"}
+              if winner.get("score") is not None and winner["score"] >= 80:
+                  assert winner.get("opportunity_id") == "jp-005-P01", winner
+                  assert winner.get("condition_state") == "minimum_sufficient_conditions_match", winner
+
+          pending_errors = []
+          for spot in pending:
+              for day in spot.get("daily") or []:
+                  winner = day.get("all") or {}
+                  if winner.get("score") is not None:
+                      pending_errors.append((spot["spot_id"], day.get("date"), "legacy_score_leak", winner.get("score")))
+                  if not winner.get("research_pending"):
+                      pending_errors.append((spot["spot_id"], day.get("date"), "missing_research_pending"))
+          assert pending_errors == [], pending_errors[:20]
+
+          detail_ids = {s["spot_id"] for s in detail_spots}
+          assert detail_ids == {s["spot_id"] for s in summary_spots}
+
+          report = {
+              "summary_count": len(summary_spots),
+              "details_count": len(detail_spots),
+              "detail_shard_count": len(shard_files),
+              "researched_place_ids": [s["spot_id"] for s in researched],
+              "research_pending_count": len(pending),
+              "otaru_timezone": otaru.get("timezone"),
+              "otaru_opportunity_count": len(otaru["opportunities"]),
+          }
+          Path("b32_jp_candidate_validation.json").write_text(
+              json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8"
+          )
+          print(json.dumps(report, ensure_ascii=False, indent=2))
+          PY
+
+      - name: Upload B32 Japan candidate output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: b32-japan-candidate-weather
+          path: |
+            jp_weather.json
+            jp_weather_details.json
+            b32_jp_candidate_validation.json
+          retention-days: 7
