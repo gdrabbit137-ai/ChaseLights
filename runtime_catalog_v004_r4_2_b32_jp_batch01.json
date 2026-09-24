@@ -1,5 +1,5 @@
 {
-  "schema_version": "v0.04-r4.2-b32-jp-batch01-8",
+  "schema_version": "v0.04-r4.2-b32-jp-batch01-9",
   "generated_at": "2026-09-24T23:45:00+08:00",
   "scope": "Japan Place-specific research migration Batch01 complete: jp-001..jp-005",
   "spot_count": 8,
@@ -399,6 +399,134 @@
               "geometry_type": "small_area",
               "geometry_extent_m": 45,
               "geometry_note": "淺草橋街園及橋頭公共拍攝區；代表 Camera Zone，不宣稱唯一腳架點。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-006",
+      "canonical_name": "摩周湖",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH02",
+      "research_sources": [
+        {
+          "authority": "Hokkaido Official Tourism",
+          "url": "https://www.visit-hokkaido.jp/en/spot/detail_10484.html",
+          "verified_on": "2026-09-25",
+          "supports": "Lake Mashu First Observatory / Kamuy Terrace provides an unobstructed caldera-lake view; calm water can mirror the sky; mist is an alternate valid landscape state; rooftop terrace remains open at night"
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-006-P01",
+          "spot_id": "jp-006",
+          "name_zh": "摩周湖第一展望台・摩周藍湖景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04_visibility_minimum_sufficient",
+          "formula_confidence": 89,
+          "best_time": "白天（景點當地時間／JST）",
+          "best_season": "全年可見景觀；實際道路／設施狀態以官方公告為準",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-010",
+              "variant_name": "第一展望台摩周湖火山口湖景",
+              "condition_geometry": "{\"camera_zone\":\"摩周湖第一展望台／Kamuy Terrace Camera Zone\",\"subject\":\"Lake Mashu caldera lake + surrounding rim\"}",
+              "hard_gates": "合法觀景區可達；可見光時段；無明確封閉",
+              "required_conditions": "摩周湖與外輪山輪廓可辨；能見度足夠；低雲／濃霧未嚴重遮蔽主要湖景",
+              "boosters": "空氣透明度佳；湖面平靜可增加倒影層次；薄霧可形成另一種官方認可的景觀氣氛",
+              "penalties": "濃霧完全遮蔽湖面與外輪山；強降水；能見度過低",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-006-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Representative anchor for Lake Mashu First Observatory / Kamuy Terrace; use the public observation area rather than a generic lake-center coordinate.",
+              "name": "摩周湖第一展望台／Kamuy Terrace Camera Zone",
+              "lat": 43.556947,
+              "lon": 144.507319,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_observatory_identity_plus_curated_first_observatory_coordinate",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 180,
+              "geometry_note": "第一展望台與 Kamuy Terrace 公共觀景區的代表 Camera Zone；非湖面中心或單一腳架點。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-007",
+      "canonical_name": "十和田湖",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH02",
+      "research_sources": [
+        {
+          "authority": "Amazing AOMORI - Official Aomori Travel Guide",
+          "url": "https://aomori-tourism.com/en/spot/detail_335.html",
+          "verified_on": "2026-09-25",
+          "supports": "Lake Towada is a major scenic lake; still water can reflect the surrounding mountains/sky and autumn foliage is a documented seasonal strength"
+        },
+        {
+          "authority": "Amazing AOMORI - Official Aomori Travel Guide",
+          "url": "https://aomori-tourism.com/en/itineraries/detail_26.html",
+          "verified_on": "2026-09-25",
+          "supports": "Kankodai Observation Deck remains temporarily closed after the 2026-08-22 bear attack; Kankodai sunset is therefore not enabled in runtime"
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-007-P01",
+          "spot_id": "jp-007",
+          "name_zh": "休屋湖畔・十和田湖湖景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04_visibility_minimum_sufficient",
+          "formula_confidence": 87,
+          "best_time": "白天（景點當地時間／JST）",
+          "best_season": "可合法抵達期間；秋色為季節加分，不保證當下色況",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-011",
+              "variant_name": "休屋湖畔十和田湖與山林景觀",
+              "condition_geometry": "{\"camera_zone\":\"休屋湖畔 Camera Zone\",\"subject\":\"Lake Towada water + surrounding mountain/forest layers\"}",
+              "hard_gates": "合法湖畔公共區域可達；可見光時段；無明確封閉",
+              "required_conditions": "湖面與周邊山林層次可辨；能見度足夠；低雲／濃霧未嚴重遮蔽湖景",
+              "boosters": "湖面平靜；空氣透明度佳；秋季色葉可增加層次但不是基本成立條件",
+              "penalties": "濃霧／低雲造成湖岸與山林不可辨；強降水；能見度過低",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-007-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Representative public lakeside Camera Zone at Yasumiya; Kankodai is intentionally excluded while its official closure remains in effect.",
+              "name": "休屋湖畔 Camera Zone",
+              "lat": 40.426538,
+              "lon": 140.894325,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "curated_yasumiya_lakeside_coordinate_plus_official_lake_destination",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 500,
+              "geometry_note": "休屋公共湖畔與步行區的代表 Camera Zone；不以目前關閉的瞰湖台取代。",
               "geometry_confidence": "high"
             }
           ]
