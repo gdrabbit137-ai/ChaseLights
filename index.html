@@ -381,9 +381,10 @@
     let activeModalSpot=null, activeModalSummary=null;
     let activeLoadController=null, activeLoadSequence=0;
     const memorySummary=new Map(), memoryDetails=new Map();
-    const CACHE_NAME='chaselights-v9-weather';
+    const CACHE_NAME='chaselights-v10-weather';
     const MIN_SCHEMA_VERSION=7, MAX_SCHEMA_VERSION=9;
     const schemaSupported=j=>Number.isInteger(j?.schema_version)&&j.schema_version>=MIN_SCHEMA_VERSION&&j.schema_version<=MAX_SCHEMA_VERSION;
+    function clearMemoryDetails(region){for(const key of memoryDetails.keys())if(key.startsWith(`${region}:`))memoryDetails.delete(key);}
 
     const d=()=>i18nDict[currentLang]||i18nDict['zh-TW'];
     const spotName=s=>s?.name_i18n?.[currentLang]||s?.name_i18n?.['zh-TW']||s?.name_local||'Unknown';
@@ -457,7 +458,7 @@
 
     async function cacheMatch(url){try{if(!('caches'in window))return null;const c=await caches.open(CACHE_NAME);const r=await c.match(url);if(!r)return null;const j=await r.json();return schemaSupported(j)?j:null;}catch{return null;}}
     async function fetchAndCache(url,signal){const opts={cache:'no-cache'};if(signal)opts.signal=signal;const r=await fetch(url,opts);if(!r.ok)throw new Error(`HTTP ${r.status}`);const clone=r.clone();try{if('caches'in window){const c=await caches.open(CACHE_NAME);await c.put(url,clone);}}catch{}const j=await r.json();if(!schemaSupported(j))throw new Error(`Schema mismatch: expected ${MIN_SCHEMA_VERSION}-${MAX_SCHEMA_VERSION}, got ${j?.schema_version??'missing'}`);return j;}
-    function applyData(data,region,seq){if(seq!==activeLoadSequence||region!==currentRegion||data.region!==region)return false;const prev=memorySummary.get(region);if(prev?.updated_at&&data?.updated_at&&prev.updated_at!==data.updated_at)memoryDetails.delete(region);currentData=data;currentSpots=data.spots||[];memorySummary.set(region,data);document.getElementById('loading').style.display='none';migrateFavorites();renderSubNav();syncDayButtons();updateHeader();filterAndRender();return true;}
+    function applyData(data,region,seq){if(seq!==activeLoadSequence||region!==currentRegion||data.region!==region)return false;const prev=memorySummary.get(region);if(prev?.updated_at&&data?.updated_at&&prev.updated_at!==data.updated_at)clearMemoryDetails(region);currentData=data;currentSpots=data.spots||[];memorySummary.set(region,data);document.getElementById('loading').style.display='none';migrateFavorites();renderSubNav();syncDayButtons();updateHeader();filterAndRender();return true;}
     function migrateFavorites(){if(!legacyFavorites.length)return;currentSpots.forEach(s=>{const names=Object.values(s.name_i18n||{});if(names.some(n=>legacyFavorites.includes(n))&&!favorites.includes(s.spot_id))favorites.push(s.spot_id);});localStorage.setItem('chaselights_favs_v2',JSON.stringify(favorites));legacyFavorites=[];}
     async function refreshSummary(region,url,seq,controller,silent=false){try{const fresh=await fetchAndCache(url,controller.signal);if(applyData(fresh,region,seq))memorySummary.set(region,fresh);}catch(e){if(e?.name==='AbortError'||seq!==activeLoadSequence)return;if(!silent){const l=document.getElementById('loading');l.style.display='block';l.innerText=`⚠️ ${url} — ${e?.message||e}`;}}}
     async function loadData(region){
@@ -543,12 +544,17 @@
     }
     function closePlaceModal(){document.getElementById('place-modal-overlay').style.display='none';}
 
-    async function loadDetails(region){
-      if(memoryDetails.has(region)){const m=memoryDetails.get(region);if(!currentData?.updated_at||m?.updated_at===currentData.updated_at)return m;memoryDetails.delete(region);}const url=`./${region}_weather_details.json`;const cached=await cacheMatch(url);if(cached&&(!currentData?.updated_at||cached.updated_at===currentData.updated_at)){memoryDetails.set(region,cached);fetchAndCache(url,null).then(x=>{if(!currentData?.updated_at||x?.updated_at===currentData.updated_at)memoryDetails.set(region,x);}).catch(()=>{});return cached;}const fresh=await fetchAndCache(url,null);memoryDetails.set(region,fresh);return fresh;
+    async function loadDetails(region,spotId){
+      const key=`${region}:${spotId}`,versionMatches=x=>!currentData?.updated_at||x?.updated_at===currentData.updated_at;
+      if(memoryDetails.has(key)){const m=memoryDetails.get(key);if(versionMatches(m))return m;memoryDetails.delete(key);}
+      const url=`./weather_details/${region}/${encodeURIComponent(spotId)}.json`;
+      const cached=await cacheMatch(url);
+      if(cached&&versionMatches(cached)){memoryDetails.set(key,cached);fetchAndCache(url,null).then(x=>{if(versionMatches(x))memoryDetails.set(key,x);}).catch(()=>{});return cached;}
+      const fresh=await fetchAndCache(url,null);if(!versionMatches(fresh))throw new Error('Weather detail version mismatch');memoryDetails.set(key,fresh);return fresh;
     }
     async function openWeatherModal(spot,summaryMetric){
       document.getElementById('modal-overlay').style.display='flex';const showLocal=!(currentRegion==='tw'&&currentLang==='zh-TW');document.getElementById('modal-spot-name').innerText=`🌦️ ${spotName(spot)} — ${d().weather_link.replace(/^🌦️\s*/, '')}`;document.getElementById('modal-summary').innerText=d().detail_loading;document.getElementById('timeline-head').innerHTML='';document.getElementById('timeline-body').innerHTML='';
-      try{const data=await loadDetails(currentRegion);const detail=(data.spots||[]).find(x=>x.spot_id===spot.spot_id);if(!detail)throw new Error('missing spot');renderWeatherModal(detail,summaryMetric);}catch(e){document.getElementById('modal-summary').innerText=`⚠️ ${e.message||e}`;}
+      try{const payload=await loadDetails(currentRegion,spot.spot_id);const detail=payload?.spot;if(!detail||detail.spot_id!==spot.spot_id)throw new Error('missing spot');renderWeatherModal(detail,summaryMetric);}catch(e){document.getElementById('modal-summary').innerText=`⚠️ ${e.message||e}`;}
     }
     function renderWeatherModal(spot,summaryMetric){
       activeModalSpot=spot;activeModalSummary=summaryMetric;
