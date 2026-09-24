@@ -60,8 +60,11 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
 
-          # Score V5/B31：區域 summary + 相容 regional details + per-Place 96H shards
-          git add             tw_weather.json tw_weather_details.json             jp_weather.json jp_weather_details.json             us_weather.json us_weather_details.json             weather_details/
+          # Score V5/B31b：區域 summary + per-Place 96H shards
+          git add             tw_weather.json             jp_weather.json             us_weather.json             weather_details/
+
+          # Per-Place shards replace the large regional 96H monoliths.
+          git rm -f --ignore-unmatch             tw_weather_details.json             jp_weather_details.json             us_weather_details.json
 
           # 清除 Score V4 以前不再使用的多語系 JSON（若不存在則忽略）
           git rm -f --ignore-unmatch             *_weather_zh-TW.json             *_weather_en.json             *_weather_ja.json
