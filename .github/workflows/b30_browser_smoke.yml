@@ -5,6 +5,7 @@ on:
     branches:
       - r4.2-b28-p0-missing-places
       - r4.2-b31-place-weather-details
+      - r4.2-b32-jp-research-batch01
     paths:
       - "index.html"
       - "regions.py"
@@ -73,6 +74,9 @@ jobs:
           report = {}
 
           try:
+              # Last Updated must follow the user's device/browser timezone,
+              # independently from each Place's local shooting-time timezone.
+              driver.execute_cdp_cmd("Emulation.setTimezoneOverride", {"timezoneId": "America/Los_Angeles"})
               driver.get("http://127.0.0.1:8000/index.html")
 
               cards = wait.until(lambda d: d.find_elements(By.CSS_SELECTOR, "#spots-container .card"))
@@ -82,6 +86,20 @@ jobs:
               title = driver.find_element(By.ID, "discovery-title").text
               report["discovery_title"] = title
               assert "今天去哪裡拍" in title, title
+
+              browser_tz = driver.execute_script("return Intl.DateTimeFormat().resolvedOptions().timeZone")
+              updated_at = driver.execute_script("return currentData.updated_at")
+              update_text = driver.find_element(By.ID, "update-time").text
+              expected_update = driver.execute_script("""
+                const dt = new Date(currentData.updated_at);
+                return new Intl.DateTimeFormat('zh-TW',{
+                  month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',timeZoneName:'short'
+                }).format(dt);
+              """)
+              report["browser_timezone"] = browser_tz
+              report["last_updated_text"] = update_text
+              assert browser_tz == "America/Los_Angeles", browser_tz
+              assert expected_update in update_text, (expected_update, update_text, updated_at)
 
               body_text = driver.find_element(By.TAG_NAME, "body").text
               assert "96H 明細" not in body_text
@@ -105,6 +123,8 @@ jobs:
               assert opp_cards, "researched Place Guide did not render Opportunity cards"
               guide_text = driver.find_element(By.ID, "place-modal-body").text
               assert "這裡適合拍什麼" in guide_text
+              assert "景點當地時區" in guide_text, guide_text
+              assert "適合時間（景點當地時間）" in guide_text, guide_text
               driver.execute_script("closePlaceModal()")
 
               cards = driver.find_elements(By.CSS_SELECTOR, "#spots-container .card")
