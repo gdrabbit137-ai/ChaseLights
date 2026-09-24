@@ -23,6 +23,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: b30-taiwan-candidate-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   candidate-weather:
     runs-on: ubuntu-latest
