@@ -39,6 +39,7 @@ I18N_MESSAGES = {
     "CLOUD_SEA_GOLD": {"zh-TW": "☁️ 雲海模型條件較符合", "en": "☁️ Conditions Match the Cloud-Sea Model Well", "ja": "☁️ 雲海モデル条件に比較的合致"},
     "CLOUD_SEA_FAIR": {"zh-TW": "⛅ 雲海模型條件部分符合", "en": "⛅ Cloud-Sea Model Partially Matched", "ja": "⛅ 雲海モデル条件に一部合致"},
     "CLOUD_SEA_DRY": {"zh-TW": "☀️ 雲海模型條件不足", "en": "☀️ Cloud-Sea Model Conditions Not Met", "ja": "☀️ 雲海モデル条件が不足"},
+    "CLOUD_SEA_OUTSIDE": {"zh-TW": "🕒 目前非可見雲海拍攝時段", "en": "🕒 Outside Visible Cloud-Sea Shooting Window", "ja": "🕒 現在は雲海を撮影できる明るさの時間外"},
     "FOREST_MIST": {"zh-TW": "🌫️ 霧景模型條件較符合", "en": "🌫️ Conditions Match the Mist Model", "ja": "🌫️ 霧景モデル条件に合致"},
     "FOREST_LIGHT": {"zh-TW": "🌤️ 光束模型條件較符合", "en": "🌤️ Conditions Match the Sunbeam Model", "ja": "🌤️ 光芒モデル条件に合致"},
     "FOREST_NORMAL": {"zh-TW": "⛅ 光霧條件一般", "en": "⛅ Ordinary Light/Mist Conditions", "ja": "⛅ 光・霧条件は通常"},
@@ -101,6 +102,7 @@ I18N_MESSAGES = {
     "IND_CLOUD_SEA": {"zh-TW": "☁️ 濕度與低雲條件符合雲海模型門檻", "en": "☁️ Humidity and Low Cloud Meet the Cloud-Sea Model Threshold", "ja": "☁️ 湿度と低層雲が雲海モデル閾値を満たす"},
     "IND_CLOUD_SEA_SUB": {"zh-TW": "⛅ 低雲高度或雲量稍偏", "en": "⛅ Suboptimal Cloud Height/Amount", "ja": "⛅ 雲量または高度がやや偏斜"},
     "IND_DRY_AIR": {"zh-TW": "☀️ 濕度或低雲條件未達雲海模型門檻", "en": "☀️ Humidity or Low Cloud Does Not Meet the Cloud-Sea Threshold", "ja": "☀️ 湿度または低層雲が雲海モデル閾値未満"},
+    "IND_CLOUD_SEA_OUTSIDE": {"zh-TW": "🕒 太陽已低於可見雲海拍攝時段", "en": "🕒 Sun Is Below the Visible Cloud-Sea Shooting Range", "ja": "🕒 太陽高度が雲海撮影可能な範囲外"},
     "IND_FOREST_MIST": {"zh-TW": "🌫️ 濕度、風速與能見度符合霧景模型門檻", "en": "🌫️ Humidity, Wind and Visibility Meet the Mist Threshold", "ja": "🌫️ 湿度・風速・視程が霧景モデル閾値を満たす"},
     "IND_FOREST_SUN": {"zh-TW": "🌤️ 日照、雲量與濕度符合光束模型門檻", "en": "🌤️ Sun, Cloud and Humidity Meet the Sunbeam Threshold", "ja": "🌤️ 日照・雲量・湿度が光芒モデル閾値を満たす"},
     "IND_FOREST_NORM": {"zh-TW": "⛅ 光霧條件未達高分門檻", "en": "⛅ Light/Mist Conditions Below the High-Score Threshold", "ja": "⛅ 光・霧条件が高スコア基準未満"},
@@ -855,12 +857,20 @@ def evaluate_tag_condition(theme, item_data, hour=None, lang="zh-TW"):
             if sun_alt>-12: raw-=15
             status_key,indicator_key=("AURORA_CLEAR","IND_CLEAR_SKY") if kp_val>=5 and raw>=72 else (("AURORA_FAIR","IND_SOME_CLOUDS") if raw>=58 else ("AURORA_POOR","IND_NO_STAR"))
     elif theme=="cloud_sea":
-        delta=item_data.get("cloud_base_delta"); near=item_data.get("cloud_base_near_camera"); below=item_data.get("cloud_below_camera")
-        raw=50+(rh-65)*0.7+min(c_low,70)*0.28-pop*0.35-wind*2.4
-        if below: raw+=15
-        if near and c_low>=55: raw-=22
-        if delta is not None and delta<-150: raw-=12
-        status_key,indicator_key=("CLOUD_SEA_GOLD","IND_CLOUD_SEA") if raw>=86 else (("CLOUD_SEA_FAIR","IND_CLOUD_SEA_SUB") if raw>=60 else ("CLOUD_SEA_DRY","IND_DRY_AIR"))
+        if not is_day and not is_twilight:
+            # A cloud layer may physically exist at night, but a normal cloud-sea
+            # landscape Opportunity is not photographically visible enough to
+            # become the daily winner. Night-specific cloud/astro Opportunities
+            # must be modeled separately.
+            raw=25
+            status_key,indicator_key="CLOUD_SEA_OUTSIDE","IND_CLOUD_SEA_OUTSIDE"
+        else:
+            delta=item_data.get("cloud_base_delta"); near=item_data.get("cloud_base_near_camera"); below=item_data.get("cloud_below_camera")
+            raw=50+(rh-65)*0.7+min(c_low,70)*0.28-pop*0.35-wind*2.4
+            if below: raw+=15
+            if near and c_low>=55: raw-=22
+            if delta is not None and delta<-150: raw-=12
+            status_key,indicator_key=("CLOUD_SEA_GOLD","IND_CLOUD_SEA") if raw>=86 else (("CLOUD_SEA_FAIR","IND_CLOUD_SEA_SUB") if raw>=60 else ("CLOUD_SEA_DRY","IND_DRY_AIR"))
     elif tag=="city":
         city_scene = "city" in set(item_data.get("scenes") or [])
         if sun_alt>-2:
