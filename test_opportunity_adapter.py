@@ -80,14 +80,14 @@ def _all_opportunities():
 
 
 def test_adapter_integrity():
-    assert ADAPTER_VERSION == "v0.04-r4.2-b32-jp-batch01-preview"
+    assert ADAPTER_VERSION == "v0.04-r4.2-b32-jp-batch01-r2-preview"
     assert validate_curated_opportunities() == []
     assert validate_taxonomy() == []
     assert CATALOG_COUNTS == {
-        "spots": 81,
-        "opportunities": 191,
-        "condition_variants": 201,
-        "profile_viewpoint_relations": 196,
+        "spots": 82,
+        "opportunities": 192,
+        "condition_variants": 202,
+        "profile_viewpoint_relations": 197,
     }
     assert REGION_CATALOG_COUNTS["tw"] == {
         "spots": 80,
@@ -96,10 +96,10 @@ def test_adapter_integrity():
         "profile_viewpoint_relations": 194,
     }
     assert REGION_CATALOG_COUNTS["jp"] == {
-        "spots": 1,
-        "opportunities": 2,
-        "condition_variants": 2,
-        "profile_viewpoint_relations": 2,
+        "spots": 2,
+        "opportunities": 3,
+        "condition_variants": 3,
+        "profile_viewpoint_relations": 3,
     }
     assert REGION_CATALOG_COUNTS["us"] == {
         "spots": 0,
@@ -127,8 +127,8 @@ def test_adapter_integrity():
     assert sum(len(s["opportunities"]) for s in curated.values()) == 189
 
     all_opportunities = _all_opportunities()
-    assert sum(len(o["condition_variants"]) for o in all_opportunities) == 201
-    assert sum(len(o["viewpoints"]) for o in all_opportunities) == 196
+    assert sum(len(o["condition_variants"]) for o in all_opportunities) == 202
+    assert sum(len(o["viewpoints"]) for o in all_opportunities) == 197
     assert not any(o["formula_status"] == "legacy_fallback_pending_curated" for o in all_opportunities)
     assert not any(str(o.get("formula_version") or "").startswith("legacy_") for o in all_opportunities)
 
@@ -141,12 +141,12 @@ def test_adapter_integrity():
     assert policies == {
         "module_pending": 69,
         "preview_module_available": 75,
-        "minimum_sufficient_available": 43,
+        "minimum_sufficient_available": 44,
         "prototype_pending_certification": 2,
         "hold": 1,
         "data_insufficient": 1,
     }
-    assert len(MINIMUM_SUFFICIENT_VISIBILITY_PROFILES) == 43
+    assert len(MINIMUM_SUFFICIENT_VISIBILITY_PROFILES) == 44
 
     deyue = next(o for o in get_opportunities("tw", "tw-062") if o["opportunity_id"] == "tw-062-P01")
     assert deyue["legacy_theme"] == "mountain_view"
@@ -1147,6 +1147,10 @@ def test_adapter_integrity():
     tw052 = get_opportunities("tw", "tw-052")
     assert tw052[0]["runtime_policy"] == "hold"
     assert get_opportunities("jp", "jp-001") == []
+    jp003 = get_opportunities("jp", "jp-003")
+    assert [o["opportunity_id"] for o in jp003] == ["jp-003-P01"]
+    assert jp003[0]["runtime_policy"] == "minimum_sufficient_available"
+    assert dependencies_for_opportunity(jp003[0]) == ("visibility",)
     jp005 = get_opportunities("jp", "jp-005")
     assert [o["opportunity_id"] for o in jp005] == ["jp-005-P01", "jp-005-P02"]
     assert jp005[0]["runtime_policy"] == "minimum_sufficient_available"
@@ -1403,11 +1407,15 @@ def test_active_catalog_weather_generation_guard():
     # researched Japan Place must not leak legacy scoring into the other 34.
     jp_spots = get_spots("jp")
     researched_jp = {spot["spot_id"] for spot in jp_spots if spot.get("opportunities")}
-    assert researched_jp == {"jp-005"}
+    assert researched_jp == {"jp-003", "jp-005"}
     assert all(
         not (spot.get("opportunities") or [])
-        for spot in jp_spots if spot["spot_id"] != "jp-005"
+        for spot in jp_spots if spot["spot_id"] not in {"jp-003", "jp-005"}
     )
+    kushiro = next(spot for spot in jp_spots if spot["spot_id"] == "jp-003")
+    assert abs(kushiro["lat"] - 43.0980769) < 1e-9
+    assert abs(kushiro["lon"] - 144.4492556) < 1e-9
+    assert kushiro["coordinate_confidence"] == "high"
     otaru = next(spot for spot in jp_spots if spot["spot_id"] == "jp-005")
     assert abs(otaru["lat"] - 43.197887) < 1e-9
     assert abs(otaru["lon"] - 141.003034) < 1e-9
