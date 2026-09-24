@@ -1231,6 +1231,39 @@ def test_adapter_integrity():
     assert simple_scored["condition_state"] == "minimum_sufficient_conditions_match"
     assert simple_scored["score_confidence"] == "high"
 
+    # A Place may have usable weather while still being outside the researched
+    # shooting time. Preserve the low temporal baseline, but never describe that
+    # hour as a fully "good shoot" match. Bitan tw-007-P03 reproduces the UI case
+    # where the mountain-view baseline is capped at 38 after dark.
+    bitan_simple = next(
+        o for o in get_opportunities("tw", "tw-007")
+        if o["opportunity_id"] == "tw-007-P03"
+    )
+    assert bitan_simple["runtime_policy"] == "minimum_sufficient_available"
+    bitan_after_dark = fetch_data._score_opportunity(
+        bitan_simple,
+        {
+            "score": 38,
+            "status_key": "STABLE_WEATHER",
+            "indicator_key": "IND_DEFAULT",
+            "factors": [],
+            "temporal_eligible": False,
+            "temporal_reason": "landscape_visible_light",
+        },
+        {
+            "available": True,
+            "eligible": True,
+            "minimum_sufficient": True,
+            "reason": "scene_readable",
+            "modules": {},
+        },
+        "zh-TW",
+    )
+    assert bitan_after_dark["score"] == 38
+    assert bitan_after_dark["status_key"] == "OPPORTUNITY_OUTSIDE_TIME_WINDOW"
+    assert bitan_after_dark["condition_state"] == "minimum_sufficient_weather_match_outside_time_window"
+    assert "不在此題材的建議拍攝時段" in bitan_after_dark["status"]
+
     simple_bad = evaluate_minimum_sufficient_visibility(
         simple_opportunity,
         {
