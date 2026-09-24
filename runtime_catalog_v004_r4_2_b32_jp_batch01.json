@@ -1,5 +1,5 @@
 {
-  "schema_version": "v0.04-r4.2-b32-jp-batch01-18",
+  "schema_version": "v0.04-r4.2-b32-jp-batch01-19",
   "generated_at": "2026-09-24T23:45:00+08:00",
   "scope": "Japan Place-specific research migration Batch01 complete: jp-001..jp-005",
   "spot_count": 8,
@@ -1580,6 +1580,85 @@
               "geometry_type": "small_area",
               "geometry_extent_m": 180,
               "geometry_note": "西之丸與西南隅櫓周邊合法遊客區域，對應官方第一攝影點。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-023",
+      "canonical_name": "京都清水寺",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH08",
+      "research_sources": [
+        {
+          "authority": "Kiyomizu-dera Official Website",
+          "url": "https://www.kiyomizudera.or.jp/en/visit/",
+          "verified_on": "2026-09-25",
+          "supports": "Okuno-in Hall stage provides a view of the Main Hall stage and Kyoto cityscape and is explicitly described as a favorite photo opportunity for visitors"
+        },
+        {
+          "authority": "Kiyomizu-dera Official Website",
+          "url": "https://www.kiyomizudera.or.jp/access/",
+          "verified_on": "2026-09-25",
+          "supports": "Normal opening begins at 06:00; baseline closing is 18:00, Jul-Aug 18:30; special night-viewing dates extend hours annually"
+        },
+        {
+          "authority": "Kiyomizu-dera Official Visitor Notice / FAQ",
+          "url": "https://www.kiyomizudera.or.jp/en/news/2023/notice-to-visitors.php",
+          "verified_on": "2026-09-25",
+          "supports": "Drones, monopods and tripods prohibited; commercial/model/cosplay/wedding shoots and obstructive long shoots prohibited"
+        },
+        {
+          "authority": "Kyoto City protected-viewpoint designation",
+          "url": "https://www.city.kyoto.lg.jp/tokei/cmsfiles/contents/0000281/281377/tyouboukeikan_kokuji300329.pdf",
+          "verified_on": "2026-09-25",
+          "supports": "Okuno-in stage is an officially designated viewpoint at approximately 34°59′40″N, 135°47′08″E"
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-023-P01",
+          "spot_id": "jp-023",
+          "name_zh": "清水寺奥之院・本堂舞台與京都市街景觀",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04_visibility_minimum_sufficient",
+          "formula_confidence": 95,
+          "best_time": "一般拝觀開放時段內的可見光時間（景點當地時間／JST）",
+          "best_season": "全年一般拝觀日；年度夜間特別拝觀不視為全年常態",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-025",
+              "variant_name": "奥之院舞台・本堂舞台與京都市街景觀",
+              "condition_geometry": "{\"camera_zone\":\"清水寺奥の院舞台 Camera Zone\",\"subject\":\"Main Hall stage + Kyoto cityscape\"}",
+              "hard_gates": "清水寺一般拝觀可入場；合法訪客區域；可見光拍攝時段有效；不得使用三腳架／單腳架／無人機",
+              "required_conditions": "本堂舞台與京都市街可辨；能見度足夠；濃霧／強降水未嚴重遮蔽景觀",
+              "boosters": "空氣透明度佳可增加京都市街層次；季節紅葉或櫻花可增加畫面特色，但不是基本 Outcome 必要條件",
+              "penalties": "強降水；濃霧；能見度過低；一般拝觀時間外；違反寺院攝影規範",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-023-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official Kiyomizu-dera material explicitly calls the Okuno-in view of the Main Hall stage and Kyoto cityscape a favorite visitor photo opportunity. Coordinate follows Kyoto City's protected-viewpoint designation.",
+              "name": "清水寺奥の院舞台 Camera Zone",
+              "lat": 34.994444,
+              "lon": 135.785556,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_photo_opportunity_plus_kyoto_city_designated_viewpoint",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 50,
+              "geometry_note": "奥の院舞台的合法訪客範圍；僅限不妨礙參拜動線的手持攝影，不代表固定腳架位置。",
               "geometry_confidence": "high"
             }
           ]
