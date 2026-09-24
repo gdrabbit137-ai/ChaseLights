@@ -16,7 +16,11 @@ import bz2
 import json
 from pathlib import Path
 
-from opportunity_runtime import dependency_state, supports_runtime_contract
+from opportunity_runtime import (
+    dependency_state,
+    supports_runtime_contract,
+    supports_minimum_sufficient_contract,
+)
 
 ADAPTER_VERSION = "v0.04-r4.2-b28-p0-final-simple-preview"
 CATALOG_PART_PATTERN = "runtime_catalog_v004_r4_2_b15.compact.part{part}.b64"
@@ -102,6 +106,8 @@ def runtime_policy(opportunity):
         return "hold"
     if status.startswith("data_insufficient_"):
         return "data_insufficient"
+    if supports_minimum_sufficient_contract(opportunity):
+        return "minimum_sufficient_available"
     if status == "prototype_formula_available":
         return "prototype_pending_certification"
     if supports_runtime_contract(opportunity):
