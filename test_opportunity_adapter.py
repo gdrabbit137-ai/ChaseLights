@@ -80,14 +80,14 @@ def _all_opportunities():
 
 
 def test_adapter_integrity():
-    assert ADAPTER_VERSION == "v0.04-r4.2-b32-jp-batch01-r5-preview"
+    assert ADAPTER_VERSION == "v0.04-r4.2-b32-jp-batch01-r6-preview"
     assert validate_curated_opportunities() == []
     assert validate_taxonomy() == []
     assert CATALOG_COUNTS == {
-        "spots": 85,
-        "opportunities": 195,
-        "condition_variants": 205,
-        "profile_viewpoint_relations": 200,
+        "spots": 86,
+        "opportunities": 197,
+        "condition_variants": 207,
+        "profile_viewpoint_relations": 202,
     }
     assert REGION_CATALOG_COUNTS["tw"] == {
         "spots": 80,
@@ -96,10 +96,10 @@ def test_adapter_integrity():
         "profile_viewpoint_relations": 194,
     }
     assert REGION_CATALOG_COUNTS["jp"] == {
-        "spots": 5,
-        "opportunities": 6,
-        "condition_variants": 6,
-        "profile_viewpoint_relations": 6,
+        "spots": 6,
+        "opportunities": 8,
+        "condition_variants": 8,
+        "profile_viewpoint_relations": 8,
     }
     assert REGION_CATALOG_COUNTS["us"] == {
         "spots": 0,
@@ -127,8 +127,8 @@ def test_adapter_integrity():
     assert sum(len(s["opportunities"]) for s in curated.values()) == 189
 
     all_opportunities = _all_opportunities()
-    assert sum(len(o["condition_variants"]) for o in all_opportunities) == 205
-    assert sum(len(o["viewpoints"]) for o in all_opportunities) == 200
+    assert sum(len(o["condition_variants"]) for o in all_opportunities) == 207
+    assert sum(len(o["viewpoints"]) for o in all_opportunities) == 202
     assert not any(o["formula_status"] == "legacy_fallback_pending_curated" for o in all_opportunities)
     assert not any(str(o.get("formula_version") or "").startswith("legacy_") for o in all_opportunities)
 
@@ -140,13 +140,13 @@ def test_adapter_integrity():
     policies = Counter(runtime_policy(o) for o in all_opportunities)
     assert policies == {
         "module_pending": 71,
-        "preview_module_available": 75,
-        "minimum_sufficient_available": 44,
+        "preview_module_available": 76,
+        "minimum_sufficient_available": 45,
         "prototype_pending_certification": 2,
         "hold": 1,
         "data_insufficient": 2,
     }
-    assert len(MINIMUM_SUFFICIENT_VISIBILITY_PROFILES) == 44
+    assert len(MINIMUM_SUFFICIENT_VISIBILITY_PROFILES) == 45
 
     deyue = next(o for o in get_opportunities("tw", "tw-062") if o["opportunity_id"] == "tw-062-P01")
     assert deyue["legacy_theme"] == "mountain_view"
@@ -1171,6 +1171,24 @@ def test_adapter_integrity():
     assert jp005[1]["runtime_policy"] == "module_pending"
     assert dependencies_for_opportunity(jp005[0]) == ("visibility",)
     assert dependencies_for_opportunity(jp005[1]) == ("managed_lighting_state",)
+
+    jp010 = get_opportunities("jp", "jp-010")
+    assert [o["opportunity_id"] for o in jp010] == ["jp-010-P01", "jp-010-P02"]
+    assert jp010[0]["runtime_policy"] == "minimum_sufficient_available"
+    assert jp010[1]["runtime_policy"] == "preview_module_available"
+    assert dependencies_for_opportunity(jp010[0]) == ("visibility",)
+    assert dependencies_for_opportunity(jp010[1]) == ("water_surface_state", "visibility")
+    fuji_diag = fetch_data._build_opportunity_runtime_diagnostics(
+        {"opportunities": jp010},
+        {"vis": 30000, "c_low": 10, "pop": 5, "precipitation": 0.0, "wind": 1.0},
+    )
+    assert fuji_diag["jp-010-P01"]["available"] is True
+    assert fuji_diag["jp-010-P01"]["eligible"] is True
+    assert fuji_diag["jp-010-P02"]["available"] is True
+    assert fuji_diag["jp-010-P02"]["eligible"] is True
+    assert fuji_diag["jp-010-P02"]["modules"]["water_surface_state"]["quality"] == "mirror_candidate"
+    assert fuji_diag["jp-010-P02"]["modules"]["visibility"]["eligible"] is True
+
     assert get_opportunities("us", "us-001") == []
 
     copy = get_opportunities("tw", "tw-001")
