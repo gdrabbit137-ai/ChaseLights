@@ -120,14 +120,19 @@ def test_adapter_integrity():
 
     policies = Counter(runtime_policy(o) for o in all_opportunities)
     assert policies == {
-        "module_pending": 69,
+        "module_pending": 68,
         "preview_module_available": 75,
-        "minimum_sufficient_available": 41,
+        "minimum_sufficient_available": 42,
         "prototype_pending_certification": 2,
         "hold": 1,
         "data_insufficient": 1,
     }
-    assert len(MINIMUM_SUFFICIENT_VISIBILITY_PROFILES) == 41
+    assert len(MINIMUM_SUFFICIENT_VISIBILITY_PROFILES) == 42
+
+    deyue = next(o for o in get_opportunities("tw", "tw-062") if o["opportunity_id"] == "tw-062-P01")
+    assert deyue["legacy_theme"] == "mountain_view"
+    assert deyue["runtime_policy"] == "minimum_sufficient_available"
+
     assert runtime_policy(next(o for o in all_opportunities if o["opportunity_id"] == "tw-052-P01")) == "hold"
     assert runtime_policy(next(o for o in all_opportunities if o["opportunity_id"] == "tw-017-P01")) == "data_insufficient"
     assert validate_runtime_registry() == []
@@ -278,12 +283,12 @@ def test_adapter_integrity():
 
     nanya = next(o for o in all_opportunities if o["opportunity_id"] == "tw-072-P01")
     assert runtime_policy(nanya) == "preview_module_available"
-    assert dependency_state(nanya)["required_components"] == ("marine_state", "directional_horizon")
+    assert dependency_state(nanya)["required_components"] == ("marine_state", "directional_horizon", "visibility")
     assert dependency_state(nanya)["complete"] is True
 
     laomei = next(o for o in all_opportunities if o["opportunity_id"] == "tw-073-P01")
     assert runtime_policy(laomei) == "module_pending"
-    assert dependency_state(laomei)["ready_components"] == ("tide_state", "marine_state", "directional_horizon")
+    assert dependency_state(laomei)["ready_components"] == ("tide_state", "marine_state", "directional_horizon", "visibility")
     assert dependency_state(laomei)["missing_components"] == ("seasonal_foreground",)
 
     yehliu = next(o for o in all_opportunities if o["opportunity_id"] == "tw-074-P01")
@@ -293,8 +298,26 @@ def test_adapter_integrity():
 
     waiao = next(o for o in all_opportunities if o["opportunity_id"] == "tw-075-P01")
     assert runtime_policy(waiao) == "preview_module_available"
-    assert dependency_state(waiao)["required_components"] == ("marine_state", "directional_horizon")
+    assert dependency_state(waiao)["required_components"] == ("marine_state", "directional_horizon", "visibility")
     assert dependency_state(waiao)["complete"] is True
+
+    waiao_low_vis = evaluate_opportunity_modules(
+        waiao,
+        {
+            "sun_azimuth": 95.0,
+            "sun_elevation": 2.0,
+            "marine_forecast": {
+                "wave_height": 0.5,
+                "wave_period": 5.0,
+                "swell_wave_height": 0.3,
+                "swell_wave_period": 6.0,
+            },
+            "vis": 500,
+        },
+    )
+    assert waiao_low_vis["available"] is True
+    assert waiao_low_vis["eligible"] is False
+    assert waiao_low_vis["modules"]["visibility"]["eligible"] is False
 
     longpan_sunrise = next(o for o in all_opportunities if o["opportunity_id"] == "tw-076-P01")
     assert runtime_policy(longpan_sunrise) == "preview_module_available"
@@ -306,7 +329,7 @@ def test_adapter_integrity():
 
     shihtiping_tide = next(o for o in all_opportunities if o["opportunity_id"] == "tw-077-P02")
     assert runtime_policy(shihtiping_tide) == "preview_module_available"
-    assert dependency_state(shihtiping_tide)["required_components"] == ("marine_state", "tide_state")
+    assert dependency_state(shihtiping_tide)["required_components"] == ("marine_state", "tide_state", "visibility")
 
     jiangong = next(o for o in all_opportunities if o["opportunity_id"] == "tw-078-P01")
     assert runtime_policy(jiangong) == "module_pending"
@@ -316,11 +339,11 @@ def test_adapter_integrity():
 
     chixi_sunset = next(o for o in all_opportunities if o["opportunity_id"] == "tw-079-P01")
     assert runtime_policy(chixi_sunset) == "preview_module_available"
-    assert dependency_state(chixi_sunset)["required_components"] == ("marine_state", "directional_horizon")
+    assert dependency_state(chixi_sunset)["required_components"] == ("marine_state", "directional_horizon", "visibility")
 
     chixi_tide = next(o for o in all_opportunities if o["opportunity_id"] == "tw-079-P02")
     assert runtime_policy(chixi_tide) == "preview_module_available"
-    assert dependency_state(chixi_tide)["required_components"] == ("marine_state", "tide_state")
+    assert dependency_state(chixi_tide)["required_components"] == ("marine_state", "tide_state", "visibility")
 
     fanchuanbi_sunrise = next(o for o in all_opportunities if o["opportunity_id"] == "tw-080-P01")
     assert runtime_policy(fanchuanbi_sunrise) == "preview_module_available"
