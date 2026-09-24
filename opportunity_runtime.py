@@ -997,6 +997,7 @@ def validate_runtime_registry():
     if len(SPATIAL_WEATHER_PROFILES) != 19:
         errors.append(f"expected 19 spatial weather profiles, got {len(SPATIAL_WEATHER_PROFILES)}")
     expected_astro = {
+        "jp-021-P02",
         "tw-019-P05", "tw-024-P05", "tw-035-P05", "tw-036-P02",
         "tw-038-P02", "tw-040-P06", "tw-045-P03", "tw-070-P02", "tw-076-P02", "tw-080-P02",
     }
@@ -1008,8 +1009,8 @@ def validate_runtime_registry():
         errors.append(f"expected 17 marine-state profiles, got {len(MARINE_STATE_PROFILES)}")
     if len(TIDE_STATE_PROFILES) != 14:
         errors.append(f"expected 14 tide-state profiles, got {len(TIDE_STATE_PROFILES)}")
-    if len(ACCESS_DEPENDENT_PROFILE_IDS) != 44:
-        errors.append(f"expected 44 dynamic-access profiles, got {len(ACCESS_DEPENDENT_PROFILE_IDS)}")
+    if len(ACCESS_DEPENDENT_PROFILE_IDS) != 46:
+        errors.append(f"expected 46 dynamic-access profiles, got {len(ACCESS_DEPENDENT_PROFILE_IDS)}")
     if ACCESS_RUNTIME_READY_PROFILES:
         errors.append("B25 foundation must not mark dynamic-access profiles provider-ready yet")
     for oid, sector in DIRECTIONAL_HORIZON_SECTORS.items():
