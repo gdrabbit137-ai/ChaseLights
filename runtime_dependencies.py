@@ -7,6 +7,7 @@ Every needs_* status maps to an explicit set of reusable runtime components.
 DEPENDENCY_INVENTORY_VERSION = "r4.2-b25-deps-v7"
 
 FORMULA_DEPENDENCIES = {
+    "needs_visibility_module": ("visibility",),
     "needs_spatial_weather_module": ("spatial_weather_vertical_cloud",),
     "needs_directional_horizon_module": ("directional_horizon",),
     "needs_directional_horizon_dynamic_access_module": ("directional_horizon", "dynamic_access"),
