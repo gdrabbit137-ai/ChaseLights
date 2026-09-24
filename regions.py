@@ -543,30 +543,23 @@ ACCESS_RULE_OVERRIDES["新穗高高空纜車"] = {
     },
 }
 
-SPOT_OVERRIDES.update({
-    "新穗高高空纜車": {
-        "lat": 36.268335,
-        "lon": 137.60158,
-        "elevation": 2156,
-        "scenes": ["mountain"],
-        "themes": ["mountain_view", "milky_way"],
-        "map_query": "西穂高口駅 新穂高ロープウェイ",
-        "coordinate_source": "B32 official Nishi-Hotakaguchi rooftop viewpoint + MapFan station coordinate + geotagged camera cross-check",
-        "coordinate_confidence": "high",
-        "name_i18n_override": {
-            "zh-TW": "新穗高・西穗高口展望台",
-            "en": "Shinhotaka · Nishi-Hotakaguchi Observatory",
-            "ja": "新穂高・西穂高口展望台",
-        },
-        "name_local": "西穂高口駅展望台",
-    },
-})
-
 # V5.2: explicit photo-point / POI corrections.  Exact overrides win over
 # broad legacy coordinates and name-derived scene heuristics.  map_query is
 # also sent to the frontend so navigation can resolve the named POI even if
 # a mountain/park covers a large area.
 SPOT_OVERRIDES = {
+ '新穗高高空纜車': {'lat': 36.268335,
+             'lon': 137.60158,
+             'elevation': 2156,
+             'scenes': ['mountain'],
+             'themes': ['mountain_view', 'milky_way'],
+             'map_query': '西穂高口駅 新穂高ロープウェイ',
+             'coordinate_source': 'B32 official Nishi-Hotakaguchi rooftop viewpoint + MapFan station coordinate + geotagged camera cross-check',
+             'coordinate_confidence': 'high',
+             'name_i18n_override': {'zh-TW': '新穗高・西穗高口展望台',
+                                    'en': 'Shinhotaka · Nishi-Hotakaguchi Observatory',
+                                    'ja': '新穂高・西穂高口展望台'},
+             'name_local': '西穂高口駅展望台'},
  '南雅奇岩': {'lat': 25.11982,
           'lon': 121.89314,
           'scenes': ['coast', 'geology'],
