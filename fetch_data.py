@@ -7,7 +7,10 @@ from datetime import datetime, timezone, timedelta
 from bisect import bisect_right
 from zoneinfo import ZoneInfo
 
-from opportunity_runtime import evaluate_opportunity_modules
+from opportunity_runtime import (
+    evaluate_opportunity_modules,
+    evaluate_minimum_sufficient_visibility,
+)
 from spatial_weather import (
     build_spatial_request_plan,
     index_spatial_response,
@@ -87,6 +90,8 @@ I18N_MESSAGES = {
     "OPPORTUNITY_PROTOTYPE": {"zh-TW": "ℹ️ 題材已查證，但完整專屬公式仍在驗證", "en": "ℹ️ Opportunity is researched; full dedicated formula is still being validated", "ja": "ℹ️ 撮影機会は調査済みだが専用式は検証中"},
     "OPPORTUNITY_HOLD": {"zh-TW": "⛔ 此拍攝題材目前暫停推薦", "en": "⛔ This opportunity is currently on hold", "ja": "⛔ この撮影機会は現在推奨停止"},
     "OPPORTUNITY_DATA_INSUFFICIENT": {"zh-TW": "⚠️ 此拍攝題材資料不足，暫不高分推薦", "en": "⚠️ Insufficient data for a high-confidence recommendation", "ja": "⚠️ 高信頼の推奨に必要なデータ不足"},
+    "OPPORTUNITY_SIMPLE_MATCH": {"zh-TW": "✅ 此景點的基本好拍條件已成立", "en": "✅ The Place's basic good-shoot conditions are met", "ja": "✅ この場所の基本的な好条件が成立"},
+    "OPPORTUNITY_SIMPLE_MISS": {"zh-TW": "⚠️ 能見度、低雲或降雨條件目前不理想", "en": "⚠️ Visibility, low cloud, or precipitation is currently unfavorable", "ja": "⚠️ 視程・低雲・降水条件が現在不利"},
 
     # 關鍵指標 (Indicator)
     "IND_PEAKS": {"zh-TW": "💎 雲量、降雨與能見度符合高分門檻", "en": "💎 Cloud, Rain and Visibility Meet the High-Score Threshold", "ja": "💎 雲量・降水・視程が高スコア基準を満たす"},
@@ -913,6 +918,16 @@ def _build_opportunity_runtime_diagnostics(spot, item_data):
         policy = opportunity.get("runtime_policy") or "unclassified"
         if policy == "preview_module_available":
             result = evaluate_opportunity_modules(opportunity, item_data)
+        elif policy == "minimum_sufficient_available":
+            simple = evaluate_minimum_sufficient_visibility(opportunity, item_data)
+            result = {
+                "available": simple.get("available", False),
+                "eligible": simple.get("eligible", False),
+                "reason": simple.get("reason"),
+                "runtime_policy": policy,
+                "minimum_sufficient": True,
+                "modules": {"minimum_sufficient_visibility": simple},
+            }
         else:
             result = {
                 "available": False,
@@ -954,6 +969,22 @@ def _score_opportunity(opportunity, theme_metric, runtime_diagnostic, lang="zh-T
         status_key = indicator_key = "OPPORTUNITY_PARTIAL"
         condition_state = "partial_runtime_contract"
         score_confidence = "low"
+    elif policy == "minimum_sufficient_available":
+        diag = runtime_diagnostic or {}
+        if not diag.get("available"):
+            score = min(base, 45)
+            status_key = indicator_key = "OPPORTUNITY_RUNTIME_DATA_MISSING"
+            condition_state = "minimum_sufficient_data_missing"
+        elif not diag.get("eligible"):
+            score = min(base, 54)
+            status_key = indicator_key = "OPPORTUNITY_SIMPLE_MISS"
+            condition_state = "minimum_sufficient_conditions_miss"
+            score_confidence = "medium"
+        else:
+            score = base
+            status_key = indicator_key = "OPPORTUNITY_SIMPLE_MATCH"
+            condition_state = "minimum_sufficient_conditions_match"
+            score_confidence = "high"
     elif policy == "prototype_pending_certification":
         score = min(base, 79)
         status_key = indicator_key = "OPPORTUNITY_PROTOTYPE"
