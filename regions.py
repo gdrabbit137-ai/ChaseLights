@@ -532,6 +532,36 @@ ACCESS_RULE_OVERRIDES = {
     },
 }
 
+# B32 Japan Batch10: Shinhotaka summit photography anchor and access note.
+# The legacy 36.1600,137.2600 coordinate is not the summit observation area.
+ACCESS_RULE_OVERRIDES["新穗高高空纜車"] = {
+    "access_mode": "dynamic_transport_status",
+    "access_note_i18n": {
+        "zh-TW": "西穗高口山頂區須搭乘新穗高纜車；營運可能因惡劣天候或定期維修停駛。夜間僅官方年度「星空觀賞便」指定日期可進入，不可把一般晴朗夜晚視為可達。",
+        "en": "The Nishi-Hotakaguchi summit area depends on Shinhotaka Ropeway operation, which may be suspended for adverse weather or maintenance. Night access is limited to official annual Stargazing Service dates; ordinary clear nights are not assumed accessible.",
+        "ja": "西穂高口の山頂エリアは新穂高ロープウェイの運行が前提で、悪天候や点検で運休する場合があります。夜間入場は公式の年間「星空観賞便」実施日に限り、通常の晴天夜を入場可能とは扱いません。",
+    },
+}
+
+SPOT_OVERRIDES.update({
+    "新穗高高空纜車": {
+        "lat": 36.268335,
+        "lon": 137.60158,
+        "elevation": 2156,
+        "scenes": ["mountain"],
+        "themes": ["mountain_view", "milky_way"],
+        "map_query": "西穂高口駅 新穂高ロープウェイ",
+        "coordinate_source": "B32 official Nishi-Hotakaguchi rooftop viewpoint + MapFan station coordinate + geotagged camera cross-check",
+        "coordinate_confidence": "high",
+        "name_i18n_override": {
+            "zh-TW": "新穗高・西穗高口展望台",
+            "en": "Shinhotaka · Nishi-Hotakaguchi Observatory",
+            "ja": "新穂高・西穂高口展望台",
+        },
+        "name_local": "西穂高口駅展望台",
+    },
+})
+
 # V5.2: explicit photo-point / POI corrections.  Exact overrides win over
 # broad legacy coordinates and name-derived scene heuristics.  map_query is
 # also sent to the frontend so navigation can resolve the named POI even if
