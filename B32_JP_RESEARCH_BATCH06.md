@@ -3,12 +3,12 @@
 Date: 2026-09-25 (Asia/Taipei)
 Branch: `r4.2-b32-jp-research-batch01`
 
-Research-only start for:
-- jp-011 東京鐵塔 / Tokyo Tower
-- jp-012 鎌倉大佛 / Great Buddha of Kamakura (Kotoku-in)
-- jp-016 橫濱山下公園 / Yamashita Park
+Implementation status: **runtime-migrated on the B32 candidate branch** for all three Places:
+- jp-011 東京鐵塔 / Tokyo Tower — two Main Deck Opportunities (day / city night), 09:00–22:30 JST arrival-access gate.
+- jp-012 鎌倉大佛 / Great Buddha of Kamakura (Kotoku-in) — one daytime exterior Opportunity, seasonal last-entry gate in JST.
+- jp-016 橫濱山下公園 / Yamashita Park — daytime harbor + city-night Opportunities from the researched India Water Tower / central-plaza camera area.
 
-Do not enable scores until the individual Opportunity, Camera Zone, access semantics, and runtime dependency are explicit.
+All three still require candidate QA / browser smoke before B32 release. Non-migrated Japan Places remain research_pending.
 
 ## Time-zone contract
 
@@ -37,7 +37,7 @@ Sources:
 
 ### Candidate Opportunity
 
-**jp-011-P01 — 東京鐵塔 Main Deck・東京城市全景**
+**jp-011-P01 — 東京鐵塔 Main Deck・東京城市日間全景**
 - Camera Zone: Main Deck, 150 m observation level.
 - mode: area_opportunity.
 - best_time: daylight through blue hour/night, within visitor access.
@@ -55,6 +55,11 @@ Sources:
   - encode Main Deck access conservatively as 09:00–22:30 for arrival/recommendation purposes, while documenting that already-admitted visitors may remain until 23:00;
   - minimum-sufficient visibility is acceptable for the base panorama only after access is represented.
 - do not claim a specific Fuji alignment from the generic Main Deck Opportunity.
+
+**jp-011-P02 — 東京鐵塔 Main Deck・東京城市夜景**
+- Separate `city_night` Opportunity so daytime and night temporal semantics do not leak into each other.
+- Same official 150 m Main Deck horizontal anchor / vertical Camera Zone.
+- 22:30 JST is the arrival cutoff for recommendation; 23:00 closing time is not treated as a valid new-arrival time.
 
 ### Optional later Opportunity
 
@@ -154,11 +159,13 @@ Sources:
 
 ---
 
-## Batch06 implementation order
+## Batch06 implementation result
 
-1. jp-016 Yamashita Park — official photography/night-view language is strongest and 24-hour public access simplifies the contract.
-2. jp-011 Tokyo Tower — strong official panorama evidence, but observation-deck access must be encoded before scoring.
-3. jp-012 Kamakura Great Buddha — strong official access/photo rules; requires seasonal local-time access schedule and a neutral daytime baseline.
+1. jp-016 Yamashita Park — implemented with two Opportunities and 24-hour public access semantics.
+2. jp-011 Tokyo Tower — implemented with two Main Deck Opportunities and 22:30 JST last-admission arrival gate.
+3. jp-012 Kamakura Great Buddha — implemented with one exterior daytime Opportunity and seasonal JST last-entry windows.
+
+Current Japan researched migration count after Batch06: **16 / 35 Places**.
 
 ## Migration gates
 
