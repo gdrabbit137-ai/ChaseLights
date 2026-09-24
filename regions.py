@@ -405,6 +405,16 @@ def _dark_sky_meta(region_key, name_zh, category, scenes, themes):
     }
 
 ACCESS_RULE_OVERRIDES = {
+    "東京鐵塔": {
+        "access_mode": "opening_hours",
+        "access_hours": ["09:00", "22:30"],
+        "access_hours_source": "Tokyo Tower official Main Deck hours/last admission; verified 2026-09-25",
+        "access_note_i18n": {
+            "zh-TW": "Main Deck 官方營業 09:00–23:00，最終入場 22:30；推薦抵達時間以 22:30 為截止，臨時營運調整仍以官方公告為準。",
+            "en": "Main Deck is officially open 09:00–23:00 with last admission at 22:30; recommendations use 22:30 as the arrival cutoff. Verify same-day operational notices.",
+            "ja": "メインデッキは公式09:00〜23:00、最終入場22:30。推奨到着時刻は22:30を締切とし、当日の運営変更は公式案内を確認してください。",
+        },
+    },
     "綠島朝日溫泉": {
         "access_mode": "opening_hours",
         "access_hours_windows": [["05:00", "10:00"], ["16:00", "23:00"]],
@@ -1004,9 +1014,12 @@ SPOT_OVERRIDES = {
                'coordinate_confidence': 'high'},
  '東京鐵塔': {'lat': 35.658656,
           'lon': 139.745364,
-          'map_query': '東京タワー',
-          'coordinate_source': 'Tokyo Tower POI',
-          'coordinate_confidence': 'high'},
+          'scenes': ['city', 'architecture'],
+          'themes': ['mountain_view', 'city_night'],
+          'map_query': '東京タワー MAIN DECK',
+          'coordinate_source': 'Tokyo Tower official Main Deck identity + existing high-confidence tower POI',
+          'coordinate_confidence': 'high',
+          'elevation': 150},
  '鎌倉大佛': {'lat': 35.316719,
           'lon': 139.535631,
           'scenes': ['architecture'],
