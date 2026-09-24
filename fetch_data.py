@@ -857,11 +857,10 @@ def evaluate_tag_condition(theme, item_data, hour=None, lang="zh-TW"):
             if sun_alt>-12: raw-=15
             status_key,indicator_key=("AURORA_CLEAR","IND_CLEAR_SKY") if kp_val>=5 and raw>=72 else (("AURORA_FAIR","IND_SOME_CLOUDS") if raw>=58 else ("AURORA_POOR","IND_NO_STAR"))
     elif theme=="cloud_sea":
-        if not is_day and not is_twilight:
-            # A cloud layer may physically exist at night, but a normal cloud-sea
-            # landscape Opportunity is not photographically visible enough to
-            # become the daily winner. Night-specific cloud/astro Opportunities
-            # must be modeled separately.
+        if (astro_valid and sun_alt < -6.0) or (not astro_valid and not is_day and not is_twilight):
+            # A cloud layer may physically exist after dark, but a normal visible
+            # cloud-sea landscape Opportunity needs at least civil-twilight light.
+            # The broader UI twilight helper is intentionally NOT used here.
             raw=25
             status_key,indicator_key="CLOUD_SEA_OUTSIDE","IND_CLOUD_SEA_OUTSIDE"
         else:
