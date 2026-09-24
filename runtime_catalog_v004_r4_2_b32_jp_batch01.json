@@ -1,5 +1,5 @@
 {
-  "schema_version": "v0.04-r4.2-b32-jp-batch01-16",
+  "schema_version": "v0.04-r4.2-b32-jp-batch01-17",
   "generated_at": "2026-09-24T23:45:00+08:00",
   "scope": "Japan Place-specific research migration Batch01 complete: jp-001..jp-005",
   "spot_count": 8,
@@ -1422,6 +1422,85 @@
               "geometry_type": "small_area",
               "geometry_extent_m": 180,
               "geometry_note": "皇居前廣場／內堀通步道側可拍二重橋與伏見櫓的公共區域。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-017",
+      "canonical_name": "金澤兼六園",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH08",
+      "research_sources": [
+        {
+          "authority": "Kenroku-en Tourism Association",
+          "url": "https://kenrokuen.or.jp/highlight/",
+          "verified_on": "2026-09-25",
+          "supports": "Kotoji-toro is a representative symbol and explicitly described as an optimal commemorative-photo spot; seasonal foliage and yukitsuri are documented visual strengths"
+        },
+        {
+          "authority": "Kenroku-en Tourism Association",
+          "url": "https://kenrokuen.or.jp/photo-guide/",
+          "verified_on": "2026-09-25",
+          "supports": "Official photography-guide route begins with Kotoji-toro and lists multiple researched garden photo spots"
+        },
+        {
+          "authority": "Kenroku-en Tourism Association",
+          "url": "https://kenrokuen.or.jp/information/",
+          "verified_on": "2026-09-25",
+          "supports": "Official seasonal paid and early-morning opening/last-entry windows"
+        },
+        {
+          "authority": "Cross-checked photographed Kotoji-toro/Kasumigaike viewpoint",
+          "url": "https://commons.wikimedia.org/wiki/File:(%E7%9F%B3%E5%B7%9D%E7%9C%8C)_%E5%85%BC%E5%85%AD%E5%9C%92%E3%80%81%E9%9C%9E%E3%83%B6%E6%B1%A0%E3%80%82%E5%8F%B3%E6%89%8B%E3%81%AB%E8%A6%8B%E3%81%88%E3%82%8B%E3%81%AE%E3%81%8C%E5%BE%BD%E8%BB%AB%E7%81%AF%E7%B1%A0(%E3%81%93%E3%81%A8%E3%81%98%E3%81%A8%E3%81%86%E3%82%8D%E3%81%86)%E3%80%82%E7%90%B4%E3%81%AE%E7%B3%B8%E3%82%92%E6%94%AF%E3%81%88%E3%82%8B%E7%90%B4%E6%9F%B1%EF%BC%88%E3%81%93%E3%81%A8%E3%81%98%EF%BC%89%E3%81%AB%E4%BC%BC%E3%81%A6%E3%81%84%E3%82%8B%E3%81%93%E3%81%A8%E3%81%8B%E3%82%89%E3%80%82%E3%81%9D%E3%81%AE%E6%89%8B%E5%89%8D%E3%81%AE%E6%A9%8B%E3%82%92%E8%99%B9%E6%A9%8B%E3%80%81_-_panoramio.jpg",
+          "verified_on": "2026-09-25",
+          "supports": "Photographed viewpoint around 36.563367, 136.662817 shows Kasumigaike and Kotoji-toro; independently close to the live-camera area"
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-017-P01",
+          "spot_id": "jp-017",
+          "name_zh": "兼六園・徽軫燈籠與霞之池經典庭園景觀",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04_visibility_minimum_sufficient",
+          "formula_confidence": 95,
+          "best_time": "官方開園／早朝入園時段內的可見光時間（景點當地時間／JST）",
+          "best_season": "全年；紅葉、雪吊為季節加分題材，不作基本 Outcome 硬條件",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-023",
+              "variant_name": "徽軫燈籠・霞之池經典庭園景觀",
+              "condition_geometry": "{\"camera_zone\":\"徽軫燈籠／霞之池公共園路 Camera Zone\",\"subject\":\"Kotoji-toro + Kasumigaike + garden context\"}",
+              "hard_gates": "兼六園可入園；推薦抵達時間須在官方季節性最終入園前；可見光時段有效",
+              "required_conditions": "徽軫燈籠、霞之池與庭園脈絡可辨；能見度足夠；濃霧／強降水未嚴重遮蔽景觀",
+              "boosters": "較平穩水面可增加水景層次；紅葉、雪吊可增加季節特色，但不是基本推薦必要條件",
+              "penalties": "強降水；濃霧；能見度過低；入園截止後",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-017-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official photo-guide evidence identifies Kotoji-toro as a primary photo spot; coordinate is a cross-checked photographed Kasumigaike/Kotoji-toro viewpoint on the public garden-path area.",
+              "name": "徽軫燈籠／霞之池 Camera Zone",
+              "lat": 36.563367,
+              "lon": 136.662817,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_photo_spot_plus_cross_checked_camera_location",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 120,
+              "geometry_note": "徽軫燈籠、虹橋、霞之池周邊合法園路範圍；不是單一腳架位置。",
               "geometry_confidence": "high"
             }
           ]
