@@ -1,11 +1,11 @@
 {
-  "schema_version": "v0.04-r4.2-b32-jp-batch01-8",
+  "schema_version": "v0.04-r4.2-b32-jp-batch01-9",
   "generated_at": "2026-09-24T23:45:00+08:00",
   "scope": "Japan Place-specific research migration Batch01 complete: jp-001..jp-005",
-  "spot_count": 8,
-  "opportunity_count": 10,
-  "condition_variant_count": 10,
-  "profile_viewpoint_relation_count": 10,
+  "spot_count": 9,
+  "opportunity_count": 12,
+  "condition_variant_count": 12,
+  "profile_viewpoint_relation_count": 12,
   "spots": [
     {
       "spot_id": "jp-001",
@@ -399,6 +399,130 @@
               "geometry_type": "small_area",
               "geometry_extent_m": 45,
               "geometry_note": "淺草橋街園及橋頭公共拍攝區；代表 Camera Zone，不宣稱唯一腳架點。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-007",
+      "canonical_name": "十和田湖",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH02",
+      "research_sources": [
+        {
+          "authority": "Amazing AOMORI official tourism",
+          "url": "https://aomori-tourism.com/spot/detail_335.html",
+          "verified_on": "2026-09-25",
+          "supports": "Lake Towada is a scenic lake whose calm surface can mirror sky, greenery and autumn foliage; Kankodai remains temporarily closed"
+        },
+        {
+          "authority": "Towadako National Park Association",
+          "url": "https://towadako.or.jp/guide/post210/",
+          "verified_on": "2026-09-25",
+          "supports": "2026 early-morning lakeside walk explicitly shows the lake view from the pier-front plaza (桟橋前広場から湖面を望む)"
+        },
+        {
+          "authority": "Aomori Prefecture open data",
+          "url": "https://opendata.pref.aomori.lg.jp/dataset/2058/resource/29091/content.html",
+          "verified_on": "2026-09-25",
+          "supports": "Towadako Tourist Exchange Center Puratto at 40.42601575, 140.8931398, confirming the official lakeside area"
+        },
+        {
+          "authority": "OpenStreetMap cross-check",
+          "url": "https://mapcarta.com/W586654117",
+          "verified_on": "2026-09-25",
+          "supports": "pier-front plaza mapped at approximately 40.42646, 140.89324"
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-007-P01",
+          "spot_id": "jp-007",
+          "name_zh": "休屋桟橋前広場・十和田湖湖景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04_visibility_minimum_sufficient",
+          "formula_confidence": 88,
+          "best_time": "白天（景點當地時間／JST）",
+          "best_season": "全年；秋色為季節加分，不保證當下色況",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-011",
+              "variant_name": "休屋湖畔＋十和田湖開闊湖景",
+              "condition_geometry": "{\"camera_zone\":\"休屋桟橋前広場 Camera Zone\",\"subject\":\"Lake Towada open lake + surrounding caldera landscape\"}",
+              "hard_gates": "合法公共湖畔可達；可見光時段",
+              "required_conditions": "湖面與周圍山林層次可辨；能見度足夠；強降水／濃霧未嚴重遮蔽景觀",
+              "boosters": "空氣透明度佳；低霾；秋季色葉可增加層次但不是基本成立條件",
+              "penalties": "濃霧／低能見度；強降水；湖岸主體不可辨",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-007-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Towadako National Park Association's 2026 early-morning walk explicitly uses the pier-front plaza lake view; Aomori open data and OSM cross-check pin the lakeside area.",
+              "name": "休屋桟橋前広場 Camera Zone",
+              "lat": 40.42646,
+              "lon": 140.89324,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_lakeside_viewpoint_plus_prefectural_open_data_and_osm_crosscheck",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 120,
+              "geometry_note": "休屋桟橋前広場與鄰近公共湖畔步行區的代表 Camera Zone；不使用巴士總站座標替代。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "jp-007-P02",
+          "spot_id": "jp-007",
+          "name_zh": "休屋湖畔・十和田湖鏡面倒影",
+          "legacy_theme": "reflection",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_water_surface_visibility_module",
+          "formula_version": "v0.04_water_surface_visibility",
+          "formula_confidence": 84,
+          "best_time": "白天（景點當地時間／JST）",
+          "best_season": "全年；以湖面平穩與景觀可見為主",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-012",
+              "variant_name": "十和田湖平靜水面倒映天空與山林",
+              "condition_geometry": "{\"camera_zone\":\"休屋桟橋前広場 Camera Zone\",\"subject\":\"Lake Towada calm-surface reflection\"}",
+              "hard_gates": "合法公共湖畔可達；可見光時段",
+              "required_conditions": "湖面風浪足夠平穩；能見度足夠；周圍景觀可辨",
+              "boosters": "極低風；無降水；湖面鏡面感佳",
+              "penalties": "風速使湖面明顯起皺；降水擾動水面；濃霧／低能見度",
+              "formula_status": "water_surface_visibility_runtime"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-007-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Towadako National Park Association's 2026 early-morning walk explicitly uses the pier-front plaza lake view; Aomori open data and OSM cross-check pin the lakeside area.",
+              "name": "休屋桟橋前広場 Camera Zone",
+              "lat": 40.42646,
+              "lon": 140.89324,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_lakeside_viewpoint_plus_prefectural_open_data_and_osm_crosscheck",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 120,
+              "geometry_note": "休屋桟橋前広場與鄰近公共湖畔步行區的代表 Camera Zone；不使用巴士總站座標替代。",
               "geometry_confidence": "high"
             }
           ]
