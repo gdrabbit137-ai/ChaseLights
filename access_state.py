@@ -112,7 +112,7 @@ _ACCESS_GROUPS = {
         "tw-045-P01", "tw-045-P03", "tw-045-P04",
         "tw-049-P02",
     ),
-    "transport_facility_status": ("tw-024-P01", "tw-024-P05", "tw-037-P01"),
+    "transport_facility_status": ("tw-024-P01", "tw-024-P05", "tw-037-P01", "jp-004-P01"),
     "road_viewpoint_status": ("tw-034-P01",),
     "public_attraction_notice": ("tw-038-P01", "tw-038-P02", "tw-081-P01"),
     "waterfall_trail_status": ("tw-055-P01",),
@@ -137,6 +137,13 @@ ACCESS_RUNTIME_READY_PROFILES = frozenset()
 # These are provider-discovery hints, not proof that an Opportunity is open.
 # They document official sources verified during B25 architecture work.
 OFFICIAL_SOURCE_HINTS = {
+    "jp-004": {
+        "authority": "Hakodate City / Travel Hakodate",
+        "source_kind": "official_ropeway_road_and_summit_access_information",
+        "url": "https://www.hakodate.travel/en/information/mt-hakodate/",
+        "verified_on": "2026-09-24",
+        "note": "Summit access is multi-modal. Ropeway hours, autumn maintenance, private-car evening restrictions, winter road closure, buses/taxis and hiking must not be collapsed into one static open/closed window.",
+    },
     "tw-081": {
         "authority": "Matsu National Scenic Area Headquarters",
         "source_kind": "official_attraction_hours_plus_weather_control",
