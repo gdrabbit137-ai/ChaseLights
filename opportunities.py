@@ -285,12 +285,12 @@ def validate_curated_opportunities():
                 errors.append(f"{oid}: missing profile_viewpoint relation")
             viewpoint_relations += len(viewpoints)
 
-    if len(opportunity_ids) != 213:
-        errors.append(f"expected 213 opportunities, got {len(opportunity_ids)}")
-    if len(variant_ids) != 223:
-        errors.append(f"expected 223 variants, got {len(variant_ids)}")
-    if viewpoint_relations != 218:
-        errors.append(f"expected 218 profile_viewpoint relations, got {viewpoint_relations}")
+    if len(opportunity_ids) != 214:
+        errors.append(f"expected 214 opportunities, got {len(opportunity_ids)}")
+    if len(variant_ids) != 224:
+        errors.append(f"expected 224 variants, got {len(variant_ids)}")
+    if viewpoint_relations != 219:
+        errors.append(f"expected 219 profile_viewpoint relations, got {viewpoint_relations}")
 
     exact = {
         opportunity["opportunity_id"]
