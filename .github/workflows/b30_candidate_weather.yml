@@ -77,6 +77,12 @@ jobs:
                   continue
               for day in days:
                   winner = day.get("all") or {}
+                  if winner.get("research_pending"):
+                      winner_errors.append((spot["spot_id"], day.get("date"), "unexpected_research_pending"))
+                  if winner.get("no_viable_opportunity"):
+                      if winner.get("opportunity_id"):
+                          winner_errors.append((spot["spot_id"], day.get("date"), "no_viable_has_opportunity_id"))
+                      continue
                   if not winner.get("opportunity_id"):
                       winner_errors.append((spot["spot_id"], day.get("date"), "no_opportunity_id"))
                   if not isinstance(day.get("opportunities"), dict) or not day["opportunities"]:
