@@ -98,7 +98,7 @@ MINIMUM_SUFFICIENT_VISIBILITY_PROFILES = {
     # B32: official Otaru photo spot. A clean, readable daytime canal +
     # warehouse scene is itself sufficient; evening managed lighting remains
     # a separate Opportunity and is not inferred from this contract.
-    "jp-005-P01", "jp-003-P01", "jp-006-P01", "jp-007-P01", "jp-009-P01", "jp-010-P01", "jp-011-P01", "jp-011-P02", "jp-012-P01", "jp-015-P01", "jp-016-P01", "jp-016-P02", "jp-020-P01",
+    "jp-005-P01", "jp-003-P01", "jp-006-P01", "jp-007-P01", "jp-009-P01", "jp-010-P01", "jp-011-P01", "jp-011-P02", "jp-012-P01", "jp-015-P01", "jp-016-P01", "jp-016-P02", "jp-017-P01", "jp-020-P01",
 }
 
 def supports_minimum_sufficient_contract(opportunity):
