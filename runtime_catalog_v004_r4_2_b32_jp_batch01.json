@@ -1,11 +1,11 @@
 {
-  "schema_version": "v0.04-r4.2-b32-jp-batch01-5",
+  "schema_version": "v0.04-r4.2-b32-jp-batch01-6",
   "generated_at": "2026-09-24T23:45:00+08:00",
   "scope": "Japan Place-specific research migration Batch01 complete: jp-001..jp-005",
-  "spot_count": 5,
-  "opportunity_count": 6,
-  "condition_variant_count": 6,
-  "profile_viewpoint_relation_count": 6,
+  "spot_count": 6,
+  "opportunity_count": 8,
+  "condition_variant_count": 8,
+  "profile_viewpoint_relation_count": 8,
   "spots": [
     {
       "spot_id": "jp-001",
@@ -399,6 +399,130 @@
               "geometry_type": "small_area",
               "geometry_extent_m": 45,
               "geometry_note": "淺草橋街園及橋頭公共拍攝區；代表 Camera Zone，不宣稱唯一腳架點。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-010",
+      "canonical_name": "富士山 (河口湖)",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH02",
+      "research_sources": [
+        {
+          "authority": "Fujikawaguchiko official tourism",
+          "url": "https://fujisan.ne.jp/sightseeing/1652/",
+          "verified_on": "2026-09-25",
+          "supports": "Oishi Park is a Lake Kawaguchi + Mt Fuji photography spot; unobstructed broad view; lavender and autumn kochia; park open continuously"
+        },
+        {
+          "authority": "Fujikawaguchiko official tourism model course",
+          "url": "https://fujisan.ne.jp/model-course/967/",
+          "verified_on": "2026-09-25",
+          "supports": "morning visit recommendation; late-June to mid-July lavender; calm conditions can produce reverse-Fuji reflection"
+        },
+        {
+          "authority": "Fujikawaguchiko Town",
+          "url": "https://www.town.fujikawaguchiko.lg.jp/ka/info.php?if_id=2346",
+          "verified_on": "2026-09-25",
+          "supports": "official Oishi Park public-facility location and amenities"
+        },
+        {
+          "authority": "MapFan map/POI",
+          "url": "https://mapfan.com/spots/SC34A%2CJ%2CQME",
+          "verified_on": "2026-09-25",
+          "supports": "Oishi Park coordinate 35.5230652, 138.7461483"
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-010-P01",
+          "spot_id": "jp-010",
+          "name_zh": "大石公園・河口湖越富士山",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04_visibility_minimum_sufficient",
+          "formula_confidence": 90,
+          "best_time": "白天；清晨優先（景點當地時間／JST）",
+          "best_season": "全年；季節花景另作獨立題材",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-007",
+              "variant_name": "大石公園河口湖＋富士山廣角湖景",
+              "condition_geometry": "{\"camera_zone\":\"大石公園北岸湖畔 Camera Zone\",\"subject\":\"Lake Kawaguchi foreground + Mt Fuji\"}",
+              "hard_gates": "合法公共公園可達；可見光時段；無明確封閉",
+              "required_conditions": "富士山山體可辨；能見度足夠；低雲／霧未嚴重遮蔽山體",
+              "boosters": "清晨空氣透明度佳；低霾；低雲少；湖面平穩可增加層次但不是基本成立條件",
+              "penalties": "富士山被低雲／霧大幅遮蔽；濃霾；強降雨／降雪造成主體不可辨",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-010-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official tourism identifies Oishi Park as a Lake Kawaguchi + Mt Fuji photography spot; coordinate cross-checked to MapFan POI.",
+              "name": "大石公園北岸湖畔 Camera Zone",
+              "lat": 35.5230652,
+              "lon": 138.7461483,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_photo_spot_plus_mapped_poi_coordinate",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 350,
+              "geometry_note": "大石公園湖畔約350m花街道與公共步行區的代表 Camera Zone；非唯一腳架點。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "jp-010-P02",
+          "spot_id": "jp-010",
+          "name_zh": "大石公園・逆さ富士",
+          "legacy_theme": "reflection",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_water_surface_visibility_module",
+          "formula_version": "v0.04_water_surface_visibility",
+          "formula_confidence": 86,
+          "best_time": "白天；清晨優先（景點當地時間／JST）",
+          "best_season": "全年；以富士山可見與湖面平穩為主",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-008",
+              "variant_name": "河口湖平靜水面＋逆さ富士",
+              "condition_geometry": "{\"camera_zone\":\"大石公園北岸湖畔 Camera Zone\",\"subject\":\"Mt Fuji reflection on Lake Kawaguchi\"}",
+              "hard_gates": "合法公共公園可達；可見光時段",
+              "required_conditions": "富士山可辨；能見度足夠；湖面風浪足夠平穩形成可用倒影",
+              "boosters": "極低風；無降水；清晨空氣乾淨；湖面鏡面感佳",
+              "penalties": "富士山被低雲遮蔽；風速使湖面明顯起皺；降水擾動水面；能見度不足",
+              "formula_status": "water_surface_visibility_runtime"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-010-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Same researched Oishi Park lakefront Camera Zone; reflection is an optional stronger Outcome and does not gate the base Fuji landscape Opportunity.",
+              "name": "大石公園北岸湖畔 Camera Zone",
+              "lat": 35.5230652,
+              "lon": 138.7461483,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_photo_spot_plus_mapped_poi_coordinate",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 350,
+              "geometry_note": "大石公園湖畔公共拍攝區；倒影構圖可沿湖畔小範圍移動。",
               "geometry_confidence": "high"
             }
           ]
