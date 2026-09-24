@@ -288,16 +288,23 @@ def test_adapter_integrity():
     assert "./weather_details/${region}/${encodeURIComponent(spotId)}.json" in index_html
     assert "loadDetails(currentRegion,spot.spot_id)" in index_html
     assert "const detail=payload?.spot" in index_html
-    assert "loadLegacyDetail(region,spotId)" in index_html
-    assert "catch(shardError)" in index_html
+    assert "loadLegacyDetail" not in index_html
+    assert "_weather_details.json" not in index_html
 
     analyze_weather_src = Path("analyze_weather.py").read_text(encoding="utf-8")
     assert 'Path("weather_details") / region' in analyze_weather_src
     assert '"spot": detail' in analyze_weather_src
     assert 'existing.unlink()' in analyze_weather_src
+    assert "def _load_previous_detail_map" in analyze_weather_src
+    assert "rows or _load_previous_spot_map(legacy_path)" in analyze_weather_src
+    assert "detail_data =" not in analyze_weather_src
 
     update_weather_workflow = Path(".github/workflows/update_weather.yml").read_text(encoding="utf-8")
     assert "weather_details/" in update_weather_workflow
+    assert "git rm -f --ignore-unmatch" in update_weather_workflow
+    assert "tw_weather_details.json" in update_weather_workflow
+    assert "jp_weather_details.json" in update_weather_workflow
+    assert "us_weather_details.json" in update_weather_workflow
 
     nanya = next(o for o in all_opportunities if o["opportunity_id"] == "tw-072-P01")
     assert runtime_policy(nanya) == "preview_module_available"
