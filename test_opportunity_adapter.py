@@ -1077,12 +1077,12 @@ def test_adapter_integrity():
         o for o in all_opportunities
         if "dynamic_access" in dependencies_for_opportunity(o)
     ]
-    assert len(dynamic_profiles) == 44
+    assert len(dynamic_profiles) == 46
     assert {o["opportunity_id"] for o in dynamic_profiles} == set(ACCESS_DEPENDENT_PROFILE_IDS)
     assert set(ACCESS_PROFILE_CLASSIFICATION) == set(ACCESS_DEPENDENT_PROFILE_IDS)
     assert ACCESS_RUNTIME_READY_PROFILES == frozenset()
     assert HARD_ACCESS_HOLDS["tw-052"]["policy"] == "hold"
-    assert {"tw-005", "tw-037", "tw-038", "tw-078", "tw-081", "jp-002", "jp-004"} <= set(OFFICIAL_SOURCE_HINTS)
+    assert {"tw-005", "tw-037", "tw-038", "tw-078", "tw-081", "jp-002", "jp-004", "jp-021"} <= set(OFFICIAL_SOURCE_HINTS)
     assert "tw-063" not in OFFICIAL_SOURCE_HINTS
     assert all(
         runtime_policy(o) == "module_pending"
@@ -1400,6 +1400,14 @@ def test_adapter_integrity():
     )
     assert minato_diag["jp-020-P01"]["available"] is True
     assert minato_diag["jp-020-P01"]["eligible"] is True
+
+    shinhotaka_spot = next(spot for spot in get_spots("jp") if spot["spot_id"] == "jp-021")
+    assert abs(shinhotaka_spot["lat"] - 36.268335) < 1e-9
+    assert abs(shinhotaka_spot["lon"] - 137.60158) < 1e-9
+    assert shinhotaka_spot["elevation"] == 2156
+    assert shinhotaka_spot["coordinate_confidence"] == "high"
+    assert shinhotaka_spot["map_query"] == "西穂高口駅 新穂高ロープウェイ"
+    assert set(shinhotaka_spot["themes"]) >= {"mountain_view", "milky_way"}
 
     jp021 = get_opportunities("jp", "jp-021")
     assert [o["opportunity_id"] for o in jp021] == ["jp-021-P01", "jp-021-P02"]
