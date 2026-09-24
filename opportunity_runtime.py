@@ -169,6 +169,7 @@ def evaluate_minimum_sufficient_visibility(opportunity, item_data):
     }
 
 DIRECTIONAL_HORIZON_SECTORS = {
+    "jp-013-P01": {"center": 270.0, "tolerance": 65.0, "phase": "sunset"},
     "jp-008-P01": {"center": 98.0, "tolerance": 22.5, "phase": "sunrise"},
     "tw-001-P01": {"center": 247.5, "tolerance": 67.5, "phase": "sunset"},
     "tw-003-P01": {"center": 270.0, "tolerance": 70.0, "phase": "sunset"},
