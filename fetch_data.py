@@ -557,6 +557,92 @@ def _calibrate_score(raw_score, theme, item_data):
     return int(round(max(10.0, min(96.0, score))))
 
 
+def _temporal_eligibility(theme, d):
+    """Whether this Theme is photographically possible at this timestamp.
+
+    This is intentionally separate from weather quality. A low score may mean
+    poor conditions; temporal_eligible=False means the photographic opportunity
+    itself is not possible at that hour and must not become a daily winner.
+    None means the astronomy/time evidence is insufficient for a hard verdict.
+    """
+    astro_valid = bool(d.get("astronomy_valid"))
+    sun_alt = d.get("sun_elevation")
+    hour = int(d.get("hour", 12))
+    is_day = bool(d.get("is_day"))
+    is_twilight = bool(d.get("is_twilight"))
+    tag = _canonical_theme(theme)
+
+    if theme == "sunrise":
+        if hour >= 12:
+            return False, "sunrise_after_noon"
+        if astro_valid and sun_alt is not None:
+            return (-10 <= float(sun_alt) <= 10), "sunrise_sun_altitude"
+        return None, "astronomy_unavailable"
+
+    if theme == "sunset":
+        if hour < 12:
+            return False, "sunset_before_noon"
+        if astro_valid and sun_alt is not None:
+            return (-10 <= float(sun_alt) <= 10), "sunset_sun_altitude"
+        return None, "astronomy_unavailable"
+
+    if theme == "sky_glow":
+        if astro_valid and sun_alt is not None:
+            return (-12 <= float(sun_alt) <= 10), "sky_glow_sun_altitude"
+        return None, "astronomy_unavailable"
+
+    if theme == "blue_hour":
+        if astro_valid and sun_alt is not None:
+            return (-10 <= float(sun_alt) <= -2), "blue_hour_sun_altitude"
+        return None, "astronomy_unavailable"
+
+    if theme == "fog_mist":
+        return bool(is_day or is_twilight), "fog_visible_light"
+
+    if theme == "reflection":
+        if astro_valid and sun_alt is not None:
+            return float(sun_alt) >= -8, "reflection_visible_light"
+        return bool(is_day or is_twilight), "reflection_visible_light"
+
+    if theme == "sunbeam":
+        if astro_valid and sun_alt is not None:
+            return bool(is_day) and float(sun_alt) >= 3, "sunbeam_sun_altitude"
+        return bool(is_day), "sunbeam_daylight"
+
+    if theme == "snow_scene":
+        if astro_valid and sun_alt is not None:
+            return float(sun_alt) >= -8, "snow_visible_light"
+        return bool(is_day or is_twilight), "snow_visible_light"
+
+    if theme == "cloud_sea":
+        if astro_valid and sun_alt is not None:
+            return float(sun_alt) >= -6, "cloud_sea_visible_light"
+        return bool(is_day or is_twilight), "cloud_sea_visible_light"
+
+    if theme == "city_night":
+        if astro_valid and sun_alt is not None:
+            return float(sun_alt) <= -2, "city_night_darkness"
+        return (not is_day), "city_night_darkness"
+
+    if tag == "starlight":
+        if astro_valid and sun_alt is not None:
+            return float(sun_alt) <= -12, "starlight_darkness"
+        return None, "astronomy_unavailable"
+
+    if tag == "aurora":
+        if astro_valid and sun_alt is not None:
+            return float(sun_alt) <= -12, "aurora_darkness"
+        return None, "astronomy_unavailable"
+
+    if tag == "mountain":
+        if astro_valid and sun_alt is not None:
+            return float(sun_alt) > -6, "landscape_visible_light"
+        return bool(is_day or is_twilight), "landscape_visible_light"
+
+    # Technique-like or generic themes that do not yet have a strict time gate.
+    return True, "no_temporal_gate"
+
+
 def _eligibility_cap(theme, d):
     if d.get("access_open") is False:
         return 15
@@ -1036,6 +1122,8 @@ def _score_opportunity(opportunity, theme_metric, runtime_diagnostic, lang="zh-T
         "condition_state": condition_state,
         "score_confidence": score_confidence,
         "formula_confidence": opportunity.get("formula_confidence"),
+        "temporal_eligible": (theme_metric or {}).get("temporal_eligible"),
+        "temporal_reason": (theme_metric or {}).get("temporal_reason"),
         "runtime": runtime_diagnostic or {},
     }
 
@@ -1310,6 +1398,7 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
             theme_scores = {}
             for theme in themes:
                 score, status, indicator, status_key, indicator_key, factors = evaluate_tag_condition(theme, item_data, local_dt.hour, lang)
+                temporal_eligible, temporal_reason = _temporal_eligibility(theme, item_data)
                 theme_scores[theme] = {
                     "score": score,
                     "status": status,
@@ -1317,6 +1406,8 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
                     "key_indicator": indicator,
                     "indicator_key": indicator_key,
                     "factors": factors,
+                    "temporal_eligible": temporal_eligible,
+                    "temporal_reason": temporal_reason,
                 }
 
             opportunity_scores = {}
@@ -1328,6 +1419,7 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
                 theme_metric = theme_scores.get(theme)
                 if theme_metric is None:
                     score, status, indicator, status_key, indicator_key, factors = evaluate_tag_condition(theme, item_data, local_dt.hour, lang)
+                    temporal_eligible, temporal_reason = _temporal_eligibility(theme, item_data)
                     theme_metric = {
                         "score": score,
                         "status": status,
@@ -1335,6 +1427,8 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
                         "key_indicator": indicator,
                         "indicator_key": indicator_key,
                         "factors": factors,
+                        "temporal_eligible": temporal_eligible,
+                        "temporal_reason": temporal_reason,
                     }
                     theme_scores[theme] = theme_metric
                 opportunity_scores[oid] = _score_opportunity(
