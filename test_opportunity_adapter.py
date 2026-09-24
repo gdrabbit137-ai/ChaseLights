@@ -544,7 +544,7 @@ def test_adapter_integrity():
     terrain_glow = next(
         o for o in all_opportunities if o["opportunity_id"] == "tw-013-P02"
     )
-    assert dependencies_for_opportunity(terrain_glow) == ("radiation_DNI", "cloud_sky_glow")
+    assert dependencies_for_opportunity(terrain_glow) == ("radiation_DNI", "cloud_sky_glow", "visibility")
     assert runtime_policy(terrain_glow) == "preview_module_available"
     terrain_cloud = evaluate_cloud_sky_glow(terrain_glow, {
         "astronomy_valid": True, "sun_azimuth": 270, "sun_elevation": 6, "hour": 17,
