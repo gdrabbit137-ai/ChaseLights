@@ -1,5 +1,6 @@
 from pathlib import Path
 import json
+from datetime import datetime
 from collections import Counter
 
 from opportunity_runtime import (
@@ -1263,6 +1264,23 @@ def test_adapter_integrity():
 def test_active_catalog_weather_generation_guard():
     active_tw = analyze_weather._active_spots("tw")
     assert len(active_tw) == 80
+
+    yehliu_spot = next(spot for spot in active_tw if spot["spot_id"] == "tw-074")
+    iron_fort_spot = next(spot for spot in active_tw if spot["spot_id"] == "tw-081")
+    assert yehliu_spot["access_hours"] == ["08:00", "17:00"]
+    assert iron_fort_spot["access_hours"] == ["08:00", "17:00"]
+    assert fetch_data._access_open_for_spot(
+        yehliu_spot, datetime(2026, 9, 24, 16, 0), True, False
+    ) is True
+    assert fetch_data._access_open_for_spot(
+        yehliu_spot, datetime(2026, 9, 24, 18, 0), False, True
+    ) is False
+    assert fetch_data._access_open_for_spot(
+        iron_fort_spot, datetime(2026, 9, 24, 16, 0), True, False
+    ) is True
+    assert fetch_data._access_open_for_spot(
+        iron_fort_spot, datetime(2026, 9, 24, 18, 0), False, True
+    ) is False
     assert "tw-063" not in {spot["spot_id"] for spot in active_tw}
     assert all(spot.get("active_in_catalog", True) for spot in active_tw)
 
