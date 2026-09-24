@@ -1,5 +1,5 @@
 {
-  "schema_version": "v0.04-r4.2-b32-jp-batch01-9",
+  "schema_version": "v0.04-r4.2-b32-jp-batch01-10",
   "generated_at": "2026-09-24T23:45:00+08:00",
   "scope": "Japan Place-specific research migration Batch01 complete: jp-001..jp-005",
   "spot_count": 8,
@@ -809,6 +809,79 @@
               "geometry_type": "small_area",
               "geometry_extent_m": 350,
               "geometry_note": "大石公園湖畔公共拍攝區；倒影構圖可沿湖畔小範圍移動。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-013",
+      "canonical_name": "諏訪湖",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH03",
+      "research_sources": [
+        {
+          "authority": "Suwa City",
+          "url": "https://www.city.suwa.lg.jp/site/tateishipark/",
+          "verified_on": "2026-09-25",
+          "supports": "Tateishi Park overlooks Lake Suwa and surrounding city; sunset and night views are specifically highlighted; clear days can reveal the Northern Alps"
+        },
+        {
+          "authority": "Suwa Tourism Association",
+          "url": "https://www.suwakanko.jp/tateishipark/",
+          "verified_on": "2026-09-25",
+          "supports": "Tateishi Park observation terrace/viewpoint provides panoramic Lake Suwa, surrounding city and mountains; sunset/twilight/night are signature visual outcomes"
+        },
+        {
+          "authority": "Wikimedia Commons geotagged camera location",
+          "url": "https://commons.wikimedia.org/wiki/File:%E7%AB%8B%E7%9F%B3%E5%85%AC%E5%9C%92%E3%81%AE%E3%82%BF%E3%82%A4%E3%83%A0%E3%82%AB%E3%83%97%E3%82%BB%E3%83%AB_20181227.jpg",
+          "verified_on": "2026-09-25",
+          "supports": "geotagged Tateishi Park camera location at 36.053326, 138.122711, matching the current ChaseLights anchor"
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-013-P01",
+          "spot_id": "jp-013",
+          "name_zh": "立石公園・諏訪湖夕景",
+          "legacy_theme": "sunset",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04_directional_horizon_visibility",
+          "formula_confidence": 89,
+          "best_time": "日落前後／暮色（景點當地時間／JST）",
+          "best_season": "全年；季節景觀另作加分，不保證當下色況",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-014",
+              "variant_name": "立石公園諏訪湖夕景",
+              "condition_geometry": "{\"camera_zone\":\"立石公園展望區 Camera Zone\",\"subject\":\"Lake Suwa basin + city + surrounding mountains\",\"horizon\":\"west-facing sunset sector\"}",
+              "hard_gates": "合法公園展望區可達；日落／暮色時段有效；無明確封閉",
+              "required_conditions": "夕陽方向落在可用湖景扇區；諏訪湖與市區盆地可辨；能見度足夠；低雲／霧未完全遮蔽盆地",
+              "boosters": "中高雲可承接夕陽色彩；低雲少；空氣透明度佳",
+              "penalties": "西側低雲完全遮蔽夕陽；濃霧使湖盆不可辨；強降水；能見度不足",
+              "formula_status": "directional_horizon_visibility_runtime"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-013-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Current ChaseLights coordinate is a geotagged camera location inside Tateishi Park and matches the official sunset/night-view park identity.",
+              "name": "立石公園展望區 Camera Zone",
+              "lat": 36.053326,
+              "lon": 138.122711,
+              "elevation_m": 934,
+              "coord_confidence": "high",
+              "verification_status": "official_viewpoint_identity_plus_geotagged_camera_location",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 180,
+              "geometry_note": "立石公園展望平台與周邊公共觀景區；面向諏訪湖與西側山區的夕景扇區。",
               "geometry_confidence": "high"
             }
           ]
