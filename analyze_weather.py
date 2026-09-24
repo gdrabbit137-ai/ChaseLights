@@ -310,6 +310,26 @@ def _load_previous_spot_map(path):
     }
 
 
+def _load_previous_detail_map(region, legacy_path):
+    """Prefer committed per-Place shards for detail fallback.
+
+    The legacy regional details file is read only as a migration fallback so
+    older checkouts can still recover transient provider failures.
+    """
+    shard_dir = Path("weather_details") / region
+    rows = {}
+    if shard_dir.exists():
+        for shard_path in shard_dir.glob("*.json"):
+            try:
+                payload = json.loads(shard_path.read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError, TypeError):
+                continue
+            row = payload.get("spot") if isinstance(payload, dict) else None
+            if isinstance(row, dict) and row.get("spot_id"):
+                rows[row["spot_id"]] = row
+    return rows or _load_previous_spot_map(legacy_path)
+
+
 def _mark_stale(row, reason):
     row = dict(row)
     row["data_stale"] = True
@@ -329,9 +349,9 @@ def main():
     now_utc_str = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
     summary_name = f"{region}_weather.json"
-    details_name = f"{region}_weather_details.json"
+    legacy_details_name = f"{region}_weather_details.json"
     previous_summaries = _load_previous_spot_map(summary_name)
-    previous_details = _load_previous_spot_map(details_name)
+    previous_details = _load_previous_detail_map(region, legacy_details_name)
 
     summaries, details = [], []
     stale_spot_ids, failed_spot_ids = [], []
@@ -382,16 +402,10 @@ def main():
         "translations": {"messages": I18N_MESSAGES, "factors": FACTOR_TEMPLATES},
         "spots": summaries,
     }
-    detail_data = {**base_meta, "spots": details}
-
     with open(summary_name, "w", encoding="utf-8") as f:
         json.dump(summary_data, f, ensure_ascii=False, separators=(",", ":"))
-    with open(details_name, "w", encoding="utf-8") as f:
-        json.dump(detail_data, f, ensure_ascii=False, separators=(",", ":"))
 
-    # B31: publish addressable per-Place 96H detail shards.  The regional
-    # details file remains during the transition as a fallback/backward-
-    # compatibility artifact, but the browser no longer needs to download it.
+    # B31b: per-Place shards are the authoritative 96H detail artifacts.
     shard_dir = Path("weather_details") / region
     shard_dir.mkdir(parents=True, exist_ok=True)
     expected_shard_names = set()
@@ -416,7 +430,6 @@ def main():
             existing.unlink()
 
     print(f"✅ {summary_name}: {len(summaries)} spots")
-    print(f"✅ {details_name}: 96H regional compatibility details")
     print(f"✅ {shard_dir.as_posix()}/: {len(expected_shard_names)} place detail shards")
 
 
