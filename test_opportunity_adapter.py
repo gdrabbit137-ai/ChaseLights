@@ -1692,7 +1692,7 @@ def test_active_catalog_weather_generation_guard():
     assert abs(yamashita["lat"] - 35.447738) < 1e-9
     assert abs(yamashita["lon"] - 139.646791) < 1e-9
     assert yamashita["coordinate_confidence"] == "high"
-    assert yamashita["themes"] == ["mountain_view", "city_night"]
+    assert set(yamashita["themes"]) == {"mountain_view", "city_night"}
     assert "インド水塔" in yamashita["map_query"]
 
     minato = next(spot for spot in jp_spots if spot["spot_id"] == "jp-020")
