@@ -93,6 +93,7 @@ I18N_MESSAGES = {
     "OPPORTUNITY_DATA_INSUFFICIENT": {"zh-TW": "⚠️ 此拍攝題材資料不足，暫不高分推薦", "en": "⚠️ Insufficient data for a high-confidence recommendation", "ja": "⚠️ 高信頼の推奨に必要なデータ不足"},
     "NO_VIABLE_OPPORTUNITY": {"zh-TW": "🕒 今天剩餘時段沒有合適的已研究拍攝機會", "en": "🕒 No researched shooting opportunity remains viable today", "ja": "🕒 本日の残り時間に適した調査済み撮影機会はありません"},
     "OPPORTUNITY_SIMPLE_MATCH": {"zh-TW": "✅ 此景點的基本好拍條件已成立", "en": "✅ The Place's basic good-shoot conditions are met", "ja": "✅ この場所の基本的な好条件が成立"},
+    "OPPORTUNITY_OUTSIDE_TIME_WINDOW": {"zh-TW": "🕒 天氣條件可用，但目前不在此題材的建議拍攝時段", "en": "🕒 Weather conditions are usable, but this is outside the recommended shooting time for this opportunity", "ja": "🕒 天候条件は利用可能ですが、この撮影機会の推奨時間帯ではありません"},
     "OPPORTUNITY_SIMPLE_MISS": {"zh-TW": "⚠️ 能見度、低雲或降雨條件目前不理想", "en": "⚠️ Visibility, low cloud, or precipitation is currently unfavorable", "ja": "⚠️ 視程・低雲・降水条件が現在不利"},
 
     # 關鍵指標 (Indicator)
@@ -1051,6 +1052,7 @@ def _score_opportunity(opportunity, theme_metric, runtime_diagnostic, lang="zh-T
     indicator_key = (theme_metric or {}).get("indicator_key") or "IND_DEFAULT"
     condition_state = "theme_baseline_only"
     score_confidence = "low"
+    temporal_eligible = (theme_metric or {}).get("temporal_eligible")
 
     if policy == "hold":
         score = 0
@@ -1078,9 +1080,14 @@ def _score_opportunity(opportunity, theme_metric, runtime_diagnostic, lang="zh-T
             score_confidence = "medium"
         else:
             score = base
-            status_key = indicator_key = "OPPORTUNITY_SIMPLE_MATCH"
-            condition_state = "minimum_sufficient_conditions_match"
-            score_confidence = "high"
+            if temporal_eligible is False:
+                status_key = indicator_key = "OPPORTUNITY_OUTSIDE_TIME_WINDOW"
+                condition_state = "minimum_sufficient_weather_match_outside_time_window"
+                score_confidence = "medium"
+            else:
+                status_key = indicator_key = "OPPORTUNITY_SIMPLE_MATCH"
+                condition_state = "minimum_sufficient_conditions_match"
+                score_confidence = "high"
     elif policy == "prototype_pending_certification":
         score = min(base, 79)
         status_key = indicator_key = "OPPORTUNITY_PROTOTYPE"
@@ -1099,9 +1106,14 @@ def _score_opportunity(opportunity, theme_metric, runtime_diagnostic, lang="zh-T
             score_confidence = "medium"
         else:
             score = base
-            status_key = indicator_key = "OPPORTUNITY_MATCH"
-            condition_state = "dedicated_conditions_match"
-            score_confidence = "high"
+            if temporal_eligible is False:
+                status_key = indicator_key = "OPPORTUNITY_OUTSIDE_TIME_WINDOW"
+                condition_state = "dedicated_weather_match_outside_time_window"
+                score_confidence = "medium"
+            else:
+                status_key = indicator_key = "OPPORTUNITY_MATCH"
+                condition_state = "dedicated_conditions_match"
+                score_confidence = "high"
     else:
         score = min(base, 35)
         status_key = indicator_key = "OPPORTUNITY_DATA_INSUFFICIENT"
