@@ -86,6 +86,17 @@ SPECIAL_NON_MODULE_STATUSES = {
 # Formula status is intentionally broad; these profiles need narrower contracts.
 # In particular, post-sunset sky-glow must not require positive DNI.
 OPPORTUNITY_DEPENDENCY_OVERRIDES = {
+    # B30: these researched B28 profiles explicitly require the subject/horizon
+    # to remain visible. Visibility is therefore part of the scoring contract,
+    # not merely a descriptive penalty in the Place Guide.
+    "tw-072-P01": ("marine_state", "directional_horizon", "visibility"),
+    "tw-072-P02": ("marine_state", "directional_horizon", "visibility"),
+    "tw-073-P01": ("seasonal_foreground", "tide_state", "marine_state", "directional_horizon", "visibility"),
+    "tw-075-P01": ("marine_state", "directional_horizon", "visibility"),
+    "tw-077-P01": ("marine_state", "directional_horizon", "visibility"),
+    "tw-077-P02": ("marine_state", "tide_state", "visibility"),
+    "tw-079-P01": ("marine_state", "directional_horizon", "visibility"),
+    "tw-079-P02": ("marine_state", "tide_state", "visibility"),
     "tw-013-P02": ("radiation_DNI", "cloud_sky_glow"),
     "tw-026-P02": ("cloud_sky_glow",),
     "tw-030-P02": ("cloud_sky_glow",),
