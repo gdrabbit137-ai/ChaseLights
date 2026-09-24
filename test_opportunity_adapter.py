@@ -1523,6 +1523,63 @@ def test_active_catalog_weather_generation_guard():
     assert fetch_data._access_open_for_spot(
         chaori_spot, datetime(2026, 9, 24, 20, 0), False, False
     ) is True
+
+    # Seasonal access is evaluated against the Place-local datetime passed in
+    # by the weather pipeline, not the user's browser/device timezone.
+    seasonal_spot = {
+        "access_hours_seasonal": [
+            {"start_mmdd": "04-01", "end_mmdd": "09-30", "windows": [["08:00", "17:30"]]},
+            {"start_mmdd": "10-01", "end_mmdd": "03-31", "windows": [["08:00", "17:00"]]},
+        ]
+    }
+    assert fetch_data._access_open_for_spot(
+        seasonal_spot, datetime(2026, 7, 15, 17, 15), True, False
+    ) is True
+    assert fetch_data._access_open_for_spot(
+        seasonal_spot, datetime(2026, 7, 15, 17, 45), True, False
+    ) is False
+    assert fetch_data._access_open_for_spot(
+        seasonal_spot, datetime(2026, 12, 15, 16, 45), True, False
+    ) is True
+    assert fetch_data._access_open_for_spot(
+        seasonal_spot, datetime(2026, 12, 15, 17, 15), False, True
+    ) is False
+    assert fetch_data._access_open_for_spot(
+        seasonal_spot, datetime(2027, 3, 31, 16, 30), True, False
+    ) is True
+
+    multi_window_spot = {
+        "access_hours_seasonal": [
+            {
+                "start_mmdd": "04-01",
+                "end_mmdd": "08-31",
+                "windows": [["04:00", "06:45"], ["07:00", "18:00"]],
+            }
+        ]
+    }
+    assert fetch_data._access_open_for_spot(
+        multi_window_spot, datetime(2026, 6, 1, 5, 30), True, False
+    ) is True
+    assert fetch_data._access_open_for_spot(
+        multi_window_spot, datetime(2026, 6, 1, 6, 50), True, False
+    ) is False
+    assert fetch_data._access_open_for_spot(
+        multi_window_spot, datetime(2026, 6, 1, 7, 15), True, False
+    ) is True
+
+    overlap_spot = {
+        "access_hours_seasonal": [
+            {"start_mmdd": "01-01", "end_mmdd": "12-31", "windows": [["08:00", "17:00"]]},
+            {"start_mmdd": "06-01", "end_mmdd": "08-31", "windows": [["09:00", "18:00"]]},
+        ]
+    }
+    try:
+        fetch_data._access_open_for_spot(
+            overlap_spot, datetime(2026, 7, 1, 10, 0), True, False
+        )
+        raise AssertionError("overlapping seasonal access rules must fail")
+    except ValueError as exc:
+        assert "overlapping seasonal access" in str(exc)
     assert yehliu_spot["access_hours"] == ["08:00", "17:00"]
     assert iron_fort_spot["access_hours"] == ["08:00", "17:00"]
     assert fetch_data._access_open_for_spot(
