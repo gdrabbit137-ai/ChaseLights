@@ -405,6 +405,18 @@ def _dark_sky_meta(region_key, name_zh, category, scenes, themes):
     }
 
 ACCESS_RULE_OVERRIDES = {
+    "綠島朝日溫泉": {
+        "access_mode": "opening_hours",
+        "access_hours_windows": [["05:00", "10:00"], ["16:00", "23:00"]],
+        "access_hours_effective_from": "2026-08-01",
+        "access_hours_verified_on": "2026-09-24",
+        "access_hours_source": "East Coast National Scenic Area official attraction page",
+        "access_note_i18n": {
+            "zh-TW": "官方 2026/08/01 起目前時段為 05:00–10:00、16:00–23:00；營運時間會隨季節調整，出發前仍應確認最新公告。",
+            "en": "Current official hours from 2026-08-01 are 05:00–10:00 and 16:00–23:00; hours change seasonally, so verify the latest notice before departure.",
+            "ja": "公式の現行時間（2026/08/01〜）は05:00–10:00、16:00–23:00。季節により変更されるため、出発前に最新情報を確認してください。",
+        },
+    },
     "南竿鐵堡": {
         "access_mode": "opening_hours_and_weather_control",
         "access_hours": ["08:00", "17:00"],
