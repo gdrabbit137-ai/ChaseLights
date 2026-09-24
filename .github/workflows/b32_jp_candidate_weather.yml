@@ -59,10 +59,11 @@ jobs:
 
           researched = [s for s in summary_spots if s.get("opportunities")]
           pending = [s for s in summary_spots if not s.get("opportunities")]
-          assert [s["spot_id"] for s in researched] == ["jp-003", "jp-004", "jp-005"], [s["spot_id"] for s in researched]
-          assert len(pending) == 32
+          assert [s["spot_id"] for s in researched] == ["jp-001", "jp-003", "jp-004", "jp-005"], [s["spot_id"] for s in researched]
+          assert len(pending) == 31
 
           expected_opportunities = {
+              "jp-001": {"jp-001-P01"},
               "jp-003": {"jp-003-P01"},
               "jp-004": {"jp-004-P01"},
               "jp-005": {"jp-005-P01", "jp-005-P02"},
@@ -79,6 +80,9 @@ jobs:
                   assert not winner.get("research_pending"), (spot["spot_id"], day.get("date"), winner)
                   assert isinstance(day.get("opportunities"), dict) and day["opportunities"]
                   assert set(day["opportunities"]) == expected_opportunities[spot["spot_id"]]
+                  if spot["spot_id"] == "jp-001" and winner.get("score") is not None:
+                      assert winner["score"] <= 35, winner
+                      assert winner.get("condition_state") == "data_insufficient", winner
                   if spot["spot_id"] == "jp-004" and winner.get("score") is not None:
                       assert winner["score"] <= 64, winner
                       assert winner.get("condition_state") == "partial_runtime_contract", winner
