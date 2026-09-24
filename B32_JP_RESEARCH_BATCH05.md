@@ -59,3 +59,48 @@ Sources:
 ### Guardrail
 
 A score for P01 means the ordinary Minato Mirai city/harbor night panorama is photographically usable. It does not guarantee special illuminations, fireworks, cruise-ship presence or event lighting.
+
+---
+
+## Shared infrastructure proposal — seasonal access schedules
+
+Several Japan Places have authoritative opening hours that vary by date range. The current runtime only supports one fixed `access_hours` or fixed daily `access_hours_windows`, which is insufficient.
+
+### Proposed schema
+
+```json
+"access_hours_seasonal": [
+  {
+    "start_mmdd": "04-01",
+    "end_mmdd": "09-30",
+    "windows": [["08:00", "17:30"]]
+  },
+  {
+    "start_mmdd": "10-01",
+    "end_mmdd": "03-31",
+    "windows": [["08:00", "17:00"]]
+  }
+]
+```
+
+Rules:
+- evaluate using the **Place-local date and time**, never the user's device timezone;
+- date ranges are inclusive and may wrap across New Year;
+- a matching seasonal rule takes precedence over generic fixed hours;
+- multiple daily windows are allowed;
+- if no seasonal rule matches, fall back to existing fixed-hours behavior only when explicitly configured;
+- malformed or overlapping ambiguous schedules must fail validation rather than silently assume access.
+
+### Immediate unlocks
+
+**jp-012 Kotoku-in / Great Buddha**
+- Apr–Sep: 08:00–17:30
+- Oct–Mar: 08:00–17:00
+- last entry is 15 minutes before closing and should be represented separately if visitor-entry cutoff is used as a hard gate.
+
+**jp-017 Kenrokuen**
+- seasonal normal hours plus separate early-morning admission windows;
+- multiple windows per date range are therefore required.
+
+This infrastructure should be implemented and regression-tested before either Place receives an access-sensitive photography score.
+
