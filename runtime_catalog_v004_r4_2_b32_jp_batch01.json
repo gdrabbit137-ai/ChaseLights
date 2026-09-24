@@ -1,5 +1,5 @@
 {
-  "schema_version": "v0.04-r4.2-b32-jp-batch01-11",
+  "schema_version": "v0.04-r4.2-b32-jp-batch01-12",
   "generated_at": "2026-09-24T23:45:00+08:00",
   "scope": "Japan Place-specific research migration Batch01 complete: jp-001..jp-005",
   "spot_count": 8,
@@ -949,6 +949,79 @@
               "geometry_type": "small_area",
               "geometry_extent_m": 350,
               "geometry_note": "弁天島海浜公園の公共湖岸撮影エリア。一般夕景用で、鳥居中心への精密日没アラインメントを保証しない。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-020",
+      "canonical_name": "橫濱港未來21",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH05",
+      "research_sources": [
+        {
+          "authority": "Yokohama City Port and Harbor Bureau",
+          "url": "https://www.city.yokohama.lg.jp/kanko-bunka/minato/yokohamako/gaiyo/terminalhome.html",
+          "verified_on": "2026-09-25",
+          "supports": "Osanbashi rooftop plaza is free and open 24 hours, with 360-degree harbor panorama including Minato Mirai and Yokohama Bay Bridge"
+        },
+        {
+          "authority": "Yokohama Official Visitors' Guide",
+          "url": "https://www.welcome.city.yokohama.jp/spot/details.php?bbid=179",
+          "verified_on": "2026-09-25",
+          "supports": "Whale's Back rooftop is a panoramic viewpoint for Minato Mirai and harbor night views; rooftop is open 24 hours"
+        },
+        {
+          "authority": "OpenStreetMap scenic viewpoint",
+          "url": "https://www.openstreetmap.org/node/4895092862",
+          "verified_on": "2026-09-25",
+          "supports": "OSANBASHI VIEWPOINT scenic-viewpoint node at 35.45099, 139.64670 on the Minato Mirai-facing side of Osanbashi"
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-020-P01",
+          "spot_id": "jp-020",
+          "name_zh": "大棧橋屋頂・港未來城市夜景",
+          "legacy_theme": "city_night",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04_visibility_minimum_sufficient",
+          "formula_confidence": 91,
+          "best_time": "藍調時刻至夜間（景點當地時間／JST）",
+          "best_season": "全年；特殊燈光、煙火、郵輪不屬於基本題材保證",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-016",
+              "variant_name": "大棧橋屋頂港未來城市與港景",
+              "condition_geometry": "{\"camera_zone\":\"OSANBASHI VIEWPOINT／大棧橋屋頂西側 Camera Zone\",\"subject\":\"Minato Mirai skyline + Yokohama harbor\"}",
+              "hard_gates": "大棧橋屋頂公共區域可達；城市夜景時段有效；無臨時封閉",
+              "required_conditions": "港未來天際線與港景可辨；能見度足夠；低雲／霧未嚴重遮蔽城市與港區",
+              "boosters": "空氣透明度佳；藍調時刻可增加天空與城市光線平衡",
+              "penalties": "濃霧／低雲使天際線不可辨；強降水；能見度過低",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-020-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "OSM tourism=viewpoint node on Osanbashi rooftop, cross-validated against Yokohama City's official 24-hour rooftop panorama description.",
+              "name": "OSANBASHI VIEWPOINT／大棧橋屋頂西側 Camera Zone",
+              "lat": 35.45099,
+              "lon": 139.6467,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_rooftop_identity_plus_osm_scenic_viewpoint",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 180,
+              "geometry_note": "大棧橋屋頂面向港未來側的公共觀景區；非港未來地區中心座標。",
               "geometry_confidence": "high"
             }
           ]
