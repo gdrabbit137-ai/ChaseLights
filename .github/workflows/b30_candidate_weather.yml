@@ -1,0 +1,112 @@
+name: B30 Taiwan Candidate Weather QA
+
+on:
+  push:
+    branches:
+      - r4.2-b28-p0-missing-places
+    paths:
+      - "regions.py"
+      - "analyze_weather.py"
+      - "fetch_data.py"
+      - "opportunities.py"
+      - "opportunity_runtime.py"
+      - "runtime_dependencies.py"
+      - "spatial_weather.py"
+      - "marine_state.py"
+      - "tide_state.py"
+      - "access_state.py"
+      - "taxonomy_v004.py"
+      - "runtime_catalog_v004_r4_2_b28_additions.json"
+      - ".github/workflows/b30_candidate_weather.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  candidate-weather:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout candidate branch
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Generate Taiwan candidate weather
+        run: python analyze_weather.py tw
+
+      - name: Validate B30 candidate contract
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          summary = json.loads(Path("tw_weather.json").read_text(encoding="utf-8"))
+          details = json.loads(Path("tw_weather_details.json").read_text(encoding="utf-8"))
+
+          summary_spots = summary.get("spots") if isinstance(summary, dict) else summary
+          detail_spots = details.get("spots") if isinstance(details, dict) else details
+          assert isinstance(summary_spots, list), type(summary_spots)
+          assert isinstance(detail_spots, list), type(detail_spots)
+
+          assert len(summary_spots) == 80, f"summary expected 80, got {len(summary_spots)}"
+          assert len(detail_spots) == 80, f"details expected 80, got {len(detail_spots)}"
+
+          sids = [s["spot_id"] for s in summary_spots]
+          dids = [s["spot_id"] for s in detail_spots]
+          assert len(set(sids)) == 80
+          assert len(set(dids)) == 80
+          assert "tw-063" not in sids
+          assert "tw-063" not in dids
+          assert set(sids) == set(dids)
+
+          pending = []
+          winner_errors = []
+          for spot in summary_spots:
+              opportunities = spot.get("opportunities") or []
+              if not opportunities:
+                  pending.append(spot["spot_id"])
+                  continue
+              days = spot.get("daily") or []
+              if not days:
+                  winner_errors.append((spot["spot_id"], "no_daily"))
+                  continue
+              for day in days:
+                  winner = day.get("all") or {}
+                  if not winner.get("opportunity_id"):
+                      winner_errors.append((spot["spot_id"], day.get("date"), "no_opportunity_id"))
+                  if not isinstance(day.get("opportunities"), dict) or not day["opportunities"]:
+                      winner_errors.append((spot["spot_id"], day.get("date"), "no_daily_opportunities"))
+
+          assert pending == [], f"Taiwan research-pending Places: {pending}"
+          assert winner_errors == [], f"Opportunity winner errors: {winner_errors[:20]}"
+
+          stale = [s["spot_id"] for s in summary_spots if s.get("data_stale")]
+          report = {
+              "summary_count": len(summary_spots),
+              "details_count": len(detail_spots),
+              "stale_spot_count": len(stale),
+              "stale_spots": stale,
+              "retired_tw_063_present": False,
+              "research_pending_count": len(pending),
+              "winner_error_count": len(winner_errors),
+          }
+          Path("b30_candidate_validation.json").write_text(
+              json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8"
+          )
+          print(json.dumps(report, ensure_ascii=False, indent=2))
+          PY
+
+      - name: Upload B30 candidate output
+        uses: actions/upload-artifact@v4
+        with:
+          name: b30-taiwan-candidate-weather
+          path: |
+            tw_weather.json
+            tw_weather_details.json
+            b30_candidate_validation.json
+          retention-days: 7
