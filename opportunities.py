@@ -93,6 +93,24 @@ CURATED_OPPORTUNITIES = {
     for spot in _ACTIVE_SPOTS
 }
 
+# B30 research corrections that should eventually be folded back into the next
+# regenerated master catalog. Keep this layer explicit and ID-specific.
+OPPORTUNITY_METADATA_OVERRIDES = {
+    # The researched primary outcome is the exterior architecture in daylight /
+    # golden hour. Using blue_hour as its sole compatibility baseline made the
+    # Place temporally impossible during its intended shooting window.
+    "tw-062-P01": {
+        "legacy_theme": "mountain_view",
+    },
+}
+
+
+def _apply_metadata_override(opportunity):
+    override = OPPORTUNITY_METADATA_OVERRIDES.get(opportunity.get("opportunity_id"))
+    if override:
+        opportunity.update(deepcopy(override))
+    return opportunity
+
 
 def runtime_policy(opportunity):
     """Return the safe runtime action for a curated Opportunity.
@@ -123,6 +141,7 @@ def get_opportunities(region_key, spot_id):
         return []
     opportunities = deepcopy(CURATED_OPPORTUNITIES.get(spot_id, []))
     for opportunity in opportunities:
+        _apply_metadata_override(opportunity)
         opportunity["runtime_policy"] = runtime_policy(opportunity)
         opportunity["runtime_dependency_state"] = dependency_state(opportunity)
     return opportunities
