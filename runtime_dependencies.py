@@ -82,6 +82,9 @@ SPECIAL_NON_MODULE_STATUSES = {
     "access_hold_construction",
     "access_hold_current_hours_night_bioluminescence",
     "data_insufficient_geometry",
+    # B32 Japan: Blue Pond research is complete, but current weather providers
+    # cannot establish whether the pond is actually blue/turbid or snow-covered.
+    "data_insufficient_blue_water_state",
 }
 
 # Formula status is intentionally broad; these profiles need narrower contracts.
