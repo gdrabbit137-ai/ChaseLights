@@ -278,6 +278,8 @@ def test_adapter_integrity():
     assert "點擊看 96H 明細" not in index_html
     assert "op.condition_variants" in index_html
     assert "day?.opportunities||{}" in index_html
+    assert "const rankedOpportunities=opportunities.map((op,index)=>" in index_html
+    assert "if(a.score===null)return 1;if(b.score===null)return -1;return (b.score-a.score)||(a.index-b.index);" in index_html
     assert "no_viable_opportunity" in index_html
     assert "今天剩餘時段沒有合適的已研究拍攝機會" in index_html
     assert "const researchPending=!!metric.research_pending||!spot.opportunities?.length;const hasScore=" in index_html
@@ -1183,6 +1185,38 @@ def test_adapter_integrity():
     assert simple_scored["score"] == 92
     assert simple_scored["condition_state"] == "minimum_sufficient_conditions_match"
     assert simple_scored["score_confidence"] == "high"
+
+    # A Place may have usable weather but still be outside the researched
+    # shooting time. Bitan tw-007-P03 reproduces the observed 38-point
+    # after-dark case; the UI must not call that a full good-shoot match.
+    bitan_simple = next(
+        o for o in get_opportunities("tw", "tw-007")
+        if o["opportunity_id"] == "tw-007-P03"
+    )
+    assert bitan_simple["runtime_policy"] == "minimum_sufficient_available"
+    bitan_after_dark = fetch_data._score_opportunity(
+        bitan_simple,
+        {
+            "score": 38,
+            "status_key": "STABLE_WEATHER",
+            "indicator_key": "IND_DEFAULT",
+            "factors": [],
+            "temporal_eligible": False,
+            "temporal_reason": "landscape_visible_light",
+        },
+        {
+            "available": True,
+            "eligible": True,
+            "minimum_sufficient": True,
+            "reason": "scene_readable",
+            "modules": {},
+        },
+        "zh-TW",
+    )
+    assert bitan_after_dark["score"] == 38
+    assert bitan_after_dark["status_key"] == "OPPORTUNITY_OUTSIDE_TIME_WINDOW"
+    assert bitan_after_dark["condition_state"] == "minimum_sufficient_weather_match_outside_time_window"
+    assert "不在此題材的建議拍攝時段" in bitan_after_dark["status"]
 
     simple_bad = evaluate_minimum_sufficient_visibility(
         simple_opportunity,
