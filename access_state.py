@@ -91,7 +91,7 @@ ACCESS_REQUIREMENTS = {
 }
 
 _ACCESS_GROUPS = {
-    "event_access_control": ("tw-002-P03",),
+    "event_access_control": ("tw-002-P03", "jp-021-P02"),
     "public_space_live_notice": ("tw-005-P01", "tw-005-P02"),
     "trail_road_status": (
         "tw-008-P01",
@@ -112,7 +112,7 @@ _ACCESS_GROUPS = {
         "tw-045-P01", "tw-045-P03", "tw-045-P04",
         "tw-049-P02",
     ),
-    "transport_facility_status": ("tw-024-P01", "tw-024-P05", "tw-037-P01", "jp-002-P01", "jp-004-P01"),
+    "transport_facility_status": ("tw-024-P01", "tw-024-P05", "tw-037-P01", "jp-002-P01", "jp-004-P01", "jp-021-P01"),
     "road_viewpoint_status": ("tw-034-P01",),
     "public_attraction_notice": ("tw-038-P01", "tw-038-P02", "tw-081-P01"),
     "waterfall_trail_status": ("tw-055-P01",),
@@ -150,6 +150,13 @@ OFFICIAL_SOURCE_HINTS = {
         "url": "https://www.hakodate.travel/en/information/mt-hakodate/",
         "verified_on": "2026-09-24",
         "note": "Summit access is multi-modal. Ropeway hours, autumn maintenance, private-car evening restrictions, winter road closure, buses/taxis and hiking must not be collapsed into one static open/closed window.",
+    },
+    "jp-021": {
+        "authority": "Shinhotaka Ropeway",
+        "source_kind": "official_ropeway_operation_status_plus_annual_stargazing_schedule",
+        "url": "https://shinhotaka-ropeway.jp/en/",
+        "verified_on": "2026-09-25",
+        "note": "Daytime summit access depends on actual ropeway operation. Night photography is not ordinary after-hours access: jp-021-P02 is valid only on the official annual Stargazing Service dates and while the special No.2 Ropeway service is operating.",
     },
     "tw-081": {
         "authority": "Matsu National Scenic Area Headquarters",
