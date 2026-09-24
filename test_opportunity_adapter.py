@@ -297,6 +297,8 @@ def test_adapter_integrity():
     assert "點擊看 96H 明細" not in index_html
     assert "op.condition_variants" in index_html
     assert "day?.opportunities||{}" in index_html
+    assert "const rankedOpportunities=opportunities.map((op,index)=>" in index_html
+    assert "if(a.score===null)return 1;if(b.score===null)return -1;return (b.score-a.score)||(a.index-b.index);" in index_html
     assert "no_viable_opportunity" in index_html
     assert "今天剩餘時段沒有合適的已研究拍攝機會" in index_html
     assert "const researchPending=!!metric.research_pending||!spot.opportunities?.length;const hasScore=" in index_html
