@@ -168,6 +168,20 @@ def _build_day_summaries(hourly, themes, opportunities=None):
             winner_id = max(opportunity_summaries, key=lambda oid: opportunity_summaries[oid]["score"])
             winner = dict(opportunity_summaries[winner_id])
             winner["research_pending"] = False
+            winner["no_viable_opportunity"] = False
+        elif researched:
+            # Research exists, but every researched Opportunity is temporally
+            # impossible in the remaining hours of this local day. Do not invent
+            # a winner from the least-bad impossible timestamp.
+            winner = {
+                "theme": None,
+                "score": None,
+                "research_pending": False,
+                "no_viable_opportunity": True,
+                "status_key": "NO_VIABLE_OPPORTUNITY",
+                "indicator_key": "NO_VIABLE_OPPORTUNITY",
+                "factors": [],
+            }
         else:
             # A Place without curated Photography Opportunities may keep legacy
             # Theme metrics for compatibility/weather inspection, but it must
@@ -176,6 +190,7 @@ def _build_day_summaries(hourly, themes, opportunities=None):
                 "theme": None,
                 "score": None,
                 "research_pending": True,
+                "no_viable_opportunity": False,
                 "status_key": "OPPORTUNITY_DATA_INSUFFICIENT",
                 "indicator_key": "OPPORTUNITY_DATA_INSUFFICIENT",
                 "factors": [],
@@ -214,6 +229,9 @@ def analyze_spot(spot, kp_rows=None):
         "view_azimuth": raw.get("view_azimuth", spot.get("view_azimuth")),
         "view_tolerance": raw.get("view_tolerance", spot.get("view_tolerance")),
         "access_mode": raw.get("access_mode", spot.get("access_mode")),
+        "access_hours": spot.get("access_hours"),
+        "access_hours_windows": spot.get("access_hours_windows"),
+        "access_hours_source": spot.get("access_hours_source"),
         "access_note_i18n": spot.get("access_note_i18n"),
         "map_query": spot.get("map_query"),
         "coordinate_source": spot.get("coordinate_source"),
