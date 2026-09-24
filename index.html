@@ -515,7 +515,8 @@
         body.innerHTML=`<div class="unresearched-note">${esc(d().guide_unresearched)}</div>`;
         overlay.style.display='flex';return;
       }
-      const cards=opportunities.map(op=>{
+      const rankedOpportunities=opportunities.map((op,index)=>{const raw=dayScores[op.opportunity_id]?.score;const score=raw===null||raw===undefined?null:Number(raw);return {op,index,score:Number.isFinite(score)?score:null};}).sort((a,b)=>{if(a.score===null&&b.score===null)return a.index-b.index;if(a.score===null)return 1;if(b.score===null)return -1;return (b.score-a.score)||(a.index-b.index);}).map(x=>x.op);
+      const cards=rankedOpportunities.map(op=>{
         const m=dayScores[op.opportunity_id]||null;
         const score=m?.score;
         const viewpoints=(op.viewpoints||[]).map(v=>v.name).filter(Boolean);
