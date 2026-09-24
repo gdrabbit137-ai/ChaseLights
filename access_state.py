@@ -389,12 +389,12 @@ def evaluate_dynamic_access(opportunity, item_data):
 
 def validate_access_registry():
     errors = []
-    if len(ACCESS_DEPENDENT_PROFILE_IDS) != 42:
-        errors.append(f"expected 42 dynamic-access profiles, got {len(ACCESS_DEPENDENT_PROFILE_IDS)}")
+    if len(ACCESS_DEPENDENT_PROFILE_IDS) != 43:
+        errors.append(f"expected 43 dynamic-access profiles, got {len(ACCESS_DEPENDENT_PROFILE_IDS)}")
     if ACCESS_RUNTIME_READY_PROFILES - ACCESS_DEPENDENT_PROFILE_IDS:
         errors.append("runtime-ready access profile is not classified")
     for oid, contract in ACCESS_PROFILE_CLASSIFICATION.items():
-        if not oid.startswith("tw-"):
+        if not oid.startswith(("tw-", "jp-", "us-")):
             errors.append(f"{oid}: invalid Opportunity id")
         if contract["access_type"] not in ACCESS_REQUIREMENTS:
             errors.append(f"{oid}: unknown access type")
