@@ -52,7 +52,40 @@ def _window_for_theme(items, best_index, theme):
 
 
 def _window_for_opportunity(items, best_index, opportunity_id):
-    return _window_for_metric(items, best_index, lambda item: _metric_for_opportunity(item, opportunity_id))
+    if not items:
+        return None, None
+
+    def viable(item):
+        metric = _metric_for_opportunity(item, opportunity_id) or {}
+        return (
+            metric.get("temporal_eligible") is not False
+            and item.get("access_open") is not False
+        )
+
+    best_metric = _metric_for_opportunity(items[best_index], opportunity_id) or {}
+    best_score = best_metric.get("score", 0)
+    threshold = max(55, best_score - 4)
+    left = right = best_index
+
+    while left > 0 and viable(items[left - 1]):
+        score = (_metric_for_opportunity(items[left - 1], opportunity_id) or {}).get("score", -1)
+        if score < threshold:
+            break
+        left -= 1
+
+    while right + 1 < len(items) and viable(items[right + 1]):
+        score = (_metric_for_opportunity(items[right + 1], opportunity_id) or {}).get("score", -1)
+        if score < threshold:
+            break
+        right += 1
+
+    start = items[left].get("time")
+    try:
+        end_dt = datetime.strptime(items[right].get("time"), "%Y-%m-%d %H:%M") + timedelta(hours=1)
+        end = end_dt.strftime("%Y-%m-%d %H:%M")
+    except Exception:
+        end = items[right].get("time")
+    return start, end
 
 
 def _base_snapshot(item, metric, window_start=None, window_end=None):
@@ -140,7 +173,10 @@ def _build_day_summaries(hourly, themes, opportunities=None):
             candidates = [
                 (i, (_metric_for_opportunity(it, oid) or {}).get("score", -1))
                 for i, it in enumerate(items)
-                if (_metric_for_opportunity(it, oid) or {}).get("temporal_eligible") is not False
+                if (
+                    (_metric_for_opportunity(it, oid) or {}).get("temporal_eligible") is not False
+                    and it.get("access_open") is not False
+                )
             ]
             candidates = [x for x in candidates if x[1] >= 0]
             if not candidates:
