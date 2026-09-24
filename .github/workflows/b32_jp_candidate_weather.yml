@@ -59,8 +59,8 @@ jobs:
 
           researched = [s for s in summary_spots if s.get("opportunities")]
           pending = [s for s in summary_spots if not s.get("opportunities")]
-          assert [s["spot_id"] for s in researched] == ["jp-001", "jp-002", "jp-003", "jp-004", "jp-005", "jp-009", "jp-010"], [s["spot_id"] for s in researched]
-          assert len(pending) == 28
+          assert [s["spot_id"] for s in researched] == ["jp-001", "jp-002", "jp-003", "jp-004", "jp-005", "jp-008", "jp-009", "jp-010"], [s["spot_id"] for s in researched]
+          assert len(pending) == 27
 
           expected_opportunities = {
               "jp-001": {"jp-001-P01"},
@@ -68,6 +68,7 @@ jobs:
               "jp-003": {"jp-003-P01"},
               "jp-004": {"jp-004-P01"},
               "jp-005": {"jp-005-P01", "jp-005-P02"},
+              "jp-008": {"jp-008-P01"},
               "jp-009": {"jp-009-P01"},
               "jp-010": {"jp-010-P01", "jp-010-P02"},
           }
@@ -93,7 +94,7 @@ jobs:
                       assert winner["score"] <= 64, winner
                       assert winner.get("condition_state") == "partial_runtime_contract", winner
                   if winner.get("score") is not None and winner["score"] >= 80:
-                      assert spot["spot_id"] in {"jp-003", "jp-005", "jp-009", "jp-010"}, winner
+                      assert spot["spot_id"] in {"jp-003", "jp-005", "jp-008", "jp-009", "jp-010"}, winner
                       if winner.get("opportunity_id") == "jp-010-P02":
                           assert winner.get("condition_state") == "dedicated_conditions_match", winner
                       else:
