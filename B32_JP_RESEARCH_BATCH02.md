@@ -400,19 +400,46 @@ Source:
 
 ---
 
-## Batch02 implementation readiness
+## Batch02 implementation status
 
-### Ready for first-pass runtime integration
-- jp-010-P01 Oishi Park Fuji landscape — minimum-sufficient visibility
-- jp-010-P02 Oishi Park reverse-Fuji reflection — visibility + water-surface-state
-- jp-009-P01 Nakasenuma + Mt Bandai — minimum-sufficient visibility; exact Camera Zone now pinned from Fukushima Prefecture's own Google Maps link at `37.6727759, 140.0689901`
-- jp-008-P01 Sokanzan Matsushima sunrise — directional horizon + visibility; official viewpoint confirmed, exact Camera Zone still requires final coordinate pin
+### Runtime-migrated base Opportunities
 
-### Hold / further research
-- jp-006 cloud-sea / star geometry details
-- jp-007 Kankodai sunset while official closure remains active
+- jp-006-P01 Lake Mashu First Observatory / Mashu Blue lake landscape
+  - policy: minimum-sufficient visibility
+  - Camera Zone: Lake Mashu First Observatory / Kamuy Terrace
+  - shooting time: daylight, Place local time (JST)
+  - note: official research treats mist as an alternate valid landscape state, so fog is not globally modeled as "bad"; only severe obscuration suppresses the clear-lake Outcome.
+- jp-007-P01 Yasumiya lakeside / Lake Towada landscape
+  - policy: minimum-sufficient visibility
+  - Camera Zone: Yasumiya public lakeside
+  - shooting time: daylight, Place local time (JST)
+  - note: Kankodai is intentionally excluded from this base Opportunity.
+- jp-008-P01 Sokanzan Matsushima sunrise
+  - policy: directional horizon + visibility
+- jp-009-P01 Nakasenuma + Mt Bandai
+  - policy: minimum-sufficient visibility
+- jp-010-P01 Oishi Park Fuji landscape
+  - policy: minimum-sufficient visibility
+- jp-010-P02 Oishi Park reverse-Fuji reflection
+  - policy: visibility + water-surface-state
+
+### Still pending / held
+
+- jp-006-P02 First Observatory stars / Milky Way
+  - official source supports night access and star viewing;
+  - keep pending until astronomy/foreground geometry is explicitly selected.
+- jp-006-P03 Third Observatory cloud sea
+  - keep pending until Third Observatory Camera Zone/access season and spatial cloud geometry are fully represented.
+- jp-007-P02 Kankodai Lake Towada sunset
+  - official closure reconfirmed on 2026-09-25;
+  - HOLD; do not score or recommend until an authoritative reopening signal is available.
 - jp-008 blossom phenology
 - jp-009 summit hiking
 - jp-010 seasonal flower phenology
 
-No Batch02 Place should be enabled from legacy Scene/Theme alone.
+### Guardrails
+
+- Non-migrated Japan Places remain `research_pending` and must not inherit legacy Theme scores.
+- Event/special-condition Opportunities are never synthesized from the base landscape Opportunity.
+- All displayed shooting windows use the Place local timezone; site Last Updated uses the user's device/browser timezone.
+
