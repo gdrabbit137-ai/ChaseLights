@@ -1,5 +1,5 @@
 {
-  "schema_version": "v0.04-r4.2-b32-jp-batch01-17",
+  "schema_version": "v0.04-r4.2-b32-jp-batch01-18",
   "generated_at": "2026-09-24T23:45:00+08:00",
   "scope": "Japan Place-specific research migration Batch01 complete: jp-001..jp-005",
   "spot_count": 8,
@@ -1501,6 +1501,85 @@
               "geometry_type": "small_area",
               "geometry_extent_m": 120,
               "geometry_note": "徽軫燈籠、虹橋、霞之池周邊合法園路範圍；不是單一腳架位置。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-018",
+      "canonical_name": "名古屋城",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH08",
+      "research_sources": [
+        {
+          "authority": "Nagoya Castle Official Website",
+          "url": "https://www.nagoyajo.city.nagoya.jp/guide/photospot/",
+          "verified_on": "2026-09-25",
+          "supports": "Official Photo Spot #1 is Nishi-no-maru: Main Tower Keep viewed over/through the Southwest Corner Watchtower"
+        },
+        {
+          "authority": "Nagoya Castle Official Website",
+          "url": "https://www.nagoyajo.city.nagoya.jp/",
+          "verified_on": "2026-09-25",
+          "supports": "Normal opening 09:00-16:30; closed Dec 29-Jan 1; Main Tower Keep interior currently closed"
+        },
+        {
+          "authority": "Nagoya Castle Official Website",
+          "url": "https://www.nagoyajo.city.nagoya.jp/guide/sumiyagura/",
+          "verified_on": "2026-09-25",
+          "supports": "Southwest Corner Watchtower is an Important Cultural Property at the southwest corner of Honmaru"
+        },
+        {
+          "authority": "Cross-checked photographed Southwest Corner Watchtower viewpoint",
+          "url": "https://commons.wikimedia.org/wiki/File:Southwest_Sumi-Yagura_and_stone_wall_of_Nagoya_Castle.JPG",
+          "verified_on": "2026-09-25",
+          "supports": "Camera location 35.185181, 136.898650 cross-checks the official Nishi-no-maru / Southwest Corner Watchtower photo area"
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-018-P01",
+          "spot_id": "jp-018",
+          "name_zh": "名古屋城西之丸・西南隅櫓與天守景觀",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04_visibility_minimum_sufficient",
+          "formula_confidence": 95,
+          "best_time": "09:00–16:30 開園時段內的白天（景點當地時間／JST）",
+          "best_season": "全年一般開園日；12/29–1/1 固定休園，活動延長時段另行處理",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-024",
+              "variant_name": "西之丸・西南隅櫓越し的天守景觀",
+              "condition_geometry": "{\"camera_zone\":\"名古屋城西之丸／西南隅櫓 Camera Zone\",\"subject\":\"Southwest Corner Watchtower + Main Tower Keep\"}",
+              "hard_gates": "名古屋城開園；非固定休園日；白天可見光時段有效",
+              "required_conditions": "西南隅櫓與天守外觀可辨；能見度足夠；濃霧／強降水未嚴重遮蔽城郭",
+              "boosters": "季節花木可增加畫面層次，但不是基本 Outcome 的必要條件",
+              "penalties": "強降水；濃霧；能見度過低；休園日或開園時間外",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-018-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Nagoya Castle official Photo Spot #1 identifies the Nishi-no-maru composition with the Southwest Corner Watchtower and Main Tower Keep. Coordinate is a cross-checked photographed area anchor, not a mandatory tripod point.",
+              "name": "西之丸／西南隅櫓官方攝影區 Camera Zone",
+              "lat": 35.185181,
+              "lon": 136.89865,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_photo_spot_plus_cross_checked_camera_location",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 180,
+              "geometry_note": "西之丸與西南隅櫓周邊合法遊客區域，對應官方第一攝影點。",
               "geometry_confidence": "high"
             }
           ]
