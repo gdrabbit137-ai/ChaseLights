@@ -1058,7 +1058,7 @@ def test_adapter_integrity():
         o for o in all_opportunities
         if "dynamic_access" in dependencies_for_opportunity(o)
     ]
-    assert len(dynamic_profiles) == 42
+    assert len(dynamic_profiles) == 43
     assert {o["opportunity_id"] for o in dynamic_profiles} == set(ACCESS_DEPENDENT_PROFILE_IDS)
     assert set(ACCESS_PROFILE_CLASSIFICATION) == set(ACCESS_DEPENDENT_PROFILE_IDS)
     assert ACCESS_RUNTIME_READY_PROFILES == frozenset()
