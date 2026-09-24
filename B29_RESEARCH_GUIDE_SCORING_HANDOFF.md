@@ -1,26 +1,31 @@
-# ChaseLights R4.2 B29 Research-Gated Place Guide + Opportunity-Linked Scoring Handoff
+# ChaseLights R4.2 B29/B30 Production Handoff
 
 Date: 2026-09-24 (Asia/Taipei)
 
-## Authoritative candidate state
+## Authoritative production state
 
-- Branch: `r4.2-b28-p0-missing-places`
-- Validated code head: `ff19ff0cfcb97fa1c9df63e7ca1c573b2c7bd0b5`
-- Adapter/integration CI: PASS, run `35917201993`
-- Branch relation to main at checkpoint: ahead, behind 0
-- Draft PR: #4
-- Governing specification: ChaseLights Specification v0.05 (handoff package)
-- Weather schema remains 9; new Opportunity fields are additive.
-- Production main is NOT changed by this checkpoint.
+- Production branch: `main`
+- R4.2 B28/B29 release PR: #4 — MERGED
+- Release merge commit: `62ca229bc45fe0b649ade21d81aceea859051d55`
+- Post-release production weather commit: `7decdf443953a56548ae0717f0a5907d75ca8ed0`
+- Candidate branch used for release: `r4.2-b28-p0-missing-places`
+- Weather schema remains 9; Opportunity fields are additive.
+- GitHub Pages deployment after the production weather refresh: PASS, run `36017582468`.
+- Production weather refresh: PASS, run `36016673452`.
+- Browser smoke: PASS, run `36005909042`.
+- Adapter/integration CI on final candidate code: PASS, run `36005939608`.
+- Candidate Taiwan weather/release QA: PASS, run `35977644444`.
+- Production is now changed: the researched Place-first UI and Opportunity-linked scoring are live on `main`.
 
-## Candidate Taiwan catalog
+## Production Taiwan catalog
 
 - 80 active Places
 - 189 researched Photography Opportunities
 - 199 Condition Variants
 - 194 profile-viewpoint relations
-- tw-063 remains retired.
-- tw-078-P02 and tw-081-P02 remain retired and MUST NOT be reused.
+- `tw-063` remains retired.
+- `tw-078-P02` and `tw-081-P02` remain retired and MUST NOT be reused.
+- Post-merge production weather log confirmed `tw_weather.json: 80 spots`.
 
 ## Research gate
 
@@ -30,15 +35,20 @@ Taiwan is eligible for the new Place Guide because every active Place has place-
 
 Japan and US are not yet R4 Opportunity-migrated. They MUST NOT receive generated shooting advice or a photography recommendation score merely from legacy Scene/Theme tags. Their UI state is research-pending until curated Opportunities exist.
 
+The production browser smoke explicitly verifies that Japan and US cards hide legacy scores while their research is pending.
+
 ## UI contract
 
 ### Homepage
+
 The homepage is Place-first:
+
 Region/subregion -> Day -> ranked Places -> optional Place-name search.
 
 Scene/Theme are not homepage intersecting filters.
 
 ### Card click
+
 Clicking a Place card opens the researched Place Guide, NOT weather details.
 
 The Place Guide may display only fields that exist in curated Place-specific Opportunities:
@@ -53,6 +63,7 @@ The Place Guide may display only fields that exist in curated Place-specific Opp
 Missing optional research fields MUST remain absent. Do not fill them with generic prose.
 
 ### Card tools
+
 Card footer tools are peers:
 - Weather Forecast
 - Navigation
@@ -81,7 +92,6 @@ These profiles may legitimately enter the high-recommendation band when those si
 The registry is manual and Opportunity-ID-specific. It MUST NOT be inferred automatically from Scene/Theme labels.
 
 Current seed: 41 researched Taiwan Opportunities, including broad mountain/landscape/city views and the two researched Yehliu geology views.
-
 
 Daily output:
 - `daily[].all`: researched Opportunity winner
@@ -131,23 +141,61 @@ unless that semantic claim is actually supported by the Place research and the c
 - tw-081 南竿鐵堡: one simple daytime fort/coast Opportunity only.
 - Do not rebuild removed complex Outcomes unless new product evidence justifies it.
 
-## Release gate before merge/deploy
+## B30 release gate — COMPLETED
 
-Do not merge merely because CI is green.
+All release items passed before/at deployment:
 
-Before release:
-1. verify branch is not behind production main; reconcile without force push if it is,
-2. run compile/integration QA,
-3. generate candidate Taiwan weather with all 80 active Places,
-4. require summary/detail completeness 80/80 or valid stale fallback,
-5. verify new `daily[].opportunities` / `opportunity_scores` fields,
-6. smoke-test Place Guide and Weather Forecast links in browser,
-7. confirm retired IDs absent,
-8. then review/merge PR explicitly.
+1. Candidate branch not behind production main — PASS.
+2. Compile/integration QA — PASS.
+3. Candidate Taiwan weather generated with all 80 active Places — PASS.
+4. Summary/detail completeness 80/80, stale count 0 at candidate QA — PASS.
+5. `daily[].opportunities` / `opportunity_scores` and Opportunity winner contract — PASS.
+6. Browser smoke for Place Guide / Weather Forecast / Navigation / Radar — PASS.
+7. Retired IDs absent from active output/contracts — PASS.
+8. PR #4 explicitly reviewed, marked ready, and merged — PASS.
+9. GitHub Pages production deployment — PASS.
+10. Post-merge production weather refresh — PASS; Taiwan remained 80 spots.
+11. Pages redeployment for refreshed production weather — PASS.
+
+Candidate QA report at run `35977644444`:
+- summary_count: 80
+- details_count: 80
+- stale_spot_count: 0
+- research_pending_count: 0
+- no_viable_day_count: 7
+- high_score_day_count: 107
+- winner_error_count: 0
+
+Browser smoke at run `36005909042`:
+- Taiwan rendered cards: 80
+- Place Guide opened with researched Opportunities
+- Weather Forecast rendered 96 hourly rows
+- Japan rendered cards: 35
+- US rendered cards: 70
+- unresearched Japan/US legacy scores hidden
+
+## Newly identified production performance issue
+
+The post-release weather push reported:
+
+- `tw_weather_details.json`: approximately 69.66 MB.
+
+This is below GitHub's hard single-file limit but above its recommended 50 MB size.
+
+More importantly, the current UI loads the whole regional details file on the first Weather Forecast click. For Taiwan that means a large network transfer and JSON parse before one Place's 96H forecast is displayed.
+
+Treat this as the next production performance priority. Preferred direction:
+- preserve the lightweight regional summary used by homepage cards,
+- split 96H detail payloads by Place (or another small addressable shard),
+- load only the selected Place's detail on Weather Forecast click,
+- keep cache/version consistency with the summary `updated_at`,
+- retain the current 96H UI behavior and Opportunity scoring semantics.
+
+Do not solve this by removing forecast fields or lowering research/scoring fidelity unless a separate product decision is made.
 
 ## Next priorities
 
-1. Merge/release review for B28/B29 candidate and 80/80 candidate-weather smoke test.
+1. B31: reduce Weather Forecast detail payload from the current ~69.66 MB Taiwan regional file to true on-demand Place-level/sharded loading.
 2. Migrate Japan and US Place research before enabling photography scores there.
 3. Complete remaining Taiwan dedicated modules that materially unlock high-value Opportunities.
 4. P1 missing Places remain 水漾森林 and 加路蘭.
