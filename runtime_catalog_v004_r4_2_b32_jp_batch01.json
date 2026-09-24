@@ -1,0 +1,129 @@
+{
+  "schema_version": "v0.04-r4.2-b32-jp-batch01-1",
+  "generated_at": "2026-09-24T23:45:00+08:00",
+  "scope": "Japan Place-specific research migration; jp-005 only",
+  "spot_count": 1,
+  "opportunity_count": 2,
+  "condition_variant_count": 2,
+  "profile_viewpoint_relation_count": 2,
+  "spots": [
+    {
+      "spot_id": "jp-005",
+      "canonical_name": "小樽運河",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH01",
+      "research_sources": [
+        {
+          "authority": "Otaru Tourism Association",
+          "url": "https://otaru.gr.jp/shop/otarucanal",
+          "verified_on": "2026-09-24",
+          "supports": "representative photo spot at Asakusa Bridge Garden; 63 gas lamps; promenade gas lamps sunset-24:00; warehouse illumination sunset-22:30"
+        },
+        {
+          "authority": "HOKKAIDO LOVE! official tourism",
+          "url": "https://www.visit-hokkaido.jp/spot/detail_10042.html",
+          "verified_on": "2026-09-24",
+          "supports": "Asakusa Bridge Garden is a representative Otaru Canal photography viewpoint"
+        },
+        {
+          "authority": "NAVITIME map/POI",
+          "url": "https://www.navitime.co.jp/poi?spot=02301-14426904",
+          "verified_on": "2026-09-24",
+          "supports": "Asakusa Bridge Garden coordinate anchor 43.197887, 141.003034"
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-005-P01",
+          "spot_id": "jp-005",
+          "name_zh": "小樽運河石造倉庫與運河景觀",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04_visibility_minimum_sufficient",
+          "formula_confidence": 86,
+          "best_time": "白天至日落前（景點當地時間／JST）",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-001",
+              "variant_name": "淺草橋街園運河與石造倉庫",
+              "condition_geometry": "{\"camera_zone\":\"浅草橋街園 Camera Zone\",\"subject\":\"curving canal + historic stone warehouses\"}",
+              "hard_gates": "合法公共步行區可達；可見光時段；無明確封閉",
+              "required_conditions": "運河與石造倉庫輪廓清楚；能見度足夠；低雲或降水未嚴重遮蔽主體",
+              "boosters": "低角度斜光；薄雲柔光；低霾；較少人潮",
+              "penalties": "濃霧；強降雨／降雪造成主體遮蔽；能見度明顯不足",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-005-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official tourism identifies Asakusa Bridge Garden as the representative Otaru Canal photography spot; coordinate cross-checked to mapped POI.",
+              "name": "浅草橋街園 Camera Zone",
+              "lat": 43.197887,
+              "lon": 141.003034,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_photo_spot_plus_mapped_poi_coordinate",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 45,
+              "geometry_note": "淺草橋街園及橋頭公共拍攝區；代表 Camera Zone，不宣稱唯一腳架點。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "jp-005-P02",
+          "spot_id": "jp-005",
+          "name_zh": "小樽運河暮色瓦斯燈與倉庫點燈",
+          "legacy_theme": "blue_hour",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_lighting_state_module",
+          "formula_version": "v0.04_pending_managed_lighting_schedule",
+          "formula_confidence": 78,
+          "best_time": "日落後至22:30（景點當地時間／JST；倉庫群點燈至22:30，散策路瓦斯燈至24:00）",
+          "best_season": "全年；特殊活動另依官方公告",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-002",
+              "variant_name": "暮色運河＋瓦斯燈＋石造倉庫點燈",
+              "condition_geometry": "{\"camera_zone\":\"浅草橋街園 Camera Zone\",\"subject\":\"canal + gas lamps + illuminated stone warehouses\"}",
+              "hard_gates": "合法公共步行區可達；官方常態點燈時段；暮色／夜間時段有效",
+              "required_conditions": "運河與倉庫群可辨；能見度足夠；官方常態點燈時段成立",
+              "boosters": "藍調時段保留天空色階；低風可增加水面穩定感但完美倒影不是必要條件",
+              "penalties": "濃霧；強降水／降雪遮蔽；超出倉庫群點燈時段；臨時停止點燈",
+              "formula_status": "research_ready_runtime_lighting_schedule_pending"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-005-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Same researched Camera Zone as daytime canal Opportunity.",
+              "name": "浅草橋街園 Camera Zone",
+              "lat": 43.197887,
+              "lon": 141.003034,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_photo_spot_plus_mapped_poi_coordinate",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 45,
+              "geometry_note": "淺草橋街園及橋頭公共拍攝區；代表 Camera Zone，不宣稱唯一腳架點。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
