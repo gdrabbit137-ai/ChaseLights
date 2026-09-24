@@ -1442,6 +1442,50 @@ def test_active_catalog_weather_generation_guard():
     assert impossible_days[0]["all"]["no_viable_opportunity"] is True
     assert "opportunity_id" not in impossible_days[0]["all"]
 
+    closed_vs_open = [
+        {
+            "is_past": False,
+            "local_date": "2026-09-24",
+            "time": "2026-09-24 05:00",
+            "time_utc": "2026-09-23T21:00:00Z",
+            "access_open": False,
+            "theme_scores": {"reflection": {"score": 96, "factors": []}},
+            "opportunity_scores": {
+                "tw-018-P02": {
+                    "score": 96,
+                    "temporal_eligible": True,
+                    "status_key": "OPPORTUNITY_MATCH",
+                    "indicator_key": "OPPORTUNITY_MATCH",
+                    "factors": [],
+                }
+            },
+        },
+        {
+            "is_past": False,
+            "local_date": "2026-09-24",
+            "time": "2026-09-24 06:00",
+            "time_utc": "2026-09-23T22:00:00Z",
+            "access_open": True,
+            "theme_scores": {"reflection": {"score": 72, "factors": []}},
+            "opportunity_scores": {
+                "tw-018-P02": {
+                    "score": 72,
+                    "temporal_eligible": True,
+                    "status_key": "OPPORTUNITY_MATCH",
+                    "indicator_key": "OPPORTUNITY_MATCH",
+                    "factors": [],
+                }
+            },
+        },
+    ]
+    access_days = analyze_weather._build_day_summaries(
+        closed_vs_open, ["reflection"], [p02_for_daily]
+    )
+    assert access_days[0]["all"]["score"] == 72
+    assert access_days[0]["all"]["access_open"] is True
+    assert access_days[0]["all"]["best_time"] == "2026-09-24 06:00"
+    assert access_days[0]["all"]["window_start"] == "2026-09-24 06:00"
+
 
 def test_schema9_optional_metadata_bridge():
     spot = next(s for s in get_spots("tw") if s["spot_id"] == "tw-052")
