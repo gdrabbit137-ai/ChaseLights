@@ -243,6 +243,18 @@ def test_adapter_integrity():
     assert cloud_night_score <= 35
     assert cloud_night_status == "CLOUD_SEA_OUTSIDE"
 
+    cloud_sea_after_civil = dict(
+        cloud_sea_night,
+        sun_elevation=-7.0,
+        is_twilight=True,  # UI twilight may still be broad; score must use sun altitude.
+        hour=19,
+    )
+    cloud_after_score, _, _, cloud_after_status, _, _ = fetch_data.evaluate_tag_condition(
+        "cloud_sea", cloud_sea_after_civil, 19, "zh-TW"
+    )
+    assert cloud_after_score <= 35
+    assert cloud_after_status == "CLOUD_SEA_OUTSIDE"
+
     # Homepage discovery must remain place-first. Scene/theme semantics belong to
     # the ranked result/explanation, not intersecting homepage filters.
     index_html = Path("index.html").read_text(encoding="utf-8")
