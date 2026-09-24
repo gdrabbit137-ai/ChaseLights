@@ -218,6 +218,31 @@ def test_adapter_integrity():
     assert outside_status_key == "BLUE_HOUR_OUTSIDE"
     assert outside_indicator_key == "IND_BLUE_HOUR_OUTSIDE"
 
+    cloud_sea_night = {
+        "astronomy_valid": True,
+        "sun_elevation": -18.0,
+        "is_day": False,
+        "is_twilight": False,
+        "hour": 21,
+        "c_low": 55,
+        "c_mid": 30,
+        "c_high": 20,
+        "pop": 5,
+        "wind": 1.0,
+        "vis": 30000,
+        "rh": 92,
+        "temp": 16,
+        "dew": 15,
+        "cloud_base_delta": 100,
+        "cloud_base_near_camera": False,
+        "cloud_below_camera": True,
+    }
+    cloud_night_score, _, _, cloud_night_status, _, _ = fetch_data.evaluate_tag_condition(
+        "cloud_sea", cloud_sea_night, 21, "zh-TW"
+    )
+    assert cloud_night_score <= 35
+    assert cloud_night_status == "CLOUD_SEA_OUTSIDE"
+
     # Homepage discovery must remain place-first. Scene/theme semantics belong to
     # the ranked result/explanation, not intersecting homepage filters.
     index_html = Path("index.html").read_text(encoding="utf-8")
