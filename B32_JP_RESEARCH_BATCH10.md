@@ -156,9 +156,36 @@ Do not infer future-year dates from the 2026 schedule.
 - High-score whitelist must not contain `jp-021` until the access provider is authoritative and tested.
 - No legacy `cloud_sea`, sunrise, sunset or snow-scene score may leak into the Place merely because those tags existed in the old catalog.
 
+## Provider feasibility verified
+
+The official Shinhotaka Ropeway homepage exposes a machine-readable-enough live status block in the public HTML, including:
+- a visible update time (for example `08:00 update`);
+- current No. 1 Ropeway status;
+- current No. 2 Ropeway status.
+
+Official FAQ also explicitly directs visitors to the website for current operating status when strong wind may suspend service.
+
+Official 2026 maintenance notice additionally publishes fixed full-line closure periods:
+- 2026-06-15 through 2026-06-26;
+- 2026-11-24 through 2026-11-27.
+
+Provider implementation contract:
+1. Source only `https://shinhotaka-ropeway.jp/en/` (or the official Japanese equivalent if the English block becomes unavailable).
+2. Parse both No.1 and No.2 status; P01 summit access is open only when the required route is operational.
+3. Preserve source fetch/check timestamp and visible official update time.
+4. If parsing is ambiguous, source layout changes, or either required status is missing, return `unknown` — never infer open.
+5. Apply official maintenance closure dates as authoritative scheduled closed windows.
+6. For future forecast timestamps outside the provider freshness window, do not reuse a current-open snapshot as proof of future access.
+7. P02 additionally requires the annual official Stargazing Service date/time contract; P01 live status alone must never open night access.
+
+Sources:
+- https://shinhotaka-ropeway.jp/en/
+- https://shinhotaka-ropeway.jp/en/faq/
+- https://shinhotaka-ropeway.jp/%E3%80%902026%E5%B9%B4%E5%BA%A6%E3%80%91%E6%96%B0%E7%A9%82%E9%AB%98%E3%83%AD%E3%83%BC%E3%83%97%E3%82%A6%E3%82%A7%E3%82%A4%E3%81%AE%E9%81%8B%E8%A1%8C%E8%A8%88%E7%94%BB%E3%81%AB%E3%81%A4%E3%81%84/
+
 ## Remaining work before high-confidence scoring
 
-1. Connect an authoritative Shinhotaka Ropeway operation-status provider for P01.
+1. Implement the authoritative Shinhotaka Ropeway homepage operation-status provider for P01.
 2. Connect an authoritative annual Stargazing Service schedule/status provider for P02.
 3. Confirm provider freshness / outage semantics.
 4. Add provider regression fixtures for:
