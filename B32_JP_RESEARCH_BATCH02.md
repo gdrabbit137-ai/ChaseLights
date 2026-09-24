@@ -132,6 +132,7 @@ Sources:
 - research evidence: official tourism explicitly identifies sunset as a visual strength.
 - current access status:
   - **HOLD** while the official closure remains in effect.
+  - rechecked 2026-09-25: Aomori's official tourism pages still state that the prefecture-managed Kankodai observation deck and public restroom are temporarily closed following the 2026-08-22 bear attack.
 - no score should be emitted for this Opportunity until authoritative access state becomes open again.
 - when reopened, exact Kankodai coordinate must replace any generic Lake Towada coordinate for this Opportunity.
 
