@@ -1469,13 +1469,13 @@ def test_active_catalog_weather_generation_guard():
             # generic template.
 
     # Non-migrated Places must remain explicit research gaps; enabling one
-    # researched Japan Place must not leak legacy scoring into the other 34.
+    # researched Japan Place must not leak legacy scoring into the remaining pending Places.
     jp_spots = get_spots("jp")
     researched_jp = {spot["spot_id"] for spot in jp_spots if spot.get("opportunities")}
-    assert researched_jp == {"jp-001", "jp-002", "jp-003", "jp-004", "jp-005"}
+    assert researched_jp == {"jp-001", "jp-002", "jp-003", "jp-004", "jp-005", "jp-010"}
     assert all(
         not (spot.get("opportunities") or [])
-        for spot in jp_spots if spot["spot_id"] not in {"jp-001", "jp-002", "jp-003", "jp-004", "jp-005"}
+        for spot in jp_spots if spot["spot_id"] not in {"jp-001", "jp-002", "jp-003", "jp-004", "jp-005", "jp-010"}
     )
     blue_pond = next(spot for spot in jp_spots if spot["spot_id"] == "jp-001")
     assert abs(blue_pond["lat"] - 43.493611) < 1e-9
@@ -1498,6 +1498,11 @@ def test_active_catalog_weather_generation_guard():
     assert abs(otaru["lat"] - 43.197887) < 1e-9
     assert abs(otaru["lon"] - 141.003034) < 1e-9
     assert otaru["coordinate_confidence"] == "high"
+    kawaguchiko = next(spot for spot in jp_spots if spot["spot_id"] == "jp-010")
+    assert abs(kawaguchiko["lat"] - 35.5230652) < 1e-9
+    assert abs(kawaguchiko["lon"] - 138.7461483) < 1e-9
+    assert kawaguchiko["coordinate_confidence"] == "high"
+    assert kawaguchiko["themes"] == ["mountain_view", "reflection"]
     assert all(not (spot.get("opportunities") or []) for spot in get_spots("us"))
 
     stale = analyze_weather._mark_stale({"spot_id": "tw-009", "daily": []}, "weather_fetch_failed")
