@@ -130,6 +130,7 @@ jobs:
           PY
 
       - name: Upload B30 candidate output
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: b30-taiwan-candidate-weather
