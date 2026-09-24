@@ -1,11 +1,11 @@
 {
-  "schema_version": "v0.04-r4.2-b32-jp-batch01-20",
-  "generated_at": "2026-09-25T02:00:00+08:00",
-  "scope": "Japan Place-specific research migration through Batch09: 21 researched Places including Osaka Castle / Gokurakubashi",
-  "spot_count": 21,
-  "opportunity_count": 25,
-  "condition_variant_count": 25,
-  "profile_viewpoint_relation_count": 25,
+  "schema_version": "v0.04-r4.2-b32-jp-batch01-21",
+  "generated_at": "2026-09-25T03:10:00+08:00",
+  "scope": "B32 Japan researched Place additions through jp-021 Shinhotaka",
+  "spot_count": 22,
+  "opportunity_count": 27,
+  "condition_variant_count": 27,
+  "profile_viewpoint_relation_count": 27,
   "spots": [
     {
       "spot_id": "jp-001",
@@ -1738,6 +1738,136 @@
               "geometry_type": "small_area",
               "geometry_extent_m": 120,
               "geometry_note": "極樂橋北側與內護城河周邊合法公共步道範圍，可前後移動構圖；不是單一腳架位置。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-021",
+      "canonical_name": "新穗高高空纜車",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH10",
+      "research_sources": [
+        {
+          "authority": "Shinhotaka Ropeway Official Website",
+          "url": "https://shinhotaka-ropeway.jp/en/info01/",
+          "verified_on": "2026-09-25",
+          "supports": "Nishi-Hotakaguchi Station is at 2,156 m; rooftop observation deck provides a 360-degree Northern Alps panorama including Mt Nishihotaka, Mt Yari and Mt Kasagatake; Itadaki no Mori provides additional outdoor viewpoints."
+        },
+        {
+          "authority": "Shinhotaka Ropeway Official Seasonal View Guide",
+          "url": "https://shinhotaka-ropeway.jp/en/season/",
+          "verified_on": "2026-09-25",
+          "supports": "Four-season scenic value is official: spring snow/green contrast, summer greenery, autumn foliage typically peaking around mid-October with possible snow-capped peak contrast, and winter snow-covered Northern Alps."
+        },
+        {
+          "authority": "Shinhotaka Ropeway Official Business Information",
+          "url": "https://shinhotaka-ropeway.jp/en/price/",
+          "verified_on": "2026-09-25",
+          "supports": "Ropeway operates year-round but may suspend for adverse weather or scheduled maintenance; access to Nishi-Hotakaguchi depends on the No.1/No.2 ropeway operating path."
+        },
+        {
+          "authority": "Shinhotaka Ropeway Official 2026 Stargazing Service",
+          "url": "https://shinhotaka-ropeway.jp/en/2025%E5%B9%B4%E5%BA%A6%E3%81%AE%E6%98%9F%E7%A9%BA%E8%A6%B3%E8%B3%9E%E4%BE%BF%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6/",
+          "verified_on": "2026-09-25",
+          "supports": "Night access to the rooftop observation deck and Itadaki no Mori is event-specific; 2026 autumn stargazing dates and 18:00-21:00 transport windows are officially published, so ordinary clear nights must not be treated as accessible."
+        },
+        {
+          "authority": "MapFan + geotagged photographed camera locations",
+          "url": "https://mapfan.com/spots/SCH%2CJ%2CFC4",
+          "verified_on": "2026-09-25",
+          "supports": "MapFan places Nishi-Hotakaguchi Station at 36.2678409, 137.6017974; multiple geotagged photographs taken from the station area cluster around 36.2681-36.2683, 137.6016, supporting the rooftop/adjacent summit observation Camera Zone."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-021-P01",
+          "spot_id": "jp-021",
+          "name_zh": "西穗高口展望台・北阿爾卑斯360°高山景觀",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_dynamic_access_visibility_module",
+          "formula_version": "v0.04_pending_shinhotaka_ropeway_operation_provider",
+          "formula_confidence": 84,
+          "best_time": "纜車可達的白天時段（景點當地時間／JST；依當日營運與末班時間）",
+          "best_season": "全年；春季殘雪＋新綠、約10月中旬紅葉、冬季雪山為季節加分，不作全年固定保證",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-027",
+              "variant_name": "西穗高口屋頂／頂之森・北阿爾卑斯360°山景",
+              "condition_geometry": "{\"camera_zone\":\"西穂高口駅屋上展望台／頂の森 Camera Zone\",\"subject\":\"Northern Alps 360-degree panorama incl. Mt Nishihotaka, Mt Yari, Mt Kasagatake and valley context\"}",
+              "hard_gates": "西穗高口站山頂區可合法到達；所需纜車路段當下正常營運；白天可見光時段有效；無官方停駛／維修封閉",
+              "required_conditions": "北阿爾卑斯主要山體與深谷可辨；能見度足夠；低雲／濃霧未嚴重遮蔽山體",
+              "boosters": "空氣透明度佳；秋季紅葉與初雪山峰同框；冬季雪山；春季殘雪與新綠對比",
+              "penalties": "纜車停駛；濃霧／低雲遮蔽群峰；強降水；能見度過低；惡劣天候或官方臨時管制",
+              "formula_status": "research_ready_ropeway_access_and_visibility_provider_pending"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-021-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official facility identifies the rooftop deck and Itadaki no Mori as the summit panorama area. Anchor uses a cross-checked geotagged camera position within the mapped Nishi-Hotakaguchi Station summit zone, not the legacy valley coordinate.",
+              "name": "西穗高口站屋頂展望台／頂之森 Camera Zone",
+              "lat": 36.268335,
+              "lon": 137.60158,
+              "elevation_m": 2156,
+              "coord_confidence": "high",
+              "verification_status": "official_rooftop_viewpoint_plus_mapfan_station_and_geotagged_camera_crosscheck",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 120,
+              "geometry_note": "西穗高口站屋頂展望台與相鄰頂之森合法遊客觀景區；可在區域內移動構圖，不宣稱單一腳架點。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "jp-021-P02",
+          "spot_id": "jp-021",
+          "name_zh": "西穗高口限定星空觀賞便・北阿爾卑斯星空",
+          "legacy_theme": "milky_way",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_astronomy_ephemeris_access_module",
+          "formula_version": "v0.04_pending_shinhotaka_stargazing_event_access_provider",
+          "formula_confidence": 82,
+          "best_time": "僅官方星空觀賞便營運夜晚（景點當地時間／JST；2026 秋季下行最終 21:00）",
+          "best_season": "僅官方當年度星空觀賞便指定日期；不得把一般晴朗夜晚視為可進入",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-028",
+              "variant_name": "官方星空觀賞便・西穗高口屋頂／頂之森星空",
+              "condition_geometry": "{\"camera_zone\":\"西穂高口駅屋上展望台／頂の森 Camera Zone\",\"subject\":\"night sky above Northern Alps summit-area foreground\"}",
+              "hard_gates": "當日屬官方星空觀賞便有效日期；第2纜車夜間服務實際運行；西穗高口夜間觀景區可進入；必須能搭上官方末班下行",
+              "required_conditions": "天文黑暗時段有效；低中高雲未嚴重遮蔽夜空；觀星所需能見度可用",
+              "boosters": "月光干擾較低；天空透明度高；銀河核心在可見時段時可增加題材價值，但不宣稱固定地景精密對位",
+              "penalties": "非官方觀星便日期；夜間纜車未運行／停駛；高雲量；月光干擾高；能見度差",
+              "formula_status": "research_ready_annual_event_access_and_astronomy_provider_pending"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-021-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official 2026 stargazing service explicitly uses the Nishi-Hotakaguchi rooftop observation deck and Itadaki no Mori. Same summit Camera Zone as P01, but night access is event-only.",
+              "name": "西穗高口站屋頂展望台／頂之森夜間 Camera Zone",
+              "lat": 36.268335,
+              "lon": 137.60158,
+              "elevation_m": 2156,
+              "coord_confidence": "high",
+              "verification_status": "official_stargazing_venue_plus_mapfan_station_and_geotagged_camera_crosscheck",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 120,
+              "geometry_note": "僅官方星空觀賞便開放時使用的西穗高口站屋頂／頂之森觀景區；非全年夜間可達。",
               "geometry_confidence": "high"
             }
           ]
