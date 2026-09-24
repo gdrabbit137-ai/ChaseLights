@@ -80,14 +80,14 @@ def _all_opportunities():
 
 
 def test_adapter_integrity():
-    assert ADAPTER_VERSION == "v0.04-r4.2-b32-jp-batch01-r2-preview"
+    assert ADAPTER_VERSION == "v0.04-r4.2-b32-jp-batch01-r3-preview"
     assert validate_curated_opportunities() == []
     assert validate_taxonomy() == []
     assert CATALOG_COUNTS == {
-        "spots": 82,
-        "opportunities": 192,
-        "condition_variants": 202,
-        "profile_viewpoint_relations": 197,
+        "spots": 83,
+        "opportunities": 193,
+        "condition_variants": 203,
+        "profile_viewpoint_relations": 198,
     }
     assert REGION_CATALOG_COUNTS["tw"] == {
         "spots": 80,
@@ -96,10 +96,10 @@ def test_adapter_integrity():
         "profile_viewpoint_relations": 194,
     }
     assert REGION_CATALOG_COUNTS["jp"] == {
-        "spots": 2,
-        "opportunities": 3,
-        "condition_variants": 3,
-        "profile_viewpoint_relations": 3,
+        "spots": 3,
+        "opportunities": 4,
+        "condition_variants": 4,
+        "profile_viewpoint_relations": 4,
     }
     assert REGION_CATALOG_COUNTS["us"] == {
         "spots": 0,
@@ -127,8 +127,8 @@ def test_adapter_integrity():
     assert sum(len(s["opportunities"]) for s in curated.values()) == 189
 
     all_opportunities = _all_opportunities()
-    assert sum(len(o["condition_variants"]) for o in all_opportunities) == 202
-    assert sum(len(o["viewpoints"]) for o in all_opportunities) == 197
+    assert sum(len(o["condition_variants"]) for o in all_opportunities) == 203
+    assert sum(len(o["viewpoints"]) for o in all_opportunities) == 198
     assert not any(o["formula_status"] == "legacy_fallback_pending_curated" for o in all_opportunities)
     assert not any(str(o.get("formula_version") or "").startswith("legacy_") for o in all_opportunities)
 
@@ -139,7 +139,7 @@ def test_adapter_integrity():
 
     policies = Counter(runtime_policy(o) for o in all_opportunities)
     assert policies == {
-        "module_pending": 69,
+        "module_pending": 70,
         "preview_module_available": 75,
         "minimum_sufficient_available": 44,
         "prototype_pending_certification": 2,
@@ -1063,7 +1063,7 @@ def test_adapter_integrity():
     assert set(ACCESS_PROFILE_CLASSIFICATION) == set(ACCESS_DEPENDENT_PROFILE_IDS)
     assert ACCESS_RUNTIME_READY_PROFILES == frozenset()
     assert HARD_ACCESS_HOLDS["tw-052"]["policy"] == "hold"
-    assert {"tw-005", "tw-037", "tw-038", "tw-078", "tw-081"} <= set(OFFICIAL_SOURCE_HINTS)
+    assert {"tw-005", "tw-037", "tw-038", "tw-078", "tw-081", "jp-004"} <= set(OFFICIAL_SOURCE_HINTS)
     assert "tw-063" not in OFFICIAL_SOURCE_HINTS
     assert all(
         runtime_policy(o) == "module_pending"
@@ -1151,6 +1151,11 @@ def test_adapter_integrity():
     assert [o["opportunity_id"] for o in jp003] == ["jp-003-P01"]
     assert jp003[0]["runtime_policy"] == "minimum_sufficient_available"
     assert dependencies_for_opportunity(jp003[0]) == ("visibility",)
+    jp004 = get_opportunities("jp", "jp-004")
+    assert [o["opportunity_id"] for o in jp004] == ["jp-004-P01"]
+    assert jp004[0]["runtime_policy"] == "module_pending"
+    assert dependencies_for_opportunity(jp004[0]) == ("dynamic_access", "visibility")
+    assert ACCESS_PROFILE_CLASSIFICATION["jp-004-P01"]["access_type"] == "transport_facility_status"
     jp005 = get_opportunities("jp", "jp-005")
     assert [o["opportunity_id"] for o in jp005] == ["jp-005-P01", "jp-005-P02"]
     assert jp005[0]["runtime_policy"] == "minimum_sufficient_available"
@@ -1407,15 +1412,19 @@ def test_active_catalog_weather_generation_guard():
     # researched Japan Place must not leak legacy scoring into the other 34.
     jp_spots = get_spots("jp")
     researched_jp = {spot["spot_id"] for spot in jp_spots if spot.get("opportunities")}
-    assert researched_jp == {"jp-003", "jp-005"}
+    assert researched_jp == {"jp-003", "jp-004", "jp-005"}
     assert all(
         not (spot.get("opportunities") or [])
-        for spot in jp_spots if spot["spot_id"] not in {"jp-003", "jp-005"}
+        for spot in jp_spots if spot["spot_id"] not in {"jp-003", "jp-004", "jp-005"}
     )
     kushiro = next(spot for spot in jp_spots if spot["spot_id"] == "jp-003")
     assert abs(kushiro["lat"] - 43.0980769) < 1e-9
     assert abs(kushiro["lon"] - 144.4492556) < 1e-9
     assert kushiro["coordinate_confidence"] == "high"
+    hakodate = next(spot for spot in jp_spots if spot["spot_id"] == "jp-004")
+    assert abs(hakodate["lat"] - 41.7594502) < 1e-9
+    assert abs(hakodate["lon"] - 140.7044467) < 1e-9
+    assert hakodate["coordinate_confidence"] == "high"
     otaru = next(spot for spot in jp_spots if spot["spot_id"] == "jp-005")
     assert abs(otaru["lat"] - 43.197887) < 1e-9
     assert abs(otaru["lon"] - 141.003034) < 1e-9
