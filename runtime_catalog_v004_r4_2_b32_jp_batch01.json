@@ -1,5 +1,5 @@
 {
-  "schema_version": "v0.04-r4.2-b32-jp-batch01-13",
+  "schema_version": "v0.04-r4.2-b32-jp-batch01-14",
   "generated_at": "2026-09-24T23:45:00+08:00",
   "scope": "Japan Place-specific research migration Batch01 complete: jp-001..jp-005",
   "spot_count": 8,
@@ -1146,6 +1146,124 @@
               "geometry_type": "small_area",
               "geometry_extent_m": 300,
               "geometry_note": "官方建議的中央廣場／印度水塔夜景區域；不把水面完美倒影列為必要條件。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-011",
+      "canonical_name": "東京鐵塔",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH06",
+      "research_sources": [
+        {
+          "authority": "Tokyo Tower Official Ticket Site",
+          "url": "https://ticket.tokyotower.co.jp/en/",
+          "verified_on": "2026-09-25",
+          "supports": "Main Deck is 150 m above ground and provides a 360-degree panoramic view of Tokyo"
+        },
+        {
+          "authority": "Tokyo Tower Official Fees / Business Hours",
+          "url": "https://en.tokyotower.co.jp/fee/",
+          "verified_on": "2026-09-25",
+          "supports": "Main Deck hours 09:00-23:00; last admission 22:30"
+        },
+        {
+          "authority": "Tokyo Tower Official FAQ",
+          "url": "https://en.tokyotower.co.jp/access/faq/",
+          "verified_on": "2026-09-25",
+          "supports": "Main Deck opens 09:00, last admission 22:30; admitted visitors may remain until 23:00"
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-011-P01",
+          "spot_id": "jp-011",
+          "name_zh": "東京鐵塔 Main Deck・東京城市日間全景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04_visibility_minimum_sufficient",
+          "formula_confidence": 93,
+          "best_time": "09:00 起至日落前、且須在 22:30 最終入場前（景點當地時間／JST）",
+          "best_season": "全年；實際營運狀態仍以官方當日公告為準",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-019",
+              "variant_name": "Main Deck 150m・東京城市日間全景",
+              "condition_geometry": "{\"camera_zone\":\"東京鐵塔 Main Deck 150m Camera Zone\",\"subject\":\"360-degree Tokyo urban panorama\"}",
+              "hard_gates": "Main Deck 可入場；白天可見光時段有效；抵達時間不得晚於官方最終入場",
+              "required_conditions": "東京城市近中景可辨；能見度足夠；濃霧／低雲未嚴重遮蔽城市景觀",
+              "boosters": "空氣透明度佳可增加遠景層次；極佳能見度可能出現更遠地標，但不作為基本 Outcome 保證",
+              "penalties": "濃霧／低雲使城市景觀不可辨；強降水；能見度過低；入場截止後",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-011-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Horizontal anchor is the Tokyo Tower structure; the actual photography Camera Zone is the public Main Deck at 150 m, not an exterior ground-level composition.",
+              "name": "東京鐵塔 Main Deck 150m Camera Zone",
+              "lat": 35.658656,
+              "lon": 139.745364,
+              "elevation_m": 150,
+              "coord_confidence": "high",
+              "verification_status": "official_main_deck_identity_plus_existing_high_confidence_tower_poi",
+              "geometry_type": "vertical_area",
+              "geometry_extent_m": 80,
+              "geometry_note": "同一塔體水平座標上的 150m 展望層；不代表塔外拍攝點。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "jp-011-P02",
+          "spot_id": "jp-011",
+          "name_zh": "東京鐵塔 Main Deck・東京城市夜景",
+          "legacy_theme": "city_night",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04_visibility_minimum_sufficient",
+          "formula_confidence": 93,
+          "best_time": "暮色後至 22:30 最終入場前（景點當地時間／JST）",
+          "best_season": "全年；實際營運狀態仍以官方當日公告為準",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-020",
+              "variant_name": "Main Deck 150m・東京城市夜景",
+              "condition_geometry": "{\"camera_zone\":\"東京鐵塔 Main Deck 150m Camera Zone\",\"subject\":\"Tokyo city lights and urban night panorama\"}",
+              "hard_gates": "Main Deck 可入場；城市夜景時段有效；抵達時間不得晚於官方最終入場",
+              "required_conditions": "東京城市夜景可辨；能見度足夠；濃霧／低雲未嚴重遮蔽城市景觀",
+              "boosters": "藍調時刻可增加天空與城市光線平衡；空氣透明度佳可提升遠景層次",
+              "penalties": "濃霧／低雲使夜景不可辨；強降水；能見度過低；入場截止後",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-011-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Same official 150 m Main Deck; night is modeled separately so daytime and city-night temporal semantics do not leak into each other.",
+              "name": "東京鐵塔 Main Deck 150m Camera Zone",
+              "lat": 35.658656,
+              "lon": 139.745364,
+              "elevation_m": 150,
+              "coord_confidence": "high",
+              "verification_status": "official_main_deck_identity_plus_existing_high_confidence_tower_poi",
+              "geometry_type": "vertical_area",
+              "geometry_extent_m": 80,
+              "geometry_note": "同一塔體 150m 展望層的夜景 Camera Zone。",
               "geometry_confidence": "high"
             }
           ]
