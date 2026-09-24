@@ -1164,6 +1164,26 @@ def _parse_mmdd(value):
         return None
 
 
+def _access_date_closed(spot, local_dt):
+    """Return True when a Place-local calendar date is inside a curated closure range."""
+    ranges = spot.get("access_closed_mmdd_ranges")
+    if not isinstance(ranges, (list, tuple)) or not ranges:
+        return False
+
+    current = (local_dt.month, local_dt.day)
+    for rule in ranges:
+        if not isinstance(rule, dict):
+            raise ValueError("invalid closed access date rule")
+        start = _parse_mmdd(rule.get("start_mmdd"))
+        end = _parse_mmdd(rule.get("end_mmdd"))
+        if start is None or end is None:
+            raise ValueError("invalid closed access date range")
+        in_range = start <= current <= end if start <= end else (current >= start or current <= end)
+        if in_range:
+            return True
+    return False
+
+
 def _seasonal_access_open(spot, local_dt):
     schedule = spot.get("access_hours_seasonal")
     if not isinstance(schedule, (list, tuple)) or not schedule:
@@ -1197,6 +1217,9 @@ def _seasonal_access_open(spot, local_dt):
 
 
 def _access_open_for_spot(spot, local_dt, is_day, is_twilight):
+    if _access_date_closed(spot, local_dt):
+        return False
+
     mode = spot.get("access_mode")
     if mode == "daylight_only":
         return bool(is_day or is_twilight)
