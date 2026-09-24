@@ -1,5 +1,5 @@
 {
-  "schema_version": "v0.04-r4.2-b32-jp-batch01-14",
+  "schema_version": "v0.04-r4.2-b32-jp-batch01-15",
   "generated_at": "2026-09-24T23:45:00+08:00",
   "scope": "Japan Place-specific research migration Batch01 complete: jp-001..jp-005",
   "spot_count": 8,
@@ -1264,6 +1264,85 @@
               "geometry_type": "vertical_area",
               "geometry_extent_m": 80,
               "geometry_note": "同一塔體 150m 展望層的夜景 Camera Zone。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-012",
+      "canonical_name": "鎌倉大佛",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH06",
+      "research_sources": [
+        {
+          "authority": "Kotoku-in official visitor information",
+          "url": "https://www.kotoku-in.jp/",
+          "verified_on": "2026-09-25",
+          "supports": "Temple grounds hours: Apr-Sep 08:00-17:30, Oct-Mar 08:00-17:00; entry required at least 15 minutes before closing"
+        },
+        {
+          "authority": "Kotoku-in official English visitor information",
+          "url": "https://kotoku-in.jp/en/",
+          "verified_on": "2026-09-25",
+          "supports": "Personal-use photography on temple grounds is permitted; commercial photography requires prior permission"
+        },
+        {
+          "authority": "Kotoku-in official FAQ",
+          "url": "https://www.kotoku-in.jp/en-site/faq/",
+          "verified_on": "2026-09-25",
+          "supports": "Photography/filming inside the Great Buddha is prohibited; drones are prohibited"
+        },
+        {
+          "authority": "Cross-checked Great Buddha mapped artwork node",
+          "url": "https://www.openstreetmap.org/node/260752586",
+          "verified_on": "2026-09-25",
+          "supports": "Great Buddha statue mapped at approximately 35.31685, 139.53572"
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-012-P01",
+          "spot_id": "jp-012",
+          "name_zh": "高德院境內・鎌倉大佛日間造像景觀",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04_visibility_minimum_sufficient",
+          "formula_confidence": 94,
+          "best_time": "08:00 起至季節性最終入場前的白天時段（景點當地時間／JST）",
+          "best_season": "全年；4–9 月最終入場 17:15，10–3 月最終入場 16:45",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-021",
+              "variant_name": "高德院境內・大佛正面與周邊環境日間景觀",
+              "condition_geometry": "{\"camera_zone\":\"高德院大佛前公共參拜區 Camera Zone\",\"subject\":\"Great Buddha exterior + temple-ground context\"}",
+              "hard_gates": "高德院境內可入場；白天可見光時段有效；不得晚於季節性最終入場",
+              "required_conditions": "大佛外觀可清楚辨識；降水／霧況未嚴重遮蔽造像與周邊環境",
+              "boosters": "柔和光線可改善銅像明暗層次，但不是基本 Outcome 的必要條件",
+              "penalties": "強降水；濃霧；光線不足；入場截止後",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-012-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Anchor identifies the outdoor Great Buddha subject and legal visitor-ground area. It is not permission to occupy a precise tripod coordinate. Interior photography is explicitly excluded.",
+              "name": "高德院大佛前公共參拜區 Camera Zone",
+              "lat": 35.31685,
+              "lon": 139.53572,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_subject_and_access_rules_plus_cross_checked_artwork_coordinate",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 70,
+              "geometry_note": "高德院境內大佛前可合法參拜／個人攝影區域；不包含大佛胎內。",
               "geometry_confidence": "high"
             }
           ]
