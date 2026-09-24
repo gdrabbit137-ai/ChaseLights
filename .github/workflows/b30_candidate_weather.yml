@@ -5,6 +5,7 @@ on:
     branches:
       - r4.2-b28-p0-missing-places
       - r4.2-b31-place-weather-details
+      - r4.2-b31b-remove-weather-monolith
     paths:
       - "regions.py"
       - "analyze_weather.py"
@@ -51,23 +52,14 @@ jobs:
           from pathlib import Path
 
           summary = json.loads(Path("tw_weather.json").read_text(encoding="utf-8"))
-          details = json.loads(Path("tw_weather_details.json").read_text(encoding="utf-8"))
 
           summary_spots = summary.get("spots") if isinstance(summary, dict) else summary
-          detail_spots = details.get("spots") if isinstance(details, dict) else details
           assert isinstance(summary_spots, list), type(summary_spots)
-          assert isinstance(detail_spots, list), type(detail_spots)
-
           assert len(summary_spots) == 80, f"summary expected 80, got {len(summary_spots)}"
-          assert len(detail_spots) == 80, f"details expected 80, got {len(detail_spots)}"
 
           sids = [s["spot_id"] for s in summary_spots]
-          dids = [s["spot_id"] for s in detail_spots]
           assert len(set(sids)) == 80
-          assert len(set(dids)) == 80
           assert "tw-063" not in sids
-          assert "tw-063" not in dids
-          assert set(sids) == set(dids)
 
           shard_dir = Path("weather_details") / "tw"
           shard_files = sorted(shard_dir.glob("tw-*.json"))
@@ -133,7 +125,7 @@ jobs:
           stale = [s["spot_id"] for s in summary_spots if s.get("data_stale")]
           report = {
               "summary_count": len(summary_spots),
-              "details_count": len(detail_spots),
+              "details_count": len(shard_files),
               "detail_shard_count": len(shard_files),
               "stale_spot_count": len(stale),
               "stale_spots": stale,
@@ -156,6 +148,5 @@ jobs:
           name: b30-taiwan-candidate-weather
           path: |
             tw_weather.json
-            tw_weather_details.json
             b30_candidate_validation.json
           retention-days: 7
