@@ -1,11 +1,11 @@
 {
-  "schema_version": "v0.04-r4.2-b32-jp-batch01-6",
+  "schema_version": "v0.04-r4.2-b32-jp-batch01-7",
   "generated_at": "2026-09-24T23:45:00+08:00",
   "scope": "Japan Place-specific research migration Batch01 complete: jp-001..jp-005",
-  "spot_count": 6,
-  "opportunity_count": 8,
-  "condition_variant_count": 8,
-  "profile_viewpoint_relation_count": 8,
+  "spot_count": 7,
+  "opportunity_count": 9,
+  "condition_variant_count": 9,
+  "profile_viewpoint_relation_count": 9,
   "spots": [
     {
       "spot_id": "jp-001",
@@ -399,6 +399,85 @@
               "geometry_type": "small_area",
               "geometry_extent_m": 45,
               "geometry_note": "淺草橋街園及橋頭公共拍攝區；代表 Camera Zone，不宣稱唯一腳架點。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-009",
+      "canonical_name": "磐梯山",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH02",
+      "research_sources": [
+        {
+          "authority": "Fukushima Prefecture Green Reconstruction",
+          "url": "https://www.pref.fukushima.lg.jp/w4/fgr/perfectview/p04/",
+          "verified_on": "2026-09-25",
+          "supports": "Nakasenuma Observation Deck is a representative Urabandai photography viewpoint with Nakasenuma foreground, broad-leaved forest and rugged Mt Bandai; listed season year-round"
+        },
+        {
+          "authority": "Fukushima Prefecture official Google Maps link",
+          "url": "https://www.google.com/maps/",
+          "verified_on": "2026-09-25",
+          "supports": "official View Point 04 map link resolves to Nakasenuma Observation Deck at 37.6727759, 140.0689901"
+        },
+        {
+          "authority": "Urabandai Tourism Association",
+          "url": "https://www.urabandai-inf.com/en/?page_id=30933",
+          "verified_on": "2026-09-25",
+          "supports": "Nakasenuma Observation Deck is a prime viewing spot with Nakasenuma in foreground and Mt Bandai behind; beginner trail access"
+        },
+        {
+          "authority": "Urabandai Tourism Association",
+          "url": "https://www.urabandai-inf.com/en/?page_id=24970",
+          "verified_on": "2026-09-25",
+          "supports": "Nakasenuma trail is about 1.2 km and approximately 15–25 minutes one way depending on entrance"
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-009-P01",
+          "spot_id": "jp-009",
+          "name_zh": "中瀬沼展望台・中瀬沼與磐梯山",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04_visibility_minimum_sufficient",
+          "formula_confidence": 90,
+          "best_time": "白天（景點當地時間／JST）",
+          "best_season": "全年；秋色僅作季節加分，不保證當下色況",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-009",
+              "variant_name": "中瀬沼前景＋磐梯山火山地貌",
+              "condition_geometry": "{\"camera_zone\":\"中瀬沼展望台 Camera Zone\",\"subject\":\"Nakasenuma pond + broad-leaved forest + Mt Bandai\"}",
+              "hard_gates": "合法步道與展望台可達；可見光時段；無明確封閉",
+              "required_conditions": "磐梯山山體與中瀬沼前景可辨；能見度足夠；低雲／霧未嚴重遮蔽山體",
+              "boosters": "低霾；空氣透明度佳；秋季色葉可增加層次但不是基本成立條件",
+              "penalties": "低雲／濃霧遮蔽磐梯山；強降雨／降雪造成主體不可辨；能見度不足",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-009-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Fukushima Prefecture View Point 04 links directly to this observation-deck location; this replaces the generic Mt Bandai summit coordinate for the base photography Opportunity.",
+              "name": "中瀬沼展望台 Camera Zone",
+              "lat": 37.6727759,
+              "lon": 140.0689901,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_prefecture_viewpoint_plus_official_linked_map_coordinate",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 80,
+              "geometry_note": "中瀬沼展望台及其公共觀景區的代表 Camera Zone；不使用磐梯山山頂座標替代一般攝影位置。",
               "geometry_confidence": "high"
             }
           ]
