@@ -70,6 +70,8 @@ jobs:
 
           pending = []
           winner_errors = []
+          no_viable_days = []
+          high_score_days = []
           for spot in summary_spots:
               opportunities = spot.get("opportunities") or []
               if not opportunities:
@@ -84,13 +86,27 @@ jobs:
                   if winner.get("research_pending"):
                       winner_errors.append((spot["spot_id"], day.get("date"), "unexpected_research_pending"))
                   if winner.get("no_viable_opportunity"):
+                      no_viable_days.append((spot["spot_id"], day.get("date")))
                       if winner.get("opportunity_id"):
                           winner_errors.append((spot["spot_id"], day.get("date"), "no_viable_has_opportunity_id"))
+                      if winner.get("research_pending"):
+                          winner_errors.append((spot["spot_id"], day.get("date"), "no_viable_marked_research_pending"))
                       continue
                   if not winner.get("opportunity_id"):
                       winner_errors.append((spot["spot_id"], day.get("date"), "no_opportunity_id"))
                   if not isinstance(day.get("opportunities"), dict) or not day["opportunities"]:
                       winner_errors.append((spot["spot_id"], day.get("date"), "no_daily_opportunities"))
+                  if winner.get("temporal_eligible") is False:
+                      winner_errors.append((spot["spot_id"], day.get("date"), "temporally_impossible_winner"))
+                  if winner.get("access_open") is False:
+                      winner_errors.append((spot["spot_id"], day.get("date"), "closed_access_winner"))
+                  score = winner.get("score")
+                  if isinstance(score, (int, float)) and score >= 80:
+                      high_score_days.append((spot["spot_id"], day.get("date"), score))
+                      if winner.get("status_key") not in {"OPPORTUNITY_MATCH", "OPPORTUNITY_SIMPLE_MATCH"}:
+                          winner_errors.append((spot["spot_id"], day.get("date"), "high_score_bad_status", winner.get("status_key")))
+                      if winner.get("condition_state") not in {"dedicated_conditions_match", "minimum_sufficient_conditions_match"}:
+                          winner_errors.append((spot["spot_id"], day.get("date"), "high_score_bad_condition_state", winner.get("condition_state")))
 
           assert pending == [], f"Taiwan research-pending Places: {pending}"
           assert winner_errors == [], f"Opportunity winner errors: {winner_errors[:20]}"
@@ -103,6 +119,8 @@ jobs:
               "stale_spots": stale,
               "retired_tw_063_present": False,
               "research_pending_count": len(pending),
+              "no_viable_day_count": len(no_viable_days),
+              "high_score_day_count": len(high_score_days),
               "winner_error_count": len(winner_errors),
           }
           Path("b30_candidate_validation.json").write_text(
