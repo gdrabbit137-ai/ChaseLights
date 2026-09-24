@@ -172,11 +172,11 @@ jobs:
                   .map(s => s.spot_id);
               """)
               report["researched_jp_ids"] = researched_jp_ids
-              assert researched_jp_ids == ["jp-001", "jp-002", "jp-003", "jp-004", "jp-005", "jp-006", "jp-007", "jp-008", "jp-009", "jp-010", "jp-011", "jp-012", "jp-013", "jp-016", "jp-019", "jp-020"], researched_jp_ids
+              assert researched_jp_ids == ["jp-001", "jp-002", "jp-003", "jp-004", "jp-005", "jp-006", "jp-007", "jp-008", "jp-009", "jp-010", "jp-011", "jp-012", "jp-013", "jp-015", "jp-016", "jp-019", "jp-020"], researched_jp_ids
 
-              researched_names = {"美瑛青池", "旭岳", "釧路濕原", "函館山夜景", "小樽運河", "摩周湖", "十和田湖", "松島", "磐梯山", "富士山 (河口湖)", "東京鐵塔", "鎌倉大佛", "諏訪湖", "橫濱山下公園", "濱名湖", "橫濱港未來21"}
+              researched_names = {"美瑛青池", "旭岳", "釧路濕原", "函館山夜景", "小樽運河", "摩周湖", "十和田湖", "松島", "磐梯山", "富士山 (河口湖)", "東京鐵塔", "鎌倉大佛", "諏訪湖", "皇居外苑二重橋", "橫濱山下公園", "濱名湖", "橫濱港未來21"}
               researched_cards = [c for c in jp_cards if any(name in c.text for name in researched_names)]
-              assert len(researched_cards) == 16
+              assert len(researched_cards) == 17
               researched_scores = [c.find_element(By.CSS_SELECTOR, ".score-badge").text.strip() for c in researched_cards]
               assert all(x not in {"", "—"} for x in researched_scores), [c.text for c in researched_cards]
               assert all("攝影研究待補" not in c.text for c in researched_cards)
@@ -231,6 +231,12 @@ jobs:
               assert hamanako_score_text not in {"", "—"}
               assert "攝影研究待補" not in hamanako_card.text
 
+              nijubashi_card = next(c for c in researched_cards if "皇居外苑二重橋" in c.text)
+              nijubashi_score_text = nijubashi_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
+              assert nijubashi_score_text not in {"", "—"}
+              assert "攝影研究待補" not in nijubashi_card.text
+              assert "東京皇居" not in nijubashi_card.text
+
               kamakura_card = next(c for c in researched_cards if "鎌倉大佛" in c.text)
               kamakura_score_text = kamakura_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
               assert kamakura_score_text not in {"", "—"}
@@ -252,7 +258,7 @@ jobs:
               assert "攝影研究待補" not in minato_card.text
 
               pending_jp_cards = [c for c in jp_cards if not any(name in c.text for name in researched_names)]
-              assert len(pending_jp_cards) == 19
+              assert len(pending_jp_cards) == 18
               pending_jp_scores = [c.find_element(By.CSS_SELECTOR, ".score-badge").text.strip() for c in pending_jp_cards]
               assert all(x in {"", "—"} for x in pending_jp_scores), pending_jp_scores[:20]
               assert all("攝影研究待補" in c.text for c in pending_jp_cards), "non-migrated Japan card leaked legacy scoring"
