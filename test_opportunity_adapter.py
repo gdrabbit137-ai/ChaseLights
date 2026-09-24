@@ -80,14 +80,14 @@ def _all_opportunities():
 
 
 def test_adapter_integrity():
-    assert ADAPTER_VERSION == "v0.04-r4.2-b32-jp-batch01-r16-preview"
+    assert ADAPTER_VERSION == "v0.04-r4.2-b32-jp-batch01-r17-preview"
     assert validate_curated_opportunities() == []
     assert validate_taxonomy() == []
     assert CATALOG_COUNTS == {
-        "spots": 97,
-        "opportunities": 210,
-        "condition_variants": 220,
-        "profile_viewpoint_relations": 215,
+        "spots": 98,
+        "opportunities": 211,
+        "condition_variants": 221,
+        "profile_viewpoint_relations": 216,
     }
     assert REGION_CATALOG_COUNTS["tw"] == {
         "spots": 80,
@@ -96,10 +96,10 @@ def test_adapter_integrity():
         "profile_viewpoint_relations": 194,
     }
     assert REGION_CATALOG_COUNTS["jp"] == {
-        "spots": 17,
-        "opportunities": 21,
-        "condition_variants": 21,
-        "profile_viewpoint_relations": 21,
+        "spots": 18,
+        "opportunities": 22,
+        "condition_variants": 22,
+        "profile_viewpoint_relations": 22,
     }
     assert REGION_CATALOG_COUNTS["us"] == {
         "spots": 0,
@@ -127,8 +127,8 @@ def test_adapter_integrity():
     assert sum(len(s["opportunities"]) for s in curated.values()) == 189
 
     all_opportunities = _all_opportunities()
-    assert sum(len(o["condition_variants"]) for o in all_opportunities) == 220
-    assert sum(len(o["viewpoints"]) for o in all_opportunities) == 215
+    assert sum(len(o["condition_variants"]) for o in all_opportunities) == 221
+    assert sum(len(o["viewpoints"]) for o in all_opportunities) == 216
     assert not any(o["formula_status"] == "legacy_fallback_pending_curated" for o in all_opportunities)
     assert not any(str(o.get("formula_version") or "").startswith("legacy_") for o in all_opportunities)
 
@@ -141,12 +141,12 @@ def test_adapter_integrity():
     assert policies == {
         "module_pending": 71,
         "preview_module_available": 79,
-        "minimum_sufficient_available": 55,
+        "minimum_sufficient_available": 56,
         "prototype_pending_certification": 2,
         "hold": 1,
         "data_insufficient": 2,
     }
-    assert len(MINIMUM_SUFFICIENT_VISIBILITY_PROFILES) == 55
+    assert len(MINIMUM_SUFFICIENT_VISIBILITY_PROFILES) == 56
 
     deyue = next(o for o in get_opportunities("tw", "tw-062") if o["opportunity_id"] == "tw-062-P01")
     assert deyue["legacy_theme"] == "mountain_view"
@@ -1309,6 +1309,22 @@ def test_adapter_integrity():
     assert yamashita_diag["jp-016-P02"]["available"] is True
     assert yamashita_diag["jp-016-P02"]["eligible"] is True
 
+    jp017 = get_opportunities("jp", "jp-017")
+    assert [o["opportunity_id"] for o in jp017] == ["jp-017-P01"]
+    assert jp017[0]["runtime_policy"] == "minimum_sufficient_available"
+    assert dependencies_for_opportunity(jp017[0]) == ("visibility",)
+    kenroku_diag = fetch_data._build_opportunity_runtime_diagnostics(
+        {"opportunities": jp017},
+        {"vis": 30000, "c_low": 10, "pop": 5, "precipitation": 0.0, "access_open": True},
+    )
+    assert kenroku_diag["jp-017-P01"]["available"] is True
+    assert kenroku_diag["jp-017-P01"]["eligible"] is True
+    kenroku_closed_diag = fetch_data._build_opportunity_runtime_diagnostics(
+        {"opportunities": jp017},
+        {"vis": 30000, "c_low": 10, "pop": 5, "precipitation": 0.0, "access_open": False},
+    )
+    assert kenroku_closed_diag["jp-017-P01"]["eligible"] is False
+
     jp020 = get_opportunities("jp", "jp-020")
     assert [o["opportunity_id"] for o in jp020] == ["jp-020-P01"]
     assert jp020[0]["runtime_policy"] == "minimum_sufficient_available"
@@ -1688,10 +1704,10 @@ def test_active_catalog_weather_generation_guard():
     # researched Japan Place must not leak legacy scoring into the remaining pending Places.
     jp_spots = get_spots("jp")
     researched_jp = {spot["spot_id"] for spot in jp_spots if spot.get("opportunities")}
-    assert researched_jp == {"jp-001", "jp-002", "jp-003", "jp-004", "jp-005", "jp-006", "jp-007", "jp-008", "jp-009", "jp-010", "jp-011", "jp-012", "jp-013", "jp-015", "jp-016", "jp-019", "jp-020"}
+    assert researched_jp == {"jp-001", "jp-002", "jp-003", "jp-004", "jp-005", "jp-006", "jp-007", "jp-008", "jp-009", "jp-010", "jp-011", "jp-012", "jp-013", "jp-015", "jp-016", "jp-017", "jp-019", "jp-020"}
     assert all(
         not (spot.get("opportunities") or [])
-        for spot in jp_spots if spot["spot_id"] not in {"jp-001", "jp-002", "jp-003", "jp-004", "jp-005", "jp-006", "jp-007", "jp-008", "jp-009", "jp-010", "jp-011", "jp-012", "jp-013", "jp-015", "jp-016", "jp-019", "jp-020"}
+        for spot in jp_spots if spot["spot_id"] not in {"jp-001", "jp-002", "jp-003", "jp-004", "jp-005", "jp-006", "jp-007", "jp-008", "jp-009", "jp-010", "jp-011", "jp-012", "jp-013", "jp-015", "jp-016", "jp-017", "jp-019", "jp-020"}
     )
     blue_pond = next(spot for spot in jp_spots if spot["spot_id"] == "jp-001")
     assert abs(blue_pond["lat"] - 43.493611) < 1e-9
@@ -1783,6 +1799,29 @@ def test_active_catalog_weather_generation_guard():
     assert yamashita["coordinate_confidence"] == "high"
     assert set(yamashita["themes"]) == {"mountain_view", "city_night"}
     assert "インド水塔" in yamashita["map_query"]
+
+    kenrokuen = next(spot for spot in jp_spots if spot["spot_id"] == "jp-017")
+    assert abs(kenrokuen["lat"] - 36.563367) < 1e-9
+    assert abs(kenrokuen["lon"] - 136.662817) < 1e-9
+    assert kenrokuen["coordinate_confidence"] == "high"
+    assert kenrokuen["themes"] == ["mountain_view"]
+    assert "徽軫灯籠" in kenrokuen["map_query"]
+    assert len(kenrokuen["access_hours_seasonal"]) == 5
+    assert fetch_data._access_open_for_spot(
+        kenrokuen, datetime(2026, 7, 15, 5, 30), True, False
+    ) is True
+    assert fetch_data._access_open_for_spot(
+        kenrokuen, datetime(2026, 7, 15, 6, 40), True, False
+    ) is False
+    assert fetch_data._access_open_for_spot(
+        kenrokuen, datetime(2026, 7, 15, 7, 15), True, False
+    ) is True
+    assert fetch_data._access_open_for_spot(
+        kenrokuen, datetime(2026, 12, 15, 7, 40), True, False
+    ) is False
+    assert fetch_data._access_open_for_spot(
+        kenrokuen, datetime(2026, 12, 15, 8, 15), True, False
+    ) is True
 
     minato = next(spot for spot in jp_spots if spot["spot_id"] == "jp-020")
     assert abs(minato["lat"] - 35.45099) < 1e-9
