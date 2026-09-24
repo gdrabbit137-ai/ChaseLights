@@ -544,17 +544,13 @@
     }
     function closePlaceModal(){document.getElementById('place-modal-overlay').style.display='none';}
 
-    async function loadLegacyDetail(region,spotId){
-      const url=`./${region}_weather_details.json`,r=await fetch(url,{cache:'no-cache'});if(!r.ok)throw new Error(`HTTP ${r.status}`);const data=await r.json();if(!schemaSupported(data))throw new Error('Legacy weather detail schema mismatch');const detail=(data.spots||[]).find(x=>x.spot_id===spotId);if(!detail)throw new Error('missing legacy spot');return {schema_version:data.schema_version,updated_at:data.updated_at,region:data.region,spot_id:spotId,data_stale:!!detail.data_stale,spot:detail};
-    }
     async function loadDetails(region,spotId){
       const key=`${region}:${spotId}`,versionMatches=x=>!currentData?.updated_at||x?.updated_at===currentData.updated_at;
       if(memoryDetails.has(key)){const m=memoryDetails.get(key);if(versionMatches(m))return m;memoryDetails.delete(key);}
       const url=`./weather_details/${region}/${encodeURIComponent(spotId)}.json`;
       const cached=await cacheMatch(url);
       if(cached&&versionMatches(cached)){memoryDetails.set(key,cached);fetchAndCache(url,null).then(x=>{if(versionMatches(x))memoryDetails.set(key,x);}).catch(()=>{});return cached;}
-      try{const fresh=await fetchAndCache(url,null);if(!versionMatches(fresh))throw new Error('Weather detail version mismatch');memoryDetails.set(key,fresh);return fresh;}
-      catch(shardError){const legacy=await loadLegacyDetail(region,spotId);if(!versionMatches(legacy))throw shardError;memoryDetails.set(key,legacy);return legacy;}
+      const fresh=await fetchAndCache(url,null);if(!versionMatches(fresh))throw new Error('Weather detail version mismatch');memoryDetails.set(key,fresh);return fresh;
     }
     async function openWeatherModal(spot,summaryMetric){
       document.getElementById('modal-overlay').style.display='flex';const showLocal=!(currentRegion==='tw'&&currentLang==='zh-TW');document.getElementById('modal-spot-name').innerText=`🌦️ ${spotName(spot)} — ${d().weather_link.replace(/^🌦️\s*/, '')}`;document.getElementById('modal-summary').innerText=d().detail_loading;document.getElementById('timeline-head').innerHTML='';document.getElementById('timeline-body').innerHTML='';
