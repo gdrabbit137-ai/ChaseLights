@@ -171,11 +171,11 @@ jobs:
                   .map(s => s.spot_id);
               """)
               report["researched_jp_ids"] = researched_jp_ids
-              assert researched_jp_ids == ["jp-001", "jp-002", "jp-003", "jp-004", "jp-005"], researched_jp_ids
+              assert researched_jp_ids == ["jp-001", "jp-002", "jp-003", "jp-004", "jp-005", "jp-010"], researched_jp_ids
 
-              researched_names = {"美瑛青池", "旭岳", "釧路濕原", "函館山夜景", "小樽運河"}
+              researched_names = {"美瑛青池", "旭岳", "釧路濕原", "函館山夜景", "小樽運河", "富士山 (河口湖)"}
               researched_cards = [c for c in jp_cards if any(name in c.text for name in researched_names)]
-              assert len(researched_cards) == 5
+              assert len(researched_cards) == 6
               researched_scores = [c.find_element(By.CSS_SELECTOR, ".score-badge").text.strip() for c in researched_cards]
               assert all(x not in {"", "—"} for x in researched_scores), [c.text for c in researched_cards]
               assert all("攝影研究待補" not in c.text for c in researched_cards)
@@ -195,8 +195,13 @@ jobs:
               assert asahidake_score_text not in {"", "—"}
               assert int(asahidake_score_text) <= 64, asahidake_card.text
 
+              fuji_card = next(c for c in researched_cards if "富士山 (河口湖)" in c.text)
+              fuji_score_text = fuji_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
+              assert fuji_score_text not in {"", "—"}
+              assert "攝影研究待補" not in fuji_card.text
+
               pending_jp_cards = [c for c in jp_cards if not any(name in c.text for name in researched_names)]
-              assert len(pending_jp_cards) == 30
+              assert len(pending_jp_cards) == 29
               pending_jp_scores = [c.find_element(By.CSS_SELECTOR, ".score-badge").text.strip() for c in pending_jp_cards]
               assert all(x in {"", "—"} for x in pending_jp_scores), pending_jp_scores[:20]
               assert all("攝影研究待補" in c.text for c in pending_jp_cards), "non-migrated Japan card leaked legacy scoring"
