@@ -50,11 +50,25 @@ Sources:
 - https://www.nagoyajo.city.nagoya.jp/
 - https://www.nagoyajo.city.nagoya.jp/event/2026/08/20260826_4914.html
 
+### Verified Camera Zone
+
+Nagoya Castle's own official Photo Spot page lists six recommended compositions. The first is:
+- **Nishi-no-maru — Main Tower Keep viewed over/through the Southwest Corner Watchtower**.
+
+A cross-checked photograph of the Southwest Corner Watchtower / castle context records a camera position around:
+- `35.185181, 136.898650`.
+
+This is suitable as an area anchor for the official Nishi-no-maru composition; it is not treated as a single mandatory tripod point.
+
+Additional sources:
+- https://www.nagoyajo.city.nagoya.jp/guide/photospot/
+- https://www.nagoyajo.city.nagoya.jp/guide/sumiyagura/
+
 ### Migration decision
 
-Keep, but normal runtime should begin with a daytime castle-ground Opportunity only.
+Keep and migrate a daytime castle-ground Opportunity using the official Nishi-no-maru / Southwest Corner Watchtower composition.
 Do not create a year-round night Opportunity from event-only illumination periods.
-Exact exterior Camera Zone should be verified before activation.
+The Main Tower Keep may remain a photographed subject even though its interior is currently closed.
 
 ## jp-023 — 京都清水寺 / Kiyomizu-dera
 
@@ -80,5 +94,5 @@ Exact Camera Zone / composition should be researched before runtime activation.
 ## Batch08 implementation order
 
 1. jp-017 Kenroku-en — official photo-point and access evidence complete.
-2. jp-018 Nagoya Castle — verify exterior Camera Zone first.
+2. jp-018 Nagoya Castle — Camera Zone now verified; next runtime migration after jp-017 QA.
 3. jp-023 Kiyomizu-dera — verify exact legal visitor Camera Zone and encode complex annual access schedule before scoring.
