@@ -88,3 +88,25 @@ Coordinate cross-check:
 ### Runtime decision
 
 Eligible for minimum-sufficient visibility scoring after the display-name and Camera Zone correction.
+
+
+## Implementation status
+
+### jp-014 等等力溪谷
+- **Not migrated.**
+- Remains `research_pending` with no photography score.
+- Re-review only if current official shooting restrictions change.
+
+### jp-015 皇居外苑二重橋
+- **Runtime-migrated on the B32 candidate branch.**
+- Stable ID retained as `jp-015`.
+- Product name corrected from the overly broad legacy `東京皇居` to `皇居外苑二重橋`.
+- Curated Opportunity: `jp-015-P01 皇居外苑・二重橋與伏見櫓景觀`.
+- Camera Zone: public Kokyo Gaien / Imperial Palace Front Plaza side at approximately `35.678475, 139.754897`.
+- Runtime policy: minimum-sufficient visibility.
+- Japan Candidate QA: PASS after migration.
+- Adapter CI: PASS after migration.
+- Browser Smoke / Taiwan regression: pending at the time of this update.
+
+Japan researched migration count after jp-015: **17 / 35 Places**.
+Remaining research-pending Places: **18**.
