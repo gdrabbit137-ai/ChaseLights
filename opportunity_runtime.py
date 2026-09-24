@@ -1004,8 +1004,8 @@ def validate_runtime_registry():
         errors.append(f"expected 17 marine-state profiles, got {len(MARINE_STATE_PROFILES)}")
     if len(TIDE_STATE_PROFILES) != 14:
         errors.append(f"expected 14 tide-state profiles, got {len(TIDE_STATE_PROFILES)}")
-    if len(ACCESS_DEPENDENT_PROFILE_IDS) != 42:
-        errors.append(f"expected 42 dynamic-access profiles, got {len(ACCESS_DEPENDENT_PROFILE_IDS)}")
+    if len(ACCESS_DEPENDENT_PROFILE_IDS) != 43:
+        errors.append(f"expected 43 dynamic-access profiles, got {len(ACCESS_DEPENDENT_PROFILE_IDS)}")
     if ACCESS_RUNTIME_READY_PROFILES:
         errors.append("B25 foundation must not mark dynamic-access profiles provider-ready yet")
     for oid, sector in DIRECTIONAL_HORIZON_SECTORS.items():
