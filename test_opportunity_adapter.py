@@ -273,6 +273,8 @@ def test_adapter_integrity():
     assert "點擊看 96H 明細" not in index_html
     assert "op.condition_variants" in index_html
     assert "day?.opportunities||{}" in index_html
+    assert "no_viable_opportunity" in index_html
+    assert "今天剩餘時段沒有合適的已研究拍攝機會" in index_html
 
     nanya = next(o for o in all_opportunities if o["opportunity_id"] == "tw-072-P01")
     assert runtime_policy(nanya) == "preview_module_available"
@@ -1364,6 +1366,35 @@ def test_active_catalog_weather_generation_guard():
     assert researched_days[0]["all"]["opportunity_id"] == "tw-018-P02"
     assert researched_days[0]["all"]["score"] == 88
     assert researched_days[0]["all"]["research_pending"] is False
+
+    sunrise_only = next(
+        o for o in get_opportunities("tw", "tw-075")
+        if o["opportunity_id"] == "tw-075-P01"
+    )
+    impossible_hour = [{
+        "is_past": False,
+        "local_date": "2026-09-24",
+        "time": "2026-09-24 17:00",
+        "time_utc": "2026-09-24T09:00:00Z",
+        "theme_scores": {"sunrise": {"score": 16, "factors": []}},
+        "opportunity_scores": {
+            "tw-075-P01": {
+                "score": 16,
+                "temporal_eligible": False,
+                "temporal_reason": "sunrise_after_noon",
+                "status_key": "OPPORTUNITY_CONDITION_MISS",
+                "indicator_key": "OPPORTUNITY_CONDITION_MISS",
+                "factors": [],
+            }
+        },
+    }]
+    impossible_days = analyze_weather._build_day_summaries(
+        impossible_hour, ["sunrise"], [sunrise_only]
+    )
+    assert impossible_days[0]["all"]["score"] is None
+    assert impossible_days[0]["all"]["research_pending"] is False
+    assert impossible_days[0]["all"]["no_viable_opportunity"] is True
+    assert "opportunity_id" not in impossible_days[0]["all"]
 
 
 def test_schema9_optional_metadata_bridge():
