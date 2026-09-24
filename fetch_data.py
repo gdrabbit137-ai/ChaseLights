@@ -1129,21 +1129,35 @@ def _score_opportunity(opportunity, theme_metric, runtime_diagnostic, lang="zh-T
     }
 
 
+def _minute_in_access_window(local_dt, hours):
+    if not isinstance(hours, (list, tuple)) or len(hours) != 2:
+        return None
+    try:
+        sh, sm = map(int, str(hours[0]).split(":"))
+        eh, em = map(int, str(hours[1]).split(":"))
+        cur = local_dt.hour * 60 + local_dt.minute
+        start = sh * 60 + sm
+        end = eh * 60 + em
+        return start <= cur < end if start <= end else (cur >= start or cur < end)
+    except Exception:
+        return None
+
+
 def _access_open_for_spot(spot, local_dt, is_day, is_twilight):
     mode = spot.get("access_mode")
     if mode == "daylight_only":
         return bool(is_day or is_twilight)
-    hours = spot.get("access_hours")
-    if isinstance(hours, (list, tuple)) and len(hours) == 2:
-        try:
-            sh, sm = map(int, str(hours[0]).split(":"))
-            eh, em = map(int, str(hours[1]).split(":"))
-            cur = local_dt.hour * 60 + local_dt.minute
-            start = sh * 60 + sm
-            end = eh * 60 + em
-            return start <= cur < end if start <= end else (cur >= start or cur < end)
-        except Exception:
-            return True
+
+    windows = spot.get("access_hours_windows")
+    if isinstance(windows, (list, tuple)) and windows:
+        results = [_minute_in_access_window(local_dt, window) for window in windows]
+        valid = [result for result in results if result is not None]
+        if valid:
+            return any(valid)
+
+    result = _minute_in_access_window(local_dt, spot.get("access_hours"))
+    if result is not None:
+        return result
     return True
 
 
