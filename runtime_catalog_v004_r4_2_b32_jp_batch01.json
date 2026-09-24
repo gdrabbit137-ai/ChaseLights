@@ -1,5 +1,5 @@
 {
-  "schema_version": "v0.04-r4.2-b32-jp-batch01-12",
+  "schema_version": "v0.04-r4.2-b32-jp-batch01-13",
   "generated_at": "2026-09-24T23:45:00+08:00",
   "scope": "Japan Place-specific research migration Batch01 complete: jp-001..jp-005",
   "spot_count": 8,
@@ -1022,6 +1022,130 @@
               "geometry_type": "small_area",
               "geometry_extent_m": 180,
               "geometry_note": "大棧橋屋頂面向港未來側的公共觀景區；非港未來地區中心座標。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-016",
+      "canonical_name": "橫濱山下公園",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH06",
+      "research_sources": [
+        {
+          "authority": "Yokohama Official Visitors Guide",
+          "url": "https://www.yokohamajapan.com/tour-itineraries/detail.php?id=1",
+          "verified_on": "2026-09-25",
+          "supports": "Yamashita Park is an official Yokohama night-view destination; central plaza and India Water Tower area are recommended view spots; illuminated harbor light can reflect on the water"
+        },
+        {
+          "authority": "Yokohama Official Visitors Guide",
+          "url": "https://www.yokohamajapan.com/things-to-do/detail.php?bbid=190",
+          "verified_on": "2026-09-25",
+          "supports": "Yamashita Park provides open harbor views including Yokohama Bay Bridge and passing ships; free entrance"
+        },
+        {
+          "authority": "Yokohama City Visitors Bureau accessible tourism guide",
+          "url": "https://www.yokohamajapan.com/accessibility/asset/docs/course/en_modelcourse-1_202505.pdf",
+          "verified_on": "2026-09-25",
+          "supports": "Yamashita Park admission is 24 hours and free"
+        },
+        {
+          "authority": "Cross-checked mapped India Water Tower POI",
+          "url": "https://www.atlasobscura.com/places/indian-drinking-fountain",
+          "verified_on": "2026-09-25",
+          "supports": "India Water Tower / Indian Drinking Fountain mapped at approximately 35.447738, 139.646791 inside Yamashita Park"
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-016-P01",
+          "spot_id": "jp-016",
+          "name_zh": "山下公園・橫濱港日間海灣景觀",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04_visibility_minimum_sufficient",
+          "formula_confidence": 91,
+          "best_time": "白天（景點當地時間／JST）",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-017",
+              "variant_name": "印度水塔一帶・橫濱港與海灣大橋日間景觀",
+              "condition_geometry": "{\"camera_zone\":\"山下公園印度水塔一帶 Camera Zone\",\"subject\":\"Yokohama harbor + Bay Bridge + passing ships\"}",
+              "hard_gates": "公共公園可達；可見光拍攝時段有效",
+              "required_conditions": "港景與海灣大橋方向可辨；能見度足夠；濃霧／低雲未嚴重遮蔽港區",
+              "boosters": "空氣透明度佳可增加遠景層次；船舶活動可增加畫面內容但不是保證",
+              "penalties": "濃霧／低雲使港景不可辨；強降水；能見度過低",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-016-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official Yokohama night-view guidance identifies the India Water Tower / central plaza area as a recommended view area; this anchor is also usable for the broad daytime harbor view.",
+              "name": "山下公園印度水塔一帶 Camera Zone",
+              "lat": 35.447738,
+              "lon": 139.646791,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_recommended_area_plus_cross_checked_poi_coordinate",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 250,
+              "geometry_note": "山下公園大棧橋側、印度水塔周邊公共臨港區域；不是整座公園中心點。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "jp-016-P02",
+          "spot_id": "jp-016",
+          "name_zh": "山下公園・橫濱港夜景與水面光影",
+          "legacy_theme": "city_night",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04_visibility_minimum_sufficient",
+          "formula_confidence": 92,
+          "best_time": "藍調時刻至夜間（景點當地時間／JST）",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-018",
+              "variant_name": "印度水塔／中央廣場一帶・冰川丸與港區夜景",
+              "condition_geometry": "{\"camera_zone\":\"山下公園印度水塔／中央廣場一帶 Camera Zone\",\"subject\":\"illuminated Hikawa Maru + Osanbashi/harbor night scene\"}",
+              "hard_gates": "公共公園可達；城市夜景時段有效",
+              "required_conditions": "港區主要夜景元素可辨；能見度足夠；濃霧／低雲未嚴重遮蔽港景",
+              "boosters": "較平穩水面可增加反射光，但不是基本夜景 Outcome 的必要條件",
+              "penalties": "濃霧／低雲使港景不可辨；強降水；能見度過低",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-016-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Yokohama official night-view itinerary explicitly recommends the central plaza or India Water Tower area.",
+              "name": "山下公園印度水塔／中央廣場一帶 Camera Zone",
+              "lat": 35.447738,
+              "lon": 139.646791,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_recommended_night_view_area_plus_cross_checked_poi_coordinate",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 300,
+              "geometry_note": "官方建議的中央廣場／印度水塔夜景區域；不把水面完美倒影列為必要條件。",
               "geometry_confidence": "high"
             }
           ]
