@@ -169,6 +169,17 @@ Official 2026 maintenance notice additionally publishes fixed full-line closure 
 - 2026-06-15 through 2026-06-26;
 - 2026-11-24 through 2026-11-27.
 
+The official English timetable/pamphlet provides summit-access operating windows:
+- Green season (Apr 1–Nov 30): Shirakabadaira first ascent 08:45; Nishi-Hotakaguchi last descent 16:45.
+- August: first ascent 08:15; last descent 16:45.
+- October Saturdays/Sundays/holidays: first ascent 08:15; last descent 16:45.
+- Winter (Dec 1–Mar 31): first ascent 09:15; last descent 16:15.
+- Separately published 2026 early-morning special-service dates can begin before the regular timetable and must be treated as date-specific exceptions rather than a permanent opening-time change.
+- The Stargazing Service has its own night timetable and must remain a separate P02 access contract.
+
+Source:
+- https://shinhotaka-ropeway.jp/pdf/pamphlet/en.pdf
+
 Provider implementation contract:
 1. Source only `https://shinhotaka-ropeway.jp/en/` (or the official Japanese equivalent if the English block becomes unavailable).
 2. Parse both No.1 and No.2 status; P01 summit access is open only when the required route is operational.
