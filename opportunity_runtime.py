@@ -227,6 +227,7 @@ CLOUD_SKY_GLOW_PROFILES = {
 }
 
 ASTRONOMY_EPHEMERIS_PROFILES = {
+    "jp-021-P02": {"mode": "milky_way_or_star_field"},
     "tw-019-P05": {"mode": "milky_way_or_star_field"},
     "tw-024-P05": {"mode": "star_field"},
     "tw-035-P05": {"mode": "milky_way_or_star_field"},
