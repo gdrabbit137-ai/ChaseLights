@@ -168,3 +168,30 @@ Among jp-011–013, jp-013 is the strongest next runtime candidate because:
 1. jp-013 Tateishi Park / Lake Suwa — verify exact observation terrace coordinate, then implement sunset first.
 2. jp-012 Kotoku-in — encode seasonal access hours; keep score module-pending until architecture-light semantics exist.
 3. jp-011 Tokyo Tower — pin a real external Camera Zone before any score is enabled.
+
+---
+
+## Implementation status — 2026-09-25
+
+### Runtime migrated
+
+**jp-013-P01 — 立石公園・諏訪湖夕景**
+- Camera Zone: Tateishi Park observation area
+- anchor: 36.053326, 138.122711
+- elevation: 934 m
+- runtime: directional horizon + visibility
+- sunset sector: west-facing
+- all shooting times: JST
+- release gates: Adapter PASS, Japan Candidate PASS, Taiwan Candidate PASS, Browser Smoke PASS
+
+### Research complete, scoring not enabled
+
+**jp-011 東京鐵塔**
+- Tokyo Tower POI is a subject coordinate, not a camera position.
+- External Shiba Park / Zojoji Camera Zone must be pinned before scoring.
+
+**jp-012 鎌倉大佛**
+- official seasonal visitor hours and personal-photography rules are researched;
+- current ChaseLights architecture/sculpture light semantics are not strong enough for a trustworthy score;
+- do not convert this into a generic 0–64 module-pending photography score merely because research text exists.
+
