@@ -278,49 +278,102 @@ Before runtime integration:
 
 ### Time-zone contract — implemented
 
-- Place Guide explicitly states that shooting times use the Place's local time zone.
-- `best_time` labels are explicitly Place-local.
-- Forecast windows/hourly rows remain generated in provider-resolved Place local time.
-- Website `Last Updated` uses the viewer device/browser time zone and includes a short time-zone label.
-- Browser Smoke overrides Chrome to `America/Los_Angeles` to regress this distinction.
+- Every shooting-time field is interpreted/displayed in the Place local time zone.
+- Place Guide explicitly labels `best_time` as Place-local.
+- Card best windows and 96H hourly rows use provider-resolved Place local time / `timezone_abbr`.
+- Website `Last Updated` is intentionally different: it uses the viewer device/browser time zone and includes a short zone label.
+- Browser Smoke forces Chrome to `America/Los_Angeles` and verifies both sides of the contract:
+  - `Last Updated` follows PDT,
+  - a Place best-window string still contains the Place forecast time-zone abbreviation and does not inherit PDT.
 
-### jp-005 Otaru Canal — runtime migration implemented on B32 branch
+### Batch01 runtime migration status
 
-Curated runtime state:
-- `jp-005-P01`: daytime canal + stone-warehouse view
+The five research targets `jp-001` through `jp-005` now all have explicit curated research state. They are **not** treated as equally model-complete.
+
+#### jp-001 — 美瑛青池
+
+- `jp-001-P01` 青池藍色水面與落葉松景觀
+- status: `data_insufficient`
+- score cap: **35**
+- Camera Zone anchor: 43.493611, 142.614167
+- reason for conservative cap:
+  - official Biei source states snowmelt / heavy rain may make the pond turbid or not appear blue,
+  - winter snow may hide the blue water surface,
+  - current weather feed does not directly verify pond color/turbidity or actual water-surface snow cover.
+- therefore clear weather alone MUST NOT create a strong Blue Pond recommendation.
+- winter illumination remains outside generic runtime because annual effective dates must be source-controlled.
+
+#### jp-002 — 旭岳
+
+- `jp-002-P01` 姿見池周邊旭岳火山高山景觀
+- status: `module_pending`
+- score cap: **64**
+- Camera Zone: 姿見駅—姿見池散策路
+- anchor: 43.6620489, 142.8250911
+- elevation anchor: ~1,600 m
+- official scenic area: approximately 1.7 km / 1 hour Sugatami Pond walking loop.
+- dependencies:
+  - spatial mountain/cloud state,
+  - dynamic ropeway/access state.
+- the ordinary visitor Opportunity MUST NOT assume the ropeway is running merely from a static timetable.
+- winter climbing and summer walking-course assumptions must remain separate.
+
+#### jp-003 — 釧路濕原
+
+- `jp-003-P01` 細岡展望台釧路川濕原夕景
+- status: `minimum_sufficient_available`
+- Camera Zone anchor: 43.0980769, 144.4492556
+- Environment Ministry explicitly recommends Hosooka sunset.
+- high recommendation is allowed only when the explicit visibility / low-cloud / precipitation minimum-sufficient contract matches.
+
+Hokuto sunrise remains **research-defined only**:
+- official tourism explicitly identifies Hokuto as a strong sunrise position,
+- exact Camera Zone coordinate has not yet been verified to the same standard,
+- therefore no `jp-003-P02` is in runtime yet.
+
+#### jp-004 — 函館山夜景
+
+- `jp-004-P01` 函館山暮色至夜間雙灣城市景觀
+- status: `module_pending`
+- score cap: **64**
+- Camera Zone anchor: 41.7594502, 140.7044467
+- dynamic-access family: `transport_facility_status`
+- official Hakodate source publishes:
+  - ropeway operating hours,
+  - autumn maintenance suspension,
+  - evening private-car restrictions,
+  - winter mountain-road closure,
+  - other summit access modes.
+- because summit access is multi-modal, do not collapse this into one static `access_hours` window.
+- provider-ready status requires a source-aware access provider that can distinguish ropeway / road / bus / taxi / hiking conditions.
+
+#### jp-005 — 小樽運河
+
+- `jp-005-P01` 小樽運河石造倉庫與運河景觀
   - status: `minimum_sufficient_available`
   - Camera Zone: 浅草橋街園
   - anchor: 43.197887, 141.003034
-  - shooting times: Place-local JST
-  - high recommendation is permitted only when the explicit minimum-sufficient visibility/cloud/precipitation contract matches.
-- `jp-005-P02`: dusk gas lamps + warehouse illumination
+  - may enter 80+ only when explicit minimum-sufficient visibility/cloud/precipitation conditions match.
+- `jp-005-P02` 小樽運河暮色瓦斯燈與倉庫點燈
   - status: `module_pending`
-  - remains capped until a managed-lighting schedule runtime component is implemented.
-  - official normal schedule: canal promenade gas lamps sunset–24:00; warehouse illumination sunset–22:30.
+  - official normal schedule: promenade gas lamps sunset–24:00; warehouse illumination sunset–22:30.
+  - remains capped until managed-lighting schedule state is implemented.
 
-Migration isolation:
-- only `jp-005` is allowed to carry curated Japan Opportunities in this checkpoint;
-- the other 34 Japan Places must remain `research_pending`;
-- all US Places remain `research_pending`.
+### Batch01 isolation contract
 
-### jp-003 Kushiro Shitsugen — research advanced, partial geometry verified
+- researched Japan Places: exactly `jp-001` … `jp-005`
+- remaining Japan Places: 30, all MUST remain `research_pending`
+- US Places: all remain `research_pending`
+- enabling these Japan Places MUST NOT revive legacy Scene/Theme scores for any unresearched Place.
 
-**Hosooka Viewpoint sunset**
-- Environment Ministry explicitly recommends the sunset from Hosooka Viewpoint.
-- Official national-park text identifies the meandering Kushiro River, broad wetland and Akan mountain panorama.
-- Camera anchor cross-check: 43.0980769, 144.4492556.
-- This Opportunity is ready for the next runtime payload revision after the current jp-005 release gates finish.
+### Release gates for Batch01
 
-**Hokuto Observation Area sunrise**
-- Kushiro/Lake Akan official tourism explicitly calls Hokuto an excellent position for sunrise rising over Kushiro Shitsugen.
-- Hokkaido Kushiro subprefecture also identifies it as a distinct west-side wetland viewpoint.
-- Exact Camera Zone coordinate is not yet verified to the same standard.
-- Therefore the sunrise Opportunity remains research-defined only and MUST NOT enter runtime yet.
-
-Additional sources:
-- https://www.env.go.jp/nature/nationalparks/list/kushiro-shitsugen/spot/
-- https://kushirodata-center.env.go.jp/wetland/wetland_article3_12.html
-- https://www.visit-hokkaido.jp/spot/detail_10181.html
-- https://mapfan.com/spots/SCYQI%2CJ%2CAW
-- https://ja.kushiro-lakeakan.com/things_to_do/3634/
-- https://www.kushiro.pref.hokkaido.lg.jp/ts/tss/navi/zekkei/zekkei-ten02.html
+Required before merge:
+- [ ] Adapter / integration CI PASS on final Batch01 code.
+- [ ] Taiwan 80-Place candidate QA PASS after multi-region adapter changes.
+- [ ] Japan 35-Place candidate QA PASS with exactly five researched Places.
+- [ ] Browser Smoke PASS, including device-local `Last Updated` vs Place-local shooting-window regression.
+- [ ] Blue Pond score never exceeds 35.
+- [ ] Asahidake and Mt Hakodate scores never exceed 64 while access providers are pending.
+- [ ] Hosooka / Otaru minimum-sufficient Opportunities may enter 80+ only on an explicit condition match.
+- [ ] remaining 30 Japan Places continue to expose no legacy photography score.
