@@ -16,6 +16,8 @@ from opportunity_runtime import (
     evaluate_astronomy_ephemeris,
     ASTRONOMY_EPHEMERIS_PROFILES,
     evaluate_opportunity_modules,
+    evaluate_minimum_sufficient_visibility,
+    MINIMUM_SUFFICIENT_VISIBILITY_PROFILES,
     validate_runtime_registry,
 )
 from runtime_dependencies import (
@@ -117,12 +119,14 @@ def test_adapter_integrity():
 
     policies = Counter(runtime_policy(o) for o in all_opportunities)
     assert policies == {
-        "module_pending": 71,
+        "module_pending": 69,
         "preview_module_available": 75,
-        "prototype_pending_certification": 41,
+        "minimum_sufficient_available": 41,
+        "prototype_pending_certification": 2,
         "hold": 1,
         "data_insufficient": 1,
     }
+    assert len(MINIMUM_SUFFICIENT_VISIBILITY_PROFILES) == 41
     assert runtime_policy(next(o for o in all_opportunities if o["opportunity_id"] == "tw-052-P01")) == "hold"
     assert runtime_policy(next(o for o in all_opportunities if o["opportunity_id"] == "tw-017-P01")) == "data_insufficient"
     assert validate_runtime_registry() == []
@@ -243,7 +247,7 @@ def test_adapter_integrity():
     assert dependency_state(laomei)["missing_components"] == ("seasonal_foreground",)
 
     yehliu = next(o for o in all_opportunities if o["opportunity_id"] == "tw-074-P01")
-    assert runtime_policy(yehliu) == "module_pending"
+    assert runtime_policy(yehliu) == "minimum_sufficient_available"
     assert dependency_state(yehliu)["ready_components"] == ("visibility",)
     assert dependency_state(yehliu)["missing_components"] == ("geology_light",)
 
@@ -1053,6 +1057,63 @@ def test_adapter_integrity():
         "indicator_key": "IND_DEFAULT",
         "factors": [],
     }
+
+    simple_opportunity = next(
+        o for o in get_opportunities("tw", "tw-004")
+        if o["opportunity_id"] == "tw-004-P01"
+    )
+    assert simple_opportunity["runtime_policy"] == "minimum_sufficient_available"
+    simple_good = evaluate_minimum_sufficient_visibility(
+        simple_opportunity,
+        {
+            "vis": 35000,
+            "c_low": 10,
+            "pop": 5,
+            "precipitation": 0.0,
+            "access_open": True,
+        },
+    )
+    assert simple_good["available"] is True
+    assert simple_good["eligible"] is True
+    assert simple_good["quality"] == "excellent"
+    simple_scored = fetch_data._score_opportunity(
+        simple_opportunity, high_theme_metric,
+        {
+            "available": True,
+            "eligible": True,
+            "minimum_sufficient": True,
+            "reason": simple_good["reason"],
+            "modules": {"minimum_sufficient_visibility": simple_good},
+        },
+        "zh-TW",
+    )
+    assert simple_scored["score"] == 92
+    assert simple_scored["condition_state"] == "minimum_sufficient_conditions_match"
+    assert simple_scored["score_confidence"] == "high"
+
+    simple_bad = evaluate_minimum_sufficient_visibility(
+        simple_opportunity,
+        {
+            "vis": 6000,
+            "c_low": 85,
+            "pop": 70,
+            "precipitation": 0.8,
+            "access_open": True,
+        },
+    )
+    assert simple_bad["eligible"] is False
+    simple_bad_score = fetch_data._score_opportunity(
+        simple_opportunity, high_theme_metric,
+        {
+            "available": True,
+            "eligible": False,
+            "minimum_sufficient": True,
+            "reason": simple_bad["reason"],
+            "modules": {"minimum_sufficient_visibility": simple_bad},
+        },
+        "zh-TW",
+    )
+    assert simple_bad_score["score"] <= 54
     matched = fetch_data._score_opportunity(
         p02, high_theme_metric, diag["tw-018-P02"], "zh-TW"
     )
