@@ -14,6 +14,13 @@ This batch covers:
 - jp-004 函館山夜景 / Mt. Hakodate
 - jp-005 小樽運河 / Otaru Canal
 
+## Time-zone display contract
+
+- Every shooting-time field, including `best_time`, daily best windows, hourly Weather Forecast rows, access windows, sunrise/sunset windows, and research notes, is interpreted and displayed in the **Place's local time zone**.
+- Do not convert a Japan shooting window into the viewer's Taiwan/US/etc. device time.
+- The website header's **Last Updated** timestamp is different: it is formatted in the **user device/browser time zone**.
+- UI copy must make the distinction explicit so users do not confuse forecast/shooting time with data-refresh time.
+
 Status in this document is **research definition only**. No Place becomes score-eligible until:
 1. Opportunity text is evidence-backed,
 2. at least one Camera Zone / Viewpoint is verified,
