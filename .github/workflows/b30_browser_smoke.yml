@@ -103,6 +103,23 @@ jobs:
               assert browser_tz == "America/Los_Angeles", browser_tz
               assert expected_update in update_text, (expected_update, update_text, updated_at)
 
+              place_window = driver.execute_script("""
+                const spot = currentSpots.find(s => {
+                  const m = getMetric(s);
+                  return m && m.window_start && m.window_end && m.timezone_abbr;
+                });
+                const metric = spot ? getMetric(spot) : null;
+                return metric ? {
+                  spot_id: spot.spot_id,
+                  timezone_abbr: metric.timezone_abbr,
+                  formatted: fmtWindow(metric)
+                } : null;
+              """)
+              assert place_window, "no local-time best window found"
+              report["place_window_timezone"] = place_window
+              assert place_window["timezone_abbr"] in place_window["formatted"], place_window
+              assert "PDT" not in place_window["formatted"], place_window
+
               body_text = driver.find_element(By.TAG_NAME, "body").text
               assert "96H 明細" not in body_text
               assert "96H details" not in body_text
