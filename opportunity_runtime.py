@@ -95,6 +95,10 @@ MINIMUM_SUFFICIENT_VISIBILITY_PROFILES = {
     # B28 individually researched geology views: missing geology-light modeling
     # is a refinement/booster, not a hard reason to suppress a clear-view visit.
     "tw-074-P01", "tw-074-P02",
+    # B32: official Otaru photo spot. A clean, readable daytime canal +
+    # warehouse scene is itself sufficient; evening managed lighting remains
+    # a separate Opportunity and is not inferred from this contract.
+    "jp-005-P01",
 }
 
 def supports_minimum_sufficient_contract(opportunity):
