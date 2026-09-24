@@ -288,7 +288,8 @@ def test_adapter_integrity():
     assert "./weather_details/${region}/${encodeURIComponent(spotId)}.json" in index_html
     assert "loadDetails(currentRegion,spot.spot_id)" in index_html
     assert "const detail=payload?.spot" in index_html
-    assert "_weather_details.json" not in index_html
+    assert "loadLegacyDetail(region,spotId)" in index_html
+    assert "catch(shardError)" in index_html
 
     analyze_weather_src = Path("analyze_weather.py").read_text(encoding="utf-8")
     assert 'Path("weather_details") / region' in analyze_weather_src
