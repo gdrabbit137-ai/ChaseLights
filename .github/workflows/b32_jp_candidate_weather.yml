@@ -59,8 +59,8 @@ jobs:
 
           researched = [s for s in summary_spots if s.get("opportunities")]
           pending = [s for s in summary_spots if not s.get("opportunities")]
-          assert [s["spot_id"] for s in researched] == ["jp-001", "jp-002", "jp-003", "jp-004", "jp-005", "jp-006", "jp-007", "jp-008", "jp-009", "jp-010", "jp-011", "jp-012", "jp-013", "jp-015", "jp-016", "jp-017", "jp-019", "jp-020"], [s["spot_id"] for s in researched]
-          assert len(pending) == 17
+          assert [s["spot_id"] for s in researched] == ["jp-001", "jp-002", "jp-003", "jp-004", "jp-005", "jp-006", "jp-007", "jp-008", "jp-009", "jp-010", "jp-011", "jp-012", "jp-013", "jp-015", "jp-016", "jp-017", "jp-018", "jp-019", "jp-020"], [s["spot_id"] for s in researched]
+          assert len(pending) == 16
 
           expected_opportunities = {
               "jp-001": {"jp-001-P01"},
@@ -79,6 +79,7 @@ jobs:
               "jp-015": {"jp-015-P01"},
               "jp-016": {"jp-016-P01", "jp-016-P02"},
               "jp-017": {"jp-017-P01"},
+              "jp-018": {"jp-018-P01"},
               "jp-019": {"jp-019-P01"},
               "jp-020": {"jp-020-P01"},
           }
@@ -104,7 +105,7 @@ jobs:
                       assert winner["score"] <= 64, winner
                       assert winner.get("condition_state") == "partial_runtime_contract", winner
                   if winner.get("score") is not None and winner["score"] >= 80:
-                      assert spot["spot_id"] in {"jp-003", "jp-005", "jp-006", "jp-007", "jp-008", "jp-009", "jp-010", "jp-011", "jp-012", "jp-013", "jp-015", "jp-016", "jp-017", "jp-019", "jp-020"}, winner
+                      assert spot["spot_id"] in {"jp-003", "jp-005", "jp-006", "jp-007", "jp-008", "jp-009", "jp-010", "jp-011", "jp-012", "jp-013", "jp-015", "jp-016", "jp-017", "jp-018", "jp-019", "jp-020"}, winner
                       if winner.get("opportunity_id") in {"jp-008-P01", "jp-010-P02", "jp-013-P01", "jp-019-P01"}:
                           assert winner.get("condition_state") == "dedicated_conditions_match", winner
                       else:
