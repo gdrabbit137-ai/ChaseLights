@@ -37,8 +37,10 @@ jobs:
         with:
           python-version: "3.10"
 
-      - name: Generate Taiwan candidate weather
-        run: python analyze_weather.py tw
+      - name: Generate Taiwan and Japan candidate weather
+        run: |
+          python analyze_weather.py tw
+          python analyze_weather.py jp
 
       - name: Install browser test dependency
         run: python -m pip install --disable-pip-version-check selenium
@@ -144,9 +146,27 @@ jobs:
               wait.until(lambda d: len(d.find_elements(By.CSS_SELECTOR, "#spots-container .card")) > 0)
               jp_cards = driver.find_elements(By.CSS_SELECTOR, "#spots-container .card")
               report["jp_cards"] = len(jp_cards)
-              jp_scores = [c.find_element(By.CSS_SELECTOR, ".score-badge").text.strip() for c in jp_cards]
-              assert all(x in {"", "—"} for x in jp_scores), jp_scores[:20]
-              assert any("攝影研究待補" in c.text for c in jp_cards), "Japan research-pending card notice missing"
+              assert len(jp_cards) == 35, len(jp_cards)
+
+              researched_jp_ids = driver.execute_script("""
+                return currentSpots
+                  .filter(s => Array.isArray(s.opportunities) && s.opportunities.length)
+                  .map(s => s.spot_id);
+              """)
+              report["researched_jp_ids"] = researched_jp_ids
+              assert researched_jp_ids == ["jp-005"], researched_jp_ids
+
+              otaru_cards = [c for c in jp_cards if "小樽運河" in c.text]
+              assert len(otaru_cards) == 1
+              otaru_score = otaru_cards[0].find_element(By.CSS_SELECTOR, ".score-badge").text.strip()
+              assert otaru_score not in {"", "—"}, otaru_cards[0].text
+              assert "攝影研究待補" not in otaru_cards[0].text
+
+              pending_jp_cards = [c for c in jp_cards if "小樽運河" not in c.text]
+              assert len(pending_jp_cards) == 34
+              pending_jp_scores = [c.find_element(By.CSS_SELECTOR, ".score-badge").text.strip() for c in pending_jp_cards]
+              assert all(x in {"", "—"} for x in pending_jp_scores), pending_jp_scores[:20]
+              assert all("攝影研究待補" in c.text for c in pending_jp_cards), "non-migrated Japan card leaked legacy scoring"
 
               driver.execute_script("document.getElementById('spots-container').innerHTML = ''")
               Select(driver.find_element(By.ID, "country-select")).select_by_value("us")
