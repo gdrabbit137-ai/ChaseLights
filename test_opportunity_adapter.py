@@ -80,14 +80,14 @@ def _all_opportunities():
 
 
 def test_adapter_integrity():
-    assert ADAPTER_VERSION == "v0.04-r4.2-b32-jp-batch01-r11-preview"
+    assert ADAPTER_VERSION == "v0.04-r4.2-b32-jp-batch01-r12-preview"
     assert validate_curated_opportunities() == []
     assert validate_taxonomy() == []
     assert CATALOG_COUNTS == {
-        "spots": 92,
-        "opportunities": 203,
-        "condition_variants": 213,
-        "profile_viewpoint_relations": 208,
+        "spots": 93,
+        "opportunities": 204,
+        "condition_variants": 214,
+        "profile_viewpoint_relations": 209,
     }
     assert REGION_CATALOG_COUNTS["tw"] == {
         "spots": 80,
@@ -96,10 +96,10 @@ def test_adapter_integrity():
         "profile_viewpoint_relations": 194,
     }
     assert REGION_CATALOG_COUNTS["jp"] == {
-        "spots": 12,
-        "opportunities": 14,
-        "condition_variants": 14,
-        "profile_viewpoint_relations": 14,
+        "spots": 13,
+        "opportunities": 15,
+        "condition_variants": 15,
+        "profile_viewpoint_relations": 15,
     }
     assert REGION_CATALOG_COUNTS["us"] == {
         "spots": 0,
@@ -127,8 +127,8 @@ def test_adapter_integrity():
     assert sum(len(s["opportunities"]) for s in curated.values()) == 189
 
     all_opportunities = _all_opportunities()
-    assert sum(len(o["condition_variants"]) for o in all_opportunities) == 213
-    assert sum(len(o["viewpoints"]) for o in all_opportunities) == 208
+    assert sum(len(o["condition_variants"]) for o in all_opportunities) == 214
+    assert sum(len(o["viewpoints"]) for o in all_opportunities) == 209
     assert not any(o["formula_status"] == "legacy_fallback_pending_curated" for o in all_opportunities)
     assert not any(str(o.get("formula_version") or "").startswith("legacy_") for o in all_opportunities)
 
@@ -141,12 +141,12 @@ def test_adapter_integrity():
     assert policies == {
         "module_pending": 71,
         "preview_module_available": 79,
-        "minimum_sufficient_available": 48,
+        "minimum_sufficient_available": 49,
         "prototype_pending_certification": 2,
         "hold": 1,
         "data_insufficient": 2,
     }
-    assert len(MINIMUM_SUFFICIENT_VISIBILITY_PROFILES) == 48
+    assert len(MINIMUM_SUFFICIENT_VISIBILITY_PROFILES) == 49
 
     deyue = next(o for o in get_opportunities("tw", "tw-062") if o["opportunity_id"] == "tw-062-P01")
     assert deyue["legacy_theme"] == "mountain_view"
@@ -1251,6 +1251,17 @@ def test_adapter_integrity():
     assert hamanako_diag["jp-019-P01"]["modules"]["directional_horizon"]["angle_diff"] == 0.0
     assert hamanako_diag["jp-019-P01"]["modules"]["visibility"]["eligible"] is True
 
+    jp020 = get_opportunities("jp", "jp-020")
+    assert [o["opportunity_id"] for o in jp020] == ["jp-020-P01"]
+    assert jp020[0]["runtime_policy"] == "minimum_sufficient_available"
+    assert dependencies_for_opportunity(jp020[0]) == ("visibility",)
+    minato_diag = fetch_data._build_opportunity_runtime_diagnostics(
+        {"opportunities": jp020},
+        {"vis": 30000, "c_low": 10, "pop": 5, "precipitation": 0.0},
+    )
+    assert minato_diag["jp-020-P01"]["available"] is True
+    assert minato_diag["jp-020-P01"]["eligible"] is True
+
     jp009 = get_opportunities("jp", "jp-009")
     assert [o["opportunity_id"] for o in jp009] == ["jp-009-P01"]
     assert jp009[0]["runtime_policy"] == "minimum_sufficient_available"
@@ -1619,10 +1630,10 @@ def test_active_catalog_weather_generation_guard():
     # researched Japan Place must not leak legacy scoring into the remaining pending Places.
     jp_spots = get_spots("jp")
     researched_jp = {spot["spot_id"] for spot in jp_spots if spot.get("opportunities")}
-    assert researched_jp == {"jp-001", "jp-002", "jp-003", "jp-004", "jp-005", "jp-006", "jp-007", "jp-008", "jp-009", "jp-010", "jp-013", "jp-019"}
+    assert researched_jp == {"jp-001", "jp-002", "jp-003", "jp-004", "jp-005", "jp-006", "jp-007", "jp-008", "jp-009", "jp-010", "jp-013", "jp-019", "jp-020"}
     assert all(
         not (spot.get("opportunities") or [])
-        for spot in jp_spots if spot["spot_id"] not in {"jp-001", "jp-002", "jp-003", "jp-004", "jp-005", "jp-006", "jp-007", "jp-008", "jp-009", "jp-010", "jp-013", "jp-019"}
+        for spot in jp_spots if spot["spot_id"] not in {"jp-001", "jp-002", "jp-003", "jp-004", "jp-005", "jp-006", "jp-007", "jp-008", "jp-009", "jp-010", "jp-013", "jp-019", "jp-020"}
     )
     blue_pond = next(spot for spot in jp_spots if spot["spot_id"] == "jp-001")
     assert abs(blue_pond["lat"] - 43.493611) < 1e-9
@@ -1664,6 +1675,13 @@ def test_active_catalog_weather_generation_guard():
     assert abs(kawaguchiko["lon"] - 138.7461483) < 1e-9
     assert kawaguchiko["coordinate_confidence"] == "high"
     assert kawaguchiko["themes"] == ["mountain_view", "reflection"]
+    minato = next(spot for spot in jp_spots if spot["spot_id"] == "jp-020")
+    assert abs(minato["lat"] - 35.45099) < 1e-9
+    assert abs(minato["lon"] - 139.64670) < 1e-9
+    assert minato["coordinate_confidence"] == "high"
+    assert minato["themes"] == ["city_night"]
+    assert "OSANBASHI VIEWPOINT" in minato["map_query"]
+
     assert all(not (spot.get("opportunities") or []) for spot in get_spots("us"))
 
     stale = analyze_weather._mark_stale({"spot_id": "tw-009", "daily": []}, "weather_fetch_failed")
