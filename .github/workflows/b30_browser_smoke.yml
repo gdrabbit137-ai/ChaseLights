@@ -118,6 +118,7 @@ jobs:
               driver.execute_script("closeModal()")
 
               Select(driver.find_element(By.ID, "country-select")).select_by_value("jp")
+              wait.until(lambda d: d.execute_script("return currentRegion === 'jp' && currentSpots.length > 0 && String(currentSpots[0].spot_id || '').startsWith('jp-')"))
               wait.until(lambda d: len(d.find_elements(By.CSS_SELECTOR, "#spots-container .card")) > 0)
               jp_cards = driver.find_elements(By.CSS_SELECTOR, "#spots-container .card")
               report["jp_cards"] = len(jp_cards)
@@ -126,6 +127,7 @@ jobs:
               assert any("攝影研究待補" in c.text for c in jp_cards), "Japan research-pending card notice missing"
 
               Select(driver.find_element(By.ID, "country-select")).select_by_value("us")
+              wait.until(lambda d: d.execute_script("return currentRegion === 'us' && currentSpots.length > 0 && String(currentSpots[0].spot_id || '').startsWith('us-')"))
               wait.until(lambda d: len(d.find_elements(By.CSS_SELECTOR, "#spots-container .card")) > 0)
               us_cards = driver.find_elements(By.CSS_SELECTOR, "#spots-container .card")
               report["us_cards"] = len(us_cards)
