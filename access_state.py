@@ -112,7 +112,7 @@ _ACCESS_GROUPS = {
         "tw-045-P01", "tw-045-P03", "tw-045-P04",
         "tw-049-P02",
     ),
-    "transport_facility_status": ("tw-024-P01", "tw-024-P05", "tw-037-P01", "jp-004-P01"),
+    "transport_facility_status": ("tw-024-P01", "tw-024-P05", "tw-037-P01", "jp-002-P01", "jp-004-P01"),
     "road_viewpoint_status": ("tw-034-P01",),
     "public_attraction_notice": ("tw-038-P01", "tw-038-P02", "tw-081-P01"),
     "waterfall_trail_status": ("tw-055-P01",),
@@ -137,6 +137,13 @@ ACCESS_RUNTIME_READY_PROFILES = frozenset()
 # These are provider-discovery hints, not proof that an Opportunity is open.
 # They document official sources verified during B25 architecture work.
 OFFICIAL_SOURCE_HINTS = {
+    "jp-002": {
+        "authority": "Daisetsuzan Asahidake Ropeway",
+        "source_kind": "official_ropeway_operation_and_mountain_condition_information",
+        "url": "https://asahidake.hokkaido.jp/en/",
+        "verified_on": "2026-09-24",
+        "note": "Sugatami photography access for ordinary visitors depends on current ropeway operation and mountain conditions; do not infer access from a static annual timetable alone.",
+    },
     "jp-004": {
         "authority": "Hakodate City / Travel Hakodate",
         "source_kind": "official_ropeway_road_and_summit_access_information",
@@ -389,8 +396,8 @@ def evaluate_dynamic_access(opportunity, item_data):
 
 def validate_access_registry():
     errors = []
-    if len(ACCESS_DEPENDENT_PROFILE_IDS) != 43:
-        errors.append(f"expected 43 dynamic-access profiles, got {len(ACCESS_DEPENDENT_PROFILE_IDS)}")
+    if len(ACCESS_DEPENDENT_PROFILE_IDS) != 44:
+        errors.append(f"expected 44 dynamic-access profiles, got {len(ACCESS_DEPENDENT_PROFILE_IDS)}")
     if ACCESS_RUNTIME_READY_PROFILES - ACCESS_DEPENDENT_PROFILE_IDS:
         errors.append("runtime-ready access profile is not classified")
     for oid, contract in ACCESS_PROFILE_CLASSIFICATION.items():
