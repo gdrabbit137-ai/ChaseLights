@@ -1267,8 +1267,19 @@ def test_active_catalog_weather_generation_guard():
     active_tw = analyze_weather._active_spots("tw")
     assert len(active_tw) == 80
 
+    chaori_spot = next(spot for spot in active_tw if spot["spot_id"] == "tw-068")
     yehliu_spot = next(spot for spot in active_tw if spot["spot_id"] == "tw-074")
     iron_fort_spot = next(spot for spot in active_tw if spot["spot_id"] == "tw-081")
+    assert chaori_spot["access_hours_windows"] == [["05:00", "10:00"], ["16:00", "23:00"]]
+    assert fetch_data._access_open_for_spot(
+        chaori_spot, datetime(2026, 9, 24, 6, 0), True, False
+    ) is True
+    assert fetch_data._access_open_for_spot(
+        chaori_spot, datetime(2026, 9, 24, 12, 0), True, False
+    ) is False
+    assert fetch_data._access_open_for_spot(
+        chaori_spot, datetime(2026, 9, 24, 20, 0), False, False
+    ) is True
     assert yehliu_spot["access_hours"] == ["08:00", "17:00"]
     assert iron_fort_spot["access_hours"] == ["08:00", "17:00"]
     assert fetch_data._access_open_for_spot(
