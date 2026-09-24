@@ -1,0 +1,143 @@
+name: B30 Browser Smoke
+
+on:
+  push:
+    branches:
+      - r4.2-b28-p0-missing-places
+    paths:
+      - "index.html"
+      - "regions.py"
+      - "analyze_weather.py"
+      - "fetch_data.py"
+      - "opportunities.py"
+      - "opportunity_runtime.py"
+      - "runtime_dependencies.py"
+      - ".github/workflows/b30_browser_smoke.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: b30-browser-smoke-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  browser-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout candidate branch
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Generate Taiwan candidate weather
+        run: python analyze_weather.py tw
+
+      - name: Install browser test dependency
+        run: python -m pip install --disable-pip-version-check selenium
+
+      - name: Run browser smoke
+        run: |
+          python -m http.server 8000 --bind 127.0.0.1 >/tmp/chaselights-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill $server_pid || true' EXIT
+
+          for i in {1..30}; do
+            if curl -fsS http://127.0.0.1:8000/index.html >/dev/null; then
+              break
+            fi
+            sleep 1
+          done
+
+          python - <<'PY'
+          import json
+          from selenium import webdriver
+          from selenium.webdriver.common.by import By
+          from selenium.webdriver.support.ui import WebDriverWait, Select
+          from selenium.webdriver.support import expected_conditions as EC
+
+          opts = webdriver.ChromeOptions()
+          opts.add_argument("--headless=new")
+          opts.add_argument("--no-sandbox")
+          opts.add_argument("--disable-dev-shm-usage")
+          opts.add_argument("--window-size=1440,1200")
+
+          driver = webdriver.Chrome(options=opts)
+          wait = WebDriverWait(driver, 30)
+          report = {}
+
+          try:
+              driver.get("http://127.0.0.1:8000/index.html")
+
+              cards = wait.until(lambda d: d.find_elements(By.CSS_SELECTOR, "#spots-container .card"))
+              report["taiwan_rendered_cards"] = len(cards)
+              assert len(cards) == 80, f"expected 80 Taiwan cards, got {len(cards)}"
+
+              title = driver.find_element(By.ID, "discovery-title").text
+              report["discovery_title"] = title
+              assert "今天去哪裡拍" in title, title
+
+              body_text = driver.find_element(By.TAG_NAME, "body").text
+              assert "96H 明細" not in body_text
+              assert "96H details" not in body_text
+
+              first = cards[0]
+              tools = first.find_elements(By.CSS_SELECTOR, ".card-footer-tools .tool-link")
+              report["tool_count"] = len(tools)
+              assert len(tools) == 3, [x.text for x in tools]
+              assert first.find_elements(By.CSS_SELECTOR, "[data-weather]"), "weather tool missing"
+
+              hrefs = [x.get_attribute("href") or "" for x in tools]
+              report["tool_hrefs"] = hrefs
+              assert any("google.com/maps/search" in h for h in hrefs), hrefs
+              assert any("radar" in (x.text or "").lower() or "雷達" in (x.text or "") for x in tools), [x.text for x in tools]
+
+              first.find_element(By.CSS_SELECTOR, ".card-header").click()
+              wait.until(lambda d: d.find_element(By.ID, "place-modal-overlay").value_of_css_property("display") != "none")
+              opp_cards = driver.find_elements(By.CSS_SELECTOR, "#place-modal-body .opportunity-card")
+              report["place_guide_opportunity_cards"] = len(opp_cards)
+              assert opp_cards, "researched Place Guide did not render Opportunity cards"
+              guide_text = driver.find_element(By.ID, "place-modal-body").text
+              assert "這裡適合拍什麼" in guide_text
+              driver.execute_script("closePlaceModal()")
+
+              cards = driver.find_elements(By.CSS_SELECTOR, "#spots-container .card")
+              weather = cards[0].find_element(By.CSS_SELECTOR, "[data-weather]")
+              driver.execute_script("arguments[0].click()", weather)
+              wait.until(lambda d: d.find_element(By.ID, "modal-overlay").value_of_css_property("display") != "none")
+              wait.until(lambda d: len(d.find_elements(By.CSS_SELECTOR, "#timeline-body tr")) > 0)
+              report["weather_rows"] = len(driver.find_elements(By.CSS_SELECTOR, "#timeline-body tr"))
+              weather_title = driver.find_element(By.ID, "modal-spot-name").text
+              report["weather_title"] = weather_title
+              assert "天氣預報" in weather_title
+              driver.execute_script("closeModal()")
+
+              driver.execute_script("document.getElementById('spots-container').innerHTML = ''")
+              Select(driver.find_element(By.ID, "country-select")).select_by_value("jp")
+              wait.until(lambda d: d.execute_script("return currentRegion === 'jp' && currentSpots.length > 0 && String(currentSpots[0].spot_id || '').startsWith('jp-')"))
+              wait.until(lambda d: len(d.find_elements(By.CSS_SELECTOR, "#spots-container .card")) > 0)
+              jp_cards = driver.find_elements(By.CSS_SELECTOR, "#spots-container .card")
+              report["jp_cards"] = len(jp_cards)
+              jp_scores = [c.find_element(By.CSS_SELECTOR, ".score-badge").text.strip() for c in jp_cards]
+              assert all(x in {"", "—"} for x in jp_scores), jp_scores[:20]
+              assert any("攝影研究待補" in c.text for c in jp_cards), "Japan research-pending card notice missing"
+
+              driver.execute_script("document.getElementById('spots-container').innerHTML = ''")
+              Select(driver.find_element(By.ID, "country-select")).select_by_value("us")
+              wait.until(lambda d: d.execute_script("return currentRegion === 'us' && currentSpots.length > 0 && String(currentSpots[0].spot_id || '').startsWith('us-')"))
+              wait.until(lambda d: len(d.find_elements(By.CSS_SELECTOR, "#spots-container .card")) > 0)
+              us_cards = driver.find_elements(By.CSS_SELECTOR, "#spots-container .card")
+              report["us_cards"] = len(us_cards)
+              us_scores = [c.find_element(By.CSS_SELECTOR, ".score-badge").text.strip() for c in us_cards]
+              assert all(x in {"", "—"} for x in us_scores), us_scores[:20]
+              assert any("攝影研究待補" in c.text for c in us_cards), "US research-pending card notice missing"
+
+              print(json.dumps(report, ensure_ascii=False, indent=2))
+          finally:
+              driver.quit()
+          PY

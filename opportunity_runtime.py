@@ -76,6 +76,94 @@ IMPLEMENTED_COMPONENTS = {
     "dynamic_access",
 }
 
+# Manually curated "minimum sufficient" contracts for researched Opportunities
+# whose photographic value does not require a rare event. These are NOT inferred
+# from Theme/Scene labels. Each ID was reviewed from its Place-specific profile:
+# a clean, readable scene with adequate visibility and no material rain/low-cloud
+# obstruction is itself a successful photographic outcome.
+MINIMUM_SUFFICIENT_VISIBILITY_PROFILES = {
+    "tw-001-P03", "tw-002-P01", "tw-002-P02", "tw-004-P01",
+    "tw-006-P01", "tw-006-P03", "tw-007-P03", "tw-008-P02",
+    "tw-009-P01", "tw-016-P01", "tw-018-P01", "tw-018-P03",
+    "tw-019-P03", "tw-020-P04", "tw-022-P03", "tw-024-P03",
+    "tw-029-P01", "tw-029-P02", "tw-031-P01", "tw-034-P02",
+    "tw-040-P02", "tw-041-P01", "tw-041-P03", "tw-042-P01",
+    "tw-043-P01", "tw-044-P01", "tw-044-P02", "tw-045-P05",
+    "tw-046-P01", "tw-046-P02", "tw-047-P03", "tw-048-P01",
+    "tw-049-P01", "tw-050-P01", "tw-051-P02", "tw-057-P01",
+    "tw-058-P01", "tw-062-P01", "tw-064-P02", "tw-066-P01",
+    # B28 individually researched geology views: missing geology-light modeling
+    # is a refinement/booster, not a hard reason to suppress a clear-view visit.
+    "tw-074-P01", "tw-074-P02",
+}
+
+def supports_minimum_sufficient_contract(opportunity):
+    return opportunity.get("opportunity_id") in MINIMUM_SUFFICIENT_VISIBILITY_PROFILES
+
+
+def evaluate_minimum_sufficient_visibility(opportunity, item_data):
+    """Evaluate the researched clear-view minimum sufficient condition.
+
+    This contract only applies to the explicit registry above. Theme scoring
+    still handles time-of-day semantics (daylight / blue hour / night). Here we
+    answer a narrower question: is the photographed subject likely to be cleanly
+    readable enough that the Place itself is worth recommending?
+    """
+    vis_raw = item_data.get("vis")
+    if vis_raw is None and item_data.get("visibility") is not None:
+        vis_km = float(item_data["visibility"])
+    elif vis_raw is not None:
+        vis_km = float(vis_raw) / 1000.0
+    else:
+        return {
+            "module": "minimum_sufficient_visibility",
+            "available": False,
+            "eligible": False,
+            "reason": "visibility_missing",
+        }
+
+    low_raw = item_data.get("c_low")
+    pop_raw = item_data.get("pop", item_data.get("precipitation_probability"))
+    precip_raw = item_data.get("precipitation", item_data.get("precip"))
+    if low_raw is None or pop_raw is None or precip_raw is None:
+        return {
+            "module": "minimum_sufficient_visibility",
+            "available": False,
+            "eligible": False,
+            "reason": "cloud_or_precipitation_data_missing",
+            "visibility_km": round(vis_km, 1),
+        }
+
+    low = max(0.0, min(100.0, float(low_raw)))
+    pop = max(0.0, min(100.0, float(pop_raw)))
+    precip = max(0.0, float(precip_raw))
+
+    if item_data.get("access_open") is False:
+        eligible, quality, reason = False, "blocked", "access_closed"
+    elif precip >= 0.5 or pop >= 60:
+        eligible, quality, reason = False, "rain_affected", "precipitation_risk"
+    elif vis_km < 10.0:
+        eligible, quality, reason = False, "poor", "visibility_too_low"
+    elif low >= 75:
+        eligible, quality, reason = False, "low_cloud_blocked", "low_cloud_too_high"
+    elif vis_km >= 30.0 and low <= 25 and pop <= 20 and precip < 0.2:
+        eligible, quality, reason = True, "excellent", "clean_high_visibility"
+    else:
+        eligible, quality, reason = True, "good", "scene_readable"
+
+    return {
+        "module": "minimum_sufficient_visibility",
+        "available": True,
+        "eligible": eligible,
+        "reason": reason,
+        "quality": quality,
+        "visibility_km": round(vis_km, 1),
+        "cloud_low": round(low),
+        "precipitation_probability": round(pop),
+        "precipitation_mm": round(precip, 2),
+        "contract_source": "manually_curated_place_specific_profile",
+    }
+
 DIRECTIONAL_HORIZON_SECTORS = {
     "tw-001-P01": {"center": 247.5, "tolerance": 67.5, "phase": "sunset"},
     "tw-003-P01": {"center": 270.0, "tolerance": 70.0, "phase": "sunset"},
@@ -114,6 +202,14 @@ DIRECTIONAL_HORIZON_SECTORS = {
     "tw-070-P01": {"center": 247.5, "tolerance": 67.5, "phase": "sunset"},
     "tw-071-P01": {"center": 90.0, "tolerance": 75.0, "phase": "sunrise"},
     "tw-071-P02": {"center": 270.0, "tolerance": 75.0, "phase": "sunset"},
+    "tw-072-P01": {"center": 90.0, "tolerance": 75.0, "phase": "sunrise"},
+    "tw-072-P02": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
+    "tw-073-P01": {"center": 90.0, "tolerance": 75.0, "phase": "sunrise"},
+    "tw-075-P01": {"center": 105.0, "tolerance": 70.0, "phase": "sunrise"},
+    "tw-076-P01": {"center": 90.0, "tolerance": 80.0, "phase": "sunrise"},
+    "tw-077-P01": {"center": 90.0, "tolerance": 80.0, "phase": "sunrise"},
+    "tw-079-P01": {"center": 270.0, "tolerance": 80.0, "phase": "sunset"},
+    "tw-080-P01": {"center": 90.0, "tolerance": 80.0, "phase": "sunrise"},
 }
 
 CLOUD_SKY_GLOW_PROFILES = {
@@ -132,6 +228,8 @@ ASTRONOMY_EPHEMERIS_PROFILES = {
     "tw-040-P06": {"mode": "milky_way_or_star_field"},
     "tw-045-P03": {"mode": "milky_way_or_star_field"},
     "tw-070-P02": {"mode": "milky_way_or_star_field"},
+    "tw-076-P02": {"mode": "milky_way_or_star_field"},
+    "tw-080-P02": {"mode": "milky_way_or_star_field"},
 }
 
 
@@ -882,9 +980,9 @@ def validate_runtime_registry():
     errors.extend(validate_marine_state_registry())
     errors.extend(validate_tide_state_registry())
     errors.extend(validate_access_registry())
-    if len(DIRECTIONAL_HORIZON_SECTORS) != 37:
+    if len(DIRECTIONAL_HORIZON_SECTORS) != 45:
         errors.append(
-            f"expected 37 registered directional profiles, got {len(DIRECTIONAL_HORIZON_SECTORS)}"
+            f"expected 45 registered directional profiles, got {len(DIRECTIONAL_HORIZON_SECTORS)}"
         )
     if set(CLOUD_SKY_GLOW_PROFILES) != {"tw-013-P02", "tw-026-P02", "tw-030-P02", "tw-035-P04"}:
         errors.append(f"unexpected cloud_sky_glow registry: {sorted(CLOUD_SKY_GLOW_PROFILES)}")
@@ -892,18 +990,18 @@ def validate_runtime_registry():
         errors.append(f"expected 19 spatial weather profiles, got {len(SPATIAL_WEATHER_PROFILES)}")
     expected_astro = {
         "tw-019-P05", "tw-024-P05", "tw-035-P05", "tw-036-P02",
-        "tw-038-P02", "tw-040-P06", "tw-045-P03", "tw-070-P02",
+        "tw-038-P02", "tw-040-P06", "tw-045-P03", "tw-070-P02", "tw-076-P02", "tw-080-P02",
     }
     if set(ASTRONOMY_EPHEMERIS_PROFILES) != expected_astro:
         errors.append(
             f"unexpected astronomy ephemeris registry: {sorted(ASTRONOMY_EPHEMERIS_PROFILES)}"
         )
-    if len(MARINE_STATE_PROFILES) != 9:
-        errors.append(f"expected 9 marine-state profiles, got {len(MARINE_STATE_PROFILES)}")
-    if len(TIDE_STATE_PROFILES) != 10:
-        errors.append(f"expected 10 tide-state profiles, got {len(TIDE_STATE_PROFILES)}")
-    if len(ACCESS_DEPENDENT_PROFILE_IDS) != 40:
-        errors.append(f"expected 40 dynamic-access profiles, got {len(ACCESS_DEPENDENT_PROFILE_IDS)}")
+    if len(MARINE_STATE_PROFILES) != 17:
+        errors.append(f"expected 17 marine-state profiles, got {len(MARINE_STATE_PROFILES)}")
+    if len(TIDE_STATE_PROFILES) != 14:
+        errors.append(f"expected 14 tide-state profiles, got {len(TIDE_STATE_PROFILES)}")
+    if len(ACCESS_DEPENDENT_PROFILE_IDS) != 42:
+        errors.append(f"expected 42 dynamic-access profiles, got {len(ACCESS_DEPENDENT_PROFILE_IDS)}")
     if ACCESS_RUNTIME_READY_PROFILES:
         errors.append("B25 foundation must not mark dynamic-access profiles provider-ready yet")
     for oid, sector in DIRECTIONAL_HORIZON_SECTORS.items():

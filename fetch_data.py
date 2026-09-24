@@ -7,7 +7,10 @@ from datetime import datetime, timezone, timedelta
 from bisect import bisect_right
 from zoneinfo import ZoneInfo
 
-from opportunity_runtime import evaluate_opportunity_modules
+from opportunity_runtime import (
+    evaluate_opportunity_modules,
+    evaluate_minimum_sufficient_visibility,
+)
 from spatial_weather import (
     build_spatial_request_plan,
     index_spatial_response,
@@ -27,36 +30,46 @@ from tide_state import (
 # 後端多國語言狀態與指標字典
 I18N_MESSAGES = {
     # 狀態 (Status)
-    "MOUNTAIN_EXCELLENT_DAY": {"zh-TW": "☀️ 山景展望極佳", "en": "☀️ Excellent Mountain View", "ja": "☀️ 最高の山岳展望"},
-    "MOUNTAIN_STABLE_DAY": {"zh-TW": "⛅ 山景氣象平穩", "en": "⛅ Stable Mountain Weather", "ja": "⛅ 安定した山岳気象"},
-    "MOUNTAIN_FOG_DAY": {"zh-TW": "☁️ 山區濃霧雲覆", "en": "☁️ Heavy Fog / Clouds", "ja": "☁️ 山間部の濃霧・雲覆"},
+    "MOUNTAIN_EXCELLENT_DAY": {"zh-TW": "☀️ 日間能見度條件良好", "en": "☀️ Good Daytime Visibility Conditions", "ja": "☀️ 日中の視程条件良好"},
+    "MOUNTAIN_STABLE_DAY": {"zh-TW": "⛅ 日間能見度條件普通", "en": "⛅ Moderate Daytime Visibility", "ja": "⛅ 日中の視程条件は普通"},
+    "MOUNTAIN_FOG_DAY": {"zh-TW": "☁️ 低雲或低能見度影響視野", "en": "☁️ Low Clouds or Reduced Visibility", "ja": "☁️ 低雲または低視程で視界に影響"},
     "MOUNTAIN_EXCELLENT_NIGHT": {"zh-TW": "🌙 夜間大氣清透", "en": "🌙 Clear Night Sky", "ja": "🌙 清透な夜間大気"},
     "MOUNTAIN_STABLE_NIGHT": {"zh-TW": "🌙 夜間氣象平穩", "en": "🌙 Stable Night Weather", "ja": "🌙 穏やかな夜間気象"},
     "MOUNTAIN_FOG_NIGHT": {"zh-TW": "☁️ 夜間濃霧雲覆", "en": "☁️ Night Fog / Clouds", "ja": "☁️ 夜間の濃霧・雲覆"},
-    "CLOUD_SEA_GOLD": {"zh-TW": "☁️ 翻騰雲海黃金期", "en": "☁️ Prime Sea of Clouds", "ja": "☁️ 黄金の雲海期"},
-    "CLOUD_SEA_FAIR": {"zh-TW": "⛅ 雲霧條件普通", "en": "⛅ Moderate Cloud & Fog", "ja": "⛅ 普通の雲霧条件"},
-    "CLOUD_SEA_DRY": {"zh-TW": "☀️ 乾燥無雲海條件", "en": "☀️ Dry / No Sea of Clouds", "ja": "☀️ 乾燥・雲海条件なし"},
-    "FOREST_MIST": {"zh-TW": "🌫️ 夢幻迷霧森林", "en": "🌫️ Mystical Mist Forest", "ja": "🌫️ 幻想的な霧の森林"},
-    "FOREST_LIGHT": {"zh-TW": "☀️ 森林斜射光極佳", "en": "☀️ Great Forest Sunbeams", "ja": "☀️ 最高の光線・木漏れ日"},
-    "FOREST_NORMAL": {"zh-TW": "🌲 森林一般氣象", "en": "🌲 Normal Forest Weather", "ja": "🌲 通常の森林気象"},
+    "CLOUD_SEA_GOLD": {"zh-TW": "☁️ 雲海模型條件較符合", "en": "☁️ Conditions Match the Cloud-Sea Model Well", "ja": "☁️ 雲海モデル条件に比較的合致"},
+    "CLOUD_SEA_FAIR": {"zh-TW": "⛅ 雲海模型條件部分符合", "en": "⛅ Cloud-Sea Model Partially Matched", "ja": "⛅ 雲海モデル条件に一部合致"},
+    "CLOUD_SEA_DRY": {"zh-TW": "☀️ 雲海模型條件不足", "en": "☀️ Cloud-Sea Model Conditions Not Met", "ja": "☀️ 雲海モデル条件が不足"},
+    "CLOUD_SEA_OUTSIDE": {"zh-TW": "🕒 目前非可見雲海拍攝時段", "en": "🕒 Outside Visible Cloud-Sea Shooting Window", "ja": "🕒 現在は雲海を撮影できる明るさの時間外"},
+    "FOREST_MIST": {"zh-TW": "🌫️ 霧景模型條件較符合", "en": "🌫️ Conditions Match the Mist Model", "ja": "🌫️ 霧景モデル条件に合致"},
+    "FOREST_LIGHT": {"zh-TW": "🌤️ 光束模型條件較符合", "en": "🌤️ Conditions Match the Sunbeam Model", "ja": "🌤️ 光芒モデル条件に合致"},
+    "FOREST_NORMAL": {"zh-TW": "⛅ 光霧條件一般", "en": "⛅ Ordinary Light/Mist Conditions", "ja": "⛅ 光・霧条件は通常"},
     "LAKE_MIST": {"zh-TW": "🌫️ 湖面夢幻晨霧", "en": "🌫️ Misty Lake Morning", "ja": "🌫️ 幻想的な湖畔の朝霧"},
-    "LAKE_MIRROR": {"zh-TW": "🪞 靜止鏡面倒影", "en": "🪞 Mirror Reflection", "ja": "🪞 鏡面の水面倒影"},
-    "LAKE_GOOD": {"zh-TW": "🌊 湖景條件良好", "en": "🌊 Good Lake Conditions", "ja": "🌊 良好な湖畔条件"},
-    "LAKE_WINDY": {"zh-TW": "🌬️ 湖面風大波浪興起", "en": "🌬️ Windy Lake / Waves", "ja": "🌬️ 強風による波立ち"},
-    "WATERFALL_SOFT": {"zh-TW": "🌊 瀑布漫射柔光", "en": "🌊 Soft Light Waterfall", "ja": "🌊 拡散光の滝景"},
-    "WATERFALL_HARSH": {"zh-TW": "☀️ 頂光強烈反差大", "en": "☀️ Harsh Direct Sunlight", "ja": "☀️ 強い直射光・高コントラスト"},
-    "WATERFALL_NORMAL": {"zh-TW": "💦 瀑布條件平穩", "en": "💦 Stable Waterfall Weather", "ja": "💦 安定した滝条件"},
-    "COAST_GLOW": {"zh-TW": "🌈 彩霞條件極佳", "en": "🌈 Excellent Sky Glow", "ja": "🌈 朝夕焼け条件が非常に良好"},
-    "FIRE_CLOUD_LIKELY": {"zh-TW": "🔥 火燒雲條件佳", "en": "🔥 Strong Fire-Cloud Potential", "ja": "🔥 強い焼け雲の好条件"},
-    "COAST_LOW_CLOUD": {"zh-TW": "☁️ 海面低雲壓頂", "en": "☁️ Low Coastal Clouds", "ja": "☁️ 沿岸の低雲覆蓋"},
-    "COAST_NORMAL": {"zh-TW": "🌊 海景氣象常規", "en": "🌊 Normal Coastal Weather", "ja": "🌊 通常の沿岸気象"},
-    "CITY_NIGHT_CLEAR": {"zh-TW": "🏙️ 璀璨夜景通透", "en": "🏙️ Clear City Night View", "ja": "🏙️ 清晰な都市夜景"},
+    "LAKE_MIRROR": {"zh-TW": "🪞 低風速，倒影條件較穩定", "en": "🪞 Low Wind; Reflection Conditions More Stable", "ja": "🪞 弱風で反射条件が比較的安定"},
+    "LAKE_GOOD": {"zh-TW": "🌊 水面風速條件較低", "en": "🌊 Lower Wind over the Water", "ja": "🌊 水面付近の風が弱め"},
+    "LAKE_WINDY": {"zh-TW": "🌬️ 風速較高，倒影穩定度下降", "en": "🌬️ Higher Wind; Reflection Stability Reduced", "ja": "🌬️ 風が強く反射の安定度が低下"},
+    "WATERFALL_SOFT": {"zh-TW": "💧 中低雲較多，光線較柔和", "en": "💧 More Low/Mid Cloud; Softer Light", "ja": "💧 中低層雲が多く光が柔らかい"},
+    "WATERFALL_HARSH": {"zh-TW": "☀️ 太陽高度高且雲量少，反差較高", "en": "☀️ High Sun and Low Cloud; Higher Contrast", "ja": "☀️ 太陽高度が高く雲が少ないため高コントラスト"},
+    "WATERFALL_NORMAL": {"zh-TW": "💧 長曝光線條件一般", "en": "💧 Ordinary Long-Exposure Light Conditions", "ja": "💧 長時間露光の光条件は通常"},
+    "COAST_GLOW": {"zh-TW": "🌈 彩霞模型條件較符合", "en": "🌈 Conditions Match the Sky-Glow Model", "ja": "🌈 朝夕焼けモデル条件に合致"},
+    "FIRE_CLOUD_LIKELY": {"zh-TW": "🔥 雲量組合符合火燒雲模型門檻", "en": "🔥 Cloud Pattern Meets Fire-Cloud Model Threshold", "ja": "🔥 雲量構成が焼け雲モデル閾値に合致"},
+    "COAST_LOW_CLOUD": {"zh-TW": "☁️ 低雲量較高", "en": "☁️ Higher Low-Cloud Cover", "ja": "☁️ 低層雲量が多め"},
+    "COAST_NORMAL": {"zh-TW": "🌅 晨昏雲量條件一般", "en": "🌅 Ordinary Dawn/Dusk Cloud Conditions", "ja": "🌅 朝夕の雲量条件は通常"},
+    "BLUE_HOUR_CLEAR": {"zh-TW": "🔵 藍調時刻視野清透", "en": "🔵 Clear Blue-Hour View", "ja": "🔵 ブルーアワーの視界良好"},
+    "BLUE_HOUR_FAIR": {"zh-TW": "🔵 藍調時刻條件普通", "en": "🔵 Fair Blue-Hour Conditions", "ja": "🔵 ブルーアワーの条件は普通"},
+    "BLUE_HOUR_POOR": {"zh-TW": "☁️ 藍調時刻視野受雲霧影響", "en": "☁️ Blue-Hour View Affected by Clouds/Haze", "ja": "☁️ 雲・霞でブルーアワーの視界に影響"},
+    "BLUE_HOUR_OUTSIDE": {"zh-TW": "🕒 目前非藍調時段", "en": "🕒 Outside Blue-Hour Window", "ja": "🕒 現在はブルーアワー外"},
+    "BLUE_HOUR_DATA_LIMITED": {"zh-TW": "⚠️ 藍調時段可判定，但能見度資料不足", "en": "⚠️ Blue-Hour Timing Known, Visibility Data Limited", "ja": "⚠️ ブルーアワー判定可・視程データ不足"},
+    "CITY_NIGHT_CLEAR": {"zh-TW": "🏙️ 城市夜景能見度佳", "en": "🏙️ Good Visibility for City Night View", "ja": "🏙️ 都市夜景の視程良好"},
     "CITY_NIGHT_FAIR": {"zh-TW": "🌃 夜景條件普通", "en": "🌃 Fair City Night View", "ja": "🌃 普通の夜景条件"},
     "CITY_NIGHT_POOR": {"zh-TW": "☁️ 夜景視線受阻", "en": "☁️ Obstructed Night View", "ja": "☁️ 視界不順の夜景"},
     "CITY_DAY_CLEAR": {"zh-TW": "🏙️ 城市遠眺極佳", "en": "🏙️ Excellent City Panorama", "ja": "🏙️ 最高の都市遠望"},
     "CITY_DAY_FAIR": {"zh-TW": "🏙️ 城市景觀普通", "en": "🏙️ Normal City View", "ja": "🏙️ 普通の都市景觀"},
     "CITY_DAY_POOR": {"zh-TW": "🌫️ 城市視線受阻", "en": "🌫️ Obstructed City View", "ja": "🌫️ 視界不順の都市景觀"},
-    "STARLIGHT_GREAT": {"zh-TW": "🌌 銀河觀星極佳", "en": "🌌 Excellent Stargazing", "ja": "🌌 最高の星空・天の川"},
+    "NIGHT_SCENE_CLEAR": {"zh-TW": "🌙 夜間景觀能見度佳", "en": "🌙 Good Visibility for Night Scene", "ja": "🌙 夜景の視程良好"},
+    "NIGHT_SCENE_FAIR": {"zh-TW": "🌙 夜間景觀條件普通", "en": "🌙 Fair Night-Scene Conditions", "ja": "🌙 夜景条件は普通"},
+    "NIGHT_SCENE_POOR": {"zh-TW": "☁️ 夜間景觀受低雲或低能見度影響", "en": "☁️ Night Scene Affected by Low Clouds/Visibility", "ja": "☁️ 低雲・低視程で夜景に影響"},
+    "NIGHT_SCENE_OUTSIDE": {"zh-TW": "🕒 目前非夜間景觀時段", "en": "🕒 Outside Night-Scene Window", "ja": "🕒 現在は夜景時間外"},
+    "STARLIGHT_GREAT": {"zh-TW": "🌌 星空拍攝條件良好", "en": "🌌 Good Stargazing Conditions", "ja": "🌌 星空撮影条件良好"},
     "STARLIGHT_FAIR": {"zh-TW": "✨ 星空條件普通", "en": "✨ Moderate Stargazing", "ja": "✨ 普通の星空条件"},
     "STARLIGHT_POOR": {"zh-TW": "☁️ 星空條件不佳", "en": "☁️ Poor Stargazing Conditions", "ja": "☁️ 星空条件が不良"},
     "STARLIGHT_LIGHT_POLLUTION": {"zh-TW": "🌃 光害限制銀河細節", "en": "🌃 Light Pollution Limits Milky Way Detail", "ja": "🌃 光害で天の川の細部が見えにくい"},
@@ -70,41 +83,63 @@ I18N_MESSAGES = {
     "DAYLIGHT_ONLY": {"zh-TW": "☀️ 白天日光強烈", "en": "☀️ Bright Daylight", "ja": "☀️ 強烈な日光（昼間）"},
     "RAIN_RISK": {"zh-TW": "🌧️ 降雨風險高", "en": "🌧️ High Rain Risk", "ja": "🌧️ 高い降雨リスク"},
     "STABLE_WEATHER": {"zh-TW": "⛅ 氣象平穩", "en": "⛅ Stable Weather", "ja": "⛅ 安定した気象"},
+    "WEATHER_DATA_LIMITED": {"zh-TW": "⚠️ 必要氣象資料不足，暫不判定", "en": "⚠️ Required Weather Data Missing; No Verdict", "ja": "⚠️ 必要な気象データ不足・判定保留"},
+    "OPPORTUNITY_MATCH": {"zh-TW": "✅ 此拍攝題材的關鍵條件目前符合", "en": "✅ Key conditions for this opportunity currently match", "ja": "✅ この撮影機会の主要条件が一致"},
+    "OPPORTUNITY_CONDITION_MISS": {"zh-TW": "⚠️ 此拍攝題材的專屬條件目前未符合", "en": "⚠️ Opportunity-specific conditions do not currently match", "ja": "⚠️ この撮影機会の固有条件が未達"},
+    "OPPORTUNITY_RUNTIME_DATA_MISSING": {"zh-TW": "⚠️ 此拍攝題材缺少必要預報資料", "en": "⚠️ Required opportunity forecast data is missing", "ja": "⚠️ この撮影機会に必要な予報データが不足"},
+    "OPPORTUNITY_PARTIAL": {"zh-TW": "ℹ️ 僅能判斷部分條件，分數已限制", "en": "ℹ️ Only part of the conditions can be evaluated; score is capped", "ja": "ℹ️ 条件の一部のみ判定可能なためスコア上限あり"},
+    "OPPORTUNITY_PROTOTYPE": {"zh-TW": "ℹ️ 題材已查證，但完整專屬公式仍在驗證", "en": "ℹ️ Opportunity is researched; full dedicated formula is still being validated", "ja": "ℹ️ 撮影機会は調査済みだが専用式は検証中"},
+    "OPPORTUNITY_HOLD": {"zh-TW": "⛔ 此拍攝題材目前暫停推薦", "en": "⛔ This opportunity is currently on hold", "ja": "⛔ この撮影機会は現在推奨停止"},
+    "OPPORTUNITY_DATA_INSUFFICIENT": {"zh-TW": "⚠️ 此拍攝題材資料不足，暫不高分推薦", "en": "⚠️ Insufficient data for a high-confidence recommendation", "ja": "⚠️ 高信頼の推奨に必要なデータ不足"},
+    "NO_VIABLE_OPPORTUNITY": {"zh-TW": "🕒 今天剩餘時段沒有合適的已研究拍攝機會", "en": "🕒 No researched shooting opportunity remains viable today", "ja": "🕒 本日の残り時間に適した調査済み撮影機会はありません"},
+    "OPPORTUNITY_SIMPLE_MATCH": {"zh-TW": "✅ 此景點的基本好拍條件已成立", "en": "✅ The Place's basic good-shoot conditions are met", "ja": "✅ この場所の基本的な好条件が成立"},
+    "OPPORTUNITY_SIMPLE_MISS": {"zh-TW": "⚠️ 能見度、低雲或降雨條件目前不理想", "en": "⚠️ Visibility, low cloud, or precipitation is currently unfavorable", "ja": "⚠️ 視程・低雲・降水条件が現在不利"},
 
     # 關鍵指標 (Indicator)
-    "IND_PEAKS": {"zh-TW": "🏔️ 遠眺群峰通透無瑕", "en": "Clear View of Distant Peaks", "ja": "遠くの連峰まで超高透明度"},
-    "IND_CLEAR_SKY": {"zh-TW": "💎 零雲量大氣極通透", "en": "💎 Clear Sky & High Visibility", "ja": "💎 快晴・極めて高い透明度"},
+    "IND_PEAKS": {"zh-TW": "💎 雲量、降雨與能見度符合高分門檻", "en": "💎 Cloud, Rain and Visibility Meet the High-Score Threshold", "ja": "💎 雲量・降水・視程が高スコア基準を満たす"},
+    "IND_CLEAR_SKY": {"zh-TW": "💎 雲量與能見度符合觀星高分門檻", "en": "💎 Cloud and Visibility Meet the Stargazing Threshold", "ja": "💎 雲量と視程が星空撮影の高スコア基準を満たす"},
     "IND_SOME_CLOUDS": {"zh-TW": "⛅ 些許薄雲干擾", "en": "⛅ Slight Cloud Interference", "ja": "⛅ 薄雲による僅かな影響"},
     "IND_NO_STAR": {"zh-TW": "☁️ 不宜觀星攝影", "en": "☁️ Not Suitable for Stargazing", "ja": "☁️ 星空撮影に不適"},
-    "IND_CLOUD_SEA": {"zh-TW": "☁️ 水氣與低雲完美配合", "en": "☁️ Perfect Moisture & Low Clouds", "ja": "☁️ 水蒸気と低雲の最適な調和"},
+    "IND_CLOUD_SEA": {"zh-TW": "☁️ 濕度與低雲條件符合雲海模型門檻", "en": "☁️ Humidity and Low Cloud Meet the Cloud-Sea Model Threshold", "ja": "☁️ 湿度と低層雲が雲海モデル閾値を満たす"},
     "IND_CLOUD_SEA_SUB": {"zh-TW": "⛅ 低雲高度或雲量稍偏", "en": "⛅ Suboptimal Cloud Height/Amount", "ja": "⛅ 雲量または高度がやや偏斜"},
-    "IND_DRY_AIR": {"zh-TW": "☀️ 大氣乾燥或無低雲", "en": "☀️ Dry Air / No Low Clouds", "ja": "☀️ 乾燥大氣・低雲なし"},
-    "IND_FOREST_MIST": {"zh-TW": "🌲 濃郁霧氣瀰漫林間", "en": "🌲 Dense Mist Through Forest", "ja": "🌲 森林に立ち込める濃霧"},
-    "IND_FOREST_SUN": {"zh-TW": "🌲 大氣通透耶穌光強", "en": "🌲 Clear Air & Strong Sunbeams", "ja": "🌲 高透明度・強い木漏れ日"},
-    "IND_FOREST_NORM": {"zh-TW": "🌲 無特別霧氣或強光", "en": "🌲 Regular Forest Lighting", "ja": "🌲 特段の霧や強光なし"},
+    "IND_DRY_AIR": {"zh-TW": "☀️ 濕度或低雲條件未達雲海模型門檻", "en": "☀️ Humidity or Low Cloud Does Not Meet the Cloud-Sea Threshold", "ja": "☀️ 湿度または低層雲が雲海モデル閾値未満"},
+    "IND_CLOUD_SEA_OUTSIDE": {"zh-TW": "🕒 太陽已低於可見雲海拍攝時段", "en": "🕒 Sun Is Below the Visible Cloud-Sea Shooting Range", "ja": "🕒 太陽高度が雲海撮影可能な範囲外"},
+    "IND_FOREST_MIST": {"zh-TW": "🌫️ 濕度、風速與能見度符合霧景模型門檻", "en": "🌫️ Humidity, Wind and Visibility Meet the Mist Threshold", "ja": "🌫️ 湿度・風速・視程が霧景モデル閾値を満たす"},
+    "IND_FOREST_SUN": {"zh-TW": "🌤️ 日照、雲量與濕度符合光束模型門檻", "en": "🌤️ Sun, Cloud and Humidity Meet the Sunbeam Threshold", "ja": "🌤️ 日照・雲量・湿度が光芒モデル閾値を満たす"},
+    "IND_FOREST_NORM": {"zh-TW": "⛅ 光霧條件未達高分門檻", "en": "⛅ Light/Mist Conditions Below the High-Score Threshold", "ja": "⛅ 光・霧条件が高スコア基準未満"},
     "IND_LAKE_MIST": {"zh-TW": "🌊 湖面水氣飄渺極美", "en": "🌊 Ethereal Lake Mist", "ja": "🌊 湖面上に漂う幻想的な朝霧"},
-    "IND_LAKE_MIRROR": {"zh-TW": "🌊 無風微波鏡面絕佳", "en": "🌊 Calm Water & Perfect Reflection", "ja": "🌊 無風・鏡面の絶景"},
-    "IND_LAKE_GOOD": {"zh-TW": "🌊 風速微弱適合拍攝", "en": "🌊 Gentle Wind / Good Shooting", "ja": "🌊 微風・撮影に最適"},
-    "IND_LAKE_WIND": {"zh-TW": "🌊 風速過強無倒影", "en": "🌊 High Winds / No Reflection", "ja": "🌊 強風・倒影なし"},
-    "IND_WATERFALL_SOFT": {"zh-TW": "💦 陰天無強光高反差", "en": "💦 Overcast / Soft Lighting", "ja": "💦 曇天・拡散光で撮影好適"},
-    "IND_WATERFALL_HARSH": {"zh-TW": "☀️ 陽光過強對比過高", "en": "☀️ Harsh Sunlight / High Contrast", "ja": "☀️ 直射日光・高コントラスト"},
-    "IND_WATERFALL_NORM": {"zh-TW": "💦 水流與光線良好", "en": "💦 Good Water Flow & Lighting", "ja": "💦 水流と光の條件良好"},
-    "IND_COAST_GLOW": {"zh-TW": "🌈 中高雲有利形成彩霞", "en": "🌈 Mid/High Clouds Favor Color", "ja": "🌈 中高層雲が朝夕焼けに好条件"},
-    "IND_FIRE_CLOUD": {"zh-TW": "🔥 中高雲＋低地平線雲量少，火燒雲機率偏高", "en": "🔥 Mid/high clouds with a clear low horizon favor fire-cloud colors", "ja": "🔥 中高層雲＋低い地平線雲が少なく、強い焼け雲が出やすい"},
+    "IND_LAKE_MIRROR": {"zh-TW": "🌬️ 風速低，有利水面維持平穩", "en": "🌬️ Low Wind Favors a Calmer Water Surface", "ja": "🌬️ 弱風で水面が穏やかになりやすい"},
+    "IND_LAKE_GOOD": {"zh-TW": "🌬️ 風速偏低", "en": "🌬️ Lower Wind Speed", "ja": "🌬️ 風速は低め"},
+    "IND_LAKE_WIND": {"zh-TW": "🌬️ 風速較高", "en": "🌬️ Higher Wind Speed", "ja": "🌬️ 風速は高め"},
+    "IND_WATERFALL_SOFT": {"zh-TW": "☁️ 中低雲較多，直射光反差較低", "en": "☁️ More Low/Mid Cloud; Lower Direct-Light Contrast", "ja": "☁️ 中低層雲が多く直射光のコントラストが低め"},
+    "IND_WATERFALL_HARSH": {"zh-TW": "☀️ 太陽高度高且中低雲少", "en": "☀️ High Sun with Little Low/Mid Cloud", "ja": "☀️ 太陽高度が高く中低層雲が少ない"},
+    "IND_WATERFALL_NORM": {"zh-TW": "💧 長曝光線條件一般", "en": "💧 Ordinary Long-Exposure Light Conditions", "ja": "💧 長時間露光の光条件は通常"},
+    "IND_COAST_GLOW": {"zh-TW": "🌈 中高雲量適中、低雲較少", "en": "🌈 Moderate Mid/High Cloud with Less Low Cloud", "ja": "🌈 中高層雲が適度で低層雲が少なめ"},
+    "IND_FIRE_CLOUD": {"zh-TW": "🔥 中高雲量與低雲量符合火燒雲模型門檻", "en": "🔥 Mid/High and Low Cloud Meet the Fire-Cloud Model Threshold", "ja": "🔥 中高層雲と低層雲が焼け雲モデル閾値を満たす"},
     "IND_COAST_BLOCK": {"zh-TW": "☁️ 遮蔽地平線視線", "en": "☁️ Obstructed Horizon View", "ja": "☁️ 地平線視界の遮蔽"},
-    "IND_COAST_NORM": {"zh-TW": "🌊 大氣狀況平穩", "en": "🌊 Stable Atmospheric Conditions", "ja": "🌊 安定した大気状態"},
-    "IND_CITY_NIGHT_CLEAR": {"zh-TW": "💎 城市燈火清晰無霧", "en": "💎 Clear City Lights", "ja": "💎 霧なし・クリアな街の灯り"},
-    "IND_CITY_NIGHT_HAZE": {"zh-TW": "⛅ 些許霧氣或輕微低雲", "en": "⛅ Slight Haze / Low Clouds", "ja": "⛅ 僅かな霧または低雲"},
-    "IND_CITY_NIGHT_BLOCK": {"zh-TW": "☁️ 低雲壓頂或濃霧", "en": "☁️ Low Clouds / Dense Fog", "ja": "☁️ 低雲または濃霧覆蓋"},
-    "IND_CITY_DAY_CLEAR": {"zh-TW": "💎 城市全景清晰通透", "en": "💎 Crystal Clear City Panorama", "ja": "💎 クリアな都市パノラマ"},
+    "IND_COAST_NORM": {"zh-TW": "🌅 晨昏雲量條件一般", "en": "🌅 Ordinary Dawn/Dusk Cloud Conditions", "ja": "🌅 朝夕の雲量条件は通常"},
+    "IND_BLUE_HOUR_CLEAR": {"zh-TW": "💎 低雲少、能見度良好", "en": "💎 Low Cloud Cover and Good Visibility", "ja": "💎 低雲が少なく視程良好"},
+    "IND_BLUE_HOUR_FAIR": {"zh-TW": "⛅ 雲量或能見度普通", "en": "⛅ Moderate Clouds or Visibility", "ja": "⛅ 雲量または視程は普通"},
+    "IND_BLUE_HOUR_BLOCK": {"zh-TW": "☁️ 低雲或低能見度影響視野", "en": "☁️ Low Clouds or Reduced Visibility", "ja": "☁️ 低雲または低視程で視界に影響"},
+    "IND_BLUE_HOUR_OUTSIDE": {"zh-TW": "🕒 太陽高度不在藍調時段", "en": "🕒 Sun Altitude Outside Blue-Hour Range", "ja": "🕒 太陽高度がブルーアワー範囲外"},
+    "IND_BLUE_HOUR_DATA_LIMITED": {"zh-TW": "⚠️ 缺少能見度或低雲資料", "en": "⚠️ Visibility or Low-Cloud Data Missing", "ja": "⚠️ 視程または低雲データ不足"},
+    "IND_CITY_NIGHT_CLEAR": {"zh-TW": "💎 城市燈火能見度良好", "en": "💎 Good Visibility for City Lights", "ja": "💎 街明かりの視程良好"},
+    "IND_CITY_NIGHT_HAZE": {"zh-TW": "⛅ 低雲或能見度稍受影響", "en": "⛅ Low Cloud or Visibility Slightly Affected", "ja": "⛅ 低雲または視程にやや影響"},
+    "IND_CITY_NIGHT_BLOCK": {"zh-TW": "☁️ 低雲或低能見度影響視野", "en": "☁️ Low Cloud or Reduced Visibility Affects the View", "ja": "☁️ 低雲または低視程で視界に影響"},
+    "IND_CITY_DAY_CLEAR": {"zh-TW": "💎 城市場景能見度良好", "en": "💎 Good Visibility for the City Scene", "ja": "💎 都市場景の視程良好"},
     "IND_CITY_DAY_FAIR": {"zh-TW": "⛅ 大氣能見度平穩", "en": "⛅ Fair Atmospheric Visibility", "ja": "⛅ 安定した視程"},
     "IND_CITY_DAY_HAZE": {"zh-TW": "🌫️ 霾害或能見度差", "en": "🌫️ Haze or Poor Visibility", "ja": "🌫️ 煙霧または不鮮明な視程"},
+    "IND_NIGHT_SCENE_CLEAR": {"zh-TW": "💎 低雲少、夜間能見度良好", "en": "💎 Low Clouds and Good Night Visibility", "ja": "💎 低雲が少なく夜間視程良好"},
+    "IND_NIGHT_SCENE_FAIR": {"zh-TW": "⛅ 夜間雲量或能見度普通", "en": "⛅ Moderate Night Clouds or Visibility", "ja": "⛅ 夜間の雲量または視程は普通"},
+    "IND_NIGHT_SCENE_BLOCK": {"zh-TW": "☁️ 低雲或低能見度影響夜間視野", "en": "☁️ Low Clouds or Reduced Night Visibility", "ja": "☁️ 低雲または低視程で夜間視界に影響"},
+    "IND_NIGHT_SCENE_OUTSIDE": {"zh-TW": "🕒 太陽高度尚未進入夜間條件", "en": "🕒 Sun Altitude Not Yet in Night Range", "ja": "🕒 太陽高度が夜間条件外"},
     "IND_NIGHT_CLEAR": {"zh-TW": "🌌 高空無視線阻礙", "en": "🌌 Clear High-Altitude View", "ja": "🌌 上空の視界良好"},
     "IND_RAIN_RISK": {"zh-TW": "🌧️ 雨勢明顯不宜外拍", "en": "🌧️ Significant Rain / Avoid Shooting", "ja": "🌧️ 明らかな雨・屋外撮影不適"},
     "IND_KP_UNAVAILABLE": {"zh-TW": "⚠️ Kp 資料不足，僅評估天空條件", "en": "⚠️ Kp unavailable; sky conditions only", "ja": "⚠️ Kp データなし・空の条件のみ評価"},
     "IND_ASTRO_UNAVAILABLE": {"zh-TW": "⚠️ 天文資料不足", "en": "⚠️ Astronomy data unavailable", "ja": "⚠️ 天文データ不足"},
     "IND_ACCESS_LIMITED": {"zh-TW": "⏰ 請確認開放／入場時段", "en": "⏰ Check access/opening hours", "ja": "⏰ 営業・入場時間を確認"},
-    "IND_DEFAULT": {"zh-TW": "✅ 風和日麗良好", "en": "✅ Good Weather Conditions", "ja": "✅ 良好な天候"}
+    "IND_WEATHER_DATA_LIMITED": {"zh-TW": "⚠️ 缺少此主題必要的氣象欄位", "en": "⚠️ Required Weather Fields Are Missing", "ja": "⚠️ このテーマに必要な気象項目が不足"},
+    "IND_DEFAULT": {"zh-TW": "ℹ️ 目前無特定出景訊號", "en": "ℹ️ No Specific Photographic Signal", "ja": "ℹ️ 現時点で特定の撮影シグナルなし"}
 }
 
 def get_text(key, lang="zh-TW"):
@@ -422,11 +457,11 @@ FACTOR_TEMPLATES = {
     "windy": {"zh-TW": "風速 {v} m/s", "en": "Wind {v} m/s", "ja": "風速 {v} m/s"},
     "dry": {"zh-TW": "降雨機率 {v}%", "en": "Rain chance {v}%", "ja": "降水確率 {v}%"},
     "rain": {"zh-TW": "降雨機率達 {v}%", "en": "Rain chance {v}%", "ja": "降水確率 {v}%"},
-    "twilight": {"zh-TW": "晨昏光線進入黃金窗口", "en": "Golden/twilight light window", "ja": "朝夕のゴールデンタイム"},
-    "cloud_color": {"zh-TW": "中高雲量適合彩霞", "en": "Mid/high clouds favor color", "ja": "中・上層雲が焼けやすい"},
+    "twilight": {"zh-TW": "太陽高度進入晨昏時段", "en": "Sun altitude is in the twilight range", "ja": "太陽高度が朝夕の薄明範囲"},
+    "cloud_color": {"zh-TW": "中高雲量位於彩霞模型範圍", "en": "Mid/high cloud is within the sky-color model range", "ja": "中高層雲量が朝夕焼けモデル範囲内"},
     "dark_sky_bortle": {"zh-TW": "估計 Bortle {v}，暗空良好", "en": "Est. Bortle {v} dark sky", "ja": "推定 Bortle {v} の暗い空"},
     "light_pollution_bortle": {"zh-TW": "估計 Bortle {v}，光害影響", "en": "Est. Bortle {v} light pollution", "ja": "推定 Bortle {v} の光害影響"},
-    "fire_cloud": {"zh-TW": "低雲少且中高雲分布佳，具火燒雲條件", "en": "Clear low horizon with favorable mid/high clouds", "ja": "低層雲が少なく中高層雲の分布が焼け雲向き"},
+    "fire_cloud": {"zh-TW": "雲量組合符合火燒雲模型門檻", "en": "Cloud pattern meets the fire-cloud model threshold", "ja": "雲量構成が焼け雲モデル閾値に合致"},
     "astro_dark": {"zh-TW": "已進入天文黑夜", "en": "Astronomical darkness", "ja": "天文薄明終了後"},
     "not_dark": {"zh-TW": "尚未進入天文黑夜", "en": "Not astronomically dark", "ja": "まだ天文薄明中"},
     "moon_good": {"zh-TW": "月光干擾低（{v}%）", "en": "Low moonlight ({v}%)", "ja": "月光影響小（{v}%）"},
@@ -441,11 +476,11 @@ FACTOR_TEMPLATES = {
     "kp_unavailable": {"zh-TW": "Kp 預報目前不可用", "en": "Kp forecast unavailable", "ja": "Kp 予報を取得できません"},
     "astro_unavailable": {"zh-TW": "天文位置資料暫時不可用", "en": "Astronomy position data unavailable", "ja": "天文位置データを取得できません"},
     "access_limited": {"zh-TW": "此時段可能無法進入／不適合拍攝", "en": "This time may be inaccessible or unsuitable", "ja": "この時間帯は入場不可・撮影不適の可能性"},
-    "fog_good": {"zh-TW": "濕度高且風弱，霧景機率佳", "en": "High humidity and light wind favor mist", "ja": "高湿度・弱風で霧景向き"},
-    "reflection_good": {"zh-TW": "風弱，水面倒影條件佳", "en": "Light wind favors reflections", "ja": "弱風で水面反射に好条件"},
+    "fog_good": {"zh-TW": "濕度與風速符合霧景模型門檻", "en": "Humidity and wind meet the mist-model threshold", "ja": "湿度と風速が霧景モデル閾値を満たす"},
+    "reflection_good": {"zh-TW": "風速低，水面受風擾動較小", "en": "Low wind means less wind-driven water disturbance", "ja": "弱風で風による水面擾乱が少ない"},
     "blue_hour": {"zh-TW": "太陽高度進入藍調時段", "en": "Sun altitude is in blue-hour range", "ja": "太陽高度がブルーアワー帯"},
-    "sunbeam_good": {"zh-TW": "斜射光與雲霧條件利於光束", "en": "Low-angle light and haze favor sunbeams", "ja": "斜光と霞で光芒が出やすい"},
-    "snow_cold": {"zh-TW": "低溫且視程良好，冰雪景觀條件佳", "en": "Cold air and good visibility favor snow/ice scenery", "ja": "低温・良視程で雪氷景観向き"},
+    "sunbeam_good": {"zh-TW": "日照、雲量與濕度符合光束模型門檻", "en": "Sun, cloud and humidity meet the sunbeam-model threshold", "ja": "日照・雲量・湿度が光芒モデル閾値を満たす"},
+    "snow_cold": {"zh-TW": "氣溫 {v}°C", "en": "Temperature {v}°C", "ja": "気温 {v}°C"},
 }
 
 
@@ -466,7 +501,7 @@ def _canonical_theme(theme):
         "sunrise": "coast",
         "sunset": "coast",
         "sky_glow": "coast",
-        "blue_hour": "city",
+        "blue_hour": "twilight",
         "fog_mist": "forest",
         "reflection": "lake",
         "sunbeam": "forest",
@@ -474,6 +509,35 @@ def _canonical_theme(theme):
         "snow_scene": "mountain",
     }.get(theme, theme)
 
+
+THEME_REQUIRED_WEATHER_INPUTS = {
+    "mountain_view": ("c_low", "c_mid", "pop", "wind", "vis"),
+    "sunrise": ("c_low", "c_mid", "c_high", "pop", "wind"),
+    "sunset": ("c_low", "c_mid", "c_high", "pop", "wind"),
+    "sky_glow": ("c_low", "c_mid", "c_high", "pop", "wind"),
+    "blue_hour": ("c_low", "pop", "wind", "vis"),
+    "fog_mist": ("rh", "wind", "vis", "pop"),
+    "reflection": ("wind", "pop", "c_low"),
+    "sunbeam": ("c_low", "c_mid", "rh", "vis", "pop", "wind"),
+    "long_exposure": ("c_low", "c_mid", "pop", "wind"),
+    "snow_scene": ("c_low", "c_mid", "pop", "wind", "vis", "temp"),
+    "milky_way": ("c_low", "c_mid", "c_high", "pop", "wind", "vis"),
+    "city_night": ("c_low", "pop", "wind", "vis"),
+    "cloud_sea": ("rh", "c_low", "pop", "wind", "temp", "dew"),
+    "aurora": ("c_low", "c_mid", "c_high", "pop", "wind"),
+}
+
+def _field_available(d, key):
+    marker = f"{key}_available"
+    if marker in d:
+        return bool(d.get(marker))
+    return d.get(key) is not None
+
+def _missing_required_weather_inputs(theme, d):
+    return tuple(
+        key for key in THEME_REQUIRED_WEATHER_INPUTS.get(theme, ())
+        if not _field_available(d, key)
+    )
 
 def _calibrate_score(raw_score, theme, item_data):
     raw = max(0.0, min(100.0, float(raw_score)))
@@ -492,6 +556,92 @@ def _calibrate_score(raw_score, theme, item_data):
     if theme in {"sunrise", "sunset", "sky_glow"} and item_data.get("is_twilight"): score += 2.0
     if theme == "cloud_sea" and item_data.get("cloud_below_camera"): score += 2.5
     return int(round(max(10.0, min(96.0, score))))
+
+
+def _temporal_eligibility(theme, d):
+    """Whether this Theme is photographically possible at this timestamp.
+
+    This is intentionally separate from weather quality. A low score may mean
+    poor conditions; temporal_eligible=False means the photographic opportunity
+    itself is not possible at that hour and must not become a daily winner.
+    None means the astronomy/time evidence is insufficient for a hard verdict.
+    """
+    astro_valid = bool(d.get("astronomy_valid"))
+    sun_alt = d.get("sun_elevation")
+    hour = int(d.get("hour", 12))
+    is_day = bool(d.get("is_day"))
+    is_twilight = bool(d.get("is_twilight"))
+    tag = _canonical_theme(theme)
+
+    if theme == "sunrise":
+        if hour >= 12:
+            return False, "sunrise_after_noon"
+        if astro_valid and sun_alt is not None:
+            return (-10 <= float(sun_alt) <= 10), "sunrise_sun_altitude"
+        return None, "astronomy_unavailable"
+
+    if theme == "sunset":
+        if hour < 12:
+            return False, "sunset_before_noon"
+        if astro_valid and sun_alt is not None:
+            return (-10 <= float(sun_alt) <= 10), "sunset_sun_altitude"
+        return None, "astronomy_unavailable"
+
+    if theme == "sky_glow":
+        if astro_valid and sun_alt is not None:
+            return (-12 <= float(sun_alt) <= 10), "sky_glow_sun_altitude"
+        return None, "astronomy_unavailable"
+
+    if theme == "blue_hour":
+        if astro_valid and sun_alt is not None:
+            return (-10 <= float(sun_alt) <= -2), "blue_hour_sun_altitude"
+        return None, "astronomy_unavailable"
+
+    if theme == "fog_mist":
+        return bool(is_day or is_twilight), "fog_visible_light"
+
+    if theme == "reflection":
+        if astro_valid and sun_alt is not None:
+            return float(sun_alt) >= -8, "reflection_visible_light"
+        return bool(is_day or is_twilight), "reflection_visible_light"
+
+    if theme == "sunbeam":
+        if astro_valid and sun_alt is not None:
+            return bool(is_day) and float(sun_alt) >= 3, "sunbeam_sun_altitude"
+        return bool(is_day), "sunbeam_daylight"
+
+    if theme == "snow_scene":
+        if astro_valid and sun_alt is not None:
+            return float(sun_alt) >= -8, "snow_visible_light"
+        return bool(is_day or is_twilight), "snow_visible_light"
+
+    if theme == "cloud_sea":
+        if astro_valid and sun_alt is not None:
+            return float(sun_alt) >= -6, "cloud_sea_visible_light"
+        return bool(is_day or is_twilight), "cloud_sea_visible_light"
+
+    if theme == "city_night":
+        if astro_valid and sun_alt is not None:
+            return float(sun_alt) <= -2, "city_night_darkness"
+        return (not is_day), "city_night_darkness"
+
+    if tag == "starlight":
+        if astro_valid and sun_alt is not None:
+            return float(sun_alt) <= -12, "starlight_darkness"
+        return None, "astronomy_unavailable"
+
+    if tag == "aurora":
+        if astro_valid and sun_alt is not None:
+            return float(sun_alt) <= -12, "aurora_darkness"
+        return None, "astronomy_unavailable"
+
+    if tag == "mountain":
+        if astro_valid and sun_alt is not None:
+            return float(sun_alt) > -6, "landscape_visible_light"
+        return bool(is_day or is_twilight), "landscape_visible_light"
+
+    # Technique-like or generic themes that do not yet have a strict time gate.
+    return True, "no_temporal_gate"
 
 
 def _eligibility_cap(theme, d):
@@ -599,14 +749,18 @@ def _build_factors(theme, d, lang):
     wind = round(float(d.get("wind", 0) or 0), 1)
     pop = round(float(d.get("pop", 0) or 0))
     low = round(float(d.get("c_low", 0) or 0))
-    if vis_km >= 20: plus.append(_factor("plus", "vis_good", vis_km, lang))
-    elif vis_km < 8 and theme not in {"fog_mist"}: minus.append(_factor("minus", "vis_low", vis_km, lang))
-    if low <= 15 and tag in {"mountain", "city", "coast", "starlight", "aurora"}: plus.append(_factor("plus", "low_cloud", low, lang))
-    elif low >= 65 and tag in {"mountain", "city", "coast", "starlight", "aurora"}: minus.append(_factor("minus", "low_cloud_high", low, lang))
-    if wind <= 2.5: plus.append(_factor("plus", "calm", wind, lang))
-    elif wind >= 6: minus.append(_factor("minus", "windy", wind, lang))
-    if pop <= 10: plus.append(_factor("plus", "dry", pop, lang))
-    elif pop >= 40: minus.append(_factor("minus", "rain", pop, lang))
+    if _field_available(d, "vis"):
+        if vis_km >= 20: plus.append(_factor("plus", "vis_good", vis_km, lang))
+        elif vis_km < 8 and theme not in {"fog_mist"}: minus.append(_factor("minus", "vis_low", vis_km, lang))
+    if _field_available(d, "c_low"):
+        if low <= 15 and tag in {"mountain", "city", "coast", "twilight", "starlight", "aurora"}: plus.append(_factor("plus", "low_cloud", low, lang))
+        elif low >= 65 and tag in {"mountain", "city", "coast", "twilight", "starlight", "aurora"}: minus.append(_factor("minus", "low_cloud_high", low, lang))
+    if _field_available(d, "wind"):
+        if wind <= 2.5: plus.append(_factor("plus", "calm", wind, lang))
+        elif wind >= 6: minus.append(_factor("minus", "windy", wind, lang))
+    if _field_available(d, "pop"):
+        if pop <= 10: plus.append(_factor("plus", "dry", pop, lang))
+        elif pop >= 40: minus.append(_factor("minus", "rain", pop, lang))
 
     if theme in {"sunrise", "sunset", "sky_glow"}:
         if d.get("is_twilight"): plus.insert(0, _factor("plus", "twilight", None, lang))
@@ -624,7 +778,7 @@ def _build_factors(theme, d, lang):
     elif theme == "sunbeam":
         plus.insert(0, _factor("plus", "sunbeam_good", None, lang))
     elif theme == "snow_scene":
-        if float(d.get("temp", 99) or 99) <= 4: plus.insert(0, _factor("plus", "snow_cold", None, lang))
+        if _field_available(d, "temp") and float(d.get("temp", 99) or 99) <= 4: plus.insert(0, _factor("plus", "snow_cold", round(float(d.get("temp")), 1), lang))
     elif theme == "milky_way":
         b=d.get("bortle_class")
         if b is not None:
@@ -657,6 +811,13 @@ def _build_factors(theme, d, lang):
     return (plus[:2]+minus[:2])[:3]
 
 def evaluate_tag_condition(theme, item_data, hour=None, lang="zh-TW"):
+    missing_inputs = _missing_required_weather_inputs(theme, item_data)
+    if missing_inputs:
+        factors = _build_factors(theme, item_data, lang)
+        if item_data.get("access_open") is False:
+            return 15, get_text("ACCESS_TIME_LIMITED", lang), get_text("IND_ACCESS_LIMITED", lang), "ACCESS_TIME_LIMITED", "IND_ACCESS_LIMITED", factors
+        return 35, get_text("WEATHER_DATA_LIMITED", lang), get_text("IND_WEATHER_DATA_LIMITED", lang), "WEATHER_DATA_LIMITED", "IND_WEATHER_DATA_LIMITED", factors
+
     c_low=float(item_data.get("c_low",0) or 0); c_mid=float(item_data.get("c_mid",0) or 0); c_high=float(item_data.get("c_high",0) or 0)
     pop=float(item_data.get("pop",0) or 0); vis=float(item_data.get("vis",10000) or 10000); rh=float(item_data.get("rh",50) or 50); wind=float(item_data.get("wind",0) or 0)
     temp=float(item_data.get("temp",10) if item_data.get("temp") is not None else 10)
@@ -689,14 +850,26 @@ def evaluate_tag_condition(theme, item_data, hour=None, lang="zh-TW"):
             else:
                 raw=42; status_key,indicator_key="COAST_NORMAL","IND_COAST_NORM"
     elif theme=="blue_hour":
+        blue_hour_data_complete = all(
+            item_data.get(f"{key}_available", item_data.get(key) is not None)
+            for key in ("vis", "c_low", "pop", "wind")
+        )
         if not astro_valid:
             raw=45; status_key,indicator_key="ASTRO_DATA_UNAVAILABLE","IND_ASTRO_UNAVAILABLE"
         elif -10<=sun_alt<=-2:
             raw=88-c_low*0.35-pop*0.4-max(0,wind-7)*1.2
             if vis>=18000: raw+=5
-            status_key,indicator_key="CITY_NIGHT_CLEAR","IND_CITY_NIGHT_CLEAR"
+            if not blue_hour_data_complete:
+                raw=min(raw,55)
+                status_key,indicator_key="BLUE_HOUR_DATA_LIMITED","IND_BLUE_HOUR_DATA_LIMITED"
+            elif vis>=18000 and c_low<=20 and pop<=25:
+                status_key,indicator_key="BLUE_HOUR_CLEAR","IND_BLUE_HOUR_CLEAR"
+            elif raw>=60 and vis>=8000 and c_low<=60:
+                status_key,indicator_key="BLUE_HOUR_FAIR","IND_BLUE_HOUR_FAIR"
+            else:
+                status_key,indicator_key="BLUE_HOUR_POOR","IND_BLUE_HOUR_BLOCK"
         else:
-            raw=25; status_key,indicator_key="CITY_DAY_FAIR","IND_CITY_DAY_FAIR"
+            raw=25; status_key,indicator_key="BLUE_HOUR_OUTSIDE","IND_BLUE_HOUR_OUTSIDE"
     elif theme=="fog_mist":
         if not is_day and not is_twilight:
             raw=35; status_key,indicator_key="FOREST_NORMAL","IND_FOREST_NORM"
@@ -771,20 +944,32 @@ def evaluate_tag_condition(theme, item_data, hour=None, lang="zh-TW"):
             if sun_alt>-12: raw-=15
             status_key,indicator_key=("AURORA_CLEAR","IND_CLEAR_SKY") if kp_val>=5 and raw>=72 else (("AURORA_FAIR","IND_SOME_CLOUDS") if raw>=58 else ("AURORA_POOR","IND_NO_STAR"))
     elif theme=="cloud_sea":
-        delta=item_data.get("cloud_base_delta"); near=item_data.get("cloud_base_near_camera"); below=item_data.get("cloud_below_camera")
-        raw=50+(rh-65)*0.7+min(c_low,70)*0.28-pop*0.35-wind*2.4
-        if below: raw+=15
-        if near and c_low>=55: raw-=22
-        if delta is not None and delta<-150: raw-=12
-        status_key,indicator_key=("CLOUD_SEA_GOLD","IND_CLOUD_SEA") if raw>=86 else (("CLOUD_SEA_FAIR","IND_CLOUD_SEA_SUB") if raw>=60 else ("CLOUD_SEA_DRY","IND_DRY_AIR"))
+        if (astro_valid and sun_alt < -6.0) or (not astro_valid and not is_day and not is_twilight):
+            # A cloud layer may physically exist after dark, but a normal visible
+            # cloud-sea landscape Opportunity needs at least civil-twilight light.
+            # The broader UI twilight helper is intentionally NOT used here.
+            raw=25
+            status_key,indicator_key="CLOUD_SEA_OUTSIDE","IND_CLOUD_SEA_OUTSIDE"
+        else:
+            delta=item_data.get("cloud_base_delta"); near=item_data.get("cloud_base_near_camera"); below=item_data.get("cloud_below_camera")
+            raw=50+(rh-65)*0.7+min(c_low,70)*0.28-pop*0.35-wind*2.4
+            if below: raw+=15
+            if near and c_low>=55: raw-=22
+            if delta is not None and delta<-150: raw-=12
+            status_key,indicator_key=("CLOUD_SEA_GOLD","IND_CLOUD_SEA") if raw>=86 else (("CLOUD_SEA_FAIR","IND_CLOUD_SEA_SUB") if raw>=60 else ("CLOUD_SEA_DRY","IND_DRY_AIR"))
     elif tag=="city":
+        city_scene = "city" in set(item_data.get("scenes") or [])
         if sun_alt>-2:
-            raw=60-pop*0.3; status_key,indicator_key="CITY_DAY_FAIR","IND_CITY_DAY_FAIR"
+            raw=30
+            status_key,indicator_key="NIGHT_SCENE_OUTSIDE","IND_NIGHT_SCENE_OUTSIDE"
         else:
             raw=88-c_low*0.32-pop*0.45-max(0,wind-8)*1.5
             if vis>=20000: raw+=5
             elif vis<10000: raw-=(10000-vis)/1000*2.0
-            status_key,indicator_key=("CITY_NIGHT_CLEAR","IND_CITY_NIGHT_CLEAR") if raw>=85 else (("CITY_NIGHT_FAIR","IND_CITY_NIGHT_HAZE") if raw>=60 else ("CITY_NIGHT_POOR","IND_CITY_NIGHT_BLOCK"))
+            if city_scene:
+                status_key,indicator_key=("CITY_NIGHT_CLEAR","IND_CITY_NIGHT_CLEAR") if raw>=85 else (("CITY_NIGHT_FAIR","IND_CITY_NIGHT_HAZE") if raw>=60 else ("CITY_NIGHT_POOR","IND_CITY_NIGHT_BLOCK"))
+            else:
+                status_key,indicator_key=("NIGHT_SCENE_CLEAR","IND_NIGHT_SCENE_CLEAR") if raw>=85 else (("NIGHT_SCENE_FAIR","IND_NIGHT_SCENE_FAIR") if raw>=60 else ("NIGHT_SCENE_POOR","IND_NIGHT_SCENE_BLOCK"))
     else:  # mountain_view / mountain
         if sun_alt<=-6:
             raw=45-pop*0.2; status_key,indicator_key="MOUNTAIN_STABLE_NIGHT","IND_NIGHT_CLEAR"
@@ -815,33 +1000,164 @@ def evaluate_tag_condition(theme, item_data, hour=None, lang="zh-TW"):
     return score,get_text(status_key,lang),get_text(indicator_key,lang),status_key,indicator_key,factors
 
 def _build_opportunity_runtime_diagnostics(spot, item_data):
-    """Preview-only module diagnostics; never emits an Opportunity score."""
+    """Return runtime diagnostics for all researched Opportunities.
+
+    Only preview_module_available Opportunities execute dedicated runtime modules.
+    Other policies remain explicit so the scoring layer can cap confidence instead
+    of silently falling back to a generic Theme score.
+    """
     diagnostics = {}
     for opportunity in spot.get("opportunities", []) or []:
-        if opportunity.get("runtime_policy") != "preview_module_available":
-            continue
         oid = opportunity.get("opportunity_id")
         if not oid:
             continue
-        diagnostics[oid] = evaluate_opportunity_modules(opportunity, item_data)
+        policy = opportunity.get("runtime_policy") or "unclassified"
+        if policy == "preview_module_available":
+            result = evaluate_opportunity_modules(opportunity, item_data)
+        elif policy == "minimum_sufficient_available":
+            simple = evaluate_minimum_sufficient_visibility(opportunity, item_data)
+            result = {
+                "available": simple.get("available", False),
+                "eligible": simple.get("eligible", False),
+                "reason": simple.get("reason"),
+                "runtime_policy": policy,
+                "minimum_sufficient": True,
+                "modules": {"minimum_sufficient_visibility": simple},
+            }
+        else:
+            result = {
+                "available": False,
+                "eligible": False,
+                "reason": policy,
+                "runtime_policy": policy,
+                "modules": {},
+            }
+        diagnostics[oid] = result
     return diagnostics
+
+
+def _score_opportunity(opportunity, theme_metric, runtime_diagnostic, lang="zh-TW"):
+    """Score one researched Photography Opportunity.
+
+    The legacy Theme score is only the weather/time baseline. A score may enter
+    the 80+ recommendation band only when the Opportunity has a complete
+    place-specific runtime contract and every required module is available and
+    eligible. Pending/prototype/insufficient policies are deliberately capped.
+    """
+    policy = opportunity.get("runtime_policy") or "unclassified"
+    base = int(round(float((theme_metric or {}).get("score", 0) or 0)))
+    factors = list((theme_metric or {}).get("factors", []) or [])
+    status_key = (theme_metric or {}).get("status_key") or "STABLE_WEATHER"
+    indicator_key = (theme_metric or {}).get("indicator_key") or "IND_DEFAULT"
+    condition_state = "theme_baseline_only"
+    score_confidence = "low"
+
+    if policy == "hold":
+        score = 0
+        status_key = indicator_key = "OPPORTUNITY_HOLD"
+        condition_state = "hold"
+    elif policy == "data_insufficient":
+        score = min(base, 35)
+        status_key = indicator_key = "OPPORTUNITY_DATA_INSUFFICIENT"
+        condition_state = "data_insufficient"
+    elif policy == "module_pending":
+        score = min(base, 64)
+        status_key = indicator_key = "OPPORTUNITY_PARTIAL"
+        condition_state = "partial_runtime_contract"
+        score_confidence = "low"
+    elif policy == "minimum_sufficient_available":
+        diag = runtime_diagnostic or {}
+        if not diag.get("available"):
+            score = min(base, 45)
+            status_key = indicator_key = "OPPORTUNITY_RUNTIME_DATA_MISSING"
+            condition_state = "minimum_sufficient_data_missing"
+        elif not diag.get("eligible"):
+            score = min(base, 54)
+            status_key = indicator_key = "OPPORTUNITY_SIMPLE_MISS"
+            condition_state = "minimum_sufficient_conditions_miss"
+            score_confidence = "medium"
+        else:
+            score = base
+            status_key = indicator_key = "OPPORTUNITY_SIMPLE_MATCH"
+            condition_state = "minimum_sufficient_conditions_match"
+            score_confidence = "high"
+    elif policy == "prototype_pending_certification":
+        score = min(base, 79)
+        status_key = indicator_key = "OPPORTUNITY_PROTOTYPE"
+        condition_state = "researched_prototype"
+        score_confidence = "medium"
+    elif policy == "preview_module_available":
+        diag = runtime_diagnostic or {}
+        if not diag.get("available"):
+            score = min(base, 45)
+            status_key = indicator_key = "OPPORTUNITY_RUNTIME_DATA_MISSING"
+            condition_state = "runtime_data_missing"
+        elif not diag.get("eligible"):
+            score = min(base, 54)
+            status_key = indicator_key = "OPPORTUNITY_CONDITION_MISS"
+            condition_state = "dedicated_conditions_miss"
+            score_confidence = "medium"
+        else:
+            score = base
+            status_key = indicator_key = "OPPORTUNITY_MATCH"
+            condition_state = "dedicated_conditions_match"
+            score_confidence = "high"
+    else:
+        score = min(base, 35)
+        status_key = indicator_key = "OPPORTUNITY_DATA_INSUFFICIENT"
+        condition_state = "unclassified"
+
+    score = max(0, min(100, int(round(score))))
+    return {
+        "opportunity_id": opportunity.get("opportunity_id"),
+        "opportunity_name": opportunity.get("name_zh"),
+        "theme": opportunity.get("legacy_theme"),
+        "score": score,
+        "base_theme_score": base,
+        "status_key": status_key,
+        "indicator_key": indicator_key,
+        "status": get_text(status_key, lang),
+        "key_indicator": get_text(indicator_key, lang),
+        "factors": factors,
+        "runtime_policy": policy,
+        "condition_state": condition_state,
+        "score_confidence": score_confidence,
+        "formula_confidence": opportunity.get("formula_confidence"),
+        "temporal_eligible": (theme_metric or {}).get("temporal_eligible"),
+        "temporal_reason": (theme_metric or {}).get("temporal_reason"),
+        "runtime": runtime_diagnostic or {},
+    }
+
+
+def _minute_in_access_window(local_dt, hours):
+    if not isinstance(hours, (list, tuple)) or len(hours) != 2:
+        return None
+    try:
+        sh, sm = map(int, str(hours[0]).split(":"))
+        eh, em = map(int, str(hours[1]).split(":"))
+        cur = local_dt.hour * 60 + local_dt.minute
+        start = sh * 60 + sm
+        end = eh * 60 + em
+        return start <= cur < end if start <= end else (cur >= start or cur < end)
+    except Exception:
+        return None
 
 
 def _access_open_for_spot(spot, local_dt, is_day, is_twilight):
     mode = spot.get("access_mode")
     if mode == "daylight_only":
         return bool(is_day or is_twilight)
-    hours = spot.get("access_hours")
-    if isinstance(hours, (list, tuple)) and len(hours) == 2:
-        try:
-            sh, sm = map(int, str(hours[0]).split(":"))
-            eh, em = map(int, str(hours[1]).split(":"))
-            cur = local_dt.hour * 60 + local_dt.minute
-            start = sh * 60 + sm
-            end = eh * 60 + em
-            return start <= cur < end if start <= end else (cur >= start or cur < end)
-        except Exception:
-            return True
+
+    windows = spot.get("access_hours_windows")
+    if isinstance(windows, (list, tuple)) and windows:
+        results = [_minute_in_access_window(local_dt, window) for window in windows]
+        valid = [result for result in results if result is not None]
+        if valid:
+            return any(valid)
+
+    result = _minute_in_access_window(local_dt, spot.get("access_hours"))
+    if result is not None:
+        return result
     return True
 
 
@@ -1049,18 +1365,30 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
             )
 
             item_data = {
+                "spot_id": spot.get("spot_id"),
+                "scenes": list(spot.get("scenes") or []),
                 "c_low": hv("cloud_cover_low", i, 0),
+                "c_low_available": hv("cloud_cover_low", i, None) is not None,
                 "c_mid": hv("cloud_cover_mid", i, 0),
+                "c_mid_available": hv("cloud_cover_mid", i, None) is not None,
                 "c_high": hv("cloud_cover_high", i, 0),
+                "c_high_available": hv("cloud_cover_high", i, None) is not None,
                 "pop": hv("precipitation_probability", i, 0),
+                "pop_available": hv("precipitation_probability", i, None) is not None,
                 "precipitation": hv("precipitation", i, 0),
                 "snowfall": hv("snowfall", i, None),
                 "snow_depth": hv("snow_depth", i, None),
                 "direct_normal_irradiance": hv("direct_normal_irradiance", i, None),
                 "vis": hv("visibility", i, 10000),
+                "vis_available": hv("visibility", i, None) is not None,
                 "rh": hv("relative_humidity_2m", i, 50),
+                "rh_available": hv("relative_humidity_2m", i, None) is not None,
                 "wind": hv("wind_speed_10m", i, 0),
+                "wind_available": hv("wind_speed_10m", i, None) is not None,
                 "temp": temp,
+                "temp_available": hv("temperature_2m", i, None) is not None,
+                "dew": dew,
+                "dew_available": hv("dew_point_2m", i, None) is not None,
                 "kp": kp_val,
                 "hour": local_dt.hour,
                 "is_day": bool(hv("is_day", i, 1)),
@@ -1085,6 +1413,7 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
             theme_scores = {}
             for theme in themes:
                 score, status, indicator, status_key, indicator_key, factors = evaluate_tag_condition(theme, item_data, local_dt.hour, lang)
+                temporal_eligible, temporal_reason = _temporal_eligibility(theme, item_data)
                 theme_scores[theme] = {
                     "score": score,
                     "status": status,
@@ -1092,17 +1421,53 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
                     "key_indicator": indicator,
                     "indicator_key": indicator_key,
                     "factors": factors,
+                    "temporal_eligible": temporal_eligible,
+                    "temporal_reason": temporal_reason,
                 }
 
-            best_theme = max(theme_scores, key=lambda t: theme_scores[t]["score"]) if theme_scores else "mountain_view"
-            best = theme_scores.get(best_theme, {
-                "score": 50,
-                "status": get_text("STABLE_WEATHER", lang),
-                "key_indicator": get_text("IND_DEFAULT", lang),
-                "status_key": "STABLE_WEATHER",
-                "indicator_key": "IND_DEFAULT",
-                "factors": [],
-            })
+            opportunity_scores = {}
+            for opportunity in spot.get("opportunities", []) or []:
+                oid = opportunity.get("opportunity_id")
+                theme = opportunity.get("legacy_theme")
+                if not oid or not theme:
+                    continue
+                theme_metric = theme_scores.get(theme)
+                if theme_metric is None:
+                    score, status, indicator, status_key, indicator_key, factors = evaluate_tag_condition(theme, item_data, local_dt.hour, lang)
+                    temporal_eligible, temporal_reason = _temporal_eligibility(theme, item_data)
+                    theme_metric = {
+                        "score": score,
+                        "status": status,
+                        "status_key": status_key,
+                        "key_indicator": indicator,
+                        "indicator_key": indicator_key,
+                        "factors": factors,
+                        "temporal_eligible": temporal_eligible,
+                        "temporal_reason": temporal_reason,
+                    }
+                    theme_scores[theme] = theme_metric
+                opportunity_scores[oid] = _score_opportunity(
+                    opportunity,
+                    theme_metric,
+                    opportunity_runtime.get(oid),
+                    lang,
+                )
+
+            if opportunity_scores:
+                best_opportunity_id = max(opportunity_scores, key=lambda oid: opportunity_scores[oid]["score"])
+                best = opportunity_scores[best_opportunity_id]
+                best_theme = best.get("theme") or "mountain_view"
+            else:
+                best_opportunity_id = None
+                best_theme = max(theme_scores, key=lambda t: theme_scores[t]["score"]) if theme_scores else "mountain_view"
+                best = theme_scores.get(best_theme, {
+                    "score": 50,
+                    "status": get_text("STABLE_WEATHER", lang),
+                    "key_indicator": get_text("IND_DEFAULT", lang),
+                    "status_key": "STABLE_WEATHER",
+                    "indicator_key": "IND_DEFAULT",
+                    "factors": [],
+                })
 
             hourly_forecast.append({
                 "time": local_dt.strftime("%Y-%m-%d %H:%M"),
@@ -1117,7 +1482,10 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
                 "indicator_key": best["indicator_key"],
                 "factors": best.get("factors", []),
                 "best_theme": best_theme,
+                "best_opportunity_id": best_opportunity_id,
+                "best_opportunity_name": best.get("opportunity_name"),
                 "theme_scores": theme_scores,
+                "opportunity_scores": opportunity_scores,
                 "best_tag": best_theme,  # V4 compatibility
                 "tag_scores": theme_scores,  # V4 compatibility
                 "opportunity_runtime": opportunity_runtime,
@@ -1168,6 +1536,8 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
         return {
             "score": best_item.get("score", 50),
             "best_theme": best_item.get("best_theme", best_item.get("best_tag")),
+            "best_opportunity_id": best_item.get("best_opportunity_id"),
+            "best_opportunity_name": best_item.get("best_opportunity_name"),
             "best_tag": best_item.get("best_theme", best_item.get("best_tag")),
             "best_time": best_item.get("time", "N/A"),
             "best_time_utc": best_item.get("time_utc"),

@@ -114,9 +114,9 @@ _ACCESS_GROUPS = {
     ),
     "transport_facility_status": ("tw-024-P01", "tw-024-P05", "tw-037-P01"),
     "road_viewpoint_status": ("tw-034-P01",),
-    "public_attraction_notice": ("tw-038-P01", "tw-038-P02"),
+    "public_attraction_notice": ("tw-038-P01", "tw-038-P02", "tw-081-P01"),
     "waterfall_trail_status": ("tw-055-P01",),
-    "tidal_path_notice": ("tw-059-P01",),
+    "tidal_path_notice": ("tw-059-P01", "tw-078-P01"),
     "facility_hours_notice": ("tw-068-P01",),
 }
 
@@ -137,6 +137,13 @@ ACCESS_RUNTIME_READY_PROFILES = frozenset()
 # These are provider-discovery hints, not proof that an Opportunity is open.
 # They document official sources verified during B25 architecture work.
 OFFICIAL_SOURCE_HINTS = {
+    "tw-081": {
+        "authority": "Matsu National Scenic Area Headquarters",
+        "source_kind": "official_attraction_hours_plus_weather_control",
+        "url": "https://www.matsu-nsa.gov.tw/zh-TW/attractions/1474",
+        "verified_on": "2026-09-24",
+        "note": "Iron Fort is currently listed 08:00–17:00 daily and may close during strong winds or long-period waves; night access must not be assumed.",
+    },
     "tw-005": {
         "authority": "Taipei City Government",
         "source_kind": "municipal_event_and_traffic_notice",
@@ -150,6 +157,13 @@ OFFICIAL_SOURCE_HINTS = {
         "url": "https://tour.taitung.gov.tw/zh-tw/tour/details/885",
         "verified_on": "2026-09-23",
         "note": "Static all-day listing is insufficient by itself because official closure notices also occur.",
+    },
+    "tw-078": {
+        "authority": "Kinmen County Government Tourism Department",
+        "source_kind": "official_tidal_path_schedule_and_live_camera",
+        "url": "https://kinmen.travel/zh-tw/live-camera/1",
+        "verified_on": "2026-09-24",
+        "note": "Jiangong Islet causeway access follows official tide-specific recommended island windows; generic tide percentile must not substitute for the official access window.",
     },
     "tw-038": {
         "authority": "East Coast National Scenic Area Headquarters",
@@ -368,8 +382,8 @@ def evaluate_dynamic_access(opportunity, item_data):
 
 def validate_access_registry():
     errors = []
-    if len(ACCESS_DEPENDENT_PROFILE_IDS) != 40:
-        errors.append(f"expected 40 dynamic-access profiles, got {len(ACCESS_DEPENDENT_PROFILE_IDS)}")
+    if len(ACCESS_DEPENDENT_PROFILE_IDS) != 42:
+        errors.append(f"expected 42 dynamic-access profiles, got {len(ACCESS_DEPENDENT_PROFILE_IDS)}")
     if ACCESS_RUNTIME_READY_PROFILES - ACCESS_DEPENDENT_PROFILE_IDS:
         errors.append("runtime-ready access profile is not classified")
     for oid, contract in ACCESS_PROFILE_CLASSIFICATION.items():

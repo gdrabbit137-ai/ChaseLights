@@ -5,6 +5,7 @@ on:
     branches:
       - v0.04-opportunity-adapter-r3
       - v0.04-opportunity-adapter-r4
+      - r4.2-b28-p0-missing-places
       - hotfix-weather-catalog-resilience
     paths:
       - "opportunities.py"
@@ -19,6 +20,7 @@ on:
       - "regions.py"
       - "analyze_weather.py"
       - "fetch_data.py"
+      - "index.html"
       - "test_opportunity_adapter.py"
       - ".github/workflows/test_opportunity_adapter.yml"
   workflow_dispatch:
@@ -38,4 +40,12 @@ jobs:
       - name: Compile
         run: python -m py_compile opportunities.py opportunity_runtime.py runtime_dependencies.py spatial_weather.py marine_state.py tide_state.py access_state.py taxonomy_v004.py regions.py analyze_weather.py fetch_data.py test_opportunity_adapter.py
       - name: Run adapter tests
-        run: python test_opportunity_adapter.py
+        run: |
+          set -o pipefail
+          python test_opportunity_adapter.py 2>&1 | tee adapter-test.log
+      - name: Upload adapter failure log
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: adapter-test-log
+          path: adapter-test.log

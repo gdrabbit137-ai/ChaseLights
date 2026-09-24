@@ -16,9 +16,13 @@ import bz2
 import json
 from pathlib import Path
 
-from opportunity_runtime import dependency_state, supports_runtime_contract
+from opportunity_runtime import (
+    dependency_state,
+    supports_runtime_contract,
+    supports_minimum_sufficient_contract,
+)
 
-ADAPTER_VERSION = "v0.04-r4.2-b26-preview"
+ADAPTER_VERSION = "v0.04-r4.2-b28-p0-final-simple-preview"
 CATALOG_PART_PATTERN = "runtime_catalog_v004_r4_2_b15.compact.part{part}.b64"
 VALID_MODES = {"area_opportunity", "composition_specific"}
 VALID_TOPOLOGIES = {
@@ -48,12 +52,25 @@ _RUNTIME_CATALOG = _load_catalog()
 CATALOG_SCHEMA_VERSION = _RUNTIME_CATALOG["schema_version"]
 CATALOG_SOURCE_DATABASE = _RUNTIME_CATALOG.get("source_database")
 
+B28_ADDITIONS_FILE = "runtime_catalog_v004_r4_2_b28_additions.json"
+
+def _load_b28_additions():
+    path = Path(__file__).parent / B28_ADDITIONS_FILE
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if payload.get("schema_version") != "v0.04-r4.2-b28-additions-5":
+        raise ValueError(f"Unexpected B28 additions version: {payload.get('schema_version')}")
+    return payload
+
+_B28_ADDITIONS = _load_b28_additions()
+CATALOG_ADDITIONS_SCHEMA_VERSION = _B28_ADDITIONS["schema_version"]
+
 # tw-063 翟山坑道 was removed from the product photography catalog in B26.
-# Keep the legacy raw payload readable until the next catalog regeneration, but
-# prune retired Places before constructing any runtime catalog object.
+# B28 Batch 1 layers newly curated P0 Places onto the stable B15 payload while
+# keeping IDs stable; a later full catalog regeneration can collapse this layer.
 RETIRED_SPOT_IDS = {"tw-063"}
+_COMPOSITE_SPOTS = list(_RUNTIME_CATALOG.get("spots", [])) + list(_B28_ADDITIONS.get("spots", []))
 _ACTIVE_SPOTS = [
-    spot for spot in _RUNTIME_CATALOG.get("spots", [])
+    spot for spot in _COMPOSITE_SPOTS
     if spot.get("spot_id") not in RETIRED_SPOT_IDS
 ]
 CATALOG_COUNTS = {
@@ -76,6 +93,24 @@ CURATED_OPPORTUNITIES = {
     for spot in _ACTIVE_SPOTS
 }
 
+# B30 research corrections that should eventually be folded back into the next
+# regenerated master catalog. Keep this layer explicit and ID-specific.
+OPPORTUNITY_METADATA_OVERRIDES = {
+    # The researched primary outcome is the exterior architecture in daylight /
+    # golden hour. Using blue_hour as its sole compatibility baseline made the
+    # Place temporally impossible during its intended shooting window.
+    "tw-062-P01": {
+        "legacy_theme": "mountain_view",
+    },
+}
+
+
+def _apply_metadata_override(opportunity):
+    override = OPPORTUNITY_METADATA_OVERRIDES.get(opportunity.get("opportunity_id"))
+    if override:
+        opportunity.update(deepcopy(override))
+    return opportunity
+
 
 def runtime_policy(opportunity):
     """Return the safe runtime action for a curated Opportunity.
@@ -89,6 +124,8 @@ def runtime_policy(opportunity):
         return "hold"
     if status.startswith("data_insufficient_"):
         return "data_insufficient"
+    if supports_minimum_sufficient_contract(opportunity):
+        return "minimum_sufficient_available"
     if status == "prototype_formula_available":
         return "prototype_pending_certification"
     if supports_runtime_contract(opportunity):
@@ -104,6 +141,7 @@ def get_opportunities(region_key, spot_id):
         return []
     opportunities = deepcopy(CURATED_OPPORTUNITIES.get(spot_id, []))
     for opportunity in opportunities:
+        _apply_metadata_override(opportunity)
         opportunity["runtime_policy"] = runtime_policy(opportunity)
         opportunity["runtime_dependency_state"] = dependency_state(opportunity)
     return opportunities
@@ -130,7 +168,7 @@ def validate_curated_opportunities():
     variant_ids = set()
     viewpoint_relations = 0
 
-    expected_spots = {f"tw-{i:03d}" for i in range(1, 72)} - RETIRED_SPOT_IDS
+    expected_spots = {f"tw-{i:03d}" for i in range(1, 82)} - RETIRED_SPOT_IDS
     actual_spots = set(CURATED_OPPORTUNITIES)
     if actual_spots != expected_spots:
         errors.append(
@@ -201,12 +239,12 @@ def validate_curated_opportunities():
                 errors.append(f"{oid}: missing profile_viewpoint relation")
             viewpoint_relations += len(viewpoints)
 
-    if len(opportunity_ids) != 173:
-        errors.append(f"expected 173 opportunities, got {len(opportunity_ids)}")
-    if len(variant_ids) != 181:
-        errors.append(f"expected 181 variants, got {len(variant_ids)}")
-    if viewpoint_relations != 178:
-        errors.append(f"expected 178 profile_viewpoint relations, got {viewpoint_relations}")
+    if len(opportunity_ids) != 189:
+        errors.append(f"expected 189 opportunities, got {len(opportunity_ids)}")
+    if len(variant_ids) != 199:
+        errors.append(f"expected 199 variants, got {len(variant_ids)}")
+    if viewpoint_relations != 194:
+        errors.append(f"expected 194 profile_viewpoint relations, got {viewpoint_relations}")
 
     exact = {
         opportunity["opportunity_id"]

@@ -1,4 +1,6 @@
+from pathlib import Path
 import json
+from datetime import datetime
 from collections import Counter
 
 from opportunity_runtime import (
@@ -15,6 +17,8 @@ from opportunity_runtime import (
     evaluate_astronomy_ephemeris,
     ASTRONOMY_EPHEMERIS_PROFILES,
     evaluate_opportunity_modules,
+    evaluate_minimum_sufficient_visibility,
+    MINIMUM_SUFFICIENT_VISIBILITY_PROFILES,
     validate_runtime_registry,
 )
 from runtime_dependencies import (
@@ -75,37 +79,37 @@ def _all_opportunities():
 
 
 def test_adapter_integrity():
-    assert ADAPTER_VERSION == "v0.04-r4.2-b26-preview"
+    assert ADAPTER_VERSION == "v0.04-r4.2-b28-p0-final-simple-preview"
     assert validate_curated_opportunities() == []
     assert validate_taxonomy() == []
     assert CATALOG_COUNTS == {
-        "spots": 70,
-        "opportunities": 173,
-        "condition_variants": 181,
-        "profile_viewpoint_relations": 178,
+        "spots": 80,
+        "opportunities": 189,
+        "condition_variants": 199,
+        "profile_viewpoint_relations": 194,
     }
 
     tw = get_spots("tw")
-    assert len(tw) == 71
-    assert [s["spot_id"] for s in tw] == [f"tw-{i:03d}" for i in range(1, 72)]
+    assert len(tw) == 81
+    assert [s["spot_id"] for s in tw] == [f"tw-{i:03d}" for i in range(1, 82)]
     assert PRODUCT_STATUS_BY_SPOT == {"tw-063": "retired"}
     assert product_status("tw-063") == "retired"
     assert active_in_catalog("tw-063") is False
-    assert sum(1 for s in tw if active_in_catalog(s["spot_id"])) == 70
+    assert sum(1 for s in tw if active_in_catalog(s["spot_id"])) == 80
     assert all(
         product_status(s["spot_id"]) == "keep"
         for s in tw if s["spot_id"] != "tw-063"
     )
 
     curated = {s["spot_id"]: s for s in tw if s.get("opportunities")}
-    expected_active = {f"tw-{i:03d}" for i in range(1, 72)} - {"tw-063"}
+    expected_active = {f"tw-{i:03d}" for i in range(1, 82)} - {"tw-063"}
     assert set(curated) == expected_active
     assert "tw-063" not in CURATED_OPPORTUNITIES
-    assert sum(len(s["opportunities"]) for s in curated.values()) == 173
+    assert sum(len(s["opportunities"]) for s in curated.values()) == 189
 
     all_opportunities = _all_opportunities()
-    assert sum(len(o["condition_variants"]) for o in all_opportunities) == 181
-    assert sum(len(o["viewpoints"]) for o in all_opportunities) == 178
+    assert sum(len(o["condition_variants"]) for o in all_opportunities) == 199
+    assert sum(len(o["viewpoints"]) for o in all_opportunities) == 194
     assert not any(o["formula_status"] == "legacy_fallback_pending_curated" for o in all_opportunities)
     assert not any(str(o.get("formula_version") or "").startswith("legacy_") for o in all_opportunities)
 
@@ -116,16 +120,247 @@ def test_adapter_integrity():
 
     policies = Counter(runtime_policy(o) for o in all_opportunities)
     assert policies == {
-        "module_pending": 66,
-        "preview_module_available": 64,
-        "prototype_pending_certification": 41,
+        "module_pending": 68,
+        "preview_module_available": 75,
+        "minimum_sufficient_available": 42,
+        "prototype_pending_certification": 2,
         "hold": 1,
         "data_insufficient": 1,
     }
+    assert len(MINIMUM_SUFFICIENT_VISIBILITY_PROFILES) == 42
+
+    deyue = next(o for o in get_opportunities("tw", "tw-062") if o["opportunity_id"] == "tw-062-P01")
+    assert deyue["legacy_theme"] == "mountain_view"
+    assert deyue["runtime_policy"] == "minimum_sufficient_available"
+
     assert runtime_policy(next(o for o in all_opportunities if o["opportunity_id"] == "tw-052-P01")) == "hold"
     assert runtime_policy(next(o for o in all_opportunities if o["opportunity_id"] == "tw-017-P01")) == "data_insufficient"
     assert validate_runtime_registry() == []
-    assert len(DIRECTIONAL_HORIZON_SECTORS) == 37
+    assert len(DIRECTIONAL_HORIZON_SECTORS) == 45
+
+    # Hint-semantic safety: blue hour is a light/time condition, not proof of
+    # city lights. Architecture alone must never auto-create a city-night Theme.
+    active_spots = [spot for spot in tw if active_in_catalog(spot["spot_id"])]
+    non_city_night_spots = [
+        spot for spot in active_spots
+        if "city_night" in spot["themes"] and "city" not in spot["scenes"]
+    ]
+    assert {spot["name_i18n"]["zh-TW"] for spot in non_city_night_spots} == {
+        "金龍山", "頂石棹", "田寮月世界", "金門慈湖"
+    }
+    night_probe = {
+        "astronomy_valid": True,
+        "sun_elevation": -12.0,
+        "is_day": False,
+        "is_twilight": False,
+        "hour": 21,
+        "c_low": 8,
+        "c_mid": 20,
+        "c_high": 25,
+        "pop": 5,
+        "wind": 2.0,
+        "vis": 30000,
+    }
+    for spot in non_city_night_spots:
+        probe = dict(night_probe, scenes=spot["scenes"])
+        _, status, indicator, status_key, indicator_key, _ = fetch_data.evaluate_tag_condition(
+            "city_night", probe, 21, "zh-TW"
+        )
+        assert status_key == "NIGHT_SCENE_CLEAR"
+        assert indicator_key == "IND_NIGHT_SCENE_CLEAR"
+        assert all(word not in (status + indicator) for word in ("城市", "燈火"))
+
+    verified_city_night = next(
+        spot for spot in active_spots
+        if "city" in spot["scenes"] and "city_night" in spot["themes"]
+    )
+    city_probe = dict(night_probe, scenes=verified_city_night["scenes"])
+    _, city_status, city_indicator, city_status_key, city_indicator_key, _ = fetch_data.evaluate_tag_condition(
+        "city_night", city_probe, 21, "zh-TW"
+    )
+    assert city_status_key == "CITY_NIGHT_CLEAR"
+    assert city_indicator_key == "IND_CITY_NIGHT_CLEAR"
+    assert "城市" in city_status + city_indicator
+    dongyin = next(spot for spot in active_spots if spot["name_i18n"]["zh-TW"] == "東引燈塔")
+    assert "architecture" in dongyin["scenes"]
+    assert "city" not in dongyin["scenes"]
+    assert "city_night" not in dongyin["themes"]
+
+    blue_hour_probe = {
+        "astronomy_valid": True,
+        "sun_elevation": -6.0,
+        "is_day": False,
+        "is_twilight": True,
+        "hour": 18,
+        "c_low": 8,
+        "c_mid": 20,
+        "c_high": 25,
+        "pop": 5,
+        "wind": 2.0,
+        "vis": 30000,
+    }
+    for spot in active_spots:
+        if "blue_hour" not in spot["themes"]:
+            continue
+        _, status, indicator, status_key, indicator_key, _ = fetch_data.evaluate_tag_condition(
+            "blue_hour", blue_hour_probe, 18, "zh-TW"
+        )
+        assert status_key == "BLUE_HOUR_CLEAR"
+        assert indicator_key == "IND_BLUE_HOUR_CLEAR"
+        assert all(word not in (status + indicator) for word in ("城市", "燈火", "無霧"))
+
+    limited_probe = dict(blue_hour_probe)
+    limited_probe.pop("vis")
+    _, _, _, limited_status_key, limited_indicator_key, _ = fetch_data.evaluate_tag_condition(
+        "blue_hour", limited_probe, 18, "zh-TW"
+    )
+    assert limited_status_key == "WEATHER_DATA_LIMITED"
+    assert limited_indicator_key == "IND_WEATHER_DATA_LIMITED"
+
+    outside_probe = dict(blue_hour_probe, sun_elevation=-14.0, is_twilight=False)
+    _, _, _, outside_status_key, outside_indicator_key, _ = fetch_data.evaluate_tag_condition(
+        "blue_hour", outside_probe, 18, "zh-TW"
+    )
+    assert outside_status_key == "BLUE_HOUR_OUTSIDE"
+    assert outside_indicator_key == "IND_BLUE_HOUR_OUTSIDE"
+
+    cloud_sea_night = {
+        "astronomy_valid": True,
+        "sun_elevation": -18.0,
+        "is_day": False,
+        "is_twilight": False,
+        "hour": 21,
+        "c_low": 55,
+        "c_mid": 30,
+        "c_high": 20,
+        "pop": 5,
+        "wind": 1.0,
+        "vis": 30000,
+        "rh": 92,
+        "temp": 16,
+        "dew": 15,
+        "cloud_base_delta": 100,
+        "cloud_base_near_camera": False,
+        "cloud_below_camera": True,
+    }
+    cloud_night_score, _, _, cloud_night_status, _, _ = fetch_data.evaluate_tag_condition(
+        "cloud_sea", cloud_sea_night, 21, "zh-TW"
+    )
+    assert cloud_night_score <= 35
+    assert cloud_night_status == "CLOUD_SEA_OUTSIDE"
+
+    cloud_sea_after_civil = dict(
+        cloud_sea_night,
+        sun_elevation=-7.0,
+        is_twilight=True,  # UI twilight may still be broad; score must use sun altitude.
+        hour=19,
+    )
+    cloud_after_score, _, _, cloud_after_status, _, _ = fetch_data.evaluate_tag_condition(
+        "cloud_sea", cloud_sea_after_civil, 19, "zh-TW"
+    )
+    assert cloud_after_score <= 35
+    assert cloud_after_status == "CLOUD_SEA_OUTSIDE"
+
+    # Homepage discovery must remain place-first. Scene/theme semantics belong to
+    # the ranked result/explanation, not intersecting homepage filters.
+    index_html = Path("index.html").read_text(encoding="utf-8")
+    assert 'id="theme-nav"' not in index_html
+    assert 'id="scene-nav"' not in index_html
+    assert 'id="discovery-title"' in index_html
+    assert 'id="place-search"' in index_html
+    assert "FILTER_UI_VERSION='3'" in index_html
+    assert "return day.all||null" in index_html
+
+    assert 'id="place-modal-overlay"' in index_html
+    assert "card.onclick=()=>openPlaceModal" in index_html
+    assert "data-weather" in index_html
+    assert "🌦️ 天氣預報" in index_html
+    assert "點擊看 96H 明細" not in index_html
+    assert "op.condition_variants" in index_html
+    assert "day?.opportunities||{}" in index_html
+    assert "no_viable_opportunity" in index_html
+    assert "今天剩餘時段沒有合適的已研究拍攝機會" in index_html
+    assert "const researchPending=!!metric.research_pending||!spot.opportunities?.length;const hasScore=" in index_html
+    assert "&&!researchPending&&!noViable" in index_html
+
+    nanya = next(o for o in all_opportunities if o["opportunity_id"] == "tw-072-P01")
+    assert runtime_policy(nanya) == "preview_module_available"
+    assert dependency_state(nanya)["required_components"] == ("marine_state", "directional_horizon", "visibility")
+    assert dependency_state(nanya)["complete"] is True
+
+    laomei = next(o for o in all_opportunities if o["opportunity_id"] == "tw-073-P01")
+    assert runtime_policy(laomei) == "module_pending"
+    assert dependency_state(laomei)["ready_components"] == ("tide_state", "marine_state", "directional_horizon", "visibility")
+    assert dependency_state(laomei)["missing_components"] == ("seasonal_foreground",)
+
+    yehliu = next(o for o in all_opportunities if o["opportunity_id"] == "tw-074-P01")
+    assert runtime_policy(yehliu) == "minimum_sufficient_available"
+    assert dependency_state(yehliu)["ready_components"] == ("visibility",)
+    assert dependency_state(yehliu)["missing_components"] == ("geology_light",)
+
+    waiao = next(o for o in all_opportunities if o["opportunity_id"] == "tw-075-P01")
+    assert runtime_policy(waiao) == "preview_module_available"
+    assert dependency_state(waiao)["required_components"] == ("marine_state", "directional_horizon", "visibility")
+    assert dependency_state(waiao)["complete"] is True
+
+    waiao_low_vis = evaluate_opportunity_modules(
+        waiao,
+        {
+            "sun_azimuth": 95.0,
+            "sun_elevation": 2.0,
+            "marine_forecast": {
+                "wave_height": 0.5,
+                "wave_period": 5.0,
+                "swell_wave_height": 0.3,
+                "swell_wave_period": 6.0,
+            },
+            "vis": 500,
+        },
+    )
+    assert waiao_low_vis["available"] is True
+    assert waiao_low_vis["eligible"] is False
+    assert waiao_low_vis["modules"]["visibility"]["eligible"] is False
+
+    longpan_sunrise = next(o for o in all_opportunities if o["opportunity_id"] == "tw-076-P01")
+    assert runtime_policy(longpan_sunrise) == "preview_module_available"
+    assert dependency_state(longpan_sunrise)["required_components"] == ("directional_horizon", "visibility")
+
+    longpan_stars = next(o for o in all_opportunities if o["opportunity_id"] == "tw-076-P02")
+    assert runtime_policy(longpan_stars) == "preview_module_available"
+    assert dependency_state(longpan_stars)["required_components"] == ("astronomy_ephemeris",)
+
+    shihtiping_tide = next(o for o in all_opportunities if o["opportunity_id"] == "tw-077-P02")
+    assert runtime_policy(shihtiping_tide) == "preview_module_available"
+    assert dependency_state(shihtiping_tide)["required_components"] == ("marine_state", "tide_state", "visibility")
+
+    jiangong = next(o for o in all_opportunities if o["opportunity_id"] == "tw-078-P01")
+    assert runtime_policy(jiangong) == "module_pending"
+    assert dependency_state(jiangong)["ready_components"] == ("tide_state",)
+    assert dependency_state(jiangong)["missing_components"] == ("dynamic_access",)
+    assert not any(o["opportunity_id"] == "tw-078-P02" for o in all_opportunities)
+
+    chixi_sunset = next(o for o in all_opportunities if o["opportunity_id"] == "tw-079-P01")
+    assert runtime_policy(chixi_sunset) == "preview_module_available"
+    assert dependency_state(chixi_sunset)["required_components"] == ("marine_state", "directional_horizon", "visibility")
+
+    chixi_tide = next(o for o in all_opportunities if o["opportunity_id"] == "tw-079-P02")
+    assert runtime_policy(chixi_tide) == "preview_module_available"
+    assert dependency_state(chixi_tide)["required_components"] == ("marine_state", "tide_state", "visibility")
+
+    fanchuanbi_sunrise = next(o for o in all_opportunities if o["opportunity_id"] == "tw-080-P01")
+    assert runtime_policy(fanchuanbi_sunrise) == "preview_module_available"
+    assert dependency_state(fanchuanbi_sunrise)["required_components"] == ("directional_horizon", "visibility")
+
+    fanchuanbi_stars = next(o for o in all_opportunities if o["opportunity_id"] == "tw-080-P02")
+    assert runtime_policy(fanchuanbi_stars) == "preview_module_available"
+    assert dependency_state(fanchuanbi_stars)["required_components"] == ("astronomy_ephemeris",)
+
+    iron_fort_day = next(o for o in all_opportunities if o["opportunity_id"] == "tw-081-P01")
+    assert runtime_policy(iron_fort_day) == "module_pending"
+    assert dependency_state(iron_fort_day)["ready_components"] == ("visibility",)
+    assert dependency_state(iron_fort_day)["missing_components"] == ("dynamic_access",)
+
+    assert not any(o["opportunity_id"] == "tw-081-P02" for o in all_opportunities)
     directional = next(o for o in all_opportunities if o["opportunity_id"] == "tw-020-P01")
     assert runtime_policy(directional) == "preview_module_available"
     matched = evaluate_directional_horizon(directional, {
@@ -167,7 +402,10 @@ def test_adapter_integrity():
 
     formula_statuses = {o["formula_status"] for o in all_opportunities}
     needs_statuses = {s for s in formula_statuses if s.startswith("needs_")}
-    assert needs_statuses == set(FORMULA_DEPENDENCIES)
+    assert needs_statuses == set(FORMULA_DEPENDENCIES), {
+        "missing_dependency_mappings": sorted(needs_statuses - set(FORMULA_DEPENDENCIES)),
+        "unused_dependency_mappings": sorted(set(FORMULA_DEPENDENCIES) - needs_statuses),
+    }
     assert validate_dependency_inventory(formula_statuses) == []
     assert dependencies_for_status("needs_dynamic_access_visibility_module") == ("dynamic_access", "visibility")
     assert dependencies_for_status("needs_directional_horizon_cloud_sky_glow_module") == ("directional_horizon", "cloud_sky_glow")
@@ -285,7 +523,18 @@ def test_adapter_integrity():
     assert set(radiation_result["modules"]) == {"radiation_DNI", "cloud_light_state"}
 
     assert OPPORTUNITY_DEPENDENCY_OVERRIDES == {
-        "tw-013-P02": ("radiation_DNI", "cloud_sky_glow"),
+        "tw-033-P01": ("marine_state", "directional_horizon", "visibility"),
+        "tw-033-P02": ("marine_state", "directional_horizon", "visibility"),
+        "tw-036-P01": ("marine_state", "directional_horizon", "visibility"),
+        "tw-072-P01": ("marine_state", "directional_horizon", "visibility"),
+        "tw-072-P02": ("marine_state", "directional_horizon", "visibility"),
+        "tw-073-P01": ("seasonal_foreground", "tide_state", "marine_state", "directional_horizon", "visibility"),
+        "tw-075-P01": ("marine_state", "directional_horizon", "visibility"),
+        "tw-077-P01": ("marine_state", "directional_horizon", "visibility"),
+        "tw-077-P02": ("marine_state", "tide_state", "visibility"),
+        "tw-079-P01": ("marine_state", "directional_horizon", "visibility"),
+        "tw-079-P02": ("marine_state", "tide_state", "visibility"),
+        "tw-013-P02": ("radiation_DNI", "cloud_sky_glow", "visibility"),
         "tw-026-P02": ("cloud_sky_glow",),
         "tw-030-P02": ("cloud_sky_glow",),
         "tw-020-P02": ("spatial_weather_vertical_cloud", "directional_horizon"),
@@ -297,7 +546,7 @@ def test_adapter_integrity():
     terrain_glow = next(
         o for o in all_opportunities if o["opportunity_id"] == "tw-013-P02"
     )
-    assert dependencies_for_opportunity(terrain_glow) == ("radiation_DNI", "cloud_sky_glow")
+    assert dependencies_for_opportunity(terrain_glow) == ("radiation_DNI", "cloud_sky_glow", "visibility")
     assert runtime_policy(terrain_glow) == "preview_module_available"
     terrain_cloud = evaluate_cloud_sky_glow(terrain_glow, {
         "astronomy_valid": True, "sun_azimuth": 270, "sun_elevation": 6, "hour": 17,
@@ -448,14 +697,14 @@ def test_adapter_integrity():
 
     assert set(ASTRONOMY_EPHEMERIS_PROFILES) == {
         "tw-019-P05", "tw-024-P05", "tw-035-P05", "tw-036-P02",
-        "tw-038-P02", "tw-040-P06", "tw-045-P03", "tw-070-P02",
+        "tw-038-P02", "tw-040-P06", "tw-045-P03", "tw-070-P02", "tw-076-P02", "tw-080-P02",
     }
 
     pure_astro = [
         o for o in all_opportunities
         if o["formula_status"] == "needs_astronomy_ephemeris_module"
     ]
-    assert {o["opportunity_id"] for o in pure_astro} == {"tw-035-P05", "tw-070-P02"}
+    assert {o["opportunity_id"] for o in pure_astro} == {"tw-035-P05", "tw-070-P02", "tw-076-P02", "tw-080-P02"}
     assert all(runtime_policy(o) == "preview_module_available" for o in pure_astro)
 
     astro_input = {
@@ -542,6 +791,10 @@ def test_adapter_integrity():
         "tw-033-P01", "tw-033-P02",
         "tw-036-P01", "tw-036-P02",
         "tw-071-P01", "tw-071-P02",
+        "tw-072-P01", "tw-072-P02", "tw-073-P01",
+        "tw-075-P01",
+        "tw-077-P01", "tw-077-P02",
+        "tw-079-P01", "tw-079-P02",
     }
 
     calm_marine = {
@@ -639,6 +892,7 @@ def test_adapter_integrity():
             "sun_azimuth": 92,
             "sun_elevation": 2,
             "hour": 6,
+            "vis": 30000,
         }
     )
     assert "tw-033-P01" in marine_diag
@@ -676,6 +930,10 @@ def test_adapter_integrity():
         "tw-017-P02",
         "tw-059-P01",
         "tw-060-P01", "tw-060-P02", "tw-060-P03",
+        "tw-073-P01",
+        "tw-077-P02",
+        "tw-078-P01",
+        "tw-079-P02",
     }
 
     fake_tide_raw = {
@@ -721,6 +979,7 @@ def test_adapter_integrity():
     tide_complete_ids = {
         "tw-012-P01", "tw-015-P01", "tw-017-P02",
         "tw-060-P01", "tw-060-P02", "tw-060-P03",
+        "tw-079-P02",
     }
     assert all(
         runtime_policy(next(o for o in all_opportunities if o["opportunity_id"] == oid))
@@ -758,12 +1017,12 @@ def test_adapter_integrity():
         o for o in all_opportunities
         if "dynamic_access" in dependencies_for_opportunity(o)
     ]
-    assert len(dynamic_profiles) == 40
+    assert len(dynamic_profiles) == 42
     assert {o["opportunity_id"] for o in dynamic_profiles} == set(ACCESS_DEPENDENT_PROFILE_IDS)
     assert set(ACCESS_PROFILE_CLASSIFICATION) == set(ACCESS_DEPENDENT_PROFILE_IDS)
     assert ACCESS_RUNTIME_READY_PROFILES == frozenset()
     assert HARD_ACCESS_HOLDS["tw-052"]["policy"] == "hold"
-    assert {"tw-005", "tw-037", "tw-038"} <= set(OFFICIAL_SOURCE_HINTS)
+    assert {"tw-005", "tw-037", "tw-038", "tw-078", "tw-081"} <= set(OFFICIAL_SOURCE_HINTS)
     assert "tw-063" not in OFFICIAL_SOURCE_HINTS
     assert all(
         runtime_policy(o) == "module_pending"
@@ -862,10 +1121,105 @@ def test_adapter_integrity():
     diag = fetch_data._build_opportunity_runtime_diagnostics(
         tw018, {"wind": 1.2, "precipitation": 0.0, "pop": 10}
     )
-    assert set(diag) == {"tw-018-P02"}
+    assert set(diag) == {o["opportunity_id"] for o in tw018["opportunities"]}
     assert diag["tw-018-P02"]["available"] is True
     assert diag["tw-018-P02"]["eligible"] is True
-    assert "score" not in diag["tw-018-P02"]
+    assert all("score" not in result for result in diag.values())
+
+    # Opportunity score is authoritative. Generic Theme weather is only the
+    # baseline and cannot produce an 80+ Place recommendation by itself.
+    high_theme_metric = {
+        "score": 92,
+        "status_key": "STABLE_WEATHER",
+        "indicator_key": "IND_DEFAULT",
+        "factors": [],
+    }
+
+    simple_opportunity = next(
+        o for o in get_opportunities("tw", "tw-004")
+        if o["opportunity_id"] == "tw-004-P01"
+    )
+    assert simple_opportunity["runtime_policy"] == "minimum_sufficient_available"
+    simple_good = evaluate_minimum_sufficient_visibility(
+        simple_opportunity,
+        {
+            "vis": 35000,
+            "c_low": 10,
+            "pop": 5,
+            "precipitation": 0.0,
+            "access_open": True,
+        },
+    )
+    assert simple_good["available"] is True
+    assert simple_good["eligible"] is True
+    assert simple_good["quality"] == "excellent"
+    simple_scored = fetch_data._score_opportunity(
+        simple_opportunity, high_theme_metric,
+        {
+            "available": True,
+            "eligible": True,
+            "minimum_sufficient": True,
+            "reason": simple_good["reason"],
+            "modules": {"minimum_sufficient_visibility": simple_good},
+        },
+        "zh-TW",
+    )
+    assert simple_scored["score"] == 92
+    assert simple_scored["condition_state"] == "minimum_sufficient_conditions_match"
+    assert simple_scored["score_confidence"] == "high"
+
+    simple_bad = evaluate_minimum_sufficient_visibility(
+        simple_opportunity,
+        {
+            "vis": 6000,
+            "c_low": 85,
+            "pop": 70,
+            "precipitation": 0.8,
+            "access_open": True,
+        },
+    )
+    assert simple_bad["eligible"] is False
+    simple_bad_score = fetch_data._score_opportunity(
+        simple_opportunity, high_theme_metric,
+        {
+            "available": True,
+            "eligible": False,
+            "minimum_sufficient": True,
+            "reason": simple_bad["reason"],
+            "modules": {"minimum_sufficient_visibility": simple_bad},
+        },
+        "zh-TW",
+    )
+    assert simple_bad_score["score"] <= 54
+    matched = fetch_data._score_opportunity(
+        p02, high_theme_metric, diag["tw-018-P02"], "zh-TW"
+    )
+    assert matched["score"] == 92
+    assert matched["condition_state"] == "dedicated_conditions_match"
+    assert matched["score_confidence"] == "high"
+
+    missed_diag = fetch_data._build_opportunity_runtime_diagnostics(
+        tw018, {"wind": 7.0, "precipitation": 0.0, "pop": 10}
+    )["tw-018-P02"]
+    missed = fetch_data._score_opportunity(p02, high_theme_metric, missed_diag, "zh-TW")
+    assert missed["score"] <= 54
+    assert missed["condition_state"] == "dedicated_conditions_miss"
+
+    pending = next(o for o in all_opportunities if runtime_policy(o) == "module_pending")
+    pending_score = fetch_data._score_opportunity(dict(pending, runtime_policy=runtime_policy(pending)), high_theme_metric, {}, "zh-TW")
+    assert pending_score["score"] <= 64
+
+    prototype = next(o for o in all_opportunities if runtime_policy(o) == "prototype_pending_certification")
+    prototype_score = fetch_data._score_opportunity(dict(prototype, runtime_policy=runtime_policy(prototype)), high_theme_metric, {}, "zh-TW")
+    assert prototype_score["score"] <= 79
+
+    held = next(o for o in all_opportunities if runtime_policy(o) == "hold")
+    hold_score = fetch_data._score_opportunity(dict(held, runtime_policy=runtime_policy(held)), high_theme_metric, {}, "zh-TW")
+    assert hold_score["score"] == 0
+
+    insufficient = next(o for o in all_opportunities if runtime_policy(o) == "data_insufficient")
+    insufficient_score = fetch_data._score_opportunity(dict(insufficient, runtime_policy=runtime_policy(insufficient)), high_theme_metric, {}, "zh-TW")
+    assert insufficient_score["score"] <= 35
 
     tw019 = next(s for s in tw if s["spot_id"] == "tw-019")
     snow_diag = fetch_data._build_opportunity_runtime_diagnostics(
@@ -948,14 +1302,191 @@ def test_adapter_integrity():
 
 def test_active_catalog_weather_generation_guard():
     active_tw = analyze_weather._active_spots("tw")
-    assert len(active_tw) == 70
+    assert len(active_tw) == 80
+
+    chaori_spot = next(spot for spot in active_tw if spot["spot_id"] == "tw-068")
+    yehliu_spot = next(spot for spot in active_tw if spot["spot_id"] == "tw-074")
+    iron_fort_spot = next(spot for spot in active_tw if spot["spot_id"] == "tw-081")
+    assert chaori_spot["access_hours_windows"] == [["05:00", "10:00"], ["16:00", "23:00"]]
+    assert fetch_data._access_open_for_spot(
+        chaori_spot, datetime(2026, 9, 24, 6, 0), True, False
+    ) is True
+    assert fetch_data._access_open_for_spot(
+        chaori_spot, datetime(2026, 9, 24, 12, 0), True, False
+    ) is False
+    assert fetch_data._access_open_for_spot(
+        chaori_spot, datetime(2026, 9, 24, 20, 0), False, False
+    ) is True
+    assert yehliu_spot["access_hours"] == ["08:00", "17:00"]
+    assert iron_fort_spot["access_hours"] == ["08:00", "17:00"]
+    assert fetch_data._access_open_for_spot(
+        yehliu_spot, datetime(2026, 9, 24, 16, 0), True, False
+    ) is True
+    assert fetch_data._access_open_for_spot(
+        yehliu_spot, datetime(2026, 9, 24, 18, 0), False, True
+    ) is False
+    assert fetch_data._access_open_for_spot(
+        iron_fort_spot, datetime(2026, 9, 24, 16, 0), True, False
+    ) is True
+    assert fetch_data._access_open_for_spot(
+        iron_fort_spot, datetime(2026, 9, 24, 18, 0), False, True
+    ) is False
     assert "tw-063" not in {spot["spot_id"] for spot in active_tw}
     assert all(spot.get("active_in_catalog", True) for spot in active_tw)
+
+    # Every active Taiwan Place shown in the product must have explicit,
+    # place-specific photography research. The UI is forbidden from inventing
+    # shooting advice for a Place without this catalog evidence.
+    for spot in active_tw:
+        opportunities = spot.get("opportunities") or []
+        assert opportunities, f"{spot['spot_id']}: researched Opportunity required"
+        for opportunity in opportunities:
+            assert opportunity.get("opportunity_id")
+            assert str(opportunity.get("name_zh") or "").strip()
+            assert opportunity.get("viewpoints"), f"{opportunity['opportunity_id']}: viewpoint evidence required"
+            assert all(str(v.get("name") or "").strip() for v in opportunity["viewpoints"])
+            variants = opportunity.get("condition_variants") or []
+            assert variants, f"{opportunity['opportunity_id']}: Condition Variant required"
+            assert all(str(v.get("variant_name") or "").strip() for v in variants)
+            # Detailed prose fields are optional by design. Missing research
+            # fields stay absent in the UI rather than being filled by a
+            # generic template.
+
+    # Non-migrated regions must remain explicit research gaps; the UI may show a
+    # research-pending notice but must not synthesize generic recommendations.
+    assert all(not (spot.get("opportunities") or []) for spot in get_spots("jp"))
+    assert all(not (spot.get("opportunities") or []) for spot in get_spots("us"))
 
     stale = analyze_weather._mark_stale({"spot_id": "tw-009", "daily": []}, "weather_fetch_failed")
     assert stale["spot_id"] == "tw-009"
     assert stale["data_stale"] is True
     assert stale["data_stale_reason"] == "weather_fetch_failed"
+
+    # Daily Place ranking is authoritative only when a researched Opportunity
+    # exists. Legacy Theme metrics may remain in the payload for compatibility,
+    # but may not publish a photography recommendation score on their own.
+    legacy_only_hour = [{
+        "is_past": False,
+        "local_date": "2026-09-24",
+        "time": "2026-09-24 06:00",
+        "time_utc": "2026-09-23T22:00:00Z",
+        "theme_scores": {
+            "sunrise": {
+                "score": 95,
+                "status_key": "STABLE_WEATHER",
+                "indicator_key": "IND_DEFAULT",
+                "factors": [],
+            }
+        },
+    }]
+    unresearched_days = analyze_weather._build_day_summaries(
+        legacy_only_hour, ["sunrise"], []
+    )
+    assert unresearched_days[0]["all"]["score"] is None
+    assert unresearched_days[0]["all"]["research_pending"] is True
+
+    researched_hour = [{
+        "is_past": False,
+        "local_date": "2026-09-24",
+        "time": "2026-09-24 06:00",
+        "time_utc": "2026-09-23T22:00:00Z",
+        "theme_scores": {"reflection": {"score": 91, "factors": []}},
+        "opportunity_scores": {
+            "tw-018-P02": {
+                "score": 88,
+                "status_key": "OPPORTUNITY_MATCH",
+                "indicator_key": "OPPORTUNITY_MATCH",
+                "factors": [],
+                "runtime_policy": "preview_module_available",
+                "condition_state": "dedicated_conditions_match",
+                "score_confidence": "high",
+                "base_theme_score": 91,
+            }
+        },
+    }]
+    p02_for_daily = next(
+        o for o in get_opportunities("tw", "tw-018")
+        if o["opportunity_id"] == "tw-018-P02"
+    )
+    researched_days = analyze_weather._build_day_summaries(
+        researched_hour, ["reflection"], [p02_for_daily]
+    )
+    assert researched_days[0]["all"]["opportunity_id"] == "tw-018-P02"
+    assert researched_days[0]["all"]["score"] == 88
+    assert researched_days[0]["all"]["research_pending"] is False
+
+    sunrise_only = next(
+        o for o in get_opportunities("tw", "tw-075")
+        if o["opportunity_id"] == "tw-075-P01"
+    )
+    impossible_hour = [{
+        "is_past": False,
+        "local_date": "2026-09-24",
+        "time": "2026-09-24 17:00",
+        "time_utc": "2026-09-24T09:00:00Z",
+        "theme_scores": {"sunrise": {"score": 16, "factors": []}},
+        "opportunity_scores": {
+            "tw-075-P01": {
+                "score": 16,
+                "temporal_eligible": False,
+                "temporal_reason": "sunrise_after_noon",
+                "status_key": "OPPORTUNITY_CONDITION_MISS",
+                "indicator_key": "OPPORTUNITY_CONDITION_MISS",
+                "factors": [],
+            }
+        },
+    }]
+    impossible_days = analyze_weather._build_day_summaries(
+        impossible_hour, ["sunrise"], [sunrise_only]
+    )
+    assert impossible_days[0]["all"]["score"] is None
+    assert impossible_days[0]["all"]["research_pending"] is False
+    assert impossible_days[0]["all"]["no_viable_opportunity"] is True
+    assert "opportunity_id" not in impossible_days[0]["all"]
+
+    closed_vs_open = [
+        {
+            "is_past": False,
+            "local_date": "2026-09-24",
+            "time": "2026-09-24 05:00",
+            "time_utc": "2026-09-23T21:00:00Z",
+            "access_open": False,
+            "theme_scores": {"reflection": {"score": 96, "factors": []}},
+            "opportunity_scores": {
+                "tw-018-P02": {
+                    "score": 96,
+                    "temporal_eligible": True,
+                    "status_key": "OPPORTUNITY_MATCH",
+                    "indicator_key": "OPPORTUNITY_MATCH",
+                    "factors": [],
+                }
+            },
+        },
+        {
+            "is_past": False,
+            "local_date": "2026-09-24",
+            "time": "2026-09-24 06:00",
+            "time_utc": "2026-09-23T22:00:00Z",
+            "access_open": True,
+            "theme_scores": {"reflection": {"score": 72, "factors": []}},
+            "opportunity_scores": {
+                "tw-018-P02": {
+                    "score": 72,
+                    "temporal_eligible": True,
+                    "status_key": "OPPORTUNITY_MATCH",
+                    "indicator_key": "OPPORTUNITY_MATCH",
+                    "factors": [],
+                }
+            },
+        },
+    ]
+    access_days = analyze_weather._build_day_summaries(
+        closed_vs_open, ["reflection"], [p02_for_daily]
+    )
+    assert access_days[0]["all"]["score"] == 72
+    assert access_days[0]["all"]["access_open"] is True
+    assert access_days[0]["all"]["best_time"] == "2026-09-24 06:00"
+    assert access_days[0]["all"]["window_start"] == "2026-09-24 06:00"
 
 
 def test_schema9_optional_metadata_bridge():

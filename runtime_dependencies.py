@@ -12,6 +12,7 @@ FORMULA_DEPENDENCIES = {
     "needs_directional_horizon_dynamic_access_module": ("directional_horizon", "dynamic_access"),
     "needs_lighting_state_module": ("managed_lighting_state",),
     "needs_marine_directional_horizon_module": ("marine_state", "directional_horizon"),
+    "needs_marine_tide_module": ("marine_state", "tide_state"),
     "needs_lighting_water_surface_module": ("managed_lighting_state", "water_surface_state"),
     "needs_tide_directional_horizon_module": ("tide_state", "directional_horizon"),
     "needs_dynamic_access_directional_horizon_module": ("dynamic_access", "directional_horizon"),
@@ -26,6 +27,7 @@ FORMULA_DEPENDENCIES = {
     "needs_geology_light_visibility_module": ("geology_light", "visibility"),
     "needs_lake_level_water_surface_access_module": ("lake_water_level", "water_surface_state", "dynamic_access"),
     "needs_seasonal_foreground_module": ("seasonal_foreground",),
+    "needs_seasonal_foreground_tide_marine_directional_horizon_module": ("seasonal_foreground", "tide_state", "marine_state", "directional_horizon"),
     "needs_tide_water_surface_access_module": ("tide_state", "water_surface_state", "dynamic_access"),
     "needs_event_state_access_module": ("event_state", "dynamic_access"),
     "needs_marine_tide_directional_horizon_access_module": ("marine_state", "tide_state", "directional_horizon", "dynamic_access"),
@@ -77,13 +79,28 @@ KNOWN_COMPONENTS = {
 SPECIAL_NON_MODULE_STATUSES = {
     "prototype_formula_available",
     "access_hold_construction",
+    "access_hold_current_hours_night_bioluminescence",
     "data_insufficient_geometry",
 }
 
 # Formula status is intentionally broad; these profiles need narrower contracts.
 # In particular, post-sunset sky-glow must not require positive DNI.
 OPPORTUNITY_DEPENDENCY_OVERRIDES = {
-    "tw-013-P02": ("radiation_DNI", "cloud_sky_glow"),
+    # B30: these researched B28 profiles explicitly require the subject/horizon
+    # to remain visible. Visibility is therefore part of the scoring contract,
+    # not merely a descriptive penalty in the Place Guide.
+    "tw-033-P01": ("marine_state", "directional_horizon", "visibility"),
+    "tw-033-P02": ("marine_state", "directional_horizon", "visibility"),
+    "tw-036-P01": ("marine_state", "directional_horizon", "visibility"),
+    "tw-072-P01": ("marine_state", "directional_horizon", "visibility"),
+    "tw-072-P02": ("marine_state", "directional_horizon", "visibility"),
+    "tw-073-P01": ("seasonal_foreground", "tide_state", "marine_state", "directional_horizon", "visibility"),
+    "tw-075-P01": ("marine_state", "directional_horizon", "visibility"),
+    "tw-077-P01": ("marine_state", "directional_horizon", "visibility"),
+    "tw-077-P02": ("marine_state", "tide_state", "visibility"),
+    "tw-079-P01": ("marine_state", "directional_horizon", "visibility"),
+    "tw-079-P02": ("marine_state", "tide_state", "visibility"),
+    "tw-013-P02": ("radiation_DNI", "cloud_sky_glow", "visibility"),
     "tw-026-P02": ("cloud_sky_glow",),
     "tw-030-P02": ("cloud_sky_glow",),
     "tw-020-P02": ("spatial_weather_vertical_cloud", "directional_horizon"),

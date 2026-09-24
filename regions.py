@@ -103,6 +103,16 @@ REGIONS = {
             (22.0670, 121.5560, "蘭嶼東清灣", "Lanyu Dongqing Bay", "蘭嶼東清湾", "蘭嶼東清灣", "綠島/蘭嶼/小琉球", ["coast", "starlight"]),
             (22.0370, 121.5370, "蘭嶼青青草原", "Lanyu Qingqing Grassland", "蘭嶼青青草原", "蘭嶼青青草原", "綠島/蘭嶼/小琉球", ["coast", "starlight"]),
             (22.3430, 120.3800, "小琉球花瓶岩", "Liuqiu Vase Rock", "小琉球花瓶岩", "小琉球花瓶岩", "綠島/蘭嶼/小琉球", ["coast"]),
+            (25.11982, 121.89314, "南雅奇岩", "Nanya Rock Formations", "南雅奇岩", "南雅奇岩", "本島", ["coast"]),
+            (25.29242, 121.54446, "老梅綠石槽", "Laomei Green Reef", "老梅緑石槽", "老梅綠石槽", "本島", ["coast"]),
+            (25.20886, 121.69314, "野柳地質公園", "Yehliu Geopark", "野柳地質公園", "野柳地質公園", "本島", ["coast"]),
+            (24.87516, 121.84257, "外澳沙灘", "Waiao Beach", "外澳ビーチ", "外澳沙灘", "本島", ["coast"]),
+            (21.92900, 120.84800, "龍磐公園", "Longpan Park", "龍磐公園", "龍磐公園", "本島", ["coast", "starlight"]),
+            (23.49073, 121.51086, "石梯坪", "Shihtiping", "石梯坪", "石梯坪", "本島", ["coast"]),
+            (24.426386, 118.304369, "建功嶼", "Jiangong Islet", "建功嶼", "建功嶼", "金門", ["coast"]),
+            (23.60345, 119.50265, "池西岩瀑", "Chixi Columnar Basalt", "池西柱状玄武岩", "池西岩瀑", "澎湖", ["coast"]),
+            (22.63366, 121.5069, "帆船鼻大草原", "Fanchuanbi Grassland", "帆船鼻大草原", "帆船鼻大草原", "綠島/蘭嶼/小琉球", ["coast", "starlight"]),
+            (26.141922, 119.921072, "南竿鐵堡", "Iron Fort Nangan", "南竿鉄堡", "鐵堡", "馬祖", ["coast"]),
         ],
     },
     "jp": {
@@ -260,6 +270,11 @@ VIEW_AZIMUTH_OVERRIDES = {
     "崇德清水斷崖展望點": (155, 70),
     "七星潭": (90, 60),
     "三仙台": (90, 60),
+    "龍磐公園": (90, 80),
+    "石梯坪": (90, 80),
+    "建功嶼": (270, 80),
+    "池西岩瀑": (270, 80),
+    "帆船鼻大草原": (90, 80),
     "綠島朝日溫泉": (90, 60),
     "蘭嶼東清灣": (90, 60),
     "小樽運河": (250, 80),
@@ -287,6 +302,8 @@ BORTLE_OVERRIDES = {
     '鵝鑾鼻燈塔': (3, 'medium'),
     '墾丁鵝鑾鼻': (3, 'medium'),
     '六十石山': (3, 'medium'),
+    '龍磐公園': (3, 'medium'),
+    '帆船鼻大草原': (3, 'medium'),
     '七星潭月牙灣': (5, 'medium'),
     '七星潭': (5, 'medium'),
     '三仙台': (3, 'medium'),
@@ -388,6 +405,43 @@ def _dark_sky_meta(region_key, name_zh, category, scenes, themes):
     }
 
 ACCESS_RULE_OVERRIDES = {
+    "綠島朝日溫泉": {
+        "access_mode": "opening_hours",
+        "access_hours_windows": [["05:00", "10:00"], ["16:00", "23:00"]],
+        "access_hours_effective_from": "2026-08-01",
+        "access_hours_verified_on": "2026-09-24",
+        "access_hours_source": "East Coast National Scenic Area official attraction page",
+        "access_note_i18n": {
+            "zh-TW": "官方 2026/08/01 起目前時段為 05:00–10:00、16:00–23:00；營運時間會隨季節調整，出發前仍應確認最新公告。",
+            "en": "Current official hours from 2026-08-01 are 05:00–10:00 and 16:00–23:00; hours change seasonally, so verify the latest notice before departure.",
+            "ja": "公式の現行時間（2026/08/01〜）は05:00–10:00、16:00–23:00。季節により変更されるため、出発前に最新情報を確認してください。",
+        },
+    },
+    "南竿鐵堡": {
+        "access_mode": "opening_hours_and_weather_control",
+        "access_hours": ["08:00", "17:00"],
+        "access_hours_source": "Matsu NSA official attraction page; verified 2026-09-24",
+        "access_note_i18n": {
+            "zh-TW": "官方目前列每日 08:00–17:00；長浪或強風時可能關閉。夜間不可假設可進入。",
+            "en": "Official hours are currently 08:00–17:00 daily; long-period waves or strong winds may trigger closure. Do not assume night access.",
+            "ja": "現在の公式営業時間は毎日08:00〜17:00。長周期波や強風時は閉鎖される場合があります。夜間入場を前提にしないでください。",
+        },
+    },
+    "野柳地質公園": {
+        "access_mode": "opening_hours",
+        # Conservative all-year contract. The official site also states a
+        # summer extension to 18:00, but does not define the seasonal date
+        # range on the hours page; do not infer dates. A future authoritative
+        # hours provider may override this 17:00 default when the active summer
+        # period is explicitly known.
+        "access_hours": ["08:00", "17:00"],
+        "access_hours_source": "Yehliu Geopark official hours page; verified 2026-09-24",
+        "access_note_i18n": {
+            "zh-TW": "一般開園 08:00–17:00，夏季通常至 18:00；特殊活動可能調整，拍攝前請查官方公告",
+            "en": "Normally open 08:00–17:00, usually to 18:00 in summer; verify official notices for event changes",
+            "ja": "通常08:00〜17:00、夏季は通常18:00まで。イベント時は公式案内を確認してください",
+        },
+    },
     "羚羊峽谷": {
         "access_mode": "daylight_only",
         "access_note_i18n": {
@@ -416,7 +470,78 @@ ACCESS_RULE_OVERRIDES = {
 # broad legacy coordinates and name-derived scene heuristics.  map_query is
 # also sent to the frontend so navigation can resolve the named POI even if
 # a mountain/park covers a large area.
-SPOT_OVERRIDES = {'大屯山助航站': {'lat': 25.17614,
+SPOT_OVERRIDES = {
+ '南雅奇岩': {'lat': 25.11982,
+          'lon': 121.89314,
+          'scenes': ['coast', 'geology'],
+          'themes': ['sunrise', 'sunset', 'sky_glow', 'blue_hour'],
+          'map_query': '南雅奇岩地質步道 新北市瑞芳區',
+          'coordinate_source': 'B28 geotagged-photo Camera Zone; official Place anchor cross-check',
+          'coordinate_confidence': 'high'},
+ '老梅綠石槽': {'lat': 25.29242,
+           'lon': 121.54446,
+           'scenes': ['coast', 'geology'],
+           'themes': ['sunrise', 'sky_glow', 'blue_hour'],
+           'map_query': '老梅綠石槽 新北市石門區',
+           'coordinate_source': 'B28 geotagged-photo Camera Zone; official Place anchor cross-check',
+           'coordinate_confidence': 'high'},
+ '野柳地質公園': {'lat': 25.20886,
+           'lon': 121.69314,
+           'scenes': ['coast', 'geology'],
+           'themes': ['mountain_view'],
+           'map_query': '野柳地質公園 女王頭 新北市萬里區',
+           'coordinate_source': 'B28 geotagged Queen Head Camera Zone; official park access cross-check',
+           'coordinate_confidence': 'high'},
+ '外澳沙灘': {'lat': 24.87516,
+         'lon': 121.84257,
+         'scenes': ['coast'],
+         'themes': ['sunrise', 'sky_glow', 'blue_hour'],
+         'map_query': '外澳沙灘 宜蘭縣頭城鎮',
+         'coordinate_source': 'B28 geotagged beach Camera Zone; official Waiao/Gueishan cross-check',
+         'coordinate_confidence': 'high'},
+ '龍磐公園': {'lat': 21.929,
+         'lon': 120.848,
+         'scenes': ['coast', 'grassland', 'geology'],
+         'themes': ['sunrise', 'milky_way', 'mountain_view'],
+         'map_query': '龍磐公園 屏東縣恆春鎮',
+         'coordinate_source': 'B28 broad Camera Zone from official Place anchor + geotagged photo evidence',
+         'coordinate_confidence': 'medium'},
+ '石梯坪': {'lat': 23.49073,
+        'lon': 121.51086,
+        'scenes': ['coast', 'geology'],
+        'themes': ['sunrise', 'mountain_view'],
+        'map_query': '石梯坪 花蓮縣豐濱鄉',
+        'coordinate_source': 'B28 geotagged-photo Camera Zone; Tourism Administration Place anchor cross-check',
+        'coordinate_confidence': 'high'},
+ '建功嶼': {'lat': 24.426386,
+        'lon': 118.304369,
+        'scenes': ['coast', 'architecture'],
+        'themes': ['sunset', 'mountain_view'],
+        'map_query': '建功嶼 金門縣金城鎮',
+        'coordinate_source': 'B28 geotagged tidal-causeway Camera Zone; Taiwan Tourism official Place anchor cross-check',
+        'coordinate_confidence': 'high'},
+ '池西岩瀑': {'lat': 23.60345,
+         'lon': 119.50265,
+         'scenes': ['coast', 'geology'],
+         'themes': ['sunset', 'mountain_view'],
+         'map_query': '池西岩瀑 澎湖縣西嶼鄉',
+         'coordinate_source': 'B28 multiple geotagged-photo Camera Zone; Penghu NSA official Place anchor cross-check',
+         'coordinate_confidence': 'high'},
+ '帆船鼻大草原': {'lat': 22.63366,
+            'lon': 121.5069,
+            'scenes': ['coast', 'grassland'],
+            'themes': ['sunrise', 'milky_way'],
+            'map_query': '帆船鼻大草原 綠島',
+            'coordinate_source': 'B28 Tourism Administration official Place anchor; broad grassland Camera Zone',
+            'coordinate_confidence': 'high'},
+ '南竿鐵堡': {'lat': 26.141922,
+          'lon': 119.921072,
+          'scenes': ['coast', 'architecture'],
+          'themes': ['mountain_view'],
+          'map_query': '鐵堡 南竿',
+          'coordinate_source': 'B28 Wikimedia/Panoramio camera geotag; Matsu NSA official Place anchor cross-check',
+          'coordinate_confidence': 'high'},
+ '大屯山助航站': {'lat': 25.17614,
             'lon': 121.52244,
             'map_query': '大屯山助航站 台北',
             'coordinate_source': 'OSM/Mapcarta POI',
@@ -1291,6 +1416,13 @@ SPOT_OVERRIDES.update({
 # is now an actual shooting position. spot_id remains stable because the source
 # tuple order is unchanged.
 DISPLAY_NAME_OVERRIDES = {
+    "外澳沙灘": {"zh-TW": "外澳沙灘／龜山朝日", "en": "Waiao Beach · Gueishan Sunrise", "ja": "外澳ビーチ・亀山島朝日", "local": "外澳沙灘"},
+    "龍磐公園": {"zh-TW": "龍磐公園／草原海岸", "en": "Longpan Park · Grassland Coast", "ja": "龍磐公園・草原海岸", "local": "龍磐公園"},
+    "石梯坪": {"zh-TW": "石梯坪海蝕平台／壺穴群", "en": "Shihtiping Marine Terraces · Potholes", "ja": "石梯坪・海食台と甌穴群", "local": "石梯坪"},
+    "建功嶼": {"zh-TW": "建功嶼／退潮石板道", "en": "Jiangong Islet · Tidal Causeway", "ja": "建功嶼・干潮石畳道", "local": "建功嶼"},
+    "池西岩瀑": {"zh-TW": "池西柱狀玄武岩／池西岩瀑九孔池", "en": "Chixi Columnar Basalt · Tidal Pools", "ja": "池西柱状玄武岩・九孔池", "local": "池西岩瀑"},
+    "帆船鼻大草原": {"zh-TW": "帆船鼻大草原／海岬", "en": "Fanchuanbi Grassland · Headland", "ja": "帆船鼻大草原・海岬", "local": "帆船鼻大草原"},
+    "南竿鐵堡": {"zh-TW": "南竿鐵堡／海防礁岩", "en": "Iron Fort · Coastal Stronghold", "ja": "南竿鉄堡・海防岩礁", "local": "鐵堡"},
     "九份不厭亭": {"zh-TW": "不厭亭", "en": "Buyan Pavilion Viewpoint", "ja": "不厭亭展望所", "local": "不厭亭"},
     "日月潭": {"zh-TW": "日月潭・水社壩湖景步道", "en": "Sun Moon Lake · Shuishe Dam Viewpoint", "ja": "日月潭・水社ダム湖畔", "local": "日月潭 水社壩"},
     "二延平步道": {"zh-TW": "二延平步道鋼構觀景平台", "en": "Eryanping Trail Viewing Platform", "ja": "二延平歩道展望台", "local": "二延平步道觀景平台"},
@@ -1360,8 +1492,14 @@ def _derive_scenes_themes(name_zh, legacy_tags, category, region_key):
         themes.update({"fog_mist", "sunbeam"})
     if "waterfall" in scenes:
         themes.add("long_exposure")
-    if "city" in scenes or "architecture" in scenes:
+    # Blue hour can suit architecture, but architecture alone is not evidence of
+    # a city-light night scene. Only an explicit city scene may auto-enable
+    # city_night; this prevents lighthouses, bridges and isolated landmarks from
+    # receiving city-light hints.
+    if "city" in scenes:
         themes.update({"blue_hour", "city_night"})
+    elif "architecture" in scenes:
+        themes.add("blue_hour")
     if "snow_ice" in scenes:
         themes.update({"snow_scene", "mountain_view"})
 
