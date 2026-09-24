@@ -890,6 +890,7 @@ def test_adapter_integrity():
             "sun_azimuth": 92,
             "sun_elevation": 2,
             "hour": 6,
+            "vis": 30000,
         }
     )
     assert "tw-033-P01" in marine_diag
