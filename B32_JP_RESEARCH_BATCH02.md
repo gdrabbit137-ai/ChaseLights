@@ -294,6 +294,13 @@ Source:
 - current generic summit coordinate is insufficient to enable this Opportunity.
 - keep research-pending/module-pending until route and access are explicitly selected.
 
+### Coordinate verification
+
+Fukushima Prefecture's official View Point 04 page links directly to Google Maps for Nakasenuma Observation Deck. That official link resolves to:
+- `37.6727759, 140.0689901`
+
+Use this as the representative Camera Zone anchor rather than the Mount Bandai summit coordinate.
+
 ### Migration decision
 
 For the first production migration, prefer `jp-009-P01` at Nakasenuma Observation Deck. Do not make summit hiking the default photography interpretation of the Place.
@@ -387,8 +394,8 @@ Source:
 ### Ready for first-pass runtime integration
 - jp-010-P01 Oishi Park Fuji landscape — minimum-sufficient visibility
 - jp-010-P02 Oishi Park reverse-Fuji reflection — visibility + water-surface-state
-- jp-009-P01 Nakasenuma + Mt Bandai — minimum-sufficient visibility after exact Camera Zone coordinate is pinned
-- jp-008-P01 Sokanzan Matsushima sunrise — directional horizon + visibility after exact Camera Zone coordinate is pinned
+- jp-009-P01 Nakasenuma + Mt Bandai — minimum-sufficient visibility; exact Camera Zone now pinned from Fukushima Prefecture's own Google Maps link at `37.6727759, 140.0689901`
+- jp-008-P01 Sokanzan Matsushima sunrise — directional horizon + visibility; official viewpoint confirmed, exact Camera Zone still requires final coordinate pin
 
 ### Hold / further research
 - jp-006 cloud-sea / star geometry details
