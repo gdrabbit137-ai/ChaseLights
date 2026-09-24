@@ -1,12 +1,79 @@
 {
-  "schema_version": "v0.04-r4.2-b32-jp-batch01-3",
+  "schema_version": "v0.04-r4.2-b32-jp-batch01-4",
   "generated_at": "2026-09-24T23:45:00+08:00",
-  "scope": "Japan Place-specific research migration; jp-003 Hosooka sunset + jp-004 Mt Hakodate night view + jp-005 Otaru",
-  "spot_count": 3,
-  "opportunity_count": 4,
-  "condition_variant_count": 4,
-  "profile_viewpoint_relation_count": 4,
+  "scope": "Japan Place-specific research migration; jp-001 Blue Pond data-insufficient + jp-003 Hosooka + jp-004 Mt Hakodate + jp-005 Otaru",
+  "spot_count": 4,
+  "opportunity_count": 5,
+  "condition_variant_count": 5,
+  "profile_viewpoint_relation_count": 5,
   "spots": [
+    {
+      "spot_id": "jp-001",
+      "canonical_name": "美瑛青池",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH01",
+      "research_sources": [
+        {
+          "authority": "Biei Tourism Association",
+          "url": "https://www.biei-hokkaido.jp/en/shirogane-blue-pond",
+          "verified_on": "2026-09-24",
+          "supports": "Blue water + standing larch landscape; snowmelt/heavy rain may make the pond turbid or not appear blue; winter snow can hide the blue water surface"
+        },
+        {
+          "authority": "Biei Tourism Association",
+          "url": "https://www.biei-hokkaido.jp/en/facility/shirogane-blue-pond",
+          "verified_on": "2026-09-24",
+          "supports": "official year-round visitor information and parking/access hours"
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-001-P01",
+          "spot_id": "jp-001",
+          "name_zh": "美瑛青池藍色水面與落葉松景觀",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "data_insufficient_blue_water_state",
+          "formula_version": "v0.04_pending_blue_water_turbidity_and_snow_cover_state",
+          "formula_confidence": 45,
+          "best_time": "白天（景點當地時間／JST）",
+          "best_season": "無積雪、可見水面期；冬季積雪可能遮住藍色水面",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-005",
+              "variant_name": "青池藍色水面＋立枯落葉松",
+              "condition_geometry": "{\"camera_zone\":\"白金青い池公共觀景步道 Camera Zone\",\"subject\":\"blue pond water + standing dead larch trees\"}",
+              "hard_gates": "合法公共觀景步道可達；白天可見光；水面未被積雪完全遮住",
+              "required_conditions": "水面實際呈藍色／青藍色且可辨；立枯落葉松可辨；能見度足夠",
+              "boosters": "柔和側光；低風；低霾",
+              "penalties": "融雪或大雨後混濁／不呈藍色；冬季積雪遮住水面；濃霧；強降水",
+              "formula_status": "research_complete_runtime_blue_water_state_missing"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-001-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Existing high-confidence Biei Blue Pond camera/navigation anchor retained; official tourism confirms public pond viewing area.",
+              "name": "白金青い池公共觀景步道 Camera Zone",
+              "lat": 43.493611,
+              "lon": 142.614167,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "existing_official_area_anchor_plus_biei_official_place_research",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 220,
+              "geometry_note": "青池沿公共觀景步道可移動構圖；代表觀景區，不宣稱唯一腳架點。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
     {
       "spot_id": "jp-003",
       "canonical_name": "釧路濕原",
