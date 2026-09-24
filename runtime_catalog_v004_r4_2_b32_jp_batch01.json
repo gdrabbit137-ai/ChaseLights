@@ -1,5 +1,5 @@
 {
-  "schema_version": "v0.04-r4.2-b32-jp-batch01-15",
+  "schema_version": "v0.04-r4.2-b32-jp-batch01-16",
   "generated_at": "2026-09-24T23:45:00+08:00",
   "scope": "Japan Place-specific research migration Batch01 complete: jp-001..jp-005",
   "spot_count": 8,
@@ -1343,6 +1343,85 @@
               "geometry_type": "small_area",
               "geometry_extent_m": 70,
               "geometry_note": "高德院境內大佛前可合法參拜／個人攝影區域；不包含大佛胎內。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-015",
+      "canonical_name": "皇居外苑二重橋",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH07",
+      "research_sources": [
+        {
+          "authority": "National Gardens Association Kokyo Gaien",
+          "url": "https://fng.or.jp/koukyo/2017/08/22/post_279/",
+          "verified_on": "2026-09-25",
+          "supports": "Official photography guidance recommends a Nijubashi + Fushimi-yagura composition from the Uchibori-dori sidewalk through the black pines"
+        },
+        {
+          "authority": "National Gardens Association Kokyo Gaien",
+          "url": "https://fng.or.jp/koukyo/place/historical/ruins-gaien/",
+          "verified_on": "2026-09-25",
+          "supports": "Nijubashi is identified as the most popular sight in the Imperial Palace Front Plaza"
+        },
+        {
+          "authority": "National Gardens Association Kokyo Gaien",
+          "url": "https://fng.or.jp/koukyo/2016/07/28/post_197/",
+          "verified_on": "2026-09-25",
+          "supports": "Official walking guide identifies Nijubashi with Fushimi-yagura as a representative landscape and explicitly references taking photos there"
+        },
+        {
+          "authority": "Cross-checked existing photographed camera point",
+          "url": "https://commons.wikimedia.org/wiki/File:Nijubashi_Moat_of_The_Imperial_Palace.JPG",
+          "verified_on": "2026-09-25",
+          "supports": "Photograph camera location 35.678475, 139.754897 confirms the existing anchor is a real Nijubashi-moat viewpoint"
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-015-P01",
+          "spot_id": "jp-015",
+          "name_zh": "皇居外苑・二重橋與伏見櫓景觀",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04_visibility_minimum_sufficient",
+          "formula_confidence": 94,
+          "best_time": "白天（景點當地時間／JST）",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-022",
+              "variant_name": "皇居前廣場・二重橋與伏見櫓日間景觀",
+              "condition_geometry": "{\"camera_zone\":\"皇居外苑二重橋 Camera Zone\",\"subject\":\"Nijubashi + Fushimi-yagura + moat / black-pine context\"}",
+              "hard_gates": "公共皇居外苑 Camera Zone 可達；白天可見光時段有效",
+              "required_conditions": "二重橋與伏見櫓可辨；能見度足夠；濃霧／強降水未嚴重遮蔽建築景觀",
+              "boosters": "空氣透明度佳；黑松與濠景可作前景層次，但不是硬性條件",
+              "penalties": "濃霧；強降水；能見度過低",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-015-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Public Kokyo Gaien / Imperial Palace Front Plaza camera area. This is not an interior palace-tour location and does not imply access through restricted gates.",
+              "name": "皇居外苑二重橋 Camera Zone",
+              "lat": 35.678475,
+              "lon": 139.754897,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_photo_guidance_plus_cross_checked_camera_location",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 180,
+              "geometry_note": "皇居前廣場／內堀通步道側可拍二重橋與伏見櫓的公共區域。",
               "geometry_confidence": "high"
             }
           ]
