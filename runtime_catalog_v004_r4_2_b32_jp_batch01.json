@@ -1,11 +1,11 @@
 {
-  "schema_version": "v0.04-r4.2-b32-jp-batch01-19",
-  "generated_at": "2026-09-24T23:45:00+08:00",
-  "scope": "Japan Place-specific research migration Batch01 complete: jp-001..jp-005",
-  "spot_count": 8,
-  "opportunity_count": 10,
-  "condition_variant_count": 10,
-  "profile_viewpoint_relation_count": 10,
+  "schema_version": "v0.04-r4.2-b32-jp-batch01-20",
+  "generated_at": "2026-09-25T02:00:00+08:00",
+  "scope": "Japan Place-specific research migration through Batch09: 21 researched Places including Osaka Castle / Gokurakubashi",
+  "spot_count": 21,
+  "opportunity_count": 25,
+  "condition_variant_count": 25,
+  "profile_viewpoint_relation_count": 25,
   "spots": [
     {
       "spot_id": "jp-001",
@@ -1659,6 +1659,85 @@
               "geometry_type": "small_area",
               "geometry_extent_m": 50,
               "geometry_note": "奥の院舞台的合法訪客範圍；僅限不妨礙參拜動線的手持攝影，不代表固定腳架位置。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-024",
+      "canonical_name": "大阪城公園",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH09",
+      "research_sources": [
+        {
+          "authority": "Osaka Castle Park Official Guidebook",
+          "url": "https://www.osakacastlepark.jp/pdf/osakacastle_guidebook_english2024.pdf",
+          "verified_on": "2026-09-25",
+          "supports": "Gokurakubashi Bridge is explicitly identified as a popular spot for beautiful photographs of the Main Tower over the Inner Moat"
+        },
+        {
+          "authority": "Osaka Castle Museum photography-spot series",
+          "url": "https://www.osakacastle.net/toyotomi_stone_wall/column/1906.html",
+          "verified_on": "2026-09-25",
+          "supports": "Official Osaka Castle material documents real camera positions and compositions rather than treating the castle-center POI as the camera location"
+        },
+        {
+          "authority": "Osaka Convention & Tourism Bureau",
+          "url": "https://osaka-info.jp/en/spot/osaka-castle-park/",
+          "verified_on": "2026-09-25",
+          "supports": "Osaka Castle Park is always open; individual internal facilities have separate opening schedules"
+        },
+        {
+          "authority": "Cross-checked photographed Gokurakubashi viewpoint",
+          "url": "https://commons.wikimedia.org/wiki/File:Tenshu_and_Gokurakubashi_Bridge_of_Osaka_Castle.jpg",
+          "verified_on": "2026-09-25",
+          "supports": "Camera location 34.689200, 135.526750 cross-checks the official Gokurakubashi Main-Tower-over-moat composition"
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-024-P01",
+          "spot_id": "jp-024",
+          "name_zh": "大阪城極樂橋・內護城河與天守閣景觀",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04_visibility_minimum_sufficient",
+          "formula_confidence": 95,
+          "best_time": "可見光時間（景點當地時間／JST）",
+          "best_season": "全年；櫻花與季節植栽為加分題材，不作基本 Outcome 硬條件",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-026",
+              "variant_name": "極樂橋・內護城河與大阪城天守閣",
+              "condition_geometry": "{\"camera_zone\":\"大阪城極楽橋北側／内濠公共步道 Camera Zone\",\"subject\":\"Gokurakubashi Bridge + Inner Moat + Osaka Castle Main Tower\"}",
+              "hard_gates": "大阪城公園公共步道可合法進入；可見光拍攝時段有效",
+              "required_conditions": "極樂橋、內護城河與天守閣構圖可辨；能見度足夠；濃霧／強降水未嚴重遮蔽城郭",
+              "boosters": "空氣透明度佳；季節花木可增加畫面層次；平靜水面可增加水景效果，但不是基本 Outcome 必要條件",
+              "penalties": "強降水；濃霧；能見度過低",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-024-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official Osaka Castle guidebook explicitly identifies Gokurakubashi as a popular Main-Tower-over-Inner-Moat photo spot. Coordinate is a cross-checked photographed public-path camera anchor, not a mandatory tripod point.",
+              "name": "大阪城極樂橋北側／內護城河 Camera Zone",
+              "lat": 34.6892,
+              "lon": 135.52675,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_photo_spot_plus_cross_checked_camera_location",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 120,
+              "geometry_note": "極樂橋北側與內護城河周邊合法公共步道範圍，可前後移動構圖；不是單一腳架位置。",
               "geometry_confidence": "high"
             }
           ]
