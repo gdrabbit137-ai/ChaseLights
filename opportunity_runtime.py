@@ -986,9 +986,9 @@ def validate_runtime_registry():
     errors.extend(validate_marine_state_registry())
     errors.extend(validate_tide_state_registry())
     errors.extend(validate_access_registry())
-    if len(DIRECTIONAL_HORIZON_SECTORS) != 46:
+    if len(DIRECTIONAL_HORIZON_SECTORS) != 47:
         errors.append(
-            f"expected 46 registered directional profiles, got {len(DIRECTIONAL_HORIZON_SECTORS)}"
+            f"expected 47 registered directional profiles, got {len(DIRECTIONAL_HORIZON_SECTORS)}"
         )
     if set(CLOUD_SKY_GLOW_PROFILES) != {"tw-013-P02", "tw-026-P02", "tw-030-P02", "tw-035-P04"}:
         errors.append(f"unexpected cloud_sky_glow registry: {sorted(CLOUD_SKY_GLOW_PROFILES)}")
