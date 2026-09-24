@@ -1,12 +1,85 @@
 {
-  "schema_version": "v0.04-r4.2-b32-jp-batch01-1",
+  "schema_version": "v0.04-r4.2-b32-jp-batch01-2",
   "generated_at": "2026-09-24T23:45:00+08:00",
-  "scope": "Japan Place-specific research migration; jp-005 only",
-  "spot_count": 1,
-  "opportunity_count": 2,
-  "condition_variant_count": 2,
-  "profile_viewpoint_relation_count": 2,
+  "scope": "Japan Place-specific research migration; jp-003 Hosooka sunset + jp-005 Otaru",
+  "spot_count": 2,
+  "opportunity_count": 3,
+  "condition_variant_count": 3,
+  "profile_viewpoint_relation_count": 3,
   "spots": [
+    {
+      "spot_id": "jp-003",
+      "canonical_name": "釧路濕原",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH01",
+      "research_sources": [
+        {
+          "authority": "Ministry of the Environment, Japan",
+          "url": "https://www.env.go.jp/nature/nationalparks/list/kushiro-shitsugen/spot/",
+          "verified_on": "2026-09-24",
+          "supports": "Hosooka Viewpoint panorama of meandering Kushiro River, wetland and Akan mountains; sunset explicitly recommended"
+        },
+        {
+          "authority": "Kushiro Wetland Nature Restoration Project Data Center, Ministry of the Environment",
+          "url": "https://kushirodata-center.env.go.jp/wetland/wetland_article3_12.html",
+          "verified_on": "2026-09-24",
+          "supports": "Hosooka is on the east side of the wetland and provides sunset-lit wetland/river views"
+        },
+        {
+          "authority": "MapFan",
+          "url": "https://mapfan.com/spots/SCYQI%2CJ%2CAW",
+          "verified_on": "2026-09-24",
+          "supports": "Hosooka Viewpoint coordinate 43.0980769, 144.4492556"
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-003-P01",
+          "spot_id": "jp-003",
+          "name_zh": "細岡展望台釧路川濕原夕景",
+          "legacy_theme": "sunset",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04_visibility_minimum_sufficient",
+          "formula_confidence": 88,
+          "best_time": "日落前後（景點當地時間／JST）",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-003",
+              "variant_name": "細岡展望台濕原夕陽",
+              "condition_geometry": "{\"camera_zone\":\"細岡展望台 Camera Zone\",\"target\":\"meandering Kushiro River + broad wetland + western sunset sky\"}",
+              "hard_gates": "合法展望區可達；日落時段有效；無明確封閉",
+              "required_conditions": "濕原與釧路川可辨；能見度足夠；低雲或降水未嚴重遮蔽夕照方向與主體",
+              "boosters": "中高雲提供夕彩；低霾；空氣透明度佳",
+              "penalties": "西方低雲完全封住夕照；濃霧；強降水；能見度明顯不足",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-003-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Environment Ministry explicitly recommends the Hosooka sunset; coordinate cross-checked to mapped viewpoint.",
+              "name": "細岡展望台 Camera Zone",
+              "lat": 43.0980769,
+              "lon": 144.4492556,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_viewpoint_and_sunset_recommendation_plus_mapped_coordinate",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 35,
+              "geometry_note": "細岡展望台／大觀望公共展望區；以觀景平台為 Camera Zone，不宣稱唯一腳架點。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
     {
       "spot_id": "jp-005",
       "canonical_name": "小樽運河",
