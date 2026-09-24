@@ -1063,7 +1063,7 @@ SPOT_OVERRIDES = {
              'lon': 139.6467,
              'scenes': ['city', 'coast', 'architecture'],
              'themes': ['city_night'],
-             'map_query': '横浜港大さん橋 国際客船ターミナル',
+             'map_query': 'OSANBASHI VIEWPOINT 横浜港大さん橋',
              'coordinate_source': 'Yokohama official Osanbashi rooftop + OSM scenic viewpoint node',
              'coordinate_confidence': 'high'},
  '新穗高高空纜車': {'lat': 36.267961,
