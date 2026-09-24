@@ -80,6 +80,7 @@ def _base_snapshot(item, metric, window_start=None, window_end=None):
         "wind": item.get("wind"),
         "visibility": item.get("visibility"),
         "astronomy_valid": item.get("astronomy_valid"),
+        "access_open": item.get("access_open"),
         "sun_azimuth": item.get("sun_azimuth"),
         "sun_elevation": item.get("sun_elevation"),
         "moon_azimuth": item.get("moon_azimuth"),
