@@ -98,7 +98,7 @@ MINIMUM_SUFFICIENT_VISIBILITY_PROFILES = {
     # B32: official Otaru photo spot. A clean, readable daytime canal +
     # warehouse scene is itself sufficient; evening managed lighting remains
     # a separate Opportunity and is not inferred from this contract.
-    "jp-005-P01", "jp-003-P01", "jp-007-P01", "jp-009-P01", "jp-010-P01",
+    "jp-005-P01", "jp-003-P01", "jp-006-P01", "jp-007-P01", "jp-009-P01", "jp-010-P01",
 }
 
 def supports_minimum_sufficient_contract(opportunity):
@@ -225,6 +225,7 @@ CLOUD_SKY_GLOW_PROFILES = {
 }
 
 ASTRONOMY_EPHEMERIS_PROFILES = {
+    "jp-006-P02": {"mode": "milky_way_or_star_field"},
     "tw-019-P05": {"mode": "milky_way_or_star_field"},
     "tw-024-P05": {"mode": "star_field"},
     "tw-035-P05": {"mode": "milky_way_or_star_field"},
@@ -994,6 +995,7 @@ def validate_runtime_registry():
     if len(SPATIAL_WEATHER_PROFILES) != 19:
         errors.append(f"expected 19 spatial weather profiles, got {len(SPATIAL_WEATHER_PROFILES)}")
     expected_astro = {
+        "jp-006-P02",
         "tw-019-P05", "tw-024-P05", "tw-035-P05", "tw-036-P02",
         "tw-038-P02", "tw-040-P06", "tw-045-P03", "tw-070-P02", "tw-076-P02", "tw-080-P02",
     }
