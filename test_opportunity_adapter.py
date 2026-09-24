@@ -283,6 +283,21 @@ def test_adapter_integrity():
     assert "const researchPending=!!metric.research_pending||!spot.opportunities?.length;const hasScore=" in index_html
     assert "&&!researchPending&&!noViable" in index_html
 
+    # B31: Weather Forecast must fetch only the selected Place detail shard.
+    assert "chaselights-v10-weather" in index_html
+    assert "./weather_details/${region}/${encodeURIComponent(spotId)}.json" in index_html
+    assert "loadDetails(currentRegion,spot.spot_id)" in index_html
+    assert "const detail=payload?.spot" in index_html
+    assert "_weather_details.json" not in index_html
+
+    analyze_weather_src = Path("analyze_weather.py").read_text(encoding="utf-8")
+    assert 'Path("weather_details") / region' in analyze_weather_src
+    assert '"spot": detail' in analyze_weather_src
+    assert 'existing.unlink()' in analyze_weather_src
+
+    update_weather_workflow = Path(".github/workflows/update_weather.yml").read_text(encoding="utf-8")
+    assert "weather_details/" in update_weather_workflow
+
     nanya = next(o for o in all_opportunities if o["opportunity_id"] == "tw-072-P01")
     assert runtime_policy(nanya) == "preview_module_available"
     assert dependency_state(nanya)["required_components"] == ("marine_state", "directional_horizon", "visibility")
