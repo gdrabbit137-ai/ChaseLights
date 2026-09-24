@@ -407,6 +407,8 @@ def _dark_sky_meta(region_key, name_zh, category, scenes, themes):
 ACCESS_RULE_OVERRIDES = {
     "南竿鐵堡": {
         "access_mode": "opening_hours_and_weather_control",
+        "access_hours": ["08:00", "17:00"],
+        "access_hours_source": "Matsu NSA official attraction page; verified 2026-09-24",
         "access_note_i18n": {
             "zh-TW": "官方目前列每日 08:00–17:00；長浪或強風時可能關閉。夜間不可假設可進入。",
             "en": "Official hours are currently 08:00–17:00 daily; long-period waves or strong winds may trigger closure. Do not assume night access.",
@@ -415,6 +417,13 @@ ACCESS_RULE_OVERRIDES = {
     },
     "野柳地質公園": {
         "access_mode": "opening_hours",
+        # Conservative all-year contract. The official site also states a
+        # summer extension to 18:00, but does not define the seasonal date
+        # range on the hours page; do not infer dates. A future authoritative
+        # hours provider may override this 17:00 default when the active summer
+        # period is explicitly known.
+        "access_hours": ["08:00", "17:00"],
+        "access_hours_source": "Yehliu Geopark official hours page; verified 2026-09-24",
         "access_note_i18n": {
             "zh-TW": "一般開園 08:00–17:00，夏季通常至 18:00；特殊活動可能調整，拍攝前請查官方公告",
             "en": "Normally open 08:00–17:00, usually to 18:00 in summer; verify official notices for event changes",
