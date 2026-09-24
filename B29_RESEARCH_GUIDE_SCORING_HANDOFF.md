@@ -64,6 +64,25 @@ No user-facing UI label should call Weather Forecast "96H details". The forecast
 
 Legacy Theme score is only a weather/time baseline and compatibility output. Place ranking is Opportunity-first.
 
+### Minimum sufficient condition rule
+
+Do not equate formula complexity with photographic value.
+
+Some individually researched Opportunities are successful whenever the scene is simply clean and readable. For those explicitly curated profiles, ChaseLights uses a **minimum sufficient condition** contract:
+
+- visibility must be usable,
+- low cloud must not materially block the subject,
+- precipitation must not materially obscure the scene,
+- access must not be known closed,
+- the legacy Theme baseline still enforces time-of-day semantics such as daylight, blue hour, or night.
+
+These profiles may legitimately enter the high-recommendation band when those simple conditions are strongly met, even if a more elaborate optional/refinement module is not implemented.
+
+The registry is manual and Opportunity-ID-specific. It MUST NOT be inferred automatically from Scene/Theme labels.
+
+Current seed: 41 researched Taiwan Opportunities, including broad mountain/landscape/city views and the two researched Yehliu geology views.
+
+
 Daily output:
 - `daily[].all`: researched Opportunity winner
 - `daily[].opportunities`: per-Opportunity daily snapshots
@@ -81,7 +100,8 @@ Safety caps:
 - preview runtime data missing <= 45
 - preview dedicated-condition miss <= 54
 - prototype_pending_certification <= 79
-- only a researched `preview_module_available` Opportunity with all dedicated conditions available + eligible may use its weather baseline and enter 80+
+- a researched `preview_module_available` Opportunity with all dedicated conditions available + eligible may use its weather baseline and enter 80+
+- a researched `minimum_sufficient_available` Opportunity may also enter 80+ when its explicit clear-view minimum sufficient contract matches
 
 Therefore a clear-weather Theme score alone can never produce an 80+ Place recommendation.
 
