@@ -1,11 +1,11 @@
 {
-  "schema_version": "v0.04-r4.2-b32-jp-batch01-7",
+  "schema_version": "v0.04-r4.2-b32-jp-batch01-8",
   "generated_at": "2026-09-24T23:45:00+08:00",
   "scope": "Japan Place-specific research migration Batch01 complete: jp-001..jp-005",
-  "spot_count": 7,
-  "opportunity_count": 9,
-  "condition_variant_count": 9,
-  "profile_viewpoint_relation_count": 9,
+  "spot_count": 8,
+  "opportunity_count": 10,
+  "condition_variant_count": 10,
+  "profile_viewpoint_relation_count": 10,
   "spots": [
     {
       "spot_id": "jp-001",
@@ -399,6 +399,85 @@
               "geometry_type": "small_area",
               "geometry_extent_m": 45,
               "geometry_note": "淺草橋街園及橋頭公共拍攝區；代表 Camera Zone，不宣稱唯一腳架點。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-008",
+      "canonical_name": "松島",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH02",
+      "research_sources": [
+        {
+          "authority": "Matsushima Town",
+          "url": "https://www.town.miyagi-matsushima.lg.jp/page/1267.html",
+          "verified_on": "2026-09-25",
+          "supports": "Sokanzan summit is a developed observation area with views of both Shiogama Bay and Matsushima Bay; sunrise between the islands is especially scenic"
+        },
+        {
+          "authority": "Matsushima Tourism Association",
+          "url": "https://www.matsushima-kanko.com/pamphlet/pdf/map_g.pdf",
+          "verified_on": "2026-09-25",
+          "supports": "Sokanzan is an official scenic viewpoint; sunrise over distant Kinkasan is specifically highlighted"
+        },
+        {
+          "authority": "Matsushima Town official transport-map link",
+          "url": "https://www.town.miyagi-matsushima.lg.jp/page/1267.html",
+          "verified_on": "2026-09-25",
+          "supports": "official transport link pins Sokanzan observation area at approximately 38.3525784, 141.0623503"
+        },
+        {
+          "authority": "Geospatial Information Authority of Japan",
+          "url": "https://web1.gsi.go.jp/common/000238295.pdf",
+          "verified_on": "2026-09-25",
+          "supports": "Kinkasan official gazetteer location is approximately 38°18'N, 141°34'E; used with the verified camera anchor to derive an approximately 98° target bearing"
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-008-P01",
+          "spot_id": "jp-008",
+          "name_zh": "双観山・松島灣群島朝日",
+          "legacy_theme": "sunrise",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04_directional_horizon_visibility",
+          "formula_confidence": 91,
+          "best_time": "日出前後（景點當地時間／JST）",
+          "best_season": "全年可看朝景；高分需當日日出方位落入双観山→金華山研究扇區",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-010",
+              "variant_name": "双観山群島層次＋金華山方向朝日",
+              "condition_geometry": "{\"camera_zone\":\"双観山山頂展望台 Camera Zone\",\"target_sector\":\"toward distant Kinkasan / island sunrise sector\",\"derived_bearing_deg\":98}",
+              "hard_gates": "合法公共展望區可達；日出時段有效",
+              "required_conditions": "日出方位落入研究扇區；松島灣島嶼與遠方地平線可辨；能見度足夠",
+              "boosters": "低雲少；中高雲可形成晨彩；低霾；空氣透明度佳",
+              "penalties": "日出方位偏離研究扇區；東方低雲封住朝日；濃霧／低能見度；強降水",
+              "formula_status": "directional_horizon_visibility_runtime"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-008-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Matsushima Town identifies Sokanzan summit as the official observation area; its official transport link pins this Camera Zone. Target bearing is derived toward GSI-listed Kinkasan.",
+              "name": "双観山山頂展望台 Camera Zone",
+              "lat": 38.3525784,
+              "lon": 141.0623503,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_town_viewpoint_plus_official_linked_map_coordinate",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 80,
+              "geometry_note": "双観山山頂公共展望區的代表 Camera Zone；日出構圖按朝向金華山／群島的方向扇區判定，不宣稱唯一腳架點。",
               "geometry_confidence": "high"
             }
           ]
