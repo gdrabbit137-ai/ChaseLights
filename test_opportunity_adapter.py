@@ -80,14 +80,14 @@ def _all_opportunities():
 
 
 def test_adapter_integrity():
-    assert ADAPTER_VERSION == "v0.04-r4.2-b32-jp-batch01-r19-preview"
+    assert ADAPTER_VERSION == "v0.04-r4.2-b32-jp-batch01-r20-preview"
     assert validate_curated_opportunities() == []
     assert validate_taxonomy() == []
     assert CATALOG_COUNTS == {
-        "spots": 100,
-        "opportunities": 213,
-        "condition_variants": 223,
-        "profile_viewpoint_relations": 218,
+        "spots": 101,
+        "opportunities": 214,
+        "condition_variants": 224,
+        "profile_viewpoint_relations": 219,
     }
     assert REGION_CATALOG_COUNTS["tw"] == {
         "spots": 80,
@@ -96,10 +96,10 @@ def test_adapter_integrity():
         "profile_viewpoint_relations": 194,
     }
     assert REGION_CATALOG_COUNTS["jp"] == {
-        "spots": 20,
-        "opportunities": 24,
-        "condition_variants": 24,
-        "profile_viewpoint_relations": 24,
+        "spots": 21,
+        "opportunities": 25,
+        "condition_variants": 25,
+        "profile_viewpoint_relations": 25,
     }
     assert REGION_CATALOG_COUNTS["us"] == {
         "spots": 0,
@@ -107,6 +107,23 @@ def test_adapter_integrity():
         "condition_variants": 0,
         "profile_viewpoint_relations": 0,
     }
+
+    jp_catalog = json.loads(
+        Path("runtime_catalog_v004_r4_2_b32_jp_batch01.json").read_text(encoding="utf-8")
+    )
+    assert jp_catalog["schema_version"] == "v0.04-r4.2-b32-jp-batch01-20"
+    assert jp_catalog["spot_count"] == len(jp_catalog["spots"]) == 21
+    assert jp_catalog["opportunity_count"] == sum(len(x.get("opportunities", [])) for x in jp_catalog["spots"]) == 25
+    assert jp_catalog["condition_variant_count"] == sum(
+        len(o.get("condition_variants", []))
+        for x in jp_catalog["spots"]
+        for o in x.get("opportunities", [])
+    ) == 25
+    assert jp_catalog["profile_viewpoint_relation_count"] == sum(
+        len(o.get("viewpoints", []))
+        for x in jp_catalog["spots"]
+        for o in x.get("opportunities", [])
+    ) == 25
 
     tw = get_spots("tw")
     assert len(tw) == 81
@@ -141,12 +158,12 @@ def test_adapter_integrity():
     assert policies == {
         "module_pending": 71,
         "preview_module_available": 79,
-        "minimum_sufficient_available": 58,
+        "minimum_sufficient_available": 59,
         "prototype_pending_certification": 2,
         "hold": 1,
         "data_insufficient": 2,
     }
-    assert len(MINIMUM_SUFFICIENT_VISIBILITY_PROFILES) == 58
+    assert len(MINIMUM_SUFFICIENT_VISIBILITY_PROFILES) == 59
 
     deyue = next(o for o in get_opportunities("tw", "tw-062") if o["opportunity_id"] == "tw-062-P01")
     assert deyue["legacy_theme"] == "mountain_view"
@@ -1340,6 +1357,21 @@ def test_adapter_integrity():
         {"vis": 30000, "c_low": 10, "pop": 5, "precipitation": 0.0, "access_open": False},
     )
     assert nagoya_closed_diag["jp-018-P01"]["eligible"] is False
+
+    jp024 = get_opportunities("jp", "jp-024")
+    assert [o["opportunity_id"] for o in jp024] == ["jp-024-P01"]
+    assert jp024[0]["runtime_policy"] == "minimum_sufficient_available"
+    assert dependencies_for_opportunity(jp024[0]) == ("visibility",)
+    osaka_spot = next(s for s in get_spots("jp") if s["spot_id"] == "jp-024")
+    assert abs(osaka_spot["lat"] - 34.6892) < 1e-6
+    assert abs(osaka_spot["lon"] - 135.52675) < 1e-6
+    assert osaka_spot["map_query"] == "大阪城 極楽橋"
+    osaka_diag = fetch_data._build_opportunity_runtime_diagnostics(
+        {"opportunities": jp024},
+        {"vis": 30000, "c_low": 10, "pop": 5, "precipitation": 0.0, "access_open": True},
+    )
+    assert osaka_diag["jp-024-P01"]["available"] is True
+    assert osaka_diag["jp-024-P01"]["eligible"] is True
 
     jp023 = get_opportunities("jp", "jp-023")
     assert [o["opportunity_id"] for o in jp023] == ["jp-023-P01"]
