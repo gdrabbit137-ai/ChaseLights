@@ -2,6 +2,7 @@ import sys
 import json
 from datetime import datetime, timezone, timedelta
 from collections import defaultdict
+from pathlib import Path
 
 from regions import get_spots
 from fetch_data import (
@@ -388,8 +389,35 @@ def main():
     with open(details_name, "w", encoding="utf-8") as f:
         json.dump(detail_data, f, ensure_ascii=False, separators=(",", ":"))
 
+    # B31: publish addressable per-Place 96H detail shards.  The regional
+    # details file remains during the transition as a fallback/backward-
+    # compatibility artifact, but the browser no longer needs to download it.
+    shard_dir = Path("weather_details") / region
+    shard_dir.mkdir(parents=True, exist_ok=True)
+    expected_shard_names = set()
+    for detail in details:
+        spot_id = detail.get("spot_id")
+        if not spot_id:
+            raise RuntimeError("Cannot publish weather detail shard without spot_id")
+        shard_name = f"{spot_id}.json"
+        expected_shard_names.add(shard_name)
+        shard_payload = {
+            **base_meta,
+            "spot_id": spot_id,
+            "data_stale": bool(detail.get("data_stale")),
+            "spot": detail,
+        }
+        with (shard_dir / shard_name).open("w", encoding="utf-8") as f:
+            json.dump(shard_payload, f, ensure_ascii=False, separators=(",", ":"))
+
+    # Remove shards for Places that have been retired from the active catalog.
+    for existing in shard_dir.glob("*.json"):
+        if existing.name not in expected_shard_names:
+            existing.unlink()
+
     print(f"✅ {summary_name}: {len(summaries)} spots")
-    print(f"✅ {details_name}: 96H details on demand")
+    print(f"✅ {details_name}: 96H regional compatibility details")
+    print(f"✅ {shard_dir.as_posix()}/: {len(expected_shard_names)} place detail shards")
 
 
 if __name__ == "__main__":

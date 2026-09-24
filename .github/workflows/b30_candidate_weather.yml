@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - r4.2-b28-p0-missing-places
+      - r4.2-b31-place-weather-details
     paths:
       - "regions.py"
       - "analyze_weather.py"
@@ -68,6 +69,24 @@ jobs:
           assert "tw-063" not in dids
           assert set(sids) == set(dids)
 
+          shard_dir = Path("weather_details") / "tw"
+          shard_files = sorted(shard_dir.glob("tw-*.json"))
+          assert len(shard_files) == 80, f"expected 80 Taiwan detail shards, got {len(shard_files)}"
+          shard_ids = []
+          for shard_path in shard_files:
+              shard = json.loads(shard_path.read_text(encoding="utf-8"))
+              assert shard.get("updated_at") == summary.get("updated_at"), (
+                  shard_path.name,
+                  shard.get("updated_at"),
+                  summary.get("updated_at"),
+              )
+              detail = shard.get("spot") or {}
+              assert shard.get("spot_id") == detail.get("spot_id"), shard_path.name
+              assert detail.get("spot_id"), shard_path.name
+              shard_ids.append(detail["spot_id"])
+          assert set(shard_ids) == set(sids)
+          assert "tw-063" not in shard_ids
+
           pending = []
           winner_errors = []
           no_viable_days = []
@@ -115,6 +134,7 @@ jobs:
           report = {
               "summary_count": len(summary_spots),
               "details_count": len(detail_spots),
+              "detail_shard_count": len(shard_files),
               "stale_spot_count": len(stale),
               "stale_spots": stale,
               "retired_tw_063_present": False,
