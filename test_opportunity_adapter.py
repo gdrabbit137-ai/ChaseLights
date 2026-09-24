@@ -65,6 +65,7 @@ import fetch_data
 from opportunities import (
     ADAPTER_VERSION,
     CATALOG_COUNTS,
+    REGION_CATALOG_COUNTS,
     CURATED_OPPORTUNITIES,
     get_opportunities,
     runtime_policy,
@@ -79,14 +80,32 @@ def _all_opportunities():
 
 
 def test_adapter_integrity():
-    assert ADAPTER_VERSION == "v0.04-r4.2-b28-p0-final-simple-preview"
+    assert ADAPTER_VERSION == "v0.04-r4.2-b32-jp-batch01-preview"
     assert validate_curated_opportunities() == []
     assert validate_taxonomy() == []
     assert CATALOG_COUNTS == {
+        "spots": 81,
+        "opportunities": 191,
+        "condition_variants": 201,
+        "profile_viewpoint_relations": 196,
+    }
+    assert REGION_CATALOG_COUNTS["tw"] == {
         "spots": 80,
         "opportunities": 189,
         "condition_variants": 199,
         "profile_viewpoint_relations": 194,
+    }
+    assert REGION_CATALOG_COUNTS["jp"] == {
+        "spots": 1,
+        "opportunities": 2,
+        "condition_variants": 2,
+        "profile_viewpoint_relations": 2,
+    }
+    assert REGION_CATALOG_COUNTS["us"] == {
+        "spots": 0,
+        "opportunities": 0,
+        "condition_variants": 0,
+        "profile_viewpoint_relations": 0,
     }
 
     tw = get_spots("tw")
@@ -108,8 +127,8 @@ def test_adapter_integrity():
     assert sum(len(s["opportunities"]) for s in curated.values()) == 189
 
     all_opportunities = _all_opportunities()
-    assert sum(len(o["condition_variants"]) for o in all_opportunities) == 199
-    assert sum(len(o["viewpoints"]) for o in all_opportunities) == 194
+    assert sum(len(o["condition_variants"]) for o in all_opportunities) == 201
+    assert sum(len(o["viewpoints"]) for o in all_opportunities) == 196
     assert not any(o["formula_status"] == "legacy_fallback_pending_curated" for o in all_opportunities)
     assert not any(str(o.get("formula_version") or "").startswith("legacy_") for o in all_opportunities)
 
@@ -120,14 +139,14 @@ def test_adapter_integrity():
 
     policies = Counter(runtime_policy(o) for o in all_opportunities)
     assert policies == {
-        "module_pending": 68,
+        "module_pending": 69,
         "preview_module_available": 75,
-        "minimum_sufficient_available": 42,
+        "minimum_sufficient_available": 43,
         "prototype_pending_certification": 2,
         "hold": 1,
         "data_insufficient": 1,
     }
-    assert len(MINIMUM_SUFFICIENT_VISIBILITY_PROFILES) == 42
+    assert len(MINIMUM_SUFFICIENT_VISIBILITY_PROFILES) == 43
 
     deyue = next(o for o in get_opportunities("tw", "tw-062") if o["opportunity_id"] == "tw-062-P01")
     assert deyue["legacy_theme"] == "mountain_view"
@@ -290,6 +309,12 @@ def test_adapter_integrity():
     assert "const detail=payload?.spot" in index_html
     assert "loadLegacyDetail(region,spotId)" in index_html
     assert "catch(shardError)" in index_html
+
+    # Time-zone contract: shooting windows remain Place-local; only Last Updated
+    # follows the user's device/browser timezone.
+    assert "拍攝時間皆以景點當地時區顯示" in index_html
+    assert "適合時間（景點當地時間）" in index_html
+    assert "timeZoneName:'short'" in index_html
 
     analyze_weather_src = Path("analyze_weather.py").read_text(encoding="utf-8")
     assert 'Path("weather_details") / region' in analyze_weather_src
@@ -1122,6 +1147,12 @@ def test_adapter_integrity():
     tw052 = get_opportunities("tw", "tw-052")
     assert tw052[0]["runtime_policy"] == "hold"
     assert get_opportunities("jp", "jp-001") == []
+    jp005 = get_opportunities("jp", "jp-005")
+    assert [o["opportunity_id"] for o in jp005] == ["jp-005-P01", "jp-005-P02"]
+    assert jp005[0]["runtime_policy"] == "minimum_sufficient_available"
+    assert jp005[1]["runtime_policy"] == "module_pending"
+    assert dependencies_for_opportunity(jp005[0]) == ("visibility",)
+    assert dependencies_for_opportunity(jp005[1]) == ("managed_lighting_state",)
     assert get_opportunities("us", "us-001") == []
 
     copy = get_opportunities("tw", "tw-001")
@@ -1368,9 +1399,19 @@ def test_active_catalog_weather_generation_guard():
             # fields stay absent in the UI rather than being filled by a
             # generic template.
 
-    # Non-migrated regions must remain explicit research gaps; the UI may show a
-    # research-pending notice but must not synthesize generic recommendations.
-    assert all(not (spot.get("opportunities") or []) for spot in get_spots("jp"))
+    # Non-migrated Places must remain explicit research gaps; enabling one
+    # researched Japan Place must not leak legacy scoring into the other 34.
+    jp_spots = get_spots("jp")
+    researched_jp = {spot["spot_id"] for spot in jp_spots if spot.get("opportunities")}
+    assert researched_jp == {"jp-005"}
+    assert all(
+        not (spot.get("opportunities") or [])
+        for spot in jp_spots if spot["spot_id"] != "jp-005"
+    )
+    otaru = next(spot for spot in jp_spots if spot["spot_id"] == "jp-005")
+    assert abs(otaru["lat"] - 43.197887) < 1e-9
+    assert abs(otaru["lon"] - 141.003034) < 1e-9
+    assert otaru["coordinate_confidence"] == "high"
     assert all(not (spot.get("opportunities") or []) for spot in get_spots("us"))
 
     stale = analyze_weather._mark_stale({"spot_id": "tw-009", "daily": []}, "weather_fetch_failed")
