@@ -1524,7 +1524,7 @@ def test_active_catalog_weather_generation_guard():
     # researched Japan Place must not leak legacy scoring into the remaining pending Places.
     jp_spots = get_spots("jp")
     researched_jp = {spot["spot_id"] for spot in jp_spots if spot.get("opportunities")}
-    assert researched_jp == {"jp-001", "jp-002", "jp-003", "jp-004", "jp-005", "jp-008", "jp-009", "jp-010"}
+    assert researched_jp == {"jp-001", "jp-002", "jp-003", "jp-004", "jp-005", "jp-006", "jp-007", "jp-008", "jp-009", "jp-010"}
     assert all(
         not (spot.get("opportunities") or [])
         for spot in jp_spots if spot["spot_id"] not in {"jp-001", "jp-002", "jp-003", "jp-004", "jp-005", "jp-008", "jp-009", "jp-010"}
