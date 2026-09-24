@@ -224,9 +224,19 @@ Source:
   - clear-view minimum-sufficient may support the generic bay view;
   - blossom-specific high score should remain seasonal-phenology pending.
 
+### Coordinate and directional verification
+
+Matsushima Town's official transport link for 双観山 pins the summit observation area at approximately:
+- `38.3525784, 141.0623503`
+
+The Geospatial Information Authority of Japan lists Kinkasan at approximately:
+- `38°18'N, 141°34'E`
+
+From the verified Sokanzan Camera Zone to Kinkasan, the derived target bearing is approximately **98°**. The runtime directional contract therefore uses a researched sunrise sector centered at 98°, rather than assuming generic due-east sunrise geometry.
+
 ### Migration decision
 
-Keep `jp-008` as one Matsushima Place with multiple researched Viewpoints. The current Godaido POI can remain a navigation fallback only if the product still needs a central Matsushima anchor; it must not be used as the weather geometry for Sokanzan sunrise.
+Keep `jp-008` as one Matsushima Place with multiple researched Viewpoints. Replace the current Godaido generic coordinate with Sokanzan for the first production photography Opportunity; Godaido must not be used as the weather geometry for this sunrise composition.
 
 ---
 
