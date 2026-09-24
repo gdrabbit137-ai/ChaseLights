@@ -169,6 +169,7 @@ def evaluate_minimum_sufficient_visibility(opportunity, item_data):
     }
 
 DIRECTIONAL_HORIZON_SECTORS = {
+    "jp-008-P01": {"center": 98.0, "tolerance": 22.5, "phase": "sunrise"},
     "tw-001-P01": {"center": 247.5, "tolerance": 67.5, "phase": "sunset"},
     "tw-003-P01": {"center": 270.0, "tolerance": 70.0, "phase": "sunset"},
     "tw-004-P04": {"center": 270.0, "tolerance": 70.0, "phase": "sunset"},
@@ -984,9 +985,9 @@ def validate_runtime_registry():
     errors.extend(validate_marine_state_registry())
     errors.extend(validate_tide_state_registry())
     errors.extend(validate_access_registry())
-    if len(DIRECTIONAL_HORIZON_SECTORS) != 45:
+    if len(DIRECTIONAL_HORIZON_SECTORS) != 46:
         errors.append(
-            f"expected 45 registered directional profiles, got {len(DIRECTIONAL_HORIZON_SECTORS)}"
+            f"expected 46 registered directional profiles, got {len(DIRECTIONAL_HORIZON_SECTORS)}"
         )
     if set(CLOUD_SKY_GLOW_PROFILES) != {"tw-013-P02", "tw-026-P02", "tw-030-P02", "tw-035-P04"}:
         errors.append(f"unexpected cloud_sky_glow registry: {sorted(CLOUD_SKY_GLOW_PROFILES)}")
@@ -1009,8 +1010,8 @@ def validate_runtime_registry():
     if ACCESS_RUNTIME_READY_PROFILES:
         errors.append("B25 foundation must not mark dynamic-access profiles provider-ready yet")
     for oid, sector in DIRECTIONAL_HORIZON_SECTORS.items():
-        if not oid.startswith("tw-"):
-            errors.append(f"{oid}: Taiwan Opportunity id expected")
+        if not oid.startswith(("tw-", "jp-", "us-")):
+            errors.append(f"{oid}: unsupported regional Opportunity id")
         if not 0 <= float(sector["center"]) < 360:
             errors.append(f"{oid}: invalid center")
         if not 0 < float(sector["tolerance"]) <= 90:
