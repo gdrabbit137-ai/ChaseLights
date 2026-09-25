@@ -1,11 +1,11 @@
 {
-  "schema_version": "v0.04-r4.2-b32-jp-batch01-21",
-  "generated_at": "2026-09-25T03:10:00+08:00",
-  "scope": "B32 Japan researched Place additions through jp-021 Shinhotaka",
-  "spot_count": 22,
-  "opportunity_count": 27,
-  "condition_variant_count": 27,
-  "profile_viewpoint_relation_count": 27,
+  "schema_version": "v0.04-r4.2-b32-jp-batch01-22",
+  "generated_at": "2026-09-25T11:50:00+08:00",
+  "scope": "B32 Japan researched Place additions through jp-022 Mt. Yahiko",
+  "spot_count": 23,
+  "opportunity_count": 30,
+  "condition_variant_count": 30,
+  "profile_viewpoint_relation_count": 30,
   "spots": [
     {
       "spot_id": "jp-001",
@@ -1869,6 +1869,187 @@
               "geometry_extent_m": 120,
               "geometry_note": "僅官方星空觀賞便開放時使用的西穗高口站屋頂／頂之森觀景區；非全年夜間可達。",
               "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-022",
+      "canonical_name": "彌彥山",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH11",
+      "research_sources": [
+        {
+          "authority": "Niigata Prefecture Official Tourism — Mt. Yahiko",
+          "url": "https://niigata-kankou.or.jp/spot/7462",
+          "verified_on": "2026-09-25",
+          "supports": "Mt. Yahiko summit area is a 634 m panoramic destination with views over Echigo Plain, the Sea of Japan and Sado Island; official material also identifies sunset, night view and starry-sky value."
+        },
+        {
+          "authority": "Niigata Prefecture Official Tourism — Yahikoyama Summit Park",
+          "url": "https://niigata-kankou.or.jp/spot/7461",
+          "verified_on": "2026-09-25",
+          "supports": "Yahikoyama Summit Park contains the approximately 100 m rotating Panorama Tower and officially supports Sea of Japan/Sado panorama, sunset and night-view outcomes; Panorama Tower closes for winter from around November 6."
+        },
+        {
+          "authority": "Niigata Prefecture Official Tourism — Yahikoyama Skyline",
+          "url": "https://niigata-kankou.or.jp/spot/7478",
+          "verified_on": "2026-09-25",
+          "supports": "Skyline access to the summit area is officially published as 05:00-23:00 from April through November, subject to residual-snow conditions; road access is therefore seasonal and not equivalent to year-round guaranteed summit access."
+        },
+        {
+          "authority": "Niigata Prefecture Official Tourism — 2026 Night View & Stargazing Cruise",
+          "url": "https://niigata-kankou.or.jp/experience/11966",
+          "verified_on": "2026-09-25",
+          "supports": "2026 special night ropeway service is limited to Aug 11-12, Aug 14-16 and Sep 19-23, with ascent service from 18:00 to 20:30 and final descent at 21:00; adverse-weather cancellation is announced by 16:00."
+        },
+        {
+          "authority": "Yahiko Tourism Association Official — Summit Station / Summit Park",
+          "url": "https://www.e-yahiko.com/spot/santyoueki-santyoukouen/",
+          "verified_on": "2026-09-25",
+          "supports": "Official local tourism confirms Panorama Tower as a 360-degree summit-area observation facility and notes separate seasonal closure/maintenance semantics."
+        },
+        {
+          "authority": "Cross-checked Panorama Tower mapped Geo URI",
+          "url": "https://stamp.funakiya.com/yahiko-panoramatower.html",
+          "verified_on": "2026-09-25",
+          "supports": "Mapped Panorama Tower POI provides a cross-check coordinate of approximately 37.710125, 138.809994 for the summit-park Camera Zone; it is used as a zone anchor, not a mandatory tripod position."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-022-P01",
+          "spot_id": "jp-022",
+          "name_zh": "彌彥山頂公園・越後平野與日本海全景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_dynamic_access_visibility_module",
+          "formula_version": "v0.04_pending_yahiko_multi_route_summit_access_provider",
+          "formula_confidence": 88,
+          "best_time": "山頂區可合法到達的白天可見光時段（景點當地時間／JST）",
+          "best_season": "全年皆有景觀價值，但道路、纜車與塔體營運具有不同季節／臨時限制；不得把單一路線營運狀態當成整個山頂必然可達",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-029",
+              "variant_name": "山頂公園／Panorama Tower・越後平野、日本海與佐渡全景",
+              "condition_geometry": "{\"camera_zone\":\"弥彦山頂公園／パノラマタワー Camera Zone\",\"subject\":\"Echigo Plain + Sea of Japan + Sado panoramic landscape\"}",
+              "hard_gates": "山頂 Camera Zone 至少有一條合法且實際可用的進出路線；可見光拍攝時段有效；不得假設纜車、Skyline 或步行路線永久開放",
+              "required_conditions": "越後平野與日本海主要景觀可辨；能見度足夠；低雲／濃霧未嚴重遮蔽遠景",
+              "boosters": "空氣透明度高可增加佐渡島與遠山可見度；春季水田、夏季綠意、秋季紅葉、冬季雪景僅在實際存在時加分",
+              "penalties": "山頂所有合理進出路線不可用；濃霧／低雲遮蔽；強降水；能見度過低",
+              "formula_status": "research_ready_multi_route_access_and_visibility_provider_pending"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-022-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "lat": 37.710125,
+              "lon": 138.809994,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_summit_park_identity_plus_cross_checked_panorama_tower_geo_uri",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 250,
+              "geometry_note": "弥彦山頂公園／パノラマタワー周邊合法遊客觀景區；可在公園與展望區域內移動構圖，不宣稱單一腳架點。",
+              "geometry_confidence": "high",
+              "note": "Official prefectural and local tourism sources identify the summit park / Panorama Tower area as the 360-degree panorama destination. Coordinate is a cross-checked Panorama Tower POI anchor within that public Camera Zone.",
+              "name": "彌彥山頂公園／Panorama Tower Camera Zone"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "jp-022-P02",
+          "spot_id": "jp-022",
+          "name_zh": "彌彥山頂公園・日本海夕日",
+          "legacy_theme": "sunset",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_dynamic_access_directional_horizon_visibility_module",
+          "formula_version": "v0.04_pending_yahiko_multi_route_access_provider",
+          "formula_confidence": 90,
+          "best_time": "日落前後的黃金／暮光時段（景點當地時間／JST；山頂可達時）",
+          "best_season": "官方資料明確支持日本海夕日；實際可達時段仍依季節道路／纜車／步行條件判定",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-030",
+              "variant_name": "山頂公園・日本海西向夕日",
+              "condition_geometry": "{\"camera_zone\":\"弥彦山頂公園／パノラマタワー Camera Zone\",\"subject\":\"sunset over the Sea of Japan\",\"target_horizon\":\"west\"}",
+              "hard_gates": "山頂 Camera Zone 至少有一條合法且實際可用的進出路線；日落／暮光時段有效",
+              "required_conditions": "太陽位於可用的西向日本海地平線扇區；海面／地平線與夕日可辨；能見度足夠；低雲未完全遮蔽西向天空",
+              "boosters": "高空氣透明度；薄雲產生夕彩；佐渡島剪影在實際可見時增加層次",
+              "penalties": "所有山頂進出路線不可用；西向厚雲完全遮蔽；濃霧；強降水；能見度過低",
+              "formula_status": "research_ready_directional_sunset_visibility_access_pending"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-022-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "lat": 37.710125,
+              "lon": 138.809994,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_summit_park_identity_plus_cross_checked_panorama_tower_geo_uri",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 250,
+              "geometry_note": "弥彦山頂公園／パノラマタワー周邊合法遊客觀景區；可在公園與展望區域內移動構圖，不宣稱單一腳架點。",
+              "geometry_confidence": "high",
+              "note": "Official tourism explicitly identifies sunset over the Sea of Japan from the summit area. The Camera Zone is the summit park / Panorama Tower vicinity, not the mountain centroid.",
+              "name": "彌彥山頂公園／Panorama Tower 西向夕日 Camera Zone"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "jp-022-P03",
+          "spot_id": "jp-022",
+          "name_zh": "彌彥山夜景＆星空Cruise・越後平野夜景",
+          "legacy_theme": "city_night",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_dynamic_access_visibility_module",
+          "formula_version": "v0.04_pending_yahiko_annual_night_cruise_access_provider",
+          "formula_confidence": 88,
+          "best_time": "僅官方年度「夜景＆星空Cruise」指定夜間運行時段（JST；2026 上行18:00–20:30、下行末班21:00）",
+          "best_season": "僅官方當年度指定活動日；2026 為 8/11–12、8/14–16、9/19–23，不得推論未發布年份",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-031",
+              "variant_name": "夜間特別運行・越後平野夜景與日本海漁火",
+              "condition_geometry": "{\"camera_zone\":\"弥彦山頂公園／山頂展望區 Camera Zone\",\"subject\":\"Echigo Plain city lights + Sea of Japan fishing lights where visible\"}",
+              "hard_gates": "當日屬官方夜景＆星空Cruise活動日；夜間纜車特別運行實際有效；仍可搭上官方末班下行",
+              "required_conditions": "越後平野夜景主要燈光可辨；濃霧／低雲未嚴重遮蔽平原與海岸方向；能見度可用",
+              "boosters": "日本海漁火可見；天空透明度高；星空可見時增加現場題材，但本 Opportunity 不以銀河幾何作高分必要條件",
+              "penalties": "非官方活動日期；活動因惡劣天候取消；夜間纜車未運行；濃霧；低雲；強降水",
+              "formula_status": "research_ready_annual_event_access_and_night_visibility_provider_pending"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-022-VP03",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "lat": 37.710125,
+              "lon": 138.809994,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_summit_park_identity_plus_cross_checked_panorama_tower_geo_uri",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 250,
+              "geometry_note": "弥彦山頂公園／パノラマタワー周邊合法遊客觀景區；可在公園與展望區域內移動構圖，不宣稱單一腳架點。",
+              "geometry_confidence": "high",
+              "note": "Official 2026 Night View & Stargazing Cruise explicitly advertises Echigo Plain night lights, Sea of Japan fishing lights and starry sky during date-limited night ropeway operation. This Opportunity scores the night-view outcome; event access remains a hard gate.",
+              "name": "彌彥山頂公園・夜間特別運行 Camera Zone"
             }
           ]
         }
