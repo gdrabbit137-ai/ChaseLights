@@ -1,5 +1,7 @@
 # B32 QA Status — jp-025 + Navigation Target correction
 
+`codex/jp026` continuation: local Opportunity adapter tests and Python compilation pass. The run IDs below are the earlier `jp-025` baseline, not validation of `jp-026`. Japan Candidate Weather QA and Browser Smoke must be run on this continuation before release.
+
 Date: 2026-09-25
 
 | Gate | Result | Run |

@@ -2,6 +2,18 @@
 
 Date: 2026-09-25 (Asia/Taipei)
 
+## Continuation after this handoff
+
+The original handoff below records the `jp-025` checkpoint on `r4.2-b32-jp025-hagi`.
+An isolated continuation branch, `codex/jp026`, adds `jp-026 出雲大社` without merging the navigation correction into `main`. See `B32_JP_RESEARCH_BATCH14.md` for sources, Camera Zone uncertainty, arrival-route decision and formula scope.
+
+- Japan research on the continuation: 26/35; nine pending.
+- Additive Japan catalog: 26 Places / 34 Opportunities / 34 Condition Variants / 34 viewpoint relations.
+- Schema: `v0.04-r4.2-b32-jp-batch01-25`; weather output remains v10.
+- `jp-026` uses the public approach and Haiden exterior; its navigation target is `multiple_access_routes` because Seidamari and parking are distinct arrivals. The legacy shrine centroid is never used as a Directions destination.
+- Local adapter tests pass. Candidate weather and browser QA for this continuation are pending; the four green runs below apply to the prior `jp-025` checkpoint only.
+- Next research target after candidate QA: `jp-027 神戶六甲山`.
+
 ## Authoritative development branch
 
 - Branch: `r4.2-b32-jp025-hagi`

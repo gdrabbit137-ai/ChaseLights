@@ -1,11 +1,11 @@
 {
-  "schema_version": "v0.04-r4.2-b32-jp-batch01-24",
+  "schema_version": "v0.04-r4.2-b32-jp-batch01-25",
   "generated_at": "2026-09-25T13:35:00+08:00",
-  "scope": "B32 Japan researched Place additions through jp-025 Hagi Castle Town / Kikuya Yokocho",
-  "spot_count": 25,
-  "opportunity_count": 33,
-  "condition_variant_count": 33,
-  "profile_viewpoint_relation_count": 33,
+  "scope": "B32 Japan researched Place additions through jp-026 Izumo Taisha",
+  "spot_count": 26,
+  "opportunity_count": 34,
+  "condition_variant_count": 34,
+  "profile_viewpoint_relation_count": 34,
   "spots": [
     {
       "spot_id": "jp-001",
@@ -2271,6 +2271,90 @@
               "geometry_extent_m": 500,
               "geometry_note": "官方2026夜間路線明確經過菊屋橫町；實際竹燈分布可沿城下町街道延伸，因此此 anchor 表示街巷 Camera Zone，不是單一燈籠位置。",
               "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-026",
+      "canonical_name": "出雲大社",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH14",
+      "research_sources": [
+        {
+          "authority": "Izumo Oyashiro Shrine — official precinct guide and map",
+          "url": "https://izumooyashiro.or.jp/en/precincts",
+          "verified_on": "2026-09-25",
+          "supports": "Public approach from Seidamari through the pine avenue and bronze torii to the Haiden; the main sanctuary beyond the gate is restricted."
+        },
+        {
+          "authority": "Izumo Oyashiro Shrine — official visiting hours",
+          "url": "https://izumooyashiro.or.jp/archives/news/12552",
+          "verified_on": "2026-09-25",
+          "supports": "Normal precinct visiting hours 06:00–19:00; outside those hours worship is from in front of the bronze torii."
+        },
+        {
+          "authority": "Izumo Oyashiro Shrine — photography permission policy",
+          "url": "https://izumooyashiro.or.jp/inquiry/contactpress",
+          "verified_on": "2026-09-25",
+          "supports": "Photography beyond private appreciation, including professional or publication purposes, requires prior permission; no such permission is inferred for ChaseLights users."
+        },
+        {
+          "authority": "Izumo Tourism Association — parking and access",
+          "url": "https://www.izumo-kankou.gr.jp/13218",
+          "verified_on": "2026-09-25",
+          "supports": "Seidamari walking entrance and shrine-managed large parking area are distinct arrival options; large parking area operates 06:00–20:00."
+        },
+        {
+          "authority": "Geotagged photograph near the public shrine approach",
+          "url": "https://commons.wikimedia.org/wiki/File:Izumo_grand_shrine_-_2022_oct_2_various.jpeg",
+          "verified_on": "2026-09-25",
+          "supports": "Approximate camera-area reference 35.401383, 132.686264 south/east of the main sanctuary; not independently certified as a specific tripod point or a road arrival target."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-026-P01",
+          "spot_id": "jp-026",
+          "name_zh": "出雲大社・松之參道與拝殿社殿",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "minimum_sufficient_local_scene",
+          "formula_version": "v0.04-local-scene-dry-daylight-minimum-sufficient",
+          "formula_confidence": 90,
+          "best_time": "06:00–19:00 參拜開放時間內的白天可見光（景點當地時間／JST）",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-035",
+              "variant_name": "松之參道與拝殿外觀的公開參拜動線",
+              "condition_geometry": "{\"camera_zone\":\"松の参道—拝殿 public approach Camera Zone\",\"subject\":\"pine-lined approach and exterior shrine architecture\"}",
+              "hard_gates": "06:00–19:00 境內參拜時間內；僅限開放動線；不得越過八足門或妨礙祭儀與參拜；超出私人鑑賞的拍攝須先取得神社許可",
+              "required_conditions": "松之參道或拝殿外觀清楚可見；白天可見光；無足以妨礙步行與拍攝的強降水",
+              "boosters": "柔和日光與樹蔭層次；較少人流時較容易構圖，並非目前預報可驗證的條件",
+              "penalties": "強降水；境內關閉；祭事／人流造成動線限制；未經許可進行公開或業務攝影",
+              "formula_status": "minimum_sufficient_local_scene"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-026-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "The official precinct guide identifies the pine approach and Haiden as a visitor route. This geotagged point is a medium-confidence area reference near that route, not a mandatory tripod location, main-sanctuary entrance or road-navigation target.",
+              "name": "出雲大社・松之參道至拝殿公開步行區 Camera Zone",
+              "lat": 35.401383,
+              "lon": 132.686264,
+              "elevation_m": null,
+              "coord_confidence": "medium",
+              "verification_status": "official_precinct_route_plus_geotagged_area_reference; exact_camera_point_pending_on_site_check",
+              "geometry_type": "area",
+              "geometry_extent_m": 300,
+              "geometry_note": "沿官方公開參拜動線移動構圖；本殿及八足門內部不是公開拍攝區。此座標僅為大致 Camera Zone 錨點。",
+              "geometry_confidence": "medium"
             }
           ]
         }

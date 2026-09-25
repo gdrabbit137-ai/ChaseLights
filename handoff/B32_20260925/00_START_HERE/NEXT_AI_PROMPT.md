@@ -1,9 +1,10 @@
-Continue ChaseLights R4.2 B32 from branch `r4.2-b32-jp025-hagi`.
+Continue ChaseLights R4.2 B32 from branch `codex/jp026` after reading the continuation note in `HANDOFF_README.md`. Its base is `r4.2-b32-jp025-hagi`.
 
 Read first:
 1. `handoff/B32_20260925/00_START_HERE/HANDOFF_README.md`
 2. `NAVIGATION_SPEC_R4_2.md`
 3. `B32_JP_RESEARCH_BATCH13.md`
+3a. `B32_JP_RESEARCH_BATCH14.md`
 4. `B32_JP_RESEARCH_BATCH12.md`
 5. `B29_RESEARCH_GUIDE_SCORING_HANDOFF.md`
 6. `LOCATION_AUDIT.md`
@@ -29,7 +30,7 @@ QA already green:
 Taiwan Candidate QA:
 - PASS 36100640799
 
-Current Japan research is 25/35. The next Place after navigation work is `jp-026 出雲大社`.
+Current Japan research on the continuation is 26/35. Run candidate weather and browser QA for `jp-026`, then research `jp-027 神戶六甲山`. The prior green CI runs cover only the `jp-025` checkpoint.
 
 For every new Place, research both:
 1. photographable Camera Zone / composition;
