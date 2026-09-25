@@ -59,6 +59,13 @@ from access_state import (
     evaluate_dynamic_access,
     validate_access_registry,
 )
+from shinhotaka_access import (
+    JST,
+    PROVIDER_VERSION as SHINHOTAKA_PROVIDER_VERSION,
+    STARGAZING_DATES_2026,
+    build_shinhotaka_access_state,
+    parse_shinhotaka_homepage_status,
+)
 
 import analyze_weather
 import fetch_data
@@ -1420,6 +1427,167 @@ def test_adapter_integrity():
     assert dependency_state(jp021[1])["missing_components"] == ("dynamic_access",)
     assert ACCESS_PROFILE_CLASSIFICATION["jp-021-P01"]["access_type"] == "transport_facility_status"
     assert ACCESS_PROFILE_CLASSIFICATION["jp-021-P02"]["access_type"] == "event_access_control"
+
+    # Shinhotaka provider is implemented and fixture-tested, but the two
+    # Opportunities deliberately remain module_pending until the full candidate
+    # QA gate is confirmed.  Direct evaluator tests below prove fail-closed
+    # semantics without prematurely lifting the 64-point confidence cap.
+    assert SHINHOTAKA_PROVIDER_VERSION == "shinhotaka-access-r1-preview"
+    assert len(STARGAZING_DATES_2026) == 18
+
+    def jst_epoch(year, month, day, hour, minute=0):
+        return datetime(year, month, day, hour, minute, tzinfo=JST).timestamp()
+
+    fixture_dir = Path("test_fixtures")
+    open_html = (fixture_dir / "shinhotaka_home_open.html").read_text(encoding="utf-8")
+    suspended_html = (fixture_dir / "shinhotaka_home_no2_suspended.html").read_text(encoding="utf-8")
+    ambiguous_html = (fixture_dir / "shinhotaka_home_ambiguous.html").read_text(encoding="utf-8")
+    event_open_html = (fixture_dir / "shinhotaka_home_event_open.html").read_text(encoding="utf-8")
+
+    open_provider = parse_shinhotaka_homepage_status(
+        open_html, fetched_at_epoch=jst_epoch(2026, 9, 25, 8, 5)
+    )
+    assert open_provider["parse_ok"] is True
+    assert open_provider["no1_status"] == "open"
+    assert open_provider["no2_status"] == "open"
+    assert open_provider["checked_at_epoch"] == jst_epoch(2026, 9, 25, 8, 0)
+
+    p01_time = jst_epoch(2026, 9, 25, 10, 0)
+    p01_state = build_shinhotaka_access_state(p01_time, open_provider)["jp-021-P01"]
+    assert p01_state["status"] == "open"
+    assert p01_state["freshness_mode"] == "live"
+    p01_eval = evaluate_dynamic_access(
+        jp021[0], {"timestamp": p01_time, "access_state": {"jp-021-P01": p01_state}}
+    )
+    assert p01_eval["available"] is True
+    assert p01_eval["eligible"] is True
+    assert p01_eval["runtime_provider_connected"] is False
+
+    suspended_provider = parse_shinhotaka_homepage_status(
+        suspended_html, fetched_at_epoch=jst_epoch(2026, 9, 25, 8, 5)
+    )
+    assert suspended_provider["parse_ok"] is True
+    assert suspended_provider["no2_status"] == "closed"
+    suspended_state = build_shinhotaka_access_state(
+        p01_time, suspended_provider
+    )["jp-021-P01"]
+    assert suspended_state["status"] == "closed"
+    assert evaluate_dynamic_access(
+        jp021[0], {"timestamp": p01_time, "access_state": suspended_state}
+    )["eligible"] is False
+
+    ambiguous_provider = parse_shinhotaka_homepage_status(
+        ambiguous_html, fetched_at_epoch=jst_epoch(2026, 9, 25, 8, 5)
+    )
+    assert ambiguous_provider["parse_ok"] is False
+    assert ambiguous_provider["no2_status"] == "unknown"
+    ambiguous_state = build_shinhotaka_access_state(
+        p01_time, ambiguous_provider
+    )["jp-021-P01"]
+    assert ambiguous_state["status"] == "unknown"
+    assert evaluate_dynamic_access(
+        jp021[0], {"timestamp": p01_time, "access_state": ambiguous_state}
+    )["eligible"] is False
+
+    maintenance_time = jst_epoch(2026, 11, 25, 12, 0)
+    maintenance_state = build_shinhotaka_access_state(
+        maintenance_time, open_provider
+    )["jp-021-P01"]
+    assert maintenance_state["status"] == "closed"
+    assert maintenance_state["freshness_mode"] == "schedule"
+    maintenance_eval = evaluate_dynamic_access(
+        jp021[0], {"timestamp": maintenance_time, "access_state": maintenance_state}
+    )
+    assert maintenance_eval["available"] is True
+    assert maintenance_eval["eligible"] is False
+    assert maintenance_eval["status_basis"] == "official_2026_full_line_maintenance_closure"
+
+    ordinary_night = jst_epoch(2026, 10, 15, 20, 0)
+    ordinary_p02 = build_shinhotaka_access_state(
+        ordinary_night, open_provider
+    )["jp-021-P02"]
+    assert ordinary_p02["status"] == "closed"
+    assert ordinary_p02["freshness_mode"] == "schedule"
+    assert evaluate_dynamic_access(
+        jp021[1], {"timestamp": ordinary_night, "access_state": ordinary_p02}
+    )["eligible"] is False
+
+    event_provider = parse_shinhotaka_homepage_status(
+        event_open_html, fetched_at_epoch=jst_epoch(2026, 10, 2, 19, 5)
+    )
+    assert event_provider["parse_ok"] is True
+    assert event_provider["no1_status"] == "closed"
+    assert event_provider["no2_status"] == "open"
+    event_time = jst_epoch(2026, 10, 2, 19, 30)
+    event_p02 = build_shinhotaka_access_state(
+        event_time, event_provider
+    )["jp-021-P02"]
+    assert event_p02["status"] == "open"
+    assert event_p02["freshness_mode"] == "live"
+    event_eval = evaluate_dynamic_access(
+        jp021[1], {"timestamp": event_time, "access_state": event_p02}
+    )
+    assert event_eval["available"] is True
+    assert event_eval["eligible"] is True
+
+    daytime_event_provider = dict(
+        open_provider,
+        checked_at_epoch=jst_epoch(2026, 10, 2, 14, 0),
+        visible_update_text="10 / 02 14:00 update",
+    )
+    event_requires_night_confirmation = build_shinhotaka_access_state(
+        event_time, daytime_event_provider
+    )["jp-021-P02"]
+    assert event_requires_night_confirmation["status"] == "unknown"
+    assert evaluate_dynamic_access(
+        jp021[1],
+        {"timestamp": event_time, "access_state": event_requires_night_confirmation},
+    )["eligible"] is False
+
+    future_year_event = jst_epoch(2027, 10, 2, 19, 30)
+    future_p02 = build_shinhotaka_access_state(
+        future_year_event, event_provider
+    )["jp-021-P02"]
+    assert future_p02["status"] == "unknown"
+    assert future_p02["status_basis"] == "stargazing_schedule_not_verified_for_year"
+
+    weekday_early = jst_epoch(2026, 10, 2, 8, 20)
+    weekend_early = jst_epoch(2026, 10, 3, 8, 20)
+    weekday_state = build_shinhotaka_access_state(
+        weekday_early, open_provider
+    )["jp-021-P01"]
+    weekend_state = build_shinhotaka_access_state(
+        weekend_early, open_provider
+    )["jp-021-P01"]
+    assert weekday_state["status"] == "closed"
+    assert weekday_state["timetable_first_ascent"] == "08:45"
+    assert weekend_state["timetable_first_ascent"] == "08:15"
+
+    stale_time = jst_epoch(2026, 9, 25, 15, 30)
+    stale_p01 = build_shinhotaka_access_state(
+        stale_time, open_provider
+    )["jp-021-P01"]
+    stale_p01_eval = evaluate_dynamic_access(
+        jp021[0], {"timestamp": stale_time, "access_state": stale_p01}
+    )
+    assert stale_p01_eval["available"] is False
+    assert stale_p01_eval["reason"] == "access_snapshot_stale"
+
+    synthetic_schedule_open = {
+        "status": "open",
+        "authoritative": True,
+        "authority": "Shinhotaka Ropeway",
+        "source_url": "https://shinhotaka-ropeway.jp/pdf/pamphlet/en.pdf",
+        "source_kind": "official_ropeway_timetable",
+        "freshness_mode": "schedule",
+        "status_basis": "test_static_open_must_not_unlock_live_facility",
+    }
+    schedule_open_eval = evaluate_dynamic_access(
+        jp021[0], {"timestamp": p01_time, "access_state": synthetic_schedule_open}
+    )
+    assert schedule_open_eval["available"] is True
+    assert schedule_open_eval["eligible"] is False
+    assert schedule_open_eval["reason"] == "live_access_confirmation_required"
 
     jp009 = get_opportunities("jp", "jp-009")
     assert [o["opportunity_id"] for o in jp009] == ["jp-009-P01"]
