@@ -1,0 +1,173 @@
+{
+  "schema_version": "v0.04-r4.2-b33-hualien-additions-1",
+  "generated_at": "2026-09-25T21:55:00+08:00",
+  "source_database": "ChaseLights curated Hualien research batch B33",
+  "spot_count": 3,
+  "opportunity_count": 3,
+  "condition_variant_count": 3,
+  "profile_viewpoint_relation_count": 3,
+  "spots": [
+    {
+      "spot_id": "tw-082",
+      "canonical_name": "鯉魚潭・潭北湖岸",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B33_HUALIEN",
+      "opportunities": [
+        {
+          "opportunity_id": "tw-082-P01",
+          "spot_id": "tw-082",
+          "name_zh": "鯉魚潭湖光山景與平靜倒影",
+          "legacy_theme": "reflection",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_water_surface_visibility_module",
+          "formula_version": "v0.04-water-surface-visibility",
+          "formula_confidence": 72,
+          "best_time": "清晨至上午；低風且湖面平靜時",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "VAR-202",
+              "profile_id": "tw-082-P01",
+              "variant_name": "潭北湖岸山景與倒影",
+              "condition_geometry": "{\"camera_zone\":\"鯉魚潭潭北公共湖岸 Camera Zone\",\"subject\":\"lake + surrounding mountains + reflection\"}",
+              "hard_gates": "公共湖岸可達；無豪雨或現場管制；不得進入未許可水域",
+              "required_conditions": "湖面風浪較小；山景與對岸輪廓可辨；降雨未妨礙拍攝",
+              "boosters": "清晨低風；湖中樹或岸線形成前景；柔和側光；低霾",
+              "penalties": "強風破壞倒影；濃霧遮蔽山景；持續降雨；活動人潮或水上載具干擾湖面",
+              "formula_status": "runtime_water_surface_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "tw-082-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official north-lakeside visitor-center waterfront; exact tripod optional.",
+              "name": "鯉魚潭潭北公共湖岸 Camera Zone",
+              "lat": 23.93493,
+              "lon": 121.50803,
+              "elevation_m": 140,
+              "coord_confidence": "high",
+              "verification_status": "official_tourism_north_lakeside_visitor_center_coordinate",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 350,
+              "geometry_note": "以官方潭北遊客中心湖岸為代表位置；沿公共親水與環潭動線可小幅移動構圖，非唯一腳架點。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "tw-083",
+      "canonical_name": "雲山水夢幻湖",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B33_HUALIEN",
+      "opportunities": [
+        {
+          "opportunity_id": "tw-083-P01",
+          "spot_id": "tw-083",
+          "name_zh": "雲山水夢幻湖與落羽松倒影",
+          "legacy_theme": "reflection",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_water_surface_visibility_module",
+          "formula_version": "v0.04-water-surface-visibility",
+          "formula_confidence": 74,
+          "best_time": "園區開放時段；上午低風或柔光時",
+          "best_season": "全年；落羽松轉色期僅作現地季節加分",
+          "condition_variants": [
+            {
+              "variant_id": "VAR-203",
+              "profile_id": "tw-083-P01",
+              "variant_name": "夢幻湖湖色、落羽松與倒影",
+              "condition_geometry": "{\"camera_zone\":\"雲山水夢幻湖合法湖岸 Camera Zone\",\"subject\":\"blue-green lake + bald cypress + mountain/sky reflection\"}",
+              "hard_gates": "私人園區開放且依現場規定入園；僅在合法步道與湖岸拍攝；不得把住宿或私人區域視為公共空間",
+              "required_conditions": "湖面風浪較小；湖岸與樹列可辨；降雨未妨礙一般步行拍攝",
+              "boosters": "上午低風；藍天或柔和雲光；秋冬落羽松轉色；低霾",
+              "penalties": "強風破壞倒影；持續降雨；人潮遮擋；園區臨時限制或關閉",
+              "formula_status": "runtime_water_surface_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "tw-083-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Representative Dream Lake area coordinate; entrance/navigation remains provisional.",
+              "name": "雲山水夢幻湖合法湖岸 Camera Zone",
+              "lat": 23.827018,
+              "lon": 121.51548,
+              "elevation_m": null,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_tourism_place_evidence_with_cross_checked_mapped_area_coordinate",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 300,
+              "geometry_note": "夢幻湖與落羽松湖岸為私人景觀園區；代表座標不是唯一腳架點，也不等同已驗證車輛入口。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "tw-084",
+      "canonical_name": "大農大富平地森林園區",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B33_HUALIEN",
+      "opportunities": [
+        {
+          "opportunity_id": "tw-084-P01",
+          "spot_id": "tw-084",
+          "name_zh": "大農大富森林廊道與林間光影",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-minimum-sufficient-forest-corridor",
+          "formula_confidence": 68,
+          "best_time": "園區日間服務時段；上午或午後斜光",
+          "best_season": "全年；花海、欒樹與螢火蟲活動須依當年度官方公告",
+          "condition_variants": [
+            {
+              "variant_id": "VAR-204",
+              "profile_id": "tw-084-P01",
+              "variant_name": "平地森林廊道與自行車道光影",
+              "condition_geometry": "{\"camera_zone\":\"大農大富主環園道與森林自行車道 Camera Zone\",\"subject\":\"flatland forest corridor + tree layers + path\"}",
+              "hard_gates": "園區公共動線可達；遵守現場管制；不進入生態保護或活動封閉區域",
+              "required_conditions": "森林廊道可安全步行或騎行；降雨未妨礙拍攝；林木與道路層次清楚",
+              "boosters": "上午或午後斜光；雨後綠意但路面不濕滑；季節花色或欒樹色彩實際存在",
+              "penalties": "豪雨；道路青苔或落葉濕滑；濃霧影響通行；活動封路或人車嚴重干擾",
+              "formula_status": "minimum_sufficient_forest_corridor"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "tw-084-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Broad official forest-road area; navigation target is the separate visitor center.",
+              "name": "大農大富主環園道與森林自行車道 Camera Zone",
+              "lat": 23.6143836,
+              "lon": 121.4159714,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_forest_recreation_map_feature_coordinate",
+              "geometry_type": "area",
+              "geometry_extent_m": 2500,
+              "geometry_note": "官方說明主環園道與森林自行車道延伸約13公里；此座標代表遊客中心鄰近可拍區，不宣稱整個園區共用單一腳架點。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

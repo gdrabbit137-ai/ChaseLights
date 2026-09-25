@@ -92,6 +92,9 @@ MINIMUM_SUFFICIENT_VISIBILITY_PROFILES = {
     "tw-046-P01", "tw-046-P02", "tw-047-P03", "tw-048-P01",
     "tw-049-P01", "tw-050-P01", "tw-051-P02", "tw-057-P01",
     "tw-058-P01", "tw-062-P01", "tw-064-P02", "tw-066-P01",
+    # B33 Hualien flatland forest: a clean, readable tree corridor is the
+    # photographic outcome; firefly events are intentionally not inferred.
+    "tw-084-P01",
     # B28 individually researched geology views: missing geology-light modeling
     # is a refinement/booster, not a hard reason to suppress a clear-view visit.
     "tw-074-P01", "tw-074-P02",

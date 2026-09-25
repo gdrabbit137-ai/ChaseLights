@@ -78,6 +78,7 @@ import fetch_data
 from opportunities import (
     ADAPTER_VERSION,
     CATALOG_COUNTS,
+    HUALIEN_CATALOG_ADDITIONS_SCHEMA_VERSION,
     REGION_CATALOG_COUNTS,
     CURATED_OPPORTUNITIES,
     get_opportunities,
@@ -93,20 +94,20 @@ def _all_opportunities():
 
 
 def test_adapter_integrity():
-    assert ADAPTER_VERSION == "v0.04-r4.2-b32-jp-batch01-r23-preview"
+    assert ADAPTER_VERSION == "v0.04-r4.2-b33-hualien-r24-preview"
     assert validate_curated_opportunities() == []
     assert validate_taxonomy() == []
     assert CATALOG_COUNTS == {
-        "spots": 104,
-        "opportunities": 220,
-        "condition_variants": 230,
-        "profile_viewpoint_relations": 225,
+        "spots": 107,
+        "opportunities": 223,
+        "condition_variants": 233,
+        "profile_viewpoint_relations": 228,
     }
     assert REGION_CATALOG_COUNTS["tw"] == {
-        "spots": 80,
-        "opportunities": 189,
-        "condition_variants": 199,
-        "profile_viewpoint_relations": 194,
+        "spots": 83,
+        "opportunities": 192,
+        "condition_variants": 202,
+        "profile_viewpoint_relations": 197,
     }
     assert REGION_CATALOG_COUNTS["jp"] == {
         "spots": 24,
@@ -138,27 +139,36 @@ def test_adapter_integrity():
         for o in x.get("opportunities", [])
     ) == 31
 
+    hualien_catalog = json.loads(
+        Path("runtime_catalog_v004_r4_2_b33_hualien_additions.json").read_text(encoding="utf-8")
+    )
+    assert HUALIEN_CATALOG_ADDITIONS_SCHEMA_VERSION == "v0.04-r4.2-b33-hualien-additions-1"
+    assert hualien_catalog["spot_count"] == len(hualien_catalog["spots"]) == 3
+    assert hualien_catalog["opportunity_count"] == 3
+    assert hualien_catalog["condition_variant_count"] == 3
+    assert hualien_catalog["profile_viewpoint_relation_count"] == 3
+
     tw = get_spots("tw")
-    assert len(tw) == 81
-    assert [s["spot_id"] for s in tw] == [f"tw-{i:03d}" for i in range(1, 82)]
+    assert len(tw) == 84
+    assert [s["spot_id"] for s in tw] == [f"tw-{i:03d}" for i in range(1, 85)]
     assert PRODUCT_STATUS_BY_SPOT == {"tw-063": "retired"}
     assert product_status("tw-063") == "retired"
     assert active_in_catalog("tw-063") is False
-    assert sum(1 for s in tw if active_in_catalog(s["spot_id"])) == 80
+    assert sum(1 for s in tw if active_in_catalog(s["spot_id"])) == 83
     assert all(
         product_status(s["spot_id"]) == "keep"
         for s in tw if s["spot_id"] != "tw-063"
     )
 
     curated = {s["spot_id"]: s for s in tw if s.get("opportunities")}
-    expected_active = {f"tw-{i:03d}" for i in range(1, 82)} - {"tw-063"}
+    expected_active = {f"tw-{i:03d}" for i in range(1, 85)} - {"tw-063"}
     assert set(curated) == expected_active
     assert "tw-063" not in CURATED_OPPORTUNITIES
-    assert sum(len(s["opportunities"]) for s in curated.values()) == 189
+    assert sum(len(s["opportunities"]) for s in curated.values()) == 192
 
     all_opportunities = _all_opportunities()
-    assert sum(len(o["condition_variants"]) for o in all_opportunities) == 230
-    assert sum(len(o["viewpoints"]) for o in all_opportunities) == 225
+    assert sum(len(o["condition_variants"]) for o in all_opportunities) == 233
+    assert sum(len(o["viewpoints"]) for o in all_opportunities) == 228
     assert not any(o["formula_status"] == "legacy_fallback_pending_curated" for o in all_opportunities)
     assert not any(str(o.get("formula_version") or "").startswith("legacy_") for o in all_opportunities)
 
@@ -170,13 +180,28 @@ def test_adapter_integrity():
     policies = Counter(runtime_policy(o) for o in all_opportunities)
     assert policies == {
         "module_pending": 71,
-        "preview_module_available": 84,
-        "minimum_sufficient_available": 59,
+        "preview_module_available": 86,
+        "minimum_sufficient_available": 60,
         "prototype_pending_certification": 2,
         "hold": 2,
         "data_insufficient": 2,
     }
-    assert len(MINIMUM_SUFFICIENT_VISIBILITY_PROFILES) == 59
+    assert len(MINIMUM_SUFFICIENT_VISIBILITY_PROFILES) == 60
+
+    hualien = {spot["spot_id"]: spot for spot in tw if spot["spot_id"] in {"tw-082", "tw-083", "tw-084"}}
+    assert {sid: spot["name_i18n"]["zh-TW"] for sid, spot in hualien.items()} == {
+        "tw-082": "鯉魚潭",
+        "tw-083": "雲山水夢幻湖",
+        "tw-084": "大農大富平地森林園區",
+    }
+    assert hualien["tw-082"]["map_query"] == "23.93493,121.50803"
+    assert hualien["tw-083"]["map_query"] == "23.827018,121.51548"
+    assert hualien["tw-083"]["access_hours"] == ["08:30", "17:00"]
+    assert hualien["tw-084"]["map_query"] == "23.6151728,121.4146215"
+    assert hualien["tw-084"]["access_hours"] == ["08:00", "17:00"]
+    assert get_opportunities("tw", "tw-082")[0]["runtime_policy"] == "preview_module_available"
+    assert get_opportunities("tw", "tw-083")[0]["runtime_policy"] == "preview_module_available"
+    assert get_opportunities("tw", "tw-084")[0]["runtime_policy"] == "minimum_sufficient_available"
 
     deyue = next(o for o in get_opportunities("tw", "tw-062") if o["opportunity_id"] == "tw-062-P01")
     assert deyue["legacy_theme"] == "mountain_view"
@@ -1934,7 +1959,7 @@ def test_adapter_integrity():
 
 def test_active_catalog_weather_generation_guard():
     active_tw = analyze_weather._active_spots("tw")
-    assert len(active_tw) == 80
+    assert len(active_tw) == 83
 
     chaori_spot = next(spot for spot in active_tw if spot["spot_id"] == "tw-068")
     yehliu_spot = next(spot for spot in active_tw if spot["spot_id"] == "tw-074")
