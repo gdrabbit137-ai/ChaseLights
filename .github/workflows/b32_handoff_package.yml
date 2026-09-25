@@ -3,7 +3,7 @@ name: B32 Handoff Package
 on:
   push:
     branches:
-      - r4.2-b32-jp-research-batch01
+      - r4.2-b32-jp025-hagi
     paths:
       - ".github/workflows/b32_handoff_package.yml"
   workflow_dispatch:
@@ -25,7 +25,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          OUT="ChaseLights_AI_Handoff_20260925_R4_2_B32_JP014"
+          OUT="ChaseLights_AI_Handoff_20260925_R4_2_B32_JP025_NAVIGATION"
           rm -rf "$OUT" "$OUT.zip"
           mkdir -p "$OUT/00_START_HERE" "$OUT/01_RESEARCH" "$OUT/02_CORE_SOURCE" "$OUT/03_WORKFLOWS" "$OUT/04_TESTS" "$OUT/05_CATALOG"
 
@@ -34,6 +34,9 @@ jobs:
           cp handoff/B32_20260925/QA_STATUS.md "$OUT/00_START_HERE/"
           cp B29_RESEARCH_GUIDE_SCORING_HANDOFF.md "$OUT/00_START_HERE/"
           cp B28_COMPLETION_HANDOFF.md "$OUT/00_START_HERE/"
+          cp NAVIGATION_SPEC_R4_2.md "$OUT/00_START_HERE/"
+          cp LOCATION_AUDIT.md "$OUT/00_START_HERE/"
+          cp CHANGES.md "$OUT/00_START_HERE/"
 
           cp B32_JP_RESEARCH_BATCH*.md "$OUT/01_RESEARCH/"
 
@@ -69,8 +72,8 @@ jobs:
       - name: Upload handoff package
         uses: actions/upload-artifact@v4
         with:
-          name: ChaseLights_AI_Handoff_20260925_R4_2_B32_JP014
+          name: ChaseLights_AI_Handoff_20260925_R4_2_B32_JP025_NAVIGATION
           path: |
-            ChaseLights_AI_Handoff_20260925_R4_2_B32_JP014.zip
-            ChaseLights_AI_Handoff_20260925_R4_2_B32_JP014.zip.sha256
+            ChaseLights_AI_Handoff_20260925_R4_2_B32_JP025_NAVIGATION.zip
+            ChaseLights_AI_Handoff_20260925_R4_2_B32_JP025_NAVIGATION.zip.sha256
           retention-days: 30
