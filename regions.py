@@ -532,6 +532,18 @@ ACCESS_RULE_OVERRIDES = {
     },
 }
 
+# B32 Japan Batch11: Mt. Yahiko summit photography uses multi-route access.
+# Ropeway, seasonal Skyline road and walking routes are not interchangeable;
+# the annual Night View & Stargazing Cruise is a separate date-limited contract.
+ACCESS_RULE_OVERRIDES["彌彥山"] = {
+    "access_mode": "dynamic_multi_route_summit_status",
+    "access_note_i18n": {
+        "zh-TW": "彌彥山頂可由纜車、季節性彌彥山Skyline或步行路線到達，各路線限制不同；夜間纜車僅官方年度「夜景＆星空Cruise」指定日期運行，不可把一般晴朗夜晚視為可達。",
+        "en": "Mt. Yahiko summit access is multi-modal: ropeway, seasonal Skyline road and hiking routes have different constraints. Night ropeway access is limited to official annual Night View & Stargazing Cruise dates; ordinary clear nights are not assumed accessible.",
+        "ja": "弥彦山頂へのアクセスはロープウェイ、季節運用の弥彦山スカイライン、登山道で条件が異なります。夜間ロープウェイは公式の年間「夜景＆星空クルーズ」実施日に限り、通常の晴天夜を入場可能とは扱いません。",
+    },
+}
+
 # B32 Japan Batch10: Shinhotaka summit photography anchor and access note.
 # The legacy 36.1600,137.2600 coordinate is not the summit observation area.
 ACCESS_RULE_OVERRIDES["新穗高高空纜車"] = {
@@ -1168,11 +1180,17 @@ SPOT_OVERRIDES = {
                                     'en': 'Shinhotaka · Nishi-Hotakaguchi Observatory',
                                     'ja': '新穂高・西穂高口展望台'},
              'name_local': '西穂高口駅展望台'},
- '彌彥山': {'lat': 37.7047,
-         'lon': 138.809,
-         'map_query': '弥彦山 山頂公園',
-         'coordinate_source': 'summit area',
-         'coordinate_confidence': 'medium'},
+ '彌彥山': {'lat': 37.710125,
+         'lon': 138.809994,
+         'scenes': ['mountain', 'coast', 'city'],
+         'themes': ['mountain_view', 'sunset', 'city_night'],
+         'map_query': '弥彦山 パノラマタワー',
+         'coordinate_source': 'B32 Niigata/Yahiko official summit-park photography evidence + cross-checked Panorama Tower Geo URI',
+         'coordinate_confidence': 'high',
+         'name_i18n_override': {'zh-TW': '彌彥山頂公園・Panorama Tower',
+                                'en': 'Mt. Yahiko Summit Park · Panorama Tower',
+                                'ja': '弥彦山頂公園・パノラマタワー'},
+         'name_local': '弥彦山頂公園 パノラマタワー'},
  '京都清水寺': {'lat': 34.994444,
            'lon': 135.785556,
            'scenes': ['architecture', 'city', 'mountain'],
