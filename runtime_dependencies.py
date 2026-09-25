@@ -4,7 +4,7 @@ This module separates content formula status from runtime implementation state.
 Every needs_* status maps to an explicit set of reusable runtime components.
 """
 
-DEPENDENCY_INVENTORY_VERSION = "r4.2-b32-deps-v9-yahiko"
+DEPENDENCY_INVENTORY_VERSION = "r4.2-b32-deps-v10-todoroki"
 
 FORMULA_DEPENDENCIES = {
     "needs_visibility_module": ("visibility",),
@@ -83,6 +83,7 @@ SPECIAL_NON_MODULE_STATUSES = {
     "prototype_formula_available",
     "access_hold_construction",
     "access_hold_current_hours_night_bioluminescence",
+    "access_hold_current_photography_not_accepted",
     "data_insufficient_geometry",
     # B32 Japan: Blue Pond research is complete, but current weather providers
     # cannot establish whether the pond is actually blue/turbid or snow-covered.
