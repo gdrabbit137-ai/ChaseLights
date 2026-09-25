@@ -110,6 +110,18 @@ Frontend display override:
 Navigation:
 - `菊屋横町 萩市`
 
+## Navigation Target
+
+Under the R4.2 Navigation Target contract, the photographed historic lane and practical public walking arrival anchor coincide sufficiently for this Place.
+
+- status: `verified`
+- type: `street_access`
+- destination: `34.4119363, 131.3932271`
+- Google Maps production behavior: exact-coordinate Directions
+- `map_query` remains search/display metadata and is not used to build the Navigation URL.
+
+See `NAVIGATION_SPEC_R4_2.md`.
+
 ## Time-zone contract
 
 - shooting/event times: `Asia/Tokyo` (JST)
