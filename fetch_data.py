@@ -31,6 +31,11 @@ from shinhotaka_access import (
     fetch_shinhotaka_homepage_status,
     unknown_shinhotaka_provider_state,
 )
+from yahiko_access import (
+    build_yahiko_access_state,
+    fetch_yahiko_homepage_status,
+    unknown_yahiko_provider_state,
+)
 
 # 後端多國語言狀態與指標字典
 I18N_MESSAGES = {
@@ -158,6 +163,7 @@ _SPATIAL_WEATHER_RESPONSE_CACHE = {}
 _MARINE_RESPONSE_CACHE = {}
 _TIDE_RESPONSE_CACHE = {}
 _SHINHOTAKA_ACCESS_CACHE = None
+_YAHIKO_ACCESS_CACHE = None
 
 
 def _fetch_shinhotaka_access_provider():
@@ -173,6 +179,21 @@ def _fetch_shinhotaka_access_provider():
             reason=f"provider_exception:{type(exc).__name__}"
         )
     return _SHINHOTAKA_ACCESS_CACHE
+
+
+def _fetch_yahiko_access_provider():
+    """Fetch jp-022 official ropeway status once per generator process."""
+    global _YAHIKO_ACCESS_CACHE
+    if _YAHIKO_ACCESS_CACHE is not None:
+        return _YAHIKO_ACCESS_CACHE
+    try:
+        _YAHIKO_ACCESS_CACHE = fetch_yahiko_homepage_status()
+    except Exception as exc:
+        print(f"Yahiko access fetch error: {exc}")
+        _YAHIKO_ACCESS_CACHE = unknown_yahiko_provider_state(
+            reason=f"provider_exception:{type(exc).__name__}"
+        )
+    return _YAHIKO_ACCESS_CACHE
 
 
 def _request_json(url, timeout=12, attempts=3):
@@ -1420,6 +1441,11 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
             if spot.get("spot_id") == "jp-021"
             else None
         )
+        yahiko_access_provider = (
+            _fetch_yahiko_access_provider()
+            if spot.get("spot_id") == "jp-022"
+            else None
+        )
 
         tz_name = raw.get("timezone") or "UTC"
         try:
@@ -1518,6 +1544,10 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
             if spot.get("spot_id") == "jp-021":
                 item_data["access_state"] = build_shinhotaka_access_state(
                     int(ts), shinhotaka_access_provider
+                )
+            elif spot.get("spot_id") == "jp-022":
+                item_data["access_state"] = build_yahiko_access_state(
+                    int(ts), yahiko_access_provider
                 )
 
             opportunity_runtime = _build_opportunity_runtime_diagnostics(spot, item_data)
