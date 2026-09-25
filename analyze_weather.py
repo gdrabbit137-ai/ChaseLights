@@ -60,7 +60,8 @@ def _window_for_opportunity(items, best_index, opportunity_id):
         metric = _metric_for_opportunity(item, opportunity_id) or {}
         return (
             metric.get("temporal_eligible") is not False
-            and item.get("access_open") is not False
+            and metric.get("runtime_eligible") is not False
+            and (item.get("access_open") is not False or metric.get("access_override") is True)
         )
 
     best_metric = _metric_for_opportunity(items[best_index], opportunity_id) or {}
@@ -147,6 +148,8 @@ def _compact_opportunity_snapshot(item, opportunity, window_start=None, window_e
         "formula_confidence": metric.get("formula_confidence", opportunity.get("formula_confidence")),
         "temporal_eligible": metric.get("temporal_eligible"),
         "temporal_reason": metric.get("temporal_reason"),
+        "runtime_eligible": metric.get("runtime_eligible"),
+        "access_override": metric.get("access_override", False),
     })
     return snap
 
@@ -176,7 +179,11 @@ def _build_day_summaries(hourly, themes, opportunities=None):
                 for i, it in enumerate(items)
                 if (
                     (_metric_for_opportunity(it, oid) or {}).get("temporal_eligible") is not False
-                    and it.get("access_open") is not False
+                    and (_metric_for_opportunity(it, oid) or {}).get("runtime_eligible") is not False
+                    and (
+                        it.get("access_open") is not False
+                        or (_metric_for_opportunity(it, oid) or {}).get("access_override") is True
+                    )
                 )
             ]
             candidates = [x for x in candidates if x[1] >= 0]
