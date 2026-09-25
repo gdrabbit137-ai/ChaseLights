@@ -7,7 +7,7 @@ Date: 2026-09-25
 | Opportunity Adapter | PASS | 36100446591 |
 | Japan Candidate Weather QA | PASS | 36100403517 |
 | Browser Smoke | PASS | 36100369665 |
-| Taiwan Candidate Weather QA | RUNNING / retry | 36100640799 |
+| Taiwan Candidate Weather QA | PASS | 36100640799 |
 
 ## Navigation regression coverage
 
