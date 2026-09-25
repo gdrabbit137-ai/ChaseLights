@@ -87,14 +87,14 @@ def _all_opportunities():
 
 
 def test_adapter_integrity():
-    assert ADAPTER_VERSION == "v0.04-r4.2-b32-jp-batch01-r21-preview"
+    assert ADAPTER_VERSION == "v0.04-r4.2-b32-jp-batch01-r22-preview"
     assert validate_curated_opportunities() == []
     assert validate_taxonomy() == []
     assert CATALOG_COUNTS == {
-        "spots": 102,
-        "opportunities": 216,
-        "condition_variants": 226,
-        "profile_viewpoint_relations": 221,
+        "spots": 103,
+        "opportunities": 219,
+        "condition_variants": 229,
+        "profile_viewpoint_relations": 224,
     }
     assert REGION_CATALOG_COUNTS["tw"] == {
         "spots": 80,
@@ -103,10 +103,10 @@ def test_adapter_integrity():
         "profile_viewpoint_relations": 194,
     }
     assert REGION_CATALOG_COUNTS["jp"] == {
-        "spots": 22,
-        "opportunities": 27,
-        "condition_variants": 27,
-        "profile_viewpoint_relations": 27,
+        "spots": 23,
+        "opportunities": 30,
+        "condition_variants": 30,
+        "profile_viewpoint_relations": 30,
     }
     assert REGION_CATALOG_COUNTS["us"] == {
         "spots": 0,
@@ -118,19 +118,19 @@ def test_adapter_integrity():
     jp_catalog = json.loads(
         Path("runtime_catalog_v004_r4_2_b32_jp_batch01.json").read_text(encoding="utf-8")
     )
-    assert jp_catalog["schema_version"] == "v0.04-r4.2-b32-jp-batch01-21"
-    assert jp_catalog["spot_count"] == len(jp_catalog["spots"]) == 22
-    assert jp_catalog["opportunity_count"] == sum(len(x.get("opportunities", [])) for x in jp_catalog["spots"]) == 27
+    assert jp_catalog["schema_version"] == "v0.04-r4.2-b32-jp-batch01-22"
+    assert jp_catalog["spot_count"] == len(jp_catalog["spots"]) == 23
+    assert jp_catalog["opportunity_count"] == sum(len(x.get("opportunities", [])) for x in jp_catalog["spots"]) == 30
     assert jp_catalog["condition_variant_count"] == sum(
         len(o.get("condition_variants", []))
         for x in jp_catalog["spots"]
         for o in x.get("opportunities", [])
-    ) == 27
+    ) == 30
     assert jp_catalog["profile_viewpoint_relation_count"] == sum(
         len(o.get("viewpoints", []))
         for x in jp_catalog["spots"]
         for o in x.get("opportunities", [])
-    ) == 27
+    ) == 30
 
     tw = get_spots("tw")
     assert len(tw) == 81
@@ -151,8 +151,8 @@ def test_adapter_integrity():
     assert sum(len(s["opportunities"]) for s in curated.values()) == 189
 
     all_opportunities = _all_opportunities()
-    assert sum(len(o["condition_variants"]) for o in all_opportunities) == 226
-    assert sum(len(o["viewpoints"]) for o in all_opportunities) == 221
+    assert sum(len(o["condition_variants"]) for o in all_opportunities) == 236
+    assert sum(len(o["viewpoints"]) for o in all_opportunities) == 231
     assert not any(o["formula_status"] == "legacy_fallback_pending_curated" for o in all_opportunities)
     assert not any(str(o.get("formula_version") or "").startswith("legacy_") for o in all_opportunities)
 
@@ -163,7 +163,7 @@ def test_adapter_integrity():
 
     policies = Counter(runtime_policy(o) for o in all_opportunities)
     assert policies == {
-        "module_pending": 71,
+        "module_pending": 74,
         "preview_module_available": 81,
         "minimum_sufficient_available": 59,
         "prototype_pending_certification": 2,
@@ -179,7 +179,7 @@ def test_adapter_integrity():
     assert runtime_policy(next(o for o in all_opportunities if o["opportunity_id"] == "tw-052-P01")) == "hold"
     assert runtime_policy(next(o for o in all_opportunities if o["opportunity_id"] == "tw-017-P01")) == "data_insufficient"
     assert validate_runtime_registry() == []
-    assert len(DIRECTIONAL_HORIZON_SECTORS) == 48
+    assert len(DIRECTIONAL_HORIZON_SECTORS) == 49
 
     # Hint-semantic safety: blue hour is a light/time condition, not proof of
     # city lights. Architecture alone must never auto-create a city-night Theme.
@@ -1084,7 +1084,7 @@ def test_adapter_integrity():
         o for o in all_opportunities
         if "dynamic_access" in dependencies_for_opportunity(o)
     ]
-    assert len(dynamic_profiles) == 46
+    assert len(dynamic_profiles) == 49
     assert {o["opportunity_id"] for o in dynamic_profiles} == set(ACCESS_DEPENDENT_PROFILE_IDS)
     assert set(ACCESS_PROFILE_CLASSIFICATION) == set(ACCESS_DEPENDENT_PROFILE_IDS)
     assert ACCESS_RUNTIME_READY_PROFILES == frozenset({"jp-021-P01", "jp-021-P02"})
