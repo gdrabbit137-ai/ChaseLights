@@ -124,16 +124,16 @@
         {
           "opportunity_id": "tw-084-P01",
           "spot_id": "tw-084",
-          "name_zh": "大農大富森林廊道與林間光影",
+          "name_zh": "大農大富森林廊道與林木層次",
           "legacy_theme": "mountain_view",
           "mode": "area_opportunity",
           "sampling_topology": "local_area",
           "geometry_required": false,
           "opportunity_confidence": "high",
-          "formula_status": "needs_visibility_module",
+          "formula_status": "minimum_sufficient_forest_corridor",
           "formula_version": "v0.04-minimum-sufficient-forest-corridor",
-          "formula_confidence": 68,
-          "best_time": "園區日間服務時段；上午或午後斜光",
+          "formula_confidence": 62,
+          "best_time": "園區日間服務時段；斜射光需待林道方向與樹冠幾何驗證",
           "best_season": "全年；花海、欒樹與螢火蟲活動須依當年度官方公告",
           "condition_variants": [
             {
@@ -143,8 +143,8 @@
               "condition_geometry": "{\"camera_zone\":\"大農大富主環園道與森林自行車道 Camera Zone\",\"subject\":\"flatland forest corridor + tree layers + path\"}",
               "hard_gates": "園區公共動線可達；遵守現場管制；不進入生態保護或活動封閉區域",
               "required_conditions": "森林廊道可安全步行或騎行；降雨未妨礙拍攝；林木與道路層次清楚",
-              "boosters": "上午或午後斜光；雨後綠意但路面不濕滑；季節花色或欒樹色彩實際存在",
-              "penalties": "豪雨；道路青苔或落葉濕滑；濃霧影響通行；活動封路或人車嚴重干擾",
+              "boosters": "雨後綠意但路面不濕滑；季節花色或欒樹色彩實際存在；斜射光僅作待驗證加分，不作硬性最佳時段判定",
+              "penalties": "豪雨；道路青苔或落葉濕滑；近距離濃霧已影響通行或主體辨識；活動封路或人車嚴重干擾",
               "formula_status": "minimum_sufficient_forest_corridor"
             }
           ],
