@@ -151,8 +151,8 @@ def test_adapter_integrity():
     assert sum(len(s["opportunities"]) for s in curated.values()) == 189
 
     all_opportunities = _all_opportunities()
-    assert sum(len(o["condition_variants"]) for o in all_opportunities) == 236
-    assert sum(len(o["viewpoints"]) for o in all_opportunities) == 231
+    assert sum(len(o["condition_variants"]) for o in all_opportunities) == 229
+    assert sum(len(o["viewpoints"]) for o in all_opportunities) == 224
     assert not any(o["formula_status"] == "legacy_fallback_pending_curated" for o in all_opportunities)
     assert not any(str(o.get("formula_version") or "").startswith("legacy_") for o in all_opportunities)
 
