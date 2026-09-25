@@ -102,11 +102,10 @@ MINIMUM_SUFFICIENT_VISIBILITY_PROFILES = {
 }
 
 MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES = {
-    # B32 jp-025: Kikuya Yokocho is a close-range historic streetscape.
-    # Low cloud or long-range atmospheric visibility is not a photographic
-    # blocker; the minimum sufficient weather contract is daylight + no
-    # material precipitation/access obstruction.
-    "jp-025-P01",
+    # B32 jp-025 historic lane and jp-026 public shrine approach are close-range
+    # scenes. Low cloud and long-range visibility are not hard blockers;
+    # material rain and known access closure remain blockers.
+    "jp-025-P01", "jp-026-P01",
 }
 
 
@@ -1051,7 +1050,7 @@ def validate_runtime_registry():
     errors.extend(validate_marine_state_registry())
     errors.extend(validate_tide_state_registry())
     errors.extend(validate_access_registry())
-    if set(MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES) != {"jp-025-P01"}:
+    if set(MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES) != {"jp-025-P01", "jp-026-P01"}:
         errors.append(
             "unexpected minimum-sufficient local-scene registry: "
             f"{sorted(MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES)}"

@@ -5,6 +5,7 @@ on:
     branches:
       - r4.2-b32-jp-research-batch01
       - r4.2-b32-jp025-hagi
+      - codex/jp026
     paths:
       - "regions.py"
       - "analyze_weather.py"
@@ -125,8 +126,8 @@ jobs:
 
           researched = [s for s in summary_spots if s.get("opportunities")]
           pending = [s for s in summary_spots if not s.get("opportunities")]
-          assert [s["spot_id"] for s in researched] == ["jp-001", "jp-002", "jp-003", "jp-004", "jp-005", "jp-006", "jp-007", "jp-008", "jp-009", "jp-010", "jp-011", "jp-012", "jp-013", "jp-014", "jp-015", "jp-016", "jp-017", "jp-018", "jp-019", "jp-020", "jp-021", "jp-022", "jp-023", "jp-024", "jp-025"], [s["spot_id"] for s in researched]
-          assert len(pending) == 10
+          assert [s["spot_id"] for s in researched] == [f"jp-{i:03d}" for i in range(1, 27)], [s["spot_id"] for s in researched]
+          assert len(pending) == 9
 
           valid_nav_states = {"verified", "provisional_camera_anchor", "needs_review", "multiple_access_routes"}
           assert all((s.get("navigation_target") or {}).get("status") in valid_nav_states for s in summary_spots)
@@ -146,6 +147,9 @@ jobs:
           assert hagi["navigation_target"]["status"] == "verified", hagi["navigation_target"]
           assert hagi["navigation_target"]["lat"] == 34.4119363
           assert hagi["navigation_target"]["lon"] == 131.3932271
+          izumo = next(s for s in summary_spots if s["spot_id"] == "jp-026")
+          assert izumo["navigation_target"]["status"] == "multiple_access_routes"
+          assert izumo["access_hours"] == ["06:00", "19:00"]
 
           expected_opportunities = {
               "jp-001": {"jp-001-P01"},
@@ -173,6 +177,7 @@ jobs:
               "jp-023": {"jp-023-P01"},
               "jp-024": {"jp-024-P01"},
               "jp-025": {"jp-025-P01", "jp-025-P02"},
+              "jp-026": {"jp-026-P01"},
           }
           for spot in researched:
               assert spot.get("timezone") == "Asia/Tokyo", (spot["spot_id"], spot.get("timezone"))
@@ -181,6 +186,7 @@ jobs:
 
               days = spot.get("daily") or []
               assert days
+              seen_daily_opportunity_ids = set()
               for day in days:
                   winner = day.get("all") or {}
                   assert not winner.get("research_pending"), (spot["spot_id"], day.get("date"), winner)
@@ -191,7 +197,11 @@ jobs:
                       assert not winner.get("opportunity_id"), (spot["spot_id"], day.get("date"), winner)
                       continue
                   assert day["opportunities"], (spot["spot_id"], day.get("date"), winner)
-                  assert set(day["opportunities"]) == expected_opportunities[spot["spot_id"]]
+                  daily_opportunity_ids = set(day["opportunities"])
+                  assert daily_opportunity_ids <= expected_opportunities[spot["spot_id"]], (
+                      spot["spot_id"], day.get("date"), daily_opportunity_ids
+                  )
+                  seen_daily_opportunity_ids.update(daily_opportunity_ids)
                   if spot["spot_id"] == "jp-001" and winner.get("score") is not None:
                       assert winner["score"] <= 35, winner
                       assert winner.get("condition_state") == "data_insufficient", winner
@@ -212,11 +222,14 @@ jobs:
                       if winner["score"] >= 80:
                           assert winner.get("condition_state") == "dedicated_conditions_match", winner
                   if winner.get("score") is not None and winner["score"] >= 80:
-                      assert spot["spot_id"] in {"jp-003", "jp-005", "jp-006", "jp-007", "jp-008", "jp-009", "jp-010", "jp-011", "jp-012", "jp-013", "jp-015", "jp-016", "jp-017", "jp-018", "jp-019", "jp-020", "jp-021", "jp-022", "jp-023", "jp-024", "jp-025"}, winner
+                      assert spot["spot_id"] in {"jp-003", "jp-005", "jp-006", "jp-007", "jp-008", "jp-009", "jp-010", "jp-011", "jp-012", "jp-013", "jp-015", "jp-016", "jp-017", "jp-018", "jp-019", "jp-020", "jp-021", "jp-022", "jp-023", "jp-024", "jp-025", "jp-026"}, winner
                       if winner.get("opportunity_id") in {"jp-008-P01", "jp-010-P02", "jp-013-P01", "jp-019-P01", "jp-021-P01", "jp-021-P02", "jp-022-P01", "jp-022-P02", "jp-022-P03"}:
                           assert winner.get("condition_state") == "dedicated_conditions_match", winner
                       else:
                           assert winner.get("condition_state") == "minimum_sufficient_conditions_match", winner
+              assert seen_daily_opportunity_ids == expected_opportunities[spot["spot_id"]], (
+                  spot["spot_id"], seen_daily_opportunity_ids
+              )
 
           pending_errors = []
           for spot in pending:

@@ -1,26 +1,45 @@
-# B32 QA Status — jp-025 + Navigation Target correction
+# B32 QA Status — jp-026 continuation
 
 Date: 2026-09-25
 
+The `codex/jp026` continuation has passed all four release gates for the
+26/35 Japan research checkpoint.
+
 | Gate | Result | Run |
 |---|---|---:|
-| Opportunity Adapter | PASS | 36100446591 |
-| Japan Candidate Weather QA | PASS | 36100403517 |
-| Browser Smoke | PASS | 36100369665 |
-| Taiwan Candidate Weather QA | PASS | 36100640799 |
+| Opportunity Adapter | PASS | 36128165281 |
+| Japan Candidate Weather QA | PASS | 36128522907 |
+| Browser Smoke | PASS | 36128731623 |
+| Taiwan Candidate Weather QA | PASS | 36128226766 |
+
+## Time-window QA correction
+
+The first Japan Candidate and Browser Smoke runs exposed assertions that
+assumed every researched daylight Opportunity remained available on the
+current partial day. After local daylight hours had elapsed, the runtime
+correctly omitted those expired Opportunities.
+
+The corrected gates now:
+- allow a local day to contain only the researched Opportunities whose time
+  windows remain viable;
+- reject any Opportunity ID outside the curated Place contract;
+- require the complete researched Opportunity set to appear across the
+  forecast period;
+- use tomorrow, a complete future local day, for deterministic browser score
+  assertions.
 
 ## Navigation regression coverage
 
-Browser Smoke passed checks that:
-- 加羅湖 is `needs_review` and has no clickable keyword-search fallback.
-- 南雅奇岩 is transitional `provisional_camera_anchor` and opens an exact-coordinate map pin.
-- 等等力溪谷 is a `verified` Navigation Target and uses exact-coordinate Directions.
-- 萩城下町・菊屋橫町 is a `verified` Navigation Target and uses exact-coordinate Directions.
-- the former `map_query -> Google Maps search` construction is absent.
+Browser Smoke verifies that:
+- 加羅湖 is `needs_review` and has no clickable keyword-search fallback;
+- 南雅奇岩 opens an exact-coordinate provisional map pin;
+- 等等力溪谷 and 萩城下町 use verified exact-coordinate Directions;
+- 出雲大社 is `multiple_access_routes` and exposes no misleading single route;
+- free-text `map_query` is absent from production Navigation URLs.
 
-Adapter tests cover:
+Adapter and candidate tests cover:
+- 26 researched Japan Places and 9 research-pending Places;
 - all Places expose a valid `navigation_target.status`;
-- verified targets must contain numeric coordinates;
-- 加羅湖 does not export navigation coordinates while pending;
+- verified targets contain numeric coordinates;
 - weather summary/detail metadata carries `navigation_target`;
-- browser cache accepts weather schema v10.
+- schema v10 and the 26/35 Opportunity catalog remain consistent.

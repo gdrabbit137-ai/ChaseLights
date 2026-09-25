@@ -405,6 +405,16 @@ def _dark_sky_meta(region_key, name_zh, category, scenes, themes):
     }
 
 ACCESS_RULE_OVERRIDES = {
+    "出雲大社": {
+        "access_mode": "opening_hours",
+        "access_hours": ["06:00", "19:00"],
+        "access_hours_source": "Izumo Oyashiro official 2026-05-03 visiting-hours notice; checked 2026-09-25",
+        "access_note_i18n": {
+            "zh-TW": "境內一般參拜 06:00–19:00；其他時段僅能在銅鳥居前參拜。私人紀念攝影應避免妨礙參拜；超出私人鑑賞的公開／商業拍攝須事先向神社申請。",
+            "en": "General precinct visiting hours are 06:00–19:00; outside those hours worship is from before the bronze torii. Personal photography should respect worshippers; public or commercial filming beyond personal use requires prior shrine permission.",
+            "ja": "境内の通常参拝時間は06:00～19:00。時間外は銅鳥居前からの参拝です。個人撮影は参拝者に配慮し、個人鑑賞の範囲を超える公開・業務撮影は事前許可が必要です。",
+        },
+    },
     "東京鐵塔": {
         "access_mode": "opening_hours",
         "access_hours": ["09:00", "22:30"],
@@ -1240,10 +1250,10 @@ SPOT_OVERRIDES = {
  '出雲大社': {'lat': 35.402083,
           'lon': 132.685556,
           'scenes': ['architecture'],
-          'themes': ['blue_hour'],
+          'themes': ['mountain_view'],
           'map_query': '出雲大社',
-          'coordinate_source': 'shrine coordinate',
-          'coordinate_confidence': 'high'},
+          'coordinate_source': 'legacy shrine-area weather anchor; not a road destination or a tripod point',
+          'coordinate_confidence': 'medium'},
  '神戶六甲山': {'lat': 34.752011,
            'lon': 135.237428,
            'map_query': '六甲山 天覧台',
@@ -1585,6 +1595,22 @@ DISPLAY_NAME_OVERRIDES = {
 # separate. map_query is search/display metadata only and MUST NOT be used to
 # build a production Navigation URL.
 NAVIGATION_TARGET_OVERRIDES = {
+    "出雲大社": {
+        "status": "multiple_access_routes",
+        "target_type": "route_choice_required",
+        "label_i18n": {
+            "zh-TW": "出雲大社：參道入口或停車場須擇一",
+            "en": "Izumo Taisha: choose approach entrance or parking",
+            "ja": "出雲大社：参道入口・駐車場を選択",
+        },
+        "source": "Izumo Oyashiro official approach map and Izumo Tourism Association parking/access guide; reviewed 2026-09-25",
+        "confidence": "high",
+        "note_i18n": {
+            "zh-TW": "徒步自勢溜參道進入，開車可用大停車場等不同入口；本殿區座標不能作為道路導航目的地，待支援路線選擇後再提供導航。",
+            "en": "The Seidamari walking approach and shrine parking areas are distinct arrivals. The main-sanctuary coordinate is not a road destination; route selection is needed before offering directions.",
+            "ja": "勢溜からの徒歩参道と大駐車場などの車での到着地点は異なります。本殿付近の座標を道路案内の目的地にせず、経路選択実装後にナビを提供します。",
+        },
+    },
     "加羅湖": {
         "status": "needs_review",
         "target_type": "trailhead",
