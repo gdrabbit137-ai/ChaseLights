@@ -26,6 +26,11 @@ from tide_state import (
     tide_sample_for_timestamp,
     spot_requires_tide_state,
 )
+from shinhotaka_access import (
+    build_shinhotaka_access_state,
+    fetch_shinhotaka_homepage_status,
+    unknown_shinhotaka_provider_state,
+)
 
 # 後端多國語言狀態與指標字典
 I18N_MESSAGES = {
@@ -152,6 +157,22 @@ _WEATHER_RESPONSE_CACHE = {}
 _SPATIAL_WEATHER_RESPONSE_CACHE = {}
 _MARINE_RESPONSE_CACHE = {}
 _TIDE_RESPONSE_CACHE = {}
+_SHINHOTAKA_ACCESS_CACHE = None
+
+
+def _fetch_shinhotaka_access_provider():
+    """Fetch jp-021 official access status once per generator process."""
+    global _SHINHOTAKA_ACCESS_CACHE
+    if _SHINHOTAKA_ACCESS_CACHE is not None:
+        return _SHINHOTAKA_ACCESS_CACHE
+    try:
+        _SHINHOTAKA_ACCESS_CACHE = fetch_shinhotaka_homepage_status()
+    except Exception as exc:
+        print(f"Shinhotaka access fetch error: {exc}")
+        _SHINHOTAKA_ACCESS_CACHE = unknown_shinhotaka_provider_state(
+            reason=f"provider_exception:{type(exc).__name__}"
+        )
+    return _SHINHOTAKA_ACCESS_CACHE
 
 
 def _request_json(url, timeout=12, attempts=3):
@@ -1394,6 +1415,12 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
             print(f"Tide fetch error for {spot.get('spot_id')}: {tide_error}")
             tide_index = None
 
+        shinhotaka_access_provider = (
+            _fetch_shinhotaka_access_provider()
+            if spot.get("spot_id") == "jp-021"
+            else None
+        )
+
         tz_name = raw.get("timezone") or "UTC"
         try:
             tz = ZoneInfo(tz_name)
@@ -1446,6 +1473,7 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
 
             item_data = {
                 "spot_id": spot.get("spot_id"),
+                "timestamp": int(ts),
                 "scenes": list(spot.get("scenes") or []),
                 "c_low": hv("cloud_cover_low", i, 0),
                 "c_low_available": hv("cloud_cover_low", i, None) is not None,
@@ -1487,6 +1515,10 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
                 "tide_forecast": tide_forecast,
                 **astro,
             }
+            if spot.get("spot_id") == "jp-021":
+                item_data["access_state"] = build_shinhotaka_access_state(
+                    int(ts), shinhotaka_access_provider
+                )
 
             opportunity_runtime = _build_opportunity_runtime_diagnostics(spot, item_data)
 
