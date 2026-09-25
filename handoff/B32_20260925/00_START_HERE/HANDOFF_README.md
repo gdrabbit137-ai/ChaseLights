@@ -2,133 +2,124 @@
 
 Date: 2026-09-25 (Asia/Taipei)
 
-## Authoritative branch
+## Authoritative development branch
 
-- Branch: `r4.2-b32-jp-research-batch01`
-- Synced against production `main`: branch is ahead and not behind.
-- Production main baseline at checkpoint: `dae5a12f8a4efbd35b73f5dd7e03975a4424fa43`
-- Last functional-code checkpoint before handoff-document packaging: `231422ed0b9fa8c078b9bc38e1c6d53aae334160`
+- Branch: `r4.2-b32-jp025-hagi`
+- Production `main` baseline: `70277c685521fe50a3119de23880be5e90a19b68`
+- Production currently contains the 24/35 Japan checkpoint through jp-024.
+- Development branch is ahead of main and not behind.
 
-Do not continue from the old B29 branch or from `r4.2-b32-jp021-access-provider`. Continue from `r4.2-b32-jp-research-batch01`.
+Do not continue from `r4.2-b32-jp-research-batch01`. Continue from `r4.2-b32-jp025-hagi`.
 
-## Current Japan migration state
+## Current development state
 
-Japan catalog: 35 Places total.
+Japan research on this branch:
+- researched: 25 / 35
+- pending: 10
+- latest researched Place: `jp-025 萩城下町・菊屋橫町`
+- additive Japan catalog: 25 Places / 33 Opportunities / 33 Condition Variants / 33 profile-viewpoint relations
+- catalog schema: `v0.04-r4.2-b32-jp-batch01-24`
 
-Research-complete: 24 / 35:
-- jp-001 through jp-014, except none skipped in that range now
-- jp-015 through jp-024
+Detailed jp-025 research:
+- `B32_JP_RESEARCH_BATCH13.md`
 
-Research-pending: 11:
-- jp-025 萩市城下町
-- jp-026 出雲大社
-- jp-027 神戶六甲山
-- jp-028 高野山
-- jp-029 伊賀上野城
-- jp-030 鳴門海峽漩渦
-- jp-031 倉敷美觀地區
-- jp-032 福岡城跡
-- jp-033 唐津城
-- jp-034 長崎哥拉巴園
-- jp-035 福岡塔
+## R4.2 Navigation Target correction
 
-Current B32 Japan additive catalog:
-- 24 researched Places
-- 31 Opportunities
-- 31 Condition Variants
-- 31 profile-viewpoint relations
-- schema: `v0.04-r4.2-b32-jp-batch01-23`
+A production navigation flaw was found: the old V5.2 UI preferred `map_query` and opened Google Maps Search. Ambiguous Place keywords could therefore show several unrelated map results.
 
-Composite active catalog:
-- Taiwan: 80 researched active Places
-- Japan: 24 researched Places
-- US: still research-pending
+This branch changes the product contract.
 
-## Latest completed work — jp-014 Todoroki Valley
+Authoritative spec:
+- `NAVIGATION_SPEC_R4_2.md`
 
-`jp-014 等等力溪谷` is now research-complete.
+Core rule:
+- Camera Zone != Navigation Target.
+- `map_query` is search/display metadata only.
+- free-text `map_query` MUST NOT construct the Navigation URL.
 
-Primary researched Outcome:
-- `jp-014-P01`
-- Golf Bridge red bridge + Yazawa River ravine + green woodland
-- Camera Zone anchor: `35.607857, 139.646545`
-- navigation query: `等々力渓谷 ゴルフ橋`
+New `navigation_target` statuses:
+- `verified`: exact-coordinate Google Maps Directions
+- `provisional_camera_anchor`: exact-coordinate Map pin only; not presented as verified navigation
+- `needs_review`: no clickable keyword fallback
+- `multiple_access_routes`: do not silently select one arrival route
 
-Important current official state:
-- Setagaya City reopened the riverside path on 2026-03-24.
-- Official guidance says do not enter after dark.
-- Heavy-rain guidance says stay away from the river.
-- The current park notice says photography is not being accepted because of expected congestion.
+Initial explicit cases:
+- 加羅湖: `needs_review`
+- 新穗高・西穗高口展望台: `needs_review`
+- 彌彥山: `multiple_access_routes`
+- 等等力溪谷 Golf Bridge: `verified`
+- 萩城下町・菊屋橫町: `verified`
 
-Therefore ChaseLights uses:
-- formula status: `access_hold_current_photography_not_accepted`
-- runtime policy: `hold`
-- score cap: 0
-- research_pending: false
+Weather output schema is now v10 and exports `navigation_target`.
 
-Do not reinterpret good weather as permission to recommend photography while this official notice remains active.
+Frontend:
+- verified target -> `/maps/dir/?api=1&destination=<lat>,<lon>`
+- provisional exact anchor -> `/maps/search/?api=1&query=<lat>,<lon>`
+- needs-review / multi-route -> disabled Navigation-pending control
+- no production Navigation URL is built from `map_query`
 
-Detailed research: `B32_JP_RESEARCH_BATCH12.md`
+The old screenshot case for 加羅湖 therefore no longer searches Google Maps for the text “加羅湖”.
 
-## Existing dynamic access providers
+## jp-025 Hagi research
 
-### jp-021 Shinhotaka
-- Provider: `shinhotaka_access.py`
-- P01 and P02 runtime-ready
-- official live ropeway status + timetable / maintenance + annual Stargazing Service semantics
-- stale/ambiguous status fails closed
+Primary normal Outcome:
+- `jp-025-P01`
+- Kikuya Yokocho white / namako walls and preserved historic lane
+- close-range local-scene minimum-sufficient contract
+- low cloud / long-range visibility do not incorrectly suppress the street scene
+- material precipitation/access problems remain blockers
 
-### jp-022 Mt. Yahiko
-- Provider: `yahiko_access.py`
-- P01/P02/P03 runtime-ready
-- current official ropeway state plus multi-route / annual night-event semantics
-- annual Night View & Stargazing Cruise dates are not projected into future years
+Event Outcome:
+- `jp-025-P02`
+- verified 2026 Hagi Bamboo Lamp Festival dates: 2026-10-09 through 2026-10-11, 18:00–21:00 JST
+- event-state runtime remains pending, therefore ordinary nights cannot be treated as bamboo-lantern nights
 
-## QA gates at handoff
+Navigation Target:
+- verified street-access anchor: `34.4119363, 131.3932271`
 
-Todoroki checkpoint:
-- Adapter CI: PASS — run 36095613147
-- Japan Candidate Weather QA: PASS — run 36095459006
-- Browser Smoke: PASS — run 36095483843
-- Taiwan Candidate Weather QA after region/runtime changes: PASS — run 36095396799
+## QA at this handoff
 
-The earlier red Adapter runs during incremental commits are superseded by run 36095613147.
+- Adapter CI: PASS — run 36100446591
+- Japan Candidate Weather QA: PASS — run 36100403517
+- Browser Smoke: PASS — run 36100369665
+- Taiwan Candidate Weather QA retry: run 36100640799 (update QA_STATUS.md with final result before release)
 
-## Core product rules that must remain unchanged
+Browser Smoke explicitly covers:
+- 加羅湖 has no clickable broad keyword navigation
+- a provisional Place opens only an exact-coordinate map pin
+- 等等力溪谷 verified target uses Directions coordinates
+- 萩城下町 verified target uses Directions coordinates
+- keyword names do not leak into Navigation hrefs
+
+## Existing production checkpoint
+
+The previous 24/35 checkpoint was merged via PR #10.
+
+Production:
+- B32 merge commit: `242fa40b0550b0f184b2cc3228df04702f554f76`
+- post-merge weather commit: `70277c685521fe50a3119de23880be5e90a19b68`
+- Pages deployment for refreshed weather: PASS
+- production Japan data: 24 researched / 11 pending
+
+The current jp-025 + Navigation Target branch has NOT yet been merged to production.
+
+## Core product rules
 
 1. Place-first homepage.
-2. Card click opens researched Place Guide, not weather details.
-3. Weather Forecast / Navigation / Radar remain peer tools.
+2. Card click opens researched Place Guide.
+3. Weather Forecast / Navigation or Map / Radar remain peer tools.
 4. Shooting/access times use Place-local timezone; Last Updated uses browser/device timezone.
-5. No researched Opportunity => no photography score; research_pending=true.
-6. Legacy Theme score is only a compatibility/weather baseline.
-7. A clear Theme score alone may not create an 80+ Place recommendation.
-8. Missing research fields remain absent; never synthesize generic shooting advice.
+5. No researched Opportunity => no photography score.
+6. Legacy Theme score is compatibility/weather baseline only.
+7. Clear Theme weather alone may not create an 80+ recommendation.
+8. Missing research fields remain absent.
 9. Dynamic access uncertainty fails closed.
-10. Retired IDs remain retired.
+10. Camera Zone must not be assumed to be a navigation destination.
+11. `map_query` must never be the production routing source.
 
-## Next work
+## Next work after Navigation QA
 
-Proceed with `jp-025 萩市城下町`.
-
-Research it individually:
-- verify the actual photographable subject/composition, not generic city-center coordinates;
-- find authoritative Place evidence first;
-- establish a legal Camera Zone;
-- research current access / shooting restrictions;
-- decide whether the Outcome is minimum-sufficient, needs a dedicated module, or must remain held;
-- only then add it to the B32 catalog and scoring runtime.
-
-After each migration:
-- Adapter CI
-- Japan Candidate Weather QA
-- Browser Smoke
-- Taiwan QA when shared runtime/region logic changes
-
-## Do not do
-
-- Do not enable all remaining Japan Places from legacy Scene/Theme tags.
-- Do not infer seasonal Outcomes from tags.
-- Do not treat an attraction POI centroid as the camera position.
-- Do not infer commercial/visitor shooting permission when an official notice is ambiguous.
-- Do not reuse a current live-open transport snapshot for distant forecast hours beyond its freshness contract.
+1. Finish/confirm Taiwan Navigation Target regression QA.
+2. Decide whether to deploy this navigation fix + jp-025 checkpoint.
+3. Continue Japan research from `jp-026 出雲大社`.
+4. As Places are researched, separately verify their Navigation Target instead of inheriting the Camera Zone.
