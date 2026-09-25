@@ -1,25 +1,39 @@
-Continue ChaseLights R4.2 B32 from branch `r4.2-b32-jp-research-batch01`.
+Continue ChaseLights R4.2 B32 from branch `r4.2-b32-jp025-hagi`.
 
 Read first:
 1. `handoff/B32_20260925/00_START_HERE/HANDOFF_README.md`
-2. `B32_JP_RESEARCH_BATCH12.md`
-3. `B29_RESEARCH_GUIDE_SCORING_HANDOFF.md`
-4. `opportunities.py`
-5. `opportunity_runtime.py`
-6. `runtime_dependencies.py`
+2. `NAVIGATION_SPEC_R4_2.md`
+3. `B32_JP_RESEARCH_BATCH13.md`
+4. `B32_JP_RESEARCH_BATCH12.md`
+5. `B29_RESEARCH_GUIDE_SCORING_HANDOFF.md`
+6. `LOCATION_AUDIT.md`
 7. `regions.py`
-8. `.github/workflows/b32_jp_candidate_weather.yml`
-9. `.github/workflows/b30_browser_smoke.yml`
+8. `analyze_weather.py`
+9. `index.html`
 10. `test_opportunity_adapter.py`
 
-Latest functional QA is green:
-- Adapter 36095613147
-- Japan Candidate QA 36095459006
-- Browser Smoke 36095483843
-- Taiwan Candidate QA 36095396799
+Important current change:
+- Camera Zone and Navigation Target are separate.
+- Never use `map_query` to construct production Google Maps navigation.
+- `verified` targets use exact-coordinate Directions.
+- `provisional_camera_anchor` is an exact map pin only.
+- `needs_review` / `multiple_access_routes` must not keyword-search a destination.
+- 加羅湖 is intentionally `needs_review`.
+- New weather schema is v10.
 
-Next target: `jp-025 萩市城下町`.
+QA already green:
+- Adapter 36100446591
+- Japan Candidate QA 36100403517
+- Browser Smoke 36100369665
 
-Do not activate its score from legacy tags. Research the actual photo outcome, official evidence, Camera Zone, access/permission semantics and required weather conditions first. Keep every Place-local shooting/access time in JST and website Last Updated in the user's browser/device timezone.
+Taiwan candidate retry:
+- 36100640799
+Check its final result before release.
 
-For `jp-014 等等力溪谷`, preserve the current hold. It is researched but official Setagaya guidance currently says photography is not being accepted because of congestion; its score must remain 0 until an authoritative update removes or clearly narrows that restriction.
+Current Japan research is 25/35. The next Place after navigation work is `jp-026 出雲大社`.
+
+For every new Place, research both:
+1. photographable Camera Zone / composition;
+2. practical Navigation Target / arrival point.
+
+Do not infer one from the other.
