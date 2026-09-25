@@ -1,11 +1,11 @@
 {
-  "schema_version": "v0.04-r4.2-b32-jp-batch01-22",
-  "generated_at": "2026-09-25T11:50:00+08:00",
-  "scope": "B32 Japan researched Place additions through jp-022 Mt. Yahiko",
-  "spot_count": 23,
-  "opportunity_count": 30,
-  "condition_variant_count": 30,
-  "profile_viewpoint_relation_count": 30,
+  "schema_version": "v0.04-r4.2-b32-jp-batch01-23",
+  "generated_at": "2026-09-25T12:40:00+08:00",
+  "scope": "B32 Japan researched Place additions through jp-014 Todoroki Valley and jp-022 Mt. Yahiko",
+  "spot_count": 24,
+  "opportunity_count": 31,
+  "condition_variant_count": 31,
+  "profile_viewpoint_relation_count": 31,
   "spots": [
     {
       "spot_id": "jp-001",
@@ -2050,6 +2050,85 @@
               "geometry_confidence": "high",
               "note": "Official 2026 Night View & Stargazing Cruise explicitly advertises Echigo Plain night lights, Sea of Japan fishing lights and starry sky during date-limited night ropeway operation. This Opportunity scores the night-view outcome; event access remains a hard gate.",
               "name": "彌彥山頂公園・夜間特別運行 Camera Zone"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-014",
+      "canonical_name": "等等力溪谷",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH12",
+      "research_sources": [
+        {
+          "authority": "Setagaya City Official — Todoroki Valley Park",
+          "url": "https://www.city.setagaya.lg.jp/02075/9082.html",
+          "verified_on": "2026-09-25",
+          "supports": "The riverside path reopened on 2026-03-24; visitors are told not to enter after dark, to stay away from the river during heavy rain, and the current notice says photography is not being accepted because of expected congestion."
+        },
+        {
+          "authority": "Setagaya City Official — Tokyo-designated Scenic Place Todoroki Valley",
+          "url": "https://www.city.setagaya.lg.jp/02059/3482.html",
+          "verified_on": "2026-09-25",
+          "supports": "Official scenic-place description identifies Golf Bridge and the deep green ravine character, plus seasonal cherry blossom, evergreen woodland and autumn foliage; Fudo waterfall is separately documented."
+        },
+        {
+          "authority": "Tokyu Corporation Official — Todoroki Area Guide",
+          "url": "https://www.tokyu.co.jp/area/todoroki/article/arti-01JV1TBVVPWS0PQT6SSXW3H45C/",
+          "verified_on": "2026-09-25",
+          "supports": "Official railway-area guide identifies Golf Bridge as a symbolic red bridge whose contrast with the ravine greenery is photogenic."
+        },
+        {
+          "authority": "Cross-checked Golf Bridge coordinate",
+          "url": "https://www.djq.jp/bridge_liblary/river_senkawa/tokyo_bridge_yazawa025_golf.php",
+          "verified_on": "2026-09-25",
+          "supports": "Mapped Golf Bridge coordinate 35.607857, 139.646545 is used as the Camera Zone anchor; it is a bridge/entrance-area reference rather than a mandatory tripod point."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-014-P01",
+          "spot_id": "jp-014",
+          "name_zh": "等等力溪谷・Golf Bridge 紅橋與綠蔭溪谷",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "access_hold_current_photography_not_accepted",
+          "formula_version": "v0.04_hold_setagaya_current_photography_notice",
+          "formula_confidence": 96,
+          "best_time": "白天（景點當地時間／JST；官方明示天黑後不要進入）",
+          "best_season": "全年綠蔭景觀；櫻花與秋色只作季節加分，不視為每日保證",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-032",
+              "variant_name": "Golf Bridge 紅橋・谷澤川與綠蔭溪谷",
+              "condition_geometry": "{\"camera_zone\":\"等々力渓谷 ゴルフ橋／谷沢川入口 Camera Zone\",\"subject\":\"red Golf Bridge + Yazawa River ravine + green woodland\"}",
+              "hard_gates": "等々力渓谷公園合法開放；僅白天進入；豪雨時遠離河道；官方目前『撮影は受け付けておりません』公告解除或範圍被正式釐清前，不啟用攝影推薦評分",
+              "required_conditions": "紅色Golf Bridge與溪谷綠蔭／谷澤川脈絡可辨；若日後解除拍攝限制，仍需能見度與降水條件可用",
+              "boosters": "柔和散射光；新綠；秋色；雨後但非豪雨且步道安全時的濕潤植被質感",
+              "penalties": "官方拍攝不受理公告仍有效；天黑後；豪雨／河水暴漲風險；步道壅擠；強降水",
+              "formula_status": "access_hold_current_photography_not_accepted"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-014-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Setagaya official material identifies Golf Bridge as the Todoroki Valley entrance landmark; Tokyu explicitly describes the red bridge/green-ravine contrast as photogenic. Coordinate is a cross-checked bridge anchor, not a fixed shooting position.",
+              "name": "等等力溪谷 Golf Bridge／谷澤川入口 Camera Zone",
+              "lat": 35.607857,
+              "lon": 139.646545,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_place_and_photo_value_plus_cross_checked_bridge_coordinate",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 120,
+              "geometry_note": "Golf Bridge與谷澤川入口周邊合法公共動線；不宣稱單一腳架點，且目前官方拍攝不受理公告未解除前不作推薦。",
+              "geometry_confidence": "high"
             }
           ]
         }
