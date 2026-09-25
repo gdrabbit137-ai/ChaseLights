@@ -1,18 +1,26 @@
-# B32 QA Status — 2026-09-25
+# B32 QA Status — jp-025 + Navigation Target correction
+
+Date: 2026-09-25
 
 | Gate | Result | Run |
 |---|---|---:|
-| Opportunity Adapter | PASS | 36095613147 |
-| Japan Candidate Weather QA | PASS | 36095459006 |
-| Browser Smoke | PASS | 36095483843 |
-| Taiwan Candidate Weather QA | PASS | 36095396799 |
+| Opportunity Adapter | PASS | 36100446591 |
+| Japan Candidate Weather QA | PASS | 36100403517 |
+| Browser Smoke | PASS | 36100369665 |
+| Taiwan Candidate Weather QA | RUNNING / retry | 36100640799 |
 
-## Todoroki assertions now covered
+## Navigation regression coverage
 
-- jp-014 is in the researched Japan set.
-- jp-014 is not research_pending.
-- jp-014-P01 runtime policy is hold.
-- hold score is 0 / condition_state=hold.
-- Camera Zone resolves to Golf Bridge anchor.
-- Japan pending Place count is 11.
-- Browser researched-card count is 24.
+Browser Smoke passed checks that:
+- 加羅湖 is `needs_review` and has no clickable keyword-search fallback.
+- 南雅奇岩 is transitional `provisional_camera_anchor` and opens an exact-coordinate map pin.
+- 等等力溪谷 is a `verified` Navigation Target and uses exact-coordinate Directions.
+- 萩城下町・菊屋橫町 is a `verified` Navigation Target and uses exact-coordinate Directions.
+- the former `map_query -> Google Maps search` construction is absent.
+
+Adapter tests cover:
+- all Places expose a valid `navigation_target.status`;
+- verified targets must contain numeric coordinates;
+- 加羅湖 does not export navigation coordinates while pending;
+- weather summary/detail metadata carries `navigation_target`;
+- browser cache accepts weather schema v10.
