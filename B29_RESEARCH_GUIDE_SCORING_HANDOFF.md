@@ -66,10 +66,29 @@ Missing optional research fields MUST remain absent. Do not fill them with gener
 
 Card footer tools are peers:
 - Weather Forecast
-- Navigation
+- Navigation / Map
 - Radar
 
 No user-facing UI label should call Weather Forecast "96H details". The forecast may internally cover past 24h + future 72h.
+
+### Navigation Target contract
+
+Navigation is now governed by `NAVIGATION_SPEC_R4_2.md`.
+
+Camera Zone and Navigation Target are separate concepts:
+- Camera Zone = where the researched photograph is made.
+- Navigation Target = the practical public arrival point used for routing.
+- `map_query` = search/display metadata only.
+
+Production navigation MUST NOT construct a Google Maps URL from free-text `map_query`.
+
+Only a `navigation_target.status == "verified"` target may expose a Google Maps Directions link to exact coordinates.
+
+If only an exact Camera Zone/Place anchor is known, the UI may expose a coordinate map pin as **Map / 地圖 / 地図**, but must not present it as verified Navigation.
+
+If the target is `needs_review` or `multiple_access_routes`, the UI must not silently fall back to keyword search or invent a route.
+
+For hiking, mountain, ropeway, park-interior, or restricted-access Places, the Camera Zone coordinate MUST NOT be reused as a road-navigation destination unless separately verified.
 
 ## Opportunity-linked scoring contract
 
