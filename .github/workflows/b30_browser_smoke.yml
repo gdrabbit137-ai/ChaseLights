@@ -5,6 +5,7 @@ on:
     branches:
       - r4.2-b28-p0-missing-places
       - r4.2-b31-place-weather-details
+      - r4.2-b32-jp-research-batch01
     paths:
       - "index.html"
       - "regions.py"
@@ -13,6 +14,7 @@ on:
       - "opportunities.py"
       - "opportunity_runtime.py"
       - "runtime_dependencies.py"
+      - "runtime_catalog_v004_r4_2_b32_jp_batch01.json"
       - ".github/workflows/b30_browser_smoke.yml"
   workflow_dispatch:
 
@@ -36,8 +38,10 @@ jobs:
         with:
           python-version: "3.10"
 
-      - name: Generate Taiwan candidate weather
-        run: python analyze_weather.py tw
+      - name: Generate Taiwan and Japan candidate weather
+        run: |
+          python analyze_weather.py tw
+          python analyze_weather.py jp
 
       - name: Install browser test dependency
         run: python -m pip install --disable-pip-version-check selenium
@@ -73,6 +77,9 @@ jobs:
           report = {}
 
           try:
+              # Last Updated must follow the user's device/browser timezone,
+              # independently from each Place's local shooting-time timezone.
+              driver.execute_cdp_cmd("Emulation.setTimezoneOverride", {"timezoneId": "America/Los_Angeles"})
               driver.get("http://127.0.0.1:8000/index.html")
 
               cards = wait.until(lambda d: d.find_elements(By.CSS_SELECTOR, "#spots-container .card"))
@@ -82,6 +89,37 @@ jobs:
               title = driver.find_element(By.ID, "discovery-title").text
               report["discovery_title"] = title
               assert "今天去哪裡拍" in title, title
+
+              browser_tz = driver.execute_script("return Intl.DateTimeFormat().resolvedOptions().timeZone")
+              updated_at = driver.execute_script("return currentData.updated_at")
+              update_text = driver.find_element(By.ID, "update-time").text
+              expected_update = driver.execute_script("""
+                const dt = new Date(currentData.updated_at);
+                return new Intl.DateTimeFormat('zh-TW',{
+                  month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',timeZoneName:'short'
+                }).format(dt);
+              """)
+              report["browser_timezone"] = browser_tz
+              report["last_updated_text"] = update_text
+              assert browser_tz == "America/Los_Angeles", browser_tz
+              assert expected_update in update_text, (expected_update, update_text, updated_at)
+
+              place_window = driver.execute_script("""
+                const spot = currentSpots.find(s => {
+                  const m = getMetric(s);
+                  return m && m.window_start && m.window_end && m.timezone_abbr;
+                });
+                const metric = spot ? getMetric(spot) : null;
+                return metric ? {
+                  spot_id: spot.spot_id,
+                  timezone_abbr: metric.timezone_abbr,
+                  formatted: fmtWindow(metric)
+                } : null;
+              """)
+              assert place_window, "no local-time best window found"
+              report["place_window_timezone"] = place_window
+              assert place_window["timezone_abbr"] in place_window["formatted"], place_window
+              assert "PDT" not in place_window["formatted"], place_window
 
               body_text = driver.find_element(By.TAG_NAME, "body").text
               assert "96H 明細" not in body_text
@@ -105,6 +143,8 @@ jobs:
               assert opp_cards, "researched Place Guide did not render Opportunity cards"
               guide_text = driver.find_element(By.ID, "place-modal-body").text
               assert "這裡適合拍什麼" in guide_text
+              assert "景點當地時區" in guide_text, guide_text
+              assert "適合時間（景點當地時間）" in guide_text, guide_text
               driver.execute_script("closePlaceModal()")
 
               cards = driver.find_elements(By.CSS_SELECTOR, "#spots-container .card")
@@ -124,9 +164,130 @@ jobs:
               wait.until(lambda d: len(d.find_elements(By.CSS_SELECTOR, "#spots-container .card")) > 0)
               jp_cards = driver.find_elements(By.CSS_SELECTOR, "#spots-container .card")
               report["jp_cards"] = len(jp_cards)
-              jp_scores = [c.find_element(By.CSS_SELECTOR, ".score-badge").text.strip() for c in jp_cards]
-              assert all(x in {"", "—"} for x in jp_scores), jp_scores[:20]
-              assert any("攝影研究待補" in c.text for c in jp_cards), "Japan research-pending card notice missing"
+              assert len(jp_cards) == 35, len(jp_cards)
+
+              researched_jp_ids = driver.execute_script("""
+                return currentSpots
+                  .filter(s => Array.isArray(s.opportunities) && s.opportunities.length)
+                  .map(s => s.spot_id);
+              """)
+              report["researched_jp_ids"] = researched_jp_ids
+              assert researched_jp_ids == ["jp-001", "jp-002", "jp-003", "jp-004", "jp-005", "jp-006", "jp-007", "jp-008", "jp-009", "jp-010", "jp-011", "jp-012", "jp-013", "jp-015", "jp-016", "jp-017", "jp-018", "jp-019", "jp-020", "jp-021", "jp-023", "jp-024"], researched_jp_ids
+
+              researched_names = {"美瑛青池", "旭岳", "釧路濕原", "函館山夜景", "小樽運河", "摩周湖", "十和田湖", "松島", "磐梯山", "富士山 (河口湖)", "東京鐵塔", "鎌倉大佛", "諏訪湖", "皇居外苑二重橋", "橫濱山下公園", "金澤兼六園", "名古屋城", "濱名湖", "橫濱港未來21", "新穗高・西穗高口展望台", "京都清水寺", "大阪城公園"}
+              researched_cards = [c for c in jp_cards if any(name in c.text for name in researched_names)]
+              assert len(researched_cards) == 22
+              researched_scores = [c.find_element(By.CSS_SELECTOR, ".score-badge").text.strip() for c in researched_cards]
+              assert all(x not in {"", "—"} for x in researched_scores), [c.text for c in researched_cards]
+              assert all("攝影研究待補" not in c.text for c in researched_cards)
+
+              hakodate_card = next(c for c in researched_cards if "函館山夜景" in c.text)
+              hakodate_score_text = hakodate_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
+              assert hakodate_score_text not in {"", "—"}
+              assert int(hakodate_score_text) <= 64, hakodate_card.text
+
+              blue_pond_card = next(c for c in researched_cards if "美瑛青池" in c.text)
+              blue_pond_score_text = blue_pond_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
+              assert blue_pond_score_text not in {"", "—"}
+              assert int(blue_pond_score_text) <= 35, blue_pond_card.text
+
+              asahidake_card = next(c for c in researched_cards if "旭岳" in c.text)
+              asahidake_score_text = asahidake_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
+              assert asahidake_score_text not in {"", "—"}
+              assert int(asahidake_score_text) <= 64, asahidake_card.text
+
+              mashu_card = next(c for c in researched_cards if "摩周湖" in c.text)
+              mashu_score_text = mashu_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
+              assert mashu_score_text not in {"", "—"}
+              assert "攝影研究待補" not in mashu_card.text
+
+              towada_card = next(c for c in researched_cards if "十和田湖" in c.text)
+              towada_score_text = towada_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
+              assert towada_score_text not in {"", "—"}
+              assert "攝影研究待補" not in towada_card.text
+
+              matsushima_card = next(c for c in researched_cards if "松島" in c.text)
+              matsushima_score_text = matsushima_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
+              assert matsushima_score_text not in {"", "—"}
+              assert "攝影研究待補" not in matsushima_card.text
+
+              bandai_card = next(c for c in researched_cards if "磐梯山" in c.text)
+              bandai_score_text = bandai_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
+              assert bandai_score_text not in {"", "—"}
+              assert "攝影研究待補" not in bandai_card.text
+
+              fuji_card = next(c for c in researched_cards if "富士山 (河口湖)" in c.text)
+              fuji_score_text = fuji_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
+              assert fuji_score_text not in {"", "—"}
+              assert "攝影研究待補" not in fuji_card.text
+
+              suwa_card = next(c for c in researched_cards if "諏訪湖" in c.text)
+              suwa_score_text = suwa_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
+              assert suwa_score_text not in {"", "—"}
+              assert "攝影研究待補" not in suwa_card.text
+
+              hamanako_card = next(c for c in researched_cards if "濱名湖" in c.text)
+              hamanako_score_text = hamanako_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
+              assert hamanako_score_text not in {"", "—"}
+              assert "攝影研究待補" not in hamanako_card.text
+
+              nijubashi_card = next(c for c in researched_cards if "皇居外苑二重橋" in c.text)
+              nijubashi_score_text = nijubashi_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
+              assert nijubashi_score_text not in {"", "—"}
+              assert "攝影研究待補" not in nijubashi_card.text
+              assert "東京皇居" not in nijubashi_card.text
+
+              kamakura_card = next(c for c in researched_cards if "鎌倉大佛" in c.text)
+              kamakura_score_text = kamakura_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
+              assert kamakura_score_text not in {"", "—"}
+              assert "攝影研究待補" not in kamakura_card.text
+
+              tokyo_tower_card = next(c for c in researched_cards if "東京鐵塔" in c.text)
+              tokyo_tower_score_text = tokyo_tower_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
+              assert tokyo_tower_score_text not in {"", "—"}
+              assert "攝影研究待補" not in tokyo_tower_card.text
+
+              yamashita_card = next(c for c in researched_cards if "橫濱山下公園" in c.text)
+              yamashita_score_text = yamashita_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
+              assert yamashita_score_text not in {"", "—"}
+              assert "攝影研究待補" not in yamashita_card.text
+
+              kenroku_card = next(c for c in researched_cards if "金澤兼六園" in c.text)
+              kenroku_score_text = kenroku_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
+              assert kenroku_score_text not in {"", "—"}
+              assert "攝影研究待補" not in kenroku_card.text
+
+              nagoya_card = next(c for c in researched_cards if "名古屋城" in c.text)
+              nagoya_score_text = nagoya_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
+              assert nagoya_score_text not in {"", "—"}
+              assert "攝影研究待補" not in nagoya_card.text
+
+              minato_card = next(c for c in researched_cards if "橫濱港未來21" in c.text)
+              minato_score_text = minato_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
+              assert minato_score_text not in {"", "—"}
+              assert "攝影研究待補" not in minato_card.text
+
+              shinhotaka_card = next(c for c in researched_cards if "新穗高・西穗高口展望台" in c.text)
+              shinhotaka_score_text = shinhotaka_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
+              assert shinhotaka_score_text not in {"", "—"}
+              assert int(shinhotaka_score_text) <= 64, shinhotaka_card.text
+              assert "攝影研究待補" not in shinhotaka_card.text
+
+              kiyomizu_card = next(c for c in researched_cards if "京都清水寺" in c.text)
+              kiyomizu_score_text = kiyomizu_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
+              assert kiyomizu_score_text not in {"", "—"}
+              assert "攝影研究待補" not in kiyomizu_card.text
+
+              osaka_card = next(c for c in researched_cards if "大阪城公園" in c.text)
+              osaka_score_text = osaka_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
+              assert osaka_score_text not in {"", "—"}
+              assert "攝影研究待補" not in osaka_card.text
+
+              pending_jp_cards = [c for c in jp_cards if not any(name in c.text for name in researched_names)]
+              assert len(pending_jp_cards) == 13
+              pending_jp_scores = [c.find_element(By.CSS_SELECTOR, ".score-badge").text.strip() for c in pending_jp_cards]
+              assert all(x in {"", "—"} for x in pending_jp_scores), pending_jp_scores[:20]
+              assert all("攝影研究待補" in c.text for c in pending_jp_cards), "non-migrated Japan card leaked legacy scoring"
 
               driver.execute_script("document.getElementById('spots-container').innerHTML = ''")
               Select(driver.find_element(By.ID, "country-select")).select_by_value("us")
