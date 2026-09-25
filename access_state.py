@@ -130,9 +130,14 @@ for _access_type, _profile_ids in _ACCESS_GROUPS.items():
 
 ACCESS_DEPENDENT_PROFILE_IDS = frozenset(ACCESS_PROFILE_CLASSIFICATION)
 
-# B25 is deliberately a foundation checkpoint: provider adapters are not yet
-# connected, so no dynamic-access Opportunity is allowed to become contract-ready.
-ACCESS_RUNTIME_READY_PROFILES = frozenset()
+# Runtime-ready is explicit and profile-specific.  jp-021 is enabled only after
+# fixture regression, live official-page parsing, candidate-weather QA and
+# browser smoke all passed on 2026-09-25.  Other access-dependent profiles stay
+# fail-closed until their own authoritative providers are implemented.
+ACCESS_RUNTIME_READY_PROFILES = frozenset({
+    "jp-021-P01",
+    "jp-021-P02",
+})
 
 # These are provider-discovery hints, not proof that an Opportunity is open.
 # They document official sources verified during B25 architecture work.
