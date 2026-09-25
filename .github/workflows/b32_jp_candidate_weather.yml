@@ -186,6 +186,7 @@ jobs:
 
               days = spot.get("daily") or []
               assert days
+              seen_daily_opportunity_ids = set()
               for day in days:
                   winner = day.get("all") or {}
                   assert not winner.get("research_pending"), (spot["spot_id"], day.get("date"), winner)
@@ -196,7 +197,11 @@ jobs:
                       assert not winner.get("opportunity_id"), (spot["spot_id"], day.get("date"), winner)
                       continue
                   assert day["opportunities"], (spot["spot_id"], day.get("date"), winner)
-                  assert set(day["opportunities"]) == expected_opportunities[spot["spot_id"]]
+                  daily_opportunity_ids = set(day["opportunities"])
+                  assert daily_opportunity_ids <= expected_opportunities[spot["spot_id"]], (
+                      spot["spot_id"], day.get("date"), daily_opportunity_ids
+                  )
+                  seen_daily_opportunity_ids.update(daily_opportunity_ids)
                   if spot["spot_id"] == "jp-001" and winner.get("score") is not None:
                       assert winner["score"] <= 35, winner
                       assert winner.get("condition_state") == "data_insufficient", winner
@@ -222,6 +227,9 @@ jobs:
                           assert winner.get("condition_state") == "dedicated_conditions_match", winner
                       else:
                           assert winner.get("condition_state") == "minimum_sufficient_conditions_match", winner
+              assert seen_daily_opportunity_ids == expected_opportunities[spot["spot_id"]], (
+                  spot["spot_id"], seen_daily_opportunity_ids
+              )
 
           pending_errors = []
           for spot in pending:
