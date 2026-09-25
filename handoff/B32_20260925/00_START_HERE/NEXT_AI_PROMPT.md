@@ -26,9 +26,8 @@ QA already green:
 - Japan Candidate QA 36100403517
 - Browser Smoke 36100369665
 
-Taiwan candidate retry:
-- 36100640799
-Check its final result before release.
+Taiwan Candidate QA:
+- PASS 36100640799
 
 Current Japan research is 25/35. The next Place after navigation work is `jp-026 出雲大社`.
 
