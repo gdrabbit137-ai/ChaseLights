@@ -1,39 +1,40 @@
-Continue ChaseLights R4.2 B32 from branch `codex/jp026` after reading the continuation note in `HANDOFF_README.md`. Its base is `r4.2-b32-jp025-hagi`.
+Continue ChaseLights R4.2 B32 from branch `codex/jp026`. Its integration
+base is `r4.2-b32-jp025-hagi`.
 
 Read first:
 1. `handoff/B32_20260925/00_START_HERE/HANDOFF_README.md`
-2. `NAVIGATION_SPEC_R4_2.md`
-3. `B32_JP_RESEARCH_BATCH13.md`
-3a. `B32_JP_RESEARCH_BATCH14.md`
-4. `B32_JP_RESEARCH_BATCH12.md`
-5. `B29_RESEARCH_GUIDE_SCORING_HANDOFF.md`
-6. `LOCATION_AUDIT.md`
-7. `regions.py`
-8. `analyze_weather.py`
-9. `index.html`
+2. `handoff/B32_20260925/QA_STATUS.md`
+3. `NAVIGATION_SPEC_R4_2.md`
+4. `B32_JP_RESEARCH_BATCH13.md`
+5. `B32_JP_RESEARCH_BATCH14.md`
+6. `B29_RESEARCH_GUIDE_SCORING_HANDOFF.md`
+7. `LOCATION_AUDIT.md`
+8. `regions.py`
+9. `opportunity_runtime.py`
 10. `test_opportunity_adapter.py`
 
-Important current change:
+Current Japan research is 26/35. The jp-026 checkpoint is green:
+- Adapter: 36128165281
+- Japan Candidate QA: 36128522907
+- Browser Smoke: 36128731623
+- Taiwan Candidate QA: 36128226766
+
+Next research target: `jp-027 神戶六甲山`.
+
+Research the actual photographic outcome and legal Camera Zone first. Separately
+verify the practical arrival target. 六甲山 has materially different transport
+and viewpoint possibilities, so do not select a Directions destination until
+the specific composition and arrival mode are established.
+
+Preserve these contracts:
 - Camera Zone and Navigation Target are separate.
-- Never use `map_query` to construct production Google Maps navigation.
-- `verified` targets use exact-coordinate Directions.
-- `provisional_camera_anchor` is an exact map pin only.
-- `needs_review` / `multiple_access_routes` must not keyword-search a destination.
-- 加羅湖 is intentionally `needs_review`.
-- New weather schema is v10.
+- Never build production navigation from `map_query`.
+- No researched Opportunity means no photography score.
+- Place-local shooting/access time uses JST.
+- Missing fields remain absent.
+- Access uncertainty fails closed.
+- `jp-014` remains held at score 0 while the official photography restriction
+  remains in force.
 
-QA already green:
-- Adapter 36100446591
-- Japan Candidate QA 36100403517
-- Browser Smoke 36100369665
-
-Taiwan Candidate QA:
-- PASS 36100640799
-
-Current Japan research on the continuation is 26/35. Run candidate weather and browser QA for `jp-026`, then research `jp-027 神戶六甲山`. The prior green CI runs cover only the `jp-025` checkpoint.
-
-For every new Place, research both:
-1. photographable Camera Zone / composition;
-2. practical Navigation Target / arrival point.
-
-Do not infer one from the other.
+After the jp-027 implementation, run Adapter, Japan Candidate Weather, Browser
+Smoke, and Taiwan Candidate QA if shared runtime or region behavior changes.
