@@ -82,7 +82,7 @@ Navigation Target:
 - Adapter CI: PASS — run 36100446591
 - Japan Candidate Weather QA: PASS — run 36100403517
 - Browser Smoke: PASS — run 36100369665
-- Taiwan Candidate Weather QA retry: run 36100640799 (update QA_STATUS.md with final result before release)
+- Taiwan Candidate Weather QA: PASS — run 36100640799
 
 Browser Smoke explicitly covers:
 - 加羅湖 has no clickable broad keyword navigation
