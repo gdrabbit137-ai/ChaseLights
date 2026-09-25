@@ -66,6 +66,12 @@ from shinhotaka_access import (
     build_shinhotaka_access_state,
     parse_shinhotaka_homepage_status,
 )
+from yahiko_access import (
+    NIGHT_CRUISE_DATES_2026,
+    PROVIDER_VERSION as YAHIKO_PROVIDER_VERSION,
+    build_yahiko_access_state,
+    parse_yahiko_homepage_status,
+)
 
 import analyze_weather
 import fetch_data
@@ -163,8 +169,8 @@ def test_adapter_integrity():
 
     policies = Counter(runtime_policy(o) for o in all_opportunities)
     assert policies == {
-        "module_pending": 74,
-        "preview_module_available": 81,
+        "module_pending": 71,
+        "preview_module_available": 84,
         "minimum_sufficient_available": 59,
         "prototype_pending_certification": 2,
         "hold": 1,
@@ -1087,7 +1093,7 @@ def test_adapter_integrity():
     assert len(dynamic_profiles) == 49
     assert {o["opportunity_id"] for o in dynamic_profiles} == set(ACCESS_DEPENDENT_PROFILE_IDS)
     assert set(ACCESS_PROFILE_CLASSIFICATION) == set(ACCESS_DEPENDENT_PROFILE_IDS)
-    assert ACCESS_RUNTIME_READY_PROFILES == frozenset({"jp-021-P01", "jp-021-P02"})
+    assert ACCESS_RUNTIME_READY_PROFILES == frozenset({"jp-021-P01", "jp-021-P02", "jp-022-P01", "jp-022-P02", "jp-022-P03"})
     assert HARD_ACCESS_HOLDS["tw-052"]["policy"] == "hold"
     assert {"tw-005", "tw-037", "tw-038", "tw-078", "tw-081", "jp-002", "jp-004", "jp-021"} <= set(OFFICIAL_SOURCE_HINTS)
     assert "tw-063" not in OFFICIAL_SOURCE_HINTS
@@ -1591,6 +1597,75 @@ def test_adapter_integrity():
     assert schedule_open_eval["available"] is True
     assert schedule_open_eval["eligible"] is False
     assert schedule_open_eval["reason"] == "live_access_confirmation_required"
+
+    # jp-022 Yahiko: the official homepage can prove today's ropeway operation,
+    # while Skyline schedule-only access remains fail-closed.
+    assert YAHIKO_PROVIDER_VERSION == "yahiko-access-r1-preview"
+    assert len(NIGHT_CRUISE_DATES_2026) == 10
+    yahiko_html = """
+    <section><h2>本日のロープウェイ情報</h2>
+    <div>始 発</div><b>09:00</b>
+    <div>上り</div><div>最終</div><b>16:40</b>
+    <div>下り</div><div>最終</div><b>17:00</b>
+    <p>15分間隔</p><strong>通常営業</strong></section>
+    """
+    yahiko_provider = parse_yahiko_homepage_status(
+        yahiko_html, fetched_at_epoch=jst_epoch(2026, 9, 25, 10, 0)
+    )
+    assert yahiko_provider["parse_ok"] is True
+    assert yahiko_provider["status"] == "open"
+    assert yahiko_provider["first_ascent"] == "09:00"
+    assert yahiko_provider["last_ascent"] == "16:40"
+    assert yahiko_provider["last_descent"] == "17:00"
+
+    jp022 = get_opportunities("jp", "jp-022")
+    assert [o["opportunity_id"] for o in jp022] == ["jp-022-P01", "jp-022-P02", "jp-022-P03"]
+    assert all(o["runtime_policy"] == "preview_module_available" for o in jp022)
+
+    yahiko_day = jst_epoch(2026, 9, 25, 11, 0)
+    yahiko_day_state = build_yahiko_access_state(yahiko_day, yahiko_provider)
+    for oid in ("jp-022-P01", "jp-022-P02"):
+        assert yahiko_day_state[oid]["status"] == "open"
+        evaluation = evaluate_dynamic_access(
+            next(o for o in jp022 if o["opportunity_id"] == oid),
+            {"timestamp": yahiko_day, "access_state": yahiko_day_state[oid]},
+        )
+        assert evaluation["available"] is True
+        assert evaluation["eligible"] is True
+
+    yahiko_after_ropeway = jst_epoch(2026, 9, 25, 18, 0)
+    after_state = build_yahiko_access_state(yahiko_after_ropeway, yahiko_provider)["jp-022-P02"]
+    assert after_state["status"] == "unknown"
+    assert after_state["freshness_mode"] == "schedule"
+    assert after_state["status_basis"] == "ropeway_outside_window_and_skyline_live_status_unavailable"
+    assert evaluate_dynamic_access(
+        jp022[1], {"timestamp": yahiko_after_ropeway, "access_state": after_state}
+    )["eligible"] is False
+
+    non_event_night = build_yahiko_access_state(
+        jst_epoch(2026, 9, 25, 19, 0), yahiko_provider
+    )["jp-022-P03"]
+    assert non_event_night["status"] == "closed"
+    assert non_event_night["status_basis"] == "not_an_official_2026_night_cruise_date"
+
+    yahiko_event_html = """
+    <section><h2>本日のロープウェイ情報</h2>
+    <div>始 発</div><b>09:00</b>
+    <div>上り</div><div>最終</div><b>20:30</b>
+    <div>下り</div><div>最終</div><b>21:00</b>
+    <strong>通常営業</strong></section>
+    """
+    yahiko_event_provider = parse_yahiko_homepage_status(
+        yahiko_event_html, fetched_at_epoch=jst_epoch(2026, 9, 23, 19, 0)
+    )
+    event_state = build_yahiko_access_state(
+        jst_epoch(2026, 9, 23, 19, 30), yahiko_event_provider
+    )["jp-022-P03"]
+    assert event_state["status"] == "open"
+    assert event_state["status_basis"] == "official_event_date_and_live_ropeway_night_service_open"
+    assert evaluate_dynamic_access(
+        jp022[2], {"timestamp": jst_epoch(2026, 9, 23, 19, 30), "access_state": event_state}
+    )["eligible"] is True
 
     jp009 = get_opportunities("jp", "jp-009")
     assert [o["opportunity_id"] for o in jp009] == ["jp-009-P01"]
