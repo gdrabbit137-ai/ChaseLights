@@ -180,6 +180,31 @@ def test_adapter_integrity():
     assert len(MINIMUM_SUFFICIENT_VISIBILITY_PROFILES) == 59
     assert MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES == {"jp-025-P01"}
 
+    # R4.2 Navigation Target contract: every Place has explicit state, but
+    # only individually verified arrival targets may become Directions links.
+    valid_navigation_statuses = {
+        "verified", "provisional_camera_anchor", "needs_review", "multiple_access_routes"
+    }
+    for region in ("tw", "jp", "us"):
+        for nav_spot in get_spots(region):
+            target = nav_spot.get("navigation_target") or {}
+            assert target.get("status") in valid_navigation_statuses, (
+                nav_spot["spot_id"], target
+            )
+            if target.get("status") == "verified":
+                assert isinstance(target.get("lat"), float)
+                assert isinstance(target.get("lon"), float)
+
+    jialuo = next(s for s in get_spots("tw") if s["name_i18n"]["zh-TW"] == "加羅湖")
+    assert jialuo["navigation_target"]["status"] == "needs_review"
+    assert "lat" not in jialuo["navigation_target"]
+    assert "lon" not in jialuo["navigation_target"]
+
+    nanya = next(s for s in get_spots("tw") if "南雅奇岩" in s["name_i18n"]["zh-TW"])
+    assert nanya["navigation_target"]["status"] == "provisional_camera_anchor"
+    assert nanya["navigation_target"]["lat"] == nanya["lat"]
+    assert nanya["navigation_target"]["lon"] == nanya["lon"]
+
     deyue = next(o for o in get_opportunities("tw", "tw-062") if o["opportunity_id"] == "tw-062-P01")
     assert deyue["legacy_theme"] == "mountain_view"
     assert deyue["runtime_policy"] == "minimum_sufficient_available"
@@ -1386,6 +1411,10 @@ def test_adapter_integrity():
     assert abs(todoroki_spot["lat"] - 35.607857) < 1e-9
     assert abs(todoroki_spot["lon"] - 139.646545) < 1e-9
     assert todoroki_spot["map_query"] == "等々力渓谷 ゴルフ橋"
+    assert todoroki_spot["navigation_target"]["status"] == "verified"
+    assert todoroki_spot["navigation_target"]["target_type"] == "street_access"
+    assert abs(todoroki_spot["navigation_target"]["lat"] - 35.607857) < 1e-9
+    assert abs(todoroki_spot["navigation_target"]["lon"] - 139.646545) < 1e-9
 
     jp025 = get_opportunities("jp", "jp-025")
     assert [o["opportunity_id"] for o in jp025] == ["jp-025-P01", "jp-025-P02"]
@@ -1401,6 +1430,10 @@ def test_adapter_integrity():
     assert hagi_spot["map_query"] == "菊屋横町 萩市"
     assert hagi_spot["name_i18n"]["zh-TW"] == "萩城下町・菊屋橫町"
     assert set(hagi_spot["themes"]) == {"mountain_view", "city_night"}
+    assert hagi_spot["navigation_target"]["status"] == "verified"
+    assert hagi_spot["navigation_target"]["target_type"] == "street_access"
+    assert abs(hagi_spot["navigation_target"]["lat"] - 34.4119363) < 1e-9
+    assert abs(hagi_spot["navigation_target"]["lon"] - 131.3932271) < 1e-9
 
     # Close-range historic streetscape: benign overcast / low long-range
     # visibility must not suppress the researched local scene.
@@ -1504,6 +1537,9 @@ def test_adapter_integrity():
     assert shinhotaka_spot["coordinate_confidence"] == "high"
     assert shinhotaka_spot["map_query"] == "西穂高口駅 新穂高ロープウェイ"
     assert set(shinhotaka_spot["themes"]) >= {"mountain_view", "milky_way"}
+    assert shinhotaka_spot["navigation_target"]["status"] == "needs_review"
+    assert "lat" not in shinhotaka_spot["navigation_target"]
+    assert "lon" not in shinhotaka_spot["navigation_target"]
 
     jp021 = get_opportunities("jp", "jp-021")
     assert [o["opportunity_id"] for o in jp021] == ["jp-021-P01", "jp-021-P02"]
@@ -2415,7 +2451,7 @@ def test_active_catalog_weather_generation_guard():
     assert access_days[0]["all"]["window_start"] == "2026-09-24 06:00"
 
 
-def test_schema9_optional_metadata_bridge():
+def test_schema10_optional_metadata_bridge():
     spot = next(s for s in get_spots("tw") if s["spot_id"] == "tw-052")
     original = analyze_weather.fetch_weather_for_spot
     try:
@@ -2437,11 +2473,13 @@ def test_schema9_optional_metadata_bridge():
     assert summary["themes"] == spot["themes"]
     assert summary["daily"] == []
     assert details["hourly_forecast"] == []
-    json.dumps({"schema_version": 9, "spots": [summary]}, ensure_ascii=False)
+    assert summary["navigation_target"] == spot["navigation_target"]
+    assert details["navigation_target"] == spot["navigation_target"]
+    json.dumps({"schema_version": 10, "spots": [summary]}, ensure_ascii=False)
 
 
 if __name__ == "__main__":
     test_adapter_integrity()
     test_active_catalog_weather_generation_guard()
-    test_schema9_optional_metadata_bridge()
+    test_schema10_optional_metadata_bridge()
     print("v0.04 R4.2 full Opportunity adapter tests: PASS")
