@@ -101,7 +101,7 @@ Do not infer future-year dates from the 2026 schedule.
 
 - Theme baseline: `mountain_view`
 - Mode: `area_opportunity`
-- Runtime status: `needs_dynamic_access_visibility_module`
+- Runtime status: `dynamic_access_visibility_runtime_ready`
 - Best time: ropeway-accessible daylight, Place-local JST
 - Required:
   - Northern Alps mountain/valley landscape readable;
@@ -114,16 +114,17 @@ Do not infer future-year dates from the 2026 schedule.
   - clean air;
   - seasonal snow/foliage contrast when actually present.
 - Current runtime policy:
-  - `module_pending`
-  - score cap `<=64` until authoritative ropeway access provider is connected.
+  - `preview_module_available`
+  - dynamic access + visibility are both runtime-ready.
+  - 80+ is allowed only when the dedicated contract is actually satisfied; stale, ambiguous, suspended or schedule-closed access remains fail-closed.
 
 ### jp-021-P02 — 西穗高口限定星空觀賞便・北阿爾卑斯星空
 
 - Theme baseline: `milky_way`
 - Mode: `area_opportunity`
-- Runtime status: `needs_astronomy_ephemeris_access_module`
+- Runtime status: `astronomy_ephemeris_dynamic_access_runtime_ready`
 - Astronomy module: registered and ready
-- Dynamic access: pending
+- Dynamic access: registered and ready for the verified 2026 Stargazing Service contract
 - Best time: only official Stargazing Service nights, Place-local JST
 - Required:
   - official event date/time is active;
@@ -135,8 +136,8 @@ Do not infer future-year dates from the 2026 schedule.
   - a clear ordinary night is **not** enough;
   - do not claim exact Milky Way foreground alignment without verified geometry.
 - Current runtime policy:
-  - `module_pending`
-  - score cap `<=64` until event/access provider is connected.
+  - `preview_module_available`
+  - 80+ is allowed only on a verified official Stargazing Service date/time when the same event-window live No.2 Ropeway status confirms operation and the astronomy/cloud contract also matches.
 
 ## Runtime / QA invariants
 
@@ -144,19 +145,20 @@ Do not infer future-year dates from the 2026 schedule.
 - Expected Opportunity IDs:
   - `jp-021-P01`
   - `jp-021-P02`
-- Both remain capped at 64 while dynamic access is missing.
+- Both Opportunities are now runtime-ready for their researched dependency contracts.
 - P01 dependency state:
-  - ready: visibility
-  - missing: dynamic_access
+  - ready: dynamic_access, visibility
+  - missing: none
 - P02 dependency state:
-  - ready: astronomy_ephemeris
-  - missing: dynamic_access
+  - ready: astronomy_ephemeris, dynamic_access
+  - missing: none
 - P01 access classification: `transport_facility_status`
 - P02 access classification: `event_access_control`
-- High-score whitelist must not contain `jp-021` until the access provider is authoritative and tested.
+- `ACCESS_RUNTIME_READY_PROFILES` contains exactly `jp-021-P01` and `jp-021-P02`; the other access-dependent Opportunities remain fail-closed pending their own providers.
+- `jp-021` is permitted in the 80+ whitelist only when the winner is `dedicated_conditions_match`; a partial runtime contract is no longer accepted.
 - No legacy `cloud_sea`, sunrise, sunset or snow-scene score may leak into the Place merely because those tags existed in the old catalog.
 
-## Provider feasibility verified
+## Provider implementation and feasibility verified
 
 The official Shinhotaka Ropeway homepage exposes a machine-readable-enough live status block in the public HTML, including:
 - a visible update time (for example `08:00 update`);
@@ -180,29 +182,60 @@ The official English timetable/pamphlet provides summit-access operating windows
 Source:
 - https://shinhotaka-ropeway.jp/pdf/pamphlet/en.pdf
 
-Provider implementation contract:
-1. Source only `https://shinhotaka-ropeway.jp/en/` (or the official Japanese equivalent if the English block becomes unavailable).
+Implemented provider contract (`shinhotaka_access.py`, `shinhotaka-access-r1-preview`):
+1. Source the official public Shinhotaka Ropeway homepage for live No.1 / No.2 status.
 2. Parse both No.1 and No.2 status; P01 summit access is open only when the required route is operational.
-3. Preserve source fetch/check timestamp and visible official update time.
+3. Preserve source fetch/check timestamp and the visible official update time.
 4. If parsing is ambiguous, source layout changes, or either required status is missing, return `unknown` — never infer open.
 5. Apply official maintenance closure dates as authoritative scheduled closed windows.
-6. For future forecast timestamps outside the provider freshness window, do not reuse a current-open snapshot as proof of future access.
-7. P02 additionally requires the annual official Stargazing Service date/time contract; P01 live status alone must never open night access.
+6. A static timetable may prove `closed`, but a static timetable may never prove a live-notice facility `open`.
+7. Live-open snapshots expire after the registered six-hour freshness window; future forecast timestamps may not reuse a stale current-open snapshot.
+8. P02 separately enforces the exact verified 2026 Stargazing Service calendar and 18:00–21:00 event window. A daytime live status cannot prove night-event operation; the live No.2 status must be stamped within the same event window.
+9. Dates beyond the verified 2026 annual event schedule return `unknown`; future-year Stargazing dates are never inferred.
 
 Sources:
 - https://shinhotaka-ropeway.jp/en/
 - https://shinhotaka-ropeway.jp/en/faq/
 - https://shinhotaka-ropeway.jp/%E3%80%902026%E5%B9%B4%E5%BA%A6%E3%80%91%E6%96%B0%E7%A9%82%E9%AB%98%E3%83%AD%E3%83%BC%E3%83%97%E3%82%A6%E3%82%A7%E3%82%A4%E3%81%AE%E9%81%8B%E8%A1%8C%E8%A8%88%E7%94%BB%E3%81%AB%E3%81%A4%E3%81%84/
 
-## Remaining work before high-confidence scoring
+## Runtime activation checkpoint — 2026-09-25
 
-1. Implement the authoritative Shinhotaka Ropeway homepage operation-status provider for P01.
-2. Connect an authoritative annual Stargazing Service schedule/status provider for P02.
-3. Confirm provider freshness / outage semantics.
-4. Add provider regression fixtures for:
-   - ropeway open;
-   - ropeway suspended;
-   - maintenance closure;
-   - valid Stargazing Service night;
-   - ordinary clear night with no event access.
-5. Only after these tests pass may `jp-021` enter the 80+ recommendation band.
+Provider and scoring activation is complete on candidate branch `r4.2-b32-jp-research-batch01`.
+
+Regression coverage now includes:
+- official homepage open state;
+- No.2 Ropeway suspended;
+- ambiguous / incomplete status HTML;
+- official maintenance closure;
+- ordinary non-event night;
+- valid 2026 Stargazing Service night;
+- event-date daytime status rejected as proof of night operation;
+- future-year event schedule rejected as unverified;
+- October weekday/weekend timetable distinction;
+- stale live snapshot rejection;
+- static schedule-open snapshot rejected as proof of live operation.
+
+Live-source QA on GitHub Actions successfully parsed the current official homepage with:
+- `parse_ok = true`;
+- No.1 status recognized;
+- No.2 status recognized;
+- visible official update timestamp recognized.
+
+Activation QA results:
+- Opportunity Adapter: success;
+- Taiwan Candidate Weather QA: success;
+- Japan Candidate Weather QA: success;
+- Browser Smoke: success.
+
+Observed candidate artifact after activation:
+- `jp-021-P01` reached 86 with `dedicated_conditions_match` while the official live access snapshot remained fresh.
+- The same current-open snapshot stopped unlocking P01 after the six-hour freshness window and fell back to runtime-data-missing behavior.
+- Outside the official regular ropeway timetable, access became authoritative `closed`.
+- `jp-021-P02` remained access-ineligible on a non-Stargazing date even when astronomy conditions could otherwise be evaluated.
+
+## Remaining maintenance work
+
+1. Monitor the official homepage markup; parser ambiguity must continue to fail closed.
+2. Refresh and re-verify the annual Stargazing Service calendar before using dates beyond 2026.
+3. Add date-specific early-morning special-service exceptions only from official annual notices; never generalize them into permanent opening hours.
+4. Re-run the provider fixture, live parser, candidate-weather and browser gates whenever the provider or access contract changes.
