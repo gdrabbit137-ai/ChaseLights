@@ -37,6 +37,29 @@ jobs:
         with:
           python-version: "3.10"
 
+      - name: Validate live Shinhotaka provider parser
+        run: |
+          python - <<'PY'
+          import json
+          from shinhotaka_access import fetch_shinhotaka_homepage_status
+
+          state = fetch_shinhotaka_homepage_status(timeout=15, attempts=3)
+          public = {
+              "parse_ok": state.get("parse_ok"),
+              "no1_status": state.get("no1_status"),
+              "no2_status": state.get("no2_status"),
+              "visible_update_text": state.get("visible_update_text"),
+              "source_url": state.get("source_url"),
+              "provider_reason": state.get("provider_reason"),
+          }
+          print(json.dumps(public, ensure_ascii=False, indent=2))
+          assert state.get("authoritative") is True, state
+          assert state.get("parse_ok") is True, public
+          assert state.get("checked_at_epoch") is not None, public
+          assert state.get("no1_status") in {"open", "closed", "restricted"}, public
+          assert state.get("no2_status") in {"open", "closed", "restricted"}, public
+          PY
+
       - name: Generate Japan candidate weather
         run: python analyze_weather.py jp
 
