@@ -91,7 +91,7 @@ ACCESS_REQUIREMENTS = {
 }
 
 _ACCESS_GROUPS = {
-    "event_access_control": ("tw-002-P03",),
+    "event_access_control": ("tw-002-P03", "jp-021-P02"),
     "public_space_live_notice": ("tw-005-P01", "tw-005-P02"),
     "trail_road_status": (
         "tw-008-P01",
@@ -112,7 +112,7 @@ _ACCESS_GROUPS = {
         "tw-045-P01", "tw-045-P03", "tw-045-P04",
         "tw-049-P02",
     ),
-    "transport_facility_status": ("tw-024-P01", "tw-024-P05", "tw-037-P01"),
+    "transport_facility_status": ("tw-024-P01", "tw-024-P05", "tw-037-P01", "jp-002-P01", "jp-004-P01", "jp-021-P01"),
     "road_viewpoint_status": ("tw-034-P01",),
     "public_attraction_notice": ("tw-038-P01", "tw-038-P02", "tw-081-P01"),
     "waterfall_trail_status": ("tw-055-P01",),
@@ -137,6 +137,27 @@ ACCESS_RUNTIME_READY_PROFILES = frozenset()
 # These are provider-discovery hints, not proof that an Opportunity is open.
 # They document official sources verified during B25 architecture work.
 OFFICIAL_SOURCE_HINTS = {
+    "jp-002": {
+        "authority": "Daisetsuzan Asahidake Ropeway",
+        "source_kind": "official_ropeway_operation_and_mountain_condition_information",
+        "url": "https://asahidake.hokkaido.jp/en/",
+        "verified_on": "2026-09-24",
+        "note": "Sugatami photography access for ordinary visitors depends on current ropeway operation and mountain conditions; do not infer access from a static annual timetable alone.",
+    },
+    "jp-004": {
+        "authority": "Hakodate City / Travel Hakodate",
+        "source_kind": "official_ropeway_road_and_summit_access_information",
+        "url": "https://www.hakodate.travel/en/information/mt-hakodate/",
+        "verified_on": "2026-09-24",
+        "note": "Summit access is multi-modal. Ropeway hours, autumn maintenance, private-car evening restrictions, winter road closure, buses/taxis and hiking must not be collapsed into one static open/closed window.",
+    },
+    "jp-021": {
+        "authority": "Shinhotaka Ropeway",
+        "source_kind": "official_ropeway_operation_status_plus_annual_stargazing_schedule",
+        "url": "https://shinhotaka-ropeway.jp/en/",
+        "verified_on": "2026-09-25",
+        "note": "Daytime summit access depends on actual ropeway operation. Night photography is not ordinary after-hours access: jp-021-P02 is valid only on the official annual Stargazing Service dates and while the special No.2 Ropeway service is operating.",
+    },
     "tw-081": {
         "authority": "Matsu National Scenic Area Headquarters",
         "source_kind": "official_attraction_hours_plus_weather_control",
@@ -382,12 +403,12 @@ def evaluate_dynamic_access(opportunity, item_data):
 
 def validate_access_registry():
     errors = []
-    if len(ACCESS_DEPENDENT_PROFILE_IDS) != 42:
-        errors.append(f"expected 42 dynamic-access profiles, got {len(ACCESS_DEPENDENT_PROFILE_IDS)}")
+    if len(ACCESS_DEPENDENT_PROFILE_IDS) != 46:
+        errors.append(f"expected 46 dynamic-access profiles, got {len(ACCESS_DEPENDENT_PROFILE_IDS)}")
     if ACCESS_RUNTIME_READY_PROFILES - ACCESS_DEPENDENT_PROFILE_IDS:
         errors.append("runtime-ready access profile is not classified")
     for oid, contract in ACCESS_PROFILE_CLASSIFICATION.items():
-        if not oid.startswith("tw-"):
+        if not oid.startswith(("tw-", "jp-", "us-")):
             errors.append(f"{oid}: invalid Opportunity id")
         if contract["access_type"] not in ACCESS_REQUIREMENTS:
             errors.append(f"{oid}: unknown access type")
