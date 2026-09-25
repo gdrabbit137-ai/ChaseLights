@@ -532,6 +532,20 @@ ACCESS_RULE_OVERRIDES = {
     },
 }
 
+# B32 Japan Batch12: Todoroki Valley reopened on 2026-03-24, but the
+# current Setagaya City notice explicitly says photography is not being accepted
+# because of expected congestion. Keep the researched Place visible while
+# failing closed for photographic recommendation until the notice is lifted or
+# its scope is authoritatively clarified.
+ACCESS_RULE_OVERRIDES["等等力溪谷"] = {
+    "access_mode": "daylight_current_photography_hold",
+    "access_note_i18n": {
+        "zh-TW": "等々力溪谷川沿步道已於2026/3/24重新開放，但世田谷區目前公告因預期壅擠『不受理拍攝』；公告解除或範圍正式釐清前，ChaseLights不啟用攝影推薦。官方另要求天黑後勿進入，豪雨時遠離河道。",
+        "en": "The riverside path reopened on 2026-03-24, but Setagaya City currently states that photography is not being accepted because of expected congestion. ChaseLights keeps photographic recommendations on hold until that notice is lifted or formally clarified. Do not enter after dark, and stay away from the river during heavy rain.",
+        "ja": "川沿い園路は2026年3月24日に再開しましたが、世田谷区は混雑対策として現在『撮影は受け付けておりません』と案内しています。解除または範囲が公式に明確化されるまで撮影推薦は保留します。暗くなってからは立ち入らず、大雨時は川に近づかないでください。",
+    },
+}
+
 # B32 Japan Batch11: Mt. Yahiko summit photography uses multi-route access.
 # Ropeway, seasonal Skyline road and walking routes are not interchangeable;
 # the annual Night View & Stargazing Cruise is a separate date-limited contract.
@@ -1119,6 +1133,13 @@ SPOT_OVERRIDES = {
            'themes': ['fog_mist', 'sunbeam', 'long_exposure'],
            'map_query': '等々力渓谷 不動の滝',
            'coordinate_source': 'Wikimedia camera point',
+           'coordinate_confidence': 'high'},
+ '等等力溪谷': {'lat': 35.607857,
+           'lon': 139.646545,
+           'scenes': ['forest', 'river'],
+           'themes': ['mountain_view'],
+           'map_query': '等々力渓谷 ゴルフ橋',
+           'coordinate_source': 'B32 Setagaya official Golf Bridge / Todoroki Valley research + cross-checked bridge coordinate',
            'coordinate_confidence': 'high'},
  '東京皇居': {'lat': 35.678475,
           'lon': 139.754897,
