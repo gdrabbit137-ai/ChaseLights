@@ -1067,6 +1067,7 @@ def _build_opportunity_runtime_diagnostics(spot, item_data):
                 "runtime_policy": policy,
                 "minimum_sufficient": True,
                 "minimum_sufficient_score_hint": simple.get("score_hint"),
+                "access_override": bool(simple.get("access_override")),
                 "modules": {simple_module: simple},
             }
         else:
@@ -1188,6 +1189,8 @@ def _score_opportunity(opportunity, theme_metric, runtime_diagnostic, lang="zh-T
         "formula_confidence": opportunity.get("formula_confidence"),
         "temporal_eligible": (theme_metric or {}).get("temporal_eligible"),
         "temporal_reason": (theme_metric or {}).get("temporal_reason"),
+        "runtime_eligible": (runtime_diagnostic or {}).get("eligible"),
+        "access_override": bool((runtime_diagnostic or {}).get("access_override")),
         "runtime": runtime_diagnostic or {},
     }
 
@@ -1534,6 +1537,9 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
                 "dew_available": hv("dew_point_2m", i, None) is not None,
                 "kp": kp_val,
                 "hour": local_dt.hour,
+                "local_date": local_dt.date().isoformat(),
+                "local_time": local_dt.strftime("%H:%M"),
+                "local_month": local_dt.month,
                 "is_day": bool(hv("is_day", i, 1)),
                 "is_twilight": is_twilight,
                 "access_open": _access_open_for_spot(spot, local_dt, bool(hv("is_day", i, 1)), is_twilight),
