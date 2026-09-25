@@ -59,7 +59,7 @@ from access_state import (
     validate_access_registry,
 )
 
-MODULE_VERSION = "opportunity-runtime-r10-shinhotaka-access-preview"
+MODULE_VERSION = "opportunity-runtime-r11-yahiko-preview"
 
 IMPLEMENTED_COMPONENTS = {
     "directional_horizon",
@@ -169,6 +169,7 @@ def evaluate_minimum_sufficient_visibility(opportunity, item_data):
     }
 
 DIRECTIONAL_HORIZON_SECTORS = {
+    "jp-022-P02": {"center": 270.0, "tolerance": 75.0, "phase": "sunset"},
     "jp-019-P01": {"center": 250.0, "tolerance": 70.0, "phase": "sunset"},
     "jp-013-P01": {"center": 270.0, "tolerance": 65.0, "phase": "sunset"},
     "jp-008-P01": {"center": 98.0, "tolerance": 22.5, "phase": "sunrise"},
@@ -988,9 +989,9 @@ def validate_runtime_registry():
     errors.extend(validate_marine_state_registry())
     errors.extend(validate_tide_state_registry())
     errors.extend(validate_access_registry())
-    if len(DIRECTIONAL_HORIZON_SECTORS) != 48:
+    if len(DIRECTIONAL_HORIZON_SECTORS) != 49:
         errors.append(
-            f"expected 48 registered directional profiles, got {len(DIRECTIONAL_HORIZON_SECTORS)}"
+            f"expected 49 registered directional profiles, got {len(DIRECTIONAL_HORIZON_SECTORS)}"
         )
     if set(CLOUD_SKY_GLOW_PROFILES) != {"tw-013-P02", "tw-026-P02", "tw-030-P02", "tw-035-P04"}:
         errors.append(f"unexpected cloud_sky_glow registry: {sorted(CLOUD_SKY_GLOW_PROFILES)}")
@@ -1009,8 +1010,8 @@ def validate_runtime_registry():
         errors.append(f"expected 17 marine-state profiles, got {len(MARINE_STATE_PROFILES)}")
     if len(TIDE_STATE_PROFILES) != 14:
         errors.append(f"expected 14 tide-state profiles, got {len(TIDE_STATE_PROFILES)}")
-    if len(ACCESS_DEPENDENT_PROFILE_IDS) != 46:
-        errors.append(f"expected 46 dynamic-access profiles, got {len(ACCESS_DEPENDENT_PROFILE_IDS)}")
+    if len(ACCESS_DEPENDENT_PROFILE_IDS) != 49:
+        errors.append(f"expected 49 dynamic-access profiles, got {len(ACCESS_DEPENDENT_PROFILE_IDS)}")
     expected_access_ready = {"jp-021-P01", "jp-021-P02"}
     if set(ACCESS_RUNTIME_READY_PROFILES) != expected_access_ready:
         errors.append(
