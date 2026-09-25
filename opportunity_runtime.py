@@ -92,9 +92,6 @@ MINIMUM_SUFFICIENT_VISIBILITY_PROFILES = {
     "tw-046-P01", "tw-046-P02", "tw-047-P03", "tw-048-P01",
     "tw-049-P01", "tw-050-P01", "tw-051-P02", "tw-057-P01",
     "tw-058-P01", "tw-062-P01", "tw-064-P02", "tw-066-P01",
-    # B33 Hualien flatland forest: a clean, readable tree corridor is the
-    # photographic outcome; firefly events are intentionally not inferred.
-    "tw-084-P01",
     # B28 individually researched geology views: missing geology-light modeling
     # is a refinement/booster, not a hard reason to suppress a clear-view visit.
     "tw-074-P01", "tw-074-P02",
@@ -109,6 +106,11 @@ MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES = {
     # scenes. Low cloud and long-range visibility are not hard blockers;
     # material rain and known access closure remain blockers.
     "jp-025-P01", "jp-026-P01",
+    # B33 Hualien flatland forest corridor is a close-range local scene.
+    # Long-range visibility and low cloud are not hard blockers; rain/access
+    # remain blockers. Corridor-light geometry is not yet verified, so this
+    # contract only rates scene usability, not "best forest light".
+    "tw-084-P01",
 }
 
 
@@ -121,12 +123,13 @@ def supports_minimum_sufficient_contract(opportunity):
 
 
 def evaluate_minimum_sufficient_local_scene(opportunity, item_data):
-    """Minimum-sufficient contract for close-range architecture/street scenes.
+    """Minimum-sufficient contract for close-range local scenes.
 
-    This intentionally does not penalize benign overcast or low cloud. For a
-    lane-scale subject such as Kikuya Yokocho, those variables do not obscure
-    the subject the way they do a mountain/city panorama. Material rain/access
-    problems remain blockers. Theme timing still supplies the daylight gate.
+    This intentionally does not penalize benign overcast, low cloud, or
+    long-range visibility. For lane/corridor-scale subjects those variables do
+    not obscure the subject the way they do a mountain/city panorama. Material
+    rain/access problems remain blockers. Theme timing still supplies the
+    daylight gate. Place-specific light geometry is a separate concern.
     """
     pop_raw = item_data.get("pop", item_data.get("precipitation_probability"))
     precip_raw = item_data.get("precipitation", item_data.get("precip"))
@@ -161,6 +164,12 @@ def evaluate_minimum_sufficient_local_scene(opportunity, item_data):
         "score_hint": score_hint,
         "cloud_cover_is_not_a_blocker": True,
         "long_range_visibility_is_not_a_blocker": True,
+        "lighting_geometry_verified": opportunity.get("opportunity_id") != "tw-084-P01",
+        "lighting_geometry_note": (
+            "forest_corridor_direction_and_canopy_geometry_not_yet_verified"
+            if opportunity.get("opportunity_id") == "tw-084-P01"
+            else None
+        ),
         "contract_source": "manually_curated_place_specific_profile",
     }
 
@@ -1053,7 +1062,7 @@ def validate_runtime_registry():
     errors.extend(validate_marine_state_registry())
     errors.extend(validate_tide_state_registry())
     errors.extend(validate_access_registry())
-    if set(MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES) != {"jp-025-P01", "jp-026-P01"}:
+    if set(MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES) != {"jp-025-P01", "jp-026-P01", "tw-084-P01"}:
         errors.append(
             "unexpected minimum-sufficient local-scene registry: "
             f"{sorted(MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES)}"
