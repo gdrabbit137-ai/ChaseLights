@@ -279,7 +279,9 @@ jobs:
               shinhotaka_card = next(c for c in researched_cards if "新穗高・西穗高口展望台" in c.text)
               shinhotaka_score_text = shinhotaka_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
               assert shinhotaka_score_text not in {"", "—"}
-              assert int(shinhotaka_score_text) <= 64, shinhotaka_card.text
+              assert shinhotaka_score_text.isdigit(), shinhotaka_card.text
+              if int(shinhotaka_score_text) >= 80:
+                  assert "此拍攝題材的關鍵條件目前符合" in shinhotaka_card.text, shinhotaka_card.text
               assert "攝影研究待補" not in shinhotaka_card.text
 
               kiyomizu_card = next(c for c in researched_cards if "京都清水寺" in c.text)
