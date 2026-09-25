@@ -7,7 +7,7 @@ ready only after an authoritative provider/rule is connected for that profile.
 Unknown or stale access data must never be interpreted as open.
 """
 
-ACCESS_STATE_VERSION = "dynamic-access-foundation-r2-schedule-aware-preview"
+ACCESS_STATE_VERSION = "dynamic-access-foundation-r3-yahiko-preview"
 
 ACCESS_REQUIREMENTS = {
     "event_access_control": {
