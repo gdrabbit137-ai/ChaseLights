@@ -58,6 +58,8 @@ jobs:
 
           summary_spots = summary.get("spots") if isinstance(summary, dict) else summary
           detail_spots = details.get("spots") if isinstance(details, dict) else details
+          assert summary.get("schema_version") == 10, summary.get("schema_version")
+          assert details.get("schema_version") == 10, details.get("schema_version")
           assert isinstance(summary_spots, list), type(summary_spots)
           assert isinstance(detail_spots, list), type(detail_spots)
 
@@ -71,6 +73,19 @@ jobs:
           assert "tw-063" not in sids
           assert "tw-063" not in dids
           assert set(sids) == set(dids)
+
+          valid_nav_states = {"verified", "provisional_camera_anchor", "needs_review", "multiple_access_routes"}
+          assert all((s.get("navigation_target") or {}).get("status") in valid_nav_states for s in summary_spots)
+
+          jialuo = next(s for s in summary_spots if s.get("name_i18n", {}).get("zh-TW") == "加羅湖")
+          assert jialuo["navigation_target"]["status"] == "needs_review", jialuo["navigation_target"]
+          assert "lat" not in jialuo["navigation_target"]
+          assert "lon" not in jialuo["navigation_target"]
+
+          nanya = next(s for s in summary_spots if "南雅奇岩" in s.get("name_i18n", {}).get("zh-TW", ""))
+          assert nanya["navigation_target"]["status"] == "provisional_camera_anchor", nanya["navigation_target"]
+          assert nanya["navigation_target"]["lat"] == nanya["lat"]
+          assert nanya["navigation_target"]["lon"] == nanya["lon"]
 
           shard_dir = Path("weather_details") / "tw"
           shard_files = sorted(shard_dir.glob("tw-*.json"))
