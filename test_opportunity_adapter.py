@@ -203,7 +203,23 @@ def test_adapter_integrity():
     assert get_opportunities("tw", "tw-082")[0]["runtime_policy"] == "preview_module_available"
     assert get_opportunities("tw", "tw-083")[0]["runtime_policy"] == "preview_module_available"
     assert get_opportunities("tw", "tw-084")[0]["runtime_policy"] == "minimum_sufficient_available"
-    assert MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES == {"jp-025-P01", "jp-026-P01"}
+
+    danongdafu = get_opportunities("tw", "tw-084")[0]
+    danongdafu_local = evaluate_minimum_sufficient_visibility(
+        danongdafu,
+        {
+            "vis": 9100,
+            "c_low": 80,
+            "pop": 10,
+            "precipitation": 0.0,
+            "access_open": True,
+        },
+    )
+    assert danongdafu_local["eligible"] is True
+    assert danongdafu_local["long_range_visibility_is_not_a_blocker"] is True
+    assert danongdafu_local["lighting_geometry_verified"] is False
+    assert danongdafu_local["lighting_geometry_note"] == "forest_corridor_direction_and_canopy_geometry_not_yet_verified"
+    assert MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES == {"jp-025-P01", "jp-026-P01", "tw-084-P01"}
 
     # R4.2 Navigation Target contract: every Place has explicit state, but
     # only individually verified arrival targets may become Directions links.
