@@ -1059,13 +1059,15 @@ def _build_opportunity_runtime_diagnostics(spot, item_data):
             result = evaluate_opportunity_modules(opportunity, item_data)
         elif policy == "minimum_sufficient_available":
             simple = evaluate_minimum_sufficient_visibility(opportunity, item_data)
+            simple_module = simple.get("module") or "minimum_sufficient_visibility"
             result = {
                 "available": simple.get("available", False),
                 "eligible": simple.get("eligible", False),
                 "reason": simple.get("reason"),
                 "runtime_policy": policy,
                 "minimum_sufficient": True,
-                "modules": {"minimum_sufficient_visibility": simple},
+                "minimum_sufficient_score_hint": simple.get("score_hint"),
+                "modules": {simple_module: simple},
             }
         else:
             result = {
@@ -1122,6 +1124,13 @@ def _score_opportunity(opportunity, theme_metric, runtime_diagnostic, lang="zh-T
             score_confidence = "medium"
         else:
             score = base
+            score_hint = diag.get("minimum_sufficient_score_hint")
+            if temporal_eligible is not False and score_hint is not None:
+                # Close-range researched scenes may have a dedicated
+                # precipitation/access contract where benign low cloud is not
+                # a quality penalty. Do not let the legacy mountain-view
+                # compatibility baseline suppress that verified outcome.
+                score = max(score, int(round(float(score_hint))))
             if temporal_eligible is False:
                 status_key = indicator_key = "OPPORTUNITY_OUTSIDE_TIME_WINDOW"
                 condition_state = "minimum_sufficient_weather_match_outside_time_window"
