@@ -122,8 +122,8 @@ jobs:
 
           researched = [s for s in summary_spots if s.get("opportunities")]
           pending = [s for s in summary_spots if not s.get("opportunities")]
-          assert [s["spot_id"] for s in researched] == ["jp-001", "jp-002", "jp-003", "jp-004", "jp-005", "jp-006", "jp-007", "jp-008", "jp-009", "jp-010", "jp-011", "jp-012", "jp-013", "jp-015", "jp-016", "jp-017", "jp-018", "jp-019", "jp-020", "jp-021", "jp-022", "jp-023", "jp-024"], [s["spot_id"] for s in researched]
-          assert len(pending) == 12
+          assert [s["spot_id"] for s in researched] == ["jp-001", "jp-002", "jp-003", "jp-004", "jp-005", "jp-006", "jp-007", "jp-008", "jp-009", "jp-010", "jp-011", "jp-012", "jp-013", "jp-014", "jp-015", "jp-016", "jp-017", "jp-018", "jp-019", "jp-020", "jp-021", "jp-022", "jp-023", "jp-024"], [s["spot_id"] for s in researched]
+          assert len(pending) == 11
 
           expected_opportunities = {
               "jp-001": {"jp-001-P01"},
@@ -139,6 +139,7 @@ jobs:
               "jp-011": {"jp-011-P01", "jp-011-P02"},
               "jp-012": {"jp-012-P01"},
               "jp-013": {"jp-013-P01"},
+              "jp-014": {"jp-014-P01"},
               "jp-015": {"jp-015-P01"},
               "jp-016": {"jp-016-P01", "jp-016-P02"},
               "jp-017": {"jp-017-P01"},
@@ -177,6 +178,9 @@ jobs:
                   if spot["spot_id"] == "jp-004" and winner.get("score") is not None:
                       assert winner["score"] <= 64, winner
                       assert winner.get("condition_state") == "partial_runtime_contract", winner
+                  if spot["spot_id"] == "jp-014" and winner.get("score") is not None:
+                      assert winner["score"] == 0, winner
+                      assert winner.get("condition_state") == "hold", winner
                   if spot["spot_id"] == "jp-021" and winner.get("score") is not None:
                       assert winner.get("condition_state") != "partial_runtime_contract", winner
                       if winner["score"] >= 80:
