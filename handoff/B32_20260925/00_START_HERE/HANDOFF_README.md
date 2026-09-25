@@ -2,38 +2,29 @@
 
 Date: 2026-09-25 (Asia/Taipei)
 
-## Continuation after this handoff
+## Authoritative continuation
 
-The original handoff below records the `jp-025` checkpoint on `r4.2-b32-jp025-hagi`.
-An isolated continuation branch, `codex/jp026`, adds `jp-026 出雲大社` without merging the navigation correction into `main`. See `B32_JP_RESEARCH_BATCH14.md` for sources, Camera Zone uncertainty, arrival-route decision and formula scope.
+Continue from `codex/jp026`, whose integration base is
+`r4.2-b32-jp025-hagi`. Do not continue from the older B32 branches.
 
-- Japan research on the continuation: 26/35; nine pending.
-- Additive Japan catalog: 26 Places / 34 Opportunities / 34 Condition Variants / 34 viewpoint relations.
-- Schema: `v0.04-r4.2-b32-jp-batch01-25`; weather output remains v10.
-- `jp-026` uses the public approach and Haiden exterior; its navigation target is `multiple_access_routes` because Seidamari and parking are distinct arrivals. The legacy shrine centroid is never used as a Directions destination.
-- Local adapter tests pass. Candidate weather and browser QA for this continuation are pending; the four green runs below apply to the prior `jp-025` checkpoint only.
-- Next research target after candidate QA: `jp-027 神戶六甲山`.
+Current continuation state:
+- Japan research: 26 / 35; nine pending;
+- latest researched Place: `jp-026 出雲大社`;
+- additive Japan catalog: 26 Places / 34 Opportunities / 34 Condition
+  Variants / 34 viewpoint relations;
+- catalog schema: `v0.04-r4.2-b32-jp-batch01-25`;
+- weather output schema: v10;
+- all four release gates are green.
 
-## Authoritative development branch
+Production `main` contains the 24/35 checkpoint through jp-024. Its two newer
+commits after the development merge base are generated weather updates, so
+integrate current production data before a release to `main`.
 
-- Branch: `r4.2-b32-jp025-hagi`
-- Production `main` baseline: `70277c685521fe50a3119de23880be5e90a19b68`
-- Production currently contains the 24/35 Japan checkpoint through jp-024.
-- Development branch is ahead of main and not behind.
+Detailed research:
+- `B32_JP_RESEARCH_BATCH13.md` — jp-025 Hagi;
+- `B32_JP_RESEARCH_BATCH14.md` — jp-026 Izumo Taisha.
 
-Do not continue from `r4.2-b32-jp-research-batch01`. Continue from `r4.2-b32-jp025-hagi`.
-
-## Current development state
-
-Japan research on this branch:
-- researched: 25 / 35
-- pending: 10
-- latest researched Place: `jp-025 萩城下町・菊屋橫町`
-- additive Japan catalog: 25 Places / 33 Opportunities / 33 Condition Variants / 33 profile-viewpoint relations
-- catalog schema: `v0.04-r4.2-b32-jp-batch01-24`
-
-Detailed jp-025 research:
-- `B32_JP_RESEARCH_BATCH13.md`
+Next research target: `jp-027 神戶六甲山`.
 
 ## R4.2 Navigation Target correction
 
@@ -91,10 +82,10 @@ Navigation Target:
 
 ## QA at this handoff
 
-- Adapter CI: PASS — run 36100446591
-- Japan Candidate Weather QA: PASS — run 36100403517
-- Browser Smoke: PASS — run 36100369665
-- Taiwan Candidate Weather QA: PASS — run 36100640799
+- Adapter CI: PASS — run 36128165281
+- Japan Candidate Weather QA: PASS — run 36128522907
+- Browser Smoke: PASS — run 36128731623
+- Taiwan Candidate Weather QA: PASS — run 36128226766
 
 Browser Smoke explicitly covers:
 - 加羅湖 has no clickable broad keyword navigation
@@ -113,7 +104,9 @@ Production:
 - Pages deployment for refreshed weather: PASS
 - production Japan data: 24 researched / 11 pending
 
-The current jp-025 + Navigation Target branch has NOT yet been merged to production.
+The jp-025 Navigation Target checkpoint and jp-026 continuation have not been
+merged to production. PR #11 is a clean draft from `codex/jp026` into
+`r4.2-b32-jp025-hagi`.
 
 ## Core product rules
 
@@ -129,9 +122,10 @@ The current jp-025 + Navigation Target branch has NOT yet been merged to product
 10. Camera Zone must not be assumed to be a navigation destination.
 11. `map_query` must never be the production routing source.
 
-## Next work after Navigation QA
+## Next work
 
-1. Finish/confirm Taiwan Navigation Target regression QA.
-2. Decide whether to deploy this navigation fix + jp-025 checkpoint.
-3. Continue Japan research from `jp-026 出雲大社`.
-4. As Places are researched, separately verify their Navigation Target instead of inheriting the Camera Zone.
+1. Review and merge PR #11 into the jp-025 integration branch.
+2. Reconcile the integration branch with current production data before release.
+3. Research `jp-027 神戶六甲山` individually.
+4. For each new Place, verify the Navigation Target separately from the Camera
+   Zone.
