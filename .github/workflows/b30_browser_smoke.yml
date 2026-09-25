@@ -186,6 +186,11 @@ jobs:
               assert "天氣預報" in weather_title
               driver.execute_script("closeModal()")
 
+              # Use a complete future local day for score assertions. The current
+              # day may legitimately have no remaining daylight Opportunities.
+              driver.execute_script("switchDay('tomorrow')")
+              wait.until(lambda d: d.execute_script("return currentDayFilter === 'tomorrow'"))
+
               driver.execute_script("document.getElementById('spots-container').innerHTML = ''")
               Select(driver.find_element(By.ID, "country-select")).select_by_value("jp")
               wait.until(lambda d: d.execute_script("return currentRegion === 'jp' && currentSpots.length > 0 && String(currentSpots[0].spot_id || '').startsWith('jp-')"))
