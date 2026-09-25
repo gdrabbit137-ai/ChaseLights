@@ -130,13 +130,15 @@ for _access_type, _profile_ids in _ACCESS_GROUPS.items():
 
 ACCESS_DEPENDENT_PROFILE_IDS = frozenset(ACCESS_PROFILE_CLASSIFICATION)
 
-# Runtime-ready is explicit and profile-specific.  jp-021 is enabled only after
-# fixture regression, live official-page parsing, candidate-weather QA and
-# browser smoke all passed on 2026-09-25.  Other access-dependent profiles stay
-# fail-closed until their own authoritative providers are implemented.
+# Runtime-ready is explicit and profile-specific. jp-021 and jp-022 have
+# authoritative fail-closed providers connected; all other access-dependent
+# profiles remain blocked until their own provider is implemented.
 ACCESS_RUNTIME_READY_PROFILES = frozenset({
     "jp-021-P01",
     "jp-021-P02",
+    "jp-022-P01",
+    "jp-022-P02",
+    "jp-022-P03",
 })
 
 # These are provider-discovery hints, not proof that an Opportunity is open.
