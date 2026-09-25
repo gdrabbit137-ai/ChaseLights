@@ -7,7 +7,7 @@ ready only after an authoritative provider/rule is connected for that profile.
 Unknown or stale access data must never be interpreted as open.
 """
 
-ACCESS_STATE_VERSION = "dynamic-access-foundation-r1-preview"
+ACCESS_STATE_VERSION = "dynamic-access-foundation-r2-schedule-aware-preview"
 
 ACCESS_REQUIREMENTS = {
     "event_access_control": {
@@ -285,6 +285,16 @@ def evaluate_dynamic_access(opportunity, item_data):
             "source_freshness_verified": False,
         }
 
+    freshness_mode = str(snapshot.get("freshness_mode") or "live").lower()
+    if freshness_mode not in {"live", "schedule"}:
+        return {
+            "module": "dynamic_access",
+            "available": False,
+            "eligible": False,
+            "reason": "invalid_access_freshness_mode",
+            "source_freshness_verified": False,
+        }
+
     checked = _number(snapshot.get("checked_at_epoch"))
     valid_until = _number(snapshot.get("valid_until_epoch"))
     effective_from = _number(snapshot.get("effective_from_epoch"))
@@ -293,7 +303,7 @@ def evaluate_dynamic_access(opportunity, item_data):
     if evaluation_time is None:
         evaluation_time = checked
 
-    if checked is None or evaluation_time is None:
+    if evaluation_time is None or (freshness_mode == "live" and checked is None):
         return {
             "module": "dynamic_access",
             "available": False,
@@ -304,26 +314,28 @@ def evaluate_dynamic_access(opportunity, item_data):
             "source_freshness_verified": False,
         }
 
-    age = evaluation_time - checked
-    if age < -300:
-        return {
-            "module": "dynamic_access",
-            "available": False,
-            "eligible": False,
-            "reason": "access_snapshot_from_future",
-            "source_freshness_verified": False,
-        }
+    age = None
+    if freshness_mode == "live":
+        age = evaluation_time - checked
+        if age < -300:
+            return {
+                "module": "dynamic_access",
+                "available": False,
+                "eligible": False,
+                "reason": "access_snapshot_from_future",
+                "source_freshness_verified": False,
+            }
 
-    if age > float(contract["max_snapshot_age_seconds"]):
-        return {
-            "module": "dynamic_access",
-            "available": False,
-            "eligible": False,
-            "reason": "access_snapshot_stale",
-            "snapshot_age_seconds": round(age),
-            "max_snapshot_age_seconds": contract["max_snapshot_age_seconds"],
-            "source_freshness_verified": False,
-        }
+        if age > float(contract["max_snapshot_age_seconds"]):
+            return {
+                "module": "dynamic_access",
+                "available": False,
+                "eligible": False,
+                "reason": "access_snapshot_stale",
+                "snapshot_age_seconds": round(age),
+                "max_snapshot_age_seconds": contract["max_snapshot_age_seconds"],
+                "source_freshness_verified": False,
+            }
 
     if valid_until is not None and evaluation_time > valid_until:
         return {
@@ -367,6 +379,23 @@ def evaluate_dynamic_access(opportunity, item_data):
             "eligible": False,
             "reason": "authoritative_source_status_unknown",
             "status": status,
+            "freshness_mode": freshness_mode,
+            "status_basis": snapshot.get("status_basis"),
+            "source_freshness_verified": True,
+        }
+
+    # Static timetables / annual event calendars can authoritatively prove that
+    # access is closed, but they must never be used as proof that a live-notice
+    # facility is actually open.
+    if freshness_mode == "schedule" and status == "open" and contract["requires_live_notice"]:
+        return {
+            "module": "dynamic_access",
+            "available": True,
+            "eligible": False,
+            "reason": "live_access_confirmation_required",
+            "status": status,
+            "freshness_mode": freshness_mode,
+            "status_basis": snapshot.get("status_basis"),
             "source_freshness_verified": True,
         }
 
@@ -393,7 +422,9 @@ def evaluate_dynamic_access(opportunity, item_data):
         "authority": snapshot.get("authority"),
         "source_url": snapshot.get("source_url"),
         "source_kind": snapshot.get("source_kind"),
-        "snapshot_age_seconds": round(age),
+        "freshness_mode": freshness_mode,
+        "status_basis": snapshot.get("status_basis"),
+        "snapshot_age_seconds": round(age) if age is not None else None,
         "source_freshness_verified": True,
         "requires_live_notice": contract["requires_live_notice"],
         "requires_user_entitlement": contract["requires_user_entitlement"],
