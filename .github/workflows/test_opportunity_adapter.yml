@@ -7,6 +7,7 @@ on:
       - v0.04-opportunity-adapter-r4
       - r4.2-b28-p0-missing-places
       - r4.2-b31-place-weather-details
+      - r4.2-b32-jp-research-batch01
       - hotfix-weather-catalog-resilience
     paths:
       - "opportunities.py"
@@ -16,7 +17,11 @@ on:
       - "marine_state.py"
       - "tide_state.py"
       - "access_state.py"
+      - "shinhotaka_access.py"
+      - "yahiko_access.py"
+      - "test_fixtures/shinhotaka_home_*.html"
       - "runtime_catalog_v004_r4_2_b15.compact.part*.b64"
+      - "runtime_catalog_v004_r4_2_b32_jp_batch01.json"
       - "taxonomy_v004.py"
       - "regions.py"
       - "analyze_weather.py"
@@ -39,7 +44,7 @@ jobs:
         with:
           python-version: "3.10"
       - name: Compile
-        run: python -m py_compile opportunities.py opportunity_runtime.py runtime_dependencies.py spatial_weather.py marine_state.py tide_state.py access_state.py taxonomy_v004.py regions.py analyze_weather.py fetch_data.py test_opportunity_adapter.py
+        run: python -m py_compile opportunities.py opportunity_runtime.py runtime_dependencies.py spatial_weather.py marine_state.py tide_state.py access_state.py shinhotaka_access.py yahiko_access.py taxonomy_v004.py regions.py analyze_weather.py fetch_data.py test_opportunity_adapter.py
       - name: Run adapter tests
         run: |
           set -o pipefail

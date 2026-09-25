@@ -1,0 +1,2138 @@
+{
+  "schema_version": "v0.04-r4.2-b32-jp-batch01-23",
+  "generated_at": "2026-09-25T12:40:00+08:00",
+  "scope": "B32 Japan researched Place additions through jp-014 Todoroki Valley and jp-022 Mt. Yahiko",
+  "spot_count": 24,
+  "opportunity_count": 31,
+  "condition_variant_count": 31,
+  "profile_viewpoint_relation_count": 31,
+  "spots": [
+    {
+      "spot_id": "jp-001",
+      "canonical_name": "美瑛青池",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH01",
+      "research_sources": [
+        {
+          "authority": "Biei Tourism Association",
+          "url": "https://www.biei-hokkaido.jp/en/shirogane-blue-pond",
+          "verified_on": "2026-09-24",
+          "supports": "Blue water + standing larch landscape; snowmelt/heavy rain may make the pond turbid or not appear blue; winter snow can hide the blue water surface"
+        },
+        {
+          "authority": "Biei Tourism Association",
+          "url": "https://www.biei-hokkaido.jp/en/facility/shirogane-blue-pond",
+          "verified_on": "2026-09-24",
+          "supports": "official year-round visitor information and parking/access hours"
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-001-P01",
+          "spot_id": "jp-001",
+          "name_zh": "美瑛青池藍色水面與落葉松景觀",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "data_insufficient_blue_water_state",
+          "formula_version": "v0.04_pending_blue_water_turbidity_and_snow_cover_state",
+          "formula_confidence": 45,
+          "best_time": "白天（景點當地時間／JST）",
+          "best_season": "無積雪、可見水面期；冬季積雪可能遮住藍色水面",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-005",
+              "variant_name": "青池藍色水面＋立枯落葉松",
+              "condition_geometry": "{\"camera_zone\":\"白金青い池公共觀景步道 Camera Zone\",\"subject\":\"blue pond water + standing dead larch trees\"}",
+              "hard_gates": "合法公共觀景步道可達；白天可見光；水面未被積雪完全遮住",
+              "required_conditions": "水面實際呈藍色／青藍色且可辨；立枯落葉松可辨；能見度足夠",
+              "boosters": "柔和側光；低風；低霾",
+              "penalties": "融雪或大雨後混濁／不呈藍色；冬季積雪遮住水面；濃霧；強降水",
+              "formula_status": "research_complete_runtime_blue_water_state_missing"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-001-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Existing high-confidence Biei Blue Pond camera/navigation anchor retained; official tourism confirms public pond viewing area.",
+              "name": "白金青い池公共觀景步道 Camera Zone",
+              "lat": 43.493611,
+              "lon": 142.614167,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "existing_official_area_anchor_plus_biei_official_place_research",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 220,
+              "geometry_note": "青池沿公共觀景步道可移動構圖；代表觀景區，不宣稱唯一腳架點。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-002",
+      "canonical_name": "旭岳",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH01",
+      "research_sources": [
+        {
+          "authority": "Daisetsuzan Asahidake Ropeway",
+          "url": "https://asahidake.hokkaido.jp/en/",
+          "verified_on": "2026-09-24",
+          "supports": "live ropeway operation status; daily hours; Sugatami Station at ~1600 m; ~1.7 km / ~1 hour Sugatami Pond walking course; mountain weather/visibility and safety warnings"
+        },
+        {
+          "authority": "Google Maps mapped POI",
+          "url": "https://www.google.com/maps/place/Sugatami+Station/",
+          "verified_on": "2026-09-24",
+          "supports": "Sugatami Station coordinate 43.6620489, 142.8250911"
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-002-P01",
+          "spot_id": "jp-002",
+          "name_zh": "姿見池周邊旭岳火山高山景觀",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_spatial_weather_dynamic_access_module",
+          "formula_version": "v0.04_pending_asahidake_ropeway_access",
+          "formula_confidence": 80,
+          "best_time": "纜車可用的白天時段（景點當地時間／JST；依當日運行與末班時間）",
+          "best_season": "依姿見池散策路／纜車官方當期資訊；冬季不可沿用夏季步道假設",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-006",
+              "variant_name": "姿見池散策區旭岳火山景觀",
+              "condition_geometry": "{\"camera_zone\":\"姿見駅—姿見池散策路 Camera Zone\",\"subject\":\"Mt Asahidake volcanic alpine landscape + Sugatami Pond area\"}",
+              "hard_gates": "標準遊客路線可合法到達；纜車／散策路條件可用；白天可見光；無官方停駛或安全性不明狀態",
+              "required_conditions": "旭岳與火山高山地貌可辨；能見度足夠；低雲／霧未嚴重遮蔽山體",
+              "boosters": "空氣透明度佳；低雲少；季節性高山色彩存在時可增加層次，但不由目前模型自行宣稱",
+              "penalties": "纜車停駛；能見度急降；低雲／濃霧遮蔽山體；強風／惡劣天候；冬季登山條件但缺乏對應裝備／安全資訊",
+              "formula_status": "research_ready_ropeway_access_and_mountain_weather_provider_pending"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-002-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Anchor is Sugatami Station; the official scenic walking course extends ~1.7 km around Sugatami Pond, so this is an area Camera Zone rather than a single tripod point.",
+              "name": "姿見駅—姿見池散策路 Camera Zone",
+              "lat": 43.6620489,
+              "lon": 142.8250911,
+              "elevation_m": 1600,
+              "coord_confidence": "high",
+              "verification_status": "official_sugatami_course_plus_mapped_station_coordinate",
+              "geometry_type": "area",
+              "geometry_extent_m": 1100,
+              "geometry_note": "以姿見駅為 anchor，涵蓋官方約 1.7 km 姿見池散策環線；不以旭岳山頂座標代替一般攝影 Camera Zone。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-003",
+      "canonical_name": "釧路濕原",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH01",
+      "research_sources": [
+        {
+          "authority": "Ministry of the Environment, Japan",
+          "url": "https://www.env.go.jp/nature/nationalparks/list/kushiro-shitsugen/spot/",
+          "verified_on": "2026-09-24",
+          "supports": "Hosooka Viewpoint panorama of meandering Kushiro River, wetland and Akan mountains; sunset explicitly recommended"
+        },
+        {
+          "authority": "Kushiro Wetland Nature Restoration Project Data Center, Ministry of the Environment",
+          "url": "https://kushirodata-center.env.go.jp/wetland/wetland_article3_12.html",
+          "verified_on": "2026-09-24",
+          "supports": "Hosooka is on the east side of the wetland and provides sunset-lit wetland/river views"
+        },
+        {
+          "authority": "MapFan",
+          "url": "https://mapfan.com/spots/SCYQI%2CJ%2CAW",
+          "verified_on": "2026-09-24",
+          "supports": "Hosooka Viewpoint coordinate 43.0980769, 144.4492556"
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-003-P01",
+          "spot_id": "jp-003",
+          "name_zh": "細岡展望台釧路川濕原夕景",
+          "legacy_theme": "sunset",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04_visibility_minimum_sufficient",
+          "formula_confidence": 88,
+          "best_time": "日落前後（景點當地時間／JST）",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-003",
+              "variant_name": "細岡展望台濕原夕陽",
+              "condition_geometry": "{\"camera_zone\":\"細岡展望台 Camera Zone\",\"target\":\"meandering Kushiro River + broad wetland + western sunset sky\"}",
+              "hard_gates": "合法展望區可達；日落時段有效；無明確封閉",
+              "required_conditions": "濕原與釧路川可辨；能見度足夠；低雲或降水未嚴重遮蔽夕照方向與主體",
+              "boosters": "中高雲提供夕彩；低霾；空氣透明度佳",
+              "penalties": "西方低雲完全封住夕照；濃霧；強降水；能見度明顯不足",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-003-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Environment Ministry explicitly recommends the Hosooka sunset; coordinate cross-checked to mapped viewpoint.",
+              "name": "細岡展望台 Camera Zone",
+              "lat": 43.0980769,
+              "lon": 144.4492556,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_viewpoint_and_sunset_recommendation_plus_mapped_coordinate",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 35,
+              "geometry_note": "細岡展望台／大觀望公共展望區；以觀景平台為 Camera Zone，不宣稱唯一腳架點。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-004",
+      "canonical_name": "函館山夜景",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH01",
+      "research_sources": [
+        {
+          "authority": "Travel Hakodate / Hakodate City official tourism",
+          "url": "https://www.hakodate.travel/en/information/mt-hakodate/",
+          "verified_on": "2026-09-24",
+          "supports": "Mt Hakodate summit night-view destination; 2026 ropeway hours; road restrictions; winter road closure; annual autumn ropeway maintenance"
+        },
+        {
+          "authority": "Travel Hakodate / Hakodate City official tourism",
+          "url": "https://www.hakodate.travel/en/more-about-hakodate/mtguide/",
+          "verified_on": "2026-09-24",
+          "supports": "multiple summit-access modes and night-view guidance; access status should be checked before visit"
+        },
+        {
+          "authority": "MapFan",
+          "url": "https://mapfan.com/spots/SCYQI%2CJ%2C2T",
+          "verified_on": "2026-09-24",
+          "supports": "Mt Hakodate Observatory coordinate 41.7594502, 140.7044467"
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-004-P01",
+          "spot_id": "jp-004",
+          "name_zh": "函館山暮色至夜間雙灣城市景觀",
+          "legacy_theme": "city_night",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_dynamic_access_visibility_module",
+          "formula_version": "v0.04_pending_hakodate_access_provider",
+          "formula_confidence": 82,
+          "best_time": "日落後藍調至夜間（景點當地時間／JST；須依當日可用上山方式與末班時間）",
+          "best_season": "全年；交通方式與維修／冬季道路狀態依官方公告",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-004",
+              "variant_name": "函館山山頂雙灣城市暮夜景",
+              "condition_geometry": "{\"camera_zone\":\"函館山山頂展望台 Camera Zone\",\"subject\":\"Hakodate city isthmus + both bays + urban night lights\"}",
+              "hard_gates": "山頂公共展望區可合法到達；至少一種合法上山／下山方式在有效時段可用；暮色／夜間時段有效",
+              "required_conditions": "函館市區與兩側海灣輪廓可辨；能見度足夠；低雲／霧未嚴重遮蔽山下城市",
+              "boosters": "藍調時段保留天空色階；低霾；空氣透明度佳",
+              "penalties": "濃霧／低雲覆蓋山頂或城市；強降水；纜車維修且其他交通／步行條件不可用；官方臨時管制",
+              "formula_status": "research_ready_dynamic_access_provider_pending"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-004-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official tourism defines Mt Hakodate summit as the night-view destination; coordinate cross-checked to mapped observatory.",
+              "name": "函館山山頂展望台 Camera Zone",
+              "lat": 41.7594502,
+              "lon": 140.7044467,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_summit_night_view_plus_mapped_observatory_coordinate",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 80,
+              "geometry_note": "函館山山頂展望台公共觀景區；代表可移動 Camera Zone，不宣稱唯一腳架位置。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-005",
+      "canonical_name": "小樽運河",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH01",
+      "research_sources": [
+        {
+          "authority": "Otaru Tourism Association",
+          "url": "https://otaru.gr.jp/shop/otarucanal",
+          "verified_on": "2026-09-24",
+          "supports": "representative photo spot at Asakusa Bridge Garden; 63 gas lamps; promenade gas lamps sunset-24:00; warehouse illumination sunset-22:30"
+        },
+        {
+          "authority": "HOKKAIDO LOVE! official tourism",
+          "url": "https://www.visit-hokkaido.jp/spot/detail_10042.html",
+          "verified_on": "2026-09-24",
+          "supports": "Asakusa Bridge Garden is a representative Otaru Canal photography viewpoint"
+        },
+        {
+          "authority": "NAVITIME map/POI",
+          "url": "https://www.navitime.co.jp/poi?spot=02301-14426904",
+          "verified_on": "2026-09-24",
+          "supports": "Asakusa Bridge Garden coordinate anchor 43.197887, 141.003034"
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-005-P01",
+          "spot_id": "jp-005",
+          "name_zh": "小樽運河石造倉庫與運河景觀",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04_visibility_minimum_sufficient",
+          "formula_confidence": 86,
+          "best_time": "白天至日落前（景點當地時間／JST）",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-001",
+              "variant_name": "淺草橋街園運河與石造倉庫",
+              "condition_geometry": "{\"camera_zone\":\"浅草橋街園 Camera Zone\",\"subject\":\"curving canal + historic stone warehouses\"}",
+              "hard_gates": "合法公共步行區可達；可見光時段；無明確封閉",
+              "required_conditions": "運河與石造倉庫輪廓清楚；能見度足夠；低雲或降水未嚴重遮蔽主體",
+              "boosters": "低角度斜光；薄雲柔光；低霾；較少人潮",
+              "penalties": "濃霧；強降雨／降雪造成主體遮蔽；能見度明顯不足",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-005-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official tourism identifies Asakusa Bridge Garden as the representative Otaru Canal photography spot; coordinate cross-checked to mapped POI.",
+              "name": "浅草橋街園 Camera Zone",
+              "lat": 43.197887,
+              "lon": 141.003034,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_photo_spot_plus_mapped_poi_coordinate",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 45,
+              "geometry_note": "淺草橋街園及橋頭公共拍攝區；代表 Camera Zone，不宣稱唯一腳架點。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "jp-005-P02",
+          "spot_id": "jp-005",
+          "name_zh": "小樽運河暮色瓦斯燈與倉庫點燈",
+          "legacy_theme": "blue_hour",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_lighting_state_module",
+          "formula_version": "v0.04_pending_managed_lighting_schedule",
+          "formula_confidence": 78,
+          "best_time": "日落後至22:30（景點當地時間／JST；倉庫群點燈至22:30，散策路瓦斯燈至24:00）",
+          "best_season": "全年；特殊活動另依官方公告",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-002",
+              "variant_name": "暮色運河＋瓦斯燈＋石造倉庫點燈",
+              "condition_geometry": "{\"camera_zone\":\"浅草橋街園 Camera Zone\",\"subject\":\"canal + gas lamps + illuminated stone warehouses\"}",
+              "hard_gates": "合法公共步行區可達；官方常態點燈時段；暮色／夜間時段有效",
+              "required_conditions": "運河與倉庫群可辨；能見度足夠；官方常態點燈時段成立",
+              "boosters": "藍調時段保留天空色階；低風可增加水面穩定感但完美倒影不是必要條件",
+              "penalties": "濃霧；強降水／降雪遮蔽；超出倉庫群點燈時段；臨時停止點燈",
+              "formula_status": "research_ready_runtime_lighting_schedule_pending"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-005-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Same researched Camera Zone as daytime canal Opportunity.",
+              "name": "浅草橋街園 Camera Zone",
+              "lat": 43.197887,
+              "lon": 141.003034,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_photo_spot_plus_mapped_poi_coordinate",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 45,
+              "geometry_note": "淺草橋街園及橋頭公共拍攝區；代表 Camera Zone，不宣稱唯一腳架點。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-006",
+      "canonical_name": "摩周湖",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH02",
+      "research_sources": [
+        {
+          "authority": "Hokkaido Official Tourism",
+          "url": "https://www.visit-hokkaido.jp/en/spot/detail_10484.html",
+          "verified_on": "2026-09-25",
+          "supports": "Lake Mashu First Observatory / Kamuy Terrace provides an unobstructed caldera-lake view; calm water can mirror the sky; mist is an alternate valid landscape state; rooftop terrace remains open at night"
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-006-P01",
+          "spot_id": "jp-006",
+          "name_zh": "摩周湖第一展望台・摩周藍湖景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04_visibility_minimum_sufficient",
+          "formula_confidence": 89,
+          "best_time": "白天（景點當地時間／JST）",
+          "best_season": "全年可見景觀；實際道路／設施狀態以官方公告為準",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-012",
+              "variant_name": "第一展望台摩周湖火山口湖景",
+              "condition_geometry": "{\"camera_zone\":\"摩周湖第一展望台／Kamuy Terrace Camera Zone\",\"subject\":\"Lake Mashu caldera lake + surrounding rim\"}",
+              "hard_gates": "合法觀景區可達；可見光時段；無明確封閉",
+              "required_conditions": "摩周湖與外輪山輪廓可辨；能見度足夠；低雲／濃霧未嚴重遮蔽主要湖景",
+              "boosters": "空氣透明度佳；湖面平靜可增加倒影層次；薄霧可形成另一種官方認可的景觀氣氛",
+              "penalties": "濃霧完全遮蔽湖面與外輪山；強降水；能見度過低",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-006-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Representative anchor for Lake Mashu First Observatory / Kamuy Terrace; use the public observation area rather than a generic lake-center coordinate.",
+              "name": "摩周湖第一展望台／Kamuy Terrace Camera Zone",
+              "lat": 43.556947,
+              "lon": 144.507319,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_observatory_identity_plus_curated_first_observatory_coordinate",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 180,
+              "geometry_note": "第一展望台與 Kamuy Terrace 公共觀景區的代表 Camera Zone；非湖面中心或單一腳架點。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-007",
+      "canonical_name": "十和田湖",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH02",
+      "research_sources": [
+        {
+          "authority": "Amazing AOMORI - Official Aomori Travel Guide",
+          "url": "https://aomori-tourism.com/en/spot/detail_335.html",
+          "verified_on": "2026-09-25",
+          "supports": "Lake Towada is a major scenic lake; still water can reflect the surrounding mountains/sky and autumn foliage is a documented seasonal strength"
+        },
+        {
+          "authority": "Amazing AOMORI - Official Aomori Travel Guide",
+          "url": "https://aomori-tourism.com/en/itineraries/detail_26.html",
+          "verified_on": "2026-09-25",
+          "supports": "Kankodai Observation Deck remains temporarily closed after the 2026-08-22 bear attack; Kankodai sunset is therefore not enabled in runtime"
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-007-P01",
+          "spot_id": "jp-007",
+          "name_zh": "休屋湖畔・十和田湖湖景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04_visibility_minimum_sufficient",
+          "formula_confidence": 87,
+          "best_time": "白天（景點當地時間／JST）",
+          "best_season": "可合法抵達期間；秋色為季節加分，不保證當下色況",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-013",
+              "variant_name": "休屋湖畔十和田湖與山林景觀",
+              "condition_geometry": "{\"camera_zone\":\"休屋湖畔 Camera Zone\",\"subject\":\"Lake Towada water + surrounding mountain/forest layers\"}",
+              "hard_gates": "合法湖畔公共區域可達；可見光時段；無明確封閉",
+              "required_conditions": "湖面與周邊山林層次可辨；能見度足夠；低雲／濃霧未嚴重遮蔽湖景",
+              "boosters": "湖面平靜；空氣透明度佳；秋季色葉可增加層次但不是基本成立條件",
+              "penalties": "濃霧／低雲造成湖岸與山林不可辨；強降水；能見度過低",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-007-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Representative public lakeside Camera Zone at Yasumiya; Kankodai is intentionally excluded while its official closure remains in effect.",
+              "name": "休屋湖畔 Camera Zone",
+              "lat": 40.426538,
+              "lon": 140.894325,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "curated_yasumiya_lakeside_coordinate_plus_official_lake_destination",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 500,
+              "geometry_note": "休屋公共湖畔與步行區的代表 Camera Zone；不以目前關閉的瞰湖台取代。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-008",
+      "canonical_name": "松島",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH02",
+      "research_sources": [
+        {
+          "authority": "Matsushima Town",
+          "url": "https://www.town.miyagi-matsushima.lg.jp/page/1267.html",
+          "verified_on": "2026-09-25",
+          "supports": "Sokanzan summit is a developed observation area with views of both Shiogama Bay and Matsushima Bay; sunrise between the islands is especially scenic"
+        },
+        {
+          "authority": "Matsushima Tourism Association",
+          "url": "https://www.matsushima-kanko.com/pamphlet/pdf/map_g.pdf",
+          "verified_on": "2026-09-25",
+          "supports": "Sokanzan is an official scenic viewpoint; sunrise over distant Kinkasan is specifically highlighted"
+        },
+        {
+          "authority": "Matsushima Town official transport-map link",
+          "url": "https://www.town.miyagi-matsushima.lg.jp/page/1267.html",
+          "verified_on": "2026-09-25",
+          "supports": "official transport link pins Sokanzan observation area at approximately 38.3525784, 141.0623503"
+        },
+        {
+          "authority": "Geospatial Information Authority of Japan",
+          "url": "https://web1.gsi.go.jp/common/000238295.pdf",
+          "verified_on": "2026-09-25",
+          "supports": "Kinkasan official gazetteer location is approximately 38°18'N, 141°34'E; used with the verified camera anchor to derive an approximately 98° target bearing"
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-008-P01",
+          "spot_id": "jp-008",
+          "name_zh": "双観山・松島灣群島朝日",
+          "legacy_theme": "sunrise",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04_directional_horizon_visibility",
+          "formula_confidence": 91,
+          "best_time": "日出前後（景點當地時間／JST）",
+          "best_season": "全年可看朝景；高分需當日日出方位落入双観山→金華山研究扇區",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-010",
+              "variant_name": "双観山群島層次＋金華山方向朝日",
+              "condition_geometry": "{\"camera_zone\":\"双観山山頂展望台 Camera Zone\",\"target_sector\":\"toward distant Kinkasan / island sunrise sector\",\"derived_bearing_deg\":98}",
+              "hard_gates": "合法公共展望區可達；日出時段有效",
+              "required_conditions": "日出方位落入研究扇區；松島灣島嶼與遠方地平線可辨；能見度足夠",
+              "boosters": "低雲少；中高雲可形成晨彩；低霾；空氣透明度佳",
+              "penalties": "日出方位偏離研究扇區；東方低雲封住朝日；濃霧／低能見度；強降水",
+              "formula_status": "directional_horizon_visibility_runtime"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-008-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Matsushima Town identifies Sokanzan summit as the official observation area; its official transport link pins this Camera Zone. Target bearing is derived toward GSI-listed Kinkasan.",
+              "name": "双観山山頂展望台 Camera Zone",
+              "lat": 38.3525784,
+              "lon": 141.0623503,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_town_viewpoint_plus_official_linked_map_coordinate",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 80,
+              "geometry_note": "双観山山頂公共展望區的代表 Camera Zone；日出構圖按朝向金華山／群島的方向扇區判定，不宣稱唯一腳架點。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-009",
+      "canonical_name": "磐梯山",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH02",
+      "research_sources": [
+        {
+          "authority": "Fukushima Prefecture Green Reconstruction",
+          "url": "https://www.pref.fukushima.lg.jp/w4/fgr/perfectview/p04/",
+          "verified_on": "2026-09-25",
+          "supports": "Nakasenuma Observation Deck is a representative Urabandai photography viewpoint with Nakasenuma foreground, broad-leaved forest and rugged Mt Bandai; listed season year-round"
+        },
+        {
+          "authority": "Fukushima Prefecture official Google Maps link",
+          "url": "https://www.google.com/maps/",
+          "verified_on": "2026-09-25",
+          "supports": "official View Point 04 map link resolves to Nakasenuma Observation Deck at 37.6727759, 140.0689901"
+        },
+        {
+          "authority": "Urabandai Tourism Association",
+          "url": "https://www.urabandai-inf.com/en/?page_id=30933",
+          "verified_on": "2026-09-25",
+          "supports": "Nakasenuma Observation Deck is a prime viewing spot with Nakasenuma in foreground and Mt Bandai behind; beginner trail access"
+        },
+        {
+          "authority": "Urabandai Tourism Association",
+          "url": "https://www.urabandai-inf.com/en/?page_id=24970",
+          "verified_on": "2026-09-25",
+          "supports": "Nakasenuma trail is about 1.2 km and approximately 15–25 minutes one way depending on entrance"
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-009-P01",
+          "spot_id": "jp-009",
+          "name_zh": "中瀬沼展望台・中瀬沼與磐梯山",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04_visibility_minimum_sufficient",
+          "formula_confidence": 90,
+          "best_time": "白天（景點當地時間／JST）",
+          "best_season": "全年；秋色僅作季節加分，不保證當下色況",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-009",
+              "variant_name": "中瀬沼前景＋磐梯山火山地貌",
+              "condition_geometry": "{\"camera_zone\":\"中瀬沼展望台 Camera Zone\",\"subject\":\"Nakasenuma pond + broad-leaved forest + Mt Bandai\"}",
+              "hard_gates": "合法步道與展望台可達；可見光時段；無明確封閉",
+              "required_conditions": "磐梯山山體與中瀬沼前景可辨；能見度足夠；低雲／霧未嚴重遮蔽山體",
+              "boosters": "低霾；空氣透明度佳；秋季色葉可增加層次但不是基本成立條件",
+              "penalties": "低雲／濃霧遮蔽磐梯山；強降雨／降雪造成主體不可辨；能見度不足",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-009-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Fukushima Prefecture View Point 04 links directly to this observation-deck location; this replaces the generic Mt Bandai summit coordinate for the base photography Opportunity.",
+              "name": "中瀬沼展望台 Camera Zone",
+              "lat": 37.6727759,
+              "lon": 140.0689901,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_prefecture_viewpoint_plus_official_linked_map_coordinate",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 80,
+              "geometry_note": "中瀬沼展望台及其公共觀景區的代表 Camera Zone；不使用磐梯山山頂座標替代一般攝影位置。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-010",
+      "canonical_name": "富士山 (河口湖)",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH02",
+      "research_sources": [
+        {
+          "authority": "Fujikawaguchiko official tourism",
+          "url": "https://fujisan.ne.jp/sightseeing/1652/",
+          "verified_on": "2026-09-25",
+          "supports": "Oishi Park is a Lake Kawaguchi + Mt Fuji photography spot; unobstructed broad view; lavender and autumn kochia; park open continuously"
+        },
+        {
+          "authority": "Fujikawaguchiko official tourism model course",
+          "url": "https://fujisan.ne.jp/model-course/967/",
+          "verified_on": "2026-09-25",
+          "supports": "morning visit recommendation; late-June to mid-July lavender; calm conditions can produce reverse-Fuji reflection"
+        },
+        {
+          "authority": "Fujikawaguchiko Town",
+          "url": "https://www.town.fujikawaguchiko.lg.jp/ka/info.php?if_id=2346",
+          "verified_on": "2026-09-25",
+          "supports": "official Oishi Park public-facility location and amenities"
+        },
+        {
+          "authority": "MapFan map/POI",
+          "url": "https://mapfan.com/spots/SC34A%2CJ%2CQME",
+          "verified_on": "2026-09-25",
+          "supports": "Oishi Park coordinate 35.5230652, 138.7461483"
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-010-P01",
+          "spot_id": "jp-010",
+          "name_zh": "大石公園・河口湖越富士山",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04_visibility_minimum_sufficient",
+          "formula_confidence": 90,
+          "best_time": "白天；清晨優先（景點當地時間／JST）",
+          "best_season": "全年；季節花景另作獨立題材",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-007",
+              "variant_name": "大石公園河口湖＋富士山廣角湖景",
+              "condition_geometry": "{\"camera_zone\":\"大石公園北岸湖畔 Camera Zone\",\"subject\":\"Lake Kawaguchi foreground + Mt Fuji\"}",
+              "hard_gates": "合法公共公園可達；可見光時段；無明確封閉",
+              "required_conditions": "富士山山體可辨；能見度足夠；低雲／霧未嚴重遮蔽山體",
+              "boosters": "清晨空氣透明度佳；低霾；低雲少；湖面平穩可增加層次但不是基本成立條件",
+              "penalties": "富士山被低雲／霧大幅遮蔽；濃霾；強降雨／降雪造成主體不可辨",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-010-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official tourism identifies Oishi Park as a Lake Kawaguchi + Mt Fuji photography spot; coordinate cross-checked to MapFan POI.",
+              "name": "大石公園北岸湖畔 Camera Zone",
+              "lat": 35.5230652,
+              "lon": 138.7461483,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_photo_spot_plus_mapped_poi_coordinate",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 350,
+              "geometry_note": "大石公園湖畔約350m花街道與公共步行區的代表 Camera Zone；非唯一腳架點。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "jp-010-P02",
+          "spot_id": "jp-010",
+          "name_zh": "大石公園・逆さ富士",
+          "legacy_theme": "reflection",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_water_surface_visibility_module",
+          "formula_version": "v0.04_water_surface_visibility",
+          "formula_confidence": 86,
+          "best_time": "白天；清晨優先（景點當地時間／JST）",
+          "best_season": "全年；以富士山可見與湖面平穩為主",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-008",
+              "variant_name": "河口湖平靜水面＋逆さ富士",
+              "condition_geometry": "{\"camera_zone\":\"大石公園北岸湖畔 Camera Zone\",\"subject\":\"Mt Fuji reflection on Lake Kawaguchi\"}",
+              "hard_gates": "合法公共公園可達；可見光時段",
+              "required_conditions": "富士山可辨；能見度足夠；湖面風浪足夠平穩形成可用倒影",
+              "boosters": "極低風；無降水；清晨空氣乾淨；湖面鏡面感佳",
+              "penalties": "富士山被低雲遮蔽；風速使湖面明顯起皺；降水擾動水面；能見度不足",
+              "formula_status": "water_surface_visibility_runtime"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-010-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Same researched Oishi Park lakefront Camera Zone; reflection is an optional stronger Outcome and does not gate the base Fuji landscape Opportunity.",
+              "name": "大石公園北岸湖畔 Camera Zone",
+              "lat": 35.5230652,
+              "lon": 138.7461483,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_photo_spot_plus_mapped_poi_coordinate",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 350,
+              "geometry_note": "大石公園湖畔公共拍攝區；倒影構圖可沿湖畔小範圍移動。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-013",
+      "canonical_name": "諏訪湖",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH03",
+      "research_sources": [
+        {
+          "authority": "Suwa City",
+          "url": "https://www.city.suwa.lg.jp/site/tateishipark/",
+          "verified_on": "2026-09-25",
+          "supports": "Tateishi Park overlooks Lake Suwa and surrounding city; sunset and night views are specifically highlighted; clear days can reveal the Northern Alps"
+        },
+        {
+          "authority": "Suwa Tourism Association",
+          "url": "https://www.suwakanko.jp/tateishipark/",
+          "verified_on": "2026-09-25",
+          "supports": "Tateishi Park observation terrace/viewpoint provides panoramic Lake Suwa, surrounding city and mountains; sunset/twilight/night are signature visual outcomes"
+        },
+        {
+          "authority": "Wikimedia Commons geotagged camera location",
+          "url": "https://commons.wikimedia.org/wiki/File:%E7%AB%8B%E7%9F%B3%E5%85%AC%E5%9C%92%E3%81%AE%E3%82%BF%E3%82%A4%E3%83%A0%E3%82%AB%E3%83%97%E3%82%BB%E3%83%AB_20181227.jpg",
+          "verified_on": "2026-09-25",
+          "supports": "geotagged Tateishi Park camera location at 36.053326, 138.122711, matching the current ChaseLights anchor"
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-013-P01",
+          "spot_id": "jp-013",
+          "name_zh": "立石公園・諏訪湖夕景",
+          "legacy_theme": "sunset",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04_directional_horizon_visibility",
+          "formula_confidence": 89,
+          "best_time": "日落前後／暮色（景點當地時間／JST）",
+          "best_season": "全年；季節景觀另作加分，不保證當下色況",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-014",
+              "variant_name": "立石公園諏訪湖夕景",
+              "condition_geometry": "{\"camera_zone\":\"立石公園展望區 Camera Zone\",\"subject\":\"Lake Suwa basin + city + surrounding mountains\",\"horizon\":\"west-facing sunset sector\"}",
+              "hard_gates": "合法公園展望區可達；日落／暮色時段有效；無明確封閉",
+              "required_conditions": "夕陽方向落在可用湖景扇區；諏訪湖與市區盆地可辨；能見度足夠；低雲／霧未完全遮蔽盆地",
+              "boosters": "中高雲可承接夕陽色彩；低雲少；空氣透明度佳",
+              "penalties": "西側低雲完全遮蔽夕陽；濃霧使湖盆不可辨；強降水；能見度不足",
+              "formula_status": "directional_horizon_visibility_runtime"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-013-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Current ChaseLights coordinate is a geotagged camera location inside Tateishi Park and matches the official sunset/night-view park identity.",
+              "name": "立石公園展望區 Camera Zone",
+              "lat": 36.053326,
+              "lon": 138.122711,
+              "elevation_m": 934,
+              "coord_confidence": "high",
+              "verification_status": "official_viewpoint_identity_plus_geotagged_camera_location",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 180,
+              "geometry_note": "立石公園展望平台與周邊公共觀景區；面向諏訪湖與西側山區的夕景扇區。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-019",
+      "canonical_name": "濱名湖",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH04",
+      "research_sources": [
+        {
+          "authority": "Hamamatsu City",
+          "url": "https://www.city.hamamatsu.shizuoka.jp/kanko/bentenjima-kaihinkouen/saiseibi.html",
+          "verified_on": "2026-09-25",
+          "supports": "Bentenjima Seaside Park is a representative Hamamatsu/Hamanako destination and sunset-viewing landscape throughout the year"
+        },
+        {
+          "authority": "Shizuoka Prefecture Official Tourism Guide - Hello Navi",
+          "url": "https://hellonavi.jp/article/bentenjima-akadorii",
+          "verified_on": "2026-09-25",
+          "supports": "the red symbol tower sunset alignment is a limited seasonal composition around one month either side of the winter solstice; ordinary sunset landscape and precise torii alignment must remain separate Opportunities"
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-019-P01",
+          "spot_id": "jp-019",
+          "name_zh": "弁天島海浜公園・濱名湖夕景",
+          "legacy_theme": "sunset",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04_directional_horizon_visibility",
+          "formula_confidence": 88,
+          "best_time": "日落前後／暮色（景點當地時間／JST）",
+          "best_season": "全年夕景；紅色鳥居正對夕陽的精準構圖另有季節限制",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-015",
+              "variant_name": "弁天島海浜公園濱名湖夕景",
+              "condition_geometry": "{\"camera_zone\":\"弁天島海浜公園 Camera Zone\",\"subject\":\"Hamanako water horizon + Bentenjima symbol tower area\",\"horizon\":\"west-to-southwest sunset sector\"}",
+              "hard_gates": "合法公園區域可達；日落／暮色時段有效；無明確封閉",
+              "required_conditions": "西至西南側夕陽方向可見；湖面與地平線可辨；能見度足夠；低雲未完全遮蔽夕陽方向",
+              "boosters": "中高雲可承接夕陽色彩；低雲少；湖面較平穩可增加反光層次",
+              "penalties": "西側低雲完全遮蔽；強降水；能見度過低",
+              "formula_status": "directional_horizon_visibility_runtime"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-019-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Representative public Bentenjima Seaside Park camera area. The winter-solstice torii alignment is intentionally not claimed by this broad sunset Opportunity.",
+              "name": "弁天島海浜公園 Camera Zone",
+              "lat": 34.688461,
+              "lon": 137.603753,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "existing_curated_camera_point_plus_official_sunset_destination",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 350,
+              "geometry_note": "弁天島海浜公園の公共湖岸撮影エリア。一般夕景用で、鳥居中心への精密日没アラインメントを保証しない。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-020",
+      "canonical_name": "橫濱港未來21",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH05",
+      "research_sources": [
+        {
+          "authority": "Yokohama City Port and Harbor Bureau",
+          "url": "https://www.city.yokohama.lg.jp/kanko-bunka/minato/yokohamako/gaiyo/terminalhome.html",
+          "verified_on": "2026-09-25",
+          "supports": "Osanbashi rooftop plaza is free and open 24 hours, with 360-degree harbor panorama including Minato Mirai and Yokohama Bay Bridge"
+        },
+        {
+          "authority": "Yokohama Official Visitors' Guide",
+          "url": "https://www.welcome.city.yokohama.jp/spot/details.php?bbid=179",
+          "verified_on": "2026-09-25",
+          "supports": "Whale's Back rooftop is a panoramic viewpoint for Minato Mirai and harbor night views; rooftop is open 24 hours"
+        },
+        {
+          "authority": "OpenStreetMap scenic viewpoint",
+          "url": "https://www.openstreetmap.org/node/4895092862",
+          "verified_on": "2026-09-25",
+          "supports": "OSANBASHI VIEWPOINT scenic-viewpoint node at 35.45099, 139.64670 on the Minato Mirai-facing side of Osanbashi"
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-020-P01",
+          "spot_id": "jp-020",
+          "name_zh": "大棧橋屋頂・港未來城市夜景",
+          "legacy_theme": "city_night",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04_visibility_minimum_sufficient",
+          "formula_confidence": 91,
+          "best_time": "藍調時刻至夜間（景點當地時間／JST）",
+          "best_season": "全年；特殊燈光、煙火、郵輪不屬於基本題材保證",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-016",
+              "variant_name": "大棧橋屋頂港未來城市與港景",
+              "condition_geometry": "{\"camera_zone\":\"OSANBASHI VIEWPOINT／大棧橋屋頂西側 Camera Zone\",\"subject\":\"Minato Mirai skyline + Yokohama harbor\"}",
+              "hard_gates": "大棧橋屋頂公共區域可達；城市夜景時段有效；無臨時封閉",
+              "required_conditions": "港未來天際線與港景可辨；能見度足夠；低雲／霧未嚴重遮蔽城市與港區",
+              "boosters": "空氣透明度佳；藍調時刻可增加天空與城市光線平衡",
+              "penalties": "濃霧／低雲使天際線不可辨；強降水；能見度過低",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-020-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "OSM tourism=viewpoint node on Osanbashi rooftop, cross-validated against Yokohama City's official 24-hour rooftop panorama description.",
+              "name": "OSANBASHI VIEWPOINT／大棧橋屋頂西側 Camera Zone",
+              "lat": 35.45099,
+              "lon": 139.6467,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_rooftop_identity_plus_osm_scenic_viewpoint",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 180,
+              "geometry_note": "大棧橋屋頂面向港未來側的公共觀景區；非港未來地區中心座標。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-016",
+      "canonical_name": "橫濱山下公園",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH06",
+      "research_sources": [
+        {
+          "authority": "Yokohama Official Visitors Guide",
+          "url": "https://www.yokohamajapan.com/tour-itineraries/detail.php?id=1",
+          "verified_on": "2026-09-25",
+          "supports": "Yamashita Park is an official Yokohama night-view destination; central plaza and India Water Tower area are recommended view spots; illuminated harbor light can reflect on the water"
+        },
+        {
+          "authority": "Yokohama Official Visitors Guide",
+          "url": "https://www.yokohamajapan.com/things-to-do/detail.php?bbid=190",
+          "verified_on": "2026-09-25",
+          "supports": "Yamashita Park provides open harbor views including Yokohama Bay Bridge and passing ships; free entrance"
+        },
+        {
+          "authority": "Yokohama City Visitors Bureau accessible tourism guide",
+          "url": "https://www.yokohamajapan.com/accessibility/asset/docs/course/en_modelcourse-1_202505.pdf",
+          "verified_on": "2026-09-25",
+          "supports": "Yamashita Park admission is 24 hours and free"
+        },
+        {
+          "authority": "Cross-checked mapped India Water Tower POI",
+          "url": "https://www.atlasobscura.com/places/indian-drinking-fountain",
+          "verified_on": "2026-09-25",
+          "supports": "India Water Tower / Indian Drinking Fountain mapped at approximately 35.447738, 139.646791 inside Yamashita Park"
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-016-P01",
+          "spot_id": "jp-016",
+          "name_zh": "山下公園・橫濱港日間海灣景觀",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04_visibility_minimum_sufficient",
+          "formula_confidence": 91,
+          "best_time": "白天（景點當地時間／JST）",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-017",
+              "variant_name": "印度水塔一帶・橫濱港與海灣大橋日間景觀",
+              "condition_geometry": "{\"camera_zone\":\"山下公園印度水塔一帶 Camera Zone\",\"subject\":\"Yokohama harbor + Bay Bridge + passing ships\"}",
+              "hard_gates": "公共公園可達；可見光拍攝時段有效",
+              "required_conditions": "港景與海灣大橋方向可辨；能見度足夠；濃霧／低雲未嚴重遮蔽港區",
+              "boosters": "空氣透明度佳可增加遠景層次；船舶活動可增加畫面內容但不是保證",
+              "penalties": "濃霧／低雲使港景不可辨；強降水；能見度過低",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-016-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official Yokohama night-view guidance identifies the India Water Tower / central plaza area as a recommended view area; this anchor is also usable for the broad daytime harbor view.",
+              "name": "山下公園印度水塔一帶 Camera Zone",
+              "lat": 35.447738,
+              "lon": 139.646791,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_recommended_area_plus_cross_checked_poi_coordinate",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 250,
+              "geometry_note": "山下公園大棧橋側、印度水塔周邊公共臨港區域；不是整座公園中心點。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "jp-016-P02",
+          "spot_id": "jp-016",
+          "name_zh": "山下公園・橫濱港夜景與水面光影",
+          "legacy_theme": "city_night",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04_visibility_minimum_sufficient",
+          "formula_confidence": 92,
+          "best_time": "藍調時刻至夜間（景點當地時間／JST）",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-018",
+              "variant_name": "印度水塔／中央廣場一帶・冰川丸與港區夜景",
+              "condition_geometry": "{\"camera_zone\":\"山下公園印度水塔／中央廣場一帶 Camera Zone\",\"subject\":\"illuminated Hikawa Maru + Osanbashi/harbor night scene\"}",
+              "hard_gates": "公共公園可達；城市夜景時段有效",
+              "required_conditions": "港區主要夜景元素可辨；能見度足夠；濃霧／低雲未嚴重遮蔽港景",
+              "boosters": "較平穩水面可增加反射光，但不是基本夜景 Outcome 的必要條件",
+              "penalties": "濃霧／低雲使港景不可辨；強降水；能見度過低",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-016-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Yokohama official night-view itinerary explicitly recommends the central plaza or India Water Tower area.",
+              "name": "山下公園印度水塔／中央廣場一帶 Camera Zone",
+              "lat": 35.447738,
+              "lon": 139.646791,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_recommended_night_view_area_plus_cross_checked_poi_coordinate",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 300,
+              "geometry_note": "官方建議的中央廣場／印度水塔夜景區域；不把水面完美倒影列為必要條件。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-011",
+      "canonical_name": "東京鐵塔",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH06",
+      "research_sources": [
+        {
+          "authority": "Tokyo Tower Official Ticket Site",
+          "url": "https://ticket.tokyotower.co.jp/en/",
+          "verified_on": "2026-09-25",
+          "supports": "Main Deck is 150 m above ground and provides a 360-degree panoramic view of Tokyo"
+        },
+        {
+          "authority": "Tokyo Tower Official Fees / Business Hours",
+          "url": "https://en.tokyotower.co.jp/fee/",
+          "verified_on": "2026-09-25",
+          "supports": "Main Deck hours 09:00-23:00; last admission 22:30"
+        },
+        {
+          "authority": "Tokyo Tower Official FAQ",
+          "url": "https://en.tokyotower.co.jp/access/faq/",
+          "verified_on": "2026-09-25",
+          "supports": "Main Deck opens 09:00, last admission 22:30; admitted visitors may remain until 23:00"
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-011-P01",
+          "spot_id": "jp-011",
+          "name_zh": "東京鐵塔 Main Deck・東京城市日間全景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04_visibility_minimum_sufficient",
+          "formula_confidence": 93,
+          "best_time": "09:00 起至日落前、且須在 22:30 最終入場前（景點當地時間／JST）",
+          "best_season": "全年；實際營運狀態仍以官方當日公告為準",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-019",
+              "variant_name": "Main Deck 150m・東京城市日間全景",
+              "condition_geometry": "{\"camera_zone\":\"東京鐵塔 Main Deck 150m Camera Zone\",\"subject\":\"360-degree Tokyo urban panorama\"}",
+              "hard_gates": "Main Deck 可入場；白天可見光時段有效；抵達時間不得晚於官方最終入場",
+              "required_conditions": "東京城市近中景可辨；能見度足夠；濃霧／低雲未嚴重遮蔽城市景觀",
+              "boosters": "空氣透明度佳可增加遠景層次；極佳能見度可能出現更遠地標，但不作為基本 Outcome 保證",
+              "penalties": "濃霧／低雲使城市景觀不可辨；強降水；能見度過低；入場截止後",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-011-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Horizontal anchor is the Tokyo Tower structure; the actual photography Camera Zone is the public Main Deck at 150 m, not an exterior ground-level composition.",
+              "name": "東京鐵塔 Main Deck 150m Camera Zone",
+              "lat": 35.658656,
+              "lon": 139.745364,
+              "elevation_m": 150,
+              "coord_confidence": "high",
+              "verification_status": "official_main_deck_identity_plus_existing_high_confidence_tower_poi",
+              "geometry_type": "vertical_area",
+              "geometry_extent_m": 80,
+              "geometry_note": "同一塔體水平座標上的 150m 展望層；不代表塔外拍攝點。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "jp-011-P02",
+          "spot_id": "jp-011",
+          "name_zh": "東京鐵塔 Main Deck・東京城市夜景",
+          "legacy_theme": "city_night",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04_visibility_minimum_sufficient",
+          "formula_confidence": 93,
+          "best_time": "暮色後至 22:30 最終入場前（景點當地時間／JST）",
+          "best_season": "全年；實際營運狀態仍以官方當日公告為準",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-020",
+              "variant_name": "Main Deck 150m・東京城市夜景",
+              "condition_geometry": "{\"camera_zone\":\"東京鐵塔 Main Deck 150m Camera Zone\",\"subject\":\"Tokyo city lights and urban night panorama\"}",
+              "hard_gates": "Main Deck 可入場；城市夜景時段有效；抵達時間不得晚於官方最終入場",
+              "required_conditions": "東京城市夜景可辨；能見度足夠；濃霧／低雲未嚴重遮蔽城市景觀",
+              "boosters": "藍調時刻可增加天空與城市光線平衡；空氣透明度佳可提升遠景層次",
+              "penalties": "濃霧／低雲使夜景不可辨；強降水；能見度過低；入場截止後",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-011-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Same official 150 m Main Deck; night is modeled separately so daytime and city-night temporal semantics do not leak into each other.",
+              "name": "東京鐵塔 Main Deck 150m Camera Zone",
+              "lat": 35.658656,
+              "lon": 139.745364,
+              "elevation_m": 150,
+              "coord_confidence": "high",
+              "verification_status": "official_main_deck_identity_plus_existing_high_confidence_tower_poi",
+              "geometry_type": "vertical_area",
+              "geometry_extent_m": 80,
+              "geometry_note": "同一塔體 150m 展望層的夜景 Camera Zone。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-012",
+      "canonical_name": "鎌倉大佛",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH06",
+      "research_sources": [
+        {
+          "authority": "Kotoku-in official visitor information",
+          "url": "https://www.kotoku-in.jp/",
+          "verified_on": "2026-09-25",
+          "supports": "Temple grounds hours: Apr-Sep 08:00-17:30, Oct-Mar 08:00-17:00; entry required at least 15 minutes before closing"
+        },
+        {
+          "authority": "Kotoku-in official English visitor information",
+          "url": "https://kotoku-in.jp/en/",
+          "verified_on": "2026-09-25",
+          "supports": "Personal-use photography on temple grounds is permitted; commercial photography requires prior permission"
+        },
+        {
+          "authority": "Kotoku-in official FAQ",
+          "url": "https://www.kotoku-in.jp/en-site/faq/",
+          "verified_on": "2026-09-25",
+          "supports": "Photography/filming inside the Great Buddha is prohibited; drones are prohibited"
+        },
+        {
+          "authority": "Cross-checked Great Buddha mapped artwork node",
+          "url": "https://www.openstreetmap.org/node/260752586",
+          "verified_on": "2026-09-25",
+          "supports": "Great Buddha statue mapped at approximately 35.31685, 139.53572"
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-012-P01",
+          "spot_id": "jp-012",
+          "name_zh": "高德院境內・鎌倉大佛日間造像景觀",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04_visibility_minimum_sufficient",
+          "formula_confidence": 94,
+          "best_time": "08:00 起至季節性最終入場前的白天時段（景點當地時間／JST）",
+          "best_season": "全年；4–9 月最終入場 17:15，10–3 月最終入場 16:45",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-021",
+              "variant_name": "高德院境內・大佛正面與周邊環境日間景觀",
+              "condition_geometry": "{\"camera_zone\":\"高德院大佛前公共參拜區 Camera Zone\",\"subject\":\"Great Buddha exterior + temple-ground context\"}",
+              "hard_gates": "高德院境內可入場；白天可見光時段有效；不得晚於季節性最終入場",
+              "required_conditions": "大佛外觀可清楚辨識；降水／霧況未嚴重遮蔽造像與周邊環境",
+              "boosters": "柔和光線可改善銅像明暗層次，但不是基本 Outcome 的必要條件",
+              "penalties": "強降水；濃霧；光線不足；入場截止後",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-012-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Anchor identifies the outdoor Great Buddha subject and legal visitor-ground area. It is not permission to occupy a precise tripod coordinate. Interior photography is explicitly excluded.",
+              "name": "高德院大佛前公共參拜區 Camera Zone",
+              "lat": 35.31685,
+              "lon": 139.53572,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_subject_and_access_rules_plus_cross_checked_artwork_coordinate",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 70,
+              "geometry_note": "高德院境內大佛前可合法參拜／個人攝影區域；不包含大佛胎內。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-015",
+      "canonical_name": "皇居外苑二重橋",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH07",
+      "research_sources": [
+        {
+          "authority": "National Gardens Association Kokyo Gaien",
+          "url": "https://fng.or.jp/koukyo/2017/08/22/post_279/",
+          "verified_on": "2026-09-25",
+          "supports": "Official photography guidance recommends a Nijubashi + Fushimi-yagura composition from the Uchibori-dori sidewalk through the black pines"
+        },
+        {
+          "authority": "National Gardens Association Kokyo Gaien",
+          "url": "https://fng.or.jp/koukyo/place/historical/ruins-gaien/",
+          "verified_on": "2026-09-25",
+          "supports": "Nijubashi is identified as the most popular sight in the Imperial Palace Front Plaza"
+        },
+        {
+          "authority": "National Gardens Association Kokyo Gaien",
+          "url": "https://fng.or.jp/koukyo/2016/07/28/post_197/",
+          "verified_on": "2026-09-25",
+          "supports": "Official walking guide identifies Nijubashi with Fushimi-yagura as a representative landscape and explicitly references taking photos there"
+        },
+        {
+          "authority": "Cross-checked existing photographed camera point",
+          "url": "https://commons.wikimedia.org/wiki/File:Nijubashi_Moat_of_The_Imperial_Palace.JPG",
+          "verified_on": "2026-09-25",
+          "supports": "Photograph camera location 35.678475, 139.754897 confirms the existing anchor is a real Nijubashi-moat viewpoint"
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-015-P01",
+          "spot_id": "jp-015",
+          "name_zh": "皇居外苑・二重橋與伏見櫓景觀",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04_visibility_minimum_sufficient",
+          "formula_confidence": 94,
+          "best_time": "白天（景點當地時間／JST）",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-022",
+              "variant_name": "皇居前廣場・二重橋與伏見櫓日間景觀",
+              "condition_geometry": "{\"camera_zone\":\"皇居外苑二重橋 Camera Zone\",\"subject\":\"Nijubashi + Fushimi-yagura + moat / black-pine context\"}",
+              "hard_gates": "公共皇居外苑 Camera Zone 可達；白天可見光時段有效",
+              "required_conditions": "二重橋與伏見櫓可辨；能見度足夠；濃霧／強降水未嚴重遮蔽建築景觀",
+              "boosters": "空氣透明度佳；黑松與濠景可作前景層次，但不是硬性條件",
+              "penalties": "濃霧；強降水；能見度過低",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-015-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Public Kokyo Gaien / Imperial Palace Front Plaza camera area. This is not an interior palace-tour location and does not imply access through restricted gates.",
+              "name": "皇居外苑二重橋 Camera Zone",
+              "lat": 35.678475,
+              "lon": 139.754897,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_photo_guidance_plus_cross_checked_camera_location",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 180,
+              "geometry_note": "皇居前廣場／內堀通步道側可拍二重橋與伏見櫓的公共區域。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-017",
+      "canonical_name": "金澤兼六園",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH08",
+      "research_sources": [
+        {
+          "authority": "Kenroku-en Tourism Association",
+          "url": "https://kenrokuen.or.jp/highlight/",
+          "verified_on": "2026-09-25",
+          "supports": "Kotoji-toro is a representative symbol and explicitly described as an optimal commemorative-photo spot; seasonal foliage and yukitsuri are documented visual strengths"
+        },
+        {
+          "authority": "Kenroku-en Tourism Association",
+          "url": "https://kenrokuen.or.jp/photo-guide/",
+          "verified_on": "2026-09-25",
+          "supports": "Official photography-guide route begins with Kotoji-toro and lists multiple researched garden photo spots"
+        },
+        {
+          "authority": "Kenroku-en Tourism Association",
+          "url": "https://kenrokuen.or.jp/information/",
+          "verified_on": "2026-09-25",
+          "supports": "Official seasonal paid and early-morning opening/last-entry windows"
+        },
+        {
+          "authority": "Cross-checked photographed Kotoji-toro/Kasumigaike viewpoint",
+          "url": "https://commons.wikimedia.org/wiki/File:(%E7%9F%B3%E5%B7%9D%E7%9C%8C)_%E5%85%BC%E5%85%AD%E5%9C%92%E3%80%81%E9%9C%9E%E3%83%B6%E6%B1%A0%E3%80%82%E5%8F%B3%E6%89%8B%E3%81%AB%E8%A6%8B%E3%81%88%E3%82%8B%E3%81%AE%E3%81%8C%E5%BE%BD%E8%BB%AB%E7%81%AF%E7%B1%A0(%E3%81%93%E3%81%A8%E3%81%98%E3%81%A8%E3%81%86%E3%82%8D%E3%81%86)%E3%80%82%E7%90%B4%E3%81%AE%E7%B3%B8%E3%82%92%E6%94%AF%E3%81%88%E3%82%8B%E7%90%B4%E6%9F%B1%EF%BC%88%E3%81%93%E3%81%A8%E3%81%98%EF%BC%89%E3%81%AB%E4%BC%BC%E3%81%A6%E3%81%84%E3%82%8B%E3%81%93%E3%81%A8%E3%81%8B%E3%82%89%E3%80%82%E3%81%9D%E3%81%AE%E6%89%8B%E5%89%8D%E3%81%AE%E6%A9%8B%E3%82%92%E8%99%B9%E6%A9%8B%E3%80%81_-_panoramio.jpg",
+          "verified_on": "2026-09-25",
+          "supports": "Photographed viewpoint around 36.563367, 136.662817 shows Kasumigaike and Kotoji-toro; independently close to the live-camera area"
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-017-P01",
+          "spot_id": "jp-017",
+          "name_zh": "兼六園・徽軫燈籠與霞之池經典庭園景觀",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04_visibility_minimum_sufficient",
+          "formula_confidence": 95,
+          "best_time": "官方開園／早朝入園時段內的可見光時間（景點當地時間／JST）",
+          "best_season": "全年；紅葉、雪吊為季節加分題材，不作基本 Outcome 硬條件",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-023",
+              "variant_name": "徽軫燈籠・霞之池經典庭園景觀",
+              "condition_geometry": "{\"camera_zone\":\"徽軫燈籠／霞之池公共園路 Camera Zone\",\"subject\":\"Kotoji-toro + Kasumigaike + garden context\"}",
+              "hard_gates": "兼六園可入園；推薦抵達時間須在官方季節性最終入園前；可見光時段有效",
+              "required_conditions": "徽軫燈籠、霞之池與庭園脈絡可辨；能見度足夠；濃霧／強降水未嚴重遮蔽景觀",
+              "boosters": "較平穩水面可增加水景層次；紅葉、雪吊可增加季節特色，但不是基本推薦必要條件",
+              "penalties": "強降水；濃霧；能見度過低；入園截止後",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-017-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official photo-guide evidence identifies Kotoji-toro as a primary photo spot; coordinate is a cross-checked photographed Kasumigaike/Kotoji-toro viewpoint on the public garden-path area.",
+              "name": "徽軫燈籠／霞之池 Camera Zone",
+              "lat": 36.563367,
+              "lon": 136.662817,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_photo_spot_plus_cross_checked_camera_location",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 120,
+              "geometry_note": "徽軫燈籠、虹橋、霞之池周邊合法園路範圍；不是單一腳架位置。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-018",
+      "canonical_name": "名古屋城",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH08",
+      "research_sources": [
+        {
+          "authority": "Nagoya Castle Official Website",
+          "url": "https://www.nagoyajo.city.nagoya.jp/guide/photospot/",
+          "verified_on": "2026-09-25",
+          "supports": "Official Photo Spot #1 is Nishi-no-maru: Main Tower Keep viewed over/through the Southwest Corner Watchtower"
+        },
+        {
+          "authority": "Nagoya Castle Official Website",
+          "url": "https://www.nagoyajo.city.nagoya.jp/",
+          "verified_on": "2026-09-25",
+          "supports": "Normal opening 09:00-16:30; closed Dec 29-Jan 1; Main Tower Keep interior currently closed"
+        },
+        {
+          "authority": "Nagoya Castle Official Website",
+          "url": "https://www.nagoyajo.city.nagoya.jp/guide/sumiyagura/",
+          "verified_on": "2026-09-25",
+          "supports": "Southwest Corner Watchtower is an Important Cultural Property at the southwest corner of Honmaru"
+        },
+        {
+          "authority": "Cross-checked photographed Southwest Corner Watchtower viewpoint",
+          "url": "https://commons.wikimedia.org/wiki/File:Southwest_Sumi-Yagura_and_stone_wall_of_Nagoya_Castle.JPG",
+          "verified_on": "2026-09-25",
+          "supports": "Camera location 35.185181, 136.898650 cross-checks the official Nishi-no-maru / Southwest Corner Watchtower photo area"
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-018-P01",
+          "spot_id": "jp-018",
+          "name_zh": "名古屋城西之丸・西南隅櫓與天守景觀",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04_visibility_minimum_sufficient",
+          "formula_confidence": 95,
+          "best_time": "09:00–16:30 開園時段內的白天（景點當地時間／JST）",
+          "best_season": "全年一般開園日；12/29–1/1 固定休園，活動延長時段另行處理",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-024",
+              "variant_name": "西之丸・西南隅櫓越し的天守景觀",
+              "condition_geometry": "{\"camera_zone\":\"名古屋城西之丸／西南隅櫓 Camera Zone\",\"subject\":\"Southwest Corner Watchtower + Main Tower Keep\"}",
+              "hard_gates": "名古屋城開園；非固定休園日；白天可見光時段有效",
+              "required_conditions": "西南隅櫓與天守外觀可辨；能見度足夠；濃霧／強降水未嚴重遮蔽城郭",
+              "boosters": "季節花木可增加畫面層次，但不是基本 Outcome 的必要條件",
+              "penalties": "強降水；濃霧；能見度過低；休園日或開園時間外",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-018-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Nagoya Castle official Photo Spot #1 identifies the Nishi-no-maru composition with the Southwest Corner Watchtower and Main Tower Keep. Coordinate is a cross-checked photographed area anchor, not a mandatory tripod point.",
+              "name": "西之丸／西南隅櫓官方攝影區 Camera Zone",
+              "lat": 35.185181,
+              "lon": 136.89865,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_photo_spot_plus_cross_checked_camera_location",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 180,
+              "geometry_note": "西之丸與西南隅櫓周邊合法遊客區域，對應官方第一攝影點。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-023",
+      "canonical_name": "京都清水寺",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH08",
+      "research_sources": [
+        {
+          "authority": "Kiyomizu-dera Official Website",
+          "url": "https://www.kiyomizudera.or.jp/en/visit/",
+          "verified_on": "2026-09-25",
+          "supports": "Okuno-in Hall stage provides a view of the Main Hall stage and Kyoto cityscape and is explicitly described as a favorite photo opportunity for visitors"
+        },
+        {
+          "authority": "Kiyomizu-dera Official Website",
+          "url": "https://www.kiyomizudera.or.jp/access/",
+          "verified_on": "2026-09-25",
+          "supports": "Normal opening begins at 06:00; baseline closing is 18:00, Jul-Aug 18:30; special night-viewing dates extend hours annually"
+        },
+        {
+          "authority": "Kiyomizu-dera Official Visitor Notice / FAQ",
+          "url": "https://www.kiyomizudera.or.jp/en/news/2023/notice-to-visitors.php",
+          "verified_on": "2026-09-25",
+          "supports": "Drones, monopods and tripods prohibited; commercial/model/cosplay/wedding shoots and obstructive long shoots prohibited"
+        },
+        {
+          "authority": "Kyoto City protected-viewpoint designation",
+          "url": "https://www.city.kyoto.lg.jp/tokei/cmsfiles/contents/0000281/281377/tyouboukeikan_kokuji300329.pdf",
+          "verified_on": "2026-09-25",
+          "supports": "Okuno-in stage is an officially designated viewpoint at approximately 34°59′40″N, 135°47′08″E"
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-023-P01",
+          "spot_id": "jp-023",
+          "name_zh": "清水寺奥之院・本堂舞台與京都市街景觀",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04_visibility_minimum_sufficient",
+          "formula_confidence": 95,
+          "best_time": "一般拝觀開放時段內的可見光時間（景點當地時間／JST）",
+          "best_season": "全年一般拝觀日；年度夜間特別拝觀不視為全年常態",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-025",
+              "variant_name": "奥之院舞台・本堂舞台與京都市街景觀",
+              "condition_geometry": "{\"camera_zone\":\"清水寺奥の院舞台 Camera Zone\",\"subject\":\"Main Hall stage + Kyoto cityscape\"}",
+              "hard_gates": "清水寺一般拝觀可入場；合法訪客區域；可見光拍攝時段有效；不得使用三腳架／單腳架／無人機",
+              "required_conditions": "本堂舞台與京都市街可辨；能見度足夠；濃霧／強降水未嚴重遮蔽景觀",
+              "boosters": "空氣透明度佳可增加京都市街層次；季節紅葉或櫻花可增加畫面特色，但不是基本 Outcome 必要條件",
+              "penalties": "強降水；濃霧；能見度過低；一般拝觀時間外；違反寺院攝影規範",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-023-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official Kiyomizu-dera material explicitly calls the Okuno-in view of the Main Hall stage and Kyoto cityscape a favorite visitor photo opportunity. Coordinate follows Kyoto City's protected-viewpoint designation.",
+              "name": "清水寺奥の院舞台 Camera Zone",
+              "lat": 34.994444,
+              "lon": 135.785556,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_photo_opportunity_plus_kyoto_city_designated_viewpoint",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 50,
+              "geometry_note": "奥の院舞台的合法訪客範圍；僅限不妨礙參拜動線的手持攝影，不代表固定腳架位置。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-024",
+      "canonical_name": "大阪城公園",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH09",
+      "research_sources": [
+        {
+          "authority": "Osaka Castle Park Official Guidebook",
+          "url": "https://www.osakacastlepark.jp/pdf/osakacastle_guidebook_english2024.pdf",
+          "verified_on": "2026-09-25",
+          "supports": "Gokurakubashi Bridge is explicitly identified as a popular spot for beautiful photographs of the Main Tower over the Inner Moat"
+        },
+        {
+          "authority": "Osaka Castle Museum photography-spot series",
+          "url": "https://www.osakacastle.net/toyotomi_stone_wall/column/1906.html",
+          "verified_on": "2026-09-25",
+          "supports": "Official Osaka Castle material documents real camera positions and compositions rather than treating the castle-center POI as the camera location"
+        },
+        {
+          "authority": "Osaka Convention & Tourism Bureau",
+          "url": "https://osaka-info.jp/en/spot/osaka-castle-park/",
+          "verified_on": "2026-09-25",
+          "supports": "Osaka Castle Park is always open; individual internal facilities have separate opening schedules"
+        },
+        {
+          "authority": "Cross-checked photographed Gokurakubashi viewpoint",
+          "url": "https://commons.wikimedia.org/wiki/File:Tenshu_and_Gokurakubashi_Bridge_of_Osaka_Castle.jpg",
+          "verified_on": "2026-09-25",
+          "supports": "Camera location 34.689200, 135.526750 cross-checks the official Gokurakubashi Main-Tower-over-moat composition"
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-024-P01",
+          "spot_id": "jp-024",
+          "name_zh": "大阪城極樂橋・內護城河與天守閣景觀",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04_visibility_minimum_sufficient",
+          "formula_confidence": 95,
+          "best_time": "可見光時間（景點當地時間／JST）",
+          "best_season": "全年；櫻花與季節植栽為加分題材，不作基本 Outcome 硬條件",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-026",
+              "variant_name": "極樂橋・內護城河與大阪城天守閣",
+              "condition_geometry": "{\"camera_zone\":\"大阪城極楽橋北側／内濠公共步道 Camera Zone\",\"subject\":\"Gokurakubashi Bridge + Inner Moat + Osaka Castle Main Tower\"}",
+              "hard_gates": "大阪城公園公共步道可合法進入；可見光拍攝時段有效",
+              "required_conditions": "極樂橋、內護城河與天守閣構圖可辨；能見度足夠；濃霧／強降水未嚴重遮蔽城郭",
+              "boosters": "空氣透明度佳；季節花木可增加畫面層次；平靜水面可增加水景效果，但不是基本 Outcome 必要條件",
+              "penalties": "強降水；濃霧；能見度過低",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-024-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official Osaka Castle guidebook explicitly identifies Gokurakubashi as a popular Main-Tower-over-Inner-Moat photo spot. Coordinate is a cross-checked photographed public-path camera anchor, not a mandatory tripod point.",
+              "name": "大阪城極樂橋北側／內護城河 Camera Zone",
+              "lat": 34.6892,
+              "lon": 135.52675,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_photo_spot_plus_cross_checked_camera_location",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 120,
+              "geometry_note": "極樂橋北側與內護城河周邊合法公共步道範圍，可前後移動構圖；不是單一腳架位置。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-021",
+      "canonical_name": "新穗高高空纜車",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH10",
+      "research_sources": [
+        {
+          "authority": "Shinhotaka Ropeway Official Website",
+          "url": "https://shinhotaka-ropeway.jp/en/info01/",
+          "verified_on": "2026-09-25",
+          "supports": "Nishi-Hotakaguchi Station is at 2,156 m; rooftop observation deck provides a 360-degree Northern Alps panorama including Mt Nishihotaka, Mt Yari and Mt Kasagatake; Itadaki no Mori provides additional outdoor viewpoints."
+        },
+        {
+          "authority": "Shinhotaka Ropeway Official Seasonal View Guide",
+          "url": "https://shinhotaka-ropeway.jp/en/season/",
+          "verified_on": "2026-09-25",
+          "supports": "Four-season scenic value is official: spring snow/green contrast, summer greenery, autumn foliage typically peaking around mid-October with possible snow-capped peak contrast, and winter snow-covered Northern Alps."
+        },
+        {
+          "authority": "Shinhotaka Ropeway Official Business Information",
+          "url": "https://shinhotaka-ropeway.jp/en/price/",
+          "verified_on": "2026-09-25",
+          "supports": "Ropeway operates year-round but may suspend for adverse weather or scheduled maintenance; access to Nishi-Hotakaguchi depends on the No.1/No.2 ropeway operating path."
+        },
+        {
+          "authority": "Shinhotaka Ropeway Official 2026 Stargazing Service",
+          "url": "https://shinhotaka-ropeway.jp/en/2025%E5%B9%B4%E5%BA%A6%E3%81%AE%E6%98%9F%E7%A9%BA%E8%A6%B3%E8%B3%9E%E4%BE%BF%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6/",
+          "verified_on": "2026-09-25",
+          "supports": "Night access to the rooftop observation deck and Itadaki no Mori is event-specific; 2026 autumn stargazing dates and 18:00-21:00 transport windows are officially published, so ordinary clear nights must not be treated as accessible."
+        },
+        {
+          "authority": "MapFan + geotagged photographed camera locations",
+          "url": "https://mapfan.com/spots/SCH%2CJ%2CFC4",
+          "verified_on": "2026-09-25",
+          "supports": "MapFan places Nishi-Hotakaguchi Station at 36.2678409, 137.6017974; multiple geotagged photographs taken from the station area cluster around 36.2681-36.2683, 137.6016, supporting the rooftop/adjacent summit observation Camera Zone."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-021-P01",
+          "spot_id": "jp-021",
+          "name_zh": "西穗高口展望台・北阿爾卑斯360°高山景觀",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_dynamic_access_visibility_module",
+          "formula_version": "v0.04_pending_shinhotaka_ropeway_operation_provider",
+          "formula_confidence": 84,
+          "best_time": "纜車可達的白天時段（景點當地時間／JST；依當日營運與末班時間）",
+          "best_season": "全年；春季殘雪＋新綠、約10月中旬紅葉、冬季雪山為季節加分，不作全年固定保證",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-027",
+              "variant_name": "西穗高口屋頂／頂之森・北阿爾卑斯360°山景",
+              "condition_geometry": "{\"camera_zone\":\"西穂高口駅屋上展望台／頂の森 Camera Zone\",\"subject\":\"Northern Alps 360-degree panorama incl. Mt Nishihotaka, Mt Yari, Mt Kasagatake and valley context\"}",
+              "hard_gates": "西穗高口站山頂區可合法到達；所需纜車路段當下正常營運；白天可見光時段有效；無官方停駛／維修封閉",
+              "required_conditions": "北阿爾卑斯主要山體與深谷可辨；能見度足夠；低雲／濃霧未嚴重遮蔽山體",
+              "boosters": "空氣透明度佳；秋季紅葉與初雪山峰同框；冬季雪山；春季殘雪與新綠對比",
+              "penalties": "纜車停駛；濃霧／低雲遮蔽群峰；強降水；能見度過低；惡劣天候或官方臨時管制",
+              "formula_status": "research_ready_ropeway_access_and_visibility_provider_pending"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-021-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official facility identifies the rooftop deck and Itadaki no Mori as the summit panorama area. Anchor uses a cross-checked geotagged camera position within the mapped Nishi-Hotakaguchi Station summit zone, not the legacy valley coordinate.",
+              "name": "西穗高口站屋頂展望台／頂之森 Camera Zone",
+              "lat": 36.268335,
+              "lon": 137.60158,
+              "elevation_m": 2156,
+              "coord_confidence": "high",
+              "verification_status": "official_rooftop_viewpoint_plus_mapfan_station_and_geotagged_camera_crosscheck",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 120,
+              "geometry_note": "西穗高口站屋頂展望台與相鄰頂之森合法遊客觀景區；可在區域內移動構圖，不宣稱單一腳架點。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "jp-021-P02",
+          "spot_id": "jp-021",
+          "name_zh": "西穗高口限定星空觀賞便・北阿爾卑斯星空",
+          "legacy_theme": "milky_way",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_astronomy_ephemeris_access_module",
+          "formula_version": "v0.04_pending_shinhotaka_stargazing_event_access_provider",
+          "formula_confidence": 82,
+          "best_time": "僅官方星空觀賞便營運夜晚（景點當地時間／JST；2026 秋季下行最終 21:00）",
+          "best_season": "僅官方當年度星空觀賞便指定日期；不得把一般晴朗夜晚視為可進入",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-028",
+              "variant_name": "官方星空觀賞便・西穗高口屋頂／頂之森星空",
+              "condition_geometry": "{\"camera_zone\":\"西穂高口駅屋上展望台／頂の森 Camera Zone\",\"subject\":\"night sky above Northern Alps summit-area foreground\"}",
+              "hard_gates": "當日屬官方星空觀賞便有效日期；第2纜車夜間服務實際運行；西穗高口夜間觀景區可進入；必須能搭上官方末班下行",
+              "required_conditions": "天文黑暗時段有效；低中高雲未嚴重遮蔽夜空；觀星所需能見度可用",
+              "boosters": "月光干擾較低；天空透明度高；銀河核心在可見時段時可增加題材價值，但不宣稱固定地景精密對位",
+              "penalties": "非官方觀星便日期；夜間纜車未運行／停駛；高雲量；月光干擾高；能見度差",
+              "formula_status": "research_ready_annual_event_access_and_astronomy_provider_pending"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-021-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official 2026 stargazing service explicitly uses the Nishi-Hotakaguchi rooftop observation deck and Itadaki no Mori. Same summit Camera Zone as P01, but night access is event-only.",
+              "name": "西穗高口站屋頂展望台／頂之森夜間 Camera Zone",
+              "lat": 36.268335,
+              "lon": 137.60158,
+              "elevation_m": 2156,
+              "coord_confidence": "high",
+              "verification_status": "official_stargazing_venue_plus_mapfan_station_and_geotagged_camera_crosscheck",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 120,
+              "geometry_note": "僅官方星空觀賞便開放時使用的西穗高口站屋頂／頂之森觀景區；非全年夜間可達。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-022",
+      "canonical_name": "彌彥山",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH11",
+      "research_sources": [
+        {
+          "authority": "Niigata Prefecture Official Tourism — Mt. Yahiko",
+          "url": "https://niigata-kankou.or.jp/spot/7462",
+          "verified_on": "2026-09-25",
+          "supports": "Mt. Yahiko summit area is a 634 m panoramic destination with views over Echigo Plain, the Sea of Japan and Sado Island; official material also identifies sunset, night view and starry-sky value."
+        },
+        {
+          "authority": "Niigata Prefecture Official Tourism — Yahikoyama Summit Park",
+          "url": "https://niigata-kankou.or.jp/spot/7461",
+          "verified_on": "2026-09-25",
+          "supports": "Yahikoyama Summit Park contains the approximately 100 m rotating Panorama Tower and officially supports Sea of Japan/Sado panorama, sunset and night-view outcomes; Panorama Tower closes for winter from around November 6."
+        },
+        {
+          "authority": "Niigata Prefecture Official Tourism — Yahikoyama Skyline",
+          "url": "https://niigata-kankou.or.jp/spot/7478",
+          "verified_on": "2026-09-25",
+          "supports": "Skyline access to the summit area is officially published as 05:00-23:00 from April through November, subject to residual-snow conditions; road access is therefore seasonal and not equivalent to year-round guaranteed summit access."
+        },
+        {
+          "authority": "Niigata Prefecture Official Tourism — 2026 Night View & Stargazing Cruise",
+          "url": "https://niigata-kankou.or.jp/experience/11966",
+          "verified_on": "2026-09-25",
+          "supports": "2026 special night ropeway service is limited to Aug 11-12, Aug 14-16 and Sep 19-23, with ascent service from 18:00 to 20:30 and final descent at 21:00; adverse-weather cancellation is announced by 16:00."
+        },
+        {
+          "authority": "Yahiko Tourism Association Official — Summit Station / Summit Park",
+          "url": "https://www.e-yahiko.com/spot/santyoueki-santyoukouen/",
+          "verified_on": "2026-09-25",
+          "supports": "Official local tourism confirms Panorama Tower as a 360-degree summit-area observation facility and notes separate seasonal closure/maintenance semantics."
+        },
+        {
+          "authority": "Cross-checked Panorama Tower mapped Geo URI",
+          "url": "https://stamp.funakiya.com/yahiko-panoramatower.html",
+          "verified_on": "2026-09-25",
+          "supports": "Mapped Panorama Tower POI provides a cross-check coordinate of approximately 37.710125, 138.809994 for the summit-park Camera Zone; it is used as a zone anchor, not a mandatory tripod position."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-022-P01",
+          "spot_id": "jp-022",
+          "name_zh": "彌彥山頂公園・越後平野與日本海全景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_dynamic_access_visibility_module",
+          "formula_version": "v0.04_pending_yahiko_multi_route_summit_access_provider",
+          "formula_confidence": 88,
+          "best_time": "山頂區可合法到達的白天可見光時段（景點當地時間／JST）",
+          "best_season": "全年皆有景觀價值，但道路、纜車與塔體營運具有不同季節／臨時限制；不得把單一路線營運狀態當成整個山頂必然可達",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-029",
+              "variant_name": "山頂公園／Panorama Tower・越後平野、日本海與佐渡全景",
+              "condition_geometry": "{\"camera_zone\":\"弥彦山頂公園／パノラマタワー Camera Zone\",\"subject\":\"Echigo Plain + Sea of Japan + Sado panoramic landscape\"}",
+              "hard_gates": "山頂 Camera Zone 至少有一條合法且實際可用的進出路線；可見光拍攝時段有效；不得假設纜車、Skyline 或步行路線永久開放",
+              "required_conditions": "越後平野與日本海主要景觀可辨；能見度足夠；低雲／濃霧未嚴重遮蔽遠景",
+              "boosters": "空氣透明度高可增加佐渡島與遠山可見度；春季水田、夏季綠意、秋季紅葉、冬季雪景僅在實際存在時加分",
+              "penalties": "山頂所有合理進出路線不可用；濃霧／低雲遮蔽；強降水；能見度過低",
+              "formula_status": "research_ready_multi_route_access_and_visibility_provider_pending"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-022-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "lat": 37.710125,
+              "lon": 138.809994,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_summit_park_identity_plus_cross_checked_panorama_tower_geo_uri",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 250,
+              "geometry_note": "弥彦山頂公園／パノラマタワー周邊合法遊客觀景區；可在公園與展望區域內移動構圖，不宣稱單一腳架點。",
+              "geometry_confidence": "high",
+              "note": "Official prefectural and local tourism sources identify the summit park / Panorama Tower area as the 360-degree panorama destination. Coordinate is a cross-checked Panorama Tower POI anchor within that public Camera Zone.",
+              "name": "彌彥山頂公園／Panorama Tower Camera Zone"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "jp-022-P02",
+          "spot_id": "jp-022",
+          "name_zh": "彌彥山頂公園・日本海夕日",
+          "legacy_theme": "sunset",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_dynamic_access_directional_horizon_visibility_module",
+          "formula_version": "v0.04_pending_yahiko_multi_route_access_provider",
+          "formula_confidence": 90,
+          "best_time": "日落前後的黃金／暮光時段（景點當地時間／JST；山頂可達時）",
+          "best_season": "官方資料明確支持日本海夕日；實際可達時段仍依季節道路／纜車／步行條件判定",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-030",
+              "variant_name": "山頂公園・日本海西向夕日",
+              "condition_geometry": "{\"camera_zone\":\"弥彦山頂公園／パノラマタワー Camera Zone\",\"subject\":\"sunset over the Sea of Japan\",\"target_horizon\":\"west\"}",
+              "hard_gates": "山頂 Camera Zone 至少有一條合法且實際可用的進出路線；日落／暮光時段有效",
+              "required_conditions": "太陽位於可用的西向日本海地平線扇區；海面／地平線與夕日可辨；能見度足夠；低雲未完全遮蔽西向天空",
+              "boosters": "高空氣透明度；薄雲產生夕彩；佐渡島剪影在實際可見時增加層次",
+              "penalties": "所有山頂進出路線不可用；西向厚雲完全遮蔽；濃霧；強降水；能見度過低",
+              "formula_status": "research_ready_directional_sunset_visibility_access_pending"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-022-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "lat": 37.710125,
+              "lon": 138.809994,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_summit_park_identity_plus_cross_checked_panorama_tower_geo_uri",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 250,
+              "geometry_note": "弥彦山頂公園／パノラマタワー周邊合法遊客觀景區；可在公園與展望區域內移動構圖，不宣稱單一腳架點。",
+              "geometry_confidence": "high",
+              "note": "Official tourism explicitly identifies sunset over the Sea of Japan from the summit area. The Camera Zone is the summit park / Panorama Tower vicinity, not the mountain centroid.",
+              "name": "彌彥山頂公園／Panorama Tower 西向夕日 Camera Zone"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "jp-022-P03",
+          "spot_id": "jp-022",
+          "name_zh": "彌彥山夜景＆星空Cruise・越後平野夜景",
+          "legacy_theme": "city_night",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_dynamic_access_visibility_module",
+          "formula_version": "v0.04_pending_yahiko_annual_night_cruise_access_provider",
+          "formula_confidence": 88,
+          "best_time": "僅官方年度「夜景＆星空Cruise」指定夜間運行時段（JST；2026 上行18:00–20:30、下行末班21:00）",
+          "best_season": "僅官方當年度指定活動日；2026 為 8/11–12、8/14–16、9/19–23，不得推論未發布年份",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-031",
+              "variant_name": "夜間特別運行・越後平野夜景與日本海漁火",
+              "condition_geometry": "{\"camera_zone\":\"弥彦山頂公園／山頂展望區 Camera Zone\",\"subject\":\"Echigo Plain city lights + Sea of Japan fishing lights where visible\"}",
+              "hard_gates": "當日屬官方夜景＆星空Cruise活動日；夜間纜車特別運行實際有效；仍可搭上官方末班下行",
+              "required_conditions": "越後平野夜景主要燈光可辨；濃霧／低雲未嚴重遮蔽平原與海岸方向；能見度可用",
+              "boosters": "日本海漁火可見；天空透明度高；星空可見時增加現場題材，但本 Opportunity 不以銀河幾何作高分必要條件",
+              "penalties": "非官方活動日期；活動因惡劣天候取消；夜間纜車未運行；濃霧；低雲；強降水",
+              "formula_status": "research_ready_annual_event_access_and_night_visibility_provider_pending"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-022-VP03",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "lat": 37.710125,
+              "lon": 138.809994,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_summit_park_identity_plus_cross_checked_panorama_tower_geo_uri",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 250,
+              "geometry_note": "弥彦山頂公園／パノラマタワー周邊合法遊客觀景區；可在公園與展望區域內移動構圖，不宣稱單一腳架點。",
+              "geometry_confidence": "high",
+              "note": "Official 2026 Night View & Stargazing Cruise explicitly advertises Echigo Plain night lights, Sea of Japan fishing lights and starry sky during date-limited night ropeway operation. This Opportunity scores the night-view outcome; event access remains a hard gate.",
+              "name": "彌彥山頂公園・夜間特別運行 Camera Zone"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-014",
+      "canonical_name": "等等力溪谷",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH12",
+      "research_sources": [
+        {
+          "authority": "Setagaya City Official — Todoroki Valley Park",
+          "url": "https://www.city.setagaya.lg.jp/02075/9082.html",
+          "verified_on": "2026-09-25",
+          "supports": "The riverside path reopened on 2026-03-24; visitors are told not to enter after dark, to stay away from the river during heavy rain, and the current notice says photography is not being accepted because of expected congestion."
+        },
+        {
+          "authority": "Setagaya City Official — Tokyo-designated Scenic Place Todoroki Valley",
+          "url": "https://www.city.setagaya.lg.jp/02059/3482.html",
+          "verified_on": "2026-09-25",
+          "supports": "Official scenic-place description identifies Golf Bridge and the deep green ravine character, plus seasonal cherry blossom, evergreen woodland and autumn foliage; Fudo waterfall is separately documented."
+        },
+        {
+          "authority": "Tokyu Corporation Official — Todoroki Area Guide",
+          "url": "https://www.tokyu.co.jp/area/todoroki/article/arti-01JV1TBVVPWS0PQT6SSXW3H45C/",
+          "verified_on": "2026-09-25",
+          "supports": "Official railway-area guide identifies Golf Bridge as a symbolic red bridge whose contrast with the ravine greenery is photogenic."
+        },
+        {
+          "authority": "Cross-checked Golf Bridge coordinate",
+          "url": "https://www.djq.jp/bridge_liblary/river_senkawa/tokyo_bridge_yazawa025_golf.php",
+          "verified_on": "2026-09-25",
+          "supports": "Mapped Golf Bridge coordinate 35.607857, 139.646545 is used as the Camera Zone anchor; it is a bridge/entrance-area reference rather than a mandatory tripod point."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-014-P01",
+          "spot_id": "jp-014",
+          "name_zh": "等等力溪谷・Golf Bridge 紅橋與綠蔭溪谷",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "access_hold_current_photography_not_accepted",
+          "formula_version": "v0.04_hold_setagaya_current_photography_notice",
+          "formula_confidence": 96,
+          "best_time": "白天（景點當地時間／JST；官方明示天黑後不要進入）",
+          "best_season": "全年綠蔭景觀；櫻花與秋色只作季節加分，不視為每日保證",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-032",
+              "variant_name": "Golf Bridge 紅橋・谷澤川與綠蔭溪谷",
+              "condition_geometry": "{\"camera_zone\":\"等々力渓谷 ゴルフ橋／谷沢川入口 Camera Zone\",\"subject\":\"red Golf Bridge + Yazawa River ravine + green woodland\"}",
+              "hard_gates": "等々力渓谷公園合法開放；僅白天進入；豪雨時遠離河道；官方目前『撮影は受け付けておりません』公告解除或範圍被正式釐清前，不啟用攝影推薦評分",
+              "required_conditions": "紅色Golf Bridge與溪谷綠蔭／谷澤川脈絡可辨；若日後解除拍攝限制，仍需能見度與降水條件可用",
+              "boosters": "柔和散射光；新綠；秋色；雨後但非豪雨且步道安全時的濕潤植被質感",
+              "penalties": "官方拍攝不受理公告仍有效；天黑後；豪雨／河水暴漲風險；步道壅擠；強降水",
+              "formula_status": "access_hold_current_photography_not_accepted"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-014-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Setagaya official material identifies Golf Bridge as the Todoroki Valley entrance landmark; Tokyu explicitly describes the red bridge/green-ravine contrast as photogenic. Coordinate is a cross-checked bridge anchor, not a fixed shooting position.",
+              "name": "等等力溪谷 Golf Bridge／谷澤川入口 Camera Zone",
+              "lat": 35.607857,
+              "lon": 139.646545,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_place_and_photo_value_plus_cross_checked_bridge_coordinate",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 120,
+              "geometry_note": "Golf Bridge與谷澤川入口周邊合法公共動線；不宣稱單一腳架點，且目前官方拍攝不受理公告未解除前不作推薦。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

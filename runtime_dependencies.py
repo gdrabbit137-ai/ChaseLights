@@ -4,9 +4,10 @@ This module separates content formula status from runtime implementation state.
 Every needs_* status maps to an explicit set of reusable runtime components.
 """
 
-DEPENDENCY_INVENTORY_VERSION = "r4.2-b25-deps-v7"
+DEPENDENCY_INVENTORY_VERSION = "r4.2-b32-deps-v10-todoroki"
 
 FORMULA_DEPENDENCIES = {
+    "needs_visibility_module": ("visibility",),
     "needs_spatial_weather_module": ("spatial_weather_vertical_cloud",),
     "needs_directional_horizon_module": ("directional_horizon",),
     "needs_directional_horizon_dynamic_access_module": ("directional_horizon", "dynamic_access"),
@@ -16,10 +17,12 @@ FORMULA_DEPENDENCIES = {
     "needs_lighting_water_surface_module": ("managed_lighting_state", "water_surface_state"),
     "needs_tide_directional_horizon_module": ("tide_state", "directional_horizon"),
     "needs_dynamic_access_directional_horizon_module": ("dynamic_access", "directional_horizon"),
+    "needs_dynamic_access_directional_horizon_visibility_module": ("dynamic_access", "directional_horizon", "visibility"),
     "needs_dynamic_access_visibility_module": ("dynamic_access", "visibility"),
     "needs_snow_state_module": ("snow_state",),
     "needs_spatial_weather_dynamic_access_module": ("spatial_weather_vertical_cloud", "dynamic_access"),
     "needs_water_surface_module": ("water_surface_state",),
+    "needs_water_surface_visibility_module": ("water_surface_state", "visibility"),
     "needs_astronomy_ephemeris_access_module": ("astronomy_ephemeris", "dynamic_access"),
     "needs_directional_horizon_visibility_module": ("directional_horizon", "visibility"),
     "needs_radiation_cloud_module": ("radiation_DNI", "cloud_sky_glow"),
@@ -80,7 +83,11 @@ SPECIAL_NON_MODULE_STATUSES = {
     "prototype_formula_available",
     "access_hold_construction",
     "access_hold_current_hours_night_bioluminescence",
+    "access_hold_current_photography_not_accepted",
     "data_insufficient_geometry",
+    # B32 Japan: Blue Pond research is complete, but current weather providers
+    # cannot establish whether the pond is actually blue/turbid or snow-covered.
+    "data_insufficient_blue_water_state",
 }
 
 # Formula status is intentionally broad; these profiles need narrower contracts.

@@ -26,6 +26,16 @@ from tide_state import (
     tide_sample_for_timestamp,
     spot_requires_tide_state,
 )
+from shinhotaka_access import (
+    build_shinhotaka_access_state,
+    fetch_shinhotaka_homepage_status,
+    unknown_shinhotaka_provider_state,
+)
+from yahiko_access import (
+    build_yahiko_access_state,
+    fetch_yahiko_homepage_status,
+    unknown_yahiko_provider_state,
+)
 
 # 後端多國語言狀態與指標字典
 I18N_MESSAGES = {
@@ -152,6 +162,38 @@ _WEATHER_RESPONSE_CACHE = {}
 _SPATIAL_WEATHER_RESPONSE_CACHE = {}
 _MARINE_RESPONSE_CACHE = {}
 _TIDE_RESPONSE_CACHE = {}
+_SHINHOTAKA_ACCESS_CACHE = None
+_YAHIKO_ACCESS_CACHE = None
+
+
+def _fetch_shinhotaka_access_provider():
+    """Fetch jp-021 official access status once per generator process."""
+    global _SHINHOTAKA_ACCESS_CACHE
+    if _SHINHOTAKA_ACCESS_CACHE is not None:
+        return _SHINHOTAKA_ACCESS_CACHE
+    try:
+        _SHINHOTAKA_ACCESS_CACHE = fetch_shinhotaka_homepage_status()
+    except Exception as exc:
+        print(f"Shinhotaka access fetch error: {exc}")
+        _SHINHOTAKA_ACCESS_CACHE = unknown_shinhotaka_provider_state(
+            reason=f"provider_exception:{type(exc).__name__}"
+        )
+    return _SHINHOTAKA_ACCESS_CACHE
+
+
+def _fetch_yahiko_access_provider():
+    """Fetch jp-022 official ropeway status once per generator process."""
+    global _YAHIKO_ACCESS_CACHE
+    if _YAHIKO_ACCESS_CACHE is not None:
+        return _YAHIKO_ACCESS_CACHE
+    try:
+        _YAHIKO_ACCESS_CACHE = fetch_yahiko_homepage_status()
+    except Exception as exc:
+        print(f"Yahiko access fetch error: {exc}")
+        _YAHIKO_ACCESS_CACHE = unknown_yahiko_provider_state(
+            reason=f"provider_exception:{type(exc).__name__}"
+        )
+    return _YAHIKO_ACCESS_CACHE
 
 
 def _request_json(url, timeout=12, attempts=3):
@@ -1155,10 +1197,78 @@ def _minute_in_access_window(local_dt, hours):
         return None
 
 
+def _parse_mmdd(value):
+    try:
+        month, day = map(int, str(value).split("-"))
+        datetime(2000, month, day)  # leap-year reference permits 02-29
+        return month, day
+    except Exception:
+        return None
+
+
+def _access_date_closed(spot, local_dt):
+    """Return True when a Place-local calendar date is inside a curated closure range."""
+    ranges = spot.get("access_closed_mmdd_ranges")
+    if not isinstance(ranges, (list, tuple)) or not ranges:
+        return False
+
+    current = (local_dt.month, local_dt.day)
+    for rule in ranges:
+        if not isinstance(rule, dict):
+            raise ValueError("invalid closed access date rule")
+        start = _parse_mmdd(rule.get("start_mmdd"))
+        end = _parse_mmdd(rule.get("end_mmdd"))
+        if start is None or end is None:
+            raise ValueError("invalid closed access date range")
+        in_range = start <= current <= end if start <= end else (current >= start or current <= end)
+        if in_range:
+            return True
+    return False
+
+
+def _seasonal_access_open(spot, local_dt):
+    schedule = spot.get("access_hours_seasonal")
+    if not isinstance(schedule, (list, tuple)) or not schedule:
+        return None
+
+    current = (local_dt.month, local_dt.day)
+    matches = []
+    for rule in schedule:
+        if not isinstance(rule, dict):
+            raise ValueError("invalid seasonal access rule")
+        start = _parse_mmdd(rule.get("start_mmdd"))
+        end = _parse_mmdd(rule.get("end_mmdd"))
+        if start is None or end is None:
+            raise ValueError("invalid seasonal access date range")
+        in_range = start <= current <= end if start <= end else (current >= start or current <= end)
+        if in_range:
+            matches.append(rule)
+
+    if not matches:
+        return None
+    if len(matches) != 1:
+        raise ValueError("overlapping seasonal access date ranges")
+
+    windows = matches[0].get("windows")
+    if not isinstance(windows, (list, tuple)) or not windows:
+        raise ValueError("seasonal access rule missing windows")
+    results = [_minute_in_access_window(local_dt, window) for window in windows]
+    if any(result is None for result in results):
+        raise ValueError("invalid seasonal access time window")
+    return any(results)
+
+
 def _access_open_for_spot(spot, local_dt, is_day, is_twilight):
+    if _access_date_closed(spot, local_dt):
+        return False
+
     mode = spot.get("access_mode")
     if mode == "daylight_only":
         return bool(is_day or is_twilight)
+
+    seasonal = _seasonal_access_open(spot, local_dt)
+    if seasonal is not None:
+        return seasonal
 
     windows = spot.get("access_hours_windows")
     if isinstance(windows, (list, tuple)) and windows:
@@ -1326,6 +1436,17 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
             print(f"Tide fetch error for {spot.get('spot_id')}: {tide_error}")
             tide_index = None
 
+        shinhotaka_access_provider = (
+            _fetch_shinhotaka_access_provider()
+            if spot.get("spot_id") == "jp-021"
+            else None
+        )
+        yahiko_access_provider = (
+            _fetch_yahiko_access_provider()
+            if spot.get("spot_id") == "jp-022"
+            else None
+        )
+
         tz_name = raw.get("timezone") or "UTC"
         try:
             tz = ZoneInfo(tz_name)
@@ -1378,6 +1499,7 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
 
             item_data = {
                 "spot_id": spot.get("spot_id"),
+                "timestamp": int(ts),
                 "scenes": list(spot.get("scenes") or []),
                 "c_low": hv("cloud_cover_low", i, 0),
                 "c_low_available": hv("cloud_cover_low", i, None) is not None,
@@ -1419,6 +1541,14 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
                 "tide_forecast": tide_forecast,
                 **astro,
             }
+            if spot.get("spot_id") == "jp-021":
+                item_data["access_state"] = build_shinhotaka_access_state(
+                    int(ts), shinhotaka_access_provider
+                )
+            elif spot.get("spot_id") == "jp-022":
+                item_data["access_state"] = build_yahiko_access_state(
+                    int(ts), yahiko_access_provider
+                )
 
             opportunity_runtime = _build_opportunity_runtime_diagnostics(spot, item_data)
 

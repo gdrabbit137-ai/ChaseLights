@@ -7,7 +7,7 @@ ready only after an authoritative provider/rule is connected for that profile.
 Unknown or stale access data must never be interpreted as open.
 """
 
-ACCESS_STATE_VERSION = "dynamic-access-foundation-r1-preview"
+ACCESS_STATE_VERSION = "dynamic-access-foundation-r3-yahiko-preview"
 
 ACCESS_REQUIREMENTS = {
     "event_access_control": {
@@ -91,7 +91,7 @@ ACCESS_REQUIREMENTS = {
 }
 
 _ACCESS_GROUPS = {
-    "event_access_control": ("tw-002-P03",),
+    "event_access_control": ("tw-002-P03", "jp-021-P02", "jp-022-P03"),
     "public_space_live_notice": ("tw-005-P01", "tw-005-P02"),
     "trail_road_status": (
         "tw-008-P01",
@@ -112,7 +112,7 @@ _ACCESS_GROUPS = {
         "tw-045-P01", "tw-045-P03", "tw-045-P04",
         "tw-049-P02",
     ),
-    "transport_facility_status": ("tw-024-P01", "tw-024-P05", "tw-037-P01"),
+    "transport_facility_status": ("tw-024-P01", "tw-024-P05", "tw-037-P01", "jp-002-P01", "jp-004-P01", "jp-021-P01", "jp-022-P01", "jp-022-P02"),
     "road_viewpoint_status": ("tw-034-P01",),
     "public_attraction_notice": ("tw-038-P01", "tw-038-P02", "tw-081-P01"),
     "waterfall_trail_status": ("tw-055-P01",),
@@ -130,13 +130,48 @@ for _access_type, _profile_ids in _ACCESS_GROUPS.items():
 
 ACCESS_DEPENDENT_PROFILE_IDS = frozenset(ACCESS_PROFILE_CLASSIFICATION)
 
-# B25 is deliberately a foundation checkpoint: provider adapters are not yet
-# connected, so no dynamic-access Opportunity is allowed to become contract-ready.
-ACCESS_RUNTIME_READY_PROFILES = frozenset()
+# Runtime-ready is explicit and profile-specific. jp-021 and jp-022 have
+# authoritative fail-closed providers connected; all other access-dependent
+# profiles remain blocked until their own provider is implemented.
+ACCESS_RUNTIME_READY_PROFILES = frozenset({
+    "jp-021-P01",
+    "jp-021-P02",
+    "jp-022-P01",
+    "jp-022-P02",
+    "jp-022-P03",
+})
 
 # These are provider-discovery hints, not proof that an Opportunity is open.
 # They document official sources verified during B25 architecture work.
 OFFICIAL_SOURCE_HINTS = {
+    "jp-002": {
+        "authority": "Daisetsuzan Asahidake Ropeway",
+        "source_kind": "official_ropeway_operation_and_mountain_condition_information",
+        "url": "https://asahidake.hokkaido.jp/en/",
+        "verified_on": "2026-09-24",
+        "note": "Sugatami photography access for ordinary visitors depends on current ropeway operation and mountain conditions; do not infer access from a static annual timetable alone.",
+    },
+    "jp-004": {
+        "authority": "Hakodate City / Travel Hakodate",
+        "source_kind": "official_ropeway_road_and_summit_access_information",
+        "url": "https://www.hakodate.travel/en/information/mt-hakodate/",
+        "verified_on": "2026-09-24",
+        "note": "Summit access is multi-modal. Ropeway hours, autumn maintenance, private-car evening restrictions, winter road closure, buses/taxis and hiking must not be collapsed into one static open/closed window.",
+    },
+    "jp-021": {
+        "authority": "Shinhotaka Ropeway",
+        "source_kind": "official_ropeway_operation_status_plus_annual_stargazing_schedule",
+        "url": "https://shinhotaka-ropeway.jp/en/",
+        "verified_on": "2026-09-25",
+        "note": "Daytime summit access depends on actual ropeway operation. Night photography is not ordinary after-hours access: jp-021-P02 is valid only on the official annual Stargazing Service dates and while the special No.2 Ropeway service is operating.",
+    },
+    "jp-022": {
+        "authority": "Niigata Prefecture Tourism / Yahiko Tourism Association / Yahikoyama Ropeway",
+        "source_kind": "official_multi_route_summit_access_plus_annual_night_cruise_schedule",
+        "url": "https://niigata-kankou.or.jp/spot/7462",
+        "verified_on": "2026-09-25",
+        "note": "Summit access is multi-modal: ropeway, seasonal Skyline road and walking routes have different constraints. 2026 night-view access is date-limited special ropeway service, so ordinary clear nights must not be inferred accessible.",
+    },
     "tw-081": {
         "authority": "Matsu National Scenic Area Headquarters",
         "source_kind": "official_attraction_hours_plus_weather_control",
@@ -264,6 +299,16 @@ def evaluate_dynamic_access(opportunity, item_data):
             "source_freshness_verified": False,
         }
 
+    freshness_mode = str(snapshot.get("freshness_mode") or "live").lower()
+    if freshness_mode not in {"live", "schedule"}:
+        return {
+            "module": "dynamic_access",
+            "available": False,
+            "eligible": False,
+            "reason": "invalid_access_freshness_mode",
+            "source_freshness_verified": False,
+        }
+
     checked = _number(snapshot.get("checked_at_epoch"))
     valid_until = _number(snapshot.get("valid_until_epoch"))
     effective_from = _number(snapshot.get("effective_from_epoch"))
@@ -272,7 +317,7 @@ def evaluate_dynamic_access(opportunity, item_data):
     if evaluation_time is None:
         evaluation_time = checked
 
-    if checked is None or evaluation_time is None:
+    if evaluation_time is None or (freshness_mode == "live" and checked is None):
         return {
             "module": "dynamic_access",
             "available": False,
@@ -283,26 +328,28 @@ def evaluate_dynamic_access(opportunity, item_data):
             "source_freshness_verified": False,
         }
 
-    age = evaluation_time - checked
-    if age < -300:
-        return {
-            "module": "dynamic_access",
-            "available": False,
-            "eligible": False,
-            "reason": "access_snapshot_from_future",
-            "source_freshness_verified": False,
-        }
+    age = None
+    if freshness_mode == "live":
+        age = evaluation_time - checked
+        if age < -300:
+            return {
+                "module": "dynamic_access",
+                "available": False,
+                "eligible": False,
+                "reason": "access_snapshot_from_future",
+                "source_freshness_verified": False,
+            }
 
-    if age > float(contract["max_snapshot_age_seconds"]):
-        return {
-            "module": "dynamic_access",
-            "available": False,
-            "eligible": False,
-            "reason": "access_snapshot_stale",
-            "snapshot_age_seconds": round(age),
-            "max_snapshot_age_seconds": contract["max_snapshot_age_seconds"],
-            "source_freshness_verified": False,
-        }
+        if age > float(contract["max_snapshot_age_seconds"]):
+            return {
+                "module": "dynamic_access",
+                "available": False,
+                "eligible": False,
+                "reason": "access_snapshot_stale",
+                "snapshot_age_seconds": round(age),
+                "max_snapshot_age_seconds": contract["max_snapshot_age_seconds"],
+                "source_freshness_verified": False,
+            }
 
     if valid_until is not None and evaluation_time > valid_until:
         return {
@@ -346,6 +393,23 @@ def evaluate_dynamic_access(opportunity, item_data):
             "eligible": False,
             "reason": "authoritative_source_status_unknown",
             "status": status,
+            "freshness_mode": freshness_mode,
+            "status_basis": snapshot.get("status_basis"),
+            "source_freshness_verified": True,
+        }
+
+    # Static timetables / annual event calendars can authoritatively prove that
+    # access is closed, but they must never be used as proof that a live-notice
+    # facility is actually open.
+    if freshness_mode == "schedule" and status == "open" and contract["requires_live_notice"]:
+        return {
+            "module": "dynamic_access",
+            "available": True,
+            "eligible": False,
+            "reason": "live_access_confirmation_required",
+            "status": status,
+            "freshness_mode": freshness_mode,
+            "status_basis": snapshot.get("status_basis"),
             "source_freshness_verified": True,
         }
 
@@ -372,7 +436,9 @@ def evaluate_dynamic_access(opportunity, item_data):
         "authority": snapshot.get("authority"),
         "source_url": snapshot.get("source_url"),
         "source_kind": snapshot.get("source_kind"),
-        "snapshot_age_seconds": round(age),
+        "freshness_mode": freshness_mode,
+        "status_basis": snapshot.get("status_basis"),
+        "snapshot_age_seconds": round(age) if age is not None else None,
         "source_freshness_verified": True,
         "requires_live_notice": contract["requires_live_notice"],
         "requires_user_entitlement": contract["requires_user_entitlement"],
@@ -382,12 +448,12 @@ def evaluate_dynamic_access(opportunity, item_data):
 
 def validate_access_registry():
     errors = []
-    if len(ACCESS_DEPENDENT_PROFILE_IDS) != 42:
-        errors.append(f"expected 42 dynamic-access profiles, got {len(ACCESS_DEPENDENT_PROFILE_IDS)}")
+    if len(ACCESS_DEPENDENT_PROFILE_IDS) != 49:
+        errors.append(f"expected 49 dynamic-access profiles, got {len(ACCESS_DEPENDENT_PROFILE_IDS)}")
     if ACCESS_RUNTIME_READY_PROFILES - ACCESS_DEPENDENT_PROFILE_IDS:
         errors.append("runtime-ready access profile is not classified")
     for oid, contract in ACCESS_PROFILE_CLASSIFICATION.items():
-        if not oid.startswith("tw-"):
+        if not oid.startswith(("tw-", "jp-", "us-")):
             errors.append(f"{oid}: invalid Opportunity id")
         if contract["access_type"] not in ACCESS_REQUIREMENTS:
             errors.append(f"{oid}: unknown access type")

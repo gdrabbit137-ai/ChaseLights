@@ -59,7 +59,7 @@ from access_state import (
     validate_access_registry,
 )
 
-MODULE_VERSION = "opportunity-runtime-r9-preview"
+MODULE_VERSION = "opportunity-runtime-r12-yahiko-access-preview"
 
 IMPLEMENTED_COMPONENTS = {
     "directional_horizon",
@@ -95,6 +95,10 @@ MINIMUM_SUFFICIENT_VISIBILITY_PROFILES = {
     # B28 individually researched geology views: missing geology-light modeling
     # is a refinement/booster, not a hard reason to suppress a clear-view visit.
     "tw-074-P01", "tw-074-P02",
+    # B32: official Otaru photo spot. A clean, readable daytime canal +
+    # warehouse scene is itself sufficient; evening managed lighting remains
+    # a separate Opportunity and is not inferred from this contract.
+    "jp-005-P01", "jp-003-P01", "jp-006-P01", "jp-007-P01", "jp-009-P01", "jp-010-P01", "jp-011-P01", "jp-011-P02", "jp-012-P01", "jp-015-P01", "jp-016-P01", "jp-016-P02", "jp-017-P01", "jp-018-P01", "jp-020-P01", "jp-023-P01", "jp-024-P01",
 }
 
 def supports_minimum_sufficient_contract(opportunity):
@@ -165,6 +169,10 @@ def evaluate_minimum_sufficient_visibility(opportunity, item_data):
     }
 
 DIRECTIONAL_HORIZON_SECTORS = {
+    "jp-022-P02": {"center": 270.0, "tolerance": 75.0, "phase": "sunset"},
+    "jp-019-P01": {"center": 250.0, "tolerance": 70.0, "phase": "sunset"},
+    "jp-013-P01": {"center": 270.0, "tolerance": 65.0, "phase": "sunset"},
+    "jp-008-P01": {"center": 98.0, "tolerance": 22.5, "phase": "sunrise"},
     "tw-001-P01": {"center": 247.5, "tolerance": 67.5, "phase": "sunset"},
     "tw-003-P01": {"center": 270.0, "tolerance": 70.0, "phase": "sunset"},
     "tw-004-P04": {"center": 270.0, "tolerance": 70.0, "phase": "sunset"},
@@ -220,6 +228,7 @@ CLOUD_SKY_GLOW_PROFILES = {
 }
 
 ASTRONOMY_EPHEMERIS_PROFILES = {
+    "jp-021-P02": {"mode": "milky_way_or_star_field"},
     "tw-019-P05": {"mode": "milky_way_or_star_field"},
     "tw-024-P05": {"mode": "star_field"},
     "tw-035-P05": {"mode": "milky_way_or_star_field"},
@@ -980,15 +989,16 @@ def validate_runtime_registry():
     errors.extend(validate_marine_state_registry())
     errors.extend(validate_tide_state_registry())
     errors.extend(validate_access_registry())
-    if len(DIRECTIONAL_HORIZON_SECTORS) != 45:
+    if len(DIRECTIONAL_HORIZON_SECTORS) != 49:
         errors.append(
-            f"expected 45 registered directional profiles, got {len(DIRECTIONAL_HORIZON_SECTORS)}"
+            f"expected 49 registered directional profiles, got {len(DIRECTIONAL_HORIZON_SECTORS)}"
         )
     if set(CLOUD_SKY_GLOW_PROFILES) != {"tw-013-P02", "tw-026-P02", "tw-030-P02", "tw-035-P04"}:
         errors.append(f"unexpected cloud_sky_glow registry: {sorted(CLOUD_SKY_GLOW_PROFILES)}")
     if len(SPATIAL_WEATHER_PROFILES) != 19:
         errors.append(f"expected 19 spatial weather profiles, got {len(SPATIAL_WEATHER_PROFILES)}")
     expected_astro = {
+        "jp-021-P02",
         "tw-019-P05", "tw-024-P05", "tw-035-P05", "tw-036-P02",
         "tw-038-P02", "tw-040-P06", "tw-045-P03", "tw-070-P02", "tw-076-P02", "tw-080-P02",
     }
@@ -1000,13 +1010,17 @@ def validate_runtime_registry():
         errors.append(f"expected 17 marine-state profiles, got {len(MARINE_STATE_PROFILES)}")
     if len(TIDE_STATE_PROFILES) != 14:
         errors.append(f"expected 14 tide-state profiles, got {len(TIDE_STATE_PROFILES)}")
-    if len(ACCESS_DEPENDENT_PROFILE_IDS) != 42:
-        errors.append(f"expected 42 dynamic-access profiles, got {len(ACCESS_DEPENDENT_PROFILE_IDS)}")
-    if ACCESS_RUNTIME_READY_PROFILES:
-        errors.append("B25 foundation must not mark dynamic-access profiles provider-ready yet")
+    if len(ACCESS_DEPENDENT_PROFILE_IDS) != 49:
+        errors.append(f"expected 49 dynamic-access profiles, got {len(ACCESS_DEPENDENT_PROFILE_IDS)}")
+    expected_access_ready = {"jp-021-P01", "jp-021-P02", "jp-022-P01", "jp-022-P02", "jp-022-P03"}
+    if set(ACCESS_RUNTIME_READY_PROFILES) != expected_access_ready:
+        errors.append(
+            "unexpected dynamic-access runtime-ready profiles: "
+            f"{sorted(ACCESS_RUNTIME_READY_PROFILES)}"
+        )
     for oid, sector in DIRECTIONAL_HORIZON_SECTORS.items():
-        if not oid.startswith("tw-"):
-            errors.append(f"{oid}: Taiwan Opportunity id expected")
+        if not oid.startswith(("tw-", "jp-", "us-")):
+            errors.append(f"{oid}: unsupported regional Opportunity id")
         if not 0 <= float(sector["center"]) < 360:
             errors.append(f"{oid}: invalid center")
         if not 0 < float(sector["tolerance"]) <= 90:
