@@ -59,7 +59,7 @@ from access_state import (
     validate_access_registry,
 )
 
-MODULE_VERSION = "opportunity-runtime-r11-yahiko-preview"
+MODULE_VERSION = "opportunity-runtime-r12-yahiko-access-preview"
 
 IMPLEMENTED_COMPONENTS = {
     "directional_horizon",
@@ -1012,7 +1012,7 @@ def validate_runtime_registry():
         errors.append(f"expected 14 tide-state profiles, got {len(TIDE_STATE_PROFILES)}")
     if len(ACCESS_DEPENDENT_PROFILE_IDS) != 49:
         errors.append(f"expected 49 dynamic-access profiles, got {len(ACCESS_DEPENDENT_PROFILE_IDS)}")
-    expected_access_ready = {"jp-021-P01", "jp-021-P02"}
+    expected_access_ready = {"jp-021-P01", "jp-021-P02", "jp-022-P01", "jp-022-P02", "jp-022-P03"}
     if set(ACCESS_RUNTIME_READY_PROFILES) != expected_access_ready:
         errors.append(
             "unexpected dynamic-access runtime-ready profiles: "
