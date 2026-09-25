@@ -113,6 +113,9 @@ REGIONS = {
             (23.60345, 119.50265, "池西岩瀑", "Chixi Columnar Basalt", "池西柱状玄武岩", "池西岩瀑", "澎湖", ["coast"]),
             (22.63366, 121.5069, "帆船鼻大草原", "Fanchuanbi Grassland", "帆船鼻大草原", "帆船鼻大草原", "綠島/蘭嶼/小琉球", ["coast", "starlight"]),
             (26.141922, 119.921072, "南竿鐵堡", "Iron Fort Nangan", "南竿鉄堡", "鐵堡", "馬祖", ["coast"]),
+            (23.93493, 121.50803, "鯉魚潭", "Liyu Lake · North Shore", "鯉魚潭・北岸", "鯉魚潭", "本島", ["lake", "mountain"]),
+            (23.827018, 121.51548, "雲山水夢幻湖", "Yun Shan Shui Dream Lake", "雲山水夢幻湖", "雲山水夢幻湖", "本島", ["lake", "forest"]),
+            (23.6143836, 121.4159714, "大農大富平地森林園區", "Danongdafu Forest Park", "大農大富平地森林園区", "大農大富平地森林園區", "本島", ["forest"]),
         ],
     },
     "jp": {
@@ -405,6 +408,26 @@ def _dark_sky_meta(region_key, name_zh, category, scenes, themes):
     }
 
 ACCESS_RULE_OVERRIDES = {
+    "雲山水夢幻湖": {
+        "access_mode": "opening_hours_private_park",
+        "access_hours": ["08:30", "17:00"],
+        "access_hours_source": "East Rift Valley National Scenic Area official attraction listing; verified 2026-09-25",
+        "access_note_i18n": {
+            "zh-TW": "雲山水植物農場目前官方列出的開放時間為每日 08:30–17:00；屬私人景觀園區，入園、票價與攝影區域以現場最新公告為準。",
+            "en": "The official attraction listing currently gives daily hours of 08:30–17:00. This is a private landscaped park; follow current on-site admission and photography-area rules.",
+            "ja": "公式観光案内の現在の営業時間は毎日08:30〜17:00です。私設景観園区のため、入園・料金・撮影範囲は現地の最新案内に従ってください。",
+        },
+    },
+    "大農大富平地森林園區": {
+        "access_mode": "opening_hours",
+        "access_hours": ["08:00", "17:00"],
+        "access_hours_source": "Forestry and Nature Conservation Agency official recreation page; verified 2026-09-25",
+        "access_note_i18n": {
+            "zh-TW": "推薦時段採官方服務時間 08:00–17:00。園區全年開放；遊客中心除夕及每週一休館，寒暑假與國定假日例外。步道與自行車道遇落葉、潮濕或青苔可能濕滑。",
+            "en": "Recommendations use the official 08:00–17:00 service window. The park is open year-round; the visitor center closes on Lunar New Year's Eve and Mondays, except school vacations and national holidays. Paths may be slippery when wet or covered by leaves or moss.",
+            "ja": "推奨時間は公式サービス時間08:00〜17:00です。園区は通年開放で、ビジターセンターは旧暦大晦日と月曜休館（長期休暇・祝日を除く）。落葉・湿気・苔で路面が滑る場合があります。",
+        },
+    },
     "東京鐵塔": {
         "access_mode": "opening_hours",
         "access_hours": ["09:00", "22:30"],
@@ -574,6 +597,27 @@ ACCESS_RULE_OVERRIDES["新穗高高空纜車"] = {
 # also sent to the frontend so navigation can resolve the named POI even if
 # a mountain/park covers a large area.
 SPOT_OVERRIDES = {
+ '鯉魚潭': {'lat': 23.93493,
+          'lon': 121.50803,
+          'scenes': ['lake', 'mountain'],
+          'themes': ['reflection'],
+          'map_query': '23.93493,121.50803',
+          'coordinate_source': 'Taiwan Tourism official north-shore visitor-center coordinate and public lakeside evidence',
+          'coordinate_confidence': 'high'},
+ '雲山水夢幻湖': {'lat': 23.827018,
+          'lon': 121.51548,
+          'scenes': ['lake', 'forest', 'rural'],
+          'themes': ['reflection'],
+          'map_query': '23.827018,121.51548',
+          'coordinate_source': 'East Rift Valley official Place evidence; mapped Dream Lake area coordinate cross-check',
+          'coordinate_confidence': 'medium_high'},
+ '大農大富平地森林園區': {'lat': 23.6143836,
+          'lon': 121.4159714,
+          'scenes': ['forest', 'rural'],
+          'themes': ['mountain_view'],
+          'map_query': '23.6151728,121.4146215',
+          'coordinate_source': 'Forestry and Nature Conservation Agency official forest-road feature and visitor-center coordinates',
+          'coordinate_confidence': 'high'},
  '南雅奇岩': {'lat': 25.11982,
           'lon': 121.89314,
           'scenes': ['coast', 'geology'],

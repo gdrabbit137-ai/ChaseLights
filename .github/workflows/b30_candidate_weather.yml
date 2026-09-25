@@ -6,6 +6,7 @@ on:
       - r4.2-b28-p0-missing-places
       - r4.2-b31-place-weather-details
       - r4.2-b32-jp-research-batch01
+      - r4.2-b33-hualien-places
     paths:
       - "regions.py"
       - "analyze_weather.py"
@@ -20,6 +21,7 @@ on:
       - "taxonomy_v004.py"
       - "runtime_catalog_v004_r4_2_b28_additions.json"
       - "runtime_catalog_v004_r4_2_b32_jp_batch01.json"
+      - "runtime_catalog_v004_r4_2_b33_hualien_additions.json"
       - ".github/workflows/b30_candidate_weather.yml"
   workflow_dispatch:
 
@@ -60,20 +62,21 @@ jobs:
           assert isinstance(summary_spots, list), type(summary_spots)
           assert isinstance(detail_spots, list), type(detail_spots)
 
-          assert len(summary_spots) == 80, f"summary expected 80, got {len(summary_spots)}"
-          assert len(detail_spots) == 80, f"details expected 80, got {len(detail_spots)}"
+          assert len(summary_spots) == 83, f"summary expected 83, got {len(summary_spots)}"
+          assert len(detail_spots) == 83, f"details expected 83, got {len(detail_spots)}"
 
           sids = [s["spot_id"] for s in summary_spots]
           dids = [s["spot_id"] for s in detail_spots]
-          assert len(set(sids)) == 80
-          assert len(set(dids)) == 80
+          assert len(set(sids)) == 83
+          assert len(set(dids)) == 83
           assert "tw-063" not in sids
           assert "tw-063" not in dids
           assert set(sids) == set(dids)
+          assert {"tw-082", "tw-083", "tw-084"}.issubset(sids)
 
           shard_dir = Path("weather_details") / "tw"
           shard_files = sorted(shard_dir.glob("tw-*.json"))
-          assert len(shard_files) == 80, f"expected 80 Taiwan detail shards, got {len(shard_files)}"
+          assert len(shard_files) == 83, f"expected 83 Taiwan detail shards, got {len(shard_files)}"
           shard_ids = []
           for shard_path in shard_files:
               shard = json.loads(shard_path.read_text(encoding="utf-8"))
