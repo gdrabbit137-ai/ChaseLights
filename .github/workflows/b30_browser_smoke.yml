@@ -179,7 +179,7 @@ jobs:
 
               researched_names = {"美瑛青池", "旭岳", "釧路濕原", "函館山夜景", "小樽運河", "摩周湖", "十和田湖", "松島", "磐梯山", "富士山 (河口湖)", "東京鐵塔", "鎌倉大佛", "諏訪湖", "皇居外苑二重橋", "橫濱山下公園", "金澤兼六園", "名古屋城", "濱名湖", "橫濱港未來21", "新穗高・西穗高口展望台", "彌彥山", "京都清水寺", "大阪城公園"}
               researched_cards = [c for c in jp_cards if any(name in c.text for name in researched_names)]
-              assert len(researched_cards) == 22
+              assert len(researched_cards) == 23
               researched_scores = [c.find_element(By.CSS_SELECTOR, ".score-badge").text.strip() for c in researched_cards]
               for card, score_text in zip(researched_cards, researched_scores):
                   if score_text in {"", "—"}:
