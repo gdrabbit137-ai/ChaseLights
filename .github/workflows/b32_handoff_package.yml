@@ -1,0 +1,76 @@
+name: B32 Handoff Package
+
+on:
+  push:
+    branches:
+      - r4.2-b32-jp-research-batch01
+    paths:
+      - ".github/workflows/b32_handoff_package.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout B32 branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 40
+
+      - name: Build handoff package
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="ChaseLights_AI_Handoff_20260925_R4_2_B32_JP014"
+          rm -rf "$OUT" "$OUT.zip"
+          mkdir -p "$OUT/00_START_HERE" "$OUT/01_RESEARCH" "$OUT/02_CORE_SOURCE" "$OUT/03_WORKFLOWS" "$OUT/04_TESTS" "$OUT/05_CATALOG"
+
+          cp handoff/B32_20260925/00_START_HERE/HANDOFF_README.md "$OUT/00_START_HERE/"
+          cp handoff/B32_20260925/00_START_HERE/NEXT_AI_PROMPT.md "$OUT/00_START_HERE/"
+          cp handoff/B32_20260925/QA_STATUS.md "$OUT/00_START_HERE/"
+          cp B29_RESEARCH_GUIDE_SCORING_HANDOFF.md "$OUT/00_START_HERE/"
+          cp B28_COMPLETION_HANDOFF.md "$OUT/00_START_HERE/"
+
+          cp B32_JP_RESEARCH_BATCH*.md "$OUT/01_RESEARCH/"
+
+          cp index.html regions.py opportunities.py opportunity_runtime.py runtime_dependencies.py access_state.py              shinhotaka_access.py yahiko_access.py fetch_data.py analyze_weather.py spatial_weather.py              marine_state.py tide_state.py taxonomy_v004.py "$OUT/02_CORE_SOURCE/"
+
+          cp .github/workflows/b30_browser_smoke.yml "$OUT/03_WORKFLOWS/"
+          cp .github/workflows/b30_candidate_weather.yml "$OUT/03_WORKFLOWS/"
+          cp .github/workflows/b32_jp_candidate_weather.yml "$OUT/03_WORKFLOWS/"
+          cp .github/workflows/test_opportunity_adapter.yml "$OUT/03_WORKFLOWS/"
+          cp update_weather.yml "$OUT/03_WORKFLOWS/"
+
+          cp test_opportunity_adapter.py "$OUT/04_TESTS/"
+          if [ -d test_fixtures ]; then cp -R test_fixtures "$OUT/04_TESTS/"; fi
+
+          cp runtime_catalog_v004_r4_2_b32_jp_batch01.json "$OUT/05_CATALOG/"
+          cp runtime_catalog_v004_r4_2_b28_additions.json "$OUT/05_CATALOG/"
+          cp runtime_catalog_v004_r4_2_b15.compact.part*.b64 "$OUT/05_CATALOG/"
+
+          {
+            echo "ChaseLights R4.2 B32 handoff build"
+            echo "Built: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            echo "Branch: $GITHUB_REF_NAME"
+            echo "HEAD: $(git rev-parse HEAD)"
+            echo
+            echo "Recent commits:"
+            git log --oneline -30
+          } > "$OUT/00_START_HERE/BUILD_INFO.txt"
+
+          find "$OUT" -type f | sort > "$OUT/00_START_HERE/PACKAGE_MANIFEST.txt"
+          zip -qr "$OUT.zip" "$OUT"
+          sha256sum "$OUT.zip" > "$OUT.zip.sha256"
+
+      - name: Upload handoff package
+        uses: actions/upload-artifact@v4
+        with:
+          name: ChaseLights_AI_Handoff_20260925_R4_2_B32_JP014
+          path: |
+            ChaseLights_AI_Handoff_20260925_R4_2_B32_JP014.zip
+            ChaseLights_AI_Handoff_20260925_R4_2_B32_JP014.zip.sha256
+          retention-days: 30
