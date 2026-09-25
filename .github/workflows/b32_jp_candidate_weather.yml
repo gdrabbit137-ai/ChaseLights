@@ -113,6 +113,8 @@ jobs:
           summary_spots = summary.get("spots") if isinstance(summary, dict) else summary
           detail_spots = details.get("spots") if isinstance(details, dict) else details
 
+          assert summary.get("schema_version") == 10, summary.get("schema_version")
+          assert details.get("schema_version") == 10, details.get("schema_version")
           assert len(summary_spots) == 35, len(summary_spots)
           assert len(detail_spots) == 35, len(detail_spots)
           assert len({s["spot_id"] for s in summary_spots}) == 35
@@ -125,6 +127,25 @@ jobs:
           pending = [s for s in summary_spots if not s.get("opportunities")]
           assert [s["spot_id"] for s in researched] == ["jp-001", "jp-002", "jp-003", "jp-004", "jp-005", "jp-006", "jp-007", "jp-008", "jp-009", "jp-010", "jp-011", "jp-012", "jp-013", "jp-014", "jp-015", "jp-016", "jp-017", "jp-018", "jp-019", "jp-020", "jp-021", "jp-022", "jp-023", "jp-024", "jp-025"], [s["spot_id"] for s in researched]
           assert len(pending) == 10
+
+          valid_nav_states = {"verified", "provisional_camera_anchor", "needs_review", "multiple_access_routes"}
+          assert all((s.get("navigation_target") or {}).get("status") in valid_nav_states for s in summary_spots)
+
+          todoroki = next(s for s in summary_spots if s["spot_id"] == "jp-014")
+          assert todoroki["navigation_target"]["status"] == "verified", todoroki["navigation_target"]
+          assert todoroki["navigation_target"]["lat"] == 35.607857
+          assert todoroki["navigation_target"]["lon"] == 139.646545
+
+          shinhotaka = next(s for s in summary_spots if s["spot_id"] == "jp-021")
+          assert shinhotaka["navigation_target"]["status"] == "needs_review", shinhotaka["navigation_target"]
+
+          yahiko = next(s for s in summary_spots if s["spot_id"] == "jp-022")
+          assert yahiko["navigation_target"]["status"] == "multiple_access_routes", yahiko["navigation_target"]
+
+          hagi = next(s for s in summary_spots if s["spot_id"] == "jp-025")
+          assert hagi["navigation_target"]["status"] == "verified", hagi["navigation_target"]
+          assert hagi["navigation_target"]["lat"] == 34.4119363
+          assert hagi["navigation_target"]["lon"] == 131.3932271
 
           expected_opportunities = {
               "jp-001": {"jp-001-P01"},
