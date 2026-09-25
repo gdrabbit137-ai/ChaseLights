@@ -91,7 +91,7 @@ ACCESS_REQUIREMENTS = {
 }
 
 _ACCESS_GROUPS = {
-    "event_access_control": ("tw-002-P03", "jp-021-P02"),
+    "event_access_control": ("tw-002-P03", "jp-021-P02", "jp-022-P03"),
     "public_space_live_notice": ("tw-005-P01", "tw-005-P02"),
     "trail_road_status": (
         "tw-008-P01",
@@ -112,7 +112,7 @@ _ACCESS_GROUPS = {
         "tw-045-P01", "tw-045-P03", "tw-045-P04",
         "tw-049-P02",
     ),
-    "transport_facility_status": ("tw-024-P01", "tw-024-P05", "tw-037-P01", "jp-002-P01", "jp-004-P01", "jp-021-P01"),
+    "transport_facility_status": ("tw-024-P01", "tw-024-P05", "tw-037-P01", "jp-002-P01", "jp-004-P01", "jp-021-P01", "jp-022-P01", "jp-022-P02"),
     "road_viewpoint_status": ("tw-034-P01",),
     "public_attraction_notice": ("tw-038-P01", "tw-038-P02", "tw-081-P01"),
     "waterfall_trail_status": ("tw-055-P01",),
@@ -162,6 +162,13 @@ OFFICIAL_SOURCE_HINTS = {
         "url": "https://shinhotaka-ropeway.jp/en/",
         "verified_on": "2026-09-25",
         "note": "Daytime summit access depends on actual ropeway operation. Night photography is not ordinary after-hours access: jp-021-P02 is valid only on the official annual Stargazing Service dates and while the special No.2 Ropeway service is operating.",
+    },
+    "jp-022": {
+        "authority": "Niigata Prefecture Tourism / Yahiko Tourism Association / Yahikoyama Ropeway",
+        "source_kind": "official_multi_route_summit_access_plus_annual_night_cruise_schedule",
+        "url": "https://niigata-kankou.or.jp/spot/7462",
+        "verified_on": "2026-09-25",
+        "note": "Summit access is multi-modal: ropeway, seasonal Skyline road and walking routes have different constraints. 2026 night-view access is date-limited special ropeway service, so ordinary clear nights must not be inferred accessible.",
     },
     "tw-081": {
         "authority": "Matsu National Scenic Area Headquarters",
@@ -439,8 +446,8 @@ def evaluate_dynamic_access(opportunity, item_data):
 
 def validate_access_registry():
     errors = []
-    if len(ACCESS_DEPENDENT_PROFILE_IDS) != 46:
-        errors.append(f"expected 46 dynamic-access profiles, got {len(ACCESS_DEPENDENT_PROFILE_IDS)}")
+    if len(ACCESS_DEPENDENT_PROFILE_IDS) != 49:
+        errors.append(f"expected 49 dynamic-access profiles, got {len(ACCESS_DEPENDENT_PROFILE_IDS)}")
     if ACCESS_RUNTIME_READY_PROFILES - ACCESS_DEPENDENT_PROFILE_IDS:
         errors.append("runtime-ready access profile is not classified")
     for oid, contract in ACCESS_PROFILE_CLASSIFICATION.items():
