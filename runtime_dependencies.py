@@ -4,7 +4,7 @@ This module separates content formula status from runtime implementation state.
 Every needs_* status maps to an explicit set of reusable runtime components.
 """
 
-DEPENDENCY_INVENTORY_VERSION = "r4.2-b25-deps-v8"
+DEPENDENCY_INVENTORY_VERSION = "r4.2-b32-deps-v9-yahiko"
 
 FORMULA_DEPENDENCIES = {
     "needs_visibility_module": ("visibility",),
@@ -17,6 +17,7 @@ FORMULA_DEPENDENCIES = {
     "needs_lighting_water_surface_module": ("managed_lighting_state", "water_surface_state"),
     "needs_tide_directional_horizon_module": ("tide_state", "directional_horizon"),
     "needs_dynamic_access_directional_horizon_module": ("dynamic_access", "directional_horizon"),
+    "needs_dynamic_access_directional_horizon_visibility_module": ("dynamic_access", "directional_horizon", "visibility"),
     "needs_dynamic_access_visibility_module": ("dynamic_access", "visibility"),
     "needs_snow_state_module": ("snow_state",),
     "needs_spatial_weather_dynamic_access_module": ("spatial_weather_vertical_cloud", "dynamic_access"),
