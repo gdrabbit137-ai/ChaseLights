@@ -2,11 +2,17 @@
 
 ## What changed
 
-- Navigation and weather coordinates are now separated conceptually from broad-area names.
-- `regions.py` has an explicit `SPOT_OVERRIDES` layer with named POI / viewpoint / camera-position corrections.
-- Google Maps navigation prefers `map_query` (named POI) and falls back to raw coordinates only when necessary.
+- Navigation, Camera Zone, and weather/Place coordinates are now separate concepts.
+- `regions.py` retains `SPOT_OVERRIDES` for Place/Camera coordinates and adds a separate `NAVIGATION_TARGET_OVERRIDES` contract.
+- The former behavior that preferred free-text `map_query` for Google Maps navigation is deprecated.
+- `map_query` is now search/display metadata only and MUST NOT build a production navigation URL.
+- Verified Navigation Targets route by exact latitude/longitude.
+- Unverified exact camera/Place anchors may open only as an exact-coordinate map pin, not as verified Directions.
+- Known ambiguous/multi-route access points are explicitly marked pending rather than silently searched by keyword.
 - Exact duplicate coordinates were checked within Taiwan, Japan, and the United States: none remain.
 - All coordinates pass valid WGS84 latitude / longitude bounds.
+
+Authoritative navigation behavior is defined in `NAVIGATION_SPEC_R4_2.md`.
 
 ## Coverage after V5.2 audit
 
@@ -19,7 +25,7 @@ The remaining low-confidence US entries are very large natural areas rather than
 - Noatak River
 - Lake Clark National Park
 
-Their navigation still uses a named Google Maps query rather than relying only on the broad coordinate.
+They must not use a broad name query as a verified navigation destination. Until an arrival target is individually reviewed, they remain provisional/pending under the R4.2 Navigation Target contract.
 
 ## Key Taiwan corrections
 
