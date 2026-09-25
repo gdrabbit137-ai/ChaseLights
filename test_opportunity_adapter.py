@@ -362,12 +362,22 @@ def test_adapter_integrity():
     assert "&&!researchPending&&!noViable" in index_html
 
     # B31: Weather Forecast must fetch only the selected Place detail shard.
-    assert "chaselights-v10-weather" in index_html
+    assert "chaselights-v11-weather" in index_html
     assert "./weather_details/${region}/${encodeURIComponent(spotId)}.json" in index_html
     assert "loadDetails(currentRegion,spot.spot_id)" in index_html
     assert "const detail=payload?.spot" in index_html
     assert "loadLegacyDetail(region,spotId)" in index_html
     assert "catch(shardError)" in index_html
+
+    # R4.2 Navigation Target contract: map_query is metadata only. Browser
+    # navigation must be built exclusively from exact navigation_target coords.
+    assert "function navigationToolHtml(spot)" in index_html
+    assert "data-navigation-mode" in index_html
+    assert "/maps/dir/?api=1&destination=" in index_html
+    assert "/maps/search/?api=1&query=" in index_html
+    assert "const navQuery=spot.map_query" not in index_html
+    assert "encodeURIComponent(navQuery)" not in index_html
+    assert "map_query||`${spot.lat},${spot.lon}`" not in index_html
 
     # Time-zone contract: shooting windows remain Place-local; only Last Updated
     # follows the user's device/browser timezone.
