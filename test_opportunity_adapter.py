@@ -19,6 +19,7 @@ from opportunity_runtime import (
     evaluate_opportunity_modules,
     evaluate_minimum_sufficient_visibility,
     MINIMUM_SUFFICIENT_VISIBILITY_PROFILES,
+    MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES,
     validate_runtime_registry,
 )
 from runtime_dependencies import (
@@ -93,14 +94,14 @@ def _all_opportunities():
 
 
 def test_adapter_integrity():
-    assert ADAPTER_VERSION == "v0.04-r4.2-b32-jp-batch01-r23-preview"
+    assert ADAPTER_VERSION == "v0.04-r4.2-b32-jp-batch01-r24-preview"
     assert validate_curated_opportunities() == []
     assert validate_taxonomy() == []
     assert CATALOG_COUNTS == {
-        "spots": 104,
-        "opportunities": 220,
-        "condition_variants": 230,
-        "profile_viewpoint_relations": 225,
+        "spots": 105,
+        "opportunities": 222,
+        "condition_variants": 232,
+        "profile_viewpoint_relations": 227,
     }
     assert REGION_CATALOG_COUNTS["tw"] == {
         "spots": 80,
@@ -109,10 +110,10 @@ def test_adapter_integrity():
         "profile_viewpoint_relations": 194,
     }
     assert REGION_CATALOG_COUNTS["jp"] == {
-        "spots": 24,
-        "opportunities": 31,
-        "condition_variants": 31,
-        "profile_viewpoint_relations": 31,
+        "spots": 25,
+        "opportunities": 33,
+        "condition_variants": 33,
+        "profile_viewpoint_relations": 33,
     }
     assert REGION_CATALOG_COUNTS["us"] == {
         "spots": 0,
@@ -124,19 +125,19 @@ def test_adapter_integrity():
     jp_catalog = json.loads(
         Path("runtime_catalog_v004_r4_2_b32_jp_batch01.json").read_text(encoding="utf-8")
     )
-    assert jp_catalog["schema_version"] == "v0.04-r4.2-b32-jp-batch01-23"
-    assert jp_catalog["spot_count"] == len(jp_catalog["spots"]) == 24
-    assert jp_catalog["opportunity_count"] == sum(len(x.get("opportunities", [])) for x in jp_catalog["spots"]) == 31
+    assert jp_catalog["schema_version"] == "v0.04-r4.2-b32-jp-batch01-24"
+    assert jp_catalog["spot_count"] == len(jp_catalog["spots"]) == 25
+    assert jp_catalog["opportunity_count"] == sum(len(x.get("opportunities", [])) for x in jp_catalog["spots"]) == 33
     assert jp_catalog["condition_variant_count"] == sum(
         len(o.get("condition_variants", []))
         for x in jp_catalog["spots"]
         for o in x.get("opportunities", [])
-    ) == 31
+    ) == 33
     assert jp_catalog["profile_viewpoint_relation_count"] == sum(
         len(o.get("viewpoints", []))
         for x in jp_catalog["spots"]
         for o in x.get("opportunities", [])
-    ) == 31
+    ) == 33
 
     tw = get_spots("tw")
     assert len(tw) == 81
@@ -157,8 +158,8 @@ def test_adapter_integrity():
     assert sum(len(s["opportunities"]) for s in curated.values()) == 189
 
     all_opportunities = _all_opportunities()
-    assert sum(len(o["condition_variants"]) for o in all_opportunities) == 230
-    assert sum(len(o["viewpoints"]) for o in all_opportunities) == 225
+    assert sum(len(o["condition_variants"]) for o in all_opportunities) == 232
+    assert sum(len(o["viewpoints"]) for o in all_opportunities) == 227
     assert not any(o["formula_status"] == "legacy_fallback_pending_curated" for o in all_opportunities)
     assert not any(str(o.get("formula_version") or "").startswith("legacy_") for o in all_opportunities)
 
@@ -169,14 +170,15 @@ def test_adapter_integrity():
 
     policies = Counter(runtime_policy(o) for o in all_opportunities)
     assert policies == {
-        "module_pending": 71,
+        "module_pending": 72,
         "preview_module_available": 84,
-        "minimum_sufficient_available": 59,
+        "minimum_sufficient_available": 60,
         "prototype_pending_certification": 2,
         "hold": 2,
         "data_insufficient": 2,
     }
     assert len(MINIMUM_SUFFICIENT_VISIBILITY_PROFILES) == 59
+    assert MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES == {"jp-025-P01"}
 
     deyue = next(o for o in get_opportunities("tw", "tw-062") if o["opportunity_id"] == "tw-062-P01")
     assert deyue["legacy_theme"] == "mountain_view"
@@ -1385,6 +1387,73 @@ def test_adapter_integrity():
     assert abs(todoroki_spot["lon"] - 139.646545) < 1e-9
     assert todoroki_spot["map_query"] == "等々力渓谷 ゴルフ橋"
 
+    jp025 = get_opportunities("jp", "jp-025")
+    assert [o["opportunity_id"] for o in jp025] == ["jp-025-P01", "jp-025-P02"]
+    assert jp025[0]["runtime_policy"] == "minimum_sufficient_available"
+    assert jp025[1]["runtime_policy"] == "module_pending"
+    assert dependencies_for_opportunity(jp025[0]) == ()
+    assert dependencies_for_opportunity(jp025[1]) == ("event_state",)
+    assert dependency_state(jp025[1])["ready_components"] == ()
+    assert dependency_state(jp025[1])["missing_components"] == ("event_state",)
+    hagi_spot = next(s for s in get_spots("jp") if s["spot_id"] == "jp-025")
+    assert abs(hagi_spot["lat"] - 34.4119363) < 1e-9
+    assert abs(hagi_spot["lon"] - 131.3932271) < 1e-9
+    assert hagi_spot["map_query"] == "菊屋横町 萩市"
+    assert hagi_spot["name_i18n"]["zh-TW"] == "萩城下町・菊屋橫町"
+    assert set(hagi_spot["themes"]) == {"mountain_view", "city_night"}
+
+    # Close-range historic streetscape: benign overcast / low long-range
+    # visibility must not suppress the researched local scene.
+    hagi_local_diag = fetch_data._build_opportunity_runtime_diagnostics(
+        {"opportunities": jp025},
+        {
+            "pop": 5,
+            "precipitation": 0.0,
+            "access_open": True,
+            "c_low": 100,
+            "vis": 1000,
+        },
+    )
+    assert hagi_local_diag["jp-025-P01"]["available"] is True
+    assert hagi_local_diag["jp-025-P01"]["eligible"] is True
+    assert hagi_local_diag["jp-025-P01"]["minimum_sufficient_score_hint"] == 88
+    assert "minimum_sufficient_local_scene" in hagi_local_diag["jp-025-P01"]["modules"]
+
+    hagi_scored = fetch_data._score_opportunity(
+        jp025[0],
+        {
+            "score": 40,
+            "factors": [],
+            "status_key": "MOUNTAIN_FOG_DAY",
+            "indicator_key": "IND_NO_STAR",
+            "temporal_eligible": True,
+        },
+        hagi_local_diag["jp-025-P01"],
+    )
+    assert hagi_scored["score"] == 88
+    assert hagi_scored["condition_state"] == "minimum_sufficient_conditions_match"
+
+    hagi_outside = fetch_data._score_opportunity(
+        jp025[0],
+        {
+            "score": 40,
+            "factors": [],
+            "status_key": "MOUNTAIN_STABLE_NIGHT",
+            "indicator_key": "IND_NIGHT_CLEAR",
+            "temporal_eligible": False,
+        },
+        hagi_local_diag["jp-025-P01"],
+    )
+    assert hagi_outside["score"] == 40
+    assert hagi_outside["condition_state"] == "minimum_sufficient_weather_match_outside_time_window"
+
+    hagi_rain_diag = fetch_data._build_opportunity_runtime_diagnostics(
+        {"opportunities": jp025},
+        {"pop": 70, "precipitation": 1.0, "access_open": True},
+    )
+    assert hagi_rain_diag["jp-025-P01"]["available"] is True
+    assert hagi_rain_diag["jp-025-P01"]["eligible"] is False
+
     jp024 = get_opportunities("jp", "jp-024")
     assert [o["opportunity_id"] for o in jp024] == ["jp-024-P01"]
     assert jp024[0]["runtime_policy"] == "minimum_sufficient_available"
@@ -2045,10 +2114,10 @@ def test_active_catalog_weather_generation_guard():
     # researched Japan Place must not leak legacy scoring into the remaining pending Places.
     jp_spots = get_spots("jp")
     researched_jp = {spot["spot_id"] for spot in jp_spots if spot.get("opportunities")}
-    assert researched_jp == {"jp-001", "jp-002", "jp-003", "jp-004", "jp-005", "jp-006", "jp-007", "jp-008", "jp-009", "jp-010", "jp-011", "jp-012", "jp-013", "jp-014", "jp-015", "jp-016", "jp-017", "jp-018", "jp-019", "jp-020", "jp-021", "jp-022", "jp-023", "jp-024"}
+    assert researched_jp == {"jp-001", "jp-002", "jp-003", "jp-004", "jp-005", "jp-006", "jp-007", "jp-008", "jp-009", "jp-010", "jp-011", "jp-012", "jp-013", "jp-014", "jp-015", "jp-016", "jp-017", "jp-018", "jp-019", "jp-020", "jp-021", "jp-022", "jp-023", "jp-024", "jp-025"}
     assert all(
         not (spot.get("opportunities") or [])
-        for spot in jp_spots if spot["spot_id"] not in {"jp-001", "jp-002", "jp-003", "jp-004", "jp-005", "jp-006", "jp-007", "jp-008", "jp-009", "jp-010", "jp-011", "jp-012", "jp-013", "jp-014", "jp-015", "jp-016", "jp-017", "jp-018", "jp-019", "jp-020", "jp-021", "jp-022", "jp-023", "jp-024"}
+        for spot in jp_spots if spot["spot_id"] not in {"jp-001", "jp-002", "jp-003", "jp-004", "jp-005", "jp-006", "jp-007", "jp-008", "jp-009", "jp-010", "jp-011", "jp-012", "jp-013", "jp-014", "jp-015", "jp-016", "jp-017", "jp-018", "jp-019", "jp-020", "jp-021", "jp-022", "jp-023", "jp-024", "jp-025"}
     )
     blue_pond = next(spot for spot in jp_spots if spot["spot_id"] == "jp-001")
     assert abs(blue_pond["lat"] - 43.493611) < 1e-9
