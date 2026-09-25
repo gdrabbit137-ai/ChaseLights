@@ -4,7 +4,7 @@ This module separates content formula status from runtime implementation state.
 Every needs_* status maps to an explicit set of reusable runtime components.
 """
 
-DEPENDENCY_INVENTORY_VERSION = "r4.2-b32-deps-v10-todoroki"
+DEPENDENCY_INVENTORY_VERSION = "r4.2-b32-deps-v11-hagi"
 
 FORMULA_DEPENDENCIES = {
     "needs_visibility_module": ("visibility",),
@@ -32,6 +32,7 @@ FORMULA_DEPENDENCIES = {
     "needs_seasonal_foreground_module": ("seasonal_foreground",),
     "needs_seasonal_foreground_tide_marine_directional_horizon_module": ("seasonal_foreground", "tide_state", "marine_state", "directional_horizon"),
     "needs_tide_water_surface_access_module": ("tide_state", "water_surface_state", "dynamic_access"),
+    "needs_event_state_module": ("event_state",),
     "needs_event_state_access_module": ("event_state", "dynamic_access"),
     "needs_marine_tide_directional_horizon_access_module": ("marine_state", "tide_state", "directional_horizon", "dynamic_access"),
     "needs_marine_directional_horizon_dynamic_access_module": ("marine_state", "directional_horizon", "dynamic_access"),
@@ -84,6 +85,7 @@ SPECIAL_NON_MODULE_STATUSES = {
     "access_hold_construction",
     "access_hold_current_hours_night_bioluminescence",
     "access_hold_current_photography_not_accepted",
+    "minimum_sufficient_local_scene",
     "data_insufficient_geometry",
     # B32 Japan: Blue Pond research is complete, but current weather providers
     # cannot establish whether the pond is actually blue/turbid or snow-covered.
