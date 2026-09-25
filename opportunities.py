@@ -22,7 +22,7 @@ from opportunity_runtime import (
     supports_minimum_sufficient_contract,
 )
 
-ADAPTER_VERSION = "v0.04-r4.2-b32-jp-batch01-r25-preview"
+ADAPTER_VERSION = "v0.04-r4.2-b33-jp026-integration-r25-preview"
 CATALOG_PART_PATTERN = "runtime_catalog_v004_r4_2_b15.compact.part{part}.b64"
 VALID_MODES = {"area_opportunity", "composition_specific"}
 VALID_TOPOLOGIES = {
@@ -54,6 +54,7 @@ CATALOG_SOURCE_DATABASE = _RUNTIME_CATALOG.get("source_database")
 
 B28_ADDITIONS_FILE = "runtime_catalog_v004_r4_2_b28_additions.json"
 B32_JP_ADDITIONS_FILE = "runtime_catalog_v004_r4_2_b32_jp_batch01.json"
+B33_HUALIEN_ADDITIONS_FILE = "runtime_catalog_v004_r4_2_b33_hualien_additions.json"
 
 def _load_b28_additions():
     path = Path(__file__).parent / B28_ADDITIONS_FILE
@@ -75,6 +76,16 @@ def _load_b32_jp_additions():
 _B32_JP_ADDITIONS = _load_b32_jp_additions()
 JP_CATALOG_ADDITIONS_SCHEMA_VERSION = _B32_JP_ADDITIONS["schema_version"]
 
+def _load_b33_hualien_additions():
+    path = Path(__file__).parent / B33_HUALIEN_ADDITIONS_FILE
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if payload.get("schema_version") != "v0.04-r4.2-b33-hualien-additions-1":
+        raise ValueError(f"Unexpected B33 Hualien additions version: {payload.get('schema_version')}")
+    return payload
+
+_B33_HUALIEN_ADDITIONS = _load_b33_hualien_additions()
+HUALIEN_CATALOG_ADDITIONS_SCHEMA_VERSION = _B33_HUALIEN_ADDITIONS["schema_version"]
+
 # tw-063 翟山坑道 was removed from the product photography catalog in B26.
 # B28 Batch 1 layers newly curated P0 Places onto the stable B15 payload while
 # keeping IDs stable; a later full catalog regeneration can collapse this layer.
@@ -83,6 +94,7 @@ _COMPOSITE_SPOTS = (
     list(_RUNTIME_CATALOG.get("spots", []))
     + list(_B28_ADDITIONS.get("spots", []))
     + list(_B32_JP_ADDITIONS.get("spots", []))
+    + list(_B33_HUALIEN_ADDITIONS.get("spots", []))
 )
 _ACTIVE_SPOTS = [
     spot for spot in _COMPOSITE_SPOTS
@@ -205,7 +217,7 @@ def validate_curated_opportunities():
     variant_ids = set()
     viewpoint_relations = 0
 
-    expected_tw_spots = {f"tw-{i:03d}" for i in range(1, 82)} - RETIRED_SPOT_IDS
+    expected_tw_spots = {f"tw-{i:03d}" for i in range(1, 85)} - RETIRED_SPOT_IDS
     actual_spots = set(CURATED_OPPORTUNITIES)
     actual_tw_spots = {spot_id for spot_id in actual_spots if spot_id.startswith("tw-")}
     if actual_tw_spots != expected_tw_spots:
@@ -285,12 +297,12 @@ def validate_curated_opportunities():
                 errors.append(f"{oid}: missing profile_viewpoint relation")
             viewpoint_relations += len(viewpoints)
 
-    if len(opportunity_ids) != 223:
-        errors.append(f"expected 223 opportunities, got {len(opportunity_ids)}")
-    if len(variant_ids) != 233:
-        errors.append(f"expected 233 variants, got {len(variant_ids)}")
-    if viewpoint_relations != 228:
-        errors.append(f"expected 228 profile_viewpoint relations, got {viewpoint_relations}")
+    if len(opportunity_ids) != 226:
+        errors.append(f"expected 226 opportunities, got {len(opportunity_ids)}")
+    if len(variant_ids) != 236:
+        errors.append(f"expected 236 variants, got {len(variant_ids)}")
+    if viewpoint_relations != 231:
+        errors.append(f"expected 231 profile_viewpoint relations, got {viewpoint_relations}")
 
     exact = {
         opportunity["opportunity_id"]

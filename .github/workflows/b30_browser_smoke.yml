@@ -6,6 +6,7 @@ on:
       - r4.2-b28-p0-missing-places
       - r4.2-b31-place-weather-details
       - r4.2-b32-jp-research-batch01
+      - r4.2-b33-hualien-places
       - r4.2-b32-jp025-hagi
       - codex/jp026
     paths:
@@ -20,6 +21,7 @@ on:
       - "shinhotaka_access.py"
       - "yahiko_access.py"
       - "runtime_catalog_v004_r4_2_b32_jp_batch01.json"
+      - "runtime_catalog_v004_r4_2_b33_hualien_additions.json"
       - ".github/workflows/b30_browser_smoke.yml"
   workflow_dispatch:
 
@@ -90,7 +92,7 @@ jobs:
 
               cards = wait.until(lambda d: d.find_elements(By.CSS_SELECTOR, "#spots-container .card"))
               report["taiwan_rendered_cards"] = len(cards)
-              assert len(cards) == 80, f"expected 80 Taiwan cards, got {len(cards)}"
+              assert len(cards) == 83, f"expected 83 Taiwan cards, got {len(cards)}"
 
               # R4.2 navigation contract: ambiguous keyword search is forbidden.
               # 加羅湖 needs a verified hiking arrival point, so its navigation
