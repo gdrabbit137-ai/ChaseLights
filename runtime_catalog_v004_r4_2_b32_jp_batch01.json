@@ -1,11 +1,11 @@
 {
-  "schema_version": "v0.04-r4.2-b32-jp-batch01-23",
-  "generated_at": "2026-09-25T12:40:00+08:00",
-  "scope": "B32 Japan researched Place additions through jp-014 Todoroki Valley and jp-022 Mt. Yahiko",
-  "spot_count": 24,
-  "opportunity_count": 31,
-  "condition_variant_count": 31,
-  "profile_viewpoint_relation_count": 31,
+  "schema_version": "v0.04-r4.2-b32-jp-batch01-25",
+  "generated_at": "2026-09-25T13:35:00+08:00",
+  "scope": "B32 Japan researched Place additions through jp-026 Izumo Taisha",
+  "spot_count": 26,
+  "opportunity_count": 34,
+  "condition_variant_count": 34,
+  "profile_viewpoint_relation_count": 34,
   "spots": [
     {
       "spot_id": "jp-001",
@@ -2129,6 +2129,232 @@
               "geometry_extent_m": 120,
               "geometry_note": "Golf Bridge與谷澤川入口周邊合法公共動線；不宣稱單一腳架點，且目前官方拍攝不受理公告未解除前不作推薦。",
               "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-025",
+      "canonical_name": "萩市城下町",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH13",
+      "research_sources": [
+        {
+          "authority": "Japan National Tourism Organization (JNTO) — Hagi Castle Town",
+          "url": "https://www.japan.travel/en/spot/169/",
+          "verified_on": "2026-09-25",
+          "supports": "Official national tourism guidance identifies Kikuya Yokocho as one of the most picturesque parts of Hagi Castle Town, highlighting its cross-hatched walls and the iconic summer oranges over historic walls."
+        },
+        {
+          "authority": "Hagi City — Historic Townscape Preservation",
+          "url": "https://www.city.hagi.lg.jp/soshiki/55/h3297.html",
+          "verified_on": "2026-09-25",
+          "supports": "Hagi City documents Kikuya Yokocho, Iseya Yokocho and Edoya Yokocho as the preserved castle-town street network, with namako-wall storehouses, gates and earthen/plaster walls forming the historic streetscape."
+        },
+        {
+          "authority": "Hagi City — Castle Town Walking Course",
+          "url": "https://www.city.hagi.lg.jp/site/machihaku/kochizu-jokamachi.html",
+          "verified_on": "2026-09-25",
+          "supports": "Official city walking route explicitly includes Kikuya Yokocho and uses the Kikuya Residence namako-wall streetscape as representative visual material."
+        },
+        {
+          "authority": "Hagi Tourism Association — 2026 Hagi Bamboo Lamp Festival",
+          "url": "https://www.hagishi.com/search/detail.php?d=900030",
+          "verified_on": "2026-09-25",
+          "supports": "Official 2026 event dates are Oct 9-11, 18:00-21:00; about 2,000 bamboo lanterns illuminate the historic castle-town streets and an official photo spot is part of the event."
+        },
+        {
+          "authority": "Hagi Tourism Association — 2026 Castle Town Night Tour",
+          "url": "https://www.hagishi.com/kimono/kimonoweek2026_kikaku/",
+          "verified_on": "2026-09-25",
+          "supports": "The official Oct 9-11 night-tour route explicitly follows the bamboo-lantern-lit Onarimichi and Kikuya Yokocho, confirming Kikuya Yokocho as part of the night event route."
+        },
+        {
+          "authority": "MapFan — Kikuya Yokocho mapped street POI",
+          "url": "https://mapfan.com/spots/SCYH3%2CJ%2C7",
+          "verified_on": "2026-09-25",
+          "supports": "Mapped Kikuya Yokocho coordinate 34.4119363, 131.3932271 provides the representative navigation/Camera-Zone anchor for the historic lane."
+        },
+        {
+          "authority": "Geotagged photographed Kikuya Yokocho camera position",
+          "url": "https://commons.wikimedia.org/wiki/File:Kikuya_Lane_in_Hagi_Castle_Town_5.jpg",
+          "verified_on": "2026-09-25",
+          "supports": "A photographed point on Kikuya Yokocho at approximately 34.411264, 131.393172 cross-checks that real camera positions lie along the mapped lane rather than at the legacy city-centre coordinate."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-025-P01",
+          "spot_id": "jp-025",
+          "name_zh": "萩城下町・菊屋橫町白壁與江戶街景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "minimum_sufficient_local_scene",
+          "formula_version": "v0.04-local-scene-dry-daylight-minimum-sufficient",
+          "formula_confidence": 95,
+          "best_time": "白天可見光時段（景點當地時間／JST）",
+          "best_season": "全年；夏蜜柑、秋季和服活動等只在實際存在時作畫面加分，不是基本 Outcome 硬條件",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-033",
+              "variant_name": "菊屋橫町・白壁／海鼠壁與歷史街巷",
+              "condition_geometry": "{\"camera_zone\":\"菊屋横町 Historic Lane Camera Zone\",\"subject\":\"white plaster / namako walls + gates + preserved Edo-period street context\"}",
+              "hard_gates": "菊屋橫町公共街道可合法步行；白天可見光有效；不得進入私人住宅或阻礙居民／行人動線",
+              "required_conditions": "菊屋橫町白壁、海鼠壁、門與歷史街巷脈絡清楚可辨；無足以妨礙步行與手持攝影的強降水",
+              "boosters": "柔和散射光；夏蜜柑實際垂出牆面；季節植栽；較少人流時更容易形成乾淨街景",
+              "penalties": "強降水；積水／惡劣天候；人流過度壅擠；越界進入私人範圍",
+              "formula_status": "minimum_sufficient_local_scene"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-025-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official Hagi/JNTO sources identify Kikuya Yokocho as the representative picturesque historic lane. The anchor is the mapped street POI, cross-checked against geotagged photographs along the lane; it is not a fixed tripod point.",
+              "name": "萩城下町・菊屋橫町 Historic Lane Camera Zone",
+              "lat": 34.4119363,
+              "lon": 131.3932271,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_historic_streetscape_plus_mapfan_lane_and_geotagged_camera_crosscheck",
+              "geometry_type": "area",
+              "geometry_extent_m": 500,
+              "geometry_note": "菊屋橫町約500公尺歷史街巷公共動線；可沿街前後移動尋找白壁、海鼠壁、門與夏蜜柑構圖，不宣稱單一腳架位置。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "jp-025-P02",
+          "spot_id": "jp-025",
+          "name_zh": "2026 萩・竹灯路物語・菊屋橫町竹燈夜景",
+          "legacy_theme": "city_night",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_event_state_module",
+          "formula_version": "v0.04-pending-date-limited-bamboo-lantern-event-state",
+          "formula_confidence": 92,
+          "best_time": "僅2026/10/9–10/11 18:00–21:00 官方竹灯路活動時段（景點當地時間／JST）",
+          "best_season": "僅已發布的2026年活動日期；不得把年度活動自動推論到未發布年份或一般夜晚",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-034",
+              "variant_name": "2026 竹灯路・菊屋橫町歷史街巷燭光",
+              "condition_geometry": "{\"camera_zone\":\"菊屋横町 Historic Lane Camera Zone\",\"subject\":\"bamboo candle lanterns + historic white-wall streetscape\"}",
+              "hard_gates": "日期必須為2026/10/9、10/10或10/11；時間必須在18:00–21:00 JST官方活動時段；官方活動實際舉行；公共街道可合法進入",
+              "required_conditions": "竹燈實際點亮並與菊屋橫町歷史街景同框可辨；無足以破壞活動與攝影的惡劣降水",
+              "boosters": "和服活動參與者在合法且取得適當同意時可增加時代氛圍；乾燥天氣；較低人流",
+              "penalties": "非官方活動日期／時段；活動變更或取消；強降水；人流過度壅擠",
+              "formula_status": "research_ready_2026_event_state_runtime_pending"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-025-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "The official 2026 night-tour route explicitly passes through Kikuya Yokocho during the Bamboo Lamp Festival. Same historic-lane Camera Zone as P01; the night subject exists only during the verified event window.",
+              "name": "2026 竹灯路・菊屋橫町 Night Event Camera Zone",
+              "lat": 34.4119363,
+              "lon": 131.3932271,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_2026_bamboo_lamp_event_and_night_route_plus_mapped_lane_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 500,
+              "geometry_note": "官方2026夜間路線明確經過菊屋橫町；實際竹燈分布可沿城下町街道延伸，因此此 anchor 表示街巷 Camera Zone，不是單一燈籠位置。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-026",
+      "canonical_name": "出雲大社",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B32_JP_RESEARCH_BATCH14",
+      "research_sources": [
+        {
+          "authority": "Izumo Oyashiro Shrine — official precinct guide and map",
+          "url": "https://izumooyashiro.or.jp/en/precincts",
+          "verified_on": "2026-09-25",
+          "supports": "Public approach from Seidamari through the pine avenue and bronze torii to the Haiden; the main sanctuary beyond the gate is restricted."
+        },
+        {
+          "authority": "Izumo Oyashiro Shrine — official visiting hours",
+          "url": "https://izumooyashiro.or.jp/archives/news/12552",
+          "verified_on": "2026-09-25",
+          "supports": "Normal precinct visiting hours 06:00–19:00; outside those hours worship is from in front of the bronze torii."
+        },
+        {
+          "authority": "Izumo Oyashiro Shrine — photography permission policy",
+          "url": "https://izumooyashiro.or.jp/inquiry/contactpress",
+          "verified_on": "2026-09-25",
+          "supports": "Photography beyond private appreciation, including professional or publication purposes, requires prior permission; no such permission is inferred for ChaseLights users."
+        },
+        {
+          "authority": "Izumo Tourism Association — parking and access",
+          "url": "https://www.izumo-kankou.gr.jp/13218",
+          "verified_on": "2026-09-25",
+          "supports": "Seidamari walking entrance and shrine-managed large parking area are distinct arrival options; large parking area operates 06:00–20:00."
+        },
+        {
+          "authority": "Geotagged photograph near the public shrine approach",
+          "url": "https://commons.wikimedia.org/wiki/File:Izumo_grand_shrine_-_2022_oct_2_various.jpeg",
+          "verified_on": "2026-09-25",
+          "supports": "Approximate camera-area reference 35.401383, 132.686264 south/east of the main sanctuary; not independently certified as a specific tripod point or a road arrival target."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-026-P01",
+          "spot_id": "jp-026",
+          "name_zh": "出雲大社・松之參道與拝殿社殿",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "minimum_sufficient_local_scene",
+          "formula_version": "v0.04-local-scene-dry-daylight-minimum-sufficient",
+          "formula_confidence": 90,
+          "best_time": "06:00–19:00 參拜開放時間內的白天可見光（景點當地時間／JST）",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-035",
+              "variant_name": "松之參道與拝殿外觀的公開參拜動線",
+              "condition_geometry": "{\"camera_zone\":\"松の参道—拝殿 public approach Camera Zone\",\"subject\":\"pine-lined approach and exterior shrine architecture\"}",
+              "hard_gates": "06:00–19:00 境內參拜時間內；僅限開放動線；不得越過八足門或妨礙祭儀與參拜；超出私人鑑賞的拍攝須先取得神社許可",
+              "required_conditions": "松之參道或拝殿外觀清楚可見；白天可見光；無足以妨礙步行與拍攝的強降水",
+              "boosters": "柔和日光與樹蔭層次；較少人流時較容易構圖，並非目前預報可驗證的條件",
+              "penalties": "強降水；境內關閉；祭事／人流造成動線限制；未經許可進行公開或業務攝影",
+              "formula_status": "minimum_sufficient_local_scene"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-026-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "The official precinct guide identifies the pine approach and Haiden as a visitor route. This geotagged point is a medium-confidence area reference near that route, not a mandatory tripod location, main-sanctuary entrance or road-navigation target.",
+              "name": "出雲大社・松之參道至拝殿公開步行區 Camera Zone",
+              "lat": 35.401383,
+              "lon": 132.686264,
+              "elevation_m": null,
+              "coord_confidence": "medium",
+              "verification_status": "official_precinct_route_plus_geotagged_area_reference; exact_camera_point_pending_on_site_check",
+              "geometry_type": "area",
+              "geometry_extent_m": 300,
+              "geometry_note": "沿官方公開參拜動線移動構圖；本殿及八足門內部不是公開拍攝區。此座標僅為大致 Camera Zone 錨點。",
+              "geometry_confidence": "medium"
             }
           ]
         }

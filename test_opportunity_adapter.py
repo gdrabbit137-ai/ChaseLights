@@ -19,6 +19,7 @@ from opportunity_runtime import (
     evaluate_opportunity_modules,
     evaluate_minimum_sufficient_visibility,
     MINIMUM_SUFFICIENT_VISIBILITY_PROFILES,
+    MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES,
     validate_runtime_registry,
 )
 from runtime_dependencies import (
@@ -94,14 +95,14 @@ def _all_opportunities():
 
 
 def test_adapter_integrity():
-    assert ADAPTER_VERSION == "v0.04-r4.2-b33-hualien-r24-preview"
+    assert ADAPTER_VERSION == "v0.04-r4.2-b33-jp026-integration-r25-preview"
     assert validate_curated_opportunities() == []
     assert validate_taxonomy() == []
     assert CATALOG_COUNTS == {
-        "spots": 107,
-        "opportunities": 223,
-        "condition_variants": 233,
-        "profile_viewpoint_relations": 228,
+        "spots": 109,
+        "opportunities": 226,
+        "condition_variants": 236,
+        "profile_viewpoint_relations": 231,
     }
     assert REGION_CATALOG_COUNTS["tw"] == {
         "spots": 83,
@@ -110,10 +111,10 @@ def test_adapter_integrity():
         "profile_viewpoint_relations": 197,
     }
     assert REGION_CATALOG_COUNTS["jp"] == {
-        "spots": 24,
-        "opportunities": 31,
-        "condition_variants": 31,
-        "profile_viewpoint_relations": 31,
+        "spots": 26,
+        "opportunities": 34,
+        "condition_variants": 34,
+        "profile_viewpoint_relations": 34,
     }
     assert REGION_CATALOG_COUNTS["us"] == {
         "spots": 0,
@@ -125,19 +126,19 @@ def test_adapter_integrity():
     jp_catalog = json.loads(
         Path("runtime_catalog_v004_r4_2_b32_jp_batch01.json").read_text(encoding="utf-8")
     )
-    assert jp_catalog["schema_version"] == "v0.04-r4.2-b32-jp-batch01-23"
-    assert jp_catalog["spot_count"] == len(jp_catalog["spots"]) == 24
-    assert jp_catalog["opportunity_count"] == sum(len(x.get("opportunities", [])) for x in jp_catalog["spots"]) == 31
+    assert jp_catalog["schema_version"] == "v0.04-r4.2-b32-jp-batch01-25"
+    assert jp_catalog["spot_count"] == len(jp_catalog["spots"]) == 26
+    assert jp_catalog["opportunity_count"] == sum(len(x.get("opportunities", [])) for x in jp_catalog["spots"]) == 34
     assert jp_catalog["condition_variant_count"] == sum(
         len(o.get("condition_variants", []))
         for x in jp_catalog["spots"]
         for o in x.get("opportunities", [])
-    ) == 31
+    ) == 34
     assert jp_catalog["profile_viewpoint_relation_count"] == sum(
         len(o.get("viewpoints", []))
         for x in jp_catalog["spots"]
         for o in x.get("opportunities", [])
-    ) == 31
+    ) == 34
 
     hualien_catalog = json.loads(
         Path("runtime_catalog_v004_r4_2_b33_hualien_additions.json").read_text(encoding="utf-8")
@@ -167,8 +168,8 @@ def test_adapter_integrity():
     assert sum(len(s["opportunities"]) for s in curated.values()) == 192
 
     all_opportunities = _all_opportunities()
-    assert sum(len(o["condition_variants"]) for o in all_opportunities) == 233
-    assert sum(len(o["viewpoints"]) for o in all_opportunities) == 228
+    assert sum(len(o["condition_variants"]) for o in all_opportunities) == 236
+    assert sum(len(o["viewpoints"]) for o in all_opportunities) == 231
     assert not any(o["formula_status"] == "legacy_fallback_pending_curated" for o in all_opportunities)
     assert not any(str(o.get("formula_version") or "").startswith("legacy_") for o in all_opportunities)
 
@@ -179,9 +180,9 @@ def test_adapter_integrity():
 
     policies = Counter(runtime_policy(o) for o in all_opportunities)
     assert policies == {
-        "module_pending": 71,
+        "module_pending": 72,
         "preview_module_available": 86,
-        "minimum_sufficient_available": 60,
+        "minimum_sufficient_available": 62,
         "prototype_pending_certification": 2,
         "hold": 2,
         "data_insufficient": 2,
@@ -202,6 +203,32 @@ def test_adapter_integrity():
     assert get_opportunities("tw", "tw-082")[0]["runtime_policy"] == "preview_module_available"
     assert get_opportunities("tw", "tw-083")[0]["runtime_policy"] == "preview_module_available"
     assert get_opportunities("tw", "tw-084")[0]["runtime_policy"] == "minimum_sufficient_available"
+    assert MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES == {"jp-025-P01", "jp-026-P01"}
+
+    # R4.2 Navigation Target contract: every Place has explicit state, but
+    # only individually verified arrival targets may become Directions links.
+    valid_navigation_statuses = {
+        "verified", "provisional_camera_anchor", "needs_review", "multiple_access_routes"
+    }
+    for region in ("tw", "jp", "us"):
+        for nav_spot in get_spots(region):
+            target = nav_spot.get("navigation_target") or {}
+            assert target.get("status") in valid_navigation_statuses, (
+                nav_spot["spot_id"], target
+            )
+            if target.get("status") == "verified":
+                assert isinstance(target.get("lat"), float)
+                assert isinstance(target.get("lon"), float)
+
+    jialuo = next(s for s in get_spots("tw") if s["name_i18n"]["zh-TW"] == "加羅湖")
+    assert jialuo["navigation_target"]["status"] == "needs_review"
+    assert "lat" not in jialuo["navigation_target"]
+    assert "lon" not in jialuo["navigation_target"]
+
+    nanya = next(s for s in get_spots("tw") if "南雅奇岩" in s["name_i18n"]["zh-TW"])
+    assert nanya["navigation_target"]["status"] == "provisional_camera_anchor"
+    assert nanya["navigation_target"]["lat"] == nanya["lat"]
+    assert nanya["navigation_target"]["lon"] == nanya["lon"]
 
     deyue = next(o for o in get_opportunities("tw", "tw-062") if o["opportunity_id"] == "tw-062-P01")
     assert deyue["legacy_theme"] == "mountain_view"
@@ -360,12 +387,22 @@ def test_adapter_integrity():
     assert "&&!researchPending&&!noViable" in index_html
 
     # B31: Weather Forecast must fetch only the selected Place detail shard.
-    assert "chaselights-v10-weather" in index_html
+    assert "chaselights-v11-weather" in index_html
     assert "./weather_details/${region}/${encodeURIComponent(spotId)}.json" in index_html
     assert "loadDetails(currentRegion,spot.spot_id)" in index_html
     assert "const detail=payload?.spot" in index_html
     assert "loadLegacyDetail(region,spotId)" in index_html
     assert "catch(shardError)" in index_html
+
+    # R4.2 Navigation Target contract: map_query is metadata only. Browser
+    # navigation must be built exclusively from exact navigation_target coords.
+    assert "function navigationToolHtml(spot)" in index_html
+    assert "data-navigation-mode" in index_html
+    assert "/maps/dir/?api=1&destination=" in index_html
+    assert "/maps/search/?api=1&query=" in index_html
+    assert "const navQuery=spot.map_query" not in index_html
+    assert "encodeURIComponent(navQuery)" not in index_html
+    assert "map_query||`${spot.lat},${spot.lon}`" not in index_html
 
     # Time-zone contract: shooting windows remain Place-local; only Last Updated
     # follows the user's device/browser timezone.
@@ -1409,6 +1446,105 @@ def test_adapter_integrity():
     assert abs(todoroki_spot["lat"] - 35.607857) < 1e-9
     assert abs(todoroki_spot["lon"] - 139.646545) < 1e-9
     assert todoroki_spot["map_query"] == "等々力渓谷 ゴルフ橋"
+    assert todoroki_spot["navigation_target"]["status"] == "verified"
+    assert todoroki_spot["navigation_target"]["target_type"] == "street_access"
+    assert abs(todoroki_spot["navigation_target"]["lat"] - 35.607857) < 1e-9
+    assert abs(todoroki_spot["navigation_target"]["lon"] - 139.646545) < 1e-9
+
+    jp025 = get_opportunities("jp", "jp-025")
+    assert [o["opportunity_id"] for o in jp025] == ["jp-025-P01", "jp-025-P02"]
+    assert jp025[0]["runtime_policy"] == "minimum_sufficient_available"
+    assert jp025[1]["runtime_policy"] == "module_pending"
+    assert dependencies_for_opportunity(jp025[0]) == ()
+    assert dependencies_for_opportunity(jp025[1]) == ("event_state",)
+    assert dependency_state(jp025[1])["ready_components"] == ()
+    assert dependency_state(jp025[1])["missing_components"] == ("event_state",)
+    hagi_spot = next(s for s in get_spots("jp") if s["spot_id"] == "jp-025")
+    assert abs(hagi_spot["lat"] - 34.4119363) < 1e-9
+    assert abs(hagi_spot["lon"] - 131.3932271) < 1e-9
+    assert hagi_spot["map_query"] == "菊屋横町 萩市"
+    assert hagi_spot["name_i18n"]["zh-TW"] == "萩城下町・菊屋橫町"
+    assert set(hagi_spot["themes"]) == {"mountain_view", "city_night"}
+    assert hagi_spot["navigation_target"]["status"] == "verified"
+    assert hagi_spot["navigation_target"]["target_type"] == "street_access"
+    assert abs(hagi_spot["navigation_target"]["lat"] - 34.4119363) < 1e-9
+    assert abs(hagi_spot["navigation_target"]["lon"] - 131.3932271) < 1e-9
+
+    # Close-range historic streetscape: benign overcast / low long-range
+    # visibility must not suppress the researched local scene.
+    hagi_local_diag = fetch_data._build_opportunity_runtime_diagnostics(
+        {"opportunities": jp025},
+        {
+            "pop": 5,
+            "precipitation": 0.0,
+            "access_open": True,
+            "c_low": 100,
+            "vis": 1000,
+        },
+    )
+    assert hagi_local_diag["jp-025-P01"]["available"] is True
+    assert hagi_local_diag["jp-025-P01"]["eligible"] is True
+    assert hagi_local_diag["jp-025-P01"]["minimum_sufficient_score_hint"] == 88
+    assert "minimum_sufficient_local_scene" in hagi_local_diag["jp-025-P01"]["modules"]
+
+    hagi_scored = fetch_data._score_opportunity(
+        jp025[0],
+        {
+            "score": 40,
+            "factors": [],
+            "status_key": "MOUNTAIN_FOG_DAY",
+            "indicator_key": "IND_NO_STAR",
+            "temporal_eligible": True,
+        },
+        hagi_local_diag["jp-025-P01"],
+    )
+    assert hagi_scored["score"] == 88
+    assert hagi_scored["condition_state"] == "minimum_sufficient_conditions_match"
+
+    hagi_outside = fetch_data._score_opportunity(
+        jp025[0],
+        {
+            "score": 40,
+            "factors": [],
+            "status_key": "MOUNTAIN_STABLE_NIGHT",
+            "indicator_key": "IND_NIGHT_CLEAR",
+            "temporal_eligible": False,
+        },
+        hagi_local_diag["jp-025-P01"],
+    )
+    assert hagi_outside["score"] == 40
+    assert hagi_outside["condition_state"] == "minimum_sufficient_weather_match_outside_time_window"
+
+    hagi_rain_diag = fetch_data._build_opportunity_runtime_diagnostics(
+        {"opportunities": jp025},
+        {"pop": 70, "precipitation": 1.0, "access_open": True},
+    )
+    assert hagi_rain_diag["jp-025-P01"]["available"] is True
+    assert hagi_rain_diag["jp-025-P01"]["eligible"] is False
+
+    izumo = next(s for s in get_spots("jp") if s["spot_id"] == "jp-026")
+    assert izumo["navigation_target"]["status"] == "multiple_access_routes"
+    assert "lat" not in izumo["navigation_target"]
+    assert izumo["access_hours"] == ["06:00", "19:00"]
+    assert izumo["themes"] == ["mountain_view"]
+    jp026 = get_opportunities("jp", "jp-026")
+    assert [o["opportunity_id"] for o in jp026] == ["jp-026-P01"]
+    assert jp026[0]["runtime_policy"] == "minimum_sufficient_available"
+    assert dependencies_for_opportunity(jp026[0]) == ()
+    assert jp026[0]["viewpoints"][0]["coord_confidence"] == "medium"
+    izumo_diags = fetch_data._build_opportunity_runtime_diagnostics(
+        {"opportunities": jp026},
+        {"pop": 5, "precipitation": 0.0, "access_open": True, "c_low": 100, "vis": 1000},
+    )
+    assert izumo_diags["jp-026-P01"]["minimum_sufficient_score_hint"] == 88
+    assert fetch_data._score_opportunity(
+        jp026[0], {"score": 40, "temporal_eligible": True}, izumo_diags["jp-026-P01"]
+    )["score"] == 88
+    closed_diags = fetch_data._build_opportunity_runtime_diagnostics(
+        {"opportunities": jp026},
+        {"pop": 5, "precipitation": 0.0, "access_open": False},
+    )
+    assert closed_diags["jp-026-P01"]["eligible"] is False
 
     jp024 = get_opportunities("jp", "jp-024")
     assert [o["opportunity_id"] for o in jp024] == ["jp-024-P01"]
@@ -1460,6 +1596,9 @@ def test_adapter_integrity():
     assert shinhotaka_spot["coordinate_confidence"] == "high"
     assert shinhotaka_spot["map_query"] == "西穂高口駅 新穂高ロープウェイ"
     assert set(shinhotaka_spot["themes"]) >= {"mountain_view", "milky_way"}
+    assert shinhotaka_spot["navigation_target"]["status"] == "needs_review"
+    assert "lat" not in shinhotaka_spot["navigation_target"]
+    assert "lon" not in shinhotaka_spot["navigation_target"]
 
     jp021 = get_opportunities("jp", "jp-021")
     assert [o["opportunity_id"] for o in jp021] == ["jp-021-P01", "jp-021-P02"]
@@ -2070,10 +2209,10 @@ def test_active_catalog_weather_generation_guard():
     # researched Japan Place must not leak legacy scoring into the remaining pending Places.
     jp_spots = get_spots("jp")
     researched_jp = {spot["spot_id"] for spot in jp_spots if spot.get("opportunities")}
-    assert researched_jp == {"jp-001", "jp-002", "jp-003", "jp-004", "jp-005", "jp-006", "jp-007", "jp-008", "jp-009", "jp-010", "jp-011", "jp-012", "jp-013", "jp-014", "jp-015", "jp-016", "jp-017", "jp-018", "jp-019", "jp-020", "jp-021", "jp-022", "jp-023", "jp-024"}
+    assert researched_jp == {f"jp-{i:03d}" for i in range(1, 27)}
     assert all(
         not (spot.get("opportunities") or [])
-        for spot in jp_spots if spot["spot_id"] not in {"jp-001", "jp-002", "jp-003", "jp-004", "jp-005", "jp-006", "jp-007", "jp-008", "jp-009", "jp-010", "jp-011", "jp-012", "jp-013", "jp-014", "jp-015", "jp-016", "jp-017", "jp-018", "jp-019", "jp-020", "jp-021", "jp-022", "jp-023", "jp-024"}
+        for spot in jp_spots if spot["spot_id"] not in {f"jp-{i:03d}" for i in range(1, 27)}
     )
     blue_pond = next(spot for spot in jp_spots if spot["spot_id"] == "jp-001")
     assert abs(blue_pond["lat"] - 43.493611) < 1e-9
@@ -2371,7 +2510,7 @@ def test_active_catalog_weather_generation_guard():
     assert access_days[0]["all"]["window_start"] == "2026-09-24 06:00"
 
 
-def test_schema9_optional_metadata_bridge():
+def test_schema10_optional_metadata_bridge():
     spot = next(s for s in get_spots("tw") if s["spot_id"] == "tw-052")
     original = analyze_weather.fetch_weather_for_spot
     try:
@@ -2393,11 +2532,13 @@ def test_schema9_optional_metadata_bridge():
     assert summary["themes"] == spot["themes"]
     assert summary["daily"] == []
     assert details["hourly_forecast"] == []
-    json.dumps({"schema_version": 9, "spots": [summary]}, ensure_ascii=False)
+    assert summary["navigation_target"] == spot["navigation_target"]
+    assert details["navigation_target"] == spot["navigation_target"]
+    json.dumps({"schema_version": 10, "spots": [summary]}, ensure_ascii=False)
 
 
 if __name__ == "__main__":
     test_adapter_integrity()
     test_active_catalog_weather_generation_guard()
-    test_schema9_optional_metadata_bridge()
+    test_schema10_optional_metadata_bridge()
     print("v0.04 R4.2 full Opportunity adapter tests: PASS")

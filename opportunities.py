@@ -22,7 +22,7 @@ from opportunity_runtime import (
     supports_minimum_sufficient_contract,
 )
 
-ADAPTER_VERSION = "v0.04-r4.2-b33-hualien-r24-preview"
+ADAPTER_VERSION = "v0.04-r4.2-b33-jp026-integration-r25-preview"
 CATALOG_PART_PATTERN = "runtime_catalog_v004_r4_2_b15.compact.part{part}.b64"
 VALID_MODES = {"area_opportunity", "composition_specific"}
 VALID_TOPOLOGIES = {
@@ -69,7 +69,7 @@ CATALOG_ADDITIONS_SCHEMA_VERSION = _B28_ADDITIONS["schema_version"]
 def _load_b32_jp_additions():
     path = Path(__file__).parent / B32_JP_ADDITIONS_FILE
     payload = json.loads(path.read_text(encoding="utf-8"))
-    if payload.get("schema_version") != "v0.04-r4.2-b32-jp-batch01-23":
+    if payload.get("schema_version") != "v0.04-r4.2-b32-jp-batch01-25":
         raise ValueError(f"Unexpected B32 Japan additions version: {payload.get('schema_version')}")
     return payload
 
@@ -226,7 +226,7 @@ def validate_curated_opportunities():
             f"extra={sorted(actual_tw_spots-expected_tw_spots)}"
         )
 
-    expected_non_tw_spots = {"jp-001", "jp-002", "jp-003", "jp-004", "jp-005", "jp-006", "jp-007", "jp-008", "jp-009", "jp-010", "jp-011", "jp-012", "jp-013", "jp-014", "jp-015", "jp-016", "jp-017", "jp-018", "jp-019", "jp-020", "jp-021", "jp-022", "jp-023", "jp-024"}
+    expected_non_tw_spots = {f"jp-{i:03d}" for i in range(1, 27)}
     actual_non_tw_spots = {spot_id for spot_id in actual_spots if not spot_id.startswith("tw-")}
     if actual_non_tw_spots != expected_non_tw_spots:
         errors.append(
@@ -297,12 +297,12 @@ def validate_curated_opportunities():
                 errors.append(f"{oid}: missing profile_viewpoint relation")
             viewpoint_relations += len(viewpoints)
 
-    if len(opportunity_ids) != 223:
-        errors.append(f"expected 223 opportunities, got {len(opportunity_ids)}")
-    if len(variant_ids) != 233:
-        errors.append(f"expected 233 variants, got {len(variant_ids)}")
-    if viewpoint_relations != 228:
-        errors.append(f"expected 228 profile_viewpoint relations, got {viewpoint_relations}")
+    if len(opportunity_ids) != 226:
+        errors.append(f"expected 226 opportunities, got {len(opportunity_ids)}")
+    if len(variant_ids) != 236:
+        errors.append(f"expected 236 variants, got {len(variant_ids)}")
+    if viewpoint_relations != 231:
+        errors.append(f"expected 231 profile_viewpoint relations, got {viewpoint_relations}")
 
     exact = {
         opportunity["opportunity_id"]

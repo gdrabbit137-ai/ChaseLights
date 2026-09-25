@@ -272,6 +272,7 @@ def analyze_spot(spot, kp_rows=None):
         "access_hours_source": spot.get("access_hours_source"),
         "access_note_i18n": spot.get("access_note_i18n"),
         "map_query": spot.get("map_query"),
+        "navigation_target": spot.get("navigation_target"),
         "coordinate_source": spot.get("coordinate_source"),
         "coordinate_confidence": spot.get("coordinate_confidence"),
         "bortle_class": spot.get("bortle_class"),
@@ -368,7 +369,7 @@ def main():
         )
 
     base_meta = {
-        "schema_version": 9,
+        "schema_version": 10,
         "updated_at": now_utc_str,
         "region": region,
         "latest_kp": kp_info.get("kp_index") if kp_info else None,

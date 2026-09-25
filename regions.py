@@ -428,6 +428,16 @@ ACCESS_RULE_OVERRIDES = {
             "ja": "推奨時間は公式サービス時間08:00〜17:00です。園区は通年開放で、ビジターセンターは旧暦大晦日と月曜休館（長期休暇・祝日を除く）。落葉・湿気・苔で路面が滑る場合があります。",
         },
     },
+    "出雲大社": {
+        "access_mode": "opening_hours",
+        "access_hours": ["06:00", "19:00"],
+        "access_hours_source": "Izumo Oyashiro official 2026-05-03 visiting-hours notice; checked 2026-09-25",
+        "access_note_i18n": {
+            "zh-TW": "境內一般參拜 06:00–19:00；其他時段僅能在銅鳥居前參拜。私人紀念攝影應避免妨礙參拜；超出私人鑑賞的公開／商業拍攝須事先向神社申請。",
+            "en": "General precinct visiting hours are 06:00–19:00; outside those hours worship is from before the bronze torii. Personal photography should respect worshippers; public or commercial filming beyond personal use requires prior shrine permission.",
+            "ja": "境内の通常参拝時間は06:00～19:00。時間外は銅鳥居前からの参拝です。個人撮影は参拝者に配慮し、個人鑑賞の範囲を超える公開・業務撮影は事前許可が必要です。",
+        },
+    },
     "東京鐵塔": {
         "access_mode": "opening_hours",
         "access_hours": ["09:00", "22:30"],
@@ -1270,20 +1280,24 @@ SPOT_OVERRIDES = {
            'map_query': '大阪城 極楽橋',
            'coordinate_source': 'B32 Osaka Castle official Gokurakubashi photo spot + cross-checked camera location',
            'coordinate_confidence': 'high'},
- '萩市城下町': {'lat': 34.410923,
-           'lon': 131.393227,
+ '萩市城下町': {'lat': 34.4119363,
+           'lon': 131.3932271,
            'scenes': ['architecture', 'city'],
-           'themes': ['blue_hour', 'city_night'],
-           'map_query': '萩城城下町 菊屋横町',
-           'coordinate_source': 'Hagi castle town POI',
-           'coordinate_confidence': 'high'},
+           'themes': ['mountain_view', 'city_night'],
+           'map_query': '菊屋横町 萩市',
+           'coordinate_source': 'B32 Hagi City/JNTO Kikuya Yokocho research + MapFan lane anchor + geotagged camera cross-check',
+           'coordinate_confidence': 'high',
+           'name_i18n_override': {'zh-TW': '萩城下町・菊屋橫町',
+                                  'en': 'Hagi Castle Town · Kikuya Yokocho',
+                                  'ja': '萩城下町・菊屋横町'},
+           'name_local': '萩城下町 菊屋横町'},
  '出雲大社': {'lat': 35.402083,
           'lon': 132.685556,
           'scenes': ['architecture'],
-          'themes': ['blue_hour'],
+          'themes': ['mountain_view'],
           'map_query': '出雲大社',
-          'coordinate_source': 'shrine coordinate',
-          'coordinate_confidence': 'high'},
+          'coordinate_source': 'legacy shrine-area weather anchor; not a road destination or a tripod point',
+          'coordinate_confidence': 'medium'},
  '神戶六甲山': {'lat': 34.752011,
            'lon': 135.237428,
            'map_query': '六甲山 天覧台',
@@ -1591,10 +1605,11 @@ SPOT_OVERRIDES.update({
 })
 
 
-# V5.2 location/content corrections. Coordinates are camera/navigation targets, not
-# broad administrative or trailhead centroids. Taiwan corrections are based on
-# the curated camera-position audit used by ChaseLights plus official/photo-point
-# references where available.
+# V5.2 location/content corrections. These coordinates are Place / Camera-Zone
+# anchors. R4.2 no longer assumes they are road-navigation destinations.
+# Navigation is modeled separately by NAVIGATION_TARGET_OVERRIDES below.
+# Taiwan corrections are based on the curated camera-position audit used by
+# ChaseLights plus official/photo-point references where available.
 
 # More precise display labels for broad-area entries whose navigation coordinate
 # is now an actual shooting position. spot_id remains stable because the source
@@ -1617,6 +1632,161 @@ DISPLAY_NAME_OVERRIDES = {
     "墾丁鵝鑾鼻": {"zh-TW": "鵝鑾鼻燈塔", "en": "Eluanbi Lighthouse", "ja": "鵝鑾鼻灯台", "local": "鵝鑾鼻燈塔"},
     "多良車站": {"zh-TW": "多良火車站觀景台", "en": "Duoliang Station Viewpoint", "ja": "多良駅展望台", "local": "多良火車站"},
 }
+
+# R4.2 Navigation Target contract.
+#
+# Camera Zone / Place anchor and practical arrival point are intentionally
+# separate. map_query is search/display metadata only and MUST NOT be used to
+# build a production Navigation URL.
+NAVIGATION_TARGET_OVERRIDES = {
+    "出雲大社": {
+        "status": "multiple_access_routes",
+        "target_type": "route_choice_required",
+        "label_i18n": {
+            "zh-TW": "出雲大社：參道入口或停車場須擇一",
+            "en": "Izumo Taisha: choose approach entrance or parking",
+            "ja": "出雲大社：参道入口・駐車場を選択",
+        },
+        "source": "Izumo Oyashiro official approach map and Izumo Tourism Association parking/access guide; reviewed 2026-09-25",
+        "confidence": "high",
+        "note_i18n": {
+            "zh-TW": "徒步自勢溜參道進入，開車可用大停車場等不同入口；本殿區座標不能作為道路導航目的地，待支援路線選擇後再提供導航。",
+            "en": "The Seidamari walking approach and shrine parking areas are distinct arrivals. The main-sanctuary coordinate is not a road destination; route selection is needed before offering directions.",
+            "ja": "勢溜からの徒歩参道と大駐車場などの車での到着地点は異なります。本殿付近の座標を道路案内の目的地にせず、経路選択実装後にナビを提供します。",
+        },
+    },
+    "加羅湖": {
+        "status": "needs_review",
+        "target_type": "trailhead",
+        "label_i18n": {
+            "zh-TW": "加羅湖登山入口待查證",
+            "en": "Jialuo Lake trail access pending verification",
+            "ja": "加羅湖登山口は確認待ち",
+        },
+        "source": "R4.2 navigation audit: legacy keyword produced ambiguous Google Maps results",
+        "confidence": "low",
+        "note_i18n": {
+            "zh-TW": "加羅湖為步行登山目的地；在登山口／停車或接駁點完成查證前，不提供關鍵字導航。",
+            "en": "Jialuo Lake is reached by hiking. No keyword navigation is offered until the trailhead / parking or transfer point is verified.",
+            "ja": "加羅湖は徒歩登山で到達するため、登山口・駐車／乗換地点の確認完了までキーワードナビを提供しません。",
+        },
+    },
+    "新穗高高空纜車": {
+        "status": "needs_review",
+        "target_type": "station",
+        "label_i18n": {
+            "zh-TW": "新穗高纜車山麓進入點待查證",
+            "en": "Shinhotaka Ropeway base access pending verification",
+            "ja": "新穂高ロープウェイ山麓アクセスは確認待ち",
+        },
+        "source": "B32: Camera Zone is Nishi-Hotakaguchi summit observatory; arrival target must be researched separately",
+        "confidence": "medium",
+        "note_i18n": {
+            "zh-TW": "攝影 Camera Zone 位於西穗高口山頂區，不可直接把山頂座標當成道路導航終點。",
+            "en": "The Camera Zone is at the Nishi-Hotakaguchi summit area; the summit coordinate must not be treated as a road-routing destination.",
+            "ja": "撮影 Camera Zone は西穂高口山頂エリアのため、山頂座標を道路ナビの目的地として扱いません。",
+        },
+    },
+    "彌彥山": {
+        "status": "multiple_access_routes",
+        "target_type": "route_choice_required",
+        "label_i18n": {
+            "zh-TW": "彌彥山多種進入路線",
+            "en": "Mt. Yahiko has multiple access routes",
+            "ja": "弥彦山は複数のアクセス経路があります",
+        },
+        "source": "B32 Yahiko research: ropeway, seasonal skyline road and hiking routes differ",
+        "confidence": "high",
+        "note_i18n": {
+            "zh-TW": "纜車、季節性彌彥山 Skyline 與登山路線的進入點不同；在路線選擇 UI 完成前不指定單一導航終點。",
+            "en": "Ropeway, seasonal skyline-road and hiking access use different arrival points. No single destination is chosen until route selection exists.",
+            "ja": "ロープウェイ、季節運用の弥彦山スカイライン、登山道で到着地点が異なるため、ルート選択 UI 実装前は単一目的地を指定しません。",
+        },
+    },
+    "等等力溪谷": {
+        "status": "verified",
+        "lat": 35.607857,
+        "lon": 139.646545,
+        "target_type": "street_access",
+        "label_i18n": {
+            "zh-TW": "等等力溪谷・Golf Bridge",
+            "en": "Todoroki Valley · Golf Bridge",
+            "ja": "等々力渓谷・ゴルフ橋",
+        },
+        "source": "B32 Setagaya official Golf Bridge entrance landmark + cross-checked bridge coordinate",
+        "confidence": "high",
+        "note_i18n": {
+            "zh-TW": "此點是公共街道／溪谷入口錨點；導航與 Camera Zone 可共用。",
+            "en": "This is a public-street / valley-entrance anchor and is suitable as both navigation target and Camera Zone reference.",
+            "ja": "公共道路・渓谷入口の基準点で、ナビ目的地と Camera Zone 参照点を兼用できます。",
+        },
+    },
+    "萩市城下町": {
+        "status": "verified",
+        "lat": 34.4119363,
+        "lon": 131.3932271,
+        "target_type": "street_access",
+        "label_i18n": {
+            "zh-TW": "萩城下町・菊屋橫町",
+            "en": "Hagi Castle Town · Kikuya Yokocho",
+            "ja": "萩城下町・菊屋横町",
+        },
+        "source": "B32 Hagi City/JNTO historic-lane research + mapped Kikuya Yokocho street anchor",
+        "confidence": "high",
+        "note_i18n": {
+            "zh-TW": "此點為公共歷史街巷的代表進入錨點，可作為步行導航目的地。",
+            "en": "This is a representative public historic-lane access anchor suitable for walking navigation.",
+            "ja": "公共の歴史街路への代表的なアクセス基準点で、徒歩ナビの目的地として使用できます。",
+        },
+    },
+}
+
+
+def _navigation_target_for_spot(name_zh, item):
+    """Return explicit navigation metadata without inventing a route.
+
+    Existing exact Place/Camera coordinates remain useful as map pins, but they
+    are not promoted to verified Directions unless an explicit override says so.
+    """
+    override = NAVIGATION_TARGET_OVERRIDES.get(name_zh)
+    if override:
+        target = dict(override)
+        status = target.get("status")
+        if status == "verified":
+            lat = target.get("lat")
+            lon = target.get("lon")
+            if lat is None or lon is None:
+                raise ValueError(f"{name_zh}: verified navigation target missing coordinates")
+            target["lat"] = float(lat)
+            target["lon"] = float(lon)
+        return target
+
+    lat = item.get("lat")
+    lon = item.get("lon")
+    if lat is None or lon is None:
+        return {
+            "status": "needs_review",
+            "target_type": "unknown",
+            "label_i18n": dict(item.get("name_i18n") or {}),
+            "source": "no exact Place/Camera coordinate available",
+            "confidence": "low",
+        }
+
+    return {
+        "status": "provisional_camera_anchor",
+        "lat": float(lat),
+        "lon": float(lon),
+        "target_type": "camera_zone_or_place_anchor",
+        "label_i18n": dict(item.get("name_i18n") or {}),
+        "source": item.get("coordinate_source") or "legacy Place/Camera coordinate",
+        "confidence": item.get("coordinate_confidence") or "low",
+        "note_i18n": {
+            "zh-TW": "此座標尚未獨立查證為實際抵達／停車／登山入口，只能先作精準地圖定位，不視為已驗證導航。",
+            "en": "This coordinate has not been independently verified as the practical arrival / parking / trail access point. It is shown only as an exact map pin, not verified navigation.",
+            "ja": "この座標は実際の到着・駐車・登山口として未検証のため、正確な地図ピンとしてのみ表示し、検証済みナビとは扱いません。",
+        },
+    }
+
 
 def _derive_scenes_themes(name_zh, legacy_tags, category, region_key):
     tags = set(legacy_tags or [])
@@ -1761,8 +1931,9 @@ def get_spots(region="tw"):
         if override.get("name_local"):
             item["name_local"] = override["name_local"]
         item["map_query"] = override.get("map_query") or item.get("name_local") or name_zh
-        item["coordinate_source"] = override.get("coordinate_source", "legacy coordinate; navigation resolves named POI")
+        item["coordinate_source"] = override.get("coordinate_source", "legacy Place/Camera coordinate; navigation target not independently verified")
         item["coordinate_confidence"] = override.get("coordinate_confidence", "medium")
+        item["navigation_target"] = _navigation_target_for_spot(name_zh, item)
         if override.get("elevation") is not None:
             item["elevation"] = override["elevation"]
 

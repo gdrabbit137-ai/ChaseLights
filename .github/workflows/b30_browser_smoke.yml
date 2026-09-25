@@ -7,6 +7,8 @@ on:
       - r4.2-b31-place-weather-details
       - r4.2-b32-jp-research-batch01
       - r4.2-b33-hualien-places
+      - r4.2-b32-jp025-hagi
+      - codex/jp026
     paths:
       - "index.html"
       - "regions.py"
@@ -66,6 +68,7 @@ jobs:
 
           python - <<'PY'
           import json
+          from urllib.parse import urlparse, parse_qs
           from selenium import webdriver
           from selenium.webdriver.common.by import By
           from selenium.webdriver.support.ui import WebDriverWait, Select
@@ -90,6 +93,28 @@ jobs:
               cards = wait.until(lambda d: d.find_elements(By.CSS_SELECTOR, "#spots-container .card"))
               report["taiwan_rendered_cards"] = len(cards)
               assert len(cards) == 83, f"expected 83 Taiwan cards, got {len(cards)}"
+
+              # R4.2 navigation contract: ambiguous keyword search is forbidden.
+              # 加羅湖 needs a verified hiking arrival point, so its navigation
+              # control must be disabled rather than searching the place name.
+              jialuo_card = next(c for c in cards if "加羅湖" in c.text)
+              jialuo_nav = jialuo_card.find_element(By.CSS_SELECTOR, "[data-navigation-mode]")
+              assert jialuo_nav.get_attribute("data-navigation-mode") == "needs_review", jialuo_card.text
+              assert jialuo_nav.tag_name.lower() == "span"
+              assert not jialuo_nav.get_attribute("href")
+
+              # A legacy exact Camera/Place anchor may still be useful as a
+              # coordinate map pin, but it must not be labeled as verified nav
+              # and must never pass map_query text to Google Maps.
+              nanya_card = next(c for c in cards if "南雅奇岩" in c.text)
+              nanya_nav = nanya_card.find_element(By.CSS_SELECTOR, "[data-navigation-mode]")
+              assert nanya_nav.get_attribute("data-navigation-mode") == "provisional-map-pin", nanya_card.text
+              nanya_href = nanya_nav.get_attribute("href")
+              nanya_url = urlparse(nanya_href)
+              assert "/maps/search/" in nanya_url.path, nanya_href
+              nanya_query = parse_qs(nanya_url.query).get("query")
+              assert nanya_query == ["25.11982,121.89314"], nanya_href
+              assert "南雅" not in nanya_href
 
               title = driver.find_element(By.ID, "discovery-title").text
               report["discovery_title"] = title
@@ -163,6 +188,11 @@ jobs:
               assert "天氣預報" in weather_title
               driver.execute_script("closeModal()")
 
+              # Use a complete future local day for score assertions. The current
+              # day may legitimately have no remaining daylight Opportunities.
+              driver.execute_script("switchDay('tomorrow')")
+              wait.until(lambda d: d.execute_script("return currentDayFilter === 'tomorrow'"))
+
               driver.execute_script("document.getElementById('spots-container').innerHTML = ''")
               Select(driver.find_element(By.ID, "country-select")).select_by_value("jp")
               wait.until(lambda d: d.execute_script("return currentRegion === 'jp' && currentSpots.length > 0 && String(currentSpots[0].spot_id || '').startsWith('jp-')"))
@@ -177,11 +207,11 @@ jobs:
                   .map(s => s.spot_id);
               """)
               report["researched_jp_ids"] = researched_jp_ids
-              assert researched_jp_ids == ["jp-001", "jp-002", "jp-003", "jp-004", "jp-005", "jp-006", "jp-007", "jp-008", "jp-009", "jp-010", "jp-011", "jp-012", "jp-013", "jp-014", "jp-015", "jp-016", "jp-017", "jp-018", "jp-019", "jp-020", "jp-021", "jp-022", "jp-023", "jp-024"], researched_jp_ids
+              assert researched_jp_ids == [f"jp-{i:03d}" for i in range(1, 27)], researched_jp_ids
 
-              researched_names = {"美瑛青池", "旭岳", "釧路濕原", "函館山夜景", "小樽運河", "摩周湖", "十和田湖", "松島", "磐梯山", "富士山 (河口湖)", "東京鐵塔", "鎌倉大佛", "諏訪湖", "等等力溪谷", "皇居外苑二重橋", "橫濱山下公園", "金澤兼六園", "名古屋城", "濱名湖", "橫濱港未來21", "新穗高・西穗高口展望台", "彌彥山", "京都清水寺", "大阪城公園"}
+              researched_names = {"美瑛青池", "旭岳", "釧路濕原", "函館山夜景", "小樽運河", "摩周湖", "十和田湖", "松島", "磐梯山", "富士山 (河口湖)", "東京鐵塔", "鎌倉大佛", "諏訪湖", "等等力溪谷", "皇居外苑二重橋", "橫濱山下公園", "金澤兼六園", "名古屋城", "濱名湖", "橫濱港未來21", "新穗高・西穗高口展望台", "彌彥山", "京都清水寺", "大阪城公園", "萩城下町・菊屋橫町", "出雲大社"}
               researched_cards = [c for c in jp_cards if any(name in c.text for name in researched_names)]
-              assert len(researched_cards) == 24
+              assert len(researched_cards) == 26
               researched_scores = [c.find_element(By.CSS_SELECTOR, ".score-badge").text.strip() for c in researched_cards]
               for card, score_text in zip(researched_cards, researched_scores):
                   if score_text in {"", "—"}:
@@ -243,6 +273,14 @@ jobs:
               assert todoroki_score_text == "0", todoroki_card.text
               assert "攝影研究待補" not in todoroki_card.text
 
+              todoroki_nav = todoroki_card.find_element(By.CSS_SELECTOR, "[data-navigation-mode]")
+              assert todoroki_nav.get_attribute("data-navigation-mode") == "verified"
+              todoroki_href = todoroki_nav.get_attribute("href")
+              todoroki_url = urlparse(todoroki_href)
+              assert "/maps/dir/" in todoroki_url.path, todoroki_href
+              assert parse_qs(todoroki_url.query).get("destination") == ["35.607857,139.646545"], todoroki_href
+              assert "等々力" not in todoroki_href
+
               hamanako_card = next(c for c in researched_cards if "濱名湖" in c.text)
               hamanako_score_text = hamanako_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
               assert hamanako_score_text not in {"", "—"}
@@ -302,8 +340,22 @@ jobs:
               assert osaka_score_text not in {"", "—"}
               assert "攝影研究待補" not in osaka_card.text
 
+              hagi_card = next(c for c in researched_cards if "萩城下町・菊屋橫町" in c.text)
+              hagi_score_text = hagi_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
+              assert hagi_score_text not in {"", "—"}
+              assert hagi_score_text.isdigit(), hagi_card.text
+              assert "攝影研究待補" not in hagi_card.text
+
+              hagi_nav = hagi_card.find_element(By.CSS_SELECTOR, "[data-navigation-mode]")
+              assert hagi_nav.get_attribute("data-navigation-mode") == "verified"
+              hagi_href = hagi_nav.get_attribute("href")
+              hagi_url = urlparse(hagi_href)
+              assert "/maps/dir/" in hagi_url.path, hagi_href
+              assert parse_qs(hagi_url.query).get("destination") == ["34.4119363,131.3932271"], hagi_href
+              assert "菊屋" not in hagi_href
+
               pending_jp_cards = [c for c in jp_cards if not any(name in c.text for name in researched_names)]
-              assert len(pending_jp_cards) == 11
+              assert len(pending_jp_cards) == 9
               pending_jp_scores = [c.find_element(By.CSS_SELECTOR, ".score-badge").text.strip() for c in pending_jp_cards]
               assert all(x in {"", "—"} for x in pending_jp_scores), pending_jp_scores[:20]
               assert all("攝影研究待補" in c.text for c in pending_jp_cards), "non-migrated Japan card leaked legacy scoring"
