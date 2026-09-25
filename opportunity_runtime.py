@@ -59,7 +59,7 @@ from access_state import (
     validate_access_registry,
 )
 
-MODULE_VERSION = "opportunity-runtime-r9-preview"
+MODULE_VERSION = "opportunity-runtime-r10-shinhotaka-access-preview"
 
 IMPLEMENTED_COMPONENTS = {
     "directional_horizon",
@@ -1011,8 +1011,12 @@ def validate_runtime_registry():
         errors.append(f"expected 14 tide-state profiles, got {len(TIDE_STATE_PROFILES)}")
     if len(ACCESS_DEPENDENT_PROFILE_IDS) != 46:
         errors.append(f"expected 46 dynamic-access profiles, got {len(ACCESS_DEPENDENT_PROFILE_IDS)}")
-    if ACCESS_RUNTIME_READY_PROFILES:
-        errors.append("B25 foundation must not mark dynamic-access profiles provider-ready yet")
+    expected_access_ready = {"jp-021-P01", "jp-021-P02"}
+    if set(ACCESS_RUNTIME_READY_PROFILES) != expected_access_ready:
+        errors.append(
+            "unexpected dynamic-access runtime-ready profiles: "
+            f"{sorted(ACCESS_RUNTIME_READY_PROFILES)}"
+        )
     for oid, sector in DIRECTIONAL_HORIZON_SECTORS.items():
         if not oid.startswith(("tw-", "jp-", "us-")):
             errors.append(f"{oid}: unsupported regional Opportunity id")
