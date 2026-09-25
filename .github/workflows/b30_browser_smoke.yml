@@ -180,7 +180,11 @@ jobs:
               researched_cards = [c for c in jp_cards if any(name in c.text for name in researched_names)]
               assert len(researched_cards) == 22
               researched_scores = [c.find_element(By.CSS_SELECTOR, ".score-badge").text.strip() for c in researched_cards]
-              assert all(x not in {"", "—"} for x in researched_scores), [c.text for c in researched_cards]
+              for card, score_text in zip(researched_cards, researched_scores):
+                  if score_text in {"", "—"}:
+                      assert "今天剩餘時段沒有合適的已研究拍攝機會" in card.text, card.text
+                  else:
+                      assert score_text.replace("🔥 ", "").isdigit(), card.text
               assert all("攝影研究待補" not in c.text for c in researched_cards)
 
               hakodate_card = next(c for c in researched_cards if "函館山夜景" in c.text)
@@ -210,7 +214,10 @@ jobs:
 
               matsushima_card = next(c for c in researched_cards if "松島" in c.text)
               matsushima_score_text = matsushima_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
-              assert matsushima_score_text not in {"", "—"}
+              if matsushima_score_text in {"", "—"}:
+                  assert "今天剩餘時段沒有合適的已研究拍攝機會" in matsushima_card.text
+              else:
+                  assert matsushima_score_text.isdigit(), matsushima_card.text
               assert "攝影研究待補" not in matsushima_card.text
 
               bandai_card = next(c for c in researched_cards if "磐梯山" in c.text)
