@@ -65,6 +65,7 @@ jobs:
 
           python - <<'PY'
           import json
+          from urllib.parse import urlparse, parse_qs
           from selenium import webdriver
           from selenium.webdriver.common.by import By
           from selenium.webdriver.support.ui import WebDriverWait, Select
@@ -89,6 +90,28 @@ jobs:
               cards = wait.until(lambda d: d.find_elements(By.CSS_SELECTOR, "#spots-container .card"))
               report["taiwan_rendered_cards"] = len(cards)
               assert len(cards) == 80, f"expected 80 Taiwan cards, got {len(cards)}"
+
+              # R4.2 navigation contract: ambiguous keyword search is forbidden.
+              # 加羅湖 needs a verified hiking arrival point, so its navigation
+              # control must be disabled rather than searching the place name.
+              jialuo_card = next(c for c in cards if "加羅湖" in c.text)
+              jialuo_nav = jialuo_card.find_element(By.CSS_SELECTOR, "[data-navigation-mode]")
+              assert jialuo_nav.get_attribute("data-navigation-mode") == "needs_review", jialuo_card.text
+              assert jialuo_nav.tag_name.lower() == "span"
+              assert not jialuo_nav.get_attribute("href")
+
+              # A legacy exact Camera/Place anchor may still be useful as a
+              # coordinate map pin, but it must not be labeled as verified nav
+              # and must never pass map_query text to Google Maps.
+              nanya_card = next(c for c in cards if "南雅奇岩" in c.text)
+              nanya_nav = nanya_card.find_element(By.CSS_SELECTOR, "[data-navigation-mode]")
+              assert nanya_nav.get_attribute("data-navigation-mode") == "provisional-map-pin", nanya_card.text
+              nanya_href = nanya_nav.get_attribute("href")
+              nanya_url = urlparse(nanya_href)
+              assert "/maps/search/" in nanya_url.path, nanya_href
+              nanya_query = parse_qs(nanya_url.query).get("query")
+              assert nanya_query == ["25.11982,121.89314"], nanya_href
+              assert "南雅" not in nanya_href
 
               title = driver.find_element(By.ID, "discovery-title").text
               report["discovery_title"] = title
@@ -242,6 +265,14 @@ jobs:
               assert todoroki_score_text == "0", todoroki_card.text
               assert "攝影研究待補" not in todoroki_card.text
 
+              todoroki_nav = todoroki_card.find_element(By.CSS_SELECTOR, "[data-navigation-mode]")
+              assert todoroki_nav.get_attribute("data-navigation-mode") == "verified"
+              todoroki_href = todoroki_nav.get_attribute("href")
+              todoroki_url = urlparse(todoroki_href)
+              assert "/maps/dir/" in todoroki_url.path, todoroki_href
+              assert parse_qs(todoroki_url.query).get("destination") == ["35.607857,139.646545"], todoroki_href
+              assert "等々力" not in todoroki_href
+
               hamanako_card = next(c for c in researched_cards if "濱名湖" in c.text)
               hamanako_score_text = hamanako_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
               assert hamanako_score_text not in {"", "—"}
@@ -306,6 +337,14 @@ jobs:
               assert hagi_score_text not in {"", "—"}
               assert hagi_score_text.isdigit(), hagi_card.text
               assert "攝影研究待補" not in hagi_card.text
+
+              hagi_nav = hagi_card.find_element(By.CSS_SELECTOR, "[data-navigation-mode]")
+              assert hagi_nav.get_attribute("data-navigation-mode") == "verified"
+              hagi_href = hagi_nav.get_attribute("href")
+              hagi_url = urlparse(hagi_href)
+              assert "/maps/dir/" in hagi_url.path, hagi_href
+              assert parse_qs(hagi_url.query).get("destination") == ["34.4119363,131.3932271"], hagi_href
+              assert "菊屋" not in hagi_href
 
               pending_jp_cards = [c for c in jp_cards if not any(name in c.text for name in researched_names)]
               assert len(pending_jp_cards) == 10
