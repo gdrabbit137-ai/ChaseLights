@@ -182,12 +182,12 @@ def test_adapter_integrity():
     assert policies == {
         "module_pending": 72,
         "preview_module_available": 86,
-        "minimum_sufficient_available": 62,
+        "minimum_sufficient_available": 70,
         "prototype_pending_certification": 2,
         "hold": 2,
         "data_insufficient": 2,
     }
-    assert len(MINIMUM_SUFFICIENT_VISIBILITY_PROFILES) == 60
+    assert len(MINIMUM_SUFFICIENT_VISIBILITY_PROFILES) == 61
 
     hualien = {spot["spot_id"]: spot for spot in tw if spot["spot_id"] in {"tw-082", "tw-083", "tw-084"}}
     assert {sid: spot["name_i18n"]["zh-TW"] for sid, spot in hualien.items()} == {
@@ -202,9 +202,15 @@ def test_adapter_integrity():
     assert hualien["tw-084"]["access_hours"] == ["08:00", "17:00"]
     assert get_opportunities("tw", "tw-082")[0]["runtime_policy"] == "preview_module_available"
     assert get_opportunities("tw", "tw-083")[0]["runtime_policy"] == "preview_module_available"
-    assert get_opportunities("tw", "tw-084")[0]["runtime_policy"] == "minimum_sufficient_available"
+    danongdafu_ops = get_opportunities("tw", "tw-084")
+    assert len(danongdafu_ops) == 9
+    assert {o["opportunity_id"] for o in danongdafu_ops} == {
+        "tw-084-P01", "tw-084-P02", "tw-084-P03", "tw-084-P04", "tw-084-P05",
+        "tw-084-P06", "tw-084-P07", "tw-084-P08", "tw-084-P09",
+    }
+    assert all(o["runtime_policy"] == "minimum_sufficient_available" for o in danongdafu_ops)
 
-    danongdafu = get_opportunities("tw", "tw-084")[0]
+    danongdafu = danongdafu_ops[0]
     danongdafu_local = evaluate_minimum_sufficient_visibility(
         danongdafu,
         {
@@ -219,7 +225,61 @@ def test_adapter_integrity():
     assert danongdafu_local["long_range_visibility_is_not_a_blocker"] is True
     assert danongdafu_local["lighting_geometry_verified"] is False
     assert danongdafu_local["lighting_geometry_note"] == "forest_corridor_direction_and_canopy_geometry_not_yet_verified"
-    assert MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES == {"jp-025-P01", "jp-026-P01", "tw-084-P01"}
+
+    op_by_id = {o["opportunity_id"]: o for o in danongdafu_ops}
+
+    golden = evaluate_minimum_sufficient_visibility(op_by_id["tw-084-P02"], {
+        "local_date": "2026-09-26", "local_time": "16:00", "local_month": 9,
+        "vis": 9100, "c_low": 80, "pop": 10, "precipitation": 0.0, "access_open": True,
+    })
+    assert golden["eligible"] is True
+    assert golden["long_range_visibility_is_not_a_blocker"] is True
+
+    foliage_offseason = evaluate_minimum_sufficient_visibility(op_by_id["tw-084-P03"], {
+        "local_date": "2026-09-26", "local_time": "14:00", "local_month": 9,
+        "pop": 5, "precipitation": 0.0, "access_open": True,
+    })
+    assert foliage_offseason["eligible"] is False
+    assert foliage_offseason["reason"] == "outside_curated_season"
+
+    flowers_unverified = evaluate_minimum_sufficient_visibility(op_by_id["tw-084-P04"], {
+        "local_date": "2026-09-26", "local_time": "14:00", "local_month": 9,
+        "pop": 5, "precipitation": 0.0, "access_open": True,
+    })
+    assert flowers_unverified["eligible"] is False
+    assert flowers_unverified["reason"] == "official_foreground_not_verified_for_date"
+
+    firefly_event = evaluate_minimum_sufficient_visibility(op_by_id["tw-084-P05"], {
+        "local_date": "2026-03-28", "local_time": "19:30", "local_month": 3,
+        "pop": 10, "precipitation": 0.0, "access_open": False,
+    })
+    assert firefly_event["eligible"] is True
+    assert firefly_event["access_override"] is True
+
+    stars_event = evaluate_minimum_sufficient_visibility(op_by_id["tw-084-P06"], {
+        "local_date": "2026-03-28", "local_time": "19:45", "local_month": 3,
+        "astronomical_dark": True, "pop": 5, "precipitation": 0.0, "access_open": False,
+    })
+    assert stars_event["eligible"] is True
+    assert stars_event["access_override"] is True
+
+    wildlife = evaluate_minimum_sufficient_visibility(op_by_id["tw-084-P07"], {
+        "local_date": "2026-09-26", "local_time": "09:00", "local_month": 9,
+        "pop": 10, "precipitation": 0.0, "access_open": True,
+    })
+    assert wildlife["eligible"] is True
+    assert wildlife["wildlife_presence_forecastable"] is False
+
+    distant = evaluate_minimum_sufficient_visibility(op_by_id["tw-084-P09"], {
+        "vis": 9100, "c_low": 20, "pop": 10, "precipitation": 0.0, "access_open": True,
+    })
+    assert distant["eligible"] is False
+    assert distant["reason"] == "visibility_too_low"
+    assert MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES == {
+        "jp-025-P01", "jp-026-P01",
+        "tw-084-P01", "tw-084-P02", "tw-084-P03", "tw-084-P04",
+        "tw-084-P05", "tw-084-P06", "tw-084-P07", "tw-084-P08",
+    }
 
     # R4.2 Navigation Target contract: every Place has explicit state, but
     # only individually verified arrival targets may become Directions links.
