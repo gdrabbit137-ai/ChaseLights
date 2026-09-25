@@ -1551,10 +1551,11 @@ SPOT_OVERRIDES.update({
 })
 
 
-# V5.2 location/content corrections. Coordinates are camera/navigation targets, not
-# broad administrative or trailhead centroids. Taiwan corrections are based on
-# the curated camera-position audit used by ChaseLights plus official/photo-point
-# references where available.
+# V5.2 location/content corrections. These coordinates are Place / Camera-Zone
+# anchors. R4.2 no longer assumes they are road-navigation destinations.
+# Navigation is modeled separately by NAVIGATION_TARGET_OVERRIDES below.
+# Taiwan corrections are based on the curated camera-position audit used by
+# ChaseLights plus official/photo-point references where available.
 
 # More precise display labels for broad-area entries whose navigation coordinate
 # is now an actual shooting position. spot_id remains stable because the source
@@ -1577,6 +1578,145 @@ DISPLAY_NAME_OVERRIDES = {
     "墾丁鵝鑾鼻": {"zh-TW": "鵝鑾鼻燈塔", "en": "Eluanbi Lighthouse", "ja": "鵝鑾鼻灯台", "local": "鵝鑾鼻燈塔"},
     "多良車站": {"zh-TW": "多良火車站觀景台", "en": "Duoliang Station Viewpoint", "ja": "多良駅展望台", "local": "多良火車站"},
 }
+
+# R4.2 Navigation Target contract.
+#
+# Camera Zone / Place anchor and practical arrival point are intentionally
+# separate. map_query is search/display metadata only and MUST NOT be used to
+# build a production Navigation URL.
+NAVIGATION_TARGET_OVERRIDES = {
+    "加羅湖": {
+        "status": "needs_review",
+        "target_type": "trailhead",
+        "label_i18n": {
+            "zh-TW": "加羅湖登山入口待查證",
+            "en": "Jialuo Lake trail access pending verification",
+            "ja": "加羅湖登山口は確認待ち",
+        },
+        "source": "R4.2 navigation audit: legacy keyword produced ambiguous Google Maps results",
+        "confidence": "low",
+        "note_i18n": {
+            "zh-TW": "加羅湖為步行登山目的地；在登山口／停車或接駁點完成查證前，不提供關鍵字導航。",
+            "en": "Jialuo Lake is reached by hiking. No keyword navigation is offered until the trailhead / parking or transfer point is verified.",
+            "ja": "加羅湖は徒歩登山で到達するため、登山口・駐車／乗換地点の確認完了までキーワードナビを提供しません。",
+        },
+    },
+    "新穗高高空纜車": {
+        "status": "needs_review",
+        "target_type": "station",
+        "label_i18n": {
+            "zh-TW": "新穗高纜車山麓進入點待查證",
+            "en": "Shinhotaka Ropeway base access pending verification",
+            "ja": "新穂高ロープウェイ山麓アクセスは確認待ち",
+        },
+        "source": "B32: Camera Zone is Nishi-Hotakaguchi summit observatory; arrival target must be researched separately",
+        "confidence": "medium",
+        "note_i18n": {
+            "zh-TW": "攝影 Camera Zone 位於西穗高口山頂區，不可直接把山頂座標當成道路導航終點。",
+            "en": "The Camera Zone is at the Nishi-Hotakaguchi summit area; the summit coordinate must not be treated as a road-routing destination.",
+            "ja": "撮影 Camera Zone は西穂高口山頂エリアのため、山頂座標を道路ナビの目的地として扱いません。",
+        },
+    },
+    "彌彥山": {
+        "status": "multiple_access_routes",
+        "target_type": "route_choice_required",
+        "label_i18n": {
+            "zh-TW": "彌彥山多種進入路線",
+            "en": "Mt. Yahiko has multiple access routes",
+            "ja": "弥彦山は複数のアクセス経路があります",
+        },
+        "source": "B32 Yahiko research: ropeway, seasonal skyline road and hiking routes differ",
+        "confidence": "high",
+        "note_i18n": {
+            "zh-TW": "纜車、季節性彌彥山 Skyline 與登山路線的進入點不同；在路線選擇 UI 完成前不指定單一導航終點。",
+            "en": "Ropeway, seasonal skyline-road and hiking access use different arrival points. No single destination is chosen until route selection exists.",
+            "ja": "ロープウェイ、季節運用の弥彦山スカイライン、登山道で到着地点が異なるため、ルート選択 UI 実装前は単一目的地を指定しません。",
+        },
+    },
+    "等等力溪谷": {
+        "status": "verified",
+        "lat": 35.607857,
+        "lon": 139.646545,
+        "target_type": "street_access",
+        "label_i18n": {
+            "zh-TW": "等等力溪谷・Golf Bridge",
+            "en": "Todoroki Valley · Golf Bridge",
+            "ja": "等々力渓谷・ゴルフ橋",
+        },
+        "source": "B32 Setagaya official Golf Bridge entrance landmark + cross-checked bridge coordinate",
+        "confidence": "high",
+        "note_i18n": {
+            "zh-TW": "此點是公共街道／溪谷入口錨點；導航與 Camera Zone 可共用。",
+            "en": "This is a public-street / valley-entrance anchor and is suitable as both navigation target and Camera Zone reference.",
+            "ja": "公共道路・渓谷入口の基準点で、ナビ目的地と Camera Zone 参照点を兼用できます。",
+        },
+    },
+    "萩市城下町": {
+        "status": "verified",
+        "lat": 34.4119363,
+        "lon": 131.3932271,
+        "target_type": "street_access",
+        "label_i18n": {
+            "zh-TW": "萩城下町・菊屋橫町",
+            "en": "Hagi Castle Town · Kikuya Yokocho",
+            "ja": "萩城下町・菊屋横町",
+        },
+        "source": "B32 Hagi City/JNTO historic-lane research + mapped Kikuya Yokocho street anchor",
+        "confidence": "high",
+        "note_i18n": {
+            "zh-TW": "此點為公共歷史街巷的代表進入錨點，可作為步行導航目的地。",
+            "en": "This is a representative public historic-lane access anchor suitable for walking navigation.",
+            "ja": "公共の歴史街路への代表的なアクセス基準点で、徒歩ナビの目的地として使用できます。",
+        },
+    },
+}
+
+
+def _navigation_target_for_spot(name_zh, item):
+    """Return explicit navigation metadata without inventing a route.
+
+    Existing exact Place/Camera coordinates remain useful as map pins, but they
+    are not promoted to verified Directions unless an explicit override says so.
+    """
+    override = NAVIGATION_TARGET_OVERRIDES.get(name_zh)
+    if override:
+        target = dict(override)
+        status = target.get("status")
+        if status == "verified":
+            lat = target.get("lat")
+            lon = target.get("lon")
+            if lat is None or lon is None:
+                raise ValueError(f"{name_zh}: verified navigation target missing coordinates")
+            target["lat"] = float(lat)
+            target["lon"] = float(lon)
+        return target
+
+    lat = item.get("lat")
+    lon = item.get("lon")
+    if lat is None or lon is None:
+        return {
+            "status": "needs_review",
+            "target_type": "unknown",
+            "label_i18n": dict(item.get("name_i18n") or {}),
+            "source": "no exact Place/Camera coordinate available",
+            "confidence": "low",
+        }
+
+    return {
+        "status": "provisional_camera_anchor",
+        "lat": float(lat),
+        "lon": float(lon),
+        "target_type": "camera_zone_or_place_anchor",
+        "label_i18n": dict(item.get("name_i18n") or {}),
+        "source": item.get("coordinate_source") or "legacy Place/Camera coordinate",
+        "confidence": item.get("coordinate_confidence") or "low",
+        "note_i18n": {
+            "zh-TW": "此座標尚未獨立查證為實際抵達／停車／登山入口，只能先作精準地圖定位，不視為已驗證導航。",
+            "en": "This coordinate has not been independently verified as the practical arrival / parking / trail access point. It is shown only as an exact map pin, not verified navigation.",
+            "ja": "この座標は実際の到着・駐車・登山口として未検証のため、正確な地図ピンとしてのみ表示し、検証済みナビとは扱いません。",
+        },
+    }
+
 
 def _derive_scenes_themes(name_zh, legacy_tags, category, region_key):
     tags = set(legacy_tags or [])
@@ -1721,8 +1861,9 @@ def get_spots(region="tw"):
         if override.get("name_local"):
             item["name_local"] = override["name_local"]
         item["map_query"] = override.get("map_query") or item.get("name_local") or name_zh
-        item["coordinate_source"] = override.get("coordinate_source", "legacy coordinate; navigation resolves named POI")
+        item["coordinate_source"] = override.get("coordinate_source", "legacy Place/Camera coordinate; navigation target not independently verified")
         item["coordinate_confidence"] = override.get("coordinate_confidence", "medium")
+        item["navigation_target"] = _navigation_target_for_spot(name_zh, item)
         if override.get("elevation") is not None:
             item["elevation"] = override["elevation"]
 
