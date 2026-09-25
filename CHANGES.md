@@ -1,3 +1,15 @@
+# ChaseLights R4.2 Navigation Target Update — 2026-09-25
+
+- Replaced the V5.2 behavior that preferred free-text `map_query` for Google Maps navigation.
+- Added a dedicated `navigation_target` data contract separate from Camera Zone / Place coordinates.
+- `map_query` is now search/display metadata only; it is never used to construct the production Navigation URL.
+- Verified targets use Google Maps Directions with exact coordinates.
+- Unverified camera/Place anchors may expose only an exact-coordinate **Map** pin, not a verified route.
+- `needs_review` / `multiple_access_routes` targets do not fall back to keyword search.
+- Added explicit safety states for hiking/ropeway examples including 加羅湖、新穗高 and 彌彥山.
+- Weather JSON schema moves to v10 for the new navigation metadata.
+- See `NAVIGATION_SPEC_R4_2.md`.
+
 # ChaseLights Score V5.4
 
 ## New
