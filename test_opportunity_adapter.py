@@ -163,8 +163,8 @@ def test_adapter_integrity():
 
     policies = Counter(runtime_policy(o) for o in all_opportunities)
     assert policies == {
-        "module_pending": 73,
-        "preview_module_available": 79,
+        "module_pending": 71,
+        "preview_module_available": 81,
         "minimum_sufficient_available": 59,
         "prototype_pending_certification": 2,
         "hold": 1,
@@ -1087,12 +1087,16 @@ def test_adapter_integrity():
     assert len(dynamic_profiles) == 46
     assert {o["opportunity_id"] for o in dynamic_profiles} == set(ACCESS_DEPENDENT_PROFILE_IDS)
     assert set(ACCESS_PROFILE_CLASSIFICATION) == set(ACCESS_DEPENDENT_PROFILE_IDS)
-    assert ACCESS_RUNTIME_READY_PROFILES == frozenset()
+    assert ACCESS_RUNTIME_READY_PROFILES == frozenset({"jp-021-P01", "jp-021-P02"})
     assert HARD_ACCESS_HOLDS["tw-052"]["policy"] == "hold"
     assert {"tw-005", "tw-037", "tw-038", "tw-078", "tw-081", "jp-002", "jp-004", "jp-021"} <= set(OFFICIAL_SOURCE_HINTS)
     assert "tw-063" not in OFFICIAL_SOURCE_HINTS
     assert all(
-        runtime_policy(o) == "module_pending"
+        runtime_policy(o) == (
+            "preview_module_available"
+            if o["opportunity_id"] in ACCESS_RUNTIME_READY_PROFILES
+            else "module_pending"
+        )
         for o in dynamic_profiles
     )
 
@@ -1418,20 +1422,19 @@ def test_adapter_integrity():
 
     jp021 = get_opportunities("jp", "jp-021")
     assert [o["opportunity_id"] for o in jp021] == ["jp-021-P01", "jp-021-P02"]
-    assert all(o["runtime_policy"] == "module_pending" for o in jp021)
+    assert all(o["runtime_policy"] == "preview_module_available" for o in jp021)
     assert dependencies_for_opportunity(jp021[0]) == ("dynamic_access", "visibility")
     assert dependencies_for_opportunity(jp021[1]) == ("astronomy_ephemeris", "dynamic_access")
-    assert dependency_state(jp021[0])["ready_components"] == ("visibility",)
-    assert dependency_state(jp021[0])["missing_components"] == ("dynamic_access",)
-    assert dependency_state(jp021[1])["ready_components"] == ("astronomy_ephemeris",)
-    assert dependency_state(jp021[1])["missing_components"] == ("dynamic_access",)
+    assert dependency_state(jp021[0])["ready_components"] == ("dynamic_access", "visibility")
+    assert dependency_state(jp021[0])["missing_components"] == ()
+    assert dependency_state(jp021[1])["ready_components"] == ("astronomy_ephemeris", "dynamic_access")
+    assert dependency_state(jp021[1])["missing_components"] == ()
     assert ACCESS_PROFILE_CLASSIFICATION["jp-021-P01"]["access_type"] == "transport_facility_status"
     assert ACCESS_PROFILE_CLASSIFICATION["jp-021-P02"]["access_type"] == "event_access_control"
 
-    # Shinhotaka provider is implemented and fixture-tested, but the two
-    # Opportunities deliberately remain module_pending until the full candidate
-    # QA gate is confirmed.  Direct evaluator tests below prove fail-closed
-    # semantics without prematurely lifting the 64-point confidence cap.
+    # Shinhotaka provider is fixture-tested and live-page-tested.  The two
+    # Opportunities are now runtime-ready; direct evaluator tests below retain
+    # fail-closed coverage for stale, ambiguous and schedule-only states.
     assert SHINHOTAKA_PROVIDER_VERSION == "shinhotaka-access-r1-preview"
     assert len(STARGAZING_DATES_2026) == 18
 
@@ -1461,7 +1464,7 @@ def test_adapter_integrity():
     )
     assert p01_eval["available"] is True
     assert p01_eval["eligible"] is True
-    assert p01_eval["runtime_provider_connected"] is False
+    assert p01_eval["runtime_provider_connected"] is True
 
     suspended_provider = parse_shinhotaka_homepage_status(
         suspended_html, fetched_at_epoch=jst_epoch(2026, 9, 25, 8, 5)
