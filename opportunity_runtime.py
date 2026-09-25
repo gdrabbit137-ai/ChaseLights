@@ -59,7 +59,7 @@ from access_state import (
     validate_access_registry,
 )
 
-MODULE_VERSION = "opportunity-runtime-r12-yahiko-access-preview"
+MODULE_VERSION = "opportunity-runtime-r13-hagi-local-scene-preview"
 
 IMPLEMENTED_COMPONENTS = {
     "directional_horizon",
@@ -101,11 +101,73 @@ MINIMUM_SUFFICIENT_VISIBILITY_PROFILES = {
     "jp-005-P01", "jp-003-P01", "jp-006-P01", "jp-007-P01", "jp-009-P01", "jp-010-P01", "jp-011-P01", "jp-011-P02", "jp-012-P01", "jp-015-P01", "jp-016-P01", "jp-016-P02", "jp-017-P01", "jp-018-P01", "jp-020-P01", "jp-023-P01", "jp-024-P01",
 }
 
+MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES = {
+    # B32 jp-025: Kikuya Yokocho is a close-range historic streetscape.
+    # Low cloud or long-range atmospheric visibility is not a photographic
+    # blocker; the minimum sufficient weather contract is daylight + no
+    # material precipitation/access obstruction.
+    "jp-025-P01",
+}
+
+
 def supports_minimum_sufficient_contract(opportunity):
-    return opportunity.get("opportunity_id") in MINIMUM_SUFFICIENT_VISIBILITY_PROFILES
+    oid = opportunity.get("opportunity_id")
+    return (
+        oid in MINIMUM_SUFFICIENT_VISIBILITY_PROFILES
+        or oid in MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES
+    )
+
+
+def evaluate_minimum_sufficient_local_scene(opportunity, item_data):
+    """Minimum-sufficient contract for close-range architecture/street scenes.
+
+    This intentionally does not penalize benign overcast or low cloud. For a
+    lane-scale subject such as Kikuya Yokocho, those variables do not obscure
+    the subject the way they do a mountain/city panorama. Material rain/access
+    problems remain blockers. Theme timing still supplies the daylight gate.
+    """
+    pop_raw = item_data.get("pop", item_data.get("precipitation_probability"))
+    precip_raw = item_data.get("precipitation", item_data.get("precip"))
+    if pop_raw is None or precip_raw is None:
+        return {
+            "module": "minimum_sufficient_local_scene",
+            "available": False,
+            "eligible": False,
+            "reason": "precipitation_data_missing",
+        }
+
+    pop = max(0.0, min(100.0, float(pop_raw)))
+    precip = max(0.0, float(precip_raw))
+
+    if item_data.get("access_open") is False:
+        eligible, quality, reason, score_hint = False, "blocked", "access_closed", 0
+    elif precip >= 0.5 or pop >= 60:
+        eligible, quality, reason, score_hint = False, "rain_affected", "precipitation_risk", 54
+    elif precip < 0.1 and pop <= 20:
+        eligible, quality, reason, score_hint = True, "excellent", "dry_low_rain_risk", 88
+    else:
+        eligible, quality, reason, score_hint = True, "good", "local_scene_usable", 82
+
+    return {
+        "module": "minimum_sufficient_local_scene",
+        "available": True,
+        "eligible": eligible,
+        "reason": reason,
+        "quality": quality,
+        "precipitation_probability": round(pop),
+        "precipitation_mm": round(precip, 2),
+        "score_hint": score_hint,
+        "cloud_cover_is_not_a_blocker": True,
+        "long_range_visibility_is_not_a_blocker": True,
+        "contract_source": "manually_curated_place_specific_profile",
+    }
 
 
 def evaluate_minimum_sufficient_visibility(opportunity, item_data):
+    # Backward-compatible public helper: dispatch close-range local scenes to
+    # their separate contract while preserving the existing visibility contract.
+    if opportunity.get("opportunity_id") in MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES:
+        return evaluate_minimum_sufficient_local_scene(opportunity, item_data)
     """Evaluate the researched clear-view minimum sufficient condition.
 
     This contract only applies to the explicit registry above. Theme scoring
@@ -989,6 +1051,11 @@ def validate_runtime_registry():
     errors.extend(validate_marine_state_registry())
     errors.extend(validate_tide_state_registry())
     errors.extend(validate_access_registry())
+    if set(MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES) != {"jp-025-P01"}:
+        errors.append(
+            "unexpected minimum-sufficient local-scene registry: "
+            f"{sorted(MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES)}"
+        )
     if len(DIRECTIONAL_HORIZON_SECTORS) != 49:
         errors.append(
             f"expected 49 registered directional profiles, got {len(DIRECTIONAL_HORIZON_SECTORS)}"
