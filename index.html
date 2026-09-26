@@ -136,6 +136,31 @@
     .place-search:focus { border-color:#38bdf8; box-shadow:0 0 0 1px rgba(56,189,248,.2); }
     .rank-summary { color:#94a3b8; font-size:.78rem; margin-bottom:10px; }
 
+    @media (max-width:640px) {
+      .discovery-row {
+        display:grid;
+        grid-template-columns:auto minmax(0,1fr);
+        align-items:center;
+        gap:8px;
+        margin:5px 0 4px;
+      }
+      .discovery-title {
+        font-size:.84rem;
+        white-space:nowrap;
+      }
+      .place-search {
+        width:100%;
+        min-width:0;
+        max-width:none;
+        padding:6px 9px;
+        font-size:.8rem;
+      }
+      .rank-summary {
+        font-size:.72rem;
+        margin-bottom:7px;
+      }
+    }
+
     .container {
       max-width: 1000px;
       margin: 0 auto;
