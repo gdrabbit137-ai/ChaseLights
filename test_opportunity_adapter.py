@@ -2690,6 +2690,46 @@ def test_active_catalog_weather_generation_guard():
     assert impossible_days[0]["all"]["no_viable_opportunity"] is True
     assert "opportunity_id" not in impossible_days[0]["all"]
 
+    # Midnight boundary regression: if every forecast row for local "today" is
+    # already past, keep that calendar day as an explicit no-viable summary.
+    # Otherwise the homepage "today" filter would find no metric and hide every
+    # Place shortly before midnight.
+    midnight_boundary_hours = [{
+        "is_past": True,
+        "local_date": "2026-09-26",
+        "time": "2026-09-26 23:00",
+        "time_utc": "2026-09-26T15:00:00Z",
+    }]
+    for local_date in ("2026-09-27", "2026-09-28", "2026-09-29"):
+        midnight_boundary_hours.append({
+            "is_past": False,
+            "local_date": local_date,
+            "time": f"{local_date} 06:00",
+            "time_utc": f"{local_date}T00:00:00Z",
+            "theme_scores": {"sunrise": {"score": 16, "factors": []}},
+            "opportunity_scores": {
+                "tw-075-P01": {
+                    "score": 16,
+                    "temporal_eligible": False,
+                    "temporal_reason": "sunrise_after_noon",
+                    "status_key": "OPPORTUNITY_CONDITION_MISS",
+                    "indicator_key": "OPPORTUNITY_CONDITION_MISS",
+                    "factors": [],
+                }
+            },
+        })
+    midnight_days = analyze_weather._build_day_summaries(
+        midnight_boundary_hours,
+        ["sunrise"],
+        [sunrise_only],
+        local_today="2026-09-26",
+    )
+    assert [day["date"] for day in midnight_days] == [
+        "2026-09-26", "2026-09-27", "2026-09-28"
+    ]
+    assert midnight_days[0]["all"]["no_viable_opportunity"] is True
+    assert midnight_days[0]["all"]["research_pending"] is False
+
     closed_vs_open = [
         {
             "is_past": False,
