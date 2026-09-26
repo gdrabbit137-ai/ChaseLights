@@ -106,7 +106,6 @@ _COMPOSITE_SPOTS = (
     + list(_B28_ADDITIONS.get("spots", []))
     + list(_B32_JP_ADDITIONS.get("spots", []))
     + list(_B33_HUALIEN_ADDITIONS.get("spots", []))
-    + list(_B34_LIUSHISHISHAN_ADDITIONS.get("spots", []))
 )
 # Later catalog layers intentionally override earlier records with the same
 # spot_id. Build the effective catalog by ID before computing counts so B33
@@ -115,7 +114,17 @@ _EFFECTIVE_SPOTS_BY_ID = {}
 for _spot in _COMPOSITE_SPOTS:
     _spot_id = _spot.get("spot_id")
     if _spot_id and _spot_id not in RETIRED_SPOT_IDS:
-        _EFFECTIVE_SPOTS_BY_ID[_spot_id] = _spot
+        _EFFECTIVE_SPOTS_BY_ID[_spot_id] = deepcopy(_spot)
+
+# B34 enriches the long-existing tw-035 Liushishishan Place with additional
+# Camera-Zone opportunities. It must not create a second Place/card.
+for _addition in _B34_LIUSHISHISHAN_ADDITIONS.get("spots", []):
+    _spot_id = _addition.get("spot_id")
+    if _spot_id not in _EFFECTIVE_SPOTS_BY_ID:
+        raise ValueError(f"B34 enrichment target missing from effective catalog: {_spot_id}")
+    _EFFECTIVE_SPOTS_BY_ID[_spot_id].setdefault("opportunities", []).extend(
+        deepcopy(_addition.get("opportunities", []))
+    )
 
 _ACTIVE_SPOTS = list(_EFFECTIVE_SPOTS_BY_ID.values())
 CATALOG_COUNTS = {
@@ -235,7 +244,7 @@ def validate_curated_opportunities():
     variant_ids = set()
     viewpoint_relations = 0
 
-    expected_tw_spots = {f"tw-{i:03d}" for i in range(1, 86)} - RETIRED_SPOT_IDS
+    expected_tw_spots = {f"tw-{i:03d}" for i in range(1, 85)} - RETIRED_SPOT_IDS
     actual_spots = set(CURATED_OPPORTUNITIES)
     actual_tw_spots = {spot_id for spot_id in actual_spots if spot_id.startswith("tw-")}
     if actual_tw_spots != expected_tw_spots:
