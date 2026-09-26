@@ -1,0 +1,203 @@
+{
+  "schema_version": "v0.04-r4.2-b34-liushishishan-additions-1",
+  "generated_at": "2026-09-26T13:20:00+08:00",
+  "source_database": "ChaseLights curated Liushishishan research batch B34",
+  "spot_count": 1,
+  "opportunity_count": 4,
+  "condition_variant_count": 4,
+  "profile_viewpoint_relation_count": 4,
+  "spots": [
+    {
+      "spot_id": "tw-085",
+      "canonical_name": "六十石山",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B34_LIUSHISHISHAN",
+      "opportunities": [
+        {
+          "opportunity_id": "tw-085-P01",
+          "spot_id": "tw-085",
+          "name_zh": "黃花亭金針花田與山景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "minimum_sufficient_local_scene",
+          "formula_version": "v0.04-liushishishan-subject-specific",
+          "formula_confidence": 84,
+          "best_time": "8–9 月花季；日間柔和光線",
+          "best_season": "8–9 月",
+          "condition_variants": [
+            {
+              "variant_id": "VAR-224",
+              "profile_id": "tw-085-P01",
+              "variant_name": "黃花亭金針花田山景",
+              "condition_geometry": "{\"camera_zone\":\"黃花亭 Camera Zone\",\"subject\":\"daylily fields + mountain slopes + East Rift Valley landscape\"}",
+              "hard_gates": "合法步行與觀景區可達；遵守花季交通與現場停車管制",
+              "required_conditions": "8–9 月花季；降雨未妨礙拍攝；花田與山坡輪廓可辨",
+              "boosters": "柔和側光；雲影形成丘陵層次；高能見度",
+              "penalties": "持續降雨；濃霧完全遮蔽山坡；花況未達預期",
+              "formula_status": "minimum_sufficient_local_scene"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "tw-085-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Huanghua Pavilion photography zone; parking/arrival is modeled separately.",
+              "name": "黃花亭 Camera Zone",
+              "lat": 23.219472,
+              "lon": 121.308056,
+              "elevation_m": null,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_pavilion_parking_presence_plus_mapped_camera_anchor",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 180,
+              "geometry_note": "代表黃花亭周邊合法觀景與花田構圖區，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "tw-085-P02",
+          "spot_id": "tw-085",
+          "name_zh": "小瑞士金針花坡與丘陵曲線",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "minimum_sufficient_local_scene",
+          "formula_version": "v0.04-liushishishan-subject-specific",
+          "formula_confidence": 82,
+          "best_time": "8–9 月花季；午後斜射光較有層次",
+          "best_season": "8–9 月",
+          "condition_variants": [
+            {
+              "variant_id": "VAR-225",
+              "profile_id": "tw-085-P02",
+              "variant_name": "小瑞士花坡與丘陵",
+              "condition_geometry": "{\"camera_zone\":\"小瑞士觀景台 Camera Zone\",\"subject\":\"daylily slope + rolling hills + layered light\"}",
+              "hard_gates": "合法步行觀景區可達；小瑞士旁禁停時不得以 Camera Zone 當停車導航終點",
+              "required_conditions": "8–9 月花季；降雨未妨礙拍攝；近中距離丘陵可辨",
+              "boosters": "午後斜射光；雲影；花坡明暗層次",
+              "penalties": "持續降雨；低雲完全遮蔽丘陵；花況未達預期",
+              "formula_status": "minimum_sufficient_local_scene"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "tw-085-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Photography point only; not a verified parking destination.",
+              "name": "小瑞士觀景台 Camera Zone",
+              "lat": 23.22269,
+              "lon": 121.3156,
+              "elevation_m": null,
+              "coord_confidence": "medium_high",
+              "verification_status": "mapped_photo_viewpoint_with_official_no_parking_constraint",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 160,
+              "geometry_note": "攝影點；花季小瑞士旁禁止停車，導航不得把此點標為停車場。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "tw-085-P03",
+          "spot_id": "tw-085",
+          "name_zh": "忘憂亭縱谷雲隙光與夕照",
+          "legacy_theme": "sunbeam",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_liushishishan_sunbeam_cloud_geometry",
+          "formula_version": "v0.04-liushishishan-sunbeam-pending",
+          "formula_confidence": 78,
+          "best_time": "15:00–17:00；官方旅遊資料列為雲隙光常見拍攝時段",
+          "best_season": "8–9 月花季；全年仍可拍縱谷夕照",
+          "condition_variants": [
+            {
+              "variant_id": "VAR-226",
+              "profile_id": "tw-085-P03",
+              "variant_name": "忘憂亭西向縱谷雲隙光",
+              "condition_geometry": "{\"camera_zone\":\"忘憂亭 Camera Zone\",\"subject\":\"East Rift Valley + Central Mountain Range + cloud-gap sunbeams\",\"view_direction\":\"west\"}",
+              "hard_gates": "合法觀景區可達；遵守現場交通與停車管制",
+              "required_conditions": "15:00–17:00 時段優先；西向天空需有雲層與可形成直射光的破口；不可僅以晴天推定雲隙光成立",
+              "boosters": "中低層碎雲與雲縫；西向直射光；雨後空氣較乾淨",
+              "penalties": "全晴無雲無法形成雲隙光；厚低雲封住西向天空；持續降雨",
+              "formula_status": "needs_liushishishan_sunbeam_cloud_geometry"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "tw-085-VP03",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "West-facing photography zone near Wangyou Pavilion; parking/arrival kept separate.",
+              "name": "忘憂亭 Camera Zone",
+              "lat": 23.221497,
+              "lon": 121.315444,
+              "elevation_m": null,
+              "coord_confidence": "medium_high",
+              "verification_status": "mapped_photo_viewpoint_and_official_sunbeam_subject_evidence",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 180,
+              "geometry_note": "代表忘憂亭周邊西向縱谷構圖區；非唯一腳架點。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "tw-085-P04",
+          "spot_id": "tw-085",
+          "name_zh": "鹿蔥亭金針花丘陵與縱谷層次",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "medium_high",
+          "formula_status": "minimum_sufficient_local_scene",
+          "formula_version": "v0.04-liushishishan-subject-specific",
+          "formula_confidence": 78,
+          "best_time": "8–9 月花季；午後柔光或雲影時",
+          "best_season": "8–9 月",
+          "condition_variants": [
+            {
+              "variant_id": "VAR-227",
+              "profile_id": "tw-085-P04",
+              "variant_name": "鹿蔥亭花田丘陵與縱谷",
+              "condition_geometry": "{\"camera_zone\":\"鹿蔥亭 Camera Zone\",\"subject\":\"daylily hills + East Rift Valley layers\"}",
+              "hard_gates": "合法步行觀景區可達；未驗證正式停車場時不得宣稱可直接停車",
+              "required_conditions": "8–9 月花季；降雨未妨礙拍攝；丘陵與縱谷層次可辨",
+              "boosters": "午後斜射光；雲影；能見度佳",
+              "penalties": "持續降雨；濃霧遮蔽丘陵；花況未達預期",
+              "formula_status": "minimum_sufficient_local_scene"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "tw-085-VP04",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Photography point; no official parking lot asserted.",
+              "name": "鹿蔥亭 Camera Zone",
+              "lat": 23.224528,
+              "lon": 121.309667,
+              "elevation_m": null,
+              "coord_confidence": "medium",
+              "verification_status": "mapped_photo_viewpoint_official_pavilion_presence",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 180,
+              "geometry_note": "代表鹿蔥亭周邊合法觀景構圖區；不宣稱有正式停車場。",
+              "geometry_confidence": "medium"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
