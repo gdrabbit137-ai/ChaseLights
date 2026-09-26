@@ -20,6 +20,9 @@ from opportunity_runtime import (
     evaluate_minimum_sufficient_visibility,
     MINIMUM_SUFFICIENT_VISIBILITY_PROFILES,
     MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES,
+    EVENT_CALENDAR,
+    EVENT_CALENDAR_SCHEMA_VERSION,
+    validate_event_calendar,
     validate_runtime_registry,
 )
 from runtime_dependencies import (
@@ -101,6 +104,11 @@ def test_adapter_integrity():
     assert ADAPTER_VERSION == "v0.04-r4.2-b33-jp026-integration-r25-preview"
     assert validate_curated_opportunities() == []
     assert validate_taxonomy() == []
+    assert EVENT_CALENDAR_SCHEMA_VERSION == "r4.2-event-calendar-1"
+    assert validate_event_calendar() == []
+    assert set(EVENT_CALENDAR["events"]) == {
+        "tw-082-P04", "tw-082-P06", "tw-084-P04", "tw-084-P05", "tw-084-P06"
+    }
     assert CATALOG_MANIFEST_SCHEMA_VERSION == "r4.2-b42-catalog-manifest-1"
     assert CATALOG_COUNTS == CATALOG_MANIFEST["totals"]
     for region_key, region_manifest in CATALOG_MANIFEST["regions"].items():
