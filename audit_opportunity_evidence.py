@@ -41,44 +41,34 @@ EVIDENCE_KEYS = {
 }
 
 EVIDENCE_MARKERS = (
-    "official_",
-    "evidence",
-    "researched",
-    "documented",
+    "subject_evidence",
+    "photography_evidence",
     "verified_subject",
-    "place_specific",
+    "place_specific_subject",
+    "official_morning_mist_photography_evidence",
+    "official_sunbeam_subject_evidence",
 )
 
 
-def _text_blob(op):
+def _subject_blob(op):
+    """Text that asserts what the photographic subject actually is.
+
+    Do not inspect penalties/required conditions here: e.g. "fog is bad" must
+    not turn a normal landscape Opportunity into a mist Opportunity.
+    """
     bits = [
         str(op.get("name_zh") or ""),
         str(op.get("name_en") or ""),
         str(op.get("legacy_theme") or ""),
-        str(op.get("best_time") or ""),
-        str(op.get("best_season") or ""),
-        str(op.get("formula_status") or ""),
-        str(op.get("formula_version") or ""),
     ]
     for variant in op.get("condition_variants", []) or []:
-        bits.extend(
-            str(variant.get(k, ""))
-            for k in (
-                "variant_name",
-                "condition_geometry",
-                "required_conditions",
-                "boosters",
-                "penalties",
-                "formula_status",
-            )
-        )
-    for vp in op.get("viewpoints", []) or []:
-        bits.extend(
-            str(vp.get(k, ""))
-            for k in ("name", "note", "verification_status", "geometry_note")
-        )
+        bits.append(str(variant.get("variant_name") or ""))
+        geometry = variant.get("condition_geometry")
+        if isinstance(geometry, str):
+            bits.append(geometry)
+        elif geometry:
+            bits.append(json.dumps(geometry, ensure_ascii=False))
     return " ".join(bits)
-
 
 def _risk_classes(blob):
     out = []
@@ -110,7 +100,7 @@ def build_report():
         for spot in get_spots(region):
             sid = spot["spot_id"]
             for op in get_opportunities(region, sid):
-                blob = _text_blob(op)
+                blob = _subject_blob(op)
                 risks = _risk_classes(blob)
                 has_evidence, evidence_location = _explicit_evidence(op)
                 if risks and has_evidence:
