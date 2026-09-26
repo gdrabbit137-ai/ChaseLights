@@ -144,8 +144,12 @@ for _addition in _B34_LIUSHISHISHAN_ADDITIONS.get("spots", []):
     _spot_id = _addition.get("spot_id")
     if _spot_id not in _EFFECTIVE_SPOTS_BY_ID:
         raise ValueError(f"B34 enrichment target missing from effective catalog: {_spot_id}")
-    _EFFECTIVE_SPOTS_BY_ID[_spot_id].setdefault("opportunities", []).extend(
-        deepcopy(_addition.get("opportunities", []))
+    _existing = _EFFECTIVE_SPOTS_BY_ID[_spot_id].setdefault("opportunities", [])
+    _existing_ids = {op.get("opportunity_id") for op in _existing}
+    _existing.extend(
+        deepcopy(op)
+        for op in _addition.get("opportunities", [])
+        if op.get("opportunity_id") not in _existing_ids
     )
 
 # B35 enriches the existing tw-082 Liyu Lake Place with visibility-specific
@@ -356,12 +360,12 @@ def validate_curated_opportunities():
                 errors.append(f"{oid}: missing profile_viewpoint relation")
             viewpoint_relations += len(viewpoints)
 
-    if len(opportunity_ids) != 251:
-        errors.append(f"expected 251 opportunities, got {len(opportunity_ids)}")
-    if len(variant_ids) != 261:
-        errors.append(f"expected 261 variants, got {len(variant_ids)}")
-    if viewpoint_relations != 256:
-        errors.append(f"expected 256 profile_viewpoint relations, got {viewpoint_relations}")
+    if len(opportunity_ids) != 250:
+        errors.append(f"expected 250 opportunities, got {len(opportunity_ids)}")
+    if len(variant_ids) != 260:
+        errors.append(f"expected 260 variants, got {len(variant_ids)}")
+    if viewpoint_relations != 255:
+        errors.append(f"expected 255 profile_viewpoint relations, got {viewpoint_relations}")
 
     exact = {
         opportunity["opportunity_id"]
