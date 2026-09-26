@@ -57,7 +57,19 @@ B32_JP_ADDITIONS_FILE = "runtime_catalog_v004_r4_2_b32_jp_batch01.json"
 B33_HUALIEN_ADDITIONS_FILE = "runtime_catalog_v004_r4_2_b33_hualien_additions.json"
 B34_LIUSHISHISHAN_ADDITIONS_FILE = "runtime_catalog_v004_r4_2_b34_liushishishan_additions.json"
 B35_LIYU_SUBJECTS_FILE = "runtime_catalog_v004_r4_2_b35_liyu_subjects.json"
-B35_LIYU_SUBJECTS_FILE = "runtime_catalog_v004_r4_2_b35_liyu_subjects.json"
+CATALOG_MANIFEST_FILE = "runtime_catalog_manifest_r4_2.json"
+
+
+def _load_catalog_manifest():
+    path = Path(__file__).parent / CATALOG_MANIFEST_FILE
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if payload.get("schema_version") != "r4.2-b42-catalog-manifest-1":
+        raise ValueError(f"Unexpected catalog manifest version: {payload.get('schema_version')}")
+    return payload
+
+
+CATALOG_MANIFEST = _load_catalog_manifest()
+CATALOG_MANIFEST_SCHEMA_VERSION = CATALOG_MANIFEST["schema_version"]
 
 def _load_b28_additions():
     path = Path(__file__).parent / B28_ADDITIONS_FILE
@@ -112,7 +124,7 @@ LIYU_SUBJECTS_SCHEMA_VERSION = _B35_LIYU_SUBJECTS["schema_version"]
 # tw-063 翟山坑道 was removed from the product photography catalog in B26.
 # B28 Batch 1 layers newly curated P0 Places onto the stable B15 payload while
 # keeping IDs stable; a later full catalog regeneration can collapse this layer.
-RETIRED_SPOT_IDS = {"tw-063"}
+RETIRED_SPOT_IDS = set(CATALOG_MANIFEST["regions"]["tw"].get("retired_spot_ids", []))
 _COMPOSITE_SPOTS = (
     list(_RUNTIME_CATALOG.get("spots", []))
     + list(_B28_ADDITIONS.get("spots", []))
@@ -270,22 +282,34 @@ def validate_curated_opportunities():
     variant_ids = set()
     viewpoint_relations = 0
 
-    expected_tw_spots = {f"tw-{i:03d}" for i in range(1, 85)} - RETIRED_SPOT_IDS
     actual_spots = set(CURATED_OPPORTUNITIES)
-    actual_tw_spots = {spot_id for spot_id in actual_spots if spot_id.startswith("tw-")}
-    if actual_tw_spots != expected_tw_spots:
+    expected_spots = set()
+    for region_key, region_manifest in CATALOG_MANIFEST["regions"].items():
+        start = region_manifest.get("numeric_id_start")
+        end = region_manifest.get("numeric_id_end")
+        if start is None or end is None:
+            continue
+        region_expected = {
+            f"{region_key}-{i:03d}"
+            for i in range(int(start), int(end) + 1)
+        }
+        region_expected -= set(region_manifest.get("retired_spot_ids", []))
+        expected_spots.update(region_expected)
+
+    if actual_spots != expected_spots:
         errors.append(
-            f"expected active Taiwan spot keys excluding retired IDs; missing={sorted(expected_tw_spots-actual_tw_spots)} "
-            f"extra={sorted(actual_tw_spots-expected_tw_spots)}"
+            f"catalog manifest spot regression; missing={sorted(expected_spots-actual_spots)} "
+            f"extra={sorted(actual_spots-expected_spots)}"
         )
 
-    expected_non_tw_spots = {f"jp-{i:03d}" for i in range(1, 27)}
-    actual_non_tw_spots = {spot_id for spot_id in actual_spots if not spot_id.startswith("tw-")}
-    if actual_non_tw_spots != expected_non_tw_spots:
-        errors.append(
-            f"unexpected migrated non-Taiwan spot keys; missing={sorted(expected_non_tw_spots-actual_non_tw_spots)} "
-            f"extra={sorted(actual_non_tw_spots-expected_non_tw_spots)}"
-        )
+    for region_key, region_manifest in CATALOG_MANIFEST["regions"].items():
+        expected_region_counts = region_manifest.get("counts", {})
+        actual_region_counts = REGION_CATALOG_COUNTS.get(region_key, {})
+        if actual_region_counts != expected_region_counts:
+            errors.append(
+                f"{region_key}: catalog manifest count regression; "
+                f"expected={expected_region_counts} actual={actual_region_counts}"
+            )
 
     for spot_id, opportunities in CURATED_OPPORTUNITIES.items():
         if not spot_id.startswith(("tw-", "jp-", "us-")):
@@ -350,12 +374,17 @@ def validate_curated_opportunities():
                 errors.append(f"{oid}: missing profile_viewpoint relation")
             viewpoint_relations += len(viewpoints)
 
-    if len(opportunity_ids) != 251:
-        errors.append(f"expected 251 opportunities, got {len(opportunity_ids)}")
-    if len(variant_ids) != 261:
-        errors.append(f"expected 261 variants, got {len(variant_ids)}")
-    if viewpoint_relations != 256:
-        errors.append(f"expected 256 profile_viewpoint relations, got {viewpoint_relations}")
+    expected_totals = CATALOG_MANIFEST["totals"]
+    actual_totals = {
+        "spots": len(actual_spots),
+        "opportunities": len(opportunity_ids),
+        "condition_variants": len(variant_ids),
+        "profile_viewpoint_relations": viewpoint_relations,
+    }
+    if actual_totals != expected_totals:
+        errors.append(
+            f"catalog manifest total regression; expected={expected_totals} actual={actual_totals}"
+        )
 
     exact = {
         opportunity["opportunity_id"]
@@ -363,7 +392,7 @@ def validate_curated_opportunities():
         for opportunity in opportunities
         if opportunity.get("geometry_required")
     }
-    expected_exact = {"tw-017-P01", "tw-028-P04", "tw-038-P02"}
+    expected_exact = set(CATALOG_MANIFEST["exact_geometry_opportunity_ids"])
     if exact != expected_exact:
         errors.append(f"exact geometry regression: {sorted(exact)}")
 
