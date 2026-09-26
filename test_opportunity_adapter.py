@@ -418,7 +418,8 @@ def test_adapter_integrity():
     ]
     actual_non_city_night_names = {spot["name_i18n"]["zh-TW"] for spot in non_city_night_spots}
     assert actual_non_city_night_names == {
-        "金龍山", "頂石棹", "田寮月世界", "金門慈湖"
+        "金龍山", "頂石棹", "田寮月世界", "金門慈湖",
+        "鯉魚潭", "大農大富平地森林園區"
     }, actual_non_city_night_names
     night_probe = {
         "astronomy_valid": True,
