@@ -334,6 +334,19 @@
     .forecast-status-row { display:block; }
     .forecast-meta-row { display:none; }
     .card-secondary-meta { margin-top:7px; padding-top:6px; border-top:1px solid rgba(51,65,85,.55); }
+    @media (min-width:641px) {
+      .card-secondary-meta .info-row {
+        font-size:.79rem;
+        color:#94a3b8;
+        line-height:1.4;
+      }
+      .card-secondary-meta .forecast-status-row {
+        color:#cbd5e1;
+      }
+      .card-secondary-meta .access-note {
+        color:#fbbf24;
+      }
+    }
     @media (max-width:640px) {
       .local-time-row { font-size:.76rem; color:#94a3b8; }
       .local-time-label { display:none; }
