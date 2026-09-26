@@ -98,6 +98,8 @@ MINIMUM_SUFFICIENT_VISIBILITY_PROFILES = {
     # B33 Danongdafu distant valley/mountain composition: unlike the close
     # forest subjects, long-range visibility is photographically material.
     "tw-084-P09",
+    # B33 Liyu Lake broad lake/mountain landscape: distant ridge visibility is material.
+    "tw-082-P02",
     # B32: official Otaru photo spot. A clean, readable daytime canal +
     # warehouse scene is itself sufficient; evening managed lighting remains
     # a separate Opportunity and is not inferred from this contract.
@@ -115,6 +117,11 @@ MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES = {
     # contract only rates scene usability, not "best forest light".
     "tw-084-P01", "tw-084-P02", "tw-084-P03", "tw-084-P04",
     "tw-084-P05", "tw-084-P06", "tw-084-P07", "tw-084-P08",
+    # B33 Liyu Lake: event/ecology/trail/activity subjects are local scenes.
+    "tw-082-P04", "tw-082-P05", "tw-082-P06", "tw-082-P07", "tw-082-P08",
+    # B33 Yun Shan Shui: seasonal vegetation and garden/architecture subjects
+    # are close-range local scenes, not distant visibility contracts.
+    "tw-083-P02", "tw-083-P03", "tw-083-P04", "tw-083-P05",
 }
 
 
@@ -124,6 +131,19 @@ def supports_minimum_sufficient_contract(opportunity):
         oid in MINIMUM_SUFFICIENT_VISIBILITY_PROFILES
         or oid in MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES
     )
+
+
+HUALIEN_LOCAL_PROFILES = {
+    "tw-082-P04": {"kind": "verified_dates", "dates": {"2026-04-10", "2026-04-11", "2026-04-17", "2026-04-18", "2026-04-24", "2026-04-25", "2026-05-01", "2026-05-02"}, "score_hint": 92, "access_override": True, "presence_unknown": True},
+    "tw-082-P05": {"kind": "wildlife", "score_hint": 74, "presence_unknown": True},
+    "tw-082-P06": {"kind": "verified_ranges_time", "ranges": (("2026-11-28", "2027-01-31"),), "time": ("18:00", "22:00"), "score_hint": 92, "access_override": True},
+    "tw-082-P07": {"kind": "local_scene", "score_hint": 84},
+    "tw-082-P08": {"kind": "activity_presence", "score_hint": 72, "presence_unknown": True},
+    "tw-083-P02": {"kind": "seasonal_months", "months": {10, 11, 12, 1, 2}, "score_hint": 90, "presence_unknown": True},
+    "tw-083-P03": {"kind": "seasonal_months", "months": {4}, "score_hint": 88, "presence_unknown": True},
+    "tw-083-P04": {"kind": "local_scene", "score_hint": 84},
+    "tw-083-P05": {"kind": "local_scene", "score_hint": 82},
+}
 
 
 DANONGDAFU_LOCAL_PROFILES = {
@@ -148,6 +168,82 @@ def _local_time_in_window(value, window):
     if not value or not window:
         return False
     return str(window[0]) <= str(value) < str(window[1])
+
+
+def evaluate_hualien_local_scene(opportunity, item_data):
+    oid = opportunity.get("opportunity_id")
+    profile = HUALIEN_LOCAL_PROFILES.get(oid)
+    if profile is None:
+        return None
+
+    pop_raw = item_data.get("pop", item_data.get("precipitation_probability"))
+    precip_raw = item_data.get("precipitation", item_data.get("precip"))
+    if pop_raw is None or precip_raw is None:
+        return {
+            "module": "minimum_sufficient_local_scene",
+            "available": False,
+            "eligible": False,
+            "reason": "precipitation_data_missing",
+        }
+
+    pop = max(0.0, min(100.0, float(pop_raw)))
+    precip = max(0.0, float(precip_raw))
+    local_date = str(item_data.get("local_date") or "")
+    local_time = str(item_data.get("local_time") or "")
+    local_month = int(item_data.get("local_month") or 0)
+    kind = profile["kind"]
+
+    gate_ok = True
+    reason = "local_scene_usable"
+    if kind == "seasonal_months":
+        gate_ok = local_month in profile["months"]
+        reason = "season_match" if gate_ok else "outside_curated_season"
+    elif kind == "verified_dates":
+        gate_ok = local_date in profile["dates"]
+        reason = "official_event_date" if gate_ok else "outside_verified_event_date"
+    elif kind == "verified_ranges_time":
+        gate_ok = (
+            _iso_date_in_ranges(local_date, profile["ranges"])
+            and _local_time_in_window(local_time, profile["time"])
+        )
+        reason = "official_event_window" if gate_ok else "outside_verified_event_window"
+
+    access_override = bool(profile.get("access_override") and gate_ok)
+    if item_data.get("access_open") is False and not access_override:
+        eligible, quality, reason, score_hint = False, "blocked", "access_closed", 0
+    elif not gate_ok:
+        eligible, quality, score_hint = False, "inactive", 0
+    elif precip >= 0.5 or pop >= 60:
+        eligible, quality, reason, score_hint = False, "rain_affected", "precipitation_risk", 54
+    else:
+        eligible = True
+        score_hint = int(profile["score_hint"])
+        if kind == "wildlife":
+            quality, reason = "weather_usable_presence_unknown", "wildlife_presence_not_forecastable"
+        elif kind == "activity_presence":
+            quality, reason = "weather_usable_presence_unknown", "subject_presence_not_forecastable"
+        elif profile.get("presence_unknown"):
+            quality = "weather_and_season_usable_presence_unverified"
+        elif precip < 0.1 and pop <= 20:
+            quality = "excellent"
+        else:
+            quality = "good"
+
+    return {
+        "module": "minimum_sufficient_local_scene",
+        "available": True,
+        "eligible": eligible,
+        "reason": reason,
+        "quality": quality,
+        "precipitation_probability": round(pop),
+        "precipitation_mm": round(precip, 2),
+        "score_hint": score_hint,
+        "access_override": access_override,
+        "long_range_visibility_is_not_a_blocker": True,
+        "wildlife_presence_forecastable": False if kind == "wildlife" else None,
+        "subject_presence_forecastable": False if profile.get("presence_unknown") else None,
+        "contract_source": "hualien_official_subject_specific_profile",
+    }
 
 
 def evaluate_danongdafu_local_scene(opportunity, item_data):
@@ -242,6 +338,10 @@ def evaluate_danongdafu_local_scene(opportunity, item_data):
 
 
 def evaluate_minimum_sufficient_local_scene(opportunity, item_data):
+    hualien = evaluate_hualien_local_scene(opportunity, item_data)
+    if hualien is not None:
+        return hualien
+
     danongdafu = evaluate_danongdafu_local_scene(opportunity, item_data)
     if danongdafu is not None:
         return danongdafu
@@ -1189,6 +1289,8 @@ def validate_runtime_registry():
         "jp-025-P01", "jp-026-P01",
         "tw-084-P01", "tw-084-P02", "tw-084-P03", "tw-084-P04",
         "tw-084-P05", "tw-084-P06", "tw-084-P07", "tw-084-P08",
+        "tw-082-P04", "tw-082-P05", "tw-082-P06", "tw-082-P07", "tw-082-P08",
+        "tw-083-P02", "tw-083-P03", "tw-083-P04", "tw-083-P05",
     }:
         errors.append(
             "unexpected minimum-sufficient local-scene registry: "
