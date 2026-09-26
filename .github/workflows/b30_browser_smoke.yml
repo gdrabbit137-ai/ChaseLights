@@ -130,20 +130,19 @@ jobs:
               driver.execute_cdp_cmd("Emulation.setTimezoneOverride", {"timezoneId": "America/Los_Angeles"})
               driver.get("http://127.0.0.1:8000/index.html")
 
-              try:
+              wait.until(lambda d: d.execute_script(
+                  "return currentData && currentRegion === 'tw' && currentSpots.length === 83"
+              ))
+              cards = driver.find_elements(By.CSS_SELECTOR, "#spots-container .card")
+              report["initial_day_empty"] = not bool(cards)
+              if not cards:
+                  empty_states = driver.find_elements(By.CSS_SELECTOR, "#spots-container .empty-state")
+                  assert empty_states, "loaded 83 Taiwan spots but neither cards nor empty-state rendered"
+                  driver.execute_script("switchDay('tomorrow')")
                   cards = wait.until(lambda d: d.find_elements(By.CSS_SELECTOR, "#spots-container .card"))
-              except TimeoutException:
-                  print("BROWSER_SMOKE_DIAGNOSTICS")
-                  print("url=", driver.current_url)
-                  print("title=", driver.title)
-                  print("loading=", driver.find_element(By.ID, "loading").text if driver.find_elements(By.ID, "loading") else "<missing>")
-                  print("currentRegion=", driver.execute_script("return typeof currentRegion === 'undefined' ? '<undefined>' : currentRegion"))
-                  print("currentData=", driver.execute_script("return typeof currentData === 'undefined' ? '<undefined>' : (currentData ? {region: currentData.region, schema_version: currentData.schema_version, spots: (currentData.spots || []).length, updated_at: currentData.updated_at} : null)"))
-                  print("currentSpots=", driver.execute_script("return typeof currentSpots === 'undefined' ? '<undefined>' : currentSpots.length"))
-                  print("browser_logs=", json.dumps(driver.get_log("browser"), ensure_ascii=False))
-                  raise
+              report["validated_day_filter"] = driver.execute_script("return currentDayFilter")
               report["taiwan_rendered_cards"] = len(cards)
-              assert len(cards) == 83, f"expected 83 Taiwan cards, got {len(cards)}"
+              assert len(cards) == 83, f"expected 83 Taiwan cards on a forecast day, got {len(cards)}"
 
               # R4.2 navigation contract: ambiguous keyword search is forbidden.
               # 加羅湖 needs a verified hiking arrival point, so its navigation
@@ -169,7 +168,8 @@ jobs:
 
               title = driver.find_element(By.ID, "discovery-title").text
               report["discovery_title"] = title
-              assert "今天去哪裡拍" in title, title
+              expected_title = "明天去哪裡拍" if report["validated_day_filter"] == "tomorrow" else "今天去哪裡拍"
+              assert expected_title in title, (expected_title, title)
 
               browser_tz = driver.execute_script("return Intl.DateTimeFormat().resolvedOptions().timeZone")
               updated_at = driver.execute_script("return currentData.updated_at")
