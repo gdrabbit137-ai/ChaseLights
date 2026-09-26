@@ -1,0 +1,103 @@
+{
+  "schema_version": "r4.2-event-calendar-1",
+  "reviewed_at": "2026-09-26",
+  "policy": "Year-specific event/date gates are data, not scoring logic. Expired windows stay inactive until a new official update is curated.",
+  "events": {
+    "tw-082-P04": {
+      "gate_kind": "verified_dates",
+      "timezone": "Asia/Taipei",
+      "dates": [
+        "2026-04-10",
+        "2026-04-11",
+        "2026-04-17",
+        "2026-04-18",
+        "2026-04-24",
+        "2026-04-25",
+        "2026-05-01",
+        "2026-05-02"
+      ],
+      "verified_at": "2026-09-26",
+      "valid_through": "2026-05-02",
+      "source_refs": [
+        "runtime_catalog_v004_r4_2_b33_hualien_additions.json#tw-082-P04",
+        "runtime_evidence_registry_r4_2.json#tw-082-P04"
+      ]
+    },
+    "tw-082-P06": {
+      "gate_kind": "verified_ranges_time",
+      "timezone": "Asia/Taipei",
+      "ranges": [
+        [
+          "2026-11-28",
+          "2027-01-31"
+        ]
+      ],
+      "time": [
+        "18:00",
+        "22:00"
+      ],
+      "verified_at": "2026-09-26",
+      "valid_through": "2027-01-31",
+      "source_refs": [
+        "runtime_catalog_v004_r4_2_b33_hualien_additions.json#tw-082-P06"
+      ]
+    },
+    "tw-084-P04": {
+      "gate_kind": "verified_ranges",
+      "timezone": "Asia/Taipei",
+      "ranges": [
+        [
+          "2026-02-17",
+          "2026-02-21"
+        ]
+      ],
+      "verified_at": "2026-09-26",
+      "valid_through": "2026-02-21",
+      "source_refs": [
+        "runtime_catalog_v004_r4_2_b33_hualien_additions.json#tw-084-P04",
+        "runtime_evidence_registry_r4_2.json#tw-084-P04"
+      ]
+    },
+    "tw-084-P05": {
+      "gate_kind": "verified_ranges_time",
+      "timezone": "Asia/Taipei",
+      "ranges": [
+        [
+          "2026-03-13",
+          "2026-04-12"
+        ]
+      ],
+      "time": [
+        "18:30",
+        "20:30"
+      ],
+      "verified_at": "2026-09-26",
+      "valid_through": "2026-04-12",
+      "source_refs": [
+        "runtime_catalog_v004_r4_2_b33_hualien_additions.json#tw-084-P05",
+        "runtime_evidence_registry_r4_2.json#tw-084-P05"
+      ]
+    },
+    "tw-084-P06": {
+      "gate_kind": "verified_dates_time_dark",
+      "timezone": "Asia/Taipei",
+      "dates": [
+        "2026-03-27",
+        "2026-03-28",
+        "2026-04-10",
+        "2026-04-11"
+      ],
+      "time": [
+        "18:30",
+        "20:30"
+      ],
+      "verified_at": "2026-09-26",
+      "valid_through": "2026-04-11",
+      "source_refs": [
+        "runtime_catalog_v004_r4_2_b33_hualien_additions.json#tw-084-P06",
+        "runtime_evidence_registry_r4_2.json#tw-084-P06"
+      ]
+    }
+  },
+  "maintenance_batch": "B43"
+}

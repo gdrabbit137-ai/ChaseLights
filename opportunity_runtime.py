@@ -28,6 +28,9 @@ runtime dependency inventory is implemented and configured for that Opportunity.
 This is not production formula certification.
 """
 
+import json
+from pathlib import Path
+
 from runtime_dependencies import (
     FORMULA_DEPENDENCIES,
     dependencies_for_opportunity,
@@ -138,10 +141,46 @@ def supports_minimum_sufficient_contract(opportunity):
     )
 
 
+EVENT_CALENDAR_FILE = "runtime_event_calendar_r4_2.json"
+
+
+def _load_event_calendar():
+    path = Path(__file__).parent / EVENT_CALENDAR_FILE
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if payload.get("schema_version") != "r4.2-event-calendar-1":
+        raise ValueError(f"Unexpected event calendar version: {payload.get('schema_version')}")
+    return payload
+
+
+EVENT_CALENDAR = _load_event_calendar()
+EVENT_CALENDAR_SCHEMA_VERSION = EVENT_CALENDAR["schema_version"]
+
+
+def _bind_event_calendar(opportunity_id, profile):
+    """Attach curated date/time gates without hard-coding annual dates in Python."""
+    event = EVENT_CALENDAR.get("events", {}).get(opportunity_id)
+    if event is None:
+        raise ValueError(f"Missing event calendar record for {opportunity_id}")
+    if event.get("gate_kind") != profile.get("kind"):
+        raise ValueError(
+            f"Event gate kind mismatch for {opportunity_id}: "
+            f"{event.get('gate_kind')} != {profile.get('kind')}"
+        )
+    bound = dict(profile)
+    if "dates" in event:
+        bound["dates"] = set(event["dates"])
+    if "ranges" in event:
+        bound["ranges"] = tuple(tuple(value) for value in event["ranges"])
+    if "time" in event:
+        bound["time"] = tuple(event["time"])
+    bound["event_calendar_valid_through"] = event.get("valid_through")
+    return bound
+
+
 HUALIEN_LOCAL_PROFILES = {
-    "tw-082-P04": {"kind": "verified_dates", "dates": {"2026-04-10", "2026-04-11", "2026-04-17", "2026-04-18", "2026-04-24", "2026-04-25", "2026-05-01", "2026-05-02"}, "score_hint": 92, "access_override": True, "presence_unknown": True},
+    "tw-082-P04": _bind_event_calendar("tw-082-P04", {"kind": "verified_dates", "score_hint": 92, "access_override": True, "presence_unknown": True}),
     "tw-082-P05": {"kind": "wildlife", "score_hint": 74, "presence_unknown": True},
-    "tw-082-P06": {"kind": "verified_ranges_time", "ranges": (("2026-11-28", "2027-01-31"),), "time": ("18:00", "22:00"), "score_hint": 92, "access_override": True},
+    "tw-082-P06": _bind_event_calendar("tw-082-P06", {"kind": "verified_ranges_time", "score_hint": 92, "access_override": True}),
     "tw-082-P07": {"kind": "local_scene", "score_hint": 84},
     "tw-082-P08": {"kind": "activity_presence", "score_hint": 72, "presence_unknown": True},
     "tw-082-P09": {"kind": "mist_local_scene", "score_hint": 90},
@@ -160,9 +199,9 @@ DANONGDAFU_LOCAL_PROFILES = {
     "tw-084-P01": {"kind": "corridor", "score_hint": 86},
     "tw-084-P02": {"kind": "seasonal_months", "months": {8, 9, 10}, "score_hint": 88},
     "tw-084-P03": {"kind": "seasonal_months", "months": {12, 1}, "score_hint": 90},
-    "tw-084-P04": {"kind": "verified_ranges", "ranges": (("2026-02-17", "2026-02-21"),), "score_hint": 90},
-    "tw-084-P05": {"kind": "verified_ranges_time", "ranges": (("2026-03-13", "2026-04-12"),), "time": ("18:30", "20:30"), "score_hint": 92, "access_override": True},
-    "tw-084-P06": {"kind": "verified_dates_time_dark", "dates": {"2026-03-27", "2026-03-28", "2026-04-10", "2026-04-11"}, "time": ("18:30", "20:30"), "score_hint": 90, "access_override": True},
+    "tw-084-P04": _bind_event_calendar("tw-084-P04", {"kind": "verified_ranges", "score_hint": 90}),
+    "tw-084-P05": _bind_event_calendar("tw-084-P05", {"kind": "verified_ranges_time", "score_hint": 92, "access_override": True}),
+    "tw-084-P06": _bind_event_calendar("tw-084-P06", {"kind": "verified_dates_time_dark", "score_hint": 90, "access_override": True}),
     "tw-084-P07": {"kind": "wildlife", "score_hint": 74},
     "tw-084-P08": {"kind": "local_scene", "score_hint": 84},
 }
@@ -1328,8 +1367,40 @@ def evaluate_opportunity_modules(opportunity, item_data):
     }
 
 
+def validate_event_calendar():
+    errors = []
+    expected_ids = {"tw-082-P04", "tw-082-P06", "tw-084-P04", "tw-084-P05", "tw-084-P06"}
+    events = EVENT_CALENDAR.get("events", {})
+    if set(events) != expected_ids:
+        errors.append(
+            f"unexpected event calendar IDs: expected={sorted(expected_ids)} actual={sorted(events)}"
+        )
+    valid_gate_kinds = {
+        "verified_dates", "verified_ranges", "verified_ranges_time", "verified_dates_time_dark"
+    }
+    for opportunity_id, event in events.items():
+        gate_kind = event.get("gate_kind")
+        if gate_kind not in valid_gate_kinds:
+            errors.append(f"{opportunity_id}: invalid event gate kind {gate_kind}")
+        if event.get("timezone") != "Asia/Taipei":
+            errors.append(f"{opportunity_id}: expected Asia/Taipei event timezone")
+        if not event.get("verified_at") or not event.get("valid_through"):
+            errors.append(f"{opportunity_id}: missing verification/expiry metadata")
+        if not event.get("source_refs"):
+            errors.append(f"{opportunity_id}: missing event source references")
+        if "dates" in gate_kind and not event.get("dates"):
+            errors.append(f"{opportunity_id}: dates gate missing dates")
+        if "ranges" in gate_kind and not event.get("ranges"):
+            errors.append(f"{opportunity_id}: range gate missing ranges")
+        if gate_kind.endswith("_time") or gate_kind == "verified_dates_time_dark":
+            if not event.get("time") or len(event["time"]) != 2:
+                errors.append(f"{opportunity_id}: time-gated event missing time window")
+    return errors
+
+
 def validate_runtime_registry():
     errors = list(validate_dependency_inventory())
+    errors.extend(validate_event_calendar())
     errors.extend(validate_spatial_weather_registry())
     errors.extend(validate_marine_state_registry())
     errors.extend(validate_tide_state_registry())
