@@ -80,6 +80,7 @@ from opportunities import (
     ADAPTER_VERSION,
     CATALOG_COUNTS,
     HUALIEN_CATALOG_ADDITIONS_SCHEMA_VERSION,
+    LIYU_SUBJECTS_SCHEMA_VERSION,
     REGION_CATALOG_COUNTS,
     CURATED_OPPORTUNITIES,
     get_opportunities,
@@ -100,15 +101,15 @@ def test_adapter_integrity():
     assert validate_taxonomy() == []
     assert CATALOG_COUNTS == {
         "spots": 109,
-        "opportunities": 249,
-        "condition_variants": 259,
-        "profile_viewpoint_relations": 254,
+        "opportunities": 251,
+        "condition_variants": 261,
+        "profile_viewpoint_relations": 256,
     }
     assert REGION_CATALOG_COUNTS["tw"] == {
         "spots": 83,
-        "opportunities": 215,
-        "condition_variants": 225,
-        "profile_viewpoint_relations": 220,
+        "opportunities": 217,
+        "condition_variants": 227,
+        "profile_viewpoint_relations": 222,
     }
     assert REGION_CATALOG_COUNTS["jp"] == {
         "spots": 26,
@@ -149,6 +150,15 @@ def test_adapter_integrity():
     assert hualien_catalog["condition_variant_count"] == 22
     assert hualien_catalog["profile_viewpoint_relation_count"] == 22
 
+    liyu_b35_catalog = json.loads(
+        Path("runtime_catalog_v004_r4_2_b35_liyu_subjects.json").read_text(encoding="utf-8")
+    )
+    assert LIYU_SUBJECTS_SCHEMA_VERSION == "v0.04-r4.2-b35-liyu-subjects-1"
+    assert liyu_b35_catalog["spot_count"] == len(liyu_b35_catalog["spots"]) == 1
+    assert liyu_b35_catalog["opportunity_count"] == 2
+    assert liyu_b35_catalog["condition_variant_count"] == 2
+    assert liyu_b35_catalog["profile_viewpoint_relation_count"] == 2
+
     tw = get_spots("tw")
     assert len(tw) == 84
     assert [s["spot_id"] for s in tw] == [f"tw-{i:03d}" for i in range(1, 85)]
@@ -165,11 +175,11 @@ def test_adapter_integrity():
     expected_active = {f"tw-{i:03d}" for i in range(1, 85)} - {"tw-063"}
     assert set(curated) == expected_active
     assert "tw-063" not in CURATED_OPPORTUNITIES
-    assert sum(len(s["opportunities"]) for s in curated.values()) == 215
+    assert sum(len(s["opportunities"]) for s in curated.values()) == 217
 
     all_opportunities = _all_opportunities()
-    assert sum(len(o["condition_variants"]) for o in all_opportunities) == 259
-    assert sum(len(o["viewpoints"]) for o in all_opportunities) == 254
+    assert sum(len(o["condition_variants"]) for o in all_opportunities) == 261
+    assert sum(len(o["viewpoints"]) for o in all_opportunities) == 256
     assert not any(o["formula_status"] == "legacy_fallback_pending_curated" for o in all_opportunities)
     assert not any(str(o.get("formula_version") or "").startswith("legacy_") for o in all_opportunities)
 
@@ -182,7 +192,7 @@ def test_adapter_integrity():
     assert policies == {
         "module_pending": 73,
         "preview_module_available": 87,
-        "minimum_sufficient_available": 83,
+        "minimum_sufficient_available": 85,
         "prototype_pending_certification": 2,
         "hold": 2,
         "data_insufficient": 2,
@@ -228,11 +238,12 @@ def test_adapter_integrity():
 
     liyu_ops = get_opportunities("tw", "tw-082")
     yun_ops = get_opportunities("tw", "tw-083")
-    assert len(liyu_ops) == 8
+    assert len(liyu_ops) == 10
     assert len(yun_ops) == 5
     assert {o["opportunity_id"] for o in liyu_ops} == {
         "tw-082-P01", "tw-082-P02", "tw-082-P03", "tw-082-P04",
         "tw-082-P05", "tw-082-P06", "tw-082-P07", "tw-082-P08",
+        "tw-082-P09", "tw-082-P10",
     }
     assert {o["opportunity_id"] for o in yun_ops} == {
         "tw-083-P01", "tw-083-P02", "tw-083-P03", "tw-083-P04", "tw-083-P05",
@@ -242,7 +253,8 @@ def test_adapter_integrity():
     assert liyu_by_id["tw-082-P02"]["runtime_policy"] == "minimum_sufficient_available"
     assert liyu_by_id["tw-082-P03"]["runtime_policy"] == "preview_module_available"
     assert all(liyu_by_id[x]["runtime_policy"] == "minimum_sufficient_available" for x in (
-        "tw-082-P04", "tw-082-P05", "tw-082-P06", "tw-082-P07", "tw-082-P08"
+        "tw-082-P04", "tw-082-P05", "tw-082-P06", "tw-082-P07", "tw-082-P08",
+        "tw-082-P09", "tw-082-P10"
     ))
     assert all(yun_by_id[x]["runtime_policy"] == "minimum_sufficient_available" for x in (
         "tw-083-P02", "tw-083-P03", "tw-083-P04", "tw-083-P05"
@@ -275,6 +287,33 @@ def test_adapter_integrity():
     })
     assert birding["eligible"] is True
     assert birding["wildlife_presence_forecastable"] is False
+
+    misty_liyu = evaluate_minimum_sufficient_visibility(liyu_by_id["tw-082-P09"], {
+        "local_date": "2026-09-27", "local_time": "07:00", "local_month": 9,
+        "vis": 300, "rh": 73, "c_low": 47, "cloud_base_agl": 662,
+        "pop": 0, "precipitation": 0.0, "access_open": True,
+    })
+    assert misty_liyu["eligible"] is True
+    assert misty_liyu["reason"] == "mist_visibility_window"
+    assert misty_liyu["score_hint"] == 90
+    assert misty_liyu["mist_visibility_km"] == 0.3
+
+    clear_liyu_mist = evaluate_minimum_sufficient_visibility(liyu_by_id["tw-082-P09"], {
+        "local_date": "2026-09-27", "local_time": "09:00", "local_month": 9,
+        "vis": 20100, "rh": 73, "c_low": 0, "cloud_base_agl": 662,
+        "pop": 0, "precipitation": 0.0, "access_open": True,
+    })
+    assert clear_liyu_mist["eligible"] is False
+    assert clear_liyu_mist["reason"] == "mist_not_indicated"
+
+    wetland_close = evaluate_minimum_sufficient_visibility(liyu_by_id["tw-082-P10"], {
+        "local_date": "2026-09-27", "local_time": "07:00", "local_month": 9,
+        "vis": 300, "rh": 73, "c_low": 47,
+        "pop": 0, "precipitation": 0.0, "access_open": True,
+    })
+    assert wetland_close["eligible"] is True
+    assert wetland_close["long_range_visibility_is_not_a_blocker"] is True
+    assert wetland_close["score_hint"] == 82
 
     cypress = evaluate_minimum_sufficient_visibility(yun_by_id["tw-083-P02"], {
         "local_date": "2026-12-20", "local_time": "10:00", "local_month": 12,
