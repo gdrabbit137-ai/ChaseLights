@@ -398,7 +398,29 @@
       }
     }
 
-    #loading { text-align: center; font-size: 1.2rem; color: var(--muted); margin-top: 40px; }
+    #loading {
+      max-width:520px;
+      margin:36px auto 0;
+      padding:16px 18px;
+      text-align:center;
+      font-size:.95rem;
+      line-height:1.5;
+      color:var(--muted);
+      background:rgba(30,41,59,.55);
+      border:1px solid #334155;
+      border-radius:10px;
+    }
+    .empty-state {
+      grid-column:1/-1;
+      margin:18px 0 0;
+      padding:22px 16px;
+      text-align:center;
+      color:var(--muted);
+      background:rgba(30,41,59,.45);
+      border:1px dashed #475569;
+      border-radius:10px;
+      line-height:1.5;
+    }
 
     .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(4px); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 15px; }
     .modal { background: #0c0c0c; border: 1px solid #333; border-radius: 8px; max-width: 950px; width: 100%; max-height: 90vh; display: flex; flex-direction: column; font-family: "Courier New", Courier, monospace; color: #ffffff; box-shadow: 0 0 20px rgba(0,255,255,0.1); }
@@ -783,7 +805,7 @@
       }
       const rows=[];for(const spot of filtered){const metric=getMetric(spot);if(metric)rows.push({spot,metric});}rows.sort((a,b)=>{const as=Number.isFinite(Number(a.metric.score))?Number(a.metric.score):-1;const bs=Number.isFinite(Number(b.metric.score))?Number(b.metric.score):-1;return bs-as;});
       updateFilterResultSummary(rows.length);
-      if(!rows.length){container.innerHTML=`<p style="color:var(--muted);grid-column:1/-1;text-align:center">${d().no_spots}</p>`;return;}
+      if(!rows.length){container.innerHTML=`<div class="empty-state">📭 ${esc(d().no_spots)}</div>`;return;}
       rows.forEach(({spot,metric})=>{
         const card=document.createElement('div');card.className='card';card.onclick=()=>openPlaceModal(spot,metric);
         const noViable=!!metric.no_viable_opportunity;const researchPending=!!metric.research_pending||!spot.opportunities?.length;const hasScore=metric.score!==null&&metric.score!==undefined&&!researchPending&&!noViable;const score=hasScore?Number(metric.score):null;const scoreClass=!hasScore?'score-low':score>=92?'score-gold':score>=80?'score-high':score>=65?'score-mid':'score-low';const flame=hasScore&&score>=92?'🔥 ':'';const scoreText=hasScore?`${flame}${score}`:'—';const scoreLabel=!hasScore?'':score>=92?d().score_excellent:score>=80?d().score_good:score>=65?d().score_fair:d().score_low_label;
