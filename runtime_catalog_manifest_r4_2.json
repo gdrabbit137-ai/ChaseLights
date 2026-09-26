@@ -1,0 +1,66 @@
+{
+  "schema_version": "r4.2-b42-catalog-manifest-1",
+  "purpose": "Central expected-state manifest for the effective curated Opportunity catalog. Runtime code computes actual counts and validates them against this snapshot.",
+  "totals": {
+    "spots": 109,
+    "opportunities": 251,
+    "condition_variants": 261,
+    "profile_viewpoint_relations": 256
+  },
+  "regions": {
+    "tw": {
+      "numeric_id_start": 1,
+      "numeric_id_end": 84,
+      "retired_spot_ids": [
+        "tw-063"
+      ],
+      "counts": {
+        "spots": 83,
+        "opportunities": 217,
+        "condition_variants": 227,
+        "profile_viewpoint_relations": 222
+      }
+    },
+    "jp": {
+      "numeric_id_start": 1,
+      "numeric_id_end": 26,
+      "retired_spot_ids": [],
+      "counts": {
+        "spots": 26,
+        "opportunities": 34,
+        "condition_variants": 34,
+        "profile_viewpoint_relations": 34
+      }
+    },
+    "us": {
+      "numeric_id_start": null,
+      "numeric_id_end": null,
+      "retired_spot_ids": [],
+      "counts": {
+        "spots": 0,
+        "opportunities": 0,
+        "condition_variants": 0,
+        "profile_viewpoint_relations": 0
+      }
+    }
+  },
+  "runtime_policy_counts": {
+    "module_pending": 73,
+    "preview_module_available": 87,
+    "minimum_sufficient_available": 85,
+    "prototype_pending_certification": 2,
+    "hold": 2,
+    "data_insufficient": 2
+  },
+  "exact_geometry_opportunity_ids": [
+    "tw-017-P01",
+    "tw-028-P04",
+    "tw-038-P02"
+  ],
+  "minimum_sufficient_visibility_profile_count": 61,
+  "notes": [
+    "This manifest describes the effective curated catalog, not the full Place inventory shown in production.",
+    "Japan production contains 35 Place cards, but only jp-001 through jp-026 are Opportunity-migrated at this checkpoint.",
+    "US production Place cards remain research-pending and are intentionally absent from the curated Opportunity catalog."
+  ]
+}
