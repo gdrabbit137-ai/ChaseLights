@@ -145,9 +145,9 @@ def test_adapter_integrity():
     )
     assert HUALIEN_CATALOG_ADDITIONS_SCHEMA_VERSION == "v0.04-r4.2-b33-hualien-additions-1"
     assert hualien_catalog["spot_count"] == len(hualien_catalog["spots"]) == 3
-    assert hualien_catalog["opportunity_count"] == 3
-    assert hualien_catalog["condition_variant_count"] == 3
-    assert hualien_catalog["profile_viewpoint_relation_count"] == 3
+    assert hualien_catalog["opportunity_count"] == 22
+    assert hualien_catalog["condition_variant_count"] == 22
+    assert hualien_catalog["profile_viewpoint_relation_count"] == 22
 
     tw = get_spots("tw")
     assert len(tw) == 84
@@ -181,13 +181,13 @@ def test_adapter_integrity():
     policies = Counter(runtime_policy(o) for o in all_opportunities)
     assert policies == {
         "module_pending": 72,
-        "preview_module_available": 86,
-        "minimum_sufficient_available": 70,
+        "preview_module_available": 87,
+        "minimum_sufficient_available": 80,
         "prototype_pending_certification": 2,
         "hold": 2,
         "data_insufficient": 2,
     }
-    assert len(MINIMUM_SUFFICIENT_VISIBILITY_PROFILES) == 61
+    assert len(MINIMUM_SUFFICIENT_VISIBILITY_PROFILES) == 62
 
     hualien = {spot["spot_id"]: spot for spot in tw if spot["spot_id"] in {"tw-082", "tw-083", "tw-084"}}
     assert {sid: spot["name_i18n"]["zh-TW"] for sid, spot in hualien.items()} == {
@@ -202,6 +202,77 @@ def test_adapter_integrity():
     assert hualien["tw-084"]["access_hours"] == ["08:00", "17:00"]
     assert get_opportunities("tw", "tw-082")[0]["runtime_policy"] == "preview_module_available"
     assert get_opportunities("tw", "tw-083")[0]["runtime_policy"] == "preview_module_available"
+
+    liyu_ops = get_opportunities("tw", "tw-082")
+    yun_ops = get_opportunities("tw", "tw-083")
+    assert len(liyu_ops) == 8
+    assert len(yun_ops) == 5
+    assert {o["opportunity_id"] for o in liyu_ops} == {
+        "tw-082-P01", "tw-082-P02", "tw-082-P03", "tw-082-P04",
+        "tw-082-P05", "tw-082-P06", "tw-082-P07", "tw-082-P08",
+    }
+    assert {o["opportunity_id"] for o in yun_ops} == {
+        "tw-083-P01", "tw-083-P02", "tw-083-P03", "tw-083-P04", "tw-083-P05",
+    }
+    liyu_by_id = {o["opportunity_id"]: o for o in liyu_ops}
+    yun_by_id = {o["opportunity_id"]: o for o in yun_ops}
+    assert liyu_by_id["tw-082-P02"]["runtime_policy"] == "minimum_sufficient_available"
+    assert liyu_by_id["tw-082-P03"]["runtime_policy"] == "preview_module_available"
+    assert all(liyu_by_id[x]["runtime_policy"] == "minimum_sufficient_available" for x in (
+        "tw-082-P04", "tw-082-P05", "tw-082-P06", "tw-082-P07", "tw-082-P08"
+    ))
+    assert all(yun_by_id[x]["runtime_policy"] == "minimum_sufficient_available" for x in (
+        "tw-083-P02", "tw-083-P03", "tw-083-P04", "tw-083-P05"
+    ))
+
+    firefly = evaluate_minimum_sufficient_visibility(liyu_by_id["tw-082-P04"], {
+        "local_date": "2026-04-17", "local_time": "19:30", "local_month": 4,
+        "pop": 10, "precipitation": 0.0, "access_open": False,
+    })
+    assert firefly["eligible"] is True
+    assert firefly["access_override"] is True
+
+    firefly_wrong_day = evaluate_minimum_sufficient_visibility(liyu_by_id["tw-082-P04"], {
+        "local_date": "2026-04-19", "local_time": "19:30", "local_month": 4,
+        "pop": 10, "precipitation": 0.0, "access_open": False,
+    })
+    assert firefly_wrong_day["eligible"] is False
+    assert firefly_wrong_day["reason"] == "outside_verified_event_date"
+
+    light_festival = evaluate_minimum_sufficient_visibility(liyu_by_id["tw-082-P06"], {
+        "local_date": "2026-12-20", "local_time": "19:00", "local_month": 12,
+        "pop": 10, "precipitation": 0.0, "access_open": False,
+    })
+    assert light_festival["eligible"] is True
+    assert light_festival["access_override"] is True
+
+    birding = evaluate_minimum_sufficient_visibility(liyu_by_id["tw-082-P05"], {
+        "local_date": "2026-09-26", "local_time": "08:00", "local_month": 9,
+        "pop": 5, "precipitation": 0.0, "access_open": True,
+    })
+    assert birding["eligible"] is True
+    assert birding["wildlife_presence_forecastable"] is False
+
+    cypress = evaluate_minimum_sufficient_visibility(yun_by_id["tw-083-P02"], {
+        "local_date": "2026-12-20", "local_time": "10:00", "local_month": 12,
+        "pop": 10, "precipitation": 0.0, "access_open": True,
+    })
+    assert cypress["eligible"] is True
+    assert cypress["subject_presence_forecastable"] is False
+
+    cypress_summer = evaluate_minimum_sufficient_visibility(yun_by_id["tw-083-P02"], {
+        "local_date": "2026-07-20", "local_time": "10:00", "local_month": 7,
+        "pop": 10, "precipitation": 0.0, "access_open": True,
+    })
+    assert cypress_summer["eligible"] is False
+    assert cypress_summer["reason"] == "outside_curated_season"
+
+    iris = evaluate_minimum_sufficient_visibility(yun_by_id["tw-083-P03"], {
+        "local_date": "2026-04-10", "local_time": "10:00", "local_month": 4,
+        "pop": 10, "precipitation": 0.0, "access_open": True,
+    })
+    assert iris["eligible"] is True
+
     danongdafu_ops = get_opportunities("tw", "tw-084")
     assert len(danongdafu_ops) == 9
     assert {o["opportunity_id"] for o in danongdafu_ops} == {
@@ -279,6 +350,8 @@ def test_adapter_integrity():
         "jp-025-P01", "jp-026-P01",
         "tw-084-P01", "tw-084-P02", "tw-084-P03", "tw-084-P04",
         "tw-084-P05", "tw-084-P06", "tw-084-P07", "tw-084-P08",
+        "tw-082-P04", "tw-082-P05", "tw-082-P06", "tw-082-P07", "tw-082-P08",
+        "tw-083-P02", "tw-083-P03", "tw-083-P04", "tw-083-P05",
     }
 
     # R4.2 Navigation Target contract: every Place has explicit state, but
