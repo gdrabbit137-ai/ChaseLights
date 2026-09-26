@@ -79,8 +79,9 @@ import fetch_data
 from opportunities import (
     ADAPTER_VERSION,
     CATALOG_COUNTS,
+    CATALOG_MANIFEST,
+    CATALOG_MANIFEST_SCHEMA_VERSION,
     HUALIEN_CATALOG_ADDITIONS_SCHEMA_VERSION,
-    LIYU_SUBJECTS_SCHEMA_VERSION,
     LIYU_SUBJECTS_SCHEMA_VERSION,
     REGION_CATALOG_COUNTS,
     CURATED_OPPORTUNITIES,
@@ -100,30 +101,10 @@ def test_adapter_integrity():
     assert ADAPTER_VERSION == "v0.04-r4.2-b33-jp026-integration-r25-preview"
     assert validate_curated_opportunities() == []
     assert validate_taxonomy() == []
-    assert CATALOG_COUNTS == {
-        "spots": 109,
-        "opportunities": 251,
-        "condition_variants": 261,
-        "profile_viewpoint_relations": 256,
-    }
-    assert REGION_CATALOG_COUNTS["tw"] == {
-        "spots": 83,
-        "opportunities": 217,
-        "condition_variants": 227,
-        "profile_viewpoint_relations": 222,
-    }
-    assert REGION_CATALOG_COUNTS["jp"] == {
-        "spots": 26,
-        "opportunities": 34,
-        "condition_variants": 34,
-        "profile_viewpoint_relations": 34,
-    }
-    assert REGION_CATALOG_COUNTS["us"] == {
-        "spots": 0,
-        "opportunities": 0,
-        "condition_variants": 0,
-        "profile_viewpoint_relations": 0,
-    }
+    assert CATALOG_MANIFEST_SCHEMA_VERSION == "r4.2-b42-catalog-manifest-1"
+    assert CATALOG_COUNTS == CATALOG_MANIFEST["totals"]
+    for region_key, region_manifest in CATALOG_MANIFEST["regions"].items():
+        assert REGION_CATALOG_COUNTS[region_key] == region_manifest["counts"]
 
     jp_catalog = json.loads(
         Path("runtime_catalog_v004_r4_2_b32_jp_batch01.json").read_text(encoding="utf-8")
@@ -167,39 +148,36 @@ def test_adapter_integrity():
     assert PRODUCT_STATUS_BY_SPOT == {"tw-063": "retired"}
     assert product_status("tw-063") == "retired"
     assert active_in_catalog("tw-063") is False
-    assert sum(1 for s in tw if active_in_catalog(s["spot_id"])) == 83
+    assert sum(1 for s in tw if active_in_catalog(s["spot_id"])) == CATALOG_MANIFEST["regions"]["tw"]["counts"]["spots"]
     assert all(
         product_status(s["spot_id"]) == "keep"
         for s in tw if s["spot_id"] != "tw-063"
     )
 
     curated = {s["spot_id"]: s for s in tw if s.get("opportunities")}
-    expected_active = {f"tw-{i:03d}" for i in range(1, 85)} - {"tw-063"}
+    tw_manifest = CATALOG_MANIFEST["regions"]["tw"]
+    expected_active = {
+        f"tw-{i:03d}"
+        for i in range(tw_manifest["numeric_id_start"], tw_manifest["numeric_id_end"] + 1)
+    } - set(tw_manifest["retired_spot_ids"])
     assert set(curated) == expected_active
-    assert "tw-063" not in CURATED_OPPORTUNITIES
-    assert sum(len(s["opportunities"]) for s in curated.values()) == 217
+    assert set(tw_manifest["retired_spot_ids"]).isdisjoint(CURATED_OPPORTUNITIES)
+    assert sum(len(s["opportunities"]) for s in curated.values()) == tw_manifest["counts"]["opportunities"]
 
     all_opportunities = _all_opportunities()
-    assert sum(len(o["condition_variants"]) for o in all_opportunities) == 261
-    assert sum(len(o["viewpoints"]) for o in all_opportunities) == 256
+    assert sum(len(o["condition_variants"]) for o in all_opportunities) == CATALOG_MANIFEST["totals"]["condition_variants"]
+    assert sum(len(o["viewpoints"]) for o in all_opportunities) == CATALOG_MANIFEST["totals"]["profile_viewpoint_relations"]
     assert not any(o["formula_status"] == "legacy_fallback_pending_curated" for o in all_opportunities)
     assert not any(str(o.get("formula_version") or "").startswith("legacy_") for o in all_opportunities)
 
     exact = {o["opportunity_id"] for o in all_opportunities if o["geometry_required"]}
-    assert exact == {"tw-017-P01", "tw-028-P04", "tw-038-P02"}
+    assert exact == set(CATALOG_MANIFEST["exact_geometry_opportunity_ids"])
     assert all(o["mode"] == "composition_specific" for o in all_opportunities if o["geometry_required"])
     assert all(o["geometry_required"] is False for o in all_opportunities if o["mode"] == "area_opportunity")
 
     policies = Counter(runtime_policy(o) for o in all_opportunities)
-    assert policies == {
-        "module_pending": 73,
-        "preview_module_available": 87,
-        "minimum_sufficient_available": 85,
-        "prototype_pending_certification": 2,
-        "hold": 2,
-        "data_insufficient": 2,
-    }
-    assert len(MINIMUM_SUFFICIENT_VISIBILITY_PROFILES) == 61
+    assert dict(policies) == CATALOG_MANIFEST["runtime_policy_counts"]
+    assert len(MINIMUM_SUFFICIENT_VISIBILITY_PROFILES) == CATALOG_MANIFEST["minimum_sufficient_visibility_profile_count"]
 
     hualien = {spot["spot_id"]: spot for spot in tw if spot["spot_id"] in {"tw-082", "tw-083", "tw-084"}}
     assert {sid: spot["name_i18n"]["zh-TW"] for sid, spot in hualien.items()} == {
