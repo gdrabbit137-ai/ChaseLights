@@ -81,6 +81,7 @@ from opportunities import (
     CATALOG_COUNTS,
     HUALIEN_CATALOG_ADDITIONS_SCHEMA_VERSION,
     LIYU_SUBJECTS_SCHEMA_VERSION,
+    LIYU_SUBJECTS_SCHEMA_VERSION,
     REGION_CATALOG_COUNTS,
     CURATED_OPPORTUNITIES,
     get_opportunities,
@@ -145,6 +146,7 @@ def test_adapter_integrity():
         Path("runtime_catalog_v004_r4_2_b33_hualien_additions.json").read_text(encoding="utf-8")
     )
     assert HUALIEN_CATALOG_ADDITIONS_SCHEMA_VERSION == "v0.04-r4.2-b33-hualien-additions-1"
+    assert LIYU_SUBJECTS_SCHEMA_VERSION == "v0.04-r4.2-b35-liyu-subjects-1"
     assert hualien_catalog["spot_count"] == len(hualien_catalog["spots"]) == 3
     assert hualien_catalog["opportunity_count"] == 22
     assert hualien_catalog["condition_variant_count"] == 22
@@ -287,6 +289,32 @@ def test_adapter_integrity():
     })
     assert birding["eligible"] is True
     assert birding["wildlife_presence_forecastable"] is False
+
+    mist = evaluate_minimum_sufficient_visibility(liyu_by_id["tw-082-P09"], {
+        "local_date": "2026-09-27", "local_time": "07:00", "local_month": 9,
+        "vis": 300, "rh": 86, "c_low": 47, "cloud_base_agl": 662,
+        "pop": 0, "precipitation": 0.0, "access_open": True,
+    })
+    assert mist["eligible"] is True
+    assert mist["reason"] == "mist_visibility_window"
+    assert mist["score_hint"] == 90
+    assert mist["long_range_visibility_is_not_a_blocker"] is True
+
+    mist_clear = evaluate_minimum_sufficient_visibility(liyu_by_id["tw-082-P09"], {
+        "local_date": "2026-09-27", "local_time": "09:00", "local_month": 9,
+        "vis": 20100, "rh": 73, "c_low": 0, "cloud_base_agl": 662,
+        "pop": 0, "precipitation": 0.0, "access_open": True,
+    })
+    assert mist_clear["eligible"] is False
+    assert mist_clear["reason"] == "mist_not_indicated"
+
+    wetland = evaluate_minimum_sufficient_visibility(liyu_by_id["tw-082-P10"], {
+        "local_date": "2026-09-27", "local_time": "07:00", "local_month": 9,
+        "vis": 300, "c_low": 47, "pop": 0, "precipitation": 0.0, "access_open": True,
+    })
+    assert wetland["eligible"] is True
+    assert wetland["long_range_visibility_is_not_a_blocker"] is True
+    assert wetland["score_hint"] == 82
 
     misty_liyu = evaluate_minimum_sufficient_visibility(liyu_by_id["tw-082-P09"], {
         "local_date": "2026-09-27", "local_time": "07:00", "local_month": 9,
