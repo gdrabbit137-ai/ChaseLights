@@ -288,7 +288,8 @@ jobs:
 
               todoroki_card = next(c for c in researched_cards if "等等力溪谷" in c.text)
               todoroki_score_text = todoroki_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
-              assert todoroki_score_text == "0", todoroki_card.text
+              assert todoroki_score_text in {"", "—"}, todoroki_card.text
+              assert "今天剩餘時段沒有合適的已研究拍攝機會" in todoroki_card.text, todoroki_card.text
               assert "攝影研究待補" not in todoroki_card.text
 
               todoroki_nav = todoroki_card.find_element(By.CSS_SELECTOR, "[data-navigation-mode]")
