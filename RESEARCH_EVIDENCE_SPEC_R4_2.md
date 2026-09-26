@@ -181,3 +181,119 @@ For every pull request to `main` and relevant push to `main`:
 
 The gate protects the evidence boundary; it does not require promotion to `verified`.
 
+## 12. Repository file ownership and source-of-truth classification
+
+The repository MUST distinguish **authoritative product data**, **research evidence**, **runtime logic**, **Place/navigation metadata**, **generated forecast output**, and **historical handoff/migration material**. A file in one class MUST NOT silently become the source of truth for another class.
+
+### 12.1 Canonical Photography Opportunity catalog
+
+`runtime_catalog_v004_r4_2.json` is the canonical, human-readable production catalog for all active researched Places and Photography Opportunities.
+
+It owns:
+- Place-level Opportunity membership,
+- `opportunity_id`, names and compatibility theme,
+- `best_time` and `best_season`,
+- `condition_variants`,
+- `hard_gates`,
+- `required_conditions`,
+- `boosters`,
+- `penalties`,
+- curated `viewpoints` / Camera Zones,
+- formula/runtime status metadata.
+
+After canonical-catalog cutover, production code MUST read this file rather than reconstructing the catalog from batch fragments.
+
+The following files are legacy migration inputs / historical batch artifacts and are NOT independent production sources of truth after cutover:
+- `runtime_catalog_v004_r4_2_b15.compact.part1.b64` through `part5.b64`,
+- `runtime_catalog_v004_r4_2_b28_additions.json`,
+- `runtime_catalog_v004_r4_2_b32_jp_batch01.json`,
+- `runtime_catalog_v004_r4_2_b33_hualien_additions.json`,
+- `runtime_catalog_v004_r4_2_b34_liushishishan_additions.json`,
+- `runtime_catalog_v004_r4_2_b35_liyu_subjects.json`.
+
+New Opportunity work MUST update the canonical catalog. A later batch file may be used as a temporary review artifact, but it must be folded into the canonical catalog before the change is considered complete.
+
+### 12.2 Research evidence registry
+
+`runtime_evidence_registry_r4_2.json` is the source of truth for **why a high-risk or audited photographic subject is admitted, narrowed, held, or rejected**.
+
+It owns:
+- evidence status,
+- evidence scope,
+- source provenance,
+- forecast boundary,
+- conservative audit outcome.
+
+It does NOT own scoring formulas or live forecast values.
+
+### 12.3 Runtime formula and condition evaluation
+
+Runtime code is the source of truth for **how current conditions are evaluated**.
+
+Primary files include:
+- `opportunity_runtime.py` — Opportunity runtime policy and shared evaluators,
+- `spatial_weather.py` — vertical/spatial low-cloud and cloud-sea diagnostics,
+- `marine_state.py` — wave/swell diagnostics,
+- `tide_state.py` — relative tide-state diagnostics,
+- `access_state.py` and provider-specific access modules — dynamic access,
+- `fetch_data.py` — provider acquisition, hourly data assembly and score integration.
+
+Catalog prose such as `required_conditions`, `boosters`, and `penalties` documents the photographic contract; it MUST NOT replace the executable runtime implementation when a dedicated formula exists.
+
+### 12.4 Place identity, navigation and compatibility metadata
+
+`regions.py` owns Place identity and compatibility metadata such as:
+- Place coordinates used by the legacy/weather layer,
+- display names and aliases,
+- broad Scene/Theme compatibility tags,
+- navigation/search metadata where still defined there.
+
+Legacy tags such as `coast`, `starlight`, or `cloud_sea` are discovery/compatibility metadata. They MUST NOT be treated as proof that a researched Photography Opportunity exists.
+
+Navigation-specific semantics remain governed by `NAVIGATION_SPEC_R4_2.md`.
+
+### 12.5 Generated weather/output data
+
+Files such as `tw_weather.json`, `jp_weather.json`, `us_weather.json`, regional detail JSON, and `weather_details/**` are generated runtime/output artifacts.
+
+They MAY cache or expose:
+- current/past/forecast weather,
+- calculated scores,
+- runtime diagnostics,
+- UI-ready hourly details.
+
+They MUST NOT become the authoritative source for Place research, Opportunity definitions, or evidence provenance.
+
+### 12.6 Specifications, research notes and handoff files
+
+Files such as:
+- `RESEARCH_EVIDENCE_SPEC_R4_2.md`,
+- `NAVIGATION_SPEC_R4_2.md`,
+- `B*_RESEARCH*.md`,
+- `B*_HANDOFF*.md`,
+- `handoff/**`
+
+document requirements, research history, decisions and transfer state.
+
+Specifications define policy. Research/handoff documents preserve context, but they MUST NOT override the canonical catalog or evidence registry merely because they contain newer prose. Any accepted product-data change must be reflected in the corresponding canonical machine-readable file.
+
+### 12.7 Tests and CI
+
+`test_opportunity_adapter.py`, audit scripts, and `.github/workflows/**` enforce schema, counts, evidence boundaries and runtime behavior.
+
+Tests and CI are enforcement mechanisms, not product-data stores.
+
+### 12.8 Conflict-resolution order
+
+When two files disagree, use this ownership order for the disputed field:
+
+1. Specification for policy/semantics.
+2. `runtime_catalog_v004_r4_2.json` for researched Opportunity definitions and photographic-condition contracts.
+3. `runtime_evidence_registry_r4_2.json` for evidence/provenance classification.
+4. Runtime modules for executable current-condition evaluation.
+5. `regions.py` for Place identity/legacy compatibility metadata.
+6. Generated weather JSON for the latest computed output only.
+7. Research notes and handoff files for historical context.
+
+A conflict SHOULD be fixed at the owning layer rather than patched downstream.
+
