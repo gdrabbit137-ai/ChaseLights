@@ -78,10 +78,8 @@ import analyze_weather
 import fetch_data
 from opportunities import (
     ADAPTER_VERSION,
+    CANONICAL_CATALOG_SCHEMA_VERSION,
     CATALOG_COUNTS,
-    HUALIEN_CATALOG_ADDITIONS_SCHEMA_VERSION,
-    LIYU_SUBJECTS_SCHEMA_VERSION,
-    LIYU_SUBJECTS_SCHEMA_VERSION,
     REGION_CATALOG_COUNTS,
     CURATED_OPPORTUNITIES,
     get_opportunities,
@@ -97,7 +95,7 @@ def _all_opportunities():
 
 
 def test_adapter_integrity():
-    assert ADAPTER_VERSION == "v0.04-r4.2-b33-jp026-integration-r25-preview"
+    assert ADAPTER_VERSION == "v0.04-r4.2-canonical-r26-preview"
     assert validate_curated_opportunities() == []
     assert validate_taxonomy() == []
     assert CATALOG_COUNTS == {
@@ -125,41 +123,27 @@ def test_adapter_integrity():
         "profile_viewpoint_relations": 0,
     }
 
-    jp_catalog = json.loads(
-        Path("runtime_catalog_v004_r4_2_b32_jp_batch01.json").read_text(encoding="utf-8")
+    canonical_catalog = json.loads(
+        Path("runtime_catalog_v004_r4_2.json").read_text(encoding="utf-8")
     )
-    assert jp_catalog["schema_version"] == "v0.04-r4.2-b32-jp-batch01-25"
-    assert jp_catalog["spot_count"] == len(jp_catalog["spots"]) == 26
-    assert jp_catalog["opportunity_count"] == sum(len(x.get("opportunities", [])) for x in jp_catalog["spots"]) == 34
-    assert jp_catalog["condition_variant_count"] == sum(
+    assert CANONICAL_CATALOG_SCHEMA_VERSION == "v0.04-r4.2-canonical-1"
+    assert canonical_catalog["schema_version"] == CANONICAL_CATALOG_SCHEMA_VERSION
+    assert canonical_catalog["catalog_role"] == "canonical_runtime_catalog"
+    assert canonical_catalog["counts"] == CATALOG_COUNTS
+    assert canonical_catalog["counts"]["spots"] == len(canonical_catalog["spots"]) == 109
+    assert canonical_catalog["counts"]["opportunities"] == sum(
+        len(x.get("opportunities", [])) for x in canonical_catalog["spots"]
+    ) == 251
+    assert canonical_catalog["counts"]["condition_variants"] == sum(
         len(o.get("condition_variants", []))
-        for x in jp_catalog["spots"]
+        for x in canonical_catalog["spots"]
         for o in x.get("opportunities", [])
-    ) == 34
-    assert jp_catalog["profile_viewpoint_relation_count"] == sum(
+    ) == 261
+    assert canonical_catalog["counts"]["profile_viewpoint_relations"] == sum(
         len(o.get("viewpoints", []))
-        for x in jp_catalog["spots"]
+        for x in canonical_catalog["spots"]
         for o in x.get("opportunities", [])
-    ) == 34
-
-    hualien_catalog = json.loads(
-        Path("runtime_catalog_v004_r4_2_b33_hualien_additions.json").read_text(encoding="utf-8")
-    )
-    assert HUALIEN_CATALOG_ADDITIONS_SCHEMA_VERSION == "v0.04-r4.2-b33-hualien-additions-1"
-    assert LIYU_SUBJECTS_SCHEMA_VERSION == "v0.04-r4.2-b35-liyu-subjects-1"
-    assert hualien_catalog["spot_count"] == len(hualien_catalog["spots"]) == 3
-    assert hualien_catalog["opportunity_count"] == 22
-    assert hualien_catalog["condition_variant_count"] == 22
-    assert hualien_catalog["profile_viewpoint_relation_count"] == 22
-
-    liyu_b35_catalog = json.loads(
-        Path("runtime_catalog_v004_r4_2_b35_liyu_subjects.json").read_text(encoding="utf-8")
-    )
-    assert LIYU_SUBJECTS_SCHEMA_VERSION == "v0.04-r4.2-b35-liyu-subjects-1"
-    assert liyu_b35_catalog["spot_count"] == len(liyu_b35_catalog["spots"]) == 1
-    assert liyu_b35_catalog["opportunity_count"] == 2
-    assert liyu_b35_catalog["condition_variant_count"] == 2
-    assert liyu_b35_catalog["profile_viewpoint_relation_count"] == 2
+    ) == 256
 
     tw = get_spots("tw")
     assert len(tw) == 84

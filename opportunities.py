@@ -1,7 +1,7 @@
 """ChaseLights v0.04 R4.2 curated Opportunity compatibility adapter.
 
-This preview adapter loads the curated B15 runtime catalog and bridges it into
-existing schema-9 output without changing legacy Theme score semantics.
+This preview adapter loads the canonical human-readable R4.2 runtime catalog
+and bridges it into existing schema-9 output without changing legacy Theme score semantics.
 
 Important:
 - Place -> Photography Opportunity -> Condition Variant is the governing model.
@@ -11,8 +11,6 @@ Important:
 """
 
 from copy import deepcopy
-import base64
-import bz2
 import json
 from pathlib import Path
 
@@ -22,8 +20,9 @@ from opportunity_runtime import (
     supports_minimum_sufficient_contract,
 )
 
-ADAPTER_VERSION = "v0.04-r4.2-b33-jp026-integration-r25-preview"
-CATALOG_PART_PATTERN = "runtime_catalog_v004_r4_2_b15.compact.part{part}.b64"
+ADAPTER_VERSION = "v0.04-r4.2-canonical-r26-preview"
+CANONICAL_CATALOG_FILE = "runtime_catalog_v004_r4_2.json"
+CANONICAL_CATALOG_SCHEMA_VERSION = "v0.04-r4.2-canonical-1"
 VALID_MODES = {"area_opportunity", "composition_specific"}
 VALID_TOPOLOGIES = {
     "local_area",
@@ -34,125 +33,27 @@ VALID_TOPOLOGIES = {
 
 
 def _load_catalog():
-    base = Path(__file__).parent
-    encoded = "".join(
-        (base / CATALOG_PART_PATTERN.format(part=part)).read_text(encoding="ascii").strip()
-        for part in range(1, 6)
-    )
-    if len(encoded) != 19356 or len(encoded) % 4:
-        raise ValueError(f"Invalid compact runtime catalog payload length: {len(encoded)}")
-    raw = bz2.decompress(base64.b64decode(encoded, validate=True))
-    catalog = json.loads(raw.decode("utf-8"))
-    if catalog.get("schema_version") != "v0.04-r4.2-b15-preview":
-        raise ValueError(f"Unexpected R4.2 runtime catalog version: {catalog.get('schema_version')}")
-    return catalog
+    path = Path(__file__).parent / CANONICAL_CATALOG_FILE
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if payload.get("schema_version") != CANONICAL_CATALOG_SCHEMA_VERSION:
+        raise ValueError(
+            f"Unexpected canonical R4.2 runtime catalog version: {payload.get('schema_version')}"
+        )
+    if payload.get("catalog_role") != "canonical_runtime_catalog":
+        raise ValueError(f"Unexpected catalog role: {payload.get('catalog_role')}")
+    if not isinstance(payload.get("spots"), list):
+        raise ValueError("Canonical runtime catalog is missing spots")
+    return payload
 
 
 _RUNTIME_CATALOG = _load_catalog()
 CATALOG_SCHEMA_VERSION = _RUNTIME_CATALOG["schema_version"]
-CATALOG_SOURCE_DATABASE = _RUNTIME_CATALOG.get("source_database")
-
-B28_ADDITIONS_FILE = "runtime_catalog_v004_r4_2_b28_additions.json"
-B32_JP_ADDITIONS_FILE = "runtime_catalog_v004_r4_2_b32_jp_batch01.json"
-B33_HUALIEN_ADDITIONS_FILE = "runtime_catalog_v004_r4_2_b33_hualien_additions.json"
-B34_LIUSHISHISHAN_ADDITIONS_FILE = "runtime_catalog_v004_r4_2_b34_liushishishan_additions.json"
-B35_LIYU_SUBJECTS_FILE = "runtime_catalog_v004_r4_2_b35_liyu_subjects.json"
-B35_LIYU_SUBJECTS_FILE = "runtime_catalog_v004_r4_2_b35_liyu_subjects.json"
-
-def _load_b28_additions():
-    path = Path(__file__).parent / B28_ADDITIONS_FILE
-    payload = json.loads(path.read_text(encoding="utf-8"))
-    if payload.get("schema_version") != "v0.04-r4.2-b28-additions-5":
-        raise ValueError(f"Unexpected B28 additions version: {payload.get('schema_version')}")
-    return payload
-
-_B28_ADDITIONS = _load_b28_additions()
-CATALOG_ADDITIONS_SCHEMA_VERSION = _B28_ADDITIONS["schema_version"]
-
-def _load_b32_jp_additions():
-    path = Path(__file__).parent / B32_JP_ADDITIONS_FILE
-    payload = json.loads(path.read_text(encoding="utf-8"))
-    if payload.get("schema_version") != "v0.04-r4.2-b32-jp-batch01-25":
-        raise ValueError(f"Unexpected B32 Japan additions version: {payload.get('schema_version')}")
-    return payload
-
-_B32_JP_ADDITIONS = _load_b32_jp_additions()
-JP_CATALOG_ADDITIONS_SCHEMA_VERSION = _B32_JP_ADDITIONS["schema_version"]
-
-def _load_b33_hualien_additions():
-    path = Path(__file__).parent / B33_HUALIEN_ADDITIONS_FILE
-    payload = json.loads(path.read_text(encoding="utf-8"))
-    if payload.get("schema_version") != "v0.04-r4.2-b33-hualien-additions-1":
-        raise ValueError(f"Unexpected B33 Hualien additions version: {payload.get('schema_version')}")
-    return payload
-
-_B33_HUALIEN_ADDITIONS = _load_b33_hualien_additions()
-HUALIEN_CATALOG_ADDITIONS_SCHEMA_VERSION = _B33_HUALIEN_ADDITIONS["schema_version"]
-
-def _load_b34_liushishishan_additions():
-    path = Path(__file__).parent / B34_LIUSHISHISHAN_ADDITIONS_FILE
-    payload = json.loads(path.read_text(encoding="utf-8"))
-    if payload.get("schema_version") != "v0.04-r4.2-b34-liushishishan-additions-1":
-        raise ValueError(f"Unexpected B34 Liushishishan additions version: {payload.get('schema_version')}")
-    return payload
-
-_B34_LIUSHISHISHAN_ADDITIONS = _load_b34_liushishishan_additions()
-LIUSHISHISHAN_CATALOG_ADDITIONS_SCHEMA_VERSION = _B34_LIUSHISHISHAN_ADDITIONS["schema_version"]
-
-def _load_b35_liyu_subjects():
-    path = Path(__file__).parent / B35_LIYU_SUBJECTS_FILE
-    payload = json.loads(path.read_text(encoding="utf-8"))
-    if payload.get("schema_version") != "v0.04-r4.2-b35-liyu-subjects-1":
-        raise ValueError(f"Unexpected B35 Liyu subjects version: {payload.get('schema_version')}")
-    return payload
-
-_B35_LIYU_SUBJECTS = _load_b35_liyu_subjects()
-LIYU_SUBJECTS_SCHEMA_VERSION = _B35_LIYU_SUBJECTS["schema_version"]
-
-# tw-063 翟山坑道 was removed from the product photography catalog in B26.
-# B28 Batch 1 layers newly curated P0 Places onto the stable B15 payload while
-# keeping IDs stable; a later full catalog regeneration can collapse this layer.
+CATALOG_SOURCE_DATABASE = _RUNTIME_CATALOG.get("catalog_role")
+# Retired Places remain part of regions.py identity/history but are intentionally
+# absent from the canonical production Opportunity catalog.
 RETIRED_SPOT_IDS = {"tw-063"}
-_COMPOSITE_SPOTS = (
-    list(_RUNTIME_CATALOG.get("spots", []))
-    + list(_B28_ADDITIONS.get("spots", []))
-    + list(_B32_JP_ADDITIONS.get("spots", []))
-    + list(_B33_HUALIEN_ADDITIONS.get("spots", []))
-)
-# Later catalog layers intentionally override earlier records with the same
-# spot_id. Build the effective catalog by ID before computing counts so B33
-# replacements do not double-count the legacy one-opportunity Hualien records.
-_EFFECTIVE_SPOTS_BY_ID = {}
-for _spot in _COMPOSITE_SPOTS:
-    _spot_id = _spot.get("spot_id")
-    if _spot_id and _spot_id not in RETIRED_SPOT_IDS:
-        _EFFECTIVE_SPOTS_BY_ID[_spot_id] = deepcopy(_spot)
+_ACTIVE_SPOTS = deepcopy(_RUNTIME_CATALOG.get("spots", []))
 
-# B34 enriches the long-existing tw-035 Liushishishan Place with additional
-# Camera-Zone opportunities. It must not create a second Place/card.
-for _addition in _B34_LIUSHISHISHAN_ADDITIONS.get("spots", []):
-    _spot_id = _addition.get("spot_id")
-    if _spot_id not in _EFFECTIVE_SPOTS_BY_ID:
-        raise ValueError(f"B34 enrichment target missing from effective catalog: {_spot_id}")
-    _existing = _EFFECTIVE_SPOTS_BY_ID[_spot_id].setdefault("opportunities", [])
-    _existing_ids = {op.get("opportunity_id") for op in _existing}
-    _existing.extend(
-        deepcopy(op)
-        for op in _addition.get("opportunities", [])
-        if op.get("opportunity_id") not in _existing_ids
-    )
-
-# B35 enriches the existing tw-082 Liyu Lake Place with visibility-specific
-# mist and close-range wetland subjects; it must not create a second Place/card.
-for _addition in _B35_LIYU_SUBJECTS.get("spots", []):
-    _spot_id = _addition.get("spot_id")
-    if _spot_id not in _EFFECTIVE_SPOTS_BY_ID:
-        raise ValueError(f"B35 enrichment target missing from effective catalog: {_spot_id}")
-    _EFFECTIVE_SPOTS_BY_ID[_spot_id].setdefault("opportunities", []).extend(
-        deepcopy(_addition.get("opportunities", []))
-    )
-
-_ACTIVE_SPOTS = list(_EFFECTIVE_SPOTS_BY_ID.values())
 CATALOG_COUNTS = {
     "spots": len(_ACTIVE_SPOTS),
     "opportunities": sum(len(spot.get("opportunities", [])) for spot in _ACTIVE_SPOTS),
@@ -167,6 +68,11 @@ CATALOG_COUNTS = {
         for opportunity in spot.get("opportunities", [])
     ),
 }
+_declared_counts = _RUNTIME_CATALOG.get("counts")
+if _declared_counts != CATALOG_COUNTS:
+    raise ValueError(
+        f"Canonical runtime catalog count mismatch: declared={_declared_counts} computed={CATALOG_COUNTS}"
+    )
 
 CURATED_OPPORTUNITIES = {
     spot["spot_id"]: spot.get("opportunities", [])
@@ -193,6 +99,7 @@ for _region_key in ("tw", "jp", "us"):
             for opportunity in spot.get("opportunities", [])
         ),
     }
+
 
 # B30 research corrections that should eventually be folded back into the next
 # regenerated master catalog. Keep this layer explicit and ID-specific.
