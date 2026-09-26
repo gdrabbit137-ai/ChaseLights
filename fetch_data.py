@@ -1408,7 +1408,7 @@ def _build_spatial_open_meteo_url(plan):
     params = [
         f"latitude={latitudes}",
         f"longitude={longitudes}",
-        "hourly=relative_humidity_2m,cloud_cover_low,visibility,precipitation,wind_speed_10m",
+        "hourly=temperature_2m,dew_point_2m,relative_humidity_2m,cloud_cover_low,visibility,precipitation,wind_speed_10m",
         "past_hours=24",
         "forecast_hours=72",
         "timezone=auto",
