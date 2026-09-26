@@ -57,6 +57,31 @@
       font-weight: bold;
     }
 
+    @media (max-width: 640px) {
+      .filter-row {
+        margin-bottom: 9px;
+      }
+      .select-group {
+        width: 100%;
+      }
+      .select-label {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+      .country-dropdown {
+        width: auto;
+        max-width: 100%;
+        padding: 6px 10px;
+      }
+    }
+
     .control-dropdown {
       background: #1e293b;
       color: #38bdf8;
@@ -254,8 +279,8 @@
     
     <div class="filter-row">
       <div class="select-group">
-        <span class="select-label" data-i18n="country_label">📍 選擇國家/區域：</span>
-        <select id="country-select" onchange="switchRegion(this.value)" class="control-dropdown country-dropdown">
+        <span class="select-label" id="country-select-label" data-i18n="country_label">📍 選擇國家/區域：</span>
+        <select id="country-select" onchange="switchRegion(this.value)" class="control-dropdown country-dropdown" aria-labelledby="country-select-label">
           <option value="tw" selected data-i18n="opt_tw">🇹🇼 台灣 (Taiwan)</option>
           <option value="jp" data-i18n="opt_jp">🇯🇵 日本 (Japan)</option>
           <option value="us" data-i18n="opt_us">🇺🇸 美國 (United States)</option>
