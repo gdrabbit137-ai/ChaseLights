@@ -86,6 +86,27 @@
       font-weight: bold;
     }
 
+    @media (max-width: 640px) {
+      .filter-row { margin-bottom: 9px; }
+      .select-group { width: 100%; }
+      .select-label {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+      .country-dropdown {
+        width: auto;
+        max-width: 100%;
+        padding: 6px 10px;
+      }
+    }
+
     .control-dropdown {
       background: #1e293b;
       color: #38bdf8;
@@ -123,6 +144,27 @@
     .day-btn { font-size: 0.82rem; padding: 4px 12px; background: #1e293b; border-color: #0284c7; color: #38bdf8; }
 
     @media (max-width: 640px) {
+      .day-nav-bar {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0;
+        flex-wrap: nowrap;
+        border: 1px solid #0284c7;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      .day-nav-bar .day-btn {
+        width: 100%;
+        min-width: 0;
+        border: 0;
+        border-right: 1px solid #0284c7;
+        border-radius: 0;
+        padding: 7px 6px;
+        white-space: nowrap;
+        text-align: center;
+      }
+      .day-nav-bar .day-btn:last-child { border-right: 0; }
+
       .sub-nav-bar {
         flex-wrap: nowrap;
         overflow-x: auto;
@@ -183,6 +225,25 @@
     .place-search:focus { border-color:#38bdf8; box-shadow:0 0 0 1px rgba(56,189,248,.2); }
     .rank-summary { color:#94a3b8; font-size:.78rem; margin-bottom:10px; }
 
+    @media (max-width:640px) {
+      .discovery-row {
+        display:grid;
+        grid-template-columns:auto minmax(0,1fr);
+        align-items:center;
+        gap:8px;
+        margin:5px 0 4px;
+      }
+      .discovery-title { font-size:.84rem; white-space:nowrap; }
+      .place-search {
+        width:100%;
+        min-width:0;
+        max-width:none;
+        padding:6px 9px;
+        font-size:.8rem;
+      }
+      .rank-summary { font-size:.72rem; margin-bottom:7px; }
+    }
+
     .container {
       max-width: 1000px;
       margin: 0 auto;
@@ -202,12 +263,18 @@
       flex-direction: column;
       justify-content: space-between;
       position: relative;
+      height: 100%;
+      box-sizing: border-box;
     }
     .card:hover { transform: translateY(-2px); border-color: var(--accent); }
     .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; padding-right: 28px; }
     
     /* 雙語景點名稱獨立兩排排版樣式 */
     .spot-title-group { display: flex; flex-direction: column; gap: 2px; }
+    @media (min-width:641px) {
+      .spot-title-group { min-height: 52px; }
+      .tags-wrapper { min-height: 20px; }
+    }
     .spot-name { font-size: 1.15rem; font-weight: bold; color: #f8fafc; line-height: 1.3; }
     .spot-local-name { font-size: 0.8rem; color: #94a3b8; font-weight: normal; line-height: 1.2; word-break: break-word; }
 
@@ -216,6 +283,11 @@
     .fav-btn:hover { transform: scale(1.2); }
 
     .score-badge { padding: 4px 10px; border-radius: 8px; font-weight: 800; color: #fff; font-size: 0.95rem; letter-spacing: 0.5px; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+    .score-label { display:none; }
+    @media (max-width:640px) {
+      .score-badge { min-width:46px; text-align:center; line-height:1.05; }
+      .score-label { display:block; margin-top:3px; font-size:.58rem; font-weight:700; letter-spacing:0; opacity:.92; }
+    }
     .score-gold { background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; border: 1px solid #fef08a; }
     .score-high { background: #10b981; }
     .score-mid { background: #0284c7; }
@@ -230,15 +302,54 @@
     .factor-pill { font-size:0.72rem; padding:2px 7px; border-radius:10px; border:1px solid #334155; }
     .factor-plus { color:#86efac; background:rgba(34,197,94,.09); border-color:rgba(34,197,94,.3); }
     .factor-minus { color:#fca5a5; background:rgba(239,68,68,.08); border-color:rgba(239,68,68,.3); }
-    .theme-winner { display:inline-block; margin:3px 0 5px; font-size:.78rem; color:#fbbf24; font-weight:700; }
+    .factor-more { display:none; color:#94a3b8; background:#0f172a; }
+    @media (max-width:640px) {
+      .factor-row.card-factor-row .factor-pill:nth-child(n+3):not(.factor-more) { display:none; }
+      .factor-row.card-factor-row .factor-more { display:inline-block; }
+    }
+    .theme-winner { display:block; margin:3px 0 4px; font-size:.84rem; color:#fbbf24; font-weight:800; line-height:1.35; }
+    .best-window-row { margin:2px 0 6px; font-size:.88rem; color:#e2e8f0; }
+    .best-window-row b { color:#7dd3fc; font-size:.94rem; }
+    @media (max-width:640px) {
+      .theme-winner { font-size:.82rem; margin-bottom:3px; }
+      .best-window-row { font-size:.82rem; margin-bottom:5px; }
+      .best-window-row b { font-size:.9rem; }
+    }
     .astro-row { font-size:.76rem; color:#a5b4fc; margin-top:5px; }
     .modal-summary { background:#111827; border:1px solid #273449; border-radius:7px; padding:8px 10px; margin-bottom:9px; color:#cbd5e1; font-size:.8rem; line-height:1.55; }
     .kp-pill { display: inline-block; margin-top: 6px; margin-left: 4px; font-size: 0.8rem; background: rgba(255, 235, 59, 0.15); color: #ffeb3b; border: 1px solid rgba(255, 235, 59, 0.4); padding: 3px 8px; border-radius: 6px; font-weight: 600; }
 
     .category-tag { font-size: 0.75rem; background: #334155; color: var(--accent); padding: 2px 6px; border-radius: 4px; display: inline-block; }
     .scene-pill { font-size: 0.7rem; background: #0f172a; border: 1px solid #334155; color: #cbd5e1; padding: 1px 6px; border-radius: 10px; margin-right: 4px; }
+    .scene-more { display:none; color:#94a3b8; }
     .tags-wrapper { margin-top: 2px; margin-bottom: 8px; }
+    @media (max-width:640px) {
+      .tags-wrapper .scene-pill:nth-child(n+3):not(.scene-more) { display:none; }
+      .tags-wrapper .scene-more { display:inline-block; }
+    }
     .info-row { font-size: 0.88rem; color: #cbd5e1; margin: 4px 0; }
+    .local-time-label { display:inline; }
+    .cloud-base-unit-long { display:inline; }
+    .cloud-base-unit-short { display:none; }
+    .forecast-status-row { display:block; }
+    .forecast-meta-row { display:none; }
+    .card-secondary-meta { margin-top:7px; padding-top:6px; border-top:1px solid rgba(51,65,85,.55); }
+    @media (max-width:640px) {
+      .local-time-row { font-size:.76rem; color:#94a3b8; }
+      .local-time-label { display:none; }
+      .cloud-base-unit-long { display:none; }
+      .cloud-base-unit-short { display:inline; }
+      .forecast-status-row { font-size:.8rem; line-height:1.4; }
+      .forecast-meta-row {
+        display:flex;
+        flex-wrap:wrap;
+        gap:5px 10px;
+        margin-top:3px;
+        color:#94a3b8;
+        font-size:.76rem;
+      }
+      .forecast-status-row .desktop-forecast-meta { display:none; }
+    }
     .access-note { color:#fbbf24; }
     @media (max-width: 640px) {
       .card { padding: 14px; }
@@ -261,6 +372,31 @@
     .tool-link:hover { background: #334155; }
     .tool-link.disabled { color:#64748b; cursor:not-allowed; opacity:.75; }
     .tool-link.disabled:hover { background:#0f172a; }
+
+    @media (max-width:640px) {
+      .card-footer-tools {
+        margin-top:10px;
+        padding-top:8px;
+        display:block;
+      }
+      .card-footer-tools > div:first-child { display:none; }
+      .card-footer-tools > div:last-child {
+        display:grid;
+        grid-template-columns:repeat(3,minmax(0,1fr));
+        gap:6px;
+      }
+      .card-footer-tools .tool-link {
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        min-width:0;
+        padding:7px 5px;
+        font-size:.74rem;
+        line-height:1.2;
+        text-align:center;
+        white-space:nowrap;
+      }
+    }
 
     #loading { text-align: center; font-size: 1.2rem; color: var(--muted); margin-top: 40px; }
 
@@ -342,6 +478,12 @@
     .opportunity-score.low { background:#475569; }
     .opportunity-meta { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:5px 12px; color:#cbd5e1; font-size:.82rem; margin-bottom:8px; }
     .opportunity-current { margin:0 0 8px; padding:7px 9px; border-radius:8px; background:#0f172a; color:#cbd5e1; font-size:.8rem; line-height:1.45; }
+    .score-explain { margin-top:8px; border-top:1px dashed #334155; padding-top:7px; }
+    .score-explain summary { cursor:pointer; color:#7dd3fc; font-size:.8rem; font-weight:700; user-select:none; }
+    .score-explain[open] summary { margin-bottom:6px; }
+    .score-explain-body { color:#cbd5e1; font-size:.8rem; line-height:1.5; }
+    .score-explain-status { margin-bottom:5px; }
+    .score-explain .factor-row { margin-top:5px; }
     .research-details { margin-top:8px; border-top:1px dashed #334155; padding-top:7px; }
     .research-details summary { cursor:pointer; color:#7dd3fc; font-size:.8rem; font-weight:700; user-select:none; }
     .research-details[open] summary { margin-bottom:6px; }
@@ -379,8 +521,8 @@
     
     <div class="filter-row">
       <div class="select-group">
-        <span class="select-label" data-i18n="country_label">📍 選擇國家/區域：</span>
-        <select id="country-select" onchange="switchRegion(this.value)" class="control-dropdown country-dropdown">
+        <span class="select-label" id="country-select-label" data-i18n="country_label">📍 選擇國家/區域：</span>
+        <select id="country-select" onchange="switchRegion(this.value)" class="control-dropdown country-dropdown" aria-labelledby="country-select-label">
           <option value="tw" selected data-i18n="opt_tw">🇹🇼 台灣 (Taiwan)</option>
           <option value="jp" data-i18n="opt_jp">🇯🇵 日本 (Japan)</option>
           <option value="us" data-i18n="opt_us">🇺🇸 美國 (United States)</option>
@@ -444,26 +586,26 @@
       'zh-TW': {
         country_label:'📍 選擇國家/區域：', opt_tw:'🇹🇼 台灣 (Taiwan)', opt_jp:'🇯🇵 日本 (Japan)', opt_us:'🇺🇸 美國 (United States)',
         btn_today:'📅 今天', btn_tomorrow:'📅 明天', btn_after_tomorrow:'📅 後天', loading:'正在獲取攝影氣象數據...', updating:'背景更新中…',
-        last_updated:'最後更新：', click_detail:'', weather_link:'🌦️ 天氣預報', nav_link:'🗺️ 導航', map_link:'📍 地圖', nav_pending:'🗺️ 導航待確認', radar_link:'📡 雷達', place_suitable:'📸 這裡適合拍什麼', researched_only:'只顯示已逐點查證的攝影題材；未查證內容不自動生成。', place_time_note:'拍攝時間皆以景點當地時區顯示。', guide_time:'適合時間（景點當地時間）', guide_season:'季節', guide_viewpoint:'拍攝位置', guide_required:'成立條件', guide_boosters:'加分條件', guide_penalties:'不利條件', guide_current:'當日評分', guide_details:'查看完整判定條件', guide_unresearched:'此景點尚未完成逐點攝影研究，因此暫不顯示推測性的拍攝建議。', research_pending_card:'攝影研究待補，暫不評分', no_viable_card:'今天剩餘時段沒有合適的已研究拍攝機會', scene_label:'🖼️ 景觀類型：', theme_label:'📸 題材：', advanced_filters:'🔎 更多篩選', result_count:'依當日最佳拍攝機會排序 · {n} 個景點', search_result:'找到 {n} 個景點', search_placeholder:'搜尋景點名稱…', where_today:'📍 今天去哪裡拍？', where_tomorrow:'📍 明天去哪裡拍？', where_after:'📍 後天去哪裡拍？', narrow_result:'目前僅 {n} 個景點，範圍較窄', clear_scene:'清除景觀類型',
+        last_updated:'最後更新：', click_detail:'', weather_link:'🌦️ 天氣預報', nav_link:'🗺️ 導航', map_link:'📍 地圖', nav_pending:'🗺️ 導航待確認', radar_link:'📡 雷達', place_suitable:'📸 這裡適合拍什麼', researched_only:'只顯示已逐點查證的攝影題材；未查證內容不自動生成。', place_time_note:'拍攝時間皆以景點當地時區顯示。', guide_time:'適合時間（景點當地時間）', guide_season:'季節', guide_viewpoint:'拍攝位置', guide_required:'成立條件', guide_boosters:'加分條件', guide_penalties:'不利條件', guide_current:'當日評分', guide_details:'查看完整判定條件', guide_score_why:'為什麼是這個分數？', guide_score_status:'判定', guide_unresearched:'此景點尚未完成逐點攝影研究，因此暫不顯示推測性的拍攝建議。', research_pending_card:'攝影研究待補，暫不評分', no_viable_card:'今天剩餘時段沒有合適的已研究拍攝機會', scene_label:'🖼️ 景觀類型：', theme_label:'📸 題材：', advanced_filters:'🔎 更多篩選', result_count:'依當日最佳拍攝機會排序 · {n} 個景點', search_result:'找到 {n} 個景點', search_placeholder:'搜尋景點名稱…', where_today:'📍 今天去哪裡拍？', where_tomorrow:'📍 明天去哪裡拍？', where_after:'📍 後天去哪裡拍？', narrow_result:'目前僅 {n} 個景點，範圍較窄', clear_scene:'清除景觀類型',
         best_window:'⏱️ 最佳窗口：', forecast_status:'📍 預報狀態：', cloud_base_label:'估算雲底', best_theme:'📸 今日較適合：', local_time:'當地時間', dark_sky:'暗空',
         modal_subtitle:'⏱️ 涵蓋範圍：過去 24 小時 [模型資料] + 未來 72 小時 [氣象預報]（藍底為所選日期最佳窗口）',
-        th_time:'時間', th_theme:'題材', th_score:'評分', th_status:'狀態', th_kp:'Kp指數', th_cloud_base:'雲底', th_temp:'氣溫', th_rh:'濕度', th_clow:'低雲', th_cmid:'中雲', th_chigh:'高雲', th_wind:'風速', th_vis:'能見度', th_astro:'天文', no_spots:'此條件下沒有景點', detail_loading:'正在載入天氣預報…'
+        th_time:'時間', th_theme:'題材', th_score:'評分', th_status:'狀態', th_kp:'Kp指數', th_cloud_base:'雲底', th_temp:'氣溫', th_rh:'濕度', th_clow:'低雲', th_cmid:'中雲', th_chigh:'高雲', th_wind:'風速', th_vis:'能見度', th_astro:'天文', no_spots:'此條件下沒有景點', detail_loading:'正在載入天氣預報…', score_excellent:'極佳', score_good:'良好', score_fair:'普通', score_low_label:'較弱'
       },
       'en': {
         country_label:'📍 Select Region:', opt_tw:'🇹🇼 Taiwan', opt_jp:'🇯🇵 Japan', opt_us:'🇺🇸 United States',
         btn_today:'📅 Today', btn_tomorrow:'📅 Tomorrow', btn_after_tomorrow:'📅 Day After', loading:'Fetching photography weather data...', updating:'Updating in background…',
-        last_updated:'Last Updated: ', click_detail:'', weather_link:'🌦️ Weather', nav_link:'🗺️ Nav', map_link:'📍 Map', nav_pending:'🗺️ Nav pending', radar_link:'📡 Radar', place_suitable:'📸 What can you photograph here?', researched_only:'Only individually researched photography opportunities are shown; unverified ideas are not generated.', place_time_note:'Shooting times are shown in the place’s local time zone.', guide_time:'Best time (place local time)', guide_season:'Season', guide_viewpoint:'Shooting area', guide_required:'Required conditions', guide_boosters:'Boosters', guide_penalties:'Penalties', guide_current:'Day score', guide_details:'View full conditions', guide_unresearched:'This place has not yet completed place-specific photography research, so no speculative shooting guide is shown.', research_pending_card:'Photography research pending · not scored yet', no_viable_card:'No researched shooting opportunity remains viable today', scene_label:'🖼️ Landscape type:', theme_label:'📸 Subject:', advanced_filters:'🔎 More filters', result_count:'Ranked by best opportunity for the day · {n} spots', search_result:'Found {n} spots', search_placeholder:'Search places…', where_today:'📍 Where should I shoot today?', where_tomorrow:'📍 Where should I shoot tomorrow?', where_after:'📍 Where should I shoot the day after tomorrow?', narrow_result:'Only {n} spots — narrow filter', clear_scene:'Clear landscape type',
+        last_updated:'Last Updated: ', click_detail:'', weather_link:'🌦️ Weather', nav_link:'🗺️ Nav', map_link:'📍 Map', nav_pending:'🗺️ Nav pending', radar_link:'📡 Radar', place_suitable:'📸 What can you photograph here?', researched_only:'Only individually researched photography opportunities are shown; unverified ideas are not generated.', place_time_note:'Shooting times are shown in the place’s local time zone.', guide_time:'Best time (place local time)', guide_season:'Season', guide_viewpoint:'Shooting area', guide_required:'Required conditions', guide_boosters:'Boosters', guide_penalties:'Penalties', guide_current:'Day score', guide_details:'View full conditions', guide_score_why:'Why this score?', guide_score_status:'Assessment', guide_unresearched:'This place has not yet completed place-specific photography research, so no speculative shooting guide is shown.', research_pending_card:'Photography research pending · not scored yet', no_viable_card:'No researched shooting opportunity remains viable today', scene_label:'🖼️ Landscape type:', theme_label:'📸 Subject:', advanced_filters:'🔎 More filters', result_count:'Ranked by best opportunity for the day · {n} spots', search_result:'Found {n} spots', search_placeholder:'Search places…', where_today:'📍 Where should I shoot today?', where_tomorrow:'📍 Where should I shoot tomorrow?', where_after:'📍 Where should I shoot the day after tomorrow?', narrow_result:'Only {n} spots — narrow filter', clear_scene:'Clear landscape type',
         best_window:'⏱️ Best Window: ', forecast_status:'📍 Status: ', cloud_base_label:'Est. Cloud Base', best_theme:'📸 Best today: ', local_time:'Local time', dark_sky:'Dark sky',
         modal_subtitle:'⏱️ Range: Past 24H [model data] + Next 72H [forecast] (blue = best window for selected day)',
-        th_time:'Time', th_theme:'Theme', th_score:'Score', th_status:'Status', th_kp:'Kp', th_cloud_base:'Cloud Base', th_temp:'Temp', th_rh:'RH', th_clow:'Low', th_cmid:'Mid', th_chigh:'High', th_wind:'Wind', th_vis:'Visibility', th_astro:'Astronomy', no_spots:'No spots match these filters', detail_loading:'Loading weather forecast…'
+        th_time:'Time', th_theme:'Theme', th_score:'Score', th_status:'Status', th_kp:'Kp', th_cloud_base:'Cloud Base', th_temp:'Temp', th_rh:'RH', th_clow:'Low', th_cmid:'Mid', th_chigh:'High', th_wind:'Wind', th_vis:'Visibility', th_astro:'Astronomy', no_spots:'No spots match these filters', detail_loading:'Loading weather forecast…', score_excellent:'Excellent', score_good:'Good', score_fair:'Fair', score_low_label:'Low'
       },
       'ja': {
         country_label:'📍 地域を選択：', opt_tw:'🇹🇼 台湾 (Taiwan)', opt_jp:'🇯🇵 日本 (Japan)', opt_us:'🇺🇸 アメリカ (United States)',
         btn_today:'📅 今日', btn_tomorrow:'📅 明日', btn_after_tomorrow:'📅 明後日', loading:'撮影気象データを取得中...', updating:'バックグラウンド更新中…',
-        last_updated:'最終更新：', click_detail:'', weather_link:'🌦️ 天気予報', nav_link:'🗺️ ナビ', map_link:'📍 地図', nav_pending:'🗺️ ナビ確認待ち', radar_link:'📡 レーダー', place_suitable:'📸 ここで何が撮れる？', researched_only:'個別調査済みの撮影機会のみ表示し、未確認の内容は自動生成しません。', place_time_note:'撮影時間はすべて現地のタイムゾーンで表示します。', guide_time:'適した時間（現地時間）', guide_season:'季節', guide_viewpoint:'撮影位置', guide_required:'成立条件', guide_boosters:'加点条件', guide_penalties:'不利条件', guide_current:'当日スコア', guide_details:'判定条件を表示', guide_unresearched:'この場所は個別撮影調査が未完了のため、推測的な撮影案内は表示しません。', research_pending_card:'撮影調査待ち・現在は採点しません', no_viable_card:'本日の残り時間に適した調査済み撮影機会はありません', scene_label:'🖼️ 景観タイプ：', theme_label:'📸 テーマ：', advanced_filters:'🔎 その他の絞り込み', result_count:'当日の最良撮影機会順 · {n} スポット', search_result:'{n} スポット見つかりました', search_placeholder:'スポット名を検索…', where_today:'📍 今日はどこへ撮りに行く？', where_tomorrow:'📍 明日はどこへ撮りに行く？', where_after:'📍 明後日はどこへ撮りに行く？', narrow_result:'{n} スポットのみ・絞り込みが狭いです', clear_scene:'景観タイプを解除',
+        last_updated:'最終更新：', click_detail:'', weather_link:'🌦️ 天気予報', nav_link:'🗺️ ナビ', map_link:'📍 地図', nav_pending:'🗺️ ナビ確認待ち', radar_link:'📡 レーダー', place_suitable:'📸 ここで何が撮れる？', researched_only:'個別調査済みの撮影機会のみ表示し、未確認の内容は自動生成しません。', place_time_note:'撮影時間はすべて現地のタイムゾーンで表示します。', guide_time:'適した時間（現地時間）', guide_season:'季節', guide_viewpoint:'撮影位置', guide_required:'成立条件', guide_boosters:'加点条件', guide_penalties:'不利条件', guide_current:'当日スコア', guide_details:'判定条件を表示', guide_score_why:'このスコアの理由', guide_score_status:'判定', guide_unresearched:'この場所は個別撮影調査が未完了のため、推測的な撮影案内は表示しません。', research_pending_card:'撮影調査待ち・現在は採点しません', no_viable_card:'本日の残り時間に適した調査済み撮影機会はありません', scene_label:'🖼️ 景観タイプ：', theme_label:'📸 テーマ：', advanced_filters:'🔎 その他の絞り込み', result_count:'当日の最良撮影機会順 · {n} スポット', search_result:'{n} スポット見つかりました', search_placeholder:'スポット名を検索…', where_today:'📍 今日はどこへ撮りに行く？', where_tomorrow:'📍 明日はどこへ撮りに行く？', where_after:'📍 明後日はどこへ撮りに行く？', narrow_result:'{n} スポットのみ・絞り込みが狭いです', clear_scene:'景観タイプを解除',
         best_window:'⏱️ 最適時間：', forecast_status:'📍 予報状況：', cloud_base_label:'推定雲底', best_theme:'📸 今日向き：', local_time:'現地時間', dark_sky:'暗空',
         modal_subtitle:'⏱️ 範囲：過去24時間 [モデル] + 未来72時間 [予報]（青色＝選択日の最適時間）',
-        th_time:'時間', th_theme:'テーマ', th_score:'評価', th_status:'状態', th_kp:'Kp', th_cloud_base:'雲底', th_temp:'気温', th_rh:'湿度', th_clow:'下層雲', th_cmid:'中層雲', th_chigh:'上層雲', th_wind:'風速', th_vis:'視程', th_astro:'天文', no_spots:'該当する撮影スポットはありません', detail_loading:'天気予報を読み込み中…'
+        th_time:'時間', th_theme:'テーマ', th_score:'評価', th_status:'状態', th_kp:'Kp', th_cloud_base:'雲底', th_temp:'気温', th_rh:'湿度', th_clow:'下層雲', th_cmid:'中層雲', th_chigh:'上層雲', th_wind:'風速', th_vis:'視程', th_astro:'天文', no_spots:'該当する撮影スポットはありません', detail_loading:'天気予報を読み込み中…', score_excellent:'非常に良い', score_good:'良好', score_fair:'普通', score_low_label:'弱め'
       }
     };
 
@@ -644,10 +786,10 @@
       if(!rows.length){container.innerHTML=`<p style="color:var(--muted);grid-column:1/-1;text-align:center">${d().no_spots}</p>`;return;}
       rows.forEach(({spot,metric})=>{
         const card=document.createElement('div');card.className='card';card.onclick=()=>openPlaceModal(spot,metric);
-        const noViable=!!metric.no_viable_opportunity;const researchPending=!!metric.research_pending||!spot.opportunities?.length;const hasScore=metric.score!==null&&metric.score!==undefined&&!researchPending&&!noViable;const score=hasScore?Number(metric.score):null;const scoreClass=!hasScore?'score-low':score>=92?'score-gold':score>=80?'score-high':score>=65?'score-mid':'score-low';const flame=hasScore&&score>=92?'🔥 ':'';const scoreText=hasScore?`${flame}${score}`:'—';
-        const fav=favorites.includes(spot.spot_id);const scenePills=(spot.scenes||[]).slice(0,4).map(x=>`<span class="scene-pill">${sceneLabel(x)}</span>`).join('');
-        const status=(researchPending||noViable)?'':trMessage(metric.status_key),indicator=(researchPending||noViable)?'':trMessage(metric.indicator_key),theme=metric.theme||'mountain_view',opportunityName=researchPending?d().research_pending_card:(noViable?d().no_viable_card:(metric.opportunity_name||themeLabel(theme)));const astro=(researchPending||noViable)?'':astroText(metric,theme);const darkSky=(researchPending||noViable)?'':darkSkyText(spot,theme);const navTool=navigationToolHtml(spot);const access=spot.access_note_i18n?.[currentLang]||spot.access_note_i18n?.['zh-TW'];const showIndicator=indicator&&indicator!==status;const factorHtml=(researchPending||noViable)?'':(metric.factors||[]).map(f=>`<span class="factor-pill ${f.type==='minus'?'factor-minus':'factor-plus'}">${f.type==='minus'?'−':'＋'} ${trFactor(f)}</span>`).join('');
-        card.innerHTML=`<button class="fav-btn ${fav?'active':''}" data-fav>★</button><div><div class="card-header"><div class="spot-title-group"><span class="spot-name"></span><div class="spot-local-name"></div><div style="margin-top:4px"><span class="category-tag">${categoryLabel(spot.category)}</span></div></div><span class="score-badge ${scoreClass}">${scoreText}</span></div><div class="tags-wrapper">${scenePills}</div><div class="theme-winner">${(researchPending||noViable)?esc(opportunityName):d().best_theme+esc(opportunityName)}</div>${(researchPending||noViable)?'':`<div class="info-row">${d().best_window}<b>${fmtWindow(metric)}</b></div>`}<div class="info-row">🕒 ${d().local_time}：${(spot.timezone==='Asia/Taipei'?'UTC+8':(metric.timezone_abbr||spot.timezone_abbr||spot.timezone||'—'))}</div>${(researchPending||noViable)?`<div class="info-row">🌡 ${formatTemp(metric.temp)}</div>`:`<div class="info-row">${d().forecast_status}${status}${metric.cloud_base_agl!=null?` | ${d().cloud_base_label} ${metric.cloud_base_agl}m AGL`:''} | 🌡 ${formatTemp(metric.temp)}</div>${showIndicator?`<div><span class="indicator-pill">${indicator}</span></div>`:''}`}${factorHtml?`<div class="factor-row">${factorHtml}</div>`:''}${astro?`<div class="info-row" style="margin-top:6px">${astro}</div>`:''}${darkSky?`<div class="info-row" style="margin-top:4px;color:#cbd5e1">${darkSky}</div>`:''}${access?`<div class="info-row access-note" title="${esc(access)}">⏰ ${esc(access)}</div>`:''}</div><div class="card-footer-tools" data-tools><div></div><div><a href="#" class="tool-link" data-weather>${d().weather_link}</a>${navTool}<a href="${radarUrl()}" target="_blank" rel="noopener noreferrer" class="tool-link">${d().radar_link}</a></div></div>`;
+        const noViable=!!metric.no_viable_opportunity;const researchPending=!!metric.research_pending||!spot.opportunities?.length;const hasScore=metric.score!==null&&metric.score!==undefined&&!researchPending&&!noViable;const score=hasScore?Number(metric.score):null;const scoreClass=!hasScore?'score-low':score>=92?'score-gold':score>=80?'score-high':score>=65?'score-mid':'score-low';const flame=hasScore&&score>=92?'🔥 ':'';const scoreText=hasScore?`${flame}${score}`:'—';const scoreLabel=!hasScore?'':score>=92?d().score_excellent:score>=80?d().score_good:score>=65?d().score_fair:d().score_low_label;
+        const fav=favorites.includes(spot.spot_id);const scenes=spot.scenes||[];const visibleScenes=scenes.slice(0,4);const scenePills=visibleScenes.map(x=>`<span class="scene-pill">${sceneLabel(x)}</span>`).join('');const sceneMore=scenes.length>2?`<span class="scene-pill scene-more">+${scenes.length-2}</span>`:'';
+        const status=(researchPending||noViable)?'':trMessage(metric.status_key),indicator=(researchPending||noViable)?'':trMessage(metric.indicator_key),theme=metric.theme||'mountain_view',opportunityName=researchPending?d().research_pending_card:(noViable?d().no_viable_card:(metric.opportunity_name||themeLabel(theme)));const astro=(researchPending||noViable)?'':astroText(metric,theme);const darkSky=(researchPending||noViable)?'':darkSkyText(spot,theme);const navTool=navigationToolHtml(spot);const access=spot.access_note_i18n?.[currentLang]||spot.access_note_i18n?.['zh-TW'];const showIndicator=indicator&&indicator!==status;const factors=(researchPending||noViable)?[]:(metric.factors||[]);const factorHtml=factors.map(f=>`<span class="factor-pill ${f.type==='minus'?'factor-minus':'factor-plus'}">${f.type==='minus'?'−':'＋'} ${trFactor(f)}</span>`).join('');const factorMore=factors.length>2?`<span class="factor-pill factor-more">+${factors.length-2}</span>`:'';
+        card.innerHTML=`<button class="fav-btn ${fav?'active':''}" data-fav>★</button><div><div class="card-header"><div class="spot-title-group"><span class="spot-name"></span><div class="spot-local-name"></div><div style="margin-top:4px"><span class="category-tag">${categoryLabel(spot.category)}</span></div></div><span class="score-badge ${scoreClass}">${scoreText}${scoreLabel?`<span class="score-label">${esc(scoreLabel)}</span>`:''}</span></div><div class="tags-wrapper">${scenePills}${sceneMore}</div><div class="theme-winner">📷 ${(researchPending||noViable)?esc(opportunityName):d().best_theme+esc(opportunityName)}</div>${(researchPending||noViable)?'':`<div class="best-window-row">🕒 ${d().best_window}<b>${fmtWindow(metric)}</b></div>`}${(researchPending||noViable)?'':(showIndicator?`<div><span class="indicator-pill">${indicator}</span></div>`:'')}${factorHtml?`<div class="factor-row card-factor-row">${factorHtml}${factorMore}</div>`:''}<div class="card-secondary-meta"><div class="info-row local-time-row">🕒 <span class="local-time-label">${d().local_time}：</span>${(spot.timezone==='Asia/Taipei'?'UTC+8':(metric.timezone_abbr||spot.timezone_abbr||spot.timezone||'—'))}</div>${(researchPending||noViable)?`<div class="info-row">🌡 ${formatTemp(metric.temp)}</div>`:`<div class="info-row forecast-status-row">${d().forecast_status}${status}<span class="desktop-forecast-meta">${metric.cloud_base_agl!=null?` | ☁️ ${d().cloud_base_label} ${metric.cloud_base_agl}m<span class="cloud-base-unit-long"> AGL</span><span class="cloud-base-unit-short"></span>`:''} | 🌡 ${formatTemp(metric.temp)}</span></div><div class="forecast-meta-row">${metric.cloud_base_agl!=null?`<span>☁️ ${d().cloud_base_label} ${metric.cloud_base_agl}m</span>`:''}<span>🌡 ${formatTemp(metric.temp)}</span></div>`}${astro?`<div class="info-row" style="margin-top:6px">${astro}</div>`:''}${darkSky?`<div class="info-row" style="margin-top:4px;color:#cbd5e1">${darkSky}</div>`:''}${access?`<div class="info-row access-note" title="${esc(access)}">⏰ ${esc(access)}</div>`:''}</div></div><div class="card-footer-tools" data-tools><div></div><div><a href="#" class="tool-link" data-weather>${d().weather_link}</a>${navTool}<a href="${radarUrl()}" target="_blank" rel="noopener noreferrer" class="tool-link">${d().radar_link}</a></div></div>`;
         card.querySelector('.spot-name').textContent=spotName(spot);const local=card.querySelector('.spot-local-name');const showLocal=!(currentRegion==='tw'&&currentLang==='zh-TW');local.textContent=showLocal&&spot.name_local&&spot.name_local!==spotName(spot)?spot.name_local:'';card.querySelector('[data-fav]').onclick=e=>toggleFavorite(spot.spot_id,e);card.querySelector('[data-tools]').onclick=e=>e.stopPropagation();card.querySelector('[data-weather]').onclick=e=>{e.preventDefault();e.stopPropagation();openWeatherModal(spot,metric);};container.appendChild(card);
       });
     }
@@ -680,6 +822,10 @@
         }).join('');
         const scoreHtml=score===undefined||score===null?'':`<div class="opportunity-score ${opportunityScoreClass(score)}">${score}</div>`;
         const current=m?`<div class="opportunity-current"><span class="research-label">${esc(d().guide_current)}：</span>${score} · ${esc(trMessage(m.status_key))}</div>`:'';
+        const scoreFactors=(m?.factors||[]).map(f=>`<span class="factor-pill ${f.type==='minus'?'factor-minus':'factor-plus'}">${f.type==='minus'?'−':'＋'} ${trFactor(f)}</span>`).join('');
+        const scoreStatus=m?trMessage(m.status_key):'';
+        const scoreIndicator=m?trMessage(m.indicator_key):'';
+        const scoreExplain=m?`<details class="score-explain"><summary>${esc(d().guide_score_why)}</summary><div class="score-explain-body"><div class="score-explain-status"><span class="research-label">${esc(d().guide_score_status)}：</span>${esc(scoreStatus)}${scoreIndicator&&scoreIndicator!==scoreStatus?`<br>${esc(scoreIndicator)}`:''}</div>${scoreFactors?`<div class="factor-row">${scoreFactors}</div>`:''}</div></details>`:'';
         const metaRows=[];
         if(op.best_time)metaRows.push(`<div><span class="research-label">${esc(d().guide_time)}：</span>${esc(op.best_time)}</div>`);
         if(op.best_season)metaRows.push(`<div><span class="research-label">${esc(d().guide_season)}：</span>${esc(op.best_season)}</div>`);
@@ -688,6 +834,7 @@
           <div class="opportunity-head"><div class="opportunity-title">${esc(op.name_zh||themeLabel(op.legacy_theme))}</div>${scoreHtml}</div>
           ${current}
           ${metaRows.length?`<div class="opportunity-meta">${metaRows.join('')}</div>`:''}
+          ${scoreExplain}
           ${variants?`<details class="research-details"><summary>${esc(d().guide_details)}</summary><div class="research-block">${variants}</div></details>`:''}
         </div>`;
       }).join('');
