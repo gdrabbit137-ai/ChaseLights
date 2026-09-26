@@ -63,7 +63,7 @@ At this checkpoint:
 
 ## B42 maintenance scope
 
-B42 intentionally changes **structure and validation only**, not photography scoring semantics or user-visible UI behavior.
+B42 primarily changes structure and validation. During CI it also exposed and fixes one real calendar-boundary bug without changing photography scoring semantics: shortly before local midnight, `daily[]` could omit the still-current local day and make the homepage render zero Place cards for “today”.
 
 First maintenance batch:
 - remove duplicated catalog constants/imports,
@@ -71,9 +71,11 @@ First maintenance batch:
 - make adapter validation compare actual effective-catalog output with the manifest,
 - make adapter tests consume the same manifest instead of duplicating magic numbers,
 - mark B33 as historical and point future conversations here,
-- replace branch-name-only CI triggering with `pull_request -> main` coverage for adapter, evidence audit, candidate weather, and browser smoke workflows.
+- replace branch-name-only CI triggering with `pull_request -> main` coverage for adapter, evidence audit, candidate weather, and browser smoke workflows,
+- preserve the current Place-local calendar date in `daily[]` when all of its hourly rows are already past; publish the existing `no_viable_opportunity` state instead of dropping the day/card,
+- add Browser Smoke diagnostics for server readiness, current loaded data state, and browser console errors.
 
-No scoring threshold, runtime eligibility rule, event date, access rule, navigation target, UI label, or weather-provider behavior should change in this batch.
+No scoring threshold, runtime eligibility rule, event date, access rule, navigation target, UI label, or weather-provider behavior changes in this batch. The midnight fix changes only day-summary completeness.
 
 ## Product contracts that remain authoritative
 
