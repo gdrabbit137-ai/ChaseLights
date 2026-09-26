@@ -416,9 +416,10 @@ def test_adapter_integrity():
         spot for spot in active_spots
         if "city_night" in spot["themes"] and "city" not in spot["scenes"]
     ]
-    assert {spot["name_i18n"]["zh-TW"] for spot in non_city_night_spots} == {
+    actual_non_city_night_names = {spot["name_i18n"]["zh-TW"] for spot in non_city_night_spots}
+    assert actual_non_city_night_names == {
         "金龍山", "頂石棹", "田寮月世界", "金門慈湖"
-    }
+    }, actual_non_city_night_names
     night_probe = {
         "astronomy_valid": True,
         "sun_elevation": -12.0,
