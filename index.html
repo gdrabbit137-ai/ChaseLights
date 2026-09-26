@@ -267,6 +267,11 @@
       box-sizing: border-box;
     }
     .card:hover { transform: translateY(-2px); border-color: var(--accent); }
+    .card:focus-visible {
+      outline:2px solid #38bdf8;
+      outline-offset:3px;
+      border-color:#38bdf8;
+    }
     .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; padding-right: 28px; }
     
     /* 雙語景點名稱獨立兩排排版樣式 */
@@ -785,7 +790,7 @@
       updateFilterResultSummary(rows.length);
       if(!rows.length){container.innerHTML=`<p style="color:var(--muted);grid-column:1/-1;text-align:center">${d().no_spots}</p>`;return;}
       rows.forEach(({spot,metric})=>{
-        const card=document.createElement('div');card.className='card';card.onclick=()=>openPlaceModal(spot,metric);
+        const card=document.createElement('div');card.className='card';card.tabIndex=0;card.setAttribute('role','button');card.onclick=()=>openPlaceModal(spot,metric);card.onkeydown=e=>{if(e.target.closest('a,button,input,select,summary'))return;if(e.key==='Enter'||e.key===' '){e.preventDefault();openPlaceModal(spot,metric);}};
         const noViable=!!metric.no_viable_opportunity;const researchPending=!!metric.research_pending||!spot.opportunities?.length;const hasScore=metric.score!==null&&metric.score!==undefined&&!researchPending&&!noViable;const score=hasScore?Number(metric.score):null;const scoreClass=!hasScore?'score-low':score>=92?'score-gold':score>=80?'score-high':score>=65?'score-mid':'score-low';const flame=hasScore&&score>=92?'🔥 ':'';const scoreText=hasScore?`${flame}${score}`:'—';const scoreLabel=!hasScore?'':score>=92?d().score_excellent:score>=80?d().score_good:score>=65?d().score_fair:d().score_low_label;
         const fav=favorites.includes(spot.spot_id);const scenes=spot.scenes||[];const visibleScenes=scenes.slice(0,4);const scenePills=visibleScenes.map(x=>`<span class="scene-pill">${sceneLabel(x)}</span>`).join('');const sceneMore=scenes.length>2?`<span class="scene-pill scene-more">+${scenes.length-2}</span>`:'';
         const status=(researchPending||noViable)?'':trMessage(metric.status_key),indicator=(researchPending||noViable)?'':trMessage(metric.indicator_key),theme=metric.theme||'mountain_view',opportunityName=researchPending?d().research_pending_card:(noViable?d().no_viable_card:(metric.opportunity_name||themeLabel(theme)));const astro=(researchPending||noViable)?'':astroText(metric,theme);const darkSky=(researchPending||noViable)?'':darkSkyText(spot,theme);const navTool=navigationToolHtml(spot);const access=spot.access_note_i18n?.[currentLang]||spot.access_note_i18n?.['zh-TW'];const showIndicator=indicator&&indicator!==status;const factors=(researchPending||noViable)?[]:(metric.factors||[]);const factorHtml=factors.map(f=>`<span class="factor-pill ${f.type==='minus'?'factor-minus':'factor-plus'}">${f.type==='minus'?'−':'＋'} ${trFactor(f)}</span>`).join('');const factorMore=factors.length>2?`<span class="factor-pill factor-more">+${factors.length-2}</span>`:'';
