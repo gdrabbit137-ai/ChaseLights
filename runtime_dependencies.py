@@ -39,6 +39,7 @@ FORMULA_DEPENDENCIES = {
     "needs_geometry_aware_ephemeris_adapter": ("directional_horizon", "verified_camera_geometry"),
     "needs_radiation_module": ("radiation_DNI", "cloud_light_state"),
     "needs_directional_horizon_cloud_sky_glow_module": ("directional_horizon", "cloud_sky_glow"),
+    "needs_liushishishan_sunbeam_cloud_geometry": ("directional_horizon", "cloud_light_state", "verified_camera_geometry"),
     "needs_astronomy_ephemeris_marine_module": ("astronomy_ephemeris", "marine_state"),
     "needs_timetable_access_module": ("timetable", "dynamic_access"),
     "needs_directional_horizon_access_water_surface_module": ("directional_horizon", "dynamic_access", "water_surface_state"),
