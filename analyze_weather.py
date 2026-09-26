@@ -4,6 +4,7 @@ from datetime import datetime, timezone, timedelta
 from collections import defaultdict
 from pathlib import Path
 
+# Production refresh validation trigger: 2026-09-26 12:15 +08
 from regions import get_spots
 from fetch_data import (
     fetch_weather_for_spot,
