@@ -6,6 +6,7 @@ from zoneinfo import ZoneInfo
 from pathlib import Path
 
 # Production refresh validation trigger: 2026-09-26 12:15 +08
+# B42 final validation: catalog manifest + local-midnight daily-summary regression.
 from regions import get_spots
 from fetch_data import (
     fetch_weather_for_spot,
