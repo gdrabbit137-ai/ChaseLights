@@ -120,3 +120,17 @@ Review water-flow claims, snow/ice compositions and crepuscular-ray subjects. Th
 Weather can say conditions are favorable for an already verified subject.
 
 Weather cannot prove the subject exists.
+
+
+## Final B39 classification
+
+The initial B36 review queue has now been fully classified.
+
+- documented high-risk: 61
+- narrow_scope: 9
+- insufficient_evidence: 6
+- remove_or_rewrite: 0
+- review_required: 0
+- lower-risk legacy: 175
+
+See `B39_FINAL_EVIDENCE_AUDIT.md` for the final batch and enforcement implications.
