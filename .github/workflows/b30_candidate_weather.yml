@@ -96,7 +96,7 @@ jobs:
 
           shard_dir = Path("weather_details") / "tw"
           shard_files = sorted(shard_dir.glob("tw-*.json"))
-          assert len(shard_files) == 83, f"expected 83 Taiwan detail shards, got {len(shard_files)}"
+          assert len(shard_files) == 84, f"expected 84 Taiwan detail shards, got {len(shard_files)}"
           shard_ids = []
           for shard_path in shard_files:
               shard = json.loads(shard_path.read_text(encoding="utf-8"))
