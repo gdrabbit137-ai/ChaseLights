@@ -22,7 +22,7 @@ Before making changes:
 - Latest evidence-gate code checkpoint observed on main: B41 commit `9e1fb220195c46a2fc6ac58b501d70a021f8d144`
 - B39 completed the final high-risk Opportunity evidence audit.
 - B40 closed the initial high-risk review-required backlog.
-- B41 enforces the Opportunity evidence admission gate on PR/main changes.
+- B41 introduced the Opportunity evidence admission gate. B42 additionally fixes workflow triggering so new pull-request branches targeting `main` actually run the gate without being added to a historical branch allowlist.
 
 Do not assume these SHAs remain current. Re-check main before release.
 
@@ -70,7 +70,8 @@ First maintenance batch:
 - move catalog expected counts/ranges/exact-geometry IDs into one manifest,
 - make adapter validation compare actual effective-catalog output with the manifest,
 - make adapter tests consume the same manifest instead of duplicating magic numbers,
-- mark B33 as historical and point future conversations here.
+- mark B33 as historical and point future conversations here,
+- replace branch-name-only CI triggering with `pull_request -> main` coverage for adapter, evidence audit, candidate weather, and browser smoke workflows.
 
 No scoring threshold, runtime eligibility rule, event date, access rule, navigation target, UI label, or weather-provider behavior should change in this batch.
 
