@@ -49,6 +49,9 @@ def _load_catalog():
 _RUNTIME_CATALOG = _load_catalog()
 CATALOG_SCHEMA_VERSION = _RUNTIME_CATALOG["schema_version"]
 CATALOG_SOURCE_DATABASE = _RUNTIME_CATALOG.get("catalog_role")
+# Retired Places remain part of regions.py identity/history but are intentionally
+# absent from the canonical production Opportunity catalog.
+RETIRED_SPOT_IDS = {"tw-063"}
 _ACTIVE_SPOTS = deepcopy(_RUNTIME_CATALOG.get("spots", []))
 
 CATALOG_COUNTS = {
