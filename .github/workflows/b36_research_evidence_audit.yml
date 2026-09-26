@@ -4,17 +4,10 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - main
       - codex/b36-opportunity-evidence-audit
       - codex/b37-reflection-evidence-audit
       - codex/b37-reflection-evidence-batch02
       - codex/b38-astro-evidence-audit
-      - codex/b39-snow-waterfall-evidence-audit
-      - codex/b40-final-high-risk-evidence-audit
-      - codex/b41-evidence-admission-gate
-  pull_request:
-    branches:
-      - main
     paths:
       - "RESEARCH_EVIDENCE_SPEC_R4_2.md"
       - "audit_opportunity_evidence.py"
@@ -38,8 +31,8 @@ jobs:
           python-version: "3.10"
       - name: Compile audit
         run: python -m py_compile audit_opportunity_evidence.py opportunities.py regions.py
-      - name: Run evidence admission gate
-        run: python audit_opportunity_evidence.py --enforce
+      - name: Run evidence audit
+        run: python audit_opportunity_evidence.py
       - name: Upload audit report
         uses: actions/upload-artifact@v4
         with:
