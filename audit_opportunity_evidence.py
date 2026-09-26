@@ -121,6 +121,8 @@ def build_report():
                 risks = _risk_classes(blob)
                 has_evidence, evidence_location = _explicit_evidence(op)
                 registry_entry = registry.get(op.get("opportunity_id")) or {}
+                if "risk_override" in registry_entry:
+                    risks = list(registry_entry.get("risk_override") or [])
                 registry_status = registry_entry.get("status")
                 if registry_status == "verified":
                     has_evidence = True
