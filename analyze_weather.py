@@ -40,11 +40,14 @@ def _window_for_metric(items, best_index, metric_getter):
             break
         right += 1
     start = items[left].get("time")
-    try:
-        end_dt = datetime.strptime(items[right].get("time"), "%Y-%m-%d %H:%M") + timedelta(hours=1)
-        end = end_dt.strftime("%Y-%m-%d %H:%M")
-    except Exception:
-        end = items[right].get("time")
+    right_metric = metric_getter(items[right]) or {}
+    end = right_metric.get("temporal_end")
+    if not end:
+        try:
+            end_dt = datetime.strptime(items[right].get("time"), "%Y-%m-%d %H:%M") + timedelta(hours=1)
+            end = end_dt.strftime("%Y-%m-%d %H:%M")
+        except Exception:
+            end = items[right].get("time")
     return start, end
 
 
@@ -82,11 +85,14 @@ def _window_for_opportunity(items, best_index, opportunity_id):
         right += 1
 
     start = items[left].get("time")
-    try:
-        end_dt = datetime.strptime(items[right].get("time"), "%Y-%m-%d %H:%M") + timedelta(hours=1)
-        end = end_dt.strftime("%Y-%m-%d %H:%M")
-    except Exception:
-        end = items[right].get("time")
+    right_metric = _metric_for_opportunity(items[right], opportunity_id) or {}
+    end = right_metric.get("temporal_end")
+    if not end:
+        try:
+            end_dt = datetime.strptime(items[right].get("time"), "%Y-%m-%d %H:%M") + timedelta(hours=1)
+            end = end_dt.strftime("%Y-%m-%d %H:%M")
+        except Exception:
+            end = items[right].get("time")
     return start, end
 
 
