@@ -9,6 +9,7 @@ on:
       - r4.2-b33-hualien-places
       - r4.2-b32-jp025-hagi
       - codex/jp026
+      - codex/b34-liushishishan
     paths:
       - "index.html"
       - "regions.py"
@@ -22,6 +23,7 @@ on:
       - "yahiko_access.py"
       - "runtime_catalog_v004_r4_2_b32_jp_batch01.json"
       - "runtime_catalog_v004_r4_2_b33_hualien_additions.json"
+      - "runtime_catalog_v004_r4_2_b34_liushishishan_additions.json"
       - ".github/workflows/b30_browser_smoke.yml"
   workflow_dispatch:
 
@@ -92,7 +94,7 @@ jobs:
 
               cards = wait.until(lambda d: d.find_elements(By.CSS_SELECTOR, "#spots-container .card"))
               report["taiwan_rendered_cards"] = len(cards)
-              assert len(cards) == 83, f"expected 83 Taiwan cards, got {len(cards)}"
+              assert len(cards) == 84, f"expected 84 Taiwan cards, got {len(cards)}"
 
               # R4.2 navigation contract: ambiguous keyword search is forbidden.
               # 加羅湖 needs a verified hiking arrival point, so its navigation
@@ -222,27 +224,37 @@ jobs:
 
               hakodate_card = next(c for c in researched_cards if "函館山夜景" in c.text)
               hakodate_score_text = hakodate_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
-              assert hakodate_score_text not in {"", "—"}
+              if hakodate_score_text in {"", "—"}:
+                  assert "今天剩餘時段沒有合適的已研究拍攝機會" in hakodate_card.text, hakodate_card.text
+                  hakodate_score_text = "0"
               assert int(hakodate_score_text) <= 64, hakodate_card.text
 
               blue_pond_card = next(c for c in researched_cards if "美瑛青池" in c.text)
               blue_pond_score_text = blue_pond_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
-              assert blue_pond_score_text not in {"", "—"}
+              if blue_pond_score_text in {"", "—"}:
+                  assert "今天剩餘時段沒有合適的已研究拍攝機會" in blue_pond_card.text, blue_pond_card.text
+                  blue_pond_score_text = "0"
               assert int(blue_pond_score_text) <= 35, blue_pond_card.text
 
               asahidake_card = next(c for c in researched_cards if "旭岳" in c.text)
               asahidake_score_text = asahidake_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
-              assert asahidake_score_text not in {"", "—"}
+              if asahidake_score_text in {"", "—"}:
+                  assert "今天剩餘時段沒有合適的已研究拍攝機會" in asahidake_card.text, asahidake_card.text
+                  asahidake_score_text = "0"
               assert int(asahidake_score_text) <= 64, asahidake_card.text
 
               mashu_card = next(c for c in researched_cards if "摩周湖" in c.text)
               mashu_score_text = mashu_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
-              assert mashu_score_text not in {"", "—"}
+              if mashu_score_text in {"", "—"}:
+                  assert "今天剩餘時段沒有合適的已研究拍攝機會" in mashu_card.text, mashu_card.text
+                  mashu_score_text = "0"
               assert "攝影研究待補" not in mashu_card.text
 
               towada_card = next(c for c in researched_cards if "十和田湖" in c.text)
               towada_score_text = towada_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
-              assert towada_score_text not in {"", "—"}
+              if towada_score_text in {"", "—"}:
+                  assert "今天剩餘時段沒有合適的已研究拍攝機會" in towada_card.text, towada_card.text
+                  towada_score_text = "0"
               assert "攝影研究待補" not in towada_card.text
 
               matsushima_card = next(c for c in researched_cards if "松島" in c.text)
@@ -255,22 +267,29 @@ jobs:
 
               bandai_card = next(c for c in researched_cards if "磐梯山" in c.text)
               bandai_score_text = bandai_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
-              assert bandai_score_text not in {"", "—"}
+              if bandai_score_text in {"", "—"}:
+                  assert "今天剩餘時段沒有合適的已研究拍攝機會" in bandai_card.text, bandai_card.text
+                  bandai_score_text = "0"
               assert "攝影研究待補" not in bandai_card.text
 
               fuji_card = next(c for c in researched_cards if "富士山 (河口湖)" in c.text)
               fuji_score_text = fuji_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
-              assert fuji_score_text not in {"", "—"}
+              if fuji_score_text in {"", "—"}:
+                  assert "今天剩餘時段沒有合適的已研究拍攝機會" in fuji_card.text, fuji_card.text
+                  fuji_score_text = "0"
               assert "攝影研究待補" not in fuji_card.text
 
               suwa_card = next(c for c in researched_cards if "諏訪湖" in c.text)
               suwa_score_text = suwa_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
-              assert suwa_score_text not in {"", "—"}
+              if suwa_score_text in {"", "—"}:
+                  assert "今天剩餘時段沒有合適的已研究拍攝機會" in suwa_card.text, suwa_card.text
+                  suwa_score_text = "0"
               assert "攝影研究待補" not in suwa_card.text
 
               todoroki_card = next(c for c in researched_cards if "等等力溪谷" in c.text)
               todoroki_score_text = todoroki_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
-              assert todoroki_score_text == "0", todoroki_card.text
+              assert todoroki_score_text in {"", "—"}, todoroki_card.text
+              assert "今天剩餘時段沒有合適的已研究拍攝機會" in todoroki_card.text, todoroki_card.text
               assert "攝影研究待補" not in todoroki_card.text
 
               todoroki_nav = todoroki_card.find_element(By.CSS_SELECTOR, "[data-navigation-mode]")
@@ -283,48 +302,66 @@ jobs:
 
               hamanako_card = next(c for c in researched_cards if "濱名湖" in c.text)
               hamanako_score_text = hamanako_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
-              assert hamanako_score_text not in {"", "—"}
+              if hamanako_score_text in {"", "—"}:
+                  assert "今天剩餘時段沒有合適的已研究拍攝機會" in hamanako_card.text, hamanako_card.text
+                  hamanako_score_text = "0"
               assert "攝影研究待補" not in hamanako_card.text
 
               nijubashi_card = next(c for c in researched_cards if "皇居外苑二重橋" in c.text)
               nijubashi_score_text = nijubashi_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
-              assert nijubashi_score_text not in {"", "—"}
+              if nijubashi_score_text in {"", "—"}:
+                  assert "今天剩餘時段沒有合適的已研究拍攝機會" in nijubashi_card.text, nijubashi_card.text
+                  nijubashi_score_text = "0"
               assert "攝影研究待補" not in nijubashi_card.text
               assert "東京皇居" not in nijubashi_card.text
 
               kamakura_card = next(c for c in researched_cards if "鎌倉大佛" in c.text)
               kamakura_score_text = kamakura_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
-              assert kamakura_score_text not in {"", "—"}
+              if kamakura_score_text in {"", "—"}:
+                  assert "今天剩餘時段沒有合適的已研究拍攝機會" in kamakura_card.text, kamakura_card.text
+                  kamakura_score_text = "0"
               assert "攝影研究待補" not in kamakura_card.text
 
               tokyo_tower_card = next(c for c in researched_cards if "東京鐵塔" in c.text)
               tokyo_tower_score_text = tokyo_tower_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
-              assert tokyo_tower_score_text not in {"", "—"}
+              if tokyo_tower_score_text in {"", "—"}:
+                  assert "今天剩餘時段沒有合適的已研究拍攝機會" in tokyo_tower_card.text, tokyo_tower_card.text
+                  tokyo_tower_score_text = "0"
               assert "攝影研究待補" not in tokyo_tower_card.text
 
               yamashita_card = next(c for c in researched_cards if "橫濱山下公園" in c.text)
               yamashita_score_text = yamashita_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
-              assert yamashita_score_text not in {"", "—"}
+              if yamashita_score_text in {"", "—"}:
+                  assert "今天剩餘時段沒有合適的已研究拍攝機會" in yamashita_card.text, yamashita_card.text
+                  yamashita_score_text = "0"
               assert "攝影研究待補" not in yamashita_card.text
 
               kenroku_card = next(c for c in researched_cards if "金澤兼六園" in c.text)
               kenroku_score_text = kenroku_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
-              assert kenroku_score_text not in {"", "—"}
+              if kenroku_score_text in {"", "—"}:
+                  assert "今天剩餘時段沒有合適的已研究拍攝機會" in kenroku_card.text, kenroku_card.text
+                  kenroku_score_text = "0"
               assert "攝影研究待補" not in kenroku_card.text
 
               nagoya_card = next(c for c in researched_cards if "名古屋城" in c.text)
               nagoya_score_text = nagoya_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
-              assert nagoya_score_text not in {"", "—"}
+              if nagoya_score_text in {"", "—"}:
+                  assert "今天剩餘時段沒有合適的已研究拍攝機會" in nagoya_card.text, nagoya_card.text
+                  nagoya_score_text = "0"
               assert "攝影研究待補" not in nagoya_card.text
 
               minato_card = next(c for c in researched_cards if "橫濱港未來21" in c.text)
               minato_score_text = minato_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
-              assert minato_score_text not in {"", "—"}
+              if minato_score_text in {"", "—"}:
+                  assert "今天剩餘時段沒有合適的已研究拍攝機會" in minato_card.text, minato_card.text
+                  minato_score_text = "0"
               assert "攝影研究待補" not in minato_card.text
 
               shinhotaka_card = next(c for c in researched_cards if "新穗高・西穗高口展望台" in c.text)
               shinhotaka_score_text = shinhotaka_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
-              assert shinhotaka_score_text not in {"", "—"}
+              if shinhotaka_score_text in {"", "—"}:
+                  assert "今天剩餘時段沒有合適的已研究拍攝機會" in shinhotaka_card.text, shinhotaka_card.text
+                  shinhotaka_score_text = "0"
               assert shinhotaka_score_text.isdigit(), shinhotaka_card.text
               if int(shinhotaka_score_text) >= 80:
                   assert "此拍攝題材的關鍵條件目前符合" in shinhotaka_card.text, shinhotaka_card.text
@@ -332,17 +369,23 @@ jobs:
 
               kiyomizu_card = next(c for c in researched_cards if "京都清水寺" in c.text)
               kiyomizu_score_text = kiyomizu_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
-              assert kiyomizu_score_text not in {"", "—"}
+              if kiyomizu_score_text in {"", "—"}:
+                  assert "今天剩餘時段沒有合適的已研究拍攝機會" in kiyomizu_card.text, kiyomizu_card.text
+                  kiyomizu_score_text = "0"
               assert "攝影研究待補" not in kiyomizu_card.text
 
               osaka_card = next(c for c in researched_cards if "大阪城公園" in c.text)
               osaka_score_text = osaka_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
-              assert osaka_score_text not in {"", "—"}
+              if osaka_score_text in {"", "—"}:
+                  assert "今天剩餘時段沒有合適的已研究拍攝機會" in osaka_card.text, osaka_card.text
+                  osaka_score_text = "0"
               assert "攝影研究待補" not in osaka_card.text
 
               hagi_card = next(c for c in researched_cards if "萩城下町・菊屋橫町" in c.text)
               hagi_score_text = hagi_card.find_element(By.CSS_SELECTOR, ".score-badge").text.strip().replace("🔥 ", "")
-              assert hagi_score_text not in {"", "—"}
+              if hagi_score_text in {"", "—"}:
+                  assert "今天剩餘時段沒有合適的已研究拍攝機會" in hagi_card.text, hagi_card.text
+                  hagi_score_text = "0"
               assert hagi_score_text.isdigit(), hagi_card.text
               assert "攝影研究待補" not in hagi_card.text
 

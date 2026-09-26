@@ -122,6 +122,10 @@ MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES = {
     # B33 Yun Shan Shui: seasonal vegetation and garden/architecture subjects
     # are close-range local scenes, not distant visibility contracts.
     "tw-083-P02", "tw-083-P03", "tw-083-P04", "tw-083-P05",
+    # B34 Liushishishan flower-field / hill compositions: close-to-mid-range
+    # seasonal scenes. Sunbeam is intentionally excluded and remains a
+    # dedicated pending cloud-geometry Opportunity.
+    "tw-085-P01", "tw-085-P02", "tw-085-P04",
 }
 
 
@@ -143,6 +147,9 @@ HUALIEN_LOCAL_PROFILES = {
     "tw-083-P03": {"kind": "seasonal_months", "months": {4}, "score_hint": 88, "presence_unknown": True},
     "tw-083-P04": {"kind": "local_scene", "score_hint": 84},
     "tw-083-P05": {"kind": "local_scene", "score_hint": 82},
+    "tw-085-P01": {"kind": "seasonal_months", "months": {8, 9}, "score_hint": 88, "presence_unknown": True},
+    "tw-085-P02": {"kind": "seasonal_months", "months": {8, 9}, "score_hint": 86, "presence_unknown": True},
+    "tw-085-P04": {"kind": "seasonal_months", "months": {8, 9}, "score_hint": 84, "presence_unknown": True},
 }
 
 
@@ -1291,6 +1298,7 @@ def validate_runtime_registry():
         "tw-084-P05", "tw-084-P06", "tw-084-P07", "tw-084-P08",
         "tw-082-P04", "tw-082-P05", "tw-082-P06", "tw-082-P07", "tw-082-P08",
         "tw-083-P02", "tw-083-P03", "tw-083-P04", "tw-083-P05",
+        "tw-085-P01", "tw-085-P02", "tw-085-P04",
     }:
         errors.append(
             "unexpected minimum-sufficient local-scene registry: "

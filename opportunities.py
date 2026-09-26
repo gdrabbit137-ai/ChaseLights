@@ -55,6 +55,7 @@ CATALOG_SOURCE_DATABASE = _RUNTIME_CATALOG.get("source_database")
 B28_ADDITIONS_FILE = "runtime_catalog_v004_r4_2_b28_additions.json"
 B32_JP_ADDITIONS_FILE = "runtime_catalog_v004_r4_2_b32_jp_batch01.json"
 B33_HUALIEN_ADDITIONS_FILE = "runtime_catalog_v004_r4_2_b33_hualien_additions.json"
+B34_LIUSHISHISHAN_ADDITIONS_FILE = "runtime_catalog_v004_r4_2_b34_liushishishan_additions.json"
 
 def _load_b28_additions():
     path = Path(__file__).parent / B28_ADDITIONS_FILE
@@ -86,6 +87,16 @@ def _load_b33_hualien_additions():
 _B33_HUALIEN_ADDITIONS = _load_b33_hualien_additions()
 HUALIEN_CATALOG_ADDITIONS_SCHEMA_VERSION = _B33_HUALIEN_ADDITIONS["schema_version"]
 
+def _load_b34_liushishishan_additions():
+    path = Path(__file__).parent / B34_LIUSHISHISHAN_ADDITIONS_FILE
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if payload.get("schema_version") != "v0.04-r4.2-b34-liushishishan-additions-1":
+        raise ValueError(f"Unexpected B34 Liushishishan additions version: {payload.get('schema_version')}")
+    return payload
+
+_B34_LIUSHISHISHAN_ADDITIONS = _load_b34_liushishishan_additions()
+LIUSHISHISHAN_CATALOG_ADDITIONS_SCHEMA_VERSION = _B34_LIUSHISHISHAN_ADDITIONS["schema_version"]
+
 # tw-063 翟山坑道 was removed from the product photography catalog in B26.
 # B28 Batch 1 layers newly curated P0 Places onto the stable B15 payload while
 # keeping IDs stable; a later full catalog regeneration can collapse this layer.
@@ -95,6 +106,7 @@ _COMPOSITE_SPOTS = (
     + list(_B28_ADDITIONS.get("spots", []))
     + list(_B32_JP_ADDITIONS.get("spots", []))
     + list(_B33_HUALIEN_ADDITIONS.get("spots", []))
+    + list(_B34_LIUSHISHISHAN_ADDITIONS.get("spots", []))
 )
 # Later catalog layers intentionally override earlier records with the same
 # spot_id. Build the effective catalog by ID before computing counts so B33
@@ -223,7 +235,7 @@ def validate_curated_opportunities():
     variant_ids = set()
     viewpoint_relations = 0
 
-    expected_tw_spots = {f"tw-{i:03d}" for i in range(1, 85)} - RETIRED_SPOT_IDS
+    expected_tw_spots = {f"tw-{i:03d}" for i in range(1, 86)} - RETIRED_SPOT_IDS
     actual_spots = set(CURATED_OPPORTUNITIES)
     actual_tw_spots = {spot_id for spot_id in actual_spots if spot_id.startswith("tw-")}
     if actual_tw_spots != expected_tw_spots:
@@ -303,12 +315,12 @@ def validate_curated_opportunities():
                 errors.append(f"{oid}: missing profile_viewpoint relation")
             viewpoint_relations += len(viewpoints)
 
-    if len(opportunity_ids) != 245:
-        errors.append(f"expected 245 opportunities, got {len(opportunity_ids)}")
-    if len(variant_ids) != 255:
-        errors.append(f"expected 255 variants, got {len(variant_ids)}")
-    if viewpoint_relations != 250:
-        errors.append(f"expected 250 profile_viewpoint relations, got {viewpoint_relations}")
+    if len(opportunity_ids) != 249:
+        errors.append(f"expected 249 opportunities, got {len(opportunity_ids)}")
+    if len(variant_ids) != 259:
+        errors.append(f"expected 259 variants, got {len(variant_ids)}")
+    if viewpoint_relations != 254:
+        errors.append(f"expected 254 profile_viewpoint relations, got {viewpoint_relations}")
 
     exact = {
         opportunity["opportunity_id"]

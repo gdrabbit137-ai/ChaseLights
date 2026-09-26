@@ -116,6 +116,7 @@ REGIONS = {
             (23.93493, 121.50803, "鯉魚潭", "Liyu Lake · North Shore", "鯉魚潭・北岸", "鯉魚潭", "本島", ["lake", "mountain"]),
             (23.827018, 121.51548, "雲山水夢幻湖", "Yun Shan Shui Dream Lake", "雲山水夢幻湖", "雲山水夢幻湖", "本島", ["lake", "forest"]),
             (23.6143836, 121.4159714, "大農大富平地森林園區", "Danongdafu Forest Park", "大農大富平地森林園区", "大農大富平地森林園區", "本島", ["forest"]),
+            (23.219472, 121.308056, "六十石山", "Liushishishan", "六十石山", "六十石山", "本島", ["mountain"]),
         ],
     },
     "jp": {
@@ -607,6 +608,13 @@ ACCESS_RULE_OVERRIDES["新穗高高空纜車"] = {
 # also sent to the frontend so navigation can resolve the named POI even if
 # a mountain/park covers a large area.
 SPOT_OVERRIDES = {
+ '六十石山': {'lat': 23.219472,
+          'lon': 121.308056,
+          'scenes': ['mountain', 'rural'],
+          'themes': ['mountain_view', 'sunset', 'sunbeam'],
+          'map_query': '23.219472,121.308056',
+          'coordinate_source': 'B34 Huanghua Pavilion parking/arrival anchor; Camera Zones modeled separately',
+          'coordinate_confidence': 'medium_high'},
  '鯉魚潭': {'lat': 23.93493,
           'lon': 121.50803,
           'scenes': ['lake', 'mountain'],
@@ -1639,6 +1647,32 @@ DISPLAY_NAME_OVERRIDES = {
 # separate. map_query is search/display metadata only and MUST NOT be used to
 # build a production Navigation URL.
 NAVIGATION_TARGET_OVERRIDES = {
+    "六十石山": {
+        "status": "verified",
+        "lat": 23.219472,
+        "lon": 121.308056,
+        "target_type": "parking_arrival",
+        "label_i18n": {
+            "zh-TW": "六十石山・黃花亭停車場",
+            "en": "Liushishishan · Huanghua Pavilion parking",
+            "ja": "六十石山・黄花亭駐車場",
+        },
+        "source": "B34 official venue evidence identifies Huanghua Pavilion parking; reviewed 2026-09-26",
+        "confidence": "medium_high",
+        "parking_options": [
+            {"name_zh": "黃花亭停車場", "lat": 23.219472, "lon": 121.308056, "status": "verified_primary"},
+            {"name_zh": "忘憂亭停車／抵達點", "lat": 23.222194, "lon": 121.317056, "status": "verified_secondary"},
+        ],
+        "camera_zone_parking_constraints": {
+            "小瑞士觀景台": "花季交通管制資料明列小瑞士旁禁止停車；Camera Zone 不得作停車導航終點。",
+            "鹿蔥亭": "未查得官方正式停車場，不宣稱可直接停車。",
+        },
+        "note_i18n": {
+            "zh-TW": "主導航先導向黃花亭停車場；忘憂亭另有可用停車／抵達點。小瑞士與鹿蔥亭是攝影 Camera Zone，不等同停車場。",
+            "en": "Primary directions use Huanghua Pavilion parking. Wangyou Pavilion has a separate arrival/parking point. Little Switzerland and Lucong Pavilion are photography zones, not parking destinations.",
+            "ja": "主ナビは黄花亭駐車場へ案内します。忘憂亭には別の到着・駐車ポイントがあります。小瑞士と鹿蔥亭は撮影 Camera Zone で、駐車場ではありません。",
+        },
+    },
     "出雲大社": {
         "status": "multiple_access_routes",
         "target_type": "route_choice_required",
