@@ -18,7 +18,7 @@ from opportunities import get_opportunities
 EVIDENCE_REGISTRY_FILE = Path(__file__).parent / "runtime_evidence_registry_r4_2.json"
 
 HIGH_RISK = {
-    "mist": (r"霧|煙嵐|fog|mist|haze",),
+    "mist": (r"霧(?!淞)|煙嵐|fog|mist|haze",),
     "cloud_sea": (r"雲海|sea of clouds|cloud sea",),
     "sunbeam": (r"雲隙光|耶穌光|光束|sunbeam|crepuscular|cloud.?gap",),
     "reflection": (r"倒影|鏡面|reflection|mirror",),
