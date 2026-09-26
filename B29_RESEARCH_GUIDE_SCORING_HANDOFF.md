@@ -27,6 +27,16 @@ Date: 2026-09-24 (Asia/Taipei)
 - `tw-078-P02` and `tw-081-P02` remain retired and MUST NOT be reused.
 - Post-merge production weather log confirmed `tw_weather.json: 80 spots`.
 
+## Research evidence specification
+
+The project-wide evidence boundary is governed by `RESEARCH_EVIDENCE_SPEC_R4_2.md`.
+
+Key rule: **Place-specific evidence proves what can be photographed; forecast/runtime data estimates when that already-verified subject may work.** Terrain, weather, Scene tags and Theme tags MUST NOT create or prove a Photography Opportunity.
+
+High-risk subjects such as mist, cloud sea, sunbeams, reflections, Milky Way/star fields, seasonal flora, waterfalls, wildlife/events and snow/ice require explicit Place-specific evidence before production admission.
+
+Existing production Opportunities remain operational while B36 audits provenance; an audit result of `review_required` means "needs evidence review", not "false Opportunity".
+
 ## Research gate
 
 Taiwan is eligible for the new Place Guide because every active Place has place-specific photography research:
