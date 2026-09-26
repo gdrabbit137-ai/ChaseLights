@@ -1090,6 +1090,8 @@ def evaluate_tag_condition(theme, item_data, hour=None, lang="zh-TW"):
     factors=_build_factors(theme,item_data,lang)
     return score,get_text(status_key,lang),get_text(indicator_key,lang),status_key,indicator_key,factors
 
+# B35 Liyu subject-model validation trigger
+
 def _build_opportunity_runtime_diagnostics(spot, item_data):
     """Return runtime diagnostics for all researched Opportunities.
 
