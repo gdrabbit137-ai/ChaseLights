@@ -225,18 +225,18 @@ def test_adapter_integrity():
     assert len(liushishishan["navigation_target"]["parking_options"]) == 2
     liushi_ops = get_opportunities("tw", "tw-035")
     liushi_by_id = {o["opportunity_id"]: o for o in liushi_ops}
-    assert {"tw-035-P06", "tw-035-P07", "tw-035-P08", "tw-035-P09"} <= set(liushi_by_id)
-    assert liushi_by_id["tw-035-P06"]["runtime_policy"] == "minimum_sufficient_available"
+    assert {"tw-035-P07", "tw-035-P08", "tw-035-P09", "tw-035-P10"} <= set(liushi_by_id)
     assert liushi_by_id["tw-035-P07"]["runtime_policy"] == "minimum_sufficient_available"
-    assert liushi_by_id["tw-035-P08"]["runtime_policy"] == "module_pending"
-    assert liushi_by_id["tw-035-P09"]["runtime_policy"] == "minimum_sufficient_available"
-    b34_ops = [liushi_by_id[x] for x in ("tw-035-P06", "tw-035-P07", "tw-035-P08", "tw-035-P09")]
+    assert liushi_by_id["tw-035-P08"]["runtime_policy"] == "minimum_sufficient_available"
+    assert liushi_by_id["tw-035-P09"]["runtime_policy"] == "module_pending"
+    assert liushi_by_id["tw-035-P10"]["runtime_policy"] == "minimum_sufficient_available"
+    b34_ops = [liushi_by_id[x] for x in ("tw-035-P07", "tw-035-P08", "tw-035-P09", "tw-035-P10")]
     assert {o["viewpoints"][0]["name"] for o in b34_ops} == {
         "黃花亭 Camera Zone", "小瑞士觀景台 Camera Zone", "忘憂亭 Camera Zone", "鹿蔥亭 Camera Zone"
     }
-    assert liushi_by_id["tw-035-P07"]["viewpoints"][0]["lat"] == 23.222690
-    assert liushi_by_id["tw-035-P08"]["viewpoints"][0]["lat"] == 23.221497
-    assert liushi_by_id["tw-035-P09"]["viewpoints"][0]["lat"] == 23.224528
+    assert liushi_by_id["tw-035-P08"]["viewpoints"][0]["lat"] == 23.222690
+    assert liushi_by_id["tw-035-P09"]["viewpoints"][0]["lat"] == 23.221497
+    assert liushi_by_id["tw-035-P10"]["viewpoints"][0]["lat"] == 23.224528
 
     liyu_ops = get_opportunities("tw", "tw-082")
     yun_ops = get_opportunities("tw", "tw-083")
@@ -442,7 +442,7 @@ def test_adapter_integrity():
         "tw-084-P05", "tw-084-P06", "tw-084-P07", "tw-084-P08",
         "tw-082-P04", "tw-082-P05", "tw-082-P06", "tw-082-P07", "tw-082-P08",
         "tw-083-P02", "tw-083-P03", "tw-083-P04", "tw-083-P05",
-        "tw-035-P06", "tw-035-P07", "tw-035-P09",
+        "tw-035-P07", "tw-035-P08", "tw-035-P10",
     }
 
     # R4.2 Navigation Target contract: every Place has explicit state, but
