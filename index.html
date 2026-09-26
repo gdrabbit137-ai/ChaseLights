@@ -404,8 +404,23 @@
     .modal { background: #0c0c0c; border: 1px solid #333; border-radius: 8px; max-width: 950px; width: 100%; max-height: 90vh; display: flex; flex-direction: column; font-family: "Courier New", Courier, monospace; color: #ffffff; box-shadow: 0 0 20px rgba(0,255,255,0.1); }
     .modal-header { padding: 12px 16px; background: #181818; border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center; }
     .modal-title { font-size: 1.1rem; font-weight: bold; color: #38bdf8; }
-    .close-btn { background: none; border: none; color: #888; font-size: 1.4rem; cursor: pointer; }
-    .close-btn:hover { color: #fff; }
+    .close-btn {
+      flex:0 0 auto;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width:34px;
+      height:34px;
+      padding:0;
+      background:none;
+      border:1px solid transparent;
+      border-radius:8px;
+      color:#888;
+      font-size:1.4rem;
+      line-height:1;
+      cursor:pointer;
+    }
+    .close-btn:hover { color:#fff; border-color:#334155; background:#111827; }
     .modal-body { padding: 12px; overflow-y: auto; }
     
     .terminal-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; white-space: nowrap; color: #ffffff; }
@@ -459,8 +474,26 @@
     @media (max-width: 640px) {
       .modal-overlay { padding: 8px; align-items: flex-start; }
       .modal { max-height: calc(100vh - 16px); margin-top: 8px; }
-      .modal-header { padding: 10px 12px; }
-      .modal-title { font-size: 1rem; line-height: 1.3; }
+      .modal-header {
+        gap:10px;
+        padding:9px 10px 9px 12px;
+        align-items:flex-start;
+      }
+      .modal-title {
+        min-width:0;
+        flex:1 1 auto;
+        font-size:1rem;
+        line-height:1.3;
+        overflow-wrap:anywhere;
+      }
+      .close-btn {
+        width:40px;
+        height:40px;
+        margin:-4px -2px -4px 0;
+        font-size:1.55rem;
+        background:#111827;
+        border-color:#273449;
+      }
       .modal-body { padding: 10px; }
       .timeline-table-wrap { display: none; }
       .timeline-mobile { display: block; }
