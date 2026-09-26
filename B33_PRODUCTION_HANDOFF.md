@@ -1,5 +1,8 @@
 # ChaseLights R4.2 B33 Production Handoff
 
+> **Historical checkpoint — superseded by `B42_PRODUCTION_HANDOFF.md` (2026-09-26).**  
+> B33 is retained for release history. Do not use its open-PR or next-batch section as current project state.
+
 Date: 2026-09-25 (Asia/Taipei)
 
 ## Start here in a new conversation
