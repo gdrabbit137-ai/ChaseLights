@@ -2,6 +2,7 @@ import sys
 import json
 from datetime import datetime, timezone, timedelta
 from collections import defaultdict
+from zoneinfo import ZoneInfo
 from pathlib import Path
 
 # Production refresh validation trigger: 2026-09-26 12:15 +08
@@ -161,9 +162,13 @@ def _compact_opportunity_snapshot(item, opportunity, window_start=None, window_e
     return snap
 
 
-def _build_day_summaries(hourly, themes, opportunities=None):
+def _build_day_summaries(hourly, themes, opportunities=None, local_today=None):
     future = [h for h in hourly if not h.get("is_past")]
     by_date = defaultdict(list)
+    all_local_dates = set()
+    for h in hourly:
+        if h.get("local_date"):
+            all_local_dates.add(h["local_date"])
     for h in future:
         if h.get("local_date"):
             by_date[h["local_date"]].append(h)
@@ -173,9 +178,18 @@ def _build_day_summaries(hourly, themes, opportunities=None):
         if opportunity.get("opportunity_id") and opportunity.get("name_zh")
     ]
 
+    dates = sorted(by_date)
+    # Near local midnight, the next forecast hour may already belong to tomorrow.
+    # Keep the local calendar day visible when it exists in the 24h history but
+    # has no future rows left; its researched Opportunities then correctly fall
+    # through to the existing no_viable_opportunity state instead of making the
+    # entire Place disappear from the homepage.
+    if local_today and local_today in all_local_dates and local_today not in by_date:
+        dates = [local_today] + dates
+
     days = []
-    for date in sorted(by_date)[:3]:
-        items = sorted(by_date[date], key=lambda x: x.get("time_utc", ""))
+    for date in dates[:3]:
+        items = sorted(by_date.get(date, []), key=lambda x: x.get("time_utc", ""))
 
         # Opportunity-first summaries are authoritative for researched Places.
         opportunity_summaries = {}
@@ -295,8 +309,22 @@ def analyze_spot(spot, kp_rows=None):
         "light_pollution_confidence": spot.get("light_pollution_confidence"),
     }
     hourly = raw.get("hourly_forecast", [])
+    local_today = None
+    timezone_name = raw.get("timezone") or spot.get("timezone") or "UTC"
+    try:
+        local_today = datetime.now(timezone.utc).astimezone(ZoneInfo(timezone_name)).date().isoformat()
+    except (KeyError, ValueError):
+        # Unknown provider timezone should not block weather generation; the
+        # summary simply keeps the previous available-date behavior.
+        pass
+
     summary = dict(common)
-    summary["daily"] = _build_day_summaries(hourly, spot.get("themes", []), spot.get("opportunities", []))
+    summary["daily"] = _build_day_summaries(
+        hourly,
+        spot.get("themes", []),
+        spot.get("opportunities", []),
+        local_today=local_today,
+    )
 
     details = dict(common)
     details["hourly_forecast"] = hourly
