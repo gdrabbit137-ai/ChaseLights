@@ -99,16 +99,16 @@ def test_adapter_integrity():
     assert validate_curated_opportunities() == []
     assert validate_taxonomy() == []
     assert CATALOG_COUNTS == {
-        "spots": 109,
-        "opportunities": 245,
-        "condition_variants": 255,
-        "profile_viewpoint_relations": 250,
+        "spots": 110,
+        "opportunities": 249,
+        "condition_variants": 259,
+        "profile_viewpoint_relations": 254,
     }
     assert REGION_CATALOG_COUNTS["tw"] == {
-        "spots": 83,
-        "opportunities": 211,
-        "condition_variants": 221,
-        "profile_viewpoint_relations": 216,
+        "spots": 84,
+        "opportunities": 215,
+        "condition_variants": 225,
+        "profile_viewpoint_relations": 220,
     }
     assert REGION_CATALOG_COUNTS["jp"] == {
         "spots": 26,
@@ -155,21 +155,21 @@ def test_adapter_integrity():
     assert PRODUCT_STATUS_BY_SPOT == {"tw-063": "retired"}
     assert product_status("tw-063") == "retired"
     assert active_in_catalog("tw-063") is False
-    assert sum(1 for s in tw if active_in_catalog(s["spot_id"])) == 83
+    assert sum(1 for s in tw if active_in_catalog(s["spot_id"])) == 84
     assert all(
         product_status(s["spot_id"]) == "keep"
         for s in tw if s["spot_id"] != "tw-063"
     )
 
     curated = {s["spot_id"]: s for s in tw if s.get("opportunities")}
-    expected_active = {f"tw-{i:03d}" for i in range(1, 85)} - {"tw-063"}
+    expected_active = {f"tw-{i:03d}" for i in range(1, 86)} - {"tw-063"}
     assert set(curated) == expected_active
     assert "tw-063" not in CURATED_OPPORTUNITIES
-    assert sum(len(s["opportunities"]) for s in curated.values()) == 211
+    assert sum(len(s["opportunities"]) for s in curated.values()) == 215
 
     all_opportunities = _all_opportunities()
-    assert sum(len(o["condition_variants"]) for o in all_opportunities) == 255
-    assert sum(len(o["viewpoints"]) for o in all_opportunities) == 250
+    assert sum(len(o["condition_variants"]) for o in all_opportunities) == 259
+    assert sum(len(o["viewpoints"]) for o in all_opportunities) == 254
     assert not any(o["formula_status"] == "legacy_fallback_pending_curated" for o in all_opportunities)
     assert not any(str(o.get("formula_version") or "").startswith("legacy_") for o in all_opportunities)
 
@@ -180,9 +180,9 @@ def test_adapter_integrity():
 
     policies = Counter(runtime_policy(o) for o in all_opportunities)
     assert policies == {
-        "module_pending": 72,
+        "module_pending": 73,
         "preview_module_available": 87,
-        "minimum_sufficient_available": 80,
+        "minimum_sufficient_available": 83,
         "prototype_pending_certification": 2,
         "hold": 2,
         "data_insufficient": 2,
@@ -202,6 +202,26 @@ def test_adapter_integrity():
     assert hualien["tw-084"]["access_hours"] == ["08:00", "17:00"]
     assert get_opportunities("tw", "tw-082")[0]["runtime_policy"] == "preview_module_available"
     assert get_opportunities("tw", "tw-083")[0]["runtime_policy"] == "preview_module_available"
+
+    liushishishan = next(s for s in tw if s["spot_id"] == "tw-085")
+    assert liushishishan["name_i18n"]["zh-TW"] == "六十石山"
+    assert liushishishan["navigation_target"]["status"] == "verified"
+    assert liushishishan["navigation_target"]["lat"] == 23.219472
+    assert liushishishan["navigation_target"]["lon"] == 121.308056
+    assert len(liushishishan["navigation_target"]["parking_options"]) == 2
+    liushi_ops = get_opportunities("tw", "tw-085")
+    assert len(liushi_ops) == 4
+    assert {o["opportunity_id"] for o in liushi_ops} == {"tw-085-P01", "tw-085-P02", "tw-085-P03", "tw-085-P04"}
+    assert liushi_ops[0]["runtime_policy"] == "minimum_sufficient_available"
+    assert liushi_ops[1]["runtime_policy"] == "minimum_sufficient_available"
+    assert liushi_ops[2]["runtime_policy"] == "module_pending"
+    assert liushi_ops[3]["runtime_policy"] == "minimum_sufficient_available"
+    assert {o["viewpoints"][0]["name"] for o in liushi_ops} == {
+        "黃花亭 Camera Zone", "小瑞士觀景台 Camera Zone", "忘憂亭 Camera Zone", "鹿蔥亭 Camera Zone"
+    }
+    assert liushi_ops[1]["viewpoints"][0]["lat"] == 23.222690
+    assert liushi_ops[2]["viewpoints"][0]["lat"] == 23.221497
+    assert liushi_ops[3]["viewpoints"][0]["lat"] == 23.224528
 
     liyu_ops = get_opportunities("tw", "tw-082")
     yun_ops = get_opportunities("tw", "tw-083")
