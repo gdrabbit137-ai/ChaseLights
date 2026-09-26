@@ -372,6 +372,7 @@ def test_adapter_integrity():
         "tw-084-P05", "tw-084-P06", "tw-084-P07", "tw-084-P08",
         "tw-082-P04", "tw-082-P05", "tw-082-P06", "tw-082-P07", "tw-082-P08",
         "tw-083-P02", "tw-083-P03", "tw-083-P04", "tw-083-P05",
+        "tw-085-P01", "tw-085-P02", "tw-085-P04",
     }
 
     # R4.2 Navigation Target contract: every Place has explicit state, but
