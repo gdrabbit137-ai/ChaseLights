@@ -687,6 +687,54 @@ def _temporal_eligibility(theme, d):
     return True, "no_temporal_gate"
 
 
+def _temporal_end_boundary(theme, local_dt, lat, lon, lang="zh-TW"):
+    """Return the sub-hour local time when an eligible Theme becomes ineligible.
+
+    Hourly forecast rows describe conditions at the top of each hour. A window
+    must not blindly extend an eligible row by a full hour when an astronomy
+    gate closes between observations.
+    """
+    if local_dt.tzinfo is None:
+        return None
+
+    def eligible_at(utc_dt):
+        astro = _safe_astronomy(utc_dt, lat, lon, lang)
+        sun_alt = astro.get("sun_elevation")
+        probe_local = utc_dt.astimezone(local_dt.tzinfo)
+        probe = {
+            "astronomy_valid": astro.get("astronomy_valid"),
+            "sun_elevation": sun_alt,
+            "hour": probe_local.hour,
+            "is_day": bool(
+                astro.get("astronomy_valid")
+                and sun_alt is not None
+                and float(sun_alt) > -0.8
+            ),
+            "is_twilight": bool(
+                astro.get("astronomy_valid")
+                and sun_alt is not None
+                and -8.0 <= float(sun_alt) <= 8.0
+            ),
+        }
+        return _temporal_eligibility(theme, probe)[0]
+
+    start_utc = local_dt.astimezone(timezone.utc)
+    end_utc = start_utc + timedelta(hours=1)
+    if eligible_at(start_utc) is not True or eligible_at(end_utc) is not False:
+        return None
+
+    lo, hi = start_utc, end_utc
+    for _ in range(16):
+        mid = lo + (hi - lo) / 2
+        if eligible_at(mid) is False:
+            hi = mid
+        else:
+            lo = mid
+
+    boundary = hi.astimezone(local_dt.tzinfo).replace(second=0, microsecond=0)
+    return boundary.strftime("%Y-%m-%d %H:%M")
+
+
 def _eligibility_cap(theme, d):
     if d.get("access_open") is False:
         return 15
@@ -1189,6 +1237,7 @@ def _score_opportunity(opportunity, theme_metric, runtime_diagnostic, lang="zh-T
         "formula_confidence": opportunity.get("formula_confidence"),
         "temporal_eligible": (theme_metric or {}).get("temporal_eligible"),
         "temporal_reason": (theme_metric or {}).get("temporal_reason"),
+        "temporal_end": (theme_metric or {}).get("temporal_end"),
         "runtime_eligible": (runtime_diagnostic or {}).get("eligible"),
         "access_override": bool((runtime_diagnostic or {}).get("access_override")),
         "runtime": runtime_diagnostic or {},
@@ -1571,6 +1620,11 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
             for theme in themes:
                 score, status, indicator, status_key, indicator_key, factors = evaluate_tag_condition(theme, item_data, local_dt.hour, lang)
                 temporal_eligible, temporal_reason = _temporal_eligibility(theme, item_data)
+                temporal_end = (
+                    _temporal_end_boundary(theme, local_dt, lat, lon, lang)
+                    if temporal_eligible is True
+                    else None
+                )
                 theme_scores[theme] = {
                     "score": score,
                     "status": status,
@@ -1580,6 +1634,7 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
                     "factors": factors,
                     "temporal_eligible": temporal_eligible,
                     "temporal_reason": temporal_reason,
+                    "temporal_end": temporal_end,
                 }
 
             opportunity_scores = {}
@@ -1592,6 +1647,11 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
                 if theme_metric is None:
                     score, status, indicator, status_key, indicator_key, factors = evaluate_tag_condition(theme, item_data, local_dt.hour, lang)
                     temporal_eligible, temporal_reason = _temporal_eligibility(theme, item_data)
+                    temporal_end = (
+                        _temporal_end_boundary(theme, local_dt, lat, lon, lang)
+                        if temporal_eligible is True
+                        else None
+                    )
                     theme_metric = {
                         "score": score,
                         "status": status,
@@ -1601,6 +1661,7 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
                         "factors": factors,
                         "temporal_eligible": temporal_eligible,
                         "temporal_reason": temporal_reason,
+                        "temporal_end": temporal_end,
                     }
                     theme_scores[theme] = theme_metric
                 opportunity_scores[oid] = _score_opportunity(
