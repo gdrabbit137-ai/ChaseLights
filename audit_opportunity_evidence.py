@@ -105,7 +105,14 @@ def _load_registry():
 def build_report():
     registry = _load_registry()
     records = []
-    counts = {"documented": 0, "review_required": 0, "lower_risk_legacy": 0}
+    counts = {
+        "documented": 0,
+        "narrow_scope": 0,
+        "insufficient_evidence": 0,
+        "remove_or_rewrite": 0,
+        "review_required": 0,
+        "lower_risk_legacy": 0,
+    }
     for region in ("tw", "jp", "us"):
         for spot in get_spots(region):
             sid = spot["spot_id"]
@@ -114,11 +121,15 @@ def build_report():
                 risks = _risk_classes(blob)
                 has_evidence, evidence_location = _explicit_evidence(op)
                 registry_entry = registry.get(op.get("opportunity_id")) or {}
-                registry_verified = registry_entry.get("status") == "verified"
-                if registry_verified:
+                registry_status = registry_entry.get("status")
+                if registry_status == "verified":
                     has_evidence = True
                     evidence_location = "runtime_evidence_registry_r4_2.json"
-                if risks and has_evidence:
+                    status = "documented"
+                elif registry_status in {"narrow_scope", "insufficient_evidence", "remove_or_rewrite"}:
+                    status = registry_status
+                    evidence_location = "runtime_evidence_registry_r4_2.json"
+                elif risks and has_evidence:
                     status = "documented"
                 elif risks:
                     status = "review_required"
@@ -146,6 +157,9 @@ def build_report():
         "policy": "RESEARCH_EVIDENCE_SPEC_R4_2.md",
         "counts": counts,
         "review_required": [r for r in records if r["audit_status"] == "review_required"],
+        "narrow_scope": [r for r in records if r["audit_status"] == "narrow_scope"],
+        "insufficient_evidence": [r for r in records if r["audit_status"] == "insufficient_evidence"],
+        "remove_or_rewrite": [r for r in records if r["audit_status"] == "remove_or_rewrite"],
         "documented_high_risk": [r for r in records if r["audit_status"] == "documented"],
         "all_records": records,
     }
