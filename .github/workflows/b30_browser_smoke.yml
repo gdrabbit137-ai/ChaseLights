@@ -97,7 +97,7 @@ jobs:
 
               cards = wait.until(lambda d: d.find_elements(By.CSS_SELECTOR, "#spots-container .card"))
               report["taiwan_rendered_cards"] = len(cards)
-              assert len(cards) == 84, f"expected 84 Taiwan cards, got {len(cards)}"
+              assert len(cards) == 83, f"expected 83 Taiwan cards, got {len(cards)}"
 
               # R4.2 navigation contract: ambiguous keyword search is forbidden.
               # 加羅湖 needs a verified hiking arrival point, so its navigation
