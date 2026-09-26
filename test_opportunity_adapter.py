@@ -2658,6 +2658,31 @@ def test_active_catalog_weather_generation_guard():
     assert access_days[0]["all"]["best_time"] == "2026-09-24 06:00"
     assert access_days[0]["all"]["window_start"] == "2026-09-24 06:00"
 
+    # Window ends must respect sub-hour astronomy gates rather than always
+    # extending the last eligible hourly row by a full hour.
+    liyu_tz = fetch_data.ZoneInfo("Asia/Taipei")
+    liyu_local = datetime(2026, 9, 26, 18, 0, tzinfo=liyu_tz)
+    reflection_end = fetch_data._temporal_end_boundary(
+        "reflection", liyu_local, 23.93493, 121.50803, "zh-TW"
+    )
+    assert reflection_end is not None
+    assert "2026-09-26 18:00" < reflection_end < "2026-09-26 19:00"
+
+    boundary_items = [{
+        "time": "2026-09-26 18:00",
+        "opportunity_scores": {
+            "tw-018-P02": {
+                "score": 88,
+                "temporal_eligible": True,
+                "temporal_end": reflection_end,
+            }
+        },
+    }]
+    _, bounded_end = analyze_weather._window_for_opportunity(
+        boundary_items, 0, "tw-018-P02"
+    )
+    assert bounded_end == reflection_end
+
 
 def test_schema10_optional_metadata_bridge():
     spot = next(s for s in get_spots("tw") if s["spot_id"] == "tw-052")
