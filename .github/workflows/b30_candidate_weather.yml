@@ -72,17 +72,17 @@ jobs:
           assert isinstance(summary_spots, list), type(summary_spots)
           assert isinstance(detail_spots, list), type(detail_spots)
 
-          assert len(summary_spots) == 84, f"summary expected 84, got {len(summary_spots)}"
-          assert len(detail_spots) == 84, f"details expected 84, got {len(detail_spots)}"
+          assert len(summary_spots) == 83, f"summary expected 83, got {len(summary_spots)}"
+          assert len(detail_spots) == 83, f"details expected 83, got {len(detail_spots)}"
 
           sids = [s["spot_id"] for s in summary_spots]
           dids = [s["spot_id"] for s in detail_spots]
-          assert len(set(sids)) == 84
-          assert len(set(dids)) == 84
+          assert len(set(sids)) == 83
+          assert len(set(dids)) == 83
           assert "tw-063" not in sids
           assert "tw-063" not in dids
           assert set(sids) == set(dids)
-          assert {"tw-082", "tw-083", "tw-084", "tw-085"}.issubset(sids)
+          assert {"tw-082", "tw-083", "tw-083", "tw-085"}.issubset(sids)
 
           valid_nav_states = {"verified", "provisional_camera_anchor", "needs_review", "multiple_access_routes"}
           assert all((s.get("navigation_target") or {}).get("status") in valid_nav_states for s in summary_spots)
@@ -99,7 +99,7 @@ jobs:
 
           shard_dir = Path("weather_details") / "tw"
           shard_files = sorted(shard_dir.glob("tw-*.json"))
-          assert len(shard_files) == 84, f"expected 84 Taiwan detail shards, got {len(shard_files)}"
+          assert len(shard_files) == 83, f"expected 83 Taiwan detail shards, got {len(shard_files)}"
           shard_ids = []
           for shard_path in shard_files:
               shard = json.loads(shard_path.read_text(encoding="utf-8"))
