@@ -1010,15 +1010,17 @@ def test_adapter_integrity():
     for i, point in enumerate(spatial_plan["points"]):
         is_camera = point["role"] == "camera"
         if is_camera:
-            elevation, vis, rh, low = 820, 20000, 72, 20
+            elevation, vis, rh, low, temp, dew = 820, 20000, 72, 20, 18.0, 12.0
         elif i in (1, 2, 3):
-            elevation, vis, rh, low = 350, 3500, 96, 92
+            elevation, vis, rh, low, temp, dew = 350, 3500, 96, 92, 14.0, 13.5
         else:
-            elevation, vis, rh, low = 500, 14000, 75, 25
+            elevation, vis, rh, low, temp, dew = 500, 14000, 75, 25, 16.0, 11.0
         fake_raw.append({
             "elevation": elevation,
             "hourly": {
                 "time": [ts],
+                "temperature_2m": [temp],
+                "dew_point_2m": [dew],
                 "relative_humidity_2m": [rh],
                 "cloud_cover_low": [low],
                 "visibility": [vis],
@@ -1052,6 +1054,8 @@ def test_adapter_integrity():
         "elevation": 820,
         "hourly": {
             "time": [ts],
+            "temperature_2m": [12.0],
+            "dew_point_2m": [11.8],
             "relative_humidity_2m": [99],
             "cloud_cover_low": [98],
             "visibility": [1800],
@@ -1063,6 +1067,34 @@ def test_adapter_integrity():
     fogged_eval = evaluate_spatial_weather(p02_spatial, {"spatial_weather": fogged_obs})
     assert fogged_eval["eligible"] is False
     assert fogged_eval["reason"] == "camera_not_clear_enough"
+
+    # Coarse-grid visibility can still look acceptable while the viewpoint is
+    # brushing saturated orographic cloud. Dew-point spread must veto this.
+    in_cloud_raw = [dict(row) for row in fake_raw]
+    in_cloud_raw[0] = {
+        "elevation": 820,
+        "hourly": {
+            "time": [ts],
+            "temperature_2m": [12.0],
+            "dew_point_2m": [11.0],
+            "relative_humidity_2m": [94],
+            "cloud_cover_low": [82],
+            "visibility": [9000],
+            "precipitation": [0.0],
+            "wind_speed_10m": [2.0],
+        },
+    }
+    in_cloud_obs = spatial_observations_for_timestamp(
+        index_spatial_response(spatial_plan, in_cloud_raw), ts
+    )
+    in_cloud_eval = evaluate_spatial_weather(
+        p02_spatial, {"spatial_weather": in_cloud_obs}
+    )
+    assert in_cloud_eval["available"] is True
+    assert in_cloud_eval["eligible"] is False
+    assert in_cloud_eval["reason"] == "camera_in_cloud_risk"
+    assert in_cloud_eval["camera_dewpoint_spread_c"] == 1.0
+    assert in_cloud_eval["camera_lcl_agl_proxy_m"] == 125
 
     tw014 = next(s for s in tw if s["spot_id"] == "tw-014")
     p014 = next(o for o in tw014["opportunities"] if o["opportunity_id"] == "tw-014-P02")
@@ -2301,6 +2333,8 @@ def test_adapter_integrity():
     spatial_url = fetch_data._build_spatial_open_meteo_url(spatial_plan)
     assert "latitude=" in spatial_url and "%2C" not in spatial_url
     assert "cloud_cover_low" in spatial_url
+    assert "temperature_2m" in spatial_url
+    assert "dew_point_2m" in spatial_url
     assert spatial_url.count(",") >= 16
 
     tw070 = next(s for s in tw if s["spot_id"] == "tw-070")

@@ -31,9 +31,11 @@ Date: 2026-09-24 (Asia/Taipei)
 
 The project-wide evidence boundary is governed by `RESEARCH_EVIDENCE_SPEC_R4_2.md`.
 
-Key rule: **Place-specific evidence proves what can be photographed; forecast/runtime data estimates when that already-verified subject may work.** Terrain, weather, Scene tags and Theme tags MUST NOT create or prove a Photography Opportunity.
+Key rule: **Place-specific evidence proves what can be photographed; forecast/runtime data estimates when that already-verified subject may work.** Terrain, weather, Scene tags and Theme tags MUST NOT create or prove a Photography Opportunity, except for the narrowly defined forecast-derived **cloud-sea condition** below.
 
-High-risk subjects such as mist, cloud sea, sunbeams, reflections, Milky Way/star fields, seasonal flora, waterfalls, wildlife/events and snow/ice require explicit Place-specific evidence before production admission.
+Cloud sea is a special runtime-derived condition: it may be surfaced without prior photo evidence only when spatial/vertical weather sampling shows that the camera is clear while multiple materially lower terrain samples contain coherent low cloud/fog. Elevation alone, humidity alone, or one-point low-cloud data is insufficient, and near-sea-level sites without lower terrain must not be promoted to cloud-sea viewpoints.
+
+Other high-risk subjects such as mist/fog, sunbeams, reflections, Milky Way/star fields, seasonal flora, waterfalls, wildlife/events and snow/ice still require explicit Place-specific evidence before production admission.
 
 Existing production Opportunities remain operational while B36 audits provenance; an audit result of `review_required` means "needs evidence review", not "false Opportunity".
 
