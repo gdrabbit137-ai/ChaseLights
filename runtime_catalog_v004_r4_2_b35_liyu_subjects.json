@@ -1,0 +1,112 @@
+{
+  "schema_version": "v0.04-r4.2-b35-liyu-subjects-1",
+  "generated_at": "2026-09-26T17:45:00+08:00",
+  "source_database": "ChaseLights curated Liyu Lake subject refinement B35",
+  "spot_count": 1,
+  "opportunity_count": 2,
+  "condition_variant_count": 2,
+  "profile_viewpoint_relation_count": 2,
+  "spots": [
+    {
+      "spot_id": "tw-082",
+      "canonical_name": "鯉魚潭・潭北湖岸",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B35_LIYU_SUBJECTS",
+      "opportunities": [
+        {
+          "opportunity_id": "tw-082-P09",
+          "spot_id": "tw-082",
+          "name_zh": "鯉魚潭湖岸薄霧、低雲與山影氛圍",
+          "legacy_theme": "fog_mist",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "minimum_sufficient_local_scene",
+          "formula_version": "v0.04-liyu-mist-local-scene",
+          "formula_confidence": 82,
+          "best_time": "清晨至上午；低能見度但無明顯降雨時",
+          "best_season": "全年；高濕、低風或雨後較有機會",
+          "condition_variants": [
+            {
+              "variant_id": "VAR-228",
+              "profile_id": "tw-082-P09",
+              "variant_name": "湖岸薄霧與近山山影",
+              "condition_geometry": "{\"camera_zone\":\"鯉魚潭潭北／環潭公共水岸 Camera Zone\",\"subject\":\"lake mist + near shoreline + partial mountain silhouettes\"}",
+              "hard_gates": "合法公共湖岸可達；無豪雨或現場封閉；低能見度不得等同道路或步道安全無虞",
+              "required_conditions": "近中距離湖岸仍可辨；無明顯降雨；能見度偏低或高濕形成霧感",
+              "boosters": "能見度約 0.2–3 km 的薄霧層次；弱風；高濕；局部山影若隱若現",
+              "penalties": "大雨；強風驅散霧氣；能見度過高而缺乏霧感；霧濃到近岸主體亦不可辨",
+              "formula_status": "minimum_sufficient_local_scene"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "tw-082-VP09",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Representative public lakeside camera zone for mist atmosphere; exact tripod position is not asserted.",
+              "name": "鯉魚潭潭北／環潭湖岸霧景 Camera Zone",
+              "lat": 23.93493,
+              "lon": 121.50803,
+              "elevation_m": 140,
+              "coord_confidence": "high",
+              "verification_status": "official_public_waterfront_plus_weather_specific_subject_model",
+              "geometry_type": "area",
+              "geometry_extent_m": 1200,
+              "geometry_note": "代表合法公共湖岸與環潭動線的霧景構圖區；不以遠山完全清晰為必要條件。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "tw-082-P10",
+          "spot_id": "tw-082",
+          "name_zh": "鯉魚潭人工濕地與水岸近景細節",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "minimum_sufficient_local_scene",
+          "formula_version": "v0.04-liyu-wetland-local-scene",
+          "formula_confidence": 76,
+          "best_time": "日間柔光；陰天、雨後或高濕時亦適合",
+          "best_season": "全年",
+          "subject_presence_forecastable": false,
+          "condition_variants": [
+            {
+              "variant_id": "VAR-229",
+              "profile_id": "tw-082-P10",
+              "variant_name": "人工濕地、水岸植被與近景紋理",
+              "condition_geometry": "{\"camera_zone\":\"鯉魚潭人工濕地／環潭水岸 Camera Zone\",\"subject\":\"wetland habitat + waterside vegetation + reflections + close-range natural details\"}",
+              "hard_gates": "合法公共或環境教育動線可達；不得進入濕地或干擾野生動物",
+              "required_conditions": "公共觀察位置可達；降雨未造成通行風險；近景植被與水岸細節可辨",
+              "boosters": "陰天柔光；雨後飽和綠意；水滴、倒影與濕地紋理；低風",
+              "penalties": "豪雨；強風；積水或濕滑造成通行風險；為追逐動物而離開合法動線",
+              "formula_status": "minimum_sufficient_local_scene"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "tw-082-VP10",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official environmental-education wetland habitat is the subject basis; actual wildlife presence is never guaranteed.",
+              "name": "鯉魚潭人工濕地／環潭水岸近景 Camera Zone",
+              "lat": 23.93493,
+              "lon": 121.50803,
+              "elevation_m": null,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_environmental_education_wetland_evidence",
+              "geometry_type": "area",
+              "geometry_extent_m": 1800,
+              "geometry_note": "代表人工濕地與環潭合法觀察區；適合植被、水岸、反射與棲地細節，不要求長距離能見度。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
