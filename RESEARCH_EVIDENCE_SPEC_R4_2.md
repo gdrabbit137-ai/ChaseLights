@@ -66,7 +66,6 @@ Grade C may create a research lead but MUST NOT alone promote an Opportunity to 
 The following subjects require explicit Place-specific evidence and MUST NOT be inferred from terrain/weather alone:
 
 - fog / mist / morning mist / haze as a photographic subject,
-- sea of clouds,
 - crepuscular rays / sunbeams / cloud-gap light,
 - reflection compositions,
 - Milky Way / star-field compositions,
@@ -75,6 +74,21 @@ The following subjects require explicit Place-specific evidence and MUST NOT be 
 - wildlife / birds / fireflies or other biological presence,
 - recurring festivals, illuminations and events,
 - snow/ice-specific compositions.
+
+### 4.1 Sea-of-clouds derived-condition exception
+
+"Sea of clouds" is treated differently from ordinary fog/mist. It MAY be surfaced as a **forecast-derived condition Opportunity** without prior photographic evidence, but only when the runtime can establish vertical and spatial geometry rather than relying on a single weather point.
+
+Minimum requirements:
+- a known camera/viewpoint elevation,
+- multiple surrounding or target samples that are materially lower than the camera,
+- the camera level remains sufficiently clear,
+- lower terrain shows coherent low-cloud/fog evidence,
+- the vertical drop and sample count satisfy the spatial-weather profile thresholds.
+
+A single-point combination such as high humidity + low cloud, or elevation alone, MUST NOT create a cloud-sea Opportunity. Near-sea-level locations without materially lower visible terrain MUST NOT be classified as cloud-sea viewpoints merely because marine fog or stratus is forecast.
+
+This exception predicts the **environmental condition** "cloud layer below the camera". It does not prove a specific foreground composition, exact target zone, scenic quality, access, or safety. Those claims still require Place/Camera-Zone evidence when the UI makes them.
 
 A high-risk Opportunity should record enough provenance to answer:
 1. What evidence proves this subject exists here?
