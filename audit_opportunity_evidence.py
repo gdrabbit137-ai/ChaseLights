@@ -15,6 +15,8 @@ from pathlib import Path
 from regions import get_spots
 from opportunities import get_opportunities
 
+EVIDENCE_REGISTRY_FILE = Path(__file__).parent / "runtime_evidence_registry_r4_2.json"
+
 HIGH_RISK = {
     "mist": (r"霧|煙嵐|fog|mist|haze",),
     "cloud_sea": (r"雲海|sea of clouds|cloud sea",),
@@ -93,7 +95,15 @@ def _explicit_evidence(op):
     return False, None
 
 
+def _load_registry():
+    if not EVIDENCE_REGISTRY_FILE.exists():
+        return {}
+    payload = json.loads(EVIDENCE_REGISTRY_FILE.read_text(encoding="utf-8"))
+    return payload.get("opportunities", {})
+
+
 def build_report():
+    registry = _load_registry()
     records = []
     counts = {"documented": 0, "review_required": 0, "lower_risk_legacy": 0}
     for region in ("tw", "jp", "us"):
@@ -103,6 +113,11 @@ def build_report():
                 blob = _subject_blob(op)
                 risks = _risk_classes(blob)
                 has_evidence, evidence_location = _explicit_evidence(op)
+                registry_entry = registry.get(op.get("opportunity_id")) or {}
+                registry_verified = registry_entry.get("status") == "verified"
+                if registry_verified:
+                    has_evidence = True
+                    evidence_location = "runtime_evidence_registry_r4_2.json"
                 if risks and has_evidence:
                     status = "documented"
                 elif risks:
@@ -122,6 +137,8 @@ def build_report():
                         "machine_verifiable_evidence": has_evidence,
                         "evidence_location": evidence_location,
                         "formula_status": op.get("formula_status"),
+                        "evidence_grade": registry_entry.get("grade"),
+                        "evidence_scope": registry_entry.get("evidence_scope"),
                     }
                 )
     return {
