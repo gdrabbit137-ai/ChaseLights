@@ -3,6 +3,33 @@ name: Test v0.04 Opportunity Adapter
 # Production validation for Opportunity runtime changes.
 
 on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "opportunities.py"
+      - "runtime_catalog_manifest_r4_2.json"
+      - "opportunity_runtime.py"
+      - "runtime_dependencies.py"
+      - "spatial_weather.py"
+      - "marine_state.py"
+      - "tide_state.py"
+      - "access_state.py"
+      - "shinhotaka_access.py"
+      - "yahiko_access.py"
+      - "test_fixtures/shinhotaka_home_*.html"
+      - "runtime_catalog_v004_r4_2_b15.compact.part*.b64"
+      - "runtime_catalog_v004_r4_2_b32_jp_batch01.json"
+      - "runtime_catalog_v004_r4_2_b33_hualien_additions.json"
+      - "runtime_catalog_v004_r4_2_b34_liushishishan_additions.json"
+      - "runtime_catalog_v004_r4_2_b35_liyu_subjects.json"
+      - "taxonomy_v004.py"
+      - "regions.py"
+      - "analyze_weather.py"
+      - "fetch_data.py"
+      - "index.html"
+      - "test_opportunity_adapter.py"
+      - ".github/workflows/test_opportunity_adapter.yml"
   push:
     branches:
       - main
@@ -19,6 +46,7 @@ on:
       - hotfix-weather-catalog-resilience
     paths:
       - "opportunities.py"
+      - "runtime_catalog_manifest_r4_2.json"
       - "opportunity_runtime.py"
       - "runtime_dependencies.py"
       - "spatial_weather.py"
