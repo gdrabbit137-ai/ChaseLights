@@ -57,6 +57,7 @@ B32_JP_ADDITIONS_FILE = "runtime_catalog_v004_r4_2_b32_jp_batch01.json"
 B33_HUALIEN_ADDITIONS_FILE = "runtime_catalog_v004_r4_2_b33_hualien_additions.json"
 B34_LIUSHISHISHAN_ADDITIONS_FILE = "runtime_catalog_v004_r4_2_b34_liushishishan_additions.json"
 B35_LIYU_SUBJECTS_FILE = "runtime_catalog_v004_r4_2_b35_liyu_subjects.json"
+B35_LIYU_SUBJECTS_FILE = "runtime_catalog_v004_r4_2_b35_liyu_subjects.json"
 
 def _load_b28_additions():
     path = Path(__file__).parent / B28_ADDITIONS_FILE
@@ -97,6 +98,16 @@ def _load_b34_liushishishan_additions():
 
 _B34_LIUSHISHISHAN_ADDITIONS = _load_b34_liushishishan_additions()
 LIUSHISHISHAN_CATALOG_ADDITIONS_SCHEMA_VERSION = _B34_LIUSHISHISHAN_ADDITIONS["schema_version"]
+
+def _load_b35_liyu_subjects():
+    path = Path(__file__).parent / B35_LIYU_SUBJECTS_FILE
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if payload.get("schema_version") != "v0.04-r4.2-b35-liyu-subjects-1":
+        raise ValueError(f"Unexpected B35 Liyu subjects version: {payload.get('schema_version')}")
+    return payload
+
+_B35_LIYU_SUBJECTS = _load_b35_liyu_subjects()
+LIYU_SUBJECTS_SCHEMA_VERSION = _B35_LIYU_SUBJECTS["schema_version"]
 
 def _load_b35_liyu_subjects():
     path = Path(__file__).parent / B35_LIYU_SUBJECTS_FILE
