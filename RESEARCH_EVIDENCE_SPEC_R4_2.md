@@ -168,3 +168,16 @@ This specification formalizes the existing B29 principles:
 - visible scene claims such as forest mist / reflection require Place research plus corresponding model/data support.
 
 B35 made the same boundary explicit for Liyu Lake morning mist. R4.2 now applies it project-wide.
+## 11. Production admission gate
+
+As of B41, the initial high-risk backlog has been fully classified and the evidence audit is an enforced CI admission gate.
+
+For every pull request to `main` and relevant push to `main`:
+
+- the audit runs with `--enforce`,
+- any high-risk Opportunity left as `review_required` fails CI,
+- `verified`, `narrow_scope`, `insufficient_evidence`, and `remove_or_rewrite` are explicit research outcomes and do not fail merely because they are conservative,
+- a new high-risk Opportunity must therefore include Place-specific provenance or an explicit conservative classification before merge.
+
+The gate protects the evidence boundary; it does not require promotion to `verified`.
+
