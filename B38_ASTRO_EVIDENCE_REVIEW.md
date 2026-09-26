@@ -1,12 +1,10 @@
-# B38 Astro Evidence Review
+# B38 Astro Evidence Review — Completion
 
-星空／銀河題材的證據門檻：
+## Rule
 
-- 低光害 ≠ 已證明星空攝影 Opportunity。
-- 高海拔 ≠ 已證明銀河構圖。
-- 晴天與新月只可做 runtime 條件，不能建立 subject existence。
-- 「星空」與「銀河」證據範圍需分開；只有星空證據時，不自動放行銀河 claim。
-- 夜間 access / 活動運行狀態需獨立驗證。
+星空／銀河 Opportunity 不能由低光害、海拔高、位置偏遠或晴天直接推導。
+
+必須先有 Place-specific evidence 證明該景點確實存在可觀／可拍星空或銀河題材，再由 runtime 評估月相、雲量、透明度、光害與安全。
 
 ## Verified — Grade A
 
@@ -14,29 +12,24 @@
 - tw-036-P02 七星潭海岸星空／銀河帶
 - tw-038-P02 三仙台銀河
 - tw-070-P02 蘭嶼青青草原低光害銀河／星空
+- tw-076-P02 龍磐草原銀河／星空
 - tw-084-P06 大農大富星空、星軌與森林夜景
-- jp-021-P02 西穗高口限定星空觀賞便・北阿爾卑斯星空
-- jp-022-P03 彌彥山夜景＆星空Cruise・越後平野夜景
+- jp-021-P02 西穗高口限定星空觀賞便
+- jp-022-P03 彌彥山夜景＆星空Cruise
 
 ## Narrow scope
 
 ### tw-019-P05 合歡主峰高山星空／銀河
-官方直接證明合歡主峰是欣賞星辰的最佳地點，合歡山也是拍攝星空的理想地點；但目前沒有把「銀河」精確鎖到合歡主峰 Camera Zone，因此保留 narrow_scope。
+官方直接證明合歡主峰／合歡山適合觀星與拍星空，但目前缺少把「銀河」精確鎖到合歡主峰 Camera Zone 的直接證據。
 
 ### tw-040-P06 排雲—主峰線高山星空／銀河
-玉山國家公園官方可證明園區有亮麗銀河與觀星資源，但未精確鎖定排雲—主峰線構圖，因此 narrow_scope。
-
-### tw-076-P02 龍磐草原銀河／星空
-國家公園官方直接證明龍磐夜晚星空、適合觀星；但「銀河」尚未取得同等精確的龍磐地點級證據，因此 narrow_scope。
-
-## Insufficient evidence
+玉山國家公園官方明確證明園區有亮麗銀河與觀星資源，但目前未鎖定排雲—主峰線這個精確攝影構圖。
 
 ### tw-080-P02 帆船鼻草原星空／銀河
-東管處可證明帆船鼻是攝影景點與 4K 即時影像點，但綠島銀河的直接官方文字證據目前指向海參坪，而不是帆船鼻。不可用同島低光害或鄰近景點證據代替。
+臺東官方明確證明帆船鼻是低光害觀星點、可見璀璨星空與南十字星，但目前未找到同等直接的「銀河」Place-specific evidence。
 
-## Rule reinforced
+## Enforcement
 
-1. 星空 != 銀河。
-2. 區域低光害 != 指定 Camera Zone 的銀河構圖。
-3. 夜間活動型 Opportunity 必須同時有活動／access 狀態。
-4. official stargazing event 是強證據，但只適用其公告場域與日期。
+- 低光害 = runtime / environment condition，不是 Opportunity existence proof。
+- 官方觀星活動可以證明星空題材存在，但活動日期／夜間開放仍需 access/event gate。
+- 「星空」證據不能自動擴張成「銀河」精確構圖。
