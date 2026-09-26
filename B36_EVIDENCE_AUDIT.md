@@ -10,12 +10,21 @@ It asks a narrower question:
 
 > For evidence-sensitive photographic subjects, does the current runtime catalog contain machine-verifiable Place-specific provenance that proves the subject exists at that Place?
 
-Current catalog:
+Initial calibrated baseline:
 
 - Opportunities: 251
 - documented high-risk: 2
 - review_required high-risk: 76
 - lower-risk legacy: 173
+
+After Batch 01A evidence backfill:
+
+- Opportunities: 251
+- documented high-risk: 7
+- review_required high-risk: 71
+- lower-risk legacy: 173
+
+Batch 01A newly verified five cloud-sea Opportunities: tw-001-P02, tw-004-P03, tw-008-P03, tw-014-P02, tw-019-P04.
 
 The low documented count primarily reflects historical catalog schema: older Opportunities were researched before explicit provenance fields were standardized. B36 converts that historical research debt into a review queue.
 
