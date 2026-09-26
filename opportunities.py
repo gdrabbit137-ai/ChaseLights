@@ -56,6 +56,8 @@ B28_ADDITIONS_FILE = "runtime_catalog_v004_r4_2_b28_additions.json"
 B32_JP_ADDITIONS_FILE = "runtime_catalog_v004_r4_2_b32_jp_batch01.json"
 B33_HUALIEN_ADDITIONS_FILE = "runtime_catalog_v004_r4_2_b33_hualien_additions.json"
 B34_LIUSHISHISHAN_ADDITIONS_FILE = "runtime_catalog_v004_r4_2_b34_liushishishan_additions.json"
+B35_LIYU_SUBJECTS_FILE = "runtime_catalog_v004_r4_2_b35_liyu_subjects.json"
+B35_LIYU_SUBJECTS_FILE = "runtime_catalog_v004_r4_2_b35_liyu_subjects.json"
 
 def _load_b28_additions():
     path = Path(__file__).parent / B28_ADDITIONS_FILE
@@ -97,6 +99,16 @@ def _load_b34_liushishishan_additions():
 _B34_LIUSHISHISHAN_ADDITIONS = _load_b34_liushishishan_additions()
 LIUSHISHISHAN_CATALOG_ADDITIONS_SCHEMA_VERSION = _B34_LIUSHISHISHAN_ADDITIONS["schema_version"]
 
+def _load_b35_liyu_subjects():
+    path = Path(__file__).parent / B35_LIYU_SUBJECTS_FILE
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if payload.get("schema_version") != "v0.04-r4.2-b35-liyu-subjects-1":
+        raise ValueError(f"Unexpected B35 Liyu subjects version: {payload.get('schema_version')}")
+    return payload
+
+_B35_LIYU_SUBJECTS = _load_b35_liyu_subjects()
+LIYU_SUBJECTS_SCHEMA_VERSION = _B35_LIYU_SUBJECTS["schema_version"]
+
 # tw-063 翟山坑道 was removed from the product photography catalog in B26.
 # B28 Batch 1 layers newly curated P0 Places onto the stable B15 payload while
 # keeping IDs stable; a later full catalog regeneration can collapse this layer.
@@ -122,6 +134,20 @@ for _addition in _B34_LIUSHISHISHAN_ADDITIONS.get("spots", []):
     _spot_id = _addition.get("spot_id")
     if _spot_id not in _EFFECTIVE_SPOTS_BY_ID:
         raise ValueError(f"B34 enrichment target missing from effective catalog: {_spot_id}")
+    _existing = _EFFECTIVE_SPOTS_BY_ID[_spot_id].setdefault("opportunities", [])
+    _existing_ids = {op.get("opportunity_id") for op in _existing}
+    _existing.extend(
+        deepcopy(op)
+        for op in _addition.get("opportunities", [])
+        if op.get("opportunity_id") not in _existing_ids
+    )
+
+# B35 enriches the existing tw-082 Liyu Lake Place with visibility-specific
+# mist and close-range wetland subjects; it must not create a second Place/card.
+for _addition in _B35_LIYU_SUBJECTS.get("spots", []):
+    _spot_id = _addition.get("spot_id")
+    if _spot_id not in _EFFECTIVE_SPOTS_BY_ID:
+        raise ValueError(f"B35 enrichment target missing from effective catalog: {_spot_id}")
     _EFFECTIVE_SPOTS_BY_ID[_spot_id].setdefault("opportunities", []).extend(
         deepcopy(_addition.get("opportunities", []))
     )
@@ -324,12 +350,12 @@ def validate_curated_opportunities():
                 errors.append(f"{oid}: missing profile_viewpoint relation")
             viewpoint_relations += len(viewpoints)
 
-    if len(opportunity_ids) != 249:
-        errors.append(f"expected 249 opportunities, got {len(opportunity_ids)}")
-    if len(variant_ids) != 259:
-        errors.append(f"expected 259 variants, got {len(variant_ids)}")
-    if viewpoint_relations != 254:
-        errors.append(f"expected 254 profile_viewpoint relations, got {viewpoint_relations}")
+    if len(opportunity_ids) != 251:
+        errors.append(f"expected 251 opportunities, got {len(opportunity_ids)}")
+    if len(variant_ids) != 261:
+        errors.append(f"expected 261 variants, got {len(variant_ids)}")
+    if viewpoint_relations != 256:
+        errors.append(f"expected 256 profile_viewpoint relations, got {viewpoint_relations}")
 
     exact = {
         opportunity["opportunity_id"]

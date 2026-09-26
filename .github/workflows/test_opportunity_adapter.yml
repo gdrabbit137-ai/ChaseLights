@@ -1,4 +1,5 @@
 name: Test v0.04 Opportunity Adapter
+# B35 rerun after catalog count and B34 ID collision fixes
 # Production validation for Opportunity runtime changes.
 
 on:
@@ -14,6 +15,7 @@ on:
       - r4.2-b32-jp025-hagi
       - codex/jp026
       - codex/b34-liushishishan
+      - codex/b35-liyu-subject-model
       - hotfix-weather-catalog-resilience
     paths:
       - "opportunities.py"
@@ -30,6 +32,7 @@ on:
       - "runtime_catalog_v004_r4_2_b32_jp_batch01.json"
       - "runtime_catalog_v004_r4_2_b33_hualien_additions.json"
       - "runtime_catalog_v004_r4_2_b34_liushishishan_additions.json"
+      - "runtime_catalog_v004_r4_2_b35_liyu_subjects.json"
       - "taxonomy_v004.py"
       - "regions.py"
       - "analyze_weather.py"

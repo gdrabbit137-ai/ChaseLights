@@ -119,13 +119,14 @@ MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES = {
     "tw-084-P05", "tw-084-P06", "tw-084-P07", "tw-084-P08",
     # B33 Liyu Lake: event/ecology/trail/activity subjects are local scenes.
     "tw-082-P04", "tw-082-P05", "tw-082-P06", "tw-082-P07", "tw-082-P08",
+    "tw-082-P09", "tw-082-P10",
     # B33 Yun Shan Shui: seasonal vegetation and garden/architecture subjects
     # are close-range local scenes, not distant visibility contracts.
     "tw-083-P02", "tw-083-P03", "tw-083-P04", "tw-083-P05",
     # B34 Liushishishan flower-field / hill compositions: close-to-mid-range
     # seasonal scenes. Sunbeam is intentionally excluded and remains a
     # dedicated pending cloud-geometry Opportunity.
-    "tw-035-P06", "tw-035-P07", "tw-035-P09",
+    "tw-035-P07", "tw-035-P08", "tw-035-P10",
 }
 
 
@@ -143,13 +144,15 @@ HUALIEN_LOCAL_PROFILES = {
     "tw-082-P06": {"kind": "verified_ranges_time", "ranges": (("2026-11-28", "2027-01-31"),), "time": ("18:00", "22:00"), "score_hint": 92, "access_override": True},
     "tw-082-P07": {"kind": "local_scene", "score_hint": 84},
     "tw-082-P08": {"kind": "activity_presence", "score_hint": 72, "presence_unknown": True},
+    "tw-082-P09": {"kind": "mist_local_scene", "score_hint": 90},
+    "tw-082-P10": {"kind": "local_scene", "score_hint": 82},
     "tw-083-P02": {"kind": "seasonal_months", "months": {10, 11, 12, 1, 2}, "score_hint": 90, "presence_unknown": True},
     "tw-083-P03": {"kind": "seasonal_months", "months": {4}, "score_hint": 88, "presence_unknown": True},
     "tw-083-P04": {"kind": "local_scene", "score_hint": 84},
     "tw-083-P05": {"kind": "local_scene", "score_hint": 82},
-    "tw-035-P06": {"kind": "seasonal_months", "months": {8, 9}, "score_hint": 88, "presence_unknown": True},
-    "tw-035-P07": {"kind": "seasonal_months", "months": {8, 9}, "score_hint": 86, "presence_unknown": True},
-    "tw-035-P09": {"kind": "seasonal_months", "months": {8, 9}, "score_hint": 84, "presence_unknown": True},
+    "tw-035-P07": {"kind": "seasonal_months", "months": {8, 9}, "score_hint": 88, "presence_unknown": True},
+    "tw-035-P08": {"kind": "seasonal_months", "months": {8, 9}, "score_hint": 86, "presence_unknown": True},
+    "tw-035-P10": {"kind": "seasonal_months", "months": {8, 9}, "score_hint": 84, "presence_unknown": True},
 }
 
 
@@ -216,12 +219,49 @@ def evaluate_hualien_local_scene(opportunity, item_data):
         reason = "official_event_window" if gate_ok else "outside_verified_event_window"
 
     access_override = bool(profile.get("access_override") and gate_ok)
+    mist_visibility_km = None
+    mist_signal = None
+    if kind == "mist_local_scene":
+        vis_raw = item_data.get("vis")
+        if vis_raw is not None:
+            mist_visibility_km = float(vis_raw) / 1000.0
+        else:
+            raw_visibility = item_data.get("visibility")
+            if raw_visibility is not None:
+                raw_visibility = float(raw_visibility)
+                mist_visibility_km = raw_visibility / 1000.0 if raw_visibility > 100 else raw_visibility
+        rh = float(item_data.get("rh") or 0.0)
+        low_cloud = float(item_data.get("c_low") or 0.0)
+        cloud_base = item_data.get("cloud_base_agl")
+        cloud_base = float(cloud_base) if cloud_base is not None else None
+        mist_signal = (
+            rh >= 80.0
+            or low_cloud >= 35.0
+            or (cloud_base is not None and cloud_base <= 800.0)
+        )
+
     if not gate_ok:
         eligible, quality, score_hint = False, "inactive", 0
     elif item_data.get("access_open") is False and not access_override:
         eligible, quality, reason, score_hint = False, "blocked", "access_closed", 0
     elif precip >= 0.5 or pop >= 60:
         eligible, quality, reason, score_hint = False, "rain_affected", "precipitation_risk", 54
+    elif kind == "mist_local_scene":
+        if mist_visibility_km is None:
+            return {
+                "module": "minimum_sufficient_local_scene",
+                "available": False,
+                "eligible": False,
+                "reason": "visibility_missing",
+            }
+        if mist_visibility_km < 0.15:
+            eligible, quality, reason, score_hint = False, "too_dense", "fog_too_dense_for_lakeside_subject", 54
+        elif mist_visibility_km <= 3.0 and mist_signal:
+            eligible, quality, reason, score_hint = True, "excellent_mist", "mist_visibility_window", 90
+        elif mist_visibility_km <= 8.0 and mist_signal:
+            eligible, quality, reason, score_hint = True, "good_mist", "light_mist_visibility_window", 84
+        else:
+            eligible, quality, reason, score_hint = False, "mist_not_indicated", "mist_not_indicated", 0
     else:
         eligible = True
         score_hint = int(profile["score_hint"])
@@ -249,6 +289,8 @@ def evaluate_hualien_local_scene(opportunity, item_data):
         "long_range_visibility_is_not_a_blocker": True,
         "wildlife_presence_forecastable": False if kind == "wildlife" else None,
         "subject_presence_forecastable": False if profile.get("presence_unknown") else None,
+        "mist_visibility_km": round(mist_visibility_km, 1) if mist_visibility_km is not None else None,
+        "mist_signal": mist_signal,
         "contract_source": "hualien_official_subject_specific_profile",
     }
 
@@ -1297,8 +1339,9 @@ def validate_runtime_registry():
         "tw-084-P01", "tw-084-P02", "tw-084-P03", "tw-084-P04",
         "tw-084-P05", "tw-084-P06", "tw-084-P07", "tw-084-P08",
         "tw-082-P04", "tw-082-P05", "tw-082-P06", "tw-082-P07", "tw-082-P08",
+        "tw-082-P09", "tw-082-P10",
         "tw-083-P02", "tw-083-P03", "tw-083-P04", "tw-083-P05",
-        "tw-035-P06", "tw-035-P07", "tw-035-P09",
+        "tw-035-P07", "tw-035-P08", "tw-035-P10",
     }:
         errors.append(
             "unexpected minimum-sufficient local-scene registry: "

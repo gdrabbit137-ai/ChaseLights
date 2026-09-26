@@ -1,0 +1,120 @@
+{
+  "schema_version": "v0.04-r4.2-b35-liyu-subjects-1",
+  "generated_at": "2026-09-26T17:45:00+08:00",
+  "source_database": "ChaseLights curated Liyu Lake subject refinement B35",
+  "spot_count": 1,
+  "opportunity_count": 2,
+  "condition_variant_count": 2,
+  "profile_viewpoint_relation_count": 2,
+  "spots": [
+    {
+      "spot_id": "tw-082",
+      "canonical_name": "鯉魚潭",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B35_LIYU_SUBJECTS",
+      "opportunities": [
+        {
+          "opportunity_id": "tw-082-P09",
+          "spot_id": "tw-082",
+          "name_zh": "鯉魚潭湖岸薄霧、低雲與山影氛圍",
+          "legacy_theme": "fog_mist",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "minimum_sufficient_local_scene",
+          "formula_version": "v0.04-liyu-mist-local-scene",
+          "formula_confidence": 74,
+          "best_time": "清晨優先；官方資料明確記載鯉魚潭清晨霧氣可形成拍攝場景",
+          "best_season": "全年候選；官方與實拍資料均有晨霧紀錄，冬季亦有攝影實例",
+          "condition_variants": [
+            {
+              "variant_id": "VAR-228",
+              "profile_id": "tw-082-P09",
+              "variant_name": "湖岸薄霧與近山山影",
+              "condition_geometry": "{\"camera_zone\":\"鯉魚潭潭北／環潭公共水岸 Camera Zone\",\"subject\":\"lake mist + near shoreline + partial mountain silhouettes\"}",
+              "hard_gates": "合法公共湖岸可達；無豪雨或現場封閉；低能見度不得等同道路或步道安全無虞",
+              "required_conditions": "清晨優先；近中距離湖岸仍可辨；無明顯降雨；能見度偏低且預報具霧／高濕／低雲訊號。氣象條件只用來判斷已驗證霧景題材何時較可能成立，不用來證明景點本身適合霧景。",
+              "boosters": "清晨；能見度約 0.2–3 km 且高濕／低雲訊號支持；弱風；局部山影若隱若現",
+              "penalties": "大雨；強風驅散霧氣；高能見度且無霧訊號；霧濃到近岸主體亦不可辨；僅有地形條件而無實際霧訊號",
+              "formula_status": "minimum_sufficient_local_scene"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "tw-082-VP09",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Mist Opportunity is retained because Liyu Lake itself has official morning-mist photography evidence. The Camera Zone is anchored to the public Tannan Wharf area; it is not inferred from lake terrain and is not an exact tripod point.",
+              "name": "鯉魚潭潭南碼頭晨霧 Camera Zone",
+              "lat": 23.923,
+              "lon": 121.5086,
+              "elevation_m": null,
+              "coord_confidence": "high",
+              "verification_status": "official_tannan_wharf_plus_official_morning_mist_photography_evidence",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 180,
+              "geometry_note": "潭南碼頭為官方拍攝視角之一；官方資料明確將鯉魚潭清晨霧氣列為拍攝場景。此座標代表碼頭公共拍攝區，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ],
+          "evidence_basis": "place_specific_observed_mist",
+          "evidence_summary": "Location-specific sources describe actual morning mist/haze at Hualien Liyu Lake, including Forestry and Nature Conservation Agency imagery text ('晨霧氤氳' / '煙嵐飄渺') and documented photographer observations of winter morning mist. Runtime visibility/humidity thresholds are forecast proxies, not geomorphology-derived proof.",
+          "subject_evidence": {
+            "status": "verified_subject",
+            "basis": "official_and_documented_photography_evidence",
+            "reviewed_at": "2026-09-26",
+            "note": "霧景題材不是由湖盆地形或高濕條件推論；花東縱谷國家風景區管理處明確描述鯉魚潭清晨霧氣為拍攝場景，林業及自然保育署官方影像資料亦記錄晨霧氤氳與煙嵐飄渺。"
+          }
+        },
+        {
+          "opportunity_id": "tw-082-P10",
+          "spot_id": "tw-082",
+          "name_zh": "鯉魚潭人工濕地與水岸近景細節",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "minimum_sufficient_local_scene",
+          "formula_version": "v0.04-liyu-wetland-local-scene",
+          "formula_confidence": 76,
+          "best_time": "日間柔光；陰天、雨後或高濕時亦適合",
+          "best_season": "全年",
+          "subject_presence_forecastable": false,
+          "condition_variants": [
+            {
+              "variant_id": "VAR-229",
+              "profile_id": "tw-082-P10",
+              "variant_name": "人工濕地、水岸植被與近景紋理",
+              "condition_geometry": "{\"camera_zone\":\"鯉魚潭人工濕地／環潭水岸 Camera Zone\",\"subject\":\"wetland habitat + waterside vegetation + reflections + close-range natural details\"}",
+              "hard_gates": "合法公共或環境教育動線可達；不得進入濕地或干擾野生動物",
+              "required_conditions": "公共觀察位置可達；降雨未造成通行風險；近景植被與水岸細節可辨",
+              "boosters": "陰天柔光；雨後飽和綠意；水滴、倒影與濕地紋理；低風",
+              "penalties": "豪雨；強風；積水或濕滑造成通行風險；為追逐動物而離開合法動線",
+              "formula_status": "minimum_sufficient_local_scene"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "tw-082-VP10",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official environmental-education wetland habitat is the subject basis; actual wildlife presence is never guaranteed.",
+              "name": "鯉魚潭人工濕地／環潭水岸近景 Camera Zone",
+              "lat": 23.93493,
+              "lon": 121.50803,
+              "elevation_m": null,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_environmental_education_wetland_evidence",
+              "geometry_type": "area",
+              "geometry_extent_m": 1800,
+              "geometry_note": "代表人工濕地與環潭合法觀察區；適合植被、水岸、反射與棲地細節，不要求長距離能見度。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

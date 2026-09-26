@@ -80,6 +80,8 @@ from opportunities import (
     ADAPTER_VERSION,
     CATALOG_COUNTS,
     HUALIEN_CATALOG_ADDITIONS_SCHEMA_VERSION,
+    LIYU_SUBJECTS_SCHEMA_VERSION,
+    LIYU_SUBJECTS_SCHEMA_VERSION,
     REGION_CATALOG_COUNTS,
     CURATED_OPPORTUNITIES,
     get_opportunities,
@@ -100,15 +102,15 @@ def test_adapter_integrity():
     assert validate_taxonomy() == []
     assert CATALOG_COUNTS == {
         "spots": 109,
-        "opportunities": 249,
-        "condition_variants": 259,
-        "profile_viewpoint_relations": 254,
+        "opportunities": 251,
+        "condition_variants": 261,
+        "profile_viewpoint_relations": 256,
     }
     assert REGION_CATALOG_COUNTS["tw"] == {
         "spots": 83,
-        "opportunities": 215,
-        "condition_variants": 225,
-        "profile_viewpoint_relations": 220,
+        "opportunities": 217,
+        "condition_variants": 227,
+        "profile_viewpoint_relations": 222,
     }
     assert REGION_CATALOG_COUNTS["jp"] == {
         "spots": 26,
@@ -144,10 +146,20 @@ def test_adapter_integrity():
         Path("runtime_catalog_v004_r4_2_b33_hualien_additions.json").read_text(encoding="utf-8")
     )
     assert HUALIEN_CATALOG_ADDITIONS_SCHEMA_VERSION == "v0.04-r4.2-b33-hualien-additions-1"
+    assert LIYU_SUBJECTS_SCHEMA_VERSION == "v0.04-r4.2-b35-liyu-subjects-1"
     assert hualien_catalog["spot_count"] == len(hualien_catalog["spots"]) == 3
     assert hualien_catalog["opportunity_count"] == 22
     assert hualien_catalog["condition_variant_count"] == 22
     assert hualien_catalog["profile_viewpoint_relation_count"] == 22
+
+    liyu_b35_catalog = json.loads(
+        Path("runtime_catalog_v004_r4_2_b35_liyu_subjects.json").read_text(encoding="utf-8")
+    )
+    assert LIYU_SUBJECTS_SCHEMA_VERSION == "v0.04-r4.2-b35-liyu-subjects-1"
+    assert liyu_b35_catalog["spot_count"] == len(liyu_b35_catalog["spots"]) == 1
+    assert liyu_b35_catalog["opportunity_count"] == 2
+    assert liyu_b35_catalog["condition_variant_count"] == 2
+    assert liyu_b35_catalog["profile_viewpoint_relation_count"] == 2
 
     tw = get_spots("tw")
     assert len(tw) == 84
@@ -165,11 +177,11 @@ def test_adapter_integrity():
     expected_active = {f"tw-{i:03d}" for i in range(1, 85)} - {"tw-063"}
     assert set(curated) == expected_active
     assert "tw-063" not in CURATED_OPPORTUNITIES
-    assert sum(len(s["opportunities"]) for s in curated.values()) == 215
+    assert sum(len(s["opportunities"]) for s in curated.values()) == 217
 
     all_opportunities = _all_opportunities()
-    assert sum(len(o["condition_variants"]) for o in all_opportunities) == 259
-    assert sum(len(o["viewpoints"]) for o in all_opportunities) == 254
+    assert sum(len(o["condition_variants"]) for o in all_opportunities) == 261
+    assert sum(len(o["viewpoints"]) for o in all_opportunities) == 256
     assert not any(o["formula_status"] == "legacy_fallback_pending_curated" for o in all_opportunities)
     assert not any(str(o.get("formula_version") or "").startswith("legacy_") for o in all_opportunities)
 
@@ -182,7 +194,7 @@ def test_adapter_integrity():
     assert policies == {
         "module_pending": 73,
         "preview_module_available": 87,
-        "minimum_sufficient_available": 83,
+        "minimum_sufficient_available": 85,
         "prototype_pending_certification": 2,
         "hold": 2,
         "data_insufficient": 2,
@@ -213,26 +225,27 @@ def test_adapter_integrity():
     assert len(liushishishan["navigation_target"]["parking_options"]) == 2
     liushi_ops = get_opportunities("tw", "tw-035")
     liushi_by_id = {o["opportunity_id"]: o for o in liushi_ops}
-    assert {"tw-035-P06", "tw-035-P07", "tw-035-P08", "tw-035-P09"} <= set(liushi_by_id)
-    assert liushi_by_id["tw-035-P06"]["runtime_policy"] == "minimum_sufficient_available"
+    assert {"tw-035-P07", "tw-035-P08", "tw-035-P09", "tw-035-P10"} <= set(liushi_by_id)
     assert liushi_by_id["tw-035-P07"]["runtime_policy"] == "minimum_sufficient_available"
-    assert liushi_by_id["tw-035-P08"]["runtime_policy"] == "module_pending"
-    assert liushi_by_id["tw-035-P09"]["runtime_policy"] == "minimum_sufficient_available"
-    b34_ops = [liushi_by_id[x] for x in ("tw-035-P06", "tw-035-P07", "tw-035-P08", "tw-035-P09")]
+    assert liushi_by_id["tw-035-P08"]["runtime_policy"] == "minimum_sufficient_available"
+    assert liushi_by_id["tw-035-P09"]["runtime_policy"] == "module_pending"
+    assert liushi_by_id["tw-035-P10"]["runtime_policy"] == "minimum_sufficient_available"
+    b34_ops = [liushi_by_id[x] for x in ("tw-035-P07", "tw-035-P08", "tw-035-P09", "tw-035-P10")]
     assert {o["viewpoints"][0]["name"] for o in b34_ops} == {
         "黃花亭 Camera Zone", "小瑞士觀景台 Camera Zone", "忘憂亭 Camera Zone", "鹿蔥亭 Camera Zone"
     }
-    assert liushi_by_id["tw-035-P07"]["viewpoints"][0]["lat"] == 23.222690
-    assert liushi_by_id["tw-035-P08"]["viewpoints"][0]["lat"] == 23.221497
-    assert liushi_by_id["tw-035-P09"]["viewpoints"][0]["lat"] == 23.224528
+    assert liushi_by_id["tw-035-P08"]["viewpoints"][0]["lat"] == 23.222690
+    assert liushi_by_id["tw-035-P09"]["viewpoints"][0]["lat"] == 23.221497
+    assert liushi_by_id["tw-035-P10"]["viewpoints"][0]["lat"] == 23.224528
 
     liyu_ops = get_opportunities("tw", "tw-082")
     yun_ops = get_opportunities("tw", "tw-083")
-    assert len(liyu_ops) == 8
+    assert len(liyu_ops) == 10
     assert len(yun_ops) == 5
     assert {o["opportunity_id"] for o in liyu_ops} == {
         "tw-082-P01", "tw-082-P02", "tw-082-P03", "tw-082-P04",
         "tw-082-P05", "tw-082-P06", "tw-082-P07", "tw-082-P08",
+        "tw-082-P09", "tw-082-P10",
     }
     assert {o["opportunity_id"] for o in yun_ops} == {
         "tw-083-P01", "tw-083-P02", "tw-083-P03", "tw-083-P04", "tw-083-P05",
@@ -242,7 +255,8 @@ def test_adapter_integrity():
     assert liyu_by_id["tw-082-P02"]["runtime_policy"] == "minimum_sufficient_available"
     assert liyu_by_id["tw-082-P03"]["runtime_policy"] == "preview_module_available"
     assert all(liyu_by_id[x]["runtime_policy"] == "minimum_sufficient_available" for x in (
-        "tw-082-P04", "tw-082-P05", "tw-082-P06", "tw-082-P07", "tw-082-P08"
+        "tw-082-P04", "tw-082-P05", "tw-082-P06", "tw-082-P07", "tw-082-P08",
+        "tw-082-P09", "tw-082-P10"
     ))
     assert all(yun_by_id[x]["runtime_policy"] == "minimum_sufficient_available" for x in (
         "tw-083-P02", "tw-083-P03", "tw-083-P04", "tw-083-P05"
@@ -275,6 +289,63 @@ def test_adapter_integrity():
     })
     assert birding["eligible"] is True
     assert birding["wildlife_presence_forecastable"] is False
+
+    mist = evaluate_minimum_sufficient_visibility(liyu_by_id["tw-082-P09"], {
+        "local_date": "2026-09-27", "local_time": "07:00", "local_month": 9,
+        "vis": 300, "rh": 86, "c_low": 47, "cloud_base_agl": 662,
+        "pop": 0, "precipitation": 0.0, "access_open": True,
+    })
+    assert mist["eligible"] is True
+    assert mist["reason"] == "mist_visibility_window"
+    assert mist["score_hint"] == 90
+    assert mist["long_range_visibility_is_not_a_blocker"] is True
+
+    mist_clear = evaluate_minimum_sufficient_visibility(liyu_by_id["tw-082-P09"], {
+        "local_date": "2026-09-27", "local_time": "09:00", "local_month": 9,
+        "vis": 20100, "rh": 73, "c_low": 0, "cloud_base_agl": 662,
+        "pop": 0, "precipitation": 0.0, "access_open": True,
+    })
+    assert mist_clear["eligible"] is False
+    assert mist_clear["reason"] == "mist_not_indicated"
+
+    wetland = evaluate_minimum_sufficient_visibility(liyu_by_id["tw-082-P10"], {
+        "local_date": "2026-09-27", "local_time": "07:00", "local_month": 9,
+        "vis": 300, "c_low": 47, "pop": 0, "precipitation": 0.0, "access_open": True,
+    })
+    assert wetland["eligible"] is True
+    assert wetland["long_range_visibility_is_not_a_blocker"] is True
+    assert wetland["score_hint"] == 82
+
+    misty_liyu = evaluate_minimum_sufficient_visibility(liyu_by_id["tw-082-P09"], {
+        "local_date": "2026-09-27", "local_time": "07:00", "local_month": 9,
+        "vis": 300, "rh": 73, "c_low": 47, "cloud_base_agl": 662,
+        "pop": 0, "precipitation": 0.0, "access_open": True,
+    })
+    assert misty_liyu["eligible"] is True
+    assert misty_liyu["reason"] == "mist_visibility_window"
+    assert misty_liyu["score_hint"] == 90
+    assert misty_liyu["mist_visibility_km"] == 0.3
+
+    clear_liyu_mist = evaluate_minimum_sufficient_visibility(liyu_by_id["tw-082-P09"], {
+        "local_date": "2026-09-27", "local_time": "09:00", "local_month": 9,
+        "vis": 20100, "rh": 73, "c_low": 0, "cloud_base_agl": 662,
+        "pop": 0, "precipitation": 0.0, "access_open": True,
+    })
+    assert clear_liyu_mist["eligible"] is False
+    assert clear_liyu_mist["reason"] == "mist_not_indicated"
+    assert liyu_by_id["tw-082-P09"]["viewpoints"][0]["name"] == "鯉魚潭潭南碼頭晨霧 Camera Zone"
+    assert liyu_by_id["tw-082-P09"]["viewpoints"][0]["lat"] == 23.923
+    assert liyu_by_id["tw-082-P09"]["viewpoints"][0]["lon"] == 121.5086
+    assert "official_morning_mist_photography_evidence" in liyu_by_id["tw-082-P09"]["viewpoints"][0]["verification_status"]
+
+    wetland_close = evaluate_minimum_sufficient_visibility(liyu_by_id["tw-082-P10"], {
+        "local_date": "2026-09-27", "local_time": "07:00", "local_month": 9,
+        "vis": 300, "rh": 73, "c_low": 47,
+        "pop": 0, "precipitation": 0.0, "access_open": True,
+    })
+    assert wetland_close["eligible"] is True
+    assert wetland_close["long_range_visibility_is_not_a_blocker"] is True
+    assert wetland_close["score_hint"] == 82
 
     cypress = evaluate_minimum_sufficient_visibility(yun_by_id["tw-083-P02"], {
         "local_date": "2026-12-20", "local_time": "10:00", "local_month": 12,
@@ -374,8 +445,9 @@ def test_adapter_integrity():
         "tw-084-P01", "tw-084-P02", "tw-084-P03", "tw-084-P04",
         "tw-084-P05", "tw-084-P06", "tw-084-P07", "tw-084-P08",
         "tw-082-P04", "tw-082-P05", "tw-082-P06", "tw-082-P07", "tw-082-P08",
+        "tw-082-P09", "tw-082-P10",
         "tw-083-P02", "tw-083-P03", "tw-083-P04", "tw-083-P05",
-        "tw-035-P06", "tw-035-P07", "tw-035-P09",
+        "tw-035-P07", "tw-035-P08", "tw-035-P10",
     }
 
     # R4.2 Navigation Target contract: every Place has explicit state, but
