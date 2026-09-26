@@ -333,6 +333,10 @@ def test_adapter_integrity():
     })
     assert clear_liyu_mist["eligible"] is False
     assert clear_liyu_mist["reason"] == "mist_not_indicated"
+    assert liyu_by_id["tw-082-P09"]["viewpoints"][0]["name"] == "鯉魚潭潭南碼頭晨霧 Camera Zone"
+    assert liyu_by_id["tw-082-P09"]["viewpoints"][0]["lat"] == 23.923
+    assert liyu_by_id["tw-082-P09"]["viewpoints"][0]["lon"] == 121.5086
+    assert "official_morning_mist_photography_evidence" in liyu_by_id["tw-082-P09"]["viewpoints"][0]["verification_status"]
 
     wetland_close = evaluate_minimum_sufficient_visibility(liyu_by_id["tw-082-P10"], {
         "local_date": "2026-09-27", "local_time": "07:00", "local_month": 9,
