@@ -83,6 +83,7 @@ Minimum requirements:
 - a known camera/viewpoint elevation,
 - multiple surrounding or target samples that are materially lower than the camera,
 - the camera level remains sufficiently clear,
+- a camera-in-cloud veto rejects local whiteout and near-saturated camera air using visibility plus a dew-point-spread/LCL proxy when available,
 - lower terrain shows coherent low-cloud/fog evidence,
 - the vertical drop and sample count satisfy the spatial-weather profile thresholds.
 
