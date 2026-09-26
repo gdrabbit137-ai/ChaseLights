@@ -25,8 +25,8 @@
           "formula_status": "minimum_sufficient_local_scene",
           "formula_version": "v0.04-liyu-mist-local-scene",
           "formula_confidence": 74,
-          "best_time": "清晨至上午；低能見度但無明顯降雨時",
-          "best_season": "全年；高濕、低風或雨後較有機會",
+          "best_time": "清晨優先；官方資料明確記載鯉魚潭清晨霧氣可形成拍攝場景",
+          "best_season": "全年候選；官方與實拍資料均有晨霧紀錄，冬季亦有攝影實例",
           "condition_variants": [
             {
               "variant_id": "VAR-228",
@@ -34,7 +34,7 @@
               "variant_name": "湖岸薄霧與近山山影",
               "condition_geometry": "{\"camera_zone\":\"鯉魚潭潭北／環潭公共水岸 Camera Zone\",\"subject\":\"lake mist + near shoreline + partial mountain silhouettes\"}",
               "hard_gates": "合法公共湖岸可達；無豪雨或現場封閉；低能見度不得等同道路或步道安全無虞",
-              "required_conditions": "此題材的存在由鯉魚潭本地晨霧／煙嵐實證支持；即時推薦仍需近中距離湖岸可辨、無明顯降雨，並有低能見度／高濕／低雲等霧訊號",
+              "required_conditions": "清晨優先；近中距離湖岸仍可辨；無明顯降雨；能見度偏低且預報具霧／高濕／低雲訊號。氣象條件只用來判斷已驗證霧景題材何時較可能成立，不用來證明景點本身適合霧景。",
               "boosters": "清晨；能見度約 0.2–3 km 且高濕／低雲訊號支持；弱風；局部山影若隱若現",
               "penalties": "大雨；強風驅散霧氣；高能見度且無霧訊號；霧濃到近岸主體亦不可辨；僅有地形條件而無實際霧訊號",
               "formula_status": "minimum_sufficient_local_scene"
@@ -51,15 +51,21 @@
               "lon": 121.50803,
               "elevation_m": 140,
               "coord_confidence": "high",
-              "verification_status": "place_specific_mist_evidence_plus_official_public_waterfront",
+              "verification_status": "official_mist_subject_evidence_plus_public_lakeside_camera_zone",
               "geometry_type": "area",
               "geometry_extent_m": 1200,
-              "geometry_note": "代表合法公共湖岸與環潭動線的霧景構圖區；不以遠山完全清晰為必要條件。",
+              "geometry_note": "代表合法公共湖岸霧景構圖區；霧景題材有官方實景描述支持，不是由地形推定；不宣稱唯一腳架位置。",
               "geometry_confidence": "medium_high"
             }
           ],
           "evidence_basis": "place_specific_observed_mist",
-          "evidence_summary": "Location-specific sources describe actual morning mist/haze at Hualien Liyu Lake, including Forestry and Nature Conservation Agency imagery text ('晨霧氤氳' / '煙嵐飄渺') and documented photographer observations of winter morning mist. Runtime visibility/humidity thresholds are forecast proxies, not geomorphology-derived proof."
+          "evidence_summary": "Location-specific sources describe actual morning mist/haze at Hualien Liyu Lake, including Forestry and Nature Conservation Agency imagery text ('晨霧氤氳' / '煙嵐飄渺') and documented photographer observations of winter morning mist. Runtime visibility/humidity thresholds are forecast proxies, not geomorphology-derived proof.",
+          "subject_evidence": {
+            "status": "verified_subject",
+            "basis": "official_and_documented_photography_evidence",
+            "reviewed_at": "2026-09-26",
+            "note": "霧景題材不是由湖盆地形或高濕條件推論；花東縱谷國家風景區管理處明確描述鯉魚潭清晨霧氣為拍攝場景，林業及自然保育署官方影像資料亦記錄晨霧氤氳與煙嵐飄渺。"
+          }
         },
         {
           "opportunity_id": "tw-082-P10",
