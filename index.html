@@ -199,6 +199,31 @@
     .tool-link.disabled { color:#64748b; cursor:not-allowed; opacity:.75; }
     .tool-link.disabled:hover { background:#0f172a; }
 
+    @media (max-width:640px) {
+      .card-footer-tools {
+        margin-top:10px;
+        padding-top:8px;
+        display:block;
+      }
+      .card-footer-tools > div:first-child { display:none; }
+      .card-footer-tools > div:last-child {
+        display:grid;
+        grid-template-columns:repeat(3,minmax(0,1fr));
+        gap:6px;
+      }
+      .card-footer-tools .tool-link {
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        min-width:0;
+        padding:7px 5px;
+        font-size:.74rem;
+        line-height:1.2;
+        text-align:center;
+        white-space:nowrap;
+      }
+    }
+
     #loading { text-align: center; font-size: 1.2rem; color: var(--muted); margin-top: 40px; }
 
     .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(4px); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 15px; }
