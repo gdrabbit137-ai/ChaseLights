@@ -724,12 +724,42 @@
     function switchLanguage(k){if(!VALID_LANGS.includes(k))return;currentLang=k;localStorage.setItem('chaselights_lang',k);applyStaticI18n();renderSubNav();syncDayButtons();updateHeader();filterAndRender();}
     function switchTempUnit(k){if(!['C','F'].includes(k))return;currentTempUnit=k;localStorage.setItem('chaselights_temp_unit',k);document.getElementById('temp-unit-select').value=k;filterAndRender();if(activeModalSpot&&document.getElementById('modal-overlay').style.display==='flex')renderWeatherModal(activeModalSpot,activeModalSummary);}
     function switchRegion(k){if(!VALID_REGIONS.includes(k))k='tw';currentRegion=k;localStorage.setItem('chaselights_region',k);currentCategoryKey=localStorage.getItem(`chaselights_category_${k}`)||'__all__';document.getElementById('country-select').value=k;loadData(k);}
-    function toggleFavorite(id,event){event?.stopPropagation();favorites=favorites.includes(id)?favorites.filter(x=>x!==id):[...favorites,id];localStorage.setItem('chaselights_favs_v2',JSON.stringify(favorites));filterAndRender();}
+    function persistLegacyFavorites(){
+      if(legacyFavorites.length)localStorage.setItem('chaselights_favs',JSON.stringify(legacyFavorites));
+      else localStorage.removeItem('chaselights_favs');
+    }
+    function toggleFavorite(id,event){
+      event?.stopPropagation();
+      const removing=favorites.includes(id);
+      favorites=removing?favorites.filter(x=>x!==id):[...favorites,id];
+      localStorage.setItem('chaselights_favs_v2',JSON.stringify(favorites));
+      if(removing){
+        const spot=currentSpots.find(s=>s.spot_id===id);
+        const names=new Set(Object.values(spot?.name_i18n||{}).filter(Boolean));
+        if(spot?.name_local)names.add(spot.name_local);
+        legacyFavorites=legacyFavorites.filter(name=>!names.has(name));
+        persistLegacyFavorites();
+      }
+      filterAndRender();
+    }
 
     async function cacheMatch(url){try{if(!('caches'in window))return null;const c=await caches.open(CACHE_NAME);const r=await c.match(url);if(!r)return null;const j=await r.json();return schemaSupported(j)?j:null;}catch{return null;}}
     async function fetchAndCache(url,signal){const opts={cache:'no-cache'};if(signal)opts.signal=signal;const r=await fetch(url,opts);if(!r.ok)throw new Error(`HTTP ${r.status}`);const clone=r.clone();try{if('caches'in window){const c=await caches.open(CACHE_NAME);await c.put(url,clone);}}catch{}const j=await r.json();if(!schemaSupported(j))throw new Error(`Schema mismatch: expected ${MIN_SCHEMA_VERSION}-${MAX_SCHEMA_VERSION}, got ${j?.schema_version??'missing'}`);return j;}
     function applyData(data,region,seq){if(seq!==activeLoadSequence||region!==currentRegion||data.region!==region)return false;const prev=memorySummary.get(region);if(prev?.updated_at&&data?.updated_at&&prev.updated_at!==data.updated_at)clearMemoryDetails(region);currentData=data;currentSpots=data.spots||[];memorySummary.set(region,data);document.getElementById('loading').style.display='none';migrateFavorites();renderSubNav();syncDayButtons();updateHeader();filterAndRender();return true;}
-    function migrateFavorites(){if(!legacyFavorites.length)return;currentSpots.forEach(s=>{const names=Object.values(s.name_i18n||{});if(names.some(n=>legacyFavorites.includes(n))&&!favorites.includes(s.spot_id))favorites.push(s.spot_id);});localStorage.setItem('chaselights_favs_v2',JSON.stringify(favorites));legacyFavorites=[];}
+    function migrateFavorites(){
+      if(!legacyFavorites.length)return;
+      const migratedNames=new Set();
+      currentSpots.forEach(s=>{
+        const names=[...Object.values(s.name_i18n||{}),s.name_local].filter(Boolean);
+        if(names.some(n=>legacyFavorites.includes(n))){
+          if(!favorites.includes(s.spot_id))favorites.push(s.spot_id);
+          names.forEach(n=>migratedNames.add(n));
+        }
+      });
+      localStorage.setItem('chaselights_favs_v2',JSON.stringify(favorites));
+      legacyFavorites=legacyFavorites.filter(name=>!migratedNames.has(name));
+      persistLegacyFavorites();
+    }
     async function refreshSummary(region,url,seq,controller,silent=false){try{const fresh=await fetchAndCache(url,controller.signal);if(applyData(fresh,region,seq))memorySummary.set(region,fresh);}catch(e){if(e?.name==='AbortError'||seq!==activeLoadSequence)return;if(!silent){const l=document.getElementById('loading');l.style.display='block';l.innerText=`⚠️ ${url} — ${e?.message||e}`;}}}
     async function loadData(region){
       const seq=++activeLoadSequence;if(activeLoadController)activeLoadController.abort();activeLoadController=new AbortController();
