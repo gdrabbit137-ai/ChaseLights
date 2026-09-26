@@ -82,7 +82,7 @@ jobs:
           assert "tw-063" not in sids
           assert "tw-063" not in dids
           assert set(sids) == set(dids)
-          assert {"tw-082", "tw-083", "tw-083", "tw-085"}.issubset(sids)
+          assert {"tw-035", "tw-082", "tw-083", "tw-084"}.issubset(sids)
 
           valid_nav_states = {"verified", "provisional_camera_anchor", "needs_review", "multiple_access_routes"}
           assert all((s.get("navigation_target") or {}).get("status") in valid_nav_states for s in summary_spots)
