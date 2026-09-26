@@ -3,9 +3,9 @@
   "generated_at": "2026-09-25T21:55:00+08:00",
   "source_database": "ChaseLights curated Hualien research batch B33",
   "spot_count": 3,
-  "opportunity_count": 11,
-  "condition_variant_count": 11,
-  "profile_viewpoint_relation_count": 11,
+  "opportunity_count": 22,
+  "condition_variant_count": 22,
+  "profile_viewpoint_relation_count": 22,
   "spots": [
     {
       "spot_id": "tw-082",
@@ -56,6 +56,352 @@
               "geometry_extent_m": 350,
               "geometry_note": "以官方潭北遊客中心湖岸為代表位置；沿公共親水與環潭動線可小幅移動構圖，非唯一腳架點。",
               "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "tw-082-P02",
+          "spot_id": "tw-082",
+          "name_zh": "鯉魚潭湖光山色與水岸風景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-hualien-subject-specific",
+          "formula_confidence": 72,
+          "best_time": "日間；能見度較佳且降雨不明顯時",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "VAR-213",
+              "profile_id": "tw-082-P02",
+              "variant_name": "潭面湖光山色與水岸景觀",
+              "condition_geometry": "{\"camera_zone\":\"鯉魚潭潭南／潭北公共水岸 Camera Zone\",\"subject\":\"lake + surrounding mountains + waterfront landscape\"}",
+              "hard_gates": "合法公共或園區動線可達；遵守現場管制與拍攝規定",
+              "required_conditions": "湖岸合法動線可達；山體與湖岸輪廓可辨；降雨未妨礙拍攝",
+              "boosters": "高能見度；湖面色彩清楚；雲影或柔光形成層次",
+              "penalties": "低能見度；山體被濃霧完全遮蔽；持續降雨",
+              "formula_status": "needs_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "tw-082-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Representative researched camera zone; exact tripod position is not asserted.",
+              "name": "鯉魚潭潭南／潭北公共水岸 Camera Zone",
+              "lat": 23.93493,
+              "lon": 121.50803,
+              "elevation_m": 140,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_erv_waterfront_and_selfie_area_evidence",
+              "geometry_type": "area",
+              "geometry_extent_m": 1200,
+              "geometry_note": "代表合法可拍區域；實際構圖可沿現場允許動線調整。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "tw-082-P03",
+          "spot_id": "tw-082",
+          "name_zh": "鯉魚潭日落、晚霞與湖面光影",
+          "legacy_theme": "sunset",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_water_surface_visibility_module",
+          "formula_version": "v0.04-hualien-subject-specific",
+          "formula_confidence": 70,
+          "best_time": "日落前後；需依實際太陽位置與雲況",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "VAR-214",
+              "profile_id": "tw-082-P03",
+              "variant_name": "日落水岸與湖面光影",
+              "condition_geometry": "{\"camera_zone\":\"鯉魚潭公共水岸日落 Camera Zone\",\"subject\":\"sunset / afterglow + lake surface + mountain silhouette\"}",
+              "hard_gates": "合法公共或園區動線可達；遵守現場管制與拍攝規定",
+              "required_conditions": "公共水岸可達；日落時段成立；湖面與山體仍可辨",
+              "boosters": "中高雲有層次；低雲未封住西向天空；湖面較平靜",
+              "penalties": "厚低雲遮蔽夕照；強風破壞湖面；降雨",
+              "formula_status": "needs_water_surface_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "tw-082-VP03",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Representative researched camera zone; exact tripod position is not asserted.",
+              "name": "鯉魚潭公共水岸日落 Camera Zone",
+              "lat": 23.93493,
+              "lon": 121.50803,
+              "elevation_m": 140,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_live_camera_sunset_waterfront_evidence",
+              "geometry_type": "area",
+              "geometry_extent_m": 800,
+              "geometry_note": "代表合法可拍區域；實際構圖可沿現場允許動線調整。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "tw-082-P04",
+          "spot_id": "tw-082",
+          "name_zh": "鯉魚潭春季螢火蟲生態攝影",
+          "legacy_theme": "city_night",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "minimum_sufficient_local_scene",
+          "formula_version": "v0.04-hualien-subject-specific",
+          "formula_confidence": 82,
+          "best_time": "2026 官方賞螢活動日之入夜後",
+          "best_season": "2026/4/10–5/2 每週五、六；往後年度需官方更新",
+          "verified_event_dates": [
+            "2026-04-10",
+            "2026-04-11",
+            "2026-04-17",
+            "2026-04-18",
+            "2026-04-24",
+            "2026-04-25",
+            "2026-05-01",
+            "2026-05-02"
+          ],
+          "official_event_access": true,
+          "condition_variants": [
+            {
+              "variant_id": "VAR-215",
+              "profile_id": "tw-082-P04",
+              "variant_name": "潭南步道賞螢",
+              "condition_geometry": "{\"camera_zone\":\"鯉魚潭潭南步道賞螢 Camera Zone\",\"subject\":\"fireflies + forest trail night ecology\"}",
+              "hard_gates": "只在官方賞螢活動日期與指定動線成立；不得以一般夜間天氣推定可自由賞螢",
+              "required_conditions": "僅官方賞螢活動日期；潭南步道或指定賞螢動線可達；遵守低光與生態規範",
+              "boosters": "無明顯降雨；弱風；現場螢況良好",
+              "penalties": "降雨；活動取消；非指定活動日；強光干擾；螢況不佳",
+              "formula_status": "minimum_sufficient_local_scene"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "tw-082-VP04",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Representative researched camera zone; exact tripod position is not asserted.",
+              "name": "鯉魚潭潭南步道賞螢 Camera Zone",
+              "lat": 23.934,
+              "lon": 121.509,
+              "elevation_m": null,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_2026_firefly_event_tannan_trail",
+              "geometry_type": "area",
+              "geometry_extent_m": 900,
+              "geometry_note": "代表合法可拍區域；實際構圖可沿現場允許動線調整。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "tw-082-P05",
+          "spot_id": "tw-082",
+          "name_zh": "鯉魚潭鳥類、水鳥與自然生態紀錄",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "minimum_sufficient_local_scene",
+          "formula_version": "v0.04-hualien-subject-specific",
+          "formula_confidence": 66,
+          "best_time": "日間；清晨或較安靜時段通常較利觀察",
+          "best_season": "全年",
+          "wildlife_presence_forecastable": false,
+          "condition_variants": [
+            {
+              "variant_id": "VAR-216",
+              "profile_id": "tw-082-P05",
+              "variant_name": "人工濕地與環潭生態紀錄",
+              "condition_geometry": "{\"camera_zone\":\"鯉魚潭人工濕地與環潭生態 Camera Zone\",\"subject\":\"birds / waterbirds / butterflies / amphibians / reptiles / mammals\"}",
+              "hard_gates": "合法公共或園區動線可達；遵守現場管制與拍攝規定",
+              "required_conditions": "合法步道或人工濕地觀察點可達；不得追逐、餵食或干擾野生動物",
+              "boosters": "低降雨；較弱風勢；人流與水上活動較少",
+              "penalties": "豪雨；強風；遊艇或人群干擾；目標物種未出現",
+              "formula_status": "minimum_sufficient_local_scene"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "tw-082-VP05",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Representative researched camera zone; exact tripod position is not asserted.",
+              "name": "鯉魚潭人工濕地與環潭生態 Camera Zone",
+              "lat": 23.93493,
+              "lon": 121.50803,
+              "elevation_m": null,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_environmental_education_wildlife_evidence",
+              "geometry_type": "area",
+              "geometry_extent_m": 1800,
+              "geometry_note": "代表合法可拍區域；實際構圖可沿現場允許動線調整。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "tw-082-P06",
+          "spot_id": "tw-082",
+          "name_zh": "鯉魚潭水岸光影節夜景與裝置藝術",
+          "legacy_theme": "city_night",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "minimum_sufficient_local_scene",
+          "formula_version": "v0.04-hualien-subject-specific",
+          "formula_confidence": 84,
+          "best_time": "2026/11/28–2027/1/31 每日暫定 18:00–22:00",
+          "best_season": "2026/11/28–2027/1/31；往後年度需官方更新",
+          "verified_event_ranges": [
+            [
+              "2026-11-28",
+              "2027-01-31"
+            ]
+          ],
+          "verified_time_window": [
+            "18:00",
+            "22:00"
+          ],
+          "official_event_access": true,
+          "condition_variants": [
+            {
+              "variant_id": "VAR-217",
+              "profile_id": "tw-082-P06",
+              "variant_name": "潭北水岸光影藝術夜景",
+              "condition_geometry": "{\"camera_zone\":\"鯉魚潭潭北遊客中心光影節 Camera Zone\",\"subject\":\"waterfront light art + reflections + night landscape\"}",
+              "hard_gates": "只在官方 2026 水岸光影節公告日期與暫定活動時間成立",
+              "required_conditions": "官方光影節活動日期與時間成立；潭北遊客中心周邊合法活動區可達",
+              "boosters": "無明顯降雨；湖面平穩可形成光影反射；空氣較乾淨",
+              "penalties": "豪雨；活動取消；強風；非活動日期或時段",
+              "formula_status": "minimum_sufficient_local_scene"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "tw-082-VP06",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Representative researched camera zone; exact tripod position is not asserted.",
+              "name": "鯉魚潭潭北遊客中心光影節 Camera Zone",
+              "lat": 23.93493,
+              "lon": 121.50803,
+              "elevation_m": null,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_2026_waterfront_light_festival",
+              "geometry_type": "area",
+              "geometry_extent_m": 600,
+              "geometry_note": "代表合法可拍區域；實際構圖可沿現場允許動線調整。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "tw-082-P07",
+          "spot_id": "tw-082",
+          "name_zh": "鯉魚潭環潭步道與森林步道環境攝影",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "minimum_sufficient_local_scene",
+          "formula_version": "v0.04-hualien-subject-specific",
+          "formula_confidence": 68,
+          "best_time": "日間；柔光或林下反差較低時",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "VAR-218",
+              "profile_id": "tw-082-P07",
+              "variant_name": "環潭與森林步道",
+              "condition_geometry": "{\"camera_zone\":\"鯉魚潭環潭與森林步道 Camera Zone\",\"subject\":\"lakeside trail + forest trail + shaded road\"}",
+              "hard_gates": "合法公共或園區動線可達；遵守現場管制與拍攝規定",
+              "required_conditions": "公共步道可達；降雨未造成通行風險",
+              "boosters": "柔光；雨後綠意但路面安全；林蔭與湖岸交錯構圖",
+              "penalties": "豪雨；步道濕滑；活動封閉；強烈正午反差",
+              "formula_status": "minimum_sufficient_local_scene"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "tw-082-VP07",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Representative researched camera zone; exact tripod position is not asserted.",
+              "name": "鯉魚潭環潭與森林步道 Camera Zone",
+              "lat": 23.93493,
+              "lon": 121.50803,
+              "elevation_m": null,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_erv_loop_and_forest_trail_evidence",
+              "geometry_type": "area",
+              "geometry_extent_m": 2500,
+              "geometry_note": "代表合法可拍區域；實際構圖可沿現場允許動線調整。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "tw-082-P08",
+          "spot_id": "tw-082",
+          "name_zh": "鯉魚潭遊湖與水上活動紀實",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "minimum_sufficient_local_scene",
+          "formula_version": "v0.04-hualien-subject-specific",
+          "formula_confidence": 60,
+          "best_time": "日間；實際水上活動是否出現不可由天氣預報保證",
+          "best_season": "活動依現場營運",
+          "subject_presence_forecastable": false,
+          "condition_variants": [
+            {
+              "variant_id": "VAR-219",
+              "profile_id": "tw-082-P08",
+              "variant_name": "潭面遊湖與水上活動",
+              "condition_geometry": "{\"camera_zone\":\"鯉魚潭碼頭與公共水岸活動 Camera Zone\",\"subject\":\"boat / paddle / SUP activity + lake landscape\"}",
+              "hard_gates": "合法公共或園區動線可達；遵守現場管制與拍攝規定",
+              "required_conditions": "合法水岸拍攝位置可達；實際活動或船艇存在",
+              "boosters": "較弱風勢；低降雨；湖光山色清楚",
+              "penalties": "強風；降雨；水上活動未營運或未出現",
+              "formula_status": "minimum_sufficient_local_scene"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "tw-082-VP08",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Representative researched camera zone; exact tripod position is not asserted.",
+              "name": "鯉魚潭碼頭與公共水岸活動 Camera Zone",
+              "lat": 23.93493,
+              "lon": 121.50803,
+              "elevation_m": null,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_erv_water_activity_evidence",
+              "geometry_type": "area",
+              "geometry_extent_m": 900,
+              "geometry_note": "代表合法可拍區域；實際構圖可沿現場允許動線調整。",
+              "geometry_confidence": "medium_high"
             }
           ]
         }
@@ -109,6 +455,194 @@
               "geometry_type": "small_area",
               "geometry_extent_m": 300,
               "geometry_note": "夢幻湖與落羽松湖岸為私人景觀園區；代表座標不是唯一腳架點，也不等同已驗證車輛入口。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "tw-083-P02",
+          "spot_id": "tw-083",
+          "name_zh": "雲山水秋冬落羽松金黃橘紅景觀",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "minimum_sufficient_local_scene",
+          "formula_version": "v0.04-hualien-subject-specific",
+          "formula_confidence": 82,
+          "best_time": "園區開放時段；秋冬轉色期",
+          "best_season": "秋冬；實際轉色仍受年度氣候影響",
+          "season_rule": "autumn_winter_official_description",
+          "season_presence_not_guaranteed": true,
+          "condition_variants": [
+            {
+              "variant_id": "VAR-220",
+              "profile_id": "tw-083-P02",
+              "variant_name": "夢幻湖落羽松秋冬色彩",
+              "condition_geometry": "{\"camera_zone\":\"雲山水夢幻湖落羽松 Camera Zone\",\"subject\":\"bald cypress autumn-winter color + lake / lawn\"}",
+              "hard_gates": "合法公共或園區動線可達；遵守現場管制與拍攝規定",
+              "required_conditions": "園區開放且合法步道可達；月份位於秋冬；降雨未妨礙拍攝",
+              "boosters": "落羽松已明顯轉黃、橘或紅；柔光；湖面可形成色彩倒影",
+              "penalties": "尚未轉色或已大量落葉；豪雨；人潮遮擋",
+              "formula_status": "minimum_sufficient_local_scene"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "tw-083-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Representative researched camera zone; exact tripod position is not asserted.",
+              "name": "雲山水夢幻湖落羽松 Camera Zone",
+              "lat": 23.827018,
+              "lon": 121.51548,
+              "elevation_m": null,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_erv_bald_cypress_evidence",
+              "geometry_type": "area",
+              "geometry_extent_m": 500,
+              "geometry_note": "代表合法可拍區域；實際構圖可沿現場允許動線調整。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "tw-083-P03",
+          "spot_id": "tw-083",
+          "name_zh": "雲山水春季紫色鳶尾花",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "minimum_sufficient_local_scene",
+          "formula_version": "v0.04-hualien-subject-specific",
+          "formula_confidence": 78,
+          "best_time": "園區開放時段；4 月花期",
+          "best_season": "4 月；實際花況仍需現地確認",
+          "season_rule": "april_official_description",
+          "season_presence_not_guaranteed": true,
+          "condition_variants": [
+            {
+              "variant_id": "VAR-221",
+              "profile_id": "tw-083-P03",
+              "variant_name": "夢幻湖畔紫色鳶尾花",
+              "condition_geometry": "{\"camera_zone\":\"雲山水夢幻湖鳶尾花 Camera Zone\",\"subject\":\"purple iris flowers + lakeside garden\"}",
+              "hard_gates": "合法公共或園區動線可達；遵守現場管制與拍攝規定",
+              "required_conditions": "園區開放且湖畔合法區域可達；月份為 4 月；降雨未妨礙拍攝",
+              "boosters": "花況盛開；柔光；湖景或落羽松作背景",
+              "penalties": "花況未開或已謝；豪雨；人潮遮擋",
+              "formula_status": "minimum_sufficient_local_scene"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "tw-083-VP03",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Representative researched camera zone; exact tripod position is not asserted.",
+              "name": "雲山水夢幻湖鳶尾花 Camera Zone",
+              "lat": 23.827018,
+              "lon": 121.51548,
+              "elevation_m": null,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_erv_iris_evidence",
+              "geometry_type": "area",
+              "geometry_extent_m": 350,
+              "geometry_note": "代表合法可拍區域；實際構圖可沿現場允許動線調整。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "tw-083-P04",
+          "spot_id": "tw-083",
+          "name_zh": "雲山水歐式建築、草地與環境人像",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "minimum_sufficient_local_scene",
+          "formula_version": "v0.04-hualien-subject-specific",
+          "formula_confidence": 72,
+          "best_time": "園區開放時段",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "VAR-222",
+              "profile_id": "tw-083-P04",
+              "variant_name": "歐式民宿與青青草地",
+              "condition_geometry": "{\"camera_zone\":\"雲山水公共園景與草地 Camera Zone\",\"subject\":\"European-style architecture + grassland + environmental portrait\"}",
+              "hard_gates": "合法公共或園區動線可達；遵守現場管制與拍攝規定",
+              "required_conditions": "僅在允許參觀與攝影的公共／園區區域；不得將私人住宿區視為自由拍攝區",
+              "boosters": "柔光；草地色彩良好；建築倒影或樹列形成層次",
+              "penalties": "豪雨；強烈正午反差；私人區域限制；人潮遮擋",
+              "formula_status": "minimum_sufficient_local_scene"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "tw-083-VP04",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Representative researched camera zone; exact tripod position is not asserted.",
+              "name": "雲山水公共園景與草地 Camera Zone",
+              "lat": 23.827018,
+              "lon": 121.51548,
+              "elevation_m": null,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_erv_architecture_grassland_evidence",
+              "geometry_type": "area",
+              "geometry_extent_m": 600,
+              "geometry_note": "代表合法可拍區域；實際構圖可沿現場允許動線調整。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "tw-083-P05",
+          "spot_id": "tw-083",
+          "name_zh": "雲山水石磚步道與湖畔園景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "minimum_sufficient_local_scene",
+          "formula_version": "v0.04-hualien-subject-specific",
+          "formula_confidence": 68,
+          "best_time": "園區開放時段",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "VAR-223",
+              "profile_id": "tw-083-P05",
+              "variant_name": "石磚步道與湖畔層次",
+              "condition_geometry": "{\"camera_zone\":\"雲山水石磚步道 Camera Zone\",\"subject\":\"stone path + lakeside garden + tree layers\"}",
+              "hard_gates": "合法公共或園區動線可達；遵守現場管制與拍攝規定",
+              "required_conditions": "園區開放且石磚步道可達；降雨未造成通行風險",
+              "boosters": "柔光；步道乾燥；湖岸與樹列可作引導線",
+              "penalties": "豪雨；步道濕滑；人潮嚴重遮擋",
+              "formula_status": "minimum_sufficient_local_scene"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "tw-083-VP05",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Representative researched camera zone; exact tripod position is not asserted.",
+              "name": "雲山水石磚步道 Camera Zone",
+              "lat": 23.827018,
+              "lon": 121.51548,
+              "elevation_m": null,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_erv_stone_path_evidence",
+              "geometry_type": "area",
+              "geometry_extent_m": 400,
+              "geometry_note": "代表合法可拍區域；實際構圖可沿現場允許動線調整。",
               "geometry_confidence": "medium_high"
             }
           ]
