@@ -38,6 +38,35 @@
     }
     h1 { margin: 0; font-size: 1.8rem; color: var(--accent); }
     .updated { font-size: 0.85rem; color: var(--muted); text-align: right; }
+
+    @media (max-width: 640px) {
+      body { padding: 12px; }
+      header { margin-bottom: 14px; padding-bottom: 12px; }
+      .header-top {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+      .header-top h1 { font-size: 1.65rem; }
+      .header-right {
+        width: 100%;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .header-right .control-dropdown {
+        flex: 0 1 auto;
+        max-width: calc(100vw - 24px);
+      }
+      .updated {
+        flex-basis: 100%;
+        width: 100%;
+        text-align: left;
+        font-size: 0.72rem;
+        line-height: 1.35;
+        overflow-wrap: anywhere;
+      }
+    }
     
     .filter-row {
       margin-bottom: 12px;
