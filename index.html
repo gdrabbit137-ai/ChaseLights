@@ -227,9 +227,20 @@
     .opportunity-score.mid { background:#0284c7; }
     .opportunity-score.low { background:#475569; }
     .opportunity-meta { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:5px 12px; color:#cbd5e1; font-size:.82rem; margin-bottom:8px; }
-    .research-block { margin-top:8px; padding-top:8px; border-top:1px dashed #334155; font-size:.82rem; line-height:1.55; color:#cbd5e1; }
+    .opportunity-current { margin:0 0 8px; padding:7px 9px; border-radius:8px; background:#0f172a; color:#cbd5e1; font-size:.8rem; line-height:1.45; }
+    .research-details { margin-top:8px; border-top:1px dashed #334155; padding-top:7px; }
+    .research-details summary { cursor:pointer; color:#7dd3fc; font-size:.8rem; font-weight:700; user-select:none; }
+    .research-details[open] summary { margin-bottom:6px; }
+    .research-block { font-size:.82rem; line-height:1.55; color:#cbd5e1; }
     .research-label { color:#7dd3fc; font-weight:700; }
     .variant-name { color:#e2e8f0; font-weight:700; margin-top:6px; }
+    @media (max-width:640px) {
+      .place-guide-intro { font-size:.78rem; margin-bottom:9px; }
+      .opportunity-list { gap:9px; }
+      .opportunity-card { padding:11px 12px; }
+      .opportunity-head { margin-bottom:7px; }
+      .opportunity-meta { grid-template-columns:1fr; gap:4px; margin-bottom:7px; }
+    }
     .unresearched-note { border:1px solid #475569; border-radius:8px; padding:12px; color:#cbd5e1; background:#0f172a; line-height:1.55; }
   </style>
 </head>
@@ -318,7 +329,7 @@
       'zh-TW': {
         country_label:'📍 選擇國家/區域：', opt_tw:'🇹🇼 台灣 (Taiwan)', opt_jp:'🇯🇵 日本 (Japan)', opt_us:'🇺🇸 美國 (United States)',
         btn_today:'📅 今天', btn_tomorrow:'📅 明天', btn_after_tomorrow:'📅 後天', loading:'正在獲取攝影氣象數據...', updating:'背景更新中…',
-        last_updated:'最後更新：', click_detail:'', weather_link:'🌦️ 天氣預報', nav_link:'🗺️ 導航', map_link:'📍 地圖', nav_pending:'🗺️ 導航待確認', radar_link:'📡 雷達', place_suitable:'📸 這裡適合拍什麼', researched_only:'只顯示已逐點查證的攝影題材；未查證內容不自動生成。', place_time_note:'拍攝時間皆以景點當地時區顯示。', guide_time:'適合時間（景點當地時間）', guide_season:'季節', guide_viewpoint:'拍攝位置', guide_required:'成立條件', guide_boosters:'加分條件', guide_penalties:'不利條件', guide_current:'當日評分', guide_unresearched:'此景點尚未完成逐點攝影研究，因此暫不顯示推測性的拍攝建議。', research_pending_card:'攝影研究待補，暫不評分', no_viable_card:'今天剩餘時段沒有合適的已研究拍攝機會', scene_label:'🖼️ 景觀類型：', theme_label:'📸 題材：', advanced_filters:'🔎 更多篩選', result_count:'依當日最佳拍攝機會排序 · {n} 個景點', search_result:'找到 {n} 個景點', search_placeholder:'搜尋景點名稱…', where_today:'📍 今天去哪裡拍？', where_tomorrow:'📍 明天去哪裡拍？', where_after:'📍 後天去哪裡拍？', narrow_result:'目前僅 {n} 個景點，範圍較窄', clear_scene:'清除景觀類型',
+        last_updated:'最後更新：', click_detail:'', weather_link:'🌦️ 天氣預報', nav_link:'🗺️ 導航', map_link:'📍 地圖', nav_pending:'🗺️ 導航待確認', radar_link:'📡 雷達', place_suitable:'📸 這裡適合拍什麼', researched_only:'只顯示已逐點查證的攝影題材；未查證內容不自動生成。', place_time_note:'拍攝時間皆以景點當地時區顯示。', guide_time:'適合時間（景點當地時間）', guide_season:'季節', guide_viewpoint:'拍攝位置', guide_required:'成立條件', guide_boosters:'加分條件', guide_penalties:'不利條件', guide_current:'當日評分', guide_details:'查看完整判定條件', guide_unresearched:'此景點尚未完成逐點攝影研究，因此暫不顯示推測性的拍攝建議。', research_pending_card:'攝影研究待補，暫不評分', no_viable_card:'今天剩餘時段沒有合適的已研究拍攝機會', scene_label:'🖼️ 景觀類型：', theme_label:'📸 題材：', advanced_filters:'🔎 更多篩選', result_count:'依當日最佳拍攝機會排序 · {n} 個景點', search_result:'找到 {n} 個景點', search_placeholder:'搜尋景點名稱…', where_today:'📍 今天去哪裡拍？', where_tomorrow:'📍 明天去哪裡拍？', where_after:'📍 後天去哪裡拍？', narrow_result:'目前僅 {n} 個景點，範圍較窄', clear_scene:'清除景觀類型',
         best_window:'⏱️ 最佳窗口：', forecast_status:'📍 預報狀態：', cloud_base_label:'估算雲底', best_theme:'📸 今日較適合：', local_time:'當地時間', dark_sky:'暗空',
         modal_subtitle:'⏱️ 涵蓋範圍：過去 24 小時 [模型資料] + 未來 72 小時 [氣象預報]（藍底為所選日期最佳窗口）',
         th_time:'時間', th_theme:'題材', th_score:'評分', th_status:'狀態', th_kp:'Kp指數', th_cloud_base:'雲底', th_temp:'氣溫', th_rh:'濕度', th_clow:'低雲', th_cmid:'中雲', th_chigh:'高雲', th_wind:'風速', th_vis:'能見度', th_astro:'天文', no_spots:'此條件下沒有景點', detail_loading:'正在載入天氣預報…'
@@ -326,7 +337,7 @@
       'en': {
         country_label:'📍 Select Region:', opt_tw:'🇹🇼 Taiwan', opt_jp:'🇯🇵 Japan', opt_us:'🇺🇸 United States',
         btn_today:'📅 Today', btn_tomorrow:'📅 Tomorrow', btn_after_tomorrow:'📅 Day After', loading:'Fetching photography weather data...', updating:'Updating in background…',
-        last_updated:'Last Updated: ', click_detail:'', weather_link:'🌦️ Weather', nav_link:'🗺️ Nav', map_link:'📍 Map', nav_pending:'🗺️ Nav pending', radar_link:'📡 Radar', place_suitable:'📸 What can you photograph here?', researched_only:'Only individually researched photography opportunities are shown; unverified ideas are not generated.', place_time_note:'Shooting times are shown in the place’s local time zone.', guide_time:'Best time (place local time)', guide_season:'Season', guide_viewpoint:'Shooting area', guide_required:'Required conditions', guide_boosters:'Boosters', guide_penalties:'Penalties', guide_current:'Day score', guide_unresearched:'This place has not yet completed place-specific photography research, so no speculative shooting guide is shown.', research_pending_card:'Photography research pending · not scored yet', no_viable_card:'No researched shooting opportunity remains viable today', scene_label:'🖼️ Landscape type:', theme_label:'📸 Subject:', advanced_filters:'🔎 More filters', result_count:'Ranked by best opportunity for the day · {n} spots', search_result:'Found {n} spots', search_placeholder:'Search places…', where_today:'📍 Where should I shoot today?', where_tomorrow:'📍 Where should I shoot tomorrow?', where_after:'📍 Where should I shoot the day after tomorrow?', narrow_result:'Only {n} spots — narrow filter', clear_scene:'Clear landscape type',
+        last_updated:'Last Updated: ', click_detail:'', weather_link:'🌦️ Weather', nav_link:'🗺️ Nav', map_link:'📍 Map', nav_pending:'🗺️ Nav pending', radar_link:'📡 Radar', place_suitable:'📸 What can you photograph here?', researched_only:'Only individually researched photography opportunities are shown; unverified ideas are not generated.', place_time_note:'Shooting times are shown in the place’s local time zone.', guide_time:'Best time (place local time)', guide_season:'Season', guide_viewpoint:'Shooting area', guide_required:'Required conditions', guide_boosters:'Boosters', guide_penalties:'Penalties', guide_current:'Day score', guide_details:'View full conditions', guide_unresearched:'This place has not yet completed place-specific photography research, so no speculative shooting guide is shown.', research_pending_card:'Photography research pending · not scored yet', no_viable_card:'No researched shooting opportunity remains viable today', scene_label:'🖼️ Landscape type:', theme_label:'📸 Subject:', advanced_filters:'🔎 More filters', result_count:'Ranked by best opportunity for the day · {n} spots', search_result:'Found {n} spots', search_placeholder:'Search places…', where_today:'📍 Where should I shoot today?', where_tomorrow:'📍 Where should I shoot tomorrow?', where_after:'📍 Where should I shoot the day after tomorrow?', narrow_result:'Only {n} spots — narrow filter', clear_scene:'Clear landscape type',
         best_window:'⏱️ Best Window: ', forecast_status:'📍 Status: ', cloud_base_label:'Est. Cloud Base', best_theme:'📸 Best today: ', local_time:'Local time', dark_sky:'Dark sky',
         modal_subtitle:'⏱️ Range: Past 24H [model data] + Next 72H [forecast] (blue = best window for selected day)',
         th_time:'Time', th_theme:'Theme', th_score:'Score', th_status:'Status', th_kp:'Kp', th_cloud_base:'Cloud Base', th_temp:'Temp', th_rh:'RH', th_clow:'Low', th_cmid:'Mid', th_chigh:'High', th_wind:'Wind', th_vis:'Visibility', th_astro:'Astronomy', no_spots:'No spots match these filters', detail_loading:'Loading weather forecast…'
@@ -334,7 +345,7 @@
       'ja': {
         country_label:'📍 地域を選択：', opt_tw:'🇹🇼 台湾 (Taiwan)', opt_jp:'🇯🇵 日本 (Japan)', opt_us:'🇺🇸 アメリカ (United States)',
         btn_today:'📅 今日', btn_tomorrow:'📅 明日', btn_after_tomorrow:'📅 明後日', loading:'撮影気象データを取得中...', updating:'バックグラウンド更新中…',
-        last_updated:'最終更新：', click_detail:'', weather_link:'🌦️ 天気予報', nav_link:'🗺️ ナビ', map_link:'📍 地図', nav_pending:'🗺️ ナビ確認待ち', radar_link:'📡 レーダー', place_suitable:'📸 ここで何が撮れる？', researched_only:'個別調査済みの撮影機会のみ表示し、未確認の内容は自動生成しません。', place_time_note:'撮影時間はすべて現地のタイムゾーンで表示します。', guide_time:'適した時間（現地時間）', guide_season:'季節', guide_viewpoint:'撮影位置', guide_required:'成立条件', guide_boosters:'加点条件', guide_penalties:'不利条件', guide_current:'当日スコア', guide_unresearched:'この場所は個別撮影調査が未完了のため、推測的な撮影案内は表示しません。', research_pending_card:'撮影調査待ち・現在は採点しません', no_viable_card:'本日の残り時間に適した調査済み撮影機会はありません', scene_label:'🖼️ 景観タイプ：', theme_label:'📸 テーマ：', advanced_filters:'🔎 その他の絞り込み', result_count:'当日の最良撮影機会順 · {n} スポット', search_result:'{n} スポット見つかりました', search_placeholder:'スポット名を検索…', where_today:'📍 今日はどこへ撮りに行く？', where_tomorrow:'📍 明日はどこへ撮りに行く？', where_after:'📍 明後日はどこへ撮りに行く？', narrow_result:'{n} スポットのみ・絞り込みが狭いです', clear_scene:'景観タイプを解除',
+        last_updated:'最終更新：', click_detail:'', weather_link:'🌦️ 天気予報', nav_link:'🗺️ ナビ', map_link:'📍 地図', nav_pending:'🗺️ ナビ確認待ち', radar_link:'📡 レーダー', place_suitable:'📸 ここで何が撮れる？', researched_only:'個別調査済みの撮影機会のみ表示し、未確認の内容は自動生成しません。', place_time_note:'撮影時間はすべて現地のタイムゾーンで表示します。', guide_time:'適した時間（現地時間）', guide_season:'季節', guide_viewpoint:'撮影位置', guide_required:'成立条件', guide_boosters:'加点条件', guide_penalties:'不利条件', guide_current:'当日スコア', guide_details:'判定条件を表示', guide_unresearched:'この場所は個別撮影調査が未完了のため、推測的な撮影案内は表示しません。', research_pending_card:'撮影調査待ち・現在は採点しません', no_viable_card:'本日の残り時間に適した調査済み撮影機会はありません', scene_label:'🖼️ 景観タイプ：', theme_label:'📸 テーマ：', advanced_filters:'🔎 その他の絞り込み', result_count:'当日の最良撮影機会順 · {n} スポット', search_result:'{n} スポット見つかりました', search_placeholder:'スポット名を検索…', where_today:'📍 今日はどこへ撮りに行く？', where_tomorrow:'📍 明日はどこへ撮りに行く？', where_after:'📍 明後日はどこへ撮りに行く？', narrow_result:'{n} スポットのみ・絞り込みが狭いです', clear_scene:'景観タイプを解除',
         best_window:'⏱️ 最適時間：', forecast_status:'📍 予報状況：', cloud_base_label:'推定雲底', best_theme:'📸 今日向き：', local_time:'現地時間', dark_sky:'暗空',
         modal_subtitle:'⏱️ 範囲：過去24時間 [モデル] + 未来72時間 [予報]（青色＝選択日の最適時間）',
         th_time:'時間', th_theme:'テーマ', th_score:'評価', th_status:'状態', th_kp:'Kp', th_cloud_base:'雲底', th_temp:'気温', th_rh:'湿度', th_clow:'下層雲', th_cmid:'中層雲', th_chigh:'上層雲', th_wind:'風速', th_vis:'視程', th_astro:'天文', no_spots:'該当する撮影スポットはありません', detail_loading:'天気予報を読み込み中…'
@@ -553,16 +564,16 @@
           return `<div class="variant-name">${esc(v.variant_name||'')}</div>${rows.join('')}`;
         }).join('');
         const scoreHtml=score===undefined||score===null?'':`<div class="opportunity-score ${opportunityScoreClass(score)}">${score}</div>`;
-        const current=m?`<div><span class="research-label">${esc(d().guide_current)}：</span>${score} · ${esc(trMessage(m.status_key))}</div>`:'';
+        const current=m?`<div class="opportunity-current"><span class="research-label">${esc(d().guide_current)}：</span>${score} · ${esc(trMessage(m.status_key))}</div>`:'';
         const metaRows=[];
         if(op.best_time)metaRows.push(`<div><span class="research-label">${esc(d().guide_time)}：</span>${esc(op.best_time)}</div>`);
         if(op.best_season)metaRows.push(`<div><span class="research-label">${esc(d().guide_season)}：</span>${esc(op.best_season)}</div>`);
         if(viewpoints.length)metaRows.push(`<div><span class="research-label">${esc(d().guide_viewpoint)}：</span>${esc(viewpoints.join('／'))}</div>`);
         return `<div class="opportunity-card">
           <div class="opportunity-head"><div class="opportunity-title">${esc(op.name_zh||themeLabel(op.legacy_theme))}</div>${scoreHtml}</div>
-          ${metaRows.length?`<div class="opportunity-meta">${metaRows.join('')}</div>`:''}
           ${current}
-          ${variants?`<div class="research-block">${variants}</div>`:''}
+          ${metaRows.length?`<div class="opportunity-meta">${metaRows.join('')}</div>`:''}
+          ${variants?`<details class="research-details"><summary>${esc(d().guide_details)}</summary><div class="research-block">${variants}</div></details>`:''}
         </div>`;
       }).join('');
       body.innerHTML=`<div class="place-guide-intro"><b>${esc(d().place_suitable)}</b><br>${esc(d().researched_only)}<br>🕒 ${esc(d().place_time_note)}</div><div class="opportunity-list">${cards}</div>`;
