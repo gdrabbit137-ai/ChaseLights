@@ -2270,7 +2270,7 @@ def test_adapter_integrity():
 
 def test_active_catalog_weather_generation_guard():
     active_tw = analyze_weather._active_spots("tw")
-    assert len(active_tw) == 83
+    assert len(active_tw) == 84
 
     chaori_spot = next(spot for spot in active_tw if spot["spot_id"] == "tw-068")
     yehliu_spot = next(spot for spot in active_tw if spot["spot_id"] == "tw-074")
