@@ -52,13 +52,13 @@ EVIDENCE_MARKERS = (
 
 def _text_blob(op):
     bits = [
-        op.get("name_zh", ""),
-        op.get("name_en", ""),
-        op.get("legacy_theme", ""),
-        op.get("best_time", ""),
-        op.get("best_season", ""),
-        op.get("formula_status", ""),
-        op.get("formula_version", ""),
+        str(op.get("name_zh") or ""),
+        str(op.get("name_en") or ""),
+        str(op.get("legacy_theme") or ""),
+        str(op.get("best_time") or ""),
+        str(op.get("best_season") or ""),
+        str(op.get("formula_status") or ""),
+        str(op.get("formula_version") or ""),
     ]
     for variant in op.get("condition_variants", []) or []:
         bits.extend(
