@@ -1,0 +1,37 @@
+name: B36 Opportunity Evidence Audit
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - codex/b36-opportunity-evidence-audit
+    paths:
+      - "RESEARCH_EVIDENCE_SPEC_R4_2.md"
+      - "audit_opportunity_evidence.py"
+      - "opportunities.py"
+      - "opportunity_runtime.py"
+      - "regions.py"
+      - "runtime_catalog_v004_r4_2_*.json"
+      - "runtime_catalog_v004_r4_2_b15.compact.part*.b64"
+      - ".github/workflows/b36_research_evidence_audit.yml"
+
+jobs:
+  evidence-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Compile audit
+        run: python -m py_compile audit_opportunity_evidence.py opportunities.py regions.py
+      - name: Run evidence audit
+        run: python audit_opportunity_evidence.py
+      - name: Upload audit report
+        uses: actions/upload-artifact@v4
+        with:
+          name: b36-research-evidence-audit
+          path: research_evidence_audit.json
+          retention-days: 14
