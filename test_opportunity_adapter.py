@@ -100,15 +100,15 @@ def test_adapter_integrity():
     assert validate_taxonomy() == []
     assert CATALOG_COUNTS == {
         "spots": 109,
-        "opportunities": 226,
-        "condition_variants": 236,
-        "profile_viewpoint_relations": 231,
+        "opportunities": 245,
+        "condition_variants": 255,
+        "profile_viewpoint_relations": 250,
     }
     assert REGION_CATALOG_COUNTS["tw"] == {
         "spots": 83,
-        "opportunities": 192,
-        "condition_variants": 202,
-        "profile_viewpoint_relations": 197,
+        "opportunities": 211,
+        "condition_variants": 221,
+        "profile_viewpoint_relations": 216,
     }
     assert REGION_CATALOG_COUNTS["jp"] == {
         "spots": 26,

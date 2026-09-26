@@ -96,10 +96,16 @@ _COMPOSITE_SPOTS = (
     + list(_B32_JP_ADDITIONS.get("spots", []))
     + list(_B33_HUALIEN_ADDITIONS.get("spots", []))
 )
-_ACTIVE_SPOTS = [
-    spot for spot in _COMPOSITE_SPOTS
-    if spot.get("spot_id") not in RETIRED_SPOT_IDS
-]
+# Later catalog layers intentionally override earlier records with the same
+# spot_id. Build the effective catalog by ID before computing counts so B33
+# replacements do not double-count the legacy one-opportunity Hualien records.
+_EFFECTIVE_SPOTS_BY_ID = {}
+for _spot in _COMPOSITE_SPOTS:
+    _spot_id = _spot.get("spot_id")
+    if _spot_id and _spot_id not in RETIRED_SPOT_IDS:
+        _EFFECTIVE_SPOTS_BY_ID[_spot_id] = _spot
+
+_ACTIVE_SPOTS = list(_EFFECTIVE_SPOTS_BY_ID.values())
 CATALOG_COUNTS = {
     "spots": len(_ACTIVE_SPOTS),
     "opportunities": sum(len(spot.get("opportunities", [])) for spot in _ACTIVE_SPOTS),
@@ -297,12 +303,12 @@ def validate_curated_opportunities():
                 errors.append(f"{oid}: missing profile_viewpoint relation")
             viewpoint_relations += len(viewpoints)
 
-    if len(opportunity_ids) != 226:
-        errors.append(f"expected 226 opportunities, got {len(opportunity_ids)}")
-    if len(variant_ids) != 236:
-        errors.append(f"expected 236 variants, got {len(variant_ids)}")
-    if viewpoint_relations != 231:
-        errors.append(f"expected 231 profile_viewpoint relations, got {viewpoint_relations}")
+    if len(opportunity_ids) != 245:
+        errors.append(f"expected 245 opportunities, got {len(opportunity_ids)}")
+    if len(variant_ids) != 255:
+        errors.append(f"expected 255 variants, got {len(variant_ids)}")
+    if viewpoint_relations != 250:
+        errors.append(f"expected 250 profile_viewpoint relations, got {viewpoint_relations}")
 
     exact = {
         opportunity["opportunity_id"]
