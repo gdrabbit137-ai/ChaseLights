@@ -1,5 +1,7 @@
 """Build the one-time canonical ChaseLights R4.2 runtime catalog.
 
+Trigger-safe migration builder for the catalog cutover.
+
 This migration utility reconstructs the effective production catalog from the
 legacy B15 compressed payload plus later batch additions through opportunities.py.
 After cutover, runtime_catalog_v004_r4_2.json is the production source of truth;
