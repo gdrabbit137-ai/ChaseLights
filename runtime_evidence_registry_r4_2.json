@@ -71,6 +71,96 @@
         }
       ],
       "forecast_boundary": "雲海題材存在已驗證；是否形成及山峰是否露出仍由氣象／幾何條件判斷。"
+    },
+    "tw-020-P02": {
+      "status": "verified",
+      "grade": "A",
+      "subject": "金龍山下方雲海＋晨曦",
+      "evidence_scope": "日月潭國家風景區官方景點頁直接描述金龍山擁有壯麗雲海、曙光晨曦，並稱其為攝影愛好者追逐日出與雲海的熱門景點；另指出10月至翌年3月雨後清晨常見雲海。",
+      "sources": [
+        {
+          "title": "日月潭國家風景區－金龍山",
+          "url": "https://www.sunmoonlake.gov.tw/zh-TW/Attractions/Attractions?a=20&id=94"
+        }
+      ],
+      "forecast_boundary": "雲海題材存在已驗證；runtime 只能估計形成窗口與晨曦條件，不能由低雲／高濕直接宣稱雲海已出現。"
+    },
+    "tw-021-P02": {
+      "status": "verified",
+      "grade": "A",
+      "subject": "武界高山茶園下方雲海／雲瀑",
+      "evidence_scope": "南投旅遊網武界部落官方景點頁直接描述武界特殊峽谷地形常見夢幻雲海景致。",
+      "sources": [
+        {
+          "title": "南投旅遊網－武界部落",
+          "url": "https://travel.nantou.gov.tw/attractions/bukai/"
+        }
+      ],
+      "forecast_boundary": "武界雲海題材存在已驗證；茶園構圖與特定 Camera Zone 仍須依既有 viewpoint research，不以雲海證據自動擴張。"
+    },
+    "tw-022-P02": {
+      "status": "verified",
+      "grade": "A",
+      "subject": "二延平下方雲海／雲瀑＋茶園山稜",
+      "evidence_scope": "阿里山國家風景區官方資料明確稱雲海為二延平步道最引人入勝景色，觀雲平台可見滾滾雲海與雲瀑，並稱為攝影取景秘境。",
+      "sources": [
+        {
+          "title": "阿里山國家風景區－二延平步道",
+          "url": "https://www.ali-nsa.net/zh-tw/attractions/detail/141"
+        },
+        {
+          "title": "阿里山國家風景區行政資訊網－二延平步道重新開放",
+          "url": "https://admin.taiwan.net.tw/ali-nsa/NewsAli/News?a=669&id=24931&p=5"
+        }
+      ],
+      "forecast_boundary": "雲海／雲瀑題材存在及攝影用途已驗證；runtime 只評估何時可能成立。"
+    },
+    "tw-024-P02": {
+      "status": "verified",
+      "grade": "A",
+      "subject": "祝山日出雲海",
+      "evidence_scope": "阿里山國家風景區祝山官方頁直接描述日出時山谷形成雲海，日出與雲海共同構成祝山奇觀。",
+      "sources": [
+        {
+          "title": "阿里山國家風景區－祝山（車站及其周邊）",
+          "url": "https://www.ali-nsa.net/zh-tw/attractions/detail/175"
+        }
+      ],
+      "forecast_boundary": "祝山日出雲海是已驗證 Place-specific subject；日出時間與雲海形成機率由 runtime 分開判斷。"
+    },
+    "tw-032-P02": {
+      "status": "verified",
+      "grade": "A",
+      "subject": "見晴午後雲海＋露出山稜",
+      "evidence_scope": "太平山官方見晴懷古步道頁直接記載午後常有瑰麗雲海，觀雲棧道亦為園區最容易欣賞雲海路段。",
+      "sources": [
+        {
+          "title": "太平山國家森林遊樂區－見晴懷古步道",
+          "url": "https://tps.forest.gov.tw/TPSWeb/wSite/ct?ctNode=280&mp=1&xItem=2964"
+        },
+        {
+          "title": "台灣山林悠遊網－見晴懷古步道",
+          "url": "https://recreation.forest.gov.tw/Trail/RT?tr_id=019&typ=1"
+        }
+      ],
+      "forecast_boundary": "午後雲海題材存在已驗證；『露出山稜』仍需能見度／雲頂與視線條件，不由雲海存在證據自動保證。"
+    },
+    "tw-032-P03": {
+      "status": "verified",
+      "grade": "A",
+      "subject": "見晴鐵道遺構＋森林步道雲霧",
+      "evidence_scope": "太平山官方頁明確記載見晴有時久陷白茫茫霧中；山林悠遊網將檜木霧林列為特色景觀，並稱見晴為觀雲賞霧的最佳地點。",
+      "sources": [
+        {
+          "title": "太平山國家森林遊樂區－見晴懷古步道",
+          "url": "https://tps.forest.gov.tw/TPSWeb/wSite/ct?ctNode=280&mp=1&xItem=2964"
+        },
+        {
+          "title": "台灣山林悠遊網－見晴懷古步道",
+          "url": "https://recreation.forest.gov.tw/Trail/RT?tr_id=019&typ=1"
+        }
+      ],
+      "forecast_boundary": "步道雲霧／霧林題材存在已驗證；實際霧量與步道安全狀態由 runtime／access state 判斷。"
     }
   }
 }
