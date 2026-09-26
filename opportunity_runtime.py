@@ -126,7 +126,7 @@ MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES = {
     # B34 Liushishishan flower-field / hill compositions: close-to-mid-range
     # seasonal scenes. Sunbeam is intentionally excluded and remains a
     # dedicated pending cloud-geometry Opportunity.
-    "tw-035-P06", "tw-035-P07", "tw-035-P09",
+    "tw-035-P07", "tw-035-P08", "tw-035-P10",
 }
 
 
@@ -150,9 +150,9 @@ HUALIEN_LOCAL_PROFILES = {
     "tw-083-P03": {"kind": "seasonal_months", "months": {4}, "score_hint": 88, "presence_unknown": True},
     "tw-083-P04": {"kind": "local_scene", "score_hint": 84},
     "tw-083-P05": {"kind": "local_scene", "score_hint": 82},
-    "tw-035-P06": {"kind": "seasonal_months", "months": {8, 9}, "score_hint": 88, "presence_unknown": True},
-    "tw-035-P07": {"kind": "seasonal_months", "months": {8, 9}, "score_hint": 86, "presence_unknown": True},
-    "tw-035-P09": {"kind": "seasonal_months", "months": {8, 9}, "score_hint": 84, "presence_unknown": True},
+    "tw-035-P07": {"kind": "seasonal_months", "months": {8, 9}, "score_hint": 88, "presence_unknown": True},
+    "tw-035-P08": {"kind": "seasonal_months", "months": {8, 9}, "score_hint": 86, "presence_unknown": True},
+    "tw-035-P10": {"kind": "seasonal_months", "months": {8, 9}, "score_hint": 84, "presence_unknown": True},
 }
 
 
@@ -1341,7 +1341,7 @@ def validate_runtime_registry():
         "tw-082-P04", "tw-082-P05", "tw-082-P06", "tw-082-P07", "tw-082-P08",
         "tw-082-P09", "tw-082-P10",
         "tw-083-P02", "tw-083-P03", "tw-083-P04", "tw-083-P05",
-        "tw-035-P06", "tw-035-P07", "tw-035-P09",
+        "tw-035-P07", "tw-035-P08", "tw-035-P10",
     }:
         errors.append(
             "unexpected minimum-sufficient local-scene registry: "
