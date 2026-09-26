@@ -102,15 +102,15 @@ def test_adapter_integrity():
     assert validate_taxonomy() == []
     assert CATALOG_COUNTS == {
         "spots": 109,
-        "opportunities": 250,
-        "condition_variants": 260,
-        "profile_viewpoint_relations": 255,
+        "opportunities": 251,
+        "condition_variants": 261,
+        "profile_viewpoint_relations": 256,
     }
     assert REGION_CATALOG_COUNTS["tw"] == {
         "spots": 83,
-        "opportunities": 216,
-        "condition_variants": 226,
-        "profile_viewpoint_relations": 221,
+        "opportunities": 217,
+        "condition_variants": 227,
+        "profile_viewpoint_relations": 222,
     }
     assert REGION_CATALOG_COUNTS["jp"] == {
         "spots": 26,
@@ -177,11 +177,11 @@ def test_adapter_integrity():
     expected_active = {f"tw-{i:03d}" for i in range(1, 85)} - {"tw-063"}
     assert set(curated) == expected_active
     assert "tw-063" not in CURATED_OPPORTUNITIES
-    assert sum(len(s["opportunities"]) for s in curated.values()) == 216
+    assert sum(len(s["opportunities"]) for s in curated.values()) == 217
 
     all_opportunities = _all_opportunities()
-    assert sum(len(o["condition_variants"]) for o in all_opportunities) == 260
-    assert sum(len(o["viewpoints"]) for o in all_opportunities) == 255
+    assert sum(len(o["condition_variants"]) for o in all_opportunities) == 261
+    assert sum(len(o["viewpoints"]) for o in all_opportunities) == 256
     assert not any(o["formula_status"] == "legacy_fallback_pending_curated" for o in all_opportunities)
     assert not any(str(o.get("formula_version") or "").startswith("legacy_") for o in all_opportunities)
 
@@ -194,7 +194,7 @@ def test_adapter_integrity():
     assert policies == {
         "module_pending": 73,
         "preview_module_available": 87,
-        "minimum_sufficient_available": 84,
+        "minimum_sufficient_available": 85,
         "prototype_pending_certification": 2,
         "hold": 2,
         "data_insufficient": 2,
