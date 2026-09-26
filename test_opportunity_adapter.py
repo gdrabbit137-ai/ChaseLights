@@ -165,11 +165,11 @@ def test_adapter_integrity():
     expected_active = {f"tw-{i:03d}" for i in range(1, 85)} - {"tw-063"}
     assert set(curated) == expected_active
     assert "tw-063" not in CURATED_OPPORTUNITIES
-    assert sum(len(s["opportunities"]) for s in curated.values()) == 192
+    assert sum(len(s["opportunities"]) for s in curated.values()) == 211
 
     all_opportunities = _all_opportunities()
-    assert sum(len(o["condition_variants"]) for o in all_opportunities) == 236
-    assert sum(len(o["viewpoints"]) for o in all_opportunities) == 231
+    assert sum(len(o["condition_variants"]) for o in all_opportunities) == 255
+    assert sum(len(o["viewpoints"]) for o in all_opportunities) == 250
     assert not any(o["formula_status"] == "legacy_fallback_pending_curated" for o in all_opportunities)
     assert not any(str(o.get("formula_version") or "").startswith("legacy_") for o in all_opportunities)
 
