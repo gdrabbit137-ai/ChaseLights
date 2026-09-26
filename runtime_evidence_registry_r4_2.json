@@ -356,6 +356,100 @@
         }
       ],
       "forecast_boundary": "不得因湖泊、草澤、高濕或清晨低能見度自動建立晨霧題材。"
+    },
+    "tw-003-P03": {
+      "status": "verified",
+      "grade": "A",
+      "subject": "情人橋夜景＋水面倒影",
+      "evidence_scope": "新北市觀光旅遊網淡水漁人碼頭官方景點頁直接以圖片與說明呈現情人橋夜間彩色燈光倒映在河面，符合現有橋體夜景＋水面反射題材。",
+      "sources": [
+        {
+          "title": "新北市觀光旅遊網－淡水漁人碼頭",
+          "url": "https://newtaipei.travel/zh-tw/attractions/detail/109659"
+        }
+      ],
+      "forecast_boundary": "倒影構圖存在已驗證；runtime 只評估風、降雨與水面穩定度，不由低風自動創造倒影題材。"
+    },
+    "tw-007-P01": {
+      "status": "verified",
+      "grade": "A",
+      "subject": "碧潭吊橋暮色光雕＋水面倒影",
+      "evidence_scope": "新北市政府官方資料直接描述碧潭吊橋七彩光雕與河畔倒影相互輝映，屬明確 Place-specific 反射構圖。",
+      "sources": [
+        {
+          "title": "新北市政府－水舞吊橋相輝映 吃喝玩樂在碧潭",
+          "url": "https://www.ntpc.gov.tw/ch/home.jsp?dataserno=202205120022&id=28"
+        }
+      ],
+      "forecast_boundary": "反射構圖存在已驗證；光雕是否當日運作仍須依活動／設施狀態，不由天氣保證。"
+    },
+    "tw-007-P02": {
+      "status": "verified",
+      "grade": "A",
+      "subject": "碧潭吊橋夜間光雕＋水面倒影",
+      "evidence_scope": "新北市政府官方資料明確描述夜間光雕色彩搭配河畔倒影，現有夜間光雕＋倒影題材成立。",
+      "sources": [
+        {
+          "title": "新北市政府－水舞吊橋相輝映 吃喝玩樂在碧潭",
+          "url": "https://www.ntpc.gov.tw/ch/home.jsp?dataserno=202205120022&id=28"
+        },
+        {
+          "title": "新北市觀光旅遊網－煙火光雕點亮雙北",
+          "url": "https://newtaipei.travel/zh-cn/news/detail/2650"
+        }
+      ],
+      "forecast_boundary": "夜間反射構圖存在已驗證；活動時段／燈光啟用狀態需獨立驗證。"
+    },
+    "tw-011-P02": {
+      "status": "verified",
+      "grade": "A",
+      "subject": "永安觀海橋暮色／夜間燈景＋港池倒影",
+      "evidence_scope": "交通部觀光署與桃園觀光官方即時影像頁直接描述觀海橋傍晚亮燈後照映海面，並稱為攝影人眼中的美景。",
+      "sources": [
+        {
+          "title": "交通部觀光署－永安漁港即時影像",
+          "url": "https://www.taiwan.net.tw/m1.aspx?sNo=0042331&uid=25048"
+        },
+        {
+          "title": "桃園觀光導覽網－永安漁港",
+          "url": "https://travel.tycg.gov.tw/zh-tw/multimedia/live-camera/45"
+        }
+      ],
+      "forecast_boundary": "橋體燈景＋水面反射題材存在已驗證；是否點燈與水面條件仍分開判斷。"
+    },
+    "tw-012-P02": {
+      "status": "insufficient_evidence",
+      "grade": null,
+      "subject": "香山潮溝／泥灘淺水反射",
+      "evidence_scope": "新竹市政府香山濕地官方資料可證明潮間帶、泥灘、生態與拍照景觀，但目前未找到直接把『潮溝／泥灘淺水反射』描述為此 Place 的特定攝影題材。",
+      "sources": [
+        {
+          "title": "新竹市政府香山濕地生態網",
+          "url": "https://ssw.hccg.gov.tw/"
+        },
+        {
+          "title": "新竹市政府香山濕地－關於香山濕地",
+          "url": "https://ssw.hccg.gov.tw/about"
+        }
+      ],
+      "forecast_boundary": "潮汐與淺水條件不能代替反射構圖的 Place-specific evidence。"
+    },
+    "tw-015-P02": {
+      "status": "verified",
+      "grade": "A",
+      "subject": "高美濕地淺水天空之鏡",
+      "evidence_scope": "臺中市觀光旅遊網與市政府官方資料直接稱高美濕地為天空之鏡，並描述夕陽天空倒影在水面上的景觀。",
+      "sources": [
+        {
+          "title": "臺中市觀光旅遊網－此生必遊絕美夕陽高美濕地",
+          "url": "https://travel.taichung.gov.tw/zh-tw/tourist/tour/933"
+        },
+        {
+          "title": "臺中市政府－高美濕地馬拉松",
+          "url": "https://www.taichung.gov.tw/1418499/post"
+        }
+      ],
+      "forecast_boundary": "天空之鏡題材存在已驗證；潮位、水深、風與日落條件由 runtime 另行判斷。"
     }
   }
 }
