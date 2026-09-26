@@ -8,6 +8,7 @@ A high-risk semantic trigger without machine-verifiable provenance is
 
 from __future__ import annotations
 
+import argparse
 import json
 import re
 from pathlib import Path
@@ -168,6 +169,14 @@ def build_report():
 
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--enforce",
+        action="store_true",
+        help="Fail if any high-risk Opportunity remains review_required.",
+    )
+    args = parser.parse_args()
+
     report = build_report()
     out = Path("research_evidence_audit.json")
     out.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
@@ -182,6 +191,15 @@ def main():
             row["place"],
             row["name_zh"],
             ",".join(row["risk_classes"]),
+        )
+
+    if args.enforce and report["review_required"]:
+        raise SystemExit(
+            "Evidence admission gate failed: "
+            f"{len(report['review_required'])} high-risk Opportunity(s) lack explicit "
+            "Place-specific provenance/classification. "
+            "Add evidence to runtime_evidence_registry_r4_2.json, add supported "
+            "subject evidence metadata, narrow/rewrite the claim, or remove it."
         )
 
 
