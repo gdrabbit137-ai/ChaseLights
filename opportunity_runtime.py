@@ -92,12 +92,14 @@ MINIMUM_SUFFICIENT_VISIBILITY_PROFILES = {
     "tw-046-P01", "tw-046-P02", "tw-047-P03", "tw-048-P01",
     "tw-049-P01", "tw-050-P01", "tw-051-P02", "tw-057-P01",
     "tw-058-P01", "tw-062-P01", "tw-064-P02", "tw-066-P01",
-    # B33 Hualien flatland forest: a clean, readable tree corridor is the
-    # photographic outcome; firefly events are intentionally not inferred.
-    "tw-084-P01",
     # B28 individually researched geology views: missing geology-light modeling
     # is a refinement/booster, not a hard reason to suppress a clear-view visit.
     "tw-074-P01", "tw-074-P02",
+    # B33 Danongdafu distant valley/mountain composition: unlike the close
+    # forest subjects, long-range visibility is photographically material.
+    "tw-084-P09",
+    # B33 Liyu Lake broad lake/mountain landscape: distant ridge visibility is material.
+    "tw-082-P02",
     # B32: official Otaru photo spot. A clean, readable daytime canal +
     # warehouse scene is itself sufficient; evening managed lighting remains
     # a separate Opportunity and is not inferred from this contract.
@@ -109,6 +111,17 @@ MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES = {
     # scenes. Low cloud and long-range visibility are not hard blockers;
     # material rain and known access closure remain blockers.
     "jp-025-P01", "jp-026-P01",
+    # B33 Hualien flatland forest corridor is a close-range local scene.
+    # Long-range visibility and low cloud are not hard blockers; rain/access
+    # remain blockers. Corridor-light geometry is not yet verified, so this
+    # contract only rates scene usability, not "best forest light".
+    "tw-084-P01", "tw-084-P02", "tw-084-P03", "tw-084-P04",
+    "tw-084-P05", "tw-084-P06", "tw-084-P07", "tw-084-P08",
+    # B33 Liyu Lake: event/ecology/trail/activity subjects are local scenes.
+    "tw-082-P04", "tw-082-P05", "tw-082-P06", "tw-082-P07", "tw-082-P08",
+    # B33 Yun Shan Shui: seasonal vegetation and garden/architecture subjects
+    # are close-range local scenes, not distant visibility contracts.
+    "tw-083-P02", "tw-083-P03", "tw-083-P04", "tw-083-P05",
 }
 
 
@@ -120,13 +133,226 @@ def supports_minimum_sufficient_contract(opportunity):
     )
 
 
-def evaluate_minimum_sufficient_local_scene(opportunity, item_data):
-    """Minimum-sufficient contract for close-range architecture/street scenes.
+HUALIEN_LOCAL_PROFILES = {
+    "tw-082-P04": {"kind": "verified_dates", "dates": {"2026-04-10", "2026-04-11", "2026-04-17", "2026-04-18", "2026-04-24", "2026-04-25", "2026-05-01", "2026-05-02"}, "score_hint": 92, "access_override": True, "presence_unknown": True},
+    "tw-082-P05": {"kind": "wildlife", "score_hint": 74, "presence_unknown": True},
+    "tw-082-P06": {"kind": "verified_ranges_time", "ranges": (("2026-11-28", "2027-01-31"),), "time": ("18:00", "22:00"), "score_hint": 92, "access_override": True},
+    "tw-082-P07": {"kind": "local_scene", "score_hint": 84},
+    "tw-082-P08": {"kind": "activity_presence", "score_hint": 72, "presence_unknown": True},
+    "tw-083-P02": {"kind": "seasonal_months", "months": {10, 11, 12, 1, 2}, "score_hint": 90, "presence_unknown": True},
+    "tw-083-P03": {"kind": "seasonal_months", "months": {4}, "score_hint": 88, "presence_unknown": True},
+    "tw-083-P04": {"kind": "local_scene", "score_hint": 84},
+    "tw-083-P05": {"kind": "local_scene", "score_hint": 82},
+}
 
-    This intentionally does not penalize benign overcast or low cloud. For a
-    lane-scale subject such as Kikuya Yokocho, those variables do not obscure
-    the subject the way they do a mountain/city panorama. Material rain/access
-    problems remain blockers. Theme timing still supplies the daylight gate.
+
+DANONGDAFU_LOCAL_PROFILES = {
+    "tw-084-P01": {"kind": "corridor", "score_hint": 86},
+    "tw-084-P02": {"kind": "seasonal_months", "months": {8, 9, 10}, "score_hint": 88},
+    "tw-084-P03": {"kind": "seasonal_months", "months": {12, 1}, "score_hint": 90},
+    "tw-084-P04": {"kind": "verified_ranges", "ranges": (("2026-02-17", "2026-02-21"),), "score_hint": 90},
+    "tw-084-P05": {"kind": "verified_ranges_time", "ranges": (("2026-03-13", "2026-04-12"),), "time": ("18:30", "20:30"), "score_hint": 92, "access_override": True},
+    "tw-084-P06": {"kind": "verified_dates_time_dark", "dates": {"2026-03-27", "2026-03-28", "2026-04-10", "2026-04-11"}, "time": ("18:30", "20:30"), "score_hint": 90, "access_override": True},
+    "tw-084-P07": {"kind": "wildlife", "score_hint": 74},
+    "tw-084-P08": {"kind": "local_scene", "score_hint": 84},
+}
+
+
+def _iso_date_in_ranges(value, ranges):
+    if not value:
+        return False
+    return any(start <= value <= end for start, end in ranges)
+
+
+def _local_time_in_window(value, window):
+    if not value or not window:
+        return False
+    return str(window[0]) <= str(value) < str(window[1])
+
+
+def evaluate_hualien_local_scene(opportunity, item_data):
+    oid = opportunity.get("opportunity_id")
+    profile = HUALIEN_LOCAL_PROFILES.get(oid)
+    if profile is None:
+        return None
+
+    pop_raw = item_data.get("pop", item_data.get("precipitation_probability"))
+    precip_raw = item_data.get("precipitation", item_data.get("precip"))
+    if pop_raw is None or precip_raw is None:
+        return {
+            "module": "minimum_sufficient_local_scene",
+            "available": False,
+            "eligible": False,
+            "reason": "precipitation_data_missing",
+        }
+
+    pop = max(0.0, min(100.0, float(pop_raw)))
+    precip = max(0.0, float(precip_raw))
+    local_date = str(item_data.get("local_date") or "")
+    local_time = str(item_data.get("local_time") or "")
+    local_month = int(item_data.get("local_month") or 0)
+    kind = profile["kind"]
+
+    gate_ok = True
+    reason = "local_scene_usable"
+    if kind == "seasonal_months":
+        gate_ok = local_month in profile["months"]
+        reason = "season_match" if gate_ok else "outside_curated_season"
+    elif kind == "verified_dates":
+        gate_ok = local_date in profile["dates"]
+        reason = "official_event_date" if gate_ok else "outside_verified_event_date"
+    elif kind == "verified_ranges_time":
+        gate_ok = (
+            _iso_date_in_ranges(local_date, profile["ranges"])
+            and _local_time_in_window(local_time, profile["time"])
+        )
+        reason = "official_event_window" if gate_ok else "outside_verified_event_window"
+
+    access_override = bool(profile.get("access_override") and gate_ok)
+    if item_data.get("access_open") is False and not access_override:
+        eligible, quality, reason, score_hint = False, "blocked", "access_closed", 0
+    elif not gate_ok:
+        eligible, quality, score_hint = False, "inactive", 0
+    elif precip >= 0.5 or pop >= 60:
+        eligible, quality, reason, score_hint = False, "rain_affected", "precipitation_risk", 54
+    else:
+        eligible = True
+        score_hint = int(profile["score_hint"])
+        if kind == "wildlife":
+            quality, reason = "weather_usable_presence_unknown", "wildlife_presence_not_forecastable"
+        elif kind == "activity_presence":
+            quality, reason = "weather_usable_presence_unknown", "subject_presence_not_forecastable"
+        elif profile.get("presence_unknown"):
+            quality = "weather_and_season_usable_presence_unverified"
+        elif precip < 0.1 and pop <= 20:
+            quality = "excellent"
+        else:
+            quality = "good"
+
+    return {
+        "module": "minimum_sufficient_local_scene",
+        "available": True,
+        "eligible": eligible,
+        "reason": reason,
+        "quality": quality,
+        "precipitation_probability": round(pop),
+        "precipitation_mm": round(precip, 2),
+        "score_hint": score_hint,
+        "access_override": access_override,
+        "long_range_visibility_is_not_a_blocker": True,
+        "wildlife_presence_forecastable": False if kind == "wildlife" else None,
+        "subject_presence_forecastable": False if profile.get("presence_unknown") else None,
+        "contract_source": "hualien_official_subject_specific_profile",
+    }
+
+
+def evaluate_danongdafu_local_scene(opportunity, item_data):
+    """Place-specific minimum-sufficient contracts for Danongdafu subjects.
+
+    Close-range forest, foliage, flowers, wildlife and installations deliberately
+    do not inherit the 10 km distant-landscape visibility gate. Seasonal/event
+    Opportunities require their curated season or verified official event state.
+    Wildlife weather can be rated, but actual animal presence is never asserted.
+    """
+    oid = opportunity.get("opportunity_id")
+    profile = DANONGDAFU_LOCAL_PROFILES.get(oid)
+    if profile is None:
+        return None
+
+    pop_raw = item_data.get("pop", item_data.get("precipitation_probability"))
+    precip_raw = item_data.get("precipitation", item_data.get("precip"))
+    if pop_raw is None or precip_raw is None:
+        return {
+            "module": "minimum_sufficient_local_scene",
+            "available": False,
+            "eligible": False,
+            "reason": "precipitation_data_missing",
+        }
+
+    pop = max(0.0, min(100.0, float(pop_raw)))
+    precip = max(0.0, float(precip_raw))
+    local_date = str(item_data.get("local_date") or "")
+    local_time = str(item_data.get("local_time") or "")
+    local_month = item_data.get("local_month")
+    kind = profile["kind"]
+
+    season_or_event_ok = True
+    reason = "local_scene_usable"
+    if kind == "seasonal_months":
+        season_or_event_ok = int(local_month or 0) in profile["months"]
+        reason = "season_match" if season_or_event_ok else "outside_curated_season"
+    elif kind == "verified_ranges":
+        season_or_event_ok = _iso_date_in_ranges(local_date, profile["ranges"])
+        reason = "official_foreground_verified" if season_or_event_ok else "official_foreground_not_verified_for_date"
+    elif kind == "verified_ranges_time":
+        season_or_event_ok = (
+            _iso_date_in_ranges(local_date, profile["ranges"])
+            and _local_time_in_window(local_time, profile["time"])
+        )
+        reason = "official_event_window" if season_or_event_ok else "outside_verified_event_window"
+    elif kind == "verified_dates_time_dark":
+        season_or_event_ok = (
+            local_date in profile["dates"]
+            and _local_time_in_window(local_time, profile["time"])
+            and bool(item_data.get("astronomical_dark"))
+        )
+        reason = "official_stargazing_dark_window" if season_or_event_ok else "outside_verified_stargazing_dark_window"
+
+    access_override = bool(profile.get("access_override") and season_or_event_ok)
+    if item_data.get("access_open") is False and not access_override:
+        eligible, quality, reason, score_hint = False, "blocked", "access_closed", 0
+    elif not season_or_event_ok:
+        eligible, quality, score_hint = False, "inactive", 0
+    elif precip >= 0.5 or pop >= 60:
+        eligible, quality, reason, score_hint = False, "rain_affected", "precipitation_risk", 54
+    else:
+        eligible = True
+        score_hint = int(profile["score_hint"])
+        if kind == "wildlife":
+            quality, reason = "weather_usable_presence_unknown", "wildlife_presence_not_forecastable"
+        elif precip < 0.1 and pop <= 20:
+            quality = "excellent"
+        else:
+            quality = "good"
+
+    return {
+        "module": "minimum_sufficient_local_scene",
+        "available": True,
+        "eligible": eligible,
+        "reason": reason,
+        "quality": quality,
+        "precipitation_probability": round(pop),
+        "precipitation_mm": round(precip, 2),
+        "score_hint": score_hint,
+        "access_override": access_override,
+        "cloud_cover_is_not_a_blocker": oid != "tw-084-P06",
+        "long_range_visibility_is_not_a_blocker": True,
+        "wildlife_presence_forecastable": False if oid == "tw-084-P07" else None,
+        "lighting_geometry_verified": False if oid == "tw-084-P01" else None,
+        "lighting_geometry_note": (
+            "forest_corridor_direction_and_canopy_geometry_not_yet_verified"
+            if oid == "tw-084-P01" else None
+        ),
+        "contract_source": "danongdafu_official_subject_specific_profile",
+    }
+
+
+def evaluate_minimum_sufficient_local_scene(opportunity, item_data):
+    hualien = evaluate_hualien_local_scene(opportunity, item_data)
+    if hualien is not None:
+        return hualien
+
+    danongdafu = evaluate_danongdafu_local_scene(opportunity, item_data)
+    if danongdafu is not None:
+        return danongdafu
+
+    """Minimum-sufficient contract for close-range local scenes.
+
+    This intentionally does not penalize benign overcast, low cloud, or
+    long-range visibility. For lane/corridor-scale subjects those variables do
+    not obscure the subject the way they do a mountain/city panorama. Material
+    rain/access problems remain blockers. Theme timing still supplies the
+    daylight gate. Place-specific light geometry is a separate concern.
     """
     pop_raw = item_data.get("pop", item_data.get("precipitation_probability"))
     precip_raw = item_data.get("precipitation", item_data.get("precip"))
@@ -161,6 +387,12 @@ def evaluate_minimum_sufficient_local_scene(opportunity, item_data):
         "score_hint": score_hint,
         "cloud_cover_is_not_a_blocker": True,
         "long_range_visibility_is_not_a_blocker": True,
+        "lighting_geometry_verified": opportunity.get("opportunity_id") != "tw-084-P01",
+        "lighting_geometry_note": (
+            "forest_corridor_direction_and_canopy_geometry_not_yet_verified"
+            if opportunity.get("opportunity_id") == "tw-084-P01"
+            else None
+        ),
         "contract_source": "manually_curated_place_specific_profile",
     }
 
@@ -1053,7 +1285,13 @@ def validate_runtime_registry():
     errors.extend(validate_marine_state_registry())
     errors.extend(validate_tide_state_registry())
     errors.extend(validate_access_registry())
-    if set(MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES) != {"jp-025-P01", "jp-026-P01"}:
+    if set(MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES) != {
+        "jp-025-P01", "jp-026-P01",
+        "tw-084-P01", "tw-084-P02", "tw-084-P03", "tw-084-P04",
+        "tw-084-P05", "tw-084-P06", "tw-084-P07", "tw-084-P08",
+        "tw-082-P04", "tw-082-P05", "tw-082-P06", "tw-082-P07", "tw-082-P08",
+        "tw-083-P02", "tw-083-P03", "tw-083-P04", "tw-083-P05",
+    }:
         errors.append(
             "unexpected minimum-sufficient local-scene registry: "
             f"{sorted(MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES)}"
