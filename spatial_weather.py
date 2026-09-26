@@ -6,6 +6,11 @@ Open-Meteo supplies each point's DEM elevation and hourly weather. The evaluator
 then asks whether the camera is relatively clear while multiple materially lower
 terrain samples show low-cloud/fog evidence.
 
+Under RESEARCH_EVIDENCE_SPEC_R4_2 this spatial/vertical result may establish the
+forecast-derived environmental condition "cloud layer below camera" for cloud-sea
+classification. It still does not prove an exact foreground composition, scenic
+quality, access, or a verified photographic target zone.
+
 The ring is an environmental proxy, not a verified photographic target zone.
 That limitation is returned in every diagnostic.
 """
