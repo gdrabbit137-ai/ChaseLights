@@ -17,16 +17,26 @@ Initial calibrated baseline:
 - review_required high-risk: 76
 - lower-risk legacy: 173
 
-After Batch 01A evidence backfill:
+After Mist / Cloud-Sea Batches 01A–01D:
 
 - Opportunities: 251
-- documented high-risk: 7
-- review_required high-risk: 71
+- documented high-risk: 18
+- narrow_scope: 3
+- insufficient_evidence: 5
+- remove_or_rewrite: 0
+- review_required high-risk: 52
 - lower-risk legacy: 173
 
-Batch 01A newly verified five cloud-sea Opportunities: tw-001-P02, tw-004-P03, tw-008-P03, tw-014-P02, tw-019-P04.
+Key verified examples now include 大屯山、不厭亭雲海、硬漢嶺、雲洞山莊、合歡主峰、金龍山、武界、二延平、祝山、見晴、六十石山、北大武山與二寮。
 
-The low documented count primarily reflects historical catalog schema: older Opportunities were researched before explicit provenance fields were standardized. B36 converts that historical research debt into a review queue.
+Key conservative outcomes:
+- 不厭亭一般山谷雲霧：insufficient_evidence（雲海證據不可橫向借用）
+- 抹茶山雲霧層巒：insufficient_evidence
+- 松蘿湖晨霧：insufficient_evidence
+- 頂石棹雲海：insufficient_evidence
+- 桃山雲海：insufficient_evidence
+- 排雲山莊／奇萊主稜精確雲海構圖：narrow_scope
+
 
 ## Review queue by risk class
 
