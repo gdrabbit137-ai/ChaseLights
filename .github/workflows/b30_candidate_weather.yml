@@ -3,6 +3,28 @@ name: B30 Taiwan Candidate Weather QA
 # R4.2 navigation-target schema v10 regression
 
 on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "regions.py"
+      - "analyze_weather.py"
+      - "fetch_data.py"
+      - "opportunities.py"
+      - "runtime_catalog_manifest_r4_2.json"
+      - "opportunity_runtime.py"
+      - "runtime_dependencies.py"
+      - "spatial_weather.py"
+      - "marine_state.py"
+      - "tide_state.py"
+      - "access_state.py"
+      - "taxonomy_v004.py"
+      - "runtime_catalog_v004_r4_2_b28_additions.json"
+      - "runtime_catalog_v004_r4_2_b32_jp_batch01.json"
+      - "runtime_catalog_v004_r4_2_b33_hualien_additions.json"
+      - "runtime_catalog_v004_r4_2_b34_liushishishan_additions.json"
+      - "runtime_catalog_v004_r4_2_b35_liyu_subjects.json"
+      - ".github/workflows/b30_candidate_weather.yml"
   push:
     branches:
       - r4.2-b28-p0-missing-places
@@ -18,6 +40,7 @@ on:
       - "analyze_weather.py"
       - "fetch_data.py"
       - "opportunities.py"
+      - "runtime_catalog_manifest_r4_2.json"
       - "opportunity_runtime.py"
       - "runtime_dependencies.py"
       - "spatial_weather.py"
