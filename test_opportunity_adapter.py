@@ -187,7 +187,7 @@ def test_adapter_integrity():
         "hold": 2,
         "data_insufficient": 2,
     }
-    assert len(MINIMUM_SUFFICIENT_VISIBILITY_PROFILES) == 62
+    assert len(MINIMUM_SUFFICIENT_VISIBILITY_PROFILES) == 61
 
     hualien = {spot["spot_id"]: spot for spot in tw if spot["spot_id"] in {"tw-082", "tw-083", "tw-084"}}
     assert {sid: spot["name_i18n"]["zh-TW"] for sid, spot in hualien.items()} == {
