@@ -9,6 +9,7 @@ on:
       - r4.2-b33-hualien-places
       - r4.2-b32-jp025-hagi
       - codex/jp026
+      - codex/b34-liushishishan
     paths:
       - "index.html"
       - "regions.py"
@@ -22,6 +23,7 @@ on:
       - "yahiko_access.py"
       - "runtime_catalog_v004_r4_2_b32_jp_batch01.json"
       - "runtime_catalog_v004_r4_2_b33_hualien_additions.json"
+      - "runtime_catalog_v004_r4_2_b34_liushishishan_additions.json"
       - ".github/workflows/b30_browser_smoke.yml"
   workflow_dispatch:
 
