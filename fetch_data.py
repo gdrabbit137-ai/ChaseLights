@@ -1116,6 +1116,9 @@ def _build_opportunity_runtime_diagnostics(spot, item_data):
                 "minimum_sufficient": True,
                 "minimum_sufficient_score_hint": simple.get("score_hint"),
                 "access_override": bool(simple.get("access_override")),
+                "long_range_visibility_is_not_a_blocker": bool(simple.get("long_range_visibility_is_not_a_blocker")),
+                "mist_visibility_km": simple.get("mist_visibility_km"),
+                "mist_signal": simple.get("mist_signal"),
                 "modules": {simple_module: simple},
             }
         else:
@@ -1180,6 +1183,26 @@ def _score_opportunity(opportunity, theme_metric, runtime_diagnostic, lang="zh-T
                 # a quality penalty. Do not let the legacy mountain-view
                 # compatibility baseline suppress that verified outcome.
                 score = max(score, int(round(float(score_hint))))
+            if diag.get("long_range_visibility_is_not_a_blocker"):
+                # Remove legacy long-range visibility penalties from the user-facing
+                # explanation when this researched close-range subject explicitly
+                # does not depend on distant clarity.
+                factors = [f for f in factors if f.get("key") != "vis_low"]
+                if diag.get("mist_visibility_km") is not None and diag.get("mist_signal"):
+                    mist_km = diag.get("mist_visibility_km")
+                    mist_text = {
+                        "zh-TW": f"低能見度約 {mist_km:.1f} km，符合湖岸霧景條件",
+                        "en": f"Visibility around {mist_km:.1f} km supports a lakeside-mist scene",
+                        "ja": f"視程約 {mist_km:.1f} kmで湖岸の霧景条件に適合",
+                    }.get(lang, f"Visibility around {mist_km:.1f} km supports a lakeside-mist scene")
+                    factors.append({"type": "plus", "key": "mist_subject", "value": mist_km, "text": mist_text})
+                elif any(f.get("key") == "vis_low" for f in (theme_metric or {}).get("factors", []) or []):
+                    local_text = {
+                        "zh-TW": "此為近景題材，長距離能見度不是主要限制",
+                        "en": "This is a close-range subject; long-range visibility is not a primary limiter",
+                        "ja": "近景主体のため、長距離の視程は主要な制約ではありません",
+                    }.get(lang, "This is a close-range subject; long-range visibility is not a primary limiter")
+                    factors.append({"type": "plus", "key": "local_scene_visibility", "value": None, "text": local_text})
             if temporal_eligible is False:
                 status_key = indicator_key = "OPPORTUNITY_OUTSIDE_TIME_WINDOW"
                 condition_state = "minimum_sufficient_weather_match_outside_time_window"
