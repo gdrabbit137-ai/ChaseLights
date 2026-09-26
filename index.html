@@ -258,7 +258,7 @@
       box-shadow: 0 4px 6px -1px rgba(0,0,0,0.3);
       border: 1px solid #334155;
       cursor: pointer;
-      transition: transform 0.2s ease, border-color 0.2s ease;
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease, background-color .18s ease;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -266,7 +266,15 @@
       height: 100%;
       box-sizing: border-box;
     }
-    .card:hover { transform: translateY(-2px); border-color: var(--accent); }
+    @media (hover:hover) and (pointer:fine) {
+      .card:hover {
+        transform:translateY(-2px);
+        border-color:rgba(56,189,248,.72);
+        box-shadow:0 8px 18px -6px rgba(0,0,0,.5);
+        background:#202b3d;
+      }
+    }
+    .card:active { transform:translateY(0) scale(.995); }
     .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; padding-right: 28px; }
     
     /* 雙語景點名稱獨立兩排排版樣式 */
@@ -367,9 +375,10 @@
       .card-footer-tools { margin-top: 9px; }
     }
     
-    .card-footer-tools { margin-top: 12px; padding-top: 8px; border-top: 1px dashed #334155; display: flex; justify-content: space-between; align-items: center; }
-    .tool-link { font-size: 0.78rem; color: var(--accent); text-decoration: none; background: #0f172a; padding: 3px 8px; border-radius: 4px; border: 1px solid #334155; transition: background 0.2s ease; }
-    .tool-link:hover { background: #334155; }
+    .card-footer-tools { margin-top: 12px; padding-top: 8px; border-top: 1px dashed #334155; display: flex; justify-content: space-between; align-items: center; cursor:default; }
+    .tool-link { font-size: 0.78rem; color: var(--accent); text-decoration: none; background: #0f172a; padding: 3px 8px; border-radius: 4px; border: 1px solid #334155; cursor:pointer; transition: background .18s ease, border-color .18s ease, color .18s ease, transform .12s ease; }
+    .tool-link:hover { background:#334155; border-color:#64748b; color:#7dd3fc; }
+    .tool-link:active { transform:translateY(1px); }
     .tool-link.disabled { color:#64748b; cursor:not-allowed; opacity:.75; }
     .tool-link.disabled:hover { background:#0f172a; }
 
