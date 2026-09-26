@@ -209,10 +209,10 @@ def evaluate_hualien_local_scene(opportunity, item_data):
         reason = "official_event_window" if gate_ok else "outside_verified_event_window"
 
     access_override = bool(profile.get("access_override") and gate_ok)
-    if item_data.get("access_open") is False and not access_override:
-        eligible, quality, reason, score_hint = False, "blocked", "access_closed", 0
-    elif not gate_ok:
+    if not gate_ok:
         eligible, quality, score_hint = False, "inactive", 0
+    elif item_data.get("access_open") is False and not access_override:
+        eligible, quality, reason, score_hint = False, "blocked", "access_closed", 0
     elif precip >= 0.5 or pop >= 60:
         eligible, quality, reason, score_hint = False, "rain_affected", "precipitation_risk", 54
     else:
