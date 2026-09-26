@@ -1019,8 +1019,16 @@
       await refreshSummary(region,url,seq,activeLoadController,false);
     }
 
-    function dayIndex(){return currentDayFilter==='tomorrow'?1:currentDayFilter==='after_tomorrow'?2:0;}
-    function getMetric(spot){const day=(spot.daily||[])[dayIndex()];if(!day)return null;return day.all||null;}
+    function selectedDayOffset(){return currentDayFilter==='tomorrow'?1:currentDayFilter==='after_tomorrow'?2:0;}
+    function localDateString(timeZone,offsetDays=0){
+      const parts=new Intl.DateTimeFormat('en-CA',{timeZone:timeZone||'UTC',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());
+      const values=Object.fromEntries(parts.map(p=>[p.type,p.value]));
+      const base=new Date(Date.UTC(Number(values.year),Number(values.month)-1,Number(values.day)+offsetDays));
+      return `${base.getUTCFullYear()}-${String(base.getUTCMonth()+1).padStart(2,'0')}-${String(base.getUTCDate()).padStart(2,'0')}`;
+    }
+    function selectedDateForSpot(spot){return localDateString(spot?.timezone||'UTC',selectedDayOffset());}
+    function currentDayForSpot(spot){const target=selectedDateForSpot(spot);return (spot.daily||[]).find(day=>day?.date===target)||null;}
+    function getMetric(spot){const day=currentDayForSpot(spot);if(!day)return null;return day.all||null;}
     function fmtWindow(m){if(!m)return'N/A';const a=m.window_start,b=m.window_end,tz=m.timezone_abbr||'';if(!a||!b)return m.best_time||'N/A';const [ad,at]=a.split(' '),[bd,bt]=b.split(' ');const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');return ad===bd?`${ad2} ${at}–${bt} ${tz}`:`${ad2} ${at} → ${bd2} ${bt} ${tz}`;}
     function astroText(m,theme){if(!m?.astronomy_valid)return'';const parts=[];if(['sunrise','sunset','sky_glow','blue_hour'].includes(theme)&&m.sun_elevation!=null)parts.push(`☀️ ${Math.round(m.sun_azimuth)}° / ${Math.round(m.sun_elevation)}°`);if(theme==='milky_way'){if(m.moon_illumination!=null)parts.push(`🌙 ${Math.round(m.moon_illumination)}%`);if(m.galactic_core_elevation!=null)parts.push(`🌌 ${Math.round(m.galactic_core_azimuth)}° / ${Math.round(m.galactic_core_elevation)}°`);}if(theme==='aurora'&&m.kp!=null)parts.push(`🌌 Kp ${m.kp}`);return parts.join(' · ');}
     function darkSkyText(spot,theme){if(!['milky_way','aurora'].includes(theme)||!spot?.bortle_class)return'';const b=spot.bortle_class;const qual=b<=2?'★★★★★':b<=4?'★★★★☆':b<=5?'★★★☆☆':b<=7?'★★☆☆☆':'★☆☆☆☆';return `🌌 ≈Bortle ${b} · ${qual}`;}
@@ -1075,7 +1083,6 @@
     }
 
     function opportunityScoreClass(score){return score>=80?'high':score>=65?'mid':'low';}
-    function currentDayForSpot(spot){return (spot.daily||[])[dayIndex()]||null;}
     function openPlaceModal(spot,summaryMetric){
       const overlay=document.getElementById('place-modal-overlay');
       const body=document.getElementById('place-modal-body');
@@ -1146,7 +1153,7 @@
     }
     function renderWeatherModal(spot,summaryMetric){
       activeModalSpot=spot;activeModalSummary=summaryMetric;
-      const day=(spot.daily||[])[dayIndex()]||null;const activeTheme=summaryMetric?.theme||'mountain_view';const activeOpportunityId=summaryMetric?.opportunity_id||null;const activeOpportunityName=summaryMetric?.opportunity_name||themeLabel(activeTheme);const selectedDate=(currentSpots.find(x=>x.spot_id===spot.spot_id)?.daily||[])[dayIndex()]?.date;
+      const day=currentDayForSpot(spot);const activeTheme=summaryMetric?.theme||'mountain_view';const activeOpportunityId=summaryMetric?.opportunity_id||null;const activeOpportunityName=summaryMetric?.opportunity_name||themeLabel(activeTheme);const selectedDate=selectedDateForSpot(currentSpots.find(x=>x.spot_id===spot.spot_id)||spot);
       const darkSky=darkSkyText(spot,activeTheme);document.getElementById('modal-summary').innerHTML=`<div class="modal-summary-main">${d().best_theme}${esc(activeOpportunityName)}</div><div class="modal-summary-window">${d().best_window}${fmtWindow(summaryMetric)}</div>${darkSky?`<div class="modal-summary-extra">${darkSky}</div>`:''}`;
       const isAurora=activeTheme==='aurora',thead=document.getElementById('timeline-head'),tbody=document.getElementById('timeline-body'),mobile=document.getElementById('timeline-mobile');thead.innerHTML=`<tr><th>${d().th_time}</th><th>${d().th_theme}</th><th>${d().th_score}</th><th>${d().th_status}</th>${isAurora?`<th>${d().th_kp}</th>`:''}<th class="key-metric">${d().th_cloud_base}</th><th>${d().th_temp} (${tempUnitLabel()})</th><th>${d().th_rh}</th><th class="key-metric">${d().th_clow}</th><th>${d().th_cmid}</th><th>${d().th_chigh}</th><th>${d().th_wind}</th><th class="key-metric">${d().th_vis}</th><th>${d().th_astro}</th></tr>`;tbody.innerHTML='';mobile.innerHTML='';
       (spot.hourly_forecast||[]).forEach(item=>{const metrics=(activeOpportunityId&&item.opportunity_scores?.[activeOpportunityId])||item.theme_scores?.[activeTheme]||item.tag_scores?.[activeTheme];if(!metrics)return;const isBest=!!(selectedDate&&item.local_date===selectedDate&&summaryMetric?.window_start&&item.time>=summaryMetric.window_start&&item.time<summaryMetric.window_end);const rowClass=isBest?'best-row':(item.is_past?'past-row':'');const tr=document.createElement('tr');tr.className=rowClass;const astro=astroText(item,activeTheme);tr.innerHTML=`<td>${item.time}${item.is_past?' <span class="tag-past">HIST</span>':''}${isBest?` <span class="tag-best">${esc(d().tag_best)}</span>`:''}</td><td>${esc(activeOpportunityName)}</td><td><span class="timeline-score-badge ${opportunityScoreClass(Number(metrics.score))}">${metrics.score}</span></td><td>${trMessage(metrics.status_key)}</td>${isAurora?`<td>${item.kp??'—'}</td>`:''}<td class="key-metric">${item.cloud_base_agl??'—'}m</td><td>${formatTemp(item.temp)}</td><td>${item.rh??'—'}%</td><td class="key-metric">${item.c_low??'—'}%</td><td>${item.c_mid??'—'}%</td><td>${item.c_high??'—'}%</td><td>${item.wind??'—'}m/s</td><td class="key-metric">${item.visibility??'—'}km</td><td>${astro||'—'}</td>`;tbody.appendChild(tr);
