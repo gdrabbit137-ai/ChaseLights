@@ -482,7 +482,7 @@ def main():
         )
 
     base_meta = {
-        "schema_version": 10,
+        "schema_version": 11,
         "updated_at": now_utc_str,
         "region": region,
         "latest_kp": kp_info.get("kp_index") if kp_info else None,
