@@ -14,10 +14,10 @@
     "runtime_catalog_v004_r4_2_b35_liyu_subjects.json"
   ],
   "counts": {
-    "spots": 148,
-    "opportunities": 320,
-    "condition_variants": 335,
-    "profile_viewpoint_relations": 326
+    "spots": 153,
+    "opportunities": 326,
+    "condition_variants": 341,
+    "profile_viewpoint_relations": 332
   },
   "spots": [
     {
@@ -15654,6 +15654,416 @@
               "geometry_type": "area",
               "geometry_extent_m": 650,
               "geometry_note": "Adler Planetarium外部與Solidarity Drive公共湖岸步行區。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-031",
+      "canonical_name": "落磯山國家公園",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B70_US_RESEARCH_BATCH07",
+      "research_sources": [
+        {
+          "authority": "U.S. National Park Service — Sprague Lake",
+          "url": "https://www.nps.gov/places/sprague-lake.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS classifies Sprague Lake as a Scenic View/Photo Spot and directly describes scenic views of the lake and Continental Divide from the public loop trail."
+        },
+        {
+          "authority": "U.S. National Park Service — Exploring the Bear Lake Road Corridor",
+          "url": "https://www.nps.gov/romo/planyourvisit/exploring-the-bear-lake-road-corridor.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS states the east shoreline offers stunning lake and Continental Divide views and that benches/lookouts along the accessible loop provide photo opportunities."
+        },
+        {
+          "authority": "U.S. National Park Service — 2026 Timed Entry + Bear Lake Road",
+          "url": "https://www.nps.gov/places/rmnp-timed-entry-%2B-bear-lake-road.htm",
+          "verified_on": "2026-09-27",
+          "supports": "For 2026, Timed Entry + Bear Lake Road reservations are required to enter the Bear Lake Road Corridor from 05:00 to 18:00 daily May 22 through October 18; Sprague Lake is explicitly included."
+        },
+        {
+          "authority": "Colorado DNR / Colorado Parks and Wildlife — COTREX Sprague Lake Trailhead",
+          "url": "https://trails.colorado.gov/trailheads/sprague-lake-1969",
+          "verified_on": "2026-09-27",
+          "supports": "State-managed COTREX identifies the Sprague Lake Trailhead and publishes the practical trailhead coordinate 40.320324, -105.609."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-031-P01",
+          "spot_id": "us-031",
+          "name_zh": "Sprague Lake・Continental Divide山景與湖面",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_dynamic_access_visibility_module",
+          "formula_version": "v0.04-rmnp-sprague-access-visibility-pending",
+          "formula_confidence": 97,
+          "best_time": "Bear Lake Road實際可進入且湖面／Continental Divide可見時；2026年特定日期時段需Timed Entry + Bear Lake Road reservation",
+          "best_season": "全年題材成立；2026年5/22–10/18的05:00–18:00 Bear Lake Road進入需依官方Timed Entry規則，冬季另受道路／天候影響",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-244",
+              "variant_name": "Sprague Lake＋Continental Divide山景",
+              "condition_geometry": "{\"camera_zone\":\"Sprague Lake east-shore / loop Camera Zone\",\"subject\":\"Sprague Lake + Continental Divide mountain skyline\"}",
+              "hard_gates": "Sprague Lake／Bear Lake Road當下合法可達；需要預約的日期／時段必須符合官方Timed Entry + Bear Lake Road規則；不得由好天氣或月份推定可進入",
+              "required_conditions": "湖面與Continental Divide主要山稜清楚可辨；能見度足夠",
+              "boosters": "平靜湖面可形成倒影；晨間柔光；高透明度；秋色／積雪只能作現況加分，不由月份保證",
+              "penalties": "進入資格／道路狀態不符；低雲／霧封山；強降水；煙霧造成低能見度",
+              "formula_status": "needs_dynamic_access_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-031-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS identifies Sprague Lake as a Scenic View/Photo Spot and explicitly supports lake + Continental Divide photographs. B70 replaces the broad RMNP inventory coordinate with the actual Sprague Lake Camera Zone/weather sample. Reflection remains a booster, not a hard water-surface requirement.",
+              "name": "Sprague Lake East-shore / Loop Camera Zone",
+              "lat": 40.320586,
+              "lon": -105.604813,
+              "coord_confidence": "high",
+              "verification_status": "official_nps_sprague_lake_exact_location_and_photo_subject",
+              "geometry_type": "area",
+              "geometry_extent_m": 650,
+              "geometry_note": "Sprague Lake 0.7–0.8 mile public loop與東岸觀景／休憩點；不宣稱單一腳架位置。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-032",
+      "canonical_name": "紐奧良法國區",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B70_US_RESEARCH_BATCH07",
+      "research_sources": [
+        {
+          "authority": "New Orleans & Company — French Quarter Architecture",
+          "url": "https://www.neworleans.com/plan/neighborhoods/french-quarter/architecture/",
+          "verified_on": "2026-09-27",
+          "supports": "Official destination guidance describes the French Quarter's cast-iron balconies, walled courtyards, Creole cottages and townhouses as a distinctive historic architectural collection."
+        },
+        {
+          "authority": "New Orleans & Company — Royal Street",
+          "url": "https://www.neworleans.com/plan/streets/royal-street/",
+          "verified_on": "2026-09-27",
+          "supports": "Official destination guidance identifies Royal Street as a historic French Quarter street of antique shops, galleries, hotels and characteristic architecture."
+        },
+        {
+          "authority": "New Orleans & Company — French Quarter self-guided walk",
+          "url": "https://www.neworleans.com/plan/neighborhoods/self-guided-new-orleans-neighborhood-walking-tours/self-guided-french-quarter-walking-tours/",
+          "verified_on": "2026-09-27",
+          "supports": "Official walking guide explicitly frames the French Quarter as picturesque and identifies St. Louis Cathedral, Jackson Square, Royal Street and historic architecture as representative public exterior subjects."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-032-P01",
+          "spot_id": "us-032",
+          "name_zh": "French Quarter・Royal Street／Jackson Square歷史街景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "minimum_sufficient_local_scene",
+          "formula_version": "v0.04-local-scene-daylight-minimum-sufficient",
+          "formula_confidence": 95,
+          "best_time": "白天至暮色前後；以公共街道／廣場實際可使用狀態為準",
+          "best_season": "全年；Mardi Gras、節慶裝飾與特別活動不是本Opportunity的保證題材",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-245",
+              "variant_name": "Royal Street／Jackson Square歷史建築與街景",
+              "condition_geometry": "{\"camera_zone\":\"French Quarter public street / Jackson Square exterior Camera Zone\",\"subject\":\"Royal Street / Jackson Square + St. Louis Cathedral + historic French Quarter architecture\"}",
+              "hard_gates": "僅使用合法公共街道／廣場範圍；私人庭院／室內與專業商業拍攝須遵守各場域許可",
+              "required_conditions": "代表性建築立面與街景清楚可辨；無足以妨礙步行手持攝影的強降水",
+              "boosters": "暮色暖光；較低人流；濕地面反光；街頭表演僅作現場加分，不保證出現",
+              "penalties": "強降水；施工／臨時封路遮擋主要街景；過度壅擠",
+              "formula_status": "minimum_sufficient_local_scene"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-032-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official New Orleans tourism material supports Royal Street, Jackson Square, St. Louis Cathedral and French Quarter architecture as public exterior subjects. This is a walkable-area Opportunity, not a single tripod composition.",
+              "name": "French Quarter Historic Streets Camera Zone",
+              "lat": 29.958611,
+              "lon": -90.065,
+              "coord_confidence": "high",
+              "verification_status": "official_destination_historic_streetscape_subject_plus_existing_district_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 950,
+              "geometry_note": "Royal Street、Jackson Square周邊及法國區合法公共街道／廣場；私人場域另依規則。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-033",
+      "canonical_name": "丹佛天際線",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B70_US_RESEARCH_BATCH07",
+      "research_sources": [
+        {
+          "authority": "VISIT DENVER — Best Places to Take Pictures in Denver",
+          "url": "https://visitdenver.com/denver_org/visitdenver_com/things-to-do/itineraries/photo-opportunities/",
+          "verified_on": "2026-09-27",
+          "supports": "Official destination guide identifies City Park as an exceptional panorama of Denver's skyline framed by the Rocky Mountain Front Range and explicitly recommends the magic hour before dusk as the sun descends behind the mountains."
+        },
+        {
+          "authority": "VISIT DENVER — City Park",
+          "url": "https://visitdenver.com/things-to-do/sports-recreation/city-parks/",
+          "verified_on": "2026-09-27",
+          "supports": "Official destination guide states City Park has unbeatable views of the Mile High City skyline and Rocky Mountains beyond."
+        },
+        {
+          "authority": "City and County of Denver — Park Rangers / park hours",
+          "url": "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Parks-Recreation/Urban-Parks-Trails/Park-Rangers",
+          "verified_on": "2026-09-27",
+          "supports": "Denver Parks & Recreation publishes urban-park hours of 05:00–23:00 and states no park access is allowed when closed except on through roads or trails."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-033-P01",
+          "spot_id": "us-033",
+          "name_zh": "City Park／Ferril Lake・Denver skyline＋Rocky Mountains日落",
+          "legacy_theme": "sunset",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04-directional-horizon-visibility-preview",
+          "formula_confidence": 97,
+          "best_time": "日落前約1小時至日落後短時間；需在Denver urban park 05:00–23:00開放時段內",
+          "best_season": "全年；Rocky Mountain Front Range積雪等季節外觀只作現況加分",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-246",
+              "variant_name": "City Park湖景＋Denver skyline＋Rocky Mountains夕照",
+              "condition_geometry": "{\"camera_zone\":\"City Park / Ferril Lake east-side Camera Zone\",\"target\":\"west-facing Denver skyline + Rocky Mountain Front Range + sunset\"}",
+              "hard_gates": "City Park公共區域在官方05:00–23:00開放時段內；日落時段有效",
+              "required_conditions": "Denver skyline與Rocky Mountain Front Range主要層次可辨；日落方向有效；能見度足夠",
+              "boosters": "高透明度；薄雲夕彩；Ferril Lake前景／倒影；雪峰清晰但不作季節硬條件",
+              "penalties": "濃霧／低雲遮山或城市；強降水；煙霾；能見度過低",
+              "formula_status": "needs_directional_horizon_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-033-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "VISIT DENVER directly identifies City Park as a skyline + Rocky Mountains photo panorama and recommends magic hour before dusk. B70 moves the Place/weather anchor from downtown Denver to the actual City Park/Ferril Lake photographic area.",
+              "name": "City Park／Ferril Lake Skyline Camera Zone",
+              "lat": 39.7461222,
+              "lon": -104.9490116,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_destination_city_park_skyline_subject_plus_usgs_geonames_ferril_lake_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 850,
+              "geometry_note": "City Park Ferril Lake周邊合法公共步行／草地觀景區；不宣稱唯一腳架點。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-034",
+      "canonical_name": "聖路易斯大拱門",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B70_US_RESEARCH_BATCH07",
+      "research_sources": [
+        {
+          "authority": "U.S. National Park Service — Gateway Arch Park Attractions",
+          "url": "https://home.nps.gov/jeff/learn/news/gateway-arch-park-attractions.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS describes curving paths and many viewpoints across the Arch grounds and states the grounds make a stunning backdrop for photographs of the Arch in all seasons."
+        },
+        {
+          "authority": "U.S. National Park Service — Gateway Arch Operating Hours",
+          "url": "https://www.nps.gov/jeff/planyourvisit/hours.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS publishes Gateway Arch park-grounds hours of 05:00–23:00 year-round while indoor visitor-center and tram hours are separate."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-034-P01",
+          "spot_id": "us-034",
+          "name_zh": "Gateway Arch grounds・拱門與公園城市構圖",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "minimum_sufficient_local_scene",
+          "formula_version": "v0.04-local-scene-daylight-minimum-sufficient",
+          "formula_confidence": 96,
+          "best_time": "05:00–23:00 grounds開放時段內的可見光；晨昏光線可加分但不是硬條件",
+          "best_season": "全年；NPS明確指出各季節皆可形成Arch攝影背景",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-247",
+              "variant_name": "Gateway Arch＋園區步道／草地／水景構圖",
+              "condition_geometry": "{\"camera_zone\":\"Gateway Arch National Park grounds public Camera Zone\",\"subject\":\"Gateway Arch + park grounds / city / river context\"}",
+              "hard_gates": "Arch grounds公共區域在官方05:00–23:00開放時段內；室內visitor center／tram票券狀態不得套用到外部grounds拍攝",
+              "required_conditions": "Gateway Arch主要結構清楚可辨；無足以妨礙步行攝影的強降水",
+              "boosters": "晨昏暖光；池面／濕地反光；季節植栽；乾淨天空",
+              "penalties": "強降水；濃霧使拱門不可辨；臨時安全封閉",
+              "formula_status": "minimum_sufficient_local_scene"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-034-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS explicitly states the grounds provide multiple viewpoints and a photographic backdrop for the Arch. Existing high-confidence Arch POI remains a representative area anchor; no unique tripod location is asserted.",
+              "name": "Gateway Arch Grounds Camera Zone",
+              "lat": 38.6246,
+              "lon": -90.185,
+              "coord_confidence": "high",
+              "verification_status": "official_nps_arch_grounds_photo_subject_plus_existing_high_confidence_poi",
+              "geometry_type": "area",
+              "geometry_extent_m": 900,
+              "geometry_note": "Gateway Arch National Park公共grounds、步道與草地觀景範圍；室內設施另有獨立開放契約。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-035",
+      "canonical_name": "沃斯堡牲畜市場",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B70_US_RESEARCH_BATCH07",
+      "research_sources": [
+        {
+          "authority": "Fort Worth Stockyards — History",
+          "url": "https://www.fortworthstockyards.org/history",
+          "verified_on": "2026-09-27",
+          "supports": "Official Stockyards history documents the preserved National Historical District, Livestock Exchange Building, Coliseum and brick-street western character."
+        },
+        {
+          "authority": "Fort Worth Stockyards — Livestock Exchange Building",
+          "url": "https://www.fortworthstockyards.org/business/livestock-exchange-building",
+          "verified_on": "2026-09-27",
+          "supports": "Official Stockyards page identifies the 1902 Livestock Exchange Building at 131 East Exchange Avenue as a central historic landmark, formerly known as the Wall Street of the West."
+        },
+        {
+          "authority": "Fort Worth Stockyards — Cattle Drive Times & Locations",
+          "url": "https://www.fortworthstockyards.org/faq/cattle-drive-times-locations",
+          "verified_on": "2026-09-27",
+          "supports": "Official guidance publishes twice-daily Fort Worth Herd cattle drives at 11:30 and 16:00, weather permitting, with the best public viewing in front of the Livestock Exchange Building at 131 East Exchange Avenue."
+        },
+        {
+          "authority": "Fort Worth Stockyards — 2026 Fort Worth Herd event",
+          "url": "https://www.fortworthstockyards.org/events/fort-worth-herd-twice-daily-cattle-drive",
+          "verified_on": "2026-09-27",
+          "supports": "Current 2026 event listing confirms daily cattle-drive times, public viewing locations, weather/site-change cancellations and no drives on Easter Sunday, Thanksgiving or Christmas."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-035-P01",
+          "spot_id": "us-035",
+          "name_zh": "Fort Worth Stockyards・Exchange Avenue歷史西部街景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "minimum_sufficient_local_scene",
+          "formula_version": "v0.04-local-scene-daylight-minimum-sufficient",
+          "formula_confidence": 95,
+          "best_time": "白天至暮色；以Exchange Avenue公共街區實際可使用狀態為準",
+          "best_season": "全年；節慶／活動佈置不由月份自動推定",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-248",
+              "variant_name": "Livestock Exchange＋Exchange Avenue歷史街景",
+              "condition_geometry": "{\"camera_zone\":\"Fort Worth Stockyards East Exchange Avenue public Camera Zone\",\"subject\":\"Livestock Exchange Building + brick street + historic western district context\"}",
+              "hard_gates": "僅使用合法公共街道／廣場；專業／商業攝影依Stockyards及個別私人場域規則取得許可",
+              "required_conditions": "Livestock Exchange與歷史街景清楚可辨；無足以妨礙步行攝影的強降水",
+              "boosters": "低角度側光；較低人流；Drover／Longhorn現場出現僅作加分，不保證",
+              "penalties": "強降水；活動封路遮擋主要構圖；過度壅擠",
+              "formula_status": "minimum_sufficient_local_scene"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-035-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official Stockyards material identifies the Livestock Exchange as a central preserved landmark. B70 moves the Place/weather anchor to the Exchange Avenue/Livestock Exchange Camera Zone rather than the broader district-center coordinate.",
+              "name": "Livestock Exchange／East Exchange Avenue Camera Zone",
+              "lat": 32.78933,
+              "lon": -97.34672,
+              "coord_confidence": "high",
+              "verification_status": "official_stockyards_landmark_address_plus_cross_mapped_building_poi",
+              "geometry_type": "area",
+              "geometry_extent_m": 550,
+              "geometry_note": "Livestock Exchange Building前方與East Exchange Avenue合法公共觀賞／步行區；私人場域另依規則。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-035-P02",
+          "spot_id": "us-035",
+          "name_zh": "Fort Worth Herd・Exchange Avenue長角牛遊行",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_event_state_module",
+          "formula_version": "v0.04-fort-worth-herd-recurring-event-state-pending",
+          "formula_confidence": 97,
+          "best_time": "官方當日11:30或16:00 cattle drive；建議提早到場並確認最新取消資訊",
+          "best_season": "2026官方列為全年每日，但Easter Sunday、Thanksgiving、Christmas不舉行，且天候／場地變更可取消",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-249",
+              "variant_name": "Texas Longhorn cattle drive＋Historic Stockyards街景",
+              "condition_geometry": "{\"camera_zone\":\"Livestock Exchange / East Exchange Avenue public cattle-drive viewing Camera Zone\",\"subject\":\"Fort Worth Herd Texas Longhorn cattle drive + historic Stockyards street context\"}",
+              "hard_gates": "必須是官方當日有效drive時段且未因天候／場地變更取消；只在官方公共觀賞區拍攝；禁止無人機",
+              "required_conditions": "Fort Worth Herd實際進行且Longhorn／drovers可清楚觀察；無官方取消",
+              "boosters": "較低人流；乾燥；側光；Livestock Exchange背景",
+              "penalties": "官方取消；Easter Sunday／Thanksgiving／Christmas；強降水或雷暴；臨時場地變更",
+              "formula_status": "research_ready_recurring_event_state_provider_pending"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-035-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official current guidance states the best cattle-drive viewing is in front of the Livestock Exchange Building and publishes twice-daily times. Runtime stays module_pending because ChaseLights does not yet ingest current Herd cancellation/site-change state.",
+              "name": "Fort Worth Herd / Livestock Exchange Public Viewing Camera Zone",
+              "lat": 32.78933,
+              "lon": -97.34672,
+              "coord_confidence": "high",
+              "verification_status": "official_stockyards_cattle_drive_viewing_location_plus_cross_mapped_building_poi",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 450,
+              "geometry_note": "East Exchange Avenue官方公共cattle-drive觀賞區；不得進入封鎖路段或牲畜動線。",
               "geometry_confidence": "high"
             }
           ]
