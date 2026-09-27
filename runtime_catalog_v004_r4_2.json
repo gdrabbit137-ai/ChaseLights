@@ -14,10 +14,10 @@
     "runtime_catalog_v004_r4_2_b35_liyu_subjects.json"
   ],
   "counts": {
-    "spots": 163,
-    "opportunities": 340,
-    "condition_variants": 355,
-    "profile_viewpoint_relations": 346
+    "spots": 168,
+    "opportunities": 348,
+    "condition_variants": 363,
+    "profile_viewpoint_relations": 354
   },
   "spots": [
     {
@@ -16966,6 +16966,494 @@
               "geometry_type": "area",
               "geometry_extent_m": 1200,
               "geometry_note": "Seward Waterfront Park公共shoreline、trail與觀景範圍；不把船班／野生動物出現視為基本Outcome。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-046",
+      "canonical_name": "哈徹山口",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B73_US_RESEARCH_BATCH10",
+      "research_sources": [
+        {
+          "authority": "Alaska DNR — Summit Lake State Recreation Site",
+          "url": "https://dnr.alaska.gov/parks/aspunits/matsu/summitlksrs.htm",
+          "verified_on": "2026-09-27",
+          "supports": "Alaska State Parks explicitly lists photography as an activity, describes Summit Lake and the surrounding glacially carved alpine terrain, and states summit-road vehicle access is summer-only, usually July through late September."
+        },
+        {
+          "authority": "Alaska DNR — Hatcher Pass East Management Area",
+          "url": "https://dnr.alaska.gov/parks/aspunits/matsu/hatcherpassema.htm",
+          "verified_on": "2026-09-27",
+          "supports": "Alaska State Parks documents year-round recreation but states the summit road from Mile 17.5 to 32.5 is not maintained or open in winter and is generally open only around July 1 through September 15 depending on snow."
+        },
+        {
+          "authority": "Travel Alaska — Hatcher Pass",
+          "url": "https://www.travelalaska.com/Destinations/Cities-Towns/Hatcher-Pass",
+          "verified_on": "2026-09-27",
+          "supports": "Official state tourism guidance calls Hatcher Pass panoramas among the most photographed views in the Mat-Su Valley and identifies the area as a northern-lights viewing destination."
+        },
+        {
+          "authority": "Travel Alaska — Best Places to See the Northern Lights",
+          "url": "https://www.travelalaska.com/explore-alaska/articles/best-places-see-northern-lights-alaska",
+          "verified_on": "2026-09-27",
+          "supports": "Official state tourism guidance specifically recommends Hatcher Pass for aurora viewing and notes winter viewing from the accessible area below Independence Mine while the summit road is closed."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-046-P01",
+          "spot_id": "us-046",
+          "name_zh": "Summit Lake・Hatcher Pass高山湖與Talkeetna Mountains全景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_dynamic_access_visibility_module",
+          "formula_version": "v0.04-hatcher-summit-access-visibility-pending",
+          "formula_confidence": 97,
+          "best_time": "Summit Lake／Hatcher Pass summit road實際開放且山谷、湖泊與峰稜清楚可見時",
+          "best_season": "車輛通常僅夏季可到Summit Lake；實際開放日期依積雪與Alaska State Parks／DOT狀態",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-264",
+              "variant_name": "Summit Lake＋Hatcher Pass高山谷地／Talkeetna Mountains",
+              "condition_geometry": "{\"camera_zone\":\"Summit Lake State Recreation Site public Camera Zone\",\"subject\":\"Summit Lake + glacially carved alpine valley + Talkeetna Mountains\"}",
+              "hard_gates": "Summit Lake road當下可合法到達；不得由月份或好天氣推定Hatcher Pass summit road已開放",
+              "required_conditions": "湖面與主要峰稜／谷地層次可辨；能見度足夠",
+              "boosters": "低角度光；殘雪；秋色；平靜湖面倒影僅作加分",
+              "penalties": "道路關閉；低雲／霧封山；強降水；低能見度",
+              "formula_status": "needs_dynamic_access_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-046-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Alaska State Parks explicitly lists photography at Summit Lake and describes the public alpine vista. The Camera Zone is the public lake/recreation-site area; current summit-road access remains fail-closed.",
+              "name": "Summit Lake State Recreation Site Camera Zone",
+              "lat": 61.7661,
+              "lon": -149.32137,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_state_park_photo_subject_plus_geonames_osm_lake_crosscheck",
+              "geometry_type": "area",
+              "geometry_extent_m": 700,
+              "geometry_note": "Summit Lake公共停車、湖邊步道與鄰近合法觀景範圍；road access依當時開放狀態。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-046-P02",
+          "spot_id": "us-046",
+          "name_zh": "Hatcher Pass・山谷前景Aurora Borealis",
+          "legacy_theme": "aurora",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_aurora_state_dynamic_access_module",
+          "formula_version": "v0.04-hatcher-aurora-access-provider-pending",
+          "formula_confidence": 95,
+          "best_time": "秋冬至早春黑暗時段；需同時有location-aware極光活動、足夠黑暗、清澈天空與可合法到達的冬季公共停車／觀景區",
+          "best_season": "官方資料支持冬季Hatcher Pass極光觀賞；實際可見性與道路／停車區可達性必須依當時狀態",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-265",
+              "variant_name": "Hatcher Pass山谷／雪地前景＋Aurora Borealis",
+              "condition_geometry": "{\"camera_zone\":\"accessible Hatcher Pass winter public parking / recreation Camera Zone below closed summit segment\",\"subject\":\"aurora borealis + mountain / snow / valley foreground\"}",
+              "hard_gates": "當下公共冬季停車／觀景區可合法到達；天空足夠黑暗；必須有可靠的location-aware極光活動證據；不得由planetary Kp或月份單獨保證",
+              "required_conditions": "極光活動實際存在；主要天空未被雲層遮蔽；足夠黑暗",
+              "boosters": "雪地前景；低光害；高透明度；較高極光活動",
+              "penalties": "道路／停車區不可達；雲層遮蔽；暮光過亮；極光活動不足",
+              "formula_status": "research_ready_aurora_and_access_provider_pending"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-046-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Travel Alaska specifically recommends Hatcher Pass for aurora viewing and notes winter viewing from the accessible area below Independence Mine while the summit segment is closed. No single winter tripod coordinate is asserted.",
+              "name": "Hatcher Pass Winter Public Aurora Camera Zone",
+              "coord_confidence": "official_area_no_unique_tripod_claim",
+              "verification_status": "official_state_tourism_aurora_subject_plus_state_park_winter_access_context",
+              "geometry_type": "area",
+              "geometry_extent_m": 2500,
+              "geometry_note": "冬季僅限當下合法可達的Hatcher Pass公共停車／recreation範圍；不把Summit Lake夏季Camera Zone誤當冬季可達點。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-047",
+      "canonical_name": "馬塔努斯卡冰河",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B73_US_RESEARCH_BATCH10",
+      "research_sources": [
+        {
+          "authority": "Alaska DNR — Matanuska Glacier State Recreation Site",
+          "url": "https://dnr.alaska.gov/parks/aspunits/matsu/matsuglsrs.htm",
+          "verified_on": "2026-09-27",
+          "supports": "Alaska State Parks states the Mile 101 recreation site provides some of the safest and best public Matanuska Glacier viewing opportunities, with glacier views from the parking area and Edge Nature Trail viewing platforms; the site closes when winter snow/ice conditions require."
+        },
+        {
+          "authority": "Alaska DNR — Matanuska Glacier Cabin",
+          "url": "https://dnr.alaska.gov/parks/aspcabins/matglaciercabin.htm",
+          "verified_on": "2026-09-27",
+          "supports": "Alaska DNR publishes an exact GPS anchor for the recreation site and documents glacier, valley and Chugach Mountain views."
+        },
+        {
+          "authority": "Travel Alaska — Matanuska Glacier",
+          "url": "https://www.travelalaska.com/destinations/parks-public-lands/matanuska-glacier",
+          "verified_on": "2026-09-27",
+          "supports": "Official state tourism guidance confirms the state recreation site provides glacier viewing but no glacier access; actual glacier walking requires a guided tour."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-047-P01",
+          "spot_id": "us-047",
+          "name_zh": "Matanuska Glacier SRS・冰河＋Matanuska Valley／Chugach Mountains",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_dynamic_access_visibility_module",
+          "formula_version": "v0.04-matanuska-public-view-access-visibility-pending",
+          "formula_confidence": 98,
+          "best_time": "State Recreation Site實際開放且冰河、河谷與Chugach Mountains清楚可見時",
+          "best_season": "全年皆有景觀價值；State Recreation Site可因冬季雪冰條件關閉",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-266",
+              "variant_name": "Matanuska Glacier＋河谷／Chugach Mountains公共展望",
+              "condition_geometry": "{\"camera_zone\":\"Matanuska Glacier State Recreation Site parking / Edge Nature Trail viewing platforms\",\"subject\":\"Matanuska Glacier + Matanuska Valley / Chugach Mountains\"}",
+              "hard_gates": "State Recreation Site當下可合法使用；不得把此公共展望區誤稱為可直接進入冰河；冬季關閉狀態優先於天氣評分",
+              "required_conditions": "冰河主體與山谷／山稜主要層次可辨；能見度足夠",
+              "boosters": "晨昏側光；秋色；雪峰；乾淨透明大氣",
+              "penalties": "園區關閉；低雲／霧遮冰河與山體；強降水；低能見度",
+              "formula_status": "needs_dynamic_access_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-047-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Alaska DNR explicitly describes the State Recreation Site as a safe public glacier-viewing area and publishes a GPS anchor. B73 corrects the legacy Place coordinate, which was far from the actual public viewing site.",
+              "name": "Matanuska Glacier State Recreation Site Camera Zone",
+              "lat": 61.7994722,
+              "lon": -147.8180444,
+              "coord_confidence": "high",
+              "verification_status": "official_alaska_dnr_gps_and_public_glacier_viewing_subject",
+              "geometry_type": "area",
+              "geometry_extent_m": 700,
+              "geometry_note": "Mile 101公共停車區、Edge Nature Trail與冰河展望平台；不包含需導覽才能合法進入的冰河本體。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-048",
+      "canonical_name": "波蒂奇冰河",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B73_US_RESEARCH_BATCH10",
+      "research_sources": [
+        {
+          "authority": "U.S. Forest Service — Chugach National Forest Visitor Guide",
+          "url": "https://www.fs.usda.gov/Internet/FSE_DOCUMENTS/fseprd1101873.pdf",
+          "verified_on": "2026-09-27",
+          "supports": "USFS describes Trail of Blue Ice as an always-open public trail through Portage Valley with spectacular glacial-valley views, and recommends the MV Ptarmigan cruise for a spectacular Portage Glacier view."
+        },
+        {
+          "authority": "Travel Alaska — Portage Glacier",
+          "url": "https://www.travelalaska.com/destinations/parks-public-lands/portage-glacier",
+          "verified_on": "2026-09-27",
+          "supports": "Official state tourism guidance confirms Portage Glacier is no longer visible from the Begich, Boggs Visitor Center, while nearby trails provide alpine-glacier/valley views and a seasonal boat cruise reaches the Portage Glacier face."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-048-P01",
+          "spot_id": "us-048",
+          "name_zh": "Portage Valley・Portage Lake／高山冰河與U形谷",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-minimum-sufficient-visibility-panorama",
+          "formula_confidence": 96,
+          "best_time": "白天可見光；Trail of Blue Ice／Begich Boggs周邊公共區域實際可使用時",
+          "best_season": "全年；Trail of Blue Ice官方資料為全年開放，雪冰狀態仍影響實際步行條件",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-267",
+              "variant_name": "Portage Lake／Portage Valley＋周邊高山冰河",
+              "condition_geometry": "{\"camera_zone\":\"Begich Boggs / Trail of Blue Ice public Camera Zone\",\"subject\":\"Portage Lake / glacial valley + surrounding alpine glaciers and mountains\"}",
+              "hard_gates": "公共步道／湖岸區合法可使用；不得宣稱Begich Boggs本身可直接看到已後退的Portage Glacier冰舌",
+              "required_conditions": "湖泊／谷地與周邊山稜、可見冰河主要層次清楚；能見度足夠",
+              "boosters": "高透明度；低角度光；雪線／冰河細節；平靜水面",
+              "penalties": "低雲／霧封谷；強降水；低能見度",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-048-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "USFS documents Trail of Blue Ice as an always-open public route with spectacular Portage Valley views. The contract deliberately does not claim the retreated Portage Glacier face is visible from the visitor center.",
+              "name": "Begich Boggs / Trail of Blue Ice Camera Zone",
+              "lat": 60.78452,
+              "lon": -148.842,
+              "coord_confidence": "high",
+              "verification_status": "existing_high_confidence_begich_boggs_anchor_plus_usfs_public_valley_subject",
+              "geometry_type": "area",
+              "geometry_extent_m": 1800,
+              "geometry_note": "Begich, Boggs Visitor Center湖岸與Trail of Blue Ice鄰近公共Camera Zone；實際步道範圍可延伸至Portage Valley。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-048-P02",
+          "spot_id": "us-048",
+          "name_zh": "Portage Glacier・MV Ptarmigan船上冰河正面",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_timetable_access_module",
+          "formula_version": "v0.04-portage-cruise-timetable-access-pending",
+          "formula_confidence": 96,
+          "best_time": "官方MV Ptarmigan實際有班次且可登船的時段；通常為夏季營運，但須以當年當日官方狀態為準",
+          "best_season": "官方資料描述晚5月至9月初的季節性巡航；不得沿用靜態年份時刻表保證未來班次",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-268",
+              "variant_name": "Portage Glacier冰舌＋Portage Lake船上近距離視角",
+              "condition_geometry": "{\"camera_zone\":\"MV Ptarmigan / authorized Portage Lake cruise mobile Camera Zone\",\"subject\":\"Portage Glacier face + Portage Lake / surrounding mountains\"}",
+              "hard_gates": "官方當日巡航實際營運且使用者可合法登船；不得把靜態季節班表視為即時可用性",
+              "required_conditions": "Portage Glacier主體在航線觀景位置可清楚辨識；班次未取消",
+              "boosters": "高透明度；低雲較少；柔和側光；冰山／浮冰僅作現況加分",
+              "penalties": "班次取消；強風／惡劣天候；低雲／霧遮冰河",
+              "formula_status": "research_ready_timetable_access_provider_pending"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-048-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "USFS specifically recommends the MV Ptarmigan for a spectacular Portage Glacier view. This is a mobile on-lake Camera Zone; the Begich Boggs area is only the nearby weather/embarkation anchor.",
+              "name": "MV Ptarmigan / Portage Lake Mobile Camera Zone",
+              "lat": 60.78452,
+              "lon": -148.842,
+              "coord_confidence": "embarkation_anchor_not_tripod_point",
+              "verification_status": "official_usfs_cruise_glacier_subject_plus_existing_begich_boggs_embarkation_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 5500,
+              "geometry_note": "Portage Lake官方巡航移動觀景區；座標僅代表Begich Boggs附近登船／weather anchor，不宣稱船上固定拍攝點。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-049",
+      "canonical_name": "瓦爾迪茲",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B73_US_RESEARCH_BATCH10",
+      "research_sources": [
+        {
+          "authority": "City of Valdez — Dock Point Trail",
+          "url": "https://www.valdezak.gov/Facilities/Facility/Details/Dock-Point-Trail-23",
+          "verified_on": "2026-09-27",
+          "supports": "The City of Valdez states Dock Point's east and west overlooks provide views of the harbor and Port of Valdez and notes photographic opportunities along the public trail."
+        },
+        {
+          "authority": "Visit Valdez — Nature Walks",
+          "url": "https://www.visitvaldez.com/things-to-do/nature-walks",
+          "verified_on": "2026-09-27",
+          "supports": "Official Valdez tourism guidance identifies Dock Point as an easy public nature walk near town."
+        },
+        {
+          "authority": "Visit Valdez — Geography / destination overview",
+          "url": "https://www.visitvaldez.com/about-valdez/geography-of-valdez",
+          "verified_on": "2026-09-27",
+          "supports": "Official tourism guidance describes Valdez as a fjord setting where steep mountains meet Port Valdez, supporting the harbor-plus-mountain landscape subject."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-049-P01",
+          "spot_id": "us-049",
+          "name_zh": "Dock Point・Port Valdez港灣＋Chugach山景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-minimum-sufficient-visibility-panorama",
+          "formula_confidence": 96,
+          "best_time": "白天至暮色；Dock Point公共步道／overlook實際可使用時",
+          "best_season": "全年；雪景、船隻、鳥類與水面反射只作現況加分",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-269",
+              "variant_name": "Port Valdez港灣＋Chugach Mountains／海岸山壁",
+              "condition_geometry": "{\"camera_zone\":\"Dock Point Trail east/west overlook public Camera Zone\",\"subject\":\"Port Valdez harbor + surrounding Chugach coastal mountains\"}",
+              "hard_gates": "Dock Point公共步道／overlook可合法使用",
+              "required_conditions": "港灣與主要山稜／山壁層次可辨；能見度足夠",
+              "boosters": "高透明度；雪峰；低角度光；平靜水面；船隻／鳥類實際出現",
+              "penalties": "濃霧／低雲遮山；強降水；低能見度",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-049-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "The City of Valdez explicitly documents Dock Point overlooks of the harbor and Port of Valdez and photographic opportunities along the public trail. B73 moves the generic Valdez weather anchor to this actual Camera Zone.",
+              "name": "Dock Point Trail Harbor Camera Zone",
+              "lat": 61.12726,
+              "lon": -146.33808,
+              "coord_confidence": "medium_high",
+              "verification_status": "city_official_photo_subject_plus_osm_trail_crosscheck",
+              "geometry_type": "area",
+              "geometry_extent_m": 700,
+              "geometry_note": "Dock Point Trail、東西overlook與合法公共海岸觀景範圍。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-050",
+      "canonical_name": "朱諾",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B73_US_RESEARCH_BATCH10",
+      "research_sources": [
+        {
+          "authority": "Travel Juneau — Downtown Street Tour",
+          "url": "https://www.traveljuneau.com/things-to-do/top-attractions/downtown-street-tour/",
+          "verified_on": "2026-09-27",
+          "supports": "Official destination guidance identifies the downtown docks and Marine Park Plaza as public waterfront sightseeing areas and explicitly notes mountain views, including Mt. Juneau."
+        },
+        {
+          "authority": "Travel Juneau — Goldbelt Tram",
+          "url": "https://www.traveljuneau.com/listing/goldbelt-tram/45489/",
+          "verified_on": "2026-09-27",
+          "supports": "Official destination guidance identifies the upper tram area as a premier photo spot with views of Alaska's Capital City, Stephens Passage and the Chilkat Mountains."
+        },
+        {
+          "authority": "Goldbelt Tram — official site / current operations",
+          "url": "https://www.goldbelttram.com/",
+          "verified_on": "2026-09-27",
+          "supports": "The operator states tram hours vary with weather and currently reports the tram temporarily closed while assessments continue, so upper-terminal photography must remain fail-closed on dynamic access."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-050-P01",
+          "spot_id": "us-050",
+          "name_zh": "Juneau Waterfront・Gastineau Channel＋Mt. Juneau城市山海景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-minimum-sufficient-visibility-panorama",
+          "formula_confidence": 95,
+          "best_time": "白天至暮色；Marine Park／downtown waterfront公共區域可使用時",
+          "best_season": "全年；郵輪、野生動物、雪峰與活動僅作現況加分",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-270",
+              "variant_name": "Juneau downtown waterfront＋Gastineau Channel／Mt. Juneau",
+              "condition_geometry": "{\"camera_zone\":\"Marine Park / downtown docks public Camera Zone\",\"subject\":\"Juneau waterfront + Gastineau Channel + Mt. Juneau / surrounding mountains\"}",
+              "hard_gates": "downtown waterfront公共區域可合法使用",
+              "required_conditions": "水岸與主要山體／城市層次清楚可辨；能見度足夠",
+              "boosters": "高透明度；低角度光；雪峰；船隻／野生動物實際出現",
+              "penalties": "濃霧／低雲遮山；強降水；低能見度",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-050-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Travel Juneau documents the downtown docks/Marine Park area and explicitly points visitors toward Mt. Juneau views. B73 shifts the generic city coordinate to the actual waterfront Camera Zone.",
+              "name": "Marine Park / Downtown Juneau Waterfront Camera Zone",
+              "lat": 58.29913,
+              "lon": -134.40617,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_destination_waterfront_subject_plus_osm_marine_park_crosscheck",
+              "geometry_type": "area",
+              "geometry_extent_m": 800,
+              "geometry_note": "Marine Park Plaza、downtown docks與相鄰合法公共waterfront範圍。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-050-P02",
+          "spot_id": "us-050",
+          "name_zh": "Goldbelt Tram・Juneau／Stephens Passage／Chilkat Mountains高處全景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_dynamic_access_visibility_module",
+          "formula_version": "v0.04-goldbelt-tram-access-visibility-pending",
+          "formula_confidence": 97,
+          "best_time": "Goldbelt Tram與upper-area實際開放且能見度足夠的營運時段",
+          "best_season": "通常為季節性營運；2026 operator目前報告暫時關閉，未恢復前不得推薦upper-terminal題材",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-271",
+              "variant_name": "Mount Roberts高處＋Juneau／Stephens Passage／Chilkat Mountains",
+              "condition_geometry": "{\"camera_zone\":\"Goldbelt Tram upper terminal / Sky Bridge / authorized trails Camera Zone\",\"subject\":\"Juneau + Stephens Passage + Chilkat Mountains panorama\"}",
+              "hard_gates": "Goldbelt Tram／upper public area當下實際開放且使用者可合法進入；不得以靜態季節時刻表覆蓋臨時停運",
+              "required_conditions": "城市、水道與主要遠山層次可辨；能見度足夠",
+              "boosters": "高透明度；低角度光；雪峰；清晰海峽層次",
+              "penalties": "tram停運；低雲／霧包覆山頂；強降水；低能見度",
+              "formula_status": "needs_dynamic_access_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-050-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Travel Juneau calls the upper Goldbelt Tram area a premier photo spot. The operator currently reports temporary closure, therefore this Opportunity remains dynamic-access fail-closed. The lower-terminal coordinate is not presented as the upper Camera Zone.",
+              "name": "Goldbelt Tram Upper Panorama Camera Zone",
+              "coord_confidence": "official_facility_area_no_unique_tripod_claim",
+              "verification_status": "official_destination_photo_subject_plus_operator_access_status",
+              "geometry_type": "area",
+              "geometry_extent_m": 900,
+              "geometry_note": "Goldbelt Tram upper terminal、Sky Bridge與合法公共trail範圍；不以base terminal座標冒充upper Camera Zone。",
               "geometry_confidence": "high"
             }
           ]
