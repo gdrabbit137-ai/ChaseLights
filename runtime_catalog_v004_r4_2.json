@@ -14,10 +14,10 @@
     "runtime_catalog_v004_r4_2_b35_liyu_subjects.json"
   ],
   "counts": {
-    "spots": 178,
-    "opportunities": 366,
-    "condition_variants": 381,
-    "profile_viewpoint_relations": 372
+    "spots": 183,
+    "opportunities": 373,
+    "condition_variants": 388,
+    "profile_viewpoint_relations": 379
   },
   "spots": [
     {
@@ -18504,6 +18504,442 @@
               "geometry_type": "area",
               "geometry_extent_m": 45000,
               "geometry_note": "Glacier Bay官方日間tour vessel航線移動觀景區；不可將dock座標解讀為潮水冰河所在地。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-061",
+      "canonical_name": "柯迪亞克島",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B76_US_RESEARCH_BATCH13",
+      "research_sources": [
+        {
+          "authority": "Alaska Division of Parks and Outdoor Recreation — Fort Abercrombie State Historical Park",
+          "url": "https://dnr.alaska.gov/parks/aspunits/kodiak/fortabercrombieshp.htm",
+          "verified_on": "2026-09-27",
+          "supports": "Alaska State Parks documents Fort Abercrombie's WWII coastal-defense remains together with surf-pounded cliffs, spruce forest, wildflower meadows and lake scenery."
+        },
+        {
+          "authority": "Alaska State Parks — Fort Abercrombie facility details",
+          "url": "https://alaskastateparks.reserveamerica.com/camping/fort-abercrombie-state-historic-park/r/facilityDetails.do?contractCode=AK&parkId=1180732",
+          "verified_on": "2026-09-27",
+          "supports": "The official Alaska State Parks reservation page documents scenic ocean-cliff overlooks, historic bunkers/sites, beach access and public trails, and publishes the park GPS 57.82759, -152.35664."
+        },
+        {
+          "authority": "Alaska Division of Parks and Outdoor Recreation — Fort Abercrombie brochure",
+          "url": "https://dnr.alaska.gov/parks/brochures/ftabercrombiebrochure.pdf",
+          "verified_on": "2026-09-27",
+          "supports": "The official park brochure maps scenic viewpoints, cliffs, historic structures and public park trails."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-061-P01",
+          "spot_id": "us-061",
+          "name_zh": "Fort Abercrombie・海蝕峭壁／雲杉海岸景觀",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "minimum_sufficient_local_scene",
+          "formula_version": "v0.04-local-scene-daylight-minimum-sufficient",
+          "formula_confidence": 97,
+          "best_time": "白天至暮色；Fort Abercrombie公共步道／scenic overlook可安全使用時",
+          "best_season": "全年自然海岸題材成立；風浪、雪景、野花等只依當下現況加分",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-290",
+              "variant_name": "Fort Abercrombie海崖＋雲杉林／Monashka Bay海岸",
+              "condition_geometry": "{\"camera_zone\":\"Fort Abercrombie public scenic-overlook / trail Camera Zone\",\"subject\":\"surf-pounded coastal cliffs + spruce forest / Monashka Bay context\"}",
+              "hard_gates": "僅在公園合法公共步道／觀景區拍攝；不得越過危險海崖邊緣或封閉區",
+              "required_conditions": "海崖／海岸與雲杉林主要元素清楚可辨；無足以妨礙安全步行攝影的強降水／強風",
+              "boosters": "低角度光；浪花；野花／雪景只作現況加分；高透明度",
+              "penalties": "強風浪；強降水；濃霧使海岸不可辨；臨時步道封閉",
+              "formula_status": "minimum_sufficient_local_scene"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-061-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Alaska State Parks explicitly documents scenic ocean-cliff overlooks and public trails at Fort Abercrombie. B76 narrows the broad Kodiak Island inventory Place to this official public coastal photography area.",
+              "name": "Fort Abercrombie Scenic Overlooks Camera Zone",
+              "lat": 57.82759,
+              "lon": -152.35664,
+              "coord_confidence": "high",
+              "verification_status": "official_alaska_state_parks_facility_gps_and_scenic_overlook_subject",
+              "geometry_type": "area",
+              "geometry_extent_m": 1800,
+              "geometry_note": "Fort Abercrombie公共海岸步道、scenic overlooks與合法公園區域；不宣稱單一懸崖腳架點。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-061-P02",
+          "spot_id": "us-061",
+          "name_zh": "Fort Abercrombie・WWII碉堡／海岸歷史景觀",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "minimum_sufficient_local_scene",
+          "formula_version": "v0.04-local-scene-daylight-minimum-sufficient",
+          "formula_confidence": 96,
+          "best_time": "白天可見光；依公園公共歷史遺構與步道實際開放狀態",
+          "best_season": "全年；植被／雪景只作現況加分",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-291",
+              "variant_name": "WWII coastal-defense遺構＋Kodiak海岸／雲杉林",
+              "condition_geometry": "{\"camera_zone\":\"Fort Abercrombie public historic-site Camera Zone\",\"subject\":\"WWII coastal-defense bunkers / ruins + spruce / ocean context\"}",
+              "hard_gates": "只在公園合法公共歷史遺構／步道範圍；不得進入封閉或不安全結構",
+              "required_conditions": "主要遺構與環境脈絡清楚可辨；無足以妨礙安全步行攝影的強降水",
+              "boosters": "柔和側光；霧後層次；秋色／雪景僅作現況加分",
+              "penalties": "強降水；濃霧使歷史場景不可辨；臨時封閉",
+              "formula_status": "minimum_sufficient_local_scene"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-061-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "The official Alaska State Parks material documents WWII coastal-defense structures and historic sites within the same public park. The park GPS is an area/weather anchor, not a claim that every bunker is at that coordinate.",
+              "name": "Fort Abercrombie Historic Sites Camera Zone",
+              "lat": 57.82759,
+              "lon": -152.35664,
+              "coord_confidence": "high",
+              "verification_status": "official_alaska_state_parks_historic_subject_and_facility_gps",
+              "geometry_type": "area",
+              "geometry_extent_m": 1800,
+              "geometry_note": "公園內合法公共WWII遺構與相連步道範圍。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-062",
+      "canonical_name": "埃克盧特納湖",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B76_US_RESEARCH_BATCH13",
+      "research_sources": [
+        {
+          "authority": "Alaska Division of Parks and Outdoor Recreation — Chugach State Park Recreational Opportunities",
+          "url": "https://dnr.alaska.gov/parks/aspunits/chugach/recops.htm",
+          "verified_on": "2026-09-27",
+          "supports": "Alaska State Parks explicitly recommends Eklutna Lake for reflective lake shots, high canyon walls, wildflowers and mountainous views, and describes the Lakeside Trail's views toward waterfalls and Eklutna Glacier."
+        },
+        {
+          "authority": "Alaska Division of Parks and Outdoor Recreation — Eklutna Lake Campground",
+          "url": "https://dnr.alaska.gov/parks/aspunits/chugach/eklutnalkcamp.htm",
+          "verified_on": "2026-09-27",
+          "supports": "Official guidance states photography may be enjoyed in any season at Eklutna Lake and gives the public road/trail access context."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-062-P01",
+          "spot_id": "us-062",
+          "name_zh": "Eklutna Lake・湖景＋峽谷／Chugach山景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-minimum-sufficient-visibility-panorama",
+          "formula_confidence": 97,
+          "best_time": "白天可見光；湖岸／Lakeside Trail可安全使用且山壁清楚時",
+          "best_season": "全年；反射、野花、雪景皆為現況加分，不由月份保證",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-292",
+              "variant_name": "Eklutna Lake＋高峽谷壁／Chugach山景",
+              "condition_geometry": "{\"camera_zone\":\"Eklutna Lake Lakeside Trail / shoreline Camera Zone\",\"subject\":\"Eklutna Lake + high canyon walls / Chugach mountain backdrop\"}",
+              "hard_gates": "公共湖岸／Lakeside Trail可合法安全使用",
+              "required_conditions": "湖面、峽谷壁與主要山景層次清楚可辨；能見度足夠",
+              "boosters": "平靜湖面倒影；高透明度；野花／雪景僅作現況加分；柔和光線",
+              "penalties": "低雲／霧遮山；強降水；極低能見度；當下步道安全限制",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-062-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Alaska State Parks explicitly lists Eklutna Lake reflective lake shots, canyon walls and mountainous views as photography subjects. The trailhead coordinate is a cross-mapped planning anchor; reflection is a booster rather than a hard water-state gate.",
+              "name": "Eklutna Lakeside Trail / Shoreline Camera Zone",
+              "lat": 61.40975,
+              "lon": -149.13455,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_alaska_state_parks_photo_subject_plus_cross_mapped_trailhead_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 2200,
+              "geometry_note": "Eklutna Lake公共湖岸、Lakeside Trail起點及鄰近合法觀景區；不宣稱唯一腳架位置。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-063",
+      "canonical_name": "塔爾基特納",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B76_US_RESEARCH_BATCH13",
+      "research_sources": [
+        {
+          "authority": "Travel Alaska — Denali National Park by Rail",
+          "url": "https://www.travelalaska.com/explore-alaska/itineraries/denali_national_park_by_rail",
+          "verified_on": "2026-09-27",
+          "supports": "Official Alaska tourism guidance recommends walking to Talkeetna Riverfront Park for stunning clear-day views of Denali and the Susitna River."
+        },
+        {
+          "authority": "Travel Alaska — 7 Things to Do in Talkeetna",
+          "url": "https://www.travelalaska.com/explore-alaska/articles/7-things-do-talkeetna",
+          "verified_on": "2026-09-27",
+          "supports": "Official state tourism guidance identifies the Susitna River area around Talkeetna as one of the town's best places for views of Denali."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-063-P01",
+          "spot_id": "us-063",
+          "name_zh": "Talkeetna Riverfront Park・Susitna River＋Denali／Alaska Range",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-minimum-sufficient-visibility-panorama",
+          "formula_confidence": 97,
+          "best_time": "白天可見光；清朗時最適合遠眺Denali／Alaska Range",
+          "best_season": "全年自然場景成立；雪景與低角度光僅作現況加分",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-293",
+              "variant_name": "Susitna／Talkeetna河川前景＋Denali／Alaska Range",
+              "condition_geometry": "{\"camera_zone\":\"Talkeetna Riverfront Park public Camera Zone\",\"subject\":\"Susitna / Talkeetna river foreground + Denali / Alaska Range panorama\"}",
+              "hard_gates": "Riverfront Park／公共河岸觀景區可安全合法使用",
+              "required_conditions": "Denali／Alaska Range或主要遠山輪廓清楚可辨；能見度足夠",
+              "boosters": "高透明度；晨昏低角度光；河面反光；雪峰清晰",
+              "penalties": "低雲／霧遮山；煙霧；強降水；低能見度",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-063-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Travel Alaska explicitly identifies Talkeetna Riverfront Park / Susitna River as a Denali-view location. B76 moves weather sampling from the town-center inventory coordinate to the riverfront photographic area.",
+              "name": "Talkeetna Riverfront Park Camera Zone",
+              "lat": 62.322846,
+              "lon": -150.121177,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_travel_alaska_denali_view_subject_plus_cross_mapped_riverfront_park_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 1200,
+              "geometry_note": "Talkeetna Riverfront Park與合法公共河岸觀景範圍；不要求進入河床或危險冰面。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-064",
+      "canonical_name": "艾利耶斯卡",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B76_US_RESEARCH_BATCH13",
+      "research_sources": [
+        {
+          "authority": "Alyeska Resort — Aerial Tram Summer",
+          "url": "https://www.alyeskaresort.com/aerial-tram-summer/",
+          "verified_on": "2026-09-27",
+          "supports": "Alyeska's official tram page documents bird's-eye views of Turnagain Arm, seven hanging glaciers and the Chugach Mountain Range from the upper mountain area, and publishes current operating status/hours."
+        },
+        {
+          "authority": "Alyeska Resort — Hotel Amenities / Mountain Station observation deck",
+          "url": "https://www.alyeskaresort.com/hotel-amenities/",
+          "verified_on": "2026-09-27",
+          "supports": "Official resort guidance documents the Mountain Station observation deck and panoramic views of Turnagain Arm, glaciers and the Chugach range."
+        },
+        {
+          "authority": "Alyeska Resort — Aerial Tram Winter",
+          "url": "https://www.alyeskaresort.com/aerial-tram-winter/",
+          "verified_on": "2026-09-27",
+          "supports": "Official resort guidance documents winter tram access to the same high-elevation panorama while operation remains schedule/condition dependent."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-064-P01",
+          "spot_id": "us-064",
+          "name_zh": "Alyeska Mountain Station・Turnagain Arm／懸冰河／Chugach全景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_dynamic_access_visibility_module",
+          "formula_version": "v0.04-alyeska-tram-access-visibility-pending",
+          "formula_confidence": 98,
+          "best_time": "Aerial Tram當下實際營運且Mountain Station／observation deck可進入的白天時段",
+          "best_season": "夏冬皆有官方tram產品，但年度維修、天候、營運時間會變動；不得用月份或靜態時刻表保證可達",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-294",
+              "variant_name": "Turnagain Arm＋七座懸冰河／Chugach Mountains高處全景",
+              "condition_geometry": "{\"camera_zone\":\"Alyeska Mountain Station / observation deck Camera Zone\",\"subject\":\"Turnagain Arm + hanging glaciers + Chugach Mountain Range panorama\"}",
+              "hard_gates": "Aerial Tram當下實際營運且Mountain Station公共觀景區可合法進入；不得由好天氣或靜態季節營運表推定tram正在運轉",
+              "required_conditions": "Turnagain Arm、冰河／山脈主要層次清楚可辨；能見度足夠",
+              "boosters": "高透明度；低角度光；積雪／秋色只作現況加分",
+              "penalties": "tram停駛／維修；低雲／霧；強降水；低能見度",
+              "formula_status": "needs_dynamic_access_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-064-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Alyeska Resort directly documents the Mountain Station panorama. B76 moves the Camera Zone/weather sample from the resort base to the upper tram terminal area; it does not turn the summit coordinate into a road-navigation target.",
+              "name": "Alyeska Mountain Station / Observation Deck Camera Zone",
+              "lat": 60.96154,
+              "lon": -149.07937,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_alyeska_mountain_station_subject_plus_cross_mapped_upper_tram_anchor",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 650,
+              "geometry_note": "Aerial Tram Mountain Station、observation deck與合法公共高處觀景區。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-065",
+      "canonical_name": "楚加奇州立公園",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B76_US_RESEARCH_BATCH13",
+      "research_sources": [
+        {
+          "authority": "Alaska Division of Parks and Outdoor Recreation — Chugach State Park Recreational Opportunities",
+          "url": "https://dnr.alaska.gov/parks/aspunits/chugach/recops.htm",
+          "verified_on": "2026-09-27",
+          "supports": "Alaska State Parks documents the Anchorage Overlook/Glen Alps view of Anchorage, Cook Inlet and the Alaska Range, calls it good for sunsets, and recommends Anchorage Hillside for Denali/mountain backdrops and northern-lights photography."
+        },
+        {
+          "authority": "Alaska Division of Parks and Outdoor Recreation — Glen Alps",
+          "url": "https://dnr.alaska.gov/parks/aspunits/chugach/glenalps.htm",
+          "verified_on": "2026-09-27",
+          "supports": "Official guidance identifies Glen Alps as a public trailhead/viewpoint recreation area with year-round use context."
+        },
+        {
+          "authority": "Alaska Division of Parks and Outdoor Recreation — Accessibility",
+          "url": "https://dnr.alaska.gov/parks/asp/access.htm",
+          "verified_on": "2026-09-27",
+          "supports": "Alaska State Parks documents the Glen Alps viewpoint overlooking Anchorage, Cook Inlet and the Alaska Range."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-065-P01",
+          "spot_id": "us-065",
+          "name_zh": "Glen Alps Overlook・Anchorage／Cook Inlet／Alaska Range日落",
+          "legacy_theme": "sunset",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04-directional-horizon-visibility-preview",
+          "formula_confidence": 98,
+          "best_time": "日落前約1小時至日落後短時間；Glen Alps公共觀景區可安全使用時",
+          "best_season": "全年；雪景、Denali可見度與秋色只作現況加分",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-295",
+              "variant_name": "Anchorage／Cook Inlet＋Alaska Range夕照",
+              "condition_geometry": "{\"camera_zone\":\"Glen Alps Overlook public Camera Zone\",\"target\":\"west-facing Anchorage / Cook Inlet / Alaska Range sunset panorama\"}",
+              "hard_gates": "Glen Alps公共觀景區可合法安全使用；日落時段有效",
+              "required_conditions": "Anchorage／Cook Inlet與主要Alaska Range山稜清楚可辨；日落方向有效；能見度足夠",
+              "boosters": "高透明度；薄雲夕彩；雪峰／Denali若實際可見則加分",
+              "penalties": "低雲／霧遮山；強降水；煙霧；低能見度",
+              "formula_status": "needs_directional_horizon_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-065-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Alaska State Parks explicitly identifies the Glen Alps / Anchorage Overlook panorama and says it is good for sunsets. B76 narrows the broad Chugach State Park inventory coordinate to this public overlook area.",
+              "name": "Glen Alps Overlook Camera Zone",
+              "lat": 61.10489,
+              "lon": -149.68461,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_alaska_state_parks_view_subject_plus_cross_mapped_glen_alps_viewpoint",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 700,
+              "geometry_note": "Glen Alps公共viewpoint、短步道與合法觀景區。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-065-P02",
+          "spot_id": "us-065",
+          "name_zh": "Anchorage Hillside／Glen Alps・Aurora Borealis",
+          "legacy_theme": "aurora",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_aurora_state_module",
+          "formula_version": "v0.04-chugach-aurora-provider-pending",
+          "formula_confidence": 95,
+          "best_time": "天空足夠黑暗、Glen Alps／Anchorage Hillside公共區域可安全使用且有location-aware極光活動時",
+          "best_season": "Alaska State Parks明確列Anchorage Hillside為northern-lights攝影地區；實際可見性仍需即時aurora_state與雲況",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-296",
+              "variant_name": "Anchorage Hillside山景前景＋Aurora Borealis",
+              "condition_geometry": "{\"camera_zone\":\"safe public Glen Alps / Anchorage Hillside Camera Zone\",\"subject\":\"aurora borealis + Chugach / Anchorage hillside foreground\"}",
+              "hard_gates": "公共區域安全可用；天空足夠黑暗；必須有location-aware極光活動證據；不得以planetary Kp或月份單獨保證",
+              "required_conditions": "極光活動實際存在；主要天空未被雲遮；足夠黑暗",
+              "boosters": "低光害；雪景／山稜前景；高透明度",
+              "penalties": "雲層遮蔽；暮光過亮；極光活動不足；當下道路／停車安全問題",
+              "formula_status": "needs_aurora_state_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-065-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Alaska State Parks explicitly recommends Anchorage Hillside for northern-lights photography. Canonical eligibility remains fail-closed on location-aware aurora_state; planetary Kp alone remains insufficient.",
+              "name": "Glen Alps / Anchorage Hillside Aurora Camera Zone",
+              "lat": 61.10489,
+              "lon": -149.68461,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_alaska_state_parks_aurora_subject_plus_cross_mapped_glen_alps_viewpoint",
+              "geometry_type": "area",
+              "geometry_extent_m": 1800,
+              "geometry_note": "Glen Alps／Anchorage Hillside合法、安全且可公開使用的觀景區；不宣稱唯一極光腳架位置。",
               "geometry_confidence": "medium_high"
             }
           ]
