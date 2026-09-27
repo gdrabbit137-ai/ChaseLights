@@ -14,10 +14,10 @@
     "runtime_catalog_v004_r4_2_b35_liyu_subjects.json"
   ],
   "counts": {
-    "spots": 123,
-    "opportunities": 279,
-    "condition_variants": 294,
-    "profile_viewpoint_relations": 285
+    "spots": 128,
+    "opportunities": 291,
+    "condition_variants": 306,
+    "profile_viewpoint_relations": 297
   },
   "spots": [
     {
@@ -13269,6 +13269,642 @@
               "geometry_type": "small_area",
               "geometry_extent_m": 500,
               "geometry_note": "Balanced Rock viewpoint／短步道合法區域；人工光源照亮地景受NPS禁止。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-006",
+      "canonical_name": "布萊斯峽谷國家公園",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B62_US_RESEARCH_BATCH02",
+      "research_sources": [
+        {
+          "authority": "U.S. National Park Service — Bryce Canyon Viewpoints",
+          "url": "https://www.nps.gov/brca/planyourvisit/viewpoints.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS identifies Sunrise Point, Sunset Point, Inspiration Point and Bryce Point as the major Bryce Amphitheater viewpoints and directly supports daybreak/late-day hoodoo views."
+        },
+        {
+          "authority": "U.S. National Park Service — Bryce Canyon FAQ",
+          "url": "https://www.nps.gov/brca/planyourvisit/faqs.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS states Sunrise Point/Bryce Point are popular sunrise sites and recommends Inspiration Point or Paria View for sunset-period light, arriving about 1.5 hours before sunset."
+        },
+        {
+          "authority": "U.S. National Park Service — Stargazing at Bryce Canyon",
+          "url": "https://www.nps.gov/thingstodo/stargazing-at-bryce-canyon.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS recommends Sunrise, Sunset, Inspiration and Paria viewpoints for stargazing/night photography and documents Bryce's dark skies."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-006-P01",
+          "spot_id": "us-006",
+          "name_zh": "Bryce Amphitheater・日出紅岩hoodoo層次",
+          "legacy_theme": "sunrise",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04-us-bryce-directional-visibility",
+          "formula_confidence": 96,
+          "best_time": "日出前約30分鐘至日出後約1小時（景點當地時間）",
+          "best_season": "全年；冬季雪後道路／步道可能臨時封閉，須查現況",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-010",
+              "variant_name": "Sunrise Point／Bryce Point 日出hoodoo光影",
+              "condition_geometry": "{\"camera_zone\":\"Bryce Amphitheater sunrise Camera Zone\",\"subject\":\"east-facing hoodoos + sunrise light\"}",
+              "hard_gates": "公共觀景區可達；日出時段有效；遵守冬季臨時封閉",
+              "required_conditions": "hoodoo與峽谷層次可辨；日出方向有效；能見度足夠",
+              "boosters": "乾淨東方地平線；薄中高雲晨彩；雪後紅白對比",
+              "penalties": "濃霧；低雲封景；強降水；道路／步道臨時封閉",
+              "formula_status": "needs_directional_horizon_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-006-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS explicitly recommends Sunrise Point and Bryce Point for sunrise. No unique tripod coordinate is asserted.",
+              "name": "Sunrise Point／Bryce Point Sunrise Camera Zone",
+              "coord_confidence": "official_area_no_unique_tripod_claim",
+              "verification_status": "official_nps_bryce_sunrise_viewpoints",
+              "geometry_type": "area",
+              "geometry_extent_m": 1800,
+              "geometry_note": "Bryce Amphitheater官方公共觀景點；依現場開放狀態選Sunrise Point或Bryce Point。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-006-P02",
+          "spot_id": "us-006",
+          "name_zh": "Bryce Amphitheater・日落前暖光hoodoo",
+          "legacy_theme": "sunset",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04-us-bryce-directional-visibility",
+          "formula_confidence": 95,
+          "best_time": "日落前約1.5小時至日落（NPS建議的晚間光線窗口）",
+          "best_season": "全年；冬季依道路／步道開放狀態",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-011",
+              "variant_name": "Inspiration Point／Paria View 晚間暖光",
+              "condition_geometry": "{\"camera_zone\":\"Bryce Amphitheater late-day Camera Zone\",\"subject\":\"hoodoo amphitheater + pre-sunset warm light\",\"sun_note\":\"sun is generally behind the east-facing amphitheater viewpoints\"}",
+              "hard_gates": "公共觀景區可達；日落前時段有效",
+              "required_conditions": "hoodoo層次可辨；晚間低角度光有效；能見度足夠",
+              "boosters": "側逆光塑形；薄雲；雪後色彩對比",
+              "penalties": "濃霧；低雲封景；強降水；冬季臨時封閉",
+              "formula_status": "needs_directional_horizon_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-006-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS FAQ recommends Inspiration Point or Paria View and arriving about 1.5 hours before sunset for the best late-day lighting.",
+              "name": "Inspiration Point／Paria View Late-Day Camera Zone",
+              "coord_confidence": "official_area_no_unique_tripod_claim",
+              "verification_status": "official_nps_bryce_late_day_viewpoints",
+              "geometry_type": "area",
+              "geometry_extent_m": 2500,
+              "geometry_note": "官方Bryce Amphitheater公共觀景區；不是宣稱太陽在hoodoo後方的精準對位。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-006-P03",
+          "spot_id": "us-006",
+          "name_zh": "Bryce Canyon・暗空星野／銀河與hoodoo前景",
+          "legacy_theme": "milky_way",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_astronomy_ephemeris_module",
+          "formula_version": "v0.04-us-bryce-astro",
+          "formula_confidence": 97,
+          "best_time": "天文黑夜；新月附近或月光較弱時優先",
+          "best_season": "全年暗夜；銀河核心構圖另受季節與方位影響",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-012",
+              "variant_name": "Bryce dark sky＋hoodoo前景",
+              "condition_geometry": "{\"camera_zone\":\"Bryce recommended night-sky viewpoints\",\"subject\":\"star field / Milky Way + hoodoo foreground\"}",
+              "hard_gates": "天文黑夜；合法開放觀景區；不得離開允許動線",
+              "required_conditions": "天空足夠晴朗；月光干擾可接受；星野可辨",
+              "boosters": "新月附近；低雲量；高透明度",
+              "penalties": "亮月；雲層遮蔽；霧雪；臨時封閉",
+              "formula_status": "needs_astronomy_ephemeris_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-006-VP03",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS explicitly recommends Sunrise, Sunset, Inspiration and Paria viewpoints for stargazing; no exact Milky Way alignment is claimed.",
+              "name": "Bryce Canyon Recommended Stargazing Camera Zone",
+              "coord_confidence": "official_area_no_exact_alignment_claim",
+              "verification_status": "official_nps_bryce_stargazing_subject",
+              "geometry_type": "area",
+              "geometry_extent_m": 3000,
+              "geometry_note": "使用NPS推薦公共觀景點；銀河核心位置由天文模組判定而非研究資料硬編碼。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-007",
+      "canonical_name": "錫安國家公園",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B62_US_RESEARCH_BATCH02",
+      "research_sources": [
+        {
+          "authority": "U.S. National Park Service — Zion Sunrise and Sunset",
+          "url": "https://www.nps.gov/zion/planyourvisit/sunrise-and-sunset.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS identifies the Human History Museum patio for sunrise illumination and Pa'rus Trail for golden sunset light on the Watchman."
+        },
+        {
+          "authority": "U.S. National Park Service — Pa'rus Trail",
+          "url": "https://www.nps.gov/thingstodo/hike-pa-rus-trail.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS states Pa'rus Trail has some of the best Watchman views and is good for sunset, stargazing and astrophotography."
+        },
+        {
+          "authority": "U.S. National Park Service — Zion Stargazing",
+          "url": "https://www.nps.gov/zion/planyourvisit/sunset-stargazing.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS identifies Pa'rus Trail and Human History Museum patio as accessible night-sky sites, describes full darkness and Milky Way visibility, and states these sites are outside the shuttle-only Scenic Drive."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-007-P01",
+          "spot_id": "us-007",
+          "name_zh": "Zion Canyon・Human History Museum日出峽谷光影",
+          "legacy_theme": "sunrise",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04-us-zion-directional-visibility",
+          "formula_confidence": 96,
+          "best_time": "日出前後約1小時",
+          "best_season": "全年；公園24小時開放，仍須遵守臨時道路／天候管制",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-013",
+              "variant_name": "Human History Museum・Temples and Towers晨光",
+              "condition_geometry": "{\"camera_zone\":\"Human History Museum patio Camera Zone\",\"subject\":\"Zion Canyon temples/towers + rising-sun illumination\"}",
+              "hard_gates": "公共區域可達；日出時段有效；不得踩踏植被",
+              "required_conditions": "峽谷岩壁與晨光可辨；能見度足夠",
+              "boosters": "薄雲晨彩；乾淨東方天空；高透明度",
+              "penalties": "濃霧；低雲遮壁；強降水；臨時封閉",
+              "formula_status": "needs_directional_horizon_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-007-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS Sunrise/Sunset guidance directly identifies the Human History Museum area for sunrise canyon illumination.",
+              "name": "Zion Human History Museum Sunrise Camera Zone",
+              "coord_confidence": "official_area_no_unique_tripod_claim",
+              "verification_status": "official_nps_zion_sunrise_viewpoint",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 250,
+              "geometry_note": "Museum patio／相鄰公共區域；避免踩踏周邊植被。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-007-P02",
+          "spot_id": "us-007",
+          "name_zh": "Pa’rus Trail・Watchman金色日落",
+          "legacy_theme": "sunset",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04-us-zion-directional-visibility",
+          "formula_confidence": 97,
+          "best_time": "日落前約1小時至日落後暮色",
+          "best_season": "全年；Pa’rus Trail為NPS推薦夕照點",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-014",
+              "variant_name": "Pa’rus Trail・Watchman夕照",
+              "condition_geometry": "{\"camera_zone\":\"Pa’rus Trail Camera Zone\",\"subject\":\"Watchman + golden sunset light\"}",
+              "hard_gates": "公共步道可達；日落時段有效；不得停在道路／Canyon Junction Bridge拍攝",
+              "required_conditions": "Watchman與夕照可辨；能見度足夠",
+              "boosters": "暖色側光；中高雲夕彩；低霾",
+              "penalties": "濃霧；低雲遮壁；強降水；臨時步道封閉",
+              "formula_status": "needs_directional_horizon_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-007-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS explicitly names Pa'rus Trail for phenomenal golden sunset views of the Watchman.",
+              "name": "Pa’rus Trail Watchman Sunset Camera Zone",
+              "coord_confidence": "official_area_no_unique_tripod_claim",
+              "verification_status": "official_nps_parus_watchman_sunset",
+              "geometry_type": "linear_zone",
+              "geometry_extent_m": 1800,
+              "geometry_note": "沿Pa’rus Trail合法公共步道調整構圖；不使用道路或Canyon Junction Bridge停拍。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-007-P03",
+          "spot_id": "us-007",
+          "name_zh": "Pa’rus Trail・Zion峽谷星空／銀河",
+          "legacy_theme": "milky_way",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_astronomy_ephemeris_module",
+          "formula_version": "v0.04-us-zion-astro",
+          "formula_confidence": 97,
+          "best_time": "天文黑夜；NPS指出最暗約為日落後1.5小時至日出前1.5小時",
+          "best_season": "全年暗夜；新月前一週通常更利於深空／銀河",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-015",
+              "variant_name": "Pa’rus Trail暗空＋峽谷前景",
+              "condition_geometry": "{\"camera_zone\":\"Pa’rus Trail night Camera Zone\",\"subject\":\"star field / Milky Way + Zion canyon cliffs\"}",
+              "hard_gates": "天文黑夜；合法步道；照明與行走安全需兼顧",
+              "required_conditions": "星野可辨；天空足夠晴朗；月光干擾可接受",
+              "boosters": "新月附近；低雲量；高透明度",
+              "penalties": "亮月；雲層遮蔽；霧雨；白光干擾",
+              "formula_status": "needs_astronomy_ephemeris_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-007-VP03",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS directly recommends Pa'rus Trail for stargazing and astrophotography; exact Milky Way alignment is left to astronomy runtime.",
+              "name": "Pa’rus Trail Night-Sky Camera Zone",
+              "coord_confidence": "official_area_no_exact_alignment_claim",
+              "verification_status": "official_nps_zion_stargazing_subject",
+              "geometry_type": "linear_zone",
+              "geometry_extent_m": 1800,
+              "geometry_note": "Pa’rus Trail公共步道夜間Camera Zone；使用紅光並注意夜行安全。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-008",
+      "canonical_name": "優勝美地半圓頂",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B62_US_RESEARCH_BATCH02",
+      "research_sources": [
+        {
+          "authority": "U.S. National Park Service — Sentinel Bridge",
+          "url": "https://www.nps.gov/places/000/sentinel-bridge.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS states Sentinel Bridge provides an excellent Half Dome view and mirrored Merced River reflection, especially at sunset; reflection is best when water is low and relatively still, and the bridge is reachable by car year-round."
+        },
+        {
+          "authority": "U.S. National Park Service — Yosemite Stargazing",
+          "url": "https://www.nps.gov/yose/planyourvisit/stargazing.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS identifies Glacier Point for high-elevation stargazing with Half Dome and Yosemite Valley, and states Glacier Point vehicle access is approximately late May to November."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-008-P01",
+          "spot_id": "us-008",
+          "name_zh": "Sentinel Bridge・Half Dome夕照與Merced River倒影",
+          "legacy_theme": "reflection",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04-us-yosemite-halfdome-reflection",
+          "formula_confidence": 97,
+          "best_time": "日落前後；NPS明確指出此處Half Dome倒影尤其適合日落",
+          "best_season": "全年可達；NPS指出低且較平靜水位（如秋冬）較容易形成清楚倒影",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-016",
+              "variant_name": "Sentinel Bridge・Half Dome夕照倒影",
+              "condition_geometry": "{\"camera_zone\":\"Sentinel Bridge Camera Zone\",\"subject\":\"Half Dome + Merced River reflection + sunset light\"}",
+              "hard_gates": "Sentinel Bridge公共區域可達；日落時段有效；安全站在人行區",
+              "required_conditions": "Half Dome清楚；夕照有效；Merced水面足夠平靜形成可辨倒影；能見度足夠",
+              "boosters": "低而平靜水位；暖色夕照；低風",
+              "penalties": "強風破壞水面；濃霧／低雲遮Half Dome；強降水；高濁度／水面擾動",
+              "formula_status": "needs_directional_horizon_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-008-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS directly identifies Sentinel Bridge as the Half Dome reflection viewpoint, especially at sunset. No subject-summit coordinate is used as the Camera Zone.",
+              "name": "Sentinel Bridge Half Dome Reflection Camera Zone",
+              "coord_confidence": "official_viewpoint_no_subject_coordinate_reuse",
+              "verification_status": "official_nps_sentinel_bridge_halfdome_reflection",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 150,
+              "geometry_note": "Sentinel Bridge公共人行區；Camera Zone與Half Dome主體座標明確分離。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-008-P02",
+          "spot_id": "us-008",
+          "name_zh": "Glacier Point・Half Dome與Yosemite Valley星空",
+          "legacy_theme": "milky_way",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_astronomy_ephemeris_access_module",
+          "formula_version": "v0.04-us-yosemite-glacierpoint-astro-access-pending",
+          "formula_confidence": 96,
+          "best_time": "天文黑夜且Glacier Point實際可達",
+          "best_season": "車行道路通常約晚春至秋季開放；實際開放日期依年度雪況／道路狀態",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-017",
+              "variant_name": "Glacier Point・Half Dome暗夜星空",
+              "condition_geometry": "{\"camera_zone\":\"Glacier Point Camera Zone\",\"subject\":\"star field / Milky Way + Half Dome / Yosemite Valley\",\"access\":\"Glacier Point Road current status required\"}",
+              "hard_gates": "Glacier Point當下實際可達；天文黑夜；不得把典型季節視為當天道路開放證明",
+              "required_conditions": "星野可辨；Half Dome／谷地前景可安全構圖；月光與雲量可接受",
+              "boosters": "新月附近；低雲量；高透明度",
+              "penalties": "Glacier Point Road關閉；亮月；雲霧；強風／雪況",
+              "formula_status": "research_ready_astronomy_seasonal_road_provider_pending"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-008-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS explicitly identifies Glacier Point stargazing with Half Dome/Yosemite Valley but road access is seasonal; runtime remains fail-closed until road status is connected.",
+              "name": "Glacier Point Half Dome Night Camera Zone",
+              "coord_confidence": "official_area_no_unique_tripod_claim",
+              "verification_status": "official_nps_glacier_point_stargazing_subject_seasonal_access",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 300,
+              "geometry_note": "Glacier Point公共觀景區；道路開放需動態確認。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-009",
+      "canonical_name": "優勝美地隧道觀景臺",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B62_US_RESEARCH_BATCH02",
+      "research_sources": [
+        {
+          "authority": "U.S. National Park Service — Yosemite Valley / Tunnel View",
+          "url": "https://www.nps.gov/yose/planyourvisit/yv.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS identifies Tunnel View as one of Yosemite Valley's most famous views, with El Capitan, Bridalveil Fall and Half Dome in the background."
+        },
+        {
+          "authority": "U.S. National Park Service — Yosemite Stargazing",
+          "url": "https://www.nps.gov/yose/planyourvisit/stargazing.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS explicitly lists Tunnel View as an easily reachable Yosemite Valley night-sky location."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-009-P01",
+          "spot_id": "us-009",
+          "name_zh": "Tunnel View・El Capitan／Bridalveil Fall／Half Dome經典谷景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-visibility-minimum-sufficient",
+          "formula_confidence": 96,
+          "best_time": "白天可見光；低角度光或雨雪後清澈空氣可加分",
+          "best_season": "全年；瀑布水量與雪景隨季節變化但不是基本成立條件",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-018",
+              "variant_name": "Tunnel View經典Yosemite Valley全景",
+              "condition_geometry": "{\"camera_zone\":\"Tunnel View Overlook Camera Zone\",\"subject\":\"El Capitan + Bridalveil Fall + Half Dome + Yosemite Valley\"}",
+              "hard_gates": "公共觀景台可達；不得停在道路車道內",
+              "required_conditions": "主要谷景地標可辨；能見度足夠",
+              "boosters": "雨雪後高透明度；低角度光；Bridalveil Fall水量佳",
+              "penalties": "濃霧／煙霾；低雲封谷；強降水；能見度過低",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-009-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS directly defines Tunnel View as the iconic valley view with El Capitan, Bridalveil Fall and Half Dome.",
+              "name": "Tunnel View Overlook Camera Zone",
+              "lat": 37.715553,
+              "lon": -119.677,
+              "coord_confidence": "high",
+              "verification_status": "official_nps_tunnel_view_subject_plus_existing_viewpoint_anchor",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 180,
+              "geometry_note": "Wawona Road隧道東端官方觀景區；使用停車／人行空間，不停於車道。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-009-P02",
+          "spot_id": "us-009",
+          "name_zh": "Tunnel View・Yosemite Valley剪影星空／銀河",
+          "legacy_theme": "milky_way",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_astronomy_ephemeris_module",
+          "formula_version": "v0.04-us-yosemite-tunnelview-astro",
+          "formula_confidence": 96,
+          "best_time": "天文黑夜；低月光時優先",
+          "best_season": "全年暗夜；銀河核心構圖另受季節與方位影響",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-019",
+              "variant_name": "Tunnel View暗空＋谷壁剪影",
+              "condition_geometry": "{\"camera_zone\":\"Tunnel View Overlook Camera Zone\",\"subject\":\"star field / Milky Way + Yosemite Valley wall silhouette\"}",
+              "hard_gates": "天文黑夜；公共觀景區可達；安全停車",
+              "required_conditions": "星野可辨；谷壁前景可辨；月光與雲量可接受",
+              "boosters": "新月附近；低雲量；高透明度",
+              "penalties": "亮月；雲霧；車燈／營火霾干擾；強降水",
+              "formula_status": "needs_astronomy_ephemeris_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-009-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS explicitly lists Tunnel View among Yosemite Valley stargazing locations; exact Galactic Core alignment is not claimed.",
+              "name": "Tunnel View Night-Sky Camera Zone",
+              "lat": 37.715553,
+              "lon": -119.677,
+              "coord_confidence": "high",
+              "verification_status": "official_nps_tunnel_view_stargazing_subject",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 180,
+              "geometry_note": "Tunnel View官方觀景區夜間使用；注意車燈與安全。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-010",
+      "canonical_name": "黃石國家公園 大稜鏡溫泉",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B62_US_RESEARCH_BATCH02",
+      "research_sources": [
+        {
+          "authority": "U.S. National Park Service — Yellowstone Photography",
+          "url": "https://www.nps.gov/yell/planyourvisit/photography.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS directly describes Grand Prismatic's colorful bacterial mats and azure pool as a major photography subject, identifies the Fairy Falls elevated overlook and Midway boardwalk as the two legal vantage types, and prohibits off-trail access."
+        },
+        {
+          "authority": "U.S. National Park Service — Grand Prismatic Overlook Trail",
+          "url": "https://www.nps.gov/thingstodo/yell-trail-grand-prismatic-overlook.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS documents the 0.6-mile climb from Fairy Falls Trailhead to the elevated overlook and identifies parking/access constraints."
+        },
+        {
+          "authority": "U.S. National Park Service — Yellowstone Park Roads",
+          "url": "https://www.nps.gov/yell/planyourvisit/parkroads.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS publishes live road status and year-specific seasonal opening/closing dates; most Grand Loop roads are closed to normal vehicles in winter and dates can change with weather."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-010-P01",
+          "spot_id": "us-010",
+          "name_zh": "Grand Prismatic・Fairy Falls高位彩色溫泉全景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_dynamic_access_module",
+          "formula_version": "v0.04-yellowstone-road-access-pending",
+          "formula_confidence": 98,
+          "best_time": "道路與Fairy Falls Trailhead實際開放期間的白天可見光",
+          "best_season": "依Yellowstone當年度道路開放；不得把固定月份當成當天可達證明",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-020",
+              "variant_name": "Grand Prismatic Overlook高位全景",
+              "condition_geometry": "{\"camera_zone\":\"Grand Prismatic Overlook Camera Zone\",\"subject\":\"colorful bacterial mats + azure hot spring + Midway Geyser Basin\",\"access\":\"current Yellowstone road/trail status required\"}",
+              "hard_gates": "相關道路與Fairy Falls Trailhead實際可達；僅走官方步道／觀景台；禁止離線踩踏熱區",
+              "required_conditions": "大稜鏡溫泉色彩與池體可辨；觀景台實際開放",
+              "boosters": "較少水氣遮蔽；高透明度；人流較低",
+              "penalties": "道路／步道關閉；大量蒸氣遮蔽；強降水／雪；停車壅塞",
+              "formula_status": "research_ready_yellowstone_road_status_provider_pending"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-010-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS says the Fairy Falls route leads to the only elevated overlook of Grand Prismatic. Subject coordinate is not reused as a navigation/camera coordinate.",
+              "name": "Grand Prismatic Overlook Camera Zone",
+              "coord_confidence": "official_area_no_subject_coordinate_reuse",
+              "verification_status": "official_nps_grand_prismatic_elevated_overlook",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 180,
+              "geometry_note": "Fairy Falls Trailhead起走約0.6mi至官方高位觀景台；道路／步道狀態需動態確認。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-010-P02",
+          "spot_id": "us-010",
+          "name_zh": "Grand Prismatic・Midway Boardwalk近距離色彩與水氣",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_dynamic_access_module",
+          "formula_version": "v0.04-yellowstone-road-access-pending",
+          "formula_confidence": 98,
+          "best_time": "相關道路實際開放期間的白天可見光",
+          "best_season": "依Yellowstone當年度道路開放與臨時狀態",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-021",
+              "variant_name": "Midway Boardwalk・溫泉色帶與蒸氣細節",
+              "condition_geometry": "{\"camera_zone\":\"Midway Geyser Basin Boardwalk Camera Zone\",\"subject\":\"Grand Prismatic edge colors + steam + microbial mats\",\"access\":\"current Yellowstone road status required\"}",
+              "hard_gates": "Midway Geyser Basin道路／boardwalk實際可達；全程留在官方boardwalk；禁止越界",
+              "required_conditions": "溫泉色帶或水氣細節可辨；boardwalk實際開放",
+              "boosters": "較低蒸氣遮蔽；柔和光；低人流",
+              "penalties": "道路／boardwalk關閉；大量蒸氣完全遮蔽；強降水／雪；停車壅塞",
+              "formula_status": "research_ready_yellowstone_road_status_provider_pending"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-010-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS explicitly identifies Midway Geyser Basin boardwalk as the legal ground-level vantage point. Off-trail travel is prohibited.",
+              "name": "Midway Geyser Basin Boardwalk Camera Zone",
+              "coord_confidence": "official_area_no_subject_coordinate_reuse",
+              "verification_status": "official_nps_grand_prismatic_boardwalk_vantage",
+              "geometry_type": "linear_zone",
+              "geometry_extent_m": 700,
+              "geometry_note": "Midway官方boardwalk合法區域；主體座標不是可離線進入的Camera Zone。",
               "geometry_confidence": "high"
             }
           ]
