@@ -255,6 +255,39 @@ jobs:
               assert scroll_state["scrollTop"] > 0, scroll_state
               assert scroll_state["targetPast"] is False, scroll_state
               assert scroll_state["targetTop"] >= scroll_state["bodyTop"] - 1, scroll_state
+
+              # Mobile must honor the same current-hour anchor contract.
+              driver.execute_script("closeModal()")
+              driver.set_window_size(390, 844)
+              mobile_weather = driver.find_elements(By.CSS_SELECTOR, "#spots-container .card")[0].find_element(By.CSS_SELECTOR, "[data-weather]")
+              driver.execute_script("arguments[0].click()", mobile_weather)
+              wait.until(lambda d: d.find_element(By.ID, "modal-overlay").value_of_css_property("display") != "none")
+              wait.until(lambda d: len(d.find_elements(By.CSS_SELECTOR, "#timeline-mobile .timeline-mobile-card")) > 0)
+              mobile_scroll_state = wait.until(lambda d: d.execute_script("""
+                const body = document.querySelector('#modal-overlay .modal-body');
+                const target = document.querySelector('#timeline-mobile [data-now-anchor="true"]');
+                if (!body || !target || body.scrollTop <= 0) return false;
+                const bodyRect = body.getBoundingClientRect();
+                const targetRect = target.getBoundingClientRect();
+                return {
+                  scrollTop: body.scrollTop,
+                  targetPast: target.classList.contains('past-row'),
+                  targetTop: targetRect.top,
+                  bodyTop: bodyRect.top
+                };
+              """))
+              report["weather_current_anchor_mobile"] = mobile_scroll_state
+              assert mobile_scroll_state["scrollTop"] > 0, mobile_scroll_state
+              assert mobile_scroll_state["targetPast"] is False, mobile_scroll_state
+              assert mobile_scroll_state["targetTop"] >= mobile_scroll_state["bodyTop"] - 1, mobile_scroll_state
+              driver.execute_script("closeModal()")
+              driver.set_window_size(1440, 1200)
+
+              # Reopen once at desktop size for the remaining modal assertions.
+              cards = driver.find_elements(By.CSS_SELECTOR, "#spots-container .card")
+              weather = cards[0].find_element(By.CSS_SELECTOR, "[data-weather]")
+              driver.execute_script("arguments[0].click()", weather)
+              wait.until(lambda d: d.find_element(By.ID, "modal-overlay").value_of_css_property("display") != "none")
               weather_title = driver.find_element(By.ID, "modal-spot-name").text
               report["weather_title"] = weather_title
               assert "天氣預報" in weather_title
