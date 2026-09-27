@@ -1705,7 +1705,11 @@ SPOT_OVERRIDES.update({
     "塔爾基特納": {"lat": 62.322846, "lon": -150.121177, "map_query": "Talkeetna Riverfront Park Alaska", "coordinate_source": "Travel Alaska official Denali/Susitna view subject + Alaska.org/OSM riverfront cross-check", "coordinate_confidence": "medium_high"},
     "艾利耶斯卡": {"lat": 60.961540, "lon": -149.079370, "map_query": "Alyeska Mountain Station Aerial Tram", "coordinate_source": "Alyeska Resort official Mountain Station panorama subject + OSM/Mapcarta upper tram cross-check", "coordinate_confidence": "medium_high"},
     "楚加奇州立公園": {"lat": 61.104890, "lon": -149.684610, "map_query": "Glen Alps Overlook Chugach State Park", "coordinate_source": "Alaska State Parks official Glen Alps/Anchorage Overlook subject + OSM/Mapcarta viewpoint cross-check", "coordinate_confidence": "medium_high"},
-    "獨立礦山": {"lat": 61.790493, "lon": -149.283392, "map_query": "Independence Mine State Historical Park", "coordinate_source": "Alaska.org park GPS", "coordinate_confidence": "high"},
+    "白令陸橋國家保護區": {"lat": 65.856900, "lon": -164.714200, "map_query": "Serpentine Hot Springs Bering Land Bridge", "coordinate_source": "NPS exact Serpentine Hot Springs coordinate", "coordinate_confidence": "high"},
+    "育空河": {"lat": 65.876650, "lon": -149.721000, "map_query": "Yukon Crossing Visitor Contact Station Dalton Highway", "coordinate_source": "BLM official Yukon Crossing river-view subject + Alaska.org coordinate cross-check", "coordinate_confidence": "medium_high"},
+    "諾阿塔克河": {"lat": 68.1814422607422, "lon": -159.394500732422, "map_query": "Noatak River Noatak National Preserve", "coordinate_source": "NPS Gallery audited Noatak River asset location", "coordinate_confidence": "high"},
+    "克拉克湖國家公園": {"lat": 60.1973667, "lon": -154.3226167, "map_query": "Port Alsworth Lake Clark", "coordinate_source": "NPS published Port Alsworth coordinate + Lake Clark/aurora subject evidence", "coordinate_confidence": "high"},
+    "獨立礦山": {"lat": 61.790493, "lon": -149.283392, "map_query": "Independence Mine State Historical Park", "coordinate_source": "Alaska State Parks official Mile 17.3 subject/access + existing cross-mapped park anchor", "coordinate_confidence": "medium_high"},
 })
 
 

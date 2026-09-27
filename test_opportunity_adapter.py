@@ -2301,7 +2301,7 @@ def test_adapter_integrity():
 
     us_spots = get_spots("us")
     researched_us = {s["spot_id"] for s in us_spots if s.get("opportunities")}
-    assert researched_us == {f"us-{i:03d}" for i in range(1, 66)}
+    assert researched_us == {f"us-{i:03d}" for i in range(1, 71)}
     assert all(not (s.get("opportunities") or []) for s in us_spots if s["spot_id"] not in researched_us)
 
     us006 = get_opportunities("us", "us-006")
@@ -2790,6 +2790,63 @@ def test_adapter_integrity():
     chugach = next(s for s in us_spots if s["spot_id"] == "us-065")
     assert abs(chugach["lat"] - 61.10489) < 1e-7
     assert abs(chugach["lon"] + 149.68461) < 1e-7
+
+    us066 = get_opportunities("us", "us-066")
+    assert [o["opportunity_id"] for o in us066] == ["us-066-P01", "us-066-P02"]
+    assert [o["runtime_policy"] for o in us066] == ["module_pending", "module_pending"]
+    assert dependencies_for_opportunity(us066[0]) == ("dynamic_access", "visibility")
+    assert dependencies_for_opportunity(us066[1]) == ("aurora_state", "dynamic_access")
+    assert dependency_state(us066[0])["missing_components"] == ("dynamic_access",)
+    assert dependency_state(us066[1])["missing_components"] == ("aurora_state", "dynamic_access")
+    assert ACCESS_PROFILE_CLASSIFICATION["us-066-P01"]["access_type"] == "transport_facility_status"
+    assert ACCESS_PROFILE_CLASSIFICATION["us-066-P02"]["access_type"] == "transport_facility_status"
+    bering = next(s for s in us_spots if s["spot_id"] == "us-066")
+    assert abs(bering["lat"] - 65.8569) < 1e-7
+    assert abs(bering["lon"] + 164.7142) < 1e-7
+
+    us067 = get_opportunities("us", "us-067")
+    assert [o["opportunity_id"] for o in us067] == ["us-067-P01"]
+    assert us067[0]["runtime_policy"] == "module_pending"
+    assert dependencies_for_opportunity(us067[0]) == ("dynamic_access", "visibility")
+    assert dependency_state(us067[0])["missing_components"] == ("dynamic_access",)
+    assert ACCESS_PROFILE_CLASSIFICATION["us-067-P01"]["access_type"] == "road_viewpoint_status"
+    yukon = next(s for s in us_spots if s["spot_id"] == "us-067")
+    assert abs(yukon["lat"] - 65.87665) < 1e-7
+    assert abs(yukon["lon"] + 149.721) < 1e-7
+
+    us068 = get_opportunities("us", "us-068")
+    assert [o["opportunity_id"] for o in us068] == ["us-068-P01", "us-068-P02"]
+    assert [o["runtime_policy"] for o in us068] == ["module_pending", "module_pending"]
+    assert dependencies_for_opportunity(us068[0]) == ("dynamic_access", "visibility")
+    assert dependencies_for_opportunity(us068[1]) == ("aurora_state", "dynamic_access")
+    assert dependency_state(us068[0])["missing_components"] == ("dynamic_access",)
+    assert dependency_state(us068[1])["missing_components"] == ("aurora_state", "dynamic_access")
+    assert ACCESS_PROFILE_CLASSIFICATION["us-068-P01"]["access_type"] == "transport_facility_status"
+    assert ACCESS_PROFILE_CLASSIFICATION["us-068-P02"]["access_type"] == "transport_facility_status"
+    noatak = next(s for s in us_spots if s["spot_id"] == "us-068")
+    assert abs(noatak["lat"] - 68.1814422607422) < 1e-9
+    assert abs(noatak["lon"] + 159.394500732422) < 1e-9
+
+    us069 = get_opportunities("us", "us-069")
+    assert [o["opportunity_id"] for o in us069] == ["us-069-P01", "us-069-P02"]
+    assert [o["runtime_policy"] for o in us069] == ["minimum_sufficient_available", "module_pending"]
+    assert dependencies_for_opportunity(us069[0]) == ("visibility",)
+    assert dependencies_for_opportunity(us069[1]) == ("aurora_state",)
+    assert dependency_state(us069[1])["missing_components"] == ("aurora_state",)
+    lake_clark = next(s for s in us_spots if s["spot_id"] == "us-069")
+    assert abs(lake_clark["lat"] - 60.1973667) < 1e-7
+    assert abs(lake_clark["lon"] + 154.3226167) < 1e-7
+
+    us070 = get_opportunities("us", "us-070")
+    assert [o["opportunity_id"] for o in us070] == ["us-070-P01"]
+    assert us070[0]["runtime_policy"] == "module_pending"
+    assert dependencies_for_opportunity(us070[0]) == ("dynamic_access",)
+    assert dependency_state(us070[0])["missing_components"] == ("dynamic_access",)
+    assert ACCESS_PROFILE_CLASSIFICATION["us-070-P01"]["access_type"] == "road_viewpoint_status"
+    independence = next(s for s in us_spots if s["spot_id"] == "us-070")
+    assert abs(independence["lat"] - 61.790493) < 1e-7
+    assert abs(independence["lon"] + 149.283392) < 1e-7
+    assert independence["coordinate_confidence"] == "medium_high"
 
     assert us010[0]["runtime_policy"] == "module_pending"
     us010_state = dependency_state(us010[0])
@@ -3303,7 +3360,7 @@ def test_active_catalog_weather_generation_guard():
 
     us_spots = get_spots("us")
     researched_us = {spot["spot_id"] for spot in us_spots if spot.get("opportunities")}
-    assert researched_us == {f"us-{i:03d}" for i in range(1, 66)}
+    assert researched_us == {f"us-{i:03d}" for i in range(1, 71)}
     assert all(
         not (spot.get("opportunities") or [])
         for spot in us_spots
