@@ -585,6 +585,48 @@ jobs:
               assert all(x in {"", "—"} for x in us_scores), us_scores[:20]
               assert any("攝影研究待補" in c.text for c in us_cards), "US research-pending card notice missing"
 
+              favorite_migration = driver.execute_script("""
+                const spot = currentSpots[0];
+                const names = [...Object.values(spot.name_i18n || {}), spot.name_local].filter(Boolean);
+                const legacyName = names[0];
+                const unresolved = '__chaselights_unmatched_legacy_probe__';
+                favorites = [];
+                legacyFavorites = [legacyName, unresolved];
+                favoriteMigrationRegions = [];
+                localStorage.removeItem('chaselights_favs_v2');
+                localStorage.setItem('chaselights_favs', JSON.stringify(legacyFavorites));
+                localStorage.removeItem(FAVORITE_MIGRATION_KEY);
+
+                migrateFavorites(currentRegion);
+                const first = {
+                  region: currentRegion,
+                  migrated: [...favorites],
+                  legacy: [...legacyFavorites],
+                  sentinels: [...favoriteMigrationRegions]
+                };
+                migrateFavorites(currentRegion);
+                const second = {
+                  migrated: [...favorites],
+                  legacy: [...legacyFavorites],
+                  sentinels: [...favoriteMigrationRegions]
+                };
+
+                localStorage.removeItem('chaselights_favs_v2');
+                localStorage.removeItem('chaselights_favs');
+                localStorage.removeItem(FAVORITE_MIGRATION_KEY);
+                favorites = [];
+                legacyFavorites = [];
+                favoriteMigrationRegions = [];
+                return {spotId: spot.spot_id, unresolved, first, second};
+              """)
+              report["favorite_migration_sentinel"] = favorite_migration
+              assert favorite_migration["spotId"] in favorite_migration["first"]["migrated"], favorite_migration
+              assert favorite_migration["first"]["legacy"] == [favorite_migration["unresolved"]], favorite_migration
+              assert favorite_migration["first"]["region"] in favorite_migration["first"]["sentinels"], favorite_migration
+              assert favorite_migration["second"]["migrated"] == favorite_migration["first"]["migrated"], favorite_migration
+              assert favorite_migration["second"]["legacy"] == favorite_migration["first"]["legacy"], favorite_migration
+              assert favorite_migration["second"]["sentinels"] == favorite_migration["first"]["sentinels"], favorite_migration
+
               print(json.dumps(report, ensure_ascii=False, indent=2))
           finally:
               driver.quit()
