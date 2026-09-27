@@ -160,7 +160,7 @@
     }
 
     async function cacheMatch(url){try{if(!('caches'in window))return null;const c=await caches.open(CACHE_NAME);const r=await c.match(url);if(!r)return null;const j=await r.json();return schemaSupported(j)?j:null;}catch{return null;}}
-    async function fetchAndCache(url,signal){const opts={cache:'no-cache'};if(signal)opts.signal=signal;const r=await fetch(url,opts);if(!r.ok)throw new Error(`HTTP ${r.status}`);const clone=r.clone();try{if('caches'in window){const c=await caches.open(CACHE_NAME);await c.put(url,clone);}}catch{}const j=await r.json();if(!schemaSupported(j))throw new Error(`Schema mismatch: expected ${MIN_SCHEMA_VERSION}-${MAX_SCHEMA_VERSION}, got ${j?.schema_version??'missing'}`);return j;}
+    async function fetchAndCache(url,signal,cacheKey=url){const opts={cache:'no-cache'};if(signal)opts.signal=signal;const r=await fetch(url,opts);if(!r.ok)throw new Error(`HTTP ${r.status}`);const clone=r.clone();try{if('caches'in window){const c=await caches.open(CACHE_NAME);await c.put(cacheKey,clone);}}catch{}const j=await r.json();if(!schemaSupported(j))throw new Error(`Schema mismatch: expected ${MIN_SCHEMA_VERSION}-${MAX_SCHEMA_VERSION}, got ${j?.schema_version??'missing'}`);return j;}
     function applyData(data,region,seq){if(seq!==activeLoadSequence||region!==currentRegion||data.region!==region)return false;const prev=memorySummary.get(region);if(prev?.updated_at&&data?.updated_at&&prev.updated_at!==data.updated_at)clearMemoryDetails(region);currentData=data;currentSpots=data.spots||[];memorySummary.set(region,data);document.getElementById('loading').style.display='none';migrateFavorites();renderSubNav();syncDayButtons();updateHeader();filterAndRender();return true;}
     function migrateFavorites(){
       if(!legacyFavorites.length)return;
@@ -315,14 +315,14 @@
       if(memoryDetails.has(key)){const m=memoryDetails.get(key);if(versionMatches(m))return m;memoryDetails.delete(key);}
 
       let url=detailUrl(expectedVersion);
-      const cached=await cacheMatch(url);
+      const cached=await cacheMatch(baseUrl);
       if(cached&&versionMatches(cached)){
         remember(cached);
-        fetchAndCache(url,null).then(x=>{if(versionMatches(x))memoryDetails.set(key,x);}).catch(()=>{});
+        fetchAndCache(url,null,baseUrl).then(x=>{if(versionMatches(x))memoryDetails.set(key,x);}).catch(()=>{});
         return cached;
       }
 
-      const fresh=await fetchAndCache(url,null);
+      const fresh=await fetchAndCache(url,null,baseUrl);
       if(versionMatches(fresh))return remember(fresh);
 
       // Summary and Place shards are committed together, but browser/CDN cache
@@ -344,7 +344,7 @@
 
       if(versionMatches(fresh,expectedVersion))return remember(fresh);
       url=detailUrl(expectedVersion,1);
-      const retry=await fetchAndCache(url,null);
+      const retry=await fetchAndCache(url,null,baseUrl);
       if(versionMatches(retry,expectedVersion))return remember(retry);
       throw new Error(d().detail_sync_wait);
     }
