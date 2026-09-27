@@ -97,6 +97,8 @@ _ACCESS_GROUPS = {
         "tw-008-P01",
         "tw-032-P01", "tw-032-P02", "tw-032-P03",
         "tw-056-P01", "tw-056-P02", "tw-057-P02",
+        "us-012-P01", "us-012-P02",
+        "us-013-P01", "us-013-P02",
     ),
     "managed_park_booking_notice": ("tw-010-P01", "tw-010-P03", "us-003-P01", "us-003-P02"),
     "boardwalk_schedule_notice": ("tw-012-P02", "tw-015-P02"),
@@ -144,6 +146,20 @@ ACCESS_RUNTIME_READY_PROFILES = frozenset({
 # These are provider-discovery hints, not proof that an Opportunity is open.
 # They document official sources verified during B25 architecture work.
 OFFICIAL_SOURCE_HINTS = {
+    "us-012": {
+        "authority": "U.S. National Park Service — Mount Rainier",
+        "source_kind": "official_seasonal_road_and_current_closure_status",
+        "url": "https://www.nps.gov/mora/planyourvisit/road-status.htm",
+        "verified_on": "2026-09-27",
+        "note": "Reflection Lakes / Stevens Canyon and Sunrise access vary by season and current incidents. In September 2026 Sunrise Road is closed to vehicles due to fires, proving that calendar season or favorable weather cannot establish access.",
+    },
+    "us-013": {
+        "authority": "U.S. National Park Service — Crater Lake",
+        "source_kind": "official_rim_drive_trail_and_current_conditions",
+        "url": "https://www.nps.gov/crla/planyourvisit/conditions.htm",
+        "verified_on": "2026-09-27",
+        "note": "Rim Drive and Watchman access are snow- and incident-dependent. Use current NPS road/trail status; the park being open year-round does not prove a specific rim viewpoint is reachable.",
+    },
     "us-010": {
         "authority": "U.S. National Park Service",
         "source_kind": "grand_prismatic_overlook_trail_and_road_status",
