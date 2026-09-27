@@ -228,6 +228,7 @@ jobs:
               assert actual_ids == expected_opportunities[spot["spot_id"]], (spot["spot_id"], actual_ids)
 
               days = spot.get("daily") or []
+              assert all("themes" not in day for day in days), (spot["spot_id"], "published_daily_theme_duplicate")
               assert days
               seen_daily_opportunity_ids = set()
               for day in days:
