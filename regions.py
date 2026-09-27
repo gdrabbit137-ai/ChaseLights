@@ -1668,7 +1668,7 @@ SPOT_OVERRIDES.update({
     "西雅圖派克市場": {"lat": 47.609570, "lon": -122.342010, "map_query": "Pike Place Market Seattle", "coordinate_source": "OSM/Mapcarta POI cross-checked to official Pike Place Market district", "coordinate_confidence": "high"},
     "鋸齒山脈": {"lat": 44.138889, "lon": -114.924444, "map_query": "North Shore Picnic Area Redfish Lake", "coordinate_source": "North Shore Picnic Area cross-mapped to Recreation.gov/USFS Redfish Lake site", "coordinate_confidence": "medium_high"},
     "洛杉磯格里斐斯天文台": {"lat": 34.118210, "lon": -118.300370, "map_query": "Griffith Observatory Los Angeles", "coordinate_source": "OSM/Mapcarta POI", "coordinate_confidence": "high"},
-    "白沙國家公園": {"lat": 32.820460, "lon": -106.273000, "map_query": "Alkali Flat Trailhead White Sands National Park", "coordinate_source": "NPS Alkali Flat photography/trail evidence + OSM/Mapcarta NPS-operated trailhead", "coordinate_confidence": "medium_high"},
+    "白沙國家公園": {"lat": 32.811370, "lon": -106.265010, "map_query": "White Sands Sunset Stroll Parking Area", "coordinate_source": "NPS 2026 Sunset Stroll exact event coordinate", "coordinate_confidence": "high"},
     "芝加哥天際線": {"lat": 41.866360, "lon": -87.606630, "map_query": "Adler Planetarium Chicago skyline view", "coordinate_source": "Choose Chicago official skyline camera-area evidence + OSM/Mapcarta Adler POI", "coordinate_confidence": "high"},
     "紐奧良法國區": {"lat": 29.958611, "lon": -90.065000, "map_query": "French Quarter New Orleans", "coordinate_source": "Wikidata/Wikipedia district center", "coordinate_confidence": "high"},
     "聖路易斯大拱門": {"lat": 38.624600, "lon": -90.185000, "map_query": "Gateway Arch St Louis", "coordinate_source": "official geographic POI", "coordinate_confidence": "high"},
@@ -1720,6 +1720,24 @@ DISPLAY_NAME_OVERRIDES = {
 # separate. map_query is search/display metadata only and MUST NOT be used to
 # build a production Navigation URL.
 NAVIGATION_TARGET_OVERRIDES = {
+    "白沙國家公園": {
+        "status": "verified",
+        "lat": 32.811370,
+        "lon": -106.265010,
+        "target_type": "parking_arrival",
+        "label_i18n": {
+            "zh-TW": "White Sands・Sunset Stroll 停車區",
+            "en": "White Sands · Sunset Stroll parking area",
+            "ja": "ホワイトサンズ・Sunset Stroll 駐車エリア",
+        },
+        "source": "NPS 2026 Sunset Stroll exact event coordinate; reviewed 2026-09-27",
+        "confidence": "high",
+        "note_i18n": {
+            "zh-TW": "NPS目前活動頁直接公布此停車區座標；導航與此批次Camera Zone／weather sample可共用，但仍須遵守當日園區與Dunes Drive關閉公告。",
+            "en": "NPS currently publishes this exact parking-area coordinate. It may serve as navigation, Camera Zone reference, and weather sample for this batch, subject to current park and Dunes Drive closures.",
+            "ja": "NPS が現在この駐車エリアの正確な座標を公開しています。本バッチではナビ・Camera Zone 参照・weather sample を兼用できますが、当日の園内・Dunes Drive 閉鎖情報が優先されます。",
+        },
+    },
     "福岡城跡": {
         "status": "needs_review",
         "target_type": "public_castle_ruins_entry",
