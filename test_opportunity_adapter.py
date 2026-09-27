@@ -415,51 +415,51 @@ def test_adapter_integrity():
     assert danongdafu_local["lighting_geometry_verified"] is False
     assert danongdafu_local["lighting_geometry_note"] == "forest_corridor_direction_and_canopy_geometry_not_yet_verified"
 
-    op_by_id = {o["opportunity_id"]: o for o in danongdafu_ops}
+    danongdafu_by_id = {o["opportunity_id"]: o for o in danongdafu_ops}
 
-    golden = evaluate_minimum_sufficient_visibility(op_by_id["tw-084-P02"], {
+    golden = evaluate_minimum_sufficient_visibility(danongdafu_by_id["tw-084-P02"], {
         "local_date": "2026-09-26", "local_time": "16:00", "local_month": 9,
         "vis": 9100, "c_low": 80, "pop": 10, "precipitation": 0.0, "access_open": True,
     })
     assert golden["eligible"] is True
     assert golden["long_range_visibility_is_not_a_blocker"] is True
 
-    foliage_offseason = evaluate_minimum_sufficient_visibility(op_by_id["tw-084-P03"], {
+    foliage_offseason = evaluate_minimum_sufficient_visibility(danongdafu_by_id["tw-084-P03"], {
         "local_date": "2026-09-26", "local_time": "14:00", "local_month": 9,
         "pop": 5, "precipitation": 0.0, "access_open": True,
     })
     assert foliage_offseason["eligible"] is False
     assert foliage_offseason["reason"] == "outside_curated_season"
 
-    flowers_unverified = evaluate_minimum_sufficient_visibility(op_by_id["tw-084-P04"], {
+    flowers_unverified = evaluate_minimum_sufficient_visibility(danongdafu_by_id["tw-084-P04"], {
         "local_date": "2026-09-26", "local_time": "14:00", "local_month": 9,
         "pop": 5, "precipitation": 0.0, "access_open": True,
     })
     assert flowers_unverified["eligible"] is False
     assert flowers_unverified["reason"] == "official_foreground_not_verified_for_date"
 
-    firefly_event = evaluate_minimum_sufficient_visibility(op_by_id["tw-084-P05"], {
+    firefly_event = evaluate_minimum_sufficient_visibility(danongdafu_by_id["tw-084-P05"], {
         "local_date": "2026-03-28", "local_time": "19:30", "local_month": 3,
         "pop": 10, "precipitation": 0.0, "access_open": False,
     })
     assert firefly_event["eligible"] is True
     assert firefly_event["access_override"] is True
 
-    stars_event = evaluate_minimum_sufficient_visibility(op_by_id["tw-084-P06"], {
+    stars_event = evaluate_minimum_sufficient_visibility(danongdafu_by_id["tw-084-P06"], {
         "local_date": "2026-03-28", "local_time": "19:45", "local_month": 3,
         "astronomical_dark": True, "pop": 5, "precipitation": 0.0, "access_open": False,
     })
     assert stars_event["eligible"] is True
     assert stars_event["access_override"] is True
 
-    wildlife = evaluate_minimum_sufficient_visibility(op_by_id["tw-084-P07"], {
+    wildlife = evaluate_minimum_sufficient_visibility(danongdafu_by_id["tw-084-P07"], {
         "local_date": "2026-09-26", "local_time": "09:00", "local_month": 9,
         "pop": 10, "precipitation": 0.0, "access_open": True,
     })
     assert wildlife["eligible"] is True
     assert wildlife["wildlife_presence_forecastable"] is False
 
-    distant = evaluate_minimum_sufficient_visibility(op_by_id["tw-084-P09"], {
+    distant = evaluate_minimum_sufficient_visibility(danongdafu_by_id["tw-084-P09"], {
         "vis": 9100, "c_low": 20, "pop": 10, "precipitation": 0.0, "access_open": True,
     })
     assert distant["eligible"] is False
