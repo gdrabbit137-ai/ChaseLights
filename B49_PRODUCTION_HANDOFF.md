@@ -1,5 +1,7 @@
 # ChaseLights R4.2 B49 Production / Maintenance Handoff
 
+> Historical checkpoint. Superseded by `B57_PRODUCTION_HANDOFF.md` on 2026-09-27. Start from B57 for current production/maintenance work.
+
 Date: 2026-09-27 (Asia/Taipei)
 
 ## Start here
