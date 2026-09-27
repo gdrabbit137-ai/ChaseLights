@@ -4,7 +4,7 @@ This module separates content formula status from runtime implementation state.
 Every needs_* status maps to an explicit set of reusable runtime components.
 """
 
-DEPENDENCY_INVENTORY_VERSION = "r4.2-b64-deps-v15-camera-zone-weather-boundary"
+DEPENDENCY_INVENTORY_VERSION = "r4.2-b65-deps-v16-us020-mist"
 
 FORMULA_DEPENDENCIES = {
     "needs_visibility_module": ("visibility",),
@@ -52,6 +52,7 @@ FORMULA_DEPENDENCIES = {
     "needs_waterfall_flow_mist_module": ("waterfall_flow", "mist_state"),
     "needs_waterfall_flow_dynamic_access_module": ("waterfall_flow", "dynamic_access"),
     "needs_lake_level_mist_access_module": ("lake_water_level", "mist_state", "dynamic_access"),
+    "needs_mist_state_module": ("mist_state",),
     "needs_tide_access_module": ("tide_state", "dynamic_access"),
     "needs_tide_module": ("tide_state",),
     "needs_tidal_current_extremum_access_module": ("tidal_current_extremum", "dynamic_access"),
