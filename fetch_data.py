@@ -26,6 +26,11 @@ from tide_state import (
     tide_sample_for_timestamp,
     spot_requires_tide_state,
 )
+from aurora_state import (
+    parse_ovation_payload,
+    sample_ovation_for_location,
+    spot_requires_aurora_state,
+)
 from shinhotaka_access import (
     build_shinhotaka_access_state,
     fetch_shinhotaka_homepage_status,
@@ -158,6 +163,7 @@ def get_text(key, lang="zh-TW"):
 
 
 _NOAA_KP_CACHE = None
+_NOAA_AURORA_CACHE = None
 _WEATHER_RESPONSE_CACHE = {}
 _SPATIAL_WEATHER_RESPONSE_CACHE = {}
 _MARINE_RESPONSE_CACHE = {}
@@ -216,6 +222,26 @@ def _request_json(url, timeout=12, attempts=3):
     if last_error is not None:
         raise last_error
     raise RuntimeError("weather request failed without an exception")
+
+
+def fetch_noaa_aurora_snapshot(force=False):
+    """Fetch and parse NOAA SWPC OVATION once per generator process.
+
+    Failure is cached as an empty dict so a transient provider outage does not
+    trigger one request per Alaska Place. Runtime evaluation then fails closed.
+    """
+    global _NOAA_AURORA_CACHE
+    if _NOAA_AURORA_CACHE is not None and not force:
+        return _NOAA_AURORA_CACHE
+
+    url = "https://services.swpc.noaa.gov/json/ovation_aurora_latest.json"
+    try:
+        raw = _request_json(url, timeout=15, attempts=3)
+        _NOAA_AURORA_CACHE = parse_ovation_payload(raw)
+    except Exception as e:
+        print(f"Failed to fetch NOAA OVATION aurora forecast: {e}")
+        _NOAA_AURORA_CACHE = {}
+    return _NOAA_AURORA_CACHE
 
 
 def fetch_noaa_kp_series(force=False):
@@ -1541,6 +1567,11 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
 
         twilight_lookup = _twilight_dates(raw, tz)
         kp_rows = fetch_noaa_kp_series() if kp_rows is None else kp_rows
+        aurora_snapshot = (
+            fetch_noaa_aurora_snapshot()
+            if spot_requires_aurora_state(spot)
+            else None
+        )
         now_utc = datetime.now(timezone.utc)
         api_elevation = float(raw.get("elevation") or 0)
         camera_elevation = float(spot.get("elevation") if spot.get("elevation") is not None else api_elevation)
@@ -1562,6 +1593,13 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
             cloud_base_delta = int(round(camera_elevation - cloud_base_asl))
             kp_val, kp_source = _kp_for_time(utc_dt, kp_rows)
             astro = _safe_astronomy(utc_dt, lat, lon, lang)
+            aurora_forecast = (
+                sample_ovation_for_location(
+                    aurora_snapshot, lat, lon, int(ts)
+                )
+                if aurora_snapshot
+                else None
+            )
 
             near_twilight = _near_twilight(local_dt, twilight_lookup, minutes=75)
             is_twilight = near_twilight or (astro["astronomy_valid"] and -8.0 <= astro["sun_elevation"] <= 8.0)
@@ -1628,6 +1666,7 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
                 "spatial_weather": spatial_weather,
                 "marine_forecast": marine_forecast,
                 "tide_forecast": tide_forecast,
+                "aurora_forecast": aurora_forecast,
                 **astro,
             }
             if spot.get("spot_id") == "jp-021":

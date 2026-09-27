@@ -45,8 +45,8 @@
     }
   },
   "runtime_policy_counts": {
-    "module_pending": 128,
-    "preview_module_available": 114,
+    "module_pending": 122,
+    "preview_module_available": 120,
     "minimum_sufficient_available": 133,
     "prototype_pending_certification": 2,
     "hold": 2,
@@ -61,6 +61,7 @@
   "notes": [
     "This manifest describes the effective curated catalog, not the full Place inventory shown in production.",
     "Japan production contains 35 Place cards and all jp-001 through jp-035 are Opportunity-migrated at this checkpoint.",
-    "US migration complete: all us-001 through us-070 production Places are Opportunity-migrated; no US production Place remains research-pending."
+    "US migration complete: all us-001 through us-070 production Places are Opportunity-migrated; no US production Place remains research-pending.",
+    "B79 adds a location-aware NOAA SWPC OVATION aurora_state preview. Aurora-only Opportunities can become preview_module_available, while Opportunities that also require unresolved dynamic_access remain module_pending."
   ]
 }
