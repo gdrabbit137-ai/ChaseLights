@@ -585,54 +585,61 @@ def test_adapter_integrity():
     # Homepage discovery must remain place-first. Scene/theme semantics belong to
     # the ranked result/explanation, not intersecting homepage filters.
     index_html = Path("index.html").read_text(encoding="utf-8")
-    assert 'id="theme-nav"' not in index_html
-    assert 'id="scene-nav"' not in index_html
-    assert 'id="discovery-title"' in index_html
-    assert 'id="place-search"' in index_html
-    assert "FILTER_UI_VERSION='3'" in index_html
-    assert "return day.all||null" in index_html
+    app_js = Path("assets/app.js").read_text(encoding="utf-8")
+    app_css = Path("assets/app.css").read_text(encoding="utf-8")
+    frontend_source = index_html + "\n" + app_js + "\n" + app_css
+    assert '<link rel="stylesheet" href="./assets/app.css">' in index_html
+    assert '<script src="./assets/app.js"></script>' in index_html
+    assert "<style>" not in index_html
+    assert "<script>" not in index_html
+    assert 'id="theme-nav"' not in frontend_source
+    assert 'id="scene-nav"' not in frontend_source
+    assert 'id="discovery-title"' in frontend_source
+    assert 'id="place-search"' in frontend_source
+    assert "FILTER_UI_VERSION='3'" in frontend_source
+    assert "return day.all||null" in frontend_source
 
-    assert 'id="place-modal-overlay"' in index_html
-    assert "card.onclick=()=>openPlaceModal" in index_html
-    assert "data-weather" in index_html
-    assert "🌦️ 天氣預報" in index_html
-    assert "點擊看 96H 明細" not in index_html
-    assert "op.condition_variants" in index_html
-    assert "day?.opportunities||{}" in index_html
-    assert "const rankedOpportunities=opportunities.map((op,index)=>" in index_html
-    assert "if(a.score===null)return 1;if(b.score===null)return -1;return (b.score-a.score)||(a.index-b.index);" in index_html
-    assert "no_viable_opportunity" in index_html
-    assert "今天剩餘時段沒有合適的已研究拍攝機會" in index_html
-    assert "const researchPending=!!metric.research_pending||!spot.opportunities?.length;const hasScore=" in index_html
-    assert "&&!researchPending&&!noViable" in index_html
+    assert 'id="place-modal-overlay"' in frontend_source
+    assert "card.onclick=()=>openPlaceModal" in frontend_source
+    assert "data-weather" in frontend_source
+    assert "🌦️ 天氣預報" in frontend_source
+    assert "點擊看 96H 明細" not in frontend_source
+    assert "op.condition_variants" in frontend_source
+    assert "day?.opportunities||{}" in frontend_source
+    assert "const rankedOpportunities=opportunities.map((op,index)=>" in frontend_source
+    assert "if(a.score===null)return 1;if(b.score===null)return -1;return (b.score-a.score)||(a.index-b.index);" in frontend_source
+    assert "no_viable_opportunity" in frontend_source
+    assert "今天剩餘時段沒有合適的已研究拍攝機會" in frontend_source
+    assert "const researchPending=!!metric.research_pending||!spot.opportunities?.length;const hasScore=" in frontend_source
+    assert "&&!researchPending&&!noViable" in frontend_source
 
     # B45: Weather Forecast uses only the selected Place detail shard.
-    assert "chaselights-v11-weather" in index_html
-    assert "./weather_details/${region}/${encodeURIComponent(spotId)}.json" in index_html
-    assert "loadDetails(currentRegion,spot.spot_id)" in index_html
-    assert "const detail=payload?.spot" in index_html
-    assert "loadLegacyDetail" not in index_html
-    assert "_weather_details.json" not in index_html
-    assert "catch(shardError)" not in index_html
-    assert "function scrollWeatherModalToCurrent()" in index_html
-    assert "dataset.nowAnchor='true'" in index_html
-    assert "scrollWeatherModalToCurrent();" in index_html
+    assert "chaselights-v11-weather" in frontend_source
+    assert "./weather_details/${region}/${encodeURIComponent(spotId)}.json" in frontend_source
+    assert "loadDetails(currentRegion,spot.spot_id)" in frontend_source
+    assert "const detail=payload?.spot" in frontend_source
+    assert "loadLegacyDetail" not in frontend_source
+    assert "_weather_details.json" not in frontend_source
+    assert "catch(shardError)" not in frontend_source
+    assert "function scrollWeatherModalToCurrent()" in frontend_source
+    assert "dataset.nowAnchor='true'" in frontend_source
+    assert "scrollWeatherModalToCurrent();" in frontend_source
 
     # R4.2 Navigation Target contract: map_query is metadata only. Browser
     # navigation must be built exclusively from exact navigation_target coords.
-    assert "function navigationToolHtml(spot)" in index_html
-    assert "data-navigation-mode" in index_html
-    assert "/maps/dir/?api=1&destination=" in index_html
-    assert "/maps/search/?api=1&query=" in index_html
-    assert "const navQuery=spot.map_query" not in index_html
-    assert "encodeURIComponent(navQuery)" not in index_html
-    assert "map_query||`${spot.lat},${spot.lon}`" not in index_html
+    assert "function navigationToolHtml(spot)" in frontend_source
+    assert "data-navigation-mode" in frontend_source
+    assert "/maps/dir/?api=1&destination=" in frontend_source
+    assert "/maps/search/?api=1&query=" in frontend_source
+    assert "const navQuery=spot.map_query" not in frontend_source
+    assert "encodeURIComponent(navQuery)" not in frontend_source
+    assert "map_query||`${spot.lat},${spot.lon}`" not in frontend_source
 
     # Time-zone contract: shooting windows remain Place-local; only Last Updated
     # follows the user's device/browser timezone.
-    assert "拍攝時間皆以景點當地時區顯示" in index_html
-    assert "適合時間（景點當地時間）" in index_html
-    assert "timeZoneName:'short'" in index_html
+    assert "拍攝時間皆以景點當地時區顯示" in frontend_source
+    assert "適合時間（景點當地時間）" in frontend_source
+    assert "timeZoneName:'short'" in frontend_source
 
     analyze_weather_src = Path("analyze_weather.py").read_text(encoding="utf-8")
     assert 'Path("weather_details") / region' in analyze_weather_src
