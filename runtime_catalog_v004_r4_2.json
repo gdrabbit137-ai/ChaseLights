@@ -14,10 +14,10 @@
     "runtime_catalog_v004_r4_2_b35_liyu_subjects.json"
   ],
   "counts": {
-    "spots": 123,
-    "opportunities": 279,
-    "condition_variants": 294,
-    "profile_viewpoint_relations": 285
+    "spots": 128,
+    "opportunities": 286,
+    "condition_variants": 301,
+    "profile_viewpoint_relations": 292
   },
   "spots": [
     {
@@ -13269,6 +13269,416 @@
               "geometry_type": "small_area",
               "geometry_extent_m": 500,
               "geometry_note": "Balanced Rock viewpoint／短步道合法區域；人工光源照亮地景受NPS禁止。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-006",
+      "canonical_name": "布萊斯峽谷國家公園",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B63_US_RESEARCH_BATCH02",
+      "research_sources": [
+        {
+          "authority": "U.S. National Park Service — Bryce Amphitheater viewpoints",
+          "url": "https://www.nps.gov/brca/planyourvisit/viewpoints.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS identifies Sunrise Point and Bryce Point as iconic Bryce Amphitheater viewpoints and recommends them for sunrise/daybreak views."
+        },
+        {
+          "authority": "U.S. National Park Service — Stargazing at Bryce Canyon",
+          "url": "https://www.nps.gov/thingstodo/stargazing-at-bryce-canyon.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS identifies Bryce as an International Dark Sky Park, explicitly supports Milky Way/star photography, and recommends multiple paved viewpoints for stargazing."
+        },
+        {
+          "authority": "U.S. National Park Service — Bryce operating hours",
+          "url": "https://www.nps.gov/brca/planyourvisit/hours.htm",
+          "verified_on": "2026-09-27",
+          "supports": "Bryce Canyon National Park is open 24 hours a day year-round, subject to temporary winter road closures."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-006-P01",
+          "spot_id": "us-006",
+          "name_zh": "Bryce Amphitheater・Sunrise Point 日出與hoodoo層次",
+          "legacy_theme": "sunrise",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04-us-bryce-directional-visibility",
+          "formula_confidence": 96,
+          "best_time": "日出前約30分鐘至日出後約1小時（景點當地時間）",
+          "best_season": "全年；冬季道路可能因降雪暫時關閉",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-010",
+              "variant_name": "Sunrise Point 日出＋Bryce Amphitheater hoodoo晨光",
+              "condition_geometry": "{\"camera_zone\":\"Sunrise Point Camera Zone\",\"target\":\"east-facing dawn light + Bryce Amphitheater hoodoos\"}",
+              "hard_gates": "Bryce主要道路／Sunrise Point可達；日出時段有效；遵守欄杆與步道安全",
+              "required_conditions": "hoodoo與amphitheater層次可辨；晨光時段有效；能見度足夠；低雲／降水未完全遮蔽主景",
+              "boosters": "中高雲晨彩；乾燥冷空氣；高透明度",
+              "penalties": "濃霧；低雲封景；強降水；冬季道路暫時封閉",
+              "formula_status": "needs_directional_horizon_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-006-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS directly identifies Sunrise Point as a Bryce Amphitheater viewpoint and popular sunrise location. NPS parking information publishes the adjacent Sunrise Point parking coordinate.",
+              "name": "Sunrise Point Camera Zone",
+              "lat": 37.6312658742,
+              "lon": -112.164479698,
+              "elevation_m": 2469,
+              "coord_confidence": "high",
+              "verification_status": "official_nps_sunrise_viewpoint_and_parking_anchor",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 250,
+              "geometry_note": "Sunrise Point公共觀景區與相鄰Rim Trail合法區域；不越過欄杆／崖緣。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-006-P02",
+          "spot_id": "us-006",
+          "name_zh": "Bryce Canyon・星空／銀河與hoodoo前景",
+          "legacy_theme": "milky_way",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_astronomy_ephemeris_module",
+          "formula_version": "v0.04-us-bryce-astro",
+          "formula_confidence": 97,
+          "best_time": "天文黑夜；低月光／新月附近優先",
+          "best_season": "全年暗夜；銀河核心可見方位與季節另由天文模組評估",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-011",
+              "variant_name": "Bryce hoodoo前景＋暗夜星空／銀河",
+              "condition_geometry": "{\"camera_zone\":\"Bryce recommended dark-sky viewpoints\",\"target\":\"star field / Milky Way + hoodoo foreground\"}",
+              "hard_gates": "天文黑夜；合法觀景點／步道可達；冬季臨時道路封閉時不得推薦不可達點",
+              "required_conditions": "天空足夠晴朗；月光干擾可接受；星野可辨",
+              "boosters": "新月附近；低雲量；高透明度；hoodoo前景清楚",
+              "penalties": "亮月；雲層遮蔽；濃霧；強風；冬季道路封閉",
+              "formula_status": "needs_astronomy_ephemeris_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-006-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS explicitly recommends Sunrise Point, Sunset Point, Inspiration Point and Paria View for stargazing and separately supports hoodoo foreground night photography. This is not an exact Milky Way alignment claim.",
+              "name": "Bryce Dark-Sky Camera Zone",
+              "coord_confidence": "official_area_subject_no_unique_tripod_claim",
+              "verification_status": "official_nps_dark_sky_and_night_photography_subject",
+              "geometry_type": "area",
+              "geometry_extent_m": 2500,
+              "geometry_note": "以NPS推薦之公共觀景區／合法夜間步道為範圍；不宣稱單一銀河核心精準對位點。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-007",
+      "canonical_name": "錫安國家公園",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B63_US_RESEARCH_BATCH02",
+      "research_sources": [
+        {
+          "authority": "U.S. National Park Service — Zion sunrise and sunset",
+          "url": "https://www.nps.gov/zion/planyourvisit/sunrise-and-sunset.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS explicitly recommends Canyon Overlook Trail for sunrise light entering Zion Canyon and Pa'rus Trail for sunset golden light on the Watchman."
+        },
+        {
+          "authority": "U.S. National Park Service — Zion operating hours",
+          "url": "https://www.nps.gov/zion/planyourvisit/hours.htm",
+          "verified_on": "2026-09-27",
+          "supports": "Zion is open 24 hours a day year-round; shuttle/road access varies seasonally and Canyon Overlook parking is extremely limited."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-007-P01",
+          "spot_id": "us-007",
+          "name_zh": "Zion Canyon Overlook・日出晨光進入峽谷",
+          "legacy_theme": "sunrise",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04-us-zion-directional-visibility",
+          "formula_confidence": 96,
+          "best_time": "日出前後（景點當地時間）",
+          "best_season": "全年依道路／步道實際狀態；停車極少",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-012",
+              "variant_name": "Canyon Overlook 日出晨光與Zion Canyon",
+              "condition_geometry": "{\"camera_zone\":\"Canyon Overlook Trail endpoint Camera Zone\",\"target\":\"sunrise light entering Zion Canyon\"}",
+              "hard_gates": "Canyon Overlook Trail可達；日出時段有效；停車／道路安全允許",
+              "required_conditions": "峽谷主體可辨；晨光時段有效；能見度足夠；雲雨未完全遮蔽",
+              "boosters": "晨光沿峽谷形成層次；中高雲；高透明度",
+              "penalties": "濃霧；低雲封景；強降水；步道／道路關閉；無安全停車空間",
+              "formula_status": "needs_directional_horizon_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-007-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS directly recommends Canyon Overlook Trail for sunrise and warns that parking is extremely limited. No unverified exact tripod coordinate is asserted.",
+              "name": "Canyon Overlook Trail Camera Zone",
+              "coord_confidence": "official_trail_subject_no_unique_tripod_claim",
+              "verification_status": "official_nps_sunrise_viewpoint",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 400,
+              "geometry_note": "Canyon Overlook Trail終點與合法公共觀景範圍；實際停車條件可能限制可達性。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-007-P02",
+          "spot_id": "us-007",
+          "name_zh": "Pa’rus Trail・Watchman 夕照金色山壁",
+          "legacy_theme": "sunset",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04-us-zion-directional-visibility",
+          "formula_confidence": 97,
+          "best_time": "日落前後（景點當地時間）",
+          "best_season": "全年依步道與天候狀態",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-013",
+              "variant_name": "Pa’rus Trail Watchman夕照",
+              "condition_geometry": "{\"camera_zone\":\"Pa’rus Trail Camera Zone\",\"target\":\"golden sunset light illuminating the Watchman\"}",
+              "hard_gates": "Pa’rus Trail合法公共區域可達；日落時段有效；不得在道路或Canyon Junction Bridge停車拍攝",
+              "required_conditions": "Watchman山體可辨；夕照時段有效；能見度足夠",
+              "boosters": "暖色低角度光；中高雲；Virgin River前景條件佳",
+              "penalties": "濃霧；低雲遮蔽；強降水；道路違停／不安全構圖位置",
+              "formula_status": "needs_directional_horizon_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-007-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS explicitly identifies Pa'rus Trail as the location for sunset views of golden light illuminating the Watchman and warns photographers not to stop in roads or on Canyon Junction Bridge.",
+              "name": "Pa’rus Trail Watchman Sunset Camera Zone",
+              "coord_confidence": "official_trail_subject_no_unique_tripod_claim",
+              "verification_status": "official_nps_watchman_sunset_subject",
+              "geometry_type": "area",
+              "geometry_extent_m": 1000,
+              "geometry_note": "Pa’rus Trail沿線可合法步行構圖區域；不使用道路或Canyon Junction Bridge作停留拍攝點。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-008",
+      "canonical_name": "優勝美地半圓頂",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B63_US_RESEARCH_BATCH02",
+      "research_sources": [
+        {
+          "authority": "U.S. National Park Service — Sentinel Bridge",
+          "url": "https://www.nps.gov/places/000/sentinel-bridge.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS identifies Sentinel Bridge as an excellent Half Dome view/photo spot with mirrored reflection on the Merced River, especially at sunset; reflection is best when water is low and relatively still."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-008-P01",
+          "spot_id": "us-008",
+          "name_zh": "Sentinel Bridge・Half Dome夕照與Merced River倒影",
+          "legacy_theme": "reflection",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_water_surface_visibility_module",
+          "formula_version": "v0.04-us-yosemite-half-dome-sunset-reflection",
+          "formula_confidence": 97,
+          "best_time": "日落前後；河面低水位且平靜時倒影最完整",
+          "best_season": "全年可達；NPS指出秋冬較常有低而平靜水面適合倒影",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-014",
+              "variant_name": "Sentinel Bridge Half Dome夕照＋Merced倒影",
+              "condition_geometry": "{\"camera_zone\":\"Sentinel Bridge Camera Zone\",\"target\":\"Half Dome + mirrored reflection on Merced River at sunset\"}",
+              "hard_gates": "Sentinel Bridge公共步行區可達；日落時段有效；河面狀態可形成可用倒影",
+              "required_conditions": "Half Dome可辨；Merced River水面足夠平靜；能見度足夠；夕照時段有效",
+              "boosters": "低水位；低風；高透明度；暖色夕照",
+              "penalties": "強風造成水面破碎；降水擾動；濃霧／低雲遮蔽Half Dome；高水位或急流使鏡面不成立",
+              "formula_status": "needs_directional_horizon_water_surface_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-008-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS explicitly identifies Sentinel Bridge as a scenic photo spot for Half Dome and its Merced River reflection, especially at sunset. The bridge is reachable by car year-round.",
+              "name": "Sentinel Bridge Camera Zone",
+              "coord_confidence": "official_nps_viewpoint_no_new_exact_coordinate_claim",
+              "verification_status": "official_nps_half_dome_reflection_photo_spot",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 180,
+              "geometry_note": "Sentinel Bridge公共人行區與相鄰合法觀景空間；注意行人與道路安全。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-009",
+      "canonical_name": "優勝美地隧道觀景臺",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B63_US_RESEARCH_BATCH02",
+      "research_sources": [
+        {
+          "authority": "U.S. National Park Service — Tunnel View",
+          "url": "https://www.nps.gov/places/000/tunnel-view.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS identifies Tunnel View as one of Yosemite's most famous views, showing El Capitan, Half Dome, Sentinel Rock, Cathedral Rocks and Bridalveil Fall; it is spectacular at sunset or after a clearing storm and reachable by vehicle year-round."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-009-P01",
+          "spot_id": "us-009",
+          "name_zh": "Tunnel View・Yosemite Valley經典全景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-visibility-minimum-sufficient",
+          "formula_confidence": 97,
+          "best_time": "全年白天；日落與風暴過後放晴是NPS特別指出的加分時段",
+          "best_season": "全年車輛可達；Bridalveil Fall水量另有季節差異",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-015",
+              "variant_name": "Tunnel View El Capitan＋Bridalveil Fall＋Half Dome全景",
+              "condition_geometry": "{\"camera_zone\":\"Tunnel View Overlook Camera Zone\",\"subject\":\"El Capitan + Bridalveil Fall + Half Dome + Yosemite Valley panorama\"}",
+              "hard_gates": "Tunnel View公共觀景區可達；遵守停車與行人安全",
+              "required_conditions": "Yosemite Valley主要地標可辨；能見度足夠；雲霧未完全封住主要山壁",
+              "boosters": "日落暖光；風暴後雲霧裂開；Bridalveil Fall水量充足；高透明度",
+              "penalties": "濃霧封谷；低雲遮蔽Half Dome／El Capitan；強降水；能見度過低",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-009-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS directly identifies Tunnel View as a year-round Scenic View/Photo Spot. Existing legacy coordinate is retained as the overlook anchor.",
+              "name": "Tunnel View Overlook Camera Zone",
+              "lat": 37.716,
+              "lon": -119.677,
+              "elevation_m": null,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_nps_tunnel_view_subject_plus_existing_place_anchor",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 220,
+              "geometry_note": "Wawona Tunnel東端公共觀景區與停車旁人行空間；不得在車道內停留。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-010",
+      "canonical_name": "黃石國家公園 大稜鏡溫泉",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B63_US_RESEARCH_BATCH02",
+      "research_sources": [
+        {
+          "authority": "U.S. National Park Service — Yellowstone photography",
+          "url": "https://www.nps.gov/yell/planyourvisit/photography.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS identifies Grand Prismatic Spring's colorful bacterial mats, steaming azure pool and Fairy Falls Trailhead overlook as a major photography subject; off-trail travel is prohibited."
+        },
+        {
+          "authority": "U.S. National Park Service — Grand Prismatic Overlook Trail",
+          "url": "https://www.nps.gov/thingstodo/yell-trail-grand-prismatic-overlook.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS describes the official 1.2-mile out-and-back overlook trail from Fairy Falls Trailhead to an elevated view of Grand Prismatic Spring and Midway Geyser Basin; parking is limited."
+        },
+        {
+          "authority": "U.S. National Park Service — Yellowstone operating dates",
+          "url": "https://www.nps.gov/yell/planyourvisit/operating-dates.htm",
+          "verified_on": "2026-09-27",
+          "supports": "Yellowstone is open year-round but interior-road and facility access is strongly seasonal and road status can change quickly."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-010-P01",
+          "spot_id": "us-010",
+          "name_zh": "Grand Prismatic Overlook・彩色地熱池高處俯瞰",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_geothermal_steam_visibility_access_module",
+          "formula_version": "v0.04-research-ready-geothermal-steam-access-pending",
+          "formula_confidence": 98,
+          "best_time": "官方Overlook Trail實際可達時；需兼顧蒸汽遮蔽與道路／步道狀態",
+          "best_season": "依Yellowstone道路與步道實際開放；不以月份單獨保證可達或池面清晰",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-016",
+              "variant_name": "Grand Prismatic高處俯瞰彩色池面",
+              "condition_geometry": "{\"camera_zone\":\"Grand Prismatic Overlook Trail Camera Zone\",\"subject\":\"colorful bacterial mats + azure pool from elevated overlook\"}",
+              "hard_gates": "Grand Prismatic Overlook Trail與通往Fairy Falls Trailhead道路實際可達；不得離開步道；停車合法",
+              "required_conditions": "地熱池主要色帶與池面可辨；局部蒸汽未嚴重遮蔽主體；一般能見度可用",
+              "boosters": "較少局部蒸汽遮擋；均勻光；高透明度",
+              "penalties": "地熱蒸汽大幅遮蔽池面；道路／步道關閉；濃霧；強降水；非法離道",
+              "formula_status": "research_ready_geothermal_steam_access_provider_pending"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-010-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS identifies the Fairy Falls Trailhead route as the public elevated overlook for Grand Prismatic. No unverified exact tripod coordinate is asserted and off-trail travel is explicitly prohibited.",
+              "name": "Grand Prismatic Overlook Trail Camera Zone",
+              "coord_confidence": "official_trail_subject_no_unique_tripod_claim",
+              "verification_status": "official_nps_grand_prismatic_overlook_photo_subject",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 350,
+              "geometry_note": "Grand Prismatic Overlook Trail合法高處觀景區；嚴禁離開步道進入熱泉地表。",
               "geometry_confidence": "high"
             }
           ]
