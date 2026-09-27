@@ -613,6 +613,9 @@ def test_adapter_integrity():
     assert "loadLegacyDetail" not in index_html
     assert "_weather_details.json" not in index_html
     assert "catch(shardError)" not in index_html
+    assert "function scrollWeatherModalToCurrent()" in index_html
+    assert "dataset.nowAnchor='true'" in index_html
+    assert "scrollWeatherModalToCurrent();" in index_html
 
     # R4.2 Navigation Target contract: map_query is metadata only. Browser
     # navigation must be built exclusively from exact navigation_target coords.
