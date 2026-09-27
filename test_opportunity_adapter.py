@@ -1,7 +1,7 @@
 from pathlib import Path
 from tempfile import TemporaryDirectory
 import json
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 from collections import Counter
 
 from opportunity_runtime import (
@@ -50,6 +50,13 @@ from marine_state import (
     index_marine_response,
     marine_sample_for_timestamp,
     validate_marine_state_registry,
+)
+from aurora_state import (
+    AURORA_STATE_PROFILES,
+    evaluate_aurora_state,
+    parse_ovation_payload,
+    sample_ovation_for_location,
+    validate_aurora_state_registry,
 )
 from tide_state import (
     TIDE_STATE_PROFILES,
@@ -182,6 +189,7 @@ def test_adapter_integrity():
         "marine_state": set(MARINE_STATE_PROFILES),
         "tide_state": set(TIDE_STATE_PROFILES),
         "dynamic_access": set(ACCESS_DEPENDENT_PROFILE_IDS),
+        "aurora_state": set(AURORA_STATE_PROFILES),
     }
     for component, registered_ids in component_registries.items():
         required_ids = {
@@ -862,7 +870,7 @@ def test_adapter_integrity():
         "directional_horizon", "visibility", "water_surface_state", "snow_state",
         "radiation_DNI", "cloud_light_state", "cloud_sky_glow",
         "spatial_weather_vertical_cloud", "astronomy_ephemeris", "marine_state",
-        "tide_state", "dynamic_access"
+        "tide_state", "dynamic_access", "aurora_state"
     }
     assert dependencies_for_status("needs_radiation_module") == ("radiation_DNI", "cloud_light_state")
     assert dependencies_for_status("needs_radiation_cloud_module") == ("radiation_DNI", "cloud_sky_glow")
@@ -2560,7 +2568,7 @@ def test_adapter_integrity():
     assert dependencies_for_opportunity(us041[0]) == ("dynamic_access", "visibility")
     assert dependency_state(us041[0])["missing_components"] == ("dynamic_access",)
     assert dependencies_for_opportunity(us041[1]) == ("aurora_state", "dynamic_access")
-    assert dependency_state(us041[1])["missing_components"] == ("aurora_state", "dynamic_access")
+    assert dependency_state(us041[1])["missing_components"] == ("dynamic_access",)
     assert ACCESS_PROFILE_CLASSIFICATION["us-041-P01"]["access_type"] == "road_viewpoint_status"
     assert ACCESS_PROFILE_CLASSIFICATION["us-041-P02"]["access_type"] == "road_viewpoint_status"
     denali = next(s for s in us_spots if s["spot_id"] == "us-041")
@@ -2571,28 +2579,28 @@ def test_adapter_integrity():
 
     us042 = get_opportunities("us", "us-042")
     assert [o["opportunity_id"] for o in us042] == ["us-042-P01"]
-    assert us042[0]["runtime_policy"] == "module_pending"
+    assert us042[0]["runtime_policy"] == "preview_module_available"
     assert dependencies_for_opportunity(us042[0]) == ("aurora_state",)
-    assert dependency_state(us042[0])["missing_components"] == ("aurora_state",)
+    assert dependency_state(us042[0])["missing_components"] == ()
     fairbanks = next(s for s in us_spots if s["spot_id"] == "us-042")
     assert abs(fairbanks["lat"] - 64.86417) < 1e-7
     assert abs(fairbanks["lon"] + 147.73778) < 1e-7
 
     us043 = get_opportunities("us", "us-043")
     assert [o["opportunity_id"] for o in us043] == ["us-043-P01"]
-    assert us043[0]["runtime_policy"] == "module_pending"
+    assert us043[0]["runtime_policy"] == "preview_module_available"
     assert dependencies_for_opportunity(us043[0]) == ("aurora_state",)
-    assert dependency_state(us043[0])["missing_components"] == ("aurora_state",)
+    assert dependency_state(us043[0])["missing_components"] == ()
     chena = next(s for s in us_spots if s["spot_id"] == "us-043")
     assert abs(chena["lat"] - 65.05304) < 1e-7
     assert abs(chena["lon"] + 146.0556) < 1e-7
 
     us044 = get_opportunities("us", "us-044")
     assert [o["opportunity_id"] for o in us044] == ["us-044-P01", "us-044-P02"]
-    assert [o["runtime_policy"] for o in us044] == ["preview_module_available", "module_pending"]
+    assert [o["runtime_policy"] for o in us044] == ["preview_module_available", "preview_module_available"]
     assert dependencies_for_opportunity(us044[0]) == ("directional_horizon", "visibility")
     assert dependencies_for_opportunity(us044[1]) == ("aurora_state",)
-    assert dependency_state(us044[1])["missing_components"] == ("aurora_state",)
+    assert dependency_state(us044[1])["missing_components"] == ()
     anchorage = next(s for s in us_spots if s["spot_id"] == "us-044")
     assert abs(anchorage["lat"] - 61.2042) < 1e-7
     assert abs(anchorage["lon"] + 150.01871) < 1e-7
@@ -2719,7 +2727,7 @@ def test_adapter_integrity():
 
     us058 = get_opportunities("us", "us-058")
     assert [o["opportunity_id"] for o in us058] == ["us-058-P01", "us-058-P02"]
-    assert [o["runtime_policy"] for o in us058] == ["minimum_sufficient_available", "module_pending"]
+    assert [o["runtime_policy"] for o in us058] == ["minimum_sufficient_available", "preview_module_available"]
     assert dependencies_for_opportunity(us058[1]) == ("aurora_state",)
     nome = next(s for s in us_spots if s["spot_id"] == "us-058")
     assert abs(nome["lat"] - 64.501) < 1e-7
@@ -2783,10 +2791,10 @@ def test_adapter_integrity():
 
     us065 = get_opportunities("us", "us-065")
     assert [o["opportunity_id"] for o in us065] == ["us-065-P01", "us-065-P02"]
-    assert [o["runtime_policy"] for o in us065] == ["preview_module_available", "module_pending"]
+    assert [o["runtime_policy"] for o in us065] == ["preview_module_available", "preview_module_available"]
     assert dependencies_for_opportunity(us065[0]) == ("directional_horizon", "visibility")
     assert dependencies_for_opportunity(us065[1]) == ("aurora_state",)
-    assert dependency_state(us065[1])["missing_components"] == ("aurora_state",)
+    assert dependency_state(us065[1])["missing_components"] == ()
     chugach = next(s for s in us_spots if s["spot_id"] == "us-065")
     assert abs(chugach["lat"] - 61.10489) < 1e-7
     assert abs(chugach["lon"] + 149.68461) < 1e-7
@@ -2797,7 +2805,7 @@ def test_adapter_integrity():
     assert dependencies_for_opportunity(us066[0]) == ("dynamic_access", "visibility")
     assert dependencies_for_opportunity(us066[1]) == ("aurora_state", "dynamic_access")
     assert dependency_state(us066[0])["missing_components"] == ("dynamic_access",)
-    assert dependency_state(us066[1])["missing_components"] == ("aurora_state", "dynamic_access")
+    assert dependency_state(us066[1])["missing_components"] == ("dynamic_access",)
     assert ACCESS_PROFILE_CLASSIFICATION["us-066-P01"]["access_type"] == "transport_facility_status"
     assert ACCESS_PROFILE_CLASSIFICATION["us-066-P02"]["access_type"] == "transport_facility_status"
     bering = next(s for s in us_spots if s["spot_id"] == "us-066")
@@ -2820,7 +2828,7 @@ def test_adapter_integrity():
     assert dependencies_for_opportunity(us068[0]) == ("dynamic_access", "visibility")
     assert dependencies_for_opportunity(us068[1]) == ("aurora_state", "dynamic_access")
     assert dependency_state(us068[0])["missing_components"] == ("dynamic_access",)
-    assert dependency_state(us068[1])["missing_components"] == ("aurora_state", "dynamic_access")
+    assert dependency_state(us068[1])["missing_components"] == ("dynamic_access",)
     assert ACCESS_PROFILE_CLASSIFICATION["us-068-P01"]["access_type"] == "transport_facility_status"
     assert ACCESS_PROFILE_CLASSIFICATION["us-068-P02"]["access_type"] == "transport_facility_status"
     noatak = next(s for s in us_spots if s["spot_id"] == "us-068")
@@ -2829,10 +2837,10 @@ def test_adapter_integrity():
 
     us069 = get_opportunities("us", "us-069")
     assert [o["opportunity_id"] for o in us069] == ["us-069-P01", "us-069-P02"]
-    assert [o["runtime_policy"] for o in us069] == ["minimum_sufficient_available", "module_pending"]
+    assert [o["runtime_policy"] for o in us069] == ["minimum_sufficient_available", "preview_module_available"]
     assert dependencies_for_opportunity(us069[0]) == ("visibility",)
     assert dependencies_for_opportunity(us069[1]) == ("aurora_state",)
-    assert dependency_state(us069[1])["missing_components"] == ("aurora_state",)
+    assert dependency_state(us069[1])["missing_components"] == ()
     lake_clark = next(s for s in us_spots if s["spot_id"] == "us-069")
     assert abs(lake_clark["lat"] - 60.1973667) < 1e-7
     assert abs(lake_clark["lon"] + 154.3226167) < 1e-7
@@ -3658,6 +3666,69 @@ def test_detail_hourly_projection_removes_duplicate_runtime():
     assert projected[0]["tag_scores"] == source[0]["tag_scores"]
 
 
+def test_aurora_state_contract():
+    raw = {
+        "Observation Time": "2026-09-27T10:00:00Z",
+        "Forecast Time": "2026-09-27T10:45:00Z",
+        "Data Format": "[Longitude, Latitude, Aurora]",
+        "coordinates": [
+            [212, 65, 22],
+            [210, 61, 8],
+            [211, 64, 12],
+        ],
+    }
+    retrieved = datetime(2026, 9, 27, 10, 15, tzinfo=timezone.utc)
+    snapshot = parse_ovation_payload(raw, retrieved_at=retrieved)
+    assert snapshot["forecast_time_utc"] == int(datetime(2026, 9, 27, 10, 45, tzinfo=timezone.utc).timestamp())
+    assert snapshot["grid"][(212, 65)] == 22.0
+    assert validate_aurora_state_registry() == []
+
+    target = int(datetime(2026, 9, 27, 11, 0, tzinfo=timezone.utc).timestamp())
+    sample = sample_ovation_for_location(snapshot, 65.05, -148.0, target)
+    assert sample is not None
+    assert sample["grid_lat"] == 65.0
+    assert sample["grid_lon"] == -148.0
+    assert sample["ovation_value"] == 22.0
+    assert sample["visibility_guaranteed"] is False
+
+    too_late = target + 2 * 3600
+    assert sample_ovation_for_location(snapshot, 65.05, -148.0, too_late) is None
+
+    stale = parse_ovation_payload(
+        raw,
+        retrieved_at=datetime(2026, 9, 27, 13, 0, tzinfo=timezone.utc),
+    )
+    assert sample_ovation_for_location(stale, 65.05, -148.0, target) is None
+
+    opportunity = {"opportunity_id": "us-042-P01"}
+    clear_dark = {
+        "aurora_forecast": sample,
+        "astronomy_valid": True,
+        "sun_elevation": -20.0,
+        "c_low": 10,
+        "c_mid": 20,
+        "c_high": 30,
+        "c_low_available": True,
+        "c_mid_available": True,
+        "c_high_available": True,
+    }
+    result = evaluate_aurora_state(opportunity, clear_dark)
+    assert result["available"] is True
+    assert result["eligible"] is True
+    assert result["reason"] == "local_ovation_dark_sky_weather_match"
+    assert result["visibility_guaranteed"] is False
+
+    twilight = dict(clear_dark, sun_elevation=-8.0)
+    assert evaluate_aurora_state(opportunity, twilight)["reason"] == "insufficient_darkness"
+
+    cloudy = dict(clear_dark, c_low=80)
+    assert evaluate_aurora_state(opportunity, cloudy)["reason"] == "local_cloud_obstruction_too_high"
+
+    weak_sample = dict(sample, ovation_value=2.0)
+    weak = dict(clear_dark, aurora_forecast=weak_sample)
+    assert evaluate_aurora_state(opportunity, weak)["reason"] == "local_ovation_signal_below_threshold"
+
+
 def test_schema10_optional_metadata_bridge():
     spot = next(s for s in get_spots("tw") if s["spot_id"] == "tw-052")
     original = analyze_weather.fetch_weather_for_spot
@@ -3688,5 +3759,6 @@ def test_schema10_optional_metadata_bridge():
 if __name__ == "__main__":
     test_adapter_integrity()
     test_active_catalog_weather_generation_guard()
+    test_aurora_state_contract()
     test_schema10_optional_metadata_bridge()
     print("v0.04 R4.2 full Opportunity adapter tests: PASS")
