@@ -1,5 +1,8 @@
 # ChaseLights R4.2 B68 Production / Maintenance Handoff
 
+> **Historical checkpoint — superseded by `B78_PRODUCTION_HANDOFF.md` (2026-09-27).**  
+> B68 is retained for release history. Do not use its US migration counts or next-work queue as current project state.
+
 Date: 2026-09-27 (Asia/Taipei)
 
 ## Start here
