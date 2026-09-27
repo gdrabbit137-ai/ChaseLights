@@ -17,6 +17,7 @@ on:
       - "marine_state.py"
       - "tide_state.py"
       - "access_state.py"
+      - "aurora_state.py"
       - "shinhotaka_access.py"
       - "yahiko_access.py"
       - "test_fixtures/shinhotaka_home_*.html"
@@ -61,6 +62,7 @@ on:
       - "marine_state.py"
       - "tide_state.py"
       - "access_state.py"
+      - "aurora_state.py"
       - "shinhotaka_access.py"
       - "yahiko_access.py"
       - "test_fixtures/shinhotaka_home_*.html"
@@ -95,7 +97,7 @@ jobs:
         with:
           python-version: "3.10"
       - name: Compile
-        run: python -m py_compile ci_weather_impact.py opportunities.py opportunity_runtime.py runtime_dependencies.py spatial_weather.py marine_state.py tide_state.py access_state.py shinhotaka_access.py yahiko_access.py taxonomy_v004.py regions.py analyze_weather.py fetch_data.py test_opportunity_adapter.py
+        run: python -m py_compile ci_weather_impact.py opportunities.py opportunity_runtime.py runtime_dependencies.py spatial_weather.py marine_state.py tide_state.py access_state.py aurora_state.py shinhotaka_access.py yahiko_access.py taxonomy_v004.py regions.py analyze_weather.py fetch_data.py test_opportunity_adapter.py
       - name: Test weather-region detector
         run: python ci_weather_impact.py --self-test
       - name: Run adapter tests
