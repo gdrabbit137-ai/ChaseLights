@@ -14,10 +14,10 @@
     "runtime_catalog_v004_r4_2_b35_liyu_subjects.json"
   ],
   "counts": {
-    "spots": 128,
-    "opportunities": 286,
-    "condition_variants": 301,
-    "profile_viewpoint_relations": 292
+    "spots": 133,
+    "opportunities": 297,
+    "condition_variants": 312,
+    "profile_viewpoint_relations": 303
   },
   "spots": [
     {
@@ -13679,6 +13679,608 @@
               "geometry_type": "small_area",
               "geometry_extent_m": 350,
               "geometry_note": "Grand Prismatic Overlook Trail合法高處觀景區；嚴禁離開步道進入熱泉地表。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-011",
+      "canonical_name": "大提頓國家公園",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B64_US_RESEARCH_BATCH03",
+      "research_sources": [
+        {
+          "authority": "U.S. National Park Service — Oxbow Bend",
+          "url": "https://home.nps.gov/thingstodo/oxbowbend.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS states Mount Moran can reflect on calm water at Oxbow Bend and that sunrise/sunset are favorite times for photographers."
+        },
+        {
+          "authority": "U.S. National Park Service — Snake River Overlook",
+          "url": "https://www.nps.gov/places/000/snake-river-overlook.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS identifies the iconic Teton Range and Snake River view from roughly Ansel Adams' historic vantage."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-011-P01",
+          "spot_id": "us-011",
+          "name_zh": "Oxbow Bend・Mount Moran日出與河面倒影",
+          "legacy_theme": "reflection",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_water_surface_visibility_module",
+          "formula_version": "v0.04-us-teton-oxbow-sunrise-reflection",
+          "formula_confidence": 97,
+          "best_time": "日出前後；清晨低風時優先",
+          "best_season": "全年；道路與臨時狀況仍以NPS最新資訊為準",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-017",
+              "variant_name": "Oxbow Bend日出＋Mount Moran鏡面倒影",
+              "condition_geometry": "{\"camera_zone\":\"Oxbow Bend Turnout Camera Zone\",\"target\":\"Mount Moran + Snake River/Oxbow reflection at sunrise\"}",
+              "hard_gates": "Oxbow Bend公共pullout可達；日出時段有效；水面狀態可形成倒影",
+              "required_conditions": "Mount Moran可辨；水面足夠平靜；晨光時段有效；能見度足夠",
+              "boosters": "低風；高透明度；河面鏡面完整；薄雲晨彩",
+              "penalties": "強風水面破碎；降水擾動；濃霧／低雲遮山；能見度過低",
+              "formula_status": "needs_directional_horizon_water_surface_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-011-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS directly describes Oxbow Bend as an iconic turnout where Mount Moran reflects on calm water and sunrise/sunset are popular with photographers.",
+              "name": "Oxbow Bend Turnout Camera Zone",
+              "coord_confidence": "official_turnout_subject_no_unique_tripod_claim",
+              "verification_status": "official_nps_reflection_and_sunrise_subject",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 350,
+              "geometry_note": "Oxbow Bend鋪面pullout與合法觀景空間；不在車道內停留。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-011-P02",
+          "spot_id": "us-011",
+          "name_zh": "Snake River Overlook・Teton Range與Snake River經典全景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-visibility-minimum-sufficient",
+          "formula_confidence": 96,
+          "best_time": "白天可見光；低角度光可增加山稜與河谷層次",
+          "best_season": "全年依道路／施工實際狀態",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-018",
+              "variant_name": "Snake River＋Teton Range經典層次",
+              "condition_geometry": "{\"camera_zone\":\"Snake River Overlook Camera Zone\",\"subject\":\"Snake River sweep + central Teton Range\"}",
+              "hard_gates": "公共overlook可達；遵守道路與施工管制",
+              "required_conditions": "Teton Range與Snake River主要層次可辨；能見度足夠",
+              "boosters": "低角度側光；高透明度；低霾",
+              "penalties": "濃霧；低雲遮山；強降水；能見度過低",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-011-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS identifies the Snake River Overlook as the iconic Teton Range and Snake River view associated with Ansel Adams; exact historic tripod position is explicitly not claimed.",
+              "name": "Snake River Overlook Camera Zone",
+              "coord_confidence": "official_overlook_subject_no_unique_tripod_claim",
+              "verification_status": "official_nps_iconic_view",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 320,
+              "geometry_note": "公共鋪面overlook範圍；樹木生長已改變歷史構圖，不宣稱重現Ansel Adams精準位置。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-012",
+      "canonical_name": "雷尼爾山國家公園",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B64_US_RESEARCH_BATCH03",
+      "research_sources": [
+        {
+          "authority": "U.S. National Park Service — Reflection Lakes",
+          "url": "https://www.nps.gov/places/reflection-lakes.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS identifies Reflection Lakes as a scenic photo spot named for views of Mount Rainier reflected in the lakes; vehicle access via Stevens Canyon Road is typically late June through September."
+        },
+        {
+          "authority": "U.S. National Park Service — Reflection Lakes exhibit",
+          "url": "https://www.nps.gov/places/reflection-lakes-exhibit-panel.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS exhibit states still air and water, usually early morning, can perfectly mirror Mount Rainier."
+        },
+        {
+          "authority": "U.S. National Park Service — Tipsoo Lake",
+          "url": "https://www.nps.gov/places/tipsoo-lake.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS identifies Tipsoo Lake as a Scenic View/Photo Spot with Mount Rainier views and states SR410 vehicle access is summer-only, typically June–October."
+        },
+        {
+          "authority": "U.S. National Park Service — Mount Rainier brochure",
+          "url": "https://home.nps.gov/mora/planyourvisit/park-brochure.htm",
+          "verified_on": "2026-09-27",
+          "supports": "Official brochure image description explicitly depicts Mount Rainier mirrored in Tipsoo Lake under warm sunrise light."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-012-P01",
+          "spot_id": "us-012",
+          "name_zh": "Reflection Lakes・Mount Rainier清晨鏡面倒影",
+          "legacy_theme": "reflection",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_water_surface_visibility_access_module",
+          "formula_version": "v0.04-rainier-reflection-access-pending",
+          "formula_confidence": 97,
+          "best_time": "清晨低風時優先；車輛通常僅夏季可由Stevens Canyon Road抵達",
+          "best_season": "典型車輛季為6月底至9月；實際道路狀態必須以NPS即時資訊為準",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-019",
+              "variant_name": "Reflection Lakes清晨Mount Rainier倒影",
+              "condition_geometry": "{\"camera_zone\":\"Reflection Lakes Camera Zone\",\"target\":\"Mount Rainier mirrored in still lake\"}",
+              "hard_gates": "Reflection Lakes合法步道／道路實際可達；不得離開指定步道；水面狀態可形成倒影",
+              "required_conditions": "Mount Rainier可辨；水面足夠平靜；能見度足夠",
+              "boosters": "清晨低風；高透明度；水面鏡面完整",
+              "penalties": "道路關閉；強風／降水擾動水面；濃霧或低雲遮山",
+              "formula_status": "research_ready_reflection_dynamic_access_provider_pending"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-012-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS directly identifies Reflection Lakes as a reflection photo subject and states early-morning still conditions are best. Exact tripod coordinate is not asserted.",
+              "name": "Reflection Lakes Camera Zone",
+              "coord_confidence": "official_place_subject_no_unique_tripod_claim",
+              "verification_status": "official_nps_reflection_photo_spot",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 600,
+              "geometry_note": "Reflection Lakes停車／合法步道周邊；必須留在正式步道以保護高山草甸。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-012-P02",
+          "spot_id": "us-012",
+          "name_zh": "Tipsoo Lake・Mount Rainier日出暖光與湖面倒影",
+          "legacy_theme": "sunrise",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_water_surface_access_visibility_module",
+          "formula_version": "v0.04-rainier-tipsoo-sunrise-reflection-access-pending",
+          "formula_confidence": 96,
+          "best_time": "日出前後；SR410／Tipsoo Lake實際開放期間",
+          "best_season": "車輛通常6–10月可達；實際季節道路狀態優先",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-020",
+              "variant_name": "Tipsoo Lake日出暖光＋Rainier倒影",
+              "condition_geometry": "{\"camera_zone\":\"Tipsoo Lake Camera Zone\",\"target\":\"warm sunrise on Mount Rainier + lake reflection\"}",
+              "hard_gates": "SR410與Tipsoo Lake實際可達；日出時段有效；不得離開步道／下水；水面足夠平靜",
+              "required_conditions": "Rainier可辨；晨光時段有效；水面可形成倒影；能見度足夠",
+              "boosters": "低風；高透明度；暖色晨光；秋季色彩或夏季草甸作前景但非硬條件",
+              "penalties": "冬季道路關閉；強風／降水；低雲遮山；水面破碎",
+              "formula_status": "research_ready_sunrise_reflection_dynamic_access_provider_pending"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-012-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS identifies Tipsoo Lake as a Scenic View/Photo Spot; the official park brochure directly documents a sunrise-lit Mount Rainier mirror reflection. Vehicle access is seasonal.",
+              "name": "Tipsoo Lake Camera Zone",
+              "coord_confidence": "official_place_subject_no_unique_tripod_claim",
+              "verification_status": "official_nps_sunrise_reflection_subject",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 650,
+              "geometry_note": "Tipsoo Lake環湖正式步道與停車周邊；禁止涉水並應保護高山草甸。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-013",
+      "canonical_name": "火山口湖國家公園",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B64_US_RESEARCH_BATCH03",
+      "research_sources": [
+        {
+          "authority": "U.S. National Park Service — Crater Lake overlooks",
+          "url": "https://www.nps.gov/crla/planyourvisit/overlooks.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS documents Rim Village/Rim Drive viewpoints built to highlight the lake and caldera landscape; Rim Drive is summer/early-fall dependent on weather/road conditions."
+        },
+        {
+          "authority": "U.S. National Park Service — Watchman Peak hiking",
+          "url": "https://www.nps.gov/crla/planyourvisit/hiking.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS states Watchman Peak has 360-degree lake/landscape views and is especially crowded at sunset, proving sunset as a place-specific photography/viewing time."
+        },
+        {
+          "authority": "U.S. National Park Service — Current Conditions",
+          "url": "https://www.nps.gov/crla/planyourvisit/conditions.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS provides current road/viewpoint status; Rim Village lake views are available weather permitting while Rim Drive segments vary with conditions."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-013-P01",
+          "spot_id": "us-013",
+          "name_zh": "Rim Village・Crater Lake火山口湖全景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-visibility-minimum-sufficient",
+          "formula_confidence": 96,
+          "best_time": "白天可見光；湖面與caldera輪廓清楚時",
+          "best_season": "全年依Rim Village道路／天候實際狀況；冬季雲雪遮湖機率較高",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-021",
+              "variant_name": "Rim Village Crater Lake全景",
+              "condition_geometry": "{\"camera_zone\":\"Rim Village Promenade Camera Zone\",\"subject\":\"Crater Lake caldera + lake surface + surrounding rim\"}",
+              "hard_gates": "Rim Village合法公共觀景區可達；遵守雪季安全與封閉資訊",
+              "required_conditions": "湖面與主要caldera輪廓可辨；能見度足夠",
+              "boosters": "高透明度；低煙霧；新雪增加山稜層次但非成立條件",
+              "penalties": "濃霧／低雲完全遮湖；野火煙霧；強降水；能見度過低",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-013-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS identifies Rim Village as a primary lake-view area and the promenade/observation bays as public viewpoints. Existing legacy Place coordinate remains weather/map anchor; no unique tripod point is claimed.",
+              "name": "Rim Village Promenade Camera Zone",
+              "coord_confidence": "official_area_subject_no_unique_tripod_claim",
+              "verification_status": "official_nps_rim_village_lake_view",
+              "geometry_type": "area",
+              "geometry_extent_m": 900,
+              "geometry_note": "Rim Village Promenade與合法公共觀景區；雪季注意結冰與封閉邊界。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-013-P02",
+          "spot_id": "us-013",
+          "name_zh": "Watchman Peak・Crater Lake日落360度展望",
+          "legacy_theme": "sunset",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_dynamic_access_directional_horizon_visibility_module",
+          "formula_version": "v0.04-crater-watchman-sunset-access-pending",
+          "formula_confidence": 96,
+          "best_time": "日落前後；Watchman Trail與West Rim Drive實際開放時",
+          "best_season": "通常Rim Drive夏季至初秋較易到達；實際道路／步道狀態優先",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-022",
+              "variant_name": "Watchman Peak日落＋Crater Lake全景",
+              "condition_geometry": "{\"camera_zone\":\"Watchman Peak Trail / Fire Lookout Camera Zone\",\"target\":\"sunset + 360-degree Crater Lake and surrounding landscape\"}",
+              "hard_gates": "West Rim Drive與Watchman Trail實際可達；日落時段有效；安全步行與回程條件成立",
+              "required_conditions": "湖面與周邊地景可辨；夕照時段有效；能見度足夠",
+              "boosters": "中高雲夕彩；高透明度；低煙霧",
+              "penalties": "道路／步道關閉；濃霧；野火煙霧；強風／降水",
+              "formula_status": "research_ready_sunset_dynamic_access_provider_pending"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-013-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS hiking guidance explicitly notes Watchman Peak's 360-degree lake views and unusually high sunset crowding; access depends on West Rim Drive/trail conditions.",
+              "name": "Watchman Peak Camera Zone",
+              "coord_confidence": "official_trail_subject_no_unique_tripod_claim",
+              "verification_status": "official_nps_watchman_sunset_view",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 450,
+              "geometry_note": "Watchman Trail終點／fire lookout合法公共範圍；日落後回程需額外安全準備。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-014",
+      "canonical_name": "死亡谷國家公園",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B64_US_RESEARCH_BATCH03",
+      "research_sources": [
+        {
+          "authority": "U.S. National Park Service — Zabriskie Point",
+          "url": "https://www.nps.gov/places/zabriskie-point-scenic-viewpoint.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS identifies Zabriskie Point as an iconic and highly photographed Death Valley vista and a favorite for both sunrise and sunset."
+        },
+        {
+          "authority": "U.S. National Park Service — Mesquite Flat Sand Dunes",
+          "url": "https://home.nps.gov/places/mesquite-flat-sand-dunes.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS states Mesquite Dunes have dramatic sunrise/sunset shadows and are a great place to observe Death Valley's dark night skies."
+        },
+        {
+          "authority": "U.S. National Park Service — Night Exploration",
+          "url": "https://home.nps.gov/deva/night-exploration.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS states Death Valley has no closing time, is a Gold Tier dark-sky site, and names Mesquite Flat Sand Dunes among ranger-recommended stargazing locations."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-014-P01",
+          "spot_id": "us-014",
+          "name_zh": "Zabriskie Point・日出badlands與Manly Beacon",
+          "legacy_theme": "sunrise",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04-death-valley-zabriskie-directional",
+          "formula_confidence": 97,
+          "best_time": "日出前後",
+          "best_season": "全年；高溫季清晨亦是較安全時段",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-023",
+              "variant_name": "Zabriskie日出＋badlands／Manly Beacon",
+              "condition_geometry": "{\"camera_zone\":\"Zabriskie Point Camera Zone\",\"target\":\"sunrise light on badlands + Manly Beacon / valley floor\"}",
+              "hard_gates": "Zabriskie Point公共觀景區可達；日出時段有效",
+              "required_conditions": "badlands與Manly Beacon層次可辨；能見度足夠；晨光時段有效",
+              "boosters": "暖色低角度光；薄雲晨彩；高透明度",
+              "penalties": "沙塵／煙霧；強降水；能見度過低",
+              "formula_status": "needs_directional_horizon_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-014-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS identifies Zabriskie Point as an iconic Scenic View/Photo Spot and favorite sunrise location.",
+              "name": "Zabriskie Point Camera Zone",
+              "coord_confidence": "official_viewpoint_subject_no_unique_tripod_claim",
+              "verification_status": "official_nps_zabriskie_sunrise_subject",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 260,
+              "geometry_note": "Zabriskie Point鋪面觀景區與合法步道。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-014-P02",
+          "spot_id": "us-014",
+          "name_zh": "Zabriskie Point・日落badlands與Panamint層次",
+          "legacy_theme": "sunset",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04-death-valley-zabriskie-directional",
+          "formula_confidence": 97,
+          "best_time": "日落前後",
+          "best_season": "全年；夏季日落仍可能極端高溫",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-024",
+              "variant_name": "Zabriskie日落＋badlands／Panamint Mountains",
+              "condition_geometry": "{\"camera_zone\":\"Zabriskie Point Camera Zone\",\"target\":\"sunset light + badlands + distant Panamint Mountains\"}",
+              "hard_gates": "Zabriskie Point公共觀景區可達；日落時段有效",
+              "required_conditions": "badlands與遠山層次可辨；能見度足夠；夕照時段有效",
+              "boosters": "晚霞；暖色低角度光；高透明度",
+              "penalties": "沙塵／煙霧；強降水；能見度過低；極端高溫",
+              "formula_status": "needs_directional_horizon_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-014-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS explicitly identifies Zabriskie Point as a favorite sunset location and highlights Manly Beacon at sunrise or sunset.",
+              "name": "Zabriskie Point Sunset Camera Zone",
+              "coord_confidence": "official_viewpoint_subject_no_unique_tripod_claim",
+              "verification_status": "official_nps_zabriskie_sunset_subject",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 260,
+              "geometry_note": "同一公共觀景區；高溫季需把熱風險與拍攝品質分開處理。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-014-P03",
+          "spot_id": "us-014",
+          "name_zh": "Mesquite Flat Sand Dunes・暗夜星空／銀河與沙丘前景",
+          "legacy_theme": "milky_way",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_astronomy_ephemeris_module",
+          "formula_version": "v0.04-death-valley-astro",
+          "formula_confidence": 97,
+          "best_time": "天文黑夜；低月光／新月附近優先",
+          "best_season": "全年暗夜；夏季夜間仍可能超過38°C",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-025",
+              "variant_name": "Mesquite Dunes星空／銀河＋沙丘前景",
+              "condition_geometry": "{\"camera_zone\":\"Mesquite Flat Sand Dunes Camera Zone\",\"target\":\"dark sky / Milky Way + dune foreground\"}",
+              "hard_gates": "天文黑夜；合法沙丘區域；高溫與夜間步行安全可接受",
+              "required_conditions": "天空足夠晴朗；月光干擾可接受；星野可辨",
+              "boosters": "新月附近；低雲量；低風保留沙紋；高透明度",
+              "penalties": "亮月；雲層遮蔽；沙塵；強風；危險高溫",
+              "formula_status": "needs_astronomy_ephemeris_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-014-VP03",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS explicitly lists Mesquite Flat Sand Dunes as a dark-sky/stargazing location and describes the dunes as a Scenic View/Photo Spot. Exact Milky Way alignment is not claimed.",
+              "name": "Mesquite Flat Sand Dunes Night Camera Zone",
+              "coord_confidence": "official_area_subject_no_unique_tripod_claim",
+              "verification_status": "official_nps_dark_sky_dune_subject",
+              "geometry_type": "area",
+              "geometry_extent_m": 1800,
+              "geometry_note": "沙丘可跨地探索但無正式步道；夜間需自行確保定位、補水與高溫安全。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-015",
+      "canonical_name": "舊金山金門大橋",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B64_US_RESEARCH_BATCH03",
+      "research_sources": [
+        {
+          "authority": "U.S. National Park Service — Golden Gate Overlook",
+          "url": "https://www.nps.gov/places/000/golden-gate-overlook.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS classifies Golden Gate Overlook as a Scenic View/Photo Spot and explicitly states it offers stunning sunset views and views of the Golden Gate Bridge."
+        },
+        {
+          "authority": "U.S. National Park Service — Marin Headlands Scenic Vistas",
+          "url": "https://home.nps.gov/goga/planyourvisit/marin-headlands-scenic-vistas.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS identifies Battery Spencer as one of the most popular scenic overlooks for the Golden Gate Bridge."
+        },
+        {
+          "authority": "Golden Gate Bridge Highway & Transportation District — photography locations",
+          "url": "https://www.goldengate.org/district/permits/filming-photography-permits/",
+          "verified_on": "2026-09-27",
+          "supports": "Official bridge authority lists multiple public photo/view locations and distinguishes commercial-use permit rules from nearby jurisdictions; those commercial rules are not treated as a general personal-photography requirement."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-015-P01",
+          "spot_id": "us-015",
+          "name_zh": "Golden Gate Overlook・金門大橋日落",
+          "legacy_theme": "sunset",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04-golden-gate-sunset-visibility",
+          "formula_confidence": 97,
+          "best_time": "日落前後",
+          "best_season": "全年；夏季海霧可能成為題材或遮蔽風險，需依實際可見性判斷",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-026",
+              "variant_name": "Golden Gate Overlook金門大橋日落",
+              "condition_geometry": "{\"camera_zone\":\"Golden Gate Overlook Camera Zone\",\"target\":\"Golden Gate Bridge + sunset sky\"}",
+              "hard_gates": "公共overlook合法可達；日落時段有效",
+              "required_conditions": "金門大橋主要結構可辨；日落時段有效；能見度足夠",
+              "boosters": "薄霧保留橋體輪廓；高雲晚霞；高透明度",
+              "penalties": "濃霧完全遮橋；強降水；能見度過低",
+              "formula_status": "needs_directional_horizon_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-015-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS directly classifies Golden Gate Overlook as a Scenic View/Photo Spot with stunning sunset views of the bridge.",
+              "name": "Golden Gate Overlook Camera Zone",
+              "coord_confidence": "official_viewpoint_subject_no_unique_tripod_claim",
+              "verification_status": "official_nps_golden_gate_sunset_photo_spot",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 350,
+              "geometry_note": "Presidio內Golden Gate Overlook公共觀景區；商業拍攝許可與一般個人旅遊攝影為不同契約。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-015-P02",
+          "spot_id": "us-015",
+          "name_zh": "Battery Spencer・金門大橋與舊金山市景全景",
+          "legacy_theme": "city_night",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-visibility-minimum-sufficient",
+          "formula_confidence": 95,
+          "best_time": "白天至暮色前後；本Opportunity只評估橋體／市景可讀性，不宣稱夜間停車或道路一定可用",
+          "best_season": "全年依Marin Headlands道路與現場狀態",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-027",
+              "variant_name": "Battery Spencer金門大橋全景",
+              "condition_geometry": "{\"camera_zone\":\"Battery Spencer Scenic Overlook Camera Zone\",\"subject\":\"Golden Gate Bridge + San Francisco / bay context\"}",
+              "hard_gates": "Battery Spencer合法公共觀景區可達；遵守Marin Headlands道路與停車規則",
+              "required_conditions": "橋體與灣區主要層次可辨；能見度足夠",
+              "boosters": "低霧層但橋體仍露出；高透明度；柔和側光",
+              "penalties": "濃霧完全遮橋；強降水；能見度過低",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-015-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS identifies Battery Spencer as one of the most popular scenic overlooks for the Golden Gate Bridge. No exact tripod coordinate is asserted.",
+              "name": "Battery Spencer Scenic Camera Zone",
+              "coord_confidence": "official_viewpoint_subject_no_unique_tripod_claim",
+              "verification_status": "official_nps_battery_spencer_bridge_view",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 500,
+              "geometry_note": "Marin Headlands Battery Spencer公共觀景區；道路、停車與商業拍攝許可需依各管理單位規則。",
               "geometry_confidence": "high"
             }
           ]
