@@ -581,6 +581,34 @@ ACCESS_RULE_OVERRIDES = {
             "ja": "通常08:00〜17:00、夏季は通常18:00まで。イベント時は公式案内を確認してください",
         },
     },
+    "馬蹄灣": {
+        "access_mode": "daylight_only",
+        "access_hours_source": "U.S. National Park Service Horseshoe Bend Overlook page; verified 2026-09-27",
+        "access_note_i18n": {
+            "zh-TW": "NPS明確規定步道與觀景台僅日出至日落開放；停車場位於Page市有土地，繁忙時可能採接駁措施。",
+            "en": "NPS states the trail and overlook are open sunrise to sunset only. The parking lot is on City of Page land and busy periods may use shuttle controls.",
+            "ja": "NPSでは遊歩道・展望台は日の出から日没までのみ開放。駐車場はPage市管理で、混雑時はシャトル運用の場合があります。",
+        },
+    },
+    "紀念碑谷": {
+        "access_mode": "opening_hours",
+        "access_hours": ["08:00", "17:00"],
+        "access_hours_seasonal": [
+            {"start_mmdd": "03-08", "end_mmdd": "04-30", "windows": [["07:00", "20:00"]]},
+            {"start_mmdd": "05-01", "end_mmdd": "09-30", "windows": [["07:00", "19:00"]]},
+            {"start_mmdd": "10-01", "end_mmdd": "01-31", "windows": [["08:00", "17:00"]]},
+        ],
+        "access_closed_mmdd_ranges": [
+            {"start_mmdd": "12-25", "end_mmdd": "12-25"},
+            {"start_mmdd": "01-01", "end_mmdd": "01-01"},
+        ],
+        "access_hours_source": "Navajo Nation Parks Monument Valley official park/hours pages; verified 2026-09-27",
+        "access_note_i18n": {
+            "zh-TW": "依Navajo Tribal Park官方季節營運時段；2/1–3/7採官方一般08:00–17:00保守基準。感恩節與Navajo Family Day屬浮動日期，網站尚未自動建模，出發前仍須查官方公告。Scenic Drive另有更早的最後車輛進入限制。",
+            "en": "Uses published Navajo Tribal Park seasonal hours; Feb 1–Mar 7 falls back conservatively to the official regular 08:00–17:00 window. Thanksgiving/Family Day are moving-date closures not yet auto-modeled. Scenic Drive also has an earlier last-vehicle-entry cutoff.",
+            "ja": "Navajo Tribal Park公式の季節営業時間を使用。2/1〜3/7は公式の一般08:00〜17:00を保守的に適用。感謝祭・Family Dayの変動休園日は未自動化のため公式確認が必要です。Scenic Driveは最終車両入場がさらに早い場合があります。",
+        },
+    },
     "羚羊峽谷": {
         "access_mode": "daylight_only",
         "access_note_i18n": {
