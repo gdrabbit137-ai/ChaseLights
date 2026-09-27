@@ -1,4 +1,5 @@
 from pathlib import Path
+from tempfile import TemporaryDirectory
 import json
 from datetime import datetime
 from collections import Counter
@@ -604,13 +605,14 @@ def test_adapter_integrity():
     assert "const researchPending=!!metric.research_pending||!spot.opportunities?.length;const hasScore=" in index_html
     assert "&&!researchPending&&!noViable" in index_html
 
-    # B31: Weather Forecast must fetch only the selected Place detail shard.
+    # B45: Weather Forecast uses only the selected Place detail shard.
     assert "chaselights-v11-weather" in index_html
     assert "./weather_details/${region}/${encodeURIComponent(spotId)}.json" in index_html
     assert "loadDetails(currentRegion,spot.spot_id)" in index_html
     assert "const detail=payload?.spot" in index_html
-    assert "loadLegacyDetail(region,spotId)" in index_html
-    assert "catch(shardError)" in index_html
+    assert "loadLegacyDetail" not in index_html
+    assert "_weather_details.json" not in index_html
+    assert "catch(shardError)" not in index_html
 
     # R4.2 Navigation Target contract: map_query is metadata only. Browser
     # navigation must be built exclusively from exact navigation_target coords.
@@ -630,11 +632,14 @@ def test_adapter_integrity():
 
     analyze_weather_src = Path("analyze_weather.py").read_text(encoding="utf-8")
     assert 'Path("weather_details") / region' in analyze_weather_src
+    assert "_load_previous_detail_shard_map(region)" in analyze_weather_src
     assert '"spot": detail' in analyze_weather_src
     assert 'existing.unlink()' in analyze_weather_src
+    assert 'details_name = f"{region}_weather_details.json"' not in analyze_weather_src
 
     update_weather_workflow = Path(".github/workflows/update_weather.yml").read_text(encoding="utf-8")
-    assert "weather_details/" in update_weather_workflow
+    assert "git add tw_weather.json jp_weather.json us_weather.json weather_details/" in update_weather_workflow
+    assert "git rm -f --ignore-unmatch tw_weather_details.json jp_weather_details.json us_weather_details.json" in update_weather_workflow
 
     nanya = next(o for o in all_opportunities if o["opportunity_id"] == "tw-072-P01")
     assert runtime_policy(nanya) == "preview_module_available"
@@ -2600,6 +2605,24 @@ def test_active_catalog_weather_generation_guard():
     assert stale["spot_id"] == "tw-009"
     assert stale["data_stale"] is True
     assert stale["data_stale_reason"] == "weather_fetch_failed"
+
+    with TemporaryDirectory() as temp_dir:
+        shard_dir = Path(temp_dir) / "tw"
+        shard_dir.mkdir(parents=True)
+        (shard_dir / "tw-009.json").write_text(
+            json.dumps({
+                "schema_version": 10,
+                "updated_at": "2026-09-26T00:00:00Z",
+                "region": "tw",
+                "spot_id": "tw-009",
+                "spot": {"spot_id": "tw-009", "hourly_forecast": [{"time": "08:00"}]},
+            }),
+            encoding="utf-8",
+        )
+        (shard_dir / "broken.json").write_text("{", encoding="utf-8")
+        previous_details = analyze_weather._load_previous_detail_shard_map("tw", Path(temp_dir))
+        assert set(previous_details) == {"tw-009"}
+        assert previous_details["tw-009"]["hourly_forecast"][0]["time"] == "08:00"
 
     # Daily Place ranking is authoritative only when a researched Opportunity
     # exists. Legacy Theme metrics may remain in the payload for compatibility,
