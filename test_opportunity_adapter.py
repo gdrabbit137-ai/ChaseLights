@@ -3001,9 +3001,11 @@ def test_detail_hourly_projection_removes_duplicate_runtime():
         "eligible": False,
         "modules": {"visibility": {"available": True, "eligible": False}},
     }
+    theme_scores = {"reflection": {"score": 80}}
     source = [{
         "time": "2026-09-27 08:00",
-        "theme_scores": {"reflection": {"score": 80}},
+        "theme_scores": theme_scores,
+        "tag_scores": theme_scores,
         "opportunity_runtime": {"tw-test-P01": runtime},
         "opportunity_scores": {
             "tw-test-P01": {
@@ -3013,10 +3015,23 @@ def test_detail_hourly_projection_removes_duplicate_runtime():
         },
     }]
     projected = analyze_weather._detail_hourly_projection(source)
+
+    # Internal/raw fetch output retains compatibility fields.
     assert "opportunity_runtime" in source[0]
+    assert "tag_scores" in source[0]
+
+    # Published detail rows keep the canonical copies only.
     assert "opportunity_runtime" not in projected[0]
+    assert "tag_scores" not in projected[0]
     assert projected[0]["opportunity_scores"]["tw-test-P01"]["runtime"] == runtime
     assert projected[0]["theme_scores"] == source[0]["theme_scores"]
+
+    # Historical detail payloads that contain only V4 tag_scores remain
+    # readable by the summary compatibility helper.
+    legacy_metric = {"score": 61, "status_key": "STABLE_WEATHER"}
+    assert analyze_weather._metric_for_theme(
+        {"tag_scores": {"reflection": legacy_metric}}, "reflection"
+    ) == legacy_metric
 
 
 def test_schema10_optional_metadata_bridge():
