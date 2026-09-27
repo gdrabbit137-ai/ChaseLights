@@ -14,10 +14,10 @@
     "runtime_catalog_v004_r4_2_b35_liyu_subjects.json"
   ],
   "counts": {
-    "spots": 133,
-    "opportunities": 297,
-    "condition_variants": 312,
-    "profile_viewpoint_relations": 303
+    "spots": 138,
+    "opportunities": 306,
+    "condition_variants": 321,
+    "profile_viewpoint_relations": 312
   },
   "spots": [
     {
@@ -14281,6 +14281,530 @@
               "geometry_type": "small_area",
               "geometry_extent_m": 500,
               "geometry_note": "Marin Headlands Battery Spencer公共觀景區；道路、停車與商業拍攝許可需依各管理單位規則。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-016",
+      "canonical_name": "拉斯維加斯大道",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B65_US_RESEARCH_BATCH04",
+      "research_sources": [
+        {
+          "authority": "Las Vegas Convention and Visitors Authority — Las Vegas Strip",
+          "url": "https://www.visitlasvegas.com/las-vegas-strip/",
+          "verified_on": "2026-09-27",
+          "supports": "Official destination guide identifies the Strip as the famous neon corridor and explicitly frames it as an after-dark illuminated urban destination."
+        },
+        {
+          "authority": "Las Vegas Convention and Visitors Authority — Fountains of Bellagio",
+          "url": "https://www.visitlasvegas.com/listing/fountains-of-bellagio/34849/",
+          "verified_on": "2026-09-27",
+          "supports": "Official destination listing gives recurring Bellagio fountain showtimes, describes the illuminated choreographed water display against the Strip backdrop, and warns that times can vary or shows may be cancelled in inclement weather."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-016-P01",
+          "spot_id": "us-016",
+          "name_zh": "Las Vegas Strip・霓虹與LED夜間城市街景",
+          "legacy_theme": "city_night",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "minimum_sufficient_local_scene",
+          "formula_version": "v0.04-local-scene-night-urban-minimum-sufficient",
+          "formula_confidence": 95,
+          "best_time": "日落後至深夜；以霓虹、LED與飯店立面實際亮燈為主",
+          "best_season": "全年；大型活動與道路／人流管制以現場公告為準",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-028",
+              "variant_name": "Las Vegas Strip夜間霓虹／LED城市走廊",
+              "condition_geometry": "{\"camera_zone\":\"Bellagio / central Las Vegas Strip Camera Zone\",\"subject\":\"illuminated Strip facades + neon/LED urban streetscape\"}",
+              "hard_gates": "合法公共人行區可使用；夜間主要城市燈光已亮起；不得站入車道或妨礙人流",
+              "required_conditions": "主要飯店／霓虹／LED街景清楚可辨；無足以妨礙步行攝影的強降水",
+              "boosters": "藍調時段保留天空層次；低風；較少人流；乾燥空氣",
+              "penalties": "強降水；沙塵／低能見度；大型活動封路或過度壅擠",
+              "formula_status": "minimum_sufficient_local_scene"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-016-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "The existing Bellagio/central Strip coordinate is a practical high-confidence area anchor. This Opportunity covers public pedestrian viewpoints around the central Strip rather than a single tripod position.",
+              "name": "Bellagio／Central Strip Camera Zone",
+              "lat": 36.113264,
+              "lon": -115.176372,
+              "coord_confidence": "high",
+              "verification_status": "official_strip_night_subject_plus_existing_high_confidence_bellagio_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 900,
+              "geometry_note": "Bellagio前方與中央Strip合法公共人行空間；不宣稱單一腳架點。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-016-P02",
+          "spot_id": "us-016",
+          "name_zh": "Bellagio噴泉・夜間水舞與Strip背景",
+          "legacy_theme": "city_night",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_event_state_module",
+          "formula_version": "v0.04-bellagio-recurring-show-state-pending",
+          "formula_confidence": 94,
+          "best_time": "官方當日噴泉演出時段；夜間燈光效果較完整",
+          "best_season": "全年依官方當日／最新演出時刻；惡劣天候可能取消",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-029",
+              "variant_name": "Bellagio夜間噴泉水舞＋Strip燈光",
+              "condition_geometry": "{\"camera_zone\":\"Bellagio Fountains public-view Camera Zone\",\"subject\":\"scheduled illuminated fountain show + Las Vegas Strip backdrop\"}",
+              "hard_gates": "必須落在官方有效演出時段且當場演出未取消；使用合法公共觀賞區",
+              "required_conditions": "噴泉演出實際進行；水柱與背景燈光可辨；無足以取消演出的惡劣天候",
+              "boosters": "藍調／黑夜；低風；較少人流",
+              "penalties": "演出取消／時刻變更；強風或雷雨；觀景區過度壅擠",
+              "formula_status": "research_ready_recurring_show_state_provider_pending"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-016-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official Las Vegas tourism publishes the recurring Bellagio fountain schedule and notes weather cancellation. A live recurring-show provider is not yet connected, so this remains module_pending.",
+              "name": "Bellagio Fountains Public View Camera Zone",
+              "lat": 36.113264,
+              "lon": -115.176372,
+              "coord_confidence": "high",
+              "verification_status": "official_recurring_fountain_show_subject_plus_existing_bellagio_anchor",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 700,
+              "geometry_note": "Bellagio湖面周邊合法公共觀賞區與相鄰人行道。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-017",
+      "canonical_name": "聖海倫斯火山",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B65_US_RESEARCH_BATCH04",
+      "research_sources": [
+        {
+          "authority": "USDA Forest Service — Johnston Ridge / Boundary Trail",
+          "url": "https://www.fs.usda.gov/r06/giffordpinchot/recreation/trails/trail-1-boundary-johnston-ridge-truman-trail",
+          "verified_on": "2026-09-27",
+          "supports": "Forest Service documents crater, Spirit Lake and Loowit Falls views from the Johnston Ridge/Boundary Trail area and states the Johnston Ridge trailhead is unreachable because of the SR 504 landslide closure."
+        },
+        {
+          "authority": "USDA Forest Service — South Coldwater Slide Information",
+          "url": "https://www.fs.usda.gov/r06/giffordpinchot/recreation/south-coldwater-slide-information",
+          "verified_on": "2026-09-27",
+          "supports": "Current official closure information states SR 504 remains closed between mileposts 45.2 and 51, preventing ordinary vehicle access to Johnston Ridge Observatory."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-017-P01",
+          "spot_id": "us-017",
+          "name_zh": "Johnston Ridge・聖海倫斯火山口與爆發地景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_dynamic_access_visibility_module",
+          "formula_version": "v0.04-st-helens-johnston-access-visibility-pending",
+          "formula_confidence": 97,
+          "best_time": "白天可見光；僅在Johnston Ridge實際公共進入路線恢復且官方允許時",
+          "best_season": "不得由月份推定；以USFS/WSDOT即時道路與步道狀態為準",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-030",
+              "variant_name": "Johnston Ridge火山口／Spirit Lake爆發地景",
+              "condition_geometry": "{\"camera_zone\":\"Johnston Ridge Observatory / Boundary Trail Camera Zone\",\"subject\":\"Mount St. Helens crater + blast-zone landscape + Spirit Lake context\"}",
+              "hard_gates": "Johnston Ridge實際公共進入路線須由官方證實開放；目前不可因天氣良好而推論可達",
+              "required_conditions": "火山口與主要爆發地景可辨；能見度足夠；低雲／降水未完全遮蔽山體",
+              "boosters": "高透明度；低煙霧；側光增加火山地形層次",
+              "penalties": "SR504／步道仍封閉；濃霧／低雲遮山；強降水；野火煙霧",
+              "formula_status": "research_ready_dynamic_access_visibility_provider_pending"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-017-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "USFS directly documents crater/Spirit Lake views here, but current official information says ordinary Johnston Ridge access remains blocked. The existing coordinate is retained as a medium-confidence area anchor, not a currently routable destination.",
+              "name": "Johnston Ridge Camera Zone",
+              "lat": 46.2753,
+              "lon": -122.2174,
+              "coord_confidence": "medium",
+              "verification_status": "official_subject_current_access_closed_existing_anchor",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 900,
+              "geometry_note": "Johnston Ridge觀景廣場／Boundary Trail起始區；只有官方恢復公共進入後才可使用。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-018",
+      "canonical_name": "冰川國家公園",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B65_US_RESEARCH_BATCH04",
+      "research_sources": [
+        {
+          "authority": "U.S. National Park Service — Sunset at Lake McDonald",
+          "url": "https://www.nps.gov/tours/view.htm?id=98F832BE-9093-2A45-DE1EDC615F095FA1",
+          "verified_on": "2026-09-27",
+          "supports": "NPS directly identifies sunset from the shores of Lake McDonald and Apgar public boat dock as a popular evening activity with exceptional shoreline views."
+        },
+        {
+          "authority": "U.S. National Park Service — Glacier Photo Tips",
+          "url": "https://www.nps.gov/glac/planyourvisit/photo-tips.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS photo guidance explicitly supports Glacier sunset photography and night-sky photography; Lake McDonald is identified for open northern sky views and aurora when it occurs."
+        },
+        {
+          "authority": "U.S. National Park Service — Night Sky",
+          "url": "https://www.nps.gov/glac/learn/nature/night-sky.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS identifies Glacier as a dark-sky destination and runs astronomy activities at Apgar, directly supporting the Lake McDonald/Apgar night-sky subject without claiming any guaranteed aurora."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-018-P01",
+          "spot_id": "us-018",
+          "name_zh": "Lake McDonald・Apgar湖岸日落與山稜剪影",
+          "legacy_theme": "sunset",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04-glacier-lake-mcdonald-sunset",
+          "formula_confidence": 97,
+          "best_time": "日落前後",
+          "best_season": "全年依Apgar/Lake McDonald實際公共區域狀態",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-031",
+              "variant_name": "Lake McDonald日落＋山稜／湖面前景",
+              "condition_geometry": "{\"camera_zone\":\"Apgar / Lake McDonald public-shore Camera Zone\",\"target\":\"sunset sky + Lake McDonald + mountain silhouettes\"}",
+              "hard_gates": "Apgar／Lake McDonald合法公共湖岸可使用；日落時段有效",
+              "required_conditions": "湖面與主要山稜輪廓可辨；日落時段有效；能見度足夠",
+              "boosters": "中高雲晚霞；高透明度；湖面平靜可增加畫面品質但不是硬門檻",
+              "penalties": "濃霧／低雲遮山；強降水；野火煙霧；能見度過低",
+              "formula_status": "needs_directional_horizon_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-018-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS directly recommends Lake McDonald sunset and identifies the Apgar public boat dock as a popular starting point. Existing Lake McDonald/Apgar coordinate remains the weather/map anchor.",
+              "name": "Apgar／Lake McDonald Sunset Camera Zone",
+              "lat": 48.527,
+              "lon": -113.997,
+              "coord_confidence": "medium",
+              "verification_status": "official_nps_sunset_subject_plus_existing_lake_mcdonald_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 900,
+              "geometry_note": "Apgar Village公共湖岸／碼頭周邊與相鄰合法湖岸觀景區。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-018-P02",
+          "spot_id": "us-018",
+          "name_zh": "Lake McDonald・Apgar暗夜星空與湖泊前景",
+          "legacy_theme": "milky_way",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_astronomy_ephemeris_module",
+          "formula_version": "v0.04-glacier-apgar-dark-sky",
+          "formula_confidence": 96,
+          "best_time": "天文黑夜；低月光時優先",
+          "best_season": "全年暗夜；不保證極光或銀河核心與特定前景精準對位",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-032",
+              "variant_name": "Apgar暗夜星空＋Lake McDonald前景",
+              "condition_geometry": "{\"camera_zone\":\"Apgar / Lake McDonald night Camera Zone\",\"subject\":\"dark star field / Milky Way-capable sky + Lake McDonald foreground\",\"aurora\":\"possible only when independently forecast; not guaranteed by this Opportunity\"}",
+              "hard_gates": "天文黑夜；合法公共湖岸；夜間步行與停車規則可遵守",
+              "required_conditions": "天空足夠晴朗；月光干擾可接受；星野可辨",
+              "boosters": "新月附近；高透明度；低雲量；湖面平靜",
+              "penalties": "亮月；雲層遮蔽；野火煙霧；強降水",
+              "formula_status": "needs_astronomy_ephemeris_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-018-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS explicitly supports Glacier night-sky photography and identifies Apgar/Lake McDonald as a night-sky area. This Opportunity does not claim guaranteed aurora or exact Galactic Core alignment.",
+              "name": "Apgar／Lake McDonald Night Camera Zone",
+              "lat": 48.527,
+              "lon": -113.997,
+              "coord_confidence": "medium",
+              "verification_status": "official_nps_dark_sky_subject_plus_existing_lake_mcdonald_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 900,
+              "geometry_note": "Apgar公共湖岸與允許夜間停留之公共區域；不可占用車道。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-019",
+      "canonical_name": "奧林匹克國家公園",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B65_US_RESEARCH_BATCH04",
+      "research_sources": [
+        {
+          "authority": "U.S. National Park Service — Ruby Beach",
+          "url": "https://www.nps.gov/places/000/ruby-beach.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS identifies Ruby Beach's dramatic sea stacks and tide pools and presents sunset imagery as representative of the beach."
+        },
+        {
+          "authority": "U.S. National Park Service — Ruby Beach Overlook",
+          "url": "https://www.nps.gov/places/000/ruby-beach-overlook.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS classifies Ruby Beach Overlook as a Scenic View/Photo Spot and depicts Ruby Beach immediately before sunset."
+        },
+        {
+          "authority": "U.S. National Park Service — Olympic coastal hiking",
+          "url": "https://www.nps.gov/olym/planyourvisit/day-hiking-at-olympic.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS lists Ruby Beach as a short coastal hike to seastacks and warns coastal visitors to remain tide-aware."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-019-P01",
+          "spot_id": "us-019",
+          "name_zh": "Ruby Beach・海蝕柱與漂流木海岸景觀",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-visibility-minimum-sufficient",
+          "formula_confidence": 96,
+          "best_time": "白天可見光；低角度光可增加海蝕柱層次",
+          "best_season": "全年；海岸步行仍須留意潮汐與漂流木",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-033",
+              "variant_name": "Ruby Beach海蝕柱＋漂流木海岸",
+              "condition_geometry": "{\"camera_zone\":\"Ruby Beach / Overlook Camera Zone\",\"subject\":\"sea stacks + beach + driftwood / coastal foreground\"}",
+              "hard_gates": "Ruby Beach合法公共區域可達；不得攀爬危險漂流木或進入封閉區",
+              "required_conditions": "主要海蝕柱與海岸輪廓可辨；能見度足夠",
+              "boosters": "低角度側光；高透明度；潮位提供較完整沙灘前景",
+              "penalties": "濃霧完全遮蔽海蝕柱；強降水；野火煙霧；高浪與漂流木危險",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-019-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS directly identifies Ruby Beach and its overlook as a scenic/photo location with dramatic sea stacks. The existing Ruby Beach coordinate is a high-confidence anchor.",
+              "name": "Ruby Beach／Overlook Camera Zone",
+              "lat": 47.710912,
+              "lon": -124.415477,
+              "coord_confidence": "high",
+              "verification_status": "official_nps_ruby_beach_photo_spot_plus_existing_high_confidence_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 800,
+              "geometry_note": "Ruby Beach overlook、正式下切步道與合法海灘活動區；潮汐與漂流木安全獨立處理。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-019-P02",
+          "spot_id": "us-019",
+          "name_zh": "Ruby Beach・太平洋日落與海蝕柱",
+          "legacy_theme": "sunset",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_marine_directional_horizon_module",
+          "formula_version": "v0.04-ruby-beach-sunset-marine",
+          "formula_confidence": 96,
+          "best_time": "日落前後",
+          "best_season": "全年；海岸安全與當下浪況優先",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-034",
+              "variant_name": "Ruby Beach日落＋海蝕柱／太平洋",
+              "condition_geometry": "{\"camera_zone\":\"Ruby Beach sunset Camera Zone\",\"target\":\"Pacific sunset sky + sea stacks\"}",
+              "hard_gates": "日落時段有效；Ruby Beach合法區域可使用；不得把粗網格海象判斷當成局部岸線安全保證",
+              "required_conditions": "海蝕柱與海平面主要輪廓可辨；夕照時段有效",
+              "boosters": "中高雲晚霞；中低海浪形成可控水線紋理；高透明度",
+              "penalties": "高浪／強風；強降水；濃霧完全遮景；海岸通行風險升高",
+              "formula_status": "needs_marine_directional_horizon_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-019-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS depicts and describes Ruby Beach as a sea-stack beach/photo spot with sunset imagery. Marine-state output remains model-scale quality context, not local shoreline safety certification.",
+              "name": "Ruby Beach Sunset Camera Zone",
+              "lat": 47.710912,
+              "lon": -124.415477,
+              "coord_confidence": "high",
+              "verification_status": "official_nps_ruby_beach_sunset_subject",
+              "geometry_type": "area",
+              "geometry_extent_m": 800,
+              "geometry_note": "Ruby Beach公共海岸與overlook；局部浪況、漂流木與潮汐需現場安全判斷。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-020",
+      "canonical_name": "紅木國家公園",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B65_US_RESEARCH_BATCH04",
+      "research_sources": [
+        {
+          "authority": "U.S. National Park Service — Lady Bird Johnson Grove Trail",
+          "url": "https://www.nps.gov/places/lbjtrailhead.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS identifies Lady Bird Johnson Grove as an easy trail through historic old-growth redwoods and a popular year-round destination."
+        },
+        {
+          "authority": "U.S. National Park Service — Lady Bird Johnson Grove Stop 6",
+          "url": "https://www.nps.gov/places/lady-bird-johnson-nature-trail-stop-6.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS classifies the trail stop as a Scenic View/Photo Spot and explicitly describes towering old-growth redwoods as the photographic subject."
+        },
+        {
+          "authority": "U.S. National Park Service — Lady Bird Johnson Grove Stop 11",
+          "url": "https://www.nps.gov/places/lady-bird-johnson-nature-trail-stop-11.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS classifies the site as a Scenic View/Photo Spot and directly documents ground cloud/fog blanketing the redwood forest, including the ecological role and frequency of summer fog."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-020-P01",
+          "spot_id": "us-020",
+          "name_zh": "Lady Bird Johnson Grove・巨木紅木森林與步道縱深",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "minimum_sufficient_local_scene",
+          "formula_version": "v0.04-local-scene-forest-minimum-sufficient",
+          "formula_confidence": 96,
+          "best_time": "白天可見光；陰天／柔光亦可成立",
+          "best_season": "全年；冬季風雨與道路／步道狀態仍需查看官方公告",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-035",
+              "variant_name": "Lady Bird Johnson Grove巨木紅木林／步道縱深",
+              "condition_geometry": "{\"camera_zone\":\"Lady Bird Johnson Grove Camera Zone\",\"subject\":\"old-growth coast redwoods + forest-trail depth\"}",
+              "hard_gates": "正式步道可使用；不得離開步道踩踏保護植被",
+              "required_conditions": "紅木巨木與森林步道層次可辨；無足以妨礙步行攝影的強降水",
+              "boosters": "柔和散射光；林下濕潤；低人流",
+              "penalties": "強風雨；倒木／步道封閉；妨礙其他遊客",
+              "formula_status": "minimum_sufficient_local_scene"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-020-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS identifies Lady Bird Johnson Grove as a popular old-growth redwood walk and multiple trail stops as Scenic View/Photo Spots. Existing NPS-based coordinate remains the Camera Zone anchor.",
+              "name": "Lady Bird Johnson Grove Camera Zone",
+              "lat": 41.30408,
+              "lon": -124.018237,
+              "coord_confidence": "high",
+              "verification_status": "official_nps_old_growth_photo_subject_plus_existing_high_confidence_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 1400,
+              "geometry_note": "1.5-mile Lady Bird Johnson Grove正式環狀步道；只在合法步道內移動構圖。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-020-P02",
+          "spot_id": "us-020",
+          "name_zh": "Lady Bird Johnson Grove・霧中紅木森林",
+          "legacy_theme": "fog_mist",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_mist_state_module",
+          "formula_version": "v0.04-redwood-fog-state-pending",
+          "formula_confidence": 96,
+          "best_time": "實際有林間霧／低雲進入紅木林時；夏季沿岸霧常見但不得由月份保證",
+          "best_season": "全年可發生；NPS指出夏季霧常見",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-036",
+              "variant_name": "Lady Bird Johnson Grove霧林紅木",
+              "condition_geometry": "{\"camera_zone\":\"Lady Bird Johnson Grove Camera Zone\",\"subject\":\"old-growth redwoods visibly layered within ground cloud / forest fog\"}",
+              "hard_gates": "林間霧實際存在；正式步道可使用",
+              "required_conditions": "霧氣在紅木林內形成可辨層次且主要樹幹仍可讀；不是單純鏡頭外遠方低雲",
+              "boosters": "柔光；低風；霧層厚度適中；林下水氣形成空氣透視",
+              "penalties": "霧濃到主要樹體完全不可辨；強風雨；步道封閉",
+              "formula_status": "research_ready_mist_state_provider_pending"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-020-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS explicitly documents fog blanketing the redwood forest at Lady Bird Johnson Grove and classifies the trail stop as a Scenic View/Photo Spot. Runtime mist-state support is not yet implemented.",
+              "name": "Lady Bird Johnson Grove Fog Camera Zone",
+              "lat": 41.30408,
+              "lon": -124.018237,
+              "coord_confidence": "high",
+              "verification_status": "official_nps_place_specific_fog_photo_evidence",
+              "geometry_type": "area",
+              "geometry_extent_m": 1400,
+              "geometry_note": "同一正式紅木林步道範圍；霧題材必須由實際林間水氣狀態證實。",
               "geometry_confidence": "high"
             }
           ]
