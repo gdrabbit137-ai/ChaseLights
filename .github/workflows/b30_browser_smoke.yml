@@ -111,11 +111,12 @@ jobs:
               output.write(f"regenerate={'true' if regenerate else 'false'}\n")
           PY
 
-      - name: Generate Taiwan and Japan candidate weather
+      - name: Generate Taiwan Japan and US candidate weather
         if: github.event_name != 'pull_request' || steps.weather_changes.outputs.regenerate == 'true'
         run: |
           python analyze_weather.py tw
           python analyze_weather.py jp
+          python analyze_weather.py us
 
       - name: Install browser test dependency
         run: python -m pip install --disable-pip-version-check selenium
