@@ -113,9 +113,11 @@ MINIMUM_SUFFICIENT_VISIBILITY_PROFILES = {
     "jp-035-P01", "jp-035-P02",
     # B61 US: broad Horseshoe Bend and Monument Valley landscapes need readable long-range visibility.
     "us-002-P01", "us-004-P01", "us-009-P01", "us-011-P02", "us-013-P01", "us-015-P02",
+    "us-019-P01",
 }
 
 MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES = {
+    "us-016-P01", "us-020-P01",
     # B32 jp-025 historic lane and jp-026 public shrine approach are close-range
     # scenes. Low cloud and long-range visibility are not hard blockers;
     # material rain and known access closure remain blockers.
@@ -625,6 +627,8 @@ DIRECTIONAL_HORIZON_SECTORS = {
     "us-014-P01": {"center": 90.0, "tolerance": 85.0, "phase": "sunrise"},
     "us-014-P02": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
     "us-015-P01": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
+    "us-018-P01": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
+    "us-019-P02": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
 }
 
 CLOUD_SKY_GLOW_PROFILES = {
@@ -650,6 +654,7 @@ ASTRONOMY_EPHEMERIS_PROFILES = {
     "us-005-P02": {"mode": "milky_way_or_star_field"},
     "us-006-P02": {"mode": "milky_way_or_star_field"},
     "us-014-P03": {"mode": "milky_way_or_star_field"},
+    "us-018-P02": {"mode": "milky_way_or_star_field"},
 }
 
 
