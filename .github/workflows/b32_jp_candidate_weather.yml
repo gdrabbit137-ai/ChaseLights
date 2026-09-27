@@ -146,6 +146,12 @@ jobs:
               assert shard.get("updated_at") == summary.get("updated_at"), shard_path.name
               detail = shard.get("spot") or {}
               assert shard.get("spot_id") == detail.get("spot_id"), shard_path.name
+              hourly = detail.get("hourly_forecast") or []
+              assert all(
+                  "opportunity_runtime" not in row
+                  for row in hourly
+                  if isinstance(row, dict)
+              ), f"{shard_path.name}: duplicated top-level opportunity_runtime leaked into published detail"
               shard_ids.add(detail["spot_id"])
           assert shard_ids == {s["spot_id"] for s in summary_spots}
 
