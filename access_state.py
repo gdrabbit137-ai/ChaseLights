@@ -98,7 +98,7 @@ _ACCESS_GROUPS = {
         "tw-032-P01", "tw-032-P02", "tw-032-P03",
         "tw-056-P01", "tw-056-P02", "tw-057-P02",
     ),
-    "managed_park_booking_notice": ("tw-010-P01", "tw-010-P03", "us-003-P01", "us-003-P02"),
+    "managed_park_booking_notice": ("tw-010-P01", "tw-010-P03", "us-003-P01", "us-003-P02", "us-031-P01"),
     "boardwalk_schedule_notice": ("tw-012-P02", "tw-015-P02"),
     "private_property_permission": (
         "tw-014-P01", "tw-014-P02",
@@ -144,6 +144,13 @@ ACCESS_RUNTIME_READY_PROFILES = frozenset({
 # These are provider-discovery hints, not proof that an Opportunity is open.
 # They document official sources verified during B25 architecture work.
 OFFICIAL_SOURCE_HINTS = {
+    "us-031": {
+        "authority": "U.S. National Park Service",
+        "source_kind": "rmnp_2026_timed_entry_plus_bear_lake_road",
+        "url": "https://www.nps.gov/places/rmnp-timed-entry-%2B-bear-lake-road.htm",
+        "verified_on": "2026-09-27",
+        "note": "Sprague Lake is inside the Bear Lake Road Corridor. In 2026, Timed Entry + Bear Lake Road reservations are required 05:00–18:00 from May 22 through October 18. Reservation entitlement, current road/park status, and time window must not be inferred from favorable weather.",
+    },
     "us-029": {
         "authority": "U.S. National Park Service",
         "source_kind": "white_sands_park_hours_and_missile_test_closure_status",
