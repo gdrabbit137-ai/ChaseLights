@@ -2301,7 +2301,7 @@ def test_adapter_integrity():
 
     us_spots = get_spots("us")
     researched_us = {s["spot_id"] for s in us_spots if s.get("opportunities")}
-    assert researched_us == {f"us-{i:03d}" for i in range(1, 56)}
+    assert researched_us == {f"us-{i:03d}" for i in range(1, 61)}
     assert all(not (s.get("opportunities") or []) for s in us_spots if s["spot_id"] not in researched_us)
 
     us006 = get_opportunities("us", "us-006")
@@ -2694,6 +2694,58 @@ def test_adapter_integrity():
     wrst = next(s for s in us_spots if s["spot_id"] == "us-055")
     assert abs(wrst["lat"] - 61.481048) < 1e-7
     assert abs(wrst["lon"] + 142.885231) < 1e-7
+
+    us056 = get_opportunities("us", "us-056")
+    assert [o["opportunity_id"] for o in us056] == ["us-056-P01", "us-056-P02"]
+    assert [o["runtime_policy"] for o in us056] == ["module_pending", "module_pending"]
+    assert dependencies_for_opportunity(us056[0]) == ("dynamic_access", "visibility")
+    assert dependencies_for_opportunity(us056[1]) == ("aurora_state", "dynamic_access")
+    assert ACCESS_PROFILE_CLASSIFICATION["us-056-P01"]["access_type"] == "road_viewpoint_status"
+    assert ACCESS_PROFILE_CLASSIFICATION["us-056-P02"]["access_type"] == "road_viewpoint_status"
+    brooks = next(s for s in us_spots if s["spot_id"] == "us-056")
+    assert abs(brooks["lat"] - 68.133) < 1e-7
+    assert abs(brooks["lon"] + 149.48) < 1e-7
+
+    us057 = get_opportunities("us", "us-057")
+    assert [o["opportunity_id"] for o in us057] == ["us-057-P01", "us-057-P02"]
+    assert [o["runtime_policy"] for o in us057] == ["module_pending", "module_pending"]
+    assert dependencies_for_opportunity(us057[0]) == ("dynamic_access",)
+    assert dependencies_for_opportunity(us057[1]) == ("aurora_state", "dynamic_access")
+    assert ACCESS_PROFILE_CLASSIFICATION["us-057-P01"]["access_type"] == "road_viewpoint_status"
+    assert ACCESS_PROFILE_CLASSIFICATION["us-057-P02"]["access_type"] == "road_viewpoint_status"
+    arctic_circle = next(s for s in us_spots if s["spot_id"] == "us-057")
+    assert abs(arctic_circle["lat"] - 66.55601) < 1e-7
+    assert abs(arctic_circle["lon"] + 150.8107) < 1e-7
+
+    us058 = get_opportunities("us", "us-058")
+    assert [o["opportunity_id"] for o in us058] == ["us-058-P01", "us-058-P02"]
+    assert [o["runtime_policy"] for o in us058] == ["minimum_sufficient_available", "module_pending"]
+    assert dependencies_for_opportunity(us058[1]) == ("aurora_state",)
+    nome = next(s for s in us_spots if s["spot_id"] == "us-058")
+    assert abs(nome["lat"] - 64.501) < 1e-7
+    assert abs(nome["lon"] + 165.406) < 1e-7
+
+    us059 = get_opportunities("us", "us-059")
+    assert [o["opportunity_id"] for o in us059] == ["us-059-P01", "us-059-P02"]
+    assert [o["runtime_policy"] for o in us059] == ["module_pending", "module_pending"]
+    assert dependencies_for_opportunity(us059[0]) == ("dynamic_access",)
+    assert dependencies_for_opportunity(us059[1]) == ("wildlife_state", "dynamic_access")
+    assert dependency_state(us059[1])["missing_components"] == ("wildlife_state", "dynamic_access")
+    assert ACCESS_PROFILE_CLASSIFICATION["us-059-P01"]["access_type"] == "public_attraction_notice"
+    assert ACCESS_PROFILE_CLASSIFICATION["us-059-P02"]["access_type"] == "public_attraction_notice"
+    katmai = next(s for s in us_spots if s["spot_id"] == "us-059")
+    assert abs(katmai["lat"] - 58.55476) < 1e-7
+    assert abs(katmai["lon"] + 155.79193) < 1e-7
+
+    us060 = get_opportunities("us", "us-060")
+    assert [o["opportunity_id"] for o in us060] == ["us-060-P01", "us-060-P02"]
+    assert [o["runtime_policy"] for o in us060] == ["minimum_sufficient_available", "module_pending"]
+    assert dependencies_for_opportunity(us060[0]) == ("visibility",)
+    assert dependencies_for_opportunity(us060[1]) == ("timetable", "dynamic_access")
+    assert ACCESS_PROFILE_CLASSIFICATION["us-060-P02"]["access_type"] == "transport_facility_status"
+    glacier_bay = next(s for s in us_spots if s["spot_id"] == "us-060")
+    assert abs(glacier_bay["lat"] - 58.455543092) < 1e-9
+    assert abs(glacier_bay["lon"] + 135.886147445) < 1e-9
 
     assert us010[0]["runtime_policy"] == "module_pending"
     us010_state = dependency_state(us010[0])
@@ -3207,7 +3259,7 @@ def test_active_catalog_weather_generation_guard():
 
     us_spots = get_spots("us")
     researched_us = {spot["spot_id"] for spot in us_spots if spot.get("opportunities")}
-    assert researched_us == {f"us-{i:03d}" for i in range(1, 56)}
+    assert researched_us == {f"us-{i:03d}" for i in range(1, 61)}
     assert all(
         not (spot.get("opportunities") or [])
         for spot in us_spots
