@@ -33,6 +33,7 @@ on:
       - "assets/app.js"
       - "assets/app.css"
       - "test_opportunity_adapter.py"
+      - ".github/workflows/update_weather.yml"
       - ".github/workflows/test_opportunity_adapter.yml"
   push:
     branches:
@@ -75,6 +76,7 @@ on:
       - "assets/app.js"
       - "assets/app.css"
       - "test_opportunity_adapter.py"
+      - ".github/workflows/update_weather.yml"
       - ".github/workflows/test_opportunity_adapter.yml"
   workflow_dispatch:
 
