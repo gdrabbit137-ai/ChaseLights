@@ -5,7 +5,7 @@
         last_updated:'最後更新：', click_detail:'', weather_link:'🌦️ 天氣預報', nav_link:'🗺️ 導航', map_link:'📍 地圖', nav_pending:'🗺️ 導航待確認', radar_link:'📡 雷達', place_suitable:'📸 這裡適合拍什麼', researched_only:'只顯示已逐點查證的攝影題材；未查證內容不自動生成。', place_time_note:'拍攝時間皆以景點當地時區顯示。', guide_time:'適合時間（景點當地時間）', guide_season:'季節', guide_viewpoint:'拍攝位置', guide_required:'成立條件', guide_boosters:'加分條件', guide_penalties:'不利條件', guide_current:'當日評分', guide_details:'查看完整判定條件', guide_score_why:'為什麼是這個分數？', guide_score_status:'判定', guide_unresearched:'此景點尚未完成逐點攝影研究，因此暫不顯示推測性的拍攝建議。', research_pending_card:'攝影研究待補，暫不評分', no_viable_card:'今天剩餘時段沒有合適的已研究拍攝機會', scene_label:'🖼️ 景觀類型：', theme_label:'📸 題材：', advanced_filters:'🔎 更多篩選', result_count:'依當日最佳拍攝機會排序 · {n} 個景點', search_result:'找到 {n} 個景點', search_placeholder:'搜尋景點名稱…', where_today:'📍 今天去哪裡拍？', where_tomorrow:'📍 明天去哪裡拍？', where_after:'📍 後天去哪裡拍？', recommendation_reasons:'推薦理由', narrow_result:'目前僅 {n} 個景點，範圍較窄', clear_scene:'清除景觀類型',
         best_window:'⏱️ 最佳窗口：', forecast_status:'📍 預報狀態：', cloud_base_label:'估算雲底', best_theme:'📸 今日較適合：', local_time:'當地時間', dark_sky:'暗空',
         modal_subtitle:'⏱️ 涵蓋範圍：過去 24 小時 [模型資料] + 未來 72 小時 [氣象預報]（藍底為所選日期最佳窗口）', tag_best:'最佳',
-        th_time:'時間', th_theme:'題材', th_score:'評分', th_status:'狀態', th_kp:'Kp指數', th_cloud_base:'雲底', th_temp:'氣溫', th_rh:'濕度', th_clow:'低雲', th_cmid:'中雲', th_chigh:'高雲', th_wind:'風速', th_vis:'能見度', th_astro:'天文', no_spots:'此條件下沒有景點', detail_loading:'正在載入天氣預報…', score_excellent:'極佳', score_good:'良好', score_fair:'普通', score_low_label:'較弱'
+        th_time:'時間', th_theme:'題材', th_score:'評分', th_status:'狀態', th_kp:'Kp指數', th_cloud_base:'雲底', th_temp:'氣溫', th_rh:'濕度', th_clow:'低雲', th_cmid:'中雲', th_chigh:'高雲', th_wind:'風速', th_vis:'能見度', th_astro:'天文', no_spots:'此條件下沒有景點', detail_loading:'正在載入天氣預報…', detail_sync_wait:'天氣資料正在同步更新，請幾秒後再試一次。', score_excellent:'極佳', score_good:'良好', score_fair:'普通', score_low_label:'較弱'
       },
       'en': {
         country_label:'📍 Select Region:', opt_tw:'🇹🇼 Taiwan', opt_jp:'🇯🇵 Japan', opt_us:'🇺🇸 United States',
@@ -13,7 +13,7 @@
         last_updated:'Last Updated: ', click_detail:'', weather_link:'🌦️ Weather', nav_link:'🗺️ Nav', map_link:'📍 Map', nav_pending:'🗺️ Nav pending', radar_link:'📡 Radar', place_suitable:'📸 What can you photograph here?', researched_only:'Only individually researched photography opportunities are shown; unverified ideas are not generated.', place_time_note:'Shooting times are shown in the place’s local time zone.', guide_time:'Best time (place local time)', guide_season:'Season', guide_viewpoint:'Shooting area', guide_required:'Required conditions', guide_boosters:'Boosters', guide_penalties:'Penalties', guide_current:'Day score', guide_details:'View full conditions', guide_score_why:'Why this score?', guide_score_status:'Assessment', guide_unresearched:'This place has not yet completed place-specific photography research, so no speculative shooting guide is shown.', research_pending_card:'Photography research pending · not scored yet', no_viable_card:'No researched shooting opportunity remains viable today', scene_label:'🖼️ Landscape type:', theme_label:'📸 Subject:', advanced_filters:'🔎 More filters', result_count:'Ranked by best opportunity for the day · {n} spots', search_result:'Found {n} spots', search_placeholder:'Search places…', where_today:'📍 Where should I shoot today?', where_tomorrow:'📍 Where should I shoot tomorrow?', where_after:'📍 Where should I shoot the day after tomorrow?', recommendation_reasons:'Why it stands out', narrow_result:'Only {n} spots — narrow filter', clear_scene:'Clear landscape type',
         best_window:'⏱️ Best Window: ', forecast_status:'📍 Status: ', cloud_base_label:'Est. Cloud Base', best_theme:'📸 Best today: ', local_time:'Local time', dark_sky:'Dark sky',
         modal_subtitle:'⏱️ Range: Past 24H [model data] + Next 72H [forecast] (blue = best window for selected day)', tag_best:'BEST',
-        th_time:'Time', th_theme:'Theme', th_score:'Score', th_status:'Status', th_kp:'Kp', th_cloud_base:'Cloud Base', th_temp:'Temp', th_rh:'RH', th_clow:'Low', th_cmid:'Mid', th_chigh:'High', th_wind:'Wind', th_vis:'Visibility', th_astro:'Astronomy', no_spots:'No spots match these filters', detail_loading:'Loading weather forecast…', score_excellent:'Excellent', score_good:'Good', score_fair:'Fair', score_low_label:'Low'
+        th_time:'Time', th_theme:'Theme', th_score:'Score', th_status:'Status', th_kp:'Kp', th_cloud_base:'Cloud Base', th_temp:'Temp', th_rh:'RH', th_clow:'Low', th_cmid:'Mid', th_chigh:'High', th_wind:'Wind', th_vis:'Visibility', th_astro:'Astronomy', no_spots:'No spots match these filters', detail_loading:'Loading weather forecast…', detail_sync_wait:'Weather data is synchronizing. Please try again in a few seconds.', score_excellent:'Excellent', score_good:'Good', score_fair:'Fair', score_low_label:'Low'
       },
       'ja': {
         country_label:'📍 地域を選択：', opt_tw:'🇹🇼 台湾 (Taiwan)', opt_jp:'🇯🇵 日本 (Japan)', opt_us:'🇺🇸 アメリカ (United States)',
@@ -21,7 +21,7 @@
         last_updated:'最終更新：', click_detail:'', weather_link:'🌦️ 天気予報', nav_link:'🗺️ ナビ', map_link:'📍 地図', nav_pending:'🗺️ ナビ確認待ち', radar_link:'📡 レーダー', place_suitable:'📸 ここで何が撮れる？', researched_only:'個別調査済みの撮影機会のみ表示し、未確認の内容は自動生成しません。', place_time_note:'撮影時間はすべて現地のタイムゾーンで表示します。', guide_time:'適した時間（現地時間）', guide_season:'季節', guide_viewpoint:'撮影位置', guide_required:'成立条件', guide_boosters:'加点条件', guide_penalties:'不利条件', guide_current:'当日スコア', guide_details:'判定条件を表示', guide_score_why:'このスコアの理由', guide_score_status:'判定', guide_unresearched:'この場所は個別撮影調査が未完了のため、推測的な撮影案内は表示しません。', research_pending_card:'撮影調査待ち・現在は採点しません', no_viable_card:'本日の残り時間に適した調査済み撮影機会はありません', scene_label:'🖼️ 景観タイプ：', theme_label:'📸 テーマ：', advanced_filters:'🔎 その他の絞り込み', result_count:'当日の最良撮影機会順 · {n} スポット', search_result:'{n} スポット見つかりました', search_placeholder:'スポット名を検索…', where_today:'📍 今日はどこへ撮りに行く？', where_tomorrow:'📍 明日はどこへ撮りに行く？', where_after:'📍 明後日はどこへ撮りに行く？', recommendation_reasons:'おすすめ理由', narrow_result:'{n} スポットのみ・絞り込みが狭いです', clear_scene:'景観タイプを解除',
         best_window:'⏱️ 最適時間：', forecast_status:'📍 予報状況：', cloud_base_label:'推定雲底', best_theme:'📸 今日向き：', local_time:'現地時間', dark_sky:'暗空',
         modal_subtitle:'⏱️ 範囲：過去24時間 [モデル] + 未来72時間 [予報]（青色＝選択日の最適時間）', tag_best:'最適',
-        th_time:'時間', th_theme:'テーマ', th_score:'評価', th_status:'状態', th_kp:'Kp', th_cloud_base:'雲底', th_temp:'気温', th_rh:'湿度', th_clow:'下層雲', th_cmid:'中層雲', th_chigh:'上層雲', th_wind:'風速', th_vis:'視程', th_astro:'天文', no_spots:'該当する撮影スポットはありません', detail_loading:'天気予報を読み込み中…', score_excellent:'非常に良い', score_good:'良好', score_fair:'普通', score_low_label:'弱め'
+        th_time:'時間', th_theme:'テーマ', th_score:'評価', th_status:'状態', th_kp:'Kp', th_cloud_base:'雲底', th_temp:'気温', th_rh:'湿度', th_clow:'下層雲', th_cmid:'中層雲', th_chigh:'上層雲', th_wind:'風速', th_vis:'視程', th_astro:'天文', no_spots:'該当する撮影スポットはありません', detail_loading:'天気予報を読み込み中…', detail_sync_wait:'天気データを同期更新中です。数秒後にもう一度お試しください。', score_excellent:'非常に良い', score_good:'良好', score_fair:'普通', score_low_label:'弱め'
       }
     };
 
@@ -303,16 +303,54 @@
     function closePlaceModal(){document.getElementById('place-modal-overlay').style.display='none';syncModalScrollLock();}
 
     async function loadDetails(region,spotId){
-      const key=`${region}:${spotId}`,versionMatches=x=>!currentData?.updated_at||x?.updated_at===currentData.updated_at;
+      const key=`${region}:${spotId}`,baseUrl=`./weather_details/${region}/${encodeURIComponent(spotId)}.json`;
+      let expectedVersion=currentData?.updated_at||null;
+      const versionMatches=(x,version=expectedVersion)=>!version||x?.updated_at===version;
+      const detailUrl=(version,retry=0)=>{
+        if(!version)return baseUrl;
+        const suffix=`v=${encodeURIComponent(version)}${retry?`&retry=${retry}`:''}`;
+        return `${baseUrl}?${suffix}`;
+      };
+      const remember=x=>{memoryDetails.set(key,x);return x;};
       if(memoryDetails.has(key)){const m=memoryDetails.get(key);if(versionMatches(m))return m;memoryDetails.delete(key);}
-      const url=`./weather_details/${region}/${encodeURIComponent(spotId)}.json`;
+
+      let url=detailUrl(expectedVersion);
       const cached=await cacheMatch(url);
-      if(cached&&versionMatches(cached)){memoryDetails.set(key,cached);fetchAndCache(url,null).then(x=>{if(versionMatches(x))memoryDetails.set(key,x);}).catch(()=>{});return cached;}
-      const fresh=await fetchAndCache(url,null);if(!versionMatches(fresh))throw new Error('Weather detail version mismatch');memoryDetails.set(key,fresh);return fresh;
+      if(cached&&versionMatches(cached)){
+        remember(cached);
+        fetchAndCache(url,null).then(x=>{if(versionMatches(x))memoryDetails.set(key,x);}).catch(()=>{});
+        return cached;
+      }
+
+      const fresh=await fetchAndCache(url,null);
+      if(versionMatches(fresh))return remember(fresh);
+
+      // Summary and Place shards are committed together, but browser/CDN cache
+      // turnover can briefly expose different generations. Re-sync the summary
+      // once, never downgrade to an older summary, then retry this shard through
+      // a versioned/cache-busted URL before surfacing a user-facing error.
+      const summary=await fetchAndCache(`./${region}_weather.json`,null);
+      const currentVersion=currentData?.updated_at||expectedVersion;
+      const currentMs=Date.parse(currentVersion||'');
+      const summaryMs=Date.parse(summary?.updated_at||'');
+      const summaryIsNotOlder=!currentVersion||summary?.updated_at===currentVersion||
+        (Number.isFinite(summaryMs)&&Number.isFinite(currentMs)&&summaryMs>=currentMs);
+      if(summaryIsNotOlder){
+        expectedVersion=summary?.updated_at||expectedVersion;
+        if(region===currentRegion)applyData(summary,region,activeLoadSequence);
+      }else{
+        expectedVersion=currentVersion;
+      }
+
+      if(versionMatches(fresh,expectedVersion))return remember(fresh);
+      url=detailUrl(expectedVersion,1);
+      const retry=await fetchAndCache(url,null);
+      if(versionMatches(retry,expectedVersion))return remember(retry);
+      throw new Error(d().detail_sync_wait);
     }
     async function openWeatherModal(spot,summaryMetric){
       document.getElementById('modal-overlay').style.display='flex';syncModalScrollLock();const showLocal=!(currentRegion==='tw'&&currentLang==='zh-TW');document.getElementById('modal-spot-name').innerText=`🌦️ ${spotName(spot)} — ${d().weather_link.replace(/^🌦️\s*/, '')}`;document.getElementById('modal-summary').innerText=d().detail_loading;document.getElementById('timeline-head').innerHTML='';document.getElementById('timeline-body').innerHTML='';document.getElementById('timeline-mobile').innerHTML='';
-      try{const payload=await loadDetails(currentRegion,spot.spot_id);const detail=payload?.spot;if(!detail||detail.spot_id!==spot.spot_id)throw new Error('missing spot');renderWeatherModal(detail,summaryMetric);}catch(e){document.getElementById('modal-summary').innerText=`⚠️ ${e.message||e}`;}
+      try{const payload=await loadDetails(currentRegion,spot.spot_id);const detail=payload?.spot;if(!detail||detail.spot_id!==spot.spot_id)throw new Error('missing spot');const latestSummarySpot=currentSpots.find(x=>x.spot_id===spot.spot_id);const latestSummaryMetric=latestSummarySpot?getMetric(latestSummarySpot):null;renderWeatherModal(detail,latestSummaryMetric||summaryMetric);}catch(e){document.getElementById('modal-summary').innerText=`⚠️ ${e.message||e}`;}
     }
     function scrollWeatherModalToCurrent(){
       const modalBody=document.querySelector('#modal-overlay .modal-body');if(!modalBody)return;
