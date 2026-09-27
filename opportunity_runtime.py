@@ -62,7 +62,7 @@ from access_state import (
     validate_access_registry,
 )
 
-MODULE_VERSION = "opportunity-runtime-r14-jp-batch15-preview"
+MODULE_VERSION = "opportunity-runtime-r15-jp-batch16-preview"
 
 IMPLEMENTED_COMPONENTS = {
     "directional_horizon",
