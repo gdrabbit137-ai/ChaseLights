@@ -15557,21 +15557,21 @@
           "sampling_topology": "local_area",
           "geometry_required": false,
           "opportunity_confidence": "high",
-          "formula_status": "needs_visibility_module",
-          "formula_version": "v0.04-minimum-sufficient-visibility",
-          "formula_confidence": 96,
+          "formula_status": "needs_dynamic_access_visibility_module",
+          "formula_version": "v0.04-white-sands-access-visibility-pending",
+          "formula_confidence": 97,
           "best_time": "日落前約2小時至園區當日允許停留的日落後短時段；以NPS當日關門與道路狀態為準",
-          "best_season": "全年；極端高溫、強風與臨時道路／飛彈測試關閉須獨立判斷",
+          "best_season": "全年；園區每日開閉時間隨季節／日落變化，且可能因White Sands Missile Range測試、道路或極端天候臨時關閉",
           "condition_variants": [
             {
               "variant_id": "USVAR-242",
               "variant_name": "白色石膏沙丘＋周邊山脈日落／餘暉",
               "condition_geometry": "{\"camera_zone\":\"White Sands Sunset Stroll / nearby Dunes Drive Camera Zone\",\"target\":\"gypsum dunes + sunset sky + surrounding mountain context\"}",
-              "hard_gates": "僅在NPS允許的園區／Dunes Drive時段內拍攝；不得因天氣良好推定臨時關閉已解除",
-              "required_conditions": "白色沙丘與周邊山脈／夕照至少主要層次清楚可辨；能見度足夠；吹沙未造成局部白化",
+              "hard_gates": "NPS園區／Dunes Drive當下可合法到達；不得由天氣良好、月份或靜態時刻表推定臨時關閉已解除",
+              "required_conditions": "白色沙丘與周邊山脈／夕照至少主要層次清楚可辨；能見度足夠；官方當下未封閉Dunes Drive",
               "boosters": "黃金時段低角度光；日落後山體粉紅餘暉；雲層色彩；新鮮風紋",
               "penalties": "強風吹沙；能見度過低；強降水；極端高溫；道路／園區臨時關閉",
-              "formula_status": "minimum_sufficient_visibility"
+              "formula_status": "needs_dynamic_access_visibility_module"
             }
           ],
           "viewpoints": [
