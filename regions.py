@@ -1685,8 +1685,11 @@ SPOT_OVERRIDES.update({
     "珍娜溫泉": {"lat": 65.053040, "lon": -146.055600, "map_query": "Chena Hot Springs Resort", "coordinate_source": "Alaska DEC", "coordinate_confidence": "high"},
     "安克拉治": {"lat": 61.204200, "lon": -150.018710, "map_query": "Point Woronzof Anchorage", "coordinate_source": "Visit Anchorage official sunset/aurora subject + USGS/GeoNames point anchor", "coordinate_confidence": "high"},
     "蘇華德": {"lat": 60.103141, "lon": -149.434574, "map_query": "Seward Waterfront Park Alaska", "coordinate_source": "Visit Seward official waterfront subject + City of Seward published facility coordinate", "coordinate_confidence": "high"},
-    "哈徹山口": {"lat": 61.767150, "lon": -149.322600, "map_query": "Hatcher Pass Alaska", "coordinate_source": "OSM/Mapcarta saddle", "coordinate_confidence": "high"},
-    "波蒂奇冰河": {"lat": 60.784520, "lon": -148.842000, "map_query": "Begich Boggs Visitor Center Portage", "coordinate_source": "Alaska.org visitor center", "coordinate_confidence": "high"},
+    "哈徹山口": {"lat": 61.766100, "lon": -149.321370, "map_query": "Summit Lake Hatcher Pass Alaska", "coordinate_source": "Alaska State Parks Summit Lake photography subject + GeoNames/OSM lake cross-check", "coordinate_confidence": "medium_high"},
+    "馬塔努斯卡冰河": {"lat": 61.7994722, "lon": -147.8180444, "map_query": "Matanuska Glacier State Recreation Site", "coordinate_source": "Alaska DNR published recreation-site GPS and public glacier-viewing evidence", "coordinate_confidence": "high"},
+    "波蒂奇冰河": {"lat": 60.784520, "lon": -148.842000, "map_query": "Begich Boggs Visitor Center Portage", "coordinate_source": "USFS/Travel Alaska Portage Valley subject + existing Begich Boggs anchor", "coordinate_confidence": "high"},
+    "瓦爾迪茲": {"lat": 61.127260, "lon": -146.338080, "map_query": "Dock Point Trail Valdez", "coordinate_source": "City of Valdez official Dock Point photo/harbor-view subject + OSM trail cross-check", "coordinate_confidence": "medium_high"},
+    "朱諾": {"lat": 58.299130, "lon": -134.406170, "map_query": "Marine Park Juneau Alaska", "coordinate_source": "Travel Juneau downtown waterfront subject + OSM Marine Park cross-check", "coordinate_confidence": "medium_high"},
     "門登霍爾冰河": {"lat": 58.417180, "lon": -134.545560, "map_query": "Mendenhall Glacier Visitor Center", "coordinate_source": "OSM/Mapcarta visitor center", "coordinate_confidence": "high"},
     "北極圈地標": {"lat": 66.556010, "lon": -150.810700, "map_query": "Arctic Circle Sign Dalton Highway", "coordinate_source": "Wikimedia object location", "coordinate_confidence": "high"},
     "艾利耶斯卡": {"lat": 60.970500, "lon": -149.098000, "map_query": "Alyeska Resort Girdwood", "coordinate_source": "Wikidata resort POI", "coordinate_confidence": "high"},
@@ -1728,6 +1731,42 @@ DISPLAY_NAME_OVERRIDES = {
 # separate. map_query is search/display metadata only and MUST NOT be used to
 # build a production Navigation URL.
 NAVIGATION_TARGET_OVERRIDES = {
+    "馬塔努斯卡冰河": {
+        "status": "verified",
+        "lat": 61.7994722,
+        "lon": -147.8180444,
+        "target_type": "public_recreation_site_arrival",
+        "label_i18n": {
+            "zh-TW": "Matanuska Glacier State Recreation Site",
+            "en": "Matanuska Glacier State Recreation Site",
+            "ja": "マタヌスカ氷河州立レクリエーションサイト",
+        },
+        "source": "Alaska DNR published Matanuska Glacier recreation-site GPS; reviewed 2026-09-27",
+        "confidence": "high",
+        "note_i18n": {
+            "zh-TW": "導航終點為Mile 101公共State Recreation Site，不是私人冰河入口；此處提供冰河展望但不能直接進入冰河。",
+            "en": "Directions use the public Mile 101 State Recreation Site, not the private glacier entrance. This area provides glacier views but no direct glacier access.",
+            "ja": "ナビはMile 101の公共State Recreation Siteを使用し、私有の氷河入口ではありません。ここは氷河展望地ですが氷河へ直接入る場所ではありません。",
+        },
+    },
+    "哈徹山口": {
+        "status": "verified",
+        "lat": 61.767130,
+        "lon": -149.323040,
+        "target_type": "seasonal_summit_lake_parking",
+        "label_i18n": {
+            "zh-TW": "Hatcher Pass・Summit Lake Parking",
+            "en": "Hatcher Pass · Summit Lake Parking",
+            "ja": "ハッチャー・パス・Summit Lake Parking",
+        },
+        "source": "Alaska State Parks Summit Lake site + OSM parking cross-check; reviewed 2026-09-27",
+        "confidence": "medium_high",
+        "note_i18n": {
+            "zh-TW": "此導航點僅代表Summit Lake夏季Camera Zone的停車到達點；冬季極光題材不得使用此點推定summit road可通行，須依當下道路／冬季公共停車狀態。",
+            "en": "This navigation point is only the summer Summit Lake Camera-Zone arrival. Do not use it to imply winter summit-road access for aurora photography; current road and winter public-parking status must be checked.",
+            "ja": "このナビ地点は夏季Summit Lake Camera Zoneの到着点のみです。冬季オーロラ撮影でサミット道路が通行可能と推定せず、当日の道路・冬季公共駐車状況を確認してください。",
+        },
+    },
     "迪納利國家公園": {
         "status": "verified",
         "lat": 63.732090,
