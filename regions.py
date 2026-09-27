@@ -1675,8 +1675,11 @@ SPOT_OVERRIDES.update({
     "紐奧良法國區": {"lat": 29.958611, "lon": -90.065000, "map_query": "French Quarter New Orleans", "coordinate_source": "Wikidata/Wikipedia district center", "coordinate_confidence": "high"},
     "聖路易斯大拱門": {"lat": 38.624600, "lon": -90.185000, "map_query": "Gateway Arch St Louis", "coordinate_source": "official geographic POI", "coordinate_confidence": "high"},
     "沃斯堡牲畜市場": {"lat": 32.789330, "lon": -97.346720, "map_query": "Livestock Exchange Building Fort Worth Stockyards", "coordinate_source": "Fort Worth Stockyards official 131 East Exchange address + OSM/Mapcarta building POI", "coordinate_confidence": "high"},
-    "尼加拉瀑布": {"lat": 43.081528, "lon": -79.064240, "map_query": "Niagara Falls State Park Goat Island", "coordinate_source": "Niagara Falls State Park GPS", "coordinate_confidence": "high"},
-    "邁阿密海灘": {"lat": 25.782950, "lon": -80.132340, "map_query": "South Beach Miami", "coordinate_source": "Apple Maps locality", "coordinate_confidence": "high"},
+    "紐約曼哈頓天際線": {"lat": 40.746370, "lon": -73.957750, "map_query": "Gantry Plaza State Park Manhattan skyline", "coordinate_source": "New York State Parks official skyline subject + OSM/GeoNames Gantry Plaza anchor", "coordinate_confidence": "high"},
+    "大霧山國家公園": {"lat": 35.611092, "lon": -83.425007, "map_query": "Newfound Gap Overlook Great Smoky Mountains", "coordinate_source": "NPS Newfound Gap Scenic View/Photo Spot + published overlook coordinate", "coordinate_confidence": "high"},
+    "波士頓天際線": {"lat": 42.364590, "lon": -71.037200, "map_query": "Piers Park East Boston skyline", "coordinate_source": "Massport official Piers Park skyline evidence + OSM park anchor", "coordinate_confidence": "high"},
+    "尼加拉瀑布": {"lat": 43.080080, "lon": -79.074430, "map_query": "Terrapin Point Niagara Falls State Park", "coordinate_source": "Niagara Falls State Park official Terrapin Point overlook evidence + OSM/GeoNames viewpoint anchor", "coordinate_confidence": "high"},
+    "邁阿密海灘": {"lat": 25.765840, "lon": -80.134020, "map_query": "South Pointe Park Miami Beach", "coordinate_source": "City of Miami Beach South Pointe Park identity + official destination photo subject + OSM park anchor", "coordinate_confidence": "high"},
     "迪納利國家公園": {"lat": 63.730880, "lon": -148.917210, "map_query": "Denali Visitor Center", "coordinate_source": "OSM/Mapcarta/NPS visitor center", "coordinate_confidence": "high"},
     "珍娜溫泉": {"lat": 65.053040, "lon": -146.055600, "map_query": "Chena Hot Springs Resort", "coordinate_source": "Alaska DEC", "coordinate_confidence": "high"},
     "哈徹山口": {"lat": 61.767150, "lon": -149.322600, "map_query": "Hatcher Pass Alaska", "coordinate_source": "OSM/Mapcarta saddle", "coordinate_confidence": "high"},
@@ -1722,6 +1725,24 @@ DISPLAY_NAME_OVERRIDES = {
 # separate. map_query is search/display metadata only and MUST NOT be used to
 # build a production Navigation URL.
 NAVIGATION_TARGET_OVERRIDES = {
+    "大霧山國家公園": {
+        "status": "verified",
+        "lat": 35.611092,
+        "lon": -83.425007,
+        "target_type": "scenic_overlook_arrival",
+        "label_i18n": {
+            "zh-TW": "Great Smoky Mountains・Newfound Gap Overlook",
+            "en": "Great Smoky Mountains · Newfound Gap Overlook",
+            "ja": "グレート・スモーキー山脈・Newfound Gap Overlook",
+        },
+        "source": "NPS Newfound Gap Scenic View/Photo Spot and overlook access; reviewed 2026-09-27",
+        "confidence": "high",
+        "note_i18n": {
+            "zh-TW": "此點為Newfound Gap公共觀景／停車到達區，可作本題材Camera Zone與導航參考；但US 441／Newfound Gap Road當下封閉公告優先於導航與天氣。",
+            "en": "This is the public Newfound Gap overlook/parking arrival area and may serve as the Camera Zone and navigation reference. Current US 441 / Newfound Gap Road closure notices override navigation and weather.",
+            "ja": "Newfound Gapの公共展望・駐車到着エリアで、本題材のCamera Zoneとナビ参照に使用できます。ただしUS 441 / Newfound Gap Roadの当日閉鎖情報が天候・ナビより優先されます。",
+        },
+    },
     "落磯山國家公園": {
         "status": "verified",
         "lat": 40.320324,
