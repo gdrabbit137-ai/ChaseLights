@@ -1660,6 +1660,8 @@ SPOT_OVERRIDES = {
 
 # Additional high-confidence US POI/viewpoint corrections added in V5.2.
 SPOT_OVERRIDES.update({
+    "約書亞樹國家公園": {"lat": 33.8270493, "lon": -115.8600998, "map_query": "Cholla Cactus Garden Joshua Tree National Park", "coordinate_source": "NPS Cholla Cactus Garden photo/location metadata", "coordinate_confidence": "high"},
+    "巨人柱國家公園": {"lat": 32.183867, "lon": -110.710873, "map_query": "Cactus Forest Loop Drive sunset pull-off Saguaro National Park", "coordinate_source": "NPS exact Scenic View/Photo Spot coordinate", "coordinate_confidence": "high"},
     "拉斯維加斯大道": {"lat": 36.113264, "lon": -115.176372, "map_query": "Bellagio Las Vegas Strip", "coordinate_source": "Wikimedia camera/object location", "coordinate_confidence": "high"},
     "西雅圖太空針塔": {"lat": 47.620510, "lon": -122.349300, "map_query": "Space Needle Seattle", "coordinate_source": "OSM/Mapcarta POI", "coordinate_confidence": "high"},
     "聖莫尼卡碼頭": {"lat": 34.008611, "lon": -118.498611, "map_query": "Santa Monica Pier", "coordinate_source": "Wikidata POI", "coordinate_confidence": "high"},
