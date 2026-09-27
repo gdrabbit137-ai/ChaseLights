@@ -2447,6 +2447,7 @@ def test_adapter_integrity():
     us028 = get_opportunities("us", "us-028")
     assert [o["opportunity_id"] for o in us028] == ["us-028-P01"]
     assert us028[0]["runtime_policy"] == "minimum_sufficient_available"
+    assert dependencies_for_opportunity(us028[0]) == ("visibility",)
     griffith = next(s for s in us_spots if s["spot_id"] == "us-028")
     assert abs(griffith["lat"] - 34.11821) < 1e-7
     assert abs(griffith["lon"] + 118.30037) < 1e-7
@@ -2456,8 +2457,11 @@ def test_adapter_integrity():
     assert us029[0]["runtime_policy"] == "minimum_sufficient_available"
     assert dependencies_for_opportunity(us029[0]) == ("visibility",)
     white_sands = next(s for s in us_spots if s["spot_id"] == "us-029")
-    assert abs(white_sands["lat"] - 32.82046) < 1e-7
-    assert abs(white_sands["lon"] + 106.273) < 1e-7
+    assert abs(white_sands["lat"] - 32.81137) < 1e-7
+    assert abs(white_sands["lon"] + 106.26501) < 1e-7
+    assert white_sands["coordinate_confidence"] == "high"
+    assert white_sands["navigation_target"]["status"] == "verified"
+    assert abs(white_sands["navigation_target"]["lat"] - 32.81137) < 1e-7
 
     us030 = get_opportunities("us", "us-030")
     assert [o["opportunity_id"] for o in us030] == ["us-030-P01"]
