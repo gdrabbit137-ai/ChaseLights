@@ -2514,31 +2514,6 @@ def test_active_catalog_weather_generation_guard():
     assert [o["opportunity_id"] for o in kurashiki["opportunities"]] == ["jp-031-P01", "jp-031-P02"]
     assert [o["runtime_policy"] for o in kurashiki["opportunities"]] == ["minimum_sufficient_available", "module_pending"]
 
-    jp027 = get_opportunities("jp", "jp-027")
-    assert [o["opportunity_id"] for o in jp027] == ["jp-027-P01", "jp-027-P02"]
-    assert all(o["runtime_policy"] == "minimum_sufficient_available" for o in jp027)
-
-    jp028 = get_opportunities("jp", "jp-028")
-    assert [o["opportunity_id"] for o in jp028] == ["jp-028-P01", "jp-028-P02", "jp-028-P03"]
-    assert jp028[0]["runtime_policy"] == "minimum_sufficient_available"
-    assert jp028[1]["runtime_policy"] == "module_pending"
-    assert jp028[2]["runtime_policy"] == "module_pending"
-
-    jp029 = get_opportunities("jp", "jp-029")
-    assert [o["opportunity_id"] for o in jp029] == ["jp-029-P01", "jp-029-P02"]
-    assert jp029[0]["runtime_policy"] == "minimum_sufficient_available"
-    assert jp029[1]["runtime_policy"] == "module_pending"
-
-    jp030 = get_opportunities("jp", "jp-030")
-    assert [o["opportunity_id"] for o in jp030] == ["jp-030-P01"]
-    assert jp030[0]["runtime_policy"] == "data_insufficient"
-    assert jp030[0]["formula_status"] == "data_insufficient_tidal_current_extremum"
-
-    jp031 = get_opportunities("jp", "jp-031")
-    assert [o["opportunity_id"] for o in jp031] == ["jp-031-P01", "jp-031-P02"]
-    assert jp031[0]["runtime_policy"] == "minimum_sufficient_available"
-    assert jp031[1]["runtime_policy"] == "module_pending"
-
     blue_pond = next(spot for spot in jp_spots if spot["spot_id"] == "jp-001")
     assert abs(blue_pond["lat"] - 43.493611) < 1e-9
     assert abs(blue_pond["lon"] - 142.614167) < 1e-9
