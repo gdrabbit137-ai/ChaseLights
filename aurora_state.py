@@ -178,6 +178,136 @@ def sample_aurora_for_timestamp(indexed, lat, lon, timestamp):
     }
 
 
+
+def evaluate_aurora_state(opportunity, item_data):
+    """Evaluate local OVATION activity together with darkness and cloud cover.
+
+    This module never uses ChaseLights' planetary Kp series as a fallback.
+    OVATION is a short-horizon probabilistic signal, not a guarantee that an
+    observer will visually see or photograph aurora.
+    """
+    forecast = item_data.get("aurora_forecast")
+    if not isinstance(forecast, dict):
+        return {
+            "module": "aurora_state",
+            "available": False,
+            "eligible": False,
+            "reason": "aurora_provider_unavailable",
+            "chaselights_kp_fallback_used": False,
+        }
+    if not forecast.get("available"):
+        return {
+            "module": "aurora_state",
+            "available": False,
+            "eligible": False,
+            "reason": forecast.get("reason") or "aurora_provider_unavailable",
+            "provider": forecast.get("provider"),
+            "provider_version": forecast.get("provider_version"),
+            "forecast_time": forecast.get("forecast_time"),
+            "forecast_delta_minutes": forecast.get("forecast_delta_minutes"),
+            "chaselights_kp_fallback_used": False,
+        }
+
+    if not item_data.get("astronomy_valid"):
+        return {
+            "module": "aurora_state",
+            "available": False,
+            "eligible": False,
+            "reason": "aurora_astronomy_missing",
+            "chaselights_kp_fallback_used": False,
+        }
+
+    sun_raw = item_data.get("sun_elevation")
+    if sun_raw is None:
+        return {
+            "module": "aurora_state",
+            "available": False,
+            "eligible": False,
+            "reason": "aurora_sun_elevation_missing",
+            "chaselights_kp_fallback_used": False,
+        }
+    sun_elevation = float(sun_raw)
+
+    def _cloud(name):
+        raw = item_data.get(name)
+        available = item_data.get(f"{name}_available")
+        if available is False or raw is None:
+            return None
+        try:
+            return max(0.0, min(100.0, float(raw)))
+        except (TypeError, ValueError):
+            return None
+
+    low = _cloud("c_low")
+    mid = _cloud("c_mid")
+    high = _cloud("c_high")
+    if low is None or mid is None or high is None:
+        return {
+            "module": "aurora_state",
+            "available": False,
+            "eligible": False,
+            "reason": "aurora_cloud_data_missing",
+            "chaselights_kp_fallback_used": False,
+        }
+
+    value_raw = forecast.get("aurora_value")
+    try:
+        aurora_value = float(value_raw)
+    except (TypeError, ValueError):
+        return {
+            "module": "aurora_state",
+            "available": False,
+            "eligible": False,
+            "reason": "aurora_local_value_missing",
+            "chaselights_kp_fallback_used": False,
+        }
+
+    base = {
+        "module": "aurora_state",
+        "available": True,
+        "provider": forecast.get("provider"),
+        "provider_version": forecast.get("provider_version"),
+        "observation_time": forecast.get("observation_time"),
+        "forecast_time": forecast.get("forecast_time"),
+        "forecast_delta_minutes": forecast.get("forecast_delta_minutes"),
+        "grid_lat": forecast.get("grid_lat"),
+        "grid_lon": forecast.get("grid_lon"),
+        "aurora_value": round(aurora_value, 1),
+        "minimum_local_aurora_value": MIN_LOCAL_AURORA_VALUE,
+        "sun_elevation": round(sun_elevation, 1),
+        "cloud_low": round(low),
+        "cloud_mid": round(mid),
+        "cloud_high": round(high),
+        "chaselights_kp_fallback_used": False,
+        "exact_visibility_guaranteed": False,
+    }
+
+    # Civil/nautical twilight is still too bright for the conservative
+    # canonical aurora contract.  -12° matches the existing aurora temporal
+    # gate and avoids declaring a local OVATION hit photographable in daylight.
+    if sun_elevation > -12.0:
+        return {**base, "eligible": False, "reason": "aurora_sky_not_dark_enough"}
+
+    # Thick clouds block the sky regardless of geomagnetic activity.  Thresholds
+    # intentionally mirror the project's conservative night-sky blocking logic.
+    if low >= 70.0 or mid >= 80.0 or high >= 90.0:
+        return {**base, "eligible": False, "reason": "aurora_cloud_blocked"}
+
+    if aurora_value < MIN_LOCAL_AURORA_VALUE:
+        return {**base, "eligible": False, "reason": "local_aurora_activity_below_threshold"}
+
+    confidence = "medium"
+    if aurora_value >= 25.0 and max(low, mid, high) <= 40.0:
+        confidence = "medium_high"
+
+    return {
+        **base,
+        "eligible": True,
+        "reason": "local_aurora_dark_clear_match",
+        "confidence_hint": confidence,
+    }
+
+
 def spot_requires_aurora_state(spot):
     for opportunity in (spot or {}).get("opportunities", []) or []:
         if "aurora_state" in dependencies_for_opportunity(opportunity):
