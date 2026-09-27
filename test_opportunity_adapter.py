@@ -2317,7 +2317,7 @@ def test_adapter_integrity():
     us008 = get_opportunities("us", "us-008")
     assert [o["opportunity_id"] for o in us008] == ["us-008-P01"]
     assert us008[0]["runtime_policy"] == "preview_module_available"
-    assert dependencies_for_opportunity(us008[0]) == ("directional_horizon", "water_surface_state", "visibility")
+    assert dependencies_for_opportunity(us008[0]) == ("directional_horizon", "visibility")
     half_dome_diag = fetch_data._build_opportunity_runtime_diagnostics(
         {"opportunities": us008},
         {
