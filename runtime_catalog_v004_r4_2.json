@@ -14,10 +14,10 @@
     "runtime_catalog_v004_r4_2_b35_liyu_subjects.json"
   ],
   "counts": {
-    "spots": 158,
-    "opportunities": 333,
-    "condition_variants": 348,
-    "profile_viewpoint_relations": 339
+    "spots": 163,
+    "opportunities": 340,
+    "condition_variants": 355,
+    "profile_viewpoint_relations": 346
   },
   "spots": [
     {
@@ -16512,6 +16512,460 @@
               "geometry_type": "area",
               "geometry_extent_m": 650,
               "geometry_note": "Piers Park公共waterfront、步道與草地觀景範圍。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-041",
+      "canonical_name": "迪納利國家公園",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B72_US_RESEARCH_BATCH09",
+      "research_sources": [
+        {
+          "authority": "U.S. National Park Service — Photography in Denali",
+          "url": "https://www.nps.gov/dena/planyourvisit/photography.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS explicitly identifies Mountain Vista near Mile 13 as a good public vantage point for Mount McKinley/Denali on clear days and notes current Park Road access limits."
+        },
+        {
+          "authority": "U.S. National Park Service — Mountain Vista",
+          "url": "https://www.nps.gov/places/dena-mountain-vista.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS classifies Mountain Vista as a Scenic View/Photo Spot and documents the public rest area, trail, parking and clear-day view of Mount McKinley."
+        },
+        {
+          "authority": "U.S. National Park Service — Mountain Vista access / 2026 road opening",
+          "url": "https://www.nps.gov/dena/learn/news/road-open-to-mtn-vista-2026.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS states Mountain Vista vehicle access is weather-dependent and can change on short notice; favorable forecast weather must not be treated as proof that the road is open."
+        },
+        {
+          "authority": "U.S. National Park Service — Aurora Borealis and Star Gazing",
+          "url": "https://www.nps.gov/dena/planyourvisit/night-sky.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS explicitly supports aurora and night-sky viewing in Denali, requiring actual auroral activity, sufficient darkness and sufficiently clear skies."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-041-P01",
+          "spot_id": "us-041",
+          "name_zh": "Mountain Vista・Denali／Alaska Range遠景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_dynamic_access_visibility_module",
+          "formula_version": "v0.04-denali-mountain-vista-access-visibility-pending",
+          "formula_confidence": 98,
+          "best_time": "Mountain Vista實際可到達且Denali／Alaska Range可見的白天或低角度光時段",
+          "best_season": "全年皆有景觀價值；Mountain Vista道路車輛可達性受雪冰、季節與NPS即時道路狀態影響",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-257",
+              "variant_name": "Mountain Vista＋Denali／Alaska Range",
+              "condition_geometry": "{\"camera_zone\":\"Mountain Vista Rest Area / Loop Trail public Camera Zone\",\"subject\":\"Denali (Mount McKinley) + Alaska Range / Savage River Valley panorama\"}",
+              "hard_gates": "Mountain Vista當下可合法到達；不得由季節或好天氣推定Denali Park Road已開到Mile 13",
+              "required_conditions": "Denali／Alaska Range主要山體或山稜層次可辨；能見度足夠；低雲未完全封住主體",
+              "boosters": "高透明度；晨昏側光；積雪／秋色僅作現況加分",
+              "penalties": "道路關閉；雲霧完全遮山；強降水；低能見度",
+              "formula_status": "needs_dynamic_access_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-041-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS classifies Mountain Vista as a Scenic View/Photo Spot and directly documents clear-day Denali views. B72 moves the broad Denali Visitor Center weather anchor to the actual Mountain Vista scene and keeps road access fail-closed.",
+              "name": "Mountain Vista Rest Area / Loop Camera Zone",
+              "lat": 63.73209,
+              "lon": -148.90273,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_nps_mountain_vista_photo_spot_plus_nps_event_location_coordinate",
+              "geometry_type": "area",
+              "geometry_extent_m": 650,
+              "geometry_note": "Mountain Vista Rest Area、停車區與0.6-mile公共Loop Trail；實際道路可達性依NPS即時狀態。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-041-P02",
+          "spot_id": "us-041",
+          "name_zh": "Mountain Vista・Denali極光／夜空",
+          "legacy_theme": "aurora",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_aurora_state_dynamic_access_module",
+          "formula_version": "v0.04-denali-aurora-access-provider-pending",
+          "formula_confidence": 98,
+          "best_time": "秋、冬、早春的黑暗時段；NPS說明需同時有極光活動、足夠黑暗與清澈天空",
+          "best_season": "約8月中至4月中較有足夠黑暗；實際能否看見必須依當時極光活動、雲量與道路狀態",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-258",
+              "variant_name": "Denali黑暗夜空＋Aurora Borealis",
+              "condition_geometry": "{\"camera_zone\":\"Mountain Vista public night Camera Zone when road access is open\",\"subject\":\"aurora borealis + dark Denali foreground / northern sky\"}",
+              "hard_gates": "Mountain Vista當下可合法到達；天空足夠黑暗；必須有可靠的當時極光活動證據；不得只用月份或Kp單一值保證極光",
+              "required_conditions": "極光活動實際存在；主要觀測方向雲層未遮蔽；夜空足夠黑暗",
+              "boosters": "低光害；高透明度；雪景或山稜前景；較高極光活動",
+              "penalties": "道路關閉；雲層遮蔽；暮光過亮；極光活動不足",
+              "formula_status": "research_ready_aurora_and_access_provider_pending"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-041-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS explicitly describes Denali aurora viewing and notes Mountain Vista/Savage River night visits can be rewarding when access is open. ChaseLights does not yet treat NOAA planetary Kp alone as a sufficient local aurora-state provider.",
+              "name": "Mountain Vista Night Camera Zone",
+              "lat": 63.73209,
+              "lon": -148.90273,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_nps_night_aurora_subject_plus_mountain_vista_public_area",
+              "geometry_type": "area",
+              "geometry_extent_m": 650,
+              "geometry_note": "Mountain Vista公共夜間觀景範圍；道路未開放時不得以步行距離或好天氣自動推定可達。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-042",
+      "canonical_name": "費爾班克斯極光",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B72_US_RESEARCH_BATCH09",
+      "research_sources": [
+        {
+          "authority": "Explore Fairbanks — Aurora Tracker",
+          "url": "https://www.explorefairbanks.com/explore-the-area/aurora-season/aurora-tracker/",
+          "verified_on": "2026-09-27",
+          "supports": "Official destination tracker combines UAF aurora forecast, local weather and daylight for location-specific viewing opportunities and identifies Creamer's Field as a Fairbanks viewing location."
+        },
+        {
+          "authority": "Explore Fairbanks — Aurora Viewing Locations",
+          "url": "https://www.explorefairbanks.com/explore-the-area/aurora-season/aurora-viewing-locations/",
+          "verified_on": "2026-09-27",
+          "supports": "Official destination guidance calls Creamer's Field a favorite in-town aurora location with wide open fields and easy paved-road access."
+        },
+        {
+          "authority": "Alaska Department of Fish and Game — Creamer's Field public access",
+          "url": "https://www.adfg.alaska.gov/index.cfm?adfg=creamersfield.permits",
+          "verified_on": "2026-09-27",
+          "supports": "ADF&G states Creamer's Field is open to most compatible public uses, including wildlife watching and hiking, subject to refuge-resource and activity restrictions."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-042-P01",
+          "spot_id": "us-042",
+          "name_zh": "Creamer's Field・Fairbanks Aurora Borealis",
+          "legacy_theme": "aurora",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_aurora_state_module",
+          "formula_version": "v0.04-fairbanks-location-aware-aurora-provider-pending",
+          "formula_confidence": 99,
+          "best_time": "Explore Fairbanks Aurora Season（8/21–4/21）內的黑暗時段；以當時location-aware aurora activity、雲量與日照條件為準",
+          "best_season": "8月21日至4月21日為官方Aurora Season；不是每晚都保證可見",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-259",
+              "variant_name": "Creamer's Field開闊前景＋Fairbanks Aurora",
+              "condition_geometry": "{\"camera_zone\":\"Creamer's Field open-field public Camera Zone\",\"subject\":\"aurora borealis + open field / boreal foreground\"}",
+              "hard_gates": "必須有可靠的Fairbanks區域極光活動證據；天空足夠黑暗；公共使用規則允許當下活動；不得由月份或planetary Kp單一值保證可見",
+              "required_conditions": "極光活動實際存在；低中高雲未遮住主要天空；足夠黑暗",
+              "boosters": "低雲量；較高極光活動；雪地／樹林前景；低月光干擾",
+              "penalties": "雲層遮蔽；暮光過亮；極光活動不足；現場公共使用限制",
+              "formula_status": "research_ready_location_aware_aurora_provider_pending"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-042-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Explore Fairbanks explicitly identifies Creamer's Field as a favorite in-town aurora location. B72 moves the generic Fairbanks weather anchor to this actual open-field Camera Zone. The canonical aurora contract remains fail-closed until a location-aware provider is integrated.",
+              "name": "Creamer's Field Aurora Camera Zone",
+              "lat": 64.86417,
+              "lon": -147.73778,
+              "coord_confidence": "high",
+              "verification_status": "official_tourism_aurora_location_plus_state_refuge_identity_and_nrhp_coordinate",
+              "geometry_type": "area",
+              "geometry_extent_m": 900,
+              "geometry_note": "Creamer's Field開闊田野／合法公共步道與觀察區；遵守ADF&G保護區使用與野生動物規則。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-043",
+      "canonical_name": "珍娜溫泉",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B72_US_RESEARCH_BATCH09",
+      "research_sources": [
+        {
+          "authority": "Chena Hot Springs Resort — Aurora Borealis",
+          "url": "https://www.chenahotsprings.com/aurora-borealis/",
+          "verified_on": "2026-09-27",
+          "supports": "Official resort guidance states Chena sits beneath the Auroral Oval, away from city light pollution, and that aurora viewing begins directly on the resort grounds."
+        },
+        {
+          "authority": "Chena Hot Springs Resort — official site",
+          "url": "https://www.chenahotsprings.com/",
+          "verified_on": "2026-09-27",
+          "supports": "The resort identifies Northern Lights viewing as a signature experience and publishes its physical location at 17600 Chena Hot Springs Road."
+        },
+        {
+          "authority": "Chena Hot Springs Resort — Aurora Viewing Tour",
+          "url": "https://www.chenahotsprings.com/aurora-viewing-tour/",
+          "verified_on": "2026-09-27",
+          "supports": "Official guidance explicitly says the aurora is a natural phenomenon that cannot be guaranteed and that clear/dark sky and actual aurora activity remain necessary."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-043-P01",
+          "spot_id": "us-043",
+          "name_zh": "Chena Hot Springs Resort・Aurora Borealis夜空",
+          "legacy_theme": "aurora",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_aurora_state_module",
+          "formula_version": "v0.04-chena-location-aware-aurora-provider-pending",
+          "formula_confidence": 98,
+          "best_time": "官方極光季與足夠黑暗的夜間；以實際極光活動及雲量為準",
+          "best_season": "官方Chena guidance以秋冬至早春黑夜為主要極光觀測期；實際可見性不保證",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-260",
+              "variant_name": "Chena Resort暗空＋Aurora Borealis",
+              "condition_geometry": "{\"camera_zone\":\"Chena Hot Springs Resort grounds public/guest Camera Zone\",\"subject\":\"aurora borealis + resort / forest / hot-springs-area foreground\"}",
+              "hard_gates": "須合法使用resort grounds；天空足夠黑暗；必須有可靠的當時極光活動證據；不得因位於Auroral Oval就保證出現",
+              "required_conditions": "極光活動實際存在；主要天空未被雲層遮蔽；足夠黑暗",
+              "boosters": "低光害；高透明度；雪景／森林前景；較高極光活動",
+              "penalties": "雲層遮蔽；暮光過亮；極光活動不足；resort使用限制",
+              "formula_status": "research_ready_location_aware_aurora_provider_pending"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-043-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Chena's official site states aurora viewing can begin directly on resort grounds, so B72 keeps weather sampling at the verified resort location instead of silently sampling the higher Charlie Dome tour site.",
+              "name": "Chena Hot Springs Resort Grounds Aurora Camera Zone",
+              "lat": 65.05304,
+              "lon": -146.0556,
+              "coord_confidence": "high",
+              "verification_status": "official_resort_aurora_subject_plus_existing_high_confidence_resort_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 900,
+              "geometry_note": "Resort grounds合法guest/public區域；Charlie Dome付費tour為不同access contract，本Opportunity不把其360°山頂視野混入。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-044",
+      "canonical_name": "安克拉治",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B72_US_RESEARCH_BATCH09",
+      "research_sources": [
+        {
+          "authority": "Visit Anchorage — Top Anchorage Scenic Overlooks",
+          "url": "https://www.anchorage.net/blog/post/top-anchorage-scenic-overlooks/",
+          "verified_on": "2026-09-27",
+          "supports": "Official destination guidance identifies Point Woronzof for spectacular panoramic views across Cook Inlet toward the Alaska Range."
+        },
+        {
+          "authority": "Visit Anchorage — Exploring the City on Wheels",
+          "url": "https://www.anchorage.net/plan-your-trip/itineraries/on-wheels/",
+          "verified_on": "2026-09-27",
+          "supports": "Official destination itinerary explicitly states Point Woronzof offers perfect sunset views with a trail to the Cook Inlet beach."
+        },
+        {
+          "authority": "Visit Anchorage — Aurora Viewing Itinerary",
+          "url": "https://www.anchorage.net/winter/plan-your-trip/winter-itineraries/aurora-borealis-viewing/",
+          "verified_on": "2026-09-27",
+          "supports": "Official destination guidance recommends Point Woronzof for northern views away from city lights and states Anchorage aurora viewing is best during dark-season conditions."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-044-P01",
+          "spot_id": "us-044",
+          "name_zh": "Point Woronzof・Cook Inlet／Alaska Range日落",
+          "legacy_theme": "sunset",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04-directional-horizon-visibility-preview",
+          "formula_confidence": 97,
+          "best_time": "日落前後；以Point Woronzof公共overlook／trail實際可使用狀態為準",
+          "best_season": "全年；冬季積雪、海冰或Denali可見度只作現況加分",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-261",
+              "variant_name": "Point Woronzof＋Cook Inlet／Alaska Range夕照",
+              "condition_geometry": "{\"camera_zone\":\"Point Woronzof public overlook / coastal trail Camera Zone\",\"target\":\"west-facing Cook Inlet + Alaska Range / sunset\"}",
+              "hard_gates": "合法公共overlook／trail可使用；日落時段有效",
+              "required_conditions": "Cook Inlet與遠方山稜主要層次可辨；日落方向有效；能見度足夠",
+              "boosters": "高透明度；薄雲夕彩；Denali／Alaska Range輪廓清楚；雪景",
+              "penalties": "濃霧／低雲遮遠山；強降水；低能見度",
+              "formula_status": "needs_directional_horizon_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-044-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Visit Anchorage explicitly recommends Point Woronzof for sunset and broad Cook Inlet/Alaska Range views. B72 moves the generic Anchorage city weather sample to this actual coastal Camera Zone.",
+              "name": "Point Woronzof Sunset Camera Zone",
+              "lat": 61.2042,
+              "lon": -150.01871,
+              "coord_confidence": "high",
+              "verification_status": "official_destination_sunset_subject_plus_usgs_geonames_point_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 650,
+              "geometry_note": "Point Woronzof公共overlook、停車周邊與Coastal Trail合法觀景範圍。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-044-P02",
+          "spot_id": "us-044",
+          "name_zh": "Point Woronzof・Anchorage Aurora Borealis",
+          "legacy_theme": "aurora",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_aurora_state_module",
+          "formula_version": "v0.04-anchorage-location-aware-aurora-provider-pending",
+          "formula_confidence": 96,
+          "best_time": "官方建議的黑暗極光季夜間；需同時有極光活動、足夠黑暗與清澈天空",
+          "best_season": "Visit Anchorage指出約9月至4月較適合；實際可見性取決於當時條件",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-262",
+              "variant_name": "Point Woronzof北向暗空＋Aurora Borealis",
+              "condition_geometry": "{\"camera_zone\":\"Point Woronzof public night Camera Zone\",\"subject\":\"aurora borealis + northern horizon / Cook Inlet foreground\"}",
+              "hard_gates": "須合法使用公共觀景區；天空足夠黑暗；必須有可靠的當時極光活動證據；不得由月份或planetary Kp單一值保證",
+              "required_conditions": "極光活動實際存在；北方主要天空未被雲層遮蔽；足夠黑暗",
+              "boosters": "遠離市中心光害；高透明度；雪地／Cook Inlet前景",
+              "penalties": "雲層遮蔽；城市光害／暮光過亮；極光活動不足",
+              "formula_status": "research_ready_location_aware_aurora_provider_pending"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-044-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Visit Anchorage directly recommends Point Woronzof for aurora viewing because it provides a northern view away from city lights. Runtime remains fail-closed until a location-aware aurora-state provider is implemented.",
+              "name": "Point Woronzof Aurora Camera Zone",
+              "lat": 61.2042,
+              "lon": -150.01871,
+              "coord_confidence": "high",
+              "verification_status": "official_destination_aurora_location_plus_usgs_geonames_point_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 650,
+              "geometry_note": "Point Woronzof公共夜間觀景／Coastal Trail範圍；依現場公共安全與使用限制。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-045",
+      "canonical_name": "蘇華德",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B72_US_RESEARCH_BATCH09",
+      "research_sources": [
+        {
+          "authority": "Visit Seward Alaska — Plan Your Trip",
+          "url": "https://www.seward.com/plan-your-visit/",
+          "verified_on": "2026-09-27",
+          "supports": "Official destination guidance describes Seward at the head of Resurrection Bay between mountains and ocean."
+        },
+        {
+          "authority": "Visit Seward Alaska — Campgrounds & RV Parks",
+          "url": "https://www.seward.com/lodging/campgrounds-and-rv-parks/",
+          "verified_on": "2026-09-27",
+          "supports": "Official destination guidance states Seward's waterfront offers views of Resurrection Bay and Mt. Alice."
+        },
+        {
+          "authority": "City of Seward / Qutekcak Native Tribe Hazard Mitigation Plan",
+          "url": "https://www.cityofseward.us/home/showpublisheddocument/2148/637469154378300000",
+          "verified_on": "2026-09-27",
+          "supports": "City planning material identifies Seward Waterfront Park and publishes a municipal facility coordinate suitable as the broad public waterfront Camera Zone/weather anchor."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-045-P01",
+          "spot_id": "us-045",
+          "name_zh": "Seward Waterfront・Resurrection Bay＋Mt. Alice山海景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-minimum-sufficient-visibility-panorama",
+          "formula_confidence": 96,
+          "best_time": "白天至暮色；以Seward Waterfront公共區域實際可使用狀態為準",
+          "best_season": "全年；船隻、野生動物、積雪與特殊光線僅作現況加分",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-263",
+              "variant_name": "Resurrection Bay＋Mt. Alice／周邊山稜",
+              "condition_geometry": "{\"camera_zone\":\"Seward Waterfront Park public Camera Zone\",\"subject\":\"Resurrection Bay + Mt. Alice / surrounding mountain and harbor panorama\"}",
+              "hard_gates": "合法公共waterfront／trail可使用",
+              "required_conditions": "Resurrection Bay與主要山稜層次清楚可辨；能見度足夠",
+              "boosters": "高透明度；柔和側光；雪峰；海面平靜；船隻／野生動物實際出現",
+              "penalties": "濃霧／低雲遮山；強降水；低能見度",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-045-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Visit Seward explicitly documents Resurrection Bay and Mt. Alice views from the waterfront. B72 uses the municipal Waterfront Park area as the weather/camera anchor rather than a generic city-center coordinate.",
+              "name": "Seward Waterfront Park / Resurrection Bay Camera Zone",
+              "lat": 60.103141,
+              "lon": -149.434574,
+              "coord_confidence": "high",
+              "verification_status": "official_destination_waterfront_subject_plus_city_published_facility_coordinate",
+              "geometry_type": "area",
+              "geometry_extent_m": 1200,
+              "geometry_note": "Seward Waterfront Park公共shoreline、trail與觀景範圍；不把船班／野生動物出現視為基本Outcome。",
               "geometry_confidence": "high"
             }
           ]
