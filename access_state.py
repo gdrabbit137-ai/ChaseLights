@@ -97,6 +97,7 @@ _ACCESS_GROUPS = {
         "tw-008-P01",
         "tw-032-P01", "tw-032-P02", "tw-032-P03",
         "tw-056-P01", "tw-056-P02", "tw-057-P02",
+        "us-012-P01", "us-012-P02", "us-013-P02",
     ),
     "managed_park_booking_notice": ("tw-010-P01", "tw-010-P03", "us-003-P01", "us-003-P02"),
     "boardwalk_schedule_notice": ("tw-012-P02", "tw-015-P02"),
@@ -144,6 +145,18 @@ ACCESS_RUNTIME_READY_PROFILES = frozenset({
 # These are provider-discovery hints, not proof that an Opportunity is open.
 # They document official sources verified during B25 architecture work.
 OFFICIAL_SOURCE_HINTS = {
+    "us-012": {
+        "authority": "U.S. National Park Service",
+        "source_kind": "mount_rainier_seasonal_road_status",
+        "url": "https://www.nps.gov/mora/planyourvisit/road-status.htm",
+        "notes": "Reflection Lakes and Tipsoo Lake vehicle access is seasonal; current road status must be checked rather than inferred from month alone.",
+    },
+    "us-013": {
+        "authority": "U.S. National Park Service",
+        "source_kind": "crater_lake_rim_drive_and_trail_status",
+        "url": "https://www.nps.gov/crla/planyourvisit/conditions.htm",
+        "notes": "Watchman access depends on current Rim Drive and trail conditions; seasonal norms are not a live open/closed provider.",
+    },
     "us-010": {
         "authority": "U.S. National Park Service",
         "source_kind": "grand_prismatic_overlook_trail_and_road_status",
