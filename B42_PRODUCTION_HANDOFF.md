@@ -1,3 +1,5 @@
+> Superseded by `B49_PRODUCTION_HANDOFF.md` after the B43–B48 maintenance sequence.
+
 # ChaseLights R4.2 B42 Production / Maintenance Handoff
 
 Date: 2026-09-26 (Asia/Taipei)
