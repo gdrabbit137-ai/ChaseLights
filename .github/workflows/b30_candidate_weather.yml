@@ -8,6 +8,7 @@ on:
       - main
     paths:
       - "regions.py"
+      - "ci_weather_impact.py"
       - "analyze_weather.py"
       - "fetch_data.py"
       - "opportunities.py"
@@ -39,6 +40,7 @@ on:
       - codex/b35-liyu-subject-model
     paths:
       - "regions.py"
+      - "ci_weather_impact.py"
       - "analyze_weather.py"
       - "fetch_data.py"
       - "opportunities.py"
@@ -62,6 +64,7 @@ on:
 
 permissions:
   contents: read
+  pull-requests: read
 
 concurrency:
   group: b30-taiwan-candidate-${{ github.ref }}
@@ -80,10 +83,23 @@ jobs:
         with:
           python-version: "3.10"
 
+
+      - name: Detect impacted weather regions
+        id: weather_regions
+        if: github.event_name == 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: python ci_weather_impact.py
+
       - name: Generate Taiwan candidate weather
+        if: github.event_name != 'pull_request' || steps.weather_regions.outputs.tw == 'true'
         run: python analyze_weather.py tw
 
       - name: Validate B30 candidate contract
+        if: github.event_name != 'pull_request' || steps.weather_regions.outputs.tw == 'true'
         run: |
           python - <<'PY'
           import json
@@ -202,7 +218,7 @@ jobs:
           PY
 
       - name: Upload B30 candidate output
-        if: always()
+        if: always() && (github.event_name != 'pull_request' || steps.weather_regions.outputs.tw == 'true')
         uses: actions/upload-artifact@v4
         with:
           name: b30-taiwan-candidate-weather

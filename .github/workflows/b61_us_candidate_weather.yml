@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - "regions.py"
+      - "ci_weather_impact.py"
       - "analyze_weather.py"
       - "fetch_data.py"
       - "opportunities.py"
@@ -23,6 +24,7 @@ on:
 
 permissions:
   contents: read
+  pull-requests: read
 
 concurrency:
   group: b61-us-candidate-${{ github.ref }}
@@ -41,10 +43,23 @@ jobs:
         with:
           python-version: "3.10"
 
+
+      - name: Detect impacted weather regions
+        id: weather_regions
+        if: github.event_name == 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: python ci_weather_impact.py
+
       - name: Generate US candidate weather
+        if: github.event_name != 'pull_request' || steps.weather_regions.outputs.us == 'true'
         run: python analyze_weather.py us
 
       - name: Validate US partial-migration contract
+        if: github.event_name != 'pull_request' || steps.weather_regions.outputs.us == 'true'
         run: |
           python - <<'PY'
           import json
@@ -140,7 +155,7 @@ jobs:
           PY
 
       - name: Upload US candidate output
-        if: always()
+        if: always() && (github.event_name != 'pull_request' || steps.weather_regions.outputs.us == 'true')
         uses: actions/upload-artifact@v4
         with:
           name: b61-us-candidate-weather

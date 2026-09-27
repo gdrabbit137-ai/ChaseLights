@@ -10,6 +10,7 @@ on:
       - "assets/app.js"
       - "assets/app.css"
       - "regions.py"
+      - "ci_weather_impact.py"
       - "analyze_weather.py"
       - "fetch_data.py"
       - "opportunities.py"
@@ -48,71 +49,25 @@ jobs:
         with:
           python-version: "3.10"
 
-      - name: Detect weather-impacting PR changes
-        id: weather_changes
+      - name: Detect impacted weather regions
+        id: weather_regions
         if: github.event_name == 'pull_request'
         env:
           GH_TOKEN: ${{ github.token }}
           REPOSITORY: ${{ github.repository }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: python ci_weather_impact.py
+
+      - name: Generate impacted PR weather
+        if: github.event_name == 'pull_request' && steps.weather_regions.outputs.regenerate == 'true'
         run: |
-          python - <<'PY'
-          import json
-          import os
-          import urllib.request
+          for region in ${{ steps.weather_regions.outputs.regions }}; do
+            python analyze_weather.py "$region"
+          done
 
-          repo = os.environ["REPOSITORY"]
-          pr_number = os.environ["PR_NUMBER"]
-          token = os.environ["GH_TOKEN"]
-          changed = []
-          page = 1
-          while True:
-              request = urllib.request.Request(
-                  f"https://api.github.com/repos/{repo}/pulls/{pr_number}/files?per_page=100&page={page}",
-                  headers={
-                      "Authorization": f"Bearer {token}",
-                      "Accept": "application/vnd.github+json",
-                      "X-GitHub-Api-Version": "2022-11-28",
-                  },
-              )
-              with urllib.request.urlopen(request, timeout=30) as response:
-                  batch = json.load(response)
-              changed.extend(item["filename"] for item in batch)
-              if len(batch) < 100:
-                  break
-              page += 1
-
-          weather_inputs = {
-              "regions.py",
-              "analyze_weather.py",
-              "fetch_data.py",
-              "opportunities.py",
-              "runtime_catalog_manifest_r4_2.json",
-              "runtime_catalog_v004_r4_2.json",
-              "opportunity_runtime.py",
-              "runtime_event_calendar_r4_2.json",
-              "runtime_dependencies.py",
-              "access_state.py",
-              "shinhotaka_access.py",
-              "yahiko_access.py",
-              "spatial_weather.py",
-              "marine_state.py",
-              "tide_state.py",
-              "taxonomy_v004.py",
-          }
-          impacting = sorted(set(changed) & weather_inputs)
-          regenerate = bool(impacting)
-          print(json.dumps({
-              "changed_files": changed,
-              "weather_impacting_files": impacting,
-              "regenerate_weather": regenerate,
-          }, indent=2))
-          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
-              output.write(f"regenerate={'true' if regenerate else 'false'}\n")
-          PY
-
-      - name: Generate Taiwan Japan and US candidate weather
-        if: github.event_name != 'pull_request' || steps.weather_changes.outputs.regenerate == 'true'
+      - name: Generate all weather for manual runs
+        if: github.event_name != 'pull_request'
         run: |
           python analyze_weather.py tw
           python analyze_weather.py jp
