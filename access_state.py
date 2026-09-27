@@ -97,6 +97,7 @@ _ACCESS_GROUPS = {
         "tw-008-P01",
         "tw-032-P01", "tw-032-P02", "tw-032-P03",
         "tw-056-P01", "tw-056-P02", "tw-057-P02",
+        "us-010-P01",
     ),
     "managed_park_booking_notice": ("tw-010-P01", "tw-010-P03", "us-003-P01", "us-003-P02"),
     "boardwalk_schedule_notice": ("tw-012-P02", "tw-015-P02"),
@@ -144,6 +145,13 @@ ACCESS_RUNTIME_READY_PROFILES = frozenset({
 # These are provider-discovery hints, not proof that an Opportunity is open.
 # They document official sources verified during B25 architecture work.
 OFFICIAL_SOURCE_HINTS = {
+    "us-010": {
+        "authority": "U.S. National Park Service — Yellowstone National Park",
+        "source_kind": "official_road_trail_and_current_conditions",
+        "url": "https://www.nps.gov/thingstodo/yell-trail-grand-prismatic-overlook.htm",
+        "verified_on": "2026-09-27",
+        "note": "Grand Prismatic Overlook access depends on current road/trail conditions. Favorable weather must not be treated as proof that the overlook is reachable.",
+    },
     "us-003": {
         "authority": "Navajo Nation Parks & Recreation",
         "source_kind": "mandatory_guided_tour_and_authorized_operator_access",
