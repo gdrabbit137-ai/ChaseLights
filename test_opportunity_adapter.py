@@ -2454,8 +2454,10 @@ def test_adapter_integrity():
 
     us029 = get_opportunities("us", "us-029")
     assert [o["opportunity_id"] for o in us029] == ["us-029-P01"]
-    assert us029[0]["runtime_policy"] == "minimum_sufficient_available"
-    assert dependencies_for_opportunity(us029[0]) == ("visibility",)
+    assert us029[0]["runtime_policy"] == "module_pending"
+    assert dependencies_for_opportunity(us029[0]) == ("dynamic_access", "visibility")
+    assert dependency_state(us029[0])["missing_components"] == ("dynamic_access",)
+    assert ACCESS_PROFILE_CLASSIFICATION["us-029-P01"]["access_type"] == "public_attraction_notice"
     white_sands = next(s for s in us_spots if s["spot_id"] == "us-029")
     assert abs(white_sands["lat"] - 32.81137) < 1e-7
     assert abs(white_sands["lon"] + 106.26501) < 1e-7
