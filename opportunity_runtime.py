@@ -22,6 +22,9 @@ Implemented preview components:
   Absolute sea-level meters are not treated as a local chart-datum tide height.
 - dynamic_access: source-aware access evaluator foundation. Unknown/stale data
   is never interpreted as open, and provider readiness is profile-specific.
+- aurora_state: location-aware NOAA SWPC OVATION short-horizon signal combined
+  with local darkness and cloud cover. It is probabilistic and never guarantees
+  visible aurora; planetary Kp alone is not accepted as the canonical gate.
 
 A profile is preview_module_available only when every dependency in the formal
 runtime dependency inventory is implemented and configured for that Opportunity.
