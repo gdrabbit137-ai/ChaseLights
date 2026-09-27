@@ -505,7 +505,7 @@ jobs:
               assert "菊屋" not in hagi_href
 
               pending_jp_cards = [c for c in jp_cards if not any(name in c.text for name in researched_names)]
-              assert len(pending_jp_cards) == 9
+              assert len(pending_jp_cards) == 4
               pending_jp_scores = [c.find_element(By.CSS_SELECTOR, ".score-badge").text.strip() for c in pending_jp_cards]
               assert all(x in {"", "—"} for x in pending_jp_scores), pending_jp_scores[:20]
               assert all("攝影研究待補" in c.text for c in pending_jp_cards), "non-migrated Japan card leaked legacy scoring"
