@@ -4,10 +4,12 @@ This module separates content formula status from runtime implementation state.
 Every needs_* status maps to an explicit set of reusable runtime components.
 """
 
-DEPENDENCY_INVENTORY_VERSION = "r4.2-b65-deps-v16-us020-mist"
+DEPENDENCY_INVENTORY_VERSION = "r4.2-b72-deps-v17-aurora-state"
 
 FORMULA_DEPENDENCIES = {
     "needs_visibility_module": ("visibility",),
+    "needs_aurora_state_module": ("aurora_state",),
+    "needs_aurora_state_dynamic_access_module": ("aurora_state", "dynamic_access"),
     "needs_dynamic_access_module": ("dynamic_access",),
     "needs_radiation_dynamic_access_module": ("radiation_DNI", "cloud_light_state", "dynamic_access"),
     "needs_spatial_weather_module": ("spatial_weather_vertical_cloud",),
@@ -62,6 +64,7 @@ FORMULA_DEPENDENCIES = {
 
 KNOWN_COMPONENTS = {
     "astronomy_ephemeris",
+    "aurora_state",
     "cloud_sky_glow",
     "cloud_light_state",
     "cultural_permission",
