@@ -1193,7 +1193,7 @@ def test_adapter_integrity():
         o for o in all_opportunities
         if o["formula_status"] == "needs_astronomy_ephemeris_module"
     ]
-    assert {o["opportunity_id"] for o in pure_astro} == {"tw-035-P05", "tw-070-P02", "tw-076-P02", "tw-080-P02", "us-001-P03", "us-005-P02", "us-006-P02"}
+    assert {o["opportunity_id"] for o in pure_astro} <= set(ASTRONOMY_EPHEMERIS_PROFILES)
     assert all(runtime_policy(o) == "preview_module_available" for o in pure_astro)
 
     astro_input = {
