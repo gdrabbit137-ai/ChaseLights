@@ -112,12 +112,12 @@ _ACCESS_GROUPS = {
         "tw-045-P01", "tw-045-P03", "tw-045-P04",
         "tw-049-P02",
     ),
-    "transport_facility_status": ("tw-024-P01", "tw-024-P05", "tw-037-P01", "jp-002-P01", "jp-004-P01", "jp-021-P01", "jp-022-P01", "jp-022-P02"),
-    "road_viewpoint_status": ("tw-034-P01", "us-012-P01", "us-012-P02", "us-013-P02", "us-017-P01", "us-038-P01", "us-041-P01", "us-041-P02"),
-    "public_attraction_notice": ("tw-038-P01", "tw-038-P02", "tw-081-P01", "jp-030-P01", "jp-034-P02", "us-010-P01", "us-027-P01", "us-029-P01"),
+    "transport_facility_status": ("tw-024-P01", "tw-024-P05", "tw-037-P01", "jp-002-P01", "jp-004-P01", "jp-021-P01", "jp-022-P01", "jp-022-P02", "us-048-P02"),
+    "road_viewpoint_status": ("tw-034-P01", "us-012-P01", "us-012-P02", "us-013-P02", "us-017-P01", "us-038-P01", "us-041-P01", "us-041-P02", "us-046-P01", "us-046-P02"),
+    "public_attraction_notice": ("tw-038-P01", "tw-038-P02", "tw-081-P01", "jp-030-P01", "jp-034-P02", "us-010-P01", "us-027-P01", "us-029-P01", "us-047-P01"),
     "waterfall_trail_status": ("tw-055-P01",),
     "tidal_path_notice": ("tw-059-P01", "tw-078-P01"),
-    "facility_hours_notice": ("tw-068-P01", "jp-033-P02", "us-024-P02"),
+    "facility_hours_notice": ("tw-068-P01", "jp-033-P02", "us-024-P02", "us-050-P02"),
 }
 
 ACCESS_PROFILE_CLASSIFICATION = {}
@@ -144,6 +144,34 @@ ACCESS_RUNTIME_READY_PROFILES = frozenset({
 # These are provider-discovery hints, not proof that an Opportunity is open.
 # They document official sources verified during B25 architecture work.
 OFFICIAL_SOURCE_HINTS = {
+    "us-050": {
+        "authority": "Goldbelt Tram",
+        "source_kind": "goldbelt_tram_current_operating_status",
+        "url": "https://www.goldbelttram.com/",
+        "verified_on": "2026-09-27",
+        "note": "The operator currently reports the tram temporarily closed while assessments continue. Static seasonal hours or favorable weather must not imply the upper panorama Camera Zone is reachable.",
+    },
+    "us-048": {
+        "authority": "U.S. Forest Service",
+        "source_kind": "portage_glacier_cruise_current_operation",
+        "url": "https://www.fs.usda.gov/Internet/FSE_DOCUMENTS/fseprd1101873.pdf",
+        "verified_on": "2026-09-27",
+        "note": "The MV Ptarmigan is a managed seasonal transport-dependent way to view Portage Glacier. A published season or old timetable must not imply a current departure exists.",
+    },
+    "us-047": {
+        "authority": "Alaska Division of Parks and Outdoor Recreation",
+        "source_kind": "matanuska_glacier_srs_current_access",
+        "url": "https://dnr.alaska.gov/parks/aspunits/matsu/matsuglsrs.htm",
+        "verified_on": "2026-09-27",
+        "note": "The public glacier-viewing recreation site remains distinct from private/guided glacier access and may close because of winter snow and ice. Favorable forecast weather must not override a closure.",
+    },
+    "us-046": {
+        "authority": "Alaska Division of Parks and Outdoor Recreation",
+        "source_kind": "hatcher_pass_summit_road_current_access",
+        "url": "https://dnr.alaska.gov/parks/aspunits/matsu/hatcherpassema.htm",
+        "verified_on": "2026-09-27",
+        "note": "The summit road is seasonal and not maintained/open in winter; current road and public-parking access must be checked independently for both Summit Lake and winter aurora use.",
+    },
     "us-041": {
         "authority": "U.S. National Park Service",
         "source_kind": "denali_mountain_vista_park_road_current_access",
