@@ -1670,9 +1670,11 @@ SPOT_OVERRIDES.update({
     "洛杉磯格里斐斯天文台": {"lat": 34.118210, "lon": -118.300370, "map_query": "Griffith Observatory Los Angeles", "coordinate_source": "OSM/Mapcarta POI", "coordinate_confidence": "high"},
     "白沙國家公園": {"lat": 32.811370, "lon": -106.265010, "map_query": "White Sands Sunset Stroll Parking Area", "coordinate_source": "NPS 2026 Sunset Stroll exact event coordinate", "coordinate_confidence": "high"},
     "芝加哥天際線": {"lat": 41.866360, "lon": -87.606630, "map_query": "Adler Planetarium Chicago skyline view", "coordinate_source": "Choose Chicago official skyline camera-area evidence + OSM/Mapcarta Adler POI", "coordinate_confidence": "high"},
+    "落磯山國家公園": {"lat": 40.320586, "lon": -105.604813, "map_query": "Sprague Lake Rocky Mountain National Park", "coordinate_source": "NPS Sprague Lake exact event/location coordinate + Scenic View/Photo Spot evidence", "coordinate_confidence": "high"},
+    "丹佛天際線": {"lat": 39.7461222, "lon": -104.9490116, "map_query": "Ferril Lake City Park Denver skyline", "coordinate_source": "Visit Denver City Park skyline subject + USGS/GeoNames Ferril Lake anchor", "coordinate_confidence": "medium_high"},
     "紐奧良法國區": {"lat": 29.958611, "lon": -90.065000, "map_query": "French Quarter New Orleans", "coordinate_source": "Wikidata/Wikipedia district center", "coordinate_confidence": "high"},
     "聖路易斯大拱門": {"lat": 38.624600, "lon": -90.185000, "map_query": "Gateway Arch St Louis", "coordinate_source": "official geographic POI", "coordinate_confidence": "high"},
-    "沃斯堡牲畜市場": {"lat": 32.790261, "lon": -97.345539, "map_query": "Fort Worth Stockyards", "coordinate_source": "Texas historic district/Wikidata", "coordinate_confidence": "high"},
+    "沃斯堡牲畜市場": {"lat": 32.789330, "lon": -97.346720, "map_query": "Livestock Exchange Building Fort Worth Stockyards", "coordinate_source": "Fort Worth Stockyards official 131 East Exchange address + OSM/Mapcarta building POI", "coordinate_confidence": "high"},
     "尼加拉瀑布": {"lat": 43.081528, "lon": -79.064240, "map_query": "Niagara Falls State Park Goat Island", "coordinate_source": "Niagara Falls State Park GPS", "coordinate_confidence": "high"},
     "邁阿密海灘": {"lat": 25.782950, "lon": -80.132340, "map_query": "South Beach Miami", "coordinate_source": "Apple Maps locality", "coordinate_confidence": "high"},
     "迪納利國家公園": {"lat": 63.730880, "lon": -148.917210, "map_query": "Denali Visitor Center", "coordinate_source": "OSM/Mapcarta/NPS visitor center", "coordinate_confidence": "high"},
@@ -1720,6 +1722,24 @@ DISPLAY_NAME_OVERRIDES = {
 # separate. map_query is search/display metadata only and MUST NOT be used to
 # build a production Navigation URL.
 NAVIGATION_TARGET_OVERRIDES = {
+    "落磯山國家公園": {
+        "status": "verified",
+        "lat": 40.320324,
+        "lon": -105.609000,
+        "target_type": "trailhead_arrival",
+        "label_i18n": {
+            "zh-TW": "Rocky Mountain NP・Sprague Lake Trailhead",
+            "en": "Rocky Mountain NP · Sprague Lake Trailhead",
+            "ja": "ロッキーマウンテン国立公園・Sprague Lake Trailhead",
+        },
+        "source": "Colorado DNR / CPW COTREX Sprague Lake Trailhead coordinate; reviewed 2026-09-27",
+        "confidence": "high",
+        "note_i18n": {
+            "zh-TW": "導航終點是Sprague Lake Trailhead／停車到達點，與湖邊Camera Zone約數百公尺分離；2026特定日期05:00–18:00進入Bear Lake Road仍需Timed Entry + Bear Lake Road reservation。",
+            "en": "Directions use the Sprague Lake Trailhead arrival point, separate from the lakeshore Camera Zone. During applicable 2026 dates, Bear Lake Road entry from 05:00–18:00 still requires Timed Entry + Bear Lake Road.",
+            "ja": "ナビはSprague Lake Trailhead到着点を使用し、湖岸Camera Zoneとは分離します。2026年の対象日は05:00–18:00のBear Lake Road入場にTimed Entry + Bear Lake Road予約が必要です。",
+        },
+    },
     "白沙國家公園": {
         "status": "verified",
         "lat": 32.811370,
