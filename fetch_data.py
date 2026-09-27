@@ -1187,6 +1187,16 @@ def _score_opportunity(opportunity, theme_metric, runtime_diagnostic, lang="zh-T
     score_confidence = "low"
     temporal_eligible = (theme_metric or {}).get("temporal_eligible")
 
+    canonical_aurora = "aurora_state" in str(opportunity.get("formula_status") or "")
+    aurora_module = ((runtime_diagnostic or {}).get("modules") or {}).get("aurora_state") or {}
+    if canonical_aurora:
+        # Canonical aurora eligibility/scoring is location-aware OVATION.  Keep
+        # legacy planetary Kp out of Opportunity score explanations.
+        factors = [
+            factor for factor in factors
+            if factor.get("key") not in {"kp_good", "kp_low", "kp_unavailable"}
+        ]
+
     if policy == "hold":
         score = 0
         status_key = indicator_key = "OPPORTUNITY_HOLD"
@@ -1266,6 +1276,23 @@ def _score_opportunity(opportunity, theme_metric, runtime_diagnostic, lang="zh-T
             score_confidence = "medium"
         else:
             score = base
+            if canonical_aurora and aurora_module:
+                score_hint = aurora_module.get("score_hint")
+                if score_hint is not None:
+                    score = int(round(float(score_hint)))
+                local_value = aurora_module.get("aurora_value")
+                if local_value is not None:
+                    local_text = {
+                        "zh-TW": f"NOAA OVATION 當地極光值 {float(local_value):.0f}，並已通過夜色與雲量門檻",
+                        "en": f"NOAA OVATION local aurora value {float(local_value):.0f}, with darkness and cloud gates matched",
+                        "ja": f"NOAA OVATION 現地オーロラ値 {float(local_value):.0f}、暗さ・雲量条件も適合",
+                    }.get(lang, f"NOAA OVATION local aurora value {float(local_value):.0f}")
+                    factors.append({
+                        "type": "plus",
+                        "key": "local_aurora_state",
+                        "value": local_value,
+                        "text": local_text,
+                    })
             if temporal_eligible is False:
                 status_key = indicator_key = "OPPORTUNITY_OUTSIDE_TIME_WINDOW"
                 condition_state = "dedicated_weather_match_outside_time_window"
