@@ -468,22 +468,6 @@ ACCESS_RULE_OVERRIDES = {
             "ja": "天覧台の現在の公式開放時間は07:10〜21:00、定休日なし。駐車場が24時間開放でも、展望台自体が24時間開放という意味ではありません。",
         },
     },
-    "福岡城跡": {
-        "status": "needs_review",
-        "target_type": "public_castle_ruins_entry",
-        "label_i18n": {
-            "zh-TW": "福岡城跡：天守台封閉中，導航入口待獨立確認",
-            "en": "Fukuoka Castle Ruins: Tenshudai closed; arrival point pending verification",
-            "ja": "福岡城跡：天守台閉鎖中、到着地点は確認待ち",
-        },
-        "source": "Fukuoka Castle official notice: Tenshudai closed 2026-05-26 through end of Dec (planned); reviewed 2026-09-27",
-        "confidence": "high",
-        "note_i18n": {
-            "zh-TW": "目前不把舊天守台座標當道路導航或 Camera Zone。多聞櫓、下之橋御門等仍可研究拍攝，但到達／停車點須另行查證。",
-            "en": "The legacy Tenshudai coordinate is not used for directions or as a Camera Zone during the closure. Tamon Yagura / Shimonohashi Gate remain valid subjects; arrival/parking needs separate verification.",
-            "ja": "閉鎖中は旧天守台座標をナビ目的地や Camera Zone にしません。多聞櫓・下之橋御門は撮影対象ですが、到着・駐車地点は別途確認が必要です。",
-        },
-    },
     "出雲大社": {
         "access_mode": "opening_hours",
         "access_hours": ["06:00", "19:00"],
@@ -1704,6 +1688,22 @@ DISPLAY_NAME_OVERRIDES = {
 # separate. map_query is search/display metadata only and MUST NOT be used to
 # build a production Navigation URL.
 NAVIGATION_TARGET_OVERRIDES = {
+    "福岡城跡": {
+        "status": "needs_review",
+        "target_type": "public_castle_ruins_entry",
+        "label_i18n": {
+            "zh-TW": "福岡城跡：天守台封閉中，導航入口待獨立確認",
+            "en": "Fukuoka Castle Ruins: Tenshudai closed; arrival point pending verification",
+            "ja": "福岡城跡：天守台閉鎖中、到着地点は確認待ち",
+        },
+        "source": "Fukuoka Castle official notice: Tenshudai closed 2026-05-26 through end of Dec (planned); reviewed 2026-09-27",
+        "confidence": "high",
+        "note_i18n": {
+            "zh-TW": "目前不把舊天守台座標當道路導航或 Camera Zone。多聞櫓、下之橋御門等仍可研究拍攝，但到達／停車點須另行查證。",
+            "en": "The legacy Tenshudai coordinate is not used for directions or as a Camera Zone during the closure. Tamon Yagura / Shimonohashi Gate remain valid subjects; arrival/parking needs separate verification.",
+            "ja": "閉鎖中は旧天守台座標をナビ目的地や Camera Zone にしません。多聞櫓・下之橋御門は撮影対象ですが、到着・駐車地点は別途確認が必要です。",
+        },
+    },
     "六十石山": {
         "status": "verified",
         "lat": 23.219472,
