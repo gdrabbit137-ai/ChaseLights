@@ -147,3 +147,33 @@ Model caution:
 5. Update canonical catalog / manifest / evidence registry.
 6. Extend B61 US Candidate QA researched range from us-001..005 to us-001..010.
 7. Run Adapter, Evidence Audit, US/TW/JP Candidate Weather and Browser Smoke.
+
+## Proposed runtime mapping (draft only)
+
+These statuses are a design proposal, not catalog admission:
+
+| Place / draft Opportunity | Proposed formula status | Intended behavior |
+|---|---|---|
+| us-006 Bryce sunrise hoodoos | `needs_directional_horizon_visibility_module` | preview-capable once directional profile is curated |
+| us-006 Bryce sunset hoodoo light | `needs_directional_horizon_visibility_module` | use Inspiration/Paria orientation, not the misleading place-name assumption |
+| us-006 Bryce dark sky / Milky Way | `needs_astronomy_ephemeris_module` | astronomy preview; park is 24h but temporary snow closures remain operational caveat |
+| us-007 Canyon Overlook sunrise | `needs_directional_horizon_visibility_module` | sunrise geometry + visibility; parking scarcity is advisory, not a fake weather gate |
+| us-007 Pa'rus / Watchman sunset | `needs_directional_horizon_visibility_module` | sunset geometry + visibility |
+| us-008 Glacier/Washburn Point Half Dome panorama | `needs_dynamic_access_visibility_module` | fail closed until Glacier Point Road current access can be established |
+| us-008 Glacier Point Half Dome night sky | `needs_astronomy_ephemeris_access_module` | astronomy + current Glacier Point access |
+| us-009 Tunnel View valley panorama | `needs_visibility_module` | minimum-sufficient visibility |
+| us-009 Tunnel View night sky | `needs_astronomy_ephemeris_module` | astronomy preview; temporary road restrictions remain operational caveat |
+| us-010 Grand Prismatic elevated overlook | `needs_dynamic_access_visibility_module` | conservative pending until legal current route/access is known |
+| us-010 Midway boardwalk ground-level thermal composition | `needs_dynamic_access_visibility_module` | conservative pending; boardwalk-only safety hard gate |
+
+Expected draft delta if all eleven survive final review:
+- +5 curated US Places
+- +11 Opportunities
+- at least +11 Condition Variants
+- at least +11 viewpoint relations
+
+Important:
+- `us-010` is intentionally not mapped to a made-up temperature/steam formula.
+- If a trustworthy near-spring steam-obscuration contract is later created, it can refine Grand Prismatic quality without changing the evidence admission.
+- Glacier Point and Yellowstone access should remain module-pending until a current authoritative road/access state is connected or a deliberately conservative fail-closed rule is implemented.
+
