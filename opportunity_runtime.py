@@ -1410,7 +1410,7 @@ def validate_runtime_registry():
     errors.extend(validate_tide_state_registry())
     errors.extend(validate_access_registry())
     if set(MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES) != {
-        "jp-025-P01", "jp-026-P01",
+        "jp-025-P01", "jp-026-P01", "jp-028-P01", "jp-029-P01", "jp-031-P01",
         "tw-084-P01", "tw-084-P02", "tw-084-P03", "tw-084-P04",
         "tw-084-P05", "tw-084-P06", "tw-084-P07", "tw-084-P08",
         "tw-082-P04", "tw-082-P05", "tw-082-P06", "tw-082-P07", "tw-082-P08",
@@ -1443,8 +1443,8 @@ def validate_runtime_registry():
         errors.append(f"expected 17 marine-state profiles, got {len(MARINE_STATE_PROFILES)}")
     if len(TIDE_STATE_PROFILES) != 14:
         errors.append(f"expected 14 tide-state profiles, got {len(TIDE_STATE_PROFILES)}")
-    if len(ACCESS_DEPENDENT_PROFILE_IDS) != 49:
-        errors.append(f"expected 49 dynamic-access profiles, got {len(ACCESS_DEPENDENT_PROFILE_IDS)}")
+    if len(ACCESS_DEPENDENT_PROFILE_IDS) != 50:
+        errors.append(f"expected 50 dynamic-access profiles, got {len(ACCESS_DEPENDENT_PROFILE_IDS)}")
     expected_access_ready = {"jp-021-P01", "jp-021-P02", "jp-022-P01", "jp-022-P02", "jp-022-P03"}
     if set(ACCESS_RUNTIME_READY_PROFILES) != expected_access_ready:
         errors.append(
