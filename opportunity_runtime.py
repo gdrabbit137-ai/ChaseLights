@@ -111,6 +111,8 @@ MINIMUM_SUFFICIENT_VISIBILITY_PROFILES = {
     "jp-027-P01", "jp-027-P02",
     # B51 Fukuoka Tower: both broad panorama and sunset/night view require readable long-range visibility.
     "jp-035-P01", "jp-035-P02",
+    # B61 US: broad Horseshoe Bend and Monument Valley landscapes need readable long-range visibility.
+    "us-002-P01", "us-004-P01",
 }
 
 MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES = {
@@ -610,6 +612,9 @@ DIRECTIONAL_HORIZON_SECTORS = {
     "tw-077-P01": {"center": 90.0, "tolerance": 80.0, "phase": "sunrise"},
     "tw-079-P01": {"center": 270.0, "tolerance": 80.0, "phase": "sunset"},
     "tw-080-P01": {"center": 90.0, "tolerance": 80.0, "phase": "sunrise"},
+    "us-001-P01": {"center": 90.0, "tolerance": 85.0, "phase": "sunrise"},
+    "us-001-P02": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
+    "us-005-P01": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
 }
 
 CLOUD_SKY_GLOW_PROFILES = {
@@ -631,6 +636,8 @@ ASTRONOMY_EPHEMERIS_PROFILES = {
     "tw-070-P02": {"mode": "milky_way_or_star_field"},
     "tw-076-P02": {"mode": "milky_way_or_star_field"},
     "tw-080-P02": {"mode": "milky_way_or_star_field"},
+    "us-001-P03": {"mode": "milky_way_or_star_field"},
+    "us-005-P02": {"mode": "milky_way_or_star_field"},
 }
 
 
