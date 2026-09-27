@@ -14,10 +14,10 @@
     "runtime_catalog_v004_r4_2_b35_liyu_subjects.json"
   ],
   "counts": {
-    "spots": 153,
-    "opportunities": 326,
-    "condition_variants": 341,
-    "profile_viewpoint_relations": 332
+    "spots": 158,
+    "opportunities": 333,
+    "condition_variants": 348,
+    "profile_viewpoint_relations": 339
   },
   "spots": [
     {
@@ -16064,6 +16064,454 @@
               "geometry_type": "small_area",
               "geometry_extent_m": 450,
               "geometry_note": "East Exchange Avenue官方公共cattle-drive觀賞區；不得進入封鎖路段或牲畜動線。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-036",
+      "canonical_name": "紐約曼哈頓天際線",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B71_US_RESEARCH_BATCH08",
+      "research_sources": [
+        {
+          "authority": "New York State Parks — Gantry Plaza State Park",
+          "url": "https://parks.ny.gov/visit/state-parks/gantry-plaza-state-park",
+          "verified_on": "2026-09-27",
+          "supports": "Official state-park guidance states Gantry Plaza provides spectacular views of the midtown Manhattan skyline, including the Empire State Building and United Nations, from a public East River waterfront park."
+        },
+        {
+          "authority": "New York State Parks — Gantry Plaza State Park hours/fees",
+          "url": "https://parks.ny.gov/parks/149/fees-rates.aspx",
+          "verified_on": "2026-09-27",
+          "supports": "Official park information publishes public operating guidance and identifies the skyline as the park backdrop; this Opportunity is limited to visible-light public-park use rather than an assumed all-night skyline contract."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-036-P01",
+          "spot_id": "us-036",
+          "name_zh": "Gantry Plaza・Midtown Manhattan skyline＋East River",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-minimum-sufficient-visibility-panorama",
+          "formula_confidence": 97,
+          "best_time": "白天至暮色可見光；以Gantry Plaza State Park實際開放狀態為準",
+          "best_season": "全年；特殊活動與季節前景不由月份推定",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-250",
+              "variant_name": "Gantry Plaza＋Midtown Manhattan skyline",
+              "condition_geometry": "{\"camera_zone\":\"Gantry Plaza State Park East River waterfront Camera Zone\",\"subject\":\"Midtown Manhattan skyline + Empire State Building / United Nations + East River foreground\"}",
+              "hard_gates": "Gantry Plaza State Park公共區域可合法使用；不得把婚攝／商業許可規則套用成一般個人拍攝禁令",
+              "required_conditions": "Midtown Manhattan skyline主要建築層次清楚可辨；能見度足夠；無顯著降水",
+              "boosters": "高透明度；柔和側光；East River前景乾淨；薄雲層次",
+              "penalties": "濃霧／低雲遮蔽skyline；強降水；煙霾／低能見度",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-036-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "New York State Parks explicitly documents spectacular Midtown Manhattan skyline views from Gantry Plaza. B71 moves the Place/weather anchor from Manhattan itself to the actual cross-river Camera Zone; no unique tripod position is claimed.",
+              "name": "Gantry Plaza State Park Skyline Camera Zone",
+              "lat": 40.74637,
+              "lon": -73.95775,
+              "coord_confidence": "high",
+              "verification_status": "official_nys_parks_skyline_subject_plus_osm_geonames_park_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 800,
+              "geometry_note": "Gantry Plaza State Park合法公共河岸步道、廣場與觀景區。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-037",
+      "canonical_name": "尼加拉瀑布",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B71_US_RESEARCH_BATCH08",
+      "research_sources": [
+        {
+          "authority": "New York State Parks — Niagara Falls State Park",
+          "url": "https://parks.ny.gov/visit/state-parks/niagara-falls-state-park",
+          "verified_on": "2026-09-27",
+          "supports": "Official state-park guidance documents year-round waterfall viewing, the American, Bridal Veil and Horseshoe Falls, and a nightly Falls illumination subject."
+        },
+        {
+          "authority": "Niagara Falls State Park — Overlooks & Vistas",
+          "url": "https://www.niagarafallsstatepark.com/attractions/overlooks-vistas/",
+          "verified_on": "2026-09-27",
+          "supports": "Official park guidance identifies Terrapin Point as a public viewpoint above Horseshoe Falls and Stedman's Bluff / other overlooks for the American and Bridal Veil Falls."
+        },
+        {
+          "authority": "Niagara Falls State Park — Park Map",
+          "url": "https://www.niagarafallsstatepark.com/park-information/niagara-state-park-map/",
+          "verified_on": "2026-09-27",
+          "supports": "Official park map identifies Terrapin Point for close Horseshoe Falls views and Prospect Point as a prime American Falls viewing location."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-037-P01",
+          "spot_id": "us-037",
+          "name_zh": "Terrapin Point・Horseshoe Falls瀑布與水霧",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "minimum_sufficient_local_scene",
+          "formula_version": "v0.04-local-scene-waterfall-minimum-sufficient",
+          "formula_confidence": 97,
+          "best_time": "白天可見光；以Terrapin Point公共觀景區實際可用狀態為準",
+          "best_season": "全年；冬季冰景屬現況加分，不由月份保證",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-251",
+              "variant_name": "Terrapin Point・Horseshoe Falls近距離瀑布",
+              "condition_geometry": "{\"camera_zone\":\"Terrapin Point public overlook Camera Zone\",\"subject\":\"Horseshoe Falls + Niagara River + waterfall mist\"}",
+              "hard_gates": "Terrapin Point公共觀景區可合法使用；不得跨越護欄或進入封閉區",
+              "required_conditions": "Horseshoe Falls主要瀑布輪廓可辨；強降水／濃霧未使近距離主體不可見",
+              "boosters": "陽光形成彩虹；低角度側光；冬季自然冰景；水霧層次",
+              "penalties": "水霧／濃霧完全白化主體；強降水；臨時安全封閉",
+              "formula_status": "minimum_sufficient_local_scene"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-037-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official Niagara Falls State Park guidance identifies Terrapin Point as a primary Horseshoe Falls overlook. The waterfall itself is persistent enough that B71 does not require a generic waterfall-flow module; mist/visibility remains a scene-quality factor.",
+              "name": "Terrapin Point Camera Zone",
+              "lat": 43.08008,
+              "lon": -79.07443,
+              "coord_confidence": "high",
+              "verification_status": "official_park_terrapin_subject_plus_osm_geonames_viewpoint_anchor",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 300,
+              "geometry_note": "Terrapin Point公共觀景區與相鄰合法步道。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-037-P02",
+          "spot_id": "us-037",
+          "name_zh": "Niagara Falls・夜間瀑布illumination",
+          "legacy_theme": "city_night",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_lighting_state_module",
+          "formula_version": "v0.04-niagara-managed-lighting-state-pending",
+          "formula_confidence": 94,
+          "best_time": "官方當日晚間瀑布illumination實際點亮時",
+          "best_season": "全年依官方當日illumination／特殊活動狀態",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-252",
+              "variant_name": "Horseshoe／American Falls夜間illumination",
+              "condition_geometry": "{\"camera_zone\":\"Niagara Falls State Park public overlooks\",\"subject\":\"illuminated Niagara Falls + waterfall mist\"}",
+              "hard_gates": "瀑布illumination實際點亮且公共觀景區可使用",
+              "required_conditions": "彩色照明與瀑布主體清楚可辨；無官方停燈／重大遮蔽",
+              "boosters": "低風水霧層次；乾淨夜空；特殊色彩主題",
+              "penalties": "未點燈／停燈；濃霧白化；強降水",
+              "formula_status": "research_ready_managed_lighting_state_provider_pending"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-037-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "New York State Parks explicitly lists nightly Falls illumination, but ChaseLights does not yet ingest the current illumination state/schedule. The Opportunity therefore remains module_pending.",
+              "name": "Niagara Falls Public Night-view Camera Zone",
+              "lat": 43.08008,
+              "lon": -79.07443,
+              "coord_confidence": "high",
+              "verification_status": "official_state_park_nightly_illumination_subject_plus_terrapin_area_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 1200,
+              "geometry_note": "Goat Island／Terrapin Point等合法公共觀景區；不指定唯一夜拍腳架點。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-038",
+      "canonical_name": "大霧山國家公園",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B71_US_RESEARCH_BATCH08",
+      "research_sources": [
+        {
+          "authority": "U.S. National Park Service — Newfound Gap Overlook",
+          "url": "https://www.nps.gov/places/newfound-gap-overlook.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS classifies Newfound Gap Overlook as a Scenic View/Photo Spot, provides parking, and instructs visitors to check current conditions before driving Newfound Gap Road."
+        },
+        {
+          "authority": "U.S. National Park Service — Seasonal Road Schedule",
+          "url": "https://home.nps.gov/grsm/planyourvisit/seasonalroads.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS states Newfound Gap Road/US 441 is normally open year-round but remains weather permitting and can close for snow, ice and other hazardous conditions."
+        },
+        {
+          "authority": "U.S. National Park Service — current cautions and closures",
+          "url": "https://www.nps.gov/grsm/planyourvisit/temproadclose.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS maintains current road/facility closure notices; B71 treats current Newfound Gap Road access as independent from favorable forecast weather."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-038-P01",
+          "spot_id": "us-038",
+          "name_zh": "Newfound Gap Overlook・Smokies層疊山稜",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_dynamic_access_visibility_module",
+          "formula_version": "v0.04-newfound-gap-access-visibility-pending",
+          "formula_confidence": 97,
+          "best_time": "Newfound Gap Road實際開放且山稜可見的白天／暮色時段",
+          "best_season": "全年；道路通常全年但weather permitting，冬季雪冰可能臨時封閉",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-253",
+              "variant_name": "Newfound Gap層疊Smoky Mountains山景",
+              "condition_geometry": "{\"camera_zone\":\"Newfound Gap Overlook public Camera Zone\",\"subject\":\"layered Great Smoky Mountains ridges from Newfound Gap\"}",
+              "hard_gates": "Newfound Gap Road與Overlook當下可合法到達；不得由好天氣或季節推定道路一定開放",
+              "required_conditions": "遠近山稜層次可辨；能見度足夠；低雲未完全封住主要山景",
+              "boosters": "晨霧保留山稜層次；高透明度；側光；秋色／雪景只作現況加分",
+              "penalties": "道路關閉；濃霧／低雲完全封景；強降水；低能見度",
+              "formula_status": "needs_dynamic_access_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-038-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS directly classifies Newfound Gap Overlook as a Scenic View/Photo Spot. B71 replaces the broad Great Smoky Mountains inventory coordinate with this exact overlook/weather area and keeps road access fail-closed.",
+              "name": "Newfound Gap Overlook Camera Zone",
+              "lat": 35.611092,
+              "lon": -83.425007,
+              "coord_confidence": "high",
+              "verification_status": "official_nps_photo_spot_plus_nps_published_newfound_gap_coordinate",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 350,
+              "geometry_note": "Newfound Gap公共overlook與合法停車／步行觀景區。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-039",
+      "canonical_name": "邁阿密海灘",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B71_US_RESEARCH_BATCH08",
+      "research_sources": [
+        {
+          "authority": "City of Miami Beach — South Pointe Park",
+          "url": "https://www.miamibeachfl.gov/city-hall/parks-and-recreation/parks-facilities-directory/south-pointe-park/",
+          "verified_on": "2026-09-27",
+          "supports": "City guidance identifies South Pointe Park at 1 Washington Avenue, beach access and sunrise-to-sunset park hours."
+        },
+        {
+          "authority": "City of Miami Beach — Beachwalk",
+          "url": "https://www.miamibeachfl.gov/city-hall/parks-and-recreation/parks-facilities-directory/beachwalk/",
+          "verified_on": "2026-09-27",
+          "supports": "City guidance identifies the nine-mile oceanfront Beachwalk from South Pointe Park northward and publishes 24-hour pedestrian access."
+        },
+        {
+          "authority": "Greater Miami Convention & Visitors Bureau — Miami in 1 Day",
+          "url": "https://www.miamiandbeaches.com/plan-your-trip/miami-itineraries/miami-in-1-day",
+          "verified_on": "2026-09-27",
+          "supports": "Official destination guidance explicitly recommends sunrise on Miami Beach and identifies South Pointe Park as a panoramic lookout for coastline, PortMiami cruise ships, Downtown Miami skyline and Fisher Island."
+        },
+        {
+          "authority": "Greater Miami Convention & Visitors Bureau — South Pointe Park",
+          "url": "https://www.miamiandbeaches.com/l/outdoor-experiences/south-pointe-park/2966",
+          "verified_on": "2026-09-27",
+          "supports": "Official destination page calls South Pointe a photo-worthy park with panoramic South Beach shoreline, PortMiami, Downtown Miami skyline, Fisher Island and ocean views."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-039-P01",
+          "spot_id": "us-039",
+          "name_zh": "South Pointe Beach／Beachwalk・Atlantic日出",
+          "legacy_theme": "sunrise",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04-directional-horizon-visibility-preview",
+          "formula_confidence": 96,
+          "best_time": "日出前後；使用South Pointe Beach／24h Beachwalk合法公共區域，不依賴尚未開門的公園設施",
+          "best_season": "全年；熱帶風暴／海岸安全公告優先於攝影條件",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-254",
+              "variant_name": "South Pointe Atlantic Ocean日出＋沙灘前景",
+              "condition_geometry": "{\"camera_zone\":\"South Pointe Beach / Beachwalk Camera Zone\",\"target\":\"east-facing Atlantic sunrise + beach / ocean foreground\"}",
+              "hard_gates": "Beachwalk／合法海灘公共區域可使用；日出時段有效；不得進入封閉海岸區",
+              "required_conditions": "東方海平線／晨光可辨；能見度足夠；強降水未遮蔽日出方向",
+              "boosters": "中高雲晨彩；低浪整潔前景；高透明度",
+              "penalties": "東方低雲完全封日出；強降水；低能見度；海岸安全封閉",
+              "formula_status": "needs_directional_horizon_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-039-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official Miami tourism explicitly recommends sunrise on Miami Beach. B71 uses South Pointe Beach/Beachwalk rather than the park interior so the sunrise Opportunity does not conflict with South Pointe Park's sunrise opening time.",
+              "name": "South Pointe Beach／Beachwalk Sunrise Camera Zone",
+              "lat": 25.76739,
+              "lon": -80.131,
+              "coord_confidence": "high",
+              "verification_status": "official_city_beachwalk_plus_official_tourism_sunrise_subject_and_osm_beach_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 650,
+              "geometry_note": "South Pointe Beach與24h Beachwalk合法公共海岸步行／沙灘範圍。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-039-P02",
+          "spot_id": "us-039",
+          "name_zh": "South Pointe・PortMiami／Downtown Miami skyline海灣全景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-minimum-sufficient-visibility-panorama",
+          "formula_confidence": 95,
+          "best_time": "白天至暮色；以South Pointe合法公共海岸／Beachwalk實際可使用狀態為準",
+          "best_season": "全年；cruise ship實際出現屬現場加分，不作基本Outcome保證",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-255",
+              "variant_name": "South Pointe海灣＋Downtown Miami／PortMiami全景",
+              "condition_geometry": "{\"camera_zone\":\"South Pointe waterfront / Beachwalk Camera Zone\",\"subject\":\"Downtown Miami skyline + PortMiami / Fisher Island + Biscayne Bay / Government Cut context\"}",
+              "hard_gates": "合法公共waterfront／Beachwalk可使用；不得將cruise ship時刻推定成必然前景",
+              "required_conditions": "Downtown Miami／PortMiami主要層次清楚可辨；能見度足夠",
+              "boosters": "cruise ship實際通過；高透明度；柔和側光；乾淨水面前景",
+              "penalties": "濃霧／低雲遮skyline；強降水；煙霾／低能見度",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-039-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official Miami tourism directly documents photo-worthy South Pointe views of Downtown Miami, PortMiami, Fisher Island and the shoreline. The weather anchor moves from broad South Beach to the actual South Pointe area.",
+              "name": "South Pointe Waterfront Panorama Camera Zone",
+              "lat": 25.76584,
+              "lon": -80.13402,
+              "coord_confidence": "high",
+              "verification_status": "official_city_south_pointe_identity_plus_official_tourism_photo_subject_and_osm_park_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 850,
+              "geometry_note": "South Pointe Park／Beachwalk／鄰近公共waterfront合法觀景範圍；公園內部仍遵守官方開放時間。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-040",
+      "canonical_name": "波士頓天際線",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B71_US_RESEARCH_BATCH08",
+      "research_sources": [
+        {
+          "authority": "Massachusetts Port Authority — Piers Park",
+          "url": "https://www.massport.com/sites/default/files/2025-07/M748_Piers%20Park%20Maint%20Building%20RFQ%20Consultant%20-%20Building%20-%20Supplemental%20Package%20%28Project%20Specific%29%2007.121.2025.pdf",
+          "verified_on": "2026-09-27",
+          "supports": "Massport describes Piers Park as an 11-acre public East Boston waterfront park overlooking Boston Harbor and downtown Boston with spectacular Boston skyline views."
+        },
+        {
+          "authority": "Meet Boston — East Boston",
+          "url": "https://www.meetboston.com/explore/neighborhoods/",
+          "verified_on": "2026-09-27",
+          "supports": "Boston's official destination organization states East Boston across the harbor provides fantastic waterfront views of the city skyline."
+        },
+        {
+          "authority": "Massport — Port of Boston / waterfront",
+          "url": "https://www.massport.com/conley-terminal/about-the-port",
+          "verified_on": "2026-09-27",
+          "supports": "Massport presents Piers Park with the Boston skyline as part of its public waterfront/open-space context."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-040-P01",
+          "spot_id": "us-040",
+          "name_zh": "Piers Park・Boston skyline＋Harbor全景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-minimum-sufficient-visibility-panorama",
+          "formula_confidence": 96,
+          "best_time": "白天至暮色可見光；以Piers Park／East Boston waterfront公共區域實際可使用狀態為準",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-256",
+              "variant_name": "Piers Park＋Downtown Boston skyline／Harbor",
+              "condition_geometry": "{\"camera_zone\":\"Piers Park East Boston waterfront Camera Zone\",\"subject\":\"Downtown Boston skyline + Boston Harbor foreground\"}",
+              "hard_gates": "Piers Park／合法公共waterfront可使用",
+              "required_conditions": "Boston skyline主要建築層次與Harbor前景清楚可辨；能見度足夠",
+              "boosters": "高透明度；柔和側光；帆船／港灣活動實際出現；平靜水面",
+              "penalties": "濃霧／低雲遮skyline；強降水；低能見度",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-040-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Massport directly documents spectacular Boston skyline views from public Piers Park. B71 moves the Place/weather anchor from downtown Boston to the actual East Boston waterfront Camera Zone.",
+              "name": "Piers Park Boston Skyline Camera Zone",
+              "lat": 42.36459,
+              "lon": -71.0372,
+              "coord_confidence": "high",
+              "verification_status": "official_massport_skyline_subject_plus_osm_park_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 650,
+              "geometry_note": "Piers Park公共waterfront、步道與草地觀景範圍。",
               "geometry_confidence": "high"
             }
           ]

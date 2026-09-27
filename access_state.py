@@ -113,7 +113,7 @@ _ACCESS_GROUPS = {
         "tw-049-P02",
     ),
     "transport_facility_status": ("tw-024-P01", "tw-024-P05", "tw-037-P01", "jp-002-P01", "jp-004-P01", "jp-021-P01", "jp-022-P01", "jp-022-P02"),
-    "road_viewpoint_status": ("tw-034-P01", "us-012-P01", "us-012-P02", "us-013-P02", "us-017-P01"),
+    "road_viewpoint_status": ("tw-034-P01", "us-012-P01", "us-012-P02", "us-013-P02", "us-017-P01", "us-038-P01"),
     "public_attraction_notice": ("tw-038-P01", "tw-038-P02", "tw-081-P01", "jp-030-P01", "jp-034-P02", "us-010-P01", "us-027-P01", "us-029-P01"),
     "waterfall_trail_status": ("tw-055-P01",),
     "tidal_path_notice": ("tw-059-P01", "tw-078-P01"),
@@ -144,6 +144,13 @@ ACCESS_RUNTIME_READY_PROFILES = frozenset({
 # These are provider-discovery hints, not proof that an Opportunity is open.
 # They document official sources verified during B25 architecture work.
 OFFICIAL_SOURCE_HINTS = {
+    "us-038": {
+        "authority": "U.S. National Park Service",
+        "source_kind": "newfound_gap_road_and_overlook_current_status",
+        "url": "https://www.nps.gov/grsm/planyourvisit/temproadclose.htm",
+        "verified_on": "2026-09-27",
+        "note": "Newfound Gap Road / US 441 is normally year-round but weather permitting and may close for snow, ice, high wind or other hazards. Favorable forecast weather must not be treated as proof that Newfound Gap Overlook is currently reachable.",
+    },
     "us-031": {
         "authority": "U.S. National Park Service",
         "source_kind": "rmnp_2026_timed_entry_plus_bear_lake_road",
