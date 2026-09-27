@@ -15,6 +15,7 @@ from opportunity_runtime import (
     evaluate_radiation_dni,
     evaluate_cloud_light_state,
     evaluate_cloud_sky_glow,
+    CLOUD_SKY_GLOW_PROFILES,
     evaluate_astronomy_ephemeris,
     ASTRONOMY_EPHEMERIS_PROFILES,
     evaluate_opportunity_modules,
