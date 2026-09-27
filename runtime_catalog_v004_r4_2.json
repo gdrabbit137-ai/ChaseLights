@@ -14,10 +14,10 @@
     "runtime_catalog_v004_r4_2_b35_liyu_subjects.json"
   ],
   "counts": {
-    "spots": 114,
-    "opportunities": 260,
-    "condition_variants": 270,
-    "profile_viewpoint_relations": 265
+    "spots": 118,
+    "opportunities": 270,
+    "condition_variants": 285,
+    "profile_viewpoint_relations": 276
   },
   "spots": [
     {
@@ -12159,6 +12159,617 @@
               "geometry_extent_m": 500,
               "geometry_note": "倉敷川沿岸夜間公共區域；反射構圖依現場水面與人流微調。",
               "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-032",
+      "canonical_name": "福岡城跡",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B51_JP_RESEARCH_BATCH16",
+      "research_sources": [
+        {
+          "authority": "Fukuoka Castle / Korokan official — walking guide",
+          "url": "https://fukuokajyo.com/walking/",
+          "verified_on": "2026-09-27",
+          "supports": "Official guide identifies Shimonohashi Gate, Tamon Yagura, stonework, and seasonal flowers as photographable castle-ruin subjects."
+        },
+        {
+          "authority": "Fukuoka Castle / Korokan official — Tenshudai access restriction",
+          "url": "https://fukuokajyo.com/24704/",
+          "verified_on": "2026-09-27",
+          "supports": "Tenshudai is closed for excavation from 2026-05-26 through the end of December (planned), so it is excluded from B51 Camera Zones and navigation."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-032-P01",
+          "spot_id": "jp-032",
+          "name_zh": "福岡城跡・多聞櫓／下之橋御門與石垣",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "minimum_sufficient_local_scene",
+          "formula_version": "v0.04-local-scene-dry-daylight-minimum-sufficient",
+          "formula_confidence": 94,
+          "best_time": "白天可見光時段（景點當地時間／JST）",
+          "best_season": "全年；2026 天守台封閉期間以仍可合法到達的城郭建築與石垣為主",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-045",
+              "variant_name": "多聞櫓／下之橋御門＋石垣城郭構圖",
+              "condition_geometry": "{\"camera_zone\":\"福岡城跡 public castle-ruins Camera Zone\",\"subject\":\"Tamon Yagura / Shimonohashi Gate / stone walls\",\"excluded\":\"Tenshudai during 2026 closure\"}",
+              "hard_gates": "僅限合法公共城跡動線；2026-05-26至12月底預定不得把天守台列為可進入 Camera Zone",
+              "required_conditions": "城門、櫓或石垣清楚可辨；無足以妨礙步行攝影的強降水",
+              "boosters": "柔和斜光；低人流；乾燥",
+              "penalties": "強降水；施工／安全封閉；越界進入天守台或其他管制區",
+              "formula_status": "minimum_sufficient_local_scene"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-032-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official Fukuoka Castle walking guide directly verifies Tamon Yagura and Shimonohashi Gate. Tenshudai is intentionally excluded while the 2026 excavation closure is active.",
+              "name": "福岡城跡・多聞櫓／下之橋御門公共 Camera Zone",
+              "coord_confidence": "not_required_for_area_subject",
+              "verification_status": "official_public_castle_structures_tenshudai_excluded",
+              "geometry_type": "area",
+              "geometry_extent_m": 900,
+              "geometry_note": "城跡內仍開放的公共散策區域；Camera Zone 不包含目前禁止進入的天守台。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "jp-032-P02",
+          "spot_id": "jp-032",
+          "name_zh": "福岡城跡・四季花木與城郭",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_seasonal_foreground_module",
+          "formula_version": "v0.04-research-ready-fukuoka-castle-seasonal-state-pending",
+          "formula_confidence": 92,
+          "best_time": "僅在對應花木實際進入可拍狀態時",
+          "best_season": "梅1–2月、櫻3–4月、藤4–5月、紅葉約11月；實際狀態不得只靠月份保證",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-046",
+              "variant_name": "梅花＋福岡城跡",
+              "condition_geometry": "{\"camera_zone\":\"福岡城跡 seasonal Camera Zone\",\"subject\":\"plum blossoms + castle-ruin context\"}",
+              "hard_gates": "梅花實際開花；公共區可達",
+              "required_conditions": "花況實際可辨；無強降水",
+              "boosters": "滿開附近；柔和日光",
+              "penalties": "未開／已謝；強風雨",
+              "formula_status": "research_ready_seasonal_foreground_provider_pending"
+            },
+            {
+              "variant_id": "JPVAR-047",
+              "variant_name": "櫻花＋福岡城跡",
+              "condition_geometry": "{\"camera_zone\":\"福岡城跡 seasonal Camera Zone\",\"subject\":\"cherry blossoms + castle-ruin context\"}",
+              "hard_gates": "櫻花實際開花；公共區可達",
+              "required_conditions": "花況實際可辨；無強降水",
+              "boosters": "滿開附近；城門／石垣同框",
+              "penalties": "未開／已謝；強風雨",
+              "formula_status": "research_ready_seasonal_foreground_provider_pending"
+            },
+            {
+              "variant_id": "JPVAR-048",
+              "variant_name": "藤花＋福岡城跡",
+              "condition_geometry": "{\"camera_zone\":\"福岡城跡 seasonal Camera Zone\",\"subject\":\"wisteria + castle-ruin context\"}",
+              "hard_gates": "藤花實際開花；公共區可達",
+              "required_conditions": "藤棚花況實際可辨；無強降水",
+              "boosters": "花序完整；柔和光",
+              "penalties": "未開／已謝；強風雨",
+              "formula_status": "research_ready_seasonal_foreground_provider_pending"
+            },
+            {
+              "variant_id": "JPVAR-049",
+              "variant_name": "紅葉＋福岡城跡",
+              "condition_geometry": "{\"camera_zone\":\"福岡城跡 seasonal Camera Zone\",\"subject\":\"autumn foliage + castle-ruin context\"}",
+              "hard_gates": "紅葉實際轉色；公共區可達",
+              "required_conditions": "色葉實際可辨；無強降水",
+              "boosters": "色彩完整；低角度日光",
+              "penalties": "尚未轉色／大量落葉；強風雨",
+              "formula_status": "research_ready_seasonal_foreground_provider_pending"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-032-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official Fukuoka Castle seasonal guide explicitly documents plum, cherry, wisteria and autumn foliage inside the castle grounds.",
+              "name": "福岡城跡・舞鶴公園季節花木 Camera Zone",
+              "coord_confidence": "not_required_for_area_subject",
+              "verification_status": "official_seasonal_flora_subject",
+              "geometry_type": "area",
+              "geometry_extent_m": 1200,
+              "geometry_note": "依實際季節花木位置在公共園區內移動構圖；不把月份當成花況證明。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-033",
+      "canonical_name": "唐津城",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B51_JP_RESEARCH_BATCH16",
+      "research_sources": [
+        {
+          "authority": "Karatsu Tourism Association — Karatsu Castle",
+          "url": "https://www.karatsu-kankou.jp/spots/detail/181/",
+          "verified_on": "2026-09-27",
+          "supports": "Official tourism confirms Karatsu Castle, current keep hours 09:00–17:00 (last entry 16:40), and identifies cherry blossoms and wisteria as major subjects."
+        },
+        {
+          "authority": "Karatsu Tourism Association — history guide",
+          "url": "https://www.karatsu-kankou.jp/guide/history/",
+          "verified_on": "2026-09-27",
+          "supports": "Official guide states the keep panorama over the sea and Niji-no-Matsubara is a defining view."
+        },
+        {
+          "authority": "Karatsu Tourism Association — flower map",
+          "url": "https://www.karatsu-kankou.jp/sp/feature/hanameguri/course02",
+          "verified_on": "2026-09-27",
+          "supports": "Official flower map documents about 220 cherry trees, the old wisteria, and Maizuru Park hours 05:00–22:00."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-033-P01",
+          "spot_id": "jp-033",
+          "name_zh": "唐津城・舞鶴城外觀與海岸城郭",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "minimum_sufficient_local_scene",
+          "formula_version": "v0.04-local-scene-dry-daylight-minimum-sufficient",
+          "formula_confidence": 94,
+          "best_time": "05:00–22:00 舞鶴公園開放時段內，以白天／暮色外部構圖為主",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-050",
+              "variant_name": "唐津城外觀＋舞鶴公園／海岸城郭",
+              "condition_geometry": "{\"camera_zone\":\"唐津城・舞鶴公園 exterior Camera Zone\",\"subject\":\"castle exterior + coastal castle-park context\"}",
+              "hard_gates": "舞鶴公園公共區可達；不把天守內部開館時間套用到所有外部構圖",
+              "required_conditions": "城體清楚可辨；無足以妨礙步行攝影的強降水",
+              "boosters": "柔和斜光；乾燥；低人流",
+              "penalties": "強降水；公園臨時管制",
+              "formula_status": "minimum_sufficient_local_scene"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-033-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official tourism identifies the castle and Maizuru Park as the exterior subject. Existing castle POI coordinate is retained for the broad public area.",
+              "name": "唐津城・舞鶴公園 exterior Camera Zone",
+              "lat": 33.453529,
+              "lon": 129.97818,
+              "coord_confidence": "high",
+              "verification_status": "official_castle_subject_plus_existing_poi_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 500,
+              "geometry_note": "天守周邊與舞鶴公園公共區域；可移動構圖。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "jp-033-P02",
+          "spot_id": "jp-033",
+          "name_zh": "唐津城天守展望・唐津灣與虹之松原",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_dynamic_access_visibility_module",
+          "formula_version": "v0.04-research-ready-karatsu-keep-view-access-pending",
+          "formula_confidence": 95,
+          "best_time": "天守開館 09:00–17:00（最終入館16:40；季節變更可能）",
+          "best_season": "全年；遠景需良好能見度",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-051",
+              "variant_name": "天守5F・唐津灣＋虹之松原全景",
+              "condition_geometry": "{\"camera_zone\":\"唐津城天守5F展望フロア\",\"subject\":\"Karatsu Bay + Niji-no-Matsubara panorama\"}",
+              "hard_gates": "天守實際開館且已入館；現行一般時段09:00–17:00、16:40最終入館；需可確認當日設施狀態",
+              "required_conditions": "唐津灣與虹之松原主要層次可辨；能見度足夠",
+              "boosters": "空氣透明度高；低霾",
+              "penalties": "天守休館／超過最終入館；濃霧；低雲；強降水",
+              "formula_status": "research_ready_dynamic_access_visibility_provider_pending"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-033-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official tourism states the fifth-floor keep panorama over the sea and Niji-no-Matsubara is a defining view. Facility access remains a separate runtime dependency.",
+              "name": "唐津城天守5F展望 Camera Zone",
+              "lat": 33.453529,
+              "lon": 129.97818,
+              "coord_confidence": "high",
+              "verification_status": "official_keep_panorama_subject",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 80,
+              "geometry_note": "天守5F展望樓層；需付費入館並受當日營運狀態約束。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "jp-033-P03",
+          "spot_id": "jp-033",
+          "name_zh": "唐津城・櫻花與藤花季節構圖",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_seasonal_foreground_module",
+          "formula_version": "v0.04-research-ready-karatsu-seasonal-flora-state-pending",
+          "formula_confidence": 94,
+          "best_time": "僅在花況實際成立時",
+          "best_season": "櫻花通常春季；藤花約4月中旬～5月上旬；實際花況不得只靠月份保證",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-052",
+              "variant_name": "櫻花＋唐津城",
+              "condition_geometry": "{\"camera_zone\":\"唐津城・舞鶴公園 seasonal Camera Zone\",\"subject\":\"cherry blossoms + castle\"}",
+              "hard_gates": "櫻花實際開花；舞鶴公園公共區可達",
+              "required_conditions": "花況與城體同框可辨",
+              "boosters": "滿開附近；柔光",
+              "penalties": "未開／已謝；強風雨",
+              "formula_status": "research_ready_seasonal_foreground_provider_pending"
+            },
+            {
+              "variant_id": "JPVAR-053",
+              "variant_name": "百年藤＋唐津城",
+              "condition_geometry": "{\"camera_zone\":\"唐津城・舞鶴公園 wisteria Camera Zone\",\"subject\":\"old wisteria + castle park\"}",
+              "hard_gates": "藤花實際開花；公共區可達",
+              "required_conditions": "藤花花序實際可辨",
+              "boosters": "4月中旬～5月上旬實際佳況；柔光",
+              "penalties": "未開／已謝；強風雨",
+              "formula_status": "research_ready_seasonal_foreground_provider_pending"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-033-VP03",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Karatsu Tourism Association explicitly identifies Karatsu Castle / Maizuru Park as a cherry and wisteria location.",
+              "name": "唐津城・舞鶴公園季節花木 Camera Zone",
+              "lat": 33.453529,
+              "lon": 129.97818,
+              "coord_confidence": "high",
+              "verification_status": "official_cherry_wisteria_subject",
+              "geometry_type": "area",
+              "geometry_extent_m": 650,
+              "geometry_note": "依實際開花位置在舞鶴公園公共區域移動構圖。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-034",
+      "canonical_name": "長崎哥拉巴園",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B51_JP_RESEARCH_BATCH16",
+      "research_sources": [
+        {
+          "authority": "Glover Garden official — 2026 opening schedule",
+          "url": "https://glover-garden.jp/event-and-news/26532/",
+          "verified_on": "2026-09-27",
+          "supports": "Official 2026 schedule gives date-specific opening/extended-night hours."
+        },
+        {
+          "authority": "Glover Garden official — Former Glover House",
+          "url": "https://glover-garden.jp/about/glover-house/",
+          "verified_on": "2026-09-27",
+          "supports": "Official page verifies the World Heritage former Glover residence and architectural subject."
+        },
+        {
+          "authority": "Glover Garden official — Lantern Night 2026",
+          "url": "https://glover-garden.jp/event-and-news/26562/",
+          "verified_on": "2026-09-27",
+          "supports": "Official 2026 event establishes lanterns, illuminated Western houses and Nagasaki night scenery during explicit 2026 date ranges."
+        },
+        {
+          "authority": "Glover Garden official gallery",
+          "url": "https://glover-garden.jp/gallery/category/night-view/",
+          "verified_on": "2026-09-27",
+          "supports": "Official gallery directly documents night views from the garden and Former Mitsubishi No.2 Dock House."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-034-P01",
+          "spot_id": "jp-034",
+          "name_zh": "哥拉巴園・舊哥拉巴住宅與洋館群",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "minimum_sufficient_local_scene",
+          "formula_version": "v0.04-local-scene-dry-daylight-minimum-sufficient",
+          "formula_confidence": 95,
+          "best_time": "至少以全年標準 08:00–18:00 開園時段作保守推薦；特定日期另有延長開園",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-054",
+              "variant_name": "舊哥拉巴住宅＋歷史洋館群",
+              "condition_geometry": "{\"camera_zone\":\"Glover Garden heritage architecture Camera Zone\",\"subject\":\"Former Glover House + historic Western-style residences\"}",
+              "hard_gates": "園區實際開放；遵守園內拍攝與保存修理限制",
+              "required_conditions": "主要洋館外觀清楚可辨；無足以妨礙園內步行攝影的強降水",
+              "boosters": "柔和日光；低人流；季節植栽",
+              "penalties": "強降水；建物保存修理／臨時封閉",
+              "formula_status": "minimum_sufficient_local_scene"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-034-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official Glover Garden identifies Former Glover House as a World Heritage component and documents the historic Western-style buildings.",
+              "name": "哥拉巴園・舊哥拉巴住宅 heritage Camera Zone",
+              "lat": 32.734389,
+              "lon": 129.869083,
+              "coord_confidence": "high",
+              "verification_status": "official_heritage_architecture_subject_plus_existing_garden_poi",
+              "geometry_type": "area",
+              "geometry_extent_m": 650,
+              "geometry_note": "園內合法參觀動線；個別建物可能因保存修理限制觀覽。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "jp-034-P02",
+          "spot_id": "jp-034",
+          "name_zh": "哥拉巴園・2026 Lantern Night／洋館燈光與長崎夜景",
+          "legacy_theme": "city_night",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_event_state_access_module",
+          "formula_version": "v0.04-research-ready-glover-2026-night-event-access-pending",
+          "formula_confidence": 97,
+          "best_time": "僅限2026官方夜間開園／Lantern Night有效日期，日落後至當日官方閉園前",
+          "best_season": "2026官方公告：4/1–5/31、7/17–10/11、10/12–12/31（部分縮短／取消日依官方公告）",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-055",
+              "variant_name": "Lantern Night＋洋館ライトアップ",
+              "condition_geometry": "{\"camera_zone\":\"Glover Garden 2026 Lantern Night Camera Zone\",\"subject\":\"lanterns + illuminated Western houses\"}",
+              "hard_gates": "2026官方 Lantern Night 當日有效且園區實際夜間開放；取消／貸切縮時日不得推論可拍",
+              "required_conditions": "燈籠／洋館照明實際點亮；園內可合法停留",
+              "boosters": "藍調時段；乾燥；低人流",
+              "penalties": "活動日外；當日提早閉園／取消；強降水",
+              "formula_status": "research_ready_event_state_access_provider_pending"
+            },
+            {
+              "variant_id": "JPVAR-056",
+              "variant_name": "舊三菱第2ドックハウス方向・長崎夜景",
+              "condition_geometry": "{\"camera_zone\":\"Former Mitsubishi No.2 Dock House night-view Camera Zone\",\"subject\":\"Nagasaki city/harbor night view from Glover Garden\"}",
+              "hard_gates": "園區於當日夜間實際開放；須在官方閉園前離場",
+              "required_conditions": "長崎城市／港灣夜景主要層次可辨；能見度足夠",
+              "boosters": "藍調轉夜景；低霾；乾燥",
+              "penalties": "夜間未開園；濃霧／低雲；強降水",
+              "formula_status": "research_ready_event_state_access_provider_pending"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-034-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official 2026 Lantern Night notice explicitly verifies lanterns and illuminated Western houses.",
+              "name": "哥拉巴園 Lantern Night Camera Zone",
+              "lat": 32.734389,
+              "lon": 129.869083,
+              "coord_confidence": "high",
+              "verification_status": "official_2026_lantern_night_subject",
+              "geometry_type": "area",
+              "geometry_extent_m": 650,
+              "geometry_note": "2026官方夜間開園／活動範圍內的園內公共參觀區。",
+              "geometry_confidence": "high"
+            },
+            {
+              "viewpoint_id": "jp-034-VP03",
+              "relation_role": "secondary",
+              "sort_order": 2,
+              "note": "Official gallery directly identifies the night view from Former Mitsubishi No.2 Dock House.",
+              "name": "舊三菱第2ドックハウス Night View Camera Zone",
+              "coord_confidence": "official_subject_location_without_new_coordinate_claim",
+              "verification_status": "official_gallery_night_view_subject",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 120,
+              "geometry_note": "以園內舊三菱第2ドックハウス可合法觀景區為主；不新增未查證精確座標。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "jp-035",
+      "canonical_name": "福岡塔",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B51_JP_RESEARCH_BATCH16",
+      "research_sources": [
+        {
+          "authority": "Fukuoka Tower official — view rooms",
+          "url": "https://www.fukuokatower.co.jp/viewroom/",
+          "verified_on": "2026-09-27",
+          "supports": "Official page identifies the 123 m top observation floor and 360-degree panorama over Fukuoka city and Hakata Bay."
+        },
+        {
+          "authority": "Fukuoka Tower official — hours",
+          "url": "https://www.fukuokatower.co.jp/charge/",
+          "verified_on": "2026-09-27",
+          "supports": "Current official hours are 09:30–22:00 with last admission 21:30."
+        },
+        {
+          "authority": "Fukuoka Tower official — night view",
+          "url": "https://www.fukuokatower.co.jp/viewroom/night.php",
+          "verified_on": "2026-09-27",
+          "supports": "Official night-view page directly supports sunset-to-night city scenery and states exterior tower illumination runs from sunset to 23:00."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "jp-035-P01",
+          "spot_id": "jp-035",
+          "name_zh": "福岡塔123m展望室・福岡市與博多灣360°全景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-minimum-sufficient-visibility",
+          "formula_confidence": 96,
+          "best_time": "09:30–21:30 入館截止前的白天可見光；展望室營業至22:00",
+          "best_season": "全年；遠景需良好能見度",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-057",
+              "variant_name": "123m展望室・福岡市＋博多灣360°全景",
+              "condition_geometry": "{\"camera_zone\":\"Fukuoka Tower observation room Camera Zone\",\"subject\":\"Fukuoka city + Hakata Bay 360-degree panorama\"}",
+              "hard_gates": "可在21:30最終入館前進入；展望室當日正常營運",
+              "required_conditions": "城市與博多灣主要層次可辨；能見度足夠",
+              "boosters": "高透明度；低霾；乾燥",
+              "penalties": "濃霧；低雲；強降水；超過最終入館",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-035-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Fukuoka Tower official page identifies the 123 m top observation room and 360-degree city/bay panorama.",
+              "name": "福岡塔・展望3F 123m Camera Zone",
+              "lat": 33.593274,
+              "lon": 130.351467,
+              "coord_confidence": "high",
+              "verification_status": "official_observation_floor_subject_plus_existing_tower_poi",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 80,
+              "geometry_note": "塔內123m展望樓層；需入館。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "jp-035-P02",
+          "spot_id": "jp-035",
+          "name_zh": "福岡塔・夕景到城市夜景",
+          "legacy_theme": "city_night",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-minimum-sufficient-visibility",
+          "formula_confidence": 96,
+          "best_time": "日落前後至21:30最終入館前；展望室營業至22:00",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-058",
+              "variant_name": "夕燒→福岡城市／博多灣夜景",
+              "condition_geometry": "{\"camera_zone\":\"Fukuoka Tower observation room Camera Zone\",\"subject\":\"sunset transition + Fukuoka urban night view + Hakata Bay\"}",
+              "hard_gates": "當日展望室營運；需在21:30最終入館前進入",
+              "required_conditions": "城市燈光與海灣方向可辨；能見度足夠",
+              "boosters": "藍調時段；低霾；薄雲夕彩",
+              "penalties": "濃霧；低雲；強降水；超過最終入館",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-035-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official night-view page explicitly promotes the transition from sunset to sparkling city night scenery.",
+              "name": "福岡塔・展望室 Sunset/Night Camera Zone",
+              "lat": 33.593274,
+              "lon": 130.351467,
+              "coord_confidence": "high",
+              "verification_status": "official_sunset_night_view_subject_plus_existing_tower_poi",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 80,
+              "geometry_note": "塔內展望室；玻璃反光與人流屬現場構圖條件。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "jp-035-P03",
+          "spot_id": "jp-035",
+          "name_zh": "福岡塔外觀・季節塔身 illumination",
+          "legacy_theme": "city_night",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_lighting_state_module",
+          "formula_version": "v0.04-research-ready-fukuoka-tower-illumination-state-pending",
+          "formula_confidence": 94,
+          "best_time": "日落後至官方塔身 illumination 結束（官方目前記載至23:00）",
+          "best_season": "全年依官方當日／季節 illumination 設計",
+          "condition_variants": [
+            {
+              "variant_id": "JPVAR-059",
+              "variant_name": "塔身 illumination＋百道夜景",
+              "condition_geometry": "{\"camera_zone\":\"Fukuoka Tower exterior public-area Camera Zone\",\"subject\":\"tower seasonal illumination + Momochi night context\"}",
+              "hard_gates": "塔身 illumination 實際點亮；僅限公共可合法停留區",
+              "required_conditions": "塔身燈光清楚可辨；無足以嚴重妨礙拍攝的強降水／濃霧",
+              "boosters": "藍調初段；地面反射；季節主題燈光",
+              "penalties": "未點燈／特殊停燈；濃霧；強降水",
+              "formula_status": "research_ready_managed_lighting_state_provider_pending"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "jp-035-VP03",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official Fukuoka Tower night page states the exterior tower illumination operates from sunset to 23:00 and changes seasonally.",
+              "name": "福岡塔 exterior illumination Camera Zone",
+              "lat": 33.593274,
+              "lon": 130.351467,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_tower_illumination_subject_existing_tower_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 450,
+              "geometry_note": "塔周邊公共區域可移動構圖；未指定唯一外拍腳架點。",
+              "geometry_confidence": "medium_high"
             }
           ]
         }

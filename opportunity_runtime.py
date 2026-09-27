@@ -62,7 +62,7 @@ from access_state import (
     validate_access_registry,
 )
 
-MODULE_VERSION = "opportunity-runtime-r14-jp-batch15-preview"
+MODULE_VERSION = "opportunity-runtime-r15-jp-batch16-preview"
 
 IMPLEMENTED_COMPONENTS = {
     "directional_horizon",
@@ -109,6 +109,8 @@ MINIMUM_SUFFICIENT_VISIBILITY_PROFILES = {
     "jp-005-P01", "jp-003-P01", "jp-006-P01", "jp-007-P01", "jp-009-P01", "jp-010-P01", "jp-011-P01", "jp-011-P02", "jp-012-P01", "jp-015-P01", "jp-016-P01", "jp-016-P02", "jp-017-P01", "jp-018-P01", "jp-020-P01", "jp-023-P01", "jp-024-P01",
     # B50 Rokko Tenrandai: both daytime panorama and researched urban night view require long-range clarity.
     "jp-027-P01", "jp-027-P02",
+    # B51 Fukuoka Tower: both broad panorama and sunset/night view require readable long-range visibility.
+    "jp-035-P01", "jp-035-P02",
 }
 
 MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES = {
@@ -118,6 +120,8 @@ MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES = {
     "jp-025-P01", "jp-026-P01",
     # B50 close-range architecture / historic streetscape subjects.
     "jp-028-P01", "jp-029-P01", "jp-031-P01",
+    # B51 close-range historic architecture / park subjects.
+    "jp-032-P01", "jp-033-P01", "jp-034-P01",
     # B33 Hualien flatland forest corridor is a close-range local scene.
     # Long-range visibility and low cloud are not hard blockers; rain/access
     # remain blockers. Corridor-light geometry is not yet verified, so this
@@ -1411,6 +1415,7 @@ def validate_runtime_registry():
     errors.extend(validate_access_registry())
     if set(MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES) != {
         "jp-025-P01", "jp-026-P01", "jp-028-P01", "jp-029-P01", "jp-031-P01",
+        "jp-032-P01", "jp-033-P01", "jp-034-P01",
         "tw-084-P01", "tw-084-P02", "tw-084-P03", "tw-084-P04",
         "tw-084-P05", "tw-084-P06", "tw-084-P07", "tw-084-P08",
         "tw-082-P04", "tw-082-P05", "tw-082-P06", "tw-082-P07", "tw-082-P08",
@@ -1443,8 +1448,8 @@ def validate_runtime_registry():
         errors.append(f"expected 17 marine-state profiles, got {len(MARINE_STATE_PROFILES)}")
     if len(TIDE_STATE_PROFILES) != 14:
         errors.append(f"expected 14 tide-state profiles, got {len(TIDE_STATE_PROFILES)}")
-    if len(ACCESS_DEPENDENT_PROFILE_IDS) != 50:
-        errors.append(f"expected 50 dynamic-access profiles, got {len(ACCESS_DEPENDENT_PROFILE_IDS)}")
+    if len(ACCESS_DEPENDENT_PROFILE_IDS) != 52:
+        errors.append(f"expected 52 dynamic-access profiles, got {len(ACCESS_DEPENDENT_PROFILE_IDS)}")
     expected_access_ready = {"jp-021-P01", "jp-021-P02", "jp-022-P01", "jp-022-P02", "jp-022-P03"}
     if set(ACCESS_RUNTIME_READY_PROFILES) != expected_access_ready:
         errors.append(
