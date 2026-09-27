@@ -585,6 +585,11 @@ def test_adapter_integrity():
     # Homepage discovery must remain place-first. Scene/theme semantics belong to
     # the ranked result/explanation, not intersecting homepage filters.
     index_html = Path("index.html").read_text(encoding="utf-8")
+    styles_css = Path("styles.css").read_text(encoding="utf-8")
+    assert '<link rel="stylesheet" href="./styles.css">' in index_html
+    assert "<style>" not in index_html
+    assert ".timeline-mobile-card" in styles_css
+    assert "@media(max-width:640px)" in styles_css or "@media (max-width:640px)" in styles_css
     assert 'id="theme-nav"' not in index_html
     assert 'id="scene-nav"' not in index_html
     assert 'id="discovery-title"' in index_html
