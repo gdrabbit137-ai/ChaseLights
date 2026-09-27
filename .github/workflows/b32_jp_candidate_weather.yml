@@ -9,11 +9,12 @@ on:
       - "analyze_weather.py"
       - "fetch_data.py"
       - "opportunities.py"
+      - "opportunity_runtime.py"
+      - "runtime_dependencies.py"
       - "runtime_catalog_v004_r4_2.json"
       - "runtime_catalog_manifest_r4_2.json"
       - "runtime_evidence_registry_r4_2.json"
-      - "opportunity_runtime.py"
-      - "runtime_dependencies.py"
+      - "runtime_event_calendar_r4_2.json"
       - "access_state.py"
       - "shinhotaka_access.py"
       - "yahiko_access.py"
@@ -22,6 +23,7 @@ on:
       - "tide_state.py"
       - ".github/workflows/b32_jp_candidate_weather.yml"
   workflow_dispatch:
+
 permissions:
   contents: read
 
@@ -34,7 +36,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
-      - name: Checkout B32 branch
+      - name: Checkout candidate branch
         uses: actions/checkout@v4
 
       - name: Set up Python
@@ -184,6 +186,11 @@ jobs:
               "jp-024": {"jp-024-P01"},
               "jp-025": {"jp-025-P01", "jp-025-P02"},
               "jp-026": {"jp-026-P01"},
+              "jp-027": {"jp-027-P01", "jp-027-P02"},
+              "jp-028": {"jp-028-P01", "jp-028-P02", "jp-028-P03"},
+              "jp-029": {"jp-029-P01", "jp-029-P02"},
+              "jp-030": {"jp-030-P01"},
+              "jp-031": {"jp-031-P01", "jp-031-P02"},
               "jp-027": {"jp-027-P01", "jp-027-P02"},
               "jp-028": {"jp-028-P01", "jp-028-P02", "jp-028-P03"},
               "jp-029": {"jp-029-P01", "jp-029-P02"},
