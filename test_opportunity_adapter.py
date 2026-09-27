@@ -669,6 +669,18 @@ def test_adapter_integrity():
     assert "git add tw_weather.json jp_weather.json us_weather.json weather_details/" in update_weather_workflow
     assert "git rm -f --ignore-unmatch tw_weather_details.json jp_weather_details.json us_weather_details.json" in update_weather_workflow
 
+    # B56: production refresh must follow current canonical/runtime inputs.
+    for required_path in (
+        "runtime_catalog_v004_r4_2.json",
+        "runtime_event_calendar_r4_2.json",
+        "shinhotaka_access.py",
+        "yahiko_access.py",
+    ):
+        assert f'"{required_path}"' in update_weather_workflow, required_path
+    assert "runtime_catalog_v004_r4_2_b15.compact.part" not in update_weather_workflow
+    assert "runtime_catalog_v004_r4_2_b33_hualien_additions.json" not in update_weather_workflow
+    assert '".github/workflows/update_weather.yml"' not in update_weather_workflow
+
     nanya = next(o for o in all_opportunities if o["opportunity_id"] == "tw-072-P01")
     assert runtime_policy(nanya) == "preview_module_available"
     assert dependency_state(nanya)["required_components"] == ("marine_state", "directional_horizon", "visibility")
