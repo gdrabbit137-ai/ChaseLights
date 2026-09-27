@@ -2808,7 +2808,14 @@ def test_active_catalog_weather_generation_guard():
     assert minato["themes"] == ["city_night"]
     assert "OSANBASHI VIEWPOINT" in minato["map_query"]
 
-    assert all(not (spot.get("opportunities") or []) for spot in get_spots("us"))
+    us_spots = get_spots("us")
+    researched_us = {spot["spot_id"] for spot in us_spots if spot.get("opportunities")}
+    assert researched_us == {f"us-{i:03d}" for i in range(1, 6)}
+    assert all(
+        not (spot.get("opportunities") or [])
+        for spot in us_spots
+        if spot["spot_id"] not in researched_us
+    )
 
     stale = analyze_weather._mark_stale({"spot_id": "tw-009", "daily": []}, "weather_fetch_failed")
     assert stale["spot_id"] == "tw-009"
