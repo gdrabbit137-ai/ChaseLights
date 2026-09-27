@@ -21,44 +21,12 @@ on:
       - "access_state.py"
       - "shinhotaka_access.py"
       - "yahiko_access.py"
-      - "runtime_catalog_v004_r4_2_b32_jp_batch01.json"
-      - "runtime_catalog_v004_r4_2_b33_hualien_additions.json"
-      - "runtime_catalog_v004_r4_2_b34_liushishishan_additions.json"
-      - "runtime_catalog_v004_r4_2_b35_liyu_subjects.json"
-      - ".github/workflows/b30_browser_smoke.yml"
-  push:
-    branches:
-      - r4.2-b28-p0-missing-places
-      - r4.2-b31-place-weather-details
-      - r4.2-b32-jp-research-batch01
-      - r4.2-b33-hualien-places
-      - r4.2-b32-jp025-hagi
-      - codex/jp026
-      - codex/b34-liushishishan
-      - codex/b35-liyu-subject-model
-    paths:
-      - "index.html"
-      - "assets/app.js"
-      - "assets/app.css"
-      - "regions.py"
-      - "analyze_weather.py"
-      - "fetch_data.py"
-      - "opportunities.py"
-      - "runtime_catalog_manifest_r4_2.json"
-      - "runtime_catalog_v004_r4_2.json"
-      - "opportunity_runtime.py"
-      - "runtime_event_calendar_r4_2.json"
-      - "runtime_dependencies.py"
-      - "access_state.py"
-      - "shinhotaka_access.py"
-      - "yahiko_access.py"
-      - "runtime_catalog_v004_r4_2_b32_jp_batch01.json"
-      - "runtime_catalog_v004_r4_2_b33_hualien_additions.json"
-      - "runtime_catalog_v004_r4_2_b34_liushishishan_additions.json"
-      - "runtime_catalog_v004_r4_2_b35_liyu_subjects.json"
+      - "spatial_weather.py"
+      - "marine_state.py"
+      - "tide_state.py"
+      - "taxonomy_v004.py"
       - ".github/workflows/b30_browser_smoke.yml"
   workflow_dispatch:
-
 permissions:
   contents: read
 
@@ -79,7 +47,71 @@ jobs:
         with:
           python-version: "3.10"
 
+      - name: Detect weather-impacting PR changes
+        id: weather_changes
+        if: github.event_name == 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import urllib.request
+
+          repo = os.environ["REPOSITORY"]
+          pr_number = os.environ["PR_NUMBER"]
+          token = os.environ["GH_TOKEN"]
+          changed = []
+          page = 1
+          while True:
+              request = urllib.request.Request(
+                  f"https://api.github.com/repos/{repo}/pulls/{pr_number}/files?per_page=100&page={page}",
+                  headers={
+                      "Authorization": f"Bearer {token}",
+                      "Accept": "application/vnd.github+json",
+                      "X-GitHub-Api-Version": "2022-11-28",
+                  },
+              )
+              with urllib.request.urlopen(request, timeout=30) as response:
+                  batch = json.load(response)
+              changed.extend(item["filename"] for item in batch)
+              if len(batch) < 100:
+                  break
+              page += 1
+
+          weather_inputs = {
+              "regions.py",
+              "analyze_weather.py",
+              "fetch_data.py",
+              "opportunities.py",
+              "runtime_catalog_manifest_r4_2.json",
+              "runtime_catalog_v004_r4_2.json",
+              "opportunity_runtime.py",
+              "runtime_event_calendar_r4_2.json",
+              "runtime_dependencies.py",
+              "access_state.py",
+              "shinhotaka_access.py",
+              "yahiko_access.py",
+              "spatial_weather.py",
+              "marine_state.py",
+              "tide_state.py",
+              "taxonomy_v004.py",
+          }
+          impacting = sorted(set(changed) & weather_inputs)
+          regenerate = bool(impacting)
+          print(json.dumps({
+              "changed_files": changed,
+              "weather_impacting_files": impacting,
+              "regenerate_weather": regenerate,
+          }, indent=2))
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
+              output.write(f"regenerate={'true' if regenerate else 'false'}\n")
+          PY
+
       - name: Generate Taiwan and Japan candidate weather
+        if: github.event_name != 'pull_request' || steps.weather_changes.outputs.regenerate == 'true'
         run: |
           python analyze_weather.py tw
           python analyze_weather.py jp
