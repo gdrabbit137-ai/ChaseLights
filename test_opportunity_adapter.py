@@ -414,7 +414,7 @@ def test_adapter_integrity():
     assert distant["eligible"] is False
     assert distant["reason"] == "visibility_too_low"
     assert MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES == {
-        "jp-025-P01", "jp-026-P01",
+        "jp-025-P01", "jp-026-P01", "jp-028-P01", "jp-029-P01", "jp-031-P01",
         "tw-084-P01", "tw-084-P02", "tw-084-P03", "tw-084-P04",
         "tw-084-P05", "tw-084-P06", "tw-084-P07", "tw-084-P08",
         "tw-082-P04", "tw-082-P05", "tw-082-P06", "tw-082-P07", "tw-082-P08",
@@ -2487,11 +2487,33 @@ def test_active_catalog_weather_generation_guard():
     # researched Japan Place must not leak legacy scoring into the remaining pending Places.
     jp_spots = get_spots("jp")
     researched_jp = {spot["spot_id"] for spot in jp_spots if spot.get("opportunities")}
-    assert researched_jp == {f"jp-{i:03d}" for i in range(1, 27)}
+    assert researched_jp == {f"jp-{i:03d}" for i in range(1, 32)}
     assert all(
         not (spot.get("opportunities") or [])
-        for spot in jp_spots if spot["spot_id"] not in {f"jp-{i:03d}" for i in range(1, 27)}
+        for spot in jp_spots if spot["spot_id"] not in {f"jp-{i:03d}" for i in range(1, 32)}
     )
+    rokko = next(spot for spot in jp_spots if spot["spot_id"] == "jp-027")
+    assert rokko["access_hours"] == ["07:10", "21:00"]
+    assert [o["opportunity_id"] for o in rokko["opportunities"]] == ["jp-027-P01", "jp-027-P02"]
+    assert all(o["runtime_policy"] == "minimum_sufficient_available" for o in rokko["opportunities"])
+
+    koyasan = next(spot for spot in jp_spots if spot["spot_id"] == "jp-028")
+    assert [o["opportunity_id"] for o in koyasan["opportunities"]] == ["jp-028-P01", "jp-028-P02", "jp-028-P03"]
+    assert [o["runtime_policy"] for o in koyasan["opportunities"]] == ["minimum_sufficient_available", "module_pending", "module_pending"]
+
+    iga = next(spot for spot in jp_spots if spot["spot_id"] == "jp-029")
+    assert [o["opportunity_id"] for o in iga["opportunities"]] == ["jp-029-P01", "jp-029-P02"]
+    assert [o["runtime_policy"] for o in iga["opportunities"]] == ["minimum_sufficient_available", "module_pending"]
+
+    naruto = next(spot for spot in jp_spots if spot["spot_id"] == "jp-030")
+    assert [o["opportunity_id"] for o in naruto["opportunities"]] == ["jp-030-P01"]
+    assert naruto["opportunities"][0]["runtime_policy"] == "data_insufficient"
+    assert naruto["opportunities"][0]["formula_status"] == "data_insufficient_tidal_current_extremum"
+
+    kurashiki = next(spot for spot in jp_spots if spot["spot_id"] == "jp-031")
+    assert [o["opportunity_id"] for o in kurashiki["opportunities"]] == ["jp-031-P01", "jp-031-P02"]
+    assert [o["runtime_policy"] for o in kurashiki["opportunities"]] == ["minimum_sufficient_available", "module_pending"]
+
     blue_pond = next(spot for spot in jp_spots if spot["spot_id"] == "jp-001")
     assert abs(blue_pond["lat"] - 43.493611) < 1e-9
     assert abs(blue_pond["lon"] - 142.614167) < 1e-9
