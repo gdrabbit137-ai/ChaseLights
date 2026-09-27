@@ -1413,49 +1413,17 @@ def validate_runtime_registry():
     errors.extend(validate_marine_state_registry())
     errors.extend(validate_tide_state_registry())
     errors.extend(validate_access_registry())
-    if set(MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES) != {
-        "jp-025-P01", "jp-026-P01", "jp-028-P01", "jp-029-P01", "jp-031-P01",
-        "jp-032-P01", "jp-033-P01", "jp-034-P01",
-        "tw-084-P01", "tw-084-P02", "tw-084-P03", "tw-084-P04",
-        "tw-084-P05", "tw-084-P06", "tw-084-P07", "tw-084-P08",
-        "tw-082-P04", "tw-082-P05", "tw-082-P06", "tw-082-P07", "tw-082-P08",
-        "tw-082-P09", "tw-082-P10",
-        "tw-083-P02", "tw-083-P03", "tw-083-P04", "tw-083-P05",
-        "tw-035-P07", "tw-035-P08", "tw-035-P10",
-    }:
-        errors.append(
-            "unexpected minimum-sufficient local-scene registry: "
-            f"{sorted(MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES)}"
-        )
-    if len(DIRECTIONAL_HORIZON_SECTORS) != 49:
-        errors.append(
-            f"expected 49 registered directional profiles, got {len(DIRECTIONAL_HORIZON_SECTORS)}"
-        )
-    if set(CLOUD_SKY_GLOW_PROFILES) != {"tw-013-P02", "tw-026-P02", "tw-030-P02", "tw-035-P04"}:
-        errors.append(f"unexpected cloud_sky_glow registry: {sorted(CLOUD_SKY_GLOW_PROFILES)}")
-    if len(SPATIAL_WEATHER_PROFILES) != 19:
-        errors.append(f"expected 19 spatial weather profiles, got {len(SPATIAL_WEATHER_PROFILES)}")
-    expected_astro = {
-        "jp-021-P02",
-        "tw-019-P05", "tw-024-P05", "tw-035-P05", "tw-036-P02",
-        "tw-038-P02", "tw-040-P06", "tw-045-P03", "tw-070-P02", "tw-076-P02", "tw-080-P02",
-    }
-    if set(ASTRONOMY_EPHEMERIS_PROFILES) != expected_astro:
-        errors.append(
-            f"unexpected astronomy ephemeris registry: {sorted(ASTRONOMY_EPHEMERIS_PROFILES)}"
-        )
-    if len(MARINE_STATE_PROFILES) != 17:
-        errors.append(f"expected 17 marine-state profiles, got {len(MARINE_STATE_PROFILES)}")
-    if len(TIDE_STATE_PROFILES) != 14:
-        errors.append(f"expected 14 tide-state profiles, got {len(TIDE_STATE_PROFILES)}")
-    if len(ACCESS_DEPENDENT_PROFILE_IDS) != 52:
-        errors.append(f"expected 52 dynamic-access profiles, got {len(ACCESS_DEPENDENT_PROFILE_IDS)}")
-    expected_access_ready = {"jp-021-P01", "jp-021-P02", "jp-022-P01", "jp-022-P02", "jp-022-P03"}
-    if set(ACCESS_RUNTIME_READY_PROFILES) != expected_access_ready:
-        errors.append(
-            "unexpected dynamic-access runtime-ready profiles: "
-            f"{sorted(ACCESS_RUNTIME_READY_PROFILES)}"
-        )
+    if MINIMUM_SUFFICIENT_VISIBILITY_PROFILES & MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES:
+        errors.append("minimum-sufficient visibility/local-scene registries overlap")
+    for registry_name, profile_ids in (
+        ("minimum_sufficient_visibility", MINIMUM_SUFFICIENT_VISIBILITY_PROFILES),
+        ("minimum_sufficient_local_scene", MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES),
+        ("cloud_sky_glow", CLOUD_SKY_GLOW_PROFILES),
+        ("astronomy_ephemeris", ASTRONOMY_EPHEMERIS_PROFILES),
+    ):
+        for oid in profile_ids:
+            if not str(oid).startswith(("tw-", "jp-", "us-")):
+                errors.append(f"{registry_name}: invalid Opportunity id {oid}")
     for oid, sector in DIRECTIONAL_HORIZON_SECTORS.items():
         if not oid.startswith(("tw-", "jp-", "us-")):
             errors.append(f"{oid}: unsupported regional Opportunity id")

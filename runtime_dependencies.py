@@ -4,7 +4,7 @@ This module separates content formula status from runtime implementation state.
 Every needs_* status maps to an explicit set of reusable runtime components.
 """
 
-DEPENDENCY_INVENTORY_VERSION = "r4.2-b50-deps-v12-naruto"
+DEPENDENCY_INVENTORY_VERSION = "r4.2-b58-deps-v13-semantic-registry"
 
 FORMULA_DEPENDENCIES = {
     "needs_visibility_module": ("visibility",),
@@ -122,6 +122,43 @@ OPPORTUNITY_DEPENDENCY_OVERRIDES = {
 }
 
 
+# Explicit profile-configuration gaps for implemented components.
+# These are not magic counts: each ID is a known catalog dependency that
+# intentionally has no configured runtime profile yet. Adapter tests assert
+# registered profiles + these gaps exactly cover canonical dependencies.
+RUNTIME_PROFILE_GAPS = {
+    "spatial_weather_vertical_cloud": frozenset({
+        "jp-002-P01",
+        "tw-021-P02",
+        "tw-025-P01", "tw-025-P02",
+        "tw-026-P01",
+        "tw-032-P03",
+    }),
+    "directional_horizon": frozenset({
+        "tw-005-P01", "tw-010-P02",
+        "tw-019-P01", "tw-019-P02",
+        "tw-021-P01", "tw-024-P01", "tw-028-P04",
+        "tw-034-P01", "tw-035-P09", "tw-038-P01",
+        "tw-040-P01", "tw-040-P05",
+        "tw-041-P02", "tw-041-P04", "tw-043-P04",
+        "tw-045-P01", "tw-045-P04", "tw-049-P02",
+        "tw-064-P01", "tw-068-P01", "tw-069-P01",
+    }),
+}
+
+
+# Configured profiles that intentionally remain runtime-not-ready because an
+# external prerequisite is missing. Keep these separate from RUNTIME_PROFILE_GAPS,
+# which means no component profile is configured at all.
+RUNTIME_READINESS_GAPS = {
+    "spatial_weather_vertical_cloud": frozenset({
+        # The Alishan boardwalk Camera Zone is researched as a linear zone but
+        # still lacks an exact lat/lon anchor required by the spatial sampler.
+        "tw-032-P02",
+    }),
+}
+
+
 def dependencies_for_status(formula_status):
     return FORMULA_DEPENDENCIES.get(str(formula_status or ""), ())
 
@@ -154,6 +191,27 @@ def validate_dependency_inventory(known_formula_statuses=None):
         unknown = sorted(set(dependencies) - KNOWN_COMPONENTS)
         if unknown:
             errors.append(f"{status}: unknown components {unknown}")
+
+    for component, opportunity_ids in RUNTIME_PROFILE_GAPS.items():
+        if component not in KNOWN_COMPONENTS:
+            errors.append(f"{component}: unknown runtime profile gap component")
+        if not opportunity_ids:
+            errors.append(f"{component}: empty runtime profile gap set")
+        for oid in opportunity_ids:
+            if not str(oid).startswith(("tw-", "jp-", "us-")):
+                errors.append(f"{component}: invalid runtime profile gap id {oid}")
+
+    for component, opportunity_ids in RUNTIME_READINESS_GAPS.items():
+        if component not in KNOWN_COMPONENTS:
+            errors.append(f"{component}: unknown runtime readiness gap component")
+        if not opportunity_ids:
+            errors.append(f"{component}: empty runtime readiness gap set")
+        overlap = set(opportunity_ids) & set(RUNTIME_PROFILE_GAPS.get(component, ()))
+        if overlap:
+            errors.append(f"{component}: profile/readiness gaps overlap {sorted(overlap)}")
+        for oid in opportunity_ids:
+            if not str(oid).startswith(("tw-", "jp-", "us-")):
+                errors.append(f"{component}: invalid runtime readiness gap id {oid}")
 
     if known_formula_statuses is not None:
         known = set(known_formula_statuses)

@@ -469,8 +469,15 @@ def evaluate_dynamic_access(opportunity, item_data):
 
 def validate_access_registry():
     errors = []
-    if len(ACCESS_DEPENDENT_PROFILE_IDS) != 52:
-        errors.append(f"expected 52 dynamic-access profiles, got {len(ACCESS_DEPENDENT_PROFILE_IDS)}")
+    declared_profile_ids = [
+        oid
+        for profile_ids in _ACCESS_GROUPS.values()
+        for oid in profile_ids
+    ]
+    if len(declared_profile_ids) != len(set(declared_profile_ids)):
+        errors.append("duplicate Opportunity id across access classification groups")
+    if set(declared_profile_ids) != set(ACCESS_DEPENDENT_PROFILE_IDS):
+        errors.append("access classification build mismatch")
     if ACCESS_RUNTIME_READY_PROFILES - ACCESS_DEPENDENT_PROFILE_IDS:
         errors.append("runtime-ready access profile is not classified")
     for oid, contract in ACCESS_PROFILE_CLASSIFICATION.items():

@@ -15,6 +15,7 @@ from opportunity_runtime import (
     evaluate_radiation_dni,
     evaluate_cloud_light_state,
     evaluate_cloud_sky_glow,
+    CLOUD_SKY_GLOW_PROFILES,
     evaluate_astronomy_ephemeris,
     ASTRONOMY_EPHEMERIS_PROFILES,
     evaluate_opportunity_modules,
@@ -31,6 +32,8 @@ from runtime_dependencies import (
     OPPORTUNITY_DEPENDENCY_OVERRIDES,
     dependencies_for_status,
     dependencies_for_opportunity,
+    RUNTIME_PROFILE_GAPS,
+    RUNTIME_READINESS_GAPS,
     validate_dependency_inventory,
 )
 from spatial_weather import (
@@ -160,6 +163,63 @@ def test_adapter_integrity():
     assert sum(len(s["opportunities"]) for s in curated.values()) == tw_manifest["counts"]["opportunities"]
 
     all_opportunities = _all_opportunities()
+    op_by_id = {o["opportunity_id"]: o for o in all_opportunities}
+
+    # B58 semantic registry contract: canonical dependency declarations are the
+    # source of expected coverage. Runtime registries plus explicit intentional
+    # gaps must cover them exactly; no numeric magic counts are required.
+    assert set(MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES) == {
+        o["opportunity_id"]
+        for o in all_opportunities
+        if o["formula_status"] == "minimum_sufficient_local_scene"
+    }
+
+    component_registries = {
+        "directional_horizon": set(DIRECTIONAL_HORIZON_SECTORS),
+        "cloud_sky_glow": set(CLOUD_SKY_GLOW_PROFILES),
+        "spatial_weather_vertical_cloud": set(SPATIAL_WEATHER_PROFILES),
+        "astronomy_ephemeris": set(ASTRONOMY_EPHEMERIS_PROFILES),
+        "marine_state": set(MARINE_STATE_PROFILES),
+        "tide_state": set(TIDE_STATE_PROFILES),
+        "dynamic_access": set(ACCESS_DEPENDENT_PROFILE_IDS),
+    }
+    for component, registered_ids in component_registries.items():
+        required_ids = {
+            o["opportunity_id"]
+            for o in all_opportunities
+            if component in dependencies_for_opportunity(o)
+        }
+        gap_ids = set(RUNTIME_PROFILE_GAPS.get(component, ()))
+        assert registered_ids.isdisjoint(gap_ids), (component, registered_ids & gap_ids)
+        assert registered_ids | gap_ids == required_ids, (
+            component,
+            sorted(required_ids - registered_ids - gap_ids),
+            sorted((registered_ids | gap_ids) - required_ids),
+        )
+        readiness_gap_ids = set(RUNTIME_READINESS_GAPS.get(component, ()))
+        assert readiness_gap_ids <= registered_ids, (
+            component, sorted(readiness_gap_ids - registered_ids)
+        )
+        for oid in registered_ids:
+            if component == "dynamic_access":
+                continue
+            state = dependency_state(op_by_id[oid])
+            if oid in readiness_gap_ids:
+                assert component in state["missing_components"], (component, oid)
+            else:
+                assert component in state["ready_components"], (component, oid)
+        for oid in gap_ids:
+            assert component in dependency_state(op_by_id[oid])["missing_components"], (component, oid)
+
+    assert set(ACCESS_PROFILE_CLASSIFICATION) == set(ACCESS_DEPENDENT_PROFILE_IDS)
+    assert set(ACCESS_RUNTIME_READY_PROFILES) <= set(ACCESS_DEPENDENT_PROFILE_IDS)
+    for oid in ACCESS_DEPENDENT_PROFILE_IDS:
+        state = dependency_state(op_by_id[oid])
+        if oid in ACCESS_RUNTIME_READY_PROFILES:
+            assert "dynamic_access" in state["ready_components"], oid
+        else:
+            assert "dynamic_access" in state["missing_components"], oid
+
     assert sum(len(o["condition_variants"]) for o in all_opportunities) == CATALOG_MANIFEST["totals"]["condition_variants"]
     assert sum(len(o["viewpoints"]) for o in all_opportunities) == CATALOG_MANIFEST["totals"]["profile_viewpoint_relations"]
     assert not any(o["formula_status"] == "legacy_fallback_pending_curated" for o in all_opportunities)
@@ -364,65 +424,56 @@ def test_adapter_integrity():
     assert danongdafu_local["lighting_geometry_verified"] is False
     assert danongdafu_local["lighting_geometry_note"] == "forest_corridor_direction_and_canopy_geometry_not_yet_verified"
 
-    op_by_id = {o["opportunity_id"]: o for o in danongdafu_ops}
+    danongdafu_by_id = {o["opportunity_id"]: o for o in danongdafu_ops}
 
-    golden = evaluate_minimum_sufficient_visibility(op_by_id["tw-084-P02"], {
+    golden = evaluate_minimum_sufficient_visibility(danongdafu_by_id["tw-084-P02"], {
         "local_date": "2026-09-26", "local_time": "16:00", "local_month": 9,
         "vis": 9100, "c_low": 80, "pop": 10, "precipitation": 0.0, "access_open": True,
     })
     assert golden["eligible"] is True
     assert golden["long_range_visibility_is_not_a_blocker"] is True
 
-    foliage_offseason = evaluate_minimum_sufficient_visibility(op_by_id["tw-084-P03"], {
+    foliage_offseason = evaluate_minimum_sufficient_visibility(danongdafu_by_id["tw-084-P03"], {
         "local_date": "2026-09-26", "local_time": "14:00", "local_month": 9,
         "pop": 5, "precipitation": 0.0, "access_open": True,
     })
     assert foliage_offseason["eligible"] is False
     assert foliage_offseason["reason"] == "outside_curated_season"
 
-    flowers_unverified = evaluate_minimum_sufficient_visibility(op_by_id["tw-084-P04"], {
+    flowers_unverified = evaluate_minimum_sufficient_visibility(danongdafu_by_id["tw-084-P04"], {
         "local_date": "2026-09-26", "local_time": "14:00", "local_month": 9,
         "pop": 5, "precipitation": 0.0, "access_open": True,
     })
     assert flowers_unverified["eligible"] is False
     assert flowers_unverified["reason"] == "official_foreground_not_verified_for_date"
 
-    firefly_event = evaluate_minimum_sufficient_visibility(op_by_id["tw-084-P05"], {
+    firefly_event = evaluate_minimum_sufficient_visibility(danongdafu_by_id["tw-084-P05"], {
         "local_date": "2026-03-28", "local_time": "19:30", "local_month": 3,
         "pop": 10, "precipitation": 0.0, "access_open": False,
     })
     assert firefly_event["eligible"] is True
     assert firefly_event["access_override"] is True
 
-    stars_event = evaluate_minimum_sufficient_visibility(op_by_id["tw-084-P06"], {
+    stars_event = evaluate_minimum_sufficient_visibility(danongdafu_by_id["tw-084-P06"], {
         "local_date": "2026-03-28", "local_time": "19:45", "local_month": 3,
         "astronomical_dark": True, "pop": 5, "precipitation": 0.0, "access_open": False,
     })
     assert stars_event["eligible"] is True
     assert stars_event["access_override"] is True
 
-    wildlife = evaluate_minimum_sufficient_visibility(op_by_id["tw-084-P07"], {
+    wildlife = evaluate_minimum_sufficient_visibility(danongdafu_by_id["tw-084-P07"], {
         "local_date": "2026-09-26", "local_time": "09:00", "local_month": 9,
         "pop": 10, "precipitation": 0.0, "access_open": True,
     })
     assert wildlife["eligible"] is True
     assert wildlife["wildlife_presence_forecastable"] is False
 
-    distant = evaluate_minimum_sufficient_visibility(op_by_id["tw-084-P09"], {
+    distant = evaluate_minimum_sufficient_visibility(danongdafu_by_id["tw-084-P09"], {
         "vis": 9100, "c_low": 20, "pop": 10, "precipitation": 0.0, "access_open": True,
     })
     assert distant["eligible"] is False
     assert distant["reason"] == "visibility_too_low"
-    assert MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES == {
-        "jp-025-P01", "jp-026-P01", "jp-028-P01", "jp-029-P01", "jp-031-P01",
-        "jp-032-P01", "jp-033-P01", "jp-034-P01",
-        "tw-084-P01", "tw-084-P02", "tw-084-P03", "tw-084-P04",
-        "tw-084-P05", "tw-084-P06", "tw-084-P07", "tw-084-P08",
-        "tw-082-P04", "tw-082-P05", "tw-082-P06", "tw-082-P07", "tw-082-P08",
-        "tw-082-P09", "tw-082-P10",
-        "tw-083-P02", "tw-083-P03", "tw-083-P04", "tw-083-P05",
-        "tw-035-P07", "tw-035-P08", "tw-035-P10",
-    }
+    # B58 local-scene registry coverage is validated semantically above.
 
     # R4.2 Navigation Target contract: every Place has explicit state, but
     # only individually verified arrival targets may become Directions links.
@@ -456,7 +507,6 @@ def test_adapter_integrity():
     assert runtime_policy(next(o for o in all_opportunities if o["opportunity_id"] == "tw-052-P01")) == "hold"
     assert runtime_policy(next(o for o in all_opportunities if o["opportunity_id"] == "tw-017-P01")) == "data_insufficient"
     assert validate_runtime_registry() == []
-    assert len(DIRECTIONAL_HORIZON_SECTORS) == 49
 
     # Hint-semantic safety: blue hour is a light/time condition, not proof of
     # city lights. Architecture alone must never auto-create a city-night Theme.
@@ -994,14 +1044,12 @@ def test_adapter_integrity():
     assert set(liushishi_result["modules"]) == {"directional_horizon", "cloud_sky_glow"}
 
     assert validate_spatial_weather_registry() == []
-    assert len(SPATIAL_WEATHER_PROFILES) == 19
-
     spatial_pure = [
         o for o in all_opportunities
         if o["formula_status"] == "needs_spatial_weather_module"
         and o["opportunity_id"] in SPATIAL_WEATHER_PROFILES
     ]
-    assert len(spatial_pure) == 17
+    assert spatial_pure
     assert all(runtime_policy(o) == "preview_module_available" for o in spatial_pure)
 
     unsupported_spatial = {
@@ -1009,9 +1057,12 @@ def test_adapter_integrity():
         if o["formula_status"] == "needs_spatial_weather_module"
         and o["opportunity_id"] not in SPATIAL_WEATHER_PROFILES
     }
-    assert unsupported_spatial == {"tw-025-P01", "tw-025-P02", "tw-026-P01"}
+    assert unsupported_spatial == (
+        set(RUNTIME_PROFILE_GAPS["spatial_weather_vertical_cloud"])
+        & {o["opportunity_id"] for o in all_opportunities if o["formula_status"] == "needs_spatial_weather_module"}
+    )
     assert all(
-        runtime_policy(next(o for o in all_opportunities if o["opportunity_id"] == oid)) == "module_pending"
+        runtime_policy(op_by_id[oid]) == "module_pending"
         for oid in unsupported_spatial
     )
 
@@ -1135,10 +1186,7 @@ def test_adapter_integrity():
     assert "spatial_weather_vertical_cloud" in p021_state["missing_components"]
     assert "dynamic_access" in p021_state["missing_components"]
 
-    assert set(ASTRONOMY_EPHEMERIS_PROFILES) == {
-        "jp-021-P02", "tw-019-P05", "tw-024-P05", "tw-035-P05", "tw-036-P02",
-        "tw-038-P02", "tw-040-P06", "tw-045-P03", "tw-070-P02", "tw-076-P02", "tw-080-P02",
-    }
+    # B58 astronomy registry coverage is validated against canonical dependencies above.
 
     pure_astro = [
         o for o in all_opportunities
@@ -1226,16 +1274,7 @@ def test_adapter_integrity():
     assert exact_eval["exact_alignment_verified"] is False
 
     assert validate_marine_state_registry() == []
-    assert set(MARINE_STATE_PROFILES) == {
-        "tw-010-P01", "tw-010-P02", "tw-010-P03",
-        "tw-033-P01", "tw-033-P02",
-        "tw-036-P01", "tw-036-P02",
-        "tw-071-P01", "tw-071-P02",
-        "tw-072-P01", "tw-072-P02", "tw-073-P01",
-        "tw-075-P01",
-        "tw-077-P01", "tw-077-P02",
-        "tw-079-P01", "tw-079-P02",
-    }
+    # B58 marine registry coverage is validated against canonical dependencies above.
 
     calm_marine = {
         "wave_height": 0.6,
@@ -1363,18 +1402,7 @@ def test_adapter_integrity():
     assert astro_marine_diag["tw-036-P02"]["eligible"] is True
 
     assert validate_tide_state_registry() == []
-    assert set(TIDE_STATE_PROFILES) == {
-        "tw-010-P01",
-        "tw-012-P01", "tw-012-P02",
-        "tw-015-P01", "tw-015-P02",
-        "tw-017-P02",
-        "tw-059-P01",
-        "tw-060-P01", "tw-060-P02", "tw-060-P03",
-        "tw-073-P01",
-        "tw-077-P02",
-        "tw-078-P01",
-        "tw-079-P02",
-    }
+    # B58 tide registry coverage is validated against canonical dependencies above.
 
     fake_tide_raw = {
         "latitude": 24.0,
@@ -1457,10 +1485,8 @@ def test_adapter_integrity():
         o for o in all_opportunities
         if "dynamic_access" in dependencies_for_opportunity(o)
     ]
-    assert len(dynamic_profiles) == 52
     assert {o["opportunity_id"] for o in dynamic_profiles} == set(ACCESS_DEPENDENT_PROFILE_IDS)
     assert set(ACCESS_PROFILE_CLASSIFICATION) == set(ACCESS_DEPENDENT_PROFILE_IDS)
-    assert ACCESS_RUNTIME_READY_PROFILES == frozenset({"jp-021-P01", "jp-021-P02", "jp-022-P01", "jp-022-P02", "jp-022-P03"})
     assert HARD_ACCESS_HOLDS["tw-052"]["policy"] == "hold"
     assert {"tw-005", "tw-037", "tw-038", "tw-078", "tw-081", "jp-002", "jp-004", "jp-021", "jp-030", "jp-033", "jp-034"} <= set(OFFICIAL_SOURCE_HINTS)
     assert "tw-063" not in OFFICIAL_SOURCE_HINTS

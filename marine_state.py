@@ -185,20 +185,12 @@ def evaluate_marine_state(opportunity, item_data):
 
 def validate_marine_state_registry():
     errors = []
-    expected = {
-        "tw-010-P01", "tw-010-P02", "tw-010-P03",
-        "tw-033-P01", "tw-033-P02",
-        "tw-036-P01", "tw-036-P02",
-        "tw-071-P01", "tw-071-P02",
-        "tw-072-P01", "tw-072-P02", "tw-073-P01",
-        "tw-075-P01",
-        "tw-077-P01", "tw-077-P02",
-        "tw-079-P01", "tw-079-P02",
-    }
-    if set(MARINE_STATE_PROFILES) != expected:
-        errors.append(f"marine profile registry mismatch: {sorted(MARINE_STATE_PROFILES)}")
+    for oid, config in MARINE_STATE_PROFILES.items():
+        if not str(oid).startswith(("tw-", "jp-", "us-")):
+            errors.append(f"{oid}: invalid Opportunity id")
+        if not str(config.get("exposure") or "").strip():
+            errors.append(f"{oid}: missing marine exposure classification")
     return errors
-
 
 _ERRORS = validate_marine_state_registry()
 if _ERRORS:
