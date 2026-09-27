@@ -3138,6 +3138,35 @@ def test_aurora_state_provider_contract():
     assert clear_dark["reason"] == "local_aurora_dark_clear_match"
     assert clear_dark["chaselights_kp_fallback_used"] is False
     assert clear_dark["exact_visibility_guaranteed"] is False
+    assert 0 <= clear_dark["score_hint"] <= 100
+
+    # Canonical aurora scoring must be invariant to the legacy planetary-Kp
+    # baseline once the same local OVATION runtime diagnostic is supplied.
+    aurora_op = get_opportunities("us", "us-042")[0]
+    diag = {
+        "available": True,
+        "eligible": True,
+        "modules": {"aurora_state": clear_dark},
+    }
+    high_kp_metric = {
+        "score": 99,
+        "status_key": "AURORA_CLEAR",
+        "indicator_key": "IND_CLEAR_SKY",
+        "factors": [{"type": "plus", "key": "kp_good", "value": 9}],
+        "temporal_eligible": True,
+    }
+    low_kp_metric = {
+        "score": 20,
+        "status_key": "AURORA_POOR",
+        "indicator_key": "IND_NO_STAR",
+        "factors": [{"type": "minus", "key": "kp_low", "value": 1}],
+        "temporal_eligible": True,
+    }
+    high_score = fetch_data._score_opportunity(aurora_op, high_kp_metric, diag, "zh-TW")
+    low_score = fetch_data._score_opportunity(aurora_op, low_kp_metric, diag, "zh-TW")
+    assert high_score["score"] == low_score["score"] == clear_dark["score_hint"]
+    assert all(f.get("key") not in {"kp_good", "kp_low", "kp_unavailable"} for f in high_score["factors"])
+    assert any(f.get("key") == "local_aurora_state" for f in high_score["factors"])
 
     daylight = evaluate_aurora_state({}, {
         "aurora_forecast": sample,
