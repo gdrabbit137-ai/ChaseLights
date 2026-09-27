@@ -53,9 +53,15 @@ jobs:
           summary = json.loads(Path("us_weather.json").read_text(encoding="utf-8"))
           spots = summary.get("spots") if isinstance(summary, dict) else summary
 
-          assert summary.get("schema_version") == 10, summary.get("schema_version")
+          assert summary.get("schema_version") == 11, summary.get("schema_version")
           assert len(spots) == 70, len(spots)
           assert len({s["spot_id"] for s in spots}) == 70
+          assert all(
+              "themes" not in day
+              for spot in spots
+              for day in (spot.get("daily") or [])
+              if isinstance(day, dict)
+          ), "schema 11 summary must not publish daily.themes"
           assert not Path("us_weather_details.json").exists(), "regional detail file must remain retired"
 
           shard_dir = Path("weather_details") / "us"
@@ -64,6 +70,7 @@ jobs:
           shard_ids = set()
           for shard_path in shard_files:
               shard = json.loads(shard_path.read_text(encoding="utf-8"))
+              assert shard.get("schema_version") == 11, (shard_path.name, shard.get("schema_version"))
               detail = shard.get("spot") or {}
               assert shard.get("spot_id") == detail.get("spot_id"), shard_path.name
               assert detail.get("spot_id"), shard_path.name
