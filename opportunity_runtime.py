@@ -615,6 +615,11 @@ DIRECTIONAL_HORIZON_SECTORS = {
     "us-001-P01": {"center": 90.0, "tolerance": 85.0, "phase": "sunrise"},
     "us-001-P02": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
     "us-005-P01": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
+    "us-006-P01": {"center": 90.0, "tolerance": 85.0, "phase": "sunrise"},
+    "us-007-P01": {"center": 90.0, "tolerance": 85.0, "phase": "sunrise"},
+    "us-007-P02": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
+    "us-008-P01": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
+    "us-009-P01": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
 }
 
 CLOUD_SKY_GLOW_PROFILES = {
@@ -638,6 +643,9 @@ ASTRONOMY_EPHEMERIS_PROFILES = {
     "tw-080-P02": {"mode": "milky_way_or_star_field"},
     "us-001-P03": {"mode": "milky_way_or_star_field"},
     "us-005-P02": {"mode": "milky_way_or_star_field"},
+    "us-006-P02": {"mode": "milky_way_or_star_field"},
+    "us-007-P03": {"mode": "milky_way_or_star_field"},
+    "us-009-P02": {"mode": "milky_way_or_star_field"},
 }
 
 
