@@ -2994,6 +2994,20 @@ def test_active_catalog_weather_generation_guard():
     assert bounded_end == reflection_end
 
 
+def test_summary_daily_projection_removes_legacy_theme_maps_only():
+    source = [{
+        "date": "2026-09-27",
+        "all": {"score": 88, "opportunity_id": "jp-031-P01"},
+        "opportunities": {"jp-031-P01": {"score": 88}},
+        "themes": {"mountain_view": {"score": 70}, "city_night": {"score": 65}},
+    }]
+    projected = analyze_weather._summary_daily_projection(source)
+    assert source[0]["themes"]["mountain_view"]["score"] == 70
+    assert projected[0]["all"] == source[0]["all"]
+    assert projected[0]["opportunities"] == source[0]["opportunities"]
+    assert "themes" not in projected[0]
+
+
 def test_tag_scores_consumer_deprecation_contract():
     theme_metric = {"score": 81, "status_key": "GOOD"}
     legacy_metric = {"score": 12, "status_key": "LEGACY"}
