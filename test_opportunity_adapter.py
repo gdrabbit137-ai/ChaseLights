@@ -3008,6 +3008,7 @@ def test_tag_scores_consumer_deprecation_contract():
 
     app_js = Path("assets/app.js").read_text(encoding="utf-8")
     assert "item.tag_scores" not in app_js
+    assert "MIN_SCHEMA_VERSION=7, MAX_SCHEMA_VERSION=11" in app_js
 
     # B59 is intentionally staged: producer compatibility remains for one
     # release window while current consumers stop reading tag_scores.
