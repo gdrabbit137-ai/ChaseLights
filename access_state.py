@@ -113,7 +113,7 @@ _ACCESS_GROUPS = {
         "tw-049-P02",
     ),
     "transport_facility_status": ("tw-024-P01", "tw-024-P05", "tw-037-P01", "jp-002-P01", "jp-004-P01", "jp-021-P01", "jp-022-P01", "jp-022-P02"),
-    "road_viewpoint_status": ("tw-034-P01", "us-012-P01", "us-012-P02", "us-013-P02"),
+    "road_viewpoint_status": ("tw-034-P01", "us-012-P01", "us-012-P02", "us-013-P02", "us-017-P01"),
     "public_attraction_notice": ("tw-038-P01", "tw-038-P02", "tw-081-P01", "jp-030-P01", "jp-034-P02", "us-010-P01"),
     "waterfall_trail_status": ("tw-055-P01",),
     "tidal_path_notice": ("tw-059-P01", "tw-078-P01"),
@@ -144,6 +144,13 @@ ACCESS_RUNTIME_READY_PROFILES = frozenset({
 # These are provider-discovery hints, not proof that an Opportunity is open.
 # They document official sources verified during B25 architecture work.
 OFFICIAL_SOURCE_HINTS = {
+    "us-017": {
+        "authority": "USDA Forest Service / WSDOT",
+        "source_kind": "johnston_ridge_sr504_road_and_viewpoint_status",
+        "url": "https://www.fs.usda.gov/r06/giffordpinchot/recreation/south-coldwater-slide-information",
+        "verified_on": "2026-09-27",
+        "note": "Johnston Ridge subject evidence is valid, but ordinary public road access remains blocked by the SR 504 landslide closure. Never infer access from clear weather or season.",
+    },
     "us-012": {
         "authority": "U.S. National Park Service",
         "source_kind": "mount_rainier_seasonal_road_and_viewpoint_status",
