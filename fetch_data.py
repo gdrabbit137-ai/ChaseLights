@@ -36,6 +36,12 @@ from yahiko_access import (
     fetch_yahiko_homepage_status,
     unknown_yahiko_provider_state,
 )
+from aurora_state import (
+    PROVIDER_URLS as AURORA_PROVIDER_URLS,
+    index_ovation_payload,
+    sample_aurora_for_timestamp,
+    spot_requires_aurora_state,
+)
 
 # 後端多國語言狀態與指標字典
 I18N_MESSAGES = {
@@ -158,6 +164,7 @@ def get_text(key, lang="zh-TW"):
 
 
 _NOAA_KP_CACHE = None
+_AURORA_STATE_CACHE = None
 _WEATHER_RESPONSE_CACHE = {}
 _SPATIAL_WEATHER_RESPONSE_CACHE = {}
 _MARINE_RESPONSE_CACHE = {}
@@ -216,6 +223,34 @@ def _request_json(url, timeout=12, attempts=3):
     if last_error is not None:
         raise last_error
     raise RuntimeError("weather request failed without an exception")
+
+
+
+def _fetch_aurora_state_provider(force=False):
+    """Fetch/index NOAA OVATION once per generator process.
+
+    Failure is cached as an empty object so dozens of Alaska Places do not
+    repeatedly hammer a provider that is unavailable or returning a challenge.
+    No planetary-Kp fallback is allowed for canonical aurora_state.
+    """
+    global _AURORA_STATE_CACHE
+    if _AURORA_STATE_CACHE is not None and not force:
+        return _AURORA_STATE_CACHE
+
+    errors = []
+    for url in AURORA_PROVIDER_URLS:
+        try:
+            payload = _request_json(url, timeout=15, attempts=2)
+            indexed = index_ovation_payload(payload)
+            indexed["source_url"] = url
+            _AURORA_STATE_CACHE = indexed
+            return indexed
+        except Exception as exc:
+            errors.append(f"{url}: {type(exc).__name__}: {exc}")
+
+    print("NOAA OVATION aurora fetch unavailable: " + " | ".join(errors))
+    _AURORA_STATE_CACHE = {}
+    return _AURORA_STATE_CACHE
 
 
 def fetch_noaa_kp_series(force=False):
@@ -1522,6 +1557,12 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
             print(f"Tide fetch error for {spot.get('spot_id')}: {tide_error}")
             tide_index = None
 
+        aurora_index = (
+            _fetch_aurora_state_provider()
+            if spot_requires_aurora_state(spot)
+            else None
+        )
+
         shinhotaka_access_provider = (
             _fetch_shinhotaka_access_provider()
             if spot.get("spot_id") == "jp-021"
@@ -1582,6 +1623,10 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
                 tide_sample_for_timestamp(tide_index, int(ts))
                 if tide_index is not None else None
             )
+            aurora_forecast = (
+                sample_aurora_for_timestamp(aurora_index, lat, lon, int(ts))
+                if aurora_index else None
+            )
 
             item_data = {
                 "spot_id": spot.get("spot_id"),
@@ -1628,6 +1673,7 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
                 "spatial_weather": spatial_weather,
                 "marine_forecast": marine_forecast,
                 "tide_forecast": tide_forecast,
+                "aurora_forecast": aurora_forecast,
                 **astro,
             }
             if spot.get("spot_id") == "jp-021":
