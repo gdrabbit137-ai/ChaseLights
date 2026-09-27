@@ -79,16 +79,15 @@ Verified:
 - Cook's Meadow also has official Half Dome views.
 
 Proposed Opportunity:
-- P01 Sentinel Bridge Half Dome sunset + Merced River reflection.
+- P01 Sentinel Bridge Half Dome sunset / river foreground.
 
 Runtime design:
-- Add reusable formula status:
-  `needs_directional_horizon_water_surface_module`
-  -> (`directional_horizon`, `water_surface_state`)
-- This intentionally omits `dynamic_access`: Sentinel Bridge is documented as year-round reachable.
-- Configure sunset directional profile.
-- Generic water_surface_state can conservatively rate calmness from wind/precipitation.
-- Low seasonal river level is a quality booster/context, not inferred as guaranteed from month alone.
+- Use directional_horizon + visibility for the base sunset subject.
+- Treat a mirror-like Merced River reflection as a documented photographic booster, not a runtime hard gate in this batch.
+- Reason: ChaseLights currently fetches ordinary weather from the Place coordinate. The legacy us-008 coordinate is the Half Dome feature itself, while the Camera Zone is Sentinel Bridge on the valley floor. Reusing that mountain-coordinate wind as a river-surface proxy would be physically wrong.
+- Do not enable water_surface_state for this Camera Zone until ChaseLights supports an explicit weather-sample coordinate separate from Place identity / Camera Zone / Navigation Target.
+- Sentinel Bridge is documented as reachable by car year-round.
+- Low seasonal river level is context only; month alone does not prove a reflection.
 
 ## us-009 — Yosemite Tunnel View
 
@@ -147,7 +146,7 @@ Expected US migrated range after implementation:
 
 1. Rebuild from latest main after B61 is merged.
 2. Add canonical entries for us-006..010.
-3. Add `needs_directional_horizon_water_surface_module` dependency mapping.
+3. Keep the Sentinel Bridge reflection as an unscored booster until Camera Zone-specific weather sampling exists.
 4. Configure directional profiles for:
    - us-006-P01
    - us-007-P01
