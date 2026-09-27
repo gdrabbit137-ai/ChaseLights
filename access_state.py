@@ -112,8 +112,8 @@ _ACCESS_GROUPS = {
         "tw-045-P01", "tw-045-P03", "tw-045-P04",
         "tw-049-P02",
     ),
-    "transport_facility_status": ("tw-024-P01", "tw-024-P05", "tw-037-P01", "jp-002-P01", "jp-004-P01", "jp-021-P01", "jp-022-P01", "jp-022-P02", "us-048-P02", "us-060-P02", "us-064-P01"),
-    "road_viewpoint_status": ("tw-034-P01", "us-012-P01", "us-012-P02", "us-013-P02", "us-017-P01", "us-038-P01", "us-041-P01", "us-041-P02", "us-046-P01", "us-046-P02", "us-055-P01", "us-055-P02", "us-056-P01", "us-056-P02", "us-057-P01", "us-057-P02"),
+    "transport_facility_status": ("tw-024-P01", "tw-024-P05", "tw-037-P01", "jp-002-P01", "jp-004-P01", "jp-021-P01", "jp-022-P01", "jp-022-P02", "us-048-P02", "us-060-P02", "us-064-P01", "us-066-P01", "us-066-P02", "us-068-P01", "us-068-P02"),
+    "road_viewpoint_status": ("tw-034-P01", "us-012-P01", "us-012-P02", "us-013-P02", "us-017-P01", "us-038-P01", "us-041-P01", "us-041-P02", "us-046-P01", "us-046-P02", "us-055-P01", "us-055-P02", "us-056-P01", "us-056-P02", "us-057-P01", "us-057-P02", "us-067-P01", "us-070-P01"),
     "public_attraction_notice": ("tw-038-P01", "tw-038-P02", "tw-081-P01", "jp-030-P01", "jp-034-P02", "us-010-P01", "us-027-P01", "us-029-P01", "us-047-P01", "us-059-P01", "us-059-P02"),
     "waterfall_trail_status": ("tw-055-P01",),
     "tidal_path_notice": ("tw-059-P01", "tw-078-P01"),
@@ -144,6 +144,34 @@ ACCESS_RUNTIME_READY_PROFILES = frozenset({
 # These are provider-discovery hints, not proof that an Opportunity is open.
 # They document official sources verified during B25 architecture work.
 OFFICIAL_SOURCE_HINTS = {
+    "us-070": {
+        "authority": "Alaska Division of Parks and Outdoor Recreation",
+        "source_kind": "independence_mine_hatcher_pass_current_road_trail_access",
+        "url": "https://dnr.alaska.gov/parks/asp/curevnts.htm",
+        "verified_on": "2026-09-27",
+        "note": "Independence Mine pedestrian access and vehicle access differ by gate/season, while Hatcher Pass road, snow and avalanche conditions change dynamically. Favorable photography weather must not imply safe current access.",
+    },
+    "us-068": {
+        "authority": "U.S. National Park Service",
+        "source_kind": "noatak_remote_air_taxi_and_river_trip_access",
+        "url": "https://home.nps.gov/noat/planyourvisit/floating.htm",
+        "verified_on": "2026-09-27",
+        "note": "Noatak River trips are remote and primarily accessed by air taxi, with no facilities or services once visitors depart. A representative weather coordinate must not be interpreted as an airstrip or guaranteed transport state.",
+    },
+    "us-067": {
+        "authority": "Bureau of Land Management",
+        "source_kind": "dalton_highway_yukon_crossing_current_road_access",
+        "url": "https://www.blm.gov/office/central-yukon-field-office",
+        "verified_on": "2026-09-27",
+        "note": "Yukon Crossing is at Dalton Highway mile 56. Current road, ice, construction and remote-driving conditions remain independent of favorable visibility at the river.",
+    },
+    "us-066": {
+        "authority": "U.S. National Park Service",
+        "source_kind": "serpentine_hot_springs_remote_transport_access",
+        "url": "https://www.nps.gov/bela/planyourvisit/shs_travel.htm",
+        "verified_on": "2026-09-27",
+        "note": "There are no roads into Bering Land Bridge. Serpentine is usually reached by air taxi or small plane, and the unmaintained airstrip plus weather/transport state must be checked independently of photography conditions.",
+    },
     "us-064": {
         "authority": "Alyeska Resort",
         "source_kind": "alyeska_aerial_tram_current_operation",
