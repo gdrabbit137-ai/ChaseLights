@@ -113,7 +113,7 @@ MINIMUM_SUFFICIENT_VISIBILITY_PROFILES = {
     "jp-035-P01", "jp-035-P02",
     # B61 US: broad Horseshoe Bend and Monument Valley landscapes need readable long-range visibility.
     "us-002-P01", "us-004-P01", "us-009-P01", "us-011-P02", "us-013-P01", "us-015-P02",
-    "us-019-P01", "us-026-P02", "us-028-P01", "us-029-P01", "us-030-P01",
+    "us-019-P01", "us-026-P02", "us-028-P01", "us-030-P01",
 }
 
 MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES = {
