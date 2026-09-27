@@ -318,6 +318,7 @@ def _detail_hourly_projection(hourly):
             continue
         row = dict(item)
         row.pop("opportunity_runtime", None)
+        row.pop("tag_scores", None)
         projected.append(row)
     return projected
 
