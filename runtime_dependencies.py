@@ -4,7 +4,7 @@ This module separates content formula status from runtime implementation state.
 Every needs_* status maps to an explicit set of reusable runtime components.
 """
 
-DEPENDENCY_INVENTORY_VERSION = "r4.2-b72-deps-v17-aurora-state"
+DEPENDENCY_INVENTORY_VERSION = "r4.2-b79-deps-v18-aurora-runtime"
 
 FORMULA_DEPENDENCIES = {
     "needs_visibility_module": ("visibility",),
