@@ -126,6 +126,9 @@ jobs:
                   summary.get("updated_at"),
               )
               detail = shard.get("spot") or {}
+              for hourly_row in detail.get("hourly_forecast", []) or []:
+                  assert "tag_scores" not in hourly_row, (shard_path.name, "published_tag_scores_duplicate")
+                  assert "theme_scores" in hourly_row, (shard_path.name, "theme_scores_missing")
               assert shard.get("spot_id") == detail.get("spot_id"), shard_path.name
               assert detail.get("spot_id"), shard_path.name
               hourly = detail.get("hourly_forecast") or []
