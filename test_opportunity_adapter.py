@@ -33,6 +33,7 @@ from runtime_dependencies import (
     dependencies_for_status,
     dependencies_for_opportunity,
     RUNTIME_PROFILE_GAPS,
+    RUNTIME_READINESS_GAPS,
     validate_dependency_inventory,
 )
 from spatial_weather import (
@@ -195,10 +196,18 @@ def test_adapter_integrity():
             sorted(required_ids - registered_ids - gap_ids),
             sorted((registered_ids | gap_ids) - required_ids),
         )
-        # Registry membership means the component has a curated/configured
-        # profile. It does not universally imply runtime readiness: some
-        # components (notably spatial weather) also require verified Camera
-        # coordinates or other per-Opportunity prerequisites.
+        readiness_gap_ids = set(RUNTIME_READINESS_GAPS.get(component, ()))
+        assert readiness_gap_ids <= registered_ids, (
+            component, sorted(readiness_gap_ids - registered_ids)
+        )
+        for oid in registered_ids:
+            if component == "dynamic_access":
+                continue
+            state = dependency_state(op_by_id[oid])
+            if oid in readiness_gap_ids:
+                assert component in state["missing_components"], (component, oid)
+            else:
+                assert component in state["ready_components"], (component, oid)
         for oid in gap_ids:
             assert component in dependency_state(op_by_id[oid])["missing_components"], (component, oid)
 
