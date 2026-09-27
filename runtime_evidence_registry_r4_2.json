@@ -1278,6 +1278,53 @@
         }
       ],
       "forecast_boundary": "塔身 illumination 題材存在與一般點燈時段已驗證；實際當日設計／特殊停燈仍需 managed-lighting state。"
+    },
+    "us-001-P03": {
+      "status": "verified",
+      "grade": "A",
+      "subject": "大峽谷南緣・星空／銀河與峽谷或Watchtower前景",
+      "evidence_scope": "Grand Canyon NPS夜空頁明確指出South Rim可自行觀星，列出Mather Point與Desert View等觀星地點，並特別指出Desert View Watchtower可作Milky Way核心前景。",
+      "sources": [
+        {
+          "title": "Grand Canyon National Park — Night Skies",
+          "url": "https://www.nps.gov/grca/learn/nature/night-skies.htm"
+        }
+      ],
+      "forecast_boundary": "星空／銀河題材與前景存在已由NPS驗證；runtime僅評估天文黑夜、月光與天空條件，不保證銀河核心精準對位。"
+    },
+    "us-003-P02": {
+      "status": "verified",
+      "grade": "A",
+      "subject": "Upper Antelope Canyon・季節性直射光束",
+      "evidence_scope": "Navajo Nation Parks明確規定Antelope Canyon僅能由授權導覽進入；其官方列名營運商Antelope Canyon Tours的FAQ直接說明晴天、約11:20時段及4–9月主要光束季。",
+      "sources": [
+        {
+          "title": "Navajo Nation Parks — Antelope Canyon Tour Operators",
+          "url": "https://navajonationparks.org/guided-tour-operators/antelope-canyon-tour-operators/"
+        },
+        {
+          "title": "Antelope Canyon Tours — FAQ",
+          "url": "https://www.antelopecanyon.com/faq/"
+        }
+      ],
+      "forecast_boundary": "光束題材存在與主要季節／時段有Place-specific證據；雲量、直射光與tour可用性只影響當次可拍性，晴天預報不能保證實際光束。"
+    },
+    "us-005-P02": {
+      "status": "verified",
+      "grade": "A",
+      "subject": "Balanced Rock・星空／銀河夜攝",
+      "evidence_scope": "Arches NPS直接稱Balanced Rock為理想觀星與夜間攝影地點，並展示星軌／夜空前景；NPS另提供公園夜間攝影規範。",
+      "sources": [
+        {
+          "title": "Arches National Park — Balanced Rock",
+          "url": "https://www.nps.gov/arch/planyourvisit/balancedrock.htm"
+        },
+        {
+          "title": "Arches National Park — Photography",
+          "url": "https://www.nps.gov/arch/planyourvisit/photography.htm"
+        }
+      ],
+      "forecast_boundary": "夜空攝影題材存在已由NPS驗證；runtime評估天文黑夜、月光與雲量，不自動保證Milky Way核心對位。"
     }
   }
 }

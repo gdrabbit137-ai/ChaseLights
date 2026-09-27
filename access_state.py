@@ -98,7 +98,7 @@ _ACCESS_GROUPS = {
         "tw-032-P01", "tw-032-P02", "tw-032-P03",
         "tw-056-P01", "tw-056-P02", "tw-057-P02",
     ),
-    "managed_park_booking_notice": ("tw-010-P01", "tw-010-P03"),
+    "managed_park_booking_notice": ("tw-010-P01", "tw-010-P03", "us-003-P01", "us-003-P02"),
     "boardwalk_schedule_notice": ("tw-012-P02", "tw-015-P02"),
     "private_property_permission": (
         "tw-014-P01", "tw-014-P02",
@@ -144,6 +144,13 @@ ACCESS_RUNTIME_READY_PROFILES = frozenset({
 # These are provider-discovery hints, not proof that an Opportunity is open.
 # They document official sources verified during B25 architecture work.
 OFFICIAL_SOURCE_HINTS = {
+    "us-003": {
+        "authority": "Navajo Nation Parks & Recreation",
+        "source_kind": "mandatory_guided_tour_and_authorized_operator_access",
+        "url": "https://navajonationparks.org/guided-tour-operators/antelope-canyon-tour-operators/",
+        "verified_on": "2026-09-27",
+        "note": "All Antelope Canyon access requires a guided tour. Do not treat daylight or favorable weather as proof that a tour slot is available.",
+    },
     "jp-002": {
         "authority": "Daisetsuzan Asahidake Ropeway",
         "source_kind": "official_ropeway_operation_and_mountain_condition_information",

@@ -1,0 +1,130 @@
+name: B61 US Candidate Weather QA
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "regions.py"
+      - "analyze_weather.py"
+      - "fetch_data.py"
+      - "opportunities.py"
+      - "runtime_catalog_v004_r4_2.json"
+      - "runtime_catalog_manifest_r4_2.json"
+      - "runtime_evidence_registry_r4_2.json"
+      - "opportunity_runtime.py"
+      - "runtime_dependencies.py"
+      - "access_state.py"
+      - "spatial_weather.py"
+      - "marine_state.py"
+      - "tide_state.py"
+      - ".github/workflows/b61_us_candidate_weather.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: b61-us-candidate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  candidate-weather:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout candidate branch
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Generate US candidate weather
+        run: python analyze_weather.py us
+
+      - name: Validate US partial-migration contract
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          summary = json.loads(Path("us_weather.json").read_text(encoding="utf-8"))
+          spots = summary.get("spots") if isinstance(summary, dict) else summary
+
+          assert summary.get("schema_version") == 10, summary.get("schema_version")
+          for spot in spots:
+              assert all("themes" not in day for day in (spot.get("daily") or [])), (
+                  spot["spot_id"], "published_daily_theme_duplicate"
+              )
+          assert len(spots) == 70, len(spots)
+          assert len({s["spot_id"] for s in spots}) == 70
+          assert not Path("us_weather_details.json").exists(), "regional detail file must remain retired"
+
+          shard_dir = Path("weather_details") / "us"
+          shard_files = sorted(shard_dir.glob("us-*.json"))
+          assert len(shard_files) == 70, len(shard_files)
+          shard_ids = set()
+          for shard_path in shard_files:
+              shard = json.loads(shard_path.read_text(encoding="utf-8"))
+              detail = shard.get("spot") or {}
+              assert shard.get("spot_id") == detail.get("spot_id"), shard_path.name
+              assert detail.get("spot_id"), shard_path.name
+              shard_ids.add(detail["spot_id"])
+
+          researched = [s for s in spots if s.get("opportunities")]
+          pending = [s for s in spots if not s.get("opportunities")]
+          assert [s["spot_id"] for s in researched] == [f"us-{i:03d}" for i in range(1, 6)], [s["spot_id"] for s in researched]
+          assert len(pending) == 65
+
+          expected = {
+              "us-001": {"us-001-P01", "us-001-P02", "us-001-P03"},
+              "us-002": {"us-002-P01"},
+              "us-003": {"us-003-P01", "us-003-P02"},
+              "us-004": {"us-004-P01"},
+              "us-005": {"us-005-P01", "us-005-P02"},
+          }
+          for spot in researched:
+              assert spot.get("timezone"), (spot["spot_id"], spot.get("timezone"))
+              actual = {o["opportunity_id"] for o in spot["opportunities"]}
+              assert actual == expected[spot["spot_id"]], (spot["spot_id"], actual)
+              for day in spot.get("daily") or []:
+                  winner = day.get("all") or {}
+                  assert not winner.get("research_pending"), (spot["spot_id"], day.get("date"), winner)
+                  daily_ids = set((day.get("opportunities") or {}).keys())
+                  assert daily_ids <= expected[spot["spot_id"]], (spot["spot_id"], daily_ids)
+
+          pending_errors = []
+          for spot in pending:
+              for day in spot.get("daily") or []:
+                  winner = day.get("all") or {}
+                  if winner.get("score") is not None:
+                      pending_errors.append((spot["spot_id"], day.get("date"), "legacy_score_leak", winner.get("score")))
+                  if not winner.get("research_pending"):
+                      pending_errors.append((spot["spot_id"], day.get("date"), "missing_research_pending"))
+          assert pending_errors == [], pending_errors[:20]
+          assert shard_ids == {s["spot_id"] for s in spots}
+
+          report = {
+              "summary_count": len(spots),
+              "detail_shard_count": len(shard_files),
+              "researched_place_ids": [s["spot_id"] for s in researched],
+              "research_pending_count": len(pending),
+              "researched_opportunity_counts": {s["spot_id"]: len(s["opportunities"]) for s in researched},
+          }
+          Path("b61_us_candidate_validation.json").write_text(
+              json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8"
+          )
+          print(json.dumps(report, ensure_ascii=False, indent=2))
+          PY
+
+      - name: Upload US candidate output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: b61-us-candidate-weather
+          path: |
+            us_weather.json
+            b61_us_candidate_validation.json
+          retention-days: 7
