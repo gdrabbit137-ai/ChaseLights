@@ -61,8 +61,14 @@ from access_state import (
     supports_dynamic_access,
     validate_access_registry,
 )
+from aurora_state import (
+    AURORA_STATE_PROFILES,
+    evaluate_aurora_state,
+    supports_aurora_state,
+    validate_aurora_state_registry,
+)
 
-MODULE_VERSION = "opportunity-runtime-r15-jp-batch16-preview"
+MODULE_VERSION = "opportunity-runtime-r16-b79-aurora-preview"
 
 IMPLEMENTED_COMPONENTS = {
     "directional_horizon",
@@ -77,6 +83,7 @@ IMPLEMENTED_COMPONENTS = {
     "marine_state",
     "tide_state",
     "dynamic_access",
+    "aurora_state",
 }
 
 # Manually curated "minimum sufficient" contracts for researched Opportunities
@@ -688,6 +695,8 @@ def component_ready_for_opportunity(component, opportunity):
         return supports_tide_state(opportunity)
     if component == "dynamic_access":
         return supports_dynamic_access(opportunity)
+    if component == "aurora_state":
+        return supports_aurora_state(opportunity)
     return True
 
 
@@ -1363,6 +1372,7 @@ _COMPONENT_EVALUATORS = {
     "marine_state": evaluate_marine_state,
     "tide_state": evaluate_tide_state,
     "dynamic_access": evaluate_dynamic_access,
+    "aurora_state": evaluate_aurora_state,
 }
 
 
@@ -1446,6 +1456,7 @@ def validate_runtime_registry():
     errors.extend(validate_marine_state_registry())
     errors.extend(validate_tide_state_registry())
     errors.extend(validate_access_registry())
+    errors.extend(validate_aurora_state_registry())
     if MINIMUM_SUFFICIENT_VISIBILITY_PROFILES & MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES:
         errors.append("minimum-sufficient visibility/local-scene registries overlap")
     for registry_name, profile_ids in (
