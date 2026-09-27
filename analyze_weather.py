@@ -293,6 +293,16 @@ def _summary_daily_projection(days):
         projected.append(row)
     return projected
 
+
+def _summary_spot_projection(summary):
+    """Apply the published-summary projection to fresh or stale fallback rows."""
+    if not isinstance(summary, dict):
+        return summary
+    projected = dict(summary)
+    projected["daily"] = _summary_daily_projection(projected.get("daily", []))
+    return projected
+
+
 def _detail_hourly_projection(hourly):
     """Remove duplicated diagnostics that are already nested in Opportunity scores.
 
@@ -367,7 +377,8 @@ def analyze_spot(spot, kp_rows=None):
         spot.get("opportunities", []),
         local_today=local_today,
     )
-    summary["daily"] = _summary_daily_projection(summary_days)
+    summary["daily"] = summary_days
+    summary = _summary_spot_projection(summary)
 
     details = dict(common)
     details["hourly_forecast"] = _detail_hourly_projection(hourly)
@@ -451,7 +462,9 @@ def main():
         previous_detail = previous_details.get(spot_id)
         if previous_summary and previous_detail:
             print(f"  ↳ using previous committed weather row for {spot_id}")
-            summaries.append(_mark_stale(previous_summary, "weather_fetch_failed"))
+            summaries.append(
+                _mark_stale(_summary_spot_projection(previous_summary), "weather_fetch_failed")
+            )
             details.append(_mark_stale(previous_detail, "weather_fetch_failed"))
             stale_spot_ids.append(spot_id)
         else:
