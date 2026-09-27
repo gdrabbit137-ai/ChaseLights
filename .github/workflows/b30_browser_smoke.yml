@@ -316,11 +316,11 @@ jobs:
                   .map(s => s.spot_id);
               """)
               report["researched_jp_ids"] = researched_jp_ids
-              assert researched_jp_ids == [f"jp-{i:03d}" for i in range(1, 32)], researched_jp_ids
+              assert researched_jp_ids == [f"jp-{i:03d}" for i in range(1, 36)], researched_jp_ids
 
-              researched_names = {"美瑛青池", "旭岳", "釧路濕原", "函館山夜景", "小樽運河", "摩周湖", "十和田湖", "松島", "磐梯山", "富士山 (河口湖)", "東京鐵塔", "鎌倉大佛", "諏訪湖", "等等力溪谷", "皇居外苑二重橋", "橫濱山下公園", "金澤兼六園", "名古屋城", "濱名湖", "橫濱港未來21", "新穗高・西穗高口展望台", "彌彥山", "京都清水寺", "大阪城公園", "萩城下町・菊屋橫町", "出雲大社", "神戶六甲山", "高野山", "伊賀上野城", "鳴門海峽漩渦", "倉敷美觀地區"}
+              researched_names = {"美瑛青池", "旭岳", "釧路濕原", "函館山夜景", "小樽運河", "摩周湖", "十和田湖", "松島", "磐梯山", "富士山 (河口湖)", "東京鐵塔", "鎌倉大佛", "諏訪湖", "等等力溪谷", "皇居外苑二重橋", "橫濱山下公園", "金澤兼六園", "名古屋城", "濱名湖", "橫濱港未來21", "新穗高・西穗高口展望台", "彌彥山", "京都清水寺", "大阪城公園", "萩城下町・菊屋橫町", "出雲大社", "神戶六甲山", "高野山", "伊賀上野城", "鳴門海峽漩渦", "倉敷美觀地區", "福岡城跡", "唐津城", "長崎哥拉巴園", "福岡塔"}
               researched_cards = [c for c in jp_cards if any(name in c.text for name in researched_names)]
-              assert len(researched_cards) == 31
+              assert len(researched_cards) == 35
               researched_scores = [c.find_element(By.CSS_SELECTOR, ".score-badge").text.strip() for c in researched_cards]
               for card, score_text in zip(researched_cards, researched_scores):
                   if score_text in {"", "—"}:
@@ -505,7 +505,7 @@ jobs:
               assert "菊屋" not in hagi_href
 
               pending_jp_cards = [c for c in jp_cards if not any(name in c.text for name in researched_names)]
-              assert len(pending_jp_cards) == 4
+              assert len(pending_jp_cards) == 0
               pending_jp_scores = [c.find_element(By.CSS_SELECTOR, ".score-badge").text.strip() for c in pending_jp_cards]
               assert all(x in {"", "—"} for x in pending_jp_scores), pending_jp_scores[:20]
               assert all("攝影研究待補" in c.text for c in pending_jp_cards), "non-migrated Japan card leaked legacy scoring"
