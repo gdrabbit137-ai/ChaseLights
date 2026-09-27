@@ -1193,7 +1193,7 @@ def test_adapter_integrity():
         o for o in all_opportunities
         if o["formula_status"] == "needs_astronomy_ephemeris_module"
     ]
-    assert {o["opportunity_id"] for o in pure_astro} == {"tw-035-P05", "tw-070-P02", "tw-076-P02", "tw-080-P02", "us-001-P03", "us-005-P02", "us-006-P02"}
+    assert {o["opportunity_id"] for o in pure_astro} == {"tw-035-P05", "tw-070-P02", "tw-076-P02", "tw-080-P02", "us-001-P03", "us-005-P02", "us-006-P02", "us-012-P02", "us-013-P02", "us-014-P03"}
     assert all(runtime_policy(o) == "preview_module_available" for o in pure_astro)
 
     astro_input = {
@@ -2301,7 +2301,7 @@ def test_adapter_integrity():
 
     us_spots = get_spots("us")
     researched_us = {s["spot_id"] for s in us_spots if s.get("opportunities")}
-    assert researched_us == {f"us-{i:03d}" for i in range(1, 11)}
+    assert researched_us == {f"us-{i:03d}" for i in range(1, 16)}
     assert all(not (s.get("opportunities") or []) for s in us_spots if s["spot_id"] not in researched_us)
 
     us006 = get_opportunities("us", "us-006")
@@ -2344,6 +2344,30 @@ def test_adapter_integrity():
     us010_state = dependency_state(us010[0])
     assert "geothermal_steam_state" in us010_state["missing_components"]
     assert "dynamic_access" in us010_state["missing_components"]
+
+    us011 = get_opportunities("us", "us-011")
+    assert [o["opportunity_id"] for o in us011] == ["us-011-P01", "us-011-P02"]
+    assert all(o["runtime_policy"] == "preview_module_available" for o in us011)
+
+    us012 = get_opportunities("us", "us-012")
+    assert [o["opportunity_id"] for o in us012] == ["us-012-P01", "us-012-P02"]
+    assert all(o["runtime_policy"] == "module_pending" for o in us012)
+    assert ACCESS_PROFILE_CLASSIFICATION["us-012-P01"]["access_type"] == "trail_road_status"
+    assert ACCESS_PROFILE_CLASSIFICATION["us-012-P02"]["access_type"] == "trail_road_status"
+
+    us013 = get_opportunities("us", "us-013")
+    assert [o["opportunity_id"] for o in us013] == ["us-013-P01", "us-013-P02"]
+    assert all(o["runtime_policy"] == "module_pending" for o in us013)
+    assert ACCESS_PROFILE_CLASSIFICATION["us-013-P01"]["access_type"] == "trail_road_status"
+    assert ACCESS_PROFILE_CLASSIFICATION["us-013-P02"]["access_type"] == "trail_road_status"
+
+    us014 = get_opportunities("us", "us-014")
+    assert [o["opportunity_id"] for o in us014] == ["us-014-P01", "us-014-P02", "us-014-P03"]
+    assert all(o["runtime_policy"] == "preview_module_available" for o in us014)
+
+    us015 = get_opportunities("us", "us-015")
+    assert [o["opportunity_id"] for o in us015] == ["us-015-P01"]
+    assert us015[0]["runtime_policy"] == "minimum_sufficient_available"
     assert ACCESS_PROFILE_CLASSIFICATION["us-010-P01"]["access_type"] == "public_attraction_notice"
 
 
@@ -2852,7 +2876,7 @@ def test_active_catalog_weather_generation_guard():
 
     us_spots = get_spots("us")
     researched_us = {spot["spot_id"] for spot in us_spots if spot.get("opportunities")}
-    assert researched_us == {f"us-{i:03d}" for i in range(1, 11)}
+    assert researched_us == {f"us-{i:03d}" for i in range(1, 16)}
     assert all(
         not (spot.get("opportunities") or [])
         for spot in us_spots
