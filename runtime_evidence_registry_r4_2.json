@@ -1355,6 +1355,58 @@
         }
       ],
       "forecast_boundary": "倒影題材存在已驗證；runtime以風與降水估計水面平靜度，無法直接觀測河川水位，因此低水位仍是品質提示而非已驗證即時狀態。"
+    },
+    "us-012-P01": {
+      "status": "verified",
+      "grade": "A",
+      "subject": "Reflection Lakes・Mount Rainier 湖景與鏡面倒影",
+      "evidence_scope": "Mount Rainier NPS直接將Reflection Lakes描述為可反射Mount Rainier的景點，並以平靜晨間倒影作為官方照片／說明。",
+      "sources": [
+        {
+          "title": "Mount Rainier National Park — Reflection Lakes",
+          "url": "https://www.nps.gov/places/reflection-lakes.htm"
+        }
+      ],
+      "forecast_boundary": "倒影題材存在已驗證；runtime本批次不以山體Place座標風速硬判湖面，而把access與能見度列為必要條件，現場低風僅作品質提示。"
+    },
+    "us-012-P02": {
+      "status": "verified",
+      "grade": "A",
+      "subject": "Sunrise・Mount Rainier 星空／銀河",
+      "evidence_scope": "Mount Rainier NPS直接推薦Sunrise Parking Lot與Sunrise Point觀星。",
+      "sources": [
+        {
+          "title": "Mount Rainier National Park — Stargazing at Sunrise",
+          "url": "https://www.nps.gov/thingstodo/star-gazing-at-sunrise.htm"
+        }
+      ],
+      "forecast_boundary": "星空題材存在已驗證；runtime只評估天文條件並要求官方道路access，不能由晴天推論Sunrise Road開放。"
+    },
+    "us-013-P02": {
+      "status": "verified",
+      "grade": "A",
+      "subject": "Crater Lake Rim・暗夜星空／銀河",
+      "evidence_scope": "Crater Lake NPS 2025官方Visitor Guide直接宣傳月黑夜可見Milky Way，並把湖緣列為sky-gazing場域。",
+      "sources": [
+        {
+          "title": "Crater Lake Reflections Visitor Guide Summer/Fall 2025",
+          "url": "https://www.nps.gov/crla/learn/news/upload/Crater_Lake_Reflections_Summer-Fall_2025_Low-Res_508-2.pdf"
+        }
+      ],
+      "forecast_boundary": "銀河／星空題材存在已驗證；runtime仍須通過當期道路／觀景點access，不保證銀河核心精準對位。"
+    },
+    "us-014-P03": {
+      "status": "verified",
+      "grade": "A",
+      "subject": "Mesquite Flat Sand Dunes・暗夜星空／銀河",
+      "evidence_scope": "Death Valley NPS直接指出Mesquite Flat Sand Dunes是觀察著名暗夜星空的好地點。",
+      "sources": [
+        {
+          "title": "Death Valley National Park — Mesquite Flat Sand Dunes",
+          "url": "https://home.nps.gov/places/mesquite-flat-sand-dunes.htm"
+        }
+      ],
+      "forecast_boundary": "暗夜星空題材存在已驗證；runtime評估天文黑夜、月光與雲量，不保證銀河核心精準構圖。"
     }
   }
 }
