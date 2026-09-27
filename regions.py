@@ -1680,8 +1680,11 @@ SPOT_OVERRIDES.update({
     "波士頓天際線": {"lat": 42.364590, "lon": -71.037200, "map_query": "Piers Park East Boston skyline", "coordinate_source": "Massport official Piers Park skyline evidence + OSM park anchor", "coordinate_confidence": "high"},
     "尼加拉瀑布": {"lat": 43.080080, "lon": -79.074430, "map_query": "Terrapin Point Niagara Falls State Park", "coordinate_source": "Niagara Falls State Park official Terrapin Point overlook evidence + OSM/GeoNames viewpoint anchor", "coordinate_confidence": "high"},
     "邁阿密海灘": {"lat": 25.765840, "lon": -80.134020, "map_query": "South Pointe Park Miami Beach", "coordinate_source": "City of Miami Beach South Pointe Park identity + official destination photo subject + OSM park anchor", "coordinate_confidence": "high"},
-    "迪納利國家公園": {"lat": 63.730880, "lon": -148.917210, "map_query": "Denali Visitor Center", "coordinate_source": "OSM/Mapcarta/NPS visitor center", "coordinate_confidence": "high"},
+    "迪納利國家公園": {"lat": 63.732090, "lon": -148.902730, "map_query": "Mountain Vista Denali National Park", "coordinate_source": "NPS Mountain Vista Scenic View/Photo Spot + NPS published event/location coordinate", "coordinate_confidence": "medium_high"},
+    "費爾班克斯極光": {"lat": 64.864170, "lon": -147.737780, "map_query": "Creamer's Field Fairbanks Alaska", "coordinate_source": "Explore Fairbanks official aurora-location evidence + Alaska ADF&G refuge identity + NRHP/USGS area coordinate", "coordinate_confidence": "high"},
     "珍娜溫泉": {"lat": 65.053040, "lon": -146.055600, "map_query": "Chena Hot Springs Resort", "coordinate_source": "Alaska DEC", "coordinate_confidence": "high"},
+    "安克拉治": {"lat": 61.204200, "lon": -150.018710, "map_query": "Point Woronzof Anchorage", "coordinate_source": "Visit Anchorage official sunset/aurora subject + USGS/GeoNames point anchor", "coordinate_confidence": "high"},
+    "蘇華德": {"lat": 60.103141, "lon": -149.434574, "map_query": "Seward Waterfront Park Alaska", "coordinate_source": "Visit Seward official waterfront subject + City of Seward published facility coordinate", "coordinate_confidence": "high"},
     "哈徹山口": {"lat": 61.767150, "lon": -149.322600, "map_query": "Hatcher Pass Alaska", "coordinate_source": "OSM/Mapcarta saddle", "coordinate_confidence": "high"},
     "波蒂奇冰河": {"lat": 60.784520, "lon": -148.842000, "map_query": "Begich Boggs Visitor Center Portage", "coordinate_source": "Alaska.org visitor center", "coordinate_confidence": "high"},
     "門登霍爾冰河": {"lat": 58.417180, "lon": -134.545560, "map_query": "Mendenhall Glacier Visitor Center", "coordinate_source": "OSM/Mapcarta visitor center", "coordinate_confidence": "high"},
@@ -1725,6 +1728,42 @@ DISPLAY_NAME_OVERRIDES = {
 # separate. map_query is search/display metadata only and MUST NOT be used to
 # build a production Navigation URL.
 NAVIGATION_TARGET_OVERRIDES = {
+    "迪納利國家公園": {
+        "status": "verified",
+        "lat": 63.732090,
+        "lon": -148.902730,
+        "target_type": "scenic_rest_area_arrival",
+        "label_i18n": {
+            "zh-TW": "Denali・Mountain Vista",
+            "en": "Denali · Mountain Vista",
+            "ja": "デナリ・Mountain Vista",
+        },
+        "source": "NPS Mountain Vista Scenic View/Photo Spot and published location coordinate; reviewed 2026-09-27",
+        "confidence": "medium_high",
+        "note_i18n": {
+            "zh-TW": "導航終點為Mountain Vista公共休息／觀景區；Denali Park Road當下道路狀態優先於導航與天氣，封路時不得視為可達。",
+            "en": "Directions use the public Mountain Vista rest/scenic area. Current Denali Park Road status overrides navigation and weather; a road closure means this Camera Zone is not reachable.",
+            "ja": "ナビはMountain Vista公共休憩・展望エリアを使用します。Denali Park Roadの当日道路状況が天候・ナビより優先され、閉鎖時は到達可能と扱いません。",
+        },
+    },
+    "蘇華德": {
+        "status": "verified",
+        "lat": 60.103141,
+        "lon": -149.434574,
+        "target_type": "public_waterfront_arrival",
+        "label_i18n": {
+            "zh-TW": "Seward Waterfront Park",
+            "en": "Seward Waterfront Park",
+            "ja": "スワード・ウォーターフロントパーク",
+        },
+        "source": "City of Seward published waterfront facility coordinate + Visit Seward subject evidence; reviewed 2026-09-27",
+        "confidence": "high",
+        "note_i18n": {
+            "zh-TW": "導航終點為Seward Waterfront公共區域代表點；實際構圖可沿waterfront trail與合法shoreline步行調整。",
+            "en": "Directions use a representative public Seward Waterfront arrival point; refine the composition on foot along the waterfront trail and legal shoreline.",
+            "ja": "ナビはSeward Waterfrontの公共エリア代表点を使用し、構図はwaterfront trailと合法な海岸沿いで徒歩調整します。",
+        },
+    },
     "大霧山國家公園": {
         "status": "verified",
         "lat": 35.611092,
