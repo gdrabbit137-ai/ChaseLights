@@ -632,6 +632,12 @@ def test_adapter_integrity():
     assert "summaryIsNotOlder" in frontend_source
     assert "detailUrl(expectedVersion,1)" in frontend_source
     assert "latestSummaryMetric||summaryMetric" in frontend_source
+    assert "chaselights_favs_migration_v2_regions_v1" in frontend_source
+    assert "favoriteMigrationRegions.includes(region)" in frontend_source
+    assert "migrateFavorites(region)" in frontend_source
+    assert "persistFavoriteMigrationRegions()" in frontend_source
+    assert "localStorage.removeItem(FAVORITE_MIGRATION_KEY)" in frontend_source
+    assert "legacyFavorites=legacyFavorites.filter(name=>!names.has(name))" in frontend_source
     assert "function scrollWeatherModalToCurrent()" in frontend_source
     assert "dataset.nowAnchor='true'" in frontend_source
     assert "scrollWeatherModalToCurrent();" in frontend_source
