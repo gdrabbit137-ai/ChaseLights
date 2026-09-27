@@ -14,10 +14,10 @@
     "runtime_catalog_v004_r4_2_b35_liyu_subjects.json"
   ],
   "counts": {
-    "spots": 183,
-    "opportunities": 373,
-    "condition_variants": 388,
-    "profile_viewpoint_relations": 379
+    "spots": 188,
+    "opportunities": 381,
+    "condition_variants": 396,
+    "profile_viewpoint_relations": 387
   },
   "spots": [
     {
@@ -18941,6 +18941,504 @@
               "geometry_extent_m": 1800,
               "geometry_note": "Glen Alps／Anchorage Hillside合法、安全且可公開使用的觀景區；不宣稱唯一極光腳架位置。",
               "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-066",
+      "canonical_name": "白令陸橋國家保護區",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B77_US_RESEARCH_BATCH14",
+      "research_sources": [
+        {
+          "authority": "U.S. National Park Service — Serpentine Hot Springs: An Overview",
+          "url": "https://www.nps.gov/places/serpentine-hot-springs-an-overview.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS identifies Serpentine Hot Springs as one of the preserve's most visited areas, documents the granite-tor landscape, bunkhouse/bathhouse setting, and publishes the exact location 65.8569N, 164.7142W."
+        },
+        {
+          "authority": "U.S. National Park Service — Reaching Serpentine Hot Springs",
+          "url": "https://www.nps.gov/bela/planyourvisit/shs_travel.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS states there are no roads into or within the preserve and visitors usually reach Serpentine by air taxi or small private plane; the gravel airstrip is unmaintained and close to the hot-spring facilities."
+        },
+        {
+          "authority": "U.S. National Park Service — Northern Lights",
+          "url": "https://www.nps.gov/bela/learn/nature/northern-lights.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS explicitly states that aurora borealis can be witnessed from Bering Land Bridge National Preserve."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-066-P01",
+          "spot_id": "us-066",
+          "name_zh": "Serpentine Hot Springs・花崗岩塔峰＋溫泉荒野景觀",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_dynamic_access_visibility_module",
+          "formula_version": "v0.04-serpentine-transport-visibility-pending",
+          "formula_confidence": 98,
+          "best_time": "有可靠運輸可抵達Serpentine、airstrip／現場條件允許且塔峰與谷地清楚時",
+          "best_season": "全年保護區開放，但交通方式、雪況、airstrip與天候會顯著改變可達性",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-297",
+              "variant_name": "Serpentine granite tors＋hot-spring／bunkhouse荒野景觀",
+              "condition_geometry": "{\"camera_zone\":\"Serpentine Hot Springs public-use Camera Zone\",\"subject\":\"granite tors + Serpentine valley + hot-spring / bunkhouse context\"}",
+              "hard_gates": "必須有當下可行且合法的Serpentine交通／到達方式；不得由好天氣或靜態全年開放資訊推定air taxi、airstrip或雪上交通可用",
+              "required_conditions": "花崗岩塔峰與谷地主要層次清楚可辨；能見度足夠",
+              "boosters": "高透明度；柔和低角度光；秋色／雪景僅作現況加分",
+              "penalties": "運輸不可用；airstrip／天候不適；低雲／霧；強降水；低能見度",
+              "formula_status": "needs_dynamic_access_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-066-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS publishes the exact Serpentine Hot Springs location and documents the granite tors and remote facility landscape. The coordinate is a Camera Zone/weather anchor, not a road-navigation destination.",
+              "name": "Serpentine Hot Springs Camera Zone",
+              "lat": 65.8569,
+              "lon": -164.7142,
+              "coord_confidence": "high",
+              "verification_status": "official_nps_exact_serpentine_location_and_landscape_subject",
+              "geometry_type": "area",
+              "geometry_extent_m": 1800,
+              "geometry_note": "Serpentine Hot Springs airstrip、bunkhouse／bathhouse周邊與合法公共荒野活動範圍；不宣稱單一腳架點。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-066-P02",
+          "spot_id": "us-066",
+          "name_zh": "Bering Land Bridge／Serpentine・Aurora Borealis",
+          "legacy_theme": "aurora",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_aurora_state_dynamic_access_module",
+          "formula_version": "v0.04-serpentine-aurora-transport-pending",
+          "formula_confidence": 96,
+          "best_time": "天空足夠黑暗、Serpentine可安全到達且有location-aware極光活動時",
+          "best_season": "NPS證明保護區可見極光；實際可拍仍取決於黑暗、雲況、location-aware aurora_state與交通",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-298",
+              "variant_name": "Serpentine荒野前景＋Aurora Borealis",
+              "condition_geometry": "{\"camera_zone\":\"safe public Serpentine Hot Springs Camera Zone\",\"subject\":\"aurora borealis + granite-tor / tundra / hot-spring foreground\"}",
+              "hard_gates": "Serpentine當下可合法安全到達；天空足夠黑暗；必須有location-aware極光活動證據；不得以planetary Kp或月份單獨保證",
+              "required_conditions": "極光活動實際存在；主要天空未被雲遮；足夠黑暗",
+              "boosters": "低光害；雪地／塔峰前景；高透明度",
+              "penalties": "交通不可用；厚雲；暮光過亮；極光活動不足",
+              "formula_status": "needs_aurora_state_dynamic_access_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-066-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS explicitly documents aurora in Bering Land Bridge National Preserve. Canonical eligibility remains fail-closed on location-aware aurora_state and current Serpentine transport/access state.",
+              "name": "Serpentine Hot Springs Aurora Camera Zone",
+              "lat": 65.8569,
+              "lon": -164.7142,
+              "coord_confidence": "high",
+              "verification_status": "official_nps_serpentine_exact_location_plus_preserve_aurora_evidence",
+              "geometry_type": "area",
+              "geometry_extent_m": 2400,
+              "geometry_note": "Serpentine周邊合法、安全且可公開使用的荒野區域；不建立道路導航終點。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-067",
+      "canonical_name": "育空河",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B77_US_RESEARCH_BATCH14",
+      "research_sources": [
+        {
+          "authority": "Bureau of Land Management — Central Yukon Field Office",
+          "url": "https://www.blm.gov/office/central-yukon-field-office",
+          "verified_on": "2026-09-27",
+          "supports": "BLM identifies the Yukon Crossing Visitor Contact Station at mile 56 of the Dalton Highway as a managed recreation site on the Yukon River corridor."
+        },
+        {
+          "authority": "Bureau of Land Management — Dalton Highway Visitor Guide",
+          "url": "https://www.blm.gov/sites/default/files/docs/2022-04/AK-Dalton_Highway_Visitor_Guide_2022.pdf",
+          "verified_on": "2026-09-27",
+          "supports": "The BLM visitor guide states that a short walk from Yukon Crossing leads to viewing decks on the Yukon River bank; the station is just north of the Yukon River bridge and is closed in winter."
+        },
+        {
+          "authority": "Alaska.org — Yukon River Bridge coordinate cross-check",
+          "url": "https://www.alaska.org/detail/yukon-river-bridge",
+          "verified_on": "2026-09-27",
+          "supports": "Used only as a coordinate cross-check for the researched BLM Yukon Crossing/river-view area: 65.87665, -149.721. BLM remains the subject/access authority."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-067-P01",
+          "spot_id": "us-067",
+          "name_zh": "Yukon Crossing・育空河＋Dalton Highway橋景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_dynamic_access_visibility_module",
+          "formula_version": "v0.04-yukon-crossing-road-visibility-pending",
+          "formula_confidence": 96,
+          "best_time": "Dalton Highway當下可安全通行且河岸viewing deck／公共區域可使用的白天時段",
+          "best_season": "夏季BLM contact station有人員服務；冬季station關閉且Dalton道路條件更嚴苛，不能用月份或好天氣推定安全可達",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-299",
+              "variant_name": "Yukon River riverbank＋E. L. Patton Bridge／Dalton corridor",
+              "condition_geometry": "{\"camera_zone\":\"Yukon Crossing riverbank viewing-deck Camera Zone\",\"subject\":\"Yukon River + Yukon River Bridge / boreal corridor\"}",
+              "hard_gates": "Dalton Highway／Yukon Crossing當下可安全合法到達；不得以能見度良好推定道路、冰雪或施工狀態可接受",
+              "required_conditions": "Yukon River、橋體與主要河谷層次清楚可辨；能見度足夠",
+              "boosters": "高透明度；低角度光；秋色／河霧僅在不遮蔽主體時加分",
+              "penalties": "道路風險／封閉；濃霧；強降水；低能見度",
+              "formula_status": "needs_dynamic_access_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-067-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "BLM explicitly documents riverbank viewing decks at Yukon Crossing. The exact coordinate is a cross-mapped planning anchor for that researched area; no unsafe roadside tripod position is asserted.",
+              "name": "Yukon Crossing Riverbank Camera Zone",
+              "lat": 65.87665,
+              "lon": -149.721,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_blm_yukon_crossing_view_subject_plus_cross_mapped_bridge_station_coordinate",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 900,
+              "geometry_note": "Yukon Crossing visitor-contact／riverbank viewing-deck與合法公共河岸範圍。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-068",
+      "canonical_name": "諾阿塔克河",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B77_US_RESEARCH_BATCH14",
+      "research_sources": [
+        {
+          "authority": "U.S. National Park Service — The Noatak River",
+          "url": "https://www.nps.gov/noat/learn/nature/noatakriver.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS describes the Noatak as a Wild and Scenic River flowing through tundra, canyons, snow-capped peaks and glacial valleys, with outstanding scenery and recreation values."
+        },
+        {
+          "authority": "U.S. National Park Service — Floating Noatak National Preserve",
+          "url": "https://home.nps.gov/noat/planyourvisit/floating.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS states river access is primarily by air taxi from Bettles or Kotzebue and there are no facilities or services once visitors depart."
+        },
+        {
+          "authority": "U.S. National Park Service — Noatak National Preserve",
+          "url": "https://www.nps.gov/noat/index.htm",
+          "verified_on": "2026-09-27",
+          "supports": "The official park page presents both the Noatak River mountain-ringed wilderness scene and an NPS photograph of northern lights reflected in the river."
+        },
+        {
+          "authority": "NPS Gallery — Noatak River asset location",
+          "url": "https://npgallery.nps.gov/AssetDetail/39311647-1DD8-B71C-070473883ABF3B36",
+          "verified_on": "2026-09-27",
+          "supports": "NPS asset metadata publishes an audited Noatak River location at 68.1814422607422, -159.394500732422; B77 uses it as a representative weather/Camera Zone anchor, not as a landing or navigation target."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-068-P01",
+          "spot_id": "us-068",
+          "name_zh": "Noatak River・荒野河谷＋Brooks Range山景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_dynamic_access_visibility_module",
+          "formula_version": "v0.04-noatak-air-transport-visibility-pending",
+          "formula_confidence": 97,
+          "best_time": "有可靠air taxi／river trip logistics且河谷、山地清楚可見時",
+          "best_season": "依air taxi、河況與遠征條件；沒有設施服務，不能由月份或一般天氣推定可安全抵達",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-300",
+              "variant_name": "Noatak River＋tundra／canyon／snow-capped mountain wilderness",
+              "condition_geometry": "{\"camera_zone\":\"representative public Noatak River wilderness Camera Zone\",\"subject\":\"Noatak River + tundra / canyon / Brooks Range mountain context\"}",
+              "hard_gates": "必須有合法、可行的遠端交通／river-trip到達方式；不得把weather sample座標當成airstrip或導航終點",
+              "required_conditions": "河谷與主要山地層次清楚可辨；能見度足夠",
+              "boosters": "高透明度；平靜水面；低角度光；秋色／雪峰為現況加分",
+              "penalties": "交通不可行；低雲／霧；強降水；低能見度",
+              "formula_status": "needs_dynamic_access_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-068-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS documents the Noatak's mountain-ringed wilderness and air-taxi access. The coordinate comes from official NPS media metadata and is only a representative river Camera Zone/weather sample; it is not a landing or Directions target.",
+              "name": "Noatak River Representative Wilderness Camera Zone",
+              "lat": 68.1814422607422,
+              "lon": -159.394500732422,
+              "coord_confidence": "high",
+              "verification_status": "official_nps_asset_location_on_noatak_river",
+              "geometry_type": "area",
+              "geometry_extent_m": 5000,
+              "geometry_note": "代表性Noatak River荒野河段；實際river trip Camera Zone會隨合法落點與行程改變。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-068-P02",
+          "spot_id": "us-068",
+          "name_zh": "Noatak River・Aurora Borealis河面反射",
+          "legacy_theme": "aurora",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_aurora_state_dynamic_access_module",
+          "formula_version": "v0.04-noatak-aurora-transport-pending",
+          "formula_confidence": 97,
+          "best_time": "天空足夠黑暗、遠端行程合法安全且有location-aware極光活動時",
+          "best_season": "NPS有Noatak River極光實拍證據；反射與實際極光強度仍需現況，不由月份保證",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-301",
+              "variant_name": "Noatak River水面／河谷前景＋Aurora Borealis",
+              "condition_geometry": "{\"camera_zone\":\"safe Noatak River wilderness Camera Zone\",\"subject\":\"aurora borealis + Noatak River / tundra foreground\"}",
+              "hard_gates": "遠端交通與營地／河岸位置可安全合法使用；天空足夠黑暗；必須有location-aware極光活動證據；planetary Kp不足以單獨成立",
+              "required_conditions": "極光活動實際存在；主要天空未被雲遮；足夠黑暗",
+              "boosters": "平靜水面可形成反射；低光害；高透明度",
+              "penalties": "交通不可行；厚雲；暮光過亮；極光活動不足",
+              "formula_status": "needs_aurora_state_dynamic_access_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-068-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS directly publishes an aurora-over-Noatak-River photograph. Reflection remains a booster, while eligibility stays fail-closed on aurora_state plus current remote-access logistics.",
+              "name": "Noatak River Aurora Camera Zone",
+              "lat": 68.1814422607422,
+              "lon": -159.394500732422,
+              "coord_confidence": "high",
+              "verification_status": "official_nps_noatak_river_location_plus_direct_aurora_subject_evidence",
+              "geometry_type": "area",
+              "geometry_extent_m": 5000,
+              "geometry_note": "代表性Noatak River合法荒野河段；不建立固定airstrip／導航目的地。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-069",
+      "canonical_name": "克拉克湖國家公園",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B77_US_RESEARCH_BATCH14",
+      "research_sources": [
+        {
+          "authority": "U.S. National Park Service — Qizhjeh Vena (Lake Clark)",
+          "url": "https://www.nps.gov/lacl/learn/nature/lake-clark.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS describes Lake Clark as a glacial lake surrounded by mountains, publishes Port Alsworth at 60°11.842N, 154°19.357W, and displays an official aurora photograph from Port Alsworth."
+        },
+        {
+          "authority": "U.S. National Park Service — Port Alsworth",
+          "url": "https://home.nps.gov/lacl/planyourvisit/port-alsworth.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS identifies Port Alsworth on Lake Clark as the park field-headquarters community and notes it is not connected to a road system; most visitors arrive by small plane."
+        },
+        {
+          "authority": "U.S. National Park Service — Lake Clark Places To Go",
+          "url": "https://www.nps.gov/lacl/planyourvisit/placestogo.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS identifies Lake Clark itself as a major scenic/recreation destination with Port Alsworth on the southern shore."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-069-P01",
+          "spot_id": "us-069",
+          "name_zh": "Port Alsworth／Lake Clark・湖景＋環湖山脈",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-minimum-sufficient-visibility-panorama",
+          "formula_confidence": 97,
+          "best_time": "白天可見光；Lake Clark與周圍山脈主要層次清楚時",
+          "best_season": "全年自然場景成立；雪景、倒影與秋色只作現況加分",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-302",
+              "variant_name": "Lake Clark湖面＋周圍glaciated mountains",
+              "condition_geometry": "{\"camera_zone\":\"Port Alsworth / Lake Clark public shoreline-area Camera Zone\",\"subject\":\"Lake Clark + surrounding mountain / glacial landscape\"}",
+              "hard_gates": "只使用合法公共／可允許的Port Alsworth湖岸與水域觀景位置；私人岸線權屬需遵守現場規則",
+              "required_conditions": "Lake Clark與主要環湖山脈清楚可辨；能見度足夠",
+              "boosters": "平靜湖面倒影；高透明度；雪山／秋色；柔和低角度光",
+              "penalties": "低雲／霧遮山；強降水；低能見度",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-069-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS publishes Port Alsworth's coordinate and documents Lake Clark as a mountain-surrounded glacial lake. B77 moves weather sampling from the legacy broad park coordinate to Port Alsworth/Lake Clark.",
+              "name": "Port Alsworth / Lake Clark Camera Zone",
+              "lat": 60.1973667,
+              "lon": -154.3226167,
+              "coord_confidence": "high",
+              "verification_status": "official_nps_port_alsworth_coordinate_and_lake_clark_subject",
+              "geometry_type": "area",
+              "geometry_extent_m": 2200,
+              "geometry_note": "Port Alsworth／Lake Clark可合法使用的湖岸、水邊與公共活動區；不把私人岸線當成公共Camera Zone。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-069-P02",
+          "spot_id": "us-069",
+          "name_zh": "Port Alsworth／Lake Clark・Aurora Borealis",
+          "legacy_theme": "aurora",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_aurora_state_module",
+          "formula_version": "v0.04-lake-clark-aurora-provider-pending",
+          "formula_confidence": 97,
+          "best_time": "天空足夠黑暗、主要天空未被雲遮且有location-aware極光活動時",
+          "best_season": "NPS直接發布Port Alsworth極光影像；實際可拍仍需aurora_state、黑暗與雲況",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-303",
+              "variant_name": "Lake Clark／Port Alsworth前景＋Aurora Borealis",
+              "condition_geometry": "{\"camera_zone\":\"safe Port Alsworth / Lake Clark Camera Zone\",\"subject\":\"aurora borealis + Lake Clark / mountain foreground\"}",
+              "hard_gates": "天空足夠黑暗；必須有location-aware極光活動證據；不得以planetary Kp或月份單獨保證",
+              "required_conditions": "極光活動實際存在；主要天空未被雲遮；足夠黑暗",
+              "boosters": "湖面反射；低光害；雪山前景；高透明度",
+              "penalties": "厚雲；暮光過亮；極光活動不足",
+              "formula_status": "needs_aurora_state_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-069-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS directly publishes an aurora image from Port Alsworth. Canonical eligibility remains fail-closed on location-aware aurora_state; planetary Kp alone remains insufficient.",
+              "name": "Port Alsworth / Lake Clark Aurora Camera Zone",
+              "lat": 60.1973667,
+              "lon": -154.3226167,
+              "coord_confidence": "high",
+              "verification_status": "official_nps_port_alsworth_coordinate_and_direct_aurora_evidence",
+              "geometry_type": "area",
+              "geometry_extent_m": 2500,
+              "geometry_note": "Port Alsworth／Lake Clark合法、安全且可公開使用的夜間Camera Zone；私人岸線除外。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-070",
+      "canonical_name": "獨立礦山",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B77_US_RESEARCH_BATCH14",
+      "research_sources": [
+        {
+          "authority": "Alaska Division of Parks and Outdoor Recreation — Independence Mine State Historical Park",
+          "url": "https://dnr.alaska.gov/parks/aspunits/matsu/indepmineshp.htm",
+          "verified_on": "2026-09-27",
+          "supports": "Alaska State Parks identifies Independence Mine as a historic gold-mining camp with historical features and trails, publishes Mile 17.3 Hatcher Pass Road access, and states pedestrian visitors can access the mine after upper-lot gate hours from Independence Bowl parking."
+        },
+        {
+          "authority": "Alaska Division of Parks and Outdoor Recreation — Hatcher Pass East Management Area",
+          "url": "https://dnr.alaska.gov/parks/aspunits/matsu/hatcherpassema.htm",
+          "verified_on": "2026-09-27",
+          "supports": "Alaska State Parks documents the mountainous Talkeetna Range setting, seasonal Hatcher Pass road limitations, and winter closure of the last mile to Independence Mine for vehicles."
+        },
+        {
+          "authority": "Alaska Division of Parks and Outdoor Recreation — Park Condition Reports",
+          "url": "https://dnr.alaska.gov/parks/asp/curevnts.htm",
+          "verified_on": "2026-09-27",
+          "supports": "Alaska State Parks publishes current Hatcher Pass / Independence Mine condition reports, demonstrating that road/trail safety is a dynamic state independent of favorable photography weather."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-070-P01",
+          "spot_id": "us-070",
+          "name_zh": "Independence Mine・歷史礦區＋Talkeetna Mountains高山景觀",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_dynamic_access_module",
+          "formula_version": "v0.04-independence-mine-access-pending",
+          "formula_confidence": 97,
+          "best_time": "公園／Independence Bowl當下可安全到達的白天時段；upper-lot gate關閉時依官方規則由下方停車區步行",
+          "best_season": "全年可有不同形式的步行／冬季活動，但道路、雪況、雪崩與停車可達性需依官方當下條件",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-304",
+              "variant_name": "Independence Mine歷史建築／設備＋Talkeetna Range山地背景",
+              "condition_geometry": "{\"camera_zone\":\"Independence Mine State Historical Park public Camera Zone\",\"subject\":\"historic mining camp structures + Talkeetna Mountain alpine context\"}",
+              "hard_gates": "Independence Mine／Independence Bowl當下可合法安全到達；不得以好天氣、季節或靜態開放時刻推定道路／步道安全",
+              "required_conditions": "歷史礦區主要建築／設備與高山環境可安全觀察",
+              "boosters": "柔和低角度光；秋色／雪景；山地背景清晰",
+              "penalties": "道路／停車／步道安全限制；雪崩風險；強降水；現場封閉",
+              "formula_status": "needs_dynamic_access_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-070-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Alaska State Parks directly documents the historic mine and pedestrian-access rules. The existing mapped park coordinate is retained as a Camera Zone/weather anchor; current road/parking/trail state remains a separate access gate.",
+              "name": "Independence Mine State Historical Park Camera Zone",
+              "lat": 61.790493,
+              "lon": -149.283392,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_alaska_state_parks_subject_and_mile_17_3_access_plus_cross_mapped_park_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 1200,
+              "geometry_note": "Independence Mine合法公共歷史區、步道與觀景範圍；封閉建築與危險礦區除外。",
+              "geometry_confidence": "high"
             }
           ]
         }
