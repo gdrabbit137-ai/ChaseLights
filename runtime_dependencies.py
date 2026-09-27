@@ -4,7 +4,7 @@ This module separates content formula status from runtime implementation state.
 Every needs_* status maps to an explicit set of reusable runtime components.
 """
 
-DEPENDENCY_INVENTORY_VERSION = "r4.2-b63-deps-v14-us-batch02"
+DEPENDENCY_INVENTORY_VERSION = "r4.2-b64-deps-v15-us-batch03"
 
 FORMULA_DEPENDENCIES = {
     "needs_visibility_module": ("visibility",),
@@ -25,6 +25,8 @@ FORMULA_DEPENDENCIES = {
     "needs_spatial_weather_dynamic_access_module": ("spatial_weather_vertical_cloud", "dynamic_access"),
     "needs_water_surface_module": ("water_surface_state",),
     "needs_water_surface_visibility_module": ("water_surface_state", "visibility"),
+    "needs_water_surface_visibility_access_module": ("water_surface_state", "visibility", "dynamic_access"),
+    "needs_directional_horizon_water_surface_access_visibility_module": ("directional_horizon", "water_surface_state", "dynamic_access", "visibility"),
     "needs_directional_horizon_water_surface_visibility_module": ("directional_horizon", "water_surface_state", "visibility"),
     "needs_geothermal_steam_visibility_access_module": ("geothermal_steam_state", "visibility", "dynamic_access"),
     "needs_astronomy_ephemeris_access_module": ("astronomy_ephemeris", "dynamic_access"),
