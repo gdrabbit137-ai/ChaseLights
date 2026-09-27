@@ -3073,10 +3073,28 @@ def test_tag_scores_consumer_deprecation_contract():
     analyze_src = Path("analyze_weather.py").read_text(encoding="utf-8")
     assert '"schema_version": 11' in analyze_src
 
-    # B59 is intentionally staged: producer compatibility remains for one
-    # release window while current consumers stop reading tag_scores.
+    # Internal producer compatibility may remain, but schema-11 publication
+    # removes tag_scores in analyze_weather._detail_hourly_projection().
     fetch_src = Path("fetch_data.py").read_text(encoding="utf-8")
     assert '"tag_scores": theme_scores' in fetch_src
+
+    source = [{
+        "theme_scores": {"reflection": {"score": 80}},
+        "tag_scores": {"reflection": {"score": 80}},
+        "opportunity_scores": {
+            "tw-018-P02": {"runtime": {"available": True}}
+        },
+        "opportunity_runtime": {
+            "tw-018-P02": {"available": True}
+        },
+    }]
+    projected = analyze_weather._detail_hourly_projection(source)
+    assert "tag_scores" in source[0]
+    assert "opportunity_runtime" in source[0]
+    assert "tag_scores" not in projected[0]
+    assert "opportunity_runtime" not in projected[0]
+    assert projected[0]["theme_scores"] == source[0]["theme_scores"]
+    assert projected[0]["opportunity_scores"] == source[0]["opportunity_scores"]
 
 
 def test_detail_hourly_projection_removes_duplicate_runtime():
