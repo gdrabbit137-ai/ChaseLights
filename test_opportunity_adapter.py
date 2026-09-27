@@ -102,7 +102,7 @@ def _all_opportunities():
 
 
 def test_adapter_integrity():
-    assert ADAPTER_VERSION == "v0.04-r4.2-canonical-r27-preview"
+    assert ADAPTER_VERSION == "v0.04-r4.2-canonical-r28-jp031-preview"
     assert validate_curated_opportunities() == []
     assert validate_taxonomy() == []
     assert EVENT_CALENDAR_SCHEMA_VERSION == "r4.2-event-calendar-1"
@@ -414,7 +414,7 @@ def test_adapter_integrity():
     assert distant["eligible"] is False
     assert distant["reason"] == "visibility_too_low"
     assert MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES == {
-        "jp-025-P01", "jp-026-P01",
+        "jp-025-P01", "jp-026-P01", "jp-028-P01", "jp-029-P01", "jp-031-P01",
         "tw-084-P01", "tw-084-P02", "tw-084-P03", "tw-084-P04",
         "tw-084-P05", "tw-084-P06", "tw-084-P07", "tw-084-P08",
         "tw-082-P04", "tw-082-P05", "tw-082-P06", "tw-082-P07", "tw-082-P08",
@@ -1726,6 +1726,45 @@ def test_adapter_integrity():
     assert todoroki_spot["navigation_target"]["target_type"] == "street_access"
     assert abs(todoroki_spot["navigation_target"]["lat"] - 35.607857) < 1e-9
     assert abs(todoroki_spot["navigation_target"]["lon"] - 139.646545) < 1e-9
+
+    # B50 Japan research batch 15: jp-027 through jp-031 are curated.
+    jp = get_spots("jp")
+    assert len(jp) == 35
+    assert all(get_opportunities("jp", f"jp-{i:03d}") for i in range(1, 32))
+    assert all(not get_opportunities("jp", f"jp-{i:03d}") for i in range(32, 36))
+
+    jp027 = get_opportunities("jp", "jp-027")
+    assert [o["opportunity_id"] for o in jp027] == ["jp-027-P01", "jp-027-P02"]
+    assert all(o["runtime_policy"] == "minimum_sufficient_available" for o in jp027)
+    rokko_spot = next(s for s in jp if s["spot_id"] == "jp-027")
+    assert rokko_spot["access_hours"] == ["07:10", "21:00"]
+    assert set(rokko_spot["themes"]) == {"mountain_view", "city_night"}
+
+    jp028 = get_opportunities("jp", "jp-028")
+    assert jp028[0]["runtime_policy"] == "minimum_sufficient_available"
+    assert jp028[1]["runtime_policy"] == "module_pending"
+    assert dependency_state(jp028[1])["missing_components"] == ("seasonal_foreground",)
+    koyasan = next(s for s in jp if s["spot_id"] == "jp-028")
+    assert "fog_mist" not in koyasan["themes"]
+    assert "sunbeam" not in koyasan["themes"]
+
+    jp029 = get_opportunities("jp", "jp-029")
+    assert jp029[0]["runtime_policy"] == "minimum_sufficient_available"
+    assert jp029[1]["runtime_policy"] == "module_pending"
+    assert dependency_state(jp029[1])["missing_components"] == ("seasonal_foreground",)
+
+    jp030 = get_opportunities("jp", "jp-030")
+    assert [o["opportunity_id"] for o in jp030] == ["jp-030-P01"]
+    assert jp030[0]["runtime_policy"] == "module_pending"
+    assert dependencies_for_opportunity(jp030[0]) == ("tidal_current_extremum", "dynamic_access")
+    assert dependency_state(jp030[0])["ready_components"] == ()
+    assert dependency_state(jp030[0])["missing_components"] == ("tidal_current_extremum", "dynamic_access")
+
+    jp031 = get_opportunities("jp", "jp-031")
+    assert jp031[0]["runtime_policy"] == "minimum_sufficient_available"
+    assert jp031[1]["runtime_policy"] == "module_pending"
+    assert dependency_state(jp031[1])["ready_components"] == ("water_surface_state",)
+    assert dependency_state(jp031[1])["missing_components"] == ("managed_lighting_state",)
 
     jp025 = get_opportunities("jp", "jp-025")
     assert [o["opportunity_id"] for o in jp025] == ["jp-025-P01", "jp-025-P02"]
