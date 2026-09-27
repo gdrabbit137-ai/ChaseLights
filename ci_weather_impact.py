@@ -26,6 +26,7 @@ ALWAYS_ALL_FILES = {
     "spatial_weather.py",
     "marine_state.py",
     "tide_state.py",
+    "aurora_state.py",
     "taxonomy_v004.py",
 }
 REGION_PATCH_FILES = {
@@ -279,6 +280,7 @@ def detect_regions(
             "spatial_weather.py",
             "marine_state.py",
             "tide_state.py",
+            "aurora_state.py",
             "taxonomy_v004.py",
             "ci_weather_impact.py",
         } and path not in known
@@ -348,6 +350,12 @@ def self_test():
 
     regions, _ = detect_regions(
         [{"filename": "fetch_data.py", "patch": "+def changed():\n+    pass\n"}],
+        base, head, name_map,
+    )
+    assert regions == set(REGIONS)
+
+    regions, _ = detect_regions(
+        [{"filename": "aurora_state.py", "patch": "+def changed():\n+    pass\n"}],
         base, head, name_map,
     )
     assert regions == set(REGIONS)
