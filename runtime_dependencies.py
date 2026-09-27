@@ -91,6 +91,7 @@ SPECIAL_NON_MODULE_STATUSES = {
     # B32 Japan: Blue Pond research is complete, but current weather providers
     # cannot establish whether the pond is actually blue/turbid or snow-covered.
     "data_insufficient_blue_water_state",
+    "data_insufficient_tidal_current_extremum",
 }
 
 # Formula status is intentionally broad; these profiles need narrower contracts.
