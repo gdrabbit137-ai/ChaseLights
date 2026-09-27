@@ -2301,7 +2301,7 @@ def test_adapter_integrity():
 
     us_spots = get_spots("us")
     researched_us = {s["spot_id"] for s in us_spots if s.get("opportunities")}
-    assert researched_us == {f"us-{i:03d}" for i in range(1, 31)}
+    assert researched_us == {f"us-{i:03d}" for i in range(1, 36)}
     assert all(not (s.get("opportunities") or []) for s in us_spots if s["spot_id"] not in researched_us)
 
     us006 = get_opportunities("us", "us-006")
@@ -2472,6 +2472,43 @@ def test_adapter_integrity():
     chicago = next(s for s in us_spots if s["spot_id"] == "us-030")
     assert abs(chicago["lat"] - 41.86636) < 1e-7
     assert abs(chicago["lon"] + 87.60663) < 1e-7
+
+    us031 = get_opportunities("us", "us-031")
+    assert [o["opportunity_id"] for o in us031] == ["us-031-P01"]
+    assert us031[0]["runtime_policy"] == "module_pending"
+    assert dependencies_for_opportunity(us031[0]) == ("dynamic_access", "visibility")
+    assert dependency_state(us031[0])["missing_components"] == ("dynamic_access",)
+    assert ACCESS_PROFILE_CLASSIFICATION["us-031-P01"]["access_type"] == "managed_park_booking_notice"
+    rocky = next(s for s in us_spots if s["spot_id"] == "us-031")
+    assert abs(rocky["lat"] - 40.320586) < 1e-7
+    assert abs(rocky["lon"] + 105.604813) < 1e-7
+    assert rocky["navigation_target"]["status"] == "verified"
+    assert abs(rocky["navigation_target"]["lat"] - 40.320324) < 1e-7
+    assert abs(rocky["navigation_target"]["lon"] + 105.609) < 1e-7
+
+    us032 = get_opportunities("us", "us-032")
+    assert [o["opportunity_id"] for o in us032] == ["us-032-P01"]
+    assert us032[0]["runtime_policy"] == "minimum_sufficient_available"
+
+    us033 = get_opportunities("us", "us-033")
+    assert [o["opportunity_id"] for o in us033] == ["us-033-P01"]
+    assert us033[0]["runtime_policy"] == "preview_module_available"
+    assert dependencies_for_opportunity(us033[0]) == ("directional_horizon", "visibility")
+    denver = next(s for s in us_spots if s["spot_id"] == "us-033")
+    assert abs(denver["lat"] - 39.7461222) < 1e-7
+    assert abs(denver["lon"] + 104.9490116) < 1e-7
+
+    us034 = get_opportunities("us", "us-034")
+    assert [o["opportunity_id"] for o in us034] == ["us-034-P01"]
+    assert us034[0]["runtime_policy"] == "minimum_sufficient_available"
+
+    us035 = get_opportunities("us", "us-035")
+    assert [o["opportunity_id"] for o in us035] == ["us-035-P01", "us-035-P02"]
+    assert [o["runtime_policy"] for o in us035] == ["minimum_sufficient_available", "module_pending"]
+    assert dependency_state(us035[1])["missing_components"] == ("event_state",)
+    stockyards = next(s for s in us_spots if s["spot_id"] == "us-035")
+    assert abs(stockyards["lat"] - 32.78933) < 1e-7
+    assert abs(stockyards["lon"] + 97.34672) < 1e-7
 
     assert us010[0]["runtime_policy"] == "module_pending"
     us010_state = dependency_state(us010[0])
