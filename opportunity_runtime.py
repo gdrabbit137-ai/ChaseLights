@@ -117,7 +117,7 @@ MINIMUM_SUFFICIENT_VISIBILITY_PROFILES = {
 }
 
 MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES = {
-    "us-016-P01", "us-020-P01",
+    "us-016-P01", "us-020-P01", "us-024-P01",
     # B32 jp-025 historic lane and jp-026 public shrine approach are close-range
     # scenes. Low cloud and long-range visibility are not hard blockers;
     # material rain and known access closure remain blockers.
@@ -629,6 +629,11 @@ DIRECTIONAL_HORIZON_SECTORS = {
     "us-015-P01": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
     "us-018-P01": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
     "us-019-P02": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
+    "us-021-P01": {"center": 90.0, "tolerance": 85.0, "phase": "sunrise"},
+    "us-022-P01": {"center": 90.0, "tolerance": 85.0, "phase": "sunrise"},
+    "us-022-P02": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
+    "us-023-P01": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
+    "us-025-P01": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
 }
 
 CLOUD_SKY_GLOW_PROFILES = {
