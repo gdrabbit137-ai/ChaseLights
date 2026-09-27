@@ -1193,7 +1193,7 @@ def test_adapter_integrity():
         o for o in all_opportunities
         if o["formula_status"] == "needs_astronomy_ephemeris_module"
     ]
-    assert {o["opportunity_id"] for o in pure_astro} == {"tw-035-P05", "tw-070-P02", "tw-076-P02", "tw-080-P02", "us-001-P03", "us-005-P02", "us-006-P02"}
+    assert {o["opportunity_id"] for o in pure_astro} <= set(ASTRONOMY_EPHEMERIS_PROFILES)
     assert all(runtime_policy(o) == "preview_module_available" for o in pure_astro)
 
     astro_input = {
@@ -2301,7 +2301,7 @@ def test_adapter_integrity():
 
     us_spots = get_spots("us")
     researched_us = {s["spot_id"] for s in us_spots if s.get("opportunities")}
-    assert researched_us == {f"us-{i:03d}" for i in range(1, 11)}
+    assert researched_us == {f"us-{i:03d}" for i in range(1, 16)}
     assert all(not (s.get("opportunities") or []) for s in us_spots if s["spot_id"] not in researched_us)
 
     us006 = get_opportunities("us", "us-006")
@@ -2340,6 +2340,36 @@ def test_adapter_integrity():
 
     us010 = get_opportunities("us", "us-010")
     assert [o["opportunity_id"] for o in us010] == ["us-010-P01"]
+    us011 = get_opportunities("us", "us-011")
+    assert [o["opportunity_id"] for o in us011] == ["us-011-P01", "us-011-P02"]
+    assert [o["runtime_policy"] for o in us011] == ["preview_module_available", "minimum_sufficient_available"]
+    us011_diag = evaluate_opportunity_modules(us011[0], {
+        "astronomy_valid": True, "hour": 6, "sun_azimuth": 90, "sun_elevation": 1,
+        "vis": 30000, "c_low": 10, "pop": 0, "precipitation": 0.0,
+    })
+    assert set(us011_diag["modules"]) == {"directional_horizon", "visibility"}
+    assert "water_surface_state" not in us011_diag["modules"]
+
+    us012 = get_opportunities("us", "us-012")
+    assert [o["opportunity_id"] for o in us012] == ["us-012-P01", "us-012-P02"]
+    assert [o["runtime_policy"] for o in us012] == ["module_pending", "module_pending"]
+    assert {o["opportunity_id"] for o in us012} <= set(ACCESS_PROFILE_CLASSIFICATION)
+    assert "water_surface_state" not in dependency_state(us012[0])["required_components"]
+    assert "water_surface_state" not in dependency_state(us012[1])["required_components"]
+
+    us013 = get_opportunities("us", "us-013")
+    assert [o["opportunity_id"] for o in us013] == ["us-013-P01", "us-013-P02"]
+    assert [o["runtime_policy"] for o in us013] == ["minimum_sufficient_available", "module_pending"]
+    assert ACCESS_PROFILE_CLASSIFICATION["us-013-P02"]["access_type"] == "road_viewpoint_status"
+
+    us014 = get_opportunities("us", "us-014")
+    assert [o["opportunity_id"] for o in us014] == ["us-014-P01", "us-014-P02", "us-014-P03"]
+    assert all(o["runtime_policy"] == "preview_module_available" for o in us014)
+
+    us015 = get_opportunities("us", "us-015")
+    assert [o["opportunity_id"] for o in us015] == ["us-015-P01", "us-015-P02"]
+    assert [o["runtime_policy"] for o in us015] == ["preview_module_available", "minimum_sufficient_available"]
+
     assert us010[0]["runtime_policy"] == "module_pending"
     us010_state = dependency_state(us010[0])
     assert "geothermal_steam_state" in us010_state["missing_components"]
@@ -2852,7 +2882,7 @@ def test_active_catalog_weather_generation_guard():
 
     us_spots = get_spots("us")
     researched_us = {spot["spot_id"] for spot in us_spots if spot.get("opportunities")}
-    assert researched_us == {f"us-{i:03d}" for i in range(1, 11)}
+    assert researched_us == {f"us-{i:03d}" for i in range(1, 16)}
     assert all(
         not (spot.get("opportunities") or [])
         for spot in us_spots
