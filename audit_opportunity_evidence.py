@@ -15,6 +15,7 @@ from pathlib import Path
 
 from regions import get_spots
 from opportunities import get_opportunities
+from spatial_weather import SPATIAL_WEATHER_PROFILES, supports_spatial_weather
 
 EVIDENCE_REGISTRY_FILE = Path(__file__).parent / "runtime_evidence_registry_r4_2.json"
 
@@ -81,6 +82,32 @@ def _risk_classes(blob):
     return out
 
 
+def _derived_cloud_sea_basis(op, risks):
+    """Return machine-verifiable spatial basis for the narrow cloud-sea exception."""
+    if "cloud_sea" not in risks or not supports_spatial_weather(op):
+        return None
+    config = SPATIAL_WEATHER_PROFILES.get(op.get("opportunity_id")) or {}
+    if config.get("mode") != "lower_cloud_below_camera":
+        return None
+    if float(config.get("min_vertical_drop_m") or 0) < 250:
+        return None
+    if int(config.get("min_cloudy_targets") or 0) < 2:
+        return None
+    bearings = tuple(config.get("bearings_deg") or ())
+    if len(bearings) < 4:
+        return None
+    return {
+        "source": "spatial_weather.py",
+        "mode": config["mode"],
+        "sample_distance_km": config.get("sample_distance_km"),
+        "min_vertical_drop_m": config.get("min_vertical_drop_m"),
+        "min_cloudy_targets": config.get("min_cloudy_targets"),
+        "sample_count": len(bearings),
+        "camera_zone_required": True,
+        "camera_clear_veto_required": True,
+    }
+
+
 def _explicit_evidence(op):
     for key in EVIDENCE_KEYS:
         value = op.get(key)
@@ -112,6 +139,7 @@ def build_report():
         "insufficient_evidence": 0,
         "remove_or_rewrite": 0,
         "review_required": 0,
+        "derived_condition": 0,
         "lower_risk_legacy": 0,
     }
     for region in ("tw", "jp", "us"):
@@ -125,6 +153,11 @@ def build_report():
                 if "risk_override" in registry_entry:
                     risks = list(registry_entry.get("risk_override") or [])
                 registry_status = registry_entry.get("status")
+                derived_cloud_sea = _derived_cloud_sea_basis(op, risks)
+                unresolved_risks = [
+                    risk for risk in risks
+                    if not (risk == "cloud_sea" and derived_cloud_sea is not None)
+                ]
                 if registry_status == "verified":
                     has_evidence = True
                     evidence_location = "runtime_evidence_registry_r4_2.json"
@@ -132,10 +165,13 @@ def build_report():
                 elif registry_status in {"narrow_scope", "insufficient_evidence", "remove_or_rewrite"}:
                     status = registry_status
                     evidence_location = "runtime_evidence_registry_r4_2.json"
-                elif risks and has_evidence:
+                elif unresolved_risks and has_evidence:
                     status = "documented"
-                elif risks:
+                elif unresolved_risks:
                     status = "review_required"
+                elif derived_cloud_sea is not None:
+                    status = "derived_condition"
+                    evidence_location = "spatial_weather.py"
                 else:
                     status = "lower_risk_legacy"
                 counts[status] += 1
@@ -147,6 +183,8 @@ def build_report():
                         "opportunity_id": op.get("opportunity_id"),
                         "name_zh": op.get("name_zh"),
                         "risk_classes": risks,
+                        "unresolved_risk_classes": unresolved_risks,
+                        "derived_condition_basis": derived_cloud_sea,
                         "audit_status": status,
                         "machine_verifiable_evidence": has_evidence,
                         "evidence_location": evidence_location,
@@ -160,6 +198,7 @@ def build_report():
         "policy": "RESEARCH_EVIDENCE_SPEC_R4_2.md",
         "counts": counts,
         "review_required": [r for r in records if r["audit_status"] == "review_required"],
+        "derived_condition": [r for r in records if r["audit_status"] == "derived_condition"],
         "narrow_scope": [r for r in records if r["audit_status"] == "narrow_scope"],
         "insufficient_evidence": [r for r in records if r["audit_status"] == "insufficient_evidence"],
         "remove_or_rewrite": [r for r in records if r["audit_status"] == "remove_or_rewrite"],

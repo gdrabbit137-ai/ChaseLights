@@ -6,13 +6,18 @@ Open-Meteo supplies each point's DEM elevation and hourly weather. The evaluator
 then asks whether the camera is relatively clear while multiple materially lower
 terrain samples show low-cloud/fog evidence.
 
+Under RESEARCH_EVIDENCE_SPEC_R4_2 this spatial/vertical result may establish the
+forecast-derived environmental condition "cloud layer below camera" for cloud-sea
+classification. It still does not prove an exact foreground composition, scenic
+quality, access, or a verified photographic target zone.
+
 The ring is an environmental proxy, not a verified photographic target zone.
 That limitation is returned in every diagnostic.
 """
 
 import math
 
-SPATIAL_WEATHER_VERSION = "spatial-weather-r1-preview"
+SPATIAL_WEATHER_VERSION = "spatial-weather-r2-camera-cloud-rejection-preview"
 
 _SUPPORTED_PROFILE_IDS = (
     "tw-004-P02", "tw-004-P03", "tw-008-P03",
@@ -144,6 +149,8 @@ def index_spatial_response(plan, raw):
 
     series = {}
     fields = (
+        "temperature_2m",
+        "dew_point_2m",
         "relative_humidity_2m",
         "cloud_cover_low",
         "visibility",
@@ -243,6 +250,16 @@ def evaluate_spatial_weather(opportunity, item_data):
     camera_low = _number(camera.get("cloud_cover_low"))
     camera_rh = _number(camera.get("relative_humidity_2m"))
     camera_precip = _number(camera.get("precipitation"))
+    camera_temp = _number(camera.get("temperature_2m"))
+    camera_dew = _number(camera.get("dew_point_2m"))
+    camera_dewpoint_spread = None
+    camera_lcl_agl_proxy = None
+    if camera_temp is not None and camera_dew is not None:
+        camera_dewpoint_spread = max(0.0, camera_temp - camera_dew)
+        # Planning-grade lifting-condensation-level proxy. This is not an
+        # observed cloud base; it is only used as a conservative local
+        # saturation/intersection veto for cloud-sea photography.
+        camera_lcl_agl_proxy = camera_dewpoint_spread * 125.0
 
     if camera_vis is None or camera_low is None or camera_rh is None:
         return {
@@ -271,6 +288,42 @@ def evaluate_spatial_weather(opportunity, item_data):
             "camera_visibility_km": round(camera_vis / 1000.0, 1),
             "camera_low_cloud": round(camera_low),
             "camera_rh": round(camera_rh),
+            "target_resolution": observation.get("target_resolution"),
+            "exact_target_zone_verified": False,
+        }
+
+    # Grid visibility can remain deceptively usable when an elevated viewpoint
+    # is actually brushing saturated orographic cloud. Add a second veto using
+    # the local dew-point spread (LCL proxy) plus RH/low-cloud context. This
+    # catches "camera inside cloud" cases that the coarse visibility field can
+    # otherwise miss.
+    camera_in_cloud_risk = False
+    if camera_lcl_agl_proxy is not None:
+        camera_in_cloud_risk = (
+            (camera_lcl_agl_proxy <= 125 and camera_rh >= 94)
+            or (
+                camera_lcl_agl_proxy <= 225
+                and camera_rh >= 92
+                and camera_low >= 70
+            )
+            or (
+                camera_lcl_agl_proxy <= 315
+                and camera_rh >= 90
+                and camera_low >= 80
+                and camera_vis < 10000
+            )
+        )
+    if camera_in_cloud_risk:
+        return {
+            "module": "spatial_weather_vertical_cloud",
+            "available": True,
+            "eligible": False,
+            "reason": "camera_in_cloud_risk",
+            "camera_visibility_km": round(camera_vis / 1000.0, 1),
+            "camera_low_cloud": round(camera_low),
+            "camera_rh": round(camera_rh),
+            "camera_dewpoint_spread_c": round(camera_dewpoint_spread, 1),
+            "camera_lcl_agl_proxy_m": round(camera_lcl_agl_proxy),
             "target_resolution": observation.get("target_resolution"),
             "exact_target_zone_verified": False,
         }
@@ -326,6 +379,14 @@ def evaluate_spatial_weather(opportunity, item_data):
         "camera_elevation_m": round(camera_elevation),
         "camera_visibility_km": round(camera_vis / 1000.0, 1),
         "camera_low_cloud": round(camera_low),
+        "camera_rh": round(camera_rh),
+        "camera_dewpoint_spread_c": (
+            None if camera_dewpoint_spread is None else round(camera_dewpoint_spread, 1)
+        ),
+        "camera_lcl_agl_proxy_m": (
+            None if camera_lcl_agl_proxy is None else round(camera_lcl_agl_proxy)
+        ),
+        "camera_in_cloud_risk": False,
         "lower_target_count": len(lower_targets),
         "cloud_evidence_target_count": len(evidence_targets),
         "max_evidence_vertical_drop_m": round(max_drop),

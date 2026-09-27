@@ -6,7 +6,7 @@ Photography Opportunity existence is a **research claim about a Place**.
 
 An Opportunity MAY be added to the production catalog only when there is Place-specific evidence that the subject, scene, event, or composition actually exists at that Place and is photographically meaningful.
 
-Weather, terrain, elevation, hydrology, vegetation type, Scene tags, Theme tags, or generic destination categories may help discover a research lead or predict **when an already verified Opportunity may work**. They MUST NOT, by themselves, create or prove an Opportunity.
+Weather, terrain, elevation, hydrology, vegetation type, Scene tags, Theme tags, or generic destination categories may help discover a research lead or predict **when an already verified Opportunity may work**. They MUST NOT, by themselves, create or prove an Opportunity, except for the narrowly defined forecast-derived **sea-of-clouds environmental condition** in Section 4.1.
 
 In short:
 
@@ -66,7 +66,6 @@ Grade C may create a research lead but MUST NOT alone promote an Opportunity to 
 The following subjects require explicit Place-specific evidence and MUST NOT be inferred from terrain/weather alone:
 
 - fog / mist / morning mist / haze as a photographic subject,
-- sea of clouds,
 - crepuscular rays / sunbeams / cloud-gap light,
 - reflection compositions,
 - Milky Way / star-field compositions,
@@ -75,6 +74,25 @@ The following subjects require explicit Place-specific evidence and MUST NOT be 
 - wildlife / birds / fireflies or other biological presence,
 - recurring festivals, illuminations and events,
 - snow/ice-specific compositions.
+
+### 4.1 Sea-of-clouds derived-condition exception
+
+"Sea of clouds" is treated differently from ordinary fog/mist. It MAY be surfaced as a **forecast-derived environmental condition** without prior photographic evidence, but only when the Opportunity is explicitly configured for spatial/vertical weather evaluation rather than inferred from a Scene/Theme tag or one weather point.
+
+Minimum requirements:
+- a known Camera Zone coordinate,
+- a spatial-weather profile with multiple surrounding/target samples,
+- materially lower terrain relative to the camera (current production minimum: at least 250 m),
+- at least two lower-terrain samples required to show coherent low-cloud/fog evidence,
+- the camera level remains sufficiently clear,
+- a camera-in-cloud veto using visibility plus local saturation context; when temperature/dew point are available, a planning-grade dew-point-spread/LCL proxy is used to reject a viewpoint brushing orographic cloud,
+- precipitation and local whiteout remain blockers.
+
+A single-point combination such as high humidity + low cloud, or elevation alone, MUST NOT create a cloud-sea condition. Near-sea-level locations without materially lower terrain MUST NOT qualify merely because marine fog or stratus is forecast.
+
+This exception predicts only the environmental state **"cloud layer below the camera while the camera remains clear."** It does not prove a specific foreground composition, exact target zone, scenic quality, legal access, or safety. Those claims still require Place/Camera-Zone evidence when asserted.
+
+The evidence audit records this exception explicitly as `derived_condition`; it must not be mislabeled as Place-specific photographic evidence.
 
 A high-risk Opportunity should record enough provenance to answer:
 1. What evidence proves this subject exists here?
