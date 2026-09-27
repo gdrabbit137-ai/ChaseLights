@@ -105,7 +105,7 @@ def _all_opportunities():
 
 
 def test_adapter_integrity():
-    assert ADAPTER_VERSION == "v0.04-r4.2-canonical-r29-jp035-preview"
+    assert ADAPTER_VERSION == "v0.04-r4.2-canonical-r30-us005-preview"
     assert validate_curated_opportunities() == []
     assert validate_taxonomy() == []
     assert EVENT_CALENDAR_SCHEMA_VERSION == "r4.2-event-calendar-1"
@@ -2272,7 +2272,38 @@ def test_adapter_integrity():
     assert fuji_diag["jp-010-P02"]["modules"]["water_surface_state"]["quality"] == "mirror_candidate"
     assert fuji_diag["jp-010-P02"]["modules"]["visibility"]["eligible"] is True
 
-    assert get_opportunities("us", "us-001") == []
+    us001 = get_opportunities("us", "us-001")
+    assert [o["opportunity_id"] for o in us001] == ["us-001-P01", "us-001-P02", "us-001-P03"]
+    assert [o["runtime_policy"] for o in us001] == ["preview_module_available", "preview_module_available", "preview_module_available"]
+    assert dependencies_for_opportunity(us001[0]) == ("directional_horizon", "visibility")
+    assert dependencies_for_opportunity(us001[2]) == ("astronomy_ephemeris",)
+
+    us002 = get_opportunities("us", "us-002")
+    assert [o["opportunity_id"] for o in us002] == ["us-002-P01"]
+    assert us002[0]["runtime_policy"] == "minimum_sufficient_available"
+
+    us003 = get_opportunities("us", "us-003")
+    assert [o["opportunity_id"] for o in us003] == ["us-003-P01", "us-003-P02"]
+    assert [o["runtime_policy"] for o in us003] == ["module_pending", "module_pending"]
+    assert dependency_state(us003[0])["missing_components"] == ("dynamic_access",)
+    assert dependency_state(us003[1])["missing_components"] == ("dynamic_access",)
+    assert ACCESS_PROFILE_CLASSIFICATION["us-003-P01"]["access_type"] == "managed_park_booking_notice"
+    assert ACCESS_PROFILE_CLASSIFICATION["us-003-P02"]["access_type"] == "managed_park_booking_notice"
+
+    us004 = get_opportunities("us", "us-004")
+    assert [o["opportunity_id"] for o in us004] == ["us-004-P01"]
+    assert us004[0]["runtime_policy"] == "minimum_sufficient_available"
+
+    us005 = get_opportunities("us", "us-005")
+    assert [o["opportunity_id"] for o in us005] == ["us-005-P01", "us-005-P02"]
+    assert [o["runtime_policy"] for o in us005] == ["preview_module_available", "preview_module_available"]
+
+    us_spots = get_spots("us")
+    researched_us = {s["spot_id"] for s in us_spots if s.get("opportunities")}
+    assert researched_us == {f"us-{i:03d}" for i in range(1, 6)}
+    assert all(not (s.get("opportunities") or []) for s in us_spots if s["spot_id"] not in researched_us)
+
+    assert get_opportunities("us", "us-006") == []
 
     copy = get_opportunities("tw", "tw-001")
     copy[0]["condition_variants"][0]["variant_name"] = "mutated"
