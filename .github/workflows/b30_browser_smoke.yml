@@ -252,6 +252,11 @@ jobs:
               assert version_recovery["recoveredSummaryVersion"] == version_recovery["realVersion"], version_recovery
               assert version_recovery["detailVersion"] == version_recovery["realVersion"], version_recovery
 
+              # loadDetails() may apply the refreshed summary, which intentionally
+              # re-renders the card list. Re-acquire DOM handles after recovery.
+              cards = driver.find_elements(By.CSS_SELECTOR, "#spots-container .card")
+              assert cards, "card list missing after weather version recovery"
+              first = cards[0]
               first.find_element(By.CSS_SELECTOR, ".card-header").click()
               wait.until(lambda d: d.find_element(By.ID, "place-modal-overlay").value_of_css_property("display") != "none")
               opp_cards = driver.find_elements(By.CSS_SELECTOR, "#place-modal-body .opportunity-card")
