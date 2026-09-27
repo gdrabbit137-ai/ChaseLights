@@ -85,53 +85,55 @@ Runtime:
 
 ## us-028 — Griffith Observatory
 
-Official source:
-- Griffith Observatory official 2026 visitor map:
-  https://griffithobservatory.org/wp-content/uploads/2025/12/Griffith-Observatory-Maps_digital.pdf
+Official sources:
+- City of Los Angeles — Griffith Observatory Visit:
+  https://griffithobservatory.lacity.gov/visit/
+- City of Los Angeles — Griffith Observatory Roof & Terraces:
+  https://griffithobservatory.lacity.gov/exhibits/exterior-exhibits/roof-terraces/
 
 Verified:
-- Official maps document exterior public terraces, including Hollywood Sign / sunset-oriented viewing areas.
-- Personal photography is permitted except specified show/telescope contexts.
-- Tripods are prohibited inside the building.
-- Commercial photography requires the applicable permit process.
-- The Observatory is itself a photographable architectural landmark with Los Angeles / Hollywood Sign context.
+- Official Observatory guidance directly supports spectacular Los Angeles and Hollywood Sign views.
+- Exterior terraces provide panoramic views in multiple directions.
+- Terraces are generally available daily from sunrise until 22:00; roof access follows building hours.
+- The existing Griffith Observatory coordinate is already near the actual facility and does not need a B69 coordinate correction.
 
 Opportunity:
-- P01 Observatory exterior architecture + Hollywood Sign / Los Angeles background.
+- P01 Griffith Observatory exterior terraces + Los Angeles / Hollywood Sign panorama.
 
 Runtime:
-- minimum-sufficient local-scene.
-- No separate sunset Opportunity is created in this batch because facility/access state is not connected as a dedicated runtime provider.
+- minimum-sufficient visibility.
+- The background panorama is part of the promised subject, so B69 requires visibility rather than treating this as a close-range local-scene-only Opportunity.
+- No separate sunset Opportunity is created in this batch.
 - Temporary closures remain operational constraints and are not overridden by weather.
-- Existing high-confidence Griffith Observatory coordinate is already appropriate and is retained.
+- Existing high-confidence Griffith Observatory coordinate is retained.
 
 ## us-029 — White Sands National Park
 
 Official sources:
 - NPS White Sands Photography:
-  https://www.nps.gov/whsa/planyourvisit/photography.htm
-- NPS Alkali Flat Trail:
-  https://www.nps.gov/whsa/planyourvisit/alkali-flat-trail.htm
-- NPS Alkali Flat Trailhead activity/location:
-  https://www.nps.gov/thingstodo/sledding-at-the-alkali-flat-trailhead.htm
+  https://home.nps.gov/whsa/planyourvisit/photography.htm
+- NPS 2026 Sunset Stroll:
+  https://www.nps.gov/planyourvisit/event-details.htm?id=AC221D58-E77A-3272-6B18E7C27671C1FD
+- NPS White Sands operating hours:
+  https://www.nps.gov/whsa/planyourvisit/hours.htm
 
 Verified:
 - NPS explicitly promotes White Sands as a photography destination.
-- NPS identifies golden-hour periods and surrounding mountain views.
-- Sacramento Mountains can show strong post-sunset afterglow.
-- NPS specifically points photographers toward the tallest dunes near Alkali Flat trailhead.
-- Alkali Flat is roughly seven miles deeper into the park than the visitor center.
-- Blowing sand can sharply reduce local visibility.
-- Trail users must comply with official sunset / closing rules.
+- NPS identifies the golden hours before sunset, surrounding mountain views, and mountain afterglow as valid photographic subjects.
+- The current 2026 Sunset Stroll page explicitly describes panoramic sunset photographic opportunities.
+- NPS publishes the current Sunset Stroll parking-area coordinate as 32.811370, -106.265010.
+- Current park closing time is tied to local sunset, with seasonal exceptions.
+- Temporary closures, including missile-range activity, remain possible and must not be inferred away from favorable weather.
 
 Opportunity:
-- P01 Alkali Flat tallest gypsum dunes + surrounding mountains in golden-hour / afterglow conditions.
+- P01 gypsum dunes + surrounding mountains during sunset / immediate afterglow.
 
 Runtime:
-- explicit minimum-sufficient visibility.
-- The legacy sunset Theme supplies the time-of-day baseline; B69 does not invent a precise sun-to-foreground alignment.
-- The weather/map anchor moves from the visitor center to the Alkali Flat trailhead area.
-- Temporary closures, missile-test closures and park operations are not inferred from weather.
+- explicit minimum-sufficient visibility with the legacy sunset Theme supplying time-of-day semantics.
+- B69 does not invent a precise sun-to-foreground alignment.
+- The Place weather/map anchor moves from the visitor center to the exact current NPS Sunset Stroll area.
+- The same exact NPS parking coordinate is a verified Navigation Target for this batch.
+- Current park / Dunes Drive closure notices still take priority over any weather recommendation.
 
 ## us-030 — Chicago Skyline / Adler lakefront
 
@@ -200,7 +202,7 @@ Expected policy totals:
 - data_insufficient: 2
 
 Minimum-sufficient visibility profile count:
-- 75
+- 76
 
 ## QA
 
@@ -209,7 +211,7 @@ B69 updates:
 - US Candidate Weather researched range through us-030.
 - Browser Smoke researched-US count from 25 to 30.
 - Redfish North Shore dynamic-access classification.
-- Redfish Lake, White Sands and Chicago Camera Zone/weather anchors.
+- Redfish Lake, White Sands and Chicago Camera Zone/weather anchors, including the exact current NPS White Sands Sunset Stroll navigation target.
 - Regression assertions that Griffith keeps the already-correct Observatory anchor.
 
 Existing canonical us-001 through us-025 and all TW/JP curated Places must remain semantically unchanged.
