@@ -2,10 +2,10 @@
   "schema_version": "r4.2-b42-catalog-manifest-1",
   "purpose": "Central expected-state manifest for the effective curated Opportunity catalog. Runtime code computes actual counts and validates them against this snapshot.",
   "totals": {
-    "spots": 178,
-    "opportunities": 366,
-    "condition_variants": 381,
-    "profile_viewpoint_relations": 372
+    "spots": 183,
+    "opportunities": 373,
+    "condition_variants": 388,
+    "profile_viewpoint_relations": 379
   },
   "regions": {
     "tw": {
@@ -34,20 +34,20 @@
     },
     "us": {
       "numeric_id_start": 1,
-      "numeric_id_end": 60,
+      "numeric_id_end": 65,
       "retired_spot_ids": [],
       "counts": {
-        "spots": 60,
-        "opportunities": 96,
-        "condition_variants": 96,
-        "profile_viewpoint_relations": 96
+        "spots": 65,
+        "opportunities": 103,
+        "condition_variants": 103,
+        "profile_viewpoint_relations": 103
       }
     }
   },
   "runtime_policy_counts": {
-    "module_pending": 119,
-    "preview_module_available": 113,
-    "minimum_sufficient_available": 128,
+    "module_pending": 121,
+    "preview_module_available": 114,
+    "minimum_sufficient_available": 132,
     "prototype_pending_certification": 2,
     "hold": 2,
     "data_insufficient": 2
@@ -57,10 +57,10 @@
     "tw-028-P04",
     "tw-038-P02"
   ],
-  "minimum_sufficient_visibility_profile_count": 86,
+  "minimum_sufficient_visibility_profile_count": 88,
   "notes": [
     "This manifest describes the effective curated catalog, not the full Place inventory shown in production.",
     "Japan production contains 35 Place cards and all jp-001 through jp-035 are Opportunity-migrated at this checkpoint.",
-    "US migration continues: us-001 through us-060 are Opportunity-migrated; us-061 through us-070 remain explicitly research-pending."
+    "US migration continues: us-001 through us-065 are Opportunity-migrated; us-066 through us-070 remain explicitly research-pending."
   ]
 }
