@@ -22,6 +22,8 @@ Implemented preview components:
   Absolute sea-level meters are not treated as a local chart-datum tide height.
 - dynamic_access: source-aware access evaluator foundation. Unknown/stale data
   is never interpreted as open, and provider readiness is profile-specific.
+- aurora_state: NOAA SWPC OVATION local short-horizon activity combined with
+  darkness and local cloud blocking; planetary Kp is not a canonical fallback.
 
 A profile is preview_module_available only when every dependency in the formal
 runtime dependency inventory is implemented and configured for that Opportunity.
@@ -61,10 +63,15 @@ from access_state import (
     supports_dynamic_access,
     validate_access_registry,
 )
+from aurora_state import (
+    evaluate_aurora_state,
+    validate_aurora_state_provider,
+)
 
-MODULE_VERSION = "opportunity-runtime-r15-jp-batch16-preview"
+MODULE_VERSION = "opportunity-runtime-r16-b79-aurora-preview"
 
 IMPLEMENTED_COMPONENTS = {
+    "aurora_state",
     "directional_horizon",
     "visibility",
     "water_surface_state",
@@ -1351,6 +1358,7 @@ def evaluate_astronomy_ephemeris(opportunity, item_data):
 
 
 _COMPONENT_EVALUATORS = {
+    "aurora_state": evaluate_aurora_state,
     "directional_horizon": evaluate_directional_horizon,
     "visibility": lambda opportunity, item_data: evaluate_visibility(item_data),
     "water_surface_state": lambda opportunity, item_data: evaluate_water_surface(item_data),
@@ -1446,6 +1454,7 @@ def validate_runtime_registry():
     errors.extend(validate_marine_state_registry())
     errors.extend(validate_tide_state_registry())
     errors.extend(validate_access_registry())
+    errors.extend(validate_aurora_state_provider())
     if MINIMUM_SUFFICIENT_VISIBILITY_PROFILES & MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES:
         errors.append("minimum-sufficient visibility/local-scene registries overlap")
     for registry_name, profile_ids in (
