@@ -102,7 +102,7 @@ def _all_opportunities():
 
 
 def test_adapter_integrity():
-    assert ADAPTER_VERSION == "v0.04-r4.2-canonical-r28-jp031-preview"
+    assert ADAPTER_VERSION == "v0.04-r4.2-canonical-r29-jp035-preview"
     assert validate_curated_opportunities() == []
     assert validate_taxonomy() == []
     assert EVENT_CALENDAR_SCHEMA_VERSION == "r4.2-event-calendar-1"
@@ -415,6 +415,7 @@ def test_adapter_integrity():
     assert distant["reason"] == "visibility_too_low"
     assert MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES == {
         "jp-025-P01", "jp-026-P01", "jp-028-P01", "jp-029-P01", "jp-031-P01",
+        "jp-032-P01", "jp-033-P01", "jp-034-P01",
         "tw-084-P01", "tw-084-P02", "tw-084-P03", "tw-084-P04",
         "tw-084-P05", "tw-084-P06", "tw-084-P07", "tw-084-P08",
         "tw-082-P04", "tw-082-P05", "tw-082-P06", "tw-082-P07", "tw-082-P08",
@@ -1428,12 +1429,12 @@ def test_adapter_integrity():
         o for o in all_opportunities
         if "dynamic_access" in dependencies_for_opportunity(o)
     ]
-    assert len(dynamic_profiles) == 50
+    assert len(dynamic_profiles) == 52
     assert {o["opportunity_id"] for o in dynamic_profiles} == set(ACCESS_DEPENDENT_PROFILE_IDS)
     assert set(ACCESS_PROFILE_CLASSIFICATION) == set(ACCESS_DEPENDENT_PROFILE_IDS)
     assert ACCESS_RUNTIME_READY_PROFILES == frozenset({"jp-021-P01", "jp-021-P02", "jp-022-P01", "jp-022-P02", "jp-022-P03"})
     assert HARD_ACCESS_HOLDS["tw-052"]["policy"] == "hold"
-    assert {"tw-005", "tw-037", "tw-038", "tw-078", "tw-081", "jp-002", "jp-004", "jp-021"} <= set(OFFICIAL_SOURCE_HINTS)
+    assert {"tw-005", "tw-037", "tw-038", "tw-078", "tw-081", "jp-002", "jp-004", "jp-021", "jp-030", "jp-033", "jp-034"} <= set(OFFICIAL_SOURCE_HINTS)
     assert "tw-063" not in OFFICIAL_SOURCE_HINTS
     assert all(
         runtime_policy(o) == (
@@ -1727,11 +1728,10 @@ def test_adapter_integrity():
     assert abs(todoroki_spot["navigation_target"]["lat"] - 35.607857) < 1e-9
     assert abs(todoroki_spot["navigation_target"]["lon"] - 139.646545) < 1e-9
 
-    # B50 Japan research batch 15: jp-027 through jp-031 are curated.
+    # B51 Japan research batch 16: all 35 Japan production Places are curated.
     jp = get_spots("jp")
     assert len(jp) == 35
-    assert all(get_opportunities("jp", f"jp-{i:03d}") for i in range(1, 32))
-    assert all(not get_opportunities("jp", f"jp-{i:03d}") for i in range(32, 36))
+    assert all(get_opportunities("jp", f"jp-{i:03d}") for i in range(1, 36))
 
     jp027 = get_opportunities("jp", "jp-027")
     assert [o["opportunity_id"] for o in jp027] == ["jp-027-P01", "jp-027-P02"]
@@ -1765,6 +1765,40 @@ def test_adapter_integrity():
     assert jp031[1]["runtime_policy"] == "module_pending"
     assert dependency_state(jp031[1])["ready_components"] == ("water_surface_state",)
     assert dependency_state(jp031[1])["missing_components"] == ("managed_lighting_state",)
+
+    jp032 = get_opportunities("jp", "jp-032")
+    assert [o["opportunity_id"] for o in jp032] == ["jp-032-P01", "jp-032-P02"]
+    assert [o["runtime_policy"] for o in jp032] == ["minimum_sufficient_available", "module_pending"]
+    assert dependency_state(jp032[1])["missing_components"] == ("seasonal_foreground",)
+    fukuoka_castle = next(s for s in jp if s["spot_id"] == "jp-032")
+    assert fukuoka_castle["navigation_target"]["status"] == "needs_review"
+    assert "天守台" not in fukuoka_castle["map_query"]
+    assert fukuoka_castle["coordinate_confidence"] == "low"
+
+    jp033 = get_opportunities("jp", "jp-033")
+    assert [o["opportunity_id"] for o in jp033] == ["jp-033-P01", "jp-033-P02", "jp-033-P03"]
+    assert [o["runtime_policy"] for o in jp033] == ["minimum_sufficient_available", "module_pending", "module_pending"]
+    assert dependency_state(jp033[1])["ready_components"] == ("visibility",)
+    assert dependency_state(jp033[1])["missing_components"] == ("dynamic_access",)
+    assert dependency_state(jp033[2])["missing_components"] == ("seasonal_foreground",)
+    karatsu = next(s for s in jp if s["spot_id"] == "jp-033")
+    assert karatsu["access_hours"] == ["05:00", "22:00"]
+    assert ACCESS_PROFILE_CLASSIFICATION["jp-033-P02"]["access_type"] == "facility_hours_notice"
+
+    jp034 = get_opportunities("jp", "jp-034")
+    assert [o["opportunity_id"] for o in jp034] == ["jp-034-P01", "jp-034-P02"]
+    assert [o["runtime_policy"] for o in jp034] == ["minimum_sufficient_available", "module_pending"]
+    assert set(dependency_state(jp034[1])["missing_components"]) == {"event_state", "dynamic_access"}
+    glover = next(s for s in jp if s["spot_id"] == "jp-034")
+    assert glover["access_hours"] == ["08:00", "18:00"]
+    assert ACCESS_PROFILE_CLASSIFICATION["jp-034-P02"]["access_type"] == "public_attraction_notice"
+
+    jp035 = get_opportunities("jp", "jp-035")
+    assert [o["opportunity_id"] for o in jp035] == ["jp-035-P01", "jp-035-P02", "jp-035-P03"]
+    assert [o["runtime_policy"] for o in jp035] == ["minimum_sufficient_available", "minimum_sufficient_available", "module_pending"]
+    assert dependency_state(jp035[2])["missing_components"] == ("managed_lighting_state",)
+    fukuoka_tower = next(s for s in jp if s["spot_id"] == "jp-035")
+    assert fukuoka_tower["access_hours"] == ["09:30", "21:30"]
 
     jp025 = get_opportunities("jp", "jp-025")
     assert [o["opportunity_id"] for o in jp025] == ["jp-025-P01", "jp-025-P02"]
@@ -2522,15 +2556,11 @@ def test_active_catalog_weather_generation_guard():
             # fields stay absent in the UI rather than being filled by a
             # generic template.
 
-    # Non-migrated Places must remain explicit research gaps; enabling one
-    # researched Japan Place must not leak legacy scoring into the remaining pending Places.
+    # B51 completes Japan migration: every production Japan Place is researched.
     jp_spots = get_spots("jp")
     researched_jp = {spot["spot_id"] for spot in jp_spots if spot.get("opportunities")}
-    assert researched_jp == {f"jp-{i:03d}" for i in range(1, 32)}
-    assert all(
-        not (spot.get("opportunities") or [])
-        for spot in jp_spots if spot["spot_id"] not in {f"jp-{i:03d}" for i in range(1, 32)}
-    )
+    assert researched_jp == {f"jp-{i:03d}" for i in range(1, 36)}
+    assert all(spot.get("opportunities") for spot in jp_spots)
     blue_pond = next(spot for spot in jp_spots if spot["spot_id"] == "jp-001")
     assert abs(blue_pond["lat"] - 43.493611) < 1e-9
     assert abs(blue_pond["lon"] - 142.614167) < 1e-9
