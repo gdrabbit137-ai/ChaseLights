@@ -117,7 +117,7 @@ _ACCESS_GROUPS = {
     "public_attraction_notice": ("tw-038-P01", "tw-038-P02", "tw-081-P01", "jp-030-P01", "jp-034-P02", "us-010-P01"),
     "waterfall_trail_status": ("tw-055-P01",),
     "tidal_path_notice": ("tw-059-P01", "tw-078-P01"),
-    "facility_hours_notice": ("tw-068-P01", "jp-033-P02"),
+    "facility_hours_notice": ("tw-068-P01", "jp-033-P02", "us-024-P02"),
 }
 
 ACCESS_PROFILE_CLASSIFICATION = {}
@@ -144,6 +144,13 @@ ACCESS_RUNTIME_READY_PROFILES = frozenset({
 # These are provider-discovery hints, not proof that an Opportunity is open.
 # They document official sources verified during B25 architecture work.
 OFFICIAL_SOURCE_HINTS = {
+    "us-024": {
+        "authority": "Space Needle official",
+        "source_kind": "official_date_specific_ticketed_attraction_hours",
+        "url": "https://www.spaceneedle.com/plan-your-visit",
+        "verified_on": "2026-09-27",
+        "note": "Observation-level access is ticketed and official hours vary by day/date. Exterior Seattle Center photography is a separate non-ticketed Opportunity; do not infer tower admission from favorable weather.",
+    },
     "us-017": {
         "authority": "USDA Forest Service / WSDOT",
         "source_kind": "johnston_ridge_sr504_road_and_viewpoint_status",

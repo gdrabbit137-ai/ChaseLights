@@ -14,10 +14,10 @@
     "runtime_catalog_v004_r4_2_b35_liyu_subjects.json"
   ],
   "counts": {
-    "spots": 138,
-    "opportunities": 306,
-    "condition_variants": 321,
-    "profile_viewpoint_relations": 312
+    "spots": 143,
+    "opportunities": 314,
+    "condition_variants": 329,
+    "profile_viewpoint_relations": 320
   },
   "spots": [
     {
@@ -14805,6 +14805,469 @@
               "geometry_type": "area",
               "geometry_extent_m": 1400,
               "geometry_note": "同一正式紅木林步道範圍；霧題材必須由實際林間水氣狀態證實。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-021",
+      "canonical_name": "峽谷地國家公園 梅薩拱門",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B66_US_RESEARCH_BATCH05",
+      "research_sources": [
+        {
+          "authority": "U.S. National Park Service — Mesa Arch Trail",
+          "url": "https://www.nps.gov/places/mesa-arch.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS identifies Mesa Arch as a Scenic View/Photo Spot, a classic sunrise location, and one of southeast Utah's most photographed arches; the arch frames the canyon and distant La Sal Mountains."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-021-P01",
+          "spot_id": "us-021",
+          "name_zh": "Mesa Arch・日出拱門框景與La Sal Mountains",
+          "legacy_theme": "sunrise",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04-directional-horizon-visibility-preview",
+          "formula_confidence": 96,
+          "best_time": "日出前約30分鐘至日出後約1小時（景點當地時間）",
+          "best_season": "全年；冬季積雪／結冰會影響步道安全但不改變題材存在",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-230",
+              "variant_name": "Mesa Arch 日出暖光＋峽谷／La Sal Mountains框景",
+              "condition_geometry": "{\"camera_zone\":\"Mesa Arch public trail / viewpoint Camera Zone\",\"target\":\"east-facing sunrise glow + canyon + La Sal Mountains framed by Mesa Arch\"}",
+              "hard_gates": "Mesa Arch合法步道／觀景區可達；日出時段有效；禁止攀爬、站立或行走於拱門上",
+              "required_conditions": "拱門框景與遠方峽谷／山稜可辨；日出時段有效；能見度足夠",
+              "boosters": "拱門底部暖光；薄雲晨彩；高透明度",
+              "penalties": "濃霧／低雲封景；強降水；冬季結冰造成步道風險",
+              "formula_status": "needs_directional_horizon_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-021-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS explicitly identifies Mesa Arch as a classic sunrise photography location. Existing Mesa Arch Place coordinate is retained as the weather/map anchor; no unique tripod location is claimed.",
+              "name": "Mesa Arch Sunrise Camera Zone",
+              "lat": 38.391,
+              "lon": -109.856,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_nps_mesa_arch_sunrise_subject_plus_existing_nearby_anchor",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 350,
+              "geometry_note": "Mesa Arch公共步道與合法觀景範圍；不得攀爬或站上拱門。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-022",
+      "canonical_name": "約書亞樹國家公園",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B66_US_RESEARCH_BATCH05",
+      "research_sources": [
+        {
+          "authority": "U.S. National Park Service — Cholla Cactus Garden",
+          "url": "https://www.nps.gov/places/cholla-cactus-garden.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS identifies Cholla Cactus Garden as a Scenic View/Photo Spot with thousands of teddy bear cholla, surrounding mountain views, and explicitly recommends both sunrise and sunset."
+        },
+        {
+          "authority": "NPS Gallery — Cholla Cactus Garden at Sunset",
+          "url": "https://npgallery.nps.gov/AssetDetail/3c46fb32-9bf1-4b99-97e7-d343f0241359",
+          "verified_on": "2026-09-27",
+          "supports": "Official NPS image metadata provides a photographed Cholla Cactus Garden location near 33.82705, -115.86010 and directly documents the sunset subject."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-022-P01",
+          "spot_id": "us-022",
+          "name_zh": "Cholla Cactus Garden・仙人掌花園日出",
+          "legacy_theme": "sunrise",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04-directional-horizon-visibility-preview",
+          "formula_confidence": 95,
+          "best_time": "日出前後",
+          "best_season": "全年；NPS稱全年可訪，春季可能另有花期但不作本題材硬條件",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-231",
+              "variant_name": "Cholla仙人掌前景＋日出晨光",
+              "condition_geometry": "{\"camera_zone\":\"Cholla Cactus Garden loop Camera Zone\",\"target\":\"sunrise sky + teddy bear cholla foreground + Pinto Basin / mountain context\"}",
+              "hard_gates": "指定步道合法可達；日出時段有效；須留在指定步道並穿著包覆鞋以降低刺傷風險",
+              "required_conditions": "仙人掌群與晨光可辨；能見度足夠；強降水未妨礙步行攝影",
+              "boosters": "薄雲晨彩；低角度逆光穿透仙人掌刺；高透明度",
+              "penalties": "強降水；沙塵／低能見度；極端高溫造成安全風險",
+              "formula_status": "needs_directional_horizon_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-022-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS directly supports Cholla Cactus Garden as a sunrise/sunset photo location. B66 moves the Place weather/sample anchor from a broad park-center coordinate to the official photographed Cholla Garden area.",
+              "name": "Cholla Cactus Garden Camera Zone",
+              "lat": 33.8270493,
+              "lon": -115.8600998,
+              "coord_confidence": "high",
+              "verification_status": "official_nps_cholla_garden_subject_and_photo_location",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 550,
+              "geometry_note": "0.25-mile Cholla Cactus Garden指定步道與合法觀景區；不得離開步道進入脆弱植被。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-022-P02",
+          "spot_id": "us-022",
+          "name_zh": "Cholla Cactus Garden・仙人掌花園夕照",
+          "legacy_theme": "sunset",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04-directional-horizon-visibility-preview",
+          "formula_confidence": 95,
+          "best_time": "日落前後",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-232",
+              "variant_name": "Cholla仙人掌前景＋夕陽暖光",
+              "condition_geometry": "{\"camera_zone\":\"Cholla Cactus Garden loop Camera Zone\",\"target\":\"sunset sky / warm backlight + teddy bear cholla foreground\"}",
+              "hard_gates": "指定步道合法可達；日落時段有效；須留在指定步道",
+              "required_conditions": "仙人掌群與夕照可辨；能見度足夠",
+              "boosters": "逆光使刺呈現金色輪廓；薄雲夕彩；高透明度",
+              "penalties": "強降水；沙塵／低能見度；極端高溫",
+              "formula_status": "needs_directional_horizon_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-022-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS explicitly describes the Garden as a great sunset location and publishes sunset imagery from this exact area.",
+              "name": "Cholla Cactus Garden Sunset Camera Zone",
+              "lat": 33.8270493,
+              "lon": -115.8600998,
+              "coord_confidence": "high",
+              "verification_status": "official_nps_cholla_garden_sunset_subject",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 550,
+              "geometry_note": "Cholla Cactus Garden指定步道與公共觀景範圍。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-023",
+      "canonical_name": "巨人柱國家公園",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B66_US_RESEARCH_BATCH05",
+      "research_sources": [
+        {
+          "authority": "U.S. National Park Service — Cactus Forest Loop sunset pull-off",
+          "url": "https://www.nps.gov/places/pull-off-along-cactus-forest-loop-drive.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS designates the exact pull-off at 32.183867, -110.710873 as a Scenic View/Photo Spot and specifically notes spectacular sunset viewing."
+        },
+        {
+          "authority": "U.S. National Park Service — Outdoor Activities / Sunsets",
+          "url": "https://www.nps.gov/sagu/planyourvisit/outdooractivities.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS identifies Cactus Forest Loop Drive and nearby Rincon Mountain District locations as preferred sunset areas and notes road-gate timing."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-023-P01",
+          "spot_id": "us-023",
+          "name_zh": "Cactus Forest Loop・巨人柱森林夕照",
+          "legacy_theme": "sunset",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04-directional-horizon-visibility-preview",
+          "formula_confidence": 96,
+          "best_time": "日落前後；須預留Cactus Forest Loop關門前離場時間",
+          "best_season": "全年；夏季高溫需獨立做安全判斷",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-233",
+              "variant_name": "Cactus Forest Loop巨人柱前景＋西向日落",
+              "condition_geometry": "{\"camera_zone\":\"NPS Cactus Forest Loop sunset pull-off Camera Zone\",\"target\":\"west-facing sunset + saguaro cactus forest / Sonoran Desert foreground\"}",
+              "hard_gates": "Cactus Forest Loop合法可達；日落時段有效；須在道路關門前完成離場",
+              "required_conditions": "巨人柱／沙漠前景與夕照可辨；能見度足夠",
+              "boosters": "薄雲夕彩；低角度側逆光；高透明度",
+              "penalties": "強降水；沙塵；極端高溫；道路關閉",
+              "formula_status": "needs_directional_horizon_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-023-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS publishes an exact sunset photo pull-off coordinate. B66 replaces the legacy Tucson-area center coordinate with this verified Camera Zone/weather-sample anchor.",
+              "name": "Cactus Forest Loop Sunset Pull-off Camera Zone",
+              "lat": 32.183867,
+              "lon": -110.710873,
+              "coord_confidence": "high",
+              "verification_status": "official_nps_exact_sunset_photo_pull_off",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 180,
+              "geometry_note": "NPS標示之小型鋪面pull-off與合法觀景範圍；不得停在車道。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-024",
+      "canonical_name": "西雅圖太空針塔",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B66_US_RESEARCH_BATCH05",
+      "research_sources": [
+        {
+          "authority": "Space Needle official — About",
+          "url": "https://www.spaceneedle.com/about",
+          "verified_on": "2026-09-27",
+          "supports": "Official site identifies the 605-foot Space Needle as a globally photographed Seattle landmark and documents 360-degree views of downtown, Mount Rainier, Puget Sound, the Cascades and Olympics from the top house."
+        },
+        {
+          "authority": "Space Needle official — Plan Your Visit",
+          "url": "https://www.spaceneedle.com/plan-your-visit",
+          "verified_on": "2026-09-27",
+          "supports": "Official site publishes date/day-specific attraction hours and ticketed access, and explicitly promotes both natural views and city lights at night; hours can vary."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-024-P01",
+          "spot_id": "us-024",
+          "name_zh": "Space Needle・Seattle Center地標外觀",
+          "legacy_theme": "city_night",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "minimum_sufficient_local_scene",
+          "formula_version": "v0.04-local-scene-dry-minimum-sufficient",
+          "formula_confidence": 94,
+          "best_time": "白天至藍調／夜間皆可；低角度光或藍調時段更有層次",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-234",
+              "variant_name": "Space Needle外觀＋Seattle Center城市地標構圖",
+              "condition_geometry": "{\"camera_zone\":\"Seattle Center / Space Needle exterior Camera Zone\",\"subject\":\"Space Needle exterior landmark + surrounding urban context\"}",
+              "hard_gates": "合法公共區域可使用；不得把塔頂票券營業狀態套用到外部地標拍攝",
+              "required_conditions": "Space Needle外觀清楚可辨；無足以妨礙步行攝影的強降水",
+              "boosters": "藍調天空；城市燈光；乾燥；低人流",
+              "penalties": "強降水；施工／活動封閉主要構圖區",
+              "formula_status": "minimum_sufficient_local_scene"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-024-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official Space Needle material verifies the landmark exterior subject. Existing high-confidence Space Needle POI coordinate remains the Place/weather anchor; exterior photography does not require attraction admission.",
+              "name": "Seattle Center／Space Needle Exterior Camera Zone",
+              "lat": 47.62051,
+              "lon": -122.3493,
+              "coord_confidence": "high",
+              "verification_status": "official_space_needle_landmark_subject_plus_high_confidence_poi_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 500,
+              "geometry_note": "Seattle Center周邊合法公共步行區與Space Needle外觀構圖範圍。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-024-P02",
+          "spot_id": "us-024",
+          "name_zh": "Space Needle觀景台・Seattle 360度全景",
+          "legacy_theme": "city_night",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_dynamic_access_visibility_module",
+          "formula_version": "v0.04-research-ready-facility-hours-visibility-pending",
+          "formula_confidence": 94,
+          "best_time": "官方當日營業時段內；夕陽／藍調／夜景可加分",
+          "best_season": "全年；營業時間依日期變動",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-235",
+              "variant_name": "塔頂360度Seattle／Puget Sound／山脈全景",
+              "condition_geometry": "{\"camera_zone\":\"Space Needle upper observation level Camera Zone\",\"subject\":\"360-degree downtown Seattle + Mount Rainier + Puget Sound + Cascade/Olympic ranges panorama\"}",
+              "hard_gates": "必須有有效票券且官方當下開放；不得由靜態歷史營業時間推定開放",
+              "required_conditions": "主要城市／水域／山脈方向可辨；能見度足夠",
+              "boosters": "高透明度；夕陽／藍調；夜間城市燈光",
+              "penalties": "觀景台關閉；活動包場；低雲／濃霧；強降水；能見度過低",
+              "formula_status": "research_ready_facility_hours_visibility_provider_pending"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-024-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official Space Needle site documents 360-degree indoor/outdoor views from the top house. Access is ticketed and hours vary, so runtime remains pending until facility-hours state is connected.",
+              "name": "Space Needle Upper Observation Level Camera Zone",
+              "lat": 47.62051,
+              "lon": -122.3493,
+              "elevation_m": 158,
+              "coord_confidence": "high",
+              "verification_status": "official_space_needle_360_observation_subject",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 90,
+              "geometry_note": "Space Needle上層觀景區；需依官方票券與當日營業狀態。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-025",
+      "canonical_name": "聖莫尼卡碼頭",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B66_US_RESEARCH_BATCH05",
+      "research_sources": [
+        {
+          "authority": "Visit Santa Monica — Santa Monica Pier at Sunset",
+          "url": "https://www.santamonica.com/romantic-views-in-santa-monica/",
+          "verified_on": "2026-09-27",
+          "supports": "Official destination marketing specifically identifies Santa Monica Pier at sunset, with the sun setting over the Pacific and Pacific Wheel/coastline views."
+        },
+        {
+          "authority": "Pacific Park official — Pacific Wheel",
+          "url": "https://pacpark.com/santa-monica-amusement-park/ferris-wheel/",
+          "verified_on": "2026-09-27",
+          "supports": "Pacific Park documents the Pacific Wheel on Santa Monica Pier and its 174,000 LED lights with evening computer-generated light programs."
+        },
+        {
+          "authority": "Pacific Park official — live cams",
+          "url": "https://pacpark.com/santa-monica-pier-live-cams/",
+          "verified_on": "2026-09-27",
+          "supports": "Pacific Park states the Wheel's LEDs illuminate the Los Angeles coastline nightly while noting live systems can be offline for maintenance."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-025-P01",
+          "spot_id": "us-025",
+          "name_zh": "Santa Monica Pier・太平洋日落與碼頭剪影",
+          "legacy_theme": "sunset",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04-directional-horizon-visibility-preview",
+          "formula_confidence": 95,
+          "best_time": "日落前後",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-236",
+              "variant_name": "Pacific sunset＋Santa Monica Pier／Pacific Wheel前景",
+              "condition_geometry": "{\"camera_zone\":\"Santa Monica Pier / adjacent beach Camera Zone\",\"target\":\"west-facing Pacific sunset + pier / Pacific Wheel silhouette\"}",
+              "hard_gates": "公共碼頭／海灘合法區域可使用；日落時段有效",
+              "required_conditions": "太平洋地平線、碼頭／Pacific Wheel輪廓與夕照可辨；能見度足夠",
+              "boosters": "中高雲晚霞；低霾；濕沙反光可增加畫面但非硬門檻",
+              "penalties": "低雲完全遮蔽日落方向；濃霧；強降水；能見度過低",
+              "formula_status": "needs_directional_horizon_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-025-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Visit Santa Monica directly identifies the Pier at sunset as a representative view. Existing high-confidence Pier POI coordinate remains the weather/map anchor.",
+              "name": "Santa Monica Pier／Beach Sunset Camera Zone",
+              "lat": 34.008611,
+              "lon": -118.498611,
+              "coord_confidence": "high",
+              "verification_status": "official_destination_sunset_subject_plus_high_confidence_pier_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 700,
+              "geometry_note": "Santa Monica Pier公共步行區與相鄰海灘合法區域，可依構圖前後移動。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-025-P02",
+          "spot_id": "us-025",
+          "name_zh": "Santa Monica Pier・Pacific Wheel夜間LED燈光",
+          "legacy_theme": "city_night",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_lighting_state_module",
+          "formula_version": "v0.04-research-ready-managed-lighting-state-pending",
+          "formula_confidence": 93,
+          "best_time": "日落後；須有Pacific Wheel實際燈光狀態",
+          "best_season": "全年常態夜間燈光；特殊節慶配色另屬年度／日期事件，不自動推定",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-237",
+              "variant_name": "Pacific Wheel LED夜景＋碼頭／海岸",
+              "condition_geometry": "{\"camera_zone\":\"Santa Monica Pier / adjacent beach night Camera Zone\",\"subject\":\"Pacific Wheel LED lighting + pier / coastline night context\"}",
+              "hard_gates": "Pacific Wheel實際燈光運作；公共碼頭／海灘合法可使用；特殊節慶圖樣不得由歷史日期推定",
+              "required_conditions": "Pacific Wheel燈光與碼頭夜景清楚可辨；無足以妨礙拍攝的惡劣天候",
+              "boosters": "藍調初段；乾燥；較少人流；海面／濕沙反光",
+              "penalties": "燈光維護／停用；強降水；濃霧；特殊活動封閉",
+              "formula_status": "research_ready_managed_lighting_state_provider_pending"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-025-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Pacific Park officially documents nightly LED programming on the Pacific Wheel. Runtime stays pending because ChaseLights has no managed-lighting-state provider and must not assume maintenance/event state.",
+              "name": "Santa Monica Pier／Pacific Wheel Night Camera Zone",
+              "lat": 34.008611,
+              "lon": -118.498611,
+              "coord_confidence": "high",
+              "verification_status": "official_pacific_wheel_nightly_led_subject",
+              "geometry_type": "area",
+              "geometry_extent_m": 700,
+              "geometry_note": "碼頭與相鄰海灘可觀看Pacific Wheel夜間燈光的公共區域。",
               "geometry_confidence": "high"
             }
           ]
