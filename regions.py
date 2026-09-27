@@ -1700,7 +1700,11 @@ SPOT_OVERRIDES.update({
     "諾姆": {"lat": 64.501000, "lon": -165.406000, "map_query": "Middle Beach Front Street Nome Alaska", "coordinate_source": "Travel Alaska official Middle Beach / Nome coastal subject + existing downtown anchor", "coordinate_confidence": "medium_high"},
     "卡特邁國家公園": {"lat": 58.554760, "lon": -155.791930, "map_query": "Brooks Falls Platform Katmai", "coordinate_source": "NPS official Brooks Falls Scenic View/Photo Spot + OSM/Mapcarta platform cross-check", "coordinate_confidence": "medium_high"},
     "冰河灣國家公園": {"lat": 58.455543092, "lon": -135.886147445, "map_query": "Bartlett Cove Public Use Dock Glacier Bay", "coordinate_source": "NPS exact Bartlett Cove Public Use Dock Scenic View/Photo Spot coordinate", "coordinate_confidence": "high"},
-    "艾利耶斯卡": {"lat": 60.970500, "lon": -149.098000, "map_query": "Alyeska Resort Girdwood", "coordinate_source": "Wikidata resort POI", "coordinate_confidence": "high"},
+    "柯迪亞克島": {"lat": 57.827590, "lon": -152.356640, "map_query": "Fort Abercrombie State Historical Park Kodiak", "coordinate_source": "Alaska State Parks official facility GPS + scenic coastal/history subject", "coordinate_confidence": "high"},
+    "埃克盧特納湖": {"lat": 61.409750, "lon": -149.134550, "map_query": "Eklutna Lakeside Trail Alaska", "coordinate_source": "Alaska State Parks official photography subject + OSM/Mapcarta Lakeside Trailhead cross-check", "coordinate_confidence": "medium_high"},
+    "塔爾基特納": {"lat": 62.322846, "lon": -150.121177, "map_query": "Talkeetna Riverfront Park Alaska", "coordinate_source": "Travel Alaska official Denali/Susitna view subject + Alaska.org/OSM riverfront cross-check", "coordinate_confidence": "medium_high"},
+    "艾利耶斯卡": {"lat": 60.961540, "lon": -149.079370, "map_query": "Alyeska Mountain Station Aerial Tram", "coordinate_source": "Alyeska Resort official Mountain Station panorama subject + OSM/Mapcarta upper tram cross-check", "coordinate_confidence": "medium_high"},
+    "楚加奇州立公園": {"lat": 61.104890, "lon": -149.684610, "map_query": "Glen Alps Overlook Chugach State Park", "coordinate_source": "Alaska State Parks official Glen Alps/Anchorage Overlook subject + OSM/Mapcarta viewpoint cross-check", "coordinate_confidence": "medium_high"},
     "獨立礦山": {"lat": 61.790493, "lon": -149.283392, "map_query": "Independence Mine State Historical Park", "coordinate_source": "Alaska.org park GPS", "coordinate_confidence": "high"},
 })
 
