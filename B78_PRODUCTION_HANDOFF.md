@@ -1,5 +1,8 @@
 # ChaseLights R4.2 B78 Production / Maintenance Handoff
 
+> **Historical checkpoint — superseded by `B80_PRODUCTION_HANDOFF.md`.**  
+> B78 remains useful for the US-migration history through B77, but its runtime-provider backlog predates the B79 aurora implementation.
+
 Date: 2026-09-27 (Asia/Taipei)
 
 ## Start here
