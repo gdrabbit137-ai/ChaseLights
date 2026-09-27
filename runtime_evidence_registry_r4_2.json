@@ -1,6 +1,6 @@
 {
   "schema_version": "research-evidence-registry-r4.2-1",
-  "reviewed_at": "2026-09-26",
+  "reviewed_at": "2026-09-27",
   "policy": "RESEARCH_EVIDENCE_SPEC_R4_2.md",
   "opportunities": {
     "tw-001-P02": {
@@ -1167,6 +1167,57 @@
         }
       ],
       "forecast_boundary": "野生動物題材存在已驗證；個別物種是否出現不可由天氣預報保證，維持 presence_unknown。"
+    },
+    "jp-028-P02": {
+      "status": "verified",
+      "grade": "A",
+      "subject": "高野山壇上伽藍蛇腹路紅葉與伽藍",
+      "evidence_scope": "和歌山縣官方觀光資料直接將高野山紅葉與伽藍／石垣並列，且特別指出壇上伽藍蛇腹路為熱門紅葉景點。",
+      "sources": [
+        {
+          "title": "和歌山縣官方觀光－高野山の紅葉",
+          "url": "https://www.wakayama-kanko.or.jp/events/detail_3936.html"
+        },
+        {
+          "title": "和歌山縣官方觀光－壇上伽藍",
+          "url": "https://www.wakayama-kanko.or.jp/spots/detail_481.html"
+        }
+      ],
+      "forecast_boundary": "紅葉題材存在已驗證；實際著色與見頃不可只由月份保證，需 seasonal_foreground 狀態。夜間照明若要成立，另需當年度官方公告。"
+    },
+    "jp-029-P02": {
+      "status": "verified",
+      "grade": "A",
+      "subject": "伊賀上野城白鳳城與櫻花",
+      "evidence_scope": "三重縣官方觀光頁直接以伊賀上野城與櫻花的組合為季節景觀，記錄上野公園櫻花與白色城郭構圖。",
+      "sources": [
+        {
+          "title": "觀光三重－上野公園の桜",
+          "url": "https://www.kankomie.or.jp/event/5750"
+        },
+        {
+          "title": "觀光三重－伊賀上野城",
+          "url": "https://www.kankomie.or.jp/spot/3156"
+        }
+      ],
+      "forecast_boundary": "城與櫻花構圖存在已驗證；當年開花、滿開與落花狀態仍需 seasonal_foreground／花況來源，不由日期自動宣稱。"
+    },
+    "jp-031-P02": {
+      "status": "verified",
+      "grade": "A",
+      "subject": "倉敷美觀地區夜間景觀照明與倉敷川倒影",
+      "evidence_scope": "倉敷官方觀光頁直接描述夜間照明後的白壁建築與倉敷格子映在倉敷川水面，明確支持夜間照明＋河面反射題材。",
+      "sources": [
+        {
+          "title": "倉敷觀光WEB－倉敷美観地区 夜間景観照明",
+          "url": "https://www.kurashiki-tabi.jp/see/see-201/"
+        },
+        {
+          "title": "倉敷觀光WEB－美観地区",
+          "url": "https://www.kurashiki-tabi.jp/rm_see/rm-see98/"
+        }
+      ],
+      "forecast_boundary": "夜間照明與水面反射題材存在已驗證；實際照明運作、水面平穩與降雨仍需 runtime 分開判斷，不能由低風或夜晚本身保證倒影。"
     }
   }
 }

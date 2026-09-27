@@ -114,7 +114,7 @@ _ACCESS_GROUPS = {
     ),
     "transport_facility_status": ("tw-024-P01", "tw-024-P05", "tw-037-P01", "jp-002-P01", "jp-004-P01", "jp-021-P01", "jp-022-P01", "jp-022-P02"),
     "road_viewpoint_status": ("tw-034-P01",),
-    "public_attraction_notice": ("tw-038-P01", "tw-038-P02", "tw-081-P01"),
+    "public_attraction_notice": ("tw-038-P01", "tw-038-P02", "tw-081-P01", "jp-030-P01"),
     "waterfall_trail_status": ("tw-055-P01",),
     "tidal_path_notice": ("tw-059-P01", "tw-078-P01"),
     "facility_hours_notice": ("tw-068-P01",),
@@ -171,6 +171,13 @@ OFFICIAL_SOURCE_HINTS = {
         "url": "https://niigata-kankou.or.jp/spot/7462",
         "verified_on": "2026-09-25",
         "note": "Summit access is multi-modal: ropeway, seasonal Skyline road and walking routes have different constraints. 2026 night-view access is date-limited special ropeway service, so ordinary clear nights must not be inferred accessible.",
+    },
+    "jp-030": {
+        "authority": "Naruto City Uzushio Tourism Association / Uzu-no-Michi",
+        "source_kind": "official_tide_extremum_calendar_plus_attraction_hours_and_notice",
+        "url": "https://www.naruto-kankou.jp/uzu/",
+        "verified_on": "2026-09-27",
+        "note": "Whirlpool strength is tied to official high/low-tide viewing windows and actual Uzu-no-Michi operation. Generic relative sea-level percentile must not substitute for local tidal-current extremum data.",
     },
     "tw-081": {
         "authority": "Matsu National Scenic Area Headquarters",
@@ -448,8 +455,8 @@ def evaluate_dynamic_access(opportunity, item_data):
 
 def validate_access_registry():
     errors = []
-    if len(ACCESS_DEPENDENT_PROFILE_IDS) != 49:
-        errors.append(f"expected 49 dynamic-access profiles, got {len(ACCESS_DEPENDENT_PROFILE_IDS)}")
+    if len(ACCESS_DEPENDENT_PROFILE_IDS) != 50:
+        errors.append(f"expected 50 dynamic-access profiles, got {len(ACCESS_DEPENDENT_PROFILE_IDS)}")
     if ACCESS_RUNTIME_READY_PROFILES - ACCESS_DEPENDENT_PROFILE_IDS:
         errors.append("runtime-ready access profile is not classified")
     for oid, contract in ACCESS_PROFILE_CLASSIFICATION.items():
