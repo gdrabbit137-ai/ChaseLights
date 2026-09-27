@@ -8,6 +8,8 @@ DEPENDENCY_INVENTORY_VERSION = "r4.2-b58-deps-v13-semantic-registry"
 
 FORMULA_DEPENDENCIES = {
     "needs_visibility_module": ("visibility",),
+    "needs_dynamic_access_module": ("dynamic_access",),
+    "needs_radiation_dynamic_access_module": ("radiation_DNI", "cloud_light_state", "dynamic_access"),
     "needs_spatial_weather_module": ("spatial_weather_vertical_cloud",),
     "needs_directional_horizon_module": ("directional_horizon",),
     "needs_directional_horizon_dynamic_access_module": ("directional_horizon", "dynamic_access"),
