@@ -2301,7 +2301,7 @@ def test_adapter_integrity():
 
     us_spots = get_spots("us")
     researched_us = {s["spot_id"] for s in us_spots if s.get("opportunities")}
-    assert researched_us == {f"us-{i:03d}" for i in range(1, 26)}
+    assert researched_us == {f"us-{i:03d}" for i in range(1, 31)}
     assert all(not (s.get("opportunities") or []) for s in us_spots if s["spot_id"] not in researched_us)
 
     us006 = get_opportunities("us", "us-006")
@@ -2429,6 +2429,49 @@ def test_adapter_integrity():
     assert [o["runtime_policy"] for o in us025] == ["preview_module_available", "module_pending"]
     assert dependencies_for_opportunity(us025[0]) == ("directional_horizon", "visibility")
     assert dependency_state(us025[1])["missing_components"] == ("managed_lighting_state",)
+
+    us026 = get_opportunities("us", "us-026")
+    assert [o["opportunity_id"] for o in us026] == ["us-026-P01", "us-026-P02"]
+    assert [o["runtime_policy"] for o in us026] == ["minimum_sufficient_available", "minimum_sufficient_available"]
+    assert dependencies_for_opportunity(us026[1]) == ("visibility",)
+
+    us027 = get_opportunities("us", "us-027")
+    assert [o["opportunity_id"] for o in us027] == ["us-027-P01"]
+    assert us027[0]["runtime_policy"] == "module_pending"
+    assert dependency_state(us027[0])["missing_components"] == ("dynamic_access",)
+    assert ACCESS_PROFILE_CLASSIFICATION["us-027-P01"]["access_type"] == "public_attraction_notice"
+    sawtooth = next(s for s in us_spots if s["spot_id"] == "us-027")
+    assert abs(sawtooth["lat"] - 44.138889) < 1e-7
+    assert abs(sawtooth["lon"] + 114.924444) < 1e-7
+
+    us028 = get_opportunities("us", "us-028")
+    assert [o["opportunity_id"] for o in us028] == ["us-028-P01"]
+    assert us028[0]["runtime_policy"] == "minimum_sufficient_available"
+    assert dependencies_for_opportunity(us028[0]) == ("visibility",)
+    griffith = next(s for s in us_spots if s["spot_id"] == "us-028")
+    assert abs(griffith["lat"] - 34.11821) < 1e-7
+    assert abs(griffith["lon"] + 118.30037) < 1e-7
+
+    us029 = get_opportunities("us", "us-029")
+    assert [o["opportunity_id"] for o in us029] == ["us-029-P01"]
+    assert us029[0]["runtime_policy"] == "module_pending"
+    assert dependencies_for_opportunity(us029[0]) == ("dynamic_access", "visibility")
+    assert dependency_state(us029[0])["missing_components"] == ("dynamic_access",)
+    assert ACCESS_PROFILE_CLASSIFICATION["us-029-P01"]["access_type"] == "public_attraction_notice"
+    white_sands = next(s for s in us_spots if s["spot_id"] == "us-029")
+    assert abs(white_sands["lat"] - 32.81137) < 1e-7
+    assert abs(white_sands["lon"] + 106.26501) < 1e-7
+    assert white_sands["coordinate_confidence"] == "high"
+    assert white_sands["navigation_target"]["status"] == "verified"
+    assert abs(white_sands["navigation_target"]["lat"] - 32.81137) < 1e-7
+
+    us030 = get_opportunities("us", "us-030")
+    assert [o["opportunity_id"] for o in us030] == ["us-030-P01"]
+    assert us030[0]["runtime_policy"] == "minimum_sufficient_available"
+    assert dependencies_for_opportunity(us030[0]) == ("visibility",)
+    chicago = next(s for s in us_spots if s["spot_id"] == "us-030")
+    assert abs(chicago["lat"] - 41.86636) < 1e-7
+    assert abs(chicago["lon"] + 87.60663) < 1e-7
 
     assert us010[0]["runtime_policy"] == "module_pending"
     us010_state = dependency_state(us010[0])
@@ -2942,7 +2985,7 @@ def test_active_catalog_weather_generation_guard():
 
     us_spots = get_spots("us")
     researched_us = {spot["spot_id"] for spot in us_spots if spot.get("opportunities")}
-    assert researched_us == {f"us-{i:03d}" for i in range(1, 26)}
+    assert researched_us == {f"us-{i:03d}" for i in range(1, 31)}
     assert all(
         not (spot.get("opportunities") or [])
         for spot in us_spots

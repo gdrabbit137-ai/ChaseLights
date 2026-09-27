@@ -14,10 +14,10 @@
     "runtime_catalog_v004_r4_2_b35_liyu_subjects.json"
   ],
   "counts": {
-    "spots": 143,
-    "opportunities": 314,
-    "condition_variants": 329,
-    "profile_viewpoint_relations": 320
+    "spots": 148,
+    "opportunities": 320,
+    "condition_variants": 335,
+    "profile_viewpoint_relations": 326
   },
   "spots": [
     {
@@ -15268,6 +15268,392 @@
               "geometry_type": "area",
               "geometry_extent_m": 700,
               "geometry_note": "碼頭與相鄰海灘可觀看Pacific Wheel夜間燈光的公共區域。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-026",
+      "canonical_name": "西雅圖派克市場",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B69_US_RESEARCH_BATCH06",
+      "research_sources": [
+        {
+          "authority": "Pike Place Market PDA — Visitor FAQ / Photography",
+          "url": "https://www.pikeplacemarket.org/about-pike-place-market/market-visitor-faq/",
+          "verified_on": "2026-09-27",
+          "supports": "Official Market guidance welcomes personal photography, prohibits tripods for personal use within the nine-acre historic district, prohibits drones, and requires PDA approval/permit for non-personal or multi-camera production."
+        },
+        {
+          "authority": "Pike Place Market PDA — official photo-op guidance",
+          "url": "https://www.pikeplacemarket.org/cute-couple-photo-ops-in-pike-place-market-just-in-time-for-valentines-day/",
+          "verified_on": "2026-09-27",
+          "supports": "Official Market guidance explicitly identifies the Public Market Center Clock & Sign as an iconic photo subject and documents MarketFront views toward Puget Sound and the Olympic Mountains."
+        },
+        {
+          "authority": "Pike Place Market PDA — MarketFront",
+          "url": "https://www.pikeplacemarket.org/get-to-know-the-pike-place-marketfront/",
+          "verified_on": "2026-09-27",
+          "supports": "Official Market page identifies MarketFront as a public plaza/viewing deck with waterfront views at the north end of the Market."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-026-P01",
+          "spot_id": "us-026",
+          "name_zh": "Pike Place Market・Public Market Center Clock & Sign",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "minimum_sufficient_local_scene",
+          "formula_version": "v0.04-local-scene-dry-minimum-sufficient",
+          "formula_confidence": 95,
+          "best_time": "白天至傍晚；以市場公共區域可合法拍攝時段為準",
+          "best_season": "全年；節慶裝飾／活動不得由月份自動推定",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-238",
+              "variant_name": "Public Market Center Clock & Sign＋歷史市場街景",
+              "condition_geometry": "{\"camera_zone\":\"Pike Place historic district public pedestrian Camera Zone\",\"subject\":\"Public Market Center Clock & Sign + historic Market streetscape\"}",
+              "hard_gates": "僅限合法公共區域；個人拍攝不得使用腳架或無人機；商業／非個人拍攝須依PDA許可規則",
+              "required_conditions": "Clock & Sign與市場街景清楚可辨；無足以妨礙手持拍攝的強降水",
+              "boosters": "柔和側光；藍調天空；較低人流；霓虹亮起",
+              "penalties": "強降水；活動／施工遮擋主要構圖；過度壅擠",
+              "formula_status": "minimum_sufficient_local_scene"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-026-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official Pike Place Market material identifies the Clock & Sign as an iconic photo subject. The existing high-confidence Market POI remains a representative weather/map anchor; no unique tripod position is claimed.",
+              "name": "Pike Place Clock & Sign Public Camera Zone",
+              "lat": 47.60957,
+              "lon": -122.34201,
+              "coord_confidence": "high",
+              "verification_status": "official_market_iconic_photo_subject_plus_high_confidence_market_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 300,
+              "geometry_note": "Pike Place九英畝歷史街區公共步行區；個人拍攝禁止腳架與無人機。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-026-P02",
+          "spot_id": "us-026",
+          "name_zh": "Pike Place MarketFront・Puget Sound與遠山視野",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-minimum-sufficient-visibility",
+          "formula_confidence": 93,
+          "best_time": "白天至傍晚；遠景能見度佳時",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-239",
+              "variant_name": "MarketFront公共觀景區＋Puget Sound／遠方山景",
+              "condition_geometry": "{\"camera_zone\":\"Pike Place MarketFront public plaza / overlook Camera Zone\",\"target\":\"Puget Sound waterfront + distant Olympic Mountains when visible\"}",
+              "hard_gates": "MarketFront公共觀景區合法可用；不得把商家營業時間當成整個公共觀景區的唯一開放判定",
+              "required_conditions": "Puget Sound與遠景輪廓可辨；能見度足夠；強降水未遮蔽視野",
+              "boosters": "高透明度；遠方Olympic Mountains清楚；層次分明的雲",
+              "penalties": "濃霧／低雲封景；強降水；能見度過低",
+              "formula_status": "needs_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-026-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official Market material identifies MarketFront as a public waterfront viewing area and explicitly supports Puget Sound / Olympic Mountain views. Weather sampling uses the nearby Market anchor because the two zones are within the same compact Market district.",
+              "name": "Pike Place MarketFront Public Overlook Camera Zone",
+              "lat": 47.60948,
+              "lon": -122.34287,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_marketfront_view_subject_with_cross_mapped_public_plaza",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 220,
+              "geometry_note": "MarketFront公共廣場／觀景平台合法區域。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-027",
+      "canonical_name": "鋸齒山脈",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B69_US_RESEARCH_BATCH06",
+      "research_sources": [
+        {
+          "authority": "USDA Forest Service — Sawtooth National Forest Visitor Guide",
+          "url": "https://www.fs.usda.gov/Internet/FSE_DOCUMENTS/fseprd929006.pdf",
+          "verified_on": "2026-09-27",
+          "supports": "Forest Service guide describes Redfish Lake as the heart of the Sawtooth NRA, states its clear waters reflect Mt. Heyburn and Grand Mogul, and explicitly describes the terrain as delighting photographers."
+        },
+        {
+          "authority": "Recreation.gov / Sawtooth National Forest — North Shore Picnic Area",
+          "url": "https://www.recreation.gov/camping/campgrounds/232076",
+          "verified_on": "2026-09-27",
+          "supports": "Federal recreation listing places North Shore directly on Redfish Lake at the foot of the Sawtooth Range, documents public day-use waterfront access, and states opening/closing dates are weather permitting."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-027-P01",
+          "spot_id": "us-027",
+          "name_zh": "Redfish Lake北岸・Sawtooth山峰與湖景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_dynamic_access_visibility_module",
+          "formula_version": "v0.04-research-ready-access-visibility-pending",
+          "formula_confidence": 94,
+          "best_time": "North Shore公共day-use區實際開放且山峰可見時；清晨平靜水面可加分但不是硬門檻",
+          "best_season": "依North Shore實際開放狀態；不得只由月份推定",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-240",
+              "variant_name": "Redfish Lake＋Mt. Heyburn／Grand Mogul山景",
+              "condition_geometry": "{\"camera_zone\":\"Redfish Lake North Shore public day-use Camera Zone\",\"target\":\"Redfish Lake + Mt. Heyburn / Grand Mogul Sawtooth skyline\"}",
+              "hard_gates": "North Shore公共day-use區實際可達；不得由月份或好天氣推定設施開放",
+              "required_conditions": "湖面與Sawtooth山峰輪廓可辨；能見度足夠",
+              "boosters": "平靜水面形成官方證實的山峰倒影；晨間柔光；高透明度",
+              "penalties": "設施／道路關閉；濃霧／低雲封山；強降水；煙霧造成低能見度",
+              "formula_status": "needs_dynamic_access_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-027-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "B69 narrows the broad Sawtooth inventory Place to the officially documented Redfish Lake North Shore scene. Reflection is an evidence-backed booster, not a hard water-surface gate. The North Shore anchor replaces the broad mountain-region weather coordinate for this migrated Place.",
+              "name": "Redfish Lake North Shore Public Camera Zone",
+              "lat": 44.138889,
+              "lon": -114.924444,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_usfs_recreation_site_identity_plus_cross_mapped_north_shore_coordinate",
+              "geometry_type": "area",
+              "geometry_extent_m": 700,
+              "geometry_note": "North Shore Picnic Area與鄰近Redfish Lake公共湖岸合法day-use範圍；開閉日期受天候／營運狀態影響。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-028",
+      "canonical_name": "洛杉磯格里斐斯天文台",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B69_US_RESEARCH_BATCH06",
+      "research_sources": [
+        {
+          "authority": "City of Los Angeles — Griffith Observatory Visit",
+          "url": "https://griffithobservatory.lacity.gov/visit/",
+          "verified_on": "2026-09-27",
+          "supports": "Official Observatory guidance identifies spectacular views of Los Angeles and the Hollywood Sign and states the grounds are generally open daily on the Griffith Park schedule."
+        },
+        {
+          "authority": "City of Los Angeles — Griffith Observatory Roof & Terraces",
+          "url": "https://griffithobservatory.lacity.gov/exhibits/exterior-exhibits/roof-terraces/",
+          "verified_on": "2026-09-27",
+          "supports": "Official page states the terraces provide panoramic Los Angeles viewpoints in every direction and are accessible each day from sunrise until 22:00; the roof itself follows building hours."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-028-P01",
+          "spot_id": "us-028",
+          "name_zh": "Griffith Observatory terraces・Los Angeles與Hollywood Sign全景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-minimum-sufficient-visibility-panorama",
+          "formula_confidence": 97,
+          "best_time": "日出後至22:00前的terraces公共時段；屋頂區另依天文台建築開放時間",
+          "best_season": "全年；實際臨時封閉／道路管制以官方公告為準",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-241",
+              "variant_name": "Griffith Observatory terraces・Los Angeles／Hollywood Sign全景",
+              "condition_geometry": "{\"camera_zone\":\"Griffith Observatory exterior terraces Camera Zone\",\"subject\":\"Los Angeles basin / skyline + Hollywood Sign panorama\"}",
+              "hard_gates": "terraces公共區域在官方可使用時段內；不得把屋頂開放狀態與外部terraces混為一談",
+              "required_conditions": "Los Angeles城市層次或Hollywood Sign主要方向清楚可辨；能見度足夠",
+              "boosters": "高透明度；低霾；柔和斜光",
+              "penalties": "濃霧／低雲／煙霾使城市或Hollywood Sign不可辨；強降水；官方臨時封閉",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-028-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official Griffith Observatory material directly documents panoramic Los Angeles and Hollywood Sign views from the grounds/terraces. The existing Observatory POI coordinate is already close to the actual facility and is retained.",
+              "name": "Griffith Observatory Exterior Terraces Camera Zone",
+              "lat": 34.11821,
+              "lon": -118.30037,
+              "coord_confidence": "high",
+              "verification_status": "official_observatory_terrace_panorama_subject_plus_existing_poi_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 320,
+              "geometry_note": "天文台外部terraces、草坪與合法公共步道；roof access另依建築開放狀態。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-029",
+      "canonical_name": "白沙國家公園",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B69_US_RESEARCH_BATCH06",
+      "research_sources": [
+        {
+          "authority": "U.S. National Park Service — White Sands Photography",
+          "url": "https://home.nps.gov/whsa/planyourvisit/photography.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS calls White Sands a photographer's paradise, recommends the golden hours before sunset, and describes gypsum-dune, mountain and afterglow compositions."
+        },
+        {
+          "authority": "U.S. National Park Service — 2026 Sunset Stroll",
+          "url": "https://www.nps.gov/planyourvisit/event-details.htm?id=AC221D58-E77A-3272-6B18E7C27671C1FD",
+          "verified_on": "2026-09-27",
+          "supports": "The current NPS Sunset Stroll page explicitly describes panoramic sunset photographic opportunities and publishes the Sunset Stroll parking-area coordinate 32.811370, -106.265010."
+        },
+        {
+          "authority": "U.S. National Park Service — White Sands Operating Hours",
+          "url": "https://www.nps.gov/whsa/planyourvisit/hours.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS publishes current park hours tied to local sunset, including seasonal exceptions; park and Dunes Drive access can also be affected by temporary closures."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-029-P01",
+          "spot_id": "us-029",
+          "name_zh": "White Sands・石膏沙丘與山脈日落",
+          "legacy_theme": "sunset",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_dynamic_access_visibility_module",
+          "formula_version": "v0.04-white-sands-access-visibility-pending",
+          "formula_confidence": 97,
+          "best_time": "日落前約2小時至園區當日允許停留的日落後短時段；以NPS當日關門與道路狀態為準",
+          "best_season": "全年；園區每日開閉時間隨季節／日落變化，且可能因White Sands Missile Range測試、道路或極端天候臨時關閉",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-242",
+              "variant_name": "白色石膏沙丘＋周邊山脈日落／餘暉",
+              "condition_geometry": "{\"camera_zone\":\"White Sands Sunset Stroll / nearby Dunes Drive Camera Zone\",\"target\":\"gypsum dunes + sunset sky + surrounding mountain context\"}",
+              "hard_gates": "NPS園區／Dunes Drive當下可合法到達；不得由天氣良好、月份或靜態時刻表推定臨時關閉已解除",
+              "required_conditions": "白色沙丘與周邊山脈／夕照至少主要層次清楚可辨；能見度足夠；官方當下未封閉Dunes Drive",
+              "boosters": "黃金時段低角度光；日落後山體粉紅餘暉；雲層色彩；新鮮風紋",
+              "penalties": "強風吹沙；能見度過低；強降水；極端高溫；道路／園區臨時關閉",
+              "formula_status": "needs_dynamic_access_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-029-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS publishes the current Sunset Stroll parking-area coordinate and explicitly describes panoramic sunset photographic opportunities. B69 moves the Place weather/map anchor from the visitor center to this actual dune sunset area.",
+              "name": "White Sands Sunset Stroll / Dunes Camera Zone",
+              "lat": 32.81137,
+              "lon": -106.26501,
+              "coord_confidence": "high",
+              "verification_status": "official_nps_current_sunset_stroll_coordinate_and_photo_subject",
+              "geometry_type": "area",
+              "geometry_extent_m": 900,
+              "geometry_note": "Sunset Stroll停車區與鄰近合法沙丘活動範圍；需遵循NPS標誌、安全與關閉規定。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-030",
+      "canonical_name": "芝加哥天際線",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B69_US_RESEARCH_BATCH06",
+      "research_sources": [
+        {
+          "authority": "Choose Chicago — official destination photo guide",
+          "url": "https://www.choosechicago.com/blog/tours-attractions/7-photo-spots-for-the-best-chicago-skyline-views/",
+          "verified_on": "2026-09-27",
+          "supports": "Chicago's official destination organization explicitly identifies the area in front of Adler Planetarium as a free photography location for the Chicago skyline."
+        },
+        {
+          "authority": "Choose Chicago — Museum Campus / skyline photo guidance",
+          "url": "https://www.choosechicago.com/articles/itineraries/chicagos-best-spots-for-selfies/",
+          "verified_on": "2026-09-27",
+          "supports": "Official destination guidance identifies the stretch of Solidarity Drive between Shedd Aquarium and Adler Planetarium for spectacular Lake Michigan and Chicago skyline views."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-030-P01",
+          "spot_id": "us-030",
+          "name_zh": "Adler Planetarium湖岸・Chicago Skyline全景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-minimum-sufficient-visibility",
+          "formula_confidence": 95,
+          "best_time": "白天可見光；藍調／夜間可加分，但官方基礎題材不以城市燈光作硬門檻",
+          "best_season": "全年；湖岸強風與冬季低溫屬安全／舒適度因素，不創造題材",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-243",
+              "variant_name": "Adler／Solidarity Drive湖岸＋Chicago Skyline",
+              "condition_geometry": "{\"camera_zone\":\"Adler Planetarium / Solidarity Drive public lakefront Camera Zone\",\"target\":\"Chicago skyline + Lake Michigan foreground\"}",
+              "hard_gates": "公共湖岸步行區合法可用；博物館室內營業狀態不得被誤當成外部湖岸唯一開放條件",
+              "required_conditions": "Chicago skyline輪廓清楚可辨；能見度足夠；強降水未遮蔽城市遠景",
+              "boosters": "高透明度；藍調天空；城市燈光；平靜湖面／乾淨反射屬加分而非硬門檻",
+              "penalties": "濃霧／低雲；強降水；煙霧／霾；湖岸惡劣風況",
+              "formula_status": "needs_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-030-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Choose Chicago explicitly identifies the Adler / Solidarity Drive lakefront as a skyline photography location. B69 replaces the broad downtown-center weather coordinate with the actual Museum Campus camera area.",
+              "name": "Adler Planetarium／Solidarity Drive Skyline Camera Zone",
+              "lat": 41.86636,
+              "lon": -87.60663,
+              "coord_confidence": "high",
+              "verification_status": "official_destination_skyline_photo_subject_plus_high_confidence_adler_poi",
+              "geometry_type": "area",
+              "geometry_extent_m": 650,
+              "geometry_note": "Adler Planetarium外部與Solidarity Drive公共湖岸步行區。",
               "geometry_confidence": "high"
             }
           ]
