@@ -718,6 +718,7 @@ def test_adapter_integrity():
     update_weather_workflow = Path(".github/workflows/update_weather.yml").read_text(encoding="utf-8")
     assert "git add tw_weather.json jp_weather.json us_weather.json weather_details/" in update_weather_workflow
     assert "git rm -f --ignore-unmatch tw_weather_details.json jp_weather_details.json us_weather_details.json" in update_weather_workflow
+    assert "git rm -f --ignore-unmatch usa_weather.json" in update_weather_workflow
 
     # B56: production refresh must follow current canonical/runtime inputs.
     for required_path in (
