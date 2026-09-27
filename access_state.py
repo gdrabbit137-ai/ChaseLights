@@ -113,7 +113,7 @@ _ACCESS_GROUPS = {
         "tw-049-P02",
     ),
     "transport_facility_status": ("tw-024-P01", "tw-024-P05", "tw-037-P01", "jp-002-P01", "jp-004-P01", "jp-021-P01", "jp-022-P01", "jp-022-P02", "us-048-P02"),
-    "road_viewpoint_status": ("tw-034-P01", "us-012-P01", "us-012-P02", "us-013-P02", "us-017-P01", "us-038-P01", "us-041-P01", "us-041-P02", "us-046-P01", "us-046-P02"),
+    "road_viewpoint_status": ("tw-034-P01", "us-012-P01", "us-012-P02", "us-013-P02", "us-017-P01", "us-038-P01", "us-041-P01", "us-041-P02", "us-046-P01", "us-046-P02", "us-055-P01", "us-055-P02"),
     "public_attraction_notice": ("tw-038-P01", "tw-038-P02", "tw-081-P01", "jp-030-P01", "jp-034-P02", "us-010-P01", "us-027-P01", "us-029-P01", "us-047-P01"),
     "waterfall_trail_status": ("tw-055-P01",),
     "tidal_path_notice": ("tw-059-P01", "tw-078-P01"),
@@ -144,6 +144,13 @@ ACCESS_RUNTIME_READY_PROFILES = frozenset({
 # These are provider-discovery hints, not proof that an Opportunity is open.
 # They document official sources verified during B25 architecture work.
 OFFICIAL_SOURCE_HINTS = {
+    "us-055": {
+        "authority": "U.S. National Park Service",
+        "source_kind": "wrst_mccarthy_road_kennecott_root_glacier_current_access",
+        "url": "https://www.nps.gov/wrst/planyourvisit/directions-mccarthy-rd-and-kennecott.htm",
+        "verified_on": "2026-09-27",
+        "note": "Kennecott requires remote McCarthy Road access plus walking/biking/shuttle beyond the Kennicott River bridge; Root Glacier access was rerouted in 2026 after a landslide hazard. Current road, transport, trail and closure state must be checked independently of favorable weather.",
+    },
     "us-050": {
         "authority": "Goldbelt Tram",
         "source_kind": "goldbelt_tram_current_operating_status",

@@ -113,11 +113,11 @@ MINIMUM_SUFFICIENT_VISIBILITY_PROFILES = {
     "jp-035-P01", "jp-035-P02",
     # B61 US: broad Horseshoe Bend and Monument Valley landscapes need readable long-range visibility.
     "us-002-P01", "us-004-P01", "us-009-P01", "us-011-P02", "us-013-P01", "us-015-P02",
-    "us-019-P01", "us-026-P02", "us-028-P01", "us-030-P01", "us-036-P01", "us-039-P02", "us-040-P01", "us-045-P01", "us-048-P01", "us-049-P01", "us-050-P01",
+    "us-019-P01", "us-026-P02", "us-028-P01", "us-030-P01", "us-036-P01", "us-039-P02", "us-040-P01", "us-045-P01", "us-048-P01", "us-049-P01", "us-050-P01", "us-051-P01", "us-051-P02", "us-052-P01",
 }
 
 MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES = {
-    "us-016-P01", "us-020-P01", "us-024-P01", "us-026-P01", "us-032-P01", "us-034-P01", "us-035-P01", "us-037-P01",
+    "us-016-P01", "us-020-P01", "us-024-P01", "us-026-P01", "us-032-P01", "us-034-P01", "us-035-P01", "us-037-P01", "us-052-P02", "us-053-P01", "us-054-P01",
     # B32 jp-025 historic lane and jp-026 public shrine approach are close-range
     # scenes. Low cloud and long-range visibility are not hard blockers;
     # material rain and known access closure remain blockers.
