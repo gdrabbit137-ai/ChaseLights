@@ -36,7 +36,9 @@ B78 remains the detailed migration-history checkpoint for B69 through B77. B80 f
 - Post-B79 main Adapter #477 — PASS.
 - Post-B79 main Evidence Audit #127 — PASS.
 - Initial Pages deployment #438 on the code merge — PASS.
-- Final production-weather run / generated-weather commit / Pages deployment: **fill from the completed B79 production weather publication before releasing this handoff**.
+- Post-B79 production weather run #187 — PASS.
+- Final generated-weather commit: `bb9e3f7a11b24c856200448a4fb2c5acfb3103aa`.
+- Final Pages deployment #439 on `bb9e3f7a`: pending final verification before this handoff is merged.
 
 ## Canonical catalog checkpoint
 
