@@ -137,6 +137,16 @@ jobs:
               assert detail.get("spot_id"), shard_path.name
               hourly = detail.get("hourly_forecast") or []
               assert all(
+                  "tag_scores" not in row
+                  for row in hourly
+                  if isinstance(row, dict)
+              ), f"{shard_path.name}: retired tag_scores leaked into schema 11 detail"
+              assert all(
+                  "theme_scores" in row
+                  for row in hourly
+                  if isinstance(row, dict)
+              ), f"{shard_path.name}: theme_scores missing from published detail"
+              assert all(
                   "opportunity_runtime" not in row
                   for row in hourly
                   if isinstance(row, dict)
