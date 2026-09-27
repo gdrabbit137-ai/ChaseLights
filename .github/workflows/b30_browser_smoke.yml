@@ -111,11 +111,12 @@ jobs:
               output.write(f"regenerate={'true' if regenerate else 'false'}\n")
           PY
 
-      - name: Generate Taiwan and Japan candidate weather
+      - name: Generate Taiwan Japan and US candidate weather
         if: github.event_name != 'pull_request' || steps.weather_changes.outputs.regenerate == 'true'
         run: |
           python analyze_weather.py tw
           python analyze_weather.py jp
+          python analyze_weather.py us
 
       - name: Install browser test dependency
         run: python -m pip install --disable-pip-version-check selenium
@@ -581,9 +582,16 @@ jobs:
               wait.until(lambda d: len(d.find_elements(By.CSS_SELECTOR, "#spots-container .card")) > 0)
               us_cards = driver.find_elements(By.CSS_SELECTOR, "#spots-container .card")
               report["us_cards"] = len(us_cards)
-              us_scores = [c.find_element(By.CSS_SELECTOR, ".score-badge").text.strip() for c in us_cards]
-              assert all(x in {"", "—"} for x in us_scores), us_scores[:20]
-              assert any("攝影研究待補" in c.text for c in us_cards), "US research-pending card notice missing"
+              assert len(us_cards) == 70, len(us_cards)
+              researched_us_names = {"大峽谷國家公園", "馬蹄灣", "羚羊峽谷", "紀念碑谷", "拱門國家公園"}
+              researched_us_cards = [c for c in us_cards if any(name in c.text for name in researched_us_names)]
+              assert len(researched_us_cards) == 5, [c.text for c in researched_us_cards]
+              assert all("攝影研究待補" not in c.text for c in researched_us_cards), [c.text for c in researched_us_cards]
+              pending_us_cards = [c for c in us_cards if not any(name in c.text for name in researched_us_names)]
+              assert len(pending_us_cards) == 65
+              pending_us_scores = [c.find_element(By.CSS_SELECTOR, ".score-badge").text.strip() for c in pending_us_cards]
+              assert all(x in {"", "—"} for x in pending_us_scores), pending_us_scores[:20]
+              assert all("攝影研究待補" in c.text for c in pending_us_cards), "non-migrated US card leaked legacy scoring"
 
               favorite_migration = driver.execute_script("""
                 const spot = currentSpots[0];
