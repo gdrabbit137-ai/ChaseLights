@@ -71,7 +71,7 @@
     let activeLoadController=null, activeLoadSequence=0;
     const memorySummary=new Map(), memoryDetails=new Map();
     const CACHE_NAME='chaselights-v11-weather';
-    const MIN_SCHEMA_VERSION=7, MAX_SCHEMA_VERSION=10;
+    const MIN_SCHEMA_VERSION=7, MAX_SCHEMA_VERSION=11;
     const schemaSupported=j=>Number.isInteger(j?.schema_version)&&j.schema_version>=MIN_SCHEMA_VERSION&&j.schema_version<=MAX_SCHEMA_VERSION;
     function clearMemoryDetails(region){for(const key of memoryDetails.keys())if(key.startsWith(`${region}:`))memoryDetails.delete(key);}
 
