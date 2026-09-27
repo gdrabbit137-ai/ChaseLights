@@ -274,6 +274,34 @@ def _build_day_summaries(hourly, themes, opportunities=None, local_today=None):
         })
     return days
 
+
+def _summary_daily_projection(days):
+    """Remove retired daily Theme compatibility maps from published summaries.
+
+    Internal day summaries still contain Theme results for regression/debug
+    compatibility. Schema 11 publication keeps only the Opportunity-first
+    contract consumed by the current frontend: date, all, and opportunities.
+    """
+    projected = []
+    for day in days or []:
+        if not isinstance(day, dict):
+            projected.append(day)
+            continue
+        row = dict(day)
+        row.pop("themes", None)
+        projected.append(row)
+    return projected
+
+
+def _summary_spot_projection(summary):
+    """Apply schema-11 summary projection to fresh or stale fallback rows."""
+    if not isinstance(summary, dict):
+        return summary
+    projected = dict(summary)
+    projected["daily"] = _summary_daily_projection(projected.get("daily", []))
+    return projected
+
+
 def _detail_hourly_projection(hourly):
     """Remove duplicated diagnostics that are already nested in Opportunity scores.
 
@@ -348,6 +376,7 @@ def analyze_spot(spot, kp_rows=None):
         spot.get("opportunities", []),
         local_today=local_today,
     )
+    summary = _summary_spot_projection(summary)
 
     details = dict(common)
     details["hourly_forecast"] = _detail_hourly_projection(hourly)
@@ -431,7 +460,7 @@ def main():
         previous_detail = previous_details.get(spot_id)
         if previous_summary and previous_detail:
             print(f"  ↳ using previous committed weather row for {spot_id}")
-            summaries.append(_mark_stale(previous_summary, "weather_fetch_failed"))
+            summaries.append(_mark_stale(_summary_spot_projection(previous_summary), "weather_fetch_failed"))
             details.append(_mark_stale(previous_detail, "weather_fetch_failed"))
             stale_spot_ids.append(spot_id)
         else:
@@ -449,7 +478,7 @@ def main():
         )
 
     base_meta = {
-        "schema_version": 10,
+        "schema_version": 11,
         "updated_at": now_utc_str,
         "region": region,
         "latest_kp": kp_info.get("kp_index") if kp_info else None,
