@@ -41,6 +41,11 @@ from yahiko_access import (
     fetch_yahiko_homepage_status,
     unknown_yahiko_provider_state,
 )
+from mount_rainier_access import (
+    build_mount_rainier_access_state,
+    fetch_mount_rainier_road_status,
+    unknown_mount_rainier_provider_state,
+)
 
 # 後端多國語言狀態與指標字典
 I18N_MESSAGES = {
@@ -170,6 +175,7 @@ _MARINE_RESPONSE_CACHE = {}
 _TIDE_RESPONSE_CACHE = {}
 _SHINHOTAKA_ACCESS_CACHE = None
 _YAHIKO_ACCESS_CACHE = None
+_MOUNT_RAINIER_ACCESS_CACHE = None
 
 
 def _fetch_shinhotaka_access_provider():
@@ -200,6 +206,21 @@ def _fetch_yahiko_access_provider():
             reason=f"provider_exception:{type(exc).__name__}"
         )
     return _YAHIKO_ACCESS_CACHE
+
+
+def _fetch_mount_rainier_access_provider():
+    """Fetch us-012 official NPS road status once per generator process."""
+    global _MOUNT_RAINIER_ACCESS_CACHE
+    if _MOUNT_RAINIER_ACCESS_CACHE is not None:
+        return _MOUNT_RAINIER_ACCESS_CACHE
+    try:
+        _MOUNT_RAINIER_ACCESS_CACHE = fetch_mount_rainier_road_status()
+    except Exception as exc:
+        print(f"Mount Rainier access fetch error: {exc}")
+        _MOUNT_RAINIER_ACCESS_CACHE = unknown_mount_rainier_provider_state(
+            reason=f"provider_exception:{type(exc).__name__}"
+        )
+    return _MOUNT_RAINIER_ACCESS_CACHE
 
 
 def _request_json(url, timeout=12, attempts=3):
@@ -1558,6 +1579,11 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
             if spot.get("spot_id") == "jp-022"
             else None
         )
+        mount_rainier_access_provider = (
+            _fetch_mount_rainier_access_provider()
+            if spot.get("spot_id") == "us-012"
+            else None
+        )
 
         tz_name = raw.get("timezone") or "UTC"
         try:
@@ -1676,6 +1702,10 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
             elif spot.get("spot_id") == "jp-022":
                 item_data["access_state"] = build_yahiko_access_state(
                     int(ts), yahiko_access_provider
+                )
+            elif spot.get("spot_id") == "us-012":
+                item_data["access_state"] = build_mount_rainier_access_state(
+                    int(ts), mount_rainier_access_provider
                 )
 
             opportunity_runtime = _build_opportunity_runtime_diagnostics(spot, item_data)
