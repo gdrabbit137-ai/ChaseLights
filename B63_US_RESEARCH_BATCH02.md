@@ -1,4 +1,4 @@
-# ChaseLights R4.2 B63 — US Research Batch 02 Draft (us-006 through us-010)
+# ChaseLights R4.2 B63 — US Research Batch 02 (us-006 through us-010)
 
 Date: 2026-09-27 (Asia/Taipei)
 
@@ -14,7 +14,7 @@ Status: implementation batch. Rebuilt from main after B61 merged.
 
 ## Evidence/model boundary
 
-Only official NPS material is used for this draft.
+Only official NPS material is used for this batch.
 
 Do not create a Photography Opportunity merely because a legacy tag says mountain/starlight.
 Each subject below is tied to an official NPS viewpoint/photo/stargazing statement.
