@@ -61,8 +61,11 @@
     }
     let currentCategoryKey=localStorage.getItem(`chaselights_category_${currentRegion}`)||'__all__';
     let currentTempUnit=['C','F'].includes(localStorage.getItem('chaselights_temp_unit'))?localStorage.getItem('chaselights_temp_unit'):'C';
+    const FAVORITE_MIGRATION_KEY='chaselights_favs_migration_v2_regions_v1';
     let favorites=JSON.parse(localStorage.getItem('chaselights_favs_v2')||'[]');
     let legacyFavorites=JSON.parse(localStorage.getItem('chaselights_favs')||'[]');
+    let favoriteMigrationRegions=JSON.parse(localStorage.getItem(FAVORITE_MIGRATION_KEY)||'[]');
+    if(!Array.isArray(favoriteMigrationRegions))favoriteMigrationRegions=[];
     let currentData=null, currentSpots=[];
     let activeModalSpot=null, activeModalSummary=null;
     let activeLoadController=null, activeLoadSequence=0;
@@ -142,7 +145,14 @@
     function switchRegion(k){if(!VALID_REGIONS.includes(k))k='tw';currentRegion=k;localStorage.setItem('chaselights_region',k);currentCategoryKey=localStorage.getItem(`chaselights_category_${k}`)||'__all__';document.getElementById('country-select').value=k;loadData(k);}
     function persistLegacyFavorites(){
       if(legacyFavorites.length)localStorage.setItem('chaselights_favs',JSON.stringify(legacyFavorites));
-      else localStorage.removeItem('chaselights_favs');
+      else{
+        localStorage.removeItem('chaselights_favs');
+        favoriteMigrationRegions=[];
+        localStorage.removeItem(FAVORITE_MIGRATION_KEY);
+      }
+    }
+    function persistFavoriteMigrationRegions(){
+      localStorage.setItem(FAVORITE_MIGRATION_KEY,JSON.stringify(favoriteMigrationRegions));
     }
     function toggleFavorite(id,event){
       event?.stopPropagation();
@@ -161,9 +171,9 @@
 
     async function cacheMatch(url){try{if(!('caches'in window))return null;const c=await caches.open(CACHE_NAME);const r=await c.match(url);if(!r)return null;const j=await r.json();return schemaSupported(j)?j:null;}catch{return null;}}
     async function fetchAndCache(url,signal,cacheKey=url){const opts={cache:'no-cache'};if(signal)opts.signal=signal;const r=await fetch(url,opts);if(!r.ok)throw new Error(`HTTP ${r.status}`);const clone=r.clone();try{if('caches'in window){const c=await caches.open(CACHE_NAME);await c.put(cacheKey,clone);}}catch{}const j=await r.json();if(!schemaSupported(j))throw new Error(`Schema mismatch: expected ${MIN_SCHEMA_VERSION}-${MAX_SCHEMA_VERSION}, got ${j?.schema_version??'missing'}`);return j;}
-    function applyData(data,region,seq){if(seq!==activeLoadSequence||region!==currentRegion||data.region!==region)return false;const prev=memorySummary.get(region);if(prev?.updated_at&&data?.updated_at&&prev.updated_at!==data.updated_at)clearMemoryDetails(region);currentData=data;currentSpots=data.spots||[];memorySummary.set(region,data);document.getElementById('loading').style.display='none';migrateFavorites();renderSubNav();syncDayButtons();updateHeader();filterAndRender();return true;}
-    function migrateFavorites(){
-      if(!legacyFavorites.length)return;
+    function applyData(data,region,seq){if(seq!==activeLoadSequence||region!==currentRegion||data.region!==region)return false;const prev=memorySummary.get(region);if(prev?.updated_at&&data?.updated_at&&prev.updated_at!==data.updated_at)clearMemoryDetails(region);currentData=data;currentSpots=data.spots||[];memorySummary.set(region,data);document.getElementById('loading').style.display='none';migrateFavorites(region);renderSubNav();syncDayButtons();updateHeader();filterAndRender();return true;}
+    function migrateFavorites(region){
+      if(!legacyFavorites.length||favoriteMigrationRegions.includes(region))return;
       const migratedNames=new Set();
       currentSpots.forEach(s=>{
         const names=[...Object.values(s.name_i18n||{}),s.name_local].filter(Boolean);
@@ -172,8 +182,10 @@
           names.forEach(n=>migratedNames.add(n));
         }
       });
-      localStorage.setItem('chaselights_favs_v2',JSON.stringify(favorites));
+      if(migratedNames.size)localStorage.setItem('chaselights_favs_v2',JSON.stringify(favorites));
       legacyFavorites=legacyFavorites.filter(name=>!migratedNames.has(name));
+      favoriteMigrationRegions=[...new Set([...favoriteMigrationRegions,region])];
+      persistFavoriteMigrationRegions();
       persistLegacyFavorites();
     }
     async function refreshSummary(region,url,seq,controller,silent=false){try{const fresh=await fetchAndCache(url,controller.signal);if(applyData(fresh,region,seq))memorySummary.set(region,fresh);}catch(e){if(e?.name==='AbortError'||seq!==activeLoadSequence)return;if(!silent){const l=document.getElementById('loading');l.style.display='block';l.innerText=`⚠️ ${url} — ${e?.message||e}`;}}}
