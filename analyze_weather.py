@@ -303,12 +303,13 @@ def _summary_spot_projection(summary):
 
 
 def _detail_hourly_projection(hourly):
-    """Remove duplicated diagnostics that are already nested in Opportunity scores.
+    """Remove compatibility duplicates from published schema-11 detail rows.
 
-    fetch_data keeps the top-level opportunity_runtime map for internal/debug
-    compatibility while scoring. Every Opportunity score already embeds the
-    same diagnostic under opportunity_scores[opportunity_id]["runtime"], so
-    publishing both copies in every hourly row wastes substantial shard space.
+    Internal fetch/scoring may still carry:
+    - opportunity_runtime, duplicated inside opportunity_scores[*].runtime
+    - tag_scores, the legacy V4 alias of theme_scores
+
+    Neither duplicate is needed by the deployed schema-11 reader.
     """
     projected = []
     for item in hourly or []:
@@ -317,6 +318,7 @@ def _detail_hourly_projection(hourly):
             continue
         row = dict(item)
         row.pop("opportunity_runtime", None)
+        row.pop("tag_scores", None)
         projected.append(row)
     return projected
 
