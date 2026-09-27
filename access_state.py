@@ -7,7 +7,7 @@ ready only after an authoritative provider/rule is connected for that profile.
 Unknown or stale access data must never be interpreted as open.
 """
 
-ACCESS_STATE_VERSION = "dynamic-access-foundation-r3-yahiko-preview"
+ACCESS_STATE_VERSION = "dynamic-access-foundation-r4-mount-rainier-preview"
 
 ACCESS_REQUIREMENTS = {
     "event_access_control": {
@@ -139,6 +139,8 @@ ACCESS_RUNTIME_READY_PROFILES = frozenset({
     "jp-022-P01",
     "jp-022-P02",
     "jp-022-P03",
+    "us-012-P01",
+    "us-012-P02",
 })
 
 # These are provider-discovery hints, not proof that an Opportunity is open.
