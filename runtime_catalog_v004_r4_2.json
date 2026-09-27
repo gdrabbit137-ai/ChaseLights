@@ -14,10 +14,10 @@
     "runtime_catalog_v004_r4_2_b35_liyu_subjects.json"
   ],
   "counts": {
-    "spots": 173,
-    "opportunities": 356,
-    "condition_variants": 371,
-    "profile_viewpoint_relations": 362
+    "spots": 178,
+    "opportunities": 366,
+    "condition_variants": 381,
+    "profile_viewpoint_relations": 372
   },
   "spots": [
     {
@@ -17927,6 +17927,584 @@
               "geometry_extent_m": 2600,
               "geometry_note": "Root Glacier Trail、官方reroute與合法冰河觀景／接近區；不把舊封閉路段視為可用。",
               "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-056",
+      "canonical_name": "布魯克斯山脈",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B75_US_RESEARCH_BATCH12",
+      "research_sources": [
+        {
+          "authority": "Bureau of Land Management — Atigun Pass",
+          "url": "https://www.blm.gov/visit/atigun-pass",
+          "verified_on": "2026-09-27",
+          "supports": "BLM identifies Atigun Pass at Dalton Highway milepost 244 as the Continental Divide crossing through the Brooks Range, documents its alpine terrain and wildlife, and warns that this remote road requires current safe-driving information."
+        },
+        {
+          "authority": "Bureau of Land Management — Dalton Highway FAQ",
+          "url": "https://www.blm.gov/learn/interpretive-centers/arctic-interagency-visitor-center/frequently-asked-questions",
+          "verified_on": "2026-09-27",
+          "supports": "BLM states the Dalton Highway remains open in winter but ice, blowing snow, construction and road conditions can be severe, and describes the highway as a northern-lights viewing corridor when skies are dark and clear."
+        },
+        {
+          "authority": "Travel Alaska — Brooks Range",
+          "url": "https://www.travelalaska.com/destinations/regions/arctic/brooks-range",
+          "verified_on": "2026-09-27",
+          "supports": "Official state tourism guidance identifies Atigun Pass on the Dalton Highway as a road-accessible way to view the Brooks Range."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-056-P01",
+          "spot_id": "us-056",
+          "name_zh": "Atigun Pass・Brooks Range高山峽谷全景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_dynamic_access_visibility_module",
+          "formula_version": "v0.04-atigun-road-access-visibility-pending",
+          "formula_confidence": 97,
+          "best_time": "Dalton Highway／Atigun Pass當下可安全合法到達且山稜、峽谷清楚可見時",
+          "best_season": "全年道路原則上通行，但冬季冰雪與吹雪風險很高；實際道路狀態優先於季節與天氣評分",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-280",
+              "variant_name": "Atigun Pass＋Brooks Range山稜／冰蝕峽谷",
+              "condition_geometry": "{\"camera_zone\":\"Atigun Pass Dalton Highway legal pull-off / public roadside Camera Zone\",\"subject\":\"Brooks Range alpine peaks + Atigun Pass / glacier-carved valley\"}",
+              "hard_gates": "Dalton Highway與合法停車／pull-off當下可使用；不得停在車道或pipeline access；不得由好天氣推定道路安全",
+              "required_conditions": "主要山稜／峽谷層次清楚可辨；能見度足夠",
+              "boosters": "高透明度；低角度光；秋色／積雪僅作現況加分",
+              "penalties": "道路事故／施工／危險冰雪狀態；低雲／霧封山；強降水；低能見度",
+              "formula_status": "needs_dynamic_access_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-056-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "BLM directly identifies Atigun Pass as the Dalton Highway crossing of the Brooks Range. The legacy coordinate already lies at the pass and is retained as a planning-grade Camera Zone/weather anchor; no unsafe roadside tripod point is asserted.",
+              "name": "Atigun Pass Public Roadside Camera Zone",
+              "lat": 68.133,
+              "lon": -149.48,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_blm_atigun_pass_subject_plus_existing_mapped_pass_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 2200,
+              "geometry_note": "Atigun Pass周邊合法roadside／pull-off觀景範圍；只在安全停車位置拍攝。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-056-P02",
+          "spot_id": "us-056",
+          "name_zh": "Dalton Highway／Atigun Pass・Brooks Range極光",
+          "legacy_theme": "aurora",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_aurora_state_dynamic_access_module",
+          "formula_version": "v0.04-atigun-aurora-access-provider-pending",
+          "formula_confidence": 94,
+          "best_time": "無午夜太陽且天空足夠黑暗的秋冬春夜間；須同時有location-aware極光活動、清朗天空與安全道路",
+          "best_season": "BLM說明Dalton Highway於黑暗季可觀極光；實際極光與道路安全皆需當下資料",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-281",
+              "variant_name": "Brooks Range山稜前景＋Aurora Borealis",
+              "condition_geometry": "{\"camera_zone\":\"safe public Dalton Highway / Atigun Pass Camera Zone\",\"subject\":\"aurora borealis + Brooks Range mountain foreground\"}",
+              "hard_gates": "合法安全停車位置可用；道路狀態可接受；足夠黑暗；必須有location-aware極光活動證據；planetary Kp不能單獨保證",
+              "required_conditions": "極光活動實際存在；主要天空未被雲層遮蔽；足夠黑暗",
+              "boosters": "低光害；雪地／山稜前景；高透明度；較高極光活動",
+              "penalties": "危險道路；雲層遮蔽；暮光過亮；極光活動不足",
+              "formula_status": "needs_aurora_state_dynamic_access_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-056-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "BLM identifies the Dalton Highway as an aurora-viewing corridor and Atigun Pass as the Brooks Range crossing. Canonical eligibility remains fail-closed because location-aware aurora_state and current safe-road access are not yet connected.",
+              "name": "Atigun Pass / Dalton Highway Aurora Camera Zone",
+              "lat": 68.133,
+              "lon": -149.48,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_blm_dalton_aurora_context_plus_atigun_pass_subject",
+              "geometry_type": "area",
+              "geometry_extent_m": 3000,
+              "geometry_note": "Atigun Pass附近合法且安全的public roadside觀景範圍；不鼓勵在車道邊停留。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-057",
+      "canonical_name": "北極圈地標",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B75_US_RESEARCH_BATCH12",
+      "research_sources": [
+        {
+          "authority": "Bureau of Land Management — Arctic Circle Wayside",
+          "url": "https://www.blm.gov/visit/search?field_activities=All&field_location=100041&search_api_fulltext=",
+          "verified_on": "2026-09-27",
+          "supports": "BLM lists the Arctic Circle Wayside on the Dalton Highway and explicitly states that northern lights can be viewed from the wayside in winter."
+        },
+        {
+          "authority": "Travel Alaska — Dalton Highway insider tips",
+          "url": "https://www.travelalaska.com/explore-alaska/articles/insiders-tips-exploring-dalton-highway-alaskas-arctic",
+          "verified_on": "2026-09-27",
+          "supports": "Official state tourism guidance identifies the official Arctic Circle sign at Dalton Highway mile 115.2 as a public photo opportunity."
+        },
+        {
+          "authority": "Bureau of Land Management — Dalton Highway FAQ",
+          "url": "https://www.blm.gov/learn/interpretive-centers/arctic-interagency-visitor-center/frequently-asked-questions",
+          "verified_on": "2026-09-27",
+          "supports": "BLM advises checking current road conditions, especially in winter, and documents northern-lights viewing along the Dalton corridor."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-057-P01",
+          "spot_id": "us-057",
+          "name_zh": "Arctic Circle Wayside・北極圈標誌地標照",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_dynamic_access_module",
+          "formula_version": "v0.04-arctic-circle-road-access-pending",
+          "formula_confidence": 98,
+          "best_time": "Dalton Highway／Wayside當下可安全合法到達時；白天或暮色皆可",
+          "best_season": "全年地標存在；冬季道路風險高，須依即時道路狀況",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-282",
+              "variant_name": "Arctic Circle官方標誌＋Dalton Highway旅行地標",
+              "condition_geometry": "{\"camera_zone\":\"Arctic Circle Wayside public Camera Zone\",\"subject\":\"official Arctic Circle sign / wayside travel landmark\"}",
+              "hard_gates": "Dalton Highway與Wayside當下安全可到達；只在指定公共停車／步行範圍使用",
+              "required_conditions": "地標標誌清楚可辨；無足以妨礙安全拍攝的惡劣天候",
+              "boosters": "雪景；暮色；低人流；乾淨天空",
+              "penalties": "危險道路／臨時封閉；強降雪／吹雪；極低能見度",
+              "formula_status": "needs_dynamic_access_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-057-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "BLM identifies the Arctic Circle Wayside; Travel Alaska specifically calls the official sign a photo-op. The existing sign coordinate is retained as a cross-mapped arrival/weather anchor.",
+              "name": "Arctic Circle Wayside Sign Camera Zone",
+              "lat": 66.55601,
+              "lon": -150.8107,
+              "coord_confidence": "high",
+              "verification_status": "official_blm_wayside_plus_travel_alaska_photo_subject_cross_mapped_sign",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 450,
+              "geometry_note": "Arctic Circle Wayside公共停車與標誌周邊安全步行區。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-057-P02",
+          "spot_id": "us-057",
+          "name_zh": "Arctic Circle Wayside・北極圈標誌＋Aurora Borealis",
+          "legacy_theme": "aurora",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_aurora_state_dynamic_access_module",
+          "formula_version": "v0.04-arctic-circle-aurora-access-provider-pending",
+          "formula_confidence": 98,
+          "best_time": "冬季／黑暗時段，Wayside可安全到達且有location-aware極光活動時",
+          "best_season": "BLM明確指出冬季可由Arctic Circle Wayside觀賞Northern Lights；實際極光與道路狀況須即時確認",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-283",
+              "variant_name": "Arctic Circle標誌前景＋Aurora Borealis",
+              "condition_geometry": "{\"camera_zone\":\"Arctic Circle Wayside public Camera Zone\",\"subject\":\"aurora borealis + Arctic Circle sign / tundra-road foreground\"}",
+              "hard_gates": "Wayside可安全合法到達；足夠黑暗；必須有location-aware極光活動證據；不得以Kp或月份單獨保證",
+              "required_conditions": "極光活動實際存在；主要天空未被雲遮；足夠黑暗",
+              "boosters": "雪地；低光害；清澈天空；較高極光活動",
+              "penalties": "道路危險／封閉；雲層遮蔽；暮光過亮；極光活動不足",
+              "formula_status": "needs_aurora_state_dynamic_access_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-057-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "BLM explicitly states northern lights can be viewed from the Arctic Circle Wayside in winter. Runtime remains fail-closed on aurora_state and current road access.",
+              "name": "Arctic Circle Wayside Aurora Camera Zone",
+              "lat": 66.55601,
+              "lon": -150.8107,
+              "coord_confidence": "high",
+              "verification_status": "official_blm_exact_wayside_aurora_subject_plus_cross_mapped_sign",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 700,
+              "geometry_note": "Wayside公共停車／標誌周邊極光觀景範圍。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-058",
+      "canonical_name": "諾姆",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B75_US_RESEARCH_BATCH12",
+      "research_sources": [
+        {
+          "authority": "Travel Alaska — Nome",
+          "url": "https://www.travelalaska.com/destinations/cities-towns/nome",
+          "verified_on": "2026-09-27",
+          "supports": "Official state tourism guidance documents Nome's Bering Sea coast, walkable beaches, historic Front Street/downtown, gold-rush subjects and winter northern-lights viewing."
+        },
+        {
+          "authority": "Travel Alaska — Beaches of Alaska",
+          "url": "https://www.travelalaska.com/explore-alaska/articles/beaches-alaska",
+          "verified_on": "2026-09-27",
+          "supports": "Official state tourism guidance identifies Nome's Middle Beach directly behind Historic Front Street, along with East and West beaches, as easy-access Bering Sea beaches."
+        },
+        {
+          "authority": "Travel Alaska — 7 Things to Do in Nome",
+          "url": "https://www.travelalaska.com/explore-alaska/articles/7-things-do-nome",
+          "verified_on": "2026-09-27",
+          "supports": "Official state tourism guidance specifically recommends Nome for northern-lights viewing and states there are prime viewing spots close to town."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-058-P01",
+          "spot_id": "us-058",
+          "name_zh": "Middle Beach／Front Street・Bering Sea海岸城鎮景觀",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "minimum_sufficient_local_scene",
+          "formula_version": "v0.04-local-scene-daylight-minimum-sufficient",
+          "formula_confidence": 95,
+          "best_time": "白天至暮色；Middle Beach／Front Street公共區域可安全使用時",
+          "best_season": "全年；海冰、雪景、船隻與野生動物皆依現況，不由月份保證",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-284",
+              "variant_name": "Nome Middle Beach＋Bering Sea／Historic Front Street",
+              "condition_geometry": "{\"camera_zone\":\"Nome Middle Beach / Historic Front Street public Camera Zone\",\"subject\":\"Bering Sea beach + Nome coastal town / Front Street context\"}",
+              "hard_gates": "公共海灘／道路合法可使用；不要求進入海冰或危險潮間帶",
+              "required_conditions": "海岸與城鎮主要元素清楚可辨；無足以妨礙安全步行攝影的強降水／吹雪",
+              "boosters": "暮色；濕沙反光；海冰／雪景；較低人流",
+              "penalties": "強降水／吹雪；海岸安全警示；極低能見度",
+              "formula_status": "minimum_sufficient_local_scene"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-058-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Travel Alaska explicitly places Middle Beach behind Historic Front Street. The legacy downtown Nome coordinate is retained as a local weather anchor; no sea-ice access is implied.",
+              "name": "Nome Middle Beach / Front Street Camera Zone",
+              "lat": 64.501,
+              "lon": -165.406,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_state_tourism_middle_beach_subject_plus_existing_nome_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 1800,
+              "geometry_note": "Middle Beach、Historic Front Street與鄰近合法公共海岸步行區。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-058-P02",
+          "spot_id": "us-058",
+          "name_zh": "Nome・Bering Sea沿岸Aurora Borealis",
+          "legacy_theme": "aurora",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_aurora_state_module",
+          "formula_version": "v0.04-nome-aurora-provider-pending",
+          "formula_confidence": 95,
+          "best_time": "晚8月至晚4月黑暗且清朗的夜間；須有location-aware極光活動",
+          "best_season": "Travel Alaska明確推薦Nome作為Arctic region極光目的地；實際可見性需即時資料",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-285",
+              "variant_name": "Nome沿岸／雪地前景＋Aurora Borealis",
+              "condition_geometry": "{\"camera_zone\":\"safe public dark-sky Camera Zone near Nome / Bering Sea coast\",\"subject\":\"aurora borealis + coastal / snow / tundra foreground\"}",
+              "hard_gates": "公共區域安全可用；天空足夠黑暗；必須有location-aware極光活動證據；不得以planetary Kp或月份單獨保證",
+              "required_conditions": "極光活動實際存在；主要天空未被雲遮；足夠黑暗",
+              "boosters": "低光害；雪／海岸前景；高透明度",
+              "penalties": "雲層遮蔽；暮光過亮；極光活動不足；危險海冰／海岸狀態",
+              "formula_status": "needs_aurora_state_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-058-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Travel Alaska explicitly recommends Nome for northern-lights viewing but does not establish one unique tripod site. B75 therefore models a safe public area-level Camera Zone and does not invent a precise aurora navigation target.",
+              "name": "Nome Nearby Public Aurora Camera Zone",
+              "coord_confidence": "official_area_no_unique_tripod_claim",
+              "verification_status": "official_state_tourism_nome_aurora_subject",
+              "geometry_type": "area",
+              "geometry_extent_m": 8000,
+              "geometry_note": "Nome周邊合法、安全、低光害公共區域；不把單一海灘或海冰位置宣稱成固定極光點。",
+              "geometry_confidence": "medium"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-059",
+      "canonical_name": "卡特邁國家公園",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B75_US_RESEARCH_BATCH12",
+      "research_sources": [
+        {
+          "authority": "U.S. National Park Service — Brooks Falls Platform",
+          "url": "https://www.nps.gov/places/brooks-falls-platform.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS classifies the Brooks Falls Platform as a Scenic View/Photo Spot, documents the waterfall/bear scene, capacity limits, seasonal nighttime closure and tripod restrictions."
+        },
+        {
+          "authority": "U.S. National Park Service — Watch Bears at Brooks Camp",
+          "url": "https://www.nps.gov/thingstodo/watch-bears-at-brooks-camp.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS identifies Brooks Camp as a premier brown-bear viewing area with designated elevated platforms and notes that bear concentrations vary by season."
+        },
+        {
+          "authority": "U.S. National Park Service — Bear Safety at Brooks Camp",
+          "url": "https://www.nps.gov/katm/planyourvisit/bear-safety-brooks-camp.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS documents platform etiquette, flash restrictions, capacity/time rules, seasonal area closures and the requirement to yield to bears."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-059-P01",
+          "spot_id": "us-059",
+          "name_zh": "Brooks Falls Platform・瀑布／Brooks River景觀",
+          "legacy_theme": "waterfall",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_dynamic_access_module",
+          "formula_version": "v0.04-brooks-falls-platform-access-pending",
+          "formula_confidence": 97,
+          "best_time": "Brooks Falls Platform官方當下開放且可進入時；遵守容量、等候與季節時段限制",
+          "best_season": "春夏秋活動為主；實際平台hours／closure優先於靜態月份",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-286",
+              "variant_name": "Brooks Falls＋Brooks River自然場景",
+              "condition_geometry": "{\"camera_zone\":\"Brooks Falls Platform authorized public Camera Zone\",\"subject\":\"Brooks Falls + Brooks River / forest context\"}",
+              "hard_gates": "Brooks Falls Platform當下開放且依ranger／容量制度合法進入；6/15–8/15腳架禁令與可能延長限制必須遵守",
+              "required_conditions": "瀑布／河流場景可清楚觀察；無官方關閉",
+              "boosters": "柔和光線；鮭魚跳瀑或熊實際出現只作現況加分",
+              "penalties": "平台關閉；強降水；過度壅擠導致構圖受限",
+              "formula_status": "needs_dynamic_access_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-059-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS explicitly classifies Brooks Falls Platform as a Scenic View/Photo Spot. B75 corrects the legacy broad Katmai weather anchor to the actual Brooks Falls area using an OSM/Mapcarta platform coordinate cross-check.",
+              "name": "Brooks Falls Platform Camera Zone",
+              "lat": 58.55476,
+              "lon": -155.79193,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_nps_photo_spot_subject_plus_osm_mapcarta_platform_crosscheck",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 450,
+              "geometry_note": "Brooks Falls官方平台與相連合法觀景結構；不可停留在禁止攝影／通行的walkway位置。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-059-P02",
+          "spot_id": "us-059",
+          "name_zh": "Brooks Falls・棕熊捕鮭",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_wildlife_state_access_module",
+          "formula_version": "v0.04-brooks-falls-bear-wildlife-access-pending",
+          "formula_confidence": 99,
+          "best_time": "官方平台可用且棕熊／鮭魚活動當下實際存在時；NPS指出7月通常最集中，但月份本身不能保證",
+          "best_season": "NPS資料顯示6月中至10月中可能有熊，7月與9月較常見；實際個體與行為仍須即時wildlife state",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-287",
+              "variant_name": "Brown bears捕鮭＋Brooks Falls",
+              "condition_geometry": "{\"camera_zone\":\"Brooks Falls / Riffles authorized viewing-platform Camera Zone\",\"subject\":\"brown bears fishing / interacting at Brooks River and Brooks Falls\"}",
+              "hard_gates": "指定平台當下開放且使用者依ranger制度合法進入；必須有當下可靠brown-bear activity證據；遵守50-yard規則、platform etiquette與flash/tripod限制",
+              "required_conditions": "棕熊實際在可合法觀察範圍內活動；無官方關閉",
+              "boosters": "鮭魚跳瀑／捕魚行為；柔和光線；較低等候時間",
+              "penalties": "熊未出現；平台關閉／容量限制；強降水；人流造成構圖困難",
+              "formula_status": "research_ready_wildlife_state_and_access_provider_pending"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-059-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS directly documents Brooks Falls and nearby platforms for bear photography, but bear abundance varies substantially by date. B75 therefore introduces a wildlife_state + dynamic_access dependency rather than inferring bears from month.",
+              "name": "Brooks Falls / Riffles Bear Viewing Camera Zone",
+              "lat": 58.55476,
+              "lon": -155.79193,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_nps_bear_photo_subject_plus_platform_crosscheck",
+              "geometry_type": "area",
+              "geometry_extent_m": 900,
+              "geometry_note": "Brooks Falls、Riffles及授權觀景平台系統；只在NPS指定位置觀察熊。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-060",
+      "canonical_name": "冰河灣國家公園",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B75_US_RESEARCH_BATCH12",
+      "research_sources": [
+        {
+          "authority": "U.S. National Park Service — Bartlett Cove Public Use Dock",
+          "url": "https://www.nps.gov/places/bartlett-cove-public-use-dock.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS classifies the dock as a Scenic View/Photo Spot, publishes the exact coordinate and documents clear-day views of Beartrack Mountains, Excursion Ridge, Mount Bertha, Mount Crillon and Mount Fairweather."
+        },
+        {
+          "authority": "U.S. National Park Service — Tour Glacier Bay",
+          "url": "https://www.nps.gov/glba/planyourvisit/tour.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS states that during the summer visitor season a day tour boat departs Bartlett Cove each morning for a full-day trip to tidewater glaciers."
+        },
+        {
+          "authority": "U.S. National Park Service — Bartlett Cove",
+          "url": "https://www.nps.gov/places/bartlett-cove.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS identifies Bartlett Cove as the park headquarters/frontcountry with public dock, trails and boating access."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-060-P01",
+          "spot_id": "us-060",
+          "name_zh": "Bartlett Cove Public Dock・Glacier Bay山海全景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-minimum-sufficient-visibility-panorama",
+          "formula_confidence": 98,
+          "best_time": "白天至暮色；Public Use Dock／Bartlett Cove公共區域可用且遠山清晰時",
+          "best_season": "全年自然場景存在；夏季服務較完整，野生動物／船隻只作現況加分",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-288",
+              "variant_name": "Bartlett Cove＋Beartrack／Fairweather山景",
+              "condition_geometry": "{\"camera_zone\":\"Bartlett Cove Public Use Dock / shoreline Camera Zone\",\"subject\":\"Glacier Bay / Bartlett Cove water + Beartrack Mountains / Excursion Ridge / Fairweather peaks\"}",
+              "hard_gates": "公共dock／合法岸邊觀景區可使用",
+              "required_conditions": "水面與主要遠山層次清楚可辨；能見度足夠",
+              "boosters": "高透明度；低角度光；平靜水面；船隻／海獺等實際出現",
+              "penalties": "低雲／霧遮山；強降水；低能見度",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-060-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS directly classifies Bartlett Cove Public Use Dock as a Scenic View/Photo Spot and publishes the exact coordinate. B75 moves weather sampling from the broad park coordinate to this verified frontcountry Camera Zone.",
+              "name": "Bartlett Cove Public Use Dock Camera Zone",
+              "lat": 58.455543092,
+              "lon": -135.886147445,
+              "coord_confidence": "high",
+              "verification_status": "official_nps_exact_coordinate_and_photo_spot",
+              "geometry_type": "area",
+              "geometry_extent_m": 900,
+              "geometry_note": "Bartlett Cove Public Use Dock與鄰近合法shoreline／Tlingit Trail觀景區。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-060-P02",
+          "spot_id": "us-060",
+          "name_zh": "Glacier Bay Day Tour・潮水冰河正面／山海景觀",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_timetable_access_module",
+          "formula_version": "v0.04-glacier-bay-day-tour-timetable-access-pending",
+          "formula_confidence": 97,
+          "best_time": "官方當日Glacier Bay Day Tour實際營運且可登船的班次",
+          "best_season": "NPS描述為summer visitor season每日早晨出發；實際年份、班次與可售狀態須以當日官方／concession資料為準",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-289",
+              "variant_name": "Day Tour船上＋Glacier Bay潮水冰河／山海景",
+              "condition_geometry": "{\"camera_zone\":\"authorized Glacier Bay Day Tour mobile Camera Zone\",\"subject\":\"tidewater glaciers + Glacier Bay water / mountains\"}",
+              "hard_gates": "官方當日Day Tour實際營運且使用者可合法登船；不得以靜態季節描述保證班次或座位",
+              "required_conditions": "航線抵達可觀察潮水冰河的區段；班次未取消",
+              "boosters": "高透明度；低雲較少；冰河崩解／野生動物實際出現僅作加分",
+              "penalties": "班次取消；惡劣海況／天候；低雲／霧遮冰河",
+              "formula_status": "research_ready_timetable_access_provider_pending"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-060-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS documents the summer day boat from Bartlett Cove to tidewater glaciers. This is a mobile Camera Zone; the exact dock coordinate is only the frontcountry embarkation/weather anchor and not a fixed glacier viewpoint.",
+              "name": "Glacier Bay Day Tour Mobile Camera Zone",
+              "lat": 58.455543092,
+              "lon": -135.886147445,
+              "coord_confidence": "embarkation_anchor_not_tripod_point",
+              "verification_status": "official_nps_day_tour_subject_plus_exact_bartlett_cove_dock_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 45000,
+              "geometry_note": "Glacier Bay官方日間tour vessel航線移動觀景區；不可將dock座標解讀為潮水冰河所在地。",
+              "geometry_confidence": "medium_high"
             }
           ]
         }
