@@ -2994,6 +2994,31 @@ def test_active_catalog_weather_generation_guard():
     assert bounded_end == reflection_end
 
 
+def test_summary_daily_projection_removes_legacy_theme_maps_only():
+    source_days = [{
+        "date": "2026-09-27",
+        "all": {"score": 88, "opportunity_id": "jp-031-P01"},
+        "opportunities": {"jp-031-P01": {"score": 88}},
+        "themes": {"mountain_view": {"score": 70}, "city_night": {"score": 65}},
+    }]
+    projected_days = analyze_weather._summary_daily_projection(source_days)
+    assert source_days[0]["themes"]["mountain_view"]["score"] == 70
+    assert projected_days[0]["all"] == source_days[0]["all"]
+    assert projected_days[0]["opportunities"] == source_days[0]["opportunities"]
+    assert "themes" not in projected_days[0]
+
+    # The same projection must apply to previous committed rows used during a
+    # transient weather-provider failure, otherwise a stale row could reinsert
+    # the retired daily Theme compatibility map into a new publication.
+    previous_summary = {"spot_id": "tw-001", "daily": source_days}
+    projected_summary = analyze_weather._summary_spot_projection(previous_summary)
+    assert previous_summary["daily"][0]["themes"]["mountain_view"]["score"] == 70
+    assert "themes" not in projected_summary["daily"][0]
+    stale_summary = analyze_weather._mark_stale(projected_summary, "weather_fetch_failed")
+    assert stale_summary["data_stale"] is True
+    assert "themes" not in stale_summary["daily"][0]
+
+
 def test_tag_scores_consumer_deprecation_contract():
     theme_metric = {"score": 81, "status_key": "GOOD"}
     legacy_metric = {"score": 12, "status_key": "LEGACY"}
