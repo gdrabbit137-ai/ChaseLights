@@ -274,6 +274,25 @@ def _build_day_summaries(hourly, themes, opportunities=None, local_today=None):
         })
     return days
 
+
+def _summary_daily_projection(days):
+    """Remove legacy Theme compatibility maps from published daily summaries.
+
+    _build_day_summaries() keeps Theme summaries internally for compatibility
+    and regression coverage. Current and checked B31-era frontends consume
+    day["all"] and day["opportunities"], so publishing day["themes"] duplicates
+    legacy compatibility data and dominates summary payload size.
+    """
+    projected = []
+    for day in days or []:
+        if not isinstance(day, dict):
+            projected.append(day)
+            continue
+        row = dict(day)
+        row.pop("themes", None)
+        projected.append(row)
+    return projected
+
 def _detail_hourly_projection(hourly):
     """Remove duplicated diagnostics that are already nested in Opportunity scores.
 
@@ -342,12 +361,13 @@ def analyze_spot(spot, kp_rows=None):
         pass
 
     summary = dict(common)
-    summary["daily"] = _build_day_summaries(
+    summary_days = _build_day_summaries(
         hourly,
         spot.get("themes", []),
         spot.get("opportunities", []),
         local_today=local_today,
     )
+    summary["daily"] = _summary_daily_projection(summary_days)
 
     details = dict(common)
     details["hourly_forecast"] = _detail_hourly_projection(hourly)
