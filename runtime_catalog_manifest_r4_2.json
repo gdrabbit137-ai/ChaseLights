@@ -45,8 +45,8 @@
     }
   },
   "runtime_policy_counts": {
-    "module_pending": 122,
-    "preview_module_available": 120,
+    "module_pending": 120,
+    "preview_module_available": 122,
     "minimum_sufficient_available": 133,
     "prototype_pending_certification": 2,
     "hold": 2,
@@ -62,6 +62,7 @@
     "This manifest describes the effective curated catalog, not the full Place inventory shown in production.",
     "Japan production contains 35 Place cards and all jp-001 through jp-035 are Opportunity-migrated at this checkpoint.",
     "US migration complete: all us-001 through us-070 production Places are Opportunity-migrated; no US production Place remains research-pending.",
-    "B79 adds a location-aware NOAA SWPC OVATION aurora_state preview. Aurora-only Opportunities can become preview_module_available, while Opportunities that also require unresolved dynamic_access remain module_pending."
+    "B79 adds a location-aware NOAA SWPC OVATION aurora_state preview. Aurora-only Opportunities can become preview_module_available, while Opportunities that also require unresolved dynamic_access remain module_pending.",
+    "B81 connects the official Mount Rainier NPS Road Status report to us-012-P01 Reflection Lakes (Stevens Canyon Road) and us-012-P02 Tipsoo Lake (SR 410 / Chinook Pass); both become preview_module_available and fail closed on missing, ambiguous or stale current road status."
   ]
 }
