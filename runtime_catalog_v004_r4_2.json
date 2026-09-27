@@ -14,10 +14,10 @@
     "runtime_catalog_v004_r4_2_b35_liyu_subjects.json"
   ],
   "counts": {
-    "spots": 168,
-    "opportunities": 348,
-    "condition_variants": 363,
-    "profile_viewpoint_relations": 354
+    "spots": 173,
+    "opportunities": 356,
+    "condition_variants": 371,
+    "profile_viewpoint_relations": 362
   },
   "spots": [
     {
@@ -17454,6 +17454,478 @@
               "geometry_type": "area",
               "geometry_extent_m": 900,
               "geometry_note": "Goldbelt Tram upper terminal、Sky Bridge與合法公共trail範圍；不以base terminal座標冒充upper Camera Zone。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-051",
+      "canonical_name": "門登霍爾冰河",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B74_US_RESEARCH_BATCH11",
+      "research_sources": [
+        {
+          "authority": "U.S. Forest Service — Mendenhall Glacier Visitor Center brochure / trail map",
+          "url": "https://www.fs.usda.gov/sites/nfs/files/r10/tongass/publication/MendenhallBrochure2025_0.pdf",
+          "verified_on": "2026-09-27",
+          "supports": "USFS identifies Photo Point Trail, Nugget Falls Trail, Mendenhall Lake and glacier observation as official public recreation subjects; Photo Point is an easy paved photo-oriented trail and Nugget Falls is an established public trail."
+        },
+        {
+          "authority": "U.S. Forest Service — Mendenhall Glacier recreation information",
+          "url": "https://www.fs.usda.gov/visit/destinations",
+          "verified_on": "2026-09-27",
+          "supports": "USFS identifies Mendenhall Glacier Interpretive Visitor Center and the surrounding recreation area as public glacier-viewing infrastructure; indoor visitor-center hours are separate from exterior trail photography."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-051-P01",
+          "spot_id": "us-051",
+          "name_zh": "Photo Point・Mendenhall Glacier＋Mendenhall Lake",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-minimum-sufficient-visibility-panorama",
+          "formula_confidence": 98,
+          "best_time": "白天可見光；Photo Point／湖岸公共步道實際可使用時",
+          "best_season": "全年皆有冰河湖景價值；Visitor Center室內營運時段與外部拍攝範圍分開處理",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-272",
+              "variant_name": "Mendenhall Lake＋Mendenhall Glacier正面展望",
+              "condition_geometry": "{\"camera_zone\":\"Photo Point / visitor-center lakeshore public Camera Zone\",\"subject\":\"Mendenhall Lake + Mendenhall Glacier + surrounding mountains\"}",
+              "hard_gates": "公共Photo Point／湖岸區可合法使用；臨時封閉或現場安全管制優先於天氣評分",
+              "required_conditions": "Mendenhall Glacier與湖面／山體主要層次清楚可辨；能見度足夠",
+              "boosters": "高透明度；柔和側光；雪線清晰；平靜湖面反射僅作加分",
+              "penalties": "低雲／霧遮冰河；強降水；低能見度",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-051-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "USFS explicitly maps Photo Point Trail and glacier observation in the visitor-center recreation area. The existing high-confidence Mendenhall Visitor Center anchor remains an appropriate local weather sample; no unique tripod point is asserted.",
+              "name": "Mendenhall Photo Point / Lakeshore Camera Zone",
+              "lat": 58.41718,
+              "lon": -134.54556,
+              "coord_confidence": "high",
+              "verification_status": "official_usfs_photo_point_subject_plus_existing_high_confidence_visitor_center_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 900,
+              "geometry_note": "Visitor Center、Photo Point Trail與鄰近合法湖岸觀景範圍。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-051-P02",
+          "spot_id": "us-051",
+          "name_zh": "Nugget Falls・瀑布＋冰河湖谷景觀",
+          "legacy_theme": "waterfall",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-minimum-sufficient-visibility-panorama",
+          "formula_confidence": 96,
+          "best_time": "白天可見光；Nugget Falls Trail實際可使用時",
+          "best_season": "全年題材成立；步道雪冰、野生動物或臨時管制依現場狀態",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-273",
+              "variant_name": "Nugget Falls＋Mendenhall Lake／冰河谷背景",
+              "condition_geometry": "{\"camera_zone\":\"Nugget Falls Trail / waterfall public Camera Zone\",\"subject\":\"Nugget Falls + Mendenhall Lake / glacial valley context\"}",
+              "hard_gates": "Nugget Falls公共步道可合法使用；遵守USFS野生動物與步道安全管制",
+              "required_conditions": "瀑布與冰河湖谷主要景物清楚可辨；無足以妨礙步行攝影的強降水",
+              "boosters": "高透明度；柔和光線；瀑布水量；冰河／山體清晰",
+              "penalties": "濃霧；強降水；步道臨時關閉",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-051-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "USFS officially maps Nugget Falls Trail in the same compact Mendenhall recreation area. Weather is sampled locally at the visitor-center area rather than inventing a separate unverified trail-end coordinate.",
+              "name": "Nugget Falls Trail / Waterfall Camera Zone",
+              "coord_confidence": "official_area_no_unique_tripod_claim",
+              "verification_status": "official_usfs_nugget_falls_trail_subject",
+              "geometry_type": "area",
+              "geometry_extent_m": 1800,
+              "geometry_note": "Nugget Falls Trail與瀑布合法公共觀景區；不宣稱單一腳架點。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-052",
+      "canonical_name": "荷馬沙嘴",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B74_US_RESEARCH_BATCH11",
+      "research_sources": [
+        {
+          "authority": "Travel Alaska — Homer",
+          "url": "https://www.travelalaska.com/destinations/cities-towns/homer",
+          "verified_on": "2026-09-27",
+          "supports": "Official state tourism guidance describes the Homer Spit extending into Kachemak Bay, with a panorama of mountains, white peaks and glaciers, plus beaches, harbor activity, shops and boats."
+        },
+        {
+          "authority": "Travel Alaska — 6 Things to Do in Homer",
+          "url": "https://www.travelalaska.com/explore-alaska/articles/6-things-do-homer",
+          "verified_on": "2026-09-27",
+          "supports": "Official state tourism guidance identifies the Homer Spit as a walkable waterfront/harbor subject with fishermen, boats, birds, shops and shoreline activity, while wildlife sightings remain variable."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-052-P01",
+          "spot_id": "us-052",
+          "name_zh": "Homer Spit・Kachemak Bay＋山脈／冰河全景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-minimum-sufficient-visibility-panorama",
+          "formula_confidence": 96,
+          "best_time": "白天至暮色；Kachemak Bay與對岸山脈清楚可見時",
+          "best_season": "全年；雪峰、冰河細節與船隻只作現況加分",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-274",
+              "variant_name": "Homer Spit＋Kachemak Bay／對岸山脈冰河",
+              "condition_geometry": "{\"camera_zone\":\"Homer Spit public waterfront Camera Zone\",\"subject\":\"Kachemak Bay + mountains / glaciers + Homer Spit coastal foreground\"}",
+              "hard_gates": "Homer Spit公共道路／港灣／合法水岸區可使用；不要求進入潮間帶",
+              "required_conditions": "Kachemak Bay與對岸山稜／冰河主要層次可辨；能見度足夠",
+              "boosters": "高透明度；雪峰；低角度光；平靜海面",
+              "penalties": "低雲／霧遮山；強降水；低能見度",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-052-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Travel Alaska directly documents the Homer Spit, Kachemak Bay and surrounding mountain/glacier panorama. B74 moves the broad Homer city anchor onto the actual Spit landform using a cross-checked public geographic anchor.",
+              "name": "Homer Spit Waterfront Camera Zone",
+              "lat": 59.62,
+              "lon": -151.45472,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_state_tourism_subject_plus_wikidata_geonames_spit_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 3800,
+              "geometry_note": "Homer Spit公共道路、港灣、商業水岸與合法海灘觀景區；不把潮間帶行走當成必要條件。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-052-P02",
+          "spot_id": "us-052",
+          "name_zh": "Homer Spit・港灣船隻／海濱店舖街景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "minimum_sufficient_local_scene",
+          "formula_version": "v0.04-local-scene-daylight-minimum-sufficient",
+          "formula_confidence": 94,
+          "best_time": "白天至暮色；港灣與商店活動較豐富時可加分",
+          "best_season": "全年；夏季活動通常較多，但船隻、鳥類與商家營業不得由月份保證",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-275",
+              "variant_name": "Homer Harbor／Spit商店＋海岸生活場景",
+              "condition_geometry": "{\"camera_zone\":\"Homer Spit harbor / public commercial waterfront Camera Zone\",\"subject\":\"harbor boats + waterfront shops + coastal Spit context\"}",
+              "hard_gates": "公共港灣／商業水岸合法可使用",
+              "required_conditions": "港灣與海濱街景清楚可辨；無足以妨礙步行手持攝影的強降水",
+              "boosters": "漁船活動；柔和側光；較低人流；海鳥實際出現",
+              "penalties": "強降水；施工／封閉遮擋主要街景",
+              "formula_status": "minimum_sufficient_local_scene"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-052-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Travel Alaska explicitly describes harbor, boats, beach walking, shops and restaurants on the Spit. Wildlife and fishing activity remain boosters rather than guaranteed subjects.",
+              "name": "Homer Spit Harbor / Commercial Waterfront Camera Zone",
+              "lat": 59.62,
+              "lon": -151.45472,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_state_tourism_harbor_subject_plus_spit_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 3300,
+              "geometry_note": "Homer Spit港灣與公共商業水岸步行範圍。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-053",
+      "canonical_name": "凱奇侃",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B74_US_RESEARCH_BATCH11",
+      "research_sources": [
+        {
+          "authority": "Ketchikan Visitors Bureau — Historic Creek Street",
+          "url": "https://www.visitktn.com/plan/places-to-discover/creek-street/",
+          "verified_on": "2026-09-27",
+          "supports": "Official visitor guidance identifies Creek Street's historic wooden boardwalk, stilted buildings, preserved waterfront structures and forest/creek backdrop as a walkable year-round public-area subject."
+        },
+        {
+          "authority": "City of Ketchikan — Tourism",
+          "url": "https://www.ketchikan.gov/Tourism",
+          "verified_on": "2026-09-27",
+          "supports": "The City of Ketchikan recognizes the Ketchikan Visitors Bureau as an official travel partner and maintains current downtown tourism resources."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-053-P01",
+          "spot_id": "us-053",
+          "name_zh": "Creek Street・木棧道／高腳屋歷史水岸街景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "minimum_sufficient_local_scene",
+          "formula_version": "v0.04-local-scene-daylight-minimum-sufficient",
+          "formula_confidence": 97,
+          "best_time": "白天至暮色；公共boardwalk與街道實際可使用時",
+          "best_season": "全年；鮭魚洄游通常在夏末且實際出現會變動，因此只作現況加分",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-276",
+              "variant_name": "Creek Street木棧道＋高腳歷史建築／溪流",
+              "condition_geometry": "{\"camera_zone\":\"Creek Street public boardwalk Camera Zone\",\"subject\":\"historic boardwalk + stilted buildings + Ketchikan Creek / rainforest context\"}",
+              "hard_gates": "公共boardwalk／街道合法可使用；濕滑時遵守現場安全指示",
+              "required_conditions": "木棧道、歷史建築與溪流主要元素清楚可辨；無足以妨礙步行攝影的強降水",
+              "boosters": "濕地反光；柔和陰天光；鮭魚或野生動物實際出現",
+              "penalties": "強降水；施工／臨時封閉；過度壅擠",
+              "formula_status": "minimum_sufficient_local_scene"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-053-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Ketchikan Visitors Bureau explicitly documents Creek Street as a compact, pedestrian historic waterfront subject. Salmon and wildlife are seasonal/variable and are not required for Opportunity admission.",
+              "name": "Historic Creek Street Public Boardwalk Camera Zone",
+              "lat": 55.343,
+              "lon": -131.647,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_visitor_bureau_creek_street_subject_plus_existing_downtown_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 650,
+              "geometry_note": "Creek Street公共木棧道、橋樑與相鄰合法downtown步行區。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-054",
+      "canonical_name": "史卡威",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B74_US_RESEARCH_BATCH11",
+      "research_sources": [
+        {
+          "authority": "Municipality of Skagway Visitor Department — Visitor Center",
+          "url": "https://www.skagway.com/plan-your-trip/visitor-center/",
+          "verified_on": "2026-09-27",
+          "supports": "The municipal visitor department identifies the 1899 Arctic Brotherhood Hall at 205 Broadway and describes it as the most photographed building in Alaska because of its distinctive driftwood facade."
+        },
+        {
+          "authority": "Municipality of Skagway Visitor Department — Fun Facts",
+          "url": "https://www.skagway.com/plan-your-trip/about-the-area/fun-facts/",
+          "verified_on": "2026-09-27",
+          "supports": "Official municipal tourism guidance again identifies Arctic Brotherhood Hall's driftwood facade as a signature photographed Skagway subject."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-054-P01",
+          "spot_id": "us-054",
+          "name_zh": "Arctic Brotherhood Hall・漂流木立面＋Broadway歷史街景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "minimum_sufficient_local_scene",
+          "formula_version": "v0.04-local-scene-daylight-minimum-sufficient",
+          "formula_confidence": 98,
+          "best_time": "白天至暮色；Broadway公共街道可合法使用時",
+          "best_season": "全年；積雪、節慶裝飾與郵輪人流皆只作現況加分",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-277",
+              "variant_name": "Arctic Brotherhood Hall漂流木立面＋Skagway歷史街區",
+              "condition_geometry": "{\"camera_zone\":\"205 Broadway / public sidewalk Camera Zone\",\"subject\":\"Arctic Brotherhood Hall driftwood facade + Broadway historic streetscape\"}",
+              "hard_gates": "公共人行道／街道合法可使用；不得阻礙入口或交通",
+              "required_conditions": "Arctic Brotherhood Hall立面與歷史街景清楚可辨；無足以妨礙步行手持攝影的強降水",
+              "boosters": "晨昏斜光；低人流；雪景；濕地反光",
+              "penalties": "強降水；施工遮擋；過度壅擠",
+              "formula_status": "minimum_sufficient_local_scene"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-054-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "The Municipality of Skagway Visitor Department explicitly identifies Arctic Brotherhood Hall as a signature photographed building and publishes its 205 Broadway address. The Camera Zone is the surrounding public sidewalk/street area.",
+              "name": "Arctic Brotherhood Hall / 205 Broadway Camera Zone",
+              "lat": 59.458,
+              "lon": -135.314,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_municipal_photo_subject_and_address_plus_existing_downtown_anchor",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 350,
+              "geometry_note": "205 Broadway周邊合法公共人行道與歷史街區；不包含需許可的私人室內空間。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-055",
+      "canonical_name": "威朗格利-聖埃利亞斯國家公園",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B74_US_RESEARCH_BATCH11",
+      "research_sources": [
+        {
+          "authority": "U.S. National Park Service — Kennecott Mines National Historic Landmark",
+          "url": "https://www.nps.gov/places/kennecott-mines.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS classifies Kennecott Mines as a Scenic View/Photo Spot, publishes the site coordinate, and identifies the historic mill town as a public photographic subject within Wrangell-St. Elias."
+        },
+        {
+          "authority": "U.S. National Park Service — Root Glacier",
+          "url": "https://www.nps.gov/places/root-glacier.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS classifies Root Glacier as a Scenic View/Photo Spot, publishes the trailhead coordinate and describes public trail access from Kennecott."
+        },
+        {
+          "authority": "U.S. National Park Service — Access Restored to Root Glacier via New Trail Reroute",
+          "url": "https://www.nps.gov/wrst/learn/news/access-restored-to-root-glacier-via-new-trail-reroute.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS restored Root Glacier public access via a 2026 reroute after an unstable-area closure; the original hazardous access remains closed, demonstrating that current trail state must be checked dynamically."
+        },
+        {
+          "authority": "U.S. National Park Service — Directions to McCarthy Road & Kennecott",
+          "url": "https://www.nps.gov/wrst/planyourvisit/directions-mccarthy-rd-and-kennecott.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS documents the remote McCarthy Road approach, mandatory parking near the Kennicott River bridge, summer shuttle limitations and winter foot/ski access, so current transport and road conditions cannot be inferred from weather alone."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-055-P01",
+          "spot_id": "us-055",
+          "name_zh": "Kennecott Mines・紅色礦場建築＋Wrangell山地／冰河",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_dynamic_access_visibility_module",
+          "formula_version": "v0.04-kennecott-access-visibility-pending",
+          "formula_confidence": 98,
+          "best_time": "Kennecott實際可到達且歷史建築、山脈與冰河背景清楚可見時",
+          "best_season": "全年題材存在，但McCarthy Road、shuttle與冬季步行／滑雪條件差異大，必須依當下access狀態",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-278",
+              "variant_name": "Kennecott Mines歷史建築＋Wrangell Mountains／Kennicott-Root Glacier景觀",
+              "condition_geometry": "{\"camera_zone\":\"Kennecott Mines NHL public Camera Zone\",\"subject\":\"historic red mill-town buildings + Wrangell mountains / glacier context\"}",
+              "hard_gates": "Kennecott當下可合法到達；尊重private property與NPS停車／交通規則；不得由好天氣或夏季月份推定McCarthy Road／shuttle可用",
+              "required_conditions": "主要歷史建築與山地／冰河背景可辨；能見度足夠",
+              "boosters": "高透明度；雪峰；低角度光；冰河紋理",
+              "penalties": "道路／交通不可達；低雲／霧遮山；強降水；低能見度",
+              "formula_status": "needs_dynamic_access_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-055-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS explicitly classifies Kennecott Mines as a Scenic View/Photo Spot and publishes its coordinate. B74 moves the broad park anchor to the actual Kennecott photographic district; public vehicle navigation must not be routed directly into the mill town.",
+              "name": "Kennecott Mines National Historic Landmark Camera Zone",
+              "lat": 61.481048,
+              "lon": -142.885231,
+              "coord_confidence": "high",
+              "verification_status": "official_nps_exact_kennecott_coordinate_and_photo_spot",
+              "geometry_type": "area",
+              "geometry_extent_m": 1200,
+              "geometry_note": "Kennecott Mines NHL合法公共mill-town範圍；私人土地與受限建築另依現場規則。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-055-P02",
+          "spot_id": "us-055",
+          "name_zh": "Root Glacier・冰河步道／冰面與山地景觀",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_dynamic_access_visibility_module",
+          "formula_version": "v0.04-root-glacier-access-visibility-pending",
+          "formula_confidence": 98,
+          "best_time": "官方Root Glacier reroute／trail實際開放且冰河、山地清楚可見時",
+          "best_season": "全年自然景觀存在；2026曾因地質不穩定改道，現況access必須由最新NPS資訊確認",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-279",
+              "variant_name": "Root Glacier冰面／冰河谷＋Wrangell山地",
+              "condition_geometry": "{\"camera_zone\":\"Root Glacier Trail / authorized glacier-access Camera Zone\",\"subject\":\"Root Glacier + glacial valley / mountain context\"}",
+              "hard_gates": "使用當下官方允許的Root Glacier route；不得進入仍封閉的不穩定舊路段；冰河行走須遵守NPS安全建議",
+              "required_conditions": "Root Glacier與主要山谷／山體層次清楚可辨；能見度足夠",
+              "boosters": "高透明度；冰河紋理；柔和側光；雪峰",
+              "penalties": "trail／reroute關閉；低雲／霧；強降水；低能見度",
+              "formula_status": "needs_dynamic_access_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-055-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS classifies Root Glacier as a Scenic View/Photo Spot and publishes the trailhead coordinate. Current access remains fail-closed because the 2026 landslide closure required an official reroute and the original hazardous segment remains closed.",
+              "name": "Root Glacier Trail / Glacier Camera Zone",
+              "lat": 61.487114,
+              "lon": -142.890863,
+              "coord_confidence": "high",
+              "verification_status": "official_nps_root_glacier_trailhead_coordinate_and_photo_spot",
+              "geometry_type": "area",
+              "geometry_extent_m": 2600,
+              "geometry_note": "Root Glacier Trail、官方reroute與合法冰河觀景／接近區；不把舊封閉路段視為可用。",
               "geometry_confidence": "high"
             }
           ]
