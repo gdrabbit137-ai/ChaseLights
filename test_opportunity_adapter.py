@@ -2317,7 +2317,7 @@ def test_adapter_integrity():
     us008 = get_opportunities("us", "us-008")
     assert [o["opportunity_id"] for o in us008] == ["us-008-P01"]
     assert us008[0]["runtime_policy"] == "preview_module_available"
-    assert dependencies_for_opportunity(us008[0]) == ("directional_horizon", "water_surface_state", "visibility")
+    assert dependencies_for_opportunity(us008[0]) == ("directional_horizon", "visibility")
     half_dome_diag = fetch_data._build_opportunity_runtime_diagnostics(
         {"opportunities": us008},
         {
@@ -2327,7 +2327,12 @@ def test_adapter_integrity():
     )
     assert half_dome_diag["us-008-P01"]["available"] is True
     assert half_dome_diag["us-008-P01"]["eligible"] is True
-    assert half_dome_diag["us-008-P01"]["modules"]["water_surface_state"]["quality"] == "mirror_candidate"
+    assert set(half_dome_diag["us-008-P01"]["modules"]) == {"directional_horizon", "visibility"}
+    assert "water_surface_state" not in half_dome_diag["us-008-P01"]["modules"]
+    # B64: ordinary weather is still sampled at the Place coordinate, while
+    # Sentinel Bridge is the valley-floor Camera Zone. Until ChaseLights has an
+    # explicit per-Opportunity weather-sample coordinate, Merced River
+    # reflection remains a verified booster rather than a runtime hard gate.
 
     us009 = get_opportunities("us", "us-009")
     assert [o["opportunity_id"] for o in us009] == ["us-009-P01"]

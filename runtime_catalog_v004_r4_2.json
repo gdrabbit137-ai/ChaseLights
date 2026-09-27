@@ -13513,27 +13513,27 @@
         {
           "opportunity_id": "us-008-P01",
           "spot_id": "us-008",
-          "name_zh": "Sentinel Bridge・Half Dome夕照與Merced River倒影",
-          "legacy_theme": "reflection",
+          "name_zh": "Sentinel Bridge・Half Dome夕照與Merced River前景",
+          "legacy_theme": "sunset",
           "mode": "area_opportunity",
           "sampling_topology": "directional_sector",
           "geometry_required": false,
           "opportunity_confidence": "high",
-          "formula_status": "needs_directional_horizon_water_surface_visibility_module",
-          "formula_version": "v0.04-us-yosemite-half-dome-sunset-reflection",
-          "formula_confidence": 97,
-          "best_time": "日落前後；河面低水位且平靜時倒影最完整",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04-us-yosemite-half-dome-sunset-base",
+          "formula_confidence": 96,
+          "best_time": "日落前後；NPS明確支持Sentinel Bridge的Half Dome夕照，低水位且平靜時可額外形成倒影",
           "best_season": "全年可達；NPS指出秋冬較常有低而平靜水面適合倒影",
           "condition_variants": [
             {
               "variant_id": "USVAR-014",
-              "variant_name": "Sentinel Bridge Half Dome夕照＋Merced倒影",
-              "condition_geometry": "{\"camera_zone\":\"Sentinel Bridge Camera Zone\",\"target\":\"Half Dome + mirrored reflection on Merced River at sunset\"}",
-              "hard_gates": "Sentinel Bridge公共步行區可達；日落時段有效；河面狀態可形成可用倒影",
-              "required_conditions": "Half Dome可辨；Merced River水面足夠平靜；能見度足夠；夕照時段有效",
-              "boosters": "低水位；低風；高透明度；暖色夕照",
-              "penalties": "強風造成水面破碎；降水擾動；濃霧／低雲遮蔽Half Dome；高水位或急流使鏡面不成立",
-              "formula_status": "needs_directional_horizon_water_surface_visibility_module"
+              "variant_name": "Sentinel Bridge Half Dome夕照＋Merced River前景",
+              "condition_geometry": "{\"camera_zone\":\"Sentinel Bridge Camera Zone\",\"target\":\"Half Dome sunset + Merced River foreground\",\"reflection\":\"officially verified optional booster; not runtime-gated until Camera Zone weather sampling exists\"}",
+              "hard_gates": "Sentinel Bridge公共步行區可達；日落時段有效",
+              "required_conditions": "Half Dome可辨；能見度足夠；夕照時段有效；低雲／降水未完全遮蔽主景",
+              "boosters": "NPS已驗證的Merced River倒影（低水位且平靜時）；高透明度；暖色夕照",
+              "penalties": "濃霧／低雲遮蔽Half Dome；強降水；河面不平靜時僅降低倒影品質，不否定Half Dome夕照基礎題材",
+              "formula_status": "needs_directional_horizon_visibility_module"
             }
           ],
           "viewpoints": [
