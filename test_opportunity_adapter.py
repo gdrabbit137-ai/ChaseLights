@@ -1192,7 +1192,7 @@ def test_adapter_integrity():
         o for o in all_opportunities
         if o["formula_status"] == "needs_astronomy_ephemeris_module"
     ]
-    assert {o["opportunity_id"] for o in pure_astro} == {"tw-035-P05", "tw-070-P02", "tw-076-P02", "tw-080-P02", "us-001-P03", "us-005-P02"}
+    assert {o["opportunity_id"] for o in pure_astro} == {"tw-035-P05", "tw-070-P02", "tw-076-P02", "tw-080-P02", "us-001-P03", "us-005-P02", "us-006-P02", "us-007-P03", "us-009-P02"}
     assert all(runtime_policy(o) == "preview_module_available" for o in pure_astro)
 
     astro_input = {
@@ -1488,7 +1488,7 @@ def test_adapter_integrity():
     assert {o["opportunity_id"] for o in dynamic_profiles} == set(ACCESS_DEPENDENT_PROFILE_IDS)
     assert set(ACCESS_PROFILE_CLASSIFICATION) == set(ACCESS_DEPENDENT_PROFILE_IDS)
     assert HARD_ACCESS_HOLDS["tw-052"]["policy"] == "hold"
-    assert {"tw-005", "tw-037", "tw-038", "tw-078", "tw-081", "jp-002", "jp-004", "jp-021", "jp-030", "jp-033", "jp-034"} <= set(OFFICIAL_SOURCE_HINTS)
+    assert {"tw-005", "tw-037", "tw-038", "tw-078", "tw-081", "jp-002", "jp-004", "jp-021", "jp-030", "jp-033", "jp-034", "us-003", "us-010"} <= set(OFFICIAL_SOURCE_HINTS)
     assert "tw-063" not in OFFICIAL_SOURCE_HINTS
     assert all(
         runtime_policy(o) == (
@@ -2298,12 +2298,37 @@ def test_adapter_integrity():
     assert [o["opportunity_id"] for o in us005] == ["us-005-P01", "us-005-P02"]
     assert [o["runtime_policy"] for o in us005] == ["preview_module_available", "preview_module_available"]
 
+    us006 = get_opportunities("us", "us-006")
+    assert [o["opportunity_id"] for o in us006] == ["us-006-P01", "us-006-P02"]
+    assert [o["runtime_policy"] for o in us006] == ["preview_module_available", "preview_module_available"]
+
+    us007 = get_opportunities("us", "us-007")
+    assert [o["opportunity_id"] for o in us007] == ["us-007-P01", "us-007-P02", "us-007-P03"]
+    assert all(o["runtime_policy"] == "preview_module_available" for o in us007)
+
+    us008 = get_opportunities("us", "us-008")
+    assert [o["opportunity_id"] for o in us008] == ["us-008-P01"]
+    assert us008[0]["runtime_policy"] == "preview_module_available"
+    assert dependencies_for_opportunity(us008[0]) == ("directional_horizon", "visibility")
+    assert "water_surface_state" not in dependencies_for_opportunity(us008[0])
+    assert "倒影" in us008[0]["condition_variants"][0]["boosters"]
+
+    us009 = get_opportunities("us", "us-009")
+    assert [o["opportunity_id"] for o in us009] == ["us-009-P01", "us-009-P02"]
+    assert [o["runtime_policy"] for o in us009] == ["preview_module_available", "preview_module_available"]
+
+    us010 = get_opportunities("us", "us-010")
+    assert [o["opportunity_id"] for o in us010] == ["us-010-P01"]
+    assert us010[0]["runtime_policy"] == "module_pending"
+    assert dependency_state(us010[0])["missing_components"] == ("dynamic_access",)
+    assert ACCESS_PROFILE_CLASSIFICATION["us-010-P01"]["access_type"] == "trail_road_status"
+
     us_spots = get_spots("us")
     researched_us = {s["spot_id"] for s in us_spots if s.get("opportunities")}
-    assert researched_us == {f"us-{i:03d}" for i in range(1, 6)}
+    assert researched_us == {f"us-{i:03d}" for i in range(1, 11)}
     assert all(not (s.get("opportunities") or []) for s in us_spots if s["spot_id"] not in researched_us)
 
-    assert get_opportunities("us", "us-006") == []
+    assert get_opportunities("us", "us-011") == []
 
     copy = get_opportunities("tw", "tw-001")
     copy[0]["condition_variants"][0]["variant_name"] = "mutated"
@@ -2810,7 +2835,7 @@ def test_active_catalog_weather_generation_guard():
 
     us_spots = get_spots("us")
     researched_us = {spot["spot_id"] for spot in us_spots if spot.get("opportunities")}
-    assert researched_us == {f"us-{i:03d}" for i in range(1, 6)}
+    assert researched_us == {f"us-{i:03d}" for i in range(1, 11)}
     assert all(
         not (spot.get("opportunities") or [])
         for spot in us_spots
