@@ -62,7 +62,7 @@ from access_state import (
     validate_access_registry,
 )
 
-MODULE_VERSION = "opportunity-runtime-r13-hagi-local-scene-preview"
+MODULE_VERSION = "opportunity-runtime-r14-jp-batch15-preview"
 
 IMPLEMENTED_COMPONENTS = {
     "directional_horizon",
@@ -107,6 +107,8 @@ MINIMUM_SUFFICIENT_VISIBILITY_PROFILES = {
     # warehouse scene is itself sufficient; evening managed lighting remains
     # a separate Opportunity and is not inferred from this contract.
     "jp-005-P01", "jp-003-P01", "jp-006-P01", "jp-007-P01", "jp-009-P01", "jp-010-P01", "jp-011-P01", "jp-011-P02", "jp-012-P01", "jp-015-P01", "jp-016-P01", "jp-016-P02", "jp-017-P01", "jp-018-P01", "jp-020-P01", "jp-023-P01", "jp-024-P01",
+    # B50 Rokko Tenrandai: both daytime panorama and researched urban night view require long-range clarity.
+    "jp-027-P01", "jp-027-P02",
 }
 
 MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES = {
@@ -114,6 +116,8 @@ MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES = {
     # scenes. Low cloud and long-range visibility are not hard blockers;
     # material rain and known access closure remain blockers.
     "jp-025-P01", "jp-026-P01",
+    # B50 close-range architecture / historic streetscape subjects.
+    "jp-028-P01", "jp-029-P01", "jp-031-P01",
     # B33 Hualien flatland forest corridor is a close-range local scene.
     # Long-range visibility and low cloud are not hard blockers; rain/access
     # remain blockers. Corridor-light geometry is not yet verified, so this
