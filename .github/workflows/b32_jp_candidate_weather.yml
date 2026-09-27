@@ -260,7 +260,11 @@ jobs:
                           assert winner.get("condition_state") == "dedicated_conditions_match", winner
                       else:
                           assert winner.get("condition_state") == "minimum_sufficient_conditions_match", winner
-              assert seen_daily_opportunity_ids == expected_opportunities[spot["spot_id"]], (
+              # A curated Opportunity may remain nonviable throughout this
+              # particular 96H horizon. Catalog completeness is asserted from
+              # spot["opportunities"] above; daily output must only avoid
+              # leaking unknown Opportunity IDs.
+              assert seen_daily_opportunity_ids <= expected_opportunities[spot["spot_id"]], (
                   spot["spot_id"], seen_daily_opportunity_ids
               )
 
