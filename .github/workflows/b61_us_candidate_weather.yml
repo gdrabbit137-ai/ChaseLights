@@ -90,8 +90,8 @@ jobs:
 
           researched = [s for s in spots if s.get("opportunities")]
           pending = [s for s in spots if not s.get("opportunities")]
-          assert [s["spot_id"] for s in researched] == [f"us-{i:03d}" for i in range(1, 26)], [s["spot_id"] for s in researched]
-          assert len(pending) == 45
+          assert [s["spot_id"] for s in researched] == [f"us-{i:03d}" for i in range(1, 31)], [s["spot_id"] for s in researched]
+          assert len(pending) == 40
 
           expected = {
               "us-001": {"us-001-P01", "us-001-P02", "us-001-P03"},
@@ -119,6 +119,11 @@ jobs:
               "us-023": {"us-023-P01"},
               "us-024": {"us-024-P01", "us-024-P02"},
               "us-025": {"us-025-P01", "us-025-P02"},
+              "us-026": {"us-026-P01", "us-026-P02"},
+              "us-027": {"us-027-P01"},
+              "us-028": {"us-028-P01"},
+              "us-029": {"us-029-P01"},
+              "us-030": {"us-030-P01"},
           }
           for spot in researched:
               assert spot.get("timezone"), (spot["spot_id"], spot.get("timezone"))
