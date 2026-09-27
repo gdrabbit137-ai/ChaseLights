@@ -625,6 +625,10 @@ def test_adapter_integrity():
     assert "Weather detail version mismatch" not in frontend_source
     assert "detail_sync_wait" in frontend_source
     assert "const detailUrl=(version,retry=0)=>" in frontend_source
+    assert "fetchAndCache(url,signal,cacheKey=url)" in frontend_source
+    assert "c.put(cacheKey,clone)" in frontend_source
+    assert "cacheMatch(baseUrl)" in frontend_source
+    assert "fetchAndCache(url,null,baseUrl)" in frontend_source
     assert "summaryIsNotOlder" in frontend_source
     assert "detailUrl(expectedVersion,1)" in frontend_source
     assert "latestSummaryMetric||summaryMetric" in frontend_source
