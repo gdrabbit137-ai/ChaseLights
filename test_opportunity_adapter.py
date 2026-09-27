@@ -2529,7 +2529,7 @@ def test_active_catalog_weather_generation_guard():
     assert researched_jp == {f"jp-{i:03d}" for i in range(1, 32)}
     assert all(
         not (spot.get("opportunities") or [])
-        for spot in jp_spots if spot["spot_id"] not in {f"jp-{i:03d}" for i in range(1, 27)}
+        for spot in jp_spots if spot["spot_id"] not in {f"jp-{i:03d}" for i in range(1, 32)}
     )
     blue_pond = next(spot for spot in jp_spots if spot["spot_id"] == "jp-001")
     assert abs(blue_pond["lat"] - 43.493611) < 1e-9
