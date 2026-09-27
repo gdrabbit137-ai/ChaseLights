@@ -128,6 +128,12 @@ jobs:
               detail = shard.get("spot") or {}
               assert shard.get("spot_id") == detail.get("spot_id"), shard_path.name
               assert detail.get("spot_id"), shard_path.name
+              hourly = detail.get("hourly_forecast") or []
+              assert all(
+                  "opportunity_runtime" not in row
+                  for row in hourly
+                  if isinstance(row, dict)
+              ), f"{shard_path.name}: duplicated top-level opportunity_runtime leaked into published detail"
               shard_ids.append(detail["spot_id"])
           assert set(shard_ids) == set(sids)
           assert "tw-063" not in shard_ids

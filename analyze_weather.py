@@ -271,6 +271,25 @@ def _build_day_summaries(hourly, themes, opportunities=None, local_today=None):
         })
     return days
 
+def _detail_hourly_projection(hourly):
+    """Remove duplicated diagnostics that are already nested in Opportunity scores.
+
+    fetch_data keeps the top-level opportunity_runtime map for internal/debug
+    compatibility while scoring. Every Opportunity score already embeds the
+    same diagnostic under opportunity_scores[opportunity_id]["runtime"], so
+    publishing both copies in every hourly row wastes substantial shard space.
+    """
+    projected = []
+    for item in hourly or []:
+        if not isinstance(item, dict):
+            projected.append(item)
+            continue
+        row = dict(item)
+        row.pop("opportunity_runtime", None)
+        projected.append(row)
+    return projected
+
+
 def analyze_spot(spot, kp_rows=None):
     raw = fetch_weather_for_spot(spot, "zh-TW", kp_rows=kp_rows)
     if not isinstance(raw, dict) or not raw:
@@ -328,7 +347,7 @@ def analyze_spot(spot, kp_rows=None):
     )
 
     details = dict(common)
-    details["hourly_forecast"] = hourly
+    details["hourly_forecast"] = _detail_hourly_projection(hourly)
     return summary, details
 
 

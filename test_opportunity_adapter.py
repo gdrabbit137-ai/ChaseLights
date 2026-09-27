@@ -2956,6 +2956,31 @@ def test_active_catalog_weather_generation_guard():
     assert bounded_end == reflection_end
 
 
+def test_detail_hourly_projection_removes_duplicate_runtime():
+    runtime = {
+        "module_version": "test",
+        "available": True,
+        "eligible": False,
+        "modules": {"visibility": {"available": True, "eligible": False}},
+    }
+    source = [{
+        "time": "2026-09-27 08:00",
+        "theme_scores": {"reflection": {"score": 80}},
+        "opportunity_runtime": {"tw-test-P01": runtime},
+        "opportunity_scores": {
+            "tw-test-P01": {
+                "score": 72,
+                "runtime": runtime,
+            }
+        },
+    }]
+    projected = analyze_weather._detail_hourly_projection(source)
+    assert "opportunity_runtime" in source[0]
+    assert "opportunity_runtime" not in projected[0]
+    assert projected[0]["opportunity_scores"]["tw-test-P01"]["runtime"] == runtime
+    assert projected[0]["theme_scores"] == source[0]["theme_scores"]
+
+
 def test_schema10_optional_metadata_bridge():
     spot = next(s for s in get_spots("tw") if s["spot_id"] == "tw-052")
     original = analyze_weather.fetch_weather_for_spot
