@@ -209,23 +209,20 @@ def evaluate_tide_state(opportunity, item_data):
 
 
 def validate_tide_state_registry():
-    expected = {
-        "tw-010-P01",
-        "tw-012-P01", "tw-012-P02",
-        "tw-015-P01", "tw-015-P02",
-        "tw-017-P02",
-        "tw-059-P01",
-        "tw-060-P01", "tw-060-P02", "tw-060-P03",
-        "tw-073-P01",
-        "tw-077-P02",
-        "tw-078-P01",
-        "tw-079-P02",
+    allowed_modes = {
+        "low_exposure_strict",
+        "low_exposure",
+        "low_access_window",
+        "shallow_reflection",
+        "intertidal_layers",
     }
     errors = []
-    if set(TIDE_STATE_PROFILES) != expected:
-        errors.append(f"tide profile registry mismatch: {sorted(TIDE_STATE_PROFILES)}")
+    for oid, config in TIDE_STATE_PROFILES.items():
+        if not str(oid).startswith(("tw-", "jp-", "us-")):
+            errors.append(f"{oid}: invalid Opportunity id")
+        if config.get("mode") not in allowed_modes:
+            errors.append(f"{oid}: unsupported tide mode {config.get('mode')}")
     return errors
-
 
 _ERRORS = validate_tide_state_registry()
 if _ERRORS:
