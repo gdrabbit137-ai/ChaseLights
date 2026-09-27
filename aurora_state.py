@@ -147,6 +147,7 @@ def sample_aurora_for_timestamp(indexed, lat, lon, timestamp):
     base = {
         "provider": indexed.get("provider"),
         "provider_version": indexed.get("provider_version"),
+        "source_url": indexed.get("source_url"),
         "observation_time": observation_time.isoformat().replace("+00:00", "Z"),
         "forecast_time": forecast_time.isoformat().replace("+00:00", "Z"),
         "target_time": target.isoformat().replace("+00:00", "Z"),
@@ -267,6 +268,7 @@ def evaluate_aurora_state(opportunity, item_data):
         "available": True,
         "provider": forecast.get("provider"),
         "provider_version": forecast.get("provider_version"),
+        "source_url": forecast.get("source_url"),
         "observation_time": forecast.get("observation_time"),
         "forecast_time": forecast.get("forecast_time"),
         "forecast_delta_minutes": forecast.get("forecast_delta_minutes"),
@@ -300,11 +302,18 @@ def evaluate_aurora_state(opportunity, item_data):
     if aurora_value >= 25.0 and max(low, mid, high) <= 40.0:
         confidence = "medium_high"
 
+    # Canonical aurora scoring uses the local OVATION signal plus sky blocking,
+    # not the legacy planetary-Kp Theme baseline.
+    score_hint = 60.0 + min(30.0, aurora_value * 0.6)
+    score_hint -= low * 0.15 + mid * 0.08 + high * 0.04
+    score_hint = max(0, min(100, int(round(score_hint))))
+
     return {
         **base,
         "eligible": True,
         "reason": "local_aurora_dark_clear_match",
         "confidence_hint": confidence,
+        "score_hint": score_hint,
     }
 
 
