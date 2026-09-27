@@ -272,12 +272,17 @@ def _build_day_summaries(hourly, themes, opportunities=None, local_today=None):
     return days
 
 def _detail_hourly_projection(hourly):
-    """Remove duplicated diagnostics that are already nested in Opportunity scores.
+    """Remove duplicate compatibility fields from published detail rows.
 
-    fetch_data keeps the top-level opportunity_runtime map for internal/debug
-    compatibility while scoring. Every Opportunity score already embeds the
-    same diagnostic under opportunity_scores[opportunity_id]["runtime"], so
-    publishing both copies in every hourly row wastes substantial shard space.
+    fetch_data intentionally keeps compatibility fields in its internal/raw
+    result. Published schema-10 detail shards do not need two proven duplicate
+    payloads:
+    - opportunity_runtime is already nested under
+      opportunity_scores[opportunity_id]["runtime"],
+    - tag_scores is the same object as theme_scores (V4 compatibility).
+
+    Readers keep their tag_scores fallback so historical cached/older detail
+    payloads remain readable.
     """
     projected = []
     for item in hourly or []:
@@ -286,6 +291,7 @@ def _detail_hourly_projection(hourly):
             continue
         row = dict(item)
         row.pop("opportunity_runtime", None)
+        row.pop("tag_scores", None)
         projected.append(row)
     return projected
 
