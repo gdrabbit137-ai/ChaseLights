@@ -18,7 +18,10 @@ from fetch_data import (
 
 
 def _metric_for_theme(item, theme):
-    scores = item.get("theme_scores") or item.get("tag_scores") or {}
+    # B59: theme_scores is the current compatibility Theme contract.
+    # tag_scores remains in published detail for one deprecation window but
+    # production consumers must no longer depend on it.
+    scores = item.get("theme_scores") or {}
     return scores.get(theme) or {}
 
 
