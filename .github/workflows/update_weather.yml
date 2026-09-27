@@ -21,7 +21,6 @@ on:
       - "shinhotaka_access.py"
       - "yahiko_access.py"
       - "taxonomy_v004.py"
-      - ".github/workflows/update_weather.yml"
   schedule:
     # 每 3 小時更新一次攝影氣象資料
     - cron: '0 */3 * * *'
