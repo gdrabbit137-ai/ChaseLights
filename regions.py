@@ -408,6 +408,16 @@ def _dark_sky_meta(region_key, name_zh, category, scenes, themes):
     }
 
 ACCESS_RULE_OVERRIDES = {
+    "神戶六甲山": {
+        "access_mode": "opening_hours",
+        "access_hours": ["07:10", "21:00"],
+        "access_hours_source": "KOBE Mt. Rokko official Tenrandai page; verified 2026-09-27",
+        "access_note_i18n": {
+            "zh-TW": "六甲山天覽台官方目前開放 07:10–21:00、全年無休；夜景拍攝須保留離場時間，臨時天候／設施公告仍以官方最新資訊為準。",
+            "en": "Tenrandai is currently listed as open 07:10–21:00 daily. Allow time to leave before closing and follow any current weather/facility notices.",
+            "ja": "天覧台の現在の公式開放時間は07:10〜21:00、無休です。閉場前に退出できるよう余裕を持ち、臨時の天候・施設案内は最新公式情報に従ってください。",
+        },
+    },
     "雲山水夢幻湖": {
         "access_mode": "opening_hours_private_park",
         "access_hours": ["08:30", "17:00"],
