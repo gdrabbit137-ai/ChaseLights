@@ -3021,6 +3021,14 @@ def test_detail_hourly_projection_removes_duplicate_runtime_and_tag_scores():
     assert source[0]["tag_scores"] == source[0]["theme_scores"]
     assert "tag_scores" not in projected[0]
 
+    # Historical/older detail payloads that contain only the V4 tag_scores
+    # compatibility field must remain readable by the metric helper even
+    # though new published shards omit that duplicate.
+    legacy_metric = {"score": 77}
+    assert analyze_weather._metric_for_theme(
+        {"tag_scores": {"reflection": legacy_metric}}, "reflection"
+    ) == legacy_metric
+
 
 def test_schema10_optional_metadata_bridge():
     spot = next(s for s in get_spots("tw") if s["spot_id"] == "tw-052")
