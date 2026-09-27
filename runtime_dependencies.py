@@ -4,7 +4,7 @@ This module separates content formula status from runtime implementation state.
 Every needs_* status maps to an explicit set of reusable runtime components.
 """
 
-DEPENDENCY_INVENTORY_VERSION = "r4.2-b32-deps-v11-hagi"
+DEPENDENCY_INVENTORY_VERSION = "r4.2-b50-deps-v12-naruto"
 
 FORMULA_DEPENDENCIES = {
     "needs_visibility_module": ("visibility",),
@@ -51,6 +51,7 @@ FORMULA_DEPENDENCIES = {
     "needs_lake_level_mist_access_module": ("lake_water_level", "mist_state", "dynamic_access"),
     "needs_tide_access_module": ("tide_state", "dynamic_access"),
     "needs_tide_module": ("tide_state",),
+    "needs_tidal_current_extremum_access_module": ("tidal_current_extremum", "dynamic_access"),
     "needs_directional_horizon_wildlife_module": ("directional_horizon", "wildlife_state"),
     "needs_directional_horizon_cultural_permission_module": ("directional_horizon", "cultural_permission"),
 }
@@ -73,6 +74,7 @@ KNOWN_COMPONENTS = {
     "snow_state",
     "spatial_weather_vertical_cloud",
     "tide_state",
+    "tidal_current_extremum",
     "timetable",
     "verified_camera_geometry",
     "visibility",
