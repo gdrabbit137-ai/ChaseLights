@@ -2979,7 +2979,7 @@ def test_active_catalog_weather_generation_guard():
 
     us_spots = get_spots("us")
     researched_us = {spot["spot_id"] for spot in us_spots if spot.get("opportunities")}
-    assert researched_us == {f"us-{i:03d}" for i in range(1, 26)}
+    assert researched_us == {f"us-{i:03d}" for i in range(1, 31)}
     assert all(
         not (spot.get("opportunities") or [])
         for spot in us_spots
