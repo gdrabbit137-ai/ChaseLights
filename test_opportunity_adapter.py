@@ -2568,7 +2568,8 @@ def test_adapter_integrity():
     assert dependencies_for_opportunity(us041[0]) == ("dynamic_access", "visibility")
     assert dependency_state(us041[0])["missing_components"] == ("dynamic_access",)
     assert dependencies_for_opportunity(us041[1]) == ("aurora_state", "dynamic_access")
-    assert dependency_state(us041[1])["ready_components"] == ("aurora_state",)\n    assert dependency_state(us041[1])["missing_components"] == ("dynamic_access",)
+    assert dependency_state(us041[1])["ready_components"] == ("aurora_state",)
+    assert dependency_state(us041[1])["missing_components"] == ("dynamic_access",)
     assert ACCESS_PROFILE_CLASSIFICATION["us-041-P01"]["access_type"] == "road_viewpoint_status"
     assert ACCESS_PROFILE_CLASSIFICATION["us-041-P02"]["access_type"] == "road_viewpoint_status"
     denali = next(s for s in us_spots if s["spot_id"] == "us-041")
@@ -2811,7 +2812,8 @@ def test_adapter_integrity():
     assert dependencies_for_opportunity(us066[0]) == ("dynamic_access", "visibility")
     assert dependencies_for_opportunity(us066[1]) == ("aurora_state", "dynamic_access")
     assert dependency_state(us066[0])["missing_components"] == ("dynamic_access",)
-    assert dependency_state(us066[1])["ready_components"] == ("aurora_state",)\n    assert dependency_state(us066[1])["missing_components"] == ("dynamic_access",)
+    assert dependency_state(us066[1])["ready_components"] == ("aurora_state",)
+    assert dependency_state(us066[1])["missing_components"] == ("dynamic_access",)
     assert ACCESS_PROFILE_CLASSIFICATION["us-066-P01"]["access_type"] == "transport_facility_status"
     assert ACCESS_PROFILE_CLASSIFICATION["us-066-P02"]["access_type"] == "transport_facility_status"
     bering = next(s for s in us_spots if s["spot_id"] == "us-066")
@@ -2834,7 +2836,8 @@ def test_adapter_integrity():
     assert dependencies_for_opportunity(us068[0]) == ("dynamic_access", "visibility")
     assert dependencies_for_opportunity(us068[1]) == ("aurora_state", "dynamic_access")
     assert dependency_state(us068[0])["missing_components"] == ("dynamic_access",)
-    assert dependency_state(us068[1])["ready_components"] == ("aurora_state",)\n    assert dependency_state(us068[1])["missing_components"] == ("dynamic_access",)
+    assert dependency_state(us068[1])["ready_components"] == ("aurora_state",)
+    assert dependency_state(us068[1])["missing_components"] == ("dynamic_access",)
     assert ACCESS_PROFILE_CLASSIFICATION["us-068-P01"]["access_type"] == "transport_facility_status"
     assert ACCESS_PROFILE_CLASSIFICATION["us-068-P02"]["access_type"] == "transport_facility_status"
     noatak = next(s for s in us_spots if s["spot_id"] == "us-068")
