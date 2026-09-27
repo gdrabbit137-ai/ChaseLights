@@ -26,6 +26,7 @@ MARINE_STATE_PROFILES = {
     "tw-077-P02": {"exposure": "intertidal_rock_platform"},
     "tw-079-P01": {"exposure": "exposed_basalt_coast"},
     "tw-079-P02": {"exposure": "intertidal_basalt_pools"},
+    "us-019-P02": {"exposure": "exposed_beach"},
 }
 
 
