@@ -586,11 +586,23 @@ def test_adapter_integrity():
     # the ranked result/explanation, not intersecting homepage filters.
     index_html = Path("index.html").read_text(encoding="utf-8")
     styles_css = Path("styles.css").read_text(encoding="utf-8")
-    app_js = Path("app.js").read_text(encoding="utf-8")
+    app_script_paths = [
+        "app-core.js", "app-cards.js", "app-place-guide.js",
+        "app-weather-modal.js", "app-init.js",
+    ]
+    app_js = "\n".join(Path(path).read_text(encoding="utf-8") for path in app_script_paths)
     frontend_source = index_html + "\n" + app_js
     assert '<link rel="stylesheet" href="./styles.css">' in index_html
     assert "<style>" not in index_html
-    assert '<script src="./app.js"></script>' in index_html
+    expected_script_tags = [
+        '<script src="./app-core.js"></script>',
+        '<script src="./app-cards.js"></script>',
+        '<script src="./app-place-guide.js"></script>',
+        '<script src="./app-weather-modal.js"></script>',
+        '<script src="./app-init.js"></script>',
+    ]
+    assert all(tag in index_html for tag in expected_script_tags)
+    assert [index_html.index(tag) for tag in expected_script_tags] == sorted(index_html.index(tag) for tag in expected_script_tags)
     assert "<script>" not in index_html
     assert ".timeline-mobile-card" in styles_css
     assert "@media(max-width:640px)" in styles_css or "@media (max-width:640px)" in styles_css
