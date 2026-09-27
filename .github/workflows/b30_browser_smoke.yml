@@ -225,6 +225,38 @@ jobs:
               assert any("google.com/maps/search" in h for h in hrefs), hrefs
               assert any("radar" in (x.text or "").lower() or "雷達" in (x.text or "") for x in tools), [x.text for x in tools]
 
+              version_recovery = driver.execute_async_script("""
+                const done = arguments[arguments.length - 1];
+                (async () => {
+                  try {
+                    const spotId = currentSpots[0].spot_id;
+                    const realVersion = currentData.updated_at;
+                    currentData = {...currentData, updated_at: '1999-01-01T00:00:00Z'};
+                    memorySummary.set(currentRegion, currentData);
+                    memoryDetails.delete(currentRegion + ':' + spotId);
+                    const payload = await loadDetails(currentRegion, spotId);
+                    done({
+                      ok: true,
+                      spotId,
+                      realVersion,
+                      recoveredSummaryVersion: currentData.updated_at,
+                      detailVersion: payload.updated_at
+                    });
+                  } catch (error) {
+                    done({ok: false, error: String(error && (error.message || error))});
+                  }
+                })();
+              """)
+              report["weather_version_recovery"] = version_recovery
+              assert version_recovery["ok"] is True, version_recovery
+              assert version_recovery["recoveredSummaryVersion"] == version_recovery["realVersion"], version_recovery
+              assert version_recovery["detailVersion"] == version_recovery["realVersion"], version_recovery
+
+              # loadDetails() may apply the refreshed summary, which intentionally
+              # re-renders the card list. Re-acquire DOM handles after recovery.
+              cards = driver.find_elements(By.CSS_SELECTOR, "#spots-container .card")
+              assert cards, "card list missing after weather version recovery"
+              first = cards[0]
               first.find_element(By.CSS_SELECTOR, ".card-header").click()
               wait.until(lambda d: d.find_element(By.ID, "place-modal-overlay").value_of_css_property("display") != "none")
               opp_cards = driver.find_elements(By.CSS_SELECTOR, "#place-modal-body .opportunity-card")
