@@ -9,7 +9,7 @@ This batch migrates the next five United States production Places into the canon
 - us-026 Seattle Pike Place Market
 - us-027 Sawtooth Mountains — narrowed to Redfish Lake North Shore
 - us-028 Griffith Observatory, Los Angeles
-- us-029 White Sands National Park — Alkali Flat / tallest-dune area
+- us-029 White Sands National Park — Sunset Stroll / Dunes Drive dune area
 - us-030 Chicago Skyline — Adler Planetarium / Solidarity Drive lakefront
 
 Canonical production data remains in `runtime_catalog_v004_r4_2.json`. This document records evidence and modeling decisions only.
@@ -25,7 +25,7 @@ This batch preserves the production boundary introduced in B64:
 
 B69 therefore changes the weather/map anchor for:
 - us-027 from a broad Sawtooth-region coordinate to Redfish Lake North Shore,
-- us-029 from White Sands Visitor Center to the Alkali Flat / tallest-dune area,
+- us-029 from White Sands Visitor Center to the official Sunset Stroll / Dunes Drive dune area,
 - us-030 from a broad downtown Chicago coordinate to the Adler / Solidarity Drive skyline Camera Zone.
 
 The existing us-028 Griffith Observatory override is already near the actual Observatory and remains unchanged.
@@ -129,11 +129,12 @@ Opportunity:
 - P01 gypsum dunes + surrounding mountains during sunset / immediate afterglow.
 
 Runtime:
-- explicit minimum-sufficient visibility with the legacy sunset Theme supplying time-of-day semantics.
+- visibility + dynamic_access.
 - B69 does not invent a precise sun-to-foreground alignment.
 - The Place weather/map anchor moves from the visitor center to the exact current NPS Sunset Stroll area.
 - The same exact NPS parking coordinate is a verified Navigation Target for this batch.
-- Current park / Dunes Drive closure notices still take priority over any weather recommendation.
+- NPS documents temporary Dunes Drive closures for missile testing and other safety conditions, so this Opportunity is fail-closed until an authoritative current-access provider is connected.
+- Favorable weather, calendar month, or a static hours table must never imply the dune Camera Zone is open.
 
 ## us-030 — Chicago Skyline / Adler lakefront
 
@@ -183,26 +184,26 @@ US research-pending:
 
 Relative to B66:
 
-minimum_sufficient_available +5:
+minimum_sufficient_available +4:
 - us-026-P01 Pike Place Clock & Sign
 - us-026-P02 MarketFront distant view
 - us-028-P01 Griffith Observatory exterior
-- us-029-P01 White Sands Alkali Flat
 - us-030-P01 Chicago skyline
 
-module_pending +1:
+module_pending +2:
 - us-027-P01 Redfish Lake North Shore access + visibility
+- us-029-P01 White Sands current park / Dunes Drive access + visibility
 
 Expected policy totals:
-- module_pending: 94
+- module_pending: 95
 - preview_module_available: 110
-- minimum_sufficient_available: 110
+- minimum_sufficient_available: 109
 - prototype_pending_certification: 2
 - hold: 2
 - data_insufficient: 2
 
 Minimum-sufficient visibility profile count:
-- 76
+- 75
 
 ## QA
 
@@ -210,7 +211,7 @@ B69 updates:
 - Adapter coverage through us-030.
 - US Candidate Weather researched range through us-030.
 - Browser Smoke researched-US count from 25 to 30.
-- Redfish North Shore dynamic-access classification.
+- Redfish North Shore and White Sands dynamic-access classifications.
 - Redfish Lake, White Sands and Chicago Camera Zone/weather anchors, including the exact current NPS White Sands Sunset Stroll navigation target.
 - Regression assertions that Griffith keeps the already-correct Observatory anchor.
 
