@@ -182,19 +182,35 @@ jobs:
               assert browser_tz == "America/Los_Angeles", browser_tz
               assert expected_update in update_text, (expected_update, update_text, updated_at)
 
+              # Do not require the currently selected forecast day to have a
+              # best window: late-day CI runs can legitimately have no remaining
+              # opportunity window. Use a real generated Place timezone, then
+              # exercise fmtWindow() with a deterministic local-time sample.
               place_window = driver.execute_script("""
-                const spot = currentSpots.find(s => {
-                  const m = getMetric(s);
-                  return m && m.window_start && m.window_end && m.timezone_abbr;
-                });
-                const metric = spot ? getMetric(spot) : null;
-                return metric ? {
-                  spot_id: spot.spot_id,
-                  timezone_abbr: metric.timezone_abbr,
-                  formatted: fmtWindow(metric)
-                } : null;
+                let selected = null;
+                for (const spot of currentSpots) {
+                  for (const day of (spot.daily || [])) {
+                    const metric = day && day.all;
+                    if (metric && metric.timezone_abbr) {
+                      selected = {spot, metric};
+                      break;
+                    }
+                  }
+                  if (selected) break;
+                }
+                if (!selected) return null;
+                const sample = {
+                  ...selected.metric,
+                  window_start: '2026-01-15 06:00',
+                  window_end: '2026-01-15 07:00'
+                };
+                return {
+                  spot_id: selected.spot.spot_id,
+                  timezone_abbr: selected.metric.timezone_abbr,
+                  formatted: fmtWindow(sample)
+                };
               """)
-              assert place_window, "no local-time best window found"
+              assert place_window, "no generated Place timezone found"
               report["place_window_timezone"] = place_window
               assert place_window["timezone_abbr"] in place_window["formatted"], place_window
               assert "PDT" not in place_window["formatted"], place_window
@@ -538,12 +554,12 @@ jobs:
               us_cards = driver.find_elements(By.CSS_SELECTOR, "#spots-container .card")
               report["us_cards"] = len(us_cards)
               assert len(us_cards) == 70, len(us_cards)
-              researched_us_names = {"大峽谷國家公園", "馬蹄灣", "羚羊峽谷", "紀念碑谷", "拱門國家公園", "布萊斯峽谷國家公園", "錫安國家公園", "優勝美地半圓頂", "優勝美地隧道觀景臺", "黃石國家公園 大稜鏡溫泉", "大提頓國家公園", "雷尼爾山國家公園", "火山口湖國家公園", "死亡谷國家公園", "舊金山金門大橋", "拉斯維加斯大道", "聖海倫斯火山", "冰川國家公園", "奧林匹克國家公園", "紅木國家公園", "峽谷地國家公園 梅薩拱門", "約書亞樹國家公園", "巨人柱國家公園", "西雅圖太空針塔", "聖莫尼卡碼頭", "西雅圖派克市場", "鋸齒山脈", "洛杉磯格里斐斯天文台", "白沙國家公園", "芝加哥天際線", "落磯山國家公園", "紐奧良法國區", "丹佛天際線", "聖路易斯大拱門", "沃斯堡牲畜市場", "紐約曼哈頓天際線", "尼加拉瀑布", "大霧山國家公園", "邁阿密海灘", "波士頓天際線", "迪納利國家公園", "費爾班克斯極光", "珍娜溫泉", "安克拉治", "蘇華德", "哈徹山口", "馬塔努斯卡冰河", "波蒂奇冰河", "瓦爾迪茲", "朱諾", "門登霍爾冰河", "荷馬沙嘴", "凱奇侃", "史卡威", "威朗格利-聖埃利亞斯國家公園"}
+              researched_us_names = {"大峽谷國家公園", "馬蹄灣", "羚羊峽谷", "紀念碑谷", "拱門國家公園", "布萊斯峽谷國家公園", "錫安國家公園", "優勝美地半圓頂", "優勝美地隧道觀景臺", "黃石國家公園 大稜鏡溫泉", "大提頓國家公園", "雷尼爾山國家公園", "火山口湖國家公園", "死亡谷國家公園", "舊金山金門大橋", "拉斯維加斯大道", "聖海倫斯火山", "冰川國家公園", "奧林匹克國家公園", "紅木國家公園", "峽谷地國家公園 梅薩拱門", "約書亞樹國家公園", "巨人柱國家公園", "西雅圖太空針塔", "聖莫尼卡碼頭", "西雅圖派克市場", "鋸齒山脈", "洛杉磯格里斐斯天文台", "白沙國家公園", "芝加哥天際線", "落磯山國家公園", "紐奧良法國區", "丹佛天際線", "聖路易斯大拱門", "沃斯堡牲畜市場", "紐約曼哈頓天際線", "尼加拉瀑布", "大霧山國家公園", "邁阿密海灘", "波士頓天際線", "迪納利國家公園", "費爾班克斯極光", "珍娜溫泉", "安克拉治", "蘇華德", "哈徹山口", "馬塔努斯卡冰河", "波蒂奇冰河", "瓦爾迪茲", "朱諾", "門登霍爾冰河", "荷馬沙嘴", "凱奇侃", "史卡威", "威朗格利-聖埃利亞斯國家公園", "布魯克斯山脈", "北極圈地標", "諾姆", "卡特邁國家公園", "冰河灣國家公園"}
               researched_us_cards = [c for c in us_cards if any(name in c.text for name in researched_us_names)]
-              assert len(researched_us_cards) == 55, [c.text for c in researched_us_cards]
+              assert len(researched_us_cards) == 60, [c.text for c in researched_us_cards]
               assert all("攝影研究待補" not in c.text for c in researched_us_cards), [c.text for c in researched_us_cards]
               pending_us_cards = [c for c in us_cards if not any(name in c.text for name in researched_us_names)]
-              assert len(pending_us_cards) == 15
+              assert len(pending_us_cards) == 10
               pending_us_scores = [c.find_element(By.CSS_SELECTOR, ".score-badge").text.strip() for c in pending_us_cards]
               assert all(x in {"", "—"} for x in pending_us_scores), pending_us_scores[:20]
               assert all("攝影研究待補" in c.text for c in pending_us_cards), "non-migrated US card leaked legacy scoring"

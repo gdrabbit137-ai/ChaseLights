@@ -59,6 +59,7 @@ FORMULA_DEPENDENCIES = {
     "needs_tide_module": ("tide_state",),
     "needs_tidal_current_extremum_access_module": ("tidal_current_extremum", "dynamic_access"),
     "needs_directional_horizon_wildlife_module": ("directional_horizon", "wildlife_state"),
+    "needs_wildlife_state_access_module": ("wildlife_state", "dynamic_access"),
     "needs_directional_horizon_cultural_permission_module": ("directional_horizon", "cultural_permission"),
 }
 
