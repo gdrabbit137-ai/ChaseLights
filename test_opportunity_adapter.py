@@ -621,6 +621,11 @@ def test_adapter_integrity():
     assert "loadLegacyDetail" not in frontend_source
     assert "_weather_details.json" not in frontend_source
     assert "catch(shardError)" not in frontend_source
+    assert "Weather detail version mismatch" not in frontend_source
+    assert "A weather refresh is committed atomically in git" in frontend_source
+    assert "detail_sync_wait" in frontend_source
+    assert "const summary=await fetchAndCache(`./${region}_weather.json`,null);" in frontend_source
+    assert "const retry=await fetchAndCache(url,null);" in frontend_source
     assert "function scrollWeatherModalToCurrent()" in frontend_source
     assert "dataset.nowAnchor='true'" in frontend_source
     assert "scrollWeatherModalToCurrent();" in frontend_source
