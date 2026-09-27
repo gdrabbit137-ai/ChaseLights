@@ -113,7 +113,7 @@ _ACCESS_GROUPS = {
         "tw-049-P02",
     ),
     "transport_facility_status": ("tw-024-P01", "tw-024-P05", "tw-037-P01", "jp-002-P01", "jp-004-P01", "jp-021-P01", "jp-022-P01", "jp-022-P02"),
-    "road_viewpoint_status": ("tw-034-P01", "us-012-P01", "us-012-P02", "us-013-P02", "us-017-P01", "us-038-P01"),
+    "road_viewpoint_status": ("tw-034-P01", "us-012-P01", "us-012-P02", "us-013-P02", "us-017-P01", "us-038-P01", "us-041-P01", "us-041-P02"),
     "public_attraction_notice": ("tw-038-P01", "tw-038-P02", "tw-081-P01", "jp-030-P01", "jp-034-P02", "us-010-P01", "us-027-P01", "us-029-P01"),
     "waterfall_trail_status": ("tw-055-P01",),
     "tidal_path_notice": ("tw-059-P01", "tw-078-P01"),
@@ -144,6 +144,13 @@ ACCESS_RUNTIME_READY_PROFILES = frozenset({
 # These are provider-discovery hints, not proof that an Opportunity is open.
 # They document official sources verified during B25 architecture work.
 OFFICIAL_SOURCE_HINTS = {
+    "us-041": {
+        "authority": "U.S. National Park Service",
+        "source_kind": "denali_mountain_vista_park_road_current_access",
+        "url": "https://www.nps.gov/dena/planyourvisit/mountain-vista.htm",
+        "verified_on": "2026-09-27",
+        "note": "Mountain Vista is the researched Denali Camera Zone near Mile 13. Vehicle access is weather and road-status dependent and can change on short notice. Favorable forecast weather, season, or an aurora forecast must not be treated as proof that Mountain Vista is currently reachable.",
+    },
     "us-038": {
         "authority": "U.S. National Park Service",
         "source_kind": "newfound_gap_road_and_overlook_current_status",

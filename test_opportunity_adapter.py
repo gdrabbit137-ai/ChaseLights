@@ -2301,7 +2301,7 @@ def test_adapter_integrity():
 
     us_spots = get_spots("us")
     researched_us = {s["spot_id"] for s in us_spots if s.get("opportunities")}
-    assert researched_us == {f"us-{i:03d}" for i in range(1, 41)}
+    assert researched_us == {f"us-{i:03d}" for i in range(1, 46)}
     assert all(not (s.get("opportunities") or []) for s in us_spots if s["spot_id"] not in researched_us)
 
     us006 = get_opportunities("us", "us-006")
@@ -2553,6 +2553,58 @@ def test_adapter_integrity():
     boston = next(s for s in us_spots if s["spot_id"] == "us-040")
     assert abs(boston["lat"] - 42.36459) < 1e-7
     assert abs(boston["lon"] + 71.0372) < 1e-7
+
+    us041 = get_opportunities("us", "us-041")
+    assert [o["opportunity_id"] for o in us041] == ["us-041-P01", "us-041-P02"]
+    assert [o["runtime_policy"] for o in us041] == ["module_pending", "module_pending"]
+    assert dependencies_for_opportunity(us041[0]) == ("dynamic_access", "visibility")
+    assert dependency_state(us041[0])["missing_components"] == ("dynamic_access",)
+    assert dependencies_for_opportunity(us041[1]) == ("aurora_state", "dynamic_access")
+    assert dependency_state(us041[1])["missing_components"] == ("aurora_state", "dynamic_access")
+    assert ACCESS_PROFILE_CLASSIFICATION["us-041-P01"]["access_type"] == "road_viewpoint_status"
+    assert ACCESS_PROFILE_CLASSIFICATION["us-041-P02"]["access_type"] == "road_viewpoint_status"
+    denali = next(s for s in us_spots if s["spot_id"] == "us-041")
+    assert abs(denali["lat"] - 63.73209) < 1e-7
+    assert abs(denali["lon"] + 148.90273) < 1e-7
+    assert denali["navigation_target"]["status"] == "verified"
+    assert abs(denali["navigation_target"]["lat"] - 63.73209) < 1e-7
+
+    us042 = get_opportunities("us", "us-042")
+    assert [o["opportunity_id"] for o in us042] == ["us-042-P01"]
+    assert us042[0]["runtime_policy"] == "module_pending"
+    assert dependencies_for_opportunity(us042[0]) == ("aurora_state",)
+    assert dependency_state(us042[0])["missing_components"] == ("aurora_state",)
+    fairbanks = next(s for s in us_spots if s["spot_id"] == "us-042")
+    assert abs(fairbanks["lat"] - 64.86417) < 1e-7
+    assert abs(fairbanks["lon"] + 147.73778) < 1e-7
+
+    us043 = get_opportunities("us", "us-043")
+    assert [o["opportunity_id"] for o in us043] == ["us-043-P01"]
+    assert us043[0]["runtime_policy"] == "module_pending"
+    assert dependencies_for_opportunity(us043[0]) == ("aurora_state",)
+    assert dependency_state(us043[0])["missing_components"] == ("aurora_state",)
+    chena = next(s for s in us_spots if s["spot_id"] == "us-043")
+    assert abs(chena["lat"] - 65.05304) < 1e-7
+    assert abs(chena["lon"] + 146.0556) < 1e-7
+
+    us044 = get_opportunities("us", "us-044")
+    assert [o["opportunity_id"] for o in us044] == ["us-044-P01", "us-044-P02"]
+    assert [o["runtime_policy"] for o in us044] == ["preview_module_available", "module_pending"]
+    assert dependencies_for_opportunity(us044[0]) == ("directional_horizon", "visibility")
+    assert dependencies_for_opportunity(us044[1]) == ("aurora_state",)
+    assert dependency_state(us044[1])["missing_components"] == ("aurora_state",)
+    anchorage = next(s for s in us_spots if s["spot_id"] == "us-044")
+    assert abs(anchorage["lat"] - 61.2042) < 1e-7
+    assert abs(anchorage["lon"] + 150.01871) < 1e-7
+
+    us045 = get_opportunities("us", "us-045")
+    assert [o["opportunity_id"] for o in us045] == ["us-045-P01"]
+    assert us045[0]["runtime_policy"] == "minimum_sufficient_available"
+    assert dependencies_for_opportunity(us045[0]) == ("visibility",)
+    seward = next(s for s in us_spots if s["spot_id"] == "us-045")
+    assert abs(seward["lat"] - 60.103141) < 1e-7
+    assert abs(seward["lon"] + 149.434574) < 1e-7
+    assert seward["navigation_target"]["status"] == "verified"
 
     assert us010[0]["runtime_policy"] == "module_pending"
     us010_state = dependency_state(us010[0])
@@ -3066,7 +3118,7 @@ def test_active_catalog_weather_generation_guard():
 
     us_spots = get_spots("us")
     researched_us = {spot["spot_id"] for spot in us_spots if spot.get("opportunities")}
-    assert researched_us == {f"us-{i:03d}" for i in range(1, 41)}
+    assert researched_us == {f"us-{i:03d}" for i in range(1, 46)}
     assert all(
         not (spot.get("opportunities") or [])
         for spot in us_spots
