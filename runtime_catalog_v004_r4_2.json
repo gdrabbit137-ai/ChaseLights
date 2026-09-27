@@ -14,10 +14,10 @@
     "runtime_catalog_v004_r4_2_b35_liyu_subjects.json"
   ],
   "counts": {
-    "spots": 118,
-    "opportunities": 270,
-    "condition_variants": 285,
-    "profile_viewpoint_relations": 276
+    "spots": 123,
+    "opportunities": 279,
+    "condition_variants": 294,
+    "profile_viewpoint_relations": 285
   },
   "spots": [
     {
@@ -12770,6 +12770,506 @@
               "geometry_extent_m": 450,
               "geometry_note": "塔周邊公共區域可移動構圖；未指定唯一外拍腳架點。",
               "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-001",
+      "canonical_name": "大峽谷國家公園",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B61_US_RESEARCH_BATCH01",
+      "research_sources": [
+        {
+          "authority": "U.S. National Park Service — Grand Canyon sunrise/sunset guidance",
+          "url": "https://www.nps.gov/grca/planyourvisit/sunrise_set_moon.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS recommends Mather or Yaki for memorable sunrise and identifies multiple South Rim viewpoints with strong east/west sunset panoramas."
+        },
+        {
+          "authority": "U.S. National Park Service — Grand Canyon photography",
+          "url": "https://www.nps.gov/grca/planyourvisit/photography.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS identifies Yaki for dawn and Desert View Watchtower plus river/Palisades as a strong sunset composition."
+        },
+        {
+          "authority": "U.S. National Park Service — Grand Canyon night skies",
+          "url": "https://www.nps.gov/grca/learn/nature/night-skies.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS states the park is open 24 hours, identifies Mather/Desert View/Moran/Lipan as stargazing sites, and explicitly describes Desert View Watchtower as a Milky Way core foreground."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-001-P01",
+          "spot_id": "us-001",
+          "name_zh": "大峽谷南緣・Mather Point 日出峽谷層次",
+          "legacy_theme": "sunrise",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04-us-grand-canyon-directional-visibility",
+          "formula_confidence": 95,
+          "best_time": "日出前約30分鐘至日出後約1小時（景點當地時間）",
+          "best_season": "全年；South Rim全年開放，冬季需另注意道路與低溫狀況",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-001",
+              "variant_name": "Mather Point 日出＋峽谷層次",
+              "condition_geometry": "{\"camera_zone\":\"Mather Point Camera Zone\",\"target\":\"east-facing sunrise sky + layered canyon formations\"}",
+              "hard_gates": "South Rim可達；日出時段有效；不得越過觀景區安全邊界",
+              "required_conditions": "日出方向與主要峽谷層次可辨；能見度足夠；低雲／降水未完全遮蔽主景",
+              "boosters": "中高雲形成晨彩；空氣透明度佳；低霾",
+              "penalties": "濃霧；低雲封景；強降水；能見度過低",
+              "formula_status": "needs_directional_horizon_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-001-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS directly recommends Mather Point for sunrise. Area identity is official; no new unverified WGS84 tripod coordinate is asserted.",
+              "name": "Mather Point Camera Zone",
+              "coord_confidence": "not_required_for_area_subject",
+              "verification_status": "official_nps_sunrise_viewpoint",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 220,
+              "geometry_note": "Mather Point公共觀景區；可於合法平台／步道範圍調整構圖。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-001-P02",
+          "spot_id": "us-001",
+          "name_zh": "大峽谷南緣・Desert View 夕照與Watchtower前景",
+          "legacy_theme": "sunset",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04-us-grand-canyon-directional-visibility",
+          "formula_confidence": 95,
+          "best_time": "日落前後（景點當地時間）",
+          "best_season": "全年；South Rim與Desert View全年開放",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-002",
+              "variant_name": "Desert View Watchtower＋峽谷夕照",
+              "condition_geometry": "{\"camera_zone\":\"Desert View Camera Zone\",\"target\":\"Watchtower / Colorado River / Palisades + western sunset light\"}",
+              "hard_gates": "Desert View公共觀景區可達；日落時段有效；遵守崖緣安全",
+              "required_conditions": "峽谷、河谷或Watchtower前景可辨；夕照方向有效；能見度足夠",
+              "boosters": "中高雲夕彩；低霾；透明度佳",
+              "penalties": "濃霧；低雲封景；強降水；能見度過低",
+              "formula_status": "needs_directional_horizon_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-001-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS photography guidance explicitly identifies Desert View Watchtower, river and Palisades as a strong sunset composition.",
+              "name": "Desert View Camera Zone",
+              "coord_confidence": "not_required_for_area_subject",
+              "verification_status": "official_nps_sunset_subject",
+              "geometry_type": "area",
+              "geometry_extent_m": 450,
+              "geometry_note": "Desert View公共觀景區與Watchtower外部周邊；建物開館時間不等同於戶外南緣24小時開放狀態。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-001-P03",
+          "spot_id": "us-001",
+          "name_zh": "大峽谷南緣・星空／銀河與峽谷或Watchtower前景",
+          "legacy_theme": "milky_way",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_astronomy_ephemeris_module",
+          "formula_version": "v0.04-us-grand-canyon-astro",
+          "formula_confidence": 96,
+          "best_time": "天文黑夜；新月附近或月光較弱時優先",
+          "best_season": "全年暗夜；Milky Way核心構圖另受季節與方位影響",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-003",
+              "variant_name": "Desert View／Mather Point 暗夜星空",
+              "condition_geometry": "{\"camera_zone\":\"Grand Canyon South Rim dark-sky Camera Zone\",\"target\":\"star field / Milky Way + canyon or Desert View Watchtower foreground\"}",
+              "hard_gates": "天文黑夜；合法安全觀景區；不得在崖緣危險位置架設器材",
+              "required_conditions": "天空足夠晴朗；月光干擾可接受；主要星野可見",
+              "boosters": "新月附近；低雲量；高透明度；Milky Way核心位於可用構圖方位",
+              "penalties": "亮月；雲層遮蔽；濃霧；強風；崖緣安全風險",
+              "formula_status": "needs_astronomy_ephemeris_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-001-VP03",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS explicitly recommends South Rim stargazing and identifies Desert View Watchtower as an excellent Milky Way-core foreground.",
+              "name": "Desert View／South Rim Dark-Sky Camera Zone",
+              "coord_confidence": "not_required_for_area_subject",
+              "verification_status": "official_nps_night_sky_and_milky_way_foreground",
+              "geometry_type": "area",
+              "geometry_extent_m": 1200,
+              "geometry_note": "以NPS明確推薦的South Rim公共暗空觀景區為範圍；不宣稱單一銀河精準對位點。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-002",
+      "canonical_name": "馬蹄灣",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B61_US_RESEARCH_BATCH01",
+      "research_sources": [
+        {
+          "authority": "U.S. National Park Service — Horseshoe Bend Overlook",
+          "url": "https://www.nps.gov/thingstodo/take-a-stroll-to-horseshoe-bend-overlook.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS identifies the Colorado River horseshoe bend and overlook, states the trail/overlook are open sunrise-to-sunset only, and documents the 1.5-mile round trip plus exposed desert conditions."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-002-P01",
+          "spot_id": "us-002",
+          "name_zh": "馬蹄灣・科羅拉多河大彎俯瞰",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-visibility-minimum-sufficient",
+          "formula_confidence": 94,
+          "best_time": "日出至日落的合法開放時段；清晨／傍晚光線較柔和",
+          "best_season": "全年；炎熱季節避開正午高溫",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-004",
+              "variant_name": "Horseshoe Bend 河谷大彎全景",
+              "condition_geometry": "{\"camera_zone\":\"Horseshoe Bend Overlook Camera Zone\",\"subject\":\"Colorado River horseshoe bend + sandstone canyon\"}",
+              "hard_gates": "僅日出至日落；合法步道／觀景平台可達；未設欄杆處不得靠近危險崖緣",
+              "required_conditions": "河道與砂岩峽谷輪廓清楚；能見度足夠；無強降水妨礙步行攝影",
+              "boosters": "低角度光；空氣透明度佳；低霾",
+              "penalties": "濃霧；強降水；能見度過低；高溫造成步行風險",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-002-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS defines the official Horseshoe Bend trail and overlook. Existing legacy coordinate is retained as the Place/Camera anchor.",
+              "name": "Horseshoe Bend Overlook Camera Zone",
+              "lat": 36.879,
+              "lon": -111.51,
+              "elevation_m": null,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_nps_overlook_subject_plus_existing_place_anchor",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 300,
+              "geometry_note": "官方觀景平台與其相鄰合法觀景範圍；崖緣多處無護欄，安全優先。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-003",
+      "canonical_name": "羚羊峽谷",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B61_US_RESEARCH_BATCH01",
+      "research_sources": [
+        {
+          "authority": "Navajo Nation Parks & Recreation — Antelope Canyon tour operators",
+          "url": "https://navajonationparks.org/guided-tour-operators/antelope-canyon-tour-operators/",
+          "verified_on": "2026-09-27",
+          "supports": "Navajo Nation states all Lake Powell–Antelope Canyon locations are accessible only by guided tour and a tour guide is mandatory."
+        },
+        {
+          "authority": "Antelope Canyon Tours, Inc. — FAQ",
+          "url": "https://www.antelopecanyon.com/faq/",
+          "verified_on": "2026-09-27",
+          "supports": "Authorized Upper Antelope operator states the canyon has photo opportunities across tour times and that direct light beams occur on clear sunny days, with an approximately 11:20 tour offering a chance to see them, primarily April–September."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-003-P01",
+          "spot_id": "us-003",
+          "name_zh": "Upper Antelope Canyon・砂岩曲面與反射光色彩",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_dynamic_access_module",
+          "formula_version": "v0.04-guided-tour-access-pending",
+          "formula_confidence": 97,
+          "best_time": "依已預約的Navajo授權導覽時段；各時段皆可形成不同反射光色彩",
+          "best_season": "全年依授權導覽營運與安全狀態",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-005",
+              "variant_name": "Upper Antelope 砂岩曲面／反射光",
+              "condition_geometry": "{\"camera_zone\":\"Upper Antelope Canyon guided-tour corridor\",\"subject\":\"slot-canyon sandstone curves + reflected warm light\"}",
+              "hard_gates": "必須參加Navajo授權導覽；實際tour可用且未因天候／安全關閉；服從導遊與器材規定",
+              "required_conditions": "峽谷內曲面與反射光可辨；導覽實際進行",
+              "boosters": "較柔和的反射光；較低人流；可接受的手持快門條件",
+              "penalties": "導覽取消／售罄；安全關閉；強降水或洪水風險",
+              "formula_status": "research_ready_guided_tour_access_provider_pending"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-003-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "The Camera Zone is the guided-tour corridor itself; no independent public access or tripod point exists.",
+              "name": "Upper Antelope Canyon Guided-Tour Camera Zone",
+              "coord_confidence": "guided_corridor_no_public_tripod_point",
+              "verification_status": "official_navajo_guided_access_required",
+              "geometry_type": "controlled_zone",
+              "geometry_extent_m": null,
+              "geometry_note": "僅限授權導覽帶領的峽谷動線；不得把入口或legacy座標視為可自行進入的Camera Zone。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-003-P02",
+          "spot_id": "us-003",
+          "name_zh": "Upper Antelope Canyon・季節性直射光束",
+          "legacy_theme": "sunbeam",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_radiation_dynamic_access_module",
+          "formula_version": "v0.04-sunbeam-radiation-guided-access-pending",
+          "formula_confidence": 94,
+          "best_time": "通常4–9月晴天、接近正午的適當導覽時段；營運商明確表示不能保證陽光",
+          "best_season": "4–9月為主要光束季；季節邊緣較短且較不穩定",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-006",
+              "variant_name": "Upper Antelope 正午垂直光束",
+              "condition_geometry": "{\"camera_zone\":\"Upper Antelope Canyon guided-tour corridor\",\"subject\":\"direct sunbeam through slot opening\",\"season_context\":\"primarily Apr-Sep\"}",
+              "hard_gates": "授權導覽實際可用；晴朗直射日照條件；適當太陽高度；不得將預報晴天視為光束保證",
+              "required_conditions": "直射光可進入峽谷開口；雲層未遮斷太陽；導覽實際進行",
+              "boosters": "接近營運商建議之正午tour；高DNI；少雲",
+              "penalties": "陰天；太陽高度不足；導覽取消／售罄；洪水／安全關閉",
+              "formula_status": "research_ready_sunbeam_guided_access_provider_pending"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-003-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Place-specific operator evidence verifies the light-beam subject, but exact beam position changes along the guided corridor and no fixed tripod point is claimed.",
+              "name": "Upper Antelope Sunbeam Guided Camera Zone",
+              "coord_confidence": "guided_corridor_no_fixed_tripod_point",
+              "verification_status": "authorized_operator_sunbeam_subject_plus_navajo_guided_access",
+              "geometry_type": "controlled_zone",
+              "geometry_extent_m": null,
+              "geometry_note": "光束位置依日期／時段與峽谷段落變化；僅能在導覽允許動線手持拍攝。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-004",
+      "canonical_name": "紀念碑谷",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B61_US_RESEARCH_BATCH01",
+      "research_sources": [
+        {
+          "authority": "Navajo Nation Parks & Recreation — Monument Valley Navajo Tribal Park",
+          "url": "https://navajonationparks.org/tribal-parks/monument-valley/",
+          "verified_on": "2026-09-27",
+          "supports": "Navajo Nation describes Monument Valley as one of the most photographed places, with 400–1,000 ft sandstone formations, scenic clouds and sun angle accenting the landscape; official GPS and permit rules are published."
+        },
+        {
+          "authority": "Navajo Nation Parks & Recreation — Monument Valley tour operators/hours",
+          "url": "https://navajonationparks.org/guided-tour-operators/monument-valley-tour-operators/",
+          "verified_on": "2026-09-27",
+          "supports": "Official page publishes seasonal fee-booth/visitor-center/scenic-drive windows and last-entry guidance; access varies by season and major Navajo holidays."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-004-P01",
+          "spot_id": "us-004",
+          "name_zh": "紀念碑谷・砂岩butte與mesa經典地景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-visibility-minimum-sufficient",
+          "formula_confidence": 95,
+          "best_time": "Tribal Park合法開放時段；低角度日光可加強砂岩立體感",
+          "best_season": "全年依Navajo Tribal Park當期營運時段",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-007",
+              "variant_name": "Monument Valley sandstone buttes／mesas",
+              "condition_geometry": "{\"camera_zone\":\"Monument Valley Navajo Tribal Park public scenic zone\",\"subject\":\"sandstone buttes + mesas + desert floor\"}",
+              "hard_gates": "Tribal Park合法開放；遵守指定道路／步道與Navajo規則；超出一般個人旅遊攝影之用途須依官方permit規定",
+              "required_conditions": "主要butte／mesa與沙漠地景可辨；能見度足夠；無惡劣天候造成封閉",
+              "boosters": "低角度日光；雲影；高透明度",
+              "penalties": "沙塵／濃霧；強降水；能見度過低；道路或園區關閉",
+              "formula_status": "minimum_sufficient_visibility"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-004-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Navajo Nation publishes the Tribal Park identity/GPS and explicitly describes the iconic sandstone landscape. This is an area subject rather than a single tripod point.",
+              "name": "Monument Valley Navajo Tribal Park Scenic Camera Zone",
+              "lat": 37.00414,
+              "lon": -110.09889,
+              "elevation_m": 1696,
+              "coord_confidence": "high",
+              "verification_status": "official_navajo_tribal_park_gps_and_landscape_subject",
+              "geometry_type": "area",
+              "geometry_extent_m": 5000,
+              "geometry_note": "代表Visitor Center／合法Scenic Drive公共觀景範圍；不得將整個保護地視為可任意越野進入。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-005",
+      "canonical_name": "拱門國家公園",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_B61_US_RESEARCH_BATCH01",
+      "research_sources": [
+        {
+          "authority": "U.S. National Park Service — Arches photography",
+          "url": "https://www.nps.gov/arch/planyourvisit/photography.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS explicitly identifies Delicate Arch at sunset, lists Delicate Arch among late-afternoon subjects, and provides official night-photography guidance."
+        },
+        {
+          "authority": "U.S. National Park Service — Balanced Rock",
+          "url": "https://www.nps.gov/arch/planyourvisit/balancedrock.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS states Balanced Rock turns deep red-orange at sunset and is an ideal place for stargazing/night photography with rocky foreground."
+        },
+        {
+          "authority": "U.S. National Park Service — Arches operating hours",
+          "url": "https://www.nps.gov/arch/planyourvisit/basicinfo.htm",
+          "verified_on": "2026-09-27",
+          "supports": "Arches is generally open 24 hours daily/year-round, subject to temporary entry delays/closures."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-005-P01",
+          "spot_id": "us-005",
+          "name_zh": "Delicate Arch・夕照紅岩拱門",
+          "legacy_theme": "sunset",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04-us-arches-directional-visibility",
+          "formula_confidence": 96,
+          "best_time": "日落前後；NPS明確將Delicate Arch列為晚午後／夕照攝影主題",
+          "best_season": "全年；停車與步道人流在旺季可能非常擁擠",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-008",
+              "variant_name": "Delicate Arch 夕陽暖色",
+              "condition_geometry": "{\"camera_zone\":\"Delicate Arch public viewing / trail Camera Zone\",\"subject\":\"Delicate Arch + sunset warm light\"}",
+              "hard_gates": "合法步道／觀景區可達；日落時段有效；不得攀爬拱門或踩踏生物土壤結皮",
+              "required_conditions": "拱門與夕照光線可辨；能見度足夠；雲雨未完全遮蔽主景",
+              "boosters": "低角度暖光；中高雲夕彩；高透明度",
+              "penalties": "濃霧；強降水；低雲遮蔽；停車／人流造成無法安全抵達",
+              "formula_status": "needs_directional_horizon_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-005-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS explicitly identifies Delicate Arch sunset as a core photography subject. Exact tripod placement is intentionally not claimed.",
+              "name": "Delicate Arch Sunset Camera Zone",
+              "coord_confidence": "official_subject_location_no_unique_tripod_claim",
+              "verification_status": "official_nps_delicate_arch_sunset_subject",
+              "geometry_type": "area",
+              "geometry_extent_m": 500,
+              "geometry_note": "Delicate Arch合法步道與觀景範圍；旺季夕陽時段可能非常擁擠。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-005-P02",
+          "spot_id": "us-005",
+          "name_zh": "Balanced Rock・星空／銀河夜攝",
+          "legacy_theme": "milky_way",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_astronomy_ephemeris_module",
+          "formula_version": "v0.04-us-arches-astro",
+          "formula_confidence": 97,
+          "best_time": "天文黑夜；低月光時優先",
+          "best_season": "全年暗夜；Milky Way核心構圖另依季節與方位",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-009",
+              "variant_name": "Balanced Rock 星空與紅岩前景",
+              "condition_geometry": "{\"camera_zone\":\"Balanced Rock Camera Zone\",\"target\":\"star field / Milky Way + Balanced Rock foreground\"}",
+              "hard_gates": "天文黑夜；合法停車／步道可達；不得以人工光源照亮地景",
+              "required_conditions": "天空足夠晴朗；月光干擾可接受；Balanced Rock前景與星野可安全構圖",
+              "boosters": "新月附近；低雲量；高透明度；低風",
+              "penalties": "亮月；雲層遮蔽；濃霧；強風；違規人工補光",
+              "formula_status": "needs_astronomy_ephemeris_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-005-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS directly describes Balanced Rock as ideal for stargazing and night photography and shows it as a foreground for star trails.",
+              "name": "Balanced Rock Night Camera Zone",
+              "coord_confidence": "official_subject_location_no_unique_tripod_claim",
+              "verification_status": "official_nps_balanced_rock_night_photography_subject",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 500,
+              "geometry_note": "Balanced Rock viewpoint／短步道合法區域；人工光源照亮地景受NPS禁止。",
+              "geometry_confidence": "high"
             }
           ]
         }
