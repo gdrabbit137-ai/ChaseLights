@@ -54,6 +54,10 @@ jobs:
           spots = summary.get("spots") if isinstance(summary, dict) else summary
 
           assert summary.get("schema_version") == 10, summary.get("schema_version")
+          for spot in spots:
+              assert all("themes" not in day for day in (spot.get("daily") or [])), (
+                  spot["spot_id"], "published_daily_theme_duplicate"
+              )
           assert len(spots) == 70, len(spots)
           assert len({s["spot_id"] for s in spots}) == 70
           assert not Path("us_weather_details.json").exists(), "regional detail file must remain retired"
