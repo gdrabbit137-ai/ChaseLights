@@ -114,7 +114,7 @@ _ACCESS_GROUPS = {
     ),
     "transport_facility_status": ("tw-024-P01", "tw-024-P05", "tw-037-P01", "jp-002-P01", "jp-004-P01", "jp-021-P01", "jp-022-P01", "jp-022-P02"),
     "road_viewpoint_status": ("tw-034-P01",),
-    "public_attraction_notice": ("tw-038-P01", "tw-038-P02", "tw-081-P01", "jp-030-P01", "jp-034-P02"),
+    "public_attraction_notice": ("tw-038-P01", "tw-038-P02", "tw-081-P01", "jp-030-P01", "jp-034-P02", "us-010-P01"),
     "waterfall_trail_status": ("tw-055-P01",),
     "tidal_path_notice": ("tw-059-P01", "tw-078-P01"),
     "facility_hours_notice": ("tw-068-P01", "jp-033-P02"),
@@ -144,6 +144,12 @@ ACCESS_RUNTIME_READY_PROFILES = frozenset({
 # These are provider-discovery hints, not proof that an Opportunity is open.
 # They document official sources verified during B25 architecture work.
 OFFICIAL_SOURCE_HINTS = {
+    "us-010": {
+        "authority": "U.S. National Park Service",
+        "source_kind": "grand_prismatic_overlook_trail_and_road_status",
+        "url": "https://www.nps.gov/thingstodo/yell-trail-grand-prismatic-overlook.htm",
+        "notes": "Overlook access depends on current Yellowstone road/trail status; off-trail travel is prohibited.",
+    },
     "us-003": {
         "authority": "Navajo Nation Parks & Recreation",
         "source_kind": "mandatory_guided_tour_and_authorized_operator_access",
