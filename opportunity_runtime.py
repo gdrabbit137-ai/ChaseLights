@@ -1410,7 +1410,7 @@ def validate_runtime_registry():
     errors.extend(validate_tide_state_registry())
     errors.extend(validate_access_registry())
     if set(MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES) != {
-        "jp-025-P01", "jp-026-P01",
+        "jp-025-P01", "jp-026-P01", "jp-028-P01", "jp-029-P01", "jp-031-P01",
         "tw-084-P01", "tw-084-P02", "tw-084-P03", "tw-084-P04",
         "tw-084-P05", "tw-084-P06", "tw-084-P07", "tw-084-P08",
         "tw-082-P04", "tw-082-P05", "tw-082-P06", "tw-082-P07", "tw-082-P08",
