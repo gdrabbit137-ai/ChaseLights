@@ -1206,7 +1206,7 @@ def _score_opportunity(opportunity, theme_metric, runtime_diagnostic, lang="zh-T
         status_key = indicator_key = "OPPORTUNITY_DATA_INSUFFICIENT"
         condition_state = "data_insufficient"
     elif policy == "module_pending":
-        score = min(base, 64)
+        score = 45 if canonical_aurora else min(base, 64)
         status_key = indicator_key = "OPPORTUNITY_PARTIAL"
         condition_state = "partial_runtime_contract"
         score_confidence = "low"
@@ -1266,11 +1266,15 @@ def _score_opportunity(opportunity, theme_metric, runtime_diagnostic, lang="zh-T
     elif policy == "preview_module_available":
         diag = runtime_diagnostic or {}
         if not diag.get("available"):
-            score = min(base, 45)
+            score = 35 if canonical_aurora else min(base, 45)
             status_key = indicator_key = "OPPORTUNITY_RUNTIME_DATA_MISSING"
             condition_state = "runtime_data_missing"
         elif not diag.get("eligible"):
-            score = min(base, 54)
+            if canonical_aurora:
+                aurora_hint = aurora_module.get("score_hint")
+                score = min(54, int(round(float(aurora_hint)))) if aurora_hint is not None else 35
+            else:
+                score = min(base, 54)
             status_key = indicator_key = "OPPORTUNITY_CONDITION_MISS"
             condition_state = "dedicated_conditions_miss"
             score_confidence = "medium"
