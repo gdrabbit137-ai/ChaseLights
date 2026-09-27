@@ -53,7 +53,7 @@ jobs:
           summary = json.loads(Path("us_weather.json").read_text(encoding="utf-8"))
           spots = summary.get("spots") if isinstance(summary, dict) else summary
 
-          assert summary.get("schema_version") == 10, summary.get("schema_version")
+          assert summary.get("schema_version") == 11, summary.get("schema_version")
           for spot in spots:
               assert all("themes" not in day for day in (spot.get("daily") or [])), (
                   spot["spot_id"], "published_daily_theme_duplicate"
@@ -68,6 +68,7 @@ jobs:
           shard_ids = set()
           for shard_path in shard_files:
               shard = json.loads(shard_path.read_text(encoding="utf-8"))
+              assert shard.get("schema_version") == 11, (shard_path.name, shard.get("schema_version"))
               detail = shard.get("spot") or {}
               assert shard.get("spot_id") == detail.get("spot_id"), shard_path.name
               assert detail.get("spot_id"), shard_path.name
