@@ -15463,37 +15463,43 @@
       "product_review_stage": "R4_2_B69_US_RESEARCH_BATCH06",
       "research_sources": [
         {
-          "authority": "Griffith Observatory official — 2026 visitor maps",
-          "url": "https://griffithobservatory.org/wp-content/uploads/2025/12/Griffith-Observatory-Maps_digital.pdf",
+          "authority": "City of Los Angeles — Griffith Observatory Visit",
+          "url": "https://griffithobservatory.lacity.gov/visit/",
           "verified_on": "2026-09-27",
-          "supports": "Official 2026 map documents the Observatory's exterior terraces including Hollywood Sign / sunset viewing areas and states personal photography is permitted except specified interior/show areas; tripods are prohibited inside."
+          "supports": "Official Observatory guidance identifies spectacular views of Los Angeles and the Hollywood Sign and states the grounds are generally open daily on the Griffith Park schedule."
+        },
+        {
+          "authority": "City of Los Angeles — Griffith Observatory Roof & Terraces",
+          "url": "https://griffithobservatory.lacity.gov/exhibits/exterior-exhibits/roof-terraces/",
+          "verified_on": "2026-09-27",
+          "supports": "Official page states the terraces provide panoramic Los Angeles viewpoints in every direction and are accessible each day from sunrise until 22:00; the roof itself follows building hours."
         }
       ],
       "opportunities": [
         {
           "opportunity_id": "us-028-P01",
           "spot_id": "us-028",
-          "name_zh": "Griffith Observatory・建築外觀與Los Angeles／Hollywood Sign視野",
-          "legacy_theme": "city_night",
+          "name_zh": "Griffith Observatory terraces・Los Angeles與Hollywood Sign全景",
+          "legacy_theme": "mountain_view",
           "mode": "area_opportunity",
           "sampling_topology": "local_area",
           "geometry_required": false,
           "opportunity_confidence": "high",
-          "formula_status": "minimum_sufficient_local_scene",
-          "formula_version": "v0.04-local-scene-dry-minimum-sufficient",
-          "formula_confidence": 94,
-          "best_time": "白天至藍調／夜間皆可；公共外部露台與步行區實際可用時",
-          "best_season": "全年",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-minimum-sufficient-visibility-panorama",
+          "formula_confidence": 97,
+          "best_time": "日出後至22:00前的terraces公共時段；屋頂區另依天文台建築開放時間",
+          "best_season": "全年；實際臨時封閉／道路管制以官方公告為準",
           "condition_variants": [
             {
               "variant_id": "USVAR-241",
-              "variant_name": "Griffith Observatory外觀＋Hollywood Sign／Los Angeles背景",
-              "condition_geometry": "{\"camera_zone\":\"Griffith Observatory public exterior terraces / lawn Camera Zone\",\"subject\":\"Observatory architecture + Hollywood Sign / Los Angeles urban context\"}",
-              "hard_gates": "僅限合法公共外部區域；商業拍攝須依官方許可；室內個人攝影規則與腳架限制不得外推成公共外部區域規則",
-              "required_conditions": "天文台建築與城市／Hollywood Sign背景至少一項清楚可辨；無足以妨礙步行拍攝的強降水",
-              "boosters": "高透明度；藍調天空；城市燈光；暖色低角度光",
-              "penalties": "濃霧／低雲遮蔽遠景；強降水；臨時活動或封閉",
-              "formula_status": "minimum_sufficient_local_scene"
+              "variant_name": "Griffith Observatory terraces・Los Angeles／Hollywood Sign全景",
+              "condition_geometry": "{\"camera_zone\":\"Griffith Observatory exterior terraces Camera Zone\",\"subject\":\"Los Angeles basin / skyline + Hollywood Sign panorama\"}",
+              "hard_gates": "terraces公共區域在官方可使用時段內；不得把屋頂開放狀態與外部terraces混為一談",
+              "required_conditions": "Los Angeles城市層次或Hollywood Sign主要方向清楚可辨；能見度足夠",
+              "boosters": "高透明度；低霾；柔和斜光",
+              "penalties": "濃霧／低雲／煙霾使城市或Hollywood Sign不可辨；強降水；官方臨時封閉",
+              "formula_status": "minimum_sufficient_visibility"
             }
           ],
           "viewpoints": [
@@ -15501,15 +15507,15 @@
               "viewpoint_id": "us-028-VP01",
               "relation_role": "reference",
               "sort_order": 1,
-              "note": "Official Observatory maps identify exterior terraces and the Hollywood Sign viewing terrace. B69 retains the already-correct high-confidence Griffith Observatory POI/weather anchor.",
-              "name": "Griffith Observatory Public Exterior Camera Zone",
+              "note": "Official Griffith Observatory material directly documents panoramic Los Angeles and Hollywood Sign views from the grounds/terraces. The existing Observatory POI coordinate is already close to the actual facility and is retained.",
+              "name": "Griffith Observatory Exterior Terraces Camera Zone",
               "lat": 34.11821,
               "lon": -118.30037,
               "coord_confidence": "high",
-              "verification_status": "official_observatory_exterior_photo_policy_and_terrace_subject_plus_high_confidence_poi",
+              "verification_status": "official_observatory_terrace_panorama_subject_plus_existing_poi_anchor",
               "geometry_type": "area",
-              "geometry_extent_m": 450,
-              "geometry_note": "天文台前草坪、外部露台與合法公共步行區；不宣稱單一最佳腳架點。",
+              "geometry_extent_m": 320,
+              "geometry_note": "天文台外部terraces、草坪與合法公共步道；roof access另依建築開放狀態。",
               "geometry_confidence": "high"
             }
           ]
@@ -15524,22 +15530,28 @@
       "research_sources": [
         {
           "authority": "U.S. National Park Service — White Sands Photography",
-          "url": "https://www.nps.gov/whsa/planyourvisit/photography.htm",
+          "url": "https://home.nps.gov/whsa/planyourvisit/photography.htm",
           "verified_on": "2026-09-27",
-          "supports": "NPS calls the gypsum dunes a photography destination, identifies golden hours around the period after sunrise and before sunset, highlights surrounding mountain views and Sacramento Mountain afterglow, and points photographers toward the tallest dunes near Alkali Flat trailhead."
+          "supports": "NPS calls White Sands a photographer's paradise, recommends the golden hours before sunset, and describes gypsum-dune, mountain and afterglow compositions."
         },
         {
-          "authority": "U.S. National Park Service — Alkali Flat Trail",
-          "url": "https://www.nps.gov/whsa/planyourvisit/alkali-flat-trail.htm",
+          "authority": "U.S. National Park Service — 2026 Sunset Stroll",
+          "url": "https://www.nps.gov/planyourvisit/event-details.htm?id=AC221D58-E77A-3272-6B18E7C27671C1FD",
           "verified_on": "2026-09-27",
-          "supports": "NPS documents the Alkali Flat trailhead about seven miles from the visitor center and the tallest, least-vegetated dunes in this area; blowing sand can sharply reduce visibility and hikers must be off the trail by sunset."
+          "supports": "The current NPS Sunset Stroll page explicitly describes panoramic sunset photographic opportunities and publishes the Sunset Stroll parking-area coordinate 32.811370, -106.265010."
+        },
+        {
+          "authority": "U.S. National Park Service — White Sands Operating Hours",
+          "url": "https://www.nps.gov/whsa/planyourvisit/hours.htm",
+          "verified_on": "2026-09-27",
+          "supports": "NPS publishes current park hours tied to local sunset, including seasonal exceptions; park and Dunes Drive access can also be affected by temporary closures."
         }
       ],
       "opportunities": [
         {
           "opportunity_id": "us-029-P01",
           "spot_id": "us-029",
-          "name_zh": "White Sands・Alkali Flat高沙丘與黃金時段山景",
+          "name_zh": "White Sands・石膏沙丘與山脈日落",
           "legacy_theme": "sunset",
           "mode": "area_opportunity",
           "sampling_topology": "local_area",
@@ -15547,19 +15559,19 @@
           "opportunity_confidence": "high",
           "formula_status": "needs_visibility_module",
           "formula_version": "v0.04-minimum-sufficient-visibility",
-          "formula_confidence": 95,
-          "best_time": "日落前約2小時至日落後短暫餘暉；須遵守NPS當日道路／步道離場規定",
+          "formula_confidence": 96,
+          "best_time": "日落前約2小時至園區當日允許停留的日落後短時段；以NPS當日關門與道路狀態為準",
           "best_season": "全年；極端高溫、強風與臨時道路／飛彈測試關閉須獨立判斷",
           "condition_variants": [
             {
               "variant_id": "USVAR-242",
-              "variant_name": "Alkali Flat高白沙丘＋周邊山脈黃金時段／餘暉",
-              "condition_geometry": "{\"camera_zone\":\"Alkali Flat Trailhead / adjacent tallest-dune Camera Zone\",\"target\":\"gypsum dunes + surrounding mountains / Sacramento Mountains afterglow\"}",
-              "hard_gates": "僅在NPS允許的道路／步道時段內拍攝；不得因天氣良好推定臨時關閉已解除；步道須依官方規則於日落前離開",
-              "required_conditions": "沙丘紋理與周邊山脈至少一項清楚可辨；能見度足夠；吹沙未造成局部白化",
-              "boosters": "黃金時段低角度光；Sacramento Mountains粉紅餘暉；雲層色彩；新鮮風紋",
+              "variant_name": "白色石膏沙丘＋周邊山脈日落／餘暉",
+              "condition_geometry": "{\"camera_zone\":\"White Sands Sunset Stroll / nearby Dunes Drive Camera Zone\",\"target\":\"gypsum dunes + sunset sky + surrounding mountain context\"}",
+              "hard_gates": "僅在NPS允許的園區／Dunes Drive時段內拍攝；不得因天氣良好推定臨時關閉已解除",
+              "required_conditions": "白色沙丘與周邊山脈／夕照至少主要層次清楚可辨；能見度足夠；吹沙未造成局部白化",
+              "boosters": "黃金時段低角度光；日落後山體粉紅餘暉；雲層色彩；新鮮風紋",
               "penalties": "強風吹沙；能見度過低；強降水；極端高溫；道路／園區臨時關閉",
-              "formula_status": "needs_visibility_module"
+              "formula_status": "minimum_sufficient_visibility"
             }
           ],
           "viewpoints": [
@@ -15567,15 +15579,15 @@
               "viewpoint_id": "us-029-VP01",
               "relation_role": "reference",
               "sort_order": 1,
-              "note": "NPS specifically directs photographers to the tallest dunes near Alkali Flat. B69 therefore moves the Place weather/map anchor away from the visitor center to the actual dune Camera Zone, roughly seven miles deeper into the park.",
-              "name": "Alkali Flat Trailhead／Tall Dunes Camera Zone",
-              "lat": 32.82046,
-              "lon": -106.273,
-              "coord_confidence": "medium_high",
-              "verification_status": "official_nps_alkali_flat_photo_area_plus_cross_mapped_nps_operated_trailhead",
+              "note": "NPS publishes the current Sunset Stroll parking-area coordinate and explicitly describes panoramic sunset photographic opportunities. B69 moves the Place weather/map anchor from the visitor center to this actual dune sunset area.",
+              "name": "White Sands Sunset Stroll / Dunes Camera Zone",
+              "lat": 32.81137,
+              "lon": -106.26501,
+              "coord_confidence": "high",
+              "verification_status": "official_nps_current_sunset_stroll_coordinate_and_photo_subject",
               "geometry_type": "area",
-              "geometry_extent_m": 1200,
-              "geometry_note": "Alkali Flat Trailhead停車區及鄰近可合法進入的高沙丘；不要求完成全程步道。",
+              "geometry_extent_m": 900,
+              "geometry_note": "Sunset Stroll停車區與鄰近合法沙丘活動範圍；需遵循NPS標誌、安全與關閉規定。",
               "geometry_confidence": "high"
             }
           ]
@@ -15606,7 +15618,7 @@
           "opportunity_id": "us-030-P01",
           "spot_id": "us-030",
           "name_zh": "Adler Planetarium湖岸・Chicago Skyline全景",
-          "legacy_theme": "city_night",
+          "legacy_theme": "mountain_view",
           "mode": "area_opportunity",
           "sampling_topology": "local_area",
           "geometry_required": false,
@@ -15614,7 +15626,7 @@
           "formula_status": "needs_visibility_module",
           "formula_version": "v0.04-minimum-sufficient-visibility",
           "formula_confidence": 95,
-          "best_time": "白天至藍調／夜間皆可；遠景透明度佳時",
+          "best_time": "白天可見光；藍調／夜間可加分，但官方基礎題材不以城市燈光作硬門檻",
           "best_season": "全年；湖岸強風與冬季低溫屬安全／舒適度因素，不創造題材",
           "condition_variants": [
             {
