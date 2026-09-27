@@ -26,7 +26,9 @@ Before changing production:
 - B77 PR validation: Adapter, Evidence Audit, TW Candidate Weather, JP Candidate Weather, US Candidate Weather and Browser Smoke all PASS.
 - Post-B77 main Adapter: PASS.
 - Post-B77 main Evidence Audit: PASS.
-- Production weather regeneration and final Pages deployment were still running when this handoff draft branch was created. Before merging B78, replace this sentence with the final weather commit and Pages run.
+- Post-B77 production weather run #186: PASS.
+- Final generated-weather commit: `06d7d27c6a5a191e13882943ace7becf26d13381`.
+- Final Pages deployment #436 on `06d7d27c`: PASS.
 
 ## Canonical catalog checkpoint
 
