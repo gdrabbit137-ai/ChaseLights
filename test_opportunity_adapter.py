@@ -2994,7 +2994,7 @@ def test_active_catalog_weather_generation_guard():
     assert bounded_end == reflection_end
 
 
-def test_detail_hourly_projection_removes_duplicate_runtime():
+def test_detail_hourly_projection_removes_duplicate_runtime_and_tag_scores():
     runtime = {
         "module_version": "test",
         "available": True,
@@ -3004,6 +3004,7 @@ def test_detail_hourly_projection_removes_duplicate_runtime():
     source = [{
         "time": "2026-09-27 08:00",
         "theme_scores": {"reflection": {"score": 80}},
+        "tag_scores": {"reflection": {"score": 80}},
         "opportunity_runtime": {"tw-test-P01": runtime},
         "opportunity_scores": {
             "tw-test-P01": {
@@ -3017,6 +3018,8 @@ def test_detail_hourly_projection_removes_duplicate_runtime():
     assert "opportunity_runtime" not in projected[0]
     assert projected[0]["opportunity_scores"]["tw-test-P01"]["runtime"] == runtime
     assert projected[0]["theme_scores"] == source[0]["theme_scores"]
+    assert source[0]["tag_scores"] == source[0]["theme_scores"]
+    assert "tag_scores" not in projected[0]
 
 
 def test_schema10_optional_metadata_bridge():
