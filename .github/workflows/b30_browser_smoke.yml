@@ -538,12 +538,12 @@ jobs:
               us_cards = driver.find_elements(By.CSS_SELECTOR, "#spots-container .card")
               report["us_cards"] = len(us_cards)
               assert len(us_cards) == 70, len(us_cards)
-              researched_us_names = {"大峽谷國家公園", "馬蹄灣", "羚羊峽谷", "紀念碑谷", "拱門國家公園", "布萊斯峽谷國家公園", "錫安國家公園", "優勝美地半圓頂", "優勝美地隧道觀景臺", "黃石國家公園 大稜鏡溫泉", "大提頓國家公園", "雷尼爾山國家公園", "火山口湖國家公園", "死亡谷國家公園", "舊金山金門大橋", "拉斯維加斯大道", "聖海倫斯火山", "冰川國家公園", "奧林匹克國家公園", "紅木國家公園", "峽谷地國家公園 梅薩拱門", "約書亞樹國家公園", "巨人柱國家公園", "西雅圖太空針塔", "聖莫尼卡碼頭"}
+              researched_us_names = {"大峽谷國家公園", "馬蹄灣", "羚羊峽谷", "紀念碑谷", "拱門國家公園", "布萊斯峽谷國家公園", "錫安國家公園", "優勝美地半圓頂", "優勝美地隧道觀景臺", "黃石國家公園 大稜鏡溫泉", "大提頓國家公園", "雷尼爾山國家公園", "火山口湖國家公園", "死亡谷國家公園", "舊金山金門大橋", "拉斯維加斯大道", "聖海倫斯火山", "冰川國家公園", "奧林匹克國家公園", "紅木國家公園", "峽谷地國家公園 梅薩拱門", "約書亞樹國家公園", "巨人柱國家公園", "西雅圖太空針塔", "聖莫尼卡碼頭", "西雅圖派克市場", "鋸齒山脈", "洛杉磯格里斐斯天文台", "白沙國家公園", "芝加哥天際線"}
               researched_us_cards = [c for c in us_cards if any(name in c.text for name in researched_us_names)]
-              assert len(researched_us_cards) == 25, [c.text for c in researched_us_cards]
+              assert len(researched_us_cards) == 30, [c.text for c in researched_us_cards]
               assert all("攝影研究待補" not in c.text for c in researched_us_cards), [c.text for c in researched_us_cards]
               pending_us_cards = [c for c in us_cards if not any(name in c.text for name in researched_us_names)]
-              assert len(pending_us_cards) == 45
+              assert len(pending_us_cards) == 40
               pending_us_scores = [c.find_element(By.CSS_SELECTOR, ".score-badge").text.strip() for c in pending_us_cards]
               assert all(x in {"", "—"} for x in pending_us_scores), pending_us_scores[:20]
               assert all("攝影研究待補" in c.text for c in pending_us_cards), "non-migrated US card leaked legacy scoring"
