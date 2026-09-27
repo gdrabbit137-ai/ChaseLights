@@ -34,6 +34,7 @@ REGION_PATCH_FILES = {
     "runtime_event_calendar_r4_2.json",
 }
 FIXED_REGION_FILES = {
+    "aurora_state.py": {"us"},
     "shinhotaka_access.py": {"jp"},
     "yahiko_access.py": {"jp"},
 }
@@ -274,6 +275,7 @@ def detect_regions(
             "runtime_event_calendar_r4_2.json",
             "runtime_dependencies.py",
             "access_state.py",
+            "aurora_state.py",
             "shinhotaka_access.py",
             "yahiko_access.py",
             "spatial_weather.py",
@@ -334,6 +336,12 @@ def self_test():
     assert patch_region_delta(same_id_patch) == {"us"}
 
     assert patch_has_generic_code_change("+def evaluator(item):\n+    return item\n") is True
+
+    regions, _ = detect_regions(
+        [{"filename": "aurora_state.py", "patch": "+MIN_LOCAL_AURORA_VALUE = 10\n"}],
+        base, head, name_map,
+    )
+    assert regions == {"us"}
 
     name_map = {"約書亞樹國家公園": "us", "七星潭月牙灣": "tw"}
     assert regions_patch_regions('+    "約書亞樹國家公園": {"lat": 1}\n', name_map) == {"us"}
