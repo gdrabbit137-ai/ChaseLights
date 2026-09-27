@@ -29,6 +29,7 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+  pull-requests: read
 
 concurrency:
   group: b30-browser-smoke-${{ github.ref }}
