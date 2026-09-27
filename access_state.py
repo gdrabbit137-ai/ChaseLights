@@ -112,9 +112,9 @@ _ACCESS_GROUPS = {
         "tw-045-P01", "tw-045-P03", "tw-045-P04",
         "tw-049-P02",
     ),
-    "transport_facility_status": ("tw-024-P01", "tw-024-P05", "tw-037-P01", "jp-002-P01", "jp-004-P01", "jp-021-P01", "jp-022-P01", "jp-022-P02", "us-048-P02"),
-    "road_viewpoint_status": ("tw-034-P01", "us-012-P01", "us-012-P02", "us-013-P02", "us-017-P01", "us-038-P01", "us-041-P01", "us-041-P02", "us-046-P01", "us-046-P02", "us-055-P01", "us-055-P02"),
-    "public_attraction_notice": ("tw-038-P01", "tw-038-P02", "tw-081-P01", "jp-030-P01", "jp-034-P02", "us-010-P01", "us-027-P01", "us-029-P01", "us-047-P01"),
+    "transport_facility_status": ("tw-024-P01", "tw-024-P05", "tw-037-P01", "jp-002-P01", "jp-004-P01", "jp-021-P01", "jp-022-P01", "jp-022-P02", "us-048-P02", "us-060-P02"),
+    "road_viewpoint_status": ("tw-034-P01", "us-012-P01", "us-012-P02", "us-013-P02", "us-017-P01", "us-038-P01", "us-041-P01", "us-041-P02", "us-046-P01", "us-046-P02", "us-055-P01", "us-055-P02", "us-056-P01", "us-056-P02", "us-057-P01", "us-057-P02"),
+    "public_attraction_notice": ("tw-038-P01", "tw-038-P02", "tw-081-P01", "jp-030-P01", "jp-034-P02", "us-010-P01", "us-027-P01", "us-029-P01", "us-047-P01", "us-059-P01", "us-059-P02"),
     "waterfall_trail_status": ("tw-055-P01",),
     "tidal_path_notice": ("tw-059-P01", "tw-078-P01"),
     "facility_hours_notice": ("tw-068-P01", "jp-033-P02", "us-024-P02", "us-050-P02"),
@@ -144,6 +144,34 @@ ACCESS_RUNTIME_READY_PROFILES = frozenset({
 # These are provider-discovery hints, not proof that an Opportunity is open.
 # They document official sources verified during B25 architecture work.
 OFFICIAL_SOURCE_HINTS = {
+    "us-060": {
+        "authority": "U.S. National Park Service",
+        "source_kind": "glacier_bay_day_tour_current_operation",
+        "url": "https://www.nps.gov/glba/planyourvisit/tour.htm",
+        "verified_on": "2026-09-27",
+        "note": "NPS documents a summer day tour boat from Bartlett Cove to tidewater glaciers. Current operating day, departure, seat availability and weather cancellation state must not be inferred from the static seasonal description.",
+    },
+    "us-059": {
+        "authority": "U.S. National Park Service",
+        "source_kind": "brooks_falls_platform_current_access_and_bear_activity",
+        "url": "https://www.nps.gov/places/brooks-falls-platform.htm",
+        "verified_on": "2026-09-27",
+        "note": "Brooks Falls viewing has capacity, seasonal nighttime closure, tripod and ranger-management rules. Bear presence also varies strongly by date. Static month tags must not imply platform access or an active bear subject.",
+    },
+    "us-057": {
+        "authority": "Bureau of Land Management",
+        "source_kind": "dalton_highway_arctic_circle_current_road_access",
+        "url": "https://www.blm.gov/learn/interpretive-centers/arctic-interagency-visitor-center/frequently-asked-questions",
+        "verified_on": "2026-09-27",
+        "note": "The Dalton Highway is open through winter but conditions can become extremely challenging. Current Alaska 511 road conditions must remain independent of a favorable weather or aurora forecast.",
+    },
+    "us-056": {
+        "authority": "Bureau of Land Management",
+        "source_kind": "dalton_highway_atigun_pass_current_road_access",
+        "url": "https://www.blm.gov/visit/atigun-pass",
+        "verified_on": "2026-09-27",
+        "note": "Atigun Pass is a remote Dalton Highway Camera Zone. Current road, construction, ice and blowing-snow conditions must be checked independently of visibility or aurora conditions.",
+    },
     "us-055": {
         "authority": "U.S. National Park Service",
         "source_kind": "wrst_mccarthy_road_kennecott_root_glacier_current_access",
