@@ -107,6 +107,8 @@ MINIMUM_SUFFICIENT_VISIBILITY_PROFILES = {
     # warehouse scene is itself sufficient; evening managed lighting remains
     # a separate Opportunity and is not inferred from this contract.
     "jp-005-P01", "jp-003-P01", "jp-006-P01", "jp-007-P01", "jp-009-P01", "jp-010-P01", "jp-011-P01", "jp-011-P02", "jp-012-P01", "jp-015-P01", "jp-016-P01", "jp-016-P02", "jp-017-P01", "jp-018-P01", "jp-020-P01", "jp-023-P01", "jp-024-P01",
+    # B50 Japan: Tenrandai broad panorama and night view both require readable long-range visibility.
+    "jp-027-P01", "jp-027-P02",
 }
 
 MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES = {
@@ -114,6 +116,8 @@ MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES = {
     # scenes. Low cloud and long-range visibility are not hard blockers;
     # material rain and known access closure remain blockers.
     "jp-025-P01", "jp-026-P01",
+    # B50 Japan: close-range architecture / historic streetscape base Opportunities.
+    "jp-028-P01", "jp-029-P01", "jp-031-P01",
     # B33 Hualien flatland forest corridor is a close-range local scene.
     # Long-range visibility and low cloud are not hard blockers; rain/access
     # remain blockers. Corridor-light geometry is not yet verified, so this
