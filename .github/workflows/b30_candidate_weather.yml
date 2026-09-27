@@ -151,6 +151,7 @@ jobs:
                   pending.append(spot["spot_id"])
                   continue
               days = spot.get("daily") or []
+              assert all("themes" not in day for day in days), (spot["spot_id"], "published_daily_theme_duplicate")
               if not days:
                   winner_errors.append((spot["spot_id"], "no_daily"))
                   continue
