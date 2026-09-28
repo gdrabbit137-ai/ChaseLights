@@ -144,41 +144,57 @@ jobs:
               report["taiwan_rendered_cards"] = len(cards)
               assert len(cards) == 83, f"expected 83 Taiwan cards on a forecast day, got {len(cards)}"
 
-              # B104: every active Taiwan Place publishes county/city metadata,
-              # and the second-level filter supports multi-select intersection.
+              # B108: Taiwan geography is a complete 22-area county/city picker.
+              # The older broad island groups are removed from the Taiwan primary nav,
+              # and the country selector lives with the low-frequency global controls.
               admin_contract = driver.execute_script("""
                 const active = currentSpots.filter(s => s.active_in_catalog !== false);
+                const buttons = [...document.querySelectorAll('#admin-filter [data-admin-area]')];
                 return {
                   missing: active.filter(s => !Array.isArray(s.admin_areas) || !s.admin_areas.length).map(s => s.spot_id),
                   available: availableAdminAreas(),
-                  hostHidden: document.getElementById('admin-filter').hidden
+                  hostHidden: document.getElementById('admin-filter').hidden,
+                  navKeys: [...document.querySelectorAll('#sub-nav .sub-btn')].map(x => x.dataset.key),
+                  countryInHeader: !!document.querySelector('.header-right #country-select'),
+                  countryInFilter: !!document.querySelector('.filter-toolbar #country-select'),
+                  disabled: buttons.filter(x => x.disabled).map(x => x.dataset.adminArea),
+                  counts: Object.fromEntries(buttons.map(x => [x.dataset.adminArea, Number(x.querySelector('span')?.textContent || 0)]))
                 };
               """)
               report["taiwan_admin_contract"] = admin_contract
               assert admin_contract["missing"] == [], admin_contract
-              assert "花蓮縣" in admin_contract["available"], admin_contract
-              assert "台東縣" in admin_contract["available"], admin_contract
+              assert len(admin_contract["available"]) == 22, admin_contract
+              assert admin_contract["available"] == [
+                  "台北市","新北市","基隆市","桃園市","新竹市","新竹縣","苗栗縣","台中市",
+                  "彰化縣","南投縣","雲林縣","嘉義市","嘉義縣","台南市","高雄市","屏東縣",
+                  "宜蘭縣","花蓮縣","台東縣","澎湖縣","金門縣","連江縣"
+              ], admin_contract
               assert admin_contract["hostHidden"] is False, admin_contract
+              assert admin_contract["navKeys"] == ["__all__", "__fav__"], admin_contract
+              assert admin_contract["countryInHeader"] is True, admin_contract
+              assert admin_contract["countryInFilter"] is False, admin_contract
+              assert admin_contract["counts"]["金門縣"] > 0, admin_contract
+              assert admin_contract["counts"]["連江縣"] > 0, admin_contract
+              assert admin_contract["counts"]["澎湖縣"] > 0, admin_contract
+              assert admin_contract["counts"]["雲林縣"] == 0, admin_contract
+              assert admin_contract["counts"]["嘉義市"] == 0, admin_contract
+              assert "雲林縣" in admin_contract["disabled"], admin_contract
+              assert "嘉義市" in admin_contract["disabled"], admin_contract
 
-              hualien_filter = driver.execute_script("""
-                currentAdminAreas = new Set(['花蓮縣']);
+              # Multi-select UX: selecting one county must not collapse the picker.
+              # Re-query buttons after each click because filtering re-renders the picker.
+              driver.execute_script("""
+                currentAdminAreas.clear();
                 persistAdminAreas();
                 filterAndRender();
-                const expected = currentSpots.filter(
-                  s => s.active_in_catalog !== false &&
-                       (s.admin_areas || []).includes('花蓮縣') &&
-                       getMetric(s)
-                ).length;
-                return {expected, actual: document.querySelectorAll('#spots-container .card').length};
+                document.querySelector('.admin-filter').open = true;
               """)
-              report["hualien_filter"] = hualien_filter
-              assert hualien_filter["actual"] == hualien_filter["expected"], hualien_filter
-              assert 0 < hualien_filter["actual"] < 83, hualien_filter
+              driver.find_element(By.CSS_SELECTOR, '[data-admin-area="花蓮縣"]').click()
+              assert driver.find_element(By.CSS_SELECTOR, ".admin-filter").get_attribute("open"), "county picker closed after first selection"
+              driver.find_element(By.CSS_SELECTOR, '[data-admin-area="台東縣"]').click()
+              assert driver.find_element(By.CSS_SELECTOR, ".admin-filter").get_attribute("open"), "county picker closed after second selection"
 
               multi_admin_filter = driver.execute_script("""
-                currentAdminAreas = new Set(['花蓮縣', '台東縣']);
-                persistAdminAreas();
-                filterAndRender();
                 const selected = currentAdminAreas;
                 const expected = currentSpots.filter(
                   s => s.active_in_catalog !== false &&
@@ -186,12 +202,19 @@ jobs:
                        getMetric(s)
                 ).length;
                 const summary = document.querySelector('#admin-filter summary')?.textContent || '';
-                return {expected, actual: document.querySelectorAll('#spots-container .card').length, summary};
+                return {
+                  selected: [...selected].sort(),
+                  expected,
+                  actual: document.querySelectorAll('#spots-container .card').length,
+                  summary,
+                  open: document.querySelector('.admin-filter').open
+                };
               """)
               report["multi_admin_filter"] = multi_admin_filter
+              assert multi_admin_filter["selected"] == ["台東縣", "花蓮縣"], multi_admin_filter
               assert multi_admin_filter["actual"] == multi_admin_filter["expected"], multi_admin_filter
-              assert multi_admin_filter["actual"] > hualien_filter["actual"], multi_admin_filter
               assert "2" in multi_admin_filter["summary"], multi_admin_filter
+              assert multi_admin_filter["open"] is True, multi_admin_filter
 
               driver.execute_script("""
                 currentAdminAreas.clear();
