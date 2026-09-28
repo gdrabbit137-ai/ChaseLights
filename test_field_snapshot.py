@@ -6,6 +6,7 @@ from tempfile import TemporaryDirectory
 from field_snapshot import (
     SNAPSHOT_SCHEMA_VERSION,
     build_snapshot_from_event,
+    compare_forecast_revisions,
     diff_replay,
     evaluate_normalized_input,
     load_snapshot,
@@ -346,6 +347,80 @@ def test_archived_qingshui_morning_baseline_fixture():
     )
     diff = diff_replay(snapshot, replayed)
     assert diff["snapshot_id"] == snapshot["snapshot_id"]
+
+
+def test_forecast_revision_comparison_separates_data_and_model_changes():
+    first_item = _base_item({})
+    first_output = evaluate_normalized_input(
+        "tw-034", first_item, lang="zh-TW", timezone_name="Asia/Taipei"
+    )
+    first = build_snapshot_from_event(
+        "tw-034",
+        _event(first_item, first_output),
+        captured_at=datetime(2026, 9, 28, 1, 0, tzinfo=timezone.utc),
+    )
+
+    second_item = deepcopy(first_item)
+    second_item["vis"] = 4200
+    second_item["rh"] = 70
+    second_output = evaluate_normalized_input(
+        "tw-034", second_item, lang="zh-TW", timezone_name="Asia/Taipei"
+    )
+    second_event = _event(second_item, second_output)
+    second = build_snapshot_from_event(
+        "tw-034",
+        second_event,
+        captured_at=datetime(2026, 9, 28, 2, 0, tzinfo=timezone.utc),
+    )
+
+    comparison = compare_forecast_revisions([second, first])
+    assert comparison["revision_count"] == 2
+    assert comparison["rows"][0]["snapshot_id"] == first["snapshot_id"]
+    assert comparison["rows"][1]["snapshot_id"] == second["snapshot_id"]
+    transition = comparison["transitions"][0]
+    assert transition["classification"] == "forecast_data_revision"
+    assert transition["normalized_input_changed"] is True
+    assert transition["model_commit_changed"] is False
+    assert transition["metric_changes"]["visibility_km"] == {
+        "from": 0.8,
+        "to": 4.2,
+        "delta": 3.4,
+    }
+    assert transition["metric_changes"]["rh_pct"] == {
+        "from": 77,
+        "to": 70,
+        "delta": -7.0,
+    }
+
+    second["provenance"]["git_commit"] = "1" * 40
+    mixed = compare_forecast_revisions([first, second])
+    assert (
+        mixed["transitions"][0]["classification"]
+        == "mixed_forecast_and_model_revision"
+    )
+
+
+def test_forecast_revision_comparison_rejects_different_valid_times():
+    item = _base_item({})
+    output = evaluate_normalized_input(
+        "tw-034", item, lang="zh-TW", timezone_name="Asia/Taipei"
+    )
+    first = build_snapshot_from_event(
+        "tw-034",
+        _event(item, output),
+        captured_at=datetime(2026, 9, 28, 1, 0, tzinfo=timezone.utc),
+    )
+    second = deepcopy(first)
+    second["forecast_valid_epoch"] += 3600
+    second["forecast_valid_at"] = datetime.fromtimestamp(
+        second["forecast_valid_epoch"], timezone.utc
+    ).isoformat()
+    try:
+        compare_forecast_revisions([first, second])
+    except ValueError as exc:
+        assert "same forecast_valid_at" in str(exc)
+    else:
+        raise AssertionError("different forecast-valid rows must be rejected")
 
 
 def main():
