@@ -26,9 +26,9 @@
     };
 
     const categoryKeys = {
-      // Taiwan uses the county/city picker as its geographic filter.
-      // Keep only the two behavior filters here to avoid overlapping geography controls.
-      tw:['__all__','__fav__'],
+      // Taiwan geography is handled by the county/city picker. Favorites is
+      // rendered as an independent toggle, so there is no visible "All" mode.
+      tw:['__fav__'],
       jp:['__all__','__fav__','北海道/東北','關東/中部','關西/中四國','九州/沖繩'],
       us:['__all__','__fav__','美西','美中','美東','阿拉斯加']
     };
@@ -125,13 +125,52 @@
     function updateHeader(){ document.getElementById('update-time').innerText=currentData?`${d().last_updated}${formatUpdated(currentData.updated_at)}`:d().loading; }
 
     function renderSubNav(){
-      const el=document.getElementById('sub-nav'); el.innerHTML=''; const keys=categoryKeys[currentRegion]||['__all__'];
+      const el=document.getElementById('sub-nav'); el.innerHTML='';
+      if(currentRegion==='tw'){
+        // Legacy geographic category values from B104/B108 collapse to the
+        // default "all places" state. Favorites is a true on/off filter.
+        if(currentCategoryKey!=='__fav__'){
+          currentCategoryKey='__all__';
+          localStorage.setItem(`chaselights_category_${currentRegion}`,currentCategoryKey);
+        }
+        const b=document.createElement('button');
+        const on=currentCategoryKey==='__fav__';
+        b.className=`sub-btn favorite-filter-toggle ${on?'active':''}`;
+        b.dataset.key='__fav__';
+        b.setAttribute('aria-pressed',on?'true':'false');
+        b.innerText=categoryLabel('__fav__');
+        b.onclick=e=>{
+          e.preventDefault();
+          currentCategoryKey=on?'__all__':'__fav__';
+          localStorage.setItem(`chaselights_category_${currentRegion}`,currentCategoryKey);
+          renderSubNav();
+          filterAndRender();
+        };
+        el.appendChild(b);
+        return;
+      }
+      const keys=categoryKeys[currentRegion]||['__all__'];
       if(!keys.includes(currentCategoryKey))currentCategoryKey='__all__';
-      keys.forEach(k=>{const b=document.createElement('button');b.className=`sub-btn ${k===currentCategoryKey?'active':''}`;b.dataset.key=k;b.setAttribute('aria-pressed',k===currentCategoryKey?'true':'false');b.innerText=categoryLabel(k);b.onclick=(e)=>{e.preventDefault();currentCategoryKey=k;localStorage.setItem(`chaselights_category_${currentRegion}`,k);renderSubNav();filterAndRender();};el.appendChild(b);});
+      keys.forEach(k=>{
+        const b=document.createElement('button');
+        b.className=`sub-btn ${k===currentCategoryKey?'active':''}`;
+        b.dataset.key=k;
+        b.setAttribute('aria-pressed',k===currentCategoryKey?'true':'false');
+        b.innerText=categoryLabel(k);
+        b.onclick=(e)=>{
+          e.preventDefault();
+          currentCategoryKey=k;
+          localStorage.setItem(`chaselights_category_${currentRegion}`,k);
+          renderSubNav();
+          filterAndRender();
+        };
+        el.appendChild(b);
+      });
     }
     function categoryBaseSpots(){
       const active=currentSpots.filter(s=>s.active_in_catalog!==false);
       if(currentCategoryKey==='__fav__')return active.filter(s=>favorites.includes(s.spot_id));
+      if(currentRegion==='tw')return active;
       if(currentCategoryKey==='__all__')return active;
       return active.filter(s=>s.category===currentCategoryKey);
     }
