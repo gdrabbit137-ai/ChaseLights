@@ -130,9 +130,9 @@ for _access_type, _profile_ids in _ACCESS_GROUPS.items():
 
 ACCESS_DEPENDENT_PROFILE_IDS = frozenset(ACCESS_PROFILE_CLASSIFICATION)
 
-# Runtime-ready is explicit and profile-specific. us-017, jp-021 and jp-022
-# have authoritative fail-closed providers connected; all other access-dependent
-# profiles remain blocked until their own provider is implemented.
+# Runtime-ready is explicit and profile-specific. us-017, us-041, jp-021 and
+# jp-022 have authoritative fail-closed providers connected; all other
+# access-dependent profiles remain blocked until their own provider is implemented.
 ACCESS_RUNTIME_READY_PROFILES = frozenset({
     "us-017-P01",
     "us-041-P01",
