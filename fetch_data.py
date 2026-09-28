@@ -1200,6 +1200,7 @@ def _build_opportunity_runtime_diagnostics(spot, item_data):
                 "mist_support_score": simple.get("mist_support_score"),
                 "mist_signal_components": simple.get("mist_signal_components"),
                 "spatial_mist_context": simple.get("spatial_mist_context"),
+                "directional_mist_negative_evidence": bool(simple.get("directional_mist_negative_evidence")),
                 "camera_whiteout_risk": bool(simple.get("camera_whiteout_risk")),
                 "camera_readability_threshold_km": simple.get("camera_readability_threshold_km"),
                 "subject_readability_uncertain": bool(simple.get("subject_readability_uncertain")),
