@@ -1219,24 +1219,37 @@ def _score_opportunity(opportunity, theme_metric, runtime_diagnostic, lang="zh-T
                 # compatibility baseline suppress that verified outcome.
                 score = max(score, int(round(float(score_hint))))
             if diag.get("long_range_visibility_is_not_a_blocker"):
-                # Remove legacy long-range visibility penalties from the user-facing
-                # explanation when this researched close-range subject explicitly
-                # does not depend on distant clarity.
+                # Remove the legacy generic visibility penalty when a researched
+                # subject has its own interpretation of reduced visibility.
                 factors = [f for f in factors if f.get("key") != "vis_low"]
-                if diag.get("mist_visibility_km") is not None and diag.get("mist_signal"):
-                    mist_km = diag.get("mist_visibility_km")
-                    if diag.get("mist_context") == "coastal_cliff":
+                mist_km = diag.get("mist_visibility_km")
+                if diag.get("mist_context") == "coastal_cliff" and mist_km is not None:
+                    if diag.get("mist_signal"):
                         mist_text = {
                             "zh-TW": f"能見度約 {mist_km:.1f} km，並有雲霧佐證；進入斷崖晨霧候選範圍",
                             "en": f"Visibility around {mist_km:.1f} km with corroborating mist signals enters the cliff-mist candidate range",
                             "ja": f"視程約 {mist_km:.1f} kmで霧の補助シグナルがあり、断崖の朝霧候補範囲です",
                         }.get(lang, f"Visibility around {mist_km:.1f} km with corroborating mist signals enters the cliff-mist candidate range")
+                        factors.append({"type": "plus", "key": "mist_subject", "value": mist_km, "text": mist_text})
                     else:
-                        mist_text = {
-                            "zh-TW": f"低能見度約 {mist_km:.1f} km，符合湖岸霧景條件",
-                            "en": f"Visibility around {mist_km:.1f} km supports a lakeside-mist scene",
-                            "ja": f"視程約 {mist_km:.1f} kmで湖岸の霧景条件に適合",
-                        }.get(lang, f"Visibility around {mist_km:.1f} km supports a lakeside-mist scene")
+                        candidate_text = {
+                            "zh-TW": f"能見度約 {mist_km:.1f} km，僅形成晨霧候選",
+                            "en": f"Visibility around {mist_km:.1f} km creates only a morning-mist candidate",
+                            "ja": f"視程約 {mist_km:.1f} kmのため朝霧候補ですが、確定ではありません",
+                        }.get(lang, f"Visibility around {mist_km:.1f} km creates only a morning-mist candidate")
+                        uncertainty_text = {
+                            "zh-TW": "缺乏高濕、低雲或霧代碼等交叉佐證，霧區位置仍不確定",
+                            "en": "Humidity, low-cloud, or fog-code corroboration is weak; the mist location remains uncertain",
+                            "ja": "高湿度・低層雲・霧コードの裏付けが弱く、霧の位置は不確実です",
+                        }.get(lang, "Mist corroboration is weak; the mist location remains uncertain")
+                        factors.append({"type": "plus", "key": "mist_candidate_visibility", "value": mist_km, "text": candidate_text})
+                        factors.append({"type": "minus", "key": "mist_candidate_uncertainty", "value": None, "text": uncertainty_text})
+                elif mist_km is not None and diag.get("mist_signal"):
+                    mist_text = {
+                        "zh-TW": f"低能見度約 {mist_km:.1f} km，符合湖岸霧景條件",
+                        "en": f"Visibility around {mist_km:.1f} km supports a lakeside-mist scene",
+                        "ja": f"視程約 {mist_km:.1f} kmで湖岸の霧景条件に適合",
+                    }.get(lang, f"Visibility around {mist_km:.1f} km supports a lakeside-mist scene")
                     factors.append({"type": "plus", "key": "mist_subject", "value": mist_km, "text": mist_text})
                 elif any(f.get("key") == "vis_low" for f in (theme_metric or {}).get("factors", []) or []):
                     local_text = {
