@@ -73,6 +73,8 @@ jobs:
                   "field_snapshot.py",
                   "compare-revisions",
                   *archives,
+                  "--replay-commit",
+                  "current",
                   "--output",
                   str(output),
               ]
@@ -93,6 +95,23 @@ jobs:
                       "transition_classifications": [
                           row["classification"]
                           for row in payload["transitions"]
+                      ],
+                      "metric_changes": [
+                          row["metric_changes"]
+                          for row in payload["transitions"]
+                      ],
+                      "recorded_opportunity_changes": [
+                          sorted(row["opportunity_changes"])
+                          for row in payload["transitions"]
+                      ],
+                      "common_model_target_commit": (
+                          payload.get("common_model_replay") or {}
+                      ).get("target_commit"),
+                      "common_model_opportunity_changes": [
+                          sorted(row["opportunity_changes"])
+                          for row in (
+                              payload.get("common_model_replay") or {}
+                          ).get("transitions", [])
                       ],
                   }
               )
