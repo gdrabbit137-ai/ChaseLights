@@ -1046,6 +1046,20 @@ def validate_spatial_weather_registry():
                 errors.append(f"{oid}: invalid mountain-cloud target count")
             if int(config.get("min_directional_cloud_targets") or 0) < 1:
                 errors.append(f"{oid}: invalid directional-cloud target count")
+            if int(config.get("orographic_proxy_min_intersection_targets") or 0) < 1:
+                errors.append(f"{oid}: invalid orographic intersection target count")
+            if int(config.get("orographic_proxy_min_intersection_bearings") or 0) < 1:
+                errors.append(f"{oid}: invalid orographic intersection bearing count")
+            if not 0 < float(config.get("orographic_proxy_max_visibility_ratio") or 0) < 1:
+                errors.append(f"{oid}: invalid orographic visibility ratio")
+            if float(config.get("orographic_proxy_max_visibility_km") or 0) <= 0:
+                errors.append(f"{oid}: invalid orographic visibility threshold")
+            if not 0 <= float(config.get("orographic_proxy_min_low_cloud_pct") or -1) <= 100:
+                errors.append(f"{oid}: invalid orographic low-cloud threshold")
+            if int(config.get("orographic_proxy_min_readable_targets") or 0) < 1:
+                errors.append(f"{oid}: invalid orographic readable target count")
+            if int(config.get("orographic_proxy_min_readable_bearings") or 0) < 1:
+                errors.append(f"{oid}: invalid orographic readable bearing count")
         elif mode == "directional_mountain_visibility_sector":
             if len(config.get("bearings_deg") or ()) < 3:
                 errors.append(f"{oid}: insufficient mountain-visibility bearings")
