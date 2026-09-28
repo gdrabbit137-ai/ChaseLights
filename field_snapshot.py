@@ -13,8 +13,10 @@ without changing the stored snapshot.
 from __future__ import annotations
 
 import argparse
+import base64
 from copy import deepcopy
 from datetime import datetime, timezone
+import gzip
 import hashlib
 import json
 import os
@@ -228,9 +230,17 @@ def write_snapshot(snapshot, output_dir=DEFAULT_SNAPSHOT_DIR):
     return path
 
 
-def load_snapshot(path):
+def _read_snapshot_payload(path):
     path = Path(path)
-    payload = json.loads(path.read_text(encoding="utf-8"))
+    if path.name.endswith(".json.gz.b64"):
+        encoded = path.read_text(encoding="ascii")
+        raw = gzip.decompress(base64.b64decode(encoded))
+        return json.loads(raw.decode("utf-8"))
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def load_snapshot(path):
+    payload = _read_snapshot_payload(path)
     errors = validate_snapshot(payload)
     if errors:
         raise ValueError("\n".join(errors))
@@ -418,11 +428,16 @@ def replay_at_commit(snapshot_path, commit):
     Cross-version replay is guaranteed only for B101-and-later commits that
     contain this replay contract. Earlier commits are reported as unsupported
     instead of silently using current code.
+
+    Permanent fixtures may be stored as .json.gz.b64. Before invoking an older
+    B101-era target checkout, B103 materializes the immutable payload to a
+    temporary JSON file so the target does not need to understand the archive
+    wrapper.
     """
     snapshot_path = Path(snapshot_path).resolve()
+    snapshot = load_snapshot(snapshot_path)
     target_sha = _resolve_commit(commit)
     if target_sha == current_git_commit():
-        snapshot = load_snapshot(snapshot_path)
         replayed = replay_current(snapshot)
         return {
             "target_commit": target_sha,
@@ -432,6 +447,13 @@ def replay_at_commit(snapshot_path, commit):
 
     with tempfile.TemporaryDirectory(prefix="chaselights-replay-") as tmp:
         worktree = Path(tmp) / "repo"
+        replay_input = snapshot_path
+        if snapshot_path.name.endswith(".json.gz.b64"):
+            replay_input = Path(tmp) / f"{snapshot['snapshot_id']}.json"
+            replay_input.write_text(
+                json.dumps(snapshot, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+            )
         try:
             _run_git(["worktree", "add", "--detach", str(worktree), target_sha])
             target_script = worktree / "field_snapshot.py"
@@ -446,7 +468,7 @@ def replay_at_commit(snapshot_path, commit):
                     str(target_script),
                     "_replay-json",
                     "--snapshot",
-                    str(snapshot_path),
+                    str(replay_input),
                 ],
                 cwd=str(worktree),
                 check=True,
