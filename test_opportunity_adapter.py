@@ -1984,12 +1984,17 @@ def test_adapter_integrity():
     assert hehuan_cloud_sea["runtime_policy"] == "preview_module_available"
     hehuan_plan = build_spatial_request_plan(hehuan)
     assert "tw-019-P04" in hehuan_plan["profiles"]
+    # B95: the Place-level verified summit elevation must outrank the coarser
+    # weather-grid DEM for vertical cloud geometry.
+    assert hehuan_plan["profiles"]["tw-019-P04"]["camera_reference_elevation_m"] == 3417
     hehuan_raw = []
     hehuan_ts = ts + 3600
     lower_seen = 0
     for point in hehuan_plan["points"]:
         if point["role"] == "camera":
-            elevation, vis, rh, low, temp, dew = 3417, 64100, 63, 0, 1.7, -4.6
+            # Reproduce the production Open-Meteo grid DEM (~3349 m); B95 must
+            # still evaluate vertical geometry from the curated 3417 m summit.
+            elevation, vis, rh, low, temp, dew = 3349, 64100, 63, 0, 1.7, -4.6
         else:
             lower_seen += 1
             if lower_seen <= 2:
@@ -2018,6 +2023,7 @@ def test_adapter_integrity():
     assert hehuan_spatial["available"] is True
     assert hehuan_spatial["eligible"] is True
     assert hehuan_spatial["reason"] == "camera_clear_lower_cloud_detected"
+    assert hehuan_spatial["camera_elevation_m"] == 3417
     assert hehuan_spatial["cloud_evidence_target_count"] == 2
     hehuan_runtime = evaluate_opportunity_modules(
         hehuan_cloud_sea, {"spatial_weather": hehuan_obs}
@@ -2045,6 +2051,8 @@ def test_adapter_integrity():
     assert hehuan_scored["score_confidence"] == "medium"
     assert any(f.get("key") == "spatial_cloud_sea_support" for f in hehuan_scored["factors"])
     assert any(f.get("key") == "spatial_cloud_sea_uncertainty" for f in hehuan_scored["factors"])
+    assert "凝結高度（LCL）" in fetch_data._fmt_factor("zh-TW", "cloud_below", 500)
+    assert "Estimated LCL" in fetch_data._fmt_factor("en", "in_cloud")
 
     # Before civil twilight, even identical spatial weather must remain outside
     # the visible cloud-sea window and must not receive the B94 candidate floor.
