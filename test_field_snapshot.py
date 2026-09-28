@@ -32,6 +32,13 @@ MORNING_QINGSHUI_BASELINE = (
     / "FVS-TW-034-20260928-173805.json.gz.b64"
 )
 
+MORNING_QINGSHUI_REVISION_2 = (
+    Path(__file__).parent
+    / "test_fixtures"
+    / "field_snapshot"
+    / "FVS-TW-034-20260928-181202.json.gz.b64"
+)
+
 
 def _base_item(spatial_weather):
     return {
@@ -393,11 +400,18 @@ def test_forecast_revision_comparison_separates_data_and_model_changes():
     }
 
     second["provenance"]["git_commit"] = "1" * 40
+    code_only = compare_forecast_revisions([first, second])
+    assert code_only["transitions"][0]["classification"] == "forecast_data_revision"
+    assert code_only["transitions"][0]["code_commit_changed"] is True
+    assert code_only["transitions"][0]["model_contract_changed"] is False
+
+    second["provenance"]["opportunity_runtime_version"] = "synthetic-new-runtime"
     mixed = compare_forecast_revisions([first, second])
     assert (
         mixed["transitions"][0]["classification"]
-        == "mixed_forecast_and_model_revision"
+        == "mixed_forecast_and_model_contract_revision"
     )
+    assert mixed["transitions"][0]["model_contract_changed"] is True
 
 
 def test_forecast_revision_comparison_rejects_different_valid_times():
@@ -423,11 +437,38 @@ def test_forecast_revision_comparison_rejects_different_valid_times():
         raise AssertionError("different forecast-valid rows must be rejected")
 
 
+def test_real_qingshui_0600_revision_pair_is_comparable():
+    first = load_snapshot(MORNING_QINGSHUI_BASELINE)
+    second = load_snapshot(MORNING_QINGSHUI_REVISION_2)
+    assert second["snapshot_id"] == "FVS-TW-034-20260928-181202"
+    assert second["provenance"]["git_commit"] == (
+        "560db8c542989bedf9688a3c3d60667751a9df4e"
+    )
+    assert second["integrity"]["payload_sha256"] == (
+        "5cd0f62914557e8f27f85f145841fdf2b608acae19b2ffd47169818c7413399b"
+    )
+    assert second["observation"]["status"] == "unreviewed"
+
+    comparison = compare_forecast_revisions([first, second])
+    assert comparison["place_id"] == "tw-034"
+    assert comparison["forecast_valid_at"] == "2026-09-28T22:00:00+00:00"
+    assert comparison["revision_count"] == 2
+    assert comparison["rows"][0]["snapshot_id"] == first["snapshot_id"]
+    assert comparison["rows"][1]["snapshot_id"] == second["snapshot_id"]
+    transition = comparison["transitions"][0]
+    assert transition["code_commit_changed"] is True
+    assert transition["model_contract_changed"] is False
+
+
 def main():
     test_qingshui_broad_clear_negative_replay()
     test_qingshui_missing_spatial_preserves_low_confidence_fallback()
     test_snapshot_is_write_once_and_hash_protected()
     test_archived_live_qingshui_baseline_fixture()
+    test_archived_qingshui_morning_baseline_fixture()
+    test_forecast_revision_comparison_separates_data_and_model_changes()
+    test_forecast_revision_comparison_rejects_different_valid_times()
+    test_real_qingshui_0600_revision_pair_is_comparable()
     print("field snapshot tests passed")
 
 
