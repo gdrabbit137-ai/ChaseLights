@@ -136,6 +136,10 @@ MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES = {
     "jp-028-P01", "jp-029-P01", "jp-031-P01",
     # B51 close-range historic architecture / park subjects.
     "jp-032-P01", "jp-033-P01", "jp-034-P01",
+    # B81 Qingshui Cliff: verified morning-mist / misty-seascape subject.
+    # Reduced visibility is not itself proof of mist; the runtime requires
+    # additional mist support and rejects local whiteout.
+    "tw-034-P03",
     # B33 Hualien flatland forest corridor is a close-range local scene.
     # Long-range visibility and low cloud are not hard blockers; rain/access
     # remain blockers. Corridor-light geometry is not yet verified, so this
@@ -200,6 +204,7 @@ def _bind_event_calendar(opportunity_id, profile):
 
 
 HUALIEN_LOCAL_PROFILES = {
+    "tw-034-P03": {"kind": "coastal_cliff_mist", "score_hint": 88},
     "tw-082-P04": _bind_event_calendar("tw-082-P04", {"kind": "verified_dates", "score_hint": 92, "access_override": True, "presence_unknown": True}),
     "tw-082-P05": {"kind": "wildlife", "score_hint": 74, "presence_unknown": True},
     "tw-082-P06": _bind_event_calendar("tw-082-P06", {"kind": "verified_ranges_time", "score_hint": 92, "access_override": True}),
@@ -282,7 +287,13 @@ def evaluate_hualien_local_scene(opportunity, item_data):
     access_override = bool(profile.get("access_override") and gate_ok)
     mist_visibility_km = None
     mist_signal = None
-    if kind == "mist_local_scene":
+    mist_support_score = 0
+    mist_signal_components = []
+    mist_context = None
+    confidence_hint = None
+    uncertain = False
+    camera_whiteout_risk = False
+    if kind in {"mist_local_scene", "coastal_cliff_mist"}:
         vis_raw = item_data.get("vis")
         if vis_raw is not None:
             mist_visibility_km = float(vis_raw) / 1000.0
@@ -291,15 +302,59 @@ def evaluate_hualien_local_scene(opportunity, item_data):
             if raw_visibility is not None:
                 raw_visibility = float(raw_visibility)
                 mist_visibility_km = raw_visibility / 1000.0 if raw_visibility > 100 else raw_visibility
+
         rh = float(item_data.get("rh") or 0.0)
         low_cloud = float(item_data.get("c_low") or 0.0)
         cloud_base = item_data.get("cloud_base_agl")
         cloud_base = float(cloud_base) if cloud_base is not None else None
-        mist_signal = (
-            rh >= 80.0
-            or low_cloud >= 35.0
-            or (cloud_base is not None and cloud_base <= 800.0)
+        temp = item_data.get("temp")
+        dew = item_data.get("dew")
+        dewpoint_spread = (
+            max(0.0, float(temp) - float(dew))
+            if temp is not None and dew is not None
+            else None
         )
+        weather_code = item_data.get("weather_code")
+
+        if kind == "mist_local_scene":
+            mist_context = "lakeside"
+            mist_signal = (
+                rh >= 80.0
+                or low_cloud >= 35.0
+                or (cloud_base is not None and cloud_base <= 800.0)
+            )
+        else:
+            # Qingshui Cliff requires corroboration: a single low-visibility
+            # model value is only a lead, not proof that photogenic mist is
+            # around the cliff rather than at/away from the camera.
+            mist_context = "coastal_cliff"
+            if weather_code in {45, 48}:
+                mist_support_score += 2
+                mist_signal_components.append("fog_weather_code")
+            if rh >= 88.0:
+                mist_support_score += 1
+                mist_signal_components.append("high_humidity")
+            if dewpoint_spread is not None and dewpoint_spread <= 2.0:
+                mist_support_score += 1
+                mist_signal_components.append("small_dewpoint_spread")
+            if low_cloud >= 45.0:
+                mist_support_score += 1
+                mist_signal_components.append("low_cloud")
+            if cloud_base is not None and cloud_base <= 650.0:
+                mist_support_score += 1
+                mist_signal_components.append("low_cloud_base_proxy")
+            mist_signal = mist_support_score > 0
+            camera_whiteout_risk = bool(
+                mist_visibility_km is not None
+                and (
+                    mist_visibility_km < 0.25
+                    or (
+                        mist_visibility_km < 0.5
+                        and rh >= 96.0
+                        and low_cloud >= 90.0
+                    )
+                )
+            )
 
     if not gate_ok:
         eligible, quality, score_hint = False, "inactive", 0
@@ -323,6 +378,37 @@ def evaluate_hualien_local_scene(opportunity, item_data):
             eligible, quality, reason, score_hint = True, "good_mist", "light_mist_visibility_window", 84
         else:
             eligible, quality, reason, score_hint = False, "mist_not_indicated", "mist_not_indicated", 0
+    elif kind == "coastal_cliff_mist":
+        if mist_visibility_km is None:
+            return {
+                "module": "minimum_sufficient_local_scene",
+                "available": False,
+                "eligible": False,
+                "reason": "visibility_missing",
+            }
+        if camera_whiteout_risk:
+            eligible, quality, reason, score_hint = False, "too_dense", "camera_whiteout_risk", 45
+            confidence_hint = "medium"
+        elif mist_visibility_km > 8.0:
+            eligible, quality, reason, score_hint = False, "mist_not_indicated", "visibility_too_high_for_mist_subject", 0
+            confidence_hint = "medium"
+        elif mist_visibility_km <= 3.0 and mist_support_score >= 2:
+            eligible, quality, reason, score_hint = True, "strong_mist_candidate", "coastal_cliff_mist_supported", 88
+            confidence_hint = "medium"
+        elif mist_visibility_km <= 8.0 and mist_support_score >= 2:
+            eligible, quality, reason, score_hint = True, "mist_candidate", "coastal_cliff_light_mist_supported", 82
+            confidence_hint = "medium"
+        elif mist_visibility_km <= 3.0 and mist_support_score >= 1:
+            eligible, quality, reason, score_hint = True, "uncertain_mist_candidate", "coastal_cliff_mist_weak_support", 74
+            confidence_hint = "low"
+            uncertain = True
+        elif mist_visibility_km <= 8.0 and mist_support_score >= 1:
+            eligible, quality, reason, score_hint = True, "uncertain_light_mist_candidate", "coastal_cliff_light_mist_weak_support", 70
+            confidence_hint = "low"
+            uncertain = True
+        else:
+            eligible, quality, reason, score_hint = False, "mist_not_indicated", "low_visibility_without_mist_support", 0
+            confidence_hint = "low"
     else:
         eligible = True
         score_hint = int(profile["score_hint"])
@@ -349,9 +435,17 @@ def evaluate_hualien_local_scene(opportunity, item_data):
         "access_override": access_override,
         "long_range_visibility_is_not_a_blocker": True,
         "wildlife_presence_forecastable": False if kind == "wildlife" else None,
-        "subject_presence_forecastable": False if profile.get("presence_unknown") else None,
+        "subject_presence_forecastable": (
+            False if kind == "coastal_cliff_mist" or profile.get("presence_unknown") else None
+        ),
         "mist_visibility_km": round(mist_visibility_km, 1) if mist_visibility_km is not None else None,
         "mist_signal": mist_signal,
+        "mist_context": mist_context,
+        "mist_support_score": mist_support_score,
+        "mist_signal_components": mist_signal_components,
+        "camera_whiteout_risk": camera_whiteout_risk,
+        "runtime_confidence_hint": confidence_hint,
+        "uncertain": uncertain,
         "contract_source": "hualien_official_subject_specific_profile",
     }
 
