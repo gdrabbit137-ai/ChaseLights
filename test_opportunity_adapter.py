@@ -583,6 +583,63 @@ def test_adapter_integrity():
     assert qixingtan_clear_eval["eligible"] is False
     assert qixingtan_clear_eval["reason"] == "directional_mountain_cloud_band_not_supported"
 
+    # B84: reproduce the 2026-09-28 Qixingtan failure mode. A coarse grid can
+    # report a clear beach and no direct mountain-grid low-cloud signal even
+    # when a terrain-attached cloud band is photographically present. When the
+    # clear camera-air condensation-height proxy falls inside multiple sampled
+    # mountain elevations, surface only a capped low-confidence potential.
+    qixingtan_orographic_item = {
+        "spatial_weather": qixingtan_clear_obs,
+        "cloud_base_asl": 713,
+    }
+    qixingtan_orographic_eval = evaluate_spatial_weather(
+        qixingtan_cloud, qixingtan_orographic_item
+    )
+    assert qixingtan_orographic_eval["available"] is True
+    assert qixingtan_orographic_eval["eligible"] is True
+    assert qixingtan_orographic_eval["reason"] == "orographic_terrain_intersection_candidate"
+    assert qixingtan_orographic_eval["candidate_source"] == "orographic_lcl_terrain_fallback"
+    assert qixingtan_orographic_eval["orographic_intersection_target_count"] >= 2
+    assert qixingtan_orographic_eval["camera_condensation_height_asl_proxy_m"] == 713
+    assert qixingtan_orographic_eval["confidence_hint"] == "low"
+    assert qixingtan_orographic_eval["cloud_ridge_overlap_verified"] is False
+
+    qixingtan_orographic_runtime = evaluate_opportunity_modules(
+        qixingtan_cloud, qixingtan_orographic_item
+    )
+    assert qixingtan_orographic_runtime["eligible"] is True
+    qixingtan_orographic_score = fetch_data._score_opportunity(
+        qixingtan_cloud,
+        {
+            "score": 86,
+            "factors": [
+                {"type": "plus", "key": "vis_good", "value": 27.0, "text": "能見度 27.0 km"},
+                {"type": "plus", "key": "low_cloud", "value": 2, "text": "低雲僅 2%"},
+            ],
+            "status_key": "MOUNTAIN_EXCELLENT_DAY",
+            "indicator_key": "IND_PEAKS",
+            "temporal_eligible": True,
+        },
+        qixingtan_orographic_runtime,
+        "zh-TW",
+    )
+    assert qixingtan_orographic_score["score"] == 82
+    assert qixingtan_orographic_score["status_key"] == "OPPORTUNITY_OROGRAPHIC_CLOUD_POTENTIAL"
+    assert qixingtan_orographic_score["condition_state"] == "orographic_mountain_cloud_potential"
+    assert qixingtan_orographic_score["score_confidence"] == "low"
+    assert any(f.get("key") == "orographic_cloud_potential" for f in qixingtan_orographic_score["factors"])
+    assert any(f.get("key") == "orographic_cloud_uncertainty" for f in qixingtan_orographic_score["factors"])
+
+    # A high condensation level above the sampled mountain wall must not create
+    # the fallback merely because the coast is clear.
+    qixingtan_dry_eval = evaluate_spatial_weather(
+        qixingtan_cloud,
+        {"spatial_weather": qixingtan_clear_obs, "cloud_base_asl": 1800},
+    )
+    assert qixingtan_dry_eval["available"] is True
+    assert qixingtan_dry_eval["eligible"] is False
+    assert qixingtan_dry_eval["reason"] == "directional_mountain_cloud_band_not_supported"
+
     liyu_ops = get_opportunities("tw", "tw-082")
     yun_ops = get_opportunities("tw", "tw-083")
     assert len(liyu_ops) == 10
