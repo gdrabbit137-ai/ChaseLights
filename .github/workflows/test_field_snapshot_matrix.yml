@@ -1,0 +1,96 @@
+name: B104 Field Snapshot Matrix Replay
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "field_snapshot.py"
+      - "field_snapshot_baselines_r4_2.json"
+      - "test_fixtures/field_snapshot/*"
+      - ".github/workflows/test_field_snapshot_matrix.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "field_snapshot.py"
+      - "field_snapshot_baselines_r4_2.json"
+      - "test_fixtures/field_snapshot/*"
+      - ".github/workflows/test_field_snapshot_matrix.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  matrix-replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout target code with full history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Compile snapshot tool
+        run: python -m py_compile field_snapshot.py
+
+      - name: Replay permanent Qingshui baseline across commits
+        run: |
+          FIXTURE="test_fixtures/field_snapshot/FVS-TW-034-20260928-163925.json.gz.b64"
+          python field_snapshot.py matrix "$FIXTURE" --commits original current > field-snapshot-matrix.json
+          cat field-snapshot-matrix.json
+
+      - name: Validate matrix semantics
+        run: |
+          python - <<'PY'
+          import json
+          import subprocess
+
+          expected_original = "fadfc65aeb8e9219cec2b60fc0ed91bf9fc98e21"
+          payload = json.load(open("field-snapshot-matrix.json", encoding="utf-8"))
+          rows = payload["rows"]
+          assert payload["snapshot_id"] == "FVS-TW-034-20260928-163925"
+          assert len(rows) == 2
+
+          original, current = rows
+          assert original["target_commit"] == expected_original
+          assert original["match_recorded"] is True
+          assert original["different_opportunity_ids"] == []
+
+          head = subprocess.check_output(
+              ["git", "rev-parse", "HEAD"], text=True
+          ).strip()
+          assert current["target_commit"] == head
+
+          expected_ids = {"tw-034-P01", "tw-034-P02", "tw-034-P03"}
+          assert set(original["comparison"]) == expected_ids
+          assert set(current["comparison"]) == expected_ids
+
+          print(
+              json.dumps(
+                  {
+                      "snapshot_id": payload["snapshot_id"],
+                      "original_commit": original["target_commit"],
+                      "original_match_recorded": original["match_recorded"],
+                      "current_commit": current["target_commit"],
+                      "current_match_recorded": current["match_recorded"],
+                      "current_differences": current["different_opportunity_ids"],
+                  },
+                  indent=2,
+              )
+          )
+          PY
+
+      - name: Upload replay matrix
+        uses: actions/upload-artifact@v4
+        with:
+          name: field-snapshot-matrix
+          path: field-snapshot-matrix.json
+          if-no-files-found: error

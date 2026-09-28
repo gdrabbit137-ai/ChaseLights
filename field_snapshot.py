@@ -61,14 +61,21 @@ def _run_git(args, *, cwd=_PROJECT_ROOT, check=True):
 
 
 def current_git_commit():
-    env_sha = str(os.environ.get("GITHUB_SHA") or "").strip().lower()
-    if _SHA40.match(env_sha):
-        return env_sha
+    """Return the commit whose code is actually checked out.
+
+    GitHub Actions GITHUB_SHA can refer to an outer workflow/merge commit while
+    replay is executing inside a detached target-version worktree. Prefer the
+    repository HEAD and use GITHUB_SHA only as a fallback when Git metadata is
+    unavailable.
+    """
     try:
         sha = _run_git(["rev-parse", "HEAD"]).stdout.strip().lower()
     except (OSError, subprocess.CalledProcessError):
-        return None
-    return sha if _SHA40.match(sha) else None
+        sha = ""
+    if _SHA40.match(sha):
+        return sha
+    env_sha = str(os.environ.get("GITHUB_SHA") or "").strip().lower()
+    return env_sha if _SHA40.match(env_sha) else None
 
 
 def _offset_aware_iso(value):
@@ -462,6 +469,8 @@ def replay_at_commit(snapshot_path, commit):
                     "target commit predates the B101 replay contract; "
                     "cross-version replay is supported from B101 onward"
                 )
+            replay_env = dict(os.environ)
+            replay_env.pop("GITHUB_SHA", None)
             proc = subprocess.run(
                 [
                     sys.executable,
@@ -471,6 +480,7 @@ def replay_at_commit(snapshot_path, commit):
                     str(replay_input),
                 ],
                 cwd=str(worktree),
+                env=replay_env,
                 check=True,
                 text=True,
                 stdout=subprocess.PIPE,
