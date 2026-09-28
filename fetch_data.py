@@ -46,6 +46,11 @@ from johnston_ridge_access import (
     fetch_johnston_ridge_project_status,
     unknown_johnston_ridge_provider_state,
 )
+from denali_access import (
+    build_denali_mountain_vista_access_state,
+    fetch_denali_current_conditions,
+    unknown_denali_provider_state,
+)
 
 # 後端多國語言狀態與指標字典
 I18N_MESSAGES = {
@@ -182,6 +187,7 @@ _TIDE_RESPONSE_CACHE = {}
 _SHINHOTAKA_ACCESS_CACHE = None
 _YAHIKO_ACCESS_CACHE = None
 _JOHNSTON_RIDGE_ACCESS_CACHE = None
+_DENALI_ACCESS_CACHE = None
 
 
 def _fetch_shinhotaka_access_provider():
@@ -212,6 +218,21 @@ def _fetch_johnston_ridge_access_provider():
             reason=f"provider_exception:{type(exc).__name__}"
         )
     return _JOHNSTON_RIDGE_ACCESS_CACHE
+
+
+def _fetch_denali_access_provider():
+    """Fetch us-041 official Denali Park Road status once per process."""
+    global _DENALI_ACCESS_CACHE
+    if _DENALI_ACCESS_CACHE is not None:
+        return _DENALI_ACCESS_CACHE
+    try:
+        _DENALI_ACCESS_CACHE = fetch_denali_current_conditions()
+    except Exception as exc:
+        print(f"Denali access fetch error: {exc}")
+        _DENALI_ACCESS_CACHE = unknown_denali_provider_state(
+            reason=f"provider_exception:{type(exc).__name__}"
+        )
+    return _DENALI_ACCESS_CACHE
 
 
 def _fetch_yahiko_access_provider():
@@ -1733,6 +1754,11 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
             if spot.get("spot_id") == "us-017"
             else None
         )
+        denali_access_provider = (
+            _fetch_denali_access_provider()
+            if spot.get("spot_id") == "us-041"
+            else None
+        )
 
         tz_name = raw.get("timezone") or "UTC"
         try:
@@ -1857,6 +1883,10 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
             elif spot.get("spot_id") == "us-017":
                 item_data["access_state"] = build_johnston_ridge_access_state(
                     int(ts), johnston_ridge_access_provider
+                )
+            elif spot.get("spot_id") == "us-041":
+                item_data["access_state"] = build_denali_mountain_vista_access_state(
+                    int(ts), denali_access_provider
                 )
 
             opportunity_runtime = _build_opportunity_runtime_diagnostics(spot, item_data)
