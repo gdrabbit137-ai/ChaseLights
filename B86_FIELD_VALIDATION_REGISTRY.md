@@ -15,9 +15,27 @@ A field photo or field note does not bypass `RESEARCH_EVIDENCE_SPEC_R4_2.md`.
 
 ## Files
 
-- `field_validation_registry_r4_2.json` — canonical structured field cases
+- `field_validation_registry_r4_2.json` — canonical structured field cases plus data-driven case-profile intake contracts
 - `field_validation.py` — schema / integrity validator
-- `test_opportunity_adapter.py` — catalog-reference and first-case regression checks
+- `test_opportunity_adapter.py` — catalog-reference, case-profile, and replay regression checks
+
+## Case-profile contract
+
+Schema `field-validation-registry-r4.2-2` separates the generic registry rules from scene-specific observation fields.
+
+Each admitted case declares a `validation_profile`. The profile defines:
+
+- required boolean fields in `observed_scene`,
+- required numeric camera diagnostics,
+- the scene-specific spatial-sector object name,
+- required numeric and boolean spatial diagnostics.
+
+A profile is **not** field evidence by itself. It only defines what must be captured before a case can be admitted as ground truth.
+
+Current profiles:
+
+- `qixingtan_northward_mountain_cloud` — used by the existing Qixingtan case.
+- `qingshui_cliff_mist` — intake contract for future Qingshui morning-mist positive/negative cases; no Qingshui case is admitted yet.
 
 ## Privacy rule
 
@@ -86,3 +104,17 @@ Next useful cases for Qixingtan:
 3. mountain whiteout where P03/P04 should both reject,
 4. local camera fog with distant scene unavailable,
 5. mixed ridge visibility where P04 remains usable but P03 confidence varies.
+
+
+## Qingshui intake requirements
+
+A future `tw-034` case using `qingshui_cliff_mist` must include, at minimum:
+
+- exact offset-aware local capture time and camera direction,
+- structured visual observations for camera whiteout, coast/sea readability, cliff or mountain-outline readability, visible mist/low cloud in the cliff sector, and visible precipitation,
+- captured camera visibility, low cloud, RH, LCL proxy, and weather code,
+- captured north-sector spatial diagnostics including valid target count, mist target counts, clear target/bearing counts, and the `broad_clear_target_sector` flag,
+- explicit expected behavior for the relevant Qingshui Opportunities,
+- model/weather commit provenance and limitations.
+
+Positive and negative cases should be collected before changing the current 2.5 km readability guard or broad-clear negative-evidence thresholds.

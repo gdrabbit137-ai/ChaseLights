@@ -1,11 +1,12 @@
 {
-  "schema_version": "field-validation-registry-r4.2-1",
+  "schema_version": "field-validation-registry-r4.2-2",
   "reviewed_at": "2026-09-28",
   "policy": {
     "purpose": "Record non-identifying field observations used to validate already-admitted Photography Opportunities and runtime behavior.",
     "admission_boundary": "Field observations may validate or calibrate runtime behavior but do not by themselves admit a new Place-specific subject. Subject admission remains governed by RESEARCH_EVIDENCE_SPEC_R4_2.md.",
     "privacy_boundary": "Do not commit a user-supplied image by default. Store structured observation metadata only unless explicit publication permission is provided.",
-    "forecast_boundary": "Captured forecast values are historical validation snapshots. They must not be presented as current forecasts."
+    "forecast_boundary": "Captured forecast values are historical validation snapshots. They must not be presented as current forecasts.",
+    "profile_boundary": "case_profiles declare the required structured observation and forecast-diagnostic fields for each scene family. A profile is an intake/validation contract only and does not create field ground truth without an admitted case."
   },
   "cases": [
     {
@@ -120,7 +121,64 @@
         "historical_raw_input": false,
         "path": "test_fixtures/field_validation/FV-TW-036-20260928-1300-01.json",
         "note": "This fixture is a synthetic minimum reproduction derived from the validated aggregate diagnostics. It is not the original raw historical forecast response and must not be presented as one."
-      }
+      },
+      "validation_profile": "qixingtan_northward_mountain_cloud"
     }
-  ]
+  ],
+  "case_profiles": {
+    "qixingtan_northward_mountain_cloud": {
+      "purpose": "Validate a readable northward mountain-seascape and terrain-attached cloud-band scene at Qixingtan.",
+      "observed_boolean_fields": [
+        "camera_whiteout",
+        "coast_and_sea_readable",
+        "northward_mountain_layers_readable",
+        "terrain_attached_cloud_band_visible",
+        "ridge_partially_visible"
+      ],
+      "camera_numeric_fields": [
+        "visibility_km",
+        "low_cloud_pct",
+        "lcl_agl_proxy_m"
+      ],
+      "sector_key": "northward_elevated_sector",
+      "sector_numeric_fields": [
+        "elevated_target_count",
+        "min_visibility_km",
+        "min_visibility_to_camera_ratio",
+        "terrain_lcl_intersection_target_count",
+        "terrain_lcl_intersection_bearing_count"
+      ],
+      "sector_boolean_fields": []
+    },
+    "qingshui_cliff_mist": {
+      "purpose": "Validate whether an observed Qingshui Cliff scene supports, rejects, or leaves uncertain the morning-mist Opportunity without treating forecast proxies as visual proof.",
+      "observed_boolean_fields": [
+        "camera_whiteout",
+        "coast_and_sea_readable",
+        "cliff_or_mountain_outline_readable",
+        "mist_or_low_cloud_visible_in_cliff_sector",
+        "precipitation_visible"
+      ],
+      "camera_numeric_fields": [
+        "visibility_km",
+        "low_cloud_pct",
+        "rh_pct",
+        "lcl_agl_proxy_m",
+        "weather_code"
+      ],
+      "sector_key": "northward_mist_sector",
+      "sector_numeric_fields": [
+        "target_sample_count",
+        "mist_target_count",
+        "directional_mist_target_count",
+        "clear_target_count",
+        "clear_bearing_count"
+      ],
+      "sector_boolean_fields": [
+        "available",
+        "eligible",
+        "broad_clear_target_sector"
+      ]
+    }
+  }
 }
