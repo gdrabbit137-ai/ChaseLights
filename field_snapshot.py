@@ -622,6 +622,15 @@ def compare_forecast_revisions(snapshots):
                 .total_seconds()
             ),
             "model_commit": snapshot["provenance"]["git_commit"],
+            "model_contract": {
+                key: snapshot["provenance"].get(key)
+                for key in (
+                    "adapter_version",
+                    "catalog_schema_version",
+                    "opportunity_runtime_version",
+                    "spatial_weather_version",
+                )
+            },
             "fingerprints": _snapshot_source_fingerprints(snapshot),
             "metrics": _revision_metric_view(snapshot),
             "opportunities": {
@@ -636,15 +645,32 @@ def compare_forecast_revisions(snapshots):
             previous["fingerprints"]["normalized_input_sha256"]
             != current["fingerprints"]["normalized_input_sha256"]
         )
-        model_changed = previous["model_commit"] != current["model_commit"]
-        if input_changed and model_changed:
-            classification = "mixed_forecast_and_model_revision"
+        code_commit_changed = (
+            previous["model_commit"] != current["model_commit"]
+        )
+        model_contract_changed = (
+            previous["model_contract"] != current["model_contract"]
+        )
+        raw_changed = (
+            previous["fingerprints"]["camera_weather_raw_sha256"]
+            != current["fingerprints"]["camera_weather_raw_sha256"]
+            or previous["fingerprints"]["spatial_weather_raw_sha256"]
+            != current["fingerprints"]["spatial_weather_raw_sha256"]
+        )
+        if input_changed and model_contract_changed:
+            classification = "mixed_forecast_and_model_contract_revision"
         elif input_changed:
             classification = "forecast_data_revision"
-        elif model_changed:
-            classification = "model_revision_only"
+        elif model_contract_changed:
+            classification = "model_contract_revision_only"
+        elif raw_changed:
+            classification = "provider_payload_revision_without_selected_input_change"
+        elif code_commit_changed:
+            classification = (
+                "code_commit_revision_without_selected_input_or_model_contract_change"
+            )
         else:
-            classification = "no_normalized_or_model_change"
+            classification = "no_revision_detected"
 
         metric_changes = {}
         for key in sorted(set(previous["metrics"]) | set(current["metrics"])):
@@ -690,7 +716,9 @@ def compare_forecast_revisions(snapshots):
                 != current["fingerprints"]["spatial_weather_raw_sha256"]
             ),
             "normalized_input_changed": input_changed,
-            "model_commit_changed": model_changed,
+            "code_commit_changed": code_commit_changed,
+            "model_commit_changed": code_commit_changed,
+            "model_contract_changed": model_contract_changed,
             "metric_changes": metric_changes,
             "opportunity_changes": opportunity_changes,
         })
@@ -749,6 +777,7 @@ def _parser():
 
     revisions = sub.add_parser("compare-revisions")
     revisions.add_argument("snapshots", nargs="+")
+    revisions.add_argument("--replay-commit")
     revisions.add_argument("--output")
 
     internal = sub.add_parser("_replay-json")
@@ -795,6 +824,60 @@ def main(argv=None):
     if args.command == "compare-revisions":
         snapshots = [load_snapshot(path) for path in args.snapshots]
         payload = compare_forecast_revisions(snapshots)
+        if args.replay_commit:
+            ordered_paths = sorted(
+                [Path(path) for path in args.snapshots],
+                key=lambda path: _offset_aware_iso(
+                    load_snapshot(path)["captured_at"]
+                ).astimezone(timezone.utc),
+            )
+            target_rows = []
+            for path in ordered_paths:
+                snapshot = load_snapshot(path)
+                replayed = replay_at_commit(path, args.replay_commit)
+                target_rows.append({
+                    "snapshot_id": snapshot["snapshot_id"],
+                    "target_commit": replayed["target_commit"],
+                    "opportunities": {
+                        oid: _stable_outcome(outcome)
+                        for oid, outcome in sorted(
+                            replayed["replayed_output"][
+                                "opportunity_scores"
+                            ].items()
+                        )
+                    },
+                })
+            target_transitions = []
+            for previous, current in zip(target_rows, target_rows[1:]):
+                changes = {}
+                for oid in sorted(
+                    set(previous["opportunities"])
+                    | set(current["opportunities"])
+                ):
+                    old = previous["opportunities"].get(oid)
+                    new = current["opportunities"].get(oid)
+                    if old != new:
+                        detail = {"from": old, "to": new}
+                        old_score = (old or {}).get("score")
+                        new_score = (new or {}).get("score")
+                        if isinstance(old_score, (int, float)) and isinstance(
+                            new_score, (int, float)
+                        ):
+                            detail["score_delta"] = new_score - old_score
+                        changes[oid] = detail
+                target_transitions.append({
+                    "from_snapshot_id": previous["snapshot_id"],
+                    "to_snapshot_id": current["snapshot_id"],
+                    "opportunity_changes": changes,
+                })
+            payload["common_model_replay"] = {
+                "requested_commit": args.replay_commit,
+                "target_commit": (
+                    target_rows[0]["target_commit"] if target_rows else None
+                ),
+                "rows": target_rows,
+                "transitions": target_transitions,
+            }
         rendered = json.dumps(payload, ensure_ascii=False, indent=2)
         if args.output:
             Path(args.output).write_text(rendered + "\n", encoding="utf-8")
