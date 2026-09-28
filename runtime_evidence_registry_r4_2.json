@@ -1505,13 +1505,13 @@
           "url": "https://tour-hualien.hl.gov.tw/jp/News_Content.aspx?n=288&s=8856"
         }
       ],
-      "forecast_boundary": "官方證據證明七星潭北望清水斷崖／清水山及山區雲霧是實際可見題材；runtime 只能以七星潭拍攝點與北向山區多格點的相對低雲、高濕、能見度與高程差建立『貼山雲帶候選』，不能保證實際雲形、山峰露出比例、精確雲帶位置或最終構圖品質。",
+      "forecast_boundary": "官方證據證明七星潭北望清水斷崖／清水山及山區雲霧是實際可見題材；runtime 優先使用七星潭拍攝點與北向山區多格點的直接低雲、高濕與能見度差異建立貼山雲候選。B85 另加入低信心地形雲 proxy：僅在海岸清楚、LCL 規劃級估算與多方位高地相交、且高地能見度相對海岸大幅下降並有少量低雲支持時成立；此 fallback 分數封頂 78，不能保證實際雲形、山峰露出比例、精確雲帶位置或最終構圖品質。",
       "runtime_enrichment": {
-        "version": "B83_directional_mountain_cloud_proxy",
+        "version": "B85_directional_mountain_cloud_plus_orographic_proxy",
         "status": "required_context",
         "camera_vs_target_sector": true,
         "exact_target_zone_verified": false,
-        "fallback": "no_high_confidence_score_when_spatial_samples_missing",
+        "fallback": "low_confidence_orographic_proxy_score_cap_78_when_direct_grid_cloud_signal_is_unresolved",
         "direction_basis": "official_Qixingtan_northward_Qingshui_Cliff_and_Qingshui_Mountain_view",
         "direction_sector_deg": [
           350,
@@ -1524,7 +1524,18 @@
           22
         ],
         "direction_source_url": "https://www.taiwan.nps.gov.tw/home/zh-tw/quarterly/7933/6910",
-        "direction_source_note": "官方資料只支持七星潭隔海灣向北眺望清水斷崖／清水山；B83 使用北向至北北東的廣角高地 proxy，並不主張精確山峰方位或雲帶交會位置。"
+        "direction_source_note": "官方資料只支持七星潭隔海灣向北眺望清水斷崖／清水山；B83 使用北向至北北東的廣角高地 proxy，並不主張精確山峰方位或雲帶交會位置。",
+        "orographic_proxy": {
+          "lcl_is_planning_proxy_not_observation": true,
+          "min_intersection_targets": 2,
+          "min_intersection_bearings": 2,
+          "max_elevated_visibility_km": 8,
+          "max_elevated_to_camera_visibility_ratio": 0.3,
+          "min_elevated_low_cloud_pct": 15,
+          "requires_readable_mountain_samples": true,
+          "score_cap": 78,
+          "confidence": "low"
+        }
       }
     },
     "tw-036-P04": {

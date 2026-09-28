@@ -4339,7 +4339,7 @@
       "spot_id": "tw-036",
       "canonical_name": "七星潭月牙灣／賞星廣場",
       "product_status": "KEEP",
-      "product_review_stage": "R4_2_B84_QIXINGTAN_NORTHWARD_MOUNTAIN",
+      "product_review_stage": "R4_2_B85_QIXINGTAN_OROGRAPHIC_PROXY",
       "opportunities": [
         {
           "opportunity_id": "tw-036-P01",
@@ -4425,8 +4425,8 @@
           "geometry_required": false,
           "opportunity_confidence": "high",
           "formula_status": "needs_spatial_weather_module",
-          "formula_version": "v0.04-qixingtan-directional-mountain-cloud",
-          "formula_confidence": 76,
+          "formula_version": "v0.04-qixingtan-directional-mountain-cloud-b85",
+          "formula_confidence": 78,
           "best_time": "白天；以七星潭海岸本身視野清楚、北方山體仍部分可辨且低雲貼山為佳",
           "best_season": "全年候選；山區雲帶屬可變條件",
           "condition_variants": [
@@ -4436,9 +4436,9 @@
               "variant_name": "海岸清晰＋北方山腰貼雲",
               "condition_geometry": "{\"camera_zone\":\"七星潭月牙灣礫石海岸代表 Camera Zone\",\"subject\":\"northward Pacific coast + partially visible Qingshui Cliff / Qingshui Mountain + terrain-attached low cloud\"}",
               "hard_gates": "七星潭海岸拍攝點本身需保持可辨視野；不得把單點低雲量或高濕直接當作北方山區貼山雲；若拍攝點白牆、明顯降雨或北方山體完全不可辨則不成立",
-              "required_conditions": "可見光時段；七星潭海岸能見度可用；北向至北北東方向的多點山區 proxy 至少兩點出現相對拍攝點更強的低雲／高濕／能見度下降訊號，且至少一個高地樣本仍屬可讀的非完全白牆狀態",
-              "boosters": "拍攝點高能見度；北方山區低雲明顯高於海岸；雲帶跨多個距離樣本；弱風；山峰或斷崖仍部分露出",
-              "penalties": "拍攝點低能見度或低雲過高；北方全部樣本近白牆；大雨；只有單一格點異常；山區與海岸條件沒有方向性差異",
+              "required_conditions": "可見光時段；七星潭海岸能見度可用。優先採北向至北北東多點山區 proxy 的直接低雲／高濕／能見度下降一致訊號；若格點未直接解析雲帶，只允許在海岸清楚、LCL 規劃級估算與多方位高地相交、且高地出現顯著能見度落差與至少少量低雲支持時形成低信心地形雲候選。",
+              "boosters": "拍攝點高能見度；北方山區低雲明顯高於海岸；雲帶跨多個距離樣本；弱風；山峰或斷崖仍部分露出；多方位高地與 LCL 估算交會且高地能見度顯著低於海岸。",
+              "penalties": "拍攝點低能見度或低雲過高；北方全部樣本近白牆；大雨；只有單一格點異常；山區與海岸條件沒有方向性差異；僅 LCL 低而缺乏高地能見度落差或低雲支持時不得成立。",
               "formula_status": "needs_spatial_weather_module"
             }
           ],
@@ -4464,7 +4464,7 @@
             "status": "verified_subject",
             "basis": "grade_A_official_qixingtan_qingshui_northward_view_and_cloud_evidence",
             "reviewed_at": "2026-09-28",
-            "note": "題材存在性由官方地點資料證明；多點氣象只用來估計已驗證題材何時較可能成立，不把地形或單一低雲數值當作題材存在證據。"
+            "note": "題材存在性由官方地點資料證明；B85 runtime 分成直接格點雲訊號與低信心地形雲 proxy。後者只用於格點解析度不足時的規劃候選，分數上限 78，且不得宣稱實際雲帶已被觀測。"
           }
         },
         {

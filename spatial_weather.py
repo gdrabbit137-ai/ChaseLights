@@ -17,7 +17,7 @@ That limitation is returned in every diagnostic.
 
 import math
 
-SPATIAL_WEATHER_VERSION = "spatial-weather-r5-qixingtan-orographic-calibration"
+SPATIAL_WEATHER_VERSION = "spatial-weather-r6-qixingtan-orographic-proxy"
 
 _SUPPORTED_PROFILE_IDS = (
     "tw-004-P02", "tw-004-P03", "tw-008-P03",
@@ -57,6 +57,18 @@ SPATIAL_WEATHER_PROFILES["tw-036-P03"] = {
     "min_target_elevation_gain_m": 250.0,
     "min_cloudy_targets": 2,
     "min_directional_cloud_targets": 2,
+    # B85 low-confidence fallback for grid-scale misses. This is deliberately
+    # stricter than a simple low LCL: the camera must stay clear, terrain must
+    # intersect the LCL proxy across multiple bearings, and at least one
+    # elevated target must show a strong visibility collapse plus some low-cloud
+    # support. It can create only an uncertain candidate, never a confirmed band.
+    "orographic_proxy_min_intersection_targets": 2,
+    "orographic_proxy_min_intersection_bearings": 2,
+    "orographic_proxy_max_visibility_km": 8.0,
+    "orographic_proxy_max_visibility_ratio": 0.30,
+    "orographic_proxy_min_low_cloud_pct": 15.0,
+    "orographic_proxy_min_readable_targets": 2,
+    "orographic_proxy_min_readable_bearings": 2,
 }
 
 # B84 sibling Opportunity: same researched northward mountain sector, but this
@@ -552,19 +564,75 @@ def _evaluate_directional_mountain_cloud_sector(config, observation, item_data=N
         if _number(row.get("elevation_m")) is not None
     ]
 
+    readable_elevated_targets = []
+    readable_elevated_bearings = set()
+    for row in elevated_targets:
+        vis = _number(row.get("visibility"))
+        low = _number(row.get("cloud_cover_low"))
+        weather_code = row.get("weather_code")
+        if vis is None or low is None:
+            continue
+        if weather_code in {45, 48} or vis < 8000 or low >= 90:
+            continue
+        readable_elevated_targets.append(row)
+        bearing = _number(row.get("bearing_deg"))
+        if bearing is not None:
+            readable_elevated_bearings.add(round(bearing, 1))
+
+    min_elevated_visibility = min(elevated_vis_values) if elevated_vis_values else None
+    max_elevated_low = max(elevated_low_values) if elevated_low_values else None
+    visibility_ratio = (
+        min_elevated_visibility / camera_vis
+        if min_elevated_visibility is not None and camera_vis > 0
+        else None
+    )
+
     required_cloud = min(int(config.get("min_cloudy_targets", 2)), len(elevated_targets))
     required_directional = min(
         int(config.get("min_directional_cloud_targets", required_cloud)),
         len(elevated_targets),
     )
-    eligible = (
+    direct_eligible = (
         len(cloud_targets) >= required_cloud
         and len(directional_cloud_targets) >= required_directional
         and len(readable_cloud_targets) >= 1
     )
+
+    proxy_intersections_ok = (
+        len(lcl_intersection_targets) >= int(config.get("orographic_proxy_min_intersection_targets", 999))
+        and len(lcl_intersection_bearings) >= int(config.get("orographic_proxy_min_intersection_bearings", 999))
+    )
+    proxy_visibility_ok = (
+        min_elevated_visibility is not None
+        and visibility_ratio is not None
+        and min_elevated_visibility <= float(config.get("orographic_proxy_max_visibility_km", 0)) * 1000.0
+        and visibility_ratio <= float(config.get("orographic_proxy_max_visibility_ratio", 0))
+    )
+    proxy_low_cloud_ok = (
+        max_elevated_low is not None
+        and max_elevated_low >= float(config.get("orographic_proxy_min_low_cloud_pct", 101))
+    )
+    proxy_readability_ok = (
+        len(readable_elevated_targets) >= int(config.get("orographic_proxy_min_readable_targets", 999))
+        and len(readable_elevated_bearings) >= int(config.get("orographic_proxy_min_readable_bearings", 999))
+    )
+    proxy_eligible = (
+        not direct_eligible
+        and proxy_intersections_ok
+        and proxy_visibility_ok
+        and proxy_low_cloud_ok
+        and proxy_readability_ok
+    )
+
+    eligible = direct_eligible or proxy_eligible
     reason = (
         "directional_mountain_cloud_band_candidate"
-        if eligible else "directional_mountain_cloud_band_not_supported"
+        if direct_eligible
+        else (
+            "orographic_cloud_proxy_candidate"
+            if proxy_eligible
+            else "directional_mountain_cloud_band_not_supported"
+        )
     )
     return {
         "module": "spatial_weather_vertical_cloud",
@@ -603,10 +671,17 @@ def _evaluate_directional_mountain_cloud_sector(config, observation, item_data=N
         ),
         "terrain_lcl_intersection_target_count": len(lcl_intersection_targets),
         "terrain_lcl_intersection_bearing_count": len(lcl_intersection_bearings),
+        "readable_elevated_target_count": len(readable_elevated_targets),
+        "readable_elevated_bearing_count": len(readable_elevated_bearings),
+        "elevated_target_min_visibility_ratio": (
+            round(visibility_ratio, 2) if visibility_ratio is not None else None
+        ),
+        "direct_cloud_signal": direct_eligible,
+        "orographic_proxy_candidate": proxy_eligible,
         "target_resolution": observation.get("target_resolution"),
         "exact_target_zone_verified": False,
         "visibility_guaranteed": False,
-        "confidence_hint": "medium" if eligible else "low",
+        "confidence_hint": "medium" if direct_eligible else ("low" if proxy_eligible else "low"),
     }
 
 
@@ -971,6 +1046,20 @@ def validate_spatial_weather_registry():
                 errors.append(f"{oid}: invalid mountain-cloud target count")
             if int(config.get("min_directional_cloud_targets") or 0) < 1:
                 errors.append(f"{oid}: invalid directional-cloud target count")
+            if int(config.get("orographic_proxy_min_intersection_targets") or 0) < 1:
+                errors.append(f"{oid}: invalid orographic intersection target count")
+            if int(config.get("orographic_proxy_min_intersection_bearings") or 0) < 1:
+                errors.append(f"{oid}: invalid orographic intersection bearing count")
+            if not 0 < float(config.get("orographic_proxy_max_visibility_ratio") or 0) < 1:
+                errors.append(f"{oid}: invalid orographic visibility ratio")
+            if float(config.get("orographic_proxy_max_visibility_km") or 0) <= 0:
+                errors.append(f"{oid}: invalid orographic visibility threshold")
+            if not 0 <= float(config.get("orographic_proxy_min_low_cloud_pct") or -1) <= 100:
+                errors.append(f"{oid}: invalid orographic low-cloud threshold")
+            if int(config.get("orographic_proxy_min_readable_targets") or 0) < 1:
+                errors.append(f"{oid}: invalid orographic readable target count")
+            if int(config.get("orographic_proxy_min_readable_bearings") or 0) < 1:
+                errors.append(f"{oid}: invalid orographic readable bearing count")
         elif mode == "directional_mountain_visibility_sector":
             if len(config.get("bearings_deg") or ()) < 3:
                 errors.append(f"{oid}: insufficient mountain-visibility bearings")
