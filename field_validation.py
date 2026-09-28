@@ -15,7 +15,7 @@ import json
 from pathlib import Path
 import re
 
-FIELD_VALIDATION_SCHEMA_VERSION = "field-validation-registry-r4.2-1"
+FIELD_VALIDATION_SCHEMA_VERSION = "field-validation-registry-r4.2-2"
 FIELD_VALIDATION_REPLAY_SCHEMA_VERSION = "field-validation-replay-r4.2-1"
 _PROJECT_ROOT = Path(__file__).parent
 FIELD_VALIDATION_REGISTRY_FILE = (
@@ -218,9 +218,39 @@ def validate_field_validation_registry(
         )
 
     policy = registry.get("policy") or {}
-    for key in ("purpose", "admission_boundary", "privacy_boundary", "forecast_boundary"):
+    for key in ("purpose", "admission_boundary", "privacy_boundary", "forecast_boundary", "profile_boundary"):
         if not str(policy.get(key) or "").strip():
             errors.append(f"field validation policy missing {key}")
+
+    profiles = registry.get("case_profiles")
+    if not isinstance(profiles, dict) or not profiles:
+        errors.append("field validation registry must define case_profiles")
+        profiles = {}
+    for profile_id, profile in profiles.items():
+        label = f"field validation profile {profile_id or '<missing>'}"
+        if not isinstance(profile_id, str) or not profile_id.strip():
+            errors.append("field validation profile id must be non-empty")
+        if not isinstance(profile, dict):
+            errors.append(f"{label}: profile must be an object")
+            continue
+        if not str(profile.get("purpose") or "").strip():
+            errors.append(f"{label}: purpose missing")
+        for list_key in (
+            "observed_boolean_fields",
+            "camera_numeric_fields",
+            "sector_numeric_fields",
+            "sector_boolean_fields",
+        ):
+            values = profile.get(list_key)
+            if not isinstance(values, list) or not all(
+                isinstance(value, str) and value.strip() for value in values
+            ):
+                errors.append(f"{label}: {list_key} must be a string list")
+                continue
+            if len(values) != len(set(values)):
+                errors.append(f"{label}: {list_key} contains duplicates")
+        if not str(profile.get("sector_key") or "").strip():
+            errors.append(f"{label}: sector_key missing")
 
     cases = registry.get("cases")
     if not isinstance(cases, list) or not cases:
@@ -270,33 +300,32 @@ def validate_field_validation_registry(
         ):
             errors.append(f"{case_id}: public user image requires authorization metadata")
 
+        profile_id = str(case.get("validation_profile") or "")
+        profile = profiles.get(profile_id) or {}
+        if not profile_id:
+            errors.append(f"{case_id}: validation_profile missing")
+        elif profile_id not in profiles:
+            errors.append(f"{case_id}: unknown validation_profile {profile_id}")
+
         observed = case.get("observed_scene") or {}
-        required_observed = (
-            "camera_whiteout",
-            "coast_and_sea_readable",
-            "northward_mountain_layers_readable",
-            "terrain_attached_cloud_band_visible",
-            "ridge_partially_visible",
-        )
-        for key in required_observed:
+        for key in profile.get("observed_boolean_fields", ()):
             if not isinstance(observed.get(key), bool):
                 errors.append(f"{case_id}: observed_scene.{key} must be boolean")
 
         snapshot = case.get("captured_forecast_snapshot") or {}
         camera = snapshot.get("camera") or {}
-        sector = snapshot.get("northward_elevated_sector") or {}
-        for key in ("visibility_km", "low_cloud_pct", "lcl_agl_proxy_m"):
+        for key in profile.get("camera_numeric_fields", ()):
             if not isinstance(camera.get(key), (int, float)) or isinstance(camera.get(key), bool):
                 errors.append(f"{case_id}: captured camera.{key} must be numeric")
-        for key in (
-            "elevated_target_count",
-            "min_visibility_km",
-            "min_visibility_to_camera_ratio",
-            "terrain_lcl_intersection_target_count",
-            "terrain_lcl_intersection_bearing_count",
-        ):
+
+        sector_key = str(profile.get("sector_key") or "")
+        sector = snapshot.get(sector_key) or {}
+        for key in profile.get("sector_numeric_fields", ()):
             if not isinstance(sector.get(key), (int, float)) or isinstance(sector.get(key), bool):
-                errors.append(f"{case_id}: captured sector.{key} must be numeric")
+                errors.append(f"{case_id}: captured {sector_key}.{key} must be numeric")
+        for key in profile.get("sector_boolean_fields", ()):
+            if not isinstance(sector.get(key), bool):
+                errors.append(f"{case_id}: captured {sector_key}.{key} must be boolean")
 
         expected = case.get("expected_model_behavior") or {}
         overall = expected.get("overall") or {}
