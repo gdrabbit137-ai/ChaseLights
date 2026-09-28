@@ -110,6 +110,7 @@ I18N_MESSAGES = {
     "OPPORTUNITY_SIMPLE_MATCH": {"zh-TW": "✅ 此景點的基本好拍條件已成立", "en": "✅ The Place's basic good-shoot conditions are met", "ja": "✅ この場所の基本的な好条件が成立"},
     "OPPORTUNITY_MIST_CANDIDATE": {"zh-TW": "🌫️ 晨霧候選條件出現，但霧區位置仍有不確定性", "en": "🌫️ Morning-mist candidate conditions are present, but the mist location remains uncertain", "ja": "🌫️ 朝霧候補の条件がありますが、霧の位置には不確実性があります"},
     "OPPORTUNITY_DIRECTIONAL_CLOUD_MATCH": {"zh-TW": "☁️ 北方山區貼山雲候選條件成立；實際山體露出仍需現場確認", "en": "☁️ Northward terrain-attached cloud candidate conditions match; actual ridge visibility still needs field confirmation", "ja": "☁️ 北側山地の地形性低層雲候補条件が一致。実際の稜線の見え方は現地確認が必要です"},
+    "OPPORTUNITY_OROGRAPHIC_CLOUD_POTENTIAL": {"zh-TW": "☁️ 北方山地具貼雲潛勢；格點未直接解析雲帶", "en": "☁️ Northward mountains have orographic-cloud potential, but the grid does not directly resolve the cloud band", "ja": "☁️ 北側山地に地形性雲の可能性がありますが、格子予報では雲帯を直接捉えていません"},
     "OPPORTUNITY_OUTSIDE_TIME_WINDOW": {"zh-TW": "🕒 天氣條件可用，但目前不在此題材的建議拍攝時段", "en": "🕒 Weather conditions are usable, but this is outside the recommended shooting time for this opportunity", "ja": "🕒 天候条件は利用可能ですが、この撮影機会の推奨時間帯ではありません"},
     "OPPORTUNITY_SIMPLE_MISS": {"zh-TW": "⚠️ 能見度、低雲或降雨條件目前不理想", "en": "⚠️ Visibility, low cloud, or precipitation is currently unfavorable", "ja": "⚠️ 視程・低雲・降水条件が現在不利"},
 
@@ -1305,23 +1306,49 @@ def _score_opportunity(opportunity, theme_metric, runtime_diagnostic, lang="zh-T
             else:
                 spatial = (diag.get("modules") or {}).get("spatial_weather_vertical_cloud") or {}
                 if spatial.get("mode") == "directional_mountain_cloud_sector":
-                    status_key = indicator_key = "OPPORTUNITY_DIRECTIONAL_CLOUD_MATCH"
-                    condition_state = "directional_mountain_cloud_candidate"
-                    score_confidence = spatial.get("confidence_hint") or "medium"
-                    target_count = spatial.get("directional_cloud_target_count")
+                    source = spatial.get("candidate_source")
                     elevated_count = spatial.get("elevated_target_count")
-                    cloud_text = {
-                        "zh-TW": f"北向高地多點中 {target_count} 點出現相對海岸更強的貼山低雲訊號",
-                        "en": f"{target_count} elevated northward samples show stronger terrain-cloud signals than the coast",
-                        "ja": f"北向き高地サンプルのうち {target_count} 点で海岸より強い地形性低層雲シグナル",
-                    }.get(lang, f"{target_count} elevated northward samples show stronger terrain-cloud signals")
-                    uncertainty_text = {
-                        "zh-TW": "這是廣角環境 proxy；不能保證雲帶正好貼住清水山／斷崖，山峰露出比例仍需現場確認",
-                        "en": "This is a broad environmental proxy; exact cloud/ridge overlap and ridge visibility remain unverified",
-                        "ja": "広域環境プロキシであり、雲と清水山・断崖の正確な重なりや稜線の露出は未確認です",
-                    }.get(lang, "Exact cloud/ridge overlap remains unverified")
-                    factors.append({"type": "plus", "key": "directional_mountain_cloud", "value": target_count, "text": cloud_text})
-                    factors.append({"type": "minus", "key": "directional_cloud_uncertainty", "value": elevated_count, "text": uncertainty_text})
+                    if source == "orographic_lcl_terrain_fallback":
+                        # B84: this branch intentionally cannot inherit an
+                        # uncapped mountain-view score. The forecast only says
+                        # that clear coastal air would reach condensation level
+                        # inside the sampled mountain relief; it does NOT
+                        # directly resolve a cloud band on the ridge.
+                        score = min(score, 82)
+                        status_key = indicator_key = "OPPORTUNITY_OROGRAPHIC_CLOUD_POTENTIAL"
+                        condition_state = "orographic_mountain_cloud_potential"
+                        score_confidence = "low"
+                        intersect_count = spatial.get("orographic_intersection_target_count")
+                        base_asl = spatial.get("camera_condensation_height_asl_proxy_m")
+                        cloud_text = {
+                            "zh-TW": f"規劃級凝結高度估算約 {base_asl:.0f} m ASL，與北向 {intersect_count} 個高地 proxy 的山體高度範圍交會",
+                            "en": f"Planning-grade condensation height is about {base_asl:.0f} m ASL and intersects the terrain range of {intersect_count} elevated northward proxies",
+                            "ja": f"計画用の凝結高度推定は約 {base_asl:.0f} m ASLで、北向き高地プロキシ {intersect_count} 点の地形高度範囲と交差します",
+                        }.get(lang, f"Planning-grade condensation height about {base_asl:.0f} m ASL intersects {intersect_count} northward terrain proxies")
+                        uncertainty_text = {
+                            "zh-TW": "這是地形抬升形成貼雲的潛勢訊號；格點沒有直接解析出雲帶，山體是否真的貼雲仍需現場確認",
+                            "en": "This is orographic-cloud potential only; the grid did not directly resolve the cloud band, so actual ridge cloud still needs field confirmation",
+                            "ja": "地形性雲の潜在シグナルのみで、格子予報は雲帯を直接捉えていません。実際の稜線雲は現地確認が必要です",
+                        }.get(lang, "Orographic-cloud potential only; actual ridge cloud remains unverified")
+                        factors.append({"type": "plus", "key": "orographic_cloud_potential", "value": base_asl, "text": cloud_text})
+                        factors.append({"type": "minus", "key": "orographic_cloud_uncertainty", "value": intersect_count, "text": uncertainty_text})
+                    else:
+                        status_key = indicator_key = "OPPORTUNITY_DIRECTIONAL_CLOUD_MATCH"
+                        condition_state = "directional_mountain_cloud_candidate"
+                        score_confidence = spatial.get("confidence_hint") or "medium"
+                        target_count = spatial.get("directional_cloud_target_count")
+                        cloud_text = {
+                            "zh-TW": f"北向高地多點中 {target_count} 點出現相對海岸更強的貼山低雲訊號",
+                            "en": f"{target_count} elevated northward samples show stronger terrain-cloud signals than the coast",
+                            "ja": f"北向き高地サンプルのうち {target_count} 点で海岸より強い地形性低層雲シグナル",
+                        }.get(lang, f"{target_count} elevated northward samples show stronger terrain-cloud signals")
+                        uncertainty_text = {
+                            "zh-TW": "這是廣角環境 proxy；不能保證雲帶正好貼住清水山／斷崖，山峰露出比例仍需現場確認",
+                            "en": "This is a broad environmental proxy; exact cloud/ridge overlap and ridge visibility remain unverified",
+                            "ja": "広域環境プロキシであり、雲と清水山・断崖の正確な重なりや稜線の露出は未確認です",
+                        }.get(lang, "Exact cloud/ridge overlap remains unverified")
+                        factors.append({"type": "plus", "key": "directional_mountain_cloud", "value": target_count, "text": cloud_text})
+                        factors.append({"type": "minus", "key": "directional_cloud_uncertainty", "value": elevated_count, "text": uncertainty_text})
                 else:
                     status_key = indicator_key = "OPPORTUNITY_MATCH"
                     condition_state = "dedicated_conditions_match"
