@@ -101,6 +101,10 @@ OPTIONAL_DIRECTIONAL_MIST_PROFILES = {
         "bearings_deg": (330.0, 0.0, 30.0),
         "sample_distances_km": (2.5, 5.0),
         "min_misty_targets": 1,
+        # Negative evidence should cover a meaningful part of the broad
+        # north sector, not just two surviving samples on one bearing.
+        "min_negative_evidence_targets": 4,
+        "min_negative_evidence_bearings": 2,
     },
 }
 
@@ -419,9 +423,17 @@ def _evaluate_directional_mist_sector(config, observation):
 
     required = min(int(config.get("min_misty_targets", 1)), len(valid_targets))
     eligible = len(directional_targets) >= required
+    clear_bearings = {
+        int(round(float(target.get("bearing_deg")))) % 360
+        for target in clear_targets
+        if target.get("bearing_deg") is not None
+    }
+    min_negative_targets = int(config.get("min_negative_evidence_targets", 4))
+    min_negative_bearings = int(config.get("min_negative_evidence_bearings", 2))
     broad_clear_target_sector = (
-        len(valid_targets) >= 2
-        and len(clear_targets) >= max(2, math.ceil(len(valid_targets) * 2 / 3))
+        len(valid_targets) >= min_negative_targets
+        and len(clear_targets) >= math.ceil(len(valid_targets) * 2 / 3)
+        and len(clear_bearings) >= min_negative_bearings
         and len(mist_targets) == 0
     )
     return {
@@ -441,6 +453,7 @@ def _evaluate_directional_mist_sector(config, observation):
         "mist_target_count": len(mist_targets),
         "directional_mist_target_count": len(directional_targets),
         "clear_target_count": len(clear_targets),
+        "clear_bearing_count": len(clear_bearings),
         "broad_clear_target_sector": broad_clear_target_sector,
         "target_resolution": observation.get("target_resolution"),
         "exact_target_zone_verified": False,
@@ -1123,6 +1136,10 @@ def validate_spatial_weather_registry():
             errors.append(f"{oid}: invalid directional sample distance")
         if int(config.get("min_misty_targets") or 0) < 1:
             errors.append(f"{oid}: invalid directional mist target count")
+        if int(config.get("min_negative_evidence_targets") or 0) < 2:
+            errors.append(f"{oid}: invalid negative-evidence target count")
+        if int(config.get("min_negative_evidence_bearings") or 0) < 2:
+            errors.append(f"{oid}: invalid negative-evidence bearing count")
     if set(SPATIAL_WEATHER_PROFILES) & set(OPTIONAL_DIRECTIONAL_MIST_PROFILES):
         errors.append("required and optional spatial registries overlap")
     return errors
