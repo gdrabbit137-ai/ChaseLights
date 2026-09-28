@@ -14557,7 +14557,7 @@
       "spot_id": "us-017",
       "canonical_name": "聖海倫斯火山",
       "product_status": "KEEP",
-      "product_review_stage": "R4_2_B65_US_RESEARCH_BATCH04",
+      "product_review_stage": "R4_2_B90_JOHNSTON_RIDGE_ACCESS_PROVIDER",
       "research_sources": [
         {
           "authority": "USDA Forest Service — Johnston Ridge / Boundary Trail",
@@ -14583,7 +14583,7 @@
           "geometry_required": false,
           "opportunity_confidence": "high",
           "formula_status": "needs_dynamic_access_visibility_module",
-          "formula_version": "v0.04-st-helens-johnston-access-visibility-pending",
+          "formula_version": "v0.04-st-helens-johnston-wsdot-access-visibility-preview",
           "formula_confidence": 97,
           "best_time": "白天可見光；僅在Johnston Ridge實際公共進入路線恢復且官方允許時",
           "best_season": "不得由月份推定；以USFS/WSDOT即時道路與步道狀態為準",
@@ -14593,9 +14593,9 @@
               "variant_name": "Johnston Ridge火山口／Spirit Lake爆發地景",
               "condition_geometry": "{\"camera_zone\":\"Johnston Ridge Observatory / Boundary Trail Camera Zone\",\"subject\":\"Mount St. Helens crater + blast-zone landscape + Spirit Lake context\"}",
               "hard_gates": "Johnston Ridge實際公共進入路線須由官方證實開放；目前不可因天氣良好而推論可達",
-              "required_conditions": "火山口與主要爆發地景可辨；能見度足夠；低雲／降水未完全遮蔽山體",
+              "required_conditions": "Johnston Ridge 實際公共進入路線須由官方證實可用；B90 使用 WSDOT SR 504 官方專案頁作 fail-closed current-state provider。明確長期封閉可判定 closed；未來 open 僅接受新鮮且明確的現況重開文案。另需火山口與主要爆發地景可辨、能見度足夠、低雲／降水未完全遮蔽山體。",
               "boosters": "高透明度；低煙霧；側光增加火山地形層次",
-              "penalties": "SR504／步道仍封閉；濃霧／低雲遮山；強降水；野火煙霧",
+              "penalties": "SR 504／Johnston Ridge 仍封閉；官方 access 狀態不明或解析失敗；濃霧／低雲遮山；強降水；野火煙霧。良好天氣不得覆蓋 access blocker。",
               "formula_status": "research_ready_dynamic_access_visibility_provider_pending"
             }
           ],
