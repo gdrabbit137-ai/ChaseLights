@@ -144,6 +144,63 @@ jobs:
               report["taiwan_rendered_cards"] = len(cards)
               assert len(cards) == 83, f"expected 83 Taiwan cards on a forecast day, got {len(cards)}"
 
+              # B104: every active Taiwan Place publishes county/city metadata,
+              # and the second-level filter supports multi-select intersection.
+              admin_contract = driver.execute_script("""
+                const active = currentSpots.filter(s => s.active_in_catalog !== false);
+                return {
+                  missing: active.filter(s => !Array.isArray(s.admin_areas) || !s.admin_areas.length).map(s => s.spot_id),
+                  available: availableAdminAreas(),
+                  hostHidden: document.getElementById('admin-filter').hidden
+                };
+              """)
+              report["taiwan_admin_contract"] = admin_contract
+              assert admin_contract["missing"] == [], admin_contract
+              assert "花蓮縣" in admin_contract["available"], admin_contract
+              assert "台東縣" in admin_contract["available"], admin_contract
+              assert admin_contract["hostHidden"] is False, admin_contract
+
+              hualien_filter = driver.execute_script("""
+                currentAdminAreas = new Set(['花蓮縣']);
+                persistAdminAreas();
+                filterAndRender();
+                const expected = currentSpots.filter(
+                  s => s.active_in_catalog !== false &&
+                       (s.admin_areas || []).includes('花蓮縣') &&
+                       getMetric(s)
+                ).length;
+                return {expected, actual: document.querySelectorAll('#spots-container .card').length};
+              """)
+              report["hualien_filter"] = hualien_filter
+              assert hualien_filter["actual"] == hualien_filter["expected"], hualien_filter
+              assert 0 < hualien_filter["actual"] < 83, hualien_filter
+
+              multi_admin_filter = driver.execute_script("""
+                currentAdminAreas = new Set(['花蓮縣', '台東縣']);
+                persistAdminAreas();
+                filterAndRender();
+                const selected = currentAdminAreas;
+                const expected = currentSpots.filter(
+                  s => s.active_in_catalog !== false &&
+                       (s.admin_areas || []).some(a => selected.has(a)) &&
+                       getMetric(s)
+                ).length;
+                const summary = document.querySelector('#admin-filter summary')?.textContent || '';
+                return {expected, actual: document.querySelectorAll('#spots-container .card').length, summary};
+              """)
+              report["multi_admin_filter"] = multi_admin_filter
+              assert multi_admin_filter["actual"] == multi_admin_filter["expected"], multi_admin_filter
+              assert multi_admin_filter["actual"] > hualien_filter["actual"], multi_admin_filter
+              assert "2" in multi_admin_filter["summary"], multi_admin_filter
+
+              driver.execute_script("""
+                currentAdminAreas.clear();
+                persistAdminAreas();
+                filterAndRender();
+              """)
+              cards = driver.find_elements(By.CSS_SELECTOR, "#spots-container .card")
+              assert len(cards) == 83, len(cards)
+
               # B102 desktop contract: no-opportunity cards are present but
               # collapsed by default, filters stay sticky, and wide screens
               # expand to four columns.
