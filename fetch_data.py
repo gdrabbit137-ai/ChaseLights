@@ -108,6 +108,7 @@ I18N_MESSAGES = {
     "OPPORTUNITY_DATA_INSUFFICIENT": {"zh-TW": "⚠️ 此拍攝題材資料不足，暫不高分推薦", "en": "⚠️ Insufficient data for a high-confidence recommendation", "ja": "⚠️ 高信頼の推奨に必要なデータ不足"},
     "NO_VIABLE_OPPORTUNITY": {"zh-TW": "🕒 今天剩餘時段沒有合適的已研究拍攝機會", "en": "🕒 No researched shooting opportunity remains viable today", "ja": "🕒 本日の残り時間に適した調査済み撮影機会はありません"},
     "OPPORTUNITY_SIMPLE_MATCH": {"zh-TW": "✅ 此景點的基本好拍條件已成立", "en": "✅ The Place's basic good-shoot conditions are met", "ja": "✅ この場所の基本的な好条件が成立"},
+    "OPPORTUNITY_MIST_CANDIDATE": {"zh-TW": "🌫️ 晨霧候選條件出現，但霧區位置仍有不確定性", "en": "🌫️ Morning-mist candidate conditions are present, but the mist location remains uncertain", "ja": "🌫️ 朝霧候補の条件がありますが、霧の位置には不確実性があります"},
     "OPPORTUNITY_OUTSIDE_TIME_WINDOW": {"zh-TW": "🕒 天氣條件可用，但目前不在此題材的建議拍攝時段", "en": "🕒 Weather conditions are usable, but this is outside the recommended shooting time for this opportunity", "ja": "🕒 天候条件は利用可能ですが、この撮影機会の推奨時間帯ではありません"},
     "OPPORTUNITY_SIMPLE_MISS": {"zh-TW": "⚠️ 能見度、低雲或降雨條件目前不理想", "en": "⚠️ Visibility, low cloud, or precipitation is currently unfavorable", "ja": "⚠️ 視程・低雲・降水条件が現在不利"},
 
@@ -1147,6 +1148,12 @@ def _build_opportunity_runtime_diagnostics(spot, item_data):
                 "long_range_visibility_is_not_a_blocker": bool(simple.get("long_range_visibility_is_not_a_blocker")),
                 "mist_visibility_km": simple.get("mist_visibility_km"),
                 "mist_signal": simple.get("mist_signal"),
+                "mist_context": simple.get("mist_context"),
+                "mist_support_score": simple.get("mist_support_score"),
+                "mist_signal_components": simple.get("mist_signal_components"),
+                "camera_whiteout_risk": bool(simple.get("camera_whiteout_risk")),
+                "runtime_confidence_hint": simple.get("runtime_confidence_hint"),
+                "uncertain": bool(simple.get("uncertain")),
                 "modules": {simple_module: simple},
             }
         else:
@@ -1218,11 +1225,18 @@ def _score_opportunity(opportunity, theme_metric, runtime_diagnostic, lang="zh-T
                 factors = [f for f in factors if f.get("key") != "vis_low"]
                 if diag.get("mist_visibility_km") is not None and diag.get("mist_signal"):
                     mist_km = diag.get("mist_visibility_km")
-                    mist_text = {
-                        "zh-TW": f"低能見度約 {mist_km:.1f} km，符合湖岸霧景條件",
-                        "en": f"Visibility around {mist_km:.1f} km supports a lakeside-mist scene",
-                        "ja": f"視程約 {mist_km:.1f} kmで湖岸の霧景条件に適合",
-                    }.get(lang, f"Visibility around {mist_km:.1f} km supports a lakeside-mist scene")
+                    if diag.get("mist_context") == "coastal_cliff":
+                        mist_text = {
+                            "zh-TW": f"能見度約 {mist_km:.1f} km，並有雲霧佐證；進入斷崖晨霧候選範圍",
+                            "en": f"Visibility around {mist_km:.1f} km with corroborating mist signals enters the cliff-mist candidate range",
+                            "ja": f"視程約 {mist_km:.1f} kmで霧の補助シグナルがあり、断崖の朝霧候補範囲です",
+                        }.get(lang, f"Visibility around {mist_km:.1f} km with corroborating mist signals enters the cliff-mist candidate range")
+                    else:
+                        mist_text = {
+                            "zh-TW": f"低能見度約 {mist_km:.1f} km，符合湖岸霧景條件",
+                            "en": f"Visibility around {mist_km:.1f} km supports a lakeside-mist scene",
+                            "ja": f"視程約 {mist_km:.1f} kmで湖岸の霧景条件に適合",
+                        }.get(lang, f"Visibility around {mist_km:.1f} km supports a lakeside-mist scene")
                     factors.append({"type": "plus", "key": "mist_subject", "value": mist_km, "text": mist_text})
                 elif any(f.get("key") == "vis_low" for f in (theme_metric or {}).get("factors", []) or []):
                     local_text = {
@@ -1235,10 +1249,14 @@ def _score_opportunity(opportunity, theme_metric, runtime_diagnostic, lang="zh-T
                 status_key = indicator_key = "OPPORTUNITY_OUTSIDE_TIME_WINDOW"
                 condition_state = "minimum_sufficient_weather_match_outside_time_window"
                 score_confidence = "medium"
+            elif diag.get("uncertain") and diag.get("mist_context") == "coastal_cliff":
+                status_key = indicator_key = "OPPORTUNITY_MIST_CANDIDATE"
+                condition_state = "minimum_sufficient_mist_candidate_uncertain"
+                score_confidence = diag.get("runtime_confidence_hint") or "low"
             else:
                 status_key = indicator_key = "OPPORTUNITY_SIMPLE_MATCH"
                 condition_state = "minimum_sufficient_conditions_match"
-                score_confidence = "high"
+                score_confidence = diag.get("runtime_confidence_hint") or "high"
     elif policy == "prototype_pending_certification":
         score = min(base, 79)
         status_key = indicator_key = "OPPORTUNITY_PROTOTYPE"
@@ -1401,7 +1419,7 @@ def _build_open_meteo_url(spot):
     params = [
         f"latitude={lat}",
         f"longitude={lon}",
-        "hourly=temperature_2m,dew_point_2m,relative_humidity_2m,cloud_cover_low,cloud_cover_mid,cloud_cover_high,wind_speed_10m,visibility,precipitation,precipitation_probability,snowfall,snow_depth,direct_normal_irradiance,is_day",
+        "hourly=temperature_2m,dew_point_2m,relative_humidity_2m,cloud_cover_low,cloud_cover_mid,cloud_cover_high,wind_speed_10m,visibility,weather_code,precipitation,precipitation_probability,snowfall,snow_depth,direct_normal_irradiance,is_day",
         "daily=sunrise,sunset",
         "past_hours=24",
         "forecast_hours=72",
@@ -1637,6 +1655,8 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
                 "snowfall": hv("snowfall", i, None),
                 "snow_depth": hv("snow_depth", i, None),
                 "direct_normal_irradiance": hv("direct_normal_irradiance", i, None),
+                "weather_code": hv("weather_code", i, None),
+                "weather_code_available": hv("weather_code", i, None) is not None,
                 "vis": hv("visibility", i, 10000),
                 "vis_available": hv("visibility", i, None) is not None,
                 "rh": hv("relative_humidity_2m", i, 50),
@@ -1790,6 +1810,7 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
                 "snowfall": item_data["snowfall"],
                 "snow_depth": item_data["snow_depth"],
                 "direct_normal_irradiance": item_data["direct_normal_irradiance"],
+                "weather_code": item_data["weather_code"],
                 "marine_forecast": item_data["marine_forecast"],
                 "tide_forecast": item_data["tide_forecast"],
                 "visibility": round(float(item_data["vis"]) / 1000, 1),
