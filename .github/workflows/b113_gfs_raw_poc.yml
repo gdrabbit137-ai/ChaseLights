@@ -1,0 +1,64 @@
+name: B113 GFS Raw Data POC
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "gfs_raw_poc.py"
+      - "test_gfs_raw_poc.py"
+      - ".github/workflows/b113_gfs_raw_poc.yml"
+      - "GFS_RAW_DATA_POC.md"
+  workflow_dispatch:
+    inputs:
+      forecast_hour:
+        description: "GFS forecast hour to render"
+        required: false
+        default: "0"
+
+permissions:
+  contents: read
+
+jobs:
+  contract-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout candidate
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Run offline unit tests
+        run: python -m unittest -v test_gfs_raw_poc.py
+
+  live-poc:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install GFS POC dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install requests xarray cfgrib eccodes numpy matplotlib
+
+      - name: Fetch NOAA GFS subset and render Taiwan low cloud
+        run: |
+          python gfs_raw_poc.py             --forecast-hour "${{ inputs.forecast_hour }}"             --output-dir gfs_poc_output
+
+      - name: Upload POC artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: gfs-taiwan-low-cloud
+          path: gfs_poc_output/
+          if-no-files-found: error
