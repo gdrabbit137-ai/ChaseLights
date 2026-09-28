@@ -606,7 +606,63 @@ def test_adapter_integrity():
     assert qingshui_no_direction_eval["reason"] == "directional_mist_not_distinguished_from_camera"
     assert qingshui_no_direction_eval["mist_target_count"] == 0
     assert qingshui_no_direction_eval["clear_target_count"] == 6
+    assert qingshui_no_direction_eval["clear_bearing_count"] == 3
     assert qingshui_no_direction_eval["broad_clear_target_sector"] is True
+
+    # A couple of surviving clear samples on one bearing are not enough to
+    # veto the B81 fallback. Negative evidence must cover a meaningful part of
+    # the broad 330°/0°/30° sector.
+    qingshui_partial_clear_raw = []
+    clear_target_seen = 0
+    for point in qingshui_plan["points"]:
+        if point["role"] == "camera":
+            vis, rh, low, weather_code = 800, 77, 27, 1
+        elif int(point.get("bearing_deg", -1)) % 360 == 330:
+            vis, rh, low, weather_code = 20000, 75, 10, 0
+            clear_target_seen += 1
+        else:
+            vis, rh, low, weather_code = None, None, None, None
+        qingshui_partial_clear_raw.append({
+            "elevation": 150,
+            "hourly": {
+                "time": [qingshui_ts],
+                "temperature_2m": [25.3],
+                "dew_point_2m": [21.0],
+                "relative_humidity_2m": [rh],
+                "cloud_cover_low": [low],
+                "visibility": [vis],
+                "weather_code": [weather_code],
+                "precipitation": [0.0],
+                "wind_speed_10m": [1.0],
+            },
+        })
+    assert clear_target_seen == 2
+    qingshui_partial_clear_obs = spatial_observations_for_timestamp(
+        index_spatial_response(qingshui_plan, qingshui_partial_clear_raw), qingshui_ts
+    )
+    qingshui_partial_clear_eval = evaluate_spatial_weather(
+        qingshui_by_id["tw-034-P03"], {"spatial_weather": qingshui_partial_clear_obs}
+    )
+    assert qingshui_partial_clear_eval["available"] is True
+    assert qingshui_partial_clear_eval["eligible"] is False
+    assert qingshui_partial_clear_eval["clear_target_count"] == 2
+    assert qingshui_partial_clear_eval["clear_bearing_count"] == 1
+    assert qingshui_partial_clear_eval["broad_clear_target_sector"] is False
+
+    qingshui_partial_candidate = evaluate_minimum_sufficient_visibility(
+        qingshui_by_id["tw-034-P03"],
+        {
+            "local_date": "2026-09-28", "local_time": "07:00", "local_month": 9,
+            "vis": 800, "rh": 77, "c_low": 27, "cloud_base_agl": 550,
+            "temp": 25.3, "dew": 21.0, "weather_code": 1,
+            "pop": 0, "precipitation": 0.0, "access_open": True,
+            "spatial_weather": qingshui_partial_clear_obs,
+        },
+    )
+    assert qingshui_partial_candidate["eligible"] is True
+    assert qingshui_partial_candidate["reason"] == "coastal_cliff_visibility_only_candidate"
+    assert qingshui_partial_candidate["score_hint"] == 68
+    assert qingshui_partial_candidate["directional_mist_negative_evidence"] is False
 
     # B93: each broad north-sector bearing must independently be capable of
     # supplying directional context. This guards against list-order coupling.
