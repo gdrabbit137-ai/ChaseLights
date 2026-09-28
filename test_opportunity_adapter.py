@@ -1965,6 +1965,96 @@ def test_adapter_integrity():
     assert spatial_eval["exact_target_zone_verified"] is False
     assert spatial_eval["target_resolution"] == "radial_lower_terrain_proxy_not_exact_target_zone"
 
+    # B94: Hehuan Main Peak cloud sea must not inherit an artificially weak
+    # camera-point cloud_sea baseline after the dedicated spatial contract
+    # detects clear summit / cloudier lower terrain. The multi-point ring is
+    # still only an environmental proxy, so keep the result in the mid band.
+    hehuan = next(s for s in tw if s["spot_id"] == "tw-019")
+    hehuan_cloud_sea = next(
+        o for o in hehuan["opportunities"] if o["opportunity_id"] == "tw-019-P04"
+    )
+    assert hehuan_cloud_sea["runtime_policy"] == "preview_module_available"
+    hehuan_plan = build_spatial_request_plan(hehuan)
+    assert "tw-019-P04" in hehuan_plan["profiles"]
+    hehuan_raw = []
+    hehuan_ts = ts + 3600
+    lower_seen = 0
+    for point in hehuan_plan["points"]:
+        if point["role"] == "camera":
+            elevation, vis, rh, low, temp, dew = 3417, 64100, 63, 0, 1.7, -4.6
+        else:
+            lower_seen += 1
+            if lower_seen <= 2:
+                elevation, vis, rh, low, temp, dew = 2200, 4500, 92, 82, 8.0, 7.0
+            else:
+                elevation, vis, rh, low, temp, dew = 2700, 18000, 72, 15, 7.0, 2.0
+        hehuan_raw.append({
+            "elevation": elevation,
+            "hourly": {
+                "time": [hehuan_ts],
+                "temperature_2m": [temp],
+                "dew_point_2m": [dew],
+                "relative_humidity_2m": [rh],
+                "cloud_cover_low": [low],
+                "visibility": [vis],
+                "precipitation": [0.0],
+                "wind_speed_10m": [0.4],
+            },
+        })
+    hehuan_obs = spatial_observations_for_timestamp(
+        index_spatial_response(hehuan_plan, hehuan_raw), hehuan_ts
+    )
+    hehuan_spatial = evaluate_spatial_weather(
+        hehuan_cloud_sea, {"spatial_weather": hehuan_obs}
+    )
+    assert hehuan_spatial["available"] is True
+    assert hehuan_spatial["eligible"] is True
+    assert hehuan_spatial["reason"] == "camera_clear_lower_cloud_detected"
+    assert hehuan_spatial["cloud_evidence_target_count"] == 2
+    hehuan_runtime = evaluate_opportunity_modules(
+        hehuan_cloud_sea, {"spatial_weather": hehuan_obs}
+    )
+    assert hehuan_runtime["available"] is True
+    assert hehuan_runtime["eligible"] is True
+    hehuan_scored = fetch_data._score_opportunity(
+        hehuan_cloud_sea,
+        {
+            "score": 48,
+            "status_key": "CLOUD_SEA_DRY",
+            "indicator_key": "IND_DRY_AIR",
+            "factors": [
+                {"type": "plus", "key": "vis_good", "value": 64.1, "text": "能見度 64.1 km"},
+                {"type": "plus", "key": "calm", "value": 0.4, "text": "風速僅 0.4 m/s"},
+            ],
+            "temporal_eligible": True,
+        },
+        hehuan_runtime,
+        "zh-TW",
+    )
+    assert hehuan_scored["score"] == 72
+    assert hehuan_scored["status_key"] == "OPPORTUNITY_SPATIAL_CLOUD_SEA_CANDIDATE"
+    assert hehuan_scored["condition_state"] == "spatial_cloud_sea_candidate"
+    assert hehuan_scored["score_confidence"] == "medium"
+    assert any(f.get("key") == "spatial_cloud_sea_support" for f in hehuan_scored["factors"])
+    assert any(f.get("key") == "spatial_cloud_sea_uncertainty" for f in hehuan_scored["factors"])
+
+    # Before civil twilight, even identical spatial weather must remain outside
+    # the visible cloud-sea window and must not receive the B94 candidate floor.
+    hehuan_dark = fetch_data._score_opportunity(
+        hehuan_cloud_sea,
+        {
+            "score": 38,
+            "status_key": "CLOUD_SEA_OUTSIDE",
+            "indicator_key": "IND_CLOUD_SEA_OUTSIDE",
+            "factors": [],
+            "temporal_eligible": False,
+        },
+        hehuan_runtime,
+        "zh-TW",
+    )
+    assert hehuan_dark["score"] == 38
+    assert hehuan_dark["status_key"] == "OPPORTUNITY_OUTSIDE_TIME_WINDOW"
+
     p02_full = evaluate_opportunity_modules(p02_spatial, {
         "spatial_weather": spatial_obs,
         "astronomy_valid": True,
