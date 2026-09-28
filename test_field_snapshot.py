@@ -550,6 +550,8 @@ def test_real_qingshui_0600_revision_series_stability():
     assert summary["first_lead_time_seconds"] == 15714
     assert summary["last_lead_time_seconds"] == 11233
     assert summary["transition_count"] == 4
+    assert summary["camera_raw_revision_count"] == 4
+    assert summary["spatial_raw_revision_count"] == 4
     assert summary["normalized_input_revision_count"] == 0
     assert summary["metric_revision_count"] == 0
     assert summary["recorded_opportunity_revision_count"] == 0
@@ -569,6 +571,9 @@ def test_real_qingshui_0600_revision_series_stability():
     assert opportunity_segment["capture_count"] == 5
     assert opportunity_segment["span_seconds"] == 4481
     assert opportunity_segment["latest_capture_lead_time_seconds"] == 11233
+    assert summary["transition_classification_counts"] == {
+        "provider_payload_revision_without_selected_input_change": 4
+    }
 
 
 def main():
