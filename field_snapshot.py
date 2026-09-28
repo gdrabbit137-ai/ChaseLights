@@ -584,6 +584,30 @@ def _value_change(old, new):
     return change
 
 
+def _current_stable_segment(rows, transitions, changed_key):
+    start_index = 0
+    for index, transition in enumerate(transitions):
+        changed = transition[changed_key]
+        if isinstance(changed, dict):
+            changed = bool(changed)
+        if changed:
+            start_index = index + 1
+    start = rows[start_index]
+    end = rows[-1]
+    return {
+        "from_snapshot_id": start["snapshot_id"],
+        "to_snapshot_id": end["snapshot_id"],
+        "capture_count": len(rows) - start_index,
+        "span_seconds": int(
+            (
+                _offset_aware_iso(end["captured_at"]).astimezone(timezone.utc)
+                - _offset_aware_iso(start["captured_at"]).astimezone(timezone.utc)
+            ).total_seconds()
+        ),
+        "latest_capture_lead_time_seconds": end["lead_time_seconds"],
+    }
+
+
 def _revision_stability_summary(rows, transitions):
     classifications = {}
     for row in transitions:
@@ -630,6 +654,12 @@ def _revision_stability_summary(rows, transitions):
             row["model_contract_changed"] for row in transitions
         ),
         "transition_classification_counts": classifications,
+        "current_selected_input_stable_segment": _current_stable_segment(
+            rows, transitions, "normalized_input_changed"
+        ),
+        "current_recorded_opportunity_stable_segment": _current_stable_segment(
+            rows, transitions, "opportunity_changes"
+        ),
     }
 
 
