@@ -595,6 +595,139 @@ def test_adapter_integrity():
     assert qingshui_no_direction_eval["eligible"] is False
     assert qingshui_no_direction_eval["reason"] == "directional_mist_not_distinguished_from_camera"
 
+    # B91: every verified north-sector proxy bearing (330 / 0 / 30) must be
+    # capable of supplying directional context. This guards against accidental
+    # dependence on list order or only one of the three bearings.
+    for promoted_bearing in (330, 0, 30):
+        bearing_raw = []
+        for point in qingshui_plan["points"]:
+            if point["role"] == "camera":
+                vis, rh, low, weather_code = 20000, 75, 10, 0
+            elif (
+                int(point.get("bearing_deg", -1)) % 360 == promoted_bearing
+                and float(point.get("distance_km", 0)) == 2.5
+            ):
+                vis, rh, low, weather_code = 2500, 93, 70, 45
+            else:
+                vis, rh, low, weather_code = 18000, 77, 15, 0
+            bearing_raw.append({
+                "elevation": 150,
+                "hourly": {
+                    "time": [qingshui_ts],
+                    "temperature_2m": [24.0],
+                    "dew_point_2m": [20.0],
+                    "relative_humidity_2m": [rh],
+                    "cloud_cover_low": [low],
+                    "visibility": [vis],
+                    "weather_code": [weather_code],
+                    "precipitation": [0.0],
+                    "wind_speed_10m": [1.0],
+                },
+            })
+        bearing_obs = spatial_observations_for_timestamp(
+            index_spatial_response(qingshui_plan, bearing_raw), qingshui_ts
+        )
+        bearing_eval = evaluate_spatial_weather(
+            qingshui_by_id["tw-034-P03"], {"spatial_weather": bearing_obs}
+        )
+        assert bearing_eval["eligible"] is True, promoted_bearing
+        assert bearing_eval["reason"] == "directional_mist_signal_detected"
+        assert bearing_eval["directional_mist_target_count"] >= 1
+
+    # B91 bug regression: a fog weather-code at the target is NOT directional
+    # evidence when the camera reports the same fog state and there is no
+    # visibility / low-cloud / RH contrast. B82 promises camera-vs-sector
+    # contrast, not merely "fog exists somewhere in all sampled grids".
+    same_fog_raw = []
+    for point in qingshui_plan["points"]:
+        same_fog_raw.append({
+            "elevation": 150,
+            "hourly": {
+                "time": [qingshui_ts],
+                "temperature_2m": [23.0],
+                "dew_point_2m": [22.0],
+                "relative_humidity_2m": [93],
+                "cloud_cover_low": [70],
+                "visibility": [3000],
+                "weather_code": [45],
+                "precipitation": [0.0],
+                "wind_speed_10m": [1.0],
+            },
+        })
+    same_fog_obs = spatial_observations_for_timestamp(
+        index_spatial_response(qingshui_plan, same_fog_raw), qingshui_ts
+    )
+    same_fog_eval = evaluate_spatial_weather(
+        qingshui_by_id["tw-034-P03"], {"spatial_weather": same_fog_obs}
+    )
+    assert same_fog_eval["available"] is True
+    assert same_fog_eval["eligible"] is False
+    assert same_fog_eval["reason"] == "directional_mist_not_distinguished_from_camera"
+    assert same_fog_eval["mist_target_count"] == 6
+    assert same_fog_eval["directional_mist_target_count"] == 0
+    assert same_fog_eval["camera_weather_code"] == 45
+
+    # B91 transition regression for the investigated 2026-09-28 scenario:
+    # low but non-whiteout visibility may leave P03 as a low-confidence 68
+    # candidate; when visibility recovers later in the morning, P03 must drop
+    # out and the original clear-cliff P02 must become the higher-scoring
+    # Opportunity again.
+    qingshui_low_transition_data = {
+        "local_date": "2026-09-28", "local_time": "07:00", "local_month": 9,
+        "vis": 800, "rh": 77, "c_low": 27, "cloud_base_agl": 550,
+        "temp": 25.3, "dew": 21.0, "weather_code": 1,
+        "pop": 0, "precipitation": 0.0, "access_open": True,
+    }
+    low_transition_runtime = fetch_data._build_opportunity_runtime_diagnostics(
+        {"opportunities": [qingshui_by_id["tw-034-P02"], qingshui_by_id["tw-034-P03"]]},
+        qingshui_low_transition_data,
+    )
+    low_transition_scores = {
+        "tw-034-P02": fetch_data._score_opportunity(
+            qingshui_by_id["tw-034-P02"],
+            {"score": 35, "factors": [], "temporal_eligible": True},
+            low_transition_runtime["tw-034-P02"],
+        ),
+        "tw-034-P03": fetch_data._score_opportunity(
+            qingshui_by_id["tw-034-P03"],
+            {"score": 85, "factors": [], "temporal_eligible": True},
+            low_transition_runtime["tw-034-P03"],
+        ),
+    }
+    assert low_transition_scores["tw-034-P03"]["score"] == 68
+    assert low_transition_scores["tw-034-P03"]["score_confidence"] == "low"
+    assert max(low_transition_scores, key=lambda oid: low_transition_scores[oid]["score"]) == "tw-034-P03"
+
+    qingshui_recovered_transition_data = {
+        "local_date": "2026-09-28", "local_time": "09:00", "local_month": 9,
+        "vis": 29600, "rh": 74, "c_low": 0, "cloud_base_agl": 637,
+        "temp": 28.2, "dew": 23.2, "weather_code": 0,
+        "pop": 0, "precipitation": 0.0, "access_open": True,
+    }
+    recovered_transition_runtime = fetch_data._build_opportunity_runtime_diagnostics(
+        {"opportunities": [qingshui_by_id["tw-034-P02"], qingshui_by_id["tw-034-P03"]]},
+        qingshui_recovered_transition_data,
+    )
+    recovered_transition_scores = {
+        "tw-034-P02": fetch_data._score_opportunity(
+            qingshui_by_id["tw-034-P02"],
+            {"score": 93, "factors": [], "temporal_eligible": True},
+            recovered_transition_runtime["tw-034-P02"],
+        ),
+        "tw-034-P03": fetch_data._score_opportunity(
+            qingshui_by_id["tw-034-P03"],
+            {"score": 40, "factors": [], "temporal_eligible": True},
+            recovered_transition_runtime["tw-034-P03"],
+        ),
+    }
+    assert recovered_transition_runtime["tw-034-P03"]["eligible"] is False
+    assert recovered_transition_runtime["tw-034-P03"]["reason"] == "visibility_too_high_for_mist_subject"
+    assert recovered_transition_scores["tw-034-P02"]["score"] == 93
+    assert max(
+        recovered_transition_scores,
+        key=lambda oid: recovered_transition_scores[oid]["score"],
+    ) == "tw-034-P02"
+
     # B83: Qixingtan northward mountain-cloud subject uses a REQUIRED
     # directional spatial-weather contract. The camera/coast must remain clear
     # while multiple materially elevated northward proxy samples become
