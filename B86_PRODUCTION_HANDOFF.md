@@ -179,6 +179,37 @@ Interpretation:
 - this matches the field photo substantially better than the old 14-point sunrise-only result.
 - the cloud-band score is deliberately lower than the general mountain-seascape score because the cloud band itself is not directly resolved by the forecast grid.
 
+## B86 — structured field-validation registry
+
+B86 adds the first reusable field-validation infrastructure:
+
+- `field_validation_registry_r4_2.json` — canonical structured field cases
+- `field_validation.py` — schema / integrity validator
+- `B86_FIELD_VALIDATION_REGISTRY.md` — registry contract and privacy boundary
+- Adapter CI now compiles the validator and validates registry references against the canonical Place / Opportunity catalog.
+
+First registered case:
+- `FV-TW-036-20260928-1300-01`
+- Place: `tw-036`
+- time: 2026-09-28 13:00 Asia/Taipei
+- camera direction: north
+- source: user field observation / photograph
+- repository publication: structured metadata only; user image not committed
+- observed: coast clear, northward mountains readable, terrain-attached cloud band visible, ridge partly visible, no local whiteout
+- expected current behavior: P04 strong mountain-seascape match; P03 must be at least a low-confidence cloud candidate rather than a hard false negative.
+
+Important boundary:
+- field cases validate runtime behavior,
+- they do not admit new Place-specific subjects,
+- captured weather values are historical snapshots and must never be surfaced as current forecasts,
+- public storage of a user image requires explicit authorization metadata.
+
+Post-B86 registry validation:
+- PR #148 — MERGED
+- merge commit: `55aee9ffbdf61ed1d7535c1988fb7c8a662a048e`
+- PR Adapter CI — PASS
+- post-merge Adapter CI — PASS
+
 ## Important UI behavior after B85
 
 The Place research panel already ranks and displays all researched Opportunities and their day scores, so P03 and P04 can both be inspected.
@@ -200,15 +231,17 @@ If future usability tests show users regularly miss a meaningful secondary subje
 
 ## Next-work queue
 
-### 1. Accumulate Qixingtan ground-truth cases
+### 1. Accumulate Qixingtan ground-truth cases in the B86 registry
+
+Add future cases to `field_validation_registry_r4_2.json` and keep `validate_field_validation_registry() == []`.
 
 For future field checks, record:
 - local time,
 - shooting direction,
 - whether mountains are fully readable / partly obscured / white-out,
 - whether a distinct terrain-attached cloud band exists,
-- optional photo,
-- production P03/P04 diagnostics at that hour.
+- structured production P03/P04 diagnostics at that hour,
+- optional image only when publication is explicitly authorized.
 
 Prioritize both positives and negatives. False positives are more important than further score inflation.
 
