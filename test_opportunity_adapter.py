@@ -566,6 +566,84 @@ def test_adapter_integrity():
     assert any(f.get("key") == "directional_mountain_cloud" for f in qixingtan_score["factors"])
     assert any(f.get("key") == "directional_cloud_uncertainty" for f in qixingtan_score["factors"])
 
+    # B85: field-case-style grid miss. The cloud band itself is not directly
+    # resolved by low-cloud/RH thresholds, but the clear coast + low LCL proxy +
+    # strong visibility collapse on elevated terrain supports only a LOW-
+    # confidence orographic-cloud candidate. It must be capped below 80.
+    qixingtan_proxy_raw = []
+    for point in qixingtan_plan["points"]:
+        if point["role"] == "camera":
+            elev, vis, rh, low, weather_code = 14, 27000, 72, 2, 1
+        elif point.get("distance_km", 0) >= 15 and int(point.get("bearing_deg", 0)) % 360 in {350, 5}:
+            elev = 1670 if point.get("distance_km", 0) >= 22 else 900
+            if int(point.get("bearing_deg", 0)) % 360 == 350 and int(point.get("distance_km", 0)) == 15:
+                vis, rh, low, weather_code = 5600, 74, 24, 2
+            else:
+                vis, rh, low, weather_code = 17000, 72, 1, 1
+        else:
+            elev, vis, rh, low, weather_code = 120, 24000, 72, 1, 1
+        qixingtan_proxy_raw.append({
+            "elevation": elev,
+            "hourly": {
+                "time": [qixingtan_ts],
+                "temperature_2m": [30.0],
+                "dew_point_2m": [24.4],
+                "relative_humidity_2m": [rh],
+                "cloud_cover_low": [low],
+                "visibility": [vis],
+                "weather_code": [weather_code],
+                "precipitation": [0.0],
+                "wind_speed_10m": [1.5],
+            },
+        })
+
+    qixingtan_proxy_obs = spatial_observations_for_timestamp(
+        index_spatial_response(qixingtan_plan, qixingtan_proxy_raw), qixingtan_ts
+    )
+    qixingtan_proxy_eval = evaluate_spatial_weather(
+        qixingtan_cloud,
+        {"spatial_weather": qixingtan_proxy_obs, "cloud_base_agl": 699},
+    )
+    assert qixingtan_proxy_eval["available"] is True
+    assert qixingtan_proxy_eval["eligible"] is True
+    assert qixingtan_proxy_eval["reason"] == "orographic_cloud_proxy_candidate"
+    assert qixingtan_proxy_eval["direct_cloud_signal"] is False
+    assert qixingtan_proxy_eval["orographic_proxy_candidate"] is True
+    assert qixingtan_proxy_eval["terrain_lcl_intersection_target_count"] >= 2
+    assert qixingtan_proxy_eval["terrain_lcl_intersection_bearing_count"] >= 2
+    assert qixingtan_proxy_eval["readable_elevated_target_count"] >= 2
+    assert qixingtan_proxy_eval["readable_elevated_bearing_count"] >= 2
+    assert qixingtan_proxy_eval["elevated_target_min_visibility_km"] == 5.6
+    assert qixingtan_proxy_eval["elevated_target_min_visibility_ratio"] <= 0.30
+    assert qixingtan_proxy_eval["elevated_target_max_low_cloud_pct"] == 24
+    assert qixingtan_proxy_eval["confidence_hint"] == "low"
+
+    qixingtan_proxy_runtime = evaluate_opportunity_modules(
+        qixingtan_cloud,
+        {"spatial_weather": qixingtan_proxy_obs, "cloud_base_agl": 699},
+    )
+    qixingtan_proxy_score = fetch_data._score_opportunity(
+        qixingtan_cloud,
+        {
+            "score": 86,
+            "factors": [
+                {"type": "plus", "key": "vis_good", "value": 27.0, "text": "能見度 27.0 km"},
+                {"type": "plus", "key": "low_cloud", "value": 2, "text": "低雲僅 2%"},
+            ],
+            "status_key": "MOUNTAIN_EXCELLENT_DAY",
+            "indicator_key": "IND_PEAKS",
+            "temporal_eligible": True,
+        },
+        qixingtan_proxy_runtime,
+        "zh-TW",
+    )
+    assert qixingtan_proxy_score["score"] == 78
+    assert qixingtan_proxy_score["status_key"] == "OPPORTUNITY_OROGRAPHIC_CLOUD_PROXY"
+    assert qixingtan_proxy_score["condition_state"] == "orographic_cloud_proxy_candidate"
+    assert qixingtan_proxy_score["score_confidence"] == "low"
+    assert any(f.get("key") == "orographic_cloud_proxy" for f in qixingtan_proxy_score["factors"])
+    assert any(f.get("key") == "orographic_cloud_proxy_uncertainty" for f in qixingtan_proxy_score["factors"])
+
     qixingtan_view_eval = evaluate_spatial_weather(
         qixingtan_view,
         {"spatial_weather": qixingtan_spatial_obs},
