@@ -40,7 +40,9 @@ TAIWAN_BBOX = {
 }
 
 REQUEST_VARIABLES = {
-    "var_TCDC": "on",
+    # GFS publishes low-cloud cover as LCDC on the low-cloud layer. TCDC is
+    # total cloud cover and does not form the requested field/level pair.
+    "var_LCDC": "on",
     "lev_low_cloud_layer": "on",
 }
 
@@ -144,8 +146,9 @@ def download_grib(
             # explanatory HTML/text body with HTTP 200 for an unavailable file.
             if len(payload) < 16 or payload[:4] != b"GRIB":
                 raise RuntimeError(
-                    f"response is not GRIB2 ({len(payload)} bytes, "
-                    f"prefix={payload[:24]!r})"
+                    f"response is not GRIB2 (status={response.status_code}, "
+                    f"content_type={response.headers.get('content-type')!r}, "
+                    f"bytes={len(payload)}, prefix={payload[:80]!r})"
                 )
             destination.write_bytes(payload)
             return run, url

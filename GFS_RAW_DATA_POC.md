@@ -18,9 +18,9 @@ No production score or Opportunity logic is changed in this batch.
 
 GFS is global, open, documented, and available through NOAA NOMADS. NOMADS Grib Filter supports coordinate-based regional subsetting so ChaseLights does not need to download the full global GRIB2 file.
 
-The POC requests only:
+The POC requests only the GFS low-cloud field/level pair:
 
-- `TCDC`
+- `LCDC`
 - `low cloud layer`
 - Taiwan bounding box: 117.5–123.5°E, 20.5–26.75°N
 
