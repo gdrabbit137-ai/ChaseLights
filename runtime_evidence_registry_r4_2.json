@@ -1469,13 +1469,14 @@
           "url": "https://www.taroko.gov.tw/ch/sglarticle/transportation-and-trails"
         }
       ],
-      "forecast_boundary": "官方證據只證明清水斷崖存在晨霧／雲霧攝影題材及崇德觀景區可觀看斷崖；官方資料亦描述崇德一帶向北眺望清水斷崖。B82/B87/B88/B93 runtime 以北向 330°/0°/30° 廣角環境 proxy 格點與拍攝點格點比較；只有 target sector 相對 camera 有實質霧況差異時才可提高方向性候選信心。target 與 camera 同為霧碼、且 visibility／低雲／RH 無實質差異時，不得把廣域霧誤當作斷崖方向霧帶。若拍攝點能見度低於 2.5 km 的保守構圖可讀門檻，最終 Opportunity 分數封頂 68，不得被 generic Theme baseline 拉回 80+，因為斷崖／山壁／海岸可能無法保留足夠輪廓。2.5 km 是依目前最近的 directional proxy range 設定的保守規劃門檻，不是宣稱斷崖的實際距離。拍攝點白牆仍 veto；多點資料暫缺時回退到低信心單點候選。",
+      "forecast_boundary": "官方證據只證明清水斷崖存在晨霧／雲霧攝影題材及崇德觀景區可觀看斷崖；官方資料亦描述崇德一帶向北眺望清水斷崖。B82/B87/B88/B93/B94 runtime 以北向 330°/0°/30° 廣角環境 proxy 格點與拍攝點格點比較；只有 target sector 相對 camera 有實質霧況差異時才可提高方向性候選信心。target 與 camera 同為霧碼、且 visibility／低雲／RH 無實質差異時，不得把廣域霧誤當作斷崖方向霧帶。若多點資料缺失／不足／不具結論性，仍可回退 B81 低信心單點候選；若 330°/0°/30° × 2.5/5 km proxy 資料完整，至少三分之二有效目標格點保守判定為清楚，且零目標格點符合霧訊號，則視為 negative spatial evidence 並否決 P03，避免把拍攝點局部霧霾誤判成斷崖晨霧。若拍攝點能見度低於 2.5 km 的保守構圖可讀門檻，最終 Opportunity 分數封頂 68，不得被 generic Theme baseline 拉回 80+。2.5 km 是依目前最近的 directional proxy range 設定的保守規劃門檻，不是宣稱斷崖的實際距離。拍攝點白牆仍 veto。",
       "runtime_enrichment": {
-        "version": "B93_directional_contrast_hardening_plus_B88_readability_cap",
+        "version": "B94_directional_contrast_plus_negative_spatial_evidence_veto",
         "status": "optional_context",
         "camera_vs_target_sector": true,
         "exact_target_zone_verified": false,
-        "fallback": "B81_single_point_low_confidence_candidate",
+        "fallback": "B81_single_point_low_confidence_candidate_only_when_spatial_missing_or_inconclusive",
+        "negative_spatial_evidence_veto": "broad_clear_north_sector_with_zero_mist_targets",
         "direction_basis": "official_Chongde_northward_Qingshui_Cliff_view",
         "direction_sector_deg": [
           330,
@@ -1497,7 +1498,8 @@
         "status_semantics": {
           "directional_supported": "OPPORTUNITY_DIRECTIONAL_MIST_CANDIDATE",
           "local_multi_signal_supported": "OPPORTUNITY_MIST_SUPPORTED",
-          "uncertain_or_readability_limited": "OPPORTUNITY_MIST_CANDIDATE"
+          "uncertain_or_readability_limited": "OPPORTUNITY_MIST_CANDIDATE",
+          "broad_clear_target_sector": "P03_ineligible"
         }
       }
     },
