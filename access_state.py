@@ -7,7 +7,7 @@ ready only after an authoritative provider/rule is connected for that profile.
 Unknown or stale access data must never be interpreted as open.
 """
 
-ACCESS_STATE_VERSION = "dynamic-access-foundation-r4-johnston-ridge-preview"
+ACCESS_STATE_VERSION = "dynamic-access-foundation-r5-denali-mountain-vista-preview"
 
 ACCESS_REQUIREMENTS = {
     "event_access_control": {
@@ -135,6 +135,8 @@ ACCESS_DEPENDENT_PROFILE_IDS = frozenset(ACCESS_PROFILE_CLASSIFICATION)
 # profiles remain blocked until their own provider is implemented.
 ACCESS_RUNTIME_READY_PROFILES = frozenset({
     "us-017-P01",
+    "us-041-P01",
+    "us-041-P02",
     "jp-021-P01",
     "jp-021-P02",
     "jp-022-P01",
@@ -245,10 +247,10 @@ OFFICIAL_SOURCE_HINTS = {
     },
     "us-041": {
         "authority": "U.S. National Park Service",
-        "source_kind": "denali_mountain_vista_park_road_current_access",
-        "url": "https://www.nps.gov/dena/planyourvisit/mountain-vista.htm",
-        "verified_on": "2026-09-27",
-        "note": "Mountain Vista is the researched Denali Camera Zone near Mile 13. Vehicle access is weather and road-status dependent and can change on short notice. Favorable forecast weather, season, or an aurora forecast must not be treated as proof that Mountain Vista is currently reachable.",
+        "source_kind": "denali_current_park_road_conditions",
+        "url": "https://www.nps.gov/dena/planyourvisit/conditions.htm",
+        "verified_on": "2026-09-28",
+        "note": "B91 connects the official Denali Current Conditions page as a fail-closed provider for Mountain Vista. Explicit current road-open language reaching/passing Mile 13 can prove short-lived access; an explicit closure at/before Park Headquarters blocks it. Closures farther west such as Mile 43 do not by themselves block the Mountain Vista Camera Zone. Favorable weather or aurora never proves access.",
     },
     "us-038": {
         "authority": "U.S. National Park Service",
