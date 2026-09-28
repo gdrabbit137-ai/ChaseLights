@@ -1226,6 +1226,12 @@ def _score_opportunity(opportunity, theme_metric, runtime_diagnostic, lang="zh-T
                 # a quality penalty. Do not let the legacy mountain-view
                 # compatibility baseline suppress that verified outcome.
                 score = max(score, int(round(float(score_hint))))
+            if diag.get("subject_readability_uncertain"):
+                # B88 hardening: the B87 readability guard is a true ceiling,
+                # not merely a minimum-sufficient hint. A strong generic Theme
+                # baseline must never lift an unreadable cliff-mist candidate
+                # back into the 80+ recommendation band.
+                score = min(score, 68)
             if diag.get("long_range_visibility_is_not_a_blocker"):
                 # Remove the legacy generic visibility penalty when a researched
                 # subject has its own interpretation of reduced visibility.
