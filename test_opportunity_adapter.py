@@ -366,6 +366,12 @@ def test_adapter_integrity():
     qingshui_spot = next(s for s in tw if s["spot_id"] == "tw-034")
     qingshui_plan = build_spatial_request_plan(qingshui_spot)
     assert set(qingshui_plan["profiles"]) == {"tw-034-P03"}
+    qingshui_target_bearings = sorted({
+        int(p["bearing_deg"]) % 360
+        for p in qingshui_plan["points"]
+        if p.get("role") == "directional_mist_proxy"
+    })
+    assert qingshui_target_bearings == [0, 30, 330]
     assert len(qingshui_plan["points"]) == 7
     assert qingshui_plan["profiles"]["tw-034-P03"]["target_resolution"] == (
         "directional_sector_environment_proxy_not_exact_cliff_or_mist_location"
