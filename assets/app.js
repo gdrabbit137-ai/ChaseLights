@@ -150,12 +150,12 @@
     function renderAdminFilter(){
       const host=document.getElementById('admin-filter');if(!host)return;
       const areas=availableAdminAreas();
-      if(currentRegion!=='tw'||areas.length<=1){
-        host.hidden=true;host.innerHTML='';return;
-      }
       const available=new Set(areas);
       const next=new Set([...currentAdminAreas].filter(a=>available.has(a)));
       if(next.size!==currentAdminAreas.size){currentAdminAreas=next;persistAdminAreas();}
+      if(currentRegion!=='tw'||areas.length<=1){
+        host.hidden=true;host.innerHTML='';return;
+      }
       const counts={};const base=categoryBaseSpots();
       areas.forEach(a=>counts[a]=base.filter(s=>(s.admin_areas||[]).includes(a)).length);
       const summary=currentAdminAreas.size?d().admin_area_selected.replace('{n}',currentAdminAreas.size):d().admin_area_all;
