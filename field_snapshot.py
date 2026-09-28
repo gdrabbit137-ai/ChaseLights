@@ -536,6 +536,174 @@ def capture_live(place_id, *, valid_at=None, output_dir=DEFAULT_SNAPSHOT_DIR, la
     return write_snapshot(snapshot, output_dir)
 
 
+def _snapshot_source_fingerprints(snapshot):
+    source = snapshot.get("source_payloads") or {}
+    return {
+        "camera_weather_raw_sha256": hashlib.sha256(
+            _canonical_json(source.get("camera_weather_raw"))
+        ).hexdigest(),
+        "spatial_weather_raw_sha256": hashlib.sha256(
+            _canonical_json(source.get("spatial_weather_raw"))
+        ).hexdigest(),
+        "normalized_input_sha256": hashlib.sha256(
+            _canonical_json(snapshot.get("normalized_input") or {})
+        ).hexdigest(),
+    }
+
+
+def _revision_metric_view(snapshot):
+    item = snapshot.get("normalized_input") or {}
+    return {
+        "visibility_km": (
+            round(float(item["vis"]) / 1000.0, 3)
+            if isinstance(item.get("vis"), (int, float))
+            else None
+        ),
+        "low_cloud_pct": item.get("c_low"),
+        "mid_cloud_pct": item.get("c_mid"),
+        "high_cloud_pct": item.get("c_high"),
+        "rh_pct": item.get("rh"),
+        "precipitation_mm": item.get("precipitation"),
+        "wind_ms": item.get("wind"),
+        "temperature_c": item.get("temp"),
+        "dew_point_c": item.get("dew"),
+        "lcl_agl_m": item.get("cloud_base_agl"),
+        "sun_elevation_deg": item.get("sun_elevation"),
+    }
+
+
+def _value_change(old, new):
+    change = {"from": old, "to": new}
+    if (
+        isinstance(old, (int, float))
+        and not isinstance(old, bool)
+        and isinstance(new, (int, float))
+        and not isinstance(new, bool)
+    ):
+        change["delta"] = round(float(new) - float(old), 6)
+    return change
+
+
+def compare_forecast_revisions(snapshots):
+    """Compare multiple immutable captures of the same forecast-valid row.
+
+    This compares the *recorded* outputs of each capture. It therefore exposes
+    forecast/provider revisions even when model commits also changed. Use matrix
+    replay separately when the goal is to isolate model-version effects on one
+    fixed snapshot.
+    """
+    if len(snapshots) < 2:
+        raise ValueError("compare-revisions requires at least two snapshots")
+
+    place_ids = {str(s.get("place_id") or "") for s in snapshots}
+    valid_epochs = {int(s.get("forecast_valid_epoch")) for s in snapshots}
+    if len(place_ids) != 1:
+        raise ValueError("revision snapshots must have the same place_id")
+    if len(valid_epochs) != 1:
+        raise ValueError("revision snapshots must have the same forecast_valid_at")
+
+    ordered = sorted(
+        snapshots,
+        key=lambda s: _offset_aware_iso(s["captured_at"]).astimezone(timezone.utc),
+    )
+    rows = []
+    for snapshot in ordered:
+        captured = _offset_aware_iso(snapshot["captured_at"])
+        valid = _offset_aware_iso(snapshot["forecast_valid_at"])
+        scores = (snapshot.get("recorded_output") or {}).get(
+            "opportunity_scores", {}
+        )
+        rows.append({
+            "snapshot_id": snapshot["snapshot_id"],
+            "captured_at": snapshot["captured_at"],
+            "forecast_valid_at": snapshot["forecast_valid_at"],
+            "lead_time_seconds": int(
+                (valid.astimezone(timezone.utc) - captured.astimezone(timezone.utc))
+                .total_seconds()
+            ),
+            "model_commit": snapshot["provenance"]["git_commit"],
+            "fingerprints": _snapshot_source_fingerprints(snapshot),
+            "metrics": _revision_metric_view(snapshot),
+            "opportunities": {
+                oid: _stable_outcome(outcome)
+                for oid, outcome in sorted(scores.items())
+            },
+        })
+
+    transitions = []
+    for previous, current in zip(rows, rows[1:]):
+        input_changed = (
+            previous["fingerprints"]["normalized_input_sha256"]
+            != current["fingerprints"]["normalized_input_sha256"]
+        )
+        model_changed = previous["model_commit"] != current["model_commit"]
+        if input_changed and model_changed:
+            classification = "mixed_forecast_and_model_revision"
+        elif input_changed:
+            classification = "forecast_data_revision"
+        elif model_changed:
+            classification = "model_revision_only"
+        else:
+            classification = "no_normalized_or_model_change"
+
+        metric_changes = {}
+        for key in sorted(set(previous["metrics"]) | set(current["metrics"])):
+            old = previous["metrics"].get(key)
+            new = current["metrics"].get(key)
+            if old != new:
+                metric_changes[key] = _value_change(old, new)
+
+        opportunity_changes = {}
+        for oid in sorted(
+            set(previous["opportunities"]) | set(current["opportunities"])
+        ):
+            old = previous["opportunities"].get(oid)
+            new = current["opportunities"].get(oid)
+            if old != new:
+                detail = {"from": old, "to": new}
+                old_score = (old or {}).get("score")
+                new_score = (new or {}).get("score")
+                if isinstance(old_score, (int, float)) and isinstance(
+                    new_score, (int, float)
+                ):
+                    detail["score_delta"] = new_score - old_score
+                opportunity_changes[oid] = detail
+
+        transitions.append({
+            "from_snapshot_id": previous["snapshot_id"],
+            "to_snapshot_id": current["snapshot_id"],
+            "capture_interval_seconds": int(
+                (
+                    _offset_aware_iso(current["captured_at"]).astimezone(timezone.utc)
+                    - _offset_aware_iso(previous["captured_at"]).astimezone(
+                        timezone.utc
+                    )
+                ).total_seconds()
+            ),
+            "classification": classification,
+            "camera_raw_changed": (
+                previous["fingerprints"]["camera_weather_raw_sha256"]
+                != current["fingerprints"]["camera_weather_raw_sha256"]
+            ),
+            "spatial_raw_changed": (
+                previous["fingerprints"]["spatial_weather_raw_sha256"]
+                != current["fingerprints"]["spatial_weather_raw_sha256"]
+            ),
+            "normalized_input_changed": input_changed,
+            "model_commit_changed": model_changed,
+            "metric_changes": metric_changes,
+            "opportunity_changes": opportunity_changes,
+        })
+
+    return {
+        "place_id": ordered[0]["place_id"],
+        "forecast_valid_at": ordered[0]["forecast_valid_at"],
+        "revision_count": len(rows),
+        "rows": rows,
+        "transitions": transitions,
+    }
+
+
 def _print_show(snapshot):
     recorded = snapshot["recorded_output"]["opportunity_scores"]
     print(
@@ -579,6 +747,10 @@ def _parser():
     matrix.add_argument("snapshot")
     matrix.add_argument("--commits", nargs="+", required=True)
 
+    revisions = sub.add_parser("compare-revisions")
+    revisions.add_argument("snapshots", nargs="+")
+    revisions.add_argument("--output")
+
     internal = sub.add_parser("_replay-json")
     internal.add_argument("--snapshot", required=True)
 
@@ -619,6 +791,15 @@ def main(argv=None):
             target = args.commit or "current"
         result = replay_at_commit(args.snapshot, target)
         print(json.dumps(result["diff"], ensure_ascii=False, indent=2))
+        return 0
+    if args.command == "compare-revisions":
+        snapshots = [load_snapshot(path) for path in args.snapshots]
+        payload = compare_forecast_revisions(snapshots)
+        rendered = json.dumps(payload, ensure_ascii=False, indent=2)
+        if args.output:
+            Path(args.output).write_text(rendered + "\n", encoding="utf-8")
+        else:
+            print(rendered)
         return 0
     if args.command == "matrix":
         snapshot = load_snapshot(args.snapshot)
