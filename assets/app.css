@@ -960,3 +960,56 @@
     gap: 12px;
   }
 }
+
+
+/* B103 card density pass: compact secondary metadata for desktop scanning */
+.card-quick-meta {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  min-width:0;
+}
+.card-timezone {
+  color:#94a3b8;
+  font-size:.72rem;
+  white-space:nowrap;
+}
+.card-metric-chips {
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:5px;
+  flex-wrap:wrap;
+}
+.metric-chip {
+  display:inline-flex;
+  align-items:center;
+  min-height:20px;
+  padding:1px 6px;
+  border:1px solid rgba(71,85,105,.55);
+  border-radius:8px;
+  background:rgba(15,23,42,.38);
+  color:#cbd5e1;
+  font-size:.7rem;
+  line-height:1.2;
+  white-space:nowrap;
+}
+@media (min-width:641px) {
+  .forecast-status-row {
+    color:#94a3b8 !important;
+    font-size:.72rem !important;
+    line-height:1.35 !important;
+  }
+}
+@media (max-width:640px) {
+  .card-quick-meta {
+    align-items:flex-start;
+  }
+  .card-timezone {
+    font-size:.72rem;
+  }
+  .metric-chip {
+    font-size:.7rem;
+  }
+}
