@@ -53,13 +53,16 @@ The optional proxy sector is exactly:
 
 If the camera remains readable and at least one north-sector proxy has materially stronger mist evidence than the camera, the directional context may promote P03 to the directional-mist candidate state.
 
-If the north-sector proxy points are no mistier than the camera:
+If the north-sector proxy points are no mistier than the camera, the spatial module returns `directional_mist_not_distinguished_from_camera`. The fallback then depends on the quality of the negative evidence:
 
-- the spatial module must return `directional_mist_not_distinguished_from_camera`;
-- an existing 0.8 km visibility-only candidate must remain the B81 low-confidence 68-point fallback;
-- a clear 20–30 km camera row must remain a P03 miss rather than being promoted by the mere presence of proxy samples.
+- missing / insufficient / inconclusive spatial context may preserve the B81 low-confidence 68-point fallback;
+- broad regional fog without directional contrast is not promoted, but is not treated as clear-sector negative evidence;
+- a fully sampled, broadly clear north sector with zero mist targets vetoes P03 inside the <= 8 km mist-candidate range;
+- a clear 20–30 km camera row remains a P03 miss.
 
-The proxy grid is environmental context only. It does not prove exact fog location, cliff intersection, or observed on-site conditions.
+The broad-clear rule requires at least 2 valid targets, zero mist targets, and at least two thirds of valid targets meeting: visibility >= 8 km, low cloud <= 35%, RH <= 88%, and no fog weather code.
+
+The proxy grid is environmental context only. Positive support does not prove exact fog location or cliff intersection, and the clear-sector veto does not prove that a narrow real-world fog ribbon cannot exist.
 
 ### 3. Camera readability overrides directional mist support below 2.5 km
 
@@ -133,6 +136,8 @@ Do not merge these two provenance statements.
 
 - the B82 proxy layout is exactly 330° / 0° / 30° × 2.5 / 5.0 km;
 - no directional contrast does not promote a weak B81 visibility-only candidate;
+- fully sampled broad-clear north-sector evidence with zero mist targets vetoes P03;
+- missing/inconclusive spatial context preserves the B81 low-confidence fallback;
 - clear camera + clear/equivalent proxies deny P03;
 - a same-day 2026-09-28-derived transition goes from low-confidence P03 at 0.8 km to P02 winning after visibility recovery.
 
