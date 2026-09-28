@@ -15,9 +15,9 @@
   ],
   "counts": {
     "spots": 188,
-    "opportunities": 383,
-    "condition_variants": 398,
-    "profile_viewpoint_relations": 389
+    "opportunities": 384,
+    "condition_variants": 399,
+    "profile_viewpoint_relations": 390
   },
   "spots": [
     {
@@ -4339,7 +4339,7 @@
       "spot_id": "tw-036",
       "canonical_name": "七星潭月牙灣／賞星廣場",
       "product_status": "KEEP",
-      "product_review_stage": "R4_2_B83_QIXINGTAN_DIRECTIONAL_CLOUD",
+      "product_review_stage": "R4_2_B84_QIXINGTAN_NORTHWARD_MOUNTAIN",
       "opportunities": [
         {
           "opportunity_id": "tw-036-P01",
@@ -4465,6 +4465,58 @@
             "basis": "grade_A_official_qixingtan_qingshui_northward_view_and_cloud_evidence",
             "reviewed_at": "2026-09-28",
             "note": "題材存在性由官方地點資料證明；多點氣象只用來估計已驗證題材何時較可能成立，不把地形或單一低雲數值當作題材存在證據。"
+          }
+        },
+        {
+          "opportunity_id": "tw-036-P04",
+          "spot_id": "tw-036",
+          "name_zh": "七星潭北望清水斷崖／清水山山海遠眺",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_spatial_weather_module",
+          "formula_version": "v0.04-qixingtan-directional-mountain-visibility",
+          "formula_confidence": 78,
+          "best_time": "白天；以海岸與北方山體均保持可讀層次為佳",
+          "best_season": "全年候選",
+          "condition_variants": [
+            {
+              "variant_id": "VAR-232",
+              "profile_id": "tw-036-P04",
+              "variant_name": "北望清水山／清水斷崖清晰山海層次",
+              "condition_geometry": "{\"camera_zone\":\"七星潭月牙灣礫石海岸代表 Camera Zone\",\"subject\":\"northward Pacific coast + readable Qingshui Cliff / Qingshui Mountain layers\"}",
+              "hard_gates": "七星潭海岸拍攝點本身需保持可用能見度；北向高地多點不能全面落入白牆濃霧或大雨；不得把單一海岸能見度直接等同山體必然清晰",
+              "required_conditions": "可見光時段；海岸能見度良好；北向至北北東高地多點至少兩個樣本、跨至少兩個方位保持可讀能見度且無濃霧／極高低雲遮蔽",
+              "boosters": "海岸能見度 20 km 以上；北方多個高地樣本能見度佳；弱風；局部雲可增加山海層次但不遮蔽主要山體",
+              "penalties": "北方高地多點低能見度；霧代碼；低雲接近全面覆蓋；明顯降雨；拍攝點本身視野不佳",
+              "formula_status": "needs_spatial_weather_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "tw-036-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official evidence establishes Qixingtan as a northward viewing place for Qingshui Cliff / Qingshui Mountain; this is an area anchor, not an exact tripod point.",
+              "name": "七星潭月牙灣礫石海岸代表機位",
+              "lat": 24.031426,
+              "lon": 121.62717,
+              "coord_confidence": "medium",
+              "verification_status": "official_qixingtan_northward_qingshui_view_representative_area",
+              "geometry_type": "small_area",
+              "geometry_extent_m": null,
+              "geometry_confidence": "medium"
+            }
+          ],
+          "evidence_basis": "official_place_specific_northward_qingshui_view",
+          "evidence_summary": "交通部觀光署官方七星潭資料明確指出可遠眺清水斷崖；臺灣國家公園官方文章直接描述從七星潭海岸隔海灣向北可見太平洋、清水斷崖與清水山。Runtime 只判斷海岸與北向山區多點是否仍具可讀視野，不把單一海岸能見度視為山體清晰保證。",
+          "subject_evidence": {
+            "status": "verified_subject",
+            "basis": "grade_A_official_qixingtan_northward_qingshui_view",
+            "reviewed_at": "2026-09-28",
+            "note": "北望清水斷崖／清水山的題材存在性由官方地點資料證明；runtime 只評估當下山海可讀性。"
           }
         }
       ]
