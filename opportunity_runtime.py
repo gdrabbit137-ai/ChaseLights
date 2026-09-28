@@ -71,7 +71,7 @@ from aurora_state import (
     validate_aurora_state_registry,
 )
 
-MODULE_VERSION = "opportunity-runtime-r16-b79-aurora-preview"
+MODULE_VERSION = "opportunity-runtime-r17-b88-qingshui-mist-cap"
 
 IMPLEMENTED_COMPONENTS = {
     "directional_horizon",
@@ -458,6 +458,11 @@ def evaluate_hualien_local_scene(opportunity, item_data):
             eligible, quality, reason, score_hint = True, "visibility_only_mist_candidate", "coastal_cliff_visibility_only_candidate", 68
             confidence_hint = "low"
             uncertain = True
+            if (
+                camera_readability_threshold_km
+                and mist_visibility_km < camera_readability_threshold_km
+            ):
+                subject_readability_uncertain = True
         else:
             eligible, quality, reason, score_hint = False, "mist_not_indicated", "low_visibility_without_mist_support", 0
             confidence_hint = "low"
