@@ -332,6 +332,7 @@ def analyze_spot(spot, kp_rows=None):
         "name_i18n": spot.get("name_i18n", {}),
         "name_local": spot.get("name_local", ""),
         "category": spot.get("category", ""),
+        "admin_areas": spot.get("admin_areas", []),
         "scenes": spot.get("scenes", []),
         "themes": spot.get("themes", []),
         "opportunities": spot.get("opportunities", []),
