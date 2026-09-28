@@ -17,6 +17,13 @@ from field_snapshot import (
 
 EPOCH = 1790556000  # deterministic 2026-09-28 morning UTC fixture
 
+LIVE_QINGSHUI_BASELINE = (
+    Path(__file__).parent
+    / "test_fixtures"
+    / "field_snapshot"
+    / "FVS-TW-034-20260928-163925.json.gz.b64"
+)
+
 
 def _base_item(spatial_weather):
     return {
@@ -227,10 +234,64 @@ def test_snapshot_is_write_once_and_hash_protected():
         assert "snapshot integrity hash mismatch" in validate_snapshot(tampered)
 
 
+def test_archived_live_qingshui_baseline_fixture():
+    snapshot = load_snapshot(LIVE_QINGSHUI_BASELINE)
+    assert snapshot["snapshot_id"] == "FVS-TW-034-20260928-163925"
+    assert snapshot["place_id"] == "tw-034"
+    assert snapshot["provenance"]["git_commit"] == (
+        "fadfc65aeb8e9219cec2b60fc0ed91bf9fc98e21"
+    )
+    assert snapshot["integrity"]["payload_sha256"] == (
+        "0736bab3200a9d229a696d2ac896b737dba5e2484459c88a864c42496e341e6f"
+    )
+    assert snapshot["observation"]["status"] == "unreviewed"
+
+    item = snapshot["normalized_input"]
+    assert item["local_date"] == "2026-09-29"
+    assert item["local_time"] == "01:00"
+    assert item["vis"] == 500.0
+    assert item["rh"] == 82
+    assert item["c_low"] == 41
+
+    p03 = snapshot["recorded_output"]["opportunity_scores"]["tw-034-P03"]
+    assert p03["score"] == 38
+    assert p03["score_confidence"] == "medium"
+    assert (
+        p03["condition_state"]
+        == "minimum_sufficient_weather_match_outside_time_window"
+    )
+    assert p03["runtime"]["reason"] == "camera_visibility_too_low_for_cliff_readability"
+    assert p03["runtime"]["minimum_sufficient_score_hint"] == 68
+    assert p03["runtime"]["directional_mist_negative_evidence"] is False
+
+    spatial = p03["runtime"]["spatial_mist_context"]
+    assert spatial["available"] is True
+    assert spatial["eligible"] is True
+    assert spatial["reason"] == "directional_mist_signal_detected"
+    assert spatial["target_sample_count"] == 6
+    assert spatial["mist_target_count"] == 5
+    assert spatial["directional_mist_target_count"] == 2
+    assert spatial["clear_target_count"] == 0
+    assert spatial["clear_bearing_count"] == 0
+    assert spatial["broad_clear_target_sector"] is False
+
+    # The permanent baseline must remain executable by current code, but model
+    # evolution is allowed to change its outcome. The fixture itself is the
+    # immutable reference; matrix replay reports differences without forcing
+    # future scoring versions to reproduce B101 forever.
+    replayed = replay_current(snapshot)
+    assert set(replayed["opportunity_scores"]) == set(
+        snapshot["recorded_output"]["opportunity_scores"]
+    )
+    diff = diff_replay(snapshot, replayed)
+    assert diff["snapshot_id"] == snapshot["snapshot_id"]
+
+
 def main():
     test_qingshui_broad_clear_negative_replay()
     test_qingshui_missing_spatial_preserves_low_confidence_fallback()
     test_snapshot_is_write_once_and_hash_protected()
+    test_archived_live_qingshui_baseline_fixture()
     print("field snapshot tests passed")
 
 
