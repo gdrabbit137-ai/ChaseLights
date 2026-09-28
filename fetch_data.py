@@ -109,6 +109,7 @@ I18N_MESSAGES = {
     "NO_VIABLE_OPPORTUNITY": {"zh-TW": "🕒 今天剩餘時段沒有合適的已研究拍攝機會", "en": "🕒 No researched shooting opportunity remains viable today", "ja": "🕒 本日の残り時間に適した調査済み撮影機会はありません"},
     "OPPORTUNITY_SIMPLE_MATCH": {"zh-TW": "✅ 此景點的基本好拍條件已成立", "en": "✅ The Place's basic good-shoot conditions are met", "ja": "✅ この場所の基本的な好条件が成立"},
     "OPPORTUNITY_MIST_CANDIDATE": {"zh-TW": "🌫️ 晨霧候選條件出現，但霧區位置仍有不確定性", "en": "🌫️ Morning-mist candidate conditions are present, but the mist location remains uncertain", "ja": "🌫️ 朝霧候補の条件がありますが、霧の位置には不確実性があります"},
+    "OPPORTUNITY_DIRECTIONAL_CLOUD_MATCH": {"zh-TW": "☁️ 北方山區貼山雲候選條件成立；實際山體露出仍需現場確認", "en": "☁️ Northward terrain-attached cloud candidate conditions match; actual ridge visibility still needs field confirmation", "ja": "☁️ 北側山地の地形性低層雲候補条件が一致。実際の稜線の見え方は現地確認が必要です"},
     "OPPORTUNITY_OUTSIDE_TIME_WINDOW": {"zh-TW": "🕒 天氣條件可用，但目前不在此題材的建議拍攝時段", "en": "🕒 Weather conditions are usable, but this is outside the recommended shooting time for this opportunity", "ja": "🕒 天候条件は利用可能ですが、この撮影機会の推奨時間帯ではありません"},
     "OPPORTUNITY_SIMPLE_MISS": {"zh-TW": "⚠️ 能見度、低雲或降雨條件目前不理想", "en": "⚠️ Visibility, low cloud, or precipitation is currently unfavorable", "ja": "⚠️ 視程・低雲・降水条件が現在不利"},
 
@@ -1302,9 +1303,29 @@ def _score_opportunity(opportunity, theme_metric, runtime_diagnostic, lang="zh-T
                 condition_state = "dedicated_weather_match_outside_time_window"
                 score_confidence = "medium"
             else:
-                status_key = indicator_key = "OPPORTUNITY_MATCH"
-                condition_state = "dedicated_conditions_match"
-                score_confidence = "high"
+                spatial = (diag.get("modules") or {}).get("spatial_weather_vertical_cloud") or {}
+                if spatial.get("mode") == "directional_mountain_cloud_sector":
+                    status_key = indicator_key = "OPPORTUNITY_DIRECTIONAL_CLOUD_MATCH"
+                    condition_state = "directional_mountain_cloud_candidate"
+                    score_confidence = spatial.get("confidence_hint") or "medium"
+                    target_count = spatial.get("directional_cloud_target_count")
+                    elevated_count = spatial.get("elevated_target_count")
+                    cloud_text = {
+                        "zh-TW": f"北向高地多點中 {target_count} 點出現相對海岸更強的貼山低雲訊號",
+                        "en": f"{target_count} elevated northward samples show stronger terrain-cloud signals than the coast",
+                        "ja": f"北向き高地サンプルのうち {target_count} 点で海岸より強い地形性低層雲シグナル",
+                    }.get(lang, f"{target_count} elevated northward samples show stronger terrain-cloud signals")
+                    uncertainty_text = {
+                        "zh-TW": "這是廣角環境 proxy；不能保證雲帶正好貼住清水山／斷崖，山峰露出比例仍需現場確認",
+                        "en": "This is a broad environmental proxy; exact cloud/ridge overlap and ridge visibility remain unverified",
+                        "ja": "広域環境プロキシであり、雲と清水山・断崖の正確な重なりや稜線の露出は未確認です",
+                    }.get(lang, "Exact cloud/ridge overlap remains unverified")
+                    factors.append({"type": "plus", "key": "directional_mountain_cloud", "value": target_count, "text": cloud_text})
+                    factors.append({"type": "minus", "key": "directional_cloud_uncertainty", "value": elevated_count, "text": uncertainty_text})
+                else:
+                    status_key = indicator_key = "OPPORTUNITY_MATCH"
+                    condition_state = "dedicated_conditions_match"
+                    score_confidence = "high"
     else:
         score = min(base, 35)
         status_key = indicator_key = "OPPORTUNITY_DATA_INSUFFICIENT"

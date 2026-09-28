@@ -112,7 +112,7 @@ def _all_opportunities():
 
 
 def test_adapter_integrity():
-    assert ADAPTER_VERSION == "v0.04-r4.2-canonical-r30-us005-preview"
+    assert ADAPTER_VERSION == "v0.04-r4.2-canonical-r31-qixingtan-cloud-preview"
     assert validate_curated_opportunities() == []
     assert validate_taxonomy() == []
     assert EVENT_CALENDAR_SCHEMA_VERSION == "r4.2-event-calendar-1"
@@ -454,6 +454,134 @@ def test_adapter_integrity():
     assert qingshui_no_direction_eval["available"] is True
     assert qingshui_no_direction_eval["eligible"] is False
     assert qingshui_no_direction_eval["reason"] == "directional_mist_not_distinguished_from_camera"
+
+    # B83: Qixingtan northward mountain-cloud subject uses a REQUIRED
+    # directional spatial-weather contract. The camera/coast must remain clear
+    # while multiple materially elevated northward proxy samples become
+    # cloudier/moister than the camera. Exact ridge/cloud overlap is never
+    # asserted by the forecast.
+    qixingtan_ops = get_opportunities("tw", "tw-036")
+    assert {o["opportunity_id"] for o in qixingtan_ops} == {
+        "tw-036-P01", "tw-036-P02", "tw-036-P03"
+    }
+    qixingtan_by_id = {o["opportunity_id"]: o for o in qixingtan_ops}
+    qixingtan_cloud = qixingtan_by_id["tw-036-P03"]
+    assert runtime_policy(qixingtan_cloud) == "preview_module_available"
+    assert qixingtan_cloud["subject_evidence"]["status"] == "verified_subject"
+
+    qixingtan_spot = next(s for s in tw if s["spot_id"] == "tw-036")
+    qixingtan_plan = build_spatial_request_plan(qixingtan_spot)
+    assert set(qixingtan_plan["profiles"]) == {"tw-036-P03"}
+    qixingtan_target_bearings = sorted({
+        int(p["bearing_deg"]) % 360
+        for p in qixingtan_plan["points"]
+        if p.get("role") == "directional_mountain_cloud_proxy"
+    })
+    qixingtan_target_distances = sorted({
+        int(p["distance_km"])
+        for p in qixingtan_plan["points"]
+        if p.get("role") == "directional_mountain_cloud_proxy"
+    })
+    assert qixingtan_target_bearings == [5, 20, 350]
+    assert qixingtan_target_distances == [8, 15, 22]
+    assert len(qixingtan_plan["points"]) == 10
+    assert qixingtan_plan["profiles"]["tw-036-P03"]["target_resolution"] == (
+        "directional_mountain_sector_environment_proxy_not_exact_cloud_or_ridge_location"
+    )
+
+    qixingtan_ts = 1900003700
+    qixingtan_raw = []
+    for point in qixingtan_plan["points"]:
+        if point["role"] == "camera":
+            elev, vis, rh, low, weather_code = 14, 27000, 73, 9, 1
+        elif point.get("distance_km", 0) >= 15 and int(point.get("bearing_deg", 0)) % 360 in {350, 5}:
+            elev, vis, rh, low, weather_code = 900, 9000, 90, 68, 2
+        else:
+            elev, vis, rh, low, weather_code = 120, 24000, 76, 12, 1
+        qixingtan_raw.append({
+            "elevation": elev,
+            "hourly": {
+                "time": [qixingtan_ts],
+                "temperature_2m": [30.0 if point["role"] == "camera" else 25.0],
+                "dew_point_2m": [24.0],
+                "relative_humidity_2m": [rh],
+                "cloud_cover_low": [low],
+                "visibility": [vis],
+                "weather_code": [weather_code],
+                "precipitation": [0.0],
+                "wind_speed_10m": [1.4],
+            },
+        })
+
+    qixingtan_spatial_obs = spatial_observations_for_timestamp(
+        index_spatial_response(qixingtan_plan, qixingtan_raw), qixingtan_ts
+    )
+    qixingtan_spatial_eval = evaluate_spatial_weather(
+        qixingtan_cloud, {"spatial_weather": qixingtan_spatial_obs}
+    )
+    assert qixingtan_spatial_eval["available"] is True
+    assert qixingtan_spatial_eval["eligible"] is True
+    assert qixingtan_spatial_eval["reason"] == "directional_mountain_cloud_band_candidate"
+    assert qixingtan_spatial_eval["directional_cloud_target_count"] >= 2
+    assert qixingtan_spatial_eval["readable_cloud_target_count"] >= 1
+    assert qixingtan_spatial_eval["exact_target_zone_verified"] is False
+    assert qixingtan_spatial_eval["visibility_guaranteed"] is False
+
+    qixingtan_runtime = evaluate_opportunity_modules(
+        qixingtan_cloud, {"spatial_weather": qixingtan_spatial_obs}
+    )
+    assert qixingtan_runtime["available"] is True
+    assert qixingtan_runtime["eligible"] is True
+    qixingtan_score = fetch_data._score_opportunity(
+        qixingtan_cloud,
+        {
+            "score": 86,
+            "factors": [
+                {"type": "plus", "key": "vis_good", "value": 27.0, "text": "能見度 27.0 km"},
+                {"type": "plus", "key": "low_cloud", "value": 9, "text": "低雲僅 9%"},
+            ],
+            "status_key": "MOUNTAIN_EXCELLENT_DAY",
+            "indicator_key": "IND_PEAKS",
+            "temporal_eligible": True,
+        },
+        qixingtan_runtime,
+        "zh-TW",
+    )
+    assert qixingtan_score["score"] == 86
+    assert qixingtan_score["status_key"] == "OPPORTUNITY_DIRECTIONAL_CLOUD_MATCH"
+    assert qixingtan_score["condition_state"] == "directional_mountain_cloud_candidate"
+    assert any(f.get("key") == "directional_mountain_cloud" for f in qixingtan_score["factors"])
+    assert any(f.get("key") == "directional_cloud_uncertainty" for f in qixingtan_score["factors"])
+
+    qixingtan_clear_raw = []
+    for point in qixingtan_plan["points"]:
+        elev = 14 if point["role"] == "camera" else (
+            900 if point.get("distance_km", 0) >= 15 and int(point.get("bearing_deg", 0)) % 360 in {350, 5}
+            else 120
+        )
+        qixingtan_clear_raw.append({
+            "elevation": elev,
+            "hourly": {
+                "time": [qixingtan_ts],
+                "temperature_2m": [29.0],
+                "dew_point_2m": [22.0],
+                "relative_humidity_2m": [74],
+                "cloud_cover_low": [10],
+                "visibility": [25000],
+                "weather_code": [1],
+                "precipitation": [0.0],
+                "wind_speed_10m": [1.0],
+            },
+        })
+    qixingtan_clear_obs = spatial_observations_for_timestamp(
+        index_spatial_response(qixingtan_plan, qixingtan_clear_raw), qixingtan_ts
+    )
+    qixingtan_clear_eval = evaluate_spatial_weather(
+        qixingtan_cloud, {"spatial_weather": qixingtan_clear_obs}
+    )
+    assert qixingtan_clear_eval["available"] is True
+    assert qixingtan_clear_eval["eligible"] is False
+    assert qixingtan_clear_eval["reason"] == "directional_mountain_cloud_band_not_supported"
 
     liyu_ops = get_opportunities("tw", "tw-082")
     yun_ops = get_opportunities("tw", "tw-083")
