@@ -3877,7 +3877,7 @@
           "geometry_required": false,
           "opportunity_confidence": "high",
           "formula_status": "minimum_sufficient_local_scene",
-          "formula_version": "v0.04-qingshui-coastal-cliff-mist-b88",
+          "formula_version": "v0.04-qingshui-coastal-cliff-mist-b92",
           "formula_confidence": 72,
           "best_time": "清晨至日出後；以斷崖、山壁或海岸仍部分可辨為前提",
           "best_season": "全年候選；官方資料記錄清晨濃霧、山巒若隱若現與日出後雲霧散開的景觀",
@@ -3888,7 +3888,7 @@
               "variant_name": "晨霧繞斷崖、山巒若隱若現",
               "condition_geometry": "{\"camera_zone\":\"崇德步道目前開放觀景平台 Camera Zone\",\"subject\":\"Pacific Ocean + partially visible Qingshui Cliff / mountain + morning mist or low cloud\"}",
               "hard_gates": "崇德步道／觀景平台合法可達；無現場封閉；不得把低能見度本身視為晨霧一定存在；拍攝點若進入白牆濃霧則不成立",
-              "required_conditions": "清晨或可見光時段；斷崖、山壁或海岸至少部分可辨；低能見度需有霧、低雲、高濕、低雲底、weather code 或北向多點霧訊號等至少一項氣象佐證；無明顯降雨。若拍攝點能見度低於 2.5 km，只能保留低信心候選，實際 Opportunity 分數封頂 68。",
+              "required_conditions": "清晨或可見光時段；斷崖、山壁或海岸至少部分可辨；低能見度需有霧、低雲、高濕、低雲底、weather code 或北向多點霧訊號等至少一項氣象佐證；北向 proxy 只有在相對拍攝點呈現 material contrast 時才能升級 directional support，camera 與 target 同為 fog code 不得單獨視為方向差；無明顯降雨。若拍攝點能見度低於 2.5 km，只能保留低信心候選，實際 Opportunity 分數封頂 68。",
               "boosters": "局部霧帶繞過山壁；弱風；日出前後斜射光；多項霧訊號一致",
               "penalties": "拍攝平台本身白牆；斷崖與海岸完全不可辨；拍攝點能見度低於 2.5 km 的保守構圖可讀門檻；只有單一低能見度數值而缺乏其他霧訊號；大雨或強風。2.5 km 為規劃 guard，不代表斷崖實際距離。",
               "formula_status": "minimum_sufficient_local_scene"
