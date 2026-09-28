@@ -1469,7 +1469,7 @@
           "url": "https://www.taroko.gov.tw/ch/sglarticle/transportation-and-trails"
         }
       ],
-      "forecast_boundary": "官方證據只證明清水斷崖存在晨霧／雲霧攝影題材及崇德觀景區可觀看斷崖；官方太魯閣／國家公園資料並明確描述崇德一帶向北眺望清水斷崖。B82 runtime 因此只用北向廣角環境 proxy 格點與拍攝點格點比較，若北向區域明顯更霧可提高候選信心，並保留拍攝點白牆 veto；這仍不是實景觀測、精確霧區定位或斷崖交會證明。若多點資料暫缺，僅回退到 B81 的低信心單點候選。",
+      "forecast_boundary": "官方證據只證明清水斷崖存在晨霧／雲霧攝影題材及崇德觀景區可觀看斷崖；官方資料亦描述崇德一帶向北眺望清水斷崖。B82/B87 runtime 以北向廣角環境 proxy 格點與拍攝點格點比較；多點霧訊號可提高候選信心，但若拍攝點能見度低於 2.5 km 的保守構圖可讀門檻，仍不得進入 80+ 高推薦，因為斷崖／山壁／海岸可能無法保留足夠輪廓。2.5 km 是依目前最近的 directional proxy range 設定的保守規劃門檻，不是宣稱斷崖的實際距離。拍攝點白牆仍 veto；多點資料暫缺時回退到低信心單點候選。",
       "runtime_enrichment": {
         "version": "B82_directional_mist_proxy",
         "status": "optional_context",
@@ -1483,7 +1483,17 @@
           30
         ],
         "direction_source_url": "https://www.taiwan.nps.gov.tw/home/zh-tw/quarterly/7933/6910",
-        "direction_source_note": "官方資料描述從崇德隔海灣向北眺望清水斷崖；B82 僅據此採北向廣角 proxy，不主張精確攝影方位。"
+        "direction_source_note": "官方資料描述從崇德隔海灣向北眺望清水斷崖；B82 僅據此採北向廣角 proxy，不主張精確攝影方位。",
+        "readability_guard_version": "B87_camera_readability_guard",
+        "camera_readability_threshold_km": 2.5,
+        "camera_readability_threshold_basis": "nearest_directional_proxy_range_conservative_planning_guard",
+        "camera_readability_threshold_is_exact_cliff_distance": false,
+        "high_score_requires_camera_readability": true,
+        "status_semantics": {
+          "directional_multi_point": "OPPORTUNITY_DIRECTIONAL_MIST_CANDIDATE",
+          "corroborated_non_spatial": "OPPORTUNITY_MIST_SUPPORTED",
+          "uncertain_or_unreadable": "OPPORTUNITY_MIST_CANDIDATE"
+        }
       }
     },
     "tw-036-P03": {
