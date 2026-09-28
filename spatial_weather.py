@@ -17,7 +17,7 @@ That limitation is returned in every diagnostic.
 
 import math
 
-SPATIAL_WEATHER_VERSION = "spatial-weather-r6-qixingtan-orographic-proxy"
+SPATIAL_WEATHER_VERSION = "spatial-weather-r7-qingshui-directional-contrast"
 
 _SUPPORTED_PROFILE_IDS = (
     "tw-004-P02", "tw-004-P03", "tw-008-P03",
@@ -313,6 +313,8 @@ def _evaluate_directional_mist_sector(config, observation):
     camera_low = _number(camera.get("cloud_cover_low"))
     camera_rh = _number(camera.get("relative_humidity_2m"))
     camera_precip = _number(camera.get("precipitation"))
+    camera_weather_code = camera.get("weather_code")
+    camera_fog_code = camera_weather_code in {45, 48}
 
     if camera_vis is None or camera_low is None or camera_rh is None:
         return {
@@ -371,8 +373,12 @@ def _evaluate_directional_mist_sector(config, observation):
             continue
 
         mist_targets.append(target)
+        # Fog at a target is directional evidence only when it differs
+        # from the camera state. If camera and target are both fog-coded, the
+        # target sector still needs a material visibility / low-cloud / RH
+        # contrast before it may promote the Qingshui candidate.
         directional_contrast = (
-            fog_code
+            (fog_code and not camera_fog_code)
             or vis <= camera_vis * 0.75
             or low >= camera_low + 25
             or rh >= camera_rh + 8
