@@ -166,6 +166,64 @@
         "Spatial proxy points remain environmental evidence and do not prove exact fog overlap with the cliff.",
         "No field photograph or observed-scene assessment is attached; this baseline remains outside the field-validation registry."
       ]
+    },
+    {
+      "snapshot_id": "FVS-TW-034-20260928-183014",
+      "place_id": "tw-034",
+      "scene_family": "qingshui_cliff_mist",
+      "revision_group": "tw-034@2026-09-28T22:00:00+00:00",
+      "archive_path": "test_fixtures/field_snapshot/FVS-TW-034-20260928-183014.json.gz.b64",
+      "metadata_path": "test_fixtures/field_snapshot/FVS-TW-034-20260928-183014.metadata.json",
+      "captured_at": "2026-09-28T18:30:14.951207+00:00",
+      "forecast_valid_at": "2026-09-28T22:00:00+00:00",
+      "forecast_local_time": "2026-09-29T06:00:00+08:00",
+      "model_commit": "2730098cc4796288ace43ab9450d26d9107936e0",
+      "payload_sha256": "5cb55c373293cf92983497ba508cccef05e7948a5bc3e4ee5f643ef3c625454c",
+      "observation_status": "unreviewed",
+      "source": {
+        "workflow_run_id": 36465521960,
+        "artifact_id": 10988728293,
+        "artifact_name": "qingshui-b108-0600-revision",
+        "source_branch": "b108-qingshui-0600-revision-series"
+      },
+      "recorded_summary": {
+        "tw-034-P01": {
+          "score": 64,
+          "score_confidence": "low",
+          "condition_state": "partial_runtime_contract",
+          "runtime_reason": "module_pending"
+        },
+        "tw-034-P02": {
+          "score": 54,
+          "score_confidence": "medium",
+          "condition_state": "minimum_sufficient_conditions_miss",
+          "runtime_reason": "visibility_too_low",
+          "camera_visibility_km": 3.56
+        },
+        "tw-034-P03": {
+          "score": 54,
+          "score_confidence": "medium",
+          "condition_state": "minimum_sufficient_conditions_miss",
+          "runtime_reason": "low_visibility_without_mist_support",
+          "minimum_sufficient_score_hint": 0,
+          "camera_visibility_km": 3.56,
+          "camera_low_cloud_pct": 5,
+          "camera_rh_pct": 66,
+          "target_sample_count": 6,
+          "mist_target_count": 0,
+          "directional_mist_target_count": 0,
+          "clear_target_count": 0,
+          "clear_bearing_count": 0,
+          "broad_clear_target_sector": false,
+          "directional_mist_negative_evidence": false
+        }
+      },
+      "limitations": [
+        "This is the third forecast revision retained for the same 2026-09-29 06:00 +08:00 valid time and belongs to the existing Qingshui revision series.",
+        "The selected 06:00 normalized values and recorded Opportunity outcomes match the first two retained revisions; B108 stability analysis determines whether raw provider payloads still changed between captures.",
+        "A changed Git commit is not itself evidence of a scoring-model change; declared model-contract versions remain the comparison key.",
+        "No field photograph or observed-scene assessment is attached; this remains outside the field-validation registry."
+      ]
     }
   ]
 }
