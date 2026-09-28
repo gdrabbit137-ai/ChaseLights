@@ -108,7 +108,8 @@ I18N_MESSAGES = {
     "OPPORTUNITY_DATA_INSUFFICIENT": {"zh-TW": "⚠️ 此拍攝題材資料不足，暫不高分推薦", "en": "⚠️ Insufficient data for a high-confidence recommendation", "ja": "⚠️ 高信頼の推奨に必要なデータ不足"},
     "NO_VIABLE_OPPORTUNITY": {"zh-TW": "🕒 今天剩餘時段沒有合適的已研究拍攝機會", "en": "🕒 No researched shooting opportunity remains viable today", "ja": "🕒 本日の残り時間に適した調査済み撮影機会はありません"},
     "OPPORTUNITY_SIMPLE_MATCH": {"zh-TW": "✅ 此景點的基本好拍條件已成立", "en": "✅ The Place's basic good-shoot conditions are met", "ja": "✅ この場所の基本的な好条件が成立"},
-    "OPPORTUNITY_MIST_CANDIDATE": {"zh-TW": "🌫️ 晨霧候選條件出現，但霧區位置仍有不確定性", "en": "🌫️ Morning-mist candidate conditions are present, but the mist location remains uncertain", "ja": "🌫️ 朝霧候補の条件がありますが、霧の位置には不確実性があります"},
+    "OPPORTUNITY_MIST_CANDIDATE": {"zh-TW": "🌫️ 晨霧候選條件出現，但斷崖可見度仍有不確定性", "en": "🌫️ Morning-mist candidate conditions are present, but cliff readability remains uncertain", "ja": "🌫️ 朝霧候補の条件がありますが、断崖の見え方には不確実性があります"},
+    "OPPORTUNITY_MIST_MATCH": {"zh-TW": "🌫️ 斷崖方向晨霧條件較吻合，且拍攝點視野仍可用", "en": "🌫️ Directional morning-mist conditions match while the camera view remains usable", "ja": "🌫️ 断崖方向の朝霧条件が比較的合い、撮影地点の視界も利用可能です"},
     "OPPORTUNITY_OUTSIDE_TIME_WINDOW": {"zh-TW": "🕒 天氣條件可用，但目前不在此題材的建議拍攝時段", "en": "🕒 Weather conditions are usable, but this is outside the recommended shooting time for this opportunity", "ja": "🕒 天候条件は利用可能ですが、この撮影機会の推奨時間帯ではありません"},
     "OPPORTUNITY_SIMPLE_MISS": {"zh-TW": "⚠️ 能見度、低雲或降雨條件目前不理想", "en": "⚠️ Visibility, low cloud, or precipitation is currently unfavorable", "ja": "⚠️ 視程・低雲・降水条件が現在不利"},
 
@@ -1153,6 +1154,8 @@ def _build_opportunity_runtime_diagnostics(spot, item_data):
                 "mist_signal_components": simple.get("mist_signal_components"),
                 "spatial_mist_context": simple.get("spatial_mist_context"),
                 "camera_whiteout_risk": bool(simple.get("camera_whiteout_risk")),
+                "camera_readability_threshold_km": simple.get("camera_readability_threshold_km"),
+                "subject_readability_uncertain": bool(simple.get("subject_readability_uncertain")),
                 "runtime_confidence_hint": simple.get("runtime_confidence_hint"),
                 "uncertain": bool(simple.get("uncertain")),
                 "modules": {simple_module: simple},
@@ -1253,6 +1256,26 @@ def _score_opportunity(opportunity, theme_metric, runtime_diagnostic, lang="zh-T
                         }.get(lang, "Mist corroboration is weak; the mist location remains uncertain")
                         factors.append({"type": "plus", "key": "mist_candidate_visibility", "value": mist_km, "text": candidate_text})
                         factors.append({"type": "minus", "key": "mist_candidate_uncertainty", "value": None, "text": uncertainty_text})
+                    if diag.get("subject_readability_uncertain"):
+                        threshold_km = diag.get("camera_readability_threshold_km")
+                        readability_text = {
+                            "zh-TW": (
+                                f"拍攝點能見度低於保守構圖可讀門檻"
+                                + (f"（{threshold_km:.1f} km）" if threshold_km is not None else "")
+                                + "，斷崖可能無法維持足夠輪廓"
+                            ),
+                            "en": (
+                                "Camera-point visibility is below the conservative composition-readability threshold"
+                                + (f" ({threshold_km:.1f} km)" if threshold_km is not None else "")
+                                + "; the cliff may not retain enough readable outline"
+                            ),
+                            "ja": (
+                                "撮影地点の視程が保守的な構図可読性の閾値"
+                                + (f"（{threshold_km:.1f} km）" if threshold_km is not None else "")
+                                + "を下回り、断崖の輪郭が十分に残らない可能性があります"
+                            ),
+                        }.get(lang, "Camera-point visibility may be too low to retain a readable cliff outline")
+                        factors.append({"type": "minus", "key": "cliff_readability_uncertain", "value": threshold_km, "text": readability_text})
                 elif mist_km is not None and diag.get("mist_signal"):
                     mist_text = {
                         "zh-TW": f"低能見度約 {mist_km:.1f} km，符合湖岸霧景條件",
@@ -1275,6 +1298,10 @@ def _score_opportunity(opportunity, theme_metric, runtime_diagnostic, lang="zh-T
                 status_key = indicator_key = "OPPORTUNITY_MIST_CANDIDATE"
                 condition_state = "minimum_sufficient_mist_candidate_uncertain"
                 score_confidence = diag.get("runtime_confidence_hint") or "low"
+            elif diag.get("mist_context") == "coastal_cliff":
+                status_key = indicator_key = "OPPORTUNITY_MIST_MATCH"
+                condition_state = "minimum_sufficient_mist_conditions_match"
+                score_confidence = diag.get("runtime_confidence_hint") or "medium"
             else:
                 status_key = indicator_key = "OPPORTUNITY_SIMPLE_MATCH"
                 condition_state = "minimum_sufficient_conditions_match"
