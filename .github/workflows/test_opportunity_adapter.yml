@@ -23,6 +23,8 @@ on:
       - "access_state.py"
       - "shinhotaka_access.py"
       - "yahiko_access.py"
+      - "johnston_ridge_access.py"
+      - "test_fixtures/johnston_ridge_*.html"
       - "test_fixtures/shinhotaka_home_*.html"
       - "runtime_catalog_v004_r4_2_b15.compact.part*.b64"
       - "runtime_catalog_v004_r4_2_b32_jp_batch01.json"
@@ -71,6 +73,8 @@ on:
       - "access_state.py"
       - "shinhotaka_access.py"
       - "yahiko_access.py"
+      - "johnston_ridge_access.py"
+      - "test_fixtures/johnston_ridge_*.html"
       - "test_fixtures/shinhotaka_home_*.html"
       - "runtime_catalog_v004_r4_2_b15.compact.part*.b64"
       - "runtime_catalog_v004_r4_2_b32_jp_batch01.json"
@@ -103,7 +107,7 @@ jobs:
         with:
           python-version: "3.10"
       - name: Compile
-        run: python -m py_compile ci_weather_impact.py opportunities.py opportunity_runtime.py runtime_dependencies.py spatial_weather.py field_validation.py marine_state.py tide_state.py aurora_state.py access_state.py shinhotaka_access.py yahiko_access.py taxonomy_v004.py regions.py analyze_weather.py fetch_data.py test_opportunity_adapter.py
+        run: python -m py_compile ci_weather_impact.py opportunities.py opportunity_runtime.py runtime_dependencies.py spatial_weather.py field_validation.py marine_state.py tide_state.py aurora_state.py access_state.py shinhotaka_access.py yahiko_access.py johnston_ridge_access.py taxonomy_v004.py regions.py analyze_weather.py fetch_data.py test_opportunity_adapter.py
       - name: Test weather-region detector
         run: python ci_weather_impact.py --self-test
       - name: Run adapter tests
