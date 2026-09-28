@@ -317,8 +317,9 @@ def test_adapter_integrity():
     assert liushi_by_id["tw-035-P10"]["viewpoints"][0]["lat"] == 23.224528
 
     # B81: Qingshui Cliff has a separately researched morning-mist subject.
-    # Low visibility alone is not enough: it needs at least one mist-support
-    # signal, and a local whiteout must remain a blocker.
+    # Low visibility alone may create only a low-confidence planning candidate;
+    # corroborating mist signals are required to strengthen it, while a local
+    # whiteout must remain a blocker.
     qingshui_ops = get_opportunities("tw", "tw-034")
     qingshui_by_id = {o["opportunity_id"]: o for o in qingshui_ops}
     assert len(qingshui_ops) == 3
@@ -468,6 +469,49 @@ def test_adapter_integrity():
     )
 
     qingshui_ts = 1900003600
+
+    # B93: each broad north-sector bearing must independently be capable of
+    # contributing directional mist corroboration. The proxy remains
+    # environmental context, not exact cliff/mist geometry.
+    for mist_bearing in (330, 0, 30):
+        per_bearing_raw = []
+        for point in qingshui_plan["points"]:
+            selected_proxy = (
+                point.get("role") == "directional_mist_proxy"
+                and int(point.get("bearing_deg", -1)) % 360 == mist_bearing
+                and float(point.get("distance_km", 0)) == 2.5
+            )
+            if point["role"] == "camera":
+                vis, rh, low, weather_code = 20000, 75, 10, 0
+            elif selected_proxy:
+                vis, rh, low, weather_code = 2500, 93, 70, 45
+            else:
+                vis, rh, low, weather_code = 18000, 77, 15, 0
+            per_bearing_raw.append({
+                "elevation": 150,
+                "hourly": {
+                    "time": [qingshui_ts],
+                    "temperature_2m": [24.0],
+                    "dew_point_2m": [20.0],
+                    "relative_humidity_2m": [rh],
+                    "cloud_cover_low": [low],
+                    "visibility": [vis],
+                    "weather_code": [weather_code],
+                    "precipitation": [0.0],
+                    "wind_speed_10m": [1.0],
+                },
+            })
+        per_bearing_obs = spatial_observations_for_timestamp(
+            index_spatial_response(qingshui_plan, per_bearing_raw), qingshui_ts
+        )
+        per_bearing_eval = evaluate_spatial_weather(
+            qingshui_by_id["tw-034-P03"], {"spatial_weather": per_bearing_obs}
+        )
+        assert per_bearing_eval["available"] is True
+        assert per_bearing_eval["eligible"] is True
+        assert per_bearing_eval["reason"] == "directional_mist_signal_detected"
+        assert per_bearing_eval["directional_mist_target_count"] >= 1
+
     qingshui_raw = []
     for i, point in enumerate(qingshui_plan["points"]):
         if point["role"] == "camera":
@@ -539,6 +583,20 @@ def test_adapter_integrity():
     assert qingshui_directional_scored["condition_state"] == "minimum_sufficient_directional_mist_candidate"
     assert qingshui_directional_scored["score_confidence"] == "medium"
 
+    # B93: B82 spatial support must not bypass the B81 morning-only gate.
+    qingshui_directional_afternoon = evaluate_minimum_sufficient_visibility(
+        qingshui_by_id["tw-034-P03"],
+        {
+            "local_date": "2026-09-28", "local_time": "14:00", "local_month": 9,
+            "vis": 20000, "rh": 75, "c_low": 10, "cloud_base_agl": 700,
+            "temp": 24.0, "dew": 20.0, "weather_code": 0,
+            "pop": 0, "precipitation": 0.0, "access_open": True,
+            "spatial_weather": qingshui_spatial_obs,
+        },
+    )
+    assert qingshui_directional_afternoon["eligible"] is False
+    assert qingshui_directional_afternoon["reason"] == "outside_morning_mist_window"
+
     qingshui_directional_low_camera = evaluate_minimum_sufficient_visibility(
         qingshui_by_id["tw-034-P03"],
         {
@@ -604,6 +662,52 @@ def test_adapter_integrity():
     assert qingshui_no_direction_eval["available"] is True
     assert qingshui_no_direction_eval["eligible"] is False
     assert qingshui_no_direction_eval["reason"] == "directional_mist_not_distinguished_from_camera"
+
+    # B93: equal non-whiteout fog at camera and all six proxy points is not a
+    # directional contrast. Before this fix, target weather_code 45/48 alone
+    # could incorrectly promote this uniform-fog case to the B82 88-point state.
+    qingshui_uniform_fog_raw = []
+    for point in qingshui_plan["points"]:
+        qingshui_uniform_fog_raw.append({
+            "elevation": 150,
+            "hourly": {
+                "time": [qingshui_ts],
+                "temperature_2m": [23.0],
+                "dew_point_2m": [22.0],
+                "relative_humidity_2m": [92],
+                "cloud_cover_low": [70],
+                "visibility": [5000],
+                "weather_code": [45],
+                "precipitation": [0.0],
+                "wind_speed_10m": [1.0],
+            },
+        })
+    qingshui_uniform_fog_obs = spatial_observations_for_timestamp(
+        index_spatial_response(qingshui_plan, qingshui_uniform_fog_raw), qingshui_ts
+    )
+    qingshui_uniform_fog_eval = evaluate_spatial_weather(
+        qingshui_by_id["tw-034-P03"], {"spatial_weather": qingshui_uniform_fog_obs}
+    )
+    assert qingshui_uniform_fog_eval["available"] is True
+    assert qingshui_uniform_fog_eval["eligible"] is False
+    assert qingshui_uniform_fog_eval["reason"] == "directional_mist_not_distinguished_from_camera"
+    assert qingshui_uniform_fog_eval["mist_target_count"] == 6
+    assert qingshui_uniform_fog_eval["directional_mist_target_count"] == 0
+
+    qingshui_uniform_local = evaluate_minimum_sufficient_visibility(
+        qingshui_by_id["tw-034-P03"],
+        {
+            "local_date": "2026-09-28", "local_time": "07:00", "local_month": 9,
+            "vis": 5000, "rh": 92, "c_low": 70, "cloud_base_agl": 300,
+            "temp": 23.0, "dew": 22.0, "weather_code": 45,
+            "pop": 0, "precipitation": 0.0, "access_open": True,
+            "spatial_weather": qingshui_uniform_fog_obs,
+        },
+    )
+    assert qingshui_uniform_local["eligible"] is True
+    assert qingshui_uniform_local["reason"] == "coastal_cliff_light_mist_supported"
+    assert qingshui_uniform_local["score_hint"] == 82
+    assert "directional_spatial_mist" not in qingshui_uniform_local["mist_signal_components"]
 
     # B92: adding the north-facing proxy grid must not promote a weak
     # visibility-only candidate unless the target sector is materially mistier
