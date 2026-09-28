@@ -170,7 +170,7 @@ jobs:
                   "宜蘭縣","花蓮縣","台東縣","澎湖縣","金門縣","連江縣"
               ], admin_contract
               assert admin_contract["hostHidden"] is False, admin_contract
-              assert admin_contract["navKeys"] == ["__all__", "__fav__"], admin_contract
+              assert admin_contract["navKeys"] == ["__fav__"], admin_contract
               assert admin_contract["countryInHeader"] is True, admin_contract
               assert admin_contract["countryInFilter"] is False, admin_contract
               assert admin_contract["counts"]["金門縣"] > 0, admin_contract
@@ -180,6 +180,49 @@ jobs:
               assert admin_contract["counts"]["嘉義市"] == 0, admin_contract
               assert "雲林縣" in admin_contract["disabled"], admin_contract
               assert "嘉義市" in admin_contract["disabled"], admin_contract
+
+              # B109: Taiwan has no explicit All button. Favorites is an
+              # independent on/off filter and composes with county selection.
+              favorite_toggle = driver.execute_script("""
+                const btn = document.querySelector('#sub-nav [data-key="__fav__"]');
+                const firstActive = currentSpots.find(s => s.active_in_catalog !== false && getMetric(s));
+                favorites = firstActive ? [firstActive.spot_id] : [];
+                currentCategoryKey = '__all__';
+                currentAdminAreas.clear();
+                renderSubNav();
+                filterAndRender();
+                const before = document.querySelectorAll('#spots-container .card').length;
+                document.querySelector('#sub-nav [data-key="__fav__"]').click();
+                const on = document.querySelector('#sub-nav [data-key="__fav__"]');
+                const filtered = document.querySelectorAll('#spots-container .card').length;
+                return {
+                  buttonCount: document.querySelectorAll('#sub-nav .sub-btn').length,
+                  before,
+                  filtered,
+                  pressed: on.getAttribute('aria-pressed'),
+                  currentCategoryKey
+                };
+              """)
+              report["favorite_toggle"] = favorite_toggle
+              assert favorite_toggle["buttonCount"] == 1, favorite_toggle
+              assert favorite_toggle["pressed"] == "true", favorite_toggle
+              assert favorite_toggle["currentCategoryKey"] == "__fav__", favorite_toggle
+              assert favorite_toggle["filtered"] == 1, favorite_toggle
+              assert favorite_toggle["before"] > favorite_toggle["filtered"], favorite_toggle
+
+              # Toggle off returns naturally to all places.
+              favorite_toggle_off = driver.execute_script("""
+                document.querySelector('#sub-nav [data-key="__fav__"]').click();
+                return {
+                  pressed: document.querySelector('#sub-nav [data-key="__fav__"]').getAttribute('aria-pressed'),
+                  currentCategoryKey,
+                  actual: document.querySelectorAll('#spots-container .card').length
+                };
+              """)
+              report["favorite_toggle_off"] = favorite_toggle_off
+              assert favorite_toggle_off["pressed"] == "false", favorite_toggle_off
+              assert favorite_toggle_off["currentCategoryKey"] == "__all__", favorite_toggle_off
+              assert favorite_toggle_off["actual"] == 83, favorite_toggle_off
 
               # Multi-select UX: selecting one county must not collapse the picker.
               # Re-query buttons after each click because filtering re-renders the picker.
