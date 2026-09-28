@@ -60,7 +60,7 @@ If the north-sector proxy points are no mistier than the camera, the spatial mod
 - a fully sampled, broadly clear north sector with zero mist targets vetoes P03 inside the <= 8 km mist-candidate range;
 - a clear 20–30 km camera row remains a P03 miss.
 
-The broad-clear rule requires at least 2 valid targets, zero mist targets, and at least two thirds of valid targets meeting: visibility >= 8 km, low cloud <= 35%, RH <= 88%, and no fog weather code.
+The broad-clear rule requires at least 4 valid targets spanning at least 2 clear bearings, zero mist targets, and at least two thirds of valid targets meeting: visibility >= 8 km, low cloud <= 35%, RH <= 88%, and no fog weather code.
 
 The proxy grid is environmental context only. Positive support does not prove exact fog location or cliff intersection, and the clear-sector veto does not prove that a narrow real-world fog ribbon cannot exist.
 
@@ -136,7 +136,7 @@ Do not merge these two provenance statements.
 
 - the B82 proxy layout is exactly 330° / 0° / 30° × 2.5 / 5.0 km;
 - no directional contrast does not promote a weak B81 visibility-only candidate;
-- fully sampled broad-clear north-sector evidence with zero mist targets vetoes P03;
+- sufficiently covered broad-clear north-sector evidence (>=4 valid targets, >=2 clear bearings) with zero mist targets vetoes P03;
 - missing/inconclusive spatial context preserves the B81 low-confidence fallback;
 - clear camera + clear/equivalent proxies deny P03;
 - a same-day 2026-09-28-derived transition goes from low-confidence P03 at 0.8 km to P02 winning after visibility recovery.
