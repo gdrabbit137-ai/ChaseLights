@@ -328,6 +328,8 @@ def test_adapter_integrity():
     assert qingshui_weak_mist["score_hint"] == 68
     assert qingshui_weak_mist["uncertain"] is True
     assert qingshui_weak_mist["runtime_confidence_hint"] == "low"
+    assert qingshui_weak_mist["subject_readability_uncertain"] is True
+    assert qingshui_weak_mist["camera_readability_threshold_km"] == 2.5
     assert qingshui_weak_mist["mist_signal_components"] == []
     assert qingshui_weak_mist["mist_signal"] is False
 
@@ -544,9 +546,10 @@ def test_adapter_integrity():
     )["tw-034-P03"]
     qingshui_low_scored = fetch_data._score_opportunity(
         qingshui_by_id["tw-034-P03"],
-        {"score": 61, "factors": [], "temporal_eligible": True},
+        {"score": 85, "factors": [], "temporal_eligible": True},
         qingshui_low_diag,
     )
+    # B88: 68 is a hard cap even when the generic Theme baseline is 85.
     assert qingshui_low_scored["score"] == 68
     assert qingshui_low_scored["status_key"] == "OPPORTUNITY_MIST_CANDIDATE"
     assert qingshui_low_scored["condition_state"] == "minimum_sufficient_mist_candidate_uncertain"
