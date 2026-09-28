@@ -53,13 +53,14 @@ The optional proxy sector is exactly:
 
 If the camera remains readable and at least one north-sector proxy has materially stronger mist evidence than the camera, the directional context may promote P03 to the directional-mist candidate state.
 
-If the north-sector proxy points are no mistier than the camera:
+If the north-sector proxy points are no mistier than the camera, the spatial module returns `directional_mist_not_distinguished_from_camera`. B94 refines the fallback semantics:
 
-- the spatial module must return `directional_mist_not_distinguished_from_camera`;
-- an existing 0.8 km visibility-only candidate must remain the B81 low-confidence 68-point fallback;
-- a clear 20–30 km camera row must remain a P03 miss rather than being promoted by the mere presence of proxy samples.
+- missing / insufficient / inconclusive spatial evidence may preserve the B81 low-confidence 68-point fallback;
+- broad regional fog without directional contrast is not promoted, but is also not treated as clear-sector negative evidence;
+- a fully sampled, broadly clear north sector with zero mist targets vetoes P03 inside the <= 8 km mist-candidate range;
+- a clear 20–30 km camera row remains a P03 miss.
 
-The proxy grid is environmental context only. It does not prove exact fog location, cliff intersection, or observed on-site conditions.
+The proxy grid is environmental context only. Positive support does not prove exact fog location or cliff intersection, and the B94 clear-sector veto does not prove that a narrow real-world fog ribbon cannot exist.
 
 ### 3. Camera readability overrides directional mist support below 2.5 km
 
