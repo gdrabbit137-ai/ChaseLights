@@ -71,7 +71,7 @@ from aurora_state import (
     validate_aurora_state_registry,
 )
 
-MODULE_VERSION = "opportunity-runtime-r16-b79-aurora-preview"
+MODULE_VERSION = "opportunity-runtime-r17-b87-qingshui-readability"
 
 IMPLEMENTED_COMPONENTS = {
     "directional_horizon",
