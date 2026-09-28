@@ -740,3 +740,223 @@
       .opportunity-meta { grid-template-columns:1fr; gap:4px; margin-bottom:7px; }
     }
     .unresearched-note { border:1px solid #475569; border-radius:8px; padding:12px; color:#cbd5e1; background:#0f172a; line-height:1.55; }
+
+/* B102 desktop stage 1: wider dashboard, sticky unified filters, denser cards */
+.site-header {
+  max-width: 1600px;
+  margin: 0 auto 10px;
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+.filter-shell {
+  position: sticky;
+  top: 0;
+  z-index: 120;
+  margin: 0 auto 16px;
+  background: rgba(15, 23, 42, .96);
+  border-bottom: 1px solid #334155;
+  backdrop-filter: blur(10px);
+}
+.filter-toolbar {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 10px 0 9px;
+}
+.filter-toolbar .filter-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) minmax(220px, 340px);
+  align-items: center;
+  gap: 10px 12px;
+  margin: 0;
+}
+.filter-toolbar .sub-nav-bar {
+  margin: 0;
+  min-width: 0;
+}
+.filter-toolbar .place-search {
+  width: 100%;
+  min-width: 0;
+  max-width: none;
+}
+.filter-toolbar-secondary {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 8px;
+}
+.filter-toolbar-secondary .day-nav-bar {
+  flex: 0 0 auto;
+  margin: 0;
+}
+.filter-toolbar-secondary .discovery-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  min-width: 0;
+  flex: 1;
+  margin: 0;
+}
+.filter-toolbar-secondary .rank-summary {
+  margin: 0;
+  white-space: nowrap;
+}
+
+.container {
+  max-width: 1600px;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: stretch;
+}
+.card {
+  padding: 14px;
+}
+.card-header {
+  margin-bottom: 5px;
+}
+.spot-title-group {
+  min-height: 0;
+}
+.tags-wrapper {
+  min-height: 0;
+  margin-bottom: 5px;
+}
+.shooting-summary {
+  margin: 3px 0 5px;
+  padding: 7px 9px;
+}
+.recommendation-reasons {
+  margin-top: 4px;
+  padding: 0;
+  background: transparent;
+}
+.recommendation-reasons-label {
+  display: none;
+}
+.card-secondary-meta {
+  margin-top: 6px;
+  padding-top: 6px;
+  gap: 3px;
+}
+.card-secondary-meta .info-row {
+  font-size: .75rem;
+}
+.card-footer-tools {
+  margin-top: 9px;
+  padding-top: 7px;
+}
+
+.deferred-group {
+  grid-column: 1 / -1;
+  margin-top: 4px;
+  border: 1px solid #334155;
+  border-radius: 10px;
+  background: rgba(30, 41, 59, .32);
+  overflow: hidden;
+}
+.deferred-group > summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 12px 14px;
+  color: #cbd5e1;
+  font-size: .86rem;
+  font-weight: 800;
+  user-select: none;
+}
+.deferred-group > summary::-webkit-details-marker { display: none; }
+.deferred-group > summary::after {
+  content: "＋";
+  float: right;
+  color: #64748b;
+}
+.deferred-group[open] > summary::after { content: "−"; }
+.deferred-group[open] > summary {
+  border-bottom: 1px solid #334155;
+}
+.deferred-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+  padding: 16px;
+}
+
+@media (min-width: 700px) {
+  .container,
+  .deferred-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 1100px) {
+  .container,
+  .deferred-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (min-width: 1500px) {
+  .container,
+  .deferred-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+@media (max-width: 900px) {
+  .filter-toolbar .filter-row {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+  .filter-toolbar .place-search {
+    grid-column: 1 / -1;
+  }
+  .filter-toolbar-secondary {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 7px;
+  }
+}
+
+@media (max-width: 640px) {
+  .site-header {
+    margin-bottom: 8px;
+  }
+  .filter-shell {
+    position: static;
+    margin-bottom: 12px;
+    background: transparent;
+    border-bottom: 0;
+    backdrop-filter: none;
+  }
+  .filter-toolbar {
+    padding: 0;
+  }
+  .filter-toolbar .filter-row {
+    display: flex;
+    align-items: stretch;
+    gap: 8px;
+    margin-bottom: 9px;
+  }
+  .filter-toolbar .select-group {
+    width: auto;
+    flex: 0 0 auto;
+  }
+  .filter-toolbar .sub-nav-bar {
+    order: 3;
+    width: 100%;
+    flex-basis: 100%;
+    margin-right: -12px;
+  }
+  .filter-toolbar .place-search {
+    order: 2;
+    flex: 1 1 150px;
+    width: auto;
+  }
+  .filter-toolbar-secondary {
+    display: block;
+    margin-top: 0;
+  }
+  .filter-toolbar-secondary .day-nav-bar {
+    margin-bottom: 7px;
+  }
+  .filter-toolbar-secondary .discovery-row {
+    display: block;
+    margin: 0;
+  }
+  .filter-toolbar-secondary .rank-summary {
+    margin-top: 3px;
+    white-space: normal;
+  }
+  .deferred-grid {
+    padding: 12px;
+    gap: 12px;
+  }
+}

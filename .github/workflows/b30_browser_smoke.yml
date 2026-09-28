@@ -144,6 +144,30 @@ jobs:
               report["taiwan_rendered_cards"] = len(cards)
               assert len(cards) == 83, f"expected 83 Taiwan cards on a forecast day, got {len(cards)}"
 
+              # B102 desktop contract: no-opportunity cards are present but
+              # collapsed by default, filters stay sticky, and wide screens
+              # expand to four columns.
+              deferred = driver.find_elements(By.CSS_SELECTOR, "#spots-container .deferred-group")
+              report["deferred_groups"] = len(deferred)
+              assert all(not x.get_attribute("open") for x in deferred), "no-opportunity group must be collapsed by default"
+              sticky_position = driver.execute_script(
+                  "return getComputedStyle(document.querySelector('.filter-shell')).position"
+              )
+              report["filter_shell_position"] = sticky_position
+              assert sticky_position == "sticky", sticky_position
+              driver.set_window_size(1800, 1200)
+              column_count = driver.execute_script("""
+                const grid = document.getElementById('spots-container');
+                return getComputedStyle(grid).gridTemplateColumns.split(' ').filter(Boolean).length;
+              """)
+              report["desktop_grid_columns"] = column_count
+              assert column_count == 4, column_count
+              driver.set_window_size(1440, 1200)
+
+              # Open deferred cards for the remaining data-contract assertions.
+              driver.execute_script("document.querySelectorAll('.deferred-group').forEach(x => x.open = true)")
+              cards = driver.find_elements(By.CSS_SELECTOR, "#spots-container .card")
+
               # R4.2 navigation contract: ambiguous keyword search is forbidden.
               # 加羅湖 needs a verified hiking arrival point, so its navigation
               # control must be disabled rather than searching the place name.
@@ -346,6 +370,7 @@ jobs:
               Select(driver.find_element(By.ID, "country-select")).select_by_value("jp")
               wait.until(lambda d: d.execute_script("return currentRegion === 'jp' && currentSpots.length > 0 && String(currentSpots[0].spot_id || '').startsWith('jp-')"))
               wait.until(lambda d: len(d.find_elements(By.CSS_SELECTOR, "#spots-container .card")) > 0)
+              driver.execute_script("document.querySelectorAll('.deferred-group').forEach(x => x.open = true)")
               jp_cards = driver.find_elements(By.CSS_SELECTOR, "#spots-container .card")
               report["jp_cards"] = len(jp_cards)
               assert len(jp_cards) == 35, len(jp_cards)
@@ -554,6 +579,7 @@ jobs:
               Select(driver.find_element(By.ID, "country-select")).select_by_value("us")
               wait.until(lambda d: d.execute_script("return currentRegion === 'us' && currentSpots.length > 0 && String(currentSpots[0].spot_id || '').startsWith('us-')"))
               wait.until(lambda d: len(d.find_elements(By.CSS_SELECTOR, "#spots-container .card")) > 0)
+              driver.execute_script("document.querySelectorAll('.deferred-group').forEach(x => x.open = true)")
               us_cards = driver.find_elements(By.CSS_SELECTOR, "#spots-container .card")
               report["us_cards"] = len(us_cards)
               assert len(us_cards) == 70, len(us_cards)
