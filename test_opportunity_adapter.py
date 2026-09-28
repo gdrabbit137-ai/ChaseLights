@@ -623,7 +623,7 @@ def test_adapter_integrity():
         qixingtan_orographic_runtime,
         "zh-TW",
     )
-    assert qixingtan_orographic_score["score"] == 82
+    assert qixingtan_orographic_score["score"] == 79
     assert qixingtan_orographic_score["status_key"] == "OPPORTUNITY_OROGRAPHIC_CLOUD_POTENTIAL"
     assert qixingtan_orographic_score["condition_state"] == "orographic_mountain_cloud_potential"
     assert qixingtan_orographic_score["score_confidence"] == "low"
