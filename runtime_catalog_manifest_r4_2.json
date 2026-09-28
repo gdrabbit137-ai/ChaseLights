@@ -3,9 +3,9 @@
   "purpose": "Central expected-state manifest for the effective curated Opportunity catalog. Runtime code computes actual counts and validates them against this snapshot.",
   "totals": {
     "spots": 188,
-    "opportunities": 381,
-    "condition_variants": 396,
-    "profile_viewpoint_relations": 387
+    "opportunities": 382,
+    "condition_variants": 397,
+    "profile_viewpoint_relations": 388
   },
   "regions": {
     "tw": {
@@ -16,9 +16,9 @@
       ],
       "counts": {
         "spots": 83,
-        "opportunities": 217,
-        "condition_variants": 227,
-        "profile_viewpoint_relations": 222
+        "opportunities": 218,
+        "condition_variants": 228,
+        "profile_viewpoint_relations": 223
       }
     },
     "jp": {
@@ -47,7 +47,7 @@
   "runtime_policy_counts": {
     "module_pending": 122,
     "preview_module_available": 120,
-    "minimum_sufficient_available": 133,
+    "minimum_sufficient_available": 134,
     "prototype_pending_certification": 2,
     "hold": 2,
     "data_insufficient": 2
@@ -62,6 +62,7 @@
     "This manifest describes the effective curated catalog, not the full Place inventory shown in production.",
     "Japan production contains 35 Place cards and all jp-001 through jp-035 are Opportunity-migrated at this checkpoint.",
     "US migration complete: all us-001 through us-070 production Places are Opportunity-migrated; no US production Place remains research-pending.",
-    "B79 adds a location-aware NOAA SWPC OVATION aurora_state preview. Aurora-only Opportunities can become preview_module_available, while Opportunities that also require unresolved dynamic_access remain module_pending."
+    "B79 adds a location-aware NOAA SWPC OVATION aurora_state preview. Aurora-only Opportunities can become preview_module_available, while Opportunities that also require unresolved dynamic_access remain module_pending.",
+    "B81 adds tw-034-P03 Qingshui Cliff morning-mist / misty seascape as a Grade-A researched subject with a conservative minimum-sufficient mist runtime contract."
   ]
 }
