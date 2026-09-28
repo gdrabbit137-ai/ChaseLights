@@ -16,8 +16,10 @@ from pathlib import Path
 import re
 
 FIELD_VALIDATION_SCHEMA_VERSION = "field-validation-registry-r4.2-1"
+FIELD_VALIDATION_REPLAY_SCHEMA_VERSION = "field-validation-replay-r4.2-1"
+_PROJECT_ROOT = Path(__file__).parent
 FIELD_VALIDATION_REGISTRY_FILE = (
-    Path(__file__).parent / "field_validation_registry_r4_2.json"
+    _PROJECT_ROOT / "field_validation_registry_r4_2.json"
 )
 
 _ALLOWED_SOURCE_TYPES = {
@@ -31,11 +33,140 @@ _ALLOWED_PUBLICATION = {
     "explicitly_authorized_publication",
 }
 
+_ALLOWED_REPLAY_FIXTURE_TYPES = {
+    "synthetic_minimum_reproduction",
+    "captured_raw_model_inputs",
+}
+
 _SHA40 = re.compile(r"^[0-9a-f]{40}$")
 
 
 def load_field_validation_registry(path=FIELD_VALIDATION_REGISTRY_FILE):
     return json.loads(Path(path).read_text(encoding="utf-8"))
+
+
+def _resolve_project_relative_path(path):
+    candidate = (_PROJECT_ROOT / str(path)).resolve()
+    root = _PROJECT_ROOT.resolve()
+    if root != candidate and root not in candidate.parents:
+        raise ValueError(f"path escapes project root: {path}")
+    return candidate
+
+
+def load_field_validation_replay_fixture(path):
+    resolved = _resolve_project_relative_path(path)
+    return json.loads(resolved.read_text(encoding="utf-8"))
+
+
+def validate_field_validation_replay_fixture(fixture, *, expected_case_id=None):
+    errors = []
+    case_id = str(fixture.get("case_id") or expected_case_id or "<missing>")
+
+    if fixture.get("schema_version") != FIELD_VALIDATION_REPLAY_SCHEMA_VERSION:
+        errors.append(f"{case_id}: replay fixture schema mismatch")
+
+    if expected_case_id and fixture.get("case_id") != expected_case_id:
+        errors.append(f"{expected_case_id}: replay fixture case_id mismatch")
+
+    fixture_type = fixture.get("fixture_type")
+    if fixture_type not in _ALLOWED_REPLAY_FIXTURE_TYPES:
+        errors.append(f"{case_id}: unsupported replay fixture type {fixture_type!r}")
+
+    historical_raw_input = fixture.get("historical_raw_input")
+    if not isinstance(historical_raw_input, bool):
+        errors.append(f"{case_id}: replay historical_raw_input must be boolean")
+    if fixture_type == "synthetic_minimum_reproduction" and historical_raw_input is not False:
+        errors.append(f"{case_id}: synthetic replay must set historical_raw_input=false")
+    if fixture_type == "captured_raw_model_inputs" and historical_raw_input is not True:
+        errors.append(f"{case_id}: captured raw replay must set historical_raw_input=true")
+
+    if not str(fixture.get("purpose") or "").strip():
+        errors.append(f"{case_id}: replay purpose missing")
+
+    epoch = fixture.get("epoch_utc")
+    if not isinstance(epoch, (int, float)) or isinstance(epoch, bool):
+        errors.append(f"{case_id}: replay epoch_utc must be numeric")
+
+    item_data = fixture.get("item_data") or {}
+    if not isinstance(item_data.get("cloud_base_agl"), (int, float)) or isinstance(
+        item_data.get("cloud_base_agl"), bool
+    ):
+        errors.append(f"{case_id}: replay item_data.cloud_base_agl must be numeric")
+
+    common = fixture.get("common_weather") or {}
+    for key in (
+        "temperature_2m",
+        "dew_point_2m",
+        "precipitation",
+        "wind_speed_10m",
+    ):
+        if not isinstance(common.get(key), (int, float)) or isinstance(common.get(key), bool):
+            errors.append(f"{case_id}: replay common_weather.{key} must be numeric")
+
+    camera = fixture.get("camera") or {}
+    for key in (
+        "elevation_m",
+        "visibility_m",
+        "relative_humidity_2m",
+        "cloud_cover_low",
+        "weather_code",
+    ):
+        if not isinstance(camera.get(key), (int, float)) or isinstance(camera.get(key), bool):
+            errors.append(f"{case_id}: replay camera.{key} must be numeric")
+
+    targets = fixture.get("targets")
+    if not isinstance(targets, list) or not targets:
+        errors.append(f"{case_id}: replay targets must be non-empty")
+        targets = []
+    seen_points = set()
+    for index, target in enumerate(targets):
+        label = f"{case_id}: replay targets[{index}]"
+        if not isinstance(target, dict):
+            errors.append(f"{label} must be an object")
+            continue
+        for key in (
+            "bearing_deg",
+            "distance_km",
+            "elevation_m",
+            "visibility_m",
+            "relative_humidity_2m",
+            "cloud_cover_low",
+            "weather_code",
+        ):
+            if not isinstance(target.get(key), (int, float)) or isinstance(target.get(key), bool):
+                errors.append(f"{label}.{key} must be numeric")
+        point_key = (target.get("bearing_deg"), target.get("distance_km"))
+        if point_key in seen_points:
+            errors.append(f"{label} duplicates bearing/distance {point_key}")
+        seen_points.add(point_key)
+
+    theme_metrics = fixture.get("theme_metrics")
+    expected = fixture.get("expected")
+    if not isinstance(theme_metrics, dict) or not theme_metrics:
+        errors.append(f"{case_id}: replay theme_metrics missing")
+        theme_metrics = {}
+    if not isinstance(expected, dict) or not expected:
+        errors.append(f"{case_id}: replay expected outcomes missing")
+        expected = {}
+
+    if set(theme_metrics) != set(expected):
+        errors.append(f"{case_id}: replay theme_metrics / expected opportunity ids differ")
+
+    for oid, outcome in expected.items():
+        label = f"{case_id}: replay {oid}"
+        if not isinstance(outcome, dict):
+            errors.append(f"{label} expected outcome must be an object")
+            continue
+        if not str(outcome.get("condition_state") or "").strip():
+            errors.append(f"{label} condition_state missing")
+        if not isinstance(outcome.get("score"), (int, float)) or isinstance(outcome.get("score"), bool):
+            errors.append(f"{label} score must be numeric")
+        elif not 0 <= float(outcome["score"]) <= 100:
+            errors.append(f"{label} score outside 0..100")
+        if outcome.get("score_confidence") not in {"low", "medium", "high"}:
+            errors.append(f"{label} score_confidence invalid")
+
+    return errors
 
 
 def _score_errors(case_id, label, payload):
@@ -210,6 +341,49 @@ def validate_field_validation_registry(
             errors.append(f"{case_id}: snapshot/verification weather commit mismatch")
         if verification.get("result") not in {"pass", "known_miss", "pending"}:
             errors.append(f"{case_id}: invalid verification result")
+
+        replay = case.get("replay_fixture")
+        if replay is not None:
+            if not isinstance(replay, dict):
+                errors.append(f"{case_id}: replay_fixture must be an object")
+            else:
+                if replay.get("status") != "available":
+                    errors.append(f"{case_id}: replay_fixture.status must be available")
+                if replay.get("schema_version") != FIELD_VALIDATION_REPLAY_SCHEMA_VERSION:
+                    errors.append(f"{case_id}: replay_fixture schema mismatch")
+                fixture_type = replay.get("fixture_type")
+                if fixture_type not in _ALLOWED_REPLAY_FIXTURE_TYPES:
+                    errors.append(f"{case_id}: replay_fixture type unsupported")
+                historical_raw_input = replay.get("historical_raw_input")
+                if not isinstance(historical_raw_input, bool):
+                    errors.append(f"{case_id}: replay_fixture historical_raw_input must be boolean")
+                if fixture_type == "synthetic_minimum_reproduction" and historical_raw_input is not False:
+                    errors.append(f"{case_id}: synthetic replay registry link must set historical_raw_input=false")
+
+                path = replay.get("path")
+                if not str(path or "").strip():
+                    errors.append(f"{case_id}: replay_fixture path missing")
+                else:
+                    try:
+                        fixture = load_field_validation_replay_fixture(path)
+                    except (OSError, ValueError, json.JSONDecodeError) as exc:
+                        errors.append(f"{case_id}: replay fixture unreadable: {exc}")
+                    else:
+                        errors.extend(
+                            validate_field_validation_replay_fixture(
+                                fixture,
+                                expected_case_id=case_id,
+                            )
+                        )
+                        fixture_expected = fixture.get("expected") or {}
+                        for oid, outcome in fixture_expected.items():
+                            registry_expectation = opportunity_expectations.get(oid) or {}
+                            if outcome.get("condition_state") != registry_expectation.get("current_verified_state"):
+                                errors.append(f"{case_id}: replay {oid} state differs from registry verified state")
+                            if outcome.get("score") != registry_expectation.get("current_verified_score"):
+                                errors.append(f"{case_id}: replay {oid} score differs from registry verified score")
+                            if outcome.get("score_confidence") != registry_expectation.get("current_verified_confidence"):
+                                errors.append(f"{case_id}: replay {oid} confidence differs from registry verified confidence")
 
         limitations = case.get("limitations")
         if not isinstance(limitations, list) or not limitations:
