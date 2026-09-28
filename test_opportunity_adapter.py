@@ -359,6 +359,96 @@ def test_adapter_integrity():
     assert qingshui_afternoon["eligible"] is False
     assert qingshui_afternoon["reason"] == "outside_morning_mist_window"
 
+    # B82: optional directional spatial context compares the camera grid with
+    # broad proxy points toward the Qingshui viewing sector. A clear camera can
+    # coexist with mistier target-sector samples, which is the desired photo
+    # pattern; the proxy is never treated as an exact fog/cliff location.
+    qingshui_spot = next(s for s in tw if s["spot_id"] == "tw-034")
+    qingshui_plan = build_spatial_request_plan(qingshui_spot)
+    assert set(qingshui_plan["profiles"]) == {"tw-034-P03"}
+    assert len(qingshui_plan["points"]) == 7
+    assert qingshui_plan["profiles"]["tw-034-P03"]["target_resolution"] == (
+        "directional_sector_environment_proxy_not_exact_cliff_or_mist_location"
+    )
+
+    qingshui_ts = 1900003600
+    qingshui_raw = []
+    for i, point in enumerate(qingshui_plan["points"]):
+        if point["role"] == "camera":
+            vis, rh, low, weather_code = 20000, 75, 10, 0
+        elif i == 1:
+            vis, rh, low, weather_code = 2500, 93, 70, 45
+        else:
+            vis, rh, low, weather_code = 18000, 77, 15, 0
+        qingshui_raw.append({
+            "elevation": 150,
+            "hourly": {
+                "time": [qingshui_ts],
+                "temperature_2m": [24.0],
+                "dew_point_2m": [20.0],
+                "relative_humidity_2m": [rh],
+                "cloud_cover_low": [low],
+                "visibility": [vis],
+                "weather_code": [weather_code],
+                "precipitation": [0.0],
+                "wind_speed_10m": [1.0],
+            },
+        })
+
+    qingshui_spatial_obs = spatial_observations_for_timestamp(
+        index_spatial_response(qingshui_plan, qingshui_raw), qingshui_ts
+    )
+    qingshui_spatial_eval = evaluate_spatial_weather(
+        qingshui_by_id["tw-034-P03"], {"spatial_weather": qingshui_spatial_obs}
+    )
+    assert qingshui_spatial_eval["available"] is True
+    assert qingshui_spatial_eval["eligible"] is True
+    assert qingshui_spatial_eval["reason"] == "directional_mist_signal_detected"
+    assert qingshui_spatial_eval["directional_mist_target_count"] >= 1
+    assert qingshui_spatial_eval["exact_target_zone_verified"] is False
+
+    qingshui_directional = evaluate_minimum_sufficient_visibility(
+        qingshui_by_id["tw-034-P03"],
+        {
+            "local_date": "2026-09-28", "local_time": "07:00", "local_month": 9,
+            "vis": 20000, "rh": 75, "c_low": 10, "cloud_base_agl": 700,
+            "temp": 24.0, "dew": 20.0, "weather_code": 0,
+            "pop": 0, "precipitation": 0.0, "access_open": True,
+            "spatial_weather": qingshui_spatial_obs,
+        },
+    )
+    assert qingshui_directional["eligible"] is True
+    assert qingshui_directional["reason"] == "directional_cliff_mist_supported"
+    assert qingshui_directional["score_hint"] == 88
+    assert qingshui_directional["runtime_confidence_hint"] == "medium"
+    assert "directional_spatial_mist" in qingshui_directional["mist_signal_components"]
+
+    qingshui_no_direction_raw = []
+    for point in qingshui_plan["points"]:
+        qingshui_no_direction_raw.append({
+            "elevation": 150,
+            "hourly": {
+                "time": [qingshui_ts],
+                "temperature_2m": [24.0],
+                "dew_point_2m": [20.0],
+                "relative_humidity_2m": [75],
+                "cloud_cover_low": [10],
+                "visibility": [20000],
+                "weather_code": [0],
+                "precipitation": [0.0],
+                "wind_speed_10m": [1.0],
+            },
+        })
+    qingshui_no_direction_obs = spatial_observations_for_timestamp(
+        index_spatial_response(qingshui_plan, qingshui_no_direction_raw), qingshui_ts
+    )
+    qingshui_no_direction_eval = evaluate_spatial_weather(
+        qingshui_by_id["tw-034-P03"], {"spatial_weather": qingshui_no_direction_obs}
+    )
+    assert qingshui_no_direction_eval["available"] is True
+    assert qingshui_no_direction_eval["eligible"] is False
+    assert qingshui_no_direction_eval["reason"] == "directional_mist_not_distinguished_from_camera"
+
     liyu_ops = get_opportunities("tw", "tw-082")
     yun_ops = get_opportunities("tw", "tw-083")
     assert len(liyu_ops) == 10
