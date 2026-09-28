@@ -44,7 +44,7 @@ Post-B91 main validation:
 - Evidence Audit — PASS
 - code-merge Pages deployment — PASS
 - production weather refresh — PASS
-- generated-weather Pages deployment — pending only if this handoff is read before that deployment finishes; verify the latest Pages run on `23d7d13422b3...`
+- generated-weather Pages deployment — PASS
 
 ## Canonical catalog checkpoint
 
