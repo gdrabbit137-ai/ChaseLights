@@ -419,6 +419,9 @@ def test_forecast_revision_comparison_separates_data_and_model_changes():
     assert summary["metric_revision_count"] == 1
     assert summary["stable_selected_input"] is False
     assert summary["stable_model_contract"] is True
+    assert summary["transition_classification_counts"] == {
+        "provider_payload_revision_without_selected_input_change": 3
+    }
 
     second["provenance"]["git_commit"] = "1" * 40
     code_only = compare_forecast_revisions([first, second])
@@ -533,6 +536,8 @@ def test_real_qingshui_0600_revision_series_stability():
     assert summary["first_lead_time_seconds"] == 15714
     assert summary["last_lead_time_seconds"] == 11859
     assert summary["transition_count"] == 3
+    assert summary["camera_raw_revision_count"] == 3
+    assert summary["spatial_raw_revision_count"] == 3
     assert summary["normalized_input_revision_count"] == 0
     assert summary["metric_revision_count"] == 0
     assert summary["recorded_opportunity_revision_count"] == 0
