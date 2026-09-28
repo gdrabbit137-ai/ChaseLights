@@ -529,7 +529,7 @@ def test_adapter_integrity():
     assert qixingtan_spatial_eval["visibility_guaranteed"] is False
     assert qixingtan_spatial_eval["camera_lcl_agl_proxy_m"] == 700
     assert qixingtan_spatial_eval["camera_lcl_asl_proxy_m"] == 714
-    assert qixingtan_spatial_eval["terrain_lcl_intersection_target_count"] == 2
+    assert qixingtan_spatial_eval["terrain_lcl_intersection_target_count"] == 4
     assert qixingtan_spatial_eval["terrain_lcl_intersection_bearing_count"] == 2
     assert qixingtan_spatial_eval["elevated_target_max_elevation_m"] == 900
 
