@@ -41,6 +41,11 @@ from yahiko_access import (
     fetch_yahiko_homepage_status,
     unknown_yahiko_provider_state,
 )
+from johnston_ridge_access import (
+    build_johnston_ridge_access_state,
+    fetch_johnston_ridge_project_status,
+    unknown_johnston_ridge_provider_state,
+)
 
 # 後端多國語言狀態與指標字典
 I18N_MESSAGES = {
@@ -176,6 +181,7 @@ _MARINE_RESPONSE_CACHE = {}
 _TIDE_RESPONSE_CACHE = {}
 _SHINHOTAKA_ACCESS_CACHE = None
 _YAHIKO_ACCESS_CACHE = None
+_JOHNSTON_RIDGE_ACCESS_CACHE = None
 
 
 def _fetch_shinhotaka_access_provider():
@@ -191,6 +197,21 @@ def _fetch_shinhotaka_access_provider():
             reason=f"provider_exception:{type(exc).__name__}"
         )
     return _SHINHOTAKA_ACCESS_CACHE
+
+
+def _fetch_johnston_ridge_access_provider():
+    """Fetch us-017 official SR 504 / Johnston Ridge status once per process."""
+    global _JOHNSTON_RIDGE_ACCESS_CACHE
+    if _JOHNSTON_RIDGE_ACCESS_CACHE is not None:
+        return _JOHNSTON_RIDGE_ACCESS_CACHE
+    try:
+        _JOHNSTON_RIDGE_ACCESS_CACHE = fetch_johnston_ridge_project_status()
+    except Exception as exc:
+        print(f"Johnston Ridge access fetch error: {exc}")
+        _JOHNSTON_RIDGE_ACCESS_CACHE = unknown_johnston_ridge_provider_state(
+            reason=f"provider_exception:{type(exc).__name__}"
+        )
+    return _JOHNSTON_RIDGE_ACCESS_CACHE
 
 
 def _fetch_yahiko_access_provider():
@@ -1707,6 +1728,11 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
             if spot.get("spot_id") == "jp-022"
             else None
         )
+        johnston_ridge_access_provider = (
+            _fetch_johnston_ridge_access_provider()
+            if spot.get("spot_id") == "us-017"
+            else None
+        )
 
         tz_name = raw.get("timezone") or "UTC"
         try:
@@ -1827,6 +1853,10 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
             elif spot.get("spot_id") == "jp-022":
                 item_data["access_state"] = build_yahiko_access_state(
                     int(ts), yahiko_access_provider
+                )
+            elif spot.get("spot_id") == "us-017":
+                item_data["access_state"] = build_johnston_ridge_access_state(
+                    int(ts), johnston_ridge_access_provider
                 )
 
             opportunity_runtime = _build_opportunity_runtime_diagnostics(spot, item_data)
