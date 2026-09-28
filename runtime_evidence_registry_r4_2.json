@@ -1485,6 +1485,47 @@
         "direction_source_url": "https://www.taiwan.nps.gov.tw/home/zh-tw/quarterly/7933/6910",
         "direction_source_note": "官方資料描述從崇德隔海灣向北眺望清水斷崖；B82 僅據此採北向廣角 proxy，不主張精確攝影方位。"
       }
+    },
+    "tw-036-P03": {
+      "status": "verified",
+      "grade": "A",
+      "subject": "七星潭北望清水山／清水斷崖＋貼山雲帶",
+      "evidence_scope": "交通部觀光署官方七星潭資料指出可遠眺清水斷崖；臺灣國家公園官方文章明確描述從七星潭海岸隔海灣向北可見太平洋、清水斷崖及清水山，並記錄清水山山頂常聚積雲霧。花蓮縣官方攝影專欄亦把七星潭的海、雲與中央山脈列為可拍景觀。這些證據共同支持北望山海與山區雲帶是七星潭的 Place-specific 攝影題材。",
+      "sources": [
+        {
+          "title": "交通部觀光署－七星潭",
+          "url": "https://www.taiwan.net.tw/m1.aspx?id=9488&sno=0001124"
+        },
+        {
+          "title": "臺灣國家公園－從七星潭／崇德眺望清水斷崖與清水山",
+          "url": "https://www.taiwan.nps.gov.tw/home/zh-tw/quarterly/7933/6910"
+        },
+        {
+          "title": "花蓮觀光資訊網－七星潭日出拍攝攻略／海、雲與中央山脈",
+          "url": "https://tour-hualien.hl.gov.tw/jp/News_Content.aspx?n=288&s=8856"
+        }
+      ],
+      "forecast_boundary": "官方證據證明七星潭北望清水斷崖／清水山及山區雲霧是實際可見題材；runtime 只能以七星潭拍攝點與北向山區多格點的相對低雲、高濕、能見度與高程差建立『貼山雲帶候選』，不能保證實際雲形、山峰露出比例、精確雲帶位置或最終構圖品質。",
+      "runtime_enrichment": {
+        "version": "B83_directional_mountain_cloud_proxy",
+        "status": "required_context",
+        "camera_vs_target_sector": true,
+        "exact_target_zone_verified": false,
+        "fallback": "no_high_confidence_score_when_spatial_samples_missing",
+        "direction_basis": "official_Qixingtan_northward_Qingshui_Cliff_and_Qingshui_Mountain_view",
+        "direction_sector_deg": [
+          350,
+          5,
+          20
+        ],
+        "sample_distances_km": [
+          8,
+          15,
+          22
+        ],
+        "direction_source_url": "https://www.taiwan.nps.gov.tw/home/zh-tw/quarterly/7933/6910",
+        "direction_source_note": "官方資料只支持七星潭隔海灣向北眺望清水斷崖／清水山；B83 使用北向至北北東的廣角高地 proxy，並不主張精確山峰方位或雲帶交會位置。"
+      }
     }
   }
 }
