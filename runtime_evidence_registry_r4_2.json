@@ -1505,13 +1505,13 @@
           "url": "https://tour-hualien.hl.gov.tw/jp/News_Content.aspx?n=288&s=8856"
         }
       ],
-      "forecast_boundary": "官方證據只證明七星潭北望清水斷崖／清水山及山區雲霧是實際可拍題材。Runtime 優先使用海岸與北向高地多格點的低雲、高濕、能見度差異；若粗網格未直接解析雲帶，B84 可用海岸氣團的規劃級 LCL／凝結高度與多個高地 DEM 高程交會，僅標示低信心『地形抬升貼雲潛勢』。這不是實景觀測，不保證雲形、山峰露出比例、精確雲帶位置或最終構圖品質。",
+      "forecast_boundary": "官方證據證明七星潭北望清水斷崖／清水山及山區雲霧是實際可見題材；runtime 優先使用七星潭拍攝點與北向山區多格點的相對低雲、高濕、能見度差建立方向性貼山雲候選。B84 另增加保守 fallback：當海岸格點清楚、但粗解析山區格點沒有直接低雲訊號時，只用拍攝點溫度／露點導出的規劃級凝結高度代理與北向 DEM 高地交會，產生低信心『地形雲潛勢』，分數封頂且明示缺乏直接雲帶佐證。兩條路徑都不能保證實際雲形、山峰露出比例、精確雲帶位置或最終構圖品質。",
       "runtime_enrichment": {
-        "version": "B84_directional_cloud_plus_orographic_lcl_fallback",
+        "version": "B84_directional_cloud_plus_orographic_LCL_fallback",
         "status": "required_context_with_low_confidence_fallback",
         "camera_vs_target_sector": true,
         "exact_target_zone_verified": false,
-        "fallback": "clear_camera_plus_condensation_height_intersects_multiple_elevated_directional_proxies",
+        "fallback": "clear_camera_plus_condensation_height_proxy_intersects_multiple_elevated_northward_DEM_samples",
         "direction_basis": "official_Qixingtan_northward_Qingshui_Cliff_and_Qingshui_Mountain_view",
         "direction_sector_deg": [
           350,
@@ -1527,7 +1527,8 @@
         "direction_source_note": "官方資料只支持七星潭隔海灣向北眺望清水斷崖／清水山；B83 使用北向至北北東的廣角高地 proxy，並不主張精確山峰方位或雲帶交會位置。",
         "fallback_confidence": "low",
         "fallback_score_cap": 82,
-        "cloud_ridge_overlap_verified": false
+        "cloud_ridge_overlap_verified": false,
+        "direct_path": "directional_multi_point_cloud_contrast"
       }
     }
   }
