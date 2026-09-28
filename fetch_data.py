@@ -1669,20 +1669,46 @@ def _build_spatial_open_meteo_url(plan):
     return "https://api.open-meteo.com/v1/forecast?" + "&".join(params)
 
 
-def _fetch_spatial_weather_response(spot):
+def _fetch_spatial_weather_bundle(spot):
+    """Return request plan + raw provider payload + indexed spatial weather.
+
+    Production callers historically consumed only the indexed form. B101 keeps
+    that API intact but preserves the exact raw response for an explicitly
+    requested field snapshot so replay can distinguish provider parsing changes
+    from scoring changes.
+    """
     plan = build_spatial_request_plan(spot)
     if not plan.get("points"):
-        return None
+        return {"plan": plan, "raw": None, "indexed": None}
     key = tuple(
         (round(float(p["lat"]), 5), round(float(p["lon"]), 5))
         for p in plan["points"]
     )
-    if key in _SPATIAL_WEATHER_RESPONSE_CACHE:
-        return _SPATIAL_WEATHER_RESPONSE_CACHE[key]
+    cached = _SPATIAL_WEATHER_RESPONSE_CACHE.get(key)
+    if isinstance(cached, dict) and cached.get("_field_snapshot_bundle"):
+        return cached
+    if cached is not None:
+        # Compatibility with an in-process cache populated by older code paths.
+        return {
+            "_field_snapshot_bundle": True,
+            "plan": plan,
+            "raw": None,
+            "indexed": cached,
+        }
     raw = _request_json(_build_spatial_open_meteo_url(plan))
     indexed = index_spatial_response(plan, raw)
-    _SPATIAL_WEATHER_RESPONSE_CACHE[key] = indexed
-    return indexed
+    bundle = {
+        "_field_snapshot_bundle": True,
+        "plan": plan,
+        "raw": raw,
+        "indexed": indexed,
+    }
+    _SPATIAL_WEATHER_RESPONSE_CACHE[key] = bundle
+    return bundle
+
+
+def _fetch_spatial_weather_response(spot):
+    return _fetch_spatial_weather_bundle(spot).get("indexed")
 
 
 def _build_marine_open_meteo_url(spot):
@@ -1741,7 +1767,7 @@ def _fetch_tide_response(spot):
     return indexed
 
 
-def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
+def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None, snapshot_sink=None):
     lat = spot.get("lat")
     lon = spot.get("lon")
     themes = spot.get("themes") or spot.get("tags", ["mountain_view"])
@@ -1755,11 +1781,17 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
         if not timestamps:
             return {}
 
+        spatial_bundle = None
         try:
-            spatial_index = _fetch_spatial_weather_response(spot)
+            if snapshot_sink is None:
+                spatial_index = _fetch_spatial_weather_response(spot)
+            else:
+                spatial_bundle = _fetch_spatial_weather_bundle(spot)
+                spatial_index = spatial_bundle.get("indexed")
         except Exception as spatial_error:
             print(f"Spatial weather fetch error for {spot.get('spot_id')}: {spatial_error}")
             spatial_index = None
+            spatial_bundle = None
 
         try:
             marine_index = _fetch_marine_response(spot)
@@ -1979,6 +2011,29 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None):
                     opportunity_runtime.get(oid),
                     lang,
                 )
+
+            if snapshot_sink is not None:
+                snapshot_sink({
+                    "forecast_valid_epoch": int(ts),
+                    "forecast_valid_at": utc_dt.isoformat(),
+                    "timezone": tz_name,
+                    "language": lang,
+                    "raw_camera_weather": raw,
+                    "spatial_request_plan": (
+                        spatial_bundle.get("plan")
+                        if spatial_bundle is not None
+                        else ((spatial_index or {}).get("plan") if spatial_index else None)
+                    ),
+                    "raw_spatial_weather": (
+                        spatial_bundle.get("raw")
+                        if spatial_bundle is not None
+                        else None
+                    ),
+                    "normalized_input": item_data,
+                    "runtime_output": opportunity_runtime,
+                    "theme_scores": theme_scores,
+                    "opportunity_scores": opportunity_scores,
+                })
 
             if opportunity_scores:
                 best_opportunity_id = max(opportunity_scores, key=lambda oid: opportunity_scores[oid]["score"])
