@@ -420,6 +420,7 @@ def evaluate_hualien_local_scene(opportunity, item_data):
             confidence_hint = "medium"
         elif (
             camera_readability_threshold_km
+            and mist_support_score >= 1
             and mist_visibility_km < camera_readability_threshold_km
         ):
             # Even with strong fog/mist corroboration, a very low camera-grid
