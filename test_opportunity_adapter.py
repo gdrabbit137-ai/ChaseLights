@@ -605,6 +605,75 @@ def test_adapter_integrity():
     assert qingshui_no_direction_eval["eligible"] is False
     assert qingshui_no_direction_eval["reason"] == "directional_mist_not_distinguished_from_camera"
 
+    # B93: each broad north-sector bearing must independently be capable of
+    # supplying directional context. This guards against list-order coupling.
+    for promoted_bearing in (330, 0, 30):
+        bearing_raw = []
+        for point in qingshui_plan["points"]:
+            if point["role"] == "camera":
+                vis, rh, low, weather_code = 20000, 75, 10, 0
+            elif (
+                int(point.get("bearing_deg", -1)) % 360 == promoted_bearing
+                and float(point.get("distance_km", 0)) == 2.5
+            ):
+                vis, rh, low, weather_code = 2500, 93, 70, 45
+            else:
+                vis, rh, low, weather_code = 18000, 77, 15, 0
+            bearing_raw.append({
+                "elevation": 150,
+                "hourly": {
+                    "time": [qingshui_ts],
+                    "temperature_2m": [24.0],
+                    "dew_point_2m": [20.0],
+                    "relative_humidity_2m": [rh],
+                    "cloud_cover_low": [low],
+                    "visibility": [vis],
+                    "weather_code": [weather_code],
+                    "precipitation": [0.0],
+                    "wind_speed_10m": [1.0],
+                },
+            })
+        bearing_obs = spatial_observations_for_timestamp(
+            index_spatial_response(qingshui_plan, bearing_raw), qingshui_ts
+        )
+        bearing_eval = evaluate_spatial_weather(
+            qingshui_by_id["tw-034-P03"], {"spatial_weather": bearing_obs}
+        )
+        assert bearing_eval["eligible"] is True, promoted_bearing
+        assert bearing_eval["reason"] == "directional_mist_signal_detected"
+        assert bearing_eval["directional_mist_target_count"] >= 1
+
+    # B93 bug regression: identical fog weather-code and atmospheric state at
+    # camera + targets is broad fog, not a directional cliff-sector contrast.
+    same_fog_raw = []
+    for point in qingshui_plan["points"]:
+        same_fog_raw.append({
+            "elevation": 150,
+            "hourly": {
+                "time": [qingshui_ts],
+                "temperature_2m": [23.0],
+                "dew_point_2m": [22.0],
+                "relative_humidity_2m": [93],
+                "cloud_cover_low": [70],
+                "visibility": [3000],
+                "weather_code": [45],
+                "precipitation": [0.0],
+                "wind_speed_10m": [1.0],
+            },
+        })
+    same_fog_obs = spatial_observations_for_timestamp(
+        index_spatial_response(qingshui_plan, same_fog_raw), qingshui_ts
+    )
+    same_fog_eval = evaluate_spatial_weather(
+        qingshui_by_id["tw-034-P03"], {"spatial_weather": same_fog_obs}
+    )
+    assert same_fog_eval["available"] is True
+    assert same_fog_eval["eligible"] is False
+    assert same_fog_eval["reason"] == "directional_mist_not_distinguished_from_camera"
+    assert same_fog_eval["mist_target_count"] == 6
+    assert same_fog_eval["directional_mist_target_count"] == 0
+    assert same_fog_eval["camera_weather_code"] == 45
+
     # B92: adding the north-facing proxy grid must not promote a weak
     # visibility-only candidate unless the target sector is materially mistier
     # than the camera. With no directional contrast, keep the conservative B81
