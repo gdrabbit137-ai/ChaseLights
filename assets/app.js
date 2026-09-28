@@ -26,7 +26,9 @@
     };
 
     const categoryKeys = {
-      tw:['__all__','__fav__','本島','澎湖','金門','馬祖','綠島/蘭嶼/小琉球'],
+      // Taiwan uses the county/city picker as its geographic filter.
+      // Keep only the two behavior filters here to avoid overlapping geography controls.
+      tw:['__all__','__fav__'],
       jp:['__all__','__fav__','北海道/東北','關東/中部','關西/中四國','九州/沖繩'],
       us:['__all__','__fav__','美西','美中','美東','阿拉斯加']
     };
@@ -48,13 +50,13 @@
 
     const TW_ADMIN_AREA_ORDER=[
       '台北市','新北市','基隆市','桃園市','新竹市','新竹縣','苗栗縣','台中市',
-      '彰化縣','南投縣','嘉義縣','台南市','高雄市','屏東縣','宜蘭縣','花蓮縣',
-      '台東縣','澎湖縣','金門縣','連江縣'
+      '彰化縣','南投縣','雲林縣','嘉義市','嘉義縣','台南市','高雄市','屏東縣',
+      '宜蘭縣','花蓮縣','台東縣','澎湖縣','金門縣','連江縣'
     ];
     const adminAreaLabels={
       'zh-TW':{},
-      en:{'台北市':'Taipei','新北市':'New Taipei','基隆市':'Keelung','桃園市':'Taoyuan','新竹市':'Hsinchu City','新竹縣':'Hsinchu County','苗栗縣':'Miaoli','台中市':'Taichung','彰化縣':'Changhua','南投縣':'Nantou','嘉義縣':'Chiayi County','台南市':'Tainan','高雄市':'Kaohsiung','屏東縣':'Pingtung','宜蘭縣':'Yilan','花蓮縣':'Hualien','台東縣':'Taitung','澎湖縣':'Penghu','金門縣':'Kinmen','連江縣':'Lienchiang'},
-      ja:{'台北市':'台北市','新北市':'新北市','基隆市':'基隆市','桃園市':'桃園市','新竹市':'新竹市','新竹縣':'新竹県','苗栗縣':'苗栗県','台中市':'台中市','彰化縣':'彰化県','南投縣':'南投県','嘉義縣':'嘉義県','台南市':'台南市','高雄市':'高雄市','屏東縣':'屏東県','宜蘭縣':'宜蘭県','花蓮縣':'花蓮県','台東縣':'台東県','澎湖縣':'澎湖県','金門縣':'金門県','連江縣':'連江県'}
+      en:{'台北市':'Taipei','新北市':'New Taipei','基隆市':'Keelung','桃園市':'Taoyuan','新竹市':'Hsinchu City','新竹縣':'Hsinchu County','苗栗縣':'Miaoli','台中市':'Taichung','彰化縣':'Changhua','南投縣':'Nantou','雲林縣':'Yunlin','嘉義市':'Chiayi City','嘉義縣':'Chiayi County','台南市':'Tainan','高雄市':'Kaohsiung','屏東縣':'Pingtung','宜蘭縣':'Yilan','花蓮縣':'Hualien','台東縣':'Taitung','澎湖縣':'Penghu','金門縣':'Kinmen','連江縣':'Lienchiang'},
+      ja:{'台北市':'台北市','新北市':'新北市','基隆市':'基隆市','桃園市':'桃園市','新竹市':'新竹市','新竹縣':'新竹県','苗栗縣':'苗栗県','台中市':'台中市','彰化縣':'彰化県','南投縣':'南投県','雲林縣':'雲林県','嘉義市':'嘉義市','嘉義縣':'嘉義県','台南市':'台南市','高雄市':'高雄市','屏東縣':'屏東県','宜蘭縣':'宜蘭県','花蓮縣':'花蓮県','台東縣':'台東県','澎湖縣':'澎湖県','金門縣':'金門県','連江縣':'連江県'}
     };
     const adminAreaLabel=a=>(adminAreaLabels[currentLang]||{})[a]||a;
 
@@ -135,34 +137,34 @@
     }
 
     function availableAdminAreas(){
-      if(currentRegion!=='tw')return [];
-      const seen=new Set();
-      categoryBaseSpots().forEach(s=>(s.admin_areas||[]).forEach(a=>seen.add(a)));
-      return [...seen].sort((a,b)=>{
-        const ai=TW_ADMIN_AREA_ORDER.indexOf(a),bi=TW_ADMIN_AREA_ORDER.indexOf(b);
-        if(ai<0&&bi<0)return a.localeCompare(b,'zh-TW');
-        if(ai<0)return 1;if(bi<0)return-1;return ai-bi;
-      });
+      return currentRegion==='tw'?[...TW_ADMIN_AREA_ORDER]:[];
     }
     function persistAdminAreas(){
       localStorage.setItem(`chaselights_admin_areas_${currentRegion}`,JSON.stringify([...currentAdminAreas]));
     }
     function renderAdminFilter(){
       const host=document.getElementById('admin-filter');if(!host)return;
+      const wasOpen=!!host.querySelector('.admin-filter')?.open;
       const areas=availableAdminAreas();
       const available=new Set(areas);
       const next=new Set([...currentAdminAreas].filter(a=>available.has(a)));
       if(next.size!==currentAdminAreas.size){currentAdminAreas=next;persistAdminAreas();}
-      if(currentRegion!=='tw'||areas.length<=1){
+      if(currentRegion!=='tw'){
         host.hidden=true;host.innerHTML='';return;
       }
-      const counts={};const base=categoryBaseSpots();
-      areas.forEach(a=>counts[a]=base.filter(s=>(s.admin_areas||[]).includes(a)).length);
+
+      // Counts and disabled state are based on all active Taiwan Places, not on
+      // a transient Favorites filter. This keeps the complete 22-area picker
+      // stable and prevents Kinmen/Lienchiang/Penghu from disappearing.
+      const allActive=currentSpots.filter(s=>s.active_in_catalog!==false);
+      const counts={};
+      areas.forEach(a=>counts[a]=allActive.filter(s=>(s.admin_areas||[]).includes(a)).length);
+
       const summary=currentAdminAreas.size?d().admin_area_selected.replace('{n}',currentAdminAreas.size):d().admin_area_all;
       host.hidden=false;
-      host.innerHTML=`<details class="admin-filter"><summary>📍 ${esc(summary)}</summary><div class="admin-filter-menu"><div class="admin-filter-head"><span>${esc(d().admin_area_filter)}</span><button type="button" class="admin-clear-btn" data-admin-clear>${esc(d().admin_area_clear)}</button></div><div class="admin-filter-grid">${areas.map(a=>`<button type="button" class="admin-area-btn ${currentAdminAreas.has(a)?'active':''}" data-admin-area="${esc(a)}" aria-pressed="${currentAdminAreas.has(a)?'true':'false'}">${esc(adminAreaLabel(a))}<span>${counts[a]}</span></button>`).join('')}</div></div></details>`;
+      host.innerHTML=`<details class="admin-filter"${wasOpen?' open':''}><summary>📍 ${esc(summary)}</summary><div class="admin-filter-menu"><div class="admin-filter-head"><span>${esc(d().admin_area_filter)}</span><button type="button" class="admin-clear-btn" data-admin-clear>${esc(d().admin_area_clear)}</button></div><div class="admin-filter-grid">${areas.map(a=>{const disabled=counts[a]===0;return `<button type="button" class="admin-area-btn ${currentAdminAreas.has(a)?'active':''}" data-admin-area="${esc(a)}" aria-pressed="${currentAdminAreas.has(a)?'true':'false'}" ${disabled?'disabled aria-disabled="true"':''}>${esc(adminAreaLabel(a))}<span>${counts[a]}</span></button>`;}).join('')}</div></div></details>`;
       host.querySelector('[data-admin-clear]').onclick=e=>{e.preventDefault();e.stopPropagation();currentAdminAreas.clear();persistAdminAreas();filterAndRender();};
-      host.querySelectorAll('[data-admin-area]').forEach(b=>b.onclick=e=>{e.preventDefault();e.stopPropagation();const area=b.dataset.adminArea;if(currentAdminAreas.has(area))currentAdminAreas.delete(area);else currentAdminAreas.add(area);persistAdminAreas();filterAndRender();});
+      host.querySelectorAll('[data-admin-area]:not([disabled])').forEach(b=>b.onclick=e=>{e.preventDefault();e.stopPropagation();const area=b.dataset.adminArea;if(currentAdminAreas.has(area))currentAdminAreas.delete(area);else currentAdminAreas.add(area);persistAdminAreas();filterAndRender();});
     }
     function setFilterPressed(button,on){
       button.classList.toggle('active',on);
