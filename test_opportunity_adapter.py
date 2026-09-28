@@ -191,15 +191,34 @@ def test_adapter_integrity():
     op_by_id = {o["opportunity_id"]: o for o in all_opportunities}
 
     field_registry = load_field_validation_registry()
-    assert FIELD_VALIDATION_SCHEMA_VERSION == "field-validation-registry-r4.2-1"
+    assert FIELD_VALIDATION_SCHEMA_VERSION == "field-validation-registry-r4.2-2"
     assert validate_field_validation_registry(
         field_registry,
         known_place_ids={s["spot_id"] for s in tw},
         known_opportunity_ids={o["opportunity_id"] for o in all_opportunities},
     ) == []
+    assert set(field_registry["case_profiles"]) == {
+        "qixingtan_northward_mountain_cloud",
+        "qingshui_cliff_mist",
+    }
+    qingshui_intake_profile = field_registry["case_profiles"]["qingshui_cliff_mist"]
+    assert qingshui_intake_profile["sector_key"] == "northward_mist_sector"
+    assert set(qingshui_intake_profile["observed_boolean_fields"]) == {
+        "camera_whiteout",
+        "coast_and_sea_readable",
+        "cliff_or_mountain_outline_readable",
+        "mist_or_low_cloud_visible_in_cliff_sector",
+        "precipitation_visible",
+    }
+    assert set(qingshui_intake_profile["sector_boolean_fields"]) == {
+        "available",
+        "eligible",
+        "broad_clear_target_sector",
+    }
     assert len(field_registry["cases"]) == 1
     qixingtan_field_case = field_registry["cases"][0]
     assert qixingtan_field_case["case_id"] == "FV-TW-036-20260928-1300-01"
+    assert qixingtan_field_case["validation_profile"] == "qixingtan_northward_mountain_cloud"
     assert qixingtan_field_case["place_id"] == "tw-036"
     assert qixingtan_field_case["source"]["publication"] == "metadata_only_image_not_committed"
     assert qixingtan_field_case["observed_scene"]["camera_whiteout"] is False
