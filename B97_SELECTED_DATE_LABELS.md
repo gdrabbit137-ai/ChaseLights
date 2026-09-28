@@ -1,4 +1,12 @@
-# B96 — 所選日期分數／窗口文案一致化
+# B97 — 所選日期分數／窗口文案一致化
+
+Date: 2026-09-28 (Asia/Taipei)
+
+## 編號更正
+
+本工作最初在 main 上以 `B96_SELECTED_DATE_LABELS.md` 記錄，但同一時間線中，合歡山高度基準／LCL 文案修正已先正式更正為 B96（`B96_HEHUAN_ELEVATION_LCL_WORDING.md`）。
+
+為避免兩個不同工作共用同一 batch ID，本文件正式改編為 **B97**。既有 Git commit 訊息不重寫；此後所有 handoff、規格引用與追蹤均以 B97 為準。
 
 ## 問題
 
@@ -13,7 +21,7 @@ B95 已讓 Opportunity 卡片顯示「每日最佳 forecast window」與信心�
 
 雖然資料本身來自所選日期，文字仍容易讓人誤以為是目前今天或目前時段。
 
-## B96 修正
+## B97 修正
 
 將與 day filter 綁定的文案改成明確的「所選日期」語意：
 
