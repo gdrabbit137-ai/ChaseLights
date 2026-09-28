@@ -300,11 +300,12 @@ def test_adapter_integrity():
         },
     )
     assert qingshui_weak_mist["eligible"] is True
-    assert qingshui_weak_mist["reason"] == "coastal_cliff_mist_weak_support"
-    assert qingshui_weak_mist["score_hint"] == 74
+    assert qingshui_weak_mist["reason"] == "coastal_cliff_visibility_only_candidate"
+    assert qingshui_weak_mist["score_hint"] == 68
     assert qingshui_weak_mist["uncertain"] is True
     assert qingshui_weak_mist["runtime_confidence_hint"] == "low"
-    assert qingshui_weak_mist["mist_signal_components"] == ["low_cloud_base_proxy"]
+    assert qingshui_weak_mist["mist_signal_components"] == []
+    assert qingshui_weak_mist["mist_signal"] is False
 
     qingshui_supported_mist = evaluate_minimum_sufficient_visibility(
         qingshui_by_id["tw-034-P03"],
@@ -345,6 +346,18 @@ def test_adapter_integrity():
     )
     assert qingshui_clear["eligible"] is False
     assert qingshui_clear["reason"] == "visibility_too_high_for_mist_subject"
+
+    qingshui_afternoon = evaluate_minimum_sufficient_visibility(
+        qingshui_by_id["tw-034-P03"],
+        {
+            "local_date": "2026-09-28", "local_time": "14:00", "local_month": 9,
+            "vis": 1800, "rh": 94, "c_low": 70, "cloud_base_agl": 180,
+            "temp": 24.0, "dew": 23.0, "weather_code": 45,
+            "pop": 5, "precipitation": 0.0, "access_open": True,
+        },
+    )
+    assert qingshui_afternoon["eligible"] is False
+    assert qingshui_afternoon["reason"] == "outside_morning_mist_window"
 
     liyu_ops = get_opportunities("tw", "tw-082")
     yun_ops = get_opportunities("tw", "tw-083")
