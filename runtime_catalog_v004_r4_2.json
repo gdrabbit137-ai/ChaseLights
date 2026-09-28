@@ -4339,7 +4339,7 @@
       "spot_id": "tw-036",
       "canonical_name": "七星潭月牙灣／賞星廣場",
       "product_status": "KEEP",
-      "product_review_stage": "R4_2_B83_QIXINGTAN_DIRECTIONAL_CLOUD",
+      "product_review_stage": "R4_2_B84_QIXINGTAN_OROGRAPHIC_FALLBACK",
       "opportunities": [
         {
           "opportunity_id": "tw-036-P01",
@@ -4425,9 +4425,9 @@
           "geometry_required": false,
           "opportunity_confidence": "high",
           "formula_status": "needs_spatial_weather_module",
-          "formula_version": "v0.04-qixingtan-directional-mountain-cloud",
+          "formula_version": "v0.04-qixingtan-directional-mountain-cloud-r2-orographic-fallback",
           "formula_confidence": 76,
-          "best_time": "白天；以七星潭海岸本身視野清楚、北方山體仍部分可辨且低雲貼山為佳",
+          "best_time": "白天；優先海岸本身視野清楚、北方山體仍部分可辨，且方向性雲訊號或地形抬升貼雲潛勢成立",
           "best_season": "全年候選；山區雲帶屬可變條件",
           "condition_variants": [
             {
@@ -4435,10 +4435,10 @@
               "profile_id": "tw-036-P03",
               "variant_name": "海岸清晰＋北方山腰貼雲",
               "condition_geometry": "{\"camera_zone\":\"七星潭月牙灣礫石海岸代表 Camera Zone\",\"subject\":\"northward Pacific coast + partially visible Qingshui Cliff / Qingshui Mountain + terrain-attached low cloud\"}",
-              "hard_gates": "七星潭海岸拍攝點本身需保持可辨視野；不得把單點低雲量或高濕直接當作北方山區貼山雲；若拍攝點白牆、明顯降雨或北方山體完全不可辨則不成立",
-              "required_conditions": "可見光時段；七星潭海岸能見度可用；北向至北北東方向的多點山區 proxy 至少兩點出現相對拍攝點更強的低雲／高濕／能見度下降訊號，且至少一個高地樣本仍屬可讀的非完全白牆狀態",
-              "boosters": "拍攝點高能見度；北方山區低雲明顯高於海岸；雲帶跨多個距離樣本；弱風；山峰或斷崖仍部分露出",
-              "penalties": "拍攝點低能見度或低雲過高；北方全部樣本近白牆；大雨；只有單一格點異常；山區與海岸條件沒有方向性差異",
+              "hard_gates": "七星潭海岸拍攝點本身需保持可辨視野；不得把單點低雲量、高濕或低凝結高度直接當作北方山區貼山雲實況；若拍攝點白牆、明顯降雨或缺少可用北向高地樣本則不成立",
+              "required_conditions": "可見光時段；七星潭海岸能見度可用；優先由北向至北北東多點高地 proxy 至少兩點出現相對拍攝點更強的低雲／高濕／能見度下降訊號且至少一點非白牆。若粗網格沒有直接解析雲帶，僅在海岸清晰、濕度足夠、規劃級凝結高度落入 350–1400 m ASL 且至少兩個北向高地 proxy 的地形高度進入該凝結高度範圍時，降級為低信心地形抬升貼雲潛勢",
+              "boosters": "北向多點直接出現雲訊號；拍攝點高能見度；雲帶跨多個距離樣本；凝結高度與多個山地 proxy 交會；弱風；山峰或斷崖仍部分露出",
+              "penalties": "拍攝點低能見度或低雲過高；北方全部樣本近白牆；大雨；只有單一格點異常；直接格點沒有雲訊號時，地形抬升 fallback 必須降信心且不得宣稱實際雲帶存在",
               "formula_status": "needs_spatial_weather_module"
             }
           ],
@@ -4459,7 +4459,7 @@
             }
           ],
           "evidence_basis": "official_place_specific_northward_mountain_cloud_subject",
-          "evidence_summary": "交通部觀光署資料明確指出七星潭可遠眺清水斷崖；臺灣國家公園資料進一步描述從七星潭海岸隔海灣向北可見太平洋、清水斷崖與向上延伸的清水山，並記錄清水山山頂常聚積雲霧。這證明北望山海與山區雲帶是 Place-specific 可拍題材；runtime 只估計何時較可能出現海岸清晰、北方山區貼雲的方向性條件。",
+          "evidence_summary": "官方地點資料證明七星潭北望清水斷崖／清水山與山區雲霧是 Place-specific 可拍題材。Runtime 優先比較海岸與北向山區多格點；B84 另外允許一個保守的地形抬升潛勢 fallback：當海岸清楚而規劃級凝結高度落入多個北向山地 proxy 的高度範圍時，只輸出低信心潛勢，不宣稱雲帶實況或精確山雲交會。",
           "subject_evidence": {
             "status": "verified_subject",
             "basis": "grade_A_official_qixingtan_qingshui_northward_view_and_cloud_evidence",
