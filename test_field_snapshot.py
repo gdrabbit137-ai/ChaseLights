@@ -398,6 +398,13 @@ def test_forecast_revision_comparison_separates_data_and_model_changes():
         "to": 70,
         "delta": -7.0,
     }
+    summary = comparison["stability_summary"]
+    assert summary["capture_span_seconds"] == 3600
+    assert summary["transition_count"] == 1
+    assert summary["normalized_input_revision_count"] == 1
+    assert summary["metric_revision_count"] == 1
+    assert summary["stable_selected_input"] is False
+    assert summary["stable_model_contract"] is True
 
     second["provenance"]["git_commit"] = "1" * 40
     code_only = compare_forecast_revisions([first, second])
@@ -458,6 +465,22 @@ def test_real_qingshui_0600_revision_pair_is_comparable():
     transition = comparison["transitions"][0]
     assert transition["code_commit_changed"] is True
     assert transition["model_contract_changed"] is False
+    assert (
+        transition["classification"]
+        == "provider_payload_revision_without_selected_input_change"
+    )
+    summary = comparison["stability_summary"]
+    assert summary["capture_span_seconds"] == 2037
+    assert summary["transition_count"] == 1
+    assert summary["camera_raw_revision_count"] == 1
+    assert summary["spatial_raw_revision_count"] == 1
+    assert summary["normalized_input_revision_count"] == 0
+    assert summary["metric_revision_count"] == 0
+    assert summary["recorded_opportunity_revision_count"] == 0
+    assert summary["model_contract_revision_count"] == 0
+    assert summary["stable_selected_input"] is True
+    assert summary["stable_recorded_opportunities"] is True
+    assert summary["stable_model_contract"] is True
 
 
 def main():
