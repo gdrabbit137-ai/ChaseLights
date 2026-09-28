@@ -112,7 +112,7 @@ def _all_opportunities():
 
 
 def test_adapter_integrity():
-    assert ADAPTER_VERSION == "v0.04-r4.2-canonical-r31-qixingtan-cloud-preview"
+    assert ADAPTER_VERSION == "v0.04-r4.2-canonical-r32-qixingtan-orographic-preview"
     assert validate_curated_opportunities() == []
     assert validate_taxonomy() == []
     assert EVENT_CALENDAR_SCHEMA_VERSION == "r4.2-event-calendar-1"
