@@ -9,7 +9,7 @@
 </head>
 <body>
 
-  <header>
+  <header class="site-header">
     <div class="header-top">
       <h1>📸 ChaseLights</h1>
       <div class="header-right">
@@ -25,33 +25,37 @@
         <div class="updated" id="update-time">載入中...</div>
       </div>
     </div>
-    
-    <div class="filter-row">
-      <div class="select-group">
-        <span class="select-label" id="country-select-label" data-i18n="country_label">📍 選擇國家/區域：</span>
-        <select id="country-select" onchange="switchRegion(this.value)" class="control-dropdown country-dropdown" aria-labelledby="country-select-label">
-          <option value="tw" selected data-i18n="opt_tw">🇹🇼 台灣 (Taiwan)</option>
-          <option value="jp" data-i18n="opt_jp">🇯🇵 日本 (Japan)</option>
-          <option value="us" data-i18n="opt_us">🇺🇸 美國 (United States)</option>
-        </select>
+  </header>
+
+  <div class="filter-shell">
+    <div class="filter-toolbar">
+      <div class="filter-row">
+        <div class="select-group">
+          <span class="select-label" id="country-select-label" data-i18n="country_label">📍 選擇國家/區域：</span>
+          <select id="country-select" onchange="switchRegion(this.value)" class="control-dropdown country-dropdown" aria-labelledby="country-select-label">
+            <option value="tw" selected data-i18n="opt_tw">🇹🇼 台灣 (Taiwan)</option>
+            <option value="jp" data-i18n="opt_jp">🇯🇵 日本 (Japan)</option>
+            <option value="us" data-i18n="opt_us">🇺🇸 美國 (United States)</option>
+          </select>
+        </div>
+        <div class="sub-nav-bar" id="sub-nav"></div>
+        <input id="place-search" class="place-search" type="search" autocomplete="off"
+               placeholder="搜尋景點名稱…" oninput="setPlaceSearch(this.value)">
+      </div>
+
+      <div class="filter-toolbar-secondary">
+        <div class="day-nav-bar" id="day-nav">
+          <button class="day-btn active" onclick="switchDay('today', this)" data-i18n="btn_today">📅 今天</button>
+          <button class="day-btn" onclick="switchDay('tomorrow', this)" data-i18n="btn_tomorrow">📅 明天</button>
+          <button class="day-btn" onclick="switchDay('after_tomorrow', this)" data-i18n="btn_after_tomorrow">📅 後天</button>
+        </div>
+        <div class="discovery-row">
+          <div class="discovery-title" id="discovery-title">📍 今天去哪裡拍？</div>
+          <div class="rank-summary" id="filter-result-summary"></div>
+        </div>
       </div>
     </div>
-
-    <div class="sub-nav-bar" id="sub-nav"></div>
-
-    <div class="day-nav-bar" id="day-nav">
-      <button class="day-btn active" onclick="switchDay('today', this)" data-i18n="btn_today">📅 今天</button>
-      <button class="day-btn" onclick="switchDay('tomorrow', this)" data-i18n="btn_tomorrow">📅 明天</button>
-      <button class="day-btn" onclick="switchDay('after_tomorrow', this)" data-i18n="btn_after_tomorrow">📅 後天</button>
-    </div>
-
-    <div class="discovery-row">
-      <div class="discovery-title" id="discovery-title">📍 今天去哪裡拍？</div>
-      <input id="place-search" class="place-search" type="search" autocomplete="off"
-             placeholder="搜尋景點名稱…" oninput="setPlaceSearch(this.value)">
-    </div>
-    <div class="rank-summary" id="filter-result-summary"></div>
-  </header>
+  </div>
 
   <div id="loading" data-i18n="loading">正在獲取攝影氣象數據...</div>
   <div class="container" id="spots-container"></div>
