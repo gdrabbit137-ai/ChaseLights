@@ -15,9 +15,9 @@
   ],
   "counts": {
     "spots": 188,
-    "opportunities": 381,
-    "condition_variants": 396,
-    "profile_viewpoint_relations": 387
+    "opportunities": 382,
+    "condition_variants": 397,
+    "profile_viewpoint_relations": 388
   },
   "spots": [
     {
@@ -3866,6 +3866,58 @@
               "geometry_confidence": "high"
             }
           ]
+        },
+        {
+          "opportunity_id": "tw-034-P03",
+          "spot_id": "tw-034",
+          "name_zh": "清水斷崖晨霧、雲霧山海",
+          "legacy_theme": "fog_mist",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "minimum_sufficient_local_scene",
+          "formula_version": "v0.04-qingshui-coastal-cliff-mist",
+          "formula_confidence": 72,
+          "best_time": "清晨至日出後；以斷崖、山壁或海岸仍部分可辨為前提",
+          "best_season": "全年候選；官方資料記錄清晨濃霧、山巒若隱若現與日出後雲霧散開的景觀",
+          "condition_variants": [
+            {
+              "variant_id": "VAR-230",
+              "profile_id": "tw-034-P03",
+              "variant_name": "晨霧繞斷崖、山巒若隱若現",
+              "condition_geometry": "{\"camera_zone\":\"崇德步道目前開放觀景平台 Camera Zone\",\"subject\":\"Pacific Ocean + partially visible Qingshui Cliff / mountain + morning mist or low cloud\"}",
+              "hard_gates": "崇德步道／觀景平台合法可達；無現場封閉；不得把低能見度本身視為晨霧一定存在；拍攝點若進入白牆濃霧則不成立",
+              "required_conditions": "清晨或可見光時段；斷崖、山壁或海岸至少部分可辨；低能見度需有霧、低雲、高濕、低雲底或 weather code 等至少一項氣象佐證；無明顯降雨",
+              "boosters": "局部霧帶繞過山壁；弱風；日出前後斜射光；多項霧訊號一致",
+              "penalties": "拍攝平台本身白牆；斷崖與海岸完全不可辨；只有單一低能見度數值而缺乏其他霧訊號；大雨或強風",
+              "formula_status": "minimum_sufficient_local_scene"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "tw-034-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official evidence establishes morning mist as a real Qingshui Cliff scene and the currently open Chongde trail/viewing platforms as a Qingshui Cliff viewing area. This is an area anchor, not an exact tripod point.",
+              "name": "崇德步道目前開放觀景平台",
+              "lat": 24.191966,
+              "lon": 121.661332,
+              "coord_confidence": "medium",
+              "verification_status": "official_qingshui_morning_mist_and_open_chongde_viewing_area_evidence",
+              "geometry_type": "small_area",
+              "geometry_extent_m": null,
+              "geometry_confidence": "high"
+            }
+          ],
+          "evidence_basis": "place_specific_observed_mist",
+          "evidence_summary": "Taroko/National Park official material documents Qingshui Cliff mornings with dense mist, mountains appearing and disappearing through mist, and cloud/mist changing as the sun rises. Runtime weather is used only to estimate when this verified scene may occur.",
+          "subject_evidence": {
+            "status": "verified_subject",
+            "basis": "official_place_specific_morning_mist_evidence",
+            "reviewed_at": "2026-09-28",
+            "note": "晨霧題材由清水斷崖官方地點資料直接證明，不由沿海地形或低能見度推論；runtime 只判斷已驗證題材何時較可能成立。"
+          }
         }
       ]
     },

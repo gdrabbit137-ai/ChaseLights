@@ -279,6 +279,86 @@ def test_adapter_integrity():
     assert liushi_by_id["tw-035-P09"]["viewpoints"][0]["lat"] == 23.221497
     assert liushi_by_id["tw-035-P10"]["viewpoints"][0]["lat"] == 23.224528
 
+    # B81: Qingshui Cliff has a separately researched morning-mist subject.
+    # Low visibility alone is not enough: it needs at least one mist-support
+    # signal, and a local whiteout must remain a blocker.
+    qingshui_ops = get_opportunities("tw", "tw-034")
+    qingshui_by_id = {o["opportunity_id"]: o for o in qingshui_ops}
+    assert len(qingshui_ops) == 3
+    assert set(qingshui_by_id) == {"tw-034-P01", "tw-034-P02", "tw-034-P03"}
+    assert qingshui_by_id["tw-034-P03"]["legacy_theme"] == "fog_mist"
+    assert qingshui_by_id["tw-034-P03"]["runtime_policy"] == "minimum_sufficient_available"
+    assert qingshui_by_id["tw-034-P03"]["viewpoints"][0]["name"] == "崇德步道目前開放觀景平台"
+
+    qingshui_weak_mist = evaluate_minimum_sufficient_visibility(
+        qingshui_by_id["tw-034-P03"],
+        {
+            "local_date": "2026-09-28", "local_time": "07:00", "local_month": 9,
+            "vis": 800, "rh": 77, "c_low": 27, "cloud_base_agl": 550,
+            "temp": 25.3, "dew": 21.0, "weather_code": 1,
+            "pop": 0, "precipitation": 0.0, "access_open": True,
+        },
+    )
+    assert qingshui_weak_mist["eligible"] is True
+    assert qingshui_weak_mist["reason"] == "coastal_cliff_visibility_only_candidate"
+    assert qingshui_weak_mist["score_hint"] == 68
+    assert qingshui_weak_mist["uncertain"] is True
+    assert qingshui_weak_mist["runtime_confidence_hint"] == "low"
+    assert qingshui_weak_mist["mist_signal_components"] == []
+    assert qingshui_weak_mist["mist_signal"] is False
+
+    qingshui_supported_mist = evaluate_minimum_sufficient_visibility(
+        qingshui_by_id["tw-034-P03"],
+        {
+            "local_date": "2026-09-28", "local_time": "06:00", "local_month": 9,
+            "vis": 1500, "rh": 93, "c_low": 62, "cloud_base_agl": 240,
+            "temp": 23.0, "dew": 22.0, "weather_code": 45,
+            "pop": 5, "precipitation": 0.0, "access_open": True,
+        },
+    )
+    assert qingshui_supported_mist["eligible"] is True
+    assert qingshui_supported_mist["reason"] == "coastal_cliff_mist_supported"
+    assert qingshui_supported_mist["score_hint"] == 88
+    assert qingshui_supported_mist["uncertain"] is False
+    assert qingshui_supported_mist["runtime_confidence_hint"] == "medium"
+    assert qingshui_supported_mist["mist_support_score"] >= 2
+
+    qingshui_whiteout = evaluate_minimum_sufficient_visibility(
+        qingshui_by_id["tw-034-P03"],
+        {
+            "local_date": "2026-09-28", "local_time": "06:00", "local_month": 9,
+            "vis": 150, "rh": 98, "c_low": 98, "cloud_base_agl": 50,
+            "temp": 22.0, "dew": 21.8, "weather_code": 45,
+            "pop": 5, "precipitation": 0.0, "access_open": True,
+        },
+    )
+    assert qingshui_whiteout["eligible"] is False
+    assert qingshui_whiteout["reason"] == "camera_whiteout_risk"
+
+    qingshui_clear = evaluate_minimum_sufficient_visibility(
+        qingshui_by_id["tw-034-P03"],
+        {
+            "local_date": "2026-09-28", "local_time": "09:00", "local_month": 9,
+            "vis": 29600, "rh": 74, "c_low": 0, "cloud_base_agl": 637,
+            "temp": 28.2, "dew": 23.2, "weather_code": 0,
+            "pop": 0, "precipitation": 0.0, "access_open": True,
+        },
+    )
+    assert qingshui_clear["eligible"] is False
+    assert qingshui_clear["reason"] == "visibility_too_high_for_mist_subject"
+
+    qingshui_afternoon = evaluate_minimum_sufficient_visibility(
+        qingshui_by_id["tw-034-P03"],
+        {
+            "local_date": "2026-09-28", "local_time": "14:00", "local_month": 9,
+            "vis": 1800, "rh": 94, "c_low": 70, "cloud_base_agl": 180,
+            "temp": 24.0, "dew": 23.0, "weather_code": 45,
+            "pop": 5, "precipitation": 0.0, "access_open": True,
+        },
+    )
+    assert qingshui_afternoon["eligible"] is False
+    assert qingshui_afternoon["reason"] == "outside_morning_mist_window"
+
     liyu_ops = get_opportunities("tw", "tw-082")
     yun_ops = get_opportunities("tw", "tw-083")
     assert len(liyu_ops) == 10
