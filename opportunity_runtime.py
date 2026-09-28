@@ -283,6 +283,11 @@ def evaluate_hualien_local_scene(opportunity, item_data):
             and _local_time_in_window(local_time, profile["time"])
         )
         reason = "official_event_window" if gate_ok else "outside_verified_event_window"
+    elif kind == "coastal_cliff_mist":
+        # The verified Qingshui subject is specifically a morning scene. The
+        # fog_mist Theme separately enforces visible-light timing.
+        gate_ok = bool(local_time and local_time < "11:00")
+        reason = "morning_mist_window" if gate_ok else "outside_morning_mist_window"
 
     access_override = bool(profile.get("access_override") and gate_ok)
     mist_visibility_km = None
@@ -324,25 +329,19 @@ def evaluate_hualien_local_scene(opportunity, item_data):
                 or (cloud_base is not None and cloud_base <= 800.0)
             )
         else:
-            # Qingshui Cliff requires corroboration: a single low-visibility
-            # model value is only a lead, not proof that photogenic mist is
-            # around the cliff rather than at/away from the camera.
+            # Qingshui Cliff requires corroboration: a low-visibility forecast
+            # can create a planning candidate, but it must not be treated as
+            # proof that photogenic mist is actually around the cliff.
             mist_context = "coastal_cliff"
             if weather_code in {45, 48}:
                 mist_support_score += 2
                 mist_signal_components.append("fog_weather_code")
-            if rh >= 88.0:
+            if rh >= 88.0 or (dewpoint_spread is not None and dewpoint_spread <= 2.0):
                 mist_support_score += 1
-                mist_signal_components.append("high_humidity")
-            if dewpoint_spread is not None and dewpoint_spread <= 2.0:
-                mist_support_score += 1
-                mist_signal_components.append("small_dewpoint_spread")
+                mist_signal_components.append("near_saturation")
             if low_cloud >= 45.0:
                 mist_support_score += 1
                 mist_signal_components.append("low_cloud")
-            if cloud_base is not None and cloud_base <= 650.0:
-                mist_support_score += 1
-                mist_signal_components.append("low_cloud_base_proxy")
             mist_signal = mist_support_score > 0
             camera_whiteout_risk = bool(
                 mist_visibility_km is not None
@@ -404,6 +403,13 @@ def evaluate_hualien_local_scene(opportunity, item_data):
             uncertain = True
         elif mist_visibility_km <= 8.0 and mist_support_score >= 1:
             eligible, quality, reason, score_hint = True, "uncertain_light_mist_candidate", "coastal_cliff_light_mist_weak_support", 70
+            confidence_hint = "low"
+            uncertain = True
+        elif mist_visibility_km <= 3.0:
+            # Visibility-only candidate: preserve the forecast signal without
+            # calling it actual mist. This is the expected treatment for a
+            # Qingshui-like 0.7–0.8 km value when RH/low-cloud evidence is weak.
+            eligible, quality, reason, score_hint = True, "visibility_only_mist_candidate", "coastal_cliff_visibility_only_candidate", 68
             confidence_hint = "low"
             uncertain = True
         else:
