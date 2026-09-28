@@ -53,6 +53,13 @@ MORNING_QINGSHUI_REVISION_4 = (
     / "FVS-TW-034-20260928-184220.json.gz.b64"
 )
 
+MORNING_QINGSHUI_REVISION_5 = (
+    Path(__file__).parent
+    / "test_fixtures"
+    / "field_snapshot"
+    / "FVS-TW-034-20260928-185246.json.gz.b64"
+)
+
 
 def _base_item(spatial_weather):
     return {
@@ -502,6 +509,7 @@ def test_real_qingshui_0600_revision_series_stability():
     second = load_snapshot(MORNING_QINGSHUI_REVISION_2)
     third = load_snapshot(MORNING_QINGSHUI_REVISION_3)
     fourth = load_snapshot(MORNING_QINGSHUI_REVISION_4)
+    fifth = load_snapshot(MORNING_QINGSHUI_REVISION_5)
 
     assert third["snapshot_id"] == "FVS-TW-034-20260928-183014"
     assert third["provenance"]["git_commit"] == (
@@ -517,24 +525,33 @@ def test_real_qingshui_0600_revision_series_stability():
     assert fourth["integrity"]["payload_sha256"] == (
         "9dca4f83e8c73a93593605c2b0aead3b6d342365a6367060a730f3d8fac04801"
     )
+    assert fifth["snapshot_id"] == "FVS-TW-034-20260928-185246"
+    assert fifth["provenance"]["git_commit"] == (
+        "2d435c582e7c7d1826c698e5c9922ee4b340fe72"
+    )
+    assert fifth["integrity"]["payload_sha256"] == (
+        "184824f6f8749e46cad7eebf45b3a2188c18c28014602865fda096b7674d71db"
+    )
     assert third["observation"]["status"] == "unreviewed"
     assert fourth["observation"]["status"] == "unreviewed"
+    assert fifth["observation"]["status"] == "unreviewed"
 
-    comparison = compare_forecast_revisions([fourth, third, first, second])
-    assert comparison["revision_count"] == 4
+    comparison = compare_forecast_revisions([fifth, fourth, third, first, second])
+    assert comparison["revision_count"] == 5
     assert [row["snapshot_id"] for row in comparison["rows"]] == [
         "FVS-TW-034-20260928-173805",
         "FVS-TW-034-20260928-181202",
         "FVS-TW-034-20260928-183014",
         "FVS-TW-034-20260928-184220",
+        "FVS-TW-034-20260928-185246",
     ]
     summary = comparison["stability_summary"]
-    assert summary["capture_span_seconds"] == 3855
+    assert summary["capture_span_seconds"] == 4481
     assert summary["first_lead_time_seconds"] == 15714
-    assert summary["last_lead_time_seconds"] == 11859
-    assert summary["transition_count"] == 3
-    assert summary["camera_raw_revision_count"] == 3
-    assert summary["spatial_raw_revision_count"] == 3
+    assert summary["last_lead_time_seconds"] == 11233
+    assert summary["transition_count"] == 4
+    assert summary["camera_raw_revision_count"] == 4
+    assert summary["spatial_raw_revision_count"] == 4
     assert summary["normalized_input_revision_count"] == 0
     assert summary["metric_revision_count"] == 0
     assert summary["recorded_opportunity_revision_count"] == 0
@@ -542,8 +559,20 @@ def test_real_qingshui_0600_revision_series_stability():
     assert summary["stable_selected_input"] is True
     assert summary["stable_recorded_opportunities"] is True
     assert summary["stable_model_contract"] is True
+    selected_segment = summary["current_selected_input_stable_segment"]
+    assert selected_segment["from_snapshot_id"] == first["snapshot_id"]
+    assert selected_segment["to_snapshot_id"] == fifth["snapshot_id"]
+    assert selected_segment["capture_count"] == 5
+    assert selected_segment["span_seconds"] == 4481
+    assert selected_segment["latest_capture_lead_time_seconds"] == 11233
+    opportunity_segment = summary["current_recorded_opportunity_stable_segment"]
+    assert opportunity_segment["from_snapshot_id"] == first["snapshot_id"]
+    assert opportunity_segment["to_snapshot_id"] == fifth["snapshot_id"]
+    assert opportunity_segment["capture_count"] == 5
+    assert opportunity_segment["span_seconds"] == 4481
+    assert opportunity_segment["latest_capture_lead_time_seconds"] == 11233
     assert summary["transition_classification_counts"] == {
-        "provider_payload_revision_without_selected_input_change": 3
+        "provider_payload_revision_without_selected_input_change": 4
     }
 
 

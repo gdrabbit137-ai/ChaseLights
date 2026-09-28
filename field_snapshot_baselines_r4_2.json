@@ -282,6 +282,56 @@
         "A stable forecast row is not evidence that the forecast is accurate; field validation remains separate.",
         "No field photograph or observed-scene assessment is attached; this remains outside the field-validation registry."
       ]
+    },
+    {
+      "snapshot_id": "FVS-TW-034-20260928-185246",
+      "place_id": "tw-034",
+      "scene_family": "qingshui_cliff_mist",
+      "revision_group": "tw-034@2026-09-28T22:00:00+00:00",
+      "archive_path": "test_fixtures/field_snapshot/FVS-TW-034-20260928-185246.json.gz.b64",
+      "metadata_path": "test_fixtures/field_snapshot/FVS-TW-034-20260928-185246.metadata.json",
+      "captured_at": "2026-09-28T18:52:46.332163+00:00",
+      "forecast_valid_at": "2026-09-28T22:00:00+00:00",
+      "forecast_local_time": "2026-09-29T06:00:00+08:00",
+      "model_commit": "2d435c582e7c7d1826c698e5c9922ee4b340fe72",
+      "payload_sha256": "184824f6f8749e46cad7eebf45b3a2188c18c28014602865fda096b7674d71db",
+      "observation_status": "unreviewed",
+      "source": {
+        "workflow_run_id": 36468217999,
+        "artifact_name": "qingshui-b111-0600-revision",
+        "source_branch": "b111-qingshui-0600-revision-5"
+      },
+      "recorded_summary": {
+        "tw-034-P01": {
+          "score": 64,
+          "score_confidence": "low",
+          "condition_state": "partial_runtime_contract",
+          "runtime_reason": "module_pending"
+        },
+        "tw-034-P02": {
+          "score": 54,
+          "score_confidence": "medium",
+          "condition_state": "minimum_sufficient_conditions_miss",
+          "runtime_reason": "visibility_too_low"
+        },
+        "tw-034-P03": {
+          "score": 54,
+          "score_confidence": "medium",
+          "condition_state": "minimum_sufficient_conditions_miss",
+          "runtime_reason": "low_visibility_without_mist_support",
+          "mist_target_count": 0,
+          "directional_mist_target_count": 0,
+          "clear_target_count": 0,
+          "broad_clear_target_sector": false,
+          "directional_mist_negative_evidence": false
+        }
+      },
+      "limitations": [
+        "This is the fifth retained forecast revision for the same 2026-09-29 06:00 +08:00 valid time.",
+        "Recorded Opportunity outcomes match the prior four captures; revision CI determines whether the selected normalized row or only provider payloads changed.",
+        "Forecast stability does not imply forecast accuracy.",
+        "No field photograph or observed-scene assessment is attached; this remains outside the field-validation registry."
+      ]
     }
   ]
 }
