@@ -1,5 +1,10 @@
 # B92 — Qingshui Cliff B81/B82 Mainline Verification and Regression Contract
 
+> B93 follow-up: this document remains the mainline verification record, but the
+> B82 fallback semantics are refined by B93. Missing/inconclusive spatial data
+> may still use the B81 low-confidence fallback; a fully sampled, broadly clear
+> north sector with zero mist targets is now negative spatial evidence and vetoes P03.
+
 Date: 2026-09-28 (Asia/Taipei)
 
 ## Scope
@@ -53,13 +58,12 @@ The optional proxy sector is exactly:
 
 If the camera remains readable and at least one north-sector proxy has materially stronger mist evidence than the camera, the directional context may promote P03 to the directional-mist candidate state.
 
-If the north-sector proxy points are no mistier than the camera:
+If the north-sector proxy points are no mistier than the camera, the spatial module still returns `directional_mist_not_distinguished_from_camera`. B93 then distinguishes two sub-cases:
 
-- the spatial module must return `directional_mist_not_distinguished_from_camera`;
-- an existing 0.8 km visibility-only candidate must remain the B81 low-confidence 68-point fallback;
-- a clear 20–30 km camera row must remain a P03 miss rather than being promoted by the mere presence of proxy samples.
+- **missing / insufficient / inconclusive target evidence**: the B81 0.8 km visibility-only candidate may remain as a low-confidence 68-point fallback;
+- **broadly clear target-sector evidence**: if at least two thirds of valid north-sector samples are conservatively clear and zero targets meet the mist definition, P03 is vetoed with `directional_target_sector_lacks_mist_support`.
 
-The proxy grid is environmental context only. It does not prove exact fog location, cliff intersection, or observed on-site conditions.
+A clear 20–30 km camera row remains a P03 miss regardless. The proxy grid is environmental context only; the negative-evidence veto does not prove the real cliff is definitely clear, and positive support still does not prove exact fog location, cliff intersection, or observed on-site conditions.
 
 ### 3. Camera readability overrides directional mist support below 2.5 km
 
