@@ -17,7 +17,7 @@ That limitation is returned in every diagnostic.
 
 import math
 
-SPATIAL_WEATHER_VERSION = "spatial-weather-r4-directional-mountain-cloud-preview"
+SPATIAL_WEATHER_VERSION = "spatial-weather-r5-qixingtan-orographic-calibration"
 
 _SUPPORTED_PROFILE_IDS = (
     "tw-004-P02", "tw-004-P03", "tw-008-P03",
@@ -383,7 +383,7 @@ def _evaluate_directional_mist_sector(config, observation):
 
 
 
-def _evaluate_directional_mountain_cloud_sector(config, observation):
+def _evaluate_directional_mountain_cloud_sector(config, observation, item_data=None):
     """Evaluate Qixingtan-style clear-coast / cloud-on-mountain contrast.
 
     This is a forecast candidate, not visual confirmation. A valid match needs:
@@ -492,6 +492,45 @@ def _evaluate_directional_mountain_cloud_sector(config, observation):
             "visibility_guaranteed": False,
         }
 
+    # B84 calibration diagnostics: retain only compact aggregates so production
+    # JSON can explain why a ground-truth scene was missed without embedding all
+    # nine raw target samples. The camera cloud_base_agl field is a planning-grade
+    # LCL proxy derived from temperature/dew point in fetch_data, not an observed
+    # cloud base.
+    item_data = item_data or {}
+    camera_lcl_agl = _number(item_data.get("cloud_base_agl"))
+    camera_lcl_asl = (
+        camera_elevation + camera_lcl_agl
+        if camera_lcl_agl is not None else None
+    )
+    lcl_intersection_targets = []
+    lcl_intersection_bearings = set()
+    if camera_lcl_asl is not None:
+        for row in elevated_targets:
+            elevation = _number(row.get("elevation_m"))
+            if elevation is not None and elevation >= camera_lcl_asl:
+                lcl_intersection_targets.append(row)
+                bearing = _number(row.get("bearing_deg"))
+                if bearing is not None:
+                    lcl_intersection_bearings.add(round(bearing, 1))
+
+    elevated_low_values = [
+        _number(row.get("cloud_cover_low")) for row in elevated_targets
+        if _number(row.get("cloud_cover_low")) is not None
+    ]
+    elevated_rh_values = [
+        _number(row.get("relative_humidity_2m")) for row in elevated_targets
+        if _number(row.get("relative_humidity_2m")) is not None
+    ]
+    elevated_vis_values = [
+        _number(row.get("visibility")) for row in elevated_targets
+        if _number(row.get("visibility")) is not None
+    ]
+    elevated_elevations = [
+        _number(row.get("elevation_m")) for row in elevated_targets
+        if _number(row.get("elevation_m")) is not None
+    ]
+
     required_cloud = min(int(config.get("min_cloudy_targets", 2)), len(elevated_targets))
     required_directional = min(
         int(config.get("min_directional_cloud_targets", required_cloud)),
@@ -523,6 +562,26 @@ def _evaluate_directional_mountain_cloud_sector(config, observation):
         "max_target_elevation_gain_m": round(
             max((row["elevation_gain_m"] for row in elevated_targets), default=0.0)
         ),
+        "elevated_target_max_elevation_m": (
+            round(max(elevated_elevations)) if elevated_elevations else None
+        ),
+        "elevated_target_max_low_cloud_pct": (
+            round(max(elevated_low_values)) if elevated_low_values else None
+        ),
+        "elevated_target_max_rh_pct": (
+            round(max(elevated_rh_values)) if elevated_rh_values else None
+        ),
+        "elevated_target_min_visibility_km": (
+            round(min(elevated_vis_values) / 1000.0, 1) if elevated_vis_values else None
+        ),
+        "camera_lcl_agl_proxy_m": (
+            round(camera_lcl_agl) if camera_lcl_agl is not None else None
+        ),
+        "camera_lcl_asl_proxy_m": (
+            round(camera_lcl_asl) if camera_lcl_asl is not None else None
+        ),
+        "terrain_lcl_intersection_target_count": len(lcl_intersection_targets),
+        "terrain_lcl_intersection_bearing_count": len(lcl_intersection_bearings),
         "target_resolution": observation.get("target_resolution"),
         "exact_target_zone_verified": False,
         "visibility_guaranteed": False,
@@ -553,7 +612,7 @@ def evaluate_spatial_weather(opportunity, item_data):
     if config.get("mode") == "directional_mist_sector":
         return _evaluate_directional_mist_sector(config, observation)
     if config.get("mode") == "directional_mountain_cloud_sector":
-        return _evaluate_directional_mountain_cloud_sector(config, observation)
+        return _evaluate_directional_mountain_cloud_sector(config, observation, item_data)
 
     camera = observation["camera"]
     camera_elevation = _number(observation.get("camera_reference_elevation_m"))
