@@ -192,9 +192,21 @@ jobs:
                   score = winner.get("score")
                   if isinstance(score, (int, float)) and score >= 80:
                       high_score_days.append((spot["spot_id"], day.get("date"), score))
-                      if winner.get("status_key") not in {"OPPORTUNITY_MATCH", "OPPORTUNITY_SIMPLE_MATCH"}:
+                      valid_high_score_statuses = {
+                          "OPPORTUNITY_MATCH",
+                          "OPPORTUNITY_SIMPLE_MATCH",
+                          "OPPORTUNITY_DIRECTIONAL_CLOUD_MATCH",
+                          "OPPORTUNITY_DIRECTIONAL_MOUNTAIN_MATCH",
+                      }
+                      valid_high_score_states = {
+                          "dedicated_conditions_match",
+                          "minimum_sufficient_conditions_match",
+                          "directional_mountain_cloud_candidate",
+                          "directional_mountain_visibility_match",
+                      }
+                      if winner.get("status_key") not in valid_high_score_statuses:
                           winner_errors.append((spot["spot_id"], day.get("date"), "high_score_bad_status", winner.get("status_key")))
-                      if winner.get("condition_state") not in {"dedicated_conditions_match", "minimum_sufficient_conditions_match"}:
+                      if winner.get("condition_state") not in valid_high_score_states:
                           winner_errors.append((spot["spot_id"], day.get("date"), "high_score_bad_condition_state", winner.get("condition_state")))
 
           assert pending == [], f"Taiwan research-pending Places: {pending}"
