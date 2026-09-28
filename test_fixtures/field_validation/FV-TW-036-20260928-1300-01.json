@@ -1,0 +1,181 @@
+{
+  "schema_version": "field-validation-replay-r4.2-1",
+  "case_id": "FV-TW-036-20260928-1300-01",
+  "fixture_type": "synthetic_minimum_reproduction",
+  "historical_raw_input": false,
+  "privacy": "non_identifying_model_inputs_only",
+  "purpose": "Machine-replay fixture that reproduces the validated B85 Qixingtan decision boundary from the stored aggregate diagnostics. It is synthetic and must not be presented as the original raw historical forecast response.",
+  "derived_from": {
+    "field_validation_case_id": "FV-TW-036-20260928-1300-01",
+    "production_weather_commit": "2a4e9d27842655000fe40810b04ce338b77302a8",
+    "note": "Values are chosen to reproduce the stored aggregate diagnostics: clear coast, 4 elevated northward samples, 3 LCL/terrain intersections across 2 bearings, 5.6 km minimum elevated visibility, 0.21 visibility ratio, 24% maximum elevated low cloud, P03 proxy match, and P04 readable mountain view."
+  },
+  "local_timestamp": "2026-09-28T13:00:00+08:00",
+  "epoch_utc": 1790571600,
+  "item_data": {
+    "cloud_base_agl": 699
+  },
+  "common_weather": {
+    "temperature_2m": 30,
+    "dew_point_2m": 24.4,
+    "precipitation": 0,
+    "wind_speed_10m": 1.5
+  },
+  "camera": {
+    "elevation_m": 14,
+    "visibility_m": 27000,
+    "relative_humidity_2m": 72,
+    "cloud_cover_low": 2,
+    "weather_code": 1
+  },
+  "targets": [
+    {
+      "bearing_deg": 350,
+      "distance_km": 8,
+      "elevation_m": 120,
+      "visibility_m": 24000,
+      "relative_humidity_2m": 72,
+      "cloud_cover_low": 1,
+      "weather_code": 1
+    },
+    {
+      "bearing_deg": 350,
+      "distance_km": 15,
+      "elevation_m": 900,
+      "visibility_m": 5600,
+      "relative_humidity_2m": 74,
+      "cloud_cover_low": 24,
+      "weather_code": 2
+    },
+    {
+      "bearing_deg": 350,
+      "distance_km": 22,
+      "elevation_m": 1670,
+      "visibility_m": 17000,
+      "relative_humidity_2m": 72,
+      "cloud_cover_low": 1,
+      "weather_code": 1
+    },
+    {
+      "bearing_deg": 5,
+      "distance_km": 8,
+      "elevation_m": 120,
+      "visibility_m": 24000,
+      "relative_humidity_2m": 72,
+      "cloud_cover_low": 1,
+      "weather_code": 1
+    },
+    {
+      "bearing_deg": 5,
+      "distance_km": 15,
+      "elevation_m": 500,
+      "visibility_m": 17000,
+      "relative_humidity_2m": 72,
+      "cloud_cover_low": 1,
+      "weather_code": 1
+    },
+    {
+      "bearing_deg": 5,
+      "distance_km": 22,
+      "elevation_m": 1670,
+      "visibility_m": 17000,
+      "relative_humidity_2m": 72,
+      "cloud_cover_low": 1,
+      "weather_code": 1
+    },
+    {
+      "bearing_deg": 20,
+      "distance_km": 8,
+      "elevation_m": 120,
+      "visibility_m": 24000,
+      "relative_humidity_2m": 72,
+      "cloud_cover_low": 1,
+      "weather_code": 1
+    },
+    {
+      "bearing_deg": 20,
+      "distance_km": 15,
+      "elevation_m": 120,
+      "visibility_m": 24000,
+      "relative_humidity_2m": 72,
+      "cloud_cover_low": 1,
+      "weather_code": 1
+    },
+    {
+      "bearing_deg": 20,
+      "distance_km": 22,
+      "elevation_m": 120,
+      "visibility_m": 24000,
+      "relative_humidity_2m": 72,
+      "cloud_cover_low": 1,
+      "weather_code": 1
+    }
+  ],
+  "theme_metrics": {
+    "tw-036-P03": {
+      "score": 86,
+      "factors": [
+        {
+          "type": "plus",
+          "key": "vis_good",
+          "value": 27,
+          "text": "能見度 27.0 km"
+        },
+        {
+          "type": "plus",
+          "key": "low_cloud",
+          "value": 2,
+          "text": "低雲僅 2%"
+        }
+      ],
+      "status_key": "MOUNTAIN_EXCELLENT_DAY",
+      "indicator_key": "IND_PEAKS",
+      "temporal_eligible": true
+    },
+    "tw-036-P04": {
+      "score": 86,
+      "factors": [
+        {
+          "type": "plus",
+          "key": "vis_good",
+          "value": 27,
+          "text": "能見度 27.0 km"
+        },
+        {
+          "type": "plus",
+          "key": "low_cloud",
+          "value": 2,
+          "text": "低雲僅 2%"
+        }
+      ],
+      "status_key": "MOUNTAIN_EXCELLENT_DAY",
+      "indicator_key": "IND_PEAKS",
+      "temporal_eligible": true
+    }
+  },
+  "expected": {
+    "tw-036-P03": {
+      "runtime_reason": "orographic_cloud_proxy_candidate",
+      "condition_state": "orographic_cloud_proxy_candidate",
+      "score": 78,
+      "score_confidence": "low",
+      "direct_cloud_signal": false,
+      "orographic_proxy_candidate": true,
+      "terrain_lcl_intersection_target_count": 3,
+      "terrain_lcl_intersection_bearing_count": 2,
+      "elevated_target_min_visibility_km": 5.6,
+      "elevated_target_min_visibility_ratio": 0.21,
+      "elevated_target_max_low_cloud_pct": 24,
+      "readable_elevated_target_count": 3,
+      "readable_elevated_bearing_count": 2
+    },
+    "tw-036-P04": {
+      "runtime_reason": "directional_mountain_view_readable",
+      "condition_state": "directional_mountain_visibility_match",
+      "score": 86,
+      "score_confidence": "medium",
+      "readable_target_count": 3,
+      "readable_bearing_count": 2
+    }
+  }
+}
