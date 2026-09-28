@@ -64,6 +64,7 @@
     "US migration complete: all us-001 through us-070 production Places are Opportunity-migrated; no US production Place remains research-pending.",
     "B79 adds a location-aware NOAA SWPC OVATION aurora_state preview. Aurora-only Opportunities can become preview_module_available, while Opportunities that also require unresolved dynamic_access remain module_pending.",
     "B81 adds tw-034-P03 Qingshui Cliff morning-mist / misty seascape as a Grade-A researched subject with a conservative minimum-sufficient mist runtime contract.",
-    "B83 adds tw-036-P03 Qixingtan northward Qingshui Cliff / Qingshui Mountain terrain-attached cloud-band photography as Grade-A researched subject with a required directional spatial-weather runtime."
+    "B83 adds tw-036-P03 Qixingtan northward Qingshui Cliff / Qingshui Mountain terrain-attached cloud-band photography as Grade-A researched subject with a required directional spatial-weather runtime.",
+    "B84 hardens tw-036-P03 against coarse-grid false negatives: direct northward cloud-grid contrast remains preferred, while a clear-coast LCL/terrain-intersection fallback is capped at 82 with low confidence and never claims exact cloud/ridge overlap."
   ]
 }
