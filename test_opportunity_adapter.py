@@ -331,7 +331,10 @@ def test_adapter_integrity():
     assert qingshui_weak_mist["mist_signal_components"] == []
     assert qingshui_weak_mist["mist_signal"] is False
 
-    qingshui_supported_mist = evaluate_minimum_sufficient_visibility(
+    # B87: strong mist evidence is not enough for an 80+ score when the
+    # camera-grid visibility is too short to preserve a readable cliff /
+    # mountain / coast composition.
+    qingshui_supported_but_unreadable = evaluate_minimum_sufficient_visibility(
         qingshui_by_id["tw-034-P03"],
         {
             "local_date": "2026-09-28", "local_time": "06:00", "local_month": 9,
@@ -340,12 +343,50 @@ def test_adapter_integrity():
             "pop": 5, "precipitation": 0.0, "access_open": True,
         },
     )
+    assert qingshui_supported_but_unreadable["eligible"] is True
+    assert qingshui_supported_but_unreadable["reason"] == "camera_visibility_too_low_for_cliff_readability"
+    assert qingshui_supported_but_unreadable["score_hint"] == 68
+    assert qingshui_supported_but_unreadable["uncertain"] is True
+    assert qingshui_supported_but_unreadable["subject_readability_uncertain"] is True
+    assert qingshui_supported_but_unreadable["camera_readability_threshold_km"] == 2.5
+    assert qingshui_supported_but_unreadable["runtime_confidence_hint"] == "low"
+    assert qingshui_supported_but_unreadable["mist_support_score"] >= 2
+
+    qingshui_supported_mist = evaluate_minimum_sufficient_visibility(
+        qingshui_by_id["tw-034-P03"],
+        {
+            "local_date": "2026-09-28", "local_time": "06:00", "local_month": 9,
+            "vis": 2800, "rh": 93, "c_low": 62, "cloud_base_agl": 240,
+            "temp": 23.0, "dew": 22.0, "weather_code": 45,
+            "pop": 5, "precipitation": 0.0, "access_open": True,
+        },
+    )
     assert qingshui_supported_mist["eligible"] is True
     assert qingshui_supported_mist["reason"] == "coastal_cliff_mist_supported"
     assert qingshui_supported_mist["score_hint"] == 88
     assert qingshui_supported_mist["uncertain"] is False
+    assert qingshui_supported_mist["subject_readability_uncertain"] is False
     assert qingshui_supported_mist["runtime_confidence_hint"] == "medium"
     assert qingshui_supported_mist["mist_support_score"] >= 2
+
+    qingshui_supported_diag = fetch_data._build_opportunity_runtime_diagnostics(
+        {"opportunities": [qingshui_by_id["tw-034-P03"]]},
+        {
+            "local_date": "2026-09-28", "local_time": "06:00", "local_month": 9,
+            "vis": 2800, "rh": 93, "c_low": 62, "cloud_base_agl": 240,
+            "temp": 23.0, "dew": 22.0, "weather_code": 45,
+            "pop": 5, "precipitation": 0.0, "access_open": True,
+        },
+    )["tw-034-P03"]
+    qingshui_supported_scored = fetch_data._score_opportunity(
+        qingshui_by_id["tw-034-P03"],
+        {"score": 61, "factors": [], "temporal_eligible": True},
+        qingshui_supported_diag,
+    )
+    assert qingshui_supported_scored["score"] == 88
+    assert qingshui_supported_scored["status_key"] == "OPPORTUNITY_MIST_SUPPORTED"
+    assert qingshui_supported_scored["condition_state"] == "minimum_sufficient_mist_supported"
+    assert qingshui_supported_scored["score_confidence"] == "medium"
 
     qingshui_whiteout = evaluate_minimum_sufficient_visibility(
         qingshui_by_id["tw-034-P03"],
@@ -452,6 +493,65 @@ def test_adapter_integrity():
     assert qingshui_directional["score_hint"] == 88
     assert qingshui_directional["runtime_confidence_hint"] == "medium"
     assert "directional_spatial_mist" in qingshui_directional["mist_signal_components"]
+
+    qingshui_directional_diag = fetch_data._build_opportunity_runtime_diagnostics(
+        {"opportunities": [qingshui_by_id["tw-034-P03"]]},
+        {
+            "local_date": "2026-09-28", "local_time": "07:00", "local_month": 9,
+            "vis": 20000, "rh": 75, "c_low": 10, "cloud_base_agl": 700,
+            "temp": 24.0, "dew": 20.0, "weather_code": 0,
+            "pop": 0, "precipitation": 0.0, "access_open": True,
+            "spatial_weather": qingshui_spatial_obs,
+        },
+    )["tw-034-P03"]
+    qingshui_directional_scored = fetch_data._score_opportunity(
+        qingshui_by_id["tw-034-P03"],
+        {"score": 61, "factors": [], "temporal_eligible": True},
+        qingshui_directional_diag,
+    )
+    assert qingshui_directional_scored["score"] == 88
+    assert qingshui_directional_scored["status_key"] == "OPPORTUNITY_DIRECTIONAL_MIST_CANDIDATE"
+    assert qingshui_directional_scored["condition_state"] == "minimum_sufficient_directional_mist_candidate"
+    assert qingshui_directional_scored["score_confidence"] == "medium"
+
+    qingshui_directional_low_camera = evaluate_minimum_sufficient_visibility(
+        qingshui_by_id["tw-034-P03"],
+        {
+            "local_date": "2026-09-28", "local_time": "07:00", "local_month": 9,
+            "vis": 700, "rh": 80, "c_low": 36, "cloud_base_agl": 500,
+            "temp": 23.0, "dew": 19.5, "weather_code": 1,
+            "pop": 0, "precipitation": 0.0, "access_open": True,
+            "spatial_weather": qingshui_spatial_obs,
+        },
+    )
+    assert qingshui_directional_low_camera["eligible"] is True
+    assert qingshui_directional_low_camera["reason"] == "camera_visibility_too_low_for_cliff_readability"
+    assert qingshui_directional_low_camera["score_hint"] == 68
+    assert qingshui_directional_low_camera["uncertain"] is True
+    assert qingshui_directional_low_camera["subject_readability_uncertain"] is True
+    assert qingshui_directional_low_camera["runtime_confidence_hint"] == "low"
+    assert "directional_spatial_mist" in qingshui_directional_low_camera["mist_signal_components"]
+
+    qingshui_low_diag = fetch_data._build_opportunity_runtime_diagnostics(
+        {"opportunities": [qingshui_by_id["tw-034-P03"]]},
+        {
+            "local_date": "2026-09-28", "local_time": "07:00", "local_month": 9,
+            "vis": 700, "rh": 80, "c_low": 36, "cloud_base_agl": 500,
+            "temp": 23.0, "dew": 19.5, "weather_code": 1,
+            "pop": 0, "precipitation": 0.0, "access_open": True,
+            "spatial_weather": qingshui_spatial_obs,
+        },
+    )["tw-034-P03"]
+    qingshui_low_scored = fetch_data._score_opportunity(
+        qingshui_by_id["tw-034-P03"],
+        {"score": 61, "factors": [], "temporal_eligible": True},
+        qingshui_low_diag,
+    )
+    assert qingshui_low_scored["score"] == 68
+    assert qingshui_low_scored["status_key"] == "OPPORTUNITY_MIST_CANDIDATE"
+    assert qingshui_low_scored["condition_state"] == "minimum_sufficient_mist_candidate_uncertain"
+    assert qingshui_low_scored["score_confidence"] == "low"
+    assert any(f.get("key") == "cliff_readability_uncertain" for f in qingshui_low_scored["factors"])
 
     qingshui_no_direction_raw = []
     for point in qingshui_plan["points"]:
