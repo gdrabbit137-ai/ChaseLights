@@ -124,6 +124,7 @@ I18N_MESSAGES = {
     "OPPORTUNITY_DIRECTIONAL_CLOUD_MATCH": {"zh-TW": "☁️ 北方山區貼山雲候選條件成立；實際山體露出仍需現場確認", "en": "☁️ Northward terrain-attached cloud candidate conditions match; actual ridge visibility still needs field confirmation", "ja": "☁️ 北側山地の地形性低層雲候補条件が一致。実際の稜線の見え方は現地確認が必要です"},
     "OPPORTUNITY_OROGRAPHIC_CLOUD_PROXY": {"zh-TW": "☁️ 地形雲低信心候選；格點未直接解析雲帶，需現場確認", "en": "☁️ Low-confidence orographic-cloud candidate; the grid does not directly resolve the cloud band", "ja": "☁️ 地形性雲の低信頼候補。格子では雲帯を直接解像できていないため現地確認が必要です"},
     "OPPORTUNITY_DIRECTIONAL_MOUNTAIN_MATCH": {"zh-TW": "🏔️ 北方山海視野條件良好；實際山稜遮雲仍需現場確認", "en": "🏔️ Northward mountain-seascape visibility looks good; actual ridge cloud cover still needs field confirmation", "ja": "🏔️ 北側の山海景観の視程条件は良好。実際の稜線の雲被りは現地確認が必要です"},
+    "OPPORTUNITY_SPATIAL_CLOUD_SEA_CANDIDATE": {"zh-TW": "☁️ 多點低地預報支持雲海候選；實際雲海範圍仍需現場確認", "en": "☁️ Multi-point lower-terrain forecasts support a cloud-sea candidate; the actual cloud-sea extent still needs field confirmation", "ja": "☁️ 複数の低地予報が雲海候補を支持していますが、実際の雲海範囲は現地確認が必要です"},
     "OPPORTUNITY_OUTSIDE_TIME_WINDOW": {"zh-TW": "🕒 天氣條件可用，但目前不在此題材的建議拍攝時段", "en": "🕒 Weather conditions are usable, but this is outside the recommended shooting time for this opportunity", "ja": "🕒 天候条件は利用可能ですが、この撮影機会の推奨時間帯ではありません"},
     "OPPORTUNITY_SIMPLE_MISS": {"zh-TW": "⚠️ 能見度、低雲或降雨條件目前不理想", "en": "⚠️ Visibility, low cloud, or precipitation is currently unfavorable", "ja": "⚠️ 視程・低雲・降水条件が現在不利"},
 
@@ -1389,7 +1390,39 @@ def _score_opportunity(opportunity, theme_metric, runtime_diagnostic, lang="zh-T
                 score_confidence = "medium"
             else:
                 spatial = (diag.get("modules") or {}).get("spatial_weather_vertical_cloud") or {}
-                if spatial.get("mode") == "directional_mountain_cloud_sector":
+                if spatial.get("mode") == "lower_cloud_below_camera":
+                    # B94: for elevated cloud-sea subjects, a successful multi-point
+                    # camera-vs-lower-terrain contract is the subject-specific signal.
+                    # The generic cloud_sea Theme baseline samples the camera point and
+                    # can therefore score a correctly clear/dry summit artificially low.
+                    # Keep this as a medium-confidence candidate because the radial grid
+                    # is an environmental proxy, not a verified exact cloud-sea target.
+                    score = min(79, max(score, 72))
+                    status_key = indicator_key = "OPPORTUNITY_SPATIAL_CLOUD_SEA_CANDIDATE"
+                    condition_state = "spatial_cloud_sea_candidate"
+                    score_confidence = spatial.get("confidence_hint") or "medium"
+                    evidence_count = int(spatial.get("cloud_evidence_target_count") or 0)
+                    lower_count = int(spatial.get("lower_target_count") or 0)
+                    max_drop = spatial.get("max_evidence_vertical_drop_m")
+                    support_text = {
+                        "zh-TW": f"周邊較低地形 {evidence_count}/{lower_count} 個樣本出現低雲／霧訊號，機位維持清楚",
+                        "en": f"{evidence_count}/{lower_count} lower-terrain samples show low-cloud/fog signals while the camera remains clear",
+                        "ja": f"周辺の低地 {lower_count} サンプル中 {evidence_count} 点で低層雲・霧シグナルがあり、撮影地点は明瞭です",
+                    }.get(lang, f"{evidence_count}/{lower_count} lower-terrain samples show cloud/fog signals while the camera remains clear")
+                    if max_drop is not None:
+                        support_text += {
+                            "zh-TW": f"（有效樣本最大高差約 {float(max_drop):.0f} m）",
+                            "en": f" (maximum supporting vertical drop about {float(max_drop):.0f} m)",
+                            "ja": f"（有効サンプルの最大標高差は約 {float(max_drop):.0f} m）",
+                        }.get(lang, "")
+                    uncertainty_text = {
+                        "zh-TW": "周邊環狀格點屬環境 proxy；不能保證雲層正好位於主要構圖下方，或已形成連續完整雲海",
+                        "en": "The surrounding ring samples are an environmental proxy; they cannot guarantee that clouds sit below the main composition or form a continuous cloud sea",
+                        "ja": "周辺リング格子は環境プロキシであり、雲が主構図の直下にあることや連続した雲海を形成していることは保証できません",
+                    }.get(lang, "The spatial grid is an environmental proxy; exact cloud-sea placement remains unverified")
+                    factors.append({"type": "plus", "key": "spatial_cloud_sea_support", "value": evidence_count, "text": support_text})
+                    factors.append({"type": "minus", "key": "spatial_cloud_sea_uncertainty", "value": None, "text": uncertainty_text})
+                elif spatial.get("mode") == "directional_mountain_cloud_sector":
                     elevated_count = spatial.get("elevated_target_count")
                     if spatial.get("reason") == "orographic_cloud_proxy_candidate":
                         # B85: the researched subject is real, but this fallback is
