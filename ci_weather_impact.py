@@ -363,6 +363,18 @@ def self_test():
         base, head, name_map,
     )
     assert regions == set(REGIONS)
+
+    regions, _ = detect_regions(
+        [{"filename": "johnston_ridge_access.py", "patch": "+provider_version = 2\n"}],
+        base, head, name_map,
+    )
+    assert regions == {"us"}
+
+    regions, _ = detect_regions(
+        [{"filename": "denali_access.py", "patch": "+provider_version = 2\n"}],
+        base, head, name_map,
+    )
+    assert regions == {"us"}
     print("ci_weather_impact self-test passed")
 
 
