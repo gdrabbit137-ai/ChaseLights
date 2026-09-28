@@ -584,6 +584,55 @@ def _value_change(old, new):
     return change
 
 
+def _revision_stability_summary(rows, transitions):
+    classifications = {}
+    for row in transitions:
+        key = row["classification"]
+        classifications[key] = classifications.get(key, 0) + 1
+    return {
+        "capture_span_seconds": int(
+            (
+                _offset_aware_iso(rows[-1]["captured_at"]).astimezone(timezone.utc)
+                - _offset_aware_iso(rows[0]["captured_at"]).astimezone(timezone.utc)
+            ).total_seconds()
+        ),
+        "first_lead_time_seconds": rows[0]["lead_time_seconds"],
+        "last_lead_time_seconds": rows[-1]["lead_time_seconds"],
+        "transition_count": len(transitions),
+        "camera_raw_revision_count": sum(
+            1 for row in transitions if row["camera_raw_changed"]
+        ),
+        "spatial_raw_revision_count": sum(
+            1 for row in transitions if row["spatial_raw_changed"]
+        ),
+        "normalized_input_revision_count": sum(
+            1 for row in transitions if row["normalized_input_changed"]
+        ),
+        "metric_revision_count": sum(
+            1 for row in transitions if row["metric_changes"]
+        ),
+        "recorded_opportunity_revision_count": sum(
+            1 for row in transitions if row["opportunity_changes"]
+        ),
+        "code_commit_revision_count": sum(
+            1 for row in transitions if row["code_commit_changed"]
+        ),
+        "model_contract_revision_count": sum(
+            1 for row in transitions if row["model_contract_changed"]
+        ),
+        "stable_selected_input": not any(
+            row["normalized_input_changed"] for row in transitions
+        ),
+        "stable_recorded_opportunities": not any(
+            row["opportunity_changes"] for row in transitions
+        ),
+        "stable_model_contract": not any(
+            row["model_contract_changed"] for row in transitions
+        ),
+        "transition_classification_counts": classifications,
+    }
+
+
 def compare_forecast_revisions(snapshots):
     """Compare multiple immutable captures of the same forecast-valid row.
 
@@ -729,6 +778,7 @@ def compare_forecast_revisions(snapshots):
         "revision_count": len(rows),
         "rows": rows,
         "transitions": transitions,
+        "stability_summary": _revision_stability_summary(rows, transitions),
     }
 
 
@@ -877,6 +927,18 @@ def main(argv=None):
                 ),
                 "rows": target_rows,
                 "transitions": target_transitions,
+                "stability_summary": {
+                    "transition_count": len(target_transitions),
+                    "opportunity_revision_count": sum(
+                        1
+                        for row in target_transitions
+                        if row["opportunity_changes"]
+                    ),
+                    "stable_opportunities": not any(
+                        row["opportunity_changes"]
+                        for row in target_transitions
+                    ),
+                },
             }
         rendered = json.dumps(payload, ensure_ascii=False, indent=2)
         if args.output:
