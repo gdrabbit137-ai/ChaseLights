@@ -24,6 +24,99 @@ AVAILABLE_TAGS = {
     "waterfall", "aurora", "city",
 }
 
+# B104 administrative-area metadata for Taiwan filtering.
+#
+# Values are arrays by design so border/summit Places may belong to more than
+# one county/city without forcing a false single-jurisdiction claim.  The UI
+# treats a Place as matching when any selected administrative area intersects
+# this list.
+TW_ADMIN_AREAS = {
+    "tw-001": ["台北市"],
+    "tw-002": ["台北市"],
+    "tw-003": ["新北市"],
+    "tw-004": ["新北市"],
+    "tw-005": ["台北市"],
+    "tw-006": ["台北市"],
+    "tw-007": ["新北市"],
+    "tw-008": ["新北市"],
+    "tw-009": ["基隆市"],
+    "tw-010": ["基隆市"],
+    "tw-011": ["桃園市"],
+    "tw-012": ["新竹市"],
+    "tw-013": ["苗栗縣"],
+    "tw-014": ["苗栗縣"],
+    "tw-015": ["台中市"],
+    "tw-016": ["台中市"],
+    "tw-017": ["彰化縣"],
+    "tw-018": ["南投縣"],
+    "tw-019": ["南投縣", "花蓮縣"],
+    "tw-020": ["南投縣"],
+    "tw-021": ["南投縣"],
+    "tw-022": ["嘉義縣"],
+    "tw-023": ["嘉義縣"],
+    "tw-024": ["嘉義縣"],
+    "tw-025": ["台南市"],
+    "tw-026": ["台南市"],
+    "tw-027": ["高雄市"],
+    "tw-028": ["高雄市"],
+    "tw-029": ["屏東縣"],
+    "tw-030": ["屏東縣"],
+    "tw-031": ["宜蘭縣"],
+    "tw-032": ["宜蘭縣"],
+    "tw-033": ["宜蘭縣"],
+    "tw-034": ["花蓮縣"],
+    "tw-035": ["花蓮縣"],
+    "tw-036": ["花蓮縣"],
+    "tw-037": ["台東縣"],
+    "tw-038": ["台東縣"],
+    "tw-039": ["台東縣"],
+    "tw-040": ["嘉義縣", "南投縣"],
+    "tw-041": ["台中市", "苗栗縣"],
+    "tw-042": ["台中市", "苗栗縣"],
+    "tw-043": ["南投縣", "花蓮縣"],
+    "tw-044": ["台中市", "花蓮縣"],
+    "tw-045": ["台東縣"],
+    "tw-046": ["新竹縣", "苗栗縣"],
+    "tw-047": ["屏東縣", "台東縣"],
+    "tw-048": ["台中市"],
+    "tw-049": ["台中市"],
+    "tw-050": ["台中市"],
+    "tw-051": ["桃園市"],
+    "tw-052": ["高雄市"],
+    "tw-053": ["南投縣"],
+    "tw-054": ["基隆市"],
+    "tw-055": ["宜蘭縣"],
+    "tw-056": ["宜蘭縣"],
+    "tw-057": ["宜蘭縣"],
+    "tw-058": ["澎湖縣"],
+    "tw-059": ["澎湖縣"],
+    "tw-060": ["澎湖縣"],
+    "tw-061": ["澎湖縣"],
+    "tw-062": ["金門縣"],
+    "tw-063": ["金門縣"],
+    "tw-064": ["金門縣"],
+    "tw-065": ["連江縣"],
+    "tw-066": ["連江縣"],
+    "tw-067": ["連江縣"],
+    "tw-068": ["台東縣"],
+    "tw-069": ["台東縣"],
+    "tw-070": ["台東縣"],
+    "tw-071": ["屏東縣"],
+    "tw-072": ["新北市"],
+    "tw-073": ["新北市"],
+    "tw-074": ["新北市"],
+    "tw-075": ["宜蘭縣"],
+    "tw-076": ["屏東縣"],
+    "tw-077": ["花蓮縣"],
+    "tw-078": ["金門縣"],
+    "tw-079": ["澎湖縣"],
+    "tw-080": ["台東縣"],
+    "tw-081": ["連江縣"],
+    "tw-082": ["花蓮縣"],
+    "tw-083": ["花蓮縣"],
+    "tw-084": ["花蓮縣"],
+}
+
 
 REGIONS = {
     "tw": {
@@ -2235,6 +2328,8 @@ def get_spots(region="tw"):
         dark_sky = _dark_sky_meta(region_key, name_zh, category, item.get("scenes", []), item.get("themes", []))
         if dark_sky:
             item.update(dark_sky)
+        if region_key == "tw":
+            item["admin_areas"] = list(TW_ADMIN_AREAS.get(item["spot_id"], []))
         item["product_status"] = product_status(item["spot_id"])
         item["active_in_catalog"] = active_in_catalog(item["spot_id"])
         formatted_spots.append(item)

@@ -1013,3 +1013,127 @@
     font-size:.7rem;
   }
 }
+
+
+/* B104 Taiwan county/city filter */
+.admin-filter-host {
+  flex: 0 0 auto;
+}
+.admin-filter {
+  position: relative;
+}
+.admin-filter > summary {
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 4px 10px;
+  border: 1px solid #475569;
+  border-radius: 6px;
+  background: #1e293b;
+  color: #cbd5e1;
+  font-size: .8rem;
+  font-weight: 700;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+.admin-filter > summary::-webkit-details-marker { display: none; }
+.admin-filter[open] > summary {
+  border-color: #38bdf8;
+  color: #7dd3fc;
+}
+.admin-filter-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 180;
+  width: min(520px, 72vw);
+  padding: 10px;
+  border: 1px solid #334155;
+  border-radius: 10px;
+  background: #111827;
+  box-shadow: 0 14px 34px rgba(0,0,0,.42);
+}
+.admin-filter-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+  color: #94a3b8;
+  font-size: .74rem;
+  font-weight: 800;
+}
+.admin-clear-btn {
+  border: 0;
+  background: transparent;
+  color: #38bdf8;
+  font: inherit;
+  cursor: pointer;
+}
+.admin-filter-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+}
+.admin-area-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  min-width: 0;
+  padding: 6px 8px;
+  border: 1px solid #334155;
+  border-radius: 7px;
+  background: #0f172a;
+  color: #cbd5e1;
+  font-size: .74rem;
+  cursor: pointer;
+}
+.admin-area-btn span {
+  color: #64748b;
+  font-size: .68rem;
+}
+.admin-area-btn:hover {
+  border-color: #64748b;
+}
+.admin-area-btn.active {
+  border-color: #38bdf8;
+  background: rgba(56,189,248,.12);
+  color: #7dd3fc;
+}
+.admin-area-btn.active span {
+  color: #7dd3fc;
+}
+
+@media (max-width: 900px) {
+  .admin-filter-menu {
+    width: min(440px, 82vw);
+  }
+  .admin-filter-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (max-width: 640px) {
+  .admin-filter-host {
+    margin: 7px 0;
+  }
+  .admin-filter {
+    width: 100%;
+  }
+  .admin-filter > summary {
+    width: 100%;
+    box-sizing: border-box;
+    justify-content: space-between;
+  }
+  .admin-filter-menu {
+    position: static;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 6px;
+  }
+  .admin-filter-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
