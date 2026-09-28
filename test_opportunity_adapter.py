@@ -323,6 +323,25 @@ def test_adapter_integrity():
     assert qingshui_supported_mist["runtime_confidence_hint"] == "medium"
     assert qingshui_supported_mist["mist_support_score"] >= 2
 
+    qingshui_supported_diag = fetch_data._build_opportunity_runtime_diagnostics(
+        {"opportunities": [qingshui_by_id["tw-034-P03"]]},
+        {
+            "local_date": "2026-09-28", "local_time": "06:00", "local_month": 9,
+            "vis": 1500, "rh": 93, "c_low": 62, "cloud_base_agl": 240,
+            "temp": 23.0, "dew": 22.0, "weather_code": 45,
+            "pop": 5, "precipitation": 0.0, "access_open": True,
+        },
+    )["tw-034-P03"]
+    qingshui_supported_scored = fetch_data._score_opportunity(
+        qingshui_by_id["tw-034-P03"],
+        {"score": 61, "factors": [], "temporal_eligible": True},
+        qingshui_supported_diag,
+    )
+    assert qingshui_supported_scored["score"] == 88
+    assert qingshui_supported_scored["status_key"] == "OPPORTUNITY_MIST_SUPPORTED"
+    assert qingshui_supported_scored["condition_state"] == "minimum_sufficient_mist_supported"
+    assert qingshui_supported_scored["score_confidence"] == "medium"
+
     qingshui_whiteout = evaluate_minimum_sufficient_visibility(
         qingshui_by_id["tw-034-P03"],
         {
@@ -428,6 +447,26 @@ def test_adapter_integrity():
     assert qingshui_directional["score_hint"] == 88
     assert qingshui_directional["runtime_confidence_hint"] == "medium"
     assert "directional_spatial_mist" in qingshui_directional["mist_signal_components"]
+
+    qingshui_directional_diag = fetch_data._build_opportunity_runtime_diagnostics(
+        {"opportunities": [qingshui_by_id["tw-034-P03"]]},
+        {
+            "local_date": "2026-09-28", "local_time": "07:00", "local_month": 9,
+            "vis": 20000, "rh": 75, "c_low": 10, "cloud_base_agl": 700,
+            "temp": 24.0, "dew": 20.0, "weather_code": 0,
+            "pop": 0, "precipitation": 0.0, "access_open": True,
+            "spatial_weather": qingshui_spatial_obs,
+        },
+    )["tw-034-P03"]
+    qingshui_directional_scored = fetch_data._score_opportunity(
+        qingshui_by_id["tw-034-P03"],
+        {"score": 61, "factors": [], "temporal_eligible": True},
+        qingshui_directional_diag,
+    )
+    assert qingshui_directional_scored["score"] == 88
+    assert qingshui_directional_scored["status_key"] == "OPPORTUNITY_DIRECTIONAL_MIST_CANDIDATE"
+    assert qingshui_directional_scored["condition_state"] == "minimum_sufficient_directional_mist_candidate"
+    assert qingshui_directional_scored["score_confidence"] == "medium"
 
     qingshui_no_direction_raw = []
     for point in qingshui_plan["points"]:
