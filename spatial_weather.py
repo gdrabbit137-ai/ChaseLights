@@ -17,7 +17,7 @@ That limitation is returned in every diagnostic.
 
 import math
 
-SPATIAL_WEATHER_VERSION = "spatial-weather-r4-directional-mountain-cloud-preview"
+SPATIAL_WEATHER_VERSION = "spatial-weather-r5-qixingtan-orographic-calibration"
 
 _SUPPORTED_PROFILE_IDS = (
     "tw-004-P02", "tw-004-P03", "tw-008-P03",
@@ -57,6 +57,20 @@ SPATIAL_WEATHER_PROFILES["tw-036-P03"] = {
     "min_target_elevation_gain_m": 250.0,
     "min_cloudy_targets": 2,
     "min_directional_cloud_targets": 2,
+}
+
+# B84 sibling Opportunity: same researched northward mountain sector, but this
+# contract asks whether the distant Qingshui Cliff / Qingshui Mountain layers
+# remain broadly readable. It is deliberately separate from the cloud-band
+# subject so "clear mountain view" and "terrain-attached cloud" can coexist as
+# different photographic outcomes.
+SPATIAL_WEATHER_PROFILES["tw-036-P04"] = {
+    "mode": "directional_mountain_visibility_sector",
+    "bearings_deg": (350.0, 5.0, 20.0),
+    "sample_distances_km": (8.0, 15.0, 22.0),
+    "min_target_elevation_gain_m": 250.0,
+    "min_readable_targets": 2,
+    "min_readable_bearings": 2,
 }
 
 # Optional spatial context for researched minimum-sufficient subjects. These
@@ -154,8 +168,11 @@ def build_spatial_request_plan(spot):
             distances = (config["sample_distance_km"],)
         if config.get("mode") == "directional_mist_sector":
             target_role = "directional_mist_proxy"
-        elif config.get("mode") == "directional_mountain_cloud_sector":
-            target_role = "directional_mountain_cloud_proxy"
+        elif config.get("mode") in {
+            "directional_mountain_cloud_sector",
+            "directional_mountain_visibility_sector",
+        }:
+            target_role = "directional_mountain_proxy"
         else:
             target_role = "lower_terrain_proxy"
         for distance_km in distances:
@@ -183,7 +200,11 @@ def build_spatial_request_plan(spot):
                 else (
                     "directional_mountain_sector_environment_proxy_not_exact_cloud_or_ridge_location"
                     if config.get("mode") == "directional_mountain_cloud_sector"
-                    else "radial_lower_terrain_proxy_not_exact_target_zone"
+                    else (
+                        "directional_mountain_sector_environment_proxy_not_exact_ridge_visibility"
+                        if config.get("mode") == "directional_mountain_visibility_sector"
+                        else "radial_lower_terrain_proxy_not_exact_target_zone"
+                    )
                 )
             ),
         }
@@ -383,7 +404,7 @@ def _evaluate_directional_mist_sector(config, observation):
 
 
 
-def _evaluate_directional_mountain_cloud_sector(config, observation):
+def _evaluate_directional_mountain_cloud_sector(config, observation, item_data=None):
     """Evaluate Qixingtan-style clear-coast / cloud-on-mountain contrast.
 
     This is a forecast candidate, not visual confirmation. A valid match needs:
@@ -492,6 +513,45 @@ def _evaluate_directional_mountain_cloud_sector(config, observation):
             "visibility_guaranteed": False,
         }
 
+    # B84 calibration diagnostics: retain only compact aggregates so production
+    # JSON can explain why a ground-truth scene was missed without embedding all
+    # nine raw target samples. The camera cloud_base_agl field is a planning-grade
+    # LCL proxy derived from temperature/dew point in fetch_data, not an observed
+    # cloud base.
+    item_data = item_data or {}
+    camera_lcl_agl = _number(item_data.get("cloud_base_agl"))
+    camera_lcl_asl = (
+        camera_elevation + camera_lcl_agl
+        if camera_lcl_agl is not None else None
+    )
+    lcl_intersection_targets = []
+    lcl_intersection_bearings = set()
+    if camera_lcl_asl is not None:
+        for row in elevated_targets:
+            elevation = _number(row.get("elevation_m"))
+            if elevation is not None and elevation >= camera_lcl_asl:
+                lcl_intersection_targets.append(row)
+                bearing = _number(row.get("bearing_deg"))
+                if bearing is not None:
+                    lcl_intersection_bearings.add(round(bearing, 1))
+
+    elevated_low_values = [
+        _number(row.get("cloud_cover_low")) for row in elevated_targets
+        if _number(row.get("cloud_cover_low")) is not None
+    ]
+    elevated_rh_values = [
+        _number(row.get("relative_humidity_2m")) for row in elevated_targets
+        if _number(row.get("relative_humidity_2m")) is not None
+    ]
+    elevated_vis_values = [
+        _number(row.get("visibility")) for row in elevated_targets
+        if _number(row.get("visibility")) is not None
+    ]
+    elevated_elevations = [
+        _number(row.get("elevation_m")) for row in elevated_targets
+        if _number(row.get("elevation_m")) is not None
+    ]
+
     required_cloud = min(int(config.get("min_cloudy_targets", 2)), len(elevated_targets))
     required_directional = min(
         int(config.get("min_directional_cloud_targets", required_cloud)),
@@ -523,6 +583,169 @@ def _evaluate_directional_mountain_cloud_sector(config, observation):
         "max_target_elevation_gain_m": round(
             max((row["elevation_gain_m"] for row in elevated_targets), default=0.0)
         ),
+        "elevated_target_max_elevation_m": (
+            round(max(elevated_elevations)) if elevated_elevations else None
+        ),
+        "elevated_target_max_low_cloud_pct": (
+            round(max(elevated_low_values)) if elevated_low_values else None
+        ),
+        "elevated_target_max_rh_pct": (
+            round(max(elevated_rh_values)) if elevated_rh_values else None
+        ),
+        "elevated_target_min_visibility_km": (
+            round(min(elevated_vis_values) / 1000.0, 1) if elevated_vis_values else None
+        ),
+        "camera_lcl_agl_proxy_m": (
+            round(camera_lcl_agl) if camera_lcl_agl is not None else None
+        ),
+        "camera_lcl_asl_proxy_m": (
+            round(camera_lcl_asl) if camera_lcl_asl is not None else None
+        ),
+        "terrain_lcl_intersection_target_count": len(lcl_intersection_targets),
+        "terrain_lcl_intersection_bearing_count": len(lcl_intersection_bearings),
+        "target_resolution": observation.get("target_resolution"),
+        "exact_target_zone_verified": False,
+        "visibility_guaranteed": False,
+        "confidence_hint": "medium" if eligible else "low",
+    }
+
+
+def _evaluate_directional_mountain_visibility_sector(config, observation):
+    """Evaluate broad northward mountain/coast readability from Qixingtan.
+
+    This does not require perfectly cloud-free ridges. It asks whether the camera
+    grid is clear and multiple materially elevated proxies across the researched
+    northward sector remain readable rather than whiteout/opaque.
+    """
+    camera = observation.get("camera") or {}
+    camera_vis = _number(camera.get("visibility"))
+    camera_low = _number(camera.get("cloud_cover_low"))
+    camera_rh = _number(camera.get("relative_humidity_2m"))
+    camera_precip = _number(camera.get("precipitation"))
+    camera_elevation = _number(camera.get("elevation_m"))
+    if camera_vis is None or camera_low is None or camera_rh is None or camera_elevation is None:
+        return {
+            "module": "spatial_weather_vertical_cloud",
+            "mode": "directional_mountain_visibility_sector",
+            "available": False,
+            "eligible": False,
+            "reason": "camera_weather_or_elevation_missing",
+        }
+
+    camera_blocked = (
+        camera_vis < 12000
+        or (camera_low >= 90 and camera_rh >= 94)
+        or (camera_precip is not None and camera_precip >= 1.0)
+    )
+    if camera_blocked:
+        return {
+            "module": "spatial_weather_vertical_cloud",
+            "mode": "directional_mountain_visibility_sector",
+            "available": True,
+            "eligible": False,
+            "reason": "camera_not_clear_enough_for_distant_mountain_view",
+            "camera_visibility_km": round(camera_vis / 1000.0, 1),
+            "camera_low_cloud": round(camera_low),
+            "camera_rh": round(camera_rh),
+            "readable_target_count": 0,
+            "readable_bearing_count": 0,
+            "target_resolution": observation.get("target_resolution"),
+            "exact_target_zone_verified": False,
+            "visibility_guaranteed": False,
+            "confidence_hint": "low",
+        }
+
+    min_gain = float(config.get("min_target_elevation_gain_m", 250.0))
+    elevated_targets = []
+    readable_targets = []
+    opaque_targets = []
+    readable_bearings = set()
+
+    for target in observation.get("targets", []) or []:
+        elevation = _number(target.get("elevation_m"))
+        vis = _number(target.get("visibility"))
+        low = _number(target.get("cloud_cover_low"))
+        rh = _number(target.get("relative_humidity_2m"))
+        precip = _number(target.get("precipitation"))
+        weather_code = target.get("weather_code")
+        if elevation is None or vis is None or low is None or rh is None:
+            continue
+        if elevation - camera_elevation < min_gain:
+            continue
+
+        row = dict(target)
+        row["elevation_gain_m"] = elevation - camera_elevation
+        elevated_targets.append(row)
+
+        fog_code = weather_code in {45, 48}
+        opaque = (
+            fog_code
+            or vis < 3000
+            or (low >= 90 and rh >= 90)
+            or (precip is not None and precip >= 1.0)
+        )
+        if opaque:
+            opaque_targets.append(row)
+            continue
+
+        readable = (
+            vis >= 8000
+            and low <= 80
+            and (precip is None or precip < 1.0)
+        )
+        if readable:
+            readable_targets.append(row)
+            bearing = _number(row.get("bearing_deg"))
+            if bearing is not None:
+                readable_bearings.add(round(bearing, 1))
+
+    if len(elevated_targets) < 2:
+        return {
+            "module": "spatial_weather_vertical_cloud",
+            "mode": "directional_mountain_visibility_sector",
+            "available": False,
+            "eligible": False,
+            "reason": "insufficient_elevated_directional_samples",
+            "elevated_target_count": len(elevated_targets),
+            "target_resolution": observation.get("target_resolution"),
+            "exact_target_zone_verified": False,
+            "visibility_guaranteed": False,
+        }
+
+    required_targets = min(int(config.get("min_readable_targets", 2)), len(elevated_targets))
+    required_bearings = min(int(config.get("min_readable_bearings", 2)), len({
+        round(_number(row.get("bearing_deg")), 1)
+        for row in elevated_targets
+        if _number(row.get("bearing_deg")) is not None
+    }))
+    eligible = (
+        len(readable_targets) >= required_targets
+        and len(readable_bearings) >= required_bearings
+    )
+    return {
+        "module": "spatial_weather_vertical_cloud",
+        "mode": "directional_mountain_visibility_sector",
+        "available": True,
+        "eligible": eligible,
+        "reason": (
+            "directional_mountain_view_readable"
+            if eligible else "directional_mountain_view_not_readable"
+        ),
+        "camera_visibility_km": round(camera_vis / 1000.0, 1),
+        "camera_low_cloud": round(camera_low),
+        "camera_rh": round(camera_rh),
+        "elevated_target_count": len(elevated_targets),
+        "readable_target_count": len(readable_targets),
+        "readable_bearing_count": len(readable_bearings),
+        "opaque_target_count": len(opaque_targets),
+        "min_readable_target_visibility_km": (
+            round(min(_number(row.get("visibility")) for row in readable_targets) / 1000.0, 1)
+            if readable_targets else None
+        ),
+        "max_readable_target_low_cloud_pct": (
+            round(max(_number(row.get("cloud_cover_low")) for row in readable_targets))
+            if readable_targets else None
+        ),
         "target_resolution": observation.get("target_resolution"),
         "exact_target_zone_verified": False,
         "visibility_guaranteed": False,
@@ -553,7 +776,9 @@ def evaluate_spatial_weather(opportunity, item_data):
     if config.get("mode") == "directional_mist_sector":
         return _evaluate_directional_mist_sector(config, observation)
     if config.get("mode") == "directional_mountain_cloud_sector":
-        return _evaluate_directional_mountain_cloud_sector(config, observation)
+        return _evaluate_directional_mountain_cloud_sector(config, observation, item_data)
+    if config.get("mode") == "directional_mountain_visibility_sector":
+        return _evaluate_directional_mountain_visibility_sector(config, observation)
 
     camera = observation["camera"]
     camera_elevation = _number(observation.get("camera_reference_elevation_m"))
@@ -719,7 +944,7 @@ def evaluate_spatial_weather(opportunity, item_data):
 
 def validate_spatial_weather_registry():
     errors = []
-    expected = set(_SUPPORTED_PROFILE_IDS) | {"tw-036-P03"}
+    expected = set(_SUPPORTED_PROFILE_IDS) | {"tw-036-P03", "tw-036-P04"}
     if set(SPATIAL_WEATHER_PROFILES) != expected:
         errors.append("spatial profile registry mismatch")
     for oid, config in SPATIAL_WEATHER_PROFILES.items():
@@ -746,6 +971,19 @@ def validate_spatial_weather_registry():
                 errors.append(f"{oid}: invalid mountain-cloud target count")
             if int(config.get("min_directional_cloud_targets") or 0) < 1:
                 errors.append(f"{oid}: invalid directional-cloud target count")
+        elif mode == "directional_mountain_visibility_sector":
+            if len(config.get("bearings_deg") or ()) < 3:
+                errors.append(f"{oid}: insufficient mountain-visibility bearings")
+            if len(config.get("sample_distances_km") or ()) < 2:
+                errors.append(f"{oid}: insufficient mountain-visibility distance bands")
+            if any(float(x) <= 0 for x in config.get("sample_distances_km") or ()):
+                errors.append(f"{oid}: invalid mountain-visibility sample distance")
+            if float(config.get("min_target_elevation_gain_m") or 0) < 100:
+                errors.append(f"{oid}: mountain-visibility elevation gain too small")
+            if int(config.get("min_readable_targets") or 0) < 1:
+                errors.append(f"{oid}: invalid readable target count")
+            if int(config.get("min_readable_bearings") or 0) < 1:
+                errors.append(f"{oid}: invalid readable bearing count")
         else:
             errors.append(f"{oid}: invalid spatial profile mode {mode}")
 

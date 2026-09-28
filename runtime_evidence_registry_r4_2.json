@@ -1526,6 +1526,41 @@
         "direction_source_url": "https://www.taiwan.nps.gov.tw/home/zh-tw/quarterly/7933/6910",
         "direction_source_note": "官方資料只支持七星潭隔海灣向北眺望清水斷崖／清水山；B83 使用北向至北北東的廣角高地 proxy，並不主張精確山峰方位或雲帶交會位置。"
       }
+    },
+    "tw-036-P04": {
+      "status": "verified",
+      "grade": "A",
+      "subject": "七星潭北望清水斷崖／清水山山海遠眺",
+      "evidence_scope": "交通部觀光署官方七星潭頁面明確記錄可遠眺清水斷崖；臺灣國家公園官方文章描述從七星潭海岸隔海灣向北可見太平洋、清水斷崖與向上延伸的清水山。這直接支持七星潭北望山海遠眺為 Place-specific 攝影題材。",
+      "sources": [
+        {
+          "title": "交通部觀光署－七星潭",
+          "url": "https://www.taiwan.net.tw/m1.aspx?id=9488&sno=0001124"
+        },
+        {
+          "title": "臺灣國家公園－從七星潭／崇德眺望清水斷崖與清水山",
+          "url": "https://www.taiwan.nps.gov.tw/home/zh-tw/quarterly/7933/6910"
+        }
+      ],
+      "forecast_boundary": "官方證據證明北望清水斷崖／清水山的題材存在；runtime 以七星潭拍攝點與北向高地多格點評估山海是否仍具可讀視野。多點格點仍不是實景攝影機，不能保證每一段山稜都清晰或精確遮雲比例。",
+      "runtime_enrichment": {
+        "version": "B84_directional_mountain_visibility_proxy",
+        "status": "required_context",
+        "camera_vs_target_sector": true,
+        "exact_target_zone_verified": false,
+        "fallback": "no_high_confidence_score_when_spatial_samples_missing",
+        "direction_basis": "official_Qixingtan_northward_Qingshui_Cliff_and_Qingshui_Mountain_view",
+        "direction_sector_deg": [
+          350,
+          5,
+          20
+        ],
+        "sample_distances_km": [
+          8,
+          15,
+          22
+        ]
+      }
     }
   }
 }
