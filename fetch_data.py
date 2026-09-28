@@ -110,6 +110,7 @@ I18N_MESSAGES = {
     "OPPORTUNITY_SIMPLE_MATCH": {"zh-TW": "✅ 此景點的基本好拍條件已成立", "en": "✅ The Place's basic good-shoot conditions are met", "ja": "✅ この場所の基本的な好条件が成立"},
     "OPPORTUNITY_MIST_CANDIDATE": {"zh-TW": "🌫️ 晨霧候選條件出現，但霧區位置仍有不確定性", "en": "🌫️ Morning-mist candidate conditions are present, but the mist location remains uncertain", "ja": "🌫️ 朝霧候補の条件がありますが、霧の位置には不確実性があります"},
     "OPPORTUNITY_DIRECTIONAL_CLOUD_MATCH": {"zh-TW": "☁️ 北方山區貼山雲候選條件成立；實際山體露出仍需現場確認", "en": "☁️ Northward terrain-attached cloud candidate conditions match; actual ridge visibility still needs field confirmation", "ja": "☁️ 北側山地の地形性低層雲候補条件が一致。実際の稜線の見え方は現地確認が必要です"},
+    "OPPORTUNITY_DIRECTIONAL_MOUNTAIN_MATCH": {"zh-TW": "🏔️ 北方山海視野條件良好；實際山稜遮雲仍需現場確認", "en": "🏔️ Northward mountain-seascape visibility looks good; actual ridge cloud cover still needs field confirmation", "ja": "🏔️ 北側の山海景観の視程条件は良好。実際の稜線の雲被りは現地確認が必要です"},
     "OPPORTUNITY_OUTSIDE_TIME_WINDOW": {"zh-TW": "🕒 天氣條件可用，但目前不在此題材的建議拍攝時段", "en": "🕒 Weather conditions are usable, but this is outside the recommended shooting time for this opportunity", "ja": "🕒 天候条件は利用可能ですが、この撮影機会の推奨時間帯ではありません"},
     "OPPORTUNITY_SIMPLE_MISS": {"zh-TW": "⚠️ 能見度、低雲或降雨條件目前不理想", "en": "⚠️ Visibility, low cloud, or precipitation is currently unfavorable", "ja": "⚠️ 視程・低雲・降水条件が現在不利"},
 
@@ -1322,6 +1323,25 @@ def _score_opportunity(opportunity, theme_metric, runtime_diagnostic, lang="zh-T
                     }.get(lang, "Exact cloud/ridge overlap remains unverified")
                     factors.append({"type": "plus", "key": "directional_mountain_cloud", "value": target_count, "text": cloud_text})
                     factors.append({"type": "minus", "key": "directional_cloud_uncertainty", "value": elevated_count, "text": uncertainty_text})
+                elif spatial.get("mode") == "directional_mountain_visibility_sector":
+                    status_key = indicator_key = "OPPORTUNITY_DIRECTIONAL_MOUNTAIN_MATCH"
+                    condition_state = "directional_mountain_visibility_match"
+                    score_confidence = spatial.get("confidence_hint") or "medium"
+                    readable_count = spatial.get("readable_target_count")
+                    bearing_count = spatial.get("readable_bearing_count")
+                    min_vis = spatial.get("min_readable_target_visibility_km")
+                    view_text = {
+                        "zh-TW": f"北向高地有 {readable_count} 個樣本、跨 {bearing_count} 個方位保持可讀視野",
+                        "en": f"{readable_count} elevated northward samples across {bearing_count} bearings remain readable",
+                        "ja": f"北向き高地の {readable_count} サンプルが {bearing_count} 方位にわたり視認可能です",
+                    }.get(lang, f"{readable_count} elevated northward samples remain readable")
+                    uncertainty_text = {
+                        "zh-TW": f"最弱可讀高地樣本能見度約 {min_vis:.1f} km；格點仍不能保證每一段山稜沒有局部遮雲",
+                        "en": f"The weakest readable elevated sample is about {min_vis:.1f} km; grid data cannot guarantee every ridge segment is cloud-free",
+                        "ja": f"最も弱い可読高地サンプルの視程は約 {min_vis:.1f} km。格子データは全稜線の雲なしを保証しません",
+                    }.get(lang, "Grid data cannot guarantee every ridge segment is cloud-free")
+                    factors.append({"type": "plus", "key": "directional_mountain_visibility", "value": readable_count, "text": view_text})
+                    factors.append({"type": "minus", "key": "directional_mountain_uncertainty", "value": min_vis, "text": uncertainty_text})
                 else:
                     status_key = indicator_key = "OPPORTUNITY_MATCH"
                     condition_state = "dedicated_conditions_match"
