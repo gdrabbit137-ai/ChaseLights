@@ -109,6 +109,8 @@ I18N_MESSAGES = {
     "NO_VIABLE_OPPORTUNITY": {"zh-TW": "🕒 今天剩餘時段沒有合適的已研究拍攝機會", "en": "🕒 No researched shooting opportunity remains viable today", "ja": "🕒 本日の残り時間に適した調査済み撮影機会はありません"},
     "OPPORTUNITY_SIMPLE_MATCH": {"zh-TW": "✅ 此景點的基本好拍條件已成立", "en": "✅ The Place's basic good-shoot conditions are met", "ja": "✅ この場所の基本的な好条件が成立"},
     "OPPORTUNITY_MIST_CANDIDATE": {"zh-TW": "🌫️ 晨霧候選條件出現，但霧區位置仍有不確定性", "en": "🌫️ Morning-mist candidate conditions are present, but the mist location remains uncertain", "ja": "🌫️ 朝霧候補の条件がありますが、霧の位置には不確実性があります"},
+    "OPPORTUNITY_MIST_SUPPORTED": {"zh-TW": "🌫️ 晨霧候選有多項氣象訊號佐證", "en": "🌫️ Multiple weather signals support a morning-mist candidate", "ja": "🌫️ 複数の気象シグナルが朝霧候補を支持しています"},
+    "OPPORTUNITY_DIRECTIONAL_MIST_CANDIDATE": {"zh-TW": "🌫️ 多點預報支持斷崖方向晨霧候選", "en": "🌫️ Multi-point forecasts support a morning-mist candidate toward the cliff sector", "ja": "🌫️ 複数地点の予報が断崖方向の朝霧候補を支持しています"},
     "OPPORTUNITY_OUTSIDE_TIME_WINDOW": {"zh-TW": "🕒 天氣條件可用，但目前不在此題材的建議拍攝時段", "en": "🕒 Weather conditions are usable, but this is outside the recommended shooting time for this opportunity", "ja": "🕒 天候条件は利用可能ですが、この撮影機会の推奨時間帯ではありません"},
     "OPPORTUNITY_SIMPLE_MISS": {"zh-TW": "⚠️ 能見度、低雲或降雨條件目前不理想", "en": "⚠️ Visibility, low cloud, or precipitation is currently unfavorable", "ja": "⚠️ 視程・低雲・降水条件が現在不利"},
 
@@ -1275,6 +1277,17 @@ def _score_opportunity(opportunity, theme_metric, runtime_diagnostic, lang="zh-T
                 status_key = indicator_key = "OPPORTUNITY_MIST_CANDIDATE"
                 condition_state = "minimum_sufficient_mist_candidate_uncertain"
                 score_confidence = diag.get("runtime_confidence_hint") or "low"
+            elif (
+                diag.get("mist_context") == "coastal_cliff"
+                and (diag.get("spatial_mist_context") or {}).get("eligible")
+            ):
+                status_key = indicator_key = "OPPORTUNITY_DIRECTIONAL_MIST_CANDIDATE"
+                condition_state = "minimum_sufficient_directional_mist_candidate"
+                score_confidence = diag.get("runtime_confidence_hint") or "medium"
+            elif diag.get("mist_context") == "coastal_cliff" and diag.get("mist_signal"):
+                status_key = indicator_key = "OPPORTUNITY_MIST_SUPPORTED"
+                condition_state = "minimum_sufficient_mist_supported"
+                score_confidence = diag.get("runtime_confidence_hint") or "medium"
             else:
                 status_key = indicator_key = "OPPORTUNITY_SIMPLE_MATCH"
                 condition_state = "minimum_sufficient_conditions_match"
