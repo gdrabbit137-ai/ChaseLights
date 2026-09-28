@@ -1469,7 +1469,14 @@
           "url": "https://www.taroko.gov.tw/ch/sglarticle/transportation-and-trails"
         }
       ],
-      "forecast_boundary": "官方證據只證明清水斷崖存在晨霧／雲霧攝影題材及崇德觀景區可觀看斷崖。runtime 可用能見度、濕度、低雲、露點差、雲底與 weather code 估計候選時段，但單一低能見度不得直接宣稱晨霧存在；在加入方向性空間取樣前，霧位於斷崖還是拍攝點仍屬不確定。"
+      "forecast_boundary": "官方證據只證明清水斷崖存在晨霧／雲霧攝影題材及崇德觀景區可觀看斷崖。B82 runtime 會把拍攝點格點與朝斷崖廣角方向的多個環境 proxy 格點比較，若目標方向明顯更霧可提高候選信心，並保留拍攝點白牆 veto；這仍不是實景觀測、精確霧區定位或斷崖交會證明。若多點資料暫缺，僅回退到 B81 的低信心單點候選。",
+      "runtime_enrichment": {
+        "version": "B82_directional_mist_proxy",
+        "status": "optional_context",
+        "camera_vs_target_sector": true,
+        "exact_target_zone_verified": false,
+        "fallback": "B81_single_point_low_confidence_candidate"
+      }
     }
   }
 }
