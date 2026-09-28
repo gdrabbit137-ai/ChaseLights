@@ -129,7 +129,10 @@
       if(currentRegion==='tw'){
         // Legacy geographic category values from B104/B108 collapse to the
         // default "all places" state. Favorites is a true on/off filter.
-        if(currentCategoryKey!=='__fav__')currentCategoryKey='__all__';
+        if(currentCategoryKey!=='__fav__'){
+          currentCategoryKey='__all__';
+          localStorage.setItem(`chaselights_category_${currentRegion}`,currentCategoryKey);
+        }
         const b=document.createElement('button');
         const on=currentCategoryKey==='__fav__';
         b.className=`sub-btn favorite-filter-toggle ${on?'active':''}`;
