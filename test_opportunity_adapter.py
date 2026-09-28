@@ -363,7 +363,7 @@ def test_adapter_integrity():
     )["tw-034-P03"]
     qingshui_unreadable_scored = fetch_data._score_opportunity(
         qingshui_by_id["tw-034-P03"],
-        {"score": 61, "factors": [], "temporal_eligible": True},
+        {"score": 85, "factors": [], "temporal_eligible": True},
         qingshui_unreadable_diag,
     )
     assert qingshui_unreadable_scored["score"] == 68
