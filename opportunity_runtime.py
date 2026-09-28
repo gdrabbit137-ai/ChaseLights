@@ -71,7 +71,7 @@ from aurora_state import (
     validate_aurora_state_registry,
 )
 
-MODULE_VERSION = "opportunity-runtime-r17-b88-qingshui-mist-cap"
+MODULE_VERSION = "opportunity-runtime-r18-b93-qingshui-negative-spatial-evidence"
 
 IMPLEMENTED_COMPONENTS = {
     "directional_horizon",
@@ -303,6 +303,7 @@ def evaluate_hualien_local_scene(opportunity, item_data):
     mist_signal_components = []
     mist_context = None
     spatial_mist_context = None
+    directional_mist_negative_evidence = False
     confidence_hint = None
     uncertain = False
     camera_whiteout_risk = False
@@ -382,6 +383,15 @@ def evaluate_hualien_local_scene(opportunity, item_data):
                         mist_support_score += 2
                         mist_signal_components.append("directional_spatial_mist")
                         mist_signal = True
+                    elif (
+                        spatial_mist_context.get("mist_target_count") == 0
+                        and spatial_mist_context.get("broad_clear_target_sector")
+                    ):
+                        # B93: distinguish "spatial data unavailable" from
+                        # "spatial data available and broadly contradicting
+                        # target-sector mist". Only the former may fall back to
+                        # B81's single-point visibility candidate.
+                        directional_mist_negative_evidence = True
 
     if not gate_ok:
         eligible, quality, score_hint = False, "inactive", 0
@@ -415,6 +425,12 @@ def evaluate_hualien_local_scene(opportunity, item_data):
             }
         if camera_whiteout_risk:
             eligible, quality, reason, score_hint = False, "too_dense", "camera_whiteout_risk", 45
+            confidence_hint = "medium"
+        elif directional_mist_negative_evidence:
+            eligible = False
+            quality = "directional_target_sector_lacks_mist_support"
+            reason = "directional_target_sector_lacks_mist_support"
+            score_hint = 0
             confidence_hint = "medium"
         elif (
             camera_readability_threshold_km
@@ -501,6 +517,7 @@ def evaluate_hualien_local_scene(opportunity, item_data):
         "mist_support_score": mist_support_score,
         "mist_signal_components": mist_signal_components,
         "spatial_mist_context": spatial_mist_context,
+        "directional_mist_negative_evidence": directional_mist_negative_evidence,
         "camera_whiteout_risk": camera_whiteout_risk,
         "camera_readability_threshold_km": camera_readability_threshold_km,
         "subject_readability_uncertain": subject_readability_uncertain,
