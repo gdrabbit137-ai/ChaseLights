@@ -7,7 +7,7 @@ ready only after an authoritative provider/rule is connected for that profile.
 Unknown or stale access data must never be interpreted as open.
 """
 
-ACCESS_STATE_VERSION = "dynamic-access-foundation-r3-yahiko-preview"
+ACCESS_STATE_VERSION = "dynamic-access-foundation-r4-johnston-ridge-preview"
 
 ACCESS_REQUIREMENTS = {
     "event_access_control": {
@@ -130,10 +130,11 @@ for _access_type, _profile_ids in _ACCESS_GROUPS.items():
 
 ACCESS_DEPENDENT_PROFILE_IDS = frozenset(ACCESS_PROFILE_CLASSIFICATION)
 
-# Runtime-ready is explicit and profile-specific. jp-021 and jp-022 have
-# authoritative fail-closed providers connected; all other access-dependent
+# Runtime-ready is explicit and profile-specific. us-017, jp-021 and jp-022
+# have authoritative fail-closed providers connected; all other access-dependent
 # profiles remain blocked until their own provider is implemented.
 ACCESS_RUNTIME_READY_PROFILES = frozenset({
+    "us-017-P01",
     "jp-021-P01",
     "jp-021-P02",
     "jp-022-P01",
@@ -285,11 +286,11 @@ OFFICIAL_SOURCE_HINTS = {
         "note": "Observation-level access is ticketed and official hours vary by day/date. Exterior Seattle Center photography is a separate non-ticketed Opportunity; do not infer tower admission from favorable weather.",
     },
     "us-017": {
-        "authority": "USDA Forest Service / WSDOT",
+        "authority": "Washington State Department of Transportation / USDA Forest Service",
         "source_kind": "johnston_ridge_sr504_road_and_viewpoint_status",
-        "url": "https://www.fs.usda.gov/r06/giffordpinchot/recreation/south-coldwater-slide-information",
-        "verified_on": "2026-09-27",
-        "note": "Johnston Ridge subject evidence is valid, but ordinary public road access remains blocked by the SR 504 landslide closure. Never infer access from clear weather or season.",
+        "url": "https://wsdot.wa.gov/construction-planning/search-projects/sr-504-south-coldwater-slide-spirit-lake-outlet-bridge-washout",
+        "verified_on": "2026-09-28",
+        "note": "B90 connects the current WSDOT SR 504 project page as a fail-closed provider. Explicit long-term closure can prove CLOSED across the forecast horizon; a future OPEN result requires fresh present-tense reopening language. Favorable weather never proves Johnston Ridge access.",
     },
     "us-012": {
         "authority": "U.S. National Park Service",

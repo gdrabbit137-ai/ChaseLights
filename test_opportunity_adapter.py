@@ -87,6 +87,11 @@ from yahiko_access import (
     build_yahiko_access_state,
     parse_yahiko_homepage_status,
 )
+from johnston_ridge_access import (
+    PROVIDER_VERSION as JOHNSTON_RIDGE_PROVIDER_VERSION,
+    build_johnston_ridge_access_state,
+    parse_johnston_ridge_project_status,
+)
 
 import analyze_weather
 import audit_opportunity_evidence
@@ -120,7 +125,7 @@ def _all_opportunities():
 
 
 def test_adapter_integrity():
-    assert ADAPTER_VERSION == "v0.04-r4.2-canonical-r32-qixingtan-northward-views"
+    assert ADAPTER_VERSION == "v0.04-r4.2-canonical-r33-johnston-ridge-access"
     assert validate_curated_opportunities() == []
     assert validate_taxonomy() == []
     assert EVENT_CALENDAR_SCHEMA_VERSION == "r4.2-event-calendar-1"
@@ -1390,6 +1395,7 @@ def test_adapter_integrity():
         "runtime_event_calendar_r4_2.json",
         "shinhotaka_access.py",
         "yahiko_access.py",
+        "johnston_ridge_access.py",
     ):
         assert f'"{required_path}"' in update_weather_workflow, required_path
     assert "runtime_catalog_v004_r4_2_b15.compact.part" not in update_weather_workflow
@@ -2840,6 +2846,124 @@ def test_adapter_integrity():
     assert schedule_open_eval["eligible"] is False
     assert schedule_open_eval["reason"] == "live_access_confirmation_required"
 
+    # B90 us-017 Johnston Ridge: official WSDOT current project status can
+    # authoritatively prove the long-running SR 504 closure. A future OPEN
+    # verdict is deliberately short-lived and must come from explicit
+    # present-tense reopening language.
+    us017 = get_opportunities("us", "us-017")
+    assert [o["opportunity_id"] for o in us017] == ["us-017-P01"]
+    assert us017[0]["runtime_policy"] == "preview_module_available"
+    assert dependencies_for_opportunity(us017[0]) == ("dynamic_access", "visibility")
+    assert dependency_state(us017[0])["ready_components"] == (
+        "dynamic_access", "visibility"
+    )
+    assert dependency_state(us017[0])["missing_components"] == ()
+    assert ACCESS_PROFILE_CLASSIFICATION["us-017-P01"]["access_type"] == (
+        "road_viewpoint_status"
+    )
+    assert "us-017-P01" in ACCESS_RUNTIME_READY_PROFILES
+    assert JOHNSTON_RIDGE_PROVIDER_VERSION == (
+        "johnston-ridge-access-r1-closure-preview"
+    )
+
+    johnston_closed_html = (
+        fixture_dir / "johnston_ridge_closed.html"
+    ).read_text(encoding="utf-8")
+    johnston_open_html = (
+        fixture_dir / "johnston_ridge_open.html"
+    ).read_text(encoding="utf-8")
+    johnston_ambiguous_html = (
+        fixture_dir / "johnston_ridge_ambiguous.html"
+    ).read_text(encoding="utf-8")
+
+    johnston_base = datetime(
+        2026, 9, 28, 12, 0, tzinfo=timezone.utc
+    ).timestamp()
+    johnston_closed_provider = parse_johnston_ridge_project_status(
+        johnston_closed_html,
+        fetched_at_epoch=johnston_base,
+    )
+    assert johnston_closed_provider["parse_ok"] is True
+    assert johnston_closed_provider["status"] == "closed"
+    assert johnston_closed_provider["construction_status"] is True
+
+    # Long-running explicit closure is a schedule-style CLOSED snapshot and can
+    # safely cover the 72-hour forecast horizon without pretending to be live.
+    johnston_future = johnston_base + 2 * 86400
+    johnston_closed_state = build_johnston_ridge_access_state(
+        johnston_future, johnston_closed_provider
+    )["us-017-P01"]
+    assert johnston_closed_state["status"] == "closed"
+    assert johnston_closed_state["freshness_mode"] == "schedule"
+    johnston_closed_eval = evaluate_dynamic_access(
+        us017[0],
+        {"timestamp": johnston_future, "access_state": johnston_closed_state},
+    )
+    assert johnston_closed_eval["available"] is True
+    assert johnston_closed_eval["eligible"] is False
+    assert johnston_closed_eval["reason"] == "authoritative_access_not_open"
+    assert johnston_closed_eval["runtime_provider_connected"] is True
+
+    johnston_open_provider = parse_johnston_ridge_project_status(
+        johnston_open_html,
+        fetched_at_epoch=johnston_base,
+    )
+    assert johnston_open_provider["parse_ok"] is True
+    assert johnston_open_provider["status"] == "open"
+    assert johnston_open_provider["construction_status"] is False
+    johnston_open_state = build_johnston_ridge_access_state(
+        johnston_base + 60, johnston_open_provider
+    )["us-017-P01"]
+    assert johnston_open_state["status"] == "open"
+    assert johnston_open_state["freshness_mode"] == "live"
+    johnston_open_eval = evaluate_dynamic_access(
+        us017[0],
+        {"timestamp": johnston_base + 60, "access_state": johnston_open_state},
+    )
+    assert johnston_open_eval["available"] is True
+    assert johnston_open_eval["eligible"] is True
+
+    johnston_stale_eval = evaluate_dynamic_access(
+        us017[0],
+        {
+            "timestamp": johnston_base + 7 * 3600,
+            "access_state": johnston_open_state,
+        },
+    )
+    assert johnston_stale_eval["available"] is False
+    assert johnston_stale_eval["eligible"] is False
+    assert johnston_stale_eval["reason"] == "access_snapshot_stale"
+
+    johnston_ambiguous_provider = parse_johnston_ridge_project_status(
+        johnston_ambiguous_html,
+        fetched_at_epoch=johnston_base,
+    )
+    assert johnston_ambiguous_provider["parse_ok"] is False
+    assert johnston_ambiguous_provider["status"] == "unknown"
+    johnston_ambiguous_state = build_johnston_ridge_access_state(
+        johnston_base, johnston_ambiguous_provider
+    )["us-017-P01"]
+    johnston_ambiguous_eval = evaluate_dynamic_access(
+        us017[0],
+        {"timestamp": johnston_base, "access_state": johnston_ambiguous_state},
+    )
+    assert johnston_ambiguous_eval["eligible"] is False
+    assert johnston_ambiguous_eval["source_freshness_verified"] is False
+
+    johnston_runtime = fetch_data._build_opportunity_runtime_diagnostics(
+        {"opportunities": us017},
+        {
+            "timestamp": johnston_base,
+            "vis": 30000,
+            "access_state": build_johnston_ridge_access_state(
+                johnston_base, johnston_closed_provider
+            ),
+        },
+    )["us-017-P01"]
+    assert johnston_runtime["available"] is True
+    assert johnston_runtime["eligible"] is False
+    assert johnston_runtime["modules"]["dynamic_access"]["status"] == "closed"
+
     # jp-022 Yahiko: the official homepage can prove today's ropeway operation,
     # while Skyline schedule-only access remains fail-closed.
     assert YAHIKO_PROVIDER_VERSION == "yahiko-access-r1-preview"
@@ -3041,8 +3165,9 @@ def test_adapter_integrity():
 
     us017 = get_opportunities("us", "us-017")
     assert [o["opportunity_id"] for o in us017] == ["us-017-P01"]
-    assert us017[0]["runtime_policy"] == "module_pending"
-    assert dependency_state(us017[0])["missing_components"] == ("dynamic_access",)
+    assert us017[0]["runtime_policy"] == "preview_module_available"
+    assert dependency_state(us017[0])["ready_components"] == ("dynamic_access", "visibility")
+    assert dependency_state(us017[0])["missing_components"] == ()
     assert ACCESS_PROFILE_CLASSIFICATION["us-017-P01"]["access_type"] == "road_viewpoint_status"
 
     us018 = get_opportunities("us", "us-018")
