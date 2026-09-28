@@ -307,7 +307,10 @@ def test_adapter_integrity():
     assert qingshui_weak_mist["mist_signal_components"] == []
     assert qingshui_weak_mist["mist_signal"] is False
 
-    qingshui_supported_mist = evaluate_minimum_sufficient_visibility(
+    # B83: strong mist evidence is not enough for a high score if the
+    # camera-grid visibility is too short to preserve the verified cliff /
+    # mountain / coast composition. Keep it as a low-confidence candidate.
+    qingshui_supported_but_unreadable = evaluate_minimum_sufficient_visibility(
         qingshui_by_id["tw-034-P03"],
         {
             "local_date": "2026-09-28", "local_time": "06:00", "local_month": 9,
@@ -316,10 +319,29 @@ def test_adapter_integrity():
             "pop": 5, "precipitation": 0.0, "access_open": True,
         },
     )
+    assert qingshui_supported_but_unreadable["eligible"] is True
+    assert qingshui_supported_but_unreadable["reason"] == "camera_visibility_too_low_for_cliff_readability"
+    assert qingshui_supported_but_unreadable["score_hint"] == 68
+    assert qingshui_supported_but_unreadable["uncertain"] is True
+    assert qingshui_supported_but_unreadable["subject_readability_uncertain"] is True
+    assert qingshui_supported_but_unreadable["camera_readability_threshold_km"] == 2.5
+    assert qingshui_supported_but_unreadable["runtime_confidence_hint"] == "low"
+    assert qingshui_supported_but_unreadable["mist_support_score"] >= 2
+
+    qingshui_supported_mist = evaluate_minimum_sufficient_visibility(
+        qingshui_by_id["tw-034-P03"],
+        {
+            "local_date": "2026-09-28", "local_time": "06:00", "local_month": 9,
+            "vis": 2800, "rh": 93, "c_low": 62, "cloud_base_agl": 240,
+            "temp": 23.0, "dew": 22.0, "weather_code": 45,
+            "pop": 5, "precipitation": 0.0, "access_open": True,
+        },
+    )
     assert qingshui_supported_mist["eligible"] is True
     assert qingshui_supported_mist["reason"] == "coastal_cliff_mist_supported"
     assert qingshui_supported_mist["score_hint"] == 88
     assert qingshui_supported_mist["uncertain"] is False
+    assert qingshui_supported_mist["subject_readability_uncertain"] is False
     assert qingshui_supported_mist["runtime_confidence_hint"] == "medium"
     assert qingshui_supported_mist["mist_support_score"] >= 2
 
@@ -428,6 +450,24 @@ def test_adapter_integrity():
     assert qingshui_directional["score_hint"] == 88
     assert qingshui_directional["runtime_confidence_hint"] == "medium"
     assert "directional_spatial_mist" in qingshui_directional["mist_signal_components"]
+
+    qingshui_directional_low_camera = evaluate_minimum_sufficient_visibility(
+        qingshui_by_id["tw-034-P03"],
+        {
+            "local_date": "2026-09-28", "local_time": "07:00", "local_month": 9,
+            "vis": 700, "rh": 80, "c_low": 36, "cloud_base_agl": 500,
+            "temp": 23.0, "dew": 19.5, "weather_code": 1,
+            "pop": 0, "precipitation": 0.0, "access_open": True,
+            "spatial_weather": qingshui_spatial_obs,
+        },
+    )
+    assert qingshui_directional_low_camera["eligible"] is True
+    assert qingshui_directional_low_camera["reason"] == "camera_visibility_too_low_for_cliff_readability"
+    assert qingshui_directional_low_camera["score_hint"] == 68
+    assert qingshui_directional_low_camera["uncertain"] is True
+    assert qingshui_directional_low_camera["subject_readability_uncertain"] is True
+    assert qingshui_directional_low_camera["runtime_confidence_hint"] == "low"
+    assert "directional_spatial_mist" in qingshui_directional_low_camera["mist_signal_components"]
 
     qingshui_no_direction_raw = []
     for point in qingshui_plan["points"]:
