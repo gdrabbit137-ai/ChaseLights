@@ -1314,7 +1314,7 @@ def _score_opportunity(opportunity, theme_metric, runtime_diagnostic, lang="zh-T
                         # that clear coastal air would reach condensation level
                         # inside the sampled mountain relief; it does NOT
                         # directly resolve a cloud band on the ridge.
-                        score = min(score, 82)
+                        score = min(score, 79)
                         status_key = indicator_key = "OPPORTUNITY_OROGRAPHIC_CLOUD_POTENTIAL"
                         condition_state = "orographic_mountain_cloud_potential"
                         score_confidence = "low"
