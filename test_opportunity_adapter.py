@@ -517,7 +517,8 @@ def test_adapter_integrity():
         index_spatial_response(qixingtan_plan, qixingtan_raw), qixingtan_ts
     )
     qixingtan_spatial_eval = evaluate_spatial_weather(
-        qixingtan_cloud, {"spatial_weather": qixingtan_spatial_obs}
+        qixingtan_cloud,
+        {"spatial_weather": qixingtan_spatial_obs, "cloud_base_agl": 700},
     )
     assert qixingtan_spatial_eval["available"] is True
     assert qixingtan_spatial_eval["eligible"] is True
@@ -526,9 +527,15 @@ def test_adapter_integrity():
     assert qixingtan_spatial_eval["readable_cloud_target_count"] >= 1
     assert qixingtan_spatial_eval["exact_target_zone_verified"] is False
     assert qixingtan_spatial_eval["visibility_guaranteed"] is False
+    assert qixingtan_spatial_eval["camera_lcl_agl_proxy_m"] == 700
+    assert qixingtan_spatial_eval["camera_lcl_asl_proxy_m"] == 714
+    assert qixingtan_spatial_eval["terrain_lcl_intersection_target_count"] == 2
+    assert qixingtan_spatial_eval["terrain_lcl_intersection_bearing_count"] == 2
+    assert qixingtan_spatial_eval["elevated_target_max_elevation_m"] == 900
 
     qixingtan_runtime = evaluate_opportunity_modules(
-        qixingtan_cloud, {"spatial_weather": qixingtan_spatial_obs}
+        qixingtan_cloud,
+        {"spatial_weather": qixingtan_spatial_obs, "cloud_base_agl": 700},
     )
     assert qixingtan_runtime["available"] is True
     assert qixingtan_runtime["eligible"] is True
@@ -577,7 +584,8 @@ def test_adapter_integrity():
         index_spatial_response(qixingtan_plan, qixingtan_clear_raw), qixingtan_ts
     )
     qixingtan_clear_eval = evaluate_spatial_weather(
-        qixingtan_cloud, {"spatial_weather": qixingtan_clear_obs}
+        qixingtan_cloud,
+        {"spatial_weather": qixingtan_clear_obs, "cloud_base_agl": 700},
     )
     assert qixingtan_clear_eval["available"] is True
     assert qixingtan_clear_eval["eligible"] is False
