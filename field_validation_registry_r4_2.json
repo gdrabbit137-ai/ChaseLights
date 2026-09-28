@@ -112,7 +112,15 @@
         "The LCL value is a planning proxy derived from temperature/dew point, not an observed cloud base.",
         "Northward weather samples are environmental proxies, not exact ridge or cloud locations.",
         "The observation validates this scene and model behavior, not a universal threshold for all mountain-cloud subjects."
-      ]
+      ],
+      "replay_fixture": {
+        "status": "available",
+        "schema_version": "field-validation-replay-r4.2-1",
+        "fixture_type": "synthetic_minimum_reproduction",
+        "historical_raw_input": false,
+        "path": "test_fixtures/field_validation/FV-TW-036-20260928-1300-01.json",
+        "note": "This fixture is a synthetic minimum reproduction derived from the validated aggregate diagnostics. It is not the original raw historical forecast response and must not be presented as one."
+      }
     }
   ]
 }
