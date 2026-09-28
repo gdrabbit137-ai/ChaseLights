@@ -41,7 +41,7 @@ Runtime 仍然優先使用 B83 的直接方向性多點雲訊號。
 - runtime `eligible = true`
 - `candidate_source = orographic_lcl_terrain_fallback`
 - `confidence_hint = low`
-- score cap = 82
+- score cap = 79
 - UI 必須明確說明「格點沒有直接解析出雲帶」
 - `exact_target_zone_verified = false`
 - `cloud_ridge_overlap_verified = false`
@@ -65,7 +65,7 @@ B84 fallback 的物理意義只是：
 - 雲形是否好看；
 - 拍攝者實際視線是否被局部雲遮住。
 
-因此只給低信心並 cap 82。
+因此只給低信心並 cap 79，刻意不進入 80+ 高信心推薦帶。
 
 ## 2026-09-28 field backtest target
 
@@ -82,7 +82,7 @@ B84 需要讓下列模式不再被判成 54 分的 hard miss：
 預期結果：
 
 - status: `OPPORTUNITY_OROGRAPHIC_CLOUD_POTENTIAL`
-- score <= 82
+- score <= 79
 - confidence: low
 - 不宣稱實際雲帶已被 forecast grid 直接看到
 
