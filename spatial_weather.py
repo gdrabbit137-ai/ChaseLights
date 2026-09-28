@@ -55,7 +55,11 @@ OPTIONAL_DIRECTIONAL_MIST_PROFILES = {
         "mode": "directional_mist_sector",
         # Sample the broad Qingshui-Cliff viewing sector at two ranges. These
         # are environmental proxy points, not verified tripod/subject points.
-        "bearings_deg": (125.0, 155.0, 185.0),
+        # Official Taroko/National Park guidance for the Chongde area says
+        # Qingshui Cliff is viewed to the north. Use a broad north-facing
+        # environmental sector instead of the legacy spot-level 155° azimuth,
+        # which is not an Opportunity-specific cliff geometry contract.
+        "bearings_deg": (330.0, 0.0, 30.0),
         "sample_distances_km": (2.5, 5.0),
         "min_misty_targets": 1,
     },
