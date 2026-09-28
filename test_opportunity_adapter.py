@@ -106,8 +106,11 @@ from opportunities import (
 from regions import get_spots
 from field_validation import (
     FIELD_VALIDATION_SCHEMA_VERSION,
+    FIELD_VALIDATION_REPLAY_SCHEMA_VERSION,
     load_field_validation_registry,
+    load_field_validation_replay_fixture,
     validate_field_validation_registry,
+    validate_field_validation_replay_fixture,
 )
 from taxonomy_v004 import PRODUCT_STATUS_BY_SPOT, active_in_catalog, product_status, validate_taxonomy
 
@@ -770,6 +773,90 @@ def test_adapter_integrity():
     assert qixingtan_proxy_score["score_confidence"] == "low"
     assert any(f.get("key") == "orographic_cloud_proxy" for f in qixingtan_proxy_score["factors"])
     assert any(f.get("key") == "orographic_cloud_proxy_uncertainty" for f in qixingtan_proxy_score["factors"])
+
+    # B89: machine-replay the structured Qixingtan field-validation fixture.
+    # The fixture is explicitly a synthetic minimum reproduction derived from
+    # stored aggregate diagnostics; it is NOT the original raw historical API
+    # response. Keeping this distinction machine-readable prevents regression
+    # tests from silently upgrading a reconstruction into observational truth.
+    replay_link = qixingtan_field_case["replay_fixture"]
+    qixingtan_replay = load_field_validation_replay_fixture(replay_link["path"])
+    assert FIELD_VALIDATION_REPLAY_SCHEMA_VERSION == "field-validation-replay-r4.2-1"
+    assert replay_link["fixture_type"] == "synthetic_minimum_reproduction"
+    assert replay_link["historical_raw_input"] is False
+    assert qixingtan_replay["fixture_type"] == "synthetic_minimum_reproduction"
+    assert qixingtan_replay["historical_raw_input"] is False
+    assert validate_field_validation_replay_fixture(
+        qixingtan_replay,
+        expected_case_id=qixingtan_field_case["case_id"],
+    ) == []
+
+    replay_ts = qixingtan_replay["epoch_utc"]
+    replay_common = qixingtan_replay["common_weather"]
+    replay_camera = qixingtan_replay["camera"]
+    replay_targets = {
+        (int(round(row["bearing_deg"])) % 360, int(round(row["distance_km"]))): row
+        for row in qixingtan_replay["targets"]
+    }
+    replay_raw = []
+    for point in qixingtan_plan["points"]:
+        if point["role"] == "camera":
+            row = replay_camera
+        else:
+            key = (
+                int(round(point.get("bearing_deg", 0))) % 360,
+                int(round(point.get("distance_km", 0))),
+            )
+            row = replay_targets[key]
+        replay_raw.append({
+            "elevation": row["elevation_m"],
+            "hourly": {
+                "time": [replay_ts],
+                "temperature_2m": [replay_common["temperature_2m"]],
+                "dew_point_2m": [replay_common["dew_point_2m"]],
+                "relative_humidity_2m": [row["relative_humidity_2m"]],
+                "cloud_cover_low": [row["cloud_cover_low"]],
+                "visibility": [row["visibility_m"]],
+                "weather_code": [row["weather_code"]],
+                "precipitation": [replay_common["precipitation"]],
+                "wind_speed_10m": [replay_common["wind_speed_10m"]],
+            },
+        })
+
+    replay_obs = spatial_observations_for_timestamp(
+        index_spatial_response(qixingtan_plan, replay_raw), replay_ts
+    )
+    replay_item_data = {
+        "spatial_weather": replay_obs,
+        **qixingtan_replay["item_data"],
+    }
+    for oid in ("tw-036-P03", "tw-036-P04"):
+        op = qixingtan_by_id[oid]
+        expected_replay = qixingtan_replay["expected"][oid]
+        spatial_eval = evaluate_spatial_weather(op, replay_item_data)
+        assert spatial_eval["available"] is True
+        assert spatial_eval["eligible"] is True
+        assert spatial_eval["reason"] == expected_replay["runtime_reason"]
+
+        # Check every diagnostic explicitly stored in the fixture, while
+        # leaving room for runtime modules to add new non-breaking diagnostics.
+        for key, value in expected_replay.items():
+            if key in {"runtime_reason", "condition_state", "score", "score_confidence"}:
+                continue
+            assert spatial_eval[key] == value
+
+        runtime_eval = evaluate_opportunity_modules(op, replay_item_data)
+        assert runtime_eval["available"] is True
+        assert runtime_eval["eligible"] is True
+        scored = fetch_data._score_opportunity(
+            op,
+            qixingtan_replay["theme_metrics"][oid],
+            runtime_eval,
+            "zh-TW",
+        )
+        assert scored["score"] == expected_replay["score"]
+        assert scored["condition_state"] == expected_replay["condition_state"]
+        assert scored["score_confidence"] == expected_replay["score_confidence"]
 
     qixingtan_view_eval = evaluate_spatial_weather(
         qixingtan_view,
