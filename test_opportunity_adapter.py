@@ -594,6 +594,117 @@ def test_adapter_integrity():
     assert qingshui_no_direction_eval["available"] is True
     assert qingshui_no_direction_eval["eligible"] is False
     assert qingshui_no_direction_eval["reason"] == "directional_mist_not_distinguished_from_camera"
+    assert qingshui_no_direction_eval["clear_target_count"] == 6
+    assert qingshui_no_direction_eval["broad_clear_target_sector"] is True
+
+    # B92: available spatial data that broadly contradicts cliff-sector mist is
+    # not the same as missing spatial data. When the camera grid is locally
+    # hazy/low-visibility but the 330/0/30-degree proxy sector is broadly clear,
+    # the cliff-mist candidate must be vetoed. B81 fallback remains valid only
+    # when spatial data are unavailable or non-conclusive.
+    qingshui_negative_raw = []
+    for point in qingshui_plan["points"]:
+        if point["role"] == "camera":
+            vis, rh, low, weather_code = 800, 77, 27, 1
+        else:
+            vis, rh, low, weather_code = 20000, 75, 10, 0
+        qingshui_negative_raw.append({
+            "elevation": 150,
+            "hourly": {
+                "time": [qingshui_ts],
+                "temperature_2m": [25.3],
+                "dew_point_2m": [21.0],
+                "relative_humidity_2m": [rh],
+                "cloud_cover_low": [low],
+                "visibility": [vis],
+                "weather_code": [weather_code],
+                "precipitation": [0.0],
+                "wind_speed_10m": [1.0],
+            },
+        })
+    qingshui_negative_obs = spatial_observations_for_timestamp(
+        index_spatial_response(qingshui_plan, qingshui_negative_raw), qingshui_ts
+    )
+    qingshui_negative_spatial = evaluate_spatial_weather(
+        qingshui_by_id["tw-034-P03"], {"spatial_weather": qingshui_negative_obs}
+    )
+    assert qingshui_negative_spatial["available"] is True
+    assert qingshui_negative_spatial["eligible"] is False
+    assert qingshui_negative_spatial["mist_target_count"] == 0
+    assert qingshui_negative_spatial["clear_target_count"] == 6
+    assert qingshui_negative_spatial["broad_clear_target_sector"] is True
+
+    qingshui_directional_veto = evaluate_minimum_sufficient_visibility(
+        qingshui_by_id["tw-034-P03"],
+        {
+            "local_date": "2026-09-28", "local_time": "07:00", "local_month": 9,
+            "vis": 800, "rh": 77, "c_low": 27, "cloud_base_agl": 550,
+            "temp": 25.3, "dew": 21.0, "weather_code": 1,
+            "pop": 0, "precipitation": 0.0, "access_open": True,
+            "spatial_weather": qingshui_negative_obs,
+        },
+    )
+    assert qingshui_directional_veto["eligible"] is False
+    assert qingshui_directional_veto["reason"] == "directional_target_sector_lacks_mist_support"
+    assert qingshui_directional_veto["directional_mist_negative_evidence"] is True
+    assert qingshui_directional_veto["runtime_confidence_hint"] == "medium"
+
+    # B92 transition regression for the B81 2026-09-28 planning case:
+    # visibility-only 0.8 km (without usable spatial evidence) remains a capped
+    # low-confidence P03 candidate; when visibility recovers, P03 drops out and
+    # the clear-cliff P02 Opportunity can become the winner again.
+    qingshui_transition_morning = {
+        "local_date": "2026-09-28", "local_time": "07:00", "local_month": 9,
+        "vis": 800, "rh": 77, "c_low": 27, "cloud_base_agl": 550,
+        "temp": 25.3, "dew": 21.0, "weather_code": 1,
+        "pop": 0, "precipitation": 0.0, "access_open": True,
+    }
+    morning_diags = fetch_data._build_opportunity_runtime_diagnostics(
+        {"opportunities": [qingshui_by_id["tw-034-P02"], qingshui_by_id["tw-034-P03"]]},
+        qingshui_transition_morning,
+    )
+    morning_scores = {
+        "tw-034-P02": fetch_data._score_opportunity(
+            qingshui_by_id["tw-034-P02"],
+            {"score": 35, "factors": [], "temporal_eligible": True},
+            morning_diags["tw-034-P02"],
+        ),
+        "tw-034-P03": fetch_data._score_opportunity(
+            qingshui_by_id["tw-034-P03"],
+            {"score": 85, "factors": [], "temporal_eligible": True},
+            morning_diags["tw-034-P03"],
+        ),
+    }
+    assert morning_scores["tw-034-P03"]["score"] == 68
+    assert morning_scores["tw-034-P03"]["score_confidence"] == "low"
+    assert max(morning_scores, key=lambda oid: morning_scores[oid]["score"]) == "tw-034-P03"
+
+    qingshui_transition_clear = {
+        "local_date": "2026-09-28", "local_time": "09:00", "local_month": 9,
+        "vis": 29600, "rh": 74, "c_low": 0, "cloud_base_agl": 637,
+        "temp": 28.2, "dew": 23.2, "weather_code": 0,
+        "pop": 0, "precipitation": 0.0, "access_open": True,
+    }
+    clear_diags = fetch_data._build_opportunity_runtime_diagnostics(
+        {"opportunities": [qingshui_by_id["tw-034-P02"], qingshui_by_id["tw-034-P03"]]},
+        qingshui_transition_clear,
+    )
+    clear_scores = {
+        "tw-034-P02": fetch_data._score_opportunity(
+            qingshui_by_id["tw-034-P02"],
+            {"score": 93, "factors": [], "temporal_eligible": True},
+            clear_diags["tw-034-P02"],
+        ),
+        "tw-034-P03": fetch_data._score_opportunity(
+            qingshui_by_id["tw-034-P03"],
+            {"score": 40, "factors": [], "temporal_eligible": True},
+            clear_diags["tw-034-P03"],
+        ),
+    }
+    assert clear_diags["tw-034-P03"]["eligible"] is False
+    assert clear_diags["tw-034-P03"]["reason"] == "visibility_too_high_for_mist_subject"
+    assert clear_scores["tw-034-P02"]["score"] == 93
+    assert max(clear_scores, key=lambda oid: clear_scores[oid]["score"]) == "tw-034-P02"
 
     # B83: Qixingtan northward mountain-cloud subject uses a REQUIRED
     # directional spatial-weather contract. The camera/coast must remain clear
