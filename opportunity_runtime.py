@@ -11,8 +11,10 @@ Implemented preview components:
 - cloud_light_state: broken-cloud/opening structure for direct-beam ray outcomes.
 - cloud_sky_glow: opportunity-specific sunset/afterglow potential using solar
   geometry plus low/mid/high cloud structure; it predicts potential, not color.
-- spatial_weather_vertical_cloud: camera-versus-lower-terrain multi-point proxy
-  for cloud sea / valley fog; it never treats single-point humidity as proof.
+- spatial_weather_vertical_cloud: multi-point vertical/directional weather proxy
+  for cloud sea, valley fog, and researched mountain-cloud subjects; B84 may
+  surface a low-confidence orographic potential when a clear camera-air LCL
+  intersects sampled mountain relief, but never treats that as cloud proof.
 - astronomy_ephemeris: non-exact night-sky visibility using astronomical
   darkness, Galactic Core position, Moon interference, sky weather and curated
   light-pollution metadata. Exact foreground alignment remains separate.
@@ -71,7 +73,7 @@ from aurora_state import (
     validate_aurora_state_registry,
 )
 
-MODULE_VERSION = "opportunity-runtime-r16-b79-aurora-preview"
+MODULE_VERSION = "opportunity-runtime-r17-b84-orographic-cloud-preview"
 
 IMPLEMENTED_COMPONENTS = {
     "directional_horizon",
