@@ -17,7 +17,7 @@ That limitation is returned in every diagnostic.
 
 import math
 
-SPATIAL_WEATHER_VERSION = "spatial-weather-r7-qingshui-directional-contrast-hardening"
+SPATIAL_WEATHER_VERSION = "spatial-weather-r8-qingshui-negative-evidence"
 
 _SUPPORTED_PROFILE_IDS = (
     "tw-004-P02", "tw-004-P03", "tw-008-P03",
