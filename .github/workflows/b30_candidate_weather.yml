@@ -197,10 +197,14 @@ jobs:
                           "OPPORTUNITY_SIMPLE_MATCH",
                           "OPPORTUNITY_DIRECTIONAL_CLOUD_MATCH",
                           "OPPORTUNITY_DIRECTIONAL_MOUNTAIN_MATCH",
+                          "OPPORTUNITY_MIST_SUPPORTED",
+                          "OPPORTUNITY_DIRECTIONAL_MIST_CANDIDATE",
                       }
                       valid_high_score_states = {
                           "dedicated_conditions_match",
                           "minimum_sufficient_conditions_match",
+                          "minimum_sufficient_mist_supported",
+                          "minimum_sufficient_directional_mist_candidate",
                           "directional_mountain_cloud_candidate",
                           "directional_mountain_visibility_match",
                       }
