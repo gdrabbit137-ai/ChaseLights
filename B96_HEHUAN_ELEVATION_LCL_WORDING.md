@@ -1,4 +1,4 @@
-# B95 — 合歡山空間雲況高度基準與 LCL 文案修正
+# B96 — 合歡山空間雲況高度基準與 LCL 文案修正
 
 ## 背景
 
@@ -9,7 +9,7 @@ B94 已修正合歡山主峰雲海題材「專屬條件成立但仍沿用單點 
 1. 空間雲況模組診斷中的 camera elevation 使用 Open-Meteo 格點 DEM 約 3349 m，而 ChaseLights 已有合歡山主峰的已知拍攝高度 3417 m。
 2. generic cloud-sea factor 仍將 `(T-Td)×125` 露點差估算稱為「估算雲底」，雖然 B94 已在 UI 標題改成 LCL。
 
-## B95 修正
+## B96 修正
 
 ### 1. 空間模組優先使用 Place / viewpoint 已知高度
 
@@ -53,3 +53,8 @@ B94 weather refresh 後，合歡山主峰 06:00：
 - `tw-019-P04` spatial plan 的 camera reference elevation 必須為 3417 m。
 - 即使 synthetic Open-Meteo camera DEM 為 3349 m，runtime 診斷仍必須使用 3417 m。
 - 中英文 LCL factor 文案不可退回「實際雲底」語意。
+
+
+## Batch 編號更正
+
+此修正最初在 PR #171 / merge commit `98d34c5` 中標成 B95；但 main 在該分支建立後已先合併另一組正式 B95（Opportunity card clarity 與 production handoff）。為避免兩個不同工作共用同一 batch ID，本文件與後續交接以 **B96** 為正式編號；既有 Git 歷史訊息不重寫。
