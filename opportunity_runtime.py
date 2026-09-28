@@ -204,7 +204,16 @@ def _bind_event_calendar(opportunity_id, profile):
 
 
 HUALIEN_LOCAL_PROFILES = {
-    "tw-034-P03": {"kind": "coastal_cliff_mist", "score_hint": 88},
+    "tw-034-P03": {
+        "kind": "coastal_cliff_mist",
+        "score_hint": 88,
+        # Conservative planning threshold tied to the nearest B82 directional
+        # environmental proxy range. This is NOT a claimed cliff distance.
+        # Below this camera-grid visibility, mist may be real but the verified
+        # composition requirement (cliff / mountain / coast still partly
+        # readable) is too uncertain for a high-confidence recommendation.
+        "min_camera_readability_km": 2.5,
+    },
     "tw-082-P04": _bind_event_calendar("tw-082-P04", {"kind": "verified_dates", "score_hint": 92, "access_override": True, "presence_unknown": True}),
     "tw-082-P05": {"kind": "wildlife", "score_hint": 74, "presence_unknown": True},
     "tw-082-P06": _bind_event_calendar("tw-082-P06", {"kind": "verified_ranges_time", "score_hint": 92, "access_override": True}),
@@ -299,6 +308,8 @@ def evaluate_hualien_local_scene(opportunity, item_data):
     confidence_hint = None
     uncertain = False
     camera_whiteout_risk = False
+    camera_readability_threshold_km = None
+    subject_readability_uncertain = False
     if kind in {"mist_local_scene", "coastal_cliff_mist"}:
         vis_raw = item_data.get("vis")
         if vis_raw is not None:
@@ -330,6 +341,9 @@ def evaluate_hualien_local_scene(opportunity, item_data):
                 or (cloud_base is not None and cloud_base <= 800.0)
             )
         else:
+            camera_readability_threshold_km = float(
+                profile.get("min_camera_readability_km") or 0.0
+            )
             # Qingshui Cliff requires corroboration: a low-visibility forecast
             # can create a planning candidate, but it must not be treated as
             # proof that photogenic mist is actually around the cliff.
@@ -404,6 +418,21 @@ def evaluate_hualien_local_scene(opportunity, item_data):
         if camera_whiteout_risk:
             eligible, quality, reason, score_hint = False, "too_dense", "camera_whiteout_risk", 45
             confidence_hint = "medium"
+        elif (
+            camera_readability_threshold_km
+            and mist_visibility_km < camera_readability_threshold_km
+        ):
+            # Even with strong fog/mist corroboration, a very low camera-grid
+            # visibility cannot support the verified composition requirement
+            # that some cliff / mountain / coastline remain readable. Preserve
+            # it as a candidate, but do not promote it into the 80+ band.
+            eligible = True
+            quality = "mist_candidate_subject_readability_uncertain"
+            reason = "camera_visibility_too_low_for_cliff_readability"
+            score_hint = 68
+            confidence_hint = "low"
+            uncertain = True
+            subject_readability_uncertain = True
         elif spatial_mist_context and spatial_mist_context.get("eligible"):
             eligible, quality, reason, score_hint = True, "directional_mist_candidate", "directional_cliff_mist_supported", 88
             confidence_hint = "medium"
@@ -470,6 +499,8 @@ def evaluate_hualien_local_scene(opportunity, item_data):
         "mist_signal_components": mist_signal_components,
         "spatial_mist_context": spatial_mist_context,
         "camera_whiteout_risk": camera_whiteout_risk,
+        "camera_readability_threshold_km": camera_readability_threshold_km,
+        "subject_readability_uncertain": subject_readability_uncertain,
         "runtime_confidence_hint": confidence_hint,
         "uncertain": uncertain,
         "contract_source": "hualien_official_subject_specific_profile",
