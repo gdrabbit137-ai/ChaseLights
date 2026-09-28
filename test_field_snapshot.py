@@ -545,6 +545,9 @@ def test_real_qingshui_0600_revision_series_stability():
     assert summary["stable_selected_input"] is True
     assert summary["stable_recorded_opportunities"] is True
     assert summary["stable_model_contract"] is True
+    assert summary["transition_classification_counts"] == {
+        "provider_payload_revision_without_selected_input_change": 3
+    }
 
 
 def main():
