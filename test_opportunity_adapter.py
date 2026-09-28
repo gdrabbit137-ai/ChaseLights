@@ -604,6 +604,9 @@ def test_adapter_integrity():
     assert qingshui_no_direction_eval["available"] is True
     assert qingshui_no_direction_eval["eligible"] is False
     assert qingshui_no_direction_eval["reason"] == "directional_mist_not_distinguished_from_camera"
+    assert qingshui_no_direction_eval["mist_target_count"] == 0
+    assert qingshui_no_direction_eval["clear_target_count"] == 6
+    assert qingshui_no_direction_eval["broad_clear_target_sector"] is True
 
     # B93: each broad north-sector bearing must independently be capable of
     # supplying directional context. This guards against list-order coupling.
@@ -674,10 +677,9 @@ def test_adapter_integrity():
     assert same_fog_eval["directional_mist_target_count"] == 0
     assert same_fog_eval["camera_weather_code"] == 45
 
-    # B92: adding the north-facing proxy grid must not promote a weak
-    # visibility-only candidate unless the target sector is materially mistier
-    # than the camera. With no directional contrast, keep the conservative B81
-    # low-confidence fallback instead of silently upgrading to 82/88.
+    # Complete, broadly clear north-sector evidence is stronger than the
+    # B81 single-point fallback. A low-visibility camera row plus six clear
+    # target-sector proxies must not be called cliff-sector morning mist.
     qingshui_no_direction_candidate = evaluate_minimum_sufficient_visibility(
         qingshui_by_id["tw-034-P03"],
         {
@@ -688,14 +690,13 @@ def test_adapter_integrity():
             "spatial_weather": qingshui_no_direction_obs,
         },
     )
-    assert qingshui_no_direction_candidate["eligible"] is True
-    assert qingshui_no_direction_candidate["reason"] == "coastal_cliff_visibility_only_candidate"
-    assert qingshui_no_direction_candidate["score_hint"] == 68
-    assert qingshui_no_direction_candidate["runtime_confidence_hint"] == "low"
-    assert qingshui_no_direction_candidate["uncertain"] is True
+    assert qingshui_no_direction_candidate["eligible"] is False
+    assert qingshui_no_direction_candidate["reason"] == "directional_target_sector_lacks_mist_support"
+    assert qingshui_no_direction_candidate["directional_mist_negative_evidence"] is True
+    assert qingshui_no_direction_candidate["runtime_confidence_hint"] == "medium"
     assert qingshui_no_direction_candidate["spatial_mist_context"]["available"] is True
     assert qingshui_no_direction_candidate["spatial_mist_context"]["eligible"] is False
-    assert "directional_spatial_mist" not in qingshui_no_direction_candidate["mist_signal_components"]
+    assert qingshui_no_direction_candidate["spatial_mist_context"]["broad_clear_target_sector"] is True
 
     # A clear camera plus clear/equivalent north-sector proxies is an outright
     # P03 miss, not a mist candidate. This is the negative half of the B82
@@ -724,7 +725,8 @@ def test_adapter_integrity():
         "vis": 800, "rh": 77, "c_low": 27, "cloud_base_agl": 550,
         "temp": 25.3, "dew": 21.0, "weather_code": 1,
         "pop": 0, "precipitation": 0.0, "access_open": True,
-        "spatial_weather": qingshui_no_direction_obs,
+        # No spatial sample here: this explicitly preserves the B81 fallback
+        # for missing/inconclusive optional spatial context.
     }
     qingshui_low_diags = fetch_data._build_opportunity_runtime_diagnostics(
         {"opportunities": [qingshui_by_id["tw-034-P02"], qingshui_by_id["tw-034-P03"]]},
