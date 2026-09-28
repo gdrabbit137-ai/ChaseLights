@@ -1002,6 +1002,7 @@ def evaluate_spatial_weather(opportunity, item_data):
 
     return {
         "module": "spatial_weather_vertical_cloud",
+        "mode": "lower_cloud_below_camera",
         "available": True,
         "eligible": eligible,
         "reason": "camera_clear_lower_cloud_detected" if eligible else "lower_cloud_not_detected",
