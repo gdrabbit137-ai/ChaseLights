@@ -92,6 +92,11 @@ from johnston_ridge_access import (
     build_johnston_ridge_access_state,
     parse_johnston_ridge_project_status,
 )
+from denali_access import (
+    PROVIDER_VERSION as DENALI_PROVIDER_VERSION,
+    build_denali_mountain_vista_access_state,
+    parse_denali_current_conditions,
+)
 
 import analyze_weather
 import audit_opportunity_evidence
@@ -125,7 +130,7 @@ def _all_opportunities():
 
 
 def test_adapter_integrity():
-    assert ADAPTER_VERSION == "v0.04-r4.2-canonical-r33-johnston-ridge-access"
+    assert ADAPTER_VERSION == "v0.04-r4.2-canonical-r34-denali-mountain-vista-access"
     assert validate_curated_opportunities() == []
     assert validate_taxonomy() == []
     assert EVENT_CALENDAR_SCHEMA_VERSION == "r4.2-event-calendar-1"
@@ -1396,6 +1401,7 @@ def test_adapter_integrity():
         "shinhotaka_access.py",
         "yahiko_access.py",
         "johnston_ridge_access.py",
+        "denali_access.py",
     ):
         assert f'"{required_path}"' in update_weather_workflow, required_path
     assert "runtime_catalog_v004_r4_2_b15.compact.part" not in update_weather_workflow
@@ -2159,7 +2165,7 @@ def test_adapter_integrity():
     assert {o["opportunity_id"] for o in dynamic_profiles} == set(ACCESS_DEPENDENT_PROFILE_IDS)
     assert set(ACCESS_PROFILE_CLASSIFICATION) == set(ACCESS_DEPENDENT_PROFILE_IDS)
     assert HARD_ACCESS_HOLDS["tw-052"]["policy"] == "hold"
-    assert {"tw-005", "tw-037", "tw-038", "tw-078", "tw-081", "jp-002", "jp-004", "jp-021", "jp-030", "jp-033", "jp-034", "us-017"} <= set(OFFICIAL_SOURCE_HINTS)
+    assert {"tw-005", "tw-037", "tw-038", "tw-078", "tw-081", "jp-002", "jp-004", "jp-021", "jp-030", "jp-033", "jp-034", "us-017", "us-041"} <= set(OFFICIAL_SOURCE_HINTS)
     assert "tw-063" not in OFFICIAL_SOURCE_HINTS
     assert all(
         runtime_policy(o) == (
@@ -2964,6 +2970,152 @@ def test_adapter_integrity():
     assert johnston_runtime["eligible"] is False
     assert johnston_runtime["modules"]["dynamic_access"]["status"] == "closed"
 
+    # B91 us-041 Denali Mountain Vista: NPS Current Conditions can prove
+    # short-lived road access to Mile 13 without treating unrelated western
+    # closures (e.g. Mile 43) as a Mountain Vista closure.
+    us041_runtime = get_opportunities("us", "us-041")
+    assert [o["opportunity_id"] for o in us041_runtime] == [
+        "us-041-P01", "us-041-P02"
+    ]
+    assert all(o["runtime_policy"] == "preview_module_available" for o in us041_runtime)
+    assert all(o["opportunity_id"] in ACCESS_RUNTIME_READY_PROFILES for o in us041_runtime)
+    assert DENALI_PROVIDER_VERSION == "denali-mountain-vista-access-r1-preview"
+
+    denali_open_html = (
+        fixture_dir / "denali_mountain_vista_open.html"
+    ).read_text(encoding="utf-8")
+    denali_closed_html = (
+        fixture_dir / "denali_mountain_vista_closed.html"
+    ).read_text(encoding="utf-8")
+    denali_ambiguous_html = (
+        fixture_dir / "denali_mountain_vista_ambiguous.html"
+    ).read_text(encoding="utf-8")
+
+    denali_base = datetime(
+        2026, 9, 28, 17, 0, tzinfo=timezone.utc
+    ).timestamp()
+
+    denali_open_provider = parse_denali_current_conditions(
+        denali_open_html,
+        fetched_at_epoch=denali_base,
+    )
+    assert denali_open_provider["parse_ok"] is True
+    assert denali_open_provider["status"] == "open"
+    assert denali_open_provider["western_closure_present"] is True
+    denali_open_states = build_denali_mountain_vista_access_state(
+        denali_base + 60,
+        denali_open_provider,
+    )
+    assert set(denali_open_states) == {"us-041-P01", "us-041-P02"}
+    for opportunity in us041_runtime:
+        state = denali_open_states[opportunity["opportunity_id"]]
+        assert state["status"] == "open"
+        assert state["freshness_mode"] == "live"
+        evaluation = evaluate_dynamic_access(
+            opportunity,
+            {"timestamp": denali_base + 60, "access_state": state},
+        )
+        assert evaluation["available"] is True
+        assert evaluation["eligible"] is True
+        assert evaluation["runtime_provider_connected"] is True
+
+    # A live NPS road snapshot is deliberately not projected seven hours into
+    # the future even if the weather forecast exists.
+    denali_stale_eval = evaluate_dynamic_access(
+        us041_runtime[0],
+        {
+            "timestamp": denali_base + 7 * 3600,
+            "access_state": denali_open_states["us-041-P01"],
+        },
+    )
+    assert denali_stale_eval["available"] is False
+    assert denali_stale_eval["eligible"] is False
+    assert denali_stale_eval["reason"] == "access_snapshot_stale"
+
+    denali_closed_provider = parse_denali_current_conditions(
+        denali_closed_html,
+        fetched_at_epoch=denali_base,
+    )
+    assert denali_closed_provider["parse_ok"] is True
+    assert denali_closed_provider["status"] == "closed"
+    denali_closed_state = build_denali_mountain_vista_access_state(
+        denali_base,
+        denali_closed_provider,
+    )
+    for opportunity in us041_runtime:
+        evaluation = evaluate_dynamic_access(
+            opportunity,
+            {
+                "timestamp": denali_base,
+                "access_state": denali_closed_state[opportunity["opportunity_id"]],
+            },
+        )
+        assert evaluation["available"] is True
+        assert evaluation["eligible"] is False
+        assert evaluation["reason"] == "authoritative_access_not_open"
+
+    denali_ambiguous_provider = parse_denali_current_conditions(
+        denali_ambiguous_html,
+        fetched_at_epoch=denali_base,
+    )
+    assert denali_ambiguous_provider["parse_ok"] is False
+    assert denali_ambiguous_provider["status"] == "unknown"
+    denali_ambiguous_state = build_denali_mountain_vista_access_state(
+        denali_base,
+        denali_ambiguous_provider,
+    )
+    denali_ambiguous_eval = evaluate_dynamic_access(
+        us041_runtime[0],
+        {
+            "timestamp": denali_base,
+            "access_state": denali_ambiguous_state["us-041-P01"],
+        },
+    )
+    assert denali_ambiguous_eval["available"] is False
+    assert denali_ambiguous_eval["eligible"] is False
+    assert denali_ambiguous_eval["source_freshness_verified"] is False
+
+    # Daytime P01 combines dynamic access + visibility.
+    denali_day_runtime = fetch_data._build_opportunity_runtime_diagnostics(
+        {"opportunities": us041_runtime},
+        {
+            "timestamp": denali_base + 60,
+            "vis": 30000,
+            "access_state": denali_open_states,
+        },
+    )["us-041-P01"]
+    assert denali_day_runtime["available"] is True
+    assert denali_day_runtime["eligible"] is True
+    assert set(denali_day_runtime["modules"]) == {"dynamic_access", "visibility"}
+
+    # P02 is now dependency-complete (aurora provider + current access). A
+    # closed road must still veto an otherwise-positive aurora snapshot.
+    denali_aurora_closed_runtime = fetch_data._build_opportunity_runtime_diagnostics(
+        {"opportunities": us041_runtime},
+        {
+            "timestamp": denali_base,
+            "access_state": denali_closed_state,
+            "aurora_forecast": {
+                "source": "NOAA SWPC OVATION 2020",
+                "forecast_time_utc": "2026-09-28T17:00:00Z",
+                "observation_time_utc": "2026-09-28T16:30:00Z",
+                "target_offset_seconds": 0,
+                "grid_lat": 64,
+                "grid_lon": -149,
+                "grid_resolution_deg": 1,
+                "ovation_value": 20.0,
+            },
+            "astronomy_valid": True,
+            "sun_elevation": -18.0,
+            "c_low": 10,
+            "c_mid": 10,
+            "c_high": 10,
+        },
+    )["us-041-P02"]
+    assert denali_aurora_closed_runtime["available"] is True
+    assert denali_aurora_closed_runtime["eligible"] is False
+    assert denali_aurora_closed_runtime["modules"]["dynamic_access"]["status"] == "closed"
+
     # jp-022 Yahiko: the official homepage can prove today's ropeway operation,
     # while Skyline schedule-only access remains fail-closed.
     assert YAHIKO_PROVIDER_VERSION == "yahiko-access-r1-preview"
@@ -3345,11 +3497,19 @@ def test_adapter_integrity():
 
     us041 = get_opportunities("us", "us-041")
     assert [o["opportunity_id"] for o in us041] == ["us-041-P01", "us-041-P02"]
-    assert [o["runtime_policy"] for o in us041] == ["module_pending", "module_pending"]
+    assert [o["runtime_policy"] for o in us041] == [
+        "preview_module_available", "preview_module_available"
+    ]
     assert dependencies_for_opportunity(us041[0]) == ("dynamic_access", "visibility")
-    assert dependency_state(us041[0])["missing_components"] == ("dynamic_access",)
+    assert dependency_state(us041[0])["ready_components"] == (
+        "dynamic_access", "visibility"
+    )
+    assert dependency_state(us041[0])["missing_components"] == ()
     assert dependencies_for_opportunity(us041[1]) == ("aurora_state", "dynamic_access")
-    assert dependency_state(us041[1])["missing_components"] == ("dynamic_access",)
+    assert dependency_state(us041[1])["ready_components"] == (
+        "aurora_state", "dynamic_access"
+    )
+    assert dependency_state(us041[1])["missing_components"] == ()
     assert ACCESS_PROFILE_CLASSIFICATION["us-041-P01"]["access_type"] == "road_viewpoint_status"
     assert ACCESS_PROFILE_CLASSIFICATION["us-041-P02"]["access_type"] == "road_viewpoint_status"
     denali = next(s for s in us_spots if s["spot_id"] == "us-041")

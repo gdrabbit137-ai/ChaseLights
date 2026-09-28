@@ -37,6 +37,8 @@ REGION_PATCH_FILES = {
 FIXED_REGION_FILES = {
     "shinhotaka_access.py": {"jp"},
     "yahiko_access.py": {"jp"},
+    "johnston_ridge_access.py": {"us"},
+    "denali_access.py": {"us"},
 }
 WORKFLOW_REGION_FILES = {
     ".github/workflows/b30_candidate_weather.yml": {"tw"},
@@ -277,6 +279,8 @@ def detect_regions(
             "access_state.py",
             "shinhotaka_access.py",
             "yahiko_access.py",
+            "johnston_ridge_access.py",
+            "denali_access.py",
             "spatial_weather.py",
             "marine_state.py",
             "tide_state.py",
@@ -359,6 +363,18 @@ def self_test():
         base, head, name_map,
     )
     assert regions == set(REGIONS)
+
+    regions, _ = detect_regions(
+        [{"filename": "johnston_ridge_access.py", "patch": "+provider_version = 2\n"}],
+        base, head, name_map,
+    )
+    assert regions == {"us"}
+
+    regions, _ = detect_regions(
+        [{"filename": "denali_access.py", "patch": "+provider_version = 2\n"}],
+        base, head, name_map,
+    )
+    assert regions == {"us"}
     print("ci_weather_impact self-test passed")
 
 
