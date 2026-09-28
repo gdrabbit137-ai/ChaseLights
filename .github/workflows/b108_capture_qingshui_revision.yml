@@ -1,0 +1,99 @@
+name: B108 Qingshui 06:00 Revision Capture
+
+on:
+  push:
+    branches:
+      - b108-qingshui-0600-revision-series
+    paths:
+      - "B108_CAPTURE_TRIGGER.md"
+
+permissions:
+  contents: write
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout production commit
+        uses: actions/checkout@v4
+        with:
+          ref: 2730098cc4796288ace43ab9450d26d9107936e0
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Capture third Qingshui 06:00 revision
+        run: |
+          rm -rf captured_snapshot
+          mkdir -p captured_snapshot
+          env -u GITHUB_SHA python field_snapshot.py capture             --place tw-034             --valid-at 2026-09-29T06:00:00+08:00             --output-dir captured_snapshot
+          SNAPSHOT="$(ls captured_snapshot/FVS-*.json | head -n 1)"
+          echo "SNAPSHOT=$SNAPSHOT" >> "$GITHUB_ENV"
+
+      - name: Validate and replay original
+        run: |
+          env -u GITHUB_SHA python field_snapshot.py validate "$SNAPSHOT"
+          env -u GITHUB_SHA python field_snapshot.py show "$SNAPSHOT"
+          env -u GITHUB_SHA python field_snapshot.py replay "$SNAPSHOT" --original > captured_snapshot/replay-original.json
+          cat captured_snapshot/replay-original.json
+
+      - name: Record metadata
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          p = Path(os.environ["SNAPSHOT"])
+          s = json.loads(p.read_text())
+          metadata = {
+              "snapshot_file": p.name,
+              "snapshot_id": s["snapshot_id"],
+              "place_id": s["place_id"],
+              "captured_at": s["captured_at"],
+              "forecast_valid_at": s["forecast_valid_at"],
+              "forecast_local_date": s["normalized_input"].get("local_date"),
+              "forecast_local_time": s["normalized_input"].get("local_time"),
+              "git_commit": s["provenance"]["git_commit"],
+              "payload_sha256": s["integrity"]["payload_sha256"],
+              "observation_status": s["observation"]["status"],
+          }
+          Path("captured_snapshot/capture-metadata.json").write_text(
+              json.dumps(metadata, ensure_ascii=False, indent=2) + "\n",
+              encoding="utf-8",
+          )
+          print(json.dumps(metadata, ensure_ascii=False, indent=2))
+          PY
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: qingshui-b108-0600-revision
+          path: captured_snapshot/
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: Commit permanent compressed revision fixture
+        run: |
+          SNAPSHOT_BASENAME="$(basename "$SNAPSHOT")"
+          FIXTURE_DIR="test_fixtures/field_snapshot"
+          ARCHIVE_NAME="$SNAPSHOT_BASENAME.gz.b64"
+          METADATA_NAME="${SNAPSHOT_BASENAME%.json}.metadata.json"
+
+          mkdir -p /tmp/b108-fixture
+          gzip -c "$SNAPSHOT" | base64 -w 76 > "/tmp/b108-fixture/$ARCHIVE_NAME"
+          cp captured_snapshot/capture-metadata.json "/tmp/b108-fixture/$METADATA_NAME"
+
+          git fetch origin b108-qingshui-0600-revision-series
+          git checkout -B b108-qingshui-0600-revision-series origin/b108-qingshui-0600-revision-series
+          mkdir -p "$FIXTURE_DIR"
+          cp "/tmp/b108-fixture/$ARCHIVE_NAME" "$FIXTURE_DIR/$ARCHIVE_NAME"
+          cp "/tmp/b108-fixture/$METADATA_NAME" "$FIXTURE_DIR/$METADATA_NAME"
+
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add "$FIXTURE_DIR/$ARCHIVE_NAME" "$FIXTURE_DIR/$METADATA_NAME"
+          git commit -m "B108 archive third Qingshui 06:00 forecast revision"
+          git push origin HEAD:b108-qingshui-0600-revision-series
