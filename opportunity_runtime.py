@@ -426,7 +426,7 @@ def evaluate_hualien_local_scene(opportunity, item_data):
         if camera_whiteout_risk:
             eligible, quality, reason, score_hint = False, "too_dense", "camera_whiteout_risk", 45
             confidence_hint = "medium"
-        elif directional_mist_negative_evidence:
+        elif directional_mist_negative_evidence and mist_visibility_km <= 8.0:
             eligible = False
             quality = "directional_target_sector_lacks_mist_support"
             reason = "directional_target_sector_lacks_mist_support"
