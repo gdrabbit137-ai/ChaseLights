@@ -2,9 +2,11 @@
 
 Date: 2026-09-28 (Asia/Taipei)
 
+> Superseded: this checkpoint has been replaced by `B98_PRODUCTION_HANDOFF.md`. Keep this file for historical context only.
+
 ## Start here
 
-This file supersedes `B91_PRODUCTION_HANDOFF.md` as the current production / maintenance checkpoint.
+Historical note: this file superseded `B91_PRODUCTION_HANDOFF.md` at the time it was written. The current production / maintenance checkpoint is now `B98_PRODUCTION_HANDOFF.md`.
 
 Before changing production:
 
