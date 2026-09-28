@@ -1,0 +1,63 @@
+{
+  "schema_version": "field-snapshot-baseline-registry-r4.2-1",
+  "policy": {
+    "purpose": "Index immutable live forecast snapshots retained for cross-version ChaseLights replay.",
+    "ground_truth_boundary": "A baseline snapshot is forecast evidence only. observation.status=unreviewed means it is not an FV field-validation case and contains no claim that the photographed scene was observed.",
+    "mutation_boundary": "Archive payloads are immutable. New captures create new snapshot IDs; existing baseline payloads must not be rewritten to match later scoring logic."
+  },
+  "baselines": [
+    {
+      "snapshot_id": "FVS-TW-034-20260928-163925",
+      "place_id": "tw-034",
+      "scene_family": "qingshui_cliff_mist",
+      "archive_path": "test_fixtures/field_snapshot/FVS-TW-034-20260928-163925.json.gz.b64",
+      "metadata_path": "test_fixtures/field_snapshot/FVS-TW-034-20260928-163925.metadata.json",
+      "captured_at": "2026-09-28T16:39:25.329314+00:00",
+      "forecast_valid_at": "2026-09-28T17:00:00+00:00",
+      "forecast_local_time": "2026-09-29T01:00:00+08:00",
+      "model_commit": "fadfc65aeb8e9219cec2b60fc0ed91bf9fc98e21",
+      "payload_sha256": "0736bab3200a9d229a696d2ac896b737dba5e2484459c88a864c42496e341e6f",
+      "observation_status": "unreviewed",
+      "source": {
+        "workflow_run_id": 36452512828,
+        "artifact_id": 10984585220,
+        "artifact_name": "qingshui-b101-live-snapshot",
+        "source_branch": "b103-qingshui-first-live-snapshot"
+      },
+      "recorded_summary": {
+        "tw-034-P01": {
+          "score": 42,
+          "score_confidence": "low",
+          "condition_state": "partial_runtime_contract"
+        },
+        "tw-034-P02": {
+          "score": 38,
+          "score_confidence": "medium",
+          "condition_state": "minimum_sufficient_conditions_miss",
+          "runtime_reason": "visibility_too_low"
+        },
+        "tw-034-P03": {
+          "score": 38,
+          "score_confidence": "medium",
+          "condition_state": "minimum_sufficient_weather_match_outside_time_window",
+          "runtime_reason": "camera_visibility_too_low_for_cliff_readability",
+          "minimum_sufficient_score_hint": 68,
+          "camera_visibility_km": 0.5,
+          "target_sample_count": 6,
+          "mist_target_count": 5,
+          "directional_mist_target_count": 2,
+          "clear_target_count": 0,
+          "clear_bearing_count": 0,
+          "broad_clear_target_sector": false,
+          "directional_mist_negative_evidence": false
+        }
+      },
+      "limitations": [
+        "Forecast-valid local time is 01:00, so the final P03 Opportunity is outside the visible-light Theme window even though the Qingshui coastal-mist runtime itself is eligible.",
+        "Spatial targets are environmental proxy points and do not prove fog overlapped the cliff or the intended composition.",
+        "No field photograph or observed-scene assessment is attached; this baseline must remain outside the field-validation registry.",
+        "The archived payload preserves the live provider response seen during capture, but provider forecasts can be revised later."
+      ]
+    }
+  ]
+}
