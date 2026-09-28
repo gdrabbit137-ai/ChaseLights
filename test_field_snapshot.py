@@ -39,6 +39,13 @@ MORNING_QINGSHUI_REVISION_2 = (
     / "FVS-TW-034-20260928-181202.json.gz.b64"
 )
 
+MORNING_QINGSHUI_REVISION_3 = (
+    Path(__file__).parent
+    / "test_fixtures"
+    / "field_snapshot"
+    / "FVS-TW-034-20260928-183014.json.gz.b64"
+)
+
 
 def _base_item(spatial_weather):
     return {
@@ -483,6 +490,39 @@ def test_real_qingshui_0600_revision_pair_is_comparable():
     assert summary["stable_model_contract"] is True
 
 
+def test_real_qingshui_0600_revision_series_stability():
+    first = load_snapshot(MORNING_QINGSHUI_BASELINE)
+    second = load_snapshot(MORNING_QINGSHUI_REVISION_2)
+    third = load_snapshot(MORNING_QINGSHUI_REVISION_3)
+
+    assert third["snapshot_id"] == "FVS-TW-034-20260928-183014"
+    assert third["provenance"]["git_commit"] == (
+        "2730098cc4796288ace43ab9450d26d9107936e0"
+    )
+    assert third["integrity"]["payload_sha256"] == (
+        "5cb55c373293cf92983497ba508cccef05e7948a5bc3e4ee5f643ef3c625454c"
+    )
+    assert third["observation"]["status"] == "unreviewed"
+
+    comparison = compare_forecast_revisions([third, first, second])
+    assert comparison["revision_count"] == 3
+    assert [row["snapshot_id"] for row in comparison["rows"]] == [
+        "FVS-TW-034-20260928-173805",
+        "FVS-TW-034-20260928-181202",
+        "FVS-TW-034-20260928-183014",
+    ]
+    summary = comparison["stability_summary"]
+    assert summary["capture_span_seconds"] == 3129
+    assert summary["transition_count"] == 2
+    assert summary["normalized_input_revision_count"] == 0
+    assert summary["metric_revision_count"] == 0
+    assert summary["recorded_opportunity_revision_count"] == 0
+    assert summary["model_contract_revision_count"] == 0
+    assert summary["stable_selected_input"] is True
+    assert summary["stable_recorded_opportunities"] is True
+    assert summary["stable_model_contract"] is True
+
+
 def main():
     test_qingshui_broad_clear_negative_replay()
     test_qingshui_missing_spatial_preserves_low_confidence_fallback()
@@ -492,6 +532,7 @@ def main():
     test_forecast_revision_comparison_separates_data_and_model_changes()
     test_forecast_revision_comparison_rejects_different_valid_times()
     test_real_qingshui_0600_revision_pair_is_comparable()
+    test_real_qingshui_0600_revision_series_stability()
     print("field snapshot tests passed")
 
 
