@@ -1,5 +1,7 @@
 # ChaseLights R4.2 B80 Production / Maintenance Handoff
 
+> Superseded for current production work by `B85_PRODUCTION_HANDOFF.md`. Keep this file as the B79 aurora-runtime checkpoint and migration-history reference.
+
 Date: 2026-09-27 (Asia/Taipei)
 
 ## Start here
