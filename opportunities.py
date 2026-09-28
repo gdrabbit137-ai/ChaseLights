@@ -20,7 +20,7 @@ from opportunity_runtime import (
     supports_minimum_sufficient_contract,
 )
 
-ADAPTER_VERSION = "v0.04-r4.2-canonical-r33-johnston-ridge-access"
+ADAPTER_VERSION = "v0.04-r4.2-canonical-r34-denali-mountain-vista-access"
 CANONICAL_CATALOG_FILE = "runtime_catalog_v004_r4_2.json"
 CANONICAL_CATALOG_SCHEMA_VERSION = "v0.04-r4.2-canonical-1"
 CATALOG_MANIFEST_FILE = "runtime_catalog_manifest_r4_2.json"
