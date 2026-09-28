@@ -17,7 +17,7 @@ That limitation is returned in every diagnostic.
 
 import math
 
-SPATIAL_WEATHER_VERSION = "spatial-weather-r2-camera-cloud-rejection-preview"
+SPATIAL_WEATHER_VERSION = "spatial-weather-r3-directional-mist-preview"
 
 _SUPPORTED_PROFILE_IDS = (
     "tw-004-P02", "tw-004-P03", "tw-008-P03",
@@ -46,6 +46,32 @@ SPATIAL_WEATHER_PROFILES = {
     for oid in _SUPPORTED_PROFILE_IDS
 }
 
+# Optional spatial context for researched minimum-sufficient subjects. These
+# profiles enrich confidence but do not become formal runtime dependencies:
+# if the multi-point fetch is unavailable, the base place-specific contract
+# still returns a conservative low-confidence candidate rather than failing.
+OPTIONAL_DIRECTIONAL_MIST_PROFILES = {
+    "tw-034-P03": {
+        "mode": "directional_mist_sector",
+        # Sample the broad Qingshui-Cliff viewing sector at two ranges. These
+        # are environmental proxy points, not verified tripod/subject points.
+        # Official Taroko/National Park guidance for the Chongde area says
+        # Qingshui Cliff is viewed to the north. Use a broad north-facing
+        # environmental sector instead of the legacy spot-level 155° azimuth,
+        # which is not an Opportunity-specific cliff geometry contract.
+        "bearings_deg": (330.0, 0.0, 30.0),
+        "sample_distances_km": (2.5, 5.0),
+        "min_misty_targets": 1,
+    },
+}
+
+
+def _profile_config(opportunity_id):
+    return (
+        SPATIAL_WEATHER_PROFILES.get(opportunity_id)
+        or OPTIONAL_DIRECTIONAL_MIST_PROFILES.get(opportunity_id)
+    )
+
 
 def _camera_viewpoint(opportunity):
     for vp in opportunity.get("viewpoints", []) or []:
@@ -56,7 +82,7 @@ def _camera_viewpoint(opportunity):
 
 def supports_spatial_weather(opportunity):
     return (
-        opportunity.get("opportunity_id") in SPATIAL_WEATHER_PROFILES
+        _profile_config(opportunity.get("opportunity_id")) is not None
         and _camera_viewpoint(opportunity) is not None
     )
 
@@ -106,29 +132,42 @@ def build_spatial_request_plan(spot):
         if not supports_spatial_weather(opportunity):
             continue
         oid = opportunity["opportunity_id"]
-        config = SPATIAL_WEATHER_PROFILES[oid]
+        config = _profile_config(oid)
         viewpoint = _camera_viewpoint(opportunity)
         camera_id = add_point(viewpoint["lat"], viewpoint["lon"], "camera")
         target_ids = []
-        for bearing in config["bearings_deg"]:
-            lat, lon = _offset_point(
-                viewpoint["lat"],
-                viewpoint["lon"],
-                bearing,
-                config["sample_distance_km"],
-            )
-            target_ids.append(
-                add_point(
-                    lat, lon, "lower_terrain_proxy",
-                    bearing=bearing,
-                    distance_km=config["sample_distance_km"],
+        distances = config.get("sample_distances_km")
+        if not distances:
+            distances = (config["sample_distance_km"],)
+        target_role = (
+            "directional_mist_proxy"
+            if config.get("mode") == "directional_mist_sector"
+            else "lower_terrain_proxy"
+        )
+        for distance_km in distances:
+            for bearing in config["bearings_deg"]:
+                lat, lon = _offset_point(
+                    viewpoint["lat"],
+                    viewpoint["lon"],
+                    bearing,
+                    distance_km,
                 )
-            )
+                target_ids.append(
+                    add_point(
+                        lat, lon, target_role,
+                        bearing=bearing,
+                        distance_km=distance_km,
+                    )
+                )
         profiles[oid] = {
             "camera_point_id": camera_id,
             "target_point_ids": target_ids,
             "camera_reference_elevation_m": viewpoint.get("elevation_m"),
-            "target_resolution": "radial_lower_terrain_proxy_not_exact_target_zone",
+            "target_resolution": (
+                "directional_sector_environment_proxy_not_exact_cliff_or_mist_location"
+                if config.get("mode") == "directional_mist_sector"
+                else "radial_lower_terrain_proxy_not_exact_target_zone"
+            ),
         }
 
     return {
@@ -156,6 +195,7 @@ def index_spatial_response(plan, raw):
         "visibility",
         "precipitation",
         "wind_speed_10m",
+        "weather_code",
     )
     for point, response in zip(plan["points"], responses):
         hourly = response.get("hourly", {}) or {}
@@ -214,9 +254,117 @@ def _number(value):
         return None
 
 
+def _evaluate_directional_mist_sector(config, observation):
+    camera = observation.get("camera") or {}
+    camera_vis = _number(camera.get("visibility"))
+    camera_low = _number(camera.get("cloud_cover_low"))
+    camera_rh = _number(camera.get("relative_humidity_2m"))
+    camera_precip = _number(camera.get("precipitation"))
+
+    if camera_vis is None or camera_low is None or camera_rh is None:
+        return {
+            "module": "directional_mist_spatial_context",
+            "available": False,
+            "eligible": False,
+            "reason": "camera_weather_missing",
+        }
+
+    camera_whiteout = (
+        camera_vis < 250
+        or (
+            camera_vis < 500
+            and camera_rh >= 96
+            and camera_low >= 90
+        )
+        or (camera_precip is not None and camera_precip >= 1.0)
+    )
+    if camera_whiteout:
+        return {
+            "module": "directional_mist_spatial_context",
+            "available": True,
+            "eligible": False,
+            "reason": "camera_whiteout_risk",
+            "camera_whiteout_risk": True,
+            "camera_visibility_km": round(camera_vis / 1000.0, 1),
+            "camera_low_cloud": round(camera_low),
+            "camera_rh": round(camera_rh),
+            "target_resolution": observation.get("target_resolution"),
+            "exact_target_zone_verified": False,
+            "confidence_hint": "medium",
+        }
+
+    mist_targets = []
+    directional_targets = []
+    valid_targets = []
+    for target in observation.get("targets", []) or []:
+        vis = _number(target.get("visibility"))
+        low = _number(target.get("cloud_cover_low"))
+        rh = _number(target.get("relative_humidity_2m"))
+        precip = _number(target.get("precipitation"))
+        weather_code = target.get("weather_code")
+        if vis is None or low is None or rh is None:
+            continue
+        if precip is not None and precip >= 1.0:
+            continue
+
+        valid_targets.append(target)
+        fog_code = weather_code in {45, 48}
+        mist_signal = (
+            fog_code
+            or (vis <= 3000 and rh >= 85)
+            or (vis <= 6000 and rh >= 90 and low >= 50)
+        )
+        if not mist_signal:
+            continue
+
+        mist_targets.append(target)
+        directional_contrast = (
+            fog_code
+            or vis <= camera_vis * 0.75
+            or low >= camera_low + 25
+            or rh >= camera_rh + 8
+        )
+        if directional_contrast:
+            directional_targets.append(target)
+
+    if len(valid_targets) < 2:
+        return {
+            "module": "directional_mist_spatial_context",
+            "available": False,
+            "eligible": False,
+            "reason": "insufficient_directional_samples",
+            "target_sample_count": len(valid_targets),
+            "camera_whiteout_risk": False,
+            "target_resolution": observation.get("target_resolution"),
+            "exact_target_zone_verified": False,
+        }
+
+    required = min(int(config.get("min_misty_targets", 1)), len(valid_targets))
+    eligible = len(directional_targets) >= required
+    return {
+        "module": "directional_mist_spatial_context",
+        "available": True,
+        "eligible": eligible,
+        "reason": (
+            "directional_mist_signal_detected"
+            if eligible else "directional_mist_not_distinguished_from_camera"
+        ),
+        "camera_whiteout_risk": False,
+        "camera_visibility_km": round(camera_vis / 1000.0, 1),
+        "camera_low_cloud": round(camera_low),
+        "camera_rh": round(camera_rh),
+        "target_sample_count": len(valid_targets),
+        "mist_target_count": len(mist_targets),
+        "directional_mist_target_count": len(directional_targets),
+        "target_resolution": observation.get("target_resolution"),
+        "exact_target_zone_verified": False,
+        "confidence_hint": "medium" if eligible else "low",
+    }
+
+
 def evaluate_spatial_weather(opportunity, item_data):
     oid = opportunity.get("opportunity_id")
-    config = SPATIAL_WEATHER_PROFILES.get(oid)
+    config = _profile_config(oid)
     if not config:
         return {
             "module": "spatial_weather_vertical_cloud",
@@ -233,6 +381,9 @@ def evaluate_spatial_weather(opportunity, item_data):
             "eligible": False,
             "reason": "spatial_samples_missing",
         }
+
+    if config.get("mode") == "directional_mist_sector":
+        return _evaluate_directional_mist_sector(config, observation)
 
     camera = observation["camera"]
     camera_elevation = _number(observation.get("camera_reference_elevation_m"))
@@ -410,6 +561,22 @@ def validate_spatial_weather_registry():
             errors.append(f"{oid}: vertical drop threshold too small")
         if int(config["min_cloudy_targets"]) < 1:
             errors.append(f"{oid}: invalid evidence target count")
+
+    for oid, config in OPTIONAL_DIRECTIONAL_MIST_PROFILES.items():
+        if not oid.startswith("tw-"):
+            errors.append(f"{oid}: invalid optional directional-mist id")
+        if config.get("mode") != "directional_mist_sector":
+            errors.append(f"{oid}: invalid optional directional-mist mode")
+        if len(config.get("bearings_deg") or ()) < 3:
+            errors.append(f"{oid}: insufficient directional bearings")
+        if len(config.get("sample_distances_km") or ()) < 1:
+            errors.append(f"{oid}: missing directional sample distances")
+        if any(float(x) <= 0 for x in config.get("sample_distances_km") or ()):
+            errors.append(f"{oid}: invalid directional sample distance")
+        if int(config.get("min_misty_targets") or 0) < 1:
+            errors.append(f"{oid}: invalid directional mist target count")
+    if set(SPATIAL_WEATHER_PROFILES) & set(OPTIONAL_DIRECTIONAL_MIST_PROFILES):
+        errors.append("required and optional spatial registries overlap")
     return errors
 
 

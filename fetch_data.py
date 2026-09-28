@@ -1151,6 +1151,7 @@ def _build_opportunity_runtime_diagnostics(spot, item_data):
                 "mist_context": simple.get("mist_context"),
                 "mist_support_score": simple.get("mist_support_score"),
                 "mist_signal_components": simple.get("mist_signal_components"),
+                "spatial_mist_context": simple.get("spatial_mist_context"),
                 "camera_whiteout_risk": bool(simple.get("camera_whiteout_risk")),
                 "runtime_confidence_hint": simple.get("runtime_confidence_hint"),
                 "uncertain": bool(simple.get("uncertain")),
@@ -1224,7 +1225,15 @@ def _score_opportunity(opportunity, theme_metric, runtime_diagnostic, lang="zh-T
                 factors = [f for f in factors if f.get("key") != "vis_low"]
                 mist_km = diag.get("mist_visibility_km")
                 if diag.get("mist_context") == "coastal_cliff" and mist_km is not None:
-                    if diag.get("mist_signal"):
+                    spatial_mist = diag.get("spatial_mist_context") or {}
+                    if spatial_mist.get("eligible"):
+                        mist_text = {
+                            "zh-TW": f"能見度約 {mist_km:.1f} km，且斷崖方向周邊格點有較強霧訊號",
+                            "en": f"Visibility is around {mist_km:.1f} km and directional samples toward the cliff show stronger mist signals",
+                            "ja": f"視程約 {mist_km:.1f} kmで、断崖方向の周辺格子にもより強い霧シグナルがあります",
+                        }.get(lang, f"Visibility is around {mist_km:.1f} km and directional cliff-sector samples show stronger mist signals")
+                        factors.append({"type": "plus", "key": "directional_mist_subject", "value": mist_km, "text": mist_text})
+                    elif diag.get("mist_signal"):
                         mist_text = {
                             "zh-TW": f"能見度約 {mist_km:.1f} km，並有雲霧佐證；進入斷崖晨霧候選範圍",
                             "en": f"Visibility around {mist_km:.1f} km with corroborating mist signals enters the cliff-mist candidate range",
@@ -1465,7 +1474,7 @@ def _build_spatial_open_meteo_url(plan):
     params = [
         f"latitude={latitudes}",
         f"longitude={longitudes}",
-        "hourly=temperature_2m,dew_point_2m,relative_humidity_2m,cloud_cover_low,visibility,precipitation,wind_speed_10m",
+        "hourly=temperature_2m,dew_point_2m,relative_humidity_2m,cloud_cover_low,visibility,weather_code,precipitation,wind_speed_10m",
         "past_hours=24",
         "forecast_hours=72",
         "timezone=auto",

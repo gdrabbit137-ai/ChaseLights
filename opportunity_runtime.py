@@ -295,6 +295,7 @@ def evaluate_hualien_local_scene(opportunity, item_data):
     mist_support_score = 0
     mist_signal_components = []
     mist_context = None
+    spatial_mist_context = None
     confidence_hint = None
     uncertain = False
     camera_whiteout_risk = False
@@ -355,6 +356,21 @@ def evaluate_hualien_local_scene(opportunity, item_data):
                 )
             )
 
+            # B82 optional multi-point enrichment: compare the camera grid with
+            # broad environmental proxy points toward the verified Qingshui
+            # viewing sector. It can raise confidence when the target sector is
+            # mistier than the camera, and can strengthen a local whiteout veto.
+            # It never claims an exact fog location or exact cliff intersection.
+            if supports_spatial_weather(opportunity):
+                spatial_mist_context = evaluate_spatial_weather(opportunity, item_data)
+                if spatial_mist_context.get("available"):
+                    if spatial_mist_context.get("camera_whiteout_risk"):
+                        camera_whiteout_risk = True
+                    if spatial_mist_context.get("eligible"):
+                        mist_support_score += 2
+                        mist_signal_components.append("directional_spatial_mist")
+                        mist_signal = True
+
     if not gate_ok:
         eligible, quality, score_hint = False, "inactive", 0
     elif item_data.get("access_open") is False and not access_override:
@@ -387,6 +403,9 @@ def evaluate_hualien_local_scene(opportunity, item_data):
             }
         if camera_whiteout_risk:
             eligible, quality, reason, score_hint = False, "too_dense", "camera_whiteout_risk", 45
+            confidence_hint = "medium"
+        elif spatial_mist_context and spatial_mist_context.get("eligible"):
+            eligible, quality, reason, score_hint = True, "directional_mist_candidate", "directional_cliff_mist_supported", 88
             confidence_hint = "medium"
         elif mist_visibility_km > 8.0:
             eligible, quality, reason, score_hint = False, "mist_not_indicated", "visibility_too_high_for_mist_subject", 0
@@ -449,6 +468,7 @@ def evaluate_hualien_local_scene(opportunity, item_data):
         "mist_context": mist_context,
         "mist_support_score": mist_support_score,
         "mist_signal_components": mist_signal_components,
+        "spatial_mist_context": spatial_mist_context,
         "camera_whiteout_risk": camera_whiteout_risk,
         "runtime_confidence_hint": confidence_hint,
         "uncertain": uncertain,
