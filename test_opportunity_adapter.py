@@ -3165,8 +3165,9 @@ def test_adapter_integrity():
 
     us017 = get_opportunities("us", "us-017")
     assert [o["opportunity_id"] for o in us017] == ["us-017-P01"]
-    assert us017[0]["runtime_policy"] == "module_pending"
-    assert dependency_state(us017[0])["missing_components"] == ("dynamic_access",)
+    assert us017[0]["runtime_policy"] == "preview_module_available"
+    assert dependency_state(us017[0])["ready_components"] == ("dynamic_access", "visibility")
+    assert dependency_state(us017[0])["missing_components"] == ()
     assert ACCESS_PROFILE_CLASSIFICATION["us-017-P01"]["access_type"] == "road_viewpoint_status"
 
     us018 = get_opportunities("us", "us-018")
