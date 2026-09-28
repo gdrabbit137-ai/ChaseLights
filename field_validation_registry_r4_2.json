@@ -1,0 +1,118 @@
+{
+  "schema_version": "field-validation-registry-r4.2-1",
+  "reviewed_at": "2026-09-28",
+  "policy": {
+    "purpose": "Record non-identifying field observations used to validate already-admitted Photography Opportunities and runtime behavior.",
+    "admission_boundary": "Field observations may validate or calibrate runtime behavior but do not by themselves admit a new Place-specific subject. Subject admission remains governed by RESEARCH_EVIDENCE_SPEC_R4_2.md.",
+    "privacy_boundary": "Do not commit a user-supplied image by default. Store structured observation metadata only unless explicit publication permission is provided.",
+    "forecast_boundary": "Captured forecast values are historical validation snapshots. They must not be presented as current forecasts."
+  },
+  "cases": [
+    {
+      "case_id": "FV-TW-036-20260928-1300-01",
+      "place_id": "tw-036",
+      "place_name_zh": "七星潭月牙灣",
+      "local_timestamp": "2026-09-28T13:00:00+08:00",
+      "timezone": "Asia/Taipei",
+      "camera_direction": {
+        "cardinal": "north",
+        "note": "User explicitly stated the photograph was taken from Qixingtan looking north."
+      },
+      "source": {
+        "type": "user_field_observation",
+        "medium": "photograph",
+        "publication": "metadata_only_image_not_committed",
+        "privacy": "non_identifying_scene",
+        "note": "The photograph was reviewed in the originating conversation. The image itself is not stored in this repository."
+      },
+      "observed_scene": {
+        "camera_whiteout": false,
+        "coast_and_sea_readable": true,
+        "northward_mountain_layers_readable": true,
+        "terrain_attached_cloud_band_visible": true,
+        "ridge_partially_visible": true,
+        "uniform_overcast": false,
+        "precipitation_visible": false,
+        "interpretation": "Clear/readable coast and sea with a terrain-attached cloud band on the northward mountain sector; ridges remained partially visible."
+      },
+      "photographic_interpretation": {
+        "broad_subject": "northward_mountain_seascape",
+        "secondary_subject": "terrain_attached_mountain_cloud_band",
+        "midday_light": true,
+        "note": "The field case supports separating a readable mountain-seascape from the more specific attached-cloud-band condition."
+      },
+      "captured_forecast_snapshot": {
+        "source": "ChaseLights production weather output after B85 refresh",
+        "data_commit": "2a4e9d27842655000fe40810b04ce338b77302a8",
+        "generated_at": "2026-09-28T09:33:04.387464Z",
+        "camera": {
+          "visibility_km": 27,
+          "low_cloud_pct": 2,
+          "mid_cloud_pct": 14,
+          "high_cloud_pct": 0,
+          "rh_pct": 72,
+          "lcl_agl_proxy_m": 699,
+          "lcl_asl_proxy_m": 713
+        },
+        "northward_elevated_sector": {
+          "elevated_target_count": 4,
+          "max_elevation_m": 1670,
+          "min_visibility_km": 5.6,
+          "min_visibility_to_camera_ratio": 0.21,
+          "max_low_cloud_pct": 24,
+          "terrain_lcl_intersection_target_count": 3,
+          "terrain_lcl_intersection_bearing_count": 2,
+          "readable_elevated_target_count": 3,
+          "readable_elevated_bearing_count": 2,
+          "direct_cloud_signal": false,
+          "orographic_proxy_candidate": true
+        }
+      },
+      "expected_model_behavior": {
+        "overall": {
+          "preferred_opportunity_id": "tw-036-P04",
+          "minimum_score": 80,
+          "required_state": "directional_mountain_visibility_match",
+          "minimum_confidence": "medium"
+        },
+        "opportunities": {
+          "tw-036-P03": {
+            "acceptable_states": [
+              "directional_mountain_cloud_candidate",
+              "orographic_cloud_proxy_candidate"
+            ],
+            "minimum_score": 60,
+            "maximum_score_for_low_confidence_proxy": 78,
+            "current_verified_score": 78,
+            "current_verified_state": "orographic_cloud_proxy_candidate",
+            "current_verified_confidence": "low",
+            "rationale": "The observed cloud band should not be a hard false negative, but grid-unresolved proxy evidence must remain explicitly uncertain."
+          },
+          "tw-036-P04": {
+            "acceptable_states": [
+              "directional_mountain_visibility_match"
+            ],
+            "minimum_score": 80,
+            "current_verified_score": 86,
+            "current_verified_state": "directional_mountain_visibility_match",
+            "current_verified_confidence": "medium",
+            "rationale": "The broad northward mountain-seascape was clearly photographable even though the local attached cloud shape was below direct grid resolution."
+          }
+        }
+      },
+      "verification": {
+        "model_code_commit": "c9c4704557e81f7d5222dd3a0b10293a00b1bbcb",
+        "weather_data_commit": "2a4e9d27842655000fe40810b04ce338b77302a8",
+        "verified_on": "2026-09-28",
+        "result": "pass",
+        "note": "B85 production replay changed the 13:00 interpretation from the earlier sunrise-only coverage failure to P04=86 medium-confidence mountain-seascape plus P03=78 low-confidence orographic-cloud candidate."
+      },
+      "limitations": [
+        "One positive field case is insufficient to estimate false-positive rate.",
+        "The LCL value is a planning proxy derived from temperature/dew point, not an observed cloud base.",
+        "Northward weather samples are environmental proxies, not exact ridge or cloud locations.",
+        "The observation validates this scene and model behavior, not a universal threshold for all mountain-cloud subjects."
+      ]
+    }
+  ]
+}

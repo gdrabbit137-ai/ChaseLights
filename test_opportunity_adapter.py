@@ -104,6 +104,11 @@ from opportunities import (
     validate_curated_opportunities,
 )
 from regions import get_spots
+from field_validation import (
+    FIELD_VALIDATION_SCHEMA_VERSION,
+    load_field_validation_registry,
+    validate_field_validation_registry,
+)
 from taxonomy_v004 import PRODUCT_STATUS_BY_SPOT, active_in_catalog, product_status, validate_taxonomy
 
 
@@ -171,6 +176,25 @@ def test_adapter_integrity():
 
     all_opportunities = _all_opportunities()
     op_by_id = {o["opportunity_id"]: o for o in all_opportunities}
+
+    field_registry = load_field_validation_registry()
+    assert FIELD_VALIDATION_SCHEMA_VERSION == "field-validation-registry-r4.2-1"
+    assert validate_field_validation_registry(
+        field_registry,
+        known_place_ids={s["spot_id"] for s in tw},
+        known_opportunity_ids={o["opportunity_id"] for o in all_opportunities},
+    ) == []
+    assert len(field_registry["cases"]) == 1
+    qixingtan_field_case = field_registry["cases"][0]
+    assert qixingtan_field_case["case_id"] == "FV-TW-036-20260928-1300-01"
+    assert qixingtan_field_case["place_id"] == "tw-036"
+    assert qixingtan_field_case["source"]["publication"] == "metadata_only_image_not_committed"
+    assert qixingtan_field_case["observed_scene"]["camera_whiteout"] is False
+    assert qixingtan_field_case["observed_scene"]["terrain_attached_cloud_band_visible"] is True
+    assert qixingtan_field_case["expected_model_behavior"]["overall"]["preferred_opportunity_id"] == "tw-036-P04"
+    assert qixingtan_field_case["expected_model_behavior"]["opportunities"]["tw-036-P03"]["current_verified_state"] == "orographic_cloud_proxy_candidate"
+    assert qixingtan_field_case["expected_model_behavior"]["opportunities"]["tw-036-P03"]["maximum_score_for_low_confidence_proxy"] == 78
+    assert qixingtan_field_case["expected_model_behavior"]["opportunities"]["tw-036-P04"]["current_verified_score"] == 86
 
     # B58 semantic registry contract: canonical dependency declarations are the
     # source of expected coverage. Runtime registries plus explicit intentional
