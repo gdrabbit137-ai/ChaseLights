@@ -1519,7 +1519,10 @@ def test_adapter_integrity():
     # B95: day-score cards must expose the actual winning forecast window and
     # confidence so a daily score is not mistaken for the current hour or for
     # the generic researched best-time description.
-    assert "guide_day_best:'今日最佳窗口'" in frontend_source
+    assert "guide_current:'所選日期最佳評分'" in frontend_source
+    assert "guide_day_best:'所選日期最佳窗口'" in frontend_source
+    assert "best_theme:'📸 所選日期較適合：'" in frontend_source
+    assert "result_count:'依所選日期最佳拍攝機會排序 · {n} 個景點'" in frontend_source
     assert "guide_confidence:'信心'" in frontend_source
     assert "function confidenceLabel(value)" in frontend_source
     assert "const dayBestWindow=m&&(m.window_start||m.best_time)?fmtWindow(m):'';" in frontend_source
