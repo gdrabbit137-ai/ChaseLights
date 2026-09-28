@@ -3,9 +3,9 @@
   "purpose": "Central expected-state manifest for the effective curated Opportunity catalog. Runtime code computes actual counts and validates them against this snapshot.",
   "totals": {
     "spots": 188,
-    "opportunities": 383,
-    "condition_variants": 398,
-    "profile_viewpoint_relations": 389
+    "opportunities": 384,
+    "condition_variants": 399,
+    "profile_viewpoint_relations": 390
   },
   "regions": {
     "tw": {
@@ -16,9 +16,9 @@
       ],
       "counts": {
         "spots": 83,
-        "opportunities": 219,
-        "condition_variants": 229,
-        "profile_viewpoint_relations": 224
+        "opportunities": 220,
+        "condition_variants": 230,
+        "profile_viewpoint_relations": 225
       }
     },
     "jp": {
@@ -46,7 +46,7 @@
   },
   "runtime_policy_counts": {
     "module_pending": 122,
-    "preview_module_available": 121,
+    "preview_module_available": 122,
     "minimum_sufficient_available": 134,
     "prototype_pending_certification": 2,
     "hold": 2,
@@ -64,6 +64,7 @@
     "US migration complete: all us-001 through us-070 production Places are Opportunity-migrated; no US production Place remains research-pending.",
     "B79 adds a location-aware NOAA SWPC OVATION aurora_state preview. Aurora-only Opportunities can become preview_module_available, while Opportunities that also require unresolved dynamic_access remain module_pending.",
     "B81 adds tw-034-P03 Qingshui Cliff morning-mist / misty seascape as a Grade-A researched subject with a conservative minimum-sufficient mist runtime contract.",
-    "B83 adds tw-036-P03 Qixingtan northward Qingshui Cliff / Qingshui Mountain terrain-attached cloud-band photography as Grade-A researched subject with a required directional spatial-weather runtime."
+    "B83 adds tw-036-P03 Qixingtan northward Qingshui Cliff / Qingshui Mountain terrain-attached cloud-band photography as Grade-A researched subject with a required directional spatial-weather runtime.",
+    "B84 adds tw-036-P04 Qixingtan northward Qingshui Cliff / Qingshui Mountain daytime mountain-seascape visibility as a separate researched Opportunity, so clear mountain views are not conflated with the cloud-band subject."
   ]
 }
