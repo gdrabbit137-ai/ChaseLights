@@ -605,28 +605,60 @@ def test_adapter_integrity():
     assert qingshui_no_direction_eval["eligible"] is False
     assert qingshui_no_direction_eval["reason"] == "directional_mist_not_distinguished_from_camera"
 
-    # B92: adding the north-facing proxy grid must not promote a weak
-    # visibility-only candidate unless the target sector is materially mistier
-    # than the camera. With no directional contrast, keep the conservative B81
-    # low-confidence fallback instead of silently upgrading to 82/88.
-    qingshui_no_direction_candidate = evaluate_minimum_sufficient_visibility(
+    assert qingshui_no_direction_eval["clear_target_count"] == 6
+    assert qingshui_no_direction_eval["broad_clear_target_sector"] is True
+
+    # B93: spatial data missing and spatial data explicitly contradicting the
+    # target-sector mist hypothesis are different states. Build a production-
+    # consistent row where the camera is locally low-visibility but all six
+    # 330/0/30-degree target proxies are broadly clear. That must veto P03
+    # rather than fall back to the B81 68-point candidate.
+    qingshui_negative_raw = []
+    for point in qingshui_plan["points"]:
+        if point["role"] == "camera":
+            vis, rh, low, weather_code = 800, 77, 27, 1
+        else:
+            vis, rh, low, weather_code = 20000, 75, 10, 0
+        qingshui_negative_raw.append({
+            "elevation": 150,
+            "hourly": {
+                "time": [qingshui_ts],
+                "temperature_2m": [25.3],
+                "dew_point_2m": [21.0],
+                "relative_humidity_2m": [rh],
+                "cloud_cover_low": [low],
+                "visibility": [vis],
+                "weather_code": [weather_code],
+                "precipitation": [0.0],
+                "wind_speed_10m": [1.0],
+            },
+        })
+    qingshui_negative_obs = spatial_observations_for_timestamp(
+        index_spatial_response(qingshui_plan, qingshui_negative_raw), qingshui_ts
+    )
+    qingshui_negative_spatial = evaluate_spatial_weather(
+        qingshui_by_id["tw-034-P03"], {"spatial_weather": qingshui_negative_obs}
+    )
+    assert qingshui_negative_spatial["available"] is True
+    assert qingshui_negative_spatial["eligible"] is False
+    assert qingshui_negative_spatial["mist_target_count"] == 0
+    assert qingshui_negative_spatial["clear_target_count"] == 6
+    assert qingshui_negative_spatial["broad_clear_target_sector"] is True
+
+    qingshui_negative_candidate = evaluate_minimum_sufficient_visibility(
         qingshui_by_id["tw-034-P03"],
         {
             "local_date": "2026-09-28", "local_time": "07:00", "local_month": 9,
             "vis": 800, "rh": 77, "c_low": 27, "cloud_base_agl": 550,
             "temp": 25.3, "dew": 21.0, "weather_code": 1,
             "pop": 0, "precipitation": 0.0, "access_open": True,
-            "spatial_weather": qingshui_no_direction_obs,
+            "spatial_weather": qingshui_negative_obs,
         },
     )
-    assert qingshui_no_direction_candidate["eligible"] is True
-    assert qingshui_no_direction_candidate["reason"] == "coastal_cliff_visibility_only_candidate"
-    assert qingshui_no_direction_candidate["score_hint"] == 68
-    assert qingshui_no_direction_candidate["runtime_confidence_hint"] == "low"
-    assert qingshui_no_direction_candidate["uncertain"] is True
-    assert qingshui_no_direction_candidate["spatial_mist_context"]["available"] is True
-    assert qingshui_no_direction_candidate["spatial_mist_context"]["eligible"] is False
-    assert "directional_spatial_mist" not in qingshui_no_direction_candidate["mist_signal_components"]
+    assert qingshui_negative_candidate["eligible"] is False
+    assert qingshui_negative_candidate["reason"] == "directional_target_sector_lacks_mist_support"
+    assert qingshui_negative_candidate["directional_mist_negative_evidence"] is True
+    assert qingshui_negative_candidate["runtime_confidence_hint"] == "medium"
 
     # A clear camera plus clear/equivalent north-sector proxies is an outright
     # P03 miss, not a mist candidate. This is the negative half of the B82
@@ -655,7 +687,6 @@ def test_adapter_integrity():
         "vis": 800, "rh": 77, "c_low": 27, "cloud_base_agl": 550,
         "temp": 25.3, "dew": 21.0, "weather_code": 1,
         "pop": 0, "precipitation": 0.0, "access_open": True,
-        "spatial_weather": qingshui_no_direction_obs,
     }
     qingshui_low_diags = fetch_data._build_opportunity_runtime_diagnostics(
         {"opportunities": [qingshui_by_id["tw-034-P02"], qingshui_by_id["tw-034-P03"]]},
