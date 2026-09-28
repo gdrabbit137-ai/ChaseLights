@@ -1,4 +1,4 @@
-name: B104 Field Snapshot Matrix Replay
+name: Field Snapshot Matrix Replay
 
 on:
   pull_request:
@@ -25,7 +25,7 @@ permissions:
 jobs:
   matrix-replay:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - name: Checkout target code with full history
         uses: actions/checkout@v4
@@ -41,56 +41,98 @@ jobs:
       - name: Compile snapshot tool
         run: python -m py_compile field_snapshot.py
 
-      - name: Replay permanent Qingshui baseline across commits
+      - name: Replay all registered baselines across original and current commits
         run: |
-          FIXTURE="test_fixtures/field_snapshot/FVS-TW-034-20260928-163925.json.gz.b64"
-          python field_snapshot.py matrix "$FIXTURE" --commits original current > field-snapshot-matrix.json
-          cat field-snapshot-matrix.json
-
-      - name: Validate matrix semantics
-        run: |
+          mkdir -p field-snapshot-matrix
           python - <<'PY'
           import json
+          from pathlib import Path
           import subprocess
+          import sys
 
-          expected_original = "fadfc65aeb8e9219cec2b60fc0ed91bf9fc98e21"
-          payload = json.load(open("field-snapshot-matrix.json", encoding="utf-8"))
-          rows = payload["rows"]
-          assert payload["snapshot_id"] == "FVS-TW-034-20260928-163925"
-          assert len(rows) == 2
-
-          original, current = rows
-          assert original["target_commit"] == expected_original
-          assert original["match_recorded"] is True
-          assert original["different_opportunity_ids"] == []
-
-          head = subprocess.check_output(
-              ["git", "rev-parse", "HEAD"], text=True
-          ).strip()
-          assert current["target_commit"] == head
-
-          expected_ids = {"tw-034-P01", "tw-034-P02", "tw-034-P03"}
-          assert set(original["comparison"]) == expected_ids
-          assert set(current["comparison"]) == expected_ids
-
-          print(
-              json.dumps(
+          registry = json.load(
+              open("field_snapshot_baselines_r4_2.json", encoding="utf-8")
+          )
+          summaries = []
+          for baseline in registry["baselines"]:
+              snapshot_id = baseline["snapshot_id"]
+              archive = baseline["archive_path"]
+              output = Path("field-snapshot-matrix") / f"{snapshot_id}.json"
+              with output.open("w", encoding="utf-8") as handle:
+                  subprocess.run(
+                      [
+                          sys.executable,
+                          "field_snapshot.py",
+                          "matrix",
+                          archive,
+                          "--commits",
+                          "original",
+                          "current",
+                      ],
+                      check=True,
+                      stdout=handle,
+                      text=True,
+                  )
+              payload = json.load(output.open(encoding="utf-8"))
+              rows = payload["rows"]
+              if len(rows) != 2:
+                  raise AssertionError(f"{snapshot_id}: expected two matrix rows")
+              original, current = rows
+              if original["target_commit"] != baseline["model_commit"]:
+                  raise AssertionError(
+                      f"{snapshot_id}: original commit mismatch "
+                      f"{original['target_commit']} != {baseline['model_commit']}"
+                  )
+              if original["match_recorded"] is not True:
+                  raise AssertionError(
+                      f"{snapshot_id}: original replay no longer matches recorded output"
+                  )
+              if original["different_opportunity_ids"]:
+                  raise AssertionError(
+                      f"{snapshot_id}: original replay has unexpected differences "
+                      f"{original['different_opportunity_ids']}"
+                  )
+              head = subprocess.check_output(
+                  ["git", "rev-parse", "HEAD"], text=True
+              ).strip()
+              if current["target_commit"] != head:
+                  raise AssertionError(
+                      f"{snapshot_id}: current replay commit mismatch "
+                      f"{current['target_commit']} != {head}"
+                  )
+              if not original["comparison"] or not current["comparison"]:
+                  raise AssertionError(
+                      f"{snapshot_id}: replay comparison must not be empty"
+                  )
+              summaries.append(
                   {
-                      "snapshot_id": payload["snapshot_id"],
+                      "snapshot_id": snapshot_id,
+                      "forecast_local_time": baseline["forecast_local_time"],
                       "original_commit": original["target_commit"],
                       "original_match_recorded": original["match_recorded"],
                       "current_commit": current["target_commit"],
                       "current_match_recorded": current["match_recorded"],
                       "current_differences": current["different_opportunity_ids"],
+                  }
+              )
+
+          Path("field-snapshot-matrix/summary.json").write_text(
+              json.dumps(
+                  {
+                      "baseline_count": len(summaries),
+                      "baselines": summaries,
                   },
                   indent=2,
               )
+              + "\n",
+              encoding="utf-8",
           )
+          print(json.dumps(summaries, indent=2))
           PY
 
-      - name: Upload replay matrix
+      - name: Upload replay matrices
         uses: actions/upload-artifact@v4
         with:
           name: field-snapshot-matrix
-          path: field-snapshot-matrix.json
+          path: field-snapshot-matrix/
           if-no-files-found: error

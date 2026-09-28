@@ -24,6 +24,13 @@ LIVE_QINGSHUI_BASELINE = (
     / "FVS-TW-034-20260928-163925.json.gz.b64"
 )
 
+MORNING_QINGSHUI_BASELINE = (
+    Path(__file__).parent
+    / "test_fixtures"
+    / "field_snapshot"
+    / "FVS-TW-034-20260928-173805.json.gz.b64"
+)
+
 
 def _base_item(spatial_weather):
     return {
@@ -279,6 +286,60 @@ def test_archived_live_qingshui_baseline_fixture():
     # evolution is allowed to change its outcome. The fixture itself is the
     # immutable reference; matrix replay reports differences without forcing
     # future scoring versions to reproduce B101 forever.
+    replayed = replay_current(snapshot)
+    assert set(replayed["opportunity_scores"]) == set(
+        snapshot["recorded_output"]["opportunity_scores"]
+    )
+    diff = diff_replay(snapshot, replayed)
+    assert diff["snapshot_id"] == snapshot["snapshot_id"]
+
+
+def test_archived_qingshui_morning_baseline_fixture():
+    snapshot = load_snapshot(MORNING_QINGSHUI_BASELINE)
+    assert snapshot["snapshot_id"] == "FVS-TW-034-20260928-173805"
+    assert snapshot["place_id"] == "tw-034"
+    assert snapshot["provenance"]["git_commit"] == (
+        "808a585ba2c3f087c6d49a60d6a3d1bcb39ca9e6"
+    )
+    assert snapshot["integrity"]["payload_sha256"] == (
+        "3f370784e11bf2403c2f960dfbfa2a2b2e318ecda013ac4168c31e7557644d59"
+    )
+    assert snapshot["observation"]["status"] == "unreviewed"
+
+    item = snapshot["normalized_input"]
+    assert item["local_date"] == "2026-09-29"
+    assert item["local_time"] == "06:00"
+    assert item["vis"] == 3560.0
+    assert item["rh"] == 66
+    assert item["c_low"] == 5
+    assert item["precipitation"] == 0.0
+    assert item["sun_elevation"] == 2.7
+
+    p02 = snapshot["recorded_output"]["opportunity_scores"]["tw-034-P02"]
+    assert p02["score"] == 54
+    assert p02["score_confidence"] == "medium"
+    assert p02["condition_state"] == "minimum_sufficient_conditions_miss"
+    assert p02["runtime"]["reason"] == "visibility_too_low"
+
+    p03 = snapshot["recorded_output"]["opportunity_scores"]["tw-034-P03"]
+    assert p03["score"] == 54
+    assert p03["score_confidence"] == "medium"
+    assert p03["condition_state"] == "minimum_sufficient_conditions_miss"
+    assert p03["runtime"]["reason"] == "low_visibility_without_mist_support"
+    assert p03["runtime"]["minimum_sufficient_score_hint"] == 0
+    assert p03["runtime"]["directional_mist_negative_evidence"] is False
+
+    spatial = p03["runtime"]["spatial_mist_context"]
+    assert spatial["available"] is True
+    assert spatial["eligible"] is False
+    assert spatial["reason"] == "directional_mist_not_distinguished_from_camera"
+    assert spatial["target_sample_count"] == 6
+    assert spatial["mist_target_count"] == 0
+    assert spatial["directional_mist_target_count"] == 0
+    assert spatial["clear_target_count"] == 0
+    assert spatial["clear_bearing_count"] == 0
+    assert spatial["broad_clear_target_sector"] is False
+
     replayed = replay_current(snapshot)
     assert set(replayed["opportunity_scores"]) == set(
         snapshot["recorded_output"]["opportunity_scores"]
