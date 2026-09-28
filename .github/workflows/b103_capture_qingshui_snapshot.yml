@@ -1,0 +1,78 @@
+name: B103 Qingshui Live Snapshot Capture
+
+on:
+  push:
+    branches:
+      - b103-qingshui-first-live-snapshot
+    paths:
+      - ".github/workflows/b103_capture_qingshui_snapshot.yml"
+      - "B103_CAPTURE_TRIGGER.md"
+
+permissions:
+  contents: read
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout verified production commit
+        uses: actions/checkout@v4
+        with:
+          ref: fadfc65aeb8e9219cec2b60fc0ed91bf9fc98e21
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Capture Qingshui live snapshot
+        run: |
+          rm -rf captured_snapshot
+          mkdir -p captured_snapshot
+          env -u GITHUB_SHA python field_snapshot.py capture --place tw-034 --output-dir captured_snapshot
+          SNAPSHOT="$(ls captured_snapshot/FVS-*.json | head -n 1)"
+          echo "SNAPSHOT=$SNAPSHOT" >> "$GITHUB_ENV"
+
+      - name: Validate snapshot
+        run: |
+          env -u GITHUB_SHA python field_snapshot.py validate "$SNAPSHOT"
+          env -u GITHUB_SHA python field_snapshot.py show "$SNAPSHOT"
+
+      - name: Replay against production commit
+        run: |
+          env -u GITHUB_SHA python field_snapshot.py replay "$SNAPSHOT" --original > captured_snapshot/replay-original.json
+          cat captured_snapshot/replay-original.json
+
+      - name: Record capture metadata
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          p = Path(os.environ["SNAPSHOT"])
+          s = json.loads(p.read_text())
+          metadata = {
+              "snapshot_file": p.name,
+              "snapshot_id": s["snapshot_id"],
+              "place_id": s["place_id"],
+              "captured_at": s["captured_at"],
+              "forecast_valid_at": s["forecast_valid_at"],
+              "git_commit": s["provenance"]["git_commit"],
+              "payload_sha256": s["integrity"]["payload_sha256"],
+              "observation_status": s["observation"]["status"],
+          }
+          Path("captured_snapshot/capture-metadata.json").write_text(
+              json.dumps(metadata, ensure_ascii=False, indent=2) + "\n",
+              encoding="utf-8",
+          )
+          print(json.dumps(metadata, ensure_ascii=False, indent=2))
+          PY
+
+      - name: Upload immutable snapshot artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: qingshui-b101-live-snapshot
+          path: captured_snapshot/
+          if-no-files-found: error
+          retention-days: 90
