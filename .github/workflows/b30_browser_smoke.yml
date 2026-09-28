@@ -252,6 +252,15 @@ jobs:
               assert len(tools) == 3, [x.text for x in tools]
               assert first.find_elements(By.CSS_SELECTOR, "[data-weather]"), "weather tool missing"
 
+              # B103: desktop cards keep status readable but move temperature /
+              # cloud-base details into compact metric chips.
+              quick_meta = first.find_elements(By.CSS_SELECTOR, ".card-quick-meta")
+              metric_chips = first.find_elements(By.CSS_SELECTOR, ".metric-chip")
+              report["card_metric_chips"] = [x.text for x in metric_chips]
+              assert len(quick_meta) == 1, first.text
+              assert metric_chips, first.text
+              assert not first.find_elements(By.CSS_SELECTOR, ".desktop-forecast-meta"), first.text
+
               hrefs = [x.get_attribute("href") or "" for x in tools]
               report["tool_hrefs"] = hrefs
               assert any("google.com/maps/search" in h for h in hrefs), hrefs
