@@ -418,6 +418,7 @@ def evaluate_hualien_local_scene(opportunity, item_data):
             confidence_hint = "medium"
         elif (
             camera_readability_threshold_km
+            and mist_support_score >= 1
             and mist_visibility_km < camera_readability_threshold_km
         ):
             # The verified subject requires some cliff / mountain / coastline
