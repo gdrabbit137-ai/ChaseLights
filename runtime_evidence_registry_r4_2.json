@@ -1469,9 +1469,9 @@
           "url": "https://www.taroko.gov.tw/ch/sglarticle/transportation-and-trails"
         }
       ],
-      "forecast_boundary": "官方證據只證明清水斷崖存在晨霧／雲霧攝影題材及崇德觀景區可觀看斷崖；官方資料亦描述崇德一帶向北眺望清水斷崖。B82/B87/B88 runtime 以北向廣角環境 proxy 格點與拍攝點格點比較；多點霧訊號可提高候選信心，但若拍攝點能見度低於 2.5 km 的保守構圖可讀門檻，最終 Opportunity 分數封頂 68，不得被 generic Theme baseline 拉回 80+，因為斷崖／山壁／海岸可能無法保留足夠輪廓。2.5 km 是依目前最近的 directional proxy range 設定的保守規劃門檻，不是宣稱斷崖的實際距離。拍攝點白牆仍 veto；多點資料暫缺時回退到低信心單點候選。",
+      "forecast_boundary": "官方證據只證明清水斷崖存在晨霧／雲霧攝影題材及崇德觀景區可觀看斷崖；官方資料亦描述崇德一帶向北眺望清水斷崖。B82/B87/B88/B91 runtime 以北向 330°/0°/30° 廣角環境 proxy 格點與拍攝點格點比較；只有 target sector 相對 camera 有實質霧況差異時才可提高方向性候選信心。target 與 camera 同為霧碼、且 visibility／低雲／RH 無實質差異時，不得把廣域霧誤當作斷崖方向霧帶。若拍攝點能見度低於 2.5 km 的保守構圖可讀門檻，最終 Opportunity 分數封頂 68，不得被 generic Theme baseline 拉回 80+，因為斷崖／山壁／海岸可能無法保留足夠輪廓。2.5 km 是依目前最近的 directional proxy range 設定的保守規劃門檻，不是宣稱斷崖的實際距離。拍攝點白牆仍 veto；多點資料暫缺時回退到低信心單點候選。",
       "runtime_enrichment": {
-        "version": "B88_directional_mist_plus_camera_readability_hard_cap",
+        "version": "B91_directional_contrast_hardening_plus_B88_readability_cap",
         "status": "optional_context",
         "camera_vs_target_sector": true,
         "exact_target_zone_verified": false,
