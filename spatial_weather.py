@@ -17,7 +17,7 @@ That limitation is returned in every diagnostic.
 
 import math
 
-SPATIAL_WEATHER_VERSION = "spatial-weather-r7-qingshui-directional-contrast-hardening"
+SPATIAL_WEATHER_VERSION = "spatial-weather-r8-qingshui-negative-evidence"
 
 _SUPPORTED_PROFILE_IDS = (
     "tw-004-P02", "tw-004-P03", "tw-008-P03",
@@ -350,6 +350,7 @@ def _evaluate_directional_mist_sector(config, observation):
 
     mist_targets = []
     directional_targets = []
+    clear_targets = []
     valid_targets = []
     for target in observation.get("targets", []) or []:
         vis = _number(target.get("visibility"))
@@ -369,6 +370,14 @@ def _evaluate_directional_mist_sector(config, observation):
             or (vis <= 3000 and rh >= 85)
             or (vis <= 6000 and rh >= 90 and low >= 50)
         )
+        clear_signal = (
+            not fog_code
+            and vis >= 8000
+            and low <= 35
+            and rh <= 88
+        )
+        if clear_signal:
+            clear_targets.append(target)
         if not mist_signal:
             continue
 
@@ -401,6 +410,11 @@ def _evaluate_directional_mist_sector(config, observation):
 
     required = min(int(config.get("min_misty_targets", 1)), len(valid_targets))
     eligible = len(directional_targets) >= required
+    broad_clear_target_sector = (
+        len(valid_targets) >= 2
+        and len(clear_targets) >= max(2, math.ceil(len(valid_targets) * 2 / 3))
+        and len(mist_targets) == 0
+    )
     return {
         "module": "directional_mist_spatial_context",
         "available": True,
@@ -417,6 +431,8 @@ def _evaluate_directional_mist_sector(config, observation):
         "target_sample_count": len(valid_targets),
         "mist_target_count": len(mist_targets),
         "directional_mist_target_count": len(directional_targets),
+        "clear_target_count": len(clear_targets),
+        "broad_clear_target_sector": broad_clear_target_sector,
         "target_resolution": observation.get("target_resolution"),
         "exact_target_zone_verified": False,
         "confidence_hint": "medium" if eligible else "low",
