@@ -1516,6 +1516,14 @@ def test_adapter_integrity():
     assert "day?.opportunities||{}" in frontend_source
     assert "const rankedOpportunities=opportunities.map((op,index)=>" in frontend_source
     assert "if(a.score===null)return 1;if(b.score===null)return -1;return (b.score-a.score)||(a.index-b.index);" in frontend_source
+    # B95: day-score cards must expose the actual winning forecast window and
+    # confidence so a daily score is not mistaken for the current hour or for
+    # the generic researched best-time description.
+    assert "guide_day_best:'今日最佳窗口'" in frontend_source
+    assert "guide_confidence:'信心'" in frontend_source
+    assert "function confidenceLabel(value)" in frontend_source
+    assert "const dayBestWindow=m&&(m.window_start||m.best_time)?fmtWindow(m):'';" in frontend_source
+    assert "m.score_confidence" in frontend_source
     assert "no_viable_opportunity" in frontend_source
     assert "今天剩餘時段沒有合適的已研究拍攝機會" in frontend_source
     assert "const researchPending=!!metric.research_pending||!spot.opportunities?.length;const hasScore=" in frontend_source
