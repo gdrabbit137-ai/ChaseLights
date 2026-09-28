@@ -1395,6 +1395,7 @@ def test_adapter_integrity():
         "runtime_event_calendar_r4_2.json",
         "shinhotaka_access.py",
         "yahiko_access.py",
+        "johnston_ridge_access.py",
     ):
         assert f'"{required_path}"' in update_weather_workflow, required_path
     assert "runtime_catalog_v004_r4_2_b15.compact.part" not in update_weather_workflow
