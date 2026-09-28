@@ -113,6 +113,58 @@
         "Six directional proxy targets were available but none met the mist-signal contract; this does not prove that a narrow real fog ribbon cannot occur between proxy points.",
         "The target sector also did not satisfy the broad-clear negative-evidence contract, so P03 failed for lack of mist support rather than the broad-clear veto.",
         "No field photograph or observed-scene assessment is attached; this baseline must remain outside the field-validation registry."
+      ],
+      "revision_group": "tw-034@2026-09-28T22:00:00+00:00"
+    },
+    {
+      "snapshot_id": "FVS-TW-034-20260928-181202",
+      "place_id": "tw-034",
+      "scene_family": "qingshui_cliff_mist",
+      "revision_group": "tw-034@2026-09-28T22:00:00+00:00",
+      "archive_path": "test_fixtures/field_snapshot/FVS-TW-034-20260928-181202.json.gz.b64",
+      "metadata_path": "test_fixtures/field_snapshot/FVS-TW-034-20260928-181202.metadata.json",
+      "captured_at": "2026-09-28T18:12:02.957254+00:00",
+      "forecast_valid_at": "2026-09-28T22:00:00+00:00",
+      "forecast_local_time": "2026-09-29T06:00:00+08:00",
+      "model_commit": "560db8c542989bedf9688a3c3d60667751a9df4e",
+      "payload_sha256": "5cd0f62914557e8f27f85f145841fdf2b608acae19b2ffd47169818c7413399b",
+      "observation_status": "unreviewed",
+      "source": {
+        "workflow_run_id": 36463399280,
+        "artifact_id": 10987864935,
+        "artifact_name": "qingshui-b106-0600-revision",
+        "source_branch": "b106-forecast-revision-comparison"
+      },
+      "recorded_summary": {
+        "tw-034-P01": {
+          "score": 64,
+          "score_confidence": "low",
+          "condition_state": "partial_runtime_contract",
+          "runtime_reason": "module_pending"
+        },
+        "tw-034-P02": {
+          "score": 54,
+          "score_confidence": "medium",
+          "condition_state": "minimum_sufficient_conditions_miss",
+          "runtime_reason": "visibility_too_low"
+        },
+        "tw-034-P03": {
+          "score": 54,
+          "score_confidence": "medium",
+          "condition_state": "minimum_sufficient_conditions_miss",
+          "runtime_reason": "low_visibility_without_mist_support",
+          "mist_target_count": 0,
+          "directional_mist_target_count": 0,
+          "clear_target_count": 0,
+          "broad_clear_target_sector": false,
+          "directional_mist_negative_evidence": false
+        }
+      },
+      "limitations": [
+        "This is a later forecast revision for the same 2026-09-29 06:00 +08:00 valid time and must be compared with the earlier B105 snapshot rather than treated as a new field observation.",
+        "A changed production Git commit does not by itself prove that scoring logic changed; B106 compares model-contract versions and can replay both snapshots under one common model commit.",
+        "Spatial proxy points remain environmental evidence and do not prove exact fog overlap with the cliff.",
+        "No field photograph or observed-scene assessment is attached; this baseline remains outside the field-validation registry."
       ]
     }
   ]

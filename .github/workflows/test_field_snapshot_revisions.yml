@@ -1,0 +1,138 @@
+name: Field Snapshot Forecast Revision Comparison
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "field_snapshot.py"
+      - "field_snapshot_baselines_r4_2.json"
+      - "test_fixtures/field_snapshot/*"
+      - ".github/workflows/test_field_snapshot_revisions.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "field_snapshot.py"
+      - "field_snapshot_baselines_r4_2.json"
+      - "test_fixtures/field_snapshot/*"
+      - ".github/workflows/test_field_snapshot_revisions.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  revision-comparison:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Compare all registered revision groups
+        run: |
+          mkdir -p field-snapshot-revisions
+          python - <<'PY'
+          import json
+          from collections import defaultdict
+          from pathlib import Path
+          import subprocess
+          import sys
+
+          registry = json.load(
+              open("field_snapshot_baselines_r4_2.json", encoding="utf-8")
+          )
+          groups = defaultdict(list)
+          for baseline in registry["baselines"]:
+              groups[(baseline["place_id"], baseline["forecast_valid_at"])].append(
+                  baseline
+              )
+
+          summaries = []
+          for (place_id, valid_at), baselines in sorted(groups.items()):
+              if len(baselines) < 2:
+                  continue
+              baselines.sort(key=lambda row: row["captured_at"])
+              archives = [row["archive_path"] for row in baselines]
+              safe_valid = valid_at.replace(":", "").replace("+", "_")
+              output = (
+                  Path("field-snapshot-revisions")
+                  / f"{place_id}-{safe_valid}.json"
+              )
+              cmd = [
+                  sys.executable,
+                  "field_snapshot.py",
+                  "compare-revisions",
+                  *archives,
+                  "--replay-commit",
+                  "current",
+                  "--output",
+                  str(output),
+              ]
+              subprocess.run(cmd, check=True)
+              payload = json.load(output.open(encoding="utf-8"))
+              assert payload["place_id"] == place_id
+              assert payload["forecast_valid_at"] == valid_at
+              assert payload["revision_count"] == len(baselines)
+              assert len(payload["transitions"]) == len(baselines) - 1
+              summaries.append(
+                  {
+                      "place_id": place_id,
+                      "forecast_valid_at": valid_at,
+                      "revision_count": payload["revision_count"],
+                      "snapshot_ids": [
+                          row["snapshot_id"] for row in payload["rows"]
+                      ],
+                      "transition_classifications": [
+                          row["classification"]
+                          for row in payload["transitions"]
+                      ],
+                      "metric_changes": [
+                          row["metric_changes"]
+                          for row in payload["transitions"]
+                      ],
+                      "recorded_opportunity_changes": [
+                          sorted(row["opportunity_changes"])
+                          for row in payload["transitions"]
+                      ],
+                      "common_model_target_commit": (
+                          payload.get("common_model_replay") or {}
+                      ).get("target_commit"),
+                      "common_model_opportunity_changes": [
+                          sorted(row["opportunity_changes"])
+                          for row in (
+                              payload.get("common_model_replay") or {}
+                          ).get("transitions", [])
+                      ],
+                  }
+              )
+
+          Path("field-snapshot-revisions/summary.json").write_text(
+              json.dumps(
+                  {
+                      "revision_group_count": len(summaries),
+                      "groups": summaries,
+                  },
+                  indent=2,
+              )
+              + "\n",
+              encoding="utf-8",
+          )
+          print(json.dumps(summaries, indent=2))
+          PY
+
+      - name: Upload revision reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: field-snapshot-revisions
+          path: field-snapshot-revisions/
+          if-no-files-found: error
