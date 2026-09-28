@@ -205,7 +205,16 @@ def build_spatial_request_plan(spot):
         profiles[oid] = {
             "camera_point_id": camera_id,
             "target_point_ids": target_ids,
-            "camera_reference_elevation_m": viewpoint.get("elevation_m"),
+            # Prefer Opportunity/viewpoint elevation when curated there.  Most
+            # legacy viewpoints do not yet carry elevation_m, so fall back to
+            # the Place-level verified/overridden shooting elevation before the
+            # Open-Meteo grid DEM.  This matters for summit cameras such as
+            # Hehuan Main Peak, where the grid DEM is materially lower.
+            "camera_reference_elevation_m": (
+                viewpoint.get("elevation_m")
+                if viewpoint.get("elevation_m") is not None
+                else spot.get("elevation")
+            ),
             "target_resolution": (
                 "directional_sector_environment_proxy_not_exact_cliff_or_mist_location"
                 if config.get("mode") == "directional_mist_sector"
