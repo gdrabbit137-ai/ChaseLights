@@ -17,7 +17,7 @@ That limitation is returned in every diagnostic.
 
 import math
 
-SPATIAL_WEATHER_VERSION = "spatial-weather-r4-directional-mountain-cloud-preview"
+SPATIAL_WEATHER_VERSION = "spatial-weather-r5-qixingtan-orographic-fallback"
 
 _SUPPORTED_PROFILE_IDS = (
     "tw-004-P02", "tw-004-P03", "tw-008-P03",
@@ -57,6 +57,19 @@ SPATIAL_WEATHER_PROFILES["tw-036-P03"] = {
     "min_target_elevation_gain_m": 250.0,
     "min_cloudy_targets": 2,
     "min_directional_cloud_targets": 2,
+    # B84 conservative fallback for coarse-grid false negatives. The camera
+    # must be clear while a planning-grade LCL/condensation-height proxy falls
+    # inside the sampled northward mountain relief. This is only an orographic
+    # cloud POTENTIAL signal; it never claims that cloud is visibly attached
+    # to a specific ridge.
+    "orographic_fallback_enabled": True,
+    "orographic_camera_visibility_min_km": 15.0,
+    "orographic_camera_low_cloud_max_pct": 20.0,
+    "orographic_camera_rh_min_pct": 65.0,
+    "orographic_cloud_base_asl_min_m": 350.0,
+    "orographic_cloud_base_asl_max_m": 1400.0,
+    "orographic_target_base_tolerance_m": 150.0,
+    "orographic_min_intersection_targets": 2,
 }
 
 # Optional spatial context for researched minimum-sufficient subjects. These
@@ -383,15 +396,17 @@ def _evaluate_directional_mist_sector(config, observation):
 
 
 
-def _evaluate_directional_mountain_cloud_sector(config, observation):
+def _evaluate_directional_mountain_cloud_sector(config, observation, item_data=None):
     """Evaluate Qixingtan-style clear-coast / cloud-on-mountain contrast.
 
-    This is a forecast candidate, not visual confirmation. A valid match needs:
-    - a readable camera/coast grid,
-    - multiple materially elevated northward proxy samples,
-    - coherent low-cloud/moisture evidence stronger than at the camera,
-    - at least one cloud-bearing target that is not an opaque local whiteout.
+    Primary evidence comes from directional target-grid cloud/moisture contrast.
+    B84 adds a conservative fallback for known coarse-grid false negatives:
+    when the coast grid is clear but the camera-air LCL/condensation-height
+    proxy intersects multiple sampled northward mountain elevations, surface a
+    lower-confidence orographic-cloud POTENTIAL candidate. This never proves an
+    exact cloud/ridge overlap or actual ridge visibility.
     """
+    item_data = item_data or {}
     camera = observation.get("camera") or {}
     camera_vis = _number(camera.get("visibility"))
     camera_low = _number(camera.get("cloud_cover_low"))
@@ -497,38 +512,85 @@ def _evaluate_directional_mountain_cloud_sector(config, observation):
         int(config.get("min_directional_cloud_targets", required_cloud)),
         len(elevated_targets),
     )
-    eligible = (
+    direct_match = (
         len(cloud_targets) >= required_cloud
         and len(directional_cloud_targets) >= required_directional
         and len(readable_cloud_targets) >= 1
     )
-    reason = (
-        "directional_mountain_cloud_band_candidate"
-        if eligible else "directional_mountain_cloud_band_not_supported"
-    )
+
+    # B84: terrain-intersection fallback. The point forecast can report almost
+    # no low cloud at the beach while a real orographic cloud band forms on the
+    # northward mountain wall. Use the camera-air condensation-height proxy
+    # already computed from temperature/dew point by fetch_data, then ask only
+    # whether multiple sampled mountain elevations extend into that level.
+    # This is deliberately a lower-confidence planning signal, not cloud proof.
+    cloud_base_asl = _number(item_data.get("cloud_base_asl"))
+    intersection_targets = []
+    fallback_ok = False
+    if (
+        config.get("orographic_fallback_enabled")
+        and cloud_base_asl is not None
+        and camera_vis / 1000.0 >= float(config.get("orographic_camera_visibility_min_km", 15.0))
+        and camera_low <= float(config.get("orographic_camera_low_cloud_max_pct", 20.0))
+        and camera_rh >= float(config.get("orographic_camera_rh_min_pct", 65.0))
+        and float(config.get("orographic_cloud_base_asl_min_m", 350.0))
+            <= cloud_base_asl
+            <= float(config.get("orographic_cloud_base_asl_max_m", 1400.0))
+        and (camera_precip is None or camera_precip < 0.5)
+    ):
+        tolerance = float(config.get("orographic_target_base_tolerance_m", 150.0))
+        intersection_targets = [
+            row for row in elevated_targets
+            if _number(row.get("elevation_m")) is not None
+            and _number(row.get("elevation_m")) >= cloud_base_asl - tolerance
+        ]
+        fallback_ok = (
+            len(intersection_targets)
+            >= min(int(config.get("orographic_min_intersection_targets", 2)), len(elevated_targets))
+        )
+
+    eligible = direct_match or fallback_ok
+    if direct_match:
+        reason = "directional_mountain_cloud_band_candidate"
+        candidate_source = "directional_cloud_grid"
+        confidence_hint = "medium"
+    elif fallback_ok:
+        reason = "orographic_terrain_intersection_candidate"
+        candidate_source = "orographic_lcl_terrain_fallback"
+        confidence_hint = "low"
+    else:
+        reason = "directional_mountain_cloud_band_not_supported"
+        candidate_source = None
+        confidence_hint = "low"
+
     return {
         "module": "spatial_weather_vertical_cloud",
         "mode": "directional_mountain_cloud_sector",
         "available": True,
         "eligible": eligible,
         "reason": reason,
+        "candidate_source": candidate_source,
         "camera_whiteout_risk": False,
         "camera_visibility_km": round(camera_vis / 1000.0, 1),
         "camera_low_cloud": round(camera_low),
         "camera_rh": round(camera_rh),
+        "camera_condensation_height_asl_proxy_m": (
+            None if cloud_base_asl is None else round(cloud_base_asl)
+        ),
         "elevated_target_count": len(elevated_targets),
         "cloud_band_target_count": len(cloud_targets),
         "directional_cloud_target_count": len(directional_cloud_targets),
         "readable_cloud_target_count": len(readable_cloud_targets),
+        "orographic_intersection_target_count": len(intersection_targets),
         "max_target_elevation_gain_m": round(
             max((row["elevation_gain_m"] for row in elevated_targets), default=0.0)
         ),
         "target_resolution": observation.get("target_resolution"),
         "exact_target_zone_verified": False,
         "visibility_guaranteed": False,
-        "confidence_hint": "medium" if eligible else "low",
+        "cloud_ridge_overlap_verified": False,
+        "confidence_hint": confidence_hint,
     }
-
 
 def evaluate_spatial_weather(opportunity, item_data):
     oid = opportunity.get("opportunity_id")
@@ -553,7 +615,7 @@ def evaluate_spatial_weather(opportunity, item_data):
     if config.get("mode") == "directional_mist_sector":
         return _evaluate_directional_mist_sector(config, observation)
     if config.get("mode") == "directional_mountain_cloud_sector":
-        return _evaluate_directional_mountain_cloud_sector(config, observation)
+        return _evaluate_directional_mountain_cloud_sector(config, observation, item_data)
 
     camera = observation["camera"]
     camera_elevation = _number(observation.get("camera_reference_elevation_m"))
@@ -746,6 +808,21 @@ def validate_spatial_weather_registry():
                 errors.append(f"{oid}: invalid mountain-cloud target count")
             if int(config.get("min_directional_cloud_targets") or 0) < 1:
                 errors.append(f"{oid}: invalid directional-cloud target count")
+            if config.get("orographic_fallback_enabled"):
+                if float(config.get("orographic_camera_visibility_min_km") or 0) < 8:
+                    errors.append(f"{oid}: orographic visibility threshold too low")
+                if not 0 <= float(config.get("orographic_camera_low_cloud_max_pct") or -1) <= 60:
+                    errors.append(f"{oid}: invalid orographic low-cloud cap")
+                if not 50 <= float(config.get("orographic_camera_rh_min_pct") or 0) <= 95:
+                    errors.append(f"{oid}: invalid orographic RH threshold")
+                base_min = float(config.get("orographic_cloud_base_asl_min_m") or 0)
+                base_max = float(config.get("orographic_cloud_base_asl_max_m") or 0)
+                if not 100 <= base_min < base_max <= 2500:
+                    errors.append(f"{oid}: invalid orographic cloud-base window")
+                if not 0 <= float(config.get("orographic_target_base_tolerance_m") or -1) <= 500:
+                    errors.append(f"{oid}: invalid orographic target tolerance")
+                if int(config.get("orographic_min_intersection_targets") or 0) < 2:
+                    errors.append(f"{oid}: insufficient orographic intersection targets")
         else:
             errors.append(f"{oid}: invalid spatial profile mode {mode}")
 
