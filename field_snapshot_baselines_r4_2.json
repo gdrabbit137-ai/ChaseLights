@@ -224,6 +224,64 @@
         "A changed Git commit is not itself evidence of a scoring-model change; declared model-contract versions remain the comparison key.",
         "No field photograph or observed-scene assessment is attached; this remains outside the field-validation registry."
       ]
+    },
+    {
+      "snapshot_id": "FVS-TW-034-20260928-184220",
+      "place_id": "tw-034",
+      "scene_family": "qingshui_cliff_mist",
+      "revision_group": "tw-034@2026-09-28T22:00:00+00:00",
+      "archive_path": "test_fixtures/field_snapshot/FVS-TW-034-20260928-184220.json.gz.b64",
+      "metadata_path": "test_fixtures/field_snapshot/FVS-TW-034-20260928-184220.metadata.json",
+      "captured_at": "2026-09-28T18:42:20.773974+00:00",
+      "forecast_valid_at": "2026-09-28T22:00:00+00:00",
+      "forecast_local_time": "2026-09-29T06:00:00+08:00",
+      "model_commit": "48733937b271a8da11198da7084a0a33f56c4da5",
+      "payload_sha256": "9dca4f83e8c73a93593605c2b0aead3b6d342365a6367060a730f3d8fac04801",
+      "observation_status": "unreviewed",
+      "source": {
+        "workflow_run_id": 36466968435,
+        "artifact_id": 10989194783,
+        "artifact_name": "qingshui-b110-0600-revision",
+        "source_branch": "b110-qingshui-0600-revision-4"
+      },
+      "recorded_summary": {
+        "tw-034-P01": {
+          "score": 64,
+          "score_confidence": "low",
+          "condition_state": "partial_runtime_contract",
+          "runtime_reason": "module_pending"
+        },
+        "tw-034-P02": {
+          "score": 54,
+          "score_confidence": "medium",
+          "condition_state": "minimum_sufficient_conditions_miss",
+          "runtime_reason": "visibility_too_low",
+          "camera_visibility_km": 3.56
+        },
+        "tw-034-P03": {
+          "score": 54,
+          "score_confidence": "medium",
+          "condition_state": "minimum_sufficient_conditions_miss",
+          "runtime_reason": "low_visibility_without_mist_support",
+          "minimum_sufficient_score_hint": 0,
+          "camera_visibility_km": 3.56,
+          "camera_low_cloud_pct": 5,
+          "camera_rh_pct": 66,
+          "target_sample_count": 6,
+          "mist_target_count": 0,
+          "directional_mist_target_count": 0,
+          "clear_target_count": 0,
+          "clear_bearing_count": 0,
+          "broad_clear_target_sector": false,
+          "directional_mist_negative_evidence": false
+        }
+      },
+      "limitations": [
+        "This is the fourth retained forecast revision for the same 2026-09-29 06:00 +08:00 valid time.",
+        "The selected 06:00 normalized input fingerprint remains identical to the first three retained revisions; B110 CI verifies whether raw provider payloads still changed between captures.",
+        "A stable forecast row is not evidence that the forecast is accurate; field validation remains separate.",
+        "No field photograph or observed-scene assessment is attached; this remains outside the field-validation registry."
+      ]
     }
   ]
 }
