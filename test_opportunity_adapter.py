@@ -1984,7 +1984,7 @@ def test_adapter_integrity():
     assert hehuan_cloud_sea["runtime_policy"] == "preview_module_available"
     hehuan_plan = build_spatial_request_plan(hehuan)
     assert "tw-019-P04" in hehuan_plan["profiles"]
-    # B95: the Place-level verified summit elevation must outrank the coarser
+    # B96: the Place-level verified summit elevation must outrank the coarser
     # weather-grid DEM for vertical cloud geometry.
     assert hehuan_plan["profiles"]["tw-019-P04"]["camera_reference_elevation_m"] == 3417
     hehuan_raw = []
