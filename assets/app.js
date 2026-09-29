@@ -335,7 +335,8 @@
     function persistAdminAreas(){
       localStorage.setItem(`chaselights_admin_areas_${currentRegion}`,JSON.stringify([...currentAdminAreas]));
     }
-    const isMobileAdminPicker=()=>window.matchMedia('(max-width: 640px)').matches;
+    const adminPickerMedia=window.matchMedia('(max-width: 640px)');
+    const isMobileAdminPicker=()=>adminPickerMedia.matches;
     function lockAdminPickerScroll(){
       if(document.body.classList.contains('admin-picker-open'))return;
       adminPickerScrollY=window.scrollY||window.pageYOffset||0;
@@ -433,7 +434,7 @@
       const close=()=>closeMobileAdminPicker();
       details.addEventListener('toggle',()=>{
         summaryButton.setAttribute('aria-expanded',details.open?'true':'false');
-        if(!mobile)return;
+        if(!isMobileAdminPicker())return;
         if(details.open)openMobileAdminPicker(details);
         else if(document.body.classList.contains('admin-picker-open'))closeMobileAdminPicker();
       });
@@ -493,10 +494,16 @@
 
       if(mobile&&details.open)openMobileAdminPicker(details);
       if(!mobile&&document.body.classList.contains('admin-picker-open')){
-        unlockAdminPickerScroll();
-        adminPickerHistoryArmed=false;
+        closeMobileAdminPicker({restoreFocus:false});
       }
     }
+
+    adminPickerMedia.addEventListener('change',event=>{
+      if(!event.matches&&document.body.classList.contains('admin-picker-open')){
+        closeMobileAdminPicker({restoreFocus:false});
+      }
+      renderAdminFilter();
+    });
 
     window.addEventListener('popstate',()=>{
       if(!adminPickerHistoryArmed)return;
