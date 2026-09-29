@@ -33,6 +33,7 @@ class WeatherGridCoverageBrowserTest(unittest.TestCase):
         self.assertIn("tw-066", by_spot)
         self.assertIn("tw-068", by_spot)
         self.assertIn("tw-069", by_spot)
+        self.assertIn("tw-067", by_spot)
 
         jianggong_group = by_spot["tw-078"]
         self.assertEqual(jianggong_group["catalog_opportunity_count"], 1)
@@ -73,6 +74,11 @@ class WeatherGridCoverageBrowserTest(unittest.TestCase):
         self.assertEqual(dongqing_group["catalog_opportunity_count"], 1)
         self.assertEqual(dongqing_group["coverage_entry_count"], 1)
         self.assertTrue(dongqing_group["all_topics_complete"])
+
+        qinbi_group = by_spot["tw-067"]
+        self.assertEqual(qinbi_group["catalog_opportunity_count"], 1)
+        self.assertEqual(qinbi_group["coverage_entry_count"], 1)
+        self.assertTrue(qinbi_group["all_topics_complete"])
 
         kuibishan_group = by_spot["tw-059"]
         self.assertEqual(kuibishan_group["catalog_opportunity_count"], 1)
@@ -197,6 +203,16 @@ class WeatherGridCoverageBrowserTest(unittest.TestCase):
         self.assertEqual(dongqing["environment_geometries"][0]["geometry"]["azimuth_start_deg"], 60)
         self.assertEqual(dongqing["environment_geometries"][0]["geometry"]["azimuth_end_deg"], 120)
         self.assertEqual(dongqing["camera_zones"][0]["browser_exposure"], "generalized")
+
+        qinbi = by_opp["tw-067-P01"]
+        self.assertTrue(qinbi["complete"])
+        self.assertEqual(qinbi["status"], "provisional")
+        self.assertEqual(qinbi["subject_geometries"][0]["geometry"]["type"], "sector")
+        self.assertEqual(qinbi["subject_geometries"][0]["geometry"]["max_range_km"], 1.0)
+        self.assertEqual(qinbi["environment_geometries"][0]["geometry"]["type"], "sector")
+        self.assertEqual(qinbi["environment_geometries"][0]["geometry"]["azimuth_start_deg"], 240)
+        self.assertEqual(qinbi["environment_geometries"][0]["geometry"]["azimuth_end_deg"], 300)
+        self.assertEqual(qinbi["camera_zones"][0]["browser_exposure"], "generalized")
 
         qingshui_p01 = by_opp["tw-034-P01"]
         self.assertTrue(qingshui_p01["complete"])
