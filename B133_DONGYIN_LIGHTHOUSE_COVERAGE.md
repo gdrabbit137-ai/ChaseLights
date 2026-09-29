@@ -1,6 +1,9 @@
-# B132 Dongyin Lighthouse Subject-aware WeatherGrid Coverage
+# B133 Dongyin Lighthouse Subject-aware WeatherGrid Coverage
 
 Date: 2026-09-30
+
+> Canonical numbering: B132 is reserved for the scheduled WeatherGrid refresh. This Dongyin coverage handoff is B133; earlier PR/merge labels that called it B132 are historical concurrent-branch labels.
+
 
 ## Goal
 
@@ -27,7 +30,7 @@ coordinate confidence: high_exif_camera_point
 geometry confidence:   high
 ```
 
-Because no reconstructable Camera Zone extent exists, B132 does not invent one. The WeatherGrid planner must keep its explicit anchor-only warning.
+Because no reconstructable Camera Zone extent exists, B133 does not invent one. The WeatherGrid planner must keep its explicit anchor-only warning.
 
 ## Official subject evidence
 
@@ -85,7 +88,7 @@ It does **not** claim:
 
 The Matsu National Scenic Area publishes dynamic scenic-area control information. Strong gusts and long-wave conditions may close Dongyin Lighthouse / related coastal areas.
 
-B132 therefore keeps:
+B133 therefore keeps:
 
 ```text
 WeatherGrid coverage != access permission

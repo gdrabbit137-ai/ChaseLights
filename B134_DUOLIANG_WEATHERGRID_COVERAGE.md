@@ -1,6 +1,9 @@
-# B132 Duoliang Station Subject-aware WeatherGrid Coverage
+# B134 Duoliang Station Subject-aware WeatherGrid Coverage
 
 Date: 2026-09-30
+
+> Canonical numbering: B132 is reserved for the scheduled WeatherGrid refresh and B133 is Dongyin coverage. This Duoliang coverage handoff is B134; earlier PR/merge labels using B132/B133 are historical concurrent-branch labels.
+
 
 ## Goal
 
@@ -48,7 +51,7 @@ Sources:
 
 ## Local subject geometry
 
-B132 does not invent an exact track polygon or a train position.
+B134 does not invent an exact track polygon or a train position.
 
 The station / nearby passing-train subject is represented provisionally by:
 
@@ -72,7 +75,7 @@ It does not claim:
 
 The official attraction description establishes the Pacific as the main background.
 
-B132 uses a broad eastern coastal-atmosphere envelope:
+B134 uses a broad eastern coastal-atmosphere envelope:
 
 ```text
 origin:  tw-037-VP01
