@@ -149,6 +149,23 @@ class WeatherGridCoverageTest(unittest.TestCase):
         self.assertLessEqual(plan.coverage_bbox["west"], 121.0)
         self.assertGreater(plan.coverage_bbox["east"], 121.3)
 
+    def test_point_geometry_can_reference_existing_viewpoint(self):
+        viewpoint_lookup = {
+            "tw-test-VP01": {
+                "viewpoint_id": "tw-test-VP01",
+                "lat": 24.031839,
+                "lon": 121.627149,
+            }
+        }
+        points = geometry_points(
+            {
+                "type": "point",
+                "origin_viewpoint_id": "tw-test-VP01",
+            },
+            viewpoint_lookup=viewpoint_lookup,
+        )
+        self.assertEqual(points, [(24.031839, 121.627149)])
+
     def test_corridor_expands_beyond_centerline(self):
         points = geometry_points({
             "type": "corridor",
@@ -193,11 +210,11 @@ class WeatherGridCoverageTest(unittest.TestCase):
         )
         audit = audit_coverage_registry(catalog, registry)
 
-        self.assertEqual(audit["counts"]["entries"], 20)
+        self.assertEqual(audit["counts"]["entries"], 22)
         self.assertEqual(audit["counts"]["missing_opportunity"], 0)
-        self.assertEqual(audit["counts"]["provisional"], 17)
+        self.assertEqual(audit["counts"]["provisional"], 19)
         self.assertEqual(audit["counts"]["needs_research"], 3)
-        self.assertEqual(audit["counts"]["complete"], 17)
+        self.assertEqual(audit["counts"]["complete"], 19)
         self.assertEqual(audit["counts"]["incomplete"], 3)
 
         by_id = {row["opportunity_id"]: row for row in audit["results"]}
@@ -207,6 +224,10 @@ class WeatherGridCoverageTest(unittest.TestCase):
         self.assertTrue(by_id["tw-014-P01"]["complete"])
         self.assertEqual(by_id["tw-014-P01"]["status"], "provisional")
         self.assertEqual(by_id["tw-014-P01"]["subject_geometry_count"], 1)
+        self.assertTrue(by_id["tw-036-P01"]["complete"])
+        self.assertEqual(by_id["tw-036-P01"]["subject_geometry_count"], 1)
+        self.assertTrue(by_id["tw-036-P02"]["complete"])
+        self.assertEqual(by_id["tw-036-P02"]["environment_geometry_count"], 1)
         self.assertFalse(by_id["tw-082-P01"]["complete"])
         self.assertTrue(
             any("subject or environment geometry" in e for e in by_id["tw-082-P01"]["errors"])
