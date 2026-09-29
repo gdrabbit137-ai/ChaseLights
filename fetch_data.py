@@ -117,7 +117,7 @@ I18N_MESSAGES = {
     "OPPORTUNITY_HOLD": {"zh-TW": "⛔ 此拍攝題材目前暫停推薦", "en": "⛔ This opportunity is currently on hold", "ja": "⛔ この撮影機会は現在推奨停止"},
     "OPPORTUNITY_DATA_INSUFFICIENT": {"zh-TW": "⚠️ 此拍攝題材資料不足，暫不高分推薦", "en": "⚠️ Insufficient data for a high-confidence recommendation", "ja": "⚠️ 高信頼の推奨に必要なデータ不足"},
     "NO_VIABLE_OPPORTUNITY": {"zh-TW": "🕒 今天剩餘時段沒有合適的已研究拍攝機會", "en": "🕒 No researched shooting opportunity remains viable today", "ja": "🕒 本日の残り時間に適した調査済み撮影機会はありません"},
-    "OPPORTUNITY_SIMPLE_MATCH": {"zh-TW": "✅ 此景點的基本好拍條件已成立", "en": "✅ The Place's basic good-shoot conditions are met", "ja": "✅ この場所の基本的な好条件が成立"},
+    "OPPORTUNITY_SIMPLE_MATCH": {"zh-TW": "✅ 天氣條件適合拍攝此題材", "en": "✅ Weather conditions are suitable for this subject", "ja": "✅ この被写体の撮影に適した天候条件です"},
     "OPPORTUNITY_MIST_CANDIDATE": {"zh-TW": "🌫️ 晨霧候選條件出現，但斷崖可見度或霧區位置仍有不確定性", "en": "🌫️ Morning-mist candidate conditions are present, but cliff readability or mist location remains uncertain", "ja": "🌫️ 朝霧候補の条件がありますが、断崖の見え方または霧の位置には不確実性があります"},
     "OPPORTUNITY_MIST_SUPPORTED": {"zh-TW": "🌫️ 晨霧候選有多項氣象訊號佐證，拍攝點視野仍可用", "en": "🌫️ Multiple weather signals support a morning-mist candidate while the camera view remains usable", "ja": "🌫️ 複数の気象シグナルが朝霧候補を支持し、撮影地点の視界も利用可能です"},
     "OPPORTUNITY_DIRECTIONAL_MIST_CANDIDATE": {"zh-TW": "🌫️ 多點預報支持斷崖方向晨霧候選，拍攝點視野仍可用", "en": "🌫️ Multi-point forecasts support a morning-mist candidate toward the cliff sector while the camera view remains usable", "ja": "🌫️ 複数地点の予報が断崖方向の朝霧候補を支持し、撮影地点の視界も利用可能です"},
