@@ -19,12 +19,15 @@ The photographed weather-relevant scene is:
 ```text
 Opportunity: 東湧燈塔海岬建築景觀
 Theme:       blue_hour
-Camera Zone: tw-066-VP01
-Anchor:      26.365636, 120.510408
-Confidence:  high EXIF camera point / high geometry confidence
+Camera Zone:       tw-066-VP01
+Anchor:            26.365636, 120.510408
+Geometry type:     small_area
+geometry_extent_m: not curated
+Coordinate basis:  high-confidence EXIF anchor
+Geometry confidence: high
 ```
 
-The Camera Zone remains the canonical photography reference. B133 does not replace it with the attraction coordinate.
+The Camera Zone remains the canonical photography reference. Because its `small_area` extent is not reconstructable yet, the planner correctly keeps an `anchor_only` warning. B133 does not replace it with the attraction coordinate or pretend the Camera Zone is an exact point.
 
 ## Official evidence
 
@@ -69,7 +72,7 @@ azimuth: 0°-360°
 range:   0-1 km
 ```
 
-This deliberately over-covers the local lighthouse / cliff / nearshore scene so WeatherGrid cannot crop relevant local weather just because the catalog Camera Zone itself is a point.
+This deliberately over-covers the local lighthouse / cliff / nearshore scene while the catalog Camera Zone extent is still unknown. It does not convert the `small_area` Camera Zone into an exact 1 km circle; the planner's `anchor_only` warning remains visible.
 
 No directional claim is made for blue-hour sky, sunset, or a specific coastline segment.
 
@@ -110,7 +113,7 @@ CI must prove:
 1. registry count is 36;
 2. `tw-066-P01` is provisional-complete;
 3. the official lighthouse coordinate is inside the coverage bbox;
-4. the canonical point Camera Zone is inside the coverage bbox;
+4. the canonical Camera Zone anchor is inside the coverage bbox and its missing extent remains explicitly warned as `anchor_only`;
 5. browser payload marks `tw-066` all-topic-complete;
 6. subject is exported as a point and environment as a sector;
 7. B123 Place-scoped fetch is safe and smaller than Taiwan-wide;
