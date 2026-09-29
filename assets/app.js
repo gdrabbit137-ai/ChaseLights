@@ -78,6 +78,37 @@
       us:US_ADMIN_AREA_GROUPS
     };
 
+    // Compatibility bridge for cached / pre-B136 weather snapshots that do not
+    // yet carry admin_areas. Fresh snapshots get this metadata from regions.py.
+    const ADMIN_AREA_FALLBACK={
+      jp:{
+        'jp-001':['北海道'],'jp-002':['北海道'],'jp-003':['北海道'],'jp-004':['北海道'],'jp-005':['北海道'],'jp-006':['北海道'],
+        'jp-007':['青森県','秋田県'],'jp-008':['宮城県'],'jp-009':['福島県'],'jp-010':['山梨県'],'jp-011':['東京都'],'jp-012':['神奈川県'],
+        'jp-013':['長野県'],'jp-014':['東京都'],'jp-015':['東京都'],'jp-016':['神奈川県'],'jp-017':['石川県'],'jp-018':['愛知県'],
+        'jp-019':['静岡県'],'jp-020':['神奈川県'],'jp-021':['岐阜県'],'jp-022':['新潟県'],'jp-023':['京都府'],'jp-024':['大阪府'],
+        'jp-025':['山口県'],'jp-026':['島根県'],'jp-027':['兵庫県'],'jp-028':['和歌山県'],'jp-029':['三重県'],'jp-030':['徳島県'],
+        'jp-031':['岡山県'],'jp-032':['福岡県'],'jp-033':['佐賀県'],'jp-034':['長崎県'],'jp-035':['福岡県']
+      },
+      us:{
+        'us-001':['Arizona'],'us-002':['Arizona'],'us-003':['Arizona'],'us-004':['Arizona'],'us-005':['Utah'],'us-006':['Utah'],'us-007':['Utah'],
+        'us-008':['California'],'us-009':['California'],'us-010':['Wyoming'],'us-011':['Wyoming'],'us-012':['Washington'],'us-013':['Oregon'],
+        'us-014':['California'],'us-015':['California'],'us-016':['Nevada'],'us-017':['Washington'],'us-018':['Montana'],'us-019':['Washington'],
+        'us-020':['California'],'us-021':['Utah'],'us-022':['California'],'us-023':['Arizona'],'us-024':['Washington'],'us-025':['California'],
+        'us-026':['Washington'],'us-027':['Idaho'],'us-028':['California'],'us-029':['New Mexico'],'us-030':['Illinois'],'us-031':['Colorado'],
+        'us-032':['Louisiana'],'us-033':['Colorado'],'us-034':['Missouri'],'us-035':['Texas'],'us-036':['New York'],'us-037':['New York'],
+        'us-038':['Tennessee','North Carolina'],'us-039':['Florida'],'us-040':['Massachusetts'],
+        'us-041':['Alaska'],'us-042':['Alaska'],'us-043':['Alaska'],'us-044':['Alaska'],'us-045':['Alaska'],'us-046':['Alaska'],'us-047':['Alaska'],
+        'us-048':['Alaska'],'us-049':['Alaska'],'us-050':['Alaska'],'us-051':['Alaska'],'us-052':['Alaska'],'us-053':['Alaska'],'us-054':['Alaska'],
+        'us-055':['Alaska'],'us-056':['Alaska'],'us-057':['Alaska'],'us-058':['Alaska'],'us-059':['Alaska'],'us-060':['Alaska'],'us-061':['Alaska'],
+        'us-062':['Alaska'],'us-063':['Alaska'],'us-064':['Alaska'],'us-065':['Alaska'],'us-066':['Alaska'],'us-067':['Alaska'],'us-068':['Alaska'],
+        'us-069':['Alaska'],'us-070':['Alaska']
+      }
+    };
+    const spotAdminAreas=s=>{
+      const areas=Array.isArray(s?.admin_areas)?s.admin_areas.filter(Boolean):[];
+      return areas.length?areas:(ADMIN_AREA_FALLBACK[currentRegion]?.[s?.spot_id]||[]);
+    };
+
     const JP_AREA_EN={
       '北海道':'Hokkaido','青森県':'Aomori','岩手県':'Iwate','宮城県':'Miyagi','秋田県':'Akita','山形県':'Yamagata','福島県':'Fukushima',
       '茨城県':'Ibaraki','栃木県':'Tochigi','群馬県':'Gunma','埼玉県':'Saitama','千葉県':'Chiba','東京都':'Tokyo','神奈川県':'Kanagawa',
@@ -282,7 +313,7 @@
       // not a transient Favorites filter. This keeps the picker stable.
       const allActive=currentSpots.filter(s=>s.active_in_catalog!==false);
       const counts={};
-      areas.forEach(a=>counts[a]=allActive.filter(s=>(s.admin_areas||[]).includes(a)).length);
+      areas.forEach(a=>counts[a]=allActive.filter(s=>spotAdminAreas(s).includes(a)).length);
 
       const summary=currentAdminAreas.size?d().admin_area_selected.replace('{n}',currentAdminAreas.size):d().admin_area_all;
       const showSearch=areas.length>24;
@@ -456,7 +487,7 @@
         metric.cloud_base_agl!=null?`<span class="metric-chip">☁️ ${metric.cloud_base_agl}m</span>`:'',
         `<span class="metric-chip">🌡 ${formatTemp(metric.temp)}</span>`
       ].filter(Boolean).join('');
-      card.innerHTML=`<div><div class="card-header"><div class="spot-title-group"><span class="spot-name"></span><div class="spot-local-name"></div><div style="margin-top:4px"><span class="category-tag">${esc((spot.admin_areas||[]).map(adminAreaLabel).join(" · ")||categoryLabel(spot.category))}</span></div></div><div class="card-header-actions"><span class="score-badge ${scoreClass}">${scoreText}${scoreLabel?`<span class="score-label">${esc(scoreLabel)}</span>`:''}</span><button class="fav-btn ${fav?'active':''}" data-fav aria-label="Favorite">★</button></div></div><div class="tags-wrapper">${scenePills}${sceneMore}</div><div class="shooting-summary"><div class="theme-winner">${(researchPending||noViable)?`📷 ${esc(opportunityName)}`:d().best_theme+esc(opportunityName)}</div>${(researchPending||noViable)?'':`<div class="best-window-row">${d().best_window}<b>${fmtWindow(metric)}</b></div>`}</div>${reasonHtml?`<div class="recommendation-reasons">${reasonHtml}</div>`:''}<div class="card-secondary-meta"><div class="card-quick-meta"><span class="card-timezone">🕒 ${(spot.timezone==='Asia/Taipei'?'UTC+8':(metric.timezone_abbr||spot.timezone_abbr||spot.timezone||'—'))}</span><span class="card-metric-chips">${compactMetrics}</span></div>${(researchPending||noViable)?'':`<div class="info-row forecast-status-row card-meta-row">${d().forecast_status}${status}</div>`}${astro?`<div class="info-row card-meta-row card-meta-astro">${astro}</div>`:''}${darkSky?`<div class="info-row card-meta-row card-meta-dark">${darkSky}</div>`:''}${access?`<div class="info-row access-note card-meta-row card-meta-access" title="${esc(access)}">⏰ ${esc(access)}</div>`:''}</div></div><div class="card-footer-tools" data-tools><div></div><div><a href="#" class="tool-link" data-weather>${d().weather_link}</a>${navTool}<a href="${radarUrl()}" target="_blank" rel="noopener noreferrer" class="tool-link">${d().radar_link}</a></div></div>`;
+      card.innerHTML=`<div><div class="card-header"><div class="spot-title-group"><span class="spot-name"></span><div class="spot-local-name"></div><div style="margin-top:4px"><span class="category-tag">${esc(spotAdminAreas(spot).map(adminAreaLabel).join(" · ")||categoryLabel(spot.category))}</span></div></div><div class="card-header-actions"><span class="score-badge ${scoreClass}">${scoreText}${scoreLabel?`<span class="score-label">${esc(scoreLabel)}</span>`:''}</span><button class="fav-btn ${fav?'active':''}" data-fav aria-label="Favorite">★</button></div></div><div class="tags-wrapper">${scenePills}${sceneMore}</div><div class="shooting-summary"><div class="theme-winner">${(researchPending||noViable)?`📷 ${esc(opportunityName)}`:d().best_theme+esc(opportunityName)}</div>${(researchPending||noViable)?'':`<div class="best-window-row">${d().best_window}<b>${fmtWindow(metric)}</b></div>`}</div>${reasonHtml?`<div class="recommendation-reasons">${reasonHtml}</div>`:''}<div class="card-secondary-meta"><div class="card-quick-meta"><span class="card-timezone">🕒 ${(spot.timezone==='Asia/Taipei'?'UTC+8':(metric.timezone_abbr||spot.timezone_abbr||spot.timezone||'—'))}</span><span class="card-metric-chips">${compactMetrics}</span></div>${(researchPending||noViable)?'':`<div class="info-row forecast-status-row card-meta-row">${d().forecast_status}${status}</div>`}${astro?`<div class="info-row card-meta-row card-meta-astro">${astro}</div>`:''}${darkSky?`<div class="info-row card-meta-row card-meta-dark">${darkSky}</div>`:''}${access?`<div class="info-row access-note card-meta-row card-meta-access" title="${esc(access)}">⏰ ${esc(access)}</div>`:''}</div></div><div class="card-footer-tools" data-tools><div></div><div><a href="#" class="tool-link" data-weather>${d().weather_link}</a>${navTool}<a href="${radarUrl()}" target="_blank" rel="noopener noreferrer" class="tool-link">${d().radar_link}</a></div></div>`;
       card.querySelector('.spot-name').textContent=spotName(spot);const local=card.querySelector('.spot-local-name');const showLocal=!(currentRegion==='tw'&&currentLang==='zh-TW');local.textContent=showLocal&&spot.name_local&&spot.name_local!==spotName(spot)?spot.name_local:'';card.querySelector('[data-fav]').onclick=e=>toggleFavorite(spot.spot_id,e);card.querySelector('[data-tools]').onclick=e=>e.stopPropagation();card.querySelector('[data-weather]').onclick=e=>{e.preventDefault();e.stopPropagation();openWeatherModal(spot,metric);};
       return card;
     }
@@ -467,11 +498,11 @@
       renderAdminFilter();
       let filtered=categoryBaseSpots();
       if(currentAdminAreas.size){
-        filtered=filtered.filter(s=>(s.admin_areas||[]).some(a=>currentAdminAreas.has(a)));
+        filtered=filtered.filter(s=>spotAdminAreas(s).some(a=>currentAdminAreas.has(a)));
       }
       if(currentSearch){
         filtered=filtered.filter(s=>{
-          const haystack=[...(Object.values(s.name_i18n||{})),s.name_local,s.map_query,s.category,...(s.admin_areas||[]),...(s.admin_areas||[]).map(adminAreaLabel)].filter(Boolean).join(' ').toLocaleLowerCase();
+          const haystack=[...(Object.values(s.name_i18n||{})),s.name_local,s.map_query,s.category,...spotAdminAreas(s),...spotAdminAreas(s).map(adminAreaLabel)].filter(Boolean).join(' ').toLocaleLowerCase();
           return haystack.includes(currentSearch);
         });
       }
