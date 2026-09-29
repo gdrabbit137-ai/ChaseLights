@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChaseLights WeatherGrid Preview</title>
+  <link rel="stylesheet" href="./assets/weather-map.css">
+</head>
+<body>
+  <header class="weather-header">
+    <div>
+      <a class="back-link" href="./index.html">← ChaseLights</a>
+      <h1>🗺️ WeatherGrid Preview</h1>
+      <p class="subtitle">GFS RAW DATA 自繪圖層 POC · 尚未接入正式攝影評分</p>
+    </div>
+    <div class="source-meta">
+      <div id="source-state" class="source-pill">載入中…</div>
+      <div id="cycle-label" class="source-detail"></div>
+    </div>
+  </header>
+
+  <main class="weather-layout">
+    <section class="map-panel">
+      <div class="control-bar">
+        <label>
+          <span>圖層</span>
+          <select id="layer-select"></select>
+        </label>
+        <label class="time-control">
+          <span id="time-label">時間</span>
+          <input id="time-slider" type="range" min="0" max="0" value="0" step="1">
+        </label>
+        <label>
+          <span>景點</span>
+          <select id="spot-select">
+            <option value="">全部景點</option>
+          </select>
+        </label>
+        <button id="reset-view" type="button">全台視野</button>
+      </div>
+
+      <div class="map-wrap">
+        <canvas id="weather-canvas" width="1200" height="820" aria-label="WeatherGrid map preview"></canvas>
+        <div id="legend" class="legend"></div>
+      </div>
+
+      <div class="timeline" id="timeline"></div>
+    </section>
+
+    <aside class="inspector">
+      <section class="panel">
+        <h2>目前圖層</h2>
+        <div id="layer-summary" class="metric-big">—</div>
+        <div id="layer-unit" class="muted"></div>
+      </section>
+
+      <section class="panel">
+        <h2>選取景點</h2>
+        <div id="spot-name" class="spot-name">尚未選取</div>
+        <div id="spot-value" class="metric-big">—</div>
+        <div id="spot-details" class="detail-list"></div>
+      </section>
+
+      <section class="panel">
+        <h2>資料品質</h2>
+        <div id="qc-status" class="detail-list">
+          <div>等待 QC 資料…</div>
+        </div>
+      </section>
+
+      <section class="panel note-panel">
+        <h2>POC 限制</h2>
+        <p>目前畫的是 GFS 0.25° 原始格點，不是高解析度局地預報。山區、海岸與谷地的實際雲霧可能和單一 GFS 格點差很多。</p>
+        <p>這一版先驗證「圖層切換、時間滑桿、景點取樣」流程，後續再接正式底圖與更高解析度資料。</p>
+      </section>
+    </aside>
+  </main>
+
+  <script src="./assets/weather-map.js"></script>
+</body>
+</html>
