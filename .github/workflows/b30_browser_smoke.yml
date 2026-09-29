@@ -180,6 +180,36 @@ jobs:
               report["taiwan_rendered_cards"] = len(cards)
               assert len(cards) == 83, f"expected 83 Taiwan cards on a forecast day, got {len(cards)}"
 
+              # B136/B107: UI verdicts are subject-aware rather than generic
+              # Place-level engineering copy. Candidate/low-confidence states
+              # remain explicitly probabilistic.
+              verdict_contract = driver.execute_script("""
+                return {
+                  suitable: opportunityVerdict(
+                    {status_key:'OPPORTUNITY_SIMPLE_MATCH', score_confidence:'high', theme:'mountain_view'},
+                    '山景'
+                  ).primary,
+                  chance: opportunityVerdict(
+                    {status_key:'OPPORTUNITY_MIST_CANDIDATE', score_confidence:'low', theme:'fog_mist'},
+                    '晨霧'
+                  ).primary,
+                  unfavorable: opportunityVerdict(
+                    {status_key:'OPPORTUNITY_SIMPLE_MISS', score_confidence:'high', theme:'mountain_view'},
+                    '山景'
+                  ).primary,
+                  outside: opportunityVerdict(
+                    {status_key:'OPPORTUNITY_OUTSIDE_TIME_WINDOW', score_confidence:'high', theme:'sunset'},
+                    '日落'
+                  ).primary
+                };
+              """)
+              report["verdict_contract"] = verdict_contract
+              assert "適合拍攝山景" in verdict_contract["suitable"], verdict_contract
+              assert "有機會拍到晨霧" in verdict_contract["chance"], verdict_contract
+              assert "不利於拍攝山景" in verdict_contract["unfavorable"], verdict_contract
+              assert "不是拍攝日落的建議時段" in verdict_contract["outside"], verdict_contract
+              assert "基本好拍條件已成立" not in driver.page_source
+
               # B108: Taiwan geography is a complete 22-area county/city picker.
               # The older broad island groups are removed from the Taiwan primary nav,
               # and the country selector lives with the low-frequency global controls.
