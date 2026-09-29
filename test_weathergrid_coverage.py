@@ -203,8 +203,11 @@ class WeatherGridCoverageTest(unittest.TestCase):
         by_id = {row["opportunity_id"]: row for row in audit["results"]}
         self.assertTrue(by_id["tw-036-P01"]["complete"])
         self.assertTrue(by_id["tw-036-P02"]["complete"])
-        self.assertTrue(by_id["tw-036-P03"]["complete"])
-        self.assertTrue(by_id["tw-036-P04"]["complete"])
+        for oid in [f"tw-036-P{i:02d}" for i in range(1, 5)]:
+            self.assertTrue(by_id[oid]["complete"], (oid, by_id[oid]))
+            self.assertEqual(by_id[oid]["status"], "provisional")
+        self.assertGreaterEqual(by_id["tw-036-P01"]["subject_geometry_count"], 1)
+        self.assertGreaterEqual(by_id["tw-036-P02"]["environment_geometry_count"], 1)
         self.assertEqual(by_id["tw-036-P01"]["status"], "provisional")
         self.assertEqual(by_id["tw-036-P02"]["status"], "provisional")
         self.assertTrue(by_id["tw-019-P04"]["complete"])
