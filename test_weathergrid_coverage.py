@@ -1,4 +1,6 @@
+import json
 import unittest
+from pathlib import Path
 
 from weathergrid_coverage import (
     bbox_contains_bbox,
@@ -6,6 +8,7 @@ from weathergrid_coverage import (
     geometry_points,
     plan_opportunity_coverage,
     plan_place_coverage,
+    audit_coverage_registry,
 )
 
 
@@ -176,6 +179,38 @@ class WeatherGridCoverageTest(unittest.TestCase):
         self.assertEqual(result["opportunity_count"], 2)
         self.assertTrue(bbox_contains_point(result["coverage_bbox"], 24.1, 121.2))
         self.assertTrue(bbox_contains_point(result["coverage_bbox"], 24.3, 121.5))
+
+    def test_b121_registry_resolves_against_runtime_catalog(self):
+        root = Path(__file__).resolve().parent
+        catalog = json.loads(
+            (root / "runtime_catalog_v004_r4_2.json").read_text(encoding="utf-8")
+        )
+        registry = json.loads(
+            (root / "weathergrid_coverage_registry_r4_2.json").read_text(encoding="utf-8")
+        )
+        audit = audit_coverage_registry(catalog, registry)
+
+        self.assertEqual(audit["counts"]["entries"], 7)
+        self.assertEqual(audit["counts"]["missing_opportunity"], 0)
+        self.assertEqual(audit["counts"]["provisional"], 4)
+        self.assertEqual(audit["counts"]["needs_research"], 3)
+        self.assertEqual(audit["counts"]["complete"], 4)
+        self.assertEqual(audit["counts"]["incomplete"], 3)
+
+        by_id = {row["opportunity_id"]: row for row in audit["results"]}
+        self.assertTrue(by_id["tw-036-P03"]["complete"])
+        self.assertTrue(by_id["tw-036-P04"]["complete"])
+        self.assertTrue(by_id["tw-019-P04"]["complete"])
+        self.assertFalse(by_id["tw-082-P01"]["complete"])
+        self.assertTrue(
+            any("subject or environment geometry" in e for e in by_id["tw-082-P01"]["errors"])
+        )
+
+        # The northward Qixingtan coverage must materially extend beyond the
+        # camera coordinate instead of collapsing to a Place-center viewport.
+        qix = by_id["tw-036-P03"]["coverage_bbox"]
+        self.assertLessEqual(qix["west"], 121.62717)
+        self.assertGreater(qix["north"], 24.15)
 
     def test_needs_research_stays_incomplete_even_with_geometry(self):
         op = _opportunity(
