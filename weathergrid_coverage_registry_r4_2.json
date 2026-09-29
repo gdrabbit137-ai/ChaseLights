@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "registry_version": "B121.9",
+  "registry_version": "B121.10",
   "contract": "WEATHERGRID_COVERAGE_SPEC_R4_2.md",
-  "generated_or_reviewed_at": "2026-09-29",
+  "generated_or_reviewed_at": "2026-09-30",
   "notes": [
-    "B121.9 adds subject-aware WeatherGrid coverage for tw-073 老梅綠石槽／春季綠石槽晨光.",
-    "The seasonal green-reef foreground reuses the catalog's high-confidence 250 m small-area Camera Zone extent as a conservative local subject envelope; it is not an exact reef polygon.",
-    "Official North Coast tourism material supports March-to-mid-May daily low-tide viewing and early-morning slant light across the green reef and sea.",
-    "The 65°–105°, 0–15 km dawn sector pads the approximate geometric sunrise azimuth range for March 1 through May 15 at 25.29°N; it is a WeatherGrid atmosphere envelope, not an exact visible-horizon or Sun-position claim."
+    "B121.10 adds subject-aware WeatherGrid coverage for tw-066 東湧燈塔／東引島燈塔海岬建築景觀.",
+    "The fixed lighthouse subject uses the Taiwan Tourism Administration official attraction coordinate 26.365429, 120.51049.",
+    "The immediate coastal/cliff weather context is conservatively represented as a 0°–360°, 0–1 km local envelope around the researched Camera Zone; it is not an exact shoreline or cliff polygon.",
+    "WeatherGrid coverage remains separate from blue-hour lighting, site opening, wind/long-wave closures, and other dynamic eligibility gates."
   ],
   "entries": [
     {
@@ -1835,6 +1835,69 @@
         "note": "官方資料確認老梅綠石槽春季綠藻、每日低潮觀賞與清晨斜光攝影情境。Subject 以既有 250 m high-confidence Camera Zone extent 作保守 local foreground envelope；晨曦 sector 只作 WeatherGrid 空間規劃，不宣稱精確礁槽 polygon、可見地平線或太陽地面座標。",
         "camera_zone_browser_exposure": {
           "tw-073-VP01": "generalized"
+        }
+      }
+    },
+    {
+      "opportunity_id": "tw-066-P01",
+      "spot_id": "tw-066",
+      "provenance": {
+        "basis": "BATCH07 curated Tungyin lighthouse Camera Zone + Taiwan Tourism Administration and Matsu National Scenic Area official lighthouse/coastal evidence",
+        "geometry_interpretation": "The photographed fixed terrestrial subject is the Tungyin Tao Lighthouse, represented by the official Tourism Administration coordinate 26.365429, 120.51049. The immediate sea-cliff weather context is represented as a conservative 0°–360°, 0–1 km envelope around tw-066-VP01. This does not claim an exact cliff/shoreline polygon, exact blue-hour sky direction, or current site-opening state.",
+        "source_urls": [
+          "https://www.taiwan.net.tw/m1.aspx?id=a12-00213&sno=0001016",
+          "https://www.matsu-nsa.gov.tw/zh-TW/attractions/lookMore/1433"
+        ]
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-066-VP01"
+        ],
+        "subject_geometries": [
+          {
+            "subject_id": "tw-066-P01-SUB01",
+            "role": "lighthouse_landmark",
+            "name": "東湧燈塔固定建築主體",
+            "geometry": {
+              "type": "point",
+              "lat": 26.365429,
+              "lon": 120.51049
+            },
+            "coord_confidence": "high",
+            "source_evidence_ids": [
+              "https://www.taiwan.net.tw/m1.aspx?id=a12-00213&sno=0001016"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "environment_geometries": [
+          {
+            "environment_id": "tw-066-P01-ENV01",
+            "role": "immediate_coastal_weather_zone",
+            "name": "燈塔周邊海崖與近岸天氣環境區",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-066-VP01",
+              "azimuth_start_deg": 0,
+              "azimuth_end_deg": 360,
+              "min_range_km": 0,
+              "max_range_km": 1
+            },
+            "coord_confidence": "medium_high",
+            "source_evidence_ids": [
+              "https://www.taiwan.net.tw/m1.aspx?id=a12-00213&sno=0001016",
+              "https://www.matsu-nsa.gov.tw/zh-TW/attractions/lookMore/1433"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "display_padding_km": 2,
+        "coverage_confidence": "medium_high",
+        "note": "官方資料確認東湧燈塔固定地標座標與海崖臨海場景。Subject 使用官方燈塔座標；周邊 1 km full-circle 只作 WeatherGrid 保守 local weather envelope，不宣稱精確海岸線／峭壁 polygon、藍調天空方向、開放狀態或安全條件。",
+        "camera_zone_browser_exposure": {
+          "tw-066-VP01": "generalized"
         }
       }
     }
