@@ -193,11 +193,11 @@ class WeatherGridCoverageTest(unittest.TestCase):
         )
         audit = audit_coverage_registry(catalog, registry)
 
-        self.assertEqual(audit["counts"]["entries"], 31)
+        self.assertEqual(audit["counts"]["entries"], 33)
         self.assertEqual(audit["counts"]["missing_opportunity"], 0)
-        self.assertEqual(audit["counts"]["provisional"], 31)
+        self.assertEqual(audit["counts"]["provisional"], 33)
         self.assertEqual(audit["counts"]["needs_research"], 0)
-        self.assertEqual(audit["counts"]["complete"], 31)
+        self.assertEqual(audit["counts"]["complete"], 33)
         self.assertEqual(audit["counts"]["incomplete"], 0)
 
         by_id = {row["opportunity_id"]: row for row in audit["results"]}
@@ -216,6 +216,13 @@ class WeatherGridCoverageTest(unittest.TestCase):
         self.assertGreaterEqual(by_id["tw-036-P02"]["environment_geometry_count"], 1)
         self.assertEqual(by_id["tw-036-P01"]["status"], "provisional")
         self.assertEqual(by_id["tw-036-P02"]["status"], "provisional")
+        self.assertTrue(by_id["tw-078-P01"]["complete"])
+        self.assertTrue(by_id["tw-081-P01"]["complete"])
+        self.assertEqual(by_id["tw-078-P01"]["status"], "provisional")
+        self.assertEqual(by_id["tw-081-P01"]["status"], "provisional")
+        self.assertEqual(by_id["tw-078-P01"]["subject_geometry_count"], 1)
+        self.assertEqual(by_id["tw-081-P01"]["subject_geometry_count"], 1)
+
         self.assertTrue(by_id["tw-019-P04"]["complete"])
         self.assertTrue(by_id["tw-014-P01"]["complete"])
         self.assertEqual(by_id["tw-014-P01"]["status"], "provisional")
@@ -270,6 +277,15 @@ class WeatherGridCoverageTest(unittest.TestCase):
         qingshui_view = by_id["tw-034-P02"]["coverage_bbox"]
         self.assertGreater(qingshui_view["east"], 121.70)
         self.assertGreater(qingshui_view["north"], 24.22)
+
+        jianggong = by_id["tw-078-P01"]["coverage_bbox"]
+        self.assertTrue(bbox_contains_point(jianggong, 24.426386, 118.304369))
+        self.assertTrue(bbox_contains_point(jianggong, 24.42746, 118.30005))
+
+        tieb堡 = by_id["tw-081-P01"]["coverage_bbox"]
+        self.assertTrue(bbox_contains_point(tieb堡, 26.141922, 119.921072))
+        self.assertLess(tieb堡["west"], 119.9200)
+        self.assertGreater(tieb堡["east"], 119.9220)
 
     def test_needs_research_stays_incomplete_even_with_geometry(self):
         op = _opportunity(
