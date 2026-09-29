@@ -59,7 +59,7 @@ class WeatherGridIconBrowserContractTests(unittest.TestCase):
         self.assertIn("icon_global_cloud_poc.py", self.workflow)
         self.assertIn("icon_weathergrid_browser_bundle.py", self.workflow)
         self.assertIn("sudo apt-get install -y cdo", self.workflow)
-        self.assertIn("ICON_GLOBAL2WORLD_0125", self.workflow)
+        self.assertIn("dwd-icon-global-0125-cdo-v1", self.workflow)
         self.assertIn(
             "rm -f weathergrid/icon_tw_cloud_browser.json",
             self.workflow,
