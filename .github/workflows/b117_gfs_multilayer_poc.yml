@@ -26,6 +26,9 @@ on:
       - "assets/weather-map.css"
       - "weather-map.html"
       - "B122_OPPORTUNITY_AWARE_WEATHERGRID_UI.md"
+      - "weathergrid_fetch_plan.py"
+      - "test_weathergrid_fetch_plan.py"
+      - "B123_PROVIDER_AWARE_WEATHERGRID_FETCH.md"
   workflow_dispatch:
     inputs:
       forecast_hours:
@@ -34,6 +37,24 @@ on:
         default: "0,3,6,9,12"
       publish_preview:
         description: "Commit compact browser/QC JSON to the WeatherGrid preview"
+        required: false
+        type: boolean
+        default: false
+      coverage_scope:
+        description: "GFS geographic scope"
+        required: false
+        type: choice
+        options:
+          - region
+          - opportunity
+          - place
+        default: region
+      coverage_id:
+        description: "Opportunity/Place ID for a scoped request"
+        required: false
+        default: ""
+      strict_coverage:
+        description: "Fail instead of regional fallback when coverage is incomplete"
         required: false
         type: boolean
         default: false
@@ -63,7 +84,8 @@ jobs:
             test_gfs_multilayer_poc.py \
             test_weathergrid_browser_bundle.py \
             test_weathergrid_coverage.py \
-            test_weathergrid_coverage_browser.py
+            test_weathergrid_coverage_browser.py \
+            test_weathergrid_fetch_plan.py
           python audit_weathergrid_coverage.py
 
   live-poc:
@@ -84,11 +106,31 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install requests xarray cfgrib eccodes numpy matplotlib cartopy
 
+      - name: Validate publish mode
+        run: |
+          if [[ "${{ inputs.publish_preview }}" == "true" && "${{ inputs.coverage_scope }}" != "region" ]]; then
+            echo "publish_preview=true is allowed only for the full regional snapshot."
+            exit 1
+          fi
+          if [[ "${{ inputs.coverage_scope }}" != "region" && -z "${{ inputs.coverage_id }}" ]]; then
+            echo "coverage_id is required for place/opportunity scope."
+            exit 1
+          fi
+
       - name: Fetch and render multi-layer WeatherGrid
         run: |
-          python gfs_multilayer_poc.py \
-            --forecast-hours "${{ inputs.forecast_hours }}" \
+          args=(
+            --forecast-hours "${{ inputs.forecast_hours }}"
             --output-dir gfs_multilayer_output
+            --coverage-scope "${{ inputs.coverage_scope }}"
+          )
+          if [[ -n "${{ inputs.coverage_id }}" ]]; then
+            args+=(--coverage-id "${{ inputs.coverage_id }}")
+          fi
+          if [[ "${{ inputs.strict_coverage }}" == "true" ]]; then
+            args+=(--strict-coverage)
+          fi
+          python gfs_multilayer_poc.py "${args[@]}"
 
       - name: Build compact browser bundle and QC
         run: |
