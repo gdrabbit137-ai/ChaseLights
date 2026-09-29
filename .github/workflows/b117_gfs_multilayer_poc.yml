@@ -127,7 +127,7 @@ jobs:
   live-poc:
     if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     steps:
       - name: Checkout main
         uses: actions/checkout@v4
@@ -137,10 +137,18 @@ jobs:
         with:
           python-version: "3.10"
 
-      - name: Install GFS WeatherGrid dependencies
+      - name: Install WeatherGrid dependencies
         run: |
+          sudo apt-get update
+          sudo apt-get install -y cdo
           python -m pip install --upgrade pip
-          python -m pip install requests xarray cfgrib eccodes numpy matplotlib cartopy
+          python -m pip install requests xarray netCDF4 cfgrib eccodes numpy matplotlib cartopy
+
+      - name: Cache DWD ICON remap weights
+        uses: actions/cache@v4
+        with:
+          path: .cache/dwd-icon-cdo
+          key: dwd-icon-global-0125-cdo-v1
 
       - name: Validate publish mode
         run: |
@@ -168,10 +176,26 @@ jobs:
           fi
           python gfs_multilayer_poc.py "${args[@]}"
 
-      - name: Build compact browser bundle and QC
+      - name: Build compact GFS browser bundle and QC
         run: |
           python weathergrid_browser_bundle.py \
             --input-dir gfs_multilayer_output
+
+      - name: Fetch ICON Global cloud WeatherGrid
+        if: inputs.coverage_scope == 'region'
+        id: icon_cloud
+        continue-on-error: true
+        run: |
+          python icon_global_cloud_poc.py \
+            --forecast-hours "${{ inputs.forecast_hours }}" \
+            --output-dir icon_cloud_output \
+            --cdo-cache-dir .cache/dwd-icon-cdo
+
+      - name: Build ICON cloud browser bundle and QC
+        if: inputs.coverage_scope == 'region' && steps.icon_cloud.outcome == 'success'
+        run: |
+          python icon_weathergrid_browser_bundle.py \
+            --input-dir icon_cloud_output
 
       - name: Build subject-aware coverage browser bundle
         run: |
@@ -185,9 +209,20 @@ jobs:
           cp gfs_multilayer_output/gfs_tw_weather_browser.json weathergrid/gfs_tw_weather_browser.json
           cp gfs_multilayer_output/gfs_tw_weather_qc.json weathergrid/gfs_tw_weather_qc.json
           cp gfs_multilayer_output/weathergrid_coverage_browser.json weathergrid/weathergrid_coverage_browser.json
+          if [[ -f icon_cloud_output/icon_tw_cloud_browser.json ]]; then
+            cp icon_cloud_output/icon_tw_cloud_browser.json weathergrid/icon_tw_cloud_browser.json
+            cp icon_cloud_output/icon_tw_cloud_qc.json weathergrid/icon_tw_cloud_qc.json
+          else
+            rm -f weathergrid/icon_tw_cloud_browser.json weathergrid/icon_tw_cloud_qc.json
+          fi
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add weathergrid/gfs_tw_weather_browser.json weathergrid/gfs_tw_weather_qc.json weathergrid/weathergrid_coverage_browser.json
+          git add -A \
+            weathergrid/gfs_tw_weather_browser.json \
+            weathergrid/gfs_tw_weather_qc.json \
+            weathergrid/weathergrid_coverage_browser.json \
+            weathergrid/icon_tw_cloud_browser.json \
+            weathergrid/icon_tw_cloud_qc.json
           if ! git diff --cached --quiet; then
             git commit -m "Update WeatherGrid preview snapshot [skip ci]"
             for i in {1..5}; do
@@ -200,6 +235,8 @@ jobs:
       - name: Upload multi-layer artifact
         uses: actions/upload-artifact@v4
         with:
-          name: gfs-taiwan-multilayer-weathergrid
-          path: gfs_multilayer_output/
+          name: taiwan-provider-aware-weathergrid
+          path: |
+            gfs_multilayer_output/
+            icon_cloud_output/
           if-no-files-found: error
