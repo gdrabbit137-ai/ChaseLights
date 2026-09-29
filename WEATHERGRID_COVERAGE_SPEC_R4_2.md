@@ -204,6 +204,8 @@ The initial contract supports:
 
 ### point
 
+Explicit coordinate:
+
 ```json
 {
   "type": "point",
@@ -212,7 +214,18 @@ The initial contract supports:
 }
 ```
 
-Use for a compact, well-defined terrestrial subject.
+Camera/Viewpoint-anchored context:
+
+```json
+{
+  "type": "point",
+  "origin_viewpoint_id": "tw-001-VP01"
+}
+```
+
+Use an explicit coordinate for a compact, well-defined terrestrial subject.
+
+Use `origin_viewpoint_id` when the geometry intentionally represents local atmospheric/celestial context at an existing Camera Zone. This form avoids duplicating the authoritative Camera Zone coordinate in a second field.
 
 ### bbox
 
