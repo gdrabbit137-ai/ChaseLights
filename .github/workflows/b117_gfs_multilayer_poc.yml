@@ -38,6 +38,7 @@ on:
       - ".github/workflows/update_weathergrid.yml"
       - "test_weathergrid_refresh_workflow.py"
       - "B132_WEATHERGRID_SCHEDULED_REFRESH.md"
+      - "B133_DUOLIANG_WEATHERGRID_COVERAGE.md"
   workflow_dispatch:
     inputs:
       forecast_hours:
