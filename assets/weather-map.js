@@ -27,6 +27,8 @@
     opportunityId:'',
     view:null,
     weatherOpacity:0.62,
+    windVectors:false,
+    windVectorTouched:false,
     map:null,
     mapReady:false,
     basemapStatus:'loading',
@@ -213,8 +215,28 @@
       .filter(([key]) => state.data.fields[key])
       .map(([key,cfg]) => `<option value="${key}">${cfg.label}</option>`).join('');
     layerSelect.value = state.layer;
+
+    const windToggle=$('wind-vector-toggle');
+    const hasWind=Boolean(
+      state.data.fields.wind_speed_10m_m_s &&
+      state.data.fields.wind_direction_10m_deg
+    );
+    windToggle.disabled=!hasWind;
+    windToggle.checked=state.windVectors;
+    windToggle.addEventListener('change',()=>{
+      state.windVectors=windToggle.checked;
+      state.windVectorTouched=true;
+      renderAll();
+    });
+
     layerSelect.addEventListener('change', () => {
       state.layer = layerSelect.value;
+      const windLayer=state.layer==='wind_speed_10m_m_s' ||
+        state.layer==='wind_direction_10m_deg';
+      if(windLayer && hasWind && !state.windVectorTouched){
+        state.windVectors=true;
+        windToggle.checked=true;
+      }
       renderAll();
     });
 
@@ -513,8 +535,86 @@
     ctx.restore();
 
     if(!state.mapReady) drawGrid();
+    drawWindVectors();
     drawCoverage();
     drawSpots();
+  }
+
+  function windVectorStep(){
+    if(state.mapReady && state.map){
+      const zoom=state.map.getZoom();
+      if(zoom>=8) return 1;
+      if(zoom>=6.4) return 2;
+      return 3;
+    }
+    const span=Math.max(
+      state.view.rightlon-state.view.leftlon,
+      state.view.toplat-state.view.bottomlat
+    );
+    if(span<1.2) return 1;
+    if(span<3.2) return 2;
+    return 3;
+  }
+
+  function strokeWindArrow(sx,sy,ex,ey,stroke,width){
+    const angle=Math.atan2(ey-sy,ex-sx);
+    const head=5.5;
+    ctx.beginPath();
+    ctx.moveTo(sx,sy);
+    ctx.lineTo(ex,ey);
+    ctx.lineTo(
+      ex-head*Math.cos(angle-Math.PI/6),
+      ey-head*Math.sin(angle-Math.PI/6)
+    );
+    ctx.moveTo(ex,ey);
+    ctx.lineTo(
+      ex-head*Math.cos(angle+Math.PI/6),
+      ey-head*Math.sin(angle+Math.PI/6)
+    );
+    ctx.strokeStyle=stroke;
+    ctx.lineWidth=width;
+    ctx.stroke();
+  }
+
+  function drawWindVectors(){
+    if(!state.windVectors) return;
+    if(!state.data.fields.wind_speed_10m_m_s ||
+       !state.data.fields.wind_direction_10m_deg) return;
+
+    const speeds=decodedArray('wind_speed_10m_m_s');
+    const directions=decodedArray('wind_direction_10m_deg');
+    const rows=state.data.grid.rows, cols=state.data.grid.cols;
+    const lats=state.data.grid.latitudes, lons=state.data.grid.longitudes;
+    const visible=renderViewBbox();
+    const step=windVectorStep();
+
+    ctx.save();
+    ctx.lineCap='round';
+    ctx.lineJoin='round';
+
+    for(let r=0;r<rows;r+=step){
+      for(let c=0;c<cols;c+=step){
+        const i=r*cols+c;
+        const speed=speeds[i], direction=directions[i];
+        if(!Number.isFinite(speed) || !Number.isFinite(direction) || speed<0.5) continue;
+
+        const lon=lons[c], lat=lats[r];
+        if(lon<visible.leftlon || lon>visible.rightlon ||
+           lat<visible.bottomlat || lat>visible.toplat) continue;
+
+        const p=project(lon,lat);
+        const length=11+Math.min(speed/20,1)*17;
+        // GFS direction is meteorological "from". Arrow points toward motion.
+        const toward=((direction+180)%360)*Math.PI/180;
+        const dx=Math.sin(toward)*length/2;
+        const dy=-Math.cos(toward)*length/2;
+        const sx=p.x-dx, sy=p.y-dy, ex=p.x+dx, ey=p.y+dy;
+
+        strokeWindArrow(sx,sy,ex,ey,'rgba(2,6,23,.78)',4.5);
+        strokeWindArrow(sx,sy,ex,ey,'rgba(224,242,254,.96)',2);
+      }
+    }
+    ctx.restore();
   }
 
   function drawGrid(){
@@ -802,6 +902,8 @@
   function updateLegend(cfg){
     const min=cfg.domain[0], max=cfg.domain[1], mid=(min+max)/2;
     const stops=[0,.25,.5,.75,1].map(t=>colorFor(min+(max-min)*t,cfg));
+    const windKey=state.windVectors ? `
+      <div class="wind-key"><span class="wind-arrow-icon">→</span> 10 m 風向箭頭 · 箭頭指向風去向</div>` : '';
     const coverageKey=state.spotId ? `
       <div class="coverage-key">
         <span><i class="coverage-swatch camera"></i>Camera</span>
@@ -812,6 +914,7 @@
       <strong>${cfg.label}</strong>
       <div class="legend-bar" style="background:linear-gradient(90deg,${stops.join(',')})"></div>
       <div class="legend-row"><span>${formatValue(min,state.layer)}</span><span>${formatValue(mid,state.layer)}</span><span>${formatValue(max,state.layer)}</span></div>
+      ${windKey}
       ${coverageKey}`;
   }
 
@@ -901,6 +1004,8 @@
       spotId: state.spotId,
       opportunityId: state.opportunityId,
       coverageSource: state.coverageSource,
+      windVectors: state.windVectors,
+      windVectorStep: windVectorStep(),
       view: {...state.view}
     };
   }
