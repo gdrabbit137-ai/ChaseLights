@@ -96,8 +96,23 @@ def build_coverage_browser_payload(catalog: dict, registry: dict) -> dict:
             }
         )
 
-    for group in grouped.values():
+    for spot_id, group in grouped.items():
         group["opportunities"].sort(key=lambda x: x["opportunity_id"])
+        spot = spots.get(spot_id, {})
+        active_catalog_opportunities = [
+            op
+            for op in spot.get("opportunities", []) or []
+            if op.get("product_status") != "RETIRED"
+        ]
+        group["catalog_opportunity_count"] = len(active_catalog_opportunities)
+        group["coverage_entry_count"] = len(group["opportunities"])
+        group["all_topics_migrated"] = (
+            group["coverage_entry_count"] == group["catalog_opportunity_count"]
+        )
+        group["all_topics_complete"] = (
+            group["all_topics_migrated"]
+            and all(op["complete"] for op in group["opportunities"])
+        )
 
     return {
         "schema_version": 1,
