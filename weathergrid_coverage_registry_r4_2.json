@@ -5,9 +5,9 @@
   "generated_or_reviewed_at": "2026-09-29",
   "notes": [
     "B121.5 preserves all-topic-complete tw-014 and tw-082, and completes all four current Qixingtan (tw-036) Opportunities.",
-    "Qixingtan sunrise uses a broad east-facing horizon/offshore sector; the Milky-Way Opportunity uses a full-circle atmospheric environment because no exact celestial azimuth is yet curated.",
-    "Celestial subjects never receive fake terrestrial coordinates.",
-    "All migrated coverage remains provisional unless exact subject geometry has separately been verified."
+    "Qixingtan sunrise coverage is constrained by official sunrise-photography evidence plus the annual geometric sunrise azimuth range at ~24.03°N, padded to 60°–120°.",
+    "Qixingtan Milky-Way coverage uses a conservative full-circle atmospheric envelope because celestial azimuth is time/season dependent and exact ephemeris-facing geometry is not yet curated.",
+    "Celestial subjects never receive fake terrestrial coordinates; all new Qixingtan coverage remains provisional."
   ],
   "entries": [
     {
@@ -500,8 +500,12 @@
       "opportunity_id": "tw-036-P01",
       "spot_id": "tw-036",
       "provenance": {
-        "basis": "Canonical Qixingtan sunrise Opportunity and Camera Zone plus B120 celestial/horizon coverage rule.",
-        "geometry_interpretation": "A deliberately broad east-facing 45°–135° horizon sector is used so seasonal sunrise and adjacent offshore weather cannot be cropped. It is not an exact solar azimuth forecast or a literal photographed-sky polygon."
+        "basis": "Canonical Qixingtan sunrise Opportunity + official Taiwan Tourism sunrise photography evidence + annual solar-horizon azimuth geometry at the Qixingtan latitude.",
+        "geometry_interpretation": "Official tourism material establishes Qixingtan as a sunrise photography subject. At ~24.03°N, geometric sunrise azimuth spans about 64.2°–115.8° across the solar declination range; coverage is padded to 60°–120°. The 0–20 km sector is an over-covering marine-horizon weather envelope, not a terrestrial Sun position.",
+        "source_urls": [
+          "https://spotlightaward.taiwan.net.tw/tourpage.php?id=128d4234-7181-4ffd-aab7-56b9d4e95ae6&tag=4",
+          "https://www.taiwan.net.tw/m1.aspx?id=9488&sno=0001016"
+        ]
       },
       "weather_coverage": {
         "schema_version": 1,
@@ -517,12 +521,12 @@
             "geometry": {
               "type": "sector",
               "origin_viewpoint_id": "tw-036-VP01",
-              "azimuth_start_deg": 45,
-              "azimuth_end_deg": 135,
+              "azimuth_start_deg": 60,
+              "azimuth_end_deg": 120,
               "min_range_km": 0,
-              "max_range_km": 40
+              "max_range_km": 20
             },
-            "coord_confidence": "medium",
+            "coord_confidence": "medium_high",
             "source_evidence_ids": [
               "runtime_catalog.tw-036-P01",
               "WEATHERGRID_COVERAGE_SPEC_R4_2.celestial_subjects"
@@ -538,10 +542,10 @@
             "geometry": {
               "type": "sector",
               "origin_viewpoint_id": "tw-036-VP01",
-              "azimuth_start_deg": 45,
-              "azimuth_end_deg": 135,
+              "azimuth_start_deg": 60,
+              "azimuth_end_deg": 120,
               "min_range_km": 0,
-              "max_range_km": 40
+              "max_range_km": 20
             },
             "coord_confidence": "medium",
             "source_evidence_ids": [
@@ -551,8 +555,8 @@
           }
         ],
         "display_padding_km": 5,
-        "coverage_confidence": "medium",
-        "note": "日出屬天體題材，不建立假的地面 Sun 座標。Coverage 使用相機位置加保守的東向海平面／離岸天氣扇區。",
+        "coverage_confidence": "medium_high",
+        "note": "日出屬天體題材，不建立假的地面 Sun 座標。官方資料證明七星潭晨曦／日出為攝影題材；全年幾何日出方位約 64.2°–115.8°，WeatherGrid 以 60°–120° 東向海平面扇區加安全餘裕，並以 20 km 近海天氣 envelope 避免裁掉相關雲況。",
         "camera_zone_browser_exposure": {
           "tw-036-VP01": "generalized"
         }
@@ -562,8 +566,12 @@
       "opportunity_id": "tw-036-P02",
       "spot_id": "tw-036",
       "provenance": {
-        "basis": "Canonical Qixingtan stargazing/Milky-Way Opportunity and verified Camera Zone plus B120 celestial-subject rule.",
-        "geometry_interpretation": "No precise Milky-Way/horizon azimuth is yet curated, so the WeatherGrid uses a conservative 20 km full-circle atmospheric environment around the verified Camera Zone instead of inventing a celestial ground coordinate."
+        "basis": "Canonical Qixingtan stargazing/Milky-Way Opportunity + official Hualien County stargazing/Milky-Way evidence + B120 celestial-subject rule.",
+        "geometry_interpretation": "Official Hualien material explicitly identifies Qixingtan/Star Plaza as a stargazing place and describes viewing the starry sky/Milky Way. Because the Milky-Way apparent azimuth changes with season/time and no exact ephemeris-facing sector is yet curated, coverage uses a conservative 20 km full-circle atmospheric envelope around the verified Camera Zone instead of inventing a celestial ground coordinate.",
+        "source_urls": [
+          "https://tour-hualien.hl.gov.tw/TourContent.aspx?n=109&s=1190",
+          "https://tour-hualien.hl.gov.tw/News_Content.aspx?n=26&s=8386"
+        ]
       },
       "weather_coverage": {
         "schema_version": 1,
@@ -595,7 +603,7 @@
         ],
         "display_padding_km": 5,
         "coverage_confidence": "medium",
-        "note": "銀河與星空是天體主體，不能建立假的地面座標。尚未研究精確季節方位前，以 Camera Zone 周邊 20 km 全方向大氣區確保雲況 coverage 不被裁切。",
+        "note": "銀河與星空是天體主體，不能建立假的地面座標。花蓮縣官方資料明確把七星潭列為賞星／銀河地點；在 astronomy ephemeris 尚未決定當時實際銀河方位前，以 Camera Zone 周邊 20 km 全方向 atmospheric envelope 保守涵蓋可能構圖方向與雲況。",
         "camera_zone_browser_exposure": {
           "tw-036-VP02": "generalized"
         }
