@@ -194,11 +194,11 @@ class WeatherGridCoverageTest(unittest.TestCase):
         )
         audit = audit_coverage_registry(catalog, registry)
 
-        self.assertEqual(audit["counts"]["entries"], 36)
+        self.assertEqual(audit["counts"]["entries"], 37)
         self.assertEqual(audit["counts"]["missing_opportunity"], 0)
-        self.assertEqual(audit["counts"]["provisional"], 36)
+        self.assertEqual(audit["counts"]["provisional"], 37)
         self.assertEqual(audit["counts"]["needs_research"], 0)
-        self.assertEqual(audit["counts"]["complete"], 36)
+        self.assertEqual(audit["counts"]["complete"], 37)
         self.assertEqual(audit["counts"]["incomplete"], 0)
 
         by_id = {row["opportunity_id"]: row for row in audit["results"]}
@@ -244,6 +244,11 @@ class WeatherGridCoverageTest(unittest.TestCase):
                 for warning in by_id["tw-066-P01"]["warnings"]
             )
         )
+
+        self.assertTrue(by_id["tw-037-P01"]["complete"])
+        self.assertEqual(by_id["tw-037-P01"]["status"], "provisional")
+        self.assertEqual(by_id["tw-037-P01"]["subject_geometry_count"], 1)
+        self.assertEqual(by_id["tw-037-P01"]["environment_geometry_count"], 1)
 
         self.assertTrue(by_id["tw-019-P04"]["complete"])
         self.assertTrue(by_id["tw-014-P01"]["complete"])
@@ -353,6 +358,15 @@ class WeatherGridCoverageTest(unittest.TestCase):
         self.assertGreater(dongyin["east"], 120.53)
         self.assertLess(dongyin["south"], 26.35)
         self.assertGreater(dongyin["north"], 26.38)
+
+        duoliang = by_id["tw-037-P01"]["coverage_bbox"]
+        # Official Tourism Administration coordinate must remain inside the
+        # station/train subject envelope.
+        self.assertTrue(bbox_contains_point(duoliang, 22.507487, 120.95888))
+        # The Pacific background sector must extend meaningfully east without
+        # becoming a Taiwan-wide request.
+        self.assertGreater(duoliang["east"], 121.05)
+        self.assertLess(duoliang["west"], 120.96)
 
     def test_needs_research_stays_incomplete_even_with_geometry(self):
         op = _opportunity(
