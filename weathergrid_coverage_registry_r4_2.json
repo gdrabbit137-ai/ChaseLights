@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "registry_version": "B121.5",
+  "registry_version": "B121.6",
   "contract": "WEATHERGRID_COVERAGE_SPEC_R4_2.md",
   "generated_or_reviewed_at": "2026-09-29",
   "notes": [
-    "B121.5 preserves all-topic-complete tw-014 and tw-082, and completes all four current Qixingtan (tw-036) Opportunities.",
-    "Qixingtan sunrise coverage is constrained by official sunrise-photography evidence plus the annual geometric sunrise azimuth range at ~24.03°N, padded to 60°–120°.",
-    "Qixingtan Milky-Way coverage uses a conservative full-circle atmospheric envelope because celestial azimuth is time/season dependent and exact ephemeris-facing geometry is not yet curated.",
-    "Celestial subjects never receive fake terrestrial coordinates; all new Qixingtan coverage remains provisional."
+    "B121.6 preserves all-topic-complete tw-014, tw-036 and tw-082, and completes all three current Qingshui/Chongde (tw-034) Opportunities.",
+    "Qingshui sunrise coverage includes both the north-facing cliff subject and the east-facing annual sunrise/Pacific horizon sector; celestial subjects receive no fake ground coordinate.",
+    "Qingshui mountain-sea coverage explicitly includes both the cliff/mountain sector and the Pacific marine sector.",
+    "All new Qingshui geometry is provisional over-coverage grounded in official Taroko/National Park place-specific descriptions."
   ],
   "entries": [
     {
@@ -1451,6 +1451,159 @@
         "note": "B125 uses conservative, place-specific coverage envelopes. They are designed to contain the photographed subject/weather context, not to claim an exact shoreline, tripod, wildlife position, fog boundary, or mountain silhouette.",
         "camera_zone_browser_exposure": {
           "tw-082-VP10": "generalized"
+        }
+      }
+    },
+    {
+      "opportunity_id": "tw-034-P01",
+      "spot_id": "tw-034",
+      "provenance": {
+        "basis": "Canonical Qingshui sunrise Opportunity + Taroko National Park official Chongde reopening/sunrise evidence + official Chongde trail cliff/Pacific view geometry + annual solar-horizon azimuth geometry.",
+        "geometry_interpretation": "The photographed scene combines Qingshui Cliff / mountain coast to the north with sunrise/dawn over the Pacific. B128 therefore unions the existing researched north-facing cliff sector with a padded annual east-facing sunrise horizon sector. Neither sector is an exact visible-cliff polygon or cloud/Sun position.",
+        "source_urls": [
+          "https://www.taroko.gov.tw/ch/titlelist/news/54",
+          "https://www.taroko.gov.tw/ch/trailsAttractions/trail-list/40",
+          "https://www.taiwan.nps.gov.tw/home/zh-tw/attractions/21010.html"
+        ]
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-034-VP01"
+        ],
+        "subject_geometries": [
+          {
+            "subject_id": "tw-034-P01-SUB01",
+            "role": "qingshui_cliff_subject_sector",
+            "name": "崇德觀景平台北望清水斷崖／山壁",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-034-VP01",
+              "azimuth_start_deg": 330,
+              "azimuth_end_deg": 30,
+              "min_range_km": 0,
+              "max_range_km": 5
+            },
+            "coord_confidence": "medium",
+            "source_evidence_ids": [
+              "taroko.chongde_trail.north_qingshui_cliff",
+              "weathergrid_coverage_registry.tw-034-P03.cliff_sector"
+            ],
+            "browser_exposure": "public"
+          },
+          {
+            "subject_id": "tw-034-P01-SUB02",
+            "role": "sunrise_horizon_sector",
+            "name": "清水斷崖／崇德東向太平洋日出曙光廣域",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-034-VP01",
+              "azimuth_start_deg": 60,
+              "azimuth_end_deg": 120,
+              "min_range_km": 0,
+              "max_range_km": 20
+            },
+            "coord_confidence": "medium_high",
+            "source_evidence_ids": [
+              "taroko.chongde_reopening.sunrise_dawn",
+              "WEATHERGRID_COVERAGE_SPEC_R4_2.celestial_subjects"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "environment_geometries": [
+          {
+            "environment_id": "tw-034-P01-ENV01",
+            "role": "offshore_sunrise_weather_sector",
+            "name": "崇德東向太平洋日出雲況／降水環境區",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-034-VP01",
+              "azimuth_start_deg": 60,
+              "azimuth_end_deg": 120,
+              "min_range_km": 0,
+              "max_range_km": 20
+            },
+            "coord_confidence": "medium",
+            "source_evidence_ids": [
+              "taroko.chongde_reopening.sunrise_dawn"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "display_padding_km": 5,
+        "coverage_confidence": "medium_high",
+        "note": "太管處官方明確把崇德遊憩區列為欣賞東部日出曙光的地點。日出屬天體題材，不建立假的地面 Sun 座標；全年幾何日出方位約 64.1°–115.9°，WeatherGrid 以 60°–120° 海平面扇區加餘裕，同時保留既有 330°–30° 北向斷崖主體扇區，確保構圖中的斷崖與曙光都不被裁切。",
+        "camera_zone_browser_exposure": {
+          "tw-034-VP01": "generalized"
+        }
+      }
+    },
+    {
+      "opportunity_id": "tw-034-P02",
+      "spot_id": "tw-034",
+      "provenance": {
+        "basis": "Canonical Qingshui mountain-sea Opportunity + official Taroko/National Park Chongde trail descriptions that explicitly identify the Pacific panorama and north-facing Qingshui Cliff.",
+        "geometry_interpretation": "The photographed scene contains both the Qingshui Cliff/mountain coast and the Pacific. B128 uses a researched north-facing cliff sector plus a broad east-facing marine sector so the WeatherGrid cannot crop either major subject. These are provisional over-covering envelopes, not exact shoreline/ridgeline polygons.",
+        "source_urls": [
+          "https://www.taroko.gov.tw/ch/trailsAttractions/trail-list/40",
+          "https://www.taiwan.nps.gov.tw/home/zh-tw/attractions/21010.html",
+          "https://www.taroko.gov.tw/ch/trailsAttractions/attractions/8"
+        ]
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-034-VP01"
+        ],
+        "subject_geometries": [
+          {
+            "subject_id": "tw-034-P02-SUB01",
+            "role": "qingshui_cliff_subject_sector",
+            "name": "崇德觀景平台北望清水斷崖／山壁",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-034-VP01",
+              "azimuth_start_deg": 330,
+              "azimuth_end_deg": 30,
+              "min_range_km": 0,
+              "max_range_km": 5
+            },
+            "coord_confidence": "medium",
+            "source_evidence_ids": [
+              "taroko.chongde_trail.north_qingshui_cliff",
+              "weathergrid_coverage_registry.tw-034-P03.cliff_sector"
+            ],
+            "browser_exposure": "public"
+          },
+          {
+            "subject_id": "tw-034-P02-SUB02",
+            "role": "pacific_marine_subject_sector",
+            "name": "崇德觀景平台太平洋海天一色廣域",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-034-VP01",
+              "azimuth_start_deg": 30,
+              "azimuth_end_deg": 150,
+              "min_range_km": 0,
+              "max_range_km": 10
+            },
+            "coord_confidence": "medium",
+            "source_evidence_ids": [
+              "taroko.chongde_trail.pacific_panorama",
+              "taroko.qingshui_cliff.mountain_sea"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "environment_geometries": [],
+        "display_padding_km": 5,
+        "coverage_confidence": "medium_high",
+        "note": "官方步道資料明確描述崇德平台可欣賞太平洋海天一色並向北飽覽清水斷崖。Coverage 因此同時涵蓋北向斷崖與東側太平洋，不允許只用 Camera Zone 或單一方向代表整個山海題材。",
+        "camera_zone_browser_exposure": {
+          "tw-034-VP01": "generalized"
         }
       }
     }
