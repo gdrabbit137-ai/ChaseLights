@@ -78,7 +78,7 @@
       us:US_ADMIN_AREA_GROUPS
     };
 
-    // Compatibility bridge for cached / pre-B136 weather snapshots that do not
+    // Compatibility bridge for cached / pre-B137 weather snapshots that do not
     // yet carry admin_areas. Fresh snapshots get this metadata from regions.py.
     const ADMIN_AREA_FALLBACK={
       jp:{
