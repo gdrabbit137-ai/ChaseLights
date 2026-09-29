@@ -102,7 +102,7 @@ class WeatherGridFetchPlanTest(unittest.TestCase):
         self.assertIn("tw-035-P02", diagnostic["missing_registry_entries"])
 
     def test_secondary_local_places_can_use_scoped_fetch(self):
-        for spot_id in ("tw-078", "tw-081"):
+        for spot_id in ("tw-075", "tw-078", "tw-081"):
             with self.subTest(spot_id=spot_id):
                 plan = build_gfs_fetch_plan(
                     scope_type="place",
