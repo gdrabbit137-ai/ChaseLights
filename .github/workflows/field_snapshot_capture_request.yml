@@ -1,0 +1,140 @@
+name: Field Snapshot Capture Request
+
+on:
+  push:
+    branches:
+      - "snapshot-capture/**"
+    paths:
+      - ".field_snapshot_capture_request.json"
+
+permissions:
+  contents: write
+
+jobs:
+  capture:
+    if: ${{ !startsWith(github.event.head_commit.message, 'Field snapshot capture result:') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout request branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Validate capture request
+        run: |
+          python field_snapshot_capture_request.py validate-request             .field_snapshot_capture_request.json
+
+      - name: Read request
+        id: request
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          request = json.loads(
+              Path(".field_snapshot_capture_request.json").read_text(
+                  encoding="utf-8"
+              )
+          )
+          output = Path(os.environ["GITHUB_OUTPUT"])
+          with output.open("a", encoding="utf-8") as handle:
+              for key in (
+                  "request_id",
+                  "place_id",
+                  "valid_at",
+                  "capture_ref",
+                  "scene_family",
+              ):
+                  handle.write(f"{key}={request[key]}\n")
+              handle.write(
+                  "persist="
+                  + ("true" if request.get("persist", True) else "false")
+                  + "\n"
+              )
+          PY
+
+      - name: Verify immutable production ref
+        run: |
+          CAPTURE_REF="${{ steps.request.outputs.capture_ref }}"
+          git cat-file -e "$CAPTURE_REF^{commit}"
+          RESOLVED="$(git rev-parse "$CAPTURE_REF^{commit}")"
+          test "$RESOLVED" = "$CAPTURE_REF"
+          echo "Verified capture ref: $RESOLVED"
+
+      - name: Create production worktree
+        run: |
+          rm -rf /tmp/chaselights-capture
+          git worktree add --detach             /tmp/chaselights-capture             "${{ steps.request.outputs.capture_ref }}"
+
+      - name: Capture snapshot from production code
+        run: |
+          rm -rf /tmp/captured_snapshot
+          mkdir -p /tmp/captured_snapshot
+          (
+            cd /tmp/chaselights-capture
+            env -u GITHUB_SHA python field_snapshot.py capture               --place "${{ steps.request.outputs.place_id }}"               --valid-at "${{ steps.request.outputs.valid_at }}"               --output-dir /tmp/captured_snapshot
+          )
+          SNAPSHOT="$(ls /tmp/captured_snapshot/FVS-*.json | head -n 1)"
+          test -n "$SNAPSHOT"
+          echo "SNAPSHOT=$SNAPSHOT" >> "$GITHUB_ENV"
+          echo "SNAPSHOT_BASENAME=$(basename "$SNAPSHOT")" >> "$GITHUB_ENV"
+
+      - name: Validate snapshot with production code
+        run: |
+          (
+            cd /tmp/chaselights-capture
+            env -u GITHUB_SHA python field_snapshot.py validate "$SNAPSHOT"
+            env -u GITHUB_SHA python field_snapshot.py show "$SNAPSHOT"
+            env -u GITHUB_SHA python field_snapshot.py replay               "$SNAPSHOT" --original               > /tmp/captured_snapshot/replay-original.json
+          )
+          cat /tmp/captured_snapshot/replay-original.json
+
+      - name: Build request metadata
+        run: |
+          python field_snapshot_capture_request.py metadata             --request .field_snapshot_capture_request.json             --snapshot "$SNAPSHOT"             --output /tmp/captured_snapshot/capture-metadata.json
+          cat /tmp/captured_snapshot/capture-metadata.json
+
+      - name: Upload immutable snapshot artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: field-snapshot-${{ steps.request.outputs.request_id }}
+          path: /tmp/captured_snapshot/
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: Persist compressed fixture and registry entry
+        if: steps.request.outputs.persist == 'true'
+        run: |
+          FIXTURE_DIR="test_fixtures/field_snapshot"
+          ARCHIVE_NAME="$SNAPSHOT_BASENAME.gz.b64"
+          METADATA_NAME="${SNAPSHOT_BASENAME%.json}.metadata.json"
+          ARCHIVE_PATH="$FIXTURE_DIR/$ARCHIVE_NAME"
+          METADATA_PATH="$FIXTURE_DIR/$METADATA_NAME"
+
+          mkdir -p "$FIXTURE_DIR"
+          gzip -c "$SNAPSHOT" | base64 -w 76 > "$ARCHIVE_PATH"
+          cp /tmp/captured_snapshot/capture-metadata.json "$METADATA_PATH"
+
+          python field_snapshot_capture_request.py register             --request .field_snapshot_capture_request.json             --snapshot "$SNAPSHOT"             --registry field_snapshot_baselines_r4_2.json             --archive-path "$ARCHIVE_PATH"             --metadata-path "$METADATA_PATH"             --workflow-run-id "${{ github.run_id }}"             --artifact-name "field-snapshot-${{ steps.request.outputs.request_id }}"             --source-branch "${{ github.ref_name }}"
+
+          rm .field_snapshot_capture_request.json
+
+          git config --local user.email             "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add             field_snapshot_baselines_r4_2.json             "$ARCHIVE_PATH"             "$METADATA_PATH"             .field_snapshot_capture_request.json
+          git commit -m             "Field snapshot capture result: ${{ steps.request.outputs.request_id }}"
+          git push origin "HEAD:${{ github.ref_name }}"
+
+      - name: Remove production worktree
+        if: always()
+        run: |
+          git worktree remove --force /tmp/chaselights-capture || true
