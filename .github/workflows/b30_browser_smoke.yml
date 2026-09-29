@@ -478,13 +478,31 @@ jobs:
               # B143: phones use a bounded bottom-sheet administrative-area
               # picker with explicit exits, persistent multi-select, and locked
               # background scrolling.
-              driver.set_window_size(390, 844)
+              driver.execute_cdp_cmd("Emulation.setDeviceMetricsOverride", {
+                  "width": 390,
+                  "height": 844,
+                  "deviceScaleFactor": 1,
+                  "mobile": True
+              })
+              wait.until(lambda d: d.execute_script(
+                  "return window.innerWidth <= 640 && isMobileAdminPicker()"
+              ))
               # Re-render after crossing the responsive breakpoint so the
               # picker binds the same mobile handlers a real phone gets at load.
               driver.execute_script("""
                 filterAndRender();
                 window.scrollTo(0, 320);
               """)
+              mobile_viewport = driver.execute_script("""
+                return {
+                  innerWidth: window.innerWidth,
+                  innerHeight: window.innerHeight,
+                  mediaMatches: isMobileAdminPicker()
+                };
+              """)
+              report["mobile_admin_viewport"] = mobile_viewport
+              assert mobile_viewport["innerWidth"] == 390, mobile_viewport
+              assert mobile_viewport["mediaMatches"] is True, mobile_viewport
               mobile_picker_before = driver.execute_script("return window.scrollY")
               mobile_trigger = driver.find_element(By.CSS_SELECTOR, "#admin-filter .admin-filter > summary")
               driver.execute_script("arguments[0].click()", mobile_trigger)
@@ -554,7 +572,10 @@ jobs:
                 persistAdminAreas();
                 filterAndRender();
               """)
+              driver.execute_cdp_cmd("Emulation.clearDeviceMetricsOverride", {})
               driver.set_window_size(1440, 1200)
+              wait.until(lambda d: d.execute_script("return !isMobileAdminPicker()"))
+              driver.execute_script("filterAndRender()")
               cards = driver.find_elements(By.CSS_SELECTOR, "#spots-container .card")
               assert len(cards) == 83, len(cards)
 
