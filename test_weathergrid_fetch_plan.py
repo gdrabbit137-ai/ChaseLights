@@ -102,6 +102,40 @@ class WeatherGridFetchPlanTest(unittest.TestCase):
         self.assertIn("tw-036-P01", diagnostic["missing_registry_entries"])
         self.assertIn("tw-036-P02", diagnostic["missing_registry_entries"])
 
+    def test_first_all_topic_place_can_use_scoped_fetch(self):
+        plan = build_gfs_fetch_plan(
+            scope_type="place",
+            scope_id="tw-014",
+            catalog=self.catalog,
+            registry=self.registry,
+        )
+        self.assertTrue(plan["coverage_complete"], plan)
+        self.assertTrue(plan["safe_to_scope"], plan)
+        self.assertEqual(plan["effective_scope"], {"type": "place", "id": "tw-014"})
+        self.assertEqual(plan["spot_ids"], ["tw-014"])
+        self.assertEqual(
+            plan["coverage_diagnostics"]["catalog_opportunity_count"],
+            2,
+        )
+        self.assertEqual(
+            plan["coverage_diagnostics"]["migrated_count"],
+            2,
+        )
+        self.assertEqual(
+            plan["coverage_diagnostics"]["missing_registry_entries"],
+            [],
+        )
+        self.assertEqual(len(plan["segments"]), 1)
+        segment = plan["segments"][0]
+        self.assertLess(
+            segment["rightlon"] - segment["leftlon"],
+            TAIWAN_BBOX["rightlon"] - TAIWAN_BBOX["leftlon"],
+        )
+        self.assertLess(
+            segment["toplat"] - segment["bottomlat"],
+            TAIWAN_BBOX["toplat"] - TAIWAN_BBOX["bottomlat"],
+        )
+
     def test_provider_grid_snap_only_expands(self):
         snapped = snap_nomads_bbox_outward({
             "leftlon": 121.13,
