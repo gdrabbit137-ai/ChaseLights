@@ -224,7 +224,7 @@ jobs:
                   countryInHeader: !!document.querySelector('.header-right #country-select'),
                   countryInFilter: !!document.querySelector('.filter-toolbar #country-select'),
                   disabled: buttons.filter(x => x.disabled).map(x => x.dataset.adminArea),
-                  counts: Object.fromEntries(buttons.map(x => [x.dataset.adminArea, Number(x.querySelector('span')?.textContent || 0)]))
+                  counts: Object.fromEntries(buttons.map(x => [x.dataset.adminArea, Number(x.querySelector('.admin-area-count')?.textContent || 0)]))
                 };
               """)
               report["taiwan_admin_contract"] = admin_contract
@@ -352,7 +352,7 @@ jobs:
                   hasSearch: !!document.querySelector('#admin-filter [data-admin-search]'),
                   hostHidden: document.getElementById('admin-filter').hidden,
                   disabled: buttons.filter(x => x.disabled).map(x => x.dataset.adminArea),
-                  counts: Object.fromEntries(buttons.map(x => [x.dataset.adminArea, Number(x.querySelector('span')?.textContent || 0)]))
+                  counts: Object.fromEntries(buttons.map(x => [x.dataset.adminArea, Number(x.querySelector('.admin-area-count')?.textContent || 0)]))
                 };
               """)
               report["japan_admin_contract"] = jp_admin
@@ -413,7 +413,7 @@ jobs:
                   hasSearch: !!document.querySelector('#admin-filter [data-admin-search]'),
                   hostHidden: document.getElementById('admin-filter').hidden,
                   disabled: buttons.filter(x => x.disabled).map(x => x.dataset.adminArea),
-                  counts: Object.fromEntries(buttons.map(x => [x.dataset.adminArea, Number(x.querySelector('span')?.textContent || 0)]))
+                  counts: Object.fromEntries(buttons.map(x => [x.dataset.adminArea, Number(x.querySelector('.admin-area-count')?.textContent || 0)]))
                 };
               """)
               report["us_admin_contract"] = us_admin
@@ -472,6 +472,83 @@ jobs:
                 renderSubNav();
                 filterAndRender();
               """)
+              cards = driver.find_elements(By.CSS_SELECTOR, "#spots-container .card")
+              assert len(cards) == 83, len(cards)
+
+              # B143: phones use a bounded bottom-sheet administrative-area
+              # picker with explicit exits, persistent multi-select, and locked
+              # background scrolling.
+              driver.set_window_size(390, 844)
+              driver.execute_script("window.scrollTo(0, 320)")
+              mobile_picker_before = driver.execute_script("return window.scrollY")
+              driver.execute_script("document.querySelector('#admin-filter .admin-filter').open = true")
+              wait.until(lambda d: d.execute_script(
+                  "return document.body.classList.contains('admin-picker-open')"
+              ))
+              mobile_picker = driver.execute_script("""
+                const details = document.querySelector('#admin-filter .admin-filter');
+                const menu = document.querySelector('#admin-filter .admin-filter-menu');
+                const backdrop = document.querySelector('#admin-filter [data-admin-backdrop]');
+                return {
+                  open: details.open,
+                  bodyLocked: document.body.classList.contains('admin-picker-open'),
+                  role: menu.getAttribute('role'),
+                  ariaModal: menu.getAttribute('aria-modal'),
+                  backdropDisplay: getComputedStyle(backdrop).display,
+                  position: getComputedStyle(menu).position,
+                  bottom: getComputedStyle(menu).bottom,
+                  viewportHeight: window.innerHeight,
+                  sheetHeight: menu.getBoundingClientRect().height,
+                  hasDone: !!document.querySelector('#admin-filter [data-admin-done]'),
+                  hasClose: !!document.querySelector('#admin-filter [data-admin-close]'),
+                  hasSearch: !!document.querySelector('#admin-filter [data-admin-search]')
+                };
+              """)
+              report["mobile_admin_picker"] = mobile_picker
+              assert mobile_picker["open"] is True, mobile_picker
+              assert mobile_picker["bodyLocked"] is True, mobile_picker
+              assert mobile_picker["role"] == "dialog", mobile_picker
+              assert mobile_picker["ariaModal"] == "true", mobile_picker
+              assert mobile_picker["backdropDisplay"] != "none", mobile_picker
+              assert mobile_picker["position"] == "fixed", mobile_picker
+              assert mobile_picker["sheetHeight"] < mobile_picker["viewportHeight"], mobile_picker
+              assert mobile_picker["hasDone"] and mobile_picker["hasClose"] and mobile_picker["hasSearch"], mobile_picker
+
+              driver.find_element(By.CSS_SELECTOR, '[data-admin-area="花蓮縣"]').click()
+              wait.until(lambda d: d.execute_script("return currentAdminAreas.has('花蓮縣')"))
+              mobile_picker_selection = driver.execute_script("""
+                return {
+                  open: document.querySelector('#admin-filter .admin-filter').open,
+                  locked: document.body.classList.contains('admin-picker-open'),
+                  selected: [...currentAdminAreas],
+                  pressed: document.querySelector('[data-admin-area="花蓮縣"]').getAttribute('aria-pressed')
+                };
+              """)
+              report["mobile_admin_picker_selection"] = mobile_picker_selection
+              assert mobile_picker_selection["open"] is True, mobile_picker_selection
+              assert mobile_picker_selection["locked"] is True, mobile_picker_selection
+              assert mobile_picker_selection["pressed"] == "true", mobile_picker_selection
+
+              driver.find_element(By.CSS_SELECTOR, '#admin-filter [data-admin-done]').click()
+              wait.until(lambda d: d.execute_script(
+                  "return !document.body.classList.contains('admin-picker-open') && !document.querySelector('#admin-filter .admin-filter').open"
+              ))
+              mobile_picker_after = driver.execute_script("""
+                return {
+                  locked: document.body.classList.contains('admin-picker-open'),
+                  scrollY: window.scrollY
+                };
+              """)
+              report["mobile_admin_picker_after"] = mobile_picker_after
+              assert mobile_picker_after["locked"] is False, mobile_picker_after
+              assert abs(mobile_picker_after["scrollY"] - mobile_picker_before) <= 2, (mobile_picker_before, mobile_picker_after)
+
+              driver.execute_script("""
+                currentAdminAreas.clear();
+                persistAdminAreas();
+                filterAndRender();
+              """)
+              driver.set_window_size(1440, 1200)
               cards = driver.find_elements(By.CSS_SELECTOR, "#spots-container .card")
               assert len(cards) == 83, len(cards)
 
