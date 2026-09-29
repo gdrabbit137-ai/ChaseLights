@@ -19,7 +19,7 @@ from pathlib import Path
 import re
 from zoneinfo import ZoneInfo
 
-from field_snapshot import load_snapshot
+from field_snapshot import find_spot, load_snapshot
 
 REQUEST_SCHEMA_VERSION = "field-snapshot-capture-request-r4.2-1"
 REGISTRY_SCHEMA_VERSION = "field-snapshot-baseline-registry-r4.2-1"
@@ -50,6 +50,11 @@ def validate_request(payload):
     place_id = str(payload.get("place_id") or "")
     if not _TOKEN.match(place_id):
         errors.append("place_id missing or invalid")
+    else:
+        try:
+            find_spot(place_id)
+        except ValueError as exc:
+            errors.append(str(exc))
 
     valid_at = _offset_aware_iso(payload.get("valid_at"))
     if valid_at is None:
@@ -154,7 +159,39 @@ def _forecast_local_time(snapshot):
     return valid.astimezone(tz).isoformat()
 
 
+def validate_snapshot_matches_request(snapshot, request):
+    errors = []
+    if snapshot.get("place_id") != request.get("place_id"):
+        errors.append("snapshot place_id does not match capture request")
+
+    requested_ref = str(request.get("capture_ref") or "").lower()
+    actual_ref = str((snapshot.get("provenance") or {}).get("git_commit") or "").lower()
+    if requested_ref != actual_ref:
+        errors.append("snapshot git_commit does not match capture_ref")
+
+    requested_valid = _offset_aware_iso(request.get("valid_at"))
+    snapshot_valid = _offset_aware_iso(snapshot.get("forecast_valid_at"))
+    if (
+        requested_valid is None
+        or snapshot_valid is None
+        or requested_valid.timestamp() != snapshot_valid.timestamp()
+    ):
+        errors.append("snapshot forecast_valid_at does not match request valid_at")
+
+    if (snapshot.get("observation") or {}).get("status") != "unreviewed":
+        errors.append("request-driven snapshot must remain unreviewed")
+
+    return errors
+
+
+def _assert_snapshot_matches_request(snapshot, request):
+    errors = validate_snapshot_matches_request(snapshot, request)
+    if errors:
+        raise ValueError("\n".join(errors))
+
+
 def build_metadata(snapshot, request):
+    _assert_snapshot_matches_request(snapshot, request)
     return {
         "request_schema_version": request["schema_version"],
         "request_id": request["request_id"],
@@ -183,6 +220,7 @@ def build_registry_entry(
     artifact_name=None,
     source_branch=None,
 ):
+    _assert_snapshot_matches_request(snapshot, request)
     limitations = list(request.get("limitations") or [])
     limitations.extend(
         [
