@@ -27,6 +27,23 @@ class GFSMultilayerPOCTest(unittest.TestCase):
         self.assertEqual(query["file"], ["gfs.t00z.pgrb2.0p25.f006"])
         self.assertEqual(query["dir"], ["/gfs.20260929/00/atmos"])
 
+    def test_request_accepts_subject_aware_custom_bbox(self):
+        bbox = {
+            "leftlon": 121.25,
+            "rightlon": 122.0,
+            "bottomlat": 23.75,
+            "toplat": 24.5,
+        }
+        url = build_multilayer_url(
+            GFSRun("20260929", "00", 3),
+            bbox=bbox,
+        )
+        query = parse_qs(urlparse(url).query)
+        self.assertEqual(query["leftlon"], ["121.25"])
+        self.assertEqual(query["rightlon"], ["122.0"])
+        self.assertEqual(query["bottomlat"], ["23.75"])
+        self.assertEqual(query["toplat"], ["24.5"])
+
     def test_field_contract_contains_all_photography_basics(self):
         self.assertEqual(
             set(FIELD_SPECS),
