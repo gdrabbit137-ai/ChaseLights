@@ -10,7 +10,7 @@ class MobileAdminProductionSmokeContractTests(unittest.TestCase):
     def setUpClass(cls):
         cls.script = (ROOT / "mobile_admin_production_smoke.py").read_text(encoding="utf-8")
         cls.workflow = (
-            ROOT / ".github" / "workflows" / "b148_mobile_admin_production_smoke.yml"
+            ROOT / ".github" / "workflows" / "b149_mobile_admin_production_smoke.yml"
         ).read_text(encoding="utf-8")
 
     def test_smoke_targets_public_homepage_and_phone_viewport(self):

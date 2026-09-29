@@ -1,4 +1,4 @@
-name: B148 Mobile Admin Production Smoke
+name: B149 Mobile Admin Production Smoke
 
 on:
   pull_request:
@@ -6,8 +6,8 @@ on:
     paths:
       - "mobile_admin_production_smoke.py"
       - "test_mobile_admin_production_smoke_contract.py"
-      - ".github/workflows/b148_mobile_admin_production_smoke.yml"
-      - "B148_MOBILE_ADMIN_PRODUCTION_SMOKE.md"
+      - ".github/workflows/b149_mobile_admin_production_smoke.yml"
+      - "B149_MOBILE_ADMIN_PRODUCTION_SMOKE.md"
   push:
     branches: [main]
     paths:
@@ -16,8 +16,8 @@ on:
       - "assets/app.css"
       - "mobile_admin_production_smoke.py"
       - "test_mobile_admin_production_smoke_contract.py"
-      - ".github/workflows/b148_mobile_admin_production_smoke.yml"
-      - "B148_MOBILE_ADMIN_PRODUCTION_SMOKE.md"
+      - ".github/workflows/b149_mobile_admin_production_smoke.yml"
+      - "B149_MOBILE_ADMIN_PRODUCTION_SMOKE.md"
   workflow_dispatch:
 
 permissions:
