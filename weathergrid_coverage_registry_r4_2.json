@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "registry_version": "B121.7",
+  "registry_version": "B121.8",
   "contract": "WEATHERGRID_COVERAGE_SPEC_R4_2.md",
   "generated_or_reviewed_at": "2026-09-29",
   "notes": [
-    "B121.7 preserves all-topic-complete tw-014, tw-034, tw-036 and tw-082, and adds two secondary/simple local-subject Places: tw-078 and tw-081.",
-    "Jianggong Islet uses a buffered Camera-to-islet corridor grounded in the official attraction coordinate and the existing 450 m linear Camera Zone.",
-    "Tieb堡 reuses its existing high-confidence 150 m local Camera Zone extent as a conservative fort + rocky-coast subject envelope.",
-    "All B129 geometry is provisional over-coverage; no exact walkway, shoreline, fort or reef polygon is claimed."
+    "B121.8 adds subject-aware WeatherGrid coverage for tw-075 外澳龜山朝日.",
+    "The Gueishan Island subject point uses the official Tourism Administration coordinate 24.842373, 121.95015.",
+    "The dawn environment sector is a provisional over-covering envelope around the camera-to-island bearing (~108.5°) and the catalog's broad east-facing dawn contract; it does not claim exact Sun-island alignment.",
+    "B130 also makes WeatherGrid conservatively include non-point Camera Zone geometry_extent_m where the catalog already provides one."
   ],
   "entries": [
     {
@@ -1707,6 +1707,66 @@
         "note": "既有 Camera Zone 已策展為 150 m small-area，官方資料亦說明鐵堡位於突出海面的巨岩／海岸。WeatherGrid 直接沿用此範圍作保守 local-scene envelope，不把它宣稱為精確建築或礁岩邊界。",
         "camera_zone_browser_exposure": {
           "tw-081-VP01": "generalized"
+        }
+      }
+    },
+    {
+      "opportunity_id": "tw-075-P01",
+      "spot_id": "tw-075",
+      "provenance": {
+        "basis": "B28 curated Waiao beach Camera Zone + Tourism Administration Waiao/Gueishan official attraction records",
+        "geometry_interpretation": "Gueishan Island is represented by its official attraction coordinate. The 85°–130°, 0–15 km sunrise environment sector intentionally over-covers the ~108.5° / ~11.45 km camera-to-island line and nearby eastern dawn weather; it is not an exact solar-alignment sector."
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-075-VP01"
+        ],
+        "subject_geometries": [
+          {
+            "subject_id": "tw-075-P01-SUB01",
+            "role": "primary_subject",
+            "name": "龜山島島影",
+            "geometry": {
+              "type": "point",
+              "lat": 24.842373,
+              "lon": 121.95015
+            },
+            "coord_confidence": "high",
+            "source_evidence_ids": [
+              "https://www.tad.gov.tw/m1.aspx?id=C100_164&sNo=0001106"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "environment_geometries": [
+          {
+            "environment_id": "tw-075-P01-ENV01",
+            "role": "eastern_dawn_horizon_sector",
+            "name": "龜山島方向與東方晨曦天氣扇區",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-075-VP01",
+              "azimuth_start_deg": 85,
+              "azimuth_end_deg": 130,
+              "min_range_km": 0,
+              "max_range_km": 15
+            },
+            "coord_confidence": "medium_high",
+            "source_evidence_ids": [
+              "runtime_catalog_v004_r4_2.tw-075-P01.condition_geometry",
+              "https://www.tad.gov.tw/m1.aspx?id=A12-00567&sNo=0001106",
+              "https://www.tad.gov.tw/m1.aspx?id=C100_164&sNo=0001106"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "display_padding_km": 3,
+        "coverage_confidence": "medium_high",
+        "note": "外澳服務區官方資料明確描述海灘正對龜山島且有龜山朝日景觀。Camera Zone 為約 900 m 長形海灘區，B130 由 planner 以 catalog geometry_extent_m 作保守 over-coverage；subject 使用官方龜山島座標，晨曦 sector 只作 WeatherGrid 規劃 envelope。",
+        "camera_zone_browser_exposure": {
+          "tw-075-VP01": "generalized"
         }
       }
     }
