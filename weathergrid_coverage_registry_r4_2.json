@@ -1843,7 +1843,7 @@
       "spot_id": "tw-066",
       "provenance": {
         "basis": "BATCH07 curated Tungyin lighthouse Camera Zone + Taiwan Tourism Administration and Matsu National Scenic Area official lighthouse/coastal evidence",
-        "geometry_interpretation": "The photographed fixed terrestrial subject is the Tungyin Tao Lighthouse, represented by the official Tourism Administration coordinate 26.365429, 120.51049. The immediate sea-cliff weather context is represented as a conservative 0°–360°, 0–1 km envelope around tw-066-VP01. This does not claim an exact cliff/shoreline polygon, exact blue-hour sky direction, or current site-opening state.",
+        "geometry_interpretation": "The photographed fixed terrestrial subject is the Tungyin Tao Lighthouse, represented by the official Tourism Administration coordinate 26.365429, 120.51049. The catalog Camera Zone is a high-confidence small_area anchor but has no geometry_extent_m, so the planner intentionally keeps an anchor_only warning. The immediate sea-cliff weather context is separately represented as a conservative 0°–360°, 0–1 km envelope around tw-066-VP01. This over-covers the local scene without claiming an exact Camera Zone, cliff/shoreline polygon, exact blue-hour sky direction, or current site-opening state.",
         "source_urls": [
           "https://www.taiwan.net.tw/m1.aspx?id=a12-00213&sno=0001016",
           "https://www.matsu-nsa.gov.tw/zh-TW/attractions/lookMore/1433"
@@ -1895,7 +1895,7 @@
         ],
         "display_padding_km": 2,
         "coverage_confidence": "medium_high",
-        "note": "官方資料確認東湧燈塔固定地標座標與海崖臨海場景。Subject 使用官方燈塔座標；周邊 1 km full-circle 只作 WeatherGrid 保守 local weather envelope，不宣稱精確海岸線／峭壁 polygon、藍調天空方向、開放狀態或安全條件。",
+        "note": "官方資料確認東湧燈塔固定地標座標與海崖臨海場景。Catalog Camera Zone 為 high-confidence small_area，但缺少 geometry_extent_m，因此 planner 保留 anchor_only warning；另以周邊 1 km full-circle 作 WeatherGrid 保守 local weather envelope，不宣稱精確 Camera Zone、海岸線／峭壁 polygon、藍調天空方向、開放狀態或安全條件。",
         "camera_zone_browser_exposure": {
           "tw-066-VP01": "generalized"
         }
