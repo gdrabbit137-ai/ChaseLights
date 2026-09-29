@@ -193,12 +193,12 @@ class WeatherGridCoverageTest(unittest.TestCase):
         )
         audit = audit_coverage_registry(catalog, registry)
 
-        self.assertEqual(audit["counts"]["entries"], 20)
+        self.assertEqual(audit["counts"]["entries"], 27)
         self.assertEqual(audit["counts"]["missing_opportunity"], 0)
-        self.assertEqual(audit["counts"]["provisional"], 17)
-        self.assertEqual(audit["counts"]["needs_research"], 3)
-        self.assertEqual(audit["counts"]["complete"], 17)
-        self.assertEqual(audit["counts"]["incomplete"], 3)
+        self.assertEqual(audit["counts"]["provisional"], 27)
+        self.assertEqual(audit["counts"]["needs_research"], 0)
+        self.assertEqual(audit["counts"]["complete"], 27)
+        self.assertEqual(audit["counts"]["incomplete"], 0)
 
         by_id = {row["opportunity_id"]: row for row in audit["results"]}
         self.assertTrue(by_id["tw-036-P03"]["complete"])
@@ -207,10 +207,16 @@ class WeatherGridCoverageTest(unittest.TestCase):
         self.assertTrue(by_id["tw-014-P01"]["complete"])
         self.assertEqual(by_id["tw-014-P01"]["status"], "provisional")
         self.assertEqual(by_id["tw-014-P01"]["subject_geometry_count"], 1)
-        self.assertFalse(by_id["tw-082-P01"]["complete"])
-        self.assertTrue(
-            any("subject or environment geometry" in e for e in by_id["tw-082-P01"]["errors"])
-        )
+
+        for oid in [f"tw-082-P{i:02d}" for i in range(1, 11)]:
+            self.assertTrue(by_id[oid]["complete"], (oid, by_id[oid]))
+            self.assertEqual(by_id[oid]["status"], "provisional")
+
+        liyu = by_id["tw-082-P01"]["coverage_bbox"]
+        self.assertLess(liyu["west"], 121.49)
+        self.assertGreater(liyu["east"], 121.53)
+        self.assertLess(liyu["south"], 23.90)
+        self.assertGreater(liyu["north"], 23.95)
 
         for oid in [
             "tw-004-P03", "tw-008-P03", "tw-014-P02", "tw-020-P02",
