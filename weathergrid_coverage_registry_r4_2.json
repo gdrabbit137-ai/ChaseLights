@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
-  "registry_version": "B121.3",
+  "registry_version": "B121.4",
   "contract": "WEATHERGRID_COVERAGE_SPEC_R4_2.md",
   "generated_or_reviewed_at": "2026-09-29",
   "notes": [
-    "B121.3 establishes the first Place whose entire active Opportunity set has subject-aware WeatherGrid coverage: tw-014.",
-    "tw-014-P01 uses a deliberately broad provisional mountain-panorama envelope, grounded in official Place-specific mountain-view evidence and the already-researched 8 km spatial-weather ring used by tw-014-P02.",
-    "Cloud-sea full-ring entries remain provisional broad coverage, not exact cloud boundaries or foreground polygons.",
+    "B121.4 completes provisional subject-aware WeatherGrid coverage for all four active Qixingtan Opportunities.",
+    "Celestial subjects are not assigned fake terrestrial coordinates: sunrise uses an east-Pacific horizon sector; Milky Way uses local Camera-Zone sky/weather context.",
+    "The sunrise azimuth envelope is an astronomical all-season coverage envelope, not a claim about the exact solar azimuth on every date.",
     "Entries marked needs_research intentionally remain incomplete; Place center fallback does not satisfy subject-aware coverage."
   ],
   "entries": [
@@ -834,6 +834,93 @@
         "note": "官方地點資料證實觀景平台可俯瞰大湖、三義與層疊山巒；因尚無精確可見山稜 polygon，沿用同一 Camera Zone 已研究的 8 km spatial-weather ring 作保守 coverage envelope。此 envelope 只保證氣象圖不裁掉相關山景區域，不宣稱 360° 全部都是實際構圖主體。",
         "camera_zone_browser_exposure": {
           "tw-014-VP01": "generalized"
+        }
+      }
+    },
+    {
+      "opportunity_id": "tw-036-P01",
+      "spot_id": "tw-036",
+      "provenance": {
+        "basis": "Hualien County official photography feature identifies Qixingtan as a sunrise photography location and explicitly describes the sun rising from the Pacific to the east.",
+        "source_urls": [
+          "https://tour-hualien.hl.gov.tw/jp/News_Content.aspx?n=288&s=8856"
+        ],
+        "geometry_interpretation": "The 60°–120° sector is a conservative annual sunrise-azimuth envelope for ~24°N centered on the documented east-Pacific sunrise subject. The 5 km subject range rounds the same official article's ~4.7 km sea-horizon distance discussion."
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-036-VP01"
+        ],
+        "subject_geometries": [
+          {
+            "subject_id": "tw-036-P01-SUB01",
+            "role": "sunrise_pacific_horizon_sector",
+            "name": "七星潭東向太平洋日出地平線",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-036-VP01",
+              "azimuth_start_deg": 60,
+              "azimuth_end_deg": 120,
+              "min_range_km": 0,
+              "max_range_km": 5
+            },
+            "coord_confidence": "medium_high",
+            "source_evidence_ids": [
+              "HUALIEN_FUN_NO48_QIXINGTAN_SUNRISE",
+              "ASTRONOMICAL_SUNRISE_AZIMUTH_ENVELOPE_24N"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "environment_geometries": [],
+        "display_padding_km": 5,
+        "coverage_confidence": "medium_high",
+        "note": "太陽本身是 celestial subject，不配置假 GPS。WeatherGrid 以已查證的東向太平洋日出地平線 sector 表示攝影主體方向；60°–120° 為約北緯24°全年日出方位的保守 envelope。",
+        "camera_zone_browser_exposure": {
+          "tw-036-VP01": "generalized"
+        }
+      }
+    },
+    {
+      "opportunity_id": "tw-036-P02",
+      "spot_id": "tw-036",
+      "provenance": {
+        "basis": "Hualien County official night-tourism material explicitly identifies Qixingtan as a place to view starry sky and the Milky Way together with its sea scenery.",
+        "source_urls": [
+          "https://tour-hualien.hl.gov.tw/News_Content.aspx?n=26&s=8386"
+        ],
+        "geometry_interpretation": "Milky Way is celestial and its apparent orientation changes with date/time. B126 therefore does not invent a terrestrial subject point or fixed azimuth. Coverage is anchored to the verified Camera Zone as local sky/weather context; display padding and the provider interpolation halo supply surrounding atmospheric context."
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-036-VP02"
+        ],
+        "subject_geometries": [],
+        "environment_geometries": [
+          {
+            "environment_id": "tw-036-P02-ENV01",
+            "role": "local_celestial_sky_weather_context",
+            "name": "七星潭賞星廣場 Camera Zone 在地天空／雲況 context",
+            "geometry": {
+              "type": "point",
+              "origin_viewpoint_id": "tw-036-VP02"
+            },
+            "coord_confidence": "high",
+            "source_evidence_ids": [
+              "HUALIEN_METEOR_STARLIGHT_QIXINGTAN_MILKY_WAY"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "display_padding_km": 5,
+        "coverage_confidence": "medium_high",
+        "note": "銀河為 celestial subject，方位隨日期與時刻改變，因此不建立固定地面 subject GPS/sector。此 coverage 僅要求 Camera Zone 與其在地天空氣象 context；未來若新增特定前景／特定銀河構圖，須另增相應 terrestrial foreground geometry。",
+        "camera_zone_browser_exposure": {
+          "tw-036-VP02": "generalized"
         }
       }
     }
