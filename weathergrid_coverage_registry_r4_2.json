@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "registry_version": "B121.11",
+  "registry_version": "B121.12",
   "contract": "WEATHERGRID_COVERAGE_SPEC_R4_2.md",
   "generated_or_reviewed_at": "2026-09-30",
   "notes": [
-    "B121.11 adds subject-aware WeatherGrid coverage for tw-037 多良火車站／列車＋太平洋經典構圖.",
-    "The local passing-train / station subject is represented by a conservative 0–0.6 km full-circle envelope around the official Tourism Administration attraction coordinate; no exact track polygon or train position is claimed.",
-    "The Pacific background is represented by a broad 30°–160°, 0–15 km coastal-atmosphere sector. This is an over-covering WeatherGrid envelope, not an exact visible-horizon or ocean-boundary claim.",
-    "Train timetable, current access and actual train presence remain separate fail-closed eligibility concerns; B132 changes no Photography Opportunity scoring."
+    "B121.12 adds subject-aware WeatherGrid coverage for tw-059 奎壁山／摩西分海 while retaining prior Dongyin and Duoliang coverage.",
+    "Penghu National Scenic Area official material states the low-tide S-shaped gravel causeway between the east shore of Kuibishan and Chiyu is about 300 m long.",
+    "B134 uses a conservative 0–0.4 km full-circle local subject envelope around the curated shore Camera Zone; it deliberately over-covers the tidal causeway without claiming an exact intertidal polygon.",
+    "Tide timing, rapidly returning water and safe access remain separate fail-closed eligibility gates; no Photography Opportunity scoring changes are made."
   ],
   "entries": [
     {
@@ -1966,6 +1966,53 @@
         "note": "觀光署官方資料明確給出多良車站座標並描述觀景台可看行駛列車與太平洋。B132 以 0–0.6 km 保守涵蓋站體／近距離列車 subject，以 30°–160°、0–15 km sector 涵蓋東側海岸背景天氣；不宣稱精確軌道、列車位置、班次、地平線或即時開放狀態。",
         "camera_zone_browser_exposure": {
           "tw-037-VP01": "public"
+        }
+      }
+    },
+    {
+      "opportunity_id": "tw-059-P01",
+      "spot_id": "tw-059",
+      "provenance": {
+        "basis": "Canonical Kuibishan low-tide Opportunity + curated shore Camera Zone + Penghu National Scenic Area official description of the ~300 m S-shaped gravel causeway to Chiyu.",
+        "geometry_interpretation": "The photographed subject is the local tidal causeway / intertidal separation scene. B134 uses a 0–0.4 km full-circle envelope around tw-059-VP01 to conservatively contain the official ~300 m causeway without inventing an exact path, shoreline or Chiyu polygon.",
+        "source_urls": [
+          "https://www.penghu-nsa.gov.tw/TravelInformationSceneryDetailC001200.aspx?Cond=0947d150-504e-425c-9920-cd5fa2652527&Language=1028&SearchAdvanced=True&SortType=1",
+          "https://www.penghu-nsa.gov.tw/ChiHoOneLer/tour/ThematicTours/Recommend/Package04.htm"
+        ]
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-059-VP01"
+        ],
+        "subject_geometries": [
+          {
+            "subject_id": "tw-059-P01-SUB01",
+            "role": "tidal_causeway_intertidal_subject_zone",
+            "name": "奎壁山－赤嶼退潮礫石步道與潮間帶",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-059-VP01",
+              "azimuth_start_deg": 0,
+              "azimuth_end_deg": 360,
+              "min_range_km": 0,
+              "max_range_km": 0.4
+            },
+            "coord_confidence": "medium_high",
+            "source_evidence_ids": [
+              "penghu_nsa.kuibishan_chiyu_300m_causeway",
+              "runtime_catalog.tw-059-VP01"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "environment_geometries": [],
+        "display_padding_km": 1,
+        "coverage_confidence": "medium_high",
+        "note": "官方資料確認奎壁山東側岸邊至赤嶼的退潮S形礫石步道約300公尺。WeatherGrid以Camera Zone為中心0–0.4 km full-circle保守包覆分海步道與近端潮間帶，不宣稱精確潮線、步道路徑或赤嶼polygon。潮汐、回漲速度與安全進入仍由獨立gate判定。",
+        "camera_zone_browser_exposure": {
+          "tw-059-VP01": "generalized"
         }
       }
     }
