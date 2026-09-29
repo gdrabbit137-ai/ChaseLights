@@ -427,8 +427,18 @@ jobs:
               # re-renders the card list. Re-acquire DOM handles after recovery.
               cards = driver.find_elements(By.CSS_SELECTOR, "#spots-container .card")
               assert cards, "card list missing after weather version recovery"
+              # Earlier county multi-select coverage intentionally leaves the
+              # details menu open. Close it before testing card interaction so
+              # the overlay cannot intercept the click in Chromium.
+              driver.execute_script("""
+                const picker = document.querySelector('.admin-filter');
+                if (picker) picker.open = false;
+              """)
               first = cards[0]
-              first.find_element(By.CSS_SELECTOR, ".card-header").click()
+              driver.execute_script(
+                  "arguments[0].click()",
+                  first.find_element(By.CSS_SELECTOR, ".card-header")
+              )
               wait.until(lambda d: d.find_element(By.ID, "place-modal-overlay").value_of_css_property("display") != "none")
               opp_cards = driver.find_elements(By.CSS_SELECTOR, "#place-modal-body .opportunity-card")
               report["place_guide_opportunity_cards"] = len(opp_cards)

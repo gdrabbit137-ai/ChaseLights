@@ -193,11 +193,11 @@ class WeatherGridCoverageTest(unittest.TestCase):
         )
         audit = audit_coverage_registry(catalog, registry)
 
-        self.assertEqual(audit["counts"]["entries"], 7)
+        self.assertEqual(audit["counts"]["entries"], 19)
         self.assertEqual(audit["counts"]["missing_opportunity"], 0)
-        self.assertEqual(audit["counts"]["provisional"], 4)
+        self.assertEqual(audit["counts"]["provisional"], 16)
         self.assertEqual(audit["counts"]["needs_research"], 3)
-        self.assertEqual(audit["counts"]["complete"], 4)
+        self.assertEqual(audit["counts"]["complete"], 16)
         self.assertEqual(audit["counts"]["incomplete"], 3)
 
         by_id = {row["opportunity_id"]: row for row in audit["results"]}
@@ -208,6 +208,20 @@ class WeatherGridCoverageTest(unittest.TestCase):
         self.assertTrue(
             any("subject or environment geometry" in e for e in by_id["tw-082-P01"]["errors"])
         )
+
+        for oid in [
+            "tw-004-P03", "tw-008-P03", "tw-014-P02", "tw-020-P02",
+            "tw-022-P02", "tw-023-P02", "tw-024-P02", "tw-035-P06",
+            "tw-040-P04", "tw-043-P03", "tw-047-P01", "tw-049-P03",
+        ]:
+            self.assertTrue(by_id[oid]["complete"], (oid, by_id[oid]))
+            self.assertEqual(by_id[oid]["status"], "provisional")
+            self.assertEqual(by_id[oid]["environment_geometry_count"], 1)
+
+        # tw-032-P02 has an existing spatial profile but its Camera Zone
+        # coordinate is still pending in the catalog, so B124 must not invent
+        # a coordinate just to mark the coverage complete.
+        self.assertNotIn("tw-032-P02", by_id)
 
         # The northward Qixingtan coverage must materially extend beyond the
         # camera coordinate instead of collapsing to a Place-center viewport.
