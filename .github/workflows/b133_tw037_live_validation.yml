@@ -1,0 +1,99 @@
+name: B133 tw-037 Live Scoped GFS Validation
+
+on:
+  push:
+    branches:
+      - "validation/b133-tw037-live"
+    paths:
+      - ".github/workflows/b133_tw037_live_validation.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  live-validation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout validation branch
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install GFS WeatherGrid dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install requests xarray cfgrib eccodes numpy matplotlib cartopy
+
+      - name: Run strict tw-037 Place-scoped GFS fetch
+        run: |
+          python gfs_multilayer_poc.py             --forecast-hours "0"             --output-dir gfs_multilayer_output             --coverage-scope place             --coverage-id tw-037             --strict-coverage
+
+      - name: Validate live fetch contract
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          out = Path("gfs_multilayer_output")
+          plan = json.loads((out / "gfs_tw_weather_fetch_plan.json").read_text())
+          manifest = json.loads((out / "gfs_tw_weather_manifest.json").read_text())
+
+          expected = {"type": "place", "id": "tw-037"}
+          assert plan["requested_scope"] == expected, plan["requested_scope"]
+          assert plan["effective_scope"] == expected, plan["effective_scope"]
+          assert plan["coverage_complete"] is True, plan
+          assert plan["safe_to_scope"] is True, plan
+          assert plan["fallback_reason"] is None, plan
+          assert len(plan["segments"]) == 1, plan["segments"]
+
+          bbox = plan["segments"][0]
+          # Taiwan Tourism Administration Duoliang Station coordinate.
+          assert bbox["leftlon"] <= 120.95888 <= bbox["rightlon"], bbox
+          assert bbox["bottomlat"] <= 22.507487 <= bbox["toplat"], bbox
+
+          regional = {
+              "leftlon": 117.5,
+              "rightlon": 123.5,
+              "toplat": 26.75,
+              "bottomlat": 20.5,
+          }
+          area = (bbox["rightlon"] - bbox["leftlon"]) * (bbox["toplat"] - bbox["bottomlat"])
+          regional_area = (
+              (regional["rightlon"] - regional["leftlon"])
+              * (regional["toplat"] - regional["bottomlat"])
+          )
+          assert area < regional_area, (bbox, area, regional_area)
+          assert manifest["bbox"] == bbox, (manifest["bbox"], bbox)
+          assert manifest["fetch_scope"]["requested"] == expected, manifest["fetch_scope"]
+          assert manifest["fetch_scope"]["effective"] == expected, manifest["fetch_scope"]
+          assert manifest["fetch_scope"]["coverage_complete"] is True, manifest["fetch_scope"]
+          assert manifest["fetch_scope"]["fallback_reason"] is None, manifest["fetch_scope"]
+
+          gribs = list(out.glob("*.grib2"))
+          assert gribs, "no GRIB2 output"
+          for path in gribs:
+              payload = path.read_bytes()
+              assert payload[:4] == b"GRIB", (path, payload[:16])
+              assert len(payload) > 16, (path, len(payload))
+
+          print(json.dumps({
+              "validated": True,
+              "scope": expected,
+              "provider_bbox": bbox,
+              "provider_bbox_area_deg2": area,
+              "regional_bbox_area_deg2": regional_area,
+              "area_ratio": area / regional_area,
+              "grib_files": [p.name for p in gribs],
+          }, indent=2))
+          PY
+
+      - name: Upload validation artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: b133-tw037-live-validation
+          path: gfs_multilayer_output/
+          if-no-files-found: error
