@@ -313,8 +313,14 @@ def plan_opportunity_coverage(
 
     all_points: list[tuple[float, float]] = []
     camera_refs = coverage.get("camera_zone_refs") or []
+    camera_exposures = coverage.get("camera_zone_browser_exposure") or {}
     resolved_camera_count = 0
     for ref in camera_refs:
+        exposure = camera_exposures.get(ref)
+        if exposure not in BROWSER_EXPOSURES:
+            errors.append(
+                f"camera_zone_ref requires explicit browser exposure: {ref}"
+            )
         vp = viewpoints.get(ref)
         if not vp:
             errors.append(f"camera_zone_ref not found: {ref}")
