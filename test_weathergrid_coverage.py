@@ -193,16 +193,20 @@ class WeatherGridCoverageTest(unittest.TestCase):
         )
         audit = audit_coverage_registry(catalog, registry)
 
-        self.assertEqual(audit["counts"]["entries"], 27)
+        self.assertEqual(audit["counts"]["entries"], 29)
         self.assertEqual(audit["counts"]["missing_opportunity"], 0)
-        self.assertEqual(audit["counts"]["provisional"], 27)
+        self.assertEqual(audit["counts"]["provisional"], 29)
         self.assertEqual(audit["counts"]["needs_research"], 0)
-        self.assertEqual(audit["counts"]["complete"], 27)
+        self.assertEqual(audit["counts"]["complete"], 29)
         self.assertEqual(audit["counts"]["incomplete"], 0)
 
         by_id = {row["opportunity_id"]: row for row in audit["results"]}
+        self.assertTrue(by_id["tw-036-P01"]["complete"])
+        self.assertTrue(by_id["tw-036-P02"]["complete"])
         self.assertTrue(by_id["tw-036-P03"]["complete"])
         self.assertTrue(by_id["tw-036-P04"]["complete"])
+        self.assertEqual(by_id["tw-036-P01"]["status"], "provisional")
+        self.assertEqual(by_id["tw-036-P02"]["status"], "provisional")
         self.assertTrue(by_id["tw-019-P04"]["complete"])
         self.assertTrue(by_id["tw-014-P01"]["complete"])
         self.assertEqual(by_id["tw-014-P01"]["status"], "provisional")
@@ -237,6 +241,17 @@ class WeatherGridCoverageTest(unittest.TestCase):
         qix = by_id["tw-036-P03"]["coverage_bbox"]
         self.assertLessEqual(qix["west"], 121.62717)
         self.assertGreater(qix["north"], 24.15)
+
+        sunrise = by_id["tw-036-P01"]["coverage_bbox"]
+        self.assertGreater(sunrise["east"], 121.75)
+        self.assertLess(sunrise["south"], 24.0)
+        self.assertGreater(sunrise["north"], 24.06)
+
+        stars = by_id["tw-036-P02"]["coverage_bbox"]
+        self.assertLess(stars["west"], 121.45)
+        self.assertGreater(stars["east"], 121.80)
+        self.assertLess(stars["south"], 23.86)
+        self.assertGreater(stars["north"], 24.20)
 
     def test_needs_research_stays_incomplete_even_with_geometry(self):
         op = _opportunity(
