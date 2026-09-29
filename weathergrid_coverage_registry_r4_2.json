@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "registry_version": "B121.6",
+  "registry_version": "B121.7",
   "contract": "WEATHERGRID_COVERAGE_SPEC_R4_2.md",
   "generated_or_reviewed_at": "2026-09-29",
   "notes": [
-    "B121.6 preserves all-topic-complete tw-014, tw-036 and tw-082, and completes all three current Qingshui/Chongde (tw-034) Opportunities.",
-    "Qingshui sunrise coverage includes both the north-facing cliff subject and the east-facing annual sunrise/Pacific horizon sector; celestial subjects receive no fake ground coordinate.",
-    "Qingshui mountain-sea coverage explicitly includes both the cliff/mountain sector and the Pacific marine sector.",
-    "All new Qingshui geometry is provisional over-coverage grounded in official Taroko/National Park place-specific descriptions."
+    "B121.7 preserves all-topic-complete tw-014, tw-034, tw-036 and tw-082, and adds two secondary/simple local-subject Places: tw-078 and tw-081.",
+    "Jianggong Islet uses a buffered Camera-to-islet corridor grounded in the official attraction coordinate and the existing 450 m linear Camera Zone.",
+    "Tieb堡 reuses its existing high-confidence 150 m local Camera Zone extent as a conservative fort + rocky-coast subject envelope.",
+    "All B129 geometry is provisional over-coverage; no exact walkway, shoreline, fort or reef polygon is claimed."
   ],
   "entries": [
     {
@@ -1604,6 +1604,109 @@
         "note": "官方步道資料明確描述崇德平台可欣賞太平洋海天一色並向北飽覽清水斷崖。Coverage 因此同時涵蓋北向斷崖與東側太平洋，不允許只用 Camera Zone 或單一方向代表整個山海題材。",
         "camera_zone_browser_exposure": {
           "tw-034-VP01": "generalized"
+        }
+      }
+    },
+    {
+      "opportunity_id": "tw-078-P01",
+      "spot_id": "tw-078",
+      "provenance": {
+        "basis": "Canonical Jianggong Islet low-tide causeway Opportunity + high-confidence 450 m linear Camera Zone + official Taiwan Tourism / Kinmen tourism description of the exposed stone path, intertidal zone and islet.",
+        "geometry_interpretation": "The subject is the local tidal causeway scene between the researched Camera Zone anchor and the official Jianggong Islet attraction coordinate. B129 uses a buffered corridor that intentionally over-covers the stone path/intertidal subject without claiming an exact walkway polygon.",
+        "source_urls": [
+          "https://www.taiwan.net.tw/m1.aspx?id=A12-00478&sNo=0001016",
+          "https://www.kinmen.travel/zh-tw/live-camera/1"
+        ]
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-078-VP01"
+        ],
+        "subject_geometries": [
+          {
+            "subject_id": "tw-078-P01-SUB01",
+            "role": "tidal_causeway_subject_corridor",
+            "name": "建功嶼退潮石板道＋潮間帶通道",
+            "geometry": {
+              "type": "corridor",
+              "coordinates": [
+                [
+                  118.304369,
+                  24.426386
+                ],
+                [
+                  118.30005,
+                  24.42746
+                ]
+              ],
+              "half_width_km": 0.08
+            },
+            "coord_confidence": "high",
+            "source_evidence_ids": [
+              "runtime_catalog.tw-078-VP01.geometry_extent_m",
+              "taiwan_tourism.jianggong_islet",
+              "kinmen_tourism.jianggong_live"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "environment_geometries": [],
+        "display_padding_km": 1,
+        "coverage_confidence": "high",
+        "note": "官方資料明確把退潮露出的石板道、潮間帶與建功嶼列為主要景觀。Coverage 以已驗證 Camera Zone 到官方建功嶼座標的 buffered corridor 表示，涵蓋石板道與鄰近潮間帶；不是精確步道路線或潮線 polygon。",
+        "camera_zone_browser_exposure": {
+          "tw-078-VP01": "generalized"
+        }
+      }
+    },
+    {
+      "opportunity_id": "tw-081-P01",
+      "spot_id": "tw-081",
+      "provenance": {
+        "basis": "Canonical Tieb堡 local-scene Opportunity + high-confidence 150 m Camera Zone extent + official Matsu/Taiwan Tourism descriptions of the fort built on a protruding coastal rock with surrounding sea/coast views.",
+        "geometry_interpretation": "The photographed subject is explicitly local: fort + rocky coast. B129 reuses the curated 150 m Camera Zone extent as a conservative full-circle subject envelope around the verified anchor; it is not an exact fort/coast polygon.",
+        "source_urls": [
+          "https://media.taiwan.net.tw/en-us/portal/travel/details/attraction_a15010500h_002790",
+          "https://www.matsu-nsa.gov.tw/zh-TW/travel-map",
+          "https://www.taiwan.net.tw/m1.aspx?id=C100_406&sNo=0001016"
+        ]
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-081-VP01"
+        ],
+        "subject_geometries": [
+          {
+            "subject_id": "tw-081-P01-SUB01",
+            "role": "fort_rocky_coast_subject_zone",
+            "name": "鐵堡本體＋突出海面礁岩與近岸海景",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-081-VP01",
+              "azimuth_start_deg": 0,
+              "azimuth_end_deg": 360,
+              "min_range_km": 0,
+              "max_range_km": 0.15
+            },
+            "coord_confidence": "high",
+            "source_evidence_ids": [
+              "runtime_catalog.tw-081-VP01.geometry_extent_m",
+              "matsu_nsa.tieb堡",
+              "taiwan_tourism.tieb堡"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "environment_geometries": [],
+        "display_padding_km": 1,
+        "coverage_confidence": "high",
+        "note": "既有 Camera Zone 已策展為 150 m small-area，官方資料亦說明鐵堡位於突出海面的巨岩／海岸。WeatherGrid 直接沿用此範圍作保守 local-scene envelope，不把它宣稱為精確建築或礁岩邊界。",
+        "camera_zone_browser_exposure": {
+          "tw-081-VP01": "generalized"
         }
       }
     }

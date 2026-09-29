@@ -24,6 +24,18 @@ class WeatherGridCoverageBrowserTest(unittest.TestCase):
         self.assertIn("tw-019", by_spot)
         self.assertIn("tw-082", by_spot)
         self.assertIn("tw-014", by_spot)
+        self.assertIn("tw-078", by_spot)
+        self.assertIn("tw-081", by_spot)
+
+        jianggong_group = by_spot["tw-078"]
+        self.assertEqual(jianggong_group["catalog_opportunity_count"], 1)
+        self.assertEqual(jianggong_group["coverage_entry_count"], 1)
+        self.assertTrue(jianggong_group["all_topics_complete"])
+
+        tieb堡_group = by_spot["tw-081"]
+        self.assertEqual(tieb堡_group["catalog_opportunity_count"], 1)
+        self.assertEqual(tieb堡_group["coverage_entry_count"], 1)
+        self.assertTrue(tieb堡_group["all_topics_complete"])
 
         qingshui = by_spot["tw-034"]
         self.assertEqual(qingshui["catalog_opportunity_count"], 3)
@@ -45,6 +57,22 @@ class WeatherGridCoverageBrowserTest(unittest.TestCase):
             for spot in payload["spots"]
             for op in spot["opportunities"]
         }
+        jianggong = by_opp["tw-078-P01"]
+        self.assertTrue(jianggong["complete"])
+        self.assertEqual(jianggong["status"], "provisional")
+        self.assertEqual(
+            jianggong["subject_geometries"][0]["geometry"]["type"],
+            "corridor",
+        )
+
+        tieb堡 = by_opp["tw-081-P01"]
+        self.assertTrue(tieb堡["complete"])
+        self.assertEqual(tieb堡["status"], "provisional")
+        self.assertEqual(
+            tieb堡["subject_geometries"][0]["geometry"]["type"],
+            "sector",
+        )
+
         qingshui_p01 = by_opp["tw-034-P01"]
         self.assertTrue(qingshui_p01["complete"])
         self.assertEqual(len(qingshui_p01["subject_geometries"]), 2)
