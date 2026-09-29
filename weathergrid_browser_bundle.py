@@ -15,6 +15,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+from decimal import Decimal, ROUND_HALF_UP
 from pathlib import Path
 
 FIELD_ENCODINGS = {
@@ -43,10 +44,13 @@ def quantize(values, *, scale: float, minimum: float, maximum: float):
             encoded.append(None)
             continue
         clipped = min(max(float(value), minimum), maximum)
-        # Use deterministic half-up quantization for non-negative weather
-        # fields. Python's built-in round() uses bankers rounding, which makes
-        # exact x.5 boundaries alternate between even/odd integers.
-        encoded.append(int(math.floor(clipped / scale + 0.5)))
+        # Use decimal half-up quantization for deterministic browser payloads.
+        # Converting through str() avoids binary floating-point surprises at
+        # values such as 55.55 / 0.1.
+        quantized = (
+            Decimal(str(clipped)) / Decimal(str(scale))
+        ).quantize(Decimal("1"), rounding=ROUND_HALF_UP)
+        encoded.append(int(quantized))
     return encoded
 
 
