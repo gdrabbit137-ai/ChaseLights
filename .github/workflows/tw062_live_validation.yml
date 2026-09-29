@@ -1,0 +1,102 @@
+name: B142 Deyue Tower Scoped GFS Live Validation
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/tw062_live_validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  live-validation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout candidate
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Install dependency
+        run: python -m pip install --disable-pip-version-check requests
+      - name: Validate tw-062 scoped plan against live NOAA GFS
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import requests
+          from gfs_raw_poc import TAIWAN_BBOX, candidate_runs
+          from gfs_multilayer_poc import build_multilayer_url
+          from weathergrid_fetch_plan import build_gfs_fetch_plan
+
+          plan = build_gfs_fetch_plan(scope_type="place", scope_id="tw-062", strict=True)
+          assert plan["coverage_complete"] is True, plan
+          assert plan["safe_to_scope"] is True, plan
+          assert plan["effective_scope"] == {"type": "place", "id": "tw-062"}, plan
+          assert len(plan["segments"]) == 1, plan
+
+          bbox = plan["segments"][0]
+          regional = TAIWAN_BBOX
+          assert bbox["rightlon"] - bbox["leftlon"] < regional["rightlon"] - regional["leftlon"], (bbox, regional)
+          assert bbox["toplat"] - bbox["bottomlat"] < regional["toplat"] - regional["bottomlat"], (bbox, regional)
+
+          camera_lat = 24.40971
+          camera_lon = 118.29849
+          assert bbox["bottomlat"] <= camera_lat <= bbox["toplat"], bbox
+          assert bbox["leftlon"] <= camera_lon <= bbox["rightlon"], bbox
+          assert bbox["rightlon"] - bbox["leftlon"] <= 0.75, bbox
+
+          errors = []
+          selected = None
+          payload_size = None
+          source_url = None
+          for run in candidate_runs(forecast_hour=0, count=4):
+              url = build_multilayer_url(run, bbox=bbox)
+              try:
+                  response = requests.get(url, timeout=90)
+                  response.raise_for_status()
+                  payload = response.content
+                  if len(payload) < 16 or payload[:4] != b"GRIB":
+                      raise RuntimeError(
+                          f"not GRIB2: status={response.status_code}, "
+                          f"content_type={response.headers.get('content-type')!r}, "
+                          f"bytes={len(payload)}, prefix={payload[:20]!r}"
+                      )
+                  selected = run.id
+                  payload_size = len(payload)
+                  source_url = url
+                  break
+              except Exception as exc:
+                  errors.append(f"{run.id}: {exc}")
+          if selected is None:
+              raise RuntimeError("No live NOAA GFS candidate succeeded: " + " | ".join(errors))
+
+          result = {
+              "scope": plan["effective_scope"],
+              "coverage_complete": plan["coverage_complete"],
+              "safe_to_scope": plan["safe_to_scope"],
+              "fetch_bbox": plan["fetch_bbox"],
+              "provider_bbox": bbox,
+              "taiwan_bbox": regional,
+              "selected_run": selected,
+              "payload_bytes": payload_size,
+              "source_url": source_url,
+              "errors_before_success": errors,
+          }
+          Path("tw062_live_validation.json").write_text(
+              json.dumps(result, ensure_ascii=False, indent=2),
+              encoding="utf-8",
+          )
+          print(json.dumps(result, ensure_ascii=False, indent=2))
+          PY
+      - name: Upload validation artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: tw062-scoped-gfs-live-validation
+          path: tw062_live_validation.json
+          if-no-files-found: error
