@@ -78,15 +78,15 @@ Wind direction is circular. Values that quantize to 360 are now wrapped to 0, an
 
 - no production scoring change
 - no Opportunity logic change
-- no automatic scheduled GFS publication yet
+- B119 originally had no automatic scheduled GFS publication; B132 now refreshes the live WeatherGrid four times daily
 - no third-party map SDK
 - DEMO fallback is visibly labeled
-- live snapshot publication remains manual
+- B119's manual publish path remains available, while B132 is now the production scheduled publication path
 - GFS 0.25° remains a coarse synoptic layer
 
 ## Next stage
 
-After the live preview is published and visually checked:
+After the live preview is published and visually checked (publication automation is now implemented by B132):
 
 1. add a proper cartographic basemap
 2. add wind-vector display in the browser
