@@ -118,6 +118,12 @@ Default forecast hours:
 
 This keeps the first live multi-variable run small enough to inspect before extending to 24–72 hours.
 
+## Coverage extent contract
+
+WeatherGrid geographic extent is governed by `WEATHERGRID_COVERAGE_SPEC_R4_2.md`.
+
+A Place/Opportunity map must not be framed from the Place center alone. Subject-aware views must contain all researched Camera Zones plus the photographed Subject/Environment Geometry for the selected Opportunity; Place-level views use the union across all active researched Opportunities at that Place. Provider fetch bounds must also include the sampling/interpolation halo required by the source grid.
+
 ## Guardrails
 
 - no production score changes
