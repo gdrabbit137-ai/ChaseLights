@@ -43,7 +43,10 @@ def quantize(values, *, scale: float, minimum: float, maximum: float):
             encoded.append(None)
             continue
         clipped = min(max(float(value), minimum), maximum)
-        encoded.append(int(round(clipped / scale)))
+        # Use deterministic half-up quantization for non-negative weather
+        # fields. Python's built-in round() uses bankers rounding, which makes
+        # exact x.5 boundaries alternate between even/odd integers.
+        encoded.append(int(math.floor(clipped / scale + 0.5)))
     return encoded
 
 
