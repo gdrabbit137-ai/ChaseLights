@@ -2,6 +2,9 @@
 
 Date: 2026-09-29
 
+> Canonical batch ID: B132 is reserved for this scheduled WeatherGrid refresh. Subsequent subject-aware coverage handoffs are B133 (Dongyin Lighthouse) and B134 (Duoliang Station).
+
+
 ## Goal
 
 Turn the B119/B117 WeatherGrid live preview from a manually published snapshot into a self-refreshing production preview without coupling it to Photography Opportunity scoring.
