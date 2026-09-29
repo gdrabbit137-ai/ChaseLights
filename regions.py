@@ -117,11 +117,17 @@ TW_ADMIN_AREAS = {
     "tw-084": ["花蓮縣"],
 }
 
-# B136 first-level administrative-area metadata for Japan and the United States.
+# B136 country-neutral first-level administrative-area metadata.
 #
-# Keep these as arrays: some photographic Places sit on an administrative
-# boundary or span more than one jurisdiction.  The browser UI filters on
-# admin_areas and treats a Place as matching when any selected area intersects.
+# Every supported country uses the same contract: admin_areas is a non-empty
+# list of first-level administrative units appropriate to that country
+# (county/city, prefecture, state, province, region, canton, etc.). A Place that
+# genuinely crosses a boundary lists every intersected unit. A precise
+# viewpoint inside a larger cross-boundary destination lists only the unit(s)
+# occupied by that viewpoint. The browser matches when any selected area
+# intersects this list; macro-regions remain presentation-only groupings.
+#
+# Japan and the United States are defined below; Taiwan is defined above.
 JP_ADMIN_AREAS = {
     "jp-001": ["北海道"],
     "jp-002": ["北海道"],
