@@ -46,6 +46,15 @@ That distinction is required for later forecast-revision replay.
 
 ## Place sampling
 
+B115 live validation confirmed that the 0.25° grid is spatially coarse for point decisions in Taiwan: the reference f000–f024 artifact had an average nearest-cell distance of about 10.3 km and a maximum of about 17.1 km across the active Place set.
+
+B116 therefore keeps **two** values for every Place:
+
+- `low_cloud_percent_nearest`: the raw nearest GFS cell, retained as the audit/reference value
+- `low_cloud_percent_bilinear`: bilinear interpolation from the surrounding four cells, used only as the POC display/sample value
+
+Interpolation smooths grid-cell boundaries; it does **not** create higher-resolution weather or solve mountain/coast microclimate limitations.
+
 For each active Taiwan Place, the POC stores the nearest GFS grid-cell value plus trace metadata:
 
 ```json
@@ -134,6 +143,7 @@ gfs_poc_output/
   gfs_tw_low_cloud_f024.png
   gfs_tw_low_cloud_manifest.json
   gfs_tw_low_cloud_spot_series.json
+  gfs_tw_low_cloud_sampling_audit.json
 ```
 
 The manifest lists the exact cycle and valid time of every frame. The spot-series file reorganizes the frame data by Place so a future browser UI can draw a timeline without re-reading all grid files.
@@ -146,13 +156,15 @@ The manifest lists the exact cycle and valid time of every frame. The spot-serie
 - The code requests regional/variable subsets instead of full global GFS files.
 - Frames in one series always use one GFS cycle.
 - Generated artifacts are not committed to the repository.
+- Nearest-cell and bilinear values are both retained; interpolation never masquerades as higher model resolution.
+- Generated validation PNG labels use ASCII Place IDs so CI runners do not require bundled CJK fonts.
 
 ## Next stages
 
 After multi-hour map validation:
 
 1. add mid/high cloud, precipitation, wind and visibility
-2. evaluate nearest-cell versus interpolation for Place sampling
+2. compare nearest-cell and bilinear sampling against existing point forecasts and field snapshots
 3. generate compact browser map layers or tiles
 4. add a ChaseLights weather-map viewer centered on a selected Place
 5. preserve model/run history for replay and forecast-revision comparison
