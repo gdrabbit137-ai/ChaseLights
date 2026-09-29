@@ -100,6 +100,21 @@ def geometry_points(
         raise CoverageError(f"unsupported geometry type: {kind!r}")
 
     if kind == "point":
+        origin_ref = geometry.get("origin_viewpoint_id")
+        if origin_ref:
+            if not viewpoint_lookup or origin_ref not in viewpoint_lookup:
+                raise CoverageError(f"point origin viewpoint not found: {origin_ref}")
+            vp = viewpoint_lookup[origin_ref]
+            if vp.get("lat") is None or vp.get("lon") is None:
+                raise CoverageError(
+                    f"point origin viewpoint has no coordinate: {origin_ref}"
+                )
+            return [
+                (
+                    validate_lat(vp["lat"]),
+                    validate_lon(vp["lon"]),
+                )
+            ]
         return [(validate_lat(geometry["lat"]), validate_lon(geometry["lon"]))]
 
     if kind == "bbox":
