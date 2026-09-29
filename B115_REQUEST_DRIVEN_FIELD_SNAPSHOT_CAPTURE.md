@@ -211,6 +211,84 @@ An artifact-only live smoke capture is also used during B115 development to
 exercise the complete request-driven workflow without adding a permanent
 baseline.
 
+## Live integration verification
+
+B115 was exercised through two real request branches before merge.
+
+### Artifact-only smoke
+
+Request:
+
+`FSCR-B115-SMOKE`
+
+Workflow run:
+
+`36504287559`
+
+Capture ref:
+
+`f8a5615a6ba99733d0f040885bdfbf202d4ecd16`
+
+Result:
+
+- request validation passed,
+- immutable production ref verification passed,
+- detached production worktree capture passed,
+- snapshot validation passed,
+- original replay returned `match = true`,
+- artifact upload passed,
+- persistence step was correctly skipped.
+
+Captured snapshot:
+
+`FVS-TW-034-20260929-004146`
+
+The smoke branch did not add a permanent baseline.
+
+### Persist-path smoke
+
+Request:
+
+`FSCR-B115-PERSIST-SMOKE`
+
+Workflow run:
+
+`36504428603`
+
+Capture ref:
+
+`f8a5615a6ba99733d0f040885bdfbf202d4ecd16`
+
+Captured snapshot:
+
+`FVS-TW-034-20260929-004332`
+
+Result:
+
+- capture / validate / original replay passed,
+- artifact upload passed,
+- compressed fixture was written,
+- standardized registry entry was appended,
+- request file was removed,
+- result commit was created automatically.
+
+Result commit on the isolated smoke branch:
+
+`ae52cdf3b80e1295c39caa0d20aad14c0bcd004c`
+
+The generated registry entry preserved:
+
+- request ID,
+- workflow run ID,
+- source branch,
+- production commit,
+- payload SHA256,
+- `observation_status = unreviewed`,
+- stable Opportunity summaries.
+
+This smoke branch is intentionally not merged into production; it verifies the
+persistence path without polluting the permanent baseline registry.
+
 ## Runtime impact
 
 None on normal forecast generation or public UI.
