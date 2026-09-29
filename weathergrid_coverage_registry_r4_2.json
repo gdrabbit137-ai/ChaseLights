@@ -1,11 +1,12 @@
 {
   "schema_version": 1,
-  "registry_version": "B121.2",
+  "registry_version": "B121.3",
   "contract": "WEATHERGRID_COVERAGE_SPEC_R4_2.md",
   "generated_or_reviewed_at": "2026-09-29",
   "notes": [
-    "B121.2 expands subject-aware WeatherGrid coverage using only existing researched spatial-weather contracts.",
-    "Cloud-sea full-ring entries are provisional broad subject/environment coverage, not exact cloud boundaries.",
+    "B121.3 establishes the first Place whose entire active Opportunity set has subject-aware WeatherGrid coverage: tw-014.",
+    "tw-014-P01 uses a deliberately broad provisional mountain-panorama envelope, grounded in official Place-specific mountain-view evidence and the already-researched 8 km spatial-weather ring used by tw-014-P02.",
+    "Cloud-sea full-ring entries remain provisional broad coverage, not exact cloud boundaries or foreground polygons.",
     "Entries marked needs_research intentionally remain incomplete; Place center fallback does not satisfy subject-aware coverage."
   ],
   "entries": [
@@ -785,6 +786,54 @@
         "note": "此 Opportunity 的被攝現象本身是相機下方低層雲／雲海。Coverage 沿用已存在的 8 km 全方向 spatial-weather profile，先作 broad subject/environment coverage；不宣稱精確雲海邊界或可見前景 polygon。",
         "camera_zone_browser_exposure": {
           "tw-049-VP01": "generalized"
+        }
+      }
+    },
+    {
+      "opportunity_id": "tw-014-P01",
+      "spot_id": "tw-014",
+      "provenance": {
+        "basis": "Miaoli County tourism / Taiwan tourism multimedia Place-specific description: Yundong has a broad observation platform facing mountain ranges, overlooking Dahu and Sanyi with layered mountain scenery; the same Camera Zone already has an 8 km spatial-weather ring for tw-014-P02.",
+        "source_urls": [
+          "https://media.taiwan.net.tw/zh-tw/portal/travel/details/attraction_376450000a_000941",
+          "https://www.yundonghome.com/about_us.aspx"
+        ],
+        "geometry_interpretation": "Conservative full-ring coverage envelope around the verified observation platform. It intentionally over-covers the researched layered-mountain subject rather than claiming an exact visible ridgeline polygon."
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-014-VP01"
+        ],
+        "subject_geometries": [
+          {
+            "subject_id": "tw-014-P01-SUB01",
+            "role": "broad_mountain_panorama_coverage",
+            "name": "雲洞山莊觀景平台層巒遠眺廣域 coverage",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-014-VP01",
+              "azimuth_start_deg": 0,
+              "azimuth_end_deg": 360,
+              "min_range_km": 0,
+              "max_range_km": 8
+            },
+            "coord_confidence": "medium",
+            "source_evidence_ids": [
+              "MIAOLI_TOURISM_YUNDONG_MOUNTAIN_VIEW",
+              "YUNDONG_OFFICIAL_DAHU_SANYI_VIEW",
+              "spatial_weather.SPATIAL_WEATHER_PROFILES.tw-014-P02"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "environment_geometries": [],
+        "display_padding_km": 5,
+        "coverage_confidence": "medium",
+        "note": "官方地點資料證實觀景平台可俯瞰大湖、三義與層疊山巒；因尚無精確可見山稜 polygon，沿用同一 Camera Zone 已研究的 8 km spatial-weather ring 作保守 coverage envelope。此 envelope 只保證氣象圖不裁掉相關山景區域，不宣稱 360° 全部都是實際構圖主體。",
+        "camera_zone_browser_exposure": {
+          "tw-014-VP01": "generalized"
         }
       }
     }
