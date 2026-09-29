@@ -333,6 +333,148 @@ jobs:
               cards = driver.find_elements(By.CSS_SELECTOR, "#spots-container .card")
               assert len(cards) == 83, len(cards)
 
+              # B137: Japan and the U.S. use the same Favorites + first-level
+              # administrative-area picker interaction as Taiwan. Macro regions
+              # are browsing groups only; the selected identities are
+              # prefectures / states.
+              driver.execute_script("switchRegion('jp')")
+              wait.until(lambda d: d.execute_script(
+                  "return currentData && currentRegion === 'jp' && currentSpots.length === 35"
+              ))
+              jp_admin = driver.execute_script("""
+                const active = currentSpots.filter(s => s.active_in_catalog !== false);
+                const buttons = [...document.querySelectorAll('#admin-filter [data-admin-area]')];
+                return {
+                  available: availableAdminAreas(),
+                  missing: active.filter(s => !spotAdminAreas(s).length).map(s => s.spot_id),
+                  navKeys: [...document.querySelectorAll('#sub-nav .sub-btn')].map(x => x.dataset.key),
+                  groupCount: document.querySelectorAll('#admin-filter [data-admin-group]').length,
+                  hasSearch: !!document.querySelector('#admin-filter [data-admin-search]'),
+                  hostHidden: document.getElementById('admin-filter').hidden,
+                  disabled: buttons.filter(x => x.disabled).map(x => x.dataset.adminArea),
+                  counts: Object.fromEntries(buttons.map(x => [x.dataset.adminArea, Number(x.querySelector('span')?.textContent || 0)]))
+                };
+              """)
+              report["japan_admin_contract"] = jp_admin
+              assert len(jp_admin["available"]) == 47, jp_admin
+              assert jp_admin["missing"] == [], jp_admin
+              assert jp_admin["navKeys"] == ["__fav__"], jp_admin
+              assert jp_admin["groupCount"] == 8, jp_admin
+              assert jp_admin["hasSearch"] is True, jp_admin
+              assert jp_admin["hostHidden"] is False, jp_admin
+              assert jp_admin["counts"]["山梨県"] > 0, jp_admin
+              assert jp_admin["counts"]["東京都"] > 0, jp_admin
+
+              driver.execute_script("""
+                currentAdminAreas.clear();
+                persistAdminAreas();
+                filterAndRender();
+                document.querySelector('.admin-filter').open = true;
+              """)
+              driver.find_element(By.CSS_SELECTOR, '[data-admin-area="山梨県"]').click()
+              jp_filter = driver.execute_script("""
+                const expected = currentSpots.filter(
+                  s => s.active_in_catalog !== false &&
+                       spotAdminAreas(s).includes('山梨県') &&
+                       getMetric(s)
+                ).length;
+                return {
+                  selected: [...currentAdminAreas],
+                  expected,
+                  actual: document.querySelectorAll('#spots-container .card').length,
+                  containsFuji: currentSpots.some(
+                    s => s.spot_id === 'jp-010' && spotAdminAreas(s).includes('山梨県')
+                  )
+                };
+              """)
+              report["japan_admin_filter"] = jp_filter
+              assert jp_filter["selected"] == ["山梨県"], jp_filter
+              assert jp_filter["actual"] == jp_filter["expected"], jp_filter
+              assert jp_filter["containsFuji"] is True, jp_filter
+
+              # Clean the smoke-test selection while still in Japan so later
+              # Japan assertions start from the user's unfiltered state.
+              driver.execute_script("""
+                currentAdminAreas.clear();
+                persistAdminAreas();
+              """)
+              driver.execute_script("switchRegion('us')")
+              wait.until(lambda d: d.execute_script(
+                  "return currentData && currentRegion === 'us' && currentSpots.length === 70"
+              ))
+              us_admin = driver.execute_script("""
+                const active = currentSpots.filter(s => s.active_in_catalog !== false);
+                const buttons = [...document.querySelectorAll('#admin-filter [data-admin-area]')];
+                return {
+                  available: availableAdminAreas(),
+                  missing: active.filter(s => !spotAdminAreas(s).length).map(s => s.spot_id),
+                  navKeys: [...document.querySelectorAll('#sub-nav .sub-btn')].map(x => x.dataset.key),
+                  groupCount: document.querySelectorAll('#admin-filter [data-admin-group]').length,
+                  hasSearch: !!document.querySelector('#admin-filter [data-admin-search]'),
+                  hostHidden: document.getElementById('admin-filter').hidden,
+                  disabled: buttons.filter(x => x.disabled).map(x => x.dataset.adminArea),
+                  counts: Object.fromEntries(buttons.map(x => [x.dataset.adminArea, Number(x.querySelector('span')?.textContent || 0)]))
+                };
+              """)
+              report["us_admin_contract"] = us_admin
+              assert len(us_admin["available"]) == 51, us_admin
+              assert "District of Columbia" in us_admin["available"], us_admin
+              assert us_admin["missing"] == [], us_admin
+              assert us_admin["navKeys"] == ["__fav__"], us_admin
+              assert us_admin["groupCount"] == 4, us_admin
+              assert us_admin["hasSearch"] is True, us_admin
+              assert us_admin["hostHidden"] is False, us_admin
+              assert us_admin["counts"]["California"] > 0, us_admin
+              assert us_admin["counts"]["Alaska"] > 0, us_admin
+              assert us_admin["counts"]["District of Columbia"] == 0, us_admin
+              assert "District of Columbia" in us_admin["disabled"], us_admin
+
+              driver.execute_script("""
+                currentAdminAreas = new Set(['Nevada']);
+                persistAdminAreas();
+                filterAndRender();
+              """)
+              us_filter = driver.execute_script("""
+                const expectedIds = currentSpots.filter(
+                  s => s.active_in_catalog !== false &&
+                       spotAdminAreas(s).includes('Nevada') &&
+                       getMetric(s)
+                ).map(s => s.spot_id);
+                return {
+                  selected: [...currentAdminAreas],
+                  expected: expectedIds.length,
+                  expectedIds,
+                  actual: document.querySelectorAll('#spots-container .card').length,
+                  deathValleyAreas: spotAdminAreas(currentSpots.find(s => s.spot_id === 'us-014'))
+                };
+              """)
+              report["us_admin_filter"] = us_filter
+              assert us_filter["selected"] == ["Nevada"], us_filter
+              assert us_filter["actual"] == us_filter["expected"], us_filter
+              assert "us-014" in us_filter["expectedIds"], us_filter
+              assert us_filter["deathValleyAreas"] == ["California", "Nevada"], us_filter
+
+              # Clean the smoke-test Nevada selection before leaving the US.
+              driver.execute_script("""
+                currentAdminAreas.clear();
+                persistAdminAreas();
+              """)
+
+              # Restore Taiwan for the rest of the existing Browser Smoke.
+              driver.execute_script("switchRegion('tw')")
+              wait.until(lambda d: d.execute_script(
+                  "return currentData && currentRegion === 'tw' && currentSpots.length === 83"
+              ))
+              driver.execute_script("""
+                currentAdminAreas.clear();
+                persistAdminAreas();
+                currentCategoryKey = '__all__';
+                renderSubNav();
+                filterAndRender();
+              """)
+              cards = driver.find_elements(By.CSS_SELECTOR, "#spots-container .card")
+              assert len(cards) == 83, len(cards)
+
               # B102 desktop contract: no-opportunity cards are present but
               # collapsed by default, filters stay sticky, and wide screens
               # expand to four columns.

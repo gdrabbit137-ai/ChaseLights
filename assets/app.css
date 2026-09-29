@@ -1026,7 +1026,7 @@
 }
 
 
-/* B104 Taiwan county/city filter */
+/* B104/B137 country-aware first-level administrative-area filter */
 .admin-filter-host {
   flex: 0 0 auto;
 }
@@ -1059,12 +1059,56 @@
   top: calc(100% + 6px);
   left: 0;
   z-index: 180;
-  width: min(520px, 72vw);
+  width: min(620px, 78vw);
+  max-height: min(70vh, 720px);
+  overflow-y: auto;
   padding: 10px;
   border: 1px solid #334155;
   border-radius: 10px;
   background: #111827;
   box-shadow: 0 14px 34px rgba(0,0,0,.42);
+}
+.admin-area-search {
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0 0 9px;
+  padding: 7px 9px;
+  border: 1px solid #334155;
+  border-radius: 7px;
+  background: #0f172a;
+  color: #f8fafc;
+  font-size: .76rem;
+  outline: none;
+}
+.admin-area-search:focus {
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 1px rgba(56,189,248,.16);
+}
+.admin-area-groups {
+  display: grid;
+  gap: 10px;
+}
+.admin-area-group + .admin-area-group {
+  padding-top: 9px;
+  border-top: 1px solid rgba(51,65,85,.55);
+}
+.admin-area-group-title {
+  margin-bottom: 6px;
+  color: #7dd3fc;
+  font-size: .7rem;
+  font-weight: 800;
+  letter-spacing: .02em;
+}
+.admin-area-empty {
+  padding: 12px 4px 4px;
+  color: #64748b;
+  font-size: .76rem;
+  text-align: center;
+}
+.admin-area-btn[hidden],
+.admin-area-group[hidden],
+.admin-area-empty[hidden] {
+  display: none !important;
 }
 .admin-filter-head {
   display: flex;
