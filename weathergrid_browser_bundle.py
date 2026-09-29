@@ -25,7 +25,7 @@ FIELD_ENCODINGS = {
     "visibility_km": {"unit": "km", "scale": 0.1, "min": 0.0, "max": 100.0},
     "precip_rate_mm_h": {"unit": "mm/h", "scale": 0.01, "min": 0.0, "max": 500.0},
     "wind_speed_10m_m_s": {"unit": "m/s", "scale": 0.1, "min": 0.0, "max": 100.0},
-    "wind_direction_10m_deg": {"unit": "degree", "scale": 1.0, "min": 0.0, "max": 359.0},
+    "wind_direction_10m_deg": {"unit": "degree", "scale": 1.0, "min": 0.0, "max": 360.0, "wrap": 360},
 }
 
 
@@ -148,12 +148,19 @@ def build_bundle(input_dir: Path) -> tuple[dict, dict]:
             raw_flat = _flatten(field["values"])
             stats = field_stats(raw_flat)
             flags = qc_flags(field_name, stats, raw_flat)
-            encoded_fields[field_name] = quantize(
+            encoded = quantize(
                 field["values"],
                 scale=encoding["scale"],
                 minimum=encoding["min"],
                 maximum=encoding["max"],
             )
+            if encoding.get("wrap"):
+                wrap_units = int(round(encoding["wrap"] / encoding["scale"]))
+                encoded = [
+                    None if value is None else value % wrap_units
+                    for value in encoded
+                ]
+            encoded_fields[field_name] = encoded
             qc_fields[field_name] = {
                 **stats,
                 "flags": flags,
@@ -204,6 +211,7 @@ def build_bundle(input_dir: Path) -> tuple[dict, dict]:
             "scale": meta["scale"],
             "decode": f"value * {meta['scale']}",
             "null": "missing",
+            **({"wrap": meta["wrap"]} if meta.get("wrap") else {}),
         }
         for key, meta in FIELD_ENCODINGS.items()
     }
