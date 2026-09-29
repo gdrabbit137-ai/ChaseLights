@@ -70,10 +70,10 @@
     return true;
   }
 
-  function syncViewFromMap(){
-    if(!state.mapReady || !state.map) return;
+  function renderViewBbox(){
+    if(!state.mapReady || !state.map) return state.view;
     const b=state.map.getBounds();
-    state.view={
+    return {
       leftlon:b.getWest(),rightlon:b.getEast(),
       bottomlat:b.getSouth(),toplat:b.getNorth()
     };
@@ -140,12 +140,10 @@
         canvas.style.pointerEvents='none';
         setBasemapStatus('ready','MapLibre · OpenFreeMap');
         setViewBbox(state.view || state.data.bbox);
-        syncViewFromMap();
         renderAll();
       });
       map.on('move',()=>{
         if(!state.mapReady) return;
-        syncViewFromMap();
         draw();
       });
       map.on('resize',()=>{
@@ -449,6 +447,7 @@
     const rows=data.grid.rows, cols=data.grid.cols;
     const lats=data.grid.latitudes, lons=data.grid.longitudes;
     const size=syncCanvasSize();
+    const visibleView=renderViewBbox();
 
     ctx.clearRect(0,0,size.width,size.height);
     if(!state.mapReady){
@@ -466,8 +465,8 @@
         const lon=lons[c], lat=lats[r];
         const left=lon-lonStep/2, right=lon+lonStep/2;
         const top=lat+latStep/2, bottom=lat-latStep/2;
-        if(right < state.view.leftlon || left > state.view.rightlon ||
-           top < state.view.bottomlat || bottom > state.view.toplat) continue;
+        if(right < visibleView.leftlon || left > visibleView.rightlon ||
+           top < visibleView.bottomlat || bottom > visibleView.toplat) continue;
         const points=[
           project(left,top),project(right,top),
           project(right,bottom),project(left,bottom)
