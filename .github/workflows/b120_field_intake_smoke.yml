@@ -1,0 +1,39 @@
+name: B120 Field Intake Smoke
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "B120_FIELD_OBSERVATION_INTAKE.md"
+      - "field-intake.html"
+      - "assets/field-intake.js"
+      - "assets/field-intake.css"
+      - "test_field_intake_static.py"
+      - ".github/workflows/b120_field_intake_smoke.yml"
+      - "runtime_catalog_v004_r4_2.json"
+      - "index.html"
+      - "assets/app.js"
+      - "B134_RECONCILE_FIELD_OBSERVATION_INTAKE.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  field-intake-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout candidate branch
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Check JavaScript syntax
+        run: node --check assets/field-intake.js
+
+      - name: Run B120 static contract tests
+        run: python test_field_intake_static.py
