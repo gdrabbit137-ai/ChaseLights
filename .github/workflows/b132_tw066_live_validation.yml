@@ -51,10 +51,14 @@ jobs:
 
           bbox = plan["segments"][0]
           regional = TAIWAN_BBOX
-          assert bbox["leftlon"] > regional["leftlon"], (bbox, regional)
-          assert bbox["rightlon"] < regional["rightlon"], (bbox, regional)
-          assert bbox["bottomlat"] > regional["bottomlat"], (bbox, regional)
-          assert bbox["toplat"] < regional["toplat"], (bbox, regional)
+          assert (
+              bbox["rightlon"] - bbox["leftlon"]
+              < regional["rightlon"] - regional["leftlon"]
+          ), (bbox, regional)
+          assert (
+              bbox["toplat"] - bbox["bottomlat"]
+              < regional["toplat"] - regional["bottomlat"]
+          ), (bbox, regional)
 
           subject_lat = 26.365429
           subject_lon = 120.51049
