@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "registry_version": "B121.8",
+  "registry_version": "B121.9",
   "contract": "WEATHERGRID_COVERAGE_SPEC_R4_2.md",
-  "generated_or_reviewed_at": "2026-09-29",
+  "generated_or_reviewed_at": "2026-09-30",
   "notes": [
-    "B121.8 adds subject-aware WeatherGrid coverage for tw-075 外澳龜山朝日.",
-    "The Gueishan Island subject point uses the official Tourism Administration coordinate 24.842373, 121.95015.",
-    "The dawn environment sector is a provisional over-covering envelope around the camera-to-island bearing (~108.5°) and the catalog's broad east-facing dawn contract; it does not claim exact Sun-island alignment.",
-    "B130 also makes WeatherGrid conservatively include non-point Camera Zone geometry_extent_m where the catalog already provides one."
+    "B121.9 adds subject-aware WeatherGrid coverage for tw-073 老梅綠石槽.",
+    "The spring green-groove foreground reuses the curated 250 m local Camera Zone extent as conservative subject coverage; no exact algae polygon is claimed.",
+    "The spring dawn environment uses a padded 65°–105°, 0–15 km sector around the canonical Camera Zone, covering the approximate March-to-mid-May geometric sunrise range (~69°–99°) without claiming exact Sun position or unobstructed local horizon.",
+    "Official North Coast tourism material supports the March-to-mid-May green season, dry-tide timing, morning oblique light and no-stepping safety boundary; no Photography Opportunity scoring changes are made."
   ],
   "entries": [
     {
@@ -1767,6 +1767,76 @@
         "note": "外澳服務區官方資料明確描述海灘正對龜山島且有龜山朝日景觀。Camera Zone 為約 900 m 長形海灘區，B130 由 planner 以 catalog geometry_extent_m 作保守 over-coverage；subject 使用官方龜山島座標，晨曦 sector 只作 WeatherGrid 規劃 envelope。",
         "camera_zone_browser_exposure": {
           "tw-075-VP01": "generalized"
+        }
+      }
+    },
+    {
+      "opportunity_id": "tw-073-P01",
+      "spot_id": "tw-073",
+      "provenance": {
+        "basis": "B28 curated Laomei public-coast Camera Zone + Taiwan Tourism Administration attraction coordinate + North Coast tourism 2026 green-season / dry-tide / morning-light guidance",
+        "geometry_interpretation": "The photographed foreground is local spring algae-covered erosion grooves within the researched 250 m Camera Zone. The 65°–105°, 0–15 km dawn sector intentionally over-covers the approximate March-to-mid-May sunrise azimuth range and nearby eastern atmosphere; it is not an exact Sun coordinate, exact algae polygon or tide line.",
+        "source_urls": [
+          "https://www.tad.gov.tw/m1.aspx?id=A12-00270&sNo=0001016",
+          "https://www.northguan-nsa.gov.tw/user/Article.aspx?Lang=1&SNo=04008948",
+          "https://www.northguan-nsa.gov.tw/user/article.aspx?Lang=1&SNo=04002497"
+        ]
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-073-VP01"
+        ],
+        "subject_geometries": [
+          {
+            "subject_id": "tw-073-P01-SUB01",
+            "role": "spring_green_groove_foreground_zone",
+            "name": "春季綠藻石槽前景區",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-073-VP01",
+              "azimuth_start_deg": 0,
+              "azimuth_end_deg": 360,
+              "min_range_km": 0,
+              "max_range_km": 0.25
+            },
+            "coord_confidence": "high",
+            "source_evidence_ids": [
+              "runtime_catalog_v004_r4_2.tw-073-VP01.geometry_extent_m",
+              "taiwan_tourism.laomei_green_reef",
+              "northguan_nsa.laomei_green_season"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "environment_geometries": [
+          {
+            "environment_id": "tw-073-P01-ENV01",
+            "role": "spring_dawn_horizon_sector",
+            "name": "春季東方晨曦天氣扇區",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-073-VP01",
+              "azimuth_start_deg": 65,
+              "azimuth_end_deg": 105,
+              "min_range_km": 0,
+              "max_range_km": 15
+            },
+            "coord_confidence": "medium_high",
+            "source_evidence_ids": [
+              "runtime_catalog_v004_r4_2.tw-073-P01.condition_geometry",
+              "northguan_nsa.laomei_2026_morning_light",
+              "derived_solar_geometry.mar_to_mid_may_at_25_292N"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "display_padding_km": 2,
+        "coverage_confidence": "medium_high",
+        "note": "北觀處官方資料明確支持3月至5月中綠藻季、乾潮前後1–2小時與清晨斜光。WeatherGrid 以既有250 m Camera Zone保守涵蓋綠石槽前景，晨曦以65°–105° sector涵蓋春季日出方向；不宣稱精確藻況、潮線、太陽位置或安全可進入範圍。",
+        "camera_zone_browser_exposure": {
+          "tw-073-VP01": "generalized"
         }
       }
     }
