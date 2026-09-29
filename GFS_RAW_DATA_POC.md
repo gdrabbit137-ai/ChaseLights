@@ -2,108 +2,160 @@
 
 ## Goal
 
-Prove that ChaseLights can ingest global numerical-weather-model raw data directly, render its own weather layer, and keep that path independent from the existing production scoring engine.
+Prove that ChaseLights can ingest global numerical-weather-model raw data directly, render its own weather layers, and keep that path independent from the existing production scoring engine.
 
-The first POC is intentionally narrow:
+The current POC covers:
 
 1. NOAA/NCEP GFS 0.25° GRIB2
 2. Taiwan regional subset
-3. Low-cloud cover only
-4. ChaseLights active Place coordinates overlaid
-5. Outputs a GRIB2 file, a browser-friendly JSON grid, and a PNG rendering
+3. Low-cloud cover (`LCDC`) on the GFS low-cloud layer
+4. Coastline / border / Natural Earth admin-1 reference context when Cartopy data is available
+5. Active ChaseLights Place coordinates
+6. Nearest-grid low-cloud values for every Place
+7. A consistent GFS run across multiple forecast hours
+8. Per-frame JSON + PNG, a manifest, and a per-Place time-series JSON
 
-No production score or Opportunity logic is changed in this batch.
+No production score or Photography Opportunity logic is changed by this POC.
 
 ## Why GFS first
 
-GFS is global, open, documented, and available through NOAA NOMADS. NOMADS Grib Filter supports coordinate-based regional subsetting so ChaseLights does not need to download the full global GRIB2 file.
+GFS is global, open, documented, and available through NOAA NOMADS. NOMADS Grib Filter supports coordinate-based regional and variable subsetting, so ChaseLights does not need to download complete global model files.
 
-The POC requests only the GFS low-cloud field/level pair:
+The request is deliberately narrow:
 
 - `LCDC`
 - `low cloud layer`
 - Taiwan bounding box: 117.5–123.5°E, 20.5–26.75°N
 
-This keeps the download small enough for repeatable development.
+## Series behavior
+
+The default manual run requests:
+
+```text
+f000, f003, f006, f009, f012, f015, f018, f021, f024
+```
+
+The POC first checks the furthest requested forecast hour to choose a model cycle that is fully published. All earlier frames then come from that exact same date/cycle. This prevents a visual sequence from accidentally mixing different GFS runs.
+
+Each frame records both:
+
+- model cycle time
+- valid forecast time
+
+That distinction is required for later forecast-revision replay.
+
+## Place sampling
+
+For each active Taiwan Place, the POC stores the nearest GFS grid-cell value plus trace metadata:
+
+```json
+{
+  "low_cloud_percent": 42.5,
+  "grid_lat": 24.0,
+  "grid_lon": 121.75,
+  "grid_distance_km": 7.8,
+  "grid_row": 11,
+  "grid_col": 17
+}
+```
+
+This is intentionally `nearest_grid_cell` rather than interpolation for the POC. The raw sampled cell stays traceable and easy to verify. Bilinear interpolation can be evaluated later.
+
+## Geographic rendering
+
+The PNG renderer uses a Plate Carrée map when Cartopy is available and adds:
+
+- Natural Earth 10m coastline
+- national-border reference lines
+- Natural Earth admin-1 reference lines
+- all active ChaseLights Taiwan Place markers
+- selected Place labels with their sampled low-cloud percentage
+
+Administrative lines are map reference context only and are not a weather-data source or a scoring input.
+
+If geographic context cannot be loaded, the renderer falls back to plain longitude/latitude axes rather than blocking the raw-data pipeline.
 
 ## Files
 
 - `gfs_raw_poc.py`
   - chooses a recent GFS cycle
-  - builds the NOMADS Grib Filter URL
-  - downloads a regional GRIB2 subset
-  - validates the response begins with the GRIB signature
+  - builds NOMADS Grib Filter URLs
+  - downloads regional GRIB2 subsets
+  - validates GRIB payloads
   - extracts low-cloud cover using cfgrib/ecCodes
-  - exports JSON
-  - renders PNG
-  - overlays active Taiwan ChaseLights Places
+  - samples every active Taiwan Place
+  - exports per-frame JSON
+  - renders per-frame PNG
+  - writes a manifest and Place time series
 
 - `test_gfs_raw_poc.py`
-  - offline tests only
-  - validates file naming, cycles, bbox and NOMADS query contract
-  - does not consume NOAA network capacity
+  - offline contract tests
+  - validates naming/cycles/bbox/request shape
+  - validates forecast-hour parsing and valid time
+  - validates deterministic nearest-grid sampling
 
 - `.github/workflows/b113_gfs_raw_poc.yml`
-  - PR: runs offline contract tests
-  - manual workflow dispatch: performs a real GFS download/render and uploads the result as a GitHub Actions artifact
+  - PR: offline contract tests only
+  - manual workflow dispatch: real NOAA fetch + multi-hour rendering
 
 ## Running locally
 
-Dry run, no network fetch:
+Dry run:
 
 ```bash
 python gfs_raw_poc.py --dry-run
 ```
 
-Real POC:
+Real multi-hour POC:
 
 ```bash
-python -m pip install requests xarray cfgrib eccodes numpy matplotlib
+python -m pip install requests xarray cfgrib eccodes numpy matplotlib cartopy
+python gfs_raw_poc.py \
+  --forecast-hours 0,3,6,9,12,15,18,21,24 \
+  --output-dir gfs_poc_output
+```
+
+A single-hour run remains supported for backward compatibility:
+
+```bash
 python gfs_raw_poc.py --forecast-hour 0 --output-dir gfs_poc_output
 ```
 
-Expected outputs:
+## Expected outputs
 
 ```text
 gfs_poc_output/
-  gfs_tw_low_cloud.grib2
-  gfs_tw_low_cloud.json
-  gfs_tw_low_cloud.png
+  gfs_tw_low_cloud_f000.grib2
+  gfs_tw_low_cloud_f000.json
+  gfs_tw_low_cloud_f000.png
+  ...
+  gfs_tw_low_cloud_f024.grib2
+  gfs_tw_low_cloud_f024.json
+  gfs_tw_low_cloud_f024.png
+  gfs_tw_low_cloud_manifest.json
+  gfs_tw_low_cloud_spot_series.json
 ```
 
-## Data contract
-
-The JSON output contains:
-
-- provider
-- model
-- run date/cycle/forecast hour
-- bbox
-- source URL
-- decoded field metadata
-- latitude coordinates
-- longitude coordinates
-- low-cloud percentage grid
-- active ChaseLights Taiwan Place coordinates
-
-This gives the next stage a stable intermediate format without making the browser parse GRIB2 directly.
+The manifest lists the exact cycle and valid time of every frame. The spot-series file reorganizes the frame data by Place so a future browser UI can draw a timeline without re-reading all grid files.
 
 ## Guardrails
 
 - This POC does not feed production scoring.
 - Live network fetches are manual only.
 - Automatic PR tests do not contact NOAA.
-- Candidate-run retries wait 10 seconds between NOMADS requests.
-- The code requests a regional/variable subset instead of full global GFS files.
+- The code requests regional/variable subsets instead of full global GFS files.
+- Frames in one series always use one GFS cycle.
 - Generated artifacts are not committed to the repository.
 
-## Next stage after validation
+## Next stages
 
-If the live artifact verifies that GFS low-cloud positioning is correct:
+After multi-hour map validation:
 
-1. add additional layers: mid/high cloud, precipitation, wind and visibility
-2. generate compact map tiles or grid chunks suitable for the browser
-3. add a ChaseLights weather-map viewer centered on a selected Place
-4. support model/run replay
-5. compare GFS with ECMWF/ICON behind a common WeatherGrid provider interface
-6. only after validation, evaluate whether model-grid data should influence Opportunity confidence/scoring
+1. add mid/high cloud, precipitation, wind and visibility
+2. evaluate nearest-cell versus interpolation for Place sampling
+3. generate compact browser map layers or tiles
+4. add a ChaseLights weather-map viewer centered on a selected Place
+5. preserve model/run history for replay and forecast-revision comparison
+6. place GFS behind a common WeatherGrid provider interface
+7. add ECMWF/ICON comparison
+8. only after field validation, evaluate whether raw-grid data should modify Opportunity confidence/scoring
