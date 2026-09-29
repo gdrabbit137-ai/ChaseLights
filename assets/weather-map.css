@@ -21,7 +21,7 @@ body{padding:18px}
 .weather-layout{max-width:1600px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:16px}
 .map-panel,.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px}
 .map-panel{padding:12px;min-width:0}
-.control-bar{display:grid;grid-template-columns:180px minmax(260px,1fr) 230px auto;gap:10px;align-items:end;margin-bottom:10px}
+.control-bar{display:grid;grid-template-columns:170px minmax(240px,1fr) 210px 240px auto;gap:10px;align-items:end;margin-bottom:10px}
 .control-bar label{display:flex;flex-direction:column;gap:5px;color:var(--muted);font-size:.75rem;font-weight:700}
 .control-bar select,.control-bar button,.control-bar input[type=range]{width:100%}
 .control-bar select,.control-bar button{background:#0f172a;color:#e2e8f0;border:1px solid #475569;
@@ -57,15 +57,26 @@ body{padding:18px}
 @media(max-width:1050px){
   .weather-layout{grid-template-columns:1fr}
   .inspector{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
-  .control-bar{grid-template-columns:160px minmax(220px,1fr) 200px auto}
+  .control-bar{grid-template-columns:150px minmax(210px,1fr) 190px 220px auto}
 }
 @media(max-width:720px){
   body{padding:10px}
   .weather-header{align-items:flex-start;flex-direction:column}
   .source-meta{text-align:left;min-width:0}
   .control-bar{grid-template-columns:1fr 1fr}
-  .time-control{grid-column:1/-1;order:3}
+  .time-control{grid-column:1/-1;order:5}
   #reset-view{align-self:end}
   .inspector{display:flex}
   .legend{left:8px;bottom:8px;min-width:160px;padding:6px 7px}
 }
+
+.coverage-key{margin-top:7px;display:flex;gap:10px;flex-wrap:wrap;color:#cbd5e1;font-size:.69rem}
+.coverage-key span{display:inline-flex;align-items:center;gap:5px}
+.coverage-swatch{width:18px;height:3px;border-radius:3px;display:inline-block}
+.coverage-swatch.camera{background:#fbbf24;height:7px;width:7px;border-radius:999px}
+.coverage-swatch.subject{background:#fb923c}
+.coverage-swatch.environment{background:#22d3ee}
+.coverage-badge{display:inline-flex;padding:2px 7px;border-radius:999px;font-weight:800;font-size:.7rem;border:1px solid #475569}
+.coverage-badge.ok{color:#86efac;border-color:#166534;background:#052e16}
+.coverage-badge.provisional{color:#fde68a;border-color:#a16207;background:#422006}
+.coverage-badge.pending{color:#fecaca;border-color:#991b1b;background:#450a0a}
