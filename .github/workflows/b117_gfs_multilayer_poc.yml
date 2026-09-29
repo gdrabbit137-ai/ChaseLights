@@ -44,6 +44,8 @@ on:
       - "B142_DEYUE_TOWER_WEATHERGRID_COVERAGE.md"
       - "B144_WEATHERGRID_CARTOGRAPHIC_BASEMAP.md"
       - "test_weathergrid_basemap_contract.py"
+      - "B146_WEATHERGRID_OVERLAY_READABILITY.md"
+      - "test_weathergrid_overlay_readability.py"
       - ".github/workflows/update_weathergrid.yml"
       - "test_weathergrid_refresh_workflow.py"
       - "B132_WEATHERGRID_SCHEDULED_REFRESH.md"
@@ -105,7 +107,8 @@ jobs:
             test_weathergrid_coverage_browser.py \
             test_weathergrid_fetch_plan.py \
             test_weathergrid_refresh_workflow.py \
-            test_weathergrid_basemap_contract.py
+            test_weathergrid_basemap_contract.py \
+            test_weathergrid_overlay_readability.py
           python audit_weathergrid_coverage.py
 
   live-poc:
