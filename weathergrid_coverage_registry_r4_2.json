@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "registry_version": "B121.13",
+  "registry_version": "B121.14",
   "contract": "WEATHERGRID_COVERAGE_SPEC_R4_2.md",
   "generated_or_reviewed_at": "2026-09-30",
   "notes": [
-    "B121.13 adds subject-aware WeatherGrid coverage for tw-068 朝日溫泉 while retaining prior complete entries.",
-    "East Coast National Scenic Area official material confirms the hot spring is on Green Island's southeast coast, faces the Pacific, and is specifically suitable for watching sunrise from the sea horizon.",
-    "B138 uses a conservative 0–0.5 km full-circle local foreground envelope plus a 60°–120°, 0–15 km dawn-atmosphere sector. These are WeatherGrid planning envelopes, not exact pool, shoreline, visible-horizon, or solar-alignment geometry.",
-    "Seasonal opening hours, actual access, cloud obstruction and on-site visibility remain separate eligibility/runtime concerns; no Photography Opportunity scoring changes are made."
+    "B121.14 adds subject-aware WeatherGrid coverage for tw-067 芹壁聚落 while retaining prior complete entries.",
+    "Matsu National Scenic Area official material identifies the high observation platform as a representative view over the stone houses and bay, and explicitly recommends sunset as a classic photography time.",
+    "B139 uses a conservative 0–1.0 km full-circle local subject envelope plus a 235°–305°, 0–15 km sunset-atmosphere sector. These are WeatherGrid planning envelopes, not exact village, bay, shoreline, visible-horizon, or solar-alignment geometry.",
+    "Pedestrian access, crowding, local obstructions and actual sunset visibility remain separate runtime/on-site concerns; no Photography Opportunity scoring changes are made."
   ],
   "entries": [
     {
@@ -2079,6 +2079,72 @@
         "note": "官方資料確認朝日溫泉位於綠島東南海岸、面向太平洋，臨海浴池可觀日出。WeatherGrid 以 0–0.5 km full-circle 保守涵蓋近岸溫泉／潮間帶前景，並以 60°–120°、0–15 km sector 涵蓋全年日出方向附近的大氣。Camera Zone 無可重建 exact extent，保留 anchor-only warning；開放時間與實際可見度仍由獨立 gate/runtime 判定。",
         "camera_zone_browser_exposure": {
           "tw-068-VP01": "generalized"
+        }
+      }
+    },
+    {
+      "opportunity_id": "tw-067-P01",
+      "spot_id": "tw-067",
+      "provenance": {
+        "basis": "Site-verified Qinbi high-platform Camera Zone + Matsu National Scenic Area official description of the representative stone-house/bay view and sunset photography.",
+        "geometry_interpretation": "The photographed scene combines the local Qinbi stone-house/bay foreground with western sunset atmosphere. B139 uses a conservative 0–1.0 km full-circle subject envelope and a 235°–305°, 0–15 km sunset sector. The sector pads the geometric annual sunset azimuth range at latitude 26.225° (~243.7°–296.3°) and is not an exact local horizon or solar-alignment claim.",
+        "source_urls": [
+          "https://matsu-nsa.gov.tw/zh-TW/attractions/1447"
+        ]
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-067-VP01"
+        ],
+        "subject_geometries": [
+          {
+            "subject_id": "tw-067-P01-SUB01",
+            "role": "stone_house_bay_foreground_zone",
+            "name": "芹壁石屋聚落與近岸海灣前景",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-067-VP01",
+              "azimuth_start_deg": 0,
+              "azimuth_end_deg": 360,
+              "min_range_km": 0,
+              "max_range_km": 1
+            },
+            "coord_confidence": "medium_high",
+            "source_evidence_ids": [
+              "matsu_nsa.qinbi_high_platform_stone_houses_bay",
+              "runtime_catalog.tw-067-VP01"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "environment_geometries": [
+          {
+            "environment_id": "tw-067-P01-ENV01",
+            "role": "western_sunset_horizon_sector",
+            "name": "芹壁海灣夕照天氣扇區",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-067-VP01",
+              "azimuth_start_deg": 235,
+              "azimuth_end_deg": 305,
+              "min_range_km": 0,
+              "max_range_km": 15
+            },
+            "coord_confidence": "medium_high",
+            "source_evidence_ids": [
+              "matsu_nsa.qinbi_sunset",
+              "runtime_catalog_v004_r4_2.tw-067-P01"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "display_padding_km": 3,
+        "coverage_confidence": "medium_high",
+        "note": "官方資料指出芹壁高處觀景平台可將石屋與海灣收進畫面，傍晚夕陽是經典拍攝時刻。WeatherGrid 以 0–1.0 km full-circle 保守涵蓋聚落／海灣前景，並以 235°–305°、0–15 km sector 涵蓋全年夕照方向附近的大氣。Camera Zone 無可重建 exact extent，保留 anchor-only warning；人潮、步道可用性與實際日落可見度仍是獨立考量。",
+        "camera_zone_browser_exposure": {
+          "tw-067-VP01": "generalized"
         }
       }
     }
