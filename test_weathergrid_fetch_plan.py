@@ -101,6 +101,34 @@ class WeatherGridFetchPlanTest(unittest.TestCase):
         self.assertIn("tw-035-P01", diagnostic["missing_registry_entries"])
         self.assertIn("tw-035-P02", diagnostic["missing_registry_entries"])
 
+    def test_secondary_local_places_can_use_scoped_fetch(self):
+        for spot_id in ("tw-078", "tw-081"):
+            with self.subTest(spot_id=spot_id):
+                plan = build_gfs_fetch_plan(
+                    scope_type="place",
+                    scope_id=spot_id,
+                    catalog=self.catalog,
+                    registry=self.registry,
+                )
+                self.assertTrue(plan["coverage_complete"], plan)
+                self.assertTrue(plan["safe_to_scope"], plan)
+                self.assertEqual(plan["effective_scope"], {"type": "place", "id": spot_id})
+                self.assertEqual(plan["spot_ids"], [spot_id])
+                self.assertEqual(plan["coverage_diagnostics"]["catalog_opportunity_count"], 1)
+                self.assertEqual(plan["coverage_diagnostics"]["migrated_count"], 1)
+                self.assertEqual(plan["coverage_diagnostics"]["missing_registry_entries"], [])
+                self.assertEqual(plan["coverage_diagnostics"]["incomplete_opportunities"], [])
+                self.assertEqual(len(plan["segments"]), 1)
+                segment = plan["segments"][0]
+                self.assertLess(
+                    segment["rightlon"] - segment["leftlon"],
+                    TAIWAN_BBOX["rightlon"] - TAIWAN_BBOX["leftlon"],
+                )
+                self.assertLess(
+                    segment["toplat"] - segment["bottomlat"],
+                    TAIWAN_BBOX["toplat"] - TAIWAN_BBOX["bottomlat"],
+                )
+
     def test_qingshui_all_topic_place_can_use_scoped_fetch(self):
         plan = build_gfs_fetch_plan(
             scope_type="place",
