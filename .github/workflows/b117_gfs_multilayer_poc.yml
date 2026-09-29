@@ -13,6 +13,9 @@ on:
       - "weathergrid_browser_bundle.py"
       - "test_weathergrid_browser_bundle.py"
       - "B118_WEATHERGRID_BROWSER_BUNDLE.md"
+      - "WEATHERGRID_COVERAGE_SPEC_R4_2.md"
+      - "weathergrid_coverage.py"
+      - "test_weathergrid_coverage.py"
   workflow_dispatch:
     inputs:
       forecast_hours:
@@ -45,7 +48,11 @@ jobs:
 
       - name: Run offline contract tests
         run: |
-          python -m unittest -v             test_gfs_raw_poc.py             test_gfs_multilayer_poc.py             test_weathergrid_browser_bundle.py
+          python -m unittest -v \
+            test_gfs_raw_poc.py \
+            test_gfs_multilayer_poc.py \
+            test_weathergrid_browser_bundle.py \
+            test_weathergrid_coverage.py
 
   live-poc:
     if: github.event_name == 'workflow_dispatch'
@@ -67,11 +74,14 @@ jobs:
 
       - name: Fetch and render multi-layer WeatherGrid
         run: |
-          python gfs_multilayer_poc.py             --forecast-hours "${{ inputs.forecast_hours }}"             --output-dir gfs_multilayer_output
+          python gfs_multilayer_poc.py \
+            --forecast-hours "${{ inputs.forecast_hours }}" \
+            --output-dir gfs_multilayer_output
 
       - name: Build compact browser bundle and QC
         run: |
-          python weathergrid_browser_bundle.py             --input-dir gfs_multilayer_output
+          python weathergrid_browser_bundle.py \
+            --input-dir gfs_multilayer_output
 
       - name: Publish compact WeatherGrid preview snapshot
         if: inputs.publish_preview == true
