@@ -26,10 +26,23 @@ class AdminAreaMetadataTests(unittest.TestCase):
         self.assertEqual(["Arizona"], spots["us-001"]["admin_areas"])
         self.assertEqual(["California"], spots["us-015"]["admin_areas"])
         self.assertEqual(["Alaska"], spots["us-041"]["admin_areas"])
+        self.assertEqual(["California", "Nevada"], spots["us-014"]["admin_areas"])
         self.assertEqual(
             ["Tennessee", "North Carolina"],
             spots["us-038"]["admin_areas"],
         )
+
+    def test_taiwan_boundary_places_are_multi_area(self):
+        spots = self._spots_by_id("tw")
+        self.assertEqual(["南投縣", "花蓮縣"], spots["tw-019"]["admin_areas"])
+
+    def test_admin_areas_are_nonempty_unique_lists(self):
+        for region in ("tw", "jp", "us"):
+            for spot in get_spots(region):
+                areas = spot["admin_areas"]
+                self.assertIsInstance(areas, list)
+                self.assertTrue(areas)
+                self.assertEqual(len(areas), len(set(areas)))
 
     def test_legacy_macro_categories_remain_data_only(self):
         jp = self._spots_by_id("jp")
