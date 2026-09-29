@@ -26,6 +26,9 @@ on:
       - "assets/weather-map.css"
       - "weather-map.html"
       - "B122_OPPORTUNITY_AWARE_WEATHERGRID_UI.md"
+      - "weathergrid_fetch_plan.py"
+      - "test_weathergrid_fetch_plan.py"
+      - "B123_WEATHERGRID_SCOPED_FETCH.md"
   workflow_dispatch:
     inputs:
       forecast_hours:
@@ -37,6 +40,14 @@ on:
         required: false
         type: boolean
         default: false
+      coverage_opportunity:
+        description: "Optional complete Opportunity ID for subject-aware scoped fetch"
+        required: false
+        default: ""
+      coverage_place:
+        description: "Optional Place ID; requires every active topic coverage to be complete"
+        required: false
+        default: ""
 
 permissions:
   contents: write
@@ -63,7 +74,8 @@ jobs:
             test_gfs_multilayer_poc.py \
             test_weathergrid_browser_bundle.py \
             test_weathergrid_coverage.py \
-            test_weathergrid_coverage_browser.py
+            test_weathergrid_coverage_browser.py \
+            test_weathergrid_fetch_plan.py
           python audit_weathergrid_coverage.py
 
   live-poc:
@@ -84,11 +96,32 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install requests xarray cfgrib eccodes numpy matplotlib cartopy
 
-      - name: Fetch and render multi-layer WeatherGrid
+      - name: Validate WeatherGrid workflow scope
+        shell: bash
         run: |
+          if [[ -n "${{ inputs.coverage_opportunity }}" && -n "${{ inputs.coverage_place }}" ]]; then
+            echo "::error::Choose only one of coverage_opportunity or coverage_place."
+            exit 1
+          fi
+          if [[ "${{ inputs.publish_preview }}" == "true" && ( -n "${{ inputs.coverage_opportunity }}" || -n "${{ inputs.coverage_place }}" ) ]]; then
+            echo "::error::publish_preview requires the full Taiwan WeatherGrid; scoped fetches are validation artifacts only."
+            exit 1
+          fi
+
+      - name: Fetch and render multi-layer WeatherGrid
+        shell: bash
+        run: |
+          scope_args=()
+          if [[ -n "${{ inputs.coverage_opportunity }}" ]]; then
+            scope_args+=(--coverage-opportunity "${{ inputs.coverage_opportunity }}")
+          fi
+          if [[ -n "${{ inputs.coverage_place }}" ]]; then
+            scope_args+=(--coverage-place "${{ inputs.coverage_place }}")
+          fi
           python gfs_multilayer_poc.py \
             --forecast-hours "${{ inputs.forecast_hours }}" \
-            --output-dir gfs_multilayer_output
+            --output-dir gfs_multilayer_output \
+            "${scope_args[@]}"
 
       - name: Build compact browser bundle and QC
         run: |
