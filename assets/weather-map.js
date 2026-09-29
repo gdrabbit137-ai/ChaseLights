@@ -425,7 +425,9 @@
     const dashed=!subject;
 
     if(g.type==='point'){
-      const p=project(Number(g.lon),Number(g.lat));
+      const origin=geometryOrigin(g,op);
+      if(!origin) return;
+      const p=project(origin.lon,origin.lat);
       ctx.save();
       ctx.strokeStyle=stroke;ctx.lineWidth=3;ctx.setLineDash(dashed?[8,6]:[]);
       ctx.strokeRect(p.x-7,p.y-7,14,14);ctx.restore();
