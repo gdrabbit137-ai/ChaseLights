@@ -63,3 +63,30 @@ Typical categories are:
 - no coverage geometry changes;
 - no requirement that basemap data influence any photography decision;
 - screenshot is diagnostic only and is retained as a short-lived Actions artifact.
+
+
+## B147 freshness hardening
+
+The original B145 publication wait only checked for B144 markers such as
+`weather-basemap` and the pinned MapLibre version. Once B144 was already live,
+a later WeatherGrid presentation change could therefore pass the smoke test
+against the previous deployment while the new GitHub Pages build was still
+running.
+
+B147 closes that race.
+
+Before Selenium starts, the workflow now hashes the repository versions of:
+
+```text
+weather-map.html
+assets/weather-map.js
+assets/weather-map.css
+```
+
+It then repeatedly downloads the three public production assets with a
+cache-busting query and `Cache-Control: no-cache`. Selenium runs only after
+all three SHA-256 digests exactly match the current checked-out `main` bytes.
+
+This changes the meaning of a green production smoke from "a compatible
+WeatherGrid page is live" to "this exact WeatherGrid presentation revision is
+live and passed the browser smoke."
