@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "registry_version": "B121.13",
+  "registry_version": "B121.14",
   "contract": "WEATHERGRID_COVERAGE_SPEC_R4_2.md",
   "generated_or_reviewed_at": "2026-09-30",
   "notes": [
-    "B121.13 adds subject-aware WeatherGrid coverage for tw-068 朝日溫泉 while retaining prior complete entries.",
-    "East Coast National Scenic Area official material confirms the hot spring is on Green Island's southeast coast, faces the Pacific, and is specifically suitable for watching sunrise from the sea horizon.",
-    "B138 uses a conservative 0–0.5 km full-circle local foreground envelope plus a 60°–120°, 0–15 km dawn-atmosphere sector. These are WeatherGrid planning envelopes, not exact pool, shoreline, visible-horizon, or solar-alignment geometry.",
-    "Seasonal opening hours, actual access, cloud obstruction and on-site visibility remain separate eligibility/runtime concerns; no Photography Opportunity scoring changes are made."
+    "B121.14 adds subject-aware WeatherGrid coverage for tw-069 東清灣 while retaining prior complete entries.",
+    "Taitung County official tourism material describes Dongqing Bay as Lanyu's largest east-side bay, about 500 m long, with many traditional tatala/pinban boats at Dongqing Harbor and representative sunrise/sky-glow scenery.",
+    "B139 uses a conservative 0–0.6 km full-circle local bay/boat foreground envelope plus a 60°–120°, 0–15 km dawn-atmosphere sector. These are WeatherGrid planning envelopes, not exact beach, boat-position, visible-horizon, or solar-alignment geometry.",
+    "Cultural photography permission, marine safety, access, and actual sunrise visibility remain separate fail-closed gates; no Photography Opportunity scoring changes are made."
   ],
   "entries": [
     {
@@ -2079,6 +2079,74 @@
         "note": "官方資料確認朝日溫泉位於綠島東南海岸、面向太平洋，臨海浴池可觀日出。WeatherGrid 以 0–0.5 km full-circle 保守涵蓋近岸溫泉／潮間帶前景，並以 60°–120°、0–15 km sector 涵蓋全年日出方向附近的大氣。Camera Zone 無可重建 exact extent，保留 anchor-only warning；開放時間與實際可見度仍由獨立 gate/runtime 判定。",
         "camera_zone_browser_exposure": {
           "tw-068-VP01": "generalized"
+        }
+      }
+    },
+    {
+      "opportunity_id": "tw-069-P01",
+      "spot_id": "tw-069",
+      "provenance": {
+        "basis": "Site-verified Dongqing Bay / Dongqing Harbor public Camera Zone + Taitung County official tourism description of the east-side bay, traditional tatala/pinban boats and representative sunrise scenery.",
+        "geometry_interpretation": "The photographed scene combines the immediate Dongqing Bay / harbor / traditional-boat foreground with eastern dawn atmosphere. B139 uses a conservative 0–0.6 km full-circle local subject envelope because official material describes the bay as extending about 500 m, plus a 60°–120°, 0–15 km dawn sector. At latitude 22.053° the geometric annual sunrise azimuth range is about 64.6°–115.4°; the padded sector is not an exact local horizon or solar-alignment claim.",
+        "source_urls": [
+          "https://tour.taitung.gov.tw/zh-tw/attraction/details/924",
+          "https://media.taiwan.net.tw/zh-tw/portal/travel/details/attraction_376540000a_000391",
+          "https://east.taiwan.net.tw/pwa/zh-tw/district/11/"
+        ]
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-069-VP01"
+        ],
+        "subject_geometries": [
+          {
+            "subject_id": "tw-069-P01-SUB01",
+            "role": "dongqing_bay_tatala_foreground_zone",
+            "name": "東清灣／東清港澳海灣與拼板舟文化前景",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-069-VP01",
+              "azimuth_start_deg": 0,
+              "azimuth_end_deg": 360,
+              "min_range_km": 0,
+              "max_range_km": 0.6
+            },
+            "coord_confidence": "medium_high",
+            "source_evidence_ids": [
+              "taitung_tourism.dongqing_bay_500m_tatala",
+              "runtime_catalog.tw-069-VP01"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "environment_geometries": [
+          {
+            "environment_id": "tw-069-P01-ENV01",
+            "role": "eastern_sunrise_horizon_sector",
+            "name": "東清灣日出晨曦天氣扇區",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-069-VP01",
+              "azimuth_start_deg": 60,
+              "azimuth_end_deg": 120,
+              "min_range_km": 0,
+              "max_range_km": 15
+            },
+            "coord_confidence": "medium_high",
+            "source_evidence_ids": [
+              "taitung_tourism.dongqing_bay_sunrise",
+              "runtime_catalog_v004_r4_2.tw-069-P01"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "display_padding_km": 3,
+        "coverage_confidence": "medium_high",
+        "note": "官方資料確認東清灣位於蘭嶼東側，海灣約延伸500 m，東清港澳常見拼板舟，清晨日出與朝霞為代表性景觀。WeatherGrid 以 0–0.6 km full-circle 保守涵蓋海灣／港澳／拼板舟前景，並以 60°–120°、0–15 km sector 涵蓋全年日出方向附近的大氣。Camera Zone 無可重建 exact extent，保留 anchor-only warning；文化拍攝許可、海況、安全、進入與實際日出可見性仍由獨立 gate/runtime 判定。",
+        "camera_zone_browser_exposure": {
+          "tw-069-VP01": "generalized"
         }
       }
     }
