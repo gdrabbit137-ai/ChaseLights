@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "registry_version": "B121.10",
+  "registry_version": "B121.11",
   "contract": "WEATHERGRID_COVERAGE_SPEC_R4_2.md",
   "generated_or_reviewed_at": "2026-09-30",
   "notes": [
-    "B121.10 adds subject-aware WeatherGrid coverage for tw-066 東湧燈塔（東引島燈塔）.",
-    "The fixed lighthouse subject uses the official Taiwan Tourism Administration attraction coordinate; the surrounding cape/sea context is represented by a conservative 0–3 km local environment envelope.",
-    "The catalog Camera Zone is a high-confidence geotagged small-area anchor but has no curated geometry_extent_m, so WeatherGrid intentionally keeps the explicit anchor-only Camera Zone warning rather than inventing a precise public walking polygon.",
-    "Dynamic closure/safety state for strong gusts or long waves remains separate from WeatherGrid coverage geometry; no Photography Opportunity scoring changes are made."
+    "B121.11 adds subject-aware WeatherGrid coverage for tw-037 多良火車站／列車＋太平洋經典構圖.",
+    "The local station / passing-train subject is represented by a conservative 0–0.6 km full-circle envelope around the high-confidence official viewing-area anchor; no exact track polygon or train position is claimed.",
+    "The Pacific background is represented by a broad 30°–160°, 0–15 km coastal-atmosphere sector. This is an over-covering WeatherGrid envelope, not an exact visible-horizon or ocean-boundary claim.",
+    "Train timetable, current access and actual train presence remain separate fail-closed eligibility concerns; B133 changes no Photography Opportunity scoring."
   ],
   "entries": [
     {
@@ -1899,6 +1899,73 @@
         "note": "官方資料確認東湧燈塔為固定海岬地標並具有海景／崖岸環境。Subject 使用官方燈塔座標；Environment 以 3 km full-circle local envelope 保守涵蓋近岸天氣。Camera Zone 本身尚無可重建 extent，因此保留 anchor-only warning，不宣稱精確步道／可站立 polygon。強陣風、長浪與現場開放狀態仍是獨立安全 gate。",
         "camera_zone_browser_exposure": {
           "tw-066-VP01": "generalized"
+        }
+      }
+    },
+    {
+      "opportunity_id": "tw-037-P01",
+      "spot_id": "tw-037",
+      "provenance": {
+        "basis": "B31 curated Duoliang Station viewpoint + Taiwan Tourism Administration official attraction coordinate and train/Pacific scene description",
+        "geometry_interpretation": "The official attraction record places Duoliang Station at 22.507487, 120.95888 and explicitly describes viewing moving trains with the Pacific from the elevated station. B133 uses a conservative 0–0.6 km local subject envelope for station/nearby passing-train geography and a broad 30°–160°, 0–15 km eastern coastal-atmosphere sector for the Pacific background. This does not claim exact rail alignment, train location, timetable, local horizon or access state.",
+        "source_urls": [
+          "https://www.taiwan.net.tw/m1.aspx?id=A12-00377&sNo=0001016",
+          "https://www.taiwan.net.tw/m1.aspx?keystring=&sNo=0042331&uid=25011"
+        ]
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-037-VP01"
+        ],
+        "subject_geometries": [
+          {
+            "subject_id": "tw-037-P01-SUB01",
+            "role": "local_station_and_passing_train_zone",
+            "name": "多良站體與近距離列車通過區",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-037-VP01",
+              "azimuth_start_deg": 0,
+              "azimuth_end_deg": 360,
+              "min_range_km": 0,
+              "max_range_km": 0.6
+            },
+            "coord_confidence": "high",
+            "source_evidence_ids": [
+              "taiwan_tourism.duoliang_official_coordinate",
+              "taiwan_tourism.duoliang_train_scene"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "environment_geometries": [
+          {
+            "environment_id": "tw-037-P01-ENV01",
+            "role": "pacific_coastal_background_sector",
+            "name": "太平洋海景與沿岸天氣扇區",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-037-VP01",
+              "azimuth_start_deg": 30,
+              "azimuth_end_deg": 160,
+              "min_range_km": 0,
+              "max_range_km": 15
+            },
+            "coord_confidence": "medium_high",
+            "source_evidence_ids": [
+              "taiwan_tourism.duoliang_overlooks_pacific",
+              "taiwan_tourism.duoliang_live_camera_train_ocean"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "display_padding_km": 3,
+        "coverage_confidence": "medium_high",
+        "note": "觀光署官方資料明確給出多良車站座標並描述觀景台可看行駛列車與太平洋。B133 以 0–0.6 km 保守涵蓋站體／近距離列車 subject，以 30°–160°、0–15 km sector 涵蓋東側海岸背景天氣；不宣稱精確軌道、列車位置、班次、地平線或即時開放狀態。",
+        "camera_zone_browser_exposure": {
+          "tw-037-VP01": "public"
         }
       }
     }
