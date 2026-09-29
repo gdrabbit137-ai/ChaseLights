@@ -174,7 +174,7 @@ US_ADMIN_AREAS = {
     "us-011": ["Wyoming"],
     "us-012": ["Washington"],
     "us-013": ["Oregon"],
-    "us-014": ["California"],
+    "us-014": ["California", "Nevada"],
     "us-015": ["California"],
     "us-016": ["Nevada"],
     "us-017": ["Washington"],
