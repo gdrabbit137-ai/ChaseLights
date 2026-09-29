@@ -1,0 +1,128 @@
+name: Update Live WeatherGrid Preview
+
+on:
+  schedule:
+    # GFS runs at 00/06/12/18Z. Refresh ~5h20m later so f000-f012
+    # products are normally available while candidate_runs() still falls back
+    # to older cycles if NOAA publication is delayed.
+    - cron: '20 5,11,17,23 * * *'
+  workflow_dispatch:
+    inputs:
+      forecast_hours:
+        description: "Comma-separated GFS forecast hours to publish"
+        required: false
+        default: "0,3,6,9,12"
+
+concurrency:
+  group: chaselights-weathergrid-publish
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  publish-weathergrid:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install GFS WeatherGrid dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install requests xarray cfgrib eccodes numpy matplotlib cartopy
+
+      - name: Fetch regional live GFS WeatherGrid
+        env:
+          FORECAST_HOURS: ${{ inputs.forecast_hours || '0,3,6,9,12' }}
+        run: |
+          python gfs_multilayer_poc.py \
+            --forecast-hours "$FORECAST_HOURS" \
+            --output-dir gfs_multilayer_output \
+            --coverage-scope region
+
+      - name: Build compact browser bundle and QC
+        run: |
+          python weathergrid_browser_bundle.py \
+            --input-dir gfs_multilayer_output
+
+      - name: Build subject-aware coverage browser bundle
+        run: |
+          python build_weathergrid_coverage_browser.py \
+            --output gfs_multilayer_output/weathergrid_coverage_browser.json
+
+      - name: Validate publish payload
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          out = Path("gfs_multilayer_output")
+          browser = json.loads((out / "gfs_tw_weather_browser.json").read_text())
+          qc = json.loads((out / "gfs_tw_weather_qc.json").read_text())
+          coverage = json.loads((out / "weathergrid_coverage_browser.json").read_text())
+
+          assert browser.get("frames"), "browser bundle has no forecast frames"
+          assert browser.get("spots"), "browser bundle has no Places"
+          assert qc.get("frame_count") == len(browser["frames"]), (qc, len(browser["frames"]))
+
+          by_spot = {x["spot_id"]: x for x in coverage.get("spots", [])}
+          for spot_id in ("tw-073", "tw-075"):
+              assert spot_id in by_spot, (spot_id, list(by_spot))
+              assert by_spot[spot_id]["all_topics_complete"] is True, by_spot[spot_id]
+
+          print(json.dumps({
+              "cycle": qc.get("cycle"),
+              "frames": len(browser["frames"]),
+              "spots": len(browser["spots"]),
+              "coverage_spots": len(coverage.get("spots", [])),
+              "tw_073_complete": by_spot["tw-073"]["all_topics_complete"],
+              "tw_075_complete": by_spot["tw-075"]["all_topics_complete"],
+          }, indent=2))
+          PY
+
+      - name: Publish compact live snapshot
+        run: |
+          mkdir -p weathergrid
+          cp gfs_multilayer_output/gfs_tw_weather_browser.json weathergrid/gfs_tw_weather_browser.json
+          cp gfs_multilayer_output/gfs_tw_weather_qc.json weathergrid/gfs_tw_weather_qc.json
+          cp gfs_multilayer_output/weathergrid_coverage_browser.json weathergrid/weathergrid_coverage_browser.json
+
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add \
+            weathergrid/gfs_tw_weather_browser.json \
+            weathergrid/gfs_tw_weather_qc.json \
+            weathergrid/weathergrid_coverage_browser.json
+
+          if git diff --cached --quiet; then
+            echo "WeatherGrid live snapshot unchanged."
+            exit 0
+          fi
+
+          git commit -m "Auto-update live WeatherGrid preview [skip ci]"
+          for i in {1..5}; do
+            if git pull --rebase origin main && git push origin HEAD:main; then
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "Failed to publish WeatherGrid snapshot after retries."
+          exit 1
+
+      - name: Upload validation artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: live-weathergrid-preview
+          path: gfs_multilayer_output/
+          if-no-files-found: error
+          retention-days: 7
