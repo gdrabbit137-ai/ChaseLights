@@ -1,10 +1,11 @@
 {
   "schema_version": 1,
-  "registry_version": "B121.1",
+  "registry_version": "B121.2",
   "contract": "WEATHERGRID_COVERAGE_SPEC_R4_2.md",
   "generated_or_reviewed_at": "2026-09-29",
   "notes": [
-    "First curated migration batch. Geometry reuses researched Camera Zones and existing directional/spatial weather contracts.",
+    "B121.2 expands subject-aware WeatherGrid coverage using only existing researched spatial-weather contracts.",
+    "Cloud-sea full-ring entries are provisional broad subject/environment coverage, not exact cloud boundaries.",
     "Entries marked needs_research intentionally remain incomplete; Place center fallback does not satisfy subject-aware coverage."
   ],
   "entries": [
@@ -280,6 +281,510 @@
         "note": "需補湖面與日落／晚霞 horizon sector；不可僅以 Camera Zone 代表被攝主體。",
         "camera_zone_browser_exposure": {
           "tw-082-VP03": "generalized"
+        }
+      }
+    },
+    {
+      "opportunity_id": "tw-004-P03",
+      "spot_id": "tw-004",
+      "provenance": {
+        "basis": "Existing lower-cloud-below-camera spatial profile in spatial_weather.py for tw-004-P03",
+        "geometry_interpretation": "The 8 km full-ring zone is the existing broad environmental subject/sampling coverage for the cloud-sea Opportunity. It is not an observed cloud boundary or exact visible foreground polygon."
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-004-VP01"
+        ],
+        "subject_geometries": [],
+        "environment_geometries": [
+          {
+            "environment_id": "tw-004-P03-ENV01",
+            "role": "cloud_sea_subject_environment_zone",
+            "name": "不厭亭山谷雲海＋露出山頭－下方低雲／雲海環境區",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-004-VP01",
+              "azimuth_start_deg": 0,
+              "azimuth_end_deg": 360,
+              "min_range_km": 0,
+              "max_range_km": 8
+            },
+            "coord_confidence": "medium",
+            "source_evidence_ids": [
+              "spatial_weather.SPATIAL_WEATHER_PROFILES.tw-004-P03"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "display_padding_km": 5,
+        "coverage_confidence": "medium",
+        "note": "此 Opportunity 的被攝現象本身是相機下方低層雲／雲海。Coverage 沿用已存在的 8 km 全方向 spatial-weather profile，先作 broad subject/environment coverage；不宣稱精確雲海邊界或可見前景 polygon。",
+        "camera_zone_browser_exposure": {
+          "tw-004-VP01": "generalized"
+        }
+      }
+    },
+    {
+      "opportunity_id": "tw-008-P03",
+      "spot_id": "tw-008",
+      "provenance": {
+        "basis": "Existing lower-cloud-below-camera spatial profile in spatial_weather.py for tw-008-P03",
+        "geometry_interpretation": "The 8 km full-ring zone is the existing broad environmental subject/sampling coverage for the cloud-sea Opportunity. It is not an observed cloud boundary or exact visible foreground polygon."
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-008-VP01"
+        ],
+        "subject_geometries": [],
+        "environment_geometries": [
+          {
+            "environment_id": "tw-008-P03-ENV01",
+            "role": "cloud_sea_subject_environment_zone",
+            "name": "硬漢嶺雲海－下方低雲／雲海環境區",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-008-VP01",
+              "azimuth_start_deg": 0,
+              "azimuth_end_deg": 360,
+              "min_range_km": 0,
+              "max_range_km": 8
+            },
+            "coord_confidence": "medium",
+            "source_evidence_ids": [
+              "spatial_weather.SPATIAL_WEATHER_PROFILES.tw-008-P03"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "display_padding_km": 5,
+        "coverage_confidence": "medium",
+        "note": "此 Opportunity 的被攝現象本身是相機下方低層雲／雲海。Coverage 沿用已存在的 8 km 全方向 spatial-weather profile，先作 broad subject/environment coverage；不宣稱精確雲海邊界或可見前景 polygon。",
+        "camera_zone_browser_exposure": {
+          "tw-008-VP01": "generalized"
+        }
+      }
+    },
+    {
+      "opportunity_id": "tw-014-P02",
+      "spot_id": "tw-014",
+      "provenance": {
+        "basis": "Existing lower-cloud-below-camera spatial profile in spatial_weather.py for tw-014-P02",
+        "geometry_interpretation": "The 8 km full-ring zone is the existing broad environmental subject/sampling coverage for the cloud-sea Opportunity. It is not an observed cloud boundary or exact visible foreground polygon."
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-014-VP01"
+        ],
+        "subject_geometries": [],
+        "environment_geometries": [
+          {
+            "environment_id": "tw-014-P02-ENV01",
+            "role": "cloud_sea_subject_environment_zone",
+            "name": "雲洞山莊山谷雲海／雲瀑－下方低雲／雲海環境區",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-014-VP01",
+              "azimuth_start_deg": 0,
+              "azimuth_end_deg": 360,
+              "min_range_km": 0,
+              "max_range_km": 8
+            },
+            "coord_confidence": "medium",
+            "source_evidence_ids": [
+              "spatial_weather.SPATIAL_WEATHER_PROFILES.tw-014-P02"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "display_padding_km": 5,
+        "coverage_confidence": "medium",
+        "note": "此 Opportunity 的被攝現象本身是相機下方低層雲／雲海。Coverage 沿用已存在的 8 km 全方向 spatial-weather profile，先作 broad subject/environment coverage；不宣稱精確雲海邊界或可見前景 polygon。",
+        "camera_zone_browser_exposure": {
+          "tw-014-VP01": "generalized"
+        }
+      }
+    },
+    {
+      "opportunity_id": "tw-020-P02",
+      "spot_id": "tw-020",
+      "provenance": {
+        "basis": "Existing lower-cloud-below-camera spatial profile in spatial_weather.py for tw-020-P02",
+        "geometry_interpretation": "The 8 km full-ring zone is the existing broad environmental subject/sampling coverage for the cloud-sea Opportunity. It is not an observed cloud boundary or exact visible foreground polygon."
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-020-VP01"
+        ],
+        "subject_geometries": [],
+        "environment_geometries": [
+          {
+            "environment_id": "tw-020-P02-ENV01",
+            "role": "cloud_sea_subject_environment_zone",
+            "name": "金龍山下方雲海＋晨曦－下方低雲／雲海環境區",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-020-VP01",
+              "azimuth_start_deg": 0,
+              "azimuth_end_deg": 360,
+              "min_range_km": 0,
+              "max_range_km": 8
+            },
+            "coord_confidence": "medium",
+            "source_evidence_ids": [
+              "spatial_weather.SPATIAL_WEATHER_PROFILES.tw-020-P02"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "display_padding_km": 5,
+        "coverage_confidence": "medium",
+        "note": "此 Opportunity 的被攝現象本身是相機下方低層雲／雲海。Coverage 沿用已存在的 8 km 全方向 spatial-weather profile，先作 broad subject/environment coverage；不宣稱精確雲海邊界或可見前景 polygon。",
+        "camera_zone_browser_exposure": {
+          "tw-020-VP01": "generalized"
+        }
+      }
+    },
+    {
+      "opportunity_id": "tw-022-P02",
+      "spot_id": "tw-022",
+      "provenance": {
+        "basis": "Existing lower-cloud-below-camera spatial profile in spatial_weather.py for tw-022-P02",
+        "geometry_interpretation": "The 8 km full-ring zone is the existing broad environmental subject/sampling coverage for the cloud-sea Opportunity. It is not an observed cloud boundary or exact visible foreground polygon."
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-022-VP01"
+        ],
+        "subject_geometries": [],
+        "environment_geometries": [
+          {
+            "environment_id": "tw-022-P02-ENV01",
+            "role": "cloud_sea_subject_environment_zone",
+            "name": "二延平下方雲海／雲瀑＋茶園山稜－下方低雲／雲海環境區",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-022-VP01",
+              "azimuth_start_deg": 0,
+              "azimuth_end_deg": 360,
+              "min_range_km": 0,
+              "max_range_km": 8
+            },
+            "coord_confidence": "medium",
+            "source_evidence_ids": [
+              "spatial_weather.SPATIAL_WEATHER_PROFILES.tw-022-P02"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "display_padding_km": 5,
+        "coverage_confidence": "medium",
+        "note": "此 Opportunity 的被攝現象本身是相機下方低層雲／雲海。Coverage 沿用已存在的 8 km 全方向 spatial-weather profile，先作 broad subject/environment coverage；不宣稱精確雲海邊界或可見前景 polygon。",
+        "camera_zone_browser_exposure": {
+          "tw-022-VP01": "generalized"
+        }
+      }
+    },
+    {
+      "opportunity_id": "tw-023-P02",
+      "spot_id": "tw-023",
+      "provenance": {
+        "basis": "Existing lower-cloud-below-camera spatial profile in spatial_weather.py for tw-023-P02",
+        "geometry_interpretation": "The 8 km full-ring zone is the existing broad environmental subject/sampling coverage for the cloud-sea Opportunity. It is not an observed cloud boundary or exact visible foreground polygon."
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-023-VP01"
+        ],
+        "subject_geometries": [],
+        "environment_geometries": [
+          {
+            "environment_id": "tw-023-P02-ENV01",
+            "role": "cloud_sea_subject_environment_zone",
+            "name": "頂石棹山凹雲海＋茶園山稜－下方低雲／雲海環境區",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-023-VP01",
+              "azimuth_start_deg": 0,
+              "azimuth_end_deg": 360,
+              "min_range_km": 0,
+              "max_range_km": 8
+            },
+            "coord_confidence": "medium",
+            "source_evidence_ids": [
+              "spatial_weather.SPATIAL_WEATHER_PROFILES.tw-023-P02"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "display_padding_km": 5,
+        "coverage_confidence": "medium",
+        "note": "此 Opportunity 的被攝現象本身是相機下方低層雲／雲海。Coverage 沿用已存在的 8 km 全方向 spatial-weather profile，先作 broad subject/environment coverage；不宣稱精確雲海邊界或可見前景 polygon。",
+        "camera_zone_browser_exposure": {
+          "tw-023-VP01": "generalized"
+        }
+      }
+    },
+    {
+      "opportunity_id": "tw-024-P02",
+      "spot_id": "tw-024",
+      "provenance": {
+        "basis": "Existing lower-cloud-below-camera spatial profile in spatial_weather.py for tw-024-P02",
+        "geometry_interpretation": "The 8 km full-ring zone is the existing broad environmental subject/sampling coverage for the cloud-sea Opportunity. It is not an observed cloud boundary or exact visible foreground polygon."
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-024-VP01"
+        ],
+        "subject_geometries": [],
+        "environment_geometries": [
+          {
+            "environment_id": "tw-024-P02-ENV01",
+            "role": "cloud_sea_subject_environment_zone",
+            "name": "祝山日出雲海－下方低雲／雲海環境區",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-024-VP01",
+              "azimuth_start_deg": 0,
+              "azimuth_end_deg": 360,
+              "min_range_km": 0,
+              "max_range_km": 8
+            },
+            "coord_confidence": "medium",
+            "source_evidence_ids": [
+              "spatial_weather.SPATIAL_WEATHER_PROFILES.tw-024-P02"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "display_padding_km": 5,
+        "coverage_confidence": "medium",
+        "note": "此 Opportunity 的被攝現象本身是相機下方低層雲／雲海。Coverage 沿用已存在的 8 km 全方向 spatial-weather profile，先作 broad subject/environment coverage；不宣稱精確雲海邊界或可見前景 polygon。",
+        "camera_zone_browser_exposure": {
+          "tw-024-VP01": "generalized"
+        }
+      }
+    },
+    {
+      "opportunity_id": "tw-035-P06",
+      "spot_id": "tw-035",
+      "provenance": {
+        "basis": "Existing lower-cloud-below-camera spatial profile in spatial_weather.py for tw-035-P06",
+        "geometry_interpretation": "The 8 km full-ring zone is the existing broad environmental subject/sampling coverage for the cloud-sea Opportunity. It is not an observed cloud boundary or exact visible foreground polygon."
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-035-VP02"
+        ],
+        "subject_geometries": [],
+        "environment_geometries": [
+          {
+            "environment_id": "tw-035-P06-ENV01",
+            "role": "cloud_sea_subject_environment_zone",
+            "name": "六十石山觀景點下方縱谷雲海－下方低雲／雲海環境區",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-035-VP02",
+              "azimuth_start_deg": 0,
+              "azimuth_end_deg": 360,
+              "min_range_km": 0,
+              "max_range_km": 8
+            },
+            "coord_confidence": "medium",
+            "source_evidence_ids": [
+              "spatial_weather.SPATIAL_WEATHER_PROFILES.tw-035-P06"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "display_padding_km": 5,
+        "coverage_confidence": "medium",
+        "note": "此 Opportunity 的被攝現象本身是相機下方低層雲／雲海。Coverage 沿用已存在的 8 km 全方向 spatial-weather profile，先作 broad subject/environment coverage；不宣稱精確雲海邊界或可見前景 polygon。",
+        "camera_zone_browser_exposure": {
+          "tw-035-VP02": "generalized"
+        }
+      }
+    },
+    {
+      "opportunity_id": "tw-040-P04",
+      "spot_id": "tw-040",
+      "provenance": {
+        "basis": "Existing lower-cloud-below-camera spatial profile in spatial_weather.py for tw-040-P04",
+        "geometry_interpretation": "The 8 km full-ring zone is the existing broad environmental subject/sampling coverage for the cloud-sea Opportunity. It is not an observed cloud boundary or exact visible foreground polygon."
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-040-VP02"
+        ],
+        "subject_geometries": [],
+        "environment_geometries": [
+          {
+            "environment_id": "tw-040-P04-ENV01",
+            "role": "cloud_sea_subject_environment_zone",
+            "name": "排雲山莊下方雲海與山稜－下方低雲／雲海環境區",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-040-VP02",
+              "azimuth_start_deg": 0,
+              "azimuth_end_deg": 360,
+              "min_range_km": 0,
+              "max_range_km": 8
+            },
+            "coord_confidence": "medium",
+            "source_evidence_ids": [
+              "spatial_weather.SPATIAL_WEATHER_PROFILES.tw-040-P04"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "display_padding_km": 5,
+        "coverage_confidence": "medium",
+        "note": "此 Opportunity 的被攝現象本身是相機下方低層雲／雲海。Coverage 沿用已存在的 8 km 全方向 spatial-weather profile，先作 broad subject/environment coverage；不宣稱精確雲海邊界或可見前景 polygon。",
+        "camera_zone_browser_exposure": {
+          "tw-040-VP02": "generalized"
+        }
+      }
+    },
+    {
+      "opportunity_id": "tw-043-P03",
+      "spot_id": "tw-043",
+      "provenance": {
+        "basis": "Existing lower-cloud-below-camera spatial profile in spatial_weather.py for tw-043-P03",
+        "geometry_interpretation": "The 8 km full-ring zone is the existing broad environmental subject/sampling coverage for the cloud-sea Opportunity. It is not an observed cloud boundary or exact visible foreground polygon."
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-043-VP02"
+        ],
+        "subject_geometries": [],
+        "environment_geometries": [
+          {
+            "environment_id": "tw-043-P03-ENV01",
+            "role": "cloud_sea_subject_environment_zone",
+            "name": "奇萊主稜雲海－下方低雲／雲海環境區",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-043-VP02",
+              "azimuth_start_deg": 0,
+              "azimuth_end_deg": 360,
+              "min_range_km": 0,
+              "max_range_km": 8
+            },
+            "coord_confidence": "medium",
+            "source_evidence_ids": [
+              "spatial_weather.SPATIAL_WEATHER_PROFILES.tw-043-P03"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "display_padding_km": 5,
+        "coverage_confidence": "medium",
+        "note": "此 Opportunity 的被攝現象本身是相機下方低層雲／雲海。Coverage 沿用已存在的 8 km 全方向 spatial-weather profile，先作 broad subject/environment coverage；不宣稱精確雲海邊界或可見前景 polygon。",
+        "camera_zone_browser_exposure": {
+          "tw-043-VP02": "generalized"
+        }
+      }
+    },
+    {
+      "opportunity_id": "tw-047-P01",
+      "spot_id": "tw-047",
+      "provenance": {
+        "basis": "Existing lower-cloud-below-camera spatial profile in spatial_weather.py for tw-047-P01",
+        "geometry_interpretation": "The 8 km full-ring zone is the existing broad environmental subject/sampling coverage for the cloud-sea Opportunity. It is not an observed cloud boundary or exact visible foreground polygon."
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-047-VP01"
+        ],
+        "subject_geometries": [],
+        "environment_geometries": [
+          {
+            "environment_id": "tw-047-P01-ENV01",
+            "role": "cloud_sea_subject_environment_zone",
+            "name": "喜多麗秋冬雲海－下方低雲／雲海環境區",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-047-VP01",
+              "azimuth_start_deg": 0,
+              "azimuth_end_deg": 360,
+              "min_range_km": 0,
+              "max_range_km": 8
+            },
+            "coord_confidence": "medium",
+            "source_evidence_ids": [
+              "spatial_weather.SPATIAL_WEATHER_PROFILES.tw-047-P01"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "display_padding_km": 5,
+        "coverage_confidence": "medium",
+        "note": "此 Opportunity 的被攝現象本身是相機下方低層雲／雲海。Coverage 沿用已存在的 8 km 全方向 spatial-weather profile，先作 broad subject/environment coverage；不宣稱精確雲海邊界或可見前景 polygon。",
+        "camera_zone_browser_exposure": {
+          "tw-047-VP01": "generalized"
+        }
+      }
+    },
+    {
+      "opportunity_id": "tw-049-P03",
+      "spot_id": "tw-049",
+      "provenance": {
+        "basis": "Existing lower-cloud-below-camera spatial profile in spatial_weather.py for tw-049-P03",
+        "geometry_interpretation": "The 8 km full-ring zone is the existing broad environmental subject/sampling coverage for the cloud-sea Opportunity. It is not an observed cloud boundary or exact visible foreground polygon."
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-049-VP01"
+        ],
+        "subject_geometries": [],
+        "environment_geometries": [
+          {
+            "environment_id": "tw-049-P03-ENV01",
+            "role": "cloud_sea_subject_environment_zone",
+            "name": "桃山雲海－下方低雲／雲海環境區",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-049-VP01",
+              "azimuth_start_deg": 0,
+              "azimuth_end_deg": 360,
+              "min_range_km": 0,
+              "max_range_km": 8
+            },
+            "coord_confidence": "medium",
+            "source_evidence_ids": [
+              "spatial_weather.SPATIAL_WEATHER_PROFILES.tw-049-P03"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "display_padding_km": 5,
+        "coverage_confidence": "medium",
+        "note": "此 Opportunity 的被攝現象本身是相機下方低層雲／雲海。Coverage 沿用已存在的 8 km 全方向 spatial-weather profile，先作 broad subject/environment coverage；不宣稱精確雲海邊界或可見前景 polygon。",
+        "camera_zone_browser_exposure": {
+          "tw-049-VP01": "generalized"
         }
       }
     }
