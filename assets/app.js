@@ -2,7 +2,7 @@
       'zh-TW': {
         country_label:'📍 選擇國家/區域：', opt_tw:'🇹🇼 台灣 (Taiwan)', opt_jp:'🇯🇵 日本 (Japan)', opt_us:'🇺🇸 美國 (United States)',
         btn_today:'📅 今天', btn_tomorrow:'📅 明天', btn_after_tomorrow:'📅 後天', loading:'正在獲取攝影氣象數據...', updating:'背景更新中…',
-        last_updated:'最後更新：', click_detail:'', weather_link:'🌦️ 天氣預報', nav_link:'🗺️ 導航', map_link:'📍 地圖', nav_pending:'🗺️ 導航待確認', radar_link:'📡 雷達', field_intake_link:'📷 實拍驗證', place_suitable:'📸 這裡適合拍什麼', researched_only:'只顯示已逐點查證的攝影題材；未查證內容不自動生成。', place_time_note:'拍攝時間皆以景點當地時區顯示。', guide_time:'適合時間（景點當地時間）', guide_season:'季節', guide_viewpoint:'拍攝位置', guide_required:'成立條件', guide_boosters:'加分條件', guide_penalties:'不利條件', guide_current:'所選日期最佳評分', guide_day_best:'所選日期最佳窗口', guide_confidence:'信心', confidence_high:'高', confidence_medium:'中', confidence_low:'低', guide_details:'查看完整判定條件', guide_score_why:'為什麼是這個分數？', guide_score_status:'判定', guide_unresearched:'此景點尚未完成逐點攝影研究，因此暫不顯示推測性的拍攝建議。', research_pending_card:'攝影研究待補，暫不評分', no_viable_card:'今天剩餘時段沒有合適的已研究拍攝機會', no_viable_group:'暫無合適拍攝機會（{n}）', scene_label:'🖼️ 景觀類型：', theme_label:'📸 題材：', advanced_filters:'🔎 更多篩選', result_count:'依所選日期最佳拍攝機會排序 · {n} 個景點', search_result:'找到 {n} 個景點', search_placeholder:'搜尋景點名稱…', where_today:'📍 今天去哪裡拍？', where_tomorrow:'📍 明天去哪裡拍？', where_after:'📍 後天去哪裡拍？', recommendation_reasons:'推薦理由', narrow_result:'目前僅 {n} 個景點，範圍較窄', clear_scene:'清除景觀類型', admin_area_filter:'縣市', admin_area_all:'全部縣市', admin_area_selected:'已選 {n} 個縣市', admin_area_clear:'清除縣市',
+        last_updated:'最後更新：', click_detail:'', weather_link:'🌦️ 天氣預報', nav_link:'🗺️ 導航', map_link:'📍 地圖', nav_pending:'🗺️ 導航待確認', radar_link:'📡 雷達', field_intake_link:'📷 實拍驗證', place_suitable:'📸 這裡適合拍什麼', researched_only:'只顯示已逐點查證的攝影題材；未查證內容不自動生成。', place_time_note:'拍攝時間皆以景點當地時區顯示。', guide_time:'適合時間（景點當地時間）', guide_season:'季節', guide_viewpoint:'拍攝位置', guide_required:'成立條件', guide_boosters:'加分條件', guide_penalties:'不利條件', guide_current:'所選日期最佳評分', guide_day_best:'所選日期最佳窗口', guide_confidence:'信心', confidence_high:'高', confidence_medium:'中', confidence_low:'低', guide_details:'查看完整判定條件', guide_score_why:'為什麼是這個分數？', guide_score_status:'判定', guide_unresearched:'此景點尚未完成逐點攝影研究，因此暫不顯示推測性的拍攝建議。', research_pending_card:'攝影研究待補，暫不評分', no_viable_card:'今天剩餘時段沒有合適的已研究拍攝機會', no_viable_group:'暫無合適拍攝機會（{n}）', scene_label:'🖼️ 景觀類型：', theme_label:'📸 題材：', advanced_filters:'🔎 更多篩選', result_count:'依所選日期最佳拍攝機會排序 · {n} 個景點', search_result:'找到 {n} 個景點', search_placeholder:'搜尋景點名稱…', where_today:'📍 今天去哪裡拍？', where_tomorrow:'📍 明天去哪裡拍？', where_after:'📍 後天去哪裡拍？', recommendation_reasons:'推薦理由', narrow_result:'目前僅 {n} 個景點，範圍較窄', clear_scene:'清除景觀類型', admin_area_filter:'地區', admin_area_all:'全部地區', admin_area_selected:'已選 {n} 個地區', admin_area_clear:'清除地區', admin_area_search:'搜尋地區…', admin_area_no_match:'找不到符合的地區',
         best_window:'⏱️ 最佳窗口：', forecast_status:'📍 預報狀態：', cloud_base_label:'估算凝結高度', best_theme:'📸 所選日期較適合：', local_time:'當地時間', dark_sky:'暗空',
         modal_subtitle:'⏱️ 涵蓋範圍：過去 24 小時 [模型資料] + 未來 72 小時 [氣象預報]（藍底為所選日期最佳窗口）', tag_best:'最佳',
         th_time:'時間', th_theme:'題材', th_score:'評分', th_status:'狀態', th_kp:'Kp指數', th_cloud_base:'凝結高度', th_temp:'氣溫', th_rh:'濕度', th_clow:'低雲', th_cmid:'中雲', th_chigh:'高雲', th_wind:'風速', th_vis:'能見度', th_astro:'天文', no_spots:'此條件下沒有景點', detail_loading:'正在載入天氣預報…', detail_sync_wait:'天氣資料正在同步更新，請幾秒後再試一次。', score_excellent:'極佳', score_good:'良好', score_fair:'普通', score_low_label:'較弱'
@@ -10,7 +10,7 @@
       'en': {
         country_label:'📍 Select Region:', opt_tw:'🇹🇼 Taiwan', opt_jp:'🇯🇵 Japan', opt_us:'🇺🇸 United States',
         btn_today:'📅 Today', btn_tomorrow:'📅 Tomorrow', btn_after_tomorrow:'📅 Day After', loading:'Fetching photography weather data...', updating:'Updating in background…',
-        last_updated:'Last Updated: ', click_detail:'', weather_link:'🌦️ Weather', nav_link:'🗺️ Nav', map_link:'📍 Map', nav_pending:'🗺️ Nav pending', radar_link:'📡 Radar', field_intake_link:'📷 Field Check', place_suitable:'📸 What can you photograph here?', researched_only:'Only individually researched photography opportunities are shown; unverified ideas are not generated.', place_time_note:'Shooting times are shown in the place’s local time zone.', guide_time:'Best time (place local time)', guide_season:'Season', guide_viewpoint:'Shooting area', guide_required:'Required conditions', guide_boosters:'Boosters', guide_penalties:'Penalties', guide_current:'Best score for selected date', guide_day_best:'Best window for selected date', guide_confidence:'Confidence', confidence_high:'High', confidence_medium:'Medium', confidence_low:'Low', guide_details:'View full conditions', guide_score_why:'Why this score?', guide_score_status:'Assessment', guide_unresearched:'This place has not yet completed place-specific photography research, so no speculative shooting guide is shown.', research_pending_card:'Photography research pending · not scored yet', no_viable_card:'No researched shooting opportunity remains viable today', no_viable_group:'No viable shooting opportunity ({n})', scene_label:'🖼️ Landscape type:', theme_label:'📸 Subject:', advanced_filters:'🔎 More filters', result_count:'Ranked by best opportunity for selected date · {n} spots', search_result:'Found {n} spots', search_placeholder:'Search places…', where_today:'📍 Where should I shoot today?', where_tomorrow:'📍 Where should I shoot tomorrow?', where_after:'📍 Where should I shoot the day after tomorrow?', recommendation_reasons:'Why it stands out', narrow_result:'Only {n} spots — narrow filter', clear_scene:'Clear landscape type', admin_area_filter:'County/City', admin_area_all:'All counties/cities', admin_area_selected:'{n} selected', admin_area_clear:'Clear areas',
+        last_updated:'Last Updated: ', click_detail:'', weather_link:'🌦️ Weather', nav_link:'🗺️ Nav', map_link:'📍 Map', nav_pending:'🗺️ Nav pending', radar_link:'📡 Radar', field_intake_link:'📷 Field Check', place_suitable:'📸 What can you photograph here?', researched_only:'Only individually researched photography opportunities are shown; unverified ideas are not generated.', place_time_note:'Shooting times are shown in the place’s local time zone.', guide_time:'Best time (place local time)', guide_season:'Season', guide_viewpoint:'Shooting area', guide_required:'Required conditions', guide_boosters:'Boosters', guide_penalties:'Penalties', guide_current:'Best score for selected date', guide_day_best:'Best window for selected date', guide_confidence:'Confidence', confidence_high:'High', confidence_medium:'Medium', confidence_low:'Low', guide_details:'View full conditions', guide_score_why:'Why this score?', guide_score_status:'Assessment', guide_unresearched:'This place has not yet completed place-specific photography research, so no speculative shooting guide is shown.', research_pending_card:'Photography research pending · not scored yet', no_viable_card:'No researched shooting opportunity remains viable today', no_viable_group:'No viable shooting opportunity ({n})', scene_label:'🖼️ Landscape type:', theme_label:'📸 Subject:', advanced_filters:'🔎 More filters', result_count:'Ranked by best opportunity for selected date · {n} spots', search_result:'Found {n} spots', search_placeholder:'Search places…', where_today:'📍 Where should I shoot today?', where_tomorrow:'📍 Where should I shoot tomorrow?', where_after:'📍 Where should I shoot the day after tomorrow?', recommendation_reasons:'Why it stands out', narrow_result:'Only {n} spots — narrow filter', clear_scene:'Clear landscape type', admin_area_filter:'Area', admin_area_all:'All areas', admin_area_selected:'{n} selected', admin_area_clear:'Clear areas', admin_area_search:'Search areas…', admin_area_no_match:'No matching area',
         best_window:'⏱️ Best Window: ', forecast_status:'📍 Status: ', cloud_base_label:'Est. LCL', best_theme:'📸 Best for selected date: ', local_time:'Local time', dark_sky:'Dark sky',
         modal_subtitle:'⏱️ Range: Past 24H [model data] + Next 72H [forecast] (blue = best window for selected day)', tag_best:'BEST',
         th_time:'Time', th_theme:'Theme', th_score:'Score', th_status:'Status', th_kp:'Kp', th_cloud_base:'LCL', th_temp:'Temp', th_rh:'RH', th_clow:'Low', th_cmid:'Mid', th_chigh:'High', th_wind:'Wind', th_vis:'Visibility', th_astro:'Astronomy', no_spots:'No spots match these filters', detail_loading:'Loading weather forecast…', detail_sync_wait:'Weather data is synchronizing. Please try again in a few seconds.', score_excellent:'Excellent', score_good:'Good', score_fair:'Fair', score_low_label:'Low'
@@ -18,7 +18,7 @@
       'ja': {
         country_label:'📍 地域を選択：', opt_tw:'🇹🇼 台湾 (Taiwan)', opt_jp:'🇯🇵 日本 (Japan)', opt_us:'🇺🇸 アメリカ (United States)',
         btn_today:'📅 今日', btn_tomorrow:'📅 明日', btn_after_tomorrow:'📅 明後日', loading:'撮影気象データを取得中...', updating:'バックグラウンド更新中…',
-        last_updated:'最終更新：', click_detail:'', weather_link:'🌦️ 天気予報', nav_link:'🗺️ ナビ', map_link:'📍 地図', nav_pending:'🗺️ ナビ確認待ち', radar_link:'📡 レーダー', field_intake_link:'📷 実写検証', place_suitable:'📸 ここで何が撮れる？', researched_only:'個別調査済みの撮影機会のみ表示し、未確認の内容は自動生成しません。', place_time_note:'撮影時間はすべて現地のタイムゾーンで表示します。', guide_time:'適した時間（現地時間）', guide_season:'季節', guide_viewpoint:'撮影位置', guide_required:'成立条件', guide_boosters:'加点条件', guide_penalties:'不利条件', guide_current:'選択日の最良スコア', guide_day_best:'選択日の最適時間', guide_confidence:'信頼度', confidence_high:'高', confidence_medium:'中', confidence_low:'低', guide_details:'判定条件を表示', guide_score_why:'このスコアの理由', guide_score_status:'判定', guide_unresearched:'この場所は個別撮影調査が未完了のため、推測的な撮影案内は表示しません。', research_pending_card:'撮影調査待ち・現在は採点しません', no_viable_card:'本日の残り時間に適した調査済み撮影機会はありません', no_viable_group:'適した撮影機会なし（{n}）', scene_label:'🖼️ 景観タイプ：', theme_label:'📸 テーマ：', advanced_filters:'🔎 その他の絞り込み', result_count:'選択日の最良撮影機会順 · {n} スポット', search_result:'{n} スポット見つかりました', search_placeholder:'スポット名を検索…', where_today:'📍 今日はどこへ撮りに行く？', where_tomorrow:'📍 明日はどこへ撮りに行く？', where_after:'📍 明後日はどこへ撮りに行く？', recommendation_reasons:'おすすめ理由', narrow_result:'{n} スポットのみ・絞り込みが狭いです', clear_scene:'景観タイプを解除', admin_area_filter:'県・市', admin_area_all:'すべての県・市', admin_area_selected:'{n} 件選択', admin_area_clear:'地域を解除',
+        last_updated:'最終更新：', click_detail:'', weather_link:'🌦️ 天気予報', nav_link:'🗺️ ナビ', map_link:'📍 地図', nav_pending:'🗺️ ナビ確認待ち', radar_link:'📡 レーダー', field_intake_link:'📷 実写検証', place_suitable:'📸 ここで何が撮れる？', researched_only:'個別調査済みの撮影機会のみ表示し、未確認の内容は自動生成しません。', place_time_note:'撮影時間はすべて現地のタイムゾーンで表示します。', guide_time:'適した時間（現地時間）', guide_season:'季節', guide_viewpoint:'撮影位置', guide_required:'成立条件', guide_boosters:'加点条件', guide_penalties:'不利条件', guide_current:'選択日の最良スコア', guide_day_best:'選択日の最適時間', guide_confidence:'信頼度', confidence_high:'高', confidence_medium:'中', confidence_low:'低', guide_details:'判定条件を表示', guide_score_why:'このスコアの理由', guide_score_status:'判定', guide_unresearched:'この場所は個別撮影調査が未完了のため、推測的な撮影案内は表示しません。', research_pending_card:'撮影調査待ち・現在は採点しません', no_viable_card:'本日の残り時間に適した調査済み撮影機会はありません', no_viable_group:'適した撮影機会なし（{n}）', scene_label:'🖼️ 景観タイプ：', theme_label:'📸 テーマ：', advanced_filters:'🔎 その他の絞り込み', result_count:'選択日の最良撮影機会順 · {n} スポット', search_result:'{n} スポット見つかりました', search_placeholder:'スポット名を検索…', where_today:'📍 今日はどこへ撮りに行く？', where_tomorrow:'📍 明日はどこへ撮りに行く？', where_after:'📍 明後日はどこへ撮りに行く？', recommendation_reasons:'おすすめ理由', narrow_result:'{n} スポットのみ・絞り込みが狭いです', clear_scene:'景観タイプを解除', admin_area_filter:'地域', admin_area_all:'すべての地域', admin_area_selected:'{n} 件選択', admin_area_clear:'地域を解除', admin_area_search:'地域を検索…', admin_area_no_match:'該当する地域がありません',
         best_window:'⏱️ 最適時間：', forecast_status:'📍 予報状況：', cloud_base_label:'推定LCL', best_theme:'📸 選択日に向く：', local_time:'現地時間', dark_sky:'暗空',
         modal_subtitle:'⏱️ 範囲：過去24時間 [モデル] + 未来72時間 [予報]（青色＝選択日の最適時間）', tag_best:'最適',
         th_time:'時間', th_theme:'テーマ', th_score:'評価', th_status:'状態', th_kp:'Kp', th_cloud_base:'LCL', th_temp:'気温', th_rh:'湿度', th_clow:'下層雲', th_cmid:'中層雲', th_chigh:'上層雲', th_wind:'風速', th_vis:'視程', th_astro:'天文', no_spots:'該当する撮影スポットはありません', detail_loading:'天気予報を読み込み中…', detail_sync_wait:'天気データを同期更新中です。数秒後にもう一度お試しください。', score_excellent:'非常に良い', score_good:'良好', score_fair:'普通', score_low_label:'弱め'
@@ -26,11 +26,11 @@
     };
 
     const categoryKeys = {
-      // Taiwan geography is handled by the county/city picker. Favorites is
-      // rendered as an independent toggle, so there is no visible "All" mode.
+      // Geography is handled by the country-aware first-level administrative
+      // area picker. Favorites stays a separate on/off filter in every region.
       tw:['__fav__'],
-      jp:['__all__','__fav__','北海道/東北','關東/中部','關西/中四國','九州/沖繩'],
-      us:['__all__','__fav__','美西','美中','美東','阿拉斯加']
+      jp:['__fav__'],
+      us:['__fav__']
     };
     const categoryLabels = {
       'zh-TW':{__all__:'全部',__fav__:'⭐ 我的最愛','本島':'本島','澎湖':'澎湖','金門':'金門','馬祖':'馬祖','綠島/蘭嶼/小琉球':'綠島/蘭嶼/小琉球','北海道/東北':'北海道/東北','關東/中部':'關東/中部','關西/中四國':'關西/中四國','九州/沖繩':'九州/沖繩','美西':'美西','美中':'美中','美東':'美東','阿拉斯加':'阿拉斯加'},
@@ -53,12 +53,115 @@
       '彰化縣','南投縣','雲林縣','嘉義市','嘉義縣','台南市','高雄市','屏東縣',
       '宜蘭縣','花蓮縣','台東縣','澎湖縣','金門縣','連江縣'
     ];
+
+    const JP_ADMIN_AREA_GROUPS=[
+      {key:'jp_hokkaido',areas:['北海道']},
+      {key:'jp_tohoku',areas:['青森県','岩手県','宮城県','秋田県','山形県','福島県']},
+      {key:'jp_kanto',areas:['茨城県','栃木県','群馬県','埼玉県','千葉県','東京都','神奈川県']},
+      {key:'jp_chubu',areas:['新潟県','富山県','石川県','福井県','山梨県','長野県','岐阜県','静岡県','愛知県']},
+      {key:'jp_kinki',areas:['三重県','滋賀県','京都府','大阪府','兵庫県','奈良県','和歌山県']},
+      {key:'jp_chugoku',areas:['鳥取県','島根県','岡山県','広島県','山口県']},
+      {key:'jp_shikoku',areas:['徳島県','香川県','愛媛県','高知県']},
+      {key:'jp_kyushu_okinawa',areas:['福岡県','佐賀県','長崎県','熊本県','大分県','宮崎県','鹿児島県','沖縄県']}
+    ];
+
+    const US_ADMIN_AREA_GROUPS=[
+      {key:'us_northeast',areas:['Connecticut','Maine','Massachusetts','New Hampshire','Rhode Island','Vermont','New Jersey','New York','Pennsylvania']},
+      {key:'us_midwest',areas:['Indiana','Illinois','Michigan','Ohio','Wisconsin','Iowa','Kansas','Minnesota','Missouri','Nebraska','North Dakota','South Dakota']},
+      {key:'us_south',areas:['Delaware','Florida','Georgia','Maryland','North Carolina','South Carolina','Virginia','District of Columbia','West Virginia','Alabama','Kentucky','Mississippi','Tennessee','Arkansas','Louisiana','Oklahoma','Texas']},
+      {key:'us_west',areas:['Montana','Idaho','Wyoming','Colorado','New Mexico','Arizona','Utah','Nevada','Alaska','California','Hawaii','Oregon','Washington']}
+    ];
+
+    const ADMIN_AREA_GROUPS={
+      tw:[{key:'tw_counties',areas:TW_ADMIN_AREA_ORDER}],
+      jp:JP_ADMIN_AREA_GROUPS,
+      us:US_ADMIN_AREA_GROUPS
+    };
+
+    const JP_AREA_EN={
+      '北海道':'Hokkaido','青森県':'Aomori','岩手県':'Iwate','宮城県':'Miyagi','秋田県':'Akita','山形県':'Yamagata','福島県':'Fukushima',
+      '茨城県':'Ibaraki','栃木県':'Tochigi','群馬県':'Gunma','埼玉県':'Saitama','千葉県':'Chiba','東京都':'Tokyo','神奈川県':'Kanagawa',
+      '新潟県':'Niigata','富山県':'Toyama','石川県':'Ishikawa','福井県':'Fukui','山梨県':'Yamanashi','長野県':'Nagano','岐阜県':'Gifu','静岡県':'Shizuoka','愛知県':'Aichi',
+      '三重県':'Mie','滋賀県':'Shiga','京都府':'Kyoto','大阪府':'Osaka','兵庫県':'Hyogo','奈良県':'Nara','和歌山県':'Wakayama',
+      '鳥取県':'Tottori','島根県':'Shimane','岡山県':'Okayama','広島県':'Hiroshima','山口県':'Yamaguchi',
+      '徳島県':'Tokushima','香川県':'Kagawa','愛媛県':'Ehime','高知県':'Kochi',
+      '福岡県':'Fukuoka','佐賀県':'Saga','長崎県':'Nagasaki','熊本県':'Kumamoto','大分県':'Oita','宮崎県':'Miyazaki','鹿児島県':'Kagoshima','沖縄県':'Okinawa'
+    };
+    const JP_AREA_ZH={
+      '北海道':'北海道','青森県':'青森縣','岩手県':'岩手縣','宮城県':'宮城縣','秋田県':'秋田縣','山形県':'山形縣','福島県':'福島縣',
+      '茨城県':'茨城縣','栃木県':'栃木縣','群馬県':'群馬縣','埼玉県':'埼玉縣','千葉県':'千葉縣','東京都':'東京都','神奈川県':'神奈川縣',
+      '新潟県':'新潟縣','富山県':'富山縣','石川県':'石川縣','福井県':'福井縣','山梨県':'山梨縣','長野県':'長野縣','岐阜県':'岐阜縣','静岡県':'靜岡縣','愛知県':'愛知縣',
+      '三重県':'三重縣','滋賀県':'滋賀縣','京都府':'京都府','大阪府':'大阪府','兵庫県':'兵庫縣','奈良県':'奈良縣','和歌山県':'和歌山縣',
+      '鳥取県':'鳥取縣','島根県':'島根縣','岡山県':'岡山縣','広島県':'廣島縣','山口県':'山口縣',
+      '徳島県':'德島縣','香川県':'香川縣','愛媛県':'愛媛縣','高知県':'高知縣',
+      '福岡県':'福岡縣','佐賀県':'佐賀縣','長崎県':'長崎縣','熊本県':'熊本縣','大分県':'大分縣','宮崎県':'宮崎縣','鹿児島県':'鹿兒島縣','沖縄県':'沖繩縣'
+    };
+
+    const US_AREA_ZH={
+      'Alabama':'阿拉巴馬州','Alaska':'阿拉斯加州','Arizona':'亞利桑那州','Arkansas':'阿肯色州','California':'加利福尼亞州',
+      'Colorado':'科羅拉多州','Connecticut':'康乃狄克州','Delaware':'德拉瓦州','Florida':'佛羅里達州','Georgia':'喬治亞州',
+      'Hawaii':'夏威夷州','Idaho':'愛達荷州','Illinois':'伊利諾州','Indiana':'印第安納州','Iowa':'愛荷華州','Kansas':'堪薩斯州',
+      'Kentucky':'肯塔基州','Louisiana':'路易斯安那州','Maine':'緬因州','Maryland':'馬里蘭州','Massachusetts':'麻薩諸塞州',
+      'Michigan':'密西根州','Minnesota':'明尼蘇達州','Mississippi':'密西西比州','Missouri':'密蘇里州','Montana':'蒙大拿州',
+      'Nebraska':'內布拉斯加州','Nevada':'內華達州','New Hampshire':'新罕布夏州','New Jersey':'紐澤西州','New Mexico':'新墨西哥州',
+      'New York':'紐約州','North Carolina':'北卡羅來納州','North Dakota':'北達科他州','Ohio':'俄亥俄州','Oklahoma':'奧克拉荷馬州',
+      'Oregon':'奧勒岡州','Pennsylvania':'賓夕法尼亞州','Rhode Island':'羅德島州','South Carolina':'南卡羅來納州',
+      'South Dakota':'南達科他州','Tennessee':'田納西州','Texas':'德克薩斯州','Utah':'猶他州','Vermont':'佛蒙特州',
+      'Virginia':'維吉尼亞州','Washington':'華盛頓州','West Virginia':'西維吉尼亞州','Wisconsin':'威斯康辛州','Wyoming':'懷俄明州',
+      'District of Columbia':'華盛頓特區'
+    };
+    const US_AREA_JA={
+      'Alabama':'アラバマ州','Alaska':'アラスカ州','Arizona':'アリゾナ州','Arkansas':'アーカンソー州','California':'カリフォルニア州',
+      'Colorado':'コロラド州','Connecticut':'コネチカット州','Delaware':'デラウェア州','Florida':'フロリダ州','Georgia':'ジョージア州',
+      'Hawaii':'ハワイ州','Idaho':'アイダホ州','Illinois':'イリノイ州','Indiana':'インディアナ州','Iowa':'アイオワ州','Kansas':'カンザス州',
+      'Kentucky':'ケンタッキー州','Louisiana':'ルイジアナ州','Maine':'メイン州','Maryland':'メリーランド州','Massachusetts':'マサチューセッツ州',
+      'Michigan':'ミシガン州','Minnesota':'ミネソタ州','Mississippi':'ミシシッピ州','Missouri':'ミズーリ州','Montana':'モンタナ州',
+      'Nebraska':'ネブラスカ州','Nevada':'ネバダ州','New Hampshire':'ニューハンプシャー州','New Jersey':'ニュージャージー州','New Mexico':'ニューメキシコ州',
+      'New York':'ニューヨーク州','North Carolina':'ノースカロライナ州','North Dakota':'ノースダコタ州','Ohio':'オハイオ州','Oklahoma':'オクラホマ州',
+      'Oregon':'オレゴン州','Pennsylvania':'ペンシルベニア州','Rhode Island':'ロードアイランド州','South Carolina':'サウスカロライナ州',
+      'South Dakota':'サウスダコタ州','Tennessee':'テネシー州','Texas':'テキサス州','Utah':'ユタ州','Vermont':'バーモント州',
+      'Virginia':'バージニア州','Washington':'ワシントン州','West Virginia':'ウェストバージニア州','Wisconsin':'ウィスコンシン州','Wyoming':'ワイオミング州',
+      'District of Columbia':'ワシントンD.C.'
+    };
+
     const adminAreaLabels={
-      'zh-TW':{},
-      en:{'台北市':'Taipei','新北市':'New Taipei','基隆市':'Keelung','桃園市':'Taoyuan','新竹市':'Hsinchu City','新竹縣':'Hsinchu County','苗栗縣':'Miaoli','台中市':'Taichung','彰化縣':'Changhua','南投縣':'Nantou','雲林縣':'Yunlin','嘉義市':'Chiayi City','嘉義縣':'Chiayi County','台南市':'Tainan','高雄市':'Kaohsiung','屏東縣':'Pingtung','宜蘭縣':'Yilan','花蓮縣':'Hualien','台東縣':'Taitung','澎湖縣':'Penghu','金門縣':'Kinmen','連江縣':'Lienchiang'},
-      ja:{'台北市':'台北市','新北市':'新北市','基隆市':'基隆市','桃園市':'桃園市','新竹市':'新竹市','新竹縣':'新竹県','苗栗縣':'苗栗県','台中市':'台中市','彰化縣':'彰化県','南投縣':'南投県','雲林縣':'雲林県','嘉義市':'嘉義市','嘉義縣':'嘉義県','台南市':'台南市','高雄市':'高雄市','屏東縣':'屏東県','宜蘭縣':'宜蘭県','花蓮縣':'花蓮県','台東縣':'台東県','澎湖縣':'澎湖県','金門縣':'金門県','連江縣':'連江県'}
+      'zh-TW':{
+        '台北市':'台北市','新北市':'新北市','基隆市':'基隆市','桃園市':'桃園市','新竹市':'新竹市','新竹縣':'新竹縣','苗栗縣':'苗栗縣','台中市':'台中市','彰化縣':'彰化縣','南投縣':'南投縣','雲林縣':'雲林縣','嘉義市':'嘉義市','嘉義縣':'嘉義縣','台南市':'台南市','高雄市':'高雄市','屏東縣':'屏東縣','宜蘭縣':'宜蘭縣','花蓮縣':'花蓮縣','台東縣':'台東縣','澎湖縣':'澎湖縣','金門縣':'金門縣','連江縣':'連江縣',
+        ...JP_AREA_ZH,...US_AREA_ZH
+      },
+      en:{
+        '台北市':'Taipei','新北市':'New Taipei','基隆市':'Keelung','桃園市':'Taoyuan','新竹市':'Hsinchu City','新竹縣':'Hsinchu County','苗栗縣':'Miaoli','台中市':'Taichung','彰化縣':'Changhua','南投縣':'Nantou','雲林縣':'Yunlin','嘉義市':'Chiayi City','嘉義縣':'Chiayi County','台南市':'Tainan','高雄市':'Kaohsiung','屏東縣':'Pingtung','宜蘭縣':'Yilan','花蓮縣':'Hualien','台東縣':'Taitung','澎湖縣':'Penghu','金門縣':'Kinmen','連江縣':'Lienchiang',
+        ...JP_AREA_EN
+      },
+      ja:{
+        '台北市':'台北市','新北市':'新北市','基隆市':'基隆市','桃園市':'桃園市','新竹市':'新竹市','新竹縣':'新竹県','苗栗縣':'苗栗県','台中市':'台中市','彰化縣':'彰化県','南投縣':'南投県','雲林縣':'雲林県','嘉義市':'嘉義市','嘉義縣':'嘉義県','台南市':'台南市','高雄市':'高雄市','屏東縣':'屏東県','宜蘭縣':'宜蘭県','花蓮縣':'花蓮県','台東縣':'台東県','澎湖縣':'澎湖県','金門縣':'金門県','連江縣':'連江県',
+        ...US_AREA_JA
+      }
+    };
+
+    const adminAreaGroupLabels={
+      'zh-TW':{
+        tw_counties:'縣市',jp_hokkaido:'北海道',jp_tohoku:'東北',jp_kanto:'關東',jp_chubu:'中部',jp_kinki:'近畿',jp_chugoku:'中國',jp_shikoku:'四國',jp_kyushu_okinawa:'九州・沖繩',
+        us_northeast:'東北部',us_midwest:'中西部',us_south:'南部',us_west:'西部'
+      },
+      en:{
+        tw_counties:'Counties / cities',jp_hokkaido:'Hokkaido',jp_tohoku:'Tohoku',jp_kanto:'Kanto',jp_chubu:'Chubu',jp_kinki:'Kinki',jp_chugoku:'Chugoku',jp_shikoku:'Shikoku',jp_kyushu_okinawa:'Kyushu / Okinawa',
+        us_northeast:'Northeast',us_midwest:'Midwest',us_south:'South',us_west:'West'
+      },
+      ja:{
+        tw_counties:'県・市',jp_hokkaido:'北海道',jp_tohoku:'東北',jp_kanto:'関東',jp_chubu:'中部',jp_kinki:'近畿',jp_chugoku:'中国',jp_shikoku:'四国',jp_kyushu_okinawa:'九州・沖縄',
+        us_northeast:'北東部',us_midwest:'中西部',us_south:'南部',us_west:'西部'
+      }
+    };
+    const adminAreaKindLabels={
+      'zh-TW':{tw:'縣市',jp:'都道府縣',us:'州'},
+      en:{tw:'County / City',jp:'Prefecture',us:'State'},
+      ja:{tw:'県・市',jp:'都道府県',us:'州'}
     };
     const adminAreaLabel=a=>(adminAreaLabels[currentLang]||{})[a]||a;
+    const adminAreaGroupLabel=k=>(adminAreaGroupLabels[currentLang]||{})[k]||k;
+    const adminAreaKindLabel=()=>((adminAreaKindLabels[currentLang]||{})[currentRegion]||d().admin_area_filter);
+
 
     const VALID_REGIONS=['tw','jp','us'], VALID_LANGS=['zh-TW','en','ja'], VALID_DAYS=['today','tomorrow','after_tomorrow'];
     let currentRegion=VALID_REGIONS.includes(localStorage.getItem('chaselights_region'))?localStorage.getItem('chaselights_region'):'tw';
@@ -126,57 +229,39 @@
 
     function renderSubNav(){
       const el=document.getElementById('sub-nav'); el.innerHTML='';
-      if(currentRegion==='tw'){
-        // Legacy geographic category values from B104/B108 collapse to the
-        // default "all places" state. Favorites is a true on/off filter.
-        if(currentCategoryKey!=='__fav__'){
-          currentCategoryKey='__all__';
-          localStorage.setItem(`chaselights_category_${currentRegion}`,currentCategoryKey);
-        }
-        const b=document.createElement('button');
-        const on=currentCategoryKey==='__fav__';
-        b.className=`sub-btn favorite-filter-toggle ${on?'active':''}`;
-        b.dataset.key='__fav__';
-        b.setAttribute('aria-pressed',on?'true':'false');
-        b.innerText=categoryLabel('__fav__');
-        b.onclick=e=>{
-          e.preventDefault();
-          currentCategoryKey=on?'__all__':'__fav__';
-          localStorage.setItem(`chaselights_category_${currentRegion}`,currentCategoryKey);
-          renderSubNav();
-          filterAndRender();
-        };
-        el.appendChild(b);
-        return;
+      // Legacy country-specific geographic category values collapse to the
+      // default all-Places state. Geography now lives in the admin-area picker.
+      if(currentCategoryKey!=='__fav__'){
+        currentCategoryKey='__all__';
+        localStorage.setItem(`chaselights_category_${currentRegion}`,currentCategoryKey);
       }
-      const keys=categoryKeys[currentRegion]||['__all__'];
-      if(!keys.includes(currentCategoryKey))currentCategoryKey='__all__';
-      keys.forEach(k=>{
-        const b=document.createElement('button');
-        b.className=`sub-btn ${k===currentCategoryKey?'active':''}`;
-        b.dataset.key=k;
-        b.setAttribute('aria-pressed',k===currentCategoryKey?'true':'false');
-        b.innerText=categoryLabel(k);
-        b.onclick=(e)=>{
-          e.preventDefault();
-          currentCategoryKey=k;
-          localStorage.setItem(`chaselights_category_${currentRegion}`,k);
-          renderSubNav();
-          filterAndRender();
-        };
-        el.appendChild(b);
-      });
+      const b=document.createElement('button');
+      const on=currentCategoryKey==='__fav__';
+      b.className=`sub-btn favorite-filter-toggle ${on?'active':''}`;
+      b.dataset.key='__fav__';
+      b.setAttribute('aria-pressed',on?'true':'false');
+      b.innerText=categoryLabel('__fav__');
+      b.onclick=e=>{
+        e.preventDefault();
+        currentCategoryKey=on?'__all__':'__fav__';
+        localStorage.setItem(`chaselights_category_${currentRegion}`,currentCategoryKey);
+        renderSubNav();
+        filterAndRender();
+      };
+      el.appendChild(b);
     }
+
     function categoryBaseSpots(){
       const active=currentSpots.filter(s=>s.active_in_catalog!==false);
       if(currentCategoryKey==='__fav__')return active.filter(s=>favorites.includes(s.spot_id));
-      if(currentRegion==='tw')return active;
-      if(currentCategoryKey==='__all__')return active;
-      return active.filter(s=>s.category===currentCategoryKey);
+      return active;
     }
 
+    function availableAdminAreaGroups(){
+      return ADMIN_AREA_GROUPS[currentRegion]||[];
+    }
     function availableAdminAreas(){
-      return currentRegion==='tw'?[...TW_ADMIN_AREA_ORDER]:[];
+      return availableAdminAreaGroups().flatMap(group=>group.areas);
     }
     function persistAdminAreas(){
       localStorage.setItem(`chaselights_admin_areas_${currentRegion}`,JSON.stringify([...currentAdminAreas]));
@@ -184,27 +269,59 @@
     function renderAdminFilter(){
       const host=document.getElementById('admin-filter');if(!host)return;
       const wasOpen=!!host.querySelector('.admin-filter')?.open;
-      const areas=availableAdminAreas();
+      const groups=availableAdminAreaGroups();
+      const areas=groups.flatMap(group=>group.areas);
       const available=new Set(areas);
       const next=new Set([...currentAdminAreas].filter(a=>available.has(a)));
       if(next.size!==currentAdminAreas.size){currentAdminAreas=next;persistAdminAreas();}
-      if(currentRegion!=='tw'){
+      if(!areas.length){
         host.hidden=true;host.innerHTML='';return;
       }
 
-      // Counts and disabled state are based on all active Taiwan Places, not on
-      // a transient Favorites filter. This keeps the complete 22-area picker
-      // stable and prevents Kinmen/Lienchiang/Penghu from disappearing.
+      // Counts and disabled state always use all active Places in the country,
+      // not a transient Favorites filter. This keeps the picker stable.
       const allActive=currentSpots.filter(s=>s.active_in_catalog!==false);
       const counts={};
       areas.forEach(a=>counts[a]=allActive.filter(s=>(s.admin_areas||[]).includes(a)).length);
 
       const summary=currentAdminAreas.size?d().admin_area_selected.replace('{n}',currentAdminAreas.size):d().admin_area_all;
+      const showSearch=areas.length>24;
+      const groupHtml=groups.map(group=>{
+        const buttons=group.areas.map(a=>{
+          const disabled=counts[a]===0;
+          const searchText=`${a} ${adminAreaLabel(a)}`.toLocaleLowerCase();
+          return `<button type="button" class="admin-area-btn ${currentAdminAreas.has(a)?'active':''}" data-admin-area="${esc(a)}" data-admin-search-text="${esc(searchText)}" aria-pressed="${currentAdminAreas.has(a)?'true':'false'}" ${disabled?'disabled aria-disabled="true"':''}>${esc(adminAreaLabel(a))}<span>${counts[a]}</span></button>`;
+        }).join('');
+        const showGroupTitle=groups.length>1;
+        return `<section class="admin-area-group" data-admin-group>${showGroupTitle?`<div class="admin-area-group-title">${esc(adminAreaGroupLabel(group.key))}</div>`:''}<div class="admin-filter-grid">${buttons}</div></section>`;
+      }).join('');
+
       host.hidden=false;
-      host.innerHTML=`<details class="admin-filter"${wasOpen?' open':''}><summary>📍 ${esc(summary)}</summary><div class="admin-filter-menu"><div class="admin-filter-head"><span>${esc(d().admin_area_filter)}</span><button type="button" class="admin-clear-btn" data-admin-clear>${esc(d().admin_area_clear)}</button></div><div class="admin-filter-grid">${areas.map(a=>{const disabled=counts[a]===0;return `<button type="button" class="admin-area-btn ${currentAdminAreas.has(a)?'active':''}" data-admin-area="${esc(a)}" aria-pressed="${currentAdminAreas.has(a)?'true':'false'}" ${disabled?'disabled aria-disabled="true"':''}>${esc(adminAreaLabel(a))}<span>${counts[a]}</span></button>`;}).join('')}</div></div></details>`;
+      host.innerHTML=`<details class="admin-filter"${wasOpen?' open':''}><summary>📍 ${esc(summary)}</summary><div class="admin-filter-menu"><div class="admin-filter-head"><span>${esc(adminAreaKindLabel())}</span><button type="button" class="admin-clear-btn" data-admin-clear>${esc(d().admin_area_clear)}</button></div>${showSearch?`<input class="admin-area-search" type="search" autocomplete="off" data-admin-search placeholder="${esc(d().admin_area_search)}" aria-label="${esc(d().admin_area_search)}">`:''}<div class="admin-area-groups">${groupHtml}</div><div class="admin-area-empty" data-admin-empty hidden>${esc(d().admin_area_no_match)}</div></div></details>`;
       host.querySelector('[data-admin-clear]').onclick=e=>{e.preventDefault();e.stopPropagation();currentAdminAreas.clear();persistAdminAreas();filterAndRender();};
       host.querySelectorAll('[data-admin-area]:not([disabled])').forEach(b=>b.onclick=e=>{e.preventDefault();e.stopPropagation();const area=b.dataset.adminArea;if(currentAdminAreas.has(area))currentAdminAreas.delete(area);else currentAdminAreas.add(area);persistAdminAreas();filterAndRender();});
+
+      const search=host.querySelector('[data-admin-search]');
+      if(search){
+        search.oninput=e=>{
+          const q=String(e.target.value||'').trim().toLocaleLowerCase();
+          let visible=0;
+          host.querySelectorAll('[data-admin-group]').forEach(group=>{
+            let groupVisible=0;
+            group.querySelectorAll('[data-admin-area]').forEach(button=>{
+              const match=!q||(button.dataset.adminSearchText||'').includes(q);
+              button.hidden=!match;
+              if(match){visible++;groupVisible++;}
+            });
+            group.hidden=groupVisible===0;
+          });
+          const empty=host.querySelector('[data-admin-empty]');
+          if(empty)empty.hidden=visible!==0;
+        };
+        search.onclick=e=>e.stopPropagation();
+      }
     }
+
     function setFilterPressed(button,on){
       button.classList.toggle('active',on);
       button.setAttribute('aria-pressed',on?'true':'false');
@@ -339,7 +456,7 @@
         metric.cloud_base_agl!=null?`<span class="metric-chip">☁️ ${metric.cloud_base_agl}m</span>`:'',
         `<span class="metric-chip">🌡 ${formatTemp(metric.temp)}</span>`
       ].filter(Boolean).join('');
-      card.innerHTML=`<div><div class="card-header"><div class="spot-title-group"><span class="spot-name"></span><div class="spot-local-name"></div><div style="margin-top:4px"><span class="category-tag">${categoryLabel(spot.category)}</span></div></div><div class="card-header-actions"><span class="score-badge ${scoreClass}">${scoreText}${scoreLabel?`<span class="score-label">${esc(scoreLabel)}</span>`:''}</span><button class="fav-btn ${fav?'active':''}" data-fav aria-label="Favorite">★</button></div></div><div class="tags-wrapper">${scenePills}${sceneMore}</div><div class="shooting-summary"><div class="theme-winner">${(researchPending||noViable)?`📷 ${esc(opportunityName)}`:d().best_theme+esc(opportunityName)}</div>${(researchPending||noViable)?'':`<div class="best-window-row">${d().best_window}<b>${fmtWindow(metric)}</b></div>`}</div>${reasonHtml?`<div class="recommendation-reasons">${reasonHtml}</div>`:''}<div class="card-secondary-meta"><div class="card-quick-meta"><span class="card-timezone">🕒 ${(spot.timezone==='Asia/Taipei'?'UTC+8':(metric.timezone_abbr||spot.timezone_abbr||spot.timezone||'—'))}</span><span class="card-metric-chips">${compactMetrics}</span></div>${(researchPending||noViable)?'':`<div class="info-row forecast-status-row card-meta-row">${d().forecast_status}${status}</div>`}${astro?`<div class="info-row card-meta-row card-meta-astro">${astro}</div>`:''}${darkSky?`<div class="info-row card-meta-row card-meta-dark">${darkSky}</div>`:''}${access?`<div class="info-row access-note card-meta-row card-meta-access" title="${esc(access)}">⏰ ${esc(access)}</div>`:''}</div></div><div class="card-footer-tools" data-tools><div></div><div><a href="#" class="tool-link" data-weather>${d().weather_link}</a>${navTool}<a href="${radarUrl()}" target="_blank" rel="noopener noreferrer" class="tool-link">${d().radar_link}</a></div></div>`;
+      card.innerHTML=`<div><div class="card-header"><div class="spot-title-group"><span class="spot-name"></span><div class="spot-local-name"></div><div style="margin-top:4px"><span class="category-tag">${esc((spot.admin_areas||[]).map(adminAreaLabel).join(" · ")||categoryLabel(spot.category))}</span></div></div><div class="card-header-actions"><span class="score-badge ${scoreClass}">${scoreText}${scoreLabel?`<span class="score-label">${esc(scoreLabel)}</span>`:''}</span><button class="fav-btn ${fav?'active':''}" data-fav aria-label="Favorite">★</button></div></div><div class="tags-wrapper">${scenePills}${sceneMore}</div><div class="shooting-summary"><div class="theme-winner">${(researchPending||noViable)?`📷 ${esc(opportunityName)}`:d().best_theme+esc(opportunityName)}</div>${(researchPending||noViable)?'':`<div class="best-window-row">${d().best_window}<b>${fmtWindow(metric)}</b></div>`}</div>${reasonHtml?`<div class="recommendation-reasons">${reasonHtml}</div>`:''}<div class="card-secondary-meta"><div class="card-quick-meta"><span class="card-timezone">🕒 ${(spot.timezone==='Asia/Taipei'?'UTC+8':(metric.timezone_abbr||spot.timezone_abbr||spot.timezone||'—'))}</span><span class="card-metric-chips">${compactMetrics}</span></div>${(researchPending||noViable)?'':`<div class="info-row forecast-status-row card-meta-row">${d().forecast_status}${status}</div>`}${astro?`<div class="info-row card-meta-row card-meta-astro">${astro}</div>`:''}${darkSky?`<div class="info-row card-meta-row card-meta-dark">${darkSky}</div>`:''}${access?`<div class="info-row access-note card-meta-row card-meta-access" title="${esc(access)}">⏰ ${esc(access)}</div>`:''}</div></div><div class="card-footer-tools" data-tools><div></div><div><a href="#" class="tool-link" data-weather>${d().weather_link}</a>${navTool}<a href="${radarUrl()}" target="_blank" rel="noopener noreferrer" class="tool-link">${d().radar_link}</a></div></div>`;
       card.querySelector('.spot-name').textContent=spotName(spot);const local=card.querySelector('.spot-local-name');const showLocal=!(currentRegion==='tw'&&currentLang==='zh-TW');local.textContent=showLocal&&spot.name_local&&spot.name_local!==spotName(spot)?spot.name_local:'';card.querySelector('[data-fav]').onclick=e=>toggleFavorite(spot.spot_id,e);card.querySelector('[data-tools]').onclick=e=>e.stopPropagation();card.querySelector('[data-weather]').onclick=e=>{e.preventDefault();e.stopPropagation();openWeatherModal(spot,metric);};
       return card;
     }
@@ -354,7 +471,7 @@
       }
       if(currentSearch){
         filtered=filtered.filter(s=>{
-          const haystack=[...(Object.values(s.name_i18n||{})),s.name_local,s.map_query,s.category].filter(Boolean).join(' ').toLocaleLowerCase();
+          const haystack=[...(Object.values(s.name_i18n||{})),s.name_local,s.map_query,s.category,...(s.admin_areas||[]),...(s.admin_areas||[]).map(adminAreaLabel)].filter(Boolean).join(' ').toLocaleLowerCase();
           return haystack.includes(currentSearch);
         });
       }
