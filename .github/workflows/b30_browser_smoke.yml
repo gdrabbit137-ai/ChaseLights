@@ -88,6 +88,35 @@ jobs:
 
       - name: Run browser smoke
         run: |
+          # Main can contain a published LIVE WeatherGrid snapshot. Validate it
+          # first, then hide it in this ephemeral CI workspace so the same smoke
+          # deterministically exercises the DEMO fallback path as well.
+          if [ -f weathergrid/gfs_tw_weather_browser.json ]; then
+            python - <<'PY'
+          import json
+          from pathlib import Path
+
+          live = json.loads(Path("weathergrid/gfs_tw_weather_browser.json").read_text(encoding="utf-8"))
+          assert live.get("provider") == "NOAA/NCEP NOMADS", live.get("provider")
+          assert live.get("model") == "GFS", live.get("model")
+          assert len(live.get("frames") or []) > 0, "LIVE WeatherGrid has no frames"
+          assert len(live.get("spots") or []) > 0, "LIVE WeatherGrid has no spots"
+          required = {"low_cloud_percent", "visibility_km", "wind_direction_10m_deg"}
+          assert required.issubset(set((live.get("fields") or {}).keys())), live.get("fields")
+          print(json.dumps({
+              "live_weathergrid_frames": len(live["frames"]),
+              "live_weathergrid_spots": len(live["spots"]),
+              "live_weathergrid_fields": sorted(live["fields"].keys()),
+          }, ensure_ascii=False))
+          PY
+            mkdir -p /tmp/chaselights-live-weathergrid
+            for f in               weathergrid/gfs_tw_weather_browser.json               weathergrid/gfs_tw_weather_qc.json               weathergrid/weathergrid_coverage_browser.json; do
+              if [ -f "$f" ]; then
+                mv "$f" /tmp/chaselights-live-weathergrid/
+              fi
+            done
+          fi
+
           python -m http.server 8000 --bind 127.0.0.1 >/tmp/chaselights-http.log 2>&1 &
           server_pid=$!
           trap 'kill $server_pid || true' EXIT
