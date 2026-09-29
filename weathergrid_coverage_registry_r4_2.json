@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "registry_version": "B121.9",
+  "registry_version": "B121.10",
   "contract": "WEATHERGRID_COVERAGE_SPEC_R4_2.md",
-  "generated_or_reviewed_at": "2026-09-29",
+  "generated_or_reviewed_at": "2026-09-30",
   "notes": [
-    "B121.9 adds subject-aware WeatherGrid coverage for tw-073 老梅綠石槽／春季綠石槽晨光.",
-    "The seasonal green-reef foreground reuses the catalog's high-confidence 250 m small-area Camera Zone extent as a conservative local subject envelope; it is not an exact reef polygon.",
-    "Official North Coast tourism material supports March-to-mid-May daily low-tide viewing and early-morning slant light across the green reef and sea.",
-    "The 65°–105°, 0–15 km dawn sector pads the approximate geometric sunrise azimuth range for March 1 through May 15 at 25.29°N; it is a WeatherGrid atmosphere envelope, not an exact visible-horizon or Sun-position claim."
+    "B121.10 adds subject-aware WeatherGrid coverage for tw-066 東湧燈塔（東引島燈塔）.",
+    "The fixed lighthouse subject uses the official Taiwan Tourism Administration attraction coordinate; the surrounding cape/sea context is represented by a conservative 0–3 km local environment envelope.",
+    "The catalog Camera Zone is a high-confidence geotagged small-area anchor but has no curated geometry_extent_m, so WeatherGrid intentionally keeps the explicit anchor-only Camera Zone warning rather than inventing a precise public walking polygon.",
+    "Dynamic closure/safety state for strong gusts or long waves remains separate from WeatherGrid coverage geometry; no Photography Opportunity scoring changes are made."
   ],
   "entries": [
     {
@@ -1835,6 +1835,70 @@
         "note": "官方資料確認老梅綠石槽春季綠藻、每日低潮觀賞與清晨斜光攝影情境。Subject 以既有 250 m high-confidence Camera Zone extent 作保守 local foreground envelope；晨曦 sector 只作 WeatherGrid 空間規劃，不宣稱精確礁槽 polygon、可見地平線或太陽地面座標。",
         "camera_zone_browser_exposure": {
           "tw-073-VP01": "generalized"
+        }
+      }
+    },
+    {
+      "opportunity_id": "tw-066-P01",
+      "spot_id": "tw-066",
+      "provenance": {
+        "basis": "High-confidence geotagged Dongyin lighthouse Camera Zone + official Taiwan Tourism Administration lighthouse coordinate + Matsu National Scenic Area lighthouse/cape/coastal description",
+        "geometry_interpretation": "The lighthouse is a fixed terrestrial subject represented by the official attraction coordinate. A 0–3 km full-circle local environment envelope conservatively covers nearby cape, cliff and sea weather without claiming an exact coastline, exact visible horizon or Camera Zone polygon.",
+        "source_urls": [
+          "https://www.taiwan.net.tw/m1.aspx?id=a12-00213&sno=0001016",
+          "https://www.matsu-nsa.gov.tw/zh-TW/attractions/lookMore/1433",
+          "https://www.matsu-nsa.gov.tw/zh-TW"
+        ]
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-066-VP01"
+        ],
+        "subject_geometries": [
+          {
+            "subject_id": "tw-066-P01-SUB01",
+            "role": "primary_landmark_subject",
+            "name": "東湧燈塔建築本體",
+            "geometry": {
+              "type": "point",
+              "lat": 26.365429,
+              "lon": 120.51049
+            },
+            "coord_confidence": "high",
+            "source_evidence_ids": [
+              "taiwan_tourism.dongyin_lighthouse_official_coordinate"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "environment_geometries": [
+          {
+            "environment_id": "tw-066-P01-ENV01",
+            "role": "cape_coastal_visibility_zone",
+            "name": "東引燈塔海岬與近岸海景天氣區",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-066-VP01",
+              "azimuth_start_deg": 0,
+              "azimuth_end_deg": 360,
+              "min_range_km": 0,
+              "max_range_km": 3
+            },
+            "coord_confidence": "medium_high",
+            "source_evidence_ids": [
+              "runtime_catalog_v004_r4_2.tw-066-P01",
+              "matsu_nsa.dongyin_lighthouse_cape_coast"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "display_padding_km": 2,
+        "coverage_confidence": "medium_high",
+        "note": "官方資料確認東湧燈塔為固定海岬地標並具有海景／崖岸環境。Subject 使用官方燈塔座標；Environment 以 3 km full-circle local envelope 保守涵蓋近岸天氣。Camera Zone 本身尚無可重建 extent，因此保留 anchor-only warning，不宣稱精確步道／可站立 polygon。強陣風、長浪與現場開放狀態仍是獨立安全 gate。",
+        "camera_zone_browser_exposure": {
+          "tw-066-VP01": "generalized"
         }
       }
     }

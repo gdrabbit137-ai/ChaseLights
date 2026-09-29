@@ -194,11 +194,11 @@ class WeatherGridCoverageTest(unittest.TestCase):
         )
         audit = audit_coverage_registry(catalog, registry)
 
-        self.assertEqual(audit["counts"]["entries"], 35)
+        self.assertEqual(audit["counts"]["entries"], 36)
         self.assertEqual(audit["counts"]["missing_opportunity"], 0)
-        self.assertEqual(audit["counts"]["provisional"], 35)
+        self.assertEqual(audit["counts"]["provisional"], 36)
         self.assertEqual(audit["counts"]["needs_research"], 0)
-        self.assertEqual(audit["counts"]["complete"], 35)
+        self.assertEqual(audit["counts"]["complete"], 36)
         self.assertEqual(audit["counts"]["incomplete"], 0)
 
         by_id = {row["opportunity_id"]: row for row in audit["results"]}
@@ -233,6 +233,17 @@ class WeatherGridCoverageTest(unittest.TestCase):
         self.assertEqual(by_id["tw-073-P01"]["status"], "provisional")
         self.assertEqual(by_id["tw-073-P01"]["subject_geometry_count"], 1)
         self.assertEqual(by_id["tw-073-P01"]["environment_geometry_count"], 1)
+
+        self.assertTrue(by_id["tw-066-P01"]["complete"])
+        self.assertEqual(by_id["tw-066-P01"]["status"], "provisional")
+        self.assertEqual(by_id["tw-066-P01"]["subject_geometry_count"], 1)
+        self.assertEqual(by_id["tw-066-P01"]["environment_geometry_count"], 1)
+        self.assertTrue(
+            any(
+                "no reconstructable extent" in warning
+                for warning in by_id["tw-066-P01"]["warnings"]
+            )
+        )
 
         self.assertTrue(by_id["tw-019-P04"]["complete"])
         self.assertTrue(by_id["tw-014-P01"]["complete"])
@@ -333,6 +344,15 @@ class WeatherGridCoverageTest(unittest.TestCase):
         # foreground while staying directional rather than region-wide.
         self.assertGreater(laomei["east"], 121.65)
         self.assertLess(laomei["west"], 121.55)
+
+        dongyin = by_id["tw-066-P01"]["coverage_bbox"]
+        self.assertTrue(bbox_contains_point(dongyin, 26.365429, 120.51049))
+        # The fixed lighthouse subject is near the Camera Zone anchor, while
+        # the local 3 km environment envelope covers cape/cliff/sea weather.
+        self.assertLess(dongyin["west"], 120.49)
+        self.assertGreater(dongyin["east"], 120.53)
+        self.assertLess(dongyin["south"], 26.35)
+        self.assertGreater(dongyin["north"], 26.38)
 
     def test_needs_research_stays_incomplete_even_with_geometry(self):
         op = _opportunity(
