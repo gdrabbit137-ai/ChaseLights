@@ -553,6 +553,65 @@ jobs:
               report["jp_cards"] = len(jp_cards)
               assert len(jp_cards) == 35, len(jp_cards)
 
+              # B137: Japan uses the same Favorite + admin-area picker model as Taiwan,
+              # with prefectures as the actual filter values and macro regions only
+              # as visual grouping.
+              jp_admin_contract = driver.execute_script("""
+                const active = currentSpots.filter(s => s.active_in_catalog !== false);
+                const buttons = [...document.querySelectorAll('#admin-filter [data-admin-area]')];
+                return {
+                  missing: active.filter(s => !spotAdminAreas(s).length).map(s => s.spot_id),
+                  available: availableAdminAreas(),
+                  kind: adminAreaKindLabel(),
+                  groupCount: document.querySelectorAll('#admin-filter [data-admin-group]').length,
+                  buttonCount: buttons.length,
+                  search: !!document.querySelector('#admin-filter [data-admin-search]'),
+                  navKeys: [...document.querySelectorAll('#sub-nav .sub-btn')].map(x => x.dataset.key),
+                  disabled: buttons.filter(x => x.disabled).map(x => x.dataset.adminArea),
+                  counts: Object.fromEntries(buttons.map(x => [x.dataset.adminArea, Number(x.querySelector('span')?.textContent || 0)]))
+                };
+              """)
+              report["japan_admin_contract"] = jp_admin_contract
+              assert jp_admin_contract["missing"] == [], jp_admin_contract
+              assert len(jp_admin_contract["available"]) == 47, jp_admin_contract
+              assert jp_admin_contract["groupCount"] == 8, jp_admin_contract
+              assert jp_admin_contract["buttonCount"] == 47, jp_admin_contract
+              assert jp_admin_contract["kind"] == "都道府縣", jp_admin_contract
+              assert jp_admin_contract["search"] is True, jp_admin_contract
+              assert jp_admin_contract["navKeys"] == ["__fav__"], jp_admin_contract
+              assert jp_admin_contract["counts"]["東京都"] > 0, jp_admin_contract
+              assert jp_admin_contract["counts"]["岩手県"] == 0, jp_admin_contract
+              assert "岩手県" in jp_admin_contract["disabled"], jp_admin_contract
+
+              jp_search = driver.execute_script("""
+                const input = document.querySelector('#admin-filter [data-admin-search]');
+                input.value = '東京';
+                input.dispatchEvent(new Event('input', {bubbles:true}));
+                const visible = [...document.querySelectorAll('#admin-filter [data-admin-area]')]
+                  .filter(x => !x.hidden).map(x => x.dataset.adminArea);
+                input.value = '';
+                input.dispatchEvent(new Event('input', {bubbles:true}));
+                return visible;
+              """)
+              report["japan_admin_search"] = jp_search
+              assert "東京都" in jp_search, jp_search
+
+              driver.execute_script("""
+                currentAdminAreas.clear();
+                currentAdminAreas.add('秋田県');
+                persistAdminAreas();
+                filterAndRender();
+                document.querySelectorAll('.deferred-group').forEach(x => x.open = true);
+              """)
+              assert any("十和田湖" in c.text for c in driver.find_elements(By.CSS_SELECTOR, "#spots-container .card")), "cross-prefecture Towada Lake missing from Akita filter"
+              driver.execute_script("""
+                currentAdminAreas.clear();
+                persistAdminAreas();
+                filterAndRender();
+                document.querySelectorAll('.deferred-group').forEach(x => x.open = true);
+              """)
+              jp_cards = driver.find_elements(By.CSS_SELECTOR, "#spots-container .card")
+
               researched_jp_ids = driver.execute_script("""
                 return currentSpots
                   .filter(s => Array.isArray(s.opportunities) && s.opportunities.length)
@@ -761,6 +820,66 @@ jobs:
               us_cards = driver.find_elements(By.CSS_SELECTOR, "#spots-container .card")
               report["us_cards"] = len(us_cards)
               assert len(us_cards) == 70, len(us_cards)
+
+              # B137: US geography uses state/DC filter values with macro regions
+              # only as picker grouping.
+              us_admin_contract = driver.execute_script("""
+                const active = currentSpots.filter(s => s.active_in_catalog !== false);
+                const buttons = [...document.querySelectorAll('#admin-filter [data-admin-area]')];
+                return {
+                  missing: active.filter(s => !spotAdminAreas(s).length).map(s => s.spot_id),
+                  available: availableAdminAreas(),
+                  kind: adminAreaKindLabel(),
+                  groupCount: document.querySelectorAll('#admin-filter [data-admin-group]').length,
+                  buttonCount: buttons.length,
+                  search: !!document.querySelector('#admin-filter [data-admin-search]'),
+                  navKeys: [...document.querySelectorAll('#sub-nav .sub-btn')].map(x => x.dataset.key),
+                  disabled: buttons.filter(x => x.disabled).map(x => x.dataset.adminArea),
+                  counts: Object.fromEntries(buttons.map(x => [x.dataset.adminArea, Number(x.querySelector('span')?.textContent || 0)]))
+                };
+              """)
+              report["us_admin_contract"] = us_admin_contract
+              assert us_admin_contract["missing"] == [], us_admin_contract
+              assert len(us_admin_contract["available"]) == 51, us_admin_contract
+              assert us_admin_contract["groupCount"] == 4, us_admin_contract
+              assert us_admin_contract["buttonCount"] == 51, us_admin_contract
+              assert us_admin_contract["kind"] == "州", us_admin_contract
+              assert us_admin_contract["search"] is True, us_admin_contract
+              assert us_admin_contract["navKeys"] == ["__fav__"], us_admin_contract
+              assert us_admin_contract["counts"]["California"] > 0, us_admin_contract
+              assert us_admin_contract["counts"]["District of Columbia"] == 0, us_admin_contract
+              assert "District of Columbia" in us_admin_contract["disabled"], us_admin_contract
+
+              us_search = driver.execute_script("""
+                const input = document.querySelector('#admin-filter [data-admin-search]');
+                input.value = 'California';
+                input.dispatchEvent(new Event('input', {bubbles:true}));
+                const visible = [...document.querySelectorAll('#admin-filter [data-admin-area]')]
+                  .filter(x => !x.hidden).map(x => x.dataset.adminArea);
+                input.value = '';
+                input.dispatchEvent(new Event('input', {bubbles:true}));
+                return visible;
+              """)
+              report["us_admin_search"] = us_search
+              assert "California" in us_search, us_search
+
+              driver.execute_script("""
+                currentAdminAreas.clear();
+                currentAdminAreas.add('Nevada');
+                persistAdminAreas();
+                filterAndRender();
+                document.querySelectorAll('.deferred-group').forEach(x => x.open = true);
+              """)
+              nevada_text = [c.text for c in driver.find_elements(By.CSS_SELECTOR, "#spots-container .card")]
+              assert any("死亡谷國家公園" in text for text in nevada_text), "cross-state Death Valley missing from Nevada filter"
+              assert any("拉斯維加斯大道" in text for text in nevada_text), "Nevada Place missing from Nevada filter"
+              driver.execute_script("""
+                currentAdminAreas.clear();
+                persistAdminAreas();
+                filterAndRender();
+                document.querySelectorAll('.deferred-group').forEach(x => x.open = true);
+              """)
+              us_cards = driver.find_elements(By.CSS_SELECTOR, "#spots-container .card")
               researched_us_names = {"大峽谷國家公園", "馬蹄灣", "羚羊峽谷", "紀念碑谷", "拱門國家公園", "布萊斯峽谷國家公園", "錫安國家公園", "優勝美地半圓頂", "優勝美地隧道觀景臺", "黃石國家公園 大稜鏡溫泉", "大提頓國家公園", "雷尼爾山國家公園", "火山口湖國家公園", "死亡谷國家公園", "舊金山金門大橋", "拉斯維加斯大道", "聖海倫斯火山", "冰川國家公園", "奧林匹克國家公園", "紅木國家公園", "峽谷地國家公園 梅薩拱門", "約書亞樹國家公園", "巨人柱國家公園", "西雅圖太空針塔", "聖莫尼卡碼頭", "西雅圖派克市場", "鋸齒山脈", "洛杉磯格里斐斯天文台", "白沙國家公園", "芝加哥天際線", "落磯山國家公園", "紐奧良法國區", "丹佛天際線", "聖路易斯大拱門", "沃斯堡牲畜市場", "紐約曼哈頓天際線", "尼加拉瀑布", "大霧山國家公園", "邁阿密海灘", "波士頓天際線", "迪納利國家公園", "費爾班克斯極光", "珍娜溫泉", "安克拉治", "蘇華德", "哈徹山口", "馬塔努斯卡冰河", "波蒂奇冰河", "瓦爾迪茲", "朱諾", "門登霍爾冰河", "荷馬沙嘴", "凱奇侃", "史卡威", "威朗格利-聖埃利亞斯國家公園", "布魯克斯山脈", "北極圈地標", "諾姆", "卡特邁國家公園", "冰河灣國家公園", "柯迪亞克島", "埃克盧特納湖", "塔爾基特納", "艾利耶斯卡", "楚加奇州立公園", "白令陸橋國家保護區", "育空河", "諾阿塔克河", "克拉克湖國家公園", "獨立礦山"}
               researched_us_cards = [c for c in us_cards if any(name in c.text for name in researched_us_names)]
               assert len(researched_us_cards) == 70, [c.text for c in researched_us_cards]
