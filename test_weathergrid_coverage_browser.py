@@ -35,6 +35,7 @@ class WeatherGridCoverageBrowserTest(unittest.TestCase):
         self.assertIn("tw-069", by_spot)
         self.assertIn("tw-067", by_spot)
         self.assertIn("tw-065", by_spot)
+        self.assertIn("tw-062", by_spot)
 
         jianggong_group = by_spot["tw-078"]
         self.assertEqual(jianggong_group["catalog_opportunity_count"], 1)
@@ -85,6 +86,11 @@ class WeatherGridCoverageBrowserTest(unittest.TestCase):
         self.assertEqual(jinsha_group["catalog_opportunity_count"], 1)
         self.assertEqual(jinsha_group["coverage_entry_count"], 1)
         self.assertTrue(jinsha_group["all_topics_complete"])
+
+        deyue_group = by_spot["tw-062"]
+        self.assertEqual(deyue_group["catalog_opportunity_count"], 1)
+        self.assertEqual(deyue_group["coverage_entry_count"], 1)
+        self.assertTrue(deyue_group["all_topics_complete"])
 
         kuibishan_group = by_spot["tw-059"]
         self.assertEqual(kuibishan_group["catalog_opportunity_count"], 1)
@@ -229,6 +235,14 @@ class WeatherGridCoverageBrowserTest(unittest.TestCase):
         self.assertEqual(jinsha["environment_geometries"][0]["geometry"]["azimuth_start_deg"], 240)
         self.assertEqual(jinsha["environment_geometries"][0]["geometry"]["azimuth_end_deg"], 300)
         self.assertEqual(jinsha["camera_zones"][0]["browser_exposure"], "generalized")
+
+        deyue = by_opp["tw-062-P01"]
+        self.assertTrue(deyue["complete"])
+        self.assertEqual(deyue["status"], "provisional")
+        self.assertEqual(deyue["subject_geometries"][0]["geometry"]["type"], "sector")
+        self.assertEqual(deyue["subject_geometries"][0]["geometry"]["max_range_km"], 0.3)
+        self.assertEqual(deyue["environment_geometries"], [])
+        self.assertEqual(deyue["camera_zones"][0]["browser_exposure"], "generalized")
 
         qingshui_p01 = by_opp["tw-034-P01"]
         self.assertTrue(qingshui_p01["complete"])

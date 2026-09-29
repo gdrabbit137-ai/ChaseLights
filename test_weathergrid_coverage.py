@@ -194,11 +194,11 @@ class WeatherGridCoverageTest(unittest.TestCase):
         )
         audit = audit_coverage_registry(catalog, registry)
 
-        self.assertEqual(audit["counts"]["entries"], 42)
+        self.assertEqual(audit["counts"]["entries"], 43)
         self.assertEqual(audit["counts"]["missing_opportunity"], 0)
-        self.assertEqual(audit["counts"]["provisional"], 42)
+        self.assertEqual(audit["counts"]["provisional"], 43)
         self.assertEqual(audit["counts"]["needs_research"], 0)
-        self.assertEqual(audit["counts"]["complete"], 42)
+        self.assertEqual(audit["counts"]["complete"], 43)
         self.assertEqual(audit["counts"]["incomplete"], 0)
 
         by_id = {row["opportunity_id"]: row for row in audit["results"]}
@@ -297,6 +297,17 @@ class WeatherGridCoverageTest(unittest.TestCase):
             any(
                 "no reconstructable extent" in warning
                 for warning in by_id["tw-065-P01"]["warnings"]
+            )
+        )
+
+        self.assertTrue(by_id["tw-062-P01"]["complete"])
+        self.assertEqual(by_id["tw-062-P01"]["status"], "provisional")
+        self.assertEqual(by_id["tw-062-P01"]["subject_geometry_count"], 1)
+        self.assertEqual(by_id["tw-062-P01"]["environment_geometry_count"], 0)
+        self.assertTrue(
+            any(
+                "no reconstructable extent" in warning
+                for warning in by_id["tw-062-P01"]["warnings"]
             )
         )
 
@@ -460,6 +471,17 @@ class WeatherGridCoverageTest(unittest.TestCase):
         self.assertGreater(jinsha["north"], 26.19)
         self.assertLess(jinsha["south"], 26.10)
         self.assertGreater(jinsha["east"], 119.92)
+
+        deyue = by_id["tw-062-P01"]["coverage_bbox"]
+        self.assertTrue(bbox_contains_point(deyue, 24.40971, 118.29849))
+        # The 0.3 km architecture envelope must extend around the public
+        # exterior Camera Zone while staying compact rather than region-wide.
+        self.assertLess(deyue["west"], 118.29849)
+        self.assertGreater(deyue["east"], 118.29849)
+        self.assertLess(deyue["south"], 24.40971)
+        self.assertGreater(deyue["north"], 24.40971)
+        self.assertLess(deyue["east"] - deyue["west"], 0.10)
+        self.assertLess(deyue["north"] - deyue["south"], 0.10)
 
     def test_needs_research_stays_incomplete_even_with_geometry(self):
         op = _opportunity(

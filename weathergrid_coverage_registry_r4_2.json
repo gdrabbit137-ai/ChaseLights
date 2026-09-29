@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "registry_version": "B121.16",
+  "registry_version": "B121.17",
   "contract": "WEATHERGRID_COVERAGE_SPEC_R4_2.md",
   "generated_or_reviewed_at": "2026-09-30",
   "notes": [
-    "B121.16 adds subject-aware WeatherGrid coverage for tw-065 南竿津沙聚落 while retaining prior complete entries.",
-    "Matsu National Scenic Area official material describes Jinsha as an old settlement combining a golden beach and stone houses, and official itineraries explicitly recommend visiting at dusk to watch sunset.",
-    "B141 uses a conservative 0–0.8 km full-circle local village/beach subject envelope plus a 240°–300°, 0–15 km sunset-atmosphere sector. These are WeatherGrid planning envelopes, not exact building, beach, visible-horizon, or solar-alignment geometry.",
-    "Pedestrian access, local closures, marine conditions and actual sunset visibility remain separate gates; no Photography Opportunity scoring changes are made."
+    "B121.17 adds subject-aware WeatherGrid coverage for tw-062 水頭聚落・得月樓 while retaining prior complete entries.",
+    "Kinmen Travel official material identifies Deyue Tower, Huang Huihuang Western-style House and the surrounding Shuitou settlement as a compact cluster of preserved traditional and overseas-influenced architecture.",
+    "B142 uses a conservative 0–0.3 km full-circle local subject envelope around the public exterior Camera Zone. This is a WeatherGrid planning envelope, not an exact building footprint, property boundary, or tripod polygon.",
+    "Golden-hour quality, night lighting, interior opening, crowding and temporary access remain separate runtime/on-site concerns; no Photography Opportunity scoring changes are made."
   ],
   "entries": [
     {
@@ -2283,6 +2283,54 @@
         "note": "官方資料將津沙描述為黃金沙灘與石屋組成的古老聚落，並明確建議傍晚漫步津沙賞夕陽。WeatherGrid 以 0–0.8 km full-circle 保守涵蓋聚落／沙灘近端主體，並以 240°–300°、0–15 km sector 涵蓋全年夕陽方向附近的大氣。Camera Zone 為官方景點工作座標但 tripod offset 尚待細化，因此保留 generalized/anchor-only 警告；步行進入、臨時管制、海況與實際夕陽可見性仍由獨立 gate/runtime 判定。",
         "camera_zone_browser_exposure": {
           "tw-065-VP01": "generalized"
+        }
+      }
+    },
+    {
+      "opportunity_id": "tw-062-P01",
+      "spot_id": "tw-062",
+      "provenance": {
+        "basis": "Working public-exterior Camera coordinate + Kinmen Travel official descriptions of Deyue Tower, Huang Huihuang Western-style House and the preserved Shuitou architectural cluster.",
+        "geometry_interpretation": "The photographed subject is the local Deyue Tower / Huang Huihuang Western-style House exterior and immediate Shuitou architecture. B142 uses a conservative 0–0.3 km full-circle local envelope around tw-062-VP01. This does not claim exact building footprints, private property boundaries, or an exact tripod standing polygon.",
+        "source_urls": [
+          "https://kinmen.travel/zh-tw/travel/attraction/654",
+          "https://kinmen.travel/zh-tw/travel/attraction/520",
+          "https://www.kinmen.travel/zh-tw/news/details/4191"
+        ]
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-062-VP01"
+        ],
+        "subject_geometries": [
+          {
+            "subject_id": "tw-062-P01-SUB01",
+            "role": "deyue_shuitou_architecture_foreground_zone",
+            "name": "得月樓、黃輝煌洋樓與水頭聚落近端建築群",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-062-VP01",
+              "azimuth_start_deg": 0,
+              "azimuth_end_deg": 360,
+              "min_range_km": 0,
+              "max_range_km": 0.3
+            },
+            "coord_confidence": "medium",
+            "source_evidence_ids": [
+              "kinmen_travel.deyue_huanghuihuang_shuitou_architecture",
+              "runtime_catalog.tw-062-VP01"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "environment_geometries": [],
+        "display_padding_km": 2,
+        "coverage_confidence": "medium",
+        "note": "金門官方資料將得月樓、黃輝煌洋樓與水頭聚落描述為緊密相鄰的代表性僑鄉／閩式建築群。WeatherGrid 以 tw-062-VP01 周邊 0–0.3 km full-circle 保守涵蓋近端建築主體；Camera Zone 為 working public-exterior coordinate，exact tripod extent 尚未精確，因此保留 generalized/anchor-only 警告。Golden hour、夜間燈光、室內開放、人潮與臨時進入條件仍由獨立 runtime/on-site gate 判定。",
+        "camera_zone_browser_exposure": {
+          "tw-062-VP01": "generalized"
         }
       }
     }
