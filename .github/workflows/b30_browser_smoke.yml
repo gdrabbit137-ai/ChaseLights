@@ -829,7 +829,6 @@ jobs:
               assert "km" in weather_interaction["spotValue"], weather_interaction
               assert "provisional" in weather_interaction["coverageText"], weather_interaction
               assert weather_interaction["debug"]["coverageSource"] == "demo", weather_interaction
-              assert weather_interaction["debug"]["view"]["north"] if False else True
               assert weather_interaction["debug"]["view"]["toplat"] <= 24.31, weather_interaction
               assert weather_interaction["debug"]["view"]["bottomlat"] >= 23.92, weather_interaction
               assert weather_interaction["ready"] is True, weather_interaction
