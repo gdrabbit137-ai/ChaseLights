@@ -36,10 +36,18 @@ jobs:
         with:
           python-version: "3.10"
 
-      - name: Install GFS WeatherGrid dependencies
+      - name: Install WeatherGrid dependencies
         run: |
+          sudo apt-get update
+          sudo apt-get install -y cdo
           python -m pip install --upgrade pip
-          python -m pip install requests xarray cfgrib eccodes numpy matplotlib cartopy
+          python -m pip install requests xarray netCDF4 cfgrib eccodes numpy matplotlib cartopy
+
+      - name: Cache DWD ICON remap weights
+        uses: actions/cache@v4
+        with:
+          path: .cache/dwd-icon-cdo
+          key: dwd-icon-global-0125-cdo-v1
 
       - name: Fetch regional live GFS WeatherGrid
         env:
@@ -50,10 +58,27 @@ jobs:
             --output-dir gfs_multilayer_output \
             --coverage-scope region
 
-      - name: Build compact browser bundle and QC
+      - name: Build compact GFS browser bundle and QC
         run: |
           python weathergrid_browser_bundle.py \
             --input-dir gfs_multilayer_output
+
+      - name: Fetch ICON Global cloud WeatherGrid
+        id: icon_cloud
+        continue-on-error: true
+        env:
+          FORECAST_HOURS: ${{ inputs.forecast_hours || '0,3,6,9,12' }}
+        run: |
+          python icon_global_cloud_poc.py \
+            --forecast-hours "$FORECAST_HOURS" \
+            --output-dir icon_cloud_output \
+            --cdo-cache-dir .cache/dwd-icon-cdo
+
+      - name: Build ICON cloud browser bundle and QC
+        if: steps.icon_cloud.outcome == 'success'
+        run: |
+          python icon_weathergrid_browser_bundle.py \
+            --input-dir icon_cloud_output
 
       - name: Build subject-aware coverage browser bundle
         run: |
@@ -75,6 +100,28 @@ jobs:
           assert browser.get("spots"), "browser bundle has no Places"
           assert qc.get("frame_count") == len(browser["frames"]), (qc, len(browser["frames"]))
 
+          icon_path = Path("icon_cloud_output/icon_tw_cloud_browser.json")
+          icon_qc_path = Path("icon_cloud_output/icon_tw_cloud_qc.json")
+          icon_summary = {"published": False}
+          if icon_path.exists():
+              icon = json.loads(icon_path.read_text())
+              icon_qc = json.loads(icon_qc_path.read_text())
+              assert icon.get("model") == "ICON_GLOBAL", icon.get("model")
+              assert icon.get("frames"), "ICON bundle has no forecast frames"
+              assert icon_qc.get("frame_count") == len(icon["frames"])
+              gfs_times = {x["valid_time_utc"] for x in browser["frames"]}
+              icon_times = {x["valid_time_utc"] for x in icon["frames"]}
+              overlap = sorted(gfs_times & icon_times)
+              assert overlap, "ICON/GFS bundles have no matching valid time"
+              icon_summary = {
+                  "published": True,
+                  "frames": len(icon["frames"]),
+                  "matching_valid_times": len(overlap),
+                  "native_resolution_km": icon.get("provenance", {}).get(
+                      "native_resolution_km"
+                  ),
+              }
+
           by_spot = {x["spot_id"]: x for x in coverage.get("spots", [])}
           for spot_id in ("tw-073", "tw-075"):
               assert spot_id in by_spot, (spot_id, list(by_spot))
@@ -87,6 +134,7 @@ jobs:
               "coverage_spots": len(coverage.get("spots", [])),
               "tw_073_complete": by_spot["tw-073"]["all_topics_complete"],
               "tw_075_complete": by_spot["tw-075"]["all_topics_complete"],
+              "icon": icon_summary,
           }, indent=2))
           PY
 
@@ -97,12 +145,23 @@ jobs:
           cp gfs_multilayer_output/gfs_tw_weather_qc.json weathergrid/gfs_tw_weather_qc.json
           cp gfs_multilayer_output/weathergrid_coverage_browser.json weathergrid/weathergrid_coverage_browser.json
 
+          if [[ -f icon_cloud_output/icon_tw_cloud_browser.json ]]; then
+            cp icon_cloud_output/icon_tw_cloud_browser.json weathergrid/icon_tw_cloud_browser.json
+            cp icon_cloud_output/icon_tw_cloud_qc.json weathergrid/icon_tw_cloud_qc.json
+          else
+            # Never leave a stale ICON bundle active after a failed refresh.
+            # The browser will immediately fall back to the fresh GFS bundle.
+            rm -f weathergrid/icon_tw_cloud_browser.json weathergrid/icon_tw_cloud_qc.json
+          fi
+
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add \
+          git add -A \
             weathergrid/gfs_tw_weather_browser.json \
             weathergrid/gfs_tw_weather_qc.json \
-            weathergrid/weathergrid_coverage_browser.json
+            weathergrid/weathergrid_coverage_browser.json \
+            weathergrid/icon_tw_cloud_browser.json \
+            weathergrid/icon_tw_cloud_qc.json
 
           if git diff --cached --quiet; then
             echo "WeatherGrid live snapshot unchanged."
@@ -123,6 +182,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: live-weathergrid-preview
-          path: gfs_multilayer_output/
+          path: |
+            gfs_multilayer_output/
+            icon_cloud_output/
           if-no-files-found: error
           retention-days: 7
