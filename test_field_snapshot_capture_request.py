@@ -27,7 +27,7 @@ SNAPSHOT = (
 def _request(**overrides):
     payload = {
         "schema_version": REQUEST_SCHEMA_VERSION,
-        "request_id": "FSCR-B115-SMOKE",
+        "request_id": "FSCR-B116-SMOKE",
         "place_id": "tw-034",
         "valid_at": "2026-09-29T06:00:00+08:00",
         "capture_ref": "ac6726360cef60fe9e77219af5ece92cfd670c7b",
@@ -70,7 +70,7 @@ def test_load_request_and_metadata():
         request = load_request(path)
 
     metadata = build_metadata(snapshot, request)
-    assert metadata["request_id"] == "FSCR-B115-SMOKE"
+    assert metadata["request_id"] == "FSCR-B116-SMOKE"
     assert metadata["snapshot_id"] == "FVS-TW-034-20260928-191509"
     assert metadata["capture_ref_requested"] == (
         "ac6726360cef60fe9e77219af5ece92cfd670c7b"
@@ -111,8 +111,8 @@ def test_build_and_register_baseline_entry():
         archive_path="test_fixtures/field_snapshot/example.json.gz.b64",
         metadata_path="test_fixtures/field_snapshot/example.metadata.json",
         workflow_run_id="12345",
-        artifact_name="field-snapshot-FSCR-B115-SMOKE",
-        source_branch="snapshot-capture/b115-smoke",
+        artifact_name="field-snapshot-FSCR-B116-SMOKE",
+        source_branch="snapshot-capture/b116-smoke",
     )
 
     assert entry["snapshot_id"] == snapshot["snapshot_id"]
@@ -122,7 +122,7 @@ def test_build_and_register_baseline_entry():
     assert entry["model_commit"] == snapshot["provenance"]["git_commit"]
     assert entry["observation_status"] == "unreviewed"
     assert entry["source"]["workflow_run_id"] == 12345
-    assert entry["source"]["capture_request_id"] == "FSCR-B115-SMOKE"
+    assert entry["source"]["capture_request_id"] == "FSCR-B116-SMOKE"
 
     p02 = entry["recorded_summary"]["tw-034-P02"]
     assert p02["score"] == 54
