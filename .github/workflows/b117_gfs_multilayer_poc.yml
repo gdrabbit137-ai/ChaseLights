@@ -34,6 +34,9 @@ on:
       - "B129_LOCAL_SUBJECT_COVERAGE.md"
       - "B130_WAIAO_GUEISHAN_COVERAGE.md"
       - "B131_LAOMEI_GREEN_REEF_COVERAGE.md"
+      - ".github/workflows/update_weathergrid.yml"
+      - "test_weathergrid_refresh_workflow.py"
+      - "B132_WEATHERGRID_SCHEDULED_REFRESH.md"
   workflow_dispatch:
     inputs:
       forecast_hours:
@@ -90,7 +93,8 @@ jobs:
             test_weathergrid_browser_bundle.py \
             test_weathergrid_coverage.py \
             test_weathergrid_coverage_browser.py \
-            test_weathergrid_fetch_plan.py
+            test_weathergrid_fetch_plan.py \
+            test_weathergrid_refresh_workflow.py
           python audit_weathergrid_coverage.py
 
   live-poc:
