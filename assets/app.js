@@ -432,6 +432,17 @@
       const details=host.querySelector('.admin-filter');
       const summaryButton=details.querySelector(':scope > summary');
       const close=()=>closeMobileAdminPicker();
+      summaryButton.addEventListener('click',e=>{
+        if(!isMobileAdminPicker())return;
+        e.preventDefault();
+        if(details.open){
+          close();
+          return;
+        }
+        details.open=true;
+        summaryButton.setAttribute('aria-expanded','true');
+        openMobileAdminPicker(details);
+      });
       details.addEventListener('toggle',()=>{
         summaryButton.setAttribute('aria-expanded',details.open?'true':'false');
         if(!isMobileAdminPicker())return;

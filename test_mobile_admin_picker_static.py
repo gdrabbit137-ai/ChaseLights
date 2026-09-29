@@ -45,6 +45,11 @@ class MobileAdminPickerStaticTests(unittest.TestCase):
         self.assertIn("adminPickerMedia.addEventListener('change'", self.app)
         self.assertIn("const isMobileAdminPicker=()=>adminPickerMedia.matches", self.app)
 
+    def test_mobile_trigger_opens_sheet_explicitly(self):
+        self.assertIn("summaryButton.addEventListener('click'", self.app)
+        self.assertIn("details.open=true", self.app)
+        self.assertIn("openMobileAdminPicker(details)", self.app)
+
     def test_desktop_groups_are_not_collapsible_controls(self):
         self.assertIn("@media (min-width: 641px)", self.css)
         self.assertIn("pointer-events: none", self.css)

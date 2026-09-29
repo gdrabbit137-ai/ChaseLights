@@ -100,3 +100,4 @@ The mobile sheet uses dialog semantics with `aria-modal=true`.
 - Cross-boundary Places still appear once when one or several matching areas are selected.
 - Switching countries keeps each country's stored area selection independent.
 - Opening or closing the picker must not change the page's previous scroll position.
+- On mobile, the trigger owns the open/close transition explicitly; the sheet must not depend solely on the asynchronous native `<details>` `toggle` event to acquire the scroll lock.

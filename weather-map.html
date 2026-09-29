@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ChaseLights WeatherGrid Preview</title>
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-gl.css">
   <link rel="stylesheet" href="./assets/weather-map.css">
 </head>
 <body>
@@ -26,6 +27,10 @@
           <span>圖層</span>
           <select id="layer-select"></select>
         </label>
+        <label class="opacity-control">
+          <span>圖層透明度 · <strong id="opacity-label">62%</strong></span>
+          <input id="opacity-slider" type="range" min="20" max="100" value="62" step="1">
+        </label>
         <label class="time-control">
           <span id="time-label">時間</span>
           <input id="time-slider" type="range" min="0" max="0" value="0" step="1">
@@ -46,7 +51,9 @@
       </div>
 
       <div class="map-wrap">
-        <canvas id="weather-canvas" width="1200" height="820" aria-label="WeatherGrid map preview"></canvas>
+        <div id="weather-basemap" aria-label="WeatherGrid cartographic basemap"></div>
+        <canvas id="weather-canvas" width="1200" height="820" aria-label="WeatherGrid weather overlay"></canvas>
+        <div id="basemap-status" class="basemap-status loading">底圖載入中…</div>
         <div id="legend" class="legend"></div>
       </div>
 
@@ -84,7 +91,7 @@
       <section class="panel note-panel">
         <h2>POC 限制</h2>
         <p>目前畫的是 GFS 0.25° 原始格點，不是高解析度局地預報。山區、海岸與谷地的實際雲霧可能和單一 GFS 格點差很多。</p>
-        <p>這一版先驗證「圖層切換、時間滑桿、景點取樣」流程，後續再接正式底圖與更高解析度資料。</p>
+        <p>底圖採 MapLibre + OpenFreeMap；若外部底圖無法載入，WeatherGrid 會自動退回既有 Canvas 經緯網格，不影響 GFS 圖層與景點取樣。</p>
       </section>
     </aside>
   </main>
