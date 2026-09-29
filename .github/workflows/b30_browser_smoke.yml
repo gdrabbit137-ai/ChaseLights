@@ -460,6 +460,15 @@ jobs:
                 persistAdminAreas();
               """)
 
+              # B137 selections intentionally persist per country. Clear the
+              # synthetic JP/US selections before handing control back to the
+              # pre-existing smoke suite, so later region assertions start from
+              # their original all-Places state.
+              driver.execute_script("""
+                localStorage.removeItem('chaselights_admin_areas_jp');
+                localStorage.removeItem('chaselights_admin_areas_us');
+              """)
+
               # Restore Taiwan for the rest of the existing Browser Smoke.
               driver.execute_script("switchRegion('tw')")
               wait.until(lambda d: d.execute_script(
