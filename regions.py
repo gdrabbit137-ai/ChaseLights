@@ -117,6 +117,129 @@ TW_ADMIN_AREAS = {
     "tw-084": ["花蓮縣"],
 }
 
+# B136 first-level administrative-area metadata for Japan and the United States.
+#
+# Keep these as arrays: some photographic Places sit on an administrative
+# boundary or span more than one jurisdiction.  The browser UI filters on
+# admin_areas and treats a Place as matching when any selected area intersects.
+JP_ADMIN_AREAS = {
+    "jp-001": ["北海道"],
+    "jp-002": ["北海道"],
+    "jp-003": ["北海道"],
+    "jp-004": ["北海道"],
+    "jp-005": ["北海道"],
+    "jp-006": ["北海道"],
+    "jp-007": ["青森県", "秋田県"],
+    "jp-008": ["宮城県"],
+    "jp-009": ["福島県"],
+    "jp-010": ["山梨県"],
+    "jp-011": ["東京都"],
+    "jp-012": ["神奈川県"],
+    "jp-013": ["長野県"],
+    "jp-014": ["東京都"],
+    "jp-015": ["東京都"],
+    "jp-016": ["神奈川県"],
+    "jp-017": ["石川県"],
+    "jp-018": ["愛知県"],
+    "jp-019": ["静岡県"],
+    "jp-020": ["神奈川県"],
+    "jp-021": ["岐阜県"],
+    "jp-022": ["新潟県"],
+    "jp-023": ["京都府"],
+    "jp-024": ["大阪府"],
+    "jp-025": ["山口県"],
+    "jp-026": ["島根県"],
+    "jp-027": ["兵庫県"],
+    "jp-028": ["和歌山県"],
+    "jp-029": ["三重県"],
+    "jp-030": ["徳島県"],
+    "jp-031": ["岡山県"],
+    "jp-032": ["福岡県"],
+    "jp-033": ["佐賀県"],
+    "jp-034": ["長崎県"],
+    "jp-035": ["福岡県"],
+}
+
+US_ADMIN_AREAS = {
+    "us-001": ["Arizona"],
+    "us-002": ["Arizona"],
+    "us-003": ["Arizona"],
+    "us-004": ["Arizona"],
+    "us-005": ["Utah"],
+    "us-006": ["Utah"],
+    "us-007": ["Utah"],
+    "us-008": ["California"],
+    "us-009": ["California"],
+    "us-010": ["Wyoming"],
+    "us-011": ["Wyoming"],
+    "us-012": ["Washington"],
+    "us-013": ["Oregon"],
+    "us-014": ["California"],
+    "us-015": ["California"],
+    "us-016": ["Nevada"],
+    "us-017": ["Washington"],
+    "us-018": ["Montana"],
+    "us-019": ["Washington"],
+    "us-020": ["California"],
+    "us-021": ["Utah"],
+    "us-022": ["California"],
+    "us-023": ["Arizona"],
+    "us-024": ["Washington"],
+    "us-025": ["California"],
+    "us-026": ["Washington"],
+    "us-027": ["Idaho"],
+    "us-028": ["California"],
+    "us-029": ["New Mexico"],
+    "us-030": ["Illinois"],
+    "us-031": ["Colorado"],
+    "us-032": ["Louisiana"],
+    "us-033": ["Colorado"],
+    "us-034": ["Missouri"],
+    "us-035": ["Texas"],
+    "us-036": ["New York"],
+    "us-037": ["New York"],
+    "us-038": ["Tennessee", "North Carolina"],
+    "us-039": ["Florida"],
+    "us-040": ["Massachusetts"],
+    "us-041": ["Alaska"],
+    "us-042": ["Alaska"],
+    "us-043": ["Alaska"],
+    "us-044": ["Alaska"],
+    "us-045": ["Alaska"],
+    "us-046": ["Alaska"],
+    "us-047": ["Alaska"],
+    "us-048": ["Alaska"],
+    "us-049": ["Alaska"],
+    "us-050": ["Alaska"],
+    "us-051": ["Alaska"],
+    "us-052": ["Alaska"],
+    "us-053": ["Alaska"],
+    "us-054": ["Alaska"],
+    "us-055": ["Alaska"],
+    "us-056": ["Alaska"],
+    "us-057": ["Alaska"],
+    "us-058": ["Alaska"],
+    "us-059": ["Alaska"],
+    "us-060": ["Alaska"],
+    "us-061": ["Alaska"],
+    "us-062": ["Alaska"],
+    "us-063": ["Alaska"],
+    "us-064": ["Alaska"],
+    "us-065": ["Alaska"],
+    "us-066": ["Alaska"],
+    "us-067": ["Alaska"],
+    "us-068": ["Alaska"],
+    "us-069": ["Alaska"],
+    "us-070": ["Alaska"],
+}
+
+ADMIN_AREAS_BY_REGION = {
+    "tw": TW_ADMIN_AREAS,
+    "jp": JP_ADMIN_AREAS,
+    "us": US_ADMIN_AREAS,
+}
+
+
 
 REGIONS = {
     "tw": {
@@ -2328,8 +2451,8 @@ def get_spots(region="tw"):
         dark_sky = _dark_sky_meta(region_key, name_zh, category, item.get("scenes", []), item.get("themes", []))
         if dark_sky:
             item.update(dark_sky)
-        if region_key == "tw":
-            item["admin_areas"] = list(TW_ADMIN_AREAS.get(item["spot_id"], []))
+        admin_area_map = ADMIN_AREAS_BY_REGION.get(region_key, {})
+        item["admin_areas"] = list(admin_area_map.get(item["spot_id"], []))
         item["product_status"] = product_status(item["spot_id"])
         item["active_in_catalog"] = active_in_catalog(item["spot_id"])
         formatted_spots.append(item)
