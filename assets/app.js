@@ -2,7 +2,7 @@
       'zh-TW': {
         country_label:'📍 選擇國家/區域：', opt_tw:'🇹🇼 台灣 (Taiwan)', opt_jp:'🇯🇵 日本 (Japan)', opt_us:'🇺🇸 美國 (United States)',
         btn_today:'📅 今天', btn_tomorrow:'📅 明天', btn_after_tomorrow:'📅 後天', loading:'正在獲取攝影氣象數據...', updating:'背景更新中…',
-        last_updated:'最後更新：', click_detail:'', weather_link:'🌦️ 天氣預報', nav_link:'🗺️ 導航', map_link:'📍 地圖', nav_pending:'🗺️ 導航待確認', radar_link:'📡 雷達', field_intake_link:'📷 實拍驗證', place_suitable:'📸 這裡適合拍什麼', researched_only:'只顯示已逐點查證的攝影題材；未查證內容不自動生成。', place_time_note:'拍攝時間皆以景點當地時區顯示。', guide_time:'適合時間（景點當地時間）', guide_season:'季節', guide_viewpoint:'拍攝位置', guide_required:'成立條件', guide_boosters:'加分條件', guide_penalties:'不利條件', guide_current:'所選日期最佳評分', guide_day_best:'所選日期最佳窗口', guide_confidence:'信心', confidence_high:'高', confidence_medium:'中', confidence_low:'低', guide_details:'查看完整判定條件', guide_score_why:'為什麼是這個分數？', guide_score_status:'判定', guide_unresearched:'此景點尚未完成逐點攝影研究，因此暫不顯示推測性的拍攝建議。', research_pending_card:'攝影研究待補，暫不評分', no_viable_card:'今天剩餘時段沒有合適的已研究拍攝機會', no_viable_group:'暫無合適拍攝機會（{n}）', scene_label:'🖼️ 景觀類型：', theme_label:'📸 題材：', advanced_filters:'🔎 更多篩選', result_count:'依所選日期最佳拍攝機會排序 · {n} 個景點', search_result:'找到 {n} 個景點', search_placeholder:'搜尋景點名稱…', where_today:'📍 今天去哪裡拍？', where_tomorrow:'📍 明天去哪裡拍？', where_after:'📍 後天去哪裡拍？', recommendation_reasons:'推薦理由', narrow_result:'目前僅 {n} 個景點，範圍較窄', clear_scene:'清除景觀類型', admin_area_filter:'地區', admin_area_all:'全部地區', admin_area_selected:'已選 {n} 個地區', admin_area_clear:'清除地區', admin_area_search:'搜尋地區…', admin_area_no_match:'找不到符合的地區',
+        last_updated:'最後更新：', click_detail:'', weather_link:'🌦️ 天氣預報', nav_link:'🗺️ 導航', map_link:'📍 地圖', nav_pending:'🗺️ 導航待確認', radar_link:'📡 雷達', field_intake_link:'📷 實拍驗證', place_suitable:'📸 這裡適合拍什麼', researched_only:'只顯示已逐點查證的攝影題材；未查證內容不自動生成。', place_time_note:'拍攝時間皆以景點當地時區顯示。', guide_time:'適合時間（景點當地時間）', guide_season:'季節', guide_viewpoint:'拍攝位置', guide_required:'成立條件', guide_boosters:'加分條件', guide_penalties:'不利條件', guide_current:'所選日期最佳評分', guide_day_best:'所選日期最佳窗口', guide_confidence:'信心', confidence_high:'高', confidence_medium:'中', confidence_low:'低', guide_details:'查看完整判定條件', guide_score_why:'為什麼是這個分數？', guide_score_status:'判定', guide_unresearched:'此景點尚未完成逐點攝影研究，因此暫不顯示推測性的拍攝建議。', research_pending_card:'攝影研究待補，暫不評分', no_viable_card:'今天剩餘時段沒有合適的已研究拍攝機會', no_viable_group:'暫無合適拍攝機會（{n}）', scene_label:'🖼️ 景觀類型：', theme_label:'📸 題材：', advanced_filters:'🔎 更多篩選', result_count:'依所選日期最佳拍攝機會排序 · {n} 個景點', search_result:'找到 {n} 個景點', search_placeholder:'搜尋景點名稱…', where_today:'📍 今天去哪裡拍？', where_tomorrow:'📍 明天去哪裡拍？', where_after:'📍 後天去哪裡拍？', recommendation_reasons:'推薦理由', narrow_result:'目前僅 {n} 個景點，範圍較窄', clear_scene:'清除景觀類型', admin_area_filter:'地區', admin_area_all:'全部地區', admin_area_selected:'已選 {n} 個地區', admin_area_clear:'清除地區', admin_area_search:'搜尋地區…', admin_area_no_match:'找不到符合的地區', admin_area_done:'完成', admin_area_close:'關閉地區選單',
         best_window:'⏱️ 最佳窗口：', forecast_status:'📍 預報狀態：', cloud_base_label:'估算凝結高度', best_theme:'📸 所選日期較適合：', local_time:'當地時間', dark_sky:'暗空',
         modal_subtitle:'⏱️ 涵蓋範圍：過去 24 小時 [模型資料] + 未來 72 小時 [氣象預報]（藍底為所選日期最佳窗口）', tag_best:'最佳',
         th_time:'時間', th_theme:'題材', th_score:'評分', th_status:'狀態', th_kp:'Kp指數', th_cloud_base:'凝結高度', th_temp:'氣溫', th_rh:'濕度', th_clow:'低雲', th_cmid:'中雲', th_chigh:'高雲', th_wind:'風速', th_vis:'能見度', th_astro:'天文', no_spots:'此條件下沒有景點', detail_loading:'正在載入天氣預報…', detail_sync_wait:'天氣資料正在同步更新，請幾秒後再試一次。', score_excellent:'極佳', score_good:'良好', score_fair:'普通', score_low_label:'較弱', verdict_suitable:'✅ 適合拍攝{subject}', verdict_chance:'🟡 有機會拍到{subject}', verdict_unfavorable:'⚠️ 目前不利於拍攝{subject}', verdict_outside:'🕒 目前不是拍攝{subject}的建議時段'
@@ -10,7 +10,7 @@
       'en': {
         country_label:'📍 Select Region:', opt_tw:'🇹🇼 Taiwan', opt_jp:'🇯🇵 Japan', opt_us:'🇺🇸 United States',
         btn_today:'📅 Today', btn_tomorrow:'📅 Tomorrow', btn_after_tomorrow:'📅 Day After', loading:'Fetching photography weather data...', updating:'Updating in background…',
-        last_updated:'Last Updated: ', click_detail:'', weather_link:'🌦️ Weather', nav_link:'🗺️ Nav', map_link:'📍 Map', nav_pending:'🗺️ Nav pending', radar_link:'📡 Radar', field_intake_link:'📷 Field Check', place_suitable:'📸 What can you photograph here?', researched_only:'Only individually researched photography opportunities are shown; unverified ideas are not generated.', place_time_note:'Shooting times are shown in the place’s local time zone.', guide_time:'Best time (place local time)', guide_season:'Season', guide_viewpoint:'Shooting area', guide_required:'Required conditions', guide_boosters:'Boosters', guide_penalties:'Penalties', guide_current:'Best score for selected date', guide_day_best:'Best window for selected date', guide_confidence:'Confidence', confidence_high:'High', confidence_medium:'Medium', confidence_low:'Low', guide_details:'View full conditions', guide_score_why:'Why this score?', guide_score_status:'Assessment', guide_unresearched:'This place has not yet completed place-specific photography research, so no speculative shooting guide is shown.', research_pending_card:'Photography research pending · not scored yet', no_viable_card:'No researched shooting opportunity remains viable today', no_viable_group:'No viable shooting opportunity ({n})', scene_label:'🖼️ Landscape type:', theme_label:'📸 Subject:', advanced_filters:'🔎 More filters', result_count:'Ranked by best opportunity for selected date · {n} spots', search_result:'Found {n} spots', search_placeholder:'Search places…', where_today:'📍 Where should I shoot today?', where_tomorrow:'📍 Where should I shoot tomorrow?', where_after:'📍 Where should I shoot the day after tomorrow?', recommendation_reasons:'Why it stands out', narrow_result:'Only {n} spots — narrow filter', clear_scene:'Clear landscape type', admin_area_filter:'Area', admin_area_all:'All areas', admin_area_selected:'{n} selected', admin_area_clear:'Clear areas', admin_area_search:'Search areas…', admin_area_no_match:'No matching area',
+        last_updated:'Last Updated: ', click_detail:'', weather_link:'🌦️ Weather', nav_link:'🗺️ Nav', map_link:'📍 Map', nav_pending:'🗺️ Nav pending', radar_link:'📡 Radar', field_intake_link:'📷 Field Check', place_suitable:'📸 What can you photograph here?', researched_only:'Only individually researched photography opportunities are shown; unverified ideas are not generated.', place_time_note:'Shooting times are shown in the place’s local time zone.', guide_time:'Best time (place local time)', guide_season:'Season', guide_viewpoint:'Shooting area', guide_required:'Required conditions', guide_boosters:'Boosters', guide_penalties:'Penalties', guide_current:'Best score for selected date', guide_day_best:'Best window for selected date', guide_confidence:'Confidence', confidence_high:'High', confidence_medium:'Medium', confidence_low:'Low', guide_details:'View full conditions', guide_score_why:'Why this score?', guide_score_status:'Assessment', guide_unresearched:'This place has not yet completed place-specific photography research, so no speculative shooting guide is shown.', research_pending_card:'Photography research pending · not scored yet', no_viable_card:'No researched shooting opportunity remains viable today', no_viable_group:'No viable shooting opportunity ({n})', scene_label:'🖼️ Landscape type:', theme_label:'📸 Subject:', advanced_filters:'🔎 More filters', result_count:'Ranked by best opportunity for selected date · {n} spots', search_result:'Found {n} spots', search_placeholder:'Search places…', where_today:'📍 Where should I shoot today?', where_tomorrow:'📍 Where should I shoot tomorrow?', where_after:'📍 Where should I shoot the day after tomorrow?', recommendation_reasons:'Why it stands out', narrow_result:'Only {n} spots — narrow filter', clear_scene:'Clear landscape type', admin_area_filter:'Area', admin_area_all:'All areas', admin_area_selected:'{n} selected', admin_area_clear:'Clear areas', admin_area_search:'Search areas…', admin_area_no_match:'No matching area', admin_area_done:'Done', admin_area_close:'Close area picker',
         best_window:'⏱️ Best Window: ', forecast_status:'📍 Status: ', cloud_base_label:'Est. LCL', best_theme:'📸 Best for selected date: ', local_time:'Local time', dark_sky:'Dark sky',
         modal_subtitle:'⏱️ Range: Past 24H [model data] + Next 72H [forecast] (blue = best window for selected day)', tag_best:'BEST',
         th_time:'Time', th_theme:'Theme', th_score:'Score', th_status:'Status', th_kp:'Kp', th_cloud_base:'LCL', th_temp:'Temp', th_rh:'RH', th_clow:'Low', th_cmid:'Mid', th_chigh:'High', th_wind:'Wind', th_vis:'Visibility', th_astro:'Astronomy', no_spots:'No spots match these filters', detail_loading:'Loading weather forecast…', detail_sync_wait:'Weather data is synchronizing. Please try again in a few seconds.', score_excellent:'Excellent', score_good:'Good', score_fair:'Fair', score_low_label:'Low', verdict_suitable:'✅ Suitable for photographing {subject}', verdict_chance:'🟡 A chance to capture {subject}', verdict_unfavorable:'⚠️ Currently unfavorable for photographing {subject}', verdict_outside:'🕒 This is not the recommended time for photographing {subject}'
@@ -18,7 +18,7 @@
       'ja': {
         country_label:'📍 地域を選択：', opt_tw:'🇹🇼 台湾 (Taiwan)', opt_jp:'🇯🇵 日本 (Japan)', opt_us:'🇺🇸 アメリカ (United States)',
         btn_today:'📅 今日', btn_tomorrow:'📅 明日', btn_after_tomorrow:'📅 明後日', loading:'撮影気象データを取得中...', updating:'バックグラウンド更新中…',
-        last_updated:'最終更新：', click_detail:'', weather_link:'🌦️ 天気予報', nav_link:'🗺️ ナビ', map_link:'📍 地図', nav_pending:'🗺️ ナビ確認待ち', radar_link:'📡 レーダー', field_intake_link:'📷 実写検証', place_suitable:'📸 ここで何が撮れる？', researched_only:'個別調査済みの撮影機会のみ表示し、未確認の内容は自動生成しません。', place_time_note:'撮影時間はすべて現地のタイムゾーンで表示します。', guide_time:'適した時間（現地時間）', guide_season:'季節', guide_viewpoint:'撮影位置', guide_required:'成立条件', guide_boosters:'加点条件', guide_penalties:'不利条件', guide_current:'選択日の最良スコア', guide_day_best:'選択日の最適時間', guide_confidence:'信頼度', confidence_high:'高', confidence_medium:'中', confidence_low:'低', guide_details:'判定条件を表示', guide_score_why:'このスコアの理由', guide_score_status:'判定', guide_unresearched:'この場所は個別撮影調査が未完了のため、推測的な撮影案内は表示しません。', research_pending_card:'撮影調査待ち・現在は採点しません', no_viable_card:'本日の残り時間に適した調査済み撮影機会はありません', no_viable_group:'適した撮影機会なし（{n}）', scene_label:'🖼️ 景観タイプ：', theme_label:'📸 テーマ：', advanced_filters:'🔎 その他の絞り込み', result_count:'選択日の最良撮影機会順 · {n} スポット', search_result:'{n} スポット見つかりました', search_placeholder:'スポット名を検索…', where_today:'📍 今日はどこへ撮りに行く？', where_tomorrow:'📍 明日はどこへ撮りに行く？', where_after:'📍 明後日はどこへ撮りに行く？', recommendation_reasons:'おすすめ理由', narrow_result:'{n} スポットのみ・絞り込みが狭いです', clear_scene:'景観タイプを解除', admin_area_filter:'地域', admin_area_all:'すべての地域', admin_area_selected:'{n} 件選択', admin_area_clear:'地域を解除', admin_area_search:'地域を検索…', admin_area_no_match:'該当する地域がありません',
+        last_updated:'最終更新：', click_detail:'', weather_link:'🌦️ 天気予報', nav_link:'🗺️ ナビ', map_link:'📍 地図', nav_pending:'🗺️ ナビ確認待ち', radar_link:'📡 レーダー', field_intake_link:'📷 実写検証', place_suitable:'📸 ここで何が撮れる？', researched_only:'個別調査済みの撮影機会のみ表示し、未確認の内容は自動生成しません。', place_time_note:'撮影時間はすべて現地のタイムゾーンで表示します。', guide_time:'適した時間（現地時間）', guide_season:'季節', guide_viewpoint:'撮影位置', guide_required:'成立条件', guide_boosters:'加点条件', guide_penalties:'不利条件', guide_current:'選択日の最良スコア', guide_day_best:'選択日の最適時間', guide_confidence:'信頼度', confidence_high:'高', confidence_medium:'中', confidence_low:'低', guide_details:'判定条件を表示', guide_score_why:'このスコアの理由', guide_score_status:'判定', guide_unresearched:'この場所は個別撮影調査が未完了のため、推測的な撮影案内は表示しません。', research_pending_card:'撮影調査待ち・現在は採点しません', no_viable_card:'本日の残り時間に適した調査済み撮影機会はありません', no_viable_group:'適した撮影機会なし（{n}）', scene_label:'🖼️ 景観タイプ：', theme_label:'📸 テーマ：', advanced_filters:'🔎 その他の絞り込み', result_count:'選択日の最良撮影機会順 · {n} スポット', search_result:'{n} スポット見つかりました', search_placeholder:'スポット名を検索…', where_today:'📍 今日はどこへ撮りに行く？', where_tomorrow:'📍 明日はどこへ撮りに行く？', where_after:'📍 明後日はどこへ撮りに行く？', recommendation_reasons:'おすすめ理由', narrow_result:'{n} スポットのみ・絞り込みが狭いです', clear_scene:'景観タイプを解除', admin_area_filter:'地域', admin_area_all:'すべての地域', admin_area_selected:'{n} 件選択', admin_area_clear:'地域を解除', admin_area_search:'地域を検索…', admin_area_no_match:'該当する地域がありません', admin_area_done:'完了', admin_area_close:'地域選択を閉じる',
         best_window:'⏱️ 最適時間：', forecast_status:'📍 予報状況：', cloud_base_label:'推定LCL', best_theme:'📸 選択日に向く：', local_time:'現地時間', dark_sky:'暗空',
         modal_subtitle:'⏱️ 範囲：過去24時間 [モデル] + 未来72時間 [予報]（青色＝選択日の最適時間）', tag_best:'最適',
         th_time:'時間', th_theme:'テーマ', th_score:'評価', th_status:'状態', th_kp:'Kp', th_cloud_base:'LCL', th_temp:'気温', th_rh:'湿度', th_clow:'下層雲', th_cmid:'中層雲', th_chigh:'上層雲', th_wind:'風速', th_vis:'視程', th_astro:'天文', no_spots:'該当する撮影スポットはありません', detail_loading:'天気予報を読み込み中…', detail_sync_wait:'天気データを同期更新中です。数秒後にもう一度お試しください。', score_excellent:'非常に良い', score_good:'良好', score_fair:'普通', score_low_label:'弱め', verdict_suitable:'✅ {subject}の撮影に適しています', verdict_chance:'🟡 {subject}を撮影できる可能性があります', verdict_unfavorable:'⚠️ 現在は{subject}の撮影に不利です', verdict_outside:'🕒 現在は{subject}の推奨撮影時間帯ではありません'
@@ -192,6 +192,12 @@
     const adminAreaLabel=a=>(adminAreaLabels[currentLang]||{})[a]||a;
     const adminAreaGroupLabel=k=>(adminAreaGroupLabels[currentLang]||{})[k]||k;
     const adminAreaKindLabel=()=>((adminAreaKindLabels[currentLang]||{})[currentRegion]||d().admin_area_filter);
+    const adminAreaSearchPlaceholders={
+      'zh-TW':{tw:'搜尋縣市…',jp:'搜尋都道府縣…',us:'搜尋州…'},
+      en:{tw:'Search counties / cities…',jp:'Search prefectures…',us:'Search states…'},
+      ja:{tw:'県・市を検索…',jp:'都道府県を検索…',us:'州を検索…'}
+    };
+    const adminAreaSearchPlaceholder=()=>((adminAreaSearchPlaceholders[currentLang]||{})[currentRegion]||d().admin_area_search);
 
 
     const VALID_REGIONS=['tw','jp','us'], VALID_LANGS=['zh-TW','en','ja'], VALID_DAYS=['today','tomorrow','after_tomorrow'];
@@ -215,6 +221,8 @@
       }catch{return new Set();}
     }
     let currentAdminAreas=loadAdminAreas(currentRegion);
+    let adminPickerHistoryArmed=false;
+    let adminPickerScrollY=0;
     let currentTempUnit=['C','F'].includes(localStorage.getItem('chaselights_temp_unit'))?localStorage.getItem('chaselights_temp_unit'):'C';
     const FAVORITE_MIGRATION_KEY='chaselights_favs_migration_v2_regions_v1';
     let favorites=JSON.parse(localStorage.getItem('chaselights_favs_v2')||'[]');
@@ -327,16 +335,77 @@
     function persistAdminAreas(){
       localStorage.setItem(`chaselights_admin_areas_${currentRegion}`,JSON.stringify([...currentAdminAreas]));
     }
+    const adminPickerMedia=window.matchMedia('(max-width: 640px)');
+    const isMobileAdminPicker=()=>adminPickerMedia.matches;
+    function lockAdminPickerScroll(){
+      if(document.body.classList.contains('admin-picker-open'))return;
+      adminPickerScrollY=window.scrollY||window.pageYOffset||0;
+      document.body.style.top=`-${adminPickerScrollY}px`;
+      document.body.classList.add('admin-picker-open');
+    }
+    function unlockAdminPickerScroll(){
+      if(!document.body.classList.contains('admin-picker-open'))return;
+      document.body.classList.remove('admin-picker-open');
+      document.body.style.top='';
+      window.scrollTo(0,adminPickerScrollY);
+    }
+    function openMobileAdminPicker(details){
+      if(!details||!isMobileAdminPicker())return;
+      const alreadyLocked=document.body.classList.contains('admin-picker-open');
+      lockAdminPickerScroll();
+      if(!adminPickerHistoryArmed){
+        history.pushState({...history.state,chaselightsAdminPicker:true},document.title);
+        adminPickerHistoryArmed=true;
+      }
+      if(!alreadyLocked){
+        requestAnimationFrame(()=>{
+          const target=details.querySelector('[data-admin-search]')||details.querySelector('[data-admin-close]');
+          target?.focus({preventScroll:true});
+        });
+      }
+    }
+    function closeMobileAdminPicker({fromHistory=false,restoreFocus=true}={}){
+      const host=document.getElementById('admin-filter');
+      const details=host?.querySelector('.admin-filter');
+      if(details?.open)details.open=false;
+      unlockAdminPickerScroll();
+      if(adminPickerHistoryArmed){
+        if(fromHistory)adminPickerHistoryArmed=false;
+        else{
+          adminPickerHistoryArmed=false;
+          history.back();
+        }
+      }
+      if(restoreFocus){
+        requestAnimationFrame(()=>host?.querySelector('.admin-filter > summary')?.focus({preventScroll:true}));
+      }
+    }
+    function syncAdminGroupSummaryState(group){
+      const summary=group?.querySelector(':scope > .admin-area-group-title');
+      if(summary)summary.setAttribute('aria-expanded',group.open?'true':'false');
+    }
     function renderAdminFilter(){
       const host=document.getElementById('admin-filter');if(!host)return;
-      const wasOpen=!!host.querySelector('.admin-filter')?.open;
+      const previousDetails=host.querySelector('.admin-filter');
+      const mobile=isMobileAdminPicker();
+      // Preserve an open picker across mobile rerenders only after the mobile
+      // sheet has actually acquired its scroll lock. A desktop dropdown that
+      // happened to be open must not silently become an already-open sheet
+      // when crossing the responsive breakpoint.
+      const wasOpen=!!previousDetails?.open&&(!mobile||document.body.classList.contains('admin-picker-open'));
+      const previousSearch=host.querySelector('[data-admin-search]')?.value||'';
+      const previousOpenGroups=new Set(
+        [...host.querySelectorAll('[data-admin-group][open]')]
+          .map(group=>group.dataset.adminGroupKey)
+          .filter(Boolean)
+      );
       const groups=availableAdminAreaGroups();
       const areas=groups.flatMap(group=>group.areas);
       const available=new Set(areas);
       const next=new Set([...currentAdminAreas].filter(a=>available.has(a)));
       if(next.size!==currentAdminAreas.size){currentAdminAreas=next;persistAdminAreas();}
       if(!areas.length){
-        host.hidden=true;host.innerHTML='';return;
+        host.hidden=true;host.innerHTML='';closeMobileAdminPicker({restoreFocus:false});return;
       }
 
       // Counts and disabled state always use all active Places in the country,
@@ -346,42 +415,125 @@
       areas.forEach(a=>counts[a]=allActive.filter(s=>spotAdminAreas(s).includes(a)).length);
 
       const summary=currentAdminAreas.size?d().admin_area_selected.replace('{n}',currentAdminAreas.size):d().admin_area_all;
-      const showSearch=areas.length>24;
-      const groupHtml=groups.map(group=>{
+      const showSearch=areas.length>24||mobile;
+      const groupHtml=groups.map((group,index)=>{
         const buttons=group.areas.map(a=>{
           const disabled=counts[a]===0;
           const searchText=`${a} ${adminAreaLabel(a)}`.toLocaleLowerCase();
-          return `<button type="button" class="admin-area-btn ${currentAdminAreas.has(a)?'active':''}" data-admin-area="${esc(a)}" data-admin-search-text="${esc(searchText)}" aria-pressed="${currentAdminAreas.has(a)?'true':'false'}" ${disabled?'disabled aria-disabled="true"':''}>${esc(adminAreaLabel(a))}<span>${counts[a]}</span></button>`;
+          const active=currentAdminAreas.has(a);
+          return `<button type="button" class="admin-area-btn ${active?'active':''}" data-admin-area="${esc(a)}" data-admin-search-text="${esc(searchText)}" aria-pressed="${active?'true':'false'}" ${disabled?'disabled aria-disabled="true"':''}><span class="admin-area-count">${counts[a]}</span><span class="admin-area-name"><i class="admin-area-check" aria-hidden="true">✓</i>${esc(adminAreaLabel(a))}</span></button>`;
         }).join('');
         const showGroupTitle=groups.length>1;
-        return `<section class="admin-area-group" data-admin-group>${showGroupTitle?`<div class="admin-area-group-title">${esc(adminAreaGroupLabel(group.key))}</div>`:''}<div class="admin-filter-grid">${buttons}</div></section>`;
+        if(!showGroupTitle)return `<section class="admin-area-group admin-area-group-flat" data-admin-group data-admin-group-key="${esc(group.key)}"><div class="admin-filter-grid">${buttons}</div></section>`;
+        const containsSelected=group.areas.some(a=>currentAdminAreas.has(a));
+        const expanded=!mobile||previousOpenGroups.has(group.key)||containsSelected||(!currentAdminAreas.size&&!previousOpenGroups.size&&index===0);
+        return `<details class="admin-area-group" data-admin-group data-admin-group-key="${esc(group.key)}" ${expanded?'open':''}><summary class="admin-area-group-title" aria-expanded="${expanded?'true':'false'}"><span>${esc(adminAreaGroupLabel(group.key))}</span><span class="admin-area-group-chevron" aria-hidden="true">⌄</span></summary><div class="admin-filter-grid">${buttons}</div></details>`;
       }).join('');
 
       host.hidden=false;
-      host.innerHTML=`<details class="admin-filter"${wasOpen?' open':''}><summary>📍 ${esc(summary)}</summary><div class="admin-filter-menu"><div class="admin-filter-head"><span>${esc(adminAreaKindLabel())}</span><button type="button" class="admin-clear-btn" data-admin-clear>${esc(d().admin_area_clear)}</button></div>${showSearch?`<input class="admin-area-search" type="search" autocomplete="off" data-admin-search placeholder="${esc(d().admin_area_search)}" aria-label="${esc(d().admin_area_search)}">`:''}<div class="admin-area-groups">${groupHtml}</div><div class="admin-area-empty" data-admin-empty hidden>${esc(d().admin_area_no_match)}</div></div></details>`;
-      host.querySelector('[data-admin-clear]').onclick=e=>{e.preventDefault();e.stopPropagation();currentAdminAreas.clear();persistAdminAreas();filterAndRender();};
-      host.querySelectorAll('[data-admin-area]:not([disabled])').forEach(b=>b.onclick=e=>{e.preventDefault();e.stopPropagation();const area=b.dataset.adminArea;if(currentAdminAreas.has(area))currentAdminAreas.delete(area);else currentAdminAreas.add(area);persistAdminAreas();filterAndRender();});
+      host.innerHTML=`<details class="admin-filter"${wasOpen?' open':''}><summary aria-haspopup="dialog" aria-expanded="${wasOpen?'true':'false'}">📍 ${esc(summary)}</summary><div class="admin-picker-backdrop" data-admin-backdrop></div><div class="admin-filter-menu" role="${mobile?'dialog':'group'}" ${mobile?'aria-modal="true"':''} aria-labelledby="admin-filter-title"><div class="admin-mobile-handle" aria-hidden="true"></div><div class="admin-filter-head"><span id="admin-filter-title">${esc(adminAreaKindLabel())}</span><div class="admin-filter-head-actions"><button type="button" class="admin-clear-btn" data-admin-clear>${esc(d().admin_area_clear)}</button><button type="button" class="admin-close-btn" data-admin-close aria-label="${esc(d().admin_area_close)}">×</button></div></div>${showSearch?`<input class="admin-area-search" type="search" autocomplete="off" data-admin-search placeholder="${esc(adminAreaSearchPlaceholder())}" aria-label="${esc(adminAreaSearchPlaceholder())}">`:''}<div class="admin-area-groups">${groupHtml}</div><div class="admin-area-empty" data-admin-empty hidden>${esc(d().admin_area_no_match)}</div><div class="admin-filter-footer"><button type="button" class="admin-footer-clear" data-admin-clear>${esc(d().admin_area_clear)}</button><button type="button" class="admin-done-btn" data-admin-done>${esc(d().admin_area_done)}</button></div></div></details>`;
+
+      const details=host.querySelector('.admin-filter');
+      const summaryButton=details.querySelector(':scope > summary');
+      const close=()=>closeMobileAdminPicker();
+      summaryButton.addEventListener('click',e=>{
+        if(!isMobileAdminPicker())return;
+        e.preventDefault();
+        if(details.open){
+          close();
+          return;
+        }
+        details.open=true;
+        summaryButton.setAttribute('aria-expanded','true');
+        openMobileAdminPicker(details);
+      });
+      details.addEventListener('toggle',()=>{
+        summaryButton.setAttribute('aria-expanded',details.open?'true':'false');
+        if(!isMobileAdminPicker())return;
+        if(details.open)openMobileAdminPicker(details);
+        else if(document.body.classList.contains('admin-picker-open'))closeMobileAdminPicker();
+      });
+      host.querySelector('[data-admin-backdrop]')?.addEventListener('click',e=>{e.preventDefault();close();});
+      host.querySelector('[data-admin-close]')?.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();close();});
+      host.querySelector('[data-admin-done]')?.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();close();});
+      host.querySelectorAll('[data-admin-clear]').forEach(button=>button.onclick=e=>{
+        e.preventDefault();e.stopPropagation();currentAdminAreas.clear();persistAdminAreas();filterAndRender();
+      });
+      host.querySelectorAll('[data-admin-area]:not([disabled])').forEach(button=>button.onclick=e=>{
+        e.preventDefault();e.stopPropagation();
+        const area=button.dataset.adminArea;
+        if(currentAdminAreas.has(area))currentAdminAreas.delete(area);else currentAdminAreas.add(area);
+        persistAdminAreas();filterAndRender();
+      });
+
+      host.querySelectorAll('details[data-admin-group]').forEach(group=>{
+        const groupSummary=group.querySelector(':scope > summary');
+        groupSummary.tabIndex=mobile?0:-1;
+        group.addEventListener('toggle',()=>syncAdminGroupSummaryState(group));
+        syncAdminGroupSummaryState(group);
+      });
 
       const search=host.querySelector('[data-admin-search]');
-      if(search){
-        search.oninput=e=>{
-          const q=String(e.target.value||'').trim().toLocaleLowerCase();
-          let visible=0;
-          host.querySelectorAll('[data-admin-group]').forEach(group=>{
-            let groupVisible=0;
-            group.querySelectorAll('[data-admin-area]').forEach(button=>{
-              const match=!q||(button.dataset.adminSearchText||'').includes(q);
-              button.hidden=!match;
-              if(match){visible++;groupVisible++;}
-            });
-            group.hidden=groupVisible===0;
+      let searchWasActive=false;
+      const applyAdminSearch=()=>{
+        if(!search)return;
+        const q=String(search.value||'').trim().toLocaleLowerCase();
+        if(q&&!searchWasActive){
+          host.querySelectorAll('details[data-admin-group]').forEach(group=>group.dataset.adminPreSearchOpen=group.open?'1':'0');
+        }
+        let visible=0;
+        host.querySelectorAll('[data-admin-group]').forEach(group=>{
+          let groupVisible=0;
+          group.querySelectorAll('[data-admin-area]').forEach(button=>{
+            const match=!q||(button.dataset.adminSearchText||'').includes(q);
+            button.hidden=!match;
+            if(match){visible++;groupVisible++;}
           });
-          const empty=host.querySelector('[data-admin-empty]');
-          if(empty)empty.hidden=visible!==0;
-        };
-        search.onclick=e=>e.stopPropagation();
+          group.hidden=groupVisible===0;
+          if(group.tagName==='DETAILS'){
+            if(q&&groupVisible)group.open=true;
+            else if(!q&&searchWasActive)group.open=group.dataset.adminPreSearchOpen==='1';
+            syncAdminGroupSummaryState(group);
+          }
+        });
+        const empty=host.querySelector('[data-admin-empty]');
+        if(empty)empty.hidden=visible!==0;
+        searchWasActive=!!q;
+      };
+      if(search){
+        search.value=previousSearch;
+        search.addEventListener('input',applyAdminSearch);
+        search.addEventListener('click',e=>e.stopPropagation());
+        applyAdminSearch();
+      }
+
+      if(mobile&&details.open)openMobileAdminPicker(details);
+      if(!mobile&&document.body.classList.contains('admin-picker-open')){
+        closeMobileAdminPicker({restoreFocus:false});
       }
     }
+
+    adminPickerMedia.addEventListener('change',event=>{
+      if(!event.matches&&document.body.classList.contains('admin-picker-open')){
+        closeMobileAdminPicker({restoreFocus:false});
+      }
+      renderAdminFilter();
+    });
+
+    window.addEventListener('popstate',()=>{
+      if(!adminPickerHistoryArmed)return;
+      adminPickerHistoryArmed=false;
+      const details=document.querySelector('#admin-filter .admin-filter');
+      if(details?.open)details.open=false;
+      unlockAdminPickerScroll();
+      requestAnimationFrame(()=>document.querySelector('#admin-filter .admin-filter > summary')?.focus({preventScroll:true}));
+    });
+    document.addEventListener('keydown',e=>{
+      if(e.key==='Escape'&&document.body.classList.contains('admin-picker-open')){
+        e.preventDefault();
+        closeMobileAdminPicker();
+      }
+    });
 
     function setFilterPressed(button,on){
       button.classList.toggle('active',on);
