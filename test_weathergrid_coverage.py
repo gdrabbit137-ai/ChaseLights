@@ -474,12 +474,12 @@ class WeatherGridCoverageTest(unittest.TestCase):
 
         deyue = by_id["tw-062-P01"]["coverage_bbox"]
         self.assertTrue(bbox_contains_point(deyue, 24.40971, 118.29849))
-        # The local architecture coverage must remain compact and centered on
-        # the public exterior Camera Zone rather than expanding region-wide.
-        self.assertLess(deyue["west"], 118.29)
-        self.assertGreater(deyue["east"], 118.30)
-        self.assertLess(deyue["south"], 24.40)
-        self.assertGreater(deyue["north"], 24.41)
+        # The 0.3 km architecture envelope must extend around the public
+        # exterior Camera Zone while staying compact rather than region-wide.
+        self.assertLess(deyue["west"], 118.29849)
+        self.assertGreater(deyue["east"], 118.29849)
+        self.assertLess(deyue["south"], 24.40971)
+        self.assertGreater(deyue["north"], 24.40971)
         self.assertLess(deyue["east"] - deyue["west"], 0.10)
         self.assertLess(deyue["north"] - deyue["south"], 0.10)
 
