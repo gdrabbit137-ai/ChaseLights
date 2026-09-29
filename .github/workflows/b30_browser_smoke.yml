@@ -224,7 +224,7 @@ jobs:
                   countryInHeader: !!document.querySelector('.header-right #country-select'),
                   countryInFilter: !!document.querySelector('.filter-toolbar #country-select'),
                   disabled: buttons.filter(x => x.disabled).map(x => x.dataset.adminArea),
-                  counts: Object.fromEntries(buttons.map(x => [x.dataset.adminArea, Number(x.querySelector('span')?.textContent || 0)]))
+                  counts: Object.fromEntries(buttons.map(x => [x.dataset.adminArea, Number(x.querySelector('.admin-area-count')?.textContent || 0)]))
                 };
               """)
               report["taiwan_admin_contract"] = admin_contract
@@ -352,7 +352,7 @@ jobs:
                   hasSearch: !!document.querySelector('#admin-filter [data-admin-search]'),
                   hostHidden: document.getElementById('admin-filter').hidden,
                   disabled: buttons.filter(x => x.disabled).map(x => x.dataset.adminArea),
-                  counts: Object.fromEntries(buttons.map(x => [x.dataset.adminArea, Number(x.querySelector('span')?.textContent || 0)]))
+                  counts: Object.fromEntries(buttons.map(x => [x.dataset.adminArea, Number(x.querySelector('.admin-area-count')?.textContent || 0)]))
                 };
               """)
               report["japan_admin_contract"] = jp_admin
@@ -413,7 +413,7 @@ jobs:
                   hasSearch: !!document.querySelector('#admin-filter [data-admin-search]'),
                   hostHidden: document.getElementById('admin-filter').hidden,
                   disabled: buttons.filter(x => x.disabled).map(x => x.dataset.adminArea),
-                  counts: Object.fromEntries(buttons.map(x => [x.dataset.adminArea, Number(x.querySelector('span')?.textContent || 0)]))
+                  counts: Object.fromEntries(buttons.map(x => [x.dataset.adminArea, Number(x.querySelector('.admin-area-count')?.textContent || 0)]))
                 };
               """)
               report["us_admin_contract"] = us_admin
@@ -472,6 +472,125 @@ jobs:
                 renderSubNav();
                 filterAndRender();
               """)
+              cards = driver.find_elements(By.CSS_SELECTOR, "#spots-container .card")
+              assert len(cards) == 83, len(cards)
+
+              # B143: phone layout uses a bounded bottom sheet with explicit
+              # close paths and immediate multi-select. The page behind it
+              # remains scroll-locked and the user's scroll position is restored.
+              driver.set_window_size(390, 844)
+              driver.execute_script("window.scrollTo(0, Math.min(300, document.body.scrollHeight - window.innerHeight))")
+              mobile_picker_before_scroll = driver.execute_script("return window.scrollY")
+              driver.execute_script("""
+                currentAdminAreas.clear();
+                persistAdminAreas();
+                filterAndRender();
+              """)
+              mobile_trigger = driver.find_element(By.CSS_SELECTOR, "#admin-filter .admin-filter > summary")
+              driver.execute_script("arguments[0].click()", mobile_trigger)
+              wait.until(lambda d: d.execute_script(
+                  "return document.body.classList.contains('admin-picker-open')"
+              ))
+              mobile_picker = driver.execute_script("""
+                const menu = document.querySelector('#admin-filter .admin-filter-menu');
+                const backdrop = document.querySelector('#admin-filter [data-admin-backdrop]');
+                const close = document.querySelector('#admin-filter [data-admin-close]');
+                const done = document.querySelector('#admin-filter [data-admin-done]');
+                const search = document.querySelector('#admin-filter [data-admin-search]');
+                const details = document.querySelector('#admin-filter .admin-filter');
+                const menuRect = menu.getBoundingClientRect();
+                const closeRect = close.getBoundingClientRect();
+                const doneRect = done.getBoundingClientRect();
+                return {
+                  open: details.open,
+                  bodyLocked: document.body.classList.contains('admin-picker-open'),
+                  menuPosition: getComputedStyle(menu).position,
+                  menuBottom: getComputedStyle(menu).bottom,
+                  menuHeight: menuRect.height,
+                  viewportHeight: window.innerHeight,
+                  backdropDisplay: getComputedStyle(backdrop).display,
+                  closeWidth: closeRect.width,
+                  closeHeight: closeRect.height,
+                  doneHeight: doneRect.height,
+                  searchPlaceholder: search?.getAttribute('placeholder') || '',
+                  role: menu.getAttribute('role'),
+                  ariaModal: menu.getAttribute('aria-modal'),
+                  triggerExpanded: details.querySelector(':scope > summary').getAttribute('aria-expanded')
+                };
+              """)
+              report["mobile_admin_picker"] = mobile_picker
+              assert mobile_picker["open"] is True, mobile_picker
+              assert mobile_picker["bodyLocked"] is True, mobile_picker
+              assert mobile_picker["menuPosition"] == "fixed", mobile_picker
+              assert mobile_picker["menuBottom"] == "0px", mobile_picker
+              assert mobile_picker["menuHeight"] <= mobile_picker["viewportHeight"] * 0.83 + 2, mobile_picker
+              assert mobile_picker["backdropDisplay"] != "none", mobile_picker
+              assert mobile_picker["closeWidth"] >= 44 and mobile_picker["closeHeight"] >= 44, mobile_picker
+              assert mobile_picker["doneHeight"] >= 44, mobile_picker
+              assert "縣市" in mobile_picker["searchPlaceholder"], mobile_picker
+              assert mobile_picker["role"] == "dialog", mobile_picker
+              assert mobile_picker["ariaModal"] == "true", mobile_picker
+              assert mobile_picker["triggerExpanded"] == "true", mobile_picker
+
+              # Selection applies immediately but must not close the sheet.
+              driver.find_element(By.CSS_SELECTOR, '[data-admin-area="花蓮縣"]').click()
+              mobile_after_select = driver.execute_script("""
+                const details = document.querySelector('#admin-filter .admin-filter');
+                const selected = document.querySelector('[data-admin-area="花蓮縣"]');
+                return {
+                  open: details.open,
+                  bodyLocked: document.body.classList.contains('admin-picker-open'),
+                  selected: [...currentAdminAreas],
+                  pressed: selected?.getAttribute('aria-pressed'),
+                  checked: getComputedStyle(selected.querySelector('.admin-area-check')).visibility,
+                  cards: document.querySelectorAll('#spots-container .card').length
+                };
+              """)
+              report["mobile_admin_after_select"] = mobile_after_select
+              assert mobile_after_select["open"] is True, mobile_after_select
+              assert mobile_after_select["bodyLocked"] is True, mobile_after_select
+              assert mobile_after_select["selected"] == ["花蓮縣"], mobile_after_select
+              assert mobile_after_select["pressed"] == "true", mobile_after_select
+              assert mobile_after_select["checked"] == "visible", mobile_after_select
+              assert 0 < mobile_after_select["cards"] < 83, mobile_after_select
+
+              # Search survives the selection-triggered re-render.
+              mobile_search = driver.find_element(By.CSS_SELECTOR, "#admin-filter [data-admin-search]")
+              mobile_search.send_keys("台東")
+              wait.until(lambda d: d.execute_script(
+                  "return [...document.querySelectorAll('#admin-filter [data-admin-area]:not([hidden])')].some(x => x.dataset.adminArea === '台東縣')"
+              ))
+              mobile_search_value = driver.find_element(By.CSS_SELECTOR, "#admin-filter [data-admin-search]").get_attribute("value")
+              report["mobile_admin_search"] = mobile_search_value
+              assert mobile_search_value == "台東", mobile_search_value
+
+              # Done closes only the sheet; the applied selection remains and
+              # the prior page scroll position is restored.
+              driver.find_element(By.CSS_SELECTOR, "#admin-filter [data-admin-done]").click()
+              wait.until(lambda d: not d.execute_script(
+                  "return document.body.classList.contains('admin-picker-open')"
+              ))
+              mobile_picker_closed = driver.execute_script("""
+                return {
+                  open: document.querySelector('#admin-filter .admin-filter').open,
+                  bodyLocked: document.body.classList.contains('admin-picker-open'),
+                  selected: [...currentAdminAreas],
+                  scrollY: window.scrollY
+                };
+              """)
+              report["mobile_admin_closed"] = mobile_picker_closed
+              assert mobile_picker_closed["open"] is False, mobile_picker_closed
+              assert mobile_picker_closed["bodyLocked"] is False, mobile_picker_closed
+              assert mobile_picker_closed["selected"] == ["花蓮縣"], mobile_picker_closed
+              assert abs(mobile_picker_closed["scrollY"] - mobile_picker_before_scroll) <= 2, (mobile_picker_before_scroll, mobile_picker_closed)
+
+              # Reset test state and return to desktop for existing B102 checks.
+              driver.execute_script("""
+                currentAdminAreas.clear();
+                persistAdminAreas();
+                filterAndRender();
+              """)
+              driver.set_window_size(1440, 1200)
               cards = driver.find_elements(By.CSS_SELECTOR, "#spots-container .card")
               assert len(cards) == 83, len(cards)
 
