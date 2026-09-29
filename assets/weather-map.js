@@ -33,6 +33,7 @@
     weatherOpacity:0.62,
     windVectors:false,
     windVectorTouched:false,
+    lastWindVectorCount:0,
     map:null,
     mapReady:false,
     basemapStatus:'loading',
@@ -694,6 +695,7 @@
   }
 
   function drawWindVectors(){
+    state.lastWindVectorCount=0;
     if(!state.windVectors) return;
     if(!state.data.fields.wind_speed_10m_m_s ||
        !state.data.fields.wind_direction_10m_deg) return;
@@ -729,6 +731,7 @@
 
         strokeWindArrow(sx,sy,ex,ey,'rgba(2,6,23,.78)',4.5);
         strokeWindArrow(sx,sy,ex,ey,'rgba(224,242,254,.96)',2);
+        state.lastWindVectorCount+=1;
       }
     }
     ctx.restore();
@@ -1138,6 +1141,7 @@
       coverageSource: state.coverageSource,
       windVectors: state.windVectors,
       windVectorStep: windVectorStep(),
+      windVectorCount: state.lastWindVectorCount,
       activeModel: activeDataset(state.layer)?.model || null,
       displayInterpolation: state.layer==='wind_direction_10m_deg'?'nearest':'bilinear_subcell',
       iconAvailable: Boolean(state.iconData),
