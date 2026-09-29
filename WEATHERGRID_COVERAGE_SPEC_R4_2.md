@@ -382,6 +382,18 @@ B120 MUST preserve that policy.
 - `generalized`
 - `internal_only`
 
+For referenced Camera Zones, `weather_coverage.camera_zone_browser_exposure`
+MUST explicitly map every `camera_zone_ref` to one of the same three values:
+
+```json
+"camera_zone_browser_exposure": {
+  "tw-001-VP01": "generalized"
+}
+```
+
+Browser export is fail-closed: an omitted Camera Zone exposure is treated as
+`internal_only`, never as public.
+
 Rules:
 
 - browser output MUST NOT reveal an `internal_only` exact coordinate;

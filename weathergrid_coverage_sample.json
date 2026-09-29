@@ -1,0 +1,131 @@
+{
+  "schema_version": 1,
+  "registry_version": "B122-demo",
+  "contract": "WEATHERGRID_COVERAGE_SPEC_R4_2.md",
+  "demo": true,
+  "spots": [
+    {
+      "spot_id": "demo-hualien",
+      "canonical_name": "花蓮示意",
+      "opportunities": [
+        {
+          "opportunity_id": "demo-hualien-P01",
+          "name_zh": "北向山海題材示意",
+          "legacy_theme": "mountain_view",
+          "status": "provisional",
+          "complete": true,
+          "coverage_confidence": "medium",
+          "camera_zones": [
+            {
+              "viewpoint_id": "demo-hualien-VP01",
+              "name": "示意 Camera Zone",
+              "browser_exposure": "generalized",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 300,
+              "geometry_confidence": "medium",
+              "lat": 23.99,
+              "lon": 121.61
+            }
+          ],
+          "subject_geometries": [
+            {
+              "subject_id": "demo-hualien-SUB01",
+              "role": "primary_subject",
+              "name": "北向山海扇區",
+              "geometry": {
+                "type": "sector",
+                "origin_lat": 23.99,
+                "origin_lon": 121.61,
+                "azimuth_start_deg": 340,
+                "azimuth_end_deg": 20,
+                "min_range_km": 5,
+                "max_range_km": 28
+              },
+              "coord_confidence": "medium",
+              "browser_exposure": "public"
+            }
+          ],
+          "environment_geometries": [
+            {
+              "environment_id": "demo-hualien-ENV01",
+              "role": "mountain_cloud_sector",
+              "geometry": {
+                "type": "sector",
+                "origin_lat": 23.99,
+                "origin_lon": 121.61,
+                "azimuth_start_deg": 350,
+                "azimuth_end_deg": 15,
+                "min_range_km": 8,
+                "max_range_km": 22
+              },
+              "coord_confidence": "medium",
+              "browser_exposure": "public"
+            }
+          ],
+          "coverage_bbox": {
+            "west": 121.61,
+            "south": 23.99,
+            "east": 121.78,
+            "north": 24.242,
+            "wraps_antimeridian": false
+          },
+          "viewport_bbox": {
+            "west": 121.55,
+            "south": 23.93,
+            "east": 121.84,
+            "north": 24.3,
+            "wraps_antimeridian": false
+          },
+          "errors": [],
+          "warnings": [],
+          "note": "DEMO：用來驗證 Camera / Subject / Environment overlay 與題材自動取景。"
+        },
+        {
+          "opportunity_id": "demo-hualien-P02",
+          "name_zh": "主體範圍待研究示意",
+          "legacy_theme": "reflection",
+          "status": "needs_research",
+          "complete": false,
+          "coverage_confidence": "low",
+          "camera_zones": [
+            {
+              "viewpoint_id": "demo-hualien-VP02",
+              "name": "示意 Camera Zone",
+              "browser_exposure": "generalized",
+              "geometry_type": "point",
+              "geometry_extent_m": null,
+              "geometry_confidence": "medium",
+              "lat": 23.99,
+              "lon": 121.61
+            }
+          ],
+          "subject_geometries": [],
+          "environment_geometries": [],
+          "coverage_bbox": {
+            "west": 121.61,
+            "south": 23.99,
+            "east": 121.61,
+            "north": 23.99,
+            "wraps_antimeridian": false
+          },
+          "viewport_bbox": {
+            "west": 121.58,
+            "south": 23.96,
+            "east": 121.64,
+            "north": 24.02,
+            "wraps_antimeridian": false
+          },
+          "errors": [
+            "coverage requires subject or environment geometry"
+          ],
+          "warnings": [],
+          "note": "DEMO：相機位置已知，但被攝主體範圍尚未研究，因此不得宣稱 coverage 完整。"
+        }
+      ],
+      "catalog_opportunity_count": 2,
+      "coverage_entry_count": 2,
+      "all_topics_migrated": true,
+      "all_topics_complete": false
+    }
+  ]
+}

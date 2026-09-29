@@ -35,6 +35,9 @@ def _opportunity(
             "schema_version": 1,
             "status": status,
             "camera_zone_refs": [f"{oid}-VP01"],
+            "camera_zone_browser_exposure": {
+                f"{oid}-VP01": "generalized"
+            },
             "subject_geometries": [] if subject is None else [
                 {
                     "subject_id": f"{oid}-SUB01",

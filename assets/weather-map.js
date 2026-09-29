@@ -1,7 +1,9 @@
 (() => {
   const LIVE_DATA = './weathergrid/gfs_tw_weather_browser.json';
   const LIVE_QC = './weathergrid/gfs_tw_weather_qc.json';
+  const LIVE_COVERAGE = './weathergrid/weathergrid_coverage_browser.json';
   const FALLBACK_DATA = './weathergrid_sample.json';
+  const FALLBACK_COVERAGE = './weathergrid_coverage_sample.json';
 
   const layerConfig = {
     low_cloud_percent: {label:'低雲', unit:'%', domain:[0,100], palette:'cloud'},
@@ -14,8 +16,16 @@
   };
 
   const state = {
-    data:null,qc:null,frameIndex:0,layer:'low_cloud_percent',spotId:'',
-    view:null,source:'loading'
+    data:null,
+    qc:null,
+    coverage:{spots:[]},
+    frameIndex:0,
+    layer:'low_cloud_percent',
+    spotId:'',
+    opportunityId:'',
+    view:null,
+    source:'loading',
+    coverageSource:'loading'
   };
 
   const $ = id => document.getElementById(id);
@@ -23,7 +33,9 @@
   const ctx = canvas.getContext('2d');
 
   function escapeHtml(v){
-    return String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    return String(v ?? '').replace(/[&<>"']/g, c => (
+      {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]
+    ));
   }
 
   async function fetchJson(url){
@@ -43,6 +55,21 @@
       state.qc = null;
       state.source = 'demo';
     }
+
+    if(state.source === 'live'){
+      try{
+        state.coverage = await fetchJson(LIVE_COVERAGE);
+        state.coverageSource = 'live';
+      }catch(err){
+        console.warn('Live subject-aware coverage bundle unavailable', err);
+        state.coverage = {schema_version:1,spots:[]};
+        state.coverageSource = 'missing';
+      }
+    }else{
+      state.coverage = await fetchJson(FALLBACK_COVERAGE);
+      state.coverageSource = 'demo';
+    }
+
     state.view = {...state.data.bbox};
     initControls();
     renderAll();
@@ -70,11 +97,17 @@
 
     const spotSelect = $('spot-select');
     spotSelect.innerHTML = '<option value="">全部景點</option>' +
-      state.data.spots.map(s => `<option value="${escapeHtml(s.spot_id)}">${escapeHtml(s.name)}</option>`).join('');
+      state.data.spots.map(s =>
+        `<option value="${escapeHtml(s.spot_id)}">${escapeHtml(s.name)}</option>`
+      ).join('');
     spotSelect.addEventListener('change', () => {
-      state.spotId = spotSelect.value;
-      if(state.spotId) zoomToSpot(selectedSpot());
-      else state.view = {...state.data.bbox};
+      selectSpot(spotSelect.value);
+    });
+
+    const opportunitySelect = $('opportunity-select');
+    opportunitySelect.addEventListener('change', () => {
+      state.opportunityId = opportunitySelect.value;
+      applyCoverageView();
       renderAll();
     });
 
@@ -94,16 +127,73 @@
         if(!best || d < best.d) best = {spot,d};
       }
       if(best && best.d < 26){
-        state.spotId = best.spot.spot_id;
-        $('spot-select').value = state.spotId;
-        zoomToSpot(best.spot);
-        renderAll();
+        $('spot-select').value = best.spot.spot_id;
+        selectSpot(best.spot.spot_id);
       }
     });
   }
 
+  function selectSpot(spotId){
+    state.spotId = spotId;
+    state.opportunityId = '';
+    refreshOpportunityOptions();
+    if(state.spotId){
+      const group = selectedCoverageGroup();
+      const union = group && unionViewport(group.opportunities);
+      if(union) fitCoverageBbox(union);
+      else zoomToSpot(selectedSpot());
+    }else{
+      state.view = {...state.data.bbox};
+    }
+    renderAll();
+  }
+
+  function refreshOpportunityOptions(){
+    const select = $('opportunity-select');
+    const group = selectedCoverageGroup();
+    if(!state.spotId){
+      select.disabled = true;
+      select.innerHTML = '<option value="">先選景點</option>';
+      return;
+    }
+    if(!group || !group.opportunities.length){
+      select.disabled = true;
+      select.innerHTML = '<option value="">尚未建立題材 coverage</option>';
+      return;
+    }
+    select.disabled = false;
+    select.innerHTML =
+      '<option value="">全部已建 coverage 題材</option>' +
+      group.opportunities.map(op => {
+        const suffix = op.complete ? '' : ' ⚠';
+        return `<option value="${escapeHtml(op.opportunity_id)}">${escapeHtml(op.name_zh || op.opportunity_id)}${suffix}</option>`;
+      }).join('');
+    select.value = state.opportunityId;
+  }
+
   function selectedSpot(){
     return state.data.spots.find(s => s.spot_id === state.spotId) || null;
+  }
+
+  function coverageGroupForSpot(spotId){
+    return (state.coverage?.spots || []).find(s => s.spot_id === spotId) || null;
+  }
+
+  function selectedCoverageGroup(){
+    return coverageGroupForSpot(state.spotId);
+  }
+
+  function selectedOpportunity(){
+    const group = selectedCoverageGroup();
+    if(!group || !state.opportunityId) return null;
+    return group.opportunities.find(x => x.opportunity_id === state.opportunityId) || null;
+  }
+
+  function activeCoverageOpportunities(){
+    const selected = selectedOpportunity();
+    if(selected) return [selected];
+    const group = selectedCoverageGroup();
+    return group ? group.opportunities : [];
   }
 
   function zoomToSpot(spot){
@@ -111,11 +201,63 @@
     const lonHalf = 0.85;
     const latHalf = 0.65;
     state.view = {
-      leftlon:Math.max(state.data.bbox.leftlon, spot.lon-lonHalf),
-      rightlon:Math.min(state.data.bbox.rightlon, spot.lon+lonHalf),
-      bottomlat:Math.max(state.data.bbox.bottomlat, spot.lat-latHalf),
-      toplat:Math.min(state.data.bbox.toplat, spot.lat+latHalf)
+      leftlon:spot.lon-lonHalf,
+      rightlon:spot.lon+lonHalf,
+      bottomlat:spot.lat-latHalf,
+      toplat:spot.lat+latHalf
     };
+  }
+
+  function unionViewport(opportunities){
+    const boxes = (opportunities || [])
+      .map(x => x.viewport_bbox)
+      .filter(x => x && !x.wraps_antimeridian);
+    if(!boxes.length) return null;
+    return {
+      west:Math.min(...boxes.map(x=>x.west)),
+      south:Math.min(...boxes.map(x=>x.south)),
+      east:Math.max(...boxes.map(x=>x.east)),
+      north:Math.max(...boxes.map(x=>x.north)),
+      wraps_antimeridian:false
+    };
+  }
+
+  function fitCoverageBbox(bbox){
+    if(!bbox || bbox.wraps_antimeridian) return false;
+    let west=Number(bbox.west), east=Number(bbox.east);
+    let south=Number(bbox.south), north=Number(bbox.north);
+    if(![west,east,south,north].every(Number.isFinite)) return false;
+    const minLonSpan=.18, minLatSpan=.14;
+    if(east-west < minLonSpan){
+      const mid=(west+east)/2; west=mid-minLonSpan/2; east=mid+minLonSpan/2;
+    }
+    if(north-south < minLatSpan){
+      const mid=(south+north)/2; south=mid-minLatSpan/2; north=mid+minLatSpan/2;
+    }
+    state.view={leftlon:west,rightlon:east,bottomlat:south,toplat:north};
+    return true;
+  }
+
+  function applyCoverageView(){
+    const op = selectedOpportunity();
+    if(op?.viewport_bbox && !op.viewport_bbox.wraps_antimeridian){
+      fitCoverageBbox(op.viewport_bbox);
+      return;
+    }
+    const group = selectedCoverageGroup();
+    const union = group && unionViewport(group.opportunities);
+    if(union){
+      fitCoverageBbox(union);
+      return;
+    }
+    if(selectedSpot()) zoomToSpot(selectedSpot());
+  }
+
+  function providerCoversBbox(bbox){
+    if(!bbox || bbox.wraps_antimeridian) return false;
+    const b=state.data.bbox;
+    return bbox.west >= b.leftlon && bbox.east <= b.rightlon &&
+      bbox.south >= b.bottomlat && bbox.north <= b.toplat;
   }
 
   function frame(){ return state.data.frames[state.frameIndex]; }
@@ -192,6 +334,7 @@
     }
 
     drawGrid();
+    drawCoverage();
     drawSpots();
   }
 
@@ -217,6 +360,137 @@
     ctx.restore();
   }
 
+  function destination(lat,lon,bearingDeg,distanceKm){
+    const R=6371.0088;
+    const b=bearingDeg*Math.PI/180;
+    const d=distanceKm/R;
+    const lat1=lat*Math.PI/180, lon1=lon*Math.PI/180;
+    const lat2=Math.asin(
+      Math.sin(lat1)*Math.cos(d)+Math.cos(lat1)*Math.sin(d)*Math.cos(b)
+    );
+    const lon2=lon1+Math.atan2(
+      Math.sin(b)*Math.sin(d)*Math.cos(lat1),
+      Math.cos(d)-Math.sin(lat1)*Math.sin(lat2)
+    );
+    return {lat:lat2*180/Math.PI,lon:((lon2*180/Math.PI+540)%360)-180};
+  }
+
+  function sectorBearings(start,end){
+    const s=((Number(start)%360)+360)%360;
+    const raw=Number(end)-Number(start);
+    let span=((Number(end)-s)%360+360)%360;
+    if(Math.abs(raw)>=359.999) span=360;
+    const count=Math.max(1,Math.ceil(span/6));
+    return Array.from({length:count+1},(_,i)=>(s+span*i/count)%360);
+  }
+
+  function cameraById(op,id){
+    return (op.camera_zones||[]).find(c=>c.viewpoint_id===id) || null;
+  }
+
+  function geometryOrigin(geometry,op){
+    if(Number.isFinite(Number(geometry.origin_lat)) && Number.isFinite(Number(geometry.origin_lon))){
+      return {lat:Number(geometry.origin_lat),lon:Number(geometry.origin_lon)};
+    }
+    const camera=cameraById(op,geometry.origin_viewpoint_id);
+    if(camera && Number.isFinite(Number(camera.lat)) && Number.isFinite(Number(camera.lon))){
+      return {lat:Number(camera.lat),lon:Number(camera.lon)};
+    }
+    return null;
+  }
+
+  function drawPath(points,{stroke,fill=null,dashed=false,width=3,close=false}){
+    if(!points.length) return;
+    ctx.save();
+    ctx.beginPath();
+    points.forEach((pt,i)=>{
+      const p=project(pt.lon,pt.lat);
+      if(i===0) ctx.moveTo(p.x,p.y); else ctx.lineTo(p.x,p.y);
+    });
+    if(close) ctx.closePath();
+    if(fill){ctx.fillStyle=fill;ctx.fill();}
+    ctx.strokeStyle=stroke;
+    ctx.lineWidth=width;
+    ctx.setLineDash(dashed?[10,8]:[]);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  function drawGeometry(item,op,kind){
+    const g=item?.geometry;
+    if(!g) return;
+    const subject=kind==='subject';
+    const stroke=subject?'rgba(251,146,60,.95)':'rgba(34,211,238,.95)';
+    const fill=subject?'rgba(251,146,60,.10)':'rgba(34,211,238,.08)';
+    const dashed=!subject;
+
+    if(g.type==='point'){
+      const p=project(Number(g.lon),Number(g.lat));
+      ctx.save();
+      ctx.strokeStyle=stroke;ctx.lineWidth=3;ctx.setLineDash(dashed?[8,6]:[]);
+      ctx.strokeRect(p.x-7,p.y-7,14,14);ctx.restore();
+      return;
+    }
+
+    if(g.type==='bbox'){
+      const points=[
+        {lon:Number(g.west),lat:Number(g.south)},
+        {lon:Number(g.east),lat:Number(g.south)},
+        {lon:Number(g.east),lat:Number(g.north)},
+        {lon:Number(g.west),lat:Number(g.north)}
+      ];
+      drawPath(points,{stroke,fill,dashed,width:3,close:true});
+      return;
+    }
+
+    if(g.type==='polygon'){
+      const points=(g.coordinates||[]).map(([lon,lat])=>({lon:Number(lon),lat:Number(lat)}));
+      drawPath(points,{stroke,fill,dashed,width:3,close:true});
+      return;
+    }
+
+    if(g.type==='corridor'){
+      const points=(g.coordinates||[]).map(([lon,lat])=>({lon:Number(lon),lat:Number(lat)}));
+      drawPath(points,{stroke,dashed,width:5,close:false});
+      return;
+    }
+
+    if(g.type==='sector'){
+      const origin=geometryOrigin(g,op);
+      if(!origin) return;
+      const bearings=sectorBearings(g.azimuth_start_deg,g.azimuth_end_deg);
+      const maxRange=Number(g.max_range_km||0);
+      const minRange=Number(g.min_range_km||0);
+      const outer=bearings.map(b=>destination(origin.lat,origin.lon,b,maxRange));
+      let points;
+      if(minRange>0){
+        const inner=[...bearings].reverse().map(b=>destination(origin.lat,origin.lon,b,minRange));
+        points=[...outer,...inner];
+      }else{
+        points=[origin,...outer];
+      }
+      drawPath(points,{stroke,fill,dashed,width:3,close:true});
+    }
+  }
+
+  function drawCoverage(){
+    const opportunities=activeCoverageOpportunities();
+    if(!opportunities.length) return;
+    for(const op of opportunities){
+      for(const item of op.environment_geometries||[]) drawGeometry(item,op,'environment');
+      for(const item of op.subject_geometries||[]) drawGeometry(item,op,'subject');
+      for(const camera of op.camera_zones||[]){
+        if(!Number.isFinite(Number(camera.lat)) || !Number.isFinite(Number(camera.lon))) continue;
+        const p=project(Number(camera.lon),Number(camera.lat));
+        ctx.save();
+        ctx.beginPath();ctx.arc(p.x,p.y,8,0,Math.PI*2);
+        ctx.fillStyle='#fbbf24';ctx.fill();
+        ctx.strokeStyle='#111827';ctx.lineWidth=3;ctx.stroke();
+        ctx.restore();
+      }
+    }
+  }
+
   function drawSpots(){
     const selected=selectedSpot();
     ctx.save();
@@ -224,8 +498,8 @@
       const p=project(s.lon,s.lat);
       if(p.x<0||p.x>canvas.width||p.y<0||p.y>canvas.height) continue;
       ctx.beginPath();
-      ctx.arc(p.x,p.y,s.spot_id===state.spotId?9:4,0,Math.PI*2);
-      ctx.fillStyle=s.spot_id===state.spotId?'#fbbf24':'#f8fafc';
+      ctx.arc(p.x,p.y,s.spot_id===state.spotId?7:3.5,0,Math.PI*2);
+      ctx.fillStyle=s.spot_id===state.spotId?'#fde68a':'#f8fafc';
       ctx.fill();
       ctx.strokeStyle='rgba(15,23,42,.9)';
       ctx.lineWidth=2;ctx.stroke();
@@ -250,10 +524,18 @@
     return ri*state.data.grid.cols+ci;
   }
 
-  function sampleSpotValue(spot,key){
-    if(!spot) return null;
+  function samplingPoint(){
+    const op=selectedOpportunity();
+    const camera=(op?.camera_zones||[]).find(c=>Number.isFinite(Number(c.lat))&&Number.isFinite(Number(c.lon)));
+    if(camera) return {lat:Number(camera.lat),lon:Number(camera.lon),label:'Camera Zone'};
+    const spot=selectedSpot();
+    return spot ? {lat:spot.lat,lon:spot.lon,label:'景點代表點'} : null;
+  }
+
+  function samplePointValue(point,key){
+    if(!point) return null;
     const values=decodedArray(key);
-    if(key==='wind_direction_10m_deg') return values[nearestCellIndex(spot.lon,spot.lat)];
+    if(key==='wind_direction_10m_deg') return values[nearestCellIndex(point.lon,point.lat)];
 
     const lons=state.data.grid.longitudes, lats=state.data.grid.latitudes;
     const ascLon=lons[0] < lons[lons.length-1];
@@ -267,7 +549,7 @@
       for(let i=1;i<arr.length;i++) if(v<=arr[i]) return [i-1,i];
       return [arr.length-1,arr.length-1];
     }
-    const [x0i,x1i]=bracket(lonA,spot.lon), [y0i,y1i]=bracket(latA,spot.lat);
+    const [x0i,x1i]=bracket(lonA,point.lon), [y0i,y1i]=bracket(latA,point.lat);
     const toOrigX=i=>ascLon?i:lons.length-1-i;
     const toOrigY=i=>ascLat?i:lats.length-1-i;
     const x0=lonA[x0i],x1=lonA[x1i],y0=latA[y0i],y1=latA[y1i];
@@ -275,9 +557,9 @@
     const v10=values[toOrigY(y0i)*state.data.grid.cols+toOrigX(x1i)];
     const v01=values[toOrigY(y1i)*state.data.grid.cols+toOrigX(x0i)];
     const v11=values[toOrigY(y1i)*state.data.grid.cols+toOrigX(x1i)];
-    if([v00,v10,v01,v11].some(v=>v==null)) return values[nearestCellIndex(spot.lon,spot.lat)];
-    const wx=x1===x0?0:(spot.lon-x0)/(x1-x0);
-    const wy=y1===y0?0:(spot.lat-y0)/(y1-y0);
+    if([v00,v10,v01,v11].some(v=>v==null)) return values[nearestCellIndex(point.lon,point.lat)];
+    const wx=x1===x0?0:(point.lon-x0)/(x1-x0);
+    const wy=y1===y0?0:(point.lat-y0)/(y1-y0);
     return v00*(1-wx)*(1-wy)+v10*wx*(1-wy)+v01*(1-wx)*wy+v11*wx*wy;
   }
 
@@ -321,25 +603,34 @@
     $('layer-unit').textContent=`${cfg.label} · ${state.data.fields[state.layer].unit}`;
 
     const spot=selectedSpot();
+    const point=samplingPoint();
     $('spot-name').textContent=spot?spot.name:'尚未選取';
-    const sv=sampleSpotValue(spot,state.layer);
-    $('spot-value').textContent=spot?formatValue(sv,state.layer):'—';
-    $('spot-details').innerHTML=spot
-      ? `<div>${spot.lat.toFixed(4)}°, ${spot.lon.toFixed(4)}°</div><div>取樣：瀏覽器雙線性插值（風向使用最近格點）</div>`
+    const sv=samplePointValue(point,state.layer);
+    $('spot-value').textContent=point?formatValue(sv,state.layer):'—';
+    $('spot-details').innerHTML=point
+      ? `<div>${point.lat.toFixed(4)}°, ${point.lon.toFixed(4)}° · ${escapeHtml(point.label)}</div><div>取樣：瀏覽器雙線性插值（風向使用最近格點）</div>`
       : '<div>可從下拉選單或地圖上的景點點位選取。</div>';
 
     updateLegend(cfg);
     updateTimeline();
+    updateCoverageStatus();
     updateQc();
   }
 
   function updateLegend(cfg){
     const min=cfg.domain[0], max=cfg.domain[1], mid=(min+max)/2;
     const stops=[0,.25,.5,.75,1].map(t=>colorFor(min+(max-min)*t,cfg));
+    const coverageKey=state.spotId ? `
+      <div class="coverage-key">
+        <span><i class="coverage-swatch camera"></i>Camera</span>
+        <span><i class="coverage-swatch subject"></i>Subject</span>
+        <span><i class="coverage-swatch environment"></i>Environment</span>
+      </div>` : '';
     $('legend').innerHTML=`
       <strong>${cfg.label}</strong>
       <div class="legend-bar" style="background:linear-gradient(90deg,${stops.join(',')})"></div>
-      <div class="legend-row"><span>${formatValue(min,state.layer)}</span><span>${formatValue(mid,state.layer)}</span><span>${formatValue(max,state.layer)}</span></div>`;
+      <div class="legend-row"><span>${formatValue(min,state.layer)}</span><span>${formatValue(mid,state.layer)}</span><span>${formatValue(max,state.layer)}</span></div>
+      ${coverageKey}`;
   }
 
   function updateTimeline(){
@@ -351,10 +642,61 @@
     });
   }
 
+  function statusBadge(op){
+    if(op.status==='verified' && op.complete) return '<span class="coverage-badge ok">verified</span>';
+    if(op.status==='provisional' && op.complete) return '<span class="coverage-badge provisional">provisional</span>';
+    return '<span class="coverage-badge pending">needs research</span>';
+  }
+
+  function updateCoverageStatus(){
+    const host=$('coverage-status');
+    if(!state.spotId){
+      host.innerHTML='<div>先選景點。題材 coverage 會同時標示 Camera / Subject / Environment。</div>';
+      return;
+    }
+
+    if(state.coverageSource==='missing'){
+      host.innerHTML='<div class="warn">⚠ Live WeatherGrid 已載入，但尚未發布 subject-aware coverage bundle。請執行 publish_preview。</div>';
+      return;
+    }
+
+    const group=selectedCoverageGroup();
+    if(!group){
+      host.innerHTML='<div class="warn">⚠ 此景點尚未進入 B120/B121 coverage migration；目前不能宣稱所有題材的相機與被攝主體均已涵蓋。</div>';
+      return;
+    }
+
+    const op=selectedOpportunity();
+    if(!op){
+      const total=Number(group.catalog_opportunity_count ?? group.opportunities.length);
+      const migrated=Number(group.coverage_entry_count ?? group.opportunities.length);
+      const incomplete=group.opportunities.filter(x=>!x.complete).length;
+      const allComplete=Boolean(group.all_topics_complete);
+      const union=unionViewport(group.opportunities);
+      const providerOk=union ? providerCoversBbox(union) : false;
+      host.innerHTML=`
+        <div>${allComplete?'<span class="coverage-badge ok">all topics covered</span>':'<span class="coverage-badge provisional">partial migration</span>'}</div>
+        <div>已建立 coverage：${migrated} / ${total} 個題材；其中 ${incomplete} 個仍不完整。</div>
+        <div>${providerOk?'✓ 目前 WeatherGrid bbox 可涵蓋已建立的題材視野。':'⚠ 目前 WeatherGrid bbox 無法完整涵蓋已建立題材視野。'}</div>
+        <div>選擇單一題材可檢查 Camera / Subject / Environment。</div>`;
+      return;
+    }
+
+    const providerOk=op.viewport_bbox ? providerCoversBbox(op.viewport_bbox) : false;
+    const errors=(op.errors||[]).map(e=>`<div class="warn">⚠ ${escapeHtml(e)}</div>`).join('');
+    const warnings=(op.warnings||[]).map(e=>`<div class="warn">△ ${escapeHtml(e)}</div>`).join('');
+    host.innerHTML=`
+      <div>${statusBadge(op)} <strong>${escapeHtml(op.name_zh||op.opportunity_id)}</strong></div>
+      <div>Camera ${(op.camera_zones||[]).length} · Subject ${(op.subject_geometries||[]).length} · Environment ${(op.environment_geometries||[]).length}</div>
+      <div>${providerOk?'✓ 當前氣象資料涵蓋題材 viewport。':'⚠ 題材 viewport 超出當前氣象資料範圍；空白區不可視為晴朗。'}</div>
+      ${op.note?`<div>${escapeHtml(op.note)}</div>`:''}
+      ${errors}${warnings}`;
+  }
+
   function updateQc(){
     const host=$('qc-status');
     if(state.source==='demo'){
-      host.innerHTML='<div class="warn">⚠️ 目前顯示 DEMO fixture；執行 B119 publish workflow 後會自動載入最新 GFS 快照。</div>';
+      host.innerHTML='<div class="warn">⚠️ 目前顯示 DEMO fixture；執行 B117 publish_preview 後會切換為 GFS live snapshot。</div>';
       return;
     }
     if(!state.qc){
@@ -373,6 +715,12 @@
     if(!state.data) return;
     draw();
     updateControls();
+    window.__weatherGridCoverageDebug = {
+      spotId: state.spotId,
+      opportunityId: state.opportunityId,
+      coverageSource: state.coverageSource,
+      view: {...state.view}
+    };
   }
 
   window.addEventListener('resize', renderAll);
