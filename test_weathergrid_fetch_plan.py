@@ -73,7 +73,7 @@ class WeatherGridFetchPlanTest(unittest.TestCase):
         self.assertFalse(plan["safe_to_publish_preview"])
         self.assertEqual(plan["effective_scope"], {"type": "region", "id": "tw"})
         self.assertEqual(plan["segments"], [TAIWAN_BBOX])
-        self.assertIn("incomplete", plan["fallback_reason"])
+        self.assertIn("no subject-aware coverage registry entry", plan["fallback_reason"])
 
     def test_incomplete_opportunity_strict_mode_fails(self):
         with self.assertRaises(CoverageError):
