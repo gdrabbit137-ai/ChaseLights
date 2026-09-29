@@ -29,6 +29,7 @@ class WeatherGridCoverageBrowserTest(unittest.TestCase):
         self.assertIn("tw-075", by_spot)
         self.assertIn("tw-073", by_spot)
         self.assertIn("tw-066", by_spot)
+        self.assertIn("tw-037", by_spot)
 
         jianggong_group = by_spot["tw-078"]
         self.assertEqual(jianggong_group["catalog_opportunity_count"], 1)
@@ -54,6 +55,11 @@ class WeatherGridCoverageBrowserTest(unittest.TestCase):
         self.assertEqual(dongyin_group["catalog_opportunity_count"], 1)
         self.assertEqual(dongyin_group["coverage_entry_count"], 1)
         self.assertTrue(dongyin_group["all_topics_complete"])
+
+        duoliang_group = by_spot["tw-037"]
+        self.assertEqual(duoliang_group["catalog_opportunity_count"], 1)
+        self.assertEqual(duoliang_group["coverage_entry_count"], 1)
+        self.assertTrue(duoliang_group["all_topics_complete"])
 
         qingshui = by_spot["tw-034"]
         self.assertEqual(qingshui["catalog_opportunity_count"], 3)
@@ -130,6 +136,13 @@ class WeatherGridCoverageBrowserTest(unittest.TestCase):
             laomei["camera_zones"][0]["browser_exposure"],
             "generalized",
         )
+
+        duoliang = by_opp["tw-037-P01"]
+        self.assertTrue(duoliang["complete"])
+        self.assertEqual(duoliang["status"], "provisional")
+        self.assertEqual(duoliang["subject_geometries"][0]["geometry"]["type"], "sector")
+        self.assertEqual(duoliang["environment_geometries"][0]["geometry"]["type"], "sector")
+        self.assertEqual(duoliang["camera_zones"][0]["browser_exposure"], "public")
 
         qingshui_p01 = by_opp["tw-034-P01"]
         self.assertTrue(qingshui_p01["complete"])
