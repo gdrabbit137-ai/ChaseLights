@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "registry_version": "B121.4",
+  "registry_version": "B121.5",
   "contract": "WEATHERGRID_COVERAGE_SPEC_R4_2.md",
   "generated_or_reviewed_at": "2026-09-29",
   "notes": [
-    "B121.4 preserves the first all-topic-complete Place tw-014 and adds all ten current Liyu Lake (tw-082) Opportunities.",
-    "tw-082 uses conservative place-specific lake, mountain-context, sunset-horizon, trail/ecology/light-art and water-activity envelopes; they remain provisional coverage, not exact cartographic subject polygons.",
-    "Cloud-sea full-ring entries remain provisional broad coverage, not exact cloud boundaries or foreground polygons.",
-    "Place center fallback does not satisfy subject-aware coverage."
+    "B121.5 preserves all-topic-complete tw-014 and tw-082, and completes all four current Qixingtan (tw-036) Opportunities.",
+    "Qixingtan sunrise uses a broad east-facing horizon/offshore sector; the Milky-Way Opportunity uses a full-circle atmospheric environment because no exact celestial azimuth is yet curated.",
+    "Celestial subjects never receive fake terrestrial coordinates.",
+    "All migrated coverage remains provisional unless exact subject geometry has separately been verified."
   ],
   "entries": [
     {
@@ -493,6 +493,111 @@
         "note": "此 Opportunity 的被攝現象本身是相機下方低層雲／雲海。Coverage 沿用已存在的 8 km 全方向 spatial-weather profile，先作 broad subject/environment coverage；不宣稱精確雲海邊界或可見前景 polygon。",
         "camera_zone_browser_exposure": {
           "tw-035-VP02": "generalized"
+        }
+      }
+    },
+    {
+      "opportunity_id": "tw-036-P01",
+      "spot_id": "tw-036",
+      "provenance": {
+        "basis": "Canonical Qixingtan sunrise Opportunity and Camera Zone plus B120 celestial/horizon coverage rule.",
+        "geometry_interpretation": "A deliberately broad east-facing 45°–135° horizon sector is used so seasonal sunrise and adjacent offshore weather cannot be cropped. It is not an exact solar azimuth forecast or a literal photographed-sky polygon."
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-036-VP01"
+        ],
+        "subject_geometries": [
+          {
+            "subject_id": "tw-036-P01-SUB01",
+            "role": "sunrise_horizon_sector",
+            "name": "七星潭東向海平面日出／晨曦廣域",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-036-VP01",
+              "azimuth_start_deg": 45,
+              "azimuth_end_deg": 135,
+              "min_range_km": 0,
+              "max_range_km": 40
+            },
+            "coord_confidence": "medium",
+            "source_evidence_ids": [
+              "runtime_catalog.tw-036-P01",
+              "WEATHERGRID_COVERAGE_SPEC_R4_2.celestial_subjects"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "environment_geometries": [
+          {
+            "environment_id": "tw-036-P01-ENV01",
+            "role": "offshore_sunrise_weather_sector",
+            "name": "七星潭東向海面雲況／降水環境區",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-036-VP01",
+              "azimuth_start_deg": 45,
+              "azimuth_end_deg": 135,
+              "min_range_km": 0,
+              "max_range_km": 40
+            },
+            "coord_confidence": "medium",
+            "source_evidence_ids": [
+              "runtime_catalog.tw-036-P01"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "display_padding_km": 5,
+        "coverage_confidence": "medium",
+        "note": "日出屬天體題材，不建立假的地面 Sun 座標。Coverage 使用相機位置加保守的東向海平面／離岸天氣扇區。",
+        "camera_zone_browser_exposure": {
+          "tw-036-VP01": "generalized"
+        }
+      }
+    },
+    {
+      "opportunity_id": "tw-036-P02",
+      "spot_id": "tw-036",
+      "provenance": {
+        "basis": "Canonical Qixingtan stargazing/Milky-Way Opportunity and verified Camera Zone plus B120 celestial-subject rule.",
+        "geometry_interpretation": "No precise Milky-Way/horizon azimuth is yet curated, so the WeatherGrid uses a conservative 20 km full-circle atmospheric environment around the verified Camera Zone instead of inventing a celestial ground coordinate."
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-036-VP02"
+        ],
+        "subject_geometries": [],
+        "environment_geometries": [
+          {
+            "environment_id": "tw-036-P02-ENV01",
+            "role": "celestial_cloud_environment_zone",
+            "name": "七星潭星空／銀河雲量環境廣域",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-036-VP02",
+              "azimuth_start_deg": 0,
+              "azimuth_end_deg": 360,
+              "min_range_km": 0,
+              "max_range_km": 20
+            },
+            "coord_confidence": "medium",
+            "source_evidence_ids": [
+              "runtime_catalog.tw-036-P02",
+              "WEATHERGRID_COVERAGE_SPEC_R4_2.celestial_subjects"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "display_padding_km": 5,
+        "coverage_confidence": "medium",
+        "note": "銀河與星空是天體主體，不能建立假的地面座標。尚未研究精確季節方位前，以 Camera Zone 周邊 20 km 全方向大氣區確保雲況 coverage 不被裁切。",
+        "camera_zone_browser_exposure": {
+          "tw-036-VP02": "generalized"
         }
       }
     },
