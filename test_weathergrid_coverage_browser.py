@@ -27,6 +27,7 @@ class WeatherGridCoverageBrowserTest(unittest.TestCase):
         self.assertIn("tw-078", by_spot)
         self.assertIn("tw-081", by_spot)
         self.assertIn("tw-075", by_spot)
+        self.assertIn("tw-073", by_spot)
 
         jianggong_group = by_spot["tw-078"]
         self.assertEqual(jianggong_group["catalog_opportunity_count"], 1)
@@ -42,6 +43,11 @@ class WeatherGridCoverageBrowserTest(unittest.TestCase):
         self.assertEqual(waiao_group["catalog_opportunity_count"], 1)
         self.assertEqual(waiao_group["coverage_entry_count"], 1)
         self.assertTrue(waiao_group["all_topics_complete"])
+
+        laomei_group = by_spot["tw-073"]
+        self.assertEqual(laomei_group["catalog_opportunity_count"], 1)
+        self.assertEqual(laomei_group["coverage_entry_count"], 1)
+        self.assertTrue(laomei_group["all_topics_complete"])
 
         qingshui = by_spot["tw-034"]
         self.assertEqual(qingshui["catalog_opportunity_count"], 3)
@@ -88,6 +94,18 @@ class WeatherGridCoverageBrowserTest(unittest.TestCase):
         )
         self.assertEqual(
             waiao["environment_geometries"][0]["geometry"]["type"],
+            "sector",
+        )
+
+        laomei = by_opp["tw-073-P01"]
+        self.assertTrue(laomei["complete"])
+        self.assertEqual(laomei["status"], "provisional")
+        self.assertEqual(
+            laomei["subject_geometries"][0]["geometry"]["type"],
+            "sector",
+        )
+        self.assertEqual(
+            laomei["environment_geometries"][0]["geometry"]["type"],
             "sector",
         )
 
