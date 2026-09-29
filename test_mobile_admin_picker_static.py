@@ -50,6 +50,12 @@ class MobileAdminPickerStaticTests(unittest.TestCase):
         self.assertIn("details.open=true", self.app)
         self.assertIn("openMobileAdminPicker(details)", self.app)
 
+    def test_mobile_picker_does_not_inherit_unlocked_desktop_open_state(self):
+        self.assertIn(
+            "const wasOpen=!!previousDetails?.open&&(!mobile||document.body.classList.contains('admin-picker-open'))",
+            self.app,
+        )
+
     def test_desktop_groups_are_not_collapsible_controls(self):
         self.assertIn("@media (min-width: 641px)", self.css)
         self.assertIn("pointer-events: none", self.css)
