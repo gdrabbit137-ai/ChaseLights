@@ -8,6 +8,7 @@ from gfs_raw_poc import (
     build_nomads_url,
     candidate_runs,
     parse_forecast_hours,
+    sample_grid_bilinear,
     sample_grid_nearest,
     validate_cycle,
     validate_forecast_hour,
@@ -73,12 +74,28 @@ class GFSRawPOCTest(unittest.TestCase):
             ],
         }
         sample = sample_grid_nearest(grid, lat=24.79, lon=121.22)
-        self.assertEqual(sample["low_cloud_percent"], 50.0)
+        self.assertEqual(sample["low_cloud_percent_nearest"], 50.0)
         self.assertEqual(sample["grid_lat"], 24.75)
         self.assertEqual(sample["grid_lon"], 121.25)
         self.assertEqual(sample["grid_row"], 1)
         self.assertEqual(sample["grid_col"], 1)
         self.assertGreater(sample["grid_distance_km"], 0)
+
+    def test_bilinear_sampling_handles_descending_latitude(self):
+        grid = {
+            "latitudes": [25.0, 24.75],
+            "longitudes": [121.0, 121.25],
+            "values": [
+                [0.0, 20.0],
+                [40.0, 60.0],
+            ],
+        }
+        center = sample_grid_bilinear(grid, lat=24.875, lon=121.125)
+        self.assertEqual(center["interpolation_status"], "bilinear")
+        self.assertAlmostEqual(center["low_cloud_percent_bilinear"], 30.0, places=2)
+
+        corner = sample_grid_bilinear(grid, lat=25.0, lon=121.0)
+        self.assertAlmostEqual(corner["low_cloud_percent_bilinear"], 0.0, places=2)
 
     def test_validation(self):
         self.assertEqual(validate_cycle("6"), "06")
