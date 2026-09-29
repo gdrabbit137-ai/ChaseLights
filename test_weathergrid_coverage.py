@@ -5,6 +5,7 @@ from pathlib import Path
 from weathergrid_coverage import (
     bbox_contains_bbox,
     bbox_contains_point,
+    camera_zone_points,
     geometry_points,
     plan_opportunity_coverage,
     plan_place_coverage,
@@ -193,11 +194,11 @@ class WeatherGridCoverageTest(unittest.TestCase):
         )
         audit = audit_coverage_registry(catalog, registry)
 
-        self.assertEqual(audit["counts"]["entries"], 33)
+        self.assertEqual(audit["counts"]["entries"], 34)
         self.assertEqual(audit["counts"]["missing_opportunity"], 0)
-        self.assertEqual(audit["counts"]["provisional"], 33)
+        self.assertEqual(audit["counts"]["provisional"], 34)
         self.assertEqual(audit["counts"]["needs_research"], 0)
-        self.assertEqual(audit["counts"]["complete"], 33)
+        self.assertEqual(audit["counts"]["complete"], 34)
         self.assertEqual(audit["counts"]["incomplete"], 0)
 
         by_id = {row["opportunity_id"]: row for row in audit["results"]}
@@ -222,6 +223,11 @@ class WeatherGridCoverageTest(unittest.TestCase):
         self.assertEqual(by_id["tw-081-P01"]["status"], "provisional")
         self.assertEqual(by_id["tw-078-P01"]["subject_geometry_count"], 1)
         self.assertEqual(by_id["tw-081-P01"]["subject_geometry_count"], 1)
+
+        self.assertTrue(by_id["tw-075-P01"]["complete"])
+        self.assertEqual(by_id["tw-075-P01"]["status"], "provisional")
+        self.assertEqual(by_id["tw-075-P01"]["subject_geometry_count"], 1)
+        self.assertEqual(by_id["tw-075-P01"]["environment_geometry_count"], 1)
 
         self.assertTrue(by_id["tw-019-P04"]["complete"])
         self.assertTrue(by_id["tw-014-P01"]["complete"])
@@ -286,6 +292,22 @@ class WeatherGridCoverageTest(unittest.TestCase):
         self.assertTrue(bbox_contains_point(tieb堡, 26.141922, 119.921072))
         self.assertLess(tieb堡["west"], 119.9200)
         self.assertGreater(tieb堡["east"], 119.9220)
+
+        waiao = by_id["tw-075-P01"]["coverage_bbox"]
+        self.assertTrue(bbox_contains_point(waiao, 24.842373, 121.95015))
+        # The catalog Camera Zone is a ~900 m long beach area. B130 must
+        # conservatively cover its curated extent rather than only the anchor.
+        catalog_waiao = next(
+            spot for spot in catalog["spots"] if spot["spot_id"] == "tw-075"
+        )
+        vp = catalog_waiao["opportunities"][0]["viewpoints"][0]
+        camera_points, mode = camera_zone_points(vp)
+        self.assertEqual(mode, "conservative_extent")
+        for lat, lon in camera_points:
+            self.assertTrue(
+                bbox_contains_point(waiao, lat, lon),
+                (lat, lon, waiao),
+            )
 
     def test_needs_research_stays_incomplete_even_with_geometry(self):
         op = _opportunity(
