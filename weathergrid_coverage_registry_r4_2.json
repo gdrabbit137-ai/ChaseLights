@@ -1,289 +1,15 @@
 {
   "schema_version": 1,
-  "registry_version": "B121.2",
+  "registry_version": "B121.3",
   "contract": "WEATHERGRID_COVERAGE_SPEC_R4_2.md",
   "generated_or_reviewed_at": "2026-09-29",
   "notes": [
-    "B121.2 expands subject-aware WeatherGrid coverage using only existing researched spatial-weather contracts.",
-    "Cloud-sea full-ring entries are provisional broad subject/environment coverage, not exact cloud boundaries.",
-    "Entries marked needs_research intentionally remain incomplete; Place center fallback does not satisfy subject-aware coverage."
+    "B121.3 completes all ten current Liyu Lake Opportunities with conservative place-specific Camera/Subject/Environment coverage.",
+    "The Liyu Lake envelope is deliberately conservative and derived from official ERV lake dimensions plus researched north/south waterfront anchors; it is not an exact shoreline polygon.",
+    "Local ecology/trail/light-art subjects use conservative radii based on their curated Camera Zone extents, not inferred generic theme geometry.",
+    "All entries remain provisional unless exact subject geometry has separately been verified."
   ],
   "entries": [
-    {
-      "opportunity_id": "tw-034-P03",
-      "spot_id": "tw-034",
-      "provenance": {
-        "basis": "B87/B88/B92/B93 Qingshui mist research plus OPTIONAL_DIRECTIONAL_MIST_PROFILES in spatial_weather.py",
-        "geometry_interpretation": "Broad north-facing cliff/mist sector; not an exact cliff polygon or tripod."
-      },
-      "weather_coverage": {
-        "schema_version": 1,
-        "status": "provisional",
-        "camera_zone_refs": [
-          "tw-034-VP01"
-        ],
-        "subject_geometries": [
-          {
-            "subject_id": "tw-034-P03-SUB01",
-            "role": "primary_subject",
-            "name": "清水斷崖／山壁與太平洋北向廣域構圖",
-            "geometry": {
-              "type": "sector",
-              "origin_viewpoint_id": "tw-034-VP01",
-              "azimuth_start_deg": 330,
-              "azimuth_end_deg": 30,
-              "min_range_km": 0,
-              "max_range_km": 5
-            },
-            "coord_confidence": "medium",
-            "source_evidence_ids": [
-              "B87_QINGSHUI_MIST_READABILITY",
-              "B92_QINGSHUI_B81_B82_REGRESSION"
-            ],
-            "browser_exposure": "public"
-          }
-        ],
-        "environment_geometries": [
-          {
-            "environment_id": "tw-034-P03-ENV01",
-            "role": "directional_mist_proxy_sector",
-            "geometry": {
-              "type": "sector",
-              "origin_viewpoint_id": "tw-034-VP01",
-              "azimuth_start_deg": 330,
-              "azimuth_end_deg": 30,
-              "min_range_km": 2.5,
-              "max_range_km": 5
-            },
-            "coord_confidence": "medium",
-            "source_evidence_ids": [
-              "spatial_weather.OPTIONAL_DIRECTIONAL_MIST_PROFILES.tw-034-P03"
-            ],
-            "browser_exposure": "public"
-          }
-        ],
-        "display_padding_km": 3,
-        "coverage_confidence": "medium",
-        "note": "現有研究可證明北向廣域斷崖／晨霧構圖與 330°/0°/30° 方向性 proxy；尚未建立精確斷崖 polygon，因此先列 provisional。",
-        "camera_zone_browser_exposure": {
-          "tw-034-VP01": "generalized"
-        }
-      }
-    },
-    {
-      "opportunity_id": "tw-036-P03",
-      "spot_id": "tw-036",
-      "provenance": {
-        "basis": "B83/B85 official-place-specific northward Qingshui view and directional cloud profile",
-        "geometry_interpretation": "350°–20°, 8–22 km is the existing broad researched environmental/subject sector, not exact ridge geometry."
-      },
-      "weather_coverage": {
-        "schema_version": 1,
-        "status": "provisional",
-        "camera_zone_refs": [
-          "tw-036-VP01"
-        ],
-        "subject_geometries": [
-          {
-            "subject_id": "tw-036-P03-SUB01",
-            "role": "primary_subject",
-            "name": "七星潭北望清水斷崖／清水山山海扇區",
-            "geometry": {
-              "type": "sector",
-              "origin_viewpoint_id": "tw-036-VP01",
-              "azimuth_start_deg": 350,
-              "azimuth_end_deg": 20,
-              "min_range_km": 8,
-              "max_range_km": 22
-            },
-            "coord_confidence": "medium_high",
-            "source_evidence_ids": [
-              "B83_QIXINGTAN_DIRECTIONAL_CLOUD",
-              "B84_QIXINGTAN_NORTHWARD_VIEWS"
-            ],
-            "browser_exposure": "public"
-          }
-        ],
-        "environment_geometries": [
-          {
-            "environment_id": "tw-036-P03-ENV01",
-            "role": "terrain_attached_cloud_proxy_sector",
-            "geometry": {
-              "type": "sector",
-              "origin_viewpoint_id": "tw-036-VP01",
-              "azimuth_start_deg": 350,
-              "azimuth_end_deg": 20,
-              "min_range_km": 8,
-              "max_range_km": 22
-            },
-            "coord_confidence": "medium",
-            "source_evidence_ids": [
-              "spatial_weather.SPATIAL_WEATHER_PROFILES.tw-036-P03"
-            ],
-            "browser_exposure": "public"
-          }
-        ],
-        "display_padding_km": 5,
-        "coverage_confidence": "medium_high",
-        "note": "題材存在性為 Grade-A 官方地點證據；扇區是 broad coverage，不宣稱 exact cloud/ridge overlap。",
-        "camera_zone_browser_exposure": {
-          "tw-036-VP01": "generalized"
-        }
-      }
-    },
-    {
-      "opportunity_id": "tw-036-P04",
-      "spot_id": "tw-036",
-      "provenance": {
-        "basis": "B84 clear northward Qingshui mountain-view sibling Opportunity",
-        "geometry_interpretation": "Uses the same researched 350°–20°, 8–22 km northward sector as the spatial visibility contract."
-      },
-      "weather_coverage": {
-        "schema_version": 1,
-        "status": "provisional",
-        "camera_zone_refs": [
-          "tw-036-VP01"
-        ],
-        "subject_geometries": [
-          {
-            "subject_id": "tw-036-P04-SUB01",
-            "role": "primary_subject",
-            "name": "北望清水斷崖／清水山可讀山海層次",
-            "geometry": {
-              "type": "sector",
-              "origin_viewpoint_id": "tw-036-VP01",
-              "azimuth_start_deg": 350,
-              "azimuth_end_deg": 20,
-              "min_range_km": 8,
-              "max_range_km": 22
-            },
-            "coord_confidence": "medium_high",
-            "source_evidence_ids": [
-              "B84_QIXINGTAN_NORTHWARD_VIEWS",
-              "spatial_weather.SPATIAL_WEATHER_PROFILES.tw-036-P04"
-            ],
-            "browser_exposure": "public"
-          }
-        ],
-        "environment_geometries": [],
-        "display_padding_km": 5,
-        "coverage_confidence": "medium_high",
-        "note": "目前以研究過的 broad northward sector 表示被攝山海；未宣稱精確山脊 polygon。",
-        "camera_zone_browser_exposure": {
-          "tw-036-VP01": "generalized"
-        }
-      }
-    },
-    {
-      "opportunity_id": "tw-019-P04",
-      "spot_id": "tw-019",
-      "provenance": {
-        "basis": "Existing cloud-sea spatial profile in spatial_weather.py",
-        "geometry_interpretation": "The 8 km eight-direction lower-terrain sampling ring is environmental coverage, not an exact cloud-sea boundary."
-      },
-      "weather_coverage": {
-        "schema_version": 1,
-        "status": "provisional",
-        "camera_zone_refs": [
-          "tw-019-VP01"
-        ],
-        "subject_geometries": [],
-        "environment_geometries": [
-          {
-            "environment_id": "tw-019-P04-ENV01",
-            "role": "cloud_sea_lower_terrain_sampling_zone",
-            "geometry": {
-              "type": "sector",
-              "origin_viewpoint_id": "tw-019-VP01",
-              "azimuth_start_deg": 0,
-              "azimuth_end_deg": 360,
-              "min_range_km": 0,
-              "max_range_km": 8
-            },
-            "coord_confidence": "medium",
-            "source_evidence_ids": [
-              "spatial_weather.SPATIAL_WEATHER_PROFILES.tw-019-P04"
-            ],
-            "browser_exposure": "public"
-          }
-        ],
-        "display_padding_km": 5,
-        "coverage_confidence": "medium",
-        "note": "Cloud-sea Opportunity uses the researched Camera Zone plus the existing full-ring lower-terrain environmental profile. The ring is a planning proxy, not an observed cloud boundary.",
-        "camera_zone_browser_exposure": {
-          "tw-019-VP01": "generalized"
-        }
-      }
-    },
-    {
-      "opportunity_id": "tw-082-P01",
-      "spot_id": "tw-082",
-      "provenance": {
-        "basis": "B33/B35 Liyu Lake reflection research",
-        "geometry_interpretation": "Camera Zone is known, but the lake-surface/reflecting mountain subject footprint has not yet been curated as a geometry."
-      },
-      "weather_coverage": {
-        "schema_version": 1,
-        "status": "needs_research",
-        "camera_zone_refs": [
-          "tw-082-VP01"
-        ],
-        "subject_geometries": [],
-        "environment_geometries": [],
-        "display_padding_km": 3,
-        "coverage_confidence": "low",
-        "note": "需補湖面與倒影山景的 subject geometry；不得只用潭北 Camera Zone 或 Place center 宣稱 coverage 完整。",
-        "camera_zone_browser_exposure": {
-          "tw-082-VP01": "generalized"
-        }
-      }
-    },
-    {
-      "opportunity_id": "tw-082-P02",
-      "spot_id": "tw-082",
-      "provenance": {
-        "basis": "B33/B35 Liyu Lake mountain/waterfront research",
-        "geometry_interpretation": "Camera Zone is known; lake + surrounding-mountain subject extent remains to be curated."
-      },
-      "weather_coverage": {
-        "schema_version": 1,
-        "status": "needs_research",
-        "camera_zone_refs": [
-          "tw-082-VP02"
-        ],
-        "subject_geometries": [],
-        "environment_geometries": [],
-        "display_padding_km": 3,
-        "coverage_confidence": "low",
-        "note": "需補湖面與周邊山體 subject geometry。",
-        "camera_zone_browser_exposure": {
-          "tw-082-VP02": "generalized"
-        }
-      }
-    },
-    {
-      "opportunity_id": "tw-082-P03",
-      "spot_id": "tw-082",
-      "provenance": {
-        "basis": "B35 Liyu Lake sunset/water-surface research",
-        "geometry_interpretation": "Camera Zone is known; lake surface plus western sunset/horizon subject sector remains to be curated."
-      },
-      "weather_coverage": {
-        "schema_version": 1,
-        "status": "needs_research",
-        "camera_zone_refs": [
-          "tw-082-VP03"
-        ],
-        "subject_geometries": [],
-        "environment_geometries": [],
-        "display_padding_km": 3,
-        "coverage_confidence": "low",
-        "note": "需補湖面與日落／晚霞 horizon sector；不可僅以 Camera Zone 代表被攝主體。",
-        "camera_zone_browser_exposure": {
-          "tw-082-VP03": "generalized"
-        }
-      }
-    },
     {
       "opportunity_id": "tw-004-P03",
       "spot_id": "tw-004",
@@ -407,6 +133,47 @@
         "note": "此 Opportunity 的被攝現象本身是相機下方低層雲／雲海。Coverage 沿用已存在的 8 km 全方向 spatial-weather profile，先作 broad subject/environment coverage；不宣稱精確雲海邊界或可見前景 polygon。",
         "camera_zone_browser_exposure": {
           "tw-014-VP01": "generalized"
+        }
+      }
+    },
+    {
+      "opportunity_id": "tw-019-P04",
+      "spot_id": "tw-019",
+      "provenance": {
+        "basis": "Existing cloud-sea spatial profile in spatial_weather.py",
+        "geometry_interpretation": "The 8 km eight-direction lower-terrain sampling ring is environmental coverage, not an exact cloud-sea boundary."
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-019-VP01"
+        ],
+        "subject_geometries": [],
+        "environment_geometries": [
+          {
+            "environment_id": "tw-019-P04-ENV01",
+            "role": "cloud_sea_lower_terrain_sampling_zone",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-019-VP01",
+              "azimuth_start_deg": 0,
+              "azimuth_end_deg": 360,
+              "min_range_km": 0,
+              "max_range_km": 8
+            },
+            "coord_confidence": "medium",
+            "source_evidence_ids": [
+              "spatial_weather.SPATIAL_WEATHER_PROFILES.tw-019-P04"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "display_padding_km": 5,
+        "coverage_confidence": "medium",
+        "note": "Cloud-sea Opportunity uses the researched Camera Zone plus the existing full-ring lower-terrain environmental profile. The ring is a planning proxy, not an observed cloud boundary.",
+        "camera_zone_browser_exposure": {
+          "tw-019-VP01": "generalized"
         }
       }
     },
@@ -579,6 +346,67 @@
       }
     },
     {
+      "opportunity_id": "tw-034-P03",
+      "spot_id": "tw-034",
+      "provenance": {
+        "basis": "B87/B88/B92/B93 Qingshui mist research plus OPTIONAL_DIRECTIONAL_MIST_PROFILES in spatial_weather.py",
+        "geometry_interpretation": "Broad north-facing cliff/mist sector; not an exact cliff polygon or tripod."
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-034-VP01"
+        ],
+        "subject_geometries": [
+          {
+            "subject_id": "tw-034-P03-SUB01",
+            "role": "primary_subject",
+            "name": "清水斷崖／山壁與太平洋北向廣域構圖",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-034-VP01",
+              "azimuth_start_deg": 330,
+              "azimuth_end_deg": 30,
+              "min_range_km": 0,
+              "max_range_km": 5
+            },
+            "coord_confidence": "medium",
+            "source_evidence_ids": [
+              "B87_QINGSHUI_MIST_READABILITY",
+              "B92_QINGSHUI_B81_B82_REGRESSION"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "environment_geometries": [
+          {
+            "environment_id": "tw-034-P03-ENV01",
+            "role": "directional_mist_proxy_sector",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-034-VP01",
+              "azimuth_start_deg": 330,
+              "azimuth_end_deg": 30,
+              "min_range_km": 2.5,
+              "max_range_km": 5
+            },
+            "coord_confidence": "medium",
+            "source_evidence_ids": [
+              "spatial_weather.OPTIONAL_DIRECTIONAL_MIST_PROFILES.tw-034-P03"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "display_padding_km": 3,
+        "coverage_confidence": "medium",
+        "note": "現有研究可證明北向廣域斷崖／晨霧構圖與 330°/0°/30° 方向性 proxy；尚未建立精確斷崖 polygon，因此先列 provisional。",
+        "camera_zone_browser_exposure": {
+          "tw-034-VP01": "generalized"
+        }
+      }
+    },
+    {
       "opportunity_id": "tw-035-P06",
       "spot_id": "tw-035",
       "provenance": {
@@ -617,6 +445,110 @@
         "note": "此 Opportunity 的被攝現象本身是相機下方低層雲／雲海。Coverage 沿用已存在的 8 km 全方向 spatial-weather profile，先作 broad subject/environment coverage；不宣稱精確雲海邊界或可見前景 polygon。",
         "camera_zone_browser_exposure": {
           "tw-035-VP02": "generalized"
+        }
+      }
+    },
+    {
+      "opportunity_id": "tw-036-P03",
+      "spot_id": "tw-036",
+      "provenance": {
+        "basis": "B83/B85 official-place-specific northward Qingshui view and directional cloud profile",
+        "geometry_interpretation": "350°–20°, 8–22 km is the existing broad researched environmental/subject sector, not exact ridge geometry."
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-036-VP01"
+        ],
+        "subject_geometries": [
+          {
+            "subject_id": "tw-036-P03-SUB01",
+            "role": "primary_subject",
+            "name": "七星潭北望清水斷崖／清水山山海扇區",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-036-VP01",
+              "azimuth_start_deg": 350,
+              "azimuth_end_deg": 20,
+              "min_range_km": 8,
+              "max_range_km": 22
+            },
+            "coord_confidence": "medium_high",
+            "source_evidence_ids": [
+              "B83_QIXINGTAN_DIRECTIONAL_CLOUD",
+              "B84_QIXINGTAN_NORTHWARD_VIEWS"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "environment_geometries": [
+          {
+            "environment_id": "tw-036-P03-ENV01",
+            "role": "terrain_attached_cloud_proxy_sector",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-036-VP01",
+              "azimuth_start_deg": 350,
+              "azimuth_end_deg": 20,
+              "min_range_km": 8,
+              "max_range_km": 22
+            },
+            "coord_confidence": "medium",
+            "source_evidence_ids": [
+              "spatial_weather.SPATIAL_WEATHER_PROFILES.tw-036-P03"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "display_padding_km": 5,
+        "coverage_confidence": "medium_high",
+        "note": "題材存在性為 Grade-A 官方地點證據；扇區是 broad coverage，不宣稱 exact cloud/ridge overlap。",
+        "camera_zone_browser_exposure": {
+          "tw-036-VP01": "generalized"
+        }
+      }
+    },
+    {
+      "opportunity_id": "tw-036-P04",
+      "spot_id": "tw-036",
+      "provenance": {
+        "basis": "B84 clear northward Qingshui mountain-view sibling Opportunity",
+        "geometry_interpretation": "Uses the same researched 350°–20°, 8–22 km northward sector as the spatial visibility contract."
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-036-VP01"
+        ],
+        "subject_geometries": [
+          {
+            "subject_id": "tw-036-P04-SUB01",
+            "role": "primary_subject",
+            "name": "北望清水斷崖／清水山可讀山海層次",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-036-VP01",
+              "azimuth_start_deg": 350,
+              "azimuth_end_deg": 20,
+              "min_range_km": 8,
+              "max_range_km": 22
+            },
+            "coord_confidence": "medium_high",
+            "source_evidence_ids": [
+              "B84_QIXINGTAN_NORTHWARD_VIEWS",
+              "spatial_weather.SPATIAL_WEATHER_PROFILES.tw-036-P04"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "environment_geometries": [],
+        "display_padding_km": 5,
+        "coverage_confidence": "medium_high",
+        "note": "目前以研究過的 broad northward sector 表示被攝山海；未宣稱精確山脊 polygon。",
+        "camera_zone_browser_exposure": {
+          "tw-036-VP01": "generalized"
         }
       }
     },
@@ -785,6 +717,579 @@
         "note": "此 Opportunity 的被攝現象本身是相機下方低層雲／雲海。Coverage 沿用已存在的 8 km 全方向 spatial-weather profile，先作 broad subject/environment coverage；不宣稱精確雲海邊界或可見前景 polygon。",
         "camera_zone_browser_exposure": {
           "tw-049-VP01": "generalized"
+        }
+      }
+    },
+    {
+      "opportunity_id": "tw-082-P01",
+      "spot_id": "tw-082",
+      "provenance": {
+        "basis": "B33/B35 place-specific reflection subject plus official ERV Liyu Lake dimensions (1.64 km north-south, 0.93 km east-west) and researched north/south public waterfront anchors.",
+        "geometry_interpretation": "Conservative lake envelope is derived from the official lake dimensions and the researched north/south waterfront anchors; a larger immediate-mountain envelope covers the officially described three-sides-surrounded-by-mountains reflection context."
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-082-VP01"
+        ],
+        "subject_geometries": [
+          {
+            "subject_id": "tw-082-P01-SUB01",
+            "role": "reflection_water_surface",
+            "name": "鯉魚潭湖面與倒影水域",
+            "geometry": {
+              "type": "bbox",
+              "west": 121.502625,
+              "south": 23.920754,
+              "east": 121.514005,
+              "north": 23.937176
+            },
+            "coord_confidence": "medium_high",
+            "source_evidence_ids": [
+              "B33_HUALIEN_RESEARCH",
+              "B35_LIYU_SUBJECT_MODEL",
+              "ERV_LIYU_OFFICIAL_DIMENSIONS"
+            ],
+            "browser_exposure": "public"
+          },
+          {
+            "subject_id": "tw-082-P01-SUB02",
+            "role": "surrounding_mountain_subject",
+            "name": "鯉魚潭周邊山景與倒影來源廣域",
+            "geometry": {
+              "type": "bbox",
+              "west": 121.473141,
+              "south": 23.893805,
+              "east": 121.543489,
+              "north": 23.964125
+            },
+            "coord_confidence": "medium",
+            "source_evidence_ids": [
+              "B35_LIYU_SUBJECT_MODEL",
+              "ERV_LIYU_THREE_SIDES_MOUNTAINS"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "environment_geometries": [
+          {
+            "environment_id": "tw-082-P01-ENV01",
+            "role": "water_surface_weather_zone",
+            "name": "倒影水面風況／降雨環境區",
+            "geometry": {
+              "type": "bbox",
+              "west": 121.502625,
+              "south": 23.920754,
+              "east": 121.514005,
+              "north": 23.937176
+            },
+            "coord_confidence": "medium_high",
+            "source_evidence_ids": [
+              "B33_HUALIEN_RESEARCH",
+              "B35_LIYU_SUBJECT_MODEL"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "display_padding_km": 3,
+        "coverage_confidence": "medium",
+        "note": "B125 uses conservative, place-specific coverage envelopes. They are designed to contain the photographed subject/weather context, not to claim an exact shoreline, tripod, wildlife position, fog boundary, or mountain silhouette.",
+        "camera_zone_browser_exposure": {
+          "tw-082-VP01": "generalized"
+        }
+      }
+    },
+    {
+      "opportunity_id": "tw-082-P02",
+      "spot_id": "tw-082",
+      "provenance": {
+        "basis": "B33/B35 lake + surrounding-mountain subject with official ERV lake dimensions and three-sides-mountain description.",
+        "geometry_interpretation": "Uses the same conservative whole-lake and immediate mountain-context envelopes; this is broader than a single waterfront composition by design."
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-082-VP02"
+        ],
+        "subject_geometries": [
+          {
+            "subject_id": "tw-082-P02-SUB01",
+            "role": "lake_surface",
+            "name": "鯉魚潭完整湖面廣域",
+            "geometry": {
+              "type": "bbox",
+              "west": 121.502625,
+              "south": 23.920754,
+              "east": 121.514005,
+              "north": 23.937176
+            },
+            "coord_confidence": "medium_high",
+            "source_evidence_ids": [
+              "B33_HUALIEN_RESEARCH",
+              "ERV_LIYU_OFFICIAL_DIMENSIONS"
+            ],
+            "browser_exposure": "public"
+          },
+          {
+            "subject_id": "tw-082-P02-SUB02",
+            "role": "surrounding_mountain_subject",
+            "name": "湖光山色周邊山體廣域",
+            "geometry": {
+              "type": "bbox",
+              "west": 121.473141,
+              "south": 23.893805,
+              "east": 121.543489,
+              "north": 23.964125
+            },
+            "coord_confidence": "medium",
+            "source_evidence_ids": [
+              "B35_LIYU_SUBJECT_MODEL",
+              "ERV_LIYU_THREE_SIDES_MOUNTAINS"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "environment_geometries": [],
+        "display_padding_km": 3,
+        "coverage_confidence": "medium",
+        "note": "B125 uses conservative, place-specific coverage envelopes. They are designed to contain the photographed subject/weather context, not to claim an exact shoreline, tripod, wildlife position, fog boundary, or mountain silhouette.",
+        "camera_zone_browser_exposure": {
+          "tw-082-VP02": "generalized"
+        }
+      }
+    },
+    {
+      "opportunity_id": "tw-082-P03",
+      "spot_id": "tw-082",
+      "provenance": {
+        "basis": "B35 official sunset/waterfront subject plus the same conservative lake envelope; horizon sector is a deliberately broad west-facing celestial/weather envelope.",
+        "geometry_interpretation": "Lake surface is explicit. The 225°–315° sector is intentionally wider than Taiwan's annual sunset azimuth range so seasonal sunset/afterglow cannot be cropped."
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-082-VP03"
+        ],
+        "subject_geometries": [
+          {
+            "subject_id": "tw-082-P03-SUB01",
+            "role": "lake_surface",
+            "name": "日落水岸與湖面光影",
+            "geometry": {
+              "type": "bbox",
+              "west": 121.502625,
+              "south": 23.920754,
+              "east": 121.514005,
+              "north": 23.937176
+            },
+            "coord_confidence": "medium_high",
+            "source_evidence_ids": [
+              "B35_LIYU_SUBJECT_MODEL",
+              "ERV_LIYU_OFFICIAL_DIMENSIONS"
+            ],
+            "browser_exposure": "public"
+          },
+          {
+            "subject_id": "tw-082-P03-SUB02",
+            "role": "sunset_horizon_sector",
+            "name": "西向日落／晚霞與山稜剪影廣域",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-082-VP03",
+              "azimuth_start_deg": 225,
+              "azimuth_end_deg": 315,
+              "min_range_km": 0,
+              "max_range_km": 20
+            },
+            "coord_confidence": "medium",
+            "source_evidence_ids": [
+              "B35_LIYU_SUBJECT_MODEL",
+              "ASTRONOMICAL_WESTERN_SUNSET_ENVELOPE"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "environment_geometries": [
+          {
+            "environment_id": "tw-082-P03-ENV01",
+            "role": "lake_surface_weather_zone",
+            "name": "湖面風況與降水環境區",
+            "geometry": {
+              "type": "bbox",
+              "west": 121.502625,
+              "south": 23.920754,
+              "east": 121.514005,
+              "north": 23.937176
+            },
+            "coord_confidence": "medium_high",
+            "source_evidence_ids": [
+              "B35_LIYU_SUBJECT_MODEL"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "display_padding_km": 3,
+        "coverage_confidence": "medium",
+        "note": "B125 uses conservative, place-specific coverage envelopes. They are designed to contain the photographed subject/weather context, not to claim an exact shoreline, tripod, wildlife position, fog boundary, or mountain silhouette.",
+        "camera_zone_browser_exposure": {
+          "tw-082-VP03": "generalized"
+        }
+      }
+    },
+    {
+      "opportunity_id": "tw-082-P04",
+      "spot_id": "tw-082",
+      "provenance": {
+        "basis": "Canonical tw-082-P04 Camera Zone extent and place-specific subject evidence in the runtime catalog / B35 model.",
+        "geometry_interpretation": "The photographed subject is local to the researched Camera Zone. B125 uses a conservative full-circle radius equal to the catalog's published area extent (0.9 km), avoiding an exact trail/wildlife polygon claim."
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-082-VP04"
+        ],
+        "subject_geometries": [
+          {
+            "subject_id": "tw-082-P04-SUB01",
+            "role": "firefly_forest_trail",
+            "name": "潭南步道螢火蟲與森林夜間生態區",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-082-VP04",
+              "azimuth_start_deg": 0,
+              "azimuth_end_deg": 360,
+              "min_range_km": 0,
+              "max_range_km": 0.9
+            },
+            "coord_confidence": "medium",
+            "source_evidence_ids": [
+              "official_2026_firefly_event_tannan_trail",
+              "B35_LIYU_SUBJECT_MODEL"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "environment_geometries": [],
+        "display_padding_km": 2,
+        "coverage_confidence": "medium",
+        "note": "B125 uses conservative, place-specific coverage envelopes. They are designed to contain the photographed subject/weather context, not to claim an exact shoreline, tripod, wildlife position, fog boundary, or mountain silhouette.",
+        "camera_zone_browser_exposure": {
+          "tw-082-VP04": "generalized"
+        }
+      }
+    },
+    {
+      "opportunity_id": "tw-082-P05",
+      "spot_id": "tw-082",
+      "provenance": {
+        "basis": "Canonical tw-082-P05 Camera Zone extent and place-specific subject evidence in the runtime catalog / B35 model.",
+        "geometry_interpretation": "The photographed subject is local to the researched Camera Zone. B125 uses a conservative full-circle radius equal to the catalog's published area extent (1.8 km), avoiding an exact trail/wildlife polygon claim."
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-082-VP05"
+        ],
+        "subject_geometries": [
+          {
+            "subject_id": "tw-082-P05-SUB01",
+            "role": "wildlife_wetland_zone",
+            "name": "人工濕地與環潭自然生態廣域",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-082-VP05",
+              "azimuth_start_deg": 0,
+              "azimuth_end_deg": 360,
+              "min_range_km": 0,
+              "max_range_km": 1.8
+            },
+            "coord_confidence": "medium",
+            "source_evidence_ids": [
+              "official_environmental_education_wildlife_evidence",
+              "B35_LIYU_SUBJECT_MODEL"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "environment_geometries": [],
+        "display_padding_km": 2,
+        "coverage_confidence": "medium",
+        "note": "B125 uses conservative, place-specific coverage envelopes. They are designed to contain the photographed subject/weather context, not to claim an exact shoreline, tripod, wildlife position, fog boundary, or mountain silhouette.",
+        "camera_zone_browser_exposure": {
+          "tw-082-VP05": "generalized"
+        }
+      }
+    },
+    {
+      "opportunity_id": "tw-082-P06",
+      "spot_id": "tw-082",
+      "provenance": {
+        "basis": "Canonical tw-082-P06 Camera Zone extent and place-specific subject evidence in the runtime catalog / B35 model.",
+        "geometry_interpretation": "The photographed subject is local to the researched Camera Zone. B125 uses a conservative full-circle radius equal to the catalog's published area extent (0.6 km), avoiding an exact trail/wildlife polygon claim."
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-082-VP06"
+        ],
+        "subject_geometries": [
+          {
+            "subject_id": "tw-082-P06-SUB01",
+            "role": "waterfront_light_art_zone",
+            "name": "潭北水岸光影節／裝置藝術區",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-082-VP06",
+              "azimuth_start_deg": 0,
+              "azimuth_end_deg": 360,
+              "min_range_km": 0,
+              "max_range_km": 0.6
+            },
+            "coord_confidence": "medium",
+            "source_evidence_ids": [
+              "official_2026_waterfront_light_festival",
+              "B35_LIYU_SUBJECT_MODEL"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "environment_geometries": [],
+        "display_padding_km": 2,
+        "coverage_confidence": "medium",
+        "note": "B125 uses conservative, place-specific coverage envelopes. They are designed to contain the photographed subject/weather context, not to claim an exact shoreline, tripod, wildlife position, fog boundary, or mountain silhouette.",
+        "camera_zone_browser_exposure": {
+          "tw-082-VP06": "generalized"
+        }
+      }
+    },
+    {
+      "opportunity_id": "tw-082-P07",
+      "spot_id": "tw-082",
+      "provenance": {
+        "basis": "Canonical tw-082-P07 Camera Zone extent and place-specific subject evidence in the runtime catalog / B35 model.",
+        "geometry_interpretation": "The photographed subject is local to the researched Camera Zone. B125 uses a conservative full-circle radius equal to the catalog's published area extent (2.5 km), avoiding an exact trail/wildlife polygon claim."
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-082-VP07"
+        ],
+        "subject_geometries": [
+          {
+            "subject_id": "tw-082-P07-SUB01",
+            "role": "loop_and_forest_trail_zone",
+            "name": "環潭與森林步道環境攝影區",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-082-VP07",
+              "azimuth_start_deg": 0,
+              "azimuth_end_deg": 360,
+              "min_range_km": 0,
+              "max_range_km": 2.5
+            },
+            "coord_confidence": "medium",
+            "source_evidence_ids": [
+              "official_erv_loop_and_forest_trail_evidence",
+              "B35_LIYU_SUBJECT_MODEL"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "environment_geometries": [],
+        "display_padding_km": 2,
+        "coverage_confidence": "medium",
+        "note": "B125 uses conservative, place-specific coverage envelopes. They are designed to contain the photographed subject/weather context, not to claim an exact shoreline, tripod, wildlife position, fog boundary, or mountain silhouette.",
+        "camera_zone_browser_exposure": {
+          "tw-082-VP07": "generalized"
+        }
+      }
+    },
+    {
+      "opportunity_id": "tw-082-P08",
+      "spot_id": "tw-082",
+      "provenance": {
+        "basis": "B35 official water-activity/lake-landscape subject plus official lake dimensions.",
+        "geometry_interpretation": "Water activity can move across the lake, so coverage uses the conservative whole-lake envelope instead of only the wharf Camera Zone."
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-082-VP08"
+        ],
+        "subject_geometries": [
+          {
+            "subject_id": "tw-082-P08-SUB01",
+            "role": "lake_activity_subject",
+            "name": "遊湖／船艇／SUP 與湖景活動水域",
+            "geometry": {
+              "type": "bbox",
+              "west": 121.502625,
+              "south": 23.920754,
+              "east": 121.514005,
+              "north": 23.937176
+            },
+            "coord_confidence": "medium_high",
+            "source_evidence_ids": [
+              "B35_LIYU_SUBJECT_MODEL",
+              "ERV_LIYU_OFFICIAL_DIMENSIONS",
+              "official_erv_water_activity_evidence"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "environment_geometries": [
+          {
+            "environment_id": "tw-082-P08-ENV01",
+            "role": "water_surface_weather_zone",
+            "name": "水上活動湖面風況／降雨環境區",
+            "geometry": {
+              "type": "bbox",
+              "west": 121.502625,
+              "south": 23.920754,
+              "east": 121.514005,
+              "north": 23.937176
+            },
+            "coord_confidence": "medium_high",
+            "source_evidence_ids": [
+              "B35_LIYU_SUBJECT_MODEL"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "display_padding_km": 2,
+        "coverage_confidence": "medium_high",
+        "note": "B125 uses conservative, place-specific coverage envelopes. They are designed to contain the photographed subject/weather context, not to claim an exact shoreline, tripod, wildlife position, fog boundary, or mountain silhouette.",
+        "camera_zone_browser_exposure": {
+          "tw-082-VP08": "generalized"
+        }
+      }
+    },
+    {
+      "opportunity_id": "tw-082-P09",
+      "spot_id": "tw-082",
+      "provenance": {
+        "basis": "B35 official morning-mist photography evidence plus official lake dimensions and researched Tannan wharf Camera Zone.",
+        "geometry_interpretation": "Mist can occupy the lake and adjacent mountain/shoreline context, so the conservative whole-lake plus immediate-mountain envelope is used."
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-082-VP09"
+        ],
+        "subject_geometries": [
+          {
+            "subject_id": "tw-082-P09-SUB01",
+            "role": "misty_lake_subject",
+            "name": "湖岸薄霧／湖面與近岸",
+            "geometry": {
+              "type": "bbox",
+              "west": 121.502625,
+              "south": 23.920754,
+              "east": 121.514005,
+              "north": 23.937176
+            },
+            "coord_confidence": "medium_high",
+            "source_evidence_ids": [
+              "B35_LIYU_SUBJECT_MODEL",
+              "ERV_LIYU_OFFICIAL_DIMENSIONS"
+            ],
+            "browser_exposure": "public"
+          },
+          {
+            "subject_id": "tw-082-P09-SUB02",
+            "role": "partial_mountain_silhouette",
+            "name": "霧中周邊山影廣域",
+            "geometry": {
+              "type": "bbox",
+              "west": 121.473141,
+              "south": 23.893805,
+              "east": 121.543489,
+              "north": 23.964125
+            },
+            "coord_confidence": "medium",
+            "source_evidence_ids": [
+              "B35_LIYU_SUBJECT_MODEL",
+              "ERV_LIYU_THREE_SIDES_MOUNTAINS"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "environment_geometries": [
+          {
+            "environment_id": "tw-082-P09-ENV01",
+            "role": "mist_environment_zone",
+            "name": "湖面與周邊霧氣環境區",
+            "geometry": {
+              "type": "bbox",
+              "west": 121.473141,
+              "south": 23.893805,
+              "east": 121.543489,
+              "north": 23.964125
+            },
+            "coord_confidence": "medium",
+            "source_evidence_ids": [
+              "B35_LIYU_SUBJECT_MODEL"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "display_padding_km": 3,
+        "coverage_confidence": "medium",
+        "note": "B125 uses conservative, place-specific coverage envelopes. They are designed to contain the photographed subject/weather context, not to claim an exact shoreline, tripod, wildlife position, fog boundary, or mountain silhouette.",
+        "camera_zone_browser_exposure": {
+          "tw-082-VP09": "generalized"
+        }
+      }
+    },
+    {
+      "opportunity_id": "tw-082-P10",
+      "spot_id": "tw-082",
+      "provenance": {
+        "basis": "Canonical tw-082-P10 Camera Zone extent and place-specific subject evidence in the runtime catalog / B35 model.",
+        "geometry_interpretation": "The photographed subject is local to the researched Camera Zone. B125 uses a conservative full-circle radius equal to the catalog's published area extent (1.8 km), avoiding an exact trail/wildlife polygon claim."
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-082-VP10"
+        ],
+        "subject_geometries": [
+          {
+            "subject_id": "tw-082-P10-SUB01",
+            "role": "wetland_close_scene_zone",
+            "name": "人工濕地與水岸近景生態區",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-082-VP10",
+              "azimuth_start_deg": 0,
+              "azimuth_end_deg": 360,
+              "min_range_km": 0,
+              "max_range_km": 1.8
+            },
+            "coord_confidence": "medium",
+            "source_evidence_ids": [
+              "official_environmental_education_wetland_evidence",
+              "B35_LIYU_SUBJECT_MODEL"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "environment_geometries": [],
+        "display_padding_km": 2,
+        "coverage_confidence": "medium",
+        "note": "B125 uses conservative, place-specific coverage envelopes. They are designed to contain the photographed subject/weather context, not to claim an exact shoreline, tripod, wildlife position, fog boundary, or mountain silhouette.",
+        "camera_zone_browser_exposure": {
+          "tw-082-VP10": "generalized"
         }
       }
     }
