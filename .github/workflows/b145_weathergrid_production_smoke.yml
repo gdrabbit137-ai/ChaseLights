@@ -1,0 +1,90 @@
+name: B145 WeatherGrid Production Smoke
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "weathergrid_production_smoke.py"
+      - "test_weathergrid_production_smoke_contract.py"
+      - ".github/workflows/b145_weathergrid_production_smoke.yml"
+      - "B145_WEATHERGRID_PRODUCTION_SMOKE.md"
+  push:
+    branches: [main]
+    paths:
+      - "weather-map.html"
+      - "assets/weather-map.js"
+      - "assets/weather-map.css"
+      - "weathergrid_production_smoke.py"
+      - "test_weathergrid_production_smoke_contract.py"
+      - ".github/workflows/b145_weathergrid_production_smoke.yml"
+      - "B145_WEATHERGRID_PRODUCTION_SMOKE.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout candidate
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Validate production-smoke contract
+        run: |
+          python -m py_compile weathergrid_production_smoke.py
+          python -m unittest -v test_weathergrid_production_smoke_contract.py
+
+  production-smoke:
+    if: github.event_name != 'pull_request'
+    needs: contract
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install Selenium
+        run: python -m pip install --disable-pip-version-check selenium
+
+      - name: Wait for GitHub Pages publication
+        run: |
+          ready=0
+          for i in {1..24}; do
+            body="$(curl -fsS --max-time 20 "https://chaselights.app/weather-map.html?pages_probe=$i" || true)"
+            if grep -q 'id="weather-basemap"' <<<"$body" && grep -q 'maplibre-gl@6.11.2' <<<"$body"; then
+              ready=1
+              break
+            fi
+            echo "Production page not ready yet (attempt $i/24)"
+            sleep 15
+          done
+          if [ "$ready" -ne 1 ]; then
+            echo "::error::WeatherGrid production page did not expose the B144 basemap contract in time"
+            exit 1
+          fi
+
+      - name: Run deployed WeatherGrid browser smoke
+        run: |
+          python weathergrid_production_smoke.py \
+            --url "https://chaselights.app/weather-map.html" \
+            --screenshot "artifacts/weathergrid-production-smoke.png"
+
+      - name: Upload production screenshot
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: weathergrid-production-smoke
+          path: artifacts/
+          if-no-files-found: warn
+          retention-days: 7
