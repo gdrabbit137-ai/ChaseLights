@@ -87,6 +87,12 @@ NOAA GFS GRIB2
 
 PR runs remain offline contract tests only.
 
+## Coverage extent contract
+
+WeatherGrid geographic extent is governed by `WEATHERGRID_COVERAGE_SPEC_R4_2.md`.
+
+A Place/Opportunity map must not be framed from the Place center alone. Subject-aware views must contain all researched Camera Zones plus the photographed Subject/Environment Geometry for the selected Opportunity; Place-level views use the union across all active researched Opportunities at that Place. Provider fetch bounds must also include the sampling/interpolation halo required by the source grid.
+
 ## Guardrails
 
 - no production score changes
