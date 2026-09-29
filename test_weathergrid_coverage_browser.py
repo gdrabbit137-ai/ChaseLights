@@ -31,15 +31,27 @@ class WeatherGridCoverageBrowserTest(unittest.TestCase):
         self.assertTrue(yundong["all_topics_complete"])
 
         qix = by_spot["tw-036"]
-        self.assertEqual(qix["coverage_entry_count"], 2)
-        self.assertGreater(qix["catalog_opportunity_count"], qix["coverage_entry_count"])
-        self.assertFalse(qix["all_topics_complete"])
+        self.assertEqual(qix["catalog_opportunity_count"], 4)
+        self.assertEqual(qix["coverage_entry_count"], 4)
+        self.assertTrue(qix["all_topics_complete"])
 
         by_opp = {
             op["opportunity_id"]: op
             for spot in payload["spots"]
             for op in spot["opportunities"]
         }
+        p01 = by_opp["tw-036-P01"]
+        self.assertTrue(p01["complete"])
+        self.assertEqual(p01["status"], "provisional")
+        self.assertTrue(p01["subject_geometries"])
+        self.assertTrue(p01["environment_geometries"])
+
+        p02 = by_opp["tw-036-P02"]
+        self.assertTrue(p02["complete"])
+        self.assertEqual(p02["status"], "provisional")
+        self.assertFalse(p02["subject_geometries"])
+        self.assertTrue(p02["environment_geometries"])
+
         p03 = by_opp["tw-036-P03"]
         self.assertTrue(p03["complete"])
         self.assertEqual(p03["status"], "provisional")
