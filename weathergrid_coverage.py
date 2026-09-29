@@ -173,6 +173,39 @@ def geometry_points(
     return points
 
 
+def camera_zone_points(viewpoint: dict) -> tuple[list[tuple[float, float]], str]:
+    """Return conservative points that cover a catalog Camera Zone.
+
+    Point Camera Zones remain points. For non-point Camera Zones with a curated
+    geometry_extent_m, B130 expands the anchor by that full extent in the four
+    cardinal directions. Using the full extent as a radius intentionally
+    over-covers ambiguous area/corridor shapes; under-coverage is not allowed
+    by the WeatherGrid contract.
+
+    Non-point Camera Zones without a curated extent still fall back to the
+    anchor and are reported as anchor_only so callers can keep the limitation
+    visible.
+    """
+    lat = validate_lat(viewpoint["lat"])
+    lon = validate_lon(viewpoint["lon"])
+    geometry_type = viewpoint.get("geometry_type") or "point"
+    if geometry_type == "point":
+        return [(lat, lon)], "point"
+
+    extent_m = viewpoint.get("geometry_extent_m")
+    if extent_m is None:
+        return [(lat, lon)], "anchor_only"
+
+    extent_km = float(extent_m) / 1000.0
+    if extent_km <= 0:
+        return [(lat, lon)], "anchor_only"
+
+    points = [(lat, lon)]
+    for bearing in (0, 90, 180, 270):
+        points.append(_destination(lat, lon, bearing, extent_km))
+    return points, "conservative_extent"
+
+
 def _minimal_longitude_arc(longitudes: Iterable[float]) -> tuple[float, float, bool]:
     """Return west/east bounds using the smallest circular longitude arc."""
     values = [((normalize_lon(lon) + 360.0) % 360.0) for lon in longitudes]
@@ -329,14 +362,20 @@ def plan_opportunity_coverage(
             errors.append(f"camera_zone_ref has no coordinate: {ref}")
             continue
         try:
-            all_points.append((validate_lat(vp["lat"]), validate_lon(vp["lon"])))
+            camera_points, camera_mode = camera_zone_points(vp)
+            all_points.extend(camera_points)
             resolved_camera_count += 1
-            if vp.get("geometry_type") not in {None, "point"}:
+            if camera_mode == "conservative_extent":
                 warnings.append(
-                    f"{ref} uses {vp.get('geometry_type')} geometry; B120 currently envelopes "
-                    "its coordinate anchor until a reconstructable public extent is curated"
+                    f"{ref} uses {vp.get('geometry_type')} geometry; WeatherGrid conservatively "
+                    f"over-covers the catalog geometry_extent_m={vp.get('geometry_extent_m')}"
                 )
-        except CoverageError as exc:
+            elif camera_mode == "anchor_only":
+                warnings.append(
+                    f"{ref} uses {vp.get('geometry_type')} geometry but has no reconstructable "
+                    "extent; WeatherGrid currently covers only its catalog anchor"
+                )
+        except (CoverageError, KeyError, TypeError, ValueError) as exc:
             errors.append(f"{ref}: {exc}")
 
     def add_geometries(items: list[dict], kind_label: str) -> int:
