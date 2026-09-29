@@ -41,6 +41,10 @@ class MobileAdminPickerStaticTests(unittest.TestCase):
         self.assertIn("aria-pressed", self.app)
         self.assertIn("admin-area-check", self.css)
 
+    def test_mobile_picker_tracks_breakpoint_changes(self):
+        self.assertIn("adminPickerMedia.addEventListener('change'", self.app)
+        self.assertIn("const isMobileAdminPicker=()=>adminPickerMedia.matches", self.app)
+
     def test_desktop_groups_are_not_collapsible_controls(self):
         self.assertIn("@media (min-width: 641px)", self.css)
         self.assertIn("pointer-events: none", self.css)
