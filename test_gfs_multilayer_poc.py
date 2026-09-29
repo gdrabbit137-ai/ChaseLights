@@ -1,3 +1,4 @@
+import argparse
 import unittest
 from urllib.parse import parse_qs, urlparse
 
@@ -6,6 +7,8 @@ from gfs_multilayer_poc import (
     FIELD_SPECS,
     REQUEST_PARAMS,
     build_multilayer_url,
+    filter_spots_to_bbox,
+    resolve_request_bbox,
     sample_field_bilinear,
     sample_field_nearest,
 )
@@ -26,6 +29,43 @@ class GFSMultilayerPOCTest(unittest.TestCase):
 
         self.assertEqual(query["file"], ["gfs.t00z.pgrb2.0p25.f006"])
         self.assertEqual(query["dir"], ["/gfs.20260929/00/atmos"])
+
+    def test_subject_aware_opportunity_scope_drives_nomads_bbox(self):
+        args = argparse.Namespace(
+            coverage_opportunity="tw-036-P03",
+            coverage_place=None,
+            coverage_catalog="runtime_catalog_v004_r4_2.json",
+            coverage_registry="weathergrid_coverage_registry_r4_2.json",
+        )
+        bbox, scope = resolve_request_bbox(args)
+        self.assertEqual(scope["scope_type"], "opportunity")
+        self.assertEqual(scope["scope_id"], "tw-036-P03")
+        self.assertTrue(scope["complete"])
+        self.assertLess(bbox["leftlon"], 121.62717)
+        self.assertGreater(bbox["toplat"], 24.15)
+
+        url = build_multilayer_url(GFSRun("20260929", "00", 6), bbox=bbox)
+        query = parse_qs(urlparse(url).query)
+        self.assertAlmostEqual(float(query["leftlon"][0]), bbox["leftlon"])
+        self.assertAlmostEqual(float(query["rightlon"][0]), bbox["rightlon"])
+        self.assertAlmostEqual(float(query["toplat"][0]), bbox["toplat"])
+        self.assertAlmostEqual(float(query["bottomlat"][0]), bbox["bottomlat"])
+
+    def test_scoped_spot_sampling_filters_outside_places(self):
+        spots = [
+            {"spot_id": "in", "lat": 24.0, "lon": 121.0},
+            {"spot_id": "out", "lat": 25.0, "lon": 122.0},
+        ]
+        bbox = {
+            "leftlon": 120.9,
+            "rightlon": 121.1,
+            "bottomlat": 23.9,
+            "toplat": 24.1,
+        }
+        self.assertEqual(
+            [s["spot_id"] for s in filter_spots_to_bbox(spots, bbox)],
+            ["in"],
+        )
 
     def test_field_contract_contains_all_photography_basics(self):
         self.assertEqual(
