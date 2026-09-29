@@ -23,6 +23,12 @@ class WeatherGridCoverageBrowserTest(unittest.TestCase):
         self.assertIn("tw-036", by_spot)
         self.assertIn("tw-019", by_spot)
         self.assertIn("tw-082", by_spot)
+        self.assertIn("tw-014", by_spot)
+
+        yundong = by_spot["tw-014"]
+        self.assertEqual(yundong["catalog_opportunity_count"], 2)
+        self.assertEqual(yundong["coverage_entry_count"], 2)
+        self.assertTrue(yundong["all_topics_complete"])
 
         qix = by_spot["tw-036"]
         self.assertEqual(qix["coverage_entry_count"], 2)
