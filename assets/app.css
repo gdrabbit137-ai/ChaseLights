@@ -1171,6 +1171,7 @@
   cursor: pointer;
 }
 .admin-area-name {
+  order: 1;
   display: inline-flex;
   align-items: center;
   min-width: 0;
@@ -1182,12 +1183,14 @@
   flex: 0 0 12px;
   color: #38bdf8 !important;
   font-size: .7rem !important;
+  font-style: normal;
   visibility: hidden;
 }
 .admin-area-btn.active .admin-area-check {
   visibility: visible;
 }
 .admin-area-count {
+  order: 2;
   color: #64748b;
   font-size: .68rem;
 }
