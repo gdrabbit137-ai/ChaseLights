@@ -90,3 +90,12 @@ body{padding:18px}
 .coverage-badge.ok{color:#86efac;border-color:#166534;background:#052e16}
 .coverage-badge.provisional{color:#fde68a;border-color:#a16207;background:#422006}
 .coverage-badge.pending{color:#fecaca;border-color:#991b1b;background:#450a0a}
+
+.wind-vector-toggle{display:flex;align-items:center;gap:8px;margin-top:12px;color:#cbd5e1;
+  font-size:.78rem;font-weight:700;cursor:pointer}
+.wind-vector-toggle input{width:16px;height:16px;accent-color:var(--accent)}
+.wind-vector-toggle:has(input:disabled){opacity:.45;cursor:not-allowed}
+.wind-vector-note{line-height:1.45}
+.wind-key{margin-top:7px;color:#dbeafe;font-size:.69rem;display:flex;align-items:center;gap:6px}
+.wind-arrow-icon{font-size:1rem;font-weight:900;line-height:1;color:#e0f2fe;
+  text-shadow:0 0 2px #020617}
