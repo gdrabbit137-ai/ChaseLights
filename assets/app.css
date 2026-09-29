@@ -1158,3 +1158,227 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
+/* 2026-09-30 desktop visual hierarchy pass
+   Goal: make the forecast board easier to scan on wide displays without
+   changing mobile behavior or any scoring / data logic. */
+@media (min-width: 901px) {
+  :root { --desktop-shell-max: 1720px; }
+
+  body {
+    padding-left: clamp(18px, 2vw, 36px);
+    padding-right: clamp(18px, 2vw, 36px);
+  }
+
+  .site-header,
+  .filter-toolbar,
+  .container {
+    max-width: var(--desktop-shell-max);
+  }
+
+  .site-header {
+    margin-bottom: 6px;
+  }
+
+  .header-top {
+    min-height: 48px;
+    margin-bottom: 0;
+    gap: 20px;
+  }
+
+  .header-right {
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  h1 {
+    font-size: 1.62rem;
+    letter-spacing: -.02em;
+    white-space: nowrap;
+  }
+
+  .control-dropdown,
+  .weather-map-link {
+    min-height: 34px;
+    box-sizing: border-box;
+  }
+
+  .updated {
+    flex-basis: 100%;
+    margin-top: -2px;
+    font-size: .72rem;
+  }
+
+  .filter-shell {
+    margin-left: calc(clamp(18px, 2vw, 36px) * -1);
+    margin-right: calc(clamp(18px, 2vw, 36px) * -1);
+    padding-left: clamp(18px, 2vw, 36px);
+    padding-right: clamp(18px, 2vw, 36px);
+    box-shadow: 0 8px 20px -18px rgba(0,0,0,.9);
+  }
+
+  .filter-toolbar {
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+
+  .filter-toolbar .filter-row {
+    grid-template-columns: minmax(0, 1fr) minmax(260px, 360px);
+  }
+
+  .place-search {
+    height: 36px;
+    border-color: #3b4b61;
+    background: #111b2e;
+  }
+
+  .filter-toolbar-secondary {
+    margin-top: 7px;
+  }
+
+  .discovery-title {
+    font-size: .9rem;
+  }
+
+  .rank-summary {
+    font-size: .74rem;
+  }
+
+  .container,
+  .deferred-grid {
+    gap: 14px;
+  }
+
+  .card {
+    border-radius: 10px;
+    padding: 13px 14px 12px;
+    border-color: rgba(71,85,105,.72);
+    box-shadow: 0 3px 10px -7px rgba(0,0,0,.9);
+  }
+
+  .card-header {
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+
+  .spot-name {
+    font-size: 1.06rem;
+    letter-spacing: -.01em;
+  }
+
+  .spot-local-name {
+    font-size: .74rem;
+  }
+
+  .card-header-actions {
+    gap: 6px;
+  }
+
+  .score-badge {
+    min-width: 44px;
+    padding: 4px 8px;
+    border-radius: 999px;
+    text-align: center;
+    font-size: .86rem;
+    letter-spacing: .2px;
+    box-shadow: none;
+  }
+
+  .fav-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 999px;
+    font-size: .96rem;
+  }
+
+  .category-tag {
+    font-size: .63rem;
+    padding: 1px 5px;
+    opacity: .9;
+  }
+
+  .tags-wrapper {
+    margin-top: 1px;
+    margin-bottom: 5px;
+  }
+
+  .scene-pill {
+    font-size: .62rem;
+    padding: 1px 5px;
+  }
+
+  .shooting-summary {
+    padding: 7px 9px 7px 10px;
+    border-left-width: 2px;
+    background: rgba(15,23,42,.44);
+  }
+
+  .theme-winner {
+    font-size: .79rem;
+    margin-bottom: 2px;
+  }
+
+  .best-window-row {
+    font-size: .8rem;
+  }
+
+  .best-window-row b {
+    font-size: .86rem;
+  }
+
+  .indicator-pill,
+  .factor-pill {
+    font-size: .67rem;
+  }
+
+  .card-secondary-meta {
+    margin-top: 5px;
+    padding-top: 5px;
+  }
+
+  .card-secondary-meta .info-row {
+    font-size: .71rem;
+  }
+
+  .card-quick-meta {
+    min-height: 22px;
+  }
+
+  .metric-chip,
+  .card-timezone {
+    font-size: .67rem;
+  }
+
+  .card-footer-tools {
+    margin-top: 8px;
+    padding-top: 7px;
+  }
+
+  .tool-link {
+    min-height: 30px;
+    padding: 5px 7px;
+    font-size: .72rem;
+    color: #9bdcf8;
+    background: rgba(15,23,42,.66);
+  }
+
+  @media (hover:hover) and (pointer:fine) {
+    .card:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 22px -16px rgba(0,0,0,.95);
+    }
+    .tool-link:hover {
+      background: #26364d;
+      border-color: #52657f;
+    }
+  }
+}
+
+@media (min-width: 1700px) {
+  .container,
+  .deferred-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
