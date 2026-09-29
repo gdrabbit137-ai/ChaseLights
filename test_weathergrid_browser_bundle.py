@@ -30,6 +30,42 @@ class WeatherGridBrowserBundleTest(unittest.TestCase):
         decoded = dequantize(encoded, 0.1)
         self.assertEqual(decoded, [0.0, 12.3, 55.6, 100.0])
 
+    def test_direction_quantization_wraps_360_to_zero(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            manifest = {
+                "provider": "NOAA/NCEP NOMADS",
+                "model": "GFS",
+                "cycle": {"date": "20260929", "cycle": "00"},
+                "bbox": {},
+                "frames": [{"forecast_hour": 0, "json": "f000.json"}],
+            }
+            (root / "gfs_tw_weather_manifest.json").write_text(
+                json.dumps(manifest), encoding="utf-8"
+            )
+            base = _field([[0, 0], [0, 0]], "%")
+            fields = {
+                "low_cloud_percent": base,
+                "mid_cloud_percent": base,
+                "high_cloud_percent": base,
+                "visibility_km": _field([[10, 10], [10, 10]], "km"),
+                "precip_rate_mm_h": _field([[0, 0], [0, 0]], "mm/h"),
+                "wind_speed_10m_m_s": _field([[1, 1], [1, 1]], "m/s"),
+                "wind_direction_10m_deg": _field(
+                    [[359.6, 359.4], [0.4, 180.0]], "degree"
+                ),
+            }
+            frame = {
+                "run": {"forecast_hour": 0, "valid_time_utc": "x"},
+                "fields": fields,
+                "spots": [],
+            }
+            (root / "f000.json").write_text(json.dumps(frame), encoding="utf-8")
+            bundle, _ = build_bundle(root)
+            encoded = bundle["frames"][0]["values"]["wind_direction_10m_deg"]
+            self.assertEqual(encoded, [0, 359, 0, 180])
+            self.assertEqual(bundle["fields"]["wind_direction_10m_deg"]["wrap"], 360)
+
     def test_build_bundle_and_qc(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
