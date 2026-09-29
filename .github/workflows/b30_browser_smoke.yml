@@ -392,6 +392,12 @@ jobs:
               assert jp_filter["actual"] == jp_filter["expected"], jp_filter
               assert jp_filter["containsFuji"] is True, jp_filter
 
+              # Clean the smoke-test selection while still in Japan so later
+              # Japan assertions start from the user's unfiltered state.
+              driver.execute_script("""
+                currentAdminAreas.clear();
+                persistAdminAreas();
+              """)
               driver.execute_script("switchRegion('us')")
               wait.until(lambda d: d.execute_script(
                   "return currentData && currentRegion === 'us' && currentSpots.length === 70"
@@ -447,6 +453,12 @@ jobs:
               assert us_filter["actual"] == us_filter["expected"], us_filter
               assert "us-014" in us_filter["expectedIds"], us_filter
               assert us_filter["deathValleyAreas"] == ["California", "Nevada"], us_filter
+
+              # Clean the smoke-test Nevada selection before leaving the US.
+              driver.execute_script("""
+                currentAdminAreas.clear();
+                persistAdminAreas();
+              """)
 
               # Restore Taiwan for the rest of the existing Browser Smoke.
               driver.execute_script("switchRegion('tw')")
