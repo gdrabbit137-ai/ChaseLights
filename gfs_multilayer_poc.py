@@ -37,6 +37,9 @@ from gfs_raw_poc import (
     validate_cycle,
 )
 
+from weathergrid_coverage import CoverageError
+from weathergrid_fetch_plan import build_scoped_fetch_plan, nomads_bbox_for_plan
+
 REQUEST_PARAMS = {
     "var_LCDC": "on",
     "var_MCDC": "on",
@@ -112,13 +115,14 @@ def download_multilayer_grib(
     destination: Path,
     timeout: int = 60,
     retry_wait_seconds: int = 10,
+    bbox: dict[str, float] | None = None,
 ) -> tuple[GFSRun, str]:
     import requests
 
     destination.parent.mkdir(parents=True, exist_ok=True)
     errors = []
     for index, run in enumerate(runs):
-        url = build_multilayer_url(run)
+        url = build_multilayer_url(run, bbox=bbox)
         try:
             response = requests.get(url, timeout=timeout)
             response.raise_for_status()
@@ -424,7 +428,7 @@ def sample_places(fields: dict[str, dict], spots: list[dict]) -> list[dict]:
     return [sample_place(fields, spot) for spot in spots]
 
 
-def _add_map_context(ax, projection):
+def _add_map_context(ax, projection, bbox: dict[str, float] | None = None):
     import cartopy.feature as cfeature
 
     ax.add_feature(cfeature.COASTLINE.with_scale("10m"), linewidth=0.7)
@@ -436,18 +440,25 @@ def _add_map_context(ax, projection):
         facecolor="none",
     )
     ax.add_feature(admin1, linewidth=0.25, alpha=0.55)
+    bbox = TAIWAN_BBOX if bbox is None else bbox
     ax.set_extent(
         [
-            TAIWAN_BBOX["leftlon"],
-            TAIWAN_BBOX["rightlon"],
-            TAIWAN_BBOX["bottomlat"],
-            TAIWAN_BBOX["toplat"],
+            bbox["leftlon"],
+            bbox["rightlon"],
+            bbox["bottomlat"],
+            bbox["toplat"],
         ],
         crs=projection,
     )
 
 
-def render_overview(fields: dict[str, dict], spots: list[dict], output_path: Path, title: str) -> None:
+def render_overview(
+    fields: dict[str, dict],
+    spots: list[dict],
+    output_path: Path,
+    title: str,
+    bbox: dict[str, float] | None = None,
+) -> None:
     import matplotlib.pyplot as plt
     import numpy as np
     import cartopy.crs as ccrs
@@ -478,7 +489,7 @@ def render_overview(fields: dict[str, dict], spots: list[dict], output_path: Pat
             vmax=vmax,
             transform=projection,
         )
-        _add_map_context(ax, projection)
+        _add_map_context(ax, projection, bbox=bbox)
         if spots:
             ax.scatter(
                 [s["lon"] for s in spots],
@@ -515,6 +526,8 @@ def write_frame_json(
     run: GFSRun,
     source_url: str,
     output_path: Path,
+    bbox: dict[str, float] | None = None,
+    fetch_scope: dict | None = None,
 ) -> None:
     payload = {
         "schema_version": 1,
@@ -529,7 +542,8 @@ def write_frame_json(
             "cycle_time_utc": run.cycle_time_utc.isoformat(),
             "valid_time_utc": run.valid_time_utc.isoformat(),
         },
-        "bbox": TAIWAN_BBOX,
+        "bbox": dict(TAIWAN_BBOX if bbox is None else bbox),
+        "fetch_scope": fetch_scope,
         "sampling": {
             "display_value": "bilinear",
             "raw_reference": "nearest_grid_cell",
@@ -582,7 +596,12 @@ def write_spot_series(frames: list[dict], spots: list[dict], output_path: Path) 
     )
 
 
-def write_manifest(frames: list[dict], output_path: Path) -> None:
+def write_manifest(
+    frames: list[dict],
+    output_path: Path,
+    bbox: dict[str, float] | None = None,
+    fetch_scope: dict | None = None,
+) -> None:
     first = frames[0]["run"]
     payload = {
         "schema_version": 1,
@@ -593,7 +612,8 @@ def write_manifest(frames: list[dict], output_path: Path) -> None:
             "cycle": first.cycle,
             "cycle_time_utc": first.cycle_time_utc.isoformat(),
         },
-        "bbox": TAIWAN_BBOX,
+        "bbox": dict(TAIWAN_BBOX if bbox is None else bbox),
+        "fetch_scope": fetch_scope,
         "variables": list(FIELD_SPECS) + [
             "wind_speed_10m_m_s",
             "wind_direction_10m_deg",
@@ -615,6 +635,46 @@ def write_manifest(frames: list[dict], output_path: Path) -> None:
     )
 
 
+def _load_json(path: str) -> dict:
+    return json.loads(Path(path).read_text(encoding="utf-8"))
+
+
+def resolve_request_bbox(args: argparse.Namespace) -> tuple[dict[str, float], dict | None]:
+    """Resolve fixed Taiwan or strict subject-aware scoped provider bbox."""
+    opportunity_id = getattr(args, "coverage_opportunity", None)
+    spot_id = getattr(args, "coverage_place", None)
+    if not opportunity_id and not spot_id:
+        return dict(TAIWAN_BBOX), None
+
+    catalog = _load_json(args.coverage_catalog)
+    registry = _load_json(args.coverage_registry)
+    try:
+        plan = build_scoped_fetch_plan(
+            catalog,
+            registry,
+            opportunity_id=opportunity_id,
+            spot_id=spot_id,
+            provider_grid_spacing_deg=0.25,
+        )
+        bbox = nomads_bbox_for_plan(plan)
+    except CoverageError as exc:
+        raise SystemExit(f"subject-aware WeatherGrid fetch refused: {exc}") from exc
+
+    return bbox, plan.to_dict()
+
+
+def filter_spots_to_bbox(spots: list[dict], bbox: dict[str, float]) -> list[dict]:
+    """Avoid nearest-cell sampling Places that are outside a scoped grid."""
+    return [
+        spot
+        for spot in spots
+        if (
+            bbox["bottomlat"] <= float(spot["lat"]) <= bbox["toplat"]
+            and bbox["leftlon"] <= float(spot["lon"]) <= bbox["rightlon"]
+        )
+    ]
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--date", help="GFS run date YYYYMMDD")
@@ -624,6 +684,23 @@ def parse_args() -> argparse.Namespace:
         default=",".join(str(x) for x in DEFAULT_FORECAST_HOURS),
     )
     parser.add_argument("--output-dir", default="gfs_multilayer_output")
+    scope = parser.add_mutually_exclusive_group()
+    scope.add_argument(
+        "--coverage-opportunity",
+        help="Fetch only the complete subject-aware bbox for one Opportunity ID",
+    )
+    scope.add_argument(
+        "--coverage-place",
+        help="Fetch one Place only when every active Opportunity has complete coverage",
+    )
+    parser.add_argument(
+        "--coverage-catalog",
+        default="runtime_catalog_v004_r4_2.json",
+    )
+    parser.add_argument(
+        "--coverage-registry",
+        default="weathergrid_coverage_registry_r4_2.json",
+    )
     parser.add_argument("--dry-run", action="store_true")
     return parser.parse_args()
 
@@ -633,6 +710,7 @@ def main() -> int:
     if bool(args.date) != bool(args.cycle):
         raise SystemExit("--date and --cycle must be provided together")
     forecast_hours = parse_forecast_hours(args.forecast_hours)
+    request_bbox, fetch_scope = resolve_request_bbox(args)
     out = Path(args.output_dir)
     out.mkdir(parents=True, exist_ok=True)
 
@@ -650,10 +728,15 @@ def main() -> int:
         print(json.dumps([
             {
                 "candidate_cycle": {"date": run.date, "cycle": run.cycle},
+                "bbox": request_bbox,
+                "fetch_scope": fetch_scope,
                 "urls": [
                     {
                         "forecast_hour": fh,
-                        "url": build_multilayer_url(GFSRun(run.date, run.cycle, fh)),
+                        "url": build_multilayer_url(
+                            GFSRun(run.date, run.cycle, fh),
+                            bbox=request_bbox,
+                        ),
                     }
                     for fh in forecast_hours
                 ],
@@ -667,9 +750,10 @@ def main() -> int:
     anchor_run, anchor_url = download_multilayer_grib(
         candidate_base_runs,
         anchor_path,
+        bbox=request_bbox,
     )
     selected_date, selected_cycle = anchor_run.date, anchor_run.cycle
-    spots = active_taiwan_spots()
+    spots = filter_spots_to_bbox(active_taiwan_spots(), request_bbox)
     frames = []
 
     for index, fh in enumerate(forecast_hours):
@@ -682,6 +766,7 @@ def main() -> int:
                 [run],
                 grib_path,
                 retry_wait_seconds=0,
+                bbox=request_bbox,
             )
             if index < len(forecast_hours) - 1:
                 time.sleep(1)
@@ -690,7 +775,15 @@ def main() -> int:
         sampled_spots = sample_places(fields, spots)
         json_path = out / f"gfs_tw_weather_f{fh:03d}.json"
         png_path = out / f"gfs_tw_weather_f{fh:03d}.png"
-        write_frame_json(fields, sampled_spots, run, source_url, json_path)
+        write_frame_json(
+            fields,
+            sampled_spots,
+            run,
+            source_url,
+            json_path,
+            bbox=request_bbox,
+            fetch_scope=fetch_scope,
+        )
         render_overview(
             fields,
             spots,
@@ -699,6 +792,7 @@ def main() -> int:
                 "GFS 0.25° Taiwan WeatherGrid · "
                 f"{run.id} · valid {run.valid_time_utc:%Y-%m-%d %H:%MZ}"
             ),
+            bbox=request_bbox,
         )
         frames.append({
             "run": run,
@@ -710,12 +804,19 @@ def main() -> int:
 
     manifest_path = out / "gfs_tw_weather_manifest.json"
     series_path = out / "gfs_tw_weather_spot_series.json"
-    write_manifest(frames, manifest_path)
+    write_manifest(
+        frames,
+        manifest_path,
+        bbox=request_bbox,
+        fetch_scope=fetch_scope,
+    )
     write_spot_series(frames, spots, series_path)
 
     print(json.dumps({
         "cycle": f"{selected_date}T{selected_cycle}Z",
         "forecast_hours": forecast_hours,
+        "bbox": request_bbox,
+        "fetch_scope": fetch_scope,
         "frames": len(frames),
         "spots": len(spots),
         "variables": list(FIELD_SPECS) + [
