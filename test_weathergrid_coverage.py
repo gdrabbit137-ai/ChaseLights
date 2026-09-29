@@ -194,11 +194,11 @@ class WeatherGridCoverageTest(unittest.TestCase):
         )
         audit = audit_coverage_registry(catalog, registry)
 
-        self.assertEqual(audit["counts"]["entries"], 35)
+        self.assertEqual(audit["counts"]["entries"], 36)
         self.assertEqual(audit["counts"]["missing_opportunity"], 0)
-        self.assertEqual(audit["counts"]["provisional"], 35)
+        self.assertEqual(audit["counts"]["provisional"], 36)
         self.assertEqual(audit["counts"]["needs_research"], 0)
-        self.assertEqual(audit["counts"]["complete"], 35)
+        self.assertEqual(audit["counts"]["complete"], 36)
         self.assertEqual(audit["counts"]["incomplete"], 0)
 
         by_id = {row["opportunity_id"]: row for row in audit["results"]}
@@ -233,6 +233,11 @@ class WeatherGridCoverageTest(unittest.TestCase):
         self.assertEqual(by_id["tw-073-P01"]["status"], "provisional")
         self.assertEqual(by_id["tw-073-P01"]["subject_geometry_count"], 1)
         self.assertEqual(by_id["tw-073-P01"]["environment_geometry_count"], 1)
+
+        self.assertTrue(by_id["tw-066-P01"]["complete"])
+        self.assertEqual(by_id["tw-066-P01"]["status"], "provisional")
+        self.assertEqual(by_id["tw-066-P01"]["subject_geometry_count"], 1)
+        self.assertEqual(by_id["tw-066-P01"]["environment_geometry_count"], 1)
 
         self.assertTrue(by_id["tw-019-P04"]["complete"])
         self.assertTrue(by_id["tw-014-P01"]["complete"])
@@ -333,6 +338,24 @@ class WeatherGridCoverageTest(unittest.TestCase):
         # foreground while staying directional rather than region-wide.
         self.assertGreater(laomei["east"], 121.65)
         self.assertLess(laomei["west"], 121.55)
+
+        tungyin = by_id["tw-066-P01"]["coverage_bbox"]
+        self.assertTrue(bbox_contains_point(tungyin, 26.365429, 120.51049))
+        catalog_tungyin = next(
+            spot for spot in catalog["spots"] if spot["spot_id"] == "tw-066"
+        )
+        tungyin_vp = catalog_tungyin["opportunities"][0]["viewpoints"][0]
+        tungyin_camera_points, tungyin_mode = camera_zone_points(tungyin_vp)
+        self.assertEqual(tungyin_mode, "point")
+        for lat, lon in tungyin_camera_points:
+            self.assertTrue(
+                bbox_contains_point(tungyin, lat, lon),
+                (lat, lon, tungyin),
+            )
+        # B133's local environment is intentionally larger than the fixed
+        # lighthouse point but remains a small local scene.
+        self.assertGreater(tungyin["north"], 26.37)
+        self.assertLess(tungyin["south"], 26.36)
 
     def test_needs_research_stays_incomplete_even_with_geometry(self):
         op = _opportunity(
