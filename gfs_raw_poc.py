@@ -316,7 +316,7 @@ def sample_grid_nearest(grid: dict, lat: float, lon: float) -> dict:
     grid_lon = float(x[row, col])
     value = float(values[row, col])
     return {
-        "low_cloud_percent": round(value, 2),
+        "low_cloud_percent_nearest": round(value, 2),
         "grid_lat": grid_lat,
         "grid_lon": grid_lon,
         "grid_distance_km": round(
@@ -327,14 +327,88 @@ def sample_grid_nearest(grid: dict, lat: float, lon: float) -> dict:
     }
 
 
-def sample_spots(grid: dict, spots: list[dict]) -> list[dict]:
-    return [
-        {
-            **spot,
-            **sample_grid_nearest(grid, spot["lat"], spot["lon"]),
+def sample_grid_bilinear(grid: dict, lat: float, lon: float) -> dict:
+    """Bilinearly interpolate a regular GFS grid while preserving traceability.
+
+    Interpolation smooths cell-edge jumps but does not create new model
+    resolution. The nearest raw grid cell remains stored separately.
+    """
+    import numpy as np
+
+    lat_axis = np.asarray(grid["latitudes"], dtype=float)
+    lon_axis = np.asarray(grid["longitudes"], dtype=float)
+    values = np.asarray(grid["values"], dtype=float)
+
+    if lat_axis.ndim != 1 or lon_axis.ndim != 1:
+        nearest = sample_grid_nearest(grid, lat, lon)
+        return {
+            "low_cloud_percent_bilinear": nearest["low_cloud_percent_nearest"],
+            "interpolation_status": "unsupported_grid_fallback_nearest",
         }
-        for spot in spots
-    ]
+
+    # Normalize axes to ascending order together with the value matrix.
+    if lat_axis[0] > lat_axis[-1]:
+        lat_axis = lat_axis[::-1]
+        values = values[::-1, :]
+    if lon_axis[0] > lon_axis[-1]:
+        lon_axis = lon_axis[::-1]
+        values = values[:, ::-1]
+
+    plat, plon = float(lat), float(lon)
+    if (
+        plat < lat_axis[0] or plat > lat_axis[-1]
+        or plon < lon_axis[0] or plon > lon_axis[-1]
+    ):
+        nearest = sample_grid_nearest(grid, plat, plon)
+        return {
+            "low_cloud_percent_bilinear": nearest["low_cloud_percent_nearest"],
+            "interpolation_status": "outside_grid_fallback_nearest",
+        }
+
+    hi_lat = int(np.searchsorted(lat_axis, plat, side="right"))
+    hi_lon = int(np.searchsorted(lon_axis, plon, side="right"))
+    hi_lat = min(max(hi_lat, 1), len(lat_axis) - 1)
+    hi_lon = min(max(hi_lon, 1), len(lon_axis) - 1)
+    lo_lat, lo_lon = hi_lat - 1, hi_lon - 1
+
+    y0, y1 = float(lat_axis[lo_lat]), float(lat_axis[hi_lat])
+    x0, x1 = float(lon_axis[lo_lon]), float(lon_axis[hi_lon])
+    q00 = float(values[lo_lat, lo_lon])
+    q10 = float(values[lo_lat, hi_lon])
+    q01 = float(values[hi_lat, lo_lon])
+    q11 = float(values[hi_lat, hi_lon])
+
+    wx = 0.0 if x1 == x0 else (plon - x0) / (x1 - x0)
+    wy = 0.0 if y1 == y0 else (plat - y0) / (y1 - y0)
+    value = (
+        q00 * (1 - wx) * (1 - wy)
+        + q10 * wx * (1 - wy)
+        + q01 * (1 - wx) * wy
+        + q11 * wx * wy
+    )
+    return {
+        "low_cloud_percent_bilinear": round(max(0.0, min(100.0, value)), 2),
+        "interpolation_status": "bilinear",
+    }
+
+
+def sample_spots(grid: dict, spots: list[dict]) -> list[dict]:
+    sampled = []
+    for spot in spots:
+        nearest = sample_grid_nearest(grid, spot["lat"], spot["lon"])
+        bilinear = sample_grid_bilinear(grid, spot["lat"], spot["lon"])
+        nearest_value = nearest["low_cloud_percent_nearest"]
+        bilinear_value = bilinear["low_cloud_percent_bilinear"]
+        sampled.append({
+            **spot,
+            **nearest,
+            **bilinear,
+            # B116 uses bilinear only as the POC display/sample value. The raw
+            # nearest-cell value remains first-class for audits and replay.
+            "low_cloud_percent": bilinear_value,
+            "nearest_bilinear_delta": round(bilinear_value - nearest_value, 2),
+        })
+    return sampled
 
 
 def render_low_cloud_png(
@@ -421,7 +495,9 @@ def render_low_cloud_png(
         for spot in sampled_spots:
             if spot["spot_id"] not in label_ids:
                 continue
-            label = f'{spot["name"]}\n{spot["low_cloud_percent"]:.0f}%'
+            # Use ASCII IDs in generated validation PNGs so CI runners do not
+            # depend on a CJK font package. The browser UI can render names.
+            label = f'{spot["spot_id"]}\n{spot["low_cloud_percent"]:.0f}%'
             kwargs = {"fontsize": 6, "xytext": (4, 4), "textcoords": "offset points"}
             if scatter_kwargs:
                 kwargs["transform"] = scatter_kwargs["transform"]
@@ -459,7 +535,11 @@ def write_grid_json(
         },
         "bbox": TAIWAN_BBOX,
         "variable": "low_cloud_cover",
-        "sampling": "nearest_grid_cell",
+        "sampling": {
+            "display_value": "bilinear",
+            "raw_reference": "nearest_grid_cell",
+            "note": "Interpolation smooths a 0.25-degree model grid; it does not increase model resolution."
+        },
         "source_url": source_url,
         "generated_at": datetime.now(timezone.utc).isoformat(),
         **grid,
@@ -495,6 +575,10 @@ def write_spot_series(
                     "forecast_hour": run.forecast_hour,
                     "valid_time_utc": run.valid_time_utc.isoformat(),
                     "low_cloud_percent": sampled["low_cloud_percent"],
+                    "low_cloud_percent_bilinear": sampled["low_cloud_percent_bilinear"],
+                    "low_cloud_percent_nearest": sampled["low_cloud_percent_nearest"],
+                    "nearest_bilinear_delta": sampled["nearest_bilinear_delta"],
+                    "interpolation_status": sampled["interpolation_status"],
                     "grid_lat": sampled["grid_lat"],
                     "grid_lon": sampled["grid_lon"],
                     "grid_distance_km": sampled["grid_distance_km"],
@@ -505,7 +589,10 @@ def write_spot_series(
         "provider": "NOAA/NCEP NOMADS",
         "model": "GFS",
         "variable": "low_cloud_cover",
-        "sampling": "nearest_grid_cell",
+        "sampling": {
+            "display_value": "bilinear",
+            "raw_reference": "nearest_grid_cell"
+        },
         "places": list(by_spot.values()),
     }
     output_path.write_text(
@@ -537,6 +624,63 @@ def write_manifest(frames: list[dict], output_path: Path) -> None:
             }
             for item in frames
         ],
+    }
+    output_path.write_text(
+        json.dumps(payload, ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+
+
+def write_sampling_audit(frames: list[dict], output_path: Path) -> None:
+    """Summarize spatial sampling limits before any production use."""
+    distances = []
+    deltas = []
+    per_frame = []
+    for frame in frames:
+        frame_distances = [s["grid_distance_km"] for s in frame["sampled_spots"]]
+        frame_deltas = [abs(s["nearest_bilinear_delta"]) for s in frame["sampled_spots"]]
+        distances.extend(frame_distances)
+        deltas.extend(frame_deltas)
+        per_frame.append({
+            "forecast_hour": frame["run"].forecast_hour,
+            "valid_time_utc": frame["run"].valid_time_utc.isoformat(),
+            "max_nearest_grid_distance_km": round(max(frame_distances), 2),
+            "mean_abs_nearest_bilinear_delta": round(
+                sum(frame_deltas) / len(frame_deltas), 2
+            ),
+            "max_abs_nearest_bilinear_delta": round(max(frame_deltas), 2),
+        })
+
+    sorted_distances = sorted(distances)
+    midpoint = len(sorted_distances) // 2
+    if len(sorted_distances) % 2:
+        median_distance = sorted_distances[midpoint]
+    else:
+        median_distance = (
+            sorted_distances[midpoint - 1] + sorted_distances[midpoint]
+        ) / 2
+
+    payload = {
+        "schema_version": 1,
+        "model": "GFS",
+        "grid_resolution_degrees": 0.25,
+        "sampling": {
+            "raw_reference": "nearest_grid_cell",
+            "display_value": "bilinear",
+        },
+        "aggregate": {
+            "samples": len(distances),
+            "mean_nearest_grid_distance_km": round(sum(distances) / len(distances), 2),
+            "median_nearest_grid_distance_km": round(median_distance, 2),
+            "max_nearest_grid_distance_km": round(max(distances), 2),
+            "mean_abs_nearest_bilinear_delta": round(sum(deltas) / len(deltas), 2),
+            "max_abs_nearest_bilinear_delta": round(max(deltas), 2),
+        },
+        "guardrail": (
+            "GFS 0.25-degree samples are coarse for Taiwan mountain/coast microclimates. "
+            "Bilinear interpolation smooths grid values but is not higher-resolution weather."
+        ),
+        "frames": per_frame,
     }
     output_path.write_text(
         json.dumps(payload, ensure_ascii=False, indent=2),
@@ -664,8 +808,10 @@ def main() -> int:
 
     manifest_path = out / "gfs_tw_low_cloud_manifest.json"
     series_path = out / "gfs_tw_low_cloud_spot_series.json"
+    audit_path = out / "gfs_tw_low_cloud_sampling_audit.json"
     write_manifest(frames, manifest_path)
     write_spot_series(frames, spots, series_path)
+    write_sampling_audit(frames, audit_path)
 
     print(json.dumps({
         "cycle": f"{selected_date}T{selected_cycle}Z",
@@ -674,6 +820,7 @@ def main() -> int:
         "spots": len(spots),
         "manifest": str(manifest_path),
         "spot_series": str(series_path),
+        "sampling_audit": str(audit_path),
     }, indent=2))
     return 0
 
