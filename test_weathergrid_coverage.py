@@ -194,11 +194,11 @@ class WeatherGridCoverageTest(unittest.TestCase):
         )
         audit = audit_coverage_registry(catalog, registry)
 
-        self.assertEqual(audit["counts"]["entries"], 39)
+        self.assertEqual(audit["counts"]["entries"], 40)
         self.assertEqual(audit["counts"]["missing_opportunity"], 0)
-        self.assertEqual(audit["counts"]["provisional"], 39)
+        self.assertEqual(audit["counts"]["provisional"], 40)
         self.assertEqual(audit["counts"]["needs_research"], 0)
-        self.assertEqual(audit["counts"]["complete"], 39)
+        self.assertEqual(audit["counts"]["complete"], 40)
         self.assertEqual(audit["counts"]["incomplete"], 0)
 
         by_id = {row["opportunity_id"]: row for row in audit["results"]}
@@ -264,6 +264,17 @@ class WeatherGridCoverageTest(unittest.TestCase):
             any(
                 "no reconstructable extent" in warning
                 for warning in by_id["tw-068-P01"]["warnings"]
+            )
+        )
+
+        self.assertTrue(by_id["tw-067-P01"]["complete"])
+        self.assertEqual(by_id["tw-067-P01"]["status"], "provisional")
+        self.assertEqual(by_id["tw-067-P01"]["subject_geometry_count"], 1)
+        self.assertEqual(by_id["tw-067-P01"]["environment_geometry_count"], 1)
+        self.assertTrue(
+            any(
+                "no reconstructable extent" in warning
+                for warning in by_id["tw-067-P01"]["warnings"]
             )
         )
 
@@ -400,6 +411,15 @@ class WeatherGridCoverageTest(unittest.TestCase):
         self.assertGreater(zhaori["north"], 22.69)
         self.assertLess(zhaori["south"], 22.59)
         self.assertLess(zhaori["west"], 121.501)
+
+        qinbi = by_id["tw-067-P01"]["coverage_bbox"]
+        self.assertTrue(bbox_contains_point(qinbi, 26.22478, 119.98366))
+        # The 15 km western sunset sector must expand materially westward while
+        # the local village/bay foreground remains contained near the Camera Zone.
+        self.assertLess(qinbi["west"], 119.86)
+        self.assertGreater(qinbi["north"], 26.27)
+        self.assertLess(qinbi["south"], 26.18)
+        self.assertGreater(qinbi["east"], 119.985)
 
     def test_needs_research_stays_incomplete_even_with_geometry(self):
         op = _opportunity(
