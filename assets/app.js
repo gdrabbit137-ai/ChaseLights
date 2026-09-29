@@ -387,14 +387,18 @@
     function renderAdminFilter(){
       const host=document.getElementById('admin-filter');if(!host)return;
       const previousDetails=host.querySelector('.admin-filter');
-      const wasOpen=!!previousDetails?.open;
+      const mobile=isMobileAdminPicker();
+      // Preserve an open picker across mobile rerenders only after the mobile
+      // sheet has actually acquired its scroll lock. A desktop dropdown that
+      // happened to be open must not silently become an already-open sheet
+      // when crossing the responsive breakpoint.
+      const wasOpen=!!previousDetails?.open&&(!mobile||document.body.classList.contains('admin-picker-open'));
       const previousSearch=host.querySelector('[data-admin-search]')?.value||'';
       const previousOpenGroups=new Set(
         [...host.querySelectorAll('[data-admin-group][open]')]
           .map(group=>group.dataset.adminGroupKey)
           .filter(Boolean)
       );
-      const mobile=isMobileAdminPicker();
       const groups=availableAdminAreaGroups();
       const areas=groups.flatMap(group=>group.areas);
       const available=new Set(areas);
