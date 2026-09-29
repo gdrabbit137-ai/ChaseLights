@@ -1,4 +1,4 @@
-"""B115 request-driven Field Snapshot capture helpers.
+"""B116 request-driven Field Snapshot capture helpers.
 
 A capture request is a small, reviewable JSON file that tells the fixed GitHub
 Actions workflow which production commit, Place, and forecast-valid time to
