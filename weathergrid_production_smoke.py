@@ -79,12 +79,19 @@ def run(url: str, screenshot: Path) -> dict:
         wait_for(
             lambda d: d.execute_script(
                 "return window.__weatherGridCoverageDebug && "
-                "window.__weatherGridCoverageDebug.windVectors === true"
+                "window.__weatherGridCoverageDebug.windVectors === true && "
+                "window.__weatherGridCoverageDebug.windVectorCount > 0"
             ),
             wait,
-            "automatic wind-vector enablement",
+            "automatic wind-vector enablement and rendered vectors",
         )
         assert driver.find_element(By.ID, "wind-vector-toggle").is_selected()
+
+        overview = screenshot.with_name(
+            screenshot.stem + "-wind-overview" + screenshot.suffix
+        )
+        overview.parent.mkdir(parents=True, exist_ok=True)
+        driver.save_screenshot(str(overview))
 
         spot_select = Select(driver.find_element(By.ID, "spot-select"))
         spot_values = [o.get_attribute("value") for o in spot_select.options]
@@ -155,6 +162,7 @@ def run(url: str, screenshot: Path) -> dict:
                 "browser_severe_log_count": len(severe_logs),
                 "browser_severe_logs": severe_logs[:10],
                 "screenshot": str(screenshot),
+                "wind_overview_screenshot": str(overview),
             }
         )
         return report
