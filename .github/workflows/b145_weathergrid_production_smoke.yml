@@ -8,6 +8,10 @@ on:
       - "test_weathergrid_production_smoke_contract.py"
       - ".github/workflows/b145_weathergrid_production_smoke.yml"
       - "B145_WEATHERGRID_PRODUCTION_SMOKE.md"
+      - "B147_WEATHERGRID_PRODUCTION_FRESHNESS.md"
+      - "test_weathergrid_production_freshness.py"
+      - "B147_WEATHERGRID_PRODUCTION_FRESHNESS.md"
+      - "test_weathergrid_production_freshness.py"
   push:
     branches: [main]
     paths:
@@ -38,7 +42,9 @@ jobs:
       - name: Validate production-smoke contract
         run: |
           python -m py_compile weathergrid_production_smoke.py
-          python -m unittest -v test_weathergrid_production_smoke_contract.py
+          python -m unittest -v \
+            test_weathergrid_production_smoke_contract.py \
+            test_weathergrid_production_freshness.py
 
   production-smoke:
     if: github.event_name != 'pull_request'
@@ -57,20 +63,49 @@ jobs:
       - name: Install Selenium
         run: python -m pip install --disable-pip-version-check selenium
 
-      - name: Wait for GitHub Pages publication
+      - name: Wait for exact GitHub Pages publication
         run: |
+          expected_html_sha="$(sha256sum weather-map.html | awk '{print $1}')"
+          expected_js_sha="$(sha256sum assets/weather-map.js | awk '{print $1}')"
+          expected_css_sha="$(sha256sum assets/weather-map.css | awk '{print $1}')"
           ready=0
+
           for i in {1..24}; do
-            body="$(curl -fsS --max-time 20 "https://chaselights.app/weather-map.html?pages_probe=$i" || true)"
-            if grep -q 'id="weather-basemap"' <<<"$body" && grep -q 'maplibre-gl@6.11.2' <<<"$body"; then
-              ready=1
-              break
+            nonce="${GITHUB_SHA}-${i}-$(date +%s)"
+            curl -fsSL --max-time 20 -H 'Cache-Control: no-cache' \
+              "https://chaselights.app/weather-map.html?pages_probe=${nonce}" \
+              -o /tmp/live-weather-map.html || true
+            curl -fsSL --max-time 20 -H 'Cache-Control: no-cache' \
+              "https://chaselights.app/assets/weather-map.js?pages_probe=${nonce}" \
+              -o /tmp/live-weather-map.js || true
+            curl -fsSL --max-time 20 -H 'Cache-Control: no-cache' \
+              "https://chaselights.app/assets/weather-map.css?pages_probe=${nonce}" \
+              -o /tmp/live-weather-map.css || true
+
+            if [[ -s /tmp/live-weather-map.html && -s /tmp/live-weather-map.js && -s /tmp/live-weather-map.css ]]; then
+              live_html_sha="$(sha256sum /tmp/live-weather-map.html | awk '{print $1}')"
+              live_js_sha="$(sha256sum /tmp/live-weather-map.js | awk '{print $1}')"
+              live_css_sha="$(sha256sum /tmp/live-weather-map.css | awk '{print $1}')"
+
+              echo "attempt=$i"
+              echo "html expected=$expected_html_sha live=$live_html_sha"
+              echo "js   expected=$expected_js_sha live=$live_js_sha"
+              echo "css  expected=$expected_css_sha live=$live_css_sha"
+
+              if [[ "$live_html_sha" == "$expected_html_sha" && \
+                    "$live_js_sha" == "$expected_js_sha" && \
+                    "$live_css_sha" == "$expected_css_sha" ]]; then
+                ready=1
+                break
+              fi
             fi
-            echo "Production page not ready yet (attempt $i/24)"
+
+            echo "Production assets do not yet match this main commit (attempt $i/24)"
             sleep 15
           done
+
           if [ "$ready" -ne 1 ]; then
-            echo "::error::WeatherGrid production page did not expose the B144 basemap contract in time"
+            echo "::error::WeatherGrid production assets did not converge to the current main bytes in time"
             exit 1
           fi
 
