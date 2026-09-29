@@ -32,6 +32,7 @@ class WeatherGridCoverageBrowserTest(unittest.TestCase):
         self.assertIn("tw-059", by_spot)
         self.assertIn("tw-066", by_spot)
         self.assertIn("tw-068", by_spot)
+        self.assertIn("tw-069", by_spot)
 
         jianggong_group = by_spot["tw-078"]
         self.assertEqual(jianggong_group["catalog_opportunity_count"], 1)
@@ -67,6 +68,11 @@ class WeatherGridCoverageBrowserTest(unittest.TestCase):
         self.assertEqual(zhaori_group["catalog_opportunity_count"], 1)
         self.assertEqual(zhaori_group["coverage_entry_count"], 1)
         self.assertTrue(zhaori_group["all_topics_complete"])
+
+        dongqing_group = by_spot["tw-069"]
+        self.assertEqual(dongqing_group["catalog_opportunity_count"], 1)
+        self.assertEqual(dongqing_group["coverage_entry_count"], 1)
+        self.assertTrue(dongqing_group["all_topics_complete"])
 
         kuibishan_group = by_spot["tw-059"]
         self.assertEqual(kuibishan_group["catalog_opportunity_count"], 1)
@@ -181,6 +187,16 @@ class WeatherGridCoverageBrowserTest(unittest.TestCase):
         self.assertEqual(zhaori["environment_geometries"][0]["geometry"]["azimuth_start_deg"], 60)
         self.assertEqual(zhaori["environment_geometries"][0]["geometry"]["azimuth_end_deg"], 120)
         self.assertEqual(zhaori["camera_zones"][0]["browser_exposure"], "generalized")
+
+        dongqing = by_opp["tw-069-P01"]
+        self.assertTrue(dongqing["complete"])
+        self.assertEqual(dongqing["status"], "provisional")
+        self.assertEqual(dongqing["subject_geometries"][0]["geometry"]["type"], "sector")
+        self.assertEqual(dongqing["subject_geometries"][0]["geometry"]["max_range_km"], 0.6)
+        self.assertEqual(dongqing["environment_geometries"][0]["geometry"]["type"], "sector")
+        self.assertEqual(dongqing["environment_geometries"][0]["geometry"]["azimuth_start_deg"], 60)
+        self.assertEqual(dongqing["environment_geometries"][0]["geometry"]["azimuth_end_deg"], 120)
+        self.assertEqual(dongqing["camera_zones"][0]["browser_exposure"], "generalized")
 
         qingshui_p01 = by_opp["tw-034-P01"]
         self.assertTrue(qingshui_p01["complete"])
