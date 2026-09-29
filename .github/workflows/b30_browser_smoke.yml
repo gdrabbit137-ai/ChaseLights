@@ -479,9 +479,15 @@ jobs:
               # picker with explicit exits, persistent multi-select, and locked
               # background scrolling.
               driver.set_window_size(390, 844)
-              driver.execute_script("window.scrollTo(0, 320)")
+              # Re-render after crossing the responsive breakpoint so the
+              # picker binds the same mobile handlers a real phone gets at load.
+              driver.execute_script("""
+                filterAndRender();
+                window.scrollTo(0, 320);
+              """)
               mobile_picker_before = driver.execute_script("return window.scrollY")
-              driver.execute_script("document.querySelector('#admin-filter .admin-filter').open = true")
+              mobile_trigger = driver.find_element(By.CSS_SELECTOR, "#admin-filter .admin-filter > summary")
+              driver.execute_script("arguments[0].click()", mobile_trigger)
               wait.until(lambda d: d.execute_script(
                   "return document.body.classList.contains('admin-picker-open')"
               ))
