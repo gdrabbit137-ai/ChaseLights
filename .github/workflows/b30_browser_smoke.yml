@@ -9,6 +9,10 @@ on:
       - "index.html"
       - "assets/app.js"
       - "assets/app.css"
+      - "weather-map.html"
+      - "assets/weather-map.js"
+      - "assets/weather-map.css"
+      - "weathergrid_sample.json"
       - "regions.py"
       - "ci_weather_impact.py"
       - "analyze_weather.py"
@@ -766,6 +770,60 @@ jobs:
               assert favorite_migration["second"]["migrated"] == favorite_migration["first"]["migrated"], favorite_migration
               assert favorite_migration["second"]["legacy"] == favorite_migration["first"]["legacy"], favorite_migration
               assert favorite_migration["second"]["sentinels"] == favorite_migration["first"]["sentinels"], favorite_migration
+
+              # B119 WeatherGrid preview: the PR does not publish live data,
+              # so the page must gracefully load its explicit demo fixture.
+              driver.get("http://127.0.0.1:8000/weather-map.html")
+              wait.until(lambda d: d.execute_script("return window.__weatherGridPreviewReady === true"))
+              weather_preview = driver.execute_script("""
+                return {
+                  source: document.getElementById('source-state').textContent,
+                  layers: [...document.querySelectorAll('#layer-select option')].map(x => x.value),
+                  frames: Number(document.getElementById('time-slider').max) + 1,
+                  spots: document.querySelectorAll('#spot-select option').length - 1,
+                  canvasWidth: document.getElementById('weather-canvas').width,
+                  canvasHeight: document.getElementById('weather-canvas').height
+                };
+              """)
+              report["weathergrid_preview"] = weather_preview
+              assert "DEMO" in weather_preview["source"], weather_preview
+              assert "low_cloud_percent" in weather_preview["layers"], weather_preview
+              assert "visibility_km" in weather_preview["layers"], weather_preview
+              assert "wind_direction_10m_deg" in weather_preview["layers"], weather_preview
+              assert weather_preview["frames"] == 3, weather_preview
+              assert weather_preview["spots"] == 4, weather_preview
+              assert weather_preview["canvasWidth"] > 0 and weather_preview["canvasHeight"] > 0, weather_preview
+
+              Select(driver.find_element(By.ID, "layer-select")).select_by_value("visibility_km")
+              slider = driver.find_element(By.ID, "time-slider")
+              driver.execute_script("arguments[0].value='2'; arguments[0].dispatchEvent(new Event('input',{bubbles:true}));", slider)
+              Select(driver.find_element(By.ID, "spot-select")).select_by_value("demo-hualien")
+              weather_interaction = driver.execute_script("""
+                return {
+                  layer: document.getElementById('layer-select').value,
+                  frame: document.getElementById('time-slider').value,
+                  spot: document.getElementById('spot-select').value,
+                  spotName: document.getElementById('spot-name').textContent,
+                  spotValue: document.getElementById('spot-value').textContent,
+                  ready: window.__weatherGridPreviewReady
+                };
+              """)
+              report["weathergrid_interaction"] = weather_interaction
+              assert weather_interaction["layer"] == "visibility_km", weather_interaction
+              assert weather_interaction["frame"] == "2", weather_interaction
+              assert weather_interaction["spot"] == "demo-hualien", weather_interaction
+              assert "花蓮" in weather_interaction["spotName"], weather_interaction
+              assert "km" in weather_interaction["spotValue"], weather_interaction
+              assert weather_interaction["ready"] is True, weather_interaction
+
+              driver.get("http://127.0.0.1:8000/index.html")
+              # Region selection is persisted by the main app. Earlier smoke steps
+              # intentionally switch to US, so a reload must not assume Taiwan.
+              wait.until(lambda d: d.execute_script(
+                  "return currentData && currentSpots && currentSpots.length > 0"
+              ))
+              weather_link = driver.find_element(By.CSS_SELECTOR, ".header-right .weather-map-link")
+              assert weather_link.get_attribute("href").endswith("/weather-map.html"), weather_link.get_attribute("href")
 
               print(json.dumps(report, ensure_ascii=False, indent=2))
           finally:
