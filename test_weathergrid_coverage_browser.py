@@ -42,10 +42,16 @@ class WeatherGridCoverageBrowserTest(unittest.TestCase):
         self.assertAlmostEqual(p03["camera_zones"][0]["lat"], 24.031426)
         self.assertTrue(p03["subject_geometries"])
 
+        liyu_group = by_spot["tw-082"]
+        self.assertEqual(liyu_group["coverage_entry_count"], 10)
+        self.assertEqual(liyu_group["catalog_opportunity_count"], 10)
+        self.assertTrue(liyu_group["all_topics_complete"])
+
         liyu = by_opp["tw-082-P01"]
-        self.assertFalse(liyu["complete"])
-        self.assertEqual(liyu["status"], "needs_research")
-        self.assertTrue(liyu["errors"])
+        self.assertTrue(liyu["complete"])
+        self.assertEqual(liyu["status"], "provisional")
+        self.assertFalse(liyu["errors"])
+        self.assertGreaterEqual(len(liyu["subject_geometries"]), 2)
 
     def test_camera_export_fails_closed_without_explicit_exposure(self):
         registry = {
