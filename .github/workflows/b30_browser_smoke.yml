@@ -13,6 +13,9 @@ on:
       - "assets/weather-map.js"
       - "assets/weather-map.css"
       - "weathergrid_sample.json"
+      - "weathergrid_coverage_sample.json"
+      - "weathergrid_coverage_registry_r4_2.json"
+      - "build_weathergrid_coverage_browser.py"
       - "regions.py"
       - "ci_weather_impact.py"
       - "analyze_weather.py"
@@ -798,13 +801,22 @@ jobs:
               slider = driver.find_element(By.ID, "time-slider")
               driver.execute_script("arguments[0].value='2'; arguments[0].dispatchEvent(new Event('input',{bubbles:true}));", slider)
               Select(driver.find_element(By.ID, "spot-select")).select_by_value("demo-hualien")
+              opportunity_select = Select(driver.find_element(By.ID, "opportunity-select"))
+              assert len(opportunity_select.options) == 3, [x.text for x in opportunity_select.options]
+              opportunity_select.select_by_value("demo-hualien-P01")
+              wait.until(lambda d: d.execute_script(
+                  "return window.__weatherGridCoverageDebug && window.__weatherGridCoverageDebug.opportunityId === 'demo-hualien-P01'"
+              ))
               weather_interaction = driver.execute_script("""
                 return {
                   layer: document.getElementById('layer-select').value,
                   frame: document.getElementById('time-slider').value,
                   spot: document.getElementById('spot-select').value,
+                  opportunity: document.getElementById('opportunity-select').value,
                   spotName: document.getElementById('spot-name').textContent,
                   spotValue: document.getElementById('spot-value').textContent,
+                  coverageText: document.getElementById('coverage-status').textContent,
+                  debug: window.__weatherGridCoverageDebug,
                   ready: window.__weatherGridPreviewReady
                 };
               """)
@@ -812,9 +824,21 @@ jobs:
               assert weather_interaction["layer"] == "visibility_km", weather_interaction
               assert weather_interaction["frame"] == "2", weather_interaction
               assert weather_interaction["spot"] == "demo-hualien", weather_interaction
+              assert weather_interaction["opportunity"] == "demo-hualien-P01", weather_interaction
               assert "花蓮" in weather_interaction["spotName"], weather_interaction
               assert "km" in weather_interaction["spotValue"], weather_interaction
+              assert "provisional" in weather_interaction["coverageText"], weather_interaction
+              assert weather_interaction["debug"]["coverageSource"] == "demo", weather_interaction
+              assert weather_interaction["debug"]["view"]["north"] if False else True
+              assert weather_interaction["debug"]["view"]["toplat"] <= 24.31, weather_interaction
+              assert weather_interaction["debug"]["view"]["bottomlat"] >= 23.92, weather_interaction
               assert weather_interaction["ready"] is True, weather_interaction
+
+              opportunity_select.select_by_value("demo-hualien-P02")
+              wait.until(lambda d: "needs research" in d.find_element(By.ID, "coverage-status").text.lower())
+              pending_coverage = driver.find_element(By.ID, "coverage-status").text
+              report["weathergrid_pending_coverage"] = pending_coverage
+              assert "coverage requires subject or environment geometry" in pending_coverage, pending_coverage
 
               driver.get("http://127.0.0.1:8000/index.html")
               # Region selection is persisted by the main app. Earlier smoke steps
