@@ -117,7 +117,7 @@ TW_ADMIN_AREAS = {
     "tw-084": ["花蓮縣"],
 }
 
-# B136 country-neutral first-level administrative-area metadata.
+# B137 country-neutral first-level administrative-area metadata.
 #
 # Every supported country uses the same contract: admin_areas is a non-empty
 # list of first-level administrative units appropriate to that country
