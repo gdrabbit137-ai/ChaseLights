@@ -715,6 +715,12 @@
     if(!state.data) return;
     draw();
     updateControls();
+    window.__weatherGridCoverageDebug = {
+      spotId: state.spotId,
+      opportunityId: state.opportunityId,
+      coverageSource: state.coverageSource,
+      view: {...state.view}
+    };
   }
 
   window.addEventListener('resize', renderAll);
