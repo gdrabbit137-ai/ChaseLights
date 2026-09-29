@@ -446,3 +446,105 @@ def plan_place_coverage(
         "opportunity_count": len(plans),
         "incomplete_opportunities": incomplete,
     }
+
+
+def index_catalog_opportunities(catalog: dict) -> dict[str, dict]:
+    """Return opportunity_id -> Opportunity for the runtime catalog."""
+    indexed: dict[str, dict] = {}
+    for spot in catalog.get("spots", []) or []:
+        for opportunity in spot.get("opportunities", []) or []:
+            oid = opportunity.get("opportunity_id")
+            if not oid:
+                continue
+            if oid in indexed:
+                raise CoverageError(f"duplicate opportunity_id in catalog: {oid}")
+            indexed[oid] = opportunity
+    return indexed
+
+
+def apply_registry_entry(opportunity: dict, registry_entry: dict) -> dict:
+    """Return a shallow Opportunity copy with sidecar weather_coverage applied."""
+    oid = opportunity.get("opportunity_id")
+    if registry_entry.get("opportunity_id") != oid:
+        raise CoverageError(
+            f"registry opportunity mismatch: {registry_entry.get('opportunity_id')} != {oid}"
+        )
+    weather_coverage = registry_entry.get("weather_coverage")
+    if not isinstance(weather_coverage, dict):
+        raise CoverageError(f"{oid} registry entry missing weather_coverage object")
+    merged = dict(opportunity)
+    merged["weather_coverage"] = weather_coverage
+    return merged
+
+
+def audit_coverage_registry(catalog: dict, registry: dict) -> dict:
+    """Validate a sidecar B121 coverage registry against the runtime catalog."""
+    if registry.get("schema_version") != 1:
+        raise CoverageError("coverage registry schema_version must be 1")
+
+    indexed = index_catalog_opportunities(catalog)
+    seen = set()
+    results = []
+    counts = {
+        "entries": 0,
+        "verified": 0,
+        "provisional": 0,
+        "needs_research": 0,
+        "complete": 0,
+        "incomplete": 0,
+        "missing_opportunity": 0,
+    }
+
+    for entry in registry.get("entries", []) or []:
+        oid = entry.get("opportunity_id")
+        counts["entries"] += 1
+        if not oid:
+            results.append({"opportunity_id": None, "complete": False, "errors": ["missing opportunity_id"]})
+            counts["incomplete"] += 1
+            continue
+        if oid in seen:
+            results.append({"opportunity_id": oid, "complete": False, "errors": ["duplicate registry entry"]})
+            counts["incomplete"] += 1
+            continue
+        seen.add(oid)
+
+        opportunity = indexed.get(oid)
+        if not opportunity:
+            results.append({"opportunity_id": oid, "complete": False, "errors": ["opportunity not found in catalog"]})
+            counts["missing_opportunity"] += 1
+            counts["incomplete"] += 1
+            continue
+
+        merged = apply_registry_entry(opportunity, entry)
+        plan = plan_opportunity_coverage(merged)
+        status = plan.status
+        if status in {"verified", "provisional", "needs_research"}:
+            counts[status] += 1
+        if plan.complete:
+            counts["complete"] += 1
+        else:
+            counts["incomplete"] += 1
+
+        expected_spot = entry.get("spot_id")
+        if expected_spot and expected_spot != opportunity.get("spot_id"):
+            plan.errors.append(
+                f"registry spot_id mismatch: {expected_spot} != {opportunity.get('spot_id')}"
+            )
+            if plan.complete:
+                plan.complete = False
+                counts["complete"] -= 1
+                counts["incomplete"] += 1
+
+        results.append({
+            "opportunity_id": oid,
+            "spot_id": opportunity.get("spot_id"),
+            **plan.to_dict(),
+            "provenance": entry.get("provenance"),
+        })
+
+    return {
+        "schema_version": 1,
+        "registry_version": registry.get("registry_version"),
+        "counts": counts,
+        "results": results,
+    }
