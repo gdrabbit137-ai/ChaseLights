@@ -64,7 +64,7 @@ class WeatherGridFetchPlanTest(unittest.TestCase):
     def test_incomplete_opportunity_falls_back_to_region(self):
         plan = build_gfs_fetch_plan(
             scope_type="opportunity",
-            scope_id="tw-082-P01",
+            scope_id="tw-036-P01",
             catalog=self.catalog,
             registry=self.registry,
         )
@@ -73,13 +73,13 @@ class WeatherGridFetchPlanTest(unittest.TestCase):
         self.assertFalse(plan["safe_to_publish_preview"])
         self.assertEqual(plan["effective_scope"], {"type": "region", "id": "tw"})
         self.assertEqual(plan["segments"], [TAIWAN_BBOX])
-        self.assertIn("incomplete", plan["fallback_reason"])
+        self.assertIn("no subject-aware coverage registry entry", plan["fallback_reason"])
 
     def test_incomplete_opportunity_strict_mode_fails(self):
         with self.assertRaises(CoverageError):
             build_gfs_fetch_plan(
                 scope_type="opportunity",
-                scope_id="tw-082-P01",
+                scope_id="tw-036-P01",
                 strict=True,
                 catalog=self.catalog,
                 registry=self.registry,
@@ -123,6 +123,44 @@ class WeatherGridFetchPlanTest(unittest.TestCase):
         )
         self.assertEqual(
             plan["coverage_diagnostics"]["missing_registry_entries"],
+            [],
+        )
+        self.assertEqual(len(plan["segments"]), 1)
+        segment = plan["segments"][0]
+        self.assertLess(
+            segment["rightlon"] - segment["leftlon"],
+            TAIWAN_BBOX["rightlon"] - TAIWAN_BBOX["leftlon"],
+        )
+        self.assertLess(
+            segment["toplat"] - segment["bottomlat"],
+            TAIWAN_BBOX["toplat"] - TAIWAN_BBOX["bottomlat"],
+        )
+
+    def test_liyu_all_topic_place_can_use_scoped_fetch(self):
+        plan = build_gfs_fetch_plan(
+            scope_type="place",
+            scope_id="tw-082",
+            catalog=self.catalog,
+            registry=self.registry,
+        )
+        self.assertTrue(plan["coverage_complete"], plan)
+        self.assertTrue(plan["safe_to_scope"], plan)
+        self.assertEqual(plan["effective_scope"], {"type": "place", "id": "tw-082"})
+        self.assertEqual(plan["spot_ids"], ["tw-082"])
+        self.assertEqual(
+            plan["coverage_diagnostics"]["catalog_opportunity_count"],
+            10,
+        )
+        self.assertEqual(
+            plan["coverage_diagnostics"]["migrated_count"],
+            10,
+        )
+        self.assertEqual(
+            plan["coverage_diagnostics"]["missing_registry_entries"],
+            [],
+        )
+        self.assertEqual(
+            plan["coverage_diagnostics"]["incomplete_opportunities"],
             [],
         )
         self.assertEqual(len(plan["segments"]), 1)
