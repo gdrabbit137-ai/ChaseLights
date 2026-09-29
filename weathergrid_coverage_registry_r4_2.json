@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "registry_version": "B121.12",
+  "registry_version": "B121.13",
   "contract": "WEATHERGRID_COVERAGE_SPEC_R4_2.md",
   "generated_or_reviewed_at": "2026-09-30",
   "notes": [
-    "B121.12 adds subject-aware WeatherGrid coverage for tw-059 奎壁山／摩西分海 after canonical B133 Dongyin and B134 Duoliang handoffs.",
-    "Penghu National Scenic Area official material states the low-tide S-shaped gravel causeway between the east shore of Kuibishan and Chiyu is about 300 m long.",
-    "B135 uses a conservative 0–0.4 km full-circle local subject envelope around the curated shore Camera Zone; it deliberately over-covers the tidal causeway without claiming an exact intertidal polygon.",
-    "Tide timing, rapidly returning water and safe access remain separate fail-closed eligibility gates; no Photography Opportunity scoring changes are made."
+    "B121.13 adds subject-aware WeatherGrid coverage for tw-068 朝日溫泉 while retaining prior complete entries.",
+    "East Coast National Scenic Area official material confirms the hot spring is on Green Island's southeast coast, faces the Pacific, and is specifically suitable for watching sunrise from the sea horizon.",
+    "B138 uses a conservative 0–0.5 km full-circle local foreground envelope plus a 60°–120°, 0–15 km dawn-atmosphere sector. These are WeatherGrid planning envelopes, not exact pool, shoreline, visible-horizon, or solar-alignment geometry.",
+    "Seasonal opening hours, actual access, cloud obstruction and on-site visibility remain separate eligibility/runtime concerns; no Photography Opportunity scoring changes are made."
   ],
   "entries": [
     {
@@ -2013,6 +2013,72 @@
         "note": "官方資料確認奎壁山東側岸邊至赤嶼的退潮S形礫石步道約300公尺。WeatherGrid以Camera Zone為中心0–0.4 km full-circle保守包覆分海步道與近端潮間帶，不宣稱精確潮線、步道路徑或赤嶼polygon。潮汐、回漲速度與安全進入仍由獨立gate判定。",
         "camera_zone_browser_exposure": {
           "tw-059-VP01": "generalized"
+        }
+      }
+    },
+    {
+      "opportunity_id": "tw-068-P01",
+      "spot_id": "tw-068",
+      "provenance": {
+        "basis": "Site-verified Zhaori Hot Spring Camera Zone + East Coast National Scenic Area official description of the southeast-coast, Pacific-facing seaside hot spring and sunrise viewing.",
+        "geometry_interpretation": "The photographed scene combines the immediate seaside hot-spring/intertidal foreground with the eastern sunrise atmosphere. B138 uses a conservative 0–0.5 km full-circle local subject envelope and a 60°–120°, 0–15 km dawn sector. The sector pads the geometric annual sunrise azimuth range at latitude 22.637° (~64.5°–115.5°) and is not an exact local horizon or solar-alignment claim.",
+        "source_urls": [
+          "https://www.eastcoast-nsa.gov.tw/zh-tw/attractions/detail/95/"
+        ]
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-068-VP01"
+        ],
+        "subject_geometries": [
+          {
+            "subject_id": "tw-068-P01-SUB01",
+            "role": "seaside_hot_spring_foreground_zone",
+            "name": "朝日溫泉臨海露天池與近岸潮間帶前景",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-068-VP01",
+              "azimuth_start_deg": 0,
+              "azimuth_end_deg": 360,
+              "min_range_km": 0,
+              "max_range_km": 0.5
+            },
+            "coord_confidence": "medium_high",
+            "source_evidence_ids": [
+              "eastcoast_nsa.zhaori_hot_spring_seaside_pools",
+              "runtime_catalog.tw-068-VP01"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "environment_geometries": [
+          {
+            "environment_id": "tw-068-P01-ENV01",
+            "role": "eastern_sunrise_horizon_sector",
+            "name": "太平洋日出晨曦天氣扇區",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-068-VP01",
+              "azimuth_start_deg": 60,
+              "azimuth_end_deg": 120,
+              "min_range_km": 0,
+              "max_range_km": 15
+            },
+            "coord_confidence": "medium_high",
+            "source_evidence_ids": [
+              "eastcoast_nsa.zhaori_hot_spring_sunrise",
+              "runtime_catalog_v004_r4_2.tw-068-P01"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "display_padding_km": 3,
+        "coverage_confidence": "medium_high",
+        "note": "官方資料確認朝日溫泉位於綠島東南海岸、面向太平洋，臨海浴池可觀日出。WeatherGrid 以 0–0.5 km full-circle 保守涵蓋近岸溫泉／潮間帶前景，並以 60°–120°、0–15 km sector 涵蓋全年日出方向附近的大氣。Camera Zone 無可重建 exact extent，保留 anchor-only warning；開放時間與實際可見度仍由獨立 gate/runtime 判定。",
+        "camera_zone_browser_exposure": {
+          "tw-068-VP01": "generalized"
         }
       }
     }
