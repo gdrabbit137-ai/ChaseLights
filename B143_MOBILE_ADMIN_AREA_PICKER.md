@@ -101,3 +101,4 @@ The mobile sheet uses dialog semantics with `aria-modal=true`.
 - Switching countries keeps each country's stored area selection independent.
 - Opening or closing the picker must not change the page's previous scroll position.
 - On mobile, the trigger owns the open/close transition explicitly; the sheet must not depend solely on the asynchronous native `<details>` `toggle` event to acquire the scroll lock.
+- A desktop dropdown that is open during a responsive breakpoint transition must start closed in mobile mode unless the mobile sheet was already open and scroll-locked.
