@@ -35,6 +35,12 @@ class WeatherGridProductionSmokeContractTests(unittest.TestCase):
         self.assertIn("weathergrid_production_smoke.py", self.workflow)
         self.assertIn("https://chaselights.app/weather-map.html", self.workflow)
         self.assertIn("actions/upload-artifact@v4", self.workflow)
+        self.assertIn("sha256sum weather-map.html", self.workflow)
+        self.assertIn("sha256sum assets/weather-map.js", self.workflow)
+        self.assertIn("sha256sum assets/weather-map.css", self.workflow)
+        self.assertIn("live_html_sha", self.workflow)
+        self.assertIn("live_js_sha", self.workflow)
+        self.assertIn("live_css_sha", self.workflow)
 
 
 if __name__ == "__main__":
