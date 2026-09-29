@@ -998,7 +998,8 @@
       status.textContent='DEMO 範例資料';
       status.className='source-pill demo';
     }else{
-      status.textContent=usingIcon?'LIVE ICON Global':'LIVE GFS fallback';
+      const gfsRole=cloudLayers.has(state.layer)?'LIVE GFS fallback':'LIVE GFS';
+      status.textContent=usingIcon?'LIVE ICON Global':gfsRole;
       status.className='source-pill';
     }
     const resolution=usingIcon
@@ -1009,7 +1010,10 @@
     const arr=decodedArray(state.layer).filter(Number.isFinite);
     const min=arr.length?Math.min(...arr):null, max=arr.length?Math.max(...arr):null;
     $('layer-summary').textContent=min==null?'—':`${formatValue(min,state.layer)} – ${formatValue(max,state.layer)}`;
-    $('layer-unit').textContent=`${cfg.label} · ${data.fields[state.layer].unit} · ${usingIcon?'ICON Global primary':'GFS fallback'} · 內插不增加模式真實解析度`;
+    const providerRole=usingIcon
+      ? 'ICON Global primary'
+      : (cloudLayers.has(state.layer)?'GFS fallback':'GFS');
+    $('layer-unit').textContent=`${cfg.label} · ${data.fields[state.layer].unit} · ${providerRole} · 內插不增加模式真實解析度`;
 
     const spot=selectedSpot();
     const point=samplingPoint();
