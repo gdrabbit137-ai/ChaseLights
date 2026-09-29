@@ -784,8 +784,9 @@ jobs:
               assert favorite_migration["second"]["legacy"] == favorite_migration["first"]["legacy"], favorite_migration
               assert favorite_migration["second"]["sentinels"] == favorite_migration["first"]["sentinels"], favorite_migration
 
-              # B119 WeatherGrid preview: the PR does not publish live data,
-              # so the page must gracefully load its explicit demo fixture.
+              # WeatherGrid preview can legitimately use the published LIVE GFS
+              # snapshot or fall back to the explicit DEMO fixture when the live
+              # files are absent. Exercise the matching interaction contract.
               driver.get("http://127.0.0.1:8000/weather-map.html")
               wait.until(lambda d: d.execute_script("return window.__weatherGridPreviewReady === true"))
               weather_preview = driver.execute_script("""
@@ -799,23 +800,45 @@ jobs:
                 };
               """)
               report["weathergrid_preview"] = weather_preview
-              assert "DEMO" in weather_preview["source"], weather_preview
+              is_live_weathergrid = "LIVE" in weather_preview["source"]
+              assert is_live_weathergrid or "DEMO" in weather_preview["source"], weather_preview
               assert "low_cloud_percent" in weather_preview["layers"], weather_preview
               assert "visibility_km" in weather_preview["layers"], weather_preview
               assert "wind_direction_10m_deg" in weather_preview["layers"], weather_preview
-              assert weather_preview["frames"] == 3, weather_preview
-              assert weather_preview["spots"] == 4, weather_preview
+              if is_live_weathergrid:
+                  assert weather_preview["frames"] >= 1, weather_preview
+                  assert weather_preview["spots"] >= 83, weather_preview
+                  weather_spot = "tw-073"
+                  weather_opportunity = "tw-073-P01"
+                  weather_name_fragment = "老梅"
+                  weather_coverage_source = "live"
+              else:
+                  assert weather_preview["frames"] == 3, weather_preview
+                  assert weather_preview["spots"] == 4, weather_preview
+                  weather_spot = "demo-hualien"
+                  weather_opportunity = "demo-hualien-P01"
+                  weather_name_fragment = "花蓮"
+                  weather_coverage_source = "demo"
               assert weather_preview["canvasWidth"] > 0 and weather_preview["canvasHeight"] > 0, weather_preview
 
               Select(driver.find_element(By.ID, "layer-select")).select_by_value("visibility_km")
               slider = driver.find_element(By.ID, "time-slider")
-              driver.execute_script("arguments[0].value='2'; arguments[0].dispatchEvent(new Event('input',{bubbles:true}));", slider)
-              Select(driver.find_element(By.ID, "spot-select")).select_by_value("demo-hualien")
+              target_frame = "2" if int(slider.get_attribute("max")) >= 2 else slider.get_attribute("max")
+              driver.execute_script(
+                  "arguments[0].value=arguments[1]; arguments[0].dispatchEvent(new Event('input',{bubbles:true}));",
+                  slider,
+                  target_frame,
+              )
+              Select(driver.find_element(By.ID, "spot-select")).select_by_value(weather_spot)
+              wait.until(lambda d: any(
+                  option.get_attribute("value") == weather_opportunity
+                  for option in Select(d.find_element(By.ID, "opportunity-select")).options
+              ))
               opportunity_select = Select(driver.find_element(By.ID, "opportunity-select"))
-              assert len(opportunity_select.options) == 3, [x.text for x in opportunity_select.options]
-              opportunity_select.select_by_value("demo-hualien-P01")
+              opportunity_select.select_by_value(weather_opportunity)
               wait.until(lambda d: d.execute_script(
-                  "return window.__weatherGridCoverageDebug && window.__weatherGridCoverageDebug.opportunityId === 'demo-hualien-P01'"
+                  "return window.__weatherGridCoverageDebug && window.__weatherGridCoverageDebug.opportunityId === arguments[0]",
+                  weather_opportunity,
               ))
               weather_interaction = driver.execute_script("""
                 return {
@@ -832,22 +855,29 @@ jobs:
               """)
               report["weathergrid_interaction"] = weather_interaction
               assert weather_interaction["layer"] == "visibility_km", weather_interaction
-              assert weather_interaction["frame"] == "2", weather_interaction
-              assert weather_interaction["spot"] == "demo-hualien", weather_interaction
-              assert weather_interaction["opportunity"] == "demo-hualien-P01", weather_interaction
-              assert "花蓮" in weather_interaction["spotName"], weather_interaction
+              assert weather_interaction["frame"] == target_frame, weather_interaction
+              assert weather_interaction["spot"] == weather_spot, weather_interaction
+              assert weather_interaction["opportunity"] == weather_opportunity, weather_interaction
+              assert weather_name_fragment in weather_interaction["spotName"], weather_interaction
               assert "km" in weather_interaction["spotValue"], weather_interaction
               assert "provisional" in weather_interaction["coverageText"], weather_interaction
-              assert weather_interaction["debug"]["coverageSource"] == "demo", weather_interaction
-              assert weather_interaction["debug"]["view"]["toplat"] <= 24.31, weather_interaction
-              assert weather_interaction["debug"]["view"]["bottomlat"] >= 23.92, weather_interaction
+              assert weather_interaction["debug"]["coverageSource"] == weather_coverage_source, weather_interaction
+              if is_live_weathergrid:
+                  assert weather_interaction["debug"]["view"]["toplat"] <= 25.38, weather_interaction
+                  assert weather_interaction["debug"]["view"]["bottomlat"] >= 25.22, weather_interaction
+              else:
+                  assert weather_interaction["debug"]["view"]["toplat"] <= 24.31, weather_interaction
+                  assert weather_interaction["debug"]["view"]["bottomlat"] >= 23.92, weather_interaction
               assert weather_interaction["ready"] is True, weather_interaction
 
-              opportunity_select.select_by_value("demo-hualien-P02")
-              wait.until(lambda d: "needs research" in d.find_element(By.ID, "coverage-status").text.lower())
-              pending_coverage = driver.find_element(By.ID, "coverage-status").text
-              report["weathergrid_pending_coverage"] = pending_coverage
-              assert "coverage requires subject or environment geometry" in pending_coverage, pending_coverage
+              # The demo fixture deliberately includes one incomplete Opportunity.
+              # Keep that fallback regression when DEMO is the active source.
+              if not is_live_weathergrid:
+                  opportunity_select.select_by_value("demo-hualien-P02")
+                  wait.until(lambda d: "needs research" in d.find_element(By.ID, "coverage-status").text.lower())
+                  pending_coverage = driver.find_element(By.ID, "coverage-status").text
+                  report["weathergrid_pending_coverage"] = pending_coverage
+                  assert "coverage requires subject or environment geometry" in pending_coverage, pending_coverage
 
               driver.get("http://127.0.0.1:8000/index.html")
               # Region selection is persisted by the main app. Earlier smoke steps
