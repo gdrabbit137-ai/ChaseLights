@@ -74,6 +74,18 @@ def run(url: str, screenshot: Path) -> dict:
         assert map_rect["width"] > 300 and map_rect["height"] > 200, map_rect
         assert weather_rect["width"] > 300 and weather_rect["height"] > 200, weather_rect
 
+        layer_select = Select(driver.find_element(By.ID, "layer-select"))
+        layer_select.select_by_value("wind_speed_10m_m_s")
+        wait_for(
+            lambda d: d.execute_script(
+                "return window.__weatherGridCoverageDebug && "
+                "window.__weatherGridCoverageDebug.windVectors === true"
+            ),
+            wait,
+            "automatic wind-vector enablement",
+        )
+        assert driver.find_element(By.ID, "wind-vector-toggle").is_selected()
+
         spot_select = Select(driver.find_element(By.ID, "spot-select"))
         spot_values = [o.get_attribute("value") for o in spot_select.options]
         assert "tw-073" in spot_values, spot_values[:10]
@@ -117,8 +129,10 @@ def run(url: str, screenshot: Path) -> dict:
             };
             """
         )
+        assert selected["layer"] == "wind_speed_10m_m_s", selected
         assert selected["spot"] == "tw-073", selected
         assert selected["opportunity"], selected
+        assert selected["debug"]["windVectors"] is True, selected
         assert "viewport" in selected["coverage"], selected["coverage"]
         assert selected["debug"]["coverageSource"] == "live", selected
 
