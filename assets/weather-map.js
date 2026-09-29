@@ -4,6 +4,8 @@
   const LIVE_COVERAGE = './weathergrid/weathergrid_coverage_browser.json';
   const FALLBACK_DATA = './weathergrid_sample.json';
   const FALLBACK_COVERAGE = './weathergrid_coverage_sample.json';
+  const MAPLIBRE_MODULE = 'https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-gl.mjs';
+  const BASEMAP_STYLE = 'https://tiles.openfreemap.org/styles/liberty';
 
   const layerConfig = {
     low_cloud_percent: {label:'低雲', unit:'%', domain:[0,100], palette:'cloud'},
@@ -24,6 +26,10 @@
     spotId:'',
     opportunityId:'',
     view:null,
+    weatherOpacity:0.62,
+    map:null,
+    mapReady:false,
+    basemapStatus:'loading',
     source:'loading',
     coverageSource:'loading'
   };
@@ -31,6 +37,130 @@
   const $ = id => document.getElementById(id);
   const canvas = $('weather-canvas');
   const ctx = canvas.getContext('2d');
+
+  function setBasemapStatus(status,message){
+    state.basemapStatus=status;
+    const host=$('basemap-status');
+    if(!host) return;
+    host.textContent=message;
+    host.className=`basemap-status ${status}`;
+  }
+
+  function normalizeViewBbox(bbox){
+    if(!bbox) return null;
+    const leftlon=Number(bbox.leftlon ?? bbox.west);
+    const rightlon=Number(bbox.rightlon ?? bbox.east);
+    const bottomlat=Number(bbox.bottomlat ?? bbox.south);
+    const toplat=Number(bbox.toplat ?? bbox.north);
+    if(![leftlon,rightlon,bottomlat,toplat].every(Number.isFinite)) return null;
+    if(rightlon<=leftlon || toplat<=bottomlat) return null;
+    return {leftlon,rightlon,bottomlat,toplat};
+  }
+
+  function setViewBbox(bbox,{animate=false,maxZoom=13}={}){
+    const view=normalizeViewBbox(bbox);
+    if(!view) return false;
+    state.view=view;
+    if(state.mapReady && state.map){
+      state.map.fitBounds(
+        [[view.leftlon,view.bottomlat],[view.rightlon,view.toplat]],
+        {padding:28,duration:animate?450:0,maxZoom}
+      );
+    }
+    return true;
+  }
+
+  function renderViewBbox(){
+    if(!state.mapReady || !state.map) return state.view;
+    const b=state.map.getBounds();
+    return {
+      leftlon:b.getWest(),rightlon:b.getEast(),
+      bottomlat:b.getSouth(),toplat:b.getNorth()
+    };
+  }
+
+  function syncCanvasSize(){
+    const rect=canvas.getBoundingClientRect();
+    const dpr=Math.min(window.devicePixelRatio || 1,2);
+    const width=Math.max(1,Math.round(rect.width*dpr));
+    const height=Math.max(1,Math.round(rect.height*dpr));
+    if(canvas.width!==width || canvas.height!==height){
+      canvas.width=width;
+      canvas.height=height;
+    }
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    return {width:rect.width,height:rect.height};
+  }
+
+  function pickSpotAtPoint(px,py){
+    let best=null;
+    for(const spot of state.data.spots){
+      const p=project(spot.lon,spot.lat);
+      const d=Math.hypot(p.x-px,p.y-py);
+      if(!best || d<best.d) best={spot,d};
+    }
+    if(best && best.d<26){
+      $('spot-select').value=best.spot.spot_id;
+      selectSpot(best.spot.spot_id);
+    }
+  }
+
+  async function initBasemap(){
+    setBasemapStatus('loading','底圖載入中…');
+    try{
+      const maplibregl=await import(MAPLIBRE_MODULE);
+      const b=normalizeViewBbox(state.data.bbox);
+      const map=new maplibregl.Map({
+        container:'weather-basemap',
+        style:BASEMAP_STYLE,
+        center:[(b.leftlon+b.rightlon)/2,(b.bottomlat+b.toplat)/2],
+        zoom:5.4,
+        bearing:0,
+        pitch:0,
+        dragRotate:false,
+        touchPitch:false,
+        attributionControl:true
+      });
+      state.map=map;
+      map.touchZoomRotate.disableRotation();
+      map.addControl(new maplibregl.NavigationControl({showCompass:false}),'top-right');
+
+      const timeout=window.setTimeout(()=>{
+        if(state.mapReady) return;
+        try{ map.remove(); }catch(_){}
+        state.map=null;
+        canvas.style.pointerEvents='auto';
+        setBasemapStatus('fallback','底圖逾時 · Canvas fallback');
+        renderAll();
+      },8000);
+
+      map.on('load',()=>{
+        window.clearTimeout(timeout);
+        state.mapReady=true;
+        canvas.style.pointerEvents='none';
+        setBasemapStatus('ready','MapLibre · OpenFreeMap');
+        setViewBbox(state.view || state.data.bbox);
+        renderAll();
+      });
+      map.on('move',()=>{
+        if(!state.mapReady) return;
+        draw();
+      });
+      map.on('resize',()=>{
+        syncCanvasSize();
+        draw();
+      });
+      map.on('click',ev=>pickSpotAtPoint(ev.point.x,ev.point.y));
+      map.on('error',ev=>console.warn('WeatherGrid basemap error',ev?.error || ev));
+    }catch(err){
+      console.warn('WeatherGrid basemap unavailable; using Canvas fallback',err);
+      state.map=null;
+      state.mapReady=false;
+      canvas.style.pointerEvents='auto';
+      setBasemapStatus('fallback','底圖離線 · Canvas fallback');
+      renderAll();
+    }
+  }
 
   function escapeHtml(v){
     return String(v ?? '').replace(/[&<>"']/g, c => (
@@ -70,9 +200,10 @@
       state.coverageSource = 'demo';
     }
 
-    state.view = {...state.data.bbox};
+    setViewBbox(state.data.bbox);
     initControls();
     renderAll();
+    initBasemap();
     window.__weatherGridPreviewReady = true;
   }
 
@@ -84,6 +215,13 @@
     layerSelect.value = state.layer;
     layerSelect.addEventListener('change', () => {
       state.layer = layerSelect.value;
+      renderAll();
+    });
+
+    const opacitySlider=$('opacity-slider');
+    opacitySlider.value=Math.round(state.weatherOpacity*100);
+    opacitySlider.addEventListener('input',()=>{
+      state.weatherOpacity=Number(opacitySlider.value)/100;
       renderAll();
     });
 
@@ -112,24 +250,14 @@
     });
 
     $('reset-view').addEventListener('click', () => {
-      state.view = {...state.data.bbox};
+      setViewBbox(state.data.bbox,{animate:true,maxZoom:8});
       renderAll();
     });
 
     canvas.addEventListener('click', ev => {
-      const rect = canvas.getBoundingClientRect();
-      const px = (ev.clientX - rect.left) * canvas.width / rect.width;
-      const py = (ev.clientY - rect.top) * canvas.height / rect.height;
-      let best = null;
-      for(const spot of state.data.spots){
-        const p = project(spot.lon, spot.lat);
-        const d = Math.hypot(p.x - px, p.y - py);
-        if(!best || d < best.d) best = {spot,d};
-      }
-      if(best && best.d < 26){
-        $('spot-select').value = best.spot.spot_id;
-        selectSpot(best.spot.spot_id);
-      }
+      if(state.mapReady) return;
+      const rect=canvas.getBoundingClientRect();
+      pickSpotAtPoint(ev.clientX-rect.left,ev.clientY-rect.top);
     });
   }
 
@@ -200,12 +328,12 @@
     if(!spot) return;
     const lonHalf = 0.85;
     const latHalf = 0.65;
-    state.view = {
+    setViewBbox({
       leftlon:spot.lon-lonHalf,
       rightlon:spot.lon+lonHalf,
       bottomlat:spot.lat-latHalf,
       toplat:spot.lat+latHalf
-    };
+    },{animate:true,maxZoom:10});
   }
 
   function unionViewport(opportunities){
@@ -234,8 +362,10 @@
     if(north-south < minLatSpan){
       const mid=(south+north)/2; south=mid-minLatSpan/2; north=mid+minLatSpan/2;
     }
-    state.view={leftlon:west,rightlon:east,bottomlat:south,toplat:north};
-    return true;
+    return setViewBbox(
+      {leftlon:west,rightlon:east,bottomlat:south,toplat:north},
+      {animate:true,maxZoom:13}
+    );
   }
 
   function applyCoverageView(){
@@ -275,10 +405,14 @@
   }
 
   function project(lon,lat){
-    const v = state.view;
+    if(state.mapReady && state.map){
+      const p=state.map.project([lon,lat]);
+      return {x:p.x,y:p.y};
+    }
+    const v=state.view;
     return {
-      x:(lon-v.leftlon)/(v.rightlon-v.leftlon)*canvas.width,
-      y:(v.toplat-lat)/(v.toplat-v.bottomlat)*canvas.height
+      x:(lon-v.leftlon)/(v.rightlon-v.leftlon)*canvas.clientWidth,
+      y:(v.toplat-lat)/(v.toplat-v.bottomlat)*canvas.clientHeight
     };
   }
 
@@ -307,39 +441,53 @@
   }
 
   function draw(){
-    const data = state.data;
-    const cfg = layerConfig[state.layer];
-    const vals = decodedArray(state.layer);
-    const rows = data.grid.rows, cols = data.grid.cols;
-    const lats = data.grid.latitudes, lons = data.grid.longitudes;
+    const data=state.data;
+    const cfg=layerConfig[state.layer];
+    const vals=decodedArray(state.layer);
+    const rows=data.grid.rows, cols=data.grid.cols;
+    const lats=data.grid.latitudes, lons=data.grid.longitudes;
+    const size=syncCanvasSize();
+    const visibleView=renderViewBbox();
 
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.fillStyle='#07101f';
-    ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.clearRect(0,0,size.width,size.height);
+    if(!state.mapReady){
+      ctx.fillStyle='#07101f';
+      ctx.fillRect(0,0,size.width,size.height);
+    }
 
-    const lonStep = cols>1 ? Math.abs(lons[1]-lons[0]) : .25;
-    const latStep = rows>1 ? Math.abs(lats[1]-lats[0]) : .25;
+    const lonStep=cols>1 ? Math.abs(lons[1]-lons[0]) : .25;
+    const latStep=rows>1 ? Math.abs(lats[1]-lats[0]) : .25;
 
+    ctx.save();
+    ctx.globalAlpha=state.weatherOpacity;
     for(let r=0;r<rows;r++){
       for(let c=0;c<cols;c++){
         const lon=lons[c], lat=lats[r];
         const left=lon-lonStep/2, right=lon+lonStep/2;
         const top=lat+latStep/2, bottom=lat-latStep/2;
-        if(right < state.view.leftlon || left > state.view.rightlon ||
-           top < state.view.bottomlat || bottom > state.view.toplat) continue;
-        const p1=project(left,top), p2=project(right,bottom);
+        if(right < visibleView.leftlon || left > visibleView.rightlon ||
+           top < visibleView.bottomlat || bottom > visibleView.toplat) continue;
+        const points=[
+          project(left,top),project(right,top),
+          project(right,bottom),project(left,bottom)
+        ];
+        ctx.beginPath();
+        points.forEach((p,i)=>i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y));
+        ctx.closePath();
         ctx.fillStyle=colorFor(vals[r*cols+c],cfg);
-        ctx.fillRect(p1.x,p1.y,p2.x-p1.x+1,p2.y-p1.y+1);
+        ctx.fill();
       }
     }
+    ctx.restore();
 
-    drawGrid();
+    if(!state.mapReady) drawGrid();
     drawCoverage();
     drawSpots();
   }
 
   function drawGrid(){
     const v=state.view;
+    const width=canvas.clientWidth,height=canvas.clientHeight;
     ctx.save();
     ctx.strokeStyle='rgba(226,232,240,.18)';
     ctx.fillStyle='rgba(226,232,240,.72)';
@@ -348,13 +496,13 @@
     const lonStart=Math.ceil(v.leftlon);
     for(let lon=lonStart;lon<=v.rightlon;lon++){
       const p=project(lon,v.bottomlat);
-      ctx.beginPath();ctx.moveTo(p.x,0);ctx.lineTo(p.x,canvas.height);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(p.x,0);ctx.lineTo(p.x,height);ctx.stroke();
       ctx.fillText(`${lon}°E`,p.x+4,22);
     }
     const latStart=Math.ceil(v.bottomlat);
     for(let lat=latStart;lat<=v.toplat;lat++){
       const p=project(v.leftlon,lat);
-      ctx.beginPath();ctx.moveTo(0,p.y);ctx.lineTo(canvas.width,p.y);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(0,p.y);ctx.lineTo(width,p.y);ctx.stroke();
       ctx.fillText(`${lat}°N`,6,p.y-5);
     }
     ctx.restore();
@@ -493,10 +641,11 @@
 
   function drawSpots(){
     const selected=selectedSpot();
+    const width=canvas.clientWidth,height=canvas.clientHeight;
     ctx.save();
     for(const s of state.data.spots){
       const p=project(s.lon,s.lat);
-      if(p.x<0||p.x>canvas.width||p.y<0||p.y>canvas.height) continue;
+      if(p.x<0||p.x>width||p.y<0||p.y>height) continue;
       ctx.beginPath();
       ctx.arc(p.x,p.y,s.spot_id===state.spotId?7:3.5,0,Math.PI*2);
       ctx.fillStyle=s.spot_id===state.spotId?'#fde68a':'#f8fafc';
@@ -586,6 +735,7 @@
     const f=frame(), cfg=layerConfig[state.layer];
     $('time-slider').value=state.frameIndex;
     $('time-label').textContent=`時間 · ${formatTaipeiTime(f.valid_time_utc)} (f${String(f.forecast_hour).padStart(3,'0')})`;
+    $('opacity-label').textContent=`${Math.round(state.weatherOpacity*100)}%`;
 
     const status=$('source-state');
     if(state.source==='demo'){
@@ -723,7 +873,10 @@
     };
   }
 
-  window.addEventListener('resize', renderAll);
+  window.addEventListener('resize',()=>{
+    if(state.map) state.map.resize();
+    renderAll();
+  });
   load().catch(err=>{
     console.error(err);
     $('source-state').textContent='載入失敗';
