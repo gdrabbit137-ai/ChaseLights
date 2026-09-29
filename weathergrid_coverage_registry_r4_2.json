@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "registry_version": "B121.14",
+  "registry_version": "B121.15",
   "contract": "WEATHERGRID_COVERAGE_SPEC_R4_2.md",
   "generated_or_reviewed_at": "2026-09-30",
   "notes": [
-    "B121.14 adds subject-aware WeatherGrid coverage for tw-069 東清灣 while retaining prior complete entries.",
-    "Taitung County official tourism material describes Dongqing Bay as Lanyu's largest east-side bay, about 500 m long, with many traditional tatala/pinban boats at Dongqing Harbor and representative sunrise/sky-glow scenery.",
-    "B139 uses a conservative 0–0.6 km full-circle local bay/boat foreground envelope plus a 60°–120°, 0–15 km dawn-atmosphere sector. These are WeatherGrid planning envelopes, not exact beach, boat-position, visible-horizon, or solar-alignment geometry.",
-    "Cultural photography permission, marine safety, access, and actual sunrise visibility remain separate fail-closed gates; no Photography Opportunity scoring changes are made."
+    "B121.15 adds subject-aware WeatherGrid coverage for tw-067 芹壁聚落 while retaining prior complete entries.",
+    "Matsu National Scenic Area official guidance identifies the elevated village viewpoint as a representative composition for layered stone houses and the bay, and explicitly describes sunset light on the bay and stone houses as a classic Qinbi photography moment.",
+    "B140 uses a conservative 0–1.0 km full-circle local stone-house/bay subject envelope plus a 240°–300°, 0–15 km sunset-atmosphere sector. These are WeatherGrid planning envelopes, not exact building, shoreline, visible-horizon, or solar-alignment geometry.",
+    "Pedestrian access, local closures, marine conditions and actual sunset visibility remain separate gates; no Photography Opportunity scoring changes are made."
   ],
   "entries": [
     {
@@ -2147,6 +2147,74 @@
         "note": "官方資料確認東清灣位於蘭嶼東側，海灣約延伸500 m，東清港澳常見拼板舟，清晨日出與朝霞為代表性景觀。WeatherGrid 以 0–0.6 km full-circle 保守涵蓋海灣／港澳／拼板舟前景，並以 60°–120°、0–15 km sector 涵蓋全年日出方向附近的大氣。Camera Zone 無可重建 exact extent，保留 anchor-only warning；文化拍攝許可、海況、安全、進入與實際日出可見性仍由獨立 gate/runtime 判定。",
         "camera_zone_browser_exposure": {
           "tw-069-VP01": "generalized"
+        }
+      }
+    },
+    {
+      "opportunity_id": "tw-067-P01",
+      "spot_id": "tw-067",
+      "provenance": {
+        "basis": "Site-verified Qinbi elevated-view Camera Zone + Matsu National Scenic Area official guidance describing the high viewpoint, layered stone houses, bay and classic sunset illumination.",
+        "geometry_interpretation": "The photographed scene combines the immediate Qinbi stone-house settlement and bay foreground with western sunset atmosphere. B140 uses a conservative 0–1.0 km full-circle local subject envelope plus a 240°–300°, 0–15 km sunset sector. At latitude 26.225° the geometric annual sunset azimuth range is about 243.7°–296.3°; the padded sector is not an exact local horizon or solar-alignment claim.",
+        "source_urls": [
+          "https://www.matsu-nsa.gov.tw/zh-TW/attractions/1447",
+          "https://www.matsu-nsa.gov.tw/zh-TW/topics/8",
+          "https://www.matsu-nsa.gov.tw/zh-TW/islands"
+        ]
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-067-VP01"
+        ],
+        "subject_geometries": [
+          {
+            "subject_id": "tw-067-P01-SUB01",
+            "role": "qinbi_stone_house_bay_foreground_zone",
+            "name": "芹壁石屋聚落與海灣前景",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-067-VP01",
+              "azimuth_start_deg": 0,
+              "azimuth_end_deg": 360,
+              "min_range_km": 0,
+              "max_range_km": 1
+            },
+            "coord_confidence": "medium_high",
+            "source_evidence_ids": [
+              "matsu_nsa.qinbi_high_view_stone_houses_bay",
+              "runtime_catalog.tw-067-VP01"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "environment_geometries": [
+          {
+            "environment_id": "tw-067-P01-ENV01",
+            "role": "western_sunset_horizon_sector",
+            "name": "芹壁夕照天氣扇區",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-067-VP01",
+              "azimuth_start_deg": 240,
+              "azimuth_end_deg": 300,
+              "min_range_km": 0,
+              "max_range_km": 15
+            },
+            "coord_confidence": "medium_high",
+            "source_evidence_ids": [
+              "matsu_nsa.qinbi_classic_sunset",
+              "runtime_catalog_v004_r4_2.tw-067-P01"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "display_padding_km": 3,
+        "coverage_confidence": "medium_high",
+        "note": "官方資料明確指出芹壁聚落高處觀景平台可將石屋與海灣層次收進畫面，傍晚夕陽映照海灣與石屋是經典拍攝時刻。WeatherGrid 以 0–1.0 km full-circle 保守涵蓋聚落／海灣近端主體，並以 240°–300°、0–15 km sector 涵蓋全年夕陽方向附近的大氣。Camera Zone 無可重建 exact extent，保留 anchor-only warning；步行進入、臨時管制、海況與實際夕陽可見性仍由獨立 gate/runtime 判定。",
+        "camera_zone_browser_exposure": {
+          "tw-067-VP01": "generalized"
         }
       }
     }
