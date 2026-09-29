@@ -416,7 +416,7 @@
           const disabled=counts[a]===0;
           const searchText=`${a} ${adminAreaLabel(a)}`.toLocaleLowerCase();
           const active=currentAdminAreas.has(a);
-          return `<button type="button" class="admin-area-btn ${active?'active':''}" data-admin-area="${esc(a)}" data-admin-search-text="${esc(searchText)}" aria-pressed="${active?'true':'false'}" ${disabled?'disabled aria-disabled="true"':''}><span class="admin-area-name"><span class="admin-area-check" aria-hidden="true">✓</span>${esc(adminAreaLabel(a))}</span><span class="admin-area-count">${counts[a]}</span></button>`;
+          return `<button type="button" class="admin-area-btn ${active?'active':''}" data-admin-area="${esc(a)}" data-admin-search-text="${esc(searchText)}" aria-pressed="${active?'true':'false'}" ${disabled?'disabled aria-disabled="true"':''}><span class="admin-area-count">${counts[a]}</span><span class="admin-area-name"><i class="admin-area-check" aria-hidden="true">✓</i>${esc(adminAreaLabel(a))}</span></button>`;
         }).join('');
         const showGroupTitle=groups.length>1;
         if(!showGroupTitle)return `<section class="admin-area-group admin-area-group-flat" data-admin-group data-admin-group-key="${esc(group.key)}"><div class="admin-filter-grid">${buttons}</div></section>`;
