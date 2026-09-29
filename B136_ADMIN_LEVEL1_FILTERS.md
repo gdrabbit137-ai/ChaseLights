@@ -24,13 +24,25 @@ The old Japan macro regions (for example 関東/中部) and U.S. macro regions (
 
 ## Data model
 
-`regions.get_spots(region)` emits `admin_areas` for TW, JP, and US.
+`regions.get_spots(region)` emits `admin_areas` for every supported country. TW, JP, and US are the first implementations of this country-neutral contract.
 
-The value is always an array to support boundary/spanning Places. Examples:
+The value is always an array to support boundary/spanning Places. The rule is geographic, not country-specific:
+
+- If a Place is wholly inside one first-level administrative unit, store one value.
+- If the Place itself spans a boundary, store every first-level administrative unit it intersects.
+- A large named area such as a national park may therefore have multiple values.
+- A precise viewpoint inside that park should only carry the unit(s) that the viewpoint itself occupies.
+- Do not add neighboring areas merely because they are commonly associated with the destination.
+- Visual macro-regions (for example "West", "Kanto", or "Northern Taiwan") are browsing groups only and must not replace the authoritative first-level units.
+
+For future countries, use the country's normal first-level administrative division as the filter identity (for example province, state, prefecture, region, canton, etc.). The UI may localize the label, but the same array/intersection behavior applies everywhere.
+
+Examples:
 
 ```json
 {"spot_id":"jp-010","admin_areas":["山梨県"]}
 {"spot_id":"us-001","admin_areas":["Arizona"]}
+{"spot_id":"us-014","admin_areas":["California","Nevada"]}
 {"spot_id":"us-038","admin_areas":["Tennessee","North Carolina"]}
 ```
 
@@ -44,7 +56,7 @@ The browser contains a compatibility fallback for cached pre-B136 JP/US weather 
 
 ## Regression expectations
 
-- Every active TW/JP/US Place must have at least one `admin_areas` value.
-- Border/spanning examples remain multi-valued.
+- Every active Place in every supported country must have at least one `admin_areas` value.
+- Border/spanning examples remain multi-valued, including Taiwan county/city boundaries, Japan prefecture boundaries, U.S. state boundaries, and equivalent future-country boundaries.
 - Filtering uses `admin_areas`, not legacy `category`.
 - Search also matches localized prefecture/state names.
