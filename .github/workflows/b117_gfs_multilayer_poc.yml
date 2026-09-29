@@ -19,6 +19,12 @@ on:
       - "weathergrid_coverage_registry_r4_2.json"
       - "audit_weathergrid_coverage.py"
       - "B121_WEATHERGRID_COVERAGE_MIGRATION.md"
+      - "build_weathergrid_coverage_browser.py"
+      - "test_weathergrid_coverage_browser.py"
+      - "weathergrid_coverage_sample.json"
+      - "assets/weather-map.js"
+      - "assets/weather-map.css"
+      - "weather-map.html"
   workflow_dispatch:
     inputs:
       forecast_hours:
@@ -55,7 +61,8 @@ jobs:
             test_gfs_raw_poc.py \
             test_gfs_multilayer_poc.py \
             test_weathergrid_browser_bundle.py \
-            test_weathergrid_coverage.py
+            test_weathergrid_coverage.py \
+            test_weathergrid_coverage_browser.py
           python audit_weathergrid_coverage.py
 
   live-poc:
@@ -87,15 +94,21 @@ jobs:
           python weathergrid_browser_bundle.py \
             --input-dir gfs_multilayer_output
 
+      - name: Build subject-aware coverage browser bundle
+        run: |
+          python build_weathergrid_coverage_browser.py \
+            --output gfs_multilayer_output/weathergrid_coverage_browser.json
+
       - name: Publish compact WeatherGrid preview snapshot
         if: inputs.publish_preview == true
         run: |
           mkdir -p weathergrid
           cp gfs_multilayer_output/gfs_tw_weather_browser.json weathergrid/gfs_tw_weather_browser.json
           cp gfs_multilayer_output/gfs_tw_weather_qc.json weathergrid/gfs_tw_weather_qc.json
+          cp gfs_multilayer_output/weathergrid_coverage_browser.json weathergrid/weathergrid_coverage_browser.json
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add weathergrid/gfs_tw_weather_browser.json weathergrid/gfs_tw_weather_qc.json
+          git add weathergrid/gfs_tw_weather_browser.json weathergrid/gfs_tw_weather_qc.json weathergrid/weathergrid_coverage_browser.json
           if ! git diff --cached --quiet; then
             git commit -m "Update WeatherGrid preview snapshot [skip ci]"
             for i in {1..5}; do
