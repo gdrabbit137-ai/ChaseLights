@@ -102,7 +102,7 @@ class WeatherGridFetchPlanTest(unittest.TestCase):
         self.assertIn("tw-035-P02", diagnostic["missing_registry_entries"])
 
     def test_secondary_local_places_can_use_scoped_fetch(self):
-        for spot_id in ("tw-037", "tw-059", "tw-066", "tw-073", "tw-075", "tw-078", "tw-081"):
+        for spot_id in ("tw-037", "tw-059", "tw-066", "tw-068", "tw-073", "tw-075", "tw-078", "tw-081"):
             with self.subTest(spot_id=spot_id):
                 plan = build_gfs_fetch_plan(
                     scope_type="place",
@@ -140,6 +140,14 @@ class WeatherGridFetchPlanTest(unittest.TestCase):
                     self.assertGreaterEqual(segment["rightlon"], 119.67137)
                     self.assertLessEqual(segment["bottomlat"], 23.59968)
                     self.assertGreaterEqual(segment["toplat"], 23.59968)
+
+                if spot_id == "tw-068":
+                    self.assertLessEqual(segment["leftlon"], 121.50418)
+                    self.assertGreaterEqual(segment["rightlon"], 121.50418)
+                    self.assertLessEqual(segment["bottomlat"], 22.63703)
+                    self.assertGreaterEqual(segment["toplat"], 22.63703)
+                    # Provider request must extend eastward to cover the dawn sector.
+                    self.assertGreater(segment["rightlon"], 121.60)
 
                 if spot_id == "tw-073":
                     self.assertLessEqual(segment["leftlon"], 121.54471)
