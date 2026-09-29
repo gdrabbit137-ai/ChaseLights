@@ -346,12 +346,18 @@ class WeatherGridCoverageTest(unittest.TestCase):
         )
         tungyin_vp = catalog_tungyin["opportunities"][0]["viewpoints"][0]
         tungyin_camera_points, tungyin_mode = camera_zone_points(tungyin_vp)
-        self.assertEqual(tungyin_mode, "point")
+        self.assertEqual(tungyin_mode, "anchor_only")
         for lat, lon in tungyin_camera_points:
             self.assertTrue(
                 bbox_contains_point(tungyin, lat, lon),
                 (lat, lon, tungyin),
             )
+        self.assertTrue(
+            any(
+                "no reconstructable extent" in warning
+                for warning in by_id["tw-066-P01"]["warnings"]
+            )
+        )
         # B133's local environment is intentionally larger than the fixed
         # lighthouse point but remains a small local scene.
         self.assertGreater(tungyin["north"], 26.37)
