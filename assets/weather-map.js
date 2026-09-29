@@ -416,10 +416,41 @@
     };
   }
 
+  function normalizedValue(value,cfg){
+    if(value == null || !Number.isFinite(value)) return 0;
+    const span=cfg.domain[1]-cfg.domain[0];
+    if(!span) return 0;
+    return Math.max(0,Math.min(1,(value-cfg.domain[0])/span));
+  }
+
+  function cellOpacityFor(value,cfg){
+    if(value == null || !Number.isFinite(value)) return .08;
+    const t=normalizedValue(value,cfg);
+    if(cfg.palette==='cloud'){
+      // Clear sky should reveal the basemap; denser cloud progressively dominates.
+      return .04 + .96*Math.pow(t,.8);
+    }
+    if(cfg.palette==='precip'){
+      // Dry cells should not paint a dark blanket across the whole map.
+      if(value < .01) return 0;
+      return .18 + .82*Math.sqrt(t);
+    }
+    if(cfg.palette==='visibility'){
+      // Poor visibility is the signal. Clear-air / ceiling-saturated cells recede.
+      return .08 + .92*Math.pow(1-t,.8);
+    }
+    if(cfg.palette==='wind'){
+      return .12 + .88*t;
+    }
+    if(cfg.palette==='direction'){
+      return .48;
+    }
+    return 1;
+  }
+
   function colorFor(value,cfg){
     if(value == null || !Number.isFinite(value)) return 'rgba(30,41,59,.35)';
-    let t = (value-cfg.domain[0])/(cfg.domain[1]-cfg.domain[0]);
-    t = Math.max(0,Math.min(1,t));
+    let t = normalizedValue(value,cfg);
     if(cfg.palette==='cloud'){
       const l = 22 + t*65;
       return `hsl(205 70% ${l}%)`;
@@ -459,7 +490,6 @@
     const latStep=rows>1 ? Math.abs(lats[1]-lats[0]) : .25;
 
     ctx.save();
-    ctx.globalAlpha=state.weatherOpacity;
     for(let r=0;r<rows;r++){
       for(let c=0;c<cols;c++){
         const lon=lons[c], lat=lats[r];
@@ -474,7 +504,9 @@
         ctx.beginPath();
         points.forEach((p,i)=>i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y));
         ctx.closePath();
-        ctx.fillStyle=colorFor(vals[r*cols+c],cfg);
+        const value=vals[r*cols+c];
+        ctx.globalAlpha=state.weatherOpacity*cellOpacityFor(value,cfg);
+        ctx.fillStyle=colorFor(value,cfg);
         ctx.fill();
       }
     }
@@ -750,7 +782,7 @@
     const arr=decodedArray(state.layer).filter(Number.isFinite);
     const min=arr.length?Math.min(...arr):null, max=arr.length?Math.max(...arr):null;
     $('layer-summary').textContent=min==null?'—':`${formatValue(min,state.layer)} – ${formatValue(max,state.layer)}`;
-    $('layer-unit').textContent=`${cfg.label} · ${state.data.fields[state.layer].unit}`;
+    $('layer-unit').textContent=`${cfg.label} · ${state.data.fields[state.layer].unit} · 底圖可見度依數值動態調整`;
 
     const spot=selectedSpot();
     const point=samplingPoint();
