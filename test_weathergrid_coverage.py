@@ -194,11 +194,11 @@ class WeatherGridCoverageTest(unittest.TestCase):
         )
         audit = audit_coverage_registry(catalog, registry)
 
-        self.assertEqual(audit["counts"]["entries"], 34)
+        self.assertEqual(audit["counts"]["entries"], 35)
         self.assertEqual(audit["counts"]["missing_opportunity"], 0)
-        self.assertEqual(audit["counts"]["provisional"], 34)
+        self.assertEqual(audit["counts"]["provisional"], 35)
         self.assertEqual(audit["counts"]["needs_research"], 0)
-        self.assertEqual(audit["counts"]["complete"], 34)
+        self.assertEqual(audit["counts"]["complete"], 35)
         self.assertEqual(audit["counts"]["incomplete"], 0)
 
         by_id = {row["opportunity_id"]: row for row in audit["results"]}
@@ -228,6 +228,11 @@ class WeatherGridCoverageTest(unittest.TestCase):
         self.assertEqual(by_id["tw-075-P01"]["status"], "provisional")
         self.assertEqual(by_id["tw-075-P01"]["subject_geometry_count"], 1)
         self.assertEqual(by_id["tw-075-P01"]["environment_geometry_count"], 1)
+
+        self.assertTrue(by_id["tw-073-P01"]["complete"])
+        self.assertEqual(by_id["tw-073-P01"]["status"], "provisional")
+        self.assertEqual(by_id["tw-073-P01"]["subject_geometry_count"], 1)
+        self.assertEqual(by_id["tw-073-P01"]["environment_geometry_count"], 1)
 
         self.assertTrue(by_id["tw-019-P04"]["complete"])
         self.assertTrue(by_id["tw-014-P01"]["complete"])
@@ -308,6 +313,26 @@ class WeatherGridCoverageTest(unittest.TestCase):
                 bbox_contains_point(waiao, lat, lon),
                 (lat, lon, waiao),
             )
+
+        laomei = by_id["tw-073-P01"]["coverage_bbox"]
+        # Official Tourism Administration attraction coordinate lies inside the
+        # local green-reef foreground envelope.
+        self.assertTrue(bbox_contains_point(laomei, 25.292439, 121.54471))
+        catalog_laomei = next(
+            spot for spot in catalog["spots"] if spot["spot_id"] == "tw-073"
+        )
+        laomei_vp = catalog_laomei["opportunities"][0]["viewpoints"][0]
+        laomei_camera_points, laomei_mode = camera_zone_points(laomei_vp)
+        self.assertEqual(laomei_mode, "conservative_extent")
+        for lat, lon in laomei_camera_points:
+            self.assertTrue(
+                bbox_contains_point(laomei, lat, lon),
+                (lat, lon, laomei),
+            )
+        # B131's spring dawn sector extends well beyond the 250 m local
+        # foreground while staying directional rather than region-wide.
+        self.assertGreater(laomei["east"], 121.65)
+        self.assertLess(laomei["west"], 121.55)
 
     def test_needs_research_stays_incomplete_even_with_geometry(self):
         op = _opportunity(
