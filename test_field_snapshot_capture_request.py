@@ -11,6 +11,7 @@ from field_snapshot_capture_request import (
     load_request,
     register_baseline,
     validate_request,
+    validate_snapshot_matches_request,
 )
 
 
@@ -40,6 +41,10 @@ def _request(**overrides):
 
 def test_validate_request_contract():
     assert validate_request(_request()) == []
+
+    unknown = _request(place_id="tw-999999")
+    unknown_errors = validate_request(unknown)
+    assert any("unknown place id" in item for item in unknown_errors)
 
     bad = _request(
         request_id="bad request",
@@ -75,6 +80,26 @@ def test_load_request_and_metadata():
     )
     assert metadata["forecast_local_time"] == "2026-09-29T06:00:00+08:00"
     assert metadata["observation_status"] == "unreviewed"
+
+
+def test_snapshot_must_match_request_provenance():
+    snapshot = load_snapshot(SNAPSHOT)
+    assert validate_snapshot_matches_request(snapshot, _request()) == []
+
+    wrong_ref = _request(capture_ref="1" * 40)
+    assert "snapshot git_commit does not match capture_ref" in (
+        validate_snapshot_matches_request(snapshot, wrong_ref)
+    )
+
+    wrong_place = _request(place_id="tw-036")
+    assert "snapshot place_id does not match capture request" in (
+        validate_snapshot_matches_request(snapshot, wrong_place)
+    )
+
+    wrong_time = _request(valid_at="2026-09-29T07:00:00+08:00")
+    assert "snapshot forecast_valid_at does not match request valid_at" in (
+        validate_snapshot_matches_request(snapshot, wrong_time)
+    )
 
 
 def test_build_and_register_baseline_entry():
@@ -154,6 +179,7 @@ def test_request_never_promotes_ground_truth():
 def main():
     test_validate_request_contract()
     test_load_request_and_metadata()
+    test_snapshot_must_match_request_provenance()
     test_build_and_register_baseline_entry()
     test_request_never_promotes_ground_truth()
     print("field snapshot capture request tests passed")
