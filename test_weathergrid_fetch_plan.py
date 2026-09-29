@@ -64,7 +64,7 @@ class WeatherGridFetchPlanTest(unittest.TestCase):
     def test_incomplete_opportunity_falls_back_to_region(self):
         plan = build_gfs_fetch_plan(
             scope_type="opportunity",
-            scope_id="tw-082-P01",
+            scope_id="tw-036-P01",
             catalog=self.catalog,
             registry=self.registry,
         )
@@ -79,7 +79,7 @@ class WeatherGridFetchPlanTest(unittest.TestCase):
         with self.assertRaises(CoverageError):
             build_gfs_fetch_plan(
                 scope_type="opportunity",
-                scope_id="tw-082-P01",
+                scope_id="tw-036-P01",
                 strict=True,
                 catalog=self.catalog,
                 registry=self.registry,
