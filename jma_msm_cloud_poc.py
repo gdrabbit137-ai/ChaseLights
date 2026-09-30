@@ -50,14 +50,17 @@ JMA_MSM_NATIVE_DOMAIN = {
 # boundary instead of pretending the model covers islands west of 120E or the
 # portion of southern Taiwan below 22.4N.
 JMA_MSM_TAIWAN_BROWSER_BBOX = {
-    "leftlon": 120.0,
+    # One native grid cell inside the official south/west edge.  The
+    # Open-Meteo transport can reject exact edge coordinates even though the
+    # official JMA regular-grid product nominally starts at 22.4N / 120E.
+    "leftlon": 120.0625,
     "rightlon": 122.5,
-    "bottomlat": 22.4,
+    "bottomlat": 22.45,
     "toplat": 25.6,
 }
 
 DEFAULT_FORECAST_HOURS = 40
-DEFAULT_BATCH_SIZE = 160
+DEFAULT_BATCH_SIZE = 100
 DEFAULT_RETRIES = 3
 
 API_VARIABLES = {
@@ -194,7 +197,7 @@ def _request_batch(
         "cell_selection": "nearest",
         # Disable Open-Meteo elevation downscaling: cloud cover should remain
         # the JMA model-grid quantity.
-        "elevation": "nan",
+        "elevation": ",".join("nan" for _ in batch),
         "timezone": "GMT",
     }
 
@@ -202,7 +205,13 @@ def _request_batch(
     for attempt in range(1, retries + 1):
         try:
             response = client.get(JMA_MSM_API_URL, params=params, timeout=timeout)
-            response.raise_for_status()
+            try:
+                response.raise_for_status()
+            except Exception as exc:
+                body = getattr(response, "text", "")
+                raise RuntimeError(
+                    f"{exc}; response={body[:500]}"
+                ) from exc
             payload = response.json()
             return _coerce_api_locations(payload, len(batch))
         except Exception as exc:
