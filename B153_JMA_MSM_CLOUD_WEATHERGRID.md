@@ -154,3 +154,22 @@ small interior sample.
 This keeps the model integration testable without silently relying on a free
 service beyond its intended limits.  A future official JMBSC adapter can replace
 the transport without changing the JMA MSM browser schema.
+
+
+## Deployment checklist
+
+Before B153 can publish the full 5 km JMA MSM layer on the public site:
+
+1. Configure the repository Actions secret `OPEN_METEO_API_KEY` with a
+   production-capable Open-Meteo customer API key.
+2. Merge B153 to `main`.
+3. `Update JMA MSM WeatherGrid` runs on the provider's own 3-hour cadence
+   and on provider-code pushes.
+4. The workflow publishes only the compact browser/QC artifacts.
+5. The JMA data commit intentionally does not use `[skip ci]`; B145 then
+   validates the deployed public WeatherGrid and, when JMA is available,
+   selects JMA MSM and verifies total/low/mid/high cloud layers.
+6. If the production JMA refresh fails, stale JMA browser files are removed
+   so the model selector cannot silently serve an old run.
+
+The secret value itself must never be committed to the repository.
