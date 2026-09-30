@@ -98,8 +98,10 @@ def run(url: str, screenshot: Path) -> dict:
             wait,
             "CWA model/timeline activation",
         )
-        timeline_buttons = driver.find_elements(By.CSS_SELECTOR, "#timeline button")
-        assert len(timeline_buttons) >= 3, len(timeline_buttons)
+        timeline_slider = driver.find_element(By.ID, "time-slider")
+        timeline_max = int(timeline_slider.get_attribute("max") or "0")
+        assert timeline_max >= 2, timeline_max
+        assert "預報時間" in driver.find_element(By.ID, "time-label").text
 
         # JMA MSM is a separately scheduled provider. On UI-only deploys its
         # bundle may not exist yet; on JMA data publishes the option must be
@@ -144,14 +146,16 @@ def run(url: str, screenshot: Path) -> dict:
                 wait,
                 "JMA MSM model/timeline activation",
             )
-            jma_timeline_buttons = driver.find_elements(
-                By.CSS_SELECTOR, "#timeline button"
+            jma_timeline_max = int(
+                driver.find_element(By.ID, "time-slider").get_attribute("max")
+                or "0"
             )
-            assert len(jma_timeline_buttons) >= 4, len(jma_timeline_buttons)
+            assert jma_timeline_max >= 3, jma_timeline_max
+            assert "預報時間" in driver.find_element(By.ID, "time-label").text
             jma_report.update(
                 {
                     "layers": jma_layer_values,
-                    "timeline_buttons": len(jma_timeline_buttons),
+                    "timeline_steps": jma_timeline_max + 1,
                     "cycle": driver.find_element(By.ID, "cycle-label").text,
                 }
             )

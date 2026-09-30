@@ -26,6 +26,9 @@ class WeatherGridProductionSmokeContractTests(unittest.TestCase):
         self.assertIn("total_cloud_percent", self.script)
         self.assertIn("high_cloud_percent", self.script)
         self.assertIn("model-select", self.script)
+        self.assertIn("time-slider", self.script)
+        self.assertIn("time-label", self.script)
+        self.assertNotIn("#timeline button", self.script)
         self.assertIn("tw-073", self.script)
         self.assertIn("coverageSource", self.script)
 
