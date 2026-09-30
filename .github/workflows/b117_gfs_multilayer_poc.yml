@@ -65,6 +65,12 @@ on:
       - "B151_CWA_WRF3_WEATHERGRID.md"
       - "B152_CWA_CLOUD_VERTICAL_DEFINITIONS.md"
       - "test_weathergrid_cloud_vertical_definitions.py"
+      - "jma_msm_cloud_poc.py"
+      - "jma_msm_weathergrid_browser_bundle.py"
+      - "test_jma_msm_cloud_poc.py"
+      - "test_jma_msm_weathergrid_browser_bundle.py"
+      - "test_jma_msm_weathergrid_ui.py"
+      - "B153_JMA_MSM_CLOUD_WEATHERGRID.md"
       - ".github/workflows/update_weathergrid.yml"
       - "test_weathergrid_refresh_workflow.py"
       - "B132_WEATHERGRID_SCHEDULED_REFRESH.md"
@@ -136,7 +142,10 @@ jobs:
             test_cwa_wrf3_poc.py \
             test_cwa_weathergrid_browser_bundle.py \
             test_cwa_weathergrid_ui.py \
-            test_weathergrid_cloud_vertical_definitions.py
+            test_weathergrid_cloud_vertical_definitions.py \
+            test_jma_msm_cloud_poc.py \
+            test_jma_msm_weathergrid_browser_bundle.py \
+            test_jma_msm_weathergrid_ui.py
           python audit_weathergrid_coverage.py
 
   cwa-live-smoke:
@@ -249,6 +258,74 @@ jobs:
           if-no-files-found: error
           retention-days: 3
 
+  jma-live-smoke:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout candidate
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install JMA MSM WeatherGrid dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install boto3 numpy omfiles fsspec s3fs
+
+      - name: Fetch live JMA MSM native cloud frames
+        run: |
+          python jma_msm_cloud_poc.py \
+            --forecast-hours "0,1,2" \
+            --output-dir jma_msm_live_smoke_output
+
+      - name: Build compact JMA MSM browser bundle
+        run: |
+          python jma_msm_weathergrid_browser_bundle.py \
+            --input-dir jma_msm_live_smoke_output
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path("jma_msm_live_smoke_output")
+          bundle = json.loads(
+              (root / "jma_msm_tw_cloud_browser.json").read_text()
+          )
+          assert bundle["model"] == "JMA_MSM_5KM", bundle.get("model")
+          assert bundle["provenance"]["native_resolution_km"] == 5.0
+          assert bundle["provenance"]["native_time_interval_hours"] == 1
+          assert [x["forecast_hour"] for x in bundle["frames"]] == [0, 1, 2]
+          assert [bundle["grid"]["rows"], bundle["grid"]["cols"]] == [73, 49]
+          for key in (
+              "total_cloud_percent",
+              "low_cloud_percent",
+              "mid_cloud_percent",
+              "high_cloud_percent",
+          ):
+              assert key in bundle["fields"], bundle["fields"]
+          low = bundle["fields"]["low_cloud_percent"]["vertical_definition"]
+          assert low["reference_pressure_bounds_hpa"]["top"] == 850, low
+          print(json.dumps({
+              "cycle": bundle["cycle"],
+              "bbox": bundle["bbox"],
+              "frames": len(bundle["frames"]),
+              "grid": [bundle["grid"]["rows"], bundle["grid"]["cols"]],
+              "fields": list(bundle["fields"]),
+          }, indent=2))
+          PY
+
+      - name: Upload JMA MSM live-smoke outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: jma-msm-live-smoke
+          path: |
+            jma_msm_live_smoke_output/jma_msm_tw_cloud_browser.json
+            jma_msm_live_smoke_output/jma_msm_tw_cloud_qc.json
+          if-no-files-found: error
+          retention-days: 3
+
   live-poc:
     if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
@@ -267,7 +344,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y cdo
           python -m pip install --upgrade pip
-          python -m pip install requests boto3 scipy xarray netCDF4 cfgrib eccodes numpy matplotlib cartopy
+          python -m pip install requests boto3 scipy xarray netCDF4 cfgrib eccodes numpy matplotlib cartopy omfiles fsspec s3fs
 
       - name: Cache DWD ICON remap weights
         uses: actions/cache@v4
@@ -337,6 +414,21 @@ jobs:
           python cwa_weathergrid_browser_bundle.py \
             --input-dir cwa_wrf3_output
 
+      - name: Fetch JMA MSM 5 km cloud WeatherGrid
+        if: inputs.coverage_scope == 'region'
+        id: jma_msm
+        continue-on-error: true
+        run: |
+          python jma_msm_cloud_poc.py \
+            --forecast-hours "0,1,2,3,4,5,6,7,8,9,10,11,12" \
+            --output-dir jma_msm_output
+
+      - name: Build JMA MSM 5 km cloud browser bundle and QC
+        if: inputs.coverage_scope == 'region' && steps.jma_msm.outcome == 'success'
+        run: |
+          python jma_msm_weathergrid_browser_bundle.py \
+            --input-dir jma_msm_output
+
       - name: Build subject-aware coverage browser bundle
         run: |
           python build_weathergrid_coverage_browser.py \
@@ -361,6 +453,13 @@ jobs:
           else
             rm -f weathergrid/cwa_wrf3_tw_weather_browser.json weathergrid/cwa_wrf3_tw_weather_qc.json
           fi
+
+          if [[ -f jma_msm_output/jma_msm_tw_cloud_browser.json ]]; then
+            cp jma_msm_output/jma_msm_tw_cloud_browser.json weathergrid/jma_msm_tw_cloud_browser.json
+            cp jma_msm_output/jma_msm_tw_cloud_qc.json weathergrid/jma_msm_tw_cloud_qc.json
+          else
+            rm -f weathergrid/jma_msm_tw_cloud_browser.json weathergrid/jma_msm_tw_cloud_qc.json
+          fi
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add -A \
@@ -370,7 +469,9 @@ jobs:
             weathergrid/icon_tw_cloud_browser.json \
             weathergrid/icon_tw_cloud_qc.json \
             weathergrid/cwa_wrf3_tw_weather_browser.json \
-            weathergrid/cwa_wrf3_tw_weather_qc.json
+            weathergrid/cwa_wrf3_tw_weather_qc.json \
+            weathergrid/jma_msm_tw_cloud_browser.json \
+            weathergrid/jma_msm_tw_cloud_qc.json
           if ! git diff --cached --quiet; then
             git commit -m "Update WeatherGrid preview snapshot [skip ci]"
             for i in {1..5}; do
@@ -389,4 +490,6 @@ jobs:
             icon_cloud_output/
             cwa_wrf3_output/cwa_wrf3_tw_weather_browser.json
             cwa_wrf3_output/cwa_wrf3_tw_weather_qc.json
+            jma_msm_output/jma_msm_tw_cloud_browser.json
+            jma_msm_output/jma_msm_tw_cloud_qc.json
           if-no-files-found: error
