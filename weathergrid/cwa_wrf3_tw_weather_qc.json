@@ -246,6 +246,8 @@
     "CWA WRF3 native regional fields are remapped to a regular browser grid.",
     "Browser interpolation is presentation-only and does not increase model resolution.",
     "Wind direction is circular and should be rendered/sampled with nearest-cell semantics.",
-    "Optional CWA fields are published only when present in every frame of the snapshot."
+    "Optional CWA fields are published only when present in every frame of the snapshot.",
+    "Live M-A0064 verification found pressure-level relative humidity but no native low/mid/high cloud-cover fields.",
+    "Pressure-level RH is not relabeled as cloud cover."
   ]
 }
