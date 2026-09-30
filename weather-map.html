@@ -12,7 +12,7 @@
     <div>
       <a class="back-link" href="./index.html">← ChaseLights</a>
       <h1>🗺️ WeatherGrid Preview</h1>
-      <p class="subtitle">ICON Global 雲圖優先 · GFS 備援／長期 · RAW DATA 自繪圖層</p>
+      <p class="subtitle">可切換 CWA WRF 3 km / ICON Global / GFS · 各模型保留自己的範圍、解析度與時間間隔</p>
     </div>
     <div class="source-meta">
       <div id="source-state" class="source-pill">載入中…</div>
@@ -23,6 +23,15 @@
   <main class="weather-layout">
     <section class="map-panel">
       <div class="control-bar">
+        <label>
+          <span>氣象模型</span>
+          <select id="model-select">
+            <option value="auto">自動</option>
+            <option value="cwa">CWA WRF 3 km</option>
+            <option value="icon">ICON Global</option>
+            <option value="gfs">GFS 0.25°</option>
+          </select>
+        </label>
         <label>
           <span>圖層</span>
           <select id="layer-select"></select>
@@ -47,7 +56,7 @@
             <option value="">先選景點</option>
           </select>
         </label>
-        <button id="reset-view" type="button">全台視野</button>
+        <button id="reset-view" type="button">模型範圍</button>
       </div>
 
       <div class="map-wrap">
@@ -95,7 +104,8 @@
 
       <section class="panel note-panel">
         <h2>POC 限制</h2>
-        <p>雲量優先使用 ICON Global（原生約 13 km，經 DWD 官方 0.125° remap），缺少對應時效時自動退回 GFS 0.25°；其他圖層目前仍使用 GFS。兩者顯示皆做雙線性內插，內插只改善連續性，不增加模式的真實預報解析度。</p>
+        <p>目前已加入三套模式資料：CWA WRF 3 km、ICON Global 與 GFS。使用者可手動切換；「自動」維持現行 ICON 雲量優先、GFS 備援策略。CWA 先以 WRF 3 km 的 2 m 溫度／濕度、10 m 風場、累積降水與地表短波輻射為主。</p>
+        <p>每個模式使用自己的資料邊界、網格解析度與預報時間軸。畫面內插只改善顯示連續性，不增加原始模式的真實解析度。</p>
         <p>底圖採 MapLibre + OpenFreeMap；若外部底圖無法載入，WeatherGrid 會自動退回既有 Canvas 經緯網格，不影響 GFS 圖層與景點取樣。</p>
       </section>
     </aside>
