@@ -11,6 +11,7 @@ on:
       - main
     paths:
       - "jma_msm_cloud_poc.py"
+      - "jma_msm_aws_om.py"
       - "jma_msm_weathergrid_browser_bundle.py"
       - ".github/workflows/update_jma_msm_weathergrid.yml"
   workflow_dispatch:
@@ -46,19 +47,16 @@ jobs:
       - name: Install JMA WeatherGrid dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install requests numpy
+          python -m pip install requests numpy "omfiles>=1.2,<2" fsspec s3fs
 
       - name: Fetch JMA MSM 5 km cloud WeatherGrid
         id: jma_msm
         continue-on-error: true
         env:
           JMA_FORECAST_HOURS: ${{ inputs.forecast_hours || '40' }}
-          OPEN_METEO_API_KEY: ${{ secrets.OPEN_METEO_API_KEY }}
         run: |
           python jma_msm_cloud_poc.py \
             --forecast-hours "$JMA_FORECAST_HOURS" \
-            --batch-size 100 \
-            --require-production-transport \
             --output-dir jma_msm_output
 
       - name: Build JMA MSM browser bundle and QC
@@ -89,12 +87,13 @@ jobs:
           assert provenance.get("native_resolution_km") == 5.0, provenance
           assert provenance.get("native_time_interval_hours") == 1, provenance
           assert provenance.get("update_interval_hours") == 3, provenance
-          assert provenance.get("production_transport") == "open_meteo_customer", provenance
+          assert provenance.get("production_transport") == "open_meteo_aws_open_data_om", provenance
           assert (
               provenance.get("forecast_hour_semantics")
-              == "hours_from_first_published_valid_time_not_model_cycle"
+              == "hours_from_model_cycle"
           ), provenance
-          assert provenance.get("cycle_timestamp_available") is False, provenance
+          assert provenance.get("cycle_timestamp_available") is True, provenance
+          assert browser.get("cycle", {}).get("cycle_time_utc"), browser.get("cycle")
           assert browser.get("bbox") == {
               "leftlon": 120.0625,
               "rightlon": 122.5,
