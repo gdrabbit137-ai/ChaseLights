@@ -3,7 +3,10 @@ import unittest
 import numpy as np
 
 from jma_msm_aws_om import (
+    IN_PROGRESS_METADATA_URL,
+    LATEST_METADATA_URL,
     SOURCE_TO_TARGET,
+    fetch_best_metadata,
     grid_slice_for_bbox,
     spatial_s3_uri,
 )
@@ -15,6 +18,26 @@ from jma_msm_cloud_poc import (
     build_grid,
     fetch_snapshot,
 )
+
+
+class _MetadataResponse:
+    def __init__(self, payload):
+        self.payload = payload
+        self.text = ""
+
+    def raise_for_status(self):
+        return None
+
+    def json(self):
+        return dict(self.payload)
+
+
+class _MetadataSession:
+    def __init__(self, by_url):
+        self.by_url = by_url
+
+    def get(self, url, timeout):
+        return _MetadataResponse(self.by_url[url])
 
 
 class JmaMsmAwsOmProviderTests(unittest.TestCase):
@@ -67,6 +90,39 @@ class JmaMsmAwsOmProviderTests(unittest.TestCase):
 
     def test_cloud_fields_remain_native_jma_layers(self):
         self.assertEqual(API_VARIABLES, SOURCE_TO_TARGET)
+
+    def test_metadata_resolver_prefers_fresher_usable_in_progress_run(self):
+        latest = dict(self.metadata)
+        latest["reference_time"] = "2026-09-30T09:00:00Z"
+        progress = dict(self.metadata)
+        progress["reference_time"] = "2026-09-30T12:00:00Z"
+        session = _MetadataSession({
+            IN_PROGRESS_METADATA_URL: progress,
+            LATEST_METADATA_URL: latest,
+        })
+        chosen = fetch_best_metadata(
+            forecast_hours=2,
+            session=session,
+        )
+        self.assertEqual(chosen["reference_time"], "2026-09-30T12:00:00Z")
+        self.assertEqual(chosen["_metadata_url"], IN_PROGRESS_METADATA_URL)
+
+    def test_metadata_resolver_falls_back_when_new_run_is_incomplete(self):
+        latest = dict(self.metadata)
+        latest["reference_time"] = "2026-09-30T09:00:00Z"
+        progress = dict(self.metadata)
+        progress["reference_time"] = "2026-09-30T12:00:00Z"
+        progress["valid_times"] = ["2026-09-30T12:00Z"]
+        session = _MetadataSession({
+            IN_PROGRESS_METADATA_URL: progress,
+            LATEST_METADATA_URL: latest,
+        })
+        chosen = fetch_best_metadata(
+            forecast_hours=2,
+            session=session,
+        )
+        self.assertEqual(chosen["reference_time"], "2026-09-30T09:00:00Z")
+        self.assertEqual(chosen["_metadata_url"], LATEST_METADATA_URL)
 
     def test_vertical_definitions_preserve_jma_boundary_rule(self):
         low = JMA_MSM_CLOUD_VERTICAL_DEFINITIONS["low_cloud_percent"]
