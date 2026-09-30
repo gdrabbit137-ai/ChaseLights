@@ -337,9 +337,11 @@
     }
     const adminPickerMedia=window.matchMedia('(max-width: 640px)');
     const isMobileAdminPicker=()=>adminPickerMedia.matches;
-    function lockAdminPickerScroll(){
+    function lockAdminPickerScroll(scrollYOverride=null){
       if(document.body.classList.contains('admin-picker-open'))return;
-      adminPickerScrollY=window.scrollY||window.pageYOffset||0;
+      adminPickerScrollY=Number.isFinite(scrollYOverride)
+        ? scrollYOverride
+        : (window.scrollY||window.pageYOffset||0);
       document.body.style.top=`-${adminPickerScrollY}px`;
       document.body.classList.add('admin-picker-open');
     }
@@ -349,10 +351,10 @@
       document.body.style.top='';
       window.scrollTo(0,adminPickerScrollY);
     }
-    function openMobileAdminPicker(details){
+    function openMobileAdminPicker(details,{scrollY=null}={}){
       if(!details||!isMobileAdminPicker())return;
       const alreadyLocked=document.body.classList.contains('admin-picker-open');
-      lockAdminPickerScroll();
+      lockAdminPickerScroll(scrollY);
       if(!adminPickerHistoryArmed){
         history.pushState({...history.state,chaselightsAdminPicker:true},document.title);
         adminPickerHistoryArmed=true;
@@ -443,9 +445,13 @@
           close();
           return;
         }
+        // Capture before opening <details>. Chromium can reflow the page as
+        // soon as details.open flips, changing window.scrollY before the body
+        // lock is applied. Preserve the user's actual pre-open position.
+        const preOpenScrollY=window.scrollY||window.pageYOffset||0;
         details.open=true;
         summaryButton.setAttribute('aria-expanded','true');
-        openMobileAdminPicker(details);
+        openMobileAdminPicker(details,{scrollY:preOpenScrollY});
       });
       details.addEventListener('toggle',()=>{
         summaryButton.setAttribute('aria-expanded',details.open?'true':'false');
