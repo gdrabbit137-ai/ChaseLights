@@ -93,23 +93,79 @@ def _attr_text(value) -> str | int | float | bool | list | None:
     return str(value)
 
 
-def _dataset_summary(dataset) -> dict:
+def _interesting_attrs(obj) -> dict:
     attrs = {}
     for name in (
         "long_name",
         "standard_name",
         "units",
         "grid_mapping",
+        "grid_mapping_name",
+        "perspective_point_height",
+        "semi_major_axis",
+        "semi_minor_axis",
+        "inverse_flattening",
+        "longitude_of_projection_origin",
+        "latitude_of_projection_origin",
+        "sweep_angle_axis",
+        "scale_factor",
+        "add_offset",
         "valid_range",
         "_FillValue",
     ):
-        if name in dataset.attrs:
-            attrs[name] = _attr_text(dataset.attrs[name])
-    return {
+        if name in obj.attrs:
+            attrs[name] = _attr_text(obj.attrs[name])
+    return attrs
+
+
+def _dataset_summary(dataset) -> dict:
+    result = {
         "shape": list(dataset.shape),
         "dtype": str(dataset.dtype),
-        "attrs": attrs,
+        "attrs": _interesting_attrs(dataset),
     }
+    if dataset.ndim == 1 and dataset.size:
+        result["coordinate_endpoints"] = [
+            _attr_text(dataset[0]),
+            _attr_text(dataset[-1]),
+        ]
+    elif dataset.ndim == 0:
+        try:
+            result["value"] = _attr_text(dataset[()])
+        except Exception:
+            pass
+    return result
+
+
+def _projection_diagnostics(handle) -> dict:
+    objects = {}
+
+    def collect(name, obj):
+        semantic = name.lower()
+        attrs = _interesting_attrs(obj)
+        if (
+            "projection" in semantic
+            or "geos" in semantic
+            or "himawari" in semantic
+            or "grid_mapping_name" in attrs
+            or "perspective_point_height" in attrs
+        ):
+            summary = {
+                "kind": type(obj).__name__,
+                "attrs": attrs,
+            }
+            if hasattr(obj, "shape"):
+                summary["shape"] = list(obj.shape)
+                summary["dtype"] = str(obj.dtype)
+                if getattr(obj, "ndim", None) == 0:
+                    try:
+                        summary["value"] = _attr_text(obj[()])
+                    except Exception:
+                        pass
+            objects[name] = summary
+
+    handle.visititems(collect)
+    return objects
 
 
 def inspect_remote_product(fs, path: str, *, kind: str) -> dict:
@@ -206,6 +262,7 @@ def inspect_remote_product(fs, path: str, *, kind: str) -> dict:
                 "candidate_datasets": candidates,
                 "candidate_shapes": shapes,
                 "relevant_datasets": relevant,
+                "projection_diagnostics": _projection_diagnostics(handle),
             }
 
 
