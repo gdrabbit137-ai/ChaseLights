@@ -1226,6 +1226,12 @@
     }
     const cycleText=data.cycle?.cycle_time_utc || data.cycle?.label || '—';
     $('cycle-label').textContent=`Cycle ${cycleText} · ${data.grid.rows}×${data.grid.cols} · ${resolution}`;
+    const attributionHost=$('source-attribution');
+    if(usingJma){
+      attributionHost.innerHTML='資料模型：JMA MSM · API transport: <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo</a>';
+    }else{
+      attributionHost.innerHTML='';
+    }
 
     const arr=decodedArray(state.layer).filter(Number.isFinite);
     const min=arr.length?Math.min(...arr):null, max=arr.length?Math.max(...arr):null;
