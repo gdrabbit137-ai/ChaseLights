@@ -126,13 +126,17 @@ def _metadata_is_usable(metadata: dict, forecast_hours: int) -> bool:
     return set(SOURCE_TO_TARGET).issubset(variables)
 
 
-def fetch_best_metadata(
+def fetch_metadata_candidates(
     *,
     forecast_hours: int,
     session: requests.Session | None = None,
     timeout: int = 30,
-) -> dict:
-    """Prefer a fresher partial run once all requested hours are available."""
+) -> list[dict]:
+    """Return usable AWS run metadata newest-first.
+
+    Both in-progress and latest-completed metadata are retained so a spatial
+    file race in the newest run can fall back to the previous completed run.
+    """
     candidates = []
     errors = []
     for url in (IN_PROGRESS_METADATA_URL, LATEST_METADATA_URL):
@@ -152,7 +156,25 @@ def fetch_best_metadata(
             + "; ".join(errors)
         )
 
-    return max(candidates, key=lambda x: _parse_utc(x["reference_time"]))
+    return sorted(
+        candidates,
+        key=lambda x: _parse_utc(x["reference_time"]),
+        reverse=True,
+    )
+
+
+def fetch_best_metadata(
+    *,
+    forecast_hours: int,
+    session: requests.Session | None = None,
+    timeout: int = 30,
+) -> dict:
+    """Return the freshest metadata candidate for callers needing one run."""
+    return fetch_metadata_candidates(
+        forecast_hours=forecast_hours,
+        session=session,
+        timeout=timeout,
+    )[0]
 
 
 def spatial_s3_uri(reference_time: str, valid_time: str) -> str:
@@ -175,7 +197,9 @@ def _default_reader(uri: str, grid: GridSlice) -> dict[str, np.ndarray]:
         f"blockcache::{uri}",
         mode="rb",
         s3={"anon": True, "default_block_size": 65536},
-        blockcache={"cache_storage": str(cache_dir), "same_names": True},
+        # Keep the full-path hash in cache keys: different MSM cycles can
+        # publish the same valid-time filename with different forecast data.
+        blockcache={"cache_storage": str(cache_dir), "same_names": False},
     )
     out: dict[str, np.ndarray] = {}
     with OmFileReader(backend) as root:
@@ -205,10 +229,44 @@ def fetch_aws_snapshot(
     if forecast_hours < 1:
         raise ValueError("forecast_hours must be >= 1")
 
-    metadata = metadata or fetch_best_metadata(
-        forecast_hours=forecast_hours,
-        session=session,
+    candidates = (
+        [metadata]
+        if metadata is not None
+        else fetch_metadata_candidates(
+            forecast_hours=forecast_hours,
+            session=session,
+        )
     )
+    errors = []
+    for candidate in candidates:
+        try:
+            return _fetch_aws_snapshot_from_metadata(
+                bbox=bbox,
+                forecast_hours=forecast_hours,
+                metadata=candidate,
+                reader=reader,
+            )
+        except Exception as exc:
+            errors.append(
+                f"{candidate.get('reference_time', 'unknown')}: {exc}"
+            )
+            if metadata is not None:
+                raise
+
+    raise RuntimeError(
+        "No readable JMA MSM AWS spatial run for requested window; "
+        + "; ".join(errors)
+    )
+
+
+def _fetch_aws_snapshot_from_metadata(
+    *,
+    bbox: dict[str, float],
+    forecast_hours: int,
+    metadata: dict,
+    reader: Callable[[str, GridSlice], dict[str, np.ndarray]] | None = None,
+) -> dict:
+    """Read one resolved model run; caller owns cross-run fallback."""
     grid = grid_slice_for_bbox(bbox)
     reference_time = metadata["reference_time"]
     run = _parse_utc(reference_time)
