@@ -423,6 +423,33 @@
     renderAll();
   }
 
+  function initDataInfoDialog(){
+    const dialog=$('data-info-dialog');
+    const open=$('data-info-open');
+    const close=$('data-info-close');
+    if(!dialog || !open || !close) return;
+
+    open.addEventListener('click',()=>{
+      if(typeof dialog.showModal==='function') dialog.showModal();
+      else dialog.setAttribute('open','');
+    });
+    close.addEventListener('click',()=>{
+      if(typeof dialog.close==='function') dialog.close();
+      else dialog.removeAttribute('open');
+    });
+    dialog.addEventListener('click',ev=>{
+      if(ev.target!==dialog) return;
+      if(typeof dialog.close==='function') dialog.close();
+      else dialog.removeAttribute('open');
+    });
+  }
+
+  function syncInspectorVisibility(){
+    const hasSpot=Boolean(state.spotId);
+    $('spot-panel').hidden=!hasSpot;
+    $('coverage-panel').hidden=!hasSpot;
+  }
+
   function initControls(){
     const modelSelect=$('model-select');
     modelSelect.addEventListener('change',()=>switchModel(modelSelect.value));
@@ -492,6 +519,8 @@
       pickSpotAtPoint(ev.clientX-rect.left,ev.clientY-rect.top);
     });
 
+    initDataInfoDialog();
+    syncInspectorVisibility();
     refreshModelControls();
   }
   function selectSpot(spotId){
@@ -1499,6 +1528,8 @@
       verticalHost.innerHTML='';
     }
 
+    syncInspectorVisibility();
+
     const spot=selectedSpot();
     const point=samplingPoint();
     $('spot-name').textContent=spot?spot.name:'尚未選取';
@@ -1624,12 +1655,12 @@
     }
     const qc=activeQc(state.layer);
     if(!qc){
-      host.innerHTML='<div>此快照沒有 QC 檔。</div>';return;
+      host.innerHTML='<div class="warn">△ QC 資料未提供</div>';return;
     }
     const fh=frame().forecast_hour;
     const flags=qc.flags.filter(x=>x.forecast_hour===fh && x.field===state.layer);
     if(!flags.length){
-      host.innerHTML='<div class="ok">✓ 此圖層／時段沒有 QC 警示</div>';
+      host.innerHTML='<div class="ok">✓ 資料正常</div>';
     }else{
       host.innerHTML=flags.map(x=>`<div class="warn">⚠ ${escapeHtml(qcMessage(x.flag))}<span class="qc-code" title="內部 QC 代碼">${escapeHtml(x.flag)}</span></div>`).join('');
     }
@@ -1653,6 +1684,8 @@
       jmaAvailable: Boolean(state.jmaData),
       modelMode: state.modelMode,
       timelineModel: timelineDataset()?.model || null,
+      spotPanelVisible: !$('spot-panel').hidden,
+      coveragePanelVisible: !$('coverage-panel').hidden,
       view: {...state.view}
     };
   }
