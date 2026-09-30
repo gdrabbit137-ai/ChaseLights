@@ -180,7 +180,7 @@ jobs:
           print(json.dumps({
               "cycle": bundle["cycle"],
               "bbox": bundle["bbox"],
-              "grid": bundle["grid"]["rows:"] if False else [
+              "grid": [
                   bundle["grid"]["rows"], bundle["grid"]["cols"]
               ],
               "fields": list(bundle["fields"]),
