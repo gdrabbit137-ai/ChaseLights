@@ -26,8 +26,9 @@ The official CWA product documentation describes the regional WRF domain as:
 - high-resolution domain: 3 km
 - grid: 1158 x 673
 - runs: 00 / 06 / 12 / 18 UTC
-- forecast horizon: 000 through 084 hours
-- output interval: 6 hours
+- operational WRF_D model output: hourly through 126 hours
+- public M-A0064 series integrated by ChaseLights: 000 through 084 hours
+- public M-A0064 product interval used here: 6 hours
 - reference first grid point: 105.2500 E / 14.02224 N
 - reference final grid point: 140.91388 E / 32.12021 N
 
@@ -107,10 +108,17 @@ the model has gained resolution. Provenance keeps native resolution = 3 km.
 
 CWA frames are not forced onto the existing GFS three-hour browser timeline.
 
-CWA manual mode reads its own frame list and slider:
+The current CWA WRF_D product documentation says the operational model itself
+produces hourly output through 126 h.  The public M-A0064 GRIB2 series integrated
+in B151 is the narrower public product contract used by this provider: f000
+through f084 at six-hour product steps.
 
-- native interval: 6 h
-- official provider capability: f000 through f084
+CWA manual mode therefore reads its own frame list and slider:
+
+- operational model output interval: 1 h
+- operational model horizon: 126 h
+- integrated public-product interval: 6 h
+- integrated public-product horizon: f084
 - initial scheduled browser snapshot: f000 / f006 / f012
 
 The initial three-frame scheduled window is deliberately conservative because
@@ -165,7 +173,7 @@ When the user selects CWA:
 - the time slider changes to CWA's six-hour frames;
 - the map fits the CWA bbox;
 - reset-view returns to the CWA bbox;
-- source metadata shows 3 km native resolution and six-hour native interval.
+- source metadata shows 3 km native resolution and the six-hour public-product interval.
 
 When the user selects ICON or GFS, each model similarly uses its own published
 frame list and bbox.
@@ -203,7 +211,9 @@ If CWA fails:
 
 Offline contracts verify:
 
-- 3 km / six-hour / +84 h provider capability;
+- 3 km model resolution;
+- 1 h / +126 h operational-model metadata;
+- 6 h / +84 h public M-A0064 product contract;
 - M-A0064 dataset IDs;
 - provider-owned bbox and 0.03 degree browser grid;
 - required CWA surface fields;
