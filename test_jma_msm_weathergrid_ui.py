@@ -1,0 +1,55 @@
+import unittest
+from pathlib import Path
+
+
+ROOT = Path(__file__).resolve().parent
+JS = (ROOT / "assets" / "weather-map.js").read_text(encoding="utf-8")
+HTML = (ROOT / "weather-map.html").read_text(encoding="utf-8")
+
+
+class JmaMsmWeatherGridUiTests(unittest.TestCase):
+    def test_model_selector_exposes_jma_msm(self):
+        self.assertIn('value="jma">JMA MSM 5 km', HTML)
+        self.assertIn("JMA MSM 5 km", HTML)
+        self.assertIn("22.4°N", HTML)
+        self.assertIn("120°E", HTML)
+
+    def test_browser_loads_optional_jma_bundle(self):
+        self.assertIn("jma_msm_tw_cloud_browser.json", JS)
+        self.assertIn("jma_msm_tw_cloud_qc.json", JS)
+        self.assertIn("state.jmaData", JS)
+        self.assertIn("state.jmaQc", JS)
+        self.assertIn("JMA MSM 5 km", JS)
+
+    def test_jma_keeps_own_timeline_and_bbox(self):
+        self.assertIn("state.modelMode==='jma'", JS)
+        self.assertIn("timelineDataset()", JS)
+        self.assertIn("setViewBbox(timeline.bbox", JS)
+        self.assertIn("native_time_interval_hours", JS)
+
+    def test_jma_cloud_layers_include_total_low_mid_high(self):
+        for key in (
+            "total_cloud_percent",
+            "low_cloud_percent",
+            "mid_cloud_percent",
+            "high_cloud_percent",
+        ):
+            self.assertIn(key, JS)
+
+    def test_jma_vertical_definition_is_rendered_from_field_metadata(self):
+        self.assertIn("vertical_definition", JS)
+        self.assertIn("native_definition", JS)
+        self.assertIn("approx_height", JS)
+        self.assertIn("usingJma?'JMA MSM 5 km'", JS)
+
+    def test_auto_mode_does_not_change_until_explicit_policy_decision(self):
+        auto_block = JS.split("function availableLayerKeys()", 1)[1].split(
+            "function refreshModelControls()", 1
+        )[0]
+        self.assertIn("state.data?.fields", auto_block)
+        self.assertIn("state.iconData?.fields", auto_block)
+        self.assertNotIn("state.jmaData?.fields", auto_block)
+
+
+if __name__ == "__main__":
+    unittest.main()
