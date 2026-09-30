@@ -25,7 +25,7 @@ class CwaWeatherGridUiContractTests(unittest.TestCase):
         self.assertIn("function timelineDataset()", JS)
         self.assertIn("setViewBbox(timeline.bbox", JS)
         self.assertIn("timelineDataset().frames.map", JS)
-        self.assertIn("原生時間間隔", JS)
+        self.assertIn("公開資料間隔", JS)
 
     def test_cwa_unique_fields_are_available(self):
         for key in (
