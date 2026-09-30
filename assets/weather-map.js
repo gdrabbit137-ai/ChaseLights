@@ -1,6 +1,8 @@
 (() => {
   const LIVE_DATA = './weathergrid/gfs_tw_weather_browser.json';
   const LIVE_QC = './weathergrid/gfs_tw_weather_qc.json';
+  const LIVE_ICON_DATA = './weathergrid/icon_tw_cloud_browser.json';
+  const LIVE_ICON_QC = './weathergrid/icon_tw_cloud_qc.json';
   const LIVE_COVERAGE = './weathergrid/weathergrid_coverage_browser.json';
   const FALLBACK_DATA = './weathergrid_sample.json';
   const FALLBACK_COVERAGE = './weathergrid_coverage_sample.json';
@@ -20,6 +22,8 @@
   const state = {
     data:null,
     qc:null,
+    iconData:null,
+    iconQc:null,
     coverage:{spots:[]},
     frameIndex:0,
     layer:'low_cloud_percent',
@@ -190,6 +194,15 @@
     }
 
     if(state.source === 'live'){
+      try{
+        state.iconData = await fetchJson(LIVE_ICON_DATA);
+        try{ state.iconQc = await fetchJson(LIVE_ICON_QC); }catch(_){ state.iconQc = null; }
+      }catch(err){
+        console.warn('ICON Global cloud bundle unavailable; GFS remains active', err);
+        state.iconData = null;
+        state.iconQc = null;
+      }
+
       try{
         state.coverage = await fetchJson(LIVE_COVERAGE);
         state.coverageSource = 'live';
@@ -413,18 +426,56 @@
       bbox.south >= b.bottomlat && bbox.north <= b.toplat;
   }
 
-  function frame(){ return state.data.frames[state.frameIndex]; }
+  const cloudLayers = new Set([
+    'low_cloud_percent',
+    'mid_cloud_percent',
+    'high_cloud_percent'
+  ]);
 
-  function decodeValue(key, encoded){
+  function baseFrame(){
+    return state.data.frames[state.frameIndex];
+  }
+
+  function iconFrameForValidTime(validTime){
+    if(!state.iconData || !validTime) return null;
+    return state.iconData.frames.find(f => f.valid_time_utc===validTime) || null;
+  }
+
+  function activeDataset(key=state.layer){
+    if(cloudLayers.has(key) && state.iconData){
+      const iconFrame=iconFrameForValidTime(baseFrame()?.valid_time_utc);
+      if(iconFrame && state.iconData.fields[key]) return state.iconData;
+    }
+    return state.data;
+  }
+
+  function activeFrame(key=state.layer){
+    const data=activeDataset(key);
+    if(data===state.iconData){
+      return iconFrameForValidTime(baseFrame()?.valid_time_utc);
+    }
+    return baseFrame();
+  }
+
+  function activeQc(key=state.layer){
+    return activeDataset(key)===state.iconData ? state.iconQc : state.qc;
+  }
+
+  function frame(){ return activeFrame(state.layer); }
+
+  function decodeValue(key, encoded, data=activeDataset(key)){
     if(encoded == null) return null;
-    const meta = state.data.fields[key];
+    const meta = data.fields[key];
     let value = encoded * meta.scale;
     if(meta.wrap) value = ((value % meta.wrap) + meta.wrap) % meta.wrap;
     return value;
   }
 
   function decodedArray(key){
-    return frame().values[key].map(v => decodeValue(key,v));
+    const data=activeDataset(key);
+    const active=activeFrame(key);
+    if(!active || !active.values[key]) return [];
+    return active.values[key].map(v => decodeValue(key,v,data));
   }
 
   function project(lon,lat){
@@ -494,12 +545,95 @@
     return `hsl(${(value%360+360)%360} 76% 52%)`;
   }
 
-  function draw(){
-    const data=state.data;
-    const cfg=layerConfig[state.layer];
-    const vals=decodedArray(state.layer);
+  function fillWeatherPolygon(points,value,cfg){
+    ctx.beginPath();
+    points.forEach((p,i)=>i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y));
+    ctx.closePath();
+    ctx.globalAlpha=state.weatherOpacity*cellOpacityFor(value,cfg);
+    ctx.fillStyle=colorFor(value,cfg);
+    ctx.fill();
+  }
+
+  function bilinearValue(q00,q10,q01,q11,wx,wy){
+    if([q00,q10,q01,q11].some(v=>!Number.isFinite(v))) return null;
+    return q00*(1-wx)*(1-wy)+q10*wx*(1-wy)+
+      q01*(1-wx)*wy+q11*wx*wy;
+  }
+
+  function drawNearestCells(data,vals,cfg,visibleView){
     const rows=data.grid.rows, cols=data.grid.cols;
     const lats=data.grid.latitudes, lons=data.grid.longitudes;
+    const lonStep=cols>1 ? Math.abs(lons[1]-lons[0]) : .25;
+    const latStep=rows>1 ? Math.abs(lats[1]-lats[0]) : .25;
+    for(let r=0;r<rows;r++){
+      for(let c=0;c<cols;c++){
+        const lon=lons[c], lat=lats[r];
+        const left=lon-lonStep/2, right=lon+lonStep/2;
+        const top=lat+latStep/2, bottom=lat-latStep/2;
+        if(right < visibleView.leftlon || left > visibleView.rightlon ||
+           top < visibleView.bottomlat || bottom > visibleView.toplat) continue;
+        fillWeatherPolygon([
+          project(left,top),project(right,top),
+          project(right,bottom),project(left,bottom)
+        ],vals[r*cols+c],cfg);
+      }
+    }
+  }
+
+  function drawBilinearSubcells(data,vals,cfg,visibleView){
+    const rows=data.grid.rows, cols=data.grid.cols;
+    const lats=data.grid.latitudes, lons=data.grid.longitudes;
+    if(rows<2 || cols<2){
+      drawNearestCells(data,vals,cfg,visibleView);
+      return;
+    }
+
+    // Both providers are visually interpolated to about 0.0625 degree cells:
+    // GFS 0.25 degree -> 4x4; ICON remap 0.125 degree -> 2x2.
+    // This is display smoothing only; native model provenance stays visible.
+    const lonStep=Math.abs(lons[1]-lons[0]);
+    const subdivisions=lonStep>=.20 ? 4 : (lonStep>=.10 ? 2 : 1);
+
+    for(let r=0;r<rows-1;r++){
+      for(let c=0;c<cols-1;c++){
+        const lon0=lons[c], lon1=lons[c+1];
+        const lat0=lats[r], lat1=lats[r+1];
+        const left=Math.min(lon0,lon1), right=Math.max(lon0,lon1);
+        const bottom=Math.min(lat0,lat1), top=Math.max(lat0,lat1);
+        if(right < visibleView.leftlon || left > visibleView.rightlon ||
+           top < visibleView.bottomlat || bottom > visibleView.toplat) continue;
+
+        const q00=vals[r*cols+c];
+        const q10=vals[r*cols+c+1];
+        const q01=vals[(r+1)*cols+c];
+        const q11=vals[(r+1)*cols+c+1];
+
+        for(let sy=0;sy<subdivisions;sy++){
+          for(let sx=0;sx<subdivisions;sx++){
+            const x0=sx/subdivisions, x1=(sx+1)/subdivisions;
+            const y0=sy/subdivisions, y1=(sy+1)/subdivisions;
+            const wx=(x0+x1)/2, wy=(y0+y1)/2;
+            const value=bilinearValue(q00,q10,q01,q11,wx,wy);
+            if(value==null) continue;
+
+            const subLon0=lon0+(lon1-lon0)*x0;
+            const subLon1=lon0+(lon1-lon0)*x1;
+            const subLat0=lat0+(lat1-lat0)*y0;
+            const subLat1=lat0+(lat1-lat0)*y1;
+            fillWeatherPolygon([
+              project(subLon0,subLat0),project(subLon1,subLat0),
+              project(subLon1,subLat1),project(subLon0,subLat1)
+            ],value,cfg);
+          }
+        }
+      }
+    }
+  }
+
+  function draw(){
+    const data=activeDataset(state.layer);
+    const cfg=layerConfig[state.layer];
+    const vals=decodedArray(state.layer);
     const size=syncCanvasSize();
     const visibleView=renderViewBbox();
 
@@ -509,29 +643,12 @@
       ctx.fillRect(0,0,size.width,size.height);
     }
 
-    const lonStep=cols>1 ? Math.abs(lons[1]-lons[0]) : .25;
-    const latStep=rows>1 ? Math.abs(lats[1]-lats[0]) : .25;
-
     ctx.save();
-    for(let r=0;r<rows;r++){
-      for(let c=0;c<cols;c++){
-        const lon=lons[c], lat=lats[r];
-        const left=lon-lonStep/2, right=lon+lonStep/2;
-        const top=lat+latStep/2, bottom=lat-latStep/2;
-        if(right < visibleView.leftlon || left > visibleView.rightlon ||
-           top < visibleView.bottomlat || bottom > visibleView.toplat) continue;
-        const points=[
-          project(left,top),project(right,top),
-          project(right,bottom),project(left,bottom)
-        ];
-        ctx.beginPath();
-        points.forEach((p,i)=>i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y));
-        ctx.closePath();
-        const value=vals[r*cols+c];
-        ctx.globalAlpha=state.weatherOpacity*cellOpacityFor(value,cfg);
-        ctx.fillStyle=colorFor(value,cfg);
-        ctx.fill();
-      }
+    if(state.layer==='wind_direction_10m_deg'){
+      // Circular direction degrees must not be linearly interpolated.
+      drawNearestCells(data,vals,cfg,visibleView);
+    }else{
+      drawBilinearSubcells(data,vals,cfg,visibleView);
     }
     ctx.restore();
 
@@ -800,12 +917,12 @@
     ctx.restore();
   }
 
-  function nearestCellIndex(lon,lat){
-    const lons=state.data.grid.longitudes, lats=state.data.grid.latitudes;
+  function nearestCellIndex(lon,lat,data=state.data){
+    const lons=data.grid.longitudes, lats=data.grid.latitudes;
     let ci=0,ri=0,cd=Infinity,rd=Infinity;
     lons.forEach((v,i)=>{const d=Math.abs(v-lon);if(d<cd){cd=d;ci=i;}});
     lats.forEach((v,i)=>{const d=Math.abs(v-lat);if(d<rd){rd=d;ri=i;}});
-    return ri*state.data.grid.cols+ci;
+    return ri*data.grid.cols+ci;
   }
 
   function samplingPoint(){
@@ -818,10 +935,13 @@
 
   function samplePointValue(point,key){
     if(!point) return null;
+    const data=activeDataset(key);
     const values=decodedArray(key);
-    if(key==='wind_direction_10m_deg') return values[nearestCellIndex(point.lon,point.lat)];
+    if(key==='wind_direction_10m_deg'){
+      return values[nearestCellIndex(point.lon,point.lat,data)];
+    }
 
-    const lons=state.data.grid.longitudes, lats=state.data.grid.latitudes;
+    const lons=data.grid.longitudes, lats=data.grid.latitudes;
     const ascLon=lons[0] < lons[lons.length-1];
     const ascLat=lats[0] < lats[lats.length-1];
     const lonA=ascLon?lons:[...lons].reverse();
@@ -837,11 +957,13 @@
     const toOrigX=i=>ascLon?i:lons.length-1-i;
     const toOrigY=i=>ascLat?i:lats.length-1-i;
     const x0=lonA[x0i],x1=lonA[x1i],y0=latA[y0i],y1=latA[y1i];
-    const v00=values[toOrigY(y0i)*state.data.grid.cols+toOrigX(x0i)];
-    const v10=values[toOrigY(y0i)*state.data.grid.cols+toOrigX(x1i)];
-    const v01=values[toOrigY(y1i)*state.data.grid.cols+toOrigX(x0i)];
-    const v11=values[toOrigY(y1i)*state.data.grid.cols+toOrigX(x1i)];
-    if([v00,v10,v01,v11].some(v=>v==null)) return values[nearestCellIndex(point.lon,point.lat)];
+    const v00=values[toOrigY(y0i)*data.grid.cols+toOrigX(x0i)];
+    const v10=values[toOrigY(y0i)*data.grid.cols+toOrigX(x1i)];
+    const v01=values[toOrigY(y1i)*data.grid.cols+toOrigX(x0i)];
+    const v11=values[toOrigY(y1i)*data.grid.cols+toOrigX(x1i)];
+    if([v00,v10,v01,v11].some(v=>v==null)){
+      return values[nearestCellIndex(point.lon,point.lat,data)];
+    }
     const wx=x1===x0?0:(point.lon-x0)/(x1-x0);
     const wy=y1===y0?0:(point.lat-y0)/(y1-y0);
     return v00*(1-wx)*(1-wy)+v10*wx*(1-wy)+v01*(1-wx)*wy+v11*wx*wy;
@@ -868,6 +990,8 @@
 
   function updateControls(){
     const f=frame(), cfg=layerConfig[state.layer];
+    const data=activeDataset(state.layer);
+    const usingIcon=data===state.iconData;
     $('time-slider').value=state.frameIndex;
     $('time-label').textContent=`時間 · ${formatTaipeiTime(f.valid_time_utc)} (f${String(f.forecast_hour).padStart(3,'0')})`;
     $('opacity-label').textContent=`${Math.round(state.weatherOpacity*100)}%`;
@@ -877,15 +1001,22 @@
       status.textContent='DEMO 範例資料';
       status.className='source-pill demo';
     }else{
-      status.textContent='LIVE GFS 快照';
+      const gfsRole=cloudLayers.has(state.layer)?'LIVE GFS fallback':'LIVE GFS';
+      status.textContent=usingIcon?'LIVE ICON Global':gfsRole;
       status.className='source-pill';
     }
-    $('cycle-label').textContent=`Cycle ${state.data.cycle?.cycle_time_utc || '—'} · ${state.data.grid.rows}×${state.data.grid.cols}`;
+    const resolution=usingIcon
+      ? `原生約 ${data.provenance?.native_resolution_km || 13} km · 0.125° remap · 顯示雙線性內插`
+      : '原生 0.25° · 顯示雙線性內插';
+    $('cycle-label').textContent=`Cycle ${data.cycle?.cycle_time_utc || '—'} · ${data.grid.rows}×${data.grid.cols} · ${resolution}`;
 
     const arr=decodedArray(state.layer).filter(Number.isFinite);
     const min=arr.length?Math.min(...arr):null, max=arr.length?Math.max(...arr):null;
     $('layer-summary').textContent=min==null?'—':`${formatValue(min,state.layer)} – ${formatValue(max,state.layer)}`;
-    $('layer-unit').textContent=`${cfg.label} · ${state.data.fields[state.layer].unit} · 底圖可見度依數值動態調整`;
+    const providerRole=usingIcon
+      ? 'ICON Global primary'
+      : (cloudLayers.has(state.layer)?'GFS fallback':'GFS');
+    $('layer-unit').textContent=`${cfg.label} · ${data.fields[state.layer].unit} · ${providerRole} · 內插不增加模式真實解析度`;
 
     const spot=selectedSpot();
     const point=samplingPoint();
@@ -984,14 +1115,15 @@
   function updateQc(){
     const host=$('qc-status');
     if(state.source==='demo'){
-      host.innerHTML='<div class="warn">⚠️ 目前顯示 DEMO fixture；執行 B117 publish_preview 後會切換為 GFS live snapshot。</div>';
+      host.innerHTML='<div class="warn">⚠️ 目前顯示 DEMO fixture；發布 live WeatherGrid 後會自動採 ICON cloud / GFS fallback。</div>';
       return;
     }
-    if(!state.qc){
+    const qc=activeQc(state.layer);
+    if(!qc){
       host.innerHTML='<div>此快照沒有 QC 檔。</div>';return;
     }
     const fh=frame().forecast_hour;
-    const flags=state.qc.flags.filter(x=>x.forecast_hour===fh && x.field===state.layer);
+    const flags=qc.flags.filter(x=>x.forecast_hour===fh && x.field===state.layer);
     if(!flags.length){
       host.innerHTML='<div class="ok">✓ 此圖層／時段沒有 QC 警示</div>';
     }else{
@@ -1010,6 +1142,9 @@
       windVectors: state.windVectors,
       windVectorStep: windVectorStep(),
       windVectorCount: state.lastWindVectorCount,
+      activeModel: activeDataset(state.layer)?.model || null,
+      displayInterpolation: state.layer==='wind_direction_10m_deg'?'nearest':'bilinear_subcell',
+      iconAvailable: Boolean(state.iconData),
       view: {...state.view}
     };
   }
