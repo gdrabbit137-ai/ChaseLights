@@ -203,6 +203,7 @@ jobs:
           assert "temperature_2m_c" in bundle["fields"], bundle["fields"]
           assert "relative_humidity_2m_percent" in bundle["fields"], bundle["fields"]
           assert "wind_speed_10m_m_s" in bundle["fields"], bundle["fields"]
+          assert "shortwave_flux_w_m2" in bundle["fields"], bundle["fields"]
           print(json.dumps({
               "cycle": bundle["cycle"],
               "bbox": bundle["bbox"],
