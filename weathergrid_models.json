@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "default_mode": "auto",
+  "models": [
+    {
+      "id": "cwa_wrf3",
+      "label": "CWA WRF 3 km",
+      "provider": "中央氣象署 CWA",
+      "bundle_url": "./weathergrid/cwa_wrf3_tw_weather_browser.json",
+      "qc_url": "./weathergrid/cwa_wrf3_tw_weather_qc.json",
+      "priority": 10,
+      "default_layer": "wind_speed_10m_m_s",
+      "native_resolution": "3 km",
+      "native_time_interval": "6 h",
+      "forecast_horizon": "+84 h",
+      "native_domain_note": "3 km regional WRF domain; official reference corners 105.2500°E/14.02224°N to 140.91388°E/32.12021°N.",
+      "strengths": [
+        "台灣及鄰近區域高解析近地面風場",
+        "2 m 溫度與相對濕度",
+        "區域累積降水",
+        "地表短波輻射"
+      ],
+      "source_url": "https://registry.opendata.aws/cwa_opendata/"
+    },
+    {
+      "id": "icon_global",
+      "label": "ICON Global",
+      "provider": "DWD",
+      "bundle_url": "./weathergrid/icon_tw_cloud_browser.json",
+      "qc_url": "./weathergrid/icon_tw_cloud_qc.json",
+      "priority": 20,
+      "default_layer": "low_cloud_percent",
+      "native_resolution": "~13 km",
+      "native_time_interval": "1 h early range / 3 h later range",
+      "forecast_horizon": "cycle dependent",
+      "native_domain_note": "Global native icosahedral grid; browser artifacts may publish smaller regional windows.",
+      "strengths": [
+        "全球雲量",
+        "比 GFS 0.25° 更細的全球模式空間解析度",
+        "低／中／高雲分層"
+      ],
+      "source_url": "https://opendata.dwd.de/weather/nwp/icon/grib/"
+    },
+    {
+      "id": "gfs",
+      "label": "GFS 0.25°",
+      "provider": "NOAA/NCEP",
+      "bundle_url": "./weathergrid/gfs_tw_weather_browser.json",
+      "qc_url": "./weathergrid/gfs_tw_weather_qc.json",
+      "priority": 30,
+      "default_layer": "visibility_km",
+      "native_resolution": "0.25° (~28 km)",
+      "native_time_interval": "published WeatherGrid: 3 h",
+      "forecast_horizon": "+384 h",
+      "native_domain_note": "Global regular latitude/longitude grid; regional subsets are fetched for browser artifacts.",
+      "strengths": [
+        "全球覆蓋",
+        "長時間預報",
+        "能見度",
+        "降雨率與 10 m 風場 fallback"
+      ],
+      "source_url": "https://nomads.ncep.noaa.gov/"
+    }
+  ],
+  "auto_field_priority": {
+    "low_cloud_percent": ["icon_global", "gfs"],
+    "mid_cloud_percent": ["icon_global", "gfs"],
+    "high_cloud_percent": ["icon_global", "gfs"],
+    "visibility_km": ["gfs"],
+    "precip_rate_mm_h": ["gfs"],
+    "temperature_2m_c": ["cwa_wrf3"],
+    "relative_humidity_2m_percent": ["cwa_wrf3"],
+    "precip_total_mm": ["cwa_wrf3"],
+    "shortwave_flux_w_m2": ["cwa_wrf3"],
+    "wind_speed_10m_m_s": ["cwa_wrf3", "gfs"],
+    "wind_direction_10m_deg": ["cwa_wrf3", "gfs"]
+  }
+}
