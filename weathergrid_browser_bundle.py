@@ -216,31 +216,12 @@ def build_bundle(input_dir: Path) -> tuple[dict, dict]:
         for key, meta in FIELD_ENCODINGS.items()
     }
 
-    published_steps = [
-        int(right["forecast_hour"]) - int(left["forecast_hour"])
-        for left, right in zip(frames_out, frames_out[1:])
-    ]
-    published_step = (
-        published_steps[0]
-        if published_steps and all(x == published_steps[0] for x in published_steps)
-        else None
-    )
-
     bundle = {
-        "schema_version": 2,
-        "model_id": "gfs",
+        "schema_version": 1,
         "provider": manifest["provider"],
         "model": manifest["model"],
         "cycle": manifest["cycle"],
         "bbox": manifest["bbox"],
-        "provenance": {
-            "native_grid": "regular_latlon_0p25",
-            "native_resolution_km": 27.8,
-            "native_grid_spacing_degrees": 0.25,
-            "published_time_interval_hours": published_step,
-            "native_forecast_horizon_hours": 384,
-            "browser_interpolation": "bilinear_subcell",
-        },
         "grid": {
             "rows": rows,
             "cols": cols,
@@ -264,7 +245,6 @@ def build_bundle(input_dir: Path) -> tuple[dict, dict]:
 
     qc = {
         "schema_version": 1,
-        "model_id": "gfs",
         "provider": manifest["provider"],
         "model": manifest["model"],
         "cycle": manifest["cycle"],
