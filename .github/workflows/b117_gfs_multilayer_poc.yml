@@ -347,9 +347,10 @@ jobs:
           if-no-files-found: error
           retention-days: 3
 
-  jma-regional-contract:
+  jma-regional-live-smoke:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     steps:
       - name: Checkout candidate
         uses: actions/checkout@v4
@@ -359,30 +360,73 @@ jobs:
         with:
           python-version: "3.10"
 
-      - name: Install JMA contract dependencies
-        run: python -m pip install --disable-pip-version-check numpy requests
+      - name: Install JMA AWS OM dependencies
+        run: |
+          python -m pip install --disable-pip-version-check \
+            requests numpy "omfiles>=1.2,<2" fsspec s3fs
 
-      - name: Verify production-sized JMA native-grid plan
+      - name: Fetch production-sized JMA MSM Taiwan cloud window
         run: |
           python jma_msm_cloud_poc.py \
             --forecast-hours 40 \
-            --dry-run > /tmp/jma-plan.json
+            --output-dir jma_msm_regional_smoke
+
+      - name: Build and validate production-sized JMA bundle
+        run: |
+          python jma_msm_weathergrid_browser_bundle.py \
+            --input-dir jma_msm_regional_smoke
           python - <<'PY'
           import json
-          plan = json.load(open("/tmp/jma-plan.json"))
-          assert plan["grid"] == [64, 40], plan
-          assert plan["points"] == 2560, plan
-          assert plan["forecast_hours"] == 40, plan
-          assert plan["native_cells"] == 2560, plan
-          assert plan["transport"] == "open_meteo_aws_open_data_om", plan
-          assert plan["fields"] == [
+          from pathlib import Path
+
+          root = Path("jma_msm_regional_smoke")
+          bundle = json.loads(
+              (root / "jma_msm_tw_cloud_browser.json").read_text()
+          )
+          assert len(bundle["frames"]) == 40, len(bundle["frames"])
+          assert bundle["grid"]["rows"] == 64, bundle["grid"]
+          assert bundle["grid"]["cols"] == 40, bundle["grid"]
+          assert bundle["bbox"] == {
+              "leftlon": 120.0625,
+              "rightlon": 122.5,
+              "bottomlat": 22.45,
+              "toplat": 25.6,
+          }, bundle["bbox"]
+          provenance = bundle["provenance"]
+          assert provenance["production_transport"] == "open_meteo_aws_open_data_om"
+          assert provenance["cycle_timestamp_available"] is True
+          assert provenance["forecast_hour_semantics"] == "hours_from_model_cycle"
+          assert provenance["transport_bucket"] == "openmeteo"
+          assert provenance["transport_layout"] == "data_spatial"
+          assert provenance["transport_anonymous"] is True
+          assert provenance["transport_api_key_required"] is False
+          assert bundle["cycle"]["cycle_time_utc"]
+          for field in (
               "total_cloud_percent",
               "low_cloud_percent",
               "mid_cloud_percent",
               "high_cloud_percent",
-          ], plan
-          print(json.dumps(plan, indent=2))
+          ):
+              assert field in bundle["fields"], field
+              assert bundle["fields"][field]["vertical_definition"], field
+          print(json.dumps({
+              "cycle": bundle["cycle"]["cycle_time_utc"],
+              "frames": len(bundle["frames"]),
+              "grid": [bundle["grid"]["rows"], bundle["grid"]["cols"]],
+              "metadata_state": provenance.get("transport_metadata_state"),
+              "fields": list(bundle["fields"]),
+          }, indent=2))
           PY
+
+      - name: Upload production-sized JMA smoke outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: jma-msm-regional-live-smoke
+          path: |
+            jma_msm_regional_smoke/jma_msm_tw_cloud_browser.json
+            jma_msm_regional_smoke/jma_msm_tw_cloud_qc.json
+          if-no-files-found: error
+          retention-days: 3
 
   live-poc:
     if: github.event_name == 'workflow_dispatch'
