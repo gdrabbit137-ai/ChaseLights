@@ -130,6 +130,9 @@ def build_jma_bundle(input_dir: Path) -> tuple[dict, dict]:
             "transport_adapter": raw.get("transport", {}).get("adapter"),
             "transport_bucket": raw.get("transport", {}).get("bucket"),
             "transport_layout": raw.get("transport", {}).get("layout"),
+            "transport_metadata_state": raw.get("transport", {}).get(
+                "metadata_state"
+            ),
             "transport_anonymous": raw.get("transport", {}).get("anonymous"),
             "transport_api_key_required": raw.get("transport", {}).get(
                 "api_key_required"
