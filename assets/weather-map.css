@@ -15,6 +15,7 @@ body{padding:18px}
 .source-pill{display:inline-flex;align-items:center;border:1px solid #0369a1;background:#082f49;
   color:#bae6fd;border-radius:999px;padding:5px 10px;font-size:.78rem;font-weight:800}
 .source-pill.demo{border-color:#a16207;background:#422006;color:#fde68a}
+.source-pill.observed{border-color:#6d28d9;background:#2e1065;color:#ddd6fe}
 .source-pill.error{border-color:#b91c1c;background:#450a0a;color:#fecaca}
 .source-detail{margin-top:5px;color:var(--muted);font-size:.76rem}
 
@@ -27,6 +28,7 @@ body{padding:18px}
 .control-bar select,.control-bar button,.control-bar input[type=range]{width:100%;max-width:100%;min-width:0}
 .control-bar select,.control-bar button{background:#0f172a;color:#e2e8f0;border:1px solid #475569;
   border-radius:7px;padding:8px 10px;font-size:.84rem}
+.control-bar select:disabled,.control-bar button:disabled{opacity:.48;cursor:not-allowed}
 .control-bar button{cursor:pointer;color:#7dd3fc;font-weight:800}
 .control-bar button:hover{border-color:var(--accent)}
 #spot-select,#opportunity-select{overflow:hidden;text-overflow:ellipsis}
