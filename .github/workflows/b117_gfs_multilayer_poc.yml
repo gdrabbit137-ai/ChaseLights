@@ -154,10 +154,10 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install requests boto3 scipy xarray cfgrib eccodes numpy
 
-      - name: Fetch one live CWA WRF 3 km frame
+      - name: Fetch initial live CWA WRF 3 km window
         run: |
           python cwa_wrf3_poc.py \
-            --forecast-hours "6" \
+            --forecast-hours "0,6,12" \
             --output-dir cwa_live_smoke_output
 
       - name: Inspect CWA optional surface fields
