@@ -18,7 +18,10 @@ class WeatherGridProductionSmokeContractTests(unittest.TestCase):
         self.assertIn("__weatherGridPreviewReady", self.script)
         self.assertIn("basemap-status", self.script)
         self.assertIn("maplibregl-canvas", self.script)
-        self.assertIn("LIVE GFS", self.script)
+        self.assertIn("AUTO · GFS", self.script)
+        self.assertIn("CWA WRF 3 km", self.script)
+        self.assertIn("CWA_WRF_3KM", self.script)
+        self.assertIn("model-select", self.script)
         self.assertIn("tw-073", self.script)
         self.assertIn("coverageSource", self.script)
 

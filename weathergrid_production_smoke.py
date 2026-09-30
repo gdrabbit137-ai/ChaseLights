@@ -57,9 +57,49 @@ def run(url: str, screenshot: Path) -> dict:
         map_canvas = driver.find_element(By.CSS_SELECTOR, "#weather-basemap .maplibregl-canvas")
         weather_canvas = driver.find_element(By.ID, "weather-canvas")
 
-        assert "LIVE GFS" in source_text, source_text
+        assert source_text in {"AUTO · GFS", "AUTO · ICON Global"}, source_text
         assert "MapLibre" in basemap_text and "OpenFreeMap" in basemap_text, basemap_text
         assert opacity == "62", opacity
+
+        model_select = Select(driver.find_element(By.ID, "model-select"))
+        cwa_option = next(
+            (o for o in model_select.options if o.get_attribute("value") == "cwa"),
+            None,
+        )
+        assert cwa_option is not None, [o.text for o in model_select.options]
+        assert cwa_option.get_attribute("disabled") is None, (
+            "CWA selector is disabled; live CWA browser bundle was not loaded"
+        )
+        model_select.select_by_value("cwa")
+        wait_for(
+            lambda d: d.find_element(By.ID, "source-state").text
+            == "LIVE · CWA WRF 3 km",
+            wait,
+            "CWA live-provider selection",
+        )
+        cwa_layers = Select(driver.find_element(By.ID, "layer-select"))
+        cwa_layer_values = [o.get_attribute("value") for o in cwa_layers.options]
+        for required in (
+            "temperature_2m_c",
+            "relative_humidity_2m_percent",
+            "shortwave_flux_w_m2",
+            "wind_speed_10m_m_s",
+            "wind_direction_10m_deg",
+        ):
+            assert required in cwa_layer_values, (required, cwa_layer_values)
+        wait_for(
+            lambda d: (
+                d.execute_script(
+                    "return window.__weatherGridCoverageDebug && "
+                    "window.__weatherGridCoverageDebug.modelMode === 'cwa' && "
+                    "window.__weatherGridCoverageDebug.timelineModel === 'CWA_WRF_3KM'"
+                )
+            ),
+            wait,
+            "CWA model/timeline activation",
+        )
+        timeline_buttons = driver.find_elements(By.CSS_SELECTOR, "#timeline button")
+        assert len(timeline_buttons) >= 3, len(timeline_buttons)
 
         map_rect = driver.execute_script(
             "const r=arguments[0].getBoundingClientRect();"
