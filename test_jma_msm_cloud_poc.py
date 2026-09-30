@@ -6,6 +6,7 @@ from jma_msm_aws_om import (
     IN_PROGRESS_METADATA_URL,
     LATEST_METADATA_URL,
     SOURCE_TO_TARGET,
+    fetch_aws_snapshot,
     fetch_best_metadata,
     grid_slice_for_bbox,
     spatial_s3_uri,
@@ -123,6 +124,52 @@ class JmaMsmAwsOmProviderTests(unittest.TestCase):
         )
         self.assertEqual(chosen["reference_time"], "2026-09-30T09:00:00Z")
         self.assertEqual(chosen["_metadata_url"], LATEST_METADATA_URL)
+
+    def test_spatial_read_race_falls_back_to_completed_run(self):
+        latest = dict(self.metadata)
+        latest["reference_time"] = "2026-09-30T09:00:00Z"
+        latest["valid_times"] = [
+            "2026-09-30T09:00Z",
+            "2026-09-30T10:00Z",
+        ]
+        progress = dict(self.metadata)
+        progress["reference_time"] = "2026-09-30T12:00:00Z"
+        progress["valid_times"] = [
+            "2026-09-30T12:00Z",
+            "2026-09-30T13:00Z",
+        ]
+        session = _MetadataSession({
+            IN_PROGRESS_METADATA_URL: progress,
+            LATEST_METADATA_URL: latest,
+        })
+        calls = []
+
+        def reader(uri, grid):
+            calls.append(uri)
+            if "/1200Z/" in uri:
+                raise RuntimeError("spatial object not readable yet")
+            shape = (len(grid.latitudes), len(grid.longitudes))
+            return {
+                source: np.full(shape, 25, dtype=np.float32)
+                for source in SOURCE_TO_TARGET
+            }
+
+        snapshot = fetch_aws_snapshot(
+            bbox=self.bbox,
+            forecast_hours=2,
+            session=session,
+            reader=reader,
+        )
+        self.assertEqual(
+            snapshot["reference_time_utc"],
+            "2026-09-30T09:00:00Z",
+        )
+        self.assertTrue(any("/1200Z/" in uri for uri in calls))
+        self.assertTrue(any("/0900Z/" in uri for uri in calls))
+        self.assertEqual(
+            snapshot["transport"]["metadata_state"],
+            "latest_completed",
+        )
 
     def test_vertical_definitions_preserve_jma_boundary_rule(self):
         low = JMA_MSM_CLOUD_VERTICAL_DEFINITIONS["low_cloud_percent"]
