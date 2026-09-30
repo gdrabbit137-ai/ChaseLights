@@ -449,9 +449,11 @@
         // soon as details.open flips, changing window.scrollY before the body
         // lock is applied. Preserve the user's actual pre-open position.
         const preOpenScrollY=window.scrollY||window.pageYOffset||0;
+        // Lock before toggling <details>; opening the element itself can
+        // synchronously change layout/scroll position in Chromium.
+        openMobileAdminPicker(details,{scrollY:preOpenScrollY});
         details.open=true;
         summaryButton.setAttribute('aria-expanded','true');
-        openMobileAdminPicker(details,{scrollY:preOpenScrollY});
       });
       details.addEventListener('toggle',()=>{
         summaryButton.setAttribute('aria-expanded',details.open?'true':'false');
