@@ -223,6 +223,7 @@
     let currentAdminAreas=loadAdminAreas(currentRegion);
     let adminPickerHistoryArmed=false;
     let adminPickerScrollY=0;
+    let adminPickerPendingRestoreY=null;
     let currentTempUnit=['C','F'].includes(localStorage.getItem('chaselights_temp_unit'))?localStorage.getItem('chaselights_temp_unit'):'C';
     const FAVORITE_MIGRATION_KEY='chaselights_favs_migration_v2_regions_v1';
     let favorites=JSON.parse(localStorage.getItem('chaselights_favs_v2')||'[]');
@@ -369,12 +370,17 @@
     function closeMobileAdminPicker({fromHistory=false,restoreFocus=true}={}){
       const host=document.getElementById('admin-filter');
       const details=host?.querySelector('.admin-filter');
+      const restoreY=adminPickerScrollY;
       if(details?.open)details.open=false;
       unlockAdminPickerScroll();
       if(adminPickerHistoryArmed){
         if(fromHistory)adminPickerHistoryArmed=false;
         else{
+          // history.back() may apply the previous entry's browser-managed
+          // scroll position after unlockAdminPickerScroll(). Remember the
+          // picker position and re-apply it from popstate.
           adminPickerHistoryArmed=false;
+          adminPickerPendingRestoreY=restoreY;
           history.back();
         }
       }
@@ -529,12 +535,22 @@
     });
 
     window.addEventListener('popstate',()=>{
+      if(Number.isFinite(adminPickerPendingRestoreY)){
+        const restoreY=adminPickerPendingRestoreY;
+        adminPickerPendingRestoreY=null;
+        requestAnimationFrame(()=>window.scrollTo(0,restoreY));
+        return;
+      }
       if(!adminPickerHistoryArmed)return;
+      const restoreY=adminPickerScrollY;
       adminPickerHistoryArmed=false;
       const details=document.querySelector('#admin-filter .admin-filter');
       if(details?.open)details.open=false;
       unlockAdminPickerScroll();
-      requestAnimationFrame(()=>document.querySelector('#admin-filter .admin-filter > summary')?.focus({preventScroll:true}));
+      requestAnimationFrame(()=>{
+        window.scrollTo(0,restoreY);
+        document.querySelector('#admin-filter .admin-filter > summary')?.focus({preventScroll:true});
+      });
     });
     document.addEventListener('keydown',e=>{
       if(e.key==='Escape'&&document.body.classList.contains('admin-picker-open')){
