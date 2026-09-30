@@ -45,7 +45,7 @@ class WeatherGridRefreshWorkflowTests(unittest.TestCase):
         self.assertIn("jma_msm_cloud_poc.py", self.text)
         self.assertIn("jma_msm_weathergrid_browser_bundle.py", self.text)
         self.assertIn("--forecast-hours 40", self.text)
-        self.assertIn("--batch-size 160", self.text)
+        self.assertIn("--batch-size 100", self.text)
         self.assertIn(
             "weathergrid/jma_msm_tw_cloud_browser.json",
             self.text,
