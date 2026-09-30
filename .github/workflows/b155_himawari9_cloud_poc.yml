@@ -1,0 +1,61 @@
+name: B155 Himawari-9 Cloud POC
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "himawari9_cloud_poc.py"
+      - "test_himawari9_cloud_poc.py"
+      - "B155_HIMAWARI9_CLOUD_OBSERVATION_POC.md"
+      - ".github/workflows/b155_himawari9_cloud_poc.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  contract-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout candidate
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Run offline B155 contracts
+        run: |
+          python -m py_compile himawari9_cloud_poc.py test_himawari9_cloud_poc.py
+          python -m unittest -v test_himawari9_cloud_poc.py
+
+  live-schema-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout candidate
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install anonymous S3 / NetCDF dependencies
+        run: |
+          python -m pip install --disable-pip-version-check s3fs h5py
+
+      - name: Probe latest Himawari-9 cloud pair
+        run: |
+          python himawari9_cloud_poc.py \
+            --lookback-slots 36 \
+            --output artifacts/himawari9-cloud-schema.json
+
+      - name: Upload B155 live schema
+        uses: actions/upload-artifact@v4
+        with:
+          name: b155-himawari9-cloud-schema
+          path: artifacts/himawari9-cloud-schema.json
+          if-no-files-found: error
+          retention-days: 7
