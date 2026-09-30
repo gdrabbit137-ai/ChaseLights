@@ -138,7 +138,12 @@ def dataset_id(forecast_hour: int) -> str:
 
 def candidate_s3_keys(forecast_hour: int) -> list[str]:
     data_id = dataset_id(forecast_hour)
+    # CWA's historical/public file layout uses MIC/M-A0064-xxx.grb2.
+    # Keep Model/ candidates as a compatibility path because the AWS Open Data
+    # announcement also documents numerical-model products under Model/.
     return [
+        f"MIC/{data_id}.grb2",
+        f"MIC/{data_id}.grib2",
         f"Model/{data_id}.grb2",
         f"Model/{data_id}.grib2",
         f"Model/{data_id}/{data_id}.grb2",
@@ -179,25 +184,29 @@ def _download_s3_unsigned(forecast_hour: int, destination: Path) -> str:
 
     # If the bucket layout evolves, keep the provider resilient by listing only
     # the narrow data-id prefix rather than scanning the whole bucket.
-    prefix = f"Model/{dataset_id(forecast_hour)}"
-    try:
-        response = client.list_objects_v2(
-            Bucket=CWA_BUCKET,
-            Prefix=prefix,
-            MaxKeys=50,
-        )
-    except ClientError as exc:
-        raise RuntimeError(f"CWA S3 listing failed for {prefix}: {exc}") from exc
-
-    for item in response.get("Contents", []):
-        key = item["Key"]
-        if not key.lower().endswith((".grb2", ".grib2", ".grb")):
+    for prefix in (
+        f"MIC/{dataset_id(forecast_hour)}",
+        f"Model/{dataset_id(forecast_hour)}",
+    ):
+        try:
+            response = client.list_objects_v2(
+                Bucket=CWA_BUCKET,
+                Prefix=prefix,
+                MaxKeys=50,
+            )
+        except ClientError as exc:
+            errors.append(f"S3 list {prefix}: {exc}")
             continue
-        response = client.get_object(Bucket=CWA_BUCKET, Key=key)
-        payload = response["Body"].read()
-        if len(payload) >= 16 and payload[:4] == b"GRIB":
-            destination.write_bytes(payload)
-            return f"s3://{CWA_BUCKET}/{key}"
+
+        for item in response.get("Contents", []):
+            key = item["Key"]
+            if not key.lower().endswith((".grb2", ".grib2", ".grb")):
+                continue
+            response = client.get_object(Bucket=CWA_BUCKET, Key=key)
+            payload = response["Body"].read()
+            if len(payload) >= 16 and payload[:4] == b"GRIB":
+                destination.write_bytes(payload)
+                return f"s3://{CWA_BUCKET}/{key}"
 
     raise FileNotFoundError(
         f"No public CWA object found for {dataset_id(forecast_hour)}"
