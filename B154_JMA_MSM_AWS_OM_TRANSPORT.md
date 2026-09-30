@@ -51,8 +51,14 @@ JMA low/mid/high vertical-definition metadata from B153 is preserved.
 
 ## Cycle and timeline improvement
 
-Unlike the point Forecast API adapter, `data_spatial/jma_msm/latest.json`
-exposes the model `reference_time` and native `valid_times`.
+Unlike the point Forecast API adapter, the AWS spatial metadata exposes the
+model `reference_time` and native `valid_times`.
+
+The resolver checks both `in-progress.json` and `latest.json`.  It selects
+the newest run that already contains all requested cloud variables and the
+requested forecast window.  This matters for 00/12 UTC extended runs: ChaseLights
+can use the first 40 native hours as soon as they are published instead of
+waiting for the full f078 run to finish.
 
 B154 therefore changes JMA provenance to:
 
