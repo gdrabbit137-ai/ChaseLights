@@ -12,7 +12,7 @@
     <div>
       <a class="back-link" href="./index.html">← ChaseLights</a>
       <h1>🗺️ WeatherGrid Preview</h1>
-      <p class="subtitle">GFS RAW DATA 自繪圖層 POC · 尚未接入正式攝影評分</p>
+      <p class="subtitle">ICON Global 雲圖優先 · GFS 備援／長期 · RAW DATA 自繪圖層</p>
     </div>
     <div class="source-meta">
       <div id="source-state" class="source-pill">載入中…</div>
@@ -95,7 +95,7 @@
 
       <section class="panel note-panel">
         <h2>POC 限制</h2>
-        <p>目前畫的是 GFS 0.25° 原始格點，不是高解析度局地預報。山區、海岸與谷地的實際雲霧可能和單一 GFS 格點差很多。</p>
+        <p>雲量優先使用 ICON Global（原生約 13 km，經 DWD 官方 0.125° remap），缺少對應時效時自動退回 GFS 0.25°；其他圖層目前仍使用 GFS。兩者顯示皆做雙線性內插，內插只改善連續性，不增加模式的真實預報解析度。</p>
         <p>底圖採 MapLibre + OpenFreeMap；若外部底圖無法載入，WeatherGrid 會自動退回既有 Canvas 經緯網格，不影響 GFS 圖層與景點取樣。</p>
       </section>
     </aside>
