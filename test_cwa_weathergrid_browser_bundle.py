@@ -77,8 +77,10 @@ class CwaWeatherGridBrowserBundleTests(unittest.TestCase):
                     "toplat": 27.0,
                 },
                 "native_resolution_km": 3.0,
-                "native_time_interval_hours": 6,
-                "native_forecast_horizon_hours": 84,
+                "model_output_interval_hours": 1,
+                "model_forecast_horizon_hours": 126,
+                "public_product_interval_hours": 6,
+                "public_product_horizon_hours": 84,
                 "native_domain_reference": {
                     "grid_shape": [673, 1158],
                 },
@@ -106,8 +108,20 @@ class CwaWeatherGridBrowserBundleTests(unittest.TestCase):
             self.assertEqual(bundle["model"], "CWA_WRF_3KM")
             self.assertEqual(bundle["provenance"]["native_resolution_km"], 3.0)
             self.assertEqual(
-                bundle["provenance"]["native_time_interval_hours"],
+                bundle["provenance"]["model_output_interval_hours"],
+                1,
+            )
+            self.assertEqual(
+                bundle["provenance"]["model_forecast_horizon_hours"],
+                126,
+            )
+            self.assertEqual(
+                bundle["provenance"]["public_product_interval_hours"],
                 6,
+            )
+            self.assertEqual(
+                bundle["provenance"]["public_product_horizon_hours"],
+                84,
             )
             self.assertEqual(
                 bundle["provenance"]["published_time_interval_hours"],
