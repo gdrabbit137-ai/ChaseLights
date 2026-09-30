@@ -584,7 +584,7 @@ jobs:
               """, mobile_picker_before)
               report["mobile_admin_picker_after"] = mobile_picker_after
               assert mobile_picker_after["locked"] is False, mobile_picker_after
-              assert abs(mobile_picker_after["scrollY"] - mobile_picker_before) <= 2, (mobile_picker_before, mobile_picker_after)
+              assert abs(mobile_picker_after["scrollY"] - mobile_picker_after["expectedY"]) <= 2, (mobile_picker_before, mobile_picker_after)
 
               driver.execute_script("""
                 currentAdminAreas.clear();
