@@ -2,15 +2,14 @@
 
 The Japan Meteorological Agency MSM surface GPV publishes native total / low /
 middle / high cloud cover on a 0.05° latitude × 0.0625° longitude regular grid.
-Official operational distribution is via JMA/JMBSC GRIB2.  ChaseLights uses
-Open-Meteo's JMA endpoint as the initial transport adapter because it exposes
-those native JMA MSM cloud fields through a stable HTTP API.
+Official operational distribution is via JMA/JMBSC GRIB2. ChaseLights reads
+Open-Meteo's public AWS Open Data spatial OM files as a free transport layer.
 
 Important:
-- The model remains JMA MSM.  Open-Meteo is only the transport/API layer.
-- Requests use nearest native grid cell and disable elevation downscaling.
-- No cloud layer is derived from pressure-level RH.
-- The browser artifact has its own JMA boundary and hourly timeline.
+- The model remains JMA MSM; Open-Meteo AWS is only the transport layer.
+- The Taiwan artifact is an exact native-grid slice, not API point sampling.
+- No API key, elevation downscaling, or cloud derivation from RH is used.
+- The AWS run metadata exposes the actual JMA model cycle and valid times.
 """
 
 from __future__ import annotations
@@ -44,9 +43,8 @@ JMA_MSM_NATIVE_DOMAIN = {
 # boundary instead of pretending the model covers islands west of 120E or the
 # portion of southern Taiwan below 22.4N.
 JMA_MSM_TAIWAN_BROWSER_BBOX = {
-    # One native grid cell inside the official south/west edge.  The
-    # Open-Meteo transport can reject exact edge coordinates even though the
-    # official JMA regular-grid product nominally starts at 22.4N / 120E.
+    # Keep one native cell inside the official south/west edge for the initial
+    # browser footprint; the AWS adapter itself can read the exact model edge.
     "leftlon": 120.0625,
     "rightlon": 122.5,
     "bottomlat": 22.45,
@@ -240,7 +238,7 @@ def parse_args() -> argparse.Namespace:
         "--forecast-hours",
         type=int,
         default=DEFAULT_FORECAST_HOURS,
-        help="Number of hourly timestamps to fetch from the latest API view.",
+        help="Number of native hourly timestamps to read from the latest completed JMA run.",
     )
     parser.add_argument("--leftlon", type=float, default=None)
     parser.add_argument("--rightlon", type=float, default=None)
