@@ -64,3 +64,28 @@ The B155 live smoke:
 
 No browser artifact is published in B155. A later batch may crop/reproject a
 Taiwan observation product after the live schema is proven.
+
+
+## Live result
+
+Validated in GitHub Actions against a current same-slot Himawari-9 cloud pair.
+
+- Full Disk product grid: **5500 × 5500**
+- source product resolution: **2 km at nadir**
+- source cadence: **10 minutes**
+- HDF5 tile/chunk size for the selected AWIPS fields: **200 × 200**, gzip
+- Taiwan QC window: rows **1343:1630**, columns **1626:1964**
+- Taiwan QC window size: **287 × 338 = 97,006 pixels**
+- fraction of the 30,250,000-pixel Full Disk: **~0.32%**
+- geolocation checked from the file itself:
+  - latitude span about **21.15°–27.42°N**
+  - longitude span about **116.46°–125.08°E**
+- cloud mask field: `CloudMaskBinaryAWIPS`
+- cloud-top-height field: `CldTopHghtAWIPS`
+- cloud-top-height product also provides parallax-corrected
+  `Latitude_Pc` / `Longitude_Pc`
+
+This proves a production path does **not** need to download either whole
+Full-Disk file. The next batch should publish a compact Taiwan observation
+bundle from this fixed-grid range-read and keep it explicitly separate from
+forecast-model timelines.
