@@ -20,8 +20,8 @@ class WeatherGridIconBrowserContractTests(unittest.TestCase):
         self.assertIn("iconFrameForValidTime", self.js)
         self.assertIn("activeDataset", self.js)
         self.assertIn("cloudLayers", self.js)
-        self.assertIn("LIVE ICON Global", self.js)
-        self.assertIn("LIVE GFS fallback", self.js)
+        self.assertIn("AUTO · ICON Global", self.js)
+        self.assertIn("AUTO · GFS", self.js)
 
     def test_cloud_provider_requires_matching_valid_time(self):
         self.assertIn(
@@ -38,7 +38,8 @@ class WeatherGridIconBrowserContractTests(unittest.TestCase):
         self.assertIn("subdivisions=lonStep>=.20 ? 4", self.js)
         self.assertIn("lonStep>=.10 ? 2 : 1", self.js)
         self.assertIn("bilinear_subcell", self.js)
-        self.assertIn("內插不增加模式真實解析度", self.js)
+        self.assertIn("Provider-independent display interpolation", self.js)
+        self.assertIn("內插只改善", self.html)
 
     def test_circular_wind_direction_is_not_bilinearly_interpolated(self):
         self.assertIn(
