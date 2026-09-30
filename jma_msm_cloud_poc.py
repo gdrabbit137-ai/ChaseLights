@@ -341,6 +341,10 @@ def fetch_snapshot(
             "extended_forecast_horizon_hours": JMA_MSM_EXTENDED_HORIZON_HOURS,
             "extended_cycles_utc": list(JMA_MSM_EXTENDED_CYCLES_UTC),
             "published_forecast_hours": len(frames),
+            "forecast_hour_semantics": (
+                "hours_from_first_published_valid_time_not_model_cycle"
+            ),
+            "cycle_timestamp_available": False,
             "query_count": query_count,
             "transport_note": (
                 "Cloud fields are native JMA MSM fields delivered through "
