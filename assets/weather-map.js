@@ -428,7 +428,7 @@
       if(union) fitCoverageBbox(union);
       else zoomToSpot(selectedSpot());
     }else{
-      state.view = {...state.data.bbox};
+      state.view = {...timelineDataset().bbox};
     }
     renderAll();
   }
@@ -657,6 +657,9 @@
     if(cfg.palette==='wind'){
       return .12 + .88*t;
     }
+    if(cfg.palette==='temperature' || cfg.palette==='humidity' || cfg.palette==='solar'){
+      return .18 + .82*Math.max(.12,t);
+    }
     if(cfg.palette==='direction'){
       return .48;
     }
@@ -682,6 +685,19 @@
     if(cfg.palette==='wind'){
       const hue = 260 - t*220;
       return `hsl(${hue} 78% 52%)`;
+    }
+    if(cfg.palette==='temperature'){
+      const hue = 220 - t*220;
+      return `hsl(${hue} 82% 52%)`;
+    }
+    if(cfg.palette==='humidity'){
+      const light = 30 + t*48;
+      return `hsl(198 72% ${light}%)`;
+    }
+    if(cfg.palette==='solar'){
+      const hue = 48 - t*30;
+      const light = 30 + t*32;
+      return `hsl(${hue} 90% ${light}%)`;
     }
     return `hsl(${(value%360+360)%360} 76% 52%)`;
   }
@@ -729,8 +745,8 @@
       return;
     }
 
-    // Both providers are visually interpolated to about 0.0625 degree cells:
-    // GFS 0.25 degree -> 4x4; ICON remap 0.125 degree -> 2x2.
+    // Provider-independent display interpolation:
+    // GFS 0.25° -> 4x4, ICON 0.125° -> 2x2, CWA browser grid 0.03° -> 1x1.
     // This is display smoothing only; native model provenance stays visible.
     const lonStep=Math.abs(lons[1]-lons[0]);
     const subdivisions=lonStep>=.20 ? 4 : (lonStep>=.10 ? 2 : 1);
@@ -838,13 +854,14 @@
   function drawWindVectors(){
     state.lastWindVectorCount=0;
     if(!state.windVectors) return;
-    if(!state.data.fields.wind_speed_10m_m_s ||
-       !state.data.fields.wind_direction_10m_deg) return;
+    const data=activeDataset('wind_speed_10m_m_s');
+    if(!data?.fields?.wind_speed_10m_m_s ||
+       !data?.fields?.wind_direction_10m_deg) return;
 
     const speeds=decodedArray('wind_speed_10m_m_s');
     const directions=decodedArray('wind_direction_10m_deg');
-    const rows=state.data.grid.rows, cols=state.data.grid.cols;
-    const lats=state.data.grid.latitudes, lons=state.data.grid.longitudes;
+    const rows=data.grid.rows, cols=data.grid.cols;
+    const lats=data.grid.latitudes, lons=data.grid.longitudes;
     const visible=renderViewBbox();
     const step=windVectorStep();
 
@@ -864,7 +881,7 @@
 
         const p=project(lon,lat);
         const length=11+Math.min(speed/20,1)*17;
-        // GFS direction is meteorological "from". Arrow points toward motion.
+        // Normalized provider direction is meteorological "from". Arrow points toward motion.
         const toward=((direction+180)%360)*Math.PI/180;
         const dx=Math.sin(toward)*length/2;
         const dy=-Math.cos(toward)*length/2;
@@ -1117,6 +1134,10 @@
     if(key==='precip_rate_mm_h') return `${v.toFixed(2)} mm/h`;
     if(key==='wind_speed_10m_m_s') return `${v.toFixed(1)} m/s`;
     if(key==='wind_direction_10m_deg') return `${Math.round(v)}°`;
+    if(key==='temperature_2m_c') return `${v.toFixed(1)} °C`;
+    if(key==='relative_humidity_2m_percent') return `${Math.round(v)}%`;
+    if(key==='precip_total_mm') return `${v.toFixed(1)} mm`;
+    if(key==='shortwave_flux_w_m2') return `${Math.round(v)} W/m²`;
     return v.toFixed(1);
   }
 
@@ -1194,7 +1215,7 @@
   }
 
   function updateTimeline(){
-    $('timeline').innerHTML=state.data.frames.map((f,i)=>
+    $('timeline').innerHTML=timelineDataset().frames.map((f,i)=>
       `<button type="button" data-i="${i}" class="${i===state.frameIndex?'active':''}">${formatTaipeiTime(f.valid_time_utc)}</button>`
     ).join('');
     $('timeline').querySelectorAll('button').forEach(b=>b.onclick=()=>{
