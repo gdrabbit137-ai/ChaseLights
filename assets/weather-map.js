@@ -1193,7 +1193,10 @@
     const usingCwa=data===state.cwaData;
     const usingJma=data===state.jmaData;
     $('time-slider').value=state.frameIndex;
-    $('time-label').textContent=`時間 · ${formatTaipeiTime(f.valid_time_utc)} (f${String(f.forecast_hour).padStart(3,'0')})`;
+    const frameLead=usingJma
+      ? `+${f.forecast_hour}h · API 發布時間軸`
+      : `f${String(f.forecast_hour).padStart(3,'0')}`;
+    $('time-label').textContent=`時間 · ${formatTaipeiTime(f.valid_time_utc)} (${frameLead})`;
     $('opacity-label').textContent=`${Math.round(state.weatherOpacity*100)}%`;
 
     const status=$('source-state');
