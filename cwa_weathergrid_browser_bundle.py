@@ -216,11 +216,17 @@ def build_cwa_bundle(input_dir: Path) -> tuple[dict, dict]:
         "bbox": manifest["bbox"],
         "provenance": {
             "native_resolution_km": manifest["native_resolution_km"],
-            "native_time_interval_hours": manifest[
-                "native_time_interval_hours"
+            "model_output_interval_hours": manifest[
+                "model_output_interval_hours"
             ],
-            "native_forecast_horizon_hours": manifest[
-                "native_forecast_horizon_hours"
+            "model_forecast_horizon_hours": manifest[
+                "model_forecast_horizon_hours"
+            ],
+            "public_product_interval_hours": manifest[
+                "public_product_interval_hours"
+            ],
+            "public_product_horizon_hours": manifest[
+                "public_product_horizon_hours"
             ],
             "native_domain_reference": manifest["native_domain_reference"],
             "browser_grid_spacing_degrees": manifest[
