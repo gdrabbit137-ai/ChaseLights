@@ -169,6 +169,86 @@ def run(url: str, screenshot: Path) -> dict:
                 "return to CWA after JMA validation",
             )
 
+        data_mode_select = Select(driver.find_element(By.ID, "data-mode-select"))
+        observed_option = next(
+            (
+                o
+                for o in data_mode_select.options
+                if o.get_attribute("value") == "observed"
+            ),
+            None,
+        )
+        assert observed_option is not None, [
+            o.text for o in data_mode_select.options
+        ]
+        himawari_available = observed_option.get_attribute("disabled") is None
+        himawari_report = {"available": himawari_available}
+        if himawari_available:
+            data_mode_select.select_by_value("observed")
+            wait_for(
+                lambda d: d.find_element(By.ID, "source-state").text
+                == "OBSERVED · Himawari-9",
+                wait,
+                "Himawari observed-mode selection",
+            )
+            observed_layers = Select(driver.find_element(By.ID, "layer-select"))
+            observed_layer_values = [
+                o.get_attribute("value") for o in observed_layers.options
+            ]
+            assert observed_layer_values == [
+                "observed_cloud_mask",
+                "cloud_top_height_m",
+            ], observed_layer_values
+            assert not driver.find_element(By.ID, "model-select").is_enabled()
+            observed_slider = driver.find_element(By.ID, "time-slider")
+            assert not observed_slider.is_enabled()
+            assert int(observed_slider.get_attribute("max") or "0") == 0
+            assert "觀測時間" in driver.find_element(By.ID, "time-label").text
+            wait_for(
+                lambda d: d.execute_script(
+                    "return window.__weatherGridCoverageDebug && "
+                    "window.__weatherGridCoverageDebug.dataMode === 'observed' && "
+                    "window.__weatherGridCoverageDebug.sourceKind === 'observation' && "
+                    "window.__weatherGridCoverageDebug.himawariAvailable === true && "
+                    "window.__weatherGridCoverageDebug.timelineModel === 'HIMAWARI9_AHI'"
+                ),
+                wait,
+                "Himawari observation debug contract",
+            )
+            qc_text = driver.find_element(By.ID, "qc-status").text
+            assert "最近鄰距離 p99" in qc_text, qc_text
+            assert "Himawari-9" in qc_text, qc_text
+
+            observed_screenshot = screenshot.with_name(
+                screenshot.stem + "-himawari-observed" + screenshot.suffix
+            )
+            observed_screenshot.parent.mkdir(parents=True, exist_ok=True)
+            driver.save_screenshot(str(observed_screenshot))
+            himawari_report.update(
+                {
+                    "layers": observed_layer_values,
+                    "time": driver.find_element(By.ID, "time-label").text,
+                    "qc": qc_text,
+                    "screenshot": str(observed_screenshot),
+                }
+            )
+
+            data_mode_select.select_by_value("forecast")
+            wait_for(
+                lambda d: d.execute_script(
+                    "return window.__weatherGridCoverageDebug && "
+                    "window.__weatherGridCoverageDebug.dataMode === 'forecast'"
+                ),
+                wait,
+                "return to forecast after Himawari validation",
+            )
+            wait_for(
+                lambda d: d.find_element(By.ID, "source-state").text
+                == "LIVE · CWA WRF 3 km",
+                wait,
+                "CWA restored after Himawari validation",
+            )
+
         map_rect = driver.execute_script(
             "const r=arguments[0].getBoundingClientRect();"
             "return {width:r.width,height:r.height};",
@@ -272,6 +352,7 @@ def run(url: str, screenshot: Path) -> dict:
                 "screenshot": str(screenshot),
                 "wind_overview_screenshot": str(overview),
                 "jma_msm": jma_report,
+                "himawari9": himawari_report,
             }
         )
         return report
