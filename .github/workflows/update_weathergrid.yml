@@ -16,8 +16,6 @@ on:
       - "icon_weathergrid_browser_bundle.py"
       - "cwa_wrf3_poc.py"
       - "cwa_weathergrid_browser_bundle.py"
-      - "jma_msm_cloud_poc.py"
-      - "jma_msm_weathergrid_browser_bundle.py"
       - "build_weathergrid_coverage_browser.py"
       - ".github/workflows/update_weathergrid.yml"
   workflow_dispatch:
@@ -110,21 +108,6 @@ jobs:
           python cwa_weathergrid_browser_bundle.py \
             --input-dir cwa_wrf3_output
 
-      - name: Fetch JMA MSM 5 km cloud WeatherGrid
-        id: jma_msm
-        continue-on-error: true
-        run: |
-          python jma_msm_cloud_poc.py \
-            --forecast-hours 40 \
-            --batch-size 100 \
-            --output-dir jma_msm_output
-
-      - name: Build JMA MSM 5 km browser bundle and QC
-        if: steps.jma_msm.outcome == 'success'
-        run: |
-          python jma_msm_weathergrid_browser_bundle.py \
-            --input-dir jma_msm_output
-
       - name: Build subject-aware coverage browser bundle
         run: |
           python build_weathergrid_coverage_browser.py \
@@ -197,36 +180,6 @@ jobs:
                   "bbox": cwa.get("bbox"),
               }
 
-          jma_path = Path("jma_msm_output/jma_msm_tw_cloud_browser.json")
-          jma_qc_path = Path("jma_msm_output/jma_msm_tw_cloud_qc.json")
-          jma_summary = {"published": False}
-          if jma_path.exists():
-              jma = json.loads(jma_path.read_text())
-              jma_qc = json.loads(jma_qc_path.read_text())
-              assert jma.get("model") == "JMA_MSM", jma.get("model")
-              assert jma.get("frames"), "JMA MSM bundle has no forecast frames"
-              assert jma_qc.get("frame_count") == len(jma["frames"])
-              provenance = jma.get("provenance", {})
-              assert provenance.get("native_resolution_km") == 5.0, provenance
-              assert provenance.get("native_time_interval_hours") == 1, provenance
-              assert "total_cloud_percent" in jma.get("fields", {}), jma.get("fields")
-              for field in (
-                  "low_cloud_percent",
-                  "mid_cloud_percent",
-                  "high_cloud_percent",
-              ):
-                  assert field in jma.get("fields", {}), jma.get("fields")
-                  assert jma["fields"][field].get("vertical_definition"), field
-              jma_summary = {
-                  "published": True,
-                  "frames": len(jma["frames"]),
-                  "native_resolution_km": provenance.get("native_resolution_km"),
-                  "native_time_interval_hours": provenance.get(
-                      "native_time_interval_hours"
-                  ),
-                  "bbox": jma.get("bbox"),
-              }
-
           by_spot = {x["spot_id"]: x for x in coverage.get("spots", [])}
           for spot_id in ("tw-073", "tw-075"):
               assert spot_id in by_spot, (spot_id, list(by_spot))
@@ -241,7 +194,6 @@ jobs:
               "tw_075_complete": by_spot["tw-075"]["all_topics_complete"],
               "icon": icon_summary,
               "cwa_wrf3": cwa_summary,
-              "jma_msm": jma_summary,
           }, indent=2))
           PY
 
@@ -270,15 +222,6 @@ jobs:
             rm -f weathergrid/cwa_wrf3_tw_weather_browser.json weathergrid/cwa_wrf3_tw_weather_qc.json
           fi
 
-          if [[ -f jma_msm_output/jma_msm_tw_cloud_browser.json ]]; then
-            cp jma_msm_output/jma_msm_tw_cloud_browser.json weathergrid/jma_msm_tw_cloud_browser.json
-            cp jma_msm_output/jma_msm_tw_cloud_qc.json weathergrid/jma_msm_tw_cloud_qc.json
-          else
-            # JMA MSM is manually selectable. Remove stale files if the
-            # current provider refresh fails.
-            rm -f weathergrid/jma_msm_tw_cloud_browser.json weathergrid/jma_msm_tw_cloud_qc.json
-          fi
-
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add -A \
@@ -288,9 +231,7 @@ jobs:
             weathergrid/icon_tw_cloud_browser.json \
             weathergrid/icon_tw_cloud_qc.json \
             weathergrid/cwa_wrf3_tw_weather_browser.json \
-            weathergrid/cwa_wrf3_tw_weather_qc.json \
-            weathergrid/jma_msm_tw_cloud_browser.json \
-            weathergrid/jma_msm_tw_cloud_qc.json
+            weathergrid/cwa_wrf3_tw_weather_qc.json
 
           if git diff --cached --quiet; then
             echo "WeatherGrid live snapshot unchanged."
@@ -316,7 +257,5 @@ jobs:
             icon_cloud_output/
             cwa_wrf3_output/cwa_wrf3_tw_weather_browser.json
             cwa_wrf3_output/cwa_wrf3_tw_weather_qc.json
-            jma_msm_output/jma_msm_tw_cloud_browser.json
-            jma_msm_output/jma_msm_tw_cloud_qc.json
           if-no-files-found: error
           retention-days: 7
