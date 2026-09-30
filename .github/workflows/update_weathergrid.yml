@@ -149,15 +149,21 @@ jobs:
               assert cwa_qc.get("frame_count") == len(cwa["frames"])
               provenance = cwa.get("provenance", {})
               assert provenance.get("native_resolution_km") == 3.0, provenance
-              assert provenance.get("native_time_interval_hours") == 6, provenance
+              assert provenance.get("model_output_interval_hours") == 1, provenance
+              assert provenance.get("model_forecast_horizon_hours") == 126, provenance
+              assert provenance.get("public_product_interval_hours") == 6, provenance
+              assert provenance.get("public_product_horizon_hours") == 84, provenance
               assert "temperature_2m_c" in cwa.get("fields", {}), cwa.get("fields")
               assert "wind_speed_10m_m_s" in cwa.get("fields", {}), cwa.get("fields")
               cwa_summary = {
                   "published": True,
                   "frames": len(cwa["frames"]),
                   "native_resolution_km": provenance.get("native_resolution_km"),
-                  "native_time_interval_hours": provenance.get(
-                      "native_time_interval_hours"
+                  "model_output_interval_hours": provenance.get(
+                      "model_output_interval_hours"
+                  ),
+                  "public_product_interval_hours": provenance.get(
+                      "public_product_interval_hours"
                   ),
                   "bbox": cwa.get("bbox"),
               }
