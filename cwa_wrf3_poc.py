@@ -171,6 +171,7 @@ def _download_s3_unsigned(forecast_hour: int, destination: Path) -> str:
         region_name="ap-northeast-1",
         config=Config(signature_version=UNSIGNED),
     )
+    errors = []
 
     for key in candidate_s3_keys(forecast_hour):
         try:
