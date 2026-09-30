@@ -157,14 +157,14 @@ jobs:
       - name: Fetch one live CWA WRF 3 km frame
         run: |
           python cwa_wrf3_poc.py \
-            --forecast-hours "0" \
+            --forecast-hours "6" \
             --output-dir cwa_live_smoke_output
 
       - name: Inspect CWA optional surface fields
         run: |
           python - <<'PY'
           import cfgrib
-          path = "cwa_live_smoke_output/cwa_wrf3_f000.grb2"
+          path = "cwa_live_smoke_output/cwa_wrf3_f006.grb2"
           rows = []
           for ds in cfgrib.open_datasets(path, backend_kwargs={"indexpath": ""}):
               for name, arr in ds.data_vars.items():
