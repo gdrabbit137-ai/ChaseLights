@@ -101,6 +101,70 @@ def run(url: str, screenshot: Path) -> dict:
         timeline_buttons = driver.find_elements(By.CSS_SELECTOR, "#timeline button")
         assert len(timeline_buttons) >= 3, len(timeline_buttons)
 
+        # JMA MSM is a separately scheduled provider. On UI-only deploys its
+        # bundle may not exist yet; on JMA data publishes the option must be
+        # enabled and the native total/low/mid/high cloud contract must work.
+        jma_option = next(
+            (o for o in model_select.options if o.get_attribute("value") == "jma"),
+            None,
+        )
+        assert jma_option is not None, [o.text for o in model_select.options]
+        jma_available = jma_option.get_attribute("disabled") is None
+        jma_report = {"available": jma_available}
+        if jma_available:
+            model_select.select_by_value("jma")
+            wait_for(
+                lambda d: d.find_element(By.ID, "source-state").text
+                == "LIVE · JMA MSM 5 km",
+                wait,
+                "JMA MSM live-provider selection",
+            )
+            jma_layers = Select(driver.find_element(By.ID, "layer-select"))
+            jma_layer_values = [
+                o.get_attribute("value") for o in jma_layers.options
+            ]
+            for required in (
+                "total_cloud_percent",
+                "low_cloud_percent",
+                "mid_cloud_percent",
+                "high_cloud_percent",
+            ):
+                assert required in jma_layer_values, (
+                    required,
+                    jma_layer_values,
+                )
+            wait_for(
+                lambda d: (
+                    d.execute_script(
+                        "return window.__weatherGridCoverageDebug && "
+                        "window.__weatherGridCoverageDebug.modelMode === 'jma' && "
+                        "window.__weatherGridCoverageDebug.timelineModel === 'JMA_MSM'"
+                    )
+                ),
+                wait,
+                "JMA MSM model/timeline activation",
+            )
+            jma_timeline_buttons = driver.find_elements(
+                By.CSS_SELECTOR, "#timeline button"
+            )
+            assert len(jma_timeline_buttons) >= 4, len(jma_timeline_buttons)
+            jma_report.update(
+                {
+                    "layers": jma_layer_values,
+                    "timeline_buttons": len(jma_timeline_buttons),
+                    "cycle": driver.find_element(By.ID, "cycle-label").text,
+                }
+            )
+            # Return to CWA because the rest of this production smoke proves
+            # the existing wind-vector and subject-aware coverage path.
+            model_select.select_by_value("cwa")
+            wait_for(
+                lambda d: d.find_element(By.ID, "source-state").text
+                == "LIVE · CWA WRF 3 km",
+                wait,
+                "return to CWA after JMA validation",
+            )
+
         map_rect = driver.execute_script(
             "const r=arguments[0].getBoundingClientRect();"
             "return {width:r.width,height:r.height};",
@@ -203,6 +267,7 @@ def run(url: str, screenshot: Path) -> dict:
                 "browser_severe_logs": severe_logs[:10],
                 "screenshot": str(screenshot),
                 "wind_overview_screenshot": str(overview),
+                "jma_msm": jma_report,
             }
         )
         return report
