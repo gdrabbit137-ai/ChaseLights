@@ -1221,7 +1221,8 @@
     }else{
       resolution='原生 0.25° · 顯示雙線性內插';
     }
-    $('cycle-label').textContent=`Cycle ${data.cycle?.cycle_time_utc || '—'} · ${data.grid.rows}×${data.grid.cols} · ${resolution}`;
+    const cycleText=data.cycle?.cycle_time_utc || data.cycle?.label || '—';
+    $('cycle-label').textContent=`Cycle ${cycleText} · ${data.grid.rows}×${data.grid.cols} · ${resolution}`;
 
     const arr=decodedArray(state.layer).filter(Number.isFinite);
     const min=arr.length?Math.min(...arr):null, max=arr.length?Math.max(...arr):null;
