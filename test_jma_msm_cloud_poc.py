@@ -5,6 +5,7 @@ from jma_msm_cloud_poc import (
     JMA_MSM_CLOUD_VERTICAL_DEFINITIONS,
     JMA_MSM_NATIVE_DOMAIN,
     JMA_MSM_TAIWAN_BROWSER_BBOX,
+    JMA_MSM_FREE_MAX_POINTS,
     build_grid,
     fetch_snapshot,
 )
@@ -137,6 +138,34 @@ class JmaMsmCloudProviderTests(unittest.TestCase):
                 len(params["latitude"].split(",")),
             )
             self.assertEqual(params["timezone"], "GMT")
+
+    def test_free_transport_refuses_production_sized_grid(self):
+        with self.assertRaisesRegex(RuntimeError, "free Open-Meteo endpoint"):
+            fetch_snapshot(
+                forecast_hours=2,
+                batch_size=100,
+                session=_FakeSession(),
+            )
+
+    def test_production_transport_requirement_fails_without_customer_key(self):
+        bbox = {
+            "leftlon": 121.4375,
+            "rightlon": 121.5625,
+            "bottomlat": 24.95,
+            "toplat": 25.05,
+        }
+        with self.assertRaisesRegex(RuntimeError, "OPEN_METEO_API_KEY"):
+            fetch_snapshot(
+                bbox=bbox,
+                forecast_hours=2,
+                batch_size=20,
+                session=_FakeSession(),
+                require_production_transport=True,
+            )
+
+    def test_free_transport_guard_is_smaller_than_production_grid(self):
+        _, _, points = build_grid()
+        self.assertGreater(len(points), JMA_MSM_FREE_MAX_POINTS)
 
 
 if __name__ == "__main__":
