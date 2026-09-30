@@ -22,8 +22,6 @@ import os
 import time
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Iterable
-
 import requests
 
 
@@ -119,6 +117,18 @@ JMA_MSM_CLOUD_VERTICAL_DEFINITIONS = {
         "definition_source": "JMA MSM total cloud cover",
     },
 }
+
+
+
+def _utc_iso(value: str) -> str:
+    value = str(value)
+    if value.endswith("Z") or value.endswith("+00:00"):
+        return value
+    if len(value) == 16:
+        return value + ":00Z"
+    if len(value) == 19:
+        return value + "Z"
+    return value
 
 
 def _axis(start: float, stop: float, step: float) -> list[float]:
@@ -288,12 +298,7 @@ def fetch_snapshot(
         frames.append(
             {
                 "forecast_hour": idx,
-                "valid_time_utc": (
-                    valid_time if valid_time.endswith("Z")
-                    else valid_time + ":00Z"
-                    if len(valid_time) == 16
-                    else valid_time
-                ),
+                "valid_time_utc": _utc_iso(valid_time),
                 "values": values,
             }
         )
