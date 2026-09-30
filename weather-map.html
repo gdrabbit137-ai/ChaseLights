@@ -18,6 +18,7 @@
       <div id="source-state" class="source-pill">載入中…</div>
       <div id="cycle-label" class="source-detail"></div>
       <div id="source-attribution" class="source-attribution"></div>
+      <button id="data-info-open" class="data-info-button" type="button">ⓘ 資料說明</button>
     </div>
   </header>
 
@@ -88,38 +89,48 @@
           <span>顯示 10 m 風向箭頭</span>
         </label>
         <div class="muted wind-vector-note">箭頭指向風的移動方向；風向數值仍採氣象「來向」。非風圖層預設關閉，仍可手動疊加。</div>
+        <div class="layer-qc">
+          <div class="layer-qc-label">資料品質</div>
+          <div id="qc-status" class="detail-list">
+            <div>等待 QC 資料…</div>
+          </div>
+        </div>
       </section>
 
-      <section class="panel">
+      <section id="spot-panel" class="panel" hidden>
         <h2>選取景點</h2>
         <div id="spot-name" class="spot-name">尚未選取</div>
         <div id="spot-value" class="metric-big">—</div>
         <div id="spot-details" class="detail-list"></div>
       </section>
 
-      <section class="panel">
+      <section id="coverage-panel" class="panel" hidden>
         <h2>題材範圍</h2>
         <div id="coverage-status" class="detail-list">
           <div>先選景點與題材。</div>
         </div>
       </section>
 
-      <section class="panel">
-        <h2>資料品質</h2>
-        <div id="qc-status" class="detail-list">
-          <div>等待 QC 資料…</div>
-        </div>
-      </section>
+    </aside>
+  </main>
 
-      <section class="panel note-panel">
-        <h2>POC 限制</h2>
+  <dialog id="data-info-dialog" class="data-info-dialog" aria-labelledby="data-info-title">
+    <div class="data-info-shell">
+      <div class="data-info-head">
+        <div>
+          <div class="data-info-kicker">WeatherGrid</div>
+          <h2 id="data-info-title">資料與模型說明</h2>
+        </div>
+        <button id="data-info-close" type="button" aria-label="關閉資料說明">✕</button>
+      </div>
+      <div class="data-info-body">
         <p>目前已加入 JMA MSM 5 km、CWA WRF 3 km、ICON Global 與 GFS。JMA MSM 先提供原生全雲量／低雲／中雲／高雲與逐時時間軸；「自動」暫時維持現行 ICON 雲量優先、GFS 備援策略。CWA M-A0064 實際 GRIB 驗證未發現原生低／中／高雲量，因此不以壓力層相對濕度冒充雲量。</p>
         <p>JMA MSM 官方原生範圍從 22.4°N、120°E 起；目前 HTTP transport 為避開邊界座標拒絕，瀏覽資料從 22.45°N、120.0625°E 起。台灣最南端及西側離島因此不在目前 JMA 瀏覽圖層內；切換模型時地圖會使用 JMA 自己的實際資料邊界。</p>
         <p>每個模式使用自己的資料邊界、網格解析度與預報時間軸。畫面內插只改善顯示連續性，不增加原始模式的真實解析度。</p>
         <p>底圖採 MapLibre + OpenFreeMap；若外部底圖無法載入，WeatherGrid 會自動退回既有 Canvas 經緯網格，不影響 GFS 圖層與景點取樣。</p>
-      </section>
-    </aside>
-  </main>
+      </div>
+    </div>
+  </dialog>
 
   <script src="./assets/weather-map.js"></script>
 </body>
