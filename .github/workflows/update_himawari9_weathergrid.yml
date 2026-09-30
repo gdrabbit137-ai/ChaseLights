@@ -1,0 +1,167 @@
+name: Update Himawari-9 WeatherGrid
+
+on:
+  schedule:
+    # Full Disk arrives every 10 minutes, with NOAA L2 processing/distribution
+    # latency. Poll every 10 minutes and publish the newest complete CMSK+CHGT pair.
+    - cron: '*/10 * * * *'
+  push:
+    branches:
+      - main
+    paths:
+      - "himawari9_cloud_poc.py"
+      - "himawari9_weathergrid_browser_bundle.py"
+      - ".github/workflows/update_himawari9_weathergrid.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: chaselights-himawari9-publish
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  publish-himawari9:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install Himawari dependencies
+        run: |
+          python -m pip install --disable-pip-version-check \
+            numpy scipy pyproj s3fs h5py
+
+      - name: Build current Himawari Taiwan bundle
+        id: himawari
+        continue-on-error: true
+        run: |
+          python himawari9_weathergrid_browser_bundle.py \
+            --lookback-slots 36 \
+            --output-dir himawari9_output
+
+      - name: Validate Himawari publish payload
+        id: validate
+        if: steps.himawari.outcome == 'success'
+        continue-on-error: true
+        run: |
+          python - <<'PY'
+          import json
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          root = Path("himawari9_output")
+          browser = json.loads(
+              (root / "himawari9_tw_cloud_browser.json").read_text()
+          )
+          qc = json.loads(
+              (root / "himawari9_tw_cloud_qc.json").read_text()
+          )
+
+          assert browser.get("source_kind") == "observation", browser.get("source_kind")
+          assert browser.get("source_id") == "himawari9_ahi", browser.get("source_id")
+          assert browser.get("platform") == "Himawari-9", browser.get("platform")
+          assert browser.get("provenance", {}).get("forecast") is False
+          assert browser.get("provenance", {}).get("api_key_required") is False
+          assert browser.get("grid", {}).get("rows") == 276, browser.get("grid")
+          assert browser.get("grid", {}).get("cols") == 301, browser.get("grid")
+          assert browser.get("grid", {}).get("step_degrees") == 0.02
+          assert set(browser.get("fields", {})) == {
+              "observed_cloud_mask",
+              "cloud_top_height_m",
+          }
+          assert len(browser["values"]["observed_cloud_mask"]) == 276 * 301
+          assert len(browser["values"]["cloud_top_height_m"]) == 276 * 301
+
+          observation = browser.get("observation", {})
+          end = observation.get("time_coverage_end")
+          assert end and end.endswith("Z"), observation
+          observed_end = datetime.fromisoformat(end.replace("Z", "+00:00"))
+          age_minutes = (
+              datetime.now(timezone.utc) - observed_end
+          ).total_seconds() / 60.0
+          assert -5 <= age_minutes <= 90, age_minutes
+
+          distances = qc.get("nearest_distance_m", {})
+          for field in ("observed_cloud_mask", "cloud_top_height_m"):
+              item = distances[field]
+              assert item["outside_max_distance"] == 0, (field, item)
+              assert item["p99_m"] <= 5000.0, (field, item)
+
+          print(json.dumps({
+              "observation": observation,
+              "age_minutes": round(age_minutes, 1),
+              "grid": [browser["grid"]["rows"], browser["grid"]["cols"]],
+              "fields": list(browser["fields"]),
+              "nearest_distance_m": distances,
+          }, indent=2))
+          PY
+
+      - name: Publish current Himawari snapshot state
+        if: always() && !cancelled()
+        env:
+          BUILD_OUTCOME: ${{ steps.himawari.outcome }}
+          VALIDATE_OUTCOME: ${{ steps.validate.outcome }}
+        run: |
+          mkdir -p weathergrid
+
+          if [[ "$BUILD_OUTCOME" == "success" && "$VALIDATE_OUTCOME" == "success" ]]; then
+            cp himawari9_output/himawari9_tw_cloud_browser.json \
+              weathergrid/himawari9_tw_cloud_browser.json
+            cp himawari9_output/himawari9_tw_cloud_qc.json \
+              weathergrid/himawari9_tw_cloud_qc.json
+          else
+            # Observations are time-sensitive. Never keep an old Himawari
+            # snapshot selectable after the current refresh/validation failed.
+            rm -f weathergrid/himawari9_tw_cloud_browser.json
+            rm -f weathergrid/himawari9_tw_cloud_qc.json
+          fi
+
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add -A -- weathergrid
+
+          if git diff --cached --quiet; then
+            echo "Himawari-9 WeatherGrid snapshot unchanged."
+          else
+            git commit -m "Auto-update Himawari-9 WeatherGrid"
+            pushed=false
+            for i in {1..5}; do
+              if git pull --rebase origin main && git push origin HEAD:main; then
+                pushed=true
+                break
+              fi
+              sleep 5
+            done
+            if [[ "$pushed" != "true" ]]; then
+              echo "Failed to publish Himawari-9 snapshot after retries."
+              exit 1
+            fi
+          fi
+
+      - name: Upload Himawari validation artifact
+        if: steps.himawari.outcome == 'success' && steps.validate.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: himawari9-weathergrid
+          path: |
+            himawari9_output/himawari9_tw_cloud_browser.json
+            himawari9_output/himawari9_tw_cloud_qc.json
+          if-no-files-found: error
+          retention-days: 3
+
+      - name: Fail if Himawari refresh failed
+        if: steps.himawari.outcome != 'success' || steps.validate.outcome != 'success'
+        run: |
+          echo "Himawari refresh or freshness validation failed; stale files were removed."
+          exit 1
