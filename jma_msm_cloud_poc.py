@@ -25,10 +25,16 @@ from pathlib import Path
 import requests
 
 
+OPEN_METEO_API_KEY = os.environ.get("OPEN_METEO_API_KEY", "").strip()
 JMA_MSM_API_URL = os.environ.get(
     "JMA_MSM_API_URL",
-    "https://api.open-meteo.com/v1/jma",
+    (
+        "https://customer-api.open-meteo.com/v1/jma"
+        if OPEN_METEO_API_KEY
+        else "https://api.open-meteo.com/v1/jma"
+    ),
 )
+JMA_MSM_FREE_MAX_POINTS = 500
 JMA_MSM_MODEL = "jma_msm"
 JMA_MSM_NATIVE_RESOLUTION_KM = 5.0
 JMA_MSM_LAT_STEP_DEG = 0.05
@@ -200,6 +206,8 @@ def _request_batch(
         "elevation": ",".join("nan" for _ in batch),
         "timezone": "GMT",
     }
+    if OPEN_METEO_API_KEY:
+        params["apikey"] = OPEN_METEO_API_KEY
 
     last_error = None
     for attempt in range(1, retries + 1):
@@ -228,6 +236,7 @@ def fetch_snapshot(
     forecast_hours: int = DEFAULT_FORECAST_HOURS,
     batch_size: int = DEFAULT_BATCH_SIZE,
     session: requests.Session | None = None,
+    require_production_transport: bool = False,
 ) -> dict:
     if forecast_hours < 1:
         raise ValueError("forecast_hours must be >= 1")
@@ -242,6 +251,20 @@ def fetch_snapshot(
     latitudes, longitudes, points = build_grid(bbox)
     rows = len(latitudes)
     cols = len(longitudes)
+
+    customer_transport = bool(OPEN_METEO_API_KEY)
+    if require_production_transport and not customer_transport:
+        raise RuntimeError(
+            "Production-sized JMA MSM publishing requires OPEN_METEO_API_KEY "
+            "for the Open-Meteo customer endpoint, or a future official "
+            "JMBSC transport adapter."
+        )
+    if not customer_transport and len(points) > JMA_MSM_FREE_MAX_POINTS:
+        raise RuntimeError(
+            f"Refusing {len(points)}-point JMA MSM grid through the free "
+            "Open-Meteo endpoint. The free tier is evaluation/non-commercial "
+            "and rate-limited; configure OPEN_METEO_API_KEY for production."
+        )
 
     canonical_times = None
     frame_values = None
@@ -320,6 +343,7 @@ def fetch_snapshot(
         "transport": {
             "adapter": "Open-Meteo JMA API",
             "endpoint": JMA_MSM_API_URL,
+            "tier": "customer" if OPEN_METEO_API_KEY else "free_evaluation",
             "model_parameter": JMA_MSM_MODEL,
             "cell_selection": "nearest",
             "elevation_downscaling": False,
@@ -350,6 +374,11 @@ def fetch_snapshot(
                 "Cloud fields are native JMA MSM fields delivered through "
                 "Open-Meteo; nearest native cell is requested and elevation "
                 "downscaling is disabled."
+            ),
+            "production_transport": (
+                "open_meteo_customer"
+                if OPEN_METEO_API_KEY
+                else "free_evaluation_only"
             ),
         },
         "grid": {
@@ -390,6 +419,14 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--bottomlat", type=float, default=None)
     parser.add_argument("--toplat", type=float, default=None)
     parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument(
+        "--require-production-transport",
+        action="store_true",
+        help=(
+            "Fail unless a production-capable transport is configured. "
+            "Currently this means OPEN_METEO_API_KEY/customer endpoint."
+        ),
+    )
     return parser.parse_args()
 
 
@@ -437,6 +474,7 @@ def main() -> int:
         bbox=bbox,
         forecast_hours=args.forecast_hours,
         batch_size=args.batch_size,
+        require_production_transport=args.require_production_transport,
     )
     out = Path(args.output_dir)
     out.mkdir(parents=True, exist_ok=True)
