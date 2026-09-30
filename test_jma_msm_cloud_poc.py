@@ -120,6 +120,11 @@ class JmaMsmCloudProviderTests(unittest.TestCase):
             4,
         )
         self.assertEqual(len(session.calls), 2)
+        self.assertEqual(
+            snapshot["provenance"]["forecast_hour_semantics"],
+            "hours_from_first_published_valid_time_not_model_cycle",
+        )
+        self.assertFalse(snapshot["provenance"]["cycle_timestamp_available"])
 
         for _, params, _ in session.calls:
             self.assertEqual(params["models"], "jma_msm")
