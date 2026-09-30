@@ -140,9 +140,10 @@ jobs:
 
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add -A \
-            weathergrid/jma_msm_tw_cloud_browser.json \
-            weathergrid/jma_msm_tw_cloud_qc.json
+          # Stage the provider directory instead of individual files so
+          # a first-run failure (where files have never existed yet) can still
+          # remove stale files safely without a pathspec error.
+          git add -A -- weathergrid
 
           if git diff --cached --quiet; then
             echo "JMA MSM WeatherGrid snapshot unchanged."
