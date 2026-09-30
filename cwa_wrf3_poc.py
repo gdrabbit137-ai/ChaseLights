@@ -102,7 +102,7 @@ OPTIONAL_FIELD_SPECS = {
         "kind": "precip_total",
     },
     "shortwave_flux_w_m2": {
-        "aliases": {"dswrf", "ssrd", "nswrs", "nswrf", "sdswrf"},
+        "aliases": {"dswrf", "ssrd", "nswrs", "nswrf", "sdswrf", "snswrf"},
         "tokens": ("shortwave",),
         "level_tokens": ("surface",),
         "kind": "shortwave",
