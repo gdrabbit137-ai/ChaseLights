@@ -9,6 +9,30 @@ from pathlib import Path
 from weathergrid_browser_bundle import field_stats, qc_flags, quantize
 
 
+ICON_CLOUD_VERTICAL_DEFINITIONS = {
+    "low_cloud_percent": {
+        "coordinate": "pressure",
+        "native_definition": "surface–800 hPa",
+        "approx_height": "約地面～2 km",
+        "pressure_bounds_hpa": {"bottom": "surface", "top": 800},
+        "definition_source": "DWD CLCL",
+    },
+    "mid_cloud_percent": {
+        "coordinate": "pressure",
+        "native_definition": "800–400 hPa",
+        "approx_height": "約2～7 km",
+        "pressure_bounds_hpa": {"bottom": 800, "top": 400},
+        "definition_source": "DWD CLCM",
+    },
+    "high_cloud_percent": {
+        "coordinate": "pressure",
+        "native_definition": "<400 hPa",
+        "approx_height": "約7 km 以上",
+        "pressure_bounds_hpa": {"bottom": 400, "top": "model_top"},
+        "definition_source": "DWD CLCH",
+    },
+}
+
 ICON_FIELD_ENCODINGS = {
     "low_cloud_percent": {
         "unit": "%",
@@ -138,6 +162,7 @@ def build_icon_bundle(input_dir: Path) -> tuple[dict, dict]:
             "scale": meta["scale"],
             "decode": f"value * {meta['scale']}",
             "null": "missing",
+            "vertical_definition": ICON_CLOUD_VERTICAL_DEFINITIONS[key],
         }
         for key, meta in ICON_FIELD_ENCODINGS.items()
     }

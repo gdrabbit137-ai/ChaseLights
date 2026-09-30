@@ -1205,6 +1205,22 @@
     else if(usingIcon) providerRole=state.modelMode==='auto'?'ICON Global · auto':'ICON Global';
     else if(state.modelMode==='auto' && cloudLayers.has(state.layer)) providerRole='GFS fallback';
     $('layer-unit').textContent=`${cfg.label} · ${data.fields[state.layer].unit} · ${providerRole} · 各模型保留自己的範圍／解析度／時間軸`;
+    const vertical=data.fields[state.layer]?.vertical_definition || null;
+    const verticalHost=$('layer-vertical');
+    if(vertical){
+      const modelName=usingCwa?'CWA WRF 3 km':(usingIcon?'ICON Global':'GFS 0.25°');
+      verticalHost.innerHTML=
+        `<div><strong>${escapeHtml(modelName)} — ${escapeHtml(cfg.label)}</strong></div>`+
+        `<div>${escapeHtml(vertical.native_definition || "—")}</div>`+
+        `<div>${escapeHtml(vertical.approx_height || "")}</div>`;
+    }else if(
+      usingCwa &&
+      data.provenance?.cloud_layer_capability?.native_low_mid_high===false
+    ){
+      verticalHost.innerHTML='<div>CWA M-A0064 目前未提供原生低／中／高雲量；不以相對濕度代理冒充雲量。</div>';
+    }else{
+      verticalHost.innerHTML='';
+    }
 
     const spot=selectedSpot();
     const point=samplingPoint();

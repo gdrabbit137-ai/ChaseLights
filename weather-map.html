@@ -74,6 +74,7 @@
         <h2>目前圖層</h2>
         <div id="layer-summary" class="metric-big">—</div>
         <div id="layer-unit" class="muted"></div>
+        <div id="layer-vertical" class="muted cloud-vertical-note"></div>
         <label class="wind-vector-toggle">
           <input id="wind-vector-toggle" type="checkbox">
           <span>顯示 10 m 風向箭頭</span>
@@ -104,7 +105,7 @@
 
       <section class="panel note-panel">
         <h2>POC 限制</h2>
-        <p>目前已加入三套模式資料：CWA WRF 3 km、ICON Global 與 GFS。使用者可手動切換；「自動」維持現行 ICON 雲量優先、GFS 備援策略。CWA 先以 WRF 3 km 的 2 m 溫度／濕度、10 m 風場、累積降水與地表短波輻射為主。</p>
+        <p>目前已加入三套模式資料：CWA WRF 3 km、ICON Global 與 GFS。使用者可手動切換；「自動」維持現行 ICON 雲量優先、GFS 備援策略。CWA M-A0064 目前以 2 m 溫度／濕度、10 m 風場與地表短波輻射為主；實際 GRIB 驗證未發現原生低／中／高雲量，因此不以壓力層相對濕度冒充雲量。</p>
         <p>每個模式使用自己的資料邊界、網格解析度與預報時間軸。畫面內插只改善顯示連續性，不增加原始模式的真實解析度。</p>
         <p>底圖採 MapLibre + OpenFreeMap；若外部底圖無法載入，WeatherGrid 會自動退回既有 Canvas 經緯網格，不影響 GFS 圖層與景點取樣。</p>
       </section>

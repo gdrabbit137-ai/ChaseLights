@@ -127,6 +127,13 @@ class CwaWeatherGridBrowserBundleTests(unittest.TestCase):
                 bundle["provenance"]["published_time_interval_hours"],
                 6,
             )
+            cloud_capability = bundle["provenance"]["cloud_layer_capability"]
+            self.assertFalse(cloud_capability["native_low_mid_high"])
+            self.assertTrue(cloud_capability["pressure_level_rh_available"])
+            self.assertEqual(
+                cloud_capability["policy"],
+                "do_not_infer_cloud_cover_from_rh",
+            )
             self.assertEqual(bundle["bbox"]["rightlon"], 125.5)
             self.assertIn("temperature_2m_c", bundle["fields"])
             self.assertIn("shortwave_flux_w_m2", bundle["fields"])

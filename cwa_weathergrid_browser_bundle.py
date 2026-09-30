@@ -236,6 +236,12 @@ def build_cwa_bundle(input_dir: Path) -> tuple[dict, dict]:
             "native_to_regular": "linear",
             "edge_fill": "nearest",
             "browser_interpolation": "bilinear_subcell",
+            "cloud_layer_capability": {
+                "native_low_mid_high": False,
+                "pressure_level_rh_available": True,
+                "policy": "do_not_infer_cloud_cover_from_rh",
+                "verified_public_feed": "M-A0064",
+            },
         },
         "grid": {
             "rows": rows,
@@ -276,6 +282,8 @@ def build_cwa_bundle(input_dir: Path) -> tuple[dict, dict]:
             "Browser interpolation is presentation-only and does not increase model resolution.",
             "Wind direction is circular and should be rendered/sampled with nearest-cell semantics.",
             "Optional CWA fields are published only when present in every frame of the snapshot.",
+            "Live M-A0064 verification found pressure-level relative humidity but no native low/mid/high cloud-cover fields.",
+            "Pressure-level RH is not relabeled as cloud cover.",
         ],
     }
     return bundle, qc

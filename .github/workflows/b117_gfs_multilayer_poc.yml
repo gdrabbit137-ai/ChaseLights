@@ -63,6 +63,8 @@ on:
       - "test_cwa_weathergrid_browser_bundle.py"
       - "test_cwa_weathergrid_ui.py"
       - "B151_CWA_WRF3_WEATHERGRID.md"
+      - "B152_CWA_CLOUD_VERTICAL_DEFINITIONS.md"
+      - "test_weathergrid_cloud_vertical_definitions.py"
       - ".github/workflows/update_weathergrid.yml"
       - "test_weathergrid_refresh_workflow.py"
       - "B132_WEATHERGRID_SCHEDULED_REFRESH.md"
@@ -133,7 +135,8 @@ jobs:
             test_weathergrid_icon_browser_contract.py \
             test_cwa_wrf3_poc.py \
             test_cwa_weathergrid_browser_bundle.py \
-            test_cwa_weathergrid_ui.py
+            test_cwa_weathergrid_ui.py \
+            test_weathergrid_cloud_vertical_definitions.py
           python audit_weathergrid_coverage.py
 
   cwa-live-smoke:
@@ -160,30 +163,51 @@ jobs:
             --forecast-hours "0,6,12" \
             --output-dir cwa_live_smoke_output
 
-      - name: Inspect CWA optional surface fields
+      - name: Inspect CWA cloud and pressure-level fields
         run: |
           python - <<'PY'
+          import json
           import cfgrib
-          path = "cwa_live_smoke_output/cwa_wrf3_f006.grb2"
-          rows = []
-          for ds in cfgrib.open_datasets(path, backend_kwargs={"indexpath": ""}):
-              for name, arr in ds.data_vars.items():
-                  a = arr.attrs or {}
-                  level = str(a.get("GRIB_typeOfLevel", ""))
-                  long_name = str(a.get("long_name") or a.get("GRIB_name") or "")
-                  short = str(a.get("GRIB_shortName", name))
-                  hay = " ".join([name, short, level, long_name]).lower()
-                  if any(token in hay for token in (
-                      "precip", "shortwave", "solar", "radiat", "flux"
-                  )):
-                      rows.append({
+
+          for fh in (0, 6, 12):
+              path = f"cwa_live_smoke_output/cwa_wrf3_f{fh:03d}.grb2"
+              rows = []
+              pressure_rh = []
+              for ds in cfgrib.open_datasets(path, backend_kwargs={"indexpath": ""}):
+                  for name, arr in ds.data_vars.items():
+                      a = arr.attrs or {}
+                      level_type = str(a.get("GRIB_typeOfLevel", ""))
+                      level = a.get("GRIB_level")
+                      long_name = str(a.get("long_name") or a.get("GRIB_name") or "")
+                      short = str(a.get("GRIB_shortName", name))
+                      units = a.get("units")
+                      hay = " ".join([name, short, level_type, long_name]).lower()
+                      row = {
                           "name": name,
                           "short": short,
+                          "level_type": level_type,
                           "level": level,
                           "long_name": long_name,
-                          "units": a.get("units"),
-                      })
-          print("CWA_OPTIONAL_FIELD_INVENTORY=", rows)
+                          "units": units,
+                      }
+                      if any(token in hay for token in (
+                          "cloud", "cld", "lcdc", "mcdc", "hcdc", "tcdc",
+                          "relative humidity", "rhum", "humidity"
+                      )):
+                          rows.append(row)
+                      if (
+                          short.lower() in {"r", "rh", "rhum"}
+                          and "isobaric" in level_type.lower()
+                      ):
+                          pressure_rh.append(row)
+              print(
+                  f"CWA_CLOUD_FIELD_INVENTORY_F{fh:03d}=",
+                  json.dumps(rows, ensure_ascii=False, sort_keys=True),
+              )
+              print(
+                  f"CWA_PRESSURE_RH_INVENTORY_F{fh:03d}=",
+                  json.dumps(pressure_rh, ensure_ascii=False, sort_keys=True),
+              )
           PY
 
       - name: Build compact CWA browser bundle
