@@ -63,6 +63,7 @@ class CwaWrf3ProviderTests(unittest.TestCase):
         self.assertIn("wind_v_10m_m_s", CORE_FIELD_SPECS)
         self.assertIn("precip_total_mm", OPTIONAL_FIELD_SPECS)
         self.assertIn("shortwave_flux_w_m2", OPTIONAL_FIELD_SPECS)
+        self.assertIn("snswrf", OPTIONAL_FIELD_SPECS["shortwave_flux_w_m2"]["aliases"])
 
 
 if __name__ == "__main__":
