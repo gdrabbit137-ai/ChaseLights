@@ -5,6 +5,7 @@ import numpy as np
 
 from himawari9_weathergrid_browser_bundle import (
     HEIGHT_SCALE_M,
+    _attr_text,
     nearest_regular_grid,
     quantize_height,
     regular_axis,
@@ -12,6 +13,9 @@ from himawari9_weathergrid_browser_bundle import (
 
 
 class Himawari9WeatherGridBundleTest(unittest.TestCase):
+    def test_attr_text_decodes_netcdf_bytes(self):
+        self.assertEqual(_attr_text(b"2026-09-30T16:20:21Z"), "2026-09-30T16:20:21Z")
+
     def test_regular_axis_includes_both_ends(self):
         self.assertEqual(
             regular_axis(21.5, 21.54, 0.02),
