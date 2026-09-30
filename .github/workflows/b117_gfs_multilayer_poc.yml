@@ -339,6 +339,85 @@ jobs:
           if-no-files-found: error
           retention-days: 3
 
+  jma-regional-smoke:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout candidate
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install JMA WeatherGrid dependencies
+        run: python -m pip install --disable-pip-version-check requests numpy
+
+      - name: Fetch production-sized JMA MSM Taiwan cloud window
+        run: |
+          python jma_msm_cloud_poc.py \
+            --forecast-hours 40 \
+            --batch-size 100 \
+            --output-dir jma_msm_regional_smoke
+
+      - name: Build and validate production-sized JMA bundle
+        run: |
+          python jma_msm_weathergrid_browser_bundle.py \
+            --input-dir jma_msm_regional_smoke
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          root = Path("jma_msm_regional_smoke")
+          bundle = json.loads(
+              (root / "jma_msm_tw_cloud_browser.json").read_text()
+          )
+          assert len(bundle["frames"]) == 40, len(bundle["frames"])
+          assert bundle["grid"]["rows"] == 64, bundle["grid"]
+          assert bundle["grid"]["cols"] == 40, bundle["grid"]
+          assert bundle["bbox"] == {
+              "leftlon": 120.0625,
+              "rightlon": 122.5,
+              "bottomlat": 22.45,
+              "toplat": 25.6,
+          }, bundle["bbox"]
+          provenance = bundle["provenance"]
+          assert provenance["query_count"] == 26, provenance
+          assert provenance["native_resolution_km"] == 5.0
+          assert provenance["native_time_interval_hours"] == 1
+          assert (
+              provenance["forecast_hour_semantics"]
+              == "hours_from_first_published_valid_time_not_model_cycle"
+          )
+          for field in (
+              "total_cloud_percent",
+              "low_cloud_percent",
+              "mid_cloud_percent",
+              "high_cloud_percent",
+          ):
+              assert field in bundle["fields"], field
+              assert bundle["fields"][field]["vertical_definition"], field
+          print(json.dumps({
+              "frames": len(bundle["frames"]),
+              "grid": [bundle["grid"]["rows"], bundle["grid"]["cols"]],
+              "query_count": provenance["query_count"],
+              "bbox": bundle["bbox"],
+              "fields": list(bundle["fields"]),
+          }, indent=2))
+          PY
+
+      - name: Upload production-sized JMA smoke outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: jma-msm-regional-smoke
+          path: |
+            jma_msm_regional_smoke/jma_msm_tw_cloud_browser.json
+            jma_msm_regional_smoke/jma_msm_tw_cloud_qc.json
+          if-no-files-found: error
+          retention-days: 3
+
   live-poc:
     if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
