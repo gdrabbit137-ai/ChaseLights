@@ -3,6 +3,8 @@
   const LIVE_QC = './weathergrid/gfs_tw_weather_qc.json';
   const LIVE_ICON_DATA = './weathergrid/icon_tw_cloud_browser.json';
   const LIVE_ICON_QC = './weathergrid/icon_tw_cloud_qc.json';
+  const LIVE_CWA_DATA = './weathergrid/cwa_wrf3_tw_weather_browser.json';
+  const LIVE_CWA_QC = './weathergrid/cwa_wrf3_tw_weather_qc.json';
   const LIVE_COVERAGE = './weathergrid/weathergrid_coverage_browser.json';
   const FALLBACK_DATA = './weathergrid_sample.json';
   const FALLBACK_COVERAGE = './weathergrid_coverage_sample.json';
@@ -16,7 +18,11 @@
     visibility_km:{label:'能見度', unit:'km', domain:[0,30], palette:'visibility'},
     precip_rate_mm_h:{label:'降雨率', unit:'mm/h', domain:[0,10], palette:'precip'},
     wind_speed_10m_m_s:{label:'10 m 風速', unit:'m/s', domain:[0,20], palette:'wind'},
-    wind_direction_10m_deg:{label:'10 m 風向', unit:'°', domain:[0,360], palette:'direction'}
+    wind_direction_10m_deg:{label:'10 m 風向', unit:'°', domain:[0,360], palette:'direction'},
+    temperature_2m_c:{label:'2 m 氣溫', unit:'°C', domain:[-5,40], palette:'temperature'},
+    relative_humidity_2m_percent:{label:'2 m 相對濕度', unit:'%', domain:[0,100], palette:'humidity'},
+    precip_total_mm:{label:'累積降水', unit:'mm', domain:[0,100], palette:'precip'},
+    shortwave_flux_w_m2:{label:'地表短波輻射', unit:'W/m²', domain:[0,1000], palette:'solar'}
   };
 
   const state = {
@@ -24,6 +30,9 @@
     qc:null,
     iconData:null,
     iconQc:null,
+    cwaData:null,
+    cwaQc:null,
+    modelMode:'auto',
     coverage:{spots:[]},
     frameIndex:0,
     layer:'low_cloud_percent',
@@ -201,6 +210,15 @@
         console.warn('ICON Global cloud bundle unavailable; GFS remains active', err);
         state.iconData = null;
         state.iconQc = null;
+      }
+
+      try{
+        state.cwaData = await fetchJson(LIVE_CWA_DATA);
+        try{ state.cwaQc = await fetchJson(LIVE_CWA_QC); }catch(_){ state.cwaQc = null; }
+      }catch(err){
+        console.warn('CWA WRF 3 km bundle unavailable', err);
+        state.cwaData = null;
+        state.cwaQc = null;
       }
 
       try{
