@@ -7,6 +7,8 @@
   const LIVE_CWA_QC = './weathergrid/cwa_wrf3_tw_weather_qc.json';
   const LIVE_JMA_DATA = './weathergrid/jma_msm_tw_cloud_browser.json';
   const LIVE_JMA_QC = './weathergrid/jma_msm_tw_cloud_qc.json';
+  const LIVE_HIMAWARI_DATA = './weathergrid/himawari9_tw_cloud_browser.json';
+  const LIVE_HIMAWARI_QC = './weathergrid/himawari9_tw_cloud_qc.json';
   const LIVE_COVERAGE = './weathergrid/weathergrid_coverage_browser.json';
   const FALLBACK_DATA = './weathergrid_sample.json';
   const FALLBACK_COVERAGE = './weathergrid_coverage_sample.json';
@@ -18,6 +20,8 @@
     low_cloud_percent: {label:'低雲', unit:'%', domain:[0,100], palette:'cloud'},
     mid_cloud_percent: {label:'中雲', unit:'%', domain:[0,100], palette:'cloud'},
     high_cloud_percent:{label:'高雲', unit:'%', domain:[0,100], palette:'cloud'},
+    observed_cloud_mask:{label:'衛星雲遮罩', unit:'類別', domain:[0,1], palette:'cloudMask'},
+    cloud_top_height_m:{label:'雲頂高度', unit:'m', domain:[0,16000], palette:'cloudHeight'},
     visibility_km:{label:'能見度', unit:'km', domain:[0,30], palette:'visibility'},
     precip_rate_mm_h:{label:'降雨率', unit:'mm/h', domain:[0,20], palette:'precip', scale:'precip_rate', ticks:[0,.1,.5,1,2,5,10,20]},
     wind_speed_10m_m_s:{label:'10 m 風速', unit:'m/s', domain:[0,20], palette:'wind'},
@@ -37,6 +41,8 @@
     cwaQc:null,
     jmaData:null,
     jmaQc:null,
+    himawariData:null,
+    himawariQc:null,
     modelMode:'auto',
     coverage:{spots:[]},
     frameIndex:0,
@@ -205,6 +211,44 @@
     return r.json();
   }
 
+  function normalizeHimawariBundle(raw){
+    if(!raw?.grid || !raw?.fields || !raw?.values || !raw?.observation){
+      throw new Error('Invalid Himawari-9 observation bundle');
+    }
+    const validTime=raw.observation.time_coverage_end || raw.observation.slot_utc;
+    if(!validTime) throw new Error('Himawari-9 observation time missing');
+    return {
+      ...raw,
+      model:'HIMAWARI9_AHI_OBS',
+      fields:{
+        ...raw.fields,
+        observed_cloud_mask:{
+          ...raw.fields.observed_cloud_mask,
+          scale:Number.isFinite(raw.fields.observed_cloud_mask?.scale)
+            ? raw.fields.observed_cloud_mask.scale
+            : 1
+        }
+      },
+      frames:[{
+        forecast_hour:0,
+        valid_time_utc:validTime,
+        observation_time_utc:validTime,
+        values:raw.values
+      }]
+    };
+  }
+
+  function isObservationMode(){
+    return state.modelMode==='himawari' && Boolean(state.himawariData);
+  }
+
+  function observationAgeMinutes(data=state.himawariData){
+    const stamp=data?.observation?.time_coverage_end || data?.observation?.slot_utc;
+    const time=Date.parse(stamp || '');
+    if(!Number.isFinite(time)) return null;
+    return Math.max(0,(Date.now()-time)/60000);
+  }
+
   async function load(){
     try{
       state.data = await fetchJson(LIVE_DATA);
@@ -246,6 +290,17 @@
       }
 
       try{
+        state.himawariData = normalizeHimawariBundle(
+          await fetchJson(LIVE_HIMAWARI_DATA)
+        );
+        try{ state.himawariQc = await fetchJson(LIVE_HIMAWARI_QC); }catch(_){ state.himawariQc = null; }
+      }catch(err){
+        console.warn('Himawari-9 observation bundle unavailable', err);
+        state.himawariData = null;
+        state.himawariQc = null;
+      }
+
+      try{
         state.coverage = await fetchJson(LIVE_COVERAGE);
         state.coverageSource = 'live';
       }catch(err){
@@ -266,6 +321,7 @@
   }
 
   function modelDataset(mode=state.modelMode){
+    if(mode==='himawari' && state.himawariData) return state.himawariData;
     if(mode==='jma' && state.jmaData) return state.jmaData;
     if(mode==='cwa' && state.cwaData) return state.cwaData;
     if(mode==='icon' && state.iconData) return state.iconData;
@@ -273,6 +329,7 @@
   }
 
   function modelQc(mode=state.modelMode){
+    if(mode==='himawari' && state.himawariData) return state.himawariQc;
     if(mode==='jma' && state.jmaData) return state.jmaQc;
     if(mode==='cwa' && state.cwaData) return state.cwaQc;
     if(mode==='icon' && state.iconData) return state.iconQc;
@@ -280,6 +337,7 @@
   }
 
   function modelLabel(mode=state.modelMode){
+    if(mode==='himawari') return 'Himawari-9 2 km';
     if(mode==='jma') return 'JMA MSM 5 km';
     if(mode==='cwa') return 'CWA WRF 3 km';
     if(mode==='icon') return 'ICON Global';
@@ -288,6 +346,7 @@
   }
 
   function modelAvailable(mode){
+    if(mode==='himawari') return Boolean(state.himawariData);
     if(mode==='jma') return Boolean(state.jmaData);
     if(mode==='cwa') return Boolean(state.cwaData);
     if(mode==='icon') return Boolean(state.iconData);
@@ -362,6 +421,7 @@
     slider.max=Math.max(0,(timeline?.frames?.length || 1)-1);
     state.frameIndex=Math.min(state.frameIndex,Number(slider.max));
     slider.value=state.frameIndex;
+    slider.disabled=isObservationMode();
 
     syncWindVectorDefault();
     const hasWind=windFieldsAvailable();
@@ -404,6 +464,12 @@
   }
 
   function toggleTimelinePlayback(){
+    const count=timelineDataset()?.frames?.length || 0;
+    if(count<2){
+      stopTimelinePlayback();
+      renderAll();
+      return;
+    }
     if(state.timelinePlaying){
       stopTimelinePlayback();
       renderAll();
@@ -646,6 +712,7 @@
   }
 
   function timelineDataset(){
+    if(state.modelMode==='himawari' && state.himawariData) return state.himawariData;
     if(state.modelMode==='jma' && state.jmaData) return state.jmaData;
     if(state.modelMode==='cwa' && state.cwaData) return state.cwaData;
     if(state.modelMode==='icon' && state.iconData) return state.iconData;
@@ -679,6 +746,7 @@
   }
 
   function activeDataset(key=state.layer){
+    if(state.modelMode==='himawari' && state.himawariData) return state.himawariData;
     if(state.modelMode==='jma' && state.jmaData) return state.jmaData;
     if(state.modelMode==='cwa' && state.cwaData){
       return state.cwaData.fields[key] ? state.cwaData : state.cwaData;
@@ -694,7 +762,7 @@
   }
 
   function activeFrame(key=state.layer){
-    if(state.modelMode==='jma' || state.modelMode==='cwa' || state.modelMode==='icon' || state.modelMode==='gfs'){
+    if(state.modelMode==='himawari' || state.modelMode==='jma' || state.modelMode==='cwa' || state.modelMode==='icon' || state.modelMode==='gfs'){
       return timelineDataset()?.frames?.[state.frameIndex] || null;
     }
     const data=activeDataset(key);
@@ -705,6 +773,7 @@
   }
 
   function activeQc(key=state.layer){
+    if(state.modelMode==='himawari') return state.himawariQc;
     if(state.modelMode==='jma') return state.jmaQc;
     if(state.modelMode==='cwa') return state.cwaQc;
     if(state.modelMode==='icon') return state.iconQc;
@@ -717,7 +786,8 @@
   function decodeValue(key, encoded, data=activeDataset(key)){
     if(encoded == null || !data?.fields?.[key]) return null;
     const meta = data.fields[key];
-    let value = encoded * meta.scale;
+    const scale=Number.isFinite(meta.scale) ? meta.scale : 1;
+    let value = encoded * scale;
     if(meta.wrap) value = ((value % meta.wrap) + meta.wrap) % meta.wrap;
     return value;
   }
@@ -763,8 +833,13 @@
   }
 
   function cellOpacityFor(value,cfg){
-    if(value == null || !Number.isFinite(value)) return .08;
+    if(value == null || !Number.isFinite(value)){
+      if(cfg.palette==='cloudMask' || cfg.palette==='cloudHeight') return 0;
+      return .08;
+    }
     const t=normalizedValue(value,cfg);
+    if(cfg.palette==='cloudMask') return value>=.5 ? .84 : 0;
+    if(cfg.palette==='cloudHeight') return .28 + .72*t;
     if(cfg.palette==='cloud'){
       // Clear sky should reveal the basemap; denser cloud progressively dominates.
       return .04 + .96*Math.pow(t,.8);
@@ -793,6 +868,14 @@
   function colorFor(value,cfg){
     if(value == null || !Number.isFinite(value)) return 'rgba(30,41,59,.35)';
     let t = normalizedValue(value,cfg);
+    if(cfg.palette==='cloudMask'){
+      return value>=.5 ? 'hsl(205 18% 92%)' : 'rgba(0,0,0,0)';
+    }
+    if(cfg.palette==='cloudHeight'){
+      const hue=205 + t*115;
+      const light=46 + t*16;
+      return `hsl(${hue} 72% ${light}%)`;
+    }
     if(cfg.palette==='cloud'){
       const l = 22 + t*65;
       return `hsl(205 70% ${l}%)`;
@@ -1009,7 +1092,11 @@
     }
 
     ctx.save();
-    if(state.layer==='wind_direction_10m_deg'){
+    if(isObservationMode()){
+      // Himawari presentation-grid values are observations/retrievals.
+      // Do not synthesize intermediate satellite values with forecast-style interpolation.
+      drawNearestCells(data,vals,cfg,visibleView);
+    }else if(state.layer==='wind_direction_10m_deg'){
       const speeds=decodedArray('wind_speed_10m_m_s');
       drawCircularDirectionSubcells(data,vals,speeds,cfg,visibleView);
     }else{
@@ -1383,6 +1470,9 @@
       point.lat<bbox.bottomlat || point.lat>bbox.toplat
     )) return null;
     const values=decodedArray(key);
+    if(isObservationMode()){
+      return values[nearestCellIndex(point.lon,point.lat,data)] ?? null;
+    }
 
     const lons=data.grid.longitudes, lats=data.grid.latitudes;
     const ascLon=lons[0] < lons[lons.length-1];
@@ -1425,6 +1515,8 @@
 
   function formatValue(v,key){
     if(v==null || !Number.isFinite(v)) return '—';
+    if(key==='observed_cloud_mask') return v>=.5 ? '有雲' : '晴空';
+    if(key==='cloud_top_height_m') return `${(v/1000).toFixed(1)} km`;
     if(key.includes('cloud')) return `${Math.round(v)}%`;
     if(key==='visibility_km') return `${v.toFixed(1)} km`;
     if(key==='precip_rate_mm_h') return `${v.toFixed(2)} mm/h`;
@@ -1452,10 +1544,13 @@
     const usingIcon=data===state.iconData;
     const usingCwa=data===state.cwaData;
     const usingJma=data===state.jmaData;
+    const usingHimawari=data===state.himawariData;
     $('time-slider').value=state.frameIndex;
     const forecastHour=Number(f.forecast_hour || 0);
     const frameLead=`f${String(forecastHour).padStart(3,'0')}`;
-    $('time-label').textContent=`預報時間 · ${formatTaipeiTime(f.valid_time_utc)} · +${forecastHour}h`;
+    $('time-label').textContent=usingHimawari
+      ? `觀測時間 · ${formatTaipeiTime(f.valid_time_utc)} TST`
+      : `預報時間 · ${formatTaipeiTime(f.valid_time_utc)} · +${forecastHour}h`;
     $('opacity-label').textContent=`${Math.round(state.weatherOpacity*100)}%`;
 
     const status=$('source-state');
@@ -1463,7 +1558,9 @@
       status.textContent='DEMO 範例資料';
       status.className='source-pill demo';
     }else{
-      if(state.modelMode==='auto'){
+      if(usingHimawari){
+        status.textContent='OBS · Himawari-9 2 km';
+      }else if(state.modelMode==='auto'){
         status.textContent=usingIcon?'AUTO · ICON Global':'AUTO · GFS';
       }else{
         status.textContent='LIVE · '+modelLabel(state.modelMode);
@@ -1475,7 +1572,10 @@
       ? '風向採 u/v 向量循環內插'
       : '顯示雙線性內插';
     let resolution;
-    if(usingJma){
+    if(usingHimawari){
+      const p=data.provenance || {};
+      resolution=`原生約 ${p.nominal_native_resolution || '2 km at nadir'} · 瀏覽格 ${data.grid.step_degrees || 0.02}° · 觀測更新約 ${p.nominal_cadence_minutes || 10} 分鐘`;
+    }else if(usingJma){
       const p=data.provenance || {};
       resolution=`原生約 ${p.native_resolution_km || 5} km · ${p.native_lat_step_degrees || 0.05}°×${p.native_lon_step_degrees || 0.0625}° · 原生時間間隔 ${p.native_time_interval_hours || 1} h`;
     }else if(usingCwa){
@@ -1491,9 +1591,17 @@
       ? `${formatTaipeiTime(cycleText)} TST`
       : cycleText;
     const autoPrefix=state.modelMode==='auto'?'自動模式：依圖層選優先模型 · ':'';
-    $('cycle-label').textContent=`${autoPrefix}模型起報 ${cycleDisplay} · ${data.grid.rows}×${data.grid.cols} · ${resolution}`;
+    if(usingHimawari){
+      const age=observationAgeMinutes(data);
+      const ageText=Number.isFinite(age) ? ` · 資料年齡 ${Math.round(age)} 分` : '';
+      $('cycle-label').textContent=`衛星觀測 ${formatTaipeiTime(f.valid_time_utc)} TST${ageText} · ${data.grid.rows}×${data.grid.cols} · ${resolution}`;
+    }else{
+      $('cycle-label').textContent=`${autoPrefix}模型起報 ${cycleDisplay} · ${data.grid.rows}×${data.grid.cols} · ${resolution}`;
+    }
     const attributionHost=$('source-attribution');
-    if(usingJma){
+    if(usingHimawari){
+      attributionHost.textContent='衛星觀測：JMA Himawari-9 / AHI · Distribution: NOAA NODD / AWS Open Data';
+    }else if(usingJma){
       attributionHost.innerHTML='資料模型：JMA MSM · Open Data transport: <a href="https://registry.opendata.aws/open-meteo/" target="_blank" rel="noopener noreferrer">Open-Meteo AWS</a>';
     }else{
       attributionHost.innerHTML='';
@@ -1506,14 +1614,24 @@
       ? '畫面資料範圍：—'
       : `畫面資料範圍：${formatValue(min,state.layer)} – ${formatValue(max,state.layer)}`;
     let providerRole='GFS';
-    if(usingJma) providerRole='JMA MSM 5 km';
+    if(usingHimawari) providerRole='Himawari-9 AHI · 觀測';
+    else if(usingJma) providerRole='JMA MSM 5 km';
     else if(usingCwa) providerRole='CWA WRF 3 km';
     else if(usingIcon) providerRole=state.modelMode==='auto'?'ICON Global · auto':'ICON Global';
     else if(state.modelMode==='auto' && cloudLayers.has(state.layer)) providerRole='GFS fallback';
-    $('layer-unit').textContent=`${providerRole} · 單位 ${data.fields[state.layer].unit} · 各模型保留自己的範圍／解析度／時間軸`;
+    const unitText=usingHimawari && state.layer==='cloud_top_height_m'
+      ? '原始單位 m · 顯示 km'
+      : `單位 ${data.fields[state.layer].unit}`;
+    $('layer-unit').textContent=usingHimawari
+      ? `${providerRole} · ${unitText} · 單張最新觀測`
+      : `${providerRole} · ${unitText} · 各模型保留自己的範圍／解析度／時間軸`;
     const vertical=data.fields[state.layer]?.vertical_definition || null;
     const verticalHost=$('layer-vertical');
-    if(vertical){
+    if(usingHimawari && state.layer==='observed_cloud_mask'){
+      verticalHost.innerHTML='<div><strong>Himawari-9 — 衛星雲遮罩</strong></div><div>目前衛星觀測：0＝晴空、1＝有雲。這不是預報雲量百分比。</div>';
+    }else if(usingHimawari && state.layer==='cloud_top_height_m'){
+      verticalHost.innerHTML='<div><strong>Himawari-9 — 雲頂高度</strong></div><div>使用 NOAA L2 雲頂高度與視差校正座標定位；缺值常代表晴空或沒有成功雲頂反演。</div><div>雲頂高度不能證明下方沒有其他雲層，也不等同低／中／高雲量百分比。</div>';
+    }else if(vertical){
       const modelName=usingJma?'JMA MSM 5 km':(usingCwa?'CWA WRF 3 km':(usingIcon?'ICON Global':'GFS 0.25°'));
       verticalHost.innerHTML=
         `<div><strong>${escapeHtml(modelName)} — ${escapeHtml(cfg.label)}</strong></div>`+
@@ -1535,8 +1653,11 @@
     $('spot-name').textContent=spot?spot.name:'尚未選取';
     const sv=samplePointValue(point,state.layer);
     $('spot-value').textContent=point?formatValue(sv,state.layer):'—';
+    const sampleMethod=isObservationMode()
+      ? '衛星 presentation grid 最近鄰取樣（觀測／反演資料不做雙線性混合）'
+      : '瀏覽器雙線性插值（風向以 u/v 向量循環插值；超出資料範圍不外推）';
     $('spot-details').innerHTML=point
-      ? `<div>${point.lat.toFixed(4)}°, ${point.lon.toFixed(4)}° · ${escapeHtml(point.label)}</div><div>取樣：瀏覽器雙線性插值（風向以 u/v 向量循環插值；超出模型範圍不外推）</div>`
+      ? `<div>${point.lat.toFixed(4)}°, ${point.lon.toFixed(4)}° · ${escapeHtml(point.label)}</div><div>取樣：${sampleMethod}</div>`
       : '<div>可從下拉選單或地圖上的景點點位選取。</div>';
 
     updateLegend(cfg);
@@ -1548,7 +1669,10 @@
     const min=cfg.domain[0], max=cfg.domain[1], mid=(min+max)/2;
     let stopValues=[min,min+(max-min)*.25,mid,min+(max-min)*.75,max];
     let labels=[formatValue(min,state.layer),formatValue(mid,state.layer),formatValue(max,state.layer)];
-    if(cfg.palette==='direction'){
+    if(cfg.palette==='cloudMask'){
+      stopValues=[0,1];
+      labels=['晴空','有雲'];
+    }else if(cfg.palette==='direction'){
       stopValues=[0,90,180,270,360];
       labels=['北 0°','東 90°','南 180°','西 270°','北 360°'];
     }else if(cfg.scale==='precip_rate'){
@@ -1569,21 +1693,28 @@
       <strong>${cfg.label}</strong>
       <div class="legend-bar" style="background:linear-gradient(90deg,${stops.join(',')})"></div>
       <div class="legend-row">${labelHtml}</div>
-      <div class="coverage-outline-key">虛線＝目前模型資料範圍</div>
+      <div class="coverage-outline-key">虛線＝目前資料來源範圍</div>
       ${windKey}
       ${coverageKey}`;
   }
 
   function updateTimeline(){
-    const frames=timelineDataset().frames;
+    const frames=timelineDataset()?.frames || [];
+    // Keep the provider-owned timeline contract explicit for existing UI tests.
     const frameLabels=timelineDataset().frames.map(f=>formatTaipeiTime(f.valid_time_utc));
     const last=Math.max(0,frames.length-1);
+    const observation=isObservationMode();
+    const timeKind=observation?'觀測時間':'預報時間';
     const tickIndices=[0,Math.round(last*.25),Math.round(last*.5),Math.round(last*.75),last]
       .filter((v,i,a)=>a.indexOf(v)===i);
     $('timeline').innerHTML=tickIndices.map(i=>`<span>${escapeHtml(frameLabels[i] || '')}</span>`).join('');
-    $('time-prev').disabled=state.frameIndex<=0;
-    $('time-next').disabled=state.frameIndex>=last;
+    $('time-prev').disabled=observation || state.frameIndex<=0;
+    $('time-next').disabled=observation || state.frameIndex>=last;
+    $('time-prev').setAttribute('aria-label',`前一個${timeKind}`);
+    $('time-next').setAttribute('aria-label',`下一個${timeKind}`);
+    $('time-slider').setAttribute('aria-label',timeKind);
     const play=$('time-play');
+    play.disabled=observation || frames.length<2;
     play.textContent=state.timelinePlaying?'暫停':'播放';
     play.setAttribute('aria-pressed',state.timelinePlaying?'true':'false');
   }
@@ -1657,6 +1788,23 @@
     if(!qc){
       host.innerHTML='<div class="warn">△ QC 資料未提供</div>';return;
     }
+    if(isObservationMode()){
+      const distance=qc.nearest_distance_m?.[state.layer];
+      const stats=qc.field_stats?.[state.layer];
+      const age=observationAgeMinutes();
+      const distanceText=distance
+        ? `最近鄰對位 p99 ${(distance.p99_m/1000).toFixed(2)} km · 最大 ${(distance.max_m/1000).toFixed(2)} km`
+        : '無對位距離 QC';
+      const missingText=stats
+        ? `有效 ${stats.count.toLocaleString()} / ${(stats.count+stats.missing).toLocaleString()} 格`
+        : '';
+      host.innerHTML=
+        `<div class="ok">✓ Himawari-9 最新觀測 · ${Number.isFinite(age)?Math.round(age)+' 分鐘前':'時間未知'}</div>`+
+        `<div>${escapeHtml(distanceText)}</div>`+
+        `<div>${escapeHtml(missingText)}</div>`+
+        '<div>雲頂高度缺值可為晴空／無反演，不視為資料錯誤。</div>';
+      return;
+    }
     const fh=frame().forecast_hour;
     const flags=qc.flags.filter(x=>x.forecast_hour===fh && x.field===state.layer);
     if(!flags.length){
@@ -1678,10 +1826,13 @@
       windVectorStep: windVectorStep(),
       windVectorCount: state.lastWindVectorCount,
       activeModel: activeDataset(state.layer)?.model || null,
-      displayInterpolation: state.layer==='wind_direction_10m_deg'?'bilinear_uv_circular':'bilinear_subcell',
+      displayInterpolation: isObservationMode()?'nearest_observation':(state.layer==='wind_direction_10m_deg'?'bilinear_uv_circular':'bilinear_subcell'),
       iconAvailable: Boolean(state.iconData),
       cwaAvailable: Boolean(state.cwaData),
       jmaAvailable: Boolean(state.jmaData),
+      himawariAvailable: Boolean(state.himawariData),
+      sourceKind: activeDataset(state.layer)?.source_kind || 'forecast',
+      observationTime: state.himawariData?.observation?.time_coverage_end || null,
       modelMode: state.modelMode,
       timelineModel: timelineDataset()?.model || null,
       spotPanelVisible: !$('spot-panel').hidden,
