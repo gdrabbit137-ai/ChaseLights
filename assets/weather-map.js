@@ -15,11 +15,27 @@
   const MAPLIBRE_MODULE = 'https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-gl.mjs';
   const BASEMAP_STYLE = 'https://tiles.openfreemap.org/styles/liberty';
 
+  // Shared forecast-cloud visual scale. Keep this provider-independent so JMA,
+  // CWA, ICON and GFS percentages mean the same thing when users compare maps.
+  const CLOUD_PERCENT_BREAKS=[0,20,40,50,70,85,100];
+  const CLOUD_PERCENT_BANDS=[
+    {min:0,max:20,color:'hsl(190 78% 68%)'},
+    {min:20,max:40,color:'hsl(199 82% 56%)'},
+    {min:40,max:50,color:'hsl(216 82% 50%)'},
+    {min:50,max:70,color:'hsl(238 78% 50%)'},
+    {min:70,max:85,color:'hsl(263 72% 60%)'},
+    {min:85,max:100,color:'hsl(285 48% 82%)'}
+  ];
+  const CLOUD_OPACITY_STOPS=[
+    [0,.02],[20,.12],[40,.32],[50,.55],[70,.72],[85,.88],[100,1]
+  ];
+  const CLOUD_MAX_OVERLAY_ALPHA=.78;
+
   const layerConfig = {
-    total_cloud_percent:{label:'全雲量', unit:'%', domain:[0,100], palette:'cloud'},
-    low_cloud_percent: {label:'低雲', unit:'%', domain:[0,100], palette:'cloud'},
-    mid_cloud_percent: {label:'中雲', unit:'%', domain:[0,100], palette:'cloud'},
-    high_cloud_percent:{label:'高雲', unit:'%', domain:[0,100], palette:'cloud'},
+    total_cloud_percent:{label:'全雲量', unit:'%', domain:[0,100], palette:'cloud', scale:'cloud_percent', ticks:CLOUD_PERCENT_BREAKS},
+    low_cloud_percent: {label:'低雲', unit:'%', domain:[0,100], palette:'cloud', scale:'cloud_percent', ticks:CLOUD_PERCENT_BREAKS},
+    mid_cloud_percent: {label:'中雲', unit:'%', domain:[0,100], palette:'cloud', scale:'cloud_percent', ticks:CLOUD_PERCENT_BREAKS},
+    high_cloud_percent:{label:'高雲', unit:'%', domain:[0,100], palette:'cloud', scale:'cloud_percent', ticks:CLOUD_PERCENT_BREAKS},
     observed_cloud_mask:{label:'衛星雲遮罩', unit:'類別', domain:[0,1], palette:'cloudMask'},
     cloud_top_height_m:{label:'雲頂高度', unit:'m', domain:[0,16000], palette:'cloudHeight'},
     visibility_km:{label:'能見度', unit:'km', domain:[0,30], palette:'visibility'},
@@ -832,6 +848,48 @@
     return Math.max(0,Math.min(1,(value-cfg.domain[0])/span));
   }
 
+  function interpolateStops(value,stops){
+    const v=Number(value);
+    if(!Number.isFinite(v) || !stops?.length) return 0;
+    if(v<=stops[0][0]) return stops[0][1];
+    for(let i=1;i<stops.length;i++){
+      const [x1,y1]=stops[i];
+      const [x0,y0]=stops[i-1];
+      if(v<=x1){
+        const t=(v-x0)/(x1-x0);
+        return y0+(y1-y0)*t;
+      }
+    }
+    return stops[stops.length-1][1];
+  }
+
+  function cloudColorFor(value){
+    const v=Math.max(0,Math.min(100,Number(value)));
+    const band=CLOUD_PERCENT_BANDS.find(item=>v<item.max) ||
+      CLOUD_PERCENT_BANDS[CLOUD_PERCENT_BANDS.length-1];
+    return band.color;
+  }
+
+  function cloudLegendGradient(){
+    return CLOUD_PERCENT_BANDS.flatMap(item=>[
+      `${item.color} ${item.min}%`,
+      `${item.color} ${item.max}%`
+    ]).join(',');
+  }
+
+  function cloudLegendLabels(){
+    return CLOUD_PERCENT_BREAKS.map((value,index)=>{
+      const edge=index===0?' first':(index===CLOUD_PERCENT_BREAKS.length-1?' last':'');
+      const row=index%2===0?' lower':' upper';
+      const midpoint=value===50?' midpoint':'';
+      return `<span class="cloud-tick${edge}${row}${midpoint}" style="left:${value}%">${value}%</span>`;
+    }).join('');
+  }
+
+  function layerOpacityCap(cfg){
+    return cfg.palette==='cloud' ? CLOUD_MAX_OVERLAY_ALPHA : 1;
+  }
+
   function cellOpacityFor(value,cfg){
     if(value == null || !Number.isFinite(value)){
       if(cfg.palette==='cloudMask' || cfg.palette==='cloudHeight') return 0;
@@ -841,27 +899,19 @@
     if(cfg.palette==='cloudMask') return value>=.5 ? .84 : 0;
     if(cfg.palette==='cloudHeight') return .28 + .72*t;
     if(cfg.palette==='cloud'){
-      // Clear sky should reveal the basemap; denser cloud progressively dominates.
-      return .04 + .96*Math.pow(t,.8);
+      // Forecast cloud only: low percentages recede while 50% is a clear hinge.
+      return interpolateStops(value,CLOUD_OPACITY_STOPS);
     }
     if(cfg.palette==='precip'){
-      // Dry cells should not paint a dark blanket across the whole map.
       if(value < .01) return 0;
       return .18 + .82*Math.sqrt(t);
     }
-    if(cfg.palette==='visibility'){
-      // Poor visibility is the signal. Clear-air / ceiling-saturated cells recede.
-      return .08 + .92*Math.pow(1-t,.8);
-    }
-    if(cfg.palette==='wind'){
-      return .12 + .88*t;
-    }
+    if(cfg.palette==='visibility') return .08 + .92*Math.pow(1-t,.8);
+    if(cfg.palette==='wind') return .12 + .88*t;
     if(cfg.palette==='temperature' || cfg.palette==='humidity' || cfg.palette==='solar'){
       return .18 + .82*Math.max(.12,t);
     }
-    if(cfg.palette==='direction'){
-      return .48;
-    }
+    if(cfg.palette==='direction') return .48;
     return 1;
   }
 
@@ -876,10 +926,7 @@
       const light=46 + t*16;
       return `hsl(${hue} 72% ${light}%)`;
     }
-    if(cfg.palette==='cloud'){
-      const l = 22 + t*65;
-      return `hsl(205 70% ${l}%)`;
-    }
+    if(cfg.palette==='cloud') return cloudColorFor(value);
     if(cfg.palette==='visibility'){
       const hue = 5 + t*145;
       return `hsl(${hue} 72% 46%)`;
@@ -917,7 +964,7 @@
     ctx.beginPath();
     points.forEach((p,i)=>i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y));
     ctx.closePath();
-    ctx.globalAlpha=state.weatherOpacity*cellOpacityFor(value,cfg);
+    ctx.globalAlpha=state.weatherOpacity*layerOpacityCap(cfg)*cellOpacityFor(value,cfg);
     ctx.fillStyle=colorFor(value,cfg);
     ctx.fill();
   }
@@ -1021,6 +1068,78 @@
     }
   }
 
+  function contourCrossing(p1,p2,v1,v2,threshold){
+    if(!Number.isFinite(v1) || !Number.isFinite(v2) || v1===v2) return null;
+    const a=v1-threshold,b=v2-threshold;
+    if((a<0 && b<0) || (a>0 && b>0)) return null;
+    const t=(threshold-v1)/(v2-v1);
+    if(t<0 || t>1) return null;
+    return {
+      lon:p1.lon+(p2.lon-p1.lon)*t,
+      lat:p1.lat+(p2.lat-p1.lat)*t
+    };
+  }
+
+  function drawCloudThresholdContour(data,vals,threshold,visibleView){
+    const rows=data.grid.rows, cols=data.grid.cols;
+    const lats=data.grid.latitudes, lons=data.grid.longitudes;
+    if(rows<2 || cols<2) return;
+
+    ctx.save();
+    ctx.strokeStyle='rgba(254,240,138,.68)';
+    ctx.lineWidth=1.15;
+    ctx.setLineDash([2,3]);
+    ctx.lineCap='round';
+
+    const strokeSegment=(a,b)=>{
+      const pa=project(a.lon,a.lat),pb=project(b.lon,b.lat);
+      ctx.beginPath();ctx.moveTo(pa.x,pa.y);ctx.lineTo(pb.x,pb.y);ctx.stroke();
+    };
+
+    for(let r=0;r<rows-1;r++){
+      for(let c=0;c<cols-1;c++){
+        const lon0=lons[c],lon1=lons[c+1],lat0=lats[r],lat1=lats[r+1];
+        const left=Math.min(lon0,lon1),right=Math.max(lon0,lon1);
+        const bottom=Math.min(lat0,lat1),top=Math.max(lat0,lat1);
+        if(right<visibleView.leftlon || left>visibleView.rightlon ||
+           top<visibleView.bottomlat || bottom>visibleView.toplat) continue;
+
+        const q00=vals[r*cols+c],q10=vals[r*cols+c+1];
+        const q01=vals[(r+1)*cols+c],q11=vals[(r+1)*cols+c+1];
+        if([q00,q10,q01,q11].some(v=>!Number.isFinite(v))) continue;
+
+        const p00={lon:lon0,lat:lat0},p10={lon:lon1,lat:lat0};
+        const p01={lon:lon0,lat:lat1},p11={lon:lon1,lat:lat1};
+        const candidates=[
+          contourCrossing(p00,p10,q00,q10,threshold),
+          contourCrossing(p10,p11,q10,q11,threshold),
+          contourCrossing(p11,p01,q11,q01,threshold),
+          contourCrossing(p01,p00,q01,q00,threshold)
+        ].filter(Boolean);
+        const crossings=[];
+        for(const point of candidates){
+          if(!crossings.some(other=>
+            Math.abs(other.lon-point.lon)<1e-9 && Math.abs(other.lat-point.lat)<1e-9
+          )) crossings.push(point);
+        }
+
+        if(crossings.length===2){
+          strokeSegment(crossings[0],crossings[1]);
+        }else if(crossings.length===4){
+          const center=(q00+q10+q01+q11)/4;
+          if(center>=threshold){
+            strokeSegment(crossings[0],crossings[3]);
+            strokeSegment(crossings[1],crossings[2]);
+          }else{
+            strokeSegment(crossings[0],crossings[1]);
+            strokeSegment(crossings[2],crossings[3]);
+          }
+        }
+      }
+    }
+    ctx.restore();
+  }
+
   function drawCircularDirectionSubcells(data,directions,speeds,cfg,visibleView){
     const rows=data.grid.rows, cols=data.grid.cols;
     const lats=data.grid.latitudes, lons=data.grid.longitudes;
@@ -1103,6 +1222,10 @@
       drawBilinearSubcells(data,vals,cfg,visibleView);
     }
     ctx.restore();
+
+    if(cfg.palette==='cloud'){
+      drawCloudThresholdContour(data,vals,50,visibleView);
+    }
 
     drawProviderBoundary(data);
     if(!state.mapReady) drawGrid();
@@ -1435,12 +1558,20 @@
     ctx.textAlign='start';ctx.textBaseline='alphabetic';
     if(selected){
       const p=project(selected.lon,selected.lat);
+      let selectedLabel=selected.name;
+      const selectedCfg=layerConfig[state.layer];
+      if(selectedCfg?.palette==='cloud'){
+        const value=samplePointValue({lat:selected.lat,lon:selected.lon},state.layer);
+        if(Number.isFinite(value)){
+          selectedLabel=`${selected.name} · ${formatValue(value,state.layer)}`;
+        }
+      }
       ctx.font='bold 20px -apple-system, sans-serif';
       ctx.fillStyle='#fef3c7';
       ctx.strokeStyle='rgba(2,6,23,.95)';
       ctx.lineWidth=5;
-      ctx.strokeText(selected.name,p.x+13,p.y-10);
-      ctx.fillText(selected.name,p.x+13,p.y-10);
+      ctx.strokeText(selectedLabel,p.x+13,p.y-10);
+      ctx.fillText(selectedLabel,p.x+13,p.y-10);
     }
     ctx.restore();
   }
@@ -1552,6 +1683,16 @@
       ? `觀測時間 · ${formatTaipeiTime(f.valid_time_utc)} TST`
       : `預報時間 · ${formatTaipeiTime(f.valid_time_utc)} · +${forecastHour}h`;
     $('opacity-label').textContent=`${Math.round(state.weatherOpacity*100)}%`;
+    const opacityTitle=$('opacity-title');
+    const opacitySlider=$('opacity-slider');
+    if(opacityTitle){
+      opacityTitle.textContent=cfg.palette==='cloud'?'雲層顯示強度':'圖層顯示強度';
+    }
+    if(opacitySlider){
+      opacitySlider.title=cfg.palette==='cloud'
+        ? '100% 顯示強度仍保留底圖；雲層最高不透明度限制為 78%'
+        : '調整圖層顯示強度';
+    }
 
     const status=$('source-state');
     if(state.source==='demo'){
@@ -1679,8 +1820,21 @@
       stopValues=cfg.ticks;
       labels=['0','1','5','20 mm/h'];
     }
-    const stops=stopValues.map(v=>colorFor(v,cfg));
-    const labelHtml=labels.map(v=>`<span>${escapeHtml(v)}</span>`).join('');
+
+    let barHtml;
+    let labelsHtml;
+    let thresholdKey='';
+    if(cfg.palette==='cloud'){
+      barHtml=`<div class="legend-bar cloud-percent" style="background:linear-gradient(90deg,${cloudLegendGradient()})"><span class="cloud-midline" aria-hidden="true"></span></div>`;
+      labelsHtml=`<div class="cloud-legend-labels">${cloudLegendLabels()}</div>`;
+      thresholdKey='<div class="cloud-threshold-key"><span class="cloud-threshold-swatch"></span>50% 雲量分界</div>';
+    }else{
+      const stops=stopValues.map(v=>colorFor(v,cfg));
+      const labelHtml=labels.map(v=>`<span>${escapeHtml(v)}</span>`).join('');
+      barHtml=`<div class="legend-bar" style="background:linear-gradient(90deg,${stops.join(',')})"></div>`;
+      labelsHtml=`<div class="legend-row">${labelHtml}</div>`;
+    }
+
     const windKey=state.windVectors ? `
       <div class="wind-key"><span class="wind-arrow-icon">→</span> 10 m 風向箭頭 · 箭頭指向風去向</div>` : '';
     const coverageKey=state.spotId ? `
@@ -1691,8 +1845,9 @@
       </div>` : '';
     $('legend').innerHTML=`
       <strong>${cfg.label}</strong>
-      <div class="legend-bar" style="background:linear-gradient(90deg,${stops.join(',')})"></div>
-      <div class="legend-row">${labelHtml}</div>
+      ${barHtml}
+      ${labelsHtml}
+      ${thresholdKey}
       <div class="coverage-outline-key">虛線＝目前資料來源範圍</div>
       ${windKey}
       ${coverageKey}`;
