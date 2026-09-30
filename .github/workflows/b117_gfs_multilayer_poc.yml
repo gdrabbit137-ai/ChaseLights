@@ -52,6 +52,8 @@ on:
       - "test_weathergrid_wind_vector_proof.py"
       - "test_weathergrid_ui_polish.py"
       - "B156_WEATHERGRID_UI_POLISH.md"
+      - "test_himawari_weathergrid_ui.py"
+      - "B158_HIMAWARI9_OBSERVED_WEATHERGRID_UI.md"
       - "weathergrid_model_resolver.py"
       - "test_weathergrid_model_resolver.py"
       - "icon_global_cloud_poc.py"
@@ -143,6 +145,7 @@ jobs:
             test_weathergrid_wind_vectors.py \
             test_weathergrid_wind_vector_proof.py \
             test_weathergrid_ui_polish.py \
+            test_himawari_weathergrid_ui.py \
             test_weathergrid_model_resolver.py \
             test_icon_global_cloud_poc.py \
             test_weathergrid_icon_browser_contract.py \
