@@ -142,6 +142,7 @@ def build_jma_bundle(input_dir: Path) -> tuple[dict, dict]:
         "model_id": "jma_msm",
         "provider": raw["provider"],
         "model": raw["model"],
+        "attribution": raw.get("attribution"),
         "cycle": raw.get("cycle"),
         "bbox": raw["bbox"],
         "native_domain": raw.get("native_domain"),
