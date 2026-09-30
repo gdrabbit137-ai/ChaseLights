@@ -160,6 +160,32 @@ jobs:
             --forecast-hours "0" \
             --output-dir cwa_live_smoke_output
 
+      - name: Inspect CWA optional surface fields
+        run: |
+          python - <<'PY'
+          import cfgrib
+          path = "cwa_live_smoke_output/cwa_wrf3_f000.grb2"
+          rows = []
+          for ds in cfgrib.open_datasets(path, backend_kwargs={"indexpath": ""}):
+              for name, arr in ds.data_vars.items():
+                  a = arr.attrs or {}
+                  level = str(a.get("GRIB_typeOfLevel", ""))
+                  long_name = str(a.get("long_name") or a.get("GRIB_name") or "")
+                  short = str(a.get("GRIB_shortName", name))
+                  hay = " ".join([name, short, level, long_name]).lower()
+                  if any(token in hay for token in (
+                      "precip", "shortwave", "solar", "radiat", "flux"
+                  )):
+                      rows.append({
+                          "name": name,
+                          "short": short,
+                          "level": level,
+                          "long_name": long_name,
+                          "units": a.get("units"),
+                      })
+          print("CWA_OPTIONAL_FIELD_INVENTORY=", rows)
+          PY
+
       - name: Build compact CWA browser bundle
         run: |
           python cwa_weathergrid_browser_bundle.py \
