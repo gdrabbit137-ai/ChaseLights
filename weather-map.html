@@ -12,7 +12,7 @@
     <div>
       <a class="back-link" href="./index.html">← ChaseLights</a>
       <h1>🗺️ WeatherGrid Preview</h1>
-      <p class="subtitle">可切換 JMA MSM 5 km / CWA WRF 3 km / ICON Global / GFS · 各模型保留自己的範圍、解析度與時間間隔</p>
+      <p class="subtitle">預報可切換 JMA MSM 5 km / CWA WRF 3 km / ICON Global / GFS，並可獨立查看 Himawari-9 衛星實況</p>
     </div>
     <div class="source-meta">
       <div id="source-state" class="source-pill">載入中…</div>
@@ -24,6 +24,13 @@
   <main class="weather-layout">
     <section class="map-panel">
       <div class="control-bar">
+        <label>
+          <span>資料模式</span>
+          <select id="data-mode-select">
+            <option value="forecast">預報</option>
+            <option value="observed">衛星實況 · Himawari-9</option>
+          </select>
+        </label>
         <label>
           <span>氣象模型</span>
           <select id="model-select">
@@ -64,7 +71,7 @@
         <div id="legend" class="legend"></div>
       </div>
 
-      <div class="time-navigator" aria-label="預報時間控制">
+      <div class="time-navigator" aria-label="資料時間控制">
         <button id="time-prev" type="button" aria-label="前一個預報時間">◀</button>
         <div class="time-range">
           <div id="time-label" class="time-label">預報時間</div>
@@ -113,7 +120,8 @@
 
       <section class="panel note-panel">
         <h2>POC 限制</h2>
-        <p>目前已加入 JMA MSM 5 km、CWA WRF 3 km、ICON Global 與 GFS。JMA MSM 先提供原生全雲量／低雲／中雲／高雲與逐時時間軸；「自動」暫時維持現行 ICON 雲量優先、GFS 備援策略。CWA M-A0064 實際 GRIB 驗證未發現原生低／中／高雲量，因此不以壓力層相對濕度冒充雲量。</p>
+        <p>預報模式已加入 JMA MSM 5 km、CWA WRF 3 km、ICON Global 與 GFS。JMA MSM 提供原生全雲量／低雲／中雲／高雲與逐時時間軸；「自動」維持 ICON 雲量優先、GFS 備援策略。CWA M-A0064 實際 GRIB 驗證未發現原生低／中／高雲量，因此不以壓力層相對濕度冒充雲量。</p>
+        <p>衛星實況模式使用 Himawari-9 / AHI 的 observed cloud mask 與 cloud-top height。它是觀測資料，不會標示成預報低／中／高雲百分比；觀測時間、資料年齡與衛星最近鄰 QC 會獨立顯示。</p>
         <p>JMA MSM 官方原生範圍從 22.4°N、120°E 起；目前 HTTP transport 為避開邊界座標拒絕，瀏覽資料從 22.45°N、120.0625°E 起。台灣最南端及西側離島因此不在目前 JMA 瀏覽圖層內；切換模型時地圖會使用 JMA 自己的實際資料邊界。</p>
         <p>每個模式使用自己的資料邊界、網格解析度與預報時間軸。畫面內插只改善顯示連續性，不增加原始模式的真實解析度。</p>
         <p>底圖採 MapLibre + OpenFreeMap；若外部底圖無法載入，WeatherGrid 會自動退回既有 Canvas 經緯網格，不影響 GFS 圖層與景點取樣。</p>
