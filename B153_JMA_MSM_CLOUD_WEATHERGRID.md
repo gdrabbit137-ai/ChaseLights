@@ -138,3 +138,19 @@ PR validation includes:
 - a live JMA MSM API smoke test using a 3×3 interior native-grid subset;
 - existing B30 browser smoke;
 - scheduled-refresh contract tests.
+
+
+## Production transport guardrail
+
+A full native-grid Taiwan snapshot contains 2,560 locations.  The Open-Meteo
+free endpoint is suitable for evaluation/small live smoke tests, but it has
+minutely/daily limits and is not a production transport for this payload.
+
+B153 therefore refuses production-sized free-endpoint requests.  The scheduled
+publisher requires `OPEN_METEO_API_KEY` and automatically switches to
+`customer-api.open-meteo.com`.  CI still uses the free endpoint only for a
+small interior sample.
+
+This keeps the model integration testable without silently relying on a free
+service beyond its intended limits.  A future official JMBSC adapter can replace
+the transport without changing the JMA MSM browser schema.
