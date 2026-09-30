@@ -41,7 +41,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y cdo
           python -m pip install --upgrade pip
-          python -m pip install requests xarray netCDF4 cfgrib eccodes numpy matplotlib cartopy
+          python -m pip install requests boto3 scipy xarray netCDF4 cfgrib eccodes numpy matplotlib cartopy
 
       - name: Cache DWD ICON remap weights
         uses: actions/cache@v4
@@ -79,6 +79,22 @@ jobs:
         run: |
           python icon_weathergrid_browser_bundle.py \
             --input-dir icon_cloud_output
+
+      - name: Fetch CWA WRF 3 km WeatherGrid
+        id: cwa_wrf3
+        continue-on-error: true
+        env:
+          CWA_FORECAST_HOURS: "0,6,12"
+        run: |
+          python cwa_wrf3_poc.py \
+            --forecast-hours "$CWA_FORECAST_HOURS" \
+            --output-dir cwa_wrf3_output
+
+      - name: Build CWA WRF 3 km browser bundle and QC
+        if: steps.cwa_wrf3.outcome == 'success'
+        run: |
+          python cwa_weathergrid_browser_bundle.py \
+            --input-dir cwa_wrf3_output
 
       - name: Build subject-aware coverage browser bundle
         run: |
@@ -122,6 +138,36 @@ jobs:
                   ),
               }
 
+          cwa_path = Path("cwa_wrf3_output/cwa_wrf3_tw_weather_browser.json")
+          cwa_qc_path = Path("cwa_wrf3_output/cwa_wrf3_tw_weather_qc.json")
+          cwa_summary = {"published": False}
+          if cwa_path.exists():
+              cwa = json.loads(cwa_path.read_text())
+              cwa_qc = json.loads(cwa_qc_path.read_text())
+              assert cwa.get("model") == "CWA_WRF_3KM", cwa.get("model")
+              assert cwa.get("frames"), "CWA bundle has no forecast frames"
+              assert cwa_qc.get("frame_count") == len(cwa["frames"])
+              provenance = cwa.get("provenance", {})
+              assert provenance.get("native_resolution_km") == 3.0, provenance
+              assert provenance.get("model_output_interval_hours") == 1, provenance
+              assert provenance.get("model_forecast_horizon_hours") == 126, provenance
+              assert provenance.get("public_product_interval_hours") == 6, provenance
+              assert provenance.get("public_product_horizon_hours") == 84, provenance
+              assert "temperature_2m_c" in cwa.get("fields", {}), cwa.get("fields")
+              assert "wind_speed_10m_m_s" in cwa.get("fields", {}), cwa.get("fields")
+              cwa_summary = {
+                  "published": True,
+                  "frames": len(cwa["frames"]),
+                  "native_resolution_km": provenance.get("native_resolution_km"),
+                  "model_output_interval_hours": provenance.get(
+                      "model_output_interval_hours"
+                  ),
+                  "public_product_interval_hours": provenance.get(
+                      "public_product_interval_hours"
+                  ),
+                  "bbox": cwa.get("bbox"),
+              }
+
           by_spot = {x["spot_id"]: x for x in coverage.get("spots", [])}
           for spot_id in ("tw-073", "tw-075"):
               assert spot_id in by_spot, (spot_id, list(by_spot))
@@ -135,6 +181,7 @@ jobs:
               "tw_073_complete": by_spot["tw-073"]["all_topics_complete"],
               "tw_075_complete": by_spot["tw-075"]["all_topics_complete"],
               "icon": icon_summary,
+              "cwa_wrf3": cwa_summary,
           }, indent=2))
           PY
 
@@ -154,6 +201,15 @@ jobs:
             rm -f weathergrid/icon_tw_cloud_browser.json weathergrid/icon_tw_cloud_qc.json
           fi
 
+          if [[ -f cwa_wrf3_output/cwa_wrf3_tw_weather_browser.json ]]; then
+            cp cwa_wrf3_output/cwa_wrf3_tw_weather_browser.json weathergrid/cwa_wrf3_tw_weather_browser.json
+            cp cwa_wrf3_output/cwa_wrf3_tw_weather_qc.json weathergrid/cwa_wrf3_tw_weather_qc.json
+          else
+            # CWA is manually selectable. Never leave an old regional run
+            # selectable when the current refresh failed.
+            rm -f weathergrid/cwa_wrf3_tw_weather_browser.json weathergrid/cwa_wrf3_tw_weather_qc.json
+          fi
+
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add -A \
@@ -161,7 +217,9 @@ jobs:
             weathergrid/gfs_tw_weather_qc.json \
             weathergrid/weathergrid_coverage_browser.json \
             weathergrid/icon_tw_cloud_browser.json \
-            weathergrid/icon_tw_cloud_qc.json
+            weathergrid/icon_tw_cloud_qc.json \
+            weathergrid/cwa_wrf3_tw_weather_browser.json \
+            weathergrid/cwa_wrf3_tw_weather_qc.json
 
           if git diff --cached --quiet; then
             echo "WeatherGrid live snapshot unchanged."
@@ -185,5 +243,7 @@ jobs:
           path: |
             gfs_multilayer_output/
             icon_cloud_output/
+            cwa_wrf3_output/cwa_wrf3_tw_weather_browser.json
+            cwa_wrf3_output/cwa_wrf3_tw_weather_qc.json
           if-no-files-found: error
           retention-days: 7

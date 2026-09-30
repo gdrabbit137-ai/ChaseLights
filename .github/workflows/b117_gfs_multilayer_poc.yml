@@ -57,6 +57,12 @@ on:
       - "icon_weathergrid_browser_bundle.py"
       - "test_weathergrid_icon_browser_contract.py"
       - "B150_ICON_GLOBAL_CLOUD_PRIMARY.md"
+      - "cwa_wrf3_poc.py"
+      - "cwa_weathergrid_browser_bundle.py"
+      - "test_cwa_wrf3_poc.py"
+      - "test_cwa_weathergrid_browser_bundle.py"
+      - "test_cwa_weathergrid_ui.py"
+      - "B151_CWA_WRF3_WEATHERGRID.md"
       - ".github/workflows/update_weathergrid.yml"
       - "test_weathergrid_refresh_workflow.py"
       - "B132_WEATHERGRID_SCHEDULED_REFRESH.md"
@@ -124,8 +130,100 @@ jobs:
             test_weathergrid_wind_vector_proof.py \
             test_weathergrid_model_resolver.py \
             test_icon_global_cloud_poc.py \
-            test_weathergrid_icon_browser_contract.py
+            test_weathergrid_icon_browser_contract.py \
+            test_cwa_wrf3_poc.py \
+            test_cwa_weathergrid_browser_bundle.py \
+            test_cwa_weathergrid_ui.py
           python audit_weathergrid_coverage.py
+
+  cwa-live-smoke:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout candidate
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install CWA WeatherGrid dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install requests boto3 scipy xarray cfgrib eccodes numpy
+
+      - name: Fetch initial live CWA WRF 3 km window
+        run: |
+          python cwa_wrf3_poc.py \
+            --forecast-hours "0,6,12" \
+            --output-dir cwa_live_smoke_output
+
+      - name: Inspect CWA optional surface fields
+        run: |
+          python - <<'PY'
+          import cfgrib
+          path = "cwa_live_smoke_output/cwa_wrf3_f006.grb2"
+          rows = []
+          for ds in cfgrib.open_datasets(path, backend_kwargs={"indexpath": ""}):
+              for name, arr in ds.data_vars.items():
+                  a = arr.attrs or {}
+                  level = str(a.get("GRIB_typeOfLevel", ""))
+                  long_name = str(a.get("long_name") or a.get("GRIB_name") or "")
+                  short = str(a.get("GRIB_shortName", name))
+                  hay = " ".join([name, short, level, long_name]).lower()
+                  if any(token in hay for token in (
+                      "precip", "shortwave", "solar", "radiat", "flux"
+                  )):
+                      rows.append({
+                          "name": name,
+                          "short": short,
+                          "level": level,
+                          "long_name": long_name,
+                          "units": a.get("units"),
+                      })
+          print("CWA_OPTIONAL_FIELD_INVENTORY=", rows)
+          PY
+
+      - name: Build compact CWA browser bundle
+        run: |
+          python cwa_weathergrid_browser_bundle.py \
+            --input-dir cwa_live_smoke_output
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path("cwa_live_smoke_output")
+          bundle = json.loads(
+              (root / "cwa_wrf3_tw_weather_browser.json").read_text()
+          )
+          assert bundle["model"] == "CWA_WRF_3KM"
+          assert bundle["provenance"]["native_resolution_km"] == 3.0
+          assert len(bundle["frames"]) == 3, bundle["frames"]
+          assert [x["forecast_hour"] for x in bundle["frames"]] == [0, 6, 12]
+          assert "temperature_2m_c" in bundle["fields"], bundle["fields"]
+          assert "relative_humidity_2m_percent" in bundle["fields"], bundle["fields"]
+          assert "wind_speed_10m_m_s" in bundle["fields"], bundle["fields"]
+          assert "shortwave_flux_w_m2" in bundle["fields"], bundle["fields"]
+          print(json.dumps({
+              "cycle": bundle["cycle"],
+              "bbox": bundle["bbox"],
+              "grid": [
+                  bundle["grid"]["rows"], bundle["grid"]["cols"]
+              ],
+              "fields": list(bundle["fields"]),
+          }, indent=2))
+          PY
+
+      - name: Upload CWA live-smoke browser outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: cwa-wrf3-live-smoke
+          path: |
+            cwa_live_smoke_output/cwa_wrf3_tw_weather_browser.json
+            cwa_live_smoke_output/cwa_wrf3_tw_weather_qc.json
+          if-no-files-found: error
+          retention-days: 3
 
   live-poc:
     if: github.event_name == 'workflow_dispatch'
@@ -145,7 +243,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y cdo
           python -m pip install --upgrade pip
-          python -m pip install requests xarray netCDF4 cfgrib eccodes numpy matplotlib cartopy
+          python -m pip install requests boto3 scipy xarray netCDF4 cfgrib eccodes numpy matplotlib cartopy
 
       - name: Cache DWD ICON remap weights
         uses: actions/cache@v4
@@ -200,6 +298,21 @@ jobs:
           python icon_weathergrid_browser_bundle.py \
             --input-dir icon_cloud_output
 
+      - name: Fetch CWA WRF 3 km WeatherGrid
+        if: inputs.coverage_scope == 'region'
+        id: cwa_wrf3
+        continue-on-error: true
+        run: |
+          python cwa_wrf3_poc.py \
+            --forecast-hours "0,6,12" \
+            --output-dir cwa_wrf3_output
+
+      - name: Build CWA WRF 3 km browser bundle and QC
+        if: inputs.coverage_scope == 'region' && steps.cwa_wrf3.outcome == 'success'
+        run: |
+          python cwa_weathergrid_browser_bundle.py \
+            --input-dir cwa_wrf3_output
+
       - name: Build subject-aware coverage browser bundle
         run: |
           python build_weathergrid_coverage_browser.py \
@@ -218,6 +331,12 @@ jobs:
           else
             rm -f weathergrid/icon_tw_cloud_browser.json weathergrid/icon_tw_cloud_qc.json
           fi
+          if [[ -f cwa_wrf3_output/cwa_wrf3_tw_weather_browser.json ]]; then
+            cp cwa_wrf3_output/cwa_wrf3_tw_weather_browser.json weathergrid/cwa_wrf3_tw_weather_browser.json
+            cp cwa_wrf3_output/cwa_wrf3_tw_weather_qc.json weathergrid/cwa_wrf3_tw_weather_qc.json
+          else
+            rm -f weathergrid/cwa_wrf3_tw_weather_browser.json weathergrid/cwa_wrf3_tw_weather_qc.json
+          fi
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add -A \
@@ -225,7 +344,9 @@ jobs:
             weathergrid/gfs_tw_weather_qc.json \
             weathergrid/weathergrid_coverage_browser.json \
             weathergrid/icon_tw_cloud_browser.json \
-            weathergrid/icon_tw_cloud_qc.json
+            weathergrid/icon_tw_cloud_qc.json \
+            weathergrid/cwa_wrf3_tw_weather_browser.json \
+            weathergrid/cwa_wrf3_tw_weather_qc.json
           if ! git diff --cached --quiet; then
             git commit -m "Update WeatherGrid preview snapshot [skip ci]"
             for i in {1..5}; do
@@ -242,4 +363,6 @@ jobs:
           path: |
             gfs_multilayer_output/
             icon_cloud_output/
+            cwa_wrf3_output/cwa_wrf3_tw_weather_browser.json
+            cwa_wrf3_output/cwa_wrf3_tw_weather_qc.json
           if-no-files-found: error

@@ -3,6 +3,8 @@
   const LIVE_QC = './weathergrid/gfs_tw_weather_qc.json';
   const LIVE_ICON_DATA = './weathergrid/icon_tw_cloud_browser.json';
   const LIVE_ICON_QC = './weathergrid/icon_tw_cloud_qc.json';
+  const LIVE_CWA_DATA = './weathergrid/cwa_wrf3_tw_weather_browser.json';
+  const LIVE_CWA_QC = './weathergrid/cwa_wrf3_tw_weather_qc.json';
   const LIVE_COVERAGE = './weathergrid/weathergrid_coverage_browser.json';
   const FALLBACK_DATA = './weathergrid_sample.json';
   const FALLBACK_COVERAGE = './weathergrid_coverage_sample.json';
@@ -16,7 +18,11 @@
     visibility_km:{label:'能見度', unit:'km', domain:[0,30], palette:'visibility'},
     precip_rate_mm_h:{label:'降雨率', unit:'mm/h', domain:[0,10], palette:'precip'},
     wind_speed_10m_m_s:{label:'10 m 風速', unit:'m/s', domain:[0,20], palette:'wind'},
-    wind_direction_10m_deg:{label:'10 m 風向', unit:'°', domain:[0,360], palette:'direction'}
+    wind_direction_10m_deg:{label:'10 m 風向', unit:'°', domain:[0,360], palette:'direction'},
+    temperature_2m_c:{label:'2 m 氣溫', unit:'°C', domain:[-5,40], palette:'temperature'},
+    relative_humidity_2m_percent:{label:'2 m 相對濕度', unit:'%', domain:[0,100], palette:'humidity'},
+    precip_total_mm:{label:'累積降水', unit:'mm', domain:[0,100], palette:'precip'},
+    shortwave_flux_w_m2:{label:'地表淨短波輻射', unit:'W/m²', domain:[0,1000], palette:'solar'}
   };
 
   const state = {
@@ -24,6 +30,9 @@
     qc:null,
     iconData:null,
     iconQc:null,
+    cwaData:null,
+    cwaQc:null,
+    modelMode:'auto',
     coverage:{spots:[]},
     frameIndex:0,
     layer:'low_cloud_percent',
@@ -204,6 +213,15 @@
       }
 
       try{
+        state.cwaData = await fetchJson(LIVE_CWA_DATA);
+        try{ state.cwaQc = await fetchJson(LIVE_CWA_QC); }catch(_){ state.cwaQc = null; }
+      }catch(err){
+        console.warn('CWA WRF 3 km bundle unavailable', err);
+        state.cwaData = null;
+        state.cwaQc = null;
+      }
+
+      try{
         state.coverage = await fetchJson(LIVE_COVERAGE);
         state.coverageSource = 'live';
       }catch(err){
@@ -223,20 +241,120 @@
     window.__weatherGridPreviewReady = true;
   }
 
-  function initControls(){
-    const layerSelect = $('layer-select');
-    layerSelect.innerHTML = Object.entries(layerConfig)
-      .filter(([key]) => state.data.fields[key])
-      .map(([key,cfg]) => `<option value="${key}">${cfg.label}</option>`).join('');
-    layerSelect.value = state.layer;
+  function modelDataset(mode=state.modelMode){
+    if(mode==='cwa' && state.cwaData) return state.cwaData;
+    if(mode==='icon' && state.iconData) return state.iconData;
+    return state.data;
+  }
 
-    const windToggle=$('wind-vector-toggle');
+  function modelQc(mode=state.modelMode){
+    if(mode==='cwa' && state.cwaData) return state.cwaQc;
+    if(mode==='icon' && state.iconData) return state.iconQc;
+    return state.qc;
+  }
+
+  function modelLabel(mode=state.modelMode){
+    if(mode==='cwa') return 'CWA WRF 3 km';
+    if(mode==='icon') return 'ICON Global';
+    if(mode==='gfs') return 'GFS 0.25°';
+    return '自動';
+  }
+
+  function modelAvailable(mode){
+    if(mode==='cwa') return Boolean(state.cwaData);
+    if(mode==='icon') return Boolean(state.iconData);
+    if(mode==='gfs') return Boolean(state.data);
+    return true;
+  }
+
+  function nearestFrameIndex(data,validTime){
+    if(!data?.frames?.length) return 0;
+    if(!validTime) return 0;
+    const target=Date.parse(validTime);
+    let best=0,bestDelta=Infinity;
+    data.frames.forEach((f,i)=>{
+      const t=Date.parse(f.valid_time_utc);
+      const d=Math.abs(t-target);
+      if(Number.isFinite(d) && d<bestDelta){best=i;bestDelta=d;}
+    });
+    return best;
+  }
+
+  function availableLayerKeys(){
+    if(state.modelMode==='auto'){
+      return Object.keys(layerConfig).filter(key=>
+        Boolean(state.data?.fields?.[key]) ||
+        Boolean(state.iconData?.fields?.[key])
+      );
+    }
+    const data=modelDataset();
+    return Object.keys(layerConfig).filter(key=>Boolean(data?.fields?.[key]));
+  }
+
+  function refreshModelControls(){
+    const modelSelect=$('model-select');
+    for(const option of modelSelect.options){
+      if(option.value!=='auto') option.disabled=!modelAvailable(option.value);
+    }
+    modelSelect.value=state.modelMode;
+
+    const layerSelect=$('layer-select');
+    const layers=availableLayerKeys();
+    if(!layers.includes(state.layer) && layers.length){
+      if(state.modelMode==='cwa' && layers.includes('wind_speed_10m_m_s')){
+        state.layer='wind_speed_10m_m_s';
+      }else{
+        state.layer=layers[0];
+      }
+    }
+    layerSelect.innerHTML=layers
+      .map(key=>'<option value="'+key+'">'+layerConfig[key].label+'</option>')
+      .join('');
+    layerSelect.value=state.layer;
+
+    const timeline=timelineDataset();
+    const slider=$('time-slider');
+    slider.max=Math.max(0,(timeline?.frames?.length || 1)-1);
+    state.frameIndex=Math.min(state.frameIndex,Number(slider.max));
+    slider.value=state.frameIndex;
+
     const hasWind=Boolean(
-      state.data.fields.wind_speed_10m_m_s &&
-      state.data.fields.wind_direction_10m_deg
+      activeDataset('wind_speed_10m_m_s')?.fields?.wind_speed_10m_m_s &&
+      activeDataset('wind_direction_10m_deg')?.fields?.wind_direction_10m_deg
     );
+    const windToggle=$('wind-vector-toggle');
     windToggle.disabled=!hasWind;
-    windToggle.checked=state.windVectors;
+    if(!hasWind){
+      state.windVectors=false;
+      windToggle.checked=false;
+    }else{
+      windToggle.checked=state.windVectors;
+    }
+  }
+
+  function switchModel(mode){
+    const oldTime=frame()?.valid_time_utc || null;
+    state.modelMode=mode;
+    const timeline=timelineDataset();
+    state.frameIndex=nearestFrameIndex(timeline,oldTime);
+    const layers=availableLayerKeys();
+    if(!layers.includes(state.layer) && layers.length){
+      state.layer=(mode==='cwa' && layers.includes('wind_speed_10m_m_s'))
+        ? 'wind_speed_10m_m_s'
+        : layers[0];
+    }
+    refreshModelControls();
+    setViewBbox(timeline.bbox,{animate:true,maxZoom:8});
+    renderAll();
+  }
+
+  function initControls(){
+    const modelSelect=$('model-select');
+    modelSelect.addEventListener('change',()=>switchModel(modelSelect.value));
+
+    const layerSelect = $('layer-select');
+    const windToggle=$('wind-vector-toggle');
+
     windToggle.addEventListener('change',()=>{
       state.windVectors=windToggle.checked;
       state.windVectorTouched=true;
@@ -245,6 +363,10 @@
 
     layerSelect.addEventListener('change', () => {
       state.layer = layerSelect.value;
+      const hasWind=Boolean(
+        activeDataset('wind_speed_10m_m_s')?.fields?.wind_speed_10m_m_s &&
+        activeDataset('wind_direction_10m_deg')?.fields?.wind_direction_10m_deg
+      );
       const windLayer=state.layer==='wind_speed_10m_m_s' ||
         state.layer==='wind_direction_10m_deg';
       if(windLayer && hasWind && !state.windVectorTouched){
@@ -262,8 +384,6 @@
     });
 
     const slider = $('time-slider');
-    slider.max = Math.max(0, state.data.frames.length - 1);
-    slider.value = state.frameIndex;
     slider.addEventListener('input', () => {
       state.frameIndex = Number(slider.value);
       renderAll();
@@ -272,7 +392,7 @@
     const spotSelect = $('spot-select');
     spotSelect.innerHTML = '<option value="">全部景點</option>' +
       state.data.spots.map(s =>
-        `<option value="${escapeHtml(s.spot_id)}">${escapeHtml(s.name)}</option>`
+        '<option value="'+escapeHtml(s.spot_id)+'">'+escapeHtml(s.name)+'</option>'
       ).join('');
     spotSelect.addEventListener('change', () => {
       selectSpot(spotSelect.value);
@@ -286,7 +406,7 @@
     });
 
     $('reset-view').addEventListener('click', () => {
-      setViewBbox(state.data.bbox,{animate:true,maxZoom:8});
+      setViewBbox(timelineDataset().bbox,{animate:true,maxZoom:8});
       renderAll();
     });
 
@@ -295,8 +415,9 @@
       const rect=canvas.getBoundingClientRect();
       pickSpotAtPoint(ev.clientX-rect.left,ev.clientY-rect.top);
     });
-  }
 
+    refreshModelControls();
+  }
   function selectSpot(spotId){
     state.spotId = spotId;
     state.opportunityId = '';
@@ -307,7 +428,7 @@
       if(union) fitCoverageBbox(union);
       else zoomToSpot(selectedSpot());
     }else{
-      state.view = {...state.data.bbox};
+      state.view = {...timelineDataset().bbox};
     }
     renderAll();
   }
@@ -419,9 +540,17 @@
     if(selectedSpot()) zoomToSpot(selectedSpot());
   }
 
+  function timelineDataset(){
+    if(state.modelMode==='cwa' && state.cwaData) return state.cwaData;
+    if(state.modelMode==='icon' && state.iconData) return state.iconData;
+    return state.data;
+  }
+
   function providerCoversBbox(bbox){
     if(!bbox || bbox.wraps_antimeridian) return false;
-    const b=state.data.bbox;
+    const data=activeDataset(state.layer);
+    const b=data?.bbox;
+    if(!b) return false;
     return bbox.west >= b.leftlon && bbox.east <= b.rightlon &&
       bbox.south >= b.bottomlat && bbox.north <= b.toplat;
   }
@@ -433,7 +562,8 @@
   ]);
 
   function baseFrame(){
-    return state.data.frames[state.frameIndex];
+    const timeline=timelineDataset();
+    return timeline?.frames?.[state.frameIndex] || null;
   }
 
   function iconFrameForValidTime(validTime){
@@ -442,6 +572,12 @@
   }
 
   function activeDataset(key=state.layer){
+    if(state.modelMode==='cwa' && state.cwaData){
+      return state.cwaData.fields[key] ? state.cwaData : state.cwaData;
+    }
+    if(state.modelMode==='icon' && state.iconData) return state.iconData;
+    if(state.modelMode==='gfs') return state.data;
+
     if(cloudLayers.has(key) && state.iconData){
       const iconFrame=iconFrameForValidTime(baseFrame()?.valid_time_utc);
       if(iconFrame && state.iconData.fields[key]) return state.iconData;
@@ -450,6 +586,9 @@
   }
 
   function activeFrame(key=state.layer){
+    if(state.modelMode==='cwa' || state.modelMode==='icon' || state.modelMode==='gfs'){
+      return timelineDataset()?.frames?.[state.frameIndex] || null;
+    }
     const data=activeDataset(key);
     if(data===state.iconData){
       return iconFrameForValidTime(baseFrame()?.valid_time_utc);
@@ -458,13 +597,16 @@
   }
 
   function activeQc(key=state.layer){
+    if(state.modelMode==='cwa') return state.cwaQc;
+    if(state.modelMode==='icon') return state.iconQc;
+    if(state.modelMode==='gfs') return state.qc;
     return activeDataset(key)===state.iconData ? state.iconQc : state.qc;
   }
 
   function frame(){ return activeFrame(state.layer); }
 
   function decodeValue(key, encoded, data=activeDataset(key)){
-    if(encoded == null) return null;
+    if(encoded == null || !data?.fields?.[key]) return null;
     const meta = data.fields[key];
     let value = encoded * meta.scale;
     if(meta.wrap) value = ((value % meta.wrap) + meta.wrap) % meta.wrap;
@@ -477,7 +619,6 @@
     if(!active || !active.values[key]) return [];
     return active.values[key].map(v => decodeValue(key,v,data));
   }
-
   function project(lon,lat){
     if(state.mapReady && state.map){
       const p=state.map.project([lon,lat]);
@@ -516,6 +657,9 @@
     if(cfg.palette==='wind'){
       return .12 + .88*t;
     }
+    if(cfg.palette==='temperature' || cfg.palette==='humidity' || cfg.palette==='solar'){
+      return .18 + .82*Math.max(.12,t);
+    }
     if(cfg.palette==='direction'){
       return .48;
     }
@@ -541,6 +685,19 @@
     if(cfg.palette==='wind'){
       const hue = 260 - t*220;
       return `hsl(${hue} 78% 52%)`;
+    }
+    if(cfg.palette==='temperature'){
+      const hue = 220 - t*220;
+      return `hsl(${hue} 82% 52%)`;
+    }
+    if(cfg.palette==='humidity'){
+      const light = 30 + t*48;
+      return `hsl(198 72% ${light}%)`;
+    }
+    if(cfg.palette==='solar'){
+      const hue = 48 - t*30;
+      const light = 30 + t*32;
+      return `hsl(${hue} 90% ${light}%)`;
     }
     return `hsl(${(value%360+360)%360} 76% 52%)`;
   }
@@ -588,8 +745,8 @@
       return;
     }
 
-    // Both providers are visually interpolated to about 0.0625 degree cells:
-    // GFS 0.25 degree -> 4x4; ICON remap 0.125 degree -> 2x2.
+    // Provider-independent display interpolation:
+    // GFS 0.25° -> 4x4, ICON 0.125° -> 2x2, CWA browser grid 0.03° -> 1x1.
     // This is display smoothing only; native model provenance stays visible.
     const lonStep=Math.abs(lons[1]-lons[0]);
     const subdivisions=lonStep>=.20 ? 4 : (lonStep>=.10 ? 2 : 1);
@@ -697,13 +854,14 @@
   function drawWindVectors(){
     state.lastWindVectorCount=0;
     if(!state.windVectors) return;
-    if(!state.data.fields.wind_speed_10m_m_s ||
-       !state.data.fields.wind_direction_10m_deg) return;
+    const data=activeDataset('wind_speed_10m_m_s');
+    if(!data?.fields?.wind_speed_10m_m_s ||
+       !data?.fields?.wind_direction_10m_deg) return;
 
     const speeds=decodedArray('wind_speed_10m_m_s');
     const directions=decodedArray('wind_direction_10m_deg');
-    const rows=state.data.grid.rows, cols=state.data.grid.cols;
-    const lats=state.data.grid.latitudes, lons=state.data.grid.longitudes;
+    const rows=data.grid.rows, cols=data.grid.cols;
+    const lats=data.grid.latitudes, lons=data.grid.longitudes;
     const visible=renderViewBbox();
     const step=windVectorStep();
 
@@ -723,7 +881,7 @@
 
         const p=project(lon,lat);
         const length=11+Math.min(speed/20,1)*17;
-        // GFS direction is meteorological "from". Arrow points toward motion.
+        // Normalized provider direction is meteorological "from". Arrow points toward motion.
         const toward=((direction+180)%360)*Math.PI/180;
         const dx=Math.sin(toward)*length/2;
         const dy=-Math.cos(toward)*length/2;
@@ -936,6 +1094,11 @@
   function samplePointValue(point,key){
     if(!point) return null;
     const data=activeDataset(key);
+    const bbox=normalizeViewBbox(data?.bbox);
+    if(bbox && (
+      point.lon<bbox.leftlon || point.lon>bbox.rightlon ||
+      point.lat<bbox.bottomlat || point.lat>bbox.toplat
+    )) return null;
     const values=decodedArray(key);
     if(key==='wind_direction_10m_deg'){
       return values[nearestCellIndex(point.lon,point.lat,data)];
@@ -976,6 +1139,10 @@
     if(key==='precip_rate_mm_h') return `${v.toFixed(2)} mm/h`;
     if(key==='wind_speed_10m_m_s') return `${v.toFixed(1)} m/s`;
     if(key==='wind_direction_10m_deg') return `${Math.round(v)}°`;
+    if(key==='temperature_2m_c') return `${v.toFixed(1)} °C`;
+    if(key==='relative_humidity_2m_percent') return `${Math.round(v)}%`;
+    if(key==='precip_total_mm') return `${v.toFixed(1)} mm`;
+    if(key==='shortwave_flux_w_m2') return `${Math.round(v)} W/m²`;
     return v.toFixed(1);
   }
 
@@ -992,6 +1159,7 @@
     const f=frame(), cfg=layerConfig[state.layer];
     const data=activeDataset(state.layer);
     const usingIcon=data===state.iconData;
+    const usingCwa=data===state.cwaData;
     $('time-slider').value=state.frameIndex;
     $('time-label').textContent=`時間 · ${formatTaipeiTime(f.valid_time_utc)} (f${String(f.forecast_hour).padStart(3,'0')})`;
     $('opacity-label').textContent=`${Math.round(state.weatherOpacity*100)}%`;
@@ -1001,22 +1169,33 @@
       status.textContent='DEMO 範例資料';
       status.className='source-pill demo';
     }else{
-      const gfsRole=cloudLayers.has(state.layer)?'LIVE GFS fallback':'LIVE GFS';
-      status.textContent=usingIcon?'LIVE ICON Global':gfsRole;
+      if(state.modelMode==='auto'){
+        status.textContent=usingIcon?'AUTO · ICON Global':'AUTO · GFS';
+      }else{
+        status.textContent='LIVE · '+modelLabel(state.modelMode);
+      }
       status.className='source-pill';
     }
-    const resolution=usingIcon
-      ? `原生約 ${data.provenance?.native_resolution_km || 13} km · 0.125° remap · 顯示雙線性內插`
-      : '原生 0.25° · 顯示雙線性內插';
+
+    let resolution;
+    if(usingCwa){
+      const p=data.provenance || {};
+      resolution=`原生約 ${p.native_resolution_km || 3} km · 瀏覽格 ${p.browser_grid_spacing_degrees || 0.03}° · 公開資料間隔 ${p.public_product_interval_hours || 6} h`;
+    }else if(usingIcon){
+      resolution=`原生約 ${data.provenance?.native_resolution_km || 13} km · 0.125° remap · 顯示雙線性內插`;
+    }else{
+      resolution='原生 0.25° · 顯示雙線性內插';
+    }
     $('cycle-label').textContent=`Cycle ${data.cycle?.cycle_time_utc || '—'} · ${data.grid.rows}×${data.grid.cols} · ${resolution}`;
 
     const arr=decodedArray(state.layer).filter(Number.isFinite);
     const min=arr.length?Math.min(...arr):null, max=arr.length?Math.max(...arr):null;
     $('layer-summary').textContent=min==null?'—':`${formatValue(min,state.layer)} – ${formatValue(max,state.layer)}`;
-    const providerRole=usingIcon
-      ? 'ICON Global primary'
-      : (cloudLayers.has(state.layer)?'GFS fallback':'GFS');
-    $('layer-unit').textContent=`${cfg.label} · ${data.fields[state.layer].unit} · ${providerRole} · 內插不增加模式真實解析度`;
+    let providerRole='GFS';
+    if(usingCwa) providerRole='CWA WRF 3 km';
+    else if(usingIcon) providerRole=state.modelMode==='auto'?'ICON Global · auto':'ICON Global';
+    else if(state.modelMode==='auto' && cloudLayers.has(state.layer)) providerRole='GFS fallback';
+    $('layer-unit').textContent=`${cfg.label} · ${data.fields[state.layer].unit} · ${providerRole} · 各模型保留自己的範圍／解析度／時間軸`;
 
     const spot=selectedSpot();
     const point=samplingPoint();
@@ -1024,7 +1203,7 @@
     const sv=samplePointValue(point,state.layer);
     $('spot-value').textContent=point?formatValue(sv,state.layer):'—';
     $('spot-details').innerHTML=point
-      ? `<div>${point.lat.toFixed(4)}°, ${point.lon.toFixed(4)}° · ${escapeHtml(point.label)}</div><div>取樣：瀏覽器雙線性插值（風向使用最近格點）</div>`
+      ? `<div>${point.lat.toFixed(4)}°, ${point.lon.toFixed(4)}° · ${escapeHtml(point.label)}</div><div>取樣：瀏覽器雙線性插值（風向使用最近格點；超出模型範圍不外推）</div>`
       : '<div>可從下拉選單或地圖上的景點點位選取。</div>';
 
     updateLegend(cfg);
@@ -1032,7 +1211,6 @@
     updateCoverageStatus();
     updateQc();
   }
-
   function updateLegend(cfg){
     const min=cfg.domain[0], max=cfg.domain[1], mid=(min+max)/2;
     const stops=[0,.25,.5,.75,1].map(t=>colorFor(min+(max-min)*t,cfg));
@@ -1053,7 +1231,7 @@
   }
 
   function updateTimeline(){
-    $('timeline').innerHTML=state.data.frames.map((f,i)=>
+    $('timeline').innerHTML=timelineDataset().frames.map((f,i)=>
       `<button type="button" data-i="${i}" class="${i===state.frameIndex?'active':''}">${formatTaipeiTime(f.valid_time_utc)}</button>`
     ).join('');
     $('timeline').querySelectorAll('button').forEach(b=>b.onclick=()=>{
@@ -1145,6 +1323,9 @@
       activeModel: activeDataset(state.layer)?.model || null,
       displayInterpolation: state.layer==='wind_direction_10m_deg'?'nearest':'bilinear_subcell',
       iconAvailable: Boolean(state.iconData),
+      cwaAvailable: Boolean(state.cwaData),
+      modelMode: state.modelMode,
+      timelineModel: timelineDataset()?.model || null,
       view: {...state.view}
     };
   }
