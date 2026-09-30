@@ -57,6 +57,12 @@ on:
       - "icon_weathergrid_browser_bundle.py"
       - "test_weathergrid_icon_browser_contract.py"
       - "B150_ICON_GLOBAL_CLOUD_PRIMARY.md"
+      - "cwa_wrf3_poc.py"
+      - "cwa_weathergrid_browser_bundle.py"
+      - "test_cwa_wrf3_poc.py"
+      - "test_cwa_weathergrid_browser_bundle.py"
+      - "test_cwa_weathergrid_ui.py"
+      - "B151_CWA_WRF3_WEATHERGRID.md"
       - ".github/workflows/update_weathergrid.yml"
       - "test_weathergrid_refresh_workflow.py"
       - "B132_WEATHERGRID_SCHEDULED_REFRESH.md"
@@ -124,7 +130,10 @@ jobs:
             test_weathergrid_wind_vector_proof.py \
             test_weathergrid_model_resolver.py \
             test_icon_global_cloud_poc.py \
-            test_weathergrid_icon_browser_contract.py
+            test_weathergrid_icon_browser_contract.py \
+            test_cwa_wrf3_poc.py \
+            test_cwa_weathergrid_browser_bundle.py \
+            test_cwa_weathergrid_ui.py
           python audit_weathergrid_coverage.py
 
   live-poc:
@@ -145,7 +154,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y cdo
           python -m pip install --upgrade pip
-          python -m pip install requests xarray netCDF4 cfgrib eccodes numpy matplotlib cartopy
+          python -m pip install requests boto3 scipy xarray netCDF4 cfgrib eccodes numpy matplotlib cartopy
 
       - name: Cache DWD ICON remap weights
         uses: actions/cache@v4
@@ -200,6 +209,21 @@ jobs:
           python icon_weathergrid_browser_bundle.py \
             --input-dir icon_cloud_output
 
+      - name: Fetch CWA WRF 3 km WeatherGrid
+        if: inputs.coverage_scope == 'region'
+        id: cwa_wrf3
+        continue-on-error: true
+        run: |
+          python cwa_wrf3_poc.py \
+            --forecast-hours "0,6,12" \
+            --output-dir cwa_wrf3_output
+
+      - name: Build CWA WRF 3 km browser bundle and QC
+        if: inputs.coverage_scope == 'region' && steps.cwa_wrf3.outcome == 'success'
+        run: |
+          python cwa_weathergrid_browser_bundle.py \
+            --input-dir cwa_wrf3_output
+
       - name: Build subject-aware coverage browser bundle
         run: |
           python build_weathergrid_coverage_browser.py \
@@ -218,6 +242,12 @@ jobs:
           else
             rm -f weathergrid/icon_tw_cloud_browser.json weathergrid/icon_tw_cloud_qc.json
           fi
+          if [[ -f cwa_wrf3_output/cwa_wrf3_tw_weather_browser.json ]]; then
+            cp cwa_wrf3_output/cwa_wrf3_tw_weather_browser.json weathergrid/cwa_wrf3_tw_weather_browser.json
+            cp cwa_wrf3_output/cwa_wrf3_tw_weather_qc.json weathergrid/cwa_wrf3_tw_weather_qc.json
+          else
+            rm -f weathergrid/cwa_wrf3_tw_weather_browser.json weathergrid/cwa_wrf3_tw_weather_qc.json
+          fi
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add -A \
@@ -225,7 +255,9 @@ jobs:
             weathergrid/gfs_tw_weather_qc.json \
             weathergrid/weathergrid_coverage_browser.json \
             weathergrid/icon_tw_cloud_browser.json \
-            weathergrid/icon_tw_cloud_qc.json
+            weathergrid/icon_tw_cloud_qc.json \
+            weathergrid/cwa_wrf3_tw_weather_browser.json \
+            weathergrid/cwa_wrf3_tw_weather_qc.json
           if ! git diff --cached --quiet; then
             git commit -m "Update WeatherGrid preview snapshot [skip ci]"
             for i in {1..5}; do
@@ -242,4 +274,6 @@ jobs:
           path: |
             gfs_multilayer_output/
             icon_cloud_output/
+            cwa_wrf3_output/cwa_wrf3_tw_weather_browser.json
+            cwa_wrf3_output/cwa_wrf3_tw_weather_qc.json
           if-no-files-found: error
