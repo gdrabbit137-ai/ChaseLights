@@ -97,6 +97,11 @@ The initial scheduled browser timeline publishes 40 hourly timestamps
 without depending on whether the latest upstream run is one of the 00/12 UTC
 extended cycles.
 
+The Open-Meteo transport does not expose the exact upstream JMA cycle timestamp
+in this response contract.  Therefore the browser's `forecast_hour` field is a
+published-window offset from the first valid time, **not** an asserted JMA model
+lead time.  The UI labels it as `+Nh · API 發布時間軸` instead of `fNNN`.
+
 ## UI policy
 
 JMA MSM is manually selectable as **JMA MSM 5 km**.
