@@ -22,7 +22,7 @@
     temperature_2m_c:{label:'2 m 氣溫', unit:'°C', domain:[-5,40], palette:'temperature'},
     relative_humidity_2m_percent:{label:'2 m 相對濕度', unit:'%', domain:[0,100], palette:'humidity'},
     precip_total_mm:{label:'累積降水', unit:'mm', domain:[0,100], palette:'precip'},
-    shortwave_flux_w_m2:{label:'地表短波輻射', unit:'W/m²', domain:[0,1000], palette:'solar'}
+    shortwave_flux_w_m2:{label:'地表淨短波輻射', unit:'W/m²', domain:[0,1000], palette:'solar'}
   };
 
   const state = {
