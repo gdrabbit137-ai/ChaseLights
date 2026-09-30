@@ -85,11 +85,13 @@ the B153 fail-closed behavior.
 Before merge:
 
 1. Offline tests verify exact native-grid index mapping and S3 URI construction.
-2. B117 live smoke reads a 3×3 native Taiwan subset from real AWS OM files for
-   four native hourly valid times.
-3. Browser bundle tests verify AWS provenance survives compaction.
-4. UI tests verify true `fNNN` labels and Open-Meteo AWS attribution.
-5. Existing B30/B145 contracts remain green.
+2. B117 small live smoke reads a 3×3 native Taiwan subset from real AWS OM
+   files for four native hourly valid times.
+3. B117 production-sized live smoke reads the full 64×40 Taiwan window for 40
+   native hourly valid times and builds the compact browser/QC artifacts.
+4. Browser bundle tests verify AWS provenance survives compaction.
+5. UI tests verify true `fNNN` labels and Open-Meteo AWS attribution.
+6. Existing B30/B145 contracts remain green.
 
 After merge, the first provider workflow must publish the full 64×40 / 40-hour
 snapshot and B145 must select JMA on the public site.
