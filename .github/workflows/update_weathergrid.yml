@@ -116,7 +116,7 @@ jobs:
         run: |
           python jma_msm_cloud_poc.py \
             --forecast-hours 40 \
-            --batch-size 160 \
+            --batch-size 100 \
             --output-dir jma_msm_output
 
       - name: Build JMA MSM 5 km browser bundle and QC
