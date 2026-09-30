@@ -27,14 +27,18 @@ Official MSM surface domain:
 - 22.4°N–47.6°N
 - 120°E–150°E
 
-The initial ChaseLights browser subset is:
+The official model domain starts at 22.4°N / 120.0°E.  The initial
+ChaseLights browser subset is intentionally inset by one native grid cell from
+the south/west edge because the current HTTP transport adapter can reject exact
+boundary coordinates:
 
-- 22.4°N–25.6°N
-- 120.0°E–122.5°E
+- 22.45°N–25.6°N
+- 120.0625°E–122.5°E
 
-This covers most of Taiwan's main island, but deliberately does not pretend the
-model covers areas outside the official boundary.  Southern locations below
-22.4°N and islands west of 120°E remain outside MSM.
+This still covers most of Taiwan's main island, but it deliberately does not
+pretend the transport-safe browser product covers the official edge itself.
+Southern locations below 22.45°N and islands west of 120.0625°E are outside
+this initial browser artifact.
 
 ## Transport
 
@@ -51,7 +55,8 @@ Requests use:
 
 - model = `jma_msm`;
 - `cell_selection=nearest`;
-- `elevation=nan` to disable elevation downscaling.
+- one `elevation=nan` value per requested coordinate to disable elevation
+  downscaling.
 
 This preserves the model-grid cloud quantity rather than asking Open-Meteo to
 statistically adjust the forecast to a terrain elevation.
@@ -125,6 +130,6 @@ PR validation includes:
 - offline provider tests;
 - browser-bundle tests;
 - WeatherGrid UI contract tests;
-- a live JMA MSM API smoke test using a tiny native-grid subset;
+- a live JMA MSM API smoke test using a 3×3 interior native-grid subset;
 - existing B30 browser smoke;
 - scheduled-refresh contract tests.
