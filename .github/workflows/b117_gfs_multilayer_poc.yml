@@ -71,6 +71,8 @@ on:
       - "test_jma_msm_weathergrid_browser_bundle.py"
       - "test_jma_msm_weathergrid_ui.py"
       - "B153_JMA_MSM_CLOUD_WEATHERGRID.md"
+      - ".github/workflows/update_jma_msm_weathergrid.yml"
+      - "test_jma_msm_refresh_workflow.py"
       - ".github/workflows/update_weathergrid.yml"
       - "test_weathergrid_refresh_workflow.py"
       - "B132_WEATHERGRID_SCHEDULED_REFRESH.md"
@@ -145,7 +147,8 @@ jobs:
             test_weathergrid_cloud_vertical_definitions.py \
             test_jma_msm_cloud_poc.py \
             test_jma_msm_weathergrid_browser_bundle.py \
-            test_jma_msm_weathergrid_ui.py
+            test_jma_msm_weathergrid_ui.py \
+            test_jma_msm_refresh_workflow.py
           python audit_weathergrid_coverage.py
 
   cwa-live-smoke:
