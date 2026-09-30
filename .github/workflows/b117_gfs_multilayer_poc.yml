@@ -199,7 +199,8 @@ jobs:
           )
           assert bundle["model"] == "CWA_WRF_3KM"
           assert bundle["provenance"]["native_resolution_km"] == 3.0
-          assert bundle["frames"], bundle
+          assert len(bundle["frames"]) == 3, bundle["frames"]
+          assert [x["forecast_hour"] for x in bundle["frames"]] == [0, 6, 12]
           assert "temperature_2m_c" in bundle["fields"], bundle["fields"]
           assert "relative_humidity_2m_percent" in bundle["fields"], bundle["fields"]
           assert "wind_speed_10m_m_s" in bundle["fields"], bundle["fields"]
