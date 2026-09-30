@@ -136,6 +136,67 @@ jobs:
             test_cwa_weathergrid_ui.py
           python audit_weathergrid_coverage.py
 
+  cwa-live-smoke:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout candidate
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install CWA WeatherGrid dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install requests boto3 scipy xarray cfgrib eccodes numpy
+
+      - name: Fetch one live CWA WRF 3 km frame
+        run: |
+          python cwa_wrf3_poc.py \
+            --forecast-hours "0" \
+            --output-dir cwa_live_smoke_output
+
+      - name: Build compact CWA browser bundle
+        run: |
+          python cwa_weathergrid_browser_bundle.py \
+            --input-dir cwa_live_smoke_output
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path("cwa_live_smoke_output")
+          bundle = json.loads(
+              (root / "cwa_wrf3_tw_weather_browser.json").read_text()
+          )
+          assert bundle["model"] == "CWA_WRF_3KM"
+          assert bundle["provenance"]["native_resolution_km"] == 3.0
+          assert bundle["frames"], bundle
+          assert "temperature_2m_c" in bundle["fields"], bundle["fields"]
+          assert "relative_humidity_2m_percent" in bundle["fields"], bundle["fields"]
+          assert "wind_speed_10m_m_s" in bundle["fields"], bundle["fields"]
+          print(json.dumps({
+              "cycle": bundle["cycle"],
+              "bbox": bundle["bbox"],
+              "grid": bundle["grid"]["rows:"] if False else [
+                  bundle["grid"]["rows"], bundle["grid"]["cols"]
+              ],
+              "fields": list(bundle["fields"]),
+          }, indent=2))
+          PY
+
+      - name: Upload CWA live-smoke browser outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: cwa-wrf3-live-smoke
+          path: |
+            cwa_live_smoke_output/cwa_wrf3_tw_weather_browser.json
+            cwa_live_smoke_output/cwa_wrf3_tw_weather_qc.json
+          if-no-files-found: error
+          retention-days: 3
+
   live-poc:
     if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
