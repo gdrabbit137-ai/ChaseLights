@@ -1094,6 +1094,11 @@
   function samplePointValue(point,key){
     if(!point) return null;
     const data=activeDataset(key);
+    const bbox=normalizeViewBbox(data?.bbox);
+    if(bbox && (
+      point.lon<bbox.leftlon || point.lon>bbox.rightlon ||
+      point.lat<bbox.bottomlat || point.lat>bbox.toplat
+    )) return null;
     const values=decodedArray(key);
     if(key==='wind_direction_10m_deg'){
       return values[nearestCellIndex(point.lon,point.lat,data)];
@@ -1154,6 +1159,7 @@
     const f=frame(), cfg=layerConfig[state.layer];
     const data=activeDataset(state.layer);
     const usingIcon=data===state.iconData;
+    const usingCwa=data===state.cwaData;
     $('time-slider').value=state.frameIndex;
     $('time-label').textContent=`時間 · ${formatTaipeiTime(f.valid_time_utc)} (f${String(f.forecast_hour).padStart(3,'0')})`;
     $('opacity-label').textContent=`${Math.round(state.weatherOpacity*100)}%`;
@@ -1163,22 +1169,33 @@
       status.textContent='DEMO 範例資料';
       status.className='source-pill demo';
     }else{
-      const gfsRole=cloudLayers.has(state.layer)?'LIVE GFS fallback':'LIVE GFS';
-      status.textContent=usingIcon?'LIVE ICON Global':gfsRole;
+      if(state.modelMode==='auto'){
+        status.textContent=usingIcon?'AUTO · ICON Global':'AUTO · GFS';
+      }else{
+        status.textContent='LIVE · '+modelLabel(state.modelMode);
+      }
       status.className='source-pill';
     }
-    const resolution=usingIcon
-      ? `原生約 ${data.provenance?.native_resolution_km || 13} km · 0.125° remap · 顯示雙線性內插`
-      : '原生 0.25° · 顯示雙線性內插';
+
+    let resolution;
+    if(usingCwa){
+      const p=data.provenance || {};
+      resolution=`原生約 ${p.native_resolution_km || 3} km · 瀏覽格 ${p.browser_grid_spacing_degrees || 0.03}° · 原生時間間隔 ${p.native_time_interval_hours || 6} h`;
+    }else if(usingIcon){
+      resolution=`原生約 ${data.provenance?.native_resolution_km || 13} km · 0.125° remap · 顯示雙線性內插`;
+    }else{
+      resolution='原生 0.25° · 顯示雙線性內插';
+    }
     $('cycle-label').textContent=`Cycle ${data.cycle?.cycle_time_utc || '—'} · ${data.grid.rows}×${data.grid.cols} · ${resolution}`;
 
     const arr=decodedArray(state.layer).filter(Number.isFinite);
     const min=arr.length?Math.min(...arr):null, max=arr.length?Math.max(...arr):null;
     $('layer-summary').textContent=min==null?'—':`${formatValue(min,state.layer)} – ${formatValue(max,state.layer)}`;
-    const providerRole=usingIcon
-      ? 'ICON Global primary'
-      : (cloudLayers.has(state.layer)?'GFS fallback':'GFS');
-    $('layer-unit').textContent=`${cfg.label} · ${data.fields[state.layer].unit} · ${providerRole} · 內插不增加模式真實解析度`;
+    let providerRole='GFS';
+    if(usingCwa) providerRole='CWA WRF 3 km';
+    else if(usingIcon) providerRole=state.modelMode==='auto'?'ICON Global · auto':'ICON Global';
+    else if(state.modelMode==='auto' && cloudLayers.has(state.layer)) providerRole='GFS fallback';
+    $('layer-unit').textContent=`${cfg.label} · ${data.fields[state.layer].unit} · ${providerRole} · 各模型保留自己的範圍／解析度／時間軸`;
 
     const spot=selectedSpot();
     const point=samplingPoint();
@@ -1186,7 +1203,7 @@
     const sv=samplePointValue(point,state.layer);
     $('spot-value').textContent=point?formatValue(sv,state.layer):'—';
     $('spot-details').innerHTML=point
-      ? `<div>${point.lat.toFixed(4)}°, ${point.lon.toFixed(4)}° · ${escapeHtml(point.label)}</div><div>取樣：瀏覽器雙線性插值（風向使用最近格點）</div>`
+      ? `<div>${point.lat.toFixed(4)}°, ${point.lon.toFixed(4)}° · ${escapeHtml(point.label)}</div><div>取樣：瀏覽器雙線性插值（風向使用最近格點；超出模型範圍不外推）</div>`
       : '<div>可從下拉選單或地圖上的景點點位選取。</div>';
 
     updateLegend(cfg);
@@ -1194,7 +1211,6 @@
     updateCoverageStatus();
     updateQc();
   }
-
   function updateLegend(cfg){
     const min=cfg.domain[0], max=cfg.domain[1], mid=(min+max)/2;
     const stops=[0,.25,.5,.75,1].map(t=>colorFor(min+(max-min)*t,cfg));
@@ -1307,6 +1323,9 @@
       activeModel: activeDataset(state.layer)?.model || null,
       displayInterpolation: state.layer==='wind_direction_10m_deg'?'nearest':'bilinear_subcell',
       iconAvailable: Boolean(state.iconData),
+      cwaAvailable: Boolean(state.cwaData),
+      modelMode: state.modelMode,
+      timelineModel: timelineDataset()?.model || null,
       view: {...state.view}
     };
   }
