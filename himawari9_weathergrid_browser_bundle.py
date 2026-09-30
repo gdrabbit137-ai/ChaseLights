@@ -37,6 +37,19 @@ def regular_axis(start: float, stop: float, step: float) -> list[float]:
     return values
 
 
+def _attr_text(value) -> str:
+    if isinstance(value, bytes):
+        return value.decode("utf-8", errors="replace")
+    try:
+        if hasattr(value, "item"):
+            value = value.item()
+            if isinstance(value, bytes):
+                return value.decode("utf-8", errors="replace")
+    except Exception:
+        pass
+    return str(value)
+
+
 def _fill_value(dataset):
     value = dataset.attrs.get("_FillValue")
     if value is None:
@@ -202,8 +215,8 @@ def _read_source_arrays(fs, pair: dict[str, str], window: dict) -> dict:
                         fs.info(pair["cloud_mask"]).get("size", 0),
                     )
                 ),
-                "time_coverage_start": str(handle.attrs.get("time_coverage_start", "")),
-                "time_coverage_end": str(handle.attrs.get("time_coverage_end", "")),
+                "time_coverage_start": _attr_text(handle.attrs.get("time_coverage_start", "")),
+                "time_coverage_end": _attr_text(handle.attrs.get("time_coverage_end", "")),
             }
 
     with fs.open(
