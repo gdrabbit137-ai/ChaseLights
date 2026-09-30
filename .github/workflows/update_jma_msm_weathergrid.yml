@@ -53,10 +53,12 @@ jobs:
         continue-on-error: true
         env:
           JMA_FORECAST_HOURS: ${{ inputs.forecast_hours || '40' }}
+          OPEN_METEO_API_KEY: ${{ secrets.OPEN_METEO_API_KEY }}
         run: |
           python jma_msm_cloud_poc.py \
             --forecast-hours "$JMA_FORECAST_HOURS" \
             --batch-size 100 \
+            --require-production-transport \
             --output-dir jma_msm_output
 
       - name: Build JMA MSM browser bundle and QC
@@ -87,6 +89,7 @@ jobs:
           assert provenance.get("native_resolution_km") == 5.0, provenance
           assert provenance.get("native_time_interval_hours") == 1, provenance
           assert provenance.get("update_interval_hours") == 3, provenance
+          assert provenance.get("production_transport") == "open_meteo_customer", provenance
           assert (
               provenance.get("forecast_hour_semantics")
               == "hours_from_first_published_valid_time_not_model_cycle"
