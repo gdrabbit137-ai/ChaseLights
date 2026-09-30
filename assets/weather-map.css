@@ -71,7 +71,10 @@ body{padding:18px}
 .detail-list{font-size:.78rem;line-height:1.55;color:#cbd5e1}
 .detail-list .warn{color:#fbbf24}
 .detail-list .ok{color:#86efac}
-.note-panel p{font-size:.77rem;line-height:1.55;color:#94a3b8;margin:7px 0}
+[hidden]{display:none!important}
+.layer-qc{margin-top:12px;padding-top:10px;border-top:1px solid rgba(148,163,184,.18)}
+.layer-qc-label{color:var(--muted);font-size:.68rem;font-weight:800;letter-spacing:.02em}
+.layer-qc .detail-list{margin-top:3px;line-height:1.4}
 
 @media(max-width:1050px){
   .weather-layout{grid-template-columns:1fr}
@@ -132,8 +135,32 @@ body{padding:18px}
 .source-attribution a{
   color:#7dd3fc;
 }
+.data-info-button{margin-top:7px;border:1px solid #334155;background:#0f172a;color:#bae6fd;
+  border-radius:7px;padding:6px 9px;font-size:.72rem;font-weight:800;cursor:pointer}
+.data-info-button:hover{border-color:var(--accent);color:#e0f2fe}
 
 .layer-range{margin-top:5px;color:#cbd5e1;font-size:.76rem;line-height:1.35}
 .qc-code{display:inline-flex;margin-left:5px;padding:1px 5px;border:1px solid #475569;border-radius:5px;
   color:#94a3b8;font-size:.66rem;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;vertical-align:1px}
 .coverage-outline-key{margin-top:6px;color:#94a3b8;font-size:.67rem}
+
+.data-info-dialog{width:min(680px,calc(100vw - 28px));max-height:min(78vh,760px);padding:0;
+  border:1px solid #475569;border-radius:14px;background:#111827;color:var(--text);
+  box-shadow:0 24px 70px rgba(2,6,23,.58)}
+.data-info-dialog::backdrop{background:rgba(2,6,23,.72);backdrop-filter:blur(2px)}
+.data-info-shell{display:flex;flex-direction:column;max-height:min(78vh,760px)}
+.data-info-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;
+  padding:16px 18px 12px;border-bottom:1px solid #334155}
+.data-info-kicker{color:#7dd3fc;font-size:.7rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.data-info-head h2{margin:3px 0 0;font-size:1.05rem;color:#f8fafc}
+#data-info-close{border:1px solid #475569;background:#0f172a;color:#cbd5e1;border-radius:7px;
+  width:34px;height:34px;cursor:pointer;font-weight:800}
+#data-info-close:hover{border-color:var(--accent);color:#f8fafc}
+.data-info-body{overflow:auto;padding:14px 18px 18px}
+.data-info-body p{font-size:.8rem;line-height:1.65;color:#cbd5e1;margin:0 0 12px}
+.data-info-body p:last-child{margin-bottom:0}
+
+@media(max-width:720px){
+  .data-info-dialog{width:calc(100vw - 20px);max-height:84vh}
+  .data-info-shell{max-height:84vh}
+}
