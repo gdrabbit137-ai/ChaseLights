@@ -220,9 +220,11 @@ Offline contracts verify:
 - compact bundle resolution/time provenance;
 - model selector and provider-specific timeline/boundary behavior.
 
-A pull-request live smoke additionally downloads one real f000 CWA frame,
-decodes it, builds the compact browser bundle, and asserts the required
-temperature, humidity and wind fields.
+A pull-request live smoke additionally downloads the real f000 / f006 / f012
+CWA window, decodes it, builds the compact browser bundle, and asserts the
+required temperature, humidity and wind fields plus the live-verified surface
+net shortwave field.
 
-This live smoke is intentionally one frame so PR validation proves the real
-source contract without downloading the entire regional forecast series.
+The three-frame smoke mirrors the initial scheduled browser window so the
+provider contract, cross-frame grid stability and six-hour public-product
+timeline are verified before merge.
