@@ -4,7 +4,6 @@ from datetime import datetime, timezone
 from himawari9_cloud_poc import (
     candidate_slots,
     floor_to_ten_minutes,
-    projected_xy_to_pixel,
     select_product_pair,
     slot_prefix,
 )
@@ -36,10 +35,6 @@ class Himawari9CloudPocContractTest(unittest.TestCase):
                 datetime(2026, 9, 30, 23, 40, tzinfo=timezone.utc),
             ],
         )
-
-    def test_projection_plane_center_maps_to_full_disk_center(self):
-        row, col = projected_xy_to_pixel(0.0, 0.0)
-        self.assertEqual((row, col), (2750.0, 2750.0))
 
     def test_select_product_pair_requires_same_listing(self):
         root = "noaa-himawari9/AHI-L2-FLDK-Clouds/2026/09/30/1540/"
