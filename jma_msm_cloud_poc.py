@@ -340,6 +340,12 @@ def fetch_snapshot(
         "model_id": "jma_msm",
         "provider": "Japan Meteorological Agency (JMA)",
         "model": "JMA_MSM",
+        "attribution": {
+            "model_provider": "Japan Meteorological Agency (JMA)",
+            "transport_provider": "Open-Meteo",
+            "transport_url": "https://open-meteo.com/",
+            "license": "CC BY 4.0 attribution required for Open-Meteo-served data",
+        },
         "transport": {
             "adapter": "Open-Meteo JMA API",
             "endpoint": JMA_MSM_API_URL,
