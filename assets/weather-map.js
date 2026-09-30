@@ -241,20 +241,120 @@
     window.__weatherGridPreviewReady = true;
   }
 
-  function initControls(){
-    const layerSelect = $('layer-select');
-    layerSelect.innerHTML = Object.entries(layerConfig)
-      .filter(([key]) => state.data.fields[key])
-      .map(([key,cfg]) => `<option value="${key}">${cfg.label}</option>`).join('');
-    layerSelect.value = state.layer;
+  function modelDataset(mode=state.modelMode){
+    if(mode==='cwa' && state.cwaData) return state.cwaData;
+    if(mode==='icon' && state.iconData) return state.iconData;
+    return state.data;
+  }
 
-    const windToggle=$('wind-vector-toggle');
+  function modelQc(mode=state.modelMode){
+    if(mode==='cwa' && state.cwaData) return state.cwaQc;
+    if(mode==='icon' && state.iconData) return state.iconQc;
+    return state.qc;
+  }
+
+  function modelLabel(mode=state.modelMode){
+    if(mode==='cwa') return 'CWA WRF 3 km';
+    if(mode==='icon') return 'ICON Global';
+    if(mode==='gfs') return 'GFS 0.25°';
+    return '自動';
+  }
+
+  function modelAvailable(mode){
+    if(mode==='cwa') return Boolean(state.cwaData);
+    if(mode==='icon') return Boolean(state.iconData);
+    if(mode==='gfs') return Boolean(state.data);
+    return true;
+  }
+
+  function nearestFrameIndex(data,validTime){
+    if(!data?.frames?.length) return 0;
+    if(!validTime) return 0;
+    const target=Date.parse(validTime);
+    let best=0,bestDelta=Infinity;
+    data.frames.forEach((f,i)=>{
+      const t=Date.parse(f.valid_time_utc);
+      const d=Math.abs(t-target);
+      if(Number.isFinite(d) && d<bestDelta){best=i;bestDelta=d;}
+    });
+    return best;
+  }
+
+  function availableLayerKeys(){
+    if(state.modelMode==='auto'){
+      return Object.keys(layerConfig).filter(key=>
+        Boolean(state.data?.fields?.[key]) ||
+        Boolean(state.iconData?.fields?.[key])
+      );
+    }
+    const data=modelDataset();
+    return Object.keys(layerConfig).filter(key=>Boolean(data?.fields?.[key]));
+  }
+
+  function refreshModelControls(){
+    const modelSelect=$('model-select');
+    for(const option of modelSelect.options){
+      if(option.value!=='auto') option.disabled=!modelAvailable(option.value);
+    }
+    modelSelect.value=state.modelMode;
+
+    const layerSelect=$('layer-select');
+    const layers=availableLayerKeys();
+    if(!layers.includes(state.layer) && layers.length){
+      if(state.modelMode==='cwa' && layers.includes('wind_speed_10m_m_s')){
+        state.layer='wind_speed_10m_m_s';
+      }else{
+        state.layer=layers[0];
+      }
+    }
+    layerSelect.innerHTML=layers
+      .map(key=>'<option value="'+key+'">'+layerConfig[key].label+'</option>')
+      .join('');
+    layerSelect.value=state.layer;
+
+    const timeline=timelineDataset();
+    const slider=$('time-slider');
+    slider.max=Math.max(0,(timeline?.frames?.length || 1)-1);
+    state.frameIndex=Math.min(state.frameIndex,Number(slider.max));
+    slider.value=state.frameIndex;
+
     const hasWind=Boolean(
-      state.data.fields.wind_speed_10m_m_s &&
-      state.data.fields.wind_direction_10m_deg
+      activeDataset('wind_speed_10m_m_s')?.fields?.wind_speed_10m_m_s &&
+      activeDataset('wind_direction_10m_deg')?.fields?.wind_direction_10m_deg
     );
+    const windToggle=$('wind-vector-toggle');
     windToggle.disabled=!hasWind;
-    windToggle.checked=state.windVectors;
+    if(!hasWind){
+      state.windVectors=false;
+      windToggle.checked=false;
+    }else{
+      windToggle.checked=state.windVectors;
+    }
+  }
+
+  function switchModel(mode){
+    const oldTime=frame()?.valid_time_utc || null;
+    state.modelMode=mode;
+    const timeline=timelineDataset();
+    state.frameIndex=nearestFrameIndex(timeline,oldTime);
+    const layers=availableLayerKeys();
+    if(!layers.includes(state.layer) && layers.length){
+      state.layer=(mode==='cwa' && layers.includes('wind_speed_10m_m_s'))
+        ? 'wind_speed_10m_m_s'
+        : layers[0];
+    }
+    refreshModelControls();
+    setViewBbox(timeline.bbox,{animate:true,maxZoom:8});
+    renderAll();
+  }
+
+  function initControls(){
+    const modelSelect=$('model-select');
+    modelSelect.addEventListener('change',()=>switchModel(modelSelect.value));
+
+    const layerSelect = $('layer-select');
+    const windToggle=$('wind-vector-toggle');
+
     windToggle.addEventListener('change',()=>{
       state.windVectors=windToggle.checked;
       state.windVectorTouched=true;
@@ -263,6 +363,10 @@
 
     layerSelect.addEventListener('change', () => {
       state.layer = layerSelect.value;
+      const hasWind=Boolean(
+        activeDataset('wind_speed_10m_m_s')?.fields?.wind_speed_10m_m_s &&
+        activeDataset('wind_direction_10m_deg')?.fields?.wind_direction_10m_deg
+      );
       const windLayer=state.layer==='wind_speed_10m_m_s' ||
         state.layer==='wind_direction_10m_deg';
       if(windLayer && hasWind && !state.windVectorTouched){
@@ -280,8 +384,6 @@
     });
 
     const slider = $('time-slider');
-    slider.max = Math.max(0, state.data.frames.length - 1);
-    slider.value = state.frameIndex;
     slider.addEventListener('input', () => {
       state.frameIndex = Number(slider.value);
       renderAll();
@@ -290,7 +392,7 @@
     const spotSelect = $('spot-select');
     spotSelect.innerHTML = '<option value="">全部景點</option>' +
       state.data.spots.map(s =>
-        `<option value="${escapeHtml(s.spot_id)}">${escapeHtml(s.name)}</option>`
+        '<option value="'+escapeHtml(s.spot_id)+'">'+escapeHtml(s.name)+'</option>'
       ).join('');
     spotSelect.addEventListener('change', () => {
       selectSpot(spotSelect.value);
@@ -304,7 +406,7 @@
     });
 
     $('reset-view').addEventListener('click', () => {
-      setViewBbox(state.data.bbox,{animate:true,maxZoom:8});
+      setViewBbox(timelineDataset().bbox,{animate:true,maxZoom:8});
       renderAll();
     });
 
@@ -313,8 +415,9 @@
       const rect=canvas.getBoundingClientRect();
       pickSpotAtPoint(ev.clientX-rect.left,ev.clientY-rect.top);
     });
-  }
 
+    refreshModelControls();
+  }
   function selectSpot(spotId){
     state.spotId = spotId;
     state.opportunityId = '';
