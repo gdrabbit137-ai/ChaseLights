@@ -44,7 +44,7 @@ jobs:
 
       - name: Install anonymous S3 / NetCDF dependencies
         run: |
-          python -m pip install --disable-pip-version-check s3fs h5py
+          python -m pip install --disable-pip-version-check s3fs h5py pyproj
 
       - name: Probe latest Himawari-9 cloud pair
         run: |
