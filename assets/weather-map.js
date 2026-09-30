@@ -1180,7 +1180,7 @@
     let resolution;
     if(usingCwa){
       const p=data.provenance || {};
-      resolution=`原生約 ${p.native_resolution_km || 3} km · 瀏覽格 ${p.browser_grid_spacing_degrees || 0.03}° · 原生時間間隔 ${p.native_time_interval_hours || 6} h`;
+      resolution=`原生約 ${p.native_resolution_km || 3} km · 瀏覽格 ${p.browser_grid_spacing_degrees || 0.03}° · 公開資料間隔 ${p.public_product_interval_hours || 6} h`;
     }else if(usingIcon){
       resolution=`原生約 ${data.provenance?.native_resolution_km || 13} km · 0.125° remap · 顯示雙線性內插`;
     }else{
