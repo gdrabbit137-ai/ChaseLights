@@ -1,0 +1,39 @@
+name: B158 Himawari WeatherGrid UI Contract
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "weather-map.html"
+      - "assets/weather-map.js"
+      - "weathergrid_production_smoke.py"
+      - "test_himawari9_weathergrid_ui.py"
+      - "test_weathergrid_ui_polish.py"
+      - "test_weathergrid_production_smoke_contract.py"
+      - "B158_HIMAWARI9_OBSERVED_UI.md"
+      - ".github/workflows/b158_himawari_ui_contract.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout candidate
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Parse WeatherGrid JavaScript
+        run: node --check assets/weather-map.js
+
+      - name: Run observation UI contracts
+        run: |
+          python -m unittest -v \
+            test_himawari9_weathergrid_ui.py \
+            test_weathergrid_ui_polish.py \
+            test_weathergrid_production_smoke_contract.py
