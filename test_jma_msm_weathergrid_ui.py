@@ -42,6 +42,11 @@ class JmaMsmWeatherGridUiTests(unittest.TestCase):
         self.assertIn("approx_height", JS)
         self.assertIn("usingJma?'JMA MSM 5 km'", JS)
 
+    def test_jma_does_not_mislabel_api_window_as_model_forecast_lead(self):
+        self.assertIn("API 發布時間軸", JS)
+        self.assertIn("usingJma", JS)
+        self.assertIn("frameLead", JS)
+
     def test_auto_mode_does_not_change_until_explicit_policy_decision(self):
         auto_block = JS.split("function availableLayerKeys()", 1)[1].split(
             "function refreshModelControls()", 1
