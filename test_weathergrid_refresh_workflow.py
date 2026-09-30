@@ -39,6 +39,14 @@ class WeatherGridRefreshWorkflowTests(unittest.TestCase):
     def test_artifact_is_short_lived(self):
         self.assertIn("retention-days: 7", self.text)
 
+    def test_jma_msm_is_not_coupled_to_gfs_icon_cwa_refresh(self):
+        self.assertNotIn("id: jma_msm", self.text)
+        self.assertNotIn("jma_msm_cloud_poc.py", self.text)
+        self.assertNotIn(
+            "weathergrid/jma_msm_tw_cloud_browser.json",
+            self.text,
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -65,6 +65,14 @@ on:
       - "B151_CWA_WRF3_WEATHERGRID.md"
       - "B152_CWA_CLOUD_VERTICAL_DEFINITIONS.md"
       - "test_weathergrid_cloud_vertical_definitions.py"
+      - "jma_msm_cloud_poc.py"
+      - "jma_msm_weathergrid_browser_bundle.py"
+      - "test_jma_msm_cloud_poc.py"
+      - "test_jma_msm_weathergrid_browser_bundle.py"
+      - "test_jma_msm_weathergrid_ui.py"
+      - "B153_JMA_MSM_CLOUD_WEATHERGRID.md"
+      - ".github/workflows/update_jma_msm_weathergrid.yml"
+      - "test_jma_msm_refresh_workflow.py"
       - ".github/workflows/update_weathergrid.yml"
       - "test_weathergrid_refresh_workflow.py"
       - "B132_WEATHERGRID_SCHEDULED_REFRESH.md"
@@ -114,7 +122,7 @@ jobs:
           python-version: "3.10"
 
       - name: Install test dependency
-        run: python -m pip install --disable-pip-version-check numpy
+        run: python -m pip install --disable-pip-version-check numpy requests
 
       - name: Run offline contract tests
         run: |
@@ -136,7 +144,11 @@ jobs:
             test_cwa_wrf3_poc.py \
             test_cwa_weathergrid_browser_bundle.py \
             test_cwa_weathergrid_ui.py \
-            test_weathergrid_cloud_vertical_definitions.py
+            test_weathergrid_cloud_vertical_definitions.py \
+            test_jma_msm_cloud_poc.py \
+            test_jma_msm_weathergrid_browser_bundle.py \
+            test_jma_msm_weathergrid_ui.py \
+            test_jma_msm_refresh_workflow.py
           python audit_weathergrid_coverage.py
 
   cwa-live-smoke:
@@ -249,6 +261,113 @@ jobs:
           if-no-files-found: error
           retention-days: 3
 
+  jma-live-smoke:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout candidate
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install JMA WeatherGrid dependency
+        run: python -m pip install --disable-pip-version-check requests
+
+      - name: Fetch live JMA MSM cloud sample
+        run: |
+          python jma_msm_cloud_poc.py \
+            --forecast-hours 4 \
+            --batch-size 20 \
+            --leftlon 121.4375 \
+            --rightlon 121.5625 \
+            --bottomlat 24.95 \
+            --toplat 25.05 \
+            --output-dir jma_msm_live_smoke
+
+      - name: Build compact JMA MSM browser bundle
+        run: |
+          python jma_msm_weathergrid_browser_bundle.py \
+            --input-dir jma_msm_live_smoke
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          root = Path("jma_msm_live_smoke")
+          bundle = json.loads(
+              (root / "jma_msm_tw_cloud_browser.json").read_text()
+          )
+          assert bundle["model"] == "JMA_MSM"
+          assert bundle["provenance"]["native_resolution_km"] == 5.0
+          assert bundle["provenance"]["native_time_interval_hours"] == 1
+          assert len(bundle["frames"]) == 4, bundle["frames"]
+          assert bundle["grid"]["rows"] == 3, bundle["grid"]
+          assert bundle["grid"]["cols"] == 3, bundle["grid"]
+          for field in (
+              "total_cloud_percent",
+              "low_cloud_percent",
+              "mid_cloud_percent",
+              "high_cloud_percent",
+          ):
+              assert field in bundle["fields"], bundle["fields"]
+          for field in (
+              "low_cloud_percent",
+              "mid_cloud_percent",
+              "high_cloud_percent",
+          ):
+              assert bundle["fields"][field]["vertical_definition"], field
+          assert bundle["provenance"]["transport_cell_selection"] == "nearest"
+          assert bundle["provenance"]["transport_elevation_downscaling"] is False
+          print(json.dumps({
+              "frames": len(bundle["frames"]),
+              "grid": [bundle["grid"]["rows"], bundle["grid"]["cols"]],
+              "fields": list(bundle["fields"]),
+              "bbox": bundle["bbox"],
+          }, indent=2))
+          PY
+
+      - name: Upload JMA MSM live-smoke outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: jma-msm-live-smoke
+          path: |
+            jma_msm_live_smoke/jma_msm_tw_cloud_browser.json
+            jma_msm_live_smoke/jma_msm_tw_cloud_qc.json
+          if-no-files-found: error
+          retention-days: 3
+
+  jma-regional-contract:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout candidate
+        uses: actions/checkout@v4
+
+      - name: Verify production-sized JMA plan without consuming free API quota
+        run: |
+          python jma_msm_cloud_poc.py \
+            --forecast-hours 40 \
+            --batch-size 100 \
+            --dry-run > /tmp/jma-plan.json
+          python - <<'PY'
+          import json
+          plan = json.load(open("/tmp/jma-plan.json"))
+          assert plan["grid"] == [64, 40], plan
+          assert plan["points"] == 2560, plan
+          assert plan["forecast_hours"] == 40, plan
+          assert plan["estimated_requests"] == 26, plan
+          assert plan["fields"] == [
+              "total_cloud_percent",
+              "low_cloud_percent",
+              "mid_cloud_percent",
+              "high_cloud_percent",
+          ], plan
+          print(json.dumps(plan, indent=2))
+          PY
+
   live-poc:
     if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
@@ -337,6 +456,22 @@ jobs:
           python cwa_weathergrid_browser_bundle.py \
             --input-dir cwa_wrf3_output
 
+      - name: Fetch JMA MSM 5 km cloud WeatherGrid
+        if: inputs.coverage_scope == 'region'
+        id: jma_msm
+        continue-on-error: true
+        run: |
+          python jma_msm_cloud_poc.py \
+            --forecast-hours 40 \
+            --batch-size 100 \
+            --output-dir jma_msm_output
+
+      - name: Build JMA MSM 5 km browser bundle and QC
+        if: inputs.coverage_scope == 'region' && steps.jma_msm.outcome == 'success'
+        run: |
+          python jma_msm_weathergrid_browser_bundle.py \
+            --input-dir jma_msm_output
+
       - name: Build subject-aware coverage browser bundle
         run: |
           python build_weathergrid_coverage_browser.py \
@@ -361,6 +496,12 @@ jobs:
           else
             rm -f weathergrid/cwa_wrf3_tw_weather_browser.json weathergrid/cwa_wrf3_tw_weather_qc.json
           fi
+          if [[ -f jma_msm_output/jma_msm_tw_cloud_browser.json ]]; then
+            cp jma_msm_output/jma_msm_tw_cloud_browser.json weathergrid/jma_msm_tw_cloud_browser.json
+            cp jma_msm_output/jma_msm_tw_cloud_qc.json weathergrid/jma_msm_tw_cloud_qc.json
+          else
+            rm -f weathergrid/jma_msm_tw_cloud_browser.json weathergrid/jma_msm_tw_cloud_qc.json
+          fi
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add -A \
@@ -370,7 +511,9 @@ jobs:
             weathergrid/icon_tw_cloud_browser.json \
             weathergrid/icon_tw_cloud_qc.json \
             weathergrid/cwa_wrf3_tw_weather_browser.json \
-            weathergrid/cwa_wrf3_tw_weather_qc.json
+            weathergrid/cwa_wrf3_tw_weather_qc.json \
+            weathergrid/jma_msm_tw_cloud_browser.json \
+            weathergrid/jma_msm_tw_cloud_qc.json
           if ! git diff --cached --quiet; then
             git commit -m "Update WeatherGrid preview snapshot [skip ci]"
             for i in {1..5}; do
@@ -389,4 +532,6 @@ jobs:
             icon_cloud_output/
             cwa_wrf3_output/cwa_wrf3_tw_weather_browser.json
             cwa_wrf3_output/cwa_wrf3_tw_weather_qc.json
+            jma_msm_output/jma_msm_tw_cloud_browser.json
+            jma_msm_output/jma_msm_tw_cloud_qc.json
           if-no-files-found: error

@@ -557,6 +557,10 @@ jobs:
               wait.until(lambda d: d.execute_script(
                   "return !document.body.classList.contains('admin-picker-open') && !document.querySelector('#admin-filter .admin-filter').open"
               ))
+              # Closing the synthetic history entry completes through popstate.
+              # Wait for scroll restoration itself instead of racing the
+              # browser's asynchronous history traversal.
+              wait.until(lambda d: abs(d.execute_script("return window.scrollY") - mobile_picker_before) <= 2)
               mobile_picker_after = driver.execute_script("""
                 return {
                   locked: document.body.classList.contains('admin-picker-open'),

@@ -1,0 +1,180 @@
+name: Update JMA MSM WeatherGrid
+
+on:
+  schedule:
+    # JMA MSM initializes every 3 hours. JMBSC distribution is normally
+    # initial time + ~2h30m; Open-Meteo then ingests the run. Refresh at
+    # +3h10m so the latest cycle is normally available across API replicas.
+    - cron: '10 */3 * * *'
+  push:
+    branches:
+      - main
+    paths:
+      - "jma_msm_cloud_poc.py"
+      - "jma_msm_weathergrid_browser_bundle.py"
+      - ".github/workflows/update_jma_msm_weathergrid.yml"
+  workflow_dispatch:
+    inputs:
+      forecast_hours:
+        description: "Number of hourly JMA MSM valid times to publish"
+        required: false
+        default: "40"
+
+concurrency:
+  group: chaselights-jma-msm-publish
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  publish-jma-msm:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install JMA WeatherGrid dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install requests numpy
+
+      - name: Fetch JMA MSM 5 km cloud WeatherGrid
+        id: jma_msm
+        continue-on-error: true
+        env:
+          JMA_FORECAST_HOURS: ${{ inputs.forecast_hours || '40' }}
+          OPEN_METEO_API_KEY: ${{ secrets.OPEN_METEO_API_KEY }}
+        run: |
+          python jma_msm_cloud_poc.py \
+            --forecast-hours "$JMA_FORECAST_HOURS" \
+            --batch-size 100 \
+            --require-production-transport \
+            --output-dir jma_msm_output
+
+      - name: Build JMA MSM browser bundle and QC
+        if: steps.jma_msm.outcome == 'success'
+        run: |
+          python jma_msm_weathergrid_browser_bundle.py \
+            --input-dir jma_msm_output
+
+      - name: Validate JMA MSM publish payload
+        if: steps.jma_msm.outcome == 'success'
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          root = Path("jma_msm_output")
+          browser = json.loads(
+              (root / "jma_msm_tw_cloud_browser.json").read_text()
+          )
+          qc = json.loads(
+              (root / "jma_msm_tw_cloud_qc.json").read_text()
+          )
+
+          assert browser.get("model") == "JMA_MSM", browser.get("model")
+          assert browser.get("frames"), "JMA MSM bundle has no frames"
+          assert qc.get("frame_count") == len(browser["frames"])
+          provenance = browser.get("provenance", {})
+          assert provenance.get("native_resolution_km") == 5.0, provenance
+          assert provenance.get("native_time_interval_hours") == 1, provenance
+          assert provenance.get("update_interval_hours") == 3, provenance
+          assert provenance.get("production_transport") == "open_meteo_customer", provenance
+          assert (
+              provenance.get("forecast_hour_semantics")
+              == "hours_from_first_published_valid_time_not_model_cycle"
+          ), provenance
+          assert provenance.get("cycle_timestamp_available") is False, provenance
+          assert browser.get("bbox") == {
+              "leftlon": 120.0625,
+              "rightlon": 122.5,
+              "bottomlat": 22.45,
+              "toplat": 25.6,
+          }, browser.get("bbox")
+          for field in (
+              "total_cloud_percent",
+              "low_cloud_percent",
+              "mid_cloud_percent",
+              "high_cloud_percent",
+          ):
+              assert field in browser.get("fields", {}), field
+              assert browser["fields"][field].get("vertical_definition"), field
+
+          print(json.dumps({
+              "frames": len(browser["frames"]),
+              "grid": [
+                  browser["grid"]["rows"],
+                  browser["grid"]["cols"],
+              ],
+              "bbox": browser["bbox"],
+              "fields": list(browser["fields"]),
+              "forecast_hour_semantics": provenance.get(
+                  "forecast_hour_semantics"
+              ),
+          }, indent=2))
+          PY
+
+      - name: Publish current JMA MSM snapshot state
+        if: always() && !cancelled()
+        run: |
+          mkdir -p weathergrid
+
+          if [[ -f jma_msm_output/jma_msm_tw_cloud_browser.json ]]; then
+            cp jma_msm_output/jma_msm_tw_cloud_browser.json weathergrid/jma_msm_tw_cloud_browser.json
+            cp jma_msm_output/jma_msm_tw_cloud_qc.json weathergrid/jma_msm_tw_cloud_qc.json
+          else
+            # Manual JMA selection must never silently serve an old run after
+            # the current provider refresh has failed.
+            rm -f weathergrid/jma_msm_tw_cloud_browser.json weathergrid/jma_msm_tw_cloud_qc.json
+          fi
+
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add -A \
+            weathergrid/jma_msm_tw_cloud_browser.json \
+            weathergrid/jma_msm_tw_cloud_qc.json
+
+          if git diff --cached --quiet; then
+            echo "JMA MSM WeatherGrid snapshot unchanged."
+          else
+            git commit -m "Auto-update JMA MSM WeatherGrid"
+            pushed=false
+            for i in {1..5}; do
+              if git pull --rebase origin main && git push origin HEAD:main; then
+                pushed=true
+                break
+              fi
+              sleep 5
+            done
+            if [[ "$pushed" != "true" ]]; then
+              echo "Failed to publish JMA MSM snapshot after retries."
+              exit 1
+            fi
+          fi
+
+      - name: Upload JMA validation artifact
+        if: steps.jma_msm.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: jma-msm-weathergrid
+          path: |
+            jma_msm_output/jma_msm_tw_cloud_browser.json
+            jma_msm_output/jma_msm_tw_cloud_qc.json
+          if-no-files-found: error
+          retention-days: 3
+
+      - name: Fail if JMA refresh failed
+        if: steps.jma_msm.outcome != 'success'
+        run: |
+          echo "JMA MSM refresh failed; stale browser files were removed."
+          exit 1

@@ -223,6 +223,8 @@
     let currentAdminAreas=loadAdminAreas(currentRegion);
     let adminPickerHistoryArmed=false;
     let adminPickerScrollY=0;
+    let adminPickerPendingRestoreY=null;
+    let adminPickerPreviousScrollRestoration=null;
     let currentTempUnit=['C','F'].includes(localStorage.getItem('chaselights_temp_unit'))?localStorage.getItem('chaselights_temp_unit'):'C';
     const FAVORITE_MIGRATION_KEY='chaselights_favs_migration_v2_regions_v1';
     let favorites=JSON.parse(localStorage.getItem('chaselights_favs_v2')||'[]');
@@ -337,9 +339,11 @@
     }
     const adminPickerMedia=window.matchMedia('(max-width: 640px)');
     const isMobileAdminPicker=()=>adminPickerMedia.matches;
-    function lockAdminPickerScroll(){
+    function lockAdminPickerScroll(scrollYOverride=null){
       if(document.body.classList.contains('admin-picker-open'))return;
-      adminPickerScrollY=window.scrollY||window.pageYOffset||0;
+      adminPickerScrollY=Number.isFinite(scrollYOverride)
+        ? scrollYOverride
+        : (window.scrollY||window.pageYOffset||0);
       document.body.style.top=`-${adminPickerScrollY}px`;
       document.body.classList.add('admin-picker-open');
     }
@@ -349,11 +353,15 @@
       document.body.style.top='';
       window.scrollTo(0,adminPickerScrollY);
     }
-    function openMobileAdminPicker(details){
+    function openMobileAdminPicker(details,{scrollY=null}={}){
       if(!details||!isMobileAdminPicker())return;
       const alreadyLocked=document.body.classList.contains('admin-picker-open');
-      lockAdminPickerScroll();
+      lockAdminPickerScroll(scrollY);
       if(!adminPickerHistoryArmed){
+        if('scrollRestoration' in history){
+          adminPickerPreviousScrollRestoration=history.scrollRestoration;
+          history.scrollRestoration='manual';
+        }
         history.pushState({...history.state,chaselightsAdminPicker:true},document.title);
         adminPickerHistoryArmed=true;
       }
@@ -367,12 +375,17 @@
     function closeMobileAdminPicker({fromHistory=false,restoreFocus=true}={}){
       const host=document.getElementById('admin-filter');
       const details=host?.querySelector('.admin-filter');
+      const restoreY=adminPickerScrollY;
       if(details?.open)details.open=false;
       unlockAdminPickerScroll();
       if(adminPickerHistoryArmed){
         if(fromHistory)adminPickerHistoryArmed=false;
         else{
+          // history.back() may apply the previous entry's browser-managed
+          // scroll position after unlockAdminPickerScroll(). Remember the
+          // picker position and re-apply it from popstate.
           adminPickerHistoryArmed=false;
+          adminPickerPendingRestoreY=restoreY;
           history.back();
         }
       }
@@ -443,9 +456,15 @@
           close();
           return;
         }
+        // Capture before opening <details>. Chromium can reflow the page as
+        // soon as details.open flips, changing window.scrollY before the body
+        // lock is applied. Preserve the user's actual pre-open position.
+        const preOpenScrollY=window.scrollY||window.pageYOffset||0;
+        // Lock before toggling <details>; opening the element itself can
+        // synchronously change layout/scroll position in Chromium.
+        openMobileAdminPicker(details,{scrollY:preOpenScrollY});
         details.open=true;
         summaryButton.setAttribute('aria-expanded','true');
-        openMobileAdminPicker(details);
       });
       details.addEventListener('toggle',()=>{
         summaryButton.setAttribute('aria-expanded',details.open?'true':'false');
@@ -521,12 +540,38 @@
     });
 
     window.addEventListener('popstate',()=>{
-      if(!adminPickerHistoryArmed)return;
+      const restoreHistoryScrollMode=()=>{
+        if(
+          'scrollRestoration' in history &&
+          adminPickerPreviousScrollRestoration!==null
+        ){
+          history.scrollRestoration=adminPickerPreviousScrollRestoration;
+          adminPickerPreviousScrollRestoration=null;
+        }
+      };
+      if(Number.isFinite(adminPickerPendingRestoreY)){
+        const restoreY=adminPickerPendingRestoreY;
+        adminPickerPendingRestoreY=null;
+        requestAnimationFrame(()=>{
+          window.scrollTo(0,restoreY);
+          restoreHistoryScrollMode();
+        });
+        return;
+      }
+      if(!adminPickerHistoryArmed){
+        restoreHistoryScrollMode();
+        return;
+      }
+      const restoreY=adminPickerScrollY;
       adminPickerHistoryArmed=false;
       const details=document.querySelector('#admin-filter .admin-filter');
       if(details?.open)details.open=false;
       unlockAdminPickerScroll();
-      requestAnimationFrame(()=>document.querySelector('#admin-filter .admin-filter > summary')?.focus({preventScroll:true}));
+      requestAnimationFrame(()=>{
+        window.scrollTo(0,restoreY);
+        restoreHistoryScrollMode();
+        document.querySelector('#admin-filter .admin-filter > summary')?.focus({preventScroll:true});
+      });
     });
     document.addEventListener('keydown',e=>{
       if(e.key==='Escape'&&document.body.classList.contains('admin-picker-open')){
