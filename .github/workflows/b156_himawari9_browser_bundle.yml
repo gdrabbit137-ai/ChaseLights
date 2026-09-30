@@ -1,0 +1,70 @@
+name: B156 Himawari-9 Taiwan Browser Bundle
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "himawari9_weathergrid_browser_bundle.py"
+      - "test_himawari9_weathergrid_browser_bundle.py"
+      - "B156_HIMAWARI9_TAIWAN_BROWSER_BUNDLE.md"
+      - ".github/workflows/b156_himawari9_browser_bundle.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  contract-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout candidate
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install B156 test dependencies
+        run: |
+          python -m pip install --disable-pip-version-check numpy scipy pyproj
+
+      - name: Run B156 contracts
+        run: |
+          python -m py_compile \
+            himawari9_weathergrid_browser_bundle.py \
+            test_himawari9_weathergrid_browser_bundle.py
+          python -m unittest -v test_himawari9_weathergrid_browser_bundle.py
+
+  live-bundle-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout candidate
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install Himawari bundle dependencies
+        run: |
+          python -m pip install --disable-pip-version-check \
+            numpy scipy pyproj s3fs h5py
+
+      - name: Build current Taiwan observation bundle
+        run: |
+          python himawari9_weathergrid_browser_bundle.py \
+            --lookback-slots 36 \
+            --output-dir artifacts
+
+      - name: Upload B156 bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: b156-himawari9-taiwan-browser-bundle
+          path: |
+            artifacts/himawari9_tw_cloud_browser.json
+            artifacts/himawari9_tw_cloud_qc.json
+          if-no-files-found: error
+          retention-days: 7
