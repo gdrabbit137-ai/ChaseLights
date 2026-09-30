@@ -18,6 +18,30 @@ import math
 from decimal import Decimal, ROUND_HALF_UP
 from pathlib import Path
 
+CLOUD_VERTICAL_DEFINITIONS = {
+    "low_cloud_percent": {
+        "coordinate": "pressure",
+        "native_definition": "surface–642 hPa",
+        "approx_height": "約地面～3.7 km",
+        "pressure_bounds_hpa": {"bottom": "surface", "top": 642},
+        "definition_source": "NCEP UPP low cloud layer",
+    },
+    "mid_cloud_percent": {
+        "coordinate": "pressure",
+        "native_definition": "642–350 hPa",
+        "approx_height": "約3.7～8.1 km",
+        "pressure_bounds_hpa": {"bottom": 642, "top": 350},
+        "definition_source": "NCEP UPP middle cloud layer",
+    },
+    "high_cloud_percent": {
+        "coordinate": "pressure",
+        "native_definition": "<350 hPa",
+        "approx_height": "約8.1 km 以上",
+        "pressure_bounds_hpa": {"bottom": 350, "top": "model_top"},
+        "definition_source": "NCEP UPP high cloud layer",
+    },
+}
+
 FIELD_ENCODINGS = {
     "low_cloud_percent": {"unit": "%", "scale": 1.0, "min": 0.0, "max": 100.0},
     "mid_cloud_percent": {"unit": "%", "scale": 1.0, "min": 0.0, "max": 100.0},
@@ -212,6 +236,11 @@ def build_bundle(input_dir: Path) -> tuple[dict, dict]:
             "decode": f"value * {meta['scale']}",
             "null": "missing",
             **({"wrap": meta["wrap"]} if meta.get("wrap") else {}),
+            **(
+                {"vertical_definition": CLOUD_VERTICAL_DEFINITIONS[key]}
+                if key in CLOUD_VERTICAL_DEFINITIONS
+                else {}
+            ),
         }
         for key, meta in FIELD_ENCODINGS.items()
     }
