@@ -5,6 +5,8 @@
   const LIVE_ICON_QC = './weathergrid/icon_tw_cloud_qc.json';
   const LIVE_CWA_DATA = './weathergrid/cwa_wrf3_tw_weather_browser.json';
   const LIVE_CWA_QC = './weathergrid/cwa_wrf3_tw_weather_qc.json';
+  const LIVE_JMA_DATA = './weathergrid/jma_msm_tw_cloud_browser.json';
+  const LIVE_JMA_QC = './weathergrid/jma_msm_tw_cloud_qc.json';
   const LIVE_COVERAGE = './weathergrid/weathergrid_coverage_browser.json';
   const FALLBACK_DATA = './weathergrid_sample.json';
   const FALLBACK_COVERAGE = './weathergrid_coverage_sample.json';
@@ -12,6 +14,7 @@
   const BASEMAP_STYLE = 'https://tiles.openfreemap.org/styles/liberty';
 
   const layerConfig = {
+    total_cloud_percent: {label:'全雲量', unit:'%', domain:[0,100], palette:'cloud'},
     low_cloud_percent: {label:'低雲', unit:'%', domain:[0,100], palette:'cloud'},
     mid_cloud_percent: {label:'中雲', unit:'%', domain:[0,100], palette:'cloud'},
     high_cloud_percent:{label:'高雲', unit:'%', domain:[0,100], palette:'cloud'},
@@ -32,6 +35,8 @@
     iconQc:null,
     cwaData:null,
     cwaQc:null,
+    jmaData:null,
+    jmaQc:null,
     modelMode:'auto',
     coverage:{spots:[]},
     frameIndex:0,
@@ -222,6 +227,15 @@
       }
 
       try{
+        state.jmaData = await fetchJson(LIVE_JMA_DATA);
+        try{ state.jmaQc = await fetchJson(LIVE_JMA_QC); }catch(_){ state.jmaQc = null; }
+      }catch(err){
+        console.warn('JMA MSM 5 km cloud bundle unavailable', err);
+        state.jmaData = null;
+        state.jmaQc = null;
+      }
+
+      try{
         state.coverage = await fetchJson(LIVE_COVERAGE);
         state.coverageSource = 'live';
       }catch(err){
@@ -243,18 +257,21 @@
 
   function modelDataset(mode=state.modelMode){
     if(mode==='cwa' && state.cwaData) return state.cwaData;
+    if(mode==='jma' && state.jmaData) return state.jmaData;
     if(mode==='icon' && state.iconData) return state.iconData;
     return state.data;
   }
 
   function modelQc(mode=state.modelMode){
     if(mode==='cwa' && state.cwaData) return state.cwaQc;
+    if(mode==='jma' && state.jmaData) return state.jmaQc;
     if(mode==='icon' && state.iconData) return state.iconQc;
     return state.qc;
   }
 
   function modelLabel(mode=state.modelMode){
     if(mode==='cwa') return 'CWA WRF 3 km';
+    if(mode==='jma') return 'JMA MSM 5 km';
     if(mode==='icon') return 'ICON Global';
     if(mode==='gfs') return 'GFS 0.25°';
     return '自動';
@@ -262,6 +279,7 @@
 
   function modelAvailable(mode){
     if(mode==='cwa') return Boolean(state.cwaData);
+    if(mode==='jma') return Boolean(state.jmaData);
     if(mode==='icon') return Boolean(state.iconData);
     if(mode==='gfs') return Boolean(state.data);
     return true;
@@ -551,6 +569,7 @@
 
   function timelineDataset(){
     if(state.modelMode==='cwa' && state.cwaData) return state.cwaData;
+    if(state.modelMode==='jma' && state.jmaData) return state.jmaData;
     if(state.modelMode==='icon' && state.iconData) return state.iconData;
     return state.data;
   }
@@ -565,6 +584,7 @@
   }
 
   const cloudLayers = new Set([
+    'total_cloud_percent',
     'low_cloud_percent',
     'mid_cloud_percent',
     'high_cloud_percent'
@@ -584,6 +604,7 @@
     if(state.modelMode==='cwa' && state.cwaData){
       return state.cwaData.fields[key] ? state.cwaData : state.cwaData;
     }
+    if(state.modelMode==='jma' && state.jmaData) return state.jmaData;
     if(state.modelMode==='icon' && state.iconData) return state.iconData;
     if(state.modelMode==='gfs') return state.data;
 
@@ -595,7 +616,7 @@
   }
 
   function activeFrame(key=state.layer){
-    if(state.modelMode==='cwa' || state.modelMode==='icon' || state.modelMode==='gfs'){
+    if(state.modelMode==='cwa' || state.modelMode==='jma' || state.modelMode==='icon' || state.modelMode==='gfs'){
       return timelineDataset()?.frames?.[state.frameIndex] || null;
     }
     const data=activeDataset(key);
@@ -755,7 +776,8 @@
     }
 
     // Provider-independent display interpolation:
-    // GFS 0.25° -> 4x4, ICON 0.125° -> 2x2, CWA browser grid 0.03° -> 1x1.
+    // GFS 0.25° -> 4x4, ICON 0.125° -> 2x2,
+    // JMA MSM 0.0625°/0.05° and CWA browser 0.03° -> 1x1.
     // This is display smoothing only; native model provenance stays visible.
     const lonStep=Math.abs(lons[1]-lons[0]);
     const subdivisions=lonStep>=.20 ? 4 : (lonStep>=.10 ? 2 : 1);
@@ -1169,6 +1191,7 @@
     const data=activeDataset(state.layer);
     const usingIcon=data===state.iconData;
     const usingCwa=data===state.cwaData;
+    const usingJma=data===state.jmaData;
     $('time-slider').value=state.frameIndex;
     $('time-label').textContent=`時間 · ${formatTaipeiTime(f.valid_time_utc)} (f${String(f.forecast_hour).padStart(3,'0')})`;
     $('opacity-label').textContent=`${Math.round(state.weatherOpacity*100)}%`;
@@ -1190,6 +1213,9 @@
     if(usingCwa){
       const p=data.provenance || {};
       resolution=`原生約 ${p.native_resolution_km || 3} km · 瀏覽格 ${p.browser_grid_spacing_degrees || 0.03}° · 公開資料間隔 ${p.public_product_interval_hours || 6} h`;
+    }else if(usingJma){
+      const p=data.provenance || {};
+      resolution=`原生約 ${p.native_resolution_km || 5} km · 0.05°×0.0625° · 原生時間間隔 ${p.native_time_interval_hours || 1} h`;
     }else if(usingIcon){
       resolution=`原生約 ${data.provenance?.native_resolution_km || 13} km · 0.125° remap · 顯示雙線性內插`;
     }else{
@@ -1202,13 +1228,14 @@
     $('layer-summary').textContent=min==null?'—':`${formatValue(min,state.layer)} – ${formatValue(max,state.layer)}`;
     let providerRole='GFS';
     if(usingCwa) providerRole='CWA WRF 3 km';
+    else if(usingJma) providerRole='JMA MSM 5 km';
     else if(usingIcon) providerRole=state.modelMode==='auto'?'ICON Global · auto':'ICON Global';
     else if(state.modelMode==='auto' && cloudLayers.has(state.layer)) providerRole='GFS fallback';
     $('layer-unit').textContent=`${cfg.label} · ${data.fields[state.layer].unit} · ${providerRole} · 各模型保留自己的範圍／解析度／時間軸`;
     const vertical=data.fields[state.layer]?.vertical_definition || null;
     const verticalHost=$('layer-vertical');
     if(vertical){
-      const modelName=usingCwa?'CWA WRF 3 km':(usingIcon?'ICON Global':'GFS 0.25°');
+      const modelName=usingCwa?'CWA WRF 3 km':(usingJma?'JMA MSM 5 km':(usingIcon?'ICON Global':'GFS 0.25°'));
       verticalHost.innerHTML=
         `<div><strong>${escapeHtml(modelName)} — ${escapeHtml(cfg.label)}</strong></div>`+
         `<div>${escapeHtml(vertical.native_definition || "—")}</div>`+
@@ -1349,6 +1376,7 @@
       displayInterpolation: state.layer==='wind_direction_10m_deg'?'nearest':'bilinear_subcell',
       iconAvailable: Boolean(state.iconData),
       cwaAvailable: Boolean(state.cwaData),
+      jmaAvailable: Boolean(state.jmaData),
       modelMode: state.modelMode,
       timelineModel: timelineDataset()?.model || null,
       view: {...state.view}
