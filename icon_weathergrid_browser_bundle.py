@@ -142,19 +142,8 @@ def build_icon_bundle(input_dir: Path) -> tuple[dict, dict]:
         for key, meta in ICON_FIELD_ENCODINGS.items()
     }
 
-    published_steps = [
-        int(right["forecast_hour"]) - int(left["forecast_hour"])
-        for left, right in zip(frames_out, frames_out[1:])
-    ]
-    published_step = (
-        published_steps[0]
-        if published_steps and all(x == published_steps[0] for x in published_steps)
-        else None
-    )
-
     bundle = {
         "schema_version": 2,
-        "model_id": "icon_global",
         "provider": manifest["provider"],
         "model": manifest["model"],
         "cycle": manifest["cycle"],
@@ -167,8 +156,6 @@ def build_icon_bundle(input_dir: Path) -> tuple[dict, dict]:
             ),
             "native_to_regular": "DWD_CDO_precomputed_weights",
             "browser_interpolation": "bilinear_subcell",
-            "published_time_interval_hours": published_step,
-            "native_time_interval_hours_early": 1,
         },
         "grid": {
             "rows": rows,
@@ -193,7 +180,6 @@ def build_icon_bundle(input_dir: Path) -> tuple[dict, dict]:
 
     qc = {
         "schema_version": 1,
-        "model_id": "icon_global",
         "provider": manifest["provider"],
         "model": manifest["model"],
         "cycle": manifest["cycle"],
