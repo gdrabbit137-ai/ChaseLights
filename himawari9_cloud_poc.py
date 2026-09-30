@@ -138,13 +138,28 @@ def _dataset_summary(dataset) -> dict:
 
 
 def _projection_diagnostics(handle) -> dict:
+    """Read only root metadata; avoid walking the remote HDF5 object tree."""
     objects = {}
-
-    def collect(name, obj):
-        semantic = name.lower()
-        attrs = _interesting_attrs(obj)
+    root_attrs = {
+        name: _attr_text(value)
+        for name, value in handle.attrs.items()
         if (
-            "projection" in semantic
+            "projection" in name.lower()
+            or "satellite" in name.lower()
+            or "longitude" in name.lower()
+            or "latitude" in name.lower()
+            or "perspective" in name.lower()
+        )
+    }
+
+    for name, obj in handle.items():
+        attrs = _interesting_attrs(obj)
+        semantic = name.lower()
+        is_scalar = getattr(obj, "ndim", None) == 0
+        if (
+            name in {"x", "y"}
+            or is_scalar
+            or "projection" in semantic
             or "geos" in semantic
             or "himawari" in semantic
             or "grid_mapping_name" in attrs
@@ -157,15 +172,23 @@ def _projection_diagnostics(handle) -> dict:
             if hasattr(obj, "shape"):
                 summary["shape"] = list(obj.shape)
                 summary["dtype"] = str(obj.dtype)
-                if getattr(obj, "ndim", None) == 0:
+                if getattr(obj, "ndim", None) == 1 and obj.size:
+                    summary["coordinate_endpoints"] = [
+                        _attr_text(obj[0]),
+                        _attr_text(obj[-1]),
+                    ]
+                elif is_scalar:
                     try:
                         summary["value"] = _attr_text(obj[()])
                     except Exception:
                         pass
             objects[name] = summary
 
-    handle.visititems(collect)
-    return objects
+    return {
+        "root_keys": list(handle.keys()),
+        "root_projection_attrs": root_attrs,
+        "objects": objects,
+    }
 
 
 def inspect_remote_product(fs, path: str, *, kind: str) -> dict:
