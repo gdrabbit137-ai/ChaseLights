@@ -70,7 +70,7 @@ class WeatherGridUiPolishTests(unittest.TestCase):
 
     def test_model_boundary_is_drawn(self):
         self.assertIn("function drawProviderBoundary(data)", self.js)
-        self.assertIn("虛線＝目前模型資料範圍", self.js)
+        self.assertIn("虛線＝目前資料來源範圍", self.js)
 
     def test_ci_runs_ui_polish_contract(self):
         self.assertIn('"test_weathergrid_ui_polish.py"', self.workflow)
