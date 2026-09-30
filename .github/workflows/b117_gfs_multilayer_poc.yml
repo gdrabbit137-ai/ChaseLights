@@ -66,6 +66,7 @@ on:
       - "B152_CWA_CLOUD_VERTICAL_DEFINITIONS.md"
       - "test_weathergrid_cloud_vertical_definitions.py"
       - "jma_msm_cloud_poc.py"
+      - "jma_msm_aws_om.py"
       - "jma_msm_weathergrid_browser_bundle.py"
       - "test_jma_msm_cloud_poc.py"
       - "test_jma_msm_weathergrid_browser_bundle.py"
@@ -275,13 +276,14 @@ jobs:
           python-version: "3.10"
 
       - name: Install JMA WeatherGrid dependency
-        run: python -m pip install --disable-pip-version-check requests
+        run: |
+          python -m pip install --disable-pip-version-check \
+            requests numpy "omfiles>=1.2,<2" fsspec s3fs
 
       - name: Fetch live JMA MSM cloud sample
         run: |
           python jma_msm_cloud_poc.py \
             --forecast-hours 4 \
-            --batch-size 20 \
             --leftlon 121.4375 \
             --rightlon 121.5625 \
             --bottomlat 24.95 \
@@ -319,8 +321,13 @@ jobs:
               "high_cloud_percent",
           ):
               assert bundle["fields"][field]["vertical_definition"], field
-          assert bundle["provenance"]["transport_cell_selection"] == "nearest"
-          assert bundle["provenance"]["transport_elevation_downscaling"] is False
+          assert bundle["provenance"]["production_transport"] == "open_meteo_aws_open_data_om"
+          assert bundle["provenance"]["cycle_timestamp_available"] is True
+          assert bundle["provenance"]["forecast_hour_semantics"] == "hours_from_model_cycle"
+          assert bundle["provenance"]["transport_bucket"] == "openmeteo"
+          assert bundle["provenance"]["transport_layout"] == "data_spatial"
+          assert bundle["provenance"]["transport_anonymous"] is True
+          assert bundle["provenance"]["transport_api_key_required"] is False
           print(json.dumps({
               "frames": len(bundle["frames"]),
               "grid": [bundle["grid"]["rows"], bundle["grid"]["cols"]],
@@ -346,11 +353,10 @@ jobs:
       - name: Checkout candidate
         uses: actions/checkout@v4
 
-      - name: Verify production-sized JMA plan without consuming free API quota
+      - name: Verify production-sized JMA native-grid plan
         run: |
           python jma_msm_cloud_poc.py \
             --forecast-hours 40 \
-            --batch-size 100 \
             --dry-run > /tmp/jma-plan.json
           python - <<'PY'
           import json
@@ -358,7 +364,8 @@ jobs:
           assert plan["grid"] == [64, 40], plan
           assert plan["points"] == 2560, plan
           assert plan["forecast_hours"] == 40, plan
-          assert plan["estimated_requests"] == 26, plan
+          assert plan["native_cells"] == 2560, plan
+          assert plan["transport"] == "open_meteo_aws_open_data_om", plan
           assert plan["fields"] == [
               "total_cloud_percent",
               "low_cloud_percent",
