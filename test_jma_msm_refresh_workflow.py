@@ -69,5 +69,19 @@ class JmaMsmRefreshWorkflowTests(unittest.TestCase):
         self.assertNotIn("*.png", publish)
 
 
+    def test_scheduled_publish_requires_customer_transport(self):
+        self.assertIn("OPEN_METEO_API_KEY", self.text)
+        self.assertIn("secrets.OPEN_METEO_API_KEY", self.text)
+        self.assertIn("--require-production-transport", self.text)
+        self.assertIn(
+            '"production_transport") == "open_meteo_customer"',
+            self.text,
+        )
+
+    def test_jma_data_commit_can_trigger_production_validation(self):
+        self.assertIn('git commit -m "Auto-update JMA MSM WeatherGrid"', self.text)
+        self.assertNotIn("[skip ci]", self.text)
+
+
 if __name__ == "__main__":
     unittest.main()
