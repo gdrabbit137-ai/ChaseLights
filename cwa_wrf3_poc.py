@@ -8,9 +8,13 @@ CWA model independent from ICON and GFS.  Each provider owns its own:
 - forecast-hour cadence;
 - set of available fields.
 
-CWA WRF 3 km official public documentation describes a regional 3 km grid,
-00/06/12/18Z runs, forecast hours 0000..0084 and a 6-hour output interval.
-The public AWS Open Data bucket can be read without an AWS account.
+CWA's current WRF_D documentation describes the operational model as a 3 km
+regional system with 00/06/12/18Z runs and hourly model output to 126 h.  This
+provider intentionally integrates the public M-A0064 GRIB2 series, whose public
+product IDs run from 000 through 084 at 6-hour steps.  The browser therefore
+records both model capability and the cadence/horizon of the public series it
+actually publishes.  The public AWS Open Data bucket can be read without an
+AWS account.
 
 The browser artifact is intentionally a Taiwan-and-nearby-islands subset of the
 larger native regional model domain.  The native model is not represented as a
@@ -35,8 +39,10 @@ from gfs_multilayer_poc import sample_field_bilinear, sample_field_nearest
 CWA_BUCKET = "cwaopendata"
 CWA_DATASET_PREFIX = "M-A0064"
 CWA_NATIVE_RESOLUTION_KM = 3.0
-CWA_NATIVE_FORECAST_INTERVAL_HOURS = 6
-CWA_NATIVE_FORECAST_HORIZON_HOURS = 84
+CWA_MODEL_OUTPUT_INTERVAL_HOURS = 1
+CWA_MODEL_FORECAST_HORIZON_HOURS = 126
+CWA_PUBLIC_FORECAST_INTERVAL_HOURS = 6
+CWA_PUBLIC_FORECAST_HORIZON_HOURS = 84
 CWA_RUN_HOURS = (0, 6, 12, 18)
 
 # Browser artifact boundary.  This deliberately differs from GFS / ICON and can
@@ -119,9 +125,9 @@ def validate_forecast_hours(hours: Iterable[int]) -> list[int]:
     result = []
     for raw in hours:
         fh = int(raw)
-        if fh < 0 or fh > CWA_NATIVE_FORECAST_HORIZON_HOURS:
+        if fh < 0 or fh > CWA_PUBLIC_FORECAST_HORIZON_HOURS:
             raise ValueError(f"CWA WRF3 forecast hour out of range: {fh}")
-        if fh % CWA_NATIVE_FORECAST_INTERVAL_HOURS:
+        if fh % CWA_PUBLIC_FORECAST_INTERVAL_HOURS:
             raise ValueError(
                 f"CWA WRF3 public interval is 6 h; unsupported forecast hour {fh}"
             )
@@ -679,8 +685,10 @@ def write_frame(
         "provider": "Central Weather Administration (CWA)",
         "model": "CWA_WRF_3KM",
         "native_resolution_km": CWA_NATIVE_RESOLUTION_KM,
-        "native_time_interval_hours": CWA_NATIVE_FORECAST_INTERVAL_HOURS,
-        "native_forecast_horizon_hours": CWA_NATIVE_FORECAST_HORIZON_HOURS,
+        "model_output_interval_hours": CWA_MODEL_OUTPUT_INTERVAL_HOURS,
+        "model_forecast_horizon_hours": CWA_MODEL_FORECAST_HORIZON_HOURS,
+        "public_product_interval_hours": CWA_PUBLIC_FORECAST_INTERVAL_HOURS,
+        "public_product_horizon_hours": CWA_PUBLIC_FORECAST_HORIZON_HOURS,
         "native_domain_reference": CWA_NATIVE_DOMAIN_REFERENCE,
         "browser_grid_spacing_degrees": CWA_BROWSER_GRID_DEG,
         "run": {
@@ -721,8 +729,10 @@ def write_manifest(
         },
         "bbox": bbox,
         "native_resolution_km": CWA_NATIVE_RESOLUTION_KM,
-        "native_time_interval_hours": CWA_NATIVE_FORECAST_INTERVAL_HOURS,
-        "native_forecast_horizon_hours": CWA_NATIVE_FORECAST_HORIZON_HOURS,
+        "model_output_interval_hours": CWA_MODEL_OUTPUT_INTERVAL_HOURS,
+        "model_forecast_horizon_hours": CWA_MODEL_FORECAST_HORIZON_HOURS,
+        "public_product_interval_hours": CWA_PUBLIC_FORECAST_INTERVAL_HOURS,
+        "public_product_horizon_hours": CWA_PUBLIC_FORECAST_HORIZON_HOURS,
         "native_domain_reference": CWA_NATIVE_DOMAIN_REFERENCE,
         "browser_grid_spacing_degrees": CWA_BROWSER_GRID_DEG,
         "frames": [
@@ -778,7 +788,10 @@ def main() -> int:
             },
             "bbox": bbox,
             "native_resolution_km": CWA_NATIVE_RESOLUTION_KM,
-            "native_time_interval_hours": CWA_NATIVE_FORECAST_INTERVAL_HOURS,
+            "model_output_interval_hours": CWA_MODEL_OUTPUT_INTERVAL_HOURS,
+            "model_forecast_horizon_hours": CWA_MODEL_FORECAST_HORIZON_HOURS,
+            "public_product_interval_hours": CWA_PUBLIC_FORECAST_INTERVAL_HOURS,
+            "public_product_horizon_hours": CWA_PUBLIC_FORECAST_HORIZON_HOURS,
         }, indent=2))
         return 0
 
