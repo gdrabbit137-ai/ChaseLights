@@ -3,8 +3,10 @@ import unittest
 from cwa_wrf3_poc import (
     CWA_BROWSER_GRID_DEG,
     CWA_NATIVE_DOMAIN_REFERENCE,
-    CWA_NATIVE_FORECAST_HORIZON_HOURS,
-    CWA_NATIVE_FORECAST_INTERVAL_HOURS,
+    CWA_MODEL_FORECAST_HORIZON_HOURS,
+    CWA_MODEL_OUTPUT_INTERVAL_HOURS,
+    CWA_PUBLIC_FORECAST_HORIZON_HOURS,
+    CWA_PUBLIC_FORECAST_INTERVAL_HOURS,
     CWA_NATIVE_RESOLUTION_KM,
     CWA_TAIWAN_BROWSER_BBOX,
     CORE_FIELD_SPECS,
@@ -19,14 +21,16 @@ from cwa_wrf3_poc import (
 class CwaWrf3ProviderTests(unittest.TestCase):
     def test_official_resolution_cadence_and_horizon_contract(self):
         self.assertEqual(CWA_NATIVE_RESOLUTION_KM, 3.0)
-        self.assertEqual(CWA_NATIVE_FORECAST_INTERVAL_HOURS, 6)
-        self.assertEqual(CWA_NATIVE_FORECAST_HORIZON_HOURS, 84)
+        self.assertEqual(CWA_MODEL_OUTPUT_INTERVAL_HOURS, 1)
+        self.assertEqual(CWA_MODEL_FORECAST_HORIZON_HOURS, 126)
+        self.assertEqual(CWA_PUBLIC_FORECAST_INTERVAL_HOURS, 6)
+        self.assertEqual(CWA_PUBLIC_FORECAST_HORIZON_HOURS, 84)
         self.assertEqual(
             CWA_NATIVE_DOMAIN_REFERENCE["grid_shape"],
             [673, 1158],
         )
 
-    def test_forecast_hours_follow_six_hour_native_cadence(self):
+    def test_public_product_hours_follow_six_hour_cadence(self):
         self.assertEqual(
             validate_forecast_hours([0, 6, 12, 84]),
             [0, 6, 12, 84],
