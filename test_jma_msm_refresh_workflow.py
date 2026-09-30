@@ -23,7 +23,6 @@ class JmaMsmRefreshWorkflowTests(unittest.TestCase):
     def test_publish_window_preserves_hourly_msm_strength(self):
         self.assertIn('default: "40"', self.text)
         self.assertIn("inputs.forecast_hours || '40'", self.text)
-        self.assertIn("--batch-size 100", self.text)
         self.assertIn('"native_time_interval_hours") == 1', self.text)
         self.assertIn('"update_interval_hours") == 3', self.text)
 
@@ -41,12 +40,10 @@ class JmaMsmRefreshWorkflowTests(unittest.TestCase):
         ):
             self.assertIn(token, self.text)
 
-    def test_timeline_does_not_pretend_api_index_is_model_lead(self):
-        self.assertIn(
-            "hours_from_first_published_valid_time_not_model_cycle",
-            self.text,
-        )
-        self.assertIn('"cycle_timestamp_available") is False', self.text)
+    def test_aws_metadata_exposes_true_model_cycle_and_lead(self):
+        self.assertIn("hours_from_model_cycle", self.text)
+        self.assertIn('"cycle_timestamp_available") is True', self.text)
+        self.assertIn('"cycle_time_utc"', self.text)
 
     def test_failed_refresh_removes_stale_jma_files_and_surfaces_failure(self):
         self.assertIn("continue-on-error: true", self.text)
@@ -69,12 +66,14 @@ class JmaMsmRefreshWorkflowTests(unittest.TestCase):
         self.assertNotIn("*.png", publish)
 
 
-    def test_scheduled_publish_requires_customer_transport(self):
-        self.assertIn("OPEN_METEO_API_KEY", self.text)
-        self.assertIn("secrets.OPEN_METEO_API_KEY", self.text)
-        self.assertIn("--require-production-transport", self.text)
+    def test_scheduled_publish_uses_free_aws_om_transport(self):
+        self.assertNotIn("OPEN_METEO_API_KEY", self.text)
+        self.assertNotIn("--require-production-transport", self.text)
+        self.assertIn("omfiles>=1.2,<2", self.text)
+        self.assertIn("fsspec", self.text)
+        self.assertIn("s3fs", self.text)
         self.assertIn(
-            '"production_transport") == "open_meteo_customer"',
+            '"production_transport") == "open_meteo_aws_open_data_om"',
             self.text,
         )
 

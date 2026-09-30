@@ -42,16 +42,17 @@ class JmaMsmWeatherGridUiTests(unittest.TestCase):
         self.assertIn("approx_height", JS)
         self.assertIn("usingJma?'JMA MSM 5 km'", JS)
 
-    def test_jma_does_not_mislabel_api_window_as_model_forecast_lead(self):
-        self.assertIn("API 發布時間軸", JS)
-        self.assertIn("usingJma", JS)
+    def test_jma_uses_true_model_forecast_lead_from_aws_cycle(self):
+        self.assertNotIn("API 發布時間軸", JS)
         self.assertIn("frameLead", JS)
+        self.assertIn("padStart(3,'0')", JS)
 
     def test_jma_transport_attribution_is_visible(self):
         self.assertIn('id="source-attribution"', HTML)
         self.assertIn("Open-Meteo", JS)
         self.assertIn("資料模型：JMA MSM", JS)
-        self.assertIn("https://open-meteo.com/", JS)
+        self.assertIn("Open-Meteo AWS", JS)
+        self.assertIn("https://registry.opendata.aws/open-meteo/", JS)
 
     def test_auto_mode_does_not_change_until_explicit_policy_decision(self):
         auto_block = JS.split("function availableLayerKeys()", 1)[1].split(

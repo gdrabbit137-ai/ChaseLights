@@ -16,9 +16,11 @@ class JmaMsmBrowserBundleTests(unittest.TestCase):
                 "provider": "Japan Meteorological Agency (JMA)",
                 "model": "JMA_MSM",
                 "transport": {
-                    "adapter": "Open-Meteo JMA API",
-                    "cell_selection": "nearest",
-                    "elevation_downscaling": False,
+                    "adapter": "Open-Meteo AWS Open Data OM spatial files",
+                    "bucket": "openmeteo",
+                    "layout": "data_spatial",
+                    "anonymous": True,
+                    "api_key_required": False,
                 },
                 "cycle": {
                     "cycle_time_utc": None,
@@ -134,11 +136,16 @@ class JmaMsmBrowserBundleTests(unittest.TestCase):
                 bundle["provenance"]["cloud_fields_native_to_jma_msm"]
             )
             self.assertEqual(
-                bundle["provenance"]["transport_cell_selection"],
-                "nearest",
+                bundle["provenance"]["transport_bucket"],
+                "openmeteo",
             )
+            self.assertEqual(
+                bundle["provenance"]["transport_layout"],
+                "data_spatial",
+            )
+            self.assertTrue(bundle["provenance"]["transport_anonymous"])
             self.assertFalse(
-                bundle["provenance"]["transport_elevation_downscaling"]
+                bundle["provenance"]["transport_api_key_required"]
             )
             self.assertEqual(qc["frame_count"], 2)
             self.assertEqual(

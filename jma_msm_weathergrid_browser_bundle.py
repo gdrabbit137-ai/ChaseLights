@@ -128,11 +128,14 @@ def build_jma_bundle(input_dir: Path) -> tuple[dict, dict]:
             "browser_interpolation": "bilinear_subcell",
             "cloud_fields_native_to_jma_msm": True,
             "transport_adapter": raw.get("transport", {}).get("adapter"),
-            "transport_cell_selection": raw.get("transport", {}).get(
-                "cell_selection"
+            "transport_bucket": raw.get("transport", {}).get("bucket"),
+            "transport_layout": raw.get("transport", {}).get("layout"),
+            "transport_metadata_state": raw.get("transport", {}).get(
+                "metadata_state"
             ),
-            "transport_elevation_downscaling": raw.get("transport", {}).get(
-                "elevation_downscaling"
+            "transport_anonymous": raw.get("transport", {}).get("anonymous"),
+            "transport_api_key_required": raw.get("transport", {}).get(
+                "api_key_required"
             ),
         }
     )
@@ -168,12 +171,13 @@ def build_jma_bundle(input_dir: Path) -> tuple[dict, dict]:
         "notes": [
             (
                 "JMA MSM total/low/mid/high cloud cover are native JMA "
-                "surface GPV cloud fields exposed through the Open-Meteo "
-                "JMA API transport adapter."
+                "surface GPV cloud fields read directly from Open-Meteo "
+                "AWS Open Data spatial OM files."
             ),
             (
-                "Requests use nearest native model cell with elevation "
-                "downscaling disabled."
+                "The Taiwan subset is an exact slice of the native JMA MSM "
+                "regular grid; no API point sampling or terrain downscaling "
+                "is applied."
             ),
             (
                 "JMA cloud-layer pressure boundaries are model-specific and "
