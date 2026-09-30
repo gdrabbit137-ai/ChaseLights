@@ -557,16 +557,31 @@ jobs:
               wait.until(lambda d: d.execute_script(
                   "return !document.body.classList.contains('admin-picker-open') && !document.querySelector('#admin-filter .admin-filter').open"
               ))
-              # Closing the synthetic history entry completes through popstate.
-              # Wait for scroll restoration itself instead of racing the
-              # browser's asynchronous history traversal.
-              wait.until(lambda d: abs(d.execute_script("return window.scrollY") - mobile_picker_before) <= 2)
+              # Selecting an administrative area can shorten the page while
+              # the sheet is open. Browsers clamp scroll restoration to the
+              # new maximum scroll offset, so the correct target is the old
+              # position capped by the post-filter document height.
+              wait.until(lambda d: d.execute_script("""
+                const maxY = Math.max(
+                  0,
+                  document.documentElement.scrollHeight - window.innerHeight
+                );
+                return Math.abs(
+                  window.scrollY - Math.min(arguments[0], maxY)
+                ) <= 2;
+              """, mobile_picker_before))
               mobile_picker_after = driver.execute_script("""
+                const maxY = Math.max(
+                  0,
+                  document.documentElement.scrollHeight - window.innerHeight
+                );
                 return {
                   locked: document.body.classList.contains('admin-picker-open'),
-                  scrollY: window.scrollY
+                  scrollY: window.scrollY,
+                  maxY,
+                  expectedY: Math.min(arguments[0], maxY)
                 };
-              """)
+              """, mobile_picker_before)
               report["mobile_admin_picker_after"] = mobile_picker_after
               assert mobile_picker_after["locked"] is False, mobile_picker_after
               assert abs(mobile_picker_after["scrollY"] - mobile_picker_before) <= 2, (mobile_picker_before, mobile_picker_after)
