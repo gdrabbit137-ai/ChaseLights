@@ -42,10 +42,6 @@
           <span>圖層透明度 · <strong id="opacity-label">62%</strong></span>
           <input id="opacity-slider" type="range" min="0" max="100" value="62" step="1">
         </label>
-        <label class="time-control">
-          <span id="time-label">時間</span>
-          <input id="time-slider" type="range" min="0" max="0" value="0" step="1">
-        </label>
         <label>
           <span>景點</span>
           <select id="spot-select">
@@ -68,20 +64,30 @@
         <div id="legend" class="legend"></div>
       </div>
 
-      <div class="timeline" id="timeline"></div>
+      <div class="time-navigator" aria-label="預報時間控制">
+        <button id="time-prev" type="button" aria-label="前一個預報時間">◀</button>
+        <div class="time-range">
+          <div id="time-label" class="time-label">預報時間</div>
+          <input id="time-slider" type="range" min="0" max="0" value="0" step="1" aria-label="預報時間">
+          <div class="timeline" id="timeline" aria-hidden="true"></div>
+        </div>
+        <button id="time-next" type="button" aria-label="下一個預報時間">▶</button>
+        <button id="time-play" type="button" aria-pressed="false">播放</button>
+      </div>
     </section>
 
     <aside class="inspector">
       <section class="panel">
         <h2>目前圖層</h2>
         <div id="layer-summary" class="metric-big">—</div>
+        <div id="layer-range" class="layer-range">—</div>
         <div id="layer-unit" class="muted"></div>
         <div id="layer-vertical" class="muted cloud-vertical-note"></div>
         <label class="wind-vector-toggle">
           <input id="wind-vector-toggle" type="checkbox">
           <span>顯示 10 m 風向箭頭</span>
         </label>
-        <div class="muted wind-vector-note">箭頭指向風的移動方向；風向數值仍採氣象「來向」。</div>
+        <div class="muted wind-vector-note">箭頭指向風的移動方向；風向數值仍採氣象「來向」。非風圖層預設關閉，仍可手動疊加。</div>
       </section>
 
       <section class="panel">

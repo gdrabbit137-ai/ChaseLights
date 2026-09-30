@@ -19,7 +19,7 @@
     mid_cloud_percent: {label:'中雲', unit:'%', domain:[0,100], palette:'cloud'},
     high_cloud_percent:{label:'高雲', unit:'%', domain:[0,100], palette:'cloud'},
     visibility_km:{label:'能見度', unit:'km', domain:[0,30], palette:'visibility'},
-    precip_rate_mm_h:{label:'降雨率', unit:'mm/h', domain:[0,10], palette:'precip'},
+    precip_rate_mm_h:{label:'降雨率', unit:'mm/h', domain:[0,20], palette:'precip', scale:'precip_rate', ticks:[0,.1,.5,1,2,5,10,20]},
     wind_speed_10m_m_s:{label:'10 m 風速', unit:'m/s', domain:[0,20], palette:'wind'},
     wind_direction_10m_deg:{label:'10 m 風向', unit:'°', domain:[0,360], palette:'direction'},
     temperature_2m_c:{label:'2 m 氣溫', unit:'°C', domain:[-5,40], palette:'temperature'},
@@ -48,6 +48,9 @@
     windVectors:false,
     windVectorTouched:false,
     lastWindVectorCount:0,
+    timelinePlaying:false,
+    timelineTimer:null,
+    spotHitTargets:[],
     map:null,
     mapReady:false,
     basemapStatus:'loading',
@@ -115,14 +118,21 @@
 
   function pickSpotAtPoint(px,py){
     let best=null;
-    for(const spot of state.data.spots){
-      const p=project(spot.lon,spot.lat);
-      const d=Math.hypot(p.x-px,p.y-py);
-      if(!best || d<best.d) best={spot,d};
+    const targets=state.spotHitTargets || [];
+    for(const target of targets){
+      const d=Math.hypot(target.x-px,target.y-py);
+      if(!best || d<best.d) best={target,d};
     }
-    if(best && best.d<26){
-      $('spot-select').value=best.spot.spot_id;
-      selectSpot(best.spot.spot_id);
+    if(!best || best.d>Math.max(24,(best.target.radius || 0)+10)) return;
+    const spots=best.target.spots || [];
+    if(spots.length>1){
+      zoomToSpotCluster(spots);
+      return;
+    }
+    const spot=spots[0];
+    if(spot){
+      $('spot-select').value=spot.spot_id;
+      selectSpot(spot.spot_id);
     }
   }
 
@@ -309,6 +319,23 @@
     return Object.keys(layerConfig).filter(key=>Boolean(data?.fields?.[key]));
   }
 
+  function windFieldsAvailable(){
+    return Boolean(
+      activeDataset('wind_speed_10m_m_s')?.fields?.wind_speed_10m_m_s &&
+      activeDataset('wind_direction_10m_deg')?.fields?.wind_direction_10m_deg
+    );
+  }
+
+  function isWindLayer(layer=state.layer){
+    return layer==='wind_speed_10m_m_s' || layer==='wind_direction_10m_deg';
+  }
+
+  function syncWindVectorDefault(){
+    if(!state.windVectorTouched){
+      state.windVectors=isWindLayer() && windFieldsAvailable();
+    }
+  }
+
   function refreshModelControls(){
     const modelSelect=$('model-select');
     for(const option of modelSelect.options){
@@ -336,18 +363,12 @@
     state.frameIndex=Math.min(state.frameIndex,Number(slider.max));
     slider.value=state.frameIndex;
 
-    const hasWind=Boolean(
-      activeDataset('wind_speed_10m_m_s')?.fields?.wind_speed_10m_m_s &&
-      activeDataset('wind_direction_10m_deg')?.fields?.wind_direction_10m_deg
-    );
+    syncWindVectorDefault();
+    const hasWind=windFieldsAvailable();
     const windToggle=$('wind-vector-toggle');
     windToggle.disabled=!hasWind;
-    if(!hasWind){
-      state.windVectors=false;
-      windToggle.checked=false;
-    }else{
-      windToggle.checked=state.windVectors;
-    }
+    if(!hasWind) state.windVectors=false;
+    windToggle.checked=state.windVectors;
   }
 
   function switchModel(mode){
@@ -361,17 +382,44 @@
         ? 'wind_speed_10m_m_s'
         : layers[0];
     }
-    const windLayer=state.layer==='wind_speed_10m_m_s' ||
-      state.layer==='wind_direction_10m_deg';
-    const hasWind=Boolean(
-      activeDataset('wind_speed_10m_m_s')?.fields?.wind_speed_10m_m_s &&
-      activeDataset('wind_direction_10m_deg')?.fields?.wind_direction_10m_deg
-    );
-    if(windLayer && hasWind && !state.windVectorTouched){
-      state.windVectors=true;
-    }
+    stopTimelinePlayback();
     refreshModelControls();
     setViewBbox(timeline.bbox,{animate:true,maxZoom:8});
+    renderAll();
+  }
+
+  function stopTimelinePlayback(){
+    if(state.timelineTimer){
+      window.clearInterval(state.timelineTimer);
+      state.timelineTimer=null;
+    }
+    state.timelinePlaying=false;
+  }
+
+  function setFrameIndex(index){
+    const max=Math.max(0,(timelineDataset()?.frames?.length || 1)-1);
+    state.frameIndex=Math.max(0,Math.min(max,Number(index) || 0));
+    $('time-slider').value=state.frameIndex;
+    renderAll();
+  }
+
+  function toggleTimelinePlayback(){
+    if(state.timelinePlaying){
+      stopTimelinePlayback();
+      renderAll();
+      return;
+    }
+    state.timelinePlaying=true;
+    state.timelineTimer=window.setInterval(()=>{
+      const count=timelineDataset()?.frames?.length || 0;
+      if(count<2){
+        stopTimelinePlayback();
+        renderAll();
+        return;
+      }
+      state.frameIndex=(state.frameIndex+1)%count;
+      renderAll();
+    },900);
     renderAll();
   }
 
@@ -390,16 +438,8 @@
 
     layerSelect.addEventListener('change', () => {
       state.layer = layerSelect.value;
-      const hasWind=Boolean(
-        activeDataset('wind_speed_10m_m_s')?.fields?.wind_speed_10m_m_s &&
-        activeDataset('wind_direction_10m_deg')?.fields?.wind_direction_10m_deg
-      );
-      const windLayer=state.layer==='wind_speed_10m_m_s' ||
-        state.layer==='wind_direction_10m_deg';
-      if(windLayer && hasWind && !state.windVectorTouched){
-        state.windVectors=true;
-        windToggle.checked=true;
-      }
+      syncWindVectorDefault();
+      windToggle.checked=state.windVectors;
       renderAll();
     });
 
@@ -412,9 +452,18 @@
 
     const slider = $('time-slider');
     slider.addEventListener('input', () => {
-      state.frameIndex = Number(slider.value);
-      renderAll();
+      stopTimelinePlayback();
+      setFrameIndex(Number(slider.value));
     });
+    $('time-prev').addEventListener('click',()=>{
+      stopTimelinePlayback();
+      setFrameIndex(state.frameIndex-1);
+    });
+    $('time-next').addEventListener('click',()=>{
+      stopTimelinePlayback();
+      setFrameIndex(state.frameIndex+1);
+    });
+    $('time-play').addEventListener('click',toggleTimelinePlayback);
 
     const spotSelect = $('spot-select');
     spotSelect.innerHTML = '<option value="">全部景點</option>' +
@@ -662,8 +711,23 @@
     };
   }
 
+  function normalizedPiecewise(value,breaks){
+    if(!Number.isFinite(value) || !breaks?.length) return 0;
+    if(value<=breaks[0]) return 0;
+    const last=breaks.length-1;
+    if(value>=breaks[last]) return 1;
+    for(let i=1;i<breaks.length;i++){
+      if(value<=breaks[i]){
+        const local=(value-breaks[i-1])/(breaks[i]-breaks[i-1]);
+        return ((i-1)+local)/last;
+      }
+    }
+    return 1;
+  }
+
   function normalizedValue(value,cfg){
     if(value == null || !Number.isFinite(value)) return 0;
+    if(cfg.scale==='precip_rate') return normalizedPiecewise(value,cfg.ticks);
     const span=cfg.domain[1]-cfg.domain[0];
     if(!span) return 0;
     return Math.max(0,Math.min(1,(value-cfg.domain[0])/span));
@@ -730,6 +794,10 @@
       const light = 30 + t*32;
       return `hsl(${hue} 90% ${light}%)`;
     }
+    if(cfg.palette==='direction'){
+      const hue=((value%360)+360)%360;
+      return `hsl(${hue} 76% 52%)`;
+    }
     return `hsl(${(value%360+360)%360} 76% 52%)`;
   }
 
@@ -746,6 +814,29 @@
     if([q00,q10,q01,q11].some(v=>!Number.isFinite(v))) return null;
     return q00*(1-wx)*(1-wy)+q10*wx*(1-wy)+
       q01*(1-wx)*wy+q11*wx*wy;
+  }
+
+  function windUv(speed,directionDeg){
+    if(!Number.isFinite(directionDeg)) return null;
+    const s=Number.isFinite(speed) ? Math.max(0,speed) : 1;
+    const rad=directionDeg*Math.PI/180;
+    // Meteorological direction is "from": u eastward, v northward.
+    return {u:-s*Math.sin(rad),v:-s*Math.cos(rad)};
+  }
+
+  function directionFromUv(u,v){
+    if(!Number.isFinite(u) || !Number.isFinite(v) || Math.hypot(u,v)<1e-9) return null;
+    return ((Math.atan2(-u,-v)*180/Math.PI)%360+360)%360;
+  }
+
+  function bilinearWindDirection(d00,d10,d01,d11,s00,s10,s01,s11,wx,wy){
+    const dirs=[d00,d10,d01,d11];
+    if(dirs.some(v=>!Number.isFinite(v))) return null;
+    const speeds=[s00,s10,s01,s11];
+    const uv=dirs.map((d,i)=>windUv(Number.isFinite(speeds[i])?speeds[i]:1,d));
+    const u=bilinearValue(uv[0].u,uv[1].u,uv[2].u,uv[3].u,wx,wy);
+    const v=bilinearValue(uv[0].v,uv[1].v,uv[2].v,uv[3].v,wx,wy);
+    return directionFromUv(u,v);
   }
 
   function drawNearestCells(data,vals,cfg,visibleView){
@@ -818,6 +909,63 @@
     }
   }
 
+  function drawCircularDirectionSubcells(data,directions,speeds,cfg,visibleView){
+    const rows=data.grid.rows, cols=data.grid.cols;
+    const lats=data.grid.latitudes, lons=data.grid.longitudes;
+    if(rows<2 || cols<2){
+      drawNearestCells(data,directions,cfg,visibleView);
+      return;
+    }
+    const lonStep=Math.abs(lons[1]-lons[0]);
+    const subdivisions=lonStep>=.20 ? 4 : (lonStep>=.10 ? 2 : 1);
+    for(let r=0;r<rows-1;r++){
+      for(let c=0;c<cols-1;c++){
+        const lon0=lons[c], lon1=lons[c+1], lat0=lats[r], lat1=lats[r+1];
+        const left=Math.min(lon0,lon1), right=Math.max(lon0,lon1);
+        const bottom=Math.min(lat0,lat1), top=Math.max(lat0,lat1);
+        if(right < visibleView.leftlon || left > visibleView.rightlon ||
+           top < visibleView.bottomlat || bottom > visibleView.toplat) continue;
+        const i00=r*cols+c, i10=i00+1, i01=(r+1)*cols+c, i11=i01+1;
+        for(let sy=0;sy<subdivisions;sy++){
+          for(let sx=0;sx<subdivisions;sx++){
+            const x0=sx/subdivisions, x1=(sx+1)/subdivisions;
+            const y0=sy/subdivisions, y1=(sy+1)/subdivisions;
+            const wx=(x0+x1)/2, wy=(y0+y1)/2;
+            const value=bilinearWindDirection(
+              directions[i00],directions[i10],directions[i01],directions[i11],
+              speeds[i00],speeds[i10],speeds[i01],speeds[i11],wx,wy
+            );
+            if(value==null) continue;
+            const subLon0=lon0+(lon1-lon0)*x0, subLon1=lon0+(lon1-lon0)*x1;
+            const subLat0=lat0+(lat1-lat0)*y0, subLat1=lat0+(lat1-lat0)*y1;
+            fillWeatherPolygon([
+              project(subLon0,subLat0),project(subLon1,subLat0),
+              project(subLon1,subLat1),project(subLon0,subLat1)
+            ],value,cfg);
+          }
+        }
+      }
+    }
+  }
+
+  function drawProviderBoundary(data){
+    const b=normalizeViewBbox(data?.bbox);
+    if(!b) return;
+    const points=[
+      project(b.leftlon,b.toplat),project(b.rightlon,b.toplat),
+      project(b.rightlon,b.bottomlat),project(b.leftlon,b.bottomlat)
+    ];
+    ctx.save();
+    ctx.beginPath();
+    points.forEach((p,i)=>i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y));
+    ctx.closePath();
+    ctx.strokeStyle='rgba(125,211,252,.52)';
+    ctx.lineWidth=1.25;
+    ctx.setLineDash([6,5]);
+    ctx.stroke();
+    ctx.restore();
+  }
+
   function draw(){
     const data=activeDataset(state.layer);
     const cfg=layerConfig[state.layer];
@@ -833,13 +981,14 @@
 
     ctx.save();
     if(state.layer==='wind_direction_10m_deg'){
-      // Circular direction degrees must not be linearly interpolated.
-      drawNearestCells(data,vals,cfg,visibleView);
+      const speeds=decodedArray('wind_speed_10m_m_s');
+      drawCircularDirectionSubcells(data,vals,speeds,cfg,visibleView);
     }else{
       drawBilinearSubcells(data,vals,cfg,visibleView);
     }
     ctx.restore();
 
+    drawProviderBoundary(data);
     if(!state.mapReady) drawGrid();
     drawWindVectors();
     drawCoverage();
@@ -1080,20 +1229,94 @@
     }
   }
 
+  function spotClusterRadius(){
+    if(state.mapReady && state.map){
+      const zoom=state.map.getZoom();
+      if(zoom<6.2) return 24;
+      if(zoom<7.5) return 16;
+      return 0;
+    }
+    const span=Math.max(
+      state.view.rightlon-state.view.leftlon,
+      state.view.toplat-state.view.bottomlat
+    );
+    if(span>5) return 24;
+    if(span>2) return 16;
+    return 0;
+  }
+
+  function buildSpotHitTargets(){
+    const width=canvas.clientWidth,height=canvas.clientHeight;
+    const radius=spotClusterRadius();
+    const targets=[];
+    for(const spot of state.data.spots){
+      const p=project(spot.lon,spot.lat);
+      if(p.x<0||p.x>width||p.y<0||p.y>height) continue;
+      if(spot.spot_id===state.spotId || radius===0){
+        targets.push({x:p.x,y:p.y,spots:[spot],radius:spot.spot_id===state.spotId?7:3});
+        continue;
+      }
+      let target=targets.find(t=>
+        !t.spots.some(s=>s.spot_id===state.spotId) &&
+        Math.hypot(t.x-p.x,t.y-p.y)<radius
+      );
+      if(!target){
+        target={x:p.x,y:p.y,spots:[],radius};
+        targets.push(target);
+      }
+      target.spots.push(spot);
+      const points=target.spots.map(s=>project(s.lon,s.lat));
+      target.x=points.reduce((sum,q)=>sum+q.x,0)/points.length;
+      target.y=points.reduce((sum,q)=>sum+q.y,0)/points.length;
+    }
+    return targets;
+  }
+
+  function zoomToSpotCluster(spots){
+    if(!spots?.length) return;
+    if(spots.length===1){
+      zoomToSpot(spots[0]);
+      return;
+    }
+    let west=Math.min(...spots.map(s=>s.lon)), east=Math.max(...spots.map(s=>s.lon));
+    let south=Math.min(...spots.map(s=>s.lat)), north=Math.max(...spots.map(s=>s.lat));
+    const lonPad=Math.max(.08,(east-west)*.35), latPad=Math.max(.06,(north-south)*.35);
+    setViewBbox({
+      leftlon:west-lonPad,rightlon:east+lonPad,
+      bottomlat:south-latPad,toplat:north+latPad
+    },{animate:true,maxZoom:9});
+    renderAll();
+  }
+
   function drawSpots(){
     const selected=selectedSpot();
-    const width=canvas.clientWidth,height=canvas.clientHeight;
+    const targets=buildSpotHitTargets();
+    state.spotHitTargets=targets;
     ctx.save();
-    for(const s of state.data.spots){
-      const p=project(s.lon,s.lat);
-      if(p.x<0||p.x>width||p.y<0||p.y>height) continue;
-      ctx.beginPath();
-      ctx.arc(p.x,p.y,s.spot_id===state.spotId?7:3.5,0,Math.PI*2);
-      ctx.fillStyle=s.spot_id===state.spotId?'#fde68a':'#f8fafc';
-      ctx.fill();
-      ctx.strokeStyle='rgba(15,23,42,.9)';
-      ctx.lineWidth=2;ctx.stroke();
+    for(const target of targets){
+      const spots=target.spots;
+      const isSelected=spots.length===1 && spots[0].spot_id===state.spotId;
+      if(spots.length>1){
+        const r=9+Math.min(5,Math.log2(spots.length+1)*2);
+        ctx.beginPath();ctx.arc(target.x,target.y,r,0,Math.PI*2);
+        ctx.fillStyle='rgba(15,23,42,.72)';ctx.fill();
+        ctx.strokeStyle='rgba(186,230,253,.72)';ctx.lineWidth=1.5;ctx.stroke();
+        ctx.fillStyle='rgba(248,250,252,.9)';
+        ctx.font='700 10px -apple-system, sans-serif';
+        ctx.textAlign='center';ctx.textBaseline='middle';
+        ctx.fillText(String(spots.length),target.x,target.y+.5);
+        target.radius=r;
+      }else{
+        ctx.beginPath();
+        ctx.arc(target.x,target.y,isSelected?7:2.8,0,Math.PI*2);
+        ctx.fillStyle=isSelected?'#fde68a':'rgba(248,250,252,.68)';
+        ctx.fill();
+        ctx.strokeStyle=isSelected?'rgba(15,23,42,.95)':'rgba(15,23,42,.65)';
+        ctx.lineWidth=isSelected?2:1.2;ctx.stroke();
+        target.radius=isSelected?7:3;
+      }
     }
+    ctx.textAlign='start';ctx.textBaseline='alphabetic';
     if(selected){
       const p=project(selected.lon,selected.lat);
       ctx.font='bold 20px -apple-system, sans-serif';
@@ -1131,9 +1354,6 @@
       point.lat<bbox.bottomlat || point.lat>bbox.toplat
     )) return null;
     const values=decodedArray(key);
-    if(key==='wind_direction_10m_deg'){
-      return values[nearestCellIndex(point.lon,point.lat,data)];
-    }
 
     const lons=data.grid.longitudes, lats=data.grid.latitudes;
     const ascLon=lons[0] < lons[lons.length-1];
@@ -1160,6 +1380,17 @@
     }
     const wx=x1===x0?0:(point.lon-x0)/(x1-x0);
     const wy=y1===y0?0:(point.lat-y0)/(y1-y0);
+    if(key==='wind_direction_10m_deg'){
+      const speeds=decodedArray('wind_speed_10m_m_s');
+      const i00=toOrigY(y0i)*data.grid.cols+toOrigX(x0i);
+      const i10=toOrigY(y0i)*data.grid.cols+toOrigX(x1i);
+      const i01=toOrigY(y1i)*data.grid.cols+toOrigX(x0i);
+      const i11=toOrigY(y1i)*data.grid.cols+toOrigX(x1i);
+      return bilinearWindDirection(
+        v00,v10,v01,v11,
+        speeds[i00],speeds[i10],speeds[i01],speeds[i11],wx,wy
+      ) ?? values[nearestCellIndex(point.lon,point.lat,data)];
+    }
     return v00*(1-wx)*(1-wy)+v10*wx*(1-wy)+v01*(1-wx)*wy+v11*wx*wy;
   }
 
@@ -1193,8 +1424,9 @@
     const usingCwa=data===state.cwaData;
     const usingJma=data===state.jmaData;
     $('time-slider').value=state.frameIndex;
-    const frameLead=`f${String(f.forecast_hour).padStart(3,'0')}`;
-    $('time-label').textContent=`時間 · ${formatTaipeiTime(f.valid_time_utc)} (${frameLead})`;
+    const forecastHour=Number(f.forecast_hour || 0);
+    const frameLead=`f${String(forecastHour).padStart(3,'0')}`;
+    $('time-label').textContent=`預報時間 · ${formatTaipeiTime(f.valid_time_utc)} · +${forecastHour}h`;
     $('opacity-label').textContent=`${Math.round(state.weatherOpacity*100)}%`;
 
     const status=$('source-state');
@@ -1210,6 +1442,9 @@
       status.className='source-pill';
     }
 
+    const interpolationLabel=state.layer==='wind_direction_10m_deg'
+      ? '風向採 u/v 向量循環內插'
+      : '顯示雙線性內插';
     let resolution;
     if(usingJma){
       const p=data.provenance || {};
@@ -1218,12 +1453,16 @@
       const p=data.provenance || {};
       resolution=`原生約 ${p.native_resolution_km || 3} km · 瀏覽格 ${p.browser_grid_spacing_degrees || 0.03}° · 公開資料間隔 ${p.public_product_interval_hours || 6} h`;
     }else if(usingIcon){
-      resolution=`原生約 ${data.provenance?.native_resolution_km || 13} km · 0.125° remap · 顯示雙線性內插`;
+      resolution=`原生約 ${data.provenance?.native_resolution_km || 13} km · 0.125° remap · ${interpolationLabel}`;
     }else{
-      resolution='原生 0.25° · 顯示雙線性內插';
+      resolution=`原生 0.25° · ${interpolationLabel}`;
     }
     const cycleText=data.cycle?.cycle_time_utc || data.cycle?.label || '—';
-    $('cycle-label').textContent=`Cycle ${cycleText} · ${data.grid.rows}×${data.grid.cols} · ${resolution}`;
+    const cycleDisplay=Number.isFinite(Date.parse(cycleText))
+      ? `${formatTaipeiTime(cycleText)} TST`
+      : cycleText;
+    const autoPrefix=state.modelMode==='auto'?'自動模式：依圖層選優先模型 · ':'';
+    $('cycle-label').textContent=`${autoPrefix}模型起報 ${cycleDisplay} · ${data.grid.rows}×${data.grid.cols} · ${resolution}`;
     const attributionHost=$('source-attribution');
     if(usingJma){
       attributionHost.innerHTML='資料模型：JMA MSM · Open Data transport: <a href="https://registry.opendata.aws/open-meteo/" target="_blank" rel="noopener noreferrer">Open-Meteo AWS</a>';
@@ -1233,13 +1472,16 @@
 
     const arr=decodedArray(state.layer).filter(Number.isFinite);
     const min=arr.length?Math.min(...arr):null, max=arr.length?Math.max(...arr):null;
-    $('layer-summary').textContent=min==null?'—':`${formatValue(min,state.layer)} – ${formatValue(max,state.layer)}`;
+    $('layer-summary').textContent=cfg.label;
+    $('layer-range').textContent=min==null
+      ? '畫面資料範圍：—'
+      : `畫面資料範圍：${formatValue(min,state.layer)} – ${formatValue(max,state.layer)}`;
     let providerRole='GFS';
     if(usingJma) providerRole='JMA MSM 5 km';
     else if(usingCwa) providerRole='CWA WRF 3 km';
     else if(usingIcon) providerRole=state.modelMode==='auto'?'ICON Global · auto':'ICON Global';
     else if(state.modelMode==='auto' && cloudLayers.has(state.layer)) providerRole='GFS fallback';
-    $('layer-unit').textContent=`${cfg.label} · ${data.fields[state.layer].unit} · ${providerRole} · 各模型保留自己的範圍／解析度／時間軸`;
+    $('layer-unit').textContent=`${providerRole} · 單位 ${data.fields[state.layer].unit} · 各模型保留自己的範圍／解析度／時間軸`;
     const vertical=data.fields[state.layer]?.vertical_definition || null;
     const verticalHost=$('layer-vertical');
     if(vertical){
@@ -1263,7 +1505,7 @@
     const sv=samplePointValue(point,state.layer);
     $('spot-value').textContent=point?formatValue(sv,state.layer):'—';
     $('spot-details').innerHTML=point
-      ? `<div>${point.lat.toFixed(4)}°, ${point.lon.toFixed(4)}° · ${escapeHtml(point.label)}</div><div>取樣：瀏覽器雙線性插值（風向使用最近格點；超出模型範圍不外推）</div>`
+      ? `<div>${point.lat.toFixed(4)}°, ${point.lon.toFixed(4)}° · ${escapeHtml(point.label)}</div><div>取樣：瀏覽器雙線性插值（風向以 u/v 向量循環插值；超出模型範圍不外推）</div>`
       : '<div>可從下拉選單或地圖上的景點點位選取。</div>';
 
     updateLegend(cfg);
@@ -1273,7 +1515,17 @@
   }
   function updateLegend(cfg){
     const min=cfg.domain[0], max=cfg.domain[1], mid=(min+max)/2;
-    const stops=[0,.25,.5,.75,1].map(t=>colorFor(min+(max-min)*t,cfg));
+    let stopValues=[min,min+(max-min)*.25,mid,min+(max-min)*.75,max];
+    let labels=[formatValue(min,state.layer),formatValue(mid,state.layer),formatValue(max,state.layer)];
+    if(cfg.palette==='direction'){
+      stopValues=[0,90,180,270,360];
+      labels=['北 0°','東 90°','南 180°','西 270°','北 360°'];
+    }else if(cfg.scale==='precip_rate'){
+      stopValues=cfg.ticks;
+      labels=['0','1','5','20 mm/h'];
+    }
+    const stops=stopValues.map(v=>colorFor(v,cfg));
+    const labelHtml=labels.map(v=>`<span>${escapeHtml(v)}</span>`).join('');
     const windKey=state.windVectors ? `
       <div class="wind-key"><span class="wind-arrow-icon">→</span> 10 m 風向箭頭 · 箭頭指向風去向</div>` : '';
     const coverageKey=state.spotId ? `
@@ -1285,18 +1537,24 @@
     $('legend').innerHTML=`
       <strong>${cfg.label}</strong>
       <div class="legend-bar" style="background:linear-gradient(90deg,${stops.join(',')})"></div>
-      <div class="legend-row"><span>${formatValue(min,state.layer)}</span><span>${formatValue(mid,state.layer)}</span><span>${formatValue(max,state.layer)}</span></div>
+      <div class="legend-row">${labelHtml}</div>
+      <div class="coverage-outline-key">虛線＝目前模型資料範圍</div>
       ${windKey}
       ${coverageKey}`;
   }
 
   function updateTimeline(){
-    $('timeline').innerHTML=timelineDataset().frames.map((f,i)=>
-      `<button type="button" data-i="${i}" class="${i===state.frameIndex?'active':''}">${formatTaipeiTime(f.valid_time_utc)}</button>`
-    ).join('');
-    $('timeline').querySelectorAll('button').forEach(b=>b.onclick=()=>{
-      state.frameIndex=Number(b.dataset.i);renderAll();
-    });
+    const frames=timelineDataset().frames;
+    const frameLabels=timelineDataset().frames.map(f=>formatTaipeiTime(f.valid_time_utc));
+    const last=Math.max(0,frames.length-1);
+    const tickIndices=[0,Math.round(last*.25),Math.round(last*.5),Math.round(last*.75),last]
+      .filter((v,i,a)=>a.indexOf(v)===i);
+    $('timeline').innerHTML=tickIndices.map(i=>`<span>${escapeHtml(frameLabels[i] || '')}</span>`).join('');
+    $('time-prev').disabled=state.frameIndex<=0;
+    $('time-next').disabled=state.frameIndex>=last;
+    const play=$('time-play');
+    play.textContent=state.timelinePlaying?'暫停':'播放';
+    play.setAttribute('aria-pressed',state.timelinePlaying?'true':'false');
   }
 
   function statusBadge(op){
@@ -1350,6 +1608,14 @@
       ${errors}${warnings}`;
   }
 
+  function qcMessage(flag){
+    const messages={
+      visibility_ceiling_dominant:'能見度大量達模型上限，實際遠距能見度可能高於圖示值。',
+      constant_field:'此圖層在目前時段幾乎沒有空間差異；可能是合理狀態，仍建議搭配相鄰時段判讀。'
+    };
+    return messages[flag] || '此圖層有資料品質提示，請搭配相鄰時段與其他模型判讀。';
+  }
+
   function updateQc(){
     const host=$('qc-status');
     if(state.source==='demo'){
@@ -1365,7 +1631,7 @@
     if(!flags.length){
       host.innerHTML='<div class="ok">✓ 此圖層／時段沒有 QC 警示</div>';
     }else{
-      host.innerHTML=flags.map(x=>`<div class="warn">⚠ ${escapeHtml(x.flag)}</div>`).join('');
+      host.innerHTML=flags.map(x=>`<div class="warn">⚠ ${escapeHtml(qcMessage(x.flag))}<span class="qc-code" title="內部 QC 代碼">${escapeHtml(x.flag)}</span></div>`).join('');
     }
   }
 
@@ -1381,7 +1647,7 @@
       windVectorStep: windVectorStep(),
       windVectorCount: state.lastWindVectorCount,
       activeModel: activeDataset(state.layer)?.model || null,
-      displayInterpolation: state.layer==='wind_direction_10m_deg'?'nearest':'bilinear_subcell',
+      displayInterpolation: state.layer==='wind_direction_10m_deg'?'bilinear_uv_circular':'bilinear_subcell',
       iconAvailable: Boolean(state.iconData),
       cwaAvailable: Boolean(state.cwaData),
       jmaAvailable: Boolean(state.jmaData),

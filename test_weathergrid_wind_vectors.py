@@ -32,9 +32,10 @@ class WeatherGridWindVectorTests(unittest.TestCase):
         self.assertIn("if(zoom>=6.4) return 2", self.js)
         self.assertIn("return 3", self.js)
 
-    def test_wind_layer_auto_enables_vectors_until_user_touches_toggle(self):
+    def test_wind_layer_defaults_are_layer_aware_until_user_touches_toggle(self):
         self.assertIn("windVectorTouched:false", self.js)
-        self.assertIn("if(windLayer && hasWind && !state.windVectorTouched)", self.js)
+        self.assertIn("function syncWindVectorDefault()", self.js)
+        self.assertIn("state.windVectors=isWindLayer() && windFieldsAvailable()", self.js)
         self.assertIn("state.windVectorTouched=true", self.js)
 
     def test_production_smoke_exercises_wind_vectors(self):
