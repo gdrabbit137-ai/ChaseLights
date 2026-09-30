@@ -116,3 +116,7 @@ height definition.
 3. CWA M-A0064 pressure-level RH is not published as cloud cover.
 4. Cross-model comparisons must account for different vertical layer bounds.
 5. Auto provider selection must never blend cloud percentages from two models.
+
+## CI sync note
+
+This branch is rebased onto the latest main snapshot before merge so generated WeatherGrid data commits are preserved.
