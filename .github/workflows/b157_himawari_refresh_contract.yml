@@ -1,0 +1,30 @@
+name: B157 Himawari Refresh Contract
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/update_himawari9_weathergrid.yml"
+      - ".github/workflows/b157_himawari_refresh_contract.yml"
+      - "test_himawari9_refresh_workflow.py"
+      - "B157_HIMAWARI9_SCHEDULED_PUBLISH.md"
+
+permissions:
+  contents: read
+
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout candidate
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Validate scheduled publish contract
+        run: |
+          python -m py_compile test_himawari9_refresh_workflow.py
+          python -m unittest -v test_himawari9_refresh_workflow.py
