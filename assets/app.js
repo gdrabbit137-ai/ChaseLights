@@ -224,6 +224,7 @@
     let adminPickerHistoryArmed=false;
     let adminPickerScrollY=0;
     let adminPickerPendingRestoreY=null;
+    let adminPickerPreviousScrollRestoration=null;
     let currentTempUnit=['C','F'].includes(localStorage.getItem('chaselights_temp_unit'))?localStorage.getItem('chaselights_temp_unit'):'C';
     const FAVORITE_MIGRATION_KEY='chaselights_favs_migration_v2_regions_v1';
     let favorites=JSON.parse(localStorage.getItem('chaselights_favs_v2')||'[]');
@@ -357,6 +358,10 @@
       const alreadyLocked=document.body.classList.contains('admin-picker-open');
       lockAdminPickerScroll(scrollY);
       if(!adminPickerHistoryArmed){
+        if('scrollRestoration' in history){
+          adminPickerPreviousScrollRestoration=history.scrollRestoration;
+          history.scrollRestoration='manual';
+        }
         history.pushState({...history.state,chaselightsAdminPicker:true},document.title);
         adminPickerHistoryArmed=true;
       }
@@ -535,13 +540,28 @@
     });
 
     window.addEventListener('popstate',()=>{
+      const restoreHistoryScrollMode=()=>{
+        if(
+          'scrollRestoration' in history &&
+          adminPickerPreviousScrollRestoration!==null
+        ){
+          history.scrollRestoration=adminPickerPreviousScrollRestoration;
+          adminPickerPreviousScrollRestoration=null;
+        }
+      };
       if(Number.isFinite(adminPickerPendingRestoreY)){
         const restoreY=adminPickerPendingRestoreY;
         adminPickerPendingRestoreY=null;
-        requestAnimationFrame(()=>window.scrollTo(0,restoreY));
+        requestAnimationFrame(()=>{
+          window.scrollTo(0,restoreY);
+          restoreHistoryScrollMode();
+        });
         return;
       }
-      if(!adminPickerHistoryArmed)return;
+      if(!adminPickerHistoryArmed){
+        restoreHistoryScrollMode();
+        return;
+      }
       const restoreY=adminPickerScrollY;
       adminPickerHistoryArmed=false;
       const details=document.querySelector('#admin-filter .admin-filter');
@@ -549,6 +569,7 @@
       unlockAdminPickerScroll();
       requestAnimationFrame(()=>{
         window.scrollTo(0,restoreY);
+        restoreHistoryScrollMode();
         document.querySelector('#admin-filter .admin-filter > summary')?.focus({preventScroll:true});
       });
     });
