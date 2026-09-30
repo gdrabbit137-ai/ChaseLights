@@ -47,11 +47,11 @@ class WeatherGridIconBrowserContractTests(unittest.TestCase):
         )
         self.assertIn("drawNearestCells(data,vals,cfg,visibleView)", self.js)
 
-    def test_ui_explains_icon_primary_and_gfs_fallback(self):
-        self.assertIn("ICON Global 雲圖優先", self.html)
-        self.assertIn("GFS 備援／長期", self.html)
-        self.assertIn("0.125° remap", self.html)
-        self.assertIn("內插只改善連續性", self.html)
+    def test_ui_keeps_icon_and_gfs_visible_after_model_selector_expansion(self):
+        self.assertIn("ICON Global", self.html)
+        self.assertIn("GFS 0.25°", self.html)
+        self.assertIn("自動", self.html)
+        self.assertIn("內插只改善", self.html)
 
     def test_scheduled_refresh_keeps_icon_failure_non_blocking(self):
         self.assertIn("id: icon_cloud", self.workflow)
