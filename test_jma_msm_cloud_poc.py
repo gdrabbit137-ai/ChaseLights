@@ -55,8 +55,8 @@ class JmaMsmCloudProviderTests(unittest.TestCase):
     def test_native_domain_and_taiwan_bbox_follow_jma_boundary(self):
         self.assertEqual(JMA_MSM_NATIVE_DOMAIN["leftlon"], 120.0)
         self.assertEqual(JMA_MSM_NATIVE_DOMAIN["bottomlat"], 22.4)
-        self.assertEqual(JMA_MSM_TAIWAN_BROWSER_BBOX["leftlon"], 120.0)
-        self.assertEqual(JMA_MSM_TAIWAN_BROWSER_BBOX["bottomlat"], 22.4)
+        self.assertEqual(JMA_MSM_TAIWAN_BROWSER_BBOX["leftlon"], 120.0625)
+        self.assertEqual(JMA_MSM_TAIWAN_BROWSER_BBOX["bottomlat"], 22.45)
 
     def test_grid_uses_native_surface_spacing(self):
         bbox = {
@@ -124,7 +124,13 @@ class JmaMsmCloudProviderTests(unittest.TestCase):
         for _, params, _ in session.calls:
             self.assertEqual(params["models"], "jma_msm")
             self.assertEqual(params["cell_selection"], "nearest")
-            self.assertEqual(params["elevation"], "nan")
+            self.assertTrue(
+                all(x == "nan" for x in params["elevation"].split(","))
+            )
+            self.assertEqual(
+                len(params["elevation"].split(",")),
+                len(params["latitude"].split(",")),
+            )
             self.assertEqual(params["timezone"], "GMT")
 
 
