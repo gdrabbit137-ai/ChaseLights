@@ -120,7 +120,7 @@ jobs:
           python-version: "3.10"
 
       - name: Install test dependency
-        run: python -m pip install --disable-pip-version-check numpy
+        run: python -m pip install --disable-pip-version-check numpy requests
 
       - name: Run offline contract tests
         run: |
@@ -279,10 +279,10 @@ jobs:
           python jma_msm_cloud_poc.py \
             --forecast-hours 4 \
             --batch-size 20 \
-            --leftlon 120.0 \
-            --rightlon 120.125 \
-            --bottomlat 22.4 \
-            --toplat 22.5 \
+            --leftlon 121.4375 \
+            --rightlon 121.5625 \
+            --bottomlat 24.95 \
+            --toplat 25.05 \
             --output-dir jma_msm_live_smoke
 
       - name: Build compact JMA MSM browser bundle
@@ -431,7 +431,7 @@ jobs:
         run: |
           python jma_msm_cloud_poc.py \
             --forecast-hours 40 \
-            --batch-size 160 \
+            --batch-size 100 \
             --output-dir jma_msm_output
 
       - name: Build JMA MSM 5 km browser bundle and QC
