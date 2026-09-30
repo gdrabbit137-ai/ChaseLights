@@ -43,10 +43,22 @@ body{padding:18px}
   backdrop-filter:blur(6px);pointer-events:none}
 .basemap-status.ready{border-color:#0369a1;color:#bae6fd;background:rgba(8,47,73,.82)}
 .basemap-status.fallback{border-color:#a16207;color:#fde68a;background:rgba(66,32,6,.88)}
-.legend{position:absolute;z-index:6;left:12px;bottom:12px;min-width:190px;background:rgba(2,6,23,.88);
+.legend{position:absolute;z-index:6;left:12px;bottom:12px;min-width:230px;background:rgba(2,6,23,.88);
   border:1px solid #334155;border-radius:8px;padding:8px 9px;font-size:.72rem;backdrop-filter:blur(6px)}
 .legend-bar{height:10px;border-radius:4px;margin:6px 0 4px;border:1px solid rgba(255,255,255,.18)}
 .legend-row{display:flex;justify-content:space-between;color:#cbd5e1}
+.legend-bar.cloud-percent{position:relative}
+.cloud-midline{position:absolute;left:50%;top:-2px;bottom:-2px;width:1px;background:rgba(254,240,138,.9);
+  box-shadow:0 0 0 1px rgba(15,23,42,.45)}
+.cloud-legend-labels{position:relative;height:28px;color:#cbd5e1;font-size:.59rem;line-height:1}
+.cloud-tick{position:absolute;transform:translateX(-50%);white-space:nowrap}
+.cloud-tick.upper{top:1px}
+.cloud-tick.lower{top:15px}
+.cloud-tick.first{transform:none}
+.cloud-tick.last{transform:translateX(-100%)}
+.cloud-tick.midpoint{color:#fef08a;font-weight:900}
+.cloud-threshold-key{margin-top:2px;display:flex;align-items:center;gap:6px;color:#fde68a;font-size:.67rem}
+.cloud-threshold-swatch{width:22px;border-top:1px dotted rgba(254,240,138,.9);display:inline-block}
 
 .time-navigator{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;gap:8px;align-items:center;padding-top:10px}
 .time-navigator>button{border:1px solid #334155;background:#0f172a;color:#cbd5e1;border-radius:7px;
@@ -87,7 +99,7 @@ body{padding:18px}
   .control-bar{grid-template-columns:1fr 1fr}
   #reset-view{align-self:end}
   .inspector{display:flex}
-  .legend{left:8px;bottom:8px;min-width:160px;padding:6px 7px}
+  .legend{left:8px;bottom:8px;min-width:200px;padding:6px 7px}
   .time-navigator{grid-template-columns:auto minmax(0,1fr) auto}
   #time-play{grid-column:1/-1}
 }
