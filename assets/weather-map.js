@@ -540,9 +540,17 @@
     if(selectedSpot()) zoomToSpot(selectedSpot());
   }
 
+  function timelineDataset(){
+    if(state.modelMode==='cwa' && state.cwaData) return state.cwaData;
+    if(state.modelMode==='icon' && state.iconData) return state.iconData;
+    return state.data;
+  }
+
   function providerCoversBbox(bbox){
     if(!bbox || bbox.wraps_antimeridian) return false;
-    const b=state.data.bbox;
+    const data=activeDataset(state.layer);
+    const b=data?.bbox;
+    if(!b) return false;
     return bbox.west >= b.leftlon && bbox.east <= b.rightlon &&
       bbox.south >= b.bottomlat && bbox.north <= b.toplat;
   }
@@ -554,7 +562,8 @@
   ]);
 
   function baseFrame(){
-    return state.data.frames[state.frameIndex];
+    const timeline=timelineDataset();
+    return timeline?.frames?.[state.frameIndex] || null;
   }
 
   function iconFrameForValidTime(validTime){
@@ -563,6 +572,12 @@
   }
 
   function activeDataset(key=state.layer){
+    if(state.modelMode==='cwa' && state.cwaData){
+      return state.cwaData.fields[key] ? state.cwaData : state.cwaData;
+    }
+    if(state.modelMode==='icon' && state.iconData) return state.iconData;
+    if(state.modelMode==='gfs') return state.data;
+
     if(cloudLayers.has(key) && state.iconData){
       const iconFrame=iconFrameForValidTime(baseFrame()?.valid_time_utc);
       if(iconFrame && state.iconData.fields[key]) return state.iconData;
@@ -571,6 +586,9 @@
   }
 
   function activeFrame(key=state.layer){
+    if(state.modelMode==='cwa' || state.modelMode==='icon' || state.modelMode==='gfs'){
+      return timelineDataset()?.frames?.[state.frameIndex] || null;
+    }
     const data=activeDataset(key);
     if(data===state.iconData){
       return iconFrameForValidTime(baseFrame()?.valid_time_utc);
@@ -579,13 +597,16 @@
   }
 
   function activeQc(key=state.layer){
+    if(state.modelMode==='cwa') return state.cwaQc;
+    if(state.modelMode==='icon') return state.iconQc;
+    if(state.modelMode==='gfs') return state.qc;
     return activeDataset(key)===state.iconData ? state.iconQc : state.qc;
   }
 
   function frame(){ return activeFrame(state.layer); }
 
   function decodeValue(key, encoded, data=activeDataset(key)){
-    if(encoded == null) return null;
+    if(encoded == null || !data?.fields?.[key]) return null;
     const meta = data.fields[key];
     let value = encoded * meta.scale;
     if(meta.wrap) value = ((value % meta.wrap) + meta.wrap) % meta.wrap;
@@ -598,7 +619,6 @@
     if(!active || !active.values[key]) return [];
     return active.values[key].map(v => decodeValue(key,v,data));
   }
-
   function project(lon,lat){
     if(state.mapReady && state.map){
       const p=state.map.project([lon,lat]);
