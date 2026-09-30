@@ -343,6 +343,15 @@
         ? 'wind_speed_10m_m_s'
         : layers[0];
     }
+    const windLayer=state.layer==='wind_speed_10m_m_s' ||
+      state.layer==='wind_direction_10m_deg';
+    const hasWind=Boolean(
+      activeDataset('wind_speed_10m_m_s')?.fields?.wind_speed_10m_m_s &&
+      activeDataset('wind_direction_10m_deg')?.fields?.wind_direction_10m_deg
+    );
+    if(windLayer && hasWind && !state.windVectorTouched){
+      state.windVectors=true;
+    }
     refreshModelControls();
     setViewBbox(timeline.bbox,{animate:true,maxZoom:8});
     renderAll();
