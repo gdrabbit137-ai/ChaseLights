@@ -6,6 +6,18 @@ on:
     # products are normally available while candidate_runs() still falls back
     # to older cycles if NOAA publication is delayed.
     - cron: '20 5,11,17,23 * * *'
+  push:
+    branches:
+      - main
+    paths:
+      - "gfs_multilayer_poc.py"
+      - "weathergrid_browser_bundle.py"
+      - "icon_global_cloud_poc.py"
+      - "icon_weathergrid_browser_bundle.py"
+      - "cwa_wrf3_poc.py"
+      - "cwa_weathergrid_browser_bundle.py"
+      - "build_weathergrid_coverage_browser.py"
+      - ".github/workflows/update_weathergrid.yml"
   workflow_dispatch:
     inputs:
       forecast_hours:
