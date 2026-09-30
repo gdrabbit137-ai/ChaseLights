@@ -784,6 +784,7 @@ def main() -> int:
 
     frames = []
     expected_cycle = None
+    regrid_context = None
     spots = active_taiwan_spots()
 
     for frame_index, fh in enumerate(hours):
@@ -802,14 +803,15 @@ def main() -> int:
 
         native_fields = extract_native_fields(grib_path)
         reference = native_fields["temperature_2m_c"]
-        context = build_regrid_context(
-            reference,
-            bbox,
-            spacing_deg=float(args.browser_grid_deg),
-        )
+        if regrid_context is None:
+            regrid_context = build_regrid_context(
+                reference,
+                bbox,
+                spacing_deg=float(args.browser_grid_deg),
+            )
 
         regular_fields = {
-            key: regrid_field(field, context)
+            key: regrid_field(field, regrid_context)
             for key, field in native_fields.items()
         }
         regular_fields.update(derive_wind_fields(regular_fields))
