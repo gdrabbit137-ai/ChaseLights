@@ -47,6 +47,12 @@ class JmaMsmWeatherGridUiTests(unittest.TestCase):
         self.assertIn("usingJma", JS)
         self.assertIn("frameLead", JS)
 
+    def test_jma_transport_attribution_is_visible(self):
+        self.assertIn('id="source-attribution"', HTML)
+        self.assertIn("Open-Meteo", JS)
+        self.assertIn("資料模型：JMA MSM", JS)
+        self.assertIn("https://open-meteo.com/", JS)
+
     def test_auto_mode_does_not_change_until_explicit_policy_decision(self):
         auto_block = JS.split("function availableLayerKeys()", 1)[1].split(
             "function refreshModelControls()", 1
