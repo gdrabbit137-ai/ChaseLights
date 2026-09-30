@@ -169,6 +169,73 @@ def run(url: str, screenshot: Path) -> dict:
                 "return to CWA after JMA validation",
             )
 
+        # Himawari-9 is an observation source, not a forecast model. The
+        # selector must exist even when a current snapshot is temporarily
+        # unavailable; when available, verify observation-only semantics.
+        himawari_option = next(
+            (
+                o
+                for o in model_select.options
+                if o.get_attribute("value") == "himawari"
+            ),
+            None,
+        )
+        assert himawari_option is not None, [o.text for o in model_select.options]
+        himawari_available = himawari_option.get_attribute("disabled") is None
+        himawari_report = {"available": himawari_available}
+        if himawari_available:
+            model_select.select_by_value("himawari")
+            wait_for(
+                lambda d: d.find_element(By.ID, "source-state").text
+                == "OBS · Himawari-9 2 km",
+                wait,
+                "Himawari-9 observation selection",
+            )
+            himawari_layers = Select(driver.find_element(By.ID, "layer-select"))
+            himawari_layer_values = [
+                o.get_attribute("value") for o in himawari_layers.options
+            ]
+            assert himawari_layer_values == [
+                "observed_cloud_mask",
+                "cloud_top_height_m",
+            ], himawari_layer_values
+            wait_for(
+                lambda d: (
+                    d.execute_script(
+                        "return window.__weatherGridCoverageDebug && "
+                        "window.__weatherGridCoverageDebug.modelMode === 'himawari' && "
+                        "window.__weatherGridCoverageDebug.timelineModel === "
+                        "'HIMAWARI9_AHI_OBS' && "
+                        "window.__weatherGridCoverageDebug.sourceKind === 'observation'"
+                    )
+                ),
+                wait,
+                "Himawari-9 observation semantics",
+            )
+            assert (
+                driver.find_element(By.ID, "time-slider").get_attribute("max")
+                == "0"
+            )
+            assert "觀測時間" in driver.find_element(By.ID, "time-label").text
+            assert "衛星觀測" in driver.find_element(By.ID, "cycle-label").text
+            assert driver.find_element(By.ID, "time-play").get_attribute(
+                "disabled"
+            ) is not None
+            himawari_report.update(
+                {
+                    "layers": himawari_layer_values,
+                    "time": driver.find_element(By.ID, "time-label").text,
+                    "observation": driver.find_element(By.ID, "cycle-label").text,
+                }
+            )
+            model_select.select_by_value("cwa")
+            wait_for(
+                lambda d: d.find_element(By.ID, "source-state").text
+                == "LIVE · CWA WRF 3 km",
+                wait,
+                "return to CWA after Himawari validation",
+            )
+
         map_rect = driver.execute_script(
             "const r=arguments[0].getBoundingClientRect();"
             "return {width:r.width,height:r.height};",
@@ -272,6 +339,7 @@ def run(url: str, screenshot: Path) -> dict:
                 "screenshot": str(screenshot),
                 "wind_overview_screenshot": str(overview),
                 "jma_msm": jma_report,
+                "himawari9": himawari_report,
             }
         )
         return report
