@@ -14,6 +14,206 @@ PRODUCT_ROOT = "AHI-L2-FLDK-Clouds"
 MASK_PREFIX = "AHI-CMSK_"
 HEIGHT_PREFIX = "AHI-CHGT_"
 
+# Standard Himawari AHI 2 km Full Disk fixed grid.
+# JMA HSD navigation uses a 140.7E sub-satellite longitude.  Satpy's
+# himawari_ahi_fes_2km definition expresses the 5500 x 5500 fixed grid as a
+# geostationary projection with this exact area extent.
+HIMAWARI_GRID_SIZE = 5500
+HIMAWARI_SUB_LON_DEG = 140.7
+HIMAWARI_HEIGHT_M = 35785863.0
+HIMAWARI_SEMI_MAJOR_M = 6378137.0
+HIMAWARI_INV_FLATTENING = 298.257024882273
+HIMAWARI_AREA_EXTENT_M = (
+    -5499999.9012,
+    -5499999.9012,
+    5499999.9012,
+    5499999.9012,
+)
+TAIWAN_QC_BBOX = (118.0, 21.5, 124.0, 27.0)  # west, south, east, north
+
+
+def fixed_grid_window(
+    bbox: tuple[float, float, float, float],
+    *,
+    padding_pixels: int = 8,
+) -> dict:
+    """Convert lon/lat bbox to a conservative Himawari 2 km fixed-grid window."""
+    import math
+
+    from pyproj import CRS, Transformer
+
+    west, south, east, north = bbox
+    if not (-180 <= west < east <= 180 and -90 <= south < north <= 90):
+        raise ValueError(f"Invalid bbox: {bbox}")
+    if padding_pixels < 0:
+        raise ValueError("padding_pixels must be >= 0")
+
+    geos = CRS.from_proj4(
+        f"+proj=geos +h={HIMAWARI_HEIGHT_M:g} "
+        f"+lon_0={HIMAWARI_SUB_LON_DEG:g} "
+        f"+a={HIMAWARI_SEMI_MAJOR_M:g} "
+        f"+rf={HIMAWARI_INV_FLATTENING:.12f} "
+        "+sweep=y +units=m +no_defs"
+    )
+    transformer = Transformer.from_crs("EPSG:4326", geos, always_xy=True)
+
+    lons = (west, (west + east) / 2.0, east)
+    lats = (south, (south + north) / 2.0, north)
+    projected = [transformer.transform(lon, lat) for lon in lons for lat in lats]
+    if not all(math.isfinite(x) and math.isfinite(y) for x, y in projected):
+        raise ValueError(f"Bbox is outside Himawari fixed-grid visibility: {bbox}")
+
+    min_x, min_y, max_x, max_y = HIMAWARI_AREA_EXTENT_M
+    pixel_x = (max_x - min_x) / HIMAWARI_GRID_SIZE
+    pixel_y = (max_y - min_y) / HIMAWARI_GRID_SIZE
+
+    cols = [(x - min_x) / pixel_x for x, _ in projected]
+    rows = [(max_y - y) / pixel_y for _, y in projected]
+
+    col_start = max(0, math.floor(min(cols)) - padding_pixels)
+    col_stop = min(
+        HIMAWARI_GRID_SIZE,
+        math.ceil(max(cols)) + 1 + padding_pixels,
+    )
+    row_start = max(0, math.floor(min(rows)) - padding_pixels)
+    row_stop = min(
+        HIMAWARI_GRID_SIZE,
+        math.ceil(max(rows)) + 1 + padding_pixels,
+    )
+    if row_start >= row_stop or col_start >= col_stop:
+        raise ValueError(f"Empty fixed-grid window for bbox: {bbox}")
+
+    return {
+        "bbox_lon_lat": [west, south, east, north],
+        "row_start": row_start,
+        "row_stop": row_stop,
+        "col_start": col_start,
+        "col_stop": col_stop,
+        "rows": row_stop - row_start,
+        "cols": col_stop - col_start,
+        "padding_pixels": padding_pixels,
+        "pixel_size_m": [pixel_x, pixel_y],
+        "projection": {
+            "proj": "geos",
+            "longitude_of_projection_origin": HIMAWARI_SUB_LON_DEG,
+            "perspective_point_height_m": HIMAWARI_HEIGHT_M,
+            "semi_major_axis_m": HIMAWARI_SEMI_MAJOR_M,
+            "inverse_flattening": HIMAWARI_INV_FLATTENING,
+            "sweep_angle_axis": "y",
+            "area_extent_m": list(HIMAWARI_AREA_EXTENT_M),
+            "grid_size": [HIMAWARI_GRID_SIZE, HIMAWARI_GRID_SIZE],
+        },
+    }
+
+
+def _numeric_window_stats(values, *, fill_value=None) -> dict:
+    import numpy as np
+
+    array = np.asarray(values)
+    valid = np.isfinite(array)
+    if fill_value is not None:
+        fill = np.asarray(fill_value).reshape(-1)
+        if fill.size:
+            valid &= array != fill[0]
+
+    valid_values = array[valid]
+    result = {
+        "shape": list(array.shape),
+        "total_count": int(array.size),
+        "valid_count": int(valid_values.size),
+        "fill_or_invalid_count": int(array.size - valid_values.size),
+    }
+    if valid_values.size:
+        result.update(
+            {
+                "min": _attr_text(valid_values.min()),
+                "max": _attr_text(valid_values.max()),
+                "mean": float(valid_values.mean()),
+            }
+        )
+        unique = np.unique(valid_values)
+        if unique.size <= 16:
+            result["value_counts"] = {
+                str(_attr_text(value)): int((valid_values == value).sum())
+                for value in unique
+            }
+    return result
+
+
+def read_fixed_grid_window(
+    fs,
+    path: str,
+    *,
+    dataset_name: str,
+    window: dict,
+    latitude_name: str,
+    longitude_name: str,
+) -> dict:
+    """Range-read only the selected fixed-grid window and its geolocation QC."""
+    import h5py
+    import numpy as np
+
+    rs, re = window["row_start"], window["row_stop"]
+    cs, ce = window["col_start"], window["col_stop"]
+
+    with fs.open(
+        path,
+        "rb",
+        block_size=8 * 1024 * 1024,
+        cache_type="readahead",
+    ) as fileobj:
+        with h5py.File(fileobj, "r") as handle:
+            for required in (dataset_name, latitude_name, longitude_name):
+                if required not in handle:
+                    raise AssertionError(f"{required} missing from {path}")
+
+            dataset = handle[dataset_name]
+            if list(dataset.shape) != [HIMAWARI_GRID_SIZE, HIMAWARI_GRID_SIZE]:
+                raise AssertionError(
+                    f"Unexpected {dataset_name} grid: {dataset.shape}"
+                )
+
+            values = dataset[rs:re, cs:ce]
+            latitudes = handle[latitude_name][rs:re, cs:ce]
+            longitudes = handle[longitude_name][rs:re, cs:ce]
+
+            fill_value = dataset.attrs.get("_FillValue")
+            lat_fill = handle[latitude_name].attrs.get("_FillValue")
+            lon_fill = handle[longitude_name].attrs.get("_FillValue")
+
+            data_stats = _numeric_window_stats(values, fill_value=fill_value)
+            lat_stats = _numeric_window_stats(latitudes, fill_value=lat_fill)
+            lon_stats = _numeric_window_stats(longitudes, fill_value=lon_fill)
+
+            if not data_stats["valid_count"]:
+                raise AssertionError(f"No valid {dataset_name} pixels in Taiwan window")
+            if not lat_stats["valid_count"] or not lon_stats["valid_count"]:
+                raise AssertionError("No valid geolocation pixels in Taiwan window")
+
+            west, south, east, north = window["bbox_lon_lat"]
+            tolerance_deg = 0.25
+            if lat_stats["min"] > south + tolerance_deg or lat_stats["max"] < north - tolerance_deg:
+                raise AssertionError(
+                    f"Latitude window does not cover bbox: {lat_stats}, bbox={window['bbox_lon_lat']}"
+                )
+            if lon_stats["min"] > west + tolerance_deg or lon_stats["max"] < east - tolerance_deg:
+                raise AssertionError(
+                    f"Longitude window does not cover bbox: {lon_stats}, bbox={window['bbox_lon_lat']}"
+                )
+
+            return {
+                "dataset": dataset_name,
+                "dataset_chunks": list(dataset.chunks) if dataset.chunks else None,
+                "dataset_compression": dataset.compression,
+                "data": data_stats,
+                "geolocation": {
+                    "latitude_dataset": latitude_name,
+                    "longitude_dataset": longitude_name,
+                    "latitude": lat_stats,
+                    "longitude": lon_stats,
+                },
+            }
+
 
 def floor_to_ten_minutes(value: datetime) -> datetime:
     if value.tzinfo is None:
@@ -122,6 +322,8 @@ def _dataset_summary(dataset) -> dict:
     result = {
         "shape": list(dataset.shape),
         "dtype": str(dataset.dtype),
+        "chunks": list(dataset.chunks) if dataset.chunks else None,
+        "compression": dataset.compression,
         "attrs": _interesting_attrs(dataset),
     }
     if dataset.ndim == 1 and dataset.size:
@@ -297,6 +499,24 @@ def run_probe(*, lookback_slots: int, now: datetime | None = None) -> dict:
     mask = inspect_remote_product(fs, pair["cloud_mask"], kind="cloud_mask")
     height = inspect_remote_product(fs, pair["cloud_height"], kind="cloud_height")
 
+    taiwan_window = fixed_grid_window(TAIWAN_QC_BBOX)
+    mask_window = read_fixed_grid_window(
+        fs,
+        pair["cloud_mask"],
+        dataset_name="CloudMaskBinaryAWIPS",
+        window=taiwan_window,
+        latitude_name="Latitude",
+        longitude_name="Longitude",
+    )
+    height_window = read_fixed_grid_window(
+        fs,
+        pair["cloud_height"],
+        dataset_name="CldTopHghtAWIPS",
+        window=taiwan_window,
+        latitude_name="Latitude_Pc",
+        longitude_name="Longitude_Pc",
+    )
+
     result = {
         "schema_version": 1,
         "source_kind": "observation",
@@ -314,6 +534,18 @@ def run_probe(*, lookback_slots: int, now: datetime | None = None) -> dict:
         "products": {
             "cloud_mask": mask,
             "cloud_height": height,
+        },
+        "taiwan_range_read": {
+            "window": taiwan_window,
+            "cloud_mask": mask_window,
+            "cloud_height": height_window,
+            "full_disk_pixels": HIMAWARI_GRID_SIZE * HIMAWARI_GRID_SIZE,
+            "window_pixels": taiwan_window["rows"] * taiwan_window["cols"],
+            "window_fraction_of_full_disk": (
+                taiwan_window["rows"]
+                * taiwan_window["cols"]
+                / (HIMAWARI_GRID_SIZE * HIMAWARI_GRID_SIZE)
+            ),
         },
         "semantic_guardrail": (
             "Observed cloud-top height is not forecast low/mid/high cloud-cover diagnostics."
