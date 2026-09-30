@@ -353,6 +353,19 @@
       document.body.style.top='';
       window.scrollTo(0,adminPickerScrollY);
     }
+    function restoreAdminPickerScroll(restoreY){
+      const apply=()=>{
+        if(!document.body.classList.contains('admin-picker-open')){
+          window.scrollTo(0,restoreY);
+        }
+      };
+      requestAnimationFrame(apply);
+      // Chromium can finish a history traversal after popstate/rAF under
+      // mobile emulation. Re-apply briefly so the picker never moves the
+      // underlying page after Done/Back closes it.
+      setTimeout(apply,50);
+      setTimeout(apply,250);
+    }
     function openMobileAdminPicker(details,{scrollY=null}={}){
       if(!details||!isMobileAdminPicker())return;
       const alreadyLocked=document.body.classList.contains('admin-picker-open');
@@ -552,10 +565,8 @@
       if(Number.isFinite(adminPickerPendingRestoreY)){
         const restoreY=adminPickerPendingRestoreY;
         adminPickerPendingRestoreY=null;
-        requestAnimationFrame(()=>{
-          window.scrollTo(0,restoreY);
-          restoreHistoryScrollMode();
-        });
+        restoreAdminPickerScroll(restoreY);
+        setTimeout(restoreHistoryScrollMode,260);
         return;
       }
       if(!adminPickerHistoryArmed){
@@ -567,9 +578,9 @@
       const details=document.querySelector('#admin-filter .admin-filter');
       if(details?.open)details.open=false;
       unlockAdminPickerScroll();
+      restoreAdminPickerScroll(restoreY);
+      setTimeout(restoreHistoryScrollMode,260);
       requestAnimationFrame(()=>{
-        window.scrollTo(0,restoreY);
-        restoreHistoryScrollMode();
         document.querySelector('#admin-filter .admin-filter > summary')?.focus({preventScroll:true});
       });
     });
