@@ -1193,9 +1193,7 @@
     const usingCwa=data===state.cwaData;
     const usingJma=data===state.jmaData;
     $('time-slider').value=state.frameIndex;
-    const frameLead=usingJma
-      ? `+${f.forecast_hour}h · API 發布時間軸`
-      : `f${String(f.forecast_hour).padStart(3,'0')}`;
+    const frameLead=`f${String(f.forecast_hour).padStart(3,'0')}`;
     $('time-label').textContent=`時間 · ${formatTaipeiTime(f.valid_time_utc)} (${frameLead})`;
     $('opacity-label').textContent=`${Math.round(state.weatherOpacity*100)}%`;
 
@@ -1228,7 +1226,7 @@
     $('cycle-label').textContent=`Cycle ${cycleText} · ${data.grid.rows}×${data.grid.cols} · ${resolution}`;
     const attributionHost=$('source-attribution');
     if(usingJma){
-      attributionHost.innerHTML='資料模型：JMA MSM · API transport: <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo</a>';
+      attributionHost.innerHTML='資料模型：JMA MSM · Open Data transport: <a href="https://registry.opendata.aws/open-meteo/" target="_blank" rel="noopener noreferrer">Open-Meteo AWS</a>';
     }else{
       attributionHost.innerHTML='';
     }
