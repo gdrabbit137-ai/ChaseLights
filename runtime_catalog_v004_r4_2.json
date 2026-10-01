@@ -14,7 +14,7 @@
     "runtime_catalog_v004_r4_2_b35_liyu_subjects.json"
   ],
   "counts": {
-    "spots": 195,
+    "spots": 196,
     "opportunities": 384,
     "condition_variants": 399,
     "profile_viewpoint_relations": 390
@@ -20415,6 +20415,154 @@
               "geometry_extent_m": 350,
               "geometry_note": "以合法公共區域為 Camera Zone；座標作天氣／地圖錨點，不宣稱唯一腳架位置。",
               "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-078",
+      "canonical_name": "Myrtle Edwards Park",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_SEATTLE_SCENIC_EXPANSION",
+      "research_sources": [
+        {
+          "authority": "Seattle Parks and Recreation — Myrtle Edwards Park",
+          "url": "https://seattle.gov/parks/parks/myrtle-edwards-park",
+          "verified_on": "2026-10-02",
+          "supports": "Official page documents 24-hour access, two Elliott Bay beach coves, and fantastic views of the Olympic Mountains, Mount Rainier and Puget Sound; park fully reopened June 4, 2026 after Elliott Bay Connections improvements."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-078-P01",
+          "spot_id": "us-078",
+          "name_zh": "Myrtle Edwards・Puget Sound＋Olympic Mountains 海灣遠景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04-seattle-myrtle-edwards-olympics",
+          "formula_confidence": 98,
+          "best_time": "白天至日落前；Olympics清晰時優先",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-320",
+              "variant_name": "Puget Sound＋Olympic Mountains",
+              "condition_geometry": "{\"target\":\"Puget Sound + Olympic Mountains\",\"camera_zone\":\"Myrtle Edwards public waterfront/beach coves\"}",
+              "hard_gates": "公共步道／海灣合法安全可達",
+              "required_conditions": "Puget Sound與Olympic Mountains主要輪廓可辨；西向遠距能見度足夠",
+              "boosters": "高透明度；低霾；雪山清晰；低角度光",
+              "penalties": "低雲遮山；霧霾；強降水；低能見度",
+              "formula_status": "needs_directional_horizon_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-078-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official Seattle Parks waterfront/mountain-view subject; coordinate is a public park camera-zone anchor, not a unique tripod claim.",
+              "name": "Myrtle Edwards waterfront Camera Zone",
+              "lat": 47.6195,
+              "lon": -122.361,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_city_subject_public_park_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 900,
+              "geometry_note": "涵蓋合法公共濱水步道與兩處 beach coves。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-078-P02",
+          "spot_id": "us-078",
+          "name_zh": "Myrtle Edwards・Mount Rainier＋Elliott Bay 遠景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04-seattle-myrtle-edwards-rainier",
+          "formula_confidence": 96,
+          "best_time": "Rainier可見且空氣透明時；低角度光優先",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-321",
+              "variant_name": "Mount Rainier遠景",
+              "condition_geometry": "{\"target\":\"Mount Rainier + Elliott Bay\",\"camera_zone\":\"Myrtle Edwards public waterfront\"}",
+              "hard_gates": "公共濱水區合法安全可達",
+              "required_conditions": "Mount Rainier方向低雲與霾不足以遮蔽山體；長距能見度高",
+              "boosters": "雨後清透；雪山高對比；低角度光",
+              "penalties": "山區低雲；霧霾；降雨；低能見度",
+              "formula_status": "needs_directional_horizon_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-078-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Seattle Parks explicitly lists Mount Rainier among park views; camera zone is intentionally broad pending tripod-level field verification.",
+              "name": "Myrtle Edwards Rainier Camera Zone",
+              "lat": 47.6195,
+              "lon": -122.361,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_city_subject_public_park_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 900,
+              "geometry_note": "公共濱水區；不宣稱單一最佳腳架點。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-078-P03",
+          "spot_id": "us-078",
+          "name_zh": "Myrtle Edwards・Puget Sound 日落／藍調海灣景",
+          "legacy_theme": "sunset",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_sunset_cloud_module",
+          "formula_version": "v0.04-seattle-myrtle-edwards-sunset",
+          "formula_confidence": 96,
+          "best_time": "日落前約60分鐘至藍調",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-322",
+              "variant_name": "Puget Sound夕景",
+              "condition_geometry": "{\"target\":\"western sunset sky + Puget Sound\",\"camera_zone\":\"Myrtle Edwards beach coves/waterfront\"}",
+              "hard_gates": "公共濱水區合法安全可達",
+              "required_conditions": "西向天空與Puget Sound可辨",
+              "boosters": "中高雲彩霞；西側透光；海面反射",
+              "penalties": "厚低雲封西方；強降水；低能見度",
+              "formula_status": "needs_directional_sunset_cloud_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-078-VP03",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "24-hour official park access makes post-sunset blue-hour evaluation possible; normal safety/access rules still apply.",
+              "name": "Myrtle Edwards sunset Camera Zone",
+              "lat": 47.6195,
+              "lon": -122.361,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_24h_waterfront_subject",
+              "geometry_type": "area",
+              "geometry_extent_m": 900,
+              "geometry_note": "公共濱水步道與海灣 Camera Zone。",
+              "geometry_confidence": "high"
             }
           ]
         }
