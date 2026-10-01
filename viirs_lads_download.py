@@ -69,16 +69,19 @@ def discover_files(year, bbox, token):
     return files
 
 
-def archive_url(filename):
+def archive_path(filename):
     match = FILENAME_RE.fullmatch(filename)
     if not match:
         raise ValueError("unexpected VNP46A4 filename")
-    # LAADS publishes Collection 2 VNP46A4 under the canonical allData
-    # archive tree: archive/allData/5200/VNP46A4/YYYY/DDD/<filename>.
     return (
-        f"{BASE}/archive/allData/{ARCHIVE_SET}/{PRODUCT}/"
+        f"allData/{ARCHIVE_SET}/{PRODUCT}/"
         f"{match.group('year')}/{match.group('doy')}/{urllib.parse.quote(filename)}"
     )
+
+
+def archive_url(filename):
+    """Use the documented API-V2 archive download endpoint."""
+    return f"{BASE}/api/v2/content/archives/{archive_path(filename)}"
 
 
 def download_file(filename, token, destination):
