@@ -514,6 +514,13 @@
     const hasSpot=Boolean(state.spotId);
     $('spot-panel').hidden=!hasSpot;
     $('coverage-panel').hidden=!hasSpot;
+
+    // On phones, do not spend an entire row on a disabled topic selector.
+    // Once a Place is selected the topic selector returns beside it.
+    const opportunityControl=$('opportunity-control');
+    const spotControl=document.querySelector('.spot-control');
+    if(opportunityControl) opportunityControl.classList.toggle('mobile-inactive',!hasSpot);
+    if(spotControl) spotControl.classList.toggle('mobile-full',!hasSpot);
   }
 
   function initControls(){

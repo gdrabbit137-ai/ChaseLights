@@ -2,7 +2,7 @@
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>ChaseLights WeatherGrid Preview</title>
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-gl.css">
   <link rel="stylesheet" href="./assets/weather-map.css">
@@ -25,7 +25,7 @@
   <main class="weather-layout">
     <section class="map-panel">
       <div class="control-bar">
-        <label>
+        <label class="model-control">
           <span>資料來源</span>
           <select id="model-select">
             <option value="auto">自動預報</option>
@@ -36,7 +36,7 @@
             <option value="gfs">GFS 0.25°</option>
           </select>
         </label>
-        <label>
+        <label class="layer-control">
           <span>圖層</span>
           <select id="layer-select"></select>
         </label>
@@ -44,25 +44,25 @@
           <span>圖層透明度 · <strong id="opacity-label">62%</strong></span>
           <input id="opacity-slider" type="range" min="0" max="100" value="62" step="1">
         </label>
-        <label>
+        <label class="spot-control">
           <span>景點</span>
           <select id="spot-select">
             <option value="">全部景點</option>
           </select>
         </label>
-        <label>
+        <label id="opportunity-control" class="opportunity-control">
           <span>題材</span>
           <select id="opportunity-select" disabled>
             <option value="">先選景點</option>
           </select>
         </label>
-        <button id="reset-view" type="button">模型範圍</button>
       </div>
 
       <div class="map-wrap">
         <div id="weather-basemap" aria-label="WeatherGrid cartographic basemap"></div>
         <canvas id="weather-canvas" width="1200" height="820" aria-label="WeatherGrid weather overlay"></canvas>
         <div id="basemap-status" class="basemap-status loading">底圖載入中…</div>
+        <button id="reset-view" class="map-reset-button" type="button" aria-label="回到目前資料來源範圍">↺ <span>模型範圍</span></button>
         <div id="legend" class="legend"></div>
       </div>
 
