@@ -1,7 +1,10 @@
+import http.cookiejar
 import unittest
+import urllib.request
 
 from viirs_lads_download import (
     archive_url,
+    authenticated_opener,
     authorization_headers,
     extract_filenames,
     search_url,
@@ -47,6 +50,12 @@ class ViirsLadsDownloadTest(unittest.TestCase):
         headers = authorization_headers("secret-value")
         self.assertEqual(headers["Authorization"], "Bearer secret-value")
         self.assertEqual(headers["X-Requested-With"], "XMLHttpRequest")
+
+    def test_authenticated_opener_installs_cookie_processor(self):
+        opener = authenticated_opener()
+        processors = [handler for handler in opener.handlers if isinstance(handler, urllib.request.HTTPCookieProcessor)]
+        self.assertEqual(len(processors), 1)
+        self.assertIsInstance(processors[0].cookiejar, http.cookiejar.CookieJar)
 
     def test_missing_token_fails_closed(self):
         with self.assertRaises(ValueError):
