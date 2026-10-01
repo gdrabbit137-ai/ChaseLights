@@ -1395,8 +1395,14 @@
   }
 
   function windVectorStep(){
+    const compactUi=window.matchMedia('(max-width:720px)').matches;
     if(state.mapReady && state.map){
       const zoom=state.map.getZoom();
+      if(compactUi){
+        if(zoom>=8) return 2;
+        if(zoom>=6.4) return 3;
+        return 4;
+      }
       if(zoom>=8) return 1;
       if(zoom>=6.4) return 2;
       return 3;
@@ -1443,6 +1449,7 @@
     const lats=data.grid.latitudes, lons=data.grid.longitudes;
     const visible=renderViewBbox();
     const step=windVectorStep();
+    const compactUi=window.matchMedia('(max-width:720px)').matches;
 
     ctx.save();
     ctx.lineCap='round';
@@ -1459,15 +1466,15 @@
            lat<visible.bottomlat || lat>visible.toplat) continue;
 
         const p=project(lon,lat);
-        const length=11+Math.min(speed/20,1)*17;
+        const length=(compactUi?9:11)+Math.min(speed/20,1)*(compactUi?13:17);
         // Normalized provider direction is meteorological "from". Arrow points toward motion.
         const toward=((direction+180)%360)*Math.PI/180;
         const dx=Math.sin(toward)*length/2;
         const dy=-Math.cos(toward)*length/2;
         const sx=p.x-dx, sy=p.y-dy, ex=p.x+dx, ey=p.y+dy;
 
-        strokeWindArrow(sx,sy,ex,ey,'rgba(2,6,23,.78)',4.5);
-        strokeWindArrow(sx,sy,ex,ey,'rgba(224,242,254,.96)',2);
+        strokeWindArrow(sx,sy,ex,ey,'rgba(2,6,23,.72)',compactUi?3.5:4.5);
+        strokeWindArrow(sx,sy,ex,ey,'rgba(224,242,254,.94)',compactUi?1.6:2);
         state.lastWindVectorCount+=1;
       }
     }
@@ -1950,7 +1957,7 @@
     if(opacityTitle){
       const compactUi=window.matchMedia('(max-width:720px)').matches;
       opacityTitle.textContent=compactUi
-        ? (cfg.palette==='cloud'?'雲層':'圖層')
+        ? (cfg.palette==='cloud'?'雲層透明度':'圖層透明度')
         : (cfg.palette==='cloud'?'雲層顯示強度':'圖層顯示強度');
     }
     if(opacitySlider){
@@ -2176,8 +2183,8 @@
       labelsHtml=`<div class="legend-row">${labelHtml}</div>`;
     }
 
-    const windKey=state.windVectors ? `
-      <div class="wind-key"><span class="wind-arrow-icon">→</span> 10 m 風向箭頭 · 箭頭指向風去向</div>` : '';
+    const windKey=(state.windVectors || isWindLayer()) ? `
+      <div class="wind-key"><span class="wind-arrow-icon">→</span> 箭頭＝風去向</div>` : '';
     const coverageKey=state.spotId ? `
       <div class="coverage-key">
         <span><i class="coverage-swatch camera"></i>Camera</span>
