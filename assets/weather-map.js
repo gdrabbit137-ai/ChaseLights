@@ -545,6 +545,18 @@
 
     const layerSelect = $('layer-select');
     const windToggle=$('wind-vector-toggle');
+    const layerDetailsToggle=$('layer-details-toggle');
+    const layerDetails=$('layer-details');
+
+    if(layerDetailsToggle && layerDetails){
+      layerDetailsToggle.addEventListener('click',()=>{
+        const expanded=layerDetailsToggle.getAttribute('aria-expanded')==='true';
+        const next=!expanded;
+        layerDetailsToggle.setAttribute('aria-expanded',next?'true':'false');
+        layerDetailsToggle.textContent=next?'收合':'詳細';
+        layerDetails.classList.toggle('is-expanded',next);
+      });
+    }
 
     windToggle.addEventListener('change',()=>{
       state.windVectors=windToggle.checked;
@@ -1972,17 +1984,27 @@
     return messages[flag] || '此圖層有資料品質提示，請搭配相鄰時段與其他模型判讀。';
   }
 
+  function setQcSummary(tone,text){
+    const summary=$('qc-summary');
+    if(!summary) return;
+    summary.className=`qc-summary ${tone}`;
+    summary.textContent=`資料品質 · ${text}`;
+  }
+
   function updateQc(){
     const host=$('qc-status');
     if(state.source==='demo'){
+      setQcSummary('warn','DEMO');
       host.innerHTML='<div class="warn">⚠️ 目前顯示 DEMO fixture；發布 live WeatherGrid 後會自動採 ICON cloud / GFS fallback。</div>';
       return;
     }
     const qc=activeQc(state.layer);
     if(!qc){
+      setQcSummary('warn','QC 未提供');
       host.innerHTML='<div class="warn">△ QC 資料未提供</div>';return;
     }
     if(isObservationMode()){
+      setQcSummary('ok','觀測正常');
       const distance=qc.nearest_distance_m?.[state.layer];
       const stats=qc.field_stats?.[state.layer];
       const age=observationAgeMinutes();
@@ -2002,8 +2024,10 @@
     const fh=frame().forecast_hour;
     const flags=qc.flags.filter(x=>x.forecast_hour===fh && x.field===state.layer);
     if(!flags.length){
+      setQcSummary('ok','資料正常');
       host.innerHTML='<div class="ok">✓ 資料正常</div>';
     }else{
+      setQcSummary('warn','需注意');
       host.innerHTML=flags.map(x=>`<div class="warn">⚠ ${escapeHtml(qcMessage(x.flag))}<span class="qc-code" title="內部 QC 代碼">${escapeHtml(x.flag)}</span></div>`).join('');
     }
   }
@@ -2043,6 +2067,7 @@
     console.error(err);
     $('source-state').textContent='載入失敗';
     $('source-state').className='source-pill error';
+    setQcSummary('warn','載入失敗');
     $('qc-status').innerHTML=`<div class="warn">${escapeHtml(err.message)}</div>`;
   });
 })();
