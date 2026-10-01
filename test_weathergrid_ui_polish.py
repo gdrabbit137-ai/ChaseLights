@@ -302,5 +302,22 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertNotIn("0–100 題材環境指標", self.js)
 
 
+    def test_b173_composite_contract_is_viewport_native_and_provenance_explicit(self):
+        spec = (ROOT / "B172_PHOTOGRAPHER_FIRST_AUTO.md").read_text(encoding="utf-8")
+        self.assertIn("viewport-native regular latitude/longitude grid", spec)
+        self.assertIn("Default nominal spacing: **5 km**", spec)
+        self.assertIn("**40,000 cells**", spec)
+        self.assertIn("requested_spacing_km", spec)
+        self.assertIn("effective_lat_spacing_km", spec)
+        self.assertIn("effective_lon_spacing_km", spec)
+        self.assertIn("temporal_offset_minutes", spec)
+        self.assertIn("temporal_tolerance_minutes", spec)
+        self.assertIn('"interpolation": "bilinear"', spec)
+        self.assertIn("outside_source_bbox", spec)
+        self.assertIn("effective weight coverage (0–1)", spec)
+        self.assertIn("Do not use a source provider's grid as the target grid", spec)
+
+
+
 if __name__ == "__main__":
     unittest.main()
