@@ -54,13 +54,11 @@ class JmaMsmWeatherGridUiTests(unittest.TestCase):
         self.assertIn("Open-Meteo AWS", JS)
         self.assertIn("https://registry.opendata.aws/open-meteo/", JS)
 
-    def test_auto_mode_does_not_change_until_explicit_policy_decision(self):
-        auto_block = JS.split("function availableLayerKeys()", 1)[1].split(
-            "function refreshModelControls()", 1
-        )[0]
-        self.assertIn("state.data?.fields", auto_block)
-        self.assertIn("state.iconData?.fields", auto_block)
-        self.assertNotIn("state.jmaData?.fields", auto_block)
+    def test_auto_mode_uses_explicit_photographer_first_provider_policy(self):
+        self.assertIn("function autoDataset(key)", JS)
+        self.assertIn("state.jmaData", JS)
+        self.assertIn("datasetHasFrameForLayer(data,key,validTime)", JS)
+        self.assertIn("photographerLayerOrder", JS)
 
 
 if __name__ == "__main__":
