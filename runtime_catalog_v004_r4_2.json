@@ -14,7 +14,7 @@
     "runtime_catalog_v004_r4_2_b35_liyu_subjects.json"
   ],
   "counts": {
-    "spots": 188,
+    "spots": 189,
     "opportunities": 384,
     "condition_variants": 399,
     "profile_viewpoint_relations": 390
@@ -19594,6 +19594,166 @@
               "geometry_type": "area",
               "geometry_extent_m": 1200,
               "geometry_note": "Independence Mine合法公共歷史區、步道與觀景範圍；封閉建築與危險礦區除外。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-071",
+      "canonical_name": "Kerry Park",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_SEATTLE_SCENIC_EXPANSION",
+      "research_sources": [
+        {
+          "authority": "Seattle Parks and Recreation — Kerry Park (Franklin Place)",
+          "url": "https://www.seattle.gov/parks/parks/kerry-park",
+          "verified_on": "2026-10-02",
+          "supports": "Official park page identifies the Elliott Bay and Central City panorama, occasional Mount Rainier backdrop, sunset camera use, night city lights and current 06:00–22:00 park hours."
+        },
+        {
+          "authority": "Visit Seattle — Seattle on a Budget",
+          "url": "https://visitseattle.org/press/press-kit/seattle-on-a-budget/",
+          "verified_on": "2026-10-02",
+          "supports": "Visit Seattle describes Kerry Park as a picture-perfect view of Seattle Center, downtown and Elliott Bay, with Mount Rainier as a clear-day backdrop."
+        },
+        {
+          "authority": "OpenStreetMap-derived Kerry Park viewpoint coordinate",
+          "url": "https://www.openstreetmap.org/node/693337509",
+          "verified_on": "2026-10-02",
+          "supports": "Public viewpoint anchor at approximately 47.62941, -122.35993; used as the weather/navigation camera-zone anchor rather than a claim of a unique tripod position."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-071-P01",
+          "spot_id": "us-071",
+          "name_zh": "Kerry Park・Seattle Skyline＋Space Needle＋Mount Rainier 遠景",
+          "legacy_theme": "city_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04-seattle-kerry-directional-visibility",
+          "formula_confidence": 97,
+          "best_time": "白天至日落前；Mount Rainier 作背景時優先高能見度、低霾時段",
+          "best_season": "全年；Rainier 是否可見主要受雲層、能見度與大氣透明度影響",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-305",
+              "variant_name": "Seattle skyline＋Space Needle＋Mount Rainier 遠景",
+              "condition_geometry": "{\"camera_zone\":\"Kerry Park Viewpoint Camera Zone\",\"target\":\"Seattle skyline / Space Needle / Elliott Bay with Mount Rainier backdrop when visible\"}",
+              "hard_gates": "Kerry Park官方開放時段內；公共觀景區可合法安全使用",
+              "required_conditions": "Seattle skyline與Space Needle清楚可辨；若評估Rainier背景則需東南偏南遠距能見度與山體方向低雲條件可用",
+              "boosters": "高透明度；低霾；Rainier清晰；低角度光；雪山對比",
+              "penalties": "低雲遮山；霧霾；降雨；遠距能見度不足",
+              "formula_status": "needs_directional_horizon_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-071-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Seattle Parks officially identifies Kerry Park as the city/Elliott Bay viewpoint and notes the occasional Mount Rainier backdrop. Coordinate is an OSM-derived public viewpoint anchor, not a unique tripod claim.",
+              "name": "Kerry Park Viewpoint Camera Zone",
+              "lat": 47.62941,
+              "lon": -122.35993,
+              "coord_confidence": "high",
+              "verification_status": "official_park_subject_osm_viewpoint_anchor",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 120,
+              "geometry_note": "Kerry Park公共觀景牆與相鄰合法步行區域。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-071-P02",
+          "spot_id": "us-071",
+          "name_zh": "Kerry Park・日落彩霞＋Seattle Skyline",
+          "legacy_theme": "sunset",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_sunset_cloud_module",
+          "formula_version": "v0.04-seattle-kerry-sunset-cloud",
+          "formula_confidence": 96,
+          "best_time": "日落前約45分鐘至日落後藍調開始",
+          "best_season": "全年；依日落方位與雲量條件變化",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-306",
+              "variant_name": "夕照／彩霞＋城市天際線",
+              "condition_geometry": "{\"camera_zone\":\"Kerry Park Viewpoint Camera Zone\",\"target\":\"Seattle skyline / Elliott Bay under sunset or post-sunset color\"}",
+              "hard_gates": "官方06:00–22:00開放時段內；日落／暮光時段有效",
+              "required_conditions": "城市主景可辨；低雲未完全封景；降水未阻斷視線",
+              "boosters": "中高雲適中形成彩霞；西側天空有透光帶；高透明度",
+              "penalties": "厚低雲封住西側天空；強降水；低能見度",
+              "formula_status": "needs_directional_sunset_cloud_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-071-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Seattle Parks explicitly states camera buffs line the wall at sunset as the city and Sound begin to glow.",
+              "name": "Kerry Park Viewpoint Camera Zone",
+              "lat": 47.62941,
+              "lon": -122.35993,
+              "coord_confidence": "high",
+              "verification_status": "official_seattle_parks_sunset_camera_subject",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 120,
+              "geometry_note": "公共觀景牆範圍。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-071-P03",
+          "spot_id": "us-071",
+          "name_zh": "Kerry Park・藍調／夜景＋Space Needle 城市燈火",
+          "legacy_theme": "city_night",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_access_aware_city_night_module",
+          "formula_version": "v0.04-seattle-kerry-bluehour-night",
+          "formula_confidence": 98,
+          "best_time": "日落後藍調至21:45左右；須預留22:00閉園離場時間",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-307",
+              "variant_name": "藍調／夜景＋Space Needle＋城市燈火",
+              "condition_geometry": "{\"camera_zone\":\"Kerry Park Viewpoint Camera Zone\",\"target\":\"Space Needle / Seattle city lights / Elliott Bay\"}",
+              "hard_gates": "官方06:00–22:00開放時段內；22:00前完成拍攝並離場",
+              "required_conditions": "城市燈火與Space Needle清楚可辨；低雲／霧未封住主要視線",
+              "boosters": "藍調天空；雨後清澈空氣；城市燈光與渡輪光軌",
+              "penalties": "霧；厚低雲；強降水；能見度差",
+              "formula_status": "needs_access_aware_city_night_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-071-VP03",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Seattle Parks describes the night view with illuminated ferries and Space Needle; the 22:00 closing time is a hard access constraint.",
+              "name": "Kerry Park Viewpoint Camera Zone",
+              "lat": 47.62941,
+              "lon": -122.35993,
+              "coord_confidence": "high",
+              "verification_status": "official_seattle_parks_night_subject_and_hours",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 120,
+              "geometry_note": "公共觀景牆範圍；閉園後不推薦。",
               "geometry_confidence": "high"
             }
           ]
