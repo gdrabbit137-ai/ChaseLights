@@ -14,10 +14,10 @@
     "runtime_catalog_v004_r4_2_b35_liyu_subjects.json"
   ],
   "counts": {
-    "spots": 202,
-    "opportunities": 411,
-    "condition_variants": 426,
-    "profile_viewpoint_relations": 417
+    "spots": 214,
+    "opportunities": 423,
+    "condition_variants": 438,
+    "profile_viewpoint_relations": 429
   },
   "spots": [
     {
@@ -21067,6 +21067,726 @@
               "name": "Tipsoo Lake legal trail Camera Zone",
               "lat": 46.8691,
               "lon": -121.5175,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_subject_public_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 900,
+              "geometry_note": "合法公共 Camera Zone；座標作地圖／天氣錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-085",
+      "canonical_name": "Ruby Beach",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_WASHINGTON_SCENIC_EXPANSION_2",
+      "research_sources": [
+        {
+          "authority": "NPS — Olympic Beaches",
+          "url": "https://www.nps.gov/thingstodo/olympicbeaches.htm",
+          "verified_on": "2026-10-02",
+          "supports": "Official source supports the named scenic subject and/or access constraints used by this Opportunity."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-085-P01",
+          "spot_id": "us-085",
+          "name_zh": "Ruby Beach・Sea Stacks＋漂流木＋太平洋日落",
+          "legacy_theme": "sunset",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04-wa-ruby-beach",
+          "formula_confidence": 96,
+          "best_time": "日落前約90分鐘至藍調",
+          "best_season": "全年；季節道路、潮汐、雪況或現場封閉依官方狀態作 hard gate",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-332",
+              "variant_name": "Ruby Beach・Sea Stacks＋漂流木＋太平洋日落",
+              "condition_geometry": "{\"target\":\"Ruby Beach primary photographic subject\"}",
+              "hard_gates": "海灘開放；確認潮汐與 sneaker-wave 安全",
+              "required_conditions": "主要攝影主體可見且合法、安全到達",
+              "boosters": "中高雲彩霞；退潮濕沙反光；高透明度",
+              "penalties": "高潮限制構圖；濃霧；危險浪況",
+              "formula_status": "needs_directional_horizon_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-085-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official scenic subject; coordinate is a public camera-zone/weather anchor, not a unique tripod claim.",
+              "name": "Ruby Beach public Camera Zone",
+              "lat": 47.7105,
+              "lon": -124.4155,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_subject_public_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 900,
+              "geometry_note": "合法公共 Camera Zone；座標作地圖／天氣錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-086",
+      "canonical_name": "Rialto Beach / Hole-in-the-Wall",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_WASHINGTON_SCENIC_EXPANSION_2",
+      "research_sources": [
+        {
+          "authority": "NPS — Mora and Rialto Beach",
+          "url": "https://www.nps.gov/olym/planyourvisit/visiting-mora-and-rialto.htm",
+          "verified_on": "2026-10-02",
+          "supports": "Official source supports the named scenic subject and/or access constraints used by this Opportunity."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-086-P01",
+          "spot_id": "us-086",
+          "name_zh": "Rialto Beach・Hole-in-the-Wall 海蝕拱門＋Sea Stacks",
+          "legacy_theme": "coast",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-wa-rialto-beach-hole-in-the-wall",
+          "formula_confidence": 96,
+          "best_time": "白天至黃昏；依題材與季節條件",
+          "best_season": "全年；季節道路、潮汐、雪況或現場封閉依官方狀態作 hard gate",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-333",
+              "variant_name": "Rialto Beach・Hole-in-the-Wall 海蝕拱門＋Sea Stacks",
+              "condition_geometry": "{\"target\":\"Rialto Beach / Hole-in-the-Wall primary photographic subject\"}",
+              "hard_gates": "Mora/Rialto access open；須有安全潮汐窗口",
+              "required_conditions": "主要攝影主體可見且合法、安全到達",
+              "boosters": "低潮；側光；戲劇雲；適中浪花",
+              "penalties": "漲潮切斷退路；濃霧；危險浪況；道路封閉",
+              "formula_status": "needs_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-086-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official scenic subject; coordinate is a public camera-zone/weather anchor, not a unique tripod claim.",
+              "name": "Rialto Beach / Hole-in-the-Wall public Camera Zone",
+              "lat": 47.917,
+              "lon": -124.638,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_subject_public_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 1600,
+              "geometry_note": "合法公共 Camera Zone；座標作地圖／天氣錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-087",
+      "canonical_name": "Hurricane Ridge",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_WASHINGTON_SCENIC_EXPANSION_2",
+      "research_sources": [
+        {
+          "authority": "NPS — Olympic Trip Ideas",
+          "url": "https://www.nps.gov/olym/planyourvisit/tripideas.htm",
+          "verified_on": "2026-10-02",
+          "supports": "Official source supports the named scenic subject and/or access constraints used by this Opportunity."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-087-P01",
+          "spot_id": "us-087",
+          "name_zh": "Hurricane Ridge・Olympic Mountains 山岳層次／雲海",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-wa-hurricane-ridge",
+          "formula_confidence": 96,
+          "best_time": "白天至黃昏；依題材與季節條件",
+          "best_season": "全年；季節道路、潮汐、雪況或現場封閉依官方狀態作 hard gate",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-334",
+              "variant_name": "Hurricane Ridge・Olympic Mountains 山岳層次／雲海",
+              "condition_geometry": "{\"target\":\"Hurricane Ridge primary photographic subject\"}",
+              "hard_gates": "Hurricane Ridge Road/area open；冬季道路與雪況允許",
+              "required_conditions": "主要攝影主體可見且合法、安全到達",
+              "boosters": "高透明度；低雲位於觀景點下方；新雪；側光",
+              "penalties": "觀景點入雲；暴雪；道路封閉",
+              "formula_status": "needs_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-087-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official scenic subject; coordinate is a public camera-zone/weather anchor, not a unique tripod claim.",
+              "name": "Hurricane Ridge public Camera Zone",
+              "lat": 47.969,
+              "lon": -123.498,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_subject_public_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 900,
+              "geometry_note": "合法公共 Camera Zone；座標作地圖／天氣錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-088",
+      "canonical_name": "Hoh Rain Forest",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_WASHINGTON_SCENIC_EXPANSION_2",
+      "research_sources": [
+        {
+          "authority": "NPS — Olympic Places to Go",
+          "url": "https://www.nps.gov/olym/planyourvisit/places-to-go.htm",
+          "verified_on": "2026-10-02",
+          "supports": "Official source supports the named scenic subject and/or access constraints used by this Opportunity."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-088-P01",
+          "spot_id": "us-088",
+          "name_zh": "Hoh Rain Forest・苔蘚雨林＋薄霧／漫射光",
+          "legacy_theme": "forest",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-wa-hoh-rain-forest",
+          "formula_confidence": 96,
+          "best_time": "白天至黃昏；依題材與季節條件",
+          "best_season": "全年；季節道路、潮汐、雪況或現場封閉依官方狀態作 hard gate",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-335",
+              "variant_name": "Hoh Rain Forest・苔蘚雨林＋薄霧／漫射光",
+              "condition_geometry": "{\"target\":\"Hoh Rain Forest primary photographic subject\"}",
+              "hard_gates": "Hoh area/trails open",
+              "required_conditions": "主要攝影主體可見且合法、安全到達",
+              "boosters": "高濕度；薄霧；雨後濕潤；漫射光",
+              "penalties": "強風；豪雨影響器材／步道；封閉",
+              "formula_status": "needs_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-088-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official scenic subject; coordinate is a public camera-zone/weather anchor, not a unique tripod claim.",
+              "name": "Hoh Rain Forest public Camera Zone",
+              "lat": 47.8609,
+              "lon": -123.934,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_subject_public_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 900,
+              "geometry_note": "合法公共 Camera Zone；座標作地圖／天氣錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-089",
+      "canonical_name": "Palouse Falls",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_WASHINGTON_SCENIC_EXPANSION_2",
+      "research_sources": [
+        {
+          "authority": "Washington State Parks — Palouse Falls",
+          "url": "https://parks.wa.gov/find-parks/state-parks/palouse-falls-state-park-heritage-site",
+          "verified_on": "2026-10-02",
+          "supports": "Official source supports the named scenic subject and/or access constraints used by this Opportunity."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-089-P01",
+          "spot_id": "us-089",
+          "name_zh": "Palouse Falls・瀑布＋玄武岩峽谷",
+          "legacy_theme": "waterfall",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-wa-palouse-falls",
+          "formula_confidence": 96,
+          "best_time": "白天至黃昏；依題材與季節條件",
+          "best_season": "全年；季節道路、潮汐、雪況或現場封閉依官方狀態作 hard gate",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-336",
+              "variant_name": "Palouse Falls・瀑布＋玄武岩峽谷",
+              "condition_geometry": "{\"target\":\"Palouse Falls primary photographic subject\"}",
+              "hard_gates": "公園開放；僅核准觀景區；canyon/base trails 永久封閉",
+              "required_conditions": "主要攝影主體可見且合法、安全到達",
+              "boosters": "較佳流量；側光；戲劇雲",
+              "penalties": "低流量；濃霧；強降雨；越界",
+              "formula_status": "needs_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-089-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official scenic subject; coordinate is a public camera-zone/weather anchor, not a unique tripod claim.",
+              "name": "Palouse Falls public Camera Zone",
+              "lat": 46.6636,
+              "lon": -118.227,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_subject_public_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 900,
+              "geometry_note": "合法公共 Camera Zone；座標作地圖／天氣錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-090",
+      "canonical_name": "Diablo Lake",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_WASHINGTON_SCENIC_EXPANSION_2",
+      "research_sources": [
+        {
+          "authority": "NPS — Diablo Lake Overlook",
+          "url": "https://www.nps.gov/places/diablo-lake-overlook.htm",
+          "verified_on": "2026-10-02",
+          "supports": "Official source supports the named scenic subject and/or access constraints used by this Opportunity."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-090-P01",
+          "spot_id": "us-090",
+          "name_zh": "Diablo Lake・藍綠冰河湖＋North Cascades",
+          "legacy_theme": "lake",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_water_surface_visibility_module",
+          "formula_version": "v0.04-wa-diablo-lake",
+          "formula_confidence": 96,
+          "best_time": "白天至黃昏；依題材與季節條件",
+          "best_season": "全年；季節道路、潮汐、雪況或現場封閉依官方狀態作 hard gate",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-337",
+              "variant_name": "Diablo Lake・藍綠冰河湖＋North Cascades",
+              "condition_geometry": "{\"target\":\"Diablo Lake primary photographic subject\"}",
+              "hard_gates": "觀景區／道路開放",
+              "required_conditions": "主要攝影主體可見且合法、安全到達",
+              "boosters": "7–9月；日照；高透明度；低風",
+              "penalties": "厚低雲遮山；強風；低能見度",
+              "formula_status": "needs_water_surface_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-090-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official scenic subject; coordinate is a public camera-zone/weather anchor, not a unique tripod claim.",
+              "name": "Diablo Lake public Camera Zone",
+              "lat": 48.713,
+              "lon": -121.113,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_subject_public_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 900,
+              "geometry_note": "合法公共 Camera Zone；座標作地圖／天氣錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-091",
+      "canonical_name": "Washington Pass Observation Site",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_WASHINGTON_SCENIC_EXPANSION_2",
+      "research_sources": [
+        {
+          "authority": "NPS — Washington Pass Overlook",
+          "url": "https://home.nps.gov/noca/planyourvisit/accessibility-at-washington-pass-overlook.htm",
+          "verified_on": "2026-10-02",
+          "supports": "Official source supports the named scenic subject and/or access constraints used by this Opportunity."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-091-P01",
+          "spot_id": "us-091",
+          "name_zh": "Washington Pass・Liberty Bell＋Early Winters Spires／秋季落葉松",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-wa-washington-pass-observation-site",
+          "formula_confidence": 96,
+          "best_time": "白天至黃昏；依題材與季節條件",
+          "best_season": "全年；季節道路、潮汐、雪況或現場封閉依官方狀態作 hard gate",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-338",
+              "variant_name": "Washington Pass・Liberty Bell＋Early Winters Spires／秋季落葉松",
+              "condition_geometry": "{\"target\":\"Washington Pass Observation Site primary photographic subject\"}",
+              "hard_gates": "SR20／觀景區開放；積雪與道路狀態允許",
+              "required_conditions": "主要攝影主體可見且合法、安全到達",
+              "boosters": "高透明度；秋季金黃落葉松；新雪；側光",
+              "penalties": "低雲遮峰；道路冬季封閉；暴雪",
+              "formula_status": "needs_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-091-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official scenic subject; coordinate is a public camera-zone/weather anchor, not a unique tripod claim.",
+              "name": "Washington Pass Observation Site public Camera Zone",
+              "lat": 48.525,
+              "lon": -120.657,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_subject_public_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 900,
+              "geometry_note": "合法公共 Camera Zone；座標作地圖／天氣錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-092",
+      "canonical_name": "Artist Point",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_WASHINGTON_SCENIC_EXPANSION_2",
+      "research_sources": [
+        {
+          "authority": "USDA Forest Service — Mt. Baker-Snoqualmie NF",
+          "url": "https://www.fs.usda.gov/r06/mbs",
+          "verified_on": "2026-10-02",
+          "supports": "Official source supports the named scenic subject and/or access constraints used by this Opportunity."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-092-P01",
+          "spot_id": "us-092",
+          "name_zh": "Artist Point・Mount Shuksan／Mount Baker 高山雪景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-wa-artist-point",
+          "formula_confidence": 96,
+          "best_time": "白天至黃昏；依題材與季節條件",
+          "best_season": "全年；季節道路、潮汐、雪況或現場封閉依官方狀態作 hard gate",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-339",
+              "variant_name": "Artist Point・Mount Shuksan／Mount Baker 高山雪景",
+              "condition_geometry": "{\"target\":\"Artist Point primary photographic subject\"}",
+              "hard_gates": "Artist Point access/road/trail open and safe",
+              "required_conditions": "主要攝影主體可見且合法、安全到達",
+              "boosters": "高透明度；新雪；彩霞；低風",
+              "penalties": "低雲遮峰；道路封閉；暴雪",
+              "formula_status": "needs_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-092-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official scenic subject; coordinate is a public camera-zone/weather anchor, not a unique tripod claim.",
+              "name": "Artist Point public Camera Zone",
+              "lat": 48.8465,
+              "lon": -121.6927,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_subject_public_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 900,
+              "geometry_note": "合法公共 Camera Zone；座標作地圖／天氣錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-093",
+      "canonical_name": "Picture Lake",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_WASHINGTON_SCENIC_EXPANSION_2",
+      "research_sources": [
+        {
+          "authority": "USDA Forest Service — Mt. Baker-Snoqualmie NF",
+          "url": "https://www.fs.usda.gov/r06/mbs",
+          "verified_on": "2026-10-02",
+          "supports": "Official source supports the named scenic subject and/or access constraints used by this Opportunity."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-093-P01",
+          "spot_id": "us-093",
+          "name_zh": "Picture Lake・Mount Shuksan 湖面倒影",
+          "legacy_theme": "reflection",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_water_surface_visibility_module",
+          "formula_version": "v0.04-wa-picture-lake",
+          "formula_confidence": 96,
+          "best_time": "白天至黃昏；依題材與季節條件",
+          "best_season": "全年；季節道路、潮汐、雪況或現場封閉依官方狀態作 hard gate",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-340",
+              "variant_name": "Picture Lake・Mount Shuksan 湖面倒影",
+              "condition_geometry": "{\"target\":\"Picture Lake primary photographic subject\"}",
+              "hard_gates": "道路／步道開放；湖面狀態可形成倒影",
+              "required_conditions": "主要攝影主體可見且合法、安全到達",
+              "boosters": "低風；高透明度；秋色；晨光",
+              "penalties": "強風；低雲遮山；結冰／積雪遮湖",
+              "formula_status": "needs_water_surface_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-093-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official scenic subject; coordinate is a public camera-zone/weather anchor, not a unique tripod claim.",
+              "name": "Picture Lake public Camera Zone",
+              "lat": 48.8682,
+              "lon": -121.6777,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_subject_public_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 900,
+              "geometry_note": "合法公共 Camera Zone；座標作地圖／天氣錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-094",
+      "canonical_name": "Steptoe Butte State Park Heritage Site",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_WASHINGTON_SCENIC_EXPANSION_2",
+      "research_sources": [
+        {
+          "authority": "Washington State Parks — Steptoe Butte",
+          "url": "https://parks.wa.gov/find-parks/state-parks/steptoe-butte-state-park-heritage-site",
+          "verified_on": "2026-10-02",
+          "supports": "Official source supports the named scenic subject and/or access constraints used by this Opportunity."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-094-P01",
+          "spot_id": "us-094",
+          "name_zh": "Steptoe Butte・Palouse 丘陵農田光影",
+          "legacy_theme": "landscape",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-wa-steptoe-butte-state-park-heritage-site",
+          "formula_confidence": 96,
+          "best_time": "白天至黃昏；依題材與季節條件",
+          "best_season": "全年；季節道路、潮汐、雪況或現場封閉依官方狀態作 hard gate",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-341",
+              "variant_name": "Steptoe Butte・Palouse 丘陵農田光影",
+              "condition_geometry": "{\"target\":\"Steptoe Butte State Park Heritage Site primary photographic subject\"}",
+              "hard_gates": "公園／進場道路開放；須在開放時段",
+              "required_conditions": "主要攝影主體可見且合法、安全到達",
+              "boosters": "低角度側光；局部雲影；高透明度；季節田色",
+              "penalties": "霧白牆；煙霾；厚雲無方向光",
+              "formula_status": "needs_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-094-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official scenic subject; coordinate is a public camera-zone/weather anchor, not a unique tripod claim.",
+              "name": "Steptoe Butte State Park Heritage Site public Camera Zone",
+              "lat": 47.032,
+              "lon": -117.298,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_subject_public_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 900,
+              "geometry_note": "合法公共 Camera Zone；座標作地圖／天氣錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-095",
+      "canonical_name": "Cape Disappointment State Park",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_WASHINGTON_SCENIC_EXPANSION_2",
+      "research_sources": [
+        {
+          "authority": "Washington State Parks — Cape Disappointment",
+          "url": "https://parks.wa.gov/find-parks/state-parks/cape-disappointment-state-park",
+          "verified_on": "2026-10-02",
+          "supports": "Official source supports the named scenic subject and/or access constraints used by this Opportunity."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-095-P01",
+          "spot_id": "us-095",
+          "name_zh": "Cape Disappointment・燈塔＋太平洋峭壁／風暴海景",
+          "legacy_theme": "coast",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-wa-cape-disappointment-state-park",
+          "formula_confidence": 96,
+          "best_time": "白天至黃昏；依題材與季節條件",
+          "best_season": "全年；季節道路、潮汐、雪況或現場封閉依官方狀態作 hard gate",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-342",
+              "variant_name": "Cape Disappointment・燈塔＋太平洋峭壁／風暴海景",
+              "condition_geometry": "{\"target\":\"Cape Disappointment State Park primary photographic subject\"}",
+              "hard_gates": "公園與目標步道開放；風浪安全條件允許",
+              "required_conditions": "主要攝影主體可見且合法、安全到達",
+              "boosters": "戲劇雲；適中浪花；海霧層次；側光",
+              "penalties": "危險強風／巨浪；濃霧遮主體；封閉",
+              "formula_status": "needs_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-095-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official scenic subject; coordinate is a public camera-zone/weather anchor, not a unique tripod claim.",
+              "name": "Cape Disappointment State Park public Camera Zone",
+              "lat": 46.283,
+              "lon": -124.054,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_subject_public_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 1600,
+              "geometry_note": "合法公共 Camera Zone；座標作地圖／天氣錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-096",
+      "canonical_name": "Sun Lakes–Dry Falls",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_WASHINGTON_SCENIC_EXPANSION_2",
+      "research_sources": [
+        {
+          "authority": "Washington State Parks — Dry Falls",
+          "url": "https://parks.wa.gov/dry-falls-visitor-center",
+          "verified_on": "2026-10-02",
+          "supports": "Official source supports the named scenic subject and/or access constraints used by this Opportunity."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-096-P01",
+          "spot_id": "us-096",
+          "name_zh": "Dry Falls・冰河洪水巨型乾瀑／Channeled Scabland",
+          "legacy_theme": "geology",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-wa-sun-lakes-dry-falls",
+          "formula_confidence": 96,
+          "best_time": "白天至黃昏；依題材與季節條件",
+          "best_season": "全年；季節道路、潮汐、雪況或現場封閉依官方狀態作 hard gate",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-343",
+              "variant_name": "Dry Falls・冰河洪水巨型乾瀑／Channeled Scabland",
+              "condition_geometry": "{\"target\":\"Sun Lakes–Dry Falls primary photographic subject\"}",
+              "hard_gates": "主要觀景／停車區確認開放；2026 renovation closure 不得忽略",
+              "required_conditions": "主要攝影主體可見且合法、安全到達",
+              "boosters": "低角度側光；高透明度；戲劇雲",
+              "penalties": "觀景區封閉；煙霾；濃霧；平光",
+              "formula_status": "needs_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-096-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official scenic subject; coordinate is a public camera-zone/weather anchor, not a unique tripod claim.",
+              "name": "Sun Lakes–Dry Falls public Camera Zone",
+              "lat": 47.606672,
+              "lon": -119.364385,
               "coord_confidence": "medium_high",
               "verification_status": "official_subject_public_anchor",
               "geometry_type": "area",
