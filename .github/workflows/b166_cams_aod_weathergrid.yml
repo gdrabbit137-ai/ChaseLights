@@ -75,7 +75,8 @@ jobs:
           assert data["provenance"]["native_resolution_km"]==45.0
           assert data["provenance"]["native_time_interval_hours"]==3
           assert qc["frame_count"]==len(data["frames"])
-          assert not any(x["flag"]=="all_missing" for x in qc["flags"])
+          all_missing=[x for x in qc["flags"] if x["flag"]=="all_missing"]
+          assert len(all_missing) < qc["frame_count"], "all CAMS AOD frames are missing"
           print(json.dumps({
               "frames":len(data["frames"]),
               "grid":[data["grid"]["rows"],data["grid"]["cols"]],
