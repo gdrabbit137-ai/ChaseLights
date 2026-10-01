@@ -350,6 +350,13 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn("subjectVis.mean/30", self.js)
         self.assertIn("subjectLow.mean/70", self.js)
 
+        self.assertIn("function solarPositionUtc(validTime,lat,lon)", self.js)
+        self.assertIn("function sunriseSunsetNativeDiagnostic(op,targetValidTime=baseFrame()?.valid_time_utc)", self.js)
+        self.assertIn("solar.altitude_deg>=-12 && solar.altitude_deg<=8", self.js)
+        self.assertIn("bearingInsideSector(solar.azimuth_deg", self.js)
+        self.assertIn("status:!horizon?'outside_solar_window':'solar_direction_mismatch'", self.js)
+        self.assertIn("solar_geometry_required:true", self.js)
+
 
 
 
