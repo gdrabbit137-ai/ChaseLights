@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>ChaseLights WeatherGrid Preview</title>
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-gl.css">
-  <link rel="stylesheet" href="./assets/weather-map.css?v=b169i">
+  <link rel="stylesheet" href="./assets/weather-map.css?v=b172b">
 </head>
 <body>
   <header class="weather-header">
@@ -30,8 +30,8 @@
   <main class="weather-layout">
     <section class="map-panel">
       <div class="control-bar">
-        <label class="model-control">
-          <span>資料來源</span>
+        <label class="model-control advanced-control">
+          <span>進階 · 資料來源</span>
           <select id="model-select">
             <option value="auto">自動預報</option>
             <option value="himawari">觀測 · Himawari-9 2 km</option>
@@ -42,8 +42,8 @@
             <option value="cams">CAMS Global · 霧霾</option>
           </select>
         </label>
-        <label class="layer-control">
-          <span>圖層</span>
+        <label class="layer-control primary-control">
+          <span>攝影圖層</span>
           <select id="layer-select"></select>
         </label>
         <label class="opacity-control">
@@ -151,6 +151,6 @@
     </div>
   </dialog>
 
-  <script src="./assets/weather-map.js?v=b172"></script>
+  <script src="./assets/weather-map.js?v=b172b"></script>
 </body>
 </html>
