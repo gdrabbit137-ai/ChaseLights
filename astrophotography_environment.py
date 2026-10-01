@@ -7,6 +7,7 @@ night-sky assessment and is not inferred when absent.
 
 from photography_environment import classify_dark_sky_evidence
 from photography_transparency import evaluate_transparency
+from lunar_ephemeris import lunar_ephemeris, lunar_ephemeris_for_galactic_core
 
 
 def _number(value):
@@ -16,7 +17,7 @@ def _number(value):
         return None
 
 
-def evaluate_astro_environment(item):
+def evaluate_astro_environment(item, dt=None, lat_deg=None, lon_deg=None, target=None):
     dark = classify_dark_sky_evidence(item)
     transparency = evaluate_transparency(item)
 
@@ -27,9 +28,22 @@ def evaluate_astro_environment(item):
     cloud_values = [v for v in (total_cloud, low, mid, high) if v is not None]
     worst_cloud = max(cloud_values) if cloud_values else None
 
-    moon_altitude = _number(item.get("moon_altitude_deg"))
-    moon_illumination = _number(item.get("moon_illumination_fraction"))
-    moon_separation = _number(item.get("moon_target_separation_deg"))
+    lunar = None
+    if dt is not None and lat_deg is not None and lon_deg is not None:
+        if target == "galactic_core":
+            lunar = lunar_ephemeris_for_galactic_core(dt, lat_deg, lon_deg)
+        elif isinstance(target, dict) and target.get("ra_deg") is not None and target.get("dec_deg") is not None:
+            lunar = lunar_ephemeris(
+                dt, lat_deg, lon_deg, target["ra_deg"], target["dec_deg"]
+            )
+        else:
+            lunar = lunar_ephemeris(dt, lat_deg, lon_deg)
+
+    moon_altitude = _number(
+        lunar.get("moon_altitude_deg") if lunar else item.get("moon_altitude_deg")
+    )
+    moon_illumination = _number(lunar.get("moon_illumination_fraction") if lunar else item.get("moon_illumination_fraction"))
+    moon_separation = _number(lunar.get("moon_target_separation_deg") if lunar else item.get("moon_target_separation_deg"))
     moon_complete = moon_altitude is not None and moon_illumination is not None
 
     missing = []
@@ -83,6 +97,8 @@ def evaluate_astro_environment(item):
             "illumination_fraction": moon_illumination,
             "target_separation_deg": moon_separation,
             "complete": moon_complete,
+            "source": ("b171b_lunar_ephemeris" if lunar else "item_fields"),
+            "contract_version": (lunar.get("contract_version") if lunar else None),
         },
         "missing_evidence": missing,
         "blockers": blockers,

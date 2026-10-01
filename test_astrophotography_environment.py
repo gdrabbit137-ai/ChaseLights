@@ -1,4 +1,5 @@
 import unittest
+from datetime import datetime, timezone
 
 from astrophotography_environment import evaluate_astro_environment
 
@@ -67,6 +68,37 @@ class AstrophotographyEnvironmentTest(unittest.TestCase):
         })
         self.assertEqual(result["state"], "incomplete_evidence")
         self.assertIn("quality_checked_nighttime_light_radiance", result["missing_evidence"])
+
+    def test_ephemeris_fills_moon_geometry_for_galactic_core(self):
+        result = evaluate_astro_environment({
+            "nighttime_lights_radiance_nw_cm2_sr": 0.2,
+            "nighttime_lights_quality_flag": 0,
+            "visibility_km": 45,
+            "aod_550nm": 0.04,
+            "pm2_5_ug_m3": 3,
+            "rh": 50,
+            "cloud_cover_percent": 8,
+        }, dt=datetime(2026, 9, 28, 12, tzinfo=timezone.utc),
+           lat_deg=24.18, lon_deg=121.31, target="galactic_core")
+        self.assertNotIn("moon_geometry", result["missing_evidence"])
+        self.assertNotIn("moon_target_separation", result["missing_evidence"])
+        self.assertEqual(result["moon"]["source"], "b171b_lunar_ephemeris")
+        self.assertIsNotNone(result["moon"]["target_separation_deg"])
+
+    def test_position_without_target_does_not_invent_target_separation(self):
+        result = evaluate_astro_environment({
+            "nighttime_lights_radiance_nw_cm2_sr": 0.2,
+            "nighttime_lights_quality_flag": 0,
+            "visibility_km": 45,
+            "aod_550nm": 0.04,
+            "pm2_5_ug_m3": 3,
+            "rh": 50,
+            "cloud_cover_percent": 8,
+        }, dt=datetime(2026, 9, 28, 12, tzinfo=timezone.utc),
+           lat_deg=24.18, lon_deg=121.31)
+        self.assertNotIn("moon_geometry", result["missing_evidence"])
+        self.assertIn("moon_target_separation", result["missing_evidence"])
+        self.assertIsNone(result["moon"]["target_separation_deg"])
 
 
 if __name__ == "__main__":
