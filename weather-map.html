@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>ChaseLights WeatherGrid Preview</title>
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-gl.css">
-  <link rel="stylesheet" href="./assets/weather-map.css?v=b168r">
+  <link rel="stylesheet" href="./assets/weather-map.css?v=b169f">
 </head>
 <body>
   <header class="weather-header">
@@ -40,6 +40,7 @@
             <option value="icon">ICON Global</option>
             <option value="gfs">GFS 0.25°</option>
             <option value="cams">CAMS Global · 霧霾</option>
+            <option value="viirs" data-optional="true" hidden disabled>NASA Black Marble · 夜間燈光</option>
           </select>
         </label>
         <label class="layer-control">
@@ -143,14 +144,15 @@
       <div class="data-info-body">
         <p>目前已加入 Himawari-9 衛星觀測，以及 JMA MSM 5 km、CWA WRF 3 km、ICON Global 與 GFS 預報。「自動預報」維持 ICON 雲量優先、GFS 備援策略；Himawari-9 不會被自動混入預報模式。CWA M-A0064 實際 GRIB 驗證未發現原生低／中／高雲量，因此不以壓力層相對濕度冒充雲量。</p>
         <p>CAMS Global 提供 AOD 550 nm 與 PM2.5 攝影環境圖層，資料經 Open-Meteo Air Quality API 取得。CAMS Global 原生約 45 km / 3 小時、約每 12 小時更新；WeatherGrid 的 0.4° 顯示格是取樣／呈現網格，不代表提高原生解析度。AOD 是整層大氣的氣膠光學厚度；PM2.5 是近地面細懸浮微粒質量濃度，兩者物理意義不同，也不會單獨被當成霧。</p>
+        <p>NASA Black Marble VNP46A4 是 15 arc-second（赤道約 500 m）的年度夜間燈光輻亮度背景。只有在已發布的 environment manifest 宣告真實資料可用時才會出現在資料來源選單；它代表衛星觀測的人造夜間燈光輻亮度，不等同 Bortle 等級、天頂天空亮度或銀河可見度。</p>
         <p>Himawari-9 提供衛星雲遮罩與雲頂高度實況。這些是觀測／反演資料，不會標示成預報低／中／高雲百分比；雲頂高度缺值也不會被當成 0 m。</p>
         <p>JMA MSM 官方原生範圍從 22.4°N、120°E 起；目前 HTTP transport 為避開邊界座標拒絕，瀏覽資料從 22.45°N、120.0625°E 起。台灣最南端及西側離島因此不在目前 JMA 瀏覽圖層內；切換模型時地圖會使用 JMA 自己的實際資料邊界。</p>
-        <p>每個來源使用自己的資料邊界、網格解析度與時間語意；Himawari-9 為單張最新觀測，其餘模型為預報時間軸。衛星觀測採最近鄰呈現；預報的畫面內插只改善顯示連續性，不增加原始資料的真實解析度。</p>
+        <p>每個來源使用自己的資料邊界、網格解析度與時間語意；Himawari-9 為單張最新觀測，氣象模型為預報時間軸，Black Marble 則是年度靜態環境背景。衛星觀測與年度夜間燈光的景點值採最近鄰取樣；預報的畫面內插只改善顯示連續性，不增加原始資料的真實解析度。</p>
         <p>底圖採 MapLibre + OpenFreeMap；若外部底圖無法載入，WeatherGrid 會自動退回既有 Canvas 經緯網格，不影響 GFS 圖層與景點取樣。</p>
       </div>
     </div>
   </dialog>
 
-  <script src="./assets/weather-map.js?v=b168r"></script>
+  <script src="./assets/weather-map.js?v=b169f"></script>
 </body>
 </html>
