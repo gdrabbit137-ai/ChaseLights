@@ -40,21 +40,20 @@ jobs:
             --year "${{ inputs.year }}" \
             --bbox "${{ inputs.bbox }}" \
             --output-dir .cache/viirs
-      - name: Require one Taiwan source tile
-        id: tile
+      - name: Build Taiwan WeatherGrid mosaic
         shell: bash
         run: |
           mapfile -t files < <(find .cache/viirs -maxdepth 1 -name 'VNP46A4*.h5' -type f | sort)
-          if [ "${#files[@]}" -ne 1 ]; then
-            echo "::error::Expected one VNP46A4 tile for Taiwan bbox, got ${#files[@]}. Add mosaic support before publishing."
-            printf '%s\n' "${files[@]}"
+          if [ "${#files[@]}" -lt 1 ]; then
+            echo "::error::No VNP46A4 source tiles were downloaded for the requested Taiwan bbox."
             exit 1
           fi
-          echo "path=${files[0]}" >> "$GITHUB_OUTPUT"
-      - name: Build Taiwan WeatherGrid artifact
-        run: |
+          args=()
+          for file in "${files[@]}"; do
+            args+=(--input-h5 "$file")
+          done
           python viirs_nightlights_ingest.py \
-            --input-h5 "${{ steps.tile.outputs.path }}" \
+            "${args[@]}" \
             --year "${{ inputs.year }}" \
             --bbox "${{ inputs.bbox }}" \
             --output weathergrid/viirs_nightlights_tw_browser.json \

@@ -13,9 +13,12 @@ class ViirsLiveWorkflowContractTest(unittest.TestCase):
         self.assertIn("Require Earthdata token secret", self.workflow)
         self.assertNotIn("echo $EARTHDATA_TOKEN", self.workflow)
 
-    def test_live_ingest_fails_closed_before_multi_tile_publish(self):
-        self.assertIn('Expected one VNP46A4 tile for Taiwan bbox', self.workflow)
-        self.assertIn('Add mosaic support before publishing', self.workflow)
+    def test_live_ingest_mosaics_all_discovered_tiles(self):
+        self.assertIn("Build Taiwan WeatherGrid mosaic", self.workflow)
+        self.assertIn('args+=(--input-h5 "$file")', self.workflow)
+        self.assertIn('"${args[@]}"', self.workflow)
+        self.assertIn("No VNP46A4 source tiles were downloaded", self.workflow)
+
 
     def test_artifact_keeps_nasa_semantics(self):
         self.assertIn('nasa_black_marble_vnp46a4', self.workflow)
