@@ -12,7 +12,7 @@ class Himawari9WeatherGridUiTests(unittest.TestCase):
         cls.js = (ROOT / "assets" / "weather-map.js").read_text(encoding="utf-8")
 
     def test_selector_exposes_himawari_as_observation_source(self):
-        self.assertIn("<span>資料來源</span>", self.html)
+        self.assertIn("<span>進階 · 資料來源</span>", self.html)
         self.assertIn('value="himawari"', self.html)
         self.assertIn("觀測 · Himawari-9 2 km", self.html)
         self.assertIn("自動預報", self.html)
