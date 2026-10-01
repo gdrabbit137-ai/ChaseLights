@@ -188,3 +188,88 @@ def build_bundle(latitudes, longitudes, radiance, quality, year, max_browser_cel
         "flags": ([] if finite_values else ["all_missing"]),
     }
     return bundle, qc
+
+
+def sample_bundle_at_location(bundle, latitude, longitude, qc=None):
+    """Sample the nearest published VIIRS browser cell, preserving provenance.
+
+    This samples the bounded browser artifact, not the native 15 arc-second
+    archive. Callers must retain browser_sampling_stride and sampled coordinates
+    so the evidence is never presented as native-resolution sampling.
+    """
+    if not isinstance(bundle, dict) or bundle.get("source") != "nasa_black_marble_vnp46a4":
+        return None
+    if qc is not None:
+        if qc.get("source") != "nasa_black_marble_vnp46a4" or qc.get("flags"):
+            return None
+
+    grid = bundle.get("grid") or {}
+    lats = grid.get("latitudes") or []
+    lons = grid.get("longitudes") or []
+    if not lats or not lons:
+        return None
+
+    lat = _finite(latitude)
+    lon = _finite(longitude)
+    if lat is None or lon is None:
+        return None
+    bbox = bundle.get("bbox") or {}
+    try:
+        if not (
+            float(bbox["bottomlat"]) <= lat <= float(bbox["toplat"])
+            and float(bbox["leftlon"]) <= lon <= float(bbox["rightlon"])
+        ):
+            return None
+    except (KeyError, TypeError, ValueError):
+        return None
+
+    row = min(range(len(lats)), key=lambda i: abs(float(lats[i]) - lat))
+    col = min(range(len(lons)), key=lambda i: abs(float(lons[i]) - lon))
+    index = row * len(lons) + col
+    frames = bundle.get("frames") or []
+    if not frames:
+        return None
+    values = (frames[0].get("values") or {})
+    radiance_values = values.get(FIELD_RADIANCE) or []
+    quality_values = values.get(FIELD_QUALITY) or []
+    if index >= len(radiance_values) or index >= len(quality_values):
+        return None
+
+    encoded = radiance_values[index]
+    quality = quality_values[index]
+    if encoded is None or quality is None:
+        return None
+    try:
+        quality = int(quality)
+        radiance = float(encoded) * float(
+            (bundle.get("fields") or {}).get(FIELD_RADIANCE, {}).get("scale", ENCODING_SCALE)
+        )
+    except (TypeError, ValueError):
+        return None
+
+    sampled_lat = float(lats[row])
+    sampled_lon = float(lons[col])
+    # Approximate great-circle distance is only sampling provenance, not a
+    # geodetic claim used by scoring.
+    phi1, phi2 = math.radians(lat), math.radians(sampled_lat)
+    dphi = phi2 - phi1
+    dlambda = math.radians(sampled_lon - lon)
+    a = math.sin(dphi / 2) ** 2 + math.cos(phi1) * math.cos(phi2) * math.sin(dlambda / 2) ** 2
+    distance_km = 6371.0088 * 2 * math.atan2(math.sqrt(a), math.sqrt(max(0.0, 1 - a)))
+
+    provenance = bundle.get("provenance") or {}
+    return {
+        FIELD_RADIANCE: radiance,
+        FIELD_QUALITY: quality,
+        "viirs_sample": {
+            "source": bundle.get("source"),
+            "product": provenance.get("product"),
+            "composite_year": frames[0].get("composite_year"),
+            "sampled_latitude": sampled_lat,
+            "sampled_longitude": sampled_lon,
+            "distance_km": round(distance_km, 3),
+            "browser_sampling_stride": provenance.get("browser_sampling_stride", 1),
+            "native_resolution": provenance.get("native_resolution"),
+            "sampling_semantics": "nearest published browser-grid cell; not native-resolution sampling",
+        },
+    }
