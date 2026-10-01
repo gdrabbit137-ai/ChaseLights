@@ -2109,9 +2109,10 @@
   function nightscapeRoleDiagnostic(cameras,subject){
     const sky=subject.length?subject:cameras;
     const cloud=summarizePointMetric(sky,'total_cloud_percent'),vis=summarizePointMetric(cameras,'visibility_km'),rain=summarizePointMetric(cameras,'precip_rate_mm_h'),rh=summarizePointMetric(cameras,'relative_humidity_2m_percent');
+    // VIIRS is annual upward-radiance context, not calibrated sky brightness.
+    // Keep it as evidence only until ChaseLights has a validated radiance-to-photography model.
     const lights=state.viirsData?summarizePointMetric(cameras,'nighttime_lights_radiance_nw_cm2_sr'):null;
-    const lightScore=lights?1-clamp01(Math.log1p(Math.max(0,lights.mean))/Math.log1p(25)):null;
-    const terms=[[cloud?1-clamp01(cloud.mean/70):null,.35],[vis?clamp01(vis.mean/25):null,.22],[rain?1-clamp01(rain.mean/.8):null,.15],[rh?1-clamp01(rh.mean/100):null,.08],[lightScore,.20]].filter(([v])=>Number.isFinite(v));
+    const terms=[[cloud?1-clamp01(cloud.mean/70):null,.44],[vis?clamp01(vis.mean/25):null,.28],[rain?1-clamp01(rain.mean/.8):null,.18],[rh?1-clamp01(rh.mean/100):null,.10]].filter(([v])=>Number.isFinite(v));
     const weight=terms.reduce((a,t)=>a+t[1],0);
     return {score:weight?100*terms.reduce((a,t)=>a+t[0]*t[1],0)/weight:null,cloud,vis,rain,rh,lights,moonData:false};
   }
@@ -2141,7 +2142,7 @@
     if(d.mountain){const m=d.mountain,metric=(x,suffix)=>x?Math.round(x.mean)+suffix:'—';role+='<div><strong>山景視線判讀：'+(Number.isFinite(m.score)?Math.round(m.score)+' 分':'資料不足')+'</strong></div><div>主體區能見度 '+metric(m.vis,' km')+' · 主體區低雲 '+metric(m.lowCloud,'%')+' · 機位風速 '+metric(m.wind,' m/s')+'</div>';}
     if(d.sun){const q=d.sun,metric=(x,suffix)=>x?Math.round(x.mean)+suffix:'—';role+='<div><strong>日出／日落天空判讀：'+(Number.isFinite(q.score)?Math.round(q.score)+' 分':'資料不足')+'</strong></div><div>'+(q.directional?'方向 coverage':'暫以機位天空代理')+' · 低雲 '+metric(q.horizonLow,'%')+' · 中雲 '+metric(q.mid,'%')+' · 高雲 '+metric(q.highCloud,'%')+'</div>';}
     if(d.sea){const q=d.sea,metric=(x,suffix)=>x?Math.round(x.mean)+suffix:'—';role+='<div><strong>海景環境判讀：'+(Number.isFinite(q.score)?Math.round(q.score)+' 分':'資料不足')+'</strong></div><div>海面方向能見度 '+metric(q.vis,' km')+' · 風速 '+metric(q.wind,' m/s')+' · 全雲量 '+metric(q.cloud,'%')+'</div><div class="muted">尚未接入浪高／週期／潮汐，海況不以風速代替。</div>';}
-    if(d.night){const q=d.night,metric=(x,suffix)=>x?Math.round(x.mean)+suffix:'—';role+='<div><strong>星空環境判讀：'+(Number.isFinite(q.score)?Math.round(q.score)+' 分':'資料不足')+'</strong></div><div>全雲量 '+metric(q.cloud,'%')+' · 能見度 '+metric(q.vis,' km')+' · RH '+metric(q.rh,'%')+' · VIIRS '+metric(q.lights,' nW/(cm²·sr)')+'</div><div class="muted">VIIRS 有資料時納入光害；月相／月亮高度尚未接入，因此不宣稱完整天文攝影分數。</div>';}
+    if(d.night){const q=d.night,metric=(x,suffix)=>x?Math.round(x.mean)+suffix:'—';role+='<div><strong>星空環境判讀：'+(Number.isFinite(q.score)?Math.round(q.score)+' 分':'資料不足')+'</strong></div><div>全雲量 '+metric(q.cloud,'%')+' · 能見度 '+metric(q.vis,' km')+' · RH '+metric(q.rh,'%')+' · VIIRS '+metric(q.lights,' nW/(cm²·sr)')+'</div><div class="muted">VIIRS 僅作年度人工光輻射證據，不換算 Bortle／SQM，也不直接改變此 0–100 天氣環境分數；月相／月亮高度尚未接入。</div>';}
     return '<div><strong>題材空間判讀 · '+escapeHtml(photographyLayerLabel(d.layer))+'</strong></div>'+role+
       '<div>相機位置：'+fmt(d.camera)+'</div><div>被攝主體區：'+fmt(d.subject)+'</div><div>環境條件區：'+fmt(d.environment)+'</div>'+
       '<div class="muted">beta：雲海會分開要求機位清楚／低雲較少，以及山谷低雲／濕度較高；目前仍不覆寫正式 opportunity score。</div>';
