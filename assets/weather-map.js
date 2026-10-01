@@ -2075,6 +2075,29 @@
     const weight=terms.reduce((a,t)=>a+t[1],0);
     return {score:weight?100*terms.reduce((a,t)=>a+t[0]*t[1],0)/weight:null,cameraVis,cameraLow,valleyLow,valleyRh,rain};
   }
+  function mountainRoleDiagnostic(cameras,subject){
+    const points=subject.length?subject:cameras;
+    const vis=summarizePointMetric(points,'visibility_km');
+    const lowCloud=summarizePointMetric(points,'low_cloud_percent');
+    const rain=summarizePointMetric(cameras,'precip_rate_mm_h');
+    const wind=summarizePointMetric(cameras,'wind_speed_10m_m_s');
+    const terms=[[vis?clamp01(vis.mean/30):null,.45],[lowCloud?1-clamp01(lowCloud.mean/70):null,.25],[rain?1-clamp01(rain.mean/1.5):null,.18],[wind?1-clamp01(wind.mean/15):null,.12]].filter(([v])=>Number.isFinite(v));
+    const weight=terms.reduce((a,t)=>a+t[1],0);
+    return {score:weight?100*terms.reduce((a,t)=>a+t[0]*t[1],0)/weight:null,vis,lowCloud,rain,wind};
+  }
+  function sunriseSunsetRoleDiagnostic(cameras,subject,environment){
+    const sky=subject.length?subject:(environment.length?environment:cameras);
+    const cameraLow=summarizePointMetric(cameras,'low_cloud_percent');
+    const horizonLow=summarizePointMetric(sky,'low_cloud_percent');
+    const mid=summarizePointMetric(sky,'mid_cloud_percent');
+    const highCloud=summarizePointMetric(sky,'high_cloud_percent');
+    const vis=summarizePointMetric(cameras,'visibility_km');
+    const rain=summarizePointMetric(cameras,'precip_rate_mm_h');
+    const target=(x,t,span)=>x?1-clamp01(Math.abs(x.mean-t)/span):null;
+    const terms=[[horizonLow?1-clamp01(horizonLow.mean/75):null,.25],[target(mid,35,45),.20],[target(highCloud,55,45),.25],[vis?clamp01(vis.mean/25):null,.20],[rain?1-clamp01(rain.mean/1.5):null,.10]].filter(([v])=>Number.isFinite(v));
+    const weight=terms.reduce((a,t)=>a+t[1],0);
+    return {score:weight?100*terms.reduce((a,t)=>a+t[0]*t[1],0)/weight:null,cameraLow,horizonLow,mid,highCloud,vis,rain,directional:subject.length>0||environment.length>0};
+  }
   function opportunitySpatialDiagnostic(op){
     if(!op)return null;const layer=photographyLayerForOpportunity(op);
     const cameras=(op.camera_zones||[]).filter(c=>Number.isFinite(Number(c.lat))&&Number.isFinite(Number(c.lon))).map(c=>({lat:Number(c.lat),lon:Number(c.lon)}));
@@ -2082,7 +2105,9 @@
     const environment=(op.environment_geometries||[]).flatMap(x=>geometrySamplePoints(x,op));
     const summarize=points=>summarizePointMetric(points,layer);
     const cloudSea=layer==='photography_cloudsea_fog'?cloudSeaRoleDiagnostic(cameras,environment):null;
-    return {layer,camera:summarize(cameras),subject:summarize(subject),environment:summarize(environment),cloudSea};
+    const mountain=layer==='photography_mountain_view'?mountainRoleDiagnostic(cameras,subject):null;
+    const sun=layer==='photography_sunrise_sunset'?sunriseSunsetRoleDiagnostic(cameras,subject,environment):null;
+    return {layer,camera:summarize(cameras),subject:summarize(subject),environment:summarize(environment),cloudSea,mountain,sun};
   }
   function opportunitySpatialDiagnosticHtml(op){
     const d=opportunitySpatialDiagnostic(op);if(!d)return '';
@@ -2094,6 +2119,8 @@
         '<div>機位能見度 '+metric(c.cameraVis,' km')+' · 機位低雲 '+metric(c.cameraLow,'%')+'</div>'+
         '<div>山谷低雲 '+metric(c.valleyLow,'%')+' · 山谷 RH '+metric(c.valleyRh,'%')+'</div>';
     }
+    if(d.mountain){const m=d.mountain,metric=(x,suffix)=>x?Math.round(x.mean)+suffix:'—';role+='<div><strong>山景視線判讀：'+(Number.isFinite(m.score)?Math.round(m.score)+' 分':'資料不足')+'</strong></div><div>主體區能見度 '+metric(m.vis,' km')+' · 主體區低雲 '+metric(m.lowCloud,'%')+' · 機位風速 '+metric(m.wind,' m/s')+'</div>';}
+    if(d.sun){const q=d.sun,metric=(x,suffix)=>x?Math.round(x.mean)+suffix:'—';role+='<div><strong>日出／日落天空判讀：'+(Number.isFinite(q.score)?Math.round(q.score)+' 分':'資料不足')+'</strong></div><div>'+(q.directional?'方向 coverage':'暫以機位天空代理')+' · 低雲 '+metric(q.horizonLow,'%')+' · 中雲 '+metric(q.mid,'%')+' · 高雲 '+metric(q.highCloud,'%')+'</div>';}
     return '<div><strong>題材空間判讀 · '+escapeHtml(photographyLayerLabel(d.layer))+'</strong></div>'+role+
       '<div>相機位置：'+fmt(d.camera)+'</div><div>被攝主體區：'+fmt(d.subject)+'</div><div>環境條件區：'+fmt(d.environment)+'</div>'+
       '<div class="muted">beta：雲海會分開要求機位清楚／低雲較少，以及山谷低雲／濕度較高；目前仍不覆寫正式 opportunity score。</div>';
