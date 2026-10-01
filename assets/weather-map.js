@@ -700,6 +700,7 @@
     const opportunitySelect = $('opportunity-select');
     opportunitySelect.addEventListener('change', () => {
       state.opportunityId = opportunitySelect.value;
+      syncLayerToOpportunity(selectedOpportunity());
       applyCoverageView();
       renderAll();
     });
@@ -767,6 +768,27 @@
 
   function selectedCoverageGroup(){
     return coverageGroupForSpot(state.spotId);
+  }
+
+  function photographyLayerForOpportunity(op){
+    if(!op) return null;
+    const theme=String(op.legacy_theme || '').toLowerCase();
+    const name=String(op.name_zh || '').toLowerCase();
+    if(theme.includes('cloud_sea') || /雲海|雲瀑|晨霧|霧景/.test(name)) return 'photography_cloudsea_fog';
+    if(theme.includes('mountain') || /山景|遠眺|山巒|稜線|峽谷/.test(name)) return 'photography_mountain_view';
+    if(theme.includes('sunrise') || theme.includes('sunset') || /日出|日落|晨曦|夕陽|晚霞|霞光/.test(name)) return 'photography_sunrise_sunset';
+    if(theme.includes('sea') || /海景|海岸|海崖|海灣|浪|潮/.test(name)) return 'photography_seascape';
+    if(theme.includes('astro') || theme.includes('night') || /星空|銀河|星軌|夜空/.test(name)) return 'photography_nightscape';
+    return 'photography_overview';
+  }
+
+  function syncLayerToOpportunity(op){
+    if(!op || state.modelMode!=='auto') return false;
+    const next=photographyLayerForOpportunity(op);
+    if(!next || state.layer===next) return false;
+    state.layer=next;
+    refreshModelControls();
+    return true;
   }
 
   function selectedOpportunity(){
