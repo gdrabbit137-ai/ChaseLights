@@ -142,7 +142,7 @@ jobs:
         run: |
           set -o pipefail
           python test_opportunity_adapter.py 2>&1 | tee adapter-test.log
-          python -m pytest -q test_fog_haze_replay.py 2>&1 | tee -a adapter-test.log
+          python -m unittest -v test_fog_haze_replay.py 2>&1 | tee -a adapter-test.log
           python test_admin_areas.py 2>&1 | tee -a adapter-test.log
           python test_mobile_admin_picker_static.py 2>&1 | tee -a adapter-test.log
           python test_field_snapshot.py 2>&1 | tee -a adapter-test.log
