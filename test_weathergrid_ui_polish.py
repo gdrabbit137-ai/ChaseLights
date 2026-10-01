@@ -128,6 +128,22 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn("function cloudLegendLabels()", self.js)
         self.assertIn("cloud-legend-labels", self.css)
 
+    def test_mobile_map_clusters_spots_more_aggressively(self):
+        self.assertIn("const compactMap=canvas.clientWidth<=600", self.js)
+        self.assertIn("if(zoom<6.2) return 44", self.js)
+        self.assertIn("if(zoom<7.5) return 32", self.js)
+        self.assertIn("if(zoom<8.4) return 20", self.js)
+
+    def test_mobile_cluster_and_selected_labels_are_compact(self):
+        self.assertIn("700 9px -apple-system, sans-serif", self.js)
+        self.assertIn("bold 16px -apple-system, sans-serif", self.js)
+        self.assertIn("ctx.measureText(selectedLabel)", self.js)
+        self.assertIn("canvas.clientWidth-8", self.js)
+
+    def test_mobile_maplibre_controls_are_compact(self):
+        self.assertIn(".maplibregl-ctrl-group button{width:34px;height:34px}", self.css)
+        self.assertIn("max-width:112px", self.css)
+
     def test_ci_runs_ui_polish_contract(self):
         self.assertIn('"test_weathergrid_ui_polish.py"', self.workflow)
         self.assertIn("test_weathergrid_ui_polish.py", self.workflow)
