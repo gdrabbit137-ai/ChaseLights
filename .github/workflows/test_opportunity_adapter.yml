@@ -45,6 +45,9 @@ on:
       - "ci_weather_impact.py"
       - "analyze_weather.py"
       - "fetch_data.py"
+      - "photography_environment.py"
+      - "test_fog_haze_replay.py"
+      - "test_fixtures/fog_haze_replay_cases.json"
       - "index.html"
       - "assets/app.js"
       - "assets/app.css"
@@ -129,13 +132,14 @@ jobs:
         with:
           python-version: "3.10"
       - name: Compile
-        run: python -m py_compile ci_weather_impact.py opportunities.py opportunity_runtime.py runtime_dependencies.py spatial_weather.py field_validation.py field_snapshot.py field_snapshot_capture_request.py marine_state.py tide_state.py aurora_state.py access_state.py shinhotaka_access.py yahiko_access.py johnston_ridge_access.py denali_access.py taxonomy_v004.py regions.py analyze_weather.py fetch_data.py test_opportunity_adapter.py test_admin_areas.py test_mobile_admin_picker_static.py test_field_snapshot.py test_field_snapshot_capture_request.py
+        run: python -m py_compile ci_weather_impact.py opportunities.py opportunity_runtime.py runtime_dependencies.py spatial_weather.py field_validation.py field_snapshot.py field_snapshot_capture_request.py marine_state.py tide_state.py aurora_state.py access_state.py shinhotaka_access.py yahiko_access.py johnston_ridge_access.py denali_access.py taxonomy_v004.py regions.py analyze_weather.py fetch_data.py photography_environment.py test_fog_haze_replay.py test_opportunity_adapter.py test_admin_areas.py test_mobile_admin_picker_static.py test_field_snapshot.py test_field_snapshot_capture_request.py
       - name: Test weather-region detector
         run: python ci_weather_impact.py --self-test
       - name: Run adapter tests
         run: |
           set -o pipefail
           python test_opportunity_adapter.py 2>&1 | tee adapter-test.log
+          python -m pytest -q test_fog_haze_replay.py 2>&1 | tee -a adapter-test.log
           python test_admin_areas.py 2>&1 | tee -a adapter-test.log
           python test_mobile_admin_picker_static.py 2>&1 | tee -a adapter-test.log
           python test_field_snapshot.py 2>&1 | tee -a adapter-test.log
