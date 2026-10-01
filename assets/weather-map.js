@@ -1450,6 +1450,11 @@
     const visible=renderViewBbox();
     const step=windVectorStep();
     const compactUi=window.matchMedia('(max-width:720px)').matches;
+    // High-resolution providers (for example CWA WRF 3 km) can still produce
+    // a visually solid field even after grid decimation. Enforce a minimum
+    // screen-space separation so vectors remain readable at every zoom level.
+    const minVectorSpacingPx=compactUi?30:22;
+    const occupiedVectorCells=new Set();
 
     ctx.save();
     ctx.lineCap='round';
@@ -1466,6 +1471,12 @@
            lat<visible.bottomlat || lat>visible.toplat) continue;
 
         const p=project(lon,lat);
+        const bucketX=Math.floor(p.x/minVectorSpacingPx);
+        const bucketY=Math.floor(p.y/minVectorSpacingPx);
+        const bucketKey=`${bucketX}:${bucketY}`;
+        if(occupiedVectorCells.has(bucketKey)) continue;
+        occupiedVectorCells.add(bucketKey);
+
         const length=(compactUi?9:11)+Math.min(speed/20,1)*(compactUi?13:17);
         // Normalized provider direction is meteorological "from". Arrow points toward motion.
         const toward=((direction+180)%360)*Math.PI/180;
