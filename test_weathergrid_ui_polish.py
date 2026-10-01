@@ -104,7 +104,7 @@ class WeatherGridUiPolishTests(unittest.TestCase):
 
     def test_mobile_map_gets_more_vertical_space_and_compact_legend(self):
         self.assertIn(".map-wrap{aspect-ratio:1.12/1", self.css)
-        self.assertIn("min-width:132px;max-width:46%", self.css)
+        self.assertIn("min-width:132px;max-width:44%", self.css)
         self.assertIn(".coverage-outline-key{display:none}", self.css)
 
     def test_cloud_percent_palette_has_explicit_50_percent_hinge(self):
@@ -227,7 +227,7 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn("grid-template-columns:max-content minmax(0,1fr)", self.css)
         self.assertIn("display:grid!important", self.css)
         self.assertIn("const compactUi=window.matchMedia('(max-width:720px)').matches", self.js)
-        self.assertIn("? (cfg.palette==='cloud'?'雲層':'圖層')", self.js)
+        self.assertIn("? (cfg.palette==='cloud'?'雲層透明度':'圖層透明度')", self.js)
 
     def test_map_attribution_is_compact_on_mobile(self):
         self.assertIn("attributionControl:false", self.js)

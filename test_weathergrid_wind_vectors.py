@@ -36,7 +36,17 @@ class WeatherGridWindVectorTests(unittest.TestCase):
         self.assertIn("function windVectorStep()", self.js)
         self.assertIn("if(zoom>=8) return 1", self.js)
         self.assertIn("if(zoom>=6.4) return 2", self.js)
+        self.assertIn("if(compactUi)", self.js)
+        self.assertIn("if(zoom>=8) return 2", self.js)
+        self.assertIn("if(zoom>=6.4) return 3", self.js)
+        self.assertIn("return 4", self.js)
         self.assertIn("return 3", self.js)
+
+    def test_mobile_vectors_and_legend_are_compact(self):
+        self.assertIn("compactUi?9:11", self.js)
+        self.assertIn("compactUi?1.6:2", self.js)
+        self.assertIn("箭頭＝風去向", self.js)
+        self.assertIn("圖層透明度", self.js)
 
     def test_wind_layer_defaults_are_layer_aware_until_user_touches_toggle(self):
         self.assertIn("windVectorTouched:false", self.js)
