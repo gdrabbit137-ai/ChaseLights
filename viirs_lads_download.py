@@ -13,7 +13,7 @@ from pathlib import Path
 BASE = "https://ladsweb.modaps.eosdis.nasa.gov"
 PRODUCT = "VNP46A4"
 ARCHIVE_SET = "5200"
-FILENAME_RE = re.compile(r"VNP46A4\\.A(?P<year>\\d{4})(?P<doy>\\d{3})\\.h\\d{2}v\\d{2}\\.\\d{3}\\.[^.]+\\.h5$")
+FILENAME_RE = re.compile(r"VNP46A4\.A(?P<year>\d{4})(?P<doy>\d{3})\.h\d{2}v\d{2}\.\d{3}\.[^.]+\.h5$")
 
 
 def authorization_headers(token):
