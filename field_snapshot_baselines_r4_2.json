@@ -383,6 +383,61 @@
         "Forecast stability does not imply forecast accuracy.",
         "No field photograph or observed-scene assessment is attached; this remains outside the field-validation registry."
       ]
+    },
+    {
+      "snapshot_id": "FVS-TW-034-20260929-200335",
+      "place_id": "tw-034",
+      "scene_family": "qingshui_cliff_mist",
+      "revision_group": "tw-034@2026-09-29T22:00:00+00:00",
+      "archive_path": "test_fixtures/field_snapshot/FVS-TW-034-20260929-200335.json.gz.b64",
+      "metadata_path": "test_fixtures/field_snapshot/FVS-TW-034-20260929-200335.metadata.json",
+      "captured_at": "2026-09-29T20:03:35.980437+00:00",
+      "forecast_valid_at": "2026-09-29T22:00:00+00:00",
+      "forecast_local_time": "2026-09-30T06:00:00+08:00",
+      "model_commit": "401a2fa377f69ebf29fc024f288cdd75055b158f",
+      "payload_sha256": "81b5f85b3f49a4704432f02619460bc0967a080d45e9a14b216e255f12eb0d67",
+      "observation_status": "unreviewed",
+      "source": {
+        "capture_request_id": "FSCR-tw-034-20260930T0600-r1",
+        "workflow_run_id": 36623546676,
+        "artifact_name": "field-snapshot-FSCR-tw-034-20260930T0600-r1",
+        "source_branch": "snapshot-capture/fscr-tw-034-20260930t0600-r1"
+      },
+      "recorded_summary": {
+        "tw-034-P01": {
+          "score": 64,
+          "score_confidence": "low",
+          "condition_state": "partial_runtime_contract",
+          "runtime_reason": "module_pending"
+        },
+        "tw-034-P02": {
+          "score": 54,
+          "score_confidence": "medium",
+          "condition_state": "minimum_sufficient_conditions_miss",
+          "runtime_reason": "visibility_too_low",
+          "directional_mist_negative_evidence": false
+        },
+        "tw-034-P03": {
+          "score": 68,
+          "score_confidence": "low",
+          "condition_state": "minimum_sufficient_mist_candidate_uncertain",
+          "runtime_reason": "camera_visibility_too_low_for_cliff_readability",
+          "minimum_sufficient_score_hint": 68,
+          "runtime_confidence_hint": "low",
+          "directional_mist_negative_evidence": false,
+          "target_sample_count": 6,
+          "mist_target_count": 5,
+          "directional_mist_target_count": 5,
+          "clear_target_count": 0,
+          "clear_bearing_count": 0,
+          "broad_clear_target_sector": false
+        }
+      },
+      "limitations": [
+        "This record is an immutable forecast snapshot captured by the request-driven Field Snapshot workflow; it is not an observed scene.",
+        "Forecast stability or replay reproducibility does not establish forecast accuracy.",
+        "No field photograph or reviewed observation is attached unless a separate field-validation case explicitly says otherwise."
+      ]
     }
   ]
 }
