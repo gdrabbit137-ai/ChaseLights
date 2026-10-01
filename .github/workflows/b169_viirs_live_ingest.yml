@@ -13,7 +13,7 @@ on:
         default: "119.5,21.5,122.5,25.5"
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   live-ingest:
@@ -72,6 +72,25 @@ jobs:
           assert not qc["flags"], qc
           print({"rows":data["grid"]["rows"],"cols":data["grid"]["cols"],"qc":qc["quality_counts"]})
           PY
+      - name: Publish QC-passing VIIRS snapshot
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add -- weathergrid/viirs_nightlights_tw_browser.json weathergrid/viirs_nightlights_tw_qc.json
+          if git diff --cached --quiet; then
+            echo "VIIRS snapshot unchanged."
+          else
+            git commit -m "Auto-update VIIRS nighttime-light snapshot [skip ci]"
+            for i in {1..5}; do
+              if git pull --rebase origin main && git push origin HEAD:main; then
+                exit 0
+              fi
+              sleep 5
+            done
+            echo "Failed to publish VIIRS snapshot after retries."
+            exit 1
+          fi
+
       - uses: actions/upload-artifact@v4
         with:
           name: viirs-nightlights-tw-${{ inputs.year }}
