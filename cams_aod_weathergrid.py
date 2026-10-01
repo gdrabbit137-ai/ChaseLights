@@ -149,10 +149,10 @@ def build_bundle(
             if value is None or not math.isfinite(float(value)):
                 values.append(None)
                 missing += 1
-                continue
-            number = float(value)
-            raw_finite.append(number)
-            values.append(int(round(number / ENCODING_SCALE)))
+            else:
+                number = float(value)
+                raw_finite.append(number)
+                values.append(int(round(number / ENCODING_SCALE)))
 
             pm25_value = item["hourly"][PM25_FIELD_API][time_index]
             if pm25_value is None or not math.isfinite(float(pm25_value)):
