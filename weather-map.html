@@ -79,21 +79,30 @@
     </section>
 
     <aside class="inspector">
-      <section class="panel">
-        <h2>目前圖層</h2>
-        <div id="layer-summary" class="metric-big">—</div>
+      <section id="layer-panel" class="panel layer-panel">
+        <div class="layer-panel-head">
+          <div>
+            <h2>目前圖層</h2>
+            <div id="layer-summary" class="metric-big">—</div>
+          </div>
+          <button id="layer-details-toggle" class="layer-details-toggle" type="button"
+            aria-expanded="false" aria-controls="layer-details">詳細</button>
+        </div>
         <div id="layer-range" class="layer-range">—</div>
-        <div id="layer-unit" class="muted"></div>
-        <div id="layer-vertical" class="muted cloud-vertical-note"></div>
-        <label class="wind-vector-toggle">
-          <input id="wind-vector-toggle" type="checkbox">
-          <span>顯示 10 m 風向箭頭</span>
-        </label>
-        <div class="muted wind-vector-note">箭頭指向風的移動方向；風向數值仍採氣象「來向」。非風圖層預設關閉，仍可手動疊加。</div>
-        <div class="layer-qc">
-          <div class="layer-qc-label">資料品質</div>
-          <div id="qc-status" class="detail-list">
-            <div>等待 QC 資料…</div>
+        <div id="qc-summary" class="qc-summary pending">資料品質 · 等待</div>
+        <div id="layer-details" class="layer-details mobile-collapsed">
+          <div id="layer-unit" class="muted"></div>
+          <div id="layer-vertical" class="muted cloud-vertical-note"></div>
+          <label class="wind-vector-toggle">
+            <input id="wind-vector-toggle" type="checkbox">
+            <span>顯示 10 m 風向箭頭</span>
+          </label>
+          <div class="muted wind-vector-note">箭頭指向風的移動方向；風向數值仍採氣象「來向」。非風圖層預設關閉，仍可手動疊加。</div>
+          <div class="layer-qc">
+            <div class="layer-qc-label">資料品質詳細資訊</div>
+            <div id="qc-status" class="detail-list">
+              <div>等待 QC 資料…</div>
+            </div>
           </div>
         </div>
       </section>
