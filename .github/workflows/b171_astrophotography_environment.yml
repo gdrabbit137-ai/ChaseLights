@@ -1,0 +1,37 @@
+name: B171 Astrophotography Environment Diagnostic
+
+on:
+  pull_request:
+    paths:
+      - 'astrophotography_environment.py'
+      - 'photography_environment.py'
+      - 'photography_transparency.py'
+      - 'test_astrophotography_environment.py'
+      - 'test_photography_environment.py'
+      - 'test_photography_transparency.py'
+      - '.github/workflows/b171_astrophotography_environment.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'astrophotography_environment.py'
+      - 'photography_environment.py'
+      - 'photography_transparency.py'
+      - 'test_astrophotography_environment.py'
+      - 'test_photography_environment.py'
+      - 'test_photography_transparency.py'
+      - '.github/workflows/b171_astrophotography_environment.yml'
+
+jobs:
+  diagnostic-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run environment diagnostic tests
+        run: |
+          python -m unittest -v \
+            test_photography_environment.py \
+            test_photography_transparency.py \
+            test_astrophotography_environment.py
