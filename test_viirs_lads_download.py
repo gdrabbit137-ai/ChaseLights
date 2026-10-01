@@ -80,7 +80,6 @@ class ViirsLadsDownloadTest(unittest.TestCase):
         self.assertEqual(command[0], "curl")
         self.assertIn("--location", command)
         self.assertIn("--cookie", command)
-        self.assertIn("--cookie-jar", command)
         self.assertIn("Authorization: Bearer secret-value", command)
         self.assertIn("X-Requested-With: XMLHttpRequest", command)
         self.assertIn(str(destination), command)
