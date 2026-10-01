@@ -6,6 +6,7 @@ from viirs_nightlights_weathergrid import (
     FIELD_RADIANCE,
     MAX_BROWSER_CELLS,
     build_bundle,
+    sample_bundle_at_location,
 )
 
 
@@ -73,6 +74,35 @@ class ViirsNightLightsWeatherGridTest(unittest.TestCase):
                 2025,
                 max_browser_cells=3,
             )
+
+
+    def test_point_sampler_preserves_quality_and_sampling_provenance(self):
+        bundle, qc = build_bundle(
+            [25.0, 24.5],
+            [121.0, 121.5],
+            [0.2, 1.5, 8.4, 42.0],
+            [0, 1, 2, 0],
+            2025,
+        )
+        sample = sample_bundle_at_location(bundle, 24.96, 121.04, qc=qc)
+        self.assertAlmostEqual(sample[FIELD_RADIANCE], 0.2)
+        self.assertEqual(sample[FIELD_QUALITY], 0)
+        self.assertEqual(sample["viirs_sample"]["composite_year"], 2025)
+        self.assertEqual(sample["viirs_sample"]["browser_sampling_stride"], 1)
+        self.assertIn("not native-resolution", sample["viirs_sample"]["sampling_semantics"])
+
+    def test_point_sampler_fails_closed_outside_bbox_or_bad_qc(self):
+        bundle, qc = build_bundle(
+            [25.0, 24.5],
+            [121.0, 121.5],
+            [1, 2, 3, 4],
+            [0, 0, 0, 0],
+            2025,
+        )
+        self.assertIsNone(sample_bundle_at_location(bundle, 26.0, 121.0, qc=qc))
+        bad_qc = dict(qc)
+        bad_qc["flags"] = ["all_missing"]
+        self.assertIsNone(sample_bundle_at_location(bundle, 25.0, 121.0, qc=bad_qc))
 
 
 if __name__ == "__main__":
