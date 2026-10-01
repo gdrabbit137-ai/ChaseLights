@@ -101,3 +101,16 @@ At page load the browser attempts to load both:
 The model option is inserted only when the browser artifact declares `source=nasa_black_marble_vnp46a4`, contains the radiance field, and QC has no flags. Missing data, missing QC, or failed contract validation leaves no VIIRS option in the UI.
 
 When published, the UI labels it as an annual static environment background. Its timeline is disabled and the attribution explicitly states that satellite nighttime-light radiance is not Bortle class or sky brightness.
+
+
+## B169g browser artifact budget
+
+The NASA source contract remains **15 arc-second**. ChaseLights no longer describes this as a fixed "~500 m" resolution because physical east-west spacing varies with latitude.
+
+The browser JSON has an explicit default budget of 250,000 cells. If a cropped/mosaicked source grid exceeds that budget, the browser builder applies a deterministic row/column stride and records:
+- native source resolution;
+- browser sampling stride;
+- source cell count;
+- browser cell budget.
+
+This is presentation sampling only. It does not redefine the native NASA product and it does not alter the source HDF5 preprocessing archive. The initial policy favors predictable mobile/browser payload size over pretending that the web renderer is displaying every native VNP46A4 cell.
