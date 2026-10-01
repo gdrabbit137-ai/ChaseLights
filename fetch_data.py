@@ -1169,6 +1169,24 @@ def evaluate_tag_condition(theme, item_data, hour=None, lang="zh-TW"):
 
 # B35 Liyu subject-model validation trigger
 
+VIIRS_BROWSER_ARTIFACT = "weathergrid/viirs_nightlights_tw_browser.json"
+VIIRS_QC_ARTIFACT = "weathergrid/viirs_nightlights_tw_qc.json"
+
+
+def _sample_viirs_environment_for_location(lat, lon, browser_path=VIIRS_BROWSER_ARTIFACT, qc_path=VIIRS_QC_ARTIFACT):
+    """Return QA-preserving static VIIRS evidence when published artifacts exist."""
+    from viirs_nightlights_weathergrid import sample_bundle_at_location
+
+    try:
+        with open(browser_path, "r", encoding="utf-8") as handle:
+            bundle = json.load(handle)
+        with open(qc_path, "r", encoding="utf-8") as handle:
+            qc = json.load(handle)
+    except (OSError, ValueError, TypeError):
+        return None
+    return sample_bundle_at_location(bundle, lat, lon, qc=qc)
+
+
 def _build_photography_environment_diagnostic(item_data, utc_dt=None, lat=None, lon=None):
     # Local import avoids a cycle: lunar_ephemeris deliberately reuses the
     # astronomy primitives defined in this module.
@@ -1870,6 +1888,8 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None, snapshot_sink=None)
             return arr[i] if i < len(arr) and arr[i] is not None else default
 
         hourly_forecast = []
+        viirs_sample = _sample_viirs_environment_for_location(lat, lon)
+
         for i, ts in enumerate(timestamps):
             utc_dt = datetime.fromtimestamp(int(ts), timezone.utc)
             local_dt = utc_dt.astimezone(tz)
@@ -1958,6 +1978,9 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None, snapshot_sink=None)
                 "aurora_forecast": aurora_forecast,
                 **astro,
             }
+            if viirs_sample:
+                item_data.update(viirs_sample)
+
             if spot.get("spot_id") == "jp-021":
                 item_data["access_state"] = build_shinhotaka_access_state(
                     int(ts), shinhotaka_access_provider
