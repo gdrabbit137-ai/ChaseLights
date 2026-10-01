@@ -1765,7 +1765,9 @@
     const frameLead=`f${String(forecastHour).padStart(3,'0')}`;
     $('time-label').textContent=usingHimawari
       ? `觀測時間 · ${formatTaipeiTime(f.valid_time_utc)} TST`
-      : `預報時間 · ${formatTaipeiTime(f.valid_time_utc)} · +${forecastHour}h`;
+      : (usingCams
+        ? `CAMS 預報時間 · ${formatTaipeiTime(f.valid_time_utc)} TST`
+        : `預報時間 · ${formatTaipeiTime(f.valid_time_utc)} · +${forecastHour}h`);
     $('opacity-label').textContent=`${Math.round(state.weatherOpacity*100)}%`;
     const opacityTitle=$('opacity-title');
     const opacitySlider=$('opacity-slider');
@@ -1817,7 +1819,9 @@
     }else{
       resolution=`原生 0.25° · ${interpolationLabel}`;
     }
-    const cycleText=data.cycle?.cycle_time_utc || data.cycle?.label || '—';
+    const cycleText=usingCams
+      ? (data.cycle?.retrieved_at_utc || data.cycle?.label || '—')
+      : (data.cycle?.cycle_time_utc || data.cycle?.label || '—');
     const cycleDisplay=Number.isFinite(Date.parse(cycleText))
       ? `${formatTaipeiTime(cycleText)} TST`
       : cycleText;
@@ -1832,7 +1836,9 @@
         compactSummary.textContent=`觀測 ${formatTaipeiTime(f.valid_time_utc)} · 2 km${ageCompact}`;
       }
     }else{
-      $('cycle-label').textContent=`${autoPrefix}模型起報 ${cycleDisplay} · ${data.grid.rows}×${data.grid.cols} · ${resolution}`;
+      $('cycle-label').textContent=usingCams
+        ? `資料更新 ${cycleDisplay} · ${data.grid.rows}×${data.grid.cols} · ${resolution}`
+        : `${autoPrefix}模型起報 ${cycleDisplay} · ${data.grid.rows}×${data.grid.cols} · ${resolution}`;
       if(compactSummary){
         let compactResolution='0.25°';
         let compactCadence='';
@@ -1850,7 +1856,9 @@
           compactResolution=`約 ${data.provenance?.native_resolution_km || 45} km`;
           compactCadence=` · ${data.provenance?.native_time_interval_hours || 3}h`;
         }
-        compactSummary.textContent=`起報 ${cycleDisplay.replace(' TST','')} · ${compactResolution}${compactCadence}`;
+        compactSummary.textContent=usingCams
+          ? `更新 ${cycleDisplay.replace(' TST','')} · ${compactResolution}${compactCadence}`
+          : `起報 ${cycleDisplay.replace(' TST','')} · ${compactResolution}${compactCadence}`;
       }
     }
     const attributionHost=$('source-attribution');
