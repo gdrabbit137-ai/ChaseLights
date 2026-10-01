@@ -34,6 +34,9 @@ class FogHazeReplayTest(unittest.TestCase):
         environment = fetch_data._build_photography_environment_diagnostic(item)
         self.assertEqual(environment["state"], "fog_supported")
         self.assertEqual(environment["score_effect"], "none")
+        self.assertIn("transparency", environment)
+        self.assertEqual(environment["transparency"]["score_effect"], "none")
+        self.assertEqual(environment["transparency"]["formula_version"], "b170a-heuristic-1")
 
         # Opportunity runtime remains subject-specific and must not duplicate
         # the same environment object for every Opportunity.
