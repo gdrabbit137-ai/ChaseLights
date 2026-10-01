@@ -84,11 +84,10 @@ def discover_files(year, bbox, token, opener=None):
     with opener.open(request, timeout=60) as response:
         payload = json.load(response)
     references = extract_file_references(payload)
-    files = [item["filename"] for item in references]
-    if not files:
+    if not references:
         raise RuntimeError("LAADS search returned no VNP46A4 HDF5 files for bbox/year")
     print(json.dumps({"laads_discovery_references": references}, indent=2))
-    return files
+    return references
 
 
 def archive_path(filename):
@@ -158,12 +157,14 @@ def main():
         raise SystemExit("--bbox requires left,bottom,right,top")
     token = os.environ.get(args.token_env)
     opener = authenticated_opener()
-    files = discover_files(args.year, bbox, token, opener=opener)
+    references = discover_files(args.year, bbox, token, opener=opener)
+    files = [item["filename"] for item in references]
     print(json.dumps({"year": args.year, "files": files}, indent=2))
     if args.list_only:
         return
-    for filename in files:
-        path = download_file(filename, token, Path(args.output_dir) / filename, opener=opener)
+    for item in references:
+        filename = item["filename"]
+        path = download_file(filename, token, Path(args.output_dir) / filename, opener=opener, reference=item["reference"])
         print(path)
 
 
