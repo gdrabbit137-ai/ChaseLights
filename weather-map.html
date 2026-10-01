@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>ChaseLights WeatherGrid Preview</title>
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-gl.css">
-  <link rel="stylesheet" href="./assets/weather-map.css?v=b168r">
+  <link rel="stylesheet" href="./assets/weather-map.css?v=b169">
 </head>
 <body>
   <header class="weather-header">
@@ -101,9 +101,9 @@
           <div id="layer-vertical" class="muted cloud-vertical-note"></div>
           <label class="wind-vector-toggle">
             <input id="wind-vector-toggle" type="checkbox">
-            <span>顯示 10 m 風向箭頭</span>
+            <span>在其他圖層疊加 10 m 風向箭頭</span>
           </label>
-          <div class="muted wind-vector-note">箭頭指向風的移動方向；風向數值仍採氣象「來向」。非風圖層預設關閉，仍可手動疊加。</div>
+          <div class="muted wind-vector-note">「10 m 風場」會固定同時顯示風速色階與風向箭頭；箭頭指向風的移動方向，風向數值仍採氣象「來向」。此開關只控制是否在其他圖層額外疊加風向箭頭。</div>
           <div class="layer-qc">
             <div class="layer-qc-label">資料品質詳細資訊</div>
             <div id="qc-status" class="detail-list">
@@ -151,6 +151,6 @@
     </div>
   </dialog>
 
-  <script src="./assets/weather-map.js?v=b168r"></script>
+  <script src="./assets/weather-map.js?v=b169"></script>
 </body>
 </html>
