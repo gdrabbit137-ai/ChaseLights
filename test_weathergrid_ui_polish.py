@@ -150,6 +150,9 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn("aerosol_optical_depth_550nm", self.js)
         self.assertIn("palette:'haze'", self.js)
         self.assertIn("if(mode==='cams') return 'CAMS Global · 霧霾'", self.js)
+        self.assertIn("CAMS 預報時間", self.js)
+        self.assertIn("資料更新 ", self.js)
+        self.assertIn("? `更新 ", self.js)
 
     def test_b166_cams_provenance_is_visible_in_ui(self):
         self.assertIn("CAMS Global 原生約", self.js)
