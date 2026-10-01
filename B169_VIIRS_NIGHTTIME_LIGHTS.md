@@ -60,3 +60,17 @@ The token is read from `EARTHDATA_TOKEN` by default and is never committed to th
 LAADS documentation states that scripted data downloads require a download token. An Earthdata Download token can be used on LAADS, although LAADS-specific tokens may provide faster download handling.
 
 The next live gate is intentionally manual: configure `EARTHDATA_TOKEN` as a GitHub Actions secret, run discovery for the Taiwan bbox, verify the returned tile set, then wire the discovered file(s) into B169b ingestion. Multi-tile mosaicking will be added if discovery shows Taiwan spans more than one VNP46A4 tile.
+
+
+## B169d live workflow
+
+A manual GitHub Actions workflow now wires discovery → authenticated download → HDF5 crop/decode → WeatherGrid browser/QC artifact.
+
+Safety gates:
+- requires repository secret `EARTHDATA_TOKEN`;
+- never prints or commits the token;
+- fails closed if the Taiwan bbox resolves to anything other than one source tile;
+- validates NASA product/DOI semantics and rejects an all-missing QC result;
+- uploads the generated JSON only as an Actions artifact in this batch; it does not publish to production automatically.
+
+This keeps first-live-data inspection separate from production deployment.
