@@ -1,4 +1,4 @@
-name: B166 CAMS AOD WeatherGrid
+name: B167 CAMS AOD + PM2.5 WeatherGrid
 
 on:
   pull_request:
@@ -72,11 +72,14 @@ jobs:
           assert data["model"]=="CAMS_GLOBAL"
           assert data["frames"]
           assert "aerosol_optical_depth_550nm" in data["fields"]
+          assert "pm2_5_ug_m3" in data["fields"]
+          assert data["fields"]["pm2_5_ug_m3"]["unit"]=="µg/m³"
           assert data["provenance"]["native_resolution_km"]==45.0
           assert data["provenance"]["native_time_interval_hours"]==3
           assert qc["frame_count"]==len(data["frames"])
-          all_missing=[x for x in qc["flags"] if x["flag"]=="all_missing"]
-          assert len(all_missing) < qc["frame_count"], "all CAMS AOD frames are missing"
+          for field in ("aerosol_optical_depth_550nm","pm2_5_ug_m3"):
+              all_missing=[x for x in qc["flags"] if x["flag"]=="all_missing" and x["field"]==field]
+              assert len(all_missing) < qc["frame_count"], f"all CAMS {field} frames are missing"
           print(json.dumps({
               "frames":len(data["frames"]),
               "grid":[data["grid"]["rows"],data["grid"]["cols"]],
