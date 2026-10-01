@@ -326,6 +326,46 @@
       canonical_opportunity_score:false,metrics:{cameraLow,valleyLow,cameraVis,valleyRh,cameraRain}};
   }
 
+  function mountainNativeDiagnostic(op,targetValidTime=baseFrame()?.valid_time_utc){
+    if(!op || !targetValidTime) return null;
+    const cameras=(op.camera_zones||[]).map(c=>({lat:Number(c.lat),lon:Number(c.lon)}))
+      .filter(p=>Number.isFinite(p.lat)&&Number.isFinite(p.lon));
+    const subjects=(op.subject_geometries||[]).flatMap(item=>photographyGeometrySamplePoints(item,op));
+    const cameraVis=photographyNativeMetricSummary(cameras,'visibility_km',targetValidTime);
+    const subjectVis=photographyNativeMetricSummary(subjects,'visibility_km',targetValidTime);
+    const cameraLow=photographyNativeMetricSummary(cameras,'low_cloud_percent',targetValidTime);
+    const subjectLow=photographyNativeMetricSummary(subjects,'low_cloud_percent',targetValidTime);
+    const cameraRain=photographyNativeMetricSummary(cameras,'precip_rate_mm_h',targetValidTime);
+    const cameraWind=photographyNativeMetricSummary(cameras,'wind_speed_10m_m_s',targetValidTime);
+    // A mountain-view diagnostic needs both a valid camera position and
+    // explicit subject-direction geometry; do not substitute the whole map.
+    if(!cameras.length || !subjects.length || !Number.isFinite(cameraVis.mean) || !Number.isFinite(subjectVis.mean)){
+      return {kind:'photography_environment_diagnostic',mode:'mountain_view',score:null,
+        status:'insufficient_role_evidence',canonical_opportunity_score:false,
+        directional_subject_required:true,
+        metrics:{cameraVis,subjectVis,cameraLow,subjectLow,cameraRain,cameraWind}};
+    }
+    const clearSight=Math.min(
+      Math.max(0,Math.min(1,cameraVis.mean/30)),
+      Math.max(0,Math.min(1,subjectVis.mean/30))
+    );
+    const subjectCloud=Number.isFinite(subjectLow.mean)?1-Math.max(0,Math.min(1,subjectLow.mean/70)):null;
+    const cameraCloud=Number.isFinite(cameraLow.mean)?1-Math.max(0,Math.min(1,cameraLow.mean/70)):null;
+    const cloudClear=Number.isFinite(subjectCloud)&&Number.isFinite(cameraCloud)?Math.min(subjectCloud,cameraCloud):subjectCloud??cameraCloud;
+    const terms=[
+      [clearSight,.45],[cloudClear,.25],
+      [Number.isFinite(cameraRain.mean)?1-Math.max(0,Math.min(1,cameraRain.mean/1.5)):null,.18],
+      [Number.isFinite(cameraWind.mean)?1-Math.max(0,Math.min(1,cameraWind.mean/15)):null,.12]
+    ].filter(([v])=>Number.isFinite(v));
+    const available=terms.reduce((sum,t)=>sum+t[1],0);
+    const score=available>=.60?100*terms.reduce((sum,t)=>sum+t[0]*t[1],0)/available:null;
+    return {kind:'photography_environment_diagnostic',mode:'mountain_view',score,
+      status:score==null?'insufficient_weight_coverage':'ok',
+      effective_weight_coverage:available,minimum_weight_coverage:.60,
+      canonical_opportunity_score:false,directional_subject_required:true,
+      metrics:{cameraVis,subjectVis,cameraLow,subjectLow,cameraRain,cameraWind}};
+  }
+
   const photographyCompositeWeights = {
     overview:{
       low_cloud_percent:.22,high_cloud_percent:.18,visibility_km:.28,
