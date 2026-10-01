@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>ChaseLights WeatherGrid Preview</title>
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-gl.css">
-  <link rel="stylesheet" href="./assets/weather-map.css">
+  <link rel="stylesheet" href="./assets/weather-map.css?v=b165">
 </head>
 <body>
   <header class="weather-header">
@@ -46,8 +46,8 @@
           <select id="layer-select"></select>
         </label>
         <label class="opacity-control">
-          <span><span id="opacity-title">圖層顯示強度</span> · <strong id="opacity-label">62%</strong></span>
-          <input id="opacity-slider" type="range" min="0" max="100" value="62" step="1">
+          <span class="opacity-caption"><span id="opacity-title">圖層顯示強度</span> · <strong id="opacity-label">62%</strong></span>
+          <input id="opacity-slider" type="range" min="0" max="100" value="62" step="1" aria-label="圖層顯示強度">
         </label>
         <label class="spot-control">
           <span>景點</span>
@@ -148,6 +148,6 @@
     </div>
   </dialog>
 
-  <script src="./assets/weather-map.js"></script>
+  <script src="./assets/weather-map.js?v=b165"></script>
 </body>
 </html>

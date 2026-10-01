@@ -144,6 +144,22 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn(".maplibregl-ctrl-group button{width:34px;height:34px}", self.css)
         self.assertIn("max-width:112px", self.css)
 
+    def test_assets_use_cache_busting_after_mobile_ui_updates(self):
+        self.assertIn('weather-map.css?v=b165', self.html)
+        self.assertIn('weather-map.js?v=b165', self.html)
+
+    def test_mobile_opacity_control_is_single_row(self):
+        self.assertIn('class="opacity-caption"', self.html)
+        self.assertIn("grid-template-columns:max-content minmax(0,1fr)", self.css)
+        self.assertIn("display:grid!important", self.css)
+        self.assertIn("const compactUi=window.matchMedia('(max-width:720px)').matches", self.js)
+        self.assertIn("? (cfg.palette==='cloud'?'雲層':'圖層')", self.js)
+
+    def test_map_attribution_is_compact_on_mobile(self):
+        self.assertIn("attributionControl:false", self.js)
+        self.assertIn("new maplibregl.AttributionControl({compact:true})", self.js)
+        self.assertIn(".maplibregl-ctrl-attrib.maplibregl-compact", self.css)
+
     def test_mobile_header_uses_one_line_source_summary(self):
         self.assertIn('id="source-mobile-summary"', self.html)
         self.assertIn("grid-template-columns:auto minmax(0,1fr) auto", self.css)
