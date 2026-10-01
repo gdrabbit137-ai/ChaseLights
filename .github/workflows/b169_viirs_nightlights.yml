@@ -11,6 +11,7 @@ on:
       - "viirs_lads_download.py"
       - "test_viirs_lads_download.py"
       - "test_viirs_live_workflow.py"
+      - "test_viirs_production_publish_workflow.py"
       - ".github/workflows/b169_viirs_live_ingest.yml"
       - "B169_VIIRS_NIGHTTIME_LIGHTS.md"
       - ".github/workflows/b169_viirs_nightlights.yml"
@@ -24,6 +25,7 @@ on:
       - "viirs_lads_download.py"
       - "test_viirs_lads_download.py"
       - "test_viirs_live_workflow.py"
+      - "test_viirs_production_publish_workflow.py"
       - ".github/workflows/b169_viirs_live_ingest.yml"
       - "B169_VIIRS_NIGHTTIME_LIGHTS.md"
       - ".github/workflows/b169_viirs_nightlights.yml"
@@ -44,10 +46,11 @@ jobs:
       - name: Install HDF5 reader
         run: python -m pip install --disable-pip-version-check h5py
       - name: Compile
-        run: python -m py_compile viirs_nightlights_weathergrid.py viirs_nightlights_ingest.py viirs_lads_download.py test_viirs_nightlights_weathergrid.py test_viirs_nightlights_ingest.py test_viirs_lads_download.py test_viirs_live_workflow.py
+        run: python -m py_compile viirs_nightlights_weathergrid.py viirs_nightlights_ingest.py viirs_lads_download.py test_viirs_nightlights_weathergrid.py test_viirs_nightlights_ingest.py test_viirs_lads_download.py test_viirs_live_workflow.py test_viirs_production_publish_workflow.py
       - name: Run B169 contract tests
         run: |
           python -m unittest -v test_viirs_nightlights_weathergrid.py
           python -m unittest -v test_viirs_nightlights_ingest.py
           python -m unittest -v test_viirs_lads_download.py
           python -m unittest -v test_viirs_live_workflow.py
+          python -m unittest -v test_viirs_production_publish_workflow.py
