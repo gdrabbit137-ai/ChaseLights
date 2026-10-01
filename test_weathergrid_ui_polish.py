@@ -58,7 +58,7 @@ class WeatherGridUiPolishTests(unittest.TestCase):
 
     def test_inspector_prioritizes_layer_identity_over_raw_min_max(self):
         self.assertIn('id="layer-range"', self.html)
-        self.assertIn("$('layer-summary').textContent=cfg.label", self.js)
+        self.assertIn("photographyLayerLabel(state.layer)", self.js)
         self.assertIn("畫面資料範圍", self.js)
 
     def test_qc_flags_are_explained_in_user_language(self):
@@ -219,8 +219,8 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn("labels=['0','1','5','10','50+']", self.js)
 
     def test_assets_use_cache_busting_after_mobile_ui_updates(self):
-        self.assertIn('weather-map.css?v=b169i', self.html)
-        self.assertIn('weather-map.js?v=b169i', self.html)
+        self.assertIn('weather-map.css?v=b172b', self.html)
+        self.assertIn('weather-map.js?v=b172f', self.html)
 
     def test_mobile_opacity_control_is_single_row(self):
         self.assertIn('class="opacity-caption"', self.html)
@@ -293,8 +293,8 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn("📷 攝影綜合圖", self.js)
         self.assertIn("function photographyOverviewArray()", self.js)
         self.assertIn("function resampleToBaseGrid(data,key,validTime)", self.js)
-        self.assertIn("bilinearly resampled onto that grid before blending", self.js)
-        self.assertIn("out-of-coverage cells stay null", self.js)
+        self.assertIn("function resampleToBaseGrid(data,key,validTime)", self.js)
+        self.assertIn("if(!bx||!by) return null", self.js)
 
     def test_topic_specific_photography_layers(self):
         for key in (
@@ -325,7 +325,7 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn("相機位置：", self.js)
         self.assertIn("被攝主體區：", self.js)
         self.assertIn("環境條件區：", self.js)
-        self.assertIn("目前不覆寫正式 opportunity score", self.js)
+        self.assertIn("目前仍不覆寫正式 opportunity score", self.js)
 
     def test_cloud_sea_role_aware_diagnostic(self):
         self.assertIn("function cloudSeaRoleDiagnostic(cameras,environment)", self.js)
