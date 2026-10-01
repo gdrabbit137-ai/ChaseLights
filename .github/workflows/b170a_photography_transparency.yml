@@ -1,0 +1,35 @@
+name: B170a Photography Transparency Diagnostic
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "photography_transparency.py"
+      - "test_photography_transparency.py"
+      - "B170A_PHOTOGRAPHY_TRANSPARENCY.md"
+      - ".github/workflows/b170a_photography_transparency.yml"
+  push:
+    branches: [main]
+    paths:
+      - "photography_transparency.py"
+      - "test_photography_transparency.py"
+      - "B170A_PHOTOGRAPHY_TRANSPARENCY.md"
+      - ".github/workflows/b170a_photography_transparency.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnostic-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Compile
+        run: python -m py_compile photography_transparency.py test_photography_transparency.py
+      - name: Run diagnostic tests
+        run: python -m unittest -v test_photography_transparency.py
