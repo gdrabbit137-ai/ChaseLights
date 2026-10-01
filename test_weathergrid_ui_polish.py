@@ -350,7 +350,10 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn("海景環境判讀", self.js)
         self.assertIn("海況不以風速代替", self.js)
         self.assertIn("星空環境判讀", self.js)
-        self.assertIn("VIIRS 有資料時納入光害", self.js)
+        self.assertIn("VIIRS 僅作年度人工光輻射證據", self.js)
+        self.assertIn("不換算 Bortle／SQM", self.js)
+        self.assertIn("不直接改變此 0–100 天氣環境分數", self.js)
+        self.assertNotIn("const lightScore=", self.js)
         self.assertIn("月相／月亮高度尚未接入", self.js)
 
 
