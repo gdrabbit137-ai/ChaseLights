@@ -1,0 +1,35 @@
+name: B169 VIIRS Nighttime Lights Contract
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "viirs_nightlights_weathergrid.py"
+      - "test_viirs_nightlights_weathergrid.py"
+      - "B169_VIIRS_NIGHTTIME_LIGHTS.md"
+      - ".github/workflows/b169_viirs_nightlights.yml"
+  push:
+    branches: [main]
+    paths:
+      - "viirs_nightlights_weathergrid.py"
+      - "test_viirs_nightlights_weathergrid.py"
+      - "B169_VIIRS_NIGHTTIME_LIGHTS.md"
+      - ".github/workflows/b169_viirs_nightlights.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Compile
+        run: python -m py_compile viirs_nightlights_weathergrid.py test_viirs_nightlights_weathergrid.py
+      - name: Run B169 contract tests
+        run: python -m unittest -v test_viirs_nightlights_weathergrid.py
