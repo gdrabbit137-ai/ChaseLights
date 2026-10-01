@@ -302,3 +302,12 @@ body{padding:18px}
   .data-info-dialog{width:calc(100vw - 20px);max-height:84vh}
   .data-info-shell{max-height:84vh}
 }
+
+
+.environment-diagnostic{
+  margin-top:10px;
+  padding-top:10px;
+  border-top:1px solid rgba(148,163,184,.22);
+}
+.environment-diagnostic[hidden]{display:none}
+.environment-diagnostic strong{color:#f8fafc}

@@ -16,6 +16,7 @@ different.
 | B166 | AOD 550 nm / haze | atmospheric haze and long-distance clarity · implemented |
 | B167 | PM2.5 | near-surface particulate burden · implemented |
 | B168 | fog-vs-haze classification | distinguish photographic fog from polluted/dusty low visibility |
+| B168R | inspector + replay | expose fog/haze diagnosis and replay field cases before scoring |
 | B169 | VIIRS nighttime lights | static/nightly artificial-light radiance context; do not label as Bortle |
 | B170 | photography transparency | derived clarity signal from visibility + AOD + PM2.5 + RH + dew-point spread |
 

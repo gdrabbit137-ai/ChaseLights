@@ -1676,6 +1676,77 @@
     return ri*data.grid.cols+ci;
   }
 
+  function sampleDatasetNearest(point,data,key,validTime){
+    if(!point || !data?.fields?.[key] || !data?.frames?.length) return null;
+    const bbox=normalizeViewBbox(data.bbox);
+    if(bbox && (
+      point.lon<bbox.leftlon || point.lon>bbox.rightlon ||
+      point.lat<bbox.bottomlat || point.lat>bbox.toplat
+    )) return null;
+    const fi=nearestFrameIndex(data,validTime);
+    const encoded=data.frames?.[fi]?.values?.[key];
+    if(!encoded) return null;
+    const index=nearestCellIndex(point.lon,point.lat,data);
+    return decodeValue(key,encoded[index],data);
+  }
+
+  function classifyFogHazeEnvironment(point){
+    if(!point) return null;
+    const validTime=frame()?.valid_time_utc || null;
+    const visibilityKm=sampleDatasetNearest(point,state.data,'visibility_km',validTime);
+    const low=sampleDatasetNearest(point,state.data,'low_cloud_percent',validTime);
+    const rh=sampleDatasetNearest(point,state.cwaData,'relative_humidity_2m_percent',validTime);
+    const aod=sampleDatasetNearest(point,state.camsData,'aerosol_optical_depth_550nm',validTime);
+    const pm25=sampleDatasetNearest(point,state.camsData,'pm2_5_ug_m3',validTime);
+    const visibilityLow=Number.isFinite(visibilityKm) && visibilityKm<=5;
+    const nearSaturation=Number.isFinite(rh) && rh>=95;
+    const lowCloudSupport=Number.isFinite(low) && low>=70;
+    const fogSupport=visibilityLow && (nearSaturation || lowCloudSupport);
+    const aerosolSupport=(Number.isFinite(pm25) && pm25>=25) || (Number.isFinite(aod) && aod>=.4);
+    const aerosolStrong=(Number.isFinite(pm25) && pm25>=35) || (Number.isFinite(aod) && aod>=.8);
+    let stateKey='insufficient_visibility_evidence',confidence='low';
+    if(fogSupport && aerosolSupport){
+      stateKey='mixed_fog_haze';
+      confidence=aerosolStrong && nearSaturation?'medium':'low';
+    }else if(fogSupport){
+      stateKey='fog_supported';
+      confidence=nearSaturation && lowCloudSupport?'medium':'low';
+    }else if(visibilityLow && aerosolSupport){
+      stateKey='haze_supported';
+      confidence=aerosolStrong?'medium':'low';
+    }else if(visibilityLow){
+      stateKey='low_visibility_unresolved';
+    }else if(aerosolSupport){
+      stateKey='aerosol_present_visibility_not_degraded';
+    }else if(Number.isFinite(visibilityKm)){
+      stateKey='no_fog_haze_signal';
+    }
+    return {state:stateKey,confidence,visibilityKm,rh,low,aod,pm25};
+  }
+
+  function fogHazeDiagnosticHtml(point){
+    const d=classifyFogHazeEnvironment(point);
+    if(!d) return '';
+    const labels={
+      fog_supported:'霧訊號較強',
+      haze_supported:'霾／氣膠訊號較強',
+      mixed_fog_haze:'霧與霾訊號並存',
+      low_visibility_unresolved:'低能見度，原因未定',
+      aerosol_present_visibility_not_degraded:'有氣膠訊號，但目前能見度未明顯下降',
+      no_fog_haze_signal:'目前無明顯霧／霾訊號',
+      insufficient_visibility_evidence:'能見度證據不足'
+    };
+    const confidence=d.confidence==='medium'?'中信心':'低信心';
+    const metrics=[];
+    if(Number.isFinite(d.visibilityKm)) metrics.push(`能見度 ${d.visibilityKm.toFixed(1)} km`);
+    if(Number.isFinite(d.rh)) metrics.push(`RH ${Math.round(d.rh)}%`);
+    if(Number.isFinite(d.aod)) metrics.push(`AOD ${d.aod.toFixed(2)}`);
+    if(Number.isFinite(d.pm25)) metrics.push(`PM2.5 ${d.pm25.toFixed(1)} µg/m³`);
+    return `<div><strong>攝影環境診斷 · ${escapeHtml(labels[d.state]||d.state)}</strong> · ${confidence}</div>`+
+      `<div>${escapeHtml(metrics.join(' · ') || '資料不足')}</div>`+
+      '<div class="muted">診斷用：GFS 能見度／低雲 + CWA RH + CAMS AOD／PM2.5；目前不影響攝影評分。</div>';
+  }
+
   function samplingPoint(){
     const op=selectedOpportunity();
     const camera=(op?.camera_zones||[]).find(c=>Number.isFinite(Number(c.lat))&&Number.isFinite(Number(c.lon)));
@@ -1936,6 +2007,12 @@
     $('spot-details').innerHTML=point
       ? `<div>${point.lat.toFixed(4)}°, ${point.lon.toFixed(4)}° · ${escapeHtml(point.label)}</div><div>取樣：${sampleMethod}</div>`
       : '<div>可從下拉選單或地圖上的景點點位選取。</div>';
+    const environmentHost=$('spot-environment');
+    if(environmentHost){
+      const environmentHtml=fogHazeDiagnosticHtml(point);
+      environmentHost.hidden=!environmentHtml;
+      environmentHost.innerHTML=environmentHtml;
+    }
 
     updateLegend(cfg);
     updateTimeline();
