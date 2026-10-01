@@ -15,7 +15,7 @@ The inspector reports fog-supported, haze-supported, mixed, unresolved low visib
 
 ## Runtime
 
-`fetch_data._build_opportunity_runtime_diagnostics` now attaches the B168 `photography_environment` object to each Opportunity diagnostic. `_score_opportunity` does not consume it in B168R.
+`fetch_data` now computes one B168 `photography_environment` object per forecast timestamp and stores it beside, not inside, the Opportunity runtime map. This avoids duplicating identical environment metadata across every Opportunity. `_score_opportunity` does not consume it in B168R.
 
 ## Replay
 
