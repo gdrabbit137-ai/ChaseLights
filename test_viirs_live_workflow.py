@@ -16,7 +16,7 @@ class ViirsLiveWorkflowContractTest(unittest.TestCase):
     def test_live_ingest_mosaics_all_discovered_tiles(self):
         self.assertIn("Build Taiwan WeatherGrid mosaic", self.workflow)
         self.assertIn('args+=(--input-h5 "$file")', self.workflow)
-        self.assertIn('"\${args[@]}"', self.workflow)
+        self.assertIn('"${args[@]}"', self.workflow)
         self.assertIn("No VNP46A4 source tiles were downloaded", self.workflow)
 
 
