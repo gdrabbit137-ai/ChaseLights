@@ -14,7 +14,7 @@
     "runtime_catalog_v004_r4_2_b35_liyu_subjects.json"
   ],
   "counts": {
-    "spots": 196,
+    "spots": 202,
     "opportunities": 384,
     "condition_variants": 399,
     "profile_viewpoint_relations": 390
@@ -20563,6 +20563,516 @@
               "geometry_extent_m": 900,
               "geometry_note": "公共濱水步道與海灣 Camera Zone。",
               "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-079",
+      "canonical_name": "Snoqualmie Falls",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_WASHINGTON_SCENIC_EXPANSION",
+      "research_sources": [
+        {
+          "authority": "Official Snoqualmie Falls Web Site",
+          "url": "https://www.snoqualmiefalls.com/",
+          "verified_on": "2026-10-02",
+          "supports": "Documents the 270-foot waterfall, sunrise-to-sunset year-round access, two upper observation decks and one lower viewing area."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-079-P01",
+          "spot_id": "us-079",
+          "name_zh": "Snoqualmie Falls・瀑布全景＋水霧",
+          "legacy_theme": "waterfall",
+          "mode": "area_opportunity",
+          "sampling_topology": "multi_viewpoint",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_waterfall_flow_mist_module",
+          "formula_version": "v0.04-wa-snoqualmie-flow-mist",
+          "formula_confidence": 98,
+          "best_time": "日出至日落；高流量與柔光／水霧條件優先",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-323",
+              "variant_name": "瀑布全景＋水霧",
+              "condition_geometry": "{\"target\":\"Snoqualmie Falls upper/lower viewpoints\"}",
+              "hard_gates": "官方開放時段（日出至日落）；觀景區合法安全可達",
+              "required_conditions": "瀑布可見；無濃霧完全遮蔽主瀑",
+              "boosters": "近期降水／高流量；柔光；適量水霧；雨後植被",
+              "penalties": "濃霧白牆；強降水打鏡；極低能見度",
+              "formula_status": "needs_waterfall_flow_mist_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-079-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official site confirms multiple upper/lower viewing areas.",
+              "name": "Snoqualmie Falls public viewpoints",
+              "lat": 47.5417,
+              "lon": -121.8377,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_subject_public_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 700,
+              "geometry_note": "合法公共 Camera Zone；座標作地圖／天氣錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-080",
+      "canonical_name": "Deception Pass State Park",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_WASHINGTON_SCENIC_EXPANSION",
+      "research_sources": [
+        {
+          "authority": "Washington State Parks — Deception Pass State Park",
+          "url": "https://parks.wa.gov/find-parks/state-parks/deception-pass-state-park",
+          "verified_on": "2026-10-02",
+          "supports": "Official page documents iconic bridges, rugged ocean cliffs, panoramic views, sunsets, Goose Rock views and seasonal hours; current closures/restrictions must be checked."
+        },
+        {
+          "authority": "Deception Pass Park Foundation — Must Do's",
+          "url": "https://deceptionpassfoundation.org/plan-your-visit/must-dos/",
+          "verified_on": "2026-10-02",
+          "supports": "Documents North Beach bridge views and Lighthouse Point/Rosario Beach scenic viewpoints."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-080-P01",
+          "spot_id": "us-080",
+          "name_zh": "Deception Pass・海峽＋橋梁＋峭壁全景",
+          "legacy_theme": "coast",
+          "mode": "area_opportunity",
+          "sampling_topology": "multi_viewpoint",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_coastal_visibility_wind_module",
+          "formula_version": "v0.04-wa-deception-pass-coast",
+          "formula_confidence": 98,
+          "best_time": "白天至黃昏",
+          "best_season": "全年；依公園季節時段與現場封閉",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-324",
+              "variant_name": "Deception Pass Bridge＋海峽",
+              "condition_geometry": "{\"target\":\"bridge + strait + rugged ocean cliffs\"}",
+              "hard_gates": "公園開放；目標步道／觀景區未封閉",
+              "required_conditions": "橋體、海峽與峭壁視線清楚",
+              "boosters": "高透明度；戲劇性雲層；適中海況；側光",
+              "penalties": "濃霧遮橋；強降水；危險強風；步道封閉",
+              "formula_status": "needs_coastal_visibility_wind_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-080-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official park documents iconic bridge and panoramic coastal scenery; use zone-level geometry pending tripod verification.",
+              "name": "Deception Pass bridge/coast Camera Zones",
+              "lat": 48.4057,
+              "lon": -122.6448,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_subject_public_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 1800,
+              "geometry_note": "合法公共 Camera Zone；座標作地圖／天氣錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-080-P02",
+          "spot_id": "us-080",
+          "name_zh": "Deception Pass・海岸日落＋島嶼剪影",
+          "legacy_theme": "sunset",
+          "mode": "area_opportunity",
+          "sampling_topology": "multi_viewpoint",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_sunset_cloud_module",
+          "formula_version": "v0.04-wa-deception-pass-sunset",
+          "formula_confidence": 98,
+          "best_time": "日落前約60分鐘至 dusk 關園前",
+          "best_season": "全年；夏季06:30–dusk、冬季08:00–dusk",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-325",
+              "variant_name": "海岸日落＋島嶼／橋梁",
+              "condition_geometry": "{\"target\":\"western sunset sky + islands/coast/bridge\"}",
+              "hard_gates": "公園開放且在 dusk 前完成；目標區域未封閉",
+              "required_conditions": "西側天空與海岸視線可用",
+              "boosters": "中高雲彩霞；西側透光；海面反射；島嶼剪影",
+              "penalties": "厚低雲封西方；強降水；危險強風",
+              "formula_status": "needs_directional_sunset_cloud_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-080-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official/state and park foundation sources support sunset/coastal viewpoints.",
+              "name": "West/North Beach & Lighthouse Point sunset zones",
+              "lat": 48.4057,
+              "lon": -122.6448,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_subject_public_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 2500,
+              "geometry_note": "合法公共 Camera Zone；座標作地圖／天氣錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-081",
+      "canonical_name": "Mount Rainier — Paradise",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_WASHINGTON_SCENIC_EXPANSION",
+      "research_sources": [
+        {
+          "authority": "National Park Service — Paradise",
+          "url": "https://home.nps.gov/mora/planyourvisit/paradise.htm",
+          "verified_on": "2026-10-02",
+          "supports": "Paradise is open year-round and is famous for Mount Rainier views, wildflower meadows, glaciers and Tatoosh Range; winter road closes at night."
+        },
+        {
+          "authority": "National Park Service — Paradise Meadows & Skyline Trailhead",
+          "url": "https://www.nps.gov/places/paradise-meadows-skyline.htm",
+          "verified_on": "2026-10-02",
+          "supports": "Documents Myrtle Falls with Mount Rainier, Nisqually Glacier, Alta Vista and meadow viewpoints."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-081-P01",
+          "spot_id": "us-081",
+          "name_zh": "Paradise・Mount Rainier＋高山草甸／野花",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "multi_viewpoint",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_alpine_visibility_season_module",
+          "formula_version": "v0.04-rainier-paradise-meadow",
+          "formula_confidence": 99,
+          "best_time": "日出後至黃昏；夏季野花、秋色、冬季雪景分季評估",
+          "best_season": "全年；季節題材不同",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-326",
+              "variant_name": "Rainier＋Paradise Meadows",
+              "condition_geometry": "{\"target\":\"Mount Rainier + subalpine meadow/wildflowers\"}",
+              "hard_gates": "道路／步道合法開放；嚴格 stay on trail",
+              "required_conditions": "Rainier主峰至少部分可辨",
+              "boosters": "高透明度；野花峰值；秋色；新雪；低角度光",
+              "penalties": "山體被低雲完全遮蔽；暴風雪；步道／道路管制",
+              "formula_status": "needs_alpine_visibility_season_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-081-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS official Paradise/Skyline scenic area; fragile meadows require staying on trail.",
+              "name": "Paradise Meadows / Skyline Camera Zone",
+              "lat": 46.786,
+              "lon": -121.735,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_subject_public_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 1800,
+              "geometry_note": "合法公共 Camera Zone；座標作地圖／天氣錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-081-P02",
+          "spot_id": "us-081",
+          "name_zh": "Paradise・Myrtle Falls＋Mount Rainier",
+          "legacy_theme": "waterfall",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_waterfall_mountain_visibility_module",
+          "formula_version": "v0.04-rainier-myrtle-falls",
+          "formula_confidence": 99,
+          "best_time": "步道可安全通行時；柔光或低角度光",
+          "best_season": "主要依積雪與步道狀況",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-327",
+              "variant_name": "Myrtle Falls＋Rainier",
+              "condition_geometry": "{\"target\":\"Myrtle Falls + Mount Rainier\"}",
+              "hard_gates": "Skyline Trail相關路段開放且安全；stay on trail",
+              "required_conditions": "瀑布與Rainier構圖方向可見",
+              "boosters": "適中流量；高透明度；柔光；野花／秋色",
+              "penalties": "山體全遮；暴雨／暴雪；危險積雪或封閉",
+              "formula_status": "needs_waterfall_mountain_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-081-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS explicitly identifies Myrtle Falls as scenic waterfall with Mount Rainier views.",
+              "name": "Myrtle Falls viewpoint",
+              "lat": 46.7868,
+              "lon": -121.7372,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_subject_public_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 250,
+              "geometry_note": "合法公共 Camera Zone；座標作地圖／天氣錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-082",
+      "canonical_name": "Mount Rainier — Reflection Lakes",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_WASHINGTON_SCENIC_EXPANSION",
+      "research_sources": [
+        {
+          "authority": "National Park Service — Reflection Lakes",
+          "url": "https://home.nps.gov/places/reflection-lakes.htm",
+          "verified_on": "2026-10-02",
+          "supports": "Official Scenic View/Photo Spot; lakes reflect Mount Rainier. Vehicle access is summer-only, typically late June–September; hikers must stay on trails."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-082-P01",
+          "spot_id": "us-082",
+          "name_zh": "Reflection Lakes・Mount Rainier 湖面倒影",
+          "legacy_theme": "reflection",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_reflection_wind_visibility_module",
+          "formula_version": "v0.04-rainier-reflection-lakes",
+          "formula_confidence": 99,
+          "best_time": "低風且Rainier可見時；清晨／低角度光優先",
+          "best_season": "車行通常晚6月至9月；冬季僅依合法步行／雪鞋可達性",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-328",
+              "variant_name": "Rainier湖面倒影",
+              "condition_geometry": "{\"target\":\"Mount Rainier reflection in Reflection Lakes\"}",
+              "hard_gates": "遵守當日道路／步道開放；夏季草甸 stay on trail；禁止划船與釣魚",
+              "required_conditions": "Rainier可見且湖面未被霧完全遮蔽",
+              "boosters": "低風；高透明度；清晨光；無擾動水面",
+              "penalties": "強風破壞倒影；低雲遮山；濃霧；道路不可達",
+              "formula_status": "needs_reflection_wind_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-082-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS designates the site Scenic View/Photo Spot and requires staying on trails.",
+              "name": "Reflection Lakes legal trail/roadside Camera Zone",
+              "lat": 46.7692,
+              "lon": -121.7249,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_subject_public_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 700,
+              "geometry_note": "合法公共 Camera Zone；座標作地圖／天氣錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-083",
+      "canonical_name": "Mount Rainier — Sunrise & Sunrise Point",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_WASHINGTON_SCENIC_EXPANSION",
+      "research_sources": [
+        {
+          "authority": "National Park Service — Sunrise",
+          "url": "https://home.nps.gov/mora/planyourvisit/sunrise.htm",
+          "verified_on": "2026-10-02",
+          "supports": "Sunrise is the highest vehicle-accessible point in the park; clear summer days provide Mount Rainier and Emmons Glacier views. Sunrise Point has nearly 360-degree views. Road usually late June/early July through late September/early October."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-083-P01",
+          "spot_id": "us-083",
+          "name_zh": "Sunrise・日出光照 Mount Rainier＋Emmons Glacier",
+          "legacy_theme": "sunrise",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_sunrise_mountain_module",
+          "formula_version": "v0.04-rainier-sunrise",
+          "formula_confidence": 99,
+          "best_time": "日出前至日出後約90分鐘",
+          "best_season": "道路通常晚6月／7月初至9月底／10月初",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-329",
+              "variant_name": "日出光照Rainier＋Emmons Glacier",
+              "condition_geometry": "{\"target\":\"Mount Rainier + Emmons Glacier at sunrise\"}",
+              "hard_gates": "Sunrise Road與停車／步道合法開放；不可車宿",
+              "required_conditions": "Rainier／Emmons方向山體可辨",
+              "boosters": "東側地平線透光；高透明度；少量中高雲；新雪",
+              "penalties": "低雲遮山；濃霧；道路關閉",
+              "formula_status": "needs_directional_sunrise_mountain_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-083-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS explicitly illustrates first rays of morning sun on Mount Rainier from Sunrise.",
+              "name": "Sunrise public Camera Zone",
+              "lat": 46.914,
+              "lon": -121.642,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_subject_public_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 1000,
+              "geometry_note": "合法公共 Camera Zone；座標作地圖／天氣錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-083-P02",
+          "spot_id": "us-083",
+          "name_zh": "Sunrise Point・Rainier＋Cascade Range 近360°山景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "multi_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_multi_sector_mountain_visibility_module",
+          "formula_version": "v0.04-rainier-sunrise-point",
+          "formula_confidence": 99,
+          "best_time": "白天至低角度光",
+          "best_season": "道路開放季",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-330",
+              "variant_name": "Rainier＋Cascade Range panorama",
+              "condition_geometry": "{\"target\":\"Mount Rainier + surrounding valleys + Cascade volcanoes\"}",
+              "hard_gates": "Sunrise Road開放且 pullout 合法安全",
+              "required_conditions": "至少主要山體／山谷扇區能見度良好",
+              "boosters": "高透明度；Mount Adams等遠山可見；側光",
+              "penalties": "廣泛低雲；煙霾；濃霧；道路關閉",
+              "formula_status": "needs_multi_sector_mountain_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-083-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS documents nearly 360-degree views of valleys, Rainier and Cascade volcanoes.",
+              "name": "Sunrise Point Camera Zone",
+              "lat": 46.9131,
+              "lon": -121.6942,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_subject_public_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 450,
+              "geometry_note": "合法公共 Camera Zone；座標作地圖／天氣錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-084",
+      "canonical_name": "Mount Rainier — Tipsoo Lake",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_WASHINGTON_SCENIC_EXPANSION",
+      "research_sources": [
+        {
+          "authority": "National Park Service — Sunrise / Tipsoo Lake",
+          "url": "https://home.nps.gov/mora/planyourvisit/sunrise.htm",
+          "verified_on": "2026-10-02",
+          "supports": "NPS describes Tipsoo Lake as a picturesque subalpine lake in a glacier-carved basin with spectacular wildflower meadows; Naches Peak Loop keeps Mount Rainier in view and adds fall color."
+        },
+        {
+          "authority": "National Park Service — Meadow Preservation",
+          "url": "https://home.nps.gov/mora/planyourvisit/meadow-preservation.htm",
+          "verified_on": "2026-10-02",
+          "supports": "Tipsoo Lakes meadow area legally restricts pedestrian traffic to trails to protect fragile subalpine vegetation."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-084-P01",
+          "spot_id": "us-084",
+          "name_zh": "Tipsoo Lake・高山湖＋野花／秋色＋Mount Rainier",
+          "legacy_theme": "alpine_lake",
+          "mode": "area_opportunity",
+          "sampling_topology": "multi_viewpoint",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_alpine_lake_season_visibility_module",
+          "formula_version": "v0.04-rainier-tipsoo",
+          "formula_confidence": 99,
+          "best_time": "低角度光；盛夏野花與初秋秋色分季評估",
+          "best_season": "主要道路／步道可達季；盛夏野花、初秋秋色",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-331",
+              "variant_name": "Tipsoo Lake＋Rainier季節景",
+              "condition_geometry": "{\"target\":\"subalpine lake + wildflowers/fall color + Mount Rainier\"}",
+              "hard_gates": "道路／步道合法開放；Tipsoo meadow 必須 stay on trail",
+              "required_conditions": "湖泊／草甸可見；若以Rainier為主體則山體方向能見度足夠",
+              "boosters": "野花峰值；秋色；低風；高透明度；低角度光",
+              "penalties": "山體全遮；強風；濃霧；道路關閉；離開步道",
+              "formula_status": "needs_alpine_lake_season_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-084-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS supports lake/wildflower subject and mandates staying on trails in meadow area.",
+              "name": "Tipsoo Lake legal trail Camera Zone",
+              "lat": 46.8691,
+              "lon": -121.5175,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_subject_public_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 900,
+              "geometry_note": "合法公共 Camera Zone；座標作地圖／天氣錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
             }
           ]
         }
