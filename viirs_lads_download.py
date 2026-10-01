@@ -13,7 +13,7 @@ from pathlib import Path
 BASE = "https://ladsweb.modaps.eosdis.nasa.gov"
 PRODUCT = "VNP46A4"
 ARCHIVE_SET = "5200"
-FILENAME_RE = re.compile(r"VNP46A4\.A\d{7}\.h\d{2}v\d{2}\.\d{3}\.[^.]+\.h5$")
+FILENAME_RE = re.compile(r"VNP46A4\\.A(?P<year>\\d{4})(?P<doy>\\d{3})\\.h\\d{2}v\\d{2}\\.\\d{3}\\.[^.]+\\.h5$")
 
 
 def authorization_headers(token):
@@ -69,10 +69,20 @@ def discover_files(year, bbox, token):
     return files
 
 
-def download_file(filename, token, destination):
-    if not FILENAME_RE.fullmatch(filename):
+def archive_url(filename):
+    match = FILENAME_RE.fullmatch(filename)
+    if not match:
         raise ValueError("unexpected VNP46A4 filename")
-    url = f"{BASE}/api/v2/content/archives/{urllib.parse.quote(filename)}"
+    # LAADS publishes Collection 2 VNP46A4 under the canonical allData
+    # archive tree: archive/allData/5200/VNP46A4/YYYY/DDD/<filename>.
+    return (
+        f"{BASE}/archive/allData/{ARCHIVE_SET}/{PRODUCT}/"
+        f"{match.group('year')}/{match.group('doy')}/{urllib.parse.quote(filename)}"
+    )
+
+
+def download_file(filename, token, destination):
+    url = archive_url(filename)
     request = urllib.request.Request(url, headers=authorization_headers(token))
     destination = Path(destination)
     destination.parent.mkdir(parents=True, exist_ok=True)
