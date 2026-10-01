@@ -1,0 +1,109 @@
+name: B166 CAMS AOD WeatherGrid
+
+on:
+  pull_request:
+    paths:
+      - "cams_aod_weathergrid.py"
+      - "test_cams_aod_weathergrid.py"
+      - "assets/weather-map.js"
+      - "weather-map.html"
+      - "PHOTOGRAPHY_ENVIRONMENT_LAYERS_ROADMAP.md"
+      - "B166_CAMS_AOD_WEATHERGRID.md"
+      - ".github/workflows/b166_cams_aod_weathergrid.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "cams_aod_weathergrid.py"
+      - "assets/weather-map.js"
+      - "weather-map.html"
+      - ".github/workflows/b166_cams_aod_weathergrid.yml"
+  schedule:
+    - cron: "40 5,17 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: b166-cams-aod-weathergrid
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  contract-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - run: python -m pip install requests
+      - run: python -m unittest -v test_cams_aod_weathergrid.py test_weathergrid_ui_polish.py
+
+  live-publish:
+    if: github.event_name != 'pull_request'
+    needs: contract-tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - run: python -m pip install requests
+      - name: Fetch CAMS Global AOD via Open-Meteo
+        run: |
+          python cams_aod_weathergrid.py \
+            --forecast-hours 120 \
+            --output-dir cams_aod_output
+      - name: Validate live bundle
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("cams_aod_output/cams_global_tw_aod_browser.json")
+          q=Path("cams_aod_output/cams_global_tw_aod_qc.json")
+          data=json.loads(p.read_text())
+          qc=json.loads(q.read_text())
+          assert data["model"]=="CAMS_GLOBAL"
+          assert data["frames"]
+          assert "aerosol_optical_depth_550nm" in data["fields"]
+          assert data["provenance"]["native_resolution_km"]==45.0
+          assert data["provenance"]["native_time_interval_hours"]==3
+          assert qc["frame_count"]==len(data["frames"])
+          assert not any(x["flag"]=="all_missing" for x in qc["flags"])
+          print(json.dumps({
+              "frames":len(data["frames"]),
+              "grid":[data["grid"]["rows"],data["grid"]["cols"]],
+              "provider_cells":qc["returned_provider_cell_count"],
+          },indent=2))
+          PY
+      - name: Publish AOD browser bundle
+        run: |
+          mkdir -p weathergrid
+          cp cams_aod_output/cams_global_tw_aod_browser.json weathergrid/cams_global_tw_aod_browser.json
+          cp cams_aod_output/cams_global_tw_aod_qc.json weathergrid/cams_global_tw_aod_qc.json
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add weathergrid/cams_global_tw_aod_browser.json weathergrid/cams_global_tw_aod_qc.json
+          if git diff --cached --quiet; then
+            echo "CAMS AOD WeatherGrid unchanged."
+            exit 0
+          fi
+          git commit -m "Auto-update CAMS AOD WeatherGrid [skip ci]"
+          for i in {1..5}; do
+            if git pull --rebase origin main && git push origin HEAD:main; then
+              exit 0
+            fi
+            sleep 5
+          done
+          exit 1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cams-aod-weathergrid
+          path: cams_aod_output/
+          retention-days: 7
