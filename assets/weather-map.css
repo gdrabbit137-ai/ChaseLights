@@ -176,10 +176,14 @@ body{padding:18px}
     overflow:hidden;text-overflow:ellipsis;white-space:nowrap
   }
   .legend{
-    left:8px;bottom:8px;min-width:132px;max-width:46%;
-    padding:5px 6px;font-size:.64rem
+    left:8px;bottom:8px;min-width:132px;max-width:44%;
+    padding:5px 6px;font-size:.62rem
   }
-  .legend-bar{height:7px;margin:4px 0 3px}
+  .legend strong{font-size:.68rem}
+  .legend-bar{height:6px;margin:3px 0 2px}
+  .legend-row{font-size:.58rem}
+  .wind-key{margin-top:4px;font-size:.59rem;gap:4px}
+  .wind-arrow-icon{font-size:.88rem}
   .cloud-legend-labels{height:25px;font-size:.52rem}
   .cloud-tick.lower{top:13px}
   .cloud-threshold-key{font-size:.57rem;gap:4px}
