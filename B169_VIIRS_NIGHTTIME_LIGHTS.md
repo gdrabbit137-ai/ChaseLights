@@ -89,3 +89,4 @@ Display semantics:
 - UI text explicitly states that radiance is not Bortle class, zenith sky brightness, or Milky Way visibility.
 
 The manifest ships unavailable until a real live-ingest artifact passes QC and is deliberately published.
+The UI contract is covered by the shared WeatherGrid UI tests and the B169 VIIRS contract workflow before merge.
