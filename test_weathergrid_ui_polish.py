@@ -335,6 +335,14 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn("canonical_opportunity_score:false", self.js)
         self.assertIn("if(effectiveWeightCoverage[i]>=.60", self.js)
 
+        self.assertIn("function cloudSeaNativeDiagnostic(op,targetValidTime=baseFrame()?.valid_time_utc)", self.js)
+        self.assertIn("function photographyNativePointSample(point,key,targetValidTime,toleranceMinutes=90)", self.js)
+        self.assertIn("function photographyGeometrySamplePoints(item,op)", self.js)
+        self.assertIn("status:'insufficient_role_evidence'", self.js)
+        self.assertIn("canonical_opportunity_score:false", self.js)
+        self.assertIn("cameraLow.mean", self.js)
+        self.assertIn("valleyLow.mean", self.js)
+
 
 
 
