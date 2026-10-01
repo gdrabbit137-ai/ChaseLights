@@ -15,6 +15,7 @@ from pathlib import Path
 BASE = "https://ladsweb.modaps.eosdis.nasa.gov"
 PRODUCT = "VNP46A4"
 ARCHIVE_SET = "5200"
+HDF5_MAGIC = b"\\x89HDF\\r\\n\\x1a\\n"
 FILENAME_RE = re.compile(r"VNP46A4\.A(?P<year>\d{4})(?P<doy>\d{3})\.h\d{2}v\d{2}\.\d{3}\.[^.]+\.h5$")
 
 
@@ -124,6 +125,15 @@ def download_file(filename, token, destination, opener=None):
         ],
         check=True,
     )
+    with destination.open("rb") as stream:
+        signature = stream.read(len(HDF5_MAGIC))
+    if signature != HDF5_MAGIC:
+        preview = destination.read_bytes()[:160].decode("utf-8", errors="replace").replace("\n", " ")
+        destination.unlink(missing_ok=True)
+        raise RuntimeError(
+            "LAADS download did not return an HDF5 payload; "
+            f"first bytes={signature!r}, preview={preview!r}"
+        )
     return destination
 
 
