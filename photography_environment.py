@@ -102,3 +102,69 @@ def classify_fog_haze(item):
         "diagnostic_only": True,
         "score_effect": "none",
     }
+
+
+def classify_dark_sky_evidence(item):
+    """Describe VIIRS nighttime-light evidence without inventing sky brightness.
+
+    This diagnostic intentionally stops at upward/observed nighttime-light
+    radiance context. It is not a Bortle, SQM, limiting-magnitude, Milky Way
+    visibility, or skyglow model.
+    """
+    radiance = _number(item.get(
+        "nighttime_lights_radiance_nw_cm2_sr",
+        item.get("viirs_nighttime_lights_radiance"),
+    ))
+    quality = item.get(
+        "nighttime_lights_quality_flag",
+        item.get("viirs_nighttime_lights_quality_flag"),
+    )
+    try:
+        quality = int(quality) if quality is not None else None
+    except (TypeError, ValueError):
+        quality = None
+
+    quality_labels = {0: "good", 1: "poor", 2: "gap_filled"}
+    quality_label = quality_labels.get(quality, "unknown")
+    usable = radiance is not None and quality in quality_labels
+
+    # These bins are presentation/planning heuristics for *radiance evidence*
+    # only. They are deliberately not mapped to Bortle/SQM or a score.
+    if radiance is None:
+        state = "night_lights_unavailable"
+    elif radiance < 1:
+        state = "low_artificial_light_radiance"
+    elif radiance < 5:
+        state = "moderate_artificial_light_radiance"
+    elif radiance < 10:
+        state = "elevated_artificial_light_radiance"
+    else:
+        state = "high_artificial_light_radiance"
+
+    confidence = (
+        "medium" if quality == 0 and radiance is not None
+        else "low"
+    )
+    evidence = []
+    if radiance is not None:
+        evidence.append("viirs_annual_nighttime_radiance")
+    if quality_label != "unknown":
+        evidence.append(f"viirs_quality_{quality_label}")
+
+    return {
+        "module": "dark_sky_environment",
+        "available": radiance is not None,
+        "state": state,
+        "confidence": confidence,
+        "radiance_nw_cm2_sr": radiance,
+        "quality_flag": quality,
+        "quality": quality_label,
+        "usable_for_context": usable,
+        "evidence": evidence,
+        "interpretation": "artificial_light_radiance_context_only",
+        "not_bortle": True,
+        "not_sqm": True,
+        "not_sky_brightness": True,
+        "diagnostic_only": True,
+        "score_effect": "none",
+    }
