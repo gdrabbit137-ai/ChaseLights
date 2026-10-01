@@ -37,6 +37,11 @@
 
   const layerConfig = {
     photography_overview:{label:'攝影綜合', unit:'分', domain:[0,100], palette:'photoScore', scale:'photo_score', ticks:[0,20,40,60,80,100]},
+    photography_sunrise_sunset:{label:'日出／日落', unit:'分', domain:[0,100], palette:'photoScore', scale:'photo_score', ticks:[0,20,40,60,80,100]},
+    photography_cloudsea_fog:{label:'雲海／晨霧', unit:'分', domain:[0,100], palette:'photoScore', scale:'photo_score', ticks:[0,20,40,60,80,100]},
+    photography_mountain_view:{label:'山景／遠景', unit:'分', domain:[0,100], palette:'photoScore', scale:'photo_score', ticks:[0,20,40,60,80,100]},
+    photography_seascape:{label:'海景', unit:'分', domain:[0,100], palette:'photoScore', scale:'photo_score', ticks:[0,20,40,60,80,100]},
+    photography_nightscape:{label:'星空', unit:'分', domain:[0,100], palette:'photoScore', scale:'photo_score', ticks:[0,20,40,60,80,100]},
     total_cloud_percent:{label:'全雲量', unit:'%', domain:[0,100], palette:'cloud', scale:'cloud_percent', ticks:CLOUD_PERCENT_BREAKS},
     low_cloud_percent: {label:'低雲', unit:'%', domain:[0,100], palette:'cloud', scale:'cloud_percent', ticks:CLOUD_PERCENT_BREAKS},
     mid_cloud_percent: {label:'中雲', unit:'%', domain:[0,100], palette:'cloud', scale:'cloud_percent', ticks:CLOUD_PERCENT_BREAKS},
@@ -439,7 +444,7 @@
     const visibleLayerKeys=Object.keys(layerConfig).filter(key=>key!=='wind_direction_10m_deg');
     if(state.modelMode==='auto'){
       return photographerLayerOrder.filter(key=>
-        key==='photography_overview' ||
+        key.startsWith('photography_') ||
         (visibleLayerKeys.includes(key) && Boolean(autoDataset(key)?.fields?.[key]))
       );
     }
@@ -467,6 +472,11 @@
   function photographyLayerLabel(key){
     const labels={
       photography_overview:'📷 攝影綜合圖',
+      photography_sunrise_sunset:'🌅 日出／日落',
+      photography_cloudsea_fog:'☁️ 雲海／晨霧',
+      photography_mountain_view:'🏔️ 山景／遠景',
+      photography_seascape:'🌊 海景',
+      photography_nightscape:'🌌 星空',
       total_cloud_percent:'☁️ 全雲量',
       low_cloud_percent:'🌫️ 低雲／山霧',
       mid_cloud_percent:'☁️ 中雲',
@@ -858,6 +868,8 @@
   ]);
   const photographerLayerOrder = [
     'photography_overview',
+    'photography_sunrise_sunset','photography_cloudsea_fog','photography_mountain_view',
+    'photography_seascape','photography_nightscape',
     'total_cloud_percent','low_cloud_percent','mid_cloud_percent','high_cloud_percent',
     'precip_rate_mm_h','visibility_km','wind_speed_10m_m_s',
     'aerosol_optical_depth_550nm','pm2_5_ug_m3',
@@ -874,7 +886,7 @@
   // AUTO is photographer-first: choose the best available regional forecast
   // per layer, while keeping manual model selection available for comparison.
   function autoDataset(key=state.layer){
-    if(key==='photography_overview') return state.data;
+    if(key.startsWith('photography_')) return state.data;
     const validTime=state.data?.frames?.[state.frameIndex]?.valid_time_utc;
     const candidates=cloudLayers.has(key)
       ? [state.cwaData,state.jmaData,state.iconData,state.data]
@@ -1001,12 +1013,10 @@
     return out;
   }
 
-  function photographyOverviewArray(){
-    // Composite target grid is GFS. Every AUTO-selected source is explicitly
-    // bilinearly resampled onto that grid before blending; out-of-coverage cells stay null.
+  function photographyCompositeArray(mode='overview'){
     const base=state.data;
     const validTime=baseFrame()?.valid_time_utc;
-    const keys=['low_cloud_percent','high_cloud_percent','visibility_km','precip_rate_mm_h','wind_speed_10m_m_s'];
+    const keys=['low_cloud_percent','mid_cloud_percent','high_cloud_percent','total_cloud_percent','visibility_km','precip_rate_mm_h','wind_speed_10m_m_s','relative_humidity_2m_percent'];
     const arrays={};
     for(const key of keys){
       const provider=autoDataset(key);
@@ -1015,23 +1025,40 @@
         : resampleToBaseGrid(provider,key,validTime);
     }
     const n=base?.grid?.rows*base?.grid?.cols || 0;
-    if(!n) return [];
+    const score=(v,target,span)=>Number.isFinite(v)?1-clamp01(Math.abs(v-target)/span):null;
+    const high=(v,scale)=>Number.isFinite(v)?clamp01(v/scale):null;
+    const low=(v,scale)=>Number.isFinite(v)?1-clamp01(v/scale):null;
     return Array.from({length:n},(_,i)=>{
-      const low=arrays.low_cloud_percent?.[i], high=arrays.high_cloud_percent?.[i];
-      const vis=arrays.visibility_km?.[i], rain=arrays.precip_rate_mm_h?.[i], wind=arrays.wind_speed_10m_m_s?.[i];
-      const terms=[];
-      if(Number.isFinite(low)) terms.push([1-clamp01(Math.abs(low-25)/75),.22]);
-      if(Number.isFinite(high)) terms.push([1-clamp01(Math.abs(high-45)/55),.18]);
-      if(Number.isFinite(vis)) terms.push([clamp01(vis/25),.28]);
-      if(Number.isFinite(rain)) terms.push([1-clamp01(rain/2),.20]);
-      if(Number.isFinite(wind)) terms.push([1-clamp01(wind/12),.12]);
+      const v=Object.fromEntries(keys.map(k=>[k,arrays[k]?.[i]]));
+      let terms=[];
+      if(mode==='sunrise_sunset'){
+        terms=[[score(v.high_cloud_percent,55,45),.35],[score(v.mid_cloud_percent,35,45),.20],[low(v.low_cloud_percent,80),.15],[high(v.visibility_km,25),.20],[low(v.precip_rate_mm_h,2),.10]];
+      }else if(mode==='cloudsea_fog'){
+        terms=[[high(v.low_cloud_percent,85),.38],[high(v.relative_humidity_2m_percent,100),.20],[low(v.precip_rate_mm_h,2),.12],[low(v.wind_speed_10m_m_s,12),.12],[score(v.visibility_km,8,12),.18]];
+      }else if(mode==='mountain_view'){
+        terms=[[high(v.visibility_km,30),.45],[low(v.low_cloud_percent,70),.25],[low(v.precip_rate_mm_h,1.5),.18],[low(v.wind_speed_10m_m_s,15),.12]];
+      }else if(mode==='seascape'){
+        terms=[[high(v.visibility_km,25),.30],[low(v.precip_rate_mm_h,2),.25],[low(v.wind_speed_10m_m_s,18),.20],[score(v.total_cloud_percent,45,55),.25]];
+      }else if(mode==='nightscape'){
+        terms=[[low(v.total_cloud_percent,70),.42],[high(v.visibility_km,25),.28],[low(v.precip_rate_mm_h,.8),.20],[low(v.relative_humidity_2m_percent,100),.10]];
+      }else{
+        terms=[[score(v.low_cloud_percent,25,75),.22],[score(v.high_cloud_percent,45,55),.18],[high(v.visibility_km,25),.28],[low(v.precip_rate_mm_h,2),.20],[low(v.wind_speed_10m_m_s,12),.12]];
+      }
+      terms=terms.filter(([value])=>Number.isFinite(value));
       const weight=terms.reduce((sum,t)=>sum+t[1],0);
-      return weight ? 100*terms.reduce((sum,t)=>sum+t[0]*t[1],0)/weight : null;
+      return weight?100*terms.reduce((sum,t)=>sum+t[0]*t[1],0)/weight:null;
     });
   }
 
+  function photographyOverviewArray(){ return photographyCompositeArray('overview'); }
+
   function decodedArray(key){
     if(key==='photography_overview') return photographyOverviewArray();
+    if(key==='photography_sunrise_sunset') return photographyCompositeArray('sunrise_sunset');
+    if(key==='photography_cloudsea_fog') return photographyCompositeArray('cloudsea_fog');
+    if(key==='photography_mountain_view') return photographyCompositeArray('mountain_view');
+    if(key==='photography_seascape') return photographyCompositeArray('seascape');
+    if(key==='photography_nightscape') return photographyCompositeArray('nightscape');
     const data=activeDataset(key);
     const active=activeFrame(key);
     if(!active || !active.values[key]) return [];
@@ -1512,7 +1539,7 @@
     }
 
     ctx.save();
-    if(state.layer==='photography_overview'){
+    if(state.layer.startsWith('photography_')){
       drawBilinearSubcells(data,vals,cfg,visibleView);
     }else if(isObservationMode()){
       // Himawari presentation-grid values are observations/retrievals.
@@ -2224,7 +2251,7 @@
 
     const arr=decodedArray(state.layer).filter(Number.isFinite);
     const min=arr.length?Math.min(...arr):null, max=arr.length?Math.max(...arr):null;
-    $('layer-summary').textContent=state.layer==='photography_overview'?'攝影綜合圖':cfg.label;
+    $('layer-summary').textContent=state.layer.startsWith('photography_')?photographyLayerLabel(state.layer).replace(/^\S+\s*/,''):cfg.label;
     $('layer-range').textContent=min==null
       ? '畫面資料範圍：—'
       : `畫面資料範圍：${formatValue(min,state.layer)} – ${formatValue(max,state.layer)}`;
@@ -2236,8 +2263,8 @@
     else if(usingCams) providerRole=state.layer==='pm2_5_ug_m3'?'CAMS Global · PM2.5':'CAMS Global · AOD 550 nm';
     else if(usingViirs) providerRole='NASA Black Marble VNP46A4 · 年度環境背景';
     else if(state.modelMode==='auto' && cloudLayers.has(state.layer)) providerRole='GFS fallback';
-    const unitText=state.layer==='photography_overview'
-      ? '0–100 綜合指標（beta）'
+    const unitText=state.layer.startsWith('photography_')
+      ? '0–100 題材環境指標（beta）'
       : usingHimawari && state.layer==='cloud_top_height_m'
       ? '原始單位 m · 顯示 km'
       : `單位 ${data.fields[state.layer].unit}`;
