@@ -949,25 +949,70 @@
 
   function clamp01(v){ return Math.max(0,Math.min(1,v)); }
 
-  function overviewSourceArray(key){
-    const data=autoDataset(key);
-    const base=baseFrame();
-    const active=(data===state.data)
-      ? base
-      : (data?.frames?.find(f=>f.valid_time_utc===base?.valid_time_utc) ||
-         data?.frames?.[nearestFrameIndex(data,base?.valid_time_utc)] || null);
-    if(!active?.values?.[key]) return [];
-    return active.values[key].map(v=>decodeValue(key,v,data));
+  function decodedDatasetArray(data,key,validTime){
+    if(!data?.fields?.[key] || !data?.frames?.length) return [];
+    const fi=nearestFrameIndex(data,validTime);
+    const encoded=data.frames?.[fi]?.values?.[key];
+    return encoded ? encoded.map(v=>decodeValue(key,v,data)) : [];
+  }
+
+  function bilinearDatasetValue(point,data,key,validTime,values=null){
+    if(!point || !data?.fields?.[key]) return null;
+    const bbox=normalizeViewBbox(data.bbox);
+    if(bbox && (point.lon<bbox.leftlon || point.lon>bbox.rightlon ||
+      point.lat<bbox.bottomlat || point.lat>bbox.toplat)) return null;
+    const vals=values || decodedDatasetArray(data,key,validTime);
+    const lons=data.grid.longitudes,lats=data.grid.latitudes;
+    if(!vals.length || !lons?.length || !lats?.length) return null;
+    const bracket=(arr,v)=>{
+      const asc=arr[0]<arr[arr.length-1], a=asc?arr:[...arr].reverse();
+      if(v<a[0] || v>a[a.length-1]) return null;
+      let hi=1; while(hi<a.length && v>a[hi]) hi++;
+      if(hi>=a.length) hi=a.length-1;
+      const lo=Math.max(0,hi-1);
+      return {lo:asc?lo:arr.length-1-lo,hi:asc?hi:arr.length-1-hi,a0:a[lo],a1:a[hi]};
+    };
+    const bx=bracket(lons,point.lon),by=bracket(lats,point.lat);
+    if(!bx||!by) return null;
+    const idx=(r,c)=>r*data.grid.cols+c;
+    const q00=vals[idx(by.lo,bx.lo)],q10=vals[idx(by.lo,bx.hi)];
+    const q01=vals[idx(by.hi,bx.lo)],q11=vals[idx(by.hi,bx.hi)];
+    if([q00,q10,q01,q11].some(v=>!Number.isFinite(v))) return null;
+    const wx=bx.a1===bx.a0?0:(point.lon-bx.a0)/(bx.a1-bx.a0);
+    const wy=by.a1===by.a0?0:(point.lat-by.a0)/(by.a1-by.a0);
+    return bilinearValue(q00,q10,q01,q11,wx,wy);
+  }
+
+  function resampleToBaseGrid(data,key,validTime){
+    const base=state.data;
+    const n=base?.grid?.rows*base?.grid?.cols || 0;
+    if(!n || !data?.fields?.[key]) return [];
+    const source=decodedDatasetArray(data,key,validTime);
+    if(!source.length) return [];
+    const out=new Array(n).fill(null);
+    for(let r=0;r<base.grid.rows;r++){
+      for(let c=0;c<base.grid.cols;c++){
+        out[r*base.grid.cols+c]=bilinearDatasetValue(
+          {lat:base.grid.latitudes[r],lon:base.grid.longitudes[c]},
+          data,key,validTime,source
+        );
+      }
+    }
+    return out;
   }
 
   function photographyOverviewArray(){
-    // Keep this beta composite on one grid. Only fields whose AUTO provider shares
-    // the base grid are blended; cross-model spatial resampling belongs in a later batch.
+    // Composite target grid is GFS. Every AUTO-selected source is explicitly
+    // bilinearly resampled onto that grid before blending; out-of-coverage cells stay null.
     const base=state.data;
+    const validTime=baseFrame()?.valid_time_utc;
     const keys=['low_cloud_percent','high_cloud_percent','visibility_km','precip_rate_mm_h','wind_speed_10m_m_s'];
     const arrays={};
     for(const key of keys){
-      if(autoDataset(key)===base) arrays[key]=overviewSourceArray(key);
+      const provider=autoDataset(key);
+      arrays[key]=provider===base
+        ? decodedDatasetArray(base,key,validTime)
+        : resampleToBaseGrid(provider,key,validTime);
     }
     const n=base?.grid?.rows*base?.grid?.cols || 0;
     if(!n) return [];
