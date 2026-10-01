@@ -277,6 +277,16 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn('"test_weathergrid_ui_polish.py"', self.workflow)
         self.assertIn("test_weathergrid_ui_polish.py", self.workflow)
 
+    def test_photographer_first_controls_and_auto_provider_contract(self):
+        self.assertIn('class="layer-control primary-control"', self.html)
+        self.assertIn('攝影圖層', self.html)
+        self.assertIn('class="model-control advanced-control"', self.html)
+        self.assertIn('進階 · 資料來源', self.html)
+        self.assertIn("function autoDataset(key=state.layer)", self.js)
+        self.assertIn("function photographyLayerLabel(key)", self.js)
+        self.assertIn("🌫️ 低雲／山霧", self.js)
+        self.assertIn(".layer-control.primary-control{grid-column:span 2}", self.css)
+
 
 if __name__ == "__main__":
     unittest.main()
