@@ -103,6 +103,31 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn("min-width:132px;max-width:46%", self.css)
         self.assertIn(".coverage-outline-key{display:none}", self.css)
 
+    def test_cloud_percent_palette_has_explicit_50_percent_hinge(self):
+        self.assertIn("CLOUD_PERCENT_BREAKS=[0,20,40,50,70,85,100]", self.js)
+        self.assertIn("scale:'cloud_percent'", self.js)
+        self.assertIn("function cloudColorFor(value)", self.js)
+        self.assertIn("50% 雲量分界", self.js)
+        self.assertIn("cloud-midline", self.css)
+
+    def test_cloud_overlay_never_fully_hides_basemap(self):
+        self.assertIn("CLOUD_MAX_OVERLAY_ALPHA=.78", self.js)
+        self.assertIn("function layerOpacityCap(cfg)", self.js)
+        self.assertIn("state.weatherOpacity*layerOpacityCap(cfg)*cellOpacityFor", self.js)
+        self.assertIn('id="opacity-title"', self.html)
+        self.assertIn("雲層顯示強度", self.js)
+
+    def test_forecast_cloud_map_draws_50_percent_contour_and_selected_value(self):
+        self.assertIn("function drawCloudThresholdContour(", self.js)
+        self.assertIn("drawCloudThresholdContour(data,vals,50,visibleView)", self.js)
+        self.assertIn("!isObservationMode() && cfg.palette==='cloud'", self.js)
+        self.assertIn("selectedLabel=", self.js)
+        self.assertIn("formatValue(value,state.layer)", self.js)
+
+    def test_cloud_legend_exposes_all_breakpoints(self):
+        self.assertIn("function cloudLegendLabels()", self.js)
+        self.assertIn("cloud-legend-labels", self.css)
+
     def test_ci_runs_ui_polish_contract(self):
         self.assertIn('"test_weathergrid_ui_polish.py"', self.workflow)
         self.assertIn("test_weathergrid_ui_polish.py", self.workflow)
