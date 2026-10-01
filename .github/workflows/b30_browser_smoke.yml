@@ -101,7 +101,7 @@ jobs:
           assert live.get("model") == "GFS", live.get("model")
           assert len(live.get("frames") or []) > 0, "LIVE WeatherGrid has no frames"
           assert len(live.get("spots") or []) > 0, "LIVE WeatherGrid has no spots"
-          required = {"low_cloud_percent", "visibility_km", "wind_direction_10m_deg"}
+          required = {"low_cloud_percent", "visibility_km", "wind_speed_10m_m_s", "wind_direction_10m_deg"}
           assert required.issubset(set((live.get("fields") or {}).keys())), live.get("fields")
           print(json.dumps({
               "live_weathergrid_frames": len(live["frames"]),
@@ -1126,7 +1126,8 @@ jobs:
               assert "DEMO" in weather_preview["source"], weather_preview
               assert "low_cloud_percent" in weather_preview["layers"], weather_preview
               assert "visibility_km" in weather_preview["layers"], weather_preview
-              assert "wind_direction_10m_deg" in weather_preview["layers"], weather_preview
+              assert "wind_speed_10m_m_s" in weather_preview["layers"], weather_preview
+              assert "wind_direction_10m_deg" not in weather_preview["layers"], weather_preview
               assert weather_preview["frames"] == 3, weather_preview
               assert weather_preview["spots"] == 4, weather_preview
               assert weather_preview["canvasWidth"] > 0 and weather_preview["canvasHeight"] > 0, weather_preview
