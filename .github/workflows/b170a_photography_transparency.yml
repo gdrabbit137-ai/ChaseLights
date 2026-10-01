@@ -6,6 +6,8 @@ on:
     paths:
       - "photography_transparency.py"
       - "test_photography_transparency.py"
+      - "test_transparency_replay.py"
+      - "test_fixtures/transparency_replay_cases.json"
       - "B170A_PHOTOGRAPHY_TRANSPARENCY.md"
       - ".github/workflows/b170a_photography_transparency.yml"
   push:
@@ -13,6 +15,8 @@ on:
     paths:
       - "photography_transparency.py"
       - "test_photography_transparency.py"
+      - "test_transparency_replay.py"
+      - "test_fixtures/transparency_replay_cases.json"
       - "B170A_PHOTOGRAPHY_TRANSPARENCY.md"
       - ".github/workflows/b170a_photography_transparency.yml"
   workflow_dispatch:
@@ -30,6 +34,8 @@ jobs:
         with:
           python-version: "3.10"
       - name: Compile
-        run: python -m py_compile photography_transparency.py test_photography_transparency.py
+        run: python -m py_compile photography_transparency.py test_photography_transparency.py test_transparency_replay.py
       - name: Run diagnostic tests
-        run: python -m unittest -v test_photography_transparency.py
+        run: |
+          python -m unittest -v test_photography_transparency.py
+          python -m unittest -v test_transparency_replay.py
