@@ -2160,7 +2160,8 @@
     $('time-next').setAttribute('aria-label',`下一個${timeKind}`);
     $('time-slider').setAttribute('aria-label',timeKind);
     const play=$('time-play');
-    play.disabled=observation || staticContext || frames.length<2;
+    play.disabled=observation || frames.length<2;
+    if(staticContext) play.disabled=true;
     play.textContent=state.timelinePlaying?'暫停':'播放';
     play.setAttribute('aria-pressed',state.timelinePlaying?'true':'false');
   }
@@ -2284,11 +2285,16 @@
       windVectorStep: windVectorStep(),
       windVectorCount: state.lastWindVectorCount,
       activeModel: activeDataset(state.layer)?.model || null,
-      displayInterpolation: isObservationMode()?'nearest_observation':(state.layer==='wind_direction_10m_deg'?'bilinear_uv_circular':'bilinear_subcell'),
+      displayInterpolation: isObservationMode()
+        ? 'nearest_observation'
+        : (isStaticContextMode()
+          ? 'nearest_static_context'
+          : (state.layer==='wind_direction_10m_deg'?'bilinear_uv_circular':'bilinear_subcell')),
       iconAvailable: Boolean(state.iconData),
       cwaAvailable: Boolean(state.cwaData),
       jmaAvailable: Boolean(state.jmaData),
       himawariAvailable: Boolean(state.himawariData),
+      viirsAvailable: Boolean(state.viirsData),
       sourceKind: activeDataset(state.layer)?.source_kind || 'forecast',
       observationTime: state.himawariData?.observation?.time_coverage_end || null,
       modelMode: state.modelMode,
