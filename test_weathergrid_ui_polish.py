@@ -343,6 +343,13 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn("cameraLow.mean", self.js)
         self.assertIn("valleyLow.mean", self.js)
 
+        self.assertIn("function mountainNativeDiagnostic(op,targetValidTime=baseFrame()?.valid_time_utc)", self.js)
+        self.assertIn("directional_subject_required:true", self.js)
+        self.assertIn("!cameras.length || !subjects.length", self.js)
+        self.assertIn("Math.min(", self.js)
+        self.assertIn("subjectVis.mean/30", self.js)
+        self.assertIn("subjectLow.mean/70", self.js)
+
 
 
 
