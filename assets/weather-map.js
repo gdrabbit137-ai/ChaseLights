@@ -1810,7 +1810,7 @@
       point.lat<bbox.bottomlat || point.lat>bbox.toplat
     )) return null;
     const values=decodedArray(key);
-    if(isObservationMode()){
+    if(isObservationMode() || isStaticContextMode()){
       return values[nearestCellIndex(point.lon,point.lat,data)] ?? null;
     }
 
@@ -1889,14 +1889,17 @@
     const usingJma=data===state.jmaData;
     const usingHimawari=data===state.himawariData;
     const usingCams=data===state.camsData;
+    const usingViirs=data===state.viirsData;
     $('time-slider').value=state.frameIndex;
     const forecastHour=Number(f.forecast_hour || 0);
     const frameLead=`f${String(forecastHour).padStart(3,'0')}`;
     $('time-label').textContent=usingHimawari
       ? `觀測時間 · ${formatTaipeiTime(f.valid_time_utc)} TST`
-      : (usingCams
-        ? `CAMS 預報時間 · ${formatTaipeiTime(f.valid_time_utc)} TST`
-        : `預報時間 · ${formatTaipeiTime(f.valid_time_utc)} · +${forecastHour}h`);
+      : (usingViirs
+        ? `年度合成 · ${f.composite_year || new Date(f.valid_time_utc).getUTCFullYear()}`
+        : (usingCams
+          ? `CAMS 預報時間 · ${formatTaipeiTime(f.valid_time_utc)} TST`
+          : `預報時間 · ${formatTaipeiTime(f.valid_time_utc)} · +${forecastHour}h`));
     $('opacity-label').textContent=`${Math.round(state.weatherOpacity*100)}%`;
     const opacityTitle=$('opacity-title');
     const opacitySlider=$('opacity-slider');
@@ -1945,15 +1948,22 @@
     }else if(usingCams){
       const p=data.provenance || {};
       resolution=`CAMS Global 原生約 ${p.native_resolution_km || 45} km · ${p.native_time_interval_hours || 3} h · 0.4° 取樣顯示格`;
+    }else if(usingViirs){
+      const p=data.provenance || {};
+      resolution=`${p.native_resolution || '15 arc-second (~500 m at equator)'} · 年度合成 · 最近鄰景點取樣`;
     }else{
       resolution=`原生 0.25° · ${interpolationLabel}`;
     }
     const cycleText=usingCams
       ? (data.cycle?.retrieved_at_utc || data.cycle?.label || '—')
-      : (data.cycle?.cycle_time_utc || data.cycle?.label || '—');
-    const cycleDisplay=Number.isFinite(Date.parse(cycleText))
-      ? `${formatTaipeiTime(cycleText)} TST`
-      : cycleText;
+      : (usingViirs
+        ? String(f.composite_year || new Date(f.valid_time_utc).getUTCFullYear())
+        : (data.cycle?.cycle_time_utc || data.cycle?.label || '—'));
+    const cycleDisplay=usingViirs
+      ? cycleText
+      : (Number.isFinite(Date.parse(cycleText))
+        ? `${formatTaipeiTime(cycleText)} TST`
+        : cycleText);
     const autoPrefix=state.modelMode==='auto'?'自動模式：依圖層選優先模型 · ':'';
     const compactSummary=$('source-mobile-summary');
     if(usingHimawari){
@@ -1965,9 +1975,11 @@
         compactSummary.textContent=`觀測 ${formatTaipeiTime(f.valid_time_utc)} · 2 km${ageCompact}`;
       }
     }else{
-      $('cycle-label').textContent=usingCams
-        ? `資料更新 ${cycleDisplay} · ${data.grid.rows}×${data.grid.cols} · ${resolution}`
-        : `${autoPrefix}模型起報 ${cycleDisplay} · ${data.grid.rows}×${data.grid.cols} · ${resolution}`;
+      $('cycle-label').textContent=usingViirs
+        ? `NASA Black Marble ${cycleDisplay} 年度合成 · ${data.grid.rows}×${data.grid.cols} · ${resolution}`
+        : (usingCams
+          ? `資料更新 ${cycleDisplay} · ${data.grid.rows}×${data.grid.cols} · ${resolution}`
+          : `${autoPrefix}模型起報 ${cycleDisplay} · ${data.grid.rows}×${data.grid.cols} · ${resolution}`);
       if(compactSummary){
         let compactResolution='0.25°';
         let compactCadence='';
@@ -1984,10 +1996,15 @@
         }else if(usingCams){
           compactResolution=`約 ${data.provenance?.native_resolution_km || 45} km`;
           compactCadence=` · ${data.provenance?.native_time_interval_hours || 3}h`;
+        }else if(usingViirs){
+          compactResolution='約 500 m';
+          compactCadence=' · 年度';
         }
-        compactSummary.textContent=usingCams
-          ? `更新 ${cycleDisplay.replace(' TST','')} · ${compactResolution}${compactCadence}`
-          : `起報 ${cycleDisplay.replace(' TST','')} · ${compactResolution}${compactCadence}`;
+        compactSummary.textContent=usingViirs
+          ? `Black Marble ${cycleDisplay} · ${compactResolution}${compactCadence}`
+          : (usingCams
+            ? `更新 ${cycleDisplay.replace(' TST','')} · ${compactResolution}${compactCadence}`
+            : `起報 ${cycleDisplay.replace(' TST','')} · ${compactResolution}${compactCadence}`);
       }
     }
     const attributionHost=$('source-attribution');
@@ -1997,6 +2014,8 @@
       attributionHost.innerHTML='資料模型：JMA MSM · Open Data transport: <a href="https://registry.opendata.aws/open-meteo/" target="_blank" rel="noopener noreferrer">Open-Meteo AWS</a>';
     }else if(usingCams){
       attributionHost.innerHTML='霧霾資料：Copernicus CAMS Global · API: <a href="https://open-meteo.com/en/docs/air-quality-api" target="_blank" rel="noopener noreferrer">Open-Meteo</a>';
+    }else if(usingViirs){
+      attributionHost.textContent='夜間燈光：NASA Black Marble VNP46A4 Collection 2 · 年度輻亮度；不是 Bortle 或天空亮度';
     }else{
       attributionHost.innerHTML='';
     }
@@ -2013,13 +2032,16 @@
     else if(usingCwa) providerRole='CWA WRF 3 km';
     else if(usingIcon) providerRole=state.modelMode==='auto'?'ICON Global · auto':'ICON Global';
     else if(usingCams) providerRole=state.layer==='pm2_5_ug_m3'?'CAMS Global · PM2.5':'CAMS Global · AOD 550 nm';
+    else if(usingViirs) providerRole='NASA Black Marble VNP46A4 · 年度夜間燈光';
     else if(state.modelMode==='auto' && cloudLayers.has(state.layer)) providerRole='GFS fallback';
     const unitText=usingHimawari && state.layer==='cloud_top_height_m'
       ? '原始單位 m · 顯示 km'
       : `單位 ${data.fields[state.layer].unit}`;
     $('layer-unit').textContent=usingHimawari
       ? `${providerRole} · ${unitText} · 單張最新觀測`
-      : `${providerRole} · ${unitText} · 各模型保留自己的範圍／解析度／時間軸`;
+      : (usingViirs
+        ? `${providerRole} · ${unitText} · 靜態環境背景，不是天氣預報`
+        : `${providerRole} · ${unitText} · 各模型保留自己的範圍／解析度／時間軸`);
     const vertical=data.fields[state.layer]?.vertical_definition || null;
     const verticalHost=$('layer-vertical');
     if(usingHimawari && state.layer==='observed_cloud_mask'){
@@ -2050,7 +2072,9 @@
     $('spot-value').textContent=point?formatValue(sv,state.layer):'—';
     const sampleMethod=isObservationMode()
       ? '衛星 presentation grid 最近鄰取樣（觀測／反演資料不做雙線性混合）'
-      : '瀏覽器雙線性插值（風向以 u/v 向量循環插值；超出資料範圍不外推）';
+      : (isStaticContextMode()
+        ? '年度夜間燈光最近鄰取樣（不把衛星輻亮度內插成 Bortle／天空亮度）'
+        : '瀏覽器雙線性插值（風向以 u/v 向量循環插值；超出資料範圍不外推）');
     $('spot-details').innerHTML=point
       ? `<div>${point.lat.toFixed(4)}°, ${point.lon.toFixed(4)}° · ${escapeHtml(point.label)}</div><div>取樣：${sampleMethod}</div>`
       : '<div>可從下拉選單或地圖上的景點點位選取。</div>';
@@ -2082,6 +2106,9 @@
     }else if(cfg.scale==='aod'){
       stopValues=cfg.ticks;
       labels=['0.00','0.20','0.80','1.50+'];
+    }else if(cfg.scale==='nightlights'){
+      stopValues=cfg.ticks;
+      labels=['0','0.5','5','25','100+ nW/(cm²·sr)'];
     }
 
     let barHtml;
@@ -2122,17 +2149,18 @@
     const frameLabels=timelineDataset().frames.map(f=>formatTaipeiTime(f.valid_time_utc));
     const last=Math.max(0,frames.length-1);
     const observation=isObservationMode();
-    const timeKind=observation?'觀測時間':'預報時間';
+    const staticContext=isStaticContextMode();
+    const timeKind=observation?'觀測時間':(staticContext?'年度合成':'預報時間');
     const tickIndices=[0,Math.round(last*.25),Math.round(last*.5),Math.round(last*.75),last]
       .filter((v,i,a)=>a.indexOf(v)===i);
     $('timeline').innerHTML=tickIndices.map(i=>`<span>${escapeHtml(frameLabels[i] || '')}</span>`).join('');
-    $('time-prev').disabled=observation || state.frameIndex<=0;
-    $('time-next').disabled=observation || state.frameIndex>=last;
+    $('time-prev').disabled=observation || staticContext || state.frameIndex<=0;
+    $('time-next').disabled=observation || staticContext || state.frameIndex>=last;
     $('time-prev').setAttribute('aria-label',`前一個${timeKind}`);
     $('time-next').setAttribute('aria-label',`下一個${timeKind}`);
     $('time-slider').setAttribute('aria-label',timeKind);
     const play=$('time-play');
-    play.disabled=observation || frames.length<2;
+    play.disabled=observation || staticContext || frames.length<2;
     play.textContent=state.timelinePlaying?'暫停':'播放';
     play.setAttribute('aria-pressed',state.timelinePlaying?'true':'false');
   }
