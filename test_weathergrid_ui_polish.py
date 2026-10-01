@@ -327,6 +327,15 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn("環境條件區：", self.js)
         self.assertIn("目前不覆寫正式 opportunity score", self.js)
 
+    def test_cloud_sea_role_aware_diagnostic(self):
+        self.assertIn("function cloudSeaRoleDiagnostic(cameras,environment)", self.js)
+        self.assertIn("cameraAboveCloud", self.js)
+        self.assertIn("valleyCloud", self.js)
+        self.assertIn("雲海角色判讀", self.js)
+        self.assertIn("機位能見度", self.js)
+        self.assertIn("山谷低雲", self.js)
+        self.assertIn("目前仍不覆寫正式 opportunity score", self.js)
+
 
 if __name__ == "__main__":
     unittest.main()
