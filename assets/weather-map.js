@@ -366,6 +366,80 @@
       metrics:{cameraVis,subjectVis,cameraLow,subjectLow,cameraRain,cameraWind}};
   }
 
+  function solarPositionUtc(validTime,lat,lon){
+    const date=new Date(validTime);
+    if(!Number.isFinite(date.getTime()) || !Number.isFinite(lat) || !Number.isFinite(lon)) return null;
+    const rad=Math.PI/180,deg=180/Math.PI;
+    const jd=date.getTime()/86400000+2440587.5;
+    const n=jd-2451545.0;
+    const L=(280.46+0.9856474*n)%360;
+    const g=(357.528+0.9856003*n)%360;
+    const lambda=(L+1.915*Math.sin(g*rad)+0.020*Math.sin(2*g*rad))*rad;
+    const epsilon=(23.439-0.0000004*n)*rad;
+    const ra=Math.atan2(Math.cos(epsilon)*Math.sin(lambda),Math.cos(lambda))*deg;
+    const dec=Math.asin(Math.sin(epsilon)*Math.sin(lambda));
+    const gmst=(280.46061837+360.98564736629*(jd-2451545.0))%360;
+    let hour=((gmst+lon-ra+540)%360)-180;
+    hour*=rad;
+    const phi=lat*rad;
+    const altitude=Math.asin(Math.sin(phi)*Math.sin(dec)+Math.cos(phi)*Math.cos(dec)*Math.cos(hour));
+    const azimuth=(Math.atan2(Math.sin(hour),Math.cos(hour)*Math.sin(phi)-Math.tan(dec)*Math.cos(phi))*deg+180+360)%360;
+    return {azimuth_deg:azimuth,altitude_deg:altitude*deg};
+  }
+
+  function angularDistanceDeg(a,b){
+    return Math.abs((((a-b)+540)%360)-180);
+  }
+
+  function bearingInsideSector(bearing,start,end,toleranceDeg=0){
+    const b=((Number(bearing)%360)+360)%360,s=((Number(start)%360)+360)%360,e=((Number(end)%360)+360)%360;
+    const span=(e-s+360)%360;
+    const rel=(b-s+360)%360;
+    return rel<=span || angularDistanceDeg(b,s)<=toleranceDeg || angularDistanceDeg(b,e)<=toleranceDeg;
+  }
+
+  function sunriseSunsetNativeDiagnostic(op,targetValidTime=baseFrame()?.valid_time_utc){
+    if(!op || !targetValidTime) return null;
+    const cameras=(op.camera_zones||[]).map(c=>({lat:Number(c.lat),lon:Number(c.lon)}))
+      .filter(p=>Number.isFinite(p.lat)&&Number.isFinite(p.lon));
+    const sectors=(op.subject_geometries||[]).map(item=>item?.geometry)
+      .filter(g=>g?.type==='sector');
+    if(!cameras.length || !sectors.length){
+      return {kind:'photography_environment_diagnostic',mode:'sunrise_sunset',score:null,
+        status:'insufficient_role_evidence',canonical_opportunity_score:false,solar_geometry_required:true};
+    }
+    const camera=cameras[0];
+    const solar=solarPositionUtc(targetValidTime,camera.lat,camera.lon);
+    const directional=solar && sectors.some(g=>bearingInsideSector(solar.azimuth_deg,g.azimuth_start_deg,g.azimuth_end_deg,8));
+    // Restrict this diagnostic to the photographic twilight/sun-near-horizon window.
+    const horizon=solar && solar.altitude_deg>=-12 && solar.altitude_deg<=8;
+    if(!solar || !directional || !horizon){
+      return {kind:'photography_environment_diagnostic',mode:'sunrise_sunset',score:null,
+        status:!horizon?'outside_solar_window':'solar_direction_mismatch',
+        canonical_opportunity_score:false,solar_geometry_required:true,solar};
+    }
+    const sky=sectors.flatMap(g=>photographyGeometrySamplePoints({geometry:g},op));
+    const low=photographyNativeMetricSummary(sky,'low_cloud_percent',targetValidTime);
+    const mid=photographyNativeMetricSummary(sky,'mid_cloud_percent',targetValidTime);
+    const high=photographyNativeMetricSummary(sky,'high_cloud_percent',targetValidTime);
+    const vis=photographyNativeMetricSummary(cameras,'visibility_km',targetValidTime);
+    const rain=photographyNativeMetricSummary(cameras,'precip_rate_mm_h',targetValidTime);
+    const target=(value,ideal,width)=>Number.isFinite(value)?Math.max(0,1-Math.abs(value-ideal)/width):null;
+    const terms=[
+      [Number.isFinite(low.mean)?1-Math.max(0,Math.min(1,low.mean/80)):null,.15],
+      [target(mid.mean,35,50),.20],[target(high.mean,55,55),.35],
+      [Number.isFinite(vis.mean)?Math.max(0,Math.min(1,vis.mean/25)):null,.20],
+      [Number.isFinite(rain.mean)?1-Math.max(0,Math.min(1,rain.mean/2)):null,.10]
+    ].filter(([v])=>Number.isFinite(v));
+    const available=terms.reduce((sum,t)=>sum+t[1],0);
+    const score=available>=.60?100*terms.reduce((sum,t)=>sum+t[0]*t[1],0)/available:null;
+    return {kind:'photography_environment_diagnostic',mode:'sunrise_sunset',score,
+      status:score==null?'insufficient_weight_coverage':'ok',
+      effective_weight_coverage:available,minimum_weight_coverage:.60,
+      canonical_opportunity_score:false,solar_geometry_required:true,solar,
+      metrics:{low,mid,high,vis,rain}};
+  }
+
   const photographyCompositeWeights = {
     overview:{
       low_cloud_percent:.22,high_cloud_percent:.18,visibility_km:.28,
