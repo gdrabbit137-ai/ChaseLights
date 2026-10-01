@@ -29,12 +29,16 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn("function updateTimeline()", self.js)
         self.assertNotIn('class="time-control"', self.html)
 
-    def test_direction_uses_speed_weighted_uv_circular_interpolation(self):
+    def test_wind_direction_is_encoded_by_vectors_in_combined_layer(self):
+        self.assertIn("wind_speed_10m_m_s:{label:'10 m 風場'", self.js)
+        self.assertIn("key=>key!=='wind_direction_10m_deg'", self.js)
+        self.assertIn("const toward=((direction+180)%360)", self.js)
+        self.assertIn("if(!state.windVectors && !isWindLayer()) return", self.js)
+
+    def test_direction_source_field_remains_available_for_vector_rendering(self):
+        self.assertIn("wind_direction_10m_deg", self.js)
+        self.assertIn("decodedArray('wind_direction_10m_deg')", self.js)
         self.assertIn("function windUv(speed,directionDeg)", self.js)
-        self.assertIn("function bilinearWindDirection(", self.js)
-        self.assertIn("drawCircularDirectionSubcells", self.js)
-        self.assertIn("'bilinear_uv_circular'", self.js)
-        self.assertIn("風向以 u/v 向量循環插值", self.js)
 
     def test_direction_palette_is_explicitly_cyclic(self):
         self.assertIn("if(cfg.palette==='direction')", self.js)

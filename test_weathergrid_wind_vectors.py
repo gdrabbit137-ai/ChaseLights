@@ -17,7 +17,7 @@ class WeatherGridWindVectorTests(unittest.TestCase):
 
     def test_ui_exposes_wind_vector_toggle(self):
         self.assertIn('id="wind-vector-toggle"', self.html)
-        self.assertIn("顯示 10 m 風向箭頭", self.html)
+        self.assertIn("在其他圖層疊加 10 m 風向箭頭", self.html)
 
     def test_vectors_use_speed_and_meteorological_direction(self):
         self.assertIn("function drawWindVectors()", self.js)
@@ -25,6 +25,12 @@ class WeatherGridWindVectorTests(unittest.TestCase):
         self.assertIn("wind_direction_10m_deg", self.js)
         self.assertIn("const toward=((direction+180)%360)", self.js)
         self.assertIn("speed<0.5", self.js)
+
+    def test_wind_speed_and_direction_are_one_map_layer(self):
+        self.assertIn("wind_speed_10m_m_s:{label:'10 m 風場'", self.js)
+        self.assertIn("key=>key!=='wind_direction_10m_deg'", self.js)
+        self.assertIn("return layer==='wind_speed_10m_m_s';", self.js)
+        self.assertIn("if(!state.windVectors && !isWindLayer()) return", self.js)
 
     def test_vector_density_adapts_to_zoom(self):
         self.assertIn("function windVectorStep()", self.js)

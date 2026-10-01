@@ -44,7 +44,7 @@
     cloud_top_height_m:{label:'雲頂高度', unit:'m', domain:[0,16000], palette:'cloudHeight'},
     visibility_km:{label:'能見度', unit:'km', domain:[0,30], palette:'visibility'},
     precip_rate_mm_h:{label:'降雨率', unit:'mm/h', domain:[0,20], palette:'precip', scale:'precip_rate', ticks:[0,.1,.5,1,2,5,10,20]},
-    wind_speed_10m_m_s:{label:'10 m 風速', unit:'m/s', domain:[0,20], palette:'wind'},
+    wind_speed_10m_m_s:{label:'10 m 風場', unit:'m/s', domain:[0,20], palette:'wind'},
     wind_direction_10m_deg:{label:'10 m 風向', unit:'°', domain:[0,360], palette:'direction'},
     temperature_2m_c:{label:'2 m 氣溫', unit:'°C', domain:[-5,40], palette:'temperature'},
     relative_humidity_2m_percent:{label:'2 m 相對濕度', unit:'%', domain:[0,100], palette:'humidity'},
@@ -435,14 +435,15 @@
   }
 
   function availableLayerKeys(){
+    const visibleLayerKeys=Object.keys(layerConfig).filter(key=>key!=='wind_direction_10m_deg');
     if(state.modelMode==='auto'){
-      return Object.keys(layerConfig).filter(key=>
+      return visibleLayerKeys.filter(key=>
         Boolean(state.data?.fields?.[key]) ||
         Boolean(state.iconData?.fields?.[key])
       );
     }
     const data=modelDataset();
-    return Object.keys(layerConfig).filter(key=>Boolean(data?.fields?.[key]));
+    return visibleLayerKeys.filter(key=>Boolean(data?.fields?.[key]));
   }
 
   function windFieldsAvailable(){
@@ -453,7 +454,7 @@
   }
 
   function isWindLayer(layer=state.layer){
-    return layer==='wind_speed_10m_m_s' || layer==='wind_direction_10m_deg';
+    return layer==='wind_speed_10m_m_s';
   }
 
   function syncWindVectorDefault(){
@@ -1431,7 +1432,7 @@
 
   function drawWindVectors(){
     state.lastWindVectorCount=0;
-    if(!state.windVectors) return;
+    if(!state.windVectors && !isWindLayer()) return;
     const data=activeDataset('wind_speed_10m_m_s');
     if(!data?.fields?.wind_speed_10m_m_s ||
        !data?.fields?.wind_direction_10m_deg) return;
@@ -2333,7 +2334,7 @@
       windVectorStep: windVectorStep(),
       windVectorCount: state.lastWindVectorCount,
       activeModel: activeDataset(state.layer)?.model || null,
-      displayInterpolation: isObservationMode()?'nearest_observation':(state.layer==='wind_direction_10m_deg'?'bilinear_uv_circular':'bilinear_subcell'),
+      displayInterpolation: isObservationMode()?'nearest_observation':'bilinear_subcell',
       iconAvailable: Boolean(state.iconData),
       cwaAvailable: Boolean(state.cwaData),
       jmaAvailable: Boolean(state.jmaData),
