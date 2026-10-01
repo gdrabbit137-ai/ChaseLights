@@ -202,9 +202,21 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn("const maxRow=Math.min(rows-2,row1)", self.js)
         self.assertIn("const maxCol=Math.min(cols-2,col1)", self.js)
 
+    def test_b169i_viirs_inspector_exposes_quality_semantics(self):
+        self.assertIn("nighttime_lights_quality_flag", self.js)
+        self.assertIn("VNP46A4 QA：", self.js)
+        self.assertIn("good（原始年度合成）", self.js)
+        self.assertIn("poor（品質較低）", self.js)
+        self.assertIn("gap-filled（缺口填補）", self.js)
+        self.assertIn("品質旗標以最近原始顯示格判讀", self.js)
+
+    def test_b169i_nightlights_legend_uses_piecewise_radiance_ticks(self):
+        self.assertIn("else if(cfg.scale==='nightlights')", self.js)
+        self.assertIn("labels=['0','1','5','10','50+']", self.js)
+
     def test_assets_use_cache_busting_after_mobile_ui_updates(self):
-        self.assertIn('weather-map.css?v=b169h', self.html)
-        self.assertIn('weather-map.js?v=b169h', self.html)
+        self.assertIn('weather-map.css?v=b169i', self.html)
+        self.assertIn('weather-map.js?v=b169i', self.html)
 
     def test_mobile_opacity_control_is_single_row(self):
         self.assertIn('class="opacity-caption"', self.html)
