@@ -2,10 +2,10 @@
   "schema_version": "r4.2-b42-catalog-manifest-1",
   "purpose": "Central expected-state manifest for the effective curated Opportunity catalog. Runtime code computes actual counts and validates them against this snapshot.",
   "totals": {
-    "spots": 188,
-    "opportunities": 384,
-    "condition_variants": 399,
-    "profile_viewpoint_relations": 390
+    "spots": 202,
+    "opportunities": 411,
+    "condition_variants": 426,
+    "profile_viewpoint_relations": 417
   },
   "regions": {
     "tw": {
@@ -34,13 +34,13 @@
     },
     "us": {
       "numeric_id_start": 1,
-      "numeric_id_end": 70,
+      "numeric_id_end": 84,
       "retired_spot_ids": [],
       "counts": {
-        "spots": 70,
-        "opportunities": 111,
-        "condition_variants": 111,
-        "profile_viewpoint_relations": 111
+        "spots": 84,
+        "opportunities": 138,
+        "condition_variants": 138,
+        "profile_viewpoint_relations": 138
       }
     }
   },
@@ -61,7 +61,7 @@
   "notes": [
     "This manifest describes the effective curated catalog, not the full Place inventory shown in production.",
     "Japan production contains 35 Place cards and all jp-001 through jp-035 are Opportunity-migrated at this checkpoint.",
-    "US migration complete: all us-001 through us-070 production Places are Opportunity-migrated; no US production Place remains research-pending.",
+    "US migration expanded through us-084: all us-001 through us-084 production Places are Opportunity-migrated at this checkpoint; Seattle and Washington scenic additions include access-aware coastal, waterfall, cityscape, and Mount Rainier camera zones.",
     "B79 adds a location-aware NOAA SWPC OVATION aurora_state preview. Aurora-only Opportunities can become preview_module_available, while Opportunities that also require unresolved dynamic_access remain module_pending.",
     "B81 adds tw-034-P03 Qingshui Cliff morning-mist / misty seascape as a Grade-A researched subject with a conservative minimum-sufficient mist runtime contract.",
     "B83 adds tw-036-P03 Qixingtan northward Qingshui Cliff / Qingshui Mountain terrain-attached cloud-band photography as Grade-A researched subject with a required directional spatial-weather runtime.",
