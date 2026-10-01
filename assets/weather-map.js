@@ -240,6 +240,92 @@
     return {values:out,provenance,status_counts:statusCounts};
   }
 
+  function photographyGeometrySamplePoints(item,op){
+    const g=item?.geometry;
+    if(!g) return [];
+    if(g.type==='point'){
+      const lat=Number(g.lat),lon=Number(g.lon);
+      return [lat,lon].every(Number.isFinite)?[{lat,lon}]:[];
+    }
+    if(g.type==='bbox'){
+      const west=Number(g.west),east=Number(g.east),south=Number(g.south),north=Number(g.north);
+      if(![west,east,south,north].every(Number.isFinite)) return [];
+      return [
+        {lat:(south+north)/2,lon:(west+east)/2},
+        {lat:south,lon:west},{lat:south,lon:east},{lat:north,lon:west},{lat:north,lon:east}
+      ];
+    }
+    if(g.type==='polygon' || g.type==='corridor'){
+      const pts=(g.coordinates||[]).map(([lon,lat])=>({lat:Number(lat),lon:Number(lon)}))
+        .filter(p=>Number.isFinite(p.lat)&&Number.isFinite(p.lon));
+      if(pts.length<=12) return pts;
+      const step=(pts.length-1)/11;
+      return Array.from({length:12},(_,i)=>pts[Math.round(i*step)]);
+    }
+    if(g.type==='sector'){
+      const origin=geometryOrigin(g,op);
+      if(!origin) return [];
+      const bearings=sectorBearings(g.azimuth_start_deg,g.azimuth_end_deg);
+      const min=Number(g.min_range_km||0),max=Number(g.max_range_km||0);
+      const range=min+(max-min)*.65;
+      const sampled=bearings.length<=11?bearings:Array.from({length:11},(_,i)=>bearings[Math.round(i*(bearings.length-1)/10)]);
+      return [origin,...sampled.map(b=>destination(origin.lat,origin.lon,b,range))];
+    }
+    return [];
+  }
+
+  function photographyNativePointSample(point,key,targetValidTime,toleranceMinutes=90){
+    const provenance=buildPhotographyComponentProvenance(key,targetValidTime,toleranceMinutes);
+    const data=autoDataset(key);
+    const frame=photographyFrameForProvenance(data,provenance);
+    if(provenance.status!=='ok') return {value:null,status:provenance.status,provenance};
+    const values=photographyDecodedValues(data,key,frame);
+    const sample=photographyBilinearValue(data,values,point);
+    return {value:sample.value,status:sample.status,provenance:{...provenance,status:sample.status}};
+  }
+
+  function photographyNativeMetricSummary(points,key,targetValidTime){
+    const samples=(points||[]).map(point=>photographyNativePointSample(point,key,targetValidTime));
+    const values=samples.map(x=>x.value).filter(Number.isFinite);
+    return {
+      mean:values.length?values.reduce((a,b)=>a+b,0)/values.length:null,
+      min:values.length?Math.min(...values):null,max:values.length?Math.max(...values):null,
+      count:values.length,requested_count:samples.length,samples
+    };
+  }
+
+  function cloudSeaNativeDiagnostic(op,targetValidTime=baseFrame()?.valid_time_utc){
+    if(!op || !targetValidTime) return null;
+    const cameras=(op.camera_zones||[]).map(c=>({lat:Number(c.lat),lon:Number(c.lon)}))
+      .filter(p=>Number.isFinite(p.lat)&&Number.isFinite(p.lon));
+    const valley=(op.environment_geometries||[]).flatMap(item=>photographyGeometrySamplePoints(item,op));
+    const cameraLow=photographyNativeMetricSummary(cameras,'low_cloud_percent',targetValidTime);
+    const valleyLow=photographyNativeMetricSummary(valley,'low_cloud_percent',targetValidTime);
+    const cameraVis=photographyNativeMetricSummary(cameras,'visibility_km',targetValidTime);
+    const valleyRh=photographyNativeMetricSummary(valley,'relative_humidity_2m_percent',targetValidTime);
+    const cameraRain=photographyNativeMetricSummary(cameras,'precip_rate_mm_h',targetValidTime);
+    // Cloud-sea role separation is essential: no score unless both the
+    // camera and valley have native-grid low-cloud evidence.
+    if(!Number.isFinite(cameraLow.mean)||!Number.isFinite(valleyLow.mean)){
+      return {kind:'photography_environment_diagnostic',mode:'cloudsea_fog',score:null,
+        status:'insufficient_role_evidence',canonical_opportunity_score:false,
+        metrics:{cameraLow,valleyLow,cameraVis,valleyRh,cameraRain}};
+    }
+    const terms=[
+      [Number.isFinite(cameraVis.mean)?Math.max(0,Math.min(1,cameraVis.mean/20)):null,.28],
+      [1-Math.max(0,Math.min(1,cameraLow.mean/80)),.25],
+      [Math.max(0,Math.min(1,valleyLow.mean/85)),.30],
+      [Number.isFinite(valleyRh.mean)?Math.max(0,Math.min(1,valleyRh.mean/100)):null,.10],
+      [Number.isFinite(cameraRain.mean)?1-Math.max(0,Math.min(1,cameraRain.mean/2)):null,.07]
+    ].filter(([v])=>Number.isFinite(v));
+    const available=terms.reduce((sum,t)=>sum+t[1],0);
+    const score=available>=.60?100*terms.reduce((sum,t)=>sum+t[0]*t[1],0)/available:null;
+    return {kind:'photography_environment_diagnostic',mode:'cloudsea_fog',score,
+      status:score==null?'insufficient_weight_coverage':'ok',
+      effective_weight_coverage:available,minimum_weight_coverage:.60,
+      canonical_opportunity_score:false,metrics:{cameraLow,valleyLow,cameraVis,valleyRh,cameraRain}};
+  }
+
   const photographyCompositeWeights = {
     overview:{
       low_cloud_percent:.22,high_cloud_percent:.18,visibility_km:.28,
