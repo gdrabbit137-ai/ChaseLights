@@ -51,3 +51,32 @@ This batch stages two candidates only. It MUST NOT be merged until reviewed Phot
 
 ## Batch-2 allocation note
 These three candidates intentionally have no spot IDs yet. The research branch is currently behind main, and allocating sequential IDs before rebasing risks collisions with newly merged catalog work. Allocate IDs only after rebasing against the then-current main catalog.
+
+
+## Batch 3 — researched candidates (IDs intentionally unallocated)
+
+### Taiwan — 老梅綠石槽 / Laomei Green Reef
+- First-level admin area: 新北市.
+- Grade-A evidence: Taiwan Tourism Administration identifies the reef as a geological/wedding-photography attraction and documents the seasonal green algae; the North Coast and Guanyinshan National Scenic Area states the green season is roughly March-May, explicitly identifies early morning as a photographic golden period, recommends dry tide ±1-2 hours, provides an official live camera, and warns visitors not to step on the reef.
+- Sources: https://eng.taiwan.net.tw/m1.aspx?id=A12-00180&print=1&sNo=0002016 and https://www.northguan-nsa.gov.tw/user/article.aspx?Lang=1&SNo=04008948 (reviewed 2026-10-02).
+- Opportunity work required: seasonal green-reef + dawn light as a presence-gated subject; tide-window suitability as a separate runtime condition. Weather MUST NOT fabricate algae coverage. Official live-camera/seasonal status may later supply observed presence.
+- Safety/access guardrail: Camera Zones stay on sand/legal public viewing areas; never encourage stepping onto algae-covered troughs. High tide is a penalty/blocker according to official guidance.
+- Navigation work required: official guidance says parking is limited and recommends bus + 5-10 minute walk; research a practical arrival target separately from shoreline Camera Zones.
+
+### Japan — 白米千枚田 / Shiroyone Senmaida
+- First-level admin area: 石川県.
+- Grade-A evidence: JNTO documents 1,004 terraced rice fields descending toward the Sea of Japan, multiple walking perspectives, a large parking lot beside the fields/rest house, and the recurring Aze no Kirameki winter illumination. JNTO's Noto guide explicitly highlights sunset with the terraces and illumination.
+- Sources: https://www.japan.travel/en/spot/229/ and https://www.japan.travel/tw/spot/ma_88/ (reviewed 2026-10-02).
+- Opportunity work required: rice-terrace/Sea-of-Japan landscape; sunset terrace composition; seasonal illumination as a separate event-state-gated Opportunity. Planting/harvest appearance and illumination dates MUST NOT be inferred from weather.
+- Navigation work required: parking/rest-house arrival target can be researched independently; walking paths through the paddies remain Camera Zones.
+
+### United States — Sunrise Point, Mount Rainier National Park
+- First-level admin area: Washington.
+- Grade-A evidence: NPS marks Sunrise Point as a Scenic View/Photo Spot with auto parking and documents 360-degree views of Mount Rainier and the Cascade Range, including Mount Adams and Mount Baker on clear days. NPS states vehicle access is summer-only, typically July-September.
+- Source: https://www.nps.gov/places/sunrise-point-overlook.htm (reviewed 2026-10-02).
+- Opportunity work required: clear panoramic Mount Rainier/Cascade landscape. Keep distant-volcano visibility as visibility-dependent composition evidence, not a generic mountain score.
+- Dynamic-access guardrail: road opening is an access-provider state; calendar season or ordinary weather MUST NOT assert that Sunrise Road is open.
+- Navigation work required: NPS documents auto parking at the overlook, making this a strong candidate for a verified arrival target after exact parking coordinates are checked.
+
+## Batch-3 allocation note
+No IDs are allocated while this branch is behind main and Seattle PR #323 reserves us-071 through us-077. Rebase/merge sequencing must be resolved before production catalog edits.
