@@ -72,6 +72,37 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn("function drawProviderBoundary(data)", self.js)
         self.assertIn("虛線＝目前資料來源範圍", self.js)
 
+    def test_mobile_layout_respects_safe_area_and_keeps_two_column_controls(self):
+        self.assertIn("viewport-fit=cover", self.html)
+        self.assertIn("env(safe-area-inset-top)", self.css)
+        self.assertIn("grid-template-columns:repeat(2,minmax(0,1fr))", self.css)
+        self.assertNotIn("@media(max-width:460px){\n  .control-bar{grid-template-columns:1fr}", self.css)
+
+    def test_mobile_hides_disabled_topic_control_and_expands_place_control(self):
+        self.assertIn('id="opportunity-control" class="opportunity-control"', self.html)
+        self.assertIn("mobile-inactive", self.js)
+        self.assertIn("mobile-full", self.js)
+        self.assertIn(".opportunity-control.mobile-inactive{display:none}", self.css)
+        self.assertIn(".spot-control.mobile-full{grid-column:1/-1}", self.css)
+
+    def test_reset_view_is_map_overlay_instead_of_full_width_control_row(self):
+        control_start = self.html.index('class="control-bar"')
+        map_start = self.html.index('class="map-wrap"')
+        reset_start = self.html.index('id="reset-view"')
+        self.assertGreater(reset_start, map_start)
+        self.assertNotIn('id="reset-view"', self.html[control_start:map_start])
+        self.assertIn(".map-reset-button{position:absolute", self.css)
+
+    def test_mobile_time_controls_stay_on_one_compact_row(self):
+        self.assertIn("grid-template-columns:38px minmax(0,1fr) 38px 38px", self.css)
+        self.assertIn("#time-play{grid-column:auto;font-size:0}", self.css)
+        self.assertIn(".timeline span:nth-child(2),.timeline span:nth-child(4){display:none}", self.css)
+
+    def test_mobile_map_gets_more_vertical_space_and_compact_legend(self):
+        self.assertIn(".map-wrap{aspect-ratio:1.12/1", self.css)
+        self.assertIn("min-width:132px;max-width:46%", self.css)
+        self.assertIn(".coverage-outline-key{display:none}", self.css)
+
     def test_ci_runs_ui_polish_contract(self):
         self.assertIn('"test_weathergrid_ui_polish.py"', self.workflow)
         self.assertIn("test_weathergrid_ui_polish.py", self.workflow)
