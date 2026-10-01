@@ -177,9 +177,26 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn("目前不影響攝影評分", self.js)
         self.assertIn(".environment-diagnostic", self.css)
 
+    def test_b169f_viirs_is_fail_closed_until_real_qc_artifact_exists(self):
+        self.assertIn("LIVE_VIIRS_DATA", self.js)
+        self.assertIn("LIVE_VIIRS_QC", self.js)
+        self.assertIn("qcFlags.length===0", self.js)
+        self.assertIn("viirsData?.source==='nasa_black_marble_vnp46a4'", self.js)
+        self.assertIn("if(state.viirsData && !viirsOption)", self.js)
+        self.assertIn("else if(!state.viirsData && viirsOption)", self.js)
+        self.assertNotIn('<option value="viirs">', self.html)
+
+    def test_b169f_viirs_keeps_static_environment_semantics(self):
+        self.assertIn("nighttime_lights_radiance_nw_cm2_sr", self.js)
+        self.assertIn("label:'夜間燈光'", self.js)
+        self.assertIn("palette:'nightlights'", self.js)
+        self.assertIn("function isStaticEnvironmentMode()", self.js)
+        self.assertIn("靜態年度背景，不隨氣象預報時間軸變化", self.js)
+        self.assertIn("不等同 Bortle 或天空亮度", self.js)
+
     def test_assets_use_cache_busting_after_mobile_ui_updates(self):
-        self.assertIn('weather-map.css?v=b168r', self.html)
-        self.assertIn('weather-map.js?v=b168r', self.html)
+        self.assertIn('weather-map.css?v=b169f', self.html)
+        self.assertIn('weather-map.js?v=b169f', self.html)
 
     def test_mobile_opacity_control_is_single_row(self):
         self.assertIn('class="opacity-caption"', self.html)
