@@ -309,6 +309,16 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn("mode==='seascape'", self.js)
         self.assertIn("mode==='nightscape'", self.js)
 
+    def test_opportunity_selection_syncs_photography_layer(self):
+        self.assertIn("function photographyLayerForOpportunity(op)", self.js)
+        self.assertIn("function syncLayerToOpportunity(op)", self.js)
+        self.assertIn("theme.includes('cloud_sea')", self.js)
+        self.assertIn("'photography_mountain_view'", self.js)
+        self.assertIn("'photography_sunrise_sunset'", self.js)
+        self.assertIn("'photography_seascape'", self.js)
+        self.assertIn("'photography_nightscape'", self.js)
+        self.assertIn("syncLayerToOpportunity(selectedOpportunity())", self.js)
+
 
 if __name__ == "__main__":
     unittest.main()
