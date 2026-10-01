@@ -100,6 +100,13 @@ class CamsAodWeatherGridTests(unittest.TestCase):
         self.assertEqual(encoded, 80)
         self.assertAlmostEqual(encoded * meta["scale"], 8.0, places=6)
 
+    def test_pm25_is_retained_when_aod_is_missing_at_same_cell(self):
+        responses = fake_responses()
+        responses[0]["hourly"]["aerosol_optical_depth"][0] = None
+        bundle, _ = build_bundle(responses)
+        self.assertIsNone(bundle["frames"][0]["values"][FIELD_GRID][0])
+        self.assertEqual(bundle["frames"][0]["values"][PM25_FIELD_GRID][0], 80)
+
     def test_pm25_missing_values_are_preserved_and_flagged(self):
         responses = fake_responses()
         responses[0]["hourly"]["pm2_5"][0] = None
