@@ -141,7 +141,7 @@
         <button id="data-info-close" type="button" aria-label="關閉資料說明">✕</button>
       </div>
       <div class="data-info-body">
-        <p>目前已加入 Himawari-9 衛星觀測，以及 JMA MSM 5 km、CWA WRF 3 km、ICON Global 與 GFS 預報。「攝影綜合圖」目前為 beta 一般攝影環境指標：各 AUTO 來源會先以雙線性方式重採樣到共同 GFS 顯示網格，再融合低／高雲、能見度、降雨與風場；超出來源覆蓋範圍的格點維持缺值，不做外推。它不是特定題材的機會評分。「自動預報」採攝影優先、依圖層選模：優先使用可提供該圖層與有效時間的高解析區域模型，再以全球模型備援；實際使用的模型會直接顯示在頁首。Himawari-9 不會被自動混入預報模式。CWA M-A0064 若缺少原生低／中／高雲量，就不以壓力層相對濕度冒充雲量。</p>
+        <p>目前已加入 Himawari-9 衛星觀測，以及 JMA MSM 5 km、CWA WRF 3 km、ICON Global 與 GFS 預報。「攝影綜合圖」目前為 beta 一般攝影環境指標：各 AUTO 來源會先以雙線性方式重採樣到共同 GFS 顯示網格，再融合低／高雲、能見度、降雨與風場；超出來源覆蓋範圍的格點維持缺值，不做外推。另外提供日出／日落、雲海／晨霧、山景／遠景、海景與星空的題材環境圖；各圖使用不同氣象權重。這些仍是 beta「環境適合度」，不等同 ChaseLights 景點題材的最終 opportunity score，後者仍需方向、地形、海拔、太陽／月亮位置等條件。「自動預報」採攝影優先、依圖層選模：優先使用可提供該圖層與有效時間的高解析區域模型，再以全球模型備援；實際使用的模型會直接顯示在頁首。Himawari-9 不會被自動混入預報模式。CWA M-A0064 若缺少原生低／中／高雲量，就不以壓力層相對濕度冒充雲量。</p>
         <p>CAMS Global 提供 AOD 550 nm 與 PM2.5 攝影環境圖層，資料經 Open-Meteo Air Quality API 取得。CAMS Global 原生約 45 km / 3 小時、約每 12 小時更新；WeatherGrid 的 0.4° 顯示格是取樣／呈現網格，不代表提高原生解析度。AOD 是整層大氣的氣膠光學厚度；PM2.5 是近地面細懸浮微粒質量濃度，兩者物理意義不同，也不會單獨被當成霧。</p>
         <p>Himawari-9 提供衛星雲遮罩與雲頂高度實況。這些是觀測／反演資料，不會標示成預報低／中／高雲百分比；雲頂高度缺值也不會被當成 0 m。</p>
         <p>JMA MSM 官方原生範圍從 22.4°N、120°E 起；目前 HTTP transport 為避開邊界座標拒絕，瀏覽資料從 22.45°N、120.0625°E 起。台灣最南端及西側離島因此不在目前 JMA 瀏覽圖層內；切換模型時地圖會使用 JMA 自己的實際資料邊界。</p>
@@ -151,6 +151,6 @@
     </div>
   </dialog>
 
-  <script src="./assets/weather-map.js?v=b172d"></script>
+  <script src="./assets/weather-map.js?v=b172e"></script>
 </body>
 </html>
