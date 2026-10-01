@@ -13,6 +13,7 @@ from opportunity_runtime import (
 )
 from photography_environment import classify_fog_haze
 from photography_transparency import evaluate_transparency
+from astrophotography_environment import evaluate_astro_environment
 from spatial_weather import (
     build_spatial_request_plan,
     index_spatial_response,
@@ -1169,7 +1170,7 @@ def evaluate_tag_condition(theme, item_data, hour=None, lang="zh-TW"):
 
 # B35 Liyu subject-model validation trigger
 
-def _build_photography_environment_diagnostic(item_data):
+def _build_photography_environment_diagnostic(item_data, utc_dt=None, lat=None, lon=None):
     """Return one non-scoring environment diagnostic per forecast timestamp.
 
     Keep the B168 fog/haze keys at the top level for backward compatibility.
@@ -1178,6 +1179,9 @@ def _build_photography_environment_diagnostic(item_data):
     """
     diagnostic = classify_fog_haze(item_data)
     diagnostic["transparency"] = evaluate_transparency(item_data)
+    diagnostic["astrophotography"] = evaluate_astro_environment(
+        item_data, dt=utc_dt, lat_deg=lat, lon_deg=lon, target="galactic_core"
+    ) if utc_dt is not None and lat is not None and lon is not None else evaluate_astro_environment(item_data)
     return diagnostic
 
 
@@ -1969,7 +1973,7 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None, snapshot_sink=None)
                     int(ts), denali_access_provider
                 )
 
-            photography_environment = _build_photography_environment_diagnostic(item_data)
+            photography_environment = _build_photography_environment_diagnostic(item_data, utc_dt, lat, lon)
             opportunity_runtime = _build_opportunity_runtime_diagnostics(spot, item_data)
 
             theme_scores = {}
