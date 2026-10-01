@@ -1120,13 +1120,47 @@
     return directionFromUv(u,v);
   }
 
+  function visibleAxisRange(values,minValue,maxValue,pad=1){
+    let first=-1,last=-1;
+    for(let i=0;i<values.length;i++){
+      const v=values[i];
+      if(v>=minValue && v<=maxValue){
+        if(first<0) first=i;
+        last=i;
+      }
+    }
+    if(first<0){
+      // A viewport can sit between two grid centers. Find the nearest center
+      // and keep a padded slice so cell edges/interpolation still render.
+      let nearest=0,best=Infinity;
+      const target=(minValue+maxValue)/2;
+      for(let i=0;i<values.length;i++){
+        const d=Math.abs(values[i]-target);
+        if(d<best){best=d;nearest=i;}
+      }
+      first=last=nearest;
+    }
+    return [Math.max(0,first-pad),Math.min(values.length-1,last+pad)];
+  }
+
+  function visibleGridRange(data,visibleView,pad=1){
+    const [row0,row1]=visibleAxisRange(
+      data.grid.latitudes,visibleView.bottomlat,visibleView.toplat,pad
+    );
+    const [col0,col1]=visibleAxisRange(
+      data.grid.longitudes,visibleView.leftlon,visibleView.rightlon,pad
+    );
+    return {row0,row1,col0,col1};
+  }
+
   function drawNearestCells(data,vals,cfg,visibleView){
     const rows=data.grid.rows, cols=data.grid.cols;
     const lats=data.grid.latitudes, lons=data.grid.longitudes;
     const lonStep=cols>1 ? Math.abs(lons[1]-lons[0]) : .25;
     const latStep=rows>1 ? Math.abs(lats[1]-lats[0]) : .25;
-    for(let r=0;r<rows;r++){
-      for(let c=0;c<cols;c++){
+    const {row0,row1,col0,col1}=visibleGridRange(data,visibleView,1);
+    for(let r=row0;r<=row1;r++){
+      for(let c=col0;c<=col1;c++){
         const lon=lons[c], lat=lats[r];
         const left=lon-lonStep/2, right=lon+lonStep/2;
         const top=lat+latStep/2, bottom=lat-latStep/2;
@@ -1154,8 +1188,11 @@
     const lonStep=Math.abs(lons[1]-lons[0]);
     const subdivisions=lonStep>=.20 ? 4 : (lonStep>=.10 ? 2 : 1);
 
-    for(let r=0;r<rows-1;r++){
-      for(let c=0;c<cols-1;c++){
+    const {row0,row1,col0,col1}=visibleGridRange(data,visibleView,1);
+    const maxRow=Math.min(rows-2,row1);
+    const maxCol=Math.min(cols-2,col1);
+    for(let r=Math.min(row0,maxRow);r<=maxRow;r++){
+      for(let c=Math.min(col0,maxCol);c<=maxCol;c++){
         const lon0=lons[c], lon1=lons[c+1];
         const lat0=lats[r], lat1=lats[r+1];
         const left=Math.min(lon0,lon1), right=Math.max(lon0,lon1);
