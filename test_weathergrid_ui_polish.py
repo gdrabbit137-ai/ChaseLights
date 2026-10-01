@@ -296,6 +296,19 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn("bilinearly resampled onto that grid before blending", self.js)
         self.assertIn("out-of-coverage cells stay null", self.js)
 
+    def test_topic_specific_photography_layers(self):
+        for key in (
+            "photography_sunrise_sunset","photography_cloudsea_fog",
+            "photography_mountain_view","photography_seascape","photography_nightscape"
+        ):
+            self.assertIn(key, self.js)
+        self.assertIn("function photographyCompositeArray(mode='overview')", self.js)
+        self.assertIn("mode==='sunrise_sunset'", self.js)
+        self.assertIn("mode==='cloudsea_fog'", self.js)
+        self.assertIn("mode==='mountain_view'", self.js)
+        self.assertIn("mode==='seascape'", self.js)
+        self.assertIn("mode==='nightscape'", self.js)
+
 
 if __name__ == "__main__":
     unittest.main()
