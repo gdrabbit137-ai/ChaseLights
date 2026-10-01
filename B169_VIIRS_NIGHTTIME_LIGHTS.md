@@ -74,3 +74,18 @@ Safety gates:
 - uploads the generated JSON only as an Actions artifact in this batch; it does not publish to production automatically.
 
 This keeps first-live-data inspection separate from production deployment.
+
+
+## B169f optional WeatherGrid UI contract
+
+WeatherGrid now has a dormant NASA Black Marble source contract. The selector option is hidden and disabled by default. The browser first loads `weathergrid/environment_layers_manifest.json`; only when `layers.viirs_nightlights.available=true` and a browser artifact path is present does it fetch the VIIRS bundle and reveal the source.
+
+Display semantics:
+- source label: NASA Black Marble / nighttime lights;
+- field: `nighttime_lights_radiance_nw_cm2_sr`;
+- annual/static context: no forecast playback;
+- selected-spot value: nearest native presentation cell, not bilinear Bortle inference;
+- piecewise radiance scale with the Collection 2 0.5 nW/(cm²·sr) background-noise floor represented explicitly;
+- UI text explicitly states that radiance is not Bortle class, zenith sky brightness, or Milky Way visibility.
+
+The manifest ships unavailable until a real live-ingest artifact passes QC and is deliberately published.
