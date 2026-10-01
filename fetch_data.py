@@ -11,6 +11,7 @@ from opportunity_runtime import (
     evaluate_opportunity_modules,
     evaluate_minimum_sufficient_visibility,
 )
+from photography_environment import classify_fog_haze
 from spatial_weather import (
     build_spatial_request_plan,
     index_spatial_response,
@@ -1175,6 +1176,7 @@ def _build_opportunity_runtime_diagnostics(spot, item_data):
     of silently falling back to a generic Theme score.
     """
     diagnostics = {}
+    environment_diagnostic = classify_fog_haze(item_data)
     for opportunity in spot.get("opportunities", []) or []:
         oid = opportunity.get("opportunity_id")
         if not oid:
@@ -1216,6 +1218,10 @@ def _build_opportunity_runtime_diagnostics(spot, item_data):
                 "runtime_policy": policy,
                 "modules": {},
             }
+        # B169: expose the environment diagnosis beside every Opportunity
+        # without allowing it to alter scoring yet. This makes replay and UI
+        # inspection possible before a later calibrated score policy exists.
+        result["photography_environment"] = environment_diagnostic
         diagnostics[oid] = result
     return diagnostics
 
