@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>ChaseLights WeatherGrid Preview</title>
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-gl.css">
-  <link rel="stylesheet" href="./assets/weather-map.css?v=b169i">
+  <link rel="stylesheet" href="./assets/weather-map.css?v=b172g">
 </head>
 <body>
   <header class="weather-header">
@@ -30,8 +30,8 @@
   <main class="weather-layout">
     <section class="map-panel">
       <div class="control-bar">
-        <label class="model-control">
-          <span>資料來源</span>
+        <label class="model-control advanced-control">
+          <span>進階 · 資料來源</span>
           <select id="model-select">
             <option value="auto">自動預報</option>
             <option value="himawari">觀測 · Himawari-9 2 km</option>
@@ -42,8 +42,8 @@
             <option value="cams">CAMS Global · 霧霾</option>
           </select>
         </label>
-        <label class="layer-control">
-          <span>圖層</span>
+        <label class="layer-control primary-control">
+          <span>攝影圖層</span>
           <select id="layer-select"></select>
         </label>
         <label class="opacity-control">
@@ -141,7 +141,7 @@
         <button id="data-info-close" type="button" aria-label="關閉資料說明">✕</button>
       </div>
       <div class="data-info-body">
-        <p>目前已加入 Himawari-9 衛星觀測，以及 JMA MSM 5 km、CWA WRF 3 km、ICON Global 與 GFS 預報。「自動預報」維持 ICON 雲量優先、GFS 備援策略；Himawari-9 不會被自動混入預報模式。CWA M-A0064 實際 GRIB 驗證未發現原生低／中／高雲量，因此不以壓力層相對濕度冒充雲量。</p>
+        <p>目前已加入 Himawari-9 衛星觀測，以及 JMA MSM 5 km、CWA WRF 3 km、ICON Global 與 GFS 預報。「自動預報」採攝影優先、依圖層與有效時間選擇可用來源：優先使用可提供該圖層的區域模型，再以全球模型備援；Himawari-9 不會被自動混入預報模式。CWA M-A0064 實際 GRIB 驗證未發現原生低／中／高雲量，因此不以壓力層相對濕度冒充雲量。</p>
         <p>CAMS Global 提供 AOD 550 nm 與 PM2.5 攝影環境圖層，資料經 Open-Meteo Air Quality API 取得。CAMS Global 原生約 45 km / 3 小時、約每 12 小時更新；WeatherGrid 的 0.4° 顯示格是取樣／呈現網格，不代表提高原生解析度。AOD 是整層大氣的氣膠光學厚度；PM2.5 是近地面細懸浮微粒質量濃度，兩者物理意義不同，也不會單獨被當成霧。</p>
         <p>Himawari-9 提供衛星雲遮罩與雲頂高度實況。這些是觀測／反演資料，不會標示成預報低／中／高雲百分比；雲頂高度缺值也不會被當成 0 m。</p>
         <p>JMA MSM 官方原生範圍從 22.4°N、120°E 起；目前 HTTP transport 為避開邊界座標拒絕，瀏覽資料從 22.45°N、120.0625°E 起。台灣最南端及西側離島因此不在目前 JMA 瀏覽圖層內；切換模型時地圖會使用 JMA 自己的實際資料邊界。</p>
@@ -151,6 +151,6 @@
     </div>
   </dialog>
 
-  <script src="./assets/weather-map.js?v=b169i"></script>
+  <script src="./assets/weather-map.js?v=b172g"></script>
 </body>
 </html>

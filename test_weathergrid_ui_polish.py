@@ -219,8 +219,8 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn("labels=['0','1','5','10','50+']", self.js)
 
     def test_assets_use_cache_busting_after_mobile_ui_updates(self):
-        self.assertIn('weather-map.css?v=b169i', self.html)
-        self.assertIn('weather-map.js?v=b169i', self.html)
+        self.assertIn('weather-map.css?v=b172g', self.html)
+        self.assertIn('weather-map.js?v=b172g', self.html)
 
     def test_mobile_opacity_control_is_single_row(self):
         self.assertIn('class="opacity-caption"', self.html)
@@ -276,6 +276,30 @@ class WeatherGridUiPolishTests(unittest.TestCase):
     def test_ci_runs_ui_polish_contract(self):
         self.assertIn('"test_weathergrid_ui_polish.py"', self.workflow)
         self.assertIn("test_weathergrid_ui_polish.py", self.workflow)
+
+
+    def test_photographer_first_controls_and_auto_provider_contract(self):
+        self.assertIn('class="layer-control primary-control"', self.html)
+        self.assertIn('攝影圖層', self.html)
+        self.assertIn('class="model-control advanced-control"', self.html)
+        self.assertIn('進階 · 資料來源', self.html)
+        self.assertIn("function autoDataset(key=state.layer)", self.js)
+        self.assertIn("function photographyLayerLabel(key)", self.js)
+        self.assertIn("🌫️ 低雲／山霧", self.js)
+        self.assertIn(".layer-control.primary-control{grid-column:span 2}", self.css)
+
+    def test_auto_provider_prefers_available_regional_data_by_layer_and_time(self):
+        self.assertIn("datasetHasFrameForLayer(data,key,validTime)", self.js)
+        self.assertIn("[state.cwaData,state.jmaData,state.iconData,state.data]", self.js)
+        self.assertIn("[state.cwaData,state.jmaData,state.data,state.iconData]", self.js)
+        self.assertIn("if(data===state.cwaData) return state.cwaQc", self.js)
+        self.assertIn("if(data===state.jmaData) return state.jmaQc", self.js)
+
+    def test_b172_does_not_publish_unproven_composite_scores(self):
+        self.assertNotIn("photography_overview:{", self.js)
+        self.assertNotIn("function photographyCompositeArray(", self.js)
+        self.assertNotIn("function photographyOverviewArray(", self.js)
+        self.assertNotIn("0–100 題材環境指標", self.js)
 
 
 if __name__ == "__main__":
