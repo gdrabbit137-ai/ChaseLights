@@ -462,6 +462,28 @@
     }
   }
 
+  function photographyLayerLabel(key){
+    const labels={
+      total_cloud_percent:'☁️ 全雲量',
+      low_cloud_percent:'🌫️ 低雲／山霧',
+      mid_cloud_percent:'☁️ 中雲',
+      high_cloud_percent:'🌤️ 高雲／霞光參考',
+      precip_rate_mm_h:'🌧️ 即時降雨',
+      visibility_km:'👁️ 能見度',
+      wind_speed_10m_m_s:'💨 風場',
+      aerosol_optical_depth_550nm:'🌁 霧霾 AOD',
+      pm2_5_ug_m3:'🌁 PM2.5',
+      relative_humidity_2m_percent:'💧 相對濕度',
+      temperature_2m_c:'🌡️ 氣溫',
+      precip_total_mm:'🌧️ 累積降水',
+      shortwave_flux_w_m2:'☀️ 日照／短波',
+      observed_cloud_mask:'🛰️ 衛星雲遮罩',
+      cloud_top_height_m:'🛰️ 雲頂高度',
+      nighttime_lights_radiance_nw_cm2_sr:'🌃 夜間燈光'
+    };
+    return labels[key] || layerConfig[key]?.label || key;
+  }
+
   function refreshModelControls(){
     const modelSelect=$('model-select');
     let viirsOption=modelSelect.querySelector('option[value="viirs"]');
@@ -488,7 +510,7 @@
       }
     }
     layerSelect.innerHTML=layers
-      .map(key=>'<option value="'+key+'">'+layerConfig[key].label+'</option>')
+      .map(key=>'<option value="'+key+'">'+photographyLayerLabel(key)+'</option>')
       .join('');
     layerSelect.value=state.layer;
 
