@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>ChaseLights WeatherGrid Preview</title>
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-gl.css">
-  <link rel="stylesheet" href="./assets/weather-map.css?v=b168r">
+  <link rel="stylesheet" href="./assets/weather-map.css?v=b169f">
 </head>
 <body>
   <header class="weather-header">
@@ -40,6 +40,7 @@
             <option value="icon">ICON Global</option>
             <option value="gfs">GFS 0.25°</option>
             <option value="cams">CAMS Global · 霧霾</option>
+            <option value="viirs" data-optional="true" hidden disabled>NASA Black Marble · 夜間燈光</option>
           </select>
         </label>
         <label class="layer-control">
@@ -151,6 +152,6 @@
     </div>
   </dialog>
 
-  <script src="./assets/weather-map.js?v=b168r"></script>
+  <script src="./assets/weather-map.js?v=b169f"></script>
 </body>
 </html>
