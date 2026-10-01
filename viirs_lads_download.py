@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import http.cookiejar
 import json
 import os
 import re
@@ -59,9 +60,16 @@ def extract_filenames(payload):
     return sorted(found)
 
 
-def discover_files(year, bbox, token):
+def authenticated_opener():
+    """Preserve LAADS/Earthdata cookies across EDL authentication redirects."""
+    cookie_jar = http.cookiejar.CookieJar()
+    return urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cookie_jar))
+
+
+def discover_files(year, bbox, token, opener=None):
+    opener = opener or authenticated_opener()
     request = urllib.request.Request(search_url(year, bbox), headers=authorization_headers(token))
-    with urllib.request.urlopen(request, timeout=60) as response:
+    with opener.open(request, timeout=60) as response:
         payload = json.load(response)
     files = extract_filenames(payload)
     if not files:
@@ -84,12 +92,13 @@ def archive_url(filename):
     return f"{BASE}/api/v2/content/archives/{archive_path(filename)}"
 
 
-def download_file(filename, token, destination):
+def download_file(filename, token, destination, opener=None):
+    opener = opener or authenticated_opener()
     url = archive_url(filename)
     request = urllib.request.Request(url, headers=authorization_headers(token))
     destination = Path(destination)
     destination.parent.mkdir(parents=True, exist_ok=True)
-    with urllib.request.urlopen(request, timeout=180) as response, destination.open("wb") as out:
+    with opener.open(request, timeout=180) as response, destination.open("wb") as out:
         while True:
             chunk = response.read(1024 * 1024)
             if not chunk:
@@ -110,12 +119,13 @@ def main():
     if len(bbox) != 4:
         raise SystemExit("--bbox requires left,bottom,right,top")
     token = os.environ.get(args.token_env)
-    files = discover_files(args.year, bbox, token)
+    opener = authenticated_opener()
+    files = discover_files(args.year, bbox, token, opener=opener)
     print(json.dumps({"year": args.year, "files": files}, indent=2))
     if args.list_only:
         return
     for filename in files:
-        path = download_file(filename, token, Path(args.output_dir) / filename)
+        path = download_file(filename, token, Path(args.output_dir) / filename, opener=opener)
         print(path)
 
 
