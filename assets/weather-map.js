@@ -114,6 +114,74 @@
     return {leftlon,rightlon,bottomlat,toplat};
   }
 
+  function buildPhotographyCompositeGrid(bbox,requestedSpacingKm=5,maxCells=40000){
+    const view=normalizeViewBbox(bbox);
+    if(!view) return null;
+    const requested=Math.max(2,Math.min(20,Number(requestedSpacingKm)||5));
+    const midLat=(view.bottomlat+view.toplat)/2;
+    const kmPerLatDeg=111.32;
+    const kmPerLonDeg=Math.max(1,kmPerLatDeg*Math.cos(midLat*Math.PI/180));
+    const latKm=(view.toplat-view.bottomlat)*kmPerLatDeg;
+    const lonKm=(view.rightlon-view.leftlon)*kmPerLonDeg;
+    let effective=requested;
+    let rows=Math.max(2,Math.ceil(latKm/effective)+1);
+    let cols=Math.max(2,Math.ceil(lonKm/effective)+1);
+    if(rows*cols>maxCells){
+      effective*=Math.sqrt((rows*cols)/maxCells);
+      rows=Math.max(2,Math.ceil(latKm/effective)+1);
+      cols=Math.max(2,Math.ceil(lonKm/effective)+1);
+      while(rows*cols>maxCells){
+        effective*=1.01;
+        rows=Math.max(2,Math.ceil(latKm/effective)+1);
+        cols=Math.max(2,Math.ceil(lonKm/effective)+1);
+      }
+    }
+    const latStep=(view.toplat-view.bottomlat)/(rows-1);
+    const lonStep=(view.rightlon-view.leftlon)/(cols-1);
+    return {
+      bbox:view,rows,cols,cell_count:rows*cols,
+      requested_spacing_km:requested,
+      effective_lat_spacing_km:latStep*kmPerLatDeg,
+      effective_lon_spacing_km:lonStep*kmPerLonDeg,
+      mid_latitude_deg:midLat,
+      latitudes:Array.from({length:rows},(_,i)=>view.toplat-i*latStep),
+      longitudes:Array.from({length:cols},(_,i)=>view.leftlon+i*lonStep)
+    };
+  }
+
+  function photographyProviderName(data){
+    if(data===state.cwaData) return 'CWA WRF';
+    if(data===state.jmaData) return 'JMA MSM';
+    if(data===state.iconData) return 'ICON Global';
+    if(data===state.data) return 'GFS';
+    return 'unknown';
+  }
+
+  function buildPhotographyComponentProvenance(key,targetValidTime,toleranceMinutes=90){
+    const data=autoDataset(key);
+    if(!data?.fields?.[key]) return {field:key,provider:photographyProviderName(data),status:'missing_field'};
+    const frames=data.frames || [];
+    if(!frames.length || !targetValidTime) return {field:key,provider:photographyProviderName(data),status:'missing_time'};
+    const targetMs=Date.parse(targetValidTime);
+    let best=null;
+    for(const frame of frames){
+      const sourceMs=Date.parse(frame.valid_time_utc);
+      if(!Number.isFinite(sourceMs)||!Number.isFinite(targetMs)) continue;
+      const offset=Math.round((sourceMs-targetMs)/60000);
+      if(!best || Math.abs(offset)<Math.abs(best.offset)) best={frame,offset};
+    }
+    const base={
+      field:key,provider:photographyProviderName(data),
+      target_valid_time_utc:targetValidTime,
+      temporal_tolerance_minutes:toleranceMinutes,
+      source_grid:{rows:data.grid?.rows||0,cols:data.grid?.cols||0},
+      interpolation:'bilinear',outside_source_bbox:'missing'
+    };
+    if(!best || Math.abs(best.offset)>toleranceMinutes) return {...base,status:'missing_time'};
+    return {...base,source_valid_time_utc:best.frame.valid_time_utc,
+      temporal_offset_minutes:best.offset,status:'ok'};
+  }
+
   function setViewBbox(bbox,{animate=false,maxZoom=13}={}){
     const view=normalizeViewBbox(bbox);
     if(!view) return false;
