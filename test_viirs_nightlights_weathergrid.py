@@ -4,6 +4,7 @@ from viirs_nightlights_weathergrid import (
     ENCODING_SCALE,
     FIELD_QUALITY,
     FIELD_RADIANCE,
+    MAX_BROWSER_CELLS,
     build_bundle,
 )
 
@@ -42,6 +43,36 @@ class ViirsNightLightsWeatherGridTest(unittest.TestCase):
     def test_bad_grid_shape_fails_closed(self):
         with self.assertRaises(ValueError):
             build_bundle([25.0], [121.0, 121.5], [1, 2], [0, 0], 2025)
+
+
+    def test_large_native_grid_is_sampled_to_browser_budget(self):
+        rows, cols = 100, 100
+        lats = [25.0 - i * 0.01 for i in range(rows)]
+        lons = [120.0 + i * 0.01 for i in range(cols)]
+        radiance = [1.0] * (rows * cols)
+        quality = [0] * (rows * cols)
+        bundle, qc = build_bundle(
+            lats, lons, radiance, quality, 2025, max_browser_cells=2500
+        )
+        self.assertLessEqual(bundle["grid"]["rows"] * bundle["grid"]["cols"], 2500)
+        self.assertEqual(bundle["provenance"]["native_resolution"], "15 arc-second")
+        self.assertGreater(bundle["provenance"]["browser_sampling_stride"], 1)
+        self.assertEqual(qc["source_cell_count"], 10000)
+        self.assertEqual(qc["browser_budget_cells"], 2500)
+
+    def test_default_browser_budget_is_explicit(self):
+        self.assertEqual(MAX_BROWSER_CELLS, 250_000)
+
+    def test_tiny_browser_budget_fails_closed(self):
+        with self.assertRaises(ValueError):
+            build_bundle(
+                [25.0, 24.5],
+                [121.0, 121.5],
+                [1, 2, 3, 4],
+                [0, 0, 0, 0],
+                2025,
+                max_browser_cells=3,
+            )
 
 
 if __name__ == "__main__":
