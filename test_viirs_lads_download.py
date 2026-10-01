@@ -1,12 +1,15 @@
 import http.cookiejar
 import unittest
 import urllib.request
+from pathlib import Path
+from unittest.mock import patch
 
 from viirs_lads_download import (
     archive_url,
     authenticated_opener,
     authorization_headers,
     extract_filenames,
+    download_file,
     search_url,
 )
 
@@ -56,6 +59,21 @@ class ViirsLadsDownloadTest(unittest.TestCase):
         processors = [handler for handler in opener.handlers if isinstance(handler, urllib.request.HTTPCookieProcessor)]
         self.assertEqual(len(processors), 1)
         self.assertIsInstance(processors[0].cookiejar, http.cookiejar.CookieJar)
+
+    @patch("viirs_lads_download.subprocess.run")
+    def test_download_uses_nasa_documented_curl_edl_flow(self, run):
+        filename = "VNP46A4.A2025001.h30v06.002.2026261093500.h5"
+        destination = Path(".cache/test") / filename
+        download_file(filename, "secret-value", destination)
+        command = run.call_args.args[0]
+        self.assertEqual(command[0], "curl")
+        self.assertIn("--location", command)
+        self.assertIn("--cookie", command)
+        self.assertIn("--cookie-jar", command)
+        self.assertIn("Authorization: Bearer secret-value", command)
+        self.assertIn("X-Requested-With: XMLHttpRequest", command)
+        self.assertIn(str(destination), command)
+        self.assertTrue(run.call_args.kwargs["check"])
 
     def test_missing_token_fails_closed(self):
         with self.assertRaises(ValueError):
