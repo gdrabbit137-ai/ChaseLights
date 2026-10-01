@@ -20,18 +20,18 @@ class WeatherGridIconBrowserContractTests(unittest.TestCase):
         self.assertIn("iconFrameForValidTime", self.js)
         self.assertIn("activeDataset", self.js)
         self.assertIn("cloudLayers", self.js)
-        self.assertIn("AUTO · ICON Global", self.js)
-        self.assertIn("AUTO · GFS", self.js)
+        self.assertIn("function autoDataset(key)", self.js)
+        self.assertIn("datasetHasFrameForLayer", self.js)
+        self.assertIn("state.iconData", self.js)
+        self.assertIn("state.data", self.js)
 
     def test_cloud_provider_requires_matching_valid_time(self):
         self.assertIn(
             "f.valid_time_utc===validTime",
             self.js,
         )
-        self.assertIn(
-            "iconFrameForValidTime(baseFrame()?.valid_time_utc)",
-            self.js,
-        )
+        self.assertIn("datasetHasFrameForLayer(data,key,validTime)", self.js)
+        self.assertIn("f.valid_time_utc===validTime", self.js)
 
     def test_both_regular_grids_use_display_interpolation(self):
         self.assertIn("drawBilinearSubcells", self.js)
