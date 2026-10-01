@@ -90,8 +90,8 @@ def archive_path(filename):
 
 
 def archive_url(filename):
-    """Use the documented API-V2 archive download endpoint."""
-    return f"{BASE}/api/v2/content/archives/{archive_path(filename)}"
+    """Use the LAADS archive path documented for Earthdata Download tokens."""
+    return f"{BASE}/archive/{archive_path(filename)}"
 
 
 def download_file(filename, token, destination, opener=None):
