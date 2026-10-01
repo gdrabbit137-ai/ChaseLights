@@ -74,3 +74,17 @@ Safety gates:
 - uploads the generated JSON only as an Actions artifact in this batch; it does not publish to production automatically.
 
 This keeps first-live-data inspection separate from production deployment.
+
+
+## B169e multi-tile mosaic
+
+The live Taiwan path no longer assumes the requested bbox fits one VNP46A4 tile. Every discovered tile is downloaded, cropped independently to the requested bbox, and mosaicked onto a single latitude/longitude union grid before browser encoding.
+
+The mosaic:
+- preserves the native 15 arc-second coordinate axes;
+- records `source_tile_count` and source filenames in provenance/QC;
+- fills genuine uncovered union cells as missing, never zero radiance;
+- fails closed on conflicting overlapping cells;
+- keeps the single-tile `ingest()` entry point for compatibility.
+
+The downloader now uses the canonical LAADS Collection 2 archive tree `/archive/allData/5200/VNP46A4/YYYY/DDD/<filename>` after discovery. This matches the published LAADS archive layout and avoids assuming that a bare filename is a valid API-V2 archive resource path.
