@@ -2055,18 +2055,48 @@
     if(g.type==='sector'){const origin=geometryOrigin(g,op);if(!origin)return [];const min=Number(g.min_range_km||0),max=Number(g.max_range_km||0),radius=min+(max-min)*.65;const bearings=sectorBearings(g.azimuth_start_deg,g.azimuth_end_deg),stride=Math.max(1,Math.ceil(bearings.length/12));return bearings.filter((_,i)=>i%stride===0).slice(0,12).map(b=>destination(origin.lat,origin.lon,b,radius));}
     return [];
   }
+  function summarizePointMetric(points,key){
+    const vals=points.map(p=>samplePointValue(p,key)).filter(Number.isFinite);
+    if(!vals.length)return null;
+    return {mean:vals.reduce((a,b)=>a+b,0)/vals.length,min:Math.min(...vals),max:Math.max(...vals),count:vals.length};
+  }
+  function cloudSeaRoleDiagnostic(cameras,environment){
+    const cameraVis=summarizePointMetric(cameras,'visibility_km');
+    const cameraLow=summarizePointMetric(cameras,'low_cloud_percent');
+    const valleyLow=summarizePointMetric(environment,'low_cloud_percent');
+    const valleyRh=summarizePointMetric(environment,'relative_humidity_2m_percent');
+    const rain=summarizePointMetric(cameras,'precip_rate_mm_h');
+    const cameraClear=(cameraVis?clamp01(cameraVis.mean/20):null);
+    const cameraAboveCloud=(cameraLow?1-clamp01(cameraLow.mean/70):null);
+    const valleyCloud=(valleyLow?clamp01(valleyLow.mean/80):null);
+    const valleyMoist=(valleyRh?clamp01((valleyRh.mean-70)/30):null);
+    const dry=(rain?1-clamp01(rain.mean/1.5):null);
+    const terms=[[cameraClear,.28],[cameraAboveCloud,.25],[valleyCloud,.30],[valleyMoist,.10],[dry,.07]].filter(([v])=>Number.isFinite(v));
+    const weight=terms.reduce((a,t)=>a+t[1],0);
+    return {score:weight?100*terms.reduce((a,t)=>a+t[0]*t[1],0)/weight:null,cameraVis,cameraLow,valleyLow,valleyRh,rain};
+  }
   function opportunitySpatialDiagnostic(op){
     if(!op)return null;const layer=photographyLayerForOpportunity(op);
     const cameras=(op.camera_zones||[]).filter(c=>Number.isFinite(Number(c.lat))&&Number.isFinite(Number(c.lon))).map(c=>({lat:Number(c.lat),lon:Number(c.lon)}));
     const subject=(op.subject_geometries||[]).flatMap(x=>geometrySamplePoints(x,op));
     const environment=(op.environment_geometries||[]).flatMap(x=>geometrySamplePoints(x,op));
-    const summarize=points=>{const vals=points.map(p=>samplePointValue(p,layer)).filter(Number.isFinite);if(!vals.length)return null;return {mean:vals.reduce((a,b)=>a+b,0)/vals.length,min:Math.min(...vals),max:Math.max(...vals),count:vals.length};};
-    return {layer,camera:summarize(cameras),subject:summarize(subject),environment:summarize(environment)};
+    const summarize=points=>summarizePointMetric(points,layer);
+    const cloudSea=layer==='photography_cloudsea_fog'?cloudSeaRoleDiagnostic(cameras,environment):null;
+    return {layer,camera:summarize(cameras),subject:summarize(subject),environment:summarize(environment),cloudSea};
   }
   function opportunitySpatialDiagnosticHtml(op){
     const d=opportunitySpatialDiagnostic(op);if(!d)return '';
     const fmt=x=>x?(Math.round(x.mean)+' 分（'+x.count+' 點，範圍 '+Math.round(x.min)+'–'+Math.round(x.max)+'）'):'—';
-    return '<div><strong>題材空間判讀 · '+escapeHtml(photographyLayerLabel(d.layer))+'</strong></div><div>相機位置：'+fmt(d.camera)+'</div><div>被攝主體區：'+fmt(d.subject)+'</div><div>環境條件區：'+fmt(d.environment)+'</div><div class="muted">beta：分區取樣用來揭露「攝影者所在地」與「被攝／環境區」條件差異；目前不覆寫正式 opportunity score。</div>';
+    let role='';
+    if(d.cloudSea){
+      const c=d.cloudSea, metric=(x,suffix)=>x?Math.round(x.mean)+suffix:'—';
+      role='<div><strong>雲海角色判讀：'+(Number.isFinite(c.score)?Math.round(c.score)+' 分':'資料不足')+'</strong></div>'+
+        '<div>機位能見度 '+metric(c.cameraVis,' km')+' · 機位低雲 '+metric(c.cameraLow,'%')+'</div>'+
+        '<div>山谷低雲 '+metric(c.valleyLow,'%')+' · 山谷 RH '+metric(c.valleyRh,'%')+'</div>';
+    }
+    return '<div><strong>題材空間判讀 · '+escapeHtml(photographyLayerLabel(d.layer))+'</strong></div>'+role+
+      '<div>相機位置：'+fmt(d.camera)+'</div><div>被攝主體區：'+fmt(d.subject)+'</div><div>環境條件區：'+fmt(d.environment)+'</div>'+
+      '<div class="muted">beta：雲海會分開要求機位清楚／低雲較少，以及山谷低雲／濕度較高；目前仍不覆寫正式 opportunity score。</div>';
   }
 
   function samplingPoint(){
