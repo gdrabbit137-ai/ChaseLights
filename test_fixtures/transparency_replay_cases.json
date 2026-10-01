@@ -1,0 +1,60 @@
+{
+  "schema_version": "b170b-transparency-replay-1",
+  "note": "Meteorological values mirror existing Qingshui/Qixingtan regression scenarios. Aerosol values are sensitivity inputs, not 2026-09-28 historical ground truth. Transparency is a scene-property diagnostic, not a universal photography quality score.",
+  "cases": [
+    {
+      "id": "qingshui-photogenic-mist",
+      "place_id": "tw-034",
+      "subject": "coastal_cliff_mist",
+      "input": {
+        "visibility_km": 2.8,
+        "aod_550nm": 0.12,
+        "pm2_5_ug_m3": 8,
+        "rh": 93,
+        "temp": 23,
+        "dew": 22
+      },
+      "expected_state": [
+        "poor",
+        "moderate"
+      ],
+      "semantic": "low transparency can coexist with a desirable mist subject"
+    },
+    {
+      "id": "qixingtan-clear-view",
+      "place_id": "tw-036",
+      "subject": "northward_mountain_view",
+      "input": {
+        "visibility_km": 27,
+        "aod_550nm": 0.12,
+        "pm2_5_ug_m3": 8,
+        "rh": 74,
+        "temp": 29,
+        "dew": 22
+      },
+      "expected_state": [
+        "clear",
+        "very_clear"
+      ],
+      "semantic": "clear long-range view should have higher transparency"
+    },
+    {
+      "id": "haze-sensitivity",
+      "place_id": "synthetic",
+      "subject": "long_range_view",
+      "input": {
+        "visibility_km": 7,
+        "aod_550nm": 0.65,
+        "pm2_5_ug_m3": 31,
+        "rh": 67,
+        "temp": 29,
+        "dew": 21
+      },
+      "expected_state": [
+        "poor",
+        "moderate"
+      ],
+      "semantic": "aerosol-loaded reduced visibility should lower transparency"
+    }
+  ]
+}
