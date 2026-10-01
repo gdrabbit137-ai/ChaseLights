@@ -11,6 +11,7 @@
   const LIVE_HIMAWARI_QC = './weathergrid/himawari9_tw_cloud_qc.json';
   const LIVE_CAMS_DATA = './weathergrid/cams_global_tw_aod_browser.json';
   const LIVE_CAMS_QC = './weathergrid/cams_global_tw_aod_qc.json';
+  const LIVE_ENVIRONMENT_MANIFEST = './weathergrid/environment_layers_manifest.json';
   const LIVE_COVERAGE = './weathergrid/weathergrid_coverage_browser.json';
   const FALLBACK_DATA = './weathergrid_sample.json';
   const FALLBACK_COVERAGE = './weathergrid_coverage_sample.json';
@@ -49,7 +50,8 @@
     precip_total_mm:{label:'累積降水', unit:'mm', domain:[0,100], palette:'precip'},
     shortwave_flux_w_m2:{label:'地表淨短波輻射', unit:'W/m²', domain:[0,1000], palette:'solar'},
     aerosol_optical_depth_550nm:{label:'AOD 550 nm', unit:'1', domain:[0,1.5], palette:'haze', scale:'aod', ticks:[0,.05,.1,.2,.4,.8,1.5]},
-    pm2_5_ug_m3:{label:'PM2.5', unit:'µg/m³', domain:[0,75], palette:'pm25', scale:'pm25', ticks:[0,5,10,15,25,35,50,75]}
+    pm2_5_ug_m3:{label:'PM2.5', unit:'µg/m³', domain:[0,75], palette:'pm25', scale:'pm25', ticks:[0,5,10,15,25,35,50,75]},
+    nighttime_lights_radiance_nw_cm2_sr:{label:'夜間燈光輻亮度', unit:'nW/(cm²·sr)', domain:[0,100], palette:'nightlights', scale:'nightlights', ticks:[0,.5,1,2,5,10,25,50,100]}
   };
 
   const state = {
@@ -65,6 +67,9 @@
     himawariQc:null,
     camsData:null,
     camsQc:null,
+    viirsData:null,
+    viirsQc:null,
+    environmentManifest:null,
     modelMode:'auto',
     coverage:{spots:[]},
     frameIndex:0,
@@ -265,6 +270,10 @@
     return state.modelMode==='himawari' && Boolean(state.himawariData);
   }
 
+  function isStaticContextMode(){
+    return state.modelMode==='viirs' && Boolean(state.viirsData);
+  }
+
   function observationAgeMinutes(data=state.himawariData){
     const stamp=data?.observation?.time_coverage_end || data?.observation?.slot_utc;
     const time=Date.parse(stamp || '');
@@ -333,6 +342,23 @@
       }
 
       try{
+        state.environmentManifest = await fetchJson(LIVE_ENVIRONMENT_MANIFEST);
+        const viirs=state.environmentManifest?.layers?.viirs_nightlights;
+        if(viirs?.available && viirs.browser){
+          state.viirsData = await fetchJson(viirs.browser);
+          try{ state.viirsQc = viirs.qc ? await fetchJson(viirs.qc) : null; }catch(_){ state.viirsQc = null; }
+        }else{
+          state.viirsData = null;
+          state.viirsQc = null;
+        }
+      }catch(err){
+        console.warn('Optional environment layer manifest unavailable', err);
+        state.environmentManifest = null;
+        state.viirsData = null;
+        state.viirsQc = null;
+      }
+
+      try{
         state.coverage = await fetchJson(LIVE_COVERAGE);
         state.coverageSource = 'live';
       }catch(err){
@@ -358,6 +384,7 @@
     if(mode==='cwa' && state.cwaData) return state.cwaData;
     if(mode==='icon' && state.iconData) return state.iconData;
     if(mode==='cams' && state.camsData) return state.camsData;
+    if(mode==='viirs' && state.viirsData) return state.viirsData;
     return state.data;
   }
 
@@ -367,6 +394,7 @@
     if(mode==='cwa' && state.cwaData) return state.cwaQc;
     if(mode==='icon' && state.iconData) return state.iconQc;
     if(mode==='cams' && state.camsData) return state.camsQc;
+    if(mode==='viirs' && state.viirsData) return state.viirsQc;
     return state.qc;
   }
 
@@ -377,6 +405,7 @@
     if(mode==='icon') return 'ICON Global';
     if(mode==='gfs') return 'GFS 0.25°';
     if(mode==='cams') return 'CAMS Global · 霧霾';
+    if(mode==='viirs') return 'NASA Black Marble · 夜間燈光';
     return '自動';
   }
 
@@ -387,6 +416,7 @@
     if(mode==='icon') return Boolean(state.iconData);
     if(mode==='gfs') return Boolean(state.data);
     if(mode==='cams') return Boolean(state.camsData);
+    if(mode==='viirs') return Boolean(state.viirsData);
     return true;
   }
 
@@ -434,7 +464,11 @@
   function refreshModelControls(){
     const modelSelect=$('model-select');
     for(const option of modelSelect.options){
-      if(option.value!=='auto') option.disabled=!modelAvailable(option.value);
+      if(option.value!=='auto'){
+        const available=modelAvailable(option.value);
+        option.disabled=!available;
+        if(option.dataset.optional==='true') option.hidden=!available;
+      }
     }
     modelSelect.value=state.modelMode;
 
@@ -457,7 +491,7 @@
     slider.max=Math.max(0,(timeline?.frames?.length || 1)-1);
     state.frameIndex=Math.min(state.frameIndex,Number(slider.max));
     slider.value=state.frameIndex;
-    slider.disabled=isObservationMode();
+    slider.disabled=isObservationMode() || isStaticContextMode();
 
     syncWindVectorDefault();
     const hasWind=windFieldsAvailable();
@@ -772,6 +806,7 @@
     if(state.modelMode==='cwa' && state.cwaData) return state.cwaData;
     if(state.modelMode==='icon' && state.iconData) return state.iconData;
     if(state.modelMode==='cams' && state.camsData) return state.camsData;
+    if(state.modelMode==='viirs' && state.viirsData) return state.viirsData;
     return state.data;
   }
 
@@ -809,6 +844,7 @@
     }
     if(state.modelMode==='icon' && state.iconData) return state.iconData;
     if(state.modelMode==='cams' && state.camsData) return state.camsData;
+    if(state.modelMode==='viirs' && state.viirsData) return state.viirsData;
     if(state.modelMode==='gfs') return state.data;
 
     if(cloudLayers.has(key) && state.iconData){
@@ -819,7 +855,7 @@
   }
 
   function activeFrame(key=state.layer){
-    if(state.modelMode==='himawari' || state.modelMode==='jma' || state.modelMode==='cwa' || state.modelMode==='icon' || state.modelMode==='cams' || state.modelMode==='gfs'){
+    if(state.modelMode==='himawari' || state.modelMode==='jma' || state.modelMode==='cwa' || state.modelMode==='icon' || state.modelMode==='cams' || state.modelMode==='viirs' || state.modelMode==='gfs'){
       return timelineDataset()?.frames?.[state.frameIndex] || null;
     }
     const data=activeDataset(key);
@@ -835,6 +871,7 @@
     if(state.modelMode==='cwa') return state.cwaQc;
     if(state.modelMode==='icon') return state.iconQc;
     if(state.modelMode==='cams') return state.camsQc;
+    if(state.modelMode==='viirs') return state.viirsQc;
     if(state.modelMode==='gfs') return state.qc;
     return activeDataset(key)===state.iconData ? state.iconQc : state.qc;
   }
@@ -884,7 +921,7 @@
 
   function normalizedValue(value,cfg){
     if(value == null || !Number.isFinite(value)) return 0;
-    if(cfg.scale==='precip_rate' || cfg.scale==='aod') return normalizedPiecewise(value,cfg.ticks);
+    if(cfg.scale==='precip_rate' || cfg.scale==='aod' || cfg.scale==='nightlights') return normalizedPiecewise(value,cfg.ticks);
     const span=cfg.domain[1]-cfg.domain[0];
     if(!span) return 0;
     return Math.max(0,Math.min(1,(value-cfg.domain[0])/span));
@@ -965,6 +1002,9 @@
     if(cfg.palette==='pm25'){
       return .06 + .94*Math.pow(t,.72);
     }
+    if(cfg.palette==='nightlights'){
+      return value<=0 ? 0 : .10 + .90*Math.pow(t,.62);
+    }
     if(cfg.palette==='direction'){
       return .48;
     }
@@ -1021,6 +1061,12 @@
       const hue = 150 - t*145;
       const saturation = 64 + t*18;
       const light = 54 - t*18;
+      return `hsl(${hue} ${saturation}% ${light}%)`;
+    }
+    if(cfg.palette==='nightlights'){
+      const hue = 225 - t*180;
+      const saturation = 58 + t*32;
+      const light = 18 + t*48;
       return `hsl(${hue} ${saturation}% ${light}%)`;
     }
     if(cfg.palette==='direction'){
@@ -1822,6 +1868,7 @@
     if(key==='shortwave_flux_w_m2') return `${Math.round(v)} W/m²`;
     if(key==='aerosol_optical_depth_550nm') return v.toFixed(2);
     if(key==='pm2_5_ug_m3') return v.toFixed(1);
+    if(key==='nighttime_lights_radiance_nw_cm2_sr') return `${v.toFixed(v<10?1:0)} nW/(cm²·sr)`;
     return v.toFixed(1);
   }
 
