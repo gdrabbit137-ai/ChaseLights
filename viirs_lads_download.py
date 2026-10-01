@@ -124,6 +124,10 @@ def download_file(filename, token, destination, opener=None, reference=None):
             "--location",
             "--cookie",
             str(cookie_file),
+            "--dump-header",
+            str(destination) + ".headers",
+            "--write-out",
+            "LAADS_HTTP_DIAGNOSTIC status=%{http_code} content_type=%{content_type} url_effective=%{url_effective} redirects=%{num_redirects}\\n",
             "--header",
             f"Authorization: Bearer {token}",
             "--output",
@@ -136,7 +140,15 @@ def download_file(filename, token, destination, opener=None, reference=None):
         signature = stream.read(len(HDF5_MAGIC))
     if signature != HDF5_MAGIC:
         preview = destination.read_bytes()[:160].decode("utf-8", errors="replace").replace("\n", " ")
+        header_path = Path(str(destination) + ".headers")
+        header_text = header_path.read_text(errors="replace") if header_path.exists() else ""
+        safe_headers = [
+            line for line in header_text.splitlines()
+            if line.startswith("HTTP/") or line.lower().startswith(("location:", "content-type:"))
+        ]
+        print(json.dumps({"laads_http_chain": safe_headers}, indent=2))
         destination.unlink(missing_ok=True)
+        header_path.unlink(missing_ok=True)
         raise RuntimeError(
             "LAADS download did not return an HDF5 payload; "
             f"first bytes={signature!r}, preview={preview!r}"
