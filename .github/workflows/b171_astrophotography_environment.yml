@@ -4,6 +4,10 @@ on:
   pull_request:
     paths:
       - 'astrophotography_environment.py'
+      - 'lunar_ephemeris.py'
+      - 'test_lunar_ephemeris.py'
+      - 'lunar_ephemeris.py'
+      - 'test_lunar_ephemeris.py'
       - 'photography_environment.py'
       - 'photography_transparency.py'
       - 'test_astrophotography_environment.py'
@@ -34,4 +38,5 @@ jobs:
           python -m unittest -v \
             test_photography_environment.py \
             test_photography_transparency.py \
-            test_astrophotography_environment.py
+            test_astrophotography_environment.py \
+            test_lunar_ephemeris.py
