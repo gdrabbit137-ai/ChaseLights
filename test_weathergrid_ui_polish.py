@@ -292,8 +292,9 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn("'photography_overview',", self.js)
         self.assertIn("📷 攝影綜合圖", self.js)
         self.assertIn("function photographyOverviewArray()", self.js)
-        self.assertIn("if(autoDataset(key)===base)", self.js)
-        self.assertIn("cross-model spatial resampling belongs in a later batch", self.js)
+        self.assertIn("function resampleToBaseGrid(data,key,validTime)", self.js)
+        self.assertIn("bilinearly resampled onto that grid before blending", self.js)
+        self.assertIn("out-of-coverage cells stay null", self.js)
 
 
 if __name__ == "__main__":
