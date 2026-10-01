@@ -328,6 +328,13 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn("status:'insufficient_neighbors'", self.js)
         self.assertIn("status:'outside_bbox'", self.js)
 
+        self.assertIn("function buildPhotographyComposite(mode='overview'", self.js)
+        self.assertIn("effective_weight_coverage:effectiveWeightCoverage", self.js)
+        self.assertIn("minimum_weight_coverage:.60", self.js)
+        self.assertIn("kind:'photography_environment_diagnostic'", self.js)
+        self.assertIn("canonical_opportunity_score:false", self.js)
+        self.assertIn("if(effectiveWeightCoverage[i]>=.60", self.js)
+
 
 
 
