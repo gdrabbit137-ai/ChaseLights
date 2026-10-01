@@ -33,3 +33,10 @@ Therefore a future scoring integration must be subject-aware:
 - long-range mountain/city/coast views may benefit from high transparency;
 - fog/mist subjects must not inherit a generic high-transparency preference;
 - the index remains diagnostic until time-matched aerosol field cases are captured and calibrated.
+
+
+## B170c forecast diagnostic output
+
+The timestamp-level `photography_environment` object now includes a nested `transparency` diagnostic while preserving the B168 fog/haze keys at the top level for compatibility.
+
+This makes the versioned transparency index available in generated forecast/replay JSON without duplicating it per Opportunity. `_score_opportunity` still does not consume this field. When CAMS aerosol values are absent from the ordinary forecast pipeline, the diagnostic remains low-confidence and uses only the available visibility/moisture evidence; it never fabricates AOD or PM2.5.
