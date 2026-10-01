@@ -12,6 +12,7 @@ from opportunity_runtime import (
     evaluate_minimum_sufficient_visibility,
 )
 from photography_environment import classify_fog_haze
+from photography_transparency import evaluate_transparency
 from spatial_weather import (
     build_spatial_request_plan,
     index_spatial_response,
@@ -1169,8 +1170,15 @@ def evaluate_tag_condition(theme, item_data, hour=None, lang="zh-TW"):
 # B35 Liyu subject-model validation trigger
 
 def _build_photography_environment_diagnostic(item_data):
-    """Return one non-scoring environment diagnostic per forecast timestamp."""
-    return classify_fog_haze(item_data)
+    """Return one non-scoring environment diagnostic per forecast timestamp.
+
+    Keep the B168 fog/haze keys at the top level for backward compatibility.
+    B170c adds a nested, versioned transparency diagnostic; neither branch is
+    consumed by Opportunity scoring.
+    """
+    diagnostic = classify_fog_haze(item_data)
+    diagnostic["transparency"] = evaluate_transparency(item_data)
+    return diagnostic
 
 
 def _build_opportunity_runtime_diagnostics(spot, item_data):
