@@ -317,6 +317,12 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn("effective weight coverage (0–1)", spec)
         self.assertIn("Do not use a source provider's grid as the target grid", spec)
 
+        self.assertIn("function buildPhotographyCompositeGrid(bbox,requestedSpacingKm=5,maxCells=40000)", self.js)
+        self.assertIn("function buildPhotographyComponentProvenance(key,targetValidTime,toleranceMinutes=90)", self.js)
+        self.assertIn("effective_lat_spacing_km", self.js)
+        self.assertIn("temporal_offset_minutes", self.js)
+        self.assertIn("outside_source_bbox:'missing'", self.js)
+
 
 
 if __name__ == "__main__":
