@@ -1,0 +1,81 @@
+name: B169 VIIRS Live Taiwan Ingest
+
+on:
+  workflow_dispatch:
+    inputs:
+      year:
+        description: "VNP46A4 composite year"
+        required: true
+        default: "2025"
+      bbox:
+        description: "left,bottom,right,top"
+        required: true
+        default: "119.5,21.5,122.5,25.5"
+
+permissions:
+  contents: read
+
+jobs:
+  live-ingest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      EARTHDATA_TOKEN: ${{ secrets.EARTHDATA_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Require Earthdata token secret
+        run: |
+          if [ -z "$EARTHDATA_TOKEN" ]; then
+            echo "::error::Configure repository secret EARTHDATA_TOKEN before running live VIIRS ingest."
+            exit 1
+          fi
+      - name: Install HDF5 reader
+        run: python -m pip install --disable-pip-version-check h5py
+      - name: Discover and download VNP46A4
+        run: |
+          python viirs_lads_download.py \
+            --year "${{ inputs.year }}" \
+            --bbox "${{ inputs.bbox }}" \
+            --output-dir .cache/viirs
+      - name: Require one Taiwan source tile
+        id: tile
+        shell: bash
+        run: |
+          mapfile -t files < <(find .cache/viirs -maxdepth 1 -name 'VNP46A4*.h5' -type f | sort)
+          if [ "${#files[@]}" -ne 1 ]; then
+            echo "::error::Expected one VNP46A4 tile for Taiwan bbox, got ${#files[@]}. Add mosaic support before publishing."
+            printf '%s\n' "${files[@]}"
+            exit 1
+          fi
+          echo "path=${files[0]}" >> "$GITHUB_OUTPUT"
+      - name: Build Taiwan WeatherGrid artifact
+        run: |
+          python viirs_nightlights_ingest.py \
+            --input-h5 "${{ steps.tile.outputs.path }}" \
+            --year "${{ inputs.year }}" \
+            --bbox "${{ inputs.bbox }}" \
+            --output weathergrid/viirs_nightlights_tw_browser.json \
+            --qc-output weathergrid/viirs_nightlights_tw_qc.json
+      - name: Validate artifact semantics
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          data=json.loads(Path("weathergrid/viirs_nightlights_tw_browser.json").read_text())
+          qc=json.loads(Path("weathergrid/viirs_nightlights_tw_qc.json").read_text())
+          assert data["source"]=="nasa_black_marble_vnp46a4"
+          assert "nighttime_lights_radiance_nw_cm2_sr" in data["fields"]
+          assert data["provenance"]["doi"]=="10.5067/VIIRS/VNP46A4.002"
+          assert "not Bortle class" in data["provenance"]["semantics"]
+          assert not qc["flags"], qc
+          print({"rows":data["grid"]["rows"],"cols":data["grid"]["cols"],"qc":qc["quality_counts"]})
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: viirs-nightlights-tw-${{ inputs.year }}
+          path: |
+            weathergrid/viirs_nightlights_tw_browser.json
+            weathergrid/viirs_nightlights_tw_qc.json
