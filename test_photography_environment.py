@@ -1,6 +1,6 @@
 import unittest
 
-from photography_environment import classify_fog_haze
+from photography_environment import classify_dark_sky_evidence, classify_fog_haze
 
 
 class FogHazeEnvironmentTest(unittest.TestCase):
@@ -51,6 +51,73 @@ class FogHazeEnvironmentTest(unittest.TestCase):
         result = classify_fog_haze({"aod_550nm": 0.8, "pm2_5_ug_m3": 40})
         self.assertEqual(result["state"], "aerosol_present_visibility_not_degraded")
         self.assertIsNone(result["visibility_km"])
+
+
+class DarkSkyEnvironmentTest(unittest.TestCase):
+    def test_low_radiance_is_context_not_bortle(self):
+        result = classify_dark_sky_evidence({
+            "nighttime_lights_radiance_nw_cm2_sr": 0.4,
+            "nighttime_lights_quality_flag": 0,
+        })
+        self.assertEqual(result["state"], "low_artificial_light_radiance")
+        self.assertEqual(result["confidence"], "medium")
+        self.assertTrue(result["not_bortle"])
+        self.assertTrue(result["not_sqm"])
+        self.assertTrue(result["not_sky_brightness"])
+        self.assertEqual(result["score_effect"], "none")
+
+    def test_radiance_bins_remain_evidence_only(self):
+        self.assertEqual(
+            classify_dark_sky_evidence({
+                "nighttime_lights_radiance_nw_cm2_sr": 3,
+                "nighttime_lights_quality_flag": 0,
+            })["state"],
+            "moderate_artificial_light_radiance",
+        )
+        self.assertEqual(
+            classify_dark_sky_evidence({
+                "nighttime_lights_radiance_nw_cm2_sr": 7,
+                "nighttime_lights_quality_flag": 0,
+            })["state"],
+            "elevated_artificial_light_radiance",
+        )
+        self.assertEqual(
+            classify_dark_sky_evidence({
+                "nighttime_lights_radiance_nw_cm2_sr": 18,
+                "nighttime_lights_quality_flag": 0,
+            })["state"],
+            "high_artificial_light_radiance",
+        )
+
+    def test_poor_or_gap_filled_quality_caps_confidence(self):
+        poor = classify_dark_sky_evidence({
+            "nighttime_lights_radiance_nw_cm2_sr": 0.5,
+            "nighttime_lights_quality_flag": 1,
+        })
+        gap = classify_dark_sky_evidence({
+            "nighttime_lights_radiance_nw_cm2_sr": 0.5,
+            "nighttime_lights_quality_flag": 2,
+        })
+        self.assertEqual(poor["quality"], "poor")
+        self.assertEqual(gap["quality"], "gap_filled")
+        self.assertEqual(poor["confidence"], "low")
+        self.assertEqual(gap["confidence"], "low")
+
+    def test_missing_quality_does_not_invent_trust(self):
+        result = classify_dark_sky_evidence({
+            "nighttime_lights_radiance_nw_cm2_sr": 0.3,
+        })
+        self.assertEqual(result["quality"], "unknown")
+        self.assertFalse(result["usable_for_context"])
+        self.assertEqual(result["confidence"], "low")
+
+    def test_missing_radiance_is_unavailable(self):
+        result = classify_dark_sky_evidence({
+            "nighttime_lights_quality_flag": 0,
+        })
+        self.assertEqual(result["state"], "night_lights_unavailable")
+        self.assertFalse(result["available"])
+        self.assertEqual(result["score_effect"], "none")
 
 
 if __name__ == "__main__":
