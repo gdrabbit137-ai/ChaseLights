@@ -437,9 +437,8 @@
   function availableLayerKeys(){
     const visibleLayerKeys=Object.keys(layerConfig).filter(key=>key!=='wind_direction_10m_deg');
     if(state.modelMode==='auto'){
-      return visibleLayerKeys.filter(key=>
-        Boolean(state.data?.fields?.[key]) ||
-        Boolean(state.iconData?.fields?.[key])
+      return photographerLayerOrder.filter(key=>
+        visibleLayerKeys.includes(key) && Boolean(autoDataset(key)?.fields?.[key])
       );
     }
     const data=modelDataset();
@@ -832,6 +831,31 @@
     'mid_cloud_percent',
     'high_cloud_percent'
   ]);
+  const photographerLayerOrder = [
+    'total_cloud_percent','low_cloud_percent','mid_cloud_percent','high_cloud_percent',
+    'precip_rate_mm_h','visibility_km','wind_speed_10m_m_s',
+    'aerosol_optical_depth_550nm','pm2_5_ug_m3',
+    'relative_humidity_2m_percent','temperature_2m_c','precip_total_mm','shortwave_flux_w_m2',
+    'observed_cloud_mask','cloud_top_height_m','nighttime_lights_radiance_nw_cm2_sr'
+  ];
+
+  function datasetHasFrameForLayer(data,key,validTime){
+    if(!data?.fields?.[key] || !data?.frames?.length) return false;
+    if(!validTime) return true;
+    return data.frames.some(f=>f.valid_time_utc===validTime);
+  }
+
+  // AUTO is photographer-first: choose the best available regional forecast
+  // per layer, while keeping manual model selection available for comparison.
+  function autoDataset(key=state.layer){
+    const validTime=state.data?.frames?.[state.frameIndex]?.valid_time_utc;
+    const candidates=cloudLayers.has(key)
+      ? [state.cwaData,state.jmaData,state.iconData,state.data]
+      : [state.cwaData,state.jmaData,state.data,state.iconData];
+    return candidates.find(data=>datasetHasFrameForLayer(data,key,validTime)) ||
+      candidates.find(data=>Boolean(data?.fields?.[key])) ||
+      state.data;
+  }
 
   function baseFrame(){
     const timeline=timelineDataset();
@@ -854,11 +878,7 @@
     if(state.modelMode==='viirs' && state.viirsData) return state.viirsData;
     if(state.modelMode==='gfs') return state.data;
 
-    if(cloudLayers.has(key) && state.iconData){
-      const iconFrame=iconFrameForValidTime(baseFrame()?.valid_time_utc);
-      if(iconFrame && state.iconData.fields[key]) return state.iconData;
-    }
-    return state.data;
+    return autoDataset(key);
   }
 
   function activeFrame(key=state.layer){
@@ -866,8 +886,10 @@
       return timelineDataset()?.frames?.[state.frameIndex] || null;
     }
     const data=activeDataset(key);
-    if(data===state.iconData){
-      return iconFrameForValidTime(baseFrame()?.valid_time_utc);
+    const validTime=baseFrame()?.valid_time_utc;
+    if(data!==state.data && validTime){
+      return data.frames?.find(f=>f.valid_time_utc===validTime) ||
+        data.frames?.[nearestFrameIndex(data,validTime)] || null;
     }
     return baseFrame();
   }
@@ -880,7 +902,11 @@
     if(state.modelMode==='cams') return state.camsQc;
     if(state.modelMode==='viirs') return state.viirsQc;
     if(state.modelMode==='gfs') return state.qc;
-    return activeDataset(key)===state.iconData ? state.iconQc : state.qc;
+    const data=activeDataset(key);
+    if(data===state.cwaData) return state.cwaQc;
+    if(data===state.jmaData) return state.jmaQc;
+    if(data===state.iconData) return state.iconQc;
+    return state.qc;
   }
 
   function frame(){ return activeFrame(state.layer); }
@@ -1985,7 +2011,7 @@
       if(usingHimawari){
         status.textContent='OBS · Himawari-9 2 km';
       }else if(state.modelMode==='auto'){
-        status.textContent=usingIcon?'AUTO · ICON Global':'AUTO · GFS';
+        status.textContent='AUTO · '+(usingCwa?'CWA WRF 3 km':usingJma?'JMA MSM 5 km':usingIcon?'ICON Global':'GFS 0.25°');
       }else{
         status.textContent='LIVE · '+modelLabel(state.modelMode);
       }
