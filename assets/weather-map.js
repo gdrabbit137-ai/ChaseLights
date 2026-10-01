@@ -48,7 +48,8 @@
     relative_humidity_2m_percent:{label:'2 m 相對濕度', unit:'%', domain:[0,100], palette:'humidity'},
     precip_total_mm:{label:'累積降水', unit:'mm', domain:[0,100], palette:'precip'},
     shortwave_flux_w_m2:{label:'地表淨短波輻射', unit:'W/m²', domain:[0,1000], palette:'solar'},
-    aerosol_optical_depth_550nm:{label:'AOD 550 nm', unit:'1', domain:[0,1.5], palette:'haze', scale:'aod', ticks:[0,.05,.1,.2,.4,.8,1.5]}
+    aerosol_optical_depth_550nm:{label:'AOD 550 nm', unit:'1', domain:[0,1.5], palette:'haze', scale:'aod', ticks:[0,.05,.1,.2,.4,.8,1.5]},
+    pm2_5_ug_m3:{label:'PM2.5', unit:'µg/m³', domain:[0,75], palette:'pm25', scale:'pm25', ticks:[0,5,10,15,25,35,50,75]}
   };
 
   const state = {
@@ -961,6 +962,9 @@
     if(cfg.palette==='haze'){
       return .06 + .94*Math.pow(t,.78);
     }
+    if(cfg.palette==='pm25'){
+      return .06 + .94*Math.pow(t,.72);
+    }
     if(cfg.palette==='direction'){
       return .48;
     }
@@ -1011,6 +1015,12 @@
       const hue = 55 - t*48;
       const saturation = 72 + t*12;
       const light = 58 - t*20;
+      return `hsl(${hue} ${saturation}% ${light}%)`;
+    }
+    if(cfg.palette==='pm25'){
+      const hue = 150 - t*145;
+      const saturation = 64 + t*18;
+      const light = 54 - t*18;
       return `hsl(${hue} ${saturation}% ${light}%)`;
     }
     if(cfg.palette==='direction'){
@@ -1740,6 +1750,7 @@
     if(key==='precip_total_mm') return `${v.toFixed(1)} mm`;
     if(key==='shortwave_flux_w_m2') return `${Math.round(v)} W/m²`;
     if(key==='aerosol_optical_depth_550nm') return v.toFixed(2);
+    if(key==='pm2_5_ug_m3') return v.toFixed(1);
     return v.toFixed(1);
   }
 
@@ -1883,7 +1894,7 @@
     else if(usingJma) providerRole='JMA MSM 5 km';
     else if(usingCwa) providerRole='CWA WRF 3 km';
     else if(usingIcon) providerRole=state.modelMode==='auto'?'ICON Global · auto':'ICON Global';
-    else if(usingCams) providerRole='CAMS Global · AOD 550 nm';
+    else if(usingCams) providerRole=state.layer==='pm2_5_ug_m3'?'CAMS Global · PM2.5':'CAMS Global · AOD 550 nm';
     else if(state.modelMode==='auto' && cloudLayers.has(state.layer)) providerRole='GFS fallback';
     const unitText=usingHimawari && state.layer==='cloud_top_height_m'
       ? '原始單位 m · 顯示 km'
