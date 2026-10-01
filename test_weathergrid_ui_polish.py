@@ -160,9 +160,17 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn("Open-Meteo", self.js)
         self.assertIn("AOD 是整層大氣的氣膠光學厚度", self.html)
 
+    def test_b167_cams_pm25_layer_is_exposed_with_distinct_semantics(self):
+        self.assertIn("pm2_5_ug_m3", self.js)
+        self.assertIn("label:'PM2.5'", self.js)
+        self.assertIn("unit:'µg/m³'", self.js)
+        self.assertIn("palette:'pm25'", self.js)
+        self.assertIn("CAMS Global · PM2.5", self.js)
+        self.assertIn("PM2.5 是近地面細懸浮微粒質量濃度", self.html)
+
     def test_assets_use_cache_busting_after_mobile_ui_updates(self):
-        self.assertIn('weather-map.css?v=b166', self.html)
-        self.assertIn('weather-map.js?v=b166', self.html)
+        self.assertIn('weather-map.css?v=b167', self.html)
+        self.assertIn('weather-map.js?v=b167', self.html)
 
     def test_mobile_opacity_control_is_single_row(self):
         self.assertIn('class="opacity-caption"', self.html)

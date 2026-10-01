@@ -4,6 +4,8 @@ from datetime import datetime, timezone
 from cams_aod_weathergrid import (
     ENCODING_SCALE,
     FIELD_GRID,
+    PM25_FIELD_GRID,
+    PM25_ENCODING_SCALE,
     build_bundle,
     request_grid,
 )
@@ -19,11 +21,15 @@ def fake_responses(hours=13):
             {
                 "latitude": round(lat, 1),
                 "longitude": round(lon, 1),
-                "hourly_units": {"aerosol_optical_depth": ""},
+                "hourly_units": {"aerosol_optical_depth": "", "pm2_5": "µg/m³"},
                 "hourly": {
                     "time": times,
                     "aerosol_optical_depth": [
                         round(base + hour * 0.001, 3) for hour in range(hours)
+                    ],
+                    "pm2_5": [
+                        round(8.0 + (index % len(lons)) * 0.2 + hour * 0.1, 1)
+                        for hour in range(hours)
                     ],
                 },
             }
@@ -83,6 +89,33 @@ class CamsAodWeatherGridTests(unittest.TestCase):
         encoded = bundle["frames"][0]["values"][FIELD_GRID][0]
         self.assertEqual(encoded, 50)
         self.assertAlmostEqual(encoded * meta["scale"], 0.05, places=6)
+
+    def test_pm25_uses_tenth_microgram_encoding_and_distinct_semantics(self):
+        bundle, _ = build_bundle(fake_responses())
+        meta = bundle["fields"][PM25_FIELD_GRID]
+        self.assertEqual(meta["unit"], "µg/m³")
+        self.assertEqual(meta["scale"], PM25_ENCODING_SCALE)
+        self.assertIn("near-surface", meta["semantics"])
+        encoded = bundle["frames"][0]["values"][PM25_FIELD_GRID][0]
+        self.assertEqual(encoded, 80)
+        self.assertAlmostEqual(encoded * meta["scale"], 8.0, places=6)
+
+    def test_pm25_is_retained_when_aod_is_missing_at_same_cell(self):
+        responses = fake_responses()
+        responses[0]["hourly"]["aerosol_optical_depth"][0] = None
+        bundle, _ = build_bundle(responses)
+        self.assertIsNone(bundle["frames"][0]["values"][FIELD_GRID][0])
+        self.assertEqual(bundle["frames"][0]["values"][PM25_FIELD_GRID][0], 80)
+
+    def test_pm25_missing_values_are_preserved_and_flagged(self):
+        responses = fake_responses()
+        responses[0]["hourly"]["pm2_5"][0] = None
+        bundle, qc = build_bundle(responses)
+        self.assertIsNone(bundle["frames"][0]["values"][PM25_FIELD_GRID][0])
+        self.assertIn(
+            "partial_missing",
+            qc["frames"][0]["fields"][PM25_FIELD_GRID]["flags"],
+        )
 
     def test_missing_values_are_preserved_and_flagged(self):
         responses = fake_responses()
