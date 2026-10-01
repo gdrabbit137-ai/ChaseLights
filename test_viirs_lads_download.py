@@ -64,6 +64,8 @@ class ViirsLadsDownloadTest(unittest.TestCase):
     def test_download_uses_nasa_documented_curl_edl_flow(self, run):
         filename = "VNP46A4.A2025001.h30v06.002.2026261093500.h5"
         destination = Path(".cache/test") / filename
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        destination.write_bytes(b"\\x89HDF\\r\\n\\x1a\\n")
         download_file(filename, "secret-value", destination)
         command = run.call_args.args[0]
         self.assertEqual(command[0], "curl")
@@ -74,6 +76,16 @@ class ViirsLadsDownloadTest(unittest.TestCase):
         self.assertIn("X-Requested-With: XMLHttpRequest", command)
         self.assertIn(str(destination), command)
         self.assertTrue(run.call_args.kwargs["check"])
+
+    @patch("viirs_lads_download.subprocess.run")
+    def test_download_rejects_non_hdf5_payload(self, run):
+        filename = "VNP46A4.A2025001.h30v06.002.2026261093500.h5"
+        destination = Path(".cache/test-invalid") / filename
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        destination.write_text("<html>Earthdata login</html>")
+        with self.assertRaisesRegex(RuntimeError, "did not return an HDF5 payload"):
+            download_file(filename, "secret-value", destination)
+        self.assertFalse(destination.exists())
 
     def test_missing_token_fails_closed(self):
         with self.assertRaises(ValueError):
