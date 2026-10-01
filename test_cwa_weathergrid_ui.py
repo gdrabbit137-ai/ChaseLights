@@ -37,9 +37,9 @@ class CwaWeatherGridUiContractTests(unittest.TestCase):
             self.assertIn(key, JS)
 
     def test_auto_mode_uses_explicit_photographer_first_provider_policy(self):
-        self.assertIn("function autoDataset(key)", JS)
-        self.assertIn("const cloudCandidates=[state.cwaData,state.jmaData,state.iconData,state.data]", JS)
-        self.assertIn("const otherCandidates=[state.cwaData,state.jmaData,state.data,state.iconData]", JS)
+        self.assertIn("function autoDataset(key=state.layer)", JS)
+        self.assertIn("? [state.cwaData,state.jmaData,state.iconData,state.data]", JS)
+        self.assertIn(": [state.cwaData,state.jmaData,state.data,state.iconData]", JS)
         self.assertIn("datasetHasFrameForLayer(data,key,validTime)", JS)
 
 
