@@ -2146,10 +2146,12 @@
   function updateTimeline(){
     const frames=timelineDataset()?.frames || [];
     // Keep the provider-owned timeline contract explicit for existing UI tests.
-    const frameLabels=timelineDataset().frames.map(f=>formatTaipeiTime(f.valid_time_utc));
-    const last=Math.max(0,frames.length-1);
     const observation=isObservationMode();
     const staticContext=isStaticContextMode();
+    const frameLabels=staticContext
+      ? frames.map(f=>String(f.composite_year || new Date(f.valid_time_utc).getUTCFullYear()))
+      : timelineDataset().frames.map(f=>formatTaipeiTime(f.valid_time_utc));
+    const last=Math.max(0,frames.length-1);
     const timeKind=observation?'觀測時間':(staticContext?'年度合成':'預報時間');
     const tickIndices=[0,Math.round(last*.25),Math.round(last*.5),Math.round(last*.75),last]
       .filter((v,i,a)=>a.indexOf(v)===i);
