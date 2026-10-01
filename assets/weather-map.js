@@ -2055,7 +2055,7 @@
     }else if(usingCams){
       attributionHost.innerHTML='霧霾資料：Copernicus CAMS Global · API: <a href="https://open-meteo.com/en/docs/air-quality-api" target="_blank" rel="noopener noreferrer">Open-Meteo</a>';
     }else if(usingViirs){
-      attributionHost.textContent='夜間燈光：NASA Black Marble VNP46A4 Collection 2 · 衛星輻亮度，不等同 Bortle 或天空亮度';
+      attributionHost.textContent='夜間燈光：NASA Black Marble VNP46A4 Collection 2 · 衛星輻亮度；QA 0 good / 1 poor / 2 gap-filled；不等同 Bortle 或天空亮度';
     }else{
       attributionHost.innerHTML='';
     }
@@ -2112,9 +2112,21 @@
     $('spot-value').textContent=point?formatValue(sv,state.layer):'—';
     const sampleMethod=isObservationMode()
       ? '衛星 presentation grid 最近鄰取樣（觀測／反演資料不做雙線性混合）'
-      : '瀏覽器雙線性插值（風向以 u/v 向量循環插值；超出資料範圍不外推）';
+      : (usingViirs
+        ? '年度夜間燈光顯示可內插；品質旗標以最近原始顯示格判讀'
+        : '瀏覽器雙線性插值（風向以 u/v 向量循環插值；超出資料範圍不外推）');
+    let viirsQualityHtml='';
+    if(usingViirs && point){
+      const q=sampleDatasetNearest(
+        point,data,'nighttime_lights_quality_flag',f.valid_time_utc
+      );
+      const qualityLabel=q===0?'good（原始年度合成）'
+        :(q===1?'poor（品質較低）'
+          :(q===2?'gap-filled（缺口填補）':'未知／缺值'));
+      viirsQualityHtml=`<div>VNP46A4 QA：${escapeHtml(qualityLabel)}</div>`;
+    }
     $('spot-details').innerHTML=point
-      ? `<div>${point.lat.toFixed(4)}°, ${point.lon.toFixed(4)}° · ${escapeHtml(point.label)}</div><div>取樣：${sampleMethod}</div>`
+      ? `<div>${point.lat.toFixed(4)}°, ${point.lon.toFixed(4)}° · ${escapeHtml(point.label)}</div><div>取樣：${sampleMethod}</div>${viirsQualityHtml}`
       : '<div>可從下拉選單或地圖上的景點點位選取。</div>';
     const environmentHost=$('spot-environment');
     if(environmentHost){
@@ -2144,6 +2156,9 @@
     }else if(cfg.scale==='aod'){
       stopValues=cfg.ticks;
       labels=['0.00','0.20','0.80','1.50+'];
+    }else if(cfg.scale==='nightlights'){
+      stopValues=cfg.ticks;
+      labels=['0','1','5','10','50+'];
     }
 
     let barHtml;
