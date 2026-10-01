@@ -826,6 +826,7 @@ DIRECTIONAL_HORIZON_SECTORS = {
     "us-078-P03": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
     "us-080-P02": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
     "us-083-P01": {"center": 90.0, "tolerance": 85.0, "phase": "sunrise"},
+    "us-085-P01": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
 }
 
 CLOUD_SKY_GLOW_PROFILES = {
