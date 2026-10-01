@@ -319,6 +319,14 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn("'photography_nightscape'", self.js)
         self.assertIn("syncLayerToOpportunity(selectedOpportunity())", self.js)
 
+    def test_opportunity_geometry_spatial_diagnostic(self):
+        self.assertIn("function geometrySamplePoints(item,op)", self.js)
+        self.assertIn("function opportunitySpatialDiagnostic(op)", self.js)
+        self.assertIn("相機位置：", self.js)
+        self.assertIn("被攝主體區：", self.js)
+        self.assertIn("環境條件區：", self.js)
+        self.assertIn("目前不覆寫正式 opportunity score", self.js)
+
 
 if __name__ == "__main__":
     unittest.main()
