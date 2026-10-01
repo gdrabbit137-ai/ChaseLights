@@ -9,16 +9,21 @@
 </head>
 <body>
   <header class="weather-header">
-    <div>
-      <a class="back-link" href="./index.html">← ChaseLights</a>
-      <h1>🗺️ WeatherGrid Preview</h1>
+    <div class="header-intro">
+      <div class="header-title-line">
+        <a class="back-link" href="./index.html">← ChaseLights</a>
+        <h1>🗺️ WeatherGrid Preview</h1>
+      </div>
       <p class="subtitle">可切換 Himawari-9 即時衛星觀測與 JMA MSM / CWA WRF / ICON / GFS 預報 · 觀測與模型保留各自語意、範圍與時間</p>
     </div>
     <div class="source-meta">
       <div id="source-state" class="source-pill">載入中…</div>
+      <div id="source-mobile-summary" class="source-mobile-summary">資料載入中…</div>
       <div id="cycle-label" class="source-detail"></div>
       <div id="source-attribution" class="source-attribution"></div>
-      <button id="data-info-open" class="data-info-button" type="button">ⓘ 資料說明</button>
+      <button id="data-info-open" class="data-info-button" type="button">
+        ⓘ <span class="info-label-long">資料說明</span><span class="info-label-short">資料</span>
+      </button>
     </div>
   </header>
 

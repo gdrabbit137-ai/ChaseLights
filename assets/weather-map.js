@@ -1783,12 +1783,33 @@
       ? `${formatTaipeiTime(cycleText)} TST`
       : cycleText;
     const autoPrefix=state.modelMode==='auto'?'自動模式：依圖層選優先模型 · ':'';
+    const compactSummary=$('source-mobile-summary');
     if(usingHimawari){
       const age=observationAgeMinutes(data);
       const ageText=Number.isFinite(age) ? ` · 資料年齡 ${Math.round(age)} 分` : '';
       $('cycle-label').textContent=`衛星觀測 ${formatTaipeiTime(f.valid_time_utc)} TST${ageText} · ${data.grid.rows}×${data.grid.cols} · ${resolution}`;
+      if(compactSummary){
+        const ageCompact=Number.isFinite(age)?` · ${Math.round(age)} 分前`:'';
+        compactSummary.textContent=`觀測 ${formatTaipeiTime(f.valid_time_utc)} · 2 km${ageCompact}`;
+      }
     }else{
       $('cycle-label').textContent=`${autoPrefix}模型起報 ${cycleDisplay} · ${data.grid.rows}×${data.grid.cols} · ${resolution}`;
+      if(compactSummary){
+        let compactResolution='0.25°';
+        let compactCadence='';
+        if(usingJma){
+          const p=data.provenance || {};
+          compactResolution=`${p.native_resolution_km || 5} km`;
+          compactCadence=` · ${p.native_time_interval_hours || 1}h`;
+        }else if(usingCwa){
+          const p=data.provenance || {};
+          compactResolution=`${p.native_resolution_km || 3} km`;
+          compactCadence=` · ${p.public_product_interval_hours || 6}h`;
+        }else if(usingIcon){
+          compactResolution=`約 ${data.provenance?.native_resolution_km || 13} km`;
+        }
+        compactSummary.textContent=`起報 ${cycleDisplay.replace(' TST','')} · ${compactResolution}${compactCadence}`;
+      }
     }
     const attributionHost=$('source-attribution');
     if(usingHimawari){

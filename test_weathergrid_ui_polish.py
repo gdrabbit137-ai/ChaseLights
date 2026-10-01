@@ -144,6 +144,26 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn(".maplibregl-ctrl-group button{width:34px;height:34px}", self.css)
         self.assertIn("max-width:112px", self.css)
 
+    def test_mobile_header_uses_one_line_source_summary(self):
+        self.assertIn('id="source-mobile-summary"', self.html)
+        self.assertIn("grid-template-columns:auto minmax(0,1fr) auto", self.css)
+        self.assertIn(".source-detail,.source-attribution{display:none}", self.css)
+        self.assertIn("compactSummary.textContent=", self.js)
+        self.assertIn("起報 ", self.js)
+        self.assertIn("觀測 ", self.js)
+
+    def test_mobile_header_keeps_data_info_accessible(self):
+        self.assertIn('class="info-label-long"', self.html)
+        self.assertIn('class="info-label-short"', self.html)
+        self.assertIn(".info-label-long{display:none}", self.css)
+        self.assertIn(".info-label-short{display:inline}", self.css)
+        self.assertIn('id="data-info-open"', self.html)
+
+    def test_mobile_title_line_is_compact_but_desktop_structure_survives(self):
+        self.assertIn('class="header-title-line"', self.html)
+        self.assertIn(".header-title-line{display:flex;flex-direction:column", self.css)
+        self.assertIn(".header-title-line{\n    flex-direction:row", self.css)
+
     def test_mobile_layer_inspector_defaults_to_summary(self):
         self.assertIn('id="layer-details-toggle"', self.html)
         self.assertIn('aria-expanded="false"', self.html)

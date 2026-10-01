@@ -8,10 +8,13 @@ html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);
 body{padding:18px}
 .weather-header{max-width:1600px;margin:0 auto 14px;display:flex;justify-content:space-between;
   gap:18px;align-items:flex-end;border-bottom:1px solid var(--line);padding-bottom:14px}
+.header-title-line{display:flex;flex-direction:column;align-items:flex-start}
 .back-link{color:#7dd3fc;text-decoration:none;font-weight:700;font-size:.86rem}
 .weather-header h1{margin:6px 0 2px;font-size:1.65rem;color:var(--accent)}
 .subtitle{margin:0;color:var(--muted);font-size:.86rem}
 .source-meta{text-align:right;min-width:220px}
+.source-mobile-summary{display:none}
+.info-label-short{display:none}
 .source-pill{display:inline-flex;align-items:center;border:1px solid #0369a1;background:#082f49;
   color:#bae6fd;border-radius:999px;padding:5px 10px;font-size:.78rem;font-weight:800}
 .source-pill.demo{border-color:#a16207;background:#422006;color:#fde68a}
@@ -114,18 +117,28 @@ body{padding:18px}
       max(8px,env(safe-area-inset-left));
   }
   .weather-header{
-    align-items:flex-start;flex-direction:column;gap:8px;
-    margin-bottom:8px;padding-bottom:8px
+    align-items:stretch;flex-direction:column;gap:5px;
+    margin-bottom:7px;padding-bottom:7px
   }
-  .weather-header h1{font-size:1.28rem;margin-top:4px}
+  .header-title-line{
+    flex-direction:row;align-items:center;gap:9px;min-width:0
+  }
+  .back-link{font-size:.72rem;white-space:nowrap}
+  .weather-header h1{font-size:1.18rem;margin:0;line-height:1.2;white-space:nowrap}
   .weather-header .subtitle{display:none}
   .source-meta{
-    width:100%;min-width:0;text-align:left;display:flex;align-items:center;
-    gap:6px 8px;flex-wrap:wrap
+    width:100%;min-width:0;text-align:left;display:grid;
+    grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:6px
   }
-  .source-detail{flex:1 1 100%;margin-top:0;font-size:.68rem;line-height:1.35}
-  .source-attribution{flex:1 1 100%;margin-top:0;font-size:.66rem}
-  .data-info-button{margin-top:0;margin-left:auto;padding:5px 8px}
+  .source-pill{padding:4px 8px;font-size:.68rem;white-space:nowrap}
+  .source-mobile-summary{
+    display:block;min-width:0;color:#cbd5e1;font-size:.67rem;line-height:1.25;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap
+  }
+  .source-detail,.source-attribution{display:none}
+  .data-info-button{margin-top:0;padding:4px 7px;font-size:.67rem;white-space:nowrap}
+  .info-label-long{display:none}
+  .info-label-short{display:inline}
 
   .weather-layout{gap:10px}
   .map-panel{padding:8px;border-radius:10px}
@@ -200,6 +213,12 @@ body{padding:18px}
   .layer-qc{margin-top:9px;padding-top:8px}
 }
 @media(max-width:380px){
+  .header-title-line{gap:6px}
+  .weather-header h1{font-size:1.08rem}
+  .source-meta{grid-template-columns:auto minmax(0,1fr) auto;gap:4px}
+  .source-pill{padding:4px 6px;font-size:.64rem}
+  .source-mobile-summary{font-size:.62rem}
+  .data-info-button{padding:4px 6px}
   .map-reset-button span{display:none}
   .map-reset-button{width:32px;height:32px;padding:0}
   .basemap-status{max-width:92px}
