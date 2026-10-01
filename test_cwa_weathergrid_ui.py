@@ -36,13 +36,11 @@ class CwaWeatherGridUiContractTests(unittest.TestCase):
         ):
             self.assertIn(key, JS)
 
-    def test_auto_mode_does_not_silently_replace_gfs_icon_with_cwa(self):
-        auto_block = JS.split("function availableLayerKeys()", 1)[1].split(
-            "function refreshModelControls()", 1
-        )[0]
-        self.assertIn("state.data?.fields", auto_block)
-        self.assertIn("state.iconData?.fields", auto_block)
-        self.assertNotIn("state.cwaData?.fields", auto_block)
+    def test_auto_mode_uses_explicit_photographer_first_provider_policy(self):
+        self.assertIn("function autoDataset(key)", JS)
+        self.assertIn("const cloudCandidates=[state.cwaData,state.jmaData,state.iconData,state.data]", JS)
+        self.assertIn("const otherCandidates=[state.cwaData,state.jmaData,state.data,state.iconData]", JS)
+        self.assertIn("datasetHasFrameForLayer(data,key,validTime)", JS)
 
 
 if __name__ == "__main__":
