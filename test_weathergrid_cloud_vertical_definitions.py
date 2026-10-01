@@ -54,7 +54,7 @@ class WeatherGridCloudVerticalDefinitionTests(unittest.TestCase):
     def test_cwa_does_not_masquerade_pressure_rh_as_cloud_cover(self):
         self.assertIn("CWA M-A0064", JS)
         self.assertIn("不以相對濕度代理冒充雲量", JS)
-        self.assertIn("CWA M-A0064 實際 GRIB 沒有原生低／中／高雲量", HTML)
+        self.assertIn("CWA M-A0064 若缺少原生低／中／高雲量", HTML)
 
 
 if __name__ == "__main__":
