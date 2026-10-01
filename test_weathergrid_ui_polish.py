@@ -336,6 +336,14 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn("山谷低雲", self.js)
         self.assertIn("目前仍不覆寫正式 opportunity score", self.js)
 
+    def test_mountain_and_sun_role_diagnostics(self):
+        self.assertIn("function mountainRoleDiagnostic(cameras,subject)", self.js)
+        self.assertIn("function sunriseSunsetRoleDiagnostic(cameras,subject,environment)", self.js)
+        self.assertIn("山景視線判讀", self.js)
+        self.assertIn("日出／日落天空判讀", self.js)
+        self.assertIn("方向 coverage", self.js)
+        self.assertIn("暫以機位天空代理", self.js)
+
 
 if __name__ == "__main__":
     unittest.main()
