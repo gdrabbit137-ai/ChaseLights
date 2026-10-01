@@ -168,7 +168,7 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn("CAMS Global · PM2.5", self.js)
         self.assertIn("PM2.5 是近地面細懸浮微粒質量濃度", self.html)
 
-    def test_b169_environment_diagnostic_is_visible_but_non_scoring(self):
+    def test_b168r_environment_diagnostic_is_visible_but_non_scoring(self):
         self.assertIn('id="spot-environment"', self.html)
         self.assertIn("function classifyFogHazeEnvironment(point)", self.js)
         self.assertIn("mixed_fog_haze", self.js)
@@ -178,8 +178,8 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn(".environment-diagnostic", self.css)
 
     def test_assets_use_cache_busting_after_mobile_ui_updates(self):
-        self.assertIn('weather-map.css?v=b169', self.html)
-        self.assertIn('weather-map.js?v=b169', self.html)
+        self.assertIn('weather-map.css?v=b168r', self.html)
+        self.assertIn('weather-map.js?v=b168r', self.html)
 
     def test_mobile_opacity_control_is_single_row(self):
         self.assertIn('class="opacity-caption"', self.html)
