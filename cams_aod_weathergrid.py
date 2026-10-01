@@ -1,4 +1,4 @@
-"""Build a compact CAMS Global AOD 550 nm WeatherGrid bundle via Open-Meteo."""
+"""Build compact CAMS Global AOD 550 nm and PM2.5 WeatherGrid bundles via Open-Meteo."""
 
 from __future__ import annotations
 
@@ -15,6 +15,9 @@ import requests
 API_URL = "https://air-quality-api.open-meteo.com/v1/air-quality"
 FIELD_API = "aerosol_optical_depth"
 FIELD_GRID = "aerosol_optical_depth_550nm"
+PM25_FIELD_API = "pm2_5"
+PM25_FIELD_GRID = "pm2_5_ug_m3"
+PM25_ENCODING_SCALE = 0.1
 TAIWAN_BBOX = {
     "leftlon": 117.6,
     "rightlon": 123.6,
@@ -84,7 +87,7 @@ def fetch_responses(
         params = {
             "latitude": ",".join(f"{lat:.4f}" for lat, _ in batch),
             "longitude": ",".join(f"{lon:.4f}" for _, lon in batch),
-            "hourly": FIELD_API,
+            "hourly": f"{FIELD_API},{PM25_FIELD_API}",
             "domains": "cams_global",
             "forecast_hours": int(forecast_hours),
             "timezone": "GMT",
@@ -125,16 +128,22 @@ def build_bundle(
         if item_times != times:
             raise ValueError("CAMS/Open-Meteo time axis changed across request grid")
         values = hourly.get(FIELD_API)
+        pm25_values = hourly.get(PM25_FIELD_API)
         if values is None or len(values) != len(times):
             raise ValueError("AOD array missing or length mismatch")
+        if pm25_values is None or len(pm25_values) != len(times):
+            raise ValueError("PM2.5 array missing or length mismatch")
 
     frames = []
     qc_frames = []
     first_dt = datetime.fromisoformat(times[indices[0]].replace("Z", "+00:00"))
     for time_index in indices:
         values = []
+        pm25_values = []
         missing = 0
+        pm25_missing = 0
         raw_finite = []
+        pm25_raw_finite = []
         for item in responses:
             value = item["hourly"][FIELD_API][time_index]
             if value is None or not math.isfinite(float(value)):
@@ -145,6 +154,15 @@ def build_bundle(
             raw_finite.append(number)
             values.append(int(round(number / ENCODING_SCALE)))
 
+            pm25_value = item["hourly"][PM25_FIELD_API][time_index]
+            if pm25_value is None or not math.isfinite(float(pm25_value)):
+                pm25_values.append(None)
+                pm25_missing += 1
+            else:
+                pm25_number = float(pm25_value)
+                pm25_raw_finite.append(pm25_number)
+                pm25_values.append(int(round(pm25_number / PM25_ENCODING_SCALE)))
+
         valid = times[time_index]
         valid_dt = datetime.fromisoformat(valid.replace("Z", "+00:00"))
         lead = int(round((valid_dt - first_dt).total_seconds() / 3600))
@@ -152,7 +170,7 @@ def build_bundle(
             {
                 "forecast_hour": lead,
                 "valid_time_utc": valid,
-                "values": {FIELD_GRID: values},
+                "values": {FIELD_GRID: values, PM25_FIELD_GRID: pm25_values},
             }
         )
         qc_frames.append(
@@ -175,7 +193,23 @@ def build_bundle(
                             if not raw_finite
                             else (["partial_missing"] if missing else [])
                         ),
-                    }
+                    },
+                    PM25_FIELD_GRID: {
+                        "count": len(pm25_values),
+                        "missing": pm25_missing,
+                        "min": min(pm25_raw_finite) if pm25_raw_finite else None,
+                        "max": max(pm25_raw_finite) if pm25_raw_finite else None,
+                        "mean": (
+                            sum(pm25_raw_finite) / len(pm25_raw_finite)
+                            if pm25_raw_finite
+                            else None
+                        ),
+                        "flags": (
+                            ["all_missing"]
+                            if not pm25_raw_finite
+                            else (["partial_missing"] if pm25_missing else [])
+                        ),
+                    },
                 },
             }
         )
@@ -214,7 +248,7 @@ def build_bundle(
             "browser_grid_semantics": "request_presentation_lattice",
             "provider_cell_selection": "nearest",
             "returned_provider_cell_count": len(returned_cells),
-            "field_semantics": "column aerosol optical depth at 550 nm; haze indicator",
+            "field_semantics": "AOD 550 nm is column aerosol loading; PM2.5 is near-surface particulate mass concentration",
             "licence": "CC BY 4.0 data; Open-Meteo free endpoint non-commercial use",
             "attribution": "Copernicus Atmosphere Monitoring Service (CAMS) + Open-Meteo",
         },
@@ -233,6 +267,15 @@ def build_bundle(
                 "null": "missing",
                 "wavelength_nm": 550,
                 "quantity": "aerosol_optical_depth",
+            },
+            PM25_FIELD_GRID: {
+                "unit": "µg/m³",
+                "encoding": "integer_scaled",
+                "scale": PM25_ENCODING_SCALE,
+                "decode": f"value * {PM25_ENCODING_SCALE}",
+                "null": "missing",
+                "quantity": "particulate_matter_2_5",
+                "semantics": "near-surface PM2.5 mass concentration; not column AOD",
             }
         },
         "frames": frames,
@@ -262,6 +305,7 @@ def build_bundle(
         "flags": flags,
         "notes": [
             "Browser coordinates are a 0.4 degree request/presentation lattice.",
+            "PM2.5 and AOD share the same CAMS request/time lattice but retain distinct physical meanings.",
             "Open-Meteo selects nearest CAMS Global cells; this does not increase native resolution.",
             "Only 3-hourly frames are published even though the API exposes hourly output.",
         ],
@@ -301,6 +345,7 @@ def main() -> int:
                 "browser_bundle": str(bundle_path),
                 "qc_report": str(qc_path),
                 "frames": len(bundle["frames"]),
+                "fields": list(bundle["fields"]),
                 "grid": [bundle["grid"]["rows"], bundle["grid"]["cols"]],
                 "provider_cells": qc["returned_provider_cell_count"],
             },
