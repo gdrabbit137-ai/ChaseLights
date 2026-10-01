@@ -29,17 +29,16 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn("function updateTimeline()", self.js)
         self.assertNotIn('class="time-control"', self.html)
 
-    def test_direction_uses_speed_weighted_uv_circular_interpolation(self):
-        self.assertIn("function windUv(speed,directionDeg)", self.js)
-        self.assertIn("function bilinearWindDirection(", self.js)
-        self.assertIn("drawCircularDirectionSubcells", self.js)
-        self.assertIn("'bilinear_uv_circular'", self.js)
-        self.assertIn("風向以 u/v 向量循環插值", self.js)
+    def test_wind_direction_is_encoded_by_vectors_in_combined_layer(self):
+        self.assertIn("wind_speed_10m_m_s:{label:'10 m 風場'", self.js)
+        self.assertIn("key=>key!=='wind_direction_10m_deg'", self.js)
+        self.assertIn("const toward=((direction+180)%360)", self.js)
+        self.assertIn("if(!state.windVectors && !isWindLayer()) return", self.js)
 
-    def test_direction_palette_is_explicitly_cyclic(self):
-        self.assertIn("if(cfg.palette==='direction')", self.js)
-        self.assertIn("北 0°", self.js)
-        self.assertIn("北 360°", self.js)
+    def test_direction_source_field_remains_available_for_vector_rendering(self):
+        self.assertIn("wind_direction_10m_deg", self.js)
+        self.assertIn("decodedArray('wind_direction_10m_deg')", self.js)
+        self.assertIn("function windUv(speed,directionDeg)", self.js)
 
     def test_rain_rate_uses_non_linear_threshold_scale(self):
         self.assertIn("scale:'precip_rate'", self.js)
@@ -178,8 +177,8 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn(".environment-diagnostic", self.css)
 
     def test_assets_use_cache_busting_after_mobile_ui_updates(self):
-        self.assertIn('weather-map.css?v=b168r', self.html)
-        self.assertIn('weather-map.js?v=b168r', self.html)
+        self.assertIn('weather-map.css?v=b169', self.html)
+        self.assertIn('weather-map.js?v=b169', self.html)
 
     def test_mobile_opacity_control_is_single_row(self):
         self.assertIn('class="opacity-caption"', self.html)
