@@ -1168,6 +1168,11 @@ def evaluate_tag_condition(theme, item_data, hour=None, lang="zh-TW"):
 
 # B35 Liyu subject-model validation trigger
 
+def _build_photography_environment_diagnostic(item_data):
+    """Return one non-scoring environment diagnostic per forecast timestamp."""
+    return classify_fog_haze(item_data)
+
+
 def _build_opportunity_runtime_diagnostics(spot, item_data):
     """Return runtime diagnostics for all researched Opportunities.
 
@@ -1176,7 +1181,6 @@ def _build_opportunity_runtime_diagnostics(spot, item_data):
     of silently falling back to a generic Theme score.
     """
     diagnostics = {}
-    environment_diagnostic = classify_fog_haze(item_data)
     for opportunity in spot.get("opportunities", []) or []:
         oid = opportunity.get("opportunity_id")
         if not oid:
@@ -1218,10 +1222,6 @@ def _build_opportunity_runtime_diagnostics(spot, item_data):
                 "runtime_policy": policy,
                 "modules": {},
             }
-        # B169: expose the environment diagnosis beside every Opportunity
-        # without allowing it to alter scoring yet. This makes replay and UI
-        # inspection possible before a later calibrated score policy exists.
-        result["photography_environment"] = environment_diagnostic
         diagnostics[oid] = result
     return diagnostics
 
@@ -1961,6 +1961,7 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None, snapshot_sink=None)
                     int(ts), denali_access_provider
                 )
 
+            photography_environment = _build_photography_environment_diagnostic(item_data)
             opportunity_runtime = _build_opportunity_runtime_diagnostics(spot, item_data)
 
             theme_scores = {}
@@ -2036,6 +2037,7 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None, snapshot_sink=None)
                         else None
                     ),
                     "normalized_input": item_data,
+                    "photography_environment": photography_environment,
                     "runtime_output": opportunity_runtime,
                     "theme_scores": theme_scores,
                     "opportunity_scores": opportunity_scores,
@@ -2077,6 +2079,7 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None, snapshot_sink=None)
                 "best_tag": best_theme,  # V4 compatibility
                 "tag_scores": theme_scores,  # V4 compatibility
                 "opportunity_runtime": opportunity_runtime,
+                "photography_environment": photography_environment,
                 "kp": kp_val,
                 "kp_source": kp_source,
                 "cloud_base": cloud_base_agl,  # backward compatibility
