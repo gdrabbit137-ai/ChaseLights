@@ -78,13 +78,13 @@ jobs:
               assert all("themes" not in day for day in (spot.get("daily") or [])), (
                   spot["spot_id"], "published_daily_theme_duplicate"
               )
-          assert len(spots) == 84, len(spots)
-          assert len({s["spot_id"] for s in spots}) == 84
+          assert len(spots) == 96, len(spots)
+          assert len({s["spot_id"] for s in spots}) == 96
           assert not Path("us_weather_details.json").exists(), "regional detail file must remain retired"
 
           shard_dir = Path("weather_details") / "us"
           shard_files = sorted(shard_dir.glob("us-*.json"))
-          assert len(shard_files) == 84, len(shard_files)
+          assert len(shard_files) == 96, len(shard_files)
           shard_ids = set()
           for shard_path in shard_files:
               shard = json.loads(shard_path.read_text(encoding="utf-8"))
@@ -95,7 +95,7 @@ jobs:
 
           researched = [s for s in spots if s.get("opportunities")]
           pending = [s for s in spots if not s.get("opportunities")]
-          assert [s["spot_id"] for s in researched] == [f"us-{i:03d}" for i in range(1, 85)], [s["spot_id"] for s in researched]
+          assert [s["spot_id"] for s in researched] == [f"us-{i:03d}" for i in range(1, 97)], [s["spot_id"] for s in researched]
           assert len(pending) == 0
 
           expected = {
@@ -183,6 +183,18 @@ jobs:
               "us-082": {"us-082-P01"},
               "us-083": {"us-083-P01", "us-083-P02"},
               "us-084": {"us-084-P01"},
+    "us-085": {"us-085-P01"},
+    "us-086": {"us-086-P01"},
+    "us-087": {"us-087-P01"},
+    "us-088": {"us-088-P01"},
+    "us-089": {"us-089-P01"},
+    "us-090": {"us-090-P01"},
+    "us-091": {"us-091-P01"},
+    "us-092": {"us-092-P01"},
+    "us-093": {"us-093-P01"},
+    "us-094": {"us-094-P01"},
+    "us-095": {"us-095-P01"},
+    "us-096": {"us-096-P01"},
           }
           for spot in researched:
               assert spot.get("timezone"), (spot["spot_id"], spot.get("timezone"))
