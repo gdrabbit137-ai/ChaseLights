@@ -322,6 +322,12 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn("effective_lat_spacing_km", self.js)
         self.assertIn("temporal_offset_minutes", self.js)
         self.assertIn("outside_source_bbox:'missing'", self.js)
+        self.assertIn("function resamplePhotographyComponent(key,targetGrid,targetValidTime,toleranceMinutes=90)", self.js)
+        self.assertIn("function photographyBilinearValue(data,values,point)", self.js)
+        self.assertIn("status_counts:statusCounts", self.js)
+        self.assertIn("status:'insufficient_neighbors'", self.js)
+        self.assertIn("status:'outside_bbox'", self.js)
+
 
 
 
