@@ -52,6 +52,16 @@ def _walk_strings(value):
         yield value
 
 
+def extract_file_references(payload):
+    """Return discovered filename plus the exact LAADS string that named it."""
+    found = {}
+    for value in _walk_strings(payload):
+        name = value.rsplit("/", 1)[-1]
+        if FILENAME_RE.fullmatch(name):
+            found.setdefault(name, value)
+    return [{"filename": name, "reference": found[name]} for name in sorted(found)]
+
+
 def extract_filenames(payload):
     """Extract VNP46A4 HDF5 filenames without depending on one API JSON shape."""
     found = set()
@@ -73,9 +83,11 @@ def discover_files(year, bbox, token, opener=None):
     request = urllib.request.Request(search_url(year, bbox), headers=authorization_headers(token))
     with opener.open(request, timeout=60) as response:
         payload = json.load(response)
-    files = extract_filenames(payload)
+    references = extract_file_references(payload)
+    files = [item["filename"] for item in references]
     if not files:
         raise RuntimeError("LAADS search returned no VNP46A4 HDF5 files for bbox/year")
+    print(json.dumps({"laads_discovery_references": references}, indent=2))
     return files
 
 
