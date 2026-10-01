@@ -22,11 +22,22 @@ class WeatherGridOverlayReadabilityTests(unittest.TestCase):
 
     def test_weather_cells_use_value_aware_opacity(self):
         self.assertIn("function cellOpacityFor(value,cfg)", self.js)
-        self.assertIn("state.weatherOpacity*cellOpacityFor(value,cfg)", self.js)
+        self.assertIn("function layerOpacityCap(cfg)", self.js)
+        self.assertIn(
+            "state.weatherOpacity*layerOpacityCap(cfg)*cellOpacityFor(value,cfg)",
+            self.js,
+        )
         self.assertNotIn("ctx.globalAlpha=state.weatherOpacity;", self.js)
 
     def test_clear_cloud_and_dry_precip_recede(self):
-        self.assertIn("return .04 + .96*Math.pow(t,.8)", self.js)
+        self.assertIn(
+            "CLOUD_OPACITY_STOPS=[\n"
+            "    [0,.02],[20,.12],[40,.32],[50,.55],[70,.72],[85,.88],[100,1]\n"
+            "  ]",
+            self.js,
+        )
+        self.assertIn("return interpolateStops(value,CLOUD_OPACITY_STOPS)", self.js)
+        self.assertIn("CLOUD_MAX_OVERLAY_ALPHA=.78", self.js)
         self.assertIn("if(value < .01) return 0", self.js)
 
     def test_clear_visibility_and_low_wind_recede(self):
