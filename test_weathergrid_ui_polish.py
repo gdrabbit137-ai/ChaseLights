@@ -144,9 +144,25 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn(".maplibregl-ctrl-group button{width:34px;height:34px}", self.css)
         self.assertIn("max-width:112px", self.css)
 
+    def test_b166_cams_aod_source_and_layer_are_exposed(self):
+        self.assertIn('<option value="cams">CAMS Global · 霧霾</option>', self.html)
+        self.assertIn("LIVE_CAMS_DATA", self.js)
+        self.assertIn("aerosol_optical_depth_550nm", self.js)
+        self.assertIn("palette:'haze'", self.js)
+        self.assertIn("if(mode==='cams') return 'CAMS Global · 霧霾'", self.js)
+        self.assertIn("CAMS 預報時間", self.js)
+        self.assertIn("資料更新 ", self.js)
+        self.assertIn("? `更新 ", self.js)
+
+    def test_b166_cams_provenance_is_visible_in_ui(self):
+        self.assertIn("CAMS Global 原生約", self.js)
+        self.assertIn("Copernicus CAMS Global", self.js)
+        self.assertIn("Open-Meteo", self.js)
+        self.assertIn("AOD 是整層大氣的氣膠光學厚度", self.html)
+
     def test_assets_use_cache_busting_after_mobile_ui_updates(self):
-        self.assertIn('weather-map.css?v=b165', self.html)
-        self.assertIn('weather-map.js?v=b165', self.html)
+        self.assertIn('weather-map.css?v=b166', self.html)
+        self.assertIn('weather-map.js?v=b166', self.html)
 
     def test_mobile_opacity_control_is_single_row(self):
         self.assertIn('class="opacity-caption"', self.html)

@@ -1,0 +1,99 @@
+import unittest
+from datetime import datetime, timezone
+
+from cams_aod_weathergrid import (
+    ENCODING_SCALE,
+    FIELD_GRID,
+    build_bundle,
+    request_grid,
+)
+
+
+def fake_responses(hours=13):
+    lats, lons, points = request_grid()
+    times = [f"2026-10-01T{hour:02d}:00" for hour in range(hours)]
+    responses = []
+    for index, (lat, lon) in enumerate(points):
+        base = 0.05 + (index % len(lons)) * 0.002
+        responses.append(
+            {
+                "latitude": round(lat, 1),
+                "longitude": round(lon, 1),
+                "hourly_units": {"aerosol_optical_depth": ""},
+                "hourly": {
+                    "time": times,
+                    "aerosol_optical_depth": [
+                        round(base + hour * 0.001, 3) for hour in range(hours)
+                    ],
+                },
+            }
+        )
+    return responses
+
+
+class CamsAodWeatherGridTests(unittest.TestCase):
+    def test_request_grid_covers_taiwan_region_on_point_four_degree_lattice(self):
+        lats, lons, points = request_grid()
+        self.assertEqual(lats[0], 20.4)
+        self.assertEqual(lats[-1], 26.8)
+        self.assertEqual(lons[0], 117.6)
+        self.assertEqual(lons[-1], 123.6)
+        self.assertEqual(len(points), len(lats) * len(lons))
+        self.assertEqual((len(lats), len(lons)), (17, 16))
+
+    def test_bundle_publishes_native_three_hour_timeline(self):
+        bundle, qc = build_bundle(
+            fake_responses(),
+            retrieved_at=datetime(2026, 10, 1, 8, tzinfo=timezone.utc),
+        )
+        self.assertEqual(bundle["model"], "CAMS_GLOBAL")
+        self.assertEqual(
+            [frame["valid_time_utc"] for frame in bundle["frames"]],
+            [
+                "2026-10-01T00:00:00Z",
+                "2026-10-01T03:00:00Z",
+                "2026-10-01T06:00:00Z",
+                "2026-10-01T09:00:00Z",
+                "2026-10-01T12:00:00Z",
+            ],
+        )
+        self.assertEqual(
+            bundle["provenance"]["native_time_interval_hours"], 3
+        )
+        self.assertEqual(
+            bundle["provenance"]["api_output_interval_hours"], 1
+        )
+        self.assertEqual(qc["frame_count"], 5)
+
+    def test_bundle_keeps_presentation_grid_distinct_from_native_resolution(self):
+        bundle, qc = build_bundle(fake_responses())
+        provenance = bundle["provenance"]
+        self.assertEqual(provenance["native_resolution_km"], 45.0)
+        self.assertEqual(
+            provenance["browser_grid_semantics"],
+            "request_presentation_lattice",
+        )
+        self.assertEqual(provenance["provider_cell_selection"], "nearest")
+        self.assertEqual(qc["request_point_count"], 272)
+
+    def test_aod_uses_milli_aod_integer_encoding(self):
+        bundle, _ = build_bundle(fake_responses())
+        meta = bundle["fields"][FIELD_GRID]
+        self.assertEqual(meta["scale"], ENCODING_SCALE)
+        encoded = bundle["frames"][0]["values"][FIELD_GRID][0]
+        self.assertEqual(encoded, 50)
+        self.assertAlmostEqual(encoded * meta["scale"], 0.05, places=6)
+
+    def test_missing_values_are_preserved_and_flagged(self):
+        responses = fake_responses()
+        responses[0]["hourly"]["aerosol_optical_depth"][0] = None
+        bundle, qc = build_bundle(responses)
+        self.assertIsNone(bundle["frames"][0]["values"][FIELD_GRID][0])
+        self.assertIn(
+            "partial_missing",
+            qc["frames"][0]["fields"][FIELD_GRID]["flags"],
+        )
+
+
+if __name__ == "__main__":
+    unittest.main()
