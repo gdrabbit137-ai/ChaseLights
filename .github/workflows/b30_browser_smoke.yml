@@ -1156,12 +1156,12 @@ jobs:
                 };
               """)
               report["weathergrid_interaction"] = weather_interaction
-              assert weather_interaction["layer"] == "visibility_km", weather_interaction
+              assert weather_interaction["layer"] == "photography_mountain_view", weather_interaction
               assert weather_interaction["frame"] == "2", weather_interaction
               assert weather_interaction["spot"] == "demo-hualien", weather_interaction
               assert weather_interaction["opportunity"] == "demo-hualien-P01", weather_interaction
               assert "花蓮" in weather_interaction["spotName"], weather_interaction
-              assert "km" in weather_interaction["spotValue"], weather_interaction
+              assert weather_interaction["spotValue"].replace(".", "", 1).isdigit(), weather_interaction
               assert "provisional" in weather_interaction["coverageText"], weather_interaction
               assert weather_interaction["debug"]["coverageSource"] == "demo", weather_interaction
               assert weather_interaction["debug"]["view"]["toplat"] <= 24.31, weather_interaction
