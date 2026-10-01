@@ -440,6 +440,46 @@
       metrics:{low,mid,high,vis,rain}};
   }
 
+  function seascapeNativeDiagnostic(op,targetValidTime=baseFrame()?.valid_time_utc){
+    if(!op || !targetValidTime) return null;
+    const cameras=(op.camera_zones||[]).map(c=>({lat:Number(c.lat),lon:Number(c.lon)}))
+      .filter(p=>Number.isFinite(p.lat)&&Number.isFinite(p.lon));
+    const seaPoints=(op.subject_geometries||[]).flatMap(item=>photographyGeometrySamplePoints(item,op));
+    if(!cameras.length || !seaPoints.length){
+      return {kind:'photography_environment_diagnostic',mode:'seascape',score:null,
+        status:'insufficient_role_evidence',canonical_opportunity_score:false,
+        marine_direction_required:true,wave_data_integrated:false,tide_data_integrated:false};
+    }
+    const cameraVis=photographyNativeMetricSummary(cameras,'visibility_km',targetValidTime);
+    const seaVis=photographyNativeMetricSummary(seaPoints,'visibility_km',targetValidTime);
+    const cameraRain=photographyNativeMetricSummary(cameras,'precip_rate_mm_h',targetValidTime);
+    const seaWind=photographyNativeMetricSummary(seaPoints,'wind_speed_10m_m_s',targetValidTime);
+    const seaCloud=photographyNativeMetricSummary(seaPoints,'total_cloud_percent',targetValidTime);
+    if(!Number.isFinite(cameraVis.mean)||!Number.isFinite(seaVis.mean)){
+      return {kind:'photography_environment_diagnostic',mode:'seascape',score:null,
+        status:'insufficient_role_evidence',canonical_opportunity_score:false,
+        marine_direction_required:true,wave_data_integrated:false,tide_data_integrated:false,
+        metrics:{cameraVis,seaVis,cameraRain,seaWind,seaCloud}};
+    }
+    const sight=Math.min(Math.max(0,Math.min(1,cameraVis.mean/25)),Math.max(0,Math.min(1,seaVis.mean/25)));
+    const targetCloud=Number.isFinite(seaCloud.mean)?Math.max(0,1-Math.abs(seaCloud.mean-45)/55):null;
+    const terms=[
+      [sight,.30],
+      [Number.isFinite(cameraRain.mean)?1-Math.max(0,Math.min(1,cameraRain.mean/2)):null,.25],
+      [Number.isFinite(seaWind.mean)?1-Math.max(0,Math.min(1,seaWind.mean/15)):null,.20],
+      [targetCloud,.25]
+    ].filter(([v])=>Number.isFinite(v));
+    const available=terms.reduce((sum,t)=>sum+t[1],0);
+    const score=available>=.60?100*terms.reduce((sum,t)=>sum+t[0]*t[1],0)/available:null;
+    return {kind:'photography_environment_diagnostic',mode:'seascape',score,
+      status:score==null?'insufficient_weight_coverage':'ok',
+      effective_weight_coverage:available,minimum_weight_coverage:.60,
+      canonical_opportunity_score:false,marine_direction_required:true,
+      wave_data_integrated:false,tide_data_integrated:false,
+      limitations:['wind is not wave height','tide state is not available in this diagnostic'],
+      metrics:{cameraVis,seaVis,cameraRain,seaWind,seaCloud}};
+  }
+
   const photographyCompositeWeights = {
     overview:{
       low_cloud_percent:.22,high_cloud_percent:.18,visibility_km:.28,
