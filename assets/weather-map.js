@@ -1486,8 +1486,15 @@
   }
 
   function spotClusterRadius(){
+    const compactMap=canvas.clientWidth<=600;
     if(state.mapReady && state.map){
       const zoom=state.map.getZoom();
+      if(compactMap){
+        if(zoom<6.2) return 44;
+        if(zoom<7.5) return 32;
+        if(zoom<8.4) return 20;
+        return 0;
+      }
       if(zoom<6.2) return 24;
       if(zoom<7.5) return 16;
       return 0;
@@ -1496,6 +1503,12 @@
       state.view.rightlon-state.view.leftlon,
       state.view.toplat-state.view.bottomlat
     );
+    if(compactMap){
+      if(span>5) return 44;
+      if(span>2) return 32;
+      if(span>1) return 20;
+      return 0;
+    }
     if(span>5) return 24;
     if(span>2) return 16;
     return 0;
@@ -1547,18 +1560,21 @@
   function drawSpots(){
     const selected=selectedSpot();
     const targets=buildSpotHitTargets();
+    const compactMap=canvas.clientWidth<=600;
     state.spotHitTargets=targets;
     ctx.save();
     for(const target of targets){
       const spots=target.spots;
       const isSelected=spots.length===1 && spots[0].spot_id===state.spotId;
       if(spots.length>1){
-        const r=9+Math.min(5,Math.log2(spots.length+1)*2);
+        const r=compactMap
+          ? 8+Math.min(4,Math.log2(spots.length+1)*1.6)
+          : 9+Math.min(5,Math.log2(spots.length+1)*2);
         ctx.beginPath();ctx.arc(target.x,target.y,r,0,Math.PI*2);
         ctx.fillStyle='rgba(15,23,42,.72)';ctx.fill();
         ctx.strokeStyle='rgba(186,230,253,.72)';ctx.lineWidth=1.5;ctx.stroke();
         ctx.fillStyle='rgba(248,250,252,.9)';
-        ctx.font='700 10px -apple-system, sans-serif';
+        ctx.font=compactMap?'700 9px -apple-system, sans-serif':'700 10px -apple-system, sans-serif';
         ctx.textAlign='center';ctx.textBaseline='middle';
         ctx.fillText(String(spots.length),target.x,target.y+.5);
         target.radius=r;
@@ -1583,12 +1599,18 @@
           selectedLabel=`${selected.name} · ${formatValue(value,state.layer)}`;
         }
       }
-      ctx.font='bold 20px -apple-system, sans-serif';
+      ctx.font=compactMap?'bold 16px -apple-system, sans-serif':'bold 20px -apple-system, sans-serif';
       ctx.fillStyle='#fef3c7';
       ctx.strokeStyle='rgba(2,6,23,.95)';
-      ctx.lineWidth=5;
-      ctx.strokeText(selectedLabel,p.x+13,p.y-10);
-      ctx.fillText(selectedLabel,p.x+13,p.y-10);
+      ctx.lineWidth=compactMap?4:5;
+      const labelWidth=ctx.measureText(selectedLabel).width;
+      let labelX=p.x+13;
+      if(labelX+labelWidth>canvas.clientWidth-8){
+        labelX=Math.max(8,p.x-13-labelWidth);
+      }
+      const labelY=Math.max(20,p.y-10);
+      ctx.strokeText(selectedLabel,labelX,labelY);
+      ctx.fillText(selectedLabel,labelX,labelY);
     }
     ctx.restore();
   }
