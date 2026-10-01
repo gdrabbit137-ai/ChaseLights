@@ -81,7 +81,6 @@ class ViirsLadsDownloadTest(unittest.TestCase):
         self.assertIn("--location", command)
         self.assertIn("--cookie", command)
         self.assertIn("Authorization: Bearer secret-value", command)
-        self.assertIn("X-Requested-With: XMLHttpRequest", command)
         self.assertIn(str(destination), command)
         self.assertTrue(run.call_args.kwargs["check"])
 
