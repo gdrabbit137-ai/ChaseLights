@@ -1,6 +1,7 @@
 import unittest
 
 from viirs_lads_download import (
+    archive_url,
     authorization_headers,
     extract_filenames,
     search_url,
@@ -30,6 +31,17 @@ class ViirsLadsDownloadTest(unittest.TestCase):
                 "VNP46A4.A2025001.h31v06.002.2026261093501.h5",
             ],
         )
+
+    def test_archive_url_uses_collection2_year_day_tree(self):
+        filename = "VNP46A4.A2025001.h30v06.002.2026261093500.h5"
+        self.assertEqual(
+            archive_url(filename),
+            "https://ladsweb.modaps.eosdis.nasa.gov/archive/allData/5200/VNP46A4/2025/001/" + filename,
+        )
+
+    def test_archive_url_rejects_unexpected_filename(self):
+        with self.assertRaises(ValueError):
+            archive_url("../README")
 
     def test_token_header_uses_bearer_without_logging_token(self):
         headers = authorization_headers("secret-value")
