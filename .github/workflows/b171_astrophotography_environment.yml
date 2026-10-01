@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - 'astrophotography_environment.py'
+      - 'fetch_data.py'
+      - 'test_astro_forecast_replay.py'
       - 'lunar_ephemeris.py'
       - 'test_lunar_ephemeris.py'
       - 'lunar_ephemeris.py'
@@ -39,4 +41,5 @@ jobs:
             test_photography_environment.py \
             test_photography_transparency.py \
             test_astrophotography_environment.py \
-            test_lunar_ephemeris.py
+            test_lunar_ephemeris.py \
+            test_astro_forecast_replay.py
