@@ -344,6 +344,15 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn("方向 coverage", self.js)
         self.assertIn("暫以機位天空代理", self.js)
 
+    def test_seascape_and_nightscape_role_diagnostics(self):
+        self.assertIn("function seascapeRoleDiagnostic(cameras,subject,environment)", self.js)
+        self.assertIn("function nightscapeRoleDiagnostic(cameras,subject)", self.js)
+        self.assertIn("海景環境判讀", self.js)
+        self.assertIn("海況不以風速代替", self.js)
+        self.assertIn("星空環境判讀", self.js)
+        self.assertIn("VIIRS 有資料時納入光害", self.js)
+        self.assertIn("月相／月亮高度尚未接入", self.js)
+
 
 if __name__ == "__main__":
     unittest.main()
