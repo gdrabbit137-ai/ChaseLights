@@ -240,6 +240,62 @@
     return {values:out,provenance,status_counts:statusCounts};
   }
 
+  const photographyCompositeWeights = {
+    overview:{
+      low_cloud_percent:.22,high_cloud_percent:.18,visibility_km:.28,
+      precip_rate_mm_h:.20,wind_speed_10m_m_s:.12
+    }
+  };
+
+  function photographyComponentScore(key,value){
+    if(!Number.isFinite(value)) return null;
+    const clamp=value=>Math.max(0,Math.min(1,value));
+    if(key==='low_cloud_percent') return 1-clamp(Math.abs(value-25)/75);
+    if(key==='high_cloud_percent') return 1-clamp(Math.abs(value-45)/55);
+    if(key==='visibility_km') return clamp(value/25);
+    if(key==='precip_rate_mm_h') return 1-clamp(value/2);
+    if(key==='wind_speed_10m_m_s') return 1-clamp(value/12);
+    return null;
+  }
+
+  function buildPhotographyComposite(mode='overview',bbox=renderViewBbox(),targetValidTime=baseFrame()?.valid_time_utc,requestedSpacingKm=5){
+    const weights=photographyCompositeWeights[mode];
+    if(!weights) return null;
+    const grid=buildPhotographyCompositeGrid(bbox,requestedSpacingKm);
+    if(!grid || !targetValidTime) return null;
+    const components={};
+    for(const key of Object.keys(weights)){
+      components[key]=resamplePhotographyComponent(key,grid,targetValidTime);
+    }
+    const values=new Array(grid.cell_count).fill(null);
+    const effectiveWeightCoverage=new Array(grid.cell_count).fill(0);
+    for(let i=0;i<grid.cell_count;i++){
+      let weighted=0,availableWeight=0,totalWeight=0;
+      for(const [key,weight] of Object.entries(weights)){
+        totalWeight+=weight;
+        const score=photographyComponentScore(key,components[key].values[i]);
+        if(Number.isFinite(score)){
+          weighted+=score*weight;
+          availableWeight+=weight;
+        }
+      }
+      effectiveWeightCoverage[i]=totalWeight?availableWeight/totalWeight:0;
+      // Research boundary: do not publish a score when less than 60% of
+      // the intended evidence weight is actually present at this cell.
+      if(effectiveWeightCoverage[i]>=.60 && availableWeight>0){
+        values[i]=100*weighted/availableWeight;
+      }
+    }
+    return {
+      mode,kind:'photography_environment_diagnostic',
+      canonical_opportunity_score:false,
+      target_valid_time_utc:targetValidTime,
+      grid,weights,components,values,
+      effective_weight_coverage:effectiveWeightCoverage,
+      minimum_weight_coverage:.60
+    };
+  }
+
   function setViewBbox(bbox,{animate=false,maxZoom=13}={}){
     const view=normalizeViewBbox(bbox);
     if(!view) return false;
