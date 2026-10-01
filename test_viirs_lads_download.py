@@ -42,7 +42,7 @@ class ViirsLadsDownloadTest(unittest.TestCase):
         filename = "VNP46A4.A2025001.h30v06.002.2026261093500.h5"
         self.assertEqual(
             archive_url(filename),
-            "https://ladsweb.modaps.eosdis.nasa.gov/api/v2/content/archives/allData/5200/VNP46A4/2025/001/" + filename,
+            "https://ladsweb.modaps.eosdis.nasa.gov/archive/allData/5200/VNP46A4/2025/001/" + filename,
         )
 
     def test_archive_url_rejects_unexpected_filename(self):
