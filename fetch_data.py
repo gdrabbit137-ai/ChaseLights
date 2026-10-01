@@ -1888,6 +1888,8 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None, snapshot_sink=None)
             return arr[i] if i < len(arr) and arr[i] is not None else default
 
         hourly_forecast = []
+        viirs_sample = _sample_viirs_environment_for_location(lat, lon)
+
         for i, ts in enumerate(timestamps):
             utc_dt = datetime.fromtimestamp(int(ts), timezone.utc)
             local_dt = utc_dt.astimezone(tz)
@@ -1976,7 +1978,6 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None, snapshot_sink=None)
                 "aurora_forecast": aurora_forecast,
                 **astro,
             }
-            viirs_sample = _sample_viirs_environment_for_location(lat, lon)
             if viirs_sample:
                 item_data.update(viirs_sample)
 
