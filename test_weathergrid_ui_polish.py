@@ -144,6 +144,25 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn(".maplibregl-ctrl-group button{width:34px;height:34px}", self.css)
         self.assertIn("max-width:112px", self.css)
 
+    def test_mobile_layer_inspector_defaults_to_summary(self):
+        self.assertIn('id="layer-details-toggle"', self.html)
+        self.assertIn('aria-expanded="false"', self.html)
+        self.assertIn('id="qc-summary" class="qc-summary pending"', self.html)
+        self.assertIn('class="layer-details mobile-collapsed"', self.html)
+        self.assertIn(".layer-details.mobile-collapsed{display:none}", self.css)
+
+    def test_mobile_layer_details_can_expand_without_hiding_desktop_content(self):
+        self.assertIn(".layer-details{display:block}", self.css)
+        self.assertIn(".layer-details.mobile-collapsed.is-expanded{display:block", self.css)
+        self.assertIn("layerDetails.classList.toggle('is-expanded',next)", self.js)
+        self.assertIn("layerDetailsToggle.textContent=next?'收合':'詳細'", self.js)
+
+    def test_layer_qc_summary_tracks_status(self):
+        self.assertIn("function setQcSummary(tone,text)", self.js)
+        self.assertIn("setQcSummary('ok','資料正常')", self.js)
+        self.assertIn("setQcSummary('warn','需注意')", self.js)
+        self.assertIn("setQcSummary('ok','觀測正常')", self.js)
+
     def test_ci_runs_ui_polish_contract(self):
         self.assertIn('"test_weathergrid_ui_polish.py"', self.workflow)
         self.assertIn("test_weathergrid_ui_polish.py", self.workflow)
