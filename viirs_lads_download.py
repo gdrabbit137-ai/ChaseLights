@@ -106,14 +106,14 @@ def archive_url(filename):
     return f"{BASE}/archive/{archive_path(filename)}"
 
 
-def download_file(filename, token, destination, opener=None):
+def download_file(filename, token, destination, opener=None, reference=None):
     """Download using NASA's documented curl EDL-token flow.
 
     curl -L follows Earthdata redirects and -b persists the LAADS/EDL session
     cookies required by the official scripted-download guidance.
     """
     authorization_headers(token)  # fail closed before spawning curl
-    url = archive_url(filename)
+    url = reference if reference and reference.startswith(BASE + "/") else archive_url(filename)
     destination = Path(destination)
     destination.parent.mkdir(parents=True, exist_ok=True)
     cookie_file = destination.parent / ".earthdata-session"
