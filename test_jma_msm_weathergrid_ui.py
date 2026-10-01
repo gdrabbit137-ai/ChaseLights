@@ -55,7 +55,7 @@ class JmaMsmWeatherGridUiTests(unittest.TestCase):
         self.assertIn("https://registry.opendata.aws/open-meteo/", JS)
 
     def test_auto_mode_uses_explicit_photographer_first_provider_policy(self):
-        self.assertIn("function autoDataset(key)", JS)
+        self.assertIn("function autoDataset(key=state.layer)", JS)
         self.assertIn("state.jmaData", JS)
         self.assertIn("datasetHasFrameForLayer(data,key,validTime)", JS)
         self.assertIn("photographerLayerOrder", JS)
