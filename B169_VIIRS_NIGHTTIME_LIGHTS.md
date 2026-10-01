@@ -88,3 +88,16 @@ The mosaic:
 - keeps the single-tile `ingest()` entry point for compatibility.
 
 The downloader now uses the canonical LAADS Collection 2 archive tree `/archive/allData/5200/VNP46A4/YYYY/DDD/<filename>` after discovery. This matches the published LAADS archive layout and avoids assuming that a bare filename is a valid API-V2 archive resource path.
+
+
+## B169f WeatherGrid UI publication gate
+
+WeatherGrid now knows how to render the annual nighttime-light radiance field, but the source is deliberately **not** hard-coded into the HTML model menu.
+
+At page load the browser attempts to load both:
+- `weathergrid/viirs_nightlights_tw_browser.json`
+- `weathergrid/viirs_nightlights_tw_qc.json`
+
+The model option is inserted only when the browser artifact declares `source=nasa_black_marble_vnp46a4`, contains the radiance field, and QC has no flags. Missing data, missing QC, or failed contract validation leaves no VIIRS option in the UI.
+
+When published, the UI labels it as an annual static environment background. Its timeline is disabled and the attribution explicitly states that satellite nighttime-light radiance is not Bortle class or sky brightness.

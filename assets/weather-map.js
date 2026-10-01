@@ -11,6 +11,8 @@
   const LIVE_HIMAWARI_QC = './weathergrid/himawari9_tw_cloud_qc.json';
   const LIVE_CAMS_DATA = './weathergrid/cams_global_tw_aod_browser.json';
   const LIVE_CAMS_QC = './weathergrid/cams_global_tw_aod_qc.json';
+  const LIVE_VIIRS_DATA = './weathergrid/viirs_nightlights_tw_browser.json';
+  const LIVE_VIIRS_QC = './weathergrid/viirs_nightlights_tw_qc.json';
   const LIVE_COVERAGE = './weathergrid/weathergrid_coverage_browser.json';
   const FALLBACK_DATA = './weathergrid_sample.json';
   const FALLBACK_COVERAGE = './weathergrid_coverage_sample.json';
@@ -49,7 +51,8 @@
     precip_total_mm:{label:'累積降水', unit:'mm', domain:[0,100], palette:'precip'},
     shortwave_flux_w_m2:{label:'地表淨短波輻射', unit:'W/m²', domain:[0,1000], palette:'solar'},
     aerosol_optical_depth_550nm:{label:'AOD 550 nm', unit:'1', domain:[0,1.5], palette:'haze', scale:'aod', ticks:[0,.05,.1,.2,.4,.8,1.5]},
-    pm2_5_ug_m3:{label:'PM2.5', unit:'µg/m³', domain:[0,75], palette:'pm25', scale:'pm25', ticks:[0,5,10,15,25,35,50,75]}
+    pm2_5_ug_m3:{label:'PM2.5', unit:'µg/m³', domain:[0,75], palette:'pm25', scale:'pm25', ticks:[0,5,10,15,25,35,50,75]},
+    nighttime_lights_radiance_nw_cm2_sr:{label:'夜間燈光', unit:'nW/(cm²·sr)', domain:[0,50], palette:'nightlights', scale:'nightlights', ticks:[0,.5,1,2,5,10,25,50]}
   };
 
   const state = {
@@ -65,6 +68,8 @@
     himawariQc:null,
     camsData:null,
     camsQc:null,
+    viirsData:null,
+    viirsQc:null,
     modelMode:'auto',
     coverage:{spots:[]},
     frameIndex:0,
@@ -265,6 +270,10 @@
     return state.modelMode==='himawari' && Boolean(state.himawariData);
   }
 
+  function isStaticEnvironmentMode(){
+    return state.modelMode==='viirs' && Boolean(state.viirsData);
+  }
+
   function observationAgeMinutes(data=state.himawariData){
     const stamp=data?.observation?.time_coverage_end || data?.observation?.slot_utc;
     const time=Date.parse(stamp || '');
@@ -333,6 +342,24 @@
       }
 
       try{
+        const viirsData = await fetchJson(LIVE_VIIRS_DATA);
+        const viirsQc = await fetchJson(LIVE_VIIRS_QC);
+        const qcFlags = Array.isArray(viirsQc?.flags) ? viirsQc.flags : ['qc_missing'];
+        const validContract = viirsData?.source==='nasa_black_marble_vnp46a4' &&
+          Boolean(viirsData?.fields?.nighttime_lights_radiance_nw_cm2_sr) &&
+          qcFlags.length===0;
+        if(!validContract) throw new Error('VIIRS nighttime-light artifact failed contract/QC gate');
+        state.viirsData = viirsData;
+        state.viirsQc = viirsQc;
+      }catch(err){
+        // B169f fail-closed UI contract: no real+QC-passing artifact means
+        // no selectable nighttime-light source is exposed to the user.
+        console.info('VIIRS nighttime-light layer not published', err);
+        state.viirsData = null;
+        state.viirsQc = null;
+      }
+
+      try{
         state.coverage = await fetchJson(LIVE_COVERAGE);
         state.coverageSource = 'live';
       }catch(err){
@@ -358,6 +385,7 @@
     if(mode==='cwa' && state.cwaData) return state.cwaData;
     if(mode==='icon' && state.iconData) return state.iconData;
     if(mode==='cams' && state.camsData) return state.camsData;
+    if(mode==='viirs' && state.viirsData) return state.viirsData;
     return state.data;
   }
 
@@ -367,6 +395,7 @@
     if(mode==='cwa' && state.cwaData) return state.cwaQc;
     if(mode==='icon' && state.iconData) return state.iconQc;
     if(mode==='cams' && state.camsData) return state.camsQc;
+    if(mode==='viirs' && state.viirsData) return state.viirsQc;
     return state.qc;
   }
 
@@ -377,6 +406,7 @@
     if(mode==='icon') return 'ICON Global';
     if(mode==='gfs') return 'GFS 0.25°';
     if(mode==='cams') return 'CAMS Global · 霧霾';
+    if(mode==='viirs') return 'NASA Black Marble · 夜間燈光';
     return '自動';
   }
 
@@ -387,6 +417,7 @@
     if(mode==='icon') return Boolean(state.iconData);
     if(mode==='gfs') return Boolean(state.data);
     if(mode==='cams') return Boolean(state.camsData);
+    if(mode==='viirs') return Boolean(state.viirsData);
     return true;
   }
 
@@ -433,6 +464,15 @@
 
   function refreshModelControls(){
     const modelSelect=$('model-select');
+    let viirsOption=modelSelect.querySelector('option[value="viirs"]');
+    if(state.viirsData && !viirsOption){
+      viirsOption=document.createElement('option');
+      viirsOption.value='viirs';
+      viirsOption.textContent='NASA Black Marble · 夜間燈光';
+      modelSelect.appendChild(viirsOption);
+    }else if(!state.viirsData && viirsOption){
+      viirsOption.remove();
+    }
     for(const option of modelSelect.options){
       if(option.value!=='auto') option.disabled=!modelAvailable(option.value);
     }
@@ -457,7 +497,7 @@
     slider.max=Math.max(0,(timeline?.frames?.length || 1)-1);
     state.frameIndex=Math.min(state.frameIndex,Number(slider.max));
     slider.value=state.frameIndex;
-    slider.disabled=isObservationMode();
+    slider.disabled=isObservationMode() || isStaticEnvironmentMode();
 
     syncWindVectorDefault();
     const hasWind=windFieldsAvailable();
@@ -772,6 +812,7 @@
     if(state.modelMode==='cwa' && state.cwaData) return state.cwaData;
     if(state.modelMode==='icon' && state.iconData) return state.iconData;
     if(state.modelMode==='cams' && state.camsData) return state.camsData;
+    if(state.modelMode==='viirs' && state.viirsData) return state.viirsData;
     return state.data;
   }
 
@@ -809,6 +850,7 @@
     }
     if(state.modelMode==='icon' && state.iconData) return state.iconData;
     if(state.modelMode==='cams' && state.camsData) return state.camsData;
+    if(state.modelMode==='viirs' && state.viirsData) return state.viirsData;
     if(state.modelMode==='gfs') return state.data;
 
     if(cloudLayers.has(key) && state.iconData){
@@ -819,7 +861,7 @@
   }
 
   function activeFrame(key=state.layer){
-    if(state.modelMode==='himawari' || state.modelMode==='jma' || state.modelMode==='cwa' || state.modelMode==='icon' || state.modelMode==='cams' || state.modelMode==='gfs'){
+    if(state.modelMode==='himawari' || state.modelMode==='jma' || state.modelMode==='cwa' || state.modelMode==='icon' || state.modelMode==='cams' || state.modelMode==='viirs' || state.modelMode==='gfs'){
       return timelineDataset()?.frames?.[state.frameIndex] || null;
     }
     const data=activeDataset(key);
@@ -835,6 +877,7 @@
     if(state.modelMode==='cwa') return state.cwaQc;
     if(state.modelMode==='icon') return state.iconQc;
     if(state.modelMode==='cams') return state.camsQc;
+    if(state.modelMode==='viirs') return state.viirsQc;
     if(state.modelMode==='gfs') return state.qc;
     return activeDataset(key)===state.iconData ? state.iconQc : state.qc;
   }
@@ -884,7 +927,7 @@
 
   function normalizedValue(value,cfg){
     if(value == null || !Number.isFinite(value)) return 0;
-    if(cfg.scale==='precip_rate' || cfg.scale==='aod') return normalizedPiecewise(value,cfg.ticks);
+    if(cfg.scale==='precip_rate' || cfg.scale==='aod' || cfg.scale==='nightlights') return normalizedPiecewise(value,cfg.ticks);
     const span=cfg.domain[1]-cfg.domain[0];
     if(!span) return 0;
     return Math.max(0,Math.min(1,(value-cfg.domain[0])/span));
@@ -965,6 +1008,9 @@
     if(cfg.palette==='pm25'){
       return .06 + .94*Math.pow(t,.72);
     }
+    if(cfg.palette==='nightlights'){
+      return value<=0 ? 0 : .10 + .90*Math.pow(t,.68);
+    }
     if(cfg.palette==='direction'){
       return .48;
     }
@@ -1021,6 +1067,12 @@
       const hue = 150 - t*145;
       const saturation = 64 + t*18;
       const light = 54 - t*18;
+      return `hsl(${hue} ${saturation}% ${light}%)`;
+    }
+    if(cfg.palette==='nightlights'){
+      const hue = 275 - t*225;
+      const saturation = 62 + t*28;
+      const light = 24 + t*38;
       return `hsl(${hue} ${saturation}% ${light}%)`;
     }
     if(cfg.palette==='direction'){
@@ -1822,6 +1874,7 @@
     if(key==='shortwave_flux_w_m2') return `${Math.round(v)} W/m²`;
     if(key==='aerosol_optical_depth_550nm') return v.toFixed(2);
     if(key==='pm2_5_ug_m3') return v.toFixed(1);
+    if(key==='nighttime_lights_radiance_nw_cm2_sr') return `${v.toFixed(v<10?1:0)} nW/(cm²·sr)`;
     return v.toFixed(1);
   }
 
@@ -1842,14 +1895,17 @@
     const usingJma=data===state.jmaData;
     const usingHimawari=data===state.himawariData;
     const usingCams=data===state.camsData;
+    const usingViirs=data===state.viirsData;
     $('time-slider').value=state.frameIndex;
     const forecastHour=Number(f.forecast_hour || 0);
     const frameLead=`f${String(forecastHour).padStart(3,'0')}`;
     $('time-label').textContent=usingHimawari
       ? `觀測時間 · ${formatTaipeiTime(f.valid_time_utc)} TST`
-      : (usingCams
-        ? `CAMS 預報時間 · ${formatTaipeiTime(f.valid_time_utc)} TST`
-        : `預報時間 · ${formatTaipeiTime(f.valid_time_utc)} · +${forecastHour}h`);
+      : (usingViirs
+        ? `年度合成 · ${f.composite_year || data.provenance?.composite_year || new Date(f.valid_time_utc).getUTCFullYear()}`
+        : (usingCams
+          ? `CAMS 預報時間 · ${formatTaipeiTime(f.valid_time_utc)} TST`
+          : `預報時間 · ${formatTaipeiTime(f.valid_time_utc)} · +${forecastHour}h`));
     $('opacity-label').textContent=`${Math.round(state.weatherOpacity*100)}%`;
     const opacityTitle=$('opacity-title');
     const opacitySlider=$('opacity-slider');
@@ -1898,12 +1954,17 @@
     }else if(usingCams){
       const p=data.provenance || {};
       resolution=`CAMS Global 原生約 ${p.native_resolution_km || 45} km · ${p.native_time_interval_hours || 3} h · 0.4° 取樣顯示格`;
+    }else if(usingViirs){
+      const p=data.provenance || {};
+      resolution=`NASA Black Marble · ${p.native_resolution || '15 arc-second'} · 年度夜間燈光合成`;
     }else{
       resolution=`原生 0.25° · ${interpolationLabel}`;
     }
-    const cycleText=usingCams
-      ? (data.cycle?.retrieved_at_utc || data.cycle?.label || '—')
-      : (data.cycle?.cycle_time_utc || data.cycle?.label || '—');
+    const cycleText=usingViirs
+      ? String(f.composite_year || new Date(f.valid_time_utc).getUTCFullYear())
+      : (usingCams
+        ? (data.cycle?.retrieved_at_utc || data.cycle?.label || '—')
+        : (data.cycle?.cycle_time_utc || data.cycle?.label || '—'));
     const cycleDisplay=Number.isFinite(Date.parse(cycleText))
       ? `${formatTaipeiTime(cycleText)} TST`
       : cycleText;
@@ -1918,9 +1979,11 @@
         compactSummary.textContent=`觀測 ${formatTaipeiTime(f.valid_time_utc)} · 2 km${ageCompact}`;
       }
     }else{
-      $('cycle-label').textContent=usingCams
-        ? `資料更新 ${cycleDisplay} · ${data.grid.rows}×${data.grid.cols} · ${resolution}`
-        : `${autoPrefix}模型起報 ${cycleDisplay} · ${data.grid.rows}×${data.grid.cols} · ${resolution}`;
+      $('cycle-label').textContent=usingViirs
+        ? `年度合成 ${cycleText} · ${data.grid.rows}×${data.grid.cols} · ${resolution}`
+        : (usingCams
+          ? `資料更新 ${cycleDisplay} · ${data.grid.rows}×${data.grid.cols} · ${resolution}`
+          : `${autoPrefix}模型起報 ${cycleDisplay} · ${data.grid.rows}×${data.grid.cols} · ${resolution}`);
       if(compactSummary){
         let compactResolution='0.25°';
         let compactCadence='';
@@ -1937,10 +2000,14 @@
         }else if(usingCams){
           compactResolution=`約 ${data.provenance?.native_resolution_km || 45} km`;
           compactCadence=` · ${data.provenance?.native_time_interval_hours || 3}h`;
+        }else if(usingViirs){
+          compactResolution=data.provenance?.native_resolution || '15 arc-second';
         }
-        compactSummary.textContent=usingCams
-          ? `更新 ${cycleDisplay.replace(' TST','')} · ${compactResolution}${compactCadence}`
-          : `起報 ${cycleDisplay.replace(' TST','')} · ${compactResolution}${compactCadence}`;
+        compactSummary.textContent=usingViirs
+          ? `年度 ${cycleText} · ${compactResolution}`
+          : (usingCams
+            ? `更新 ${cycleDisplay.replace(' TST','')} · ${compactResolution}${compactCadence}`
+            : `起報 ${cycleDisplay.replace(' TST','')} · ${compactResolution}${compactCadence}`);
       }
     }
     const attributionHost=$('source-attribution');
@@ -1950,6 +2017,8 @@
       attributionHost.innerHTML='資料模型：JMA MSM · Open Data transport: <a href="https://registry.opendata.aws/open-meteo/" target="_blank" rel="noopener noreferrer">Open-Meteo AWS</a>';
     }else if(usingCams){
       attributionHost.innerHTML='霧霾資料：Copernicus CAMS Global · API: <a href="https://open-meteo.com/en/docs/air-quality-api" target="_blank" rel="noopener noreferrer">Open-Meteo</a>';
+    }else if(usingViirs){
+      attributionHost.textContent='夜間燈光：NASA Black Marble VNP46A4 Collection 2 · 衛星輻亮度，不等同 Bortle 或天空亮度';
     }else{
       attributionHost.innerHTML='';
     }
@@ -1966,13 +2035,16 @@
     else if(usingCwa) providerRole='CWA WRF 3 km';
     else if(usingIcon) providerRole=state.modelMode==='auto'?'ICON Global · auto':'ICON Global';
     else if(usingCams) providerRole=state.layer==='pm2_5_ug_m3'?'CAMS Global · PM2.5':'CAMS Global · AOD 550 nm';
+    else if(usingViirs) providerRole='NASA Black Marble VNP46A4 · 年度環境背景';
     else if(state.modelMode==='auto' && cloudLayers.has(state.layer)) providerRole='GFS fallback';
     const unitText=usingHimawari && state.layer==='cloud_top_height_m'
       ? '原始單位 m · 顯示 km'
       : `單位 ${data.fields[state.layer].unit}`;
     $('layer-unit').textContent=usingHimawari
       ? `${providerRole} · ${unitText} · 單張最新觀測`
-      : `${providerRole} · ${unitText} · 各模型保留自己的範圍／解析度／時間軸`;
+      : (usingViirs
+        ? `${providerRole} · ${unitText} · 靜態年度背景，不隨氣象預報時間軸變化`
+        : `${providerRole} · ${unitText} · 各模型保留自己的範圍／解析度／時間軸`);
     const vertical=data.fields[state.layer]?.vertical_definition || null;
     const verticalHost=$('layer-vertical');
     if(usingHimawari && state.layer==='observed_cloud_mask'){
