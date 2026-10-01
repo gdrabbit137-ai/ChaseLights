@@ -20,7 +20,7 @@ class WeatherGridIconBrowserContractTests(unittest.TestCase):
         self.assertIn("iconFrameForValidTime", self.js)
         self.assertIn("activeDataset", self.js)
         self.assertIn("cloudLayers", self.js)
-        self.assertIn("function autoDataset(key)", self.js)
+        self.assertIn("function autoDataset(key=state.layer)", self.js)
         self.assertIn("datasetHasFrameForLayer", self.js)
         self.assertIn("state.iconData", self.js)
         self.assertIn("state.data", self.js)
