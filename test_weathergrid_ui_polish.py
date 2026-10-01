@@ -194,9 +194,17 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn("靜態年度背景，不隨氣象預報時間軸變化", self.js)
         self.assertIn("不等同 Bortle 或天空亮度", self.js)
 
+    def test_b169h_renderer_culls_to_visible_grid_slice(self):
+        self.assertIn("function visibleAxisRange(values,minValue,maxValue,pad=1)", self.js)
+        self.assertIn("function visibleGridRange(data,visibleView,pad=1)", self.js)
+        self.assertIn("for(let r=row0;r<=row1;r++)", self.js)
+        self.assertIn("for(let c=col0;c<=col1;c++)", self.js)
+        self.assertIn("const maxRow=Math.min(rows-2,row1)", self.js)
+        self.assertIn("const maxCol=Math.min(cols-2,col1)", self.js)
+
     def test_assets_use_cache_busting_after_mobile_ui_updates(self):
-        self.assertIn('weather-map.css?v=b169f', self.html)
-        self.assertIn('weather-map.js?v=b169f', self.html)
+        self.assertIn('weather-map.css?v=b169h', self.html)
+        self.assertIn('weather-map.js?v=b169h', self.html)
 
     def test_mobile_opacity_control_is_single_row(self):
         self.assertIn('class="opacity-caption"', self.html)
