@@ -48,4 +48,4 @@ B169 does not silently turn fill values into zero radiance. Poor and gap-filled 
 
 B169a (this contract) establishes source semantics, compact encoding and QC without requiring credentials in CI.
 
-B169b will add authenticated LAADS ingestion / preprocessing and a generated Taiwan browser artifact. UI integration follows only after a real artifact passes QC.
+B169b adds HDF5 preprocessing: crop a VNP46A4 tile by geographic bbox, decode source scale/offset/fill metadata, preserve quality flags, and emit the compact browser/QC contract. CI uses a synthetic HDF5 tile and therefore needs no Earthdata credentials. Authenticated LAADS download plus a real Taiwan artifact remains the next gate; UI integration follows only after that artifact passes QC.
