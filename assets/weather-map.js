@@ -172,11 +172,12 @@
         pitch:0,
         dragRotate:false,
         touchPitch:false,
-        attributionControl:true
+        attributionControl:false
       });
       state.map=map;
       map.touchZoomRotate.disableRotation();
       map.addControl(new maplibregl.NavigationControl({showCompass:false}),'top-right');
+      map.addControl(new maplibregl.AttributionControl({compact:true}),'bottom-right');
 
       const timeout=window.setTimeout(()=>{
         if(state.mapReady) return;
@@ -1737,7 +1738,10 @@
     const opacityTitle=$('opacity-title');
     const opacitySlider=$('opacity-slider');
     if(opacityTitle){
-      opacityTitle.textContent=cfg.palette==='cloud'?'雲層顯示強度':'圖層顯示強度';
+      const compactUi=window.matchMedia('(max-width:720px)').matches;
+      opacityTitle.textContent=compactUi
+        ? (cfg.palette==='cloud'?'雲層':'圖層')
+        : (cfg.palette==='cloud'?'雲層顯示強度':'圖層顯示強度');
     }
     if(opacitySlider){
       opacitySlider.title=cfg.palette==='cloud'
