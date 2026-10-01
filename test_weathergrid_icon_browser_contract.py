@@ -28,10 +28,9 @@ class WeatherGridIconBrowserContractTests(unittest.TestCase):
             "f.valid_time_utc===validTime",
             self.js,
         )
-        self.assertIn(
-            "iconFrameForValidTime(baseFrame()?.valid_time_utc)",
-            self.js,
-        )
+        self.assertIn("datasetHasFrameForLayer(data,key,validTime)", self.js)
+        self.assertIn("const validTime=baseFrame()?.valid_time_utc", self.js)
+        self.assertIn("if(datasetHasFrameForLayer(data,key,validTime)) return data", self.js)
 
     def test_both_regular_grids_use_display_interpolation(self):
         self.assertIn("drawBilinearSubcells", self.js)
