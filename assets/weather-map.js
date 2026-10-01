@@ -9,6 +9,8 @@
   const LIVE_JMA_QC = './weathergrid/jma_msm_tw_cloud_qc.json';
   const LIVE_HIMAWARI_DATA = './weathergrid/himawari9_tw_cloud_browser.json';
   const LIVE_HIMAWARI_QC = './weathergrid/himawari9_tw_cloud_qc.json';
+  const LIVE_CAMS_DATA = './weathergrid/cams_global_tw_aod_browser.json';
+  const LIVE_CAMS_QC = './weathergrid/cams_global_tw_aod_qc.json';
   const LIVE_COVERAGE = './weathergrid/weathergrid_coverage_browser.json';
   const FALLBACK_DATA = './weathergrid_sample.json';
   const FALLBACK_COVERAGE = './weathergrid_coverage_sample.json';
@@ -45,7 +47,8 @@
     temperature_2m_c:{label:'2 m 氣溫', unit:'°C', domain:[-5,40], palette:'temperature'},
     relative_humidity_2m_percent:{label:'2 m 相對濕度', unit:'%', domain:[0,100], palette:'humidity'},
     precip_total_mm:{label:'累積降水', unit:'mm', domain:[0,100], palette:'precip'},
-    shortwave_flux_w_m2:{label:'地表淨短波輻射', unit:'W/m²', domain:[0,1000], palette:'solar'}
+    shortwave_flux_w_m2:{label:'地表淨短波輻射', unit:'W/m²', domain:[0,1000], palette:'solar'},
+    aerosol_optical_depth_550nm:{label:'AOD 550 nm', unit:'1', domain:[0,1.5], palette:'haze', scale:'aod', ticks:[0,.05,.1,.2,.4,.8,1.5]}
   };
 
   const state = {
@@ -59,6 +62,8 @@
     jmaQc:null,
     himawariData:null,
     himawariQc:null,
+    camsData:null,
+    camsQc:null,
     modelMode:'auto',
     coverage:{spots:[]},
     frameIndex:0,
@@ -318,6 +323,15 @@
       }
 
       try{
+        state.camsData = await fetchJson(LIVE_CAMS_DATA);
+        try{ state.camsQc = await fetchJson(LIVE_CAMS_QC); }catch(_){ state.camsQc = null; }
+      }catch(err){
+        console.warn('CAMS Global AOD bundle unavailable', err);
+        state.camsData = null;
+        state.camsQc = null;
+      }
+
+      try{
         state.coverage = await fetchJson(LIVE_COVERAGE);
         state.coverageSource = 'live';
       }catch(err){
@@ -342,6 +356,7 @@
     if(mode==='jma' && state.jmaData) return state.jmaData;
     if(mode==='cwa' && state.cwaData) return state.cwaData;
     if(mode==='icon' && state.iconData) return state.iconData;
+    if(mode==='cams' && state.camsData) return state.camsData;
     return state.data;
   }
 
@@ -350,6 +365,7 @@
     if(mode==='jma' && state.jmaData) return state.jmaQc;
     if(mode==='cwa' && state.cwaData) return state.cwaQc;
     if(mode==='icon' && state.iconData) return state.iconQc;
+    if(mode==='cams' && state.camsData) return state.camsQc;
     return state.qc;
   }
 
@@ -359,6 +375,7 @@
     if(mode==='cwa') return 'CWA WRF 3 km';
     if(mode==='icon') return 'ICON Global';
     if(mode==='gfs') return 'GFS 0.25°';
+    if(mode==='cams') return 'CAMS Global · 霧霾';
     return '自動';
   }
 
@@ -368,6 +385,7 @@
     if(mode==='cwa') return Boolean(state.cwaData);
     if(mode==='icon') return Boolean(state.iconData);
     if(mode==='gfs') return Boolean(state.data);
+    if(mode==='cams') return Boolean(state.camsData);
     return true;
   }
 
@@ -752,6 +770,7 @@
     if(state.modelMode==='jma' && state.jmaData) return state.jmaData;
     if(state.modelMode==='cwa' && state.cwaData) return state.cwaData;
     if(state.modelMode==='icon' && state.iconData) return state.iconData;
+    if(state.modelMode==='cams' && state.camsData) return state.camsData;
     return state.data;
   }
 
@@ -788,6 +807,7 @@
       return state.cwaData.fields[key] ? state.cwaData : state.cwaData;
     }
     if(state.modelMode==='icon' && state.iconData) return state.iconData;
+    if(state.modelMode==='cams' && state.camsData) return state.camsData;
     if(state.modelMode==='gfs') return state.data;
 
     if(cloudLayers.has(key) && state.iconData){
@@ -798,7 +818,7 @@
   }
 
   function activeFrame(key=state.layer){
-    if(state.modelMode==='himawari' || state.modelMode==='jma' || state.modelMode==='cwa' || state.modelMode==='icon' || state.modelMode==='gfs'){
+    if(state.modelMode==='himawari' || state.modelMode==='jma' || state.modelMode==='cwa' || state.modelMode==='icon' || state.modelMode==='cams' || state.modelMode==='gfs'){
       return timelineDataset()?.frames?.[state.frameIndex] || null;
     }
     const data=activeDataset(key);
@@ -813,6 +833,7 @@
     if(state.modelMode==='jma') return state.jmaQc;
     if(state.modelMode==='cwa') return state.cwaQc;
     if(state.modelMode==='icon') return state.iconQc;
+    if(state.modelMode==='cams') return state.camsQc;
     if(state.modelMode==='gfs') return state.qc;
     return activeDataset(key)===state.iconData ? state.iconQc : state.qc;
   }
@@ -862,7 +883,7 @@
 
   function normalizedValue(value,cfg){
     if(value == null || !Number.isFinite(value)) return 0;
-    if(cfg.scale==='precip_rate') return normalizedPiecewise(value,cfg.ticks);
+    if(cfg.scale==='precip_rate' || cfg.scale==='aod') return normalizedPiecewise(value,cfg.ticks);
     const span=cfg.domain[1]-cfg.domain[0];
     if(!span) return 0;
     return Math.max(0,Math.min(1,(value-cfg.domain[0])/span));
@@ -937,6 +958,9 @@
     if(cfg.palette==='temperature' || cfg.palette==='humidity' || cfg.palette==='solar'){
       return .18 + .82*Math.max(.12,t);
     }
+    if(cfg.palette==='haze'){
+      return .06 + .94*Math.pow(t,.78);
+    }
     if(cfg.palette==='direction'){
       return .48;
     }
@@ -982,6 +1006,12 @@
       const hue = 48 - t*30;
       const light = 30 + t*32;
       return `hsl(${hue} 90% ${light}%)`;
+    }
+    if(cfg.palette==='haze'){
+      const hue = 55 - t*48;
+      const saturation = 72 + t*12;
+      const light = 58 - t*20;
+      return `hsl(${hue} ${saturation}% ${light}%)`;
     }
     if(cfg.palette==='direction'){
       const hue=((value%360)+360)%360;
@@ -1709,6 +1739,7 @@
     if(key==='relative_humidity_2m_percent') return `${Math.round(v)}%`;
     if(key==='precip_total_mm') return `${v.toFixed(1)} mm`;
     if(key==='shortwave_flux_w_m2') return `${Math.round(v)} W/m²`;
+    if(key==='aerosol_optical_depth_550nm') return v.toFixed(2);
     return v.toFixed(1);
   }
 
@@ -1728,6 +1759,7 @@
     const usingCwa=data===state.cwaData;
     const usingJma=data===state.jmaData;
     const usingHimawari=data===state.himawariData;
+    const usingCams=data===state.camsData;
     $('time-slider').value=state.frameIndex;
     const forecastHour=Number(f.forecast_hour || 0);
     const frameLead=`f${String(forecastHour).padStart(3,'0')}`;
@@ -1779,6 +1811,9 @@
       resolution=`原生約 ${p.native_resolution_km || 3} km · 瀏覽格 ${p.browser_grid_spacing_degrees || 0.03}° · 公開資料間隔 ${p.public_product_interval_hours || 6} h`;
     }else if(usingIcon){
       resolution=`原生約 ${data.provenance?.native_resolution_km || 13} km · 0.125° remap · ${interpolationLabel}`;
+    }else if(usingCams){
+      const p=data.provenance || {};
+      resolution=`CAMS Global 原生約 ${p.native_resolution_km || 45} km · ${p.native_time_interval_hours || 3} h · 0.4° 取樣顯示格`;
     }else{
       resolution=`原生 0.25° · ${interpolationLabel}`;
     }
@@ -1811,6 +1846,9 @@
           compactCadence=` · ${p.public_product_interval_hours || 6}h`;
         }else if(usingIcon){
           compactResolution=`約 ${data.provenance?.native_resolution_km || 13} km`;
+        }else if(usingCams){
+          compactResolution=`約 ${data.provenance?.native_resolution_km || 45} km`;
+          compactCadence=` · ${data.provenance?.native_time_interval_hours || 3}h`;
         }
         compactSummary.textContent=`起報 ${cycleDisplay.replace(' TST','')} · ${compactResolution}${compactCadence}`;
       }
@@ -1820,6 +1858,8 @@
       attributionHost.textContent='衛星觀測：JMA Himawari-9 / AHI · Distribution: NOAA NODD / AWS Open Data';
     }else if(usingJma){
       attributionHost.innerHTML='資料模型：JMA MSM · Open Data transport: <a href="https://registry.opendata.aws/open-meteo/" target="_blank" rel="noopener noreferrer">Open-Meteo AWS</a>';
+    }else if(usingCams){
+      attributionHost.innerHTML='霧霾資料：Copernicus CAMS Global · API: <a href="https://open-meteo.com/en/docs/air-quality-api" target="_blank" rel="noopener noreferrer">Open-Meteo</a>';
     }else{
       attributionHost.innerHTML='';
     }
@@ -1835,6 +1875,7 @@
     else if(usingJma) providerRole='JMA MSM 5 km';
     else if(usingCwa) providerRole='CWA WRF 3 km';
     else if(usingIcon) providerRole=state.modelMode==='auto'?'ICON Global · auto':'ICON Global';
+    else if(usingCams) providerRole='CAMS Global · AOD 550 nm';
     else if(state.modelMode==='auto' && cloudLayers.has(state.layer)) providerRole='GFS fallback';
     const unitText=usingHimawari && state.layer==='cloud_top_height_m'
       ? '原始單位 m · 顯示 km'
@@ -1895,6 +1936,9 @@
     }else if(cfg.scale==='precip_rate'){
       stopValues=cfg.ticks;
       labels=['0','1','5','20 mm/h'];
+    }else if(cfg.scale==='aod'){
+      stopValues=cfg.ticks;
+      labels=['0.00','0.20','0.80','1.50+'];
     }
 
     let barHtml;
