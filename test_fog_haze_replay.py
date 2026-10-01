@@ -20,7 +20,7 @@ class FogHazeReplayTest(unittest.TestCase):
                 self.assertTrue(result["diagnostic_only"])
                 self.assertEqual(result["score_effect"], "none")
 
-    def test_runtime_diagnostics_expose_environment_without_changing_policy(self):
+    def test_environment_diagnostic_is_timestamp_level_and_non_scoring(self):
         item = {
             "vis": 2800,
             "rh": 93,
@@ -30,23 +30,29 @@ class FogHazeReplayTest(unittest.TestCase):
             "weather_code": 45,
             "aod_550nm": 0.12,
             "pm2_5_ug_m3": 8.0,
-            "pop": 5,
-            "precipitation": 0.0,
-            "access_open": True,
-            "local_time": "06:00",
-            "local_month": 9,
         }
+        environment = fetch_data._build_photography_environment_diagnostic(item)
+        self.assertEqual(environment["state"], "fog_supported")
+        self.assertEqual(environment["score_effect"], "none")
+
+        # Opportunity runtime remains subject-specific and must not duplicate
+        # the same environment object for every Opportunity.
         opportunity = {
             "opportunity_id": "tw-034-P03",
             "runtime_policy": "minimum_sufficient_available",
         }
-        diagnostics = fetch_data._build_opportunity_runtime_diagnostics(
-            {"opportunities": [opportunity]}, item
+        runtime = fetch_data._build_opportunity_runtime_diagnostics(
+            {"opportunities": [opportunity]},
+            {
+                **item,
+                "pop": 5,
+                "precipitation": 0.0,
+                "access_open": True,
+                "local_time": "06:00",
+                "local_month": 9,
+            },
         )
-        diag = diagnostics["tw-034-P03"]
-        self.assertEqual(diag["runtime_policy"], "minimum_sufficient_available")
-        self.assertEqual(diag["photography_environment"]["state"], "fog_supported")
-        self.assertEqual(diag["photography_environment"]["score_effect"], "none")
+        self.assertNotIn("photography_environment", runtime["tw-034-P03"])
 
 
 if __name__ == "__main__":
