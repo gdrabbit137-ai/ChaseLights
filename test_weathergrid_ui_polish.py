@@ -287,6 +287,14 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn("🌫️ 低雲／山霧", self.js)
         self.assertIn(".layer-control.primary-control{grid-column:span 2}", self.css)
 
+    def test_beta_photography_overview_layer_is_grid_safe(self):
+        self.assertIn("photography_overview:{label:'攝影綜合'", self.js)
+        self.assertIn("'photography_overview',", self.js)
+        self.assertIn("📷 攝影綜合圖", self.js)
+        self.assertIn("function photographyOverviewArray()", self.js)
+        self.assertIn("if(autoDataset(key)===base)", self.js)
+        self.assertIn("cross-model spatial resampling belongs in a later batch", self.js)
+
 
 if __name__ == "__main__":
     unittest.main()
