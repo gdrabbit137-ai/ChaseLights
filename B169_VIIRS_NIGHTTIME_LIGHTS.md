@@ -49,3 +49,14 @@ B169 does not silently turn fill values into zero radiance. Poor and gap-filled 
 B169a (this contract) establishes source semantics, compact encoding and QC without requiring credentials in CI.
 
 B169b adds HDF5 preprocessing: crop a VNP46A4 tile by geographic bbox, decode source scale/offset/fill metadata, preserve quality flags, and emit the compact browser/QC contract. CI uses a synthetic HDF5 tile and therefore needs no Earthdata credentials. Authenticated LAADS download plus a real Taiwan artifact remains the next gate; UI integration follows only after that artifact passes QC.
+
+
+## B169c LAADS discovery/download
+
+`viirs_lads_download.py` uses LAADS API-V2 `content/details` for VNP46A4 discovery by year + bounding box, then downloads selected HDF5 files through `content/archives` with an `Authorization: Bearer` header.
+
+The token is read from `EARTHDATA_TOKEN` by default and is never committed to the repository. CI tests URL construction, filename extraction and authorization-header behavior without making authenticated network requests.
+
+LAADS documentation states that scripted data downloads require a download token. An Earthdata Download token can be used on LAADS, although LAADS-specific tokens may provide faster download handling.
+
+The next live gate is intentionally manual: configure `EARTHDATA_TOKEN` as a GitHub Actions secret, run discovery for the Taiwan bbox, verify the returned tile set, then wire the discovered file(s) into B169b ingestion. Multi-tile mosaicking will be added if discovery shows Taiwan spans more than one VNP46A4 tile.
