@@ -182,6 +182,64 @@
       temporal_offset_minutes:best.offset,status:'ok'};
   }
 
+  function photographyFrameForProvenance(data,provenance){
+    if(!data || provenance?.status!=='ok') return null;
+    return data.frames?.find(frame=>frame.valid_time_utc===provenance.source_valid_time_utc) || null;
+  }
+
+  function photographyDecodedValues(data,key,frame){
+    const encoded=frame?.values?.[key];
+    return encoded ? encoded.map(value=>decodeValue(key,value,data)) : [];
+  }
+
+  function photographyBilinearValue(data,values,point){
+    const lons=data?.grid?.longitudes,lats=data?.grid?.latitudes;
+    if(!lons?.length || !lats?.length || !values?.length) return {status:'insufficient_neighbors',value:null};
+    const bbox=normalizeViewBbox(data.bbox);
+    if(bbox && (point.lon<bbox.leftlon || point.lon>bbox.rightlon ||
+      point.lat<bbox.bottomlat || point.lat>bbox.toplat)) return {status:'outside_bbox',value:null};
+    const bracket=(arr,v)=>{
+      const asc=arr[0]<=arr[arr.length-1];
+      const ordered=asc?arr:[...arr].reverse();
+      if(v<ordered[0] || v>ordered[ordered.length-1]) return null;
+      let hi=1;
+      while(hi<ordered.length && v>ordered[hi]) hi++;
+      if(hi>=ordered.length) hi=ordered.length-1;
+      const lo=Math.max(0,hi-1);
+      return {lo:asc?lo:arr.length-1-lo,hi:asc?hi:arr.length-1-hi,a0:ordered[lo],a1:ordered[hi]};
+    };
+    const bx=bracket(lons,point.lon),by=bracket(lats,point.lat);
+    if(!bx||!by) return {status:'outside_bbox',value:null};
+    const idx=(r,c)=>r*data.grid.cols+c;
+    const q00=values[idx(by.lo,bx.lo)],q10=values[idx(by.lo,bx.hi)];
+    const q01=values[idx(by.hi,bx.lo)],q11=values[idx(by.hi,bx.hi)];
+    if([q00,q10,q01,q11].some(value=>!Number.isFinite(value))) return {status:'insufficient_neighbors',value:null};
+    const wx=bx.a1===bx.a0?0:(point.lon-bx.a0)/(bx.a1-bx.a0);
+    const wy=by.a1===by.a0?0:(point.lat-by.a0)/(by.a1-by.a0);
+    return {status:'ok',value:bilinearValue(q00,q10,q01,q11,wx,wy)};
+  }
+
+  function resamplePhotographyComponent(key,targetGrid,targetValidTime,toleranceMinutes=90){
+    const provenance=buildPhotographyComponentProvenance(key,targetValidTime,toleranceMinutes);
+    const data=autoDataset(key);
+    const frame=photographyFrameForProvenance(data,provenance);
+    const values=photographyDecodedValues(data,key,frame);
+    const out=new Array(targetGrid?.cell_count||0).fill(null);
+    const statusCounts={ok:0,missing_field:0,missing_time:0,outside_bbox:0,insufficient_neighbors:0};
+    if(provenance.status!=='ok'){
+      statusCounts[provenance.status]=out.length;
+      return {values:out,provenance,status_counts:statusCounts};
+    }
+    for(let r=0;r<targetGrid.rows;r++){
+      for(let c=0;c<targetGrid.cols;c++){
+        const sample=photographyBilinearValue(data,values,{lat:targetGrid.latitudes[r],lon:targetGrid.longitudes[c]});
+        out[r*targetGrid.cols+c]=sample.value;
+        statusCounts[sample.status]=(statusCounts[sample.status]||0)+1;
+      }
+    }
+    return {values:out,provenance,status_counts:statusCounts};
+  }
+
   function setViewBbox(bbox,{animate=false,maxZoom=13}={}){
     const view=normalizeViewBbox(bbox);
     if(!view) return false;
