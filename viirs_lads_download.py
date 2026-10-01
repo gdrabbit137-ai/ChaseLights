@@ -7,6 +7,7 @@ import http.cookiejar
 import json
 import os
 import re
+import subprocess
 import urllib.parse
 import urllib.request
 from pathlib import Path
@@ -93,17 +94,36 @@ def archive_url(filename):
 
 
 def download_file(filename, token, destination, opener=None):
-    opener = opener or authenticated_opener()
+    """Download using NASA's documented curl EDL-token flow.
+
+    curl -L follows Earthdata redirects and -b persists the LAADS/EDL session
+    cookies required by the official scripted-download guidance.
+    """
+    authorization_headers(token)  # fail closed before spawning curl
     url = archive_url(filename)
-    request = urllib.request.Request(url, headers=authorization_headers(token))
     destination = Path(destination)
     destination.parent.mkdir(parents=True, exist_ok=True)
-    with opener.open(request, timeout=180) as response, destination.open("wb") as out:
-        while True:
-            chunk = response.read(1024 * 1024)
-            if not chunk:
-                break
-            out.write(chunk)
+    cookie_file = destination.parent / ".earthdata-session"
+    subprocess.run(
+        [
+            "curl",
+            "--fail",
+            "--show-error",
+            "--location",
+            "--cookie",
+            str(cookie_file),
+            "--cookie-jar",
+            str(cookie_file),
+            "--header",
+            f"Authorization: Bearer {token}",
+            "--header",
+            "X-Requested-With: XMLHttpRequest",
+            "--output",
+            str(destination),
+            url,
+        ],
+        check=True,
+    )
     return destination
 
 
