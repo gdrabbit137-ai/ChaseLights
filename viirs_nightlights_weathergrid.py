@@ -11,6 +11,7 @@ import math
 FIELD_RADIANCE = "nighttime_lights_radiance_nw_cm2_sr"
 FIELD_QUALITY = "nighttime_lights_quality_flag"
 ENCODING_SCALE = 0.1
+MAX_BROWSER_CELLS = 250_000
 
 SOURCE_PRODUCT = "VNP46A4"
 SOURCE_SDS = "AllAngle_Composite_Snow_Free"
@@ -26,7 +27,37 @@ def _finite(value):
     return number if math.isfinite(number) else None
 
 
-def build_bundle(latitudes, longitudes, radiance, quality, year):
+def _stride_for_budget(rows, cols, max_cells):
+    stride = 1
+    while math.ceil(rows / stride) * math.ceil(cols / stride) > max_cells:
+        stride += 1
+    return stride
+
+
+def _downsample_grid(latitudes, longitudes, radiance, quality, max_cells):
+    rows, cols = len(latitudes), len(longitudes)
+    stride = _stride_for_budget(rows, cols, max_cells)
+    if stride == 1:
+        return list(latitudes), list(longitudes), list(radiance), list(quality), stride
+
+    row_idx = list(range(0, rows, stride))
+    col_idx = list(range(0, cols, stride))
+    out_radiance, out_quality = [], []
+    for ri in row_idx:
+        for ci in col_idx:
+            index = ri * cols + ci
+            out_radiance.append(radiance[index])
+            out_quality.append(quality[index])
+    return (
+        [latitudes[i] for i in row_idx],
+        [longitudes[i] for i in col_idx],
+        out_radiance,
+        out_quality,
+        stride,
+    )
+
+
+def build_bundle(latitudes, longitudes, radiance, quality, year, max_browser_cells=MAX_BROWSER_CELLS):
     """Build one annual frame from normalized VNP46A4 arrays.
 
     Input radiance must already be decoded to nW/(cm^2 sr), independent of the
@@ -39,6 +70,15 @@ def build_bundle(latitudes, longitudes, radiance, quality, year):
         raise ValueError("nighttime-light grid must be at least 2x2")
     if len(radiance) != expected or len(quality) != expected:
         raise ValueError("radiance/quality cell count does not match grid")
+    if max_browser_cells < 4:
+        raise ValueError("max_browser_cells must allow at least a 2x2 grid")
+
+    source_rows, source_cols = rows, cols
+    latitudes, longitudes, radiance, quality, browser_stride = _downsample_grid(
+        latitudes, longitudes, radiance, quality, int(max_browser_cells)
+    )
+    rows, cols = len(latitudes), len(longitudes)
+    expected = rows * cols
 
     encoded = []
     q_values = []
@@ -118,7 +158,9 @@ def build_bundle(latitudes, longitudes, radiance, quality, year):
             "product": SOURCE_PRODUCT,
             "collection": "2",
             "doi": SOURCE_DOI,
-            "native_resolution": "15 arc-second (~500 m at equator)",
+            "native_resolution": "15 arc-second",
+            "browser_sampling_stride": browser_stride,
+            "browser_grid_semantics": "display sampling; native VNP46A4 source remains 15 arc-second",
             "temporal_resolution": "annual",
             "source_sds": SOURCE_SDS,
             "quality_sds": SOURCE_QUALITY_SDS,
@@ -133,6 +175,9 @@ def build_bundle(latitudes, longitudes, radiance, quality, year):
         "source": "nasa_black_marble_vnp46a4",
         "composite_year": year,
         "cell_count": expected,
+        "source_cell_count": source_rows * source_cols,
+        "browser_sampling_stride": browser_stride,
+        "browser_budget_cells": int(max_browser_cells),
         "radiance": {
             "missing": expected - len(finite_values),
             "min": min(finite_values) if finite_values else None,
