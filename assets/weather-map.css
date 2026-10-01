@@ -31,6 +31,11 @@ body{padding:18px}
 .control-bar button:hover{border-color:var(--accent)}
 #spot-select,#opportunity-select{overflow:hidden;text-overflow:ellipsis}
 
+.map-reset-button{position:absolute;z-index:7;right:50px;top:10px;border:1px solid #475569;
+  border-radius:999px;padding:6px 10px;background:rgba(15,23,42,.88);color:#bae6fd;
+  font-size:.72rem;font-weight:800;cursor:pointer;backdrop-filter:blur(6px)}
+.map-reset-button:hover{border-color:var(--accent);color:#e0f2fe}
+
 .map-wrap{position:relative;aspect-ratio:1.46/1;border:1px solid #263244;border-radius:10px;overflow:hidden;background:#07101f}
 #weather-basemap{position:absolute;inset:0}
 #weather-canvas{position:absolute;inset:0;z-index:2;display:block;width:100%;height:100%;touch-action:none}
@@ -81,19 +86,91 @@ body{padding:18px}
   .inspector{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media(max-width:720px){
-  body{padding:10px}
-  .weather-header{align-items:flex-start;flex-direction:column}
-  .source-meta{text-align:left;min-width:0}
-  .control-bar{grid-template-columns:1fr 1fr}
-  #reset-view{align-self:end}
-  .inspector{display:flex}
-  .legend{left:8px;bottom:8px;min-width:160px;padding:6px 7px}
-  .time-navigator{grid-template-columns:auto minmax(0,1fr) auto}
-  #time-play{grid-column:1/-1}
+  body{
+    padding:
+      calc(8px + env(safe-area-inset-top))
+      max(8px,env(safe-area-inset-right))
+      calc(12px + env(safe-area-inset-bottom))
+      max(8px,env(safe-area-inset-left));
+  }
+  .weather-header{
+    align-items:flex-start;flex-direction:column;gap:8px;
+    margin-bottom:8px;padding-bottom:8px
+  }
+  .weather-header h1{font-size:1.28rem;margin-top:4px}
+  .weather-header .subtitle{display:none}
+  .source-meta{
+    width:100%;min-width:0;text-align:left;display:flex;align-items:center;
+    gap:6px 8px;flex-wrap:wrap
+  }
+  .source-detail{flex:1 1 100%;margin-top:0;font-size:.68rem;line-height:1.35}
+  .source-attribution{flex:1 1 100%;margin-top:0;font-size:.66rem}
+  .data-info-button{margin-top:0;margin-left:auto;padding:5px 8px}
+
+  .weather-layout{gap:10px}
+  .map-panel{padding:8px;border-radius:10px}
+  .control-bar{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:7px 8px;margin-bottom:8px
+  }
+  .control-bar label{gap:3px;font-size:.68rem}
+  .control-bar select{
+    min-height:42px;padding:8px 9px;font-size:.8rem;border-radius:8px
+  }
+  .opacity-control{grid-column:1/-1}
+  .opacity-control input[type=range]{margin:1px 0 0}
+  .opportunity-control.mobile-inactive{display:none}
+  .spot-control.mobile-full{grid-column:1/-1}
+
+  .map-wrap{aspect-ratio:1.12/1;border-radius:9px}
+  .map-reset-button{
+    top:8px;right:44px;padding:5px 8px;font-size:.65rem;
+    box-shadow:0 2px 10px rgba(2,6,23,.28)
+  }
+  .basemap-status{
+    left:8px;top:8px;max-width:130px;padding:3px 7px;font-size:.61rem;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap
+  }
+  .legend{
+    left:8px;bottom:8px;min-width:132px;max-width:46%;
+    padding:5px 6px;font-size:.64rem
+  }
+  .legend-bar{height:7px;margin:4px 0 3px}
+  .coverage-outline-key{display:none}
+  .coverage-key{gap:6px;margin-top:5px;font-size:.59rem}
+  .coverage-swatch{width:14px}
+
+  .time-navigator{
+    grid-template-columns:38px minmax(0,1fr) 38px 38px;
+    gap:6px;padding-top:8px
+  }
+  .time-navigator>button{
+    width:38px;min-width:38px;height:38px;padding:0;border-radius:9px
+  }
+  #time-play{grid-column:auto;font-size:0}
+  #time-play::before{content:'▶';font-size:.76rem}
+  #time-play[aria-pressed="true"]::before{content:'Ⅱ';font-size:.8rem}
+  .time-label{font-size:.7rem;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .timeline{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:4px;font-size:.56rem
+  }
+  .timeline span:nth-child(2),.timeline span:nth-child(4){display:none}
+  .timeline span:nth-child(3){text-align:center}
+  .timeline span:last-child{text-align:right}
+
+  .inspector{display:flex;gap:10px}
+  .panel{padding:12px;border-radius:10px}
+  .panel h2{margin-bottom:7px;font-size:.82rem}
+  .metric-big{font-size:1.38rem}
+  .muted,.detail-list{font-size:.72rem}
+  .layer-qc{margin-top:9px;padding-top:8px}
 }
-@media(max-width:460px){
-  .control-bar{grid-template-columns:1fr}
-  .timeline{font-size:.58rem}
+@media(max-width:380px){
+  .map-reset-button span{display:none}
+  .map-reset-button{width:32px;height:32px;padding:0}
+  .basemap-status{max-width:108px}
+  .legend{min-width:122px;max-width:48%}
 }
 
 .coverage-key{margin-top:7px;display:flex;gap:10px;flex-wrap:wrap;color:#cbd5e1;font-size:.69rem}
