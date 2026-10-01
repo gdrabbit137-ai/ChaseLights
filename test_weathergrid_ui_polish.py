@@ -191,6 +191,7 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn("靜態環境背景，不是天氣預報", self.js)
         self.assertIn("isStaticContextMode()", self.js)
         self.assertIn("年度夜間燈光最近鄰取樣", self.js)
+        self.assertIn("frames.map(f=>String(f.composite_year", self.js)
         self.assertIn("不等同 Bortle 等級、天頂天空亮度或銀河可見度", self.html)
 
     def test_assets_use_cache_busting_after_mobile_ui_updates(self):
