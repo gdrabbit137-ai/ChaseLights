@@ -9,6 +9,7 @@ from viirs_lads_download import (
     authenticated_opener,
     authorization_headers,
     extract_filenames,
+    extract_file_references,
     download_file,
     search_url,
 )
@@ -37,6 +38,14 @@ class ViirsLadsDownloadTest(unittest.TestCase):
                 "VNP46A4.A2025001.h31v06.002.2026261093501.h5",
             ],
         )
+
+    def test_extract_file_references_preserves_exact_laads_value(self):
+        value = "/archive/path/VNP46A4.A2025001.h30v06.002.2026261093500.h5"
+        refs = extract_file_references({"content": [{"downloadsLink": value}]})
+        self.assertEqual(refs, [{
+            "filename": "VNP46A4.A2025001.h30v06.002.2026261093500.h5",
+            "reference": value,
+        }])
 
     def test_archive_url_uses_collection2_year_day_tree(self):
         filename = "VNP46A4.A2025001.h30v06.002.2026261093500.h5"
