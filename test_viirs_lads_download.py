@@ -8,7 +8,7 @@ from viirs_lads_download import (
     archive_url,
     authenticated_opener,
     authorization_headers,
-    extract_filenames,
+    extract_filenames,\n    extract_file_references,
     extract_file_references,
     download_file,
     search_url,
@@ -46,6 +46,13 @@ class ViirsLadsDownloadTest(unittest.TestCase):
             "filename": "VNP46A4.A2025001.h30v06.002.2026261093500.h5",
             "reference": value,
         }])
+
+    def test_extract_file_references_preserves_laads_download_url(self):
+        ref = "https://ladsweb.modaps.eosdis.nasa.gov/api/v2/content/archives/VNP46A4.A2025001.h30v06.002.2026261093501.h5"
+        self.assertEqual(
+            extract_file_references({"download": ref}),
+            [{"filename": "VNP46A4.A2025001.h30v06.002.2026261093501.h5", "reference": ref}],
+        )
 
     def test_archive_url_uses_collection2_year_day_tree(self):
         filename = "VNP46A4.A2025001.h30v06.002.2026261093500.h5"
