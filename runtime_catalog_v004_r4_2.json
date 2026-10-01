@@ -14,7 +14,7 @@
     "runtime_catalog_v004_r4_2_b35_liyu_subjects.json"
   ],
   "counts": {
-    "spots": 189,
+    "spots": 195,
     "opportunities": 384,
     "condition_variants": 399,
     "profile_viewpoint_relations": 390
@@ -19755,6 +19755,666 @@
               "geometry_extent_m": 120,
               "geometry_note": "公共觀景牆範圍；閉園後不推薦。",
               "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-072",
+      "canonical_name": "Golden Gardens Park",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_SEATTLE_SCENIC_EXPANSION",
+      "research_sources": [
+        {
+          "authority": "Seattle Parks and Recreation — Golden Gardens Park",
+          "url": "https://seattle.gov/parks/parks/golden-gardens-park",
+          "verified_on": "2026-10-02",
+          "supports": "Official page documents extraordinary Puget Sound and Olympic Mountains views, rugged coastline/beach, seasonal park hours, and parking-gate timing."
+        },
+        {
+          "authority": "Washington State Department of Ecology — Golden Gardens Park site record",
+          "url": "https://apps.ecology.wa.gov/cleanupsearch/reports/cleanup/sitedetails/4753",
+          "verified_on": "2026-10-02",
+          "supports": "State record provides a public park coordinate anchor."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-072-P01",
+          "spot_id": "us-072",
+          "name_zh": "Golden Gardens・Puget Sound＋Olympic Mountains 海岸遠景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04-seattle-coast-mountain",
+          "formula_confidence": 97,
+          "best_time": "白天至低角度光；Olympics清晰時優先",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-308",
+              "variant_name": "Puget Sound＋Olympic Mountains",
+              "condition_geometry": "{\"target\":\"Puget Sound + Olympic Mountains\",\"camera_zone\":\"Golden Gardens public beach/coast\"}",
+              "hard_gates": "公共區域可合法安全到達；遵守公園當日開放與現場管制",
+              "required_conditions": "Puget Sound與Olympic Mountains主要輪廓可辨；西向遠距能見度足夠",
+              "boosters": "高透明度；低霾；雪山清晰；低角度側光",
+              "penalties": "低雲遮山；霧霾；強降水；低能見度",
+              "formula_status": "needs_directional_horizon_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-072-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official Seattle Parks scenic subject; Washington Ecology coordinate used as park anchor.",
+              "name": "Golden Gardens public Camera Zone",
+              "lat": 47.69383,
+              "lon": -122.40511,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_city_subject_state_coordinate",
+              "geometry_type": "area",
+              "geometry_extent_m": 700,
+              "geometry_note": "以合法公共區域為 Camera Zone；座標作天氣／地圖錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-072-P02",
+          "spot_id": "us-072",
+          "name_zh": "Golden Gardens・海灘日落＋Olympic Mountains",
+          "legacy_theme": "sunset",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_sunset_cloud_module",
+          "formula_version": "v0.04-seattle-coast-sunset",
+          "formula_confidence": 96,
+          "best_time": "日落前約60分鐘至日落後藍調",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-309",
+              "variant_name": "海灘日落＋Olympics剪影",
+              "condition_geometry": "{\"target\":\"western sunset sky + Puget Sound + Olympic Mountains\",\"camera_zone\":\"Golden Gardens beach\"}",
+              "hard_gates": "公共區域可合法安全到達；遵守公園當日開放與現場管制",
+              "required_conditions": "西側地平線與海面可辨；低雲未完全封住日落方向",
+              "boosters": "中高雲彩霞；西側透光；山稜剪影",
+              "penalties": "厚低雲封西方；降雨；低能見度",
+              "formula_status": "needs_directional_sunset_cloud_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-072-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official park beach/coastline and mountain-view subject.",
+              "name": "Golden Gardens beach Camera Zone",
+              "lat": 47.69383,
+              "lon": -122.40511,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_city_coast_subject",
+              "geometry_type": "area",
+              "geometry_extent_m": 900,
+              "geometry_note": "以合法公共區域為 Camera Zone；座標作天氣／地圖錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-073",
+      "canonical_name": "Alki Beach Park",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_SEATTLE_SCENIC_EXPANSION",
+      "research_sources": [
+        {
+          "authority": "Seattle Parks and Recreation — Alki Beach Park",
+          "url": "https://www.adc.seattle.gov/parks/parks/alki-beach-park",
+          "verified_on": "2026-10-02",
+          "supports": "Official page documents spectacular Puget Sound, Olympic Mountains, ferries, sailboats and other vessel views, plus seasonal park hours."
+        },
+        {
+          "authority": "DBpedia / Wikidata-derived Alki Beach Park coordinate",
+          "url": "https://dbpedia.org/page/Alki_Beach_Park",
+          "verified_on": "2026-10-02",
+          "supports": "Provides a public park coordinate anchor derived from the linked knowledge graph."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-073-P01",
+          "spot_id": "us-073",
+          "name_zh": "Alki Beach・Puget Sound＋Olympic Mountains＋船景",
+          "legacy_theme": "coast",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04-seattle-alki-coast",
+          "formula_confidence": 97,
+          "best_time": "白天至夕陽前；船流與Olympics清晰時",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-310",
+              "variant_name": "Puget Sound＋Olympics＋ferries",
+              "condition_geometry": "{\"target\":\"Puget Sound + Olympic Mountains + vessel traffic\",\"camera_zone\":\"Alki Beach public shoreline\"}",
+              "hard_gates": "公共區域可合法安全到達；遵守公園當日開放與現場管制",
+              "required_conditions": "海灣與Olympic Mountains主要輪廓可辨",
+              "boosters": "高透明度；渡輪／帆船通過；低角度光",
+              "penalties": "低雲遮山；霧霾；強降水",
+              "formula_status": "needs_directional_horizon_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-073-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official shoreline subject; public coordinate anchor.",
+              "name": "Alki Beach shoreline Camera Zone",
+              "lat": 47.58099,
+              "lon": -122.40673,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_city_subject_public_coordinate",
+              "geometry_type": "area",
+              "geometry_extent_m": 1200,
+              "geometry_note": "以合法公共區域為 Camera Zone；座標作天氣／地圖錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-073-P02",
+          "spot_id": "us-073",
+          "name_zh": "Alki Beach・Puget Sound 海灘日落",
+          "legacy_theme": "sunset",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_sunset_cloud_module",
+          "formula_version": "v0.04-seattle-coast-sunset",
+          "formula_confidence": 96,
+          "best_time": "日落前後",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-311",
+              "variant_name": "Puget Sound海灘夕景",
+              "condition_geometry": "{\"target\":\"sunset sky + Puget Sound\",\"camera_zone\":\"Alki Beach public shoreline\"}",
+              "hard_gates": "公共區域可合法安全到達；遵守公園當日開放與現場管制",
+              "required_conditions": "西向海面與天空可辨",
+              "boosters": "中高雲彩霞；海面反光；船隻剪影",
+              "penalties": "厚低雲；強降水；低能見度",
+              "formula_status": "needs_directional_sunset_cloud_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-073-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official long beach strip on Elliott Bay/Puget Sound.",
+              "name": "Alki Beach sunset Camera Zone",
+              "lat": 47.58099,
+              "lon": -122.40673,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_city_coast_subject",
+              "geometry_type": "area",
+              "geometry_extent_m": 1200,
+              "geometry_note": "以合法公共區域為 Camera Zone；座標作天氣／地圖錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-074",
+      "canonical_name": "Gas Works Park",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_SEATTLE_SCENIC_EXPANSION",
+      "research_sources": [
+        {
+          "authority": "Seattle Parks and Recreation — Gas Works Park",
+          "url": "https://legacywww.seattle.gov/parks/parks/gas-works-park",
+          "verified_on": "2026-10-02",
+          "supports": "Official page documents the Seattle view, Lake Union setting, 06:00–22:00 hours, and prohibition on entering the water."
+        },
+        {
+          "authority": "Washington Trails Association — Gas Works Park",
+          "url": "https://www.wta.org/go-hiking/hikes/gas-works-park",
+          "verified_on": "2026-10-02",
+          "supports": "WTA documents the hill on north Lake Union and downtown Seattle view; coordinate is used as a public park anchor."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-074-P01",
+          "spot_id": "us-074",
+          "name_zh": "Gas Works Park・Lake Union＋Seattle Skyline 城市全景",
+          "legacy_theme": "city_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04-seattle-gasworks-city",
+          "formula_confidence": 97,
+          "best_time": "白天至黃昏",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-312",
+              "variant_name": "Lake Union＋Downtown skyline",
+              "condition_geometry": "{\"target\":\"Lake Union + downtown Seattle skyline\",\"camera_zone\":\"Gas Works hill/public lawn\"}",
+              "hard_gates": "公共區域可合法安全到達；遵守公園當日開放與現場管制",
+              "required_conditions": "Lake Union與Seattle skyline清楚可辨",
+              "boosters": "高透明度；低風；湖面反射；低角度光",
+              "penalties": "霧；低雲；強降水；低能見度",
+              "formula_status": "needs_directional_horizon_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-074-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official Seattle view; WTA public trailhead/park coordinate used as anchor.",
+              "name": "Gas Works Park hill Camera Zone",
+              "lat": 47.6463,
+              "lon": -122.336,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_city_view_wta_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 500,
+              "geometry_note": "以合法公共區域為 Camera Zone；座標作天氣／地圖錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-074-P02",
+          "spot_id": "us-074",
+          "name_zh": "Gas Works Park・Lake Union 日落／藍調＋Seattle Skyline",
+          "legacy_theme": "city_night",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_access_aware_city_night_module",
+          "formula_version": "v0.04-seattle-gasworks-twilight",
+          "formula_confidence": 97,
+          "best_time": "日落前至藍調；22:00閉園前完成",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-313",
+              "variant_name": "Lake Union藍調＋城市燈火",
+              "condition_geometry": "{\"target\":\"Lake Union + Seattle skyline city lights\",\"camera_zone\":\"Gas Works public viewpoint\"}",
+              "hard_gates": "公共區域可合法安全到達；遵守公園當日開放與現場管制",
+              "required_conditions": "城市與湖面視線清楚；官方開放時段內",
+              "boosters": "藍調天空；城市燈火；湖面反射；中高雲夕彩",
+              "penalties": "霧；厚低雲；降雨；22:00後",
+              "formula_status": "needs_access_aware_city_night_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-074-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official 06:00–22:00 park access and Seattle-view subject.",
+              "name": "Gas Works twilight Camera Zone",
+              "lat": 47.6463,
+              "lon": -122.336,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_hours_city_view",
+              "geometry_type": "area",
+              "geometry_extent_m": 500,
+              "geometry_note": "以合法公共區域為 Camera Zone；座標作天氣／地圖錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-075",
+      "canonical_name": "Discovery Park",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_SEATTLE_SCENIC_EXPANSION",
+      "research_sources": [
+        {
+          "authority": "Seattle Parks and Recreation — Discovery Park",
+          "url": "https://www.seattle.gov/parks/parks/discovery-park",
+          "verified_on": "2026-10-02",
+          "supports": "Official page documents Puget Sound, Cascade and Olympic Mountain views, tidal beaches, sea cliffs, dunes and West Point Lighthouse; it also documents current parking/access restrictions."
+        },
+        {
+          "authority": "OpenStreetMap/GeoNames-derived West Point Light coordinate",
+          "url": "https://mapcarta.com/23976804",
+          "verified_on": "2026-10-02",
+          "supports": "Provides the West Point Lighthouse coordinate anchor for the lighthouse/coast opportunity."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-075-P01",
+          "spot_id": "us-075",
+          "name_zh": "Discovery Park・Puget Sound＋Olympic／Cascade Mountains 山海景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "multi_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04-seattle-discovery-panorama",
+          "formula_confidence": 97,
+          "best_time": "白天至低角度光",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-314",
+              "variant_name": "Magnolia Bluff山海遠景",
+              "condition_geometry": "{\"target\":\"Puget Sound + Olympic/Cascade mountain sectors\",\"camera_zone\":\"Discovery Park bluff/trail public areas\"}",
+              "hard_gates": "公共區域可合法安全到達；遵守公園當日開放與現場管制",
+              "required_conditions": "Puget Sound與至少一側主要山系輪廓可辨",
+              "boosters": "高透明度；低霾；雪山清晰；低角度光",
+              "penalties": "低雲遮山；霧；強降水",
+              "formula_status": "needs_directional_horizon_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-075-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official park panorama subject; park coordinate anchor.",
+              "name": "Discovery Park bluff Camera Zone",
+              "lat": 47.6573,
+              "lon": -122.4055,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_city_subject_public_coordinate",
+              "geometry_type": "area",
+              "geometry_extent_m": 1600,
+              "geometry_note": "以合法公共區域為 Camera Zone；座標作天氣／地圖錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-075-P02",
+          "spot_id": "us-075",
+          "name_zh": "Discovery Park・West Point Lighthouse＋海岸／日落",
+          "legacy_theme": "sunset",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_sunset_cloud_module",
+          "formula_version": "v0.04-seattle-discovery-lighthouse",
+          "formula_confidence": 98,
+          "best_time": "下午低角度光至日落；須計入步行返回時間",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-315",
+              "variant_name": "West Point Lighthouse＋Puget Sound夕景",
+              "condition_geometry": "{\"target\":\"West Point Lighthouse + Puget Sound + western sky\",\"camera_zone\":\"South Beach Trail / legal public shoreline\"}",
+              "hard_gates": "公共區域可合法安全到達；遵守公園當日開放與現場管制",
+              "required_conditions": "燈塔與海岸視線可用；步道與海灘可安全到達",
+              "boosters": "中高雲夕彩；低潮前景；高透明度",
+              "penalties": "厚低雲；強風浪；強降水；步道／海灘管制",
+              "formula_status": "needs_directional_sunset_cloud_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-075-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Seattle Parks states the lighthouse can be viewed from South Beach Trail; beach parking is ADA-only, so general visitors must account for walking/shuttle access.",
+              "name": "West Point Lighthouse / South Beach Camera Zone",
+              "lat": 47.66197,
+              "lon": -122.43573,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_lighthouse_subject_public_coordinate",
+              "geometry_type": "area",
+              "geometry_extent_m": 600,
+              "geometry_note": "以合法公共區域為 Camera Zone；座標作天氣／地圖錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-076",
+      "canonical_name": "Hamilton Viewpoint Park",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_SEATTLE_SCENIC_EXPANSION",
+      "research_sources": [
+        {
+          "authority": "Seattle Parks and Recreation — Hamilton Viewpoint Park",
+          "url": "https://www.citylink.seattle.gov/parks/parks/hamilton-viewpoint-park",
+          "verified_on": "2026-10-02",
+          "supports": "Official page documents city, Elliott Bay, harbor and Cascade Mountains views and 06:00–22:00 hours."
+        },
+        {
+          "authority": "OpenStreetMap/GeoNames-derived Hamilton Viewpoint coordinate",
+          "url": "https://mapcarta.com/23938862",
+          "verified_on": "2026-10-02",
+          "supports": "Provides a public park coordinate anchor."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-076-P01",
+          "spot_id": "us-076",
+          "name_zh": "Hamilton Viewpoint・Seattle City＋Elliott Bay＋Harbor＋Cascade Mountains",
+          "legacy_theme": "city_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04-seattle-hamilton-city",
+          "formula_confidence": 98,
+          "best_time": "白天至黃昏",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-316",
+              "variant_name": "Seattle＋Elliott Bay＋Harbor＋Cascades",
+              "condition_geometry": "{\"target\":\"Seattle city + Elliott Bay + harbor + Cascade Mountains\",\"camera_zone\":\"Hamilton Viewpoint public area\"}",
+              "hard_gates": "公共區域可合法安全到達；遵守公園當日開放與現場管制",
+              "required_conditions": "城市、海灣與港區可辨；若評估Cascades則東向山體能見度足夠",
+              "boosters": "高透明度；山體清晰；港區船流；低角度光",
+              "penalties": "霧霾；低雲遮山；強降水",
+              "formula_status": "needs_directional_horizon_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-076-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official city/Elliott Bay/harbor/Cascade view; OSM/GeoNames coordinate anchor.",
+              "name": "Hamilton Viewpoint Camera Zone",
+              "lat": 47.59163,
+              "lon": -122.3846,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_city_subject_public_coordinate",
+              "geometry_type": "area",
+              "geometry_extent_m": 250,
+              "geometry_note": "以合法公共區域為 Camera Zone；座標作天氣／地圖錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-076-P02",
+          "spot_id": "us-076",
+          "name_zh": "Hamilton Viewpoint・Seattle 藍調／夜景＋Elliott Bay",
+          "legacy_theme": "city_night",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_access_aware_city_night_module",
+          "formula_version": "v0.04-seattle-hamilton-night",
+          "formula_confidence": 96,
+          "best_time": "日落後藍調至21:45左右",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-317",
+              "variant_name": "Elliott Bay＋Seattle城市燈火",
+              "condition_geometry": "{\"target\":\"Seattle city lights + Elliott Bay/harbor\",\"camera_zone\":\"Hamilton Viewpoint\"}",
+              "hard_gates": "公共區域可合法安全到達；遵守公園當日開放與現場管制",
+              "required_conditions": "城市與海灣視線可用；22:00前完成",
+              "boosters": "藍調天空；港區燈火；高透明度",
+              "penalties": "霧；低雲；降雨；閉園後",
+              "formula_status": "needs_access_aware_city_night_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-076-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official 06:00–22:00 access and city-view subject.",
+              "name": "Hamilton Viewpoint night Camera Zone",
+              "lat": 47.59163,
+              "lon": -122.3846,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_hours_city_view",
+              "geometry_type": "area",
+              "geometry_extent_m": 250,
+              "geometry_note": "以合法公共區域為 Camera Zone；座標作天氣／地圖錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-077",
+      "canonical_name": "Dr. Jose Rizal Park",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_SEATTLE_SCENIC_EXPANSION",
+      "research_sources": [
+        {
+          "authority": "Seattle Parks and Recreation — Dr. Jose Rizal Park",
+          "url": "https://www.adc.seattle.gov/parks/parks/jose-rizal-park",
+          "verified_on": "2026-10-02",
+          "supports": "Official page documents south Downtown and Elliott Bay views, west-facing Puget Sound and north-facing Downtown skyline views, and 04:00–23:30 hours."
+        },
+        {
+          "authority": "GNIS via Wikidata — Dr. Jose Rizal Park",
+          "url": "https://www.wikidata.org/wiki/Q7339078",
+          "verified_on": "2026-10-02",
+          "supports": "Provides GNIS-referenced coordinate location for the park."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-077-P01",
+          "spot_id": "us-077",
+          "name_zh": "Dr. Jose Rizal Park・South Downtown＋Elliott Bay 城市全景",
+          "legacy_theme": "city_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "multi_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04-seattle-rizal-city",
+          "formula_confidence": 98,
+          "best_time": "白天至黃昏",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-318",
+              "variant_name": "South Downtown＋Elliott Bay／Puget Sound",
+              "condition_geometry": "{\"target\":\"south Downtown + Elliott Bay; north Downtown skyline; west Puget Sound\",\"camera_zone\":\"Dr. Jose Rizal Park public viewpoints\"}",
+              "hard_gates": "公共區域可合法安全到達；遵守公園當日開放與現場管制",
+              "required_conditions": "Downtown與Elliott Bay主要視線清楚",
+              "boosters": "高透明度；港區層次；低角度光",
+              "penalties": "霧霾；低雲；強降水",
+              "formula_status": "needs_directional_horizon_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-077-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official multi-direction city/bay view; GNIS-referenced coordinate.",
+              "name": "Dr. Jose Rizal Park Camera Zone",
+              "lat": 47.5925,
+              "lon": -122.31806,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_city_subject_gnis_coordinate",
+              "geometry_type": "area",
+              "geometry_extent_m": 350,
+              "geometry_note": "以合法公共區域為 Camera Zone；座標作天氣／地圖錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-077-P02",
+          "spot_id": "us-077",
+          "name_zh": "Dr. Jose Rizal Park・Downtown Seattle 藍調／夜景",
+          "legacy_theme": "city_night",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_access_aware_city_night_module",
+          "formula_version": "v0.04-seattle-rizal-night",
+          "formula_confidence": 97,
+          "best_time": "日落後藍調至23:00左右；23:30閉園前離場",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-319",
+              "variant_name": "Downtown skyline夜景",
+              "condition_geometry": "{\"target\":\"Downtown Seattle skyline + Elliott Bay city lights\",\"camera_zone\":\"Dr. Jose Rizal Park\"}",
+              "hard_gates": "公共區域可合法安全到達；遵守公園當日開放與現場管制",
+              "required_conditions": "城市燈火與skyline清楚；官方開放時段內",
+              "boosters": "藍調天空；雨後清透；城市燈火",
+              "penalties": "霧；低雲；強降水；閉園後",
+              "formula_status": "needs_access_aware_city_night_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-077-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official 04:00–23:30 access and skyline/bay view.",
+              "name": "Dr. Jose Rizal Park night Camera Zone",
+              "lat": 47.5925,
+              "lon": -122.31806,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_hours_city_view",
+              "geometry_type": "area",
+              "geometry_extent_m": 350,
+              "geometry_note": "以合法公共區域為 Camera Zone；座標作天氣／地圖錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
             }
           ]
         }
