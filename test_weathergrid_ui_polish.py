@@ -357,6 +357,13 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn("status:!horizon?'outside_solar_window':'solar_direction_mismatch'", self.js)
         self.assertIn("solar_geometry_required:true", self.js)
 
+        self.assertIn("function seascapeNativeDiagnostic(op,targetValidTime=baseFrame()?.valid_time_utc)", self.js)
+        self.assertIn("marine_direction_required:true", self.js)
+        self.assertIn("wave_data_integrated:false", self.js)
+        self.assertIn("tide_data_integrated:false", self.js)
+        self.assertIn("'wind is not wave height'", self.js)
+        self.assertIn("'tide state is not available in this diagnostic'", self.js)
+
 
 
 
