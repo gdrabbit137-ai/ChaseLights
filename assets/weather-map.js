@@ -2047,6 +2047,28 @@
       '<div class="muted">診斷用：GFS 能見度／低雲 + CWA RH + CAMS AOD／PM2.5；目前不影響攝影評分。</div>';
   }
 
+  function geometrySamplePoints(item,op){
+    const g=item?.geometry;if(!g)return [];
+    if(g.type==='point')return [{lat:Number(g.lat),lon:Number(g.lon)}];
+    if(g.type==='bbox')return [{lat:(Number(g.south)+Number(g.north))/2,lon:(Number(g.west)+Number(g.east))/2},{lat:Number(g.south),lon:Number(g.west)},{lat:Number(g.south),lon:Number(g.east)},{lat:Number(g.north),lon:Number(g.west)},{lat:Number(g.north),lon:Number(g.east)}];
+    if(g.type==='polygon'||g.type==='corridor'){const pts=(g.coordinates||[]).map(([lon,lat])=>({lat:Number(lat),lon:Number(lon)}));const stride=Math.max(1,Math.ceil(pts.length/12));return pts.filter((_,i)=>i%stride===0).slice(0,12);}
+    if(g.type==='sector'){const origin=geometryOrigin(g,op);if(!origin)return [];const min=Number(g.min_range_km||0),max=Number(g.max_range_km||0),radius=min+(max-min)*.65;const bearings=sectorBearings(g.azimuth_start_deg,g.azimuth_end_deg),stride=Math.max(1,Math.ceil(bearings.length/12));return bearings.filter((_,i)=>i%stride===0).slice(0,12).map(b=>destination(origin.lat,origin.lon,b,radius));}
+    return [];
+  }
+  function opportunitySpatialDiagnostic(op){
+    if(!op)return null;const layer=photographyLayerForOpportunity(op);
+    const cameras=(op.camera_zones||[]).filter(c=>Number.isFinite(Number(c.lat))&&Number.isFinite(Number(c.lon))).map(c=>({lat:Number(c.lat),lon:Number(c.lon)}));
+    const subject=(op.subject_geometries||[]).flatMap(x=>geometrySamplePoints(x,op));
+    const environment=(op.environment_geometries||[]).flatMap(x=>geometrySamplePoints(x,op));
+    const summarize=points=>{const vals=points.map(p=>samplePointValue(p,layer)).filter(Number.isFinite);if(!vals.length)return null;return {mean:vals.reduce((a,b)=>a+b,0)/vals.length,min:Math.min(...vals),max:Math.max(...vals),count:vals.length};};
+    return {layer,camera:summarize(cameras),subject:summarize(subject),environment:summarize(environment)};
+  }
+  function opportunitySpatialDiagnosticHtml(op){
+    const d=opportunitySpatialDiagnostic(op);if(!d)return '';
+    const fmt=x=>x?(Math.round(x.mean)+' 分（'+x.count+' 點，範圍 '+Math.round(x.min)+'–'+Math.round(x.max)+'）'):'—';
+    return '<div><strong>題材空間判讀 · '+escapeHtml(photographyLayerLabel(d.layer))+'</strong></div><div>相機位置：'+fmt(d.camera)+'</div><div>被攝主體區：'+fmt(d.subject)+'</div><div>環境條件區：'+fmt(d.environment)+'</div><div class="muted">beta：分區取樣用來揭露「攝影者所在地」與「被攝／環境區」條件差異；目前不覆寫正式 opportunity score。</div>';
+  }
+
   function samplingPoint(){
     const op=selectedOpportunity();
     const camera=(op?.camera_zones||[]).find(c=>Number.isFinite(Number(c.lat))&&Number.isFinite(Number(c.lon)));
@@ -2343,7 +2365,7 @@
       : '<div>可從下拉選單或地圖上的景點點位選取。</div>';
     const environmentHost=$('spot-environment');
     if(environmentHost){
-      const environmentHtml=fogHazeDiagnosticHtml(point);
+      const environmentHtml=[opportunitySpatialDiagnosticHtml(selectedOpportunity()),fogHazeDiagnosticHtml(point)].filter(Boolean).join('');
       environmentHost.hidden=!environmentHtml;
       environmentHost.innerHTML=environmentHtml;
     }
