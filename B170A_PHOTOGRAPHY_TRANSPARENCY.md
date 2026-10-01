@@ -23,3 +23,13 @@ References:
 - Taiwan visibility/fog/haze literature already tracked in the ChaseLights research process.
 
 Next gate: replay the index against clear/fog/haze/mixed field snapshots, then decide whether B170b should remain informational or influence specific long-range photography Opportunities.
+
+
+## B170b replay guard
+
+Qingshui and Qixingtan sensitivity cases are now replayed before any score integration. A key semantic guard is explicit: **low atmospheric transparency is not universally bad photography**. A verified mist subject can be desirable precisely when long-range transparency is low.
+
+Therefore a future scoring integration must be subject-aware:
+- long-range mountain/city/coast views may benefit from high transparency;
+- fog/mist subjects must not inherit a generic high-transparency preference;
+- the index remains diagnostic until time-matched aerosol field cases are captured and calibrated.
