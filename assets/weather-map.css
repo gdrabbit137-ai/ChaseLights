@@ -26,6 +26,9 @@ body{padding:18px}
 .map-panel{padding:12px;min-width:0}
 .control-bar{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;align-items:end;margin-bottom:10px}
 .control-bar>*{min-width:0}
+.layer-control.primary-control{grid-column:span 2}
+.layer-control.primary-control select{border-color:#0ea5e9;font-weight:800}
+.model-control.advanced-control{opacity:.82}
 .control-bar label{display:flex;min-width:0;flex-direction:column;gap:5px;color:var(--muted);font-size:.75rem;font-weight:700}
 .control-bar select,.control-bar button,.control-bar input[type=range]{width:100%;max-width:100%;min-width:0}
 .control-bar select,.control-bar button{background:#0f172a;color:#e2e8f0;border:1px solid #475569;
@@ -147,6 +150,13 @@ body{padding:18px}
     gap:7px 8px;margin-bottom:8px
   }
   .control-bar label{gap:3px;font-size:.68rem}
+  .layer-control.primary-control{grid-column:1/-1;grid-row:1}
+  .model-control.advanced-control{grid-column:1/-1;grid-row:4;opacity:.72}
+  .model-control.advanced-control span{font-size:.62rem}
+  .model-control.advanced-control select{min-height:38px;font-size:.72rem}
+  .spot-control{grid-row:2}
+  .opportunity-control{grid-row:2}
+  .opacity-control{grid-row:3}
   .control-bar select{
     min-height:42px;padding:8px 9px;font-size:.8rem;border-radius:8px
   }
