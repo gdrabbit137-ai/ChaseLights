@@ -717,7 +717,7 @@ jobs:
 
               hrefs = [x.get_attribute("href") or "" for x in tools]
               report["tool_hrefs"] = hrefs
-              assert any("google.com/maps/search" in h for h in hrefs), hrefs
+              assert any("google.com/maps/dir/" in h and "destination=" in h for h in hrefs), hrefs
               assert any("radar" in (x.text or "").lower() or "雷達" in (x.text or "") for x in tools), [x.text for x in tools]
 
               version_recovery = driver.execute_async_script("""
