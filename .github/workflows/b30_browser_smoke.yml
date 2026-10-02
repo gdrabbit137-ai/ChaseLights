@@ -1057,8 +1057,8 @@ jobs:
               report["us_cards"] = len(us_cards)
               assert len(us_cards) == 96, len(us_cards)
               # All 96 US catalog entries are research-backed. Cards do not expose
-    # spot_id as a DOM attribute, so validate the rendered catalog contract
-    # directly instead of depending on nonexistent data-spot-id metadata.
+              # spot_id as a DOM attribute, so validate the rendered catalog contract
+              # directly instead of depending on nonexistent data-spot-id metadata.
               researched_us_cards = us_cards
               assert all("攝影研究待補" not in c.text for c in researched_us_cards), [c.text for c in researched_us_cards]
               pending_us_cards = []
