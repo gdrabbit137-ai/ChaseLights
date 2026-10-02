@@ -170,3 +170,32 @@ Browser smoke must verify:
 - a `provisional_camera_anchor` uses an exact-coordinate map pin;
 - a `needs_review` Place does not expose a clickable map-search fallback;
 - 加羅湖 specifically no longer opens a broad Google Maps keyword search.
+
+
+## Subject / Photo Target separation
+
+A photography Place may involve three semantically distinct spatial concepts:
+
+1. **Camera Zone** — where the photograph can actually be made.
+2. **Photo Target / Subject** — the physical subject, scene, structure, landform, skyline, celestial alignment, or target area being photographed.
+3. **Navigation Target** — the practical point to which the user should be routed to begin reaching the appropriate photography area.
+
+These concepts MUST NOT be substituted for one another merely because one coordinate is easier to obtain.
+
+A Photo Target coordinate MUST NOT be used as a Navigation Target unless that same coordinate has independently been verified as the practical arrival target. Likewise, a Camera Zone MUST NOT automatically become a Directions destination.
+
+Example pattern: when a subject such as a building, bridge, skyline, mountain, or colorful waterfront facade is photographed from the opposite bank or another viewpoint, the subject location belongs to Photo Target / Subject; the opposite-bank shooting area belongs to Camera Zone; and the Navigation Target must be separately researched as the practical legal arrival/entry/parking/street/trail point serving that Camera Zone.
+
+The primary card action labeled Navigation / 導航 / ナビ MUST semantically mean "route me to the verified practical arrival point for reaching the photography area", never "route me to the photographed object".
+
+Where useful, UI may separately expose Camera Zone, shooting direction, and Photo Target. Such presentation MUST NOT change the Navigation Target semantics above.
+
+### Research and audit rule
+
+For every new Place, and when auditing legacy Places, researchers/agents MUST explicitly check whether an existing coordinate represents:
+- the photographer/camera location,
+- the photographed subject,
+- the practical arrival/navigation point,
+- or an unresolved/general Place anchor.
+
+If a legacy Navigation Target is actually a subject coordinate or an unverified Camera Zone, it MUST be reclassified and must not continue to be presented as verified Directions. Use the existing `provisional_camera_anchor`, `needs_review`, or `multiple_access_routes` states as appropriate until an independent Navigation Target is verified.
