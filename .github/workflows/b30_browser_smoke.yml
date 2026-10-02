@@ -1059,10 +1059,10 @@ jobs:
               # All 96 US catalog entries are research-backed. Cards do not expose
     # spot_id as a DOM attribute, so validate the rendered catalog contract
     # directly instead of depending on nonexistent data-spot-id metadata.
-    researched_us_cards = us_cards
-    assert all("攝影研究待補" not in c.text for c in researched_us_cards), [c.text for c in researched_us_cards]
-    pending_us_cards = []
-    pending_us_scores = [c.find_element(By.CSS_SELECTOR, ".score-badge").text.strip() for c in pending_us_cards]
+              researched_us_cards = us_cards
+              assert all("攝影研究待補" not in c.text for c in researched_us_cards), [c.text for c in researched_us_cards]
+              pending_us_cards = []
+              pending_us_scores = [c.find_element(By.CSS_SELECTOR, ".score-badge").text.strip() for c in pending_us_cards]
               assert all(x in {"", "—"} for x in pending_us_scores), pending_us_scores[:20]
               assert all("攝影研究待補" in c.text for c in pending_us_cards), "non-migrated US card leaked legacy scoring"
 
