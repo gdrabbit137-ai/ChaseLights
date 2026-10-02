@@ -136,6 +136,16 @@ OPPORTUNITY_DEPENDENCY_OVERRIDES = {
 # intentionally has no configured runtime profile yet. Adapter tests assert
 # registered profiles + these gaps exactly cover canonical dependencies.
 RUNTIME_PROFILE_GAPS = {
+    "visibility": frozenset({
+        "tw-085-P01", "tw-085-P02",
+        "jp-036-P01", "jp-036-P02",
+    }),
+    "seasonal_foreground": frozenset({
+        "tw-085-P03",
+    }),
+    "dynamic_access": frozenset({
+        "jp-036-P03",
+    }),
     "spatial_weather_vertical_cloud": frozenset({
         "jp-002-P01",
         "tw-021-P02",
@@ -152,6 +162,7 @@ RUNTIME_PROFILE_GAPS = {
         "tw-041-P02", "tw-041-P04", "tw-043-P04",
         "tw-045-P01", "tw-045-P04", "tw-049-P02",
         "tw-064-P01", "tw-068-P01", "tw-069-P01",
+        "tw-085-P01", "tw-085-P02",
     }),
 }
 
