@@ -3,9 +3,11 @@
 from __future__ import annotations
 
 import argparse
+import http.cookiejar
 import json
 import os
 import re
+import subprocess
 import urllib.parse
 import urllib.request
 from pathlib import Path
@@ -13,6 +15,7 @@ from pathlib import Path
 BASE = "https://ladsweb.modaps.eosdis.nasa.gov"
 PRODUCT = "VNP46A4"
 ARCHIVE_SET = "5200"
+HDF5_MAGIC = b"\\x89HDF\\r\\n\\x1a\\n"
 FILENAME_RE = re.compile(r"VNP46A4\.A(?P<year>\d{4})(?P<doy>\d{3})\.h\d{2}v\d{2}\.\d{3}\.[^.]+\.h5$")
 
 
@@ -49,6 +52,16 @@ def _walk_strings(value):
         yield value
 
 
+def extract_file_references(payload):
+    """Return discovered filename plus the exact LAADS string that named it."""
+    found = {}
+    for value in _walk_strings(payload):
+        name = value.rsplit("/", 1)[-1]
+        if FILENAME_RE.fullmatch(name):
+            found.setdefault(name, value)
+    return [{"filename": name, "reference": found[name]} for name in sorted(found)]
+
+
 def extract_filenames(payload):
     """Extract VNP46A4 HDF5 filenames without depending on one API JSON shape."""
     found = set()
@@ -59,14 +72,22 @@ def extract_filenames(payload):
     return sorted(found)
 
 
-def discover_files(year, bbox, token):
+def authenticated_opener():
+    """Preserve LAADS/Earthdata cookies across EDL authentication redirects."""
+    cookie_jar = http.cookiejar.CookieJar()
+    return urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cookie_jar))
+
+
+def discover_files(year, bbox, token, opener=None):
+    opener = opener or authenticated_opener()
     request = urllib.request.Request(search_url(year, bbox), headers=authorization_headers(token))
-    with urllib.request.urlopen(request, timeout=60) as response:
+    with opener.open(request, timeout=60) as response:
         payload = json.load(response)
-    files = extract_filenames(payload)
-    if not files:
+    references = extract_file_references(payload)
+    if not references:
         raise RuntimeError("LAADS search returned no VNP46A4 HDF5 files for bbox/year")
-    return files
+    print(json.dumps({"laads_discovery_references": references}, indent=2))
+    return references
 
 
 def archive_path(filename):
@@ -80,21 +101,58 @@ def archive_path(filename):
 
 
 def archive_url(filename):
-    """Use the documented API-V2 archive download endpoint."""
-    return f"{BASE}/api/v2/content/archives/{archive_path(filename)}"
+    """Use the LAADS archive path documented for Earthdata Download tokens."""
+    return f"{BASE}/archive/{archive_path(filename)}"
 
 
-def download_file(filename, token, destination):
-    url = archive_url(filename)
-    request = urllib.request.Request(url, headers=authorization_headers(token))
+def download_file(filename, token, destination, opener=None, reference=None):
+    """Download using NASA's documented curl EDL-token flow.
+
+    curl -L follows Earthdata redirects and -b persists the LAADS/EDL session
+    cookies required by the official scripted-download guidance.
+    """
+    authorization_headers(token)  # fail closed before spawning curl
+    url = reference if reference and reference.startswith(BASE + "/") else archive_url(filename)
     destination = Path(destination)
     destination.parent.mkdir(parents=True, exist_ok=True)
-    with urllib.request.urlopen(request, timeout=180) as response, destination.open("wb") as out:
-        while True:
-            chunk = response.read(1024 * 1024)
-            if not chunk:
-                break
-            out.write(chunk)
+    cookie_file = destination.parent / ".earthdata-session"
+    subprocess.run(
+        [
+            "curl",
+            "--fail",
+            "--show-error",
+            "--location",
+            "--cookie",
+            str(cookie_file),
+            "--dump-header",
+            str(destination) + ".headers",
+            "--write-out",
+            "LAADS_HTTP_DIAGNOSTIC status=%{http_code} content_type=%{content_type} url_effective=%{url_effective} redirects=%{num_redirects}\\n",
+            "--header",
+            f"Authorization: Bearer {token}",
+            "--output",
+            str(destination),
+            url,
+        ],
+        check=True,
+    )
+    with destination.open("rb") as stream:
+        signature = stream.read(len(HDF5_MAGIC))
+    if signature != HDF5_MAGIC:
+        preview = destination.read_bytes()[:160].decode("utf-8", errors="replace").replace("\n", " ")
+        header_path = Path(str(destination) + ".headers")
+        header_text = header_path.read_text(errors="replace") if header_path.exists() else ""
+        safe_headers = [
+            line for line in header_text.splitlines()
+            if line.startswith("HTTP/") or line.lower().startswith(("location:", "content-type:"))
+        ]
+        print(json.dumps({"laads_http_chain": safe_headers}, indent=2))
+        destination.unlink(missing_ok=True)
+        header_path.unlink(missing_ok=True)
+        raise RuntimeError(
+            "LAADS download did not return an HDF5 payload; "
+            f"first bytes={signature!r}, preview={preview!r}"
+        )
     return destination
 
 
@@ -110,12 +168,15 @@ def main():
     if len(bbox) != 4:
         raise SystemExit("--bbox requires left,bottom,right,top")
     token = os.environ.get(args.token_env)
-    files = discover_files(args.year, bbox, token)
+    opener = authenticated_opener()
+    references = discover_files(args.year, bbox, token, opener=opener)
+    files = [item["filename"] for item in references]
     print(json.dumps({"year": args.year, "files": files}, indent=2))
     if args.list_only:
         return
-    for filename in files:
-        path = download_file(filename, token, Path(args.output_dir) / filename)
+    for item in references:
+        filename = item["filename"]
+        path = download_file(filename, token, Path(args.output_dir) / filename, opener=opener, reference=item["reference"])
         print(path)
 
 

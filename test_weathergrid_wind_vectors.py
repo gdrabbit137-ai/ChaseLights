@@ -41,7 +41,7 @@ class WeatherGridWindVectorTests(unittest.TestCase):
         self.assertIn("if(zoom>=6.4) return 3", self.js)
         self.assertIn("return 4", self.js)
         self.assertIn("return 3", self.js)
-        self.assertIn("const minVectorSpacingPx=compactUi?30:22", self.js)
+        self.assertIn("const minVectorSpacingPx=compactUi?30:34", self.js)
         self.assertIn("occupiedVectorCells.has(bucketKey)", self.js)
 
     def test_mobile_vectors_and_legend_are_compact(self):
