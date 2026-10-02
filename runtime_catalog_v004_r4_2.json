@@ -14,10 +14,10 @@
     "runtime_catalog_v004_r4_2_b35_liyu_subjects.json"
   ],
   "counts": {
-    "spots": 188,
-    "opportunities": 384,
-    "condition_variants": 399,
-    "profile_viewpoint_relations": 390
+    "spots": 214,
+    "opportunities": 423,
+    "condition_variants": 438,
+    "profile_viewpoint_relations": 429
   },
   "spots": [
     {
@@ -19595,6 +19595,2204 @@
               "geometry_extent_m": 1200,
               "geometry_note": "Independence Mine合法公共歷史區、步道與觀景範圍；封閉建築與危險礦區除外。",
               "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-071",
+      "canonical_name": "Kerry Park",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_SEATTLE_SCENIC_EXPANSION",
+      "research_sources": [
+        {
+          "authority": "Seattle Parks and Recreation — Kerry Park (Franklin Place)",
+          "url": "https://www.seattle.gov/parks/parks/kerry-park",
+          "verified_on": "2026-10-02",
+          "supports": "Official park page identifies the Elliott Bay and Central City panorama, occasional Mount Rainier backdrop, sunset camera use, night city lights and current 06:00–22:00 park hours."
+        },
+        {
+          "authority": "Visit Seattle — Seattle on a Budget",
+          "url": "https://visitseattle.org/press/press-kit/seattle-on-a-budget/",
+          "verified_on": "2026-10-02",
+          "supports": "Visit Seattle describes Kerry Park as a picture-perfect view of Seattle Center, downtown and Elliott Bay, with Mount Rainier as a clear-day backdrop."
+        },
+        {
+          "authority": "OpenStreetMap-derived Kerry Park viewpoint coordinate",
+          "url": "https://www.openstreetmap.org/node/693337509",
+          "verified_on": "2026-10-02",
+          "supports": "Public viewpoint anchor at approximately 47.62941, -122.35993; used as the weather/navigation camera-zone anchor rather than a claim of a unique tripod position."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-071-P01",
+          "spot_id": "us-071",
+          "name_zh": "Kerry Park・Seattle Skyline＋Space Needle＋Mount Rainier 遠景",
+          "legacy_theme": "city_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-seattle-kerry-directional-visibility",
+          "formula_confidence": 97,
+          "best_time": "白天至日落前；Mount Rainier 作背景時優先高能見度、低霾時段",
+          "best_season": "全年；Rainier 是否可見主要受雲層、能見度與大氣透明度影響",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-305",
+              "variant_name": "Seattle skyline＋Space Needle＋Mount Rainier 遠景",
+              "condition_geometry": "{\"camera_zone\":\"Kerry Park Viewpoint Camera Zone\",\"target\":\"Seattle skyline / Space Needle / Elliott Bay with Mount Rainier backdrop when visible\"}",
+              "hard_gates": "Kerry Park官方開放時段內；公共觀景區可合法安全使用",
+              "required_conditions": "Seattle skyline與Space Needle清楚可辨；若評估Rainier背景則需東南偏南遠距能見度與山體方向低雲條件可用",
+              "boosters": "高透明度；低霾；Rainier清晰；低角度光；雪山對比",
+              "penalties": "低雲遮山；霧霾；降雨；遠距能見度不足",
+              "formula_status": "needs_directional_horizon_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-071-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Seattle Parks officially identifies Kerry Park as the city/Elliott Bay viewpoint and notes the occasional Mount Rainier backdrop. Coordinate is an OSM-derived public viewpoint anchor, not a unique tripod claim.",
+              "name": "Kerry Park Viewpoint Camera Zone",
+              "lat": 47.62941,
+              "lon": -122.35993,
+              "coord_confidence": "high",
+              "verification_status": "official_park_subject_osm_viewpoint_anchor",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 120,
+              "geometry_note": "Kerry Park公共觀景牆與相鄰合法步行區域。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-071-P02",
+          "spot_id": "us-071",
+          "name_zh": "Kerry Park・日落彩霞＋Seattle Skyline",
+          "legacy_theme": "sunset",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04-seattle-kerry-sunset-cloud",
+          "formula_confidence": 96,
+          "best_time": "日落前約45分鐘至日落後藍調開始",
+          "best_season": "全年；依日落方位與雲量條件變化",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-306",
+              "variant_name": "夕照／彩霞＋城市天際線",
+              "condition_geometry": "{\"camera_zone\":\"Kerry Park Viewpoint Camera Zone\",\"target\":\"Seattle skyline / Elliott Bay under sunset or post-sunset color\"}",
+              "hard_gates": "官方06:00–22:00開放時段內；日落／暮光時段有效",
+              "required_conditions": "城市主景可辨；低雲未完全封景；降水未阻斷視線",
+              "boosters": "中高雲適中形成彩霞；西側天空有透光帶；高透明度",
+              "penalties": "厚低雲封住西側天空；強降水；低能見度",
+              "formula_status": "needs_directional_sunset_cloud_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-071-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Seattle Parks explicitly states camera buffs line the wall at sunset as the city and Sound begin to glow.",
+              "name": "Kerry Park Viewpoint Camera Zone",
+              "lat": 47.62941,
+              "lon": -122.35993,
+              "coord_confidence": "high",
+              "verification_status": "official_seattle_parks_sunset_camera_subject",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 120,
+              "geometry_note": "公共觀景牆範圍。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-071-P03",
+          "spot_id": "us-071",
+          "name_zh": "Kerry Park・藍調／夜景＋Space Needle 城市燈火",
+          "legacy_theme": "city_night",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-seattle-kerry-bluehour-night",
+          "formula_confidence": 98,
+          "best_time": "日落後藍調至21:45左右；須預留22:00閉園離場時間",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-307",
+              "variant_name": "藍調／夜景＋Space Needle＋城市燈火",
+              "condition_geometry": "{\"camera_zone\":\"Kerry Park Viewpoint Camera Zone\",\"target\":\"Space Needle / Seattle city lights / Elliott Bay\"}",
+              "hard_gates": "官方06:00–22:00開放時段內；22:00前完成拍攝並離場",
+              "required_conditions": "城市燈火與Space Needle清楚可辨；低雲／霧未封住主要視線",
+              "boosters": "藍調天空；雨後清澈空氣；城市燈光與渡輪光軌",
+              "penalties": "霧；厚低雲；強降水；能見度差",
+              "formula_status": "needs_access_aware_city_night_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-071-VP03",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Seattle Parks describes the night view with illuminated ferries and Space Needle; the 22:00 closing time is a hard access constraint.",
+              "name": "Kerry Park Viewpoint Camera Zone",
+              "lat": 47.62941,
+              "lon": -122.35993,
+              "coord_confidence": "high",
+              "verification_status": "official_seattle_parks_night_subject_and_hours",
+              "geometry_type": "small_area",
+              "geometry_extent_m": 120,
+              "geometry_note": "公共觀景牆範圍；閉園後不推薦。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-072",
+      "canonical_name": "Golden Gardens Park",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_SEATTLE_SCENIC_EXPANSION",
+      "research_sources": [
+        {
+          "authority": "Seattle Parks and Recreation — Golden Gardens Park",
+          "url": "https://seattle.gov/parks/parks/golden-gardens-park",
+          "verified_on": "2026-10-02",
+          "supports": "Official page documents extraordinary Puget Sound and Olympic Mountains views, rugged coastline/beach, seasonal park hours, and parking-gate timing."
+        },
+        {
+          "authority": "Washington State Department of Ecology — Golden Gardens Park site record",
+          "url": "https://apps.ecology.wa.gov/cleanupsearch/reports/cleanup/sitedetails/4753",
+          "verified_on": "2026-10-02",
+          "supports": "State record provides a public park coordinate anchor."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-072-P01",
+          "spot_id": "us-072",
+          "name_zh": "Golden Gardens・Puget Sound＋Olympic Mountains 海岸遠景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-seattle-coast-mountain",
+          "formula_confidence": 97,
+          "best_time": "白天至低角度光；Olympics清晰時優先",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-308",
+              "variant_name": "Puget Sound＋Olympic Mountains",
+              "condition_geometry": "{\"target\":\"Puget Sound + Olympic Mountains\",\"camera_zone\":\"Golden Gardens public beach/coast\"}",
+              "hard_gates": "公共區域可合法安全到達；遵守公園當日開放與現場管制",
+              "required_conditions": "Puget Sound與Olympic Mountains主要輪廓可辨；西向遠距能見度足夠",
+              "boosters": "高透明度；低霾；雪山清晰；低角度側光",
+              "penalties": "低雲遮山；霧霾；強降水；低能見度",
+              "formula_status": "needs_directional_horizon_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-072-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official Seattle Parks scenic subject; Washington Ecology coordinate used as park anchor.",
+              "name": "Golden Gardens public Camera Zone",
+              "lat": 47.69383,
+              "lon": -122.40511,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_city_subject_state_coordinate",
+              "geometry_type": "area",
+              "geometry_extent_m": 700,
+              "geometry_note": "以合法公共區域為 Camera Zone；座標作天氣／地圖錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-072-P02",
+          "spot_id": "us-072",
+          "name_zh": "Golden Gardens・海灘日落＋Olympic Mountains",
+          "legacy_theme": "sunset",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04-seattle-coast-sunset",
+          "formula_confidence": 96,
+          "best_time": "日落前約60分鐘至日落後藍調",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-309",
+              "variant_name": "海灘日落＋Olympics剪影",
+              "condition_geometry": "{\"target\":\"western sunset sky + Puget Sound + Olympic Mountains\",\"camera_zone\":\"Golden Gardens beach\"}",
+              "hard_gates": "公共區域可合法安全到達；遵守公園當日開放與現場管制",
+              "required_conditions": "西側地平線與海面可辨；低雲未完全封住日落方向",
+              "boosters": "中高雲彩霞；西側透光；山稜剪影",
+              "penalties": "厚低雲封西方；降雨；低能見度",
+              "formula_status": "needs_directional_sunset_cloud_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-072-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official park beach/coastline and mountain-view subject.",
+              "name": "Golden Gardens beach Camera Zone",
+              "lat": 47.69383,
+              "lon": -122.40511,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_city_coast_subject",
+              "geometry_type": "area",
+              "geometry_extent_m": 900,
+              "geometry_note": "以合法公共區域為 Camera Zone；座標作天氣／地圖錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-073",
+      "canonical_name": "Alki Beach Park",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_SEATTLE_SCENIC_EXPANSION",
+      "research_sources": [
+        {
+          "authority": "Seattle Parks and Recreation — Alki Beach Park",
+          "url": "https://www.adc.seattle.gov/parks/parks/alki-beach-park",
+          "verified_on": "2026-10-02",
+          "supports": "Official page documents spectacular Puget Sound, Olympic Mountains, ferries, sailboats and other vessel views, plus seasonal park hours."
+        },
+        {
+          "authority": "DBpedia / Wikidata-derived Alki Beach Park coordinate",
+          "url": "https://dbpedia.org/page/Alki_Beach_Park",
+          "verified_on": "2026-10-02",
+          "supports": "Provides a public park coordinate anchor derived from the linked knowledge graph."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-073-P01",
+          "spot_id": "us-073",
+          "name_zh": "Alki Beach・Puget Sound＋Olympic Mountains＋船景",
+          "legacy_theme": "coast",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-seattle-alki-coast",
+          "formula_confidence": 97,
+          "best_time": "白天至夕陽前；船流與Olympics清晰時",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-310",
+              "variant_name": "Puget Sound＋Olympics＋ferries",
+              "condition_geometry": "{\"target\":\"Puget Sound + Olympic Mountains + vessel traffic\",\"camera_zone\":\"Alki Beach public shoreline\"}",
+              "hard_gates": "公共區域可合法安全到達；遵守公園當日開放與現場管制",
+              "required_conditions": "海灣與Olympic Mountains主要輪廓可辨",
+              "boosters": "高透明度；渡輪／帆船通過；低角度光",
+              "penalties": "低雲遮山；霧霾；強降水",
+              "formula_status": "needs_directional_horizon_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-073-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official shoreline subject; public coordinate anchor.",
+              "name": "Alki Beach shoreline Camera Zone",
+              "lat": 47.58099,
+              "lon": -122.40673,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_city_subject_public_coordinate",
+              "geometry_type": "area",
+              "geometry_extent_m": 1200,
+              "geometry_note": "以合法公共區域為 Camera Zone；座標作天氣／地圖錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-073-P02",
+          "spot_id": "us-073",
+          "name_zh": "Alki Beach・Puget Sound 海灘日落",
+          "legacy_theme": "sunset",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04-seattle-coast-sunset",
+          "formula_confidence": 96,
+          "best_time": "日落前後",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-311",
+              "variant_name": "Puget Sound海灘夕景",
+              "condition_geometry": "{\"target\":\"sunset sky + Puget Sound\",\"camera_zone\":\"Alki Beach public shoreline\"}",
+              "hard_gates": "公共區域可合法安全到達；遵守公園當日開放與現場管制",
+              "required_conditions": "西向海面與天空可辨",
+              "boosters": "中高雲彩霞；海面反光；船隻剪影",
+              "penalties": "厚低雲；強降水；低能見度",
+              "formula_status": "needs_directional_sunset_cloud_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-073-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official long beach strip on Elliott Bay/Puget Sound.",
+              "name": "Alki Beach sunset Camera Zone",
+              "lat": 47.58099,
+              "lon": -122.40673,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_city_coast_subject",
+              "geometry_type": "area",
+              "geometry_extent_m": 1200,
+              "geometry_note": "以合法公共區域為 Camera Zone；座標作天氣／地圖錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-074",
+      "canonical_name": "Gas Works Park",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_SEATTLE_SCENIC_EXPANSION",
+      "research_sources": [
+        {
+          "authority": "Seattle Parks and Recreation — Gas Works Park",
+          "url": "https://legacywww.seattle.gov/parks/parks/gas-works-park",
+          "verified_on": "2026-10-02",
+          "supports": "Official page documents the Seattle view, Lake Union setting, 06:00–22:00 hours, and prohibition on entering the water."
+        },
+        {
+          "authority": "Washington Trails Association — Gas Works Park",
+          "url": "https://www.wta.org/go-hiking/hikes/gas-works-park",
+          "verified_on": "2026-10-02",
+          "supports": "WTA documents the hill on north Lake Union and downtown Seattle view; coordinate is used as a public park anchor."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-074-P01",
+          "spot_id": "us-074",
+          "name_zh": "Gas Works Park・Lake Union＋Seattle Skyline 城市全景",
+          "legacy_theme": "city_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-seattle-gasworks-city",
+          "formula_confidence": 97,
+          "best_time": "白天至黃昏",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-312",
+              "variant_name": "Lake Union＋Downtown skyline",
+              "condition_geometry": "{\"target\":\"Lake Union + downtown Seattle skyline\",\"camera_zone\":\"Gas Works hill/public lawn\"}",
+              "hard_gates": "公共區域可合法安全到達；遵守公園當日開放與現場管制",
+              "required_conditions": "Lake Union與Seattle skyline清楚可辨",
+              "boosters": "高透明度；低風；湖面反射；低角度光",
+              "penalties": "霧；低雲；強降水；低能見度",
+              "formula_status": "needs_directional_horizon_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-074-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official Seattle view; WTA public trailhead/park coordinate used as anchor.",
+              "name": "Gas Works Park hill Camera Zone",
+              "lat": 47.6463,
+              "lon": -122.336,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_city_view_wta_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 500,
+              "geometry_note": "以合法公共區域為 Camera Zone；座標作天氣／地圖錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-074-P02",
+          "spot_id": "us-074",
+          "name_zh": "Gas Works Park・Lake Union 日落／藍調＋Seattle Skyline",
+          "legacy_theme": "city_night",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-seattle-gasworks-twilight",
+          "formula_confidence": 97,
+          "best_time": "日落前至藍調；22:00閉園前完成",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-313",
+              "variant_name": "Lake Union藍調＋城市燈火",
+              "condition_geometry": "{\"target\":\"Lake Union + Seattle skyline city lights\",\"camera_zone\":\"Gas Works public viewpoint\"}",
+              "hard_gates": "公共區域可合法安全到達；遵守公園當日開放與現場管制",
+              "required_conditions": "城市與湖面視線清楚；官方開放時段內",
+              "boosters": "藍調天空；城市燈火；湖面反射；中高雲夕彩",
+              "penalties": "霧；厚低雲；降雨；22:00後",
+              "formula_status": "needs_access_aware_city_night_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-074-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official 06:00–22:00 park access and Seattle-view subject.",
+              "name": "Gas Works twilight Camera Zone",
+              "lat": 47.6463,
+              "lon": -122.336,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_hours_city_view",
+              "geometry_type": "area",
+              "geometry_extent_m": 500,
+              "geometry_note": "以合法公共區域為 Camera Zone；座標作天氣／地圖錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-075",
+      "canonical_name": "Discovery Park",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_SEATTLE_SCENIC_EXPANSION",
+      "research_sources": [
+        {
+          "authority": "Seattle Parks and Recreation — Discovery Park",
+          "url": "https://www.seattle.gov/parks/parks/discovery-park",
+          "verified_on": "2026-10-02",
+          "supports": "Official page documents Puget Sound, Cascade and Olympic Mountain views, tidal beaches, sea cliffs, dunes and West Point Lighthouse; it also documents current parking/access restrictions."
+        },
+        {
+          "authority": "OpenStreetMap/GeoNames-derived West Point Light coordinate",
+          "url": "https://mapcarta.com/23976804",
+          "verified_on": "2026-10-02",
+          "supports": "Provides the West Point Lighthouse coordinate anchor for the lighthouse/coast opportunity."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-075-P01",
+          "spot_id": "us-075",
+          "name_zh": "Discovery Park・Puget Sound＋Olympic／Cascade Mountains 山海景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-seattle-discovery-panorama",
+          "formula_confidence": 97,
+          "best_time": "白天至低角度光",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-314",
+              "variant_name": "Magnolia Bluff山海遠景",
+              "condition_geometry": "{\"target\":\"Puget Sound + Olympic/Cascade mountain sectors\",\"camera_zone\":\"Discovery Park bluff/trail public areas\"}",
+              "hard_gates": "公共區域可合法安全到達；遵守公園當日開放與現場管制",
+              "required_conditions": "Puget Sound與至少一側主要山系輪廓可辨",
+              "boosters": "高透明度；低霾；雪山清晰；低角度光",
+              "penalties": "低雲遮山；霧；強降水",
+              "formula_status": "needs_directional_horizon_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-075-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official park panorama subject; park coordinate anchor.",
+              "name": "Discovery Park bluff Camera Zone",
+              "lat": 47.6573,
+              "lon": -122.4055,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_city_subject_public_coordinate",
+              "geometry_type": "area",
+              "geometry_extent_m": 1600,
+              "geometry_note": "以合法公共區域為 Camera Zone；座標作天氣／地圖錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-075-P02",
+          "spot_id": "us-075",
+          "name_zh": "Discovery Park・West Point Lighthouse＋海岸／日落",
+          "legacy_theme": "sunset",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04-seattle-discovery-lighthouse",
+          "formula_confidence": 98,
+          "best_time": "下午低角度光至日落；須計入步行返回時間",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-315",
+              "variant_name": "West Point Lighthouse＋Puget Sound夕景",
+              "condition_geometry": "{\"target\":\"West Point Lighthouse + Puget Sound + western sky\",\"camera_zone\":\"South Beach Trail / legal public shoreline\"}",
+              "hard_gates": "公共區域可合法安全到達；遵守公園當日開放與現場管制",
+              "required_conditions": "燈塔與海岸視線可用；步道與海灘可安全到達",
+              "boosters": "中高雲夕彩；低潮前景；高透明度",
+              "penalties": "厚低雲；強風浪；強降水；步道／海灘管制",
+              "formula_status": "needs_directional_sunset_cloud_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-075-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Seattle Parks states the lighthouse can be viewed from South Beach Trail; beach parking is ADA-only, so general visitors must account for walking/shuttle access.",
+              "name": "West Point Lighthouse / South Beach Camera Zone",
+              "lat": 47.66197,
+              "lon": -122.43573,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_lighthouse_subject_public_coordinate",
+              "geometry_type": "area",
+              "geometry_extent_m": 600,
+              "geometry_note": "以合法公共區域為 Camera Zone；座標作天氣／地圖錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-076",
+      "canonical_name": "Hamilton Viewpoint Park",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_SEATTLE_SCENIC_EXPANSION",
+      "research_sources": [
+        {
+          "authority": "Seattle Parks and Recreation — Hamilton Viewpoint Park",
+          "url": "https://www.citylink.seattle.gov/parks/parks/hamilton-viewpoint-park",
+          "verified_on": "2026-10-02",
+          "supports": "Official page documents city, Elliott Bay, harbor and Cascade Mountains views and 06:00–22:00 hours."
+        },
+        {
+          "authority": "OpenStreetMap/GeoNames-derived Hamilton Viewpoint coordinate",
+          "url": "https://mapcarta.com/23938862",
+          "verified_on": "2026-10-02",
+          "supports": "Provides a public park coordinate anchor."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-076-P01",
+          "spot_id": "us-076",
+          "name_zh": "Hamilton Viewpoint・Seattle City＋Elliott Bay＋Harbor＋Cascade Mountains",
+          "legacy_theme": "city_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-seattle-hamilton-city",
+          "formula_confidence": 98,
+          "best_time": "白天至黃昏",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-316",
+              "variant_name": "Seattle＋Elliott Bay＋Harbor＋Cascades",
+              "condition_geometry": "{\"target\":\"Seattle city + Elliott Bay + harbor + Cascade Mountains\",\"camera_zone\":\"Hamilton Viewpoint public area\"}",
+              "hard_gates": "公共區域可合法安全到達；遵守公園當日開放與現場管制",
+              "required_conditions": "城市、海灣與港區可辨；若評估Cascades則東向山體能見度足夠",
+              "boosters": "高透明度；山體清晰；港區船流；低角度光",
+              "penalties": "霧霾；低雲遮山；強降水",
+              "formula_status": "needs_directional_horizon_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-076-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official city/Elliott Bay/harbor/Cascade view; OSM/GeoNames coordinate anchor.",
+              "name": "Hamilton Viewpoint Camera Zone",
+              "lat": 47.59163,
+              "lon": -122.3846,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_city_subject_public_coordinate",
+              "geometry_type": "area",
+              "geometry_extent_m": 250,
+              "geometry_note": "以合法公共區域為 Camera Zone；座標作天氣／地圖錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-076-P02",
+          "spot_id": "us-076",
+          "name_zh": "Hamilton Viewpoint・Seattle 藍調／夜景＋Elliott Bay",
+          "legacy_theme": "city_night",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-seattle-hamilton-night",
+          "formula_confidence": 96,
+          "best_time": "日落後藍調至21:45左右",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-317",
+              "variant_name": "Elliott Bay＋Seattle城市燈火",
+              "condition_geometry": "{\"target\":\"Seattle city lights + Elliott Bay/harbor\",\"camera_zone\":\"Hamilton Viewpoint\"}",
+              "hard_gates": "公共區域可合法安全到達；遵守公園當日開放與現場管制",
+              "required_conditions": "城市與海灣視線可用；22:00前完成",
+              "boosters": "藍調天空；港區燈火；高透明度",
+              "penalties": "霧；低雲；降雨；閉園後",
+              "formula_status": "needs_access_aware_city_night_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-076-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official 06:00–22:00 access and city-view subject.",
+              "name": "Hamilton Viewpoint night Camera Zone",
+              "lat": 47.59163,
+              "lon": -122.3846,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_hours_city_view",
+              "geometry_type": "area",
+              "geometry_extent_m": 250,
+              "geometry_note": "以合法公共區域為 Camera Zone；座標作天氣／地圖錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-077",
+      "canonical_name": "Dr. Jose Rizal Park",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_SEATTLE_SCENIC_EXPANSION",
+      "research_sources": [
+        {
+          "authority": "Seattle Parks and Recreation — Dr. Jose Rizal Park",
+          "url": "https://www.adc.seattle.gov/parks/parks/jose-rizal-park",
+          "verified_on": "2026-10-02",
+          "supports": "Official page documents south Downtown and Elliott Bay views, west-facing Puget Sound and north-facing Downtown skyline views, and 04:00–23:30 hours."
+        },
+        {
+          "authority": "GNIS via Wikidata — Dr. Jose Rizal Park",
+          "url": "https://www.wikidata.org/wiki/Q7339078",
+          "verified_on": "2026-10-02",
+          "supports": "Provides GNIS-referenced coordinate location for the park."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-077-P01",
+          "spot_id": "us-077",
+          "name_zh": "Dr. Jose Rizal Park・South Downtown＋Elliott Bay 城市全景",
+          "legacy_theme": "city_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-seattle-rizal-city",
+          "formula_confidence": 98,
+          "best_time": "白天至黃昏",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-318",
+              "variant_name": "South Downtown＋Elliott Bay／Puget Sound",
+              "condition_geometry": "{\"target\":\"south Downtown + Elliott Bay; north Downtown skyline; west Puget Sound\",\"camera_zone\":\"Dr. Jose Rizal Park public viewpoints\"}",
+              "hard_gates": "公共區域可合法安全到達；遵守公園當日開放與現場管制",
+              "required_conditions": "Downtown與Elliott Bay主要視線清楚",
+              "boosters": "高透明度；港區層次；低角度光",
+              "penalties": "霧霾；低雲；強降水",
+              "formula_status": "needs_directional_horizon_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-077-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official multi-direction city/bay view; GNIS-referenced coordinate.",
+              "name": "Dr. Jose Rizal Park Camera Zone",
+              "lat": 47.5925,
+              "lon": -122.31806,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_city_subject_gnis_coordinate",
+              "geometry_type": "area",
+              "geometry_extent_m": 350,
+              "geometry_note": "以合法公共區域為 Camera Zone；座標作天氣／地圖錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-077-P02",
+          "spot_id": "us-077",
+          "name_zh": "Dr. Jose Rizal Park・Downtown Seattle 藍調／夜景",
+          "legacy_theme": "city_night",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-seattle-rizal-night",
+          "formula_confidence": 97,
+          "best_time": "日落後藍調至23:00左右；23:30閉園前離場",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-319",
+              "variant_name": "Downtown skyline夜景",
+              "condition_geometry": "{\"target\":\"Downtown Seattle skyline + Elliott Bay city lights\",\"camera_zone\":\"Dr. Jose Rizal Park\"}",
+              "hard_gates": "公共區域可合法安全到達；遵守公園當日開放與現場管制",
+              "required_conditions": "城市燈火與skyline清楚；官方開放時段內",
+              "boosters": "藍調天空；雨後清透；城市燈火",
+              "penalties": "霧；低雲；強降水；閉園後",
+              "formula_status": "needs_access_aware_city_night_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-077-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official 04:00–23:30 access and skyline/bay view.",
+              "name": "Dr. Jose Rizal Park night Camera Zone",
+              "lat": 47.5925,
+              "lon": -122.31806,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_hours_city_view",
+              "geometry_type": "area",
+              "geometry_extent_m": 350,
+              "geometry_note": "以合法公共區域為 Camera Zone；座標作天氣／地圖錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-078",
+      "canonical_name": "Myrtle Edwards Park",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_SEATTLE_SCENIC_EXPANSION",
+      "research_sources": [
+        {
+          "authority": "Seattle Parks and Recreation — Myrtle Edwards Park",
+          "url": "https://seattle.gov/parks/parks/myrtle-edwards-park",
+          "verified_on": "2026-10-02",
+          "supports": "Official page documents 24-hour access, two Elliott Bay beach coves, and fantastic views of the Olympic Mountains, Mount Rainier and Puget Sound; park fully reopened June 4, 2026 after Elliott Bay Connections improvements."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-078-P01",
+          "spot_id": "us-078",
+          "name_zh": "Myrtle Edwards・Puget Sound＋Olympic Mountains 海灣遠景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-seattle-myrtle-edwards-olympics",
+          "formula_confidence": 98,
+          "best_time": "白天至日落前；Olympics清晰時優先",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-320",
+              "variant_name": "Puget Sound＋Olympic Mountains",
+              "condition_geometry": "{\"target\":\"Puget Sound + Olympic Mountains\",\"camera_zone\":\"Myrtle Edwards public waterfront/beach coves\"}",
+              "hard_gates": "公共步道／海灣合法安全可達",
+              "required_conditions": "Puget Sound與Olympic Mountains主要輪廓可辨；西向遠距能見度足夠",
+              "boosters": "高透明度；低霾；雪山清晰；低角度光",
+              "penalties": "低雲遮山；霧霾；強降水；低能見度",
+              "formula_status": "needs_directional_horizon_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-078-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official Seattle Parks waterfront/mountain-view subject; coordinate is a public park camera-zone anchor, not a unique tripod claim.",
+              "name": "Myrtle Edwards waterfront Camera Zone",
+              "lat": 47.6195,
+              "lon": -122.361,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_city_subject_public_park_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 900,
+              "geometry_note": "涵蓋合法公共濱水步道與兩處 beach coves。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-078-P02",
+          "spot_id": "us-078",
+          "name_zh": "Myrtle Edwards・Mount Rainier＋Elliott Bay 遠景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-seattle-myrtle-edwards-rainier",
+          "formula_confidence": 96,
+          "best_time": "Rainier可見且空氣透明時；低角度光優先",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-321",
+              "variant_name": "Mount Rainier遠景",
+              "condition_geometry": "{\"target\":\"Mount Rainier + Elliott Bay\",\"camera_zone\":\"Myrtle Edwards public waterfront\"}",
+              "hard_gates": "公共濱水區合法安全可達",
+              "required_conditions": "Mount Rainier方向低雲與霾不足以遮蔽山體；長距能見度高",
+              "boosters": "雨後清透；雪山高對比；低角度光",
+              "penalties": "山區低雲；霧霾；降雨；低能見度",
+              "formula_status": "needs_directional_horizon_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-078-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Seattle Parks explicitly lists Mount Rainier among park views; camera zone is intentionally broad pending tripod-level field verification.",
+              "name": "Myrtle Edwards Rainier Camera Zone",
+              "lat": 47.6195,
+              "lon": -122.361,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_city_subject_public_park_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 900,
+              "geometry_note": "公共濱水區；不宣稱單一最佳腳架點。",
+              "geometry_confidence": "high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-078-P03",
+          "spot_id": "us-078",
+          "name_zh": "Myrtle Edwards・Puget Sound 日落／藍調海灣景",
+          "legacy_theme": "sunset",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04-seattle-myrtle-edwards-sunset",
+          "formula_confidence": 96,
+          "best_time": "日落前約60分鐘至藍調",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-322",
+              "variant_name": "Puget Sound夕景",
+              "condition_geometry": "{\"target\":\"western sunset sky + Puget Sound\",\"camera_zone\":\"Myrtle Edwards beach coves/waterfront\"}",
+              "hard_gates": "公共濱水區合法安全可達",
+              "required_conditions": "西向天空與Puget Sound可辨",
+              "boosters": "中高雲彩霞；西側透光；海面反射",
+              "penalties": "厚低雲封西方；強降水；低能見度",
+              "formula_status": "needs_directional_sunset_cloud_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-078-VP03",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "24-hour official park access makes post-sunset blue-hour evaluation possible; normal safety/access rules still apply.",
+              "name": "Myrtle Edwards sunset Camera Zone",
+              "lat": 47.6195,
+              "lon": -122.361,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_24h_waterfront_subject",
+              "geometry_type": "area",
+              "geometry_extent_m": 900,
+              "geometry_note": "公共濱水步道與海灣 Camera Zone。",
+              "geometry_confidence": "high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-079",
+      "canonical_name": "Snoqualmie Falls",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_WASHINGTON_SCENIC_EXPANSION",
+      "research_sources": [
+        {
+          "authority": "Official Snoqualmie Falls Web Site",
+          "url": "https://www.snoqualmiefalls.com/",
+          "verified_on": "2026-10-02",
+          "supports": "Documents the 270-foot waterfall, sunrise-to-sunset year-round access, two upper observation decks and one lower viewing area."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-079-P01",
+          "spot_id": "us-079",
+          "name_zh": "Snoqualmie Falls・瀑布全景＋水霧",
+          "legacy_theme": "waterfall",
+          "mode": "area_opportunity",
+          "sampling_topology": "area_plus_environment",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_waterfall_flow_mist_module",
+          "formula_version": "v0.04-wa-snoqualmie-flow-mist",
+          "formula_confidence": 98,
+          "best_time": "日出至日落；高流量與柔光／水霧條件優先",
+          "best_season": "全年",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-323",
+              "variant_name": "瀑布全景＋水霧",
+              "condition_geometry": "{\"target\":\"Snoqualmie Falls upper/lower viewpoints\"}",
+              "hard_gates": "官方開放時段（日出至日落）；觀景區合法安全可達",
+              "required_conditions": "瀑布可見；無濃霧完全遮蔽主瀑",
+              "boosters": "近期降水／高流量；柔光；適量水霧；雨後植被",
+              "penalties": "濃霧白牆；強降水打鏡；極低能見度",
+              "formula_status": "needs_waterfall_flow_mist_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-079-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official site confirms multiple upper/lower viewing areas.",
+              "name": "Snoqualmie Falls public viewpoints",
+              "lat": 47.5417,
+              "lon": -121.8377,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_subject_public_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 700,
+              "geometry_note": "合法公共 Camera Zone；座標作地圖／天氣錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-080",
+      "canonical_name": "Deception Pass State Park",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_WASHINGTON_SCENIC_EXPANSION",
+      "research_sources": [
+        {
+          "authority": "Washington State Parks — Deception Pass State Park",
+          "url": "https://parks.wa.gov/find-parks/state-parks/deception-pass-state-park",
+          "verified_on": "2026-10-02",
+          "supports": "Official page documents iconic bridges, rugged ocean cliffs, panoramic views, sunsets, Goose Rock views and seasonal hours; current closures/restrictions must be checked."
+        },
+        {
+          "authority": "Deception Pass Park Foundation — Must Do's",
+          "url": "https://deceptionpassfoundation.org/plan-your-visit/must-dos/",
+          "verified_on": "2026-10-02",
+          "supports": "Documents North Beach bridge views and Lighthouse Point/Rosario Beach scenic viewpoints."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-080-P01",
+          "spot_id": "us-080",
+          "name_zh": "Deception Pass・海峽＋橋梁＋峭壁全景",
+          "legacy_theme": "coast",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-wa-deception-pass-coast",
+          "formula_confidence": 98,
+          "best_time": "白天至黃昏",
+          "best_season": "全年；依公園季節時段與現場封閉",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-324",
+              "variant_name": "Deception Pass Bridge＋海峽",
+              "condition_geometry": "{\"target\":\"bridge + strait + rugged ocean cliffs\"}",
+              "hard_gates": "公園開放；目標步道／觀景區未封閉",
+              "required_conditions": "橋體、海峽與峭壁視線清楚",
+              "boosters": "高透明度；戲劇性雲層；適中海況；側光",
+              "penalties": "濃霧遮橋；強降水；危險強風；步道封閉",
+              "formula_status": "needs_coastal_visibility_wind_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-080-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official park documents iconic bridge and panoramic coastal scenery; use zone-level geometry pending tripod verification.",
+              "name": "Deception Pass bridge/coast Camera Zones",
+              "lat": 48.4057,
+              "lon": -122.6448,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_subject_public_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 1800,
+              "geometry_note": "合法公共 Camera Zone；座標作地圖／天氣錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-080-P02",
+          "spot_id": "us-080",
+          "name_zh": "Deception Pass・海岸日落＋島嶼剪影",
+          "legacy_theme": "sunset",
+          "mode": "area_opportunity",
+          "sampling_topology": "area_plus_environment",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04-wa-deception-pass-sunset",
+          "formula_confidence": 98,
+          "best_time": "日落前約60分鐘至 dusk 關園前",
+          "best_season": "全年；夏季06:30–dusk、冬季08:00–dusk",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-325",
+              "variant_name": "海岸日落＋島嶼／橋梁",
+              "condition_geometry": "{\"target\":\"western sunset sky + islands/coast/bridge\"}",
+              "hard_gates": "公園開放且在 dusk 前完成；目標區域未封閉",
+              "required_conditions": "西側天空與海岸視線可用",
+              "boosters": "中高雲彩霞；西側透光；海面反射；島嶼剪影",
+              "penalties": "厚低雲封西方；強降水；危險強風",
+              "formula_status": "needs_directional_sunset_cloud_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-080-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official/state and park foundation sources support sunset/coastal viewpoints.",
+              "name": "West/North Beach & Lighthouse Point sunset zones",
+              "lat": 48.4057,
+              "lon": -122.6448,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_subject_public_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 2500,
+              "geometry_note": "合法公共 Camera Zone；座標作地圖／天氣錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-081",
+      "canonical_name": "Mount Rainier — Paradise",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_WASHINGTON_SCENIC_EXPANSION",
+      "research_sources": [
+        {
+          "authority": "National Park Service — Paradise",
+          "url": "https://home.nps.gov/mora/planyourvisit/paradise.htm",
+          "verified_on": "2026-10-02",
+          "supports": "Paradise is open year-round and is famous for Mount Rainier views, wildflower meadows, glaciers and Tatoosh Range; winter road closes at night."
+        },
+        {
+          "authority": "National Park Service — Paradise Meadows & Skyline Trailhead",
+          "url": "https://www.nps.gov/places/paradise-meadows-skyline.htm",
+          "verified_on": "2026-10-02",
+          "supports": "Documents Myrtle Falls with Mount Rainier, Nisqually Glacier, Alta Vista and meadow viewpoints."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-081-P01",
+          "spot_id": "us-081",
+          "name_zh": "Paradise・Mount Rainier＋高山草甸／野花",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-rainier-paradise-meadow",
+          "formula_confidence": 99,
+          "best_time": "日出後至黃昏；夏季野花、秋色、冬季雪景分季評估",
+          "best_season": "全年；季節題材不同",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-326",
+              "variant_name": "Rainier＋Paradise Meadows",
+              "condition_geometry": "{\"target\":\"Mount Rainier + subalpine meadow/wildflowers\"}",
+              "hard_gates": "道路／步道合法開放；嚴格 stay on trail",
+              "required_conditions": "Rainier主峰至少部分可辨",
+              "boosters": "高透明度；野花峰值；秋色；新雪；低角度光",
+              "penalties": "山體被低雲完全遮蔽；暴風雪；步道／道路管制",
+              "formula_status": "needs_alpine_visibility_season_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-081-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS official Paradise/Skyline scenic area; fragile meadows require staying on trail.",
+              "name": "Paradise Meadows / Skyline Camera Zone",
+              "lat": 46.786,
+              "lon": -121.735,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_subject_public_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 1800,
+              "geometry_note": "合法公共 Camera Zone；座標作地圖／天氣錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-081-P02",
+          "spot_id": "us-081",
+          "name_zh": "Paradise・Myrtle Falls＋Mount Rainier",
+          "legacy_theme": "waterfall",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-rainier-myrtle-falls",
+          "formula_confidence": 99,
+          "best_time": "步道可安全通行時；柔光或低角度光",
+          "best_season": "主要依積雪與步道狀況",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-327",
+              "variant_name": "Myrtle Falls＋Rainier",
+              "condition_geometry": "{\"target\":\"Myrtle Falls + Mount Rainier\"}",
+              "hard_gates": "Skyline Trail相關路段開放且安全；stay on trail",
+              "required_conditions": "瀑布與Rainier構圖方向可見",
+              "boosters": "適中流量；高透明度；柔光；野花／秋色",
+              "penalties": "山體全遮；暴雨／暴雪；危險積雪或封閉",
+              "formula_status": "needs_waterfall_mountain_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-081-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS explicitly identifies Myrtle Falls as scenic waterfall with Mount Rainier views.",
+              "name": "Myrtle Falls viewpoint",
+              "lat": 46.7868,
+              "lon": -121.7372,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_subject_public_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 250,
+              "geometry_note": "合法公共 Camera Zone；座標作地圖／天氣錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-082",
+      "canonical_name": "Mount Rainier — Reflection Lakes",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_WASHINGTON_SCENIC_EXPANSION",
+      "research_sources": [
+        {
+          "authority": "National Park Service — Reflection Lakes",
+          "url": "https://home.nps.gov/places/reflection-lakes.htm",
+          "verified_on": "2026-10-02",
+          "supports": "Official Scenic View/Photo Spot; lakes reflect Mount Rainier. Vehicle access is summer-only, typically late June–September; hikers must stay on trails."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-082-P01",
+          "spot_id": "us-082",
+          "name_zh": "Reflection Lakes・Mount Rainier 湖面倒影",
+          "legacy_theme": "reflection",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_water_surface_visibility_module",
+          "formula_version": "v0.04-rainier-reflection-lakes",
+          "formula_confidence": 99,
+          "best_time": "低風且Rainier可見時；清晨／低角度光優先",
+          "best_season": "車行通常晚6月至9月；冬季僅依合法步行／雪鞋可達性",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-328",
+              "variant_name": "Rainier湖面倒影",
+              "condition_geometry": "{\"target\":\"Mount Rainier reflection in Reflection Lakes\"}",
+              "hard_gates": "遵守當日道路／步道開放；夏季草甸 stay on trail；禁止划船與釣魚",
+              "required_conditions": "Rainier可見且湖面未被霧完全遮蔽",
+              "boosters": "低風；高透明度；清晨光；無擾動水面",
+              "penalties": "強風破壞倒影；低雲遮山；濃霧；道路不可達",
+              "formula_status": "needs_reflection_wind_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-082-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS designates the site Scenic View/Photo Spot and requires staying on trails.",
+              "name": "Reflection Lakes legal trail/roadside Camera Zone",
+              "lat": 46.7692,
+              "lon": -121.7249,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_subject_public_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 700,
+              "geometry_note": "合法公共 Camera Zone；座標作地圖／天氣錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-083",
+      "canonical_name": "Mount Rainier — Sunrise & Sunrise Point",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_WASHINGTON_SCENIC_EXPANSION",
+      "research_sources": [
+        {
+          "authority": "National Park Service — Sunrise",
+          "url": "https://home.nps.gov/mora/planyourvisit/sunrise.htm",
+          "verified_on": "2026-10-02",
+          "supports": "Sunrise is the highest vehicle-accessible point in the park; clear summer days provide Mount Rainier and Emmons Glacier views. Sunrise Point has nearly 360-degree views. Road usually late June/early July through late September/early October."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-083-P01",
+          "spot_id": "us-083",
+          "name_zh": "Sunrise・日出光照 Mount Rainier＋Emmons Glacier",
+          "legacy_theme": "sunrise",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04-rainier-sunrise",
+          "formula_confidence": 99,
+          "best_time": "日出前至日出後約90分鐘",
+          "best_season": "道路通常晚6月／7月初至9月底／10月初",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-329",
+              "variant_name": "日出光照Rainier＋Emmons Glacier",
+              "condition_geometry": "{\"target\":\"Mount Rainier + Emmons Glacier at sunrise\"}",
+              "hard_gates": "Sunrise Road與停車／步道合法開放；不可車宿",
+              "required_conditions": "Rainier／Emmons方向山體可辨",
+              "boosters": "東側地平線透光；高透明度；少量中高雲；新雪",
+              "penalties": "低雲遮山；濃霧；道路關閉",
+              "formula_status": "needs_directional_sunrise_mountain_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-083-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS explicitly illustrates first rays of morning sun on Mount Rainier from Sunrise.",
+              "name": "Sunrise public Camera Zone",
+              "lat": 46.914,
+              "lon": -121.642,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_subject_public_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 1000,
+              "geometry_note": "合法公共 Camera Zone；座標作地圖／天氣錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        },
+        {
+          "opportunity_id": "us-083-P02",
+          "spot_id": "us-083",
+          "name_zh": "Sunrise Point・Rainier＋Cascade Range 近360°山景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-rainier-sunrise-point",
+          "formula_confidence": 99,
+          "best_time": "白天至低角度光",
+          "best_season": "道路開放季",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-330",
+              "variant_name": "Rainier＋Cascade Range panorama",
+              "condition_geometry": "{\"target\":\"Mount Rainier + surrounding valleys + Cascade volcanoes\"}",
+              "hard_gates": "Sunrise Road開放且 pullout 合法安全",
+              "required_conditions": "至少主要山體／山谷扇區能見度良好",
+              "boosters": "高透明度；Mount Adams等遠山可見；側光",
+              "penalties": "廣泛低雲；煙霾；濃霧；道路關閉",
+              "formula_status": "needs_multi_sector_mountain_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-083-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS documents nearly 360-degree views of valleys, Rainier and Cascade volcanoes.",
+              "name": "Sunrise Point Camera Zone",
+              "lat": 46.9131,
+              "lon": -121.6942,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_subject_public_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 450,
+              "geometry_note": "合法公共 Camera Zone；座標作地圖／天氣錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-084",
+      "canonical_name": "Mount Rainier — Tipsoo Lake",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_WASHINGTON_SCENIC_EXPANSION",
+      "research_sources": [
+        {
+          "authority": "National Park Service — Sunrise / Tipsoo Lake",
+          "url": "https://home.nps.gov/mora/planyourvisit/sunrise.htm",
+          "verified_on": "2026-10-02",
+          "supports": "NPS describes Tipsoo Lake as a picturesque subalpine lake in a glacier-carved basin with spectacular wildflower meadows; Naches Peak Loop keeps Mount Rainier in view and adds fall color."
+        },
+        {
+          "authority": "National Park Service — Meadow Preservation",
+          "url": "https://home.nps.gov/mora/planyourvisit/meadow-preservation.htm",
+          "verified_on": "2026-10-02",
+          "supports": "Tipsoo Lakes meadow area legally restricts pedestrian traffic to trails to protect fragile subalpine vegetation."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-084-P01",
+          "spot_id": "us-084",
+          "name_zh": "Tipsoo Lake・高山湖＋野花／秋色＋Mount Rainier",
+          "legacy_theme": "alpine_lake",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-rainier-tipsoo",
+          "formula_confidence": 99,
+          "best_time": "低角度光；盛夏野花與初秋秋色分季評估",
+          "best_season": "主要道路／步道可達季；盛夏野花、初秋秋色",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-331",
+              "variant_name": "Tipsoo Lake＋Rainier季節景",
+              "condition_geometry": "{\"target\":\"subalpine lake + wildflowers/fall color + Mount Rainier\"}",
+              "hard_gates": "道路／步道合法開放；Tipsoo meadow 必須 stay on trail",
+              "required_conditions": "湖泊／草甸可見；若以Rainier為主體則山體方向能見度足夠",
+              "boosters": "野花峰值；秋色；低風；高透明度；低角度光",
+              "penalties": "山體全遮；強風；濃霧；道路關閉；離開步道",
+              "formula_status": "needs_alpine_lake_season_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-084-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "NPS supports lake/wildflower subject and mandates staying on trails in meadow area.",
+              "name": "Tipsoo Lake legal trail Camera Zone",
+              "lat": 46.8691,
+              "lon": -121.5175,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_subject_public_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 900,
+              "geometry_note": "合法公共 Camera Zone；座標作地圖／天氣錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-085",
+      "canonical_name": "Ruby Beach",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_WASHINGTON_SCENIC_EXPANSION_2",
+      "research_sources": [
+        {
+          "authority": "NPS — Olympic Beaches",
+          "url": "https://www.nps.gov/thingstodo/olympicbeaches.htm",
+          "verified_on": "2026-10-02",
+          "supports": "Official source supports the named scenic subject and/or access constraints used by this Opportunity."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-085-P01",
+          "spot_id": "us-085",
+          "name_zh": "Ruby Beach・Sea Stacks＋漂流木＋太平洋日落",
+          "legacy_theme": "sunset",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04-wa-ruby-beach",
+          "formula_confidence": 96,
+          "best_time": "日落前約90分鐘至藍調",
+          "best_season": "全年；季節道路、潮汐、雪況或現場封閉依官方狀態作 hard gate",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-332",
+              "variant_name": "Ruby Beach・Sea Stacks＋漂流木＋太平洋日落",
+              "condition_geometry": "{\"target\":\"Ruby Beach primary photographic subject\"}",
+              "hard_gates": "海灘開放；確認潮汐與 sneaker-wave 安全",
+              "required_conditions": "主要攝影主體可見且合法、安全到達",
+              "boosters": "中高雲彩霞；退潮濕沙反光；高透明度",
+              "penalties": "高潮限制構圖；濃霧；危險浪況",
+              "formula_status": "needs_directional_horizon_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-085-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official scenic subject; coordinate is a public camera-zone/weather anchor, not a unique tripod claim.",
+              "name": "Ruby Beach public Camera Zone",
+              "lat": 47.7105,
+              "lon": -124.4155,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_subject_public_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 900,
+              "geometry_note": "合法公共 Camera Zone；座標作地圖／天氣錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-086",
+      "canonical_name": "Rialto Beach / Hole-in-the-Wall",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_WASHINGTON_SCENIC_EXPANSION_2",
+      "research_sources": [
+        {
+          "authority": "NPS — Mora and Rialto Beach",
+          "url": "https://www.nps.gov/olym/planyourvisit/visiting-mora-and-rialto.htm",
+          "verified_on": "2026-10-02",
+          "supports": "Official source supports the named scenic subject and/or access constraints used by this Opportunity."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-086-P01",
+          "spot_id": "us-086",
+          "name_zh": "Rialto Beach・Hole-in-the-Wall 海蝕拱門＋Sea Stacks",
+          "legacy_theme": "coast",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-wa-rialto-beach-hole-in-the-wall",
+          "formula_confidence": 96,
+          "best_time": "白天至黃昏；依題材與季節條件",
+          "best_season": "全年；季節道路、潮汐、雪況或現場封閉依官方狀態作 hard gate",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-333",
+              "variant_name": "Rialto Beach・Hole-in-the-Wall 海蝕拱門＋Sea Stacks",
+              "condition_geometry": "{\"target\":\"Rialto Beach / Hole-in-the-Wall primary photographic subject\"}",
+              "hard_gates": "Mora/Rialto access open；須有安全潮汐窗口",
+              "required_conditions": "主要攝影主體可見且合法、安全到達",
+              "boosters": "低潮；側光；戲劇雲；適中浪花",
+              "penalties": "漲潮切斷退路；濃霧；危險浪況；道路封閉",
+              "formula_status": "needs_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-086-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official scenic subject; coordinate is a public camera-zone/weather anchor, not a unique tripod claim.",
+              "name": "Rialto Beach / Hole-in-the-Wall public Camera Zone",
+              "lat": 47.917,
+              "lon": -124.638,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_subject_public_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 1600,
+              "geometry_note": "合法公共 Camera Zone；座標作地圖／天氣錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-087",
+      "canonical_name": "Hurricane Ridge",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_WASHINGTON_SCENIC_EXPANSION_2",
+      "research_sources": [
+        {
+          "authority": "NPS — Olympic Trip Ideas",
+          "url": "https://www.nps.gov/olym/planyourvisit/tripideas.htm",
+          "verified_on": "2026-10-02",
+          "supports": "Official source supports the named scenic subject and/or access constraints used by this Opportunity."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-087-P01",
+          "spot_id": "us-087",
+          "name_zh": "Hurricane Ridge・Olympic Mountains 山岳層次／雲海",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-wa-hurricane-ridge",
+          "formula_confidence": 96,
+          "best_time": "白天至黃昏；依題材與季節條件",
+          "best_season": "全年；季節道路、潮汐、雪況或現場封閉依官方狀態作 hard gate",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-334",
+              "variant_name": "Hurricane Ridge・Olympic Mountains 山岳層次／雲海",
+              "condition_geometry": "{\"target\":\"Hurricane Ridge primary photographic subject\"}",
+              "hard_gates": "Hurricane Ridge Road/area open；冬季道路與雪況允許",
+              "required_conditions": "主要攝影主體可見且合法、安全到達",
+              "boosters": "高透明度；低雲位於觀景點下方；新雪；側光",
+              "penalties": "觀景點入雲；暴雪；道路封閉",
+              "formula_status": "needs_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-087-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official scenic subject; coordinate is a public camera-zone/weather anchor, not a unique tripod claim.",
+              "name": "Hurricane Ridge public Camera Zone",
+              "lat": 47.969,
+              "lon": -123.498,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_subject_public_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 900,
+              "geometry_note": "合法公共 Camera Zone；座標作地圖／天氣錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-088",
+      "canonical_name": "Hoh Rain Forest",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_WASHINGTON_SCENIC_EXPANSION_2",
+      "research_sources": [
+        {
+          "authority": "NPS — Olympic Places to Go",
+          "url": "https://www.nps.gov/olym/planyourvisit/places-to-go.htm",
+          "verified_on": "2026-10-02",
+          "supports": "Official source supports the named scenic subject and/or access constraints used by this Opportunity."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-088-P01",
+          "spot_id": "us-088",
+          "name_zh": "Hoh Rain Forest・苔蘚雨林＋薄霧／漫射光",
+          "legacy_theme": "forest",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-wa-hoh-rain-forest",
+          "formula_confidence": 96,
+          "best_time": "白天至黃昏；依題材與季節條件",
+          "best_season": "全年；季節道路、潮汐、雪況或現場封閉依官方狀態作 hard gate",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-335",
+              "variant_name": "Hoh Rain Forest・苔蘚雨林＋薄霧／漫射光",
+              "condition_geometry": "{\"target\":\"Hoh Rain Forest primary photographic subject\"}",
+              "hard_gates": "Hoh area/trails open",
+              "required_conditions": "主要攝影主體可見且合法、安全到達",
+              "boosters": "高濕度；薄霧；雨後濕潤；漫射光",
+              "penalties": "強風；豪雨影響器材／步道；封閉",
+              "formula_status": "needs_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-088-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official scenic subject; coordinate is a public camera-zone/weather anchor, not a unique tripod claim.",
+              "name": "Hoh Rain Forest public Camera Zone",
+              "lat": 47.8609,
+              "lon": -123.934,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_subject_public_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 900,
+              "geometry_note": "合法公共 Camera Zone；座標作地圖／天氣錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-089",
+      "canonical_name": "Palouse Falls",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_WASHINGTON_SCENIC_EXPANSION_2",
+      "research_sources": [
+        {
+          "authority": "Washington State Parks — Palouse Falls",
+          "url": "https://parks.wa.gov/find-parks/state-parks/palouse-falls-state-park-heritage-site",
+          "verified_on": "2026-10-02",
+          "supports": "Official source supports the named scenic subject and/or access constraints used by this Opportunity."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-089-P01",
+          "spot_id": "us-089",
+          "name_zh": "Palouse Falls・瀑布＋玄武岩峽谷",
+          "legacy_theme": "waterfall",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-wa-palouse-falls",
+          "formula_confidence": 96,
+          "best_time": "白天至黃昏；依題材與季節條件",
+          "best_season": "全年；季節道路、潮汐、雪況或現場封閉依官方狀態作 hard gate",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-336",
+              "variant_name": "Palouse Falls・瀑布＋玄武岩峽谷",
+              "condition_geometry": "{\"target\":\"Palouse Falls primary photographic subject\"}",
+              "hard_gates": "公園開放；僅核准觀景區；canyon/base trails 永久封閉",
+              "required_conditions": "主要攝影主體可見且合法、安全到達",
+              "boosters": "較佳流量；側光；戲劇雲",
+              "penalties": "低流量；濃霧；強降雨；越界",
+              "formula_status": "needs_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-089-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official scenic subject; coordinate is a public camera-zone/weather anchor, not a unique tripod claim.",
+              "name": "Palouse Falls public Camera Zone",
+              "lat": 46.6636,
+              "lon": -118.227,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_subject_public_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 900,
+              "geometry_note": "合法公共 Camera Zone；座標作地圖／天氣錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-090",
+      "canonical_name": "Diablo Lake",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_WASHINGTON_SCENIC_EXPANSION_2",
+      "research_sources": [
+        {
+          "authority": "NPS — Diablo Lake Overlook",
+          "url": "https://www.nps.gov/places/diablo-lake-overlook.htm",
+          "verified_on": "2026-10-02",
+          "supports": "Official source supports the named scenic subject and/or access constraints used by this Opportunity."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-090-P01",
+          "spot_id": "us-090",
+          "name_zh": "Diablo Lake・藍綠冰河湖＋North Cascades",
+          "legacy_theme": "lake",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_water_surface_visibility_module",
+          "formula_version": "v0.04-wa-diablo-lake",
+          "formula_confidence": 96,
+          "best_time": "白天至黃昏；依題材與季節條件",
+          "best_season": "全年；季節道路、潮汐、雪況或現場封閉依官方狀態作 hard gate",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-337",
+              "variant_name": "Diablo Lake・藍綠冰河湖＋North Cascades",
+              "condition_geometry": "{\"target\":\"Diablo Lake primary photographic subject\"}",
+              "hard_gates": "觀景區／道路開放",
+              "required_conditions": "主要攝影主體可見且合法、安全到達",
+              "boosters": "7–9月；日照；高透明度；低風",
+              "penalties": "厚低雲遮山；強風；低能見度",
+              "formula_status": "needs_water_surface_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-090-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official scenic subject; coordinate is a public camera-zone/weather anchor, not a unique tripod claim.",
+              "name": "Diablo Lake public Camera Zone",
+              "lat": 48.713,
+              "lon": -121.113,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_subject_public_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 900,
+              "geometry_note": "合法公共 Camera Zone；座標作地圖／天氣錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-091",
+      "canonical_name": "Washington Pass Observation Site",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_WASHINGTON_SCENIC_EXPANSION_2",
+      "research_sources": [
+        {
+          "authority": "NPS — Washington Pass Overlook",
+          "url": "https://home.nps.gov/noca/planyourvisit/accessibility-at-washington-pass-overlook.htm",
+          "verified_on": "2026-10-02",
+          "supports": "Official source supports the named scenic subject and/or access constraints used by this Opportunity."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-091-P01",
+          "spot_id": "us-091",
+          "name_zh": "Washington Pass・Liberty Bell＋Early Winters Spires／秋季落葉松",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-wa-washington-pass-observation-site",
+          "formula_confidence": 96,
+          "best_time": "白天至黃昏；依題材與季節條件",
+          "best_season": "全年；季節道路、潮汐、雪況或現場封閉依官方狀態作 hard gate",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-338",
+              "variant_name": "Washington Pass・Liberty Bell＋Early Winters Spires／秋季落葉松",
+              "condition_geometry": "{\"target\":\"Washington Pass Observation Site primary photographic subject\"}",
+              "hard_gates": "SR20／觀景區開放；積雪與道路狀態允許",
+              "required_conditions": "主要攝影主體可見且合法、安全到達",
+              "boosters": "高透明度；秋季金黃落葉松；新雪；側光",
+              "penalties": "低雲遮峰；道路冬季封閉；暴雪",
+              "formula_status": "needs_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-091-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official scenic subject; coordinate is a public camera-zone/weather anchor, not a unique tripod claim.",
+              "name": "Washington Pass Observation Site public Camera Zone",
+              "lat": 48.525,
+              "lon": -120.657,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_subject_public_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 900,
+              "geometry_note": "合法公共 Camera Zone；座標作地圖／天氣錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-092",
+      "canonical_name": "Artist Point",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_WASHINGTON_SCENIC_EXPANSION_2",
+      "research_sources": [
+        {
+          "authority": "USDA Forest Service — Mt. Baker-Snoqualmie NF",
+          "url": "https://www.fs.usda.gov/r06/mbs",
+          "verified_on": "2026-10-02",
+          "supports": "Official source supports the named scenic subject and/or access constraints used by this Opportunity."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-092-P01",
+          "spot_id": "us-092",
+          "name_zh": "Artist Point・Mount Shuksan／Mount Baker 高山雪景",
+          "legacy_theme": "mountain_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-wa-artist-point",
+          "formula_confidence": 96,
+          "best_time": "白天至黃昏；依題材與季節條件",
+          "best_season": "全年；季節道路、潮汐、雪況或現場封閉依官方狀態作 hard gate",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-339",
+              "variant_name": "Artist Point・Mount Shuksan／Mount Baker 高山雪景",
+              "condition_geometry": "{\"target\":\"Artist Point primary photographic subject\"}",
+              "hard_gates": "Artist Point access/road/trail open and safe",
+              "required_conditions": "主要攝影主體可見且合法、安全到達",
+              "boosters": "高透明度；新雪；彩霞；低風",
+              "penalties": "低雲遮峰；道路封閉；暴雪",
+              "formula_status": "needs_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-092-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official scenic subject; coordinate is a public camera-zone/weather anchor, not a unique tripod claim.",
+              "name": "Artist Point public Camera Zone",
+              "lat": 48.8465,
+              "lon": -121.6927,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_subject_public_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 900,
+              "geometry_note": "合法公共 Camera Zone；座標作地圖／天氣錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-093",
+      "canonical_name": "Picture Lake",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_WASHINGTON_SCENIC_EXPANSION_2",
+      "research_sources": [
+        {
+          "authority": "USDA Forest Service — Mt. Baker-Snoqualmie NF",
+          "url": "https://www.fs.usda.gov/r06/mbs",
+          "verified_on": "2026-10-02",
+          "supports": "Official source supports the named scenic subject and/or access constraints used by this Opportunity."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-093-P01",
+          "spot_id": "us-093",
+          "name_zh": "Picture Lake・Mount Shuksan 湖面倒影",
+          "legacy_theme": "reflection",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_water_surface_visibility_module",
+          "formula_version": "v0.04-wa-picture-lake",
+          "formula_confidence": 96,
+          "best_time": "白天至黃昏；依題材與季節條件",
+          "best_season": "全年；季節道路、潮汐、雪況或現場封閉依官方狀態作 hard gate",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-340",
+              "variant_name": "Picture Lake・Mount Shuksan 湖面倒影",
+              "condition_geometry": "{\"target\":\"Picture Lake primary photographic subject\"}",
+              "hard_gates": "道路／步道開放；湖面狀態可形成倒影",
+              "required_conditions": "主要攝影主體可見且合法、安全到達",
+              "boosters": "低風；高透明度；秋色；晨光",
+              "penalties": "強風；低雲遮山；結冰／積雪遮湖",
+              "formula_status": "needs_water_surface_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-093-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official scenic subject; coordinate is a public camera-zone/weather anchor, not a unique tripod claim.",
+              "name": "Picture Lake public Camera Zone",
+              "lat": 48.8682,
+              "lon": -121.6777,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_subject_public_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 900,
+              "geometry_note": "合法公共 Camera Zone；座標作地圖／天氣錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-094",
+      "canonical_name": "Steptoe Butte State Park Heritage Site",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_WASHINGTON_SCENIC_EXPANSION_2",
+      "research_sources": [
+        {
+          "authority": "Washington State Parks — Steptoe Butte",
+          "url": "https://parks.wa.gov/find-parks/state-parks/steptoe-butte-state-park-heritage-site",
+          "verified_on": "2026-10-02",
+          "supports": "Official source supports the named scenic subject and/or access constraints used by this Opportunity."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-094-P01",
+          "spot_id": "us-094",
+          "name_zh": "Steptoe Butte・Palouse 丘陵農田光影",
+          "legacy_theme": "landscape",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-wa-steptoe-butte-state-park-heritage-site",
+          "formula_confidence": 96,
+          "best_time": "白天至黃昏；依題材與季節條件",
+          "best_season": "全年；季節道路、潮汐、雪況或現場封閉依官方狀態作 hard gate",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-341",
+              "variant_name": "Steptoe Butte・Palouse 丘陵農田光影",
+              "condition_geometry": "{\"target\":\"Steptoe Butte State Park Heritage Site primary photographic subject\"}",
+              "hard_gates": "公園／進場道路開放；須在開放時段",
+              "required_conditions": "主要攝影主體可見且合法、安全到達",
+              "boosters": "低角度側光；局部雲影；高透明度；季節田色",
+              "penalties": "霧白牆；煙霾；厚雲無方向光",
+              "formula_status": "needs_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-094-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official scenic subject; coordinate is a public camera-zone/weather anchor, not a unique tripod claim.",
+              "name": "Steptoe Butte State Park Heritage Site public Camera Zone",
+              "lat": 47.032,
+              "lon": -117.298,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_subject_public_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 900,
+              "geometry_note": "合法公共 Camera Zone；座標作地圖／天氣錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-095",
+      "canonical_name": "Cape Disappointment State Park",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_WASHINGTON_SCENIC_EXPANSION_2",
+      "research_sources": [
+        {
+          "authority": "Washington State Parks — Cape Disappointment",
+          "url": "https://parks.wa.gov/find-parks/state-parks/cape-disappointment-state-park",
+          "verified_on": "2026-10-02",
+          "supports": "Official source supports the named scenic subject and/or access constraints used by this Opportunity."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-095-P01",
+          "spot_id": "us-095",
+          "name_zh": "Cape Disappointment・燈塔＋太平洋峭壁／風暴海景",
+          "legacy_theme": "coast",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-wa-cape-disappointment-state-park",
+          "formula_confidence": 96,
+          "best_time": "白天至黃昏；依題材與季節條件",
+          "best_season": "全年；季節道路、潮汐、雪況或現場封閉依官方狀態作 hard gate",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-342",
+              "variant_name": "Cape Disappointment・燈塔＋太平洋峭壁／風暴海景",
+              "condition_geometry": "{\"target\":\"Cape Disappointment State Park primary photographic subject\"}",
+              "hard_gates": "公園與目標步道開放；風浪安全條件允許",
+              "required_conditions": "主要攝影主體可見且合法、安全到達",
+              "boosters": "戲劇雲；適中浪花；海霧層次；側光",
+              "penalties": "危險強風／巨浪；濃霧遮主體；封閉",
+              "formula_status": "needs_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-095-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official scenic subject; coordinate is a public camera-zone/weather anchor, not a unique tripod claim.",
+              "name": "Cape Disappointment State Park public Camera Zone",
+              "lat": 46.283,
+              "lon": -124.054,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_subject_public_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 1600,
+              "geometry_note": "合法公共 Camera Zone；座標作地圖／天氣錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "spot_id": "us-096",
+      "canonical_name": "Sun Lakes–Dry Falls",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_WASHINGTON_SCENIC_EXPANSION_2",
+      "research_sources": [
+        {
+          "authority": "Washington State Parks — Dry Falls",
+          "url": "https://parks.wa.gov/dry-falls-visitor-center",
+          "verified_on": "2026-10-02",
+          "supports": "Official source supports the named scenic subject and/or access constraints used by this Opportunity."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "us-096-P01",
+          "spot_id": "us-096",
+          "name_zh": "Dry Falls・冰河洪水巨型乾瀑／Channeled Scabland",
+          "legacy_theme": "geology",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-wa-sun-lakes-dry-falls",
+          "formula_confidence": 96,
+          "best_time": "白天至黃昏；依題材與季節條件",
+          "best_season": "全年；季節道路、潮汐、雪況或現場封閉依官方狀態作 hard gate",
+          "condition_variants": [
+            {
+              "variant_id": "USVAR-343",
+              "variant_name": "Dry Falls・冰河洪水巨型乾瀑／Channeled Scabland",
+              "condition_geometry": "{\"target\":\"Sun Lakes–Dry Falls primary photographic subject\"}",
+              "hard_gates": "主要觀景／停車區確認開放；2026 renovation closure 不得忽略",
+              "required_conditions": "主要攝影主體可見且合法、安全到達",
+              "boosters": "低角度側光；高透明度；戲劇雲",
+              "penalties": "觀景區封閉；煙霾；濃霧；平光",
+              "formula_status": "needs_visibility_module"
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "us-096-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Official scenic subject; coordinate is a public camera-zone/weather anchor, not a unique tripod claim.",
+              "name": "Sun Lakes–Dry Falls public Camera Zone",
+              "lat": 47.606672,
+              "lon": -119.364385,
+              "coord_confidence": "medium_high",
+              "verification_status": "official_subject_public_anchor",
+              "geometry_type": "area",
+              "geometry_extent_m": 900,
+              "geometry_note": "合法公共 Camera Zone；座標作地圖／天氣錨點，不宣稱唯一腳架位置。",
+              "geometry_confidence": "medium_high"
             }
           ]
         }

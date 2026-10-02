@@ -1924,7 +1924,7 @@
     // High-resolution providers (for example CWA WRF 3 km) can still produce
     // a visually solid field even after grid decimation. Enforce a minimum
     // screen-space separation so vectors remain readable at every zoom level.
-    const minVectorSpacingPx=compactUi?30:22;
+    const minVectorSpacingPx=compactUi?30:34;
     const occupiedVectorCells=new Set();
 
     ctx.save();
