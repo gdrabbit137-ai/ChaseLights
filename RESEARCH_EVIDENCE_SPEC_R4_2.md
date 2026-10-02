@@ -314,3 +314,52 @@ When two files disagree, use this ownership order for the disputed field:
 7. Research notes and handoff files for historical context.
 
 A conflict SHOULD be fixed at the owning layer rather than patched downstream.
+
+
+## 13. Photography Place discovery and admission workflow
+
+This section standardizes how humans and AI agents discover, classify, research, and admit new photography Places without overfitting the catalog to famous fixed-tripod viewpoints.
+
+### 13.1 Discovery is a funnel, not a completeness gate
+
+A candidate MUST NOT be rejected merely because the first discovery pass lacks an exact tripod coordinate, exact subject coordinate, parking coordinate, azimuth, or fully documented access route.
+
+Research SHOULD proceed in stages: broad candidate discovery; photography-value evidence screening; photographic-field classification; Place-specific Opportunity research; Camera Zone and subject-geometry research at the precision supported by evidence; independent Navigation Target research; minimum-viable production admission; and later evidence enrichment.
+
+Early discovery asks whether a Place is worth deeper research. It MUST NOT require all later-stage fields to be complete.
+
+### 13.2 Photography-value screening and Visual Evidence
+
+Discovery SHOULD use multiple independent signals rather than popularity, one search result, or one attractive photograph. Useful signals include authoritative scenic/park/tourism material, established photography/outdoor publications, multiple independent Place-specific photographs or field reports, repeated identifiable subjects/compositions, multiple useful viewpoints, seasonal subjects, map/terrain context consistent with imagery, and legal/practical access information.
+
+Publicly accessible photographs MAY be used as Visual Evidence to determine what is actually visible, whether compositions recur, whether camera positions are concentrated or distributed, and whether multiple subjects or viewing directions are supported. A single attractive image, unsourced repost, search thumbnail, social-media volume, review count, or AI-generated image MUST NOT alone establish a production Opportunity. Visual Evidence SHOULD be corroborated when practical. Image scarcity MUST NOT by itself reject an otherwise well-supported Place.
+
+Agents MUST NOT claim access to private, login-restricted, or unavailable imagery.
+
+### 13.3 Photographic-field classification
+
+After initial screening, research SHOULD classify the Place as:
+- `fixed_viewpoint`: photography is materially concentrated at one verified or representative Camera Zone;
+- `area_field`: photography is viable across a meaningful area and no defensible single best tripod point exists;
+- `multi_viewpoint`: multiple materially different Camera Zones, subjects, or viewing directions are supported;
+- `unresolved`: photographic value is supported but current evidence cannot honestly choose a more specific class.
+
+This is descriptive, not a quality ranking. `area_field`, `multi_viewpoint`, and `unresolved` MUST NOT be downgraded merely because they lack one exact tripod coordinate.
+
+### 13.4 Camera Zone precision and minimum-viable admission
+
+The system MUST prefer honest uncertainty over fabricated precision. Camera Zones may be exact/verified, representative, provisional, area/range-level where the data model permits, or unresolved pending research.
+
+Agents MUST NOT invent exact GPS, azimuth, subject coordinates, parking points, trailheads, or arrival routes merely to satisfy a schema field. If the schema cannot faithfully represent an area or multiple Camera Zones, research MUST preserve the broader truth and use the least misleading supported representation, clearly marked representative/provisional.
+
+A Place may enter production without every enrichment field when: its identity is resolved; at least one Opportunity has adequate Place-specific evidence; location representation is not misleading; Camera Zone precision/status is honest; navigation complies with `NAVIGATION_SPEC_R4_2.md`; forecastable versus non-forecastable parts are identified; runtime does not invent subject presence; and required schema/audit/tests pass.
+
+Exact tripod GPS, exact target GPS, exact azimuth, parking, trailhead, season detail, and access enrichment are follow-up fields unless the particular photographic, safety, or navigation claim depends on them.
+
+### 13.5 Geometry depth and repeatable AI workflow
+
+Geometry research MUST be as precise as the claim requires. Narrow alignments such as skyline, reflection, Milky Way, sunrise/sunset, or constrained sightlines may require Camera Zone, subject direction, horizon context, and/or azimuth evidence. Broad mountain panoramas or flower-field Opportunities may be supportable at area level without one target coordinate.
+
+An AI agent performing Place expansion MUST: read the latest specifications/canonical data/schema/tests; search broadly without requiring complete metadata; screen using multiple photography-value signals; research Place-specific Opportunities; inspect accessible public Visual Evidence when useful; classify the photographic field; research Camera Zone/subject geometry only to justified precision; research Navigation Target independently; use conservative/provisional states for unresolved details; update canonical data/evidence; run required tests/audits; and preserve unresolved enrichment work rather than fabricating completeness.
+
+Unknown MUST remain unknown. Provisional MUST remain provisional.
