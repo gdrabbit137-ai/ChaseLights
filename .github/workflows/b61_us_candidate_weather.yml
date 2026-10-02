@@ -1,6 +1,8 @@
 name: B61 US Candidate Weather QA
 
 on:
+  # Keep this workflow PR/manual-only. A branch push is not a supported
+  # execution context because ci_weather_impact.py requires PR metadata.
   pull_request:
     branches:
       - main
