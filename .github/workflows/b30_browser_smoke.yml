@@ -400,7 +400,7 @@ jobs:
               """)
               driver.execute_script("switchRegion('us')")
               wait.until(lambda d: d.execute_script(
-                  "return currentData && currentRegion === 'us' && currentSpots.length === 70"
+                  "return currentData && currentRegion === 'us' && currentSpots.length === 96"
               ))
               us_admin = driver.execute_script("""
                 const active = currentSpots.filter(s => s.active_in_catalog !== false);
