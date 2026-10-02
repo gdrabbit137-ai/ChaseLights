@@ -1,6 +1,6 @@
 # Scenic candidate research — 2026-10-02
 
-This batch stages two candidates only. It MUST NOT be merged until reviewed Photography Opportunities, navigation targets, and runtime/catalog manifests are added.
+This batch implements two production candidates only. Reviewed Photography Opportunities, fail-closed navigation metadata, runtime catalog entries, manifest counts and regression coverage are required before merge.
 
 ## tw-085 南子吝步道 / Nanzilin Trail
 - First-level admin area: 新北市.
@@ -67,3 +67,9 @@ The Washington candidates formerly staged here were reconciled against merged PR
 
 ## Batch-3 allocation note
 Sunrise Point is now covered by merged PR #323 as `us-083` and is intentionally removed from this branch. Current main reserves Washington additions through `us-096`; no duplicate US IDs or records should be introduced here.
+
+
+## Production implementation status
+- `tw-085` Nanzilin Trail: admitted with three researched Opportunities (sunrise seascape, Keelung Mountain sunset, autumn/winter silvergrass). Silvergrass presence remains non-forecastable; navigation remains `needs_review` until an exact practical trailhead/parking arrival coordinate is independently verified.
+- `jp-036` Takachiho Gorge: admitted with three researched Opportunities (Manai Falls + gorge, Three Bridges, boat-level Manai Falls). Boat photography is fail-closed on official operating state; navigation remains `multiple_access_routes` because walking, parking and boat access differ.
+- Washington duplicates were removed after PR #323: Reflection Lakes is `us-082`; Sunrise/Sunrise Point is `us-083`.

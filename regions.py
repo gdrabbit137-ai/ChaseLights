@@ -2025,6 +2025,38 @@ DISPLAY_NAME_OVERRIDES = {
 # separate. map_query is search/display metadata only and MUST NOT be used to
 # build a production Navigation URL.
 NAVIGATION_TARGET_OVERRIDES = {
+    "南子吝步道": {
+        "status": "needs_review",
+        "target_type": "trailhead_or_parking",
+        "label_i18n": {
+            "zh-TW": "南子吝步道入口／停車到達點待查證",
+            "en": "Nanzilin Trail arrival / parking point pending verification",
+            "ja": "南子吝歩道の到着・駐車地点は確認待ち",
+        },
+        "source": "New Taipei City Travel confirms trail and parking facilities but the exact practical arrival coordinate has not yet been independently verified; reviewed 2026-10-02",
+        "confidence": "medium",
+        "note_i18n": {
+            "zh-TW": "Camera Zone 位於步道山稜與觀景平台；目前不把代表性山稜座標當成道路導航終點。",
+            "en": "The Camera Zone is on the ridge/viewing-platform trail. The representative ridge coordinate is not promoted to a road-routing destination.",
+            "ja": "Camera Zone は稜線・展望台の歩道上です。代表座標を道路ナビの目的地には昇格しません。",
+        },
+    },
+    "高千穗峽": {
+        "status": "multiple_access_routes",
+        "target_type": "route_choice_required",
+        "label_i18n": {
+            "zh-TW": "高千穗峽有多個停車／步行／租船進入方式",
+            "en": "Takachiho Gorge has multiple parking, walking and boat access routes",
+            "ja": "高千穂峡は駐車・徒歩・貸しボートで複数のアクセス経路があります",
+        },
+        "source": "Takachiho Tourism Association documents multiple official parking/access options and separately managed rental-boat access; reviewed 2026-10-02",
+        "confidence": "high",
+        "note_i18n": {
+            "zh-TW": "真名井瀑布步道、三橋攝影點與租船視角的實際到達方式不同；在 route-selection 資料完成前不指定單一 Directions 終點。",
+            "en": "Manai Falls walking access, the Three Bridges photo point and the rental-boat perspective use materially different arrival modes. No single Directions target is chosen until route selection is modeled.",
+            "ja": "真名井の滝の遊歩道、三橋撮影点、貸しボートでは到着方法が異なるため、ルート選択モデル完成前は単一のDirections目的地を指定しません。",
+        },
+    },
     "馬塔努斯卡冰河": {
         "status": "verified",
         "lat": 61.7994722,
