@@ -2,9 +2,9 @@
   "schema_version": 1,
   "source_id": "himawari9_ahi",
   "observation": {
-    "slot_utc": "2026-10-02T14:20:00Z",
-    "time_coverage_start": "2026-10-02T14:20:20Z",
-    "time_coverage_end": "2026-10-02T14:29:39Z"
+    "slot_utc": "2026-10-02T16:00:00Z",
+    "time_coverage_start": "2026-10-02T16:00:21Z",
+    "time_coverage_end": "2026-10-02T16:09:40Z"
   },
   "target_grid": {
     "rows": 276,
@@ -51,8 +51,8 @@
   },
   "source_products": {
     "cloud_mask": {
-      "path": "noaa-himawari9/AHI-L2-FLDK-Clouds/2026/10/02/1420/AHI-CMSK_v1r1_h09_s202610021420203_e202610021429397_c202610021434092.nc",
-      "size_bytes": 334288131,
+      "path": "noaa-himawari9/AHI-L2-FLDK-Clouds/2026/10/02/1600/AHI-CMSK_v1r1_h09_s202610021600210_e202610021609404_c202610021614536.nc",
+      "size_bytes": 335233560,
       "chunks": [
         200,
         200
@@ -60,8 +60,8 @@
       "compression": "gzip"
     },
     "cloud_height": {
-      "path": "noaa-himawari9/AHI-L2-FLDK-Clouds/2026/10/02/1420/AHI-CHGT_v1r1_h09_s202610021420203_e202610021429397_c202610021434092.nc",
-      "size_bytes": 765919877,
+      "path": "noaa-himawari9/AHI-L2-FLDK-Clouds/2026/10/02/1600/AHI-CHGT_v1r1_h09_s202610021600210_e202610021609404_c202610021614536.nc",
+      "size_bytes": 767058029,
       "chunks": [
         200,
         200
@@ -86,10 +86,10 @@
     },
     "cloud_top_height_m": {
       "max_allowed_m": 5000.0,
-      "p50_m": 922.94,
-      "p95_m": 1419.06,
-      "p99_m": 1737.09,
-      "max_m": 4461.36,
+      "p50_m": 919.7,
+      "p95_m": 1423.66,
+      "p99_m": 1769.07,
+      "max_m": 4768.99,
       "outside_max_distance": 0,
       "target_count": 83076
     }
@@ -100,17 +100,17 @@
       "missing": 0,
       "min": 0.0,
       "max": 1.0,
-      "mean": 0.536
+      "mean": 0.566
     },
     "cloud_top_height_m": {
-      "count": 44526,
-      "missing": 38550,
+      "count": 46928,
+      "missing": 36148,
       "min": 0.0,
-      "max": 13800.0,
-      "mean": 3238.169
+      "max": 16900.0,
+      "mean": 3193.786
     }
   },
-  "cloud_fraction": 0.53622,
+  "cloud_fraction": 0.565579,
   "notes": [
     "The browser grid is a compact regular lon/lat presentation grid.",
     "Cloud mask uses source Latitude/Longitude geolocation.",
