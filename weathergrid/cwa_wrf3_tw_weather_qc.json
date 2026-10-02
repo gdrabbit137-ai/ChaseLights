@@ -4,9 +4,9 @@
   "provider": "Central Weather Administration (CWA)",
   "model": "CWA_WRF_3KM",
   "cycle": {
-    "cycle_time_utc": "2026-10-01T18:00:00+00:00",
-    "date": "20261001",
-    "cycle": "18"
+    "cycle_time_utc": "2026-10-02T00:00:00+00:00",
+    "date": "20261002",
+    "cycle": "00"
   },
   "frame_count": 3,
   "grid_rows": 234,
@@ -22,16 +22,16 @@
   "frames": [
     {
       "forecast_hour": 0,
-      "valid_time_utc": "2026-10-01T18:00:00+00:00",
+      "valid_time_utc": "2026-10-02T00:00:00+00:00",
       "fields": {
         "temperature_2m_c": {
           "count": 62478,
           "missing": 0,
-          "min": 5.3889,
-          "max": 28.8219,
-          "mean": 26.7259,
-          "unique_rounded": 8844,
-          "range": 23.433,
+          "min": 11.6776,
+          "max": 29.6979,
+          "mean": 27.2404,
+          "unique_rounded": 7586,
+          "range": 18.0203,
           "flags": [],
           "source_units": "K",
           "normalized_units": "°C"
@@ -39,11 +39,11 @@
         "relative_humidity_2m_percent": {
           "count": 62478,
           "missing": 0,
-          "min": 67.5333,
-          "max": 99.8074,
-          "mean": 80.7587,
-          "unique_rounded": 23115,
-          "range": 32.2741,
+          "min": 52.4477,
+          "max": 99.2201,
+          "mean": 79.0411,
+          "unique_rounded": 17966,
+          "range": 46.7724,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -65,11 +65,11 @@
         "wind_speed_10m_m_s": {
           "count": 62478,
           "missing": 0,
-          "min": 0.003,
-          "max": 11.974,
-          "mean": 3.9289,
-          "unique_rounded": 9808,
-          "range": 11.971,
+          "min": 0.0046,
+          "max": 10.8552,
+          "mean": 4.5583,
+          "unique_rounded": 10159,
+          "range": 10.8505,
           "flags": [],
           "source_units": "m/s",
           "normalized_units": "m/s"
@@ -77,11 +77,11 @@
         "wind_direction_10m_deg": {
           "count": 62478,
           "missing": 0,
-          "min": 0.0041,
-          "max": 359.9995,
-          "mean": 71.2359,
-          "unique_rounded": 47985,
-          "range": 359.9954,
+          "min": 0.0012,
+          "max": 359.9858,
+          "mean": 65.9893,
+          "unique_rounded": 47177,
+          "range": 359.9846,
           "flags": [],
           "source_units": "degree",
           "normalized_units": "degree"
@@ -90,16 +90,16 @@
     },
     {
       "forecast_hour": 6,
-      "valid_time_utc": "2026-10-02T00:00:00+00:00",
+      "valid_time_utc": "2026-10-02T06:00:00+00:00",
       "fields": {
         "temperature_2m_c": {
           "count": 62478,
           "missing": 0,
-          "min": 11.0695,
-          "max": 28.8354,
-          "mean": 27.0133,
-          "unique_rounded": 7753,
-          "range": 17.7659,
+          "min": 9.9685,
+          "max": 32.2127,
+          "mean": 27.4489,
+          "unique_rounded": 7631,
+          "range": 22.2443,
           "flags": [],
           "source_units": "K",
           "normalized_units": "°C"
@@ -107,11 +107,11 @@
         "relative_humidity_2m_percent": {
           "count": 62478,
           "missing": 0,
-          "min": 54.9113,
-          "max": 99.588,
-          "mean": 80.7592,
-          "unique_rounded": 19104,
-          "range": 44.6767,
+          "min": 49.3433,
+          "max": 99.9641,
+          "mean": 80.4223,
+          "unique_rounded": 21420,
+          "range": 50.6209,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -119,11 +119,11 @@
         "shortwave_flux_w_m2": {
           "count": 62478,
           "missing": 0,
-          "min": 22.6067,
-          "max": 492.9859,
-          "mean": 363.5299,
-          "unique_rounded": 54571,
-          "range": 470.3792,
+          "min": 17.3825,
+          "max": 737.8951,
+          "mean": 583.2348,
+          "unique_rounded": 55564,
+          "range": 720.5126,
           "flags": [],
           "source_units": "W m**-2",
           "normalized_units": "W/m²"
@@ -131,11 +131,11 @@
         "wind_speed_10m_m_s": {
           "count": 62478,
           "missing": 0,
-          "min": 0.0104,
-          "max": 11.5086,
-          "mean": 4.4146,
-          "unique_rounded": 10477,
-          "range": 11.4983,
+          "min": 0.024,
+          "max": 13.7124,
+          "mean": 5.4466,
+          "unique_rounded": 11477,
+          "range": 13.6884,
           "flags": [],
           "source_units": "m/s",
           "normalized_units": "m/s"
@@ -143,11 +143,11 @@
         "wind_direction_10m_deg": {
           "count": 62478,
           "missing": 0,
-          "min": 0.0011,
-          "max": 359.9994,
-          "mean": 82.7146,
-          "unique_rounded": 47886,
-          "range": 359.9982,
+          "min": 0.0069,
+          "max": 359.9977,
+          "mean": 75.4083,
+          "unique_rounded": 45272,
+          "range": 359.9907,
           "flags": [],
           "source_units": "degree",
           "normalized_units": "degree"
@@ -156,16 +156,16 @@
     },
     {
       "forecast_hour": 12,
-      "valid_time_utc": "2026-10-02T06:00:00+00:00",
+      "valid_time_utc": "2026-10-02T12:00:00+00:00",
       "fields": {
         "temperature_2m_c": {
           "count": 62478,
           "missing": 0,
-          "min": 10.733,
-          "max": 32.6485,
-          "mean": 27.4529,
-          "unique_rounded": 7580,
-          "range": 21.9155,
+          "min": 7.585,
+          "max": 28.9568,
+          "mean": 26.9309,
+          "unique_rounded": 8533,
+          "range": 21.3718,
           "flags": [],
           "source_units": "K",
           "normalized_units": "°C"
@@ -173,11 +173,11 @@
         "relative_humidity_2m_percent": {
           "count": 62478,
           "missing": 0,
-          "min": 46.5943,
-          "max": 99.9352,
-          "mean": 80.5553,
-          "unique_rounded": 22210,
-          "range": 53.3409,
+          "min": 61.51,
+          "max": 99.7219,
+          "mean": 82.9084,
+          "unique_rounded": 19256,
+          "range": 38.2118,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -185,23 +185,25 @@
         "shortwave_flux_w_m2": {
           "count": 62478,
           "missing": 0,
-          "min": 31.2777,
-          "max": 738.1554,
-          "mean": 578.9273,
-          "unique_rounded": 56001,
-          "range": 706.8777,
-          "flags": [],
+          "min": 0.0,
+          "max": 0.0,
+          "mean": 0.0,
+          "unique_rounded": 1,
+          "range": 0.0,
+          "flags": [
+            "constant_field"
+          ],
           "source_units": "W m**-2",
           "normalized_units": "W/m²"
         },
         "wind_speed_10m_m_s": {
           "count": 62478,
           "missing": 0,
-          "min": 0.0116,
-          "max": 12.7124,
-          "mean": 5.1678,
-          "unique_rounded": 11082,
-          "range": 12.7008,
+          "min": 0.0037,
+          "max": 14.8678,
+          "mean": 6.0086,
+          "unique_rounded": 12737,
+          "range": 14.8641,
           "flags": [],
           "source_units": "m/s",
           "normalized_units": "m/s"
@@ -209,11 +211,11 @@
         "wind_direction_10m_deg": {
           "count": 62478,
           "missing": 0,
-          "min": 0.0029,
-          "max": 359.9997,
-          "mean": 77.3999,
-          "unique_rounded": 46026,
-          "range": 359.9969,
+          "min": 0.0052,
+          "max": 359.9828,
+          "mean": 57.051,
+          "unique_rounded": 42945,
+          "range": 359.9776,
           "flags": [],
           "source_units": "degree",
           "normalized_units": "degree"
@@ -224,6 +226,11 @@
   "flags": [
     {
       "forecast_hour": 0,
+      "field": "shortwave_flux_w_m2",
+      "flag": "constant_field"
+    },
+    {
+      "forecast_hour": 12,
       "field": "shortwave_flux_w_m2",
       "flag": "constant_field"
     }
