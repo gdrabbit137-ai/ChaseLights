@@ -819,6 +819,14 @@ DIRECTIONAL_HORIZON_SECTORS = {
     "us-039-P01": {"center": 90.0, "tolerance": 85.0, "phase": "sunrise"},
     "us-044-P01": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
     "us-065-P01": {"center": 270.0, "tolerance": 90.0, "phase": "sunset"},
+    "us-071-P02": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
+    "us-072-P02": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
+    "us-073-P02": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
+    "us-075-P02": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
+    "us-078-P03": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
+    "us-080-P02": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
+    "us-083-P01": {"center": 90.0, "tolerance": 85.0, "phase": "sunrise"},
+    "us-085-P01": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
 }
 
 CLOUD_SKY_GLOW_PROFILES = {
