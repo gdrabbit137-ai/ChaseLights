@@ -717,7 +717,18 @@ jobs:
 
               hrefs = [x.get_attribute("href") or "" for x in tools]
               report["tool_hrefs"] = hrefs
-              assert any("google.com/maps/dir/" in h and "destination=" in h for h in hrefs), hrefs
+              # Navigation contract: legacy catalog entries without an independently
+              # verified Navigation Target remain fail-closed and may use a Maps
+              # search fallback. Directions are asserted separately for verified
+              # navigation targets; do not promote camera/weather coordinates to
+              # driving destinations merely because coordinates exist.
+              map_hrefs = [h for h in hrefs if "google.com/maps/" in h]
+              assert map_hrefs, hrefs
+              assert all(
+                  ("/maps/search/" in h and "query=" in h)
+                  or ("/maps/dir/" in h and "destination=" in h)
+                  for h in map_hrefs
+              ), map_hrefs
               assert any("radar" in (x.text or "").lower() or "雷達" in (x.text or "") for x in tools), [x.text for x in tools]
 
               version_recovery = driver.execute_async_script("""
