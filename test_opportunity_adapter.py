@@ -166,8 +166,8 @@ def test_adapter_integrity():
     )
 
     tw = get_spots("tw")
-    assert len(tw) == 84
-    assert [s["spot_id"] for s in tw] == [f"tw-{i:03d}" for i in range(1, 85)]
+    assert len(tw) == 85
+    assert [s["spot_id"] for s in tw] == [f"tw-{i:03d}" for i in range(1, 86)]
     assert PRODUCT_STATUS_BY_SPOT == {"tw-063": "retired"}
     assert product_status("tw-063") == "retired"
     assert active_in_catalog("tw-063") is False
@@ -2830,8 +2830,25 @@ def test_adapter_integrity():
 
     # B51 Japan research batch 16: all 35 Japan production Places are curated.
     jp = get_spots("jp")
-    assert len(jp) == 35
-    assert all(get_opportunities("jp", f"jp-{i:03d}") for i in range(1, 36))
+    assert len(jp) == 36
+    assert all(get_opportunities("jp", f"jp-{i:03d}") for i in range(1, 37))
+
+    # B174 scenic expansion admission: preserve evidence/runtime and navigation boundaries.
+    nanzilin = next(s for s in tw if s["spot_id"] == "tw-085")
+    assert nanzilin["navigation_target"]["status"] == "needs_review"
+    assert [o["opportunity_id"] for o in nanzilin["opportunities"]] == [
+        "tw-085-P01", "tw-085-P02", "tw-085-P03"
+    ]
+    assert nanzilin["opportunities"][2]["seasonal_subject_presence_forecastable"] is False
+    assert nanzilin["opportunities"][2]["runtime_policy"] == "module_pending"
+
+    takachiho = next(s for s in jp if s["spot_id"] == "jp-036")
+    assert takachiho["navigation_target"]["status"] == "multiple_access_routes"
+    assert [o["opportunity_id"] for o in takachiho["opportunities"]] == [
+        "jp-036-P01", "jp-036-P02", "jp-036-P03"
+    ]
+    assert takachiho["opportunities"][2]["dynamic_access_required"] is True
+    assert takachiho["opportunities"][2]["runtime_policy"] == "module_pending"
 
     jp027 = get_opportunities("jp", "jp-027")
     assert [o["opportunity_id"] for o in jp027] == ["jp-027-P01", "jp-027-P02"]
@@ -4512,7 +4529,7 @@ def test_active_catalog_weather_generation_guard():
     # B51 completes Japan migration: every production Japan Place is researched.
     jp_spots = get_spots("jp")
     researched_jp = {spot["spot_id"] for spot in jp_spots if spot.get("opportunities")}
-    assert researched_jp == {f"jp-{i:03d}" for i in range(1, 36)}
+    assert researched_jp == {f"jp-{i:03d}" for i in range(1, 37)}
     assert all(spot.get("opportunities") for spot in jp_spots)
     blue_pond = next(spot for spot in jp_spots if spot["spot_id"] == "jp-001")
     assert abs(blue_pond["lat"] - 43.493611) < 1e-9

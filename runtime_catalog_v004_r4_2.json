@@ -14,10 +14,10 @@
     "runtime_catalog_v004_r4_2_b35_liyu_subjects.json"
   ],
   "counts": {
-    "spots": 214,
-    "opportunities": 423,
-    "condition_variants": 438,
-    "profile_viewpoint_relations": 429
+    "spots": 216,
+    "opportunities": 429,
+    "condition_variants": 444,
+    "profile_viewpoint_relations": 435
   },
   "spots": [
     {
@@ -9489,7 +9489,7 @@
               "required_conditions": "東側海面與山海層次可辨；無足以遮蔽主體的濃霧或強降水",
               "boosters": "東側地平線透光；中高雲彩霞；高能見度；低角度暖光",
               "penalties": "厚低雲封鎖東方；近距離白牆霧；強風；強降雨",
-              "formula_status": "needs_directional_sunrise_coastal_visibility_module"
+              "formula_status": "needs_directional_horizon_visibility_module"
             }
           ],
           "viewpoints": [
@@ -9533,7 +9533,7 @@
               "required_conditions": "基隆山方向與山海層次可辨",
               "boosters": "西側／西北側透光；中高雲夕彩；高能見度；斜射光",
               "penalties": "低雲完全遮山；濃霧白牆；強風；強降雨",
-              "formula_status": "needs_directional_sunset_mountain_visibility_module"
+              "formula_status": "needs_directional_horizon_visibility_module"
             }
           ],
           "viewpoints": [
@@ -9563,7 +9563,7 @@
           "sampling_topology": "local_area",
           "geometry_required": false,
           "opportunity_confidence": "high",
-          "formula_status": "needs_seasonal_presence_state",
+          "formula_status": "needs_seasonal_foreground_module",
           "formula_version": "v0.04-nanzilin-silvergrass-presence",
           "formula_confidence": 92,
           "best_time": "秋冬且現地芒草狀態已確認時；日間低角度光優先",
@@ -9579,7 +9579,7 @@
               "required_conditions": "已確認芒草具可拍攝狀態；步道安全可達",
               "boosters": "側逆光；弱風；高能見度；山海背景清楚",
               "penalties": "花況未形成／已衰退；強風；豪雨；濃霧遮蔽背景",
-              "formula_status": "needs_seasonal_presence_state"
+              "formula_status": "needs_seasonal_foreground_module"
             }
           ],
           "viewpoints": [
@@ -13124,7 +13124,7 @@
               "required_conditions": "真名井瀑布與峽谷主體可辨；無白牆濃霧或強降水完全遮蔽",
               "boosters": "柔和漫射光；雨後植被；適量水霧；較佳能見度",
               "penalties": "濃霧遮瀑；強降雨打鏡；步道封閉；危險高水位",
-              "formula_status": "needs_waterfall_gorge_visibility_module"
+              "formula_status": "needs_visibility_module"
             }
           ],
           "viewpoints": [
@@ -13168,7 +13168,7 @@
               "required_conditions": "三橋與峽谷層次可辨",
               "boosters": "高透明度；柔光；植被季節色彩；低角度側光",
               "penalties": "濃霧；強降水；逆光炫光嚴重；步道封閉",
-              "formula_status": "needs_gorge_architecture_visibility_module"
+              "formula_status": "needs_visibility_module"
             }
           ],
           "viewpoints": [
@@ -13198,7 +13198,7 @@
           "sampling_topology": "local_area",
           "geometry_required": false,
           "opportunity_confidence": "high",
-          "formula_status": "needs_dynamic_access_provider",
+          "formula_status": "needs_dynamic_access_module",
           "formula_version": "v0.04-takachiho-boat-state",
           "formula_confidence": 98,
           "best_time": "僅官方當日確認租船營運且預約／現場條件允許時",
@@ -13214,7 +13214,7 @@
               "required_conditions": "官方租船狀態可確認且允許乘船；真名井瀑布可辨",
               "boosters": "柔光；低風；適量水霧；較佳能見度",
               "penalties": "官方停航／狀態未知；強降雨；高水位；濃霧",
-              "formula_status": "needs_dynamic_access_provider"
+              "formula_status": "needs_dynamic_access_module"
             }
           ],
           "viewpoints": [
