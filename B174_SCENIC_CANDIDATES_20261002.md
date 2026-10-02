@@ -41,16 +41,10 @@ This batch stages two candidates only. It MUST NOT be merged until reviewed Phot
 - Opportunity work required: blue-pond reflection; autumn foliage contrast; snow scene; seasonal illumination as a separate event/access-gated opportunity. Weather may influence reflection quality but must not fabricate illumination dates or seasonal foliage state.
 - Navigation work required: use the official parking/visitor arrival area rather than a point in the pond as the driving target.
 
-### United States — Reflection Lakes, Mount Rainier National Park
-- First-level admin area: Washington.
-- Official evidence: the U.S. National Park Service marks Reflection Lakes as a Scenic View/Photo Spot and documents Mount Rainier reflections. NPS specifically states that still air and water, usually in early morning, can produce a perfect mountain mirror. Vehicle access on Stevens Canyon Road is seasonal, typically late June/June through September.
-- Sources: https://www.nps.gov/places/reflection-lakes.htm and https://www.nps.gov/places/reflection-lakes-exhibit-panel.htm (reviewed 2026-10-02).
-- Opportunity work required: calm-water Mount Rainier reflection with early-morning preference; separate summer vehicle-access eligibility from winter hike/snowshoe access. Never infer road opening from ordinary weather alone.
-- Access guardrail: stay on designated trails; boating, fishing and swimming are not allowed. Camera Zones must not encourage off-trail lakeshore shortcuts.
-- Navigation work required: use the official parking area as the vehicle destination; lake-edge composition is a walking Camera Zone.
 
 ## Batch-2 allocation note
-These three candidates intentionally have no spot IDs yet. The research branch is currently behind main, and allocating sequential IDs before rebasing risks collisions with newly merged catalog work. Allocate IDs only after rebasing against the then-current main catalog.
+The Washington candidates formerly staged here were reconciled against merged PR #323. Reflection Lakes is now covered by `us-082` and is intentionally removed from this branch to avoid duplicate production records. Allocate any remaining unassigned IDs only from the current main catalog.
+
 
 
 ## Batch 3 — researched candidates (IDs intentionally unallocated)
@@ -70,13 +64,6 @@ These three candidates intentionally have no spot IDs yet. The research branch i
 - Opportunity work required: rice-terrace/Sea-of-Japan landscape; sunset terrace composition; seasonal illumination as a separate event-state-gated Opportunity. Planting/harvest appearance and illumination dates MUST NOT be inferred from weather.
 - Navigation work required: parking/rest-house arrival target can be researched independently; walking paths through the paddies remain Camera Zones.
 
-### United States — Sunrise Point, Mount Rainier National Park
-- First-level admin area: Washington.
-- Grade-A evidence: NPS marks Sunrise Point as a Scenic View/Photo Spot with auto parking and documents 360-degree views of Mount Rainier and the Cascade Range, including Mount Adams and Mount Baker on clear days. NPS states vehicle access is summer-only, typically July-September.
-- Source: https://www.nps.gov/places/sunrise-point-overlook.htm (reviewed 2026-10-02).
-- Opportunity work required: clear panoramic Mount Rainier/Cascade landscape. Keep distant-volcano visibility as visibility-dependent composition evidence, not a generic mountain score.
-- Dynamic-access guardrail: road opening is an access-provider state; calendar season or ordinary weather MUST NOT assert that Sunrise Road is open.
-- Navigation work required: NPS documents auto parking at the overlook, making this a strong candidate for a verified arrival target after exact parking coordinates are checked.
 
 ## Batch-3 allocation note
-No IDs are allocated while this branch is behind main and Seattle PR #323 reserves us-071 through us-077. Rebase/merge sequencing must be resolved before production catalog edits.
+Sunrise Point is now covered by merged PR #323 as `us-083` and is intentionally removed from this branch. Current main reserves Washington additions through `us-096`; no duplicate US IDs or records should be introduced here.
