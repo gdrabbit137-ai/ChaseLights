@@ -3610,7 +3610,7 @@ def test_adapter_integrity():
 
     us_spots = get_spots("us")
     researched_us = {s["spot_id"] for s in us_spots if s.get("opportunities")}
-    assert researched_us == {f"us-{i:03d}" for i in range(1, 71)}
+    assert researched_us == {f"us-{i:03d}" for i in range(1, 97)}
     assert all(not (s.get("opportunities") or []) for s in us_spots if s["spot_id"] not in researched_us)
 
     us006 = get_opportunities("us", "us-006")
@@ -4678,7 +4678,7 @@ def test_active_catalog_weather_generation_guard():
 
     us_spots = get_spots("us")
     researched_us = {spot["spot_id"] for spot in us_spots if spot.get("opportunities")}
-    assert researched_us == {f"us-{i:03d}" for i in range(1, 71)}
+    assert researched_us == {f"us-{i:03d}" for i in range(1, 97)}
     assert all(
         not (spot.get("opportunities") or [])
         for spot in us_spots

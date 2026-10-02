@@ -2,10 +2,10 @@
   "schema_version": "r4.2-b42-catalog-manifest-1",
   "purpose": "Central expected-state manifest for the effective curated Opportunity catalog. Runtime code computes actual counts and validates them against this snapshot.",
   "totals": {
-    "spots": 188,
-    "opportunities": 384,
-    "condition_variants": 399,
-    "profile_viewpoint_relations": 390
+    "spots": 214,
+    "opportunities": 423,
+    "condition_variants": 438,
+    "profile_viewpoint_relations": 429
   },
   "regions": {
     "tw": {
@@ -34,19 +34,19 @@
     },
     "us": {
       "numeric_id_start": 1,
-      "numeric_id_end": 70,
+      "numeric_id_end": 96,
       "retired_spot_ids": [],
       "counts": {
-        "spots": 70,
-        "opportunities": 111,
-        "condition_variants": 111,
-        "profile_viewpoint_relations": 111
+        "spots": 96,
+        "opportunities": 150,
+        "condition_variants": 150,
+        "profile_viewpoint_relations": 150
       }
     }
   },
   "runtime_policy_counts": {
-    "module_pending": 119,
-    "preview_module_available": 125,
+    "module_pending": 120,
+    "preview_module_available": 163,
     "minimum_sufficient_available": 134,
     "prototype_pending_certification": 2,
     "hold": 2,
@@ -58,15 +58,5 @@
     "tw-038-P02"
   ],
   "minimum_sufficient_visibility_profile_count": 89,
-  "notes": [
-    "This manifest describes the effective curated catalog, not the full Place inventory shown in production.",
-    "Japan production contains 35 Place cards and all jp-001 through jp-035 are Opportunity-migrated at this checkpoint.",
-    "US migration complete: all us-001 through us-070 production Places are Opportunity-migrated; no US production Place remains research-pending.",
-    "B79 adds a location-aware NOAA SWPC OVATION aurora_state preview. Aurora-only Opportunities can become preview_module_available, while Opportunities that also require unresolved dynamic_access remain module_pending.",
-    "B81 adds tw-034-P03 Qingshui Cliff morning-mist / misty seascape as a Grade-A researched subject with a conservative minimum-sufficient mist runtime contract.",
-    "B83 adds tw-036-P03 Qixingtan northward Qingshui Cliff / Qingshui Mountain terrain-attached cloud-band photography as Grade-A researched subject with a required directional spatial-weather runtime.",
-    "B84 adds tw-036-P04 Qixingtan northward Qingshui Cliff / Qingshui Mountain daytime mountain-seascape visibility as a separate researched Opportunity, so clear mountain views are not conflated with the cloud-band subject.",
-    "B90 connects a fail-closed WSDOT SR 504 / Johnston Ridge dynamic-access provider for us-017-P01, moving one Opportunity from module_pending to preview_module_available without changing catalog counts.",
-    "B91 connects a fail-closed NPS Denali Current Conditions access provider for us-041-P01/P02 at Mountain Vista, moving two Opportunities from module_pending to preview_module_available without changing catalog counts."
-  ]
+  "notes": "This manifest describes the effective curated catalog, not the full Place inventory shown in production.,Japan production contains 35 Place cards and all jp-001 through jp-035 are Opportunity-migrated at this checkpoint.,US migration expanded through us-096: all us-001 through us-096 production Places are Opportunity-migrated at this checkpoint; Seattle and Washington scenic additions include access-aware coastal, waterfall, cityscape, and Mount Rainier camera zones.,B79 adds a location-aware NOAA SWPC OVATION aurora_state preview. Aurora-only Opportunities can become preview_module_available, while Opportunities that also require unresolved dynamic_access remain module_pending.,B81 adds tw-034-P03 Qingshui Cliff morning-mist / misty seascape as a Grade-A researched subject with a conservative minimum-sufficient mist runtime contract.,B83 adds tw-036-P03 Qixingtan northward Qingshui Cliff / Qingshui Mountain terrain-attached cloud-band photography as Grade-A researched subject with a required directional spatial-weather runtime.,B84 adds tw-036-P04 Qixingtan northward Qingshui Cliff / Qingshui Mountain daytime mountain-seascape visibility as a separate researched Opportunity, so clear mountain views are not conflated with the cloud-band subject.,B90 connects a fail-closed WSDOT SR 504 / Johnston Ridge dynamic-access provider for us-017-P01, moving one Opportunity from module_pending to preview_module_available without changing catalog counts.,B91 connects a fail-closed NPS Denali Current Conditions access provider for us-041-P01/P02 at Mountain Vista, moving two Opportunities from module_pending to preview_module_available without changing catalog counts."
 }

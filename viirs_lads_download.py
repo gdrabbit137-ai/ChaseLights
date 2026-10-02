@@ -84,11 +84,10 @@ def discover_files(year, bbox, token, opener=None):
     with opener.open(request, timeout=60) as response:
         payload = json.load(response)
     references = extract_file_references(payload)
-    files = [item["filename"] for item in references]
-    if not files:
+    if not references:
         raise RuntimeError("LAADS search returned no VNP46A4 HDF5 files for bbox/year")
     print(json.dumps({"laads_discovery_references": references}, indent=2))
-    return files
+    return references
 
 
 def archive_path(filename):
@@ -125,6 +124,10 @@ def download_file(filename, token, destination, opener=None, reference=None):
             "--location",
             "--cookie",
             str(cookie_file),
+            "--dump-header",
+            str(destination) + ".headers",
+            "--write-out",
+            "LAADS_HTTP_DIAGNOSTIC status=%{http_code} content_type=%{content_type} url_effective=%{url_effective} redirects=%{num_redirects}\\n",
             "--header",
             f"Authorization: Bearer {token}",
             "--output",
@@ -137,7 +140,15 @@ def download_file(filename, token, destination, opener=None, reference=None):
         signature = stream.read(len(HDF5_MAGIC))
     if signature != HDF5_MAGIC:
         preview = destination.read_bytes()[:160].decode("utf-8", errors="replace").replace("\n", " ")
+        header_path = Path(str(destination) + ".headers")
+        header_text = header_path.read_text(errors="replace") if header_path.exists() else ""
+        safe_headers = [
+            line for line in header_text.splitlines()
+            if line.startswith("HTTP/") or line.lower().startswith(("location:", "content-type:"))
+        ]
+        print(json.dumps({"laads_http_chain": safe_headers}, indent=2))
         destination.unlink(missing_ok=True)
+        header_path.unlink(missing_ok=True)
         raise RuntimeError(
             "LAADS download did not return an HDF5 payload; "
             f"first bytes={signature!r}, preview={preview!r}"
@@ -158,12 +169,14 @@ def main():
         raise SystemExit("--bbox requires left,bottom,right,top")
     token = os.environ.get(args.token_env)
     opener = authenticated_opener()
-    files = discover_files(args.year, bbox, token, opener=opener)
+    references = discover_files(args.year, bbox, token, opener=opener)
+    files = [item["filename"] for item in references]
     print(json.dumps({"year": args.year, "files": files}, indent=2))
     if args.list_only:
         return
-    for filename in files:
-        path = download_file(filename, token, Path(args.output_dir) / filename, opener=opener)
+    for item in references:
+        filename = item["filename"]
+        path = download_file(filename, token, Path(args.output_dir) / filename, opener=opener, reference=item["reference"])
         print(path)
 
 
