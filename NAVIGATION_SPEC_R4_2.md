@@ -199,3 +199,25 @@ For every new Place, and when auditing legacy Places, researchers/agents MUST ex
 - or an unresolved/general Place anchor.
 
 If a legacy Navigation Target is actually a subject coordinate or an unverified Camera Zone, it MUST be reclassified and must not continue to be presented as verified Directions. Use the existing `provisional_camera_anchor`, `needs_review`, or `multiple_access_routes` states as appropriate until an independent Navigation Target is verified.
+
+
+## Coordinate validation gate
+
+Every newly added or materially changed Place MUST pass a coordinate validation gate before it is considered ready for production review. This gate validates semantics, not merely numeric latitude/longitude syntax.
+
+The validation MUST independently check, where applicable:
+- Camera Zone represents a supported place/area from which the researched photograph can actually be made;
+- Photo Target / Subject represents the photographed object/scene/target rather than the photographer's position;
+- Navigation Target represents a practical verified arrival point serving the photography area;
+- the three roles have not been accidentally swapped or collapsed without evidence;
+- coordinates are geographically plausible for the claimed role and do not obviously fall in water, inaccessible terrain, an unrelated structure, or another contradictory location;
+- distance/direction relationships are consistent with the researched composition when that relationship is material to the claim;
+- access/navigation evidence is independent of subject or Camera Zone evidence.
+
+Validation SHOULD attempt to falsify the proposed interpretation using maps, terrain, accessible public imagery, authoritative access information, and independent sources rather than merely repeating the evidence used to create the record.
+
+Validation outcomes MUST preserve the existing Navigation Target status semantics. A coordinate that cannot be independently verified MUST remain or be downgraded to an appropriate provisional/review state; it MUST NOT be guessed or promoted merely to satisfy production completeness.
+
+A legacy coordinate audit SHOULD apply the same checks to existing Places in batches. Suspected cases where a photographed subject, generic Place anchor, or Camera Zone is currently presented as a verified Navigation Target MUST be re-researched and corrected.
+
+CI/schema checks SHOULD enforce all machine-testable invariants. Evidence-dependent geographic/semantic review remains a research gate even when it cannot be fully automated.
