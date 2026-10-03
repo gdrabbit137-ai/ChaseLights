@@ -61,6 +61,7 @@ def main():
         assert driver.find_elements(By.CSS_SELECTOR, '[data-action="close-results"]')
         search.send_keys(Keys.ARROW_DOWN, Keys.ENTER)
         wait.until(lambda d: state(d)["rows"][0]["selected_spot_id"] == "tw-003")
+        assert state(driver)["rows"][0]["association_method"] == "manual_search_selection"
 
         driver.find_element(By.CSS_SELECTOR, ".clear-btn").click()
         wait.until(lambda d: state(d)["rows"][0]["selected_spot_id"] is None)
@@ -84,6 +85,18 @@ def main():
         assert association["method"] == "unmatched", association
         assert association["confirmed_by_user"] is False, association
         assert association["gps_suggestion"]["spot_id"] == "tw-003", association
+        suggestion_confirmed = driver.execute_script(
+            "return ChaseLightsFieldIntake.associationMethod({selected_spot_id:'tw-003',selection_source:'gps_suggestion_confirmation'});"
+        )
+        searched_same = driver.execute_script(
+            "return ChaseLightsFieldIntake.associationMethod({selected_spot_id:'tw-003',selection_source:'manual_search_selection'});"
+        )
+        overridden = driver.execute_script(
+            "return ChaseLightsFieldIntake.associationMethod({selected_spot_id:'tw-004',selection_source:'manual_override'});"
+        )
+        assert suggestion_confirmed == "user_confirmed_gps_suggestion"
+        assert searched_same == "manual_search_selection"
+        assert overridden == "user_override"
 
         Select(driver.find_element(By.ID, "language-select")).select_by_value("en")
         wait.until(lambda d: state(d)["lang"] == "en")
