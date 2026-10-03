@@ -334,7 +334,7 @@ map.on('move', draw);
 map.on('moveend', () => schedule(false));
 map.on('resize', resize);
 $('provider').addEventListener('change', () => schedule(true));
-$('layer').addEventListener('change', draw);
+$('layer').addEventListener('change', () => schedule(true));
 $('refresh').addEventListener('click', () => schedule(true));
 document.querySelectorAll('[data-preset]').forEach((button) => {
   button.addEventListener('click', () => gotoPreset(button.dataset.preset));
