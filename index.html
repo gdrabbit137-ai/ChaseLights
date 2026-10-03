@@ -49,6 +49,17 @@
           <button class="day-btn" onclick="switchDay('after_tomorrow', this)" data-i18n="btn_after_tomorrow">📅 後天</button>
         </div>
         <div id="admin-filter" class="admin-filter-host" hidden></div>
+        <div class="sort-control">
+          <label for="spot-sort" data-i18n="sort_label">排序</label>
+          <select id="spot-sort" class="sort-select" onchange="setSortMode(this.value)">
+            <option value="region" data-i18n="sort_region">地區順序</option>
+            <option value="score_desc" data-i18n="sort_score_desc">評分：高到低</option>
+            <option value="score_asc" data-i18n="sort_score_asc">評分：低到高</option>
+            <option value="distance_near" data-i18n="sort_distance_near">距離：近到遠</option>
+            <option value="distance_far" data-i18n="sort_distance_far">距離：遠到近</option>
+          </select>
+          <span id="sort-status" class="sort-status" aria-live="polite"></span>
+        </div>
         <div class="discovery-row">
           <div class="discovery-title" id="discovery-title">📍 今天去哪裡拍？</div>
           <div class="rank-summary" id="filter-result-summary"></div>

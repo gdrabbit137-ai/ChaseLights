@@ -1667,3 +1667,144 @@
   }
 }
 
+
+
+/* Place discovery: explicit sort + compact area filtering */
+.sort-control {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex: 0 0 auto;
+  min-width: 0;
+}
+.sort-control label {
+  color: #94a3b8;
+  font-size: .74rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.sort-select {
+  min-height: 30px;
+  max-width: 190px;
+  padding: 4px 28px 4px 9px;
+  border: 1px solid #475569;
+  border-radius: 6px;
+  background: #1e293b;
+  color: #cbd5e1;
+  font-size: .8rem;
+  font-weight: 700;
+  cursor: pointer;
+  outline: none;
+}
+.sort-select:hover,
+.sort-select:focus-visible {
+  border-color: #38bdf8;
+}
+.sort-status {
+  max-width: 210px;
+  color: #7dd3fc;
+  font-size: .7rem;
+  line-height: 1.25;
+}
+
+.admin-area-empty-toggle {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  margin: 0 0 9px;
+  padding: 4px 8px;
+  border: 1px dashed #334155;
+  border-radius: 7px;
+  background: transparent;
+  color: #94a3b8;
+  font: inherit;
+  font-size: .72rem;
+  cursor: pointer;
+}
+.admin-area-empty-toggle:hover,
+.admin-area-empty-toggle:focus-visible {
+  border-color: #64748b;
+  color: #cbd5e1;
+  outline: none;
+}
+
+.spot-region-section {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+.spot-region-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 3px 0 10px;
+  padding: 0 2px 7px;
+  border-bottom: 1px solid rgba(71,85,105,.72);
+  color: #7dd3fc;
+  font-size: .92rem;
+  font-weight: 850;
+  letter-spacing: .01em;
+}
+.spot-region-count {
+  color: #64748b;
+  font-size: .7rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.spot-region-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+}
+
+@media (min-width: 700px) {
+  .spot-region-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 1100px) {
+  .spot-region-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (min-width: 1500px) {
+  .spot-region-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+@media (max-width: 900px) {
+  .sort-control {
+    width: 100%;
+  }
+  .sort-status {
+    margin-left: auto;
+    max-width: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .sort-control {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 6px 8px;
+  }
+  .sort-control label {
+    font-size: .78rem;
+  }
+  .sort-select {
+    width: 100%;
+    max-width: none;
+    min-height: 44px;
+    font-size: .84rem;
+  }
+  .sort-status {
+    grid-column: 1 / -1;
+    margin: -1px 0 0;
+    font-size: .72rem;
+  }
+  .admin-area-empty-toggle {
+    flex: 0 0 auto;
+    margin: 0 14px 8px;
+    min-height: 36px;
+    justify-content: center;
+  }
+  .spot-region-heading {
+    margin-top: 1px;
+    font-size: .88rem;
+  }
+}

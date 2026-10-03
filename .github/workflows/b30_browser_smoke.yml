@@ -9,6 +9,8 @@ on:
       - "index.html"
       - "assets/app.js"
       - "assets/app.css"
+      - "test_place_discovery_sorting_static.py"
+      - "PLACE_DISCOVERY_SORTING_SPEC_R1.md"
       - "weather-map.html"
       - "assets/weather-map.js"
       - "assets/weather-map.css"
@@ -82,6 +84,9 @@ jobs:
           python analyze_weather.py tw
           python analyze_weather.py jp
           python analyze_weather.py us
+
+      - name: Run place-discovery static regressions
+        run: python -m unittest -v test_place_discovery_sorting_static.py test_mobile_admin_picker_static.py
 
       - name: Install browser test dependency
         run: python -m pip install --disable-pip-version-check selenium
@@ -228,16 +233,18 @@ jobs:
               # and the country selector lives with the low-frequency global controls.
               admin_contract = driver.execute_script("""
                 const active = currentSpots.filter(s => s.active_in_catalog !== false);
+                const available = availableAdminAreas();
                 const buttons = [...document.querySelectorAll('#admin-filter [data-admin-area]')];
                 return {
                   missing: active.filter(s => !Array.isArray(s.admin_areas) || !s.admin_areas.length).map(s => s.spot_id),
-                  available: availableAdminAreas(),
+                  available,
                   hostHidden: document.getElementById('admin-filter').hidden,
                   navKeys: [...document.querySelectorAll('#sub-nav .sub-btn')].map(x => x.dataset.key),
                   countryInHeader: !!document.querySelector('.header-right #country-select'),
                   countryInFilter: !!document.querySelector('.filter-toolbar #country-select'),
-                  disabled: buttons.filter(x => x.disabled).map(x => x.dataset.adminArea),
-                  counts: Object.fromEntries(buttons.map(x => [x.dataset.adminArea, Number(x.querySelector('.admin-area-count')?.textContent || 0)]))
+                  rendered: buttons.map(x => x.dataset.adminArea),
+                  hasEmptyToggle: !!document.querySelector('#admin-filter [data-admin-empty-toggle]'),
+                  catalogCounts: Object.fromEntries(available.map(a => [a, active.filter(s => spotAdminAreas(s).includes(a)).length]))
                 };
               """)
               report["taiwan_admin_contract"] = admin_contract
@@ -252,13 +259,83 @@ jobs:
               assert admin_contract["navKeys"] == ["__fav__"], admin_contract
               assert admin_contract["countryInHeader"] is True, admin_contract
               assert admin_contract["countryInFilter"] is False, admin_contract
-              assert admin_contract["counts"]["金門縣"] > 0, admin_contract
-              assert admin_contract["counts"]["連江縣"] > 0, admin_contract
-              assert admin_contract["counts"]["澎湖縣"] > 0, admin_contract
-              assert admin_contract["counts"]["雲林縣"] == 0, admin_contract
-              assert admin_contract["counts"]["嘉義市"] == 0, admin_contract
-              assert "雲林縣" in admin_contract["disabled"], admin_contract
-              assert "嘉義市" in admin_contract["disabled"], admin_contract
+              assert admin_contract["catalogCounts"]["金門縣"] > 0, admin_contract
+              assert admin_contract["catalogCounts"]["連江縣"] > 0, admin_contract
+              assert admin_contract["catalogCounts"]["澎湖縣"] > 0, admin_contract
+              assert admin_contract["catalogCounts"]["雲林縣"] == 0, admin_contract
+              assert admin_contract["catalogCounts"]["嘉義市"] == 0, admin_contract
+              assert "雲林縣" not in admin_contract["rendered"], admin_contract
+              assert "嘉義市" not in admin_contract["rendered"], admin_contract
+              assert admin_contract["hasEmptyToggle"] is True, admin_contract
+
+              empty_area_reveal = driver.execute_script("""
+                document.querySelector('#admin-filter [data-admin-empty-toggle]').click();
+                const yunlin = document.querySelector('#admin-filter [data-admin-area="雲林縣"]');
+                const chiayi = document.querySelector('#admin-filter [data-admin-area="嘉義市"]');
+                return {
+                  yunlinVisible: !!yunlin,
+                  yunlinDisabled: !!yunlin?.disabled,
+                  chiayiVisible: !!chiayi,
+                  chiayiDisabled: !!chiayi?.disabled
+                };
+              """)
+              report["taiwan_empty_area_reveal"] = empty_area_reveal
+              assert empty_area_reveal == {
+                  "yunlinVisible": True,
+                  "yunlinDisabled": True,
+                  "chiayiVisible": True,
+                  "chiayiDisabled": True,
+              }, empty_area_reveal
+              driver.execute_script("showEmptyAdminAreas = false; renderAdminFilter();")
+
+              sorting_contract = driver.execute_script("""
+                const initialMode = currentSortMode;
+                const initialSections = document.querySelectorAll('#spots-container .spot-region-section').length;
+                setSortMode('score_desc');
+                const rows = currentSpots
+                  .filter(s => s.active_in_catalog !== false)
+                  .map(spot => ({spot, metric:getMetric(spot), distance:null}))
+                  .filter(row => row.metric && !row.metric.no_viable_opportunity);
+                sortRows(rows);
+                const scores = rows.map(row => Number(row.metric.score)).filter(Number.isFinite);
+                const scoreDescending = scores.every((value, index) => index === 0 || scores[index - 1] >= value);
+                const scoreSections = document.querySelectorAll('#spots-container .spot-region-section').length;
+
+                const originalGeolocation = navigator.geolocation;
+                Object.defineProperty(navigator, 'geolocation', {
+                  configurable: true,
+                  value: {getCurrentPosition: success => success({coords:{latitude:25.04, longitude:121.56}})}
+                });
+                setSortMode('distance_near');
+                const distanceMode = currentSortMode;
+                const locationInMemory = userLocation ? {lat:userLocation.lat, lon:userLocation.lon} : null;
+                const storedDuringDistance = localStorage.getItem('chaselights_sort_mode');
+                const distanceSections = document.querySelectorAll('#spots-container .spot-region-section').length;
+                Object.defineProperty(navigator, 'geolocation', {configurable:true, value:originalGeolocation});
+                setSortMode('region');
+
+                return {
+                  initialMode,
+                  initialSections,
+                  scoreDescending,
+                  scoreSections,
+                  distanceMode,
+                  locationInMemory,
+                  storedDuringDistance,
+                  distanceSections,
+                  restoredMode: currentSortMode
+                };
+              """)
+              report["sorting_contract"] = sorting_contract
+              assert sorting_contract["initialMode"] == "region", sorting_contract
+              assert sorting_contract["initialSections"] > 0, sorting_contract
+              assert sorting_contract["scoreDescending"] is True, sorting_contract
+              assert sorting_contract["scoreSections"] == 0, sorting_contract
+              assert sorting_contract["distanceMode"] == "distance_near", sorting_contract
+              assert sorting_contract["locationInMemory"] == {"lat": 25.04, "lon": 121.56}, sorting_contract
+              assert sorting_contract["storedDuringDistance"] == "score_desc", sorting_contract
+              assert sorting_contract["distanceSections"] == 0, sorting_contract
+              assert sorting_contract["restoredMode"] == "region", sorting_contract
 
               # B109: Taiwan has no explicit All button. Favorites is an
               # independent on/off filter and composes with county selection.
@@ -357,27 +434,30 @@ jobs:
               ))
               jp_admin = driver.execute_script("""
                 const active = currentSpots.filter(s => s.active_in_catalog !== false);
+                const available = availableAdminAreas();
                 const buttons = [...document.querySelectorAll('#admin-filter [data-admin-area]')];
                 return {
-                  available: availableAdminAreas(),
+                  available,
                   missing: active.filter(s => !spotAdminAreas(s).length).map(s => s.spot_id),
                   navKeys: [...document.querySelectorAll('#sub-nav .sub-btn')].map(x => x.dataset.key),
                   groupCount: document.querySelectorAll('#admin-filter [data-admin-group]').length,
                   hasSearch: !!document.querySelector('#admin-filter [data-admin-search]'),
                   hostHidden: document.getElementById('admin-filter').hidden,
-                  disabled: buttons.filter(x => x.disabled).map(x => x.dataset.adminArea),
-                  counts: Object.fromEntries(buttons.map(x => [x.dataset.adminArea, Number(x.querySelector('.admin-area-count')?.textContent || 0)]))
+                  rendered: buttons.map(x => x.dataset.adminArea),
+                  hasEmptyToggle: !!document.querySelector('#admin-filter [data-admin-empty-toggle]'),
+                  catalogCounts: Object.fromEntries(available.map(a => [a, active.filter(s => spotAdminAreas(s).includes(a)).length]))
                 };
               """)
               report["japan_admin_contract"] = jp_admin
               assert len(jp_admin["available"]) == 47, jp_admin
               assert jp_admin["missing"] == [], jp_admin
               assert jp_admin["navKeys"] == ["__fav__"], jp_admin
-              assert jp_admin["groupCount"] == 8, jp_admin
+              assert 0 < jp_admin["groupCount"] <= 8, jp_admin
               assert jp_admin["hasSearch"] is True, jp_admin
               assert jp_admin["hostHidden"] is False, jp_admin
-              assert jp_admin["counts"]["山梨県"] > 0, jp_admin
-              assert jp_admin["counts"]["東京都"] > 0, jp_admin
+              assert jp_admin["catalogCounts"]["山梨県"] > 0, jp_admin
+              assert jp_admin["catalogCounts"]["東京都"] > 0, jp_admin
+              assert jp_admin["hasEmptyToggle"] is True, jp_admin
 
               driver.execute_script("""
                 currentAdminAreas.clear();
@@ -418,16 +498,18 @@ jobs:
               ))
               us_admin = driver.execute_script("""
                 const active = currentSpots.filter(s => s.active_in_catalog !== false);
+                const available = availableAdminAreas();
                 const buttons = [...document.querySelectorAll('#admin-filter [data-admin-area]')];
                 return {
-                  available: availableAdminAreas(),
+                  available,
                   missing: active.filter(s => !spotAdminAreas(s).length).map(s => s.spot_id),
                   navKeys: [...document.querySelectorAll('#sub-nav .sub-btn')].map(x => x.dataset.key),
                   groupCount: document.querySelectorAll('#admin-filter [data-admin-group]').length,
                   hasSearch: !!document.querySelector('#admin-filter [data-admin-search]'),
                   hostHidden: document.getElementById('admin-filter').hidden,
-                  disabled: buttons.filter(x => x.disabled).map(x => x.dataset.adminArea),
-                  counts: Object.fromEntries(buttons.map(x => [x.dataset.adminArea, Number(x.querySelector('.admin-area-count')?.textContent || 0)]))
+                  rendered: buttons.map(x => x.dataset.adminArea),
+                  hasEmptyToggle: !!document.querySelector('#admin-filter [data-admin-empty-toggle]'),
+                  catalogCounts: Object.fromEntries(available.map(a => [a, active.filter(s => spotAdminAreas(s).includes(a)).length]))
                 };
               """)
               report["us_admin_contract"] = us_admin
@@ -435,13 +517,14 @@ jobs:
               assert "District of Columbia" in us_admin["available"], us_admin
               assert us_admin["missing"] == [], us_admin
               assert us_admin["navKeys"] == ["__fav__"], us_admin
-              assert us_admin["groupCount"] == 4, us_admin
+              assert 0 < us_admin["groupCount"] <= 4, us_admin
               assert us_admin["hasSearch"] is True, us_admin
               assert us_admin["hostHidden"] is False, us_admin
-              assert us_admin["counts"]["California"] > 0, us_admin
-              assert us_admin["counts"]["Alaska"] > 0, us_admin
-              assert us_admin["counts"]["District of Columbia"] == 0, us_admin
-              assert "District of Columbia" in us_admin["disabled"], us_admin
+              assert us_admin["catalogCounts"]["California"] > 0, us_admin
+              assert us_admin["catalogCounts"]["Alaska"] > 0, us_admin
+              assert us_admin["catalogCounts"]["District of Columbia"] == 0, us_admin
+              assert "District of Columbia" not in us_admin["rendered"], us_admin
+              assert us_admin["hasEmptyToggle"] is True, us_admin
 
               driver.execute_script("""
                 currentAdminAreas = new Set(['Nevada']);
