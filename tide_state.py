@@ -13,7 +13,7 @@ TIDE_STATE_VERSION = "tide-state-r1-preview"
 TIDE_STATE_PROFILES = {
     "tw-010-P01": {"mode": "low_access_window"},
     "tw-012-P01": {"mode": "intertidal_layers"},
-    "tw-012-P02": {"mode": "shallow_reflection"},
+    "tw-012-P02": {"mode": "intertidal_layers"},
     "tw-015-P01": {"mode": "intertidal_layers"},
     "tw-015-P02": {"mode": "shallow_reflection"},
     "tw-017-P02": {"mode": "intertidal_layers"},
