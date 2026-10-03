@@ -42,7 +42,7 @@ Done closes the sheet only. It does not introduce a second "apply" state.
 - The sheet stays open after an area is toggled so multi-select remains efficient.
 - Reload persistence continues to use `chaselights_admin_areas_<region>`.
 - Active areas include a visible checkmark in addition to color.
-- Zero-place areas remain visible but disabled.
+- Zero-place areas remain part of the complete administrative model but are hidden by default. The user can explicitly reveal uncovered areas; revealed zero-place entries remain disabled.
 
 ## Search
 
