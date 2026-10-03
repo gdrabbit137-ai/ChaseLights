@@ -30,3 +30,11 @@ class CacheIndexTest(unittest.TestCase):
 
 if __name__=="__main__":
     unittest.main(verbosity=2)
+
+class TimeShardContract(unittest.TestCase):
+ def test_payloads_are_valid_time_sharded(self):
+  from weathergrid_v2_cache_index import build_index
+  d=build_index();self.assertEqual(d["payload_partition"],"valid_time")
+  cell=d["regions"]["jp"]["cells"][0]
+  for p in cell["providers"].values():
+   self.assertTrue(p["time_sharded"]);self.assertIn("{valid_time}",p["url_template"])
