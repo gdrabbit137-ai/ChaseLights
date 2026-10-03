@@ -1,4 +1,5 @@
 import maplibregl from 'https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-gl.mjs';
+import { loadV2Index, loadViewportTiles } from './weather-map-v2-tile-loader.js';
 
 const API = {
   jma: {
@@ -40,6 +41,8 @@ const state = {
   sampleDx: 0,
   sampleDy: 0,
   validTime: null,
+  v2Index: null,
+  v2IndexTried: false,
 };
 
 const map = new maplibregl.Map({
@@ -218,12 +221,38 @@ function applyDataset(item, cacheStatus) {
   state.validTime = item.validTime;
   $('coverage').textContent = 'loaded coverage: ' + fmt(item.coverage);
   $('cache').textContent = 'request cache: ' + state.cache.size + ' · ' + cacheStatus;
-  $('source').textContent = API[item.provider].label + ' · ' + API[item.provider].detail;
+  $('source').textContent = item.nativeTile ? ('JMA MSM native tiles · '+item.tileCount+' tiles'+(item.failedTiles?' · '+item.failedTiles+' missing':'')) : (API[item.provider].label + ' · ' + API[item.provider].detail);
   $('time').textContent = 'valid time: ' + (item.validTime || '—');
   $('status').textContent = '資料已就緒 · ' + item.samples.length + ' samples';
   draw();
 }
+
+function regionForView(b){
+  if(b.w>=119.5&&b.e<=123.5&&b.s>=21.5&&b.n<=26.5) return 'tw';
+  if(b.w>=122&&b.e<=146&&b.s>=24&&b.n<=46) return 'jp';
+  return null;
+}
+async function tryNativeJma(coverage,currentView){
+  if(!state.v2IndexTried){
+    state.v2IndexTried=true;
+    try{ state.v2Index=await loadV2Index(); }catch(_){ state.v2Index=null; }
+  }
+  if(!state.v2Index) return false;
+  const region=regionForView(coverage);
+  if(!region) return false;
+  const validTime=state.validTime;
+  if(!validTime) return false;
+  const result=await loadViewportTiles(state.v2Index,region,coverage,'jma',validTime);
+  if(!result.loaded.length) return false;
+  const item={provider:'jma',coverage,samples:result.samples,dx:0.0625,dy:0.05,
+    validTime:result.loaded[0].tile.valid_time_utc,fetchedAt:Date.now(),nativeTile:true,
+    tileCount:result.loaded.length,failedTiles:result.failed.length};
+  applyDataset(item,'native-tile');
+  return true;
+}
+
 async function fetchCoverage(provider, coverage, currentView) {
+  if (provider === 'jma' && await tryNativeJma(coverage,currentView)) return;
   const serial = ++state.requestSerial;
   if (state.aborter) state.aborter.abort();
   state.aborter = new AbortController();
