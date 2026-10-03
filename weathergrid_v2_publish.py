@@ -18,7 +18,6 @@ from weathergrid_v2_tile_export import (
     run_manifest,
     valid_time_token,
     write_frame_tile,
-    write_run_manifest,
 )
 
 
@@ -97,7 +96,16 @@ def publish_jma_regions(
 
     assert first_snapshot is not None
     assert provider_manifest is not None
-    write_run_manifest(first_snapshot, root / "jma" / "current" / "manifest.json")
+    provider_manifest["published_regions"] = list(regions)
+    provider_manifest["published_cell_ids"] = [
+        item["cell_id"] for item in published_cells
+    ]
+    manifest_path = root / "jma" / "current" / "manifest.json"
+    manifest_path.parent.mkdir(parents=True, exist_ok=True)
+    manifest_path.write_text(
+        json.dumps(provider_manifest, ensure_ascii=False, separators=(",", ":")),
+        encoding="utf-8",
+    )
     write_index(root / "index.json", provider_runs={"jma": provider_manifest})
 
     return {
