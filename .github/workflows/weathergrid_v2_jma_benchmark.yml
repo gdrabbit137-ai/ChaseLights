@@ -55,6 +55,11 @@ jobs:
           }
           print(json.dumps(summary,indent=2))
           json.dump(summary,open("/tmp/summary.json","w"),indent=2)
+          from weathergrid_v2_tile_export import write_frame_tile
+          tile_path="/tmp/jma-valid-time-tile.json"
+          write_frame_tile(snap,tile_path,0)
+          tile_bytes=os.path.getsize(tile_path)
+          print(json.dumps({"valid_time_tile_bytes":tile_bytes,"valid_time_tile_mib":round(tile_bytes/1048576,3)},indent=2))
           PY
           cat /tmp/time.txt
       - uses: actions/upload-artifact@v4
@@ -64,5 +69,6 @@ jobs:
           path: |
             /tmp/summary.json
             /tmp/time.txt
+            /tmp/jma-valid-time-tile.json
           retention-days: 3
           if-no-files-found: warn
