@@ -892,14 +892,15 @@ jobs:
 
               # Photographer-first presentation: a durable researched subject
               # without a selected-date evaluation must not be rendered as a
-              # peer actionable recommendation. Buyan tomorrow has evaluated
-              # mountain/sunset Opportunities plus an unevaluated cloud-sea
-              # Opportunity, so it exercises both sides of the boundary.
+              # peer actionable recommendation. Tamsui Fisherman's Wharf has
+              # one forecast-evaluable sunset Opportunity plus module-pending
+              # blue-hour/night-reflection subjects, making the boundary
+              # deterministic rather than dependent on changing weather.
               previous_day = driver.execute_script("return currentDayFilter")
               driver.execute_script("switchDay('tomorrow')")
               wait.until(lambda d: d.execute_script("return currentDayFilter === 'tomorrow'"))
-              buyan_modal = driver.execute_script("""
-                const spot = currentSpots.find(s => s.spot_id === 'tw-004');
+              tamsui_modal = driver.execute_script("""
+                const spot = currentSpots.find(s => s.spot_id === 'tw-003');
                 if (!spot) return {found:false};
                 openPlaceModal(spot, getMetric(spot));
                 const root = document.getElementById('place-modal-body');
@@ -918,16 +919,19 @@ jobs:
                   text: root.innerText
                 };
               """)
-              report["buyan_selected_date_vs_guide"] = buyan_modal
-              assert buyan_modal["found"] is True, buyan_modal
-              assert buyan_modal["selectedCount"] >= 1, buyan_modal
-              assert buyan_modal["guideCount"] >= 1, buyan_modal
-              assert buyan_modal["guideHasScore"] is False, buyan_modal
-              assert buyan_modal["guideHasCurrentVerdict"] is False, buyan_modal
-              assert "山谷雲海" in " ".join(buyan_modal["guideTitles"]), buyan_modal
-              assert "山谷雲海" not in " ".join(buyan_modal["selectedTitles"]), buyan_modal
-              assert "最佳季節待證據" not in buyan_modal["text"], buyan_modal
-              assert "最佳季節尚無足夠證據" not in buyan_modal["text"], buyan_modal
+              report["tamsui_selected_date_vs_guide"] = tamsui_modal
+              assert tamsui_modal["found"] is True, tamsui_modal
+              assert tamsui_modal["selectedCount"] >= 1, tamsui_modal
+              assert tamsui_modal["guideCount"] >= 1, tamsui_modal
+              assert tamsui_modal["guideHasScore"] is False, tamsui_modal
+              assert tamsui_modal["guideHasCurrentVerdict"] is False, tamsui_modal
+              assert "夕照" in " ".join(tamsui_modal["selectedTitles"]), tamsui_modal
+              assert any(
+                  marker in " ".join(tamsui_modal["guideTitles"])
+                  for marker in ("暮色光雕", "夜景＋水面倒影")
+              ), tamsui_modal
+              assert "最佳季節待證據" not in tamsui_modal["text"], tamsui_modal
+              assert "最佳季節尚無足夠證據" not in tamsui_modal["text"], tamsui_modal
               driver.execute_script("closePlaceModal(); switchDay(arguments[0]);", previous_day)
               wait.until(lambda d: d.execute_script("return currentDayFilter === arguments[0]", previous_day))
 
