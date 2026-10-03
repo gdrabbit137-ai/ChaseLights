@@ -48,6 +48,8 @@ class BrowserTileLoaderContract(unittest.TestCase):
         self.assertIn("coverage:result.coverage || coverage", s)
         self.assertIn("if(result.complete) cachePut", s)
         self.assertIn("native-tile-partial", s)
+        self.assertIn("coverageComplete:result.complete", s)
+        self.assertIn("資料不完整", s)
         self.assertIn("addEventListener('change', () => schedule(true))", s)
 
 
