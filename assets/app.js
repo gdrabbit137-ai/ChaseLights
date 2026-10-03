@@ -2,7 +2,7 @@
       'zh-TW': {
         country_label:'📍 選擇國家/區域：', opt_tw:'🇹🇼 台灣 (Taiwan)', opt_jp:'🇯🇵 日本 (Japan)', opt_us:'🇺🇸 美國 (United States)',
         btn_today:'📅 今天', btn_tomorrow:'📅 明天', btn_after_tomorrow:'📅 後天', loading:'正在獲取攝影氣象數據...', updating:'背景更新中…',
-        last_updated:'最後更新：', click_detail:'', weather_link:'🌦️ 天氣預報', nav_link:'🗺️ 導航', map_link:'📍 地圖', nav_pending:'🗺️ 導航待確認', radar_link:'📡 雷達', field_intake_link:'📷 實拍驗證', place_suitable:'📸 這裡適合拍什麼', researched_only:'只顯示已逐點查證的攝影題材；未查證內容不自動生成。', place_time_note:'拍攝時間皆以景點當地時區顯示。', guide_time:'適合時間（景點當地時間）', guide_season:'季節', guide_viewpoint:'拍攝位置', guide_required:'成立條件', guide_boosters:'加分條件', guide_penalties:'不利條件', guide_current:'所選日期最佳評分', guide_day_best:'所選日期最佳窗口', guide_confidence:'信心', confidence_high:'高', confidence_medium:'中', confidence_low:'低', guide_details:'查看完整判定條件', guide_score_why:'為什麼是這個分數？', guide_score_status:'判定', guide_unresearched:'此景點尚未完成逐點攝影研究，因此暫不顯示推測性的拍攝建議。', research_pending_card:'攝影研究待補，暫不評分', no_viable_card:'今天剩餘時段沒有合適的已研究拍攝機會', no_viable_group:'暫無合適拍攝機會（{n}）', scene_label:'🖼️ 景觀類型：', theme_label:'📸 題材：', advanced_filters:'🔎 更多篩選', result_count:'依所選日期最佳拍攝機會排序 · {n} 個景點', search_result:'找到 {n} 個景點', search_placeholder:'搜尋景點名稱…', where_today:'📍 今天去哪裡拍？', where_tomorrow:'📍 明天去哪裡拍？', where_after:'📍 後天去哪裡拍？', recommendation_reasons:'推薦理由', narrow_result:'目前僅 {n} 個景點，範圍較窄', clear_scene:'清除景觀類型', admin_area_filter:'地區', admin_area_all:'全部地區', admin_area_selected:'已選 {n} 個地區', admin_area_clear:'清除地區', admin_area_search:'搜尋地區…', admin_area_no_match:'找不到符合的地區', admin_area_done:'完成', admin_area_close:'關閉地區選單',
+        last_updated:'最後更新：', click_detail:'', weather_link:'🌦️ 天氣預報', nav_link:'🗺️ 導航', map_link:'📍 地圖', nav_pending:'🗺️ 導航待確認', radar_link:'📡 雷達', field_intake_link:'📷 實拍驗證', place_suitable:'📸 這裡適合拍什麼', researched_only:'只顯示已逐點查證的攝影題材；未查證內容不自動生成。', place_time_note:'拍攝時間皆以景點當地時區顯示。', guide_time:'適合時間（景點當地時間）', guide_season:'季節', guide_viewpoint:'拍攝位置', guide_required:'成立條件', guide_boosters:'加分條件', guide_penalties:'不利條件', guide_current:'所選日期最佳評分', guide_day_best:'所選日期最佳窗口', guide_confidence:'信心', confidence_high:'高', confidence_medium:'中', confidence_low:'低', guide_details:'查看完整判定條件', guide_score_why:'為什麼是這個分數？', guide_score_status:'判定', guide_unresearched:'此景點尚未完成逐點攝影研究，因此暫不顯示推測性的拍攝建議。', research_pending_card:'攝影研究待補，暫不評分', no_viable_card:'今天剩餘時段沒有合適的已研究拍攝機會', no_viable_group:'暫無合適拍攝機會（{n}）', scene_label:'🖼️ 景觀類型：', theme_label:'📸 題材：', advanced_filters:'🔎 更多篩選', result_count:'依所選日期最佳拍攝機會排序 · {n} 個景點', search_result:'找到 {n} 個景點', search_placeholder:'搜尋景點名稱…', where_today:'📍 今天去哪裡拍？', where_tomorrow:'📍 明天去哪裡拍？', where_after:'📍 後天去哪裡拍？', recommendation_reasons:'推薦理由', narrow_result:'目前僅 {n} 個景點，範圍較窄', clear_scene:'清除景觀類型', admin_area_filter:'地區', admin_area_all:'全部地區', admin_area_selected:'已選 {n} 個地區', admin_area_clear:'清除地區', admin_area_search:'搜尋地區…', admin_area_no_match:'找不到符合的地區', admin_area_done:'完成', admin_area_close:'關閉地區選單', admin_area_show_empty:'顯示尚未收錄的地區', admin_area_hide_empty:'隱藏尚未收錄的地區', sort_label:'排序', sort_region:'地區順序', sort_score_desc:'評分：高到低', sort_score_asc:'評分：低到高', sort_distance_near:'距離：近到遠', sort_distance_far:'距離：遠到近', sort_location_requesting:'正在取得目前位置…', sort_location_using_current:'以目前位置排序', sort_location_unavailable:'無法取得位置，已改回地區順序', result_count_region:'依地區順序 · {n} 個景點', result_count_score_desc:'依評分高到低 · {n} 個景點', result_count_score_asc:'依評分低到高 · {n} 個景點', result_count_distance_near:'依距離近到遠 · {n} 個景點', result_count_distance_far:'依距離遠到近 · {n} 個景點', region_group_count:'{n} 個景點',
         best_window:'⏱️ 最佳窗口：', forecast_status:'📍 預報狀態：', cloud_base_label:'估算凝結高度', best_theme:'📸 所選日期較適合：', local_time:'當地時間', dark_sky:'暗空',
         modal_subtitle:'⏱️ 涵蓋範圍：過去 24 小時 [模型資料] + 未來 72 小時 [氣象預報]（藍底為所選日期最佳窗口）', tag_best:'最佳',
         th_time:'時間', th_theme:'題材', th_score:'評分', th_status:'狀態', th_kp:'Kp指數', th_cloud_base:'凝結高度', th_temp:'氣溫', th_rh:'濕度', th_clow:'低雲', th_cmid:'中雲', th_chigh:'高雲', th_wind:'風速', th_vis:'能見度', th_astro:'天文', no_spots:'此條件下沒有景點', detail_loading:'正在載入天氣預報…', detail_sync_wait:'天氣資料正在同步更新，請幾秒後再試一次。', score_excellent:'極佳', score_good:'良好', score_fair:'普通', score_low_label:'較弱', verdict_suitable:'✅ 適合拍攝{subject}', verdict_chance:'🟡 有機會拍到{subject}', verdict_unfavorable:'⚠️ 目前不利於拍攝{subject}', verdict_outside:'🕒 目前不是拍攝{subject}的建議時段'
@@ -10,7 +10,7 @@
       'en': {
         country_label:'📍 Select Region:', opt_tw:'🇹🇼 Taiwan', opt_jp:'🇯🇵 Japan', opt_us:'🇺🇸 United States',
         btn_today:'📅 Today', btn_tomorrow:'📅 Tomorrow', btn_after_tomorrow:'📅 Day After', loading:'Fetching photography weather data...', updating:'Updating in background…',
-        last_updated:'Last Updated: ', click_detail:'', weather_link:'🌦️ Weather', nav_link:'🗺️ Nav', map_link:'📍 Map', nav_pending:'🗺️ Nav pending', radar_link:'📡 Radar', field_intake_link:'📷 Field Check', place_suitable:'📸 What can you photograph here?', researched_only:'Only individually researched photography opportunities are shown; unverified ideas are not generated.', place_time_note:'Shooting times are shown in the place’s local time zone.', guide_time:'Best time (place local time)', guide_season:'Season', guide_viewpoint:'Shooting area', guide_required:'Required conditions', guide_boosters:'Boosters', guide_penalties:'Penalties', guide_current:'Best score for selected date', guide_day_best:'Best window for selected date', guide_confidence:'Confidence', confidence_high:'High', confidence_medium:'Medium', confidence_low:'Low', guide_details:'View full conditions', guide_score_why:'Why this score?', guide_score_status:'Assessment', guide_unresearched:'This place has not yet completed place-specific photography research, so no speculative shooting guide is shown.', research_pending_card:'Photography research pending · not scored yet', no_viable_card:'No researched shooting opportunity remains viable today', no_viable_group:'No viable shooting opportunity ({n})', scene_label:'🖼️ Landscape type:', theme_label:'📸 Subject:', advanced_filters:'🔎 More filters', result_count:'Ranked by best opportunity for selected date · {n} spots', search_result:'Found {n} spots', search_placeholder:'Search places…', where_today:'📍 Where should I shoot today?', where_tomorrow:'📍 Where should I shoot tomorrow?', where_after:'📍 Where should I shoot the day after tomorrow?', recommendation_reasons:'Why it stands out', narrow_result:'Only {n} spots — narrow filter', clear_scene:'Clear landscape type', admin_area_filter:'Area', admin_area_all:'All areas', admin_area_selected:'{n} selected', admin_area_clear:'Clear areas', admin_area_search:'Search areas…', admin_area_no_match:'No matching area', admin_area_done:'Done', admin_area_close:'Close area picker',
+        last_updated:'Last Updated: ', click_detail:'', weather_link:'🌦️ Weather', nav_link:'🗺️ Nav', map_link:'📍 Map', nav_pending:'🗺️ Nav pending', radar_link:'📡 Radar', field_intake_link:'📷 Field Check', place_suitable:'📸 What can you photograph here?', researched_only:'Only individually researched photography opportunities are shown; unverified ideas are not generated.', place_time_note:'Shooting times are shown in the place’s local time zone.', guide_time:'Best time (place local time)', guide_season:'Season', guide_viewpoint:'Shooting area', guide_required:'Required conditions', guide_boosters:'Boosters', guide_penalties:'Penalties', guide_current:'Best score for selected date', guide_day_best:'Best window for selected date', guide_confidence:'Confidence', confidence_high:'High', confidence_medium:'Medium', confidence_low:'Low', guide_details:'View full conditions', guide_score_why:'Why this score?', guide_score_status:'Assessment', guide_unresearched:'This place has not yet completed place-specific photography research, so no speculative shooting guide is shown.', research_pending_card:'Photography research pending · not scored yet', no_viable_card:'No researched shooting opportunity remains viable today', no_viable_group:'No viable shooting opportunity ({n})', scene_label:'🖼️ Landscape type:', theme_label:'📸 Subject:', advanced_filters:'🔎 More filters', result_count:'Ranked by best opportunity for selected date · {n} spots', search_result:'Found {n} spots', search_placeholder:'Search places…', where_today:'📍 Where should I shoot today?', where_tomorrow:'📍 Where should I shoot tomorrow?', where_after:'📍 Where should I shoot the day after tomorrow?', recommendation_reasons:'Why it stands out', narrow_result:'Only {n} spots — narrow filter', clear_scene:'Clear landscape type', admin_area_filter:'Area', admin_area_all:'All areas', admin_area_selected:'{n} selected', admin_area_clear:'Clear areas', admin_area_search:'Search areas…', admin_area_no_match:'No matching area', admin_area_done:'Done', admin_area_close:'Close area picker', admin_area_show_empty:'Show areas not yet covered', admin_area_hide_empty:'Hide areas not yet covered', sort_label:'Sort', sort_region:'Geographic order', sort_score_desc:'Score: high to low', sort_score_asc:'Score: low to high', sort_distance_near:'Distance: near to far', sort_distance_far:'Distance: far to near', sort_location_requesting:'Getting your current location…', sort_location_using_current:'Sorted from current location', sort_location_unavailable:'Location unavailable; switched to geographic order', result_count_region:'Geographic order · {n} spots', result_count_score_desc:'Score high to low · {n} spots', result_count_score_asc:'Score low to high · {n} spots', result_count_distance_near:'Nearest first · {n} spots', result_count_distance_far:'Farthest first · {n} spots', region_group_count:'{n} spots',
         best_window:'⏱️ Best Window: ', forecast_status:'📍 Status: ', cloud_base_label:'Est. LCL', best_theme:'📸 Best for selected date: ', local_time:'Local time', dark_sky:'Dark sky',
         modal_subtitle:'⏱️ Range: Past 24H [model data] + Next 72H [forecast] (blue = best window for selected day)', tag_best:'BEST',
         th_time:'Time', th_theme:'Theme', th_score:'Score', th_status:'Status', th_kp:'Kp', th_cloud_base:'LCL', th_temp:'Temp', th_rh:'RH', th_clow:'Low', th_cmid:'Mid', th_chigh:'High', th_wind:'Wind', th_vis:'Visibility', th_astro:'Astronomy', no_spots:'No spots match these filters', detail_loading:'Loading weather forecast…', detail_sync_wait:'Weather data is synchronizing. Please try again in a few seconds.', score_excellent:'Excellent', score_good:'Good', score_fair:'Fair', score_low_label:'Low', verdict_suitable:'✅ Suitable for photographing {subject}', verdict_chance:'🟡 A chance to capture {subject}', verdict_unfavorable:'⚠️ Currently unfavorable for photographing {subject}', verdict_outside:'🕒 This is not the recommended time for photographing {subject}'
@@ -18,7 +18,7 @@
       'ja': {
         country_label:'📍 地域を選択：', opt_tw:'🇹🇼 台湾 (Taiwan)', opt_jp:'🇯🇵 日本 (Japan)', opt_us:'🇺🇸 アメリカ (United States)',
         btn_today:'📅 今日', btn_tomorrow:'📅 明日', btn_after_tomorrow:'📅 明後日', loading:'撮影気象データを取得中...', updating:'バックグラウンド更新中…',
-        last_updated:'最終更新：', click_detail:'', weather_link:'🌦️ 天気予報', nav_link:'🗺️ ナビ', map_link:'📍 地図', nav_pending:'🗺️ ナビ確認待ち', radar_link:'📡 レーダー', field_intake_link:'📷 実写検証', place_suitable:'📸 ここで何が撮れる？', researched_only:'個別調査済みの撮影機会のみ表示し、未確認の内容は自動生成しません。', place_time_note:'撮影時間はすべて現地のタイムゾーンで表示します。', guide_time:'適した時間（現地時間）', guide_season:'季節', guide_viewpoint:'撮影位置', guide_required:'成立条件', guide_boosters:'加点条件', guide_penalties:'不利条件', guide_current:'選択日の最良スコア', guide_day_best:'選択日の最適時間', guide_confidence:'信頼度', confidence_high:'高', confidence_medium:'中', confidence_low:'低', guide_details:'判定条件を表示', guide_score_why:'このスコアの理由', guide_score_status:'判定', guide_unresearched:'この場所は個別撮影調査が未完了のため、推測的な撮影案内は表示しません。', research_pending_card:'撮影調査待ち・現在は採点しません', no_viable_card:'本日の残り時間に適した調査済み撮影機会はありません', no_viable_group:'適した撮影機会なし（{n}）', scene_label:'🖼️ 景観タイプ：', theme_label:'📸 テーマ：', advanced_filters:'🔎 その他の絞り込み', result_count:'選択日の最良撮影機会順 · {n} スポット', search_result:'{n} スポット見つかりました', search_placeholder:'スポット名を検索…', where_today:'📍 今日はどこへ撮りに行く？', where_tomorrow:'📍 明日はどこへ撮りに行く？', where_after:'📍 明後日はどこへ撮りに行く？', recommendation_reasons:'おすすめ理由', narrow_result:'{n} スポットのみ・絞り込みが狭いです', clear_scene:'景観タイプを解除', admin_area_filter:'地域', admin_area_all:'すべての地域', admin_area_selected:'{n} 件選択', admin_area_clear:'地域を解除', admin_area_search:'地域を検索…', admin_area_no_match:'該当する地域がありません', admin_area_done:'完了', admin_area_close:'地域選択を閉じる',
+        last_updated:'最終更新：', click_detail:'', weather_link:'🌦️ 天気予報', nav_link:'🗺️ ナビ', map_link:'📍 地図', nav_pending:'🗺️ ナビ確認待ち', radar_link:'📡 レーダー', field_intake_link:'📷 実写検証', place_suitable:'📸 ここで何が撮れる？', researched_only:'個別調査済みの撮影機会のみ表示し、未確認の内容は自動生成しません。', place_time_note:'撮影時間はすべて現地のタイムゾーンで表示します。', guide_time:'適した時間（現地時間）', guide_season:'季節', guide_viewpoint:'撮影位置', guide_required:'成立条件', guide_boosters:'加点条件', guide_penalties:'不利条件', guide_current:'選択日の最良スコア', guide_day_best:'選択日の最適時間', guide_confidence:'信頼度', confidence_high:'高', confidence_medium:'中', confidence_low:'低', guide_details:'判定条件を表示', guide_score_why:'このスコアの理由', guide_score_status:'判定', guide_unresearched:'この場所は個別撮影調査が未完了のため、推測的な撮影案内は表示しません。', research_pending_card:'撮影調査待ち・現在は採点しません', no_viable_card:'本日の残り時間に適した調査済み撮影機会はありません', no_viable_group:'適した撮影機会なし（{n}）', scene_label:'🖼️ 景観タイプ：', theme_label:'📸 テーマ：', advanced_filters:'🔎 その他の絞り込み', result_count:'選択日の最良撮影機会順 · {n} スポット', search_result:'{n} スポット見つかりました', search_placeholder:'スポット名を検索…', where_today:'📍 今日はどこへ撮りに行く？', where_tomorrow:'📍 明日はどこへ撮りに行く？', where_after:'📍 明後日はどこへ撮りに行く？', recommendation_reasons:'おすすめ理由', narrow_result:'{n} スポットのみ・絞り込みが狭いです', clear_scene:'景観タイプを解除', admin_area_filter:'地域', admin_area_all:'すべての地域', admin_area_selected:'{n} 件選択', admin_area_clear:'地域を解除', admin_area_search:'地域を検索…', admin_area_no_match:'該当する地域がありません', admin_area_done:'完了', admin_area_close:'地域選択を閉じる', admin_area_show_empty:'未収録の地域を表示', admin_area_hide_empty:'未収録の地域を隠す', sort_label:'並び順', sort_region:'地域順', sort_score_desc:'評価：高い順', sort_score_asc:'評価：低い順', sort_distance_near:'距離：近い順', sort_distance_far:'距離：遠い順', sort_location_requesting:'現在地を取得中…', sort_location_using_current:'現在地からの距離順', sort_location_unavailable:'現在地を取得できないため地域順に戻しました', result_count_region:'地域順 · {n} スポット', result_count_score_desc:'評価の高い順 · {n} スポット', result_count_score_asc:'評価の低い順 · {n} スポット', result_count_distance_near:'近い順 · {n} スポット', result_count_distance_far:'遠い順 · {n} スポット', region_group_count:'{n} スポット',
         best_window:'⏱️ 最適時間：', forecast_status:'📍 予報状況：', cloud_base_label:'推定LCL', best_theme:'📸 選択日に向く：', local_time:'現地時間', dark_sky:'暗空',
         modal_subtitle:'⏱️ 範囲：過去24時間 [モデル] + 未来72時間 [予報]（青色＝選択日の最適時間）', tag_best:'最適',
         th_time:'時間', th_theme:'テーマ', th_score:'評価', th_status:'状態', th_kp:'Kp', th_cloud_base:'LCL', th_temp:'気温', th_rh:'湿度', th_clow:'下層雲', th_cmid:'中層雲', th_chigh:'上層雲', th_wind:'風速', th_vis:'視程', th_astro:'天文', no_spots:'該当する撮影スポットはありません', detail_loading:'天気予報を読み込み中…', detail_sync_wait:'天気データを同期更新中です。数秒後にもう一度お試しください。', score_excellent:'非常に良い', score_good:'良好', score_fair:'普通', score_low_label:'弱め', verdict_suitable:'✅ {subject}の撮影に適しています', verdict_chance:'🟡 {subject}を撮影できる可能性があります', verdict_unfavorable:'⚠️ 現在は{subject}の撮影に不利です', verdict_outside:'🕒 現在は{subject}の推奨撮影時間帯ではありません'
@@ -54,6 +54,14 @@
       '宜蘭縣','花蓮縣','台東縣','澎湖縣','金門縣','連江縣'
     ];
 
+    const TW_BROWSE_AREA_GROUPS=[
+      {key:'tw_north',areas:['台北市','新北市','基隆市','桃園市','新竹市','新竹縣']},
+      {key:'tw_central',areas:['苗栗縣','台中市','彰化縣','南投縣','雲林縣']},
+      {key:'tw_south',areas:['嘉義市','嘉義縣','台南市','高雄市','屏東縣']},
+      {key:'tw_east',areas:['宜蘭縣','花蓮縣','台東縣']},
+      {key:'tw_islands',areas:['澎湖縣','金門縣','連江縣']}
+    ];
+
     const JP_ADMIN_AREA_GROUPS=[
       {key:'jp_hokkaido',areas:['北海道']},
       {key:'jp_tohoku',areas:['青森県','岩手県','宮城県','秋田県','山形県','福島県']},
@@ -74,6 +82,11 @@
 
     const ADMIN_AREA_GROUPS={
       tw:[{key:'tw_counties',areas:TW_ADMIN_AREA_ORDER}],
+      jp:JP_ADMIN_AREA_GROUPS,
+      us:US_ADMIN_AREA_GROUPS
+    };
+    const BROWSE_AREA_GROUPS={
+      tw:TW_BROWSE_AREA_GROUPS,
       jp:JP_ADMIN_AREA_GROUPS,
       us:US_ADMIN_AREA_GROUPS
     };
@@ -172,15 +185,15 @@
 
     const adminAreaGroupLabels={
       'zh-TW':{
-        tw_counties:'縣市',jp_hokkaido:'北海道',jp_tohoku:'東北',jp_kanto:'關東',jp_chubu:'中部',jp_kinki:'近畿',jp_chugoku:'中國',jp_shikoku:'四國',jp_kyushu_okinawa:'九州・沖繩',
+        tw_counties:'縣市',tw_north:'北部',tw_central:'中部',tw_south:'南部',tw_east:'東部',tw_islands:'離島',jp_hokkaido:'北海道',jp_tohoku:'東北',jp_kanto:'關東',jp_chubu:'中部',jp_kinki:'近畿',jp_chugoku:'中國',jp_shikoku:'四國',jp_kyushu_okinawa:'九州・沖繩',
         us_northeast:'東北部',us_midwest:'中西部',us_south:'南部',us_west:'西部'
       },
       en:{
-        tw_counties:'Counties / cities',jp_hokkaido:'Hokkaido',jp_tohoku:'Tohoku',jp_kanto:'Kanto',jp_chubu:'Chubu',jp_kinki:'Kinki',jp_chugoku:'Chugoku',jp_shikoku:'Shikoku',jp_kyushu_okinawa:'Kyushu / Okinawa',
+        tw_counties:'Counties / cities',tw_north:'North',tw_central:'Central',tw_south:'South',tw_east:'East',tw_islands:'Offshore islands',jp_hokkaido:'Hokkaido',jp_tohoku:'Tohoku',jp_kanto:'Kanto',jp_chubu:'Chubu',jp_kinki:'Kinki',jp_chugoku:'Chugoku',jp_shikoku:'Shikoku',jp_kyushu_okinawa:'Kyushu / Okinawa',
         us_northeast:'Northeast',us_midwest:'Midwest',us_south:'South',us_west:'West'
       },
       ja:{
-        tw_counties:'県・市',jp_hokkaido:'北海道',jp_tohoku:'東北',jp_kanto:'関東',jp_chubu:'中部',jp_kinki:'近畿',jp_chugoku:'中国',jp_shikoku:'四国',jp_kyushu_okinawa:'九州・沖縄',
+        tw_counties:'県・市',tw_north:'北部',tw_central:'中部',tw_south:'南部',tw_east:'東部',tw_islands:'離島',jp_hokkaido:'北海道',jp_tohoku:'東北',jp_kanto:'関東',jp_chubu:'中部',jp_kinki:'近畿',jp_chugoku:'中国',jp_shikoku:'四国',jp_kyushu_okinawa:'九州・沖縄',
         us_northeast:'北東部',us_midwest:'中西部',us_south:'南部',us_west:'西部'
       }
     };
@@ -201,9 +214,16 @@
 
 
     const VALID_REGIONS=['tw','jp','us'], VALID_LANGS=['zh-TW','en','ja'], VALID_DAYS=['today','tomorrow','after_tomorrow'];
+    const VALID_SORT_MODES=['region','score_desc','score_asc','distance_near','distance_far'];
     let currentRegion=VALID_REGIONS.includes(localStorage.getItem('chaselights_region'))?localStorage.getItem('chaselights_region'):'tw';
     let currentLang=VALID_LANGS.includes(localStorage.getItem('chaselights_lang'))?localStorage.getItem('chaselights_lang'):'zh-TW';
     let currentDayFilter=VALID_DAYS.includes(localStorage.getItem('chaselights_day'))?localStorage.getItem('chaselights_day'):'today';
+    const storedSortMode=localStorage.getItem('chaselights_sort_mode');
+    let currentSortMode=VALID_SORT_MODES.includes(storedSortMode)&&!storedSortMode.startsWith('distance_')?storedSortMode:'region';
+    let userLocation=null;
+    let sortLocationStatus='';
+    let locationRequestSequence=0;
+    let showEmptyAdminAreas=false;
     const FILTER_UI_VERSION='3';
     let currentScene='all';
     let currentTheme='all';
@@ -293,7 +313,8 @@
     function applyStaticI18n(){
       document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.dataset.i18n;if(d()[k])el.innerText=d()[k];});
       document.getElementById('lang-select').value=currentLang; document.getElementById('country-select').value=currentRegion; document.getElementById('temp-unit-select').value=currentTempUnit;
-      updateDiscoveryText();
+      const sortSelect=document.getElementById('spot-sort');if(sortSelect)sortSelect.value=currentSortMode;
+      updateDiscoveryText();renderSortStatus();
     }
     function formatUpdated(iso){ if(!iso)return '—'; const dt=new Date(iso); if(isNaN(dt))return iso; return new Intl.DateTimeFormat(currentLang==='zh-TW'?'zh-TW':currentLang==='ja'?'ja-JP':'en-US',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',timeZoneName:'short'}).format(dt); }
     function updateHeader(){ document.getElementById('update-time').innerText=currentData?`${d().last_updated}${formatUpdated(currentData.updated_at)}`:d().loading; }
@@ -333,6 +354,24 @@
     }
     function availableAdminAreas(){
       return availableAdminAreaGroups().flatMap(group=>group.areas);
+    }
+    function browseAreaGroups(){
+      return BROWSE_AREA_GROUPS[currentRegion]||availableAdminAreaGroups();
+    }
+    function geographicPosition(spot){
+      const areas=new Set(spotAdminAreas(spot));
+      const groups=browseAreaGroups();
+      for(let groupIndex=0;groupIndex<groups.length;groupIndex++){
+        const areaIndex=groups[groupIndex].areas.findIndex(area=>areas.has(area));
+        if(areaIndex>=0)return {groupKey:groups[groupIndex].key,groupIndex,areaIndex};
+      }
+      return {groupKey:null,groupIndex:Number.MAX_SAFE_INTEGER,areaIndex:Number.MAX_SAFE_INTEGER};
+    }
+    function compareGeographic(a,b){
+      const ap=geographicPosition(a.spot),bp=geographicPosition(b.spot);
+      if(ap.groupIndex!==bp.groupIndex)return ap.groupIndex-bp.groupIndex;
+      if(ap.areaIndex!==bp.areaIndex)return ap.areaIndex-bp.areaIndex;
+      return spotName(a.spot).localeCompare(spotName(b.spot),currentLang==='ja'?'ja-JP':currentLang==='en'?'en-US':'zh-Hant');
     }
     function persistAdminAreas(){
       localStorage.setItem(`chaselights_admin_areas_${currentRegion}`,JSON.stringify([...currentAdminAreas]));
@@ -442,9 +481,17 @@
 
       const summary=currentAdminAreas.size?d().admin_area_selected.replace('{n}',currentAdminAreas.size):d().admin_area_all;
       const showSearch=areas.length>24||mobile;
-      const groupHtml=groups.map((group,index)=>{
+      const visibleGroups=groups.map(group=>({
+        ...group,
+        areas:group.areas.filter(a=>showEmptyAdminAreas||counts[a]>0||currentAdminAreas.has(a))
+      })).filter(group=>group.areas.length);
+      const hiddenEmptyCount=areas.filter(a=>counts[a]===0).length;
+      const emptyToggle=hiddenEmptyCount
+        ? `<button type="button" class="admin-area-empty-toggle" data-admin-empty-toggle aria-pressed="${showEmptyAdminAreas?'true':'false'}">${esc(showEmptyAdminAreas?d().admin_area_hide_empty:d().admin_area_show_empty)}</button>`
+        : '';
+      const groupHtml=visibleGroups.map((group,index)=>{
         const buttons=group.areas.map(a=>{
-          const disabled=counts[a]===0;
+          const disabled=counts[a]===0&&!currentAdminAreas.has(a);
           const searchText=`${a} ${adminAreaLabel(a)}`.toLocaleLowerCase();
           const active=currentAdminAreas.has(a);
           return `<button type="button" class="admin-area-btn ${active?'active':''}" data-admin-area="${esc(a)}" data-admin-search-text="${esc(searchText)}" aria-pressed="${active?'true':'false'}" ${disabled?'disabled aria-disabled="true"':''}><span class="admin-area-count">${counts[a]}</span><span class="admin-area-name"><i class="admin-area-check" aria-hidden="true">✓</i>${esc(adminAreaLabel(a))}</span></button>`;
@@ -457,7 +504,7 @@
       }).join('');
 
       host.hidden=false;
-      host.innerHTML=`<details class="admin-filter"${wasOpen?' open':''}><summary aria-haspopup="dialog" aria-expanded="${wasOpen?'true':'false'}">📍 ${esc(summary)}</summary><div class="admin-picker-backdrop" data-admin-backdrop></div><div class="admin-filter-menu" role="${mobile?'dialog':'group'}" ${mobile?'aria-modal="true"':''} aria-labelledby="admin-filter-title"><div class="admin-mobile-handle" aria-hidden="true"></div><div class="admin-filter-head"><span id="admin-filter-title">${esc(adminAreaKindLabel())}</span><div class="admin-filter-head-actions"><button type="button" class="admin-clear-btn" data-admin-clear>${esc(d().admin_area_clear)}</button><button type="button" class="admin-close-btn" data-admin-close aria-label="${esc(d().admin_area_close)}">×</button></div></div>${showSearch?`<input class="admin-area-search" type="search" autocomplete="off" data-admin-search placeholder="${esc(adminAreaSearchPlaceholder())}" aria-label="${esc(adminAreaSearchPlaceholder())}">`:''}<div class="admin-area-groups">${groupHtml}</div><div class="admin-area-empty" data-admin-empty hidden>${esc(d().admin_area_no_match)}</div><div class="admin-filter-footer"><button type="button" class="admin-footer-clear" data-admin-clear>${esc(d().admin_area_clear)}</button><button type="button" class="admin-done-btn" data-admin-done>${esc(d().admin_area_done)}</button></div></div></details>`;
+      host.innerHTML=`<details class="admin-filter"${wasOpen?' open':''}><summary aria-haspopup="dialog" aria-expanded="${wasOpen?'true':'false'}">📍 ${esc(summary)}</summary><div class="admin-picker-backdrop" data-admin-backdrop></div><div class="admin-filter-menu" role="${mobile?'dialog':'group'}" ${mobile?'aria-modal="true"':''} aria-labelledby="admin-filter-title"><div class="admin-mobile-handle" aria-hidden="true"></div><div class="admin-filter-head"><span id="admin-filter-title">${esc(adminAreaKindLabel())}</span><div class="admin-filter-head-actions"><button type="button" class="admin-clear-btn" data-admin-clear>${esc(d().admin_area_clear)}</button><button type="button" class="admin-close-btn" data-admin-close aria-label="${esc(d().admin_area_close)}">×</button></div></div>${showSearch?`<input class="admin-area-search" type="search" autocomplete="off" data-admin-search placeholder="${esc(adminAreaSearchPlaceholder())}" aria-label="${esc(adminAreaSearchPlaceholder())}">`:''}${emptyToggle}<div class="admin-area-groups">${groupHtml}</div><div class="admin-area-empty" data-admin-empty hidden>${esc(d().admin_area_no_match)}</div><div class="admin-filter-footer"><button type="button" class="admin-footer-clear" data-admin-clear>${esc(d().admin_area_clear)}</button><button type="button" class="admin-done-btn" data-admin-done>${esc(d().admin_area_done)}</button></div></div></details>`;
 
       const details=host.querySelector('.admin-filter');
       const summaryButton=details.querySelector(':scope > summary');
@@ -488,6 +535,7 @@
       host.querySelector('[data-admin-backdrop]')?.addEventListener('click',e=>{e.preventDefault();close();});
       host.querySelector('[data-admin-close]')?.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();close();});
       host.querySelector('[data-admin-done]')?.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();close();});
+      host.querySelector('[data-admin-empty-toggle]')?.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();showEmptyAdminAreas=!showEmptyAdminAreas;renderAdminFilter();});
       host.querySelectorAll('[data-admin-clear]').forEach(button=>button.onclick=e=>{
         e.preventDefault();e.stopPropagation();currentAdminAreas.clear();persistAdminAreas();filterAndRender();
       });
@@ -606,20 +654,63 @@
     function renderSceneNav(){}
     function renderThemeNav(){}
     function normalizeFilterCombination(){}
+    function renderSortStatus(){
+      const el=document.getElementById('sort-status');if(!el)return;
+      const key=sortLocationStatus==='requesting'?'sort_location_requesting':sortLocationStatus==='using'?'sort_location_using_current':sortLocationStatus==='unavailable'?'sort_location_unavailable':'';
+      el.textContent=key?d()[key]:'';
+    }
     function updateFilterResultSummary(count){
       const el=document.getElementById('filter-result-summary');if(!el)return;
-      const template=currentSearch?d().search_result:d().result_count;
+      const sortKeys={
+        region:'result_count_region',
+        score_desc:'result_count_score_desc',
+        score_asc:'result_count_score_asc',
+        distance_near:'result_count_distance_near',
+        distance_far:'result_count_distance_far'
+      };
+      const template=currentSearch?d().search_result:(d()[sortKeys[currentSortMode]]||d().result_count);
       el.textContent=template.replace('{n}',count);
     }
     function setPlaceSearch(value){
       currentSearch=String(value||'').trim().toLocaleLowerCase();
       filterAndRender();
     }
+    function setSortMode(mode){
+      if(!VALID_SORT_MODES.includes(mode))mode='region';
+      const select=document.getElementById('spot-sort');
+      const requestId=++locationRequestSequence;
+      if(mode.startsWith('distance_')&&!userLocation){
+        if(!navigator.geolocation){
+          currentSortMode='region';localStorage.setItem('chaselights_sort_mode','region');
+          if(select)select.value='region';sortLocationStatus='unavailable';renderSortStatus();filterAndRender();return;
+        }
+        sortLocationStatus='requesting';renderSortStatus();
+        navigator.geolocation.getCurrentPosition(
+          position=>{
+            if(requestId!==locationRequestSequence)return;
+            userLocation={lat:Number(position.coords.latitude),lon:Number(position.coords.longitude)};
+            currentSortMode=mode;if(select)select.value=mode;sortLocationStatus='using';renderSortStatus();filterAndRender();
+          },
+          ()=>{
+            if(requestId!==locationRequestSequence)return;
+            currentSortMode='region';localStorage.setItem('chaselights_sort_mode','region');
+            if(select)select.value='region';sortLocationStatus='unavailable';renderSortStatus();filterAndRender();
+          },
+          {enableHighAccuracy:false,timeout:10000,maximumAge:300000}
+        );
+        return;
+      }
+      currentSortMode=mode;
+      if(!mode.startsWith('distance_'))localStorage.setItem('chaselights_sort_mode',mode);
+      sortLocationStatus=mode.startsWith('distance_')?'using':'';
+      if(select)select.value=mode;
+      renderSortStatus();filterAndRender();
+    }
     function syncDayButtons(){const map={today:0,tomorrow:1,after_tomorrow:2};document.querySelectorAll('.day-btn').forEach((b,i)=>b.classList.toggle('active',i===map[currentDayFilter]));}
     function switchDay(k){currentDayFilter=k;localStorage.setItem('chaselights_day',k);syncDayButtons();updateDiscoveryText();filterAndRender();}
     function switchLanguage(k){if(!VALID_LANGS.includes(k))return;currentLang=k;localStorage.setItem('chaselights_lang',k);applyStaticI18n();renderSubNav();syncDayButtons();updateHeader();filterAndRender();}
     function switchTempUnit(k){if(!['C','F'].includes(k))return;currentTempUnit=k;localStorage.setItem('chaselights_temp_unit',k);document.getElementById('temp-unit-select').value=k;filterAndRender();if(activeModalSpot&&document.getElementById('modal-overlay').style.display==='flex')renderWeatherModal(activeModalSpot,activeModalSummary);}
-    function switchRegion(k){if(!VALID_REGIONS.includes(k))k='tw';currentRegion=k;localStorage.setItem('chaselights_region',k);currentCategoryKey=localStorage.getItem(`chaselights_category_${k}`)||'__all__';currentAdminAreas=loadAdminAreas(k);document.getElementById('country-select').value=k;loadData(k);}
+    function switchRegion(k){if(!VALID_REGIONS.includes(k))k='tw';currentRegion=k;localStorage.setItem('chaselights_region',k);currentCategoryKey=localStorage.getItem(`chaselights_category_${k}`)||'__all__';currentAdminAreas=loadAdminAreas(k);showEmptyAdminAreas=false;document.getElementById('country-select').value=k;loadData(k);}
     function persistLegacyFavorites(){
       if(legacyFavorites.length)localStorage.setItem('chaselights_favs',JSON.stringify(legacyFavorites));
       else{
@@ -721,13 +812,74 @@
       const fav=favorites.includes(spot.spot_id);const scenes=spot.scenes||[];const visibleScenes=scenes.slice(0,4);const scenePills=visibleScenes.map(x=>`<span class="scene-pill">${sceneLabel(x)}</span>`).join('');const sceneMore=scenes.length>2?`<span class="scene-pill scene-more">+${scenes.length-2}</span>`:'';
       const theme=metric.theme||'mountain_view',opportunityName=researchPending?d().research_pending_card:(noViable?d().no_viable_card:(metric.opportunity_name||themeLabel(theme)));const verdict=(researchPending||noViable)?{primary:'',detail:''}:opportunityVerdict(metric,opportunityName);const status=verdict.primary,indicator=(researchPending||noViable)?'':trMessage(metric.indicator_key);const astro=(researchPending||noViable)?'':astroText(metric,theme);const darkSky=(researchPending||noViable)?'':darkSkyText(spot,theme);const navTool=navigationToolHtml(spot);const access=spot.access_note_i18n?.[currentLang]||spot.access_note_i18n?.['zh-TW'];const showIndicator=indicator&&indicator!==status;const factors=(researchPending||noViable)?[]:(metric.factors||[]);const factorHtml=factors.map(f=>`<span class="factor-pill ${f.type==='minus'?'factor-minus':'factor-plus'}">${f.type==='minus'?'−':'＋'} ${trFactor(f)}</span>`).join('');const factorMore=factors.length>2?`<span class="factor-pill factor-more">+${factors.length-2}</span>`:'';
       const reasonHtml=(researchPending||noViable)?'':`${showIndicator?`<div><span class="indicator-pill">${indicator}</span></div>`:''}${factorHtml?`<div class="factor-row card-factor-row">${factorHtml}${factorMore}</div>`:''}`;
+      const distance=distanceToSpotKm(spot);const distanceChip=currentSortMode.startsWith('distance_')&&distance!==null?`<span class="metric-chip">📍 ${distance<10?distance.toFixed(1):Math.round(distance)} km</span>`:'';
       const compactMetrics=(researchPending||noViable)?`<span class="metric-chip">🌡 ${formatTemp(metric.temp)}</span>`:[
         metric.cloud_base_agl!=null?`<span class="metric-chip">☁️ ${metric.cloud_base_agl}m</span>`:'',
         `<span class="metric-chip">🌡 ${formatTemp(metric.temp)}</span>`
       ].filter(Boolean).join('');
-      card.innerHTML=`<div><div class="card-header"><div class="spot-title-group"><span class="spot-name"></span><div class="spot-local-name"></div><div style="margin-top:4px"><span class="category-tag">${esc(spotAdminAreas(spot).map(adminAreaLabel).join(" · ")||categoryLabel(spot.category))}</span></div></div><div class="card-header-actions"><span class="score-badge ${scoreClass}">${scoreText}${scoreLabel?`<span class="score-label">${esc(scoreLabel)}</span>`:''}</span><button class="fav-btn ${fav?'active':''}" data-fav aria-label="Favorite">★</button></div></div><div class="tags-wrapper">${scenePills}${sceneMore}</div><div class="shooting-summary"><div class="theme-winner">${(researchPending||noViable)?`📷 ${esc(opportunityName)}`:d().best_theme+esc(opportunityName)}</div>${(researchPending||noViable)?'':`<div class="best-window-row">${d().best_window}<b>${fmtWindow(metric)}</b></div>`}</div>${reasonHtml?`<div class="recommendation-reasons">${reasonHtml}</div>`:''}<div class="card-secondary-meta"><div class="card-quick-meta"><span class="card-timezone">🕒 ${(spot.timezone==='Asia/Taipei'?'UTC+8':(metric.timezone_abbr||spot.timezone_abbr||spot.timezone||'—'))}</span><span class="card-metric-chips">${compactMetrics}</span></div>${(researchPending||noViable)?'':`<div class="info-row forecast-status-row card-meta-row">${d().forecast_status}${status}</div>`}${astro?`<div class="info-row card-meta-row card-meta-astro">${astro}</div>`:''}${darkSky?`<div class="info-row card-meta-row card-meta-dark">${darkSky}</div>`:''}${access?`<div class="info-row access-note card-meta-row card-meta-access" title="${esc(access)}">⏰ ${esc(access)}</div>`:''}</div></div><div class="card-footer-tools" data-tools><div></div><div><a href="#" class="tool-link" data-weather>${d().weather_link}</a>${navTool}<a href="${radarUrl()}" target="_blank" rel="noopener noreferrer" class="tool-link">${d().radar_link}</a></div></div>`;
+      card.innerHTML=`<div><div class="card-header"><div class="spot-title-group"><span class="spot-name"></span><div class="spot-local-name"></div><div style="margin-top:4px"><span class="category-tag">${esc(spotAdminAreas(spot).map(adminAreaLabel).join(" · ")||categoryLabel(spot.category))}</span></div></div><div class="card-header-actions"><span class="score-badge ${scoreClass}">${scoreText}${scoreLabel?`<span class="score-label">${esc(scoreLabel)}</span>`:''}</span><button class="fav-btn ${fav?'active':''}" data-fav aria-label="Favorite">★</button></div></div><div class="tags-wrapper">${scenePills}${sceneMore}</div><div class="shooting-summary"><div class="theme-winner">${(researchPending||noViable)?`📷 ${esc(opportunityName)}`:d().best_theme+esc(opportunityName)}</div>${(researchPending||noViable)?'':`<div class="best-window-row">${d().best_window}<b>${fmtWindow(metric)}</b></div>`}</div>${reasonHtml?`<div class="recommendation-reasons">${reasonHtml}</div>`:''}<div class="card-secondary-meta"><div class="card-quick-meta"><span class="card-timezone">🕒 ${(spot.timezone==='Asia/Taipei'?'UTC+8':(metric.timezone_abbr||spot.timezone_abbr||spot.timezone||'—'))}</span><span class="card-metric-chips">${compactMetrics}${distanceChip}</span></div>${(researchPending||noViable)?'':`<div class="info-row forecast-status-row card-meta-row">${d().forecast_status}${status}</div>`}${astro?`<div class="info-row card-meta-row card-meta-astro">${astro}</div>`:''}${darkSky?`<div class="info-row card-meta-row card-meta-dark">${darkSky}</div>`:''}${access?`<div class="info-row access-note card-meta-row card-meta-access" title="${esc(access)}">⏰ ${esc(access)}</div>`:''}</div></div><div class="card-footer-tools" data-tools><div></div><div><a href="#" class="tool-link" data-weather>${d().weather_link}</a>${navTool}<a href="${radarUrl()}" target="_blank" rel="noopener noreferrer" class="tool-link">${d().radar_link}</a></div></div>`;
       card.querySelector('.spot-name').textContent=spotName(spot);const local=card.querySelector('.spot-local-name');const showLocal=!(currentRegion==='tw'&&currentLang==='zh-TW');local.textContent=showLocal&&spot.name_local&&spot.name_local!==spotName(spot)?spot.name_local:'';card.querySelector('[data-fav]').onclick=e=>toggleFavorite(spot.spot_id,e);card.querySelector('[data-tools]').onclick=e=>e.stopPropagation();card.querySelector('[data-weather]').onclick=e=>{e.preventDefault();e.stopPropagation();openWeatherModal(spot,metric);};
       return card;
+    }
+
+    function scoreSortValue(metric){
+      const score=Number(metric?.score);
+      return Number.isFinite(score)?score:null;
+    }
+    function distanceToSpotKm(spot){
+      if(!userLocation)return null;
+      const lat=Number(spot?.lat),lon=Number(spot?.lon);
+      if(!Number.isFinite(lat)||!Number.isFinite(lon))return null;
+      const toRad=value=>value*Math.PI/180;
+      const dLat=toRad(lat-userLocation.lat),dLon=toRad(lon-userLocation.lon);
+      const a=Math.sin(dLat/2)**2+Math.cos(toRad(userLocation.lat))*Math.cos(toRad(lat))*Math.sin(dLon/2)**2;
+      return 6371*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+    }
+    function sortRows(rows){
+      rows.forEach(row=>row.distance=distanceToSpotKm(row.spot));
+      rows.sort((a,b)=>{
+        if(currentSortMode==='region')return compareGeographic(a,b);
+        if(currentSortMode==='score_desc'||currentSortMode==='score_asc'){
+          const av=scoreSortValue(a.metric),bv=scoreSortValue(b.metric);
+          if(av===null&&bv!==null)return 1;
+          if(bv===null&&av!==null)return -1;
+          if(av!==null&&bv!==null&&av!==bv)return currentSortMode==='score_desc'?bv-av:av-bv;
+          return compareGeographic(a,b);
+        }
+        if(currentSortMode==='distance_near'||currentSortMode==='distance_far'){
+          const av=a.distance,bv=b.distance;
+          if(av===null&&bv!==null)return 1;
+          if(bv===null&&av!==null)return -1;
+          if(av!==null&&bv!==null&&av!==bv)return currentSortMode==='distance_near'?av-bv:bv-av;
+          return compareGeographic(a,b);
+        }
+        return compareGeographic(a,b);
+      });
+      return rows;
+    }
+    function appendSpotRows(target,rows){
+      if(currentSortMode!=='region'){
+        rows.forEach(({spot,metric})=>target.appendChild(createSpotCard(spot,metric)));
+        return;
+      }
+      const grouped=new Map(),ungrouped=[];
+      rows.forEach(row=>{
+        const key=geographicPosition(row.spot).groupKey;
+        if(!key){ungrouped.push(row);return;}
+        if(!grouped.has(key))grouped.set(key,[]);
+        grouped.get(key).push(row);
+      });
+      browseAreaGroups().forEach(group=>{
+        const groupRows=grouped.get(group.key)||[];
+        if(!groupRows.length)return;
+        const section=document.createElement('section');section.className='spot-region-section';section.dataset.regionGroup=group.key;
+        const heading=document.createElement('div');heading.className='spot-region-heading';
+        heading.innerHTML=`<span>${esc(adminAreaGroupLabel(group.key))}</span><span class="spot-region-count">${esc(d().region_group_count.replace('{n}',groupRows.length))}</span>`;
+        const grid=document.createElement('div');grid.className='spot-region-grid';
+        groupRows.forEach(({spot,metric})=>grid.appendChild(createSpotCard(spot,metric)));
+        section.append(heading,grid);target.appendChild(section);
+      });
+      ungrouped.forEach(({spot,metric})=>target.appendChild(createSpotCard(spot,metric)));
     }
 
     function filterAndRender(){
@@ -744,19 +896,20 @@
           return haystack.includes(currentSearch);
         });
       }
-      const rows=[];for(const spot of filtered){const metric=getMetric(spot);if(metric)rows.push({spot,metric});}rows.sort((a,b)=>{const as=Number.isFinite(Number(a.metric.score))?Number(a.metric.score):-1;const bs=Number.isFinite(Number(b.metric.score))?Number(b.metric.score):-1;return bs-as;});
+      const rows=[];for(const spot of filtered){const metric=getMetric(spot);if(metric)rows.push({spot,metric,distance:null});}
+      sortRows(rows);
       updateFilterResultSummary(rows.length);
       if(!rows.length){container.innerHTML=`<div class="empty-state">📭 ${esc(d().no_spots)}</div>`;return;}
 
       const viableRows=rows.filter(({metric})=>!metric.no_viable_opportunity);
       const deferredRows=rows.filter(({metric})=>!!metric.no_viable_opportunity);
-      viableRows.forEach(({spot,metric})=>container.appendChild(createSpotCard(spot,metric)));
+      appendSpotRows(container,viableRows);
 
       if(deferredRows.length){
         const details=document.createElement('details');details.className='deferred-group';
         const summary=document.createElement('summary');summary.textContent=d().no_viable_group.replace('{n}',deferredRows.length);
         const grid=document.createElement('div');grid.className='deferred-grid';
-        deferredRows.forEach(({spot,metric})=>grid.appendChild(createSpotCard(spot,metric)));
+        appendSpotRows(grid,deferredRows);
         details.append(summary,grid);container.appendChild(details);
       }
     }
