@@ -36,6 +36,21 @@ def fake_snapshot(*, bbox, forecast_hours, metadata):
     }
 
 
+class WorkflowContractTest(unittest.TestCase):
+    def test_v2_publisher_follows_successful_production_jma_refresh(self):
+        workflow = (
+            Path(__file__).resolve().parent
+            / ".github/workflows/weathergrid_v2_jma_publish.yml"
+        ).read_text(encoding="utf-8")
+        self.assertIn('workflows: ["Update JMA MSM WeatherGrid"]', workflow)
+        self.assertIn("types: [completed]", workflow)
+        self.assertIn(
+            "github.event_name != 'workflow_run' || "
+            "github.event.workflow_run.conclusion == 'success'",
+            workflow,
+        )
+
+
 class PublishTest(unittest.TestCase):
     def test_publishes_tiles_manifest_and_index(self):
         with tempfile.TemporaryDirectory() as d:
