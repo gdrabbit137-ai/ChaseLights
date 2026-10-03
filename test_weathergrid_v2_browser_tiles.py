@@ -23,6 +23,11 @@ class BrowserTileLoaderContract(unittest.TestCase):
         self.assertIn("validTimeToken", s)
         self.assertIn("utcTimeMs", s)
         self.assertIn("toISOString().slice(0, 16)", s)
+        utc_body = s.split("function utcTimeMs(value) {", 1)[1].split(
+            "}\n\nexport function nearestValidTime", 1
+        )[0]
+        self.assertIn(r"/(?:Z|[+-]\d\d:\d\d)$/", utc_body)
+        self.assertNotIn(r"[+-]\\d", utc_body)
 
     def test_loader_dedupes_shared_tile_boundaries(self):
         s = Path("assets/weather-map-v2-tile-loader.js").read_text()
