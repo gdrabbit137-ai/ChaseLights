@@ -228,6 +228,41 @@ jobs:
               assert "不是拍攝日落的建議時段" in verdict_contract["outside"], verdict_contract
               assert "基本好拍條件已成立" not in driver.page_source
 
+              # Today-only shooting-period state must use the Place timezone,
+              # distinguish upcoming/active/passed deterministically, and remain
+              # absent for future selected dates.
+              shooting_period_contract = driver.execute_script("""
+                const previousDay = currentDayFilter;
+                const metric = {
+                  window_start:'2026-10-04 18:00',
+                  window_end:'2026-10-04 18:18'
+                };
+                const spot = {timezone:'Asia/Taipei'};
+                currentDayFilter = 'today';
+                const upcoming = shootingPeriodState(metric, spot, new Date('2026-10-04T09:59:00Z'));
+                const active = shootingPeriodState(metric, spot, new Date('2026-10-04T10:05:00Z'));
+                const passed = shootingPeriodState(metric, spot, new Date('2026-10-04T10:18:00Z'));
+                const labels = {
+                  upcoming: shootingPeriodStateText(upcoming),
+                  active: shootingPeriodStateText(active),
+                  passed: shootingPeriodStateText(passed)
+                };
+                currentDayFilter = 'tomorrow';
+                const future = shootingPeriodState(metric, spot, new Date('2026-10-04T10:18:00Z'));
+                currentDayFilter = previousDay;
+                return {upcoming, active, passed, future, labels};
+              """)
+              report["shooting_period_contract"] = shooting_period_contract
+              assert shooting_period_contract["upcoming"] == "upcoming", shooting_period_contract
+              assert shooting_period_contract["active"] == "active", shooting_period_contract
+              assert shooting_period_contract["passed"] == "passed", shooting_period_contract
+              assert shooting_period_contract["future"] == "", shooting_period_contract
+              assert shooting_period_contract["labels"] == {
+                  "upcoming": "最佳拍攝時段尚未開始",
+                  "active": "現在正值最佳拍攝時段",
+                  "passed": "今日最佳拍攝時段已過",
+              }, shooting_period_contract
+
               # B108: Taiwan geography is a complete 22-area county/city picker.
               # The older broad island groups are removed from the Taiwan primary nav,
               # and the country selector lives with the low-frequency global controls.
