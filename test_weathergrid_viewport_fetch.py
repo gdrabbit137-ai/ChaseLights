@@ -9,6 +9,7 @@ class ViewportFetchTest(unittest.TestCase):
         self.assertLessEqual(p["fetch_bbox"]["west"],120.5)
         self.assertGreaterEqual(p["fetch_bbox"]["east"],122.5)
         self.assertTrue(p["cache_key"])
+        self.assertTrue(p["coverage_complete"])
         b=adapter_bbox(p)
         self.assertEqual(b["leftlon"],p["fetch_bbox"]["west"])
         self.assertEqual(b["toplat"],p["fetch_bbox"]["north"])
