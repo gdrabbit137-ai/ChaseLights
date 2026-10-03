@@ -150,14 +150,22 @@ jobs:
 
           summary = json.loads(Path("jp_weather.json").read_text(encoding="utf-8"))
           summary_spots = summary.get("spots") if isinstance(summary, dict) else summary
+          manifest = json.loads(Path("runtime_catalog_manifest_r4_2.json").read_text(encoding="utf-8"))
+          jp_manifest = manifest["regions"]["jp"]
+          expected_count = jp_manifest["counts"]["spots"]
+          expected_ids = {
+              f"jp-{i:03d}"
+              for i in range(jp_manifest["numeric_id_start"], jp_manifest["numeric_id_end"] + 1)
+          } - set(jp_manifest.get("retired_spot_ids", []))
 
           assert summary.get("schema_version") == 10, summary.get("schema_version")
-          assert len(summary_spots) == 35, len(summary_spots)
-          assert len({s["spot_id"] for s in summary_spots}) == 35
+          assert len(summary_spots) == expected_count, len(summary_spots)
+          assert len({s["spot_id"] for s in summary_spots}) == expected_count
+          assert {s["spot_id"] for s in summary_spots} == expected_ids
 
           shard_dir = Path("weather_details") / "jp"
           shard_files = sorted(shard_dir.glob("jp-*.json"))
-          assert len(shard_files) == 35, len(shard_files)
+          assert len(shard_files) == expected_count, len(shard_files)
           assert not Path("jp_weather_details.json").exists(), "regional detail file must remain retired"
           shard_ids = set()
           for shard_path in shard_files:
@@ -176,7 +184,7 @@ jobs:
 
           researched = [s for s in summary_spots if s.get("opportunities")]
           pending = [s for s in summary_spots if not s.get("opportunities")]
-          assert [s["spot_id"] for s in researched] == [f"jp-{i:03d}" for i in range(1, 36)], [s["spot_id"] for s in researched]
+          assert {s["spot_id"] for s in researched} == expected_ids, [s["spot_id"] for s in researched]
           assert len(pending) == 0
 
           valid_nav_states = {"verified", "provisional_camera_anchor", "needs_review", "multiple_access_routes"}
