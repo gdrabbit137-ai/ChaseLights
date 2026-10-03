@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>ChaseLights WeatherGrid V2 Experimental</title>
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-gl.css">
+  <link rel="stylesheet" href="./assets/weather-map-v2.css?v=exp2">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <a href="./weather-map.html">← 正式 WeatherGrid</a>
+      <h1>WeatherGrid V2 <span>Experimental</span></h1>
+      <p>獨立實驗頁 · 不修改正式 WeatherGrid · viewport-driven fetch</p>
+    </div>
+    <div id="status" class="status">初始化…</div>
+  </header>
+  <main>
+    <section class="toolbar">
+      <label>模型
+        <select id="provider">
+          <option value="auto">Auto · JMA endpoint 優先 / NCEP fallback</option>
+          <option value="jma">JMA endpoint · 實驗取樣</option>
+          <option value="gfs">NCEP endpoint · 實驗取樣</option>
+        </select>
+      </label>
+      <label>圖層
+        <select id="layer">
+          <option value="cloud_cover_low">低雲</option>
+          <option value="cloud_cover_mid">中雲</option>
+          <option value="cloud_cover_high">高雲</option>
+          <option value="visibility">能見度</option>
+          <option value="precipitation">降水</option>
+          <option value="wind_speed_10m">10m 風速</option>
+        </select>
+      </label>
+      <div class="preset-group" aria-label="快速測試區域">
+        <button type="button" data-preset="tw">台灣</button>
+        <button type="button" data-preset="jp">日本</button>
+        <button type="button" data-preset="us">美國西部</button>
+      </div>
+      <button id="refresh" type="button">重新補抓</button>
+    </section>
+    <section class="map-shell">
+      <div id="map"></div>
+      <canvas id="overlay"></canvas>
+      <div id="legend" class="legend">低雲 · % · sampled viewport prototype</div>
+      <div class="debug">
+        <strong>V2 viewport loader</strong>
+        <div id="resolved-provider">resolved —</div>
+        <div id="source">source —</div>
+        <div id="time">valid time —</div>
+        <div id="viewport">viewport —</div>
+        <div id="coverage">loaded coverage —</div>
+        <div id="prefetch">prefetch —</div>
+        <div id="cache">request cache —</div>
+        <div class="note">
+          移動或縮放後，V2 會以目前 viewport 外擴的 prefetch ring 重新取樣並快取。
+          Auto 目前以地理範圍選擇 Open-Meteo 的 JMA 或 NCEP endpoint；endpoint 的 Best Match 可能依位置選不同模型，因此此頁不宣稱每一格必定是 MSM、GFS 或 HRRR。
+          這是瀏覽器端 API 粗網格 prototype，用來驗證「地圖移到哪、資料補到哪」的互動與成本，不代表模型原生解析度被提高。
+        </div>
+      </div>
+    </section>
+  </main>
+  <script type="module" src="./assets/weather-map-v2.js?v=exp2"></script>
+</body>
+</html>

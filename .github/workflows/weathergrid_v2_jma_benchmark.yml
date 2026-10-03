@@ -1,0 +1,74 @@
+name: WeatherGrid V2 JMA Cell Benchmark
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/weathergrid_v2_jma_benchmark.yml"
+      - "weathergrid_native_viewport.py"
+      - "weathergrid_viewport_fetch.py"
+      - "jma_msm_aws_om.py"
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Install JMA adapter dependencies
+        run: python -m pip install requests numpy "omfiles>=1.2,<2" fsspec s3fs
+      - name: Fetch one native JMA MSM viewport cell
+        env:
+          BBOX: "138,34,140,36"
+          HOURS: "2"
+        run: |
+          /usr/bin/time -v python weathergrid_native_viewport.py \
+            --provider jma \
+            --bbox "$BBOX" \
+            --prefetch-fraction 0 \
+            --forecast-hour "$((HOURS-1))" \
+            --execute-jma \
+            --output /tmp/jma-cell.json \
+            2> /tmp/time.txt
+          python - <<'PY'
+          import json, os
+          p="/tmp/jma-cell.json"
+          d=json.load(open(p))
+          snap=d["snapshot"]
+          grid=snap["grid"]
+          frames=snap["frames"]
+          fields=list(frames[0]["values"]) if frames else []
+          summary={
+            "bytes":os.path.getsize(p),
+            "mib":round(os.path.getsize(p)/1048576,3),
+            "rows":grid["rows"],"cols":grid["cols"],
+            "fields":fields,
+            "frames_requested":int(os.environ["HOURS"]),
+            "frames_returned":len(frames),
+            "bbox":d["request"]["plan"]["fetch_bbox"],
+            "cache_key":d["request"]["plan"]["cache_key"],
+          }
+          print(json.dumps(summary,indent=2))
+          json.dump(summary,open("/tmp/summary.json","w"),indent=2)
+          from weathergrid_v2_tile_export import write_frame_tile
+          tile_path="/tmp/jma-valid-time-tile.json"
+          write_frame_tile(snap,tile_path,0)
+          tile_bytes=os.path.getsize(tile_path)
+          print(json.dumps({"valid_time_tile_bytes":tile_bytes,"valid_time_tile_mib":round(tile_bytes/1048576,3)},indent=2))
+          PY
+          cat /tmp/time.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: weathergrid-v2-jma-cell-benchmark
+          path: |
+            /tmp/summary.json
+            /tmp/time.txt
+            /tmp/jma-valid-time-tile.json
+          retention-days: 3
+          if-no-files-found: warn
