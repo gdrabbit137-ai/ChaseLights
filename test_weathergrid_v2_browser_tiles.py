@@ -15,6 +15,9 @@ class BrowserTileLoaderContract(unittest.TestCase):
         self.assertIn("Promise.allSettled", s)
         self.assertIn("cell.providers?.[provider]", s)
         self.assertIn("published_cell_ids", s)
+        self.assertIn("loadedCoverage", s)
+        self.assertIn("coverage: loadedCoverage(loaded, provider)", s)
+        self.assertIn("complete: loaded.length === cells.length && failed.length === 0", s)
 
     def test_loader_uses_manifest_time_and_canonical_token(self):
         s = Path("assets/weather-map-v2-tile-loader.js").read_text()
@@ -42,6 +45,9 @@ class BrowserTileLoaderContract(unittest.TestCase):
         self.assertIn("regionForView(currentView)", s)
         self.assertIn("native-tile", s)
         self.assertIn("JMA MSM native tiles", s)
+        self.assertIn("coverage:result.coverage || coverage", s)
+        self.assertIn("if(result.complete) cachePut", s)
+        self.assertIn("native-tile-partial", s)
         self.assertIn("addEventListener('change', () => schedule(true))", s)
 
 
