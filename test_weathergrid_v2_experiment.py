@@ -60,6 +60,12 @@ class WeatherGridV2ExperimentTest(unittest.TestCase):
         self.assertIn('value="jma"', html)
         self.assertIn('value="gfs"', html)
 
+    def test_smoke_hook_is_query_gated_and_uses_real_region_resolver(self):
+        js = (ROOT / "assets/weather-map-v2.js").read_text(encoding="utf-8")
+        self.assertIn("new URLSearchParams(window.location.search).has('smoke')", js)
+        self.assertIn("window.__weatherGridV2Smoke", js)
+        self.assertIn("return regionForView(view())", js)
+
     def test_photography_layers_are_available(self):
         html = (ROOT / "weather-map-v2.html").read_text(encoding="utf-8")
         for field in (
