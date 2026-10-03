@@ -43,7 +43,9 @@ jobs:
         with:
           python-version: "3.10"
       - name: Static V2 contract
-        run: python test_weathergrid_v2_experiment.py
+        run: |
+          python -m py_compile weathergrid_v2_public_smoke.py
+          python test_weathergrid_v2_experiment.py
       - name: Native viewport contract
         run: python -m unittest -v test_weathergrid_viewport_fetch.py
       - name: Static regional cache contract
