@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>ChaseLights WeatherGrid V2 Experimental</title>
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-gl.css">
+  <link rel="stylesheet" href="./assets/weather-map-v2.css?v=exp1">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <a href="./weather-map.html">← 正式 WeatherGrid</a>
+      <h1>WeatherGrid V2 <span>Experimental</span></h1>
+      <p>獨立實驗頁 · 不修改正式 WeatherGrid</p>
+    </div>
+    <div id="status" class="status">初始化…</div>
+  </header>
+  <main>
+    <section class="toolbar">
+      <label>資料來源
+        <select id="provider">
+          <option value="gfs">GFS · 台灣現有資料</option>
+          <option value="jma">JMA MSM · 台灣現有資料</option>
+          <option value="cwa">CWA WRF · 台灣現有資料</option>
+          <option value="icon">ICON · 台灣現有資料</option>
+        </select>
+      </label>
+      <label>圖層 <select id="layer"></select></label>
+      <button id="home" type="button">回資料範圍</button>
+    </section>
+    <section class="map-shell">
+      <div id="map"></div>
+      <canvas id="overlay"></canvas>
+      <div class="debug">
+        <strong>V2 viewport loader</strong>
+        <div id="viewport">viewport —</div>
+        <div id="coverage">loaded coverage —</div>
+        <div id="prefetch">prefetch —</div>
+        <div id="cache">cache —</div>
+        <div class="note">目前 Phase 1 先驗證平移 / 預抓 / cache 行為；現有靜態 browser bundle 無法憑空提供 bbox 外資料，缺資料區會明確標示，下一階段接動態 provider endpoint。</div>
+      </div>
+    </section>
+  </main>
+  <script type="module" src="./assets/weather-map-v2.js?v=exp1"></script>
+</body>
+</html>
