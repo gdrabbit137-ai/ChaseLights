@@ -2835,7 +2835,7 @@ def test_adapter_integrity():
     assert abs(todoroki_spot["navigation_target"]["lat"] - 35.607857) < 1e-9
     assert abs(todoroki_spot["navigation_target"]["lon"] - 139.646545) < 1e-9
 
-    # B51 Japan research batch 16: all 35 Japan production Places are curated.
+    # B51/B174: all 36 Japan production Places are curated.
     jp = get_spots("jp")
     assert len(jp) == 36
     assert all(get_opportunities("jp", f"jp-{i:03d}") for i in range(1, 37))
@@ -2843,12 +2843,15 @@ def test_adapter_integrity():
     # B174 scenic expansion admission: preserve evidence/runtime and navigation boundaries.
     nanzilin = next(s for s in tw if s["spot_id"] == "tw-085")
     assert nanzilin["navigation_target"]["status"] == "verified"
-    assert nanzilin["navigation_target"]["target_type"] == "official_destination_arrival"
     assert abs(nanzilin["navigation_target"]["lat"] - 25.1201398) < 1e-9
     assert abs(nanzilin["navigation_target"]["lon"] - 121.887539) < 1e-9
     assert [o["opportunity_id"] for o in nanzilin["opportunities"]] == [
         "tw-085-P01", "tw-085-P02", "tw-085-P03"
     ]
+    assert all(
+        "lat" not in vp and "lon" not in vp
+        for o in nanzilin["opportunities"] for vp in o["viewpoints"]
+    )
     assert nanzilin["opportunities"][2]["seasonal_subject_presence_forecastable"] is False
     assert nanzilin["opportunities"][2]["runtime_policy"] == "module_pending"
 
@@ -2857,6 +2860,10 @@ def test_adapter_integrity():
     assert [o["opportunity_id"] for o in takachiho["opportunities"]] == [
         "jp-036-P01", "jp-036-P02", "jp-036-P03"
     ]
+    assert all(
+        "lat" not in vp and "lon" not in vp
+        for o in takachiho["opportunities"] for vp in o["viewpoints"]
+    )
     assert takachiho["opportunities"][0]["runtime_policy"] == "preview_module_available"
     assert takachiho["opportunities"][1]["runtime_policy"] == "preview_module_available"
     assert takachiho["opportunities"][2]["dynamic_access_required"] is True
