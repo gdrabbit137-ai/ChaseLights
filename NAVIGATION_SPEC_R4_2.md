@@ -221,3 +221,10 @@ Validation outcomes MUST preserve the existing Navigation Target status semantic
 A legacy coordinate audit SHOULD apply the same checks to existing Places in batches. Suspected cases where a photographed subject, generic Place anchor, or Camera Zone is currently presented as a verified Navigation Target MUST be re-researched and corrected.
 
 CI/schema checks SHOULD enforce all machine-testable invariants. Evidence-dependent geographic/semantic review remains a research gate even when it cannot be fully automated.
+
+
+## Field Intake observation-association boundary
+
+Production Field Intake may use photograph GPS and researched Camera Zones to rank candidate Places, but that operation is only an observation-to-Place association. A candidate match, nearest Camera Zone, or confirmed observation association MUST NOT create, replace, verify, or mutate a Camera Zone, Photo Target / Subject, or Navigation Target.
+
+The detailed photographer-facing matcher, unmatched-state, provenance, EXIF, localization, and review requirements are governed by `RESEARCH_EVIDENCE_SPEC_R4_2.md` §14. This specification continues to own Navigation Target semantics.
