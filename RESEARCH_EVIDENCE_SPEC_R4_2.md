@@ -153,6 +153,24 @@ Example:
 - Allowed: "Low visibility and high humidity match the researched morning-mist window."
 - Not allowed: "Morning mist is present" unless an observation source confirms it.
 
+## 7.1 Independent evidence dimensions and user-facing status
+
+A Photography Opportunity has multiple evidence dimensions. They MUST remain semantically independent:
+
+1. **Opportunity existence** — whether Place-specific evidence establishes that the subject / scene / composition can actually be photographed at this Place.
+2. **Seasonality** — whether evidence establishes a recurring best or applicable season.
+3. **Formation / environmental conditions** — whether the conditions that produce the subject are known and evidence-supported.
+4. **Forecastability / runtime readiness** — whether ChaseLights currently has sufficient provider data and executable logic to predict those conditions.
+5. **Scoring calibration** — whether thresholds, weights and score interpretation are sufficiently validated.
+
+A verified value in one dimension MUST NOT be downgraded or contradicted merely because another dimension is unknown, provisional, pending research, or not forecastable. In particular, unknown/provisional seasonality, formation conditions, forecastability, runtime readiness, or scoring parameters MUST NOT turn a separately verified Opportunity-existence claim into an unverified claim.
+
+Conversely, a verified Opportunity-existence claim MUST NOT be used to invent a best season, formation rule, forecast capability, or calibrated score. Unknown remains unknown at the owning dimension.
+
+Canonical data, evidence registries, runtime adapters, generated output and UI copy MUST preserve this separation. Generic labels such as `待氣候驗證` / "climate verification pending" MUST NOT be used where they make it ambiguous whether the Opportunity itself is unverified. User-facing copy SHOULD identify the unresolved dimension explicitly, for example `最佳季節尚無足夠證據`, `形成條件研究中`, or `目前無可靠預報能力`.
+
+When the evidence registry says Opportunity existence is `verified`, CI/audit SHOULD reject canonical or derived user-facing status that semantically represents that same Opportunity as existence-unverified solely because seasonality, formation, forecastability, runtime readiness, or scoring is incomplete. Fix the conflict at the owning source-of-truth layer rather than hiding it in the UI.
+
 ## 8. Admission checklist
 
 Before adding a new Opportunity:
