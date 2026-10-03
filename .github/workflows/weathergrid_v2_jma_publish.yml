@@ -80,15 +80,18 @@ jobs:
 
           tokens = [x["token"] for x in run["valid_times"]]
           assert tokens, "no V2 JMA valid times"
-          cells = [
-              c for c in index["regions"]["tw"]["cells"]
+          cells_by_id = {
+              c["id"]: c for c in index["regions"]["tw"]["cells"]
               if "jma" in c["providers"]
-          ]
-          assert cells, "no Taiwan JMA cells"
+          }
+          published_ids = run.get("published_cell_ids") or []
+          assert published_ids, "no published Taiwan JMA cells"
+          assert run.get("published_regions") == ["tw"], run.get("published_regions")
 
-          for cell in cells:
+          for cell_id in published_ids:
+              assert cell_id in cells_by_id, cell_id
               token = tokens[0]
-              tile_path = root / "jma/current" / token / f"{cell['id']}.json"
+              tile_path = root / "jma/current" / token / f"{cell_id}.json"
               assert tile_path.exists(), tile_path
               tile = json.loads(tile_path.read_text())
               assert tile["provider"] == "jma"
@@ -99,7 +102,7 @@ jobs:
           print(json.dumps({
               "reference_time_utc": run["reference_time_utc"],
               "valid_times": len(tokens),
-              "taiwan_cells": len(cells),
+              "taiwan_cells": len(published_ids),
               "first_token": tokens[0],
           }, indent=2))
           PY
