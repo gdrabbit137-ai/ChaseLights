@@ -10,6 +10,8 @@ on:
       - "test_weathergrid_viewport_fetch.py"
       - "weathergrid_viewport_fetch.py"
       - "weathergrid_native_viewport.py"
+      - "weathergrid_v2_cache_index.py"
+      - "test_weathergrid_v2_cache_index.py"
       - ".github/workflows/weathergrid_v2_experiment.yml"
   workflow_dispatch:
 
@@ -25,6 +27,11 @@ jobs:
         run: python test_weathergrid_v2_experiment.py
       - name: Native viewport contract
         run: python -m unittest -v test_weathergrid_viewport_fetch.py
+      - name: Static regional cache contract
+        run: |
+          python -m unittest -v test_weathergrid_v2_cache_index.py
+          python weathergrid_v2_cache_index.py --output /tmp/weathergrid-v2-index.json
+          python -c "import json; d=json.load(open(\'/tmp/weathergrid-v2-index.json\')); assert d[\'regions\'][\'jp\'][\'cells\']"
       - name: Static site smoke
         run: |
           python -m http.server 8000 >/tmp/weathergrid-v2-http.log 2>&1 &
