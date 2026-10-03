@@ -126,6 +126,46 @@ export function loadedCoverage(loaded, provider) {
   };
 }
 
+export function coverageContainsViewport(loaded, provider, viewport) {
+  if (!viewport || !(viewport.w < viewport.e) || !(viewport.s < viewport.n)) return false;
+  const boxes = loaded.map((item) =>
+    item.cell.providers?.[provider]?.coverage_bbox || item.cell.bbox
+  ).filter(Boolean).map((b) => ({
+    w: Math.max(viewport.w, b.west),
+    s: Math.max(viewport.s, b.south),
+    e: Math.min(viewport.e, b.east),
+    n: Math.min(viewport.n, b.north),
+  })).filter((b) => b.w < b.e && b.s < b.n);
+  if (!boxes.length) return false;
+
+  const xs = [...new Set([
+    viewport.w,
+    viewport.e,
+    ...boxes.flatMap((b) => [b.w, b.e]),
+  ])].sort((a, b) => a - b);
+  const epsilon = 1e-9;
+
+  for (let i = 0; i < xs.length - 1; i += 1) {
+    const left = xs[i];
+    const right = xs[i + 1];
+    if (right - left <= epsilon) continue;
+    const x = (left + right) / 2;
+    const intervals = boxes
+      .filter((b) => b.w <= x && b.e >= x)
+      .map((b) => [b.s, b.n])
+      .sort((a, b) => a[0] - b[0]);
+
+    let coveredNorth = viewport.s;
+    for (const [south, north] of intervals) {
+      if (south > coveredNorth + epsilon) return false;
+      coveredNorth = Math.max(coveredNorth, north);
+      if (coveredNorth >= viewport.n - epsilon) break;
+    }
+    if (coveredNorth < viewport.n - epsilon) return false;
+  }
+  return true;
+}
+
 export async function loadViewportTiles(index, region, viewport, provider, validTime, fetchImpl = fetch) {
   const cells = cellsForViewport(index, region, viewport, provider);
   const settled = await Promise.allSettled(cells.map(async (cell) => {
@@ -135,12 +175,17 @@ export async function loadViewportTiles(index, region, viewport, provider, valid
   }));
   const loaded = settled.filter((x) => x.status === 'fulfilled').map((x) => x.value);
   const failed = settled.filter((x) => x.status === 'rejected').map((x) => String(x.reason));
+  const coverage = loadedCoverage(loaded, provider);
+  const coversViewport = coverageContainsViewport(loaded, provider, viewport);
   return {
     cells,
     loaded,
     failed,
-    coverage: loadedCoverage(loaded, provider),
-    complete: loaded.length === cells.length && failed.length === 0,
+    coverage,
+    complete: cells.length > 0
+      && loaded.length === cells.length
+      && failed.length === 0
+      && coversViewport,
     samples: dedupeSamples(loaded.flatMap((x) => x.samples)),
   };
 }
