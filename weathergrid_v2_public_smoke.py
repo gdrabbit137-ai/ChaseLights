@@ -15,6 +15,11 @@ def driver():
     o.set_capability("goog:loggingPrefs", {"browser":"ALL"})
     return webdriver.Chrome(options=o)
 
+def viewport_center(text):
+    values=[float(v.strip()) for v in text.split(":",1)[1].split(",")]
+    west,south,east,north=values
+    return ((west+east)/2,(south+north)/2)
+
 def run(url, screenshot):
     d=driver(); wait=WebDriverWait(d,60)
     try:
@@ -96,6 +101,10 @@ def run(url, screenshot):
           "coverage":d.find_element(By.ID,"coverage").text,
         }
         assert "NCEP Best Match" in alaska["source"], alaska
+        alaska_lon,alaska_lat=viewport_center(alaska["viewport"])
+        assert -170 <= alaska_lon <= -129 and 51 <= alaska_lat <= 72, alaska
+        assert "samples" in alaska["status"], alaska
+        assert "loaded coverage" in alaska["coverage"], alaska
 
         screenshot.parent.mkdir(parents=True,exist_ok=True)
         d.save_screenshot(str(screenshot))
