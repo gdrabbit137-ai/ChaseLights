@@ -63,6 +63,9 @@ class PublishTest(unittest.TestCase):
                 "2026-10-03T00:00:00Z",
             )
             cell_id = summary["published_cells"][0]["cell_id"]
+            self.assertEqual(manifest["published_regions"], ["tw"])
+            self.assertEqual(manifest["published_cell_ids"], [cell_id])
+            self.assertEqual(index["provider_runs"]["jma"]["published_cell_ids"], [cell_id])
             tile = json.loads(
                 (root / "jma/current/20261003T0100Z" / f"{cell_id}.json").read_text()
             )
