@@ -27,17 +27,24 @@ export function providerSupportsField(index, provider, field) {
   return !!(run && Array.isArray(run.supported_fields) && run.supported_fields.includes(field));
 }
 
+function utcTimeMs(value) {
+  if (value instanceof Date) return value.getTime();
+  const raw = String(value);
+  const normalized = /(?:Z|[+-]\\d\\d:\\d\\d)$/.test(raw) ? raw : raw + 'Z';
+  return new Date(normalized).getTime();
+}
+
 export function nearestValidTime(index, provider, target = new Date()) {
   const run = providerRun(index, provider);
   const entries = run?.valid_times || [];
   if (!entries.length) return run?.default_valid_time_utc || null;
-  const targetMs = target instanceof Date ? target.getTime() : new Date(target).getTime();
+  const targetMs = utcTimeMs(target);
   let best = null;
   let distance = Infinity;
   for (const entry of entries) {
     const value = typeof entry === 'string' ? entry : entry.valid_time_utc;
     if (!value) continue;
-    const ms = new Date(value).getTime();
+    const ms = utcTimeMs(value);
     if (Number.isNaN(ms)) continue;
     const d = Math.abs(ms - targetMs);
     if (d < distance) {
