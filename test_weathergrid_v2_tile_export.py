@@ -79,9 +79,14 @@ class TileExportTest(unittest.TestCase):
             self.assertEqual(json.loads(p.read_text())["provider"], "jma")
 
     def test_run_manifest_advertises_valid_times_and_supported_fields(self):
-        m = run_manifest(self.sample())
+        m = run_manifest(
+            self.sample(),
+            target_time_utc="2026-10-03T01:40:00Z",
+        )
         self.assertEqual(m["reference_time_utc"], "2026-10-03T00:00:00Z")
-        self.assertEqual(m["default_valid_time_utc"], "2026-10-03T01:00:00Z")
+        self.assertEqual(m["default_valid_time_utc"], "2026-10-03T02:00:00Z")
+        self.assertEqual(m["nearest_valid_time_utc"], "2026-10-03T02:00:00Z")
+        self.assertEqual(m["nearest_valid_time_token"], "20261003T0200Z")
         self.assertEqual(
             [x["token"] for x in m["valid_times"]],
             ["20261003T0100Z", "20261003T0200Z"],

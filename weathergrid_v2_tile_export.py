@@ -75,8 +75,12 @@ def frame_to_tile(snapshot: dict, frame_index: int = 0) -> dict:
     }
 
 
-def run_manifest(snapshot: dict) -> dict:
-    """Describe one published native JMA run for browser first-load selection."""
+def run_manifest(
+    snapshot: dict,
+    *,
+    target_time_utc: str | datetime | None = None,
+) -> dict:
+    """Describe one native run and the valid time nearest publication time."""
     frames = snapshot.get("frames") or []
     if not frames:
         raise ValueError("snapshot has no frames")
@@ -96,12 +100,28 @@ def run_manifest(snapshot: dict) -> dict:
             if source in BROWSER_FIELD_MAP
         }
     )
+    if target_time_utc is None:
+        target = datetime.now(timezone.utc)
+    elif isinstance(target_time_utc, datetime):
+        if target_time_utc.tzinfo is None:
+            raise ValueError("target_time_utc datetime must be timezone-aware")
+        target = target_time_utc.astimezone(timezone.utc)
+    else:
+        target = _parse_utc(target_time_utc)
+    nearest = min(
+        entries,
+        key=lambda entry: abs(
+            (_parse_utc(entry["valid_time_utc"]) - target).total_seconds()
+        ),
+    )
     return {
         "schema_version": 1,
         "provider": "jma",
         "model": "JMA_MSM",
         "reference_time_utc": snapshot["reference_time_utc"],
-        "default_valid_time_utc": entries[0]["valid_time_utc"],
+        "default_valid_time_utc": nearest["valid_time_utc"],
+        "nearest_valid_time_utc": nearest["valid_time_utc"],
+        "nearest_valid_time_token": nearest["token"],
         "valid_times": entries,
         "supported_fields": fields,
     }
@@ -118,8 +138,13 @@ def write_frame_tile(snapshot: dict, output: str | Path, frame_index: int = 0) -
     return tile
 
 
-def write_run_manifest(snapshot: dict, output: str | Path) -> dict:
-    manifest = run_manifest(snapshot)
+def write_run_manifest(
+    snapshot: dict,
+    output: str | Path,
+    *,
+    target_time_utc: str | datetime | None = None,
+) -> dict:
+    manifest = run_manifest(snapshot, target_time_utc=target_time_utc)
     p = Path(output)
     p.parent.mkdir(parents=True, exist_ok=True)
     p.write_text(

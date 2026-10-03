@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import json
+from datetime import datetime, timezone
 from pathlib import Path
 
 from weathergrid_v2_cache_index import build_index, write_index
@@ -33,6 +34,7 @@ def _adapter_bbox(provider_spec: dict) -> dict[str, float]:
 def _manifest_signature(manifest: dict) -> tuple:
     return (
         manifest["reference_time_utc"],
+        manifest["nearest_valid_time_token"],
         tuple(x["token"] for x in manifest["valid_times"]),
         tuple(manifest["supported_fields"]),
     )
@@ -42,10 +44,11 @@ def publish_jma_regions(
     regions: list[str],
     output_root: str | Path,
     *,
-    forecast_hours: int = 6,
+    forecast_hours: int = 12,
     metadata: dict | None = None,
     fetcher=None,
     max_cells: int | None = None,
+    selection_time_utc: str | datetime | None = None,
 ) -> dict:
     if forecast_hours < 1:
         raise ValueError("forecast_hours must be >= 1")
@@ -62,6 +65,8 @@ def publish_jma_regions(
     elif metadata is None:
         raise ValueError("metadata is required when a custom fetcher is supplied")
     run_metadata = metadata
+    if selection_time_utc is None:
+        selection_time_utc = datetime.now(timezone.utc)
     root = Path(output_root)
     first_snapshot = None
     provider_manifest = None
@@ -84,7 +89,7 @@ def publish_jma_regions(
             forecast_hours=forecast_hours,
             metadata=run_metadata,
         )
-        manifest = run_manifest(snapshot)
+        manifest = run_manifest(snapshot, target_time_utc=selection_time_utc)
         if provider_manifest is None:
             provider_manifest = manifest
             first_snapshot = snapshot
@@ -119,6 +124,7 @@ def publish_jma_regions(
         "model": "JMA_MSM",
         "regions": regions,
         "reference_time_utc": provider_manifest["reference_time_utc"],
+        "nearest_valid_time_utc": provider_manifest["nearest_valid_time_utc"],
         "valid_times": len(provider_manifest["valid_times"]),
         "cells": len(published_cells),
         "tiles": tile_count,
@@ -135,7 +141,7 @@ def main() -> None:
         choices=("tw", "jp"),
         help="Region to publish; repeat for multiple regions. Defaults to tw.",
     )
-    parser.add_argument("--forecast-hours", type=int, default=6)
+    parser.add_argument("--forecast-hours", type=int, default=12)
     parser.add_argument("--output-root", default="weathergrid/v2")
     parser.add_argument("--max-cells", type=int)
     args = parser.parse_args()
