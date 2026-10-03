@@ -20,6 +20,7 @@ class BrowserTileLoaderContract(unittest.TestCase):
         self.assertIn("nearestValidTime", s)
         self.assertIn("providerSupportsField", s)
         self.assertIn("validTimeToken", s)
+        self.assertIn("utcTimeMs", s)
         self.assertIn("toISOString().slice(0, 16)", s)
 
     def test_loader_dedupes_shared_tile_boundaries(self):
@@ -35,6 +36,7 @@ class BrowserTileLoaderContract(unittest.TestCase):
         self.assertIn("regionForView(currentView)", s)
         self.assertIn("native-tile", s)
         self.assertIn("JMA MSM native tiles", s)
+        self.assertIn("addEventListener('change', () => schedule(true))", s)
 
 
 if __name__ == "__main__":
