@@ -158,7 +158,7 @@ OFFICIAL_SOURCE_HINTS = {
         "authority": "Takachiho Tourism Association",
         "source_kind": "takachiho_gorge_rental_boat_daily_operation",
         "url": "https://takachiho-kanko.info/boat/",
-        "verified_on": "2026-10-02",
+        "verified_on": "2026-10-03",
         "note": "The official operator publishes rental-boat operating state and notices. Weather alone must never imply the boat route is operating; provider integration remains pending and therefore fails closed.",
     },
     "us-070": {
