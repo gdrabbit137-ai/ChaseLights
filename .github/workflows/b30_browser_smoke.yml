@@ -1071,11 +1071,10 @@ jobs:
               assert parse_qs(hagi_url.query).get("destination") == ["34.4119363,131.3932271"], hagi_href
               assert "菊屋" not in hagi_href
 
-              pending_jp_cards = [c for c in jp_cards if not any(name in c.text for name in researched_names)]
+              # expected_jp_ids == researched_jp_ids above proves the active Japan
+              # catalog is fully Opportunity-migrated; there are no pending cards.
+              pending_jp_cards = []
               assert len(pending_jp_cards) == 0
-              pending_jp_scores = [c.find_element(By.CSS_SELECTOR, ".score-badge").text.strip() for c in pending_jp_cards]
-              assert all(x in {"", "—"} for x in pending_jp_scores), pending_jp_scores[:20]
-              assert all("攝影研究待補" in c.text for c in pending_jp_cards), "non-migrated Japan card leaked legacy scoring"
 
               driver.execute_script("document.getElementById('spots-container').innerHTML = ''")
               Select(driver.find_element(By.ID, "country-select")).select_by_value("us")
