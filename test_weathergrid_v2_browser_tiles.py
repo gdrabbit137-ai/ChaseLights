@@ -13,5 +13,10 @@ class BrowserTileLoaderContract(unittest.TestCase):
   self.assertIn("loadViewportTiles",s)
   self.assertIn("Promise.allSettled",s)
   self.assertIn("cell.providers?.[provider]",s)
+ def test_v2_page_prefers_native_jma_tiles(self):
+  s=Path("assets/weather-map-v2.js").read_text()
+  self.assertIn("tryNativeJma",s)
+  self.assertIn("native-tile",s)
+  self.assertIn("JMA MSM native tiles",s)
 
 if __name__=="__main__": unittest.main()
