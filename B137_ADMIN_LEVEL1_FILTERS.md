@@ -18,7 +18,7 @@ The old Japan macro regions (for example 関東/中部) and U.S. macro regions (
 4. The United States is grouped by Northeast, Midwest, South, and West.
 5. The actual selected values are prefectures/states, not the visual macro groups.
 6. Japan and U.S. pickers include search because 47/51 first-level areas are too many for a flat picker.
-7. Areas with zero current ChaseLights Places stay visible but disabled, so the administrative model is stable as catalog coverage grows.
+7. The complete first-level administrative model remains stable as catalog coverage grows, but the picker hides zero-Place areas by default. An explicit “show uncovered areas” control reveals them as disabled entries.
 8. Multi-jurisdiction Places match when any selected administrative area intersects their `admin_areas` list.
 9. Place cards show the first-level administrative area when available instead of the legacy macro-region label.
 
