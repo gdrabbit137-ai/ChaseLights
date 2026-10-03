@@ -4,6 +4,7 @@ import argparse, json, time
 from pathlib import Path
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.ui import Select, WebDriverWait
 from selenium.common.exceptions import TimeoutException
 
@@ -59,10 +60,45 @@ def run(url, screenshot):
         }
         assert "NCEP Best Match" in us["source"], us
         assert initial["viewport"] != us["viewport"], (initial,us)
+
+        # Move again inside CONUS. A real drag must change the viewport and the
+        # loader must refill/cover the new view instead of treating the preset
+        # response as a fixed western-U.S. product.
+        map_el=d.find_element(By.ID,"map")
+        conus_before=d.find_element(By.ID,"viewport").text
+        coverage_before=d.find_element(By.ID,"coverage").text
+        ActionChains(d).move_to_element(map_el).drag_and_drop_by_offset(map_el,-360,0).perform()
+        wait.until(lambda x: x.find_element(By.ID,"viewport").text != conus_before)
+        wait.until(lambda x: "資料已就緒" in x.find_element(By.ID,"status").text)
+        conus_after={
+          "status":d.find_element(By.ID,"status").text,
+          "source":d.find_element(By.ID,"source").text,
+          "viewport":d.find_element(By.ID,"viewport").text,
+          "coverage":d.find_element(By.ID,"coverage").text,
+        }
+        assert "NCEP Best Match" in conus_after["source"], conus_after
+        assert conus_after["viewport"] != conus_before, conus_after
+        assert conus_after["coverage"] != coverage_before, (us,conus_after)
+
+        # Alaska has its own geographic resolver. Jump there by dragging from
+        # the CONUS view and require the same safe NCEP refill contract.
+        # This is deliberately a browser interaction rather than a unit-only
+        # regionForView assertion.
+        ActionChains(d).move_to_element(map_el).drag_and_drop_by_offset(map_el,520,210).perform()
+        wait.until(lambda x: "資料已就緒" in x.find_element(By.ID,"status").text)
+        alaska={
+          "status":d.find_element(By.ID,"status").text,
+          "source":d.find_element(By.ID,"source").text,
+          "viewport":d.find_element(By.ID,"viewport").text,
+          "coverage":d.find_element(By.ID,"coverage").text,
+        }
+        assert "NCEP Best Match" in alaska["source"], alaska
+
         screenshot.parent.mkdir(parents=True,exist_ok=True)
         d.save_screenshot(str(screenshot))
         severe=[x for x in d.get_log("browser") if x.get("level")=="SEVERE"]
         return {"url":url,"initial":initial,"visibility_source":visibility_source,"us":us,
+                "conus_after_pan":conus_after,"alaska_after_pan":alaska,
                 "browser_severe_log_count":len(severe),"browser_severe_logs":severe[:10],
                 "screenshot":str(screenshot)}
     finally:
