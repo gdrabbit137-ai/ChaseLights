@@ -739,7 +739,7 @@
       "status": "verified",
       "grade": "A",
       "subject": "七星潭海岸星空／銀河帶",
-      "evidence_scope": "花蓮縣政府官方旅遊內容明確寫七星潭可欣賞星空銀河，並把七星潭列為賞星地點與天文旅遊內容。",
+      "evidence_scope": "花蓮縣政府官方旅遊內容明確寫七星潭可欣賞星空銀河，並把七星潭列為賞星地點與天文旅遊內容。後續官方資料又記錄 2025 年夏季七星潭週末星空導覽與銀河主題，同時既有官方冬季內容亦直接描述七星潭欣賞星空銀河；這些資料支持題材在不只單一季節成立，但不足以證明哪一季是 Place-specific 最佳季節。",
       "sources": [
         {
           "title": "花蓮縣政府－冬日活動：流星花蓮山海星光",
@@ -748,9 +748,13 @@
         {
           "title": "花蓮縣政府－七星潭海岸風景特定區",
           "url": "https://tour-hualien.hl.gov.tw/mobile/TourContent.aspx?n=575&s=1190&sms=12302"
+        },
+        {
+          "title": "花蓮縣政府－2025 流星花蓮暑期活動",
+          "url": "https://www.hl.gov.tw/News_Content.aspx?n=32725&s=180203"
         }
       ],
-      "forecast_boundary": "七星潭星空／銀河題材存在已驗證；月相、雲量、海岸安全與光害由 runtime 評估。"
+      "forecast_boundary": "七星潭星空／銀河題材存在已驗證；目前 Place-specific 官方證據同時涵蓋夏季與冬季，不能據單一活動月份推定最佳季節，因此 canonical best_season 應維持待驗證。月相、天文黑夜、銀河幾何、雲量、海岸安全與光害由 runtime／天文模組另行評估，不能反向補造 seasonality 研究結論。"
     },
     "tw-038-P02": {
       "status": "verified",

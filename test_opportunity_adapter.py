@@ -5148,3 +5148,12 @@ def test_hardhanling_cloud_sea_season_is_place_specific_and_runtime_independent(
     row = next(r for r in report["all_records"] if r["opportunity_id"] == "tw-008-P03")
     assert row["audit_status"] == "documented"
     assert row["evidence_grade"] == "A"
+
+
+def test_qixingtan_milky_way_existence_verified_but_best_season_unresolved():
+    ops = {o["opportunity_id"]: o for o in get_opportunities("tw", "tw-036")}
+    assert ops["tw-036-P02"]["best_season"] == "待驗證"
+    report = audit_opportunity_evidence.build_report()
+    row = next(r for r in report["all_records"] if r["opportunity_id"] == "tw-036-P02")
+    assert row["audit_status"] == "documented"
+    assert row["evidence_grade"] == "A"
