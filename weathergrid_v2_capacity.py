@@ -5,7 +5,7 @@ selected valid time.  Publication/storage may retain several valid times, but
 browser transfer estimates must not multiply by the whole forecast horizon.
 
 JMA calibration comes from the 2026-10-03 native benchmark: a 2°x2° cell
-(41 x 33 = 1,353 grid points, four cloud fields) exported to 26,392 bytes of
+(41 x 33 = 1,353 grid points, four cloud fields) exported to 26,504 bytes of
 compact JSON for one valid time.
 """
 from __future__ import annotations
@@ -18,7 +18,7 @@ PROVIDERS = {
     "gfs": {"dx": 0.25, "dy": 0.25, "fields": 7},
 }
 JMA_BENCHMARK_GRIDPOINTS = 41 * 33
-JMA_BENCHMARK_TILE_BYTES = 26392
+JMA_BENCHMARK_TILE_BYTES = 26504
 DEFAULT_REFRESH_BUDGET_MIB = 150.0
 DEFAULT_VIEWPORT_BUDGET_MIB = 1.0
 
