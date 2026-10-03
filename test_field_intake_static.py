@@ -15,9 +15,9 @@ class FieldIntakeStaticTest(unittest.TestCase):
     def test_local_first_contract(self):
         self.assertIn("field-observation-draft-r4.2-1", self.js)
         self.assertIn('"unreviewed"', self.js)
-        self.assertIn("image_bytes_uploaded: false", self.js)
+        self.assertRegex(self.js, r"image_bytes_uploaded\s*:\s*false")
         self.assertIn("withheld_from_export", self.js)
-        self.assertIn("public_photo: false", self.js)
+        self.assertRegex(self.js, r"public_photo\s*:\s*false")
         self.assertNotIn("FormData(", self.js)
         self.assertNotIn("XMLHttpRequest", self.js)
 
