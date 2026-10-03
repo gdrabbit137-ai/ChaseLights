@@ -366,7 +366,7 @@ REGIONS = {
             (23.93493, 121.50803, "鯉魚潭", "Liyu Lake · North Shore", "鯉魚潭・北岸", "鯉魚潭", "本島", ["lake", "mountain"]),
             (23.827018, 121.51548, "雲山水夢幻湖", "Yun Shan Shui Dream Lake", "雲山水夢幻湖", "雲山水夢幻湖", "本島", ["lake", "forest"]),
             (23.6143836, 121.4159714, "大農大富平地森林園區", "Danongdafu Forest Park", "大農大富平地森林園区", "大農大富平地森林園區", "本島", ["forest"]),
-            (25.1184, 121.8921, "南子吝步道", "Nanzilin Trail", "南子吝歩道", "南子吝步道", "本島", ["mountain", "coast"]),
+            (25.1201398, 121.887539, "南子吝步道", "Nanzilin Trail", "南子吝歩道", "南子吝步道", "本島", ["mountain", "coast"]),
         ],
     },
     "jp": {
@@ -409,7 +409,7 @@ REGIONS = {
             (33.4500, 129.9600, "唐津城", "Karatsu Castle", "唐津城", "唐津城", "九州/沖繩", ["city", "coast"]),
             (32.7500, 129.8700, "長崎哥拉巴園", "Glover Garden Nagasaki", "グラバー園", "グラバー園", "九州/沖繩", ["city", "coast"]),
             (33.5900, 130.3800, "福岡塔", "Fukuoka Tower", "福岡タワー", "福岡タワー", "九州/沖繩", ["city", "coast"]),
-            (32.7117, 131.3078, "高千穗峽", "Takachiho Gorge", "高千穂峡", "高千穂峡", "九州/沖繩", ["waterfall", "forest", "mountain"]),
+            (32.7016613, 131.3003766, "高千穗峽", "Takachiho Gorge", "高千穂峡", "高千穂峡", "九州/沖繩", ["waterfall", "forest", "mountain"]),
         ],
     },
     "us": {
@@ -2026,19 +2026,21 @@ DISPLAY_NAME_OVERRIDES = {
 # build a production Navigation URL.
 NAVIGATION_TARGET_OVERRIDES = {
     "南子吝步道": {
-        "status": "needs_review",
-        "target_type": "trailhead_or_parking",
+        "status": "verified",
+        "lat": 25.1201398,
+        "lon": 121.887539,
+        "target_type": "official_destination_arrival",
         "label_i18n": {
-            "zh-TW": "南子吝步道入口／停車到達點待查證",
-            "en": "Nanzilin Trail arrival / parking point pending verification",
-            "ja": "南子吝歩道の到着・駐車地点は確認待ち",
+            "zh-TW": "南子吝步道官方到達點",
+            "en": "Nanzilin Trail official arrival point",
+            "ja": "南子吝歩道 公式到着地点",
         },
-        "source": "New Taipei City Travel confirms trail and parking facilities but the exact practical arrival coordinate has not yet been independently verified; reviewed 2026-10-02",
-        "confidence": "medium",
+        "source": "New Taipei City Travel official How to Get There Google Maps destination (25.1201398, 121.887539); reviewed 2026-10-03",
+        "confidence": "high",
         "note_i18n": {
-            "zh-TW": "Camera Zone 位於步道山稜與觀景平台；目前不把代表性山稜座標當成道路導航終點。",
-            "en": "The Camera Zone is on the ridge/viewing-platform trail. The representative ridge coordinate is not promoted to a road-routing destination.",
-            "ja": "Camera Zone は稜線・展望台の歩道上です。代表座標を道路ナビの目的地には昇格しません。",
+            "zh-TW": "此點是官方旅遊頁提供的實際到達／步道入口導航點，不是山稜 Camera Zone；攝影機位仍沿合法步道與觀景平台選擇。",
+            "en": "This is the official tourism arrival/trail-access destination, not the ridge Camera Zone. Photography positions remain along the legal trail and viewing platform.",
+            "ja": "公式観光ページの到着・登山口ナビ地点であり、稜線のCamera Zoneではありません。撮影位置は合法な歩道・展望台内で選びます。",
         },
     },
     "高千穗峽": {

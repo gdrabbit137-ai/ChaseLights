@@ -7,7 +7,7 @@ This batch implements two production candidates only. Reviewed Photography Oppor
 - Official evidence: New Taipei City Travel explicitly describes the trail as a shutterbug location for sea sunrise, Keelung Mountain sunset, autumn/winter silvergrass, evening vehicle light trails and fishing lights; it also documents a 990 m trail, a 196 m viewing platform, 360-degree mountain/sea views, parking and trail facilities.
 - Source: https://newtaipei.travel/en/attractions/detail/403532 (reviewed 2026-10-02).
 - Opportunity work required: separate sunrise mountain-seascape, sunset toward Keelung Mountain, seasonal silvergrass, and evening light-trail variants. Do not infer silvergrass from weather alone.
-- Navigation work required: verify the practical public parking/trailhead independently from the summit Camera Zone.
+- Navigation verified: New Taipei City Travel’s official How to Get There link resolves to the public arrival/trail-access destination at `25.1201398, 121.887539`. This is not promoted to a ridge Camera Zone.
 
 ## jp-036 高千穂峡 / Takachiho Gorge
 - First-level admin area: 宮崎県.
@@ -15,7 +15,7 @@ This batch implements two production candidates only. Reviewed Photography Oppor
 - Sources: https://takachiho-kanko.info/sightseeing/18/ and https://takachiho-kanko.info/boat/ (reviewed 2026-10-02).
 - Dynamic-access evidence: the official association publishes daily boat operating state and current shuttle / construction notices. Boat operation must therefore remain dynamic and must not be inferred from ordinary weather.
 - Opportunity work required: Manai Falls + gorge from walking-path viewpoint; boat-based falls composition as a separate access-gated variant; Three Bridges / columnar-joint composition.
-- Navigation work required: distinguish Camera Zone from parking; do not route cars to the gorge/boat coordinate.
+- Navigation remains `multiple_access_routes`. The official tourism page links multiple named parking areas; its #1 Oshioi Parking link resolves to `32.7016613, 131.3003766`, which is used only as the Place/weather anchor, not as a universal Directions target or Camera Zone.
 
 ## Guardrails
 - Evidence proves photographic subjects, not forecast success.
@@ -57,6 +57,6 @@ Sunrise Point is now covered by merged PR #323 as `us-083` and is intentionally 
 
 
 ## Production implementation status
-- `tw-085` Nanzilin Trail: admitted with three researched Opportunities (sunrise seascape, Keelung Mountain sunset, autumn/winter silvergrass). Silvergrass presence remains non-forecastable; navigation remains `needs_review` until an exact practical trailhead/parking arrival coordinate is independently verified.
+- `tw-085` Nanzilin Trail: admitted with three researched Opportunities (sunrise seascape, Keelung Mountain sunset, autumn/winter silvergrass). Silvergrass presence remains non-forecastable; navigation is `verified` at the official tourism arrival point `25.1201398, 121.887539`; exact ridge Camera Zone coordinates remain intentionally unfilled rather than guessed.
 - `jp-036` Takachiho Gorge: admitted with three researched Opportunities (Manai Falls + gorge, Three Bridges, boat-level Manai Falls). Boat photography is fail-closed on official operating state; navigation remains `multiple_access_routes` because walking, parking and boat access differ.
 - Washington duplicates were removed after PR #323: Reflection Lakes is `us-082`; Sunrise/Sunrise Point is `us-083`.
