@@ -20,7 +20,7 @@ import math
 SPATIAL_WEATHER_VERSION = "spatial-weather-r8-qingshui-negative-evidence"
 
 _SUPPORTED_PROFILE_IDS = (
-    "tw-004-P02", "tw-004-P03", "tw-008-P03",
+    "tw-004-P03", "tw-008-P03",
     "tw-014-P02",
     "tw-019-P04",
     "tw-020-P02", "tw-020-P03",

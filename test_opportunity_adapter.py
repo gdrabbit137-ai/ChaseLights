@@ -2480,15 +2480,15 @@ def test_adapter_integrity():
     )
     assert strict_high["eligible"] is False
 
-    reflection_profile = next(
+    mudflat_profile = next(
         o for o in all_opportunities if o["opportunity_id"] == "tw-012-P02"
     )
     very_low = dict(low_sample, relative_percentile=5.0)
-    reflection_low = evaluate_tide_state(
-        reflection_profile, {"tide_forecast": very_low}
+    mudflat_low = evaluate_tide_state(
+        mudflat_profile, {"tide_forecast": very_low}
     )
-    assert reflection_low["eligible"] is False
-    assert reflection_low["reason"] == "too_low_for_reflective_water_film"
+    assert mudflat_low["eligible"] is False
+    assert mudflat_low["reason"] == "too_low_for_water_mudflat_layering"
 
     tide_complete_ids = {
         "tw-012-P01", "tw-015-P01", "tw-017-P02",
@@ -2501,10 +2501,15 @@ def test_adapter_integrity():
         for oid in tide_complete_ids
     )
 
-    for oid in {"tw-012-P02", "tw-015-P02"}:
-        state = dependency_state(next(o for o in all_opportunities if o["opportunity_id"] == oid))
-        assert set(state["ready_components"]) == {"tide_state", "water_surface_state"}
-        assert state["missing_components"] == ("dynamic_access",)
+    state_012 = dependency_state(mudflat_profile)
+    assert state_012["ready_components"] == ("tide_state",)
+    assert state_012["missing_components"] == ("dynamic_access",)
+
+    state_015 = dependency_state(next(
+        o for o in all_opportunities if o["opportunity_id"] == "tw-015-P02"
+    ))
+    assert set(state_015["ready_components"]) == {"tide_state", "water_surface_state"}
+    assert state_015["missing_components"] == ("dynamic_access",)
 
     state_059 = dependency_state(strict_profile)
     assert state_059["ready_components"] == ("tide_state",)

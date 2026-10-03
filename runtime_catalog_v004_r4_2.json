@@ -15,9 +15,9 @@
   ],
   "counts": {
     "spots": 214,
-    "opportunities": 423,
-    "condition_variants": 438,
-    "profile_viewpoint_relations": 429
+    "opportunities": 422,
+    "condition_variants": 437,
+    "profile_viewpoint_relations": 428
   },
   "spots": [
     {
@@ -441,43 +441,6 @@
               "variant_id": "VAR-001",
               "variant_name": "雙溪／瑞芳清晰層巒",
               "formula_status": "research_pending_thresholds"
-            }
-          ],
-          "viewpoints": [
-            {
-              "viewpoint_id": "tw-004-VP01",
-              "relation_role": "reference",
-              "sort_order": 1,
-              "name": "不厭亭主要展望機位",
-              "lat": 25.08923,
-              "lon": 121.84752,
-              "coord_confidence": "high",
-              "verification_status": "reference_viewpoint_directional_sectors_exact_tripod_optional",
-              "geometry_type": "point",
-              "geometry_extent_m": null,
-              "geometry_confidence": "medium"
-            }
-          ]
-        },
-        {
-          "opportunity_id": "tw-004-P02",
-          "spot_id": "tw-004",
-          "name_zh": "不厭亭山谷雲霧層次",
-          "legacy_theme": "fog_mist",
-          "mode": "area_opportunity",
-          "sampling_topology": "area_plus_environment",
-          "geometry_required": false,
-          "opportunity_confidence": "high",
-          "formula_status": "needs_spatial_weather_module",
-          "formula_version": "v0.04_pending_vertical_cloud",
-          "formula_confidence": 48,
-          "best_time": "晨間優先",
-          "best_season": "待氣候驗證",
-          "condition_variants": [
-            {
-              "variant_id": "VAR-002",
-              "variant_name": "山谷雲霧＋露出稜線",
-              "formula_status": "research_pending_vertical_cloud_thresholds"
             }
           ],
           "viewpoints": [
@@ -1340,22 +1303,22 @@
         {
           "opportunity_id": "tw-012-P02",
           "spot_id": "tw-012",
-          "name_zh": "香山潮溝／泥灘淺水反射",
-          "legacy_theme": "reflection",
+          "name_zh": "香山潮間帶泥灘／潮溝紋理",
+          "legacy_theme": "landscape",
           "mode": "area_opportunity",
           "sampling_topology": "area_plus_environment",
           "geometry_required": false,
           "opportunity_confidence": "high",
-          "formula_status": "needs_tide_water_surface_access_module",
-          "formula_version": "v0.04_pending_tide_water_surface_access",
-          "formula_confidence": 40,
-          "best_time": "退潮至低潮附近",
-          "best_season": "全年；依潮汐",
+          "formula_status": "needs_tide_access_module",
+          "formula_version": "v0.04_pending_tide_access",
+          "formula_confidence": 52,
+          "best_time": "退潮前後；以步道實際開放時段為準",
+          "best_season": "全年；依潮汐、陣風與步道開放",
           "condition_variants": [
             {
               "variant_id": "VAR-143",
-              "variant_name": "潮溝紋理＋淺水反射",
-              "formula_status": "research_pending_tide_water_surface_model"
+              "variant_name": "退潮泥灘、潮溝與潮間帶紋理",
+              "formula_status": "research_pending_tide_access"
             }
           ],
           "viewpoints": [
@@ -3550,7 +3513,7 @@
         {
           "opportunity_id": "tw-031-P02",
           "spot_id": "tw-031",
-          "name_zh": "抹茶山雲霧層巒",
+          "name_zh": "聖母登山步道雲霧草坡／山稜",
           "legacy_theme": "fog_mist",
           "mode": "area_opportunity",
           "sampling_topology": "area_plus_environment",
@@ -3559,12 +3522,12 @@
           "formula_status": "prototype_formula_available",
           "formula_version": "photo_first_r3",
           "formula_confidence": 60,
-          "best_time": "晨間至白天",
-          "best_season": "全年候選；濕潤轉晴時優先",
+          "best_time": "晨間至白天；以步道開放與現場能見度為準",
+          "best_season": "全年候選；官方資料記載夏季午後易起風、雲霧瀰漫，冬季潮濕多雨",
           "condition_variants": [
             {
               "variant_id": "VAR-025",
-              "variant_name": "平台清楚、山谷薄霧",
+              "variant_name": "步道草坡與山稜雲霧",
               "formula_status": "prototype_available_with_dynamic_access_gate"
             }
           ],
