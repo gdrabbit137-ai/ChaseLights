@@ -89,7 +89,13 @@ function intersects(a, b) {
 export function cellsForViewport(index, region, viewport, provider = 'jma') {
   const r = index.regions?.[region];
   if (!r) return [];
-  return r.cells.filter((cell) => cell.providers?.[provider] && intersects(cell.bbox, viewport));
+  const published = providerRun(index, provider)?.published_cell_ids;
+  const publishedSet = Array.isArray(published) ? new Set(published) : null;
+  return r.cells.filter((cell) =>
+    cell.providers?.[provider]
+    && (!publishedSet || publishedSet.has(cell.id))
+    && intersects(cell.bbox, viewport)
+  );
 }
 
 export function tileUrl(cell, provider, validTime) {
