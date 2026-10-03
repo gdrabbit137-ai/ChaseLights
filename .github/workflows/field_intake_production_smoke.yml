@@ -1,0 +1,116 @@
+name: Field Intake Production Smoke
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "field_intake_production_smoke.py"
+      - "test_field_intake_production_smoke_contract.py"
+      - ".github/workflows/field_intake_production_smoke.yml"
+  push:
+    branches: [main]
+    paths:
+      - "field-intake.html"
+      - "assets/field-intake.js"
+      - "assets/field-intake.css"
+      - "runtime_catalog_v004_r4_2.json"
+      - "field_intake_production_smoke.py"
+      - "test_field_intake_production_smoke_contract.py"
+      - ".github/workflows/field_intake_production_smoke.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: field-intake-production-smoke-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout candidate
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Validate Field Intake production-smoke contract
+        run: |
+          python -m py_compile field_intake_production_smoke.py
+          python -m unittest -v test_field_intake_production_smoke_contract.py
+
+  production-smoke:
+    if: github.event_name != 'pull_request'
+    needs: contract
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install Selenium
+        run: python -m pip install --disable-pip-version-check selenium
+
+      - name: Wait for exact GitHub Pages Field Intake publication
+        run: |
+          expected_html_sha="$(sha256sum field-intake.html | awk '{print $1}')"
+          expected_js_sha="$(sha256sum assets/field-intake.js | awk '{print $1}')"
+          expected_css_sha="$(sha256sum assets/field-intake.css | awk '{print $1}')"
+          expected_catalog_sha="$(sha256sum runtime_catalog_v004_r4_2.json | awk '{print $1}')"
+          ready=0
+
+          for i in {1..32}; do
+            nonce="${GITHUB_SHA}-${i}-$(date +%s)"
+            curl -fsSL --max-time 20 -H 'Cache-Control: no-cache'               "https://chaselights.app/field-intake.html?pages_probe=${nonce}"               -o /tmp/live-field-intake.html || true
+            curl -fsSL --max-time 20 -H 'Cache-Control: no-cache'               "https://chaselights.app/assets/field-intake.js?pages_probe=${nonce}"               -o /tmp/live-field-intake.js || true
+            curl -fsSL --max-time 20 -H 'Cache-Control: no-cache'               "https://chaselights.app/assets/field-intake.css?pages_probe=${nonce}"               -o /tmp/live-field-intake.css || true
+            curl -fsSL --max-time 20 -H 'Cache-Control: no-cache'               "https://chaselights.app/runtime_catalog_v004_r4_2.json?pages_probe=${nonce}"               -o /tmp/live-runtime-catalog.json || true
+
+            if [[ -s /tmp/live-field-intake.html &&                   -s /tmp/live-field-intake.js &&                   -s /tmp/live-field-intake.css &&                   -s /tmp/live-runtime-catalog.json ]]; then
+              live_html_sha="$(sha256sum /tmp/live-field-intake.html | awk '{print $1}')"
+              live_js_sha="$(sha256sum /tmp/live-field-intake.js | awk '{print $1}')"
+              live_css_sha="$(sha256sum /tmp/live-field-intake.css | awk '{print $1}')"
+              live_catalog_sha="$(sha256sum /tmp/live-runtime-catalog.json | awk '{print $1}')"
+
+              echo "attempt=$i"
+              echo "html    expected=$expected_html_sha live=$live_html_sha"
+              echo "js      expected=$expected_js_sha live=$live_js_sha"
+              echo "css     expected=$expected_css_sha live=$live_css_sha"
+              echo "catalog expected=$expected_catalog_sha live=$live_catalog_sha"
+
+              if [[ "$live_html_sha" == "$expected_html_sha" &&                     "$live_js_sha" == "$expected_js_sha" &&                     "$live_css_sha" == "$expected_css_sha" &&                     "$live_catalog_sha" == "$expected_catalog_sha" ]]; then
+                ready=1
+                break
+              fi
+            fi
+
+            echo "Production Field Intake assets do not yet match current main bytes (attempt $i/32)"
+            sleep 15
+          done
+
+          if [ "$ready" -ne 1 ]; then
+            echo "::error::Field Intake production assets did not converge to current main bytes in time"
+            exit 1
+          fi
+
+      - name: Run deployed Field Intake desktop/mobile smoke
+        run: |
+          python field_intake_production_smoke.py             --url "https://chaselights.app/field-intake.html"             --screenshot "artifacts/field-intake-production-smoke.png"
+
+      - name: Upload production screenshot
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: field-intake-production-smoke
+          path: artifacts/
+          if-no-files-found: warn
+          retention-days: 7
