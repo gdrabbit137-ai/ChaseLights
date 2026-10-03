@@ -744,6 +744,10 @@
     .opportunity-score.mid { background:#0284c7; }
     .opportunity-score.low { background:#475569; }
     .opportunity-meta { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:5px 12px; color:#cbd5e1; font-size:.82rem; margin-bottom:8px; }
+    .shooting-period-state { margin-top:3px; font-size:.76rem; font-weight:700; line-height:1.35; }
+    .shooting-period-state.upcoming { color:#bae6fd; }
+    .shooting-period-state.active { color:#86efac; }
+    .shooting-period-state.passed { color:#94a3b8; }
     .opportunity-current { margin:0 0 8px; padding:7px 9px; border-radius:8px; background:#0f172a; color:#cbd5e1; font-size:.8rem; line-height:1.45; }
     .score-explain { margin-top:8px; border-top:1px dashed #334155; padding-top:7px; }
     .score-explain summary { cursor:pointer; color:#7dd3fc; font-size:.8rem; font-weight:700; user-select:none; }
