@@ -1,3 +1,4 @@
+import subprocess
 import unittest
 from pathlib import Path
 
@@ -16,8 +17,46 @@ class BrowserTileLoaderContract(unittest.TestCase):
         self.assertIn("cell.providers?.[provider]", s)
         self.assertIn("published_cell_ids", s)
         self.assertIn("loadedCoverage", s)
-        self.assertIn("coverage: loadedCoverage(loaded, provider)", s)
-        self.assertIn("complete: loaded.length === cells.length && failed.length === 0", s)
+        self.assertIn("coverageContainsViewport", s)
+        self.assertIn("const coverage = loadedCoverage(loaded, provider)", s)
+        self.assertIn("const coversViewport = coverageContainsViewport(loaded, provider, viewport)", s)
+        self.assertIn("complete: cells.length > 0", s)
+        self.assertIn("&& loaded.length === cells.length", s)
+        self.assertIn("&& failed.length === 0", s)
+        self.assertIn("&& coversViewport", s)
+
+    def test_viewport_coverage_guard_detects_manifest_holes(self):
+        script = r"""
+import fs from 'node:fs';
+const source = fs.readFileSync('assets/weather-map-v2-tile-loader.js', 'utf8');
+const url = 'data:text/javascript;base64,' + Buffer.from(source).toString('base64');
+const { coverageContainsViewport } = await import(url);
+const item = (id, west, south, east, north) => ({
+  cell: {
+    id,
+    bbox: { west, south, east, north },
+    providers: { jma: { coverage_bbox: { west, south, east, north } } },
+  },
+});
+const viewport = { w: 0, s: 0, e: 2, n: 1 };
+if (!coverageContainsViewport([
+  item('left', 0, 0, 1, 1),
+  item('right', 1, 0, 2, 1),
+], 'jma', viewport)) process.exit(11);
+if (coverageContainsViewport([
+  item('left-gap', 0, 0, 0.9, 1),
+  item('right-gap', 1.1, 0, 2, 1),
+], 'jma', viewport)) process.exit(12);
+if (coverageContainsViewport([
+  item('bottom', 0, 0, 2, 0.45),
+  item('top', 0, 0.55, 2, 1),
+], 'jma', viewport)) process.exit(13);
+if (coverageContainsViewport([], 'jma', viewport)) process.exit(14);
+"""
+        subprocess.run(
+            ["node", "--input-type=module", "-e", script],
+            check=True,
+        )
 
     def test_loader_uses_manifest_time_and_canonical_token(self):
         s = Path("assets/weather-map-v2-tile-loader.js").read_text()
