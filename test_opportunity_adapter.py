@@ -1625,6 +1625,12 @@ def test_adapter_integrity():
     assert "guide_score_why:'為什麼適合？'" in frontend_source
     assert "guide_details:'拍攝指南'" in frontend_source
     assert "guide_selected_date:'📅 所選日期拍攝機會'" in frontend_source
+    assert "guide_time_upcoming:'最佳拍攝時段尚未開始'" in frontend_source
+    assert "guide_time_active:'現在正值最佳拍攝時段'" in frontend_source
+    assert "guide_time_passed:'今日最佳拍攝時段已過'" in frontend_source
+    assert "function localDateTimeString(timeZone,date=new Date())" in frontend_source
+    assert "function shootingPeriodState(metric,spot,date=new Date())" in frontend_source
+    assert "const periodState=!guideOnly&&m?shootingPeriodState(m,spot):'';" in frontend_source
     assert "guide_no_selected_date:'所選日期目前沒有明確的拍攝建議。'" in frontend_source
     assert "guide_more_subjects:'其他已查證拍攝題材（{n}）'" in frontend_source
     assert "guide_all_subjects:'查看這裡可以拍什麼（{n}）'" in frontend_source
