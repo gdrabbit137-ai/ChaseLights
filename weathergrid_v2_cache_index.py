@@ -25,13 +25,26 @@ def cells_for_region(region):
             x=e
         y=n
     return out
+def _inside_jma_domain(bbox):
+    domain={"west":120.0,"south":22.4,"east":150.0,"north":47.6}
+    return (
+        bbox["west"] >= domain["west"]
+        and bbox["south"] >= domain["south"]
+        and bbox["east"] <= domain["east"]
+        and bbox["north"] <= domain["north"]
+    )
+
 def build_index():
     regions={}
     for name,spec in REGIONS.items():
         cells=cells_for_region(name)
-        regions[name]={**spec,"cells":[{**c,"providers":{
-          "jma":f"weathergrid/v2/jma/{c['id']}.json",
-          "gfs":f"weathergrid/v2/gfs/{c['id']}.json"}} for c in cells]}
+        indexed=[]
+        for c in cells:
+            providers={"gfs":f"weathergrid/v2/gfs/{c['id']}.json"}
+            if _inside_jma_domain(c["bbox"]):
+                providers["jma"]=f"weathergrid/v2/jma/{c['id']}.json"
+            indexed.append({**c,"providers":providers})
+        regions[name]={**spec,"cells":indexed}
     return {"schema_version":1,"mode":"static_regional_cache","regions":regions}
 def write_index(path):
     p=Path(path);p.parent.mkdir(parents=True,exist_ok=True)
