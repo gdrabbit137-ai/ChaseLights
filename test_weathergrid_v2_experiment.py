@@ -11,6 +11,9 @@ class WeatherGridV2ExperimentTest(unittest.TestCase):
         self.assertIn("weather-map-v2.js", experimental)
         self.assertIn("weather-map-v2.css", experimental)
         self.assertNotIn("weather-map-v2", production)
+        js = (ROOT / "assets/weather-map-v2.js").read_text(encoding="utf-8")
+        self.assertIn("import * as maplibregl from", js)
+        self.assertNotIn("import maplibregl from", js)
 
     def test_has_real_viewport_fetch_contract(self):
         js = (ROOT / "assets/weather-map-v2.js").read_text(encoding="utf-8")
