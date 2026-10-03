@@ -129,6 +129,21 @@ def _all_opportunities():
     return [o for opportunities in CURATED_OPPORTUNITIES.values() for o in opportunities]
 
 
+def test_verified_opportunity_pending_copy_names_unresolved_dimension():
+    from audit_opportunity_evidence import _verified_existence_copy_conflicts
+
+    verified = {"status": "verified"}
+    assert _verified_existence_copy_conflicts(
+        {"best_season": "待氣候驗證"}, verified
+    ) == ["best_season"]
+    assert _verified_existence_copy_conflicts(
+        {"best_season": "全年；最佳季節尚無足夠證據"}, verified
+    ) == []
+    assert _verified_existence_copy_conflicts(
+        {"best_season": "待氣候驗證"}, {"status": "insufficient_evidence"}
+    ) == []
+
+
 def test_adapter_integrity():
     assert ADAPTER_VERSION == "v0.04-r4.2-canonical-r34-denali-mountain-vista-access"
     assert validate_curated_opportunities() == []
