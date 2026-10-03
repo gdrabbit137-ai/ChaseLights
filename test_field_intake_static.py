@@ -34,9 +34,47 @@ class FieldIntakeStaticTest(unittest.TestCase):
 
     def test_catalog_place_matching_contract(self):
         self.assertIn("runtime_catalog_v004_r4_2.json", self.js)
-        self.assertIn("nearest_catalog_viewpoint", self.js)
+        self.assertIn("searchPlaceCandidates", self.js)
+        self.assertIn('role","combobox"', self.js)
+        self.assertIn("selected_spot_id:null", self.js)
+        self.assertNotIn("placeOptions(", self.js)
+        self.assertNotIn("place-select", self.js)
+        self.assertIn("user_confirmed_gps_suggestion", self.js)
+        self.assertIn("user_override", self.js)
+        self.assertIn("manual_search_selection", self.js)
+        self.assertIn('"unmatched"', self.js)
+        self.assertIn("gps_suggestion", self.js)
         self.assertIn("./field-intake.html", self.index)
         self.assertIn('data-i18n="field_intake_link"', self.index)
+
+    def test_photographer_facing_surface_hides_internal_bookkeeping(self):
+        for forbidden in (
+            "B120",
+            "ground truth",
+            "observation JSON",
+            "field-observation-draft-r4.2-1",
+            "unreviewed",
+            "FV-",
+        ):
+            self.assertNotIn(forbidden, self.html)
+        self.assertIn("照片只會在你的裝置上讀取，不會上傳", self.html)
+        self.assertIn('id="language-select"', self.html)
+        self.assertIn('data-i18n="review_help"', self.html)
+
+    def test_localization_and_observation_semantics(self):
+        for locale in ('"zh-TW"', '"en"', '"ja"'):
+            self.assertIn(locale, self.js)
+        for key in (
+            "gps_suggestion",
+            "selected_override",
+            "subject_empty",
+            "partial_outcome",
+            "failure_reason",
+            "user_capture_time",
+        ):
+            self.assertIn(key, self.js)
+        self.assertIn('outcome:""', self.js)
+        self.assertIn("user_supplied_local_time", self.js)
 
     def test_ground_truth_boundary_documented(self):
         self.assertIn("unreviewed observation draft", self.spec)
