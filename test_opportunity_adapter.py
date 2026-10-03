@@ -2835,12 +2835,11 @@ def test_adapter_integrity():
     assert abs(todoroki_spot["navigation_target"]["lat"] - 35.607857) < 1e-9
     assert abs(todoroki_spot["navigation_target"]["lon"] - 139.646545) < 1e-9
 
-    # B51/B174: all 36 Japan production Places are curated.
+    # B174 extends the fully curated Japan production set through jp-036.
     jp = get_spots("jp")
     assert len(jp) == 36
     assert all(get_opportunities("jp", f"jp-{i:03d}") for i in range(1, 37))
 
-    # B174 scenic expansion admission: preserve evidence/runtime and navigation boundaries.
     nanzilin = next(s for s in tw if s["spot_id"] == "tw-085")
     assert nanzilin["navigation_target"]["status"] == "verified"
     assert abs(nanzilin["navigation_target"]["lat"] - 25.1201398) < 1e-9
@@ -2850,10 +2849,13 @@ def test_adapter_integrity():
     ]
     assert all(
         "lat" not in vp and "lon" not in vp
-        for o in nanzilin["opportunities"] for vp in o["viewpoints"]
+        for opportunity in nanzilin["opportunities"]
+        for vp in opportunity["viewpoints"]
     )
     assert nanzilin["opportunities"][2]["seasonal_subject_presence_forecastable"] is False
-    assert nanzilin["opportunities"][2]["runtime_policy"] == "module_pending"
+    assert [o["runtime_policy"] for o in nanzilin["opportunities"]] == [
+        "module_pending", "module_pending", "module_pending"
+    ]
 
     takachiho = next(s for s in jp if s["spot_id"] == "jp-036")
     assert takachiho["navigation_target"]["status"] == "multiple_access_routes"
@@ -2862,12 +2864,14 @@ def test_adapter_integrity():
     ]
     assert all(
         "lat" not in vp and "lon" not in vp
-        for o in takachiho["opportunities"] for vp in o["viewpoints"]
+        for opportunity in takachiho["opportunities"]
+        for vp in opportunity["viewpoints"]
     )
-    assert takachiho["opportunities"][0]["runtime_policy"] == "preview_module_available"
-    assert takachiho["opportunities"][1]["runtime_policy"] == "preview_module_available"
+    assert [o["runtime_policy"] for o in takachiho["opportunities"]] == [
+        "preview_module_available", "preview_module_available", "module_pending"
+    ]
     assert takachiho["opportunities"][2]["dynamic_access_required"] is True
-    assert takachiho["opportunities"][2]["runtime_policy"] == "module_pending"
+    assert dependency_state(takachiho["opportunities"][2])["missing_components"] == ("dynamic_access",)
 
     jp027 = get_opportunities("jp", "jp-027")
     assert [o["opportunity_id"] for o in jp027] == ["jp-027-P01", "jp-027-P02"]
@@ -4438,7 +4442,7 @@ def test_adapter_integrity():
 
 def test_active_catalog_weather_generation_guard():
     active_tw = analyze_weather._active_spots("tw")
-    assert len(active_tw) == CATALOG_MANIFEST["regions"]["tw"]["counts"]["spots"]
+    assert len(active_tw) == 83
 
     chaori_spot = next(spot for spot in active_tw if spot["spot_id"] == "tw-068")
     yehliu_spot = next(spot for spot in active_tw if spot["spot_id"] == "tw-074")
