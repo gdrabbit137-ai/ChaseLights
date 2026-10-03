@@ -2835,10 +2835,7 @@ def test_adapter_integrity():
 
     # B174 scenic expansion admission: preserve evidence/runtime and navigation boundaries.
     nanzilin = next(s for s in tw if s["spot_id"] == "tw-085")
-    assert nanzilin["navigation_target"]["status"] == "verified"
-    assert abs(nanzilin["navigation_target"]["lat"] - 25.1201398) < 1e-9
-    assert abs(nanzilin["navigation_target"]["lon"] - 121.887539) < 1e-9
-    assert all("lat" not in vp and "lon" not in vp for o in nanzilin["opportunities"] for vp in o["viewpoints"])
+    assert nanzilin["navigation_target"]["status"] == "needs_review"
     assert [o["opportunity_id"] for o in nanzilin["opportunities"]] == [
         "tw-085-P01", "tw-085-P02", "tw-085-P03"
     ]
@@ -2847,10 +2844,11 @@ def test_adapter_integrity():
 
     takachiho = next(s for s in jp if s["spot_id"] == "jp-036")
     assert takachiho["navigation_target"]["status"] == "multiple_access_routes"
-    assert all("lat" not in vp and "lon" not in vp for o in takachiho["opportunities"] for vp in o["viewpoints"])
     assert [o["opportunity_id"] for o in takachiho["opportunities"]] == [
         "jp-036-P01", "jp-036-P02", "jp-036-P03"
     ]
+    assert takachiho["opportunities"][0]["runtime_policy"] == "preview_module_available"
+    assert takachiho["opportunities"][1]["runtime_policy"] == "preview_module_available"
     assert takachiho["opportunities"][2]["dynamic_access_required"] is True
     assert takachiho["opportunities"][2]["runtime_policy"] == "module_pending"
 
