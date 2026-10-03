@@ -219,7 +219,7 @@ For the selected date, the default Place detail UI SHOULD prioritize only inform
 1. what photographic subject/composition is worth considering;
 2. whether it is viable for the selected date;
 3. the best actionable local-time window;
-4. whether that window is upcoming, active, or already ended when the selected date is today;
+4. whether the recommended shooting period is upcoming, active now, or has already passed when the selected date is today;
 5. the score or qualitative status, only when the scoring interpretation is valid for that Opportunity;
 6. the Camera Zone / shooting location when sufficiently supported;
 7. a short photographer-facing explanation of the decisive conditions.
@@ -259,11 +259,20 @@ The empty state MAY offer an explicit action to browse the Place's verified phot
 
 ### Time-awareness rule
 
-When the selected date is today, the UI MUST interpret a recommended time window relative to the current Place-local time.
+When the selected date is today, the UI MUST interpret the recommended shooting period relative to the current Place-local time.
 
-A high score for a window that has already ended MUST NOT be presented in a way that implies the user should still depart now. The status of the window — upcoming, active, or ended — is more decision-relevant than repeating the score.
+The internal/runtime concept may continue to use a `window` field, but ordinary photographer-facing copy SHOULD use natural photography language such as `最佳拍攝時段`, `建議拍攝時段`, or their localized equivalents. Raw terms such as `窗口已結束` SHOULD NOT be shown in the normal UI.
 
-Historical or future selected dates do not require a real-time "now" state, but their local-time window must remain explicit.
+Preferred selected-date wording is:
+- before the period: `最佳拍攝時段尚未開始` or, when useful, a concise countdown;
+- during the period: `現在正值最佳拍攝時段`;
+- after the period: `今日最佳拍攝時段已過`.
+
+A high score for a shooting period that has already passed MUST NOT be presented in a way that implies the user should still depart now. The temporal state of the recommended shooting period is more decision-relevant than repeating the score.
+
+Avoid blame-oriented copy such as `你已錯過` unless the product intentionally adopts that tone. The UI should describe the state of the photography opportunity, not judge the user's action.
+
+Historical or future selected dates do not require a real-time "now" state, but their Place-local shooting period must remain explicit.
 
 ### Progressive disclosure rule
 
@@ -312,7 +321,7 @@ Automated browser/contract tests SHOULD cover at least:
 - a verified but selected-date-unevaluable Opportunity is not rendered as a peer actionable recommendation;
 - an unverified research candidate is not rendered in normal photographer-facing recommendation/guide surfaces;
 - no qualified recommendation produces an explicit empty state rather than immature-card backfill;
-- a today-window that has ended is visibly marked ended and does not imply a current departure recommendation;
+- a today's recommended shooting period that has already passed is shown with natural photographer-facing copy (for example `今日最佳拍攝時段已過`) and does not imply a current departure recommendation;
 - score/status is not redundantly repeated without additional decision value;
 - "Why is this suitable?" exposes concise photographer-facing reasons while technical criteria remain progressively disclosed;
 - hiding fields from the UI does not remove them from canonical/evidence/runtime data.
