@@ -129,6 +129,13 @@ def _all_opportunities():
     return [o for opportunities in CURATED_OPPORTUNITIES.values() for o in opportunities]
 
 
+def test_buyanting_cloud_sea_keeps_verified_subject_separate_from_unknown_best_season():
+    buyan = {o["opportunity_id"]: o for o in get_opportunities("tw", "tw-004")}
+    assert buyan["tw-004-P01"]["best_season"] == "全年；最佳季節待證據"
+    assert buyan["tw-004-P03"]["best_season"] == "最佳季節尚無足夠證據"
+    assert buyan["tw-004-P03"]["name_zh"] == "不厭亭山谷雲海＋露出山頭"
+
+
 def test_verified_opportunity_pending_copy_names_unresolved_dimension():
     from audit_opportunity_evidence import _verified_existence_copy_conflicts
 
