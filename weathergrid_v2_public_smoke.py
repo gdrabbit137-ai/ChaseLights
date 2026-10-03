@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Browser smoke for the deployed, isolated WeatherGrid V2 experiment."""
 import argparse, json, time
+from datetime import datetime, timezone
 from pathlib import Path
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -27,6 +28,13 @@ def coverage_contains(viewport_text, coverage_text):
     cw,cs,ce,cn=bbox_values(coverage_text)
     return cw <= vw and cs <= vs and ce >= ve and cn >= vn
 
+def valid_time_age_seconds(text):
+    raw=text.split(":",1)[1].strip()
+    parsed=datetime.fromisoformat(raw.replace("Z","+00:00"))
+    if parsed.tzinfo is None:
+        parsed=parsed.replace(tzinfo=timezone.utc)
+    return abs((datetime.now(timezone.utc)-parsed).total_seconds())
+
 def run(url, screenshot):
     d=driver(); wait=WebDriverWait(d,60)
     try:
@@ -51,19 +59,22 @@ def run(url, screenshot):
           "source":d.find_element(By.ID,"source").text,
           "viewport":d.find_element(By.ID,"viewport").text,
           "coverage":d.find_element(By.ID,"coverage").text,
+          "time":d.find_element(By.ID,"time").text,
         }
         assert "JMA MSM native tiles" in initial["source"], initial
         assert "loaded coverage" in initial["coverage"], initial
-        # Unsupported native field must safely fall back instead of failing.
-        Select(d.find_element(By.ID,"layer")).select_by_value("visibility")
-        wait.until(lambda x: "資料已就緒" in x.find_element(By.ID,"status").text)
-        visibility_source=d.find_element(By.ID,"source").text
-        assert "NCEP Best Match" in visibility_source, visibility_source
-        # Pan via the U.S. preset. The viewport and provider must change and refill.
+        assert valid_time_age_seconds(initial["time"]) <= 2 * 60 * 60, initial
+
+        # Keep the native cloud layer selected and move with the real U.S.
+        # preset. This must hand off geographically from JMA native tiles to
+        # GFS/NCEP instead of depending on an unsupported-field fallback.
         before=d.find_element(By.ID,"viewport").text
         d.find_element(By.CSS_SELECTOR,'[data-preset="us"]').click()
         wait.until(lambda x: x.find_element(By.ID,"viewport").text != before)
-        wait.until(lambda x: "資料已就緒" in x.find_element(By.ID,"status").text)
+        wait.until(lambda x: (
+            "資料已就緒" in x.find_element(By.ID,"status").text
+            and "NCEP Best Match" in x.find_element(By.ID,"source").text
+        ))
         us={
           "status":d.find_element(By.ID,"status").text,
           "source":d.find_element(By.ID,"source").text,
@@ -72,6 +83,7 @@ def run(url, screenshot):
         }
         assert "NCEP Best Match" in us["source"], us
         assert initial["viewport"] != us["viewport"], (initial,us)
+        assert coverage_contains(us["viewport"],us["coverage"]), us
 
         # Move again inside CONUS. A real drag must change the viewport and the
         # loader must refill/cover the new view instead of treating the preset
@@ -94,6 +106,31 @@ def run(url, screenshot):
         # resolves successfully with usable samples and loaded coverage.
         assert "samples" in conus_after["status"], conus_after
         assert "loaded coverage" in conus_after["coverage"], conus_after
+
+        # Return to Taiwan with the cloud layer still selected and prove native
+        # JMA can take ownership again before testing unsupported-field fallback.
+        before_return=d.find_element(By.ID,"viewport").text
+        d.find_element(By.CSS_SELECTOR,'[data-preset="tw"]').click()
+        wait.until(lambda x: x.find_element(By.ID,"viewport").text != before_return)
+        wait.until(lambda x: (
+            "資料已就緒" in x.find_element(By.ID,"status").text
+            and "JMA MSM native tiles" in x.find_element(By.ID,"source").text
+        ))
+        tw_return={
+          "status":d.find_element(By.ID,"status").text,
+          "source":d.find_element(By.ID,"source").text,
+          "viewport":d.find_element(By.ID,"viewport").text,
+          "coverage":d.find_element(By.ID,"coverage").text,
+        }
+
+        # Unsupported native field must safely fall back instead of failing.
+        Select(d.find_element(By.ID,"layer")).select_by_value("visibility")
+        wait.until(lambda x: (
+            "資料已就緒" in x.find_element(By.ID,"status").text
+            and "NCEP Best Match" in x.find_element(By.ID,"source").text
+        ))
+        visibility_source=d.find_element(By.ID,"source").text
+        assert "NCEP Best Match" in visibility_source, visibility_source
 
         # Alaska has its own geographic resolver. Use the smoke-only hook in
         # the deployed V2 module so this validates the real MapLibre viewport
@@ -134,8 +171,9 @@ def run(url, screenshot):
         screenshot.parent.mkdir(parents=True,exist_ok=True)
         d.save_screenshot(str(screenshot))
         severe=[x for x in d.get_log("browser") if x.get("level")=="SEVERE"]
-        return {"url":url,"initial":initial,"visibility_source":visibility_source,"us":us,
-                "conus_after_pan":conus_after,"alaska_after_pan":alaska,
+        return {"url":url,"initial":initial,"visibility_source":visibility_source,
+                "us_cloud_handoff":us,"conus_after_pan":conus_after,
+                "tw_native_return":tw_return,"alaska_after_pan":alaska,
                 "browser_severe_log_count":len(severe),"browser_severe_logs":severe[:10],
                 "screenshot":str(screenshot)}
     finally:
