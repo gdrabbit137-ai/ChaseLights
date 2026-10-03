@@ -1,0 +1,35 @@
+name: WeatherGrid V2 Experiment
+
+on:
+  pull_request:
+    paths:
+      - "weather-map-v2.html"
+      - "assets/weather-map-v2.js"
+      - "assets/weather-map-v2.css"
+      - "test_weathergrid_v2_experiment.py"
+      - ".github/workflows/weathergrid_v2_experiment.yml"
+  workflow_dispatch:
+
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Static V2 contract
+        run: python test_weathergrid_v2_experiment.py
+      - name: Static site smoke
+        run: |
+          python -m http.server 8000 >/tmp/weathergrid-v2-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for attempt in 1 2 3 4 5; do
+            if curl --fail --silent http://127.0.0.1:8000/weather-map-v2.html > /tmp/weather-map-v2.html; then
+              break
+            fi
+            sleep 1
+          done
+          grep -q "WeatherGrid V2" /tmp/weather-map-v2.html
+          grep -q "weather-map-v2.js" /tmp/weather-map-v2.html
