@@ -99,6 +99,7 @@ jobs:
           test "$ready" -eq 1
       - name: Run deployed V2 browser smoke
         run: |
+          set -o pipefail
           mkdir -p artifacts
           python weathergrid_v2_public_smoke.py --screenshot artifacts/weathergrid-v2-public-smoke.png | tee artifacts/weathergrid-v2-public-smoke.json
       - name: Upload V2 smoke evidence

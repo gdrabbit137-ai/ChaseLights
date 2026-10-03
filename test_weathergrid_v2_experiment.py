@@ -28,9 +28,18 @@ class WeatherGridV2ExperimentTest(unittest.TestCase):
             "map.on('moveend'",
             "new AbortController()",
             "PROVIDER_FIELDS",
+            "hourly: field",
+            "function cacheFind(provider, field, v)",
             "if (field === 'visibility') return 'gfs'",
         ):
             self.assertIn(token, js)
+
+    def test_fallback_requests_only_active_field(self):
+        js = (ROOT / "assets/weather-map-v2.js").read_text(encoding="utf-8")
+        self.assertIn("function buildUrl(provider, grid, field)", js)
+        self.assertIn("hourly: field", js)
+        self.assertNotIn("hourly: PROVIDER_FIELDS[provider].join", js)
+        self.assertIn("bboxKey(provider, field, coverage)", js)
 
     def test_auto_provider_and_global_presets_are_explicit(self):
         js = (ROOT / "assets/weather-map-v2.js").read_text(encoding="utf-8")
