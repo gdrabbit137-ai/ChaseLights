@@ -80,8 +80,8 @@ function contains(a, b) {
 function fmt(b) {
   return b ? [b.w, b.s, b.e, b.n].map((v) => Number(v).toFixed(2)).join(', ') : '—';
 }
-function bboxKey(provider, b) {
-  return provider + ':' + [b.w, b.s, b.e, b.n].map((v) => Number(v).toFixed(1)).join(':');
+function bboxKey(provider, field, b) {
+  return provider + ':' + field + ':' + [b.w, b.s, b.e, b.n].map((v) => Number(v).toFixed(1)).join(':');
 }
 function autoProvider(b) {
   return contains(MSM_DOMAIN, b) ? 'jma' : 'gfs';
@@ -115,10 +115,10 @@ function sampleGrid(b) {
   }
   return { points, dx, dy };
 }
-function cacheFind(provider, v) {
+function cacheFind(provider, field, v) {
   const now = Date.now();
   for (const [key, item] of state.cache) {
-    if (item.provider !== provider || now - item.fetchedAt > 15 * 60 * 1000) continue;
+    if (item.provider !== provider || item.field !== field || now - item.fetchedAt > 15 * 60 * 1000) continue;
     if (contains(item.coverage, v)) {
       state.cache.delete(key);
       state.cache.set(key, item);
@@ -183,14 +183,14 @@ function resize() {
   ctx.setTransform(d, 0, 0, d, 0, 0);
   draw();
 }
-function buildUrl(provider, grid) {
+function buildUrl(provider, grid, field) {
   const cfg = API[provider];
   const latitudes = grid.points.map((p) => p.lat.toFixed(4)).join(',');
   const longitudes = grid.points.map((p) => p.lon.toFixed(4)).join(',');
   const params = new URLSearchParams({
     latitude: latitudes,
     longitude: longitudes,
-    hourly: PROVIDER_FIELDS[provider].join(','),
+    hourly: field,
     forecast_hours: '1',
     timezone: 'GMT',
     wind_speed_unit: 'ms',
@@ -249,10 +249,10 @@ async function tryNativeJma(coverage,currentView){
   if(!validTime) return false;
   const result=await loadViewportTiles(state.v2Index,region,coverage,'jma',validTime);
   if(!result.loaded.length) return false;
-  const item={provider:'jma',coverage,samples:result.samples,dx:0.0625,dy:0.05,
+  const item={provider:'jma',field,coverage,samples:result.samples,dx:0.0625,dy:0.05,
     validTime:result.loaded[0].tile.valid_time_utc,fetchedAt:Date.now(),nativeTile:true,
     tileCount:result.loaded.length,failedTiles:result.failed.length};
-  cachePut(bboxKey('jma',coverage),item);
+  cachePut(bboxKey('jma',field,coverage),item);
   applyDataset(item,'native-tile');
   return true;
 }
@@ -263,15 +263,21 @@ async function fetchCoverage(provider, coverage, currentView) {
   if (state.aborter) state.aborter.abort();
   state.aborter = new AbortController();
   const grid = sampleGrid(coverage);
-  const url = buildUrl(provider, grid);
+  const field = $('layer').value;
+  const url = buildUrl(provider, grid, field);
   $('status').textContent = '補抓 ' + API[provider].label + ' · ' + grid.points.length + ' samples…';
   const response = await fetch(url, { signal: state.aborter.signal, cache: 'no-store' });
-  if (!response.ok) throw new Error('HTTP ' + response.status);
+  if (!response.ok) {
+    let detail = '';
+    try { detail = (await response.text()).slice(0, 180); } catch (_) {}
+    throw new Error('HTTP ' + response.status + (detail ? ' · ' + detail : ''));
+  }
   const payload = await response.json();
   if (serial !== state.requestSerial) return;
   const samples = normalizeResponse(payload, grid.points);
   const item = {
     provider,
+    field,
     coverage,
     samples,
     dx: grid.dx,
@@ -279,7 +285,7 @@ async function fetchCoverage(provider, coverage, currentView) {
     validTime: samples.find((s) => s.time)?.time || null,
     fetchedAt: Date.now(),
   };
-  cachePut(bboxKey(provider, coverage), item);
+  cachePut(bboxKey(provider, field, coverage), item);
   applyDataset(item, contains(coverage, currentView) ? 'network-fill' : 'prefetch');
 }
 async function updateForViewport(force = false) {
@@ -301,7 +307,7 @@ async function updateForViewport(force = false) {
   }
   $('resolved-provider').textContent = 'resolved: ' + API[provider].label;
   if (!force) {
-    const hit = cacheFind(provider, v);
+    const hit = cacheFind(provider, $('layer').value, v);
     if (hit) {
       applyDataset(hit, 'viewport-hit');
       return;
