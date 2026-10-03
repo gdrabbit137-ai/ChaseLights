@@ -40,16 +40,16 @@ jobs:
           p="/tmp/jma-cell.json"
           d=json.load(open(p))
           snap=d["snapshot"]
-          fields=snap.get("fields",{})
-          sample=next(iter(fields.values()))
-          rows=len(sample)
-          cols=len(sample[0]) if rows else 0
+          grid=snap["grid"]
+          frames=snap["frames"]
+          fields=list(frames[0]["values"]) if frames else []
           summary={
             "bytes":os.path.getsize(p),
             "mib":round(os.path.getsize(p)/1048576,3),
-            "rows":rows,"cols":cols,
-            "fields":list(fields),
+            "rows":grid["rows"],"cols":grid["cols"],
+            "fields":fields,
             "frames_requested":int(os.environ["HOURS"]),
+            "frames_returned":len(frames),
             "bbox":d["request"]["plan"]["fetch_bbox"],
             "cache_key":d["request"]["plan"]["cache_key"],
           }
