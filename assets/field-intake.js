@@ -64,7 +64,7 @@ function texts(v){if(Array.isArray(v))return v.flatMap(texts);if(v&&typeof v==="
 function opNames(o){return [o.name_zh,o.name_en,o.name_ja,o.name_local].concat(texts(o.name_i18n)).filter(Boolean);} function opName(o){const localized=o.name_i18n&&o.name_i18n[state.lang];if(localized)return localized;if(state.lang==="en"&&o.name_en)return o.name_en;if(state.lang==="ja"&&o.name_ja)return o.name_ja;return o.name_zh||o.name_en||o.name_ja||o.name_local||o.opportunity_id;}
 function buildPlaceIndex(catalog){
  const raw=Array.isArray(catalog&&catalog.spots)?catalog.spots:Object.values((catalog&&catalog.spots)||{});
- return raw.filter(function(s){return s&&s.spot_id&&s.active_in_catalog!==false;}).map(function(s){
+ return raw.filter(function(s){return s&&s.spot_id&&s.active_in_catalog!==false&&Array.isArray(s.opportunities)&&s.opportunities.length;}).map(function(s){
   const seen=new Set(),viewpoints=[];
   (s.opportunities||[]).forEach(function(o){(o.viewpoints||[]).forEach(function(v){const lat=num(v.lat),lon=num(v.lon);if(lat===null||lon===null)return;const k=lat.toFixed(7)+","+lon.toFixed(7);if(seen.has(k))return;seen.add(k);viewpoints.push({viewpoint_id:v.viewpoint_id||null,name:v.name||null,lat:lat,lon:lon});});});
   const names=texts(s.name_i18n).concat([s.canonical_name,s.name_local,s.map_query]).filter(Boolean);
@@ -87,7 +87,7 @@ function location(m){const lat=num(m.latitude),lon=num(m.longitude);return lat==
 function camera(m){return{make:m.Make||null,model:m.Model||null,lens_model:m.LensModel||null,focal_length_mm:num(m.FocalLength),f_number:num(m.FNumber),exposure_time_s:num(m.ExposureTime),iso:num(m.ISO||m.ISOSpeedRatings)};}
 function bytes(n){return n<1024?n+" B":n<1048576?(n/1024).toFixed(1)+" KB":(n/1048576).toFixed(1)+" MB";}
 function distance(d){return d==null?"—":d<1?Math.round(d*1000)+" m":d.toFixed(d<10?2:1)+" km";}
-function associationMethod(row){if(!row.selected_spot_id)return"unmatched";if(row.auto_match&&row.selected_spot_id===row.auto_match.spot_id)return"user_confirmed_gps_suggestion";if(row.auto_match)return"user_override";return"manual_search_selection";}
+function associationMethod(row){if(!row.selected_spot_id)return"unmatched";if(row.selection_source==="gps_suggestion_confirmation")return"user_confirmed_gps_suggestion";if(row.selection_source==="manual_override")return"user_override";return"manual_search_selection";}
 function buildObservationDraft(row,opt){
  const p=placeById(row.selected_spot_id),auto=row.auto_match,includeGps=!!(opt&&opt.includeGps);
  const loc={available_in_source:!!row.location,source:row.location?"embedded_exif":null,retention:row.location?(includeGps?"included_by_explicit_user_choice":"withheld_from_export"):"not_available"};
@@ -100,18 +100,18 @@ function meta(grid,label,value,found){const item=el("div","meta-item "+(found?"f
 function selectedPlaceBox(row){
  const box=el("div","selected-place"+(row.selected_spot_id?"":" unmatched")),copy=el("div","selected-place-copy"),p=placeById(row.selected_spot_id);
  copy.append(el("div","selected-place-title",p?placeName(p):t("unmatched")),el("div","selected-place-meta",p?(p.spot_id+(placeArea(p)?" · "+placeArea(p):"")):t("unmatched_meta")));box.appendChild(copy);
- if(p){const b=el("button","clear-btn",t("clear"));b.type="button";b.addEventListener("click",function(){row.selected_spot_id=null;row.selected_opportunity_id=null;renderRows();});box.appendChild(b);}
+ if(p){const b=el("button","clear-btn",t("clear"));b.type="button";b.addEventListener("click",function(){row.selected_spot_id=null;row.selected_opportunity_id=null;row.selection_source=null;renderRows();});box.appendChild(b);}
  return box;
 }
 function placeMatcher(row){
  const root=el("div","place-matcher");root.appendChild(selectedPlaceBox(row));
  if(row.auto_match){
   const p=placeById(row.auto_match.spot_id);
-  if(p){const far=row.auto_match.distance_km>REVIEW_KM,s=el("div","gps-suggestion"+(far?" warn":""));s.append(el("div","gps-suggestion-title",t("gps_suggestion")+" · "+placeName(p)),el("div","gps-suggestion-meta",t(far?"far":"near",{d:distance(row.auto_match.distance_km)})));const actions=el("div","gps-suggestion-actions"),b=el("button","suggestion-btn",t("confirm"));b.type="button";b.addEventListener("click",function(){row.selected_spot_id=p.spot_id;row.selected_opportunity_id=null;renderRows();});actions.appendChild(b);s.appendChild(actions);root.appendChild(s);}
+  if(p){const far=row.auto_match.distance_km>REVIEW_KM,s=el("div","gps-suggestion"+(far?" warn":""));s.append(el("div","gps-suggestion-title",t("gps_suggestion")+" · "+placeName(p)),el("div","gps-suggestion-meta",t(far?"far":"near",{d:distance(row.auto_match.distance_km)})));const actions=el("div","gps-suggestion-actions"),b=el("button","suggestion-btn",t("confirm"));b.type="button";b.addEventListener("click",function(){row.selected_spot_id=p.spot_id;row.selected_opportunity_id=null;row.selection_source="gps_suggestion_confirmation";renderRows();});actions.appendChild(b);s.appendChild(actions);root.appendChild(s);}
  }else root.appendChild(el("div","association-note",row.location?t("gps_none"):t("gps_missing")));
  const wrap=el("div","place-search-wrap"),input=el("input","place-search-input"),list=el("div","place-results");input.type="search";input.placeholder=t("search");input.setAttribute("role","combobox");input.setAttribute("aria-autocomplete","list");input.setAttribute("aria-expanded","false");list.id="place-results-"+row.id;input.setAttribute("aria-controls",list.id);list.setAttribute("role","listbox");list.hidden=true;let active=-1;
  function close(manual){list.hidden=true;input.setAttribute("aria-expanded","false");active=-1;if(manual)input.dataset.manualClosed="1";}
- function choose(p){row.selected_spot_id=p.spot_id;row.selected_opportunity_id=null;renderRows();}
+ function choose(p){row.selected_spot_id=p.spot_id;row.selected_opportunity_id=null;row.selection_source=(row.auto_match&&p.spot_id!==row.auto_match.spot_id)?"manual_override":"manual_search_selection";renderRows();}
  function show(){
   const found=searchPlaceCandidates(input.value);list.innerHTML="";active=-1;
   if(!input.value.trim()){close();return;}
@@ -147,7 +147,7 @@ function renderRows(){
 async function parsePhoto(file,index){
  const id=Date.now().toString(36)+"-"+index.toString(36);let m={},error=null;if(!window.exifr||typeof window.exifr.parse!=="function")error="EXIF parser unavailable";else try{m=await window.exifr.parse(file,true)||{};}catch(e){error=String(e&&e.message?e.message:e);}
  const loc=location(m),auto=loc?nearestPlace(loc.latitude,loc.longitude,state.places):null;
- return{id:id,file:{name:file.name,type:file.type||"",size:file.size,lastModified:file.lastModified},capture_time:captureTime(m),user_capture_time:"",camera:camera(m),location:loc,auto_match:auto,selected_spot_id:null,selected_opportunity_id:null,outcome:"",failure_reason:"",note:"",parse_error:error};
+ return{id:id,file:{name:file.name,type:file.type||"",size:file.size,lastModified:file.lastModified},capture_time:captureTime(m),user_capture_time:"",camera:camera(m),location:loc,auto_match:auto,selected_spot_id:null,selection_source:null,selected_opportunity_id:null,outcome:"",failure_reason:"",note:"",parse_error:error};
 }
 async function handleFiles(files){const list=Array.from(files||[]);if(!list.length)return;parserStatus.className="status";parserStatus.textContent=t("parsing",{n:list.length});const rows=[];for(let i=0;i<list.length;i++)rows.push(await parsePhoto(list[i],i));state.rows=rows;const failures=rows.filter(function(r){return r.parse_error;}).length;parserStatus.className=failures?"status warn":"status ready";parserStatus.textContent=failures?t("partial",{n:failures}):t("done");renderRows();}
 function readyStatus(){if(!state.catalogLoaded)return;if(!window.exifr){parserStatus.className="status warn";parserStatus.textContent=t("ready_no_exif");}else{parserStatus.className="status ready";parserStatus.textContent=t("ready",{n:state.places.length});}}
@@ -155,6 +155,6 @@ async function loadCatalog(){try{const response=await fetch(CATALOG_URL,{cache:"
 photoInput.addEventListener("change",function(){handleFiles(photoInput.files);});
 languageSelect.addEventListener("change",function(){setLanguage(languageSelect.value);});
 downloadAll.addEventListener("click",function(){const o={includeGps:consentGps.checked,modelValidation:consentModel.checked};downloadJson("chaselights-field-observations.json",{schema_version:DRAFT_SCHEMA,exported_at:new Date().toISOString(),observations:state.rows.map(function(r){return buildObservationDraft(r,o);})});});
-window.ChaseLightsFieldIntake={haversineKm:haversineKm,buildPlaceIndex:buildPlaceIndex,nearestPlace:nearestPlace,searchPlaceCandidates:searchPlaceCandidates,buildObservationDraft:buildObservationDraft,associationMethod:associationMethod,getStateSummary:function(){return{catalogLoaded:state.catalogLoaded,placeCount:state.places.length,rowCount:state.rows.length,lang:state.lang,rows:state.rows.map(function(r){return{id:r.id,selected_spot_id:r.selected_spot_id,gps_suggestion_spot_id:r.auto_match?r.auto_match.spot_id:null};})};}};
+window.ChaseLightsFieldIntake={haversineKm:haversineKm,buildPlaceIndex:buildPlaceIndex,nearestPlace:nearestPlace,searchPlaceCandidates:searchPlaceCandidates,buildObservationDraft:buildObservationDraft,associationMethod:associationMethod,getStateSummary:function(){return{catalogLoaded:state.catalogLoaded,placeCount:state.places.length,rowCount:state.rows.length,lang:state.lang,rows:state.rows.map(function(r){return{id:r.id,selected_spot_id:r.selected_spot_id,gps_suggestion_spot_id:r.auto_match?r.auto_match.spot_id:null,association_method:associationMethod(r)};})};}};
 setLanguage(state.lang);loadCatalog();
 })();
