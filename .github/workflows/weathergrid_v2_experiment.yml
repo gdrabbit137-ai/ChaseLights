@@ -98,7 +98,9 @@ jobs:
           done
           test "$ready" -eq 1
       - name: Run deployed V2 browser smoke
-        run: python weathergrid_v2_public_smoke.py --screenshot artifacts/weathergrid-v2-public-smoke.png | tee artifacts/weathergrid-v2-public-smoke.json
+        run: |
+          mkdir -p artifacts
+          python weathergrid_v2_public_smoke.py --screenshot artifacts/weathergrid-v2-public-smoke.png | tee artifacts/weathergrid-v2-public-smoke.json
       - name: Upload V2 smoke evidence
         if: always()
         uses: actions/upload-artifact@v4
