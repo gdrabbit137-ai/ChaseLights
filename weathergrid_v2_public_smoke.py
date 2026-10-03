@@ -61,13 +61,18 @@ def run(url, screenshot):
           "coverage":d.find_element(By.ID,"coverage").text,
           "time":d.find_element(By.ID,"time").text,
         }
-        assert "JMA MSM native tiles" in initial["source"], initial
+        # The initial desktop Taiwan view is intentionally wider than the
+        # currently published native JMA cell set. Partial native coverage must
+        # therefore fall back to the JMA API for the whole viewport instead of
+        # presenting a partial native layer as complete.
+        assert "JMA Best Match" in initial["source"], initial
         assert "loaded coverage" in initial["coverage"], initial
+        assert coverage_contains(initial["viewport"], initial["coverage"]), initial
         assert valid_time_age_seconds(initial["time"]) <= 2 * 60 * 60, initial
 
-        # Keep the native cloud layer selected and move with the real U.S.
-        # preset. This must hand off geographically from JMA native tiles to
-        # GFS/NCEP instead of depending on an unsupported-field fallback.
+        # Keep the cloud layer selected and move with the real U.S. preset.
+        # This must hand off geographically from JMA API coverage to GFS/NCEP
+        # instead of depending on an unsupported-field fallback.
         before=d.find_element(By.ID,"viewport").text
         d.find_element(By.CSS_SELECTOR,'[data-preset="us"]').click()
         wait.until(lambda x: x.find_element(By.ID,"viewport").text != before)
@@ -107,10 +112,18 @@ def run(url, screenshot):
         assert "samples" in conus_after["status"], conus_after
         assert "loaded coverage" in conus_after["coverage"], conus_after
 
-        # Return to Taiwan with the cloud layer still selected and prove native
-        # JMA can take ownership again before testing unsupported-field fallback.
+        # Return to a tighter Taiwan core viewport and prove that native JMA
+        # can take ownership once the full prefetch ring is inside published
+        # native coverage. This distinguishes safe wide-view fallback from
+        # unnecessary permanent fallback.
+        wait.until(lambda x: x.execute_script(
+            "return !!window.__weatherGridV2Smoke"
+        ))
         before_return=d.find_element(By.ID,"viewport").text
-        d.find_element(By.CSS_SELECTOR,'[data-preset="tw"]').click()
+        d.execute_script(
+            "window.__weatherGridV2Smoke.jumpTo(arguments[0], arguments[1], arguments[2])",
+            121.75, 23.8, 10.0,
+        )
         wait.until(lambda x: x.find_element(By.ID,"viewport").text != before_return)
         wait.until(lambda x: (
             "資料已就緒" in x.find_element(By.ID,"status").text
@@ -122,6 +135,7 @@ def run(url, screenshot):
           "viewport":d.find_element(By.ID,"viewport").text,
           "coverage":d.find_element(By.ID,"coverage").text,
         }
+        assert coverage_contains(tw_return["viewport"],tw_return["coverage"]), tw_return
 
         # Unsupported native field must safely fall back instead of failing.
         Select(d.find_element(By.ID,"layer")).select_by_value("visibility")
