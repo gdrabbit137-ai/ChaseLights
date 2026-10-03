@@ -113,6 +113,19 @@ export function dedupeSamples(samples) {
   return [...unique.values()];
 }
 
+export function loadedCoverage(loaded, provider) {
+  const boxes = loaded.map((item) =>
+    item.cell.providers?.[provider]?.coverage_bbox || item.cell.bbox
+  ).filter(Boolean);
+  if (!boxes.length) return null;
+  return {
+    w: Math.min(...boxes.map((b) => b.west)),
+    s: Math.min(...boxes.map((b) => b.south)),
+    e: Math.max(...boxes.map((b) => b.east)),
+    n: Math.max(...boxes.map((b) => b.north)),
+  };
+}
+
 export async function loadViewportTiles(index, region, viewport, provider, validTime, fetchImpl = fetch) {
   const cells = cellsForViewport(index, region, viewport, provider);
   const settled = await Promise.allSettled(cells.map(async (cell) => {
@@ -126,6 +139,8 @@ export async function loadViewportTiles(index, region, viewport, provider, valid
     cells,
     loaded,
     failed,
+    coverage: loadedCoverage(loaded, provider),
+    complete: loaded.length === cells.length && failed.length === 0,
     samples: dedupeSamples(loaded.flatMap((x) => x.samples)),
   };
 }
