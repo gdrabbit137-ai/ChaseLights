@@ -886,10 +886,83 @@ jobs:
               report["place_guide_opportunity_cards"] = len(opp_cards)
               assert opp_cards, "researched Place Guide did not render Opportunity cards"
               guide_text = driver.find_element(By.ID, "place-modal-body").text
-              assert "這裡適合拍什麼" in guide_text
+              assert "所選日期拍攝機會" in guide_text, guide_text
               assert "景點當地時區" in guide_text, guide_text
-              assert "適合時間（景點當地時間）" in guide_text, guide_text
               driver.execute_script("closePlaceModal()")
+
+              # Photographer-first presentation: a durable researched subject
+              # without a selected-date evaluation must not be rendered as a
+              # peer actionable recommendation. Tamsui Fisherman's Wharf has
+              # one forecast-evaluable sunset Opportunity plus module-pending
+              # blue-hour/night-reflection subjects, making the boundary
+              # deterministic rather than dependent on changing weather.
+              previous_day = driver.execute_script("return currentDayFilter")
+              driver.execute_script("switchDay('tomorrow')")
+              wait.until(lambda d: d.execute_script("return currentDayFilter === 'tomorrow'"))
+              tamsui_modal = driver.execute_script("""
+                const spot = currentSpots.find(s => s.spot_id === 'tw-003');
+                if (!spot) return {found:false};
+                openPlaceModal(spot, getMetric(spot));
+                const root = document.getElementById('place-modal-body');
+                const selected = [...root.querySelectorAll('.place-guide-selected .opportunity-card')];
+                const guide = root.querySelector('.place-guide-more');
+                if (guide) guide.open = true;
+                const guideCards = [...root.querySelectorAll('.place-guide-more .opportunity-card-guide')];
+                return {
+                  found: true,
+                  selectedCount: selected.length,
+                  guideCount: guideCards.length,
+                  selectedTitles: selected.map(x => x.querySelector('.opportunity-title')?.textContent || ''),
+                  guideTitles: guideCards.map(x => x.querySelector('.opportunity-title')?.textContent || ''),
+                  guideHasScore: guideCards.some(x => !!x.querySelector('.opportunity-score')),
+                  guideHasCurrentVerdict: guideCards.some(x => !!x.querySelector('.opportunity-current')),
+                  text: root.innerText
+                };
+              """)
+              report["tamsui_selected_date_vs_guide"] = tamsui_modal
+              assert tamsui_modal["found"] is True, tamsui_modal
+              assert tamsui_modal["selectedCount"] >= 1, tamsui_modal
+              assert tamsui_modal["guideCount"] >= 1, tamsui_modal
+              assert tamsui_modal["guideHasScore"] is False, tamsui_modal
+              assert tamsui_modal["guideHasCurrentVerdict"] is False, tamsui_modal
+              assert "夕照" in " ".join(tamsui_modal["selectedTitles"]), tamsui_modal
+              assert any(
+                  marker in " ".join(tamsui_modal["guideTitles"])
+                  for marker in ("暮色光雕", "夜景＋水面倒影")
+              ), tamsui_modal
+              assert "最佳季節待證據" not in tamsui_modal["text"], tamsui_modal
+              assert "最佳季節尚無足夠證據" not in tamsui_modal["text"], tamsui_modal
+
+              # The same information hierarchy must remain usable on phones:
+              # no horizontal overflow, selected-date section remains present,
+              # and the guide disclosure/cards remain reachable.
+              driver.set_window_size(390, 844)
+              wait.until(lambda d: d.execute_script("return window.innerWidth <= 640"))
+              mobile_tamsui_modal = driver.execute_script("""
+                const modal = document.querySelector('#place-modal-overlay .place-guide-modal');
+                const body = document.getElementById('place-modal-body');
+                const guide = body.querySelector('.place-guide-more');
+                return {
+                  viewportWidth: window.innerWidth,
+                  modalWidth: modal?.getBoundingClientRect().width || 0,
+                  bodyClientWidth: body.clientWidth,
+                  bodyScrollWidth: body.scrollWidth,
+                  selectedCount: body.querySelectorAll('.place-guide-selected .opportunity-card').length,
+                  guidePresent: !!guide,
+                  guideOpen: !!guide?.open,
+                  guideCount: body.querySelectorAll('.place-guide-more .opportunity-card-guide').length
+                };
+              """)
+              report["tamsui_selected_date_vs_guide_mobile"] = mobile_tamsui_modal
+              assert mobile_tamsui_modal["modalWidth"] <= mobile_tamsui_modal["viewportWidth"], mobile_tamsui_modal
+              assert mobile_tamsui_modal["bodyScrollWidth"] <= mobile_tamsui_modal["bodyClientWidth"] + 1, mobile_tamsui_modal
+              assert mobile_tamsui_modal["selectedCount"] >= 1, mobile_tamsui_modal
+              assert mobile_tamsui_modal["guidePresent"] is True, mobile_tamsui_modal
+              assert mobile_tamsui_modal["guideOpen"] is True, mobile_tamsui_modal
+              assert mobile_tamsui_modal["guideCount"] >= 1, mobile_tamsui_modal
+              driver.execute_script("closePlaceModal(); switchDay(arguments[0]);", previous_day)
+              driver.set_window_size(1440, 1200)
+              wait.until(lambda d: d.execute_script("return currentDayFilter === arguments[0]", previous_day))
 
               cards = driver.find_elements(By.CSS_SELECTOR, "#spots-container .card")
               weather = cards[0].find_element(By.CSS_SELECTOR, "[data-weather]")

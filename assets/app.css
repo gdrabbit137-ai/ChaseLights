@@ -724,7 +724,17 @@
       .modal-summary { font-size: .76rem; }
     }
     .place-guide-modal { max-width: 820px; background: #111827; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    .place-guide-time-note { color:#94a3b8; font-size:.78rem; margin-bottom:10px; line-height:1.45; }
+    .place-guide-section-title { color:#e2e8f0; font-size:.88rem; font-weight:800; margin-bottom:8px; }
     .place-guide-intro { color:#94a3b8; font-size:.84rem; margin-bottom:12px; line-height:1.5; }
+    .place-guide-empty { border:1px dashed #475569; border-radius:9px; padding:14px 12px; color:#94a3b8; background:#0f172a; font-size:.84rem; line-height:1.5; text-align:center; }
+    .place-guide-more { margin-top:14px; border:1px solid #334155; border-radius:10px; overflow:hidden; background:rgba(15,23,42,.55); }
+    .place-guide-more > summary { cursor:pointer; list-style:none; padding:11px 13px; color:#cbd5e1; font-size:.84rem; font-weight:800; user-select:none; }
+    .place-guide-more > summary::-webkit-details-marker { display:none; }
+    .place-guide-more > summary::after { content:"＋"; float:right; color:#64748b; }
+    .place-guide-more[open] > summary::after { content:"−"; }
+    .place-guide-more[open] > summary { border-bottom:1px solid #334155; }
+    .place-guide-more-body { padding:12px; }
     .opportunity-list { display:flex; flex-direction:column; gap:12px; }
     .opportunity-card { border:1px solid #334155; border-radius:10px; background:#172033; padding:12px 14px; }
     .opportunity-head { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-bottom:8px; }
@@ -748,7 +758,12 @@
     .research-label { color:#7dd3fc; font-weight:700; }
     .variant-name { color:#e2e8f0; font-weight:700; margin-top:6px; }
     @media (max-width:640px) {
+      .place-guide-time-note { margin-bottom:8px; }
+      .place-guide-section-title { font-size:.84rem; }
       .place-guide-intro { font-size:.78rem; margin-bottom:9px; }
+      .place-guide-more { margin-top:11px; }
+      .place-guide-more > summary { padding:10px 11px; }
+      .place-guide-more-body { padding:10px; }
       .opportunity-list { gap:9px; }
       .opportunity-card { padding:11px 12px; }
       .opportunity-head { margin-bottom:7px; }
