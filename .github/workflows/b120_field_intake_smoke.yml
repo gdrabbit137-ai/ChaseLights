@@ -6,10 +6,13 @@ on:
       - main
     paths:
       - "B120_FIELD_OBSERVATION_INTAKE.md"
+      - "RESEARCH_EVIDENCE_SPEC_R4_2.md"
+      - "NAVIGATION_SPEC_R4_2.md"
       - "field-intake.html"
       - "assets/field-intake.js"
       - "assets/field-intake.css"
       - "test_field_intake_static.py"
+      - "test_field_intake_browser.py"
       - ".github/workflows/b120_field_intake_smoke.yml"
       - "runtime_catalog_v004_r4_2.json"
       - "index.html"
@@ -35,5 +38,27 @@ jobs:
       - name: Check JavaScript syntax
         run: node --check assets/field-intake.js
 
-      - name: Run B120 static contract tests
+      - name: Run Field Intake static contract tests
         run: python test_field_intake_static.py
+
+      - name: Install browser test dependency
+        run: python -m pip install --disable-pip-version-check selenium
+
+      - name: Run desktop/mobile Field Intake browser smoke
+        run: |
+          python -m http.server 8000 --bind 127.0.0.1 >/tmp/field-intake-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill $server_pid || true' EXIT
+          ready=0
+          for i in {1..30}; do
+            if curl -fsS http://127.0.0.1:8000/field-intake.html >/dev/null; then
+              ready=1
+              break
+            fi
+            sleep 1
+          done
+          if [ "$ready" -ne 1 ]; then
+            cat /tmp/field-intake-http.log || true
+            exit 1
+          fi
+          python test_field_intake_browser.py
