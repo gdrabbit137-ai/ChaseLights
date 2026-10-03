@@ -275,6 +275,8 @@ def test_adapter_integrity():
         for oid in gap_ids:
             assert component in dependency_state(op_by_id[oid])["missing_components"], (component, oid)
 
+    assert ACCESS_PROFILE_CLASSIFICATION["jp-036-P03"]["access_type"] == "managed_boat_operation"
+    assert "jp-036-P03" not in ACCESS_RUNTIME_READY_PROFILES
     assert set(ACCESS_PROFILE_CLASSIFICATION) == set(ACCESS_DEPENDENT_PROFILE_IDS)
     assert set(ACCESS_RUNTIME_READY_PROFILES) <= set(ACCESS_DEPENDENT_PROFILE_IDS)
     for oid in ACCESS_DEPENDENT_PROFILE_IDS:
