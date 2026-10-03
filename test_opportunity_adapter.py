@@ -2842,7 +2842,10 @@ def test_adapter_integrity():
 
     # B174 scenic expansion admission: preserve evidence/runtime and navigation boundaries.
     nanzilin = next(s for s in tw if s["spot_id"] == "tw-085")
-    assert nanzilin["navigation_target"]["status"] == "needs_review"
+    assert nanzilin["navigation_target"]["status"] == "verified"
+    assert nanzilin["navigation_target"]["target_type"] == "official_destination_arrival"
+    assert abs(nanzilin["navigation_target"]["lat"] - 25.1201398) < 1e-9
+    assert abs(nanzilin["navigation_target"]["lon"] - 121.887539) < 1e-9
     assert [o["opportunity_id"] for o in nanzilin["opportunities"]] == [
         "tw-085-P01", "tw-085-P02", "tw-085-P03"
     ]
