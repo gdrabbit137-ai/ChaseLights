@@ -9,5 +9,9 @@ class BrowserTileLoaderContract(unittest.TestCase):
   self.assertIn("payload_partition !== 'valid_time'",s)
   self.assertIn("tileToSamples",s)
   self.assertIn("grid length mismatch",s)
+  self.assertIn("cellsForViewport",s)
+  self.assertIn("loadViewportTiles",s)
+  self.assertIn("Promise.allSettled",s)
+  self.assertIn("cell.providers?.[provider]",s)
 
 if __name__=="__main__": unittest.main()
