@@ -932,7 +932,36 @@ jobs:
               ), tamsui_modal
               assert "最佳季節待證據" not in tamsui_modal["text"], tamsui_modal
               assert "最佳季節尚無足夠證據" not in tamsui_modal["text"], tamsui_modal
+
+              # The same information hierarchy must remain usable on phones:
+              # no horizontal overflow, selected-date section remains present,
+              # and the guide disclosure/cards remain reachable.
+              driver.set_window_size(390, 844)
+              wait.until(lambda d: d.execute_script("return window.innerWidth <= 640"))
+              mobile_tamsui_modal = driver.execute_script("""
+                const modal = document.querySelector('#place-modal-overlay .place-guide-modal');
+                const body = document.getElementById('place-modal-body');
+                const guide = body.querySelector('.place-guide-more');
+                return {
+                  viewportWidth: window.innerWidth,
+                  modalWidth: modal?.getBoundingClientRect().width || 0,
+                  bodyClientWidth: body.clientWidth,
+                  bodyScrollWidth: body.scrollWidth,
+                  selectedCount: body.querySelectorAll('.place-guide-selected .opportunity-card').length,
+                  guidePresent: !!guide,
+                  guideOpen: !!guide?.open,
+                  guideCount: body.querySelectorAll('.place-guide-more .opportunity-card-guide').length
+                };
+              """)
+              report["tamsui_selected_date_vs_guide_mobile"] = mobile_tamsui_modal
+              assert mobile_tamsui_modal["modalWidth"] <= mobile_tamsui_modal["viewportWidth"], mobile_tamsui_modal
+              assert mobile_tamsui_modal["bodyScrollWidth"] <= mobile_tamsui_modal["bodyClientWidth"] + 1, mobile_tamsui_modal
+              assert mobile_tamsui_modal["selectedCount"] >= 1, mobile_tamsui_modal
+              assert mobile_tamsui_modal["guidePresent"] is True, mobile_tamsui_modal
+              assert mobile_tamsui_modal["guideOpen"] is True, mobile_tamsui_modal
+              assert mobile_tamsui_modal["guideCount"] >= 1, mobile_tamsui_modal
               driver.execute_script("closePlaceModal(); switchDay(arguments[0]);", previous_day)
+              driver.set_window_size(1440, 1200)
               wait.until(lambda d: d.execute_script("return currentDayFilter === arguments[0]", previous_day))
 
               cards = driver.find_elements(By.CSS_SELECTOR, "#spots-container .card")
