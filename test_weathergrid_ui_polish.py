@@ -302,5 +302,70 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertNotIn("0–100 題材環境指標", self.js)
 
 
+    def test_b173_composite_contract_is_viewport_native_and_provenance_explicit(self):
+        spec = (ROOT / "B172_PHOTOGRAPHER_FIRST_AUTO.md").read_text(encoding="utf-8")
+        self.assertIn("viewport-native regular latitude/longitude grid", spec)
+        self.assertIn("Default nominal spacing: **5 km**", spec)
+        self.assertIn("**40,000 cells**", spec)
+        self.assertIn("requested_spacing_km", spec)
+        self.assertIn("effective_lat_spacing_km", spec)
+        self.assertIn("effective_lon_spacing_km", spec)
+        self.assertIn("temporal_offset_minutes", spec)
+        self.assertIn("temporal_tolerance_minutes", spec)
+        self.assertIn('"interpolation": "bilinear"', spec)
+        self.assertIn("outside_source_bbox", spec)
+        self.assertIn("effective weight coverage (0–1)", spec)
+        self.assertIn("Do not use a source provider's grid as the target grid", spec)
+
+        self.assertIn("function buildPhotographyCompositeGrid(bbox,requestedSpacingKm=5,maxCells=40000)", self.js)
+        self.assertIn("function buildPhotographyComponentProvenance(key,targetValidTime,toleranceMinutes=90)", self.js)
+        self.assertIn("effective_lat_spacing_km", self.js)
+        self.assertIn("temporal_offset_minutes", self.js)
+        self.assertIn("outside_source_bbox:'missing'", self.js)
+        self.assertIn("function resamplePhotographyComponent(key,targetGrid,targetValidTime,toleranceMinutes=90)", self.js)
+        self.assertIn("function photographyBilinearValue(data,values,point)", self.js)
+        self.assertIn("status_counts:statusCounts", self.js)
+        self.assertIn("status:'insufficient_neighbors'", self.js)
+        self.assertIn("status:'outside_bbox'", self.js)
+
+        self.assertIn("function buildPhotographyComposite(mode='overview'", self.js)
+        self.assertIn("effective_weight_coverage:effectiveWeightCoverage", self.js)
+        self.assertIn("minimum_weight_coverage:.60", self.js)
+        self.assertIn("kind:'photography_environment_diagnostic'", self.js)
+        self.assertIn("canonical_opportunity_score:false", self.js)
+        self.assertIn("if(effectiveWeightCoverage[i]>=.60", self.js)
+
+        self.assertIn("function cloudSeaNativeDiagnostic(op,targetValidTime=baseFrame()?.valid_time_utc)", self.js)
+        self.assertIn("function photographyNativePointSample(point,key,targetValidTime,toleranceMinutes=90)", self.js)
+        self.assertIn("function photographyGeometrySamplePoints(item,op)", self.js)
+        self.assertIn("status:'insufficient_role_evidence'", self.js)
+        self.assertIn("canonical_opportunity_score:false", self.js)
+        self.assertIn("cameraLow.mean", self.js)
+        self.assertIn("valleyLow.mean", self.js)
+
+        self.assertIn("function mountainNativeDiagnostic(op,targetValidTime=baseFrame()?.valid_time_utc)", self.js)
+        self.assertIn("directional_subject_required:true", self.js)
+        self.assertIn("!cameras.length || !subjects.length", self.js)
+        self.assertIn("Math.min(", self.js)
+        self.assertIn("subjectVis.mean/30", self.js)
+        self.assertIn("subjectLow.mean/70", self.js)
+
+        self.assertIn("function solarPositionUtc(validTime,lat,lon)", self.js)
+        self.assertIn("function sunriseSunsetNativeDiagnostic(op,targetValidTime=baseFrame()?.valid_time_utc)", self.js)
+        self.assertIn("solar.altitude_deg>=-12 && solar.altitude_deg<=8", self.js)
+        self.assertIn("bearingInsideSector(solar.azimuth_deg", self.js)
+        self.assertIn("status:!horizon?'outside_solar_window':'solar_direction_mismatch'", self.js)
+        self.assertIn("solar_geometry_required:true", self.js)
+
+        self.assertIn("function seascapeNativeDiagnostic(op,targetValidTime=baseFrame()?.valid_time_utc)", self.js)
+        self.assertIn("marine_direction_required:true", self.js)
+        self.assertIn("wave_data_integrated:false", self.js)
+        self.assertIn("tide_data_integrated:false", self.js)
+        self.assertIn("'wind is not wave height'", self.js)
+        self.assertIn("'tide state is not available in this diagnostic'", self.js)
+
+
+
+
 if __name__ == "__main__":
     unittest.main()

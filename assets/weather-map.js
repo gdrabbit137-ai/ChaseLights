@@ -114,6 +114,428 @@
     return {leftlon,rightlon,bottomlat,toplat};
   }
 
+  function buildPhotographyCompositeGrid(bbox,requestedSpacingKm=5,maxCells=40000){
+    const view=normalizeViewBbox(bbox);
+    if(!view) return null;
+    const requested=Math.max(2,Math.min(20,Number(requestedSpacingKm)||5));
+    const midLat=(view.bottomlat+view.toplat)/2;
+    const kmPerLatDeg=111.32;
+    const kmPerLonDeg=Math.max(1,kmPerLatDeg*Math.cos(midLat*Math.PI/180));
+    const latKm=(view.toplat-view.bottomlat)*kmPerLatDeg;
+    const lonKm=(view.rightlon-view.leftlon)*kmPerLonDeg;
+    let effective=requested;
+    let rows=Math.max(2,Math.ceil(latKm/effective)+1);
+    let cols=Math.max(2,Math.ceil(lonKm/effective)+1);
+    if(rows*cols>maxCells){
+      effective*=Math.sqrt((rows*cols)/maxCells);
+      rows=Math.max(2,Math.ceil(latKm/effective)+1);
+      cols=Math.max(2,Math.ceil(lonKm/effective)+1);
+      while(rows*cols>maxCells){
+        effective*=1.01;
+        rows=Math.max(2,Math.ceil(latKm/effective)+1);
+        cols=Math.max(2,Math.ceil(lonKm/effective)+1);
+      }
+    }
+    const latStep=(view.toplat-view.bottomlat)/(rows-1);
+    const lonStep=(view.rightlon-view.leftlon)/(cols-1);
+    return {
+      bbox:view,rows,cols,cell_count:rows*cols,
+      requested_spacing_km:requested,
+      effective_lat_spacing_km:latStep*kmPerLatDeg,
+      effective_lon_spacing_km:lonStep*kmPerLonDeg,
+      mid_latitude_deg:midLat,
+      latitudes:Array.from({length:rows},(_,i)=>view.toplat-i*latStep),
+      longitudes:Array.from({length:cols},(_,i)=>view.leftlon+i*lonStep)
+    };
+  }
+
+  function photographyProviderName(data){
+    if(data===state.cwaData) return 'CWA WRF';
+    if(data===state.jmaData) return 'JMA MSM';
+    if(data===state.iconData) return 'ICON Global';
+    if(data===state.data) return 'GFS';
+    return 'unknown';
+  }
+
+  function buildPhotographyComponentProvenance(key,targetValidTime,toleranceMinutes=90){
+    const data=autoDataset(key);
+    if(!data?.fields?.[key]) return {field:key,provider:photographyProviderName(data),status:'missing_field'};
+    const frames=data.frames || [];
+    if(!frames.length || !targetValidTime) return {field:key,provider:photographyProviderName(data),status:'missing_time'};
+    const targetMs=Date.parse(targetValidTime);
+    let best=null;
+    for(const frame of frames){
+      const sourceMs=Date.parse(frame.valid_time_utc);
+      if(!Number.isFinite(sourceMs)||!Number.isFinite(targetMs)) continue;
+      const offset=Math.round((sourceMs-targetMs)/60000);
+      if(!best || Math.abs(offset)<Math.abs(best.offset)) best={frame,offset};
+    }
+    const base={
+      field:key,provider:photographyProviderName(data),
+      target_valid_time_utc:targetValidTime,
+      temporal_tolerance_minutes:toleranceMinutes,
+      source_grid:{rows:data.grid?.rows||0,cols:data.grid?.cols||0},
+      interpolation:'bilinear',outside_source_bbox:'missing'
+    };
+    if(!best || Math.abs(best.offset)>toleranceMinutes) return {...base,status:'missing_time'};
+    return {...base,source_valid_time_utc:best.frame.valid_time_utc,
+      temporal_offset_minutes:best.offset,status:'ok'};
+  }
+
+  function photographyFrameForProvenance(data,provenance){
+    if(!data || provenance?.status!=='ok') return null;
+    return data.frames?.find(frame=>frame.valid_time_utc===provenance.source_valid_time_utc) || null;
+  }
+
+  function photographyDecodedValues(data,key,frame){
+    const encoded=frame?.values?.[key];
+    return encoded ? encoded.map(value=>decodeValue(key,value,data)) : [];
+  }
+
+  function photographyBilinearValue(data,values,point){
+    const lons=data?.grid?.longitudes,lats=data?.grid?.latitudes;
+    if(!lons?.length || !lats?.length || !values?.length) return {status:'insufficient_neighbors',value:null};
+    const bbox=normalizeViewBbox(data.bbox);
+    if(bbox && (point.lon<bbox.leftlon || point.lon>bbox.rightlon ||
+      point.lat<bbox.bottomlat || point.lat>bbox.toplat)) return {status:'outside_bbox',value:null};
+    const bracket=(arr,v)=>{
+      const asc=arr[0]<=arr[arr.length-1];
+      const ordered=asc?arr:[...arr].reverse();
+      if(v<ordered[0] || v>ordered[ordered.length-1]) return null;
+      let hi=1;
+      while(hi<ordered.length && v>ordered[hi]) hi++;
+      if(hi>=ordered.length) hi=ordered.length-1;
+      const lo=Math.max(0,hi-1);
+      return {lo:asc?lo:arr.length-1-lo,hi:asc?hi:arr.length-1-hi,a0:ordered[lo],a1:ordered[hi]};
+    };
+    const bx=bracket(lons,point.lon),by=bracket(lats,point.lat);
+    if(!bx||!by) return {status:'outside_bbox',value:null};
+    const idx=(r,c)=>r*data.grid.cols+c;
+    const q00=values[idx(by.lo,bx.lo)],q10=values[idx(by.lo,bx.hi)];
+    const q01=values[idx(by.hi,bx.lo)],q11=values[idx(by.hi,bx.hi)];
+    if([q00,q10,q01,q11].some(value=>!Number.isFinite(value))) return {status:'insufficient_neighbors',value:null};
+    const wx=bx.a1===bx.a0?0:(point.lon-bx.a0)/(bx.a1-bx.a0);
+    const wy=by.a1===by.a0?0:(point.lat-by.a0)/(by.a1-by.a0);
+    return {status:'ok',value:bilinearValue(q00,q10,q01,q11,wx,wy)};
+  }
+
+  function resamplePhotographyComponent(key,targetGrid,targetValidTime,toleranceMinutes=90){
+    const provenance=buildPhotographyComponentProvenance(key,targetValidTime,toleranceMinutes);
+    const data=autoDataset(key);
+    const frame=photographyFrameForProvenance(data,provenance);
+    const values=photographyDecodedValues(data,key,frame);
+    const out=new Array(targetGrid?.cell_count||0).fill(null);
+    const statusCounts={ok:0,missing_field:0,missing_time:0,outside_bbox:0,insufficient_neighbors:0};
+    if(provenance.status!=='ok'){
+      statusCounts[provenance.status]=out.length;
+      return {values:out,provenance,status_counts:statusCounts};
+    }
+    for(let r=0;r<targetGrid.rows;r++){
+      for(let c=0;c<targetGrid.cols;c++){
+        const sample=photographyBilinearValue(data,values,{lat:targetGrid.latitudes[r],lon:targetGrid.longitudes[c]});
+        out[r*targetGrid.cols+c]=sample.value;
+        statusCounts[sample.status]=(statusCounts[sample.status]||0)+1;
+      }
+    }
+    return {values:out,provenance,status_counts:statusCounts};
+  }
+
+  function photographyGeometrySamplePoints(item,op){
+    const g=item?.geometry;
+    if(!g) return [];
+    if(g.type==='point'){
+      const lat=Number(g.lat),lon=Number(g.lon);
+      return [lat,lon].every(Number.isFinite)?[{lat,lon}]:[];
+    }
+    if(g.type==='bbox'){
+      const west=Number(g.west),east=Number(g.east),south=Number(g.south),north=Number(g.north);
+      if(![west,east,south,north].every(Number.isFinite)) return [];
+      return [
+        {lat:(south+north)/2,lon:(west+east)/2},
+        {lat:south,lon:west},{lat:south,lon:east},{lat:north,lon:west},{lat:north,lon:east}
+      ];
+    }
+    if(g.type==='polygon' || g.type==='corridor'){
+      const pts=(g.coordinates||[]).map(([lon,lat])=>({lat:Number(lat),lon:Number(lon)}))
+        .filter(p=>Number.isFinite(p.lat)&&Number.isFinite(p.lon));
+      if(pts.length<=12) return pts;
+      const step=(pts.length-1)/11;
+      return Array.from({length:12},(_,i)=>pts[Math.round(i*step)]);
+    }
+    if(g.type==='sector'){
+      const origin=geometryOrigin(g,op);
+      if(!origin) return [];
+      const bearings=sectorBearings(g.azimuth_start_deg,g.azimuth_end_deg);
+      const min=Number(g.min_range_km||0),max=Number(g.max_range_km||0);
+      const range=min+(max-min)*.65;
+      const sampled=bearings.length<=11?bearings:Array.from({length:11},(_,i)=>bearings[Math.round(i*(bearings.length-1)/10)]);
+      return [origin,...sampled.map(b=>destination(origin.lat,origin.lon,b,range))];
+    }
+    return [];
+  }
+
+  function photographyNativePointSample(point,key,targetValidTime,toleranceMinutes=90){
+    const provenance=buildPhotographyComponentProvenance(key,targetValidTime,toleranceMinutes);
+    const data=autoDataset(key);
+    const frame=photographyFrameForProvenance(data,provenance);
+    if(provenance.status!=='ok') return {value:null,status:provenance.status,provenance};
+    const values=photographyDecodedValues(data,key,frame);
+    const sample=photographyBilinearValue(data,values,point);
+    return {value:sample.value,status:sample.status,provenance:{...provenance,status:sample.status}};
+  }
+
+  function photographyNativeMetricSummary(points,key,targetValidTime){
+    const samples=(points||[]).map(point=>photographyNativePointSample(point,key,targetValidTime));
+    const values=samples.map(x=>x.value).filter(Number.isFinite);
+    return {
+      mean:values.length?values.reduce((a,b)=>a+b,0)/values.length:null,
+      min:values.length?Math.min(...values):null,max:values.length?Math.max(...values):null,
+      count:values.length,requested_count:samples.length,samples
+    };
+  }
+
+  function cloudSeaNativeDiagnostic(op,targetValidTime=baseFrame()?.valid_time_utc){
+    if(!op || !targetValidTime) return null;
+    const cameras=(op.camera_zones||[]).map(c=>({lat:Number(c.lat),lon:Number(c.lon)}))
+      .filter(p=>Number.isFinite(p.lat)&&Number.isFinite(p.lon));
+    const valley=(op.environment_geometries||[]).flatMap(item=>photographyGeometrySamplePoints(item,op));
+    const cameraLow=photographyNativeMetricSummary(cameras,'low_cloud_percent',targetValidTime);
+    const valleyLow=photographyNativeMetricSummary(valley,'low_cloud_percent',targetValidTime);
+    const cameraVis=photographyNativeMetricSummary(cameras,'visibility_km',targetValidTime);
+    const valleyRh=photographyNativeMetricSummary(valley,'relative_humidity_2m_percent',targetValidTime);
+    const cameraRain=photographyNativeMetricSummary(cameras,'precip_rate_mm_h',targetValidTime);
+    // Cloud-sea role separation is essential: no score unless both the
+    // camera and valley have native-grid low-cloud evidence.
+    if(!Number.isFinite(cameraLow.mean)||!Number.isFinite(valleyLow.mean)){
+      return {kind:'photography_environment_diagnostic',mode:'cloudsea_fog',score:null,
+        status:'insufficient_role_evidence',canonical_opportunity_score:false,
+        metrics:{cameraLow,valleyLow,cameraVis,valleyRh,cameraRain}};
+    }
+    const terms=[
+      [Number.isFinite(cameraVis.mean)?Math.max(0,Math.min(1,cameraVis.mean/20)):null,.28],
+      [1-Math.max(0,Math.min(1,cameraLow.mean/80)),.25],
+      [Math.max(0,Math.min(1,valleyLow.mean/85)),.30],
+      [Number.isFinite(valleyRh.mean)?Math.max(0,Math.min(1,valleyRh.mean/100)):null,.10],
+      [Number.isFinite(cameraRain.mean)?1-Math.max(0,Math.min(1,cameraRain.mean/2)):null,.07]
+    ].filter(([v])=>Number.isFinite(v));
+    const available=terms.reduce((sum,t)=>sum+t[1],0);
+    const score=available>=.60?100*terms.reduce((sum,t)=>sum+t[0]*t[1],0)/available:null;
+    return {kind:'photography_environment_diagnostic',mode:'cloudsea_fog',score,
+      status:score==null?'insufficient_weight_coverage':'ok',
+      effective_weight_coverage:available,minimum_weight_coverage:.60,
+      canonical_opportunity_score:false,metrics:{cameraLow,valleyLow,cameraVis,valleyRh,cameraRain}};
+  }
+
+  function mountainNativeDiagnostic(op,targetValidTime=baseFrame()?.valid_time_utc){
+    if(!op || !targetValidTime) return null;
+    const cameras=(op.camera_zones||[]).map(c=>({lat:Number(c.lat),lon:Number(c.lon)}))
+      .filter(p=>Number.isFinite(p.lat)&&Number.isFinite(p.lon));
+    const subjects=(op.subject_geometries||[]).flatMap(item=>photographyGeometrySamplePoints(item,op));
+    const cameraVis=photographyNativeMetricSummary(cameras,'visibility_km',targetValidTime);
+    const subjectVis=photographyNativeMetricSummary(subjects,'visibility_km',targetValidTime);
+    const cameraLow=photographyNativeMetricSummary(cameras,'low_cloud_percent',targetValidTime);
+    const subjectLow=photographyNativeMetricSummary(subjects,'low_cloud_percent',targetValidTime);
+    const cameraRain=photographyNativeMetricSummary(cameras,'precip_rate_mm_h',targetValidTime);
+    const cameraWind=photographyNativeMetricSummary(cameras,'wind_speed_10m_m_s',targetValidTime);
+    // A mountain-view diagnostic needs both a valid camera position and
+    // explicit subject-direction geometry; do not substitute the whole map.
+    if(!cameras.length || !subjects.length || !Number.isFinite(cameraVis.mean) || !Number.isFinite(subjectVis.mean)){
+      return {kind:'photography_environment_diagnostic',mode:'mountain_view',score:null,
+        status:'insufficient_role_evidence',canonical_opportunity_score:false,
+        directional_subject_required:true,
+        metrics:{cameraVis,subjectVis,cameraLow,subjectLow,cameraRain,cameraWind}};
+    }
+    const clearSight=Math.min(
+      Math.max(0,Math.min(1,cameraVis.mean/30)),
+      Math.max(0,Math.min(1,subjectVis.mean/30))
+    );
+    const subjectCloud=Number.isFinite(subjectLow.mean)?1-Math.max(0,Math.min(1,subjectLow.mean/70)):null;
+    const cameraCloud=Number.isFinite(cameraLow.mean)?1-Math.max(0,Math.min(1,cameraLow.mean/70)):null;
+    const cloudClear=Number.isFinite(subjectCloud)&&Number.isFinite(cameraCloud)?Math.min(subjectCloud,cameraCloud):subjectCloud??cameraCloud;
+    const terms=[
+      [clearSight,.45],[cloudClear,.25],
+      [Number.isFinite(cameraRain.mean)?1-Math.max(0,Math.min(1,cameraRain.mean/1.5)):null,.18],
+      [Number.isFinite(cameraWind.mean)?1-Math.max(0,Math.min(1,cameraWind.mean/15)):null,.12]
+    ].filter(([v])=>Number.isFinite(v));
+    const available=terms.reduce((sum,t)=>sum+t[1],0);
+    const score=available>=.60?100*terms.reduce((sum,t)=>sum+t[0]*t[1],0)/available:null;
+    return {kind:'photography_environment_diagnostic',mode:'mountain_view',score,
+      status:score==null?'insufficient_weight_coverage':'ok',
+      effective_weight_coverage:available,minimum_weight_coverage:.60,
+      canonical_opportunity_score:false,directional_subject_required:true,
+      metrics:{cameraVis,subjectVis,cameraLow,subjectLow,cameraRain,cameraWind}};
+  }
+
+  function solarPositionUtc(validTime,lat,lon){
+    const date=new Date(validTime);
+    if(!Number.isFinite(date.getTime()) || !Number.isFinite(lat) || !Number.isFinite(lon)) return null;
+    const rad=Math.PI/180,deg=180/Math.PI;
+    const jd=date.getTime()/86400000+2440587.5;
+    const n=jd-2451545.0;
+    const L=(280.46+0.9856474*n)%360;
+    const g=(357.528+0.9856003*n)%360;
+    const lambda=(L+1.915*Math.sin(g*rad)+0.020*Math.sin(2*g*rad))*rad;
+    const epsilon=(23.439-0.0000004*n)*rad;
+    const ra=Math.atan2(Math.cos(epsilon)*Math.sin(lambda),Math.cos(lambda))*deg;
+    const dec=Math.asin(Math.sin(epsilon)*Math.sin(lambda));
+    const gmst=(280.46061837+360.98564736629*(jd-2451545.0))%360;
+    let hour=((gmst+lon-ra+540)%360)-180;
+    hour*=rad;
+    const phi=lat*rad;
+    const altitude=Math.asin(Math.sin(phi)*Math.sin(dec)+Math.cos(phi)*Math.cos(dec)*Math.cos(hour));
+    const azimuth=(Math.atan2(Math.sin(hour),Math.cos(hour)*Math.sin(phi)-Math.tan(dec)*Math.cos(phi))*deg+180+360)%360;
+    return {azimuth_deg:azimuth,altitude_deg:altitude*deg};
+  }
+
+  function angularDistanceDeg(a,b){
+    return Math.abs((((a-b)+540)%360)-180);
+  }
+
+  function bearingInsideSector(bearing,start,end,toleranceDeg=0){
+    const b=((Number(bearing)%360)+360)%360,s=((Number(start)%360)+360)%360,e=((Number(end)%360)+360)%360;
+    const span=(e-s+360)%360;
+    const rel=(b-s+360)%360;
+    return rel<=span || angularDistanceDeg(b,s)<=toleranceDeg || angularDistanceDeg(b,e)<=toleranceDeg;
+  }
+
+  function sunriseSunsetNativeDiagnostic(op,targetValidTime=baseFrame()?.valid_time_utc){
+    if(!op || !targetValidTime) return null;
+    const cameras=(op.camera_zones||[]).map(c=>({lat:Number(c.lat),lon:Number(c.lon)}))
+      .filter(p=>Number.isFinite(p.lat)&&Number.isFinite(p.lon));
+    const sectors=(op.subject_geometries||[]).map(item=>item?.geometry)
+      .filter(g=>g?.type==='sector');
+    if(!cameras.length || !sectors.length){
+      return {kind:'photography_environment_diagnostic',mode:'sunrise_sunset',score:null,
+        status:'insufficient_role_evidence',canonical_opportunity_score:false,solar_geometry_required:true};
+    }
+    const camera=cameras[0];
+    const solar=solarPositionUtc(targetValidTime,camera.lat,camera.lon);
+    const directional=solar && sectors.some(g=>bearingInsideSector(solar.azimuth_deg,g.azimuth_start_deg,g.azimuth_end_deg,8));
+    // Restrict this diagnostic to the photographic twilight/sun-near-horizon window.
+    const horizon=solar && solar.altitude_deg>=-12 && solar.altitude_deg<=8;
+    if(!solar || !directional || !horizon){
+      return {kind:'photography_environment_diagnostic',mode:'sunrise_sunset',score:null,
+        status:!horizon?'outside_solar_window':'solar_direction_mismatch',
+        canonical_opportunity_score:false,solar_geometry_required:true,solar};
+    }
+    const sky=sectors.flatMap(g=>photographyGeometrySamplePoints({geometry:g},op));
+    const low=photographyNativeMetricSummary(sky,'low_cloud_percent',targetValidTime);
+    const mid=photographyNativeMetricSummary(sky,'mid_cloud_percent',targetValidTime);
+    const high=photographyNativeMetricSummary(sky,'high_cloud_percent',targetValidTime);
+    const vis=photographyNativeMetricSummary(cameras,'visibility_km',targetValidTime);
+    const rain=photographyNativeMetricSummary(cameras,'precip_rate_mm_h',targetValidTime);
+    const target=(value,ideal,width)=>Number.isFinite(value)?Math.max(0,1-Math.abs(value-ideal)/width):null;
+    const terms=[
+      [Number.isFinite(low.mean)?1-Math.max(0,Math.min(1,low.mean/80)):null,.15],
+      [target(mid.mean,35,50),.20],[target(high.mean,55,55),.35],
+      [Number.isFinite(vis.mean)?Math.max(0,Math.min(1,vis.mean/25)):null,.20],
+      [Number.isFinite(rain.mean)?1-Math.max(0,Math.min(1,rain.mean/2)):null,.10]
+    ].filter(([v])=>Number.isFinite(v));
+    const available=terms.reduce((sum,t)=>sum+t[1],0);
+    const score=available>=.60?100*terms.reduce((sum,t)=>sum+t[0]*t[1],0)/available:null;
+    return {kind:'photography_environment_diagnostic',mode:'sunrise_sunset',score,
+      status:score==null?'insufficient_weight_coverage':'ok',
+      effective_weight_coverage:available,minimum_weight_coverage:.60,
+      canonical_opportunity_score:false,solar_geometry_required:true,solar,
+      metrics:{low,mid,high,vis,rain}};
+  }
+
+  function seascapeNativeDiagnostic(op,targetValidTime=baseFrame()?.valid_time_utc){
+    if(!op || !targetValidTime) return null;
+    const cameras=(op.camera_zones||[]).map(c=>({lat:Number(c.lat),lon:Number(c.lon)}))
+      .filter(p=>Number.isFinite(p.lat)&&Number.isFinite(p.lon));
+    const seaPoints=(op.subject_geometries||[]).flatMap(item=>photographyGeometrySamplePoints(item,op));
+    if(!cameras.length || !seaPoints.length){
+      return {kind:'photography_environment_diagnostic',mode:'seascape',score:null,
+        status:'insufficient_role_evidence',canonical_opportunity_score:false,
+        marine_direction_required:true,wave_data_integrated:false,tide_data_integrated:false};
+    }
+    const cameraVis=photographyNativeMetricSummary(cameras,'visibility_km',targetValidTime);
+    const seaVis=photographyNativeMetricSummary(seaPoints,'visibility_km',targetValidTime);
+    const cameraRain=photographyNativeMetricSummary(cameras,'precip_rate_mm_h',targetValidTime);
+    const seaWind=photographyNativeMetricSummary(seaPoints,'wind_speed_10m_m_s',targetValidTime);
+    const seaCloud=photographyNativeMetricSummary(seaPoints,'total_cloud_percent',targetValidTime);
+    if(!Number.isFinite(cameraVis.mean)||!Number.isFinite(seaVis.mean)){
+      return {kind:'photography_environment_diagnostic',mode:'seascape',score:null,
+        status:'insufficient_role_evidence',canonical_opportunity_score:false,
+        marine_direction_required:true,wave_data_integrated:false,tide_data_integrated:false,
+        metrics:{cameraVis,seaVis,cameraRain,seaWind,seaCloud}};
+    }
+    const sight=Math.min(Math.max(0,Math.min(1,cameraVis.mean/25)),Math.max(0,Math.min(1,seaVis.mean/25)));
+    const targetCloud=Number.isFinite(seaCloud.mean)?Math.max(0,1-Math.abs(seaCloud.mean-45)/55):null;
+    const terms=[
+      [sight,.30],
+      [Number.isFinite(cameraRain.mean)?1-Math.max(0,Math.min(1,cameraRain.mean/2)):null,.25],
+      [Number.isFinite(seaWind.mean)?1-Math.max(0,Math.min(1,seaWind.mean/15)):null,.20],
+      [targetCloud,.25]
+    ].filter(([v])=>Number.isFinite(v));
+    const available=terms.reduce((sum,t)=>sum+t[1],0);
+    const score=available>=.60?100*terms.reduce((sum,t)=>sum+t[0]*t[1],0)/available:null;
+    return {kind:'photography_environment_diagnostic',mode:'seascape',score,
+      status:score==null?'insufficient_weight_coverage':'ok',
+      effective_weight_coverage:available,minimum_weight_coverage:.60,
+      canonical_opportunity_score:false,marine_direction_required:true,
+      wave_data_integrated:false,tide_data_integrated:false,
+      limitations:['wind is not wave height','tide state is not available in this diagnostic'],
+      metrics:{cameraVis,seaVis,cameraRain,seaWind,seaCloud}};
+  }
+
+  const photographyCompositeWeights = {
+    overview:{
+      low_cloud_percent:.22,high_cloud_percent:.18,visibility_km:.28,
+      precip_rate_mm_h:.20,wind_speed_10m_m_s:.12
+    }
+  };
+
+  function photographyComponentScore(key,value){
+    if(!Number.isFinite(value)) return null;
+    const clamp=value=>Math.max(0,Math.min(1,value));
+    if(key==='low_cloud_percent') return 1-clamp(Math.abs(value-25)/75);
+    if(key==='high_cloud_percent') return 1-clamp(Math.abs(value-45)/55);
+    if(key==='visibility_km') return clamp(value/25);
+    if(key==='precip_rate_mm_h') return 1-clamp(value/2);
+    if(key==='wind_speed_10m_m_s') return 1-clamp(value/12);
+    return null;
+  }
+
+  function buildPhotographyComposite(mode='overview',bbox=renderViewBbox(),targetValidTime=baseFrame()?.valid_time_utc,requestedSpacingKm=5){
+    const weights=photographyCompositeWeights[mode];
+    if(!weights) return null;
+    const grid=buildPhotographyCompositeGrid(bbox,requestedSpacingKm);
+    if(!grid || !targetValidTime) return null;
+    const components={};
+    for(const key of Object.keys(weights)){
+      components[key]=resamplePhotographyComponent(key,grid,targetValidTime);
+    }
+    const values=new Array(grid.cell_count).fill(null);
+    const effectiveWeightCoverage=new Array(grid.cell_count).fill(0);
+    for(let i=0;i<grid.cell_count;i++){
+      let weighted=0,availableWeight=0,totalWeight=0;
+      for(const [key,weight] of Object.entries(weights)){
+        totalWeight+=weight;
+        const score=photographyComponentScore(key,components[key].values[i]);
+        if(Number.isFinite(score)){
+          weighted+=score*weight;
+          availableWeight+=weight;
+        }
+      }
+      effectiveWeightCoverage[i]=totalWeight?availableWeight/totalWeight:0;
+      // Research boundary: do not publish a score when less than 60% of
+      // the intended evidence weight is actually present at this cell.
+      if(effectiveWeightCoverage[i]>=.60 && availableWeight>0){
+        values[i]=100*weighted/availableWeight;
+      }
+    }
+    return {
+      mode,kind:'photography_environment_diagnostic',
+      canonical_opportunity_score:false,
+      target_valid_time_utc:targetValidTime,
+      grid,weights,components,values,
+      effective_weight_coverage:effectiveWeightCoverage,
+      minimum_weight_coverage:.60
+    };
+  }
+
   function setViewBbox(bbox,{animate=false,maxZoom=13}={}){
     const view=normalizeViewBbox(bbox);
     if(!view) return false;
