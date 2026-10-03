@@ -23,7 +23,7 @@ on:
       forecast_hours:
         description: "Hourly JMA MSM valid times to publish for the V2 preview"
         required: false
-        default: "6"
+        default: "12"
 
 concurrency:
   group: chaselights-weathergrid-v2-jma-publish
@@ -60,7 +60,7 @@ jobs:
 
       - name: Publish current Taiwan JMA native working set
         env:
-          FORECAST_HOURS: ${{ inputs.forecast_hours || '6' }}
+          FORECAST_HOURS: ${{ inputs.forecast_hours || '12' }}
         run: |
           rm -rf weathergrid/v2/jma/current
           python weathergrid_v2_publish.py             --region tw             --forecast-hours "$FORECAST_HOURS"             --output-root weathergrid/v2             | tee /tmp/weathergrid-v2-jma-summary.json
@@ -79,11 +79,15 @@ jobs:
           assert run["reference_time_utc"] == manifest["reference_time_utc"]
           assert run["valid_times"] == manifest["valid_times"]
           assert run["default_valid_time_utc"] == manifest["default_valid_time_utc"]
+          assert run["nearest_valid_time_utc"] == manifest["nearest_valid_time_utc"]
+          assert run["nearest_valid_time_token"] == manifest["nearest_valid_time_token"]
+          assert run["default_valid_time_utc"] == run["nearest_valid_time_utc"]
           for field in ("cloud_cover_low", "cloud_cover_mid", "cloud_cover_high"):
               assert field in run["supported_fields"], run["supported_fields"]
 
           tokens = [x["token"] for x in run["valid_times"]]
           assert tokens, "no V2 JMA valid times"
+          assert run["nearest_valid_time_token"] in tokens
           cells_by_id = {
               c["id"]: c for c in index["regions"]["tw"]["cells"]
               if "jma" in c["providers"]
@@ -94,7 +98,7 @@ jobs:
 
           for cell_id in published_ids:
               assert cell_id in cells_by_id, cell_id
-              token = tokens[0]
+              token = run["nearest_valid_time_token"]
               tile_path = root / "jma/current" / token / f"{cell_id}.json"
               assert tile_path.exists(), tile_path
               tile = json.loads(tile_path.read_text())
@@ -108,6 +112,8 @@ jobs:
               "valid_times": len(tokens),
               "taiwan_cells": len(published_ids),
               "first_token": tokens[0],
+              "nearest_valid_time_utc": run["nearest_valid_time_utc"],
+              "nearest_valid_time_token": run["nearest_valid_time_token"],
           }, indent=2))
           PY
 
