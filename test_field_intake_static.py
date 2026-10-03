@@ -66,6 +66,7 @@ class FieldIntakeStaticTest(unittest.TestCase):
             self.assertIn(locale, self.js)
         for key in (
             "gps_suggestion",
+            "close_results",
             "selected_override",
             "subject_empty",
             "partial_outcome",
