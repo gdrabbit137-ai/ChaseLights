@@ -21,6 +21,17 @@ on:
       - "test_weathergrid_v2_tile_export.py"
       - "test_weathergrid_v2_capacity.py"
       - ".github/workflows/weathergrid_v2_experiment.yml"
+      - "weathergrid_v2_public_smoke.py"
+  push:
+    branches: [main]
+    paths:
+      - "weather-map-v2.html"
+      - "assets/weather-map-v2.js"
+      - "assets/weather-map-v2-tile-loader.js"
+      - "assets/weather-map-v2.css"
+      - "weathergrid/v2/**"
+      - "weathergrid_v2_public_smoke.py"
+      - ".github/workflows/weathergrid_v2_experiment.yml"
   workflow_dispatch:
 
 jobs:
@@ -32,7 +43,9 @@ jobs:
         with:
           python-version: "3.10"
       - name: Static V2 contract
-        run: python test_weathergrid_v2_experiment.py
+        run: |
+          python -m py_compile weathergrid_v2_public_smoke.py
+          python test_weathergrid_v2_experiment.py
       - name: Native viewport contract
         run: python -m unittest -v test_weathergrid_viewport_fetch.py
       - name: Static regional cache contract
@@ -57,3 +70,40 @@ jobs:
           done
           grep -q "WeatherGrid V2" /tmp/weather-map-v2.html
           grep -q "weather-map-v2.js" /tmp/weather-map-v2.html
+
+
+  deployed-smoke:
+    if: github.event_name != 'pull_request'
+    needs: contract
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Install Selenium
+        run: python -m pip install --disable-pip-version-check selenium
+      - name: Wait for V2 GitHub Pages publication
+        run: |
+          expected_html_sha="$(sha256sum weather-map-v2.html | awk '{print $1}')"
+          expected_js_sha="$(sha256sum assets/weather-map-v2.js | awk '{print $1}')"
+          ready=0
+          for i in {1..24}; do
+            nonce="${GITHUB_SHA}-${i}-$(date +%s)"
+            curl -fsSL --max-time 20 -H 'Cache-Control: no-cache' "https://chaselights.app/weather-map-v2.html?pages_probe=${nonce}" -o /tmp/v2.html || true
+            curl -fsSL --max-time 20 -H 'Cache-Control: no-cache' "https://chaselights.app/assets/weather-map-v2.js?pages_probe=${nonce}" -o /tmp/v2.js || true
+            if [[ -s /tmp/v2.html && -s /tmp/v2.js ]] && [[ "$(sha256sum /tmp/v2.html | awk '{print $1}')" == "$expected_html_sha" ]] && [[ "$(sha256sum /tmp/v2.js | awk '{print $1}')" == "$expected_js_sha" ]]; then ready=1; break; fi
+            sleep 15
+          done
+          test "$ready" -eq 1
+      - name: Run deployed V2 browser smoke
+        run: python weathergrid_v2_public_smoke.py --screenshot artifacts/weathergrid-v2-public-smoke.png | tee artifacts/weathergrid-v2-public-smoke.json
+      - name: Upload V2 smoke evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: weathergrid-v2-public-smoke
+          path: artifacts/
+          if-no-files-found: warn
+          retention-days: 7
