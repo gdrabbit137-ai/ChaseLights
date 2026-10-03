@@ -5,6 +5,7 @@ from pathlib import Path
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select, WebDriverWait
+from selenium.common.exceptions import TimeoutException
 
 def driver():
     o=webdriver.ChromeOptions()
@@ -17,7 +18,21 @@ def run(url, screenshot):
     d=driver(); wait=WebDriverWait(d,60)
     try:
         d.get(url+("?smoke=" if "?" not in url else "&smoke=")+str(int(time.time())))
-        wait.until(lambda x: "資料已就緒" in x.find_element(By.ID,"status").text)
+        try:
+            wait.until(lambda x: "資料已就緒" in x.find_element(By.ID,"status").text)
+        except TimeoutException:
+            screenshot.parent.mkdir(parents=True,exist_ok=True)
+            d.save_screenshot(str(screenshot))
+            diagnostic={
+              "status":d.find_element(By.ID,"status").text,
+              "source":d.find_element(By.ID,"source").text,
+              "viewport":d.find_element(By.ID,"viewport").text,
+              "coverage":d.find_element(By.ID,"coverage").text,
+              "resolved_provider":d.find_element(By.ID,"resolved-provider").text,
+              "time":d.find_element(By.ID,"time").text,
+              "browser_logs":d.get_log("browser")[-30:],
+            }
+            raise AssertionError("Initial V2 load timed out: "+json.dumps(diagnostic,ensure_ascii=False))
         initial={
           "status":d.find_element(By.ID,"status").text,
           "source":d.find_element(By.ID,"source").text,

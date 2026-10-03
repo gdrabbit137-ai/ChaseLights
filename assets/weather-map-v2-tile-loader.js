@@ -30,7 +30,7 @@ export function providerSupportsField(index, provider, field) {
 function utcTimeMs(value) {
   if (value instanceof Date) return value.getTime();
   const raw = String(value);
-  const normalized = /(?:Z|[+-]\\d\\d:\\d\\d)$/.test(raw) ? raw : raw + 'Z';
+  const normalized = /(?:Z|[+-]\d\d:\d\d)$/.test(raw) ? raw : raw + 'Z';
   return new Date(normalized).getTime();
 }
 
