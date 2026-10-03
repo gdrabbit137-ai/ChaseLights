@@ -336,6 +336,18 @@ function gotoPreset(name) {
   schedule(true);
 }
 
+if (new URLSearchParams(window.location.search).has('smoke')) {
+  window.__weatherGridV2Smoke = Object.freeze({
+    jumpTo(lon, lat, zoom = 4.0) {
+      map.jumpTo({ center: [Number(lon), Number(lat)], zoom: Number(zoom) });
+      schedule(true);
+    },
+    region() {
+      return regionForView(view());
+    },
+  });
+}
+
 map.on('load', () => { resize(); schedule(true); });
 map.on('move', draw);
 map.on('moveend', () => schedule(false));
