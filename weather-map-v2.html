@@ -20,9 +20,9 @@
     <section class="toolbar">
       <label>模型
         <select id="provider">
-          <option value="auto">Auto · JMA MSM 區域優先 / GFS fallback</option>
-          <option value="jma">JMA · MSM 區域限定</option>
-          <option value="gfs">NCEP · GFS/HRRR Best Match</option>
+          <option value="auto">Auto · JMA endpoint 優先 / NCEP fallback</option>
+          <option value="jma">JMA endpoint · 實驗取樣</option>
+          <option value="gfs">NCEP endpoint · 實驗取樣</option>
         </select>
       </label>
       <label>圖層
@@ -57,8 +57,8 @@
         <div id="cache">request cache —</div>
         <div class="note">
           移動或縮放後，V2 會以目前 viewport 外擴的 prefetch ring 重新取樣並快取。
-          Auto 在 JMA MSM 原生區域內優先走 JMA；美國與其他區域走 NCEP GFS/HRRR endpoint。
-          這是瀏覽器端粗網格 prototype，用來驗證「地圖移到哪、資料補到哪」的互動與成本，不代表模型原生解析度被提高。
+          Auto 目前以地理範圍選擇 Open-Meteo 的 JMA 或 NCEP endpoint；endpoint 的 Best Match 可能依位置選不同模型，因此此頁不宣稱每一格必定是 MSM、GFS 或 HRRR。
+          這是瀏覽器端 API 粗網格 prototype，用來驗證「地圖移到哪、資料補到哪」的互動與成本，不代表模型原生解析度被提高。
         </div>
       </div>
     </section>
