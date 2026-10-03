@@ -15,10 +15,17 @@ def driver():
     o.set_capability("goog:loggingPrefs", {"browser":"ALL"})
     return webdriver.Chrome(options=o)
 
+def bbox_values(text):
+    return [float(v.strip()) for v in text.split(":",1)[1].split(",")]
+
 def viewport_center(text):
-    values=[float(v.strip()) for v in text.split(":",1)[1].split(",")]
-    west,south,east,north=values
+    west,south,east,north=bbox_values(text)
     return ((west+east)/2,(south+north)/2)
+
+def coverage_contains(viewport_text, coverage_text):
+    vw,vs,ve,vn=bbox_values(viewport_text)
+    cw,cs,ce,cn=bbox_values(coverage_text)
+    return cw <= vw and cs <= vs and ce >= ve and cn >= vn
 
 def run(url, screenshot):
     d=driver(); wait=WebDriverWait(d,60)
@@ -88,12 +95,29 @@ def run(url, screenshot):
         assert "samples" in conus_after["status"], conus_after
         assert "loaded coverage" in conus_after["coverage"], conus_after
 
-        # Alaska has its own geographic resolver. Jump there by dragging from
-        # the CONUS view and require the same safe NCEP refill contract.
-        # This is deliberately a browser interaction rather than a unit-only
-        # regionForView assertion.
-        ActionChains(d).move_to_element(map_el).drag_and_drop_by_offset(map_el,520,210).perform()
-        wait.until(lambda x: "資料已就緒" in x.find_element(By.ID,"status").text)
+        # Alaska has its own geographic resolver. Move there with real map
+        # drags, but decide each next drag from the viewport that MapLibre
+        # actually produced. This avoids assuming one pixel offset always lands
+        # in Alaska across browser/rendering differences.
+        for _ in range(8):
+            current=d.find_element(By.ID,"viewport").text
+            lon,lat=viewport_center(current)
+            if -170 <= lon <= -129 and 51 <= lat <= 72:
+                break
+            dx=360 if lon > -129 else (-240 if lon < -170 else 0)
+            dy=140 if lat < 51 else (-120 if lat > 72 else 0)
+            assert dx or dy, {"viewport":current,"center":[lon,lat]}
+            ActionChains(d).move_to_element(map_el).drag_and_drop_by_offset(map_el,dx,dy).perform()
+            wait.until(lambda x, previous=current: x.find_element(By.ID,"viewport").text != previous)
+
+        wait.until(lambda x: (
+            "資料已就緒" in x.find_element(By.ID,"status").text
+            and "loaded coverage" in x.find_element(By.ID,"coverage").text
+            and coverage_contains(
+                x.find_element(By.ID,"viewport").text,
+                x.find_element(By.ID,"coverage").text,
+            )
+        ))
         alaska={
           "status":d.find_element(By.ID,"status").text,
           "source":d.find_element(By.ID,"source").text,
@@ -104,7 +128,7 @@ def run(url, screenshot):
         alaska_lon,alaska_lat=viewport_center(alaska["viewport"])
         assert -170 <= alaska_lon <= -129 and 51 <= alaska_lat <= 72, alaska
         assert "samples" in alaska["status"], alaska
-        assert "loaded coverage" in alaska["coverage"], alaska
+        assert coverage_contains(alaska["viewport"],alaska["coverage"]), alaska
 
         screenshot.parent.mkdir(parents=True,exist_ok=True)
         d.save_screenshot(str(screenshot))
