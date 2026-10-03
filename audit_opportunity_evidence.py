@@ -44,6 +44,11 @@ EVIDENCE_KEYS = {
     "verification_evidence",
 }
 
+AMBIGUOUS_PENDING_COPY = (
+    "待氣候驗證",
+    "climate verification pending",
+)
+
 EVIDENCE_MARKERS = (
     "subject_evidence",
     "photography_evidence",
@@ -123,6 +128,23 @@ def _explicit_evidence(op):
     return False, None
 
 
+def _verified_existence_copy_conflicts(op, registry_entry):
+    """Return fields whose copy ambiguously contradicts verified existence.
+
+    A verified subject may still have unknown seasonality or formation rules,
+    but those unknown dimensions must be named explicitly rather than making
+    the subject itself sound unverified.
+    """
+    if registry_entry.get("status") != "verified":
+        return []
+    conflicts = []
+    for field in ("best_season", "best_time"):
+        value = str(op.get(field) or "").strip().lower()
+        if any(marker.lower() in value for marker in AMBIGUOUS_PENDING_COPY):
+            conflicts.append(field)
+    return conflicts
+
+
 def _load_registry():
     if not EVIDENCE_REGISTRY_FILE.exists():
         return {}
@@ -153,6 +175,7 @@ def build_report():
                 if "risk_override" in registry_entry:
                     risks = list(registry_entry.get("risk_override") or [])
                 registry_status = registry_entry.get("status")
+                dimension_copy_conflicts = _verified_existence_copy_conflicts(op, registry_entry)
                 derived_cloud_sea = _derived_cloud_sea_basis(op, risks)
                 unresolved_risks = [
                     risk for risk in risks
@@ -191,6 +214,7 @@ def build_report():
                         "formula_status": op.get("formula_status"),
                         "evidence_grade": registry_entry.get("grade"),
                         "evidence_scope": registry_entry.get("evidence_scope"),
+                        "dimension_copy_conflicts": dimension_copy_conflicts,
                     }
                 )
     return {
@@ -203,6 +227,7 @@ def build_report():
         "insufficient_evidence": [r for r in records if r["audit_status"] == "insufficient_evidence"],
         "remove_or_rewrite": [r for r in records if r["audit_status"] == "remove_or_rewrite"],
         "documented_high_risk": [r for r in records if r["audit_status"] == "documented"],
+        "dimension_copy_conflicts": [r for r in records if r["dimension_copy_conflicts"]],
         "all_records": records,
     }
 
@@ -230,6 +255,17 @@ def main():
             row["place"],
             row["name_zh"],
             ",".join(row["risk_classes"]),
+        )
+
+    if args.enforce and report["dimension_copy_conflicts"]:
+        conflicts = ", ".join(
+            f'{row["opportunity_id"]}:{"/".join(row["dimension_copy_conflicts"])}'
+            for row in report["dimension_copy_conflicts"]
+        )
+        raise SystemExit(
+            "Evidence dimension gate failed: verified Opportunity existence is "
+            f"contradicted by ambiguous pending copy ({conflicts}). Name the unresolved "
+            "seasonality / formation / forecastability dimension explicitly."
         )
 
     if args.enforce and report["review_required"]:
