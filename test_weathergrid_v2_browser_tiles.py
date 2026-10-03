@@ -14,6 +14,7 @@ class BrowserTileLoaderContract(unittest.TestCase):
         self.assertIn("loadViewportTiles", s)
         self.assertIn("Promise.allSettled", s)
         self.assertIn("cell.providers?.[provider]", s)
+        self.assertIn("published_cell_ids", s)
 
     def test_loader_uses_manifest_time_and_canonical_token(self):
         s = Path("assets/weather-map-v2-tile-loader.js").read_text()
