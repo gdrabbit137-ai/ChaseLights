@@ -136,6 +136,9 @@ OPPORTUNITY_DEPENDENCY_OVERRIDES = {
 # intentionally has no configured runtime profile yet. Adapter tests assert
 # registered profiles + these gaps exactly cover canonical dependencies.
 RUNTIME_PROFILE_GAPS = {
+    "seasonal_foreground": frozenset({
+        "tw-085-P03",
+    }),
     "spatial_weather_vertical_cloud": frozenset({
         "jp-002-P01",
         "tw-021-P02",
@@ -152,6 +155,7 @@ RUNTIME_PROFILE_GAPS = {
         "tw-041-P02", "tw-041-P04", "tw-043-P04",
         "tw-045-P01", "tw-045-P04", "tw-049-P02",
         "tw-064-P01", "tw-068-P01", "tw-069-P01",
+        "tw-085-P01", "tw-085-P02",
     }),
 }
 
@@ -160,6 +164,9 @@ RUNTIME_PROFILE_GAPS = {
 # external prerequisite is missing. Keep these separate from RUNTIME_PROFILE_GAPS,
 # which means no component profile is configured at all.
 RUNTIME_READINESS_GAPS = {
+    "dynamic_access": frozenset({
+        "jp-036-P03",
+    }),
     "spatial_weather_vertical_cloud": frozenset({
         # The Alishan boardwalk Camera Zone is researched as a linear zone but
         # still lacks an exact lat/lon anchor required by the spatial sampler.

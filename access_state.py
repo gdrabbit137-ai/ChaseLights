@@ -88,6 +88,12 @@ ACCESS_REQUIREMENTS = {
         "requires_live_notice": True,
         "requires_user_entitlement": False,
     },
+    "managed_boat_operation": {
+        "provider_family": "official_managed_boat_operation",
+        "max_snapshot_age_seconds": 6 * 3600,
+        "requires_live_notice": True,
+        "requires_user_entitlement": True,
+    },
 }
 
 _ACCESS_GROUPS = {
@@ -118,6 +124,7 @@ _ACCESS_GROUPS = {
     "waterfall_trail_status": ("tw-055-P01",),
     "tidal_path_notice": ("tw-059-P01", "tw-078-P01"),
     "facility_hours_notice": ("tw-068-P01", "jp-033-P02", "us-024-P02", "us-050-P02"),
+    "managed_boat_operation": ("jp-036-P03",),
 }
 
 ACCESS_PROFILE_CLASSIFICATION = {}
@@ -147,6 +154,13 @@ ACCESS_RUNTIME_READY_PROFILES = frozenset({
 # These are provider-discovery hints, not proof that an Opportunity is open.
 # They document official sources verified during B25 architecture work.
 OFFICIAL_SOURCE_HINTS = {
+    "jp-036": {
+        "authority": "Takachiho Tourism Association",
+        "source_kind": "takachiho_gorge_rental_boat_daily_operation",
+        "url": "https://takachiho-kanko.info/boat/",
+        "verified_on": "2026-10-03",
+        "note": "The official operator publishes rental-boat operating state and notices. Weather alone must never imply the boat route is operating; provider integration remains pending and therefore fails closed.",
+    },
     "us-070": {
         "authority": "Alaska Division of Parks and Outdoor Recreation",
         "source_kind": "independence_mine_hatcher_pass_current_road_trail_access",

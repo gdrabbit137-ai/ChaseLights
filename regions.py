@@ -115,6 +115,7 @@ TW_ADMIN_AREAS = {
     "tw-082": ["花蓮縣"],
     "tw-083": ["花蓮縣"],
     "tw-084": ["花蓮縣"],
+    "tw-085": ["新北市"],
 }
 
 # B137 country-neutral first-level administrative-area metadata.
@@ -164,6 +165,7 @@ JP_ADMIN_AREAS = {
     "jp-033": ["佐賀県"],
     "jp-034": ["長崎県"],
     "jp-035": ["福岡県"],
+    "jp-036": ["宮崎県"],
 }
 
 US_ADMIN_AREAS = {
@@ -364,6 +366,7 @@ REGIONS = {
             (23.93493, 121.50803, "鯉魚潭", "Liyu Lake · North Shore", "鯉魚潭・北岸", "鯉魚潭", "本島", ["lake", "mountain"]),
             (23.827018, 121.51548, "雲山水夢幻湖", "Yun Shan Shui Dream Lake", "雲山水夢幻湖", "雲山水夢幻湖", "本島", ["lake", "forest"]),
             (23.6143836, 121.4159714, "大農大富平地森林園區", "Danongdafu Forest Park", "大農大富平地森林園区", "大農大富平地森林園區", "本島", ["forest"]),
+            (25.1201398, 121.887539, "南子吝步道", "Nanzilin Trail", "南子吝歩道", "南子吝步道", "本島", ["mountain", "coast"]),
         ],
     },
     "jp": {
@@ -406,6 +409,7 @@ REGIONS = {
             (33.4500, 129.9600, "唐津城", "Karatsu Castle", "唐津城", "唐津城", "九州/沖繩", ["city", "coast"]),
             (32.7500, 129.8700, "長崎哥拉巴園", "Glover Garden Nagasaki", "グラバー園", "グラバー園", "九州/沖繩", ["city", "coast"]),
             (33.5900, 130.3800, "福岡塔", "Fukuoka Tower", "福岡タワー", "福岡タワー", "九州/沖繩", ["city", "coast"]),
+            (32.7016613, 131.3003766, "高千穗峽", "Takachiho Gorge", "高千穂峡", "高千穂峡", "九州/沖繩", ["waterfall", "forest", "mountain"]),
         ],
     },
     "us": {
@@ -2021,6 +2025,40 @@ DISPLAY_NAME_OVERRIDES = {
 # separate. map_query is search/display metadata only and MUST NOT be used to
 # build a production Navigation URL.
 NAVIGATION_TARGET_OVERRIDES = {
+    "南子吝步道": {
+        "status": "verified",
+        "lat": 25.1201398,
+        "lon": 121.887539,
+        "target_type": "official_destination_arrival",
+        "label_i18n": {
+            "zh-TW": "南子吝步道官方到達點",
+            "en": "Nanzilin Trail official arrival point",
+            "ja": "南子吝歩道 公式到着地点",
+        },
+        "source": "New Taipei City Travel official How to Get There Google Maps destination (25.1201398, 121.887539); reviewed 2026-10-03",
+        "confidence": "high",
+        "note_i18n": {
+            "zh-TW": "此點是官方旅遊頁提供的實際到達／步道入口導航點，不是山稜 Camera Zone；攝影機位仍沿合法步道與觀景平台選擇。",
+            "en": "This is the official tourism arrival/trail-access destination, not the ridge Camera Zone. Photography positions remain along the legal trail and viewing platform.",
+            "ja": "公式観光ページの到着・登山口ナビ地点であり、稜線のCamera Zoneではありません。撮影位置は合法な歩道・展望台内で選びます。",
+        },
+    },
+    "高千穗峽": {
+        "status": "multiple_access_routes",
+        "target_type": "route_choice_required",
+        "label_i18n": {
+            "zh-TW": "高千穗峽有多個停車／步行／租船進入方式",
+            "en": "Takachiho Gorge has multiple parking, walking and boat access routes",
+            "ja": "高千穂峡は駐車・徒歩・貸しボートで複数のアクセス経路があります",
+        },
+        "source": "Takachiho Tourism Association documents multiple official parking/access options and separately managed rental-boat access; #1 Oshioi public parking is independently mapped at 32.7016613, 131.3003766; reviewed 2026-10-03",
+        "confidence": "high",
+        "note_i18n": {
+            "zh-TW": "真名井瀑布步道、三橋攝影點與租船視角的實際到達方式不同；第1御塩井停車場只作 Place／天氣 anchor，在 route-selection 資料完成前不指定單一 Directions 終點。",
+            "en": "Manai Falls walking access, the Three Bridges photo point and the rental-boat perspective use different arrival modes. #1 Oshioi Parking is only the Place/weather anchor; no single Directions target is chosen until route selection is modeled.",
+            "ja": "真名井の滝の遊歩道、三橋撮影点、貸しボートでは到着方法が異なります。第1御塩井駐車場はPlace／天気アンカーのみとし、ルート選択モデル完成前は単一のDirections目的地を指定しません。",
+        },
+    },
     "馬塔努斯卡冰河": {
         "status": "verified",
         "lat": 61.7994722,
