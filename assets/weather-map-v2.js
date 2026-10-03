@@ -84,7 +84,8 @@ function bboxKey(provider, field, b) {
   return provider + ':' + field + ':' + [b.w, b.s, b.e, b.n].map((v) => Number(v).toFixed(1)).join(':');
 }
 function autoProvider(b) {
-  return contains(MSM_DOMAIN, b) ? 'jma' : 'gfs';
+  const region = regionForView(b);
+  return (region === 'tw' || region === 'jp') ? 'jma' : 'gfs';
 }
 function selectedProvider(b) {
   const selected = $('provider').value;
@@ -93,7 +94,7 @@ function selectedProvider(b) {
     if (field === 'visibility') return 'gfs';
     return autoProvider(b);
   }
-  if (selected === 'jma' && (!contains(MSM_DOMAIN, b) || field === 'visibility')) return null;
+  if (selected === 'jma' && (!['tw', 'jp'].includes(regionForView(b)) || field === 'visibility')) return null;
   return selected;
 }
 function gridShape() {
@@ -195,7 +196,7 @@ function buildUrl(provider, grid, field) {
     timezone: 'GMT',
     wind_speed_unit: 'ms',
     cell_selection: 'nearest',
-    elevation: 'nan',
+    elevation: grid.points.map(() => 'nan').join(','),
   });
   return cfg.url + '?' + params.toString();
 }
@@ -293,7 +294,7 @@ async function updateForViewport(force = false) {
   const prefetch = expand(v);
   $('viewport').textContent = 'viewport: ' + fmt(v);
   $('prefetch').textContent = 'prefetch ring: ' + fmt(prefetch);
-  const provider = selectedProvider(prefetch);
+  const provider = selectedProvider(v);
   if (!provider) {
     state.samples = [];
     state.coverage = null;
