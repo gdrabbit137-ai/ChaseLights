@@ -224,7 +224,7 @@ function applyDataset(item, cacheStatus) {
   $('cache').textContent = 'request cache: ' + state.cache.size + ' · ' + cacheStatus;
   $('source').textContent = item.nativeTile ? ('JMA MSM native tiles · '+item.tileCount+' tiles'+(item.failedTiles?' · '+item.failedTiles+' missing':'')) : (API[item.provider].label + ' · ' + API[item.provider].detail);
   $('time').textContent = 'valid time: ' + (item.validTime || '—');
-  $('status').textContent = '資料已就緒 · ' + item.samples.length + ' samples';
+  $('status').textContent = item.coverageComplete === false ? '資料不完整 · ' + item.samples.length + ' samples · 部分區域缺少原生資料' : '資料已就緒 · ' + item.samples.length + ' samples';
   draw();
 }
 
@@ -252,7 +252,7 @@ async function tryNativeJma(coverage,currentView){
   if(!result.loaded.length) return false;
   const item={provider:'jma',field,coverage:result.coverage || coverage,samples:result.samples,dx:0.0625,dy:0.05,
     validTime:result.loaded[0].tile.valid_time_utc,fetchedAt:Date.now(),nativeTile:true,
-    tileCount:result.loaded.length,failedTiles:result.failed.length};
+    tileCount:result.loaded.length,failedTiles:result.failed.length,coverageComplete:result.complete};
   if(result.complete) cachePut(bboxKey('jma',field,coverage),item);
   applyDataset(item,result.complete?'native-tile':'native-tile-partial');
   return true;
