@@ -13,6 +13,8 @@ on:
       - "weathergrid_v2_cache_index.py"
       - "test_weathergrid_v2_cache_index.py"
       - "weathergrid_v2_capacity.py"
+      - "weathergrid_v2_tile_export.py"
+      - "test_weathergrid_v2_tile_export.py"
       - "test_weathergrid_v2_capacity.py"
       - ".github/workflows/weathergrid_v2_experiment.yml"
   workflow_dispatch:
@@ -34,6 +36,7 @@ jobs:
           python -m unittest -v test_weathergrid_v2_cache_index.py
           python weathergrid_v2_cache_index.py --output /tmp/weathergrid-v2-index.json
           python -m unittest -v test_weathergrid_v2_capacity.py
+          python -m unittest -v test_weathergrid_v2_tile_export.py
           python -c 'import json; d=json.load(open("/tmp/weathergrid-v2-index.json")); assert d["regions"]["jp"]["cells"]'
       - name: Static site smoke
         run: |
