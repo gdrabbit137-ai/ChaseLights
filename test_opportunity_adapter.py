@@ -1643,7 +1643,12 @@ def test_adapter_integrity():
     assert "const dayBestWindow=!guideOnly&&m&&(m.window_start||m.best_time)?fmtWindow(m):'';" in frontend_source
     assert "m.score_confidence" in frontend_source
     assert "no_viable_opportunity" in frontend_source
-    assert "今天剩餘時段沒有合適的已研究拍攝機會" in frontend_source
+    assert "no_viable_card:'所選日期沒有合適的已研究拍攝機會'" in frontend_source
+    assert "no_viable_card:'No researched shooting opportunity is suitable for the selected date'" in frontend_source
+    assert "no_viable_card:'選択日に適した調査済みの撮影機会はありません'" in frontend_source
+    assert "今天剩餘時段沒有合適的已研究拍攝機會" not in frontend_source
+    assert "No researched shooting opportunity remains viable today" not in frontend_source
+    assert "本日の残り時間に適した調査済み撮影機会はありません" not in frontend_source
     assert "const researchPending=!!metric.research_pending||!spot.opportunities?.length;const hasScore=" in frontend_source
     assert "&&!researchPending&&!noViable" in frontend_source
 
