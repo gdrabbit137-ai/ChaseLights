@@ -11,7 +11,8 @@ from pathlib import Path
 REGIONS={
  "tw":{"bbox":{"west":119.5,"south":21.5,"east":123.5,"north":26.5},"cell_deg":2.0},
  "jp":{"bbox":{"west":122.0,"south":24.0,"east":146.0,"north":46.0},"cell_deg":2.0},
- "us_west":{"bbox":{"west":-125.0,"south":31.0,"east":-102.0,"north":49.0},"cell_deg":4.0},
+ "us":{"bbox":{"west":-125.0,"south":24.0,"east":-66.0,"north":50.0},"cell_deg":4.0},
+ "us_alaska":{"bbox":{"west":-170.0,"south":51.0,"east":-129.0,"north":72.0},"cell_deg":4.0},
 }
 VALID_TOKEN="{valid_time}"
 def cells_for_region(region):
@@ -31,7 +32,7 @@ def _inside_jma_domain(bbox):
     return bbox["west"]>=d["west"] and bbox["south"]>=d["south"] and bbox["east"]<=d["east"] and bbox["north"]<=d["north"]
 def _provider_template(provider,cid):
     return f"weathergrid/v2/{provider}/current/{VALID_TOKEN}/{cid}.json"
-def build_index():
+def build_index(*, provider_runs=None):
     regions={}
     for name,spec in REGIONS.items():
         indexed=[]
@@ -41,7 +42,7 @@ def build_index():
                 providers["jma"]={"url_template":_provider_template("jma",c["id"]),"time_sharded":True}
             indexed.append({**c,"providers":providers})
         regions[name]={**spec,"cells":indexed}
-    return {"schema_version":2,"mode":"static_regional_cache","payload_partition":"valid_time","valid_time_token":VALID_TOKEN,"regions":regions}
+    return {"schema_version":2,"mode":"static_regional_cache","payload_partition":"valid_time","valid_time_token":VALID_TOKEN,"provider_runs":provider_runs or {},"regions":regions}
 def write_index(path):
     p=Path(path);p.parent.mkdir(parents=True,exist_ok=True)
     p.write_text(json.dumps(build_index(),ensure_ascii=False,separators=(",",":")),encoding="utf-8")

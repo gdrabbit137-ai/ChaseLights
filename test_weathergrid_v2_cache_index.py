@@ -6,20 +6,21 @@ class CacheIndexTest(unittest.TestCase):
         i=build_index()
         self.assertIn("tw",i["regions"])
         self.assertIn("jp",i["regions"])
-        self.assertIn("us_west",i["regions"])
+        self.assertIn("us",i["regions"])
+        self.assertIn("us_alaska",i["regions"])
         self.assertGreater(len(i["regions"]["jp"]["cells"]),20)
 
     def test_provider_paths_follow_native_domains(self):
         index=build_index()
         jp=index["regions"]["jp"]["cells"]
-        us=index["regions"]["us_west"]["cells"]
+        us=index["regions"]["us"]["cells"]
         self.assertTrue(all("gfs" in c["providers"] for c in jp+us))
         self.assertTrue(any("jma" in c["providers"] for c in jp))
         self.assertTrue(all("jma" not in c["providers"] for c in us))
 
     def test_cell_bounds_do_not_exceed_region(self):
         index=build_index()
-        for r in ("tw","jp","us_west"):
+        for r in ("tw","jp","us","us_alaska"):
             b=index["regions"][r]["bbox"]
             for c in cells_for_region(r):
                 x=c["bbox"]
