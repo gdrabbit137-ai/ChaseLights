@@ -1624,6 +1624,9 @@ def test_adapter_integrity():
     assert "guide_day_best:'最佳拍攝時段'" in frontend_source
     assert "guide_score_why:'為什麼適合？'" in frontend_source
     assert "guide_details:'拍攝指南'" in frontend_source
+    assert "const current=m&&scoreVerdict.primary?" in frontend_source
+    assert "const scoreConfidence=m?.score_confidence?" in frontend_source
+    assert '${score} · ${esc(scoreVerdict.primary)}' not in frontend_source
     assert "best_theme:'📸 所選日期較適合：'" in frontend_source
     assert "result_count:'依所選日期最佳拍攝機會排序 · {n} 個景點'" in frontend_source
     assert "guide_confidence:'信心'" in frontend_source
