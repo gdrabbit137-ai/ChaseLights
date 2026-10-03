@@ -288,6 +288,15 @@ jobs:
               }, empty_area_reveal
               driver.execute_script("showEmptyAdminAreas = false; renderAdminFilter();")
 
+              # Desktop picker must have its own explicit close control so the
+              # user does not need to click the trigger ("全部地區") again.
+              driver.execute_script("document.querySelector('.admin-filter').open = true")
+              desktop_close = driver.find_element(By.CSS_SELECTOR, "#admin-filter [data-admin-close]")
+              assert desktop_close.is_displayed(), "desktop area-picker close button is not visible"
+              desktop_close.click()
+              assert not driver.find_element(By.CSS_SELECTOR, ".admin-filter").get_attribute("open"), "desktop area picker remained open after clicking close"
+              report["desktop_admin_close"] = True
+
               sorting_contract = driver.execute_script("""
                 const initialMode = currentSortMode;
                 const initialSections = document.querySelectorAll('#spots-container .spot-region-section').length;

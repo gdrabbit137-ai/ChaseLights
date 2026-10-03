@@ -1145,11 +1145,32 @@
   font: inherit;
   cursor: pointer;
 }
-.admin-close-btn,
 .admin-filter-footer,
 .admin-mobile-handle,
 .admin-picker-backdrop {
   display: none;
+}
+.admin-close-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  color: #94a3b8;
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.admin-close-btn:hover,
+.admin-close-btn:focus-visible {
+  border-color: #475569;
+  background: rgba(71,85,105,.22);
+  color: #e2e8f0;
+  outline: none;
 }
 .admin-filter-grid {
   display: grid;
