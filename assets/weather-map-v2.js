@@ -250,11 +250,11 @@ async function tryNativeJma(coverage,currentView){
   if(!validTime) return false;
   const result=await loadViewportTiles(state.v2Index,region,coverage,'jma',validTime);
   if(!result.loaded.length) return false;
-  const item={provider:'jma',field,coverage,samples:result.samples,dx:0.0625,dy:0.05,
+  const item={provider:'jma',field,coverage:result.coverage || coverage,samples:result.samples,dx:0.0625,dy:0.05,
     validTime:result.loaded[0].tile.valid_time_utc,fetchedAt:Date.now(),nativeTile:true,
     tileCount:result.loaded.length,failedTiles:result.failed.length};
-  cachePut(bboxKey('jma',field,coverage),item);
-  applyDataset(item,'native-tile');
+  if(result.complete) cachePut(bboxKey('jma',field,coverage),item);
+  applyDataset(item,result.complete?'native-tile':'native-tile-partial');
   return true;
 }
 
