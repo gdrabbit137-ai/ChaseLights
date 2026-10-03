@@ -51,6 +51,8 @@ class WeatherGridV2ExperimentTest(unittest.TestCase):
         self.assertIn('data-preset="tw"', html)
         self.assertIn('data-preset="jp"', html)
         self.assertIn('data-preset="us"', html)
+        self.assertIn("us: { center: [-98.5, 39.0], zoom: 3.2 }", js)
+        self.assertNotIn("us: { center: [-119.5, 38.5], zoom: 4.2 }", js)
         self.assertIn('value="auto"', html)
         self.assertIn('value="jma"', html)
         self.assertIn('value="gfs"', html)

@@ -329,7 +329,7 @@ function gotoPreset(name) {
   const presets = {
     tw: { center: [121.0, 23.7], zoom: 6.0 },
     jp: { center: [138.0, 36.0], zoom: 5.0 },
-    us: { center: [-119.5, 38.5], zoom: 4.2 },
+    us: { center: [-98.5, 39.0], zoom: 3.2 },
   };
   const p = presets[name];
   map.jumpTo({ center: p.center, zoom: p.zoom });
