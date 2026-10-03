@@ -56,11 +56,13 @@ def main():
         assert not driver.find_elements(By.CSS_SELECTOR, "select.place-select")
 
         search = driver.find_element(By.CSS_SELECTOR, ".place-search-input")
-        search.send_keys("tw-003")
-        wait.until(lambda d: d.find_elements(By.CSS_SELECTOR, '.place-option[data-spot-id="tw-003"]'))
+        search.send_keys("tw-")
+        first_option = wait.until(lambda d: d.find_element(By.CSS_SELECTOR, '.place-option[data-spot-id]'))
+        target_id = first_option.get_attribute("data-spot-id")
+        assert target_id and target_id.startswith("tw-"), target_id
         assert driver.find_elements(By.CSS_SELECTOR, '[data-action="close-results"]')
         search.send_keys(Keys.ARROW_DOWN, Keys.ENTER)
-        wait.until(lambda d: state(d)["rows"][0]["selected_spot_id"] == "tw-003")
+        wait.until(lambda d: state(d)["rows"][0]["selected_spot_id"] == target_id)
         assert state(driver)["rows"][0]["association_method"] == "manual_search_selection"
 
         driver.find_element(By.CSS_SELECTOR, ".clear-btn").click()
@@ -74,17 +76,17 @@ def main():
             user_capture_time:'',
             camera:{},
             location:null,
-            auto_match:{spot_id:'tw-003',canonical_name:'candidate',distance_km:0.25,viewpoint_id:'vp-test'},
+            auto_match:{spot_id:arguments[0],canonical_name:'candidate',distance_km:0.25,viewpoint_id:'vp-test'},
             selected_spot_id:null,
             selected_opportunity_id:null,
             outcome:'',
             failure_reason:'',
             note:''
           }, {includeGps:false,modelValidation:false}).place_match;
-        """)
+        """, target_id)
         assert association["method"] == "unmatched", association
         assert association["confirmed_by_user"] is False, association
-        assert association["gps_suggestion"]["spot_id"] == "tw-003", association
+        assert association["gps_suggestion"]["spot_id"] == target_id, association
         suggestion_confirmed = driver.execute_script(
             "return ChaseLightsFieldIntake.associationMethod({selected_spot_id:'tw-003',selection_source:'gps_suggestion_confirmation'});"
         )
@@ -105,17 +107,17 @@ def main():
 
         driver.set_window_size(390, 844)
         search = driver.find_element(By.CSS_SELECTOR, ".place-search-input")
-        search.send_keys("tw-003")
-        wait.until(lambda d: d.find_element(By.CSS_SELECTOR, '.place-option[data-spot-id="tw-003"]'))
+        search.send_keys(target_id)
+        wait.until(lambda d: d.find_element(By.CSS_SELECTOR, '.place-option[data-spot-id="' + target_id + '"]'))
         close_button = driver.find_element(By.CSS_SELECTOR, '[data-action="close-results"]')
         driver.execute_script("arguments[0].click()", close_button)
         wait.until(lambda d: d.find_element(By.CSS_SELECTOR, ".place-results").get_attribute("hidden") is not None)
         search = driver.find_element(By.CSS_SELECTOR, ".place-search-input")
         search.send_keys(Keys.CONTROL, "a")
-        search.send_keys("tw-003")
-        option = wait.until(lambda d: d.find_element(By.CSS_SELECTOR, '.place-option[data-spot-id="tw-003"]'))
+        search.send_keys(target_id)
+        option = wait.until(lambda d: d.find_element(By.CSS_SELECTOR, '.place-option[data-spot-id="' + target_id + '"]'))
         driver.execute_script("arguments[0].click()", option)
-        wait.until(lambda d: state(d)["rows"][0]["selected_spot_id"] == "tw-003")
+        wait.until(lambda d: state(d)["rows"][0]["selected_spot_id"] == target_id)
         overflow = driver.execute_script("return document.documentElement.scrollWidth - window.innerWidth")
         assert overflow <= 1, overflow
         driver.find_element(By.CSS_SELECTOR, ".clear-btn").click()
