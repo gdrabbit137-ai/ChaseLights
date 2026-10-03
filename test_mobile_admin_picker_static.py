@@ -60,6 +60,15 @@ class MobileAdminPickerStaticTests(unittest.TestCase):
         self.assertIn("@media (min-width: 641px)", self.css)
         self.assertIn("pointer-events: none", self.css)
 
+    def test_desktop_picker_has_visible_close_button(self):
+        self.assertIn("data-admin-close", self.app)
+        self.assertIn(".admin-close-btn {", self.css)
+        self.assertIn("width: 30px", self.css)
+        self.assertNotIn(
+            ".admin-close-btn,\n.admin-filter-footer,\n.admin-mobile-handle,\n.admin-picker-backdrop {\n  display: none;",
+            self.css,
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
