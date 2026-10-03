@@ -164,6 +164,9 @@ RUNTIME_PROFILE_GAPS = {
 # external prerequisite is missing. Keep these separate from RUNTIME_PROFILE_GAPS,
 # which means no component profile is configured at all.
 RUNTIME_READINESS_GAPS = {
+    "dynamic_access": frozenset({
+        "jp-036-P03",
+    }),
     "spatial_weather_vertical_cloud": frozenset({
         # The Alishan boardwalk Camera Zone is researched as a linear zone but
         # still lacks an exact lat/lon anchor required by the spatial sampler.
