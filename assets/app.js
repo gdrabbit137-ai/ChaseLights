@@ -942,12 +942,13 @@
         const scoreHtml=score===undefined||score===null?'':`<div class="opportunity-score ${opportunityScoreClass(score)}">${score}</div>`;
         const modalSubject=op.name_zh||themeLabel(op.legacy_theme);
         const scoreVerdict=m?opportunityVerdict(m,modalSubject):{primary:'',detail:''};
-        const current=m?`<div class="opportunity-current"><span class="research-label">${esc(d().guide_current)}：</span>${score} · ${esc(scoreVerdict.primary)}${m.score_confidence?` · ${esc(d().guide_confidence)}：${esc(confidenceLabel(m.score_confidence))}`:''}</div>`:'';
+        const current=m&&scoreVerdict.primary?`<div class="opportunity-current">${esc(scoreVerdict.primary)}</div>`:'';
         const scoreFactors=(m?.factors||[]).map(f=>`<span class="factor-pill ${f.type==='minus'?'factor-minus':'factor-plus'}">${f.type==='minus'?'−':'＋'} ${trFactor(f)}</span>`).join('');
         const scoreStatus=m?scoreVerdict.primary:'';
         const scoreStatusDetail=m?scoreVerdict.detail:'';
         const scoreIndicator=m?trMessage(m.indicator_key):'';
-        const scoreExplain=m?`<details class="score-explain"><summary>${esc(d().guide_score_why)}</summary><div class="score-explain-body"><div class="score-explain-status"><span class="research-label">${esc(d().guide_score_status)}：</span>${esc(scoreStatus)}${scoreStatusDetail&&scoreStatusDetail!==scoreStatus?`<br>${esc(scoreStatusDetail)}`:''}${scoreIndicator&&scoreIndicator!==scoreStatus&&scoreIndicator!==scoreStatusDetail?`<br>${esc(scoreIndicator)}`:''}</div>${scoreFactors?`<div class="factor-row">${scoreFactors}</div>`:''}</div></details>`:'';
+        const scoreConfidence=m?.score_confidence?`<div class="score-explain-confidence"><span class="research-label">${esc(d().guide_confidence)}：</span>${esc(confidenceLabel(m.score_confidence))}</div>`:'';
+        const scoreExplain=m?`<details class="score-explain"><summary>${esc(d().guide_score_why)}</summary><div class="score-explain-body"><div class="score-explain-status"><span class="research-label">${esc(d().guide_score_status)}：</span>${esc(scoreStatus)}${scoreStatusDetail&&scoreStatusDetail!==scoreStatus?`<br>${esc(scoreStatusDetail)}`:''}${scoreIndicator&&scoreIndicator!==scoreStatus&&scoreIndicator!==scoreStatusDetail?`<br>${esc(scoreIndicator)}`:''}</div>${scoreConfidence}${scoreFactors?`<div class="factor-row">${scoreFactors}</div>`:''}</div></details>`:'';
         const metaRows=[];
         const dayBestWindow=m&&(m.window_start||m.best_time)?fmtWindow(m):'';
         if(dayBestWindow)metaRows.push(`<div><span class="research-label">${esc(d().guide_day_best)}：</span>${esc(dayBestWindow)}</div>`);
