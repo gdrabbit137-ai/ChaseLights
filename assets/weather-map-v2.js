@@ -1,4 +1,4 @@
-import maplibregl from 'https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-gl.mjs';
+import * as maplibregl from 'https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-gl.mjs';
 import { loadV2Index, loadViewportTiles, nearestValidTime, providerSupportsField } from './weather-map-v2-tile-loader.js';
 
 const API = {
