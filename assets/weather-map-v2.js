@@ -230,6 +230,8 @@ function applyDataset(item, cacheStatus) {
 function regionForView(b){
   if(b.w>=119.5&&b.e<=123.5&&b.s>=21.5&&b.n<=26.5) return 'tw';
   if(b.w>=122&&b.e<=146&&b.s>=24&&b.n<=46) return 'jp';
+  if(b.w>=-125&&b.e<=-66&&b.s>=24&&b.n<=50) return 'us';
+  if(b.w>=-170&&b.e<=-129&&b.s>=51&&b.n<=72) return 'us_alaska';
   return null;
 }
 async function tryNativeJma(coverage,currentView){
