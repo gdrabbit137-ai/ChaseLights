@@ -11,7 +11,7 @@ back:"← ChaseLights",title:"📷 實拍驗證",lead:"選擇實拍照片，確�
 step_photo:"1. 選擇照片",photo_help:"支援 JPEG / HEIC / HEIF。系統會嘗試讀取拍攝時間、GPS 與相機資訊，缺少的資料會清楚標示。",choose_photos:"選擇一張或多張實拍照片",photo_local:"原始照片不會傳到 ChaseLights",preparing:"正在準備照片資訊解析與景點資料…",
 step_data:"2. 資料使用設定",consent_model:"在下載紀錄中標記：我同意這筆觀測可供後續模型驗證。這不會自動上傳資料。",consent_gps:"在下載紀錄中保留照片的精確 GPS；預設不保留。",data_boundary_short:"目前流程只會在瀏覽器中整理資料並下載到你的裝置，不會建立伺服器紀錄。",
 step_review:"3. 確認實拍內容",review_help:"逐張確認照片資訊、拍攝景點、想驗證的題材，以及現場是否真的成立。GPS 只會提供候選建議，不會自動確認景點。",download_all:"下載全部驗證紀錄",no_photos:"尚未選擇照片。",
-what_happens:"下載後會發生什麼？",boundary_photo:"原始照片仍留在你的裝置，不會上傳。",boundary_record:"你會下載一份結構化的未審核驗證紀錄，可供之後人工檢查或提交。",boundary_truth:"景點配對與你填寫的觀測結果，都不會自動改變 ChaseLights 的評分、導航位置或研究資料。",
+what_happens:"下載後會發生什麼？",boundary_photo:"原始照片仍留在你的裝置，不會上傳。",boundary_record:"你會下載一份結構化驗證紀錄；這份紀錄仍需後續人工確認或提交。",boundary_truth:"景點配對與你填寫的觀測結果，都不會自動改變 ChaseLights 的評分、導航位置或研究資料。",
 ready:"已就緒：可搜尋 {n} 個景點。照片只在本機解析。",ready_no_exif:"景點資料已載入，但 EXIF 解析器無法載入；系統不會改用上傳式解析。",catalog_error:"景點資料載入失敗：{e}",parsing:"正在本機解析 {n} 張照片…",done:"完成。本機已讀取可用的照片資訊；照片仍未上傳。",partial:"完成，但有 {n} 張照片無法完整讀取 EXIF。缺少資料會維持未知；照片仍未上傳。",
 download_one:"下載這張驗證紀錄",capture:"拍攝時間",gps:"GPS（只在本機顯示）",camera:"相機",lens:"鏡頭 / 焦距",found:"已讀取",missing:"未讀取到",no_tz:"EXIF 沒有時區",parse_problem:"這張照片的 EXIF 無法完整讀取；缺少欄位會保持未知。",
 capture_help:"如果拍攝時間缺少或需要修正，可由你手動補充。",capture_manual:"補充／修正拍攝時間（選填）",
@@ -20,14 +20,14 @@ gps_suggestion:"GPS 建議候選",confirm:"確認為這個景點",near:"照片 G
 selected_suggestion:"你已明確確認 GPS 建議景點。",selected_manual:"你已手動選擇景點。",selected_override:"你選擇了不同於 GPS 建議的景點。",
 subject:"要驗證的題材／機會",subject_help:"如果這次本來就是要驗證某個已研究題材，可在這裡選擇；不確定時可以留空。",subject_empty:"不確定／未指定",
 outcome:"現場結果",outcome_empty:"尚未填寫",held:"有成立／有看到",partial_outcome:"部分成立",failed:"沒有成立",uncertain:"無法確定",
-reason:"主要未成立原因（選填）",reason_ph:"例如：低雲遮住山頭、風太大無法形成倒影…",note:"補充備註（選填）",note_ph:"可記錄現場狀況、構圖位置或其他之後回看會有幫助的資訊。",export_note:"下載的紀錄仍是未審核資料；不會因為下載就自動改變模型或研究結論。",limit:"顯示前 {n} 個符合結果；可輸入更多字縮小範圍。"
+reason:"主要未成立原因（選填）",reason_ph:"例如：低雲遮住山頭、風太大無法形成倒影…",note:"補充備註（選填）",note_ph:"可記錄現場狀況、構圖位置或其他之後回看會有幫助的資訊。",export_note:"下載的紀錄仍需後續人工確認；不會因為下載就自動改變模型或研究結論。",limit:"顯示前 {n} 個符合結果；可輸入更多字縮小範圍。"
 },
 "en":{
 back:"← ChaseLights",title:"📷 Field validation",lead:"Choose field photos, confirm where they were taken, and record what you actually saw. Photos are read only on your device and are not uploaded.",language_label:"Language",local_badge:"Photos stay on device",
 step_photo:"1. Choose photos",photo_help:"JPEG / HEIC / HEIF are supported. ChaseLights will try to read capture time, GPS, and camera details and clearly mark anything missing.",choose_photos:"Choose one or more field photos",photo_local:"Original photos are not sent to ChaseLights",preparing:"Preparing photo metadata and place data…",
 step_data:"2. Data-use settings",consent_model:"Mark in the downloaded record that I consent to this observation being used for later model validation. Nothing is uploaded automatically.",consent_gps:"Keep the photo's precise GPS in the downloaded record; it is omitted by default.",data_boundary_short:"This flow only organizes data in your browser and downloads it to your device. It does not create a server record.",
 step_review:"3. Confirm what you observed",review_help:"For each photo, confirm metadata, shooting place, intended subject, and whether it actually held. GPS only suggests candidates; it never confirms a place automatically.",download_all:"Download all validation records",no_photos:"No photos selected yet.",
-what_happens:"What happens after download?",boundary_photo:"The original photo stays on your device and is not uploaded.",boundary_record:"You download a structured, unreviewed validation record for later human review or submission.",boundary_truth:"Place matching and your observation do not automatically change ChaseLights scoring, navigation locations, or research data.",
+what_happens:"What happens after download?",boundary_photo:"The original photo stays on your device and is not uploaded.",boundary_record:"You download a structured validation record that still needs later human review or submission.",boundary_truth:"Place matching and your observation do not automatically change ChaseLights scoring, navigation locations, or research data.",
 ready:"Ready: {n} places can be searched. Photos are parsed locally only.",ready_no_exif:"Place data loaded, but the EXIF parser is unavailable. ChaseLights will not fall back to an upload-based parser.",catalog_error:"Place data failed to load: {e}",parsing:"Reading {n} photo(s) locally…",done:"Done. Available photo metadata was read locally; photos were not uploaded.",partial:"Done, but EXIF could not be fully read from {n} photo(s). Missing fields remain unknown; photos were not uploaded.",
 download_one:"Download this validation record",capture:"Capture time",gps:"GPS (shown locally only)",camera:"Camera",lens:"Lens / focal length",found:"Found",missing:"Not found",no_tz:"EXIF has no timezone",parse_problem:"EXIF could not be fully read from this photo. Missing fields remain unknown.",
 capture_help:"If capture time is missing or needs correction, you can explicitly add a value.",capture_manual:"Add / correct capture time (optional)",
@@ -36,14 +36,14 @@ gps_suggestion:"GPS suggested candidate",confirm:"Confirm this place",near:"The 
 selected_suggestion:"You explicitly confirmed the GPS-suggested place.",selected_manual:"You selected the place manually.",selected_override:"You selected a different place from the GPS suggestion.",
 subject:"Subject / opportunity to validate",subject_help:"If this trip was intended to validate a researched photography opportunity, select it here. Leave it blank if unsure.",subject_empty:"Unsure / not specified",
 outcome:"What happened in the field?",outcome_empty:"Not filled in",held:"Held / observed",partial_outcome:"Partly held",failed:"Did not hold",uncertain:"Cannot determine",
-reason:"Main reason it did not hold (optional)",reason_ph:"For example: low cloud covered the ridge, wind was too strong for reflections…",note:"Additional note (optional)",note_ph:"Record field conditions, composition position, or anything useful for later review.",export_note:"The downloaded record remains unreviewed. Downloading it does not automatically change the model or research conclusions.",limit:"Showing the first {n} matches. Type more to narrow the results."
+reason:"Main reason it did not hold (optional)",reason_ph:"For example: low cloud covered the ridge, wind was too strong for reflections…",note:"Additional note (optional)",note_ph:"Record field conditions, composition position, or anything useful for later review.",export_note:"The downloaded record still needs later human review. Downloading it does not automatically change the model or research conclusions.",limit:"Showing the first {n} matches. Type more to narrow the results."
 },
 "ja":{
 back:"← ChaseLights",title:"📷 実写検証",lead:"実際に撮影した写真を選び、撮影場所と現地で見えた状況を確認します。写真は端末内でのみ読み取り、アップロードしません。",language_label:"言語",local_badge:"写真は端末内のみ",
 step_photo:"1. 写真を選ぶ",photo_help:"JPEG / HEIC / HEIF に対応。撮影時刻、GPS、カメラ情報を読み取り、取得できない項目は明確に表示します。",choose_photos:"実写写真を1枚以上選ぶ",photo_local:"元の写真は ChaseLights に送信されません",preparing:"写真情報とスポットデータを準備中…",
 step_data:"2. データ利用設定",consent_model:"ダウンロード記録に、この観測を今後のモデル検証に利用してよいことを記録します。データは自動送信されません。",consent_gps:"写真の正確な GPS をダウンロード記録に残します。初期状態では保存しません。",data_boundary_short:"現在の流れはブラウザ内で情報を整理し端末へダウンロードするだけで、サーバー記録は作成しません。",
 step_review:"3. 実際の状況を確認",review_help:"写真ごとに情報、撮影場所、検証したかったテーマ、現地で成立したかを確認します。GPS は候補を提案するだけで、場所を自動確定しません。",download_all:"すべての検証記録をダウンロード",no_photos:"まだ写真が選択されていません。",
-what_happens:"ダウンロード後はどうなる？",boundary_photo:"元の写真は端末内に残り、アップロードされません。",boundary_record:"構造化された未審査の検証記録を端末へダウンロードし、後で人が確認・提出できます。",boundary_truth:"スポットの関連付けや入力した観測結果だけで、ChaseLights の評価・ナビ位置・研究データが自動変更されることはありません。",
+what_happens:"ダウンロード後はどうなる？",boundary_photo:"元の写真は端末内に残り、アップロードされません。",boundary_record:"構造化された検証記録を端末へダウンロードし、後で人が確認・提出できます。",boundary_truth:"スポットの関連付けや入力した観測結果だけで、ChaseLights の評価・ナビ位置・研究データが自動変更されることはありません。",
 ready:"準備完了：{n} 件のスポットを検索できます。写真は端末内でのみ解析します。",ready_no_exif:"スポットデータは読み込みましたが EXIF 解析器を利用できません。アップロード型の解析へ切り替えることはありません。",catalog_error:"スポットデータの読み込みに失敗しました：{e}",parsing:"{n} 枚の写真を端末内で解析中…",done:"完了しました。取得できる写真情報を端末内で読み取りました。写真はアップロードされていません。",partial:"完了しましたが、{n} 枚で EXIF を完全に読み取れませんでした。欠落項目は不明のままです。",
 download_one:"この検証記録をダウンロード",capture:"撮影時刻",gps:"GPS（端末内表示のみ）",camera:"カメラ",lens:"レンズ / 焦点距離",found:"取得済み",missing:"取得できません",no_tz:"EXIF にタイムゾーンなし",parse_problem:"この写真の EXIF を完全に読み取れませんでした。欠落項目は不明のままです。",
 capture_help:"撮影時刻が欠落している、または修正が必要な場合だけ手動で補足できます。",capture_manual:"撮影時刻を補足／修正（任意）",
@@ -52,7 +52,7 @@ gps_suggestion:"GPS の候補",confirm:"このスポットを確認",near:"写�
 selected_suggestion:"GPS 候補を明示的に確認しました。",selected_manual:"スポットを手動で選択しました。",selected_override:"GPS 候補とは別のスポットを選択しました。",
 subject:"検証したいテーマ／撮影機会",subject_help:"今回の撮影が調査済みの撮影機会を検証する目的なら選択してください。不明なら空欄のままで構いません。",subject_empty:"不明／未指定",
 outcome:"現地でどうだった？",outcome_empty:"未入力",held:"成立した／見えた",partial_outcome:"一部成立",failed:"成立しなかった",uncertain:"判断できない",
-reason:"成立しなかった主な理由（任意）",reason_ph:"例：低い雲で稜線が隠れた、風が強く水面反射が出なかった…",note:"補足メモ（任意）",note_ph:"現地状況、構図位置、後で確認するときに役立つ情報を記録できます。",export_note:"ダウンロードした記録は未審査のままです。ダウンロードだけでモデルや研究結論が自動変更されることはありません。",limit:"一致した先頭 {n} 件を表示中。さらに入力すると絞り込めます。"
+reason:"成立しなかった主な理由（任意）",reason_ph:"例：低い雲で稜線が隠れた、風が強く水面反射が出なかった…",note:"補足メモ（任意）",note_ph:"現地状況、構図位置、後で確認するときに役立つ情報を記録できます。",export_note:"ダウンロードした記録は後で人が確認する必要があります。ダウンロードだけでモデルや研究結論が自動変更されることはありません。",limit:"一致した先頭 {n} 件を表示中。さらに入力すると絞り込めます。"
 }};
 const state={places:[],rows:[],catalogLoaded:false,lang:LANGS.includes(localStorage.getItem("chaselights_lang"))?localStorage.getItem("chaselights_lang"):"zh-TW"};
 const $=function(id){return document.getElementById(id);};
@@ -61,7 +61,7 @@ function t(k,v){let s=(L[state.lang]&&L[state.lang][k])||L["zh-TW"][k]||k;Object
 function setLanguage(lang){if(!LANGS.includes(lang))return;state.lang=lang;localStorage.setItem("chaselights_lang",lang);document.documentElement.lang=lang;languageSelect.value=lang;document.querySelectorAll("[data-i18n]").forEach(function(n){n.textContent=t(n.dataset.i18n);});languageSelect.setAttribute("aria-label",t("language_label"));if(state.rows.length)renderRows();else if(state.catalogLoaded)readyStatus();}
 function num(v){v=Number(v);return Number.isFinite(v)?v:null;}
 function texts(v){if(Array.isArray(v))return v.flatMap(texts);if(v&&typeof v==="object")return Object.values(v).flatMap(texts);return v?[String(v)]:[];}
-function opNames(o){return [o.name_zh,o.name_en,o.name_ja,o.name_local].concat(texts(o.name_i18n)).filter(Boolean);}
+function opNames(o){return [o.name_zh,o.name_en,o.name_ja,o.name_local].concat(texts(o.name_i18n)).filter(Boolean);} function opName(o){const localized=o.name_i18n&&o.name_i18n[state.lang];if(localized)return localized;if(state.lang==="en"&&o.name_en)return o.name_en;if(state.lang==="ja"&&o.name_ja)return o.name_ja;return o.name_zh||o.name_en||o.name_ja||o.name_local||o.opportunity_id;}
 function buildPlaceIndex(catalog){
  const raw=Array.isArray(catalog&&catalog.spots)?catalog.spots:Object.values((catalog&&catalog.spots)||{});
  return raw.filter(function(s){return s&&s.spot_id&&s.active_in_catalog!==false;}).map(function(s){
@@ -128,7 +128,7 @@ function placeMatcher(row){
 function option(select,value,text){const o=document.createElement("option");o.value=value;o.textContent=text;select.appendChild(o);}
 function observationFields(row){
  const block=el("section","review-block"),p=placeById(row.selected_spot_id);block.append(el("div","review-block-title",t("subject")),el("p","review-block-help",t("subject_help")));
- const grid=el("div","observation-fields"),subjectLabel=el("label","field-label"),subject=el("select","field-control");subjectLabel.append(el("span","",t("subject")));option(subject,"",t("subject_empty"));if(p)(p.opportunities||[]).forEach(function(o){option(subject,o.opportunity_id,opNames(o)[0]||o.opportunity_id);});subject.value=row.selected_opportunity_id||"";subject.addEventListener("change",function(){row.selected_opportunity_id=subject.value||null;});subjectLabel.appendChild(subject);
+ const grid=el("div","observation-fields"),subjectLabel=el("label","field-label"),subject=el("select","field-control");subjectLabel.append(el("span","",t("subject")));option(subject,"",t("subject_empty"));if(p)(p.opportunities||[]).forEach(function(o){option(subject,o.opportunity_id,opName(o));});subject.value=row.selected_opportunity_id||"";subject.addEventListener("change",function(){row.selected_opportunity_id=subject.value||null;});subjectLabel.appendChild(subject);
  const outcomeLabel=el("label","field-label"),outcome=el("select","field-control");outcomeLabel.append(el("span","",t("outcome")));[["",t("outcome_empty")],["held",t("held")],["partial",t("partial_outcome")],["failed",t("failed")],["uncertain",t("uncertain")]].forEach(function(x){option(outcome,x[0],x[1]);});outcome.value=row.outcome;outcome.addEventListener("change",function(){row.outcome=outcome.value;});outcomeLabel.appendChild(outcome);
  const reasonLabel=el("label","field-label wide"),reason=el("input","field-control");reason.type="text";reason.placeholder=t("reason_ph");reason.value=row.failure_reason;reason.addEventListener("input",function(){row.failure_reason=reason.value;});reasonLabel.append(el("span","",t("reason")),reason);
  const noteLabel=el("label","field-label wide"),note=el("textarea","field-textarea");note.placeholder=t("note_ph");note.value=row.note;note.addEventListener("input",function(){row.note=note.value;});noteLabel.append(el("span","",t("note")),note);grid.append(subjectLabel,outcomeLabel,reasonLabel,noteLabel);block.appendChild(grid);return block;
