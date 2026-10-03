@@ -22,7 +22,10 @@ const FIELDS = {
   precipitation: { label: '降水', unit: 'mm' },
   wind_speed_10m: { label: '10m 風速', unit: 'm/s' },
 };
-const HOURLY = Object.keys(FIELDS).join(',');
+const PROVIDER_FIELDS = {
+  jma: ['cloud_cover_low', 'cloud_cover_mid', 'cloud_cover_high', 'precipitation', 'wind_speed_10m'],
+  gfs: Object.keys(FIELDS),
+};
 const $ = (id) => document.getElementById(id);
 const canvas = $('overlay');
 const ctx = canvas.getContext('2d');
@@ -82,8 +85,12 @@ function autoProvider(b) {
 }
 function selectedProvider(b) {
   const selected = $('provider').value;
-  if (selected === 'auto') return autoProvider(b);
-  if (selected === 'jma' && !contains(MSM_DOMAIN, b)) return null;
+  const field = $('layer').value;
+  if (selected === 'auto') {
+    if (field === 'visibility') return 'gfs';
+    return autoProvider(b);
+  }
+  if (selected === 'jma' && (!contains(MSM_DOMAIN, b) || field === 'visibility')) return null;
   return selected;
 }
 function gridShape() {
@@ -180,7 +187,7 @@ function buildUrl(provider, grid) {
   const params = new URLSearchParams({
     latitude: latitudes,
     longitude: longitudes,
-    hourly: HOURLY,
+    hourly: PROVIDER_FIELDS[provider].join(','),
     forecast_hours: '1',
     timezone: 'GMT',
     wind_speed_unit: 'ms',
@@ -247,7 +254,14 @@ async function updateForViewport(force = false) {
   $('prefetch').textContent = 'prefetch ring: ' + fmt(prefetch);
   const provider = selectedProvider(prefetch);
   if (!provider) {
-    $('status').textContent = 'JMA MSM prototype 僅限約 120–150°E / 22.4–47.6°N；請切回 Auto 或 GFS';
+    state.samples = [];
+    state.coverage = null;
+    draw();
+    if ($('provider').value === 'jma' && $('layer').value === 'visibility') {
+      $('status').textContent = 'JMA endpoint 未提供此 prototype 的 visibility 欄位；請切回 Auto 或 GFS';
+    } else {
+      $('status').textContent = 'JMA MSM prototype 僅限約 120–150°E / 22.4–47.6°N；請切回 Auto 或 GFS';
+    }
     return;
   }
   $('resolved-provider').textContent = 'resolved: ' + API[provider].label;
