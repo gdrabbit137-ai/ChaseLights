@@ -20,9 +20,8 @@ def build_native_request(provider, viewport, prefetch_fraction=.65, forecast_hou
     if provider=="jma":
         out["transport"]={"adapter":"jma_msm_aws_om.fetch_aws_snapshot","model":"JMA MSM","native_grid":True,"forecast_hours":max(1,int(forecast_hour)+1)}
     elif provider=="gfs":
-        from gfs_multilayer_poc import GFSRun, build_multilayer_url
-        # URL needs a concrete cycle. Keep dry planning cycle-independent here;
-        # the existing downloader resolves candidate cycles at execution time.
+        # Keep dry planning cycle-independent here; the existing
+        # gfs_multilayer_poc downloader resolves candidate cycles at execution time.
         out["transport"]={"adapter":"gfs_multilayer_poc.download_multilayer_grib","model":"GFS","native_grid":True,"forecast_hour":int(forecast_hour),"bbox_query":adapter_bbox(plan)}
     return out
 
