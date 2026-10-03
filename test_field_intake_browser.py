@@ -58,6 +58,7 @@ def main():
         search = driver.find_element(By.CSS_SELECTOR, ".place-search-input")
         search.send_keys("tw-003")
         wait.until(lambda d: d.find_elements(By.CSS_SELECTOR, '.place-option[data-spot-id="tw-003"]'))
+        assert driver.find_elements(By.CSS_SELECTOR, '[data-action="close-results"]')
         search.send_keys(Keys.ARROW_DOWN, Keys.ENTER)
         wait.until(lambda d: state(d)["rows"][0]["selected_spot_id"] == "tw-003")
 
@@ -91,6 +92,13 @@ def main():
 
         driver.set_window_size(390, 844)
         search = driver.find_element(By.CSS_SELECTOR, ".place-search-input")
+        search.send_keys("tw-003")
+        wait.until(lambda d: d.find_element(By.CSS_SELECTOR, '.place-option[data-spot-id="tw-003"]'))
+        close_button = driver.find_element(By.CSS_SELECTOR, '[data-action="close-results"]')
+        driver.execute_script("arguments[0].click()", close_button)
+        wait.until(lambda d: d.find_element(By.CSS_SELECTOR, ".place-results").get_attribute("hidden") is not None)
+        search = driver.find_element(By.CSS_SELECTOR, ".place-search-input")
+        search.send_keys(Keys.CONTROL, "a")
         search.send_keys("tw-003")
         option = wait.until(lambda d: d.find_element(By.CSS_SELECTOR, '.place-option[data-spot-id="tw-003"]'))
         driver.execute_script("arguments[0].click()", option)
