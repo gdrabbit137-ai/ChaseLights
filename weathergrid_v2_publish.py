@@ -12,7 +12,6 @@ import argparse
 import json
 from pathlib import Path
 
-from jma_msm_aws_om import fetch_aws_snapshot, fetch_best_metadata
 from weathergrid_v2_cache_index import build_index, write_index
 from weathergrid_v2_tile_export import (
     run_manifest,
@@ -45,7 +44,7 @@ def publish_jma_regions(
     *,
     forecast_hours: int = 6,
     metadata: dict | None = None,
-    fetcher=fetch_aws_snapshot,
+    fetcher=None,
     max_cells: int | None = None,
 ) -> dict:
     if forecast_hours < 1:
@@ -55,7 +54,14 @@ def publish_jma_regions(
     if unknown:
         raise ValueError(f"unknown regions: {', '.join(unknown)}")
 
-    run_metadata = metadata or fetch_best_metadata(forecast_hours=forecast_hours)
+    if fetcher is None:
+        from jma_msm_aws_om import fetch_aws_snapshot, fetch_best_metadata
+        fetcher = fetch_aws_snapshot
+        if metadata is None:
+            metadata = fetch_best_metadata(forecast_hours=forecast_hours)
+    elif metadata is None:
+        raise ValueError("metadata is required when a custom fetcher is supplied")
+    run_metadata = metadata
     root = Path(output_root)
     first_snapshot = None
     provider_manifest = None
