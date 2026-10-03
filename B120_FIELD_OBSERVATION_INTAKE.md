@@ -2,6 +2,9 @@
 
 Date: 2026-09-29 (Asia/Taipei)
 
+> **Status: historical implementation handoff / MVP record — not the current policy source-of-truth.**
+> Current Field Intake observation-association and photographer-facing UX requirements are owned by `RESEARCH_EVIDENCE_SPEC_R4_2.md` §14. Navigation semantics remain owned by `NAVIGATION_SPEC_R4_2.md`. If this B120 record conflicts with the latest effective specification on `main`, the formal specification wins. Statements below describe the B120 implementation at the time it was delivered and MUST NOT be used to reintroduce superseded behavior such as silent Place confirmation.
+
 ## Goal
 
 Add the first user-facing field-observation intake surface to the ChaseLights website without turning ChaseLights into a photo-hosting service.
