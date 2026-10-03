@@ -6,7 +6,10 @@ on:
       - "weather-map-v2.html"
       - "assets/weather-map-v2.js"
       - "assets/weather-map-v2.css"
-      - "test_weathergrid_v2_experiment.py"\n      - "test_weathergrid_viewport_fetch.py"\n      - "weathergrid_viewport_fetch.py"\n      - "weathergrid_native_viewport.py"
+      - "test_weathergrid_v2_experiment.py"
+      - "test_weathergrid_viewport_fetch.py"
+      - "weathergrid_viewport_fetch.py"
+      - "weathergrid_native_viewport.py"
       - ".github/workflows/weathergrid_v2_experiment.yml"
   workflow_dispatch:
 
@@ -20,7 +23,9 @@ jobs:
           python-version: "3.10"
       - name: Static V2 contract
         run: python test_weathergrid_v2_experiment.py
-      - name: Native viewport contract\n        run: python -m unittest test_weathergrid_viewport_fetch.py\n      - name: Static site smoke
+      - name: Native viewport contract
+        run: python -m unittest -v test_weathergrid_viewport_fetch.py
+      - name: Static site smoke
         run: |
           python -m http.server 8000 >/tmp/weathergrid-v2-http.log 2>&1 &
           server_pid=$!
