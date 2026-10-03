@@ -44,6 +44,14 @@ class CapacityTest(unittest.TestCase):
         self.assertGreater(one["estimated_refresh_mib"], 0)
         self.assertGreater(six["estimated_refresh_bytes"], one["estimated_refresh_bytes"])
 
+    def test_twelve_hour_taiwan_native_publish_is_small(self):
+        twelve = estimate_region(
+            "jma",
+            cells_for_region("tw"),
+            valid_times_published=12,
+        )
+        self.assertLess(twelve["estimated_refresh_mib"], 2.0)
+
     def test_generated_cells_are_not_committed_by_default(self):
         x = recommend_storage([estimate_region("gfs", cells_for_region("us"))])
         self.assertFalse(x["publish_generated_cells_to_git"])
