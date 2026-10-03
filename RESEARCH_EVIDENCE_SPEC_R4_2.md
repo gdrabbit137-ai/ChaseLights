@@ -167,9 +167,165 @@ A verified value in one dimension MUST NOT be downgraded or contradicted merely 
 
 Conversely, a verified Opportunity-existence claim MUST NOT be used to invent a best season, formation rule, forecast capability, or calibrated score. Unknown remains unknown at the owning dimension.
 
-Canonical data, evidence registries, runtime adapters, generated output and UI copy MUST preserve this separation. Generic labels such as `待氣候驗證` / "climate verification pending" MUST NOT be used where they make it ambiguous whether the Opportunity itself is unverified. User-facing copy SHOULD identify the unresolved dimension explicitly, for example `最佳季節尚無足夠證據`, `形成條件研究中`, or `目前無可靠預報能力`.
+Canonical data, evidence registries, runtime adapters, generated output and UI copy MUST preserve this separation. Generic labels such as `待氣候驗證` / "climate verification pending" MUST NOT be used where they make it ambiguous whether the Opportunity itself is unverified. When an unresolved dimension is intentionally exposed to the user, the copy SHOULD identify that dimension explicitly, for example `最佳季節尚無足夠證據`, `形成條件研究中`, or `目前無可靠預報能力`. However, unresolved research/system state that is not needed for the user's current photography decision SHOULD remain in canonical/evidence data and MUST NOT be surfaced merely because the field exists. Section 7.2 governs presentation eligibility.
 
 When the evidence registry says Opportunity existence is `verified`, CI/audit SHOULD reject canonical or derived user-facing status that semantically represents that same Opportunity as existence-unverified solely because seasonality, formation, forecastability, runtime readiness, or scoring is incomplete. Fix the conflict at the owning source-of-truth layer rather than hiding it in the UI.
+
+
+## 7.2 Decision-focused presentation and retained hidden data
+
+### Core principle: database completeness is not UI completeness
+
+ChaseLights stores a complete, auditable photography knowledge model, but the normal user interface is a **decision view**, not a serialization of that model.
+
+Information MAY and often SHOULD remain in the canonical catalog, evidence registry, runtime diagnostics, or generated detail data without being shown in the default photographer UI.
+
+The presentation rule is:
+
+`Store what the system needs to know; show what the photographer needs to decide.`
+
+A field MUST NOT become user-facing merely because it exists in the database. Conversely, hiding a field from the normal UI MUST NOT delete, weaken, overwrite, or reclassify the underlying evidence or runtime state.
+
+UI visibility is therefore a product/presentation policy independent from:
+- evidence classification,
+- research completeness,
+- runtime readiness,
+- score calibration,
+- provenance retention,
+- auditability.
+
+A downstream UI MUST NOT repair an evidence conflict by hiding it, but it also MUST NOT expose internal research state when that state does not help the user make the current photography decision.
+
+### Durable Opportunity vs selected-date recommendation
+
+The system MUST distinguish:
+
+1. **Photography Opportunity** — a durable, researched statement about what can be photographed at a Place.
+2. **Opportunity evaluation** — the runtime result for a selected date/time, including applicable window, score/status, confidence, blockers and decision reasons.
+3. **User-facing recommendation** — a decision-focused projection of a sufficiently supported evaluation.
+
+These are not interchangeable.
+
+A verified Photography Opportunity MAY remain in the database even when seasonality, formation conditions, forecastability, runtime readiness, or scoring calibration is incomplete. Such incompleteness does not invalidate Opportunity existence.
+
+However, a verified Opportunity that cannot be meaningfully evaluated for the selected date MUST NOT be displayed as a peer of actionable selected-date recommendations merely to fill the UI.
+
+If product design offers a separate, user-initiated **"what can be photographed here" / Place photography guide** view, a verified Opportunity MAY appear there with conservative copy that does not imply selected-date viability. Research-only candidates whose Opportunity existence is not verified MUST NOT appear in the normal photographer-facing guide or recommendation UI.
+
+### Default primary recommendation content
+
+For the selected date, the default Place detail UI SHOULD prioritize only information that directly answers the photographer's next decision:
+
+1. what photographic subject/composition is worth considering;
+2. whether it is viable for the selected date;
+3. the best actionable local-time window;
+4. whether the recommended shooting period is upcoming, active now, or has already passed when the selected date is today;
+5. the score or qualitative status, only when the scoring interpretation is valid for that Opportunity;
+6. the Camera Zone / shooting location when sufficiently supported;
+7. a short photographer-facing explanation of the decisive conditions.
+
+Optional second-level content MAY include composition guidance, shooting direction, focal-length guidance, or concise explanations of why the conditions are favorable.
+
+The primary UI SHOULD NOT repeat equivalent signals such as the same numeric score in multiple places or a score plus multiple prose labels that communicate the same conclusion.
+
+### Research/system information is hidden by default
+
+The following information SHOULD remain hidden from the default photographer decision surface unless the user deliberately opens an advanced/technical view or the information materially changes the decision:
+
+- evidence grade and source-provenance bookkeeping;
+- source URLs and audit references;
+- unresolved internal research dimensions;
+- rule IDs, formula versions, thresholds and weights;
+- provider/model diagnostics and fallback internals;
+- machine confidence components;
+- calibration/debug state;
+- internal field names and enum/status values;
+- "pending research" labels whose only purpose is to describe database completeness.
+
+In particular, labels such as `最佳季節待證據`, `形成條件研究中`, `待氣候驗證`, or `目前無可靠預報能力` MUST NOT automatically occupy primary recommendation-card space simply because those states are stored.
+
+If one of those limitations materially affects what the user can safely infer from a visible recommendation, surface a concise photographer-facing consequence instead of exposing raw internal state. For example, prefer "今天無法可靠判斷最佳時段" over a database-status label when that is the actual user impact.
+
+### No-fill rule
+
+The UI MUST NOT backfill the primary recommendation area with immature, unevaluable, low-evidence, or research-only Opportunities merely to avoid an empty screen.
+
+If no Opportunity meets the selected-date presentation gate, show a clear empty state such as:
+
+- no qualified high-quality shooting window for the selected date; or
+- no currently evaluable verified Opportunity.
+
+The empty state MAY offer an explicit action to browse the Place's verified photography subjects, but those subjects must remain visually and semantically separate from selected-date recommendations.
+
+### Time-awareness rule
+
+When the selected date is today, the UI MUST interpret the recommended shooting period relative to the current Place-local time.
+
+The internal/runtime concept may continue to use a `window` field, but ordinary photographer-facing copy SHOULD use natural photography language such as `最佳拍攝時段`, `建議拍攝時段`, or their localized equivalents. Raw terms such as `窗口已結束` SHOULD NOT be shown in the normal UI.
+
+Preferred selected-date wording is:
+- before the period: `最佳拍攝時段尚未開始` or, when useful, a concise countdown;
+- during the period: `現在正值最佳拍攝時段`;
+- after the period: `今日最佳拍攝時段已過`.
+
+A high score for a shooting period that has already passed MUST NOT be presented in a way that implies the user should still depart now. The temporal state of the recommended shooting period is more decision-relevant than repeating the score.
+
+Avoid blame-oriented copy such as `你已錯過` unless the product intentionally adopts that tone. The UI should describe the state of the photography opportunity, not judge the user's action.
+
+Historical or future selected dates do not require a real-time "now" state, but their Place-local shooting period must remain explicit.
+
+### Progressive disclosure rule
+
+The normal explanation path SHOULD be:
+
+`Recommendation -> Why this is suitable -> Photographer guidance -> Advanced technical details`
+
+The first explanation layer should use photographer-facing reasons such as sun geometry, cloud structure, visibility, wind, precipitation, tide or access state.
+
+Raw thresholds, formula internals, evidence provenance, and diagnostic/provider details belong to an advanced/debug/admin layer unless they are necessary to avoid misleading the user.
+
+A control named like "查看完整判定條件" / "view full evaluation criteria" SHOULD NOT be the primary explanation affordance for ordinary users. Prefer a photographer-facing question such as "為什麼適合？" / "Why is this suitable?" and place technical detail behind a deeper disclosure when retained.
+
+### Presentation-gate requirements
+
+A selected-date Opportunity may enter the primary recommendation surface only when all applicable conditions are satisfied:
+
+- Opportunity existence is verified or admitted under an explicit specification exception such as Section 4.1;
+- the UI can represent the selected-date evaluation without inventing unknown dimensions;
+- any shown score/status is valid under the Opportunity's runtime/scoring contract;
+- any shown best window is supported by the runtime data actually available;
+- uncertainty that materially changes the user's interpretation is communicated in photographer-facing terms;
+- the card is not being shown solely because the Opportunity exists in the database.
+
+The exact gate MAY vary by Opportunity type. The implementation SHOULD derive presentation eligibility from canonical evidence/runtime state rather than maintain an unrelated manual UI-only truth that can drift from the source data.
+
+### Data-retention rule
+
+Suppressing a field or Opportunity from the default UI does not authorize deletion.
+
+Research notes, unresolved dimensions, provenance, calibration state, derived diagnostics, and other non-visible fields SHOULD remain available to:
+- audits,
+- regression tests,
+- future model improvements,
+- admin/research tooling,
+- replay of older/newer scoring versions,
+- later promotion when evidence/runtime readiness improves.
+
+"Not displayed" is therefore not a synonym for "not stored", "false", "rejected", or "unverified".
+
+### UI regression requirements
+
+Automated browser/contract tests SHOULD cover at least:
+
+- primary recommendation cards do not expose raw internal research-status labels by default;
+- a verified but selected-date-unevaluable Opportunity is not rendered as a peer actionable recommendation;
+- an unverified research candidate is not rendered in normal photographer-facing recommendation/guide surfaces;
+- no qualified recommendation produces an explicit empty state rather than immature-card backfill;
+- a today's recommended shooting period that has already passed is shown with natural photographer-facing copy (for example `今日最佳拍攝時段已過`) and does not imply a current departure recommendation;
+- score/status is not redundantly repeated without additional decision value;
+- "Why is this suitable?" exposes concise photographer-facing reasons while technical criteria remain progressively disclosed;
+- hiding fields from the UI does not remove them from canonical/evidence/runtime data.
+
 
 ## 8. Admission checklist
 
@@ -184,6 +340,10 @@ Before adding a new Opportunity:
 - [ ] High-risk subject has explicit provenance.
 - [ ] UI copy does not overstate uncertain presence.
 - [ ] Tests cover the evidence/runtime boundary.
+- [ ] Primary UI projection exposes only decision-relevant information by default.
+- [ ] Research/system-only fields remain retained and auditable even when hidden from the default UI.
+- [ ] Verified-but-unevaluable Opportunities are not presented as actionable selected-date recommendations.
+- [ ] Empty recommendation states do not backfill with immature or research-only Opportunities.
 
 ## 9. Audit policy
 
