@@ -33,4 +33,10 @@ def plan_viewport_fetch(provider,viewport,prefetch_fraction=.65):
     fetch={"west":max(d["west"],_snap(clipped["west"],sx,False)),"south":max(d["south"],_snap(clipped["south"],sy,False)),"east":min(d["east"],_snap(clipped["east"],sx,True)),"north":min(d["north"],_snap(clipped["north"],sy,True))}
     payload={"provider":provider,"bbox":{k:round(v,6) for k,v in fetch.items()}}
     cache_key=hashlib.sha256(json.dumps(payload,sort_keys=True,separators=(",",":")).encode()).hexdigest()[:20]
-    return {"provider":provider,"status":"ready","viewport":normalize_bbox(viewport),"requested_bbox":requested,"fetch_bbox":fetch,"coverage_complete":fetch=={k:requested[k] for k in fetch},"cache_key":cache_key}
+    coverage_complete=(
+        fetch["west"] <= requested["west"] + 1e-9
+        and fetch["south"] <= requested["south"] + 1e-9
+        and fetch["east"] >= requested["east"] - 1e-9
+        and fetch["north"] >= requested["north"] - 1e-9
+    )
+    return {"provider":provider,"status":"ready","viewport":normalize_bbox(viewport),"requested_bbox":requested,"fetch_bbox":fetch,"coverage_complete":coverage_complete,"cache_key":cache_key}
