@@ -2051,12 +2051,12 @@ NAVIGATION_TARGET_OVERRIDES = {
             "en": "Takachiho Gorge has multiple parking, walking and boat access routes",
             "ja": "高千穂峡は駐車・徒歩・貸しボートで複数のアクセス経路があります",
         },
-        "source": "Takachiho Tourism Association documents multiple official parking/access options and separately managed rental-boat access; reviewed 2026-10-02",
+        "source": "Takachiho Tourism Association documents multiple official parking/access options and separately managed rental-boat access; #1 Oshioi public parking is independently mapped at 32.7016613, 131.3003766; reviewed 2026-10-03",
         "confidence": "high",
         "note_i18n": {
-            "zh-TW": "真名井瀑布步道、三橋攝影點與租船視角的實際到達方式不同；在 route-selection 資料完成前不指定單一 Directions 終點。",
-            "en": "Manai Falls walking access, the Three Bridges photo point and the rental-boat perspective use materially different arrival modes. No single Directions target is chosen until route selection is modeled.",
-            "ja": "真名井の滝の遊歩道、三橋撮影点、貸しボートでは到着方法が異なるため、ルート選択モデル完成前は単一のDirections目的地を指定しません。",
+            "zh-TW": "真名井瀑布步道、三橋攝影點與租船視角的實際到達方式不同；第1御塩井停車場只作 Place／天氣 anchor，在 route-selection 資料完成前不指定單一 Directions 終點。",
+            "en": "Manai Falls walking access, the Three Bridges photo point and the rental-boat perspective use different arrival modes. #1 Oshioi Parking is only the Place/weather anchor; no single Directions target is chosen until route selection is modeled.",
+            "ja": "真名井の滝の遊歩道、三橋撮影点、貸しボートでは到着方法が異なります。第1御塩井駐車場はPlace／天気アンカーのみとし、ルート選択モデル完成前は単一のDirections目的地を指定しません。",
         },
     },
     "馬塔努斯卡冰河": {
