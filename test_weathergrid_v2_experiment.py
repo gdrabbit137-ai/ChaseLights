@@ -24,6 +24,8 @@ class WeatherGridV2ExperimentTest(unittest.TestCase):
             "elevation: 'nan'",
             "map.on('moveend'",
             "new AbortController()",
+            "PROVIDER_FIELDS",
+            "if (field === 'visibility') return 'gfs'",
         ):
             self.assertIn(token, js)
 
