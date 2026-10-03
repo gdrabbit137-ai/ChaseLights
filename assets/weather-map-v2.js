@@ -1,5 +1,5 @@
 import maplibregl from 'https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-gl.mjs';
-import { loadV2Index, loadViewportTiles } from './weather-map-v2-tile-loader.js';
+import { loadV2Index, loadViewportTiles, nearestValidTime, providerSupportsField } from './weather-map-v2-tile-loader.js';
 
 const API = {
   jma: {
@@ -228,10 +228,11 @@ function applyDataset(item, cacheStatus) {
 }
 
 function regionForView(b){
-  if(b.w>=119.5&&b.e<=123.5&&b.s>=21.5&&b.n<=26.5) return 'tw';
-  if(b.w>=122&&b.e<=146&&b.s>=24&&b.n<=46) return 'jp';
-  if(b.w>=-125&&b.e<=-66&&b.s>=24&&b.n<=50) return 'us';
-  if(b.w>=-170&&b.e<=-129&&b.s>=51&&b.n<=72) return 'us_alaska';
+  const lon=(b.w+b.e)/2, lat=(b.s+b.n)/2;
+  if(lon>=119.5&&lon<=123.5&&lat>=21.5&&lat<=26.5) return 'tw';
+  if(lon>=122&&lon<=146&&lat>=24&&lat<=46) return 'jp';
+  if(lon>=-125&&lon<=-66&&lat>=24&&lat<=50) return 'us';
+  if(lon>=-170&&lon<=-129&&lat>=51&&lat<=72) return 'us_alaska';
   return null;
 }
 async function tryNativeJma(coverage,currentView){
@@ -240,15 +241,18 @@ async function tryNativeJma(coverage,currentView){
     try{ state.v2Index=await loadV2Index(); }catch(_){ state.v2Index=null; }
   }
   if(!state.v2Index) return false;
-  const region=regionForView(coverage);
-  if(!region) return false;
-  const validTime=state.validTime;
+  const field=$('layer').value;
+  if(!providerSupportsField(state.v2Index,'jma',field)) return false;
+  const region=regionForView(currentView);
+  if(region!=='tw'&&region!=='jp') return false;
+  const validTime=nearestValidTime(state.v2Index,'jma',state.validTime || new Date());
   if(!validTime) return false;
   const result=await loadViewportTiles(state.v2Index,region,coverage,'jma',validTime);
   if(!result.loaded.length) return false;
   const item={provider:'jma',coverage,samples:result.samples,dx:0.0625,dy:0.05,
     validTime:result.loaded[0].tile.valid_time_utc,fetchedAt:Date.now(),nativeTile:true,
     tileCount:result.loaded.length,failedTiles:result.failed.length};
+  cachePut(bboxKey('jma',coverage),item);
   applyDataset(item,'native-tile');
   return true;
 }
@@ -330,7 +334,7 @@ map.on('move', draw);
 map.on('moveend', () => schedule(false));
 map.on('resize', resize);
 $('provider').addEventListener('change', () => schedule(true));
-$('layer').addEventListener('change', draw);
+$('layer').addEventListener('change', () => schedule(true));
 $('refresh').addEventListener('click', () => schedule(true));
 document.querySelectorAll('[data-preset]').forEach((button) => {
   button.addEventListener('click', () => gotoPreset(button.dataset.preset));

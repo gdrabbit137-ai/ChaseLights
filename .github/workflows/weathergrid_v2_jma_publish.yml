@@ -1,0 +1,145 @@
+name: Update WeatherGrid V2 JMA Native Tiles
+
+on:
+  schedule:
+    # Run shortly after the existing JMA refresh window.  V2 is isolated from
+    # the production WeatherGrid publisher so an experimental failure cannot
+    # break the existing browser bundle.
+    - cron: '25 */3 * * *'
+  push:
+    branches:
+      - main
+    paths:
+      - "weathergrid_v2_publish.py"
+      - "weathergrid_v2_tile_export.py"
+      - "weathergrid_v2_cache_index.py"
+      - "jma_msm_aws_om.py"
+      - ".github/workflows/weathergrid_v2_jma_publish.yml"
+  workflow_dispatch:
+    inputs:
+      forecast_hours:
+        description: "Hourly JMA MSM valid times to publish for the V2 preview"
+        required: false
+        default: "6"
+
+concurrency:
+  group: chaselights-weathergrid-v2-jma-publish
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  publish-v2-jma:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install native JMA dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install requests numpy "omfiles>=1.2,<2" fsspec s3fs
+
+      - name: Run V2 publisher unit tests
+        run: |
+          python -m unittest -v             test_weathergrid_v2_tile_export.py             test_weathergrid_v2_cache_index.py             test_weathergrid_v2_publish.py
+
+      - name: Publish current Taiwan JMA native working set
+        env:
+          FORECAST_HOURS: ${{ inputs.forecast_hours || '6' }}
+        run: |
+          rm -rf weathergrid/v2/jma/current
+          python weathergrid_v2_publish.py             --region tw             --forecast-hours "$FORECAST_HOURS"             --output-root weathergrid/v2             | tee /tmp/weathergrid-v2-jma-summary.json
+
+      - name: Validate browser publication contract
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          root = Path("weathergrid/v2")
+          index = json.loads((root / "index.json").read_text())
+          manifest = json.loads((root / "jma/current/manifest.json").read_text())
+          run = index["provider_runs"]["jma"]
+
+          assert run["reference_time_utc"] == manifest["reference_time_utc"]
+          assert run["valid_times"] == manifest["valid_times"]
+          assert run["default_valid_time_utc"] == manifest["default_valid_time_utc"]
+          for field in ("cloud_cover_low", "cloud_cover_mid", "cloud_cover_high"):
+              assert field in run["supported_fields"], run["supported_fields"]
+
+          tokens = [x["token"] for x in run["valid_times"]]
+          assert tokens, "no V2 JMA valid times"
+          cells_by_id = {
+              c["id"]: c for c in index["regions"]["tw"]["cells"]
+              if "jma" in c["providers"]
+          }
+          published_ids = run.get("published_cell_ids") or []
+          assert published_ids, "no published Taiwan JMA cells"
+          assert run.get("published_regions") == ["tw"], run.get("published_regions")
+
+          for cell_id in published_ids:
+              assert cell_id in cells_by_id, cell_id
+              token = tokens[0]
+              tile_path = root / "jma/current" / token / f"{cell_id}.json"
+              assert tile_path.exists(), tile_path
+              tile = json.loads(tile_path.read_text())
+              assert tile["provider"] == "jma"
+              assert tile["model"] == "JMA_MSM"
+              assert tile["valid_time_token"] == token
+              assert "cloud_cover_low" in tile["values"]
+
+          print(json.dumps({
+              "reference_time_utc": run["reference_time_utc"],
+              "valid_times": len(tokens),
+              "taiwan_cells": len(published_ids),
+              "first_token": tokens[0],
+          }, indent=2))
+          PY
+
+      - name: Publish V2 native snapshot to main
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add -A -- weathergrid/v2
+
+          if git diff --cached --quiet; then
+            echo "WeatherGrid V2 JMA native snapshot unchanged."
+            exit 0
+          fi
+
+          git commit -m "Auto-update WeatherGrid V2 JMA native tiles [skip ci]"
+          pushed=false
+          for i in {1..5}; do
+            if git pull --rebase origin main && git push origin HEAD:main; then
+              pushed=true
+              break
+            fi
+            sleep 5
+          done
+          if [[ "$pushed" != "true" ]]; then
+            echo "Failed to publish WeatherGrid V2 JMA snapshot after retries."
+            exit 1
+          fi
+
+      - name: Upload V2 publisher artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: weathergrid-v2-jma-native
+          path: |
+            /tmp/weathergrid-v2-jma-summary.json
+            weathergrid/v2/index.json
+            weathergrid/v2/jma/current/manifest.json
+          if-no-files-found: warn
+          retention-days: 3
