@@ -31,3 +31,33 @@ export async function loadNativeTile(url, fetchImpl = fetch) {
   const tile=await r.json();
   return {tile,samples:tileToSamples(tile)};
 }
+
+
+function intersects(a,b){
+  return a.west < b.e && a.east > b.w && a.south < b.n && a.north > b.s;
+}
+
+export function cellsForViewport(index, region, viewport, provider='jma'){
+  const r=index.regions?.[region];
+  if(!r) return [];
+  return r.cells.filter((cell)=>cell.providers?.[provider] && intersects(cell.bbox,viewport));
+}
+
+export function tileUrl(cell, provider, validTime){
+  const spec=cell.providers?.[provider];
+  if(!spec?.url_template) throw new Error('provider tile unavailable');
+  const token=String(validTime).replace(/[-:]/g,'').replace('.000Z','Z');
+  return spec.url_template.replace('{valid_time}',token);
+}
+
+export async function loadViewportTiles(index,region,viewport,provider,validTime,fetchImpl=fetch){
+  const cells=cellsForViewport(index,region,viewport,provider);
+  const settled=await Promise.allSettled(cells.map(async(cell)=>{
+    const url=tileUrl(cell,provider,validTime);
+    const loaded=await loadNativeTile(url,fetchImpl);
+    return {cell,url,...loaded};
+  }));
+  const loaded=settled.filter(x=>x.status==='fulfilled').map(x=>x.value);
+  const failed=settled.filter(x=>x.status==='rejected').map(x=>String(x.reason));
+  return {cells,loaded,failed,samples:loaded.flatMap(x=>x.samples)};
+}
