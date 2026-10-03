@@ -541,3 +541,109 @@ Geometry research MUST be as precise as the claim requires. Narrow alignments su
 An AI agent performing Place expansion MUST: read the latest specifications/canonical data/schema/tests; search broadly without requiring complete metadata; screen using multiple photography-value signals; research Place-specific Opportunities; inspect accessible public Visual Evidence when useful; classify the photographic field; research Camera Zone/subject geometry only to justified precision; research Navigation Target independently; use conservative/provisional states for unresolved details; update canonical data/evidence; run required tests/audits; and preserve unresolved enrichment work rather than fabricating completeness.
 
 Unknown MUST remain unknown. Provisional MUST remain provisional.
+
+
+## 14. Field Intake observation-association and UX contract
+
+This section governs the production `field-intake.html` flow that turns a photographer's local image metadata and explicit observations into an **unreviewed observation draft**. It does not admit a Field Validation case, alter scoring thresholds, or turn an observation into ground truth.
+
+### 14.1 Human-facing workflow and data boundary
+
+The normal photographer UI MUST NOT require the user to understand, edit, or supply observation JSON, internal schema keys, replay bookkeeping, or internal enums. The UI collects human-understandable facts and decisions; the application produces the structured observation/export.
+
+The flow MUST make these stages understandable and distinguishable:
+
+1. select one or more photographs/files;
+2. inspect local EXIF/metadata and identify what was found or is missing;
+3. associate the observation with a researched Place, or explicitly leave it unmatched;
+4. confirm/supplement the actual observation, including the intended Photography Opportunity/subject where applicable and whether it was observed/held/failed/uncertain, with a concise failure reason or note when useful;
+5. show the final export/submission state and the privacy/data boundary.
+
+A missing EXIF field MUST remain unknown/unavailable unless the user explicitly supplies a value that the UI is designed to accept safely. The implementation MUST NOT invent capture time, GPS, camera/lens metadata, Place identity, Opportunity identity, or observation outcome to complete a draft.
+
+If original photographs remain local and only structured JSON is exported, the production UI MUST say so plainly. It MUST NOT imply that the photograph or draft has been uploaded or submitted to ChaseLights when no network submission occurred.
+
+### 14.2 Place matcher contract
+
+A large plain `<select>`/long drop-down containing the catalog MUST NOT be the only primary Place-association control.
+
+The production matcher MUST provide a searchable combobox/typeahead or equivalent search-first interaction. Search MUST cover, when present in the canonical/identity sources:
+
+- user-facing Place name;
+- canonical name;
+- stable Place/spot ID;
+- aliases;
+- administrative/region text useful for disambiguation.
+
+Search results MUST expose enough region/administrative context to distinguish ambiguous or similarly named Places. Region grouping/filtering MAY supplement search but MUST NOT replace search with another long browsing burden.
+
+The matcher MUST be usable on desktop and mobile and MUST support the interaction modes appropriate to each surface, including keyboard operation on desktop and touch operation on mobile. Long result sets MUST NOT create a surface that is impractical to close, locate within, or correct after a mistaken selection.
+
+### 14.3 GPS suggestion is not confirmation
+
+When the photograph contains trustworthy GPS, the UI MAY rank nearby researched Places and SHOULD expose distance or another understandable ranking basis. A nearest-Place result is a **suggestion**, not evidence that the photograph belongs to that Place.
+
+The observation association MUST distinguish at least:
+
+- `unmatched` — no Place has been confirmed;
+- explicit user selection/confirmation;
+- a GPS-derived suggestion and its provenance;
+- a user override of a suggestion.
+
+The implementation MUST NOT silently confirm the first catalog entry, the previous Place, an arbitrary Place, or a GPS suggestion merely to avoid an empty value. When GPS is missing, unreliable, too distant, ambiguous, or otherwise below the matching policy's confidence threshold, an explicit unmatched/manual-selection state MUST remain valid.
+
+An automatic suggestion/export MUST preserve enough provenance to explain the method and, when applicable, the distance/confidence basis. A later user selection MUST be distinguishable from the original automatic suggestion.
+
+### 14.4 Spatial semantic boundary
+
+Field Intake Place association is an **observation-to-Place association**. It does not redefine spatial truth.
+
+A photograph's embedded GPS is the capture-location observation supplied by the image metadata. It MUST NOT automatically become or overwrite:
+
+- the canonical Place coordinate;
+- a researched Camera Zone;
+- a Photo Target / Subject coordinate;
+- a Navigation Target.
+
+Likewise, a nearby Camera Zone is useful for candidate ranking but is not proof that the photograph was made there. Navigation semantics remain owned by `NAVIGATION_SPEC_R4_2.md`.
+
+### 14.5 Minimum photographer-facing observation content
+
+The primary form SHOULD minimize required fields and use photographer language. It MUST provide a comprehensible path to express, to the extent known:
+
+- where the photograph/observation is associated;
+- when it was captured;
+- which researched Photography Opportunity/subject was being validated, when applicable;
+- what was actually observed and whether the expected opportunity/condition held, partially held, failed, or cannot be determined;
+- a concise failure reason and/or note when needed for later review.
+
+Internal evidence status, replay identifiers, schema keys, calibration state, and provider/debug fields MAY be retained in structured data but MUST NOT be exposed as required primary-form concepts merely because the database contains them.
+
+An exported draft remains unreviewed. Neither Place association nor a user-reported outcome alone promotes it to admitted ground truth or authorizes scoring/model changes.
+
+### 14.6 Localization and presentation
+
+All user-facing Field Intake semantic content is subject to the same supported-locale completeness contract as the production presentation layer. Changing locale MUST change presentation only; it MUST NOT change association identity, observation meaning, evidence semantics, or structured truth.
+
+User-facing labels, matcher states, missing-data explanations, outcome choices, privacy/export states, validation messages, and dynamically composed messages MUST NOT leak untranslated semantic content from another supported locale except where an explicit proper-name/original-language fallback policy permits it.
+
+### 14.7 Machine-enforcement and review gate
+
+CI/audit/browser coverage SHOULD enforce every invariant that can be checked without pretending to resolve human/geographic judgment. At minimum, automated coverage SHOULD verify:
+
+- an explicit unmatched state is valid;
+- no arbitrary Place is silently selected when no trustworthy match is confirmed;
+- the production Place matcher is search-capable rather than relying only on a catalog-sized plain select;
+- exported Place association preserves method/provenance needed to distinguish unmatched, automatic suggestion, user confirmation and override;
+- missing EXIF remains missing unless explicitly supplied;
+- supported localization keys/states used by the Field Intake flow are covered;
+- the local-photo/no-upload boundary remains truthful;
+- representative desktop and mobile browser interactions can search, select, clear/correct and leave a Place unmatched.
+
+Candidate quality, GPS trustworthiness, geographic semantics, and usability judgments that cannot be safely reduced to deterministic tests remain human/research review gates. CI green MUST NOT be treated as proof of those judgments.
+
+### 14.8 Ownership and compliance
+
+This section owns the Field Intake observation-association/presentation policy. It does not supersede the evidence boundary in Sections 1–13, the Camera Zone/Photo Target/Navigation Target separation in `NAVIGATION_SPEC_R4_2.md`, or the canonical ownership rules in Section 12.
+
+A production Field Intake implementation MUST be reviewed against the latest version of this section on `main` before merge. If this specification changes while an implementation PR is open, that PR MUST be rechecked against the new normative text before it is considered ready.
