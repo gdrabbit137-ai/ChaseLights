@@ -142,6 +142,7 @@ jobs:
 
           python - <<'PY'
           import json
+          from pathlib import Path
           from urllib.parse import urlparse, parse_qs
           from selenium import webdriver
           from selenium.webdriver.common.by import By
@@ -160,6 +161,14 @@ jobs:
           wait = WebDriverWait(driver, 30)
           report = {}
 
+          def regional_spot_count(path):
+              payload = json.loads(Path(path).read_text(encoding="utf-8"))
+              spots = payload.get("spots") if isinstance(payload, dict) else payload
+              return len(spots or [])
+
+          expected_tw_spots = regional_spot_count("tw_weather.json")
+          expected_jp_spots = regional_spot_count("jp_weather.json")
+
           try:
               # Last Updated must follow the user's device/browser timezone,
               # independently from each Place's local shooting-time timezone.
@@ -167,18 +176,19 @@ jobs:
               driver.get("http://127.0.0.1:8000/index.html")
 
               wait.until(lambda d: d.execute_script(
-                  "return currentData && currentRegion === 'tw' && currentSpots.length === 83"
+                  "return currentData && currentRegion === 'tw' && currentSpots.length === arguments[0]",
+                  expected_tw_spots
               ))
               cards = driver.find_elements(By.CSS_SELECTOR, "#spots-container .card")
               report["initial_day_empty"] = not bool(cards)
               if not cards:
                   empty_states = driver.find_elements(By.CSS_SELECTOR, "#spots-container .empty-state")
-                  assert empty_states, "loaded 83 Taiwan spots but neither cards nor empty-state rendered"
+                  assert empty_states, f"loaded {expected_tw_spots} Taiwan spots but neither cards nor empty-state rendered"
                   driver.execute_script("switchDay('tomorrow')")
                   cards = wait.until(lambda d: d.find_elements(By.CSS_SELECTOR, "#spots-container .card"))
               report["validated_day_filter"] = driver.execute_script("return currentDayFilter")
               report["taiwan_rendered_cards"] = len(cards)
-              assert len(cards) == 83, f"expected 83 Taiwan cards on a forecast day, got {len(cards)}"
+              assert len(cards) == expected_tw_spots, f"expected {expected_tw_spots} Taiwan cards on a forecast day, got {len(cards)}"
 
               # B136/B107: UI verdicts are subject-aware rather than generic
               # Place-level engineering copy. Candidate/low-confidence states
@@ -288,7 +298,7 @@ jobs:
               report["favorite_toggle_off"] = favorite_toggle_off
               assert favorite_toggle_off["pressed"] == "false", favorite_toggle_off
               assert favorite_toggle_off["currentCategoryKey"] == "__all__", favorite_toggle_off
-              assert favorite_toggle_off["actual"] == 83, favorite_toggle_off
+              assert favorite_toggle_off["actual"] == expected_tw_spots, favorite_toggle_off
 
               # Multi-select UX: selecting one county must not collapse the picker.
               # Re-query buttons after each click because filtering re-renders the picker.
@@ -331,7 +341,7 @@ jobs:
                 filterAndRender();
               """)
               cards = driver.find_elements(By.CSS_SELECTOR, "#spots-container .card")
-              assert len(cards) == 83, len(cards)
+              assert len(cards) == expected_tw_spots, len(cards)
 
               # B137: Japan and the U.S. use the same Favorites + first-level
               # administrative-area picker interaction as Taiwan. Macro regions
@@ -339,7 +349,8 @@ jobs:
               # prefectures / states.
               driver.execute_script("switchRegion('jp')")
               wait.until(lambda d: d.execute_script(
-                  "return currentData && currentRegion === 'jp' && currentSpots.length === 35"
+                  "return currentData && currentRegion === 'jp' && currentSpots.length === arguments[0]",
+                  expected_jp_spots
               ))
               jp_admin = driver.execute_script("""
                 const active = currentSpots.filter(s => s.active_in_catalog !== false);
@@ -463,7 +474,8 @@ jobs:
               # Restore Taiwan for the rest of the existing Browser Smoke.
               driver.execute_script("switchRegion('tw')")
               wait.until(lambda d: d.execute_script(
-                  "return currentData && currentRegion === 'tw' && currentSpots.length === 83"
+                  "return currentData && currentRegion === 'tw' && currentSpots.length === arguments[0]",
+                  expected_tw_spots
               ))
               driver.execute_script("""
                 currentAdminAreas.clear();
@@ -473,7 +485,7 @@ jobs:
                 filterAndRender();
               """)
               cards = driver.find_elements(By.CSS_SELECTOR, "#spots-container .card")
-              assert len(cards) == 83, len(cards)
+              assert len(cards) == expected_tw_spots, len(cards)
 
               # B143: phones use a bounded bottom-sheet administrative-area
               # picker with explicit exits, persistent multi-select, and locked
@@ -596,7 +608,7 @@ jobs:
               wait.until(lambda d: d.execute_script("return !isMobileAdminPicker()"))
               driver.execute_script("filterAndRender()")
               cards = driver.find_elements(By.CSS_SELECTOR, "#spots-container .card")
-              assert len(cards) == 83, len(cards)
+              assert len(cards) == expected_tw_spots, len(cards)
 
               # B102 desktop contract: no-opportunity cards are present but
               # collapsed by default, filters stay sticky, and wide screens
