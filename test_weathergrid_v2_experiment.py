@@ -66,6 +66,15 @@ class WeatherGridV2ExperimentTest(unittest.TestCase):
         self.assertIn("window.__weatherGridV2Smoke", js)
         self.assertIn("return regionForView(view())", js)
 
+    def test_deployed_smoke_waits_for_tile_loader_publication(self):
+        workflow = (ROOT / ".github/workflows/weathergrid_v2_experiment.yml").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("expected_loader_sha", workflow)
+        self.assertIn("weather-map-v2-tile-loader.js?pages_probe=", workflow)
+        self.assertIn("/tmp/v2-loader.js", workflow)
+        self.assertIn("$expected_loader_sha", workflow)
+
     def test_photography_layers_are_available(self):
         html = (ROOT / "weather-map-v2.html").read_text(encoding="utf-8")
         for field in (
