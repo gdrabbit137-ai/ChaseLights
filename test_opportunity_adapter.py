@@ -5134,3 +5134,13 @@ if __name__ == "__main__":
     test_aurora_state_contract()
     test_schema10_optional_metadata_bridge()
     print("v0.04 R4.2 full Opportunity adapter tests: PASS")
+
+
+def test_hardhanling_cloud_sea_season_is_place_specific_and_runtime_independent():
+    ops = {o["opportunity_id"]: o for o in get_opportunities("tw", "tw-008")}
+    assert ops["tw-008-P03"]["best_season"] == "春季"
+    report = audit_opportunity_evidence.build_report()
+    row = next(r for r in report["all_records"] if r["opportunity_id"] == "tw-008-P03")
+    assert row["audit_status"] == "documented"
+    assert row["evidence_grade"] == "A"
+
