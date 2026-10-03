@@ -49,6 +49,8 @@ class WorkflowContractTest(unittest.TestCase):
             "github.event.workflow_run.conclusion == 'success'",
             workflow,
         )
+        self.assertIn('default: "12"', workflow)
+        self.assertIn("inputs.forecast_hours || '12'", workflow)
 
 
 class PublishTest(unittest.TestCase):
@@ -61,6 +63,7 @@ class PublishTest(unittest.TestCase):
                 metadata={"reference_time": "2026-10-03T00:00:00Z"},
                 fetcher=fake_snapshot,
                 max_cells=1,
+                selection_time_utc="2026-10-03T01:40:00Z",
             )
             root = Path(d)
             self.assertEqual(summary["cells"], 1)
@@ -70,7 +73,15 @@ class PublishTest(unittest.TestCase):
             )
             self.assertEqual(
                 manifest["default_valid_time_utc"],
-                "2026-10-03T01:00:00Z",
+                "2026-10-03T02:00:00Z",
+            )
+            self.assertEqual(
+                manifest["nearest_valid_time_utc"],
+                "2026-10-03T02:00:00Z",
+            )
+            self.assertEqual(
+                manifest["nearest_valid_time_token"],
+                "20261003T0200Z",
             )
             index = json.loads((root / "index.json").read_text())
             self.assertEqual(
