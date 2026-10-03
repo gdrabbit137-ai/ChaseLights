@@ -11,7 +11,8 @@ from pathlib import Path
 REGIONS={
  "tw":{"bbox":{"west":119.5,"south":21.5,"east":123.5,"north":26.5},"cell_deg":2.0},
  "jp":{"bbox":{"west":122.0,"south":24.0,"east":146.0,"north":46.0},"cell_deg":2.0},
- "us_west":{"bbox":{"west":-125.0,"south":31.0,"east":-102.0,"north":49.0},"cell_deg":4.0},
+ "us":{"bbox":{"west":-125.0,"south":24.0,"east":-66.0,"north":50.0},"cell_deg":4.0},
+ "us_alaska":{"bbox":{"west":-170.0,"south":51.0,"east":-129.0,"north":72.0},"cell_deg":4.0},
 }
 VALID_TOKEN="{valid_time}"
 def cells_for_region(region):
