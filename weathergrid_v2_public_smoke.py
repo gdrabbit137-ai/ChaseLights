@@ -95,21 +95,20 @@ def run(url, screenshot):
         assert "samples" in conus_after["status"], conus_after
         assert "loaded coverage" in conus_after["coverage"], conus_after
 
-        # Alaska has its own geographic resolver. Move there with real map
-        # drags, but decide each next drag from the viewport that MapLibre
-        # actually produced. This avoids assuming one pixel offset always lands
-        # in Alaska across browser/rendering differences.
-        for _ in range(8):
-            current=d.find_element(By.ID,"viewport").text
-            lon,lat=viewport_center(current)
-            if -170 <= lon <= -129 and 51 <= lat <= 72:
-                break
-            dx=360 if lon > -129 else (-240 if lon < -170 else 0)
-            dy=140 if lat < 51 else (-120 if lat > 72 else 0)
-            assert dx or dy, {"viewport":current,"center":[lon,lat]}
-            ActionChains(d).move_to_element(map_el).drag_and_drop_by_offset(map_el,dx,dy).perform()
-            wait.until(lambda x, previous=current: x.find_element(By.ID,"viewport").text != previous)
-
+        # Alaska has its own geographic resolver. Use the smoke-only hook in
+        # the deployed V2 module so this validates the real MapLibre viewport
+        # and regionForView contract without relying on browser-specific drag
+        # pixel behavior. Normal V2 visits never expose this hook.
+        wait.until(lambda x: x.execute_script(
+            "return !!window.__weatherGridV2Smoke"
+        ))
+        d.execute_script(
+            "window.__weatherGridV2Smoke.jumpTo(arguments[0], arguments[1], arguments[2])",
+            -149.5, 61.0, 4.0,
+        )
+        wait.until(lambda x: x.execute_script(
+            "return window.__weatherGridV2Smoke.region()"
+        ) == "us_alaska")
         wait.until(lambda x: (
             "資料已就緒" in x.find_element(By.ID,"status").text
             and "loaded coverage" in x.find_element(By.ID,"coverage").text
@@ -123,7 +122,9 @@ def run(url, screenshot):
           "source":d.find_element(By.ID,"source").text,
           "viewport":d.find_element(By.ID,"viewport").text,
           "coverage":d.find_element(By.ID,"coverage").text,
+          "region":d.execute_script("return window.__weatherGridV2Smoke.region()"),
         }
+        assert alaska["region"] == "us_alaska", alaska
         assert "NCEP Best Match" in alaska["source"], alaska
         alaska_lon,alaska_lat=viewport_center(alaska["viewport"])
         assert -170 <= alaska_lon <= -129 and 51 <= alaska_lat <= 72, alaska
