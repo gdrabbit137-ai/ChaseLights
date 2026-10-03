@@ -26,21 +26,15 @@ This batch implements two production candidates only. Reviewed Photography Oppor
 
 ## Next researched candidates (IDs intentionally unallocated until branch is rebased)
 
-### Taiwan — 三仙台 / Sanxiantai
-- First-level admin area: 臺東縣.
-- Official evidence: East Coast National Scenic Area identifies Sanxiantai as a major east-coast scenic spot and explicitly recommends it for sunrise, stars and Milky Way photography. Its official sunrise guide describes photographers using tidal/gravel-area pools for reflected sunrise compositions; the official visitor facilities include parking, viewpoint and trail.
-- Sources: https://www.eastcoast-nsa.gov.tw/en/travel/sunrise/ and https://www.eastcoast-nsa.gov.tw/en/attractions/detail/216/ (reviewed 2026-10-02).
-- Opportunity work required: eight-arch-bridge sunrise; stars/Milky Way; reflection-pool sunrise as a tide/surface-state-sensitive variant. Do not infer usable reflection pools from cloud cover alone.
-- Dynamic context: an official live camera exists and exposes weather/sea-state context; treat this as observational evidence, not a forecast substitute.
-- Navigation work required: public visitor-center/recreation-area parking can be an arrival target; shoreline / bridge compositions remain separate Camera Zones.
 
-### Japan — 白金青い池 / Shirogane Blue Pond
-- First-level admin area: 北海道.
-- Official evidence: Hokkaido's official tourism site calls it one of Hokkaido's most photographed landscapes, specifically documenting cobalt/turquoise water, standing dead larch trunks, calm-water reflections, seasonal appearance changes and seasonal night illumination. It also documents a 220-space paid car park.
-- Source: https://www.visit-hokkaido.jp/en/spot/detail_10511.html (reviewed 2026-10-02).
-- Opportunity work required: blue-pond reflection; autumn foliage contrast; snow scene; seasonal illumination as a separate event/access-gated opportunity. Weather may influence reflection quality but must not fabricate illumination dates or seasonal foliage state.
-- Navigation work required: use the official parking/visitor arrival area rather than a point in the pond as the driving target.
 
+## Duplicate-candidate reconciliation
+The research backlog was checked against the current production catalog before further allocation:
+- 三仙台 is already `tw-038`.
+- 老梅綠石槽 is already `tw-073`.
+- 白金青池 / Shirogane Blue Pond is already `jp-001` (美瑛青池).
+
+These are not new candidates and must not receive new IDs.
 
 ## Batch-2 allocation note
 The Washington candidates formerly staged here were reconciled against merged PR #323. Reflection Lakes is now covered by `us-082` and is intentionally removed from this branch to avoid duplicate production records. Allocate any remaining unassigned IDs only from the current main catalog.
@@ -49,13 +43,6 @@ The Washington candidates formerly staged here were reconciled against merged PR
 
 ## Batch 3 — researched candidates (IDs intentionally unallocated)
 
-### Taiwan — 老梅綠石槽 / Laomei Green Reef
-- First-level admin area: 新北市.
-- Grade-A evidence: Taiwan Tourism Administration identifies the reef as a geological/wedding-photography attraction and documents the seasonal green algae; the North Coast and Guanyinshan National Scenic Area states the green season is roughly March-May, explicitly identifies early morning as a photographic golden period, recommends dry tide ±1-2 hours, provides an official live camera, and warns visitors not to step on the reef.
-- Sources: https://eng.taiwan.net.tw/m1.aspx?id=A12-00180&print=1&sNo=0002016 and https://www.northguan-nsa.gov.tw/user/article.aspx?Lang=1&SNo=04008948 (reviewed 2026-10-02).
-- Opportunity work required: seasonal green-reef + dawn light as a presence-gated subject; tide-window suitability as a separate runtime condition. Weather MUST NOT fabricate algae coverage. Official live-camera/seasonal status may later supply observed presence.
-- Safety/access guardrail: Camera Zones stay on sand/legal public viewing areas; never encourage stepping onto algae-covered troughs. High tide is a penalty/blocker according to official guidance.
-- Navigation work required: official guidance says parking is limited and recommends bus + 5-10 minute walk; research a practical arrival target separately from shoreline Camera Zones.
 
 ### Japan — 白米千枚田 / Shiroyone Senmaida
 - First-level admin area: 石川県.
