@@ -1,16 +1,12 @@
 name: WeatherGrid V2 JMA Cell Benchmark
 
 on:
-  workflow_dispatch:
-    inputs:
-      bbox:
-        description: "west,south,east,north"
-        required: false
-        default: "138,34,140,36"
-      forecast_hours:
-        description: "Hourly frames"
-        required: false
-        default: "2"
+  pull_request:
+    paths:
+      - ".github/workflows/weathergrid_v2_jma_benchmark.yml"
+      - "weathergrid_native_viewport.py"
+      - "weathergrid_viewport_fetch.py"
+      - "jma_msm_aws_om.py"
 
 permissions:
   contents: read
