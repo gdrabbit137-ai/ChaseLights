@@ -10,6 +10,7 @@ on:
       - "assets/app.js"
       - "assets/app.css"
       - "test_place_discovery_sorting_static.py"
+      - "test_localization_completeness_static.py"
       - "PLACE_DISCOVERY_SORTING_SPEC_R1.md"
       - "weather-map.html"
       - "assets/weather-map.js"
@@ -86,7 +87,7 @@ jobs:
           python analyze_weather.py us
 
       - name: Run place-discovery static regressions
-        run: python -m unittest -v test_place_discovery_sorting_static.py test_mobile_admin_picker_static.py
+        run: python -m unittest -v test_place_discovery_sorting_static.py test_mobile_admin_picker_static.py test_localization_completeness_static.py
 
       - name: Install browser test dependency
         run: python -m pip install --disable-pip-version-check selenium
@@ -197,6 +198,83 @@ jobs:
               report["validated_day_filter"] = driver.execute_script("return currentDayFilter")
               report["taiwan_rendered_cards"] = len(cards)
               assert len(cards) == expected_tw_spots, f"expected {expected_tw_spots} Taiwan cards on a forecast day, got {len(cards)}"
+
+              # Localization completeness: changing locale must update the
+              # semantic UI instead of leaking the canonical zh-TW research
+              # strings. Place/local names are intentionally excluded because
+              # the product allows translated place name + local/original name.
+              driver.execute_script("switchLanguage('en')")
+              wait.until(lambda d: d.execute_script("return document.documentElement.lang === 'en' && document.title.includes('Photography Weather Forecast')"))
+              english_semantic = driver.execute_script("""
+                const selectors = [
+                  '#discovery-title', '#filter-result-summary', '.spot-region-heading',
+                  '.theme-winner', '.best-window-row', '.recommendation-reasons',
+                  '.forecast-status-row', '.card-footer-tools'
+                ];
+                return selectors.flatMap(selector => [...document.querySelectorAll(selector)].map(x => x.textContent || ''));
+              """)
+              han = lambda text: any('\u3400' <= ch <= '\u9fff' for ch in text)
+              assert not [text for text in english_semantic if han(text)], english_semantic
+
+              driver.execute_script("document.querySelector('#spots-container .card').click()")
+              wait.until(lambda d: d.find_element(By.ID, "place-modal-overlay").value_of_css_property("display") == "flex")
+              english_guide = driver.find_element(By.ID, "place-modal-body").text
+              assert not han(english_guide), english_guide
+              assert "Shooting guide" in english_guide or "Selected-date shooting opportunities" in english_guide, english_guide
+
+              locale_key_contract = driver.execute_script("""
+                const base = Object.keys(i18nDict['zh-TW']);
+                return Object.fromEntries(['en','ja'].map(locale => [
+                  locale,
+                  base.filter(key => typeof i18nDict[locale]?.[key] !== 'string' || !i18nDict[locale][key].trim())
+                ]));
+              """)
+              assert locale_key_contract == {"en": [], "ja": []}, locale_key_contract
+
+              # Repeat the semantic leak check at a phone viewport. Place/local
+              # names are still excluded; every decision-facing string around
+              # them must remain in the selected locale.
+              driver.set_window_size(390, 844)
+              wait.until(lambda d: d.execute_script("return window.innerWidth <= 640"))
+              english_mobile_semantic = driver.execute_script("""
+                const selectors = [
+                  '#discovery-title', '#filter-result-summary', '.spot-region-heading',
+                  '.theme-winner', '.best-window-row', '.recommendation-reasons',
+                  '.forecast-status-row', '.card-footer-tools', '#place-modal-body'
+                ];
+                return selectors.flatMap(selector => [...document.querySelectorAll(selector)].map(x => x.textContent || ''));
+              """)
+              assert not [text for text in english_mobile_semantic if han(text)], english_mobile_semantic
+              mobile_body = driver.find_element(By.ID, "place-modal-body")
+              mobile_modal = driver.find_element(By.CSS_SELECTOR, "#place-modal-overlay .place-guide-modal")
+              assert mobile_body.size["width"] <= driver.execute_script("return window.innerWidth"), mobile_body.size
+              assert mobile_modal.size["width"] <= driver.execute_script("return window.innerWidth"), mobile_modal.size
+
+              # Switching language while a dynamic modal is open must rerender
+              # that modal too, not only the page shell behind it.
+              driver.execute_script("switchLanguage('ja')")
+              wait.until(lambda d: d.execute_script("return document.documentElement.lang === 'ja' && document.title.includes('撮影向け気象予報')"))
+              japanese_guide = driver.find_element(By.ID, "place-modal-body").text
+              for leaked in (
+                  "Selected-date shooting opportunities",
+                  "Best shooting time",
+                  "Shooting guide",
+                  "Status details are temporarily unavailable",
+                  "Some shooting-guide details are not yet available in English",
+              ):
+                  assert leaked not in japanese_guide, (leaked, japanese_guide)
+              assert "選択日の撮影機会" in japanese_guide, japanese_guide
+              driver.execute_script("closePlaceModal(); switchLanguage('zh-TW')")
+              driver.set_window_size(1440, 1200)
+              wait.until(lambda d: d.execute_script("return document.documentElement.lang === 'zh-TW' && document.title.includes('攝影氣象預報') && window.innerWidth > 640"))
+              report["localization_completeness"] = {
+                  "english_semantic_fragments": len(english_semantic),
+                  "english_place_guide_no_han": True,
+                  "english_mobile_semantic_fragments": len(english_mobile_semantic),
+                  "english_mobile_no_han": True,
+                  "japanese_dynamic_modal_rerendered": True,
+                  "locale_keys_complete": locale_key_contract,
+              }
 
               # B136/B107: UI verdicts are subject-aware rather than generic
               # Place-level engineering copy. Candidate/low-confidence states

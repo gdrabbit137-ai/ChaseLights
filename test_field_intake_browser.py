@@ -105,6 +105,21 @@ def main():
         assert "Search place" in driver.find_element(By.CSS_SELECTOR, ".place-search-input").get_attribute("placeholder")
         assert "Unmatched" in driver.find_element(By.CSS_SELECTOR, ".selected-place-title").text
 
+        # Subject/opportunity labels are semantic content, not Place proper
+        # names. English mode must therefore never fall back to canonical
+        # zh-TW opportunity titles when the catalog has no translated title.
+        search = driver.find_element(By.CSS_SELECTOR, ".place-search-input")
+        search.send_keys(Keys.CONTROL, "a")
+        search.send_keys(target_id)
+        option = wait.until(lambda d: d.find_element(By.CSS_SELECTOR, '.place-option[data-spot-id="' + target_id + '"]'))
+        driver.execute_script("arguments[0].click()", option)
+        wait.until(lambda d: state(d)["rows"][0]["selected_spot_id"] == target_id)
+        subject_options = [x.text for x in Select(driver.find_element(By.CSS_SELECTOR, ".observation-fields select")).options]
+        assert subject_options, subject_options
+        assert not [text for text in subject_options if any("\u3400" <= ch <= "\u9fff" for ch in text)], subject_options
+        driver.find_element(By.CSS_SELECTOR, ".clear-btn").click()
+        wait.until(lambda d: state(d)["rows"][0]["selected_spot_id"] is None)
+
         driver.set_window_size(390, 844)
         search = driver.find_element(By.CSS_SELECTOR, ".place-search-input")
         search.send_keys(target_id)

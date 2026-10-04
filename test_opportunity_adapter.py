@@ -1629,12 +1629,15 @@ def test_adapter_integrity():
     assert "guide_more_subjects:'其他已查證拍攝題材（{n}）'" in frontend_source
     assert "guide_all_subjects:'查看這裡可以拍什麼（{n}）'" in frontend_source
     assert "function userFacingResearchValue(value)" in frontend_source
+    assert "function localizedResearchValue(owner,key)" in frontend_source
+    assert "function opportunityDisplayName(spot,opportunityId,theme,legacyName)" in frontend_source
     assert "const selectedDateOpportunities=rankedOpportunities.filter(hasSelectedDateEvaluation);" in frontend_source
     assert "const guideOnlyOpportunities=rankedOpportunities.filter(op=>!selectedDateIds.has(op.opportunity_id));" in frontend_source
     assert "const current=!guideOnly&&m&&scoreVerdict.primary?" in frontend_source
     assert "const scoreConfidence=!guideOnly&&m?.score_confidence?" in frontend_source
     assert "const dayBestWindow=!guideOnly&&m&&(m.window_start||m.best_time)?fmtWindow(m):'';" in frontend_source
-    assert "const bestSeason=userFacingResearchValue(op.best_season);" in frontend_source
+    assert "const bestSeason=localizedResearchValue(op,'best_season');" in frontend_source
+    assert "const guideTime=localizedResearchValue(op,'best_time');" in frontend_source
     assert '${score} · ${esc(scoreVerdict.primary)}' not in frontend_source
     assert "best_theme:'📸 所選日期較適合：'" in frontend_source
     assert "result_count:'依所選日期最佳拍攝機會排序 · {n} 個景點'" in frontend_source

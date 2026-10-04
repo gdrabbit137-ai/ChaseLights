@@ -13,7 +13,7 @@
     <div class="header-top">
       <h1>📸 ChaseLights</h1>
       <div class="header-right">
-        <select id="country-select" onchange="switchRegion(this.value)" class="control-dropdown country-dropdown" aria-label="Country / region">
+        <select id="country-select" onchange="switchRegion(this.value)" class="control-dropdown country-dropdown" data-i18n-aria-label="country_aria" aria-label="國家／區域">
           <option value="tw" selected data-i18n="opt_tw">🇹🇼 台灣</option>
           <option value="jp" data-i18n="opt_jp">🇯🇵 日本</option>
           <option value="us" data-i18n="opt_us">🇺🇸 美國</option>
@@ -23,12 +23,12 @@
           <option value="en">🌐 English</option>
           <option value="ja">🌐 日本語</option>
         </select>
-        <select id="temp-unit-select" onchange="switchTempUnit(this.value)" class="control-dropdown lang-dropdown" aria-label="Temperature unit">
+        <select id="temp-unit-select" onchange="switchTempUnit(this.value)" class="control-dropdown lang-dropdown" data-i18n-aria-label="temp_unit_aria" aria-label="溫度單位">
           <option value="C">🌡 °C</option>
           <option value="F">🌡 °F</option>
         </select>
-        <a class="weather-map-link" href="./weather-map.html" title="WeatherGrid RAW DATA preview">🗺️ WeatherGrid</a>
-        <a class="weather-map-link" href="./field-intake.html" data-i18n="field_intake_link" title="Field observation intake">📷 實拍驗證</a>
+        <a class="weather-map-link" href="./weather-map.html" data-i18n-title="weathergrid_title" title="開啟 WeatherGrid 天氣圖">🗺️ WeatherGrid</a>
+        <a class="weather-map-link" href="./field-intake.html" data-i18n="field_intake_link" data-i18n-title="field_intake_title" title="開啟實拍驗證">📷 實拍驗證</a>
         <div class="updated" id="update-time">載入中...</div>
       </div>
     </div>
@@ -75,7 +75,7 @@
     <div class="modal place-guide-modal" onclick="event.stopPropagation()">
       <div class="modal-header">
         <div class="modal-title" id="place-modal-spot-name">📍 景點攝影資訊</div>
-        <button class="close-btn" onclick="closePlaceModal()">&times;</button>
+        <button class="close-btn" onclick="closePlaceModal()" data-i18n-aria-label="close_place" aria-label="關閉景點攝影資訊">&times;</button>
       </div>
       <div class="modal-body" id="place-modal-body"></div>
     </div>
@@ -85,7 +85,7 @@
     <div class="modal" onclick="event.stopPropagation()">
       <div class="modal-header">
         <div class="modal-title" id="modal-spot-name">📍 景點氣象分析</div>
-        <button class="close-btn" onclick="closeModal()">&times;</button>
+        <button class="close-btn" onclick="closeModal()" data-i18n-aria-label="close_weather" aria-label="關閉景點氣象分析">&times;</button>
       </div>
       <div class="modal-body">
         <div class="modal-summary" id="modal-summary"></div>
