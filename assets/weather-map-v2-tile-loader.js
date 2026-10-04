@@ -89,11 +89,15 @@ function intersects(a, b) {
 export function cellsForViewport(index, region, viewport, provider = 'jma') {
   const r = index.regions?.[region];
   if (!r) return [];
-  const published = providerRun(index, provider)?.published_cell_ids;
-  const publishedSet = Array.isArray(published) ? new Set(published) : null;
+  const run = providerRun(index, provider);
+  const publishedRegions = run?.published_regions;
+  const published = run?.published_cell_ids;
+  if (!Array.isArray(publishedRegions) || !publishedRegions.includes(region)) return [];
+  if (!Array.isArray(published) || !published.length) return [];
+  const publishedSet = new Set(published);
   return r.cells.filter((cell) =>
     cell.providers?.[provider]
-    && (!publishedSet || publishedSet.has(cell.id))
+    && publishedSet.has(cell.id)
     && intersects(cell.bbox, viewport)
   );
 }
