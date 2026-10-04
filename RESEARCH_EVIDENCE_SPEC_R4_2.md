@@ -545,7 +545,7 @@ Unknown MUST remain unknown. Provisional MUST remain provisional.
 
 ## 14. Field Intake observation-association and UX contract
 
-This section governs the production `field-intake.html` flow that turns a photographer's local image metadata and explicit observations into an **unreviewed observation draft**. It does not admit a Field Validation case, alter scoring thresholds, or turn an observation into ground truth.
+This section governs the production `field-intake.html` flow. `FIELD_INTAKE_UPLOAD_ADMISSION_SPEC_R4_2.md` is the normative companion for upload, automated assessment, privacy, provenance, state, and admission boundaries. Upload or automated assessment does not itself admit a Field Validation case or turn an observation into ground truth.
 
 ### 14.1 Human-facing workflow and data boundary
 
@@ -637,7 +637,8 @@ CI/audit/browser coverage SHOULD enforce every invariant that can be checked wit
 - exported Place association preserves method/provenance needed to distinguish unmatched, automatic suggestion, user confirmation and override;
 - missing EXIF remains missing unless explicitly supplied;
 - supported localization keys/states used by the Field Intake flow are covered;
-- the local-photo/no-upload boundary remains truthful;
+- upload, analysis, assessment, and admission states remain truthful and distinct;
+- automated assessment cannot silently become admitted ground truth;
 - representative desktop and mobile browser interactions can search, select, clear/correct and leave a Place unmatched.
 
 Candidate quality, GPS trustworthiness, geographic semantics, and usability judgments that cannot be safely reduced to deterministic tests remain human/research review gates. CI green MUST NOT be treated as proof of those judgments.
