@@ -637,12 +637,14 @@ CI/audit/browser coverage SHOULD enforce every invariant that can be checked wit
 - exported Place association preserves method/provenance needed to distinguish unmatched, automatic suggestion, user confirmation and override;
 - missing EXIF remains missing unless explicitly supplied;
 - supported localization keys/states used by the Field Intake flow are covered;
-- the local-photo/no-upload boundary remains truthful;
+- the active local-only/export or network-upload boundary remains truthful; when network upload exists, upload/analysis/assessment/admission states remain distinct and automated assessment cannot silently become admitted ground truth;
 - representative desktop and mobile browser interactions can search, select, clear/correct and leave a Place unmatched.
 
 Candidate quality, GPS trustworthiness, geographic semantics, and usability judgments that cannot be safely reduced to deterministic tests remain human/research review gates. CI green MUST NOT be treated as proof of those judgments.
 
 ### 14.8 Ownership and compliance
+
+When a network upload/submission path exists, `FIELD_INTAKE_UPLOAD_ADMISSION_SPEC_R4_2.md` is the normative companion for upload/submission, automated-assessment, privacy/provenance, and admission-state semantics. It extends this section without changing the evidence/admission authority of Sections 1–13 or navigation ownership.
 
 This section owns the Field Intake observation-association/presentation policy. It does not supersede the evidence boundary in Sections 1–13, the Camera Zone/Photo Target/Navigation Target separation in `NAVIGATION_SPEC_R4_2.md`, or the canonical ownership rules in Section 12.
 
