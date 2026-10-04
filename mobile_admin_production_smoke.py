@@ -31,6 +31,26 @@ def wait_for(predicate, wait, label):
         raise AssertionError(f"Timed out waiting for {label}") from exc
 
 
+def contains_han(text: str) -> bool:
+    return any("\u3400" <= ch <= "\u9fff" for ch in str(text or ""))
+
+
+def semantic_locale_snapshot(driver) -> list[str]:
+    return driver.execute_script(
+        """
+        const selectors = [
+          '#discovery-title', '#filter-result-summary', '#sub-nav', '#admin-filter',
+          '.spot-region-heading', '.theme-winner', '.best-window-row',
+          '.recommendation-reasons', '.forecast-status-row',
+          '.card-footer-tools', '.access-note'
+        ];
+        return selectors.flatMap(selector =>
+          [...document.querySelectorAll(selector)].map(node => node.textContent || '')
+        );
+        """
+    )
+
+
 def run(url: str, screenshot: Path) -> dict:
     driver = build_driver()
     wait = WebDriverWait(driver, 45)
@@ -73,6 +93,74 @@ def run(url: str, screenshot: Path) -> dict:
             window.scrollTo(0, 320);
             """
         )
+
+        # Production localization smoke. Place/local-name nodes are deliberately
+        # excluded: the product may show a translated Place name together with
+        # its local/original name. Decision-facing semantic copy must follow the
+        # selected locale on both phone and desktop surfaces.
+        driver.execute_script("switchLanguage('en')")
+        wait_for(
+            lambda d: d.execute_script(
+                "return currentLang === 'en' && document.documentElement.lang === 'en' "
+                "&& document.title.includes('Photography Weather Forecast')"
+            ),
+            wait,
+            "English locale",
+        )
+        mobile_english = semantic_locale_snapshot(driver)
+        assert not [text for text in mobile_english if contains_han(text)], mobile_english
+
+        first_card = driver.find_element(By.CSS_SELECTOR, "#spots-container .card")
+        driver.execute_script("arguments[0].click()", first_card)
+        wait_for(
+            lambda d: d.find_element(By.ID, "place-modal-overlay").value_of_css_property("display") == "flex",
+            wait,
+            "English Place guide",
+        )
+        english_guide = driver.find_element(By.ID, "place-modal-body").text
+        assert not contains_han(english_guide), english_guide
+        driver.execute_script("closePlaceModal()")
+
+        driver.execute_cdp_cmd(
+            "Emulation.setDeviceMetricsOverride",
+            {"width": 1440, "height": 1000, "deviceScaleFactor": 1, "mobile": False},
+        )
+        wait_for(lambda d: d.execute_script("return window.innerWidth > 640"), wait, "desktop viewport")
+        desktop_english = semantic_locale_snapshot(driver)
+        assert not [text for text in desktop_english if contains_han(text)], desktop_english
+
+        driver.execute_script("switchLanguage('ja')")
+        wait_for(
+            lambda d: d.execute_script(
+                "return currentLang === 'ja' && document.documentElement.lang === 'ja' "
+                "&& document.title.includes('撮影向け気象予報')"
+            ),
+            wait,
+            "Japanese locale",
+        )
+        japanese_semantic = " ".join(semantic_locale_snapshot(driver))
+        for leaked in (
+            "Where should I shoot",
+            "Best shooting time",
+            "Status details are temporarily unavailable",
+            "View details",
+        ):
+            assert leaked not in japanese_semantic, (leaked, japanese_semantic)
+
+        driver.execute_cdp_cmd(
+            "Emulation.setDeviceMetricsOverride",
+            {"width": 390, "height": 844, "deviceScaleFactor": 1, "mobile": True},
+        )
+        wait_for(lambda d: d.execute_script("return window.innerWidth <= 640"), wait, "restored mobile viewport")
+        driver.execute_script("switchLanguage('zh-TW')")
+        wait_for(
+            lambda d: d.execute_script(
+                "return currentLang === 'zh-TW' && document.documentElement.lang === 'zh-TW'"
+            ),
+            wait,
+            "Traditional Chinese locale",
+        )
+        driver.execute_script("window.scrollTo(0, 320)")
 
         before_scroll = driver.execute_script("return window.scrollY")
         trigger = driver.find_element(By.CSS_SELECTOR, "#admin-filter .admin-filter > summary")
@@ -174,6 +262,12 @@ def run(url: str, screenshot: Path) -> dict:
                 "selected": selected,
                 "after": after,
                 "scroll_before": before_scroll,
+                "localization": {
+                    "mobile_english_fragments": len(mobile_english),
+                    "desktop_english_fragments": len(desktop_english),
+                    "english_place_guide_no_han": True,
+                    "japanese_semantic_rerendered": True,
+                },
                 "browser_severe_log_count": len(severe_logs),
                 "browser_severe_logs": severe_logs[:10],
                 "screenshot": str(screenshot),
