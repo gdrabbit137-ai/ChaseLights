@@ -354,17 +354,21 @@
       "forecast_boundary": "官方資料證明步道本身會出現雲霧；runtime 只能估計當下雲霧／能見度是否適合攝影，不能保證特定雲形、山谷位置或平台保持完全清楚。"
     },
     "tw-056-P01": {
-      "status": "insufficient_evidence",
-      "grade": null,
+      "status": "narrow_scope",
+      "grade": "A",
       "subject": "松蘿湖湖面＋草澤森林晨景",
-      "evidence_scope": "林業保育署官方松羅湖山徑資料主要提供管制、生態與安全資訊；目前未找到直接把晨霧／湖霧列為松蘿湖可拍題材的官方或可靠地點級證據。",
+      "evidence_scope": "宜蘭縣政府官方旅遊資料直接描述松羅湖終年雲霧繚繞，並記載水量充足時湖面宛如鏡面映照蒼翠群山，足以支持松蘿湖的雲霧湖景與湖面反射題材存在；但該官方資料沒有把這些景觀限定為清晨，因此現有 Opportunity 名稱中的『晨景』時段仍未被完整 Place-specific 證據支持。",
       "sources": [
+        {
+          "title": "宜蘭勁好玩－松羅湖",
+          "url": "https://travel.yilan.gov.tw/zh-tw/attraction/374/"
+        },
         {
           "title": "林業及自然保育署宜蘭分署－松羅湖山徑",
           "url": "https://yilan.forest.gov.tw/0000355"
         }
       ],
-      "forecast_boundary": "不得因湖泊、草澤、高濕或清晨低能見度自動建立晨霧題材。"
+      "forecast_boundary": "官方證據支持雲霧湖景與湖面反射作為 Place-specific 題材，但不支持『清晨』為必要或最佳時段。runtime 可評估霧況、水面與可達性，不得由清晨、濕度或低能見度反向宣稱晨霧已出現；在晨景時段證據補齊前維持 narrow_scope。"
     },
     "tw-003-P03": {
       "status": "verified",
