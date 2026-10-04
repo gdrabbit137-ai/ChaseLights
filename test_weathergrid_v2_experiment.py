@@ -85,6 +85,7 @@ class WeatherGridV2ExperimentTest(unittest.TestCase):
         self.assertIn('coverage_contains(initial["viewport"], initial["coverage"])', smoke)
         self.assertIn("121.75, 23.8, 10.0", smoke)
         self.assertIn('"JMA MSM native tiles" in x.find_element(By.ID,"source").text', smoke)
+        self.assertIn('[data-preset="us_alaska"]', smoke)
 
     def test_photography_layers_are_available(self):
         html = (ROOT / "weather-map-v2.html").read_text(encoding="utf-8")
