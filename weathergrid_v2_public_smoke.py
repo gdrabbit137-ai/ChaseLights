@@ -146,17 +146,12 @@ def run(url, screenshot):
         visibility_source=d.find_element(By.ID,"source").text
         assert "NCEP Best Match" in visibility_source, visibility_source
 
-        # Alaska has its own geographic resolver. Use the smoke-only hook in
-        # the deployed V2 module so this validates the real MapLibre viewport
-        # and regionForView contract without relying on browser-specific drag
-        # pixel behavior. Normal V2 visits never expose this hook.
-        wait.until(lambda x: x.execute_script(
-            "return !!window.__weatherGridV2Smoke"
-        ))
-        d.execute_script(
-            "window.__weatherGridV2Smoke.jumpTo(arguments[0], arguments[1], arguments[2])",
-            -149.5, 61.0, 4.0,
-        )
+        # Alaska has its own user-visible preset. Exercise the real control
+        # instead of relying on the smoke-only jump hook, then verify that the
+        # normal resolver identifies the resulting MapLibre viewport correctly.
+        alaska_before=d.find_element(By.ID,"viewport").text
+        d.find_element(By.CSS_SELECTOR,'[data-preset="us_alaska"]').click()
+        wait.until(lambda x: x.find_element(By.ID,"viewport").text != alaska_before)
         wait.until(lambda x: x.execute_script(
             "return window.__weatherGridV2Smoke.region()"
         ) == "us_alaska")
