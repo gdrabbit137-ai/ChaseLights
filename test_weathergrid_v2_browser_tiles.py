@@ -16,6 +16,9 @@ class BrowserTileLoaderContract(unittest.TestCase):
         self.assertIn("Promise.allSettled", s)
         self.assertIn("cell.providers?.[provider]", s)
         self.assertIn("published_cell_ids", s)
+        self.assertIn("published_regions", s)
+        self.assertIn("!publishedRegions.includes(region)", s)
+        self.assertIn("!Array.isArray(published) || !published.length", s)
         self.assertIn("loadedCoverage", s)
         self.assertIn("coverageContainsViewport", s)
         self.assertIn("const coverage = loadedCoverage(loaded, provider)", s)
@@ -52,6 +55,55 @@ if (coverageContainsViewport([
   item('top', 0, 0.55, 2, 1),
 ], 'jma', viewport)) process.exit(13);
 if (coverageContainsViewport([], 'jma', viewport)) process.exit(14);
+"""
+        subprocess.run(
+            ["node", "--input-type=module", "-e", script],
+            check=True,
+        )
+
+    def test_native_cell_selection_requires_published_run_contract(self):
+        script = r"""
+import fs from 'node:fs';
+const source = fs.readFileSync('assets/weather-map-v2-tile-loader.js', 'utf8');
+const url = 'data:text/javascript;base64,' + Buffer.from(source).toString('base64');
+const { cellsForViewport } = await import(url);
+const viewport = { w: 120, s: 23, e: 122, n: 25 };
+const cell = (id) => ({
+  id,
+  bbox: { west: 120, south: 23, east: 122, north: 25 },
+  providers: {
+    jma: {
+      url_template: 'weathergrid/v2/jma/current/{valid_time}/' + id + '.json',
+      coverage_bbox: { west: 120, south: 23, east: 122, north: 25 },
+    },
+  },
+});
+const base = { regions: { tw: { cells: [cell('tw_a'), cell('tw_b')] } } };
+
+if (cellsForViewport(base, 'tw', viewport, 'jma').length !== 0) process.exit(21);
+
+const noRegions = structuredClone(base);
+noRegions.provider_runs = { jma: { published_cell_ids: ['tw_a'] } };
+if (cellsForViewport(noRegions, 'tw', viewport, 'jma').length !== 0) process.exit(22);
+
+const wrongRegion = structuredClone(base);
+wrongRegion.provider_runs = {
+  jma: { published_regions: ['jp'], published_cell_ids: ['tw_a'] },
+};
+if (cellsForViewport(wrongRegion, 'tw', viewport, 'jma').length !== 0) process.exit(23);
+
+const noCells = structuredClone(base);
+noCells.provider_runs = {
+  jma: { published_regions: ['tw'], published_cell_ids: [] },
+};
+if (cellsForViewport(noCells, 'tw', viewport, 'jma').length !== 0) process.exit(24);
+
+const published = structuredClone(base);
+published.provider_runs = {
+  jma: { published_regions: ['tw'], published_cell_ids: ['tw_a'] },
+};
+const selected = cellsForViewport(published, 'tw', viewport, 'jma');
+if (selected.length !== 1 || selected[0].id !== 'tw_a') process.exit(25);
 """
         subprocess.run(
             ["node", "--input-type=module", "-e", script],
