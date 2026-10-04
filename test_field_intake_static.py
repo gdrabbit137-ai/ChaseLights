@@ -77,6 +77,14 @@ class FieldIntakeStaticTest(unittest.TestCase):
         self.assertIn('outcome:""', self.js)
         self.assertIn("user_supplied_local_time", self.js)
 
+    def test_localization_never_falls_back_to_another_supported_locale(self):
+        self.assertNotIn('||L["zh-TW"][k]', self.js)
+        self.assertNotIn('return o.name_zh||o.name_en||o.name_ja', self.js)
+        self.assertIn("const THEME_LABELS=", self.js)
+        self.assertIn('return (THEME_LABELS[state.lang]&&THEME_LABELS[state.lang][o.legacy_theme])||t("subject_generic");', self.js)
+        self.assertIn('translation_unavailable:', self.js)
+        self.assertNotIn('catalog_error:"Place data failed to load: {e}"', self.js)
+
     def test_ground_truth_boundary_documented(self):
         self.assertIn("unreviewed observation draft", self.spec)
         self.assertIn("does not admit a Field Validation case", self.spec)
