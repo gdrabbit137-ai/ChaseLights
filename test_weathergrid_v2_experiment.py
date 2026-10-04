@@ -54,7 +54,11 @@ class WeatherGridV2ExperimentTest(unittest.TestCase):
         self.assertIn('data-preset="tw"', html)
         self.assertIn('data-preset="jp"', html)
         self.assertIn('data-preset="us"', html)
+        self.assertIn('data-preset="us_alaska"', html)
+        self.assertIn("美國本土", html)
+        self.assertIn("阿拉斯加", html)
         self.assertIn("us: { center: [-98.5, 39.0], zoom: 3.2 }", js)
+        self.assertIn("us_alaska: { center: [-149.5, 61.0], zoom: 4.0 }", js)
         self.assertNotIn("us: { center: [-119.5, 38.5], zoom: 4.2 }", js)
         self.assertIn('value="auto"', html)
         self.assertIn('value="jma"', html)
@@ -81,6 +85,7 @@ class WeatherGridV2ExperimentTest(unittest.TestCase):
         self.assertIn('coverage_contains(initial["viewport"], initial["coverage"])', smoke)
         self.assertIn("121.75, 23.8, 10.0", smoke)
         self.assertIn('"JMA MSM native tiles" in x.find_element(By.ID,"source").text', smoke)
+        self.assertIn('[data-preset="us_alaska"]', smoke)
 
     def test_photography_layers_are_available(self):
         html = (ROOT / "weather-map-v2.html").read_text(encoding="utf-8")
