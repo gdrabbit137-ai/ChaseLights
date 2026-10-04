@@ -62,7 +62,10 @@ class LocalizationCompletenessStaticTests(unittest.TestCase):
         ):
             self.assertIn(key, APP)
 
-        for internal_copy in ("[模型資料]", "[model data]", "[モデル]"):\n            self.assertNotIn(internal_copy, APP)\n\n        self.assertIn("document.documentElement.lang=currentLang;", APP)
+        for internal_copy in ("[模型資料]", "[model data]", "[モデル]"):
+            self.assertNotIn(internal_copy, APP)
+
+        self.assertIn("document.documentElement.lang=currentLang;", APP)
         self.assertIn("document.title=d().page_title;", APP)
         self.assertIn("[data-i18n-title]", APP)
         self.assertIn("[data-i18n-aria-label]", APP)
