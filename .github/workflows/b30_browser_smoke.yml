@@ -222,6 +222,34 @@ jobs:
               assert not han(english_guide), english_guide
               assert "Shooting guide" in english_guide or "Selected-date shooting opportunities" in english_guide, english_guide
 
+              locale_key_contract = driver.execute_script("""
+                const base = Object.keys(i18nDict['zh-TW']);
+                return Object.fromEntries(['en','ja'].map(locale => [
+                  locale,
+                  base.filter(key => typeof i18nDict[locale]?.[key] !== 'string' || !i18nDict[locale][key].trim())
+                ]));
+              """)
+              assert locale_key_contract == {"en": [], "ja": []}, locale_key_contract
+
+              # Repeat the semantic leak check at a phone viewport. Place/local
+              # names are still excluded; every decision-facing string around
+              # them must remain in the selected locale.
+              driver.set_window_size(390, 844)
+              wait.until(lambda d: d.execute_script("return window.innerWidth <= 640"))
+              english_mobile_semantic = driver.execute_script("""
+                const selectors = [
+                  '#discovery-title', '#filter-result-summary', '.spot-region-heading',
+                  '.theme-winner', '.best-window-row', '.recommendation-reasons',
+                  '.forecast-status-row', '.card-footer-tools', '#place-modal-body'
+                ];
+                return selectors.flatMap(selector => [...document.querySelectorAll(selector)].map(x => x.textContent || ''));
+              """)
+              assert not [text for text in english_mobile_semantic if han(text)], english_mobile_semantic
+              mobile_body = driver.find_element(By.ID, "place-modal-body")
+              mobile_modal = driver.find_element(By.CSS_SELECTOR, "#place-modal-overlay .place-guide-modal")
+              assert mobile_body.size["width"] <= driver.execute_script("return window.innerWidth"), mobile_body.size
+              assert mobile_modal.size["width"] <= driver.execute_script("return window.innerWidth"), mobile_modal.size
+
               # Switching language while a dynamic modal is open must rerender
               # that modal too, not only the page shell behind it.
               driver.execute_script("switchLanguage('ja')")
@@ -237,11 +265,15 @@ jobs:
                   assert leaked not in japanese_guide, (leaked, japanese_guide)
               assert "選択日の撮影機会" in japanese_guide, japanese_guide
               driver.execute_script("closePlaceModal(); switchLanguage('zh-TW')")
-              wait.until(lambda d: d.execute_script("return document.documentElement.lang === 'zh-TW' && document.title.includes('攝影氣象預報')"))
+              driver.set_window_size(1440, 1200)
+              wait.until(lambda d: d.execute_script("return document.documentElement.lang === 'zh-TW' && document.title.includes('攝影氣象預報') && window.innerWidth > 640"))
               report["localization_completeness"] = {
                   "english_semantic_fragments": len(english_semantic),
                   "english_place_guide_no_han": True,
+                  "english_mobile_semantic_fragments": len(english_mobile_semantic),
+                  "english_mobile_no_han": True,
                   "japanese_dynamic_modal_rerendered": True,
+                  "locale_keys_complete": locale_key_contract,
               }
 
               # B136/B107: UI verdicts are subject-aware rather than generic
