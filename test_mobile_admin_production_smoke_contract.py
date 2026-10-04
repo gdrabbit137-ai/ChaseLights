@@ -30,6 +30,21 @@ class MobileAdminProductionSmokeContractTests(unittest.TestCase):
         self.assertIn("scroll_before", self.script)
         self.assertIn("save_screenshot", self.script)
 
+    def test_smoke_checks_production_localization_on_phone_and_desktop(self):
+        for needle in (
+            "switchLanguage('en')",
+            "Photography Weather Forecast",
+            "semantic_locale_snapshot",
+            "contains_han",
+            '"width": 1440',
+            "switchLanguage('ja')",
+            "撮影向け気象予報",
+            "english_place_guide_no_han",
+            "japanese_semantic_rerendered",
+        ):
+            with self.subTest(needle=needle):
+                self.assertIn(needle, self.script)
+
     def test_workflow_waits_for_exact_deployed_homepage_bytes(self):
         for needle in (
             "sha256sum index.html",
