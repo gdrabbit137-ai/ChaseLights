@@ -110,6 +110,40 @@ if (selected.length !== 1 || selected[0].id !== 'tw_a') process.exit(25);
             check=True,
         )
 
+    def test_adaptive_fallback_sampling_is_denser_and_bounded(self):
+        script = r"""
+import fs from 'node:fs';
+const source = fs.readFileSync('assets/weather-map-v2-sampling.js', 'utf8');
+const url = 'data:text/javascript;base64,' + Buffer.from(source).toString('base64');
+const { adaptiveGridShape, sampleGrid, chunkPoints } = await import(url);
+
+const desktop = adaptiveGridShape({width: 1365, height: 800, zoom: 6});
+if (desktop.cols * desktop.rows <= 42) process.exit(31);
+if (desktop.cols * desktop.rows > 800) process.exit(32);
+
+const wide = sampleGrid(
+  {w: 109.8, s: 17.0, e: 132.2, n: 30.2},
+  {width: 1365, height: 800, zoom: 6, minLonStepDeg: 0.0625, minLatStepDeg: 0.05},
+);
+if (wide.points.length <= 200) process.exit(33);
+if (wide.points.length > 800) process.exit(34);
+if (!(wide.dx < 1.0 && wide.dy < 1.0)) process.exit(35);
+
+const tightGfs = sampleGrid(
+  {w: 121.0, s: 23.0, e: 121.8, n: 23.8},
+  {width: 1365, height: 800, zoom: 10, minLonStepDeg: 0.25, minLatStepDeg: 0.25},
+);
+if (tightGfs.points.length > 25) process.exit(36);
+
+const chunks = chunkPoints(Array.from({length: 205}, (_, i) => ({i})), 80);
+if (chunks.length !== 3 || chunks[0].length !== 80 || chunks[2].length !== 45) process.exit(37);
+if (chunks.some((chunk) => chunk.length > 100)) process.exit(38);
+"""
+        subprocess.run(
+            ["node", "--input-type=module", "-e", script],
+            check=True,
+        )
+
     def test_loader_uses_manifest_time_and_canonical_token(self):
         s = Path("assets/weather-map-v2-tile-loader.js").read_text()
         self.assertIn("nearestValidTime", s)
