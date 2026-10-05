@@ -8,6 +8,8 @@ on:
     paths:
       - "RESEARCH_EVIDENCE_SPEC_R4_2.md"
       - "audit_opportunity_evidence.py"
+      - "audit_localization_semantic_parity.py"
+      - "analyze_weather.py"
       - "opportunities.py"
       - "runtime_catalog_manifest_r4_2.json"
       - "runtime_catalog_v004_r4_2.json"
@@ -30,6 +32,8 @@ on:
     paths:
       - "RESEARCH_EVIDENCE_SPEC_R4_2.md"
       - "audit_opportunity_evidence.py"
+      - "audit_localization_semantic_parity.py"
+      - "analyze_weather.py"
       - "opportunities.py"
       - "runtime_catalog_manifest_r4_2.json"
       - "runtime_catalog_v004_r4_2.json"
@@ -51,13 +55,19 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.10"
-      - name: Compile audit
-        run: python -m py_compile audit_opportunity_evidence.py opportunities.py regions.py
+      - name: Fetch frozen localization-debt baseline
+        run: git fetch --no-tags --depth=1 origin 5f6bd312a0900b6b32e34919982a819ca6ef41d2
+      - name: Compile audits
+        run: python -m py_compile audit_opportunity_evidence.py audit_localization_semantic_parity.py opportunities.py regions.py
       - name: Run evidence audit
         run: python audit_opportunity_evidence.py
-      - name: Upload audit report
+      - name: Run localization semantic-parity audit
+        run: python audit_localization_semantic_parity.py
+      - name: Upload audit reports
         uses: actions/upload-artifact@v4
         with:
           name: b36-research-evidence-audit
-          path: research_evidence_audit.json
+          path: |
+            research_evidence_audit.json
+            localization_semantic_parity_audit.json
           retention-days: 14
