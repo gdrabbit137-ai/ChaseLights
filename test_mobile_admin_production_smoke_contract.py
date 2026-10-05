@@ -28,6 +28,8 @@ class MobileAdminProductionSmokeContractTests(unittest.TestCase):
         self.assertIn("bodyPosition", self.script)
         self.assertIn("aria-pressed", self.script)
         self.assertIn("scroll_before", self.script)
+        self.assertIn("mobile admin picker scroll restoration", self.script)
+        self.assertIn('d.execute_script("return window.scrollY") - before_scroll', self.script)
         self.assertIn("save_screenshot", self.script)
 
     def test_smoke_checks_production_localization_on_phone_and_desktop(self):
