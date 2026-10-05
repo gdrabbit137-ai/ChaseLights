@@ -3,6 +3,36 @@
   "reviewed_at": "2026-09-27",
   "policy": "RESEARCH_EVIDENCE_SPEC_R4_2.md",
   "opportunities": {
+    "jp-036-P01": {
+      "status": "verified",
+      "grade": "A",
+      "subject": "高千穗峽・真名井瀑布＋柱狀節理峽谷",
+      "evidence_scope": "高千穗町觀光協會官方景點資料直接記載高千穗峽的柱狀節理斷崖、落差約17公尺的真名井瀑布與峽谷遊步道，足以支持從合法步道／觀景區拍攝真名井瀑布與柱狀節理峽谷的 Place-specific 題材；精確 Camera Zone 座標仍維持未驗證。",
+      "sources": [
+        {
+          "title": "高千穗町觀光協會－高千穗峽",
+          "url": "https://takachiho-kanko.info/sightseeing/18/"
+        }
+      ],
+      "forecast_boundary": "官方證據證明瀑布與柱狀節理峽谷題材存在；runtime 只能評估能見度、降水與官方開放狀態，不得由天氣推定精確 Camera Zone、步道可達性或瀑布水量。"
+    },
+    "jp-036-P03": {
+      "status": "verified",
+      "grade": "A",
+      "subject": "高千穗峽・划船視角真名井瀑布",
+      "evidence_scope": "高千穗町觀光協會官方資料同時證實真名井瀑布為高千穗峽核心景觀，且官方租船服務提供峽谷河面航線與每日營運資訊，因此可直接支持從官方租船航線拍攝真名井瀑布的 Place-specific 題材；實際乘船成立仍必須由當日官方營運狀態確認。",
+      "sources": [
+        {
+          "title": "高千穗町觀光協會－高千穗峽",
+          "url": "https://takachiho-kanko.info/sightseeing/18/"
+        },
+        {
+          "title": "高千穗町觀光協會－高千穗峽貸船",
+          "url": "https://takachiho-kanko.info/boat/"
+        }
+      ],
+      "forecast_boundary": "題材存在已驗證，但租船屬 dynamic access；官方停航或狀態未知時必須 fail closed。天氣不得取代官方營運狀態，也不得推定精確船位或 Camera Zone 座標。"
+    },
     "tw-001-P02": {
       "status": "verified",
       "grade": "A",

@@ -5182,3 +5182,12 @@ def test_songluo_lake_evidence_is_narrow_scope_not_unverified():
     assert row["audit_status"] == "narrow_scope"
     assert row["evidence_grade"] == "A"
     assert "清晨" in (row["evidence_scope"] or "")
+
+
+def test_takachiho_waterfall_evidence_is_documented():
+    report = audit_opportunity_evidence.build_report()
+    rows = {r["opportunity_id"]: r for r in report["all_records"]}
+    for opportunity_id in ("jp-036-P01", "jp-036-P03"):
+        assert rows[opportunity_id]["audit_status"] == "documented"
+        assert rows[opportunity_id]["evidence_grade"] == "A"
+        assert rows[opportunity_id]["machine_verifiable_evidence"] is True
