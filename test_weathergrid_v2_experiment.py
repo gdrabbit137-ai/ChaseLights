@@ -38,6 +38,8 @@ class WeatherGridV2ExperimentTest(unittest.TestCase):
             "hourly: field",
             "function cacheFind(provider, field, v)",
             "if (field === 'visibility') return 'gfs'",
+            "params.set('models', 'gfs_global')",
+            "NCEP GFS Global",
         ):
             self.assertIn(token, js)
 
@@ -92,17 +94,21 @@ class WeatherGridV2ExperimentTest(unittest.TestCase):
 
     def test_public_smoke_covers_partial_native_fallback_and_retake(self):
         smoke = (ROOT / "weathergrid_v2_public_smoke.py").read_text(encoding="utf-8")
-        self.assertIn('assert "JMA Best Match" in initial["source"]', smoke)
+        self.assertIn('assert "NCEP GFS Global" in initial["source"]', smoke)
         self.assertIn('sample_count(initial["status"]) >= 200', smoke)
         self.assertIn('CONUS V2 handoff timed out', smoke)
         self.assertIn('coverage_contains(initial["viewport"], initial["coverage"])', smoke)
         self.assertIn("121.75, 23.8, 10.0", smoke)
         self.assertIn('"JMA MSM native tiles" in x.find_element(By.ID,"source").text', smoke)
         self.assertIn('[data-preset="us_alaska"]', smoke)
+        self.assertIn('[data-preset="jp"]', smoke)
+        self.assertIn("10.0, 50.0, 5.0", smoke)
+        self.assertIn('Select(d.find_element(By.ID,"provider")).select_by_value("jma")', smoke)
 
     def test_photography_layers_are_available(self):
         html = (ROOT / "weather-map-v2.html").read_text(encoding="utf-8")
         for field in (
+            "cloud_cover",
             "cloud_cover_low",
             "cloud_cover_mid",
             "cloud_cover_high",

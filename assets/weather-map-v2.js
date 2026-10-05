@@ -25,6 +25,18 @@ const FIELDS = {
   precipitation: { label: '降水', unit: 'mm' },
   wind_speed_10m: { label: '10m 風速', unit: 'm/s' },
 };
+function isCloudField(field) {
+  return field === 'cloud_cover' || field.startsWith('cloud_cover_');
+}
+function providerLabel(provider, field) {
+  if (provider === 'gfs' && isCloudField(field)) return 'NCEP GFS Global';
+  return API[provider].label;
+}
+function providerDetail(provider, field) {
+  if (provider === 'gfs' && isCloudField(field)) return 'Open-Meteo models=gfs_global';
+  return API[provider].detail;
+}
+
 const PROVIDER_FIELDS = {
   jma: ['cloud_cover_low', 'cloud_cover_mid', 'cloud_cover_high', 'precipitation', 'wind_speed_10m'],
   gfs: Object.keys(FIELDS),
@@ -95,7 +107,7 @@ function bboxKey(provider, field, b) {
 function autoProvider(b) {
   const field = $('layer').value;
   // Global-cloud P0: use one globally consistent GFS baseline for all cloud layers.
-  if (field === 'cloud_cover' || field.startsWith('cloud_cover_')) return 'gfs';
+  if (isCloudField(field)) return 'gfs';
   const region = regionForView(b);
   return (region === 'tw' || region === 'jp') ? 'jma' : 'gfs';
 }
@@ -128,7 +140,7 @@ function cachePut(key, item) {
 function colorFor(field, value) {
   if (value == null || Number.isNaN(Number(value))) return 'rgba(0,0,0,0)';
   const v = Number(value);
-  if (field === 'cloud_cover' || field.startsWith('cloud_cover_')) {
+  if (isCloudField(field)) {
     const a = 0.12 + clamp(v / 100, 0, 1) * 0.7;
     return 'rgba(220,235,255,' + a.toFixed(3) + ')';
   }
@@ -191,6 +203,7 @@ function buildUrl(provider, points, field) {
     cell_selection: 'nearest',
     elevation: points.map(() => 'nan').join(','),
   });
+  if (provider === 'gfs' && isCloudField(field)) params.set('models', 'gfs_global');
   return cfg.url + '?' + params.toString();
 }
 
@@ -245,7 +258,7 @@ function applyDataset(item, cacheStatus) {
   state.validTime = item.validTime;
   $('coverage').textContent = 'loaded coverage: ' + fmt(item.coverage);
   $('cache').textContent = 'request cache: ' + state.cache.size + ' · ' + cacheStatus;
-  $('source').textContent = item.nativeTile ? ('JMA MSM native tiles · '+item.tileCount+' tiles'+(item.failedTiles?' · '+item.failedTiles+' missing':'')) : (API[item.provider].label + ' · ' + API[item.provider].detail);
+  $('source').textContent = item.nativeTile ? ('JMA MSM native tiles · '+item.tileCount+' tiles'+(item.failedTiles?' · '+item.failedTiles+' missing':'')) : (providerLabel(item.provider, item.field) + ' · ' + providerDetail(item.provider, item.field));
   $('time').textContent = 'valid time: ' + (item.validTime || '—');
   $('status').textContent = item.coverageComplete === false ? '資料不完整 · ' + item.samples.length + ' samples · 部分區域缺少原生資料' : '資料已就緒 · ' + item.samples.length + ' samples';
   draw();
@@ -297,7 +310,7 @@ async function fetchCoverage(provider, coverage, currentView) {
   });
   const field = $('layer').value;
   const batches = chunkPoints(grid.points, API_BATCH_SIZE);
-  $('status').textContent = '補抓 ' + API[provider].label + ' · ' + grid.points.length + ' samples / ' + batches.length + ' batches…';
+  $('status').textContent = '補抓 ' + providerLabel(provider, field) + ' · ' + grid.points.length + ' samples / ' + batches.length + ' batches…';
   const samples = [];
   for (let i = 0; i < batches.length; i += API_BATCH_CONCURRENCY) {
     const wave = batches.slice(i, i + API_BATCH_CONCURRENCY);
@@ -340,7 +353,7 @@ async function updateForViewport(force = false) {
     }
     return;
   }
-  $('resolved-provider').textContent = 'resolved: ' + API[provider].label;
+  $('resolved-provider').textContent = 'resolved: ' + providerLabel(provider, $('layer').value);
   if (!force) {
     const hit = cacheFind(provider, $('layer').value, v);
     if (hit) {
