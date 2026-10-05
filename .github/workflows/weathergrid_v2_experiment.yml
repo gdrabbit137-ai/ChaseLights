@@ -10,6 +10,7 @@ on:
       - "test_weathergrid_v2_browser_tiles.py"
       - "assets/weather-map-v2.css"
       - "test_weathergrid_v2_experiment.py"
+      - "test_weathergrid_v2_geo.mjs"
       - "test_weathergrid_viewport_fetch.py"
       - "weathergrid_viewport_fetch.py"
       - "weathergrid_native_viewport.py"
@@ -48,6 +49,7 @@ jobs:
         run: |
           python -m py_compile weathergrid_v2_public_smoke.py
           python test_weathergrid_v2_experiment.py
+          node test_weathergrid_v2_geo.mjs
       - name: Native viewport contract
         run: python -m unittest -v test_weathergrid_viewport_fetch.py
       - name: Static regional cache contract
@@ -78,7 +80,7 @@ jobs:
     if: github.event_name != 'pull_request'
     needs: contract
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 24
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -93,7 +95,7 @@ jobs:
           expected_loader_sha="$(sha256sum assets/weather-map-v2-tile-loader.js | awk '{print $1}')"
           expected_sampling_sha="$(sha256sum assets/weather-map-v2-sampling.js | awk '{print $1}')"
           ready=0
-          for i in {1..24}; do
+          for i in {1..60}; do
             nonce="${GITHUB_SHA}-${i}-$(date +%s)"
             curl -fsSL --max-time 20 -H 'Cache-Control: no-cache' "https://chaselights.app/weather-map-v2.html?pages_probe=${nonce}" -o /tmp/v2.html || true
             curl -fsSL --max-time 20 -H 'Cache-Control: no-cache' "https://chaselights.app/assets/weather-map-v2.js?pages_probe=${nonce}" -o /tmp/v2.js || true
