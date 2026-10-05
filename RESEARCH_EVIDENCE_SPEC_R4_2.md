@@ -327,6 +327,54 @@ Automated browser/contract tests SHOULD cover at least:
 - hiding fields from the UI does not remove them from canonical/evidence/runtime data.
 
 
+## 7.3 Supported-locale semantic parity
+
+The production presentation layer currently supports `zh-TW`, `en`, and `ja`. For any researched Place / Photography Opportunity semantic content admitted to a normal user-facing surface, every supported locale MUST express the same underlying photographic fact and decision meaning. Translation MAY be idiomatic and culturally natural, but it MUST NOT omit or materially weaken decision-relevant content that is present in another supported locale, including the researched subject/composition, timing, seasonality, required conditions, favorable conditions, adverse conditions/risks, Camera Zone or viewpoint guidance, or another user-facing fact used to decide what/when/where to photograph.
+
+Localized strings are presentation projections of canonical researched truth. They MUST NOT create new photographic claims, strengthen evidence, change Opportunity identity, alter Camera Zone / Photo Target / Navigation Target semantics, or substitute translated prose for stable IDs and structured canonical fields.
+
+A catalog change that adds or changes user-facing semantic content MUST update the corresponding locale map for every supported locale in the same change. This applies at minimum, when the source field exists and is presented to photographers, to:
+
+- Photography Opportunity name / researched subject;
+- best time;
+- best season;
+- Condition Variant name;
+- required conditions;
+- boosters / favorable conditions;
+- penalties / adverse conditions;
+- displayed viewpoint / Camera Zone name;
+- any future equivalent semantic field that becomes part of the production photographer-facing decision surface.
+
+The existing proper-name/original-language fallback exception remains limited to names for which that fallback is explicitly allowed. A generic theme label such as `sunset`, `Milky Way`, `reflection`, or `mountain view` MUST NOT be presented as a semantic substitute for a missing translation of a researched Opportunity name. Avoiding mixed-language leakage is necessary but not sufficient: suppressing researched detail or replacing it with a generic category does not satisfy semantic parity.
+
+Generated/runtime presentation payloads MUST preserve supported-locale maps from the canonical catalog using stable IDs. UI code MUST select the requested locale from those maps and MUST NOT treat translated display text as canonical identity or research truth.
+
+### 7.3.1 Existing localization debt and same-change gate
+
+The catalog state that predates this policy may contain missing locale maps. That state is migration debt, not a permanent exception. A frozen baseline MAY be used only to permit incremental backfill without blocking unrelated work, under all of these constraints:
+
+- the baseline MUST NOT grow;
+- a new Place/Opportunity semantic field MUST NOT enter the baseline debt;
+- if the canonical source text of a baselined deficient field changes, that same change MUST complete all supported locales for that field;
+- an already present locale value MUST NOT be removed or blanked;
+- backfill MUST monotonically reduce the debt and MUST reach zero before the migration item is closed;
+- once the debt reaches zero, the temporary baseline MUST be removed or the audit switched to strict zero-debt enforcement.
+
+This migration rule does not authorize semantic shortcuts. Existing English/Japanese generic-theme fallback and hidden researched content remain implementation debt to be corrected by the owning data/UI workstreams.
+
+### 7.3.2 Machine enforcement and semantic review
+
+CI/static audit MUST cover the machine-checkable portion of this contract. At minimum it MUST:
+
+- require non-empty values for every supported locale on newly added user-facing semantic fields;
+- reject a change to canonical user-facing source text when that field still lacks one or more supported locales;
+- reject a supported locale regressing from present to missing;
+- verify that generated regional runtime output preserves locale maps from canonical data;
+- expose the remaining historical debt count so migration progress is auditable.
+
+Machine checks can establish presence, non-regression, and propagation. They cannot prove that translations are semantically equivalent. Backfill and later edits therefore still require human/AI content review against the canonical researched meaning; CI green MUST NOT be treated as proof of translation quality. Proper names may follow the explicit local/original-name fallback rule, but researched decision content remains subject to this semantic-equivalence review.
+
+
 ## 8. Admission checklist
 
 Before adding a new Opportunity:
