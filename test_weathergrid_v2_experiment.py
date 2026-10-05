@@ -94,6 +94,7 @@ class WeatherGridV2ExperimentTest(unittest.TestCase):
         smoke = (ROOT / "weathergrid_v2_public_smoke.py").read_text(encoding="utf-8")
         self.assertIn('assert "JMA Best Match" in initial["source"]', smoke)
         self.assertIn('sample_count(initial["status"]) >= 200', smoke)
+        self.assertIn('CONUS V2 handoff timed out', smoke)
         self.assertIn('coverage_contains(initial["viewport"], initial["coverage"])', smoke)
         self.assertIn("121.75, 23.8, 10.0", smoke)
         self.assertIn('"JMA MSM native tiles" in x.find_element(By.ID,"source").text', smoke)
