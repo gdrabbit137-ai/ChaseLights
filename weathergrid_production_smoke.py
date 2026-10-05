@@ -61,6 +61,32 @@ def run(url: str, screenshot: Path) -> dict:
         assert "MapLibre" in basemap_text and "OpenFreeMap" in basemap_text, basemap_text
         assert opacity == "62", opacity
 
+        auto_layers = Select(driver.find_element(By.ID, "layer-select"))
+        auto_layer_values = [o.get_attribute("value") for o in auto_layers.options]
+        assert "total_cloud_percent" in auto_layer_values, auto_layer_values
+        auto_layers.select_by_value("total_cloud_percent")
+        coverage_note = driver.find_element(By.ID, "provider-coverage-note")
+        wait_for(
+            lambda d: coverage_note.is_displayed()
+            and "不代表晴朗" in coverage_note.text
+            and "自動預報可能改用不同模型" in coverage_note.text,
+            wait,
+            "AUTO cloud provider coverage explanation",
+        )
+        desktop_coverage_note = coverage_note.text
+
+        driver.set_window_size(390, 844)
+        wait_for(
+            lambda d: coverage_note.is_displayed(),
+            wait,
+            "mobile provider coverage explanation",
+        )
+        mobile_overflow = driver.execute_script(
+            "return document.documentElement.scrollWidth - window.innerWidth"
+        )
+        assert mobile_overflow <= 1, mobile_overflow
+        driver.set_window_size(1600, 1200)
+
         model_select = Select(driver.find_element(By.ID, "model-select"))
         cwa_option = next(
             (o for o in model_select.options if o.get_attribute("value") == "cwa"),
@@ -331,6 +357,8 @@ def run(url: str, screenshot: Path) -> dict:
                 "source": source_text,
                 "basemap": basemap_text,
                 "opacity_percent": int(opacity),
+                "coverage_note": desktop_coverage_note,
+                "mobile_coverage_note_overflow_px": mobile_overflow,
                 "map_rect": map_rect,
                 "weather_rect": weather_rect,
                 "selected": selected,
