@@ -18,16 +18,22 @@ export function adaptiveGridShape({width,height,zoom}={}){
 
 export function sampleGrid(bbox,metrics={}){
   const shape=adaptiveGridShape(metrics);
-  const dx=(bbox.e-bbox.w)/Math.max(1,shape.cols-1);
-  const dy=(bbox.n-bbox.s)/Math.max(1,shape.rows-1);
+  const minLonStep=Math.max(0,Number(metrics.minLonStepDeg)||0);
+  const minLatStep=Math.max(0,Number(metrics.minLatStepDeg)||0);
+  const maxColsBySource=minLonStep>0?Math.max(2,Math.floor((bbox.e-bbox.w)/minLonStep)+1):shape.cols;
+  const maxRowsBySource=minLatStep>0?Math.max(2,Math.floor((bbox.n-bbox.s)/minLatStep)+1):shape.rows;
+  const cols=Math.min(shape.cols,maxColsBySource);
+  const rows=Math.min(shape.rows,maxRowsBySource);
+  const dx=(bbox.e-bbox.w)/Math.max(1,cols-1);
+  const dy=(bbox.n-bbox.s)/Math.max(1,rows-1);
   const points=[];
-  for(let r=0;r<shape.rows;r+=1){
+  for(let r=0;r<rows;r+=1){
     const lat=bbox.s+dy*r;
-    for(let c=0;c<shape.cols;c+=1){
+    for(let c=0;c<cols;c+=1){
       points.push({lat,lon:bbox.w+dx*c});
     }
   }
-  return {...shape,points,dx,dy};
+  return {...shape,cols,rows,points,dx,dy};
 }
 
 export function chunkPoints(points,batchSize=80){
