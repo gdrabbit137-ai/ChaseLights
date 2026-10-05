@@ -17,6 +17,7 @@ const API = {
 
 const MSM_DOMAIN = { w: 120.0, s: 22.4, e: 150.0, n: 47.6 };
 const FIELDS = {
+  cloud_cover: { label: '全雲量', unit: '%' },
   cloud_cover_low: { label: '低雲', unit: '%' },
   cloud_cover_mid: { label: '中雲', unit: '%' },
   cloud_cover_high: { label: '高雲', unit: '%' },
@@ -92,6 +93,9 @@ function bboxKey(provider, field, b) {
   return provider + ':' + field + ':' + [b.w, b.s, b.e, b.n].map((v) => Number(v).toFixed(1)).join(':');
 }
 function autoProvider(b) {
+  const field = $('layer').value;
+  // Global-cloud P0: use one globally consistent GFS baseline for all cloud layers.
+  if (field === 'cloud_cover' || field.startsWith('cloud_cover_')) return 'gfs';
   const region = regionForView(b);
   return (region === 'tw' || region === 'jp') ? 'jma' : 'gfs';
 }
@@ -124,7 +128,7 @@ function cachePut(key, item) {
 function colorFor(field, value) {
   if (value == null || Number.isNaN(Number(value))) return 'rgba(0,0,0,0)';
   const v = Number(value);
-  if (field.startsWith('cloud_cover_')) {
+  if (field === 'cloud_cover' || field.startsWith('cloud_cover_')) {
     const a = 0.12 + clamp(v / 100, 0, 1) * 0.7;
     return 'rgba(220,235,255,' + a.toFixed(3) + ')';
   }
