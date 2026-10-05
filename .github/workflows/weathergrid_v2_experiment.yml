@@ -6,6 +6,7 @@ on:
       - "weather-map-v2.html"
       - "assets/weather-map-v2.js"
       - "assets/weather-map-v2-tile-loader.js"
+      - "assets/weather-map-v2-sampling.js"
       - "test_weathergrid_v2_browser_tiles.py"
       - "assets/weather-map-v2.css"
       - "test_weathergrid_v2_experiment.py"
@@ -28,6 +29,7 @@ on:
       - "weather-map-v2.html"
       - "assets/weather-map-v2.js"
       - "assets/weather-map-v2-tile-loader.js"
+      - "assets/weather-map-v2-sampling.js"
       - "assets/weather-map-v2.css"
       - "weathergrid/v2/**"
       - "weathergrid_v2_public_smoke.py"
@@ -89,16 +91,19 @@ jobs:
           expected_html_sha="$(sha256sum weather-map-v2.html | awk '{print $1}')"
           expected_js_sha="$(sha256sum assets/weather-map-v2.js | awk '{print $1}')"
           expected_loader_sha="$(sha256sum assets/weather-map-v2-tile-loader.js | awk '{print $1}')"
+          expected_sampling_sha="$(sha256sum assets/weather-map-v2-sampling.js | awk '{print $1}')"
           ready=0
           for i in {1..24}; do
             nonce="${GITHUB_SHA}-${i}-$(date +%s)"
             curl -fsSL --max-time 20 -H 'Cache-Control: no-cache' "https://chaselights.app/weather-map-v2.html?pages_probe=${nonce}" -o /tmp/v2.html || true
             curl -fsSL --max-time 20 -H 'Cache-Control: no-cache' "https://chaselights.app/assets/weather-map-v2.js?pages_probe=${nonce}" -o /tmp/v2.js || true
             curl -fsSL --max-time 20 -H 'Cache-Control: no-cache' "https://chaselights.app/assets/weather-map-v2-tile-loader.js?pages_probe=${nonce}" -o /tmp/v2-loader.js || true
-            if [[ -s /tmp/v2.html && -s /tmp/v2.js && -s /tmp/v2-loader.js ]] \
+            curl -fsSL --max-time 20 -H 'Cache-Control: no-cache' "https://chaselights.app/assets/weather-map-v2-sampling.js?pages_probe=${nonce}" -o /tmp/v2-sampling.js || true
+            if [[ -s /tmp/v2.html && -s /tmp/v2.js && -s /tmp/v2-loader.js && -s /tmp/v2-sampling.js ]] \
               && [[ "$(sha256sum /tmp/v2.html | awk '{print $1}')" == "$expected_html_sha" ]] \
               && [[ "$(sha256sum /tmp/v2.js | awk '{print $1}')" == "$expected_js_sha" ]] \
-              && [[ "$(sha256sum /tmp/v2-loader.js | awk '{print $1}')" == "$expected_loader_sha" ]]; then ready=1; break; fi
+              && [[ "$(sha256sum /tmp/v2-loader.js | awk '{print $1}')" == "$expected_loader_sha" ]] \
+              && [[ "$(sha256sum /tmp/v2-sampling.js | awk '{print $1}')" == "$expected_sampling_sha" ]]; then ready=1; break; fi
             sleep 15
           done
           test "$ready" -eq 1
