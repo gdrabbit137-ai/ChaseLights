@@ -65,26 +65,42 @@ def run(url, screenshot):
           "coverage":d.find_element(By.ID,"coverage").text,
           "time":d.find_element(By.ID,"time").text,
         }
-        # The initial desktop Taiwan view is intentionally wider than the
-        # currently published native JMA cell set. Partial native coverage must
-        # therefore fall back to the JMA API for the whole viewport instead of
-        # presenting a partial native layer as complete.
-        assert "JMA Best Match" in initial["source"], initial
+        # Global-cloud P0 must use the same explicitly pinned GFS model even
+        # when the initial viewport is Taiwan. Regional JMA ownership is only
+        # exercised later through an explicit JMA selection.
+        assert "NCEP GFS Global" in initial["source"], initial
         assert "loaded coverage" in initial["coverage"], initial
         assert coverage_contains(initial["viewport"], initial["coverage"]), initial
         assert sample_count(initial["status"]) >= 200, initial
         assert valid_time_age_seconds(initial["time"]) <= 2 * 60 * 60, initial
 
+        # Japan must use the same pinned global GFS cloud baseline.
+        jp_before=d.find_element(By.ID,"viewport").text
+        d.find_element(By.CSS_SELECTOR,'[data-preset="jp"]').click()
+        wait.until(lambda x: x.find_element(By.ID,"viewport").text != jp_before)
+        wait.until(lambda x: (
+            "資料已就緒" in x.find_element(By.ID,"status").text
+            and "NCEP GFS Global" in x.find_element(By.ID,"source").text
+        ))
+        jp={
+          "status":d.find_element(By.ID,"status").text,
+          "source":d.find_element(By.ID,"source").text,
+          "viewport":d.find_element(By.ID,"viewport").text,
+          "coverage":d.find_element(By.ID,"coverage").text,
+          "region":d.execute_script("return window.__weatherGridV2Smoke.region()"),
+        }
+        assert jp["region"] == "jp", jp
+        assert coverage_contains(jp["viewport"],jp["coverage"]), jp
+
         # Keep the cloud layer selected and move with the real U.S. preset.
-        # This must hand off geographically from JMA API coverage to GFS/NCEP
-        # instead of depending on an unsupported-field fallback.
+        # The same pinned GFS global cloud model must remain active in CONUS.
         before=d.find_element(By.ID,"viewport").text
         d.find_element(By.CSS_SELECTOR,'[data-preset="us"]').click()
         wait.until(lambda x: x.find_element(By.ID,"viewport").text != before)
         try:
             wait.until(lambda x: (
                 "資料已就緒" in x.find_element(By.ID,"status").text
-                and "NCEP Best Match" in x.find_element(By.ID,"source").text
+                and "NCEP GFS Global" in x.find_element(By.ID,"source").text
             ))
         except TimeoutException:
             screenshot.parent.mkdir(parents=True,exist_ok=True)
@@ -104,7 +120,7 @@ def run(url, screenshot):
           "viewport":d.find_element(By.ID,"viewport").text,
           "coverage":d.find_element(By.ID,"coverage").text,
         }
-        assert "NCEP Best Match" in us["source"], us
+        assert "NCEP GFS Global" in us["source"], us
         assert initial["viewport"] != us["viewport"], (initial,us)
         assert coverage_contains(us["viewport"],us["coverage"]), us
 
@@ -122,7 +138,7 @@ def run(url, screenshot):
           "viewport":d.find_element(By.ID,"viewport").text,
           "coverage":d.find_element(By.ID,"coverage").text,
         }
-        assert "NCEP Best Match" in conus_after["source"], conus_after
+        assert "NCEP GFS Global" in conus_after["source"], conus_after
         assert conus_after["viewport"] != conus_before, conus_after
         # The prefetch ring may already cover the new viewport, so cache bounds
         # are allowed to remain unchanged. What matters is that the moved view
@@ -130,10 +146,9 @@ def run(url, screenshot):
         assert "samples" in conus_after["status"], conus_after
         assert "loaded coverage" in conus_after["coverage"], conus_after
 
-        # Return to a tighter Taiwan core viewport and prove that native JMA
-        # can take ownership once the full prefetch ring is inside published
-        # native coverage. This distinguishes safe wide-view fallback from
-        # unnecessary permanent fallback.
+        # Return to a tighter Taiwan core viewport and explicitly select JMA
+        # low cloud. Auto cloud stays pinned to GFS, while manual JMA still
+        # proves the native regional tile path remains available and isolated.
         wait.until(lambda x: x.execute_script(
             "return !!window.__weatherGridV2Smoke"
         ))
@@ -143,6 +158,8 @@ def run(url, screenshot):
             121.75, 23.8, 10.0,
         )
         wait.until(lambda x: x.find_element(By.ID,"viewport").text != before_return)
+        Select(d.find_element(By.ID,"layer")).select_by_value("cloud_cover_low")
+        Select(d.find_element(By.ID,"provider")).select_by_value("jma")
         wait.until(lambda x: (
             "資料已就緒" in x.find_element(By.ID,"status").text
             and "JMA MSM native tiles" in x.find_element(By.ID,"source").text
@@ -157,6 +174,7 @@ def run(url, screenshot):
 
         # Unsupported native field must safely fall back instead of failing.
         Select(d.find_element(By.ID,"layer")).select_by_value("visibility")
+        Select(d.find_element(By.ID,"provider")).select_by_value("auto")
         wait.until(lambda x: (
             "資料已就緒" in x.find_element(By.ID,"status").text
             and "NCEP Best Match" in x.find_element(By.ID,"source").text
@@ -195,12 +213,58 @@ def run(url, screenshot):
         assert "samples" in alaska["status"], alaska
         assert coverage_contains(alaska["viewport"],alaska["coverage"]), alaska
 
+        # An arbitrary non-preset global viewport must also resolve to the
+        # pinned GFS cloud model, then refill after a real pan.
+        Select(d.find_element(By.ID,"layer")).select_by_value("cloud_cover")
+        global_before=d.find_element(By.ID,"viewport").text
+        d.execute_script(
+            "window.__weatherGridV2Smoke.jumpTo(arguments[0], arguments[1], arguments[2])",
+            10.0, 50.0, 5.0,
+        )
+        wait.until(lambda x: x.find_element(By.ID,"viewport").text != global_before)
+        wait.until(lambda x: (
+            "資料已就緒" in x.find_element(By.ID,"status").text
+            and "NCEP GFS Global" in x.find_element(By.ID,"source").text
+            and coverage_contains(
+                x.find_element(By.ID,"viewport").text,
+                x.find_element(By.ID,"coverage").text,
+            )
+        ))
+        global_view={
+          "status":d.find_element(By.ID,"status").text,
+          "source":d.find_element(By.ID,"source").text,
+          "viewport":d.find_element(By.ID,"viewport").text,
+          "coverage":d.find_element(By.ID,"coverage").text,
+          "region":d.execute_script("return window.__weatherGridV2Smoke.region()"),
+        }
+        assert global_view["region"] is None, global_view
+        global_map=d.find_element(By.ID,"map")
+        global_pan_before=global_view["viewport"]
+        ActionChains(d).move_to_element(global_map).drag_and_drop_by_offset(global_map,-260,0).perform()
+        wait.until(lambda x: x.find_element(By.ID,"viewport").text != global_pan_before)
+        wait.until(lambda x: (
+            "資料已就緒" in x.find_element(By.ID,"status").text
+            and "NCEP GFS Global" in x.find_element(By.ID,"source").text
+            and coverage_contains(
+                x.find_element(By.ID,"viewport").text,
+                x.find_element(By.ID,"coverage").text,
+            )
+        ))
+        global_after_pan={
+          "status":d.find_element(By.ID,"status").text,
+          "source":d.find_element(By.ID,"source").text,
+          "viewport":d.find_element(By.ID,"viewport").text,
+          "coverage":d.find_element(By.ID,"coverage").text,
+        }
+
         screenshot.parent.mkdir(parents=True,exist_ok=True)
         d.save_screenshot(str(screenshot))
         severe=[x for x in d.get_log("browser") if x.get("level")=="SEVERE"]
-        return {"url":url,"initial":initial,"visibility_source":visibility_source,
+        return {"url":url,"initial":initial,"japan_global_cloud":jp,
+                "visibility_source":visibility_source,
                 "us_cloud_handoff":us,"conus_after_pan":conus_after,
                 "tw_native_return":tw_return,"alaska_after_pan":alaska,
+                "global_cloud":global_view,"global_after_pan":global_after_pan,
                 "browser_severe_log_count":len(severe),"browser_severe_logs":severe[:10],
                 "screenshot":str(screenshot)}
     finally:
