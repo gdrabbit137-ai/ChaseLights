@@ -20,11 +20,13 @@ class WeatherGridV2ExperimentTest(unittest.TestCase):
         for token in (
             "https://api.open-meteo.com/v1/jma",
             "https://api.open-meteo.com/v1/gfs",
-            "function sampleGrid(",
+            "from './weather-map-v2-sampling.js'",
+            "sampleGrid(coverage, {",
+            "chunkPoints(grid.points, 80)",
             "function cacheFind(",
             "function fetchCoverage(",
             "forecast_hours",
-            "elevation: grid.points.map(() => 'nan').join(',')",
+            "elevation: points.map(() => 'nan').join(',')",
             "map.on('moveend'",
             "new AbortController()",
             "PROVIDER_FIELDS",
@@ -36,11 +38,11 @@ class WeatherGridV2ExperimentTest(unittest.TestCase):
 
     def test_fallback_requests_only_active_field(self):
         js = (ROOT / "assets/weather-map-v2.js").read_text(encoding="utf-8")
-        self.assertIn("function buildUrl(provider, grid, field)", js)
+        self.assertIn("function buildUrl(provider, points, field)", js)
         self.assertIn("hourly: field", js)
         self.assertNotIn("hourly: PROVIDER_FIELDS[provider].join", js)
         self.assertIn("bboxKey(provider, field, coverage)", js)
-        self.assertIn("elevation: grid.points.map(() => 'nan').join(',')", js)
+        self.assertIn("elevation: points.map(() => 'nan').join(',')", js)
 
     def test_auto_provider_and_global_presets_are_explicit(self):
         js = (ROOT / "assets/weather-map-v2.js").read_text(encoding="utf-8")
