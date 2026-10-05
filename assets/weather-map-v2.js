@@ -32,6 +32,8 @@ const FALLBACK_SOURCE_STEP = {
   jma: { lon: 0.0625, lat: 0.05 },
   gfs: { lon: 0.25, lat: 0.25 },
 };
+const API_BATCH_SIZE = 80;
+const API_BATCH_CONCURRENCY = 3;
 const $ = (id) => document.getElementById(id);
 const canvas = $('overlay');
 const ctx = canvas.getContext('2d');
@@ -269,12 +271,11 @@ async function fetchCoverage(provider, coverage, currentView) {
     minLatStepDeg: sourceStep.lat,
   });
   const field = $('layer').value;
-  const batches = chunkPoints(grid.points, 80);
-  const maxConcurrency = 3;
+  const batches = chunkPoints(grid.points, API_BATCH_SIZE);
   $('status').textContent = '補抓 ' + API[provider].label + ' · ' + grid.points.length + ' samples / ' + batches.length + ' batches…';
   const samples = [];
-  for (let i = 0; i < batches.length; i += maxConcurrency) {
-    const wave = batches.slice(i, i + maxConcurrency);
+  for (let i = 0; i < batches.length; i += API_BATCH_CONCURRENCY) {
+    const wave = batches.slice(i, i + API_BATCH_CONCURRENCY);
     const rows = await Promise.all(
       wave.map((points) => fetchApiBatch(provider, points, field, state.aborter.signal))
     );
