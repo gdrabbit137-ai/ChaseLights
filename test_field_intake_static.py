@@ -85,6 +85,20 @@ class FieldIntakeStaticTest(unittest.TestCase):
         self.assertIn('translation_unavailable:', self.js)
         self.assertNotIn('catalog_error:"Place data failed to load: {e}"', self.js)
 
+    def test_local_save_cta_is_semantically_clear_in_all_locales(self):
+        for expected in (
+            'download_all:"儲存全部驗證紀錄"',
+            'download_one:"儲存這張驗證紀錄"',
+            'what_happens:"儲存後會發生什麼？"',
+            'download_all:"Save all validation records"',
+            'download_one:"Save this validation record"',
+            'what_happens:"What happens after saving?"',
+            'download_all:"すべての検証記録を保存"',
+            'download_one:"この検証記録を保存"',
+            'what_happens:"保存後はどうなる？"',
+        ):
+            self.assertIn(expected, self.js)
+
     def test_ground_truth_boundary_documented(self):
         self.assertIn("unreviewed observation draft", self.spec)
         self.assertIn("does not admit a Field Validation case", self.spec)
