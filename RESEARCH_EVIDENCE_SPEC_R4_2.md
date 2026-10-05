@@ -299,6 +299,30 @@ A selected-date Opportunity may enter the primary recommendation surface only wh
 
 The exact gate MAY vary by Opportunity type. The implementation SHOULD derive presentation eligibility from canonical evidence/runtime state rather than maintain an unrelated manual UI-only truth that can drift from the source data.
 
+### Selected-date semantic consistency
+
+A selected-date evaluation MUST preserve the distinction between a prerequisite/dimension match and the overall Opportunity verdict. Temporal eligibility, season eligibility, access eligibility, astronomy geometry, or any other single prerequisite becoming true MUST NOT, by itself, produce an overall photographer-facing `suitable`, `match`, `key conditions met`, or equivalent positive verdict.
+
+The overall selected-date verdict and recommendation eligibility MUST reflect the complete applicable runtime contract for that Opportunity, including required conditions, decisive blockers, applicable adverse conditions/penalties, score interpretation, confidence, and temporal state. A favorable prerequisite MAY be shown as a supporting reason, but it MUST NOT semantically override decisive adverse conditions.
+
+Numeric score, qualitative status/verdict, recommendation eligibility, and photographer-facing explanation MUST NOT materially contradict one another. In particular, when decisive adverse conditions make the researched subject unlikely or unsuitable under the owning runtime/scoring contract, runtime output MUST NOT simultaneously characterize the Opportunity as an overall positive match merely because its shooting time, season, sun geometry, or another prerequisite is valid.
+
+The presentation layer MUST NOT repair contradictory runtime truth by inventing a UI-only score threshold or reclassifying canonical runtime state. If runtime output contains a materially contradictory combination (for example, a strongly adverse/low evaluation together with an overall positive-match status), the normal recommendation surface MUST fail conservatively: do not present it as an actionable positive recommendation, use photographer-facing uncertainty/unfavorable copy where the existing structured state safely supports it, and hand the root-cause correction to the owning runtime/scoring layer.
+
+A `best_time` / `window` value identifies the best or applicable time within the evaluated Opportunity contract; its existence alone does not prove that the selected date is worth a trip. The normal UI MUST use `最佳拍攝時段` / “best shooting time” / equivalent positive recommendation wording only when the Opportunity passes the selected-date recommendation/presentation gate. When an otherwise evaluable but unfavorable selected date retains a meaningful relative time, the product MAY expose it using explicitly non-recommendation wording such as `今日相對較佳時段` / “relatively better time today”, provided this cannot be mistaken for an actionable positive recommendation. If that distinction cannot be represented safely, the time SHOULD be omitted from the primary recommendation surface.
+
+#### Required semantic-consistency regressions
+
+Automated runtime/presentation regression coverage MUST include cases where a temporal prerequisite is valid but decisive environmental conditions fail. At minimum, tests MUST demonstrate that:
+
+- valid sunset/twilight geometry does not by itself yield an overall suitable/match verdict when decisive visibility/cloud conditions fail for the subject;
+- a low/adverse overall evaluation is not paired with photographer-facing `關鍵條件符合`, “key conditions met”, or equivalent positive copy;
+- a retained relative time on an unfavorable day is not labeled as an unqualified `最佳拍攝時段` / “best shooting time”;
+- the UI does not introduce an arbitrary numeric threshold to conceal a contradictory runtime status;
+- the same semantic conclusion is preserved across all supported locales.
+
+A concrete replay fixture such as Datunshan Navigation Station / `tw-001-P01` on 2026-10-05 (sunset timing valid while visibility and low-cloud conditions are strongly adverse) MAY be retained as a regression fixture. The fixture is evidence of the failure mode, not a special-case product rule: implementation MUST generalize through the Opportunity runtime/scoring contract rather than hard-code that Place, date, or score.
+
 ### Data-retention rule
 
 Suppressing a field or Opportunity from the default UI does not authorize deletion.
