@@ -96,6 +96,8 @@ class WeatherGridV2ExperimentTest(unittest.TestCase):
         self.assertIn("$expected_sampling_sha", workflow)
         self.assertIn("timeout-minutes: 24", workflow)
         self.assertIn("for i in {1..60}; do", workflow)
+        self.assertIn("cancel-in-progress: true", workflow)
+        self.assertIn("github.event.pull_request.number || github.ref", workflow)
 
     def test_public_smoke_covers_partial_native_fallback_and_retake(self):
         smoke = (ROOT / "weathergrid_v2_public_smoke.py").read_text(encoding="utf-8")
