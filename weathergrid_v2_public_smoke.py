@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Browser smoke for the deployed, isolated WeatherGrid V2 experiment."""
-import argparse, json, time
+import argparse, json, re, time
 from datetime import datetime, timezone
 from pathlib import Path
 from selenium import webdriver
@@ -27,6 +27,10 @@ def coverage_contains(viewport_text, coverage_text):
     vw,vs,ve,vn=bbox_values(viewport_text)
     cw,cs,ce,cn=bbox_values(coverage_text)
     return cw <= vw and cs <= vs and ce >= ve and cn >= vn
+
+def sample_count(text):
+    match=re.search(r"(\d+) samples", text or "")
+    return int(match.group(1)) if match else 0
 
 def valid_time_age_seconds(text):
     raw=text.split(":",1)[1].strip()
@@ -68,6 +72,7 @@ def run(url, screenshot):
         assert "JMA Best Match" in initial["source"], initial
         assert "loaded coverage" in initial["coverage"], initial
         assert coverage_contains(initial["viewport"], initial["coverage"]), initial
+        assert sample_count(initial["status"]) >= 200, initial
         assert valid_time_age_seconds(initial["time"]) <= 2 * 60 * 60, initial
 
         # Keep the cloud layer selected and move with the real U.S. preset.

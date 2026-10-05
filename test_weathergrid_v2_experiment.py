@@ -20,11 +20,15 @@ class WeatherGridV2ExperimentTest(unittest.TestCase):
         for token in (
             "https://api.open-meteo.com/v1/jma",
             "https://api.open-meteo.com/v1/gfs",
-            "function sampleGrid(",
+            "from './weather-map-v2-sampling.js'",
+            "sampleGrid(coverage, {",
+            "chunkPoints(grid.points, API_BATCH_SIZE)",
+            "const API_BATCH_SIZE = 80",
+            "const API_BATCH_CONCURRENCY = 3",
             "function cacheFind(",
             "function fetchCoverage(",
             "forecast_hours",
-            "elevation: grid.points.map(() => 'nan').join(',')",
+            "elevation: points.map(() => 'nan').join(',')",
             "map.on('moveend'",
             "new AbortController()",
             "PROVIDER_FIELDS",
@@ -36,11 +40,11 @@ class WeatherGridV2ExperimentTest(unittest.TestCase):
 
     def test_fallback_requests_only_active_field(self):
         js = (ROOT / "assets/weather-map-v2.js").read_text(encoding="utf-8")
-        self.assertIn("function buildUrl(provider, grid, field)", js)
+        self.assertIn("function buildUrl(provider, points, field)", js)
         self.assertIn("hourly: field", js)
         self.assertNotIn("hourly: PROVIDER_FIELDS[provider].join", js)
         self.assertIn("bboxKey(provider, field, coverage)", js)
-        self.assertIn("elevation: grid.points.map(() => 'nan').join(',')", js)
+        self.assertIn("elevation: points.map(() => 'nan').join(',')", js)
 
     def test_auto_provider_and_global_presets_are_explicit(self):
         js = (ROOT / "assets/weather-map-v2.js").read_text(encoding="utf-8")
@@ -75,13 +79,18 @@ class WeatherGridV2ExperimentTest(unittest.TestCase):
             encoding="utf-8"
         )
         self.assertIn("expected_loader_sha", workflow)
+        self.assertIn("expected_sampling_sha", workflow)
         self.assertIn("weather-map-v2-tile-loader.js?pages_probe=", workflow)
+        self.assertIn("weather-map-v2-sampling.js?pages_probe=", workflow)
         self.assertIn("/tmp/v2-loader.js", workflow)
+        self.assertIn("/tmp/v2-sampling.js", workflow)
         self.assertIn("$expected_loader_sha", workflow)
+        self.assertIn("$expected_sampling_sha", workflow)
 
     def test_public_smoke_covers_partial_native_fallback_and_retake(self):
         smoke = (ROOT / "weathergrid_v2_public_smoke.py").read_text(encoding="utf-8")
         self.assertIn('assert "JMA Best Match" in initial["source"]', smoke)
+        self.assertIn('sample_count(initial["status"]) >= 200', smoke)
         self.assertIn('coverage_contains(initial["viewport"], initial["coverage"])', smoke)
         self.assertIn("121.75, 23.8, 10.0", smoke)
         self.assertIn('"JMA MSM native tiles" in x.find_element(By.ID,"source").text', smoke)
