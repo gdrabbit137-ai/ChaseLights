@@ -35,6 +35,10 @@ const FALLBACK_SOURCE_STEP = {
 const API_BATCH_SIZE = 100;
 const API_BATCH_CONCURRENCY = 2;
 const API_BATCH_RETRIES = 3;
+const FALLBACK_VIEW_POLICY = {
+  jma: { overviewMaxPoints: 420, overviewPrefetch: 0.25 },
+  gfs: { overviewMaxPoints: 140, overviewPrefetch: 0.50 },
+};
 const $ = (id) => document.getElementById(id);
 const canvas = $('overlay');
 const ctx = canvas.getContext('2d');
@@ -104,6 +108,12 @@ function selectedProvider(b) {
   }
   if (selected === 'jma' && (!['tw', 'jp'].includes(regionForView(b)) || field === 'visibility')) return null;
   return selected;
+}
+function fallbackPolicy(provider, zoom) {
+  const cfg = FALLBACK_VIEW_POLICY[provider] || FALLBACK_VIEW_POLICY.jma;
+  if (zoom >= 7.5) return { maxPoints: provider === 'gfs' ? 420 : 640, prefetch: 0.25 };
+  if (zoom >= 5.0) return { maxPoints: provider === 'gfs' ? 260 : cfg.overviewMaxPoints, prefetch: 0.25 };
+  return { maxPoints: cfg.overviewMaxPoints, prefetch: cfg.overviewPrefetch };
 }
 function cacheFind(provider, field, v) {
   const now = Date.now();
@@ -284,10 +294,13 @@ async function fetchCoverage(provider, coverage, currentView) {
   state.aborter = new AbortController();
   const mapNode = map.getContainer();
   const sourceStep = FALLBACK_SOURCE_STEP[provider] || {};
+  const zoom = map.getZoom();
+  const policy = fallbackPolicy(provider, zoom);
   const grid = sampleGrid(coverage, {
     width: mapNode.clientWidth,
     height: mapNode.clientHeight,
-    zoom: map.getZoom(),
+    zoom,
+    maxPoints: policy.maxPoints,
     minLonStepDeg: sourceStep.lon,
     minLatStepDeg: sourceStep.lat,
   });
@@ -321,10 +334,11 @@ async function fetchCoverage(provider, coverage, currentView) {
 }
 async function updateForViewport(force = false) {
   const v = view();
-  const prefetch = expand(v);
+  const provider = selectedProvider(v);
+  const policy = provider ? fallbackPolicy(provider, map.getZoom()) : { prefetch: 0.25 };
+  const prefetch = expand(v, policy.prefetch);
   $('viewport').textContent = 'viewport: ' + fmt(v);
   $('prefetch').textContent = 'prefetch ring: ' + fmt(prefetch);
-  const provider = selectedProvider(v);
   if (!provider) {
     state.samples = [];
     state.coverage = null;
