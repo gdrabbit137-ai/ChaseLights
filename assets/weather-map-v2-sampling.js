@@ -4,8 +4,8 @@ export function adaptiveGridShape({width,height,zoom}={}){
   const w=Math.max(320,Number(width)||960);
   const h=Math.max(240,Number(height)||640);
   const z=Number.isFinite(Number(zoom))?Number(zoom):6;
-  const targetPx=z>=7.5?34:(z>=5?42:64);
-  const maxPoints=z>=7.5?1200:(z>=5?800:320);
+  const targetPx=z>=7.5?42:(z>=5?58:72);
+  const maxPoints=z>=7.5?640:(z>=5?420:240);
   let cols=clampInt(Math.ceil(w/targetPx)+1,6,48);
   let rows=clampInt(Math.ceil(h/targetPx)+1,5,36);
   while(cols*rows>maxPoints){
@@ -36,7 +36,7 @@ export function sampleGrid(bbox,metrics={}){
   return {...shape,cols,rows,points,dx,dy};
 }
 
-export function chunkPoints(points,batchSize=80){
+export function chunkPoints(points,batchSize=100){
   const size=clampInt(batchSize,1,100);
   const batches=[];
   for(let i=0;i<points.length;i+=size) batches.push(points.slice(i,i+size));

@@ -23,8 +23,11 @@ class WeatherGridV2ExperimentTest(unittest.TestCase):
             "from './weather-map-v2-sampling.js'",
             "sampleGrid(coverage, {",
             "chunkPoints(grid.points, API_BATCH_SIZE)",
-            "const API_BATCH_SIZE = 80",
-            "const API_BATCH_CONCURRENCY = 3",
+            "const API_BATCH_SIZE = 100",
+            "const API_BATCH_CONCURRENCY = 2",
+            "const API_BATCH_RETRIES = 3",
+            "function abortableDelay(",
+            "response.status === 429 || response.status >= 500",
             "function cacheFind(",
             "function fetchCoverage(",
             "forecast_hours",
@@ -91,6 +94,7 @@ class WeatherGridV2ExperimentTest(unittest.TestCase):
         smoke = (ROOT / "weathergrid_v2_public_smoke.py").read_text(encoding="utf-8")
         self.assertIn('assert "JMA Best Match" in initial["source"]', smoke)
         self.assertIn('sample_count(initial["status"]) >= 200', smoke)
+        self.assertIn('CONUS V2 handoff timed out', smoke)
         self.assertIn('coverage_contains(initial["viewport"], initial["coverage"])', smoke)
         self.assertIn("121.75, 23.8, 10.0", smoke)
         self.assertIn('"JMA MSM native tiles" in x.find_element(By.ID,"source").text', smoke)

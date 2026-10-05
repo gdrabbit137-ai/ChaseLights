@@ -32,8 +32,9 @@ const FALLBACK_SOURCE_STEP = {
   jma: { lon: 0.0625, lat: 0.05 },
   gfs: { lon: 0.25, lat: 0.25 },
 };
-const API_BATCH_SIZE = 80;
-const API_BATCH_CONCURRENCY = 3;
+const API_BATCH_SIZE = 100;
+const API_BATCH_CONCURRENCY = 2;
+const API_BATCH_RETRIES = 3;
 const $ = (id) => document.getElementById(id);
 const canvas = $('overlay');
 const ctx = canvas.getContext('2d');
@@ -189,14 +190,34 @@ function buildUrl(provider, points, field) {
   return cfg.url + '?' + params.toString();
 }
 
+function abortableDelay(ms, signal) {
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => {
+      signal?.removeEventListener('abort', onAbort);
+      resolve();
+    }, ms);
+    const onAbort = () => {
+      clearTimeout(timer);
+      reject(new DOMException('Aborted', 'AbortError'));
+    };
+    if (signal?.aborted) onAbort();
+    else signal?.addEventListener('abort', onAbort, { once: true });
+  });
+}
+
 async function fetchApiBatch(provider, points, field, signal) {
-  const response = await fetch(buildUrl(provider, points, field), { signal, cache: 'no-store' });
-  if (!response.ok) {
-    let detail = '';
-    try { detail = (await response.text()).slice(0, 180); } catch (_) {}
-    throw new Error('HTTP ' + response.status + (detail ? ' · ' + detail : ''));
+  let lastDetail = '';
+  for (let attempt = 0; attempt < API_BATCH_RETRIES; attempt += 1) {
+    const response = await fetch(buildUrl(provider, points, field), { signal, cache: 'no-store' });
+    if (response.ok) return normalizeResponse(await response.json(), points);
+    try { lastDetail = (await response.text()).slice(0, 180); } catch (_) { lastDetail = ''; }
+    const retryable = response.status === 429 || response.status >= 500;
+    if (!retryable || attempt === API_BATCH_RETRIES - 1) {
+      throw new Error('HTTP ' + response.status + (lastDetail ? ' · ' + lastDetail : ''));
+    }
+    await abortableDelay(600 * (attempt + 1), signal);
   }
-  return normalizeResponse(await response.json(), points);
+  throw new Error('fallback batch retry exhausted');
 }
 function normalizeResponse(payload, requested) {
   const rows = Array.isArray(payload) ? payload : [payload];
@@ -281,6 +302,9 @@ async function fetchCoverage(provider, coverage, currentView) {
     );
     if (serial !== state.requestSerial) return;
     samples.push(...rows.flat());
+    if (i + API_BATCH_CONCURRENCY < batches.length) {
+      await abortableDelay(250, state.aborter.signal);
+    }
   }
   const item = {
     provider,
