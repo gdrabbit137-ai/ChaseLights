@@ -1,5 +1,6 @@
 import * as maplibregl from 'https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-gl.mjs';
 import { loadV2Index, loadViewportTiles, nearestValidTime, providerSupportsField } from './weather-map-v2-tile-loader.js';
+import { chunkPoints, sampleGrid } from './weather-map-v2-sampling.js';
 
 const API = {
   jma: {
@@ -64,7 +65,7 @@ function view() {
     n: clamp(b.getNorth(), -80, 80),
   };
 }
-function expand(b, factor = 0.45) {
+function expand(b, factor = 0.25) {
   const dx = Math.max(0.3, (b.e - b.w) * factor);
   const dy = Math.max(0.25, (b.n - b.s) * factor);
   return {
@@ -96,25 +97,6 @@ function selectedProvider(b) {
   }
   if (selected === 'jma' && (!['tw', 'jp'].includes(regionForView(b)) || field === 'visibility')) return null;
   return selected;
-}
-function gridShape() {
-  const z = map.getZoom();
-  if (z >= 7.5) return { cols: 8, rows: 7 };
-  if (z >= 5.0) return { cols: 7, rows: 6 };
-  return { cols: 6, rows: 5 };
-}
-function sampleGrid(b) {
-  const shape = gridShape();
-  const dx = (b.e - b.w) / Math.max(1, shape.cols - 1);
-  const dy = (b.n - b.s) / Math.max(1, shape.rows - 1);
-  const points = [];
-  for (let r = 0; r < shape.rows; r += 1) {
-    const lat = b.s + dy * r;
-    for (let c = 0; c < shape.cols; c += 1) {
-      points.push({ lat, lon: b.w + dx * c });
-    }
-  }
-  return { points, dx, dy };
 }
 function cacheFind(provider, field, v) {
   const now = Date.now();
@@ -184,10 +166,10 @@ function resize() {
   ctx.setTransform(d, 0, 0, d, 0, 0);
   draw();
 }
-function buildUrl(provider, grid, field) {
+function buildUrl(provider, points, field) {
   const cfg = API[provider];
-  const latitudes = grid.points.map((p) => p.lat.toFixed(4)).join(',');
-  const longitudes = grid.points.map((p) => p.lon.toFixed(4)).join(',');
+  const latitudes = points.map((p) => p.lat.toFixed(4)).join(',');
+  const longitudes = points.map((p) => p.lon.toFixed(4)).join(',');
   const params = new URLSearchParams({
     latitude: latitudes,
     longitude: longitudes,
@@ -196,9 +178,19 @@ function buildUrl(provider, grid, field) {
     timezone: 'GMT',
     wind_speed_unit: 'ms',
     cell_selection: 'nearest',
-    elevation: grid.points.map(() => 'nan').join(','),
+    elevation: points.map(() => 'nan').join(','),
   });
   return cfg.url + '?' + params.toString();
+}
+
+async function fetchApiBatch(provider, points, field, signal) {
+  const response = await fetch(buildUrl(provider, points, field), { signal, cache: 'no-store' });
+  if (!response.ok) {
+    let detail = '';
+    try { detail = (await response.text()).slice(0, 180); } catch (_) {}
+    throw new Error('HTTP ' + response.status + (detail ? ' · ' + detail : ''));
+  }
+  return normalizeResponse(await response.json(), points);
 }
 function normalizeResponse(payload, requested) {
   const rows = Array.isArray(payload) ? payload : [payload];
@@ -263,19 +255,25 @@ async function fetchCoverage(provider, coverage, currentView) {
   const serial = ++state.requestSerial;
   if (state.aborter) state.aborter.abort();
   state.aborter = new AbortController();
-  const grid = sampleGrid(coverage);
+  const mapNode = map.getContainer();
+  const grid = sampleGrid(coverage, {
+    width: mapNode.clientWidth,
+    height: mapNode.clientHeight,
+    zoom: map.getZoom(),
+  });
   const field = $('layer').value;
-  const url = buildUrl(provider, grid, field);
-  $('status').textContent = '補抓 ' + API[provider].label + ' · ' + grid.points.length + ' samples…';
-  const response = await fetch(url, { signal: state.aborter.signal, cache: 'no-store' });
-  if (!response.ok) {
-    let detail = '';
-    try { detail = (await response.text()).slice(0, 180); } catch (_) {}
-    throw new Error('HTTP ' + response.status + (detail ? ' · ' + detail : ''));
+  const batches = chunkPoints(grid.points, 80);
+  const maxConcurrency = 3;
+  $('status').textContent = '補抓 ' + API[provider].label + ' · ' + grid.points.length + ' samples / ' + batches.length + ' batches…';
+  const samples = [];
+  for (let i = 0; i < batches.length; i += maxConcurrency) {
+    const wave = batches.slice(i, i + maxConcurrency);
+    const rows = await Promise.all(
+      wave.map((points) => fetchApiBatch(provider, points, field, state.aborter.signal))
+    );
+    if (serial !== state.requestSerial) return;
+    samples.push(...rows.flat());
   }
-  const payload = await response.json();
-  if (serial !== state.requestSerial) return;
-  const samples = normalizeResponse(payload, grid.points);
   const item = {
     provider,
     field,
@@ -283,7 +281,7 @@ async function fetchCoverage(provider, coverage, currentView) {
     samples,
     dx: grid.dx,
     dy: grid.dy,
-    validTime: samples.find((s) => s.time)?.time || null,
+    validTime: samples.find((sample) => sample.time)?.time || null,
     fetchedAt: Date.now(),
   };
   cachePut(bboxKey(provider, field, coverage), item);
