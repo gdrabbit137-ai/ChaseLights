@@ -1,11 +1,13 @@
 const clampInt=(value,min,max)=>Math.max(min,Math.min(max,Math.round(value)));
 
-export function adaptiveGridShape({width,height,zoom}={}){
+export function adaptiveGridShape({width,height,zoom,targetPx:maxTargetPx,maxPoints:maxPointBudget}={}){
   const w=Math.max(320,Number(width)||960);
   const h=Math.max(240,Number(height)||640);
   const z=Number.isFinite(Number(zoom))?Number(zoom):6;
-  const targetPx=z>=7.5?42:(z>=5?58:72);
-  const maxPoints=z>=7.5?640:(z>=5?420:240);
+  const defaultTargetPx=z>=7.5?42:(z>=5?58:72);
+  const defaultMaxPoints=z>=7.5?640:(z>=5?420:240);
+  const targetPx=Math.max(24,Number(maxTargetPx)||defaultTargetPx);
+  const maxPoints=clampInt(Number(maxPointBudget)||defaultMaxPoints,60,1200);
   let cols=clampInt(Math.ceil(w/targetPx)+1,6,48);
   let rows=clampInt(Math.ceil(h/targetPx)+1,5,36);
   while(cols*rows>maxPoints){
