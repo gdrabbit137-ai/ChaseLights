@@ -2,6 +2,9 @@
 
 Date: 2026-09-30 (Asia/Taipei)
 
+> **Status: historical implementation/reconciliation record — not the current policy source-of-truth.**
+> Current production Field Intake observation-association and photographer-facing UX policy is owned by `RESEARCH_EVIDENCE_SPEC_R4_2.md` §14. Navigation semantics remain owned by `NAVIGATION_SPEC_R4_2.md`. If this record conflicts with the latest effective specification on `main`, the formal specification wins. B134 MUST NOT be used to reintroduce superseded behavior such as silently confirming a nearest Place.
+
 ## Goal
 
 Rebase the previously completed B120 local-first field-observation intake onto the current ChaseLights main without regressing the newer mobile/desktop UI, WeatherGrid, region filters, or scoring work.
