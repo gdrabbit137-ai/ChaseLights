@@ -20,13 +20,14 @@
     <section class="toolbar">
       <label>模型
         <select id="provider">
-          <option value="auto">Auto · JMA endpoint 優先 / NCEP fallback</option>
+          <option value="auto">Auto · 全球雲圖使用 GFS / 其他欄位區域最佳來源</option>
           <option value="jma">JMA endpoint · 實驗取樣</option>
           <option value="gfs">NCEP endpoint · 實驗取樣</option>
         </select>
       </label>
       <label>圖層
         <select id="layer">
+          <option value="cloud_cover">全雲量</option>
           <option value="cloud_cover_low">低雲</option>
           <option value="cloud_cover_mid">中雲</option>
           <option value="cloud_cover_high">高雲</option>
@@ -46,7 +47,7 @@
     <section class="map-shell">
       <div id="map"></div>
       <canvas id="overlay"></canvas>
-      <div id="legend" class="legend">低雲 · % · sampled viewport prototype</div>
+      <div id="legend" class="legend">全雲量 · % · GFS global viewport</div>
       <div class="debug">
         <strong>V2 viewport loader</strong>
         <div id="resolved-provider">resolved —</div>
@@ -58,12 +59,12 @@
         <div id="cache">request cache —</div>
         <div class="note">
           移動或縮放後，V2 會以目前 viewport 外擴的 prefetch ring 重新取樣並快取。
-          Auto 目前以地理範圍選擇 Open-Meteo 的 JMA 或 NCEP endpoint；endpoint 的 Best Match 可能依位置選不同模型，因此此頁不宣稱每一格必定是 MSM、GFS 或 HRRR。
+          全球雲圖 P0 的全雲量／低雲／中雲／高雲固定使用 NCEP GFS 全球 baseline；其他欄位才依地理範圍選擇 JMA 或 NCEP endpoint。
           這是瀏覽器端 API 粗網格 prototype，用來驗證「地圖移到哪、資料補到哪」的互動與成本，不代表模型原生解析度被提高。
         </div>
       </div>
     </section>
   </main>
-  <script type="module" src="./assets/weather-map-v2.js?v=exp2"></script>
+  <script type="module" src="./assets/weather-map-v2.js?v=global-cloud-p0"></script>
 </body>
 </html>
