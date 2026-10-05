@@ -81,10 +81,23 @@ def run(url, screenshot):
         before=d.find_element(By.ID,"viewport").text
         d.find_element(By.CSS_SELECTOR,'[data-preset="us"]').click()
         wait.until(lambda x: x.find_element(By.ID,"viewport").text != before)
-        wait.until(lambda x: (
-            "資料已就緒" in x.find_element(By.ID,"status").text
-            and "NCEP Best Match" in x.find_element(By.ID,"source").text
-        ))
+        try:
+            wait.until(lambda x: (
+                "資料已就緒" in x.find_element(By.ID,"status").text
+                and "NCEP Best Match" in x.find_element(By.ID,"source").text
+            ))
+        except TimeoutException:
+            screenshot.parent.mkdir(parents=True,exist_ok=True)
+            d.save_screenshot(str(screenshot))
+            diagnostic={
+              "status":d.find_element(By.ID,"status").text,
+              "source":d.find_element(By.ID,"source").text,
+              "viewport":d.find_element(By.ID,"viewport").text,
+              "coverage":d.find_element(By.ID,"coverage").text,
+              "time":d.find_element(By.ID,"time").text,
+              "browser_logs":d.get_log("browser")[-30:],
+            }
+            raise AssertionError("CONUS V2 handoff timed out: "+json.dumps(diagnostic,ensure_ascii=False))
         us={
           "status":d.find_element(By.ID,"status").text,
           "source":d.find_element(By.ID,"source").text,
