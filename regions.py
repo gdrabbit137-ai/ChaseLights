@@ -2029,7 +2029,7 @@ NAVIGATION_TARGET_OVERRIDES = {
         "status": "verified",
         "lat": 25.1201398,
         "lon": 121.887539,
-        "target_type": "official_destination_arrival",
+        "target_type": "trailhead",
         "label_i18n": {
             "zh-TW": "南子吝步道官方到達點",
             "en": "Nanzilin Trail official arrival point",
@@ -2045,7 +2045,7 @@ NAVIGATION_TARGET_OVERRIDES = {
     },
     "高千穗峽": {
         "status": "multiple_access_routes",
-        "target_type": "route_choice_required",
+        "target_type": "camera_zone_or_place_anchor",
         "label_i18n": {
             "zh-TW": "高千穗峽有多個停車／步行／租船進入方式",
             "en": "Takachiho Gorge has multiple parking, walking and boat access routes",
@@ -2063,7 +2063,7 @@ NAVIGATION_TARGET_OVERRIDES = {
         "status": "verified",
         "lat": 61.7994722,
         "lon": -147.8180444,
-        "target_type": "public_recreation_site_arrival",
+        "target_type": "entrance",
         "label_i18n": {
             "zh-TW": "Matanuska Glacier State Recreation Site",
             "en": "Matanuska Glacier State Recreation Site",
@@ -2081,14 +2081,14 @@ NAVIGATION_TARGET_OVERRIDES = {
         "status": "verified",
         "lat": 61.767130,
         "lon": -149.323040,
-        "target_type": "seasonal_summit_lake_parking",
+        "target_type": "parking",
         "label_i18n": {
             "zh-TW": "Hatcher Pass・Summit Lake Parking",
             "en": "Hatcher Pass · Summit Lake Parking",
             "ja": "ハッチャー・パス・Summit Lake Parking",
         },
         "source": "Alaska State Parks Summit Lake site + OSM parking cross-check; reviewed 2026-09-27",
-        "confidence": "medium_high",
+        "confidence": "medium",
         "note_i18n": {
             "zh-TW": "此導航點僅代表Summit Lake夏季Camera Zone的停車到達點；冬季極光題材不得使用此點推定summit road可通行，須依當下道路／冬季公共停車狀態。",
             "en": "This navigation point is only the summer Summit Lake Camera-Zone arrival. Do not use it to imply winter summit-road access for aurora photography; current road and winter public-parking status must be checked.",
@@ -2099,14 +2099,14 @@ NAVIGATION_TARGET_OVERRIDES = {
         "status": "verified",
         "lat": 63.732090,
         "lon": -148.902730,
-        "target_type": "scenic_rest_area_arrival",
+        "target_type": "viewpoint",
         "label_i18n": {
             "zh-TW": "Denali・Mountain Vista",
             "en": "Denali · Mountain Vista",
             "ja": "デナリ・Mountain Vista",
         },
         "source": "NPS Mountain Vista Scenic View/Photo Spot and published location coordinate; reviewed 2026-09-27",
-        "confidence": "medium_high",
+        "confidence": "medium",
         "note_i18n": {
             "zh-TW": "導航終點為Mountain Vista公共休息／觀景區；Denali Park Road當下道路狀態優先於導航與天氣，封路時不得視為可達。",
             "en": "Directions use the public Mountain Vista rest/scenic area. Current Denali Park Road status overrides navigation and weather; a road closure means this Camera Zone is not reachable.",
@@ -2117,7 +2117,7 @@ NAVIGATION_TARGET_OVERRIDES = {
         "status": "verified",
         "lat": 60.103141,
         "lon": -149.434574,
-        "target_type": "public_waterfront_arrival",
+        "target_type": "viewpoint",
         "label_i18n": {
             "zh-TW": "Seward Waterfront Park",
             "en": "Seward Waterfront Park",
@@ -2135,7 +2135,7 @@ NAVIGATION_TARGET_OVERRIDES = {
         "status": "verified",
         "lat": 35.611092,
         "lon": -83.425007,
-        "target_type": "scenic_overlook_arrival",
+        "target_type": "viewpoint",
         "label_i18n": {
             "zh-TW": "Great Smoky Mountains・Newfound Gap Overlook",
             "en": "Great Smoky Mountains · Newfound Gap Overlook",
@@ -2153,7 +2153,7 @@ NAVIGATION_TARGET_OVERRIDES = {
         "status": "verified",
         "lat": 40.320324,
         "lon": -105.609000,
-        "target_type": "trailhead_arrival",
+        "target_type": "trailhead",
         "label_i18n": {
             "zh-TW": "Rocky Mountain NP・Sprague Lake Trailhead",
             "en": "Rocky Mountain NP · Sprague Lake Trailhead",
@@ -2171,7 +2171,7 @@ NAVIGATION_TARGET_OVERRIDES = {
         "status": "verified",
         "lat": 32.811370,
         "lon": -106.265010,
-        "target_type": "parking_arrival",
+        "target_type": "parking",
         "label_i18n": {
             "zh-TW": "White Sands・Sunset Stroll 停車區",
             "en": "White Sands · Sunset Stroll parking area",
@@ -2187,7 +2187,7 @@ NAVIGATION_TARGET_OVERRIDES = {
     },
     "福岡城跡": {
         "status": "needs_review",
-        "target_type": "public_castle_ruins_entry",
+        "target_type": "entrance",
         "label_i18n": {
             "zh-TW": "福岡城跡：天守台封閉中，導航入口待獨立確認",
             "en": "Fukuoka Castle Ruins: Tenshudai closed; arrival point pending verification",
@@ -2205,14 +2205,14 @@ NAVIGATION_TARGET_OVERRIDES = {
         "status": "verified",
         "lat": 23.219472,
         "lon": 121.308056,
-        "target_type": "parking_arrival",
+        "target_type": "parking",
         "label_i18n": {
             "zh-TW": "六十石山・黃花亭停車場",
             "en": "Liushishishan · Huanghua Pavilion parking",
             "ja": "六十石山・黄花亭駐車場",
         },
         "source": "B34 official venue evidence identifies Huanghua Pavilion parking; reviewed 2026-09-26",
-        "confidence": "medium_high",
+        "confidence": "medium",
         "parking_options": [
             {"name_zh": "黃花亭停車場", "lat": 23.219472, "lon": 121.308056, "status": "verified_primary"},
             {"name_zh": "忘憂亭停車／抵達點", "lat": 23.222194, "lon": 121.317056, "status": "verified_secondary"},
@@ -2229,7 +2229,7 @@ NAVIGATION_TARGET_OVERRIDES = {
     },
     "出雲大社": {
         "status": "multiple_access_routes",
-        "target_type": "route_choice_required",
+        "target_type": "camera_zone_or_place_anchor",
         "label_i18n": {
             "zh-TW": "出雲大社：參道入口或停車場須擇一",
             "en": "Izumo Taisha: choose approach entrance or parking",
@@ -2277,7 +2277,7 @@ NAVIGATION_TARGET_OVERRIDES = {
     },
     "彌彥山": {
         "status": "multiple_access_routes",
-        "target_type": "route_choice_required",
+        "target_type": "camera_zone_or_place_anchor",
         "label_i18n": {
             "zh-TW": "彌彥山多種進入路線",
             "en": "Mt. Yahiko has multiple access routes",
@@ -2330,6 +2330,17 @@ NAVIGATION_TARGET_OVERRIDES = {
 }
 
 
+def _navigation_confidence(value):
+    """Map legacy coordinate-confidence granularity into the R4.2 navigation enum."""
+    if value in (None, ""):
+        return "low"
+    if value == "medium_high":
+        return "medium"
+    if value in {"high", "medium", "low"}:
+        return value
+    raise ValueError(f"unsupported navigation confidence: {value}")
+
+
 def _navigation_target_for_spot(name_zh, item):
     """Return explicit navigation metadata without inventing a route.
 
@@ -2339,6 +2350,7 @@ def _navigation_target_for_spot(name_zh, item):
     override = NAVIGATION_TARGET_OVERRIDES.get(name_zh)
     if override:
         target = dict(override)
+        target["confidence"] = _navigation_confidence(target.get("confidence"))
         status = target.get("status")
         if status == "verified":
             lat = target.get("lat")
@@ -2354,7 +2366,7 @@ def _navigation_target_for_spot(name_zh, item):
     if lat is None or lon is None:
         return {
             "status": "needs_review",
-            "target_type": "unknown",
+            "target_type": "camera_zone_or_place_anchor",
             "label_i18n": dict(item.get("name_i18n") or {}),
             "source": "no exact Place/Camera coordinate available",
             "confidence": "low",
@@ -2367,7 +2379,7 @@ def _navigation_target_for_spot(name_zh, item):
         "target_type": "camera_zone_or_place_anchor",
         "label_i18n": dict(item.get("name_i18n") or {}),
         "source": item.get("coordinate_source") or "legacy Place/Camera coordinate",
-        "confidence": item.get("coordinate_confidence") or "low",
+        "confidence": _navigation_confidence(item.get("coordinate_confidence")),
         "note_i18n": {
             "zh-TW": "此座標尚未獨立查證為實際抵達／停車／登山入口，只能先作精準地圖定位，不視為已驗證導航。",
             "en": "This coordinate has not been independently verified as the practical arrival / parking / trail access point. It is shown only as an exact map pin, not verified navigation.",
