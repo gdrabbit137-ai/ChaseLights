@@ -1438,10 +1438,21 @@ def test_adapter_integrity():
     valid_navigation_statuses = {
         "verified", "provisional_camera_anchor", "needs_review", "multiple_access_routes"
     }
+    valid_navigation_target_types = {
+        "entrance", "trailhead", "parking", "station", "street_access",
+        "viewpoint", "camera_zone_or_place_anchor",
+    }
+    valid_navigation_confidences = {"high", "medium", "low"}
     for region in ("tw", "jp", "us"):
         for nav_spot in get_spots(region):
             target = nav_spot.get("navigation_target") or {}
             assert target.get("status") in valid_navigation_statuses, (
+                nav_spot["spot_id"], target
+            )
+            assert target.get("target_type") in valid_navigation_target_types, (
+                nav_spot["spot_id"], target
+            )
+            assert target.get("confidence") in valid_navigation_confidences, (
                 nav_spot["spot_id"], target
             )
             if target.get("status") == "verified":
