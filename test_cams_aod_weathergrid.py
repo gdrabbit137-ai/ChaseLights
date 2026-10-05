@@ -117,6 +117,29 @@ class CamsAodWeatherGridTests(unittest.TestCase):
             qc["frames"][0]["fields"][PM25_FIELD_GRID]["flags"],
         )
 
+    def test_trailing_frames_with_all_fields_missing_are_not_published(self):
+        responses = fake_responses()
+        for item in responses:
+            item["hourly"]["aerosol_optical_depth"][12] = None
+            item["hourly"]["pm2_5"][12] = None
+        bundle, qc = build_bundle(responses)
+        self.assertEqual([frame["forecast_hour"] for frame in bundle["frames"]], [0, 3, 6, 9])
+        self.assertEqual(qc["frame_count"], 4)
+        self.assertEqual(qc["trimmed_trailing_all_missing_frames"], 1)
+        self.assertFalse(any(flag["flag"] == "all_missing" for flag in qc["flags"]))
+
+    def test_trailing_frame_is_retained_when_one_production_field_is_available(self):
+        responses = fake_responses()
+        for item in responses:
+            item["hourly"]["aerosol_optical_depth"][12] = None
+        bundle, qc = build_bundle(responses)
+        self.assertEqual(bundle["frames"][-1]["forecast_hour"], 12)
+        self.assertEqual(qc["trimmed_trailing_all_missing_frames"], 0)
+        self.assertIn(
+            "all_missing",
+            qc["frames"][-1]["fields"][FIELD_GRID]["flags"],
+        )
+
     def test_missing_values_are_preserved_and_flagged(self):
         responses = fake_responses()
         responses[0]["hourly"]["aerosol_optical_depth"][0] = None
