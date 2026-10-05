@@ -77,13 +77,18 @@ class WeatherGridV2ExperimentTest(unittest.TestCase):
             encoding="utf-8"
         )
         self.assertIn("expected_loader_sha", workflow)
+        self.assertIn("expected_sampling_sha", workflow)
         self.assertIn("weather-map-v2-tile-loader.js?pages_probe=", workflow)
+        self.assertIn("weather-map-v2-sampling.js?pages_probe=", workflow)
         self.assertIn("/tmp/v2-loader.js", workflow)
+        self.assertIn("/tmp/v2-sampling.js", workflow)
         self.assertIn("$expected_loader_sha", workflow)
+        self.assertIn("$expected_sampling_sha", workflow)
 
     def test_public_smoke_covers_partial_native_fallback_and_retake(self):
         smoke = (ROOT / "weathergrid_v2_public_smoke.py").read_text(encoding="utf-8")
         self.assertIn('assert "JMA Best Match" in initial["source"]', smoke)
+        self.assertIn('sample_count(initial["status"]) >= 200', smoke)
         self.assertIn('coverage_contains(initial["viewport"], initial["coverage"])', smoke)
         self.assertIn("121.75, 23.8, 10.0", smoke)
         self.assertIn('"JMA MSM native tiles" in x.find_element(By.ID,"source").text', smoke)
