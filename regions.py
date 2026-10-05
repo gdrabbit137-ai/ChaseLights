@@ -2330,6 +2330,17 @@ NAVIGATION_TARGET_OVERRIDES = {
 }
 
 
+def _navigation_confidence(value):
+    """Map legacy coordinate-confidence granularity into the R4.2 navigation enum."""
+    if value in (None, ""):
+        return "low"
+    if value == "medium_high":
+        return "medium"
+    if value in {"high", "medium", "low"}:
+        return value
+    raise ValueError(f"unsupported navigation confidence: {value}")
+
+
 def _navigation_target_for_spot(name_zh, item):
     """Return explicit navigation metadata without inventing a route.
 
@@ -2339,6 +2350,7 @@ def _navigation_target_for_spot(name_zh, item):
     override = NAVIGATION_TARGET_OVERRIDES.get(name_zh)
     if override:
         target = dict(override)
+        target["confidence"] = _navigation_confidence(target.get("confidence"))
         status = target.get("status")
         if status == "verified":
             lat = target.get("lat")
@@ -2367,7 +2379,7 @@ def _navigation_target_for_spot(name_zh, item):
         "target_type": "camera_zone_or_place_anchor",
         "label_i18n": dict(item.get("name_i18n") or {}),
         "source": item.get("coordinate_source") or "legacy Place/Camera coordinate",
-        "confidence": item.get("coordinate_confidence") or "low",
+        "confidence": _navigation_confidence(item.get("coordinate_confidence")),
         "note_i18n": {
             "zh-TW": "此座標尚未獨立查證為實際抵達／停車／登山入口，只能先作精準地圖定位，不視為已驗證導航。",
             "en": "This coordinate has not been independently verified as the practical arrival / parking / trail access point. It is shown only as an exact map pin, not verified navigation.",
