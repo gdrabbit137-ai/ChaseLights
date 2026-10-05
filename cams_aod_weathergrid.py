@@ -214,6 +214,23 @@ def build_bundle(
             }
         )
 
+    # Open-Meteo may expose the requested time axis before the newest CAMS
+    # cycle has populated its far forecast tail. Do not publish frames where
+    # every requested production field is missing across the whole grid.
+    # Only trim the trailing unavailable horizon: interior gaps remain visible
+    # to QC instead of being silently hidden.
+    trimmed_trailing_frames = 0
+    while qc_frames:
+        tail_fields = qc_frames[-1]["fields"].values()
+        if not all(details["missing"] == details["count"] for details in tail_fields):
+            break
+        frames.pop()
+        qc_frames.pop()
+        trimmed_trailing_frames += 1
+
+    if not frames:
+        raise ValueError("CAMS/Open-Meteo returned no publishable frames")
+
     now = retrieved_at or datetime.now(timezone.utc)
     retrieved_iso = now.astimezone(timezone.utc).isoformat().replace("+00:00", "Z")
     returned_cells = {
@@ -303,6 +320,7 @@ def build_bundle(
         "returned_provider_cell_count": len(returned_cells),
         "frames": qc_frames,
         "flags": flags,
+        "trimmed_trailing_all_missing_frames": trimmed_trailing_frames,
         "notes": [
             "Browser coordinates are a 0.4 degree request/presentation lattice.",
             "PM2.5 and AOD share the same CAMS request/time lattice but retain distinct physical meanings.",
