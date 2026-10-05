@@ -28,6 +28,10 @@ const PROVIDER_FIELDS = {
   jma: ['cloud_cover_low', 'cloud_cover_mid', 'cloud_cover_high', 'precipitation', 'wind_speed_10m'],
   gfs: Object.keys(FIELDS),
 };
+const FALLBACK_SOURCE_STEP = {
+  jma: { lon: 0.0625, lat: 0.05 },
+  gfs: { lon: 0.25, lat: 0.25 },
+};
 const $ = (id) => document.getElementById(id);
 const canvas = $('overlay');
 const ctx = canvas.getContext('2d');
@@ -256,10 +260,13 @@ async function fetchCoverage(provider, coverage, currentView) {
   if (state.aborter) state.aborter.abort();
   state.aborter = new AbortController();
   const mapNode = map.getContainer();
+  const sourceStep = FALLBACK_SOURCE_STEP[provider] || {};
   const grid = sampleGrid(coverage, {
     width: mapNode.clientWidth,
     height: mapNode.clientHeight,
     zoom: map.getZoom(),
+    minLonStepDeg: sourceStep.lon,
+    minLatStepDeg: sourceStep.lat,
   });
   const field = $('layer').value;
   const batches = chunkPoints(grid.points, 80);
