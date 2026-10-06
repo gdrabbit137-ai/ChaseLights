@@ -52,6 +52,8 @@ class WeatherGridProductionSmokeContractTests(unittest.TestCase):
         self.assertIn("weathergrid_production_smoke.py", self.workflow)
         self.assertIn("weathergrid/jma_msm_tw_cloud_browser.json", self.workflow)
         self.assertIn("weathergrid/jma_msm_tw_cloud_qc.json", self.workflow)
+        self.assertIn("weathergrid/himawari9_tw_cloud_browser.json", self.workflow)
+        self.assertIn("weathergrid/himawari9_tw_cloud_qc.json", self.workflow)
         self.assertIn("https://chaselights.app/weather-map.html", self.workflow)
         self.assertIn("actions/upload-artifact@v4", self.workflow)
         self.assertIn("sha256sum weather-map.html", self.workflow)
