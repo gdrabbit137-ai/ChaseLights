@@ -109,6 +109,7 @@ class WeatherGridV2ExperimentTest(unittest.TestCase):
 
     def test_public_smoke_covers_partial_native_fallback_and_retake(self):
         smoke = (ROOT / "weathergrid_v2_public_smoke.py").read_text(encoding="utf-8")
+        js = (ROOT / "assets/weather-map-v2.js").read_text(encoding="utf-8")
         self.assertIn('assert "NCEP GFS Global" in initial["source"]', smoke)
         self.assertIn('sample_count(initial["status"]) >= 200', smoke)
         self.assertIn('CONUS V2 handoff timed out', smoke)
