@@ -232,6 +232,10 @@ def run(url, screenshot):
         alaska_lon,alaska_lat=viewport_center(alaska["viewport"])
         assert -170 <= alaska_lon <= -129 and 51 <= alaska_lat <= 72, alaska
         assert "samples" in alaska["status"], alaska
+        # Desktop Alaska regression: the old 240-point cap rendered ~80 px
+        # blocks. Keep the experimental fallback dense enough to avoid that
+        # visibly coarse checkerboard while remaining under the bounded budget.
+        assert sample_count(alaska["status"]) >= 600, alaska
         assert coverage_contains(alaska["viewport"],alaska["coverage"]), alaska
 
         # An arbitrary non-preset global viewport must also resolve to the
