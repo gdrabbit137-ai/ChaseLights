@@ -38,6 +38,11 @@ class WeatherGridProductionSmokeContractTests(unittest.TestCase):
         self.assertNotIn("#timeline button", self.script)
         self.assertIn("tw-073", self.script)
         self.assertIn("coverageSource", self.script)
+        self.assertIn("provider-coverage-note", self.script)
+        self.assertIn("不代表晴朗", self.script)
+        self.assertIn("自動預報可能改用不同模型", self.script)
+        self.assertIn("driver.set_window_size(390, 844)", self.script)
+        self.assertIn("mobile_coverage_note_overflow_px", self.script)
 
     def test_smoke_captures_visual_artifact(self):
         self.assertIn("save_screenshot", self.script)
