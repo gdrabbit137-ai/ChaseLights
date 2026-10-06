@@ -24,6 +24,9 @@ on:
       - "weathergrid_v2_tile_export.py"
       - "weathergrid_v2_publish.py"
       - "test_weathergrid_v2_publish.py"
+      - "weathergrid_v2_cwa_publish.py"
+      - "test_weathergrid_v2_cwa_publish.py"
+      - "cwa_weathergrid_derived.py"
       - "test_weathergrid_v2_tile_export.py"
       - "test_weathergrid_v2_capacity.py"
       - ".github/workflows/weathergrid_v2_experiment.yml"
@@ -69,6 +72,7 @@ jobs:
           python -m unittest -v test_weathergrid_v2_capacity.py
           python -m unittest -v test_weathergrid_v2_tile_export.py
           python -m unittest -v test_weathergrid_v2_publish.py
+          python -m unittest -v test_weathergrid_v2_cwa_publish.py
           python -m unittest -v test_weathergrid_v2_browser_tiles.py
           python -c 'import json; d=json.load(open("/tmp/weathergrid-v2-index.json")); assert d["regions"]["jp"]["cells"]'
       - name: Static site smoke

@@ -26,8 +26,10 @@ on:
         default: "12"
 
 concurrency:
-  group: chaselights-weathergrid-v2-jma-publish
-  cancel-in-progress: true
+  # JMA and CWA both update weathergrid/v2/index.json. Serialize native/derived
+  # publishers so a rebase cannot silently discard the other provider run.
+  group: chaselights-weathergrid-v2-native-publish
+  cancel-in-progress: false
 
 permissions:
   contents: write

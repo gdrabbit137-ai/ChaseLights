@@ -7,6 +7,7 @@ from cwa_wrf3_poc import (
     CWA_MODEL_OUTPUT_INTERVAL_HOURS,
     CWA_PUBLIC_FORECAST_HORIZON_HOURS,
     CWA_PUBLIC_FORECAST_INTERVAL_HOURS,
+    CWA_PRESSURE_RH_LEVELS_HPA,
     CWA_NATIVE_RESOLUTION_KM,
     CWA_TAIWAN_BROWSER_BBOX,
     CORE_FIELD_SPECS,
@@ -55,6 +56,12 @@ class CwaWrf3ProviderTests(unittest.TestCase):
         self.assertLess(CWA_TAIWAN_BROWSER_BBOX["leftlon"], 120)
         self.assertGreater(CWA_TAIWAN_BROWSER_BBOX["rightlon"], 124)
         self.assertEqual(CWA_BROWSER_GRID_DEG, 0.03)
+
+    def test_pressure_level_rh_contract(self):
+        self.assertEqual(
+            CWA_PRESSURE_RH_LEVELS_HPA,
+            (1000, 925, 850, 700, 500, 400, 300),
+        )
 
     def test_surface_fields_match_cwa_wrf_strengths(self):
         self.assertIn("temperature_2m_c", CORE_FIELD_SPECS)

@@ -1,0 +1,129 @@
+name: Update WeatherGrid V2 CWA Derived Tiles
+
+on:
+  workflow_run:
+    workflows: ["Update Live WeatherGrid Preview"]
+    types: [completed]
+  push:
+    branches:
+      - main
+    paths:
+      - "cwa_weathergrid_derived.py"
+      - "cwa_wrf3_poc.py"
+      - "cwa_weathergrid_browser_bundle.py"
+      - "weathergrid_v2_cwa_publish.py"
+      - "weathergrid_v2_cache_index.py"
+      - ".github/workflows/weathergrid_v2_cwa_publish.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: chaselights-weathergrid-v2-native-publish
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  publish-v2-cwa:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Run CWA V2 publisher unit tests
+        run: |
+          python -m unittest -v test_weathergrid_v2_cwa_publish.py
+
+      - name: Require current CWA compact bundle
+        run: |
+          test -s weathergrid/cwa_wrf3_tw_weather_browser.json
+
+      - name: Publish CWA derived working set
+        run: |
+          rm -rf weathergrid/v2/cwa/current
+          python weathergrid_v2_cwa_publish.py \
+            --input weathergrid/cwa_wrf3_tw_weather_browser.json \
+            --output-root weathergrid/v2 \
+            | tee /tmp/weathergrid-v2-cwa-summary.json
+
+      - name: Validate CWA derived publication
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          root = Path("weathergrid/v2")
+          index = json.loads((root / "index.json").read_text())
+          run = index["provider_runs"]["cwa"]
+          required = {
+              "cwa_cloud_potential_low",
+              "cwa_cloud_potential_mid",
+              "cwa_cloud_potential_high",
+              "cwa_lcl_height",
+              "cwa_fog_potential",
+          }
+          assert required <= set(run["supported_fields"]), run["supported_fields"]
+          assert run["published_regions"] == ["tw"]
+          assert run["published_cell_ids"]
+          token = run["nearest_valid_time_token"]
+          for cell_id in run["published_cell_ids"]:
+              path = root / "cwa/current" / token / f"{cell_id}.json"
+              assert path.exists(), path
+              tile = json.loads(path.read_text())
+              assert tile["provider"] == "cwa"
+              assert tile["regular_grid"] is True
+              assert tile["native_grid"] is False
+              assert required <= set(tile["values"]), tile["values"].keys()
+          print(json.dumps({
+              "nearest_valid_time_utc": run["nearest_valid_time_utc"],
+              "cells": len(run["published_cell_ids"]),
+              "fields": sorted(required),
+          }, indent=2))
+          PY
+
+      - name: Publish V2 CWA snapshot to main
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add -A -- weathergrid/v2
+
+          if git diff --cached --quiet; then
+            echo "WeatherGrid V2 CWA derived snapshot unchanged."
+            exit 0
+          fi
+
+          git commit -m "Auto-update WeatherGrid V2 CWA derived tiles"
+          pushed=false
+          for i in {1..5}; do
+            if git pull --rebase origin main && git push origin HEAD:main; then
+              pushed=true
+              break
+            fi
+            sleep 5
+          done
+          if [[ "$pushed" != "true" ]]; then
+            echo "Failed to publish WeatherGrid V2 CWA snapshot after retries."
+            exit 1
+          fi
+
+      - name: Upload CWA V2 publisher artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: weathergrid-v2-cwa-derived
+          path: |
+            /tmp/weathergrid-v2-cwa-summary.json
+            weathergrid/v2/index.json
+            weathergrid/v2/cwa/current/manifest.json
+          if-no-files-found: warn
+          retention-days: 3

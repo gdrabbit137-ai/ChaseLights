@@ -49,6 +49,47 @@ FIELD_ENCODINGS = {
     },
 }
 
+for _pressure_hpa in (1000, 925, 850, 700, 500, 400, 300):
+    FIELD_ENCODINGS[f"relative_humidity_{_pressure_hpa}hpa_percent"] = {
+        "unit": "%",
+        "scale": 1.0,
+        "min": 0.0,
+        "max": 100.0,
+    }
+
+FIELD_ENCODINGS.update({
+    "rh_cloud_potential_low_percent": {
+        "unit": "%",
+        "scale": 1.0,
+        "min": 0.0,
+        "max": 100.0,
+    },
+    "rh_cloud_potential_mid_percent": {
+        "unit": "%",
+        "scale": 1.0,
+        "min": 0.0,
+        "max": 100.0,
+    },
+    "rh_cloud_potential_high_percent": {
+        "unit": "%",
+        "scale": 1.0,
+        "min": 0.0,
+        "max": 100.0,
+    },
+    "lcl_height_m_agl": {
+        "unit": "m AGL",
+        "scale": 1.0,
+        "min": 0.0,
+        "max": 6000.0,
+    },
+    "fog_potential_percent": {
+        "unit": "%",
+        "scale": 1.0,
+        "min": 0.0,
+        "max": 100.0,
+    },
+})
+
 REQUIRED_FIELDS = {
     "temperature_2m_c",
     "relative_humidity_2m_percent",
@@ -241,6 +282,18 @@ def build_cwa_bundle(input_dir: Path) -> tuple[dict, dict]:
                 "pressure_level_rh_available": True,
                 "policy": "do_not_infer_cloud_cover_from_rh",
                 "verified_public_feed": "M-A0064",
+                "rh_derived_proxy": {
+                    "calibration_version": "cwa-rh-proxy-v1",
+                    "calibration_status": "experimental_unvalidated",
+                    "native_cloud_fraction": False,
+                    "fields": [
+                        "rh_cloud_potential_low_percent",
+                        "rh_cloud_potential_mid_percent",
+                        "rh_cloud_potential_high_percent",
+                        "lcl_height_m_agl",
+                        "fog_potential_percent",
+                    ],
+                },
             },
         },
         "grid": {
@@ -284,6 +337,8 @@ def build_cwa_bundle(input_dir: Path) -> tuple[dict, dict]:
             "Optional CWA fields are published only when present in every frame of the snapshot.",
             "Live M-A0064 verification found pressure-level relative humidity but no native low/mid/high cloud-cover fields.",
             "Pressure-level RH is not relabeled as cloud cover.",
+            "RH-derived cloud/fog diagnostics are separately named experimental proxy products.",
+            "LCL height is an estimated thermodynamic diagnostic, not observed or native cloud base.",
         ],
     }
     return bundle, qc
