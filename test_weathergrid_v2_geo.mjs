@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import {
+  adaptiveGridShape,
   bboxCenterLon,
   bboxContains,
   bboxFromWestSpan,
@@ -52,6 +53,17 @@ const ordinary=sampleGrid({w:120,s:20,e:124,n:24},{
 assert.equal(ordinary.wrapsAntimeridian,false);
 assert.equal(ordinary.lonSpan,4);
 assert.ok(ordinary.points.every((p)=>p.lon>=120&&p.lon<=124));
+
+const alaskaDesktop=adaptiveGridShape({width:1365,height:830,zoom:4});
+assert.ok(alaskaDesktop.cols*alaskaDesktop.rows>=650,alaskaDesktop);
+assert.ok(alaskaDesktop.cols*alaskaDesktop.rows<=720,alaskaDesktop);
+assert.equal(alaskaDesktop.targetPx,42);
+assert.equal(alaskaDesktop.maxPoints,720);
+
+const regionalDesktop=adaptiveGridShape({width:1440,height:900,zoom:6});
+assert.ok(regionalDesktop.cols*regionalDesktop.rows>=900,regionalDesktop);
+assert.ok(regionalDesktop.cols*regionalDesktop.rows<=1080,regionalDesktop);
+assert.equal(regionalDesktop.maxPoints,1080);
 
 console.log(JSON.stringify({
   wrappedSpan:grid.lonSpan,
