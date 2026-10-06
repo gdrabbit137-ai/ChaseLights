@@ -311,6 +311,30 @@ The presentation layer MUST NOT repair contradictory runtime truth by inventing 
 
 A `best_time` / `window` value identifies the best or applicable time within the evaluated Opportunity contract; its existence alone does not prove that the selected date is worth a trip. The normal UI MUST use `最佳拍攝時段` / “best shooting time” / equivalent positive recommendation wording only when the Opportunity passes the selected-date recommendation/presentation gate. When an otherwise evaluable but unfavorable selected date retains a meaningful relative time, the product MAY expose it using explicitly non-recommendation wording such as `今日相對較佳時段` / “relatively better time today”, provided this cannot be mistaken for an actionable positive recommendation. If that distinction cannot be represented safely, the time SHOULD be omitted from the primary recommendation surface.
 
+### Recommendation-policy ownership and score semantics
+
+The selected-date recommendation decision is an owned domain policy, not a presentation convenience and not an adapter fallback.
+
+The architecture MUST preserve these responsibilities:
+
+1. **Opportunity evaluation / scoring contract** owns the evaluated facts for the Opportunity, including score components, required conditions, decisive blockers, confidence, temporal state, and any calibrated interpretation of those values.
+2. **Recommendation policy** consumes that complete evaluation and produces a structured overall decision such as `recommended`, `candidate/conditional`, `not_recommended`, or `unavailable/unknown`, together with machine-readable decisive reason/blocker codes where applicable.
+3. **Adapters / generated-data transport** MAY serialize and carry that decision but MUST NOT invent a new global score band, threshold, or semantic reclassification merely because downstream UI needs a verdict.
+4. **Presentation/UI** translates the structured decision and reasons into photographer-facing localized copy. It MUST NOT infer recommendation state from a numeric score when the owning evaluation/recommendation contract has not already defined that interpretation.
+
+A numeric score is therefore diagnostic/evaluative data, not universal permission to recommend. A repository-wide constant such as “score >= X means recommended” or “score >= Y means candidate” MUST NOT be introduced unless the owning scoring/recommendation specification explicitly establishes that calibration and its scope. Opportunity-specific calibrated thresholds MAY exist when supported by the owning contract; they MUST NOT silently become global policy.
+
+**Decisive blockers have semantic precedence over aggregate score.** When an applicable required condition or hard blocker makes the researched subject non-viable, an otherwise high aggregate score MUST NOT promote the evaluation to an actionable positive recommendation. Conversely, absence of a calibrated numeric threshold MUST NOT be repaired by inventing one downstream. Unknown or uncalibrated interpretation remains unknown/unavailable until the owning domain defines it.
+
+The structured recommendation result SHOULD be stable enough that adapters and presentation do not need to reconstruct policy from status strings. At minimum, where the runtime exposes a recommendation decision, it SHOULD preserve:
+- overall recommendation state;
+- recommendation eligibility/actionability;
+- decisive blocker/reason codes;
+- confidence/uncertainty needed to interpret the decision;
+- temporal applicability.
+
+This ownership rule does not require every Opportunity type to use identical thresholds or identical scoring formulas. It requires the semantic decision to be made by the domain contract that owns those formulas and constraints, rather than by transport or UI code.
+
 #### Required semantic-consistency regressions
 
 Automated runtime/presentation regression coverage MUST include cases where a temporal prerequisite is valid but decisive environmental conditions fail. At minimum, tests MUST demonstrate that:
