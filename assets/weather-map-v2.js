@@ -243,7 +243,9 @@ async function fetchApiBatch(provider, points, field, signal) {
     try { lastDetail = (await response.text()).slice(0, 180); } catch (_) { lastDetail = ''; }
     const retryable = response.status === 429 || response.status >= 500;
     if (!retryable || attempt === API_BATCH_RETRIES - 1) {
-      throw new Error('HTTP ' + response.status + (lastDetail ? ' · ' + lastDetail : ''));
+      const error = new Error('HTTP ' + response.status + (lastDetail ? ' · ' + lastDetail : ''));
+      error.status = response.status;
+      throw error;
     }
     await abortableDelay(600 * (attempt + 1), signal);
   }
@@ -275,7 +277,9 @@ function applyDataset(item, cacheStatus) {
     ? (providerLabel(item.provider,item.field)+' native tiles · '+item.tileCount+' tiles'+(item.failedTiles?' · '+item.failedTiles+' missing':''))
     : (providerLabel(item.provider, item.field) + ' · ' + providerDetail(item.provider, item.field) + ' · rate-safe point fallback');
   $('time').textContent = 'valid time: ' + (item.validTime || '—');
-  $('status').textContent = item.coverageComplete === false ? '資料不完整 · ' + item.samples.length + ' samples · 部分區域缺少原生資料' : '資料已就緒 · ' + item.samples.length + ' samples';
+  $('status').textContent = item.coverageComplete === false
+    ? ('資料不完整 · ' + item.samples.length + ' samples · ' + (item.fallbackLimited ? '外部 API 限流，已保留成功載入部分' : '部分區域缺少原生資料'))
+    : ('資料已就緒 · ' + item.samples.length + ' samples');
   draw();
 }
 
@@ -330,13 +334,23 @@ async function fetchCoverage(provider, coverage, currentView) {
   const batches = chunkPoints(grid.points, API_BATCH_SIZE);
   $('status').textContent = '補抓 ' + providerLabel(provider, field) + ' · ' + grid.points.length + ' samples / ' + batches.length + ' batches…';
   const samples = [];
+  let fallbackError = null;
   for (let i = 0; i < batches.length; i += API_BATCH_CONCURRENCY) {
     const wave = batches.slice(i, i + API_BATCH_CONCURRENCY);
-    const rows = await Promise.all(
-      wave.map((points) => fetchApiBatch(provider, points, field, state.aborter.signal))
-    );
-    if (serial !== state.requestSerial) return;
-    samples.push(...rows.flat());
+    try {
+      const rows = await Promise.all(
+        wave.map((points) => fetchApiBatch(provider, points, field, state.aborter.signal))
+      );
+      if (serial !== state.requestSerial) return;
+      samples.push(...rows.flat());
+    } catch (error) {
+      if (error?.name === 'AbortError') throw error;
+      if (error?.status === 429 && samples.length) {
+        fallbackError = error;
+        break;
+      }
+      throw error;
+    }
     if (i + API_BATCH_CONCURRENCY < batches.length) {
       await abortableDelay(API_WAVE_DELAY_MS, state.aborter.signal);
     }
@@ -350,6 +364,8 @@ async function fetchCoverage(provider, coverage, currentView) {
     dy: grid.dy,
     validTime: samples.find((sample) => sample.time)?.time || null,
     fetchedAt: Date.now(),
+    coverageComplete: !fallbackError,
+    fallbackLimited: !!fallbackError,
   };
   cachePut(bboxKey(provider, field, coverage), item);
   applyDataset(item, contains(coverage, currentView) ? 'network-fill' : 'prefetch');
