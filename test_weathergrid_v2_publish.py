@@ -51,6 +51,9 @@ class WorkflowContractTest(unittest.TestCase):
         )
         self.assertIn('default: "12"', workflow)
         self.assertIn("inputs.forecast_hours || '12'", workflow)
+        self.assertIn('git commit -m "Auto-update WeatherGrid V2 JMA native tiles"', workflow)
+        self.assertNotIn("WeatherGrid V2 JMA native tiles [skip ci]", workflow)
+        self.assertNotIn('"weathergrid/v2/**"', workflow.split("on:", 1)[1].split("permissions:", 1)[0])
 
 
 class PublishTest(unittest.TestCase):
