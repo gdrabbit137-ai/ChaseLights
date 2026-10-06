@@ -111,15 +111,15 @@ I18N_MESSAGES = {
     "RAIN_RISK": {"zh-TW": "🌧️ 降雨風險高", "en": "🌧️ High Rain Risk", "ja": "🌧️ 高い降雨リスク"},
     "STABLE_WEATHER": {"zh-TW": "⛅ 氣象平穩", "en": "⛅ Stable Weather", "ja": "⛅ 安定した気象"},
     "WEATHER_DATA_LIMITED": {"zh-TW": "⚠️ 必要氣象資料不足，暫不判定", "en": "⚠️ Required Weather Data Missing; No Verdict", "ja": "⚠️ 必要な気象データ不足・判定保留"},
-    "OPPORTUNITY_MATCH": {"zh-TW": "✅ 此拍攝題材的關鍵條件目前符合", "en": "✅ Key conditions for this opportunity currently match", "ja": "✅ この撮影機会の主要条件が一致"},
-    "OPPORTUNITY_CONDITION_MISS": {"zh-TW": "⚠️ 此拍攝題材的專屬條件目前未符合", "en": "⚠️ Opportunity-specific conditions do not currently match", "ja": "⚠️ この撮影機会の固有条件が未達"},
+    "OPPORTUNITY_MATCH": {"zh-TW": "✅ 現在適合拍這個題材", "en": "✅ This subject is worth photographing now", "ja": "✅ 今はこの被写体の撮影に向いています"},
+    "OPPORTUNITY_CONDITION_MISS": {"zh-TW": "⚠️ 現在不建議拍這個題材", "en": "⚠️ This subject is not recommended right now", "ja": "⚠️ 今はこの被写体の撮影をおすすめしません"},
     "OPPORTUNITY_RUNTIME_DATA_MISSING": {"zh-TW": "⚠️ 此拍攝題材缺少必要預報資料", "en": "⚠️ Required opportunity forecast data is missing", "ja": "⚠️ この撮影機会に必要な予報データが不足"},
     "OPPORTUNITY_PARTIAL": {"zh-TW": "ℹ️ 僅能判斷部分條件，分數已限制", "en": "ℹ️ Only part of the conditions can be evaluated; score is capped", "ja": "ℹ️ 条件の一部のみ判定可能なためスコア上限あり"},
     "OPPORTUNITY_PROTOTYPE": {"zh-TW": "ℹ️ 題材已查證，但完整專屬公式仍在驗證", "en": "ℹ️ Opportunity is researched; full dedicated formula is still being validated", "ja": "ℹ️ 撮影機会は調査済みだが専用式は検証中"},
     "OPPORTUNITY_HOLD": {"zh-TW": "⛔ 此拍攝題材目前暫停推薦", "en": "⛔ This opportunity is currently on hold", "ja": "⛔ この撮影機会は現在推奨停止"},
     "OPPORTUNITY_DATA_INSUFFICIENT": {"zh-TW": "⚠️ 此拍攝題材資料不足，暫不高分推薦", "en": "⚠️ Insufficient data for a high-confidence recommendation", "ja": "⚠️ 高信頼の推奨に必要なデータ不足"},
     "NO_VIABLE_OPPORTUNITY": {"zh-TW": "🕒 今天剩餘時段沒有合適的已研究拍攝機會", "en": "🕒 No researched shooting opportunity remains viable today", "ja": "🕒 本日の残り時間に適した調査済み撮影機会はありません"},
-    "OPPORTUNITY_SIMPLE_MATCH": {"zh-TW": "✅ 天氣條件適合拍攝此題材", "en": "✅ Weather conditions are suitable for this subject", "ja": "✅ この被写体の撮影に適した天候条件です"},
+    "OPPORTUNITY_SIMPLE_MATCH": {"zh-TW": "✅ 現在適合拍這個題材", "en": "✅ This subject is worth photographing now", "ja": "✅ 今はこの被写体の撮影に向いています"},
     "OPPORTUNITY_MIST_CANDIDATE": {"zh-TW": "🌫️ 晨霧候選條件出現，但斷崖可見度或霧區位置仍有不確定性", "en": "🌫️ Morning-mist candidate conditions are present, but cliff readability or mist location remains uncertain", "ja": "🌫️ 朝霧候補の条件がありますが、断崖の見え方または霧の位置には不確実性があります"},
     "OPPORTUNITY_MIST_SUPPORTED": {"zh-TW": "🌫️ 晨霧候選有多項氣象訊號佐證，拍攝點視野仍可用", "en": "🌫️ Multiple weather signals support a morning-mist candidate while the camera view remains usable", "ja": "🌫️ 複数の気象シグナルが朝霧候補を支持し、撮影地点の視界も利用可能です"},
     "OPPORTUNITY_DIRECTIONAL_MIST_CANDIDATE": {"zh-TW": "🌫️ 多點預報支持斷崖方向晨霧候選，拍攝點視野仍可用", "en": "🌫️ Multi-point forecasts support a morning-mist candidate toward the cliff sector while the camera view remains usable", "ja": "🌫️ 複数地点の予報が断崖方向の朝霧候補を支持し、撮影地点の視界も利用可能です"},
@@ -127,8 +127,8 @@ I18N_MESSAGES = {
     "OPPORTUNITY_OROGRAPHIC_CLOUD_PROXY": {"zh-TW": "☁️ 地形雲低信心候選；格點未直接解析雲帶，需現場確認", "en": "☁️ Low-confidence orographic-cloud candidate; the grid does not directly resolve the cloud band", "ja": "☁️ 地形性雲の低信頼候補。格子では雲帯を直接解像できていないため現地確認が必要です"},
     "OPPORTUNITY_DIRECTIONAL_MOUNTAIN_MATCH": {"zh-TW": "🏔️ 北方山海視野條件良好；實際山稜遮雲仍需現場確認", "en": "🏔️ Northward mountain-seascape visibility looks good; actual ridge cloud cover still needs field confirmation", "ja": "🏔️ 北側の山海景観の視程条件は良好。実際の稜線の雲被りは現地確認が必要です"},
     "OPPORTUNITY_SPATIAL_CLOUD_SEA_CANDIDATE": {"zh-TW": "☁️ 多點低地預報支持雲海候選；實際雲海範圍仍需現場確認", "en": "☁️ Multi-point lower-terrain forecasts support a cloud-sea candidate; the actual cloud-sea extent still needs field confirmation", "ja": "☁️ 複数の低地予報が雲海候補を支持していますが、実際の雲海範囲は現地確認が必要です"},
-    "OPPORTUNITY_OUTSIDE_TIME_WINDOW": {"zh-TW": "🕒 天氣條件可用，但目前不在此題材的建議拍攝時段", "en": "🕒 Weather conditions are usable, but this is outside the recommended shooting time for this opportunity", "ja": "🕒 天候条件は利用可能ですが、この撮影機会の推奨時間帯ではありません"},
-    "OPPORTUNITY_SIMPLE_MISS": {"zh-TW": "⚠️ 能見度、低雲或降雨條件目前不理想", "en": "⚠️ Visibility, low cloud, or precipitation is currently unfavorable", "ja": "⚠️ 視程・低雲・降水条件が現在不利"},
+    "OPPORTUNITY_OUTSIDE_TIME_WINDOW": {"zh-TW": "🕒 現在不是拍這個題材的好時段", "en": "🕒 This is not a good time to photograph this subject", "ja": "🕒 今はこの被写体を撮るのに良い時間帯ではありません"},
+    "OPPORTUNITY_SIMPLE_MISS": {"zh-TW": "⚠️ 現在不建議拍這個題材", "en": "⚠️ This subject is not recommended right now", "ja": "⚠️ 今はこの被写体の撮影をおすすめしません"},
 
     # 關鍵指標 (Indicator)
     "IND_PEAKS": {"zh-TW": "💎 雲量、降雨與能見度符合高分門檻", "en": "💎 Cloud, Rain and Visibility Meet the High-Score Threshold", "ja": "💎 雲量・降水・視程が高スコア基準を満たす"},
@@ -1258,6 +1258,67 @@ def _build_opportunity_runtime_diagnostics(spot, item_data):
     return diagnostics
 
 
+RECOMMENDATION_GOOD_SCORE = 80
+RECOMMENDATION_MIN_SCORE = 65
+
+_RECOMMENDATION_POSITIVE_STATUS_KEYS = frozenset({
+    "OPPORTUNITY_SIMPLE_MATCH",
+    "OPPORTUNITY_MATCH",
+    "OPPORTUNITY_DIRECTIONAL_MOUNTAIN_MATCH",
+})
+_RECOMMENDATION_CANDIDATE_STATUS_KEYS = frozenset({
+    "OPPORTUNITY_MIST_CANDIDATE",
+    "OPPORTUNITY_MIST_SUPPORTED",
+    "OPPORTUNITY_DIRECTIONAL_MIST_CANDIDATE",
+    "OPPORTUNITY_DIRECTIONAL_CLOUD_MATCH",
+    "OPPORTUNITY_OROGRAPHIC_CLOUD_PROXY",
+    "OPPORTUNITY_SPATIAL_CLOUD_SEA_CANDIDATE",
+})
+_RECOMMENDATION_UNAVAILABLE_STATUS_KEYS = frozenset({
+    "OPPORTUNITY_HOLD",
+    "OPPORTUNITY_DATA_INSUFFICIENT",
+    "OPPORTUNITY_RUNTIME_DATA_MISSING",
+    "OPPORTUNITY_PARTIAL",
+    "OPPORTUNITY_PROTOTYPE",
+})
+
+
+def _recommendation_state(status_key, score, temporal_eligible, runtime_eligible, score_confidence):
+    """Return the overall photographer-facing recommendation state.
+
+    status_key may describe a matched prerequisite/module.  It is not, by
+    itself, permission to publish an actionable recommendation.  The score
+    bands here are the runtime-owned interpretation used by the production UI:
+    80+ supports a recommendation, 65-79 supports only a candidate, and a
+    lower/adverse evaluation is not recommendation-eligible.
+    """
+    if temporal_eligible is False or status_key == "OPPORTUNITY_OUTSIDE_TIME_WINDOW":
+        return "outside_time", False
+
+    if status_key in _RECOMMENDATION_UNAVAILABLE_STATUS_KEYS:
+        return "unavailable", False
+
+    if runtime_eligible is False or status_key in {
+        "OPPORTUNITY_SIMPLE_MISS",
+        "OPPORTUNITY_CONDITION_MISS",
+    }:
+        return "not_recommended", False
+
+    if status_key in _RECOMMENDATION_CANDIDATE_STATUS_KEYS:
+        if score < RECOMMENDATION_MIN_SCORE:
+            return "not_recommended", False
+        return "candidate", True
+
+    if status_key in _RECOMMENDATION_POSITIVE_STATUS_KEYS:
+        if score < RECOMMENDATION_MIN_SCORE:
+            return "not_recommended", False
+        if score < RECOMMENDATION_GOOD_SCORE or score_confidence == "low":
+            return "candidate", True
+        return "recommended", True
+
+    return "unavailable", False
+
+
 def _score_opportunity(opportunity, theme_metric, runtime_diagnostic, lang="zh-TW"):
     """Score one researched Photography Opportunity.
 
@@ -1534,6 +1595,13 @@ def _score_opportunity(opportunity, theme_metric, runtime_diagnostic, lang="zh-T
         condition_state = "unclassified"
 
     score = max(0, min(100, int(round(score))))
+    recommendation_state, recommendation_eligible = _recommendation_state(
+        status_key,
+        score,
+        temporal_eligible,
+        (runtime_diagnostic or {}).get("eligible"),
+        score_confidence,
+    )
     return {
         "opportunity_id": opportunity.get("opportunity_id"),
         "opportunity_name": opportunity.get("name_zh"),
@@ -1548,6 +1616,8 @@ def _score_opportunity(opportunity, theme_metric, runtime_diagnostic, lang="zh-T
         "runtime_policy": policy,
         "condition_state": condition_state,
         "score_confidence": score_confidence,
+        "recommendation_state": recommendation_state,
+        "recommendation_eligible": recommendation_eligible,
         "formula_confidence": opportunity.get("formula_confidence"),
         "temporal_eligible": (theme_metric or {}).get("temporal_eligible"),
         "temporal_reason": (theme_metric or {}).get("temporal_reason"),
