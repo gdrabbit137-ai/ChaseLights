@@ -309,26 +309,43 @@
       'OPPORTUNITY_OROGRAPHIC_CLOUD_PROXY',
       'OPPORTUNITY_SPATIAL_CLOUD_SEA_CANDIDATE'
     ]);
+    const OPPORTUNITY_POSITIVE_STATUS_KEYS=new Set([
+      'OPPORTUNITY_SIMPLE_MATCH',
+      'OPPORTUNITY_MATCH',
+      'OPPORTUNITY_DIRECTIONAL_MOUNTAIN_MATCH'
+    ]);
+    const OPPORTUNITY_NEGATIVE_STATUS_KEYS=new Set([
+      'OPPORTUNITY_SIMPLE_MISS',
+      'OPPORTUNITY_CONDITION_MISS'
+    ]);
+    function recommendationState(metric){
+      if(!metric)return'unavailable';
+      if(metric.recommendation_state)return metric.recommendation_state;
+      // Compatibility fail-safe for older payloads. New payloads use the
+      // runtime-owned recommendation_state; these bands only prevent stale
+      // contradictory data from becoming a positive recommendation.
+      const statusKey=metric.status_key||'';
+      const score=Number(metric.score);
+      if(metric.temporal_eligible===false||statusKey==='OPPORTUNITY_OUTSIDE_TIME_WINDOW')return'outside_time';
+      if(metric.runtime_eligible===false||OPPORTUNITY_NEGATIVE_STATUS_KEYS.has(statusKey))return'not_recommended';
+      if(OPPORTUNITY_CANDIDATE_STATUS_KEYS.has(statusKey))return Number.isFinite(score)&&score>=65?'candidate':'not_recommended';
+      if(OPPORTUNITY_POSITIVE_STATUS_KEYS.has(statusKey)){
+        if(!Number.isFinite(score)||score<65)return'not_recommended';
+        if(score<80||metric.score_confidence==='low')return'candidate';
+        return'recommended';
+      }
+      return'unavailable';
+    }
     function opportunityVerdict(metric,subject){
       if(!metric)return {primary:'',detail:''};
-      const statusKey=metric.status_key||'';
-      const raw=trMessage(statusKey);
+      const state=recommendationState(metric);
       const label=String(subject||themeLabel(metric.theme||'mountain_view')||'').trim();
       const fill=template=>String(template||'').replace('{subject}',label);
-      if(statusKey==='OPPORTUNITY_SIMPLE_MATCH'){
-        if(metric.score_confidence==='low')return {primary:fill(d().verdict_chance),detail:raw};
-        return {primary:fill(d().verdict_suitable),detail:''};
-      }
-      if(OPPORTUNITY_CANDIDATE_STATUS_KEYS.has(statusKey)){
-        return {primary:fill(d().verdict_chance),detail:raw};
-      }
-      if(statusKey==='OPPORTUNITY_SIMPLE_MISS'){
-        return {primary:fill(d().verdict_unfavorable),detail:raw};
-      }
-      if(statusKey==='OPPORTUNITY_OUTSIDE_TIME_WINDOW'){
-        return {primary:fill(d().verdict_outside),detail:raw};
-      }
-      return {primary:raw,detail:''};
+      if(state==='recommended')return {primary:fill(d().verdict_suitable),detail:''};
+      if(state==='candidate')return {primary:fill(d().verdict_chance),detail:''};
+      if(state==='not_recommended')return {primary:fill(d().verdict_unfavorable),detail:''};
+      if(state==='outside_time')return {primary:fill(d().verdict_outside),detail:''};
+      return {primary:trMessage(metric.status_key||''),detail:''};
     }
 
     function updateDiscoveryText(){
