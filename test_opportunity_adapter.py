@@ -5210,3 +5210,82 @@ def test_takachiho_waterfall_evidence_is_documented():
         assert rows[opportunity_id]["audit_status"] == "documented"
         assert rows[opportunity_id]["evidence_grade"] == "A"
         assert rows[opportunity_id]["machine_verifiable_evidence"] is True
+
+def test_selected_date_semantic_consistency_blocks_low_positive_match():
+    opportunity = {
+        "opportunity_id": "test-semantic-P01",
+        "name_zh": "遠景夕照測試",
+        "legacy_theme": "sunset",
+        "runtime_policy": "preview_module_available",
+        "formula_confidence": 90,
+    }
+    metric = {
+        "score": 10,
+        "factors": [{"type": "minus", "key": "vis_low", "value": 2.5}],
+        "status_key": "COAST_NORMAL",
+        "indicator_key": "IND_COAST_NORM",
+        "temporal_eligible": True,
+    }
+    diagnostic = {
+        "available": True,
+        "eligible": True,
+        "modules": {
+            "directional_horizon": {
+                "available": True,
+                "eligible": True,
+                "reason": "sector_match",
+            },
+        },
+    }
+
+    scored = fetch_data._score_opportunity(opportunity, metric, diagnostic)
+    assert scored["status_key"] == "OPPORTUNITY_MATCH"
+    assert scored["score"] == 10
+    assert scored["recommendation_state"] == "not_recommended"
+    assert scored["recommendation_eligible"] is False
+
+
+def test_dingshizhuo_sunset_requires_visibility_not_only_sunset_geometry():
+    opportunity = next(
+        op for op in get_opportunities("tw", "tw-023")
+        if op["opportunity_id"] == "tw-023-P01"
+    )
+    assert dependencies_for_opportunity(opportunity) == (
+        "directional_horizon",
+        "visibility",
+    )
+
+    diagnostic = evaluate_opportunity_modules(
+        opportunity,
+        {
+            "astronomy_valid": True,
+            "sun_azimuth": 270.0,
+            "sun_elevation": 0.0,
+            "hour": 17,
+            "visibility": 2.5,
+        },
+    )
+    assert diagnostic["modules"]["directional_horizon"]["eligible"] is True
+    assert diagnostic["modules"]["visibility"]["eligible"] is False
+    assert diagnostic["eligible"] is False
+
+    scored = fetch_data._score_opportunity(
+        opportunity,
+        {
+            "score": 10,
+            "factors": [{"type": "minus", "key": "vis_low", "value": 2.5}],
+            "status_key": "COAST_NORMAL",
+            "indicator_key": "IND_COAST_NORM",
+            "temporal_eligible": True,
+        },
+        diagnostic,
+    )
+    assert scored["status_key"] == "OPPORTUNITY_CONDITION_MISS"
+    assert scored["recommendation_state"] == "not_recommended"
+    assert scored["recommendation_eligible"] is False
+
+
+def test_daily_winner_gate_uses_runtime_recommendation_eligibility():
+    source = (Path(__file__).resolve().parent / "analyze_weather.py").read_text(encoding="utf-8")
+    assert 'get("recommendation_eligible") is not False' in source
+
