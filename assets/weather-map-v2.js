@@ -36,6 +36,11 @@ function providerDetail(provider, field) {
   if (provider === 'gfs' && isCloudField(field)) return 'Open-Meteo models=gfs_global';
   return API[provider].detail;
 }
+function nativeProviderLabel(provider, field) {
+  if (provider === 'jma') return 'JMA MSM';
+  if (provider === 'gfs') return isCloudField(field) ? 'NCEP GFS Global' : 'NCEP GFS';
+  return providerLabel(provider, field);
+}
 
 const PROVIDER_FIELDS = {
   jma: ['cloud_cover_low', 'cloud_cover_mid', 'cloud_cover_high', 'precipitation', 'wind_speed_10m'],
@@ -289,7 +294,7 @@ function applyDataset(item, cacheStatus) {
   $('coverage').textContent = (item.coverageComplete === false ? 'requested coverage: ' : 'loaded coverage: ') + fmt(item.coverage);
   $('cache').textContent = 'request cache: ' + state.cache.size + ' · ' + cacheStatus;
   $('source').textContent = item.nativeTile
-    ? (providerLabel(item.provider,item.field)+' native tiles · '+item.tileCount+' tiles'+(item.failedTiles?' · '+item.failedTiles+' missing':''))
+    ? (nativeProviderLabel(item.provider,item.field)+' native tiles · '+item.tileCount+' tiles'+(item.failedTiles?' · '+item.failedTiles+' missing':''))
     : (providerLabel(item.provider, item.field) + ' · ' + providerDetail(item.provider, item.field) + ' · rate-safe point fallback');
   $('time').textContent = 'valid time: ' + (item.validTime || '—');
   $('status').textContent = item.coverageComplete === false
