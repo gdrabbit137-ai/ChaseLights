@@ -13,6 +13,10 @@ const API = {
     label: 'NCEP Best Match · GFS/HRRR',
     detail: 'NCEP endpoint; 全球 fallback',
   },
+  cwa: {
+    label: 'CWA WRF 3 km · 衍生診斷',
+    detail: 'CWA 已發布 V2 tiles；RH/LCL 衍生場為實驗診斷，不是原生雲量或校準機率',
+  },
 };
 
 const MSM_DOMAIN = { w: 120.0, s: 22.4, e: 150.0, n: 47.6 };
@@ -24,27 +28,53 @@ const FIELDS = {
   visibility: { label: '能見度', unit: 'km' },
   precipitation: { label: '降水', unit: 'mm' },
   wind_speed_10m: { label: '10m 風速', unit: 'm/s' },
+  cwa_cloud_potential_low: { label: 'CWA 低層雲潛勢（RH 衍生）', unit: '%' },
+  cwa_cloud_potential_mid: { label: 'CWA 中層雲潛勢（RH 衍生）', unit: '%' },
+  cwa_cloud_potential_high: { label: 'CWA 高層雲潛勢（RH 衍生）', unit: '%' },
+  cwa_lcl_height: { label: 'CWA 雲底 LCL 估算', unit: 'm AGL' },
+  cwa_fog_potential: { label: 'CWA 近地霧潛勢（實驗）', unit: '%' },
+  cwa_rh_1000: { label: 'CWA 1000 hPa 相對濕度', unit: '%' },
+  cwa_rh_925: { label: 'CWA 925 hPa 相對濕度', unit: '%' },
+  cwa_rh_850: { label: 'CWA 850 hPa 相對濕度', unit: '%' },
+  cwa_rh_700: { label: 'CWA 700 hPa 相對濕度', unit: '%' },
+  cwa_rh_500: { label: 'CWA 500 hPa 相對濕度', unit: '%' },
+  cwa_rh_400: { label: 'CWA 400 hPa 相對濕度', unit: '%' },
+  cwa_rh_300: { label: 'CWA 300 hPa 相對濕度', unit: '%' },
 };
 function isCloudField(field) {
   return field === 'cloud_cover' || field.startsWith('cloud_cover_');
 }
+function isCwaField(field) {
+  return field.startsWith('cwa_');
+}
+function isCwaPercentField(field) {
+  return isCwaField(field) && field !== 'cwa_lcl_height';
+}
 function providerLabel(provider, field) {
   if (provider === 'gfs' && isCloudField(field)) return 'NCEP GFS Global';
+  if (provider === 'cwa') return 'CWA WRF 3 km · 衍生診斷';
   return API[provider].label;
 }
 function providerDetail(provider, field) {
   if (provider === 'gfs' && isCloudField(field)) return 'Open-Meteo models=gfs_global';
+  if (provider === 'cwa') return API.cwa.detail;
   return API[provider].detail;
 }
 function nativeProviderLabel(provider, field) {
   if (provider === 'jma') return 'JMA MSM';
   if (provider === 'gfs') return isCloudField(field) ? 'NCEP GFS Global' : 'NCEP GFS';
+  if (provider === 'cwa') return 'CWA WRF 3 km · RH-derived experimental';
   return providerLabel(provider, field);
 }
 
 const PROVIDER_FIELDS = {
   jma: ['cloud_cover_low', 'cloud_cover_mid', 'cloud_cover_high', 'precipitation', 'wind_speed_10m'],
-  gfs: Object.keys(FIELDS),
+  gfs: ['cloud_cover', 'cloud_cover_low', 'cloud_cover_mid', 'cloud_cover_high', 'visibility', 'precipitation', 'wind_speed_10m'],
+  cwa: [
+    'cwa_cloud_potential_low', 'cwa_cloud_potential_mid', 'cwa_cloud_potential_high',
+    'cwa_lcl_height', 'cwa_fog_potential',
+    'cwa_rh_1000', 'cwa_rh_925', 'cwa_rh_850', 'cwa_rh_700', 'cwa_rh_500', 'cwa_rh_400', 'cwa_rh_300',
+  ],
 };
 const FALLBACK_SOURCE_STEP = {
   jma: { lon: 0.0625, lat: 0.05 },
@@ -127,19 +157,23 @@ function bboxKey(provider, field, b) {
 }
 function autoProvider(b) {
   const field = $('layer').value;
-  // Global-cloud P0: use one globally consistent GFS baseline for all cloud layers.
-  if (isCloudField(field)) return 'gfs';
   const region = regionForView(b);
+  if (isCwaField(field)) return region === 'tw' ? 'cwa' : null;
+  // Global-cloud P0: use one globally consistent GFS baseline for native cloud layers.
+  if (isCloudField(field)) return 'gfs';
   return (region === 'tw' || region === 'jp') ? 'jma' : 'gfs';
 }
 function selectedProvider(b) {
   const selected = $('provider').value;
   const field = $('layer').value;
+  const region = regionForView(b);
   if (selected === 'auto') {
     if (field === 'visibility') return 'gfs';
     return autoProvider(b);
   }
-  if (selected === 'jma' && (!['tw', 'jp'].includes(regionForView(b)) || field === 'visibility')) return null;
+  if (isCwaField(field)) return selected === 'cwa' && region === 'tw' ? 'cwa' : null;
+  if (selected === 'cwa') return null;
+  if (selected === 'jma' && (!['tw', 'jp'].includes(region) || field === 'visibility')) return null;
   return selected;
 }
 function cacheFind(provider, field, v) {
@@ -176,6 +210,14 @@ function colorFor(field, value) {
   if (isCloudField(field)) {
     const a = 0.12 + clamp(v / 100, 0, 1) * 0.7;
     return 'rgba(220,235,255,' + a.toFixed(3) + ')';
+  }
+  if (field === 'cwa_lcl_height') {
+    const a = 0.12 + (1 - clamp(v / 2500, 0, 1)) * 0.72;
+    return 'rgba(225,220,195,' + a.toFixed(3) + ')';
+  }
+  if (isCwaPercentField(field)) {
+    const a = 0.12 + clamp(v / 100, 0, 1) * 0.72;
+    return 'rgba(205,225,235,' + a.toFixed(3) + ')';
   }
   if (field === 'visibility') {
     const t = clamp(v / 40, 0, 1);
@@ -293,8 +335,12 @@ function applyDataset(item, cacheStatus) {
   state.validTime = item.validTime;
   $('coverage').textContent = (item.coverageComplete === false ? 'requested coverage: ' : 'loaded coverage: ') + fmt(item.coverage);
   $('cache').textContent = 'request cache: ' + state.cache.size + ' · ' + cacheStatus;
-  $('source').textContent = item.nativeTile
-    ? (nativeProviderLabel(item.provider,item.field)+' native tiles · '+item.tileCount+' tiles'+(item.failedTiles?' · '+item.failedTiles+' missing':''))
+  $('source').textContent = (item.publishedTile || item.nativeTile)
+    ? (
+        item.provider === 'cwa'
+          ? (nativeProviderLabel(item.provider,item.field)+' tiles · '+item.tileCount+' tiles'+(item.failedTiles?' · '+item.failedTiles+' missing':''))
+          : (nativeProviderLabel(item.provider,item.field)+' native tiles · '+item.tileCount+' tiles'+(item.failedTiles?' · '+item.failedTiles+' missing':''))
+      )
     : (providerLabel(item.provider, item.field) + ' · ' + providerDetail(item.provider, item.field) + ' · rate-safe point fallback');
   $('time').textContent = 'valid time: ' + (item.validTime || '—');
   $('status').textContent = item.coverageComplete === false
@@ -328,7 +374,8 @@ async function tryNativeProvider(provider,coverage,currentView){
   const step=FALLBACK_SOURCE_STEP[provider] || {};
   const item={provider,field,coverage:result.coverage || coverage,samples:result.samples,
     dx:Number(step.lon)||0.25,dy:Number(step.lat)||0.25,
-    validTime:result.loaded[0].tile.valid_time_utc,fetchedAt:Date.now(),nativeTile:true,
+    validTime:result.loaded[0].tile.valid_time_utc,fetchedAt:Date.now(),
+    publishedTile:true,nativeTile:provider !== 'cwa',
     tileCount:result.loaded.length,failedTiles:result.failed.length,coverageComplete:true};
   cachePut(bboxKey(provider,field,coverage),item);
   applyDataset(item,'native-tile');
@@ -337,6 +384,9 @@ async function tryNativeProvider(provider,coverage,currentView){
 
 async function fetchCoverage(provider, coverage, currentView) {
   if (await tryNativeProvider(provider,coverage,currentView)) return;
+  if (provider === 'cwa') {
+    throw new Error('CWA 衍生圖層目前只使用已發布的 V2 tiles；目前視窗或時效沒有完整 CWA tile coverage');
+  }
   const serial = ++state.requestSerial;
   if (state.aborter) state.aborter.abort();
   state.aborter = new AbortController();
@@ -408,7 +458,11 @@ async function updateForViewport(force = false) {
     state.samples = [];
     state.coverage = null;
     draw();
-    if ($('provider').value === 'jma' && $('layer').value === 'visibility') {
+    if (isCwaField($('layer').value)) {
+      $('status').textContent = 'CWA 衍生圖層目前僅提供台灣 V2 已發布 tiles；請移回台灣或改選其他圖層';
+    } else if ($('provider').value === 'cwa') {
+      $('status').textContent = 'CWA 模式只用於 CWA 衍生／壓力層 RH 圖層；請選擇 CWA 圖層或切回 Auto';
+    } else if ($('provider').value === 'jma' && $('layer').value === 'visibility') {
       $('status').textContent = 'JMA endpoint 未提供此 prototype 的 visibility 欄位；請切回 Auto 或 GFS';
     } else {
       $('status').textContent = 'JMA MSM prototype 僅限約 120–150°E / 22.4–47.6°N；請切回 Auto 或 GFS';

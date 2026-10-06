@@ -83,6 +83,9 @@ class WeatherGridV2ExperimentTest(unittest.TestCase):
         self.assertIn('value="auto"', html)
         self.assertIn('value="jma"', html)
         self.assertIn('value="gfs"', html)
+        self.assertIn('value="cwa"', html)
+        self.assertIn("isCwaField(field)", js)
+        self.assertIn("return region === 'tw' ? 'cwa' : null", js)
 
     def test_smoke_hook_is_query_gated_and_uses_real_region_resolver(self):
         js = (ROOT / "assets/weather-map-v2.js").read_text(encoding="utf-8")
@@ -119,7 +122,10 @@ class WeatherGridV2ExperimentTest(unittest.TestCase):
         workflow = (ROOT / ".github/workflows/weathergrid_v2_experiment.yml").read_text(
             encoding="utf-8"
         )
-        self.assertIn('workflows: ["Update WeatherGrid V2 JMA Native Tiles"]', workflow)
+        self.assertIn(
+            'workflows: ["Update WeatherGrid V2 JMA Native Tiles", "Update WeatherGrid V2 CWA Derived Tiles"]',
+            workflow,
+        )
         self.assertIn("types: [completed]", workflow)
         self.assertIn(
             "github.event_name != 'workflow_run' || "
@@ -146,6 +152,10 @@ class WeatherGridV2ExperimentTest(unittest.TestCase):
         self.assertIn('[data-preset="jp"]', smoke)
         self.assertIn("10.0, 50.0, 5.0", smoke)
         self.assertIn('Select(d.find_element(By.ID,"provider")).select_by_value("jma")', smoke)
+        self.assertIn('Select(d.find_element(By.ID,"provider")).select_by_value("cwa")', smoke)
+        self.assertIn('select_by_value("cwa_cloud_potential_low")', smoke)
+        self.assertIn("cwa_available=bool(d.execute_async_script", smoke)
+        self.assertIn("CWA WRF 3 km · RH-derived experimental tiles", smoke)
         self.assertIn("179.0, 10.0, 6.0", smoke)
         self.assertIn("assert cw > ce", smoke)
         self.assertIn("assert lon_span(cw,ce) < 90", smoke)
@@ -185,8 +195,30 @@ class WeatherGridV2ExperimentTest(unittest.TestCase):
             "visibility",
             "precipitation",
             "wind_speed_10m",
+            "cwa_cloud_potential_low",
+            "cwa_cloud_potential_mid",
+            "cwa_cloud_potential_high",
+            "cwa_lcl_height",
+            "cwa_fog_potential",
+            "cwa_rh_1000",
+            "cwa_rh_925",
+            "cwa_rh_850",
+            "cwa_rh_700",
+            "cwa_rh_500",
+            "cwa_rh_400",
+            "cwa_rh_300",
         ):
             self.assertIn(field, html)
+
+    def test_cwa_derived_tiles_are_published_only_and_not_native_cloud_cover(self):
+        html = (ROOT / "weather-map-v2.html").read_text(encoding="utf-8")
+        js = (ROOT / "assets/weather-map-v2.js").read_text(encoding="utf-8")
+        loader = (ROOT / "assets/weather-map-v2-tile-loader.js").read_text(encoding="utf-8")
+        self.assertIn("CWA WRF 3 km · 衍生診斷", html)
+        self.assertIn("不是 CWA 原生雲量", html)
+        self.assertIn("provider === 'cwa'", js)
+        self.assertIn("CWA 衍生圖層目前只使用已發布的 V2 tiles", js)
+        self.assertIn("!tile.native_grid && !tile.regular_grid", loader)
 
 
 if __name__ == "__main__":

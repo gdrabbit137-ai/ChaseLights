@@ -56,7 +56,9 @@ export function nearestValidTime(index, provider, target = new Date()) {
 }
 
 export function tileToSamples(tile) {
-  if (tile.schema_version !== 1 || !tile.native_grid) throw new Error('unsupported native tile');
+  if (tile.schema_version !== 1 || (!tile.native_grid && !tile.regular_grid)) {
+    throw new Error('unsupported published grid tile');
+  }
   const { rows, cols, latitudes, longitudes } = tile.grid;
   const expected = rows * cols;
   const fields = Object.entries(tile.values);

@@ -62,8 +62,11 @@ on:
       - "test_weathergrid_icon_browser_contract.py"
       - "B150_ICON_GLOBAL_CLOUD_PRIMARY.md"
       - "cwa_wrf3_poc.py"
+      - "cwa_weathergrid_derived.py"
       - "cwa_weathergrid_browser_bundle.py"
       - "test_cwa_wrf3_poc.py"
+      - "test_cwa_weathergrid_derived.py"
+      - "B173_CWA_DERIVED_PHOTOGRAPHY_FIELDS.md"
       - "test_cwa_weathergrid_browser_bundle.py"
       - "test_cwa_weathergrid_ui.py"
       - "B151_CWA_WRF3_WEATHERGRID.md"
@@ -150,6 +153,7 @@ jobs:
             test_icon_global_cloud_poc.py \
             test_weathergrid_icon_browser_contract.py \
             test_cwa_wrf3_poc.py \
+            test_cwa_weathergrid_derived.py \
             test_cwa_weathergrid_browser_bundle.py \
             test_cwa_weathergrid_ui.py \
             test_weathergrid_cloud_vertical_definitions.py \
@@ -249,6 +253,27 @@ jobs:
           assert "relative_humidity_2m_percent" in bundle["fields"], bundle["fields"]
           assert "wind_speed_10m_m_s" in bundle["fields"], bundle["fields"]
           assert "shortwave_flux_w_m2" in bundle["fields"], bundle["fields"]
+          required_pressure_rh = {
+              "relative_humidity_1000hpa_percent",
+              "relative_humidity_925hpa_percent",
+              "relative_humidity_850hpa_percent",
+              "relative_humidity_700hpa_percent",
+              "relative_humidity_500hpa_percent",
+              "relative_humidity_400hpa_percent",
+              "relative_humidity_300hpa_percent",
+          }
+          required_derived = {
+              "rh_cloud_potential_low_percent",
+              "rh_cloud_potential_mid_percent",
+              "rh_cloud_potential_high_percent",
+              "lcl_height_m_agl",
+              "fog_potential_percent",
+          }
+          assert required_pressure_rh <= set(bundle["fields"]), bundle["fields"]
+          assert required_derived <= set(bundle["fields"]), bundle["fields"]
+          proxy = bundle["provenance"]["cloud_layer_capability"]["rh_derived_proxy"]
+          assert proxy["calibration_status"] == "experimental_unvalidated", proxy
+          assert proxy["native_cloud_fraction"] is False, proxy
           print(json.dumps({
               "cycle": bundle["cycle"],
               "bbox": bundle["bbox"],
