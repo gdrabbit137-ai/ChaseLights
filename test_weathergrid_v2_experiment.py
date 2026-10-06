@@ -114,6 +114,7 @@ class WeatherGridV2ExperimentTest(unittest.TestCase):
         self.assertIn("179.0, 10.0, 6.0", smoke)
         self.assertIn("assert dw > de", smoke)
         self.assertIn("def lon_segments(", smoke)
+        self.assertIn('sample_count(alaska["status"]) >= 600', smoke)
 
     def test_antimeridian_geometry_contract_runs_in_ci(self):
         workflow = (ROOT / ".github/workflows/weathergrid_v2_experiment.yml").read_text(
