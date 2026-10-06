@@ -20,18 +20,26 @@ class WeatherGridV2ExperimentTest(unittest.TestCase):
         for token in (
             "https://api.open-meteo.com/v1/jma",
             "https://api.open-meteo.com/v1/gfs",
-            "weather-map-v2-sampling.js?v=antimeridian-p0",
+            "weather-map-v2-sampling.js?v=rate-safe-p1",
             "bboxFromWestSpan",
             "bboxContains",
             "bboxCenterLon",
             "sampleGrid(coverage, {",
             "chunkPoints(grid.points, API_BATCH_SIZE)",
             "const API_BATCH_SIZE = 100",
-            "const API_BATCH_CONCURRENCY = 2",
+            "const API_BATCH_CONCURRENCY = 1",
             "const API_BATCH_RETRIES = 3",
+            "FALLBACK_RATE_POINT_BUDGET = 500",
+            "function reserveFallbackPoints(",
+            "requested coverage:",
+            "外部 API 限流或請求預算已達上限",
             "function abortableDelay(",
             "response.status === 429 || response.status >= 500",
+            "error.status = response.status",
+            "coverageComplete: !fallbackError",
+            "fallbackLimited: !!fallbackError",
             "function cacheFind(",
+            "if (item.coverageComplete === false) continue",
             "function fetchCoverage(",
             "forecast_hours",
             "elevation: points.map(() => 'nan').join(',')",
@@ -114,7 +122,10 @@ class WeatherGridV2ExperimentTest(unittest.TestCase):
         self.assertIn("179.0, 10.0, 6.0", smoke)
         self.assertIn("assert dw > de", smoke)
         self.assertIn("def lon_segments(", smoke)
-        self.assertIn('sample_count(alaska["status"]) >= 600', smoke)
+        self.assertIn('rate-safe point fallback', smoke)
+        self.assertIn('coverage_present(', smoke)
+        self.assertIn('外部 API 限流或請求預算已達上限', smoke)
+        self.assertIn('sample_count(alaska["status"]) >= 200', smoke)
 
     def test_antimeridian_geometry_contract_runs_in_ci(self):
         workflow = (ROOT / ".github/workflows/weathergrid_v2_experiment.yml").read_text(

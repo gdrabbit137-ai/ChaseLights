@@ -129,6 +129,13 @@ if (wide.points.length < 900) process.exit(33);
 if (wide.points.length > 1080) process.exit(34);
 if (!(wide.dx < 1.0 && wide.dy < 1.0)) process.exit(35);
 
+const rateSafe = sampleGrid(
+  {w: 109.8, s: 17.0, e: 132.2, n: 30.2},
+  {width: 1365, height: 800, zoom: 6, minLonStepDeg: 0.25, minLatStepDeg: 0.25, maxPointsOverride: 240},
+);
+if (rateSafe.points.length < 200) process.exit(39);
+if (rateSafe.points.length > 240) process.exit(40);
+
 const tightGfs = sampleGrid(
   {w: 121.0, s: 23.0, e: 121.8, n: 23.8},
   {width: 1365, height: 800, zoom: 10, minLonStepDeg: 0.25, minLatStepDeg: 0.25},
@@ -162,18 +169,23 @@ if (chunks.some((chunk) => chunk.length > 100)) process.exit(38);
         self.assertIn("dedupeSamples", s)
         self.assertIn("toFixed(6)", s)
 
-    def test_v2_page_prefers_native_jma_tiles_safely(self):
+    def test_v2_page_prefers_published_native_tiles_before_point_fallback(self):
         s = Path("assets/weather-map-v2.js").read_text()
-        self.assertIn("tryNativeJma", s)
+        self.assertIn("tryNativeProvider", s)
         self.assertIn("providerSupportsField", s)
         self.assertIn("nearestValidTime", s)
         self.assertIn("regionForView(currentView)", s)
-        self.assertIn("native-tile", s)
-        self.assertIn("JMA MSM native tiles", s)
-        self.assertIn("coverage:result.coverage || coverage", s)
+        self.assertIn("loadViewportTiles(state.v2Index,region,coverage,provider,validTime)", s)
         self.assertIn("if(!result.loaded.length || !result.complete) return false", s)
-        self.assertIn("cachePut(bboxKey('jma',field,coverage),item)", s)
+        self.assertIn("cachePut(bboxKey(provider,field,coverage),item)", s)
         self.assertIn("applyDataset(item,'native-tile')", s)
+        self.assertIn("FALLBACK_MAX_POINTS = { jma: 240, gfs: 240 }", s)
+        self.assertIn("FALLBACK_RATE_POINT_BUDGET = 500", s)
+        self.assertIn("function reserveFallbackPoints(", s)
+        self.assertIn("maxPointsOverride: FALLBACK_MAX_POINTS[provider]", s)
+        self.assertIn("const API_BATCH_CONCURRENCY = 1", s)
+        self.assertIn("rate-safe point fallback", s)
+        self.assertIn("fallbackLimited: !!fallbackError", s)
         self.assertNotIn("native-tile-partial", s)
         self.assertIn("coverageComplete:true", s)
         self.assertIn("資料不完整", s)

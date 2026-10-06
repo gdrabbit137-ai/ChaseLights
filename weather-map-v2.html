@@ -60,11 +60,11 @@
         <div class="note">
           移動或縮放後，V2 會以目前 viewport 外擴的 prefetch ring 重新取樣並快取。
           全球雲圖 P0 的全雲量／低雲／中雲／高雲固定使用 NCEP GFS 全球 baseline；其他欄位才依地理範圍選擇 JMA 或 NCEP endpoint。
-          這是瀏覽器端 API 粗網格 prototype，用來驗證「地圖移到哪、資料補到哪」的互動與成本，不代表模型原生解析度被提高。
+          已發布的 native tiles 會優先使用；尚未發布的區域才使用受限流保護的瀏覽器點取樣 fallback。fallback 只用來維持可用性，不代表模型原生解析度被提高。
         </div>
       </div>
     </section>
   </main>
-  <script type="module" src="./assets/weather-map-v2.js?v=global-cloud-p2"></script>
+  <script type="module" src="./assets/weather-map-v2.js?v=rate-safe-native-p1"></script>
 </body>
 </html>

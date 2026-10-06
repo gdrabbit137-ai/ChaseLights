@@ -1,6 +1,6 @@
 import * as maplibregl from 'https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-gl.mjs';
 import { loadV2Index, loadViewportTiles, nearestValidTime, providerSupportsField } from './weather-map-v2-tile-loader.js';
-import { bboxCenterLon, bboxContains, bboxFromWestSpan, chunkPoints, expandBBox, longitudeSpan, sampleGrid } from './weather-map-v2-sampling.js?v=antimeridian-p0';
+import { bboxCenterLon, bboxContains, bboxFromWestSpan, chunkPoints, expandBBox, longitudeSpan, sampleGrid } from './weather-map-v2-sampling.js?v=rate-safe-p1';
 
 const API = {
   jma: {
@@ -46,8 +46,15 @@ const FALLBACK_SOURCE_STEP = {
   gfs: { lon: 0.25, lat: 0.25 },
 };
 const API_BATCH_SIZE = 100;
-const API_BATCH_CONCURRENCY = 2;
+const API_BATCH_CONCURRENCY = 1;
 const API_BATCH_RETRIES = 3;
+const API_WAVE_DELAY_MS = 450;
+// Public point APIs are a fail-safe fallback, not the high-resolution map path.
+// Keep their working set small enough to stay inside service rate limits; native
+// published tiles may use the denser adaptive grid without this cap.
+const FALLBACK_MAX_POINTS = { jma: 240, gfs: 240 };
+const FALLBACK_RATE_WINDOW_MS = 60 * 1000;
+const FALLBACK_RATE_POINT_BUDGET = 500;
 const $ = (id) => document.getElementById(id);
 const canvas = $('overlay');
 const ctx = canvas.getContext('2d');
@@ -64,6 +71,7 @@ const state = {
   validTime: null,
   v2Index: null,
   v2IndexTried: false,
+  fallbackUsage: [],
 };
 
 const map = new maplibregl.Map({
@@ -133,6 +141,10 @@ function cacheFind(provider, field, v) {
   const now = Date.now();
   for (const [key, item] of state.cache) {
     if (item.provider !== provider || item.field !== field || now - item.fetchedAt > 15 * 60 * 1000) continue;
+    // Never let a partial/rate-limited response poison viewport cache hits.
+    // An incomplete item may be rendered for the current request, but the next
+    // move/refresh must remain eligible to refill missing coverage.
+    if (item.coverageComplete === false) continue;
     if (contains(item.coverage, v)) {
       state.cache.delete(key);
       state.cache.set(key, item);
@@ -144,6 +156,14 @@ function cacheFind(provider, field, v) {
 function cachePut(key, item) {
   state.cache.set(key, item);
   while (state.cache.size > 12) state.cache.delete(state.cache.keys().next().value);
+}
+function reserveFallbackPoints(count) {
+  const now = Date.now();
+  state.fallbackUsage = state.fallbackUsage.filter((item) => now - item.at < FALLBACK_RATE_WINDOW_MS);
+  const used = state.fallbackUsage.reduce((sum, item) => sum + item.points, 0);
+  if (used + count > FALLBACK_RATE_POINT_BUDGET) return false;
+  state.fallbackUsage.push({ at: now, points: count });
+  return true;
 }
 function colorFor(field, value) {
   if (value == null || Number.isNaN(Number(value))) return 'rgba(0,0,0,0)';
@@ -238,7 +258,9 @@ async function fetchApiBatch(provider, points, field, signal) {
     try { lastDetail = (await response.text()).slice(0, 180); } catch (_) { lastDetail = ''; }
     const retryable = response.status === 429 || response.status >= 500;
     if (!retryable || attempt === API_BATCH_RETRIES - 1) {
-      throw new Error('HTTP ' + response.status + (lastDetail ? ' · ' + lastDetail : ''));
+      const error = new Error('HTTP ' + response.status + (lastDetail ? ' · ' + lastDetail : ''));
+      error.status = response.status;
+      throw error;
     }
     await abortableDelay(600 * (attempt + 1), signal);
   }
@@ -264,11 +286,15 @@ function applyDataset(item, cacheStatus) {
   state.sampleDx = item.dx;
   state.sampleDy = item.dy;
   state.validTime = item.validTime;
-  $('coverage').textContent = 'loaded coverage: ' + fmt(item.coverage);
+  $('coverage').textContent = (item.coverageComplete === false ? 'requested coverage: ' : 'loaded coverage: ') + fmt(item.coverage);
   $('cache').textContent = 'request cache: ' + state.cache.size + ' · ' + cacheStatus;
-  $('source').textContent = item.nativeTile ? ('JMA MSM native tiles · '+item.tileCount+' tiles'+(item.failedTiles?' · '+item.failedTiles+' missing':'')) : (providerLabel(item.provider, item.field) + ' · ' + providerDetail(item.provider, item.field));
+  $('source').textContent = item.nativeTile
+    ? (providerLabel(item.provider,item.field)+' native tiles · '+item.tileCount+' tiles'+(item.failedTiles?' · '+item.failedTiles+' missing':''))
+    : (providerLabel(item.provider, item.field) + ' · ' + providerDetail(item.provider, item.field) + ' · rate-safe point fallback');
   $('time').textContent = 'valid time: ' + (item.validTime || '—');
-  $('status').textContent = item.coverageComplete === false ? '資料不完整 · ' + item.samples.length + ' samples · 部分區域缺少原生資料' : '資料已就緒 · ' + item.samples.length + ' samples';
+  $('status').textContent = item.coverageComplete === false
+    ? ('資料不完整 · ' + item.samples.length + ' samples · ' + (item.fallbackLimited ? '外部 API 限流或請求預算已達上限，未將缺少區域視為完整' : '部分區域缺少原生資料'))
+    : ('資料已就緒 · ' + item.samples.length + ' samples');
   draw();
 }
 
@@ -280,30 +306,32 @@ function regionForView(b){
   if(lon>=-170&&lon<=-129&&lat>=51&&lat<=72) return 'us_alaska';
   return null;
 }
-async function tryNativeJma(coverage,currentView){
+async function tryNativeProvider(provider,coverage,currentView){
   if(!state.v2IndexTried){
     state.v2IndexTried=true;
     try{ state.v2Index=await loadV2Index(); }catch(_){ state.v2Index=null; }
   }
   if(!state.v2Index) return false;
   const field=$('layer').value;
-  if(!providerSupportsField(state.v2Index,'jma',field)) return false;
+  if(!providerSupportsField(state.v2Index,provider,field)) return false;
   const region=regionForView(currentView);
-  if(region!=='tw'&&region!=='jp') return false;
-  const validTime=nearestValidTime(state.v2Index,'jma',state.validTime || new Date());
+  if(!region) return false;
+  const validTime=nearestValidTime(state.v2Index,provider,state.validTime || new Date());
   if(!validTime) return false;
-  const result=await loadViewportTiles(state.v2Index,region,coverage,'jma',validTime);
+  const result=await loadViewportTiles(state.v2Index,region,coverage,provider,validTime);
   if(!result.loaded.length || !result.complete) return false;
-  const item={provider:'jma',field,coverage:result.coverage || coverage,samples:result.samples,dx:0.0625,dy:0.05,
+  const step=FALLBACK_SOURCE_STEP[provider] || {};
+  const item={provider,field,coverage:result.coverage || coverage,samples:result.samples,
+    dx:Number(step.lon)||0.25,dy:Number(step.lat)||0.25,
     validTime:result.loaded[0].tile.valid_time_utc,fetchedAt:Date.now(),nativeTile:true,
     tileCount:result.loaded.length,failedTiles:result.failed.length,coverageComplete:true};
-  cachePut(bboxKey('jma',field,coverage),item);
+  cachePut(bboxKey(provider,field,coverage),item);
   applyDataset(item,'native-tile');
   return true;
 }
 
 async function fetchCoverage(provider, coverage, currentView) {
-  if (provider === 'jma' && await tryNativeJma(coverage,currentView)) return;
+  if (await tryNativeProvider(provider,coverage,currentView)) return;
   const serial = ++state.requestSerial;
   if (state.aborter) state.aborter.abort();
   state.aborter = new AbortController();
@@ -315,20 +343,39 @@ async function fetchCoverage(provider, coverage, currentView) {
     zoom: map.getZoom(),
     minLonStepDeg: sourceStep.lon,
     minLatStepDeg: sourceStep.lat,
+    maxPointsOverride: FALLBACK_MAX_POINTS[provider],
   });
   const field = $('layer').value;
   const batches = chunkPoints(grid.points, API_BATCH_SIZE);
   $('status').textContent = '補抓 ' + providerLabel(provider, field) + ' · ' + grid.points.length + ' samples / ' + batches.length + ' batches…';
   const samples = [];
+  let fallbackError = null;
   for (let i = 0; i < batches.length; i += API_BATCH_CONCURRENCY) {
     const wave = batches.slice(i, i + API_BATCH_CONCURRENCY);
-    const rows = await Promise.all(
-      wave.map((points) => fetchApiBatch(provider, points, field, state.aborter.signal))
-    );
-    if (serial !== state.requestSerial) return;
-    samples.push(...rows.flat());
+    const wavePoints = wave.reduce((sum, points) => sum + points.length, 0);
+    if (!reserveFallbackPoints(wavePoints)) {
+      const error = new Error('browser fallback request budget reached');
+      error.status = 429;
+      error.budgetLimited = true;
+      fallbackError = error;
+      break;
+    }
+    try {
+      const rows = await Promise.all(
+        wave.map((points) => fetchApiBatch(provider, points, field, state.aborter.signal))
+      );
+      if (serial !== state.requestSerial) return;
+      samples.push(...rows.flat());
+    } catch (error) {
+      if (error?.name === 'AbortError') throw error;
+      if (error?.status === 429) {
+        fallbackError = error;
+        break;
+      }
+      throw error;
+    }
     if (i + API_BATCH_CONCURRENCY < batches.length) {
-      await abortableDelay(250, state.aborter.signal);
+      await abortableDelay(API_WAVE_DELAY_MS, state.aborter.signal);
     }
   }
   const item = {
@@ -340,6 +387,8 @@ async function fetchCoverage(provider, coverage, currentView) {
     dy: grid.dy,
     validTime: samples.find((sample) => sample.time)?.time || null,
     fetchedAt: Date.now(),
+    coverageComplete: !fallbackError,
+    fallbackLimited: !!fallbackError,
   };
   cachePut(bboxKey(provider, field, coverage), item);
   applyDataset(item, contains(coverage, currentView) ? 'network-fill' : 'prefetch');
