@@ -39,6 +39,7 @@ class WeatherGridV2ExperimentTest(unittest.TestCase):
             "coverageComplete: !fallbackError",
             "fallbackLimited: !!fallbackError",
             "function cacheFind(",
+            "if (item.coverageComplete === false) continue",
             "function fetchCoverage(",
             "forecast_hours",
             "elevation: points.map(() => 'nan').join(',')",
