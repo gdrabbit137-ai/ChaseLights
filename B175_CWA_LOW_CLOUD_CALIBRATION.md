@@ -174,6 +174,10 @@ After merge, the calibration workflow runs twice daily at 08:30 UTC and
 20:30 UTC. These windows are chosen after the existing WeatherGrid refresh and
 after a second CWA valid time has become observable.
 
+A push to `main` that changes the calibration implementation/spec also runs
+the replay once immediately. Calibration-history output files are not included
+in that push filter, so the resulting history commit cannot trigger a loop.
+
 Each non-PR run:
 
 1. selects the newest two completed CWA valid times;
