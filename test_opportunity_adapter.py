@@ -5187,11 +5187,19 @@ def test_qixingtan_milky_way_existence_verified_but_best_season_unresolved():
     assert row["evidence_grade"] == "A"
 
 
-def test_songluo_lake_evidence_is_narrow_scope_not_unverified():
+def test_hehuan_main_peak_milky_way_existence_is_verified():
+    report = audit_opportunity_evidence.build_report()
+    row = next(r for r in report["all_records"] if r["opportunity_id"] == "tw-019-P05")
+    assert row["audit_status"] == "documented"
+    assert row["evidence_grade"] == "A"
+    assert "銀河" in (row["evidence_scope"] or "")
+
+
+def test_songluo_lake_morning_timing_is_verified_with_grade_b_evidence():
     report = audit_opportunity_evidence.build_report()
     row = next(r for r in report["all_records"] if r["opportunity_id"] == "tw-056-P01")
-    assert row["audit_status"] == "narrow_scope"
-    assert row["evidence_grade"] == "A"
+    assert row["audit_status"] == "documented"
+    assert row["evidence_grade"] == "B"
     assert "清晨" in (row["evidence_scope"] or "")
 
 
