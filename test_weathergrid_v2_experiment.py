@@ -20,7 +20,7 @@ class WeatherGridV2ExperimentTest(unittest.TestCase):
         for token in (
             "https://api.open-meteo.com/v1/jma",
             "https://api.open-meteo.com/v1/gfs",
-            "weather-map-v2-sampling.js?v=antimeridian-p0",
+            "weather-map-v2-sampling.js?v=rate-safe-p1",
             "bboxFromWestSpan",
             "bboxContains",
             "bboxCenterLon",
