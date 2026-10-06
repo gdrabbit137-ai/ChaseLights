@@ -112,7 +112,11 @@ def download_file(filename, token, destination, opener=None, reference=None):
     cookies required by the official scripted-download guidance.
     """
     authorization_headers(token)  # fail closed before spawning curl
-    url = reference if reference and reference.startswith(BASE + "/") else archive_url(filename)
+    # Discovery can expose API-v2 content/archives references that redirect to
+    # interactive OAuth HTML even when a valid EDL token is present. B169e/
+    # B171f require payload downloads from the canonical LAADS archive tree.
+    # Keep the discovery reference as provenance only; never use it as transport.
+    url = archive_url(filename)
     destination = Path(destination)
     destination.parent.mkdir(parents=True, exist_ok=True)
     cookie_file = destination.parent / ".earthdata-session"
