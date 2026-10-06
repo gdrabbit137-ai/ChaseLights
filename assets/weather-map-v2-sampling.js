@@ -73,7 +73,7 @@ function longitudeAt(west,offset){
   return raw<=180+EPS?Math.min(180,raw):raw-360;
 }
 
-export function adaptiveGridShape({width,height,zoom}={}){
+export function adaptiveGridShape({width,height,zoom,maxPointsOverride}={}){
   const w=Math.max(320,Number(width)||960);
   const h=Math.max(240,Number(height)||640);
   const z=Number.isFinite(Number(zoom))?Number(zoom):6;
@@ -82,7 +82,11 @@ export function adaptiveGridShape({width,height,zoom}={}){
   // viewport (the Alaska regression case).  These budgets target roughly
   // 35–45 px fallback cells while preserving a hard upper bound.
   const targetPx=z>=7.5?28:(z>=5?34:42);
-  const maxPoints=z>=7.5?1600:(z>=5?1080:720);
+  const defaultMaxPoints=z>=7.5?1600:(z>=5?1080:720);
+  const requestedCap=Number(maxPointsOverride);
+  const maxPoints=Number.isFinite(requestedCap)&&requestedCap>0
+    ? Math.min(defaultMaxPoints,clampInt(requestedCap,24,defaultMaxPoints))
+    : defaultMaxPoints;
   let cols=clampInt(Math.ceil(w/targetPx)+1,6,64);
   let rows=clampInt(Math.ceil(h/targetPx)+1,5,48);
   while(cols*rows>maxPoints){
