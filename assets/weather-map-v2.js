@@ -53,6 +53,8 @@ const API_WAVE_DELAY_MS = 450;
 // Keep their working set small enough to stay inside service rate limits; native
 // published tiles may use the denser adaptive grid without this cap.
 const FALLBACK_MAX_POINTS = { jma: 240, gfs: 240 };
+const FALLBACK_RATE_WINDOW_MS = 60 * 1000;
+const FALLBACK_RATE_POINT_BUDGET = 500;
 const $ = (id) => document.getElementById(id);
 const canvas = $('overlay');
 const ctx = canvas.getContext('2d');
@@ -69,6 +71,7 @@ const state = {
   validTime: null,
   v2Index: null,
   v2IndexTried: false,
+  fallbackUsage: [],
 };
 
 const map = new maplibregl.Map({
@@ -149,6 +152,14 @@ function cacheFind(provider, field, v) {
 function cachePut(key, item) {
   state.cache.set(key, item);
   while (state.cache.size > 12) state.cache.delete(state.cache.keys().next().value);
+}
+function reserveFallbackPoints(count) {
+  const now = Date.now();
+  state.fallbackUsage = state.fallbackUsage.filter((item) => now - item.at < FALLBACK_RATE_WINDOW_MS);
+  const used = state.fallbackUsage.reduce((sum, item) => sum + item.points, 0);
+  if (used + count > FALLBACK_RATE_POINT_BUDGET) return false;
+  state.fallbackUsage.push({ at: now, points: count });
+  return true;
 }
 function colorFor(field, value) {
   if (value == null || Number.isNaN(Number(value))) return 'rgba(0,0,0,0)';
@@ -271,14 +282,14 @@ function applyDataset(item, cacheStatus) {
   state.sampleDx = item.dx;
   state.sampleDy = item.dy;
   state.validTime = item.validTime;
-  $('coverage').textContent = 'loaded coverage: ' + fmt(item.coverage);
+  $('coverage').textContent = (item.coverageComplete === false ? 'requested coverage: ' : 'loaded coverage: ') + fmt(item.coverage);
   $('cache').textContent = 'request cache: ' + state.cache.size + ' · ' + cacheStatus;
   $('source').textContent = item.nativeTile
     ? (providerLabel(item.provider,item.field)+' native tiles · '+item.tileCount+' tiles'+(item.failedTiles?' · '+item.failedTiles+' missing':''))
     : (providerLabel(item.provider, item.field) + ' · ' + providerDetail(item.provider, item.field) + ' · rate-safe point fallback');
   $('time').textContent = 'valid time: ' + (item.validTime || '—');
   $('status').textContent = item.coverageComplete === false
-    ? ('資料不完整 · ' + item.samples.length + ' samples · ' + (item.fallbackLimited ? '外部 API 限流，已保留成功載入部分' : '部分區域缺少原生資料'))
+    ? ('資料不完整 · ' + item.samples.length + ' samples · ' + (item.fallbackLimited ? '外部 API 限流或請求預算已達上限，未將缺少區域視為完整' : '部分區域缺少原生資料'))
     : ('資料已就緒 · ' + item.samples.length + ' samples');
   draw();
 }
@@ -337,6 +348,14 @@ async function fetchCoverage(provider, coverage, currentView) {
   let fallbackError = null;
   for (let i = 0; i < batches.length; i += API_BATCH_CONCURRENCY) {
     const wave = batches.slice(i, i + API_BATCH_CONCURRENCY);
+    const wavePoints = wave.reduce((sum, points) => sum + points.length, 0);
+    if (!reserveFallbackPoints(wavePoints)) {
+      const error = new Error('browser fallback request budget reached');
+      error.status = 429;
+      error.budgetLimited = true;
+      fallbackError = error;
+      break;
+    }
     try {
       const rows = await Promise.all(
         wave.map((points) => fetchApiBatch(provider, points, field, state.aborter.signal))
@@ -345,7 +364,7 @@ async function fetchCoverage(provider, coverage, currentView) {
       samples.push(...rows.flat());
     } catch (error) {
       if (error?.name === 'AbortError') throw error;
-      if (error?.status === 429 && samples.length) {
+      if (error?.status === 429) {
         fallbackError = error;
         break;
       }
