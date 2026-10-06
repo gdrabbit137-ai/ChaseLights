@@ -46,8 +46,13 @@ const FALLBACK_SOURCE_STEP = {
   gfs: { lon: 0.25, lat: 0.25 },
 };
 const API_BATCH_SIZE = 100;
-const API_BATCH_CONCURRENCY = 2;
+const API_BATCH_CONCURRENCY = 1;
 const API_BATCH_RETRIES = 3;
+const API_WAVE_DELAY_MS = 450;
+// Public point APIs are a fail-safe fallback, not the high-resolution map path.
+// Keep their working set small enough to stay inside service rate limits; native
+// published tiles may use the denser adaptive grid without this cap.
+const FALLBACK_MAX_POINTS = { jma: 240, gfs: 240 };
 const $ = (id) => document.getElementById(id);
 const canvas = $('overlay');
 const ctx = canvas.getContext('2d');
@@ -266,7 +271,9 @@ function applyDataset(item, cacheStatus) {
   state.validTime = item.validTime;
   $('coverage').textContent = 'loaded coverage: ' + fmt(item.coverage);
   $('cache').textContent = 'request cache: ' + state.cache.size + ' · ' + cacheStatus;
-  $('source').textContent = item.nativeTile ? ('JMA MSM native tiles · '+item.tileCount+' tiles'+(item.failedTiles?' · '+item.failedTiles+' missing':'')) : (providerLabel(item.provider, item.field) + ' · ' + providerDetail(item.provider, item.field));
+  $('source').textContent = item.nativeTile
+    ? (providerLabel(item.provider,item.field)+' native tiles · '+item.tileCount+' tiles'+(item.failedTiles?' · '+item.failedTiles+' missing':''))
+    : (providerLabel(item.provider, item.field) + ' · ' + providerDetail(item.provider, item.field) + ' · rate-safe point fallback');
   $('time').textContent = 'valid time: ' + (item.validTime || '—');
   $('status').textContent = item.coverageComplete === false ? '資料不完整 · ' + item.samples.length + ' samples · 部分區域缺少原生資料' : '資料已就緒 · ' + item.samples.length + ' samples';
   draw();
@@ -280,30 +287,32 @@ function regionForView(b){
   if(lon>=-170&&lon<=-129&&lat>=51&&lat<=72) return 'us_alaska';
   return null;
 }
-async function tryNativeJma(coverage,currentView){
+async function tryNativeProvider(provider,coverage,currentView){
   if(!state.v2IndexTried){
     state.v2IndexTried=true;
     try{ state.v2Index=await loadV2Index(); }catch(_){ state.v2Index=null; }
   }
   if(!state.v2Index) return false;
   const field=$('layer').value;
-  if(!providerSupportsField(state.v2Index,'jma',field)) return false;
+  if(!providerSupportsField(state.v2Index,provider,field)) return false;
   const region=regionForView(currentView);
-  if(region!=='tw'&&region!=='jp') return false;
-  const validTime=nearestValidTime(state.v2Index,'jma',state.validTime || new Date());
+  if(!region) return false;
+  const validTime=nearestValidTime(state.v2Index,provider,state.validTime || new Date());
   if(!validTime) return false;
-  const result=await loadViewportTiles(state.v2Index,region,coverage,'jma',validTime);
+  const result=await loadViewportTiles(state.v2Index,region,coverage,provider,validTime);
   if(!result.loaded.length || !result.complete) return false;
-  const item={provider:'jma',field,coverage:result.coverage || coverage,samples:result.samples,dx:0.0625,dy:0.05,
+  const step=FALLBACK_SOURCE_STEP[provider] || {};
+  const item={provider,field,coverage:result.coverage || coverage,samples:result.samples,
+    dx:Number(step.lon)||0.25,dy:Number(step.lat)||0.25,
     validTime:result.loaded[0].tile.valid_time_utc,fetchedAt:Date.now(),nativeTile:true,
     tileCount:result.loaded.length,failedTiles:result.failed.length,coverageComplete:true};
-  cachePut(bboxKey('jma',field,coverage),item);
+  cachePut(bboxKey(provider,field,coverage),item);
   applyDataset(item,'native-tile');
   return true;
 }
 
 async function fetchCoverage(provider, coverage, currentView) {
-  if (provider === 'jma' && await tryNativeJma(coverage,currentView)) return;
+  if (await tryNativeProvider(provider,coverage,currentView)) return;
   const serial = ++state.requestSerial;
   if (state.aborter) state.aborter.abort();
   state.aborter = new AbortController();
@@ -315,6 +324,7 @@ async function fetchCoverage(provider, coverage, currentView) {
     zoom: map.getZoom(),
     minLonStepDeg: sourceStep.lon,
     minLatStepDeg: sourceStep.lat,
+    maxPointsOverride: FALLBACK_MAX_POINTS[provider],
   });
   const field = $('layer').value;
   const batches = chunkPoints(grid.points, API_BATCH_SIZE);
@@ -328,7 +338,7 @@ async function fetchCoverage(provider, coverage, currentView) {
     if (serial !== state.requestSerial) return;
     samples.push(...rows.flat());
     if (i + API_BATCH_CONCURRENCY < batches.length) {
-      await abortableDelay(250, state.aborter.signal);
+      await abortableDelay(API_WAVE_DELAY_MS, state.aborter.signal);
     }
   }
   const item = {
