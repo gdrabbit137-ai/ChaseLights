@@ -6,6 +6,15 @@ on:
     # These times follow the existing WeatherGrid refresh cadence and occur
     # after f006 has become an observation-time holdout.
     - cron: '30 8,20 * * *'
+  push:
+    branches: [main]
+    paths:
+      - "cwa_cloud_calibration.py"
+      - "cwa_cloud_calibration_history.py"
+      - "test_cwa_cloud_calibration.py"
+      - "test_cwa_cloud_calibration_history.py"
+      - "B175_CWA_LOW_CLOUD_CALIBRATION.md"
+      - ".github/workflows/cwa_low_cloud_calibration.yml"
   pull_request:
     branches: [main]
     paths:
