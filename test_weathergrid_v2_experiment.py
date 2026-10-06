@@ -123,6 +123,8 @@ class WeatherGridV2ExperimentTest(unittest.TestCase):
         self.assertIn("179.0, 10.0, 6.0", smoke)
         self.assertIn("assert cw > ce", smoke)
         self.assertIn("assert lon_span(cw,ce) < 90", smoke)
+        self.assertIn("drag_and_drop_by_offset(dateline_map,300,0)", smoke)
+        self.assertNotIn("drag_and_drop_by_offset(dateline_map,-300,0)", smoke)
         self.assertIn("def lon_segments(", smoke)
         self.assertIn("renderWorldCopies: false", js)
         self.assertIn('rate-safe point fallback', smoke)
