@@ -237,6 +237,14 @@ def run(url: str, screenshot: Path) -> dict:
             "mobile admin picker close state",
         )
 
+        wait_for(
+            lambda d: abs(
+                d.execute_script("return window.scrollY") - before_scroll
+            ) <= 2,
+            wait,
+            "mobile admin picker scroll restoration",
+        )
+
         after = driver.execute_script(
             """
             return {
