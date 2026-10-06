@@ -137,8 +137,23 @@ def _frame_samples(
         return None
 
     grid = bundle["grid"]
-    latitudes = [float(value) for value in grid["latitudes"]]
-    longitudes = [float(value) for value in grid["longitudes"]]
+    all_latitudes = [float(value) for value in grid["latitudes"]]
+    all_longitudes = [float(value) for value in grid["longitudes"]]
+    west, south, east, north = TAIWAN_QC_BBOX
+    lat_indices = [
+        index for index, value in enumerate(all_latitudes)
+        if south <= value <= north
+    ]
+    lon_indices = [
+        index for index, value in enumerate(all_longitudes)
+        if west <= value <= east
+    ]
+    if not lat_indices or not lon_indices:
+        raise RuntimeError(
+            f"CWA grid does not overlap Himawari Taiwan calibration bbox: {TAIWAN_QC_BBOX}"
+        )
+    latitudes = [all_latitudes[index] for index in lat_indices]
+    longitudes = [all_longitudes[index] for index in lon_indices]
     expected = len(latitudes) * len(longitudes)
 
     source_window = fixed_grid_window(TAIWAN_QC_BBOX)
@@ -180,28 +195,45 @@ def _frame_samples(
 
     slot = valid_time.isoformat().replace("+00:00", "Z")
     samples: list[Sample] = []
-    for index, label in enumerate(labels):
-        if label is None:
-            continue
-        values = [fields[name][index] for name in fields]
-        if any(value is None or not math.isfinite(float(value)) for value in values):
-            continue
-        samples.append(
-            Sample(
-                slot_utc=slot,
-                label=int(label),
-                rh925=float(fields["relative_humidity_925hpa_percent"][index]),
-                rh850=float(fields["relative_humidity_850hpa_percent"][index]),
-                rh2=float(fields["relative_humidity_2m_percent"][index]),
-                lcl_m=float(fields["lcl_height_m_agl"][index]),
-                wind_m_s=float(fields["wind_speed_10m_m_s"][index]),
+    full_cols = len(all_longitudes)
+    target_index = 0
+    for source_row in lat_indices:
+        for source_col in lon_indices:
+            label = labels[target_index]
+            target_index += 1
+            if label is None:
+                continue
+            source_index = source_row * full_cols + source_col
+            values = [fields[name][source_index] for name in fields]
+            if any(value is None or not math.isfinite(float(value)) for value in values):
+                continue
+            samples.append(
+                Sample(
+                    slot_utc=slot,
+                    label=int(label),
+                    rh925=float(fields["relative_humidity_925hpa_percent"][source_index]),
+                    rh850=float(fields["relative_humidity_850hpa_percent"][source_index]),
+                    rh2=float(fields["relative_humidity_2m_percent"][source_index]),
+                    lcl_m=float(fields["lcl_height_m_agl"][source_index]),
+                    wind_m_s=float(fields["wind_speed_10m_m_s"][source_index]),
+                )
             )
-        )
 
     positives = sum(item.label for item in samples)
     return samples, {
         "slot_utc": slot,
         "sample_count": len(samples),
+        "calibration_bbox": {
+            "west": west,
+            "south": south,
+            "east": east,
+            "north": north,
+        },
+        "target_grid": {
+            "rows": len(latitudes),
+            "cols": len(longitudes),
+            "cells": expected,
+        },
         "positive_low_cloud": positives,
         "clear_negative": len(samples) - positives,
         "ambiguous_excluded": sum(label is None for label in labels),
