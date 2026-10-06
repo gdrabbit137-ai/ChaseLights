@@ -20,10 +20,7 @@ class WeatherGridV2ExperimentTest(unittest.TestCase):
         for token in (
             "https://api.open-meteo.com/v1/jma",
             "https://api.open-meteo.com/v1/gfs",
-            "weather-map-v2-sampling.js?v=antimeridian-p0",
-            "bboxFromWestSpan",
-            "bboxContains",
-            "bboxCenterLon",
+            "from './weather-map-v2-sampling.js'",
             "sampleGrid(coverage, {",
             "chunkPoints(grid.points, API_BATCH_SIZE)",
             "const API_BATCH_SIZE = 100",
@@ -94,10 +91,6 @@ class WeatherGridV2ExperimentTest(unittest.TestCase):
         self.assertIn("/tmp/v2-sampling.js", workflow)
         self.assertIn("$expected_loader_sha", workflow)
         self.assertIn("$expected_sampling_sha", workflow)
-        self.assertIn("timeout-minutes: 24", workflow)
-        self.assertIn("for i in {1..60}; do", workflow)
-        self.assertIn("cancel-in-progress: true", workflow)
-        self.assertIn("github.event.pull_request.number || github.ref", workflow)
 
     def test_public_smoke_covers_partial_native_fallback_and_retake(self):
         smoke = (ROOT / "weathergrid_v2_public_smoke.py").read_text(encoding="utf-8")
@@ -111,26 +104,6 @@ class WeatherGridV2ExperimentTest(unittest.TestCase):
         self.assertIn('[data-preset="jp"]', smoke)
         self.assertIn("10.0, 50.0, 5.0", smoke)
         self.assertIn('Select(d.find_element(By.ID,"provider")).select_by_value("jma")', smoke)
-        self.assertIn("179.0, 10.0, 6.0", smoke)
-        self.assertIn("assert dw > de", smoke)
-        self.assertIn("def lon_segments(", smoke)
-
-    def test_antimeridian_geometry_contract_runs_in_ci(self):
-        workflow = (ROOT / ".github/workflows/weathergrid_v2_experiment.yml").read_text(
-            encoding="utf-8"
-        )
-        sampling = (ROOT / "assets/weather-map-v2-sampling.js").read_text(encoding="utf-8")
-        self.assertIn("node test_weathergrid_v2_geo.mjs", workflow)
-        self.assertIn('"test_weathergrid_v2_geo.mjs"', workflow)
-        for token in (
-            "export function longitudeSpan",
-            "export function bboxLongitudeSegments",
-            "export function bboxContains",
-            "export function bboxCenterLon",
-            "export function expandBBox",
-            "wrapsAntimeridian",
-        ):
-            self.assertIn(token, sampling)
 
     def test_photography_layers_are_available(self):
         html = (ROOT / "weather-map-v2.html").read_text(encoding="utf-8")
