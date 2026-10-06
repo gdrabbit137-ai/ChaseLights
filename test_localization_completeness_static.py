@@ -43,6 +43,30 @@ class LocalizationCompletenessStaticTests(unittest.TestCase):
         self.assertIn("return currentLang==='zh-TW'?userFacingResearchValue(owner?.[key]):'';", APP)
         self.assertIn("return themeLabel(op?.legacy_theme||theme||'mountain_view');", APP)
 
+    def test_weather_timeline_copy_uses_photographer_language_in_all_locales(self):
+        for obsolete in (
+            "[模型資料]",
+            "[氣象預報]",
+            "[model data]",
+            "[forecast]",
+            "[モデル]",
+            "[予報]",
+            "預測最佳出景窗口",
+        ):
+            self.assertNotIn(obsolete, APP)
+            self.assertNotIn(obsolete, INDEX)
+
+        for expected in (
+            "逐時拍攝條件：過去 24 小時 + 未來 72 小時",
+            "Hourly shooting conditions: past 24 hours + next 72 hours",
+            "時間別の撮影条件：過去24時間＋未来72時間",
+        ):
+            self.assertIn(expected, APP)
+        self.assertIn("所選日期中相對較佳的時段", APP)
+        self.assertIn("a relatively better time on the selected date", APP)
+        self.assertIn("選択日の中で相対的に条件が良い時間帯", APP)
+        self.assertIn("逐時拍攝條件：過去 24 小時 + 未來 72 小時", INDEX)
+
     def test_place_name_is_the_only_explicit_local_name_fallback(self):
         self.assertIn(
             "const spotName=s=>s?.name_i18n?.[currentLang]||s?.name_local||",
