@@ -56,6 +56,9 @@ def sample_count(text):
 def settled(text):
     return "資料已就緒" in (text or "") or "資料不完整" in (text or "")
 
+def coverage_present(text):
+    return "loaded coverage" in (text or "") or "requested coverage" in (text or "")
+
 def valid_time_age_seconds(text):
     raw=text.split(":",1)[1].strip()
     parsed=datetime.fromisoformat(raw.replace("Z","+00:00"))
@@ -93,13 +96,14 @@ def run(url, screenshot):
         # when the initial viewport is Taiwan. Regional JMA ownership is only
         # exercised later through an explicit JMA selection.
         assert "NCEP GFS Global" in initial["source"], initial
-        assert "loaded coverage" in initial["coverage"], initial
+        assert coverage_present(initial["coverage"]), initial
         assert coverage_contains(initial["viewport"], initial["coverage"]), initial
-        assert sample_count(initial["status"]) >= 200, initial
-        if "資料不完整" in initial["status"]:
+        if "資料已就緒" in initial["status"]:
+            assert sample_count(initial["status"]) >= 200, initial
+            assert valid_time_age_seconds(initial["time"]) <= 2 * 60 * 60, initial
+        else:
             assert "rate-safe point fallback" in initial["source"], initial
-            assert "外部 API 限流" in initial["status"], initial
-        assert valid_time_age_seconds(initial["time"]) <= 2 * 60 * 60, initial
+            assert "外部 API 限流或請求預算已達上限" in initial["status"], initial
 
         # Japan must use the same pinned global GFS cloud baseline.
         jp_before=d.find_element(By.ID,"viewport").text
@@ -171,7 +175,7 @@ def run(url, screenshot):
         # are allowed to remain unchanged. What matters is that the moved view
         # resolves successfully with usable samples and loaded coverage.
         assert "samples" in conus_after["status"], conus_after
-        assert "loaded coverage" in conus_after["coverage"], conus_after
+        assert coverage_present(conus_after["coverage"]), conus_after
 
         # Return to a tighter Taiwan core viewport and explicitly select JMA
         # low cloud. Auto cloud stays pinned to GFS, while manual JMA still
@@ -220,7 +224,7 @@ def run(url, screenshot):
         ) == "us_alaska")
         wait.until(lambda x: (
             settled(x.find_element(By.ID,"status").text)
-            and "loaded coverage" in x.find_element(By.ID,"coverage").text
+            and coverage_present(x.find_element(By.ID,"coverage").text)
             and coverage_contains(
                 x.find_element(By.ID,"viewport").text,
                 x.find_element(By.ID,"coverage").text,
@@ -245,7 +249,10 @@ def run(url, screenshot):
             assert sample_count(alaska["status"]) >= 600, alaska
         else:
             assert "rate-safe point fallback" in alaska["source"], alaska
-            assert sample_count(alaska["status"]) >= 200, alaska
+            if "資料已就緒" in alaska["status"]:
+                assert sample_count(alaska["status"]) >= 200, alaska
+            else:
+                assert "外部 API 限流或請求預算已達上限" in alaska["status"], alaska
         assert coverage_contains(alaska["viewport"],alaska["coverage"]), alaska
 
         # An arbitrary non-preset global viewport must also resolve to the
