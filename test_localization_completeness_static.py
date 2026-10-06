@@ -96,6 +96,33 @@ class LocalizationCompletenessStaticTests(unittest.TestCase):
             with self.subTest(expected=expected):
                 self.assertIn(expected, APP)
 
+
+    def test_selected_date_verdicts_use_photographer_language_and_overall_state(self):
+        for obsolete in (
+            "為什麼適合？",
+            "此拍攝題材的關鍵條件目前符合",
+            "Key conditions for this opportunity currently match",
+            "この撮影機会の主要条件が一致",
+        ):
+            self.assertNotIn(obsolete, APP)
+
+        for expected in (
+            "為什麼這樣判斷？",
+            "⚠️ 不建議拍{subject}",
+            "相對較佳時段",
+            "Why this assessment?",
+            "⚠️ Not recommended for {subject}",
+            "Relatively better time",
+            "なぜこの判定？",
+            "⚠️ {subject}の撮影はおすすめしません",
+            "比較的良い時間帯",
+        ):
+            self.assertIn(expected, APP)
+
+        self.assertIn("if(metric.recommendation_state)return metric.recommendation_state;", APP)
+        self.assertIn("if(state==='not_recommended')return {primary:fill(d().verdict_unfavorable)", APP)
+        self.assertIn("metric.recommendation_state||OPPORTUNITY_POSITIVE_STATUS_KEYS.has", APP)
+
     def test_place_name_is_the_only_explicit_local_name_fallback(self):
         self.assertIn(
             "const spotName=s=>s?.name_i18n?.[currentLang]||s?.name_local||",
