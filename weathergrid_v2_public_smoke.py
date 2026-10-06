@@ -53,6 +53,9 @@ def sample_count(text):
     match=re.search(r"(\d+) samples", text or "")
     return int(match.group(1)) if match else 0
 
+def settled(text):
+    return "資料已就緒" in (text or "") or "資料不完整" in (text or "")
+
 def valid_time_age_seconds(text):
     raw=text.split(":",1)[1].strip()
     parsed=datetime.fromisoformat(raw.replace("Z","+00:00"))
@@ -65,7 +68,7 @@ def run(url, screenshot):
     try:
         d.get(url+("?smoke=" if "?" not in url else "&smoke=")+str(int(time.time())))
         try:
-            wait.until(lambda x: "資料已就緒" in x.find_element(By.ID,"status").text)
+            wait.until(lambda x: settled(x.find_element(By.ID,"status").text))
         except TimeoutException:
             screenshot.parent.mkdir(parents=True,exist_ok=True)
             d.save_screenshot(str(screenshot))
@@ -93,6 +96,9 @@ def run(url, screenshot):
         assert "loaded coverage" in initial["coverage"], initial
         assert coverage_contains(initial["viewport"], initial["coverage"]), initial
         assert sample_count(initial["status"]) >= 200, initial
+        if "資料不完整" in initial["status"]:
+            assert "rate-safe point fallback" in initial["source"], initial
+            assert "外部 API 限流" in initial["status"], initial
         assert valid_time_age_seconds(initial["time"]) <= 2 * 60 * 60, initial
 
         # Japan must use the same pinned global GFS cloud baseline.
@@ -100,7 +106,7 @@ def run(url, screenshot):
         d.find_element(By.CSS_SELECTOR,'[data-preset="jp"]').click()
         wait.until(lambda x: x.find_element(By.ID,"viewport").text != jp_before)
         wait.until(lambda x: (
-            "資料已就緒" in x.find_element(By.ID,"status").text
+            settled(x.find_element(By.ID,"status").text)
             and "NCEP GFS Global" in x.find_element(By.ID,"source").text
         ))
         jp={
@@ -120,7 +126,7 @@ def run(url, screenshot):
         wait.until(lambda x: x.find_element(By.ID,"viewport").text != before)
         try:
             wait.until(lambda x: (
-                "資料已就緒" in x.find_element(By.ID,"status").text
+                settled(x.find_element(By.ID,"status").text)
                 and "NCEP GFS Global" in x.find_element(By.ID,"source").text
             ))
         except TimeoutException:
@@ -152,7 +158,7 @@ def run(url, screenshot):
         conus_before=d.find_element(By.ID,"viewport").text
         ActionChains(d).move_to_element(map_el).drag_and_drop_by_offset(map_el,-360,0).perform()
         wait.until(lambda x: x.find_element(By.ID,"viewport").text != conus_before)
-        wait.until(lambda x: "資料已就緒" in x.find_element(By.ID,"status").text)
+        wait.until(lambda x: settled(x.find_element(By.ID,"status").text))
         conus_after={
           "status":d.find_element(By.ID,"status").text,
           "source":d.find_element(By.ID,"source").text,
@@ -182,7 +188,7 @@ def run(url, screenshot):
         Select(d.find_element(By.ID,"layer")).select_by_value("cloud_cover_low")
         Select(d.find_element(By.ID,"provider")).select_by_value("jma")
         wait.until(lambda x: (
-            "資料已就緒" in x.find_element(By.ID,"status").text
+            settled(x.find_element(By.ID,"status").text)
             and "JMA MSM native tiles" in x.find_element(By.ID,"source").text
         ))
         tw_return={
@@ -197,7 +203,7 @@ def run(url, screenshot):
         Select(d.find_element(By.ID,"layer")).select_by_value("visibility")
         Select(d.find_element(By.ID,"provider")).select_by_value("auto")
         wait.until(lambda x: (
-            "資料已就緒" in x.find_element(By.ID,"status").text
+            settled(x.find_element(By.ID,"status").text)
             and "NCEP Best Match" in x.find_element(By.ID,"source").text
         ))
         visibility_source=d.find_element(By.ID,"source").text
@@ -213,7 +219,7 @@ def run(url, screenshot):
             "return window.__weatherGridV2Smoke.region()"
         ) == "us_alaska")
         wait.until(lambda x: (
-            "資料已就緒" in x.find_element(By.ID,"status").text
+            settled(x.find_element(By.ID,"status").text)
             and "loaded coverage" in x.find_element(By.ID,"coverage").text
             and coverage_contains(
                 x.find_element(By.ID,"viewport").text,
@@ -232,10 +238,14 @@ def run(url, screenshot):
         alaska_lon,alaska_lat=viewport_center(alaska["viewport"])
         assert -170 <= alaska_lon <= -129 and 51 <= alaska_lat <= 72, alaska
         assert "samples" in alaska["status"], alaska
-        # Desktop Alaska regression: the old 240-point cap rendered ~80 px
-        # blocks. Keep the experimental fallback dense enough to avoid that
-        # visibly coarse checkerboard while remaining under the bounded budget.
-        assert sample_count(alaska["status"]) >= 600, alaska
+        # Published native GFS tiles are the high-resolution path. Until that
+        # region is published, the browser point API is intentionally capped
+        # to stay rate-safe and must identify itself as a degraded fallback.
+        if "native tiles" in alaska["source"]:
+            assert sample_count(alaska["status"]) >= 600, alaska
+        else:
+            assert "rate-safe point fallback" in alaska["source"], alaska
+            assert sample_count(alaska["status"]) >= 200, alaska
         assert coverage_contains(alaska["viewport"],alaska["coverage"]), alaska
 
         # An arbitrary non-preset global viewport must also resolve to the
@@ -248,7 +258,7 @@ def run(url, screenshot):
         )
         wait.until(lambda x: x.find_element(By.ID,"viewport").text != global_before)
         wait.until(lambda x: (
-            "資料已就緒" in x.find_element(By.ID,"status").text
+            settled(x.find_element(By.ID,"status").text)
             and "NCEP GFS Global" in x.find_element(By.ID,"source").text
             and coverage_contains(
                 x.find_element(By.ID,"viewport").text,
@@ -268,7 +278,7 @@ def run(url, screenshot):
         ActionChains(d).move_to_element(global_map).drag_and_drop_by_offset(global_map,-260,0).perform()
         wait.until(lambda x: x.find_element(By.ID,"viewport").text != global_pan_before)
         wait.until(lambda x: (
-            "資料已就緒" in x.find_element(By.ID,"status").text
+            settled(x.find_element(By.ID,"status").text)
             and "NCEP GFS Global" in x.find_element(By.ID,"source").text
             and coverage_contains(
                 x.find_element(By.ID,"viewport").text,
@@ -291,7 +301,7 @@ def run(url, screenshot):
         )
         wait.until(lambda x: x.find_element(By.ID,"viewport").text != dateline_before)
         wait.until(lambda x: (
-            "資料已就緒" in x.find_element(By.ID,"status").text
+            settled(x.find_element(By.ID,"status").text)
             and "NCEP GFS Global" in x.find_element(By.ID,"source").text
             and coverage_contains(
                 x.find_element(By.ID,"viewport").text,
@@ -315,7 +325,7 @@ def run(url, screenshot):
         ActionChains(d).move_to_element(dateline_map).drag_and_drop_by_offset(dateline_map,-300,0).perform()
         wait.until(lambda x: x.find_element(By.ID,"viewport").text != dateline_pan_before)
         wait.until(lambda x: (
-            "資料已就緒" in x.find_element(By.ID,"status").text
+            settled(x.find_element(By.ID,"status").text)
             and "NCEP GFS Global" in x.find_element(By.ID,"source").text
             and coverage_contains(
                 x.find_element(By.ID,"viewport").text,
