@@ -67,7 +67,14 @@ For each feature the calibration searches a bounded linear transfer:
 
 - lower RH threshold: 55–90%
 - upper RH threshold: max(75%, lower+5%)–100%
-- objective: minimum Brier score on training valid times
+- primary objective: maximum balanced accuracy on training valid times;
+- secondary objective for equal balanced accuracy: minimum Brier score;
+- tertiary tie-break: higher clear-sky specificity.
+
+Balanced accuracy is primary because the calibration goal is specifically to
+stop a high low-cloud base rate from rewarding an overcalling model. Brier
+remains a required holdout gate, so probability-like calibration cannot be
+sacrificed merely to improve the 50% classifier threshold.
 
 No opaque fitted model is introduced in this batch.
 

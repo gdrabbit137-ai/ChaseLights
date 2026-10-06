@@ -348,11 +348,18 @@ def fit_linear_candidate(samples: list[Sample]) -> dict:
                     low_rh=low_rh,
                     high_rh=high_rh,
                 )
+                balanced = metrics["threshold_50"]["balanced_accuracy"]
+                specificity = metrics["threshold_50"]["specificity"]
                 key = (
+                    -(
+                        balanced
+                        if balanced is not None
+                        else -1.0
+                    ),
                     metrics["brier"],
                     -(
-                        metrics["threshold_50"]["balanced_accuracy"]
-                        if metrics["threshold_50"]["balanced_accuracy"] is not None
+                        specificity
+                        if specificity is not None
                         else -1.0
                     ),
                     feature,
@@ -567,6 +574,7 @@ def calibrate_bundle(
             "holdout": baseline_holdout,
         },
         "candidate": {
+            "selection_objective": "maximize_train_balanced_accuracy_then_minimize_brier",
             "feature": fitted["feature"],
             "low_rh": fitted["low_rh"],
             "high_rh": fitted["high_rh"],
