@@ -2564,6 +2564,17 @@
     else if(usingCams) providerRole=state.layer==='pm2_5_ug_m3'?'CAMS Global · PM2.5':'CAMS Global · AOD 550 nm';
     else if(usingViirs) providerRole='NASA Black Marble VNP46A4 · 年度環境背景';
     else if(state.modelMode==='auto' && cloudLayers.has(state.layer)) providerRole='GFS fallback';
+    const coverageProvider=usingHimawari?'Himawari-9':(usingJma?'JMA MSM 5 km':(usingCwa?'CWA WRF 3 km':(usingIcon?'ICON Global':(usingCams?'CAMS Global':(usingViirs?'NASA Black Marble':'GFS 0.25°')))));
+    const coverageNote=$('provider-coverage-note');
+    if(coverageNote){
+      const showCoverageNote=cloudLayers.has(state.layer);
+      coverageNote.hidden=!showCoverageNote;
+      if(showCoverageNote){
+        coverageNote.textContent=state.modelMode==='auto'
+          ? `空白區＝目前 ${coverageProvider} 無資料，不代表晴朗；切換雲層時自動預報可能改用不同模型。`
+          : `空白區＝目前 ${coverageProvider} 無資料，不代表晴朗。`;
+      }
+    }
     const unitText=usingHimawari && state.layer==='cloud_top_height_m'
       ? '原始單位 m · 顯示 km'
       : `單位 ${data.fields[state.layer].unit}`;
