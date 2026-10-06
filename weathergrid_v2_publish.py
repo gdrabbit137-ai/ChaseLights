@@ -40,6 +40,19 @@ def _manifest_signature(manifest: dict) -> tuple:
     )
 
 
+def _existing_provider_runs(index_path: Path) -> dict:
+    """Load existing provider run metadata without silently discarding it."""
+    if not index_path.exists():
+        return {}
+    payload = json.loads(index_path.read_text(encoding="utf-8"))
+    if payload.get("schema_version") != 2:
+        raise RuntimeError("existing V2 index schema_version must be 2")
+    runs = payload.get("provider_runs", {})
+    if not isinstance(runs, dict):
+        raise RuntimeError("existing V2 index provider_runs must be an object")
+    return dict(runs)
+
+
 def publish_jma_regions(
     regions: list[str],
     output_root: str | Path,
@@ -117,7 +130,9 @@ def publish_jma_regions(
         json.dumps(provider_manifest, ensure_ascii=False, separators=(",", ":")),
         encoding="utf-8",
     )
-    write_index(root / "index.json", provider_runs={"jma": provider_manifest})
+    provider_runs = _existing_provider_runs(root / "index.json")
+    provider_runs["jma"] = provider_manifest
+    write_index(root / "index.json", provider_runs=provider_runs)
 
     return {
         "provider": "jma",
