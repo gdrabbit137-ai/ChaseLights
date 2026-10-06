@@ -128,7 +128,11 @@ jobs:
             exit 0
           fi
 
-          git commit -m "Auto-update WeatherGrid V2 JMA native tiles [skip ci]"
+          # Do not skip CI here: weathergrid/v2/** must trigger the V2
+          # deployed-smoke workflow after native data publication.  This
+          # publisher does not trigger on weathergrid/v2/**, so there is no
+          # self-recursion risk.
+          git commit -m "Auto-update WeatherGrid V2 JMA native tiles"
           pushed=false
           for i in {1..5}; do
             if git pull --rebase origin main && git push origin HEAD:main; then
