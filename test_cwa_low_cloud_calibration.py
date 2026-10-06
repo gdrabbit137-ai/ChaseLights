@@ -7,6 +7,7 @@ from cwa_low_cloud_calibration import (
     _promotion_decision,
     evaluate,
     fit_linear_candidate,
+    merge_calibration_bundles,
 )
 
 
@@ -42,6 +43,38 @@ class CwaLowCloudCalibrationTests(unittest.TestCase):
             fitted["threshold_50"]["specificity"],
             baseline["threshold_50"]["specificity"],
         )
+
+    def test_history_merge_keeps_shortest_lead_per_valid_time(self):
+        fields = {
+            "relative_humidity_925hpa_percent": {},
+            "relative_humidity_850hpa_percent": {},
+            "relative_humidity_2m_percent": {},
+            "lcl_height_m_agl": {},
+            "wind_speed_10m_m_s": {},
+        }
+        grid = {"latitudes": [23.0], "longitudes": [121.0]}
+        older = {
+            "cycle": {"cycle_time_utc": "2026-10-06T06:00:00Z"},
+            "fields": fields,
+            "grid": grid,
+            "frames": [
+                {"forecast_hour": 6, "valid_time_utc": "2026-10-06T12:00:00Z", "values": {}},
+                {"forecast_hour": 12, "valid_time_utc": "2026-10-06T18:00:00Z", "values": {}},
+            ],
+        }
+        newer = {
+            "cycle": {"cycle_time_utc": "2026-10-06T12:00:00Z"},
+            "fields": fields,
+            "grid": grid,
+            "frames": [
+                {"forecast_hour": 0, "valid_time_utc": "2026-10-06T12:00:00Z", "values": {}},
+                {"forecast_hour": 6, "valid_time_utc": "2026-10-06T18:00:00Z", "values": {}},
+            ],
+        }
+        merged = merge_calibration_bundles([older, newer])
+        self.assertEqual([f["forecast_hour"] for f in merged["frames"]], [0, 6])
+        self.assertEqual(merged["calibration_history"]["compatible_bundle_count"], 2)
+        self.assertEqual(merged["calibration_history"]["unique_valid_times"], 2)
 
     def test_promotion_requires_independent_time_slots(self):
         baseline = {

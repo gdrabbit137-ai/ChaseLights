@@ -35,6 +35,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event_name == 'workflow_run' && 'main' || github.sha }}
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -50,11 +51,79 @@ jobs:
         run: |
           python -m unittest -v test_cwa_low_cloud_calibration.py
 
+      - name: Collect compatible CWA bundle history
+        run: |
+          mkdir -p artifacts/cwa-history
+          python - <<'PY'
+          import json
+          import subprocess
+          from pathlib import Path
+
+          required = {
+              "relative_humidity_925hpa_percent",
+              "relative_humidity_850hpa_percent",
+              "relative_humidity_2m_percent",
+              "lcl_height_m_agl",
+              "wind_speed_10m_m_s",
+          }
+          path = "weathergrid/cwa_wrf3_tw_weather_browser.json"
+          commits = subprocess.check_output(
+              ["git", "log", "--format=%H", "--", path],
+              text=True,
+          ).splitlines()
+          kept = []
+          seen_cycles = set()
+          for sha in commits[:40]:
+              try:
+                  raw = subprocess.check_output(
+                      ["git", "show", f"{sha}:{path}"],
+                      stderr=subprocess.DEVNULL,
+                  )
+                  bundle = json.loads(raw)
+              except Exception:
+                  continue
+              if not required <= set(bundle.get("fields", {})):
+                  continue
+              cycle = str((bundle.get("cycle") or {}).get("cycle_time_utc") or "")
+              if cycle in seen_cycles:
+                  continue
+              seen_cycles.add(cycle)
+              out = Path("artifacts/cwa-history") / f"{sha}.json"
+              out.write_bytes(raw)
+              kept.append({
+                  "sha": sha,
+                  "cycle": cycle,
+                  "frames": len(bundle.get("frames", [])),
+                  "path": str(out),
+              })
+              if len(kept) >= 12:
+                  break
+
+          if not kept:
+              raise SystemExit("No B173-compatible CWA bundles found in git history")
+          Path("artifacts/cwa-history/index.json").write_text(
+              json.dumps(kept, indent=2),
+              encoding="utf-8",
+          )
+          print(json.dumps(kept, indent=2))
+          PY
+
       - name: Run exact-time CWA versus Himawari calibration
         run: |
           mkdir -p artifacts
+          mapfile -t CWA_BUNDLES < <(
+            python - <<'PY'
+          import json
+          for item in json.load(open("artifacts/cwa-history/index.json")):
+              print(item["path"])
+          PY
+          )
+          ARGS=()
+          for path in "${CWA_BUNDLES[@]}"; do
+            ARGS+=(--cwa-bundle "$path")
+          done
           python cwa_low_cloud_calibration.py \
-            --cwa-bundle weathergrid/cwa_wrf3_tw_weather_browser.json \
+            "${ARGS[@]}" \
             --min-slots-for-promotion 6 \
             --output artifacts/cwa-low-cloud-calibration.json
 
@@ -81,6 +150,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: cwa-low-cloud-calibration
-          path: artifacts/cwa-low-cloud-calibration.json
+          path: |
+            artifacts/cwa-low-cloud-calibration.json
+            artifacts/cwa-history/index.json
           if-no-files-found: warn
           retention-days: 30

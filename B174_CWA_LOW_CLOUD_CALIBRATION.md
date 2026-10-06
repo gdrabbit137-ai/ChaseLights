@@ -105,9 +105,41 @@ The calibration workflow runs after a successful live WeatherGrid refresh and
 can also run manually. It uploads the full JSON report as a retained CI
 artifact.
 
+To avoid losing evidence when the current compact bundle rolls to a new CWA
+cycle, the workflow scans Git history for prior **B173-compatible** CWA browser
+bundles. It retains distinct model cycles, merges their frames, and de-duplicates
+identical valid times by choosing the shortest available forecast lead. This
+lets independent valid times accumulate across refreshes without committing a
+new calibration result on every run.
+
 The workflow intentionally does not commit a new calibration result every run;
 the WeatherGrid raw-data refresh already generates frequent data commits and the
 calibration artifact is evidence, not a production input.
+
+## First live calibration result
+
+The first successful time-holdout run used:
+
+- training valid time: 2026-10-06 12:00 UTC;
+- holdout valid time: 2026-10-06 18:00 UTC;
+- 33,148 holdout labelled cells after ambiguity filtering.
+
+B173 baseline on the holdout:
+
+- Brier: 0.206218
+- sensitivity: 0.860805
+- specificity: 0.534732
+- balanced accuracy: 0.697768
+
+A Brier-first exploratory fit widened the same `max(RH925,RH850)` transfer to
+67% -> 0 and 100% -> 100. On holdout it reached Brier 0.188075, sensitivity
+0.841190, specificity 0.575253 and balanced accuracy 0.708222. This showed a
+real calibration improvement but still failed every promotion-improvement gate.
+
+The candidate selector was subsequently tightened to prioritize **training
+balanced accuracy first**, then Brier and specificity, because the main failure
+mode being corrected is false low-cloud overcalling. Production B173 remains
+unchanged until the multi-slot holdout gate passes.
 
 ## Scope guardrails
 

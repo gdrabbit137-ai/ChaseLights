@@ -424,6 +424,62 @@ def _promotion_decision(
     }
 
 
+def merge_calibration_bundles(bundles: list[dict]) -> dict:
+    """Merge compatible CWA bundles, keeping the shortest lead per valid time."""
+    required = {
+        "relative_humidity_925hpa_percent",
+        "relative_humidity_850hpa_percent",
+        "relative_humidity_2m_percent",
+        "lcl_height_m_agl",
+        "wind_speed_10m_m_s",
+    }
+    compatible = [bundle for bundle in bundles if required <= set(bundle.get("fields", {}))]
+    if not compatible:
+        raise ValueError("no compatible CWA calibration bundles")
+
+    compatible.sort(
+        key=lambda bundle: str((bundle.get("cycle") or {}).get("cycle_time_utc") or "")
+    )
+    template = compatible[-1]
+    grid_signature = (
+        tuple(round(float(value), 6) for value in template["grid"]["latitudes"]),
+        tuple(round(float(value), 6) for value in template["grid"]["longitudes"]),
+    )
+    chosen: dict[str, tuple[int, dict]] = {}
+    source_cycles = set()
+    for bundle in compatible:
+        signature = (
+            tuple(round(float(value), 6) for value in bundle["grid"]["latitudes"]),
+            tuple(round(float(value), 6) for value in bundle["grid"]["longitudes"]),
+        )
+        if signature != grid_signature:
+            continue
+        cycle = str((bundle.get("cycle") or {}).get("cycle_time_utc") or "")
+        if cycle:
+            source_cycles.add(cycle)
+        for frame in bundle.get("frames", []):
+            valid = str(frame.get("valid_time_utc") or "")
+            if not valid:
+                continue
+            lead = int(frame.get("forecast_hour") or 0)
+            previous = chosen.get(valid)
+            if previous is None or lead < previous[0]:
+                chosen[valid] = (lead, frame)
+
+    merged = dict(template)
+    merged["frames"] = [
+        chosen[valid][1]
+        for valid in sorted(chosen, key=_parse_utc)
+    ]
+    merged["calibration_history"] = {
+        "compatible_bundle_count": len(compatible),
+        "source_cycles": sorted(source_cycles),
+        "unique_valid_times": len(merged["frames"]),
+        "dedupe_policy": "shortest_forecast_hour_per_valid_time",
+    }
+    return merged
+
+
 def calibrate_bundle(
     bundle: dict,
     *,
@@ -550,6 +606,7 @@ def calibrate_bundle(
         "status": "complete",
         "source_model": bundle.get("model"),
         "source_cycle": bundle.get("cycle"),
+        "calibration_history": bundle.get("calibration_history"),
         "generated_at_utc": now.isoformat().replace("+00:00", "Z"),
         "low_cloud_observation_label": {
             "positive": f"Himawari cloudy and cloud-top height <= {low_cloud_top_m:g} m",
@@ -592,7 +649,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--cwa-bundle",
         type=Path,
-        default=Path("weathergrid/cwa_wrf3_tw_weather_browser.json"),
+        action="append",
+        default=None,
+        help=(
+            "CWA compact bundle path; repeat to accumulate historical cycles. "
+            "When omitted, uses weathergrid/cwa_wrf3_tw_weather_browser.json."
+        ),
     )
     parser.add_argument("--output", type=Path)
     parser.add_argument("--low-cloud-top-m", type=float, default=PRIMARY_LOW_CLOUD_TOP_M)
@@ -602,7 +664,14 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> int:
     args = parse_args()
-    bundle = json.loads(args.cwa_bundle.read_text(encoding="utf-8"))
+    bundle_paths = args.cwa_bundle or [
+        Path("weathergrid/cwa_wrf3_tw_weather_browser.json")
+    ]
+    bundles = [
+        json.loads(path.read_text(encoding="utf-8"))
+        for path in bundle_paths
+    ]
+    bundle = merge_calibration_bundles(bundles)
     report = calibrate_bundle(
         bundle,
         fs=build_fs(),
