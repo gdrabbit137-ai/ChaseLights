@@ -98,6 +98,55 @@ class PublishTest(unittest.TestCase):
             self.assertIn("cloud_cover_low", tile["values"])
             self.assertNotIn("low_cloud_percent", tile["values"])
 
+    def test_preserves_other_provider_runs_when_refreshing_jma(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            (root / "index.json").write_text(
+                json.dumps({
+                    "schema_version": 2,
+                    "provider_runs": {
+                        "gfs": {
+                            "schema_version": 1,
+                            "provider": "gfs",
+                            "model": "GFS",
+                            "published_regions": ["us"],
+                            "published_cell_ids": ["us_example"],
+                        }
+                    },
+                }),
+                encoding="utf-8",
+            )
+            publish_jma_regions(
+                ["tw"],
+                root,
+                forecast_hours=1,
+                metadata={"reference_time": "2026-10-03T00:00:00Z"},
+                fetcher=fake_snapshot,
+                max_cells=1,
+                selection_time_utc="2026-10-03T01:00:00Z",
+            )
+            index = json.loads((root / "index.json").read_text())
+            self.assertEqual(index["provider_runs"]["gfs"]["model"], "GFS")
+            self.assertEqual(index["provider_runs"]["gfs"]["published_regions"], ["us"])
+            self.assertEqual(index["provider_runs"]["jma"]["provider"], "jma")
+
+    def test_refuses_malformed_existing_provider_runs(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            (root / "index.json").write_text(
+                json.dumps({"schema_version": 2, "provider_runs": []}),
+                encoding="utf-8",
+            )
+            with self.assertRaisesRegex(RuntimeError, "provider_runs must be an object"):
+                publish_jma_regions(
+                    ["tw"],
+                    root,
+                    forecast_hours=1,
+                    metadata={"reference_time": "2026-10-03T00:00:00Z"},
+                    fetcher=fake_snapshot,
+                    max_cells=1,
+                )
+
     def test_rejects_unknown_region(self):
         with tempfile.TemporaryDirectory() as d:
             with self.assertRaises(ValueError):
