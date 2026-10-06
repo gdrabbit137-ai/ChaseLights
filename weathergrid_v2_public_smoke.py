@@ -19,14 +19,35 @@ def driver():
 def bbox_values(text):
     return [float(v.strip()) for v in text.split(":",1)[1].split(",")]
 
+def lon_span(west,east):
+    if abs(east-west) >= 359.999999:
+        return 360.0
+    return (east-west) % 360.0
+
+def lon_segments(west,east):
+    span=lon_span(west,east)
+    if span >= 359.999999:
+        return [(-180.0,180.0)]
+    end=west+span
+    if end <= 180.000001:
+        return [(west,min(180.0,end))]
+    return [(west,180.0),(-180.0,end-360.0)]
+
 def viewport_center(text):
     west,south,east,north=bbox_values(text)
-    return ((west+east)/2,(south+north)/2)
+    lon=((west+lon_span(west,east)/2+180)%360)-180
+    return (lon,(south+north)/2)
 
 def coverage_contains(viewport_text, coverage_text):
     vw,vs,ve,vn=bbox_values(viewport_text)
     cw,cs,ce,cn=bbox_values(coverage_text)
-    return cw <= vw and cs <= vs and ce >= ve and cn >= vn
+    if cs > vs+1e-6 or cn < vn-1e-6:
+        return False
+    coverage_segments=lon_segments(cw,ce)
+    return all(
+        any(ow <= iw+1e-6 and oe >= ie-1e-6 for ow,oe in coverage_segments)
+        for iw,ie in lon_segments(vw,ve)
+    )
 
 def sample_count(text):
     match=re.search(r"(\d+) samples", text or "")
@@ -211,6 +232,10 @@ def run(url, screenshot):
         alaska_lon,alaska_lat=viewport_center(alaska["viewport"])
         assert -170 <= alaska_lon <= -129 and 51 <= alaska_lat <= 72, alaska
         assert "samples" in alaska["status"], alaska
+        # Desktop Alaska regression: the old 240-point cap rendered ~80 px
+        # blocks. Keep the experimental fallback dense enough to avoid that
+        # visibly coarse checkerboard while remaining under the bounded budget.
+        assert sample_count(alaska["status"]) >= 600, alaska
         assert coverage_contains(alaska["viewport"],alaska["coverage"]), alaska
 
         # An arbitrary non-preset global viewport must also resolve to the
@@ -257,6 +282,55 @@ def run(url, screenshot):
           "coverage":d.find_element(By.ID,"coverage").text,
         }
 
+        # A viewport that crosses ±180° must remain a local wrapped bbox rather
+        # than being expanded into an almost-global request.
+        dateline_before=d.find_element(By.ID,"viewport").text
+        d.execute_script(
+            "window.__weatherGridV2Smoke.jumpTo(arguments[0], arguments[1], arguments[2])",
+            179.0, 10.0, 6.0,
+        )
+        wait.until(lambda x: x.find_element(By.ID,"viewport").text != dateline_before)
+        wait.until(lambda x: (
+            "資料已就緒" in x.find_element(By.ID,"status").text
+            and "NCEP GFS Global" in x.find_element(By.ID,"source").text
+            and coverage_contains(
+                x.find_element(By.ID,"viewport").text,
+                x.find_element(By.ID,"coverage").text,
+            )
+        ))
+        dateline={
+          "status":d.find_element(By.ID,"status").text,
+          "source":d.find_element(By.ID,"source").text,
+          "viewport":d.find_element(By.ID,"viewport").text,
+          "coverage":d.find_element(By.ID,"coverage").text,
+          "region":d.execute_script("return window.__weatherGridV2Smoke.region()"),
+        }
+        dw,ds,de,dn=bbox_values(dateline["viewport"])
+        assert dw > de, dateline
+        assert lon_span(dw,de) < 90, dateline
+        assert dateline["region"] is None, dateline
+
+        dateline_map=d.find_element(By.ID,"map")
+        dateline_pan_before=dateline["viewport"]
+        ActionChains(d).move_to_element(dateline_map).drag_and_drop_by_offset(dateline_map,-300,0).perform()
+        wait.until(lambda x: x.find_element(By.ID,"viewport").text != dateline_pan_before)
+        wait.until(lambda x: (
+            "資料已就緒" in x.find_element(By.ID,"status").text
+            and "NCEP GFS Global" in x.find_element(By.ID,"source").text
+            and coverage_contains(
+                x.find_element(By.ID,"viewport").text,
+                x.find_element(By.ID,"coverage").text,
+            )
+        ))
+        dateline_after_pan={
+          "status":d.find_element(By.ID,"status").text,
+          "source":d.find_element(By.ID,"source").text,
+          "viewport":d.find_element(By.ID,"viewport").text,
+          "coverage":d.find_element(By.ID,"coverage").text,
+        }
+        paw,pas,pae,pan=bbox_values(dateline_after_pan["viewport"])
+        assert lon_span(paw,pae) < 90, dateline_after_pan
+
         screenshot.parent.mkdir(parents=True,exist_ok=True)
         d.save_screenshot(str(screenshot))
         severe=[x for x in d.get_log("browser") if x.get("level")=="SEVERE"]
@@ -265,6 +339,7 @@ def run(url, screenshot):
                 "us_cloud_handoff":us,"conus_after_pan":conus_after,
                 "tw_native_return":tw_return,"alaska_after_pan":alaska,
                 "global_cloud":global_view,"global_after_pan":global_after_pan,
+                "dateline_cloud":dateline,"dateline_after_pan":dateline_after_pan,
                 "browser_severe_log_count":len(severe),"browser_severe_logs":severe[:10],
                 "screenshot":str(screenshot)}
     finally:

@@ -1,6 +1,6 @@
 import * as maplibregl from 'https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-gl.mjs';
 import { loadV2Index, loadViewportTiles, nearestValidTime, providerSupportsField } from './weather-map-v2-tile-loader.js';
-import { chunkPoints, sampleGrid } from './weather-map-v2-sampling.js';
+import { bboxCenterLon, bboxContains, bboxFromWestSpan, chunkPoints, expandBBox, longitudeSpan, sampleGrid } from './weather-map-v2-sampling.js?v=antimeridian-p0';
 
 const API = {
   jma: {
@@ -78,25 +78,33 @@ map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-ri
 function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
 function view() {
   const b = map.getBounds();
+  const span = longitudeSpan({ w: b.getWest(), e: b.getEast() });
+  const lon = bboxFromWestSpan(b.getWest(), span, 0, 0);
   return {
-    w: clamp(b.getWest(), -180, 180),
+    w: lon.w,
     s: clamp(b.getSouth(), -80, 80),
-    e: clamp(b.getEast(), -180, 180),
+    e: lon.e,
     n: clamp(b.getNorth(), -80, 80),
   };
 }
 function expand(b, factor = 0.25) {
-  const dx = Math.max(0.3, (b.e - b.w) * factor);
-  const dy = Math.max(0.25, (b.n - b.s) * factor);
-  return {
-    w: clamp(b.w - dx, -180, 180),
-    s: clamp(b.s - dy, -80, 80),
-    e: clamp(b.e + dx, -180, 180),
-    n: clamp(b.n + dy, -80, 80),
-  };
+  return expandBBox(b, {
+    factor,
+    minLonPad: 0.3,
+    minLatPad: 0.25,
+    latMin: -80,
+    latMax: 80,
+  });
 }
 function contains(a, b) {
-  return !!(a && b && a.w <= b.w && a.e >= b.e && a.s <= b.s && a.n >= b.n);
+  return bboxContains(a, b);
+}
+function mapLonNearCenter(lon) {
+  const center = map.getCenter().lng;
+  let value = Number(lon);
+  while (value - center > 180) value -= 360;
+  while (value - center < -180) value += 360;
+  return value;
 }
 function fmt(b) {
   return b ? [b.w, b.s, b.e, b.n].map((v) => Number(v).toFixed(2)).join(', ') : '—';
@@ -170,8 +178,8 @@ function draw() {
   for (const sample of state.samples) {
     const value = displayValue(field, sample.values[field]);
     if (value == null) continue;
-    const nw = map.project([sample.lon - dx / 2, sample.lat + dy / 2]);
-    const se = map.project([sample.lon + dx / 2, sample.lat - dy / 2]);
+    const nw = map.project([mapLonNearCenter(sample.lon - dx / 2), sample.lat + dy / 2]);
+    const se = map.project([mapLonNearCenter(sample.lon + dx / 2), sample.lat - dy / 2]);
     const x = Math.min(nw.x, se.x);
     const y = Math.min(nw.y, se.y);
     const w = Math.max(7, Math.abs(se.x - nw.x) + 1);
@@ -265,7 +273,7 @@ function applyDataset(item, cacheStatus) {
 }
 
 function regionForView(b){
-  const lon=(b.w+b.e)/2, lat=(b.s+b.n)/2;
+  const lon=bboxCenterLon(b), lat=(b.s+b.n)/2;
   if(lon>=119.5&&lon<=123.5&&lat>=21.5&&lat<=26.5) return 'tw';
   if(lon>=122&&lon<=146&&lat>=24&&lat<=46) return 'jp';
   if(lon>=-125&&lon<=-66&&lat>=24&&lat<=50) return 'us';
