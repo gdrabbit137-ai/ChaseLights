@@ -12,6 +12,7 @@ from weathergrid_v2_tile_export import valid_time_token
 FIELD_MAP = {
     "temperature_2m_c": "cwa_temperature_2m",
     "relative_humidity_2m_percent": "cwa_rh_2m",
+    "relative_humidity_1000hpa_percent": "cwa_rh_1000",
     "relative_humidity_925hpa_percent": "cwa_rh_925",
     "relative_humidity_850hpa_percent": "cwa_rh_850",
     "relative_humidity_700hpa_percent": "cwa_rh_700",

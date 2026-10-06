@@ -33,6 +33,7 @@ const FIELDS = {
   cwa_cloud_potential_high: { label: 'CWA 高層雲潛勢（RH 衍生）', unit: '%' },
   cwa_lcl_height: { label: 'CWA 雲底 LCL 估算', unit: 'm AGL' },
   cwa_fog_potential: { label: 'CWA 近地霧潛勢（實驗）', unit: '%' },
+  cwa_rh_1000: { label: 'CWA 1000 hPa 相對濕度', unit: '%' },
   cwa_rh_925: { label: 'CWA 925 hPa 相對濕度', unit: '%' },
   cwa_rh_850: { label: 'CWA 850 hPa 相對濕度', unit: '%' },
   cwa_rh_700: { label: 'CWA 700 hPa 相對濕度', unit: '%' },
@@ -72,7 +73,7 @@ const PROVIDER_FIELDS = {
   cwa: [
     'cwa_cloud_potential_low', 'cwa_cloud_potential_mid', 'cwa_cloud_potential_high',
     'cwa_lcl_height', 'cwa_fog_potential',
-    'cwa_rh_925', 'cwa_rh_850', 'cwa_rh_700', 'cwa_rh_500', 'cwa_rh_400', 'cwa_rh_300',
+    'cwa_rh_1000', 'cwa_rh_925', 'cwa_rh_850', 'cwa_rh_700', 'cwa_rh_500', 'cwa_rh_400', 'cwa_rh_300',
   ],
 };
 const FALLBACK_SOURCE_STEP = {

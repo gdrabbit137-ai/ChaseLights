@@ -4,16 +4,6 @@ on:
   workflow_run:
     workflows: ["Update Live WeatherGrid Preview"]
     types: [completed]
-  push:
-    branches:
-      - main
-    paths:
-      - "cwa_weathergrid_derived.py"
-      - "cwa_wrf3_poc.py"
-      - "cwa_weathergrid_browser_bundle.py"
-      - "weathergrid_v2_cwa_publish.py"
-      - "weathergrid_v2_cache_index.py"
-      - ".github/workflows/weathergrid_v2_cwa_publish.yml"
   workflow_dispatch:
 
 concurrency:

@@ -19,6 +19,7 @@ class WeatherGridV2CwaPublishTests(unittest.TestCase):
         field_names = [
             "temperature_2m_c",
             "relative_humidity_2m_percent",
+            "relative_humidity_1000hpa_percent",
             "relative_humidity_925hpa_percent",
             "relative_humidity_850hpa_percent",
             "relative_humidity_700hpa_percent",
@@ -86,6 +87,7 @@ class WeatherGridV2CwaPublishTests(unittest.TestCase):
             self.assertFalse(tile["native_grid"])
             self.assertTrue(tile["regular_grid"])
             self.assertEqual(tile["provider"], "cwa")
+            self.assertIn("cwa_rh_1000", tile["values"])
             self.assertIn("cwa_rh_925", tile["values"])
             self.assertIn("cwa_cloud_potential_high", tile["values"])
 

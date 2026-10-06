@@ -122,7 +122,10 @@ class WeatherGridV2ExperimentTest(unittest.TestCase):
         workflow = (ROOT / ".github/workflows/weathergrid_v2_experiment.yml").read_text(
             encoding="utf-8"
         )
-        self.assertIn('workflows: ["Update WeatherGrid V2 JMA Native Tiles"]', workflow)
+        self.assertIn(
+            'workflows: ["Update WeatherGrid V2 JMA Native Tiles", "Update WeatherGrid V2 CWA Derived Tiles"]',
+            workflow,
+        )
         self.assertIn("types: [completed]", workflow)
         self.assertIn(
             "github.event_name != 'workflow_run' || "
@@ -149,6 +152,10 @@ class WeatherGridV2ExperimentTest(unittest.TestCase):
         self.assertIn('[data-preset="jp"]', smoke)
         self.assertIn("10.0, 50.0, 5.0", smoke)
         self.assertIn('Select(d.find_element(By.ID,"provider")).select_by_value("jma")', smoke)
+        self.assertIn('Select(d.find_element(By.ID,"provider")).select_by_value("cwa")', smoke)
+        self.assertIn('select_by_value("cwa_cloud_potential_low")', smoke)
+        self.assertIn("cwa_available=bool(d.execute_async_script", smoke)
+        self.assertIn("CWA WRF 3 km · RH-derived experimental tiles", smoke)
         self.assertIn("179.0, 10.0, 6.0", smoke)
         self.assertIn("assert cw > ce", smoke)
         self.assertIn("assert lon_span(cw,ce) < 90", smoke)
@@ -193,6 +200,7 @@ class WeatherGridV2ExperimentTest(unittest.TestCase):
             "cwa_cloud_potential_high",
             "cwa_lcl_height",
             "cwa_fog_potential",
+            "cwa_rh_1000",
             "cwa_rh_925",
             "cwa_rh_850",
             "cwa_rh_700",

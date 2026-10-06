@@ -43,7 +43,7 @@ on:
       - "weathergrid_v2_public_smoke.py"
       - ".github/workflows/weathergrid_v2_experiment.yml"
   workflow_run:
-    workflows: ["Update WeatherGrid V2 JMA Native Tiles"]
+    workflows: ["Update WeatherGrid V2 JMA Native Tiles", "Update WeatherGrid V2 CWA Derived Tiles"]
     types: [completed]
   workflow_dispatch:
 
