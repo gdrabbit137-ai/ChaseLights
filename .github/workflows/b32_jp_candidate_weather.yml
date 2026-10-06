@@ -196,7 +196,14 @@ jobs:
           assert todoroki["navigation_target"]["lon"] == 139.646545
 
           shinhotaka = next(s for s in summary_spots if s["spot_id"] == "jp-021")
-          assert shinhotaka["navigation_target"]["status"] == "needs_review", shinhotaka["navigation_target"]
+          assert shinhotaka["navigation_target"]["status"] == "verified", shinhotaka["navigation_target"]
+          assert shinhotaka["navigation_target"]["target_type"] == "station"
+          assert shinhotaka["navigation_target"]["lat"] == 36.2858894
+          assert shinhotaka["navigation_target"]["lon"] == 137.5753158
+          assert (shinhotaka["lat"], shinhotaka["lon"]) != (
+              shinhotaka["navigation_target"]["lat"],
+              shinhotaka["navigation_target"]["lon"],
+          )
 
           yahiko = next(s for s in summary_spots if s["spot_id"] == "jp-022")
           assert yahiko["navigation_target"]["status"] == "multiple_access_routes", yahiko["navigation_target"]
