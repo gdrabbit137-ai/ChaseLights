@@ -299,8 +299,9 @@ def run(url, screenshot):
           "coverage":d.find_element(By.ID,"coverage").text,
         }
 
-        # A viewport that crosses ±180° must remain a local wrapped bbox rather
-        # than being expanded into an almost-global request.
+        # With renderWorldCopies disabled, MapLibre may clip the visible
+        # viewport at ±180°.  The prefetch coverage is the geometry that must
+        # wrap across the antimeridian while remaining a local request.
         dateline_before=d.find_element(By.ID,"viewport").text
         d.execute_script(
             "window.__weatherGridV2Smoke.jumpTo(arguments[0], arguments[1], arguments[2])",
@@ -323,8 +324,10 @@ def run(url, screenshot):
           "region":d.execute_script("return window.__weatherGridV2Smoke.region()"),
         }
         dw,ds,de,dn=bbox_values(dateline["viewport"])
-        assert dw > de, dateline
+        cw,cs,ce,cn=bbox_values(dateline["coverage"])
         assert lon_span(dw,de) < 90, dateline
+        assert cw > ce, dateline
+        assert lon_span(cw,ce) < 90, dateline
         assert dateline["region"] is None, dateline
 
         dateline_map=d.find_element(By.ID,"map")
@@ -346,7 +349,9 @@ def run(url, screenshot):
           "coverage":d.find_element(By.ID,"coverage").text,
         }
         paw,pas,pae,pan=bbox_values(dateline_after_pan["viewport"])
+        pcw,pcs,pce,pcn=bbox_values(dateline_after_pan["coverage"])
         assert lon_span(paw,pae) < 90, dateline_after_pan
+        assert lon_span(pcw,pce) < 90, dateline_after_pan
 
         screenshot.parent.mkdir(parents=True,exist_ok=True)
         d.save_screenshot(str(screenshot))

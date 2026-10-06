@@ -109,6 +109,7 @@ class WeatherGridV2ExperimentTest(unittest.TestCase):
 
     def test_public_smoke_covers_partial_native_fallback_and_retake(self):
         smoke = (ROOT / "weathergrid_v2_public_smoke.py").read_text(encoding="utf-8")
+        js = (ROOT / "assets/weather-map-v2.js").read_text(encoding="utf-8")
         self.assertIn('assert "NCEP GFS Global" in initial["source"]', smoke)
         self.assertIn('sample_count(initial["status"]) >= 200', smoke)
         self.assertIn('CONUS V2 handoff timed out', smoke)
@@ -120,8 +121,10 @@ class WeatherGridV2ExperimentTest(unittest.TestCase):
         self.assertIn("10.0, 50.0, 5.0", smoke)
         self.assertIn('Select(d.find_element(By.ID,"provider")).select_by_value("jma")', smoke)
         self.assertIn("179.0, 10.0, 6.0", smoke)
-        self.assertIn("assert dw > de", smoke)
+        self.assertIn("assert cw > ce", smoke)
+        self.assertIn("assert lon_span(cw,ce) < 90", smoke)
         self.assertIn("def lon_segments(", smoke)
+        self.assertIn("renderWorldCopies: false", js)
         self.assertIn('rate-safe point fallback', smoke)
         self.assertIn('coverage_present(', smoke)
         self.assertIn('外部 API 限流或請求預算已達上限', smoke)
