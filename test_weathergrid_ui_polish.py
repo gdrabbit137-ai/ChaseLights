@@ -61,6 +61,14 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn("$('layer-summary').textContent=cfg.label", self.js)
         self.assertIn("畫面資料範圍", self.js)
 
+    def test_cloud_coverage_gap_is_not_presented_as_clear_weather(self):
+        self.assertIn('id="provider-coverage-note"', self.html)
+        self.assertIn("空白區＝目前", self.js)
+        self.assertIn("無資料，不代表晴朗", self.js)
+        self.assertIn("切換雲層時自動預報可能改用不同模型", self.js)
+        self.assertIn("cloudLayers.has(state.layer)", self.js)
+        self.assertIn(".provider-coverage-note", self.css)
+
     def test_qc_flags_are_explained_in_user_language(self):
         self.assertIn("function qcMessage(flag)", self.js)
         self.assertIn("能見度大量達模型上限", self.js)
@@ -219,8 +227,8 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn("labels=['0','1','5','10','50+']", self.js)
 
     def test_assets_use_cache_busting_after_mobile_ui_updates(self):
-        self.assertIn('weather-map.css?v=b172g', self.html)
-        self.assertIn('weather-map.js?v=b172g', self.html)
+        self.assertIn('weather-map.css?v=b174ui1', self.html)
+        self.assertIn('weather-map.js?v=b174ui1', self.html)
 
     def test_mobile_opacity_control_is_single_row(self):
         self.assertIn('class="opacity-caption"', self.html)
