@@ -118,15 +118,15 @@ const url = 'data:text/javascript;base64,' + Buffer.from(source).toString('base6
 const { adaptiveGridShape, sampleGrid, chunkPoints } = await import(url);
 
 const desktop = adaptiveGridShape({width: 1365, height: 800, zoom: 6});
-if (desktop.cols * desktop.rows <= 42) process.exit(31);
-if (desktop.cols * desktop.rows > 420) process.exit(32);
+if (desktop.cols * desktop.rows < 900) process.exit(31);
+if (desktop.cols * desktop.rows > 1080) process.exit(32);
 
 const wide = sampleGrid(
   {w: 109.8, s: 17.0, e: 132.2, n: 30.2},
   {width: 1365, height: 800, zoom: 6, minLonStepDeg: 0.0625, minLatStepDeg: 0.05},
 );
-if (wide.points.length <= 200) process.exit(33);
-if (wide.points.length > 420) process.exit(34);
+if (wide.points.length < 900) process.exit(33);
+if (wide.points.length > 1080) process.exit(34);
 if (!(wide.dx < 1.0 && wide.dy < 1.0)) process.exit(35);
 
 const tightGfs = sampleGrid(
