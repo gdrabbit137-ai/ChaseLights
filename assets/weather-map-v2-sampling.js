@@ -77,10 +77,14 @@ export function adaptiveGridShape({width,height,zoom}={}){
   const w=Math.max(320,Number(width)||960);
   const h=Math.max(240,Number(height)||640);
   const z=Number.isFinite(Number(zoom))?Number(zoom):6;
-  const targetPx=z>=7.5?42:(z>=5?58:72);
-  const maxPoints=z>=7.5?640:(z>=5?420:240);
-  let cols=clampInt(Math.ceil(w/targetPx)+1,6,48);
-  let rows=clampInt(Math.ceil(h/targetPx)+1,5,36);
+  // Keep continental views legible without exploding browser/API work.
+  // The previous 240-point cap produced ~80 px blocks on a 1365 px desktop
+  // viewport (the Alaska regression case).  These budgets target roughly
+  // 35–45 px fallback cells while preserving a hard upper bound.
+  const targetPx=z>=7.5?28:(z>=5?34:42);
+  const maxPoints=z>=7.5?1600:(z>=5?1080:720);
+  let cols=clampInt(Math.ceil(w/targetPx)+1,6,64);
+  let rows=clampInt(Math.ceil(h/targetPx)+1,5,48);
   while(cols*rows>maxPoints){
     if(cols>=rows&&cols>6) cols-=1;
     else if(rows>5) rows-=1;
