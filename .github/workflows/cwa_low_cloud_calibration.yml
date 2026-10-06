@@ -1,0 +1,86 @@
+name: Calibrate CWA Low Cloud
+
+on:
+  pull_request:
+    paths:
+      - "cwa_low_cloud_calibration.py"
+      - "test_cwa_low_cloud_calibration.py"
+      - "cwa_weathergrid_derived.py"
+      - "cwa_wrf3_poc.py"
+      - "cwa_weathergrid_browser_bundle.py"
+      - "himawari9_cloud_poc.py"
+      - "himawari9_weathergrid_browser_bundle.py"
+      - "B173_CWA_DERIVED_PHOTOGRAPHY_FIELDS.md"
+      - "B174_CWA_LOW_CLOUD_CALIBRATION.md"
+      - ".github/workflows/cwa_low_cloud_calibration.yml"
+  workflow_run:
+    workflows: ["Update Live WeatherGrid Preview"]
+    types: [completed]
+  workflow_dispatch:
+
+concurrency:
+  group: chaselights-cwa-low-cloud-calibration
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  calibrate:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout calibration candidate
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_run' && 'main' || github.sha }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install calibration dependencies
+        run: |
+          python -m pip install --disable-pip-version-check \
+            numpy scipy pyproj s3fs h5py
+
+      - name: Run offline calibration contracts
+        run: |
+          python -m unittest -v test_cwa_low_cloud_calibration.py
+
+      - name: Run exact-time CWA versus Himawari calibration
+        run: |
+          mkdir -p artifacts
+          python cwa_low_cloud_calibration.py \
+            --cwa-bundle weathergrid/cwa_wrf3_tw_weather_browser.json \
+            --min-slots-for-promotion 6 \
+            --output artifacts/cwa-low-cloud-calibration.json
+
+      - name: Print calibration decision
+        if: always()
+        run: |
+          if [[ -s artifacts/cwa-low-cloud-calibration.json ]]; then
+            python - <<'PY'
+          import json
+          report = json.load(open("artifacts/cwa-low-cloud-calibration.json"))
+          print(json.dumps({
+              "status": report.get("status"),
+              "time_split": report.get("time_split"),
+              "baseline_holdout": (report.get("baseline") or {}).get("holdout"),
+              "candidate": report.get("candidate"),
+              "decision": report.get("decision"),
+              "skipped_slots": report.get("skipped_slots"),
+          }, indent=2))
+          PY
+          fi
+
+      - name: Upload calibration evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cwa-low-cloud-calibration
+          path: artifacts/cwa-low-cloud-calibration.json
+          if-no-files-found: warn
+          retention-days: 30
