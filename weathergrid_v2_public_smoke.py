@@ -332,7 +332,10 @@ def run(url, screenshot):
 
         dateline_map=d.find_element(By.ID,"map")
         dateline_pan_before=dateline["viewport"]
-        ActionChains(d).move_to_element(dateline_map).drag_and_drop_by_offset(dateline_map,-300,0).perform()
+        # Drag westward from the +180° edge.  With world copies disabled,
+        # dragging farther east is clamped at the map boundary and produces no
+        # moveend, so use the real movable direction for the refill regression.
+        ActionChains(d).move_to_element(dateline_map).drag_and_drop_by_offset(dateline_map,300,0).perform()
         wait.until(lambda x: x.find_element(By.ID,"viewport").text != dateline_pan_before)
         wait.until(lambda x: (
             settled(x.find_element(By.ID,"status").text)
