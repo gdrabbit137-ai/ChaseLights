@@ -185,6 +185,8 @@ if (chunks.some((chunk) => chunk.length > 100)) process.exit(38);
         self.assertIn("maxPointsOverride: FALLBACK_MAX_POINTS[provider]", s)
         self.assertIn("const API_BATCH_CONCURRENCY = 1", s)
         self.assertIn("rate-safe point fallback", s)
+        self.assertIn("if (provider === 'jma') return 'JMA MSM'", s)
+        self.assertIn("nativeProviderLabel(item.provider,item.field)", s)
         self.assertIn("fallbackLimited: !!fallbackError", s)
         self.assertNotIn("native-tile-partial", s)
         self.assertIn("coverageComplete:true", s)
