@@ -29,6 +29,10 @@ class WeatherGridV2ExperimentTest(unittest.TestCase):
             "const API_BATCH_SIZE = 100",
             "const API_BATCH_CONCURRENCY = 1",
             "const API_BATCH_RETRIES = 3",
+            "FALLBACK_RATE_POINT_BUDGET = 500",
+            "function reserveFallbackPoints(",
+            "requested coverage:",
+            "外部 API 限流或請求預算已達上限",
             "function abortableDelay(",
             "response.status === 429 || response.status >= 500",
             "error.status = response.status",
@@ -118,6 +122,8 @@ class WeatherGridV2ExperimentTest(unittest.TestCase):
         self.assertIn("assert dw > de", smoke)
         self.assertIn("def lon_segments(", smoke)
         self.assertIn('rate-safe point fallback', smoke)
+        self.assertIn('coverage_present(', smoke)
+        self.assertIn('外部 API 限流或請求預算已達上限', smoke)
         self.assertIn('sample_count(alaska["status"]) >= 200', smoke)
 
     def test_antimeridian_geometry_contract_runs_in_ci(self):
