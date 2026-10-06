@@ -96,16 +96,42 @@ class WeatherGridV2ExperimentTest(unittest.TestCase):
         )
         self.assertIn("expected_loader_sha", workflow)
         self.assertIn("expected_sampling_sha", workflow)
+        self.assertIn("expected_index_sha", workflow)
+        self.assertIn("expected_jma_manifest_sha", workflow)
         self.assertIn("weather-map-v2-tile-loader.js?pages_probe=", workflow)
         self.assertIn("weather-map-v2-sampling.js?pages_probe=", workflow)
+        self.assertIn("weathergrid/v2/index.json?pages_probe=", workflow)
+        self.assertIn("weathergrid/v2/jma/current/manifest.json?pages_probe=", workflow)
         self.assertIn("/tmp/v2-loader.js", workflow)
         self.assertIn("/tmp/v2-sampling.js", workflow)
+        self.assertIn("/tmp/v2-index.json", workflow)
+        self.assertIn("/tmp/v2-jma-manifest.json", workflow)
         self.assertIn("$expected_loader_sha", workflow)
         self.assertIn("$expected_sampling_sha", workflow)
+        self.assertIn("$expected_index_sha", workflow)
+        self.assertIn("$expected_jma_manifest_sha", workflow)
         self.assertIn("timeout-minutes: 24", workflow)
         self.assertIn("for i in {1..60}; do", workflow)
         self.assertIn("cancel-in-progress: true", workflow)
         self.assertIn("github.event.pull_request.number || github.ref", workflow)
+
+    def test_publisher_completion_triggers_latest_main_public_smoke(self):
+        workflow = (ROOT / ".github/workflows/weathergrid_v2_experiment.yml").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn('workflows: ["Update WeatherGrid V2 JMA Native Tiles"]', workflow)
+        self.assertIn("types: [completed]", workflow)
+        self.assertIn(
+            "github.event_name != 'workflow_run' || "
+            "github.event.workflow_run.conclusion == 'success'",
+            workflow,
+        )
+        self.assertGreaterEqual(
+            workflow.count(
+                "ref: ${{ github.event_name == 'workflow_run' && 'main' || github.sha }}"
+            ),
+            2,
+        )
 
     def test_public_smoke_covers_partial_native_fallback_and_retake(self):
         smoke = (ROOT / "weathergrid_v2_public_smoke.py").read_text(encoding="utf-8")
