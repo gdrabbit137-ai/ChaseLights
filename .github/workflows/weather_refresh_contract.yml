@@ -1,0 +1,34 @@
+name: Weather Refresh Publish Contract
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/update_weather.yml"
+      - ".github/workflows/weather_refresh_contract.yml"
+      - "test_update_weather_workflow.py"
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/update_weather.yml"
+      - ".github/workflows/weather_refresh_contract.yml"
+      - "test_update_weather_workflow.py"
+
+permissions:
+  contents: read
+
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout candidate
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Validate weather refresh publish contract
+        run: |
+          python -m py_compile test_update_weather_workflow.py
+          python -m unittest -v test_update_weather_workflow.py

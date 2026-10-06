@@ -76,9 +76,20 @@ jobs:
 
           if ! git diff-index --quiet HEAD; then
             git commit -m "Auto-update ChaseLights weather data [skip ci]"
+            pushed=false
             for i in {1..5}; do
-              git pull --rebase && git push && break || sleep 5
+              if git pull --rebase && git push; then
+                pushed=true
+                break
+              fi
+              if [ "$i" -lt 5 ]; then
+                sleep 5
+              fi
             done
+            if [ "$pushed" != "true" ]; then
+              echo "::error::Failed to publish refreshed weather data after 5 attempts."
+              exit 1
+            fi
           else
             echo "No weather data changes found."
           fi
