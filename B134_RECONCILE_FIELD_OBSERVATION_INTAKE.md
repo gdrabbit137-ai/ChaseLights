@@ -1,5 +1,8 @@
 # B134 — Reconcile Field Observation Intake on Current Main
 
+> **Historical implementation/reconciliation record — not current policy.**
+> This document records the B134 implementation state at the time it was written. It MUST NOT be used as an independent source of truth for current Field Intake matching thresholds, association semantics, UX requirements, or navigation semantics. Current Field Intake observation-association/presentation policy is owned by `RESEARCH_EVIDENCE_SPEC_R4_2.md` §14; Camera Zone / Photo Target / Navigation Target semantics remain owned by `NAVIGATION_SPEC_R4_2.md`. Where this document differs from those current specs, the current specs on `main` prevail.
+
 Date: 2026-09-30 (Asia/Taipei)
 
 ## Goal
