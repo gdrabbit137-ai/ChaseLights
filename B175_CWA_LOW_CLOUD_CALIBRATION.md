@@ -89,9 +89,21 @@ exist and the holdout snapshot shows all of:
 - sensitivity loss <= 0.20;
 - AUC does not decrease.
 
-Passing this gate means **candidate for review**, not automatic production
-promotion. More replay dates and field validation should accumulate before the
-experimental label is removed.
+Passing this gate means the **current train/holdout pair** is provisionally
+successful. It is not sufficient by itself for production promotion.
+
+A separate longitudinal gate must also pass before the candidate is marked
+**eligible for model review**. The calibration history must contain at least
+six distinct validation slots. Over the most recent six distinct slots, the
+median results must satisfy:
+
+- Brier improvement >= 0.015;
+- specificity improvement >= 0.10;
+- sensitivity loss <= 0.20;
+- AUC change >= 0.
+
+The longitudinal gate only permits model review. It never changes production or
+Photography Opportunity scoring automatically.
 
 ## First calibration evidence
 
@@ -174,3 +186,9 @@ Each non-PR run:
 
 The history retains up to 120 train/holdout pairs and stores metrics and label
 counts only. It does not commit raw Himawari pixels or field-validation images.
+
+Each history update also records `review_readiness`: the count of distinct
+validation slots, median improvements over the latest six distinct slots, the
+candidate features seen in that window, and the longitudinal gate result. This
+prevents one unusually favorable replay pair from being treated as stable model
+evidence.
