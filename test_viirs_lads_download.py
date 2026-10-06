@@ -8,7 +8,7 @@ from viirs_lads_download import (
     archive_url,
     authenticated_opener,
     authorization_headers,
-    extract_filenames,\n    extract_file_references,
+    extract_filenames,
     extract_file_references,
     download_file,
     search_url,
@@ -82,13 +82,18 @@ class ViirsLadsDownloadTest(unittest.TestCase):
         destination = Path(".cache/test") / filename
         destination.parent.mkdir(parents=True, exist_ok=True)
         destination.write_bytes(b"\\x89HDF\\r\\n\\x1a\\n")
-        download_file(filename, "secret-value", destination)
+        discovery_reference = (
+            "https://ladsweb.modaps.eosdis.nasa.gov/api/v2/content/archives/" + filename
+        )
+        download_file(filename, "secret-value", destination, reference=discovery_reference)
         command = run.call_args.args[0]
         self.assertEqual(command[0], "curl")
         self.assertIn("--location", command)
         self.assertIn("--cookie", command)
         self.assertIn("Authorization: Bearer secret-value", command)
         self.assertIn(str(destination), command)
+        self.assertIn(archive_url(filename), command)
+        self.assertNotIn(discovery_reference, command)
         self.assertTrue(run.call_args.kwargs["check"])
 
     @patch("viirs_lads_download.subprocess.run")
