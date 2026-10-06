@@ -141,6 +141,10 @@ function cacheFind(provider, field, v) {
   const now = Date.now();
   for (const [key, item] of state.cache) {
     if (item.provider !== provider || item.field !== field || now - item.fetchedAt > 15 * 60 * 1000) continue;
+    // Never let a partial/rate-limited response poison viewport cache hits.
+    // An incomplete item may be rendered for the current request, but the next
+    // move/refresh must remain eligible to refill missing coverage.
+    if (item.coverageComplete === false) continue;
     if (contains(item.coverage, v)) {
       state.cache.delete(key);
       state.cache.set(key, item);
