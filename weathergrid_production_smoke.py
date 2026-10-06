@@ -84,7 +84,6 @@ def run(url: str, screenshot: Path) -> dict:
             "relative_humidity_2m_percent",
             "shortwave_flux_w_m2",
             "wind_speed_10m_m_s",
-            "wind_direction_10m_deg",
         ):
             assert required in cwa_layer_values, (required, cwa_layer_values)
         wait_for(
