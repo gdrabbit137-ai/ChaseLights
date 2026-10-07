@@ -1742,6 +1742,9 @@ def evaluate_opportunity_recommendation(
             "temporal_eligible": temporal_eligible,
         }
 
+    if confidence in {"low", "very_low"}:
+        material_uncertainty = True
+
     state = "candidate" if material_uncertainty else "recommended"
     return {
         "policy_version": RECOMMENDATION_POLICY_VERSION,
