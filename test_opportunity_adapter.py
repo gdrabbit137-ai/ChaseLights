@@ -4941,6 +4941,8 @@ def test_active_catalog_weather_generation_guard():
                 "tw-018-P02": {
                     "score": 96,
                     "temporal_eligible": True,
+                    "recommendation_state": "recommended",
+                    "recommendation_eligible": True,
                     "status_key": "OPPORTUNITY_MATCH",
                     "indicator_key": "OPPORTUNITY_MATCH",
                     "factors": [],
@@ -4958,6 +4960,8 @@ def test_active_catalog_weather_generation_guard():
                 "tw-018-P02": {
                     "score": 72,
                     "temporal_eligible": True,
+                    "recommendation_state": "recommended",
+                    "recommendation_eligible": True,
                     "status_key": "OPPORTUNITY_MATCH",
                     "indicator_key": "OPPORTUNITY_MATCH",
                     "factors": [],
@@ -4989,6 +4993,8 @@ def test_active_catalog_weather_generation_guard():
             "tw-018-P02": {
                 "score": 88,
                 "temporal_eligible": True,
+                "recommendation_state": "recommended",
+                "recommendation_eligible": True,
                 "temporal_end": reflection_end,
             }
         },
