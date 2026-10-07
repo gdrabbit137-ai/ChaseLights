@@ -353,7 +353,7 @@ The recommendation policy MUST use the complete applicable condition contract wi
 
 **Required-condition failure is decisive.** Aggregate score, a favorable prerequisite, or a quality booster MUST NOT rescue a failed required condition or blocker.
 
-**Score is secondary quality/ranking information.** Once the condition contract has produced a recommendation state, a score MAY rank or describe relative quality among evaluated Opportunities. A low score alone MUST NOT turn a fully passing condition contract into `not_recommended`, and a high score MUST NOT turn a failed condition contract into `recommended`. Opportunity-specific calibrated quality thresholds MAY still exist for quality interpretation, but they do not become repository-global recommendation permission.
+**Score is secondary quality/ranking information unless an Opportunity-owned calibrated score interpretation is explicitly part of that Opportunity's condition contract.** An uncalibrated numeric score alone MUST NOT promote or demote the condition-derived recommendation state, and a high score MUST NOT rescue a failed required condition or blocker. If an Opportunity-specific calibrated score interpretation materially affects recommendation, that interpretation MUST be declared and evaluated inside the owning Opportunity contract; it MUST NOT silently become repository-global recommendation policy.
 
 Missing input MUST remain missing. A missing required input MUST NOT be substituted with a default that makes the condition pass, and an incomplete contract MUST remain unavailable/unknown until the owning domain can evaluate it.
 
