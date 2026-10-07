@@ -5311,9 +5311,19 @@ def test_dingshizhuo_sunset_requires_visibility_not_only_sunset_geometry():
         opportunity, diagnostic, temporal_eligible=True
     )
     assert decision["state"] == "not_recommended"
-    assert "visibility:visibility_too_low" in decision["blocker_codes"]
+    assert "visibility:visibility_poor" in decision["blocker_codes"]
 
 
 def test_daily_winner_gate_requires_runtime_recommendation_eligibility():
     source = (Path(__file__).resolve().parent / "analyze_weather.py").read_text(encoding="utf-8")
     assert 'get("recommendation_eligible") is True' in source
+
+
+if __name__ == "__main__":
+    test_recommendation_is_condition_driven_not_score_driven()
+    test_recommendation_required_condition_failure_overrides_high_score()
+    test_recommendation_material_uncertainty_is_candidate()
+    test_recommendation_missing_contract_is_unavailable()
+    test_dingshizhuo_sunset_requires_visibility_not_only_sunset_geometry()
+    test_daily_winner_gate_requires_runtime_recommendation_eligibility()
+    print("condition-contract recommendation regressions: PASS")
