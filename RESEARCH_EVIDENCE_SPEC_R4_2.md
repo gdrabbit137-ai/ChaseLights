@@ -335,6 +335,29 @@ The structured recommendation result SHOULD be stable enough that adapters and p
 
 This ownership rule does not require every Opportunity type to use identical thresholds or identical scoring formulas. It requires the semantic decision to be made by the domain contract that owns those formulas and constraints, rather than by transport or UI code.
 
+### Condition-contract-first recommendation semantics
+
+ChaseLights recommendation is **condition-contract driven**. The product flow is:
+
+`Place -> researched Photography Opportunity -> Opportunity-specific condition contract -> forecast/astronomy inputs -> per-condition evaluation -> recommendation -> optional quality ranking`.
+
+Each Photography Opportunity owns the applicable conditions for deciding whether that researched subject/composition is viable for the selected date/time. Depending on the Opportunity, those conditions MAY include weather/environment variables, verified season/event state, local time or day/night/twilight state, sunrise/sunset geometry, Sun/Moon/Galactic geometry, access, tide/marine state, or other evidence-backed runtime inputs.
+
+The recommendation policy MUST use the complete applicable condition contract with these semantics:
+
+- `recommended`: every applicable required condition is evaluable and passes, no decisive blocker is active, and no material unresolved uncertainty prevents an actionable recommendation;
+- `candidate/conditional`: required conditions pass and no decisive blocker is active, but an explicit material uncertainty remains, for example subject presence is not forecastable or a runtime result is only a planning proxy;
+- `not_recommended`: at least one evaluated required condition or decisive blocker fails;
+- `outside_time`: the selected time is outside the Opportunity's applicable temporal contract;
+- `unavailable/unknown`: required data, runtime capability, or the owning condition contract is incomplete or unavailable, so a safe selected-date decision cannot be made.
+
+**Required-condition failure is decisive.** Aggregate score, a favorable prerequisite, or a quality booster MUST NOT rescue a failed required condition or blocker.
+
+**Score is secondary quality/ranking information unless an Opportunity-owned calibrated score interpretation is explicitly part of that Opportunity's condition contract.** An uncalibrated numeric score alone MUST NOT promote or demote the condition-derived recommendation state, and a high score MUST NOT rescue a failed required condition or blocker. If an Opportunity-specific calibrated score interpretation materially affects recommendation, that interpretation MUST be declared and evaluated inside the owning Opportunity contract; it MUST NOT silently become repository-global recommendation policy.
+
+Missing input MUST remain missing. A missing required input MUST NOT be substituted with a default that makes the condition pass, and an incomplete contract MUST remain unavailable/unknown until the owning domain can evaluate it.
+
+Runtime SHOULD expose the structured condition/recommendation result directly, including the overall state, actionability, reason/blocker codes, material uncertainty, temporal applicability, and the underlying per-condition/module results. Adapters may flatten selected fields for backward compatibility but MUST preserve the runtime-owned structured decision.
 #### Required semantic-consistency regressions
 
 Automated runtime/presentation regression coverage MUST include cases where a temporal prerequisite is valid but decisive environmental conditions fail. At minimum, tests MUST demonstrate that:

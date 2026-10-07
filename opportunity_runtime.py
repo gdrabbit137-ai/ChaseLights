@@ -1600,6 +1600,164 @@ def evaluate_opportunity_modules(opportunity, item_data):
     }
 
 
+RECOMMENDATION_POLICY_VERSION = "opportunity-condition-contract-r1"
+
+_EXECUTABLE_RECOMMENDATION_POLICIES = frozenset({
+    "preview_module_available",
+    "minimum_sufficient_available",
+})
+
+_CONDITIONAL_MODULE_MODES = frozenset({
+    "lower_cloud_below_camera",
+    "directional_mountain_cloud_sector",
+})
+
+
+def evaluate_opportunity_recommendation(
+    opportunity,
+    runtime_diagnostic,
+    temporal_eligible=None,
+    temporal_reason=None,
+):
+    """Return the domain-owned selected-date recommendation decision.
+
+    Recommendation follows the Opportunity condition contract, never a global
+    numeric score band. Required-condition failures are decisive; material
+    subject/proxy uncertainty yields a conditional candidate.
+    """
+    policy = opportunity.get("runtime_policy") or "unclassified"
+    diagnostic = runtime_diagnostic or {}
+    modules = diagnostic.get("modules") or {}
+    reason_codes = []
+    blocker_codes = []
+
+    def add_unique(target, code):
+        if code and code not in target:
+            target.append(code)
+
+    if temporal_reason:
+        add_unique(reason_codes, f"temporal:{temporal_reason}")
+    top_reason = diagnostic.get("reason")
+    if top_reason:
+        add_unique(reason_codes, f"runtime:{top_reason}")
+
+    material_uncertainty = bool(
+        diagnostic.get("uncertain")
+        or diagnostic.get("subject_readability_uncertain")
+    )
+    confidence = diagnostic.get("runtime_confidence_hint")
+
+    for component, result in modules.items():
+        if not isinstance(result, dict):
+            continue
+        module_reason = result.get("reason")
+        if module_reason:
+            add_unique(reason_codes, f"{component}:{module_reason}")
+        if confidence is None:
+            confidence = result.get("confidence_hint") or result.get("runtime_confidence_hint")
+        if (
+            result.get("uncertain")
+            or result.get("subject_readability_uncertain")
+            or result.get("subject_presence_forecastable") is False
+            or result.get("wildlife_presence_forecastable") is False
+            or result.get("lighting_geometry_verified") is False
+            or result.get("mode") in _CONDITIONAL_MODULE_MODES
+        ):
+            material_uncertainty = True
+
+    if temporal_eligible is False:
+        add_unique(blocker_codes, "temporal:outside_window")
+        return {
+            "policy_version": RECOMMENDATION_POLICY_VERSION,
+            "state": "outside_time",
+            "eligible": False,
+            "reason_codes": reason_codes,
+            "blocker_codes": blocker_codes,
+            "confidence": confidence,
+            "material_uncertainty": material_uncertainty,
+            "temporal_eligible": False,
+        }
+
+    if temporal_eligible is None and temporal_reason not in (None, "no_temporal_gate"):
+        add_unique(blocker_codes, "temporal:data_unavailable")
+        return {
+            "policy_version": RECOMMENDATION_POLICY_VERSION,
+            "state": "unavailable",
+            "eligible": False,
+            "reason_codes": reason_codes,
+            "blocker_codes": blocker_codes,
+            "confidence": confidence,
+            "material_uncertainty": material_uncertainty,
+            "temporal_eligible": None,
+        }
+
+    if policy not in _EXECUTABLE_RECOMMENDATION_POLICIES:
+        add_unique(blocker_codes, f"runtime_policy:{policy}")
+        return {
+            "policy_version": RECOMMENDATION_POLICY_VERSION,
+            "state": "unavailable",
+            "eligible": False,
+            "reason_codes": reason_codes,
+            "blocker_codes": blocker_codes,
+            "confidence": confidence,
+            "material_uncertainty": material_uncertainty,
+            "temporal_eligible": temporal_eligible,
+        }
+
+    if not diagnostic.get("available"):
+        missing = diagnostic.get("missing_components") or ()
+        for component in missing:
+            add_unique(blocker_codes, f"{component}:runtime_unavailable")
+        add_unique(blocker_codes, f"runtime:{top_reason or 'data_unavailable'}")
+        return {
+            "policy_version": RECOMMENDATION_POLICY_VERSION,
+            "state": "unavailable",
+            "eligible": False,
+            "reason_codes": reason_codes,
+            "blocker_codes": blocker_codes,
+            "confidence": confidence,
+            "material_uncertainty": material_uncertainty,
+            "temporal_eligible": temporal_eligible,
+        }
+
+    if not diagnostic.get("eligible"):
+        for component, result in modules.items():
+            if not isinstance(result, dict):
+                continue
+            if result.get("available") and result.get("eligible") is False:
+                add_unique(
+                    blocker_codes,
+                    f"{component}:{result.get('reason') or 'condition_miss'}",
+                )
+        if not blocker_codes:
+            add_unique(blocker_codes, f"runtime:{top_reason or 'condition_miss'}")
+        return {
+            "policy_version": RECOMMENDATION_POLICY_VERSION,
+            "state": "not_recommended",
+            "eligible": False,
+            "reason_codes": reason_codes,
+            "blocker_codes": blocker_codes,
+            "confidence": confidence,
+            "material_uncertainty": material_uncertainty,
+            "temporal_eligible": temporal_eligible,
+        }
+
+    if confidence in {"low", "very_low"}:
+        material_uncertainty = True
+
+    state = "candidate" if material_uncertainty else "recommended"
+    return {
+        "policy_version": RECOMMENDATION_POLICY_VERSION,
+        "state": state,
+        "eligible": True,
+        "reason_codes": reason_codes,
+        "blocker_codes": [],
+        "confidence": confidence,
+        "material_uncertainty": material_uncertainty,
+        "temporal_eligible": temporal_eligible,
+    }
+
+
 def validate_event_calendar():
     errors = []
     expected_ids = {"tw-082-P04", "tw-082-P06", "tw-084-P04", "tw-084-P05", "tw-084-P06"}
