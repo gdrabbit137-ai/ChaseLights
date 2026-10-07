@@ -282,24 +282,32 @@ jobs:
               verdict_contract = driver.execute_script("""
                 return {
                   suitable: opportunityVerdict(
-                    {status_key:'OPPORTUNITY_SIMPLE_MATCH', score_confidence:'high', theme:'mountain_view'},
+                    {recommendation_state:'recommended', recommendation_eligible:true, status_key:'OPPORTUNITY_SIMPLE_MATCH', score_confidence:'high', theme:'mountain_view'},
                     '山景'
                   ).primary,
                   chance: opportunityVerdict(
-                    {status_key:'OPPORTUNITY_MIST_CANDIDATE', score_confidence:'low', theme:'fog_mist'},
+                    {recommendation_state:'candidate', recommendation_eligible:true, status_key:'OPPORTUNITY_MIST_CANDIDATE', score_confidence:'low', theme:'fog_mist'},
                     '晨霧'
                   ).primary,
                   unfavorable: opportunityVerdict(
-                    {status_key:'OPPORTUNITY_SIMPLE_MISS', score_confidence:'high', theme:'mountain_view'},
+                    {recommendation_state:'not_recommended', recommendation_eligible:false, status_key:'OPPORTUNITY_SIMPLE_MISS', score_confidence:'high', theme:'mountain_view'},
                     '山景'
                   ).primary,
                   outside: opportunityVerdict(
-                    {status_key:'OPPORTUNITY_OUTSIDE_TIME_WINDOW', score_confidence:'high', theme:'sunset'},
+                    {recommendation_state:'outside_time', recommendation_eligible:false, status_key:'OPPORTUNITY_OUTSIDE_TIME_WINDOW', score_confidence:'high', theme:'sunset'},
                     '日落'
                   ).primary
                 };
               """)
+              stale_positive = driver.execute_script("""
+                return opportunityVerdict(
+                  {status_key:'OPPORTUNITY_SIMPLE_MATCH', score:99, score_confidence:'high', theme:'mountain_view'},
+                  '山景'
+                ).primary;
+              """)
               report["verdict_contract"] = verdict_contract
+              report["stale_positive_without_runtime_decision"] = stale_positive
+              assert "適合拍攝山景" not in stale_positive, stale_positive
               assert "適合拍攝山景" in verdict_contract["suitable"], verdict_contract
               assert "有機會拍到晨霧" in verdict_contract["chance"], verdict_contract
               assert "不利於拍攝山景" in verdict_contract["unfavorable"], verdict_contract

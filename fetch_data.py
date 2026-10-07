@@ -10,6 +10,7 @@ from zoneinfo import ZoneInfo
 from opportunity_runtime import (
     evaluate_opportunity_modules,
     evaluate_minimum_sufficient_visibility,
+    evaluate_opportunity_recommendation,
 )
 from photography_environment import classify_fog_haze
 from photography_transparency import evaluate_transparency
@@ -1261,10 +1262,10 @@ def _build_opportunity_runtime_diagnostics(spot, item_data):
 def _score_opportunity(opportunity, theme_metric, runtime_diagnostic, lang="zh-TW"):
     """Score one researched Photography Opportunity.
 
-    The legacy Theme score is only the weather/time baseline. A score may enter
-    the 80+ recommendation band only when the Opportunity has a complete
-    place-specific runtime contract and every required module is available and
-    eligible. Pending/prototype/insufficient policies are deliberately capped.
+    The legacy Theme score remains quality/ranking information. Selected-date
+    recommendation semantics come from the Opportunity condition contract;
+    this adapter serializes that domain decision and never invents score bands
+    that grant or revoke recommendation eligibility.
     """
     policy = opportunity.get("runtime_policy") or "unclassified"
     base = int(round(float((theme_metric or {}).get("score", 0) or 0)))
@@ -1309,10 +1310,9 @@ def _score_opportunity(opportunity, theme_metric, runtime_diagnostic, lang="zh-T
                 # compatibility baseline suppress that verified outcome.
                 score = max(score, int(round(float(score_hint))))
             if diag.get("subject_readability_uncertain"):
-                # B88 hardening: the B87 readability guard is a true ceiling,
-                # not merely a minimum-sufficient hint. A strong generic Theme
-                # baseline must never lift an unreadable cliff-mist candidate
-                # back into the 80+ recommendation band.
+                # B88 hardening: the B87 readability guard is a true quality
+                # ceiling, not merely a minimum-sufficient hint. A strong generic
+                # Theme baseline must never mask an unreadable cliff-mist candidate.
                 score = min(score, 68)
             if diag.get("long_range_visibility_is_not_a_blocker"):
                 # Remove the legacy generic visibility penalty when a researched
@@ -1466,7 +1466,7 @@ def _score_opportunity(opportunity, theme_metric, runtime_diagnostic, lang="zh-T
                     if spatial.get("reason") == "orographic_cloud_proxy_candidate":
                         # B85: the researched subject is real, but this fallback is
                         # only a planning proxy for a grid-scale miss. Never let it
-                        # inherit an 80+ high-confidence score from mountain_view.
+                        # inherit a high-confidence quality score from mountain_view.
                         score = min(score, 78)
                         status_key = indicator_key = "OPPORTUNITY_OROGRAPHIC_CLOUD_PROXY"
                         condition_state = "orographic_cloud_proxy_candidate"
@@ -1534,6 +1534,12 @@ def _score_opportunity(opportunity, theme_metric, runtime_diagnostic, lang="zh-T
         condition_state = "unclassified"
 
     score = max(0, min(100, int(round(score))))
+    recommendation = evaluate_opportunity_recommendation(
+        opportunity,
+        runtime_diagnostic,
+        temporal_eligible=temporal_eligible,
+        temporal_reason=(theme_metric or {}).get("temporal_reason"),
+    )
     return {
         "opportunity_id": opportunity.get("opportunity_id"),
         "opportunity_name": opportunity.get("name_zh"),
@@ -1548,6 +1554,13 @@ def _score_opportunity(opportunity, theme_metric, runtime_diagnostic, lang="zh-T
         "runtime_policy": policy,
         "condition_state": condition_state,
         "score_confidence": score_confidence,
+        "recommendation": recommendation,
+        "recommendation_state": recommendation["state"],
+        "recommendation_eligible": recommendation["eligible"],
+        "recommendation_reason_codes": recommendation["reason_codes"],
+        "recommendation_blocker_codes": recommendation["blocker_codes"],
+        "recommendation_confidence": recommendation["confidence"],
+        "recommendation_policy_version": recommendation["policy_version"],
         "formula_confidence": opportunity.get("formula_confidence"),
         "temporal_eligible": (theme_metric or {}).get("temporal_eligible"),
         "temporal_reason": (theme_metric or {}).get("temporal_reason"),

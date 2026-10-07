@@ -70,6 +70,7 @@ def _window_for_opportunity(items, best_index, opportunity_id):
         return (
             metric.get("temporal_eligible") is not False
             and metric.get("runtime_eligible") is not False
+            and metric.get("recommendation_eligible") is True
             and (item.get("access_open") is not False or metric.get("access_override") is True)
         )
 
@@ -156,6 +157,12 @@ def _compact_opportunity_snapshot(item, opportunity, window_start=None, window_e
         "runtime_policy": metric.get("runtime_policy", opportunity.get("runtime_policy")),
         "condition_state": metric.get("condition_state"),
         "score_confidence": metric.get("score_confidence"),
+        "recommendation_state": metric.get("recommendation_state"),
+        "recommendation_eligible": metric.get("recommendation_eligible"),
+        "recommendation_reason_codes": metric.get("recommendation_reason_codes", []),
+        "recommendation_blocker_codes": metric.get("recommendation_blocker_codes", []),
+        "recommendation_confidence": metric.get("recommendation_confidence"),
+        "recommendation_policy_version": metric.get("recommendation_policy_version"),
         "base_theme_score": metric.get("base_theme_score"),
         "formula_confidence": metric.get("formula_confidence", opportunity.get("formula_confidence")),
         "temporal_eligible": metric.get("temporal_eligible"),
@@ -205,6 +212,7 @@ def _build_day_summaries(hourly, themes, opportunities=None, local_today=None):
                 if (
                     (_metric_for_opportunity(it, oid) or {}).get("temporal_eligible") is not False
                     and (_metric_for_opportunity(it, oid) or {}).get("runtime_eligible") is not False
+                    and (_metric_for_opportunity(it, oid) or {}).get("recommendation_eligible") is True
                     and (
                         it.get("access_open") is not False
                         or (_metric_for_opportunity(it, oid) or {}).get("access_override") is True

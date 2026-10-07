@@ -122,6 +122,8 @@ OPPORTUNITY_DEPENDENCY_OVERRIDES = {
     "tw-079-P01": ("marine_state", "directional_horizon", "visibility"),
     "tw-079-P02": ("marine_state", "tide_state", "visibility"),
     "tw-013-P02": ("radiation_DNI", "cloud_sky_glow", "visibility"),
+    # Dingshizhuo distant sunset composition requires readable valley/terrace visibility.
+    "tw-023-P01": ("directional_horizon", "visibility"),
     "tw-026-P02": ("cloud_sky_glow",),
     "tw-030-P02": ("cloud_sky_glow",),
     "tw-020-P02": ("spatial_weather_vertical_cloud", "directional_horizon"),

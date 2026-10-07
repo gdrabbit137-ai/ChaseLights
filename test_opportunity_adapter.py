@@ -20,6 +20,7 @@ from opportunity_runtime import (
     ASTRONOMY_EPHEMERIS_PROFILES,
     evaluate_opportunity_modules,
     evaluate_minimum_sufficient_visibility,
+    evaluate_opportunity_recommendation,
     MINIMUM_SUFFICIENT_VISIBILITY_PROFILES,
     MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES,
     EVENT_CALENDAR,
@@ -1988,6 +1989,7 @@ def test_adapter_integrity():
         "tw-079-P01": ("marine_state", "directional_horizon", "visibility"),
         "tw-079-P02": ("marine_state", "tide_state", "visibility"),
         "tw-013-P02": ("radiation_DNI", "cloud_sky_glow", "visibility"),
+        "tw-023-P01": ("directional_horizon", "visibility"),
         "tw-026-P02": ("cloud_sky_glow",),
         "tw-030-P02": ("cloud_sky_glow",),
         "tw-020-P02": ("spatial_weather_vertical_cloud", "directional_horizon"),
@@ -5210,3 +5212,100 @@ def test_takachiho_waterfall_evidence_is_documented():
         assert rows[opportunity_id]["audit_status"] == "documented"
         assert rows[opportunity_id]["evidence_grade"] == "A"
         assert rows[opportunity_id]["machine_verifiable_evidence"] is True
+
+
+def test_recommendation_is_condition_driven_not_score_driven():
+    opportunity = {"opportunity_id": "test-condition-P01", "runtime_policy": "preview_module_available"}
+    passing = {"available": True, "eligible": True, "reason": "all_modules_match", "modules": {
+        "directional_horizon": {"available": True, "eligible": True, "reason": "sector_match"},
+        "visibility": {"available": True, "eligible": True, "reason": "scene_readable"},
+    }}
+    metric = {
+        "score": 10,
+        "factors": [],
+        "status_key": "COAST_NORMAL",
+        "indicator_key": "IND_COAST_NORM",
+        "temporal_eligible": True,
+        "temporal_reason": "sunset_window",
+    }
+    scored = fetch_data._score_opportunity(opportunity, metric, passing)
+    assert scored["score"] == 10
+    assert scored["recommendation_state"] == "recommended"
+    assert scored["recommendation_eligible"] is True
+
+
+def test_recommendation_required_condition_failure_overrides_high_score():
+    opportunity = {"opportunity_id": "test-condition-P02", "runtime_policy": "preview_module_available"}
+    failing = {"available": True, "eligible": False, "reason": "module_condition_miss", "modules": {
+        "directional_horizon": {"available": True, "eligible": True, "reason": "sector_match"},
+        "visibility": {"available": True, "eligible": False, "reason": "visibility_too_low"},
+    }}
+    metric = {
+        "score": 95,
+        "factors": [],
+        "status_key": "COAST_GLOW",
+        "indicator_key": "IND_COAST_GLOW",
+        "temporal_eligible": True,
+    }
+    scored = fetch_data._score_opportunity(opportunity, metric, failing)
+    assert scored["recommendation_state"] == "not_recommended"
+    assert scored["recommendation_eligible"] is False
+    assert "visibility:visibility_too_low" in scored["recommendation_blocker_codes"]
+
+
+def test_recommendation_material_uncertainty_is_candidate():
+    opportunity = {"opportunity_id": "test-condition-P03", "runtime_policy": "minimum_sufficient_available"}
+    uncertain = {"available": True, "eligible": True, "reason": "all_modules_match", "modules": {
+        "minimum_sufficient_local_scene": {
+            "available": True,
+            "eligible": True,
+            "reason": "wildlife_presence_not_forecastable",
+            "wildlife_presence_forecastable": False,
+        },
+    }}
+    decision = evaluate_opportunity_recommendation(opportunity, uncertain, temporal_eligible=True)
+    assert decision["state"] == "candidate"
+    assert decision["eligible"] is True
+    assert decision["material_uncertainty"] is True
+
+
+def test_recommendation_missing_contract_is_unavailable():
+    opportunity = {"opportunity_id": "test-condition-P04", "runtime_policy": "module_pending"}
+    decision = evaluate_opportunity_recommendation(
+        opportunity,
+        {"available": False, "eligible": False, "reason": "module_pending", "modules": {}},
+        temporal_eligible=True,
+    )
+    assert decision["state"] == "unavailable"
+    assert decision["eligible"] is False
+
+
+def test_dingshizhuo_sunset_requires_visibility_not_only_sunset_geometry():
+    opportunity = next(
+        op for op in get_opportunities("tw", "tw-023")
+        if op["opportunity_id"] == "tw-023-P01"
+    )
+    assert dependencies_for_opportunity(opportunity) == ("directional_horizon", "visibility")
+    diagnostic = evaluate_opportunity_modules(
+        opportunity,
+        {
+            "astronomy_valid": True,
+            "sun_azimuth": 270.0,
+            "sun_elevation": 0.0,
+            "hour": 17,
+            "visibility": 2.5,
+        },
+    )
+    assert diagnostic["modules"]["directional_horizon"]["eligible"] is True
+    assert diagnostic["modules"]["visibility"]["eligible"] is False
+    assert diagnostic["eligible"] is False
+    decision = evaluate_opportunity_recommendation(
+        opportunity, diagnostic, temporal_eligible=True
+    )
+    assert decision["state"] == "not_recommended"
+    assert "visibility:visibility_too_low" in decision["blocker_codes"]
+
+
+def test_daily_winner_gate_requires_runtime_recommendation_eligibility():
+    source = (Path(__file__).resolve().parent / "analyze_weather.py").read_text(encoding="utf-8")
+    assert 'get("recommendation_eligible") is True' in source
