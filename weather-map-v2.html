@@ -23,6 +23,7 @@
           <option value="auto">Auto · 全球雲圖使用 GFS / 其他欄位區域最佳來源</option>
           <option value="jma">JMA endpoint · 實驗取樣</option>
           <option value="gfs">NCEP endpoint · 實驗取樣</option>
+          <option value="cwa">CWA WRF 3 km · 衍生診斷（台灣）</option>
         </select>
       </label>
       <label>圖層
@@ -34,6 +35,22 @@
           <option value="visibility">能見度</option>
           <option value="precipitation">降水</option>
           <option value="wind_speed_10m">10m 風速</option>
+          <optgroup label="CWA 衍生診斷（實驗）">
+            <option value="cwa_cloud_potential_low">CWA 低層雲潛勢（RH 衍生）</option>
+            <option value="cwa_cloud_potential_mid">CWA 中層雲潛勢（RH 衍生）</option>
+            <option value="cwa_cloud_potential_high">CWA 高層雲潛勢（RH 衍生）</option>
+            <option value="cwa_lcl_height">CWA 雲底 LCL 估算</option>
+            <option value="cwa_fog_potential">CWA 近地霧潛勢（實驗）</option>
+          </optgroup>
+          <optgroup label="CWA 壓力層相對濕度">
+            <option value="cwa_rh_1000">CWA 1000 hPa RH</option>
+            <option value="cwa_rh_925">CWA 925 hPa RH</option>
+            <option value="cwa_rh_850">CWA 850 hPa RH</option>
+            <option value="cwa_rh_700">CWA 700 hPa RH</option>
+            <option value="cwa_rh_500">CWA 500 hPa RH</option>
+            <option value="cwa_rh_400">CWA 400 hPa RH</option>
+            <option value="cwa_rh_300">CWA 300 hPa RH</option>
+          </optgroup>
         </select>
       </label>
       <div class="preset-group" aria-label="快速測試區域">
@@ -59,12 +76,13 @@
         <div id="cache">request cache —</div>
         <div class="note">
           移動或縮放後，V2 會以目前 viewport 外擴的 prefetch ring 重新取樣並快取。
-          全球雲圖 P0 的全雲量／低雲／中雲／高雲固定使用 NCEP GFS 全球 baseline；其他欄位才依地理範圍選擇 JMA 或 NCEP endpoint。
-          已發布的 native tiles 會優先使用；尚未發布的區域才使用受限流保護的瀏覽器點取樣 fallback。fallback 只用來維持可用性，不代表模型原生解析度被提高。
+          全球雲圖 P0 的全雲量／低雲／中雲／高雲固定使用 NCEP GFS 全球 baseline；其他一般欄位才依地理範圍選擇 JMA 或 NCEP endpoint。
+          CWA 專屬圖層在台灣使用已發布的 WRF 3 km 衍生 tiles；RH 雲層潛勢、LCL 與霧潛勢皆為實驗診斷，不是 CWA 原生雲量、觀測雲底或校準機率。
+          已發布的 native/regular-grid tiles 會優先使用；尚未發布的一般欄位才使用受限流保護的瀏覽器點取樣 fallback。fallback 只用來維持可用性，不代表模型原生解析度被提高。
         </div>
       </div>
     </section>
   </main>
-  <script type="module" src="./assets/weather-map-v2.js?v=rate-safe-native-p2"></script>
+  <script type="module" src="./assets/weather-map-v2.js?v=cwa-derived-p1"></script>
 </body>
 </html>

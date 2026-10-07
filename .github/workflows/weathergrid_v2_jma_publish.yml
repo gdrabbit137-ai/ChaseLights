@@ -26,8 +26,10 @@ on:
         default: "12"
 
 concurrency:
-  group: chaselights-weathergrid-v2-jma-publish
-  cancel-in-progress: true
+  # JMA and CWA both update weathergrid/v2/index.json. Serialize native/derived
+  # publishers so a rebase cannot silently discard the other provider run.
+  group: chaselights-weathergrid-v2-native-publish
+  cancel-in-progress: false
 
 permissions:
   contents: write
@@ -128,7 +130,11 @@ jobs:
             exit 0
           fi
 
-          git commit -m "Auto-update WeatherGrid V2 JMA native tiles [skip ci]"
+          # Keep a normal snapshot commit for transparent history.  Actions
+          # pushes made with GITHUB_TOKEN do not fan out into push workflows,
+          # so public V2 verification is chained from this publisher's
+          # completion via workflow_run instead of relying on the data push.
+          git commit -m "Auto-update WeatherGrid V2 JMA native tiles"
           pushed=false
           for i in {1..5}; do
             if git pull --rebase origin main && git push origin HEAD:main; then

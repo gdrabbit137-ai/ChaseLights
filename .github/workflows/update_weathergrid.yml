@@ -15,7 +15,9 @@ on:
       - "icon_global_cloud_poc.py"
       - "icon_weathergrid_browser_bundle.py"
       - "cwa_wrf3_poc.py"
+      - "cwa_weathergrid_derived.py"
       - "cwa_weathergrid_browser_bundle.py"
+      - "test_cwa_weathergrid_derived.py"
       - "build_weathergrid_coverage_browser.py"
       - ".github/workflows/update_weathergrid.yml"
   workflow_dispatch:
@@ -54,6 +56,10 @@ jobs:
           sudo apt-get install -y cdo
           python -m pip install --upgrade pip
           python -m pip install requests boto3 scipy xarray netCDF4 cfgrib eccodes numpy matplotlib cartopy
+
+      - name: Validate CWA derived model contracts
+        run: |
+          python -m unittest -v test_cwa_weathergrid_derived.py test_cwa_wrf3_poc.py
 
       - name: Cache DWD ICON remap weights
         uses: actions/cache@v4
@@ -167,6 +173,23 @@ jobs:
               assert provenance.get("public_product_horizon_hours") == 84, provenance
               assert "temperature_2m_c" in cwa.get("fields", {}), cwa.get("fields")
               assert "wind_speed_10m_m_s" in cwa.get("fields", {}), cwa.get("fields")
+              required_cwa_derived = {
+                  "relative_humidity_925hpa_percent",
+                  "relative_humidity_850hpa_percent",
+                  "relative_humidity_700hpa_percent",
+                  "relative_humidity_500hpa_percent",
+                  "relative_humidity_400hpa_percent",
+                  "relative_humidity_300hpa_percent",
+                  "rh_cloud_potential_low_percent",
+                  "rh_cloud_potential_mid_percent",
+                  "rh_cloud_potential_high_percent",
+                  "lcl_height_m_agl",
+                  "fog_potential_percent",
+              }
+              assert required_cwa_derived <= set(cwa.get("fields", {})), cwa.get("fields")
+              proxy = provenance.get("cloud_layer_capability", {}).get("rh_derived_proxy", {})
+              assert proxy.get("calibration_status") == "experimental_unvalidated", proxy
+              assert proxy.get("native_cloud_fraction") is False, proxy
               cwa_summary = {
                   "published": True,
                   "frames": len(cwa["frames"]),

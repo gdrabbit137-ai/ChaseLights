@@ -28,6 +28,7 @@ REGIONS = {
     },
 }
 JMA_DOMAIN = {"west": 120.0, "south": 22.4, "east": 150.0, "north": 47.6}
+CWA_DOMAIN = {"west": 117.5, "south": 20.0, "east": 125.5, "north": 27.0}
 VALID_TOKEN = "{valid_time}"
 
 
@@ -91,6 +92,14 @@ def build_index(*, provider_runs=None):
                     "time_sharded": True,
                     "coverage_bbox": jma_coverage,
                 }
+            if name == "tw":
+                cwa_coverage = _intersection(cell["bbox"], CWA_DOMAIN)
+                if cwa_coverage:
+                    providers["cwa"] = {
+                        "url_template": _provider_template("cwa", cell["id"]),
+                        "time_sharded": True,
+                        "coverage_bbox": cwa_coverage,
+                    }
             indexed.append({**cell, "providers": providers})
         regions[name] = {**spec, "cells": indexed}
     return {

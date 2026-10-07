@@ -259,16 +259,38 @@ def build_fs():
     )
 
 
+def normalize_slot_utc(value: datetime) -> datetime:
+    if value.tzinfo is None or value.utcoffset() is None:
+        raise ValueError("Himawari slot must be timezone-aware")
+    value = value.astimezone(timezone.utc)
+    if value.second or value.microsecond or value.minute % 10:
+        raise ValueError(
+            "Himawari slot must be aligned to the 10-minute Full Disk cadence"
+        )
+    return value
+
+
+def find_pair_for_slot(fs, *, slot: datetime) -> tuple[datetime, dict[str, str]]:
+    slot = normalize_slot_utc(slot)
+    prefix = f"{BUCKET}/{slot_prefix(slot)}"
+    try:
+        paths = fs.ls(prefix, detail=False)
+    except FileNotFoundError as exc:
+        raise RuntimeError(f"No Himawari cloud products for exact slot {slot.isoformat()}") from exc
+    pair = select_product_pair(paths)
+    if not pair:
+        raise RuntimeError(
+            f"No same-slot CMSK + CHGT pair for exact slot {slot.isoformat()}"
+        )
+    return slot, pair
+
+
 def find_latest_pair(fs, *, now: datetime, lookback_slots: int) -> tuple[datetime, dict[str, str]]:
     for slot in candidate_slots(now, lookback_slots):
-        prefix = f"{BUCKET}/{slot_prefix(slot)}"
         try:
-            paths = fs.ls(prefix, detail=False)
-        except FileNotFoundError:
+            return find_pair_for_slot(fs, slot=slot)
+        except RuntimeError:
             continue
-        pair = select_product_pair(paths)
-        if pair:
-            return slot, pair
     raise RuntimeError(
         f"No same-slot CMSK + CHGT pair found in the last {lookback_slots * 10} minutes"
     )

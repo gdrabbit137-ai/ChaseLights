@@ -92,6 +92,13 @@ def run(url, screenshot):
           "coverage":d.find_element(By.ID,"coverage").text,
           "time":d.find_element(By.ID,"time").text,
         }
+        cwa_available=bool(d.execute_async_script("""
+          const done=arguments[arguments.length-1];
+          fetch('./weathergrid/v2/index.json?smoke_index='+Date.now(), {cache:'no-store'})
+            .then(r => r.ok ? r.json() : Promise.reject(new Error('index HTTP '+r.status)))
+            .then(x => done(!!(x && x.provider_runs && x.provider_runs.cwa)))
+            .catch(() => done(false));
+        """))
         # Global-cloud P0 must use the same explicitly pinned GFS model even
         # when the initial viewport is Taiwan. Regional JMA ownership is only
         # exercised later through an explicit JMA selection.
@@ -202,6 +209,28 @@ def run(url, screenshot):
           "coverage":d.find_element(By.ID,"coverage").text,
         }
         assert coverage_contains(tw_return["viewport"],tw_return["coverage"]), tw_return
+
+        # Once the deployed index advertises CWA, prove the browser can render
+        # one real derived field through the regular-grid tile path.  Before the
+        # first CWA publication this remains optional so the main-page rollout
+        # can precede the generated tile snapshot safely.
+        cwa_derived=None
+        if cwa_available:
+            Select(d.find_element(By.ID,"layer")).select_by_value("cwa_cloud_potential_low")
+            Select(d.find_element(By.ID,"provider")).select_by_value("cwa")
+            wait.until(lambda x: (
+                settled(x.find_element(By.ID,"status").text)
+                and "CWA WRF 3 km · RH-derived experimental tiles" in x.find_element(By.ID,"source").text
+            ))
+            cwa_derived={
+              "status":d.find_element(By.ID,"status").text,
+              "source":d.find_element(By.ID,"source").text,
+              "viewport":d.find_element(By.ID,"viewport").text,
+              "coverage":d.find_element(By.ID,"coverage").text,
+              "time":d.find_element(By.ID,"time").text,
+            }
+            assert "資料已就緒" in cwa_derived["status"], cwa_derived
+            assert coverage_contains(cwa_derived["viewport"],cwa_derived["coverage"]), cwa_derived
 
         # Unsupported native field must safely fall back instead of failing.
         Select(d.find_element(By.ID,"layer")).select_by_value("visibility")
@@ -362,7 +391,8 @@ def run(url, screenshot):
         return {"url":url,"initial":initial,"japan_global_cloud":jp,
                 "visibility_source":visibility_source,
                 "us_cloud_handoff":us,"conus_after_pan":conus_after,
-                "tw_native_return":tw_return,"alaska_after_pan":alaska,
+                "tw_native_return":tw_return,"tw_cwa_derived":cwa_derived,
+                "alaska_after_pan":alaska,
                 "global_cloud":global_view,"global_after_pan":global_after_pan,
                 "dateline_cloud":dateline,"dateline_after_pan":dateline_after_pan,
                 "browser_severe_log_count":len(severe),"browser_severe_logs":severe[:10],

@@ -1,0 +1,174 @@
+name: CWA Low Cloud Calibration
+
+on:
+  schedule:
+    # Sample one daytime and one nighttime CWA/Himawari pair each day.
+    # These times follow the existing WeatherGrid refresh cadence and occur
+    # after f006 has become an observation-time holdout.
+    - cron: '30 8,20 * * *'
+  push:
+    branches: [main]
+    paths:
+      - "cwa_cloud_calibration.py"
+      - "cwa_cloud_calibration_history.py"
+      - "test_cwa_cloud_calibration.py"
+      - "test_cwa_cloud_calibration_history.py"
+      - "B175_CWA_LOW_CLOUD_CALIBRATION.md"
+      - ".github/workflows/cwa_low_cloud_calibration.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "cwa_cloud_calibration.py"
+      - "test_cwa_cloud_calibration.py"
+      - "cwa_cloud_calibration_history.py"
+      - "test_cwa_cloud_calibration_history.py"
+      - "cwa_weathergrid_derived.py"
+      - "himawari9_cloud_poc.py"
+      - "himawari9_weathergrid_browser_bundle.py"
+      - "test_himawari9_cloud_poc.py"
+      - "test_himawari9_weathergrid_browser_bundle.py"
+      - "B175_CWA_LOW_CLOUD_CALIBRATION.md"
+      - ".github/workflows/cwa_low_cloud_calibration.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout candidate
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install calibration dependencies
+        run: |
+          python -m pip install --disable-pip-version-check \
+            numpy scipy pyproj s3fs h5py
+
+      - name: Run calibration unit tests
+        run: |
+          python -m unittest -v \
+            test_cwa_cloud_calibration.py \
+            test_cwa_cloud_calibration_history.py \
+            test_himawari9_cloud_poc.py \
+            test_himawari9_weathergrid_browser_bundle.py
+
+      - name: Select two completed CWA valid times
+        run: |
+          python - <<'PY' > /tmp/cwa-calibration-slots.txt
+          import json
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          bundle = json.loads(
+              Path("weathergrid/cwa_wrf3_tw_weather_browser.json").read_text()
+          )
+          now = datetime.now(timezone.utc)
+          completed = []
+          for frame in bundle["frames"]:
+              valid = datetime.fromisoformat(
+                  frame["valid_time_utc"].replace("Z", "+00:00")
+              ).astimezone(timezone.utc)
+              if valid <= now:
+                  completed.append(valid)
+          completed = sorted(set(completed))
+          assert len(completed) >= 2, completed
+          for value in completed[-2:]:
+              assert value.minute % 10 == 0 and value.second == 0, value
+              print(value.isoformat().replace("+00:00", "Z"))
+          PY
+          cat /tmp/cwa-calibration-slots.txt
+
+      - name: Fetch exact-slot Himawari observations
+        run: |
+          index=0
+          while IFS= read -r slot; do
+            out="/tmp/himawari-cal-${index}"
+            python himawari9_weathergrid_browser_bundle.py \
+              --slot-utc "$slot" \
+              --output-dir "$out"
+            index=$((index + 1))
+          done < /tmp/cwa-calibration-slots.txt
+          test "$index" -ge 2
+
+      - name: Calibrate CWA low-cloud proxy
+        run: |
+          python cwa_cloud_calibration.py \
+            --cwa weathergrid/cwa_wrf3_tw_weather_browser.json \
+            --himawari /tmp/himawari-cal-0/himawari9_tw_cloud_browser.json \
+            --himawari /tmp/himawari-cal-1/himawari9_tw_cloud_browser.json \
+            --output /tmp/cwa-low-cloud-calibration.json \
+            | tee /tmp/cwa-low-cloud-calibration.log
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          report = json.loads(Path("/tmp/cwa-low-cloud-calibration.json").read_text())
+          assert len(report["snapshots"]) >= 2, report["snapshots"]
+          assert report["validation"] is not None
+          assert report["selected_candidate"]["feature"] in {
+              "rh_min",
+              "rh_avg",
+              "rh_avg_spread25",
+              "rh_avg_spread50",
+              "rh_avg_spread75",
+          }
+          for snapshot in report["snapshots"]:
+              assert snapshot["time_delta_seconds"] <= 60
+              assert snapshot["label_counts"]["usable"] >= 1000
+          print(json.dumps({
+              "selected_candidate": report["selected_candidate"],
+              "validation": report["validation"],
+              "validation_candidates": report["validation_candidates"],
+              "promotion": report["promotion"],
+          }, indent=2))
+          PY
+
+      - name: Upload calibration evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cwa-low-cloud-calibration
+          path: |
+            /tmp/cwa-low-cloud-calibration.json
+            /tmp/cwa-low-cloud-calibration.log
+          if-no-files-found: warn
+          retention-days: 14
+
+
+      - name: Persist scheduled calibration history
+        if: github.event_name != 'pull_request'
+        run: |
+          python cwa_cloud_calibration_history.py \
+            --report /tmp/cwa-low-cloud-calibration.json \
+            --history weathergrid/calibration/cwa_low_cloud_history.json \
+            --latest weathergrid/calibration/cwa_low_cloud_latest.json
+
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add -A -- weathergrid/calibration
+
+          if git diff --cached --quiet; then
+            echo "CWA calibration history unchanged."
+            exit 0
+          fi
+
+          git commit -m "Auto-update CWA low-cloud calibration history"
+          pushed=false
+          for i in {1..5}; do
+            if git pull --rebase origin main && git push origin HEAD:main; then
+              pushed=true
+              break
+            fi
+            sleep 5
+          done
+          if [[ "$pushed" != "true" ]]; then
+            echo "Failed to publish CWA calibration history after retries."
+            exit 1
+          fi

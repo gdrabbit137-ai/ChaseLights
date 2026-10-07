@@ -4,9 +4,9 @@
   "provider": "Central Weather Administration (CWA)",
   "model": "CWA_WRF_3KM",
   "cycle": {
-    "cycle_time_utc": "2026-10-06T06:00:00+00:00",
+    "cycle_time_utc": "2026-10-06T18:00:00+00:00",
     "date": "20261006",
-    "cycle": "06"
+    "cycle": "18"
   },
   "frame_count": 3,
   "grid_rows": 234,
@@ -17,157 +17,33 @@
     "relative_humidity_2m_percent",
     "shortwave_flux_w_m2",
     "wind_speed_10m_m_s",
-    "wind_direction_10m_deg"
+    "wind_direction_10m_deg",
+    "relative_humidity_1000hpa_percent",
+    "relative_humidity_925hpa_percent",
+    "relative_humidity_850hpa_percent",
+    "relative_humidity_700hpa_percent",
+    "relative_humidity_500hpa_percent",
+    "relative_humidity_400hpa_percent",
+    "relative_humidity_300hpa_percent",
+    "rh_cloud_potential_low_percent",
+    "rh_cloud_potential_mid_percent",
+    "rh_cloud_potential_high_percent",
+    "lcl_height_m_agl",
+    "fog_potential_percent"
   ],
   "frames": [
     {
       "forecast_hour": 0,
-      "valid_time_utc": "2026-10-06T06:00:00+00:00",
-      "fields": {
-        "temperature_2m_c": {
-          "count": 62478,
-          "missing": 0,
-          "min": 9.5175,
-          "max": 32.112,
-          "mean": 25.9638,
-          "unique_rounded": 10357,
-          "range": 22.5945,
-          "flags": [],
-          "source_units": "K",
-          "normalized_units": "°C"
-        },
-        "relative_humidity_2m_percent": {
-          "count": 62478,
-          "missing": 0,
-          "min": 38.6739,
-          "max": 99.6235,
-          "mean": 73.0665,
-          "unique_rounded": 26407,
-          "range": 60.9496,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "shortwave_flux_w_m2": {
-          "count": 62478,
-          "missing": 0,
-          "min": 0.0,
-          "max": 0.0,
-          "mean": 0.0,
-          "unique_rounded": 1,
-          "range": 0.0,
-          "flags": [
-            "constant_field"
-          ],
-          "source_units": "W m**-2",
-          "normalized_units": "W/m²"
-        },
-        "wind_speed_10m_m_s": {
-          "count": 62478,
-          "missing": 0,
-          "min": 0.0055,
-          "max": 16.6561,
-          "mean": 9.2683,
-          "unique_rounded": 13377,
-          "range": 16.6506,
-          "flags": [],
-          "source_units": "m/s",
-          "normalized_units": "m/s"
-        },
-        "wind_direction_10m_deg": {
-          "count": 62478,
-          "missing": 0,
-          "min": 0.0096,
-          "max": 359.9926,
-          "mean": 51.3581,
-          "unique_rounded": 41319,
-          "range": 359.983,
-          "flags": [],
-          "source_units": "degree",
-          "normalized_units": "degree"
-        }
-      }
-    },
-    {
-      "forecast_hour": 6,
-      "valid_time_utc": "2026-10-06T12:00:00+00:00",
-      "fields": {
-        "temperature_2m_c": {
-          "count": 62478,
-          "missing": 0,
-          "min": 6.3766,
-          "max": 29.3409,
-          "mean": 25.3111,
-          "unique_rounded": 11675,
-          "range": 22.9643,
-          "flags": [],
-          "source_units": "K",
-          "normalized_units": "°C"
-        },
-        "relative_humidity_2m_percent": {
-          "count": 62478,
-          "missing": 0,
-          "min": 45.9049,
-          "max": 99.7348,
-          "mean": 73.7153,
-          "unique_rounded": 27349,
-          "range": 53.8299,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "shortwave_flux_w_m2": {
-          "count": 62478,
-          "missing": 0,
-          "min": 0.0,
-          "max": 0.0,
-          "mean": 0.0,
-          "unique_rounded": 1,
-          "range": 0.0,
-          "flags": [
-            "constant_field"
-          ],
-          "source_units": "W m**-2",
-          "normalized_units": "W/m²"
-        },
-        "wind_speed_10m_m_s": {
-          "count": 62478,
-          "missing": 0,
-          "min": 0.0042,
-          "max": 17.4499,
-          "mean": 10.0221,
-          "unique_rounded": 12513,
-          "range": 17.4457,
-          "flags": [],
-          "source_units": "m/s",
-          "normalized_units": "m/s"
-        },
-        "wind_direction_10m_deg": {
-          "count": 62478,
-          "missing": 0,
-          "min": 0.0021,
-          "max": 359.9982,
-          "mean": 48.4092,
-          "unique_rounded": 38564,
-          "range": 359.996,
-          "flags": [],
-          "source_units": "degree",
-          "normalized_units": "degree"
-        }
-      }
-    },
-    {
-      "forecast_hour": 12,
       "valid_time_utc": "2026-10-06T18:00:00+00:00",
       "fields": {
         "temperature_2m_c": {
           "count": 62478,
           "missing": 0,
-          "min": 4.9978,
-          "max": 29.2457,
-          "mean": 24.7697,
-          "unique_rounded": 12618,
-          "range": 24.2479,
+          "min": 5.2585,
+          "max": 28.6719,
+          "mean": 24.7655,
+          "unique_rounded": 12312,
+          "range": 23.4134,
           "flags": [],
           "source_units": "K",
           "normalized_units": "°C"
@@ -175,11 +51,11 @@
         "relative_humidity_2m_percent": {
           "count": 62478,
           "missing": 0,
-          "min": 48.2695,
-          "max": 99.6759,
-          "mean": 72.7456,
-          "unique_rounded": 24573,
-          "range": 51.4064,
+          "min": 52.1885,
+          "max": 99.7562,
+          "mean": 72.0977,
+          "unique_rounded": 26426,
+          "range": 47.5676,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -201,11 +77,11 @@
         "wind_speed_10m_m_s": {
           "count": 62478,
           "missing": 0,
-          "min": 0.0072,
-          "max": 17.2451,
-          "mean": 9.3246,
-          "unique_rounded": 13254,
-          "range": 17.2379,
+          "min": 0.0104,
+          "max": 16.0846,
+          "mean": 9.0445,
+          "unique_rounded": 12124,
+          "range": 16.0742,
           "flags": [],
           "source_units": "m/s",
           "normalized_units": "m/s"
@@ -213,14 +89,578 @@
         "wind_direction_10m_deg": {
           "count": 62478,
           "missing": 0,
-          "min": 0.0183,
-          "max": 359.9689,
-          "mean": 55.7179,
-          "unique_rounded": 38038,
-          "range": 359.9506,
+          "min": 0.0028,
+          "max": 359.9966,
+          "mean": 55.0285,
+          "unique_rounded": 39008,
+          "range": 359.9938,
           "flags": [],
           "source_units": "degree",
           "normalized_units": "degree"
+        },
+        "relative_humidity_1000hpa_percent": {
+          "count": 62478,
+          "missing": 0,
+          "min": 46.3999,
+          "max": 86.3317,
+          "mean": 65.7923,
+          "unique_rounded": 25482,
+          "range": 39.9317,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "relative_humidity_925hpa_percent": {
+          "count": 62478,
+          "missing": 0,
+          "min": 43.3879,
+          "max": 99.9941,
+          "mean": 83.9041,
+          "unique_rounded": 27628,
+          "range": 56.6062,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "relative_humidity_850hpa_percent": {
+          "count": 62478,
+          "missing": 0,
+          "min": 11.2074,
+          "max": 99.9726,
+          "mean": 86.5072,
+          "unique_rounded": 28091,
+          "range": 88.7652,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "relative_humidity_700hpa_percent": {
+          "count": 62478,
+          "missing": 0,
+          "min": 0.3384,
+          "max": 99.8045,
+          "mean": 66.9047,
+          "unique_rounded": 35930,
+          "range": 99.466,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "relative_humidity_500hpa_percent": {
+          "count": 62478,
+          "missing": 0,
+          "min": 25.6563,
+          "max": 99.985,
+          "mean": 54.889,
+          "unique_rounded": 34066,
+          "range": 74.3287,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "relative_humidity_400hpa_percent": {
+          "count": 62478,
+          "missing": 0,
+          "min": 14.2941,
+          "max": 100.0,
+          "mean": 51.54,
+          "unique_rounded": 39328,
+          "range": 85.7059,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "relative_humidity_300hpa_percent": {
+          "count": 62478,
+          "missing": 0,
+          "min": 5.8698,
+          "max": 99.9751,
+          "mean": 29.5024,
+          "unique_rounded": 30439,
+          "range": 94.1053,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "rh_cloud_potential_low_percent": {
+          "count": 62478,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 80.0353,
+          "unique_rounded": 25766,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "rh_cloud_potential_mid_percent": {
+          "count": 62478,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 31.2389,
+          "unique_rounded": 31154,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "rh_cloud_potential_high_percent": {
+          "count": 62478,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 8.295,
+          "unique_rounded": 9009,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "lcl_height_m_agl": {
+          "count": 62478,
+          "missing": 0,
+          "min": 4.632,
+          "max": 1250.4496,
+          "mean": 687.0782,
+          "unique_rounded": 59933,
+          "range": 1245.8176,
+          "flags": [],
+          "source_units": "m AGL",
+          "normalized_units": "m AGL"
+        },
+        "fog_potential_percent": {
+          "count": 62478,
+          "missing": 0,
+          "min": 0.0,
+          "max": 98.6593,
+          "mean": 25.565,
+          "unique_rounded": 29501,
+          "range": 98.6593,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        }
+      }
+    },
+    {
+      "forecast_hour": 6,
+      "valid_time_utc": "2026-10-07T00:00:00+00:00",
+      "fields": {
+        "temperature_2m_c": {
+          "count": 62478,
+          "missing": 0,
+          "min": 8.3391,
+          "max": 28.8314,
+          "mean": 25.1133,
+          "unique_rounded": 11571,
+          "range": 20.4923,
+          "flags": [],
+          "source_units": "K",
+          "normalized_units": "°C"
+        },
+        "relative_humidity_2m_percent": {
+          "count": 62478,
+          "missing": 0,
+          "min": 36.9279,
+          "max": 99.5979,
+          "mean": 70.5145,
+          "unique_rounded": 24502,
+          "range": 62.67,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "shortwave_flux_w_m2": {
+          "count": 62478,
+          "missing": 0,
+          "min": 34.3345,
+          "max": 470.0493,
+          "mean": 337.4109,
+          "unique_rounded": 53517,
+          "range": 435.7148,
+          "flags": [],
+          "source_units": "W m**-2",
+          "normalized_units": "W/m²"
+        },
+        "wind_speed_10m_m_s": {
+          "count": 62478,
+          "missing": 0,
+          "min": 0.0047,
+          "max": 16.8731,
+          "mean": 8.9986,
+          "unique_rounded": 12920,
+          "range": 16.8684,
+          "flags": [],
+          "source_units": "m/s",
+          "normalized_units": "m/s"
+        },
+        "wind_direction_10m_deg": {
+          "count": 62478,
+          "missing": 0,
+          "min": 0.0068,
+          "max": 359.9835,
+          "mean": 55.4147,
+          "unique_rounded": 38612,
+          "range": 359.9766,
+          "flags": [],
+          "source_units": "degree",
+          "normalized_units": "degree"
+        },
+        "relative_humidity_1000hpa_percent": {
+          "count": 62478,
+          "missing": 0,
+          "min": 41.0034,
+          "max": 90.1594,
+          "mean": 65.9979,
+          "unique_rounded": 25022,
+          "range": 49.156,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "relative_humidity_925hpa_percent": {
+          "count": 62478,
+          "missing": 0,
+          "min": 41.8797,
+          "max": 99.8945,
+          "mean": 83.3598,
+          "unique_rounded": 26095,
+          "range": 58.0148,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "relative_humidity_850hpa_percent": {
+          "count": 62478,
+          "missing": 0,
+          "min": 24.9641,
+          "max": 99.9863,
+          "mean": 84.0189,
+          "unique_rounded": 30021,
+          "range": 75.0221,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "relative_humidity_700hpa_percent": {
+          "count": 62478,
+          "missing": 0,
+          "min": 0.4003,
+          "max": 97.9285,
+          "mean": 57.6805,
+          "unique_rounded": 34976,
+          "range": 97.5282,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "relative_humidity_500hpa_percent": {
+          "count": 62478,
+          "missing": 0,
+          "min": 22.232,
+          "max": 97.9551,
+          "mean": 54.3896,
+          "unique_rounded": 32119,
+          "range": 75.723,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "relative_humidity_400hpa_percent": {
+          "count": 62478,
+          "missing": 0,
+          "min": 8.8752,
+          "max": 99.9951,
+          "mean": 47.6406,
+          "unique_rounded": 38990,
+          "range": 91.1199,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "relative_humidity_300hpa_percent": {
+          "count": 62478,
+          "missing": 0,
+          "min": 4.3876,
+          "max": 97.4123,
+          "mean": 27.1814,
+          "unique_rounded": 32495,
+          "range": 93.0247,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "rh_cloud_potential_low_percent": {
+          "count": 62478,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 76.7176,
+          "unique_rounded": 31325,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "rh_cloud_potential_mid_percent": {
+          "count": 62478,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 16.5445,
+          "unique_rounded": 25348,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "rh_cloud_potential_high_percent": {
+          "count": 62478,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 5.8205,
+          "unique_rounded": 5141,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "lcl_height_m_agl": {
+          "count": 62478,
+          "missing": 0,
+          "min": 7.5871,
+          "max": 1914.2703,
+          "mean": 726.9199,
+          "unique_rounded": 59673,
+          "range": 1906.6833,
+          "flags": [],
+          "source_units": "m AGL",
+          "normalized_units": "m AGL"
+        },
+        "fog_potential_percent": {
+          "count": 62478,
+          "missing": 0,
+          "min": 0.0011,
+          "max": 97.7152,
+          "mean": 22.0432,
+          "unique_rounded": 26765,
+          "range": 97.7141,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        }
+      }
+    },
+    {
+      "forecast_hour": 12,
+      "valid_time_utc": "2026-10-07T06:00:00+00:00",
+      "fields": {
+        "temperature_2m_c": {
+          "count": 62478,
+          "missing": 0,
+          "min": 9.2128,
+          "max": 31.8378,
+          "mean": 25.7507,
+          "unique_rounded": 9572,
+          "range": 22.625,
+          "flags": [],
+          "source_units": "K",
+          "normalized_units": "°C"
+        },
+        "relative_humidity_2m_percent": {
+          "count": 62478,
+          "missing": 0,
+          "min": 32.2364,
+          "max": 99.8464,
+          "mean": 69.2944,
+          "unique_rounded": 25387,
+          "range": 67.6099,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "shortwave_flux_w_m2": {
+          "count": 62478,
+          "missing": 0,
+          "min": 66.3817,
+          "max": 704.1465,
+          "mean": 568.6852,
+          "unique_rounded": 55228,
+          "range": 637.7648,
+          "flags": [],
+          "source_units": "W m**-2",
+          "normalized_units": "W/m²"
+        },
+        "wind_speed_10m_m_s": {
+          "count": 62478,
+          "missing": 0,
+          "min": 0.0386,
+          "max": 16.1112,
+          "mean": 9.0223,
+          "unique_rounded": 12401,
+          "range": 16.0726,
+          "flags": [],
+          "source_units": "m/s",
+          "normalized_units": "m/s"
+        },
+        "wind_direction_10m_deg": {
+          "count": 62478,
+          "missing": 0,
+          "min": 0.0145,
+          "max": 359.9318,
+          "mean": 53.1768,
+          "unique_rounded": 39164,
+          "range": 359.9174,
+          "flags": [],
+          "source_units": "degree",
+          "normalized_units": "degree"
+        },
+        "relative_humidity_1000hpa_percent": {
+          "count": 62478,
+          "missing": 0,
+          "min": 33.1649,
+          "max": 93.3963,
+          "mean": 64.6564,
+          "unique_rounded": 25542,
+          "range": 60.2314,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "relative_humidity_925hpa_percent": {
+          "count": 62478,
+          "missing": 0,
+          "min": 39.8039,
+          "max": 99.2135,
+          "mean": 82.8814,
+          "unique_rounded": 26617,
+          "range": 59.4096,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "relative_humidity_850hpa_percent": {
+          "count": 62478,
+          "missing": 0,
+          "min": 23.9021,
+          "max": 99.9148,
+          "mean": 83.8175,
+          "unique_rounded": 30746,
+          "range": 76.0127,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "relative_humidity_700hpa_percent": {
+          "count": 62478,
+          "missing": 0,
+          "min": 0.163,
+          "max": 98.2222,
+          "mean": 48.5785,
+          "unique_rounded": 34115,
+          "range": 98.0592,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "relative_humidity_500hpa_percent": {
+          "count": 62478,
+          "missing": 0,
+          "min": 28.1901,
+          "max": 93.4904,
+          "mean": 51.1327,
+          "unique_rounded": 31677,
+          "range": 65.3004,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "relative_humidity_400hpa_percent": {
+          "count": 62478,
+          "missing": 0,
+          "min": 10.1425,
+          "max": 96.0315,
+          "mean": 42.9436,
+          "unique_rounded": 37713,
+          "range": 85.889,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "relative_humidity_300hpa_percent": {
+          "count": 62478,
+          "missing": 0,
+          "min": 3.9428,
+          "max": 90.224,
+          "mean": 27.0461,
+          "unique_rounded": 33025,
+          "range": 86.2812,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "rh_cloud_potential_low_percent": {
+          "count": 62478,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 72.7205,
+          "unique_rounded": 32527,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "rh_cloud_potential_mid_percent": {
+          "count": 62478,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 5.8854,
+          "unique_rounded": 12264,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "rh_cloud_potential_high_percent": {
+          "count": 62478,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 3.2604,
+          "unique_rounded": 4546,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "lcl_height_m_agl": {
+          "count": 62478,
+          "missing": 0,
+          "min": 2.8927,
+          "max": 2198.3885,
+          "mean": 771.6946,
+          "unique_rounded": 59679,
+          "range": 2195.4958,
+          "flags": [],
+          "source_units": "m AGL",
+          "normalized_units": "m AGL"
+        },
+        "fog_potential_percent": {
+          "count": 62478,
+          "missing": 0,
+          "min": 0.0,
+          "max": 97.7936,
+          "mean": 20.6225,
+          "unique_rounded": 27128,
+          "range": 97.7936,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
         }
       }
     }
@@ -228,16 +668,6 @@
   "flags": [
     {
       "forecast_hour": 0,
-      "field": "shortwave_flux_w_m2",
-      "flag": "constant_field"
-    },
-    {
-      "forecast_hour": 6,
-      "field": "shortwave_flux_w_m2",
-      "flag": "constant_field"
-    },
-    {
-      "forecast_hour": 12,
       "field": "shortwave_flux_w_m2",
       "flag": "constant_field"
     }
@@ -248,6 +678,8 @@
     "Wind direction is circular and should be rendered/sampled with nearest-cell semantics.",
     "Optional CWA fields are published only when present in every frame of the snapshot.",
     "Live M-A0064 verification found pressure-level relative humidity but no native low/mid/high cloud-cover fields.",
-    "Pressure-level RH is not relabeled as cloud cover."
+    "Pressure-level RH is not relabeled as cloud cover.",
+    "RH-derived cloud/fog diagnostics are separately named experimental proxy products.",
+    "LCL height is an estimated thermodynamic diagnostic, not observed or native cloud base."
   ]
 }

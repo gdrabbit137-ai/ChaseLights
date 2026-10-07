@@ -3140,14 +3140,9 @@ def test_adapter_integrity():
     assert shinhotaka_spot["coordinate_confidence"] == "high"
     assert shinhotaka_spot["map_query"] == "西穂高口駅 新穂高ロープウェイ"
     assert set(shinhotaka_spot["themes"]) >= {"mountain_view", "milky_way"}
-    assert shinhotaka_spot["navigation_target"]["status"] == "verified"
-    assert shinhotaka_spot["navigation_target"]["target_type"] == "station"
-    assert abs(shinhotaka_spot["navigation_target"]["lat"] - 36.2858894) < 1e-9
-    assert abs(shinhotaka_spot["navigation_target"]["lon"] - 137.5753158) < 1e-9
-    assert (
-        shinhotaka_spot["navigation_target"]["lat"],
-        shinhotaka_spot["navigation_target"]["lon"],
-    ) != (shinhotaka_spot["lat"], shinhotaka_spot["lon"])
+    assert shinhotaka_spot["navigation_target"]["status"] == "needs_review"
+    assert "lat" not in shinhotaka_spot["navigation_target"]
+    assert "lon" not in shinhotaka_spot["navigation_target"]
 
     jp021 = get_opportunities("jp", "jp-021")
     assert [o["opportunity_id"] for o in jp021] == ["jp-021-P01", "jp-021-P02"]

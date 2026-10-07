@@ -13,7 +13,9 @@ from himawari9_cloud_poc import (
     TAIWAN_QC_BBOX,
     build_fs,
     find_latest_pair,
+    find_pair_for_slot,
     fixed_grid_window,
+    normalize_slot_utc,
 )
 
 OUTPUT_BBOX = {
@@ -261,10 +263,14 @@ def build_live_bundle(
     *,
     lookback_slots: int = 36,
     now: datetime | None = None,
+    slot_utc: datetime | None = None,
 ) -> tuple[dict, dict]:
     now = now or datetime.now(timezone.utc)
     fs = build_fs()
-    slot, pair = find_latest_pair(fs, now=now, lookback_slots=lookback_slots)
+    if slot_utc is None:
+        slot, pair = find_latest_pair(fs, now=now, lookback_slots=lookback_slots)
+    else:
+        slot, pair = find_pair_for_slot(fs, slot=normalize_slot_utc(slot_utc))
     source_window = fixed_grid_window(TAIWAN_QC_BBOX)
     source = _read_source_arrays(fs, pair, source_window)
 
@@ -443,13 +449,26 @@ def build_live_bundle(
     return bundle, qc
 
 
+def parse_slot_utc(value: str) -> datetime:
+    parsed = datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+    return normalize_slot_utc(parsed)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--lookback-slots", type=int, default=36)
+    parser.add_argument(
+        "--slot-utc",
+        help="Exact 10-minute Himawari UTC slot for replay/calibration.",
+    )
     parser.add_argument("--output-dir", type=Path, default=Path("himawari9_output"))
     args = parser.parse_args()
 
-    bundle, qc = build_live_bundle(lookback_slots=args.lookback_slots)
+    slot = parse_slot_utc(args.slot_utc) if args.slot_utc else None
+    bundle, qc = build_live_bundle(
+        lookback_slots=args.lookback_slots,
+        slot_utc=slot,
+    )
     args.output_dir.mkdir(parents=True, exist_ok=True)
     bundle_path = args.output_dir / "himawari9_tw_cloud_browser.json"
     qc_path = args.output_dir / "himawari9_tw_cloud_qc.json"

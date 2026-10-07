@@ -24,6 +24,9 @@ on:
       - "weathergrid_v2_tile_export.py"
       - "weathergrid_v2_publish.py"
       - "test_weathergrid_v2_publish.py"
+      - "weathergrid_v2_cwa_publish.py"
+      - "test_weathergrid_v2_cwa_publish.py"
+      - "cwa_weathergrid_derived.py"
       - "test_weathergrid_v2_tile_export.py"
       - "test_weathergrid_v2_capacity.py"
       - ".github/workflows/weathergrid_v2_experiment.yml"
@@ -39,13 +42,19 @@ on:
       - "weathergrid/v2/**"
       - "weathergrid_v2_public_smoke.py"
       - ".github/workflows/weathergrid_v2_experiment.yml"
+  workflow_run:
+    workflows: ["Update WeatherGrid V2 JMA Native Tiles", "Update WeatherGrid V2 CWA Derived Tiles"]
+    types: [completed]
   workflow_dispatch:
 
 jobs:
   contract:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_run' && 'main' || github.sha }}
       - uses: actions/setup-python@v5
         with:
           python-version: "3.10"
@@ -63,6 +72,7 @@ jobs:
           python -m unittest -v test_weathergrid_v2_capacity.py
           python -m unittest -v test_weathergrid_v2_tile_export.py
           python -m unittest -v test_weathergrid_v2_publish.py
+          python -m unittest -v test_weathergrid_v2_cwa_publish.py
           python -m unittest -v test_weathergrid_v2_browser_tiles.py
           python -c 'import json; d=json.load(open("/tmp/weathergrid-v2-index.json")); assert d["regions"]["jp"]["cells"]'
       - name: Static site smoke
@@ -87,6 +97,8 @@ jobs:
     timeout-minutes: 24
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_run' && 'main' || github.sha }}
       - uses: actions/setup-python@v5
         with:
           python-version: "3.10"
@@ -98,6 +110,8 @@ jobs:
           expected_js_sha="$(sha256sum assets/weather-map-v2.js | awk '{print $1}')"
           expected_loader_sha="$(sha256sum assets/weather-map-v2-tile-loader.js | awk '{print $1}')"
           expected_sampling_sha="$(sha256sum assets/weather-map-v2-sampling.js | awk '{print $1}')"
+          expected_index_sha="$(sha256sum weathergrid/v2/index.json | awk '{print $1}')"
+          expected_jma_manifest_sha="$(sha256sum weathergrid/v2/jma/current/manifest.json | awk '{print $1}')"
           ready=0
           for i in {1..60}; do
             nonce="${GITHUB_SHA}-${i}-$(date +%s)"
@@ -105,11 +119,15 @@ jobs:
             curl -fsSL --max-time 20 -H 'Cache-Control: no-cache' "https://chaselights.app/assets/weather-map-v2.js?pages_probe=${nonce}" -o /tmp/v2.js || true
             curl -fsSL --max-time 20 -H 'Cache-Control: no-cache' "https://chaselights.app/assets/weather-map-v2-tile-loader.js?pages_probe=${nonce}" -o /tmp/v2-loader.js || true
             curl -fsSL --max-time 20 -H 'Cache-Control: no-cache' "https://chaselights.app/assets/weather-map-v2-sampling.js?pages_probe=${nonce}" -o /tmp/v2-sampling.js || true
-            if [[ -s /tmp/v2.html && -s /tmp/v2.js && -s /tmp/v2-loader.js && -s /tmp/v2-sampling.js ]] \
+            curl -fsSL --max-time 20 -H 'Cache-Control: no-cache' "https://chaselights.app/weathergrid/v2/index.json?pages_probe=${nonce}" -o /tmp/v2-index.json || true
+            curl -fsSL --max-time 20 -H 'Cache-Control: no-cache' "https://chaselights.app/weathergrid/v2/jma/current/manifest.json?pages_probe=${nonce}" -o /tmp/v2-jma-manifest.json || true
+            if [[ -s /tmp/v2.html && -s /tmp/v2.js && -s /tmp/v2-loader.js && -s /tmp/v2-sampling.js && -s /tmp/v2-index.json && -s /tmp/v2-jma-manifest.json ]] \
               && [[ "$(sha256sum /tmp/v2.html | awk '{print $1}')" == "$expected_html_sha" ]] \
               && [[ "$(sha256sum /tmp/v2.js | awk '{print $1}')" == "$expected_js_sha" ]] \
               && [[ "$(sha256sum /tmp/v2-loader.js | awk '{print $1}')" == "$expected_loader_sha" ]] \
-              && [[ "$(sha256sum /tmp/v2-sampling.js | awk '{print $1}')" == "$expected_sampling_sha" ]]; then ready=1; break; fi
+              && [[ "$(sha256sum /tmp/v2-sampling.js | awk '{print $1}')" == "$expected_sampling_sha" ]] \
+              && [[ "$(sha256sum /tmp/v2-index.json | awk '{print $1}')" == "$expected_index_sha" ]] \
+              && [[ "$(sha256sum /tmp/v2-jma-manifest.json | awk '{print $1}')" == "$expected_jma_manifest_sha" ]]; then ready=1; break; fi
             sleep 15
           done
           test "$ready" -eq 1

@@ -1,5 +1,6 @@
 import math
 import unittest
+from datetime import datetime, timezone
 
 import numpy as np
 
@@ -7,6 +8,7 @@ from himawari9_weathergrid_browser_bundle import (
     HEIGHT_SCALE_M,
     _attr_text,
     nearest_regular_grid,
+    parse_slot_utc,
     quantize_height,
     regular_axis,
 )
@@ -15,6 +17,14 @@ from himawari9_weathergrid_browser_bundle import (
 class Himawari9WeatherGridBundleTest(unittest.TestCase):
     def test_attr_text_decodes_netcdf_bytes(self):
         self.assertEqual(_attr_text(b"2026-09-30T16:20:21Z"), "2026-09-30T16:20:21Z")
+
+    def test_parse_slot_utc_for_replay(self):
+        self.assertEqual(
+            parse_slot_utc("2026-10-06T18:00:00Z"),
+            datetime(2026, 10, 6, 18, 0, tzinfo=timezone.utc),
+        )
+        with self.assertRaises(ValueError):
+            parse_slot_utc("2026-10-06T18:03:00Z")
 
     def test_regular_axis_includes_both_ends(self):
         self.assertEqual(

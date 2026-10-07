@@ -67,6 +67,35 @@ class LocalizationCompletenessStaticTests(unittest.TestCase):
         self.assertIn("選択日の中で相対的に条件が良い時間帯", APP)
         self.assertIn("逐時拍攝條件：過去 24 小時 + 未來 72 小時", INDEX)
 
+    def test_no_recommendation_copy_hides_internal_research_state(self):
+        for obsolete in (
+            "此景點尚未完成逐點攝影研究，因此暫不顯示推測性的拍攝建議。",
+            "攝影研究待補，暫不評分",
+            "所選日期沒有合適的已研究拍攝機會",
+            "This place has not yet completed place-specific photography research, so no speculative shooting guide is shown.",
+            "Photography research pending · not scored yet",
+            "No researched shooting opportunity is suitable for the selected date",
+            "この場所は個別撮影調査が未完了のため、推測的な撮影案内は表示しません。",
+            "撮影調査待ち・現在は採点しません",
+            "選択日に適した調査済みの撮影機会はありません",
+        ):
+            with self.subTest(obsolete=obsolete):
+                self.assertNotIn(obsolete, APP)
+
+        for expected in (
+            "目前沒有可提供的拍攝指南。",
+            "所選日期目前無法提供可靠的拍攝建議",
+            "所選日期目前沒有明確的拍攝建議",
+            "No shooting guide is currently available for this place.",
+            "A reliable shooting recommendation is not currently available for the selected date",
+            "There is no clear shooting recommendation for the selected date",
+            "この場所では現在、撮影ガイドを提供できません。",
+            "選択日は信頼できる撮影提案を現在提供できません",
+            "選択日には明確な撮影提案がありません",
+        ):
+            with self.subTest(expected=expected):
+                self.assertIn(expected, APP)
+
     def test_place_name_is_the_only_explicit_local_name_fallback(self):
         self.assertIn(
             "const spotName=s=>s?.name_i18n?.[currentLang]||s?.name_local||",

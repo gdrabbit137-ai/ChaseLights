@@ -35,6 +35,7 @@ from typing import Iterable
 
 from gfs_raw_poc import active_taiwan_spots, parse_forecast_hours
 from gfs_multilayer_poc import sample_field_bilinear, sample_field_nearest
+from cwa_weathergrid_derived import derive_cwa_photography_fields
 
 CWA_BUCKET = "cwaopendata"
 CWA_DATASET_PREFIX = "M-A0064"
@@ -55,6 +56,7 @@ CWA_TAIWAN_BROWSER_BBOX = {
 }
 CWA_BROWSER_GRID_DEG = 0.03
 DEFAULT_FORECAST_HOURS = (0, 6, 12, 18, 24)
+CWA_PRESSURE_RH_LEVELS_HPA = (1000, 925, 850, 700, 500, 400, 300)
 
 # Official documentation reference corners for the 3 km regional grid.
 CWA_NATIVE_DOMAIN_REFERENCE = {
@@ -465,6 +467,116 @@ def _extract_one_field(datasets, key: str, spec: dict) -> dict | None:
     }
 
 
+def _pressure_level_view(array, pressure_hpa: int):
+    import numpy as np
+
+    for coord_name in ("isobaricInhPa", "isobaricInPa", "pressure", "level"):
+        if coord_name not in array.coords:
+            continue
+        coord = array.coords[coord_name]
+        values = np.asarray(coord.values, dtype=float).reshape(-1)
+        if not values.size:
+            continue
+        target = float(pressure_hpa)
+        if float(np.nanmedian(np.abs(values))) > 2000.0:
+            target *= 100.0
+        index = int(np.nanargmin(np.abs(values - target)))
+        tolerance = 250.0 if target > 2000.0 else 2.5
+        if abs(float(values[index]) - target) > tolerance:
+            continue
+        if coord_name in array.dims:
+            return array.isel({coord_name: index})
+
+    attrs = array.attrs or {}
+    level_type = _norm(attrs.get("GRIB_typeOfLevel"))
+    level_value = _array_level_value(array)
+    if (
+        array.ndim == 2
+        and level_value is not None
+        and level_type in {"isobaricinhpa", "isobaricinpa", "isobaric"}
+        and abs(float(level_value) - float(pressure_hpa)) <= 2.5
+    ):
+        return array
+    return None
+
+
+def _extract_pressure_rh_field(datasets, pressure_hpa: int) -> dict | None:
+    import numpy as np
+
+    candidates = []
+    for ds in datasets:
+        for name, array in ds.data_vars.items():
+            view = _pressure_level_view(array, pressure_hpa)
+            if view is None:
+                continue
+            attrs = view.attrs or array.attrs or {}
+            short = _norm(attrs.get("GRIB_shortName", name))
+            data_name = _norm(name)
+            long_name = _norm(attrs.get("long_name") or attrs.get("GRIB_name"))
+            score = 0
+            if short in {"r", "rh", "relativehumidity"}:
+                score += 14
+            if data_name in {"r", "rh", "relativehumidity"}:
+                score += 10
+            if "relative" in long_name and "humidity" in long_name:
+                score += 8
+            if view.ndim >= 2:
+                score += 1
+            candidates.append((score, ds, name, view))
+
+    candidates.sort(key=lambda item: item[0], reverse=True)
+    if not candidates or candidates[0][0] < 9:
+        return None
+
+    score, ds, name, array = candidates[0]
+    values = np.squeeze(np.asarray(array.values, dtype=float))
+    if values.ndim != 2:
+        return None
+
+    lat = _coord_values(ds, ("latitude", "lat"))
+    lon = _coord_values(ds, ("longitude", "lon"))
+    if lat is None or lon is None:
+        return None
+    lat = np.asarray(lat, dtype=float)
+    lon = np.asarray(lon, dtype=float)
+    if lat.ndim == 1 and lon.ndim == 1:
+        lon2, lat2 = np.meshgrid(lon, lat)
+    elif lat.shape == lon.shape:
+        lat2, lon2 = lat, lon
+    else:
+        return None
+    if values.shape != lat2.shape:
+        if values.T.shape == lat2.shape:
+            values = values.T
+        else:
+            return None
+
+    normalized, normalized_unit = _normalize_values(
+        values,
+        "percent",
+        (array.attrs or {}).get("units", ""),
+    )
+    return {
+        "field_name": name,
+        "candidate_score": score,
+        "field_attrs": {
+            "short_name": (array.attrs or {}).get("GRIB_shortName"),
+            "type_of_level": (array.attrs or {}).get("GRIB_typeOfLevel"),
+            "pressure_level_hpa": int(pressure_hpa),
+            "long_name": (
+                (array.attrs or {}).get("long_name")
+                or (array.attrs or {}).get("GRIB_name")
+                or f"Relative humidity at {pressure_hpa} hPa"
+            ),
+            "source_units": (array.attrs or {}).get("units"),
+            "normalized_units": normalized_unit,
+        },
+        "latitudes_2d": lat2,
+        "longitudes_2d": lon2,
+        "values_2d": normalized,
+    }
+
+
 def extract_native_fields(grib_path: Path) -> dict[str, dict]:
     import cfgrib
 
@@ -496,6 +608,15 @@ def extract_native_fields(grib_path: Path) -> dict[str, dict]:
         field = _extract_one_field(datasets, key, spec)
         if field is not None:
             fields[key] = field
+
+    for pressure_hpa in CWA_PRESSURE_RH_LEVELS_HPA:
+        key = f"relative_humidity_{pressure_hpa}hpa_percent"
+        field = _extract_pressure_rh_field(datasets, pressure_hpa)
+        if field is None:
+            raise RuntimeError(
+                f"CWA WRF3 required pressure-level RH field missing: {pressure_hpa} hPa"
+            )
+        fields[key] = field
 
     return fields
 
@@ -828,6 +949,7 @@ def main() -> int:
             for key, field in native_fields.items()
         }
         regular_fields.update(derive_wind_fields(regular_fields))
+        regular_fields.update(derive_cwa_photography_fields(regular_fields))
 
         sampled = sample_places(regular_fields, bbox, spots)
         frame_path = out / f"cwa_wrf3_tw_f{fh:03d}.json"
