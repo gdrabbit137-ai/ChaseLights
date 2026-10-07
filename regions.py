@@ -2260,6 +2260,22 @@ NAVIGATION_TARGET_OVERRIDES = {
         },
     },
     "新穗高高空纜車": {
+        "status": "needs_review",
+        "target_type": "station",
+        "label_i18n": {
+            "zh-TW": "新穗高纜車山麓進入點待查證",
+            "en": "Shinhotaka Ropeway base access pending verification",
+            "ja": "新穂高ロープウェイ山麓アクセスは確認待ち",
+        },
+        "source": "B32: Camera Zone is Nishi-Hotakaguchi summit observatory; arrival target must be researched separately",
+        "confidence": "medium",
+        "note_i18n": {
+            "zh-TW": "攝影 Camera Zone 位於西穗高口山頂區，不可直接把山頂座標當成道路導航終點。",
+            "en": "The Camera Zone is at the Nishi-Hotakaguchi summit area; the summit coordinate must not be treated as a road-routing destination.",
+            "ja": "撮影 Camera Zone は西穂高口山頂エリアのため、山頂座標を道路ナビの目的地として扱いません。",
+        },
+    },
+    "新穗高高空纜車": {
         "status": "verified",
         "lat": 36.2858894,
         "lon": 137.5753158,
