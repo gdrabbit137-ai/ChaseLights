@@ -4843,6 +4843,8 @@ def test_active_catalog_weather_generation_guard():
                 "runtime_policy": "preview_module_available",
                 "condition_state": "dedicated_conditions_match",
                 "score_confidence": "high",
+                "recommendation_state": "recommended",
+                "recommendation_eligible": True,
                 "base_theme_score": 91,
             }
         },
