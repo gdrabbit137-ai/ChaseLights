@@ -5229,7 +5229,7 @@ def test_recommendation_is_condition_driven_not_score_driven():
         "visibility": {"available": True, "eligible": True, "reason": "scene_readable"},
     }}
     metric = {
-        "score": 10,
+        "score": 64,
         "factors": [],
         "status_key": "COAST_NORMAL",
         "indicator_key": "IND_COAST_NORM",
@@ -5237,7 +5237,7 @@ def test_recommendation_is_condition_driven_not_score_driven():
         "temporal_reason": "sunset_window",
     }
     scored = fetch_data._score_opportunity(opportunity, metric, passing)
-    assert scored["score"] == 10
+    assert scored["score"] == 64
     assert scored["recommendation_state"] == "recommended"
     assert scored["recommendation_eligible"] is True
 
