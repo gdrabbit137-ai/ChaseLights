@@ -1,0 +1,13 @@
+{
+  "schema_version": "database-v2-progress-r1",
+  "worker": 1,
+  "completed_places": [
+    "tw-001",
+    "tw-006",
+    "tw-011",
+    "tw-016",
+    "tw-021"
+  ],
+  "status": "batch_1_scaffolded",
+  "notes": "Full snapshot write deferred after repository write safety guard; schema scaffold is committed. Next run should reconcile latest main and retry additive snapshot/progress writes."
+}
