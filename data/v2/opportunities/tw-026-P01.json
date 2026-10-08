@@ -1,0 +1,288 @@
+{
+  "schema_version": "2.1.0",
+  "opportunity_id": "tw-026-P01",
+  "place_id": "tw-026",
+  "revision": 1,
+  "lifecycle_status": "evidence_review",
+  "name_i18n": {
+    "zh-TW": "井仔腳瓦盤鹽田夕照",
+    "en": "Sunset over Jingzaijiao tiled salt pans",
+    "ja": "井仔脚瓦盤塩田の夕景"
+  },
+  "description_i18n": {
+    "zh-TW": "從開放的鹽田公共區拍攝格狀鹽池與夕照；2026年9月起整修的原瞭望台不可當作開放機位。",
+    "en": "Photograph patterned salt pans and sunset light from open public areas; the lookout closed for repairs from September 2026 is not an available camera point.",
+    "ja": "開放中の塩田公共区域から格子状の塩田と夕景を撮影する。2026年9月から工事で閉鎖された展望台は撮影位置に含めない。"
+  },
+  "camera_contexts": [
+    {
+      "id": "CZ-tw-026-P01-01",
+      "kind": "area",
+      "geometry": {
+        "kind": "area",
+        "status": "unknown",
+        "geojson": null,
+        "uncertainty_m": null,
+        "derivation_method": null,
+        "source_geometry_revision": null,
+        "reason_if_absent": "No independently verified source geometry"
+      },
+      "verification_status": "provisional",
+      "evidence_refs": [
+        "e026a",
+        "e026b",
+        "e026d"
+      ],
+      "access_notes_i18n": {
+        "zh-TW": "只用開放公共區；原瞭望台預計封閉至2026-11-30，應核對最新公告。",
+        "en": "Use open public areas only; the original lookout was scheduled closed through 2026-11-30, so recheck official notices.",
+        "ja": "開放中の公共区域のみ利用。旧展望台は2026年11月30日まで閉鎖予定で、最新の公式告知を確認する。"
+      },
+      "safety_notes_i18n": {
+        "zh-TW": "施工圍籬及管制區不可進入。",
+        "en": "Do not enter construction barriers or restricted areas.",
+        "ja": "工事柵や立入禁止区域に入らない。"
+      },
+      "altitude_m": null
+    }
+  ],
+  "targets": [
+    {
+      "id": "SG-tw-026-P01-01",
+      "kind": "multi_component",
+      "name_i18n": {
+        "zh-TW": "瓦盤鹽池與夕照天空",
+        "en": "Tiled salt pans and sunset-lit sky",
+        "ja": "瓦盤塩田と夕日に照らされる空"
+      },
+      "geometry": {
+        "kind": "area",
+        "status": "unknown",
+        "geojson": null,
+        "uncertainty_m": null,
+        "derivation_method": null,
+        "source_geometry_revision": null,
+        "reason_if_absent": "No independently verified source geometry"
+      },
+      "phenomenon_model_id": null,
+      "evidence_refs": [
+        "e026a",
+        "e026b",
+        "e026d"
+      ],
+      "components": []
+    }
+  ],
+  "observation_relations": [
+    {
+      "id": "VR-tw-026-P01-01",
+      "camera_context_id": "CZ-tw-026-P01-01",
+      "target_id": "SG-tw-026-P01-01",
+      "type": "foreground_background",
+      "geometry_mode": "unknown",
+      "azimuth_deg": null,
+      "elevation_deg": null,
+      "distance_m": null,
+      "evidence_refs": [
+        "e026a",
+        "e026b",
+        "e026d"
+      ],
+      "derivation_method": null,
+      "uncertainty_note": "No verified source geometry; angles, distance and corridor unknown."
+    }
+  ],
+  "navigation_targets": [
+    {
+      "id": "NAV-tw-026-P01-01",
+      "status": "needs_review",
+      "target_type": "other",
+      "lat": null,
+      "lon": null,
+      "label_i18n": {
+        "zh-TW": "尚未核實實際抵達點",
+        "en": "Practical arrival point not verified",
+        "ja": "実際の到着地点は未確認"
+      },
+      "evidence_refs": [],
+      "confidence": "unknown"
+    }
+  ],
+  "condition_contract": {
+    "contract_id": "CC-tw-026-P01-v1",
+    "status": "review",
+    "conditions": [
+      {
+        "id": "C-tw-026-P01-01",
+        "role": "REQUIRED",
+        "domain": "ACCESS_SAFETY",
+        "evaluation_mode": "VERIFY",
+        "capability": "OBSERVATION",
+        "metric": "public_saltfield_access",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-026-P01-claim-01"
+        ],
+        "model_binding": null,
+        "notes_i18n": {
+          "zh-TW": "鹽田公共攝影區須當下開放；原瞭望台封閉不等於整個景區封閉。",
+          "en": "The public shooting area must be open; closure of the original lookout does not close the entire site.",
+          "ja": "公共撮影区域が開放中であること。旧展望台の閉鎖は景区全体の閉鎖を意味しない。"
+        },
+        "validation_status": "provisional"
+      },
+      {
+        "id": "C-tw-026-P01-02",
+        "role": "REQUIRED",
+        "domain": "ASTRONOMY",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "sunset_light_at_salt_pans",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-026-P01-claim-02"
+        ],
+        "model_binding": null,
+        "notes_i18n": {
+          "zh-TW": "夕照需實際照亮鹽田構圖；未推定太陽方位或固定時刻。",
+          "en": "Sunset light must reach the salt-pan composition; no fixed time or solar bearing is inferred.",
+          "ja": "夕日の光が塩田の構図に届くこと。固定時刻や太陽方位は推定しない。"
+        },
+        "validation_status": "provisional"
+      },
+      {
+        "id": "C-tw-026-P01-03",
+        "role": "BLOCKER",
+        "domain": "ACCESS_SAFETY",
+        "evaluation_mode": "VERIFY",
+        "capability": "OBSERVATION",
+        "metric": "restricted_lookout_entry",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-026-P01-claim-03"
+        ],
+        "model_binding": null,
+        "notes_i18n": {
+          "zh-TW": "若取景需要進入正在封閉的原瞭望台，該機位不可使用。",
+          "en": "A composition requiring entry to the closed original lookout is unavailable.",
+          "ja": "閉鎖中の旧展望台への立入りが必要な構図は利用不可。"
+        },
+        "validation_status": "provisional"
+      },
+      {
+        "id": "C-tw-026-P01-04",
+        "role": "QUALITY",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "sunset_cloud_texture",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-026-P01-claim-04"
+        ],
+        "model_binding": null,
+        "notes_i18n": {
+          "zh-TW": "適當的晚霞雲層可增加色彩，但不保證每次出現。",
+          "en": "Colorful sunset clouds can enhance the scene, but their occurrence is not guaranteed.",
+          "ja": "夕焼け雲は色彩を高めるが、出現は保証されない。"
+        },
+        "validation_status": "provisional"
+      }
+    ],
+    "recommendation_policy_version": null
+  },
+  "evidence_claims": [
+    {
+      "claim_id": "tw-026-P01-existence",
+      "claim_type": "existence",
+      "evidence_refs": [
+        "e026a",
+        "e026b",
+        "e026d"
+      ],
+      "audit_status": "OK",
+      "scope_note": "Place-specific opportunity is supported; geometry remains unverified."
+    },
+    {
+      "claim_id": "tw-026-P01-camera",
+      "claim_type": "camera_location",
+      "evidence_refs": [
+        "e026a",
+        "e026b",
+        "e026d"
+      ],
+      "audit_status": "PARTIAL",
+      "scope_note": "Named public camera area only; exact polygon and GPS unverified."
+    },
+    {
+      "claim_id": "tw-026-P01-navigation",
+      "claim_type": "navigation_access",
+      "evidence_refs": [],
+      "audit_status": "UNKNOWN",
+      "scope_note": "No independently verified arrival coordinate."
+    },
+    {
+      "claim_id": "tw-026-P01-claim-01",
+      "claim_type": "navigation_access",
+      "evidence_refs": [
+        "e026b"
+      ],
+      "audit_status": "PARTIAL",
+      "scope_note": "Qualitative condition; no measured threshold, local runtime verification needed."
+    },
+    {
+      "claim_id": "tw-026-P01-claim-02",
+      "claim_type": "other",
+      "evidence_refs": [
+        "e026a"
+      ],
+      "audit_status": "PARTIAL",
+      "scope_note": "Qualitative condition; no measured threshold, local runtime verification needed."
+    },
+    {
+      "claim_id": "tw-026-P01-claim-03",
+      "claim_type": "navigation_access",
+      "evidence_refs": [
+        "e026b"
+      ],
+      "audit_status": "PARTIAL",
+      "scope_note": "Qualitative condition; no measured threshold, local runtime verification needed."
+    },
+    {
+      "claim_id": "tw-026-P01-claim-04",
+      "claim_type": "other",
+      "evidence_refs": [
+        "e026c"
+      ],
+      "audit_status": "PARTIAL",
+      "scope_note": "Qualitative condition; no measured threshold, local runtime verification needed."
+    }
+  ],
+  "readiness": {
+    "research_level": "R1",
+    "runtime_availability": "GUIDANCE_ONLY",
+    "gaps": [
+      "GEOMETRY_GAP",
+      "DYNAMIC_UNVERIFIED"
+    ]
+  },
+  "provenance": {
+    "source_catalog": "worker2-offline-batch03",
+    "source_revision": "research-shard-batch03",
+    "imported_at": "2026-10-08T17:26:40Z",
+    "review_status": "reviewed",
+    "reviewed_by": "Worker 2 evidence review (automated; no human approval)"
+  }
+}
