@@ -1,0 +1,796 @@
+{
+  "kind": "worker2_evidence_audit_not_canonical_import",
+  "audit_version": "worker2-batch02-r1",
+  "as_of": "2026-10-09",
+  "main_sha": "58c8361ba9e4bb88f98e3350c5787806340d5f7d",
+  "worker1_schema_found": "database-v2-progress-r1",
+  "required_schema": "v2.1",
+  "schema_v2_1_found": false,
+  "scope": {
+    "place_ids": [
+      "jp-027",
+      "jp-032",
+      "tw-001",
+      "tw-006",
+      "tw-011"
+    ],
+    "opportunity_count": 12,
+    "source_shard": "chaselights_dbv2_worker2_batch02.json"
+  },
+  "reviewed_opportunities": [
+    {
+      "opportunity_id": "jp-027-P01",
+      "place_id": "jp-027",
+      "claim_id": "H-jp-027-P01-existence",
+      "opportunity_existence": "verified_scope_limited",
+      "name_i18n": {
+        "zh-TW": "天覽台日間神戶與大阪灣遠景",
+        "en": "Daytime panorama of Kobe and Osaka Bay from Tenrandai",
+        "ja": "天覧台から望む神戸・大阪湾の昼間のパノラマ"
+      },
+      "camera_zone": {
+        "label_zh": "六甲山上站旁天覽台公共展望區",
+        "geometry": null,
+        "status": "provisional"
+      },
+      "subject": {
+        "label_zh": "神戶、大阪平野與大阪灣",
+        "geometry_type": "horizon_sector",
+        "geometry": null
+      },
+      "navigation_reference": {
+        "status": "needs_review",
+        "geometry": null
+      },
+      "view_relation": {
+        "distance_km": null,
+        "azimuth_deg": null,
+        "elevation_angle_deg": null,
+        "angular_size_deg": null,
+        "horizon": null,
+        "corridor": null
+      },
+      "evidence_refs": [
+        "E02-R01"
+      ],
+      "crosswalk": {
+        "human_claim_id": "H-jp-027-P01-existence",
+        "human_text": "天覽台日間神戶與大阪灣遠景",
+        "machine_path_or_fields": "reviewed_opportunities[opportunity_id=jp-027-P01].name_i18n",
+        "evidence_refs": [
+          "E02-R01"
+        ],
+        "consistency_status": "OK",
+        "notes": "Trilingual scope aligned; geometric parameters unknown. This is evidence audit, NOT schema-v2.1 import."
+      }
+    },
+    {
+      "opportunity_id": "jp-027-P02",
+      "place_id": "jp-027",
+      "claim_id": "H-jp-027-P02-existence",
+      "opportunity_existence": "verified_scope_limited",
+      "name_i18n": {
+        "zh-TW": "天覽台神戶與大阪灣夜景",
+        "en": "Kobe and Osaka Bay night skyline from Tenrandai",
+        "ja": "天覧台から望む神戸・大阪湾の夜景"
+      },
+      "camera_zone": {
+        "label_zh": "六甲山上站旁天覽台公共展望區",
+        "geometry": null,
+        "status": "provisional"
+      },
+      "subject": {
+        "label_zh": "神戶與大阪灣城市燈火",
+        "geometry_type": "horizon_sector",
+        "geometry": null
+      },
+      "navigation_reference": {
+        "status": "needs_review",
+        "geometry": null
+      },
+      "view_relation": {
+        "distance_km": null,
+        "azimuth_deg": null,
+        "elevation_angle_deg": null,
+        "angular_size_deg": null,
+        "horizon": null,
+        "corridor": null
+      },
+      "evidence_refs": [
+        "E02-R01"
+      ],
+      "crosswalk": {
+        "human_claim_id": "H-jp-027-P02-existence",
+        "human_text": "天覽台神戶與大阪灣夜景",
+        "machine_path_or_fields": "reviewed_opportunities[opportunity_id=jp-027-P02].name_i18n",
+        "evidence_refs": [
+          "E02-R01"
+        ],
+        "consistency_status": "OK",
+        "notes": "Trilingual scope aligned; geometric parameters unknown. This is evidence audit, NOT schema-v2.1 import."
+      }
+    },
+    {
+      "opportunity_id": "jp-032-P01",
+      "place_id": "jp-032",
+      "claim_id": "H-jp-032-P01-existence",
+      "opportunity_existence": "verified_scope_limited",
+      "name_i18n": {
+        "zh-TW": "福岡城多聞櫓與石垣建築景觀",
+        "en": "Tamon Yagura and stone walls at Fukuoka Castle",
+        "ja": "福岡城跡の多聞櫓と石垣"
+      },
+      "camera_zone": {
+        "label_zh": "合法開放的福岡城跡公共步道",
+        "geometry": null,
+        "status": "provisional"
+      },
+      "subject": {
+        "label_zh": "多聞櫓、城門與石垣",
+        "geometry_type": "area",
+        "geometry": null
+      },
+      "navigation_reference": {
+        "status": "needs_review",
+        "geometry": null
+      },
+      "view_relation": {
+        "distance_km": null,
+        "azimuth_deg": null,
+        "elevation_angle_deg": null,
+        "angular_size_deg": null,
+        "horizon": null,
+        "corridor": null
+      },
+      "evidence_refs": [
+        "E02-F01"
+      ],
+      "crosswalk": {
+        "human_claim_id": "H-jp-032-P01-existence",
+        "human_text": "福岡城多聞櫓與石垣建築景觀",
+        "machine_path_or_fields": "reviewed_opportunities[opportunity_id=jp-032-P01].name_i18n",
+        "evidence_refs": [
+          "E02-F01"
+        ],
+        "consistency_status": "OK",
+        "notes": "Trilingual scope aligned; geometric parameters unknown. This is evidence audit, NOT schema-v2.1 import."
+      }
+    },
+    {
+      "opportunity_id": "jp-032-P02",
+      "place_id": "jp-032",
+      "claim_id": "H-jp-032-P02-existence",
+      "opportunity_existence": "verified_scope_limited",
+      "name_i18n": {
+        "zh-TW": "福岡城櫻花與城郭遺構",
+        "en": "Cherry blossoms and castle remains at Fukuoka Castle",
+        "ja": "福岡城跡の桜と城郭遺構"
+      },
+      "camera_zone": {
+        "label_zh": "合法開放的城跡花木步道",
+        "geometry": null,
+        "status": "provisional"
+      },
+      "subject": {
+        "label_zh": "櫻花與城郭遺構",
+        "geometry_type": "area",
+        "geometry": null
+      },
+      "navigation_reference": {
+        "status": "needs_review",
+        "geometry": null
+      },
+      "view_relation": {
+        "distance_km": null,
+        "azimuth_deg": null,
+        "elevation_angle_deg": null,
+        "angular_size_deg": null,
+        "horizon": null,
+        "corridor": null
+      },
+      "evidence_refs": [
+        "E02-F01"
+      ],
+      "crosswalk": {
+        "human_claim_id": "H-jp-032-P02-existence",
+        "human_text": "福岡城櫻花與城郭遺構",
+        "machine_path_or_fields": "reviewed_opportunities[opportunity_id=jp-032-P02].name_i18n",
+        "evidence_refs": [
+          "E02-F01"
+        ],
+        "consistency_status": "OK",
+        "notes": "Trilingual scope aligned; geometric parameters unknown. This is evidence audit, NOT schema-v2.1 import."
+      }
+    },
+    {
+      "opportunity_id": "tw-001-P01",
+      "place_id": "tw-001",
+      "claim_id": "H-tw-001-P01-existence",
+      "opportunity_existence": "verified_scope_limited",
+      "name_i18n": {
+        "zh-TW": "大屯山夕照與秋芒",
+        "en": "Sunset and autumn silvergrass on Mount Datun",
+        "ja": "大屯山の夕景と秋のススキ"
+      },
+      "camera_zone": {
+        "label_zh": "大屯主峰合法步行觀景區",
+        "geometry": null,
+        "status": "provisional"
+      },
+      "subject": {
+        "label_zh": "夕照山稜、秋芒與天空",
+        "geometry_type": "dynamic_sky",
+        "geometry": null
+      },
+      "navigation_reference": {
+        "status": "needs_review",
+        "geometry": null
+      },
+      "view_relation": {
+        "distance_km": null,
+        "azimuth_deg": null,
+        "elevation_angle_deg": null,
+        "angular_size_deg": null,
+        "horizon": null,
+        "corridor": null
+      },
+      "evidence_refs": [
+        "E02-D01"
+      ],
+      "crosswalk": {
+        "human_claim_id": "H-tw-001-P01-existence",
+        "human_text": "大屯山夕照與秋芒",
+        "machine_path_or_fields": "reviewed_opportunities[opportunity_id=tw-001-P01].name_i18n",
+        "evidence_refs": [
+          "E02-D01"
+        ],
+        "consistency_status": "OK",
+        "notes": "Trilingual scope aligned; geometric parameters unknown. This is evidence audit, NOT schema-v2.1 import."
+      }
+    },
+    {
+      "opportunity_id": "tw-001-P02",
+      "place_id": "tw-001",
+      "claim_id": "H-tw-001-P02-existence",
+      "opportunity_existence": "verified_scope_limited",
+      "name_i18n": {
+        "zh-TW": "大屯山俯瞰盆地雲海",
+        "en": "Sea of clouds below Mount Datun",
+        "ja": "大屯山から見下ろす雲海"
+      },
+      "camera_zone": {
+        "label_zh": "大屯主峰合法步行觀景區",
+        "geometry": null,
+        "status": "provisional"
+      },
+      "subject": {
+        "label_zh": "低於攝影點的雲層與臺北盆地",
+        "geometry_type": "area",
+        "geometry": null
+      },
+      "navigation_reference": {
+        "status": "needs_review",
+        "geometry": null
+      },
+      "view_relation": {
+        "distance_km": null,
+        "azimuth_deg": null,
+        "elevation_angle_deg": null,
+        "angular_size_deg": null,
+        "horizon": null,
+        "corridor": null
+      },
+      "evidence_refs": [
+        "E02-D03"
+      ],
+      "crosswalk": {
+        "human_claim_id": "H-tw-001-P02-existence",
+        "human_text": "大屯山俯瞰盆地雲海",
+        "machine_path_or_fields": "reviewed_opportunities[opportunity_id=tw-001-P02].name_i18n",
+        "evidence_refs": [
+          "E02-D03"
+        ],
+        "consistency_status": "OK",
+        "notes": "Trilingual scope aligned; geometric parameters unknown. This is evidence audit, NOT schema-v2.1 import."
+      }
+    },
+    {
+      "opportunity_id": "tw-001-P03",
+      "place_id": "tw-001",
+      "claim_id": "H-tw-001-P03-existence",
+      "opportunity_existence": "verified_scope_limited",
+      "name_i18n": {
+        "zh-TW": "大屯山俯瞰臺北夜景",
+        "en": "Taipei city lights viewed from Mount Datun",
+        "ja": "大屯山から見下ろす台北の夜景"
+      },
+      "camera_zone": {
+        "label_zh": "大屯主峰合法步行觀景區",
+        "geometry": null,
+        "status": "provisional"
+      },
+      "subject": {
+        "label_zh": "臺北盆地城市燈火",
+        "geometry_type": "area",
+        "geometry": null
+      },
+      "navigation_reference": {
+        "status": "needs_review",
+        "geometry": null
+      },
+      "view_relation": {
+        "distance_km": null,
+        "azimuth_deg": null,
+        "elevation_angle_deg": null,
+        "angular_size_deg": null,
+        "horizon": null,
+        "corridor": null
+      },
+      "evidence_refs": [
+        "E02-D01"
+      ],
+      "crosswalk": {
+        "human_claim_id": "H-tw-001-P03-existence",
+        "human_text": "大屯山俯瞰臺北夜景",
+        "machine_path_or_fields": "reviewed_opportunities[opportunity_id=tw-001-P03].name_i18n",
+        "evidence_refs": [
+          "E02-D01"
+        ],
+        "consistency_status": "OK",
+        "notes": "Trilingual scope aligned; geometric parameters unknown. This is evidence audit, NOT schema-v2.1 import."
+      }
+    },
+    {
+      "opportunity_id": "tw-006-P01",
+      "place_id": "tw-006",
+      "claim_id": "H-tw-006-P01-existence",
+      "opportunity_existence": "provisional",
+      "name_i18n": {
+        "zh-TW": "關渡大橋與觀音山河景",
+        "en": "Guandu Bridge with Guanyin Mountain and the Tamsui River",
+        "ja": "関渡大橋・観音山・淡水河の景観"
+      },
+      "camera_zone": {
+        "label_zh": "關渡河岸候選公共攝影區（未驗證精確位置）",
+        "geometry": null,
+        "status": "provisional"
+      },
+      "subject": {
+        "label_zh": "關渡大橋、觀音山、淡水河",
+        "geometry_type": "area",
+        "geometry": null
+      },
+      "navigation_reference": {
+        "status": "needs_review",
+        "geometry": null
+      },
+      "view_relation": {
+        "distance_km": null,
+        "azimuth_deg": null,
+        "elevation_angle_deg": null,
+        "angular_size_deg": null,
+        "horizon": null,
+        "corridor": null
+      },
+      "evidence_refs": [
+        "E02-G02"
+      ],
+      "crosswalk": {
+        "human_claim_id": "H-tw-006-P01-existence",
+        "human_text": "關渡大橋與觀音山河景",
+        "machine_path_or_fields": "reviewed_opportunities[opportunity_id=tw-006-P01].name_i18n",
+        "evidence_refs": [
+          "E02-G02"
+        ],
+        "consistency_status": "PARTIAL",
+        "notes": "Trilingual scope aligned; geometric parameters unknown. This is evidence audit, NOT schema-v2.1 import."
+      }
+    },
+    {
+      "opportunity_id": "tw-006-P02",
+      "place_id": "tw-006",
+      "claim_id": "H-tw-006-P02-existence",
+      "opportunity_existence": "provisional",
+      "name_i18n": {
+        "zh-TW": "關渡大橋黃昏河景",
+        "en": "Guandu Bridge at dusk",
+        "ja": "夕暮れの関渡大橋"
+      },
+      "camera_zone": {
+        "label_zh": "關渡河岸候選公共攝影區（未驗證精確位置）",
+        "geometry": null,
+        "status": "provisional"
+      },
+      "subject": {
+        "label_zh": "關渡大橋與黃昏天空",
+        "geometry_type": "dynamic_sky",
+        "geometry": null
+      },
+      "navigation_reference": {
+        "status": "needs_review",
+        "geometry": null
+      },
+      "view_relation": {
+        "distance_km": null,
+        "azimuth_deg": null,
+        "elevation_angle_deg": null,
+        "angular_size_deg": null,
+        "horizon": null,
+        "corridor": null
+      },
+      "evidence_refs": [
+        "E02-G01"
+      ],
+      "crosswalk": {
+        "human_claim_id": "H-tw-006-P02-existence",
+        "human_text": "關渡大橋黃昏河景",
+        "machine_path_or_fields": "reviewed_opportunities[opportunity_id=tw-006-P02].name_i18n",
+        "evidence_refs": [
+          "E02-G01"
+        ],
+        "consistency_status": "PARTIAL",
+        "notes": "Trilingual scope aligned; geometric parameters unknown. This is evidence audit, NOT schema-v2.1 import."
+      }
+    },
+    {
+      "opportunity_id": "tw-006-P03",
+      "place_id": "tw-006",
+      "claim_id": "H-tw-006-P03-existence",
+      "opportunity_existence": "provisional",
+      "name_i18n": {
+        "zh-TW": "關渡大橋暮色燈景",
+        "en": "Guandu Bridge illuminated at twilight",
+        "ja": "薄暮に照らされる関渡大橋"
+      },
+      "camera_zone": {
+        "label_zh": "關渡河岸候選公共攝影區（未驗證精確位置）",
+        "geometry": null,
+        "status": "provisional"
+      },
+      "subject": {
+        "label_zh": "關渡大橋與河面燈景",
+        "geometry_type": "area",
+        "geometry": null
+      },
+      "navigation_reference": {
+        "status": "needs_review",
+        "geometry": null
+      },
+      "view_relation": {
+        "distance_km": null,
+        "azimuth_deg": null,
+        "elevation_angle_deg": null,
+        "angular_size_deg": null,
+        "horizon": null,
+        "corridor": null
+      },
+      "evidence_refs": [
+        "E02-G02"
+      ],
+      "crosswalk": {
+        "human_claim_id": "H-tw-006-P03-existence",
+        "human_text": "關渡大橋暮色燈景",
+        "machine_path_or_fields": "reviewed_opportunities[opportunity_id=tw-006-P03].name_i18n",
+        "evidence_refs": [
+          "E02-G02"
+        ],
+        "consistency_status": "PARTIAL",
+        "notes": "Trilingual scope aligned; geometric parameters unknown. This is evidence audit, NOT schema-v2.1 import."
+      }
+    },
+    {
+      "opportunity_id": "tw-011-P01",
+      "place_id": "tw-011",
+      "claim_id": "H-tw-011-P01-existence",
+      "opportunity_existence": "verified_scope_limited",
+      "name_i18n": {
+        "zh-TW": "永安漁港觀海橋夕照",
+        "en": "Sunset at Yong'an Fishing Harbor and Guan Hai Bridge",
+        "ja": "永安漁港・観海橋の夕景"
+      },
+      "camera_zone": {
+        "label_zh": "永安漁港觀海橋合法公共觀景區",
+        "geometry": null,
+        "status": "provisional"
+      },
+      "subject": {
+        "label_zh": "漁港、觀海橋與夕照海面",
+        "geometry_type": "dynamic_sky",
+        "geometry": null
+      },
+      "navigation_reference": {
+        "status": "needs_review",
+        "geometry": null
+      },
+      "view_relation": {
+        "distance_km": null,
+        "azimuth_deg": null,
+        "elevation_angle_deg": null,
+        "angular_size_deg": null,
+        "horizon": null,
+        "corridor": null
+      },
+      "evidence_refs": [
+        "E02-Y01"
+      ],
+      "crosswalk": {
+        "human_claim_id": "H-tw-011-P01-existence",
+        "human_text": "永安漁港觀海橋夕照",
+        "machine_path_or_fields": "reviewed_opportunities[opportunity_id=tw-011-P01].name_i18n",
+        "evidence_refs": [
+          "E02-Y01"
+        ],
+        "consistency_status": "OK",
+        "notes": "Trilingual scope aligned; geometric parameters unknown. This is evidence audit, NOT schema-v2.1 import."
+      }
+    },
+    {
+      "opportunity_id": "tw-011-P02",
+      "place_id": "tw-011",
+      "claim_id": "H-tw-011-P02-existence",
+      "opportunity_existence": "verified_scope_limited",
+      "name_i18n": {
+        "zh-TW": "永安觀海橋夜間燈光倒影",
+        "en": "Illuminated Guan Hai Bridge reflected in harbor water",
+        "ja": "永安観海橋の夜間ライトと港内の水面反射"
+      },
+      "camera_zone": {
+        "label_zh": "永安漁港合法公共港池觀景區（精確位置待驗）",
+        "geometry": null,
+        "status": "provisional"
+      },
+      "subject": {
+        "label_zh": "觀海橋燈光與港池水面",
+        "geometry_type": "water_surface",
+        "geometry": null
+      },
+      "navigation_reference": {
+        "status": "needs_review",
+        "geometry": null
+      },
+      "view_relation": {
+        "distance_km": null,
+        "azimuth_deg": null,
+        "elevation_angle_deg": null,
+        "angular_size_deg": null,
+        "horizon": null,
+        "corridor": null
+      },
+      "evidence_refs": [
+        "E02-Y02"
+      ],
+      "crosswalk": {
+        "human_claim_id": "H-tw-011-P02-existence",
+        "human_text": "永安觀海橋夜間燈光倒影",
+        "machine_path_or_fields": "reviewed_opportunities[opportunity_id=tw-011-P02].name_i18n",
+        "evidence_refs": [
+          "E02-Y02"
+        ],
+        "consistency_status": "OK",
+        "notes": "Trilingual scope aligned; geometric parameters unknown. This is evidence audit, NOT schema-v2.1 import."
+      }
+    }
+  ],
+  "additional_claims": [
+    {
+      "claim_id": "H-jp027-2026-access",
+      "place_id": "jp-027",
+      "kind": "ACCESS_SAFETY",
+      "role": "REQUIRED",
+      "human_i18n": {
+        "zh-TW": "2026年8月29日至11月29日藝術活動期間，天覽台可能採收費與不同開放時間；不可僅依一般免費、07:10–21:00資訊判定可進入。",
+        "en": "During the Aug 29–Nov 29, 2026 art event, Tenrandai may charge admission and use event hours; regular free entry and 07:10–21:00 hours must not be assumed.",
+        "ja": "2026年8月29日～11月29日の芸術祭期間は天覧台が有料となり、通常と異なる営業時間の場合がある。通常の無料・7:10～21:00を前提にしない。"
+      },
+      "evidence_refs": [
+        "E02-R01",
+        "E02-R02",
+        "E02-R03"
+      ],
+      "consistency_status": "OK"
+    },
+    {
+      "claim_id": "H-jp032-2026-tenshudai",
+      "place_id": "jp-032",
+      "kind": "ACCESS_SAFETY",
+      "role": "BLOCKER",
+      "human_i18n": {
+        "zh-TW": "福岡城天守台自2026年5月26日至12月底預定禁止進入；不得當作可用攝影區。",
+        "en": "Fukuoka Castle's Tenshudai is closed to entry from May 26 through approximately late December 2026 and must not be treated as an available camera zone.",
+        "ja": "福岡城天守台は2026年5月26日から12月末（予定）まで立入禁止であり、利用可能な撮影地点として扱わない。"
+      },
+      "evidence_refs": [
+        "E02-F02"
+      ],
+      "consistency_status": "OK"
+    },
+    {
+      "claim_id": "H-tw001-road",
+      "place_id": "tw-001",
+      "kind": "ACCESS_SAFETY",
+      "role": "BLOCKER",
+      "human_i18n": {
+        "zh-TW": "大屯山車道全天禁止一般汽機車進入；需由合法停車點步行。",
+        "en": "Ordinary cars and motorcycles are prohibited on Mount Datun's access road all day; approach on foot from a legal parking area.",
+        "ja": "大屯山の車道は一般の自動車・バイクが終日通行禁止。適法な駐車場所から徒歩で向かう。"
+      },
+      "evidence_refs": [
+        "E02-D04"
+      ],
+      "consistency_status": "OK"
+    },
+    {
+      "claim_id": "H-tw011-light",
+      "place_id": "tw-011",
+      "kind": "SUBJECT_STATE",
+      "role": "REQUIRED",
+      "human_i18n": {
+        "zh-TW": "官方介紹觀海橋傍晚17:00後點燈，但是否實際亮燈仍須現場或即時來源確認。",
+        "en": "Official visitor information says Guan Hai Bridge lights turn on after 17:00, but actual lighting still requires on-site or live confirmation.",
+        "ja": "公式観光案内では観海橋は17時以降に点灯するとされるが、実際の点灯は現地またはリアルタイム情報で確認が必要。"
+      },
+      "evidence_refs": [
+        "E02-Y02"
+      ],
+      "consistency_status": "OK"
+    },
+    {
+      "claim_id": "H-tw006-camera",
+      "place_id": "tw-006",
+      "kind": "GEOMETRY_COMPOSITION",
+      "role": "REQUIRED",
+      "human_i18n": {
+        "zh-TW": "關渡大橋與觀音山同框有公開照片支持，但河岸精確攝影位置與方向尚未驗證。",
+        "en": "Public photographs support framing Guandu Bridge with Guanyin Mountain, but the precise riverside camera position and bearing remain unverified.",
+        "ja": "関渡大橋と観音山を同一画面に収めた公開写真はあるが、川岸の正確な撮影位置と方位は未検証。"
+      },
+      "evidence_refs": [
+        "E02-G02"
+      ],
+      "consistency_status": "PARTIAL"
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "E02-R01",
+      "type": "official",
+      "url": "https://www.rokkosan.com/tenrandai/",
+      "claim": "Tenrandai is beside Rokko Sanjo Station, elevation 737 m; daytime panorama and night city lights; regular 07:10–21:00.",
+      "photo_metadata": null,
+      "limits": "Source verifies only the stated scope. Photo never establishes precise camera GPS, distance, bearing, time, season, or numeric weather thresholds."
+    },
+    {
+      "evidence_id": "E02-R02",
+      "type": "official_event",
+      "url": "https://www.rokkomeetsart.jp/venue/tenrandai/",
+      "claim": "2026 art-event venue page states 10:00–20:45 and ticket last sale 20:15; event may override normal access.",
+      "photo_metadata": null,
+      "limits": "Source verifies only the stated scope. Photo never establishes precise camera GPS, distance, bearing, time, season, or numeric weather thresholds."
+    },
+    {
+      "evidence_id": "E02-R03",
+      "type": "official_tourism",
+      "url": "https://www.feel-kobe.jp/facilities/0000000140/",
+      "claim": "2026 Aug 29–Nov 29 Tenrandai art event paid; admission adult 500 yen, child 200 yen.",
+      "photo_metadata": null,
+      "limits": "Source verifies only the stated scope. Photo never establishes precise camera GPS, distance, bearing, time, season, or numeric weather thresholds."
+    },
+    {
+      "evidence_id": "E02-R04",
+      "type": "official_photo",
+      "url": "https://www.feel-kobe.jp/kobe-yakei/spots/rokko-cable-tenran-observatory/",
+      "claim": "Night view from Tenrandai shows city lights and harbor; cannot derive GPS or azimuth.",
+      "photo_metadata": "date unknown; Kobe official night-view guide",
+      "limits": "Source verifies only the stated scope. Photo never establishes precise camera GPS, distance, bearing, time, season, or numeric weather thresholds."
+    },
+    {
+      "evidence_id": "E02-F01",
+      "type": "official_tourism",
+      "url": "https://www.crossroadfukuoka.jp/spot/12579",
+      "claim": "Fukuoka Castle remains, Tamon Yagura, Shimonohashi Gate, stone walls and cherry blossoms; castle site in Chuo Ward.",
+      "photo_metadata": null,
+      "limits": "Source verifies only the stated scope. Photo never establishes precise camera GPS, distance, bearing, time, season, or numeric weather thresholds."
+    },
+    {
+      "evidence_id": "E02-F02",
+      "type": "official_notice",
+      "url": "https://www.midorimachi.jp/maiduru/news/detail/1062",
+      "claim": "Tenshudai entry restricted 2026-05-26 through approximately end of December 2026.",
+      "photo_metadata": null,
+      "limits": "Source verifies only the stated scope. Photo never establishes precise camera GPS, distance, bearing, time, season, or numeric weather thresholds."
+    },
+    {
+      "evidence_id": "E02-F03",
+      "type": "official_photo",
+      "url": "https://showcase.city.fukuoka.lg.jp/photo/img0275.html",
+      "claim": "Photo shows Tamon Yagura above stone wall; exact camera point not published.",
+      "photo_metadata": "photo page identifies 2009; image digitized 2014",
+      "limits": "Source verifies only the stated scope. Photo never establishes precise camera GPS, distance, bearing, time, season, or numeric weather thresholds."
+    },
+    {
+      "evidence_id": "E02-D01",
+      "type": "official_park",
+      "url": "https://www.ymsnp.gov.tw/ch/specialreport/recreation/1118",
+      "claim": "Datun summit viewpoint has Taipei Basin and mountain panoramas, sunset, autumn miscanthus and city lights.",
+      "photo_metadata": null,
+      "limits": "Source verifies only the stated scope. Photo never establishes precise camera GPS, distance, bearing, time, season, or numeric weather thresholds."
+    },
+    {
+      "evidence_id": "E02-D02",
+      "type": "official_park",
+      "url": "https://www.ymsnp.gov.tw/ch/specialreport/seeker/3641",
+      "claim": "Miscanthus roughly October; official route notes trailheads and need for walking/safety.",
+      "photo_metadata": null,
+      "limits": "Source verifies only the stated scope. Photo never establishes precise camera GPS, distance, bearing, time, season, or numeric weather thresholds."
+    },
+    {
+      "evidence_id": "E02-D03",
+      "type": "official_park",
+      "url": "https://www.ymsnp.gov.tw/jp/sglarticle/climate-and-landscape",
+      "claim": "Official image caption identifies sea of clouds at Datun Mountain.",
+      "photo_metadata": null,
+      "limits": "Source verifies only the stated scope. Photo never establishes precise camera GPS, distance, bearing, time, season, or numeric weather thresholds."
+    },
+    {
+      "evidence_id": "E02-D04",
+      "type": "official_access",
+      "url": "https://www.ymsnp.gov.tw/ch/sglarticle/restricted-sections-for-cars-and-motorcycles",
+      "claim": "Datun Mountain access road prohibits cars and motorcycles all day since 2020-08-10; exceptions for official/emergency vehicles.",
+      "photo_metadata": null,
+      "limits": "Source verifies only the stated scope. Photo never establishes precise camera GPS, distance, bearing, time, season, or numeric weather thresholds."
+    },
+    {
+      "evidence_id": "E02-G01",
+      "type": "public_photo",
+      "url": "https://twroad.org/event/8views/view/guandu.html",
+      "claim": "Guandu Bridge red arches at dusk with river and hill background; viewpoint position not proven.",
+      "photo_metadata": "photo date unknown; twroad.org",
+      "limits": "Source verifies only the stated scope. Photo never establishes precise camera GPS, distance, bearing, time, season, or numeric weather thresholds."
+    },
+    {
+      "evidence_id": "E02-G02",
+      "type": "public_photo",
+      "url": "https://www.flickr.com/photos/sunshine_chuang/51617946420/",
+      "claim": "Guandu Bridge and Guanyin Mountain at dusk; caption says opposite bank Bali and near bank Beitou.",
+      "photo_metadata": "uploaded 2021-10-22; photographer 莊信賢",
+      "limits": "Source verifies only the stated scope. Photo never establishes precise camera GPS, distance, bearing, time, season, or numeric weather thresholds."
+    },
+    {
+      "evidence_id": "E02-Y01",
+      "type": "official_tourism",
+      "url": "https://travel.tycg.gov.tw/zh-cn/travel/attraction/314",
+      "claim": "Yong'an Harbor and Guan Hai Bridge are a sunset composition; bridge has an observation area and dynamic light display.",
+      "photo_metadata": null,
+      "limits": "Source verifies only the stated scope. Photo never establishes precise camera GPS, distance, bearing, time, season, or numeric weather thresholds."
+    },
+    {
+      "evidence_id": "E02-Y02",
+      "type": "official_tourism",
+      "url": "https://travel.tycg.gov.tw/zh-tw/multimedia/live-camera/45",
+      "claim": "Bridge lights are described as turning on after 17:00, reflecting on harbor water; operational status not live verified.",
+      "photo_metadata": null,
+      "limits": "Source verifies only the stated scope. Photo never establishes precise camera GPS, distance, bearing, time, season, or numeric weather thresholds."
+    },
+    {
+      "evidence_id": "E02-Y03",
+      "type": "government_photo",
+      "url": "https://www.tycg.gov.tw/NewsPage_Content.aspx?n=10&s=637616",
+      "claim": "Municipal photo shows bridge walkway lit blue at night; does not establish harbor-side reflection tripod point.",
+      "photo_metadata": "date unknown; Taoyuan City Government",
+      "limits": "Source verifies only the stated scope. Photo never establishes precise camera GPS, distance, bearing, time, season, or numeric weather thresholds."
+    }
+  ],
+  "unknowns": [
+    "Worker 1 schema v2.1 and specs/v2 absent from inspected main and Worker1 branch; no canonical import.",
+    "All exact Camera Zone/Subject geometries and derived view relations remain null.",
+    "Navigation target geometry not independently verified; no Directions URLs.",
+    "Photo date/season/lighting conditions not inferred from image pixels.",
+    "jp-027 current 2026 art-event hours/fees override or conflict with generic Tenrandai page; dynamic access unresolved.",
+    "jp-032 cherry blossom existence verified, but other seasonal plants and bloom dates not verified.",
+    "tw-006 riverbank camera location, bridge light schedule and sunset geometry unverified.",
+    "tw-011 live lighting and water surface state unverified."
+  ],
+  "crosswalk_status": "PARTIAL",
+  "locale_review": "Human-reviewed semantic scope for 17 audited claims only; NOT all original shard conditions",
+  "ready_to_publish": false
+}
