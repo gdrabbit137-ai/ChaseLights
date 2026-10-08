@@ -1,0 +1,41 @@
+{
+  "kind": "worker2_evidence_audit_only",
+  "as_of": "2026-10-08",
+  "status": "BLOCKED_NOT_CANONICAL",
+  "main_sha": "339612317c7db808e8b6db812e4c5ce310a33946",
+  "catalog": {
+    "places": 216,
+    "opportunities": 428
+  },
+  "worker1": {
+    "branch": "database-v2-worker-1",
+    "schema_found": "R1",
+    "schema_v2_1_found": false
+  },
+  "offline_worker2": {
+    "places": 43,
+    "opportunities": 85,
+    "conditions": 490,
+    "crosswalk": 1334
+  },
+  "reviewed_place_ids": [
+    "jp-002",
+    "jp-007",
+    "jp-012",
+    "jp-017",
+    "jp-022"
+  ],
+  "reviewed_opportunity_ids": [
+    "jp-002-P01",
+    "jp-007-P01",
+    "jp-012-P01",
+    "jp-017-P01",
+    "jp-022-P01",
+    "jp-022-P02",
+    "jp-022-P03"
+  ],
+  "crosswalk_status": "PARTIAL",
+  "locale_parity_complete": false,
+  "geometry_derived": false,
+  "ready_to_publish": false
+}
