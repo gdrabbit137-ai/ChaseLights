@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>ChaseLights V2 — Research Explorer</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <header class="masthead">
+    <div class="brand"><span class="brand-mark" aria-hidden="true">◉</span><div><strong>ChaseLights <span class="v2">V2</span></strong><small id="subtitle"></small></div></div>
+    <label class="language"><span id="language-label"></span>
+      <select id="language" aria-label="Language"><option value="zh-TW">繁體中文</option><option value="en">English</option><option value="ja">日本語</option></select>
+    </label>
+  </header>
+  <main id="content">
+    <section class="intro">
+      <div><p class="eyebrow" id="eyebrow"></p><h1 id="headline"></h1><p id="intro"></p></div>
+      <div class="state-box" role="status" aria-live="polite"><span class="state-dot"></span><strong id="mode"></strong><p id="data-status"></p></div>
+    </section>
+    <section class="source-strip" aria-label="Data provenance">
+      <div><span id="source-label"></span><strong id="source-value"></strong></div>
+      <div><span id="updated-label"></span><strong id="updated-value"></strong></div>
+      <div><span id="loaded-label"></span><strong id="loaded-value"></strong></div>
+    </section>
+    <section class="import-panel">
+      <div><h2 id="import-heading"></h2><p id="import-help"></p></div>
+      <label class="upload"><span id="upload-label"></span><input id="file" type="file" accept=".json,application/json"></label>
+    </section>
+    <div class="workspace">
+      <aside class="sidebar" aria-label="Places">
+        <div class="sidebar-top"><h2 id="places-heading"></h2><span id="place-count"></span></div>
+        <label class="search-label" for="search" id="search-label"></label>
+        <input id="search" type="search" autocomplete="off">
+        <div id="places-list" class="places-list" aria-live="polite"></div>
+      </aside>
+      <section id="detail" class="detail" aria-live="polite" aria-label="Photography opportunities"></section>
+    </div>
+    <footer><p id="footer-copy"></p></footer>
+  </main>
+  <script type="module" src="./app.mjs"></script>
+</body>
+</html>
