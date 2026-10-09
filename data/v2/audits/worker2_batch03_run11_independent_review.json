@@ -1,0 +1,599 @@
+{
+  "report_id": "worker2-batch03-run11-independent",
+  "run_date": "2026-10-09",
+  "source_branch": "v2/worker2-canonical-batch03-20261009",
+  "main_sha": "0fe1e7fc2ca8b9bb5b1d5690a2da3c7a56024858",
+  "worker2_head_sha": "bdcbe1f8f8453dee5196f6bf93c8a225a4d35aac",
+  "test_command_requested": "python -m unittest discover -s data/v2/tests -p 'test_*.py' -v",
+  "python_test_execution": "BLOCKED: git clone in container failed DNS resolution github.com; cannot claim Python unittest ran on actual checkout",
+  "independent_crosswalk_reproduction": {
+    "status": "PASS",
+    "errors": [],
+    "expected_count": 108,
+    "actual_count": 108,
+    "negative_controls": {
+      "duplicate": true,
+      "mismatch": true,
+      "missing": true,
+      "pointer": true
+    }
+  },
+  "schema_gate": "BLOCKED: W1 schema absent on W2 branch; PR #428 draft",
+  "checks": [
+    {
+      "id": "tw-016-P01",
+      "errors": [],
+      "crosswalk_rows": 36,
+      "crosswalk_status": {
+        "OK": 7,
+        "PARTIAL": 13,
+        "UNKNOWN": 16
+      },
+      "conditions": [
+        {
+          "id": "C-tw-016-P01-01",
+          "role": "REQUIRED",
+          "evaluation_mode": "VERIFY",
+          "unknown_policy": "propagate_unknown",
+          "threshold": null,
+          "claim_refs": [
+            "tw-016-P01-claim-01"
+          ]
+        },
+        {
+          "id": "C-tw-016-P01-02",
+          "role": "REQUIRED",
+          "evaluation_mode": "GUIDANCE",
+          "unknown_policy": "propagate_unknown",
+          "threshold": null,
+          "claim_refs": [
+            "tw-016-P01-claim-02"
+          ]
+        },
+        {
+          "id": "C-tw-016-P01-03",
+          "role": "BLOCKER",
+          "evaluation_mode": "VERIFY",
+          "unknown_policy": "propagate_unknown",
+          "threshold": null,
+          "claim_refs": [
+            "tw-016-P01-claim-03"
+          ]
+        },
+        {
+          "id": "C-tw-016-P01-04",
+          "role": "QUALITY",
+          "evaluation_mode": "GUIDANCE",
+          "unknown_policy": "propagate_unknown",
+          "threshold": null,
+          "claim_refs": [
+            "tw-016-P01-claim-04"
+          ]
+        }
+      ],
+      "name_i18n": {
+        "zh-TW": "鳶嘴山岩稜與遠山層次",
+        "en": "Yanzui Mountain rocky ridgeline and layered mountain views",
+        "ja": "鳶嘴山の岩稜と重なる山並み"
+      },
+      "geometry": {
+        "camera": [
+          "unknown"
+        ],
+        "subject": [
+          "unknown"
+        ],
+        "relation": [
+          "unknown"
+        ]
+      },
+      "navigation": [
+        {
+          "status": "needs_review",
+          "lat": null,
+          "lon": null
+        }
+      ],
+      "readiness": {
+        "research_level": "R1",
+        "gaps": [
+          "GEOMETRY_GAP",
+          "RESEARCH_GAP"
+        ]
+      },
+      "lifecycle": "evidence_review"
+    },
+    {
+      "id": "tw-026-P01",
+      "errors": [],
+      "crosswalk_rows": 36,
+      "crosswalk_status": {
+        "OK": 7,
+        "PARTIAL": 13,
+        "UNKNOWN": 16
+      },
+      "conditions": [
+        {
+          "id": "C-tw-026-P01-01",
+          "role": "REQUIRED",
+          "evaluation_mode": "VERIFY",
+          "unknown_policy": "propagate_unknown",
+          "threshold": null,
+          "claim_refs": [
+            "tw-026-P01-claim-01"
+          ]
+        },
+        {
+          "id": "C-tw-026-P01-02",
+          "role": "REQUIRED",
+          "evaluation_mode": "GUIDANCE",
+          "unknown_policy": "propagate_unknown",
+          "threshold": null,
+          "claim_refs": [
+            "tw-026-P01-claim-02"
+          ]
+        },
+        {
+          "id": "C-tw-026-P01-03",
+          "role": "BLOCKER",
+          "evaluation_mode": "VERIFY",
+          "unknown_policy": "propagate_unknown",
+          "threshold": null,
+          "claim_refs": [
+            "tw-026-P01-claim-03"
+          ]
+        },
+        {
+          "id": "C-tw-026-P01-04",
+          "role": "QUALITY",
+          "evaluation_mode": "GUIDANCE",
+          "unknown_policy": "propagate_unknown",
+          "threshold": null,
+          "claim_refs": [
+            "tw-026-P01-claim-04"
+          ]
+        }
+      ],
+      "name_i18n": {
+        "zh-TW": "井仔腳瓦盤鹽田夕照",
+        "en": "Sunset over Jingzaijiao tiled salt pans",
+        "ja": "井仔脚瓦盤塩田の夕景"
+      },
+      "geometry": {
+        "camera": [
+          "unknown"
+        ],
+        "subject": [
+          "unknown"
+        ],
+        "relation": [
+          "unknown"
+        ]
+      },
+      "navigation": [
+        {
+          "status": "needs_review",
+          "lat": null,
+          "lon": null
+        }
+      ],
+      "readiness": {
+        "research_level": "R1",
+        "gaps": [
+          "GEOMETRY_GAP",
+          "RESEARCH_GAP"
+        ]
+      },
+      "lifecycle": "evidence_review"
+    },
+    {
+      "id": "tw-026-P02",
+      "errors": [],
+      "crosswalk_rows": 36,
+      "crosswalk_status": {
+        "OK": 6,
+        "PARTIAL": 17,
+        "UNKNOWN": 13
+      },
+      "conditions": [
+        {
+          "id": "C-tw-026-P02-01",
+          "role": "REQUIRED",
+          "evaluation_mode": "VERIFY",
+          "unknown_policy": "propagate_unknown",
+          "threshold": null,
+          "claim_refs": [
+            "tw-026-P02-claim-01"
+          ]
+        },
+        {
+          "id": "C-tw-026-P02-02",
+          "role": "REQUIRED",
+          "evaluation_mode": "VERIFY",
+          "unknown_policy": "propagate_unknown",
+          "threshold": null,
+          "claim_refs": [
+            "tw-026-P02-claim-02"
+          ]
+        },
+        {
+          "id": "C-tw-026-P02-03",
+          "role": "BLOCKER",
+          "evaluation_mode": "VERIFY",
+          "unknown_policy": "propagate_unknown",
+          "threshold": null,
+          "claim_refs": [
+            "tw-026-P02-claim-03"
+          ]
+        },
+        {
+          "id": "C-tw-026-P02-04",
+          "role": "QUALITY",
+          "evaluation_mode": "GUIDANCE",
+          "unknown_policy": "propagate_unknown",
+          "threshold": null,
+          "claim_refs": [
+            "tw-026-P02-claim-04"
+          ]
+        }
+      ],
+      "name_i18n": {
+        "zh-TW": "井仔腳鹽田晚霞",
+        "en": "Afterglow above Jingzaijiao salt pans",
+        "ja": "井仔脚塩田の夕焼け空"
+      },
+      "geometry": {
+        "camera": [
+          "unknown"
+        ],
+        "subject": [
+          "unknown"
+        ],
+        "relation": [
+          "unknown"
+        ]
+      },
+      "navigation": [
+        {
+          "status": "needs_review",
+          "lat": null,
+          "lon": null
+        }
+      ],
+      "readiness": {
+        "research_level": "R1",
+        "gaps": [
+          "GEOMETRY_GAP",
+          "RESEARCH_GAP"
+        ]
+      },
+      "lifecycle": "evidence_review"
+    }
+  ],
+  "totals": {
+    "role": {
+      "REQUIRED": 6,
+      "BLOCKER": 3,
+      "QUALITY": 3
+    },
+    "mode": {
+      "VERIFY": 7,
+      "GUIDANCE": 5
+    },
+    "status": {
+      "OK": 20,
+      "PARTIAL": 43,
+      "UNKNOWN": 45
+    }
+  },
+  "claim_evidence_map": [
+    {
+      "opportunity_id": "tw-016-P01",
+      "claim_id": "tw-016-P01-existence",
+      "audit_status": "OK",
+      "claim_type": "existence",
+      "evidence": [
+        {
+          "id": "e016a",
+          "url": "https://www.forest.gov.tw/0000304",
+          "grade": "A"
+        },
+        {
+          "id": "e016b",
+          "url": "https://hiking.biji.co/index.php?act=info&q=review&review_id=46263",
+          "grade": "B"
+        }
+      ]
+    },
+    {
+      "opportunity_id": "tw-016-P01",
+      "claim_id": "tw-016-P01-camera",
+      "audit_status": "PARTIAL",
+      "claim_type": "camera_location",
+      "evidence": [
+        {
+          "id": "e016a",
+          "url": "https://www.forest.gov.tw/0000304",
+          "grade": "A"
+        },
+        {
+          "id": "e016b",
+          "url": "https://hiking.biji.co/index.php?act=info&q=review&review_id=46263",
+          "grade": "B"
+        }
+      ]
+    },
+    {
+      "opportunity_id": "tw-016-P01",
+      "claim_id": "tw-016-P01-navigation",
+      "audit_status": "UNKNOWN",
+      "claim_type": "navigation_access",
+      "evidence": []
+    },
+    {
+      "opportunity_id": "tw-016-P01",
+      "claim_id": "tw-016-P01-claim-01",
+      "audit_status": "PARTIAL",
+      "claim_type": "navigation_access",
+      "evidence": [
+        {
+          "id": "e016a",
+          "url": "https://www.forest.gov.tw/0000304",
+          "grade": "A"
+        }
+      ]
+    },
+    {
+      "opportunity_id": "tw-016-P01",
+      "claim_id": "tw-016-P01-claim-02",
+      "audit_status": "PARTIAL",
+      "claim_type": "other",
+      "evidence": [
+        {
+          "id": "e016a",
+          "url": "https://www.forest.gov.tw/0000304",
+          "grade": "A"
+        },
+        {
+          "id": "e016b",
+          "url": "https://hiking.biji.co/index.php?act=info&q=review&review_id=46263",
+          "grade": "B"
+        }
+      ]
+    },
+    {
+      "opportunity_id": "tw-016-P01",
+      "claim_id": "tw-016-P01-claim-03",
+      "audit_status": "PARTIAL",
+      "claim_type": "navigation_access",
+      "evidence": [
+        {
+          "id": "e016a",
+          "url": "https://www.forest.gov.tw/0000304",
+          "grade": "A"
+        }
+      ]
+    },
+    {
+      "opportunity_id": "tw-016-P01",
+      "claim_id": "tw-016-P01-claim-04",
+      "audit_status": "PARTIAL",
+      "claim_type": "other",
+      "evidence": [
+        {
+          "id": "e016b",
+          "url": "https://hiking.biji.co/index.php?act=info&q=review&review_id=46263",
+          "grade": "B"
+        }
+      ]
+    },
+    {
+      "opportunity_id": "tw-026-P01",
+      "claim_id": "tw-026-P01-existence",
+      "audit_status": "OK",
+      "claim_type": "existence",
+      "evidence": [
+        {
+          "id": "e026a",
+          "url": "https://www.swcoast-nsa.gov.tw/zh-tw/attraction/details/000369",
+          "grade": "A"
+        },
+        {
+          "id": "e026b",
+          "url": "https://www.swcoast-nsa.gov.tw/zh-tw/news/details/2592",
+          "grade": "A"
+        },
+        {
+          "id": "e026d",
+          "url": "https://www.tainan.gov.tw/News_Content.aspx?n=13370&s=8717068",
+          "grade": "A"
+        }
+      ]
+    },
+    {
+      "opportunity_id": "tw-026-P01",
+      "claim_id": "tw-026-P01-camera",
+      "audit_status": "PARTIAL",
+      "claim_type": "camera_location",
+      "evidence": [
+        {
+          "id": "e026a",
+          "url": "https://www.swcoast-nsa.gov.tw/zh-tw/attraction/details/000369",
+          "grade": "A"
+        },
+        {
+          "id": "e026b",
+          "url": "https://www.swcoast-nsa.gov.tw/zh-tw/news/details/2592",
+          "grade": "A"
+        },
+        {
+          "id": "e026d",
+          "url": "https://www.tainan.gov.tw/News_Content.aspx?n=13370&s=8717068",
+          "grade": "A"
+        }
+      ]
+    },
+    {
+      "opportunity_id": "tw-026-P01",
+      "claim_id": "tw-026-P01-navigation",
+      "audit_status": "UNKNOWN",
+      "claim_type": "navigation_access",
+      "evidence": []
+    },
+    {
+      "opportunity_id": "tw-026-P01",
+      "claim_id": "tw-026-P01-claim-01",
+      "audit_status": "PARTIAL",
+      "claim_type": "navigation_access",
+      "evidence": [
+        {
+          "id": "e026b",
+          "url": "https://www.swcoast-nsa.gov.tw/zh-tw/news/details/2592",
+          "grade": "A"
+        }
+      ]
+    },
+    {
+      "opportunity_id": "tw-026-P01",
+      "claim_id": "tw-026-P01-claim-02",
+      "audit_status": "PARTIAL",
+      "claim_type": "other",
+      "evidence": [
+        {
+          "id": "e026a",
+          "url": "https://www.swcoast-nsa.gov.tw/zh-tw/attraction/details/000369",
+          "grade": "A"
+        }
+      ]
+    },
+    {
+      "opportunity_id": "tw-026-P01",
+      "claim_id": "tw-026-P01-claim-03",
+      "audit_status": "PARTIAL",
+      "claim_type": "navigation_access",
+      "evidence": [
+        {
+          "id": "e026b",
+          "url": "https://www.swcoast-nsa.gov.tw/zh-tw/news/details/2592",
+          "grade": "A"
+        }
+      ]
+    },
+    {
+      "opportunity_id": "tw-026-P01",
+      "claim_id": "tw-026-P01-claim-04",
+      "audit_status": "PARTIAL",
+      "claim_type": "other",
+      "evidence": [
+        {
+          "id": "e026c",
+          "url": "https://www.swcoast-nsa.gov.tw/zh-tw/news/details/1896",
+          "grade": "A"
+        }
+      ]
+    },
+    {
+      "opportunity_id": "tw-026-P02",
+      "claim_id": "tw-026-P02-existence",
+      "audit_status": "OK",
+      "claim_type": "existence",
+      "evidence": [
+        {
+          "id": "e026c",
+          "url": "https://www.swcoast-nsa.gov.tw/zh-tw/news/details/1896",
+          "grade": "A"
+        },
+        {
+          "id": "e026d",
+          "url": "https://www.tainan.gov.tw/News_Content.aspx?n=13370&s=8717068",
+          "grade": "A"
+        }
+      ]
+    },
+    {
+      "opportunity_id": "tw-026-P02",
+      "claim_id": "tw-026-P02-camera",
+      "audit_status": "PARTIAL",
+      "claim_type": "camera_location",
+      "evidence": [
+        {
+          "id": "e026c",
+          "url": "https://www.swcoast-nsa.gov.tw/zh-tw/news/details/1896",
+          "grade": "A"
+        },
+        {
+          "id": "e026d",
+          "url": "https://www.tainan.gov.tw/News_Content.aspx?n=13370&s=8717068",
+          "grade": "A"
+        }
+      ]
+    },
+    {
+      "opportunity_id": "tw-026-P02",
+      "claim_id": "tw-026-P02-navigation",
+      "audit_status": "UNKNOWN",
+      "claim_type": "navigation_access",
+      "evidence": []
+    },
+    {
+      "opportunity_id": "tw-026-P02",
+      "claim_id": "tw-026-P02-claim-01",
+      "audit_status": "PARTIAL",
+      "claim_type": "navigation_access",
+      "evidence": [
+        {
+          "id": "e026b",
+          "url": "https://www.swcoast-nsa.gov.tw/zh-tw/news/details/2592",
+          "grade": "A"
+        }
+      ]
+    },
+    {
+      "opportunity_id": "tw-026-P02",
+      "claim_id": "tw-026-P02-claim-02",
+      "audit_status": "PARTIAL",
+      "claim_type": "other",
+      "evidence": [
+        {
+          "id": "e026c",
+          "url": "https://www.swcoast-nsa.gov.tw/zh-tw/news/details/1896",
+          "grade": "A"
+        }
+      ]
+    },
+    {
+      "opportunity_id": "tw-026-P02",
+      "claim_id": "tw-026-P02-claim-03",
+      "audit_status": "PARTIAL",
+      "claim_type": "navigation_access",
+      "evidence": [
+        {
+          "id": "e026b",
+          "url": "https://www.swcoast-nsa.gov.tw/zh-tw/news/details/2592",
+          "grade": "A"
+        }
+      ]
+    },
+    {
+      "opportunity_id": "tw-026-P02",
+      "claim_id": "tw-026-P02-claim-04",
+      "audit_status": "PARTIAL",
+      "claim_type": "other",
+      "evidence": [
+        {
+          "id": "e026d",
+          "url": "https://www.tainan.gov.tw/News_Content.aspx?n=13370&s=8717068",
+          "grade": "A"
+        }
+      ]
+    }
+  ],
+  "locale_gate": "locale presence checked; semantic equivalence requires human review",
+  "evidence_gate": "official source URLs indexed; external live verification and human review pending",
+  "release_gate": "BLOCKED; 0 approved; research-only",
+  "notes": [
+    "This report does not claim CI pass or formal schema validation.",
+    "No coordinate, bearing, distance, or threshold inferred from photographs.",
+    "Navigation targets not verified; no directions permitted."
+  ]
+}
