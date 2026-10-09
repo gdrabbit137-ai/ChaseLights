@@ -93,6 +93,24 @@ class ContractSmokeTests(unittest.TestCase):
         record["observation_relations"] = []
         self.assertEqual(validate_record(record, SCHEMA), [])
 
+    def test_canonical_runtime_availability_rejected(self):
+        """Run the real schema + reference validator; runtime state is not canonical."""
+        for parent in ("readiness", None):
+            with self.subTest(location=parent or "opportunity_root"):
+                record = copy.deepcopy(FIXTURE)
+                target = record[parent] if parent else record
+                target["runtime_availability"] = "FULL"
+                errors = validate_record(record, SCHEMA)
+                self.assertTrue(
+                    errors,
+                    "The canonical schema must reject dynamic availability fields",
+                )
+                self.assertTrue(
+                    any("runtime_availability" in error and "Additional properties" in error
+                        for error in errors),
+                    f"Expected an actual schema validator failure, got: {errors}",
+                )
+
     def test_valid_declared_evidence_and_claim_reference(self):
         record = copy.deepcopy(FIXTURE)
         record["evidence_claims"].append({
