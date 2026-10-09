@@ -4,15 +4,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="color-scheme" content="light">
-  <title>ChaseLights V2 — Research Explorer</title>
+  <title>ChaseLights V2 — 攝影機會研究</title>
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-  <a class="skip" href="#content">Skip to content</a>
+  <a class="skip" id="skip-link" data-i18n-text="skipToContent" href="#content">跳至主要內容</a>
   <header class="masthead">
     <div class="brand"><span class="brand-mark" aria-hidden="true">◉</span><div><strong>ChaseLights <span class="v2">V2</span></strong><small id="subtitle"></small></div></div>
     <label class="language"><span id="language-label"></span>
-      <select id="language" aria-label="Language"><option value="zh-TW">繁體中文</option><option value="en">English</option><option value="ja">日本語</option></select>
+      <select id="language" data-i18n-aria="languageAria" aria-label="語言選擇"><option value="zh-TW">繁體中文</option><option value="en">English</option><option value="ja">日本語</option></select>
     </label>
   </header>
   <main id="content">
@@ -20,7 +20,7 @@
       <div><p class="eyebrow" id="eyebrow"></p><h1 id="headline"></h1><p id="intro"></p></div>
       <div class="state-box" role="status" aria-live="polite"><span class="state-dot"></span><strong id="mode"></strong><p id="data-status"></p></div>
     </section>
-    <section class="source-strip" aria-label="Data provenance">
+    <section class="source-strip" id="source-strip" data-i18n-aria="provenanceAria" aria-label="資料來源與時效">
       <div><span id="source-label"></span><strong id="source-value"></strong></div>
       <div><span id="updated-label"></span><strong id="updated-value"></strong></div>
       <div><span id="loaded-label"></span><strong id="loaded-value"></strong></div>
@@ -30,13 +30,13 @@
       <label class="upload"><span id="upload-label"></span><input id="file" type="file" accept=".json,application/json"></label>
     </section>
     <div class="workspace">
-      <aside class="sidebar" aria-label="Places">
+      <aside class="sidebar" id="sidebar" data-i18n-aria="placesAria" aria-label="景點清單">
         <div class="sidebar-top"><h2 id="places-heading"></h2><span id="place-count"></span></div>
         <label class="search-label" for="search" id="search-label"></label>
         <input id="search" type="search" autocomplete="off">
         <div id="places-list" class="places-list" aria-live="polite"></div>
       </aside>
-      <section id="detail" class="detail" aria-live="polite" aria-label="Photography opportunities"></section>
+      <section id="detail" class="detail" aria-live="polite" data-i18n-aria="opportunitiesAria" aria-label="攝影題材與研究資料"></section>
     </div>
     <footer><p id="footer-copy"></p></footer>
   </main>
