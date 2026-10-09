@@ -5,7 +5,7 @@ import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from integration_gate import check_local, check_public, check_v2_assets
+from integration_gate import check_local, check_public, check_v2_assets, v2_link
 
 
 class V2IntegrationGateTests(unittest.TestCase):
@@ -49,6 +49,15 @@ class V2IntegrationGateTests(unittest.TestCase):
     def test_path_escape_and_external_assets_blocked(self):
         html = '<title>V2</title><script src="../app.js"></script><script src="https://example.com/lib.js"></script>'
         self.assertEqual(len(check_v2_assets(html, lambda _: True)), 2)
+
+    def test_legacy_v2_entry_rejects_external_origin(self):
+        self.assertTrue(v2_link({"href": "./apps/web-v2/"}))
+        self.assertTrue(v2_link({"href": "/apps/web-v2/"}))
+        for href in ("https://evil.example/apps/web-v2/",
+                     "//evil.example/apps/web-v2/",
+                     "http://chaselights.app/apps/web-v2/"):
+            with self.subTest(href=href):
+                self.assertFalse(v2_link({"href": href}))
 
     def test_public_url_must_be_canonical(self):
         self.assertTrue(check_public("https://example.com/v2/"))
