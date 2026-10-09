@@ -16,7 +16,7 @@ Camera：只使用合法步道的安全位置；官方記載有攀岩與危崖�
 Subject：鳶嘴山裸露岩稜及遠方山巒（ridge；geometry unknown）
 View relation：line_of_sight；distance/azimuth/elevation unknown。
 Navigation：needs_review；未核實抵達點。
-Readiness：R1 / GUIDANCE_ONLY。
+Readiness：研究成熟度 R1（evidence_review），仍有 GEOMETRY_GAP 與 RESEARCH_GAP；尚未核准發布。即時可拍攝狀態須由獨立 EvaluationResult 評估，不能由研究成熟度推定。
 
 ### REQUIRED
 - 合法步道及安全立足點必須可用；現場狀態需確認。（threshold unknown；VERIFY）
@@ -37,7 +37,7 @@ Camera：只用開放公共區；原瞭望台預計封閉至2026-11-30，應核�
 Subject：瓦盤鹽池與夕照天空（area；geometry unknown）
 View relation：foreground_background；distance/azimuth/elevation unknown。
 Navigation：needs_review；未核實抵達點。
-Readiness：R1 / GUIDANCE_ONLY。
+Readiness：研究成熟度 R1（evidence_review），仍有 GEOMETRY_GAP 與 RESEARCH_GAP；尚未核准發布。即時可拍攝狀態須由獨立 EvaluationResult 評估，不能由研究成熟度推定。
 
 ### REQUIRED
 - 鹽田公共攝影區須當下開放；原瞭望台封閉不等於整個景區封閉。（threshold unknown；VERIFY）
@@ -58,7 +58,7 @@ Camera：開放的鹽田公共區；施工瞭望台不使用。
 Subject：鹽田上空晚霞與格狀鹽池（dynamic_sky；geometry unknown）
 View relation：foreground_background；distance/azimuth/elevation unknown。
 Navigation：needs_review；未核實抵達點。
-Readiness：R1 / GUIDANCE_ONLY。
+Readiness：研究成熟度 R1（evidence_review），仍有 GEOMETRY_GAP 與 RESEARCH_GAP；尚未核准發布。即時可拍攝狀態須由獨立 EvaluationResult 評估，不能由研究成熟度推定。
 
 ### REQUIRED
 - 必須從當下開放的公共區攝影。（threshold unknown；VERIFY）
