@@ -1,0 +1,82 @@
+{
+  "audit_type": "place_specific_evidence_source_scope_verification",
+  "audit_date_taipei": "2026-10-10",
+  "owner": "W2",
+  "repository": "gdrabbit137-ai/ChaseLights",
+  "branch": "v2/worker2-canonical-batch03-20261009",
+  "pinned_worker2_head_at_review": "fe52720bb05127096d28b5f23654b9c1ae946e49",
+  "pinned_worker1_schema_sha": "a93a9832c11f6ea5cf7a9d81de39384333efb7f6",
+  "opportunity_id": "tw-026-P01",
+  "source_id": "e026b",
+  "source_url": "https://www.swcoast-nsa.gov.tw/zh-tw/news/details/2592",
+  "source_publisher": "交通部觀光署雲嘉南濱海國家風景區管理處",
+  "source_published": "2026-09-02",
+  "source_updated": "2026-09-03",
+  "source_page_readable": true,
+  "source_page_authenticity": "AUTHENTICATED_AS_OFFICIAL_PAGE",
+  "source_place_specific": true,
+  "exact_claim_supported": {
+    "original_lookout_closed": true,
+    "restriction_scope": "井仔腳瓦盤鹽田瞭望台 only",
+    "planned_end_date": "2026-11-30",
+    "alternative_named": "永華哨所觀景平台",
+    "alternative_advertised_hours": "09:00-18:00 daily",
+    "source_wording": "管制區域：井仔腳瓦盤鹽田瞭望台；管制期間：預計至115年11月30日；替代地點：永華哨所觀景平台"
+  },
+  "claims_review": [
+    {
+      "claim_id": "tw-026-P01-claim-01",
+      "condition_id": "C-tw-026-P01-01",
+      "status": "PARTIAL",
+      "reason": "Official notice confirms closure of one lookout, not current legality, availability or boundaries of the proposed public saltfield CameraContext."
+    },
+    {
+      "claim_id": "tw-026-P01-claim-03",
+      "condition_id": "C-tw-026-P01-03",
+      "status": "PARTIAL",
+      "reason": "Notice supports excluding the closed original lookout, but no independently verified CameraContext or live access state; do not automatically classify any composition."
+    },
+    {
+      "claim_id": "tw-026-P01-camera",
+      "status": "PARTIAL",
+      "reason": "Named alternative viewpoint is not independently validated as the canonical CameraContext or a safe routing destination."
+    }
+  ],
+  "unsupported_inferences": [
+    "Whole saltfield site closed",
+    "Whole saltfield site open",
+    "Precise camera GPS, public camera polygon or target geometry",
+    "Verified NavigationTarget / Directions",
+    "Sunset light reaches target or any AUTO favorable result"
+  ],
+  "current_access_as_of_review": "NOT_INDEPENDENTLY_VERIFIED",
+  "geometry_status": "UNKNOWN",
+  "navigation_status": "needs_review",
+  "related_source_conflict": {
+    "official_scenic_page": "https://www.swcoast-nsa.gov.tw/zh-tw/attraction/details/000369",
+    "scenic_page_daily_hours": "09:00-18:00",
+    "scenic_page_seasonal_winter_hours": "09:00-18:30",
+    "operator_page": "https://tpcc.tw/",
+    "operator_winter_hours": "09:00-19:00",
+    "resolution": "UNRESOLVED; do not derive a fixed access threshold"
+  },
+  "human_machine_locale": {
+    "reviewed_ids": [
+      "C-tw-026-P01-01",
+      "C-tw-026-P01-03",
+      "CZ-tw-026-P01-01"
+    ],
+    "zh_TW_en_ja_keys_present": true,
+    "independent_semantic_signoff": "PENDING",
+    "japanese_term_followup": "景区全体 -> 観光地全体; not applied without synchronizing canonical and preview"
+  },
+  "release_gate": {
+    "research_level": "R1",
+    "lifecycle": "evidence_review",
+    "auto_conditions": 0,
+    "forecast_available": false,
+    "decision": "HOLD"
+  },
+  "next_evidence": "Ask official manager/operator to confirm public shooting area boundaries, legal access and winter hours; independently map candidate camera and practical arrival point; retain null geometry until verified.",
+  "validation_scope": "Source-page text manually inspected. Does not authenticate camera photos, GPS, actual on-site access, forecast, or locale semantic parity."
+}
