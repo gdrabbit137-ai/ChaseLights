@@ -1,0 +1,38 @@
+name: ChaseLights V2 Worker Watchdog
+
+on:
+  schedule:
+    - cron: '5 * * * *'
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'ops/v2/worker_watchdog.py'
+      - 'ops/v2/tests/test_worker_watchdog.py'
+      - '.github/workflows/v2_worker_watchdog.yml'
+
+permissions:
+  contents: read
+  checks: read
+  pull-requests: read
+
+jobs:
+  watchdog:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Offline unit tests
+        run: python -m unittest discover -s ops/v2/tests -p 'test_worker_watchdog.py' -v
+      - name: Read-only GitHub audit
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python ops/v2/worker_watchdog.py
+      - name: Store audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v2-worker-watchdog
+          path: ops/v2/watchdog-output/
+          if-no-files-found: ignore
+          retention-days: 7
