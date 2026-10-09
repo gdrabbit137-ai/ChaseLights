@@ -1,0 +1,1368 @@
+{
+  "audit_id": "worker2_tw-026-P01_claim_evidence_20261009_2225",
+  "review_date": "2026-10-09",
+  "review_timezone": "Asia/Taipei",
+  "repository": "gdrabbit137-ai/ChaseLights",
+  "branch": "v2/worker2-canonical-batch03-20261009",
+  "latest_main_sha": "301df17b512e3ff9cf9d702d639686e8a9e2bb4f",
+  "worker2_head_sha": "d3d8b17a138dcec2f41695bd4820125feaa68f66",
+  "worker1_pr_428_head": "a93a9832c11f6ea5cf7a9d81de39384333efb7f6",
+  "input_blob_shas": {
+    "canonical": "abb9222e2c2ca974f271b08d497313d402f911b9",
+    "crosswalk": "cf87f345f33265ceb39e484c1e9f04ebc02a56d3",
+    "evidence_registry": "bebe0a2b9b04d9466e0e952ce8ab7a2e51f58205"
+  },
+  "method": "GitHub connector exact branch reads; deterministic pointer/human-text/evidence-id check; independent AI assessment of four official source texts on 2026-10-09. Not human signoff, not Python unittest or Draft202012Validator.",
+  "structural_check": {
+    "checked": 36,
+    "errors": [],
+    "passed": true
+  },
+  "source_reviews": {
+    "e026a": {
+      "published": null,
+      "updated": "2026-09-21",
+      "grade": "A",
+      "place_specific": true,
+      "scope": "salt-pan scene, sunset and reflection; conflicting daily/seasonal hours; no verified public camera zone",
+      "verified_by": "official-page-text",
+      "url": "https://www.swcoast-nsa.gov.tw/zh-tw/attraction/details/000369",
+      "source_registry_grade": "A",
+      "checked_date": "2026-10-09",
+      "source_content_not_cryptographically_archived": true
+    },
+    "e026b": {
+      "published": "2026-09-02",
+      "updated": "2026-09-03",
+      "grade": "A",
+      "place_specific": true,
+      "scope": "original lookout closure expected through 2026-11-30; Yonghua alternative 09:00-18:00; not a verified P01 camera/navigation point",
+      "verified_by": "official-notice-text",
+      "url": "https://www.swcoast-nsa.gov.tw/zh-tw/news/details/2592",
+      "source_registry_grade": "A",
+      "checked_date": "2026-10-09",
+      "source_content_not_cryptographically_archived": true
+    },
+    "e026c": {
+      "published": "2023-03-14",
+      "updated": "2024-06-21",
+      "grade": "A",
+      "place_specific": true,
+      "scope": "salt-pan brine reflection, cloud colors and sunset afterglow; not frequency/threshold",
+      "verified_by": "official-news-text",
+      "url": "https://www.swcoast-nsa.gov.tw/zh-tw/news/details/1896",
+      "source_registry_grade": "A",
+      "checked_date": "2026-10-09",
+      "source_content_not_cryptographically_archived": true
+    },
+    "e026d": {
+      "published": "2025-01-15",
+      "updated": "2025-01-15",
+      "grade": "A",
+      "place_specific": true,
+      "scope": "Tainan tourism article identifies Jingzaijiao as sunset site; attached image EXIF/capture point unverified",
+      "verified_by": "official-municipal-text",
+      "url": "https://www.tainan.gov.tw/News_Content.aspx?n=13370&s=8717068",
+      "source_registry_grade": "A",
+      "checked_date": "2026-10-09",
+      "source_content_not_cryptographically_archived": true
+    }
+  },
+  "official_hours_conflict": [
+    "daily 09:00-18:00",
+    "Oct-Mar 09:00-18:30",
+    "Apr-Sep 09:00-19:30"
+  ],
+  "closure_end_planned": "2026-11-30",
+  "claim_count": 36,
+  "claim_status_counts": {
+    "PASS": 6,
+    "PARTIAL": 14,
+    "UNKNOWN": 16
+  },
+  "unverified_claims": 30,
+  "locale_group_count": 10,
+  "locale_reviews": [
+    {
+      "claim_id": "H-tw-026-P01-name",
+      "text": {
+        "zh-TW": "井仔腳瓦盤鹽田夕照",
+        "en": "Sunset over Jingzaijiao tiled salt pans",
+        "ja": "井仔脚瓦盤塩田の夕景"
+      },
+      "ai_review": "AI_SEMANTIC_ALIGNMENT_ONLY",
+      "human_signoff": false
+    },
+    {
+      "claim_id": "H-tw-026-P01-description",
+      "text": {
+        "zh-TW": "從開放的鹽田公共區拍攝格狀鹽池與夕照；2026年9月起整修的原瞭望台不可當作開放機位。",
+        "en": "Photograph patterned salt pans and sunset light from open public areas; the lookout closed for repairs from September 2026 is not an available camera point.",
+        "ja": "開放中の塩田公共区域から格子状の塩田と夕景を撮影する。2026年9月から工事で閉鎖された展望台は撮影位置に含めない。"
+      },
+      "ai_review": "AI_SEMANTIC_ALIGNMENT_ONLY",
+      "human_signoff": false
+    },
+    {
+      "claim_id": "H-tw-026-P01-camera",
+      "text": {
+        "zh-TW": "只用開放公共區；原瞭望台預計封閉至2026-11-30，應核對最新公告。",
+        "en": "Use open public areas only; the original lookout was scheduled closed through 2026-11-30, so recheck official notices.",
+        "ja": "開放中の公共区域のみ利用。旧展望台は2026年11月30日まで閉鎖予定で、最新の公式告知を確認する。"
+      },
+      "ai_review": "AI_SEMANTIC_ALIGNMENT_ONLY",
+      "human_signoff": false
+    },
+    {
+      "claim_id": "H-tw-026-P01-safety",
+      "text": {
+        "zh-TW": "施工圍籬及管制區不可進入。",
+        "en": "Do not enter construction barriers or restricted areas.",
+        "ja": "工事柵や立入禁止区域に入らない。"
+      },
+      "ai_review": "AI_SEMANTIC_ALIGNMENT_ONLY",
+      "human_signoff": false
+    },
+    {
+      "claim_id": "H-tw-026-P01-subject",
+      "text": {
+        "zh-TW": "瓦盤鹽池與夕照天空",
+        "en": "Tiled salt pans and sunset-lit sky",
+        "ja": "瓦盤塩田と夕日に照らされる空"
+      },
+      "ai_review": "AI_SEMANTIC_ALIGNMENT_ONLY",
+      "human_signoff": false
+    },
+    {
+      "claim_id": "H-tw-026-P01-navigation-label",
+      "text": {
+        "zh-TW": "尚未核實實際抵達點",
+        "en": "Practical arrival point not verified",
+        "ja": "実際の到着地点は未確認"
+      },
+      "ai_review": "AI_SEMANTIC_ALIGNMENT_ONLY",
+      "human_signoff": false
+    },
+    {
+      "claim_id": "H-tw-026-P01-condition-1",
+      "text": {
+        "zh-TW": "鹽田公共攝影區須當下開放；原瞭望台封閉不等於整個景區封閉。",
+        "en": "The public shooting area must be open; closure of the original lookout does not close the entire site.",
+        "ja": "公共撮影区域が開放中であること。旧展望台の閉鎖は景区全体の閉鎖を意味しない。"
+      },
+      "ai_review": "REVIEW_JA_WORDING 景区全体 -> 観光地全体",
+      "human_signoff": false
+    },
+    {
+      "claim_id": "H-tw-026-P01-condition-2",
+      "text": {
+        "zh-TW": "夕照需實際照亮鹽田構圖；未推定太陽方位或固定時刻。",
+        "en": "Sunset light must reach the salt-pan composition; no fixed time or solar bearing is inferred.",
+        "ja": "夕日の光が塩田の構図に届くこと。固定時刻や太陽方位は推定しない。"
+      },
+      "ai_review": "AI_SEMANTIC_ALIGNMENT_ONLY",
+      "human_signoff": false
+    },
+    {
+      "claim_id": "H-tw-026-P01-condition-3",
+      "text": {
+        "zh-TW": "若取景需要進入正在封閉的原瞭望台，該機位不可使用。",
+        "en": "A composition requiring entry to the closed original lookout is unavailable.",
+        "ja": "閉鎖中の旧展望台への立入りが必要な構図は利用不可。"
+      },
+      "ai_review": "AI_SEMANTIC_ALIGNMENT_ONLY",
+      "human_signoff": false
+    },
+    {
+      "claim_id": "H-tw-026-P01-condition-4",
+      "text": {
+        "zh-TW": "適當的晚霞雲層可增加色彩，但不保證每次出現。",
+        "en": "Colorful sunset clouds can enhance the scene, but their occurrence is not guaranteed.",
+        "ja": "夕焼け雲は色彩を高めるが、出現は保証されない。"
+      },
+      "ai_review": "AI_SEMANTIC_ALIGNMENT_ONLY",
+      "human_signoff": false
+    }
+  ],
+  "audit_claims": [
+    {
+      "human_claim_id": "H-tw-026-P01-name",
+      "machine_path_or_fields": "data/v2/opportunities/tw-026-P01.json#/name_i18n",
+      "machine_evidence_claim_ids": [
+        "tw-026-P01-existence"
+      ],
+      "human_text": "井仔腳瓦盤鹽田夕照",
+      "crosswalk_status": "OK",
+      "evidence_audit_status": "PASS",
+      "evidence_refs": [
+        "e026a",
+        "e026b",
+        "e026d"
+      ],
+      "evidence_urls": [
+        "https://www.swcoast-nsa.gov.tw/zh-tw/attraction/details/000369",
+        "https://www.swcoast-nsa.gov.tw/zh-tw/news/details/2592",
+        "https://www.tainan.gov.tw/News_Content.aspx?n=13370&s=8717068"
+      ],
+      "source_scope_review": [
+        {
+          "id": "e026a",
+          "source_scope": "salt-pan scene, sunset and reflection; conflicting daily/seasonal hours; no verified public camera zone",
+          "place_specific": true
+        },
+        {
+          "id": "e026b",
+          "source_scope": "original lookout closure expected through 2026-11-30; Yonghua alternative 09:00-18:00; not a verified P01 camera/navigation point",
+          "place_specific": true
+        },
+        {
+          "id": "e026d",
+          "source_scope": "Tainan tourism article identifies Jingzaijiao as sunset site; attached image EXIF/capture point unverified",
+          "place_specific": true
+        }
+      ],
+      "reason": "Official site explicitly names the place as a sunset photography subject.",
+      "next_evidence_step": "Recheck only on material source revision.",
+      "locale_i18n": {
+        "zh-TW": "井仔腳瓦盤鹽田夕照",
+        "en": "Sunset over Jingzaijiao tiled salt pans",
+        "ja": "井仔脚瓦盤塩田の夕景"
+      },
+      "locale_ai_review": "AI_SEMANTIC_ALIGNMENT_NOT_HUMAN_PASS"
+    },
+    {
+      "human_claim_id": "H-tw-026-P01-description",
+      "machine_path_or_fields": "data/v2/opportunities/tw-026-P01.json#/description_i18n",
+      "machine_evidence_claim_ids": [
+        "tw-026-P01-existence"
+      ],
+      "human_text": "從開放的鹽田公共區拍攝格狀鹽池與夕照；2026年9月起整修的原瞭望台不可當作開放機位。",
+      "crosswalk_status": "OK",
+      "evidence_audit_status": "PARTIAL",
+      "evidence_refs": [
+        "e026a",
+        "e026b",
+        "e026d"
+      ],
+      "evidence_urls": [
+        "https://www.swcoast-nsa.gov.tw/zh-tw/attraction/details/000369",
+        "https://www.swcoast-nsa.gov.tw/zh-tw/news/details/2592",
+        "https://www.tainan.gov.tw/News_Content.aspx?n=13370&s=8717068"
+      ],
+      "source_scope_review": [
+        {
+          "id": "e026a",
+          "source_scope": "salt-pan scene, sunset and reflection; conflicting daily/seasonal hours; no verified public camera zone",
+          "place_specific": true
+        },
+        {
+          "id": "e026b",
+          "source_scope": "original lookout closure expected through 2026-11-30; Yonghua alternative 09:00-18:00; not a verified P01 camera/navigation point",
+          "place_specific": true
+        },
+        {
+          "id": "e026d",
+          "source_scope": "Tainan tourism article identifies Jingzaijiao as sunset site; attached image EXIF/capture point unverified",
+          "place_specific": true
+        }
+      ],
+      "reason": "Sunset and closure verified, but assertion that a particular public shooting area is currently open is not independently established.",
+      "next_evidence_step": "Confirm current legal public photography boundaries with site operator.",
+      "locale_i18n": {
+        "zh-TW": "從開放的鹽田公共區拍攝格狀鹽池與夕照；2026年9月起整修的原瞭望台不可當作開放機位。",
+        "en": "Photograph patterned salt pans and sunset light from open public areas; the lookout closed for repairs from September 2026 is not an available camera point.",
+        "ja": "開放中の塩田公共区域から格子状の塩田と夕景を撮影する。2026年9月から工事で閉鎖された展望台は撮影位置に含めない。"
+      },
+      "locale_ai_review": "AI_SEMANTIC_ALIGNMENT_NOT_HUMAN_PASS"
+    },
+    {
+      "human_claim_id": "H-tw-026-P01-camera",
+      "machine_path_or_fields": "data/v2/opportunities/tw-026-P01.json#/camera_contexts/0/access_notes_i18n",
+      "machine_evidence_claim_ids": [
+        "tw-026-P01-camera"
+      ],
+      "human_text": "只用開放公共區；原瞭望台預計封閉至2026-11-30，應核對最新公告。",
+      "crosswalk_status": "PARTIAL",
+      "evidence_audit_status": "PARTIAL",
+      "evidence_refs": [
+        "e026a",
+        "e026b",
+        "e026d"
+      ],
+      "evidence_urls": [
+        "https://www.swcoast-nsa.gov.tw/zh-tw/attraction/details/000369",
+        "https://www.swcoast-nsa.gov.tw/zh-tw/news/details/2592",
+        "https://www.tainan.gov.tw/News_Content.aspx?n=13370&s=8717068"
+      ],
+      "source_scope_review": [
+        {
+          "id": "e026a",
+          "source_scope": "salt-pan scene, sunset and reflection; conflicting daily/seasonal hours; no verified public camera zone",
+          "place_specific": true
+        },
+        {
+          "id": "e026b",
+          "source_scope": "original lookout closure expected through 2026-11-30; Yonghua alternative 09:00-18:00; not a verified P01 camera/navigation point",
+          "place_specific": true
+        },
+        {
+          "id": "e026d",
+          "source_scope": "Tainan tourism article identifies Jingzaijiao as sunset site; attached image EXIF/capture point unverified",
+          "place_specific": true
+        }
+      ],
+      "reason": "Closure is place-specific; precise open camera zone, hours and permissions are not established.",
+      "next_evidence_step": "Obtain operator map and dated access confirmation.",
+      "locale_i18n": {
+        "zh-TW": "只用開放公共區；原瞭望台預計封閉至2026-11-30，應核對最新公告。",
+        "en": "Use open public areas only; the original lookout was scheduled closed through 2026-11-30, so recheck official notices.",
+        "ja": "開放中の公共区域のみ利用。旧展望台は2026年11月30日まで閉鎖予定で、最新の公式告知を確認する。"
+      },
+      "locale_ai_review": "AI_SEMANTIC_ALIGNMENT_NOT_HUMAN_PASS"
+    },
+    {
+      "human_claim_id": "H-tw-026-P01-safety",
+      "machine_path_or_fields": "data/v2/opportunities/tw-026-P01.json#/camera_contexts/0/safety_notes_i18n",
+      "machine_evidence_claim_ids": [
+        "tw-026-P01-camera"
+      ],
+      "human_text": "施工圍籬及管制區不可進入。",
+      "crosswalk_status": "PARTIAL",
+      "evidence_audit_status": "PARTIAL",
+      "evidence_refs": [
+        "e026a",
+        "e026b",
+        "e026d"
+      ],
+      "evidence_urls": [
+        "https://www.swcoast-nsa.gov.tw/zh-tw/attraction/details/000369",
+        "https://www.swcoast-nsa.gov.tw/zh-tw/news/details/2592",
+        "https://www.tainan.gov.tw/News_Content.aspx?n=13370&s=8717068"
+      ],
+      "source_scope_review": [
+        {
+          "id": "e026a",
+          "source_scope": "salt-pan scene, sunset and reflection; conflicting daily/seasonal hours; no verified public camera zone",
+          "place_specific": true
+        },
+        {
+          "id": "e026b",
+          "source_scope": "original lookout closure expected through 2026-11-30; Yonghua alternative 09:00-18:00; not a verified P01 camera/navigation point",
+          "place_specific": true
+        },
+        {
+          "id": "e026d",
+          "source_scope": "Tainan tourism article identifies Jingzaijiao as sunset site; attached image EXIF/capture point unverified",
+          "place_specific": true
+        }
+      ],
+      "reason": "Restriction is documented; current fence extent and any later changes are not mapped.",
+      "next_evidence_step": "Check current work-zone notice or dated field report.",
+      "locale_i18n": {
+        "zh-TW": "施工圍籬及管制區不可進入。",
+        "en": "Do not enter construction barriers or restricted areas.",
+        "ja": "工事柵や立入禁止区域に入らない。"
+      },
+      "locale_ai_review": "AI_SEMANTIC_ALIGNMENT_NOT_HUMAN_PASS"
+    },
+    {
+      "human_claim_id": "H-tw-026-P01-subject",
+      "machine_path_or_fields": "data/v2/opportunities/tw-026-P01.json#/targets/0/name_i18n",
+      "machine_evidence_claim_ids": [
+        "tw-026-P01-existence"
+      ],
+      "human_text": "瓦盤鹽池與夕照天空",
+      "crosswalk_status": "OK",
+      "evidence_audit_status": "PASS",
+      "evidence_refs": [
+        "e026a",
+        "e026b",
+        "e026d"
+      ],
+      "evidence_urls": [
+        "https://www.swcoast-nsa.gov.tw/zh-tw/attraction/details/000369",
+        "https://www.swcoast-nsa.gov.tw/zh-tw/news/details/2592",
+        "https://www.tainan.gov.tw/News_Content.aspx?n=13370&s=8717068"
+      ],
+      "source_scope_review": [
+        {
+          "id": "e026a",
+          "source_scope": "salt-pan scene, sunset and reflection; conflicting daily/seasonal hours; no verified public camera zone",
+          "place_specific": true
+        },
+        {
+          "id": "e026b",
+          "source_scope": "original lookout closure expected through 2026-11-30; Yonghua alternative 09:00-18:00; not a verified P01 camera/navigation point",
+          "place_specific": true
+        },
+        {
+          "id": "e026d",
+          "source_scope": "Tainan tourism article identifies Jingzaijiao as sunset site; attached image EXIF/capture point unverified",
+          "place_specific": true
+        }
+      ],
+      "reason": "Official scenic-area description explicitly pairs tiled salt pans with sunset sky.",
+      "next_evidence_step": "Retain existence evidence; do not infer coordinates.",
+      "locale_i18n": {
+        "zh-TW": "瓦盤鹽池與夕照天空",
+        "en": "Tiled salt pans and sunset-lit sky",
+        "ja": "瓦盤塩田と夕日に照らされる空"
+      },
+      "locale_ai_review": "AI_SEMANTIC_ALIGNMENT_NOT_HUMAN_PASS"
+    },
+    {
+      "human_claim_id": "H-tw-026-P01-camera-kind",
+      "machine_path_or_fields": "data/v2/opportunities/tw-026-P01.json#/camera_contexts/0/kind",
+      "machine_evidence_claim_ids": [
+        "tw-026-P01-camera"
+      ],
+      "human_text": "area",
+      "crosswalk_status": "PARTIAL",
+      "evidence_audit_status": "PARTIAL",
+      "evidence_refs": [
+        "e026a",
+        "e026b",
+        "e026d"
+      ],
+      "evidence_urls": [
+        "https://www.swcoast-nsa.gov.tw/zh-tw/attraction/details/000369",
+        "https://www.swcoast-nsa.gov.tw/zh-tw/news/details/2592",
+        "https://www.tainan.gov.tw/News_Content.aspx?n=13370&s=8717068"
+      ],
+      "source_scope_review": [
+        {
+          "id": "e026a",
+          "source_scope": "salt-pan scene, sunset and reflection; conflicting daily/seasonal hours; no verified public camera zone",
+          "place_specific": true
+        },
+        {
+          "id": "e026b",
+          "source_scope": "original lookout closure expected through 2026-11-30; Yonghua alternative 09:00-18:00; not a verified P01 camera/navigation point",
+          "place_specific": true
+        },
+        {
+          "id": "e026d",
+          "source_scope": "Tainan tourism article identifies Jingzaijiao as sunset site; attached image EXIF/capture point unverified",
+          "place_specific": true
+        }
+      ],
+      "reason": "Area abstraction is plausible, but its public-access footprint is unverified.",
+      "next_evidence_step": "Acquire authoritative camera area polygon.",
+      "locale_i18n": null,
+      "locale_ai_review": "NOT_USER_FACING"
+    },
+    {
+      "human_claim_id": "H-tw-026-P01-camera-geometry-status",
+      "machine_path_or_fields": "data/v2/opportunities/tw-026-P01.json#/camera_contexts/0/geometry/status",
+      "machine_evidence_claim_ids": [
+        "tw-026-P01-camera"
+      ],
+      "human_text": "unknown",
+      "crosswalk_status": "UNKNOWN",
+      "evidence_audit_status": "UNKNOWN",
+      "evidence_refs": [
+        "e026a",
+        "e026b",
+        "e026d"
+      ],
+      "evidence_urls": [
+        "https://www.swcoast-nsa.gov.tw/zh-tw/attraction/details/000369",
+        "https://www.swcoast-nsa.gov.tw/zh-tw/news/details/2592",
+        "https://www.tainan.gov.tw/News_Content.aspx?n=13370&s=8717068"
+      ],
+      "source_scope_review": [
+        {
+          "id": "e026a",
+          "source_scope": "salt-pan scene, sunset and reflection; conflicting daily/seasonal hours; no verified public camera zone",
+          "place_specific": true
+        },
+        {
+          "id": "e026b",
+          "source_scope": "original lookout closure expected through 2026-11-30; Yonghua alternative 09:00-18:00; not a verified P01 camera/navigation point",
+          "place_specific": true
+        },
+        {
+          "id": "e026d",
+          "source_scope": "Tainan tourism article identifies Jingzaijiao as sunset site; attached image EXIF/capture point unverified",
+          "place_specific": true
+        }
+      ],
+      "reason": "No surveyed camera polygon or exact tripod coordinate.",
+      "next_evidence_step": "Field-survey legal camera area.",
+      "locale_i18n": null,
+      "locale_ai_review": "NOT_USER_FACING"
+    },
+    {
+      "human_claim_id": "H-tw-026-P01-camera-verification",
+      "machine_path_or_fields": "data/v2/opportunities/tw-026-P01.json#/camera_contexts/0/verification_status",
+      "machine_evidence_claim_ids": [
+        "tw-026-P01-camera"
+      ],
+      "human_text": "provisional",
+      "crosswalk_status": "PARTIAL",
+      "evidence_audit_status": "PARTIAL",
+      "evidence_refs": [
+        "e026a",
+        "e026b",
+        "e026d"
+      ],
+      "evidence_urls": [
+        "https://www.swcoast-nsa.gov.tw/zh-tw/attraction/details/000369",
+        "https://www.swcoast-nsa.gov.tw/zh-tw/news/details/2592",
+        "https://www.tainan.gov.tw/News_Content.aspx?n=13370&s=8717068"
+      ],
+      "source_scope_review": [
+        {
+          "id": "e026a",
+          "source_scope": "salt-pan scene, sunset and reflection; conflicting daily/seasonal hours; no verified public camera zone",
+          "place_specific": true
+        },
+        {
+          "id": "e026b",
+          "source_scope": "original lookout closure expected through 2026-11-30; Yonghua alternative 09:00-18:00; not a verified P01 camera/navigation point",
+          "place_specific": true
+        },
+        {
+          "id": "e026d",
+          "source_scope": "Tainan tourism article identifies Jingzaijiao as sunset site; attached image EXIF/capture point unverified",
+          "place_specific": true
+        }
+      ],
+      "reason": "Provisional is correct; no independently verified camera area.",
+      "next_evidence_step": "Obtain operator verification.",
+      "locale_i18n": null,
+      "locale_ai_review": "NOT_USER_FACING"
+    },
+    {
+      "human_claim_id": "H-tw-026-P01-subject-geometry-kind",
+      "machine_path_or_fields": "data/v2/opportunities/tw-026-P01.json#/targets/0/geometry/kind",
+      "machine_evidence_claim_ids": [
+        "tw-026-P01-existence"
+      ],
+      "human_text": "area",
+      "crosswalk_status": "PARTIAL",
+      "evidence_audit_status": "PARTIAL",
+      "evidence_refs": [
+        "e026a",
+        "e026b",
+        "e026d"
+      ],
+      "evidence_urls": [
+        "https://www.swcoast-nsa.gov.tw/zh-tw/attraction/details/000369",
+        "https://www.swcoast-nsa.gov.tw/zh-tw/news/details/2592",
+        "https://www.tainan.gov.tw/News_Content.aspx?n=13370&s=8717068"
+      ],
+      "source_scope_review": [
+        {
+          "id": "e026a",
+          "source_scope": "salt-pan scene, sunset and reflection; conflicting daily/seasonal hours; no verified public camera zone",
+          "place_specific": true
+        },
+        {
+          "id": "e026b",
+          "source_scope": "original lookout closure expected through 2026-11-30; Yonghua alternative 09:00-18:00; not a verified P01 camera/navigation point",
+          "place_specific": true
+        },
+        {
+          "id": "e026d",
+          "source_scope": "Tainan tourism article identifies Jingzaijiao as sunset site; attached image EXIF/capture point unverified",
+          "place_specific": true
+        }
+      ],
+      "reason": "Salt pans are an area but the precise photographed target extent is not identified.",
+      "next_evidence_step": "Map visible target footprint using attributable image.",
+      "locale_i18n": null,
+      "locale_ai_review": "NOT_USER_FACING"
+    },
+    {
+      "human_claim_id": "H-tw-026-P01-subject-geometry-status",
+      "machine_path_or_fields": "data/v2/opportunities/tw-026-P01.json#/targets/0/geometry/status",
+      "machine_evidence_claim_ids": [
+        "tw-026-P01-existence"
+      ],
+      "human_text": "unknown",
+      "crosswalk_status": "UNKNOWN",
+      "evidence_audit_status": "UNKNOWN",
+      "evidence_refs": [
+        "e026a",
+        "e026b",
+        "e026d"
+      ],
+      "evidence_urls": [
+        "https://www.swcoast-nsa.gov.tw/zh-tw/attraction/details/000369",
+        "https://www.swcoast-nsa.gov.tw/zh-tw/news/details/2592",
+        "https://www.tainan.gov.tw/News_Content.aspx?n=13370&s=8717068"
+      ],
+      "source_scope_review": [
+        {
+          "id": "e026a",
+          "source_scope": "salt-pan scene, sunset and reflection; conflicting daily/seasonal hours; no verified public camera zone",
+          "place_specific": true
+        },
+        {
+          "id": "e026b",
+          "source_scope": "original lookout closure expected through 2026-11-30; Yonghua alternative 09:00-18:00; not a verified P01 camera/navigation point",
+          "place_specific": true
+        },
+        {
+          "id": "e026d",
+          "source_scope": "Tainan tourism article identifies Jingzaijiao as sunset site; attached image EXIF/capture point unverified",
+          "place_specific": true
+        }
+      ],
+      "reason": "No verified subject geometry.",
+      "next_evidence_step": "Acquire georeferenced target outline.",
+      "locale_i18n": null,
+      "locale_ai_review": "NOT_USER_FACING"
+    },
+    {
+      "human_claim_id": "H-tw-026-P01-relation-type",
+      "machine_path_or_fields": "data/v2/opportunities/tw-026-P01.json#/observation_relations/0/type",
+      "machine_evidence_claim_ids": [
+        "tw-026-P01-existence"
+      ],
+      "human_text": "foreground_background",
+      "crosswalk_status": "PARTIAL",
+      "evidence_audit_status": "PARTIAL",
+      "evidence_refs": [
+        "e026a",
+        "e026b",
+        "e026d"
+      ],
+      "evidence_urls": [
+        "https://www.swcoast-nsa.gov.tw/zh-tw/attraction/details/000369",
+        "https://www.swcoast-nsa.gov.tw/zh-tw/news/details/2592",
+        "https://www.tainan.gov.tw/News_Content.aspx?n=13370&s=8717068"
+      ],
+      "source_scope_review": [
+        {
+          "id": "e026a",
+          "source_scope": "salt-pan scene, sunset and reflection; conflicting daily/seasonal hours; no verified public camera zone",
+          "place_specific": true
+        },
+        {
+          "id": "e026b",
+          "source_scope": "original lookout closure expected through 2026-11-30; Yonghua alternative 09:00-18:00; not a verified P01 camera/navigation point",
+          "place_specific": true
+        },
+        {
+          "id": "e026d",
+          "source_scope": "Tainan tourism article identifies Jingzaijiao as sunset site; attached image EXIF/capture point unverified",
+          "place_specific": true
+        }
+      ],
+      "reason": "Official sunset and salt-pan combination supports a compositional lead, not a verified camera-specific frame.",
+      "next_evidence_step": "Match dated image to legal camera point.",
+      "locale_i18n": null,
+      "locale_ai_review": "NOT_USER_FACING"
+    },
+    {
+      "human_claim_id": "H-tw-026-P01-view",
+      "machine_path_or_fields": "data/v2/opportunities/tw-026-P01.json#/observation_relations/0/geometry_mode",
+      "machine_evidence_claim_ids": [
+        "tw-026-P01-existence"
+      ],
+      "human_text": "unknown",
+      "crosswalk_status": "UNKNOWN",
+      "evidence_audit_status": "UNKNOWN",
+      "evidence_refs": [
+        "e026a",
+        "e026b",
+        "e026d"
+      ],
+      "evidence_urls": [
+        "https://www.swcoast-nsa.gov.tw/zh-tw/attraction/details/000369",
+        "https://www.swcoast-nsa.gov.tw/zh-tw/news/details/2592",
+        "https://www.tainan.gov.tw/News_Content.aspx?n=13370&s=8717068"
+      ],
+      "source_scope_review": [
+        {
+          "id": "e026a",
+          "source_scope": "salt-pan scene, sunset and reflection; conflicting daily/seasonal hours; no verified public camera zone",
+          "place_specific": true
+        },
+        {
+          "id": "e026b",
+          "source_scope": "original lookout closure expected through 2026-11-30; Yonghua alternative 09:00-18:00; not a verified P01 camera/navigation point",
+          "place_specific": true
+        },
+        {
+          "id": "e026d",
+          "source_scope": "Tainan tourism article identifies Jingzaijiao as sunset site; attached image EXIF/capture point unverified",
+          "place_specific": true
+        }
+      ],
+      "reason": "No validated camera-to-target view corridor.",
+      "next_evidence_step": "Verify camera and subject geometries first.",
+      "locale_i18n": null,
+      "locale_ai_review": "NOT_USER_FACING"
+    },
+    {
+      "human_claim_id": "H-tw-026-P01-view-distance_m",
+      "machine_path_or_fields": "data/v2/opportunities/tw-026-P01.json#/observation_relations/0/distance_m",
+      "machine_evidence_claim_ids": [
+        "tw-026-P01-existence"
+      ],
+      "human_text": "unknown",
+      "crosswalk_status": "UNKNOWN",
+      "evidence_audit_status": "UNKNOWN",
+      "evidence_refs": [
+        "e026a",
+        "e026b",
+        "e026d"
+      ],
+      "evidence_urls": [
+        "https://www.swcoast-nsa.gov.tw/zh-tw/attraction/details/000369",
+        "https://www.swcoast-nsa.gov.tw/zh-tw/news/details/2592",
+        "https://www.tainan.gov.tw/News_Content.aspx?n=13370&s=8717068"
+      ],
+      "source_scope_review": [
+        {
+          "id": "e026a",
+          "source_scope": "salt-pan scene, sunset and reflection; conflicting daily/seasonal hours; no verified public camera zone",
+          "place_specific": true
+        },
+        {
+          "id": "e026b",
+          "source_scope": "original lookout closure expected through 2026-11-30; Yonghua alternative 09:00-18:00; not a verified P01 camera/navigation point",
+          "place_specific": true
+        },
+        {
+          "id": "e026d",
+          "source_scope": "Tainan tourism article identifies Jingzaijiao as sunset site; attached image EXIF/capture point unverified",
+          "place_specific": true
+        }
+      ],
+      "reason": "No measured camera-target distance.",
+      "next_evidence_step": "Measure after georeferencing.",
+      "locale_i18n": null,
+      "locale_ai_review": "NOT_USER_FACING"
+    },
+    {
+      "human_claim_id": "H-tw-026-P01-view-azimuth_deg",
+      "machine_path_or_fields": "data/v2/opportunities/tw-026-P01.json#/observation_relations/0/azimuth_deg",
+      "machine_evidence_claim_ids": [
+        "tw-026-P01-existence"
+      ],
+      "human_text": "unknown",
+      "crosswalk_status": "UNKNOWN",
+      "evidence_audit_status": "UNKNOWN",
+      "evidence_refs": [
+        "e026a",
+        "e026b",
+        "e026d"
+      ],
+      "evidence_urls": [
+        "https://www.swcoast-nsa.gov.tw/zh-tw/attraction/details/000369",
+        "https://www.swcoast-nsa.gov.tw/zh-tw/news/details/2592",
+        "https://www.tainan.gov.tw/News_Content.aspx?n=13370&s=8717068"
+      ],
+      "source_scope_review": [
+        {
+          "id": "e026a",
+          "source_scope": "salt-pan scene, sunset and reflection; conflicting daily/seasonal hours; no verified public camera zone",
+          "place_specific": true
+        },
+        {
+          "id": "e026b",
+          "source_scope": "original lookout closure expected through 2026-11-30; Yonghua alternative 09:00-18:00; not a verified P01 camera/navigation point",
+          "place_specific": true
+        },
+        {
+          "id": "e026d",
+          "source_scope": "Tainan tourism article identifies Jingzaijiao as sunset site; attached image EXIF/capture point unverified",
+          "place_specific": true
+        }
+      ],
+      "reason": "No verified camera bearing.",
+      "next_evidence_step": "Measure after georeferencing.",
+      "locale_i18n": null,
+      "locale_ai_review": "NOT_USER_FACING"
+    },
+    {
+      "human_claim_id": "H-tw-026-P01-view-elevation_deg",
+      "machine_path_or_fields": "data/v2/opportunities/tw-026-P01.json#/observation_relations/0/elevation_deg",
+      "machine_evidence_claim_ids": [
+        "tw-026-P01-existence"
+      ],
+      "human_text": "unknown",
+      "crosswalk_status": "UNKNOWN",
+      "evidence_audit_status": "UNKNOWN",
+      "evidence_refs": [
+        "e026a",
+        "e026b",
+        "e026d"
+      ],
+      "evidence_urls": [
+        "https://www.swcoast-nsa.gov.tw/zh-tw/attraction/details/000369",
+        "https://www.swcoast-nsa.gov.tw/zh-tw/news/details/2592",
+        "https://www.tainan.gov.tw/News_Content.aspx?n=13370&s=8717068"
+      ],
+      "source_scope_review": [
+        {
+          "id": "e026a",
+          "source_scope": "salt-pan scene, sunset and reflection; conflicting daily/seasonal hours; no verified public camera zone",
+          "place_specific": true
+        },
+        {
+          "id": "e026b",
+          "source_scope": "original lookout closure expected through 2026-11-30; Yonghua alternative 09:00-18:00; not a verified P01 camera/navigation point",
+          "place_specific": true
+        },
+        {
+          "id": "e026d",
+          "source_scope": "Tainan tourism article identifies Jingzaijiao as sunset site; attached image EXIF/capture point unverified",
+          "place_specific": true
+        }
+      ],
+      "reason": "No verified camera elevation angle.",
+      "next_evidence_step": "Measure after georeferencing.",
+      "locale_i18n": null,
+      "locale_ai_review": "NOT_USER_FACING"
+    },
+    {
+      "human_claim_id": "H-tw-026-P01-navigation",
+      "machine_path_or_fields": "data/v2/opportunities/tw-026-P01.json#/navigation_targets/0/status",
+      "machine_evidence_claim_ids": [
+        "tw-026-P01-navigation"
+      ],
+      "human_text": "needs_review",
+      "crosswalk_status": "UNKNOWN",
+      "evidence_audit_status": "UNKNOWN",
+      "evidence_refs": [],
+      "evidence_urls": [],
+      "source_scope_review": [],
+      "reason": "No verified practical arrival point; directions must remain unavailable.",
+      "next_evidence_step": "Verify legal arrival/parking/entrance separately from camera.",
+      "locale_i18n": null,
+      "locale_ai_review": "NOT_USER_FACING"
+    },
+    {
+      "human_claim_id": "H-tw-026-P01-navigation-type",
+      "machine_path_or_fields": "data/v2/opportunities/tw-026-P01.json#/navigation_targets/0/target_type",
+      "machine_evidence_claim_ids": [
+        "tw-026-P01-navigation"
+      ],
+      "human_text": "other",
+      "crosswalk_status": "UNKNOWN",
+      "evidence_audit_status": "UNKNOWN",
+      "evidence_refs": [],
+      "evidence_urls": [],
+      "source_scope_review": [],
+      "reason": "Placeholder type does not establish usable arrival destination.",
+      "next_evidence_step": "Verify actual arrival type.",
+      "locale_i18n": null,
+      "locale_ai_review": "NOT_USER_FACING"
+    },
+    {
+      "human_claim_id": "H-tw-026-P01-navigation-label",
+      "machine_path_or_fields": "data/v2/opportunities/tw-026-P01.json#/navigation_targets/0/label_i18n",
+      "machine_evidence_claim_ids": [
+        "tw-026-P01-navigation"
+      ],
+      "human_text": "尚未核實實際抵達點",
+      "crosswalk_status": "UNKNOWN",
+      "evidence_audit_status": "UNKNOWN",
+      "evidence_refs": [],
+      "evidence_urls": [],
+      "source_scope_review": [],
+      "reason": "All three labels disclose an unverified arrival point; not proof of access.",
+      "next_evidence_step": "Keep warning until navigation verified.",
+      "locale_i18n": {
+        "zh-TW": "尚未核實實際抵達點",
+        "en": "Practical arrival point not verified",
+        "ja": "実際の到着地点は未確認"
+      },
+      "locale_ai_review": "AI_SEMANTIC_ALIGNMENT_NOT_HUMAN_PASS"
+    },
+    {
+      "human_claim_id": "H-tw-026-P01-navigation-lat",
+      "machine_path_or_fields": "data/v2/opportunities/tw-026-P01.json#/navigation_targets/0/lat",
+      "machine_evidence_claim_ids": [
+        "tw-026-P01-navigation"
+      ],
+      "human_text": "unknown",
+      "crosswalk_status": "UNKNOWN",
+      "evidence_audit_status": "UNKNOWN",
+      "evidence_refs": [],
+      "evidence_urls": [],
+      "source_scope_review": [],
+      "reason": "No verified practical arrival latitude.",
+      "next_evidence_step": "Obtain official point and independent cross-check.",
+      "locale_i18n": null,
+      "locale_ai_review": "NOT_USER_FACING"
+    },
+    {
+      "human_claim_id": "H-tw-026-P01-navigation-lon",
+      "machine_path_or_fields": "data/v2/opportunities/tw-026-P01.json#/navigation_targets/0/lon",
+      "machine_evidence_claim_ids": [
+        "tw-026-P01-navigation"
+      ],
+      "human_text": "unknown",
+      "crosswalk_status": "UNKNOWN",
+      "evidence_audit_status": "UNKNOWN",
+      "evidence_refs": [],
+      "evidence_urls": [],
+      "source_scope_review": [],
+      "reason": "No verified practical arrival longitude.",
+      "next_evidence_step": "Obtain official point and independent cross-check.",
+      "locale_i18n": null,
+      "locale_ai_review": "NOT_USER_FACING"
+    },
+    {
+      "human_claim_id": "H-tw-026-P01-navigation-confidence",
+      "machine_path_or_fields": "data/v2/opportunities/tw-026-P01.json#/navigation_targets/0/confidence",
+      "machine_evidence_claim_ids": [
+        "tw-026-P01-navigation"
+      ],
+      "human_text": "unknown",
+      "crosswalk_status": "UNKNOWN",
+      "evidence_audit_status": "UNKNOWN",
+      "evidence_refs": [],
+      "evidence_urls": [],
+      "source_scope_review": [],
+      "reason": "No basis for navigation confidence.",
+      "next_evidence_step": "Set only after evidence verification.",
+      "locale_i18n": null,
+      "locale_ai_review": "NOT_USER_FACING"
+    },
+    {
+      "human_claim_id": "H-tw-026-P01-readiness",
+      "machine_path_or_fields": "data/v2/opportunities/tw-026-P01.json#/readiness/research_level",
+      "machine_evidence_claim_ids": [
+        "tw-026-P01-existence"
+      ],
+      "human_text": "R1",
+      "crosswalk_status": "PARTIAL",
+      "evidence_audit_status": "PARTIAL",
+      "evidence_refs": [
+        "e026a",
+        "e026b",
+        "e026d"
+      ],
+      "evidence_urls": [
+        "https://www.swcoast-nsa.gov.tw/zh-tw/attraction/details/000369",
+        "https://www.swcoast-nsa.gov.tw/zh-tw/news/details/2592",
+        "https://www.tainan.gov.tw/News_Content.aspx?n=13370&s=8717068"
+      ],
+      "source_scope_review": [
+        {
+          "id": "e026a",
+          "source_scope": "salt-pan scene, sunset and reflection; conflicting daily/seasonal hours; no verified public camera zone",
+          "place_specific": true
+        },
+        {
+          "id": "e026b",
+          "source_scope": "original lookout closure expected through 2026-11-30; Yonghua alternative 09:00-18:00; not a verified P01 camera/navigation point",
+          "place_specific": true
+        },
+        {
+          "id": "e026d",
+          "source_scope": "Tainan tourism article identifies Jingzaijiao as sunset site; attached image EXIF/capture point unverified",
+          "place_specific": true
+        }
+      ],
+      "reason": "R1 is research maturity, not runtime forecast availability.",
+      "next_evidence_step": "Keep research-only until all gates pass.",
+      "locale_i18n": null,
+      "locale_ai_review": "NOT_USER_FACING"
+    },
+    {
+      "human_claim_id": "H-tw-026-P01-research-gap-1",
+      "machine_path_or_fields": "data/v2/opportunities/tw-026-P01.json#/readiness/gaps/0",
+      "machine_evidence_claim_ids": [
+        "tw-026-P01-existence"
+      ],
+      "human_text": "GEOMETRY_GAP",
+      "crosswalk_status": "PARTIAL",
+      "evidence_audit_status": "PARTIAL",
+      "evidence_refs": [],
+      "evidence_urls": [],
+      "source_scope_review": [],
+      "reason": "Geometry gaps demonstrably unresolved.",
+      "next_evidence_step": "Survey camera, target and relation.",
+      "locale_i18n": null,
+      "locale_ai_review": "NOT_USER_FACING"
+    },
+    {
+      "human_claim_id": "H-tw-026-P01-research-gap-2",
+      "machine_path_or_fields": "data/v2/opportunities/tw-026-P01.json#/readiness/gaps/1",
+      "machine_evidence_claim_ids": [
+        "tw-026-P01-existence"
+      ],
+      "human_text": "RESEARCH_GAP",
+      "crosswalk_status": "PARTIAL",
+      "evidence_audit_status": "PARTIAL",
+      "evidence_refs": [],
+      "evidence_urls": [],
+      "source_scope_review": [],
+      "reason": "Public access, hours, composition remain unresolved.",
+      "next_evidence_step": "Resolve operator hours conflict and location.",
+      "locale_i18n": null,
+      "locale_ai_review": "NOT_USER_FACING"
+    },
+    {
+      "human_claim_id": "H-tw-026-P01-condition-1",
+      "machine_path_or_fields": "data/v2/opportunities/tw-026-P01.json#/condition_contract/conditions/0",
+      "machine_evidence_claim_ids": [
+        "tw-026-P01-claim-01"
+      ],
+      "human_text": "REQUIRED｜鹽田公共攝影區須當下開放；原瞭望台封閉不等於整個景區封閉。",
+      "crosswalk_status": "PARTIAL",
+      "evidence_audit_status": "PARTIAL",
+      "evidence_refs": [
+        "e026b"
+      ],
+      "evidence_urls": [
+        "https://www.swcoast-nsa.gov.tw/zh-tw/news/details/2592"
+      ],
+      "source_scope_review": [
+        {
+          "id": "e026b",
+          "source_scope": "original lookout closure expected through 2026-11-30; Yonghua alternative 09:00-18:00; not a verified P01 camera/navigation point",
+          "place_specific": true
+        }
+      ],
+      "reason": "Official notice closes original lookout but does not prove the rest of public camera area is open on the shooting date.",
+      "next_evidence_step": "Confirm access for requested date with operator.",
+      "locale_i18n": {
+        "zh-TW": "鹽田公共攝影區須當下開放；原瞭望台封閉不等於整個景區封閉。",
+        "en": "The public shooting area must be open; closure of the original lookout does not close the entire site.",
+        "ja": "公共撮影区域が開放中であること。旧展望台の閉鎖は景区全体の閉鎖を意味しない。"
+      },
+      "locale_ai_review": "JA_WORDING_REVIEW_REQUIRED"
+    },
+    {
+      "human_claim_id": "H-tw-026-P01-condition-1-threshold",
+      "machine_path_or_fields": "data/v2/opportunities/tw-026-P01.json#/condition_contract/conditions/0/threshold",
+      "machine_evidence_claim_ids": [
+        "tw-026-P01-claim-01"
+      ],
+      "human_text": "unknown",
+      "crosswalk_status": "UNKNOWN",
+      "evidence_audit_status": "UNKNOWN",
+      "evidence_refs": [
+        "e026b"
+      ],
+      "evidence_urls": [
+        "https://www.swcoast-nsa.gov.tw/zh-tw/news/details/2592"
+      ],
+      "source_scope_review": [
+        {
+          "id": "e026b",
+          "source_scope": "original lookout closure expected through 2026-11-30; Yonghua alternative 09:00-18:00; not a verified P01 camera/navigation point",
+          "place_specific": true
+        }
+      ],
+      "reason": "Access is qualitative; no verified numeric threshold.",
+      "next_evidence_step": "Use explicit verified access state; leave null.",
+      "locale_i18n": null,
+      "locale_ai_review": "NOT_USER_FACING"
+    },
+    {
+      "human_claim_id": "H-tw-026-P01-condition-1-unknown-policy",
+      "machine_path_or_fields": "data/v2/opportunities/tw-026-P01.json#/condition_contract/conditions/0/unknown_policy",
+      "machine_evidence_claim_ids": [
+        "tw-026-P01-claim-01"
+      ],
+      "human_text": "propagate_unknown",
+      "crosswalk_status": "OK",
+      "evidence_audit_status": "PASS",
+      "evidence_refs": [
+        "e026b"
+      ],
+      "evidence_urls": [
+        "https://www.swcoast-nsa.gov.tw/zh-tw/news/details/2592"
+      ],
+      "source_scope_review": [
+        {
+          "id": "e026b",
+          "source_scope": "original lookout closure expected through 2026-11-30; Yonghua alternative 09:00-18:00; not a verified P01 camera/navigation point",
+          "place_specific": true
+        }
+      ],
+      "reason": "Unknown access propagates unknown, which is conservative contract logic, not externally proven site status.",
+      "next_evidence_step": "Retain policy; test runtime separately.",
+      "locale_i18n": null,
+      "locale_ai_review": "NOT_USER_FACING"
+    },
+    {
+      "human_claim_id": "H-tw-026-P01-condition-2",
+      "machine_path_or_fields": "data/v2/opportunities/tw-026-P01.json#/condition_contract/conditions/1",
+      "machine_evidence_claim_ids": [
+        "tw-026-P01-claim-02"
+      ],
+      "human_text": "REQUIRED｜夕照需實際照亮鹽田構圖；未推定太陽方位或固定時刻。",
+      "crosswalk_status": "PARTIAL",
+      "evidence_audit_status": "PARTIAL",
+      "evidence_refs": [
+        "e026a"
+      ],
+      "evidence_urls": [
+        "https://www.swcoast-nsa.gov.tw/zh-tw/attraction/details/000369"
+      ],
+      "source_scope_review": [
+        {
+          "id": "e026a",
+          "source_scope": "salt-pan scene, sunset and reflection; conflicting daily/seasonal hours; no verified public camera zone",
+          "place_specific": true
+        }
+      ],
+      "reason": "Sunset exists at this place, but illumination at the specific composition/time is unverified.",
+      "next_evidence_step": "Verify sun geometry from legal camera zone.",
+      "locale_i18n": {
+        "zh-TW": "夕照需實際照亮鹽田構圖；未推定太陽方位或固定時刻。",
+        "en": "Sunset light must reach the salt-pan composition; no fixed time or solar bearing is inferred.",
+        "ja": "夕日の光が塩田の構図に届くこと。固定時刻や太陽方位は推定しない。"
+      },
+      "locale_ai_review": "AI_SEMANTIC_ALIGNMENT_NOT_HUMAN_PASS"
+    },
+    {
+      "human_claim_id": "H-tw-026-P01-condition-2-threshold",
+      "machine_path_or_fields": "data/v2/opportunities/tw-026-P01.json#/condition_contract/conditions/1/threshold",
+      "machine_evidence_claim_ids": [
+        "tw-026-P01-claim-02"
+      ],
+      "human_text": "unknown",
+      "crosswalk_status": "UNKNOWN",
+      "evidence_audit_status": "UNKNOWN",
+      "evidence_refs": [
+        "e026a"
+      ],
+      "evidence_urls": [
+        "https://www.swcoast-nsa.gov.tw/zh-tw/attraction/details/000369"
+      ],
+      "source_scope_review": [
+        {
+          "id": "e026a",
+          "source_scope": "salt-pan scene, sunset and reflection; conflicting daily/seasonal hours; no verified public camera zone",
+          "place_specific": true
+        }
+      ],
+      "reason": "No verified sun bearing or timing threshold.",
+      "next_evidence_step": "Leave null pending calibration.",
+      "locale_i18n": null,
+      "locale_ai_review": "NOT_USER_FACING"
+    },
+    {
+      "human_claim_id": "H-tw-026-P01-condition-2-unknown-policy",
+      "machine_path_or_fields": "data/v2/opportunities/tw-026-P01.json#/condition_contract/conditions/1/unknown_policy",
+      "machine_evidence_claim_ids": [
+        "tw-026-P01-claim-02"
+      ],
+      "human_text": "propagate_unknown",
+      "crosswalk_status": "OK",
+      "evidence_audit_status": "PASS",
+      "evidence_refs": [
+        "e026a"
+      ],
+      "evidence_urls": [
+        "https://www.swcoast-nsa.gov.tw/zh-tw/attraction/details/000369"
+      ],
+      "source_scope_review": [
+        {
+          "id": "e026a",
+          "source_scope": "salt-pan scene, sunset and reflection; conflicting daily/seasonal hours; no verified public camera zone",
+          "place_specific": true
+        }
+      ],
+      "reason": "Unknown illumination propagates unknown; contract logic only.",
+      "next_evidence_step": "Test runtime separately.",
+      "locale_i18n": null,
+      "locale_ai_review": "NOT_USER_FACING"
+    },
+    {
+      "human_claim_id": "H-tw-026-P01-condition-3",
+      "machine_path_or_fields": "data/v2/opportunities/tw-026-P01.json#/condition_contract/conditions/2",
+      "machine_evidence_claim_ids": [
+        "tw-026-P01-claim-03"
+      ],
+      "human_text": "BLOCKER｜若取景需要進入正在封閉的原瞭望台，該機位不可使用。",
+      "crosswalk_status": "PARTIAL",
+      "evidence_audit_status": "PARTIAL",
+      "evidence_refs": [
+        "e026b"
+      ],
+      "evidence_urls": [
+        "https://www.swcoast-nsa.gov.tw/zh-tw/news/details/2592"
+      ],
+      "source_scope_review": [
+        {
+          "id": "e026b",
+          "source_scope": "original lookout closure expected through 2026-11-30; Yonghua alternative 09:00-18:00; not a verified P01 camera/navigation point",
+          "place_specific": true
+        }
+      ],
+      "reason": "2026-09-02 notice expects closure until 2026-11-30; latest source read 2026-10-09, not a live gate for future dates.",
+      "next_evidence_step": "Refresh closure notice before any dated recommendation.",
+      "locale_i18n": {
+        "zh-TW": "若取景需要進入正在封閉的原瞭望台，該機位不可使用。",
+        "en": "A composition requiring entry to the closed original lookout is unavailable.",
+        "ja": "閉鎖中の旧展望台への立入りが必要な構図は利用不可。"
+      },
+      "locale_ai_review": "AI_SEMANTIC_ALIGNMENT_NOT_HUMAN_PASS"
+    },
+    {
+      "human_claim_id": "H-tw-026-P01-condition-3-threshold",
+      "machine_path_or_fields": "data/v2/opportunities/tw-026-P01.json#/condition_contract/conditions/2/threshold",
+      "machine_evidence_claim_ids": [
+        "tw-026-P01-claim-03"
+      ],
+      "human_text": "unknown",
+      "crosswalk_status": "UNKNOWN",
+      "evidence_audit_status": "UNKNOWN",
+      "evidence_refs": [
+        "e026b"
+      ],
+      "evidence_urls": [
+        "https://www.swcoast-nsa.gov.tw/zh-tw/news/details/2592"
+      ],
+      "source_scope_review": [
+        {
+          "id": "e026b",
+          "source_scope": "original lookout closure expected through 2026-11-30; Yonghua alternative 09:00-18:00; not a verified P01 camera/navigation point",
+          "place_specific": true
+        }
+      ],
+      "reason": "Closure is a binary access state, not a measured numeric threshold.",
+      "next_evidence_step": "Leave null and verify restriction.",
+      "locale_i18n": null,
+      "locale_ai_review": "NOT_USER_FACING"
+    },
+    {
+      "human_claim_id": "H-tw-026-P01-condition-3-unknown-policy",
+      "machine_path_or_fields": "data/v2/opportunities/tw-026-P01.json#/condition_contract/conditions/2/unknown_policy",
+      "machine_evidence_claim_ids": [
+        "tw-026-P01-claim-03"
+      ],
+      "human_text": "propagate_unknown",
+      "crosswalk_status": "OK",
+      "evidence_audit_status": "PASS",
+      "evidence_refs": [
+        "e026b"
+      ],
+      "evidence_urls": [
+        "https://www.swcoast-nsa.gov.tw/zh-tw/news/details/2592"
+      ],
+      "source_scope_review": [
+        {
+          "id": "e026b",
+          "source_scope": "original lookout closure expected through 2026-11-30; Yonghua alternative 09:00-18:00; not a verified P01 camera/navigation point",
+          "place_specific": true
+        }
+      ],
+      "reason": "Unknown safety blocker remains unknown; contract logic only.",
+      "next_evidence_step": "Test runtime separately.",
+      "locale_i18n": null,
+      "locale_ai_review": "NOT_USER_FACING"
+    },
+    {
+      "human_claim_id": "H-tw-026-P01-condition-4",
+      "machine_path_or_fields": "data/v2/opportunities/tw-026-P01.json#/condition_contract/conditions/3",
+      "machine_evidence_claim_ids": [
+        "tw-026-P01-claim-04"
+      ],
+      "human_text": "QUALITY｜適當的晚霞雲層可增加色彩，但不保證每次出現。",
+      "crosswalk_status": "PARTIAL",
+      "evidence_audit_status": "PARTIAL",
+      "evidence_refs": [
+        "e026c"
+      ],
+      "evidence_urls": [
+        "https://www.swcoast-nsa.gov.tw/zh-tw/news/details/1896"
+      ],
+      "source_scope_review": [
+        {
+          "id": "e026c",
+          "source_scope": "salt-pan brine reflection, cloud colors and sunset afterglow; not frequency/threshold",
+          "place_specific": true
+        }
+      ],
+      "reason": "2023 official text describes sunset cloud colors at the place; no probability or cloud threshold.",
+      "next_evidence_step": "Gather dated sky observations before numeric modeling.",
+      "locale_i18n": {
+        "zh-TW": "適當的晚霞雲層可增加色彩，但不保證每次出現。",
+        "en": "Colorful sunset clouds can enhance the scene, but their occurrence is not guaranteed.",
+        "ja": "夕焼け雲は色彩を高めるが、出現は保証されない。"
+      },
+      "locale_ai_review": "AI_SEMANTIC_ALIGNMENT_NOT_HUMAN_PASS"
+    },
+    {
+      "human_claim_id": "H-tw-026-P01-condition-4-threshold",
+      "machine_path_or_fields": "data/v2/opportunities/tw-026-P01.json#/condition_contract/conditions/3/threshold",
+      "machine_evidence_claim_ids": [
+        "tw-026-P01-claim-04"
+      ],
+      "human_text": "unknown",
+      "crosswalk_status": "UNKNOWN",
+      "evidence_audit_status": "UNKNOWN",
+      "evidence_refs": [
+        "e026c"
+      ],
+      "evidence_urls": [
+        "https://www.swcoast-nsa.gov.tw/zh-tw/news/details/1896"
+      ],
+      "source_scope_review": [
+        {
+          "id": "e026c",
+          "source_scope": "salt-pan brine reflection, cloud colors and sunset afterglow; not frequency/threshold",
+          "place_specific": true
+        }
+      ],
+      "reason": "No validated cloud/color threshold.",
+      "next_evidence_step": "Leave null pending calibration.",
+      "locale_i18n": null,
+      "locale_ai_review": "NOT_USER_FACING"
+    },
+    {
+      "human_claim_id": "H-tw-026-P01-condition-4-unknown-policy",
+      "machine_path_or_fields": "data/v2/opportunities/tw-026-P01.json#/condition_contract/conditions/3/unknown_policy",
+      "machine_evidence_claim_ids": [
+        "tw-026-P01-claim-04"
+      ],
+      "human_text": "propagate_unknown",
+      "crosswalk_status": "OK",
+      "evidence_audit_status": "PASS",
+      "evidence_refs": [
+        "e026c"
+      ],
+      "evidence_urls": [
+        "https://www.swcoast-nsa.gov.tw/zh-tw/news/details/1896"
+      ],
+      "source_scope_review": [
+        {
+          "id": "e026c",
+          "source_scope": "salt-pan brine reflection, cloud colors and sunset afterglow; not frequency/threshold",
+          "place_specific": true
+        }
+      ],
+      "reason": "Unknown cloud quality propagates unknown; contract logic only.",
+      "next_evidence_step": "Test runtime separately.",
+      "locale_i18n": null,
+      "locale_ai_review": "NOT_USER_FACING"
+    }
+  ],
+  "safety_hold": {
+    "research_level": "R1",
+    "lifecycle_status": "evidence_review",
+    "condition_status": "review",
+    "condition_thresholds": [
+      null,
+      null,
+      null,
+      null
+    ],
+    "navigation_status": "needs_review",
+    "navigation_lat": null,
+    "navigation_lon": null,
+    "M2": "BLOCKED",
+    "human_evidence_signoff": "PENDING",
+    "human_locale_signoff": "PENDING"
+  },
+  "tests": {
+    "connector_crosswalk": "PASS 36/36",
+    "full_w2_python_unittest": "NOT_RUN",
+    "w1_draft202012validator": "NOT_RUN",
+    "ci": "NOT_RUN"
+  }
+}
