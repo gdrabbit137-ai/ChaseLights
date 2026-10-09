@@ -31,8 +31,12 @@ class PageRefs(HTMLParser):
 
 
 def v2_link(anchor):
-    path = urlparse(anchor.get("href", "")).path
-    return path in ("apps/web-v2/", "./apps/web-v2/", "/apps/web-v2/")
+    """Only a same-site relative V2 route qualifies as the Legacy entry."""
+    href = anchor.get("href", "")
+    parsed = urlparse(href)
+    if parsed.scheme or parsed.netloc or href.startswith("//"):
+        return False
+    return parsed.path in ("apps/web-v2/", "./apps/web-v2/", "/apps/web-v2/")
 
 
 def check_v2_assets(html, exists):
