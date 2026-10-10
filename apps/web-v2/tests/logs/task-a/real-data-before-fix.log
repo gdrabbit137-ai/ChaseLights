@@ -1,0 +1,27 @@
+✖ original Worker 2 canonical records preserve research-only semantics (5.996052ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 134.437181
+
+✖ failing tests:
+
+test at apps/web-v2/tests/worker2-canonical-records.test.mjs:18:3
+✖ original Worker 2 canonical records preserve research-only semantics (5.996052ms)
+  AssertionError [ERR_ASSERTION]: Unresolved claim metadata must never be presented as verified sources
+      at TestContext.<anonymous> (file:///workspace/ChaseLights/apps/web-v2/tests/worker2-canonical-records.test.mjs:49:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
