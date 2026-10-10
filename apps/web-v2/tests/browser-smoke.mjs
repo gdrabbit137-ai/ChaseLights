@@ -18,17 +18,17 @@ const current = originals.find(row => row.opportunity_id === 'tw-026-P01');
 const expected = {
   'zh-TW': {lang:'zh-Hant',title:'ChaseLights V2 — 攝影機會研究',skip:'跳至主要內容',
     aria:['語言選擇','資料來源與時效','景點清單','攝影題材與研究資料'],
-    headline:'從拍攝位置，看見真正的拍攝主體',summary:'研究條件、未知項與證據',
+    headline:'從景點與題材，規劃你的拍攝',summary:'研究條件、未知項與證據',
     notice:'目前沒有可驗證的 V2 即時評估，不提供拍攝適合度或分數。',
     invalid:'資料結構或語系不完整'},
   en: {lang:'en',title:'ChaseLights V2 — Photography research',skip:'Skip to main content',
     aria:['Language selection','Data provenance and freshness','Places list','Photography opportunities and research'],
-    headline:'From camera location to photographic subject',summary:'Research conditions, unknowns and evidence',
+    headline:'Explore places and what to photograph',summary:'Research conditions, unknowns and evidence',
     notice:'No verifiable V2 runtime evaluation; no shooting verdict or score is displayed.',
     invalid:'Invalid structure or incomplete localization'},
   ja: {lang:'ja',title:'ChaseLights V2 — 撮影機会の調査',skip:'メインコンテンツへ移動',
     aria:['言語の選択','資料の出典と更新時刻','撮影地一覧','撮影機会と調査資料'],
-    headline:'撮影地点から被写体まで、関係を明確に',summary:'調査条件・不明点・根拠',
+    headline:'撮影地と題材から、撮影を考える',summary:'調査条件・不明点・根拠',
     notice:'検証可能な V2 実行結果はありません。撮影可否や点数は表示しません。',
     invalid:'構造または翻訳が不完全'}
 };
@@ -70,6 +70,19 @@ async function assertLocale(page, locale) {
   for (const [i,id] of ['language','source-strip','sidebar','detail'].entries())
     assert.equal(await page.locator('#'+id).getAttribute('aria-label'), e.aria[i]);
   assert.equal(await page.locator('.opportunity h3').textContent(), current.name_i18n[locale]);
+  // Photographer decision information precedes optional camera/subject geometry.
+  assert.equal(await page.locator('.decision-core').count(), 1);
+  assert.equal(await page.locator('.decision-risks').count(), 1);
+  assert.equal(await page.locator('.technical .context-grid').count(), 1);
+  assert.equal(await page.locator('.opportunity > .context-grid').count(), 0);
+  const primaryConditions = await page.locator('.decision-core').innerText();
+  for (const condition of current.condition_contract.conditions.filter(x=>x.role==='REQUIRED'||x.role==='QUALITY'))
+    assert.ok(primaryConditions.includes(condition.notes_i18n[locale]), locale+': missing decision condition');
+  const riskText = await page.locator('.decision-risks').innerText();
+  assert.ok(riskText.includes(current.camera_contexts[0].safety_notes_i18n[locale]), locale+': missing access risk');
+  const framing = await page.locator('.framing-note').innerText();
+  assert.ok(framing.length > 20 && !framing.includes('FAVORABLE'), locale+': invalid composition guidance');
+
   assert.equal(await page.locator('.technical summary').textContent(), e.summary);
   assert.equal(await page.locator('.notice').textContent(), e.notice);
   assert.equal(await page.locator('.nav-action').count(), 0);
