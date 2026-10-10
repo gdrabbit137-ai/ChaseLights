@@ -7,9 +7,9 @@ en:{subtitle:"Photography opportunity research",language:"Language",eyebrow:"Ind
 ja:{subtitle:"撮影機会の調査ビュー",language:"言語",eyebrow:"独立した V2 テスト入口",headline:"撮影地点から被写体まで、関係を明確に",intro:"読み込んだ撮影地、構図、観測関係、根拠を確認できます。リアルタイム天気予報ではありません。",mode:"調査／プレビュー",noData:"正式な V2 データは未提供です。架空の撮影地や予報は表示しません。",hasData:"V2 調査データを読み込みました。リアルタイム判定は未接続です。",source:"データ出典",updated:"データ生成日時",loaded:"ローカル読込日時",none:"未提供",unknown:"不明／未提供",importHeading:"V2 調査データを読み込む",importHelp:"Worker 1／2 の V2 JSON を選択してください。サーバーには送信されません。同じフォルダの catalog.v2.json も自動読込できます。",upload:"JSON を選択",places:"撮影地",search:"撮影地または ID を検索",empty:"V2 データ待機中",emptyHelp:"places と opportunities を含む V2 JSON を読み込むと実際の調査記録を表示します。",choose:"左側から撮影地を選択",opportunities:"撮影機会",noneOpp:"この撮影地の V2 撮影機会は未提供です。",camera:"Camera Zone · 撮影位置",subject:"Photo Target · 被写体",access:"Navigation / Access · 到達地点",relation:"Camera ↔ Subject · 観測関係",distance:"距離",azimuth:"方位角",elevation:"仰俯角",time:"季節／時間帯／天体配置",timeMissing:"検証済みの時間帯・太陽・月・天の川の幾何情報は未提供です",runtime:"検証可能な V2 実行結果はありません。撮影可否や点数は表示しません。",runtimeReady:"V2 実行結果",advanced:"調査条件・不明点・根拠",required:"必須条件",blocker:"阻害条件",quality:"品質向上条件",unknowns:"未確認事項",evidence:"根拠資料",notTranslated:"この言語の同等の説明は未提供です",directions:"確認済み到達地点へナビ",map:"暫定座標を地図表示（ナビではありません）",navPending:"確認済み到達地点がないためナビは利用できません",footer:"ChaseLights V2 独立テスト画面。調査記録は日付指定の予報ではありません。",invalid:"V2 JSON を読み込めません：",count:"件",noMatches:"一致する撮影地はありません",dataLabel:"V2 調査 JSON",status:"調査状態",pageTitle:"ChaseLights V2 — 撮影機会の調査",skipToContent:"メインコンテンツへ移動",languageAria:"言語の選択",provenanceAria:"資料の出典と更新時刻",placesAria:"撮影地一覧",opportunitiesAria:"撮影機会と調査資料"}
 };
 const researchCopy={
-"zh-TW":{catalog:"研究來源",imported:"研究匯入時間（不是預報有效時間）",readiness:"研究成熟度",revision:"來源版本",review:"審核狀態",schema:"資料格式版本不相容",invalid:"資料結構或語系不完整",noData:"沒有可匯入的 V2.1 題材",accessNotes:"拍攝區域與安全資訊",missingEvidence:"來源索引尚未提供公開連結"},
-en:{catalog:"Research source",imported:"Research imported (not forecast valid time)",readiness:"Research readiness",revision:"Source revision",review:"Review status",schema:"Unsupported schema version",invalid:"Invalid structure or incomplete localization",noData:"No V2.1 opportunities to import",accessNotes:"Camera access and safety",missingEvidence:"Evidence index has no public URL"},
-ja:{catalog:"調査資料の出典",imported:"調査取込日時（予報有効時刻ではありません）",readiness:"調査の進捗",revision:"出典リビジョン",review:"審査状況",schema:"非対応のスキーマバージョン",invalid:"構造または翻訳が不完全",noData:"読み込める V2.1 撮影機会がありません",accessNotes:"撮影区域・安全情報",missingEvidence:"証拠索引に公開URLがありません"}
+"zh-TW":{catalog:"研究來源",imported:"研究匯入時間（不是預報有效時間）",readiness:"研究成熟度",revision:"來源版本",review:"審核狀態",schema:"資料格式版本不相容",invalid:"資料結構或語系不完整",noData:"沒有可匯入的 V2.1 題材",accessNotes:"拍攝區域與安全資訊",missingEvidence:"來源索引尚未提供公開連結",framingHint:"攝影師可在開放且安全的範圍自行選擇構圖；研究中的拍攝範圍不是指定機位。",conditionsMain:"需要留意的環境與天文條件（非即時判定）",risksMain:"已知限制與風險",unknownMain:"尚待核實",evidenceMain:"研究證據索引",evidenceItems:"筆",seeDetails:"請展開查核來源",technicalGeometry:"拍攝範圍、被攝主體及觀測幾何（研究參考）",riskNotProvided:"尚無可核實的安全資訊，請現場查核"},
+en:{catalog:"Research source",imported:"Research imported (not forecast valid time)",readiness:"Research readiness",revision:"Source revision",review:"Review status",schema:"Unsupported schema version",invalid:"Invalid structure or incomplete localization",noData:"No V2.1 opportunities to import",accessNotes:"Camera access and safety",missingEvidence:"Evidence index has no public URL",framingHint:"Choose your own composition within open, safe areas; a researched camera area is not a prescribed tripod position.",conditionsMain:"Weather and astronomy requirements (not a live assessment)",risksMain:"Known restrictions and risks",unknownMain:"Still unverified",evidenceMain:"Research evidence references",evidenceItems:"entries",seeDetails:"Expand to inspect sources",technicalGeometry:"Camera area, subject and observation geometry (research reference)",riskNotProvided:"Verified safety information is unavailable; check local access"},
+ja:{catalog:"調査資料の出典",imported:"調査取込日時（予報有効時刻ではありません）",readiness:"調査の進捗",revision:"出典リビジョン",review:"審査状況",schema:"非対応のスキーマバージョン",invalid:"構造または翻訳が不完全",noData:"読み込める V2.1 撮影機会がありません",accessNotes:"撮影区域・安全情報",missingEvidence:"証拠索引に公開URLがありません",framingHint:"開放され安全な範囲で構図は撮影者が選べます。調査上の撮影範囲は指定された三脚位置ではありません。",conditionsMain:"気象・天文上の条件（現在の判定ではありません）",risksMain:"既知の制限と危険",unknownMain:"未確認事項",evidenceMain:"調査根拠の参照",evidenceItems:"件",seeDetails:"展開して出典を確認",technicalGeometry:"撮影範囲・被写体・観測幾何（調査上の参考）",riskNotProvided:"確認済みの安全情報はありません。現地の立入条件を確認してください"}
 };
 if (LOCALES.some(l => Object.keys(copy[l]).sort().join("|") !== Object.keys(copy["zh-TW"]).sort().join("|") || Object.keys(researchCopy[l]).sort().join("|") !== Object.keys(researchCopy["zh-TW"]).sort().join("|"))) throw new Error("Incomplete locale UI dictionary");
 const $ = id => document.getElementById(id);
@@ -71,41 +71,73 @@ function renderOpportunity(target,opp,c,place){
   const card=node("article","opportunity");
   const top=node("div","opportunity-head");top.append(node("h3","",name(opp)),node("span","pill",t("mode")));card.append(top,node("p","meta",oid||t("unknown")));
   const rc=researchCopy[state.locale],prov=opp.provenance||{};
+  const description=localized(opp,"description",state.locale);
+  if(description)card.append(node("p","opportunity-description",description));
+  card.append(node("p","framing-note",rc.framingHint));
   card.append(node("p","meta",rc.catalog+": "+(prov.source_catalog||t("unknown"))+" · "+rc.revision+": "+(prov.source_revision||t("unknown"))));
   card.append(node("p","meta",rc.imported+": "+showDate(prov.imported_at)+" · "+rc.readiness+": "+(opp.readiness?.research_level||t("unknown"))+" · "+rc.review+": "+(prov.review_status||t("unknown"))));
   const zones=c.camera_zones.filter(z=>(opp.camera_zone_ids||[]).includes(z.camera_zone_id)||z.opportunity_id===oid);
-  const subjects=c.subject_geometries.filter(s=>(opp.subject_geometry_ids||[]).includes(s.subject_geometry_id)||s.opportunity_id===oid);
+  const subjects=c.subject_geometries.filter(x=>(opp.subject_geometry_ids||[]).includes(x.subject_geometry_id)||x.opportunity_id===oid);
   const relations=c.view_relations.filter(r=>r.opportunity_id===oid);
-  const grid=node("div","context-grid");
-  grid.append(infoBox(t("camera"),zones.map(z=>name(z)+(z.geometry_status==="unknown"?" ["+t("unknown")+"]":"")).join(" · ")||t("unknown")));
-  grid.append(infoBox(t("subject"),subjects.map(s=>name(s)+(geometryType(s)?" ["+geometryType(s)+"]":"")).join(" · ")||t("unknown")));
+  const allConditions=c.conditions.filter(x=>x.opportunity_id===oid);
+  const unknowns=c.unknowns.filter(x=>x.opportunity_id===oid);
+  const refs=new Set([...(opp.evidence_refs||[]),...allConditions.flatMap(x=>x.evidence_refs||[])]);
+  const ev=c.evidence.filter(x=>refs.has(x.evidence_id)||x.opportunity_id===oid);
+
+  // Decision-first layout: research conditions are not current weather observations.
+  const decision=node("section","decision-core");
+  decision.append(node("p","meta",t("time")+": "+(localized(opp,"sky_geometry_summary",state.locale)||localized(opp,"season_time_summary",state.locale)||t("timeMissing"))));
+  decision.append(node("h4","",rc.conditionsMain));
+  for(const [role,title] of [["REQUIRED","required"],["QUALITY","quality"]]){
+    const items=allConditions.filter(x=>x.role===role);
+    if(!items.length)continue;
+    decision.append(node("h5","",t(title)));
+    const ul=node("ul");
+    for(const condition of items)ul.append(node("li","",localized(condition,"human_description",state.locale)||label(condition,"description")));
+    decision.append(ul);
+  }
+  const risk=node("section","decision-risks");
+  risk.append(node("h4","",rc.risksMain));
+  const riskItems=[
+    ...allConditions.filter(x=>x.role==="BLOCKER").map(x=>localized(x,"human_description",state.locale)||label(x,"description")),
+    ...zones.map(x=>localized(x,"safety_notes",state.locale)).filter(Boolean)
+  ];
+  if(riskItems.length){const ul=node("ul");for(const item of [...new Set(riskItems)])ul.append(node("li","",item));risk.append(ul);}
+  else risk.append(node("p","muted",rc.riskNotProvided));
+  card.append(decision,risk);
+  if(unknowns.length){const unknown=node("section","decision-unknowns");unknown.append(node("h4","",rc.unknownMain));const ul=node("ul");for(const x of unknowns)ul.append(node("li","",localized(x,"text",state.locale)||t("notTranslated")));unknown.append(ul);card.append(unknown);}
+  card.append(node("p","meta",rc.evidenceMain+": "+ev.length+" "+rc.evidenceItems+" · "+rc.seeDetails));
+
+  // Arrival navigation is distinct from camera context and the photographed subject.
   const nav=place.navigation_target||opp.navigation_target||null;
-  grid.append(infoBox(t("access"),localized(nav,"label",state.locale,true)||nav?.status||t("unknown")));
-  card.append(grid);
   const action=navigationAction(nav);
-  if(action){const a=node("a","nav-action",t(action.kind));a.href=action.url;a.target="_blank";a.rel="noopener noreferrer";card.append(a);}
+  if(action&&action.kind==="directions"){const a=node("a","nav-action",t("directions"));a.href=action.url;a.target="_blank";a.rel="noopener noreferrer";card.append(a);}
   else card.append(node("p","nav-disabled",t("navPending")));
-  card.append(node("p","relation",t("relation")+": "+(relations.length?relations.map(relationText).join(" | "):t("unknown"))));
-  const sky=node("p","meta",t("time")+": "+(localized(opp,"sky_geometry_summary",state.locale)||localized(opp,"season_time_summary",state.locale)||t("timeMissing")));card.append(sky);
   const evalRow=c.evaluations.find(e=>e.opportunity_id===oid);
   const runtime=runtimeEvaluation(evalRow);
   card.append(node("p",runtime?"meta":"notice",runtime?(t("runtimeReady")+": "+(localized(runtime,"verdict",state.locale)||t("unknown"))):t("runtime")));
+
+  // Geometric/camera research stays available, but never implies a mandatory viewpoint.
   const details=node("details","technical");details.append(node("summary","",t("advanced")));
   const group=node("div","");
-  if(zones.length){group.append(node("h4","",researchCopy[state.locale].accessNotes));const ul=node("ul");for(const z of zones)ul.append(node("li","",name(z)+": "+(localized(z,"access_notes",state.locale)||t("notTranslated"))+" · "+(localized(z,"safety_notes",state.locale)||t("notTranslated"))));group.append(ul);}
+  group.append(node("h4","",rc.technicalGeometry));
+  const grid=node("div","context-grid");
+  grid.append(infoBox(t("camera"),zones.map(z=>name(z)+(z.geometry_status==="unknown"?" ["+t("unknown")+"]":"")).join(" · ")||t("unknown")));
+  grid.append(infoBox(t("subject"),subjects.map(x=>name(x)+(geometryType(x)?" ["+geometryType(x)+"]":"")).join(" · ")||t("unknown")));
+  grid.append(infoBox(t("access"),localized(nav,"label",state.locale,true)||nav?.status||t("unknown")));
+  group.append(grid);
+  group.append(node("p","relation",t("relation")+": "+(relations.length?relations.map(relationText).join(" | "):t("unknown"))));
+  if(zones.length){group.append(node("h4","",rc.accessNotes));const ul=node("ul");for(const z of zones)ul.append(node("li","",name(z)+": "+(localized(z,"access_notes",state.locale)||t("notTranslated"))+" · "+(localized(z,"safety_notes",state.locale)||t("notTranslated"))));group.append(ul);}
   for(const [role,title] of [["REQUIRED","required"],["BLOCKER","blocker"],["QUALITY","quality"]]){
-    const items=c.conditions.filter(x=>x.opportunity_id===oid&&x.role===role);
+    const items=allConditions.filter(x=>x.role===role);
     if(!items.length)continue;
     group.append(node("h4","",t(title)));
     const ul=node("ul");
-    for(const condition of items){const li=node("li","",localized(condition,"human_description",state.locale)||label(condition,"description"));ul.append(li);}
+    for(const condition of items)ul.append(node("li","",localized(condition,"human_description",state.locale)||label(condition,"description")));
     group.append(ul);
   }
-  const unknowns=c.unknowns.filter(x=>x.opportunity_id===oid);
-  if(unknowns.length){group.append(node("h4","",t("unknowns")));const ul=node("ul");for(const u of unknowns)ul.append(node("li","",localized(u,"text",state.locale)||t("notTranslated")));group.append(ul);}
-  const refs=new Set([...(opp.evidence_refs||[]),...c.conditions.filter(x=>x.opportunity_id===oid).flatMap(x=>x.evidence_refs||[])]);
-  const ev=c.evidence.filter(x=>refs.has(x.evidence_id)||x.opportunity_id===oid);
-  if(ev.length){group.append(node("h4","",t("evidence")));const ul=node("ul");for(const item of ev){const li=node("li","",item.evidence_id+" · "+(item.source||item.title||t("unknown"))+" ");appendLink(li,item.url,item.url);if(!item.url)li.append(node("span","muted"," · "+researchCopy[state.locale].missingEvidence));ul.append(li);}group.append(ul);}
+  if(unknowns.length){group.append(node("h4","",t("unknowns")));const ul=node("ul");for(const x of unknowns)ul.append(node("li","",localized(x,"text",state.locale)||t("notTranslated")));group.append(ul);}
+  if(ev.length){group.append(node("h4","",t("evidence")));const ul=node("ul");for(const item of ev){const li=node("li","",item.evidence_id+" · "+(item.source||item.title||t("unknown"))+" ");appendLink(li,item.url,item.url);if(!item.url)li.append(node("span","muted"," · "+rc.missingEvidence));ul.append(li);}group.append(ul);}
   details.append(group);card.append(details);target.append(card);
 }
 render();
