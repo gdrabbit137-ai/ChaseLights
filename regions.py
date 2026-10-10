@@ -2275,6 +2275,24 @@ NAVIGATION_TARGET_OVERRIDES = {
             "ja": "撮影 Camera Zone は西穂高口山頂エリアのため、山頂座標を道路ナビの目的地として扱いません。",
         },
     },
+    "新穗高高空纜車": {
+        "status": "verified",
+        "lat": 36.2858894,
+        "lon": 137.5753158,
+        "target_type": "station",
+        "label_i18n": {
+            "zh-TW": "新穗高纜車・新穗高溫泉站",
+            "en": "Shinhotaka Ropeway · Shinhotaka Onsen Station",
+            "ja": "新穂高ロープウェイ・新穂高温泉駅",
+        },
+        "source": "Shinhotaka Ropeway official access/facility pages identify Shinhotaka Onsen Station as the No. 1 Ropeway base with adjacent parking and bus access; MapFan exact station coordinate 36.2858894,137.5753158; cross-checked against 2026 geotagged station-area imagery; reviewed 2026-10-07",
+        "confidence": "medium",
+        "note_i18n": {
+            "zh-TW": "導航終點是第1纜車山麓的新穗高溫泉站，不是海拔2,156公尺的西穗高口 Camera Zone。官方資料顯示車站旁有停車場與巴士站；纜車是否營運仍以當日官方狀態為準。",
+            "en": "Directions use Shinhotaka Onsen Station at the base of Ropeway No. 1, not the 2,156 m Nishi-Hotakaguchi Camera Zone. Official information lists adjacent parking and bus access; current ropeway operating status still controls summit access.",
+            "ja": "ナビは第1ロープウェイ山麓の新穂高温泉駅を使用し、標高2,156mの西穂高口 Camera Zone には案内しません。公式案内では駅隣接駐車場とバス乗り場が確認でき、山頂への到達可否は当日のロープウェイ運行状況を優先します。",
+        },
+    },
     "彌彥山": {
         "status": "multiple_access_routes",
         "target_type": "camera_zone_or_place_anchor",
