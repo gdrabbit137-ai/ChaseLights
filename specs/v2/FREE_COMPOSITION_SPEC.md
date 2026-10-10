@@ -1,33 +1,39 @@
-# ChaseLights V2 — Free composition and geometry-dependent conditions
+# ChaseLights V2 — Free composition and optional viewpoint policy
 
-Status: Draft; W1-owned normative contract upon merge. Follow latest main AGENTS.md, RESEARCH_EVIDENCE_SPEC_R4_2.md, NAVIGATION_SPEC_R4_2.md and canonical v2.1 schema.
+Status: proposed W1 normative V2 contract; binding only after review and merge. Read alongside latest main `AGENTS.md`, `RESEARCH_EVIDENCE_SPEC_R4_2.md`, `NAVIGATION_SPEC_R4_2.md`, and canonical v2.1 schema.
 
-## Per-opportunity composition dependency
+## Default: the photographer chooses the composition
 
-A Place or PhotographyOpportunity does not inherently require a fixed camera point. Classify composition dependencies per opportunity and, where needed, per condition:
+For ordinary Place-specific Photography Opportunities, the photographer normally chooses framing within a researched, lawfully accessible area or route. A fixed tripod location, precise verified Camera GPS, unique camera-to-target azimuth/distance/elevation, recommended viewpoint, or explicit FIXED/FREE/MOBILE classification is **not** a prerequisite for Opportunity research, R1 research-only delivery, general forecast evaluation or acceptance. Do not impose a classification enum or a breaking schema requirement. Composition dependencies are identified **only where a particular claim requires them**.
 
-- FIXED_COMPOSITION: a claim depends on precise alignment, foreground, reflection, occlusion or other camera-to-target geometry; an unknown essential geometry-dependent condition remains UNKNOWN/NOT_EVALUABLE.
-- FREE_COMPOSITION: the photographer may select framing within a researched and legally accessible field. Do not require one precise Camera GPS, unique camera-to-target azimuth, distance or elevation angle for conditions that do not depend on them.
-- MOBILE_COMPOSITION: position changes along a route or aboard a platform; one coordinate must not be misrepresented as a verified complete trajectory.
+A Place-specific subject/existence claim still needs evidence appropriate to its geographic scope under R4.2. An Opportunity is not established by weather or a generic landscape tag. Do not infer public access from an area or fabricate a polygon for an unknown access boundary. Existing CameraContext.kind values are `point`, `area`, `route`, and `mobile_platform`; the v2.1 schema requires a `geometry` envelope but permits `status=unknown` and `geojson=null`. For a mobile platform or route, one point cannot stand in for a verified trajectory.
 
-These are conceptual classifications, not new enum values. A Place can support several classes and an Opportunity can mix independent regional and geometry-dependent conditions.
+## Optional candidate viewpoints, not verified facts
 
-## Canonical representation without breaking schema changes
+W2 may research, infer or calculate candidate viewpoints as **nonblocking enrichment**, with source provenance, assumptions, confidence, positional precision, and access uncertainty. Clearly distinguish a calculated/representative candidate from an observed, separately verified camera location. A candidate must not be described as uniquely optimal, upgraded to verified GPS, or used as a Directions destination without independent navigation/access evidence. Missing candidate viewpoints do not block R1 research-only delivery or independent area-level conditions.
 
-The v2.1 CameraContext.kind already supports point, area, route and mobile_platform. Its geometry envelope is required, but precise geojson may be null with an honest unknown/provisional status. Do not invent boundaries, polygons, GPS, routes or platform tracks. PhotographyTarget remains distinct; dynamic sky need not have fixed subject geometry. ObservationRelation may be empty where a fixed camera-to-target relation is unsupported. NavigationTarget remains independent; Directions require separately verified practical arrival coordinates and access evidence, never an inferred camera position or keyword fallback.
+CameraContext, PhotographyTarget, ObservationRelation and NavigationTarget remain separate. An ObservationRelation may be absent when a fixed camera-to-target relation is not supported. NavigationTarget describes a practical arrival point, not the subject or an inferred camera location. Directions are allowed only for independently verified lawful arrival targets with coordinates and evidence; never use a place keyword as a fallback. Access restrictions, closures and safety remain separately applicable.
 
-## Independent evaluation and fail-closed policy
+## Per-condition evaluation and fail-closed behavior
 
-Weather, astronomy, season and other area-level conditions may be evaluated independently of fixed camera geometry, provided their own evidence, approved condition contract, provider coverage, freshness and thresholds are sufficient. Unknown composition geometry makes only dependent conditions UNKNOWN/NOT_EVALUABLE, not every condition in a free-composition Opportunity. An unknown REQUIRED/BLOCKER condition essential to the selected claim still prevents FAVORABLE. Never waive a genuinely essential alignment requirement or treat GUIDANCE/provisional, missing model_binding/threshold, research-only or test-only data as a live favorable recommendation.
+For an ordinary regional WEATHER, ASTRONOMY, SEASON_TIME or environmental condition, evaluate independently of precise camera GPS **only when** that condition's prerequisites are actually met: researched Place-specific claim, appropriate real provider, spatial coverage/representativeness, freshness, approved AUTO contract, scientifically justified threshold/model binding, and applicable access/safety. If required provider, calibration, threshold, freshness or coverage is missing, return UNKNOWN/NOT_EVALUABLE; do not manufacture a favorable result. GUIDANCE, provisional or null threshold/model binding and research-only/test-only records never authorize live FAVORABLE.
 
-Place-specific evidence must establish that the subject and photographic field actually exist; legal access must be separately supported. Unknown accessible boundaries cannot be replaced by invented polygons. Structural schema PASS does not certify research, access, sources, semantic localization or runtime availability.
+Only an **explicit precision-composition claim** (such as a sun alignment between specific buildings, reflection from a defined camera position, or a named-peak alignment) requires its own supported camera/target geometry. When necessary geometry is unknown, only that claim/condition becomes UNKNOWN/NOT_EVALUABLE; independently evaluable regional conditions are not invalidated. However, if the unknown precision condition is a REQUIRED/BLOCKER condition for the **selected overall claim**, it still prevents that overall claim from becoming FAVORABLE. Favorable regional weather alone never proves an exact composition or subject presence.
 
-## Examples and language parity
+**R4.2 §4.1 sea-of-clouds exception:** A forecast-derived cloud-sea *environmental state* requires a known Camera Zone coordinate, surrounding/target spatial and vertical weather samples, terrain separation and the other §4.1 gates. Free composition does not waive these specific spatial-model prerequisites. This does **not** impose a unique fixed tripod point or precise alignment on ordinary Opportunities, and does not prove a scenic composition, access or safety. Missing spatial inputs fail closed for that derived condition only.
 
-Positive structural-only example: CameraContext kind=area with geometry.kind=area, status=unknown, geojson=null, no fixed ObservationRelation, and a separate regional GUIDANCE condition. This may be a structurally valid research draft but is not live FAVORABLE.
+## Synthetic contract examples (not live forecasts)
 
-Negative examples: rejecting this research draft solely for lacking a precise GPS or unique azimuth; claiming verified Directions without separate navigation evidence; or upgrading provisional GUIDANCE to live FAVORABLE. A truly geometry-dependent required condition with unknown alignment must still fail closed.
+- **Positive, structural only:** `CameraContext.kind=area`, `geometry.kind=area`, `geometry.status=unknown`, `geojson=null`, empty `observation_relations`, and a regional `GUIDANCE` condition with null threshold/model binding can be a valid *research draft*. It is **not** live FAVORABLE.
+- **Positive, evaluator acceptance for W3:** An independently researched ordinary regional condition with valid approved AUTO binding, real provider, coverage, freshness and threshold must remain eligible for evaluation when exact camera GPS is absent.
+- **Negative, evaluator acceptance for W3:** An explicit precision-alignment condition without required geometry is UNKNOWN/NOT_EVALUABLE, without poisoning a separate ordinary regional condition; a required unknown still blocks overall FAVORABLE.
+- **Negative, navigation:** A candidate viewpoint or unverified arrival point must never generate verified Directions.
+- **Negative, research/runtime:** Unproven subject existence, unverified access, provisional GUIDANCE or missing threshold/model binding must not be promoted to a live recommendation.
 
-Photographer-facing copy must be semantically equivalent in zh-TW/en/ja, for example 「可在已確認開放的區域內自行取景」 / “Choose your composition within the confirmed accessible area” / 「立ち入り可能と確認された範囲内で自由に構図を選べます」. Do not claim confirmed access unless verified.
+Example: Jingzaijiao salt fields can support general salt-field sunset photography when supported by Place-specific evidence. A photographer chooses a permitted composition; any particular reflection/alignment is a separately evidenced claim. Weather and sun timing are not proof of reflective geometry, and a candidate viewpoint is not automatically a verified arrival point.
 
-W1 owns specs/v2 only; W2 data, W3 evaluation, W4 UI, W5 CI/integration. Preserve Legacy/V2 isolation; do not build automated Legacy/V2 comparison.
+## Worker acceptance and localization
+
+W1 owns schema/spec and structural tests only; W2 owns researched catalog and optional viewpoint enrichment; W3 owns runtime evaluator regression for independent regional AUTO versus precision-geometry UNKNOWN; W4 owns UI copy; W5 owns integration/CI/review gates. W3 PR #441 and W5 PR #437 must test the evaluator and cross-owner integration at the exact relevant HEADs; W1 structural tests alone cannot prove runtime behavior.
+
+All user-visible content must be semantically equivalent in zh-TW, en and ja; e.g. 「可在已確認開放的區域內自行取景」 / “Choose your composition within the confirmed accessible area” / 「立ち入り可能と確認された範囲内で自由に構図を選べます」. Never claim confirmed access unless independently verified. Preserve Legacy/V2 isolation and do not build automatic Legacy/V2 comparisons.
