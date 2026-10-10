@@ -1,0 +1,217 @@
+{
+  "audit_version": "worker2-batch03-v2.1-draft",
+  "as_of": "2026-10-09",
+  "main_sha_at_review": "8901f31e9a3d669ab76d10ce6d481ff034ad5113",
+  "schema_source": "Worker1 draft PR #428 (schema 2.1.0, not in main)",
+  "legacy_catalog_manifest": {
+    "places": 216,
+    "opportunities": 428,
+    "canonical_import_complete": false
+  },
+  "offline_inventory": {
+    "worker2_places": 43,
+    "worker2_opportunities": 85,
+    "other_worker_shards": "not available; no synchronization claim"
+  },
+  "audited_places": [
+    {
+      "id": "tw-016",
+      "opportunities": [
+        "tw-016-P01"
+      ],
+      "status": "staged_evidence_review",
+      "gap": "Exact camera and navigation geometry unknown"
+    },
+    {
+      "id": "tw-021",
+      "opportunities": [
+        "tw-021-P01",
+        "tw-021-P02"
+      ],
+      "status": "hold",
+      "gap": "Tea garden camera access/permission and exact sunrise geometry unverified"
+    },
+    {
+      "id": "tw-026",
+      "opportunities": [
+        "tw-026-P01",
+        "tw-026-P02",
+        "tw-026-P03"
+      ],
+      "status": "partial_staged",
+      "gap": "P03 water/reflection conditions still pending canonical translation; temporary closure must be refreshed"
+    },
+    {
+      "id": "tw-031",
+      "opportunities": [
+        "tw-031-P01",
+        "tw-031-P02"
+      ],
+      "status": "hold",
+      "gap": "P01 official mountain-view evidence, but trail status source conflict; mist P02 lacks independent formation proof"
+    },
+    {
+      "id": "tw-036",
+      "opportunities": [
+        "tw-036-P01",
+        "tw-036-P02",
+        "tw-036-P03"
+      ],
+      "status": "hold",
+      "gap": "Sunrise public camera, Milky Way geometry, and northward cloud subject not adequately verified"
+    }
+  ],
+  "staged_opportunity_ids": [
+    "tw-016-P01",
+    "tw-026-P01",
+    "tw-026-P02"
+  ],
+  "not_staged_ids": [
+    "tw-021-P01",
+    "tw-021-P02",
+    "tw-026-P03",
+    "tw-031-P01",
+    "tw-031-P02",
+    "tw-036-P01",
+    "tw-036-P02",
+    "tw-036-P03"
+  ],
+  "evidence": [
+    {
+      "id": "e016a",
+      "grade": "A",
+      "kind": "official_text_photo",
+      "url": "https://www.forest.gov.tw/0000304",
+      "supports": "Yanzui rock ridges and designated trail; rock scrambling and cliffs",
+      "limitation": "Not an exact camera polygon or GPS"
+    },
+    {
+      "id": "e016b",
+      "grade": "B",
+      "kind": "photo",
+      "url": "https://hiking.biji.co/index.php?act=info&q=review&review_id=46263",
+      "image_url": "https://pimg.1px.tw/jinra/1678078701-3034176771-g.jpg",
+      "platform": "健行筆記",
+      "author": "jinra account path (not independently verified)",
+      "capture_date": null,
+      "supports": "Rock ridge in foreground and mountain layers in background",
+      "limitation": "Cannot infer GPS, bearing, season, time or thresholds"
+    },
+    {
+      "id": "e021a",
+      "grade": "A",
+      "kind": "official_text",
+      "url": "https://travel.nantou.gov.tw/attractions/bukai/",
+      "supports": "Cloud sea in Wujie gorge",
+      "limitation": "Specific tea-garden camera and permission not established"
+    },
+    {
+      "id": "e021b",
+      "grade": "C",
+      "kind": "photo",
+      "url": "https://paicj.pixnet.net/blog/posts/11407261257",
+      "image_url": "https://pimg.1px.tw/paicj/1749652097-3062706016-g.jpg",
+      "platform": "痞客邦",
+      "author": "paicj account path",
+      "capture_date": null,
+      "supports": "Tea plantation and cloud layers as research lead",
+      "limitation": "Unverified camera ownership/access; not production proof"
+    },
+    {
+      "id": "e026a",
+      "grade": "A",
+      "kind": "official_text_photo",
+      "url": "https://www.swcoast-nsa.gov.tw/zh-tw/attraction/details/000369",
+      "supports": "Sunset and mirror-like salt-pan reflections",
+      "limitation": "No precise camera point, sunset bearing or wind threshold"
+    },
+    {
+      "id": "e026b",
+      "grade": "A",
+      "kind": "official_notice",
+      "url": "https://www.swcoast-nsa.gov.tw/zh-tw/news/details/2592",
+      "published": "2026-09-02",
+      "supports": "Original lookout closure planned through 2026-11-30, alternative Yonghua observation platform",
+      "limitation": "Must refresh status after published end date"
+    },
+    {
+      "id": "e026c",
+      "grade": "A",
+      "kind": "official_text",
+      "url": "https://www.swcoast-nsa.gov.tw/zh-tw/news/details/1896",
+      "supports": "Brine reflections, salt mounds and colorful afterglow",
+      "limitation": "No quantified weather threshold"
+    },
+    {
+      "id": "e026d",
+      "grade": "A",
+      "kind": "photo",
+      "url": "https://www.tainan.gov.tw/News_Content.aspx?n=13370&s=8717068",
+      "image_url": "https://w3fs.tainan.gov.tw/001/Upload/1/relpic/9748/8717068/b46efcab-cb3c-474f-b12f-302e91f48629%40710x470.jpg",
+      "platform": "臺南市政府",
+      "author": null,
+      "capture_date": null,
+      "supports": "Patterned salt ponds, mounds and reflections in same image",
+      "limitation": "Pictured platform's current access and photo camera GPS unknown"
+    },
+    {
+      "id": "e031a",
+      "grade": "A",
+      "kind": "official_text_photo",
+      "url": "https://www.forest.gov.tw/0000266",
+      "supports": "Terminal platform, bamboo grass ridges, Lanyang Plain and Snow Mountain Range",
+      "limitation": "Two opposite directions must not be assumed same frame"
+    },
+    {
+      "id": "e031b",
+      "grade": "A",
+      "kind": "official_news",
+      "url": "https://yilan.forest.gov.tw/0000870/0077673",
+      "published": "2026-01-04",
+      "supports": "Trail is popular for Matcha Mountain photography; mountain safety",
+      "limitation": "Not live trail operating status"
+    },
+    {
+      "id": "e031c",
+      "grade": "A",
+      "kind": "photo",
+      "url": "https://yilan.forest.gov.tw/0000137",
+      "image_url": "https://yilan.forest.gov.tw/Attachments/ArticlePicture/10000266/Img/45d0cccdd7bf4121b5cbe4244a3c46bc.jpg",
+      "platform": "林業及自然保育署宜蘭分署",
+      "author": null,
+      "capture_date": null,
+      "supports": "Bamboo-grass slopes, hut and ridgeline in one scene",
+      "limitation": "No exact camera coordinate or current access"
+    },
+    {
+      "id": "e031d",
+      "grade": "A",
+      "kind": "government_open_data",
+      "url": "https://media.taiwan.net.tw/en-us/portal/travel/details/trail_345040000g_000900",
+      "supports": "Tourism feed lists permanently closed",
+      "limitation": "Conflicts with forest agency's 2026 active trail maintenance; source conflict"
+    },
+    {
+      "id": "e036a",
+      "grade": "C",
+      "kind": "photo",
+      "url": "https://hotel.liontravel.com/detail/tw-hua-lien-city-i-see-u-inn?hotelCode=TWHUN384",
+      "image_url": "https://static.liontech.com.tw/hotelpics/TW/TWHUN384/TWHUN384_VIEW.jpg",
+      "platform": "雄獅旅遊飯店頁",
+      "author": null,
+      "capture_date": null,
+      "supports": "Pebble-beach sunrise visual research lead",
+      "limitation": "Not proof of public 七星潭 Camera Zone, date or geotag"
+    }
+  ],
+  "photo_analysis_note": "Reviewed visible photo composition, not EXIF/GPS. No source photo establishes exact tripod position, bearing, season or numerical threshold.",
+  "release_gate": {
+    "approved": 0,
+    "requires": [
+      "Worker1 #428 schema merge",
+      "CI schema/crosswalk tests",
+      "human zh-TW/en/ja semantic audit",
+      "place-specific access and geometry review"
+    ]
+  }
+}
