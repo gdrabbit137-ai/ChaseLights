@@ -1,0 +1,17 @@
+# ChaseLights V2 — Blockers and next acceptance
+
+Snapshot: 2026-10-09 08:56 Asia/Taipei. Owner: Worker 5.
+Latest main observed: `8bc862859de0795e44a29aaa35ed9e7cac98669d`.
+All M1–M5 remain unaccepted. These are integration observations, not a production readiness claim.
+
+| Priority | Owner | Verified blocker / dependency | Direct next action | Acceptance evidence |
+| --- | --- | --- | --- | --- |
+| P0 | W1 | PR #428 head `50d503d2c6f6c46ef27afa950b71d4abaf075583` remains Draft; 11 commits ahead / 45 behind latest main. Now includes `specs/v2/tests/test_schema_smoke.py`, but no GitHub PR workflow runs or commit statuses. Reference-integrity test checks an altered ID manually rather than invoking an enforcing validator. | Keep schema owner; strengthen actual reference-integrity rejection and negative fixtures, establish independent spec CI, reconcile latest main and complete review. | Real negative reference failure, PR checks green, non-Draft, spec review, safe merge SHA. |
+| P1 | W2 | Branch `v2/worker2-canonical-batch03-20261009` has 3 staged Opportunities and 3 crosswalk JSONLs; **old missing-file diagnosis is resolved** (test now uses `CROSSWALK_FILES`). Its `SchemaGate` explicitly fails while `specs/v2/` is absent. | Run crosswalk tests separately from blocked schema gate; validate all three against merged W1 schema, review actual evidence and locale semantic equivalence. | Passing reproducible schema/crosswalk checks plus human evidence audit; no research-only to forecast promotion. |
+| P0 | W3 | `w3/v2-m3-evaluator-20261009` differs from main only by `packages/core-v2/README.md`; no `evaluator.py` or tests. | Deliver deterministic evaluator + positive/negative/unknown unit tests in Worker3 packages ownership; then attach legal real weather/astronomy source and source/valid-time contract. | Executable test output, provider provenance, one genuine condition-to-decision trace. |
+| P1 | W4 | `worker4/v2-website-v21-m4-20261009` contains `catalog-loader.mjs` and V2.1 import tests, but no main deployment and no Worker3 live evaluation. | Import Worker2 real data after schema gate; retain research-only/no-data state, test zh-TW/en/ja and 390/1280px; do not fabricate recommendations. | Real data integration tests, public V2 URL, mobile/desktop browser smoke. |
+| P1 | W5 | Integration gate and six unit tests are committed on `worker5/v2-integration-ci-20261009-0659`; public browser smoke committed as `521c8cc72590ac12718e96005ad1c9b5a96b83e9`. Workflow file and PR creation both explicitly rejected by tool safety checks; no CI green. | Preserve local workflow candidate and tests, seek permitted CI workflow/PR path; only deploy after spec/data/runtime/web gates. | GitHub CI checks, successful V2 deployment and public HTTP/browser verification. |
+
+GitHub Pages `pages build and deployment` run `37865956664` succeeded for main/Legacy only; this does **not** establish V2 deployment. Public `chaselights.app` DNS resolution failed in this execution environment, so public V2 smoke remains unverified (not evidence that the site is down).
+
+Do not move/delete Legacy root, change its forecast/runtime, or add a V2 link before real public V2 HTTP + browser smoke. Only one zh-TW/en/ja localized Legacy link is allowed after readiness. No automated old-vs-new forecast comparison. All workers must re-read current main, R4.2, V2 specs and PR/CI gates before merge.
