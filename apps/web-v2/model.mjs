@@ -43,7 +43,6 @@ export function navigationAction(nav) {
     if (!Array.isArray(nav.evidence_refs) || nav.evidence_refs.length===0 || !["entrance","trailhead","parking","station","street_access","viewpoint"].includes(nav.target_type)) return null;
     return {kind:"directions",url:"https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(coords)};
   }
-  if (nav.status === "provisional_camera_anchor") return {kind:"map",url:"https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(coords)};
   return null;
 }
 export function geometryType(record) {
