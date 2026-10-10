@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/gdrabbit137-ai/ChaseLights/blob/main/specs/v2/schema/evaluation-result-v0.1.schema.json",
   "title": "ChaseLights V2 EvaluationResult v0.1",
-  "description": "Separate timestamped runtime output; not canonical research readiness. Structural validation alone never certifies live recommendations.",
+  "description": "Separate timestamped runtime output; not canonical research readiness. Structural validation alone never certifies live recommendations. FAVORABLE requires structurally evidenced critical AUTO conditions and provider runs; semantic validation must independently verify canonical approval, thresholds, model bindings and externally approved provider runs.",
   "type": "object",
   "required": [
     "evaluation_result_version",
@@ -330,6 +330,145 @@
           "status": {
             "not": {
               "const": "FAVORABLE"
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "FAVORABLE"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "freshness": {
+            "const": "FRESH"
+          },
+          "runtime_availability": {
+            "enum": [
+              "FULL",
+              "LIMITED"
+            ]
+          },
+          "model": {
+            "type": "object"
+          },
+          "provider_runs": {
+            "minItems": 1
+          },
+          "provenance": {
+            "properties": {
+              "test_only": {
+                "const": false
+              }
+            }
+          },
+          "conditions": {
+            "contains": {
+              "properties": {
+                "role": {
+                  "enum": [
+                    "REQUIRED",
+                    "BLOCKER"
+                  ]
+                },
+                "evaluation_mode": {
+                  "const": "AUTO"
+                },
+                "verdict": {
+                  "enum": [
+                    "PASS",
+                    "FAIL"
+                  ]
+                },
+                "provider_run_refs": {
+                  "minItems": 1
+                }
+              },
+              "required": [
+                "role",
+                "evaluation_mode",
+                "verdict",
+                "provider_run_refs"
+              ]
+            },
+            "minContains": 1,
+            "items": {
+              "allOf": [
+                {
+                  "if": {
+                    "properties": {
+                      "role": {
+                        "enum": [
+                          "REQUIRED",
+                          "BLOCKER"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "role"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "evaluation_mode": {
+                        "const": "AUTO"
+                      },
+                      "verdict": {
+                        "enum": [
+                          "PASS",
+                          "FAIL"
+                        ]
+                      },
+                      "provider_run_refs": {
+                        "minItems": 1
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "live_recommendation": {
+            "const": true
+          }
+        },
+        "required": [
+          "live_recommendation"
+        ]
+      },
+      "then": {
+        "properties": {
+          "status": {
+            "const": "FAVORABLE"
+          },
+          "unknown_reasons": {
+            "maxItems": 0
+          },
+          "freshness": {
+            "const": "FRESH"
+          },
+          "provider_runs": {
+            "minItems": 1
+          },
+          "provenance": {
+            "properties": {
+              "test_only": {
+                "const": false
+              }
             }
           }
         }
