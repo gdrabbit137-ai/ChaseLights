@@ -53,7 +53,7 @@ class TestEvaluator(unittest.TestCase):
         self.assertEqual(result["decision"], "TEST_ONLY_CONDITIONS_MET")
         self.assertIs(result["live_recommendation"], False)
 
-    def test_precision_alignment_missing_geometry_is_claim_only_unknown(self):
+    def test_required_geometry_unknown_cannot_pass_entire_contract(self):
         precision = condition("solar_alignment", "REQUIRED")
         precision["domain"] = "GEOMETRY_COMPOSITION"
         contract = {"status": "approved", "conditions": [
@@ -61,11 +61,37 @@ class TestEvaluator(unittest.TestCase):
             precision]}
         result = self.run_case({"req": obs(True), "block": obs(False),
                                 "solar_alignment": obs(True)}, contract=contract)
-        self.assertEqual(result["decision"], "TEST_ONLY_CONDITIONS_MET")
+        self.assertEqual(result["decision"], "UNKNOWN")
+        self.assertTrue(result["unknown"])
         trace = next(t for t in result["conditions"]
                      if t["condition_id"] == "solar_alignment")
         self.assertEqual(trace["state"], "UNKNOWN")
         self.assertEqual(trace["reason"], "PRECISION_COMPOSITION_NOT_EVALUABLE")
+        self.assertIn("PRECISION_COMPOSITION_NOT_EVALUABLE", result["reasons"])
+        self.assertIs(result["live_recommendation"], False)
+
+    def test_blocker_geometry_unknown_cannot_silently_pass(self):
+        precision = condition("reflection_geometry", "BLOCKER")
+        precision["domain"] = "GEOMETRY_COMPOSITION"
+        contract = {"status": "approved", "conditions": [
+            condition("req", "REQUIRED"), condition("block", "BLOCKER"),
+            precision]}
+        result = self.run_case({"req": obs(True), "block": obs(False),
+                                "reflection_geometry": obs(False)}, contract=contract)
+        self.assertEqual(result["decision"], "UNKNOWN")
+        self.assertTrue(result["unknown"])
+        self.assertIn("PRECISION_COMPOSITION_NOT_EVALUABLE", result["reasons"])
+        self.assertIs(result["live_recommendation"], False)
+
+    def test_weather_astronomy_without_geometry_remains_test_evaluable(self):
+        astro = condition("astronomy", "REQUIRED")
+        astro["domain"] = "ASTRONOMY"
+        contract = {"status": "approved", "conditions": [
+            condition("req", "REQUIRED"), condition("block", "BLOCKER"), astro]}
+        result = self.run_case({"req": obs(True), "block": obs(False),
+                                "astronomy": obs(True)}, contract=contract)
+        self.assertEqual(result["decision"], "TEST_ONLY_CONDITIONS_MET")
+        self.assertFalse(result["unknown"])
         self.assertIs(result["live_recommendation"], False)
 
     def test_only_precision_claim_cannot_be_general_opportunity_pass(self):

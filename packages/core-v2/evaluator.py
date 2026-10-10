@@ -101,16 +101,18 @@ def evaluate(contract, observations, readiness):
                    for mode in MODES} for role in ROLES}
     for trace in traces:
         axes[trace["role"]][trace["evaluation_mode"]][trace["state"]] += 1
-    # Explicit precision-composition claims are optional independent outputs.
-    # Their unknown geometry must not poison independently evaluable ordinary
-    # regional conditions; a composition-only contract cannot pass by itself.
-    ordinary = [t for t in traces if t["domain"] != "GEOMETRY_COMPOSITION"]
+    # Never silently exclude a REQUIRED/BLOCKER precision-composition claim.
+    # The current contract has claim_refs but no explicit selected-claim gate:
+    # we cannot prove that a geometry dependency is merely optional. Treat
+    # its UNKNOWN as critical until W1 defines selection/dependency semantics.
+    # General regional contracts without geometry remain independently testable.
     blocking = any((t["role"] == "REQUIRED" and t["state"] == "FAIL") or
-                   (t["role"] == "BLOCKER" and t["state"] == "PASS") for t in ordinary)
+                   (t["role"] == "BLOCKER" and t["state"] == "PASS") for t in traces)
     critical_unknown = any(t["role"] in ("REQUIRED", "BLOCKER") and
-                           t["state"] == "UNKNOWN" for t in ordinary)
-    # An all-QUALITY or composition-only contract cannot pass by itself.
-    missing_critical = not any(t["role"] in ("REQUIRED", "BLOCKER") for t in ordinary)
+                           t["state"] == "UNKNOWN" for t in traces)
+    # An all-QUALITY contract cannot pass; an all-geometry contract stays
+    # UNKNOWN because geometry evaluation itself is not implemented.
+    missing_critical = not any(t["role"] in ("REQUIRED", "BLOCKER") for t in traces)
     research_only = (contract.get("status") != "approved" or
                      readiness.get("lifecycle_status") != "approved" or
                      readiness.get("research_only") is not False)
@@ -127,7 +129,7 @@ def evaluate(contract, observations, readiness):
     else:
         decision = "TEST_ONLY_CONDITIONS_MET"
         reasons.append("TEST_ONLY_NOT_LIVE_RECOMMENDATION")
-    reasons.extend(sorted({t["reason"] for t in ordinary if t["state"] == "UNKNOWN"}))
+    reasons.extend(sorted({t["reason"] for t in traces if t["state"] == "UNKNOWN"}))
     return {"decision": decision, "reasons": reasons,
             "unknown": critical_unknown or missing_critical or research_only,
             "live_recommendation": False, "evaluated_at": readiness.get("evaluated_at"),
