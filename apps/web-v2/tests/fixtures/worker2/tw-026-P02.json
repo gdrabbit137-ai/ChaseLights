@@ -1,0 +1,282 @@
+{
+  "schema_version": "2.1.0",
+  "opportunity_id": "tw-026-P02",
+  "place_id": "tw-026",
+  "revision": 1,
+  "lifecycle_status": "evidence_review",
+  "name_i18n": {
+    "zh-TW": "井仔腳鹽田晚霞",
+    "en": "Afterglow above Jingzaijiao salt pans",
+    "ja": "井仔脚塩田の夕焼け空"
+  },
+  "description_i18n": {
+    "zh-TW": "以鹽田格狀地景搭配日落前後的彩霞；彩霞是否出現須以實際天空狀態判斷。",
+    "en": "Frame the geometric salt pans beneath colorful clouds around sunset; actual afterglow must be verified rather than assumed.",
+    "ja": "格子状の塩田と日没前後の夕焼け雲を組み合わせる。夕焼けの発生は推測せず実際の空で確認する。"
+  },
+  "camera_contexts": [
+    {
+      "id": "CZ-tw-026-P02-01",
+      "kind": "area",
+      "geometry": {
+        "kind": "area",
+        "status": "unknown",
+        "geojson": null,
+        "uncertainty_m": null,
+        "derivation_method": null,
+        "source_geometry_revision": null,
+        "reason_if_absent": "No independently verified source geometry"
+      },
+      "verification_status": "provisional",
+      "evidence_refs": [
+        "e026c",
+        "e026d"
+      ],
+      "access_notes_i18n": {
+        "zh-TW": "開放的鹽田公共區；施工瞭望台不使用。",
+        "en": "Open public salt-pan area only; exclude the closed lookout.",
+        "ja": "開放中の塩田公共区域のみ。閉鎖中の展望台は使わない。"
+      },
+      "safety_notes_i18n": {
+        "zh-TW": "遵守施工及公共區域限制。",
+        "en": "Respect construction restrictions and public-area boundaries.",
+        "ja": "工事規制と公共区域の境界を守る。"
+      },
+      "altitude_m": null
+    }
+  ],
+  "targets": [
+    {
+      "id": "SG-tw-026-P02-01",
+      "kind": "multi_component",
+      "name_i18n": {
+        "zh-TW": "鹽田上空晚霞與格狀鹽池",
+        "en": "Afterglow sky and patterned salt pans",
+        "ja": "塩田上空の夕焼け雲と格子状の塩田"
+      },
+      "geometry": {
+        "kind": "dynamic_sky",
+        "status": "unknown",
+        "geojson": null,
+        "uncertainty_m": null,
+        "derivation_method": null,
+        "source_geometry_revision": null,
+        "reason_if_absent": "No independently verified source geometry"
+      },
+      "phenomenon_model_id": null,
+      "evidence_refs": [
+        "e026c",
+        "e026d"
+      ],
+      "components": []
+    }
+  ],
+  "observation_relations": [
+    {
+      "id": "VR-tw-026-P02-01",
+      "camera_context_id": "CZ-tw-026-P02-01",
+      "target_id": "SG-tw-026-P02-01",
+      "type": "foreground_background",
+      "geometry_mode": "unknown",
+      "azimuth_deg": null,
+      "elevation_deg": null,
+      "distance_m": null,
+      "evidence_refs": [
+        "e026c",
+        "e026d"
+      ],
+      "derivation_method": null,
+      "uncertainty_note": "No verified source geometry; angles, distance and corridor unknown."
+    }
+  ],
+  "navigation_targets": [
+    {
+      "id": "NAV-tw-026-P02-01",
+      "status": "needs_review",
+      "target_type": "other",
+      "lat": null,
+      "lon": null,
+      "label_i18n": {
+        "zh-TW": "尚未核實實際抵達點",
+        "en": "Practical arrival point not verified",
+        "ja": "実際の到着地点は未確認"
+      },
+      "evidence_refs": [],
+      "confidence": "unknown"
+    }
+  ],
+  "condition_contract": {
+    "contract_id": "CC-tw-026-P02-v1",
+    "status": "review",
+    "conditions": [
+      {
+        "id": "C-tw-026-P02-01",
+        "role": "REQUIRED",
+        "domain": "ACCESS_SAFETY",
+        "evaluation_mode": "VERIFY",
+        "capability": "OBSERVATION",
+        "metric": "open_public_camera_area",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-026-P02-claim-01"
+        ],
+        "model_binding": null,
+        "notes_i18n": {
+          "zh-TW": "必須從當下開放的公共區攝影。",
+          "en": "Photograph only from a currently open public area.",
+          "ja": "現在開放中の公共区域から撮影すること。"
+        },
+        "validation_status": "provisional"
+      },
+      {
+        "id": "C-tw-026-P02-02",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "VERIFY",
+        "capability": "OBSERVATION",
+        "metric": "visible_sunset_afterglow",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-026-P02-claim-02"
+        ],
+        "model_binding": null,
+        "notes_i18n": {
+          "zh-TW": "天空需實際出現可辨晚霞；不能以日期或一般雲量直接保證。",
+          "en": "Visible afterglow must actually develop; neither the date nor generic cloud cover guarantees it.",
+          "ja": "判別できる夕焼けが実際に発生すること。日付や一般的な雲量だけでは保証できない。"
+        },
+        "validation_status": "provisional"
+      },
+      {
+        "id": "C-tw-026-P02-03",
+        "role": "BLOCKER",
+        "domain": "ACCESS_SAFETY",
+        "evaluation_mode": "VERIFY",
+        "capability": "OBSERVATION",
+        "metric": "closed_platform_required",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-026-P02-claim-03"
+        ],
+        "model_binding": null,
+        "notes_i18n": {
+          "zh-TW": "若構圖必須站在封閉瞭望台，該構圖不可用。",
+          "en": "A composition dependent on the closed lookout is unavailable.",
+          "ja": "閉鎖中の展望台を必要とする構図は利用できない。"
+        },
+        "validation_status": "provisional"
+      },
+      {
+        "id": "C-tw-026-P02-04",
+        "role": "QUALITY",
+        "domain": "GEOMETRY_COMPOSITION",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "salt_pan_sky_balance",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-026-P02-claim-04"
+        ],
+        "model_binding": null,
+        "notes_i18n": {
+          "zh-TW": "鹽池幾何線條與彩霞同框可增加地方辨識度。",
+          "en": "Including salt-pan geometry with the afterglow improves place-specific character.",
+          "ja": "塩田の幾何学的な線と夕焼けを同時に写すと場所の特徴が強まる。"
+        },
+        "validation_status": "provisional"
+      }
+    ],
+    "recommendation_policy_version": null
+  },
+  "evidence_claims": [
+    {
+      "claim_id": "tw-026-P02-existence",
+      "claim_type": "existence",
+      "evidence_refs": [
+        "e026c",
+        "e026d"
+      ],
+      "audit_status": "OK",
+      "scope_note": "Place-specific opportunity is supported; geometry remains unverified."
+    },
+    {
+      "claim_id": "tw-026-P02-camera",
+      "claim_type": "camera_location",
+      "evidence_refs": [
+        "e026c",
+        "e026d"
+      ],
+      "audit_status": "PARTIAL",
+      "scope_note": "Named public camera area only; exact polygon and GPS unverified."
+    },
+    {
+      "claim_id": "tw-026-P02-navigation",
+      "claim_type": "navigation_access",
+      "evidence_refs": [],
+      "audit_status": "UNKNOWN",
+      "scope_note": "No independently verified arrival coordinate."
+    },
+    {
+      "claim_id": "tw-026-P02-claim-01",
+      "claim_type": "navigation_access",
+      "evidence_refs": [
+        "e026b"
+      ],
+      "audit_status": "PARTIAL",
+      "scope_note": "Qualitative condition; no measured threshold, local runtime verification needed."
+    },
+    {
+      "claim_id": "tw-026-P02-claim-02",
+      "claim_type": "other",
+      "evidence_refs": [
+        "e026c"
+      ],
+      "audit_status": "PARTIAL",
+      "scope_note": "Qualitative condition; no measured threshold, local runtime verification needed."
+    },
+    {
+      "claim_id": "tw-026-P02-claim-03",
+      "claim_type": "navigation_access",
+      "evidence_refs": [
+        "e026b"
+      ],
+      "audit_status": "PARTIAL",
+      "scope_note": "Qualitative condition; no measured threshold, local runtime verification needed."
+    },
+    {
+      "claim_id": "tw-026-P02-claim-04",
+      "claim_type": "other",
+      "evidence_refs": [
+        "e026d"
+      ],
+      "audit_status": "PARTIAL",
+      "scope_note": "Qualitative condition; no measured threshold, local runtime verification needed."
+    }
+  ],
+  "readiness": {
+    "research_level": "R1",
+    "gaps": [
+      "GEOMETRY_GAP",
+      "RESEARCH_GAP"
+    ]
+  },
+  "provenance": {
+    "source_catalog": "worker2-offline-batch03",
+    "source_revision": "research-shard-batch03",
+    "imported_at": "2026-10-08T17:26:40Z",
+    "review_status": "reviewed",
+    "reviewed_by": "Worker 2 evidence review (automated; no human approval)"
+  }
+}

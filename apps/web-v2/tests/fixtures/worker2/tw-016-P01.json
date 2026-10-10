@@ -1,0 +1,283 @@
+{
+  "schema_version": "2.1.0",
+  "opportunity_id": "tw-016-P01",
+  "place_id": "tw-016",
+  "revision": 1,
+  "lifecycle_status": "evidence_review",
+  "name_i18n": {
+    "zh-TW": "鳶嘴山岩稜與遠山層次",
+    "en": "Yanzui Mountain rocky ridgeline and layered mountain views",
+    "ja": "鳶嘴山の岩稜と重なる山並み"
+  },
+  "description_i18n": {
+    "zh-TW": "從鳶嘴山合法步道的安全位置拍攝裸露岩稜與遠方山巒；精確機位、方位及距離尚未驗證。",
+    "en": "Photograph exposed rock ridges and distant mountain layers from a safe point on the legal Yanzui trail; the exact camera point, bearing and distance remain unverified.",
+    "ja": "鳶嘴山の正規登山道の安全な位置から露出した岩稜と遠方の山並みを撮る。正確な撮影位置・方位・距離は未確認。"
+  },
+  "camera_contexts": [
+    {
+      "id": "CZ-tw-016-P01-01",
+      "kind": "area",
+      "geometry": {
+        "kind": "area",
+        "status": "unknown",
+        "geojson": null,
+        "uncertainty_m": null,
+        "derivation_method": null,
+        "source_geometry_revision": null,
+        "reason_if_absent": "No independently verified source geometry"
+      },
+      "verification_status": "provisional",
+      "evidence_refs": [
+        "e016a",
+        "e016b"
+      ],
+      "access_notes_i18n": {
+        "zh-TW": "只使用合法步道的安全位置；官方記載有攀岩與危崖。",
+        "en": "Use only safe positions on the designated trail; the forestry authority documents scrambling and exposed cliffs.",
+        "ja": "指定登山道の安全な場所だけを使用。林業当局は岩登り区間と断崖を明記。"
+      },
+      "safety_notes_i18n": {
+        "zh-TW": "濕滑、強風或惡劣天候可能使暴露岩稜危險；不可為了取景跨越危險區。",
+        "en": "Wet rock, strong wind or severe weather can make exposed ridges hazardous; never enter unsafe terrain for a composition.",
+        "ja": "濡れた岩、強風、荒天時は露出した岩稜が危険。構図のために危険区域へ入らない。"
+      },
+      "altitude_m": null
+    }
+  ],
+  "targets": [
+    {
+      "id": "SG-tw-016-P01-01",
+      "kind": "fixed_geographic",
+      "name_i18n": {
+        "zh-TW": "鳶嘴山裸露岩稜及遠方山巒",
+        "en": "Yanzui rocky ridge and distant mountain layers",
+        "ja": "鳶嘴山の岩稜と遠方の山並み"
+      },
+      "geometry": {
+        "kind": "ridge",
+        "status": "unknown",
+        "geojson": null,
+        "uncertainty_m": null,
+        "derivation_method": null,
+        "source_geometry_revision": null,
+        "reason_if_absent": "No independently verified source geometry"
+      },
+      "phenomenon_model_id": null,
+      "evidence_refs": [
+        "e016a",
+        "e016b"
+      ],
+      "components": []
+    }
+  ],
+  "observation_relations": [
+    {
+      "id": "VR-tw-016-P01-01",
+      "camera_context_id": "CZ-tw-016-P01-01",
+      "target_id": "SG-tw-016-P01-01",
+      "type": "line_of_sight",
+      "geometry_mode": "unknown",
+      "azimuth_deg": null,
+      "elevation_deg": null,
+      "distance_m": null,
+      "evidence_refs": [
+        "e016a",
+        "e016b"
+      ],
+      "derivation_method": null,
+      "uncertainty_note": "No verified source geometry; angles, distance and corridor unknown."
+    }
+  ],
+  "navigation_targets": [
+    {
+      "id": "NAV-tw-016-P01-01",
+      "status": "needs_review",
+      "target_type": "other",
+      "lat": null,
+      "lon": null,
+      "label_i18n": {
+        "zh-TW": "尚未核實實際抵達點",
+        "en": "Practical arrival point not verified",
+        "ja": "実際の到着地点は未確認"
+      },
+      "evidence_refs": [],
+      "confidence": "unknown"
+    }
+  ],
+  "condition_contract": {
+    "contract_id": "CC-tw-016-P01-v1",
+    "status": "review",
+    "conditions": [
+      {
+        "id": "C-tw-016-P01-01",
+        "role": "REQUIRED",
+        "domain": "ACCESS_SAFETY",
+        "evaluation_mode": "VERIFY",
+        "capability": "OBSERVATION",
+        "metric": "designated_trail_safe_access",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-016-P01-claim-01"
+        ],
+        "model_binding": null,
+        "notes_i18n": {
+          "zh-TW": "合法步道及安全立足點必須可用；現場狀態需確認。",
+          "en": "The designated trail and safe footing must be usable; verify conditions on site.",
+          "ja": "正規登山道と安全な足場が利用可能であること。現地で要確認。"
+        },
+        "validation_status": "provisional"
+      },
+      {
+        "id": "C-tw-016-P01-02",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "ridge_and_mountain_visibility",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-016-P01-claim-02"
+        ],
+        "model_binding": null,
+        "notes_i18n": {
+          "zh-TW": "岩稜與遠山需可辨；未設定公里能見度門檻。",
+          "en": "The ridge and distant mountains must remain discernible; no visibility-distance threshold is asserted.",
+          "ja": "岩稜と遠方の山並みが判別できること。視程の数値基準は未設定。"
+        },
+        "validation_status": "provisional"
+      },
+      {
+        "id": "C-tw-016-P01-03",
+        "role": "BLOCKER",
+        "domain": "ACCESS_SAFETY",
+        "evaluation_mode": "VERIFY",
+        "capability": "OBSERVATION",
+        "metric": "unsafe_exposed_rock",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-016-P01-claim-03"
+        ],
+        "model_binding": null,
+        "notes_i18n": {
+          "zh-TW": "暴露岩稜若因濕滑或惡劣天候無法安全通行，停止推薦。",
+          "en": "Do not recommend when slippery rock or severe weather makes exposed ridges unsafe.",
+          "ja": "濡れた岩や荒天で岩稜の通行が危険な場合は推奨しない。"
+        },
+        "validation_status": "provisional"
+      },
+      {
+        "id": "C-tw-016-P01-04",
+        "role": "QUALITY",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "mountain_layer_clarity",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-016-P01-claim-04"
+        ],
+        "model_binding": null,
+        "notes_i18n": {
+          "zh-TW": "遠山輪廓與空氣透明度越清楚，層次越完整；無量化門檻。",
+          "en": "Clearer distant silhouettes and atmospheric transparency improve layering; no numeric cutoff is claimed.",
+          "ja": "遠景の輪郭と大気の透明度が高いほど山並みの層次が良くなる。数値基準なし。"
+        },
+        "validation_status": "provisional"
+      }
+    ],
+    "recommendation_policy_version": null
+  },
+  "evidence_claims": [
+    {
+      "claim_id": "tw-016-P01-existence",
+      "claim_type": "existence",
+      "evidence_refs": [
+        "e016a",
+        "e016b"
+      ],
+      "audit_status": "OK",
+      "scope_note": "Place-specific opportunity is supported; geometry remains unverified."
+    },
+    {
+      "claim_id": "tw-016-P01-camera",
+      "claim_type": "camera_location",
+      "evidence_refs": [
+        "e016a",
+        "e016b"
+      ],
+      "audit_status": "PARTIAL",
+      "scope_note": "Named public camera area only; exact polygon and GPS unverified."
+    },
+    {
+      "claim_id": "tw-016-P01-navigation",
+      "claim_type": "navigation_access",
+      "evidence_refs": [],
+      "audit_status": "UNKNOWN",
+      "scope_note": "No independently verified arrival coordinate."
+    },
+    {
+      "claim_id": "tw-016-P01-claim-01",
+      "claim_type": "navigation_access",
+      "evidence_refs": [
+        "e016a"
+      ],
+      "audit_status": "PARTIAL",
+      "scope_note": "Qualitative condition; no measured threshold, local runtime verification needed."
+    },
+    {
+      "claim_id": "tw-016-P01-claim-02",
+      "claim_type": "other",
+      "evidence_refs": [
+        "e016a",
+        "e016b"
+      ],
+      "audit_status": "PARTIAL",
+      "scope_note": "Qualitative condition; no measured threshold, local runtime verification needed."
+    },
+    {
+      "claim_id": "tw-016-P01-claim-03",
+      "claim_type": "navigation_access",
+      "evidence_refs": [
+        "e016a"
+      ],
+      "audit_status": "PARTIAL",
+      "scope_note": "Qualitative condition; no measured threshold, local runtime verification needed."
+    },
+    {
+      "claim_id": "tw-016-P01-claim-04",
+      "claim_type": "other",
+      "evidence_refs": [
+        "e016b"
+      ],
+      "audit_status": "PARTIAL",
+      "scope_note": "Qualitative condition; no measured threshold, local runtime verification needed."
+    }
+  ],
+  "readiness": {
+    "research_level": "R1",
+    "gaps": [
+      "GEOMETRY_GAP",
+      "RESEARCH_GAP"
+    ]
+  },
+  "provenance": {
+    "source_catalog": "worker2-offline-batch03",
+    "source_revision": "research-shard-batch03",
+    "imported_at": "2026-10-08T17:26:40Z",
+    "review_status": "reviewed",
+    "reviewed_by": "Worker 2 evidence review (automated; no human approval)"
+  }
+}

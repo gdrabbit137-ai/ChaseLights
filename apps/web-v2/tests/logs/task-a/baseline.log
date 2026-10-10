@@ -1,0 +1,27 @@
+✔ HTML exposes accessible i18n hooks without hard-coded English (2.058205ms)
+✔ all three locales have distinct accessibility copy (4.207542ms)
+✔ real change handler updates skip, title, and four ARIA labels on every switch (5.551028ms)
+✔ supports all three locales and stable place/opportunity IDs (2.175285ms)
+✔ does not silently fall back to Chinese for missing translations (0.22947ms)
+✔ does not invent camera-to-subject numbers (0.131611ms)
+✔ never routes to unverified or multiple access targets (1.728875ms)
+✔ provisional camera anchors without evidence cannot yield Directions or map links (0.206856ms)
+✔ never turns research scores into live forecasts (0.414419ms)
+✔ rejects unsafe evidence URLs and unsupported geometry types (0.34759ms)
+✔ rejects empty and malformed V2 catalogs (0.445003ms)
+✔ unverified targets never create directions (1.297961ms)
+✔ research is never promoted to runtime (0.219679ms)
+✔ evidence links reject executable URLs (1.038222ms)
+✔ V2.1 research projection preserves unknown, provenance, 3 locales, and no runtime (1.662624ms)
+✔ three Opportunity records preserve two distinct Place IDs (1.623459ms)
+✔ invalid version, no data and missing translations fail closed (0.695534ms)
+✔ Directions require separately evidenced arrival, no fabricated live result (0.303612ms)
+﹣ BLOCKED: original Worker 2 records not checked out (0.889584ms) # W2 data not merged; set WORKER2_DATA_DIR to the original W2 worktree data/v2/opportunities
+ℹ tests 19
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 1
+ℹ todo 0
+ℹ duration_ms 224.821091

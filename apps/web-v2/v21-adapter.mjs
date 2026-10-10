@@ -41,7 +41,8 @@ export function projectV21(input) {
    const contract=doc.condition_contract||{};
    output.condition_contracts.push({contract_id:contract.contract_id,opportunity_id:doc.opportunity_id,status:contract.status});
    for (const c of list(contract.conditions)) output.conditions.push({condition_id:scopedId(doc,c.id),opportunity_id:doc.opportunity_id,role:c.role,domain:c.domain,metric:c.metric,operator:c.operator??null,threshold:c.threshold??null,unit:c.unit??null,unknown_policy:c.unknown_policy,confidence:c.validation_status||"unvalidated",human_description_i18n:c.notes_i18n||null,evidence_refs:c.claim_refs||[]});
-   for (const claim of list(doc.evidence_claims)) output.evidence.push({evidence_id:scopedId(doc,claim.claim_id),opportunity_id:doc.opportunity_id,claim_type:claim.claim_type,audit_status:claim.audit_status,evidence_refs:claim.evidence_refs||[],source:claim.claim_type+" · "+claim.audit_status});
+   // Claim classification is not a resolved publisher, source URL or authority.
+   for (const claim of list(doc.evidence_claims)) output.evidence.push({evidence_id:scopedId(doc,claim.claim_id),opportunity_id:doc.opportunity_id,claim_type:claim.claim_type,audit_status:claim.audit_status,evidence_refs:claim.evidence_refs||[],source:null,source_status:"unresolved_reference"});
    output.research_status.push({opportunity_id:doc.opportunity_id,status:doc.lifecycle_status,readiness:doc.readiness,provenance:doc.provenance});
    for (const gap of list(doc.readiness?.gaps)) if (GAP_LABELS[gap]) output.unknowns.push({opportunity_id:doc.opportunity_id,text_i18n:localeText(GAP_LABELS[gap])});
  }

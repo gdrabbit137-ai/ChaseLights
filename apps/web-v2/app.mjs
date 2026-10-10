@@ -41,11 +41,12 @@ function render(){
   renderPlaces();renderDetail();
 }
 function renderPlaces(){
+  const focusedId=document.activeElement?.getAttribute?.("data-place-id");
   const list=$("places-list");list.replaceChildren();if(!state.catalog)return;
   const q=$("search").value.trim().toLocaleLowerCase();
   const matches=state.catalog.places.filter(p=>[name(p),placeId(p),p.country,p.admin1].filter(Boolean).some(v=>String(v).toLocaleLowerCase().includes(q)));
   if(!matches.length){list.append(node("p","muted",t("noMatches")));return;}
-  for(const p of matches){const id=placeId(p);const b=node("button","place-button");b.type="button";b.setAttribute("aria-current",String(state.selected===id));b.append(node("strong","",name(p)),node("small","",id||t("unknown")));b.addEventListener("click",()=>{state.selected=id;renderPlaces();renderDetail();});list.append(b);}
+  for(const p of matches){const id=placeId(p);const b=node("button","place-button");b.type="button";b.setAttribute("data-place-id",id);b.setAttribute("aria-current",String(state.selected===id));b.append(node("strong","",name(p)),node("small","",id||t("unknown")));b.addEventListener("click",()=>{state.selected=id;renderPlaces();renderDetail();});list.append(b);if(id===focusedId)b.focus();}
 }
 function empty(title,description){const box=node("div","empty");box.append(node("div","glyph","◉"),node("h2","",title),node("p","muted",description));return box;}
 function infoBox(title,value){const dl=node("dl","context");dl.append(node("dt","",title),node("dd","",value||t("unknown")));return dl;}

@@ -1,44 +1,47 @@
-# ChaseLights V2 — independent static research explorer
+# ChaseLights V2 — independent research preview
 
-**Scope:** Worker 4 owns only this directory. No legacy index.html, production UI, or weather runtime was modified.
+Worker 4 owns only `apps/web-v2/`. This is an isolated research explorer, not a selected-date forecast or a production launch. Legacy entry, weather data, runtime, workflows and deployment are unchanged.
 
-## Entry and deployment
+## Fixed real data and provenance
 
-GitHub Pages currently builds from repository root. Once this directory is merged to the deployed root branch, the candidate path is:
+The default `catalog.v2.json` is W2's real `tw-026-P01` research-only preview, with explicit Git provenance fields added. It is pinned to W2 branch `v2/worker2-canonical-batch03-20261009` at `7f10e9bd2757449d72546155c66714880c6d3ab1`:
 
-https://gdrabbit137-ai.github.io/ChaseLights/apps/web-v2/
+- Canonical path: `data/v2/opportunities/tw-026-P01.json`, blob `abb9222e2c2ca974f271b08d497313d402f911b9`.
+- Preview path: `data/v2/previews/tw-026-P01.research-only.v21.json`, blob `6a1e009e76d79de6d45b5360d746cc4932b9c6f7`.
+- `tests/fixtures/worker2/` retains byte-exact W2 records `tw-016-P01`, `tw-026-P01`, `tw-026-P02` and the original preview. `manifest.json` records each path, commit, Git blob and SHA-256. These are read-only test inputs, not a second canonical source. Tests verify their bytes, including explicit `WORKER2_DATA_DIR` overrides; missing or changed inputs fail instead of SKIP.
 
-This URL is **not** proof of deployment until the Pages run succeeds and an HTTP/browser check confirms the page. It is deliberately not linked from the legacy site; Worker 5 owns that link.
+The canonical records are R1 / evidence_review. All 12 conditions are non-AUTO and provisional, with null thresholds and model bindings. Geometry remains unknown, and no independently verified NavigationTarget exists. Three-language source copy is retained unchanged; automated presence and display tests do not establish human semantic approval.
 
-## Current data state
+W2's latest evidence audits at this pin (`worker2_tw026p01_e026b_source_scope_20261010_0325.json` and `worker2_tw026p01_e026c_yonghua_scope_20261010_1325.json`) retain important limits: the original lookout closure does not prove whole-site closure or whole-site openness, the actual permitted camera area/geometry is unverified, opening-hour conflicts remain unresolved, and the Japanese wording/three-language semantic signoff still needs W2/W5 review. This change does not resolve those research gates.
 
-There is **no committed V2 dataset or forecast fixture** in this directory. On first load, the UI attempts a same-directory \`catalog.v2.json\` (optional future Worker 2 publication); if missing, it displays a transparent no-data state. Users may import a V2 JSON file locally using the file picker. Imported data stays in the browser and is not uploaded.
+## Development and repeatable checks
 
-The interface consumes V2 collections named \`places\`, \`opportunities\`, \`camera_zones\`, \`subject_geometries\`, \`view_relations\`, \`condition_contracts\`, \`conditions\`, \`evidence\`, \`research_status\`, \`unknowns\`, and optional \`evaluations\`. This is a **temporary read-only adapter**, not a second canonical schema. When Worker 1 publishes \`specs/v2\`, adapt this reader to the authoritative schema and add a contract test. Worker 2 must publish real researched data, with provenance and localized semantic content, before any cards can be considered validated V2 content.
+Use the existing checkout; cloud tasks are isolated and do not need a worktree. From repository root:
 
-## Runtime boundary (Worker 3)
+```sh
+python -m http.server 8000 --bind 127.0.0.1
+node --test apps/web-v2/tests/*.test.mjs
+node --test apps/web-v2/tests/browser-smoke.mjs
+```
 
-An evaluation is shown only if it explicitly declares \`kind: "runtime"\`, \`contract_status: "ready"\`, \`source\`, and \`generated_at\`. Otherwise, no score, verdict, date-specific recommendation, or synthetic weather is displayed. Runtime integration and freshness contracts require Worker 3 confirmation; do not promote research status to a forecast.
+The browser runner starts its own temporary HTTP server on an unused loopback port and closes its browser/server afterward. It requires Playwright and Chromium; by default it uses this cloud image's `/opt/codex/cua_node/lib/node_modules/playwright` and `/usr/bin/chromium`. Elsewhere set `PLAYWRIGHT_MODULE` to a resolvable installed module name/path and `CHROMIUM_EXECUTABLE` to the browser path. Missing tooling is an explicit error, never a silent passing/zero-test result.
 
-## R4.2 / navigation / localization constraints
+The six browser cases cover desktop 1440×1000 and mobile 390×844 across zh-TW/en/ja: real automatic and local-file imports, visible source translations, title/landmark ARIA updates, native keyboard locale switching, locale persistence, skip-link focus, keyboard place selection with retained focus, search/empty search, expandable translated conditions/access notes, no unverified Directions, no synthetic live verdict, incomplete-localization rejection, no horizontal overflow and no import upload. Mobile means Chromium viewport/touch emulation, not physical-phone or Safari verification.
 
-- Place-specific evidence proves **what** can be photographed; runtime evaluates **when**.
-- Camera Zone, Photo Target / Subject, and Navigation Target are separate. Missing relation geometry remains unknown; never derive GPS, azimuth or distance from a name or photo.
-- Verified Navigation Targets may produce exact-coordinate Directions. Provisional camera anchors may produce coordinate-only map pins. Unverified/multiple routes have no navigation link. No \`map_query\` fallback.
-- zh-TW / en / ja interface copy is complete. Imported semantic fields missing an equivalent locale remain explicitly untranslated, rather than silently falling back to Chinese or inventing translated claims. Proper names can retain original-language names.
-- Source generation time and local loading time are separate. No sample data is presented as live data.
-- Evidence/unknown/condition details are available in an expandable technical section, not automatically pushed into the main photographer decision surface.
+For canonical validation, use the latest main `specs/v2/tests/validate_contract.py` and schema (these may be absent from the W4 base); validate all three pinned opportunity files. Node's adapter is a defensive reader, not a replacement for W1's authoritative JSON Schema.
 
-## Verification
+Original command outputs and diagnosed pre-fix failures are retained under `tests/logs/task-a/`. Future changes should rerun the commands, rather than treat saved logs as fresh CI results.
 
-\`node --test apps/web-v2/tests/model.test.mjs\`
+## Runtime, navigation and language boundaries
 
-Manual browser checks: phone/desktop layout; keyboard selection; language switching; no-data state; local JSON import; a known V2 research record with no evaluation; missing translations; unsafe evidence URL; verified vs provisional vs pending navigation; generated-vs-loaded timestamps.
+Local imports stay in the browser. Importing canonical research always discards evaluations; `runtimeEvaluation` remains fail-closed pending an approved W3/W1 runtime contract and genuine provider/freshness pipeline. Generated research time, research import time and local load time are distinct; none is forecast validity.
 
-## Open integration gates
+Claim types and audit statuses are retained as metadata, not relabeled as resolved source authority. Unresolved evidence references have no fabricated publisher or public URL. Missing relation distance, azimuth and elevation remain null. Only independently evidenced verified arrival targets can create exact-coordinate Directions; no name, subject, camera anchor or `map_query` fallback is used.
 
-1. Worker 1: authoritative V2 schema and strict schema-version validation.
-2. Worker 2: verified localized V2 research catalog, evidence, geometry, source timestamps.
-3. Worker 3: runtime evaluation payload and calibration/freshness status.
-4. Worker 5: optional link from legacy production site.
-5. Deployment: verify the actual Pages build and live URL before announcing availability.
+Existing three-language skip/ARIA translation keys are reused. Missing semantic translations are not silently substituted. Human geographic/evidence and translation review remain required.
+
+## W5 handoff
+
+Task A is based on W4 `e931981a31d2ade1a94f921edd66f069027ec47c`, with latest main specs reviewed at `68907dc2b21e6ef774cad18684917b1895818bd8`. W1 EvaluationResult PR #431 and W3 PR #435 were Draft, not merged contracts. Recheck these and worker HEADs before integration.
+
+Use a Draft PR against the W4 source branch so the Task A diff contains only this directory's changes; W5 must coordinate the W4 integration/base and review actual latest-main specs, checks and unresolved evidence/semantic gates. No merge, live deployment, Legacy link or production recommendation is authorized by these tests. The candidate public path is not verified by local browser checks.
