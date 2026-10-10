@@ -1,0 +1,142 @@
+{
+  "audit_version": "w2-place-specific-evidence-v1",
+  "checked_at_asia_taipei": "2026-10-10T13:23:42+08:00",
+  "repository": "gdrabbit137-ai/ChaseLights",
+  "main_sha": "cc976116ba594041adc55055594fc982b0b53676",
+  "worker2_branch": "v2/worker2-canonical-batch03-20261009",
+  "worker2_head_at_read": "8695ce49fe6c4b09521475d4f7b02f463718a550",
+  "source_blobs": {
+    "w1_schema": "b47ba6d7ecf8536a4483c06c835a6a7f8587b511",
+    "w1_validator": "be09680722b8e5598e47a8655afbec73eb53125e",
+    "w2_tw026_p01": "abb9222e2c2ca974f271b08d497313d402f911b9",
+    "w3_evaluator": "5f6525947eaea0ad3b7ee12cc29842f76bbdaad2",
+    "w4_adapter": "f8fe2fbaed6f969a85d15d1d915d031144daa214"
+  },
+  "scope": {
+    "opportunity_id": "tw-026-P01",
+    "condition_id": "C-tw-026-P01-02",
+    "camera_context_id": "CZ-tw-026-P01-01",
+    "target_id": "SG-tw-026-P01-01",
+    "relation_id": "VR-tw-026-P01-01",
+    "navigation_id": "NAV-tw-026-P01-01"
+  },
+  "source_reviews": [
+    {
+      "evidence_ref": "e026c",
+      "url": "https://www.swcoast-nsa.gov.tw/zh-tw/news/details/1896",
+      "publisher": "交通部觀光署雲嘉南濱海國家風景區管理處",
+      "published": "2023-03-14",
+      "updated": "2024-06-21",
+      "status": "AUTHENTICATED_OFFICIAL_TEXT",
+      "supports": [
+        "salt-pan brine reflection and sunset afterglow as place-specific scenes",
+        "qualitative colorful-cloud texture for C-tw-026-P01-04"
+      ],
+      "does_not_support": [
+        "repeatable weather threshold or calibration",
+        "specific camera coordinates or lawful open zone",
+        "camera-target bearing or solar illumination geometry",
+        "real-time favorable evaluation"
+      ]
+    },
+    {
+      "evidence_ref": "candidate_not_registered_yonghua_official",
+      "url": "https://www.swcoast-nsa.gov.tw/birdathon/zh-tw/attraction/15/",
+      "publisher": "交通部觀光署雲嘉南濱海國家風景區管理處",
+      "updated": "2026-09-03",
+      "status": "AUTHENTICATED_OFFICIAL_TEXT",
+      "supports": [
+        "named Yonghua observation post with qualitative overlook of Jingzaijiao salt pans, Beimen lagoon and sunset"
+      ],
+      "does_not_support": [
+        "exact lawful camera polygon or geotagged photo position",
+        "current independent operating/photography permission",
+        "camera-target distance, azimuth, elevation, horizon occlusion",
+        "a verified practical navigation arrival point",
+        "sunset illumination of a fixed composition"
+      ]
+    },
+    {
+      "evidence_ref": "e026b_context",
+      "url": "https://www.swcoast-nsa.gov.tw/zh-tw/news/details/2592",
+      "publisher": "交通部觀光署雲嘉南濱海國家風景區管理處",
+      "published": "2026-09-02",
+      "status": "AUTHENTICATED_OFFICIAL_NOTICE",
+      "supports": [
+        "original lookout closed with anticipated end 2026-11-30",
+        "Yonghua alternative viewpoint stated hours 09:00–18:00"
+      ],
+      "does_not_support": [
+        "whole-site closure",
+        "unrestricted access to every public salt-field camera area",
+        "Yonghua opening after 18:00",
+        "route or camera GPS"
+      ]
+    },
+    {
+      "evidence_ref": "context_main_attraction",
+      "url": "https://www.swcoast-nsa.gov.tw/zh-tw/attraction/details/000369",
+      "status": "AUTHENTICATED_OFFICIAL_TEXT",
+      "note": "Same attraction page displays 09:00–18:00 daily while seasonal text states winter 09:00–18:30; do not derive camera-specific open window."
+    },
+    {
+      "evidence_ref": "context_operator",
+      "url": "https://tpcc.tw/",
+      "status": "AUTHENTICATED_OPERATOR_PAGE",
+      "note": "Operator lists winter 09:00–19:00; facility-level hours and site access are not automatically equivalent to Yonghua observation platform."
+    },
+    {
+      "evidence_ref": "e026d_photo",
+      "url": "https://w3fs.tainan.gov.tw/001/Upload/1/relpic/9748/8717068/b46efcab-cb3c-474f-b12f-302e91f48629%40710x470.jpg",
+      "status": "NOT_AUTHENTICATED_VISUAL",
+      "note": "Previous official article text authenticated; image bytes/EXIF/camera position remain uninspected. Direct web fetch returned unsupported image/pjpeg."
+    }
+  ],
+  "claim_scope": {
+    "opportunity_existence": "SUPPORTED",
+    "salt_pan_sunset_reflections": "SUPPORTED_QUALITATIVELY",
+    "named_yonghua_viewpoint": "SUPPORTED_AS_RESEARCH_LEAD",
+    "camera_zone_legal_access": "PARTIAL_NOT_VERIFIED",
+    "photography_target_geometry": "UNKNOWN",
+    "observation_relation": "UNKNOWN",
+    "navigation_target": "UNKNOWN",
+    "sunset_light_at_specific_composition": "PARTIAL_NOT_AUTO",
+    "weather_cloud_texture": "GUIDANCE_ONLY"
+  },
+  "localization": {
+    "automatic_i18n_field_presence": "PREVIOUSLY_TESTED",
+    "human_semantic_signoff": "PENDING",
+    "review_flags": [
+      "Japanese C-tw-026-P01-01 wording 景区全体 should be reviewed for 観光地全体",
+      "Description across zh-TW/en/ja implies an open public camera area; actual zone has not been independently authenticated. Coordinate any conservative change with exact crosswalk and W4 preview; no unilateral claim upgrade."
+    ],
+    "changed_user_facing_copy": false
+  },
+  "decision": {
+    "research_level": "R1",
+    "research_only": true,
+    "condition_mode": "GUIDANCE",
+    "validation_status": "provisional",
+    "threshold": null,
+    "model_binding": null,
+    "evaluator": "UNKNOWN",
+    "auto_upgrade": false,
+    "camera_geometry": "unknown",
+    "navigation": "needs_review",
+    "directions": false,
+    "score": false,
+    "live_recommendation": false,
+    "canonical_changed": false,
+    "crosswalk_changed": false
+  },
+  "replay": {
+    "source": "2026-10-10 10:35 SHA-verified offline source tree, unchanged canonical/schema",
+    "jsonschema": "4.26.0",
+    "validator_command": "python specs/v2/tests/validate_contract.py data/v2/opportunities/*.json",
+    "validator_result": "PASS 3/3 exit 0",
+    "unittest_command": "python -m unittest discover -s data/v2/tests -p 'test_*.py' -v",
+    "unittest_result": "5 tests OK exit 0; 0 FAIL/ERROR/SKIP",
+    "new_github_ci": "NOT_RUN"
+  },
+  "next_minimum_blocker": "Independently authenticate currently permitted precise Camera Zone and camera-target geometry; official place photos and named Yonghua viewpoint are not a verified navigation or physical AUTO contract."
+}
