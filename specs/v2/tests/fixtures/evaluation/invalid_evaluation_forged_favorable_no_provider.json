@@ -1,0 +1,41 @@
+{
+  "evaluation_result_version": "0.1.0",
+  "opportunity_id": "tw-026-P01",
+  "opportunity_revision": 1,
+  "condition_contract_id": "contract:1",
+  "condition_contract_sha256": "23be3aa0eff452dc83a99eb2306c9b7f9affa6a080d878a2210dc9c0f1cd59b6",
+  "issued_at": "2026-10-09T12:00:00Z",
+  "valid_at": "2026-10-09T12:00:00Z",
+  "evaluated_at": "2026-10-09T12:00:00Z",
+  "freshness": "UNKNOWN",
+  "runtime_availability": "FULL",
+  "status": "FAVORABLE",
+  "live_recommendation": true,
+  "model": null,
+  "provider_runs": [],
+  "conditions": [
+    {
+      "condition_id": "C-tw-026-P01-02",
+      "role": "REQUIRED",
+      "evaluation_mode": "GUIDANCE",
+      "verdict": "UNKNOWN",
+      "unknown_reasons": [
+        "CONTRACT_NOT_APPROVED",
+        "UNVALIDATED_CONDITION",
+        "MISSING_THRESHOLD",
+        "MISSING_MODEL_BINDING",
+        "MISSING_PROVIDER"
+      ],
+      "provider_run_refs": []
+    }
+  ],
+  "unknown_reasons": [
+    "CONTRACT_NOT_APPROVED",
+    "CRITICAL_UNKNOWN"
+  ],
+  "provenance": {
+    "evaluator_id": "test-only-adversarial-forgery",
+    "evaluator_version": "0.1.0",
+    "test_only": false
+  }
+}

@@ -1,0 +1,479 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/gdrabbit137-ai/ChaseLights/blob/main/specs/v2/schema/evaluation-result-v0.1.schema.json",
+  "title": "ChaseLights V2 EvaluationResult v0.1",
+  "description": "Separate timestamped runtime output; not canonical research readiness. Structural validation alone never certifies live recommendations. FAVORABLE requires structurally evidenced critical AUTO conditions and provider runs; semantic validation must independently verify canonical approval, thresholds, model bindings and externally approved provider runs.",
+  "type": "object",
+  "required": [
+    "evaluation_result_version",
+    "opportunity_id",
+    "opportunity_revision",
+    "condition_contract_id",
+    "condition_contract_sha256",
+    "issued_at",
+    "valid_at",
+    "evaluated_at",
+    "freshness",
+    "runtime_availability",
+    "status",
+    "live_recommendation",
+    "model",
+    "provider_runs",
+    "conditions",
+    "unknown_reasons",
+    "provenance"
+  ],
+  "properties": {
+    "evaluation_result_version": {
+      "const": "0.1.0"
+    },
+    "opportunity_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "opportunity_revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "condition_contract_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "condition_contract_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "SHA-256 of canonical condition_contract JSON serialized with sort_keys=True and compact separators; immutable contract revision fingerprint."
+    },
+    "issued_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "valid_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "evaluated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "freshness": {
+      "enum": [
+        "FRESH",
+        "STALE",
+        "UNKNOWN"
+      ]
+    },
+    "runtime_availability": {
+      "enum": [
+        "FULL",
+        "LIMITED",
+        "GUIDANCE_ONLY",
+        "UNAVAILABLE"
+      ]
+    },
+    "status": {
+      "enum": [
+        "FAVORABLE",
+        "UNFAVORABLE",
+        "UNCERTAIN",
+        "NOT_EVALUABLE"
+      ]
+    },
+    "live_recommendation": {
+      "type": "boolean"
+    },
+    "model": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "required": [
+            "id",
+            "version"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "version": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "provider_runs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "run_id",
+          "provider",
+          "source",
+          "provider_version",
+          "issued_at",
+          "valid_at",
+          "freshness"
+        ],
+        "properties": {
+          "run_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "provider": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source": {
+            "type": "string",
+            "minLength": 1
+          },
+          "provider_version": {
+            "type": "string",
+            "minLength": 1
+          },
+          "issued_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "valid_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "freshness": {
+            "enum": [
+              "FRESH",
+              "STALE",
+              "UNKNOWN"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "conditions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "condition_id",
+          "role",
+          "evaluation_mode",
+          "verdict",
+          "unknown_reasons",
+          "provider_run_refs"
+        ],
+        "properties": {
+          "condition_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "role": {
+            "enum": [
+              "REQUIRED",
+              "BLOCKER",
+              "QUALITY"
+            ]
+          },
+          "evaluation_mode": {
+            "enum": [
+              "AUTO",
+              "GUIDANCE",
+              "VERIFY"
+            ]
+          },
+          "verdict": {
+            "enum": [
+              "PASS",
+              "FAIL",
+              "UNKNOWN",
+              "NOT_EVALUABLE"
+            ]
+          },
+          "unknown_reasons": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "provider_run_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "verdict": {
+                  "enum": [
+                    "UNKNOWN",
+                    "NOT_EVALUABLE"
+                  ]
+                }
+              },
+              "required": [
+                "verdict"
+              ]
+            },
+            "then": {
+              "properties": {
+                "unknown_reasons": {
+                  "minItems": 1
+                }
+              }
+            }
+          }
+        ],
+        "additionalProperties": false
+      }
+    },
+    "unknown_reasons": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "provenance": {
+      "type": "object",
+      "required": [
+        "evaluator_id",
+        "evaluator_version",
+        "test_only"
+      ],
+      "properties": {
+        "evaluator_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evaluator_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "test_only": {
+          "type": "boolean"
+        },
+        "input_digest": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "enum": [
+              "UNCERTAIN",
+              "NOT_EVALUABLE"
+            ]
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "live_recommendation": {
+            "const": false
+          },
+          "unknown_reasons": {
+            "minItems": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "provenance": {
+            "type": "object",
+            "properties": {
+              "test_only": {
+                "const": true
+              }
+            },
+            "required": [
+              "test_only"
+            ]
+          }
+        },
+        "required": [
+          "provenance"
+        ]
+      },
+      "then": {
+        "properties": {
+          "live_recommendation": {
+            "const": false
+          },
+          "status": {
+            "not": {
+              "const": "FAVORABLE"
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "FAVORABLE"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "freshness": {
+            "const": "FRESH"
+          },
+          "runtime_availability": {
+            "enum": [
+              "FULL",
+              "LIMITED"
+            ]
+          },
+          "model": {
+            "type": "object"
+          },
+          "provider_runs": {
+            "minItems": 1
+          },
+          "provenance": {
+            "properties": {
+              "test_only": {
+                "const": false
+              }
+            }
+          },
+          "conditions": {
+            "contains": {
+              "properties": {
+                "role": {
+                  "enum": [
+                    "REQUIRED",
+                    "BLOCKER"
+                  ]
+                },
+                "evaluation_mode": {
+                  "const": "AUTO"
+                },
+                "verdict": {
+                  "enum": [
+                    "PASS",
+                    "FAIL"
+                  ]
+                },
+                "provider_run_refs": {
+                  "minItems": 1
+                }
+              },
+              "required": [
+                "role",
+                "evaluation_mode",
+                "verdict",
+                "provider_run_refs"
+              ]
+            },
+            "minContains": 1,
+            "items": {
+              "allOf": [
+                {
+                  "if": {
+                    "properties": {
+                      "role": {
+                        "enum": [
+                          "REQUIRED",
+                          "BLOCKER"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "role"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "evaluation_mode": {
+                        "const": "AUTO"
+                      },
+                      "verdict": {
+                        "enum": [
+                          "PASS",
+                          "FAIL"
+                        ]
+                      },
+                      "provider_run_refs": {
+                        "minItems": 1
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "live_recommendation": {
+            "const": true
+          }
+        },
+        "required": [
+          "live_recommendation"
+        ]
+      },
+      "then": {
+        "properties": {
+          "status": {
+            "const": "FAVORABLE"
+          },
+          "unknown_reasons": {
+            "maxItems": 0
+          },
+          "freshness": {
+            "const": "FRESH"
+          },
+          "provider_runs": {
+            "minItems": 1
+          },
+          "provenance": {
+            "properties": {
+              "test_only": {
+                "const": false
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "additionalProperties": false
+}
