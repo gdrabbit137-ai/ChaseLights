@@ -1,0 +1,19 @@
+$ /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python /workspace/work/w5/repo/ops/v2/run_unittest.py ops/v2/tests test_ci_runner.py /workspace/work/w5/logs-final/w5-runner.json
+test_empty_discovery_fails (test_ci_runner.RunnerTests.test_empty_discovery_fails) ... RUN regression
+{"name": "regression", "exit_code": 1, "counts": {"tests": 0, "fail": 0, "error": 0, "skip": 0, "expected_failure": 0, "unexpected_success": 0, "pass": 0}, "status": "FAIL", "timed_out": false, "gate_error": "Zero tests or unsuccessful test cases", "log": "regression.log"}
+ok
+test_failing_suite_preserves_count_and_log (test_ci_runner.RunnerTests.test_failing_suite_preserves_count_and_log) ... RUN regression
+{"name": "regression", "exit_code": 1, "counts": {"tests": 1, "fail": 1, "error": 0, "skip": 0, "expected_failure": 0, "unexpected_success": 0, "pass": 0}, "status": "FAIL", "timed_out": false, "gate_error": "Zero tests or unsuccessful test cases", "log": "regression.log"}
+ok
+test_missing_or_duplicate_counts_fail (test_ci_runner.RunnerTests.test_missing_or_duplicate_counts_fail) ... ok
+test_missing_or_modified_checkout_cannot_be_copied (test_ci_runner.RunnerTests.test_missing_or_modified_checkout_cannot_be_copied) ... ok
+test_node_counts_are_test_cases (test_ci_runner.RunnerTests.test_node_counts_are_test_cases) ... ok
+test_skipped_suite_fails_even_with_exit_zero (test_ci_runner.RunnerTests.test_skipped_suite_fails_even_with_exit_zero) ... RUN regression
+{"name": "regression", "exit_code": 1, "counts": {"tests": 1, "fail": 0, "error": 0, "skip": 1, "expected_failure": 0, "unexpected_success": 0, "pass": 0}, "status": "FAIL", "timed_out": false, "gate_error": "SKIP/expected failure cannot satisfy integration", "log": "regression.log"}
+ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.374s
+
+OK
+{"tests": 6, "fail": 0, "error": 0, "skip": 0, "expected_failure": 0, "unexpected_success": 0, "pass": 6}

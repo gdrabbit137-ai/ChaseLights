@@ -1,0 +1,23 @@
+$ /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python /workspace/work/w5/repo/ops/v2/run_unittest.py specs/v2/tests test_schema_smoke.py /workspace/work/w5/logs-final/w1-schema.json
+test_canonical_runtime_availability_rejected (test_schema_smoke.ContractSmokeTests.test_canonical_runtime_availability_rejected)
+Run the real schema + reference validator; runtime state is not canonical. ... ok
+test_condition_claim_reference_integrity (test_schema_smoke.ContractSmokeTests.test_condition_claim_reference_integrity) ... ok
+test_duplicate_camera_ids_rejected (test_schema_smoke.ContractSmokeTests.test_duplicate_camera_ids_rejected) ... ok
+test_duplicate_claim_ids_rejected (test_schema_smoke.ContractSmokeTests.test_duplicate_claim_ids_rejected) ... ok
+test_duplicate_relation_ids_rejected (test_schema_smoke.ContractSmokeTests.test_duplicate_relation_ids_rejected) ... ok
+test_dynamic_aurora_without_observation_relations_is_valid (test_schema_smoke.ContractSmokeTests.test_dynamic_aurora_without_observation_relations_is_valid) ... ok
+test_evidence_reference_integrity (test_schema_smoke.ContractSmokeTests.test_evidence_reference_integrity) ... ok
+test_locale_ja_required (test_schema_smoke.ContractSmokeTests.test_locale_ja_required) ... ok
+test_missing_required (test_schema_smoke.ContractSmokeTests.test_missing_required) ... ok
+test_relation_reference_integrity (test_schema_smoke.ContractSmokeTests.test_relation_reference_integrity) ... ok
+test_target_reference_integrity (test_schema_smoke.ContractSmokeTests.test_target_reference_integrity) ... ok
+test_target_undeclared_evidence_rejected (test_schema_smoke.ContractSmokeTests.test_target_undeclared_evidence_rejected) ... ok
+test_unknown_policy_must_propagate (test_schema_smoke.ContractSmokeTests.test_unknown_policy_must_propagate) ... ok
+test_valid_aurora (test_schema_smoke.ContractSmokeTests.test_valid_aurora) ... ok
+test_valid_declared_evidence_and_claim_reference (test_schema_smoke.ContractSmokeTests.test_valid_declared_evidence_and_claim_reference) ... ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 0.051s
+
+OK
+{"tests": 15, "fail": 0, "error": 0, "skip": 0, "expected_failure": 0, "unexpected_success": 0, "pass": 15}
