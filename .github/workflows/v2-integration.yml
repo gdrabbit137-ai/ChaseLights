@@ -1,0 +1,98 @@
+name: V2 Integration
+on:
+  pull_request:
+    branches: [main]
+    paths: ['.github/workflows/v2-integration.yml', 'ops/v2/**', 'specs/v2/**', 'data/v2/**', 'packages/core-v2/**', 'packages/models-v2/**', 'apps/web-v2/**', 'AGENTS.md', '*SPEC_R4_2.md']
+  push:
+    branches: [main, 'codex/v2-w5-integration-ci-*']
+    paths: ['.github/workflows/v2-integration.yml', 'ops/v2/**', 'specs/v2/**', 'data/v2/**', 'packages/core-v2/**', 'packages/models-v2/**', 'apps/web-v2/**', 'AGENTS.md', '*SPEC_R4_2.md']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: v2-integration-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  integration:
+    name: V2 pinned integration / research-only
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout W5 task HEAD
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /.github/workflows/v2-integration.yml
+            /ops/v2/
+            /specs/v2/
+            /AGENTS.md
+            /RESEARCH_EVIDENCE_SPEC_R4_2.md
+            /NAVIGATION_SPEC_R4_2.md
+      - name: Checkout latest main for spec drift gate
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: .ci/sources/main
+          persist-credentials: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /specs/v2/
+            /AGENTS.md
+            /RESEARCH_EVIDENCE_SPEC_R4_2.md
+            /NAVIGATION_SPEC_R4_2.md
+            /index.html
+            /CNAME
+      - name: Checkout W1 fixed source (v2/w1-evaluation-result-v01-20261010)
+        uses: actions/checkout@v4
+        with:
+          ref: 62591034f0969d68ee68ba6e9839585c058ea3f4
+          path: .ci/sources/w1
+          persist-credentials: false
+          sparse-checkout: specs/v2
+      - name: Checkout W2 fixed source (v2/worker2-canonical-batch03-20261009)
+        uses: actions/checkout@v4
+        with:
+          ref: 7f10e9bd2757449d72546155c66714880c6d3ab1
+          path: .ci/sources/w2
+          persist-credentials: false
+          sparse-checkout: data/v2
+      - name: Checkout W3 fixed source (w3/v2-m3-evaluator-20261009)
+        uses: actions/checkout@v4
+        with:
+          ref: d24af0dbea61c158482bea9522ac36eac016843d
+          path: .ci/sources/w3
+          persist-credentials: false
+          sparse-checkout: packages/core-v2
+      - name: Checkout W4 fixed source (codex/v2-w4-contract-smoke-20261010)
+        uses: actions/checkout@v4
+        with:
+          ref: 7cc1ac237f806c737113bc753e1e8d1996b07c43
+          path: .ci/sources/w4
+          persist-credentials: false
+          sparse-checkout: apps/web-v2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Install schema and browser tooling
+        run: |
+          python -m pip install 'jsonschema==4.26.0'
+          npm install --prefix .ci/tooling --no-save --package-lock=false playwright@1.57.0
+          .ci/tooling/node_modules/.bin/playwright install --with-deps chromium
+          node -e 'const p=require("node:path"); const m=p.resolve(".ci/tooling/node_modules/playwright"); const c=require(m).chromium; console.log("PLAYWRIGHT_MODULE="+m); console.log("CHROMIUM_EXECUTABLE="+c.executablePath());' >> "$GITHUB_ENV"
+      - name: Execute every required suite; zero tests or SKIP fail the gate
+        run: |
+          python ops/v2/run_integration.py --sources-root .ci/sources --work-root .ci/integration --logs-dir .ci/logs
+      - name: Preserve raw logs, counts and source SHAs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v2-integration-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .ci/logs/
+          if-no-files-found: error
+          retention-days: 14

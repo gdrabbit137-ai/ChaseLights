@@ -1,0 +1,12 @@
+$ /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python /workspace/work/w5/repo/ops/v2/run_unittest.py data/v2/tests test_*.py /workspace/work/w5/logs-final/w2-crosswalk-schema.json
+test_audit_release_hold (test_worker2_batch03.CrosswalkGate.test_audit_release_hold) ... ok
+test_conditions_references_geometry_and_readiness (test_worker2_batch03.CrosswalkGate.test_conditions_references_geometry_and_readiness) ... ok
+test_crosswalk_exact_coverage_paths_and_text (test_worker2_batch03.CrosswalkGate.test_crosswalk_exact_coverage_paths_and_text) ... ok
+test_negative_duplicate_and_mismatch_fail (test_worker2_batch03.CrosswalkGate.test_negative_duplicate_and_mismatch_fail) ... ok
+test_worker1_v21_schema (test_worker2_batch03.SchemaGate.test_worker1_v21_schema) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.142s
+
+OK
+{"tests": 5, "fail": 0, "error": 0, "skip": 0, "expected_failure": 0, "unexpected_success": 0, "pass": 5}

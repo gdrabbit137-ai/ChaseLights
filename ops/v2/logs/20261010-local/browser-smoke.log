@@ -1,0 +1,47 @@
+$ node --test --test-isolation=none --test-timeout=120000 --test-reporter=tap apps/web-v2/tests/browser-smoke.mjs
+TAP version 13
+# Subtest: desktop zh-TW: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior
+ok 1 - desktop zh-TW: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior
+  ---
+  duration_ms: 2071.643026
+  type: 'test'
+  ...
+# Subtest: desktop en: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior
+ok 2 - desktop en: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior
+  ---
+  duration_ms: 1618.395508
+  type: 'test'
+  ...
+# Subtest: desktop ja: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior
+ok 3 - desktop ja: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior
+  ---
+  duration_ms: 1578.241662
+  type: 'test'
+  ...
+# Subtest: mobile zh-TW: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior
+ok 4 - mobile zh-TW: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior
+  ---
+  duration_ms: 1426.562485
+  type: 'test'
+  ...
+# Subtest: mobile en: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior
+ok 5 - mobile en: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior
+  ---
+  duration_ms: 1456.502166
+  type: 'test'
+  ...
+# Subtest: mobile ja: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior
+ok 6 - mobile ja: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior
+  ---
+  duration_ms: 1440.073121
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 10037.562718

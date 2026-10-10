@@ -1,0 +1,143 @@
+$ node --test --test-isolation=none --test-timeout=120000 --test-reporter=tap apps/web-v2/tests/a11y-locale.test.mjs apps/web-v2/tests/model.test.mjs apps/web-v2/tests/pinned-preview.test.mjs apps/web-v2/tests/source-boundary.test.mjs apps/web-v2/tests/v21-import.test.mjs apps/web-v2/tests/worker2-canonical-records.test.mjs
+TAP version 13
+# Subtest: HTML exposes accessible i18n hooks without hard-coded English
+ok 1 - HTML exposes accessible i18n hooks without hard-coded English
+  ---
+  duration_ms: 2.146069
+  type: 'test'
+  ...
+# Subtest: all three locales have distinct accessibility copy
+ok 2 - all three locales have distinct accessibility copy
+  ---
+  duration_ms: 1.620856
+  type: 'test'
+  ...
+# Subtest: real change handler updates skip, title, and four ARIA labels on every switch
+ok 3 - real change handler updates skip, title, and four ARIA labels on every switch
+  ---
+  duration_ms: 4.197417
+  type: 'test'
+  ...
+# Subtest: supports all three locales and stable place/opportunity IDs
+ok 4 - supports all three locales and stable place/opportunity IDs
+  ---
+  duration_ms: 0.397194
+  type: 'test'
+  ...
+# Subtest: does not silently fall back to Chinese for missing translations
+ok 5 - does not silently fall back to Chinese for missing translations
+  ---
+  duration_ms: 0.258273
+  type: 'test'
+  ...
+# Subtest: does not invent camera-to-subject numbers
+ok 6 - does not invent camera-to-subject numbers
+  ---
+  duration_ms: 0.163381
+  type: 'test'
+  ...
+# Subtest: never routes to unverified or multiple access targets
+ok 7 - never routes to unverified or multiple access targets
+  ---
+  duration_ms: 0.797887
+  type: 'test'
+  ...
+# Subtest: provisional camera anchors without evidence cannot yield Directions or map links
+ok 8 - provisional camera anchors without evidence cannot yield Directions or map links
+  ---
+  duration_ms: 0.218529
+  type: 'test'
+  ...
+# Subtest: never turns research scores into live forecasts
+ok 9 - never turns research scores into live forecasts
+  ---
+  duration_ms: 0.17417
+  type: 'test'
+  ...
+# Subtest: rejects unsafe evidence URLs and unsupported geometry types
+ok 10 - rejects unsafe evidence URLs and unsupported geometry types
+  ---
+  duration_ms: 0.53276
+  type: 'test'
+  ...
+# Subtest: rejects empty and malformed V2 catalogs
+ok 11 - rejects empty and malformed V2 catalogs
+  ---
+  duration_ms: 0.523224
+  type: 'test'
+  ...
+# Subtest: default catalog is the byte-verified W2 preview with only explicit provenance additions
+ok 12 - default catalog is the byte-verified W2 preview with only explicit provenance additions
+  ---
+  duration_ms: 0.736186
+  type: 'test'
+  ...
+# Subtest: all real canonical records retain provisional non-AUTO conditions and unknown geometry
+ok 13 - all real canonical records retain provisional non-AUTO conditions and unknown geometry
+  ---
+  duration_ms: 0.784936
+  type: 'test'
+  ...
+# Subtest: real preview never becomes a live evaluation even with adversarial runtime additions
+ok 14 - real preview never becomes a live evaluation even with adversarial runtime additions
+  ---
+  duration_ms: 1.574026
+  type: 'test'
+  ...
+# Subtest: unverified targets never create directions
+ok 15 - unverified targets never create directions
+  ---
+  duration_ms: 0.168914
+  type: 'test'
+  ...
+# Subtest: research is never promoted to runtime
+ok 16 - research is never promoted to runtime
+  ---
+  duration_ms: 0.115794
+  type: 'test'
+  ...
+# Subtest: evidence links reject executable URLs
+ok 17 - evidence links reject executable URLs
+  ---
+  duration_ms: 0.075321
+  type: 'test'
+  ...
+# Subtest: V2.1 research projection preserves unknown, provenance, 3 locales, and no runtime
+ok 18 - V2.1 research projection preserves unknown, provenance, 3 locales, and no runtime
+  ---
+  duration_ms: 0.572367
+  type: 'test'
+  ...
+# Subtest: three Opportunity records preserve two distinct Place IDs
+ok 19 - three Opportunity records preserve two distinct Place IDs
+  ---
+  duration_ms: 0.489616
+  type: 'test'
+  ...
+# Subtest: invalid version, no data and missing translations fail closed
+ok 20 - invalid version, no data and missing translations fail closed
+  ---
+  duration_ms: 0.715658
+  type: 'test'
+  ...
+# Subtest: Directions require separately evidenced arrival, no fabricated live result
+ok 21 - Directions require separately evidenced arrival, no fabricated live result
+  ---
+  duration_ms: 0.189889
+  type: 'test'
+  ...
+# Subtest: original Worker 2 canonical records preserve research-only semantics
+ok 22 - original Worker 2 canonical records preserve research-only semantics
+  ---
+  duration_ms: 2.069388
+  type: 'test'
+  ...
+1..22
+# tests 22
+# suites 0
+# pass 22
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 59.815207
