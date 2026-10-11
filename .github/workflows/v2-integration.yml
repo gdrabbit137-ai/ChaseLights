@@ -4,7 +4,7 @@ on:
     branches: [main]
     paths: ['.github/workflows/v2-integration.yml', 'ops/v2/**', 'specs/v2/**', 'data/v2/**', 'packages/core-v2/**', 'packages/models-v2/**', 'apps/web-v2/**', 'AGENTS.md', '*SPEC_R4_2.md']
   push:
-    branches: [main, 'codex/v2-w5-integration-ci-*']
+    branches: [main, 'codex/v2-w5-integration-ci-*', 'codex/v2-w5-integration-acceptance-*']
     paths: ['.github/workflows/v2-integration.yml', 'ops/v2/**', 'specs/v2/**', 'data/v2/**', 'packages/core-v2/**', 'packages/models-v2/**', 'apps/web-v2/**', 'AGENTS.md', '*SPEC_R4_2.md']
   workflow_dispatch:
 permissions:
@@ -52,24 +52,31 @@ jobs:
           path: .ci/sources/w1
           persist-credentials: false
           sparse-checkout: specs/v2
-      - name: Checkout W2 fixed source (v2/worker2-canonical-batch03-20261009)
+      - name: Checkout W1 free-composition contract (#439)
         uses: actions/checkout@v4
         with:
-          ref: 7f10e9bd2757449d72546155c66714880c6d3ab1
+          ref: e97625dd1a1105ad6c1429f7e47f0d170d19fd5c
+          path: .ci/sources/w1_free
+          persist-credentials: false
+          sparse-checkout: specs/v2
+      - name: Checkout W2 repaired source (#444)
+        uses: actions/checkout@v4
+        with:
+          ref: 452ff5a79e0e4617d6ddb834b5dbecdd0e896b55
           path: .ci/sources/w2
           persist-credentials: false
           sparse-checkout: data/v2
-      - name: Checkout W3 fixed source (w3/v2-m3-evaluator-20261009)
+      - name: Checkout W3 latest evaluator (#441)
         uses: actions/checkout@v4
         with:
-          ref: d24af0dbea61c158482bea9522ac36eac016843d
+          ref: 77b040fd1af806a564282eea7e3a7c7166a180d3
           path: .ci/sources/w3
           persist-credentials: false
           sparse-checkout: packages/core-v2
-      - name: Checkout W4 fixed source (codex/v2-w4-contract-smoke-20261010)
+      - name: Checkout W4 latest web (#443)
         uses: actions/checkout@v4
         with:
-          ref: 7cc1ac237f806c737113bc753e1e8d1996b07c43
+          ref: 97f7b5744d3b37153176dff12c9d87eac287df02
           path: .ci/sources/w4
           persist-credentials: false
           sparse-checkout: apps/web-v2
