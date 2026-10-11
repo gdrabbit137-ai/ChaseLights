@@ -147,6 +147,24 @@ class CrosswalkGate(unittest.TestCase):
         errors = validate_crosswalk(self.docs, self.rows, self.evidence_ids)
         self.assertEqual([], errors, "\n".join(errors))
 
+    def test_human_review_matches_canonical(self):
+        review = (DATA / "reviews" / "worker2_batch03_human_zh-TW.md").read_text(encoding="utf-8")
+        for oid, doc in self.docs.items():
+            with self.subTest(opportunity=oid):
+                self.assertEqual(1, review.count(f"## {oid} "))
+                section = review.split(f"## {oid} ", 1)[1].split("\n## ", 1)[0]
+                self.assertIn("\n" + doc["description_i18n"]["zh-TW"] + "\n", section)
+                camera = doc["camera_contexts"][0]
+                self.assertIn("\nCamera：" + camera["access_notes_i18n"]["zh-TW"] + "\n", section)
+                self.assertIn("\n安全：" + camera["safety_notes_i18n"]["zh-TW"] + "\n", section)
+                for condition in doc["condition_contract"]["conditions"]:
+                    role = condition["role"]
+                    self.assertIn(f"\n### {role}\n", section)
+                    role_section = section.split(f"\n### {role}\n", 1)[1].split("\n### ", 1)[0]
+                    expected = ("- " + condition["notes_i18n"]["zh-TW"]
+                                + f"（threshold unknown；{condition['evaluation_mode']}）")
+                    self.assertIn(expected, role_section)
+
     def test_negative_duplicate_and_mismatch_fail(self):
         baseline = copy.deepcopy(self.rows)
         first = CROSSWALK_FILES[0]
