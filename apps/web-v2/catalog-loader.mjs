@@ -17,6 +17,12 @@ function assertOpportunity(doc) {
   if (!isObject(doc.condition_contract) || !Array.isArray(doc.condition_contract.conditions) || !isObject(doc.readiness) || !Array.isArray(doc.readiness.gaps) || !isObject(doc.provenance)) throw new CatalogImportError('INVALID_SCHEMA','condition/readiness/provenance');
   for (const t of doc.targets) if (!hasThree(t.name_i18n)) throw new CatalogImportError('INVALID_SCHEMA','target localization');
   for (const c of doc.condition_contract.conditions) if (c.notes_i18n != null && !hasThree(c.notes_i18n)) throw new CatalogImportError('INVALID_SCHEMA','condition localization');
+  if (doc.description_i18n != null && !hasThree(doc.description_i18n)) throw new CatalogImportError('INVALID_SCHEMA','description localization');
+  for (const camera of doc.camera_contexts)
+    for (const key of ['access_notes_i18n','safety_notes_i18n'])
+      if (camera[key] != null && !hasThree(camera[key])) throw new CatalogImportError('INVALID_SCHEMA','camera localization');
+  for (const nav of doc.navigation_targets)
+    if (nav.label_i18n != null && !hasThree(nav.label_i18n)) throw new CatalogImportError('INVALID_SCHEMA','navigation localization');
 }
 export function importV21Catalog(input) {
   if (!isObject(input) && !Array.isArray(input)) throw new CatalogImportError('INVALID_DOCUMENT');
@@ -25,12 +31,17 @@ export function importV21Catalog(input) {
   if (!docs.length || docs.length===1 && docs[0]===source && !('schema_version' in source)) throw new CatalogImportError('NO_DATA');
   if (isObject(source) && source.schema_version != null && source.schema_version!==SUPPORTED_OPPORTUNITY_SCHEMA) throw new CatalogImportError('SCHEMA_MISMATCH',String(source.schema_version));
   for (const doc of docs) assertOpportunity(doc);
+  if (source.places != null && !Array.isArray(source.places)) throw new CatalogImportError('INVALID_SCHEMA','places');
+  for (const place of source.places || [])
+    if (!isObject(place) || place.name_i18n != null && !hasThree(place.name_i18n)) throw new CatalogImportError('INVALID_SCHEMA','place localization');
   const envelope=Array.isArray(source) ? {opportunities:docs} : Array.isArray(source.opportunities) ? source : {opportunities:docs};
   const projected=projectV21(envelope);
   if (!projected) throw new CatalogImportError('INVALID_SCHEMA','projection rejected');
   const result=normalizeCatalog(projected);
   result.generated_at=isObject(source) && typeof source.generated_at==='string' ? source.generated_at : null;
-  result.metadata={...result.metadata,source_schema:SUPPORTED_OPPORTUNITY_SCHEMA,imported_opportunities:docs.length};
+  result.metadata={...result.metadata,source_schema:SUPPORTED_OPPORTUNITY_SCHEMA,imported_opportunities:docs.length,
+    source_commit_sha:typeof source.source_commit_sha==='string' && /^[a-f0-9]{40}$/.test(source.source_commit_sha) ? source.source_commit_sha : null,
+    research_only:true};
   result.evaluations=[]; // Fail closed pending Worker 3's authoritative evaluation contract.
   return result;
 }

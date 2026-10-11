@@ -7,7 +7,7 @@ import {readFile} from 'node:fs/promises';
 import {createRequire} from 'node:module';
 import {fileURLToPath} from 'node:url';
 import {resolve, extname, sep} from 'node:path';
-import {readOriginals, fixtureDirectory, readPinned} from './pinned-worker2.mjs';
+import {readOriginals, fixtureDirectory, readPinned, W2_SHA} from './pinned-worker2.mjs';
 
 const require = createRequire(import.meta.url);
 const {chromium} = require(process.env.PLAYWRIGHT_MODULE || '/opt/codex/cua_node/lib/node_modules/playwright');
@@ -80,6 +80,14 @@ async function assertLocale(page, locale) {
     assert.ok(primaryConditions.includes(condition.notes_i18n[locale]), locale+': missing decision condition');
   const riskText = await page.locator('.decision-risks').innerText();
   assert.ok(riskText.includes(current.camera_contexts[0].safety_notes_i18n[locale]), locale+': missing access risk');
+  assert.ok(riskText.includes(current.camera_contexts[0].access_notes_i18n[locale]), locale+': hidden access restriction');
+  assert.equal(await page.locator('.technical').getAttribute('open'), null, 'geometry must be opt-in');
+  assert.equal(await page.locator('.technical .context-grid').isVisible(), false);
+  assert.ok(await page.locator('.opportunity').evaluate(card => {
+    const details=card.querySelector('.technical');
+    return ['.decision-core','.decision-risks','.decision-unknowns','.notice'].every(selector =>
+      Boolean(card.querySelector(selector)?.compareDocumentPosition(details) & Node.DOCUMENT_POSITION_FOLLOWING));
+  }), 'conditions, limitations, unknowns and research warning must precede technical geometry');
   const framing = await page.locator('.framing-note').innerText();
   assert.ok(framing.length > 20 && !framing.includes('FAVORABLE'), locale+': invalid composition guidance');
 
@@ -113,6 +121,7 @@ for (const [device, viewport] of [['desktop',{width:1440,height:1000}],['mobile'
         await page.waitForSelector('.opportunity');
         assert.equal(await page.locator('.opportunity').count(), 1);
         assert.equal(await page.locator('#source-value').textContent(), 'catalog.v2.json');
+        assert.equal(await page.locator('#source-commit-value').textContent(), W2_SHA);
         // Reach the skip link via a real Tab, then move keyboard focus to main.
         await page.keyboard.press('Tab');
         assert.equal(await page.evaluate(() => document.activeElement.id), 'skip-link');
@@ -133,6 +142,8 @@ for (const [device, viewport] of [['desktop',{width:1440,height:1000}],['mobile'
         await page.locator('#file').setInputFiles(resolve(fixtureDirectory,'tw-026-P01.research-only.v21.json'));
         await page.waitForFunction(() => document.querySelector('#source-value').textContent.endsWith('.research-only.v21.json'));
         await assertLocale(page, locale);
+        assert.ok(!(await page.locator('#source-commit-value').textContent()).includes(W2_SHA),
+          'original preview has no commit declaration; do not retain the previous source SHA');
         // Adversarial runtime metadata is test-only and must not change the research UI.
         const forged = {...preview,forecast_available:true,evaluations:[{
           opportunity_id:'tw-026-P01',kind:'runtime',contract_status:'ready',source:'test-only-forgery',
@@ -160,6 +171,14 @@ for (const [device, viewport] of [['desktop',{width:1440,height:1000}],['mobile'
         assert.equal(await page.locator('.place-button').count(), 0);
         await page.locator('#search').fill('');
         assert.equal(await page.locator('.place-button').count(), 2);
+        // Exercise native pointer/touch controls in addition to desktop keyboard flow.
+        const selectPlace=page.locator('.place-button[data-place-id="tw-016"]');
+        if (device==='mobile') await selectPlace.tap(); else await selectPlace.click();
+        await page.waitForFunction(() => document.querySelectorAll('.opportunity').length===1);
+        assert.equal(await selectPlace.getAttribute('aria-current'), 'true');
+        const summary=page.locator('.technical summary');
+        if (device==='mobile') await summary.tap(); else await summary.click();
+        assert.equal(await page.locator('.technical .context-grid').isVisible(), true);
         // Reject incomplete localization instead of falling back or keeping old cards.
         const invalid = structuredClone(preview);delete invalid.opportunities[0].name_i18n.en;
         await page.locator('#file').setInputFiles({name:'test-only-invalid-localization.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(invalid))});
