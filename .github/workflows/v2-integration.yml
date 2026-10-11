@@ -45,18 +45,11 @@ jobs:
             /NAVIGATION_SPEC_R4_2.md
             /index.html
             /CNAME
-      - name: Checkout W1 fixed source (v2/w1-evaluation-result-v01-20261010)
+      - name: Checkout unified W1 specs (#450)
         uses: actions/checkout@v4
         with:
-          ref: 62591034f0969d68ee68ba6e9839585c058ea3f4
+          ref: 065fe5d27bcd33d492357321674c267e707b640d
           path: .ci/sources/w1
-          persist-credentials: false
-          sparse-checkout: specs/v2
-      - name: Checkout W1 free-composition contract (#439)
-        uses: actions/checkout@v4
-        with:
-          ref: e97625dd1a1105ad6c1429f7e47f0d170d19fd5c
-          path: .ci/sources/w1_free
           persist-credentials: false
           sparse-checkout: specs/v2
       - name: Checkout W2 latest repaired source (#444)

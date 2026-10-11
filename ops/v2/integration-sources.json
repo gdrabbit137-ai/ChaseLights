@@ -1,10 +1,11 @@
 {
   "repository": "gdrabbit137-ai/ChaseLights",
-  "reviewed_main": "93128312ebaea97a97b20f9e0b5f15d6c0996edc",
+  "reviewed_main": "afb6f82cdd812a6cf8dab4465e471b6b03af4a98",
   "sources": {
     "w1": {
-      "sha": "62591034f0969d68ee68ba6e9839585c058ea3f4",
-      "branch": "v2/w1-evaluation-result-v01-20261010"
+      "sha": "065fe5d27bcd33d492357321674c267e707b640d",
+      "branch": "codex/v2-w1-task-h-consolidation-20261011",
+      "pr": 450
     },
     "w2": {
       "sha": "8725bf13348dfae371ae8358930a25dd424a3361",
@@ -21,11 +22,6 @@
       "sha": "ddf9f2c4bd2eeb556bf0aa3b244f01de3256b05f",
       "branch": "codex/v2-w4-task-f-acceptance-20261011",
       "pr": 448
-    },
-    "w1_free": {
-      "sha": "e97625dd1a1105ad6c1429f7e47f0d170d19fd5c",
-      "branch": "v2/w1-free-composition-spec-20261011",
-      "pr": 439
     }
   },
   "reviewed_blobs": {
@@ -43,5 +39,16 @@
     "specs/v2/tests/test_schema_smoke.py": "b90711c6f990d76908531785491c7aba6c8ffbaf",
     "specs/v2/tests/validate_contract.py": "be09680722b8e5598e47a8655afbec73eb53125e"
   },
-  "w5_reused_sha": "7cff8d1fd7dc714093ba521a4c599e980c11e136"
+  "w5_reused_sha": "7cff8d1fd7dc714093ba521a4c599e980c11e136",
+  "w1_changed_blobs": {
+    "specs/v2/CAMERA_AREA_COMPOSITION_POLICY.md": "5a7956f30de11cb2a105c4e15fe52f089029aaa5",
+    "specs/v2/FREE_COMPOSITION_SPEC.md": "e3f9fbcc01e3e3bf1307100228a5f461c210c95b",
+    "specs/v2/README.md": "9001dae7fbb524f563e9b5ed7a8c7a9567c331a4",
+    "specs/v2/schema/evaluation-result-v0.1.schema.json": "bf4cc0e959182279643b4326b7c9ee8f0e047b04",
+    "specs/v2/tests/fixtures/evaluation/invalid_evaluation_forged_favorable_no_provider.json": "796ab66dcc113bb4c566a85c5688b7edfb0b3de7",
+    "specs/v2/tests/fixtures/evaluation/invalid_evaluation_unknown_as_favorable.json": "831b67e7fffecab130ef0d89ffdee7784b14a815",
+    "specs/v2/tests/fixtures/evaluation/valid_evaluation_unknown.json": "1d326f24b67dd930ad4ef6a8a594f032de6a6e00",
+    "specs/v2/tests/test_evaluation_result_security.py": "6311589cfe3cdd55f98605be0611b7900e6c1f44",
+    "specs/v2/tests/test_free_composition_contract.py": "40c34e6e9687904aae8ea62d0154e8633ba03df0"
+  }
 }

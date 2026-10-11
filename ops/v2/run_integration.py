@@ -10,15 +10,6 @@ import subprocess
 import sys
 
 TASK = Path(__file__).resolve().parents[2]
-EXTENSIONS = (
-    'specs/v2/schema/evaluation-result-v0.1.schema.json',
-    'specs/v2/tests/test_evaluation_result_security.py',
-    'specs/v2/tests/fixtures/evaluation/valid_evaluation_unknown.json',
-    'specs/v2/tests/fixtures/evaluation/invalid_evaluation_unknown_as_favorable.json',
-    'specs/v2/tests/fixtures/evaluation/invalid_evaluation_forged_favorable_no_provider.json',
-)
-
-
 def git(root, *args):
     return subprocess.check_output(['git', '-C', str(root), *args]).decode().strip()
 
@@ -49,6 +40,24 @@ def copy_directory(source, destination, prefix):
     for path in paths:
         if '/tests/logs/' not in path:
             verified_copy(source, destination, path)
+
+
+def tree_blobs(source, prefix):
+    """Read checked-in paths and blob IDs, including policy files and fixtures."""
+    entries = git(source, 'ls-tree', '-r', 'HEAD', '--', prefix).splitlines()
+    return {line.split('\t', 1)[1]: line.split()[2] for line in entries}
+
+
+def check_w1_contract(main_checkout, w1_checkout, reviewed):
+    """The complete W1 specs tree may differ from reviewed main only by #450."""
+    baseline = tree_blobs(main_checkout, 'specs/v2')
+    candidate = tree_blobs(w1_checkout, 'specs/v2')
+    changed = {path: candidate.get(path) for path in baseline.keys() | candidate.keys()
+               if baseline.get(path) != candidate.get(path)}
+    if changed != reviewed:
+        raise ValueError('W1 specs delta differs from reviewed #450 blobs: ' +
+                         json.dumps(changed, sort_keys=True))
+    return changed
 
 
 def parse_node(output):
@@ -199,7 +208,7 @@ def main():
             raise ValueError('Scratch work root must be absent: ' + str(root))
         if root == TASK or root.is_relative_to(TASK / 'ops'):
             raise ValueError('Unsafe work root')
-        sources = {k: (args.sources_root / k).resolve() for k in ['main', 'w1', 'w1_free', 'w2', 'w3', 'w4']}
+        sources = {k: (args.sources_root / k).resolve() for k in ['main', 'w1', 'w2', 'w3', 'w4']}
         for key, source in sources.items():
             sha = git(source, 'rev-parse', 'HEAD')
             if key != 'main' and sha != lock['sources'][key]['sha']:
@@ -211,12 +220,15 @@ def main():
             if blob((TASK / path).read_bytes()) != expected:
                 raise ValueError('Task spec differs from reviewed main: ' + path)
         root.mkdir(parents=True)
-        copy_directory(sources['main'], root, 'specs/v2')
+        report['w1_contract_blobs'] = check_w1_contract(
+            sources['main'], sources['w1'], lock['w1_changed_blobs'])
+        (logs / 'w1-provenance.log').write_text(
+            'PASS: complete W1 #450 specs delta matches reviewed blobs; '
+            'all other specs/v2 files match latest main\n' +
+            json.dumps(report['w1_contract_blobs'], indent=2) + '\n')
+        copy_directory(sources['w1'], root, 'specs/v2')
         for path in ['AGENTS.md', 'RESEARCH_EVIDENCE_SPEC_R4_2.md', 'NAVIGATION_SPEC_R4_2.md', 'index.html', 'CNAME']:
             verified_copy(sources['main'], root, path)
-        for path in EXTENSIONS:
-            verified_copy(sources['w1'], root, path)
-        verified_copy(sources['w1_free'], root, 'specs/v2/tests/test_free_composition_contract.py')
         for key, prefix in [('w2', 'data/v2'), ('w3', 'packages/core-v2'), ('w4', 'apps/web-v2')]:
             copy_directory(sources[key], root, prefix)
         shutil.copytree(TASK / 'ops/v2', root / 'ops/v2', ignore=shutil.ignore_patterns('__pycache__', 'logs'))
@@ -242,7 +254,7 @@ def main():
                    WORKER2_DATA_DIR=str(root / 'data/v2/opportunities'))
         groups = [
             ('w1-schema', ['specs/v2/tests', 'test_schema_smoke.py'], 15, True, False),
-            ('w1-evaluation-schema', ['specs/v2/tests', 'test_evaluation_result_security.py'], 2, True, False),
+            ('w1-evaluation-schema', ['specs/v2/tests', 'test_evaluation_result_security.py'], 4, True, False),
             ('w1-free-composition', ['specs/v2/tests', 'test_free_composition_contract.py'], 6, True, False),
             ('w5-contract', ['ops/v2/tests', 'test_integration_gate.py'], 7, True, False),
             ('w5-watchdog', ['ops/v2/tests', 'test_worker_watchdog.py'], 3, True, False),
