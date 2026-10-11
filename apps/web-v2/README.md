@@ -4,10 +4,10 @@ Worker 4 owns only `apps/web-v2/`. This is an isolated research explorer, not a 
 
 ## Fixed real data and provenance
 
-The default `catalog.v2.json` is W2's real `tw-026-P01` research-only preview, with explicit Git provenance fields added. It is pinned to W2 branch `v2/worker2-canonical-batch03-20261009` at `7f10e9bd2757449d72546155c66714880c6d3ab1`:
+The default `catalog.v2.json` is W2's real `tw-026-P01` research-only preview, with explicit Git provenance fields added. It is pinned to W2 branch `codex/v2-w2-batch03-crosswalk-20261011` at `452ff5a79e0e4617d6ddb834b5dbecdd0e896b55`:
 
-- Canonical path: `data/v2/opportunities/tw-026-P01.json`, blob `abb9222e2c2ca974f271b08d497313d402f911b9`.
-- Preview path: `data/v2/previews/tw-026-P01.research-only.v21.json`, blob `6a1e009e76d79de6d45b5360d746cc4932b9c6f7`.
+- Canonical path: `data/v2/opportunities/tw-026-P01.json`, blob `3459ee2afd51ffa48c5b986aaf86d00bac80999e`.
+- Preview path: `data/v2/previews/tw-026-P01.research-only.v21.json`, blob `4e0da88cd60bb9aaad010a1ef4ab6e28d876f4bb`.
 - `tests/fixtures/worker2/` retains byte-exact W2 records `tw-016-P01`, `tw-026-P01`, `tw-026-P02` and the original preview. `manifest.json` records each path, commit, Git blob and SHA-256. These are read-only test inputs, not a second canonical source. Tests verify their bytes, including explicit `WORKER2_DATA_DIR` overrides; missing or changed inputs fail instead of SKIP.
 
 The canonical records are R1 / evidence_review. All 12 conditions are non-AUTO and provisional, with null thresholds and model bindings. Geometry remains unknown, and no independently verified NavigationTarget exists. Three-language source copy is retained unchanged; automated presence and display tests do not establish human semantic approval.
