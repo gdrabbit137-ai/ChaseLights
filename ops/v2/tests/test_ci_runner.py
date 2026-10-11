@@ -7,7 +7,7 @@ import tempfile
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from run_integration import parse_node, run_group, verified_copy
+from run_integration import blob, check_w2_lineage, parse_node, run_group, verified_copy
 
 
 class RunnerTests(unittest.TestCase):
@@ -67,6 +67,34 @@ class RunnerTests(unittest.TestCase):
             (source / 'input.txt').unlink()
             with self.assertRaises(ValueError):
                 verified_copy(source, root / 'destination', 'input.txt')
+
+    def test_w2_new_head_allows_unchanged_blob_but_blocks_real_drift(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            def git(*args):
+                return subprocess.check_output(['git', '-C', str(root), *args],
+                                               stderr=subprocess.DEVNULL).decode().strip()
+            git('init', '-q')
+            git('config', 'user.name', 'W5 provenance test')
+            git('config', 'user.email', 'test@example.invalid')
+            (root / 'data').mkdir()
+            canonical = root / 'data' / 'record.json'
+            canonical.write_text('{"research_only":true}\n')
+            git('add', 'data/record.json')
+            git('commit', '-qm', 'canonical source')
+            source_sha = git('rev-parse', 'HEAD')
+            item = {'source_path': 'data/record.json', 'blob_sha': blob(canonical.read_bytes())}
+            (root / 'review.md').write_text('Crosswalk correction\n')
+            git('add', 'review.md')
+            git('commit', '-qm', 'review only')
+            current_sha = git('rev-parse', 'HEAD')
+            self.assertNotEqual(source_sha, current_sha)
+            check_w2_lineage(root, current_sha, source_sha, [item])
+            canonical.write_text('{"research_only":false}\n')
+            git('add', 'data/record.json')
+            git('commit', '-qm', 'real data drift')
+            with self.assertRaisesRegex(ValueError, 'W2 data drift'):
+                check_w2_lineage(root, git('rev-parse', 'HEAD'), source_sha, [item])
 
 
 if __name__ == '__main__':

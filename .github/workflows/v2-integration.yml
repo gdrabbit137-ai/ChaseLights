@@ -59,24 +59,25 @@ jobs:
           path: .ci/sources/w1_free
           persist-credentials: false
           sparse-checkout: specs/v2
-      - name: Checkout W2 repaired source (#444)
+      - name: Checkout W2 latest repaired source (#444)
         uses: actions/checkout@v4
         with:
-          ref: 452ff5a79e0e4617d6ddb834b5dbecdd0e896b55
+          ref: 8725bf13348dfae371ae8358930a25dd424a3361
           path: .ci/sources/w2
           persist-credentials: false
           sparse-checkout: data/v2
-      - name: Checkout W3 latest evaluator (#441)
+          fetch-depth: 0
+      - name: Checkout W3 latest evaluator (#447)
         uses: actions/checkout@v4
         with:
-          ref: 77b040fd1af806a564282eea7e3a7c7166a180d3
+          ref: b26a014fec9705d40f794ae3ddb02530d3cb5574
           path: .ci/sources/w3
           persist-credentials: false
           sparse-checkout: packages/core-v2
-      - name: Checkout W4 latest web (#443)
+      - name: Checkout W4 latest web (#448)
         uses: actions/checkout@v4
         with:
-          ref: 97f7b5744d3b37153176dff12c9d87eac287df02
+          ref: ddf9f2c4bd2eeb556bf0aa3b244f01de3256b05f
           path: .ci/sources/w4
           persist-credentials: false
           sparse-checkout: apps/web-v2
