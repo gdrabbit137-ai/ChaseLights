@@ -55,3 +55,27 @@ test('real preview never becomes a live evaluation even with adversarial runtime
   assert.equal(navigationAction(imported.opportunities[0].navigation_target), null);
   assert.ok(imported.evidence.every(row => row.source === null && !row.url && row.source_status === 'unresolved_reference'));
 });
+
+
+test('latest W2 source preserves lawful-area uncertainty in all three languages', () => {
+  const canonical = readPinned('tw-026-P01.json');
+  const mirrored = catalog.opportunities[0];
+  const phrases = {
+    'zh-TW': '可拍攝區域邊界尚未獨立核實',
+    en: 'boundaries of permitted shooting areas have not been independently verified',
+    ja: '撮影可能区域の境界は独立に確認できていない'
+  };
+  for (const [locale, phrase] of Object.entries(phrases)) {
+    assert.equal(mirrored.description_i18n[locale], canonical.description_i18n[locale]);
+    assert.ok(mirrored.description_i18n[locale].includes(phrase), locale + ': camera access uncertainty lost');
+    assert.equal(mirrored.camera_contexts[0].access_notes_i18n[locale],
+      canonical.camera_contexts[0].access_notes_i18n[locale]);
+    assert.equal(mirrored.condition_contract.conditions[0].notes_i18n[locale],
+      canonical.condition_contract.conditions[0].notes_i18n[locale]);
+  }
+  assert.ok(mirrored.navigation_targets.every(target => navigationAction(target) === null));
+  assert.equal(catalog.research_only, true);
+  assert.equal(catalog.forecast_available, false);
+  assert.equal(catalog.selected_date_recommendation_eligible, false);
+  assert.deepEqual(catalog.evaluations, []);
+});
