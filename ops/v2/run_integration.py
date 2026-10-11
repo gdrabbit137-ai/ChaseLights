@@ -107,23 +107,36 @@ def run_group(name, command, root, logs, env, expected=None, python=False, node=
     return outcome
 
 
-def check_real_sources(root):
-    """Cross-owner provenance must agree with independently checked-out W2."""
+def check_real_sources(root, w2_sha):
+    """Check current W2 bytes against W3/W4 and the website's default catalog."""
+    problems = []
     web = root / 'apps/web-v2/tests/fixtures/worker2'
     manifest = json.loads((web / 'manifest.json').read_text())
+    if manifest['commit_sha'] != w2_sha:
+        problems.append('W4 manifest pins stale W2 commit: ' + manifest['commit_sha'])
     for item in manifest['files']:
         source = root / item['source_path']
         fixture = web / item['fixture']
         if source.read_bytes() != fixture.read_bytes():
-            raise ValueError('W4 fixture differs from actual W2: ' + item['fixture'])
+            problems.append('W4 fixture differs from current W2: ' + item['fixture'])
         if blob(source.read_bytes()) != item['blob_sha']:
-            raise ValueError('W2 blob mismatch: ' + item['source_path'])
+            problems.append('W4 manifest blob differs from current W2: ' + item['source_path'])
     source = root / 'data/v2/opportunities/tw-026-P01.json'
     if source.read_bytes() != (root / 'packages/core-v2/tests/fixtures/tw-026-P01.w2-fe52720.json').read_bytes():
-        raise ValueError('W3 regression fixture differs from actual W2')
+        problems.append('W3 regression fixture differs from current W2')
+    catalog = json.loads((root / 'apps/web-v2/catalog.v2.json').read_text())
+    if catalog.get('source_commit_sha') != w2_sha:
+        problems.append('W4 default catalog pins stale W2 commit: ' + str(catalog.get('source_commit_sha')))
+    for record in catalog.get('opportunities', []):
+        oid = record['opportunity_id']
+        canonical = json.loads((root / 'data/v2/opportunities' / (oid + '.json')).read_text())
+        if record != canonical:
+            problems.append('W4 default catalog differs from current W2 canonical: ' + oid)
     preview = json.loads((root / 'data/v2/previews/tw-026-P01.research-only.v21.json').read_text())
     if preview.get('forecast_available') is not False or preview.get('evaluations'):
-        raise ValueError('W2 research-only preview carries live evaluations')
+        problems.append('W2 research-only preview carries live evaluations')
+    if problems:
+        raise ValueError('; '.join(problems))
 
 
 def main():
@@ -142,7 +155,7 @@ def main():
             raise ValueError('Scratch work root must be absent: ' + str(root))
         if root == TASK or root.is_relative_to(TASK / 'ops'):
             raise ValueError('Unsafe work root')
-        sources = {k: (args.sources_root / k).resolve() for k in ['main', 'w1', 'w2', 'w3', 'w4']}
+        sources = {k: (args.sources_root / k).resolve() for k in ['main', 'w1', 'w1_free', 'w2', 'w3', 'w4']}
         for key, source in sources.items():
             sha = git(source, 'rev-parse', 'HEAD')
             if key != 'main' and sha != lock['sources'][key]['sha']:
@@ -159,31 +172,42 @@ def main():
             verified_copy(sources['main'], root, path)
         for path in EXTENSIONS:
             verified_copy(sources['w1'], root, path)
+        verified_copy(sources['w1_free'], root, 'specs/v2/tests/test_free_composition_contract.py')
         for key, prefix in [('w2', 'data/v2'), ('w3', 'packages/core-v2'), ('w4', 'apps/web-v2')]:
             copy_directory(sources[key], root, prefix)
         shutil.copytree(TASK / 'ops/v2', root / 'ops/v2', ignore=shutil.ignore_patterns('__pycache__', 'logs'))
-        manifest = json.loads((root / 'apps/web-v2/tests/fixtures/worker2/manifest.json').read_text())
-        if manifest['commit_sha'] != lock['sources']['w2']['sha']:
-            raise ValueError('W4 manifest does not pin current selected W2')
-        check_real_sources(root)
-        (logs / 'provenance.log').write_text(json.dumps(report, indent=2) + '\nPASS: copied bytes match Git blobs; W3/W4 fixtures match independently checked-out W2.\n')
+        try:
+            check_real_sources(root, lock['sources']['w2']['sha'])
+            provenance_error = None
+        except (ValueError, KeyError, FileNotFoundError) as exc:
+            provenance_error = str(exc)
+        (logs / 'provenance.log').write_text(
+            json.dumps(report['sources'], indent=2) + '\n' +
+            ('FAIL: ' + provenance_error if provenance_error else 'PASS: W3/W4 fixtures and W4 default catalog match current W2') + '\n')
+        report['groups'].append({
+            'name': 'cross-owner-provenance', 'exit_code': 1 if provenance_error else 0,
+            'counts': {}, 'status': 'FAIL' if provenance_error else 'PASS',
+            'timed_out': False, 'gate_error': provenance_error, 'log': 'provenance.log',
+        })
+        print(json.dumps(report['groups'][-1]), flush=True)
         env = dict(os.environ, PYTHONDONTWRITEBYTECODE='1',
                    WORKER2_DATA_DIR=str(root / 'data/v2/opportunities'))
         groups = [
             ('w1-schema', ['specs/v2/tests', 'test_schema_smoke.py'], 15, True, False),
             ('w1-evaluation-schema', ['specs/v2/tests', 'test_evaluation_result_security.py'], 2, True, False),
+            ('w1-free-composition', ['specs/v2/tests', 'test_free_composition_contract.py'], 6, True, False),
             ('w5-contract', ['ops/v2/tests', 'test_integration_gate.py'], 7, True, False),
             ('w5-watchdog', ['ops/v2/tests', 'test_worker_watchdog.py'], 3, True, False),
             ('w5-runner', ['ops/v2/tests', 'test_ci_runner.py'], 6, True, False),
-            ('w3-evaluator', ['packages/core-v2/tests', 'test_*.py'], 20, True, False),
-            ('w2-crosswalk-schema', ['data/v2/tests', 'test_*.py'], 5, True, False),
+            ('w3-evaluator', ['packages/core-v2/tests', 'test_*.py'], 25, True, False),
+            ('w2-crosswalk-schema', ['data/v2/tests', 'test_*.py'], 6, True, False),
             ('w2-real-records', [sys.executable, 'specs/v2/tests/validate_contract.py',
                 *[str(p.relative_to(root)) for p in sorted((root / 'data/v2/opportunities').glob('*.json'))]], None, False, False),
             ('schema-valid-fixture', [sys.executable, 'specs/v2/tests/validate_contract.py'], None, False, False),
             ('w3-compile', [sys.executable, '-m', 'py_compile', 'packages/core-v2/evaluator.py',
                            'packages/core-v2/adapters/source_observation.py'], None, False, False),
             ('w4-node', ['node', '--test', '--test-isolation=none', '--test-timeout=120000', '--test-reporter=tap',
-                *[str(p.relative_to(root)) for p in sorted((root / 'apps/web-v2/tests').glob('*.test.mjs'))]], 22, False, True),
+                *[str(p.relative_to(root)) for p in sorted((root / 'apps/web-v2/tests').glob('*.test.mjs'))]], 29, False, True),
             ('local-isolation', [sys.executable, 'ops/v2/integration_gate.py', '--root', str(root)], None, False, False),
             ('browser-smoke', ['node', '--test', '--test-isolation=none', '--test-timeout=120000', '--test-reporter=tap', 'apps/web-v2/tests/browser-smoke.mjs'], 6, False, True),
         ]
