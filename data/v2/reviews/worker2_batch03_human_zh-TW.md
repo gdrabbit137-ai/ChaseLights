@@ -3,7 +3,7 @@
 本輪五個景點完成證據盤點；其中 3 個 Opportunity 已轉為 schema v2.1 的 evidence_review 文件，尚未正式核准。
 
 ## 發布限制
-- Worker 1 的 schema v2.1 位於 Draft PR #428，尚未進 main。
+- V2.1 schema 已在 main：`specs/v2/schema/opportunity-v2.1.schema.json`；仍須依最新 main 執行 Schema 驗證及正式審查。
 - Camera/Subject 精確幾何、方位、仰角、距離與 Navigation GPS 均 unknown。
 - 所有 condition threshold 為 null，unknown_policy=propagate_unknown；不得用未知條件產生 favorable。
 
@@ -55,6 +55,7 @@ Readiness：研究成熟度 R1（evidence_review），仍有 GEOMETRY_GAP 與 RE
 
 Camera：開放的鹽田公共區；施工瞭望台不使用。
 安全：遵守施工及公共區域限制。
+研究限制：上述「開放的鹽田公共區」是條件性取景限制，並非已獨立核實某個公共區的實際開放狀態或邊界；到場須查當日公告與現場管制，若無法確認合法且安全的取景位置，該構圖不可使用。
 Subject：鹽田上空晚霞與格狀鹽池（dynamic_sky；geometry unknown）
 View relation：foreground_background；distance/azimuth/elevation unknown。
 Navigation：needs_review；未核實抵達點。
