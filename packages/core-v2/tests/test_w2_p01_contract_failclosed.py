@@ -6,8 +6,11 @@ from pathlib import Path
 import unittest
 
 ROOT = Path(__file__).resolve().parent
+# The fixture filename is historical. Its bytes are the canonical record at
+# W2 #444's verified head, not the earlier W2 revision named in that filename.
+W2_SOURCE_COMMIT = "8725bf13348dfae371ae8358930a25dd424a3361"
 FIXTURE = ROOT / "fixtures" / "tw-026-P01.w2-fe52720.json"
-BLOB_SHA = "abb9222e2c2ca974f271b08d497313d402f911b9"
+BLOB_SHA = "3459ee2afd51ffa48c5b986aaf86d00bac80999e"
 AT = "2026-10-09T12:00:00+00:00"
 spec = importlib.util.spec_from_file_location("core_v2_evaluator", ROOT.parent / "evaluator.py")
 evaluator = importlib.util.module_from_spec(spec)
@@ -24,7 +27,7 @@ class W2P01FailClosed(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         if not FIXTURE.is_file():
-            raise unittest.SkipTest("BLOCKED: pinned W2 canonical JSON is unavailable")
+            raise AssertionError("Pinned W2 canonical JSON is unavailable: " + str(FIXTURE))
         raw = FIXTURE.read_bytes()
         actual = hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
         if actual != BLOB_SHA:
@@ -47,6 +50,29 @@ class W2P01FailClosed(unittest.TestCase):
         self.assertEqual(self.condition["validation_status"], "provisional")
         self.assertIsNone(self.condition["threshold"])
         self.assertIsNone(self.condition["model_binding"])
+
+    def test_real_contract_has_no_auto_binding_or_threshold(self):
+        self.assertEqual(self.record["lifecycle_status"], "evidence_review")
+        self.assertEqual(self.contract["status"], "review")
+        for condition in self.contract["conditions"]:
+            with self.subTest(condition=condition["id"]):
+                self.assertNotEqual(condition["evaluation_mode"], "AUTO")
+                self.assertIsNone(condition["threshold"])
+                self.assertIsNone(condition["model_binding"])
+                self.assertNotEqual(condition["validation_status"], "validated")
+
+    def test_foreign_provider_cannot_promote_taiwan_research_record(self):
+        # The NWS is outside this Taiwan record's geographic coverage. A
+        # caller-supplied provider name and test boolean cannot authenticate
+        # local weather, establish a model binding, or promote research data.
+        observations = {c["id"]: dict(test_observation(True),
+                                     provider="NOAA_NWS", source="api.weather.gov")
+                        for c in self.contract["conditions"]}
+        result = evaluator.evaluate(self.contract, observations,
+                                    {"lifecycle_status": "evidence_review",
+                                     "research_only": True, "evaluated_at": AT})
+        self.assert_closed(result)
+        self.assertIn("CONTRACT_OR_OPPORTUNITY_NOT_APPROVED", result["reasons"])
 
     def test_guidance_rejects_any_synthetic_boolean(self):
         # Only the outer approval flags are varied to isolate the mode gate.
