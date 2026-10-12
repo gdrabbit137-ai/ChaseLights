@@ -4,8 +4,8 @@
   "provider": "Japan Meteorological Agency (JMA)",
   "model": "JMA_MSM",
   "cycle": {
-    "cycle_time_utc": "2026-10-12T09:00:00Z",
-    "label": "2026-10-12T09:00:00Z"
+    "cycle_time_utc": "2026-10-12T12:00:00Z",
+    "label": "2026-10-12T12:00:00Z"
   },
   "frame_count": 40,
   "grid_rows": 64,
@@ -19,15 +19,15 @@
   "frames": [
     {
       "forecast_hour": 0,
-      "valid_time_utc": "2026-10-12T09:00:00Z",
+      "valid_time_utc": "2026-10-12T12:00:00Z",
       "fields": {
         "total_cloud_percent": {
           "count": 2560,
           "missing": 0,
           "min": 0.0,
           "max": 100.0,
-          "mean": 19.3906,
-          "unique_rounded": 97,
+          "mean": 16.625,
+          "unique_rounded": 93,
           "range": 100.0,
           "flags": [],
           "source_units": "%",
@@ -38,8 +38,8 @@
           "missing": 0,
           "min": 0.0,
           "max": 100.0,
-          "mean": 18.9227,
-          "unique_rounded": 97,
+          "mean": 16.2137,
+          "unique_rounded": 89,
           "range": 100.0,
           "flags": [],
           "source_units": "%",
@@ -49,10 +49,10 @@
           "count": 2560,
           "missing": 0,
           "min": 0.0,
-          "max": 57.0,
-          "mean": 6.2746,
-          "unique_rounded": 58,
-          "range": 57.0,
+          "max": 84.0,
+          "mean": 5.5961,
+          "unique_rounded": 78,
+          "range": 84.0,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -75,15 +75,15 @@
     },
     {
       "forecast_hour": 1,
-      "valid_time_utc": "2026-10-12T10:00:00Z",
+      "valid_time_utc": "2026-10-12T13:00:00Z",
       "fields": {
         "total_cloud_percent": {
           "count": 2560,
           "missing": 0,
           "min": 0.0,
           "max": 100.0,
-          "mean": 19.5504,
-          "unique_rounded": 97,
+          "mean": 16.2801,
+          "unique_rounded": 87,
           "range": 100.0,
           "flags": [],
           "source_units": "%",
@@ -94,8 +94,8 @@
           "missing": 0,
           "min": 0.0,
           "max": 100.0,
-          "mean": 18.9121,
-          "unique_rounded": 97,
+          "mean": 15.952,
+          "unique_rounded": 84,
           "range": 100.0,
           "flags": [],
           "source_units": "%",
@@ -105,10 +105,10 @@
           "count": 2560,
           "missing": 0,
           "min": 0.0,
-          "max": 76.0,
-          "mean": 6.5512,
-          "unique_rounded": 70,
-          "range": 76.0,
+          "max": 80.0,
+          "mean": 5.1469,
+          "unique_rounded": 73,
+          "range": 80.0,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -131,184 +131,16 @@
     },
     {
       "forecast_hour": 2,
-      "valid_time_utc": "2026-10-12T11:00:00Z",
-      "fields": {
-        "total_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 100.0,
-          "mean": 18.8988,
-          "unique_rounded": 96,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "low_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 100.0,
-          "mean": 18.3082,
-          "unique_rounded": 97,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "mid_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 82.0,
-          "mean": 6.5129,
-          "unique_rounded": 76,
-          "range": 82.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "high_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 0.0,
-          "mean": 0.0,
-          "unique_rounded": 1,
-          "range": 0.0,
-          "flags": [
-            "constant_field"
-          ],
-          "source_units": "%",
-          "normalized_units": "%"
-        }
-      }
-    },
-    {
-      "forecast_hour": 3,
-      "valid_time_utc": "2026-10-12T12:00:00Z",
-      "fields": {
-        "total_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 100.0,
-          "mean": 18.266,
-          "unique_rounded": 97,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "low_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 100.0,
-          "mean": 17.6887,
-          "unique_rounded": 93,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "mid_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 89.0,
-          "mean": 6.6918,
-          "unique_rounded": 83,
-          "range": 89.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "high_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 0.0,
-          "mean": 0.0,
-          "unique_rounded": 1,
-          "range": 0.0,
-          "flags": [
-            "constant_field"
-          ],
-          "source_units": "%",
-          "normalized_units": "%"
-        }
-      }
-    },
-    {
-      "forecast_hour": 4,
-      "valid_time_utc": "2026-10-12T13:00:00Z",
-      "fields": {
-        "total_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 100.0,
-          "mean": 18.2008,
-          "unique_rounded": 93,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "low_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 100.0,
-          "mean": 17.5953,
-          "unique_rounded": 87,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "mid_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 82.0,
-          "mean": 7.3875,
-          "unique_rounded": 81,
-          "range": 82.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "high_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 0.0,
-          "mean": 0.0,
-          "unique_rounded": 1,
-          "range": 0.0,
-          "flags": [
-            "constant_field"
-          ],
-          "source_units": "%",
-          "normalized_units": "%"
-        }
-      }
-    },
-    {
-      "forecast_hour": 5,
       "valid_time_utc": "2026-10-12T14:00:00Z",
       "fields": {
         "total_cloud_percent": {
           "count": 2560,
           "missing": 0,
           "min": 0.0,
-          "max": 100.0,
-          "mean": 18.8625,
-          "unique_rounded": 91,
-          "range": 100.0,
+          "max": 96.0,
+          "mean": 16.4762,
+          "unique_rounded": 81,
+          "range": 96.0,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -317,122 +149,10 @@
           "count": 2560,
           "missing": 0,
           "min": 0.0,
-          "max": 100.0,
-          "mean": 17.9863,
-          "unique_rounded": 85,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "mid_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 82.0,
-          "mean": 8.0285,
-          "unique_rounded": 80,
-          "range": 82.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "high_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 0.0,
-          "mean": 0.0,
-          "unique_rounded": 1,
-          "range": 0.0,
-          "flags": [
-            "constant_field"
-          ],
-          "source_units": "%",
-          "normalized_units": "%"
-        }
-      }
-    },
-    {
-      "forecast_hour": 6,
-      "valid_time_utc": "2026-10-12T15:00:00Z",
-      "fields": {
-        "total_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 100.0,
-          "mean": 18.1949,
-          "unique_rounded": 85,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "low_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 100.0,
-          "mean": 17.4555,
-          "unique_rounded": 80,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "mid_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 78.0,
-          "mean": 7.4344,
-          "unique_rounded": 76,
-          "range": 78.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "high_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 0.0,
-          "mean": 0.0,
-          "unique_rounded": 1,
-          "range": 0.0,
-          "flags": [
-            "constant_field"
-          ],
-          "source_units": "%",
-          "normalized_units": "%"
-        }
-      }
-    },
-    {
-      "forecast_hour": 7,
-      "valid_time_utc": "2026-10-12T16:00:00Z",
-      "fields": {
-        "total_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 90.0,
-          "mean": 16.3762,
-          "unique_rounded": 77,
-          "range": 90.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "low_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 90.0,
-          "mean": 15.7211,
-          "unique_rounded": 72,
-          "range": 90.0,
+          "max": 96.0,
+          "mean": 16.1484,
+          "unique_rounded": 81,
+          "range": 96.0,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -442,8 +162,8 @@
           "missing": 0,
           "min": 0.0,
           "max": 73.0,
-          "mean": 6.1676,
-          "unique_rounded": 71,
+          "mean": 5.1844,
+          "unique_rounded": 67,
           "range": 73.0,
           "flags": [],
           "source_units": "%",
@@ -466,17 +186,17 @@
       }
     },
     {
-      "forecast_hour": 8,
-      "valid_time_utc": "2026-10-12T17:00:00Z",
+      "forecast_hour": 3,
+      "valid_time_utc": "2026-10-12T15:00:00Z",
       "fields": {
         "total_cloud_percent": {
           "count": 2560,
           "missing": 0,
           "min": 0.0,
-          "max": 96.0,
-          "mean": 14.8219,
-          "unique_rounded": 73,
-          "range": 96.0,
+          "max": 98.0,
+          "mean": 16.625,
+          "unique_rounded": 76,
+          "range": 98.0,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -485,10 +205,10 @@
           "count": 2560,
           "missing": 0,
           "min": 0.0,
-          "max": 96.0,
-          "mean": 14.2648,
-          "unique_rounded": 70,
-          "range": 96.0,
+          "max": 98.0,
+          "mean": 16.2895,
+          "unique_rounded": 72,
+          "range": 98.0,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -497,10 +217,10 @@
           "count": 2560,
           "missing": 0,
           "min": 0.0,
-          "max": 68.0,
-          "mean": 5.2984,
-          "unique_rounded": 66,
-          "range": 68.0,
+          "max": 70.0,
+          "mean": 4.8574,
+          "unique_rounded": 69,
+          "range": 70.0,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -522,7 +242,119 @@
       }
     },
     {
-      "forecast_hour": 9,
+      "forecast_hour": 4,
+      "valid_time_utc": "2026-10-12T16:00:00Z",
+      "fields": {
+        "total_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 95.0,
+          "mean": 16.0883,
+          "unique_rounded": 72,
+          "range": 95.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "low_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 95.0,
+          "mean": 15.743,
+          "unique_rounded": 69,
+          "range": 95.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "mid_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 65.0,
+          "mean": 4.468,
+          "unique_rounded": 64,
+          "range": 65.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "high_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 0.0,
+          "mean": 0.0,
+          "unique_rounded": 1,
+          "range": 0.0,
+          "flags": [
+            "constant_field"
+          ],
+          "source_units": "%",
+          "normalized_units": "%"
+        }
+      }
+    },
+    {
+      "forecast_hour": 5,
+      "valid_time_utc": "2026-10-12T17:00:00Z",
+      "fields": {
+        "total_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 97.0,
+          "mean": 15.6461,
+          "unique_rounded": 73,
+          "range": 97.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "low_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 97.0,
+          "mean": 15.1895,
+          "unique_rounded": 72,
+          "range": 97.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "mid_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 61.0,
+          "mean": 4.4527,
+          "unique_rounded": 59,
+          "range": 61.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "high_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 0.0,
+          "mean": 0.0,
+          "unique_rounded": 1,
+          "range": 0.0,
+          "flags": [
+            "constant_field"
+          ],
+          "source_units": "%",
+          "normalized_units": "%"
+        }
+      }
+    },
+    {
+      "forecast_hour": 6,
       "valid_time_utc": "2026-10-12T18:00:00Z",
       "fields": {
         "total_cloud_percent": {
@@ -530,8 +362,8 @@
           "missing": 0,
           "min": 0.0,
           "max": 100.0,
-          "mean": 13.9437,
-          "unique_rounded": 71,
+          "mean": 15.9262,
+          "unique_rounded": 73,
           "range": 100.0,
           "flags": [],
           "source_units": "%",
@@ -542,8 +374,8 @@
           "missing": 0,
           "min": 0.0,
           "max": 100.0,
-          "mean": 13.5547,
-          "unique_rounded": 69,
+          "mean": 15.4227,
+          "unique_rounded": 72,
           "range": 100.0,
           "flags": [],
           "source_units": "%",
@@ -553,10 +385,10 @@
           "count": 2560,
           "missing": 0,
           "min": 0.0,
-          "max": 54.0,
-          "mean": 4.7129,
-          "unique_rounded": 51,
-          "range": 54.0,
+          "max": 58.0,
+          "mean": 4.7469,
+          "unique_rounded": 59,
+          "range": 58.0,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -578,7 +410,7 @@
       }
     },
     {
-      "forecast_hour": 10,
+      "forecast_hour": 7,
       "valid_time_utc": "2026-10-12T19:00:00Z",
       "fields": {
         "total_cloud_percent": {
@@ -586,287 +418,7 @@
           "missing": 0,
           "min": 0.0,
           "max": 100.0,
-          "mean": 13.8668,
-          "unique_rounded": 72,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "low_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 100.0,
-          "mean": 13.5602,
-          "unique_rounded": 72,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "mid_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 52.0,
-          "mean": 4.5457,
-          "unique_rounded": 53,
-          "range": 52.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "high_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 0.0,
-          "mean": 0.0,
-          "unique_rounded": 1,
-          "range": 0.0,
-          "flags": [
-            "constant_field"
-          ],
-          "source_units": "%",
-          "normalized_units": "%"
-        }
-      }
-    },
-    {
-      "forecast_hour": 11,
-      "valid_time_utc": "2026-10-12T20:00:00Z",
-      "fields": {
-        "total_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 100.0,
-          "mean": 14.1328,
-          "unique_rounded": 75,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "low_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 100.0,
-          "mean": 13.8211,
-          "unique_rounded": 75,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "mid_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 67.0,
-          "mean": 4.5746,
-          "unique_rounded": 54,
-          "range": 67.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "high_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 0.0,
-          "mean": 0.0,
-          "unique_rounded": 1,
-          "range": 0.0,
-          "flags": [
-            "constant_field"
-          ],
-          "source_units": "%",
-          "normalized_units": "%"
-        }
-      }
-    },
-    {
-      "forecast_hour": 12,
-      "valid_time_utc": "2026-10-12T21:00:00Z",
-      "fields": {
-        "total_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 100.0,
-          "mean": 14.7715,
-          "unique_rounded": 78,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "low_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 100.0,
-          "mean": 14.4227,
-          "unique_rounded": 79,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "mid_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 86.0,
-          "mean": 4.5379,
-          "unique_rounded": 61,
-          "range": 86.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "high_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 0.0,
-          "mean": 0.0,
-          "unique_rounded": 1,
-          "range": 0.0,
-          "flags": [
-            "constant_field"
-          ],
-          "source_units": "%",
-          "normalized_units": "%"
-        }
-      }
-    },
-    {
-      "forecast_hour": 13,
-      "valid_time_utc": "2026-10-12T22:00:00Z",
-      "fields": {
-        "total_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 100.0,
-          "mean": 15.4621,
-          "unique_rounded": 81,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "low_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 100.0,
-          "mean": 15.1289,
-          "unique_rounded": 81,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "mid_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 88.0,
-          "mean": 4.2469,
-          "unique_rounded": 65,
-          "range": 88.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "high_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 0.0,
-          "mean": 0.0,
-          "unique_rounded": 1,
-          "range": 0.0,
-          "flags": [
-            "constant_field"
-          ],
-          "source_units": "%",
-          "normalized_units": "%"
-        }
-      }
-    },
-    {
-      "forecast_hour": 14,
-      "valid_time_utc": "2026-10-12T23:00:00Z",
-      "fields": {
-        "total_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 100.0,
-          "mean": 15.1379,
-          "unique_rounded": 89,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "low_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 100.0,
-          "mean": 14.7035,
-          "unique_rounded": 83,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "mid_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 93.0,
-          "mean": 3.6734,
-          "unique_rounded": 69,
-          "range": 93.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "high_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 0.0,
-          "mean": 0.0,
-          "unique_rounded": 1,
-          "range": 0.0,
-          "flags": [
-            "constant_field"
-          ],
-          "source_units": "%",
-          "normalized_units": "%"
-        }
-      }
-    },
-    {
-      "forecast_hour": 15,
-      "valid_time_utc": "2026-10-13T00:00:00Z",
-      "fields": {
-        "total_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 100.0,
-          "mean": 13.2937,
+          "mean": 16.2891,
           "unique_rounded": 77,
           "range": 100.0,
           "flags": [],
@@ -878,8 +430,8 @@
           "missing": 0,
           "min": 0.0,
           "max": 100.0,
-          "mean": 12.7922,
-          "unique_rounded": 75,
+          "mean": 15.7133,
+          "unique_rounded": 77,
           "range": 100.0,
           "flags": [],
           "source_units": "%",
@@ -889,345 +441,9 @@
           "count": 2560,
           "missing": 0,
           "min": 0.0,
-          "max": 95.0,
-          "mean": 2.9773,
-          "unique_rounded": 63,
-          "range": 95.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "high_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 0.0,
-          "mean": 0.0,
-          "unique_rounded": 1,
-          "range": 0.0,
-          "flags": [
-            "constant_field"
-          ],
-          "source_units": "%",
-          "normalized_units": "%"
-        }
-      }
-    },
-    {
-      "forecast_hour": 16,
-      "valid_time_utc": "2026-10-13T01:00:00Z",
-      "fields": {
-        "total_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 97.0,
-          "mean": 9.9621,
-          "unique_rounded": 72,
-          "range": 97.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "low_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 97.0,
-          "mean": 9.5586,
-          "unique_rounded": 70,
-          "range": 97.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "mid_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 93.0,
-          "mean": 2.1461,
-          "unique_rounded": 58,
-          "range": 93.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "high_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 0.0,
-          "mean": 0.0,
-          "unique_rounded": 1,
-          "range": 0.0,
-          "flags": [
-            "constant_field"
-          ],
-          "source_units": "%",
-          "normalized_units": "%"
-        }
-      }
-    },
-    {
-      "forecast_hour": 17,
-      "valid_time_utc": "2026-10-13T02:00:00Z",
-      "fields": {
-        "total_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 89.0,
-          "mean": 9.1559,
-          "unique_rounded": 61,
-          "range": 89.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "low_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 88.0,
-          "mean": 8.9391,
-          "unique_rounded": 61,
-          "range": 88.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "mid_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 89.0,
-          "mean": 1.3801,
-          "unique_rounded": 48,
-          "range": 89.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "high_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 0.0,
-          "mean": 0.0,
-          "unique_rounded": 1,
-          "range": 0.0,
-          "flags": [
-            "constant_field"
-          ],
-          "source_units": "%",
-          "normalized_units": "%"
-        }
-      }
-    },
-    {
-      "forecast_hour": 18,
-      "valid_time_utc": "2026-10-13T03:00:00Z",
-      "fields": {
-        "total_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 88.0,
-          "mean": 9.5234,
-          "unique_rounded": 62,
-          "range": 88.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "low_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 88.0,
-          "mean": 9.4297,
-          "unique_rounded": 62,
-          "range": 88.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "mid_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 78.0,
-          "mean": 0.9156,
-          "unique_rounded": 36,
-          "range": 78.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "high_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 0.0,
-          "mean": 0.0,
-          "unique_rounded": 1,
-          "range": 0.0,
-          "flags": [
-            "constant_field"
-          ],
-          "source_units": "%",
-          "normalized_units": "%"
-        }
-      }
-    },
-    {
-      "forecast_hour": 19,
-      "valid_time_utc": "2026-10-13T04:00:00Z",
-      "fields": {
-        "total_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 92.0,
-          "mean": 10.0609,
-          "unique_rounded": 70,
-          "range": 92.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "low_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 92.0,
-          "mean": 10.0086,
-          "unique_rounded": 70,
-          "range": 92.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "mid_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 57.0,
-          "mean": 0.7992,
-          "unique_rounded": 31,
-          "range": 57.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "high_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 0.0,
-          "mean": 0.0,
-          "unique_rounded": 1,
-          "range": 0.0,
-          "flags": [
-            "constant_field"
-          ],
-          "source_units": "%",
-          "normalized_units": "%"
-        }
-      }
-    },
-    {
-      "forecast_hour": 20,
-      "valid_time_utc": "2026-10-13T05:00:00Z",
-      "fields": {
-        "total_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 94.0,
-          "mean": 11.5348,
-          "unique_rounded": 79,
-          "range": 94.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "low_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 94.0,
-          "mean": 11.3621,
-          "unique_rounded": 79,
-          "range": 94.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "mid_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 66.0,
-          "mean": 1.5688,
-          "unique_rounded": 44,
-          "range": 66.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "high_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 0.0,
-          "mean": 0.0,
-          "unique_rounded": 1,
-          "range": 0.0,
-          "flags": [
-            "constant_field"
-          ],
-          "source_units": "%",
-          "normalized_units": "%"
-        }
-      }
-    },
-    {
-      "forecast_hour": 21,
-      "valid_time_utc": "2026-10-13T06:00:00Z",
-      "fields": {
-        "total_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 96.0,
-          "mean": 13.35,
-          "unique_rounded": 86,
-          "range": 96.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "low_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 96.0,
-          "mean": 12.9832,
-          "unique_rounded": 86,
-          "range": 96.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "mid_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
           "max": 60.0,
-          "mean": 2.5145,
-          "unique_rounded": 48,
+          "mean": 5.1133,
+          "unique_rounded": 61,
           "range": 60.0,
           "flags": [],
           "source_units": "%",
@@ -1250,17 +466,17 @@
       }
     },
     {
-      "forecast_hour": 22,
-      "valid_time_utc": "2026-10-13T07:00:00Z",
+      "forecast_hour": 8,
+      "valid_time_utc": "2026-10-12T20:00:00Z",
       "fields": {
         "total_cloud_percent": {
           "count": 2560,
           "missing": 0,
           "min": 0.0,
-          "max": 98.0,
-          "mean": 15.1152,
-          "unique_rounded": 93,
-          "range": 98.0,
+          "max": 100.0,
+          "mean": 16.293,
+          "unique_rounded": 75,
+          "range": 100.0,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -1269,10 +485,10 @@
           "count": 2560,
           "missing": 0,
           "min": 0.0,
-          "max": 98.0,
-          "mean": 14.548,
-          "unique_rounded": 93,
-          "range": 98.0,
+          "max": 100.0,
+          "mean": 15.8047,
+          "unique_rounded": 75,
+          "range": 100.0,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -1281,10 +497,10 @@
           "count": 2560,
           "missing": 0,
           "min": 0.0,
-          "max": 68.0,
-          "mean": 3.3441,
-          "unique_rounded": 53,
-          "range": 68.0,
+          "max": 77.0,
+          "mean": 5.1875,
+          "unique_rounded": 61,
+          "range": 77.0,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -1306,16 +522,16 @@
       }
     },
     {
-      "forecast_hour": 23,
-      "valid_time_utc": "2026-10-13T08:00:00Z",
+      "forecast_hour": 9,
+      "valid_time_utc": "2026-10-12T21:00:00Z",
       "fields": {
         "total_cloud_percent": {
           "count": 2560,
           "missing": 0,
           "min": 0.0,
           "max": 100.0,
-          "mean": 16.482,
-          "unique_rounded": 100,
+          "mean": 16.4008,
+          "unique_rounded": 81,
           "range": 100.0,
           "flags": [],
           "source_units": "%",
@@ -1326,8 +542,8 @@
           "missing": 0,
           "min": 0.0,
           "max": 100.0,
-          "mean": 15.7129,
-          "unique_rounded": 100,
+          "mean": 15.8598,
+          "unique_rounded": 82,
           "range": 100.0,
           "flags": [],
           "source_units": "%",
@@ -1337,10 +553,290 @@
           "count": 2560,
           "missing": 0,
           "min": 0.0,
-          "max": 52.0,
-          "mean": 3.9324,
+          "max": 93.0,
+          "mean": 5.0742,
+          "unique_rounded": 64,
+          "range": 93.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "high_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 0.0,
+          "mean": 0.0,
+          "unique_rounded": 1,
+          "range": 0.0,
+          "flags": [
+            "constant_field"
+          ],
+          "source_units": "%",
+          "normalized_units": "%"
+        }
+      }
+    },
+    {
+      "forecast_hour": 10,
+      "valid_time_utc": "2026-10-12T22:00:00Z",
+      "fields": {
+        "total_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 16.3125,
+          "unique_rounded": 88,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "low_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 15.7504,
+          "unique_rounded": 88,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "mid_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 91.0,
+          "mean": 4.6297,
+          "unique_rounded": 72,
+          "range": 91.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "high_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 0.0,
+          "mean": 0.0,
+          "unique_rounded": 1,
+          "range": 0.0,
+          "flags": [
+            "constant_field"
+          ],
+          "source_units": "%",
+          "normalized_units": "%"
+        }
+      }
+    },
+    {
+      "forecast_hour": 11,
+      "valid_time_utc": "2026-10-12T23:00:00Z",
+      "fields": {
+        "total_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 15.3766,
+          "unique_rounded": 91,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "low_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 14.8301,
+          "unique_rounded": 86,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "mid_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 92.0,
+          "mean": 3.7199,
+          "unique_rounded": 74,
+          "range": 92.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "high_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 0.0,
+          "mean": 0.0,
+          "unique_rounded": 1,
+          "range": 0.0,
+          "flags": [
+            "constant_field"
+          ],
+          "source_units": "%",
+          "normalized_units": "%"
+        }
+      }
+    },
+    {
+      "forecast_hour": 12,
+      "valid_time_utc": "2026-10-13T00:00:00Z",
+      "fields": {
+        "total_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 13.1707,
+          "unique_rounded": 85,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "low_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 12.768,
+          "unique_rounded": 81,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "mid_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 91.0,
+          "mean": 2.927,
+          "unique_rounded": 63,
+          "range": 91.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "high_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 0.0,
+          "mean": 0.0,
+          "unique_rounded": 1,
+          "range": 0.0,
+          "flags": [
+            "constant_field"
+          ],
+          "source_units": "%",
+          "normalized_units": "%"
+        }
+      }
+    },
+    {
+      "forecast_hour": 13,
+      "valid_time_utc": "2026-10-13T01:00:00Z",
+      "fields": {
+        "total_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 9.7129,
+          "unique_rounded": 77,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "low_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 9.4449,
+          "unique_rounded": 74,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "mid_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 92.0,
+          "mean": 2.1434,
+          "unique_rounded": 58,
+          "range": 92.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "high_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 0.0,
+          "mean": 0.0,
+          "unique_rounded": 1,
+          "range": 0.0,
+          "flags": [
+            "constant_field"
+          ],
+          "source_units": "%",
+          "normalized_units": "%"
+        }
+      }
+    },
+    {
+      "forecast_hour": 14,
+      "valid_time_utc": "2026-10-13T02:00:00Z",
+      "fields": {
+        "total_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 88.0,
+          "mean": 8.3848,
+          "unique_rounded": 59,
+          "range": 88.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "low_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 83.0,
+          "mean": 8.2063,
+          "unique_rounded": 57,
+          "range": 83.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "mid_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 88.0,
+          "mean": 1.366,
           "unique_rounded": 51,
-          "range": 52.0,
+          "range": 88.0,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -1362,17 +858,17 @@
       }
     },
     {
-      "forecast_hour": 24,
-      "valid_time_utc": "2026-10-13T09:00:00Z",
+      "forecast_hour": 15,
+      "valid_time_utc": "2026-10-13T03:00:00Z",
       "fields": {
         "total_cloud_percent": {
           "count": 2560,
           "missing": 0,
           "min": 0.0,
-          "max": 100.0,
-          "mean": 17.782,
-          "unique_rounded": 101,
-          "range": 100.0,
+          "max": 70.0,
+          "mean": 8.6668,
+          "unique_rounded": 59,
+          "range": 70.0,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -1381,10 +877,122 @@
           "count": 2560,
           "missing": 0,
           "min": 0.0,
-          "max": 100.0,
-          "mean": 16.8715,
-          "unique_rounded": 101,
-          "range": 100.0,
+          "max": 70.0,
+          "mean": 8.5547,
+          "unique_rounded": 60,
+          "range": 70.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "mid_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 58.0,
+          "mean": 0.8859,
+          "unique_rounded": 38,
+          "range": 58.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "high_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 0.0,
+          "mean": 0.0,
+          "unique_rounded": 1,
+          "range": 0.0,
+          "flags": [
+            "constant_field"
+          ],
+          "source_units": "%",
+          "normalized_units": "%"
+        }
+      }
+    },
+    {
+      "forecast_hour": 16,
+      "valid_time_utc": "2026-10-13T04:00:00Z",
+      "fields": {
+        "total_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 90.0,
+          "mean": 9.1988,
+          "unique_rounded": 66,
+          "range": 90.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "low_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 90.0,
+          "mean": 9.1406,
+          "unique_rounded": 66,
+          "range": 90.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "mid_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 60.0,
+          "mean": 0.7719,
+          "unique_rounded": 33,
+          "range": 60.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "high_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 0.0,
+          "mean": 0.0,
+          "unique_rounded": 1,
+          "range": 0.0,
+          "flags": [
+            "constant_field"
+          ],
+          "source_units": "%",
+          "normalized_units": "%"
+        }
+      }
+    },
+    {
+      "forecast_hour": 17,
+      "valid_time_utc": "2026-10-13T05:00:00Z",
+      "fields": {
+        "total_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 75.0,
+          "mean": 10.7855,
+          "unique_rounded": 72,
+          "range": 75.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "low_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 75.0,
+          "mean": 10.6348,
+          "unique_rounded": 72,
+          "range": 75.0,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -1394,8 +1002,8 @@
           "missing": 0,
           "min": 0.0,
           "max": 53.0,
-          "mean": 4.3234,
-          "unique_rounded": 51,
+          "mean": 1.5133,
+          "unique_rounded": 40,
           "range": 53.0,
           "flags": [],
           "source_units": "%",
@@ -1418,17 +1026,17 @@
       }
     },
     {
-      "forecast_hour": 25,
-      "valid_time_utc": "2026-10-13T10:00:00Z",
+      "forecast_hour": 18,
+      "valid_time_utc": "2026-10-13T06:00:00Z",
       "fields": {
         "total_cloud_percent": {
           "count": 2560,
           "missing": 0,
           "min": 0.0,
-          "max": 100.0,
-          "mean": 18.6691,
-          "unique_rounded": 100,
-          "range": 100.0,
+          "max": 94.0,
+          "mean": 12.6324,
+          "unique_rounded": 85,
+          "range": 94.0,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -1437,10 +1045,10 @@
           "count": 2560,
           "missing": 0,
           "min": 0.0,
-          "max": 100.0,
-          "mean": 17.7324,
-          "unique_rounded": 100,
-          "range": 100.0,
+          "max": 94.0,
+          "mean": 12.2414,
+          "unique_rounded": 85,
+          "range": 94.0,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -1449,402 +1057,10 @@
           "count": 2560,
           "missing": 0,
           "min": 0.0,
-          "max": 52.0,
-          "mean": 4.5031,
-          "unique_rounded": 45,
-          "range": 52.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "high_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 0.0,
-          "mean": 0.0,
-          "unique_rounded": 1,
-          "range": 0.0,
-          "flags": [
-            "constant_field"
-          ],
-          "source_units": "%",
-          "normalized_units": "%"
-        }
-      }
-    },
-    {
-      "forecast_hour": 26,
-      "valid_time_utc": "2026-10-13T11:00:00Z",
-      "fields": {
-        "total_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 100.0,
-          "mean": 17.7164,
-          "unique_rounded": 98,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "low_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 100.0,
-          "mean": 16.8746,
-          "unique_rounded": 98,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "mid_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 50.0,
-          "mean": 4.2805,
-          "unique_rounded": 42,
-          "range": 50.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "high_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 0.0,
-          "mean": 0.0,
-          "unique_rounded": 1,
-          "range": 0.0,
-          "flags": [
-            "constant_field"
-          ],
-          "source_units": "%",
-          "normalized_units": "%"
-        }
-      }
-    },
-    {
-      "forecast_hour": 27,
-      "valid_time_utc": "2026-10-13T12:00:00Z",
-      "fields": {
-        "total_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 100.0,
-          "mean": 16.007,
-          "unique_rounded": 96,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "low_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 100.0,
-          "mean": 15.2699,
-          "unique_rounded": 96,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "mid_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 38.0,
-          "mean": 3.8355,
-          "unique_rounded": 39,
-          "range": 38.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "high_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 0.0,
-          "mean": 0.0,
-          "unique_rounded": 1,
-          "range": 0.0,
-          "flags": [
-            "constant_field"
-          ],
-          "source_units": "%",
-          "normalized_units": "%"
-        }
-      }
-    },
-    {
-      "forecast_hour": 28,
-      "valid_time_utc": "2026-10-13T13:00:00Z",
-      "fields": {
-        "total_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 100.0,
-          "mean": 15.2477,
-          "unique_rounded": 87,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "low_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 100.0,
-          "mean": 14.4699,
-          "unique_rounded": 87,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "mid_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 43.0,
-          "mean": 3.5227,
-          "unique_rounded": 40,
-          "range": 43.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "high_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 0.0,
-          "mean": 0.0,
-          "unique_rounded": 1,
-          "range": 0.0,
-          "flags": [
-            "constant_field"
-          ],
-          "source_units": "%",
-          "normalized_units": "%"
-        }
-      }
-    },
-    {
-      "forecast_hour": 29,
-      "valid_time_utc": "2026-10-13T14:00:00Z",
-      "fields": {
-        "total_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 100.0,
-          "mean": 15.4914,
-          "unique_rounded": 79,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "low_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 100.0,
-          "mean": 14.7598,
-          "unique_rounded": 79,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "mid_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 48.0,
-          "mean": 3.4547,
-          "unique_rounded": 46,
-          "range": 48.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "high_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 0.0,
-          "mean": 0.0,
-          "unique_rounded": 1,
-          "range": 0.0,
-          "flags": [
-            "constant_field"
-          ],
-          "source_units": "%",
-          "normalized_units": "%"
-        }
-      }
-    },
-    {
-      "forecast_hour": 30,
-      "valid_time_utc": "2026-10-13T15:00:00Z",
-      "fields": {
-        "total_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 88.0,
-          "mean": 14.8309,
-          "unique_rounded": 77,
-          "range": 88.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "low_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 88.0,
-          "mean": 14.268,
-          "unique_rounded": 77,
-          "range": 88.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "mid_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 45.0,
-          "mean": 3.4805,
-          "unique_rounded": 46,
-          "range": 45.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "high_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 0.0,
-          "mean": 0.0,
-          "unique_rounded": 1,
-          "range": 0.0,
-          "flags": [
-            "constant_field"
-          ],
-          "source_units": "%",
-          "normalized_units": "%"
-        }
-      }
-    },
-    {
-      "forecast_hour": 31,
-      "valid_time_utc": "2026-10-13T16:00:00Z",
-      "fields": {
-        "total_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 81.0,
-          "mean": 14.7273,
-          "unique_rounded": 64,
-          "range": 81.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "low_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 81.0,
-          "mean": 14.2609,
-          "unique_rounded": 64,
-          "range": 81.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "mid_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 45.0,
-          "mean": 3.5938,
-          "unique_rounded": 46,
-          "range": 45.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "high_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 0.0,
-          "mean": 0.0,
-          "unique_rounded": 1,
-          "range": 0.0,
-          "flags": [
-            "constant_field"
-          ],
-          "source_units": "%",
-          "normalized_units": "%"
-        }
-      }
-    },
-    {
-      "forecast_hour": 32,
-      "valid_time_utc": "2026-10-13T17:00:00Z",
-      "fields": {
-        "total_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 69.0,
-          "mean": 15.4867,
-          "unique_rounded": 59,
-          "range": 69.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "low_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 69.0,
-          "mean": 15.0805,
-          "unique_rounded": 59,
-          "range": 69.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "mid_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 47.0,
-          "mean": 3.7277,
+          "max": 53.0,
+          "mean": 2.4188,
           "unique_rounded": 48,
-          "range": 47.0,
+          "range": 53.0,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -1866,17 +1082,17 @@
       }
     },
     {
-      "forecast_hour": 33,
-      "valid_time_utc": "2026-10-13T18:00:00Z",
+      "forecast_hour": 19,
+      "valid_time_utc": "2026-10-13T07:00:00Z",
       "fields": {
         "total_cloud_percent": {
           "count": 2560,
           "missing": 0,
           "min": 0.0,
-          "max": 100.0,
-          "mean": 16.866,
-          "unique_rounded": 68,
-          "range": 100.0,
+          "max": 97.0,
+          "mean": 14.4809,
+          "unique_rounded": 91,
+          "range": 97.0,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -1885,234 +1101,10 @@
           "count": 2560,
           "missing": 0,
           "min": 0.0,
-          "max": 100.0,
-          "mean": 16.4605,
-          "unique_rounded": 68,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "mid_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 56.0,
-          "mean": 4.025,
-          "unique_rounded": 54,
-          "range": 56.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "high_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 0.0,
-          "mean": 0.0,
-          "unique_rounded": 1,
-          "range": 0.0,
-          "flags": [
-            "constant_field"
-          ],
-          "source_units": "%",
-          "normalized_units": "%"
-        }
-      }
-    },
-    {
-      "forecast_hour": 34,
-      "valid_time_utc": "2026-10-13T19:00:00Z",
-      "fields": {
-        "total_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 100.0,
-          "mean": 18.3098,
-          "unique_rounded": 78,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "low_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 100.0,
-          "mean": 17.7961,
-          "unique_rounded": 78,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "mid_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 59.0,
-          "mean": 6.4207,
-          "unique_rounded": 58,
-          "range": 59.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "high_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 0.0,
-          "mean": 0.0,
-          "unique_rounded": 1,
-          "range": 0.0,
-          "flags": [
-            "constant_field"
-          ],
-          "source_units": "%",
-          "normalized_units": "%"
-        }
-      }
-    },
-    {
-      "forecast_hour": 35,
-      "valid_time_utc": "2026-10-13T20:00:00Z",
-      "fields": {
-        "total_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 100.0,
-          "mean": 20.1211,
-          "unique_rounded": 84,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "low_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 100.0,
-          "mean": 19.4172,
-          "unique_rounded": 82,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "mid_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 72.0,
-          "mean": 9.1531,
-          "unique_rounded": 67,
-          "range": 72.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "high_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 0.0,
-          "mean": 0.0,
-          "unique_rounded": 1,
-          "range": 0.0,
-          "flags": [
-            "constant_field"
-          ],
-          "source_units": "%",
-          "normalized_units": "%"
-        }
-      }
-    },
-    {
-      "forecast_hour": 36,
-      "valid_time_utc": "2026-10-13T21:00:00Z",
-      "fields": {
-        "total_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 100.0,
-          "mean": 20.4109,
-          "unique_rounded": 74,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "low_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 100.0,
-          "mean": 19.5941,
-          "unique_rounded": 73,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "mid_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 63.0,
-          "mean": 10.1988,
-          "unique_rounded": 63,
-          "range": 63.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "high_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 0.0,
-          "mean": 0.0,
-          "unique_rounded": 1,
-          "range": 0.0,
-          "flags": [
-            "constant_field"
-          ],
-          "source_units": "%",
-          "normalized_units": "%"
-        }
-      }
-    },
-    {
-      "forecast_hour": 37,
-      "valid_time_utc": "2026-10-13T22:00:00Z",
-      "fields": {
-        "total_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 100.0,
-          "mean": 20.023,
-          "unique_rounded": 82,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "low_cloud_percent": {
-          "count": 2560,
-          "missing": 0,
-          "min": 0.0,
-          "max": 100.0,
-          "mean": 19.0676,
-          "unique_rounded": 82,
-          "range": 100.0,
+          "max": 97.0,
+          "mean": 13.875,
+          "unique_rounded": 91,
+          "range": 97.0,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -2122,8 +1114,8 @@
           "missing": 0,
           "min": 0.0,
           "max": 67.0,
-          "mean": 10.827,
-          "unique_rounded": 66,
+          "mean": 3.1938,
+          "unique_rounded": 55,
           "range": 67.0,
           "flags": [],
           "source_units": "%",
@@ -2146,16 +1138,72 @@
       }
     },
     {
-      "forecast_hour": 38,
-      "valid_time_utc": "2026-10-13T23:00:00Z",
+      "forecast_hour": 20,
+      "valid_time_utc": "2026-10-13T08:00:00Z",
+      "fields": {
+        "total_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 99.0,
+          "mean": 15.8422,
+          "unique_rounded": 98,
+          "range": 99.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "low_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 99.0,
+          "mean": 15.084,
+          "unique_rounded": 98,
+          "range": 99.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "mid_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 61.0,
+          "mean": 3.6258,
+          "unique_rounded": 51,
+          "range": 61.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "high_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 0.0,
+          "mean": 0.0,
+          "unique_rounded": 1,
+          "range": 0.0,
+          "flags": [
+            "constant_field"
+          ],
+          "source_units": "%",
+          "normalized_units": "%"
+        }
+      }
+    },
+    {
+      "forecast_hour": 21,
+      "valid_time_utc": "2026-10-13T09:00:00Z",
       "fields": {
         "total_cloud_percent": {
           "count": 2560,
           "missing": 0,
           "min": 0.0,
           "max": 100.0,
-          "mean": 19.209,
-          "unique_rounded": 82,
+          "mean": 17.009,
+          "unique_rounded": 98,
           "range": 100.0,
           "flags": [],
           "source_units": "%",
@@ -2166,7 +1214,567 @@
           "missing": 0,
           "min": 0.0,
           "max": 100.0,
-          "mean": 18.0559,
+          "mean": 16.118,
+          "unique_rounded": 98,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "mid_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 48.0,
+          "mean": 3.8109,
+          "unique_rounded": 49,
+          "range": 48.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "high_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 0.0,
+          "mean": 0.0,
+          "unique_rounded": 1,
+          "range": 0.0,
+          "flags": [
+            "constant_field"
+          ],
+          "source_units": "%",
+          "normalized_units": "%"
+        }
+      }
+    },
+    {
+      "forecast_hour": 22,
+      "valid_time_utc": "2026-10-13T10:00:00Z",
+      "fields": {
+        "total_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 17.6871,
+          "unique_rounded": 100,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "low_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 16.7738,
+          "unique_rounded": 100,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "mid_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 44.0,
+          "mean": 3.9723,
+          "unique_rounded": 44,
+          "range": 44.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "high_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 0.0,
+          "mean": 0.0,
+          "unique_rounded": 1,
+          "range": 0.0,
+          "flags": [
+            "constant_field"
+          ],
+          "source_units": "%",
+          "normalized_units": "%"
+        }
+      }
+    },
+    {
+      "forecast_hour": 23,
+      "valid_time_utc": "2026-10-13T11:00:00Z",
+      "fields": {
+        "total_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 16.9898,
+          "unique_rounded": 99,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "low_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 16.1883,
+          "unique_rounded": 99,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "mid_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 38.0,
+          "mean": 3.8234,
+          "unique_rounded": 38,
+          "range": 38.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "high_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 0.0,
+          "mean": 0.0,
+          "unique_rounded": 1,
+          "range": 0.0,
+          "flags": [
+            "constant_field"
+          ],
+          "source_units": "%",
+          "normalized_units": "%"
+        }
+      }
+    },
+    {
+      "forecast_hour": 24,
+      "valid_time_utc": "2026-10-13T12:00:00Z",
+      "fields": {
+        "total_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 15.5543,
+          "unique_rounded": 93,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "low_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 14.8324,
+          "unique_rounded": 93,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "mid_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 34.0,
+          "mean": 3.4949,
+          "unique_rounded": 35,
+          "range": 34.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "high_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 0.0,
+          "mean": 0.0,
+          "unique_rounded": 1,
+          "range": 0.0,
+          "flags": [
+            "constant_field"
+          ],
+          "source_units": "%",
+          "normalized_units": "%"
+        }
+      }
+    },
+    {
+      "forecast_hour": 25,
+      "valid_time_utc": "2026-10-13T13:00:00Z",
+      "fields": {
+        "total_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 14.9273,
+          "unique_rounded": 88,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "low_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 14.127,
+          "unique_rounded": 88,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "mid_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 35.0,
+          "mean": 3.2277,
+          "unique_rounded": 36,
+          "range": 35.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "high_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 0.0,
+          "mean": 0.0,
+          "unique_rounded": 1,
+          "range": 0.0,
+          "flags": [
+            "constant_field"
+          ],
+          "source_units": "%",
+          "normalized_units": "%"
+        }
+      }
+    },
+    {
+      "forecast_hour": 26,
+      "valid_time_utc": "2026-10-13T14:00:00Z",
+      "fields": {
+        "total_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 97.0,
+          "mean": 15.1121,
+          "unique_rounded": 79,
+          "range": 97.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "low_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 97.0,
+          "mean": 14.3383,
+          "unique_rounded": 79,
+          "range": 97.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "mid_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 41.0,
+          "mean": 3.2621,
+          "unique_rounded": 41,
+          "range": 41.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "high_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 0.0,
+          "mean": 0.0,
+          "unique_rounded": 1,
+          "range": 0.0,
+          "flags": [
+            "constant_field"
+          ],
+          "source_units": "%",
+          "normalized_units": "%"
+        }
+      }
+    },
+    {
+      "forecast_hour": 27,
+      "valid_time_utc": "2026-10-13T15:00:00Z",
+      "fields": {
+        "total_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 90.0,
+          "mean": 14.5816,
+          "unique_rounded": 73,
+          "range": 90.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "low_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 90.0,
+          "mean": 14.0172,
+          "unique_rounded": 73,
+          "range": 90.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "mid_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 45.0,
+          "mean": 3.4367,
+          "unique_rounded": 45,
+          "range": 45.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "high_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 0.0,
+          "mean": 0.0,
+          "unique_rounded": 1,
+          "range": 0.0,
+          "flags": [
+            "constant_field"
+          ],
+          "source_units": "%",
+          "normalized_units": "%"
+        }
+      }
+    },
+    {
+      "forecast_hour": 28,
+      "valid_time_utc": "2026-10-13T16:00:00Z",
+      "fields": {
+        "total_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 88.0,
+          "mean": 15.2176,
+          "unique_rounded": 68,
+          "range": 88.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "low_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 88.0,
+          "mean": 14.7387,
+          "unique_rounded": 68,
+          "range": 88.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "mid_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 48.0,
+          "mean": 3.7672,
+          "unique_rounded": 49,
+          "range": 48.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "high_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 0.0,
+          "mean": 0.0,
+          "unique_rounded": 1,
+          "range": 0.0,
+          "flags": [
+            "constant_field"
+          ],
+          "source_units": "%",
+          "normalized_units": "%"
+        }
+      }
+    },
+    {
+      "forecast_hour": 29,
+      "valid_time_utc": "2026-10-13T17:00:00Z",
+      "fields": {
+        "total_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 82.0,
+          "mean": 16.4926,
+          "unique_rounded": 64,
+          "range": 82.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "low_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 82.0,
+          "mean": 16.0488,
+          "unique_rounded": 64,
+          "range": 82.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "mid_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 50.0,
+          "mean": 4.0496,
+          "unique_rounded": 51,
+          "range": 50.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "high_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 0.0,
+          "mean": 0.0,
+          "unique_rounded": 1,
+          "range": 0.0,
+          "flags": [
+            "constant_field"
+          ],
+          "source_units": "%",
+          "normalized_units": "%"
+        }
+      }
+    },
+    {
+      "forecast_hour": 30,
+      "valid_time_utc": "2026-10-13T18:00:00Z",
+      "fields": {
+        "total_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 89.0,
+          "mean": 17.1758,
+          "unique_rounded": 69,
+          "range": 89.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "low_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 89.0,
+          "mean": 16.7516,
+          "unique_rounded": 69,
+          "range": 89.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "mid_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 52.0,
+          "mean": 4.05,
+          "unique_rounded": 52,
+          "range": 52.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "high_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 0.0,
+          "mean": 0.0,
+          "unique_rounded": 1,
+          "range": 0.0,
+          "flags": [
+            "constant_field"
+          ],
+          "source_units": "%",
+          "normalized_units": "%"
+        }
+      }
+    },
+    {
+      "forecast_hour": 31,
+      "valid_time_utc": "2026-10-13T19:00:00Z",
+      "fields": {
+        "total_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 18.3164,
+          "unique_rounded": 81,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "low_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 17.8363,
           "unique_rounded": 81,
           "range": 100.0,
           "flags": [],
@@ -2177,10 +1785,402 @@
           "count": 2560,
           "missing": 0,
           "min": 0.0,
-          "max": 71.0,
-          "mean": 10.8516,
-          "unique_rounded": 70,
-          "range": 71.0,
+          "max": 60.0,
+          "mean": 4.8566,
+          "unique_rounded": 54,
+          "range": 60.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "high_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 0.0,
+          "mean": 0.0,
+          "unique_rounded": 1,
+          "range": 0.0,
+          "flags": [
+            "constant_field"
+          ],
+          "source_units": "%",
+          "normalized_units": "%"
+        }
+      }
+    },
+    {
+      "forecast_hour": 32,
+      "valid_time_utc": "2026-10-13T20:00:00Z",
+      "fields": {
+        "total_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 18.9559,
+          "unique_rounded": 87,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "low_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 18.3672,
+          "unique_rounded": 87,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "mid_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 59.0,
+          "mean": 7.6957,
+          "unique_rounded": 57,
+          "range": 59.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "high_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 0.0,
+          "mean": 0.0,
+          "unique_rounded": 1,
+          "range": 0.0,
+          "flags": [
+            "constant_field"
+          ],
+          "source_units": "%",
+          "normalized_units": "%"
+        }
+      }
+    },
+    {
+      "forecast_hour": 33,
+      "valid_time_utc": "2026-10-13T21:00:00Z",
+      "fields": {
+        "total_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 19.4648,
+          "unique_rounded": 84,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "low_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 18.7664,
+          "unique_rounded": 84,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "mid_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 63.0,
+          "mean": 8.8789,
+          "unique_rounded": 61,
+          "range": 63.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "high_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 0.0,
+          "mean": 0.0,
+          "unique_rounded": 1,
+          "range": 0.0,
+          "flags": [
+            "constant_field"
+          ],
+          "source_units": "%",
+          "normalized_units": "%"
+        }
+      }
+    },
+    {
+      "forecast_hour": 34,
+      "valid_time_utc": "2026-10-13T22:00:00Z",
+      "fields": {
+        "total_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 19.2109,
+          "unique_rounded": 81,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "low_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 18.4039,
+          "unique_rounded": 81,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "mid_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 69.0,
+          "mean": 9.1969,
+          "unique_rounded": 67,
+          "range": 69.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "high_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 0.0,
+          "mean": 0.0,
+          "unique_rounded": 1,
+          "range": 0.0,
+          "flags": [
+            "constant_field"
+          ],
+          "source_units": "%",
+          "normalized_units": "%"
+        }
+      }
+    },
+    {
+      "forecast_hour": 35,
+      "valid_time_utc": "2026-10-13T23:00:00Z",
+      "fields": {
+        "total_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 18.407,
+          "unique_rounded": 83,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "low_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 17.352,
+          "unique_rounded": 81,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "mid_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 79.0,
+          "mean": 10.4383,
+          "unique_rounded": 72,
+          "range": 79.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "high_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 0.0,
+          "mean": 0.0,
+          "unique_rounded": 1,
+          "range": 0.0,
+          "flags": [
+            "constant_field"
+          ],
+          "source_units": "%",
+          "normalized_units": "%"
+        }
+      }
+    },
+    {
+      "forecast_hour": 36,
+      "valid_time_utc": "2026-10-14T00:00:00Z",
+      "fields": {
+        "total_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 75.0,
+          "mean": 17.3461,
+          "unique_rounded": 73,
+          "range": 75.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "low_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 74.0,
+          "mean": 16.1691,
+          "unique_rounded": 71,
+          "range": 74.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "mid_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 75.0,
+          "mean": 10.4512,
+          "unique_rounded": 74,
+          "range": 75.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "high_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 0.0,
+          "mean": 0.0,
+          "unique_rounded": 1,
+          "range": 0.0,
+          "flags": [
+            "constant_field"
+          ],
+          "source_units": "%",
+          "normalized_units": "%"
+        }
+      }
+    },
+    {
+      "forecast_hour": 37,
+      "valid_time_utc": "2026-10-14T01:00:00Z",
+      "fields": {
+        "total_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 72.0,
+          "mean": 17.2316,
+          "unique_rounded": 73,
+          "range": 72.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "low_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 72.0,
+          "mean": 15.9105,
+          "unique_rounded": 73,
+          "range": 72.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "mid_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 72.0,
+          "mean": 10.4187,
+          "unique_rounded": 72,
+          "range": 72.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "high_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 0.0,
+          "mean": 0.0,
+          "unique_rounded": 1,
+          "range": 0.0,
+          "flags": [
+            "constant_field"
+          ],
+          "source_units": "%",
+          "normalized_units": "%"
+        }
+      }
+    },
+    {
+      "forecast_hour": 38,
+      "valid_time_utc": "2026-10-14T02:00:00Z",
+      "fields": {
+        "total_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 79.0,
+          "mean": 17.1047,
+          "unique_rounded": 79,
+          "range": 79.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "low_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 74.0,
+          "mean": 15.7066,
+          "unique_rounded": 73,
+          "range": 74.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "mid_cloud_percent": {
+          "count": 2560,
+          "missing": 0,
+          "min": 0.0,
+          "max": 79.0,
+          "mean": 9.6133,
+          "unique_rounded": 75,
+          "range": 79.0,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -2203,16 +2203,16 @@
     },
     {
       "forecast_hour": 39,
-      "valid_time_utc": "2026-10-14T00:00:00Z",
+      "valid_time_utc": "2026-10-14T03:00:00Z",
       "fields": {
         "total_cloud_percent": {
           "count": 2560,
           "missing": 0,
           "min": 0.0,
-          "max": 77.0,
-          "mean": 17.5324,
-          "unique_rounded": 78,
-          "range": 77.0,
+          "max": 79.0,
+          "mean": 18.0254,
+          "unique_rounded": 76,
+          "range": 79.0,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -2221,10 +2221,10 @@
           "count": 2560,
           "missing": 0,
           "min": 0.0,
-          "max": 77.0,
-          "mean": 16.4453,
-          "unique_rounded": 77,
-          "range": 77.0,
+          "max": 75.0,
+          "mean": 16.7305,
+          "unique_rounded": 74,
+          "range": 75.0,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -2233,10 +2233,10 @@
           "count": 2560,
           "missing": 0,
           "min": 0.0,
-          "max": 75.0,
-          "mean": 10.9684,
+          "max": 79.0,
+          "mean": 9.8004,
           "unique_rounded": 73,
-          "range": 75.0,
+          "range": 79.0,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
