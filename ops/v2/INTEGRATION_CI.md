@@ -1,24 +1,19 @@
-# W5 Task K — main-based W4 integration (2026-10-12)
+# W5 Access Advisory Integration — 2026-10-12
 
-Owner W5. This branch starts at #452 `d69953997d561a19f54330b652dd8c43ea904258` and changes only `ops/v2/` and `.github/workflows/v2-integration.yml`. It targets main. The former W5 PRs #437/#445/#449/#451/#452 are cumulative history, not additional independent merge candidates. No W1–W4 or Legacy files are edited.
+W5 only: integrates W1 #457, W2 #458, W3 #459 and W4 #460 on top of the already tested W5 #455, without changing other worker-owned paths.
 
-## Exact candidate sources
+## Corrected exact-head source chain
 
-- Latest reviewed main at construction: `a13c5897dfc7a8c00766267760e08ba6f6ba59f9`. The runner checks pinned Git Blobs for AGENTS.md, both R4.2 specs and every baseline `specs/v2/` file; a normative main drift fails closed. The integration assembly and detached merge checkout must also use the same current main SHA.
-- W1 #450 `bf60a497e5338a45bda63d9bc24b33e9ea1d3b43`. The entire W1 specs tree is copied after comparing its ten reviewed changed blobs against main.
-- W2 #440 `a816c833ac4f83f440d1d76350cb46da74f43013` → #444 `8725bf13348dfae371ae8358930a25dd424a3361`. The canonical content ancestor `452ff5a79e0e4617d6ddb834b5dbecdd0e896b55` must have the same four source blobs as #444.
-- W3 #435 `d24af0dbea61c158482bea9522ac36eac016843d` → #441 `77b040fd1af806a564282eea7e3a7c7166a180d3` → #447 `b26a014fec9705d40f794ae3ddb02530d3cb5574`.
-- W4 **main-based #454** `32f557d998a4d12ec37af4d963f0f410030b1cc1`. The workflow checks out historical #448 `ddf9f2c4bd2eeb556bf0aa3b244f01de3256b05f` for comparison only. Both Git Trees must equal `a0438fb0f372b0e0e124b5ec3385d5184d9fbb2e` with exactly 52 files and identical paths. #448 and its earlier owner base/#436/#442/#443/#446 are not separately merged.
-- W5: the exact current integration PR HEAD.
+- W1 #450 → #457 `ee1a660b0de1bb452d05539236c1834a32140d32`.
+- W2 #440 → #444 → #456 → #458 `2177bd8c8b6c18e0a4b284e50b55d0ff12697ddd`.
+- W3 #435 → #441 → #447 → #459 `656c1e8919f5f720cd8e1e2f56b26e81d4b0dcc8`.
+- W4 #454 → #460 `788ff19f537b927e5515d5be6272106302cf3f41`.
+- W4 corrected tree `87fef33d8258c74b6946e7ac807384551c4e1533` differs intentionally from parent #454 `a0438fb0f372b0e0e124829f463a3e073c9f7bb2e` (historical pre-correction). The original #448 stack must never be merged.
 
-The runner compares real W2 canonical bytes with W4 fixtures, manifest Git Blob IDs and SHA-256, W3 fixture, research-only preview and default catalog. Preview/catalog must retain `research_only=true`, `selected_date_recommendation_eligible=false`, `forecast_available=false` and no evaluations; human semantic signoff stays PENDING.
+## Product rule and gates
 
-## CI and rehearsal
+Site, road, trail and viewpoint closure or uncertain lawful access remains **visible non-scoring Access Advisory**. It cannot affect Photography Opportunity REQUIRED/BLOCKER/QUALITY, favorable/uncertain score or verdict. No advisory alone constitutes an environmental blocker; unverified/closed arrival targets still cannot yield Directions.
 
-GitHub Actions uses pinned checkouts for W1–W4, a historical W4 checkout for tree proof, and an independent detached checkout of current main for the merge rehearsal. The rehearsal reads candidate tips from the lock file, verifies the W2/W3 Git ancestry, and merges W1, the W2 and W3 ancestry, the single #454 W4 consolidation, then the current W5 HEAD. The resulting step count comes from the actual candidate chain. At every merge it rejects conflict, duplicate/empty merge, unexpected owner paths, a dirty worktree, an overwritten accepted owner tree or altered Legacy entry blob. It verifies final owner trees and W5 files against the exact source commits and proves #448 ancestry was not replayed. No scratch commit is pushed.
+The runner verifies W1's exact revised spec blobs, all three W2 real records have no ACCESS_SAFETY contract conditions, three-language access/safety notes stay present, W3 canonical fixture matches W2, and W4 real-data fixtures, research-only Preview and catalog Git SHA-1/SHA256 provenance match W2. Forged Live Evaluation remains rejected. Research-only must never produce real FAVORABLE.
 
-Required discovery is currently 113 counted cases: W1 15+4+6, W2 6, W3 29, W4 Node 30 and six Chromium locale/device cases, W5 7+7+3. The runner reads real test discovery and rejects changed expected counts, zero tests, FAIL, ERROR, SKIP or expected failures. Canonical record schema, cross-owner provenance, compilation and Legacy isolation are additional gates. An actual new-head Actions job, original log, artifact and main SHA must be inspected before accepting any result; the earlier #452 113 PASS is historical.
-
-## Release boundary
-
-This is a research-only preview candidate. No live provider, valid issue/forecast time, coverage, approved threshold or AUTO binding is established merely by CI. Missing prerequisites propagate UNKNOWN/NOT_EVALUABLE and never formal FAVORABLE. Automated localization tests are not human zh-TW/en/ja semantic approval. The human evidence/access review for P01/P02, lawful camera area, current closure and arrival NavigationTarget remains pending. Required PR reviews, project-owner merge decision, public preview URL and live smoke are separate gates. See `RELEASE_GATE.md`. No main merge or deployment occurs in this task.
+Expected counted tests: W1 17+4+6, W2 10, W3 32, W4 Node 31 / Chromium 6, W5 7+7+3 = **123**; zero fail/error/skip. Detached real main-based merge rehearsal has **13 ordered steps**, including the corrected successor PRs; original #448 is historical only. No test lowering, automatic merge, deployment or human signoff is authorized.
