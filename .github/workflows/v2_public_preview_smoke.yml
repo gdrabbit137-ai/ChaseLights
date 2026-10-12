@@ -1,0 +1,75 @@
+name: V2 Public Research Preview Smoke
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - .github/workflows/v2_public_preview_smoke.yml
+      - ops/v2/public_browser_smoke.mjs
+      - ops/v2/integration_gate.py
+      - apps/web-v2/**
+      - index.html
+      - assets/app.js
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/v2_public_preview_smoke.yml
+      - ops/v2/public_browser_smoke.mjs
+      - ops/v2/integration_gate.py
+      - apps/web-v2/**
+      - index.html
+      - assets/app.js
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: v2-public-preview-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  public-preview:
+    name: Public V2 / 6 Chromium and source-safe smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout current source (no weather forecast promotion)
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /AGENTS.md
+            /RESEARCH_EVIDENCE_SPEC_R4_2.md
+            /NAVIGATION_SPEC_R4_2.md
+            /CNAME
+            /index.html
+            /assets/app.js
+            /specs/v2/
+            /apps/web-v2/
+            /ops/v2/
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Install independent Chromium browser
+        run: |
+          npm install --prefix .ci/tooling --no-save --package-lock=false playwright@1.57.0
+          .ci/tooling/node_modules/.bin/playwright install --with-deps chromium
+          node -e 'const p=require("node:path"); const m=p.resolve(".ci/tooling/node_modules/playwright"); const c=require(m).chromium; console.log("PLAYWRIGHT_MODULE="+m); console.log("CHROMIUM_EXECUTABLE="+c.executablePath());' >> "$GITHUB_ENV"
+      - name: Require real public HTTPS V2 page and local V1/V2 isolation
+        run: |
+          mkdir -p .ci/public-smoke
+          set -o pipefail
+          python ops/v2/integration_gate.py --root . --public 2>&1 | tee .ci/public-smoke/http-and-isolation.log
+      - name: Verify live public URL with six Chrome locale/device scenarios
+        run: |
+          set -o pipefail
+          node ops/v2/public_browser_smoke.mjs 2>&1 | tee .ci/public-smoke/browser.log
+      - name: Preserve public verification evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v2-public-smoke-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .ci/public-smoke/
+          if-no-files-found: error
+          retention-days: 14
