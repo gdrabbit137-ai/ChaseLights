@@ -7,10 +7,10 @@ import unittest
 
 ROOT = Path(__file__).resolve().parent
 # The fixture filename is historical. Its bytes are the canonical record at
-# W2 #444's verified head, not the earlier W2 revision named in that filename.
-W2_SOURCE_COMMIT = "8725bf13348dfae371ae8358930a25dd424a3361"
+# W2 access-advisory correction head #458, not the earlier W2 revision named in that filename.
+W2_SOURCE_COMMIT = "2177bd8c8b6c18e0a4b284e50b55d0ff12697ddd"
 FIXTURE = ROOT / "fixtures" / "tw-026-P01.w2-fe52720.json"
-BLOB_SHA = "3459ee2afd51ffa48c5b986aaf86d00bac80999e"
+BLOB_SHA = "001a3380231e3d073e900bf2b415aac7dcc5fd79"
 AT = "2026-10-09T12:00:00+00:00"
 spec = importlib.util.spec_from_file_location("core_v2_evaluator", ROOT.parent / "evaluator.py")
 evaluator = importlib.util.module_from_spec(spec)
@@ -43,6 +43,13 @@ class W2P01FailClosed(unittest.TestCase):
         self.assertIs(result["live_recommendation"], False)
         self.assertIsNone(result.get("score"))
         self.assertTrue(all(t["state"] == "UNKNOWN" for t in result["conditions"]))
+
+    def test_w2_contract_has_only_photo_conditions(self):
+        self.assertEqual(2, len(self.contract["conditions"]))
+        self.assertFalse(any(c["domain"] == "ACCESS_SAFETY"
+                             for c in self.contract["conditions"]))
+        for locale in ("zh-TW", "en", "ja"):
+            self.assertTrue(self.record["camera_contexts"][0]["access_notes_i18n"][locale])
 
     def test_real_condition_is_not_auto_ready(self):
         self.assertEqual(self.record["opportunity_id"], "tw-026-P01")
