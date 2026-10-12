@@ -110,28 +110,6 @@
     "status": "review",
     "conditions": [
       {
-        "id": "C-tw-016-P01-01",
-        "role": "REQUIRED",
-        "domain": "ACCESS_SAFETY",
-        "evaluation_mode": "VERIFY",
-        "capability": "OBSERVATION",
-        "metric": "designated_trail_safe_access",
-        "operator": "none",
-        "threshold": null,
-        "unit": null,
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "tw-016-P01-claim-01"
-        ],
-        "model_binding": null,
-        "notes_i18n": {
-          "zh-TW": "合法步道及安全立足點必須可用；現場狀態需確認。",
-          "en": "The designated trail and safe footing must be usable; verify conditions on site.",
-          "ja": "正規登山道と安全な足場が利用可能であること。現地で要確認。"
-        },
-        "validation_status": "provisional"
-      },
-      {
         "id": "C-tw-016-P01-02",
         "role": "REQUIRED",
         "domain": "WEATHER",
@@ -150,28 +128,6 @@
           "zh-TW": "岩稜與遠山需可辨；未設定公里能見度門檻。",
           "en": "The ridge and distant mountains must remain discernible; no visibility-distance threshold is asserted.",
           "ja": "岩稜と遠方の山並みが判別できること。視程の数値基準は未設定。"
-        },
-        "validation_status": "provisional"
-      },
-      {
-        "id": "C-tw-016-P01-03",
-        "role": "BLOCKER",
-        "domain": "ACCESS_SAFETY",
-        "evaluation_mode": "VERIFY",
-        "capability": "OBSERVATION",
-        "metric": "unsafe_exposed_rock",
-        "operator": "none",
-        "threshold": null,
-        "unit": null,
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "tw-016-P01-claim-03"
-        ],
-        "model_binding": null,
-        "notes_i18n": {
-          "zh-TW": "暴露岩稜若因濕滑或惡劣天候無法安全通行，停止推薦。",
-          "en": "Do not recommend when slippery rock or severe weather makes exposed ridges unsafe.",
-          "ja": "濡れた岩や荒天で岩稜の通行が危険な場合は推奨しない。"
         },
         "validation_status": "provisional"
       },

@@ -5,7 +5,7 @@
 ## 發布限制
 - V2.1 schema 已在 main：`specs/v2/schema/opportunity-v2.1.schema.json`；仍須依最新 main 執行 Schema 驗證及正式審查。
 - Camera/Subject 精確幾何、方位、仰角、距離與 Navigation GPS 均 unknown。
-- 所有 condition threshold 為 null，unknown_policy=propagate_unknown；不得用未知條件產生 favorable。
+- 所有攝影 condition threshold 為 null，unknown_policy=propagate_unknown；不得用未知條件產生 favorable。區域封閉／步道限制獨立列為警告，不得充當 REQUIRED／BLOCKER 或改變天氣適合度；未知導航點不得生成路線。
 
 ## tw-016-P01 鳶嘴山岩稜與遠山層次
 
@@ -19,11 +19,10 @@ Navigation：needs_review；未核實抵達點。
 Readiness：研究成熟度 R1（evidence_review），仍有 GEOMETRY_GAP 與 RESEARCH_GAP；尚未核准發布。即時可拍攝狀態須由獨立 EvaluationResult 評估，不能由研究成熟度推定。
 
 ### REQUIRED
-- 合法步道及安全立足點必須可用；現場狀態需確認。（threshold unknown；VERIFY）
 - 岩稜與遠山需可辨；未設定公里能見度門檻。（threshold unknown；GUIDANCE）
 
-### BLOCKER
-- 暴露岩稜若因濕滑或惡劣天候無法安全通行，停止推薦。（threshold unknown；VERIFY）
+### 進入警告（不影響攝影條件）
+- 封閉、危險路段與未核實合法取景範圍僅作安全／進入提醒，不降低天氣攝影適合度。導航仍須核實抵達點。
 
 ### QUALITY
 - 遠山輪廓與空氣透明度越清楚，層次越完整；無量化門檻。（threshold unknown；GUIDANCE）
@@ -40,11 +39,10 @@ Navigation：needs_review；未核實抵達點。
 Readiness：研究成熟度 R1（evidence_review），仍有 GEOMETRY_GAP 與 RESEARCH_GAP；尚未核准發布。即時可拍攝狀態須由獨立 EvaluationResult 評估，不能由研究成熟度推定。
 
 ### REQUIRED
-- 拍攝當下須確認有合法開放且安全的取景位置；原瞭望台封閉不代表其他區域必然開放。（threshold unknown；VERIFY）
 - 夕照需實際照亮鹽田構圖；未推定太陽方位或固定時刻。（threshold unknown；GUIDANCE）
 
-### BLOCKER
-- 若取景需要進入正在封閉的原瞭望台，該機位不可使用。（threshold unknown；VERIFY）
+### 進入警告（不影響攝影條件）
+- 封閉、危險路段與未核實合法取景範圍僅作安全／進入提醒，不降低天氣攝影適合度。導航仍須核實抵達點。
 
 ### QUALITY
 - 適當的晚霞雲層可增加色彩，但不保證每次出現。（threshold unknown；GUIDANCE）
@@ -62,11 +60,10 @@ Navigation：needs_review；未核實抵達點。
 Readiness：研究成熟度 R1（evidence_review），仍有 GEOMETRY_GAP 與 RESEARCH_GAP；尚未核准發布。即時可拍攝狀態須由獨立 EvaluationResult 評估，不能由研究成熟度推定。
 
 ### REQUIRED
-- 必須從當下開放的公共區攝影。（threshold unknown；VERIFY）
 - 天空需實際出現可辨晚霞；不能以日期或一般雲量直接保證。（threshold unknown；VERIFY）
 
-### BLOCKER
-- 若構圖必須站在封閉瞭望台，該構圖不可用。（threshold unknown；VERIFY）
+### 進入警告（不影響攝影條件）
+- 封閉、危險路段與未核實合法取景範圍僅作安全／進入提醒，不降低天氣攝影適合度。導航仍須核實抵達點。
 
 ### QUALITY
 - 鹽池幾何線條與彩霞同框可增加地方辨識度。（threshold unknown；GUIDANCE）
