@@ -1,0 +1,178 @@
+name: V2 Integration
+on:
+  pull_request:
+    branches: [main]
+    paths: ['.github/workflows/v2-integration.yml', 'ops/v2/**', 'specs/v2/**', 'data/v2/**', 'packages/core-v2/**', 'packages/models-v2/**', 'apps/web-v2/**', 'AGENTS.md', '*SPEC_R4_2.md']
+  push:
+    branches: [main, 'codex/v2-w5-integration-ci-*', 'codex/v2-w5-integration-acceptance-*']
+    paths: ['.github/workflows/v2-integration.yml', 'ops/v2/**', 'specs/v2/**', 'data/v2/**', 'packages/core-v2/**', 'packages/models-v2/**', 'apps/web-v2/**', 'AGENTS.md', '*SPEC_R4_2.md']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: v2-integration-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  integration:
+    if: github.event_name != 'push' || github.ref != 'refs/heads/main'
+    name: V2 pinned integration / research-only
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout W5 task HEAD
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /.github/workflows/v2-integration.yml
+            /ops/v2/
+            /specs/v2/
+            /AGENTS.md
+            /RESEARCH_EVIDENCE_SPEC_R4_2.md
+            /NAVIGATION_SPEC_R4_2.md
+      - name: Checkout latest main for spec drift gate
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: .ci/sources/main
+          persist-credentials: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /specs/v2/
+            /AGENTS.md
+            /RESEARCH_EVIDENCE_SPEC_R4_2.md
+            /NAVIGATION_SPEC_R4_2.md
+            /index.html
+            /CNAME
+      - name: Pin the reviewed main snapshot for both source assembly and merge rehearsal
+        id: main_snapshot
+        run: |
+          SHA="$(git -C .ci/sources/main rev-parse HEAD)"
+          echo "sha=$SHA" >> "$GITHUB_OUTPUT"
+          echo "Pinned assembly/merge main: $SHA"
+      - name: Checkout corrected W1 access-advisory specs (#457)
+        uses: actions/checkout@v4
+        with:
+          ref: ee1a660b0de1bb452d05539236c1834a32140d32
+          path: .ci/sources/w1
+          persist-credentials: false
+          sparse-checkout: specs/v2
+      - name: Checkout W2 latest access-advisory data (#458)
+        uses: actions/checkout@v4
+        with:
+          ref: 2177bd8c8b6c18e0a4b284e50b55d0ff12697ddd
+          path: .ci/sources/w2
+          persist-credentials: false
+          sparse-checkout: data/v2
+          fetch-depth: 0
+      - name: Checkout W3 access-advisory evaluator (#459)
+        uses: actions/checkout@v4
+        with:
+          ref: 656c1e8919f5f720cd8e1e2f56b26e81d4b0dcc8
+          path: .ci/sources/w3
+          persist-credentials: false
+          sparse-checkout: packages/core-v2
+      - name: Checkout W4 corrected website (#460)
+        uses: actions/checkout@v4
+        with:
+          ref: ec5dc9609596135ba1b2634dfa7d6c07a54fabdc
+          path: .ci/sources/w4
+          persist-credentials: false
+          sparse-checkout: apps/web-v2
+      - name: Checkout parent W4 #454 for separate old-tree verification
+        uses: actions/checkout@v4
+        with:
+          ref: 32f557d998a4d12ec37af4d963f0f410030b1cc1
+          path: .ci/sources/w4-historical
+          persist-credentials: false
+          sparse-checkout: apps/web-v2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Install schema and browser tooling
+        run: |
+          python -m pip install 'jsonschema==4.26.0'
+          npm install --prefix .ci/tooling --no-save --package-lock=false playwright@1.57.0
+          .ci/tooling/node_modules/.bin/playwright install --with-deps chromium
+          node -e 'const p=require("node:path"); const m=p.resolve(".ci/tooling/node_modules/playwright"); const c=require(m).chromium; console.log("PLAYWRIGHT_MODULE="+m); console.log("CHROMIUM_EXECUTABLE="+c.executablePath());' >> "$GITHUB_ENV"
+      - name: Execute every required suite; zero tests or SKIP fail the gate
+        run: |
+          python ops/v2/run_integration.py --sources-root .ci/sources --work-root .ci/integration --logs-dir .ci/logs
+      - name: Checkout current main for detached merge simulation
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.main_snapshot.outputs.sha }}
+          path: .ci/merge-sim
+          fetch-depth: 0
+          persist-credentials: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /.github/workflows/v2-integration.yml
+            /ops/v2/
+            /specs/v2/
+            /data/v2/
+            /packages/core-v2/
+            /packages/models-v2/
+            /apps/web-v2/
+            /AGENTS.md
+            /RESEARCH_EVIDENCE_SPEC_R4_2.md
+            /NAVIGATION_SPEC_R4_2.md
+            /index.html
+            /CNAME
+            /assets/app.js
+      - name: Simulate approved owner path on detached latest main and compare final trees
+        run: |
+          python ops/v2/simulate_merges.py --repo .ci/merge-sim --log-dir .ci/logs --assembly-main .ci/sources/main
+      - name: Verify the simulated post-merge main with all 123 real test cases
+        run: |
+          python .ci/merge-sim/ops/v2/postmerge_verify.py --root .ci/merge-sim --logs-dir .ci/postmerge-rehearsal
+      - name: Preserve raw logs, counts and source SHAs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v2-integration-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            .ci/logs/
+            .ci/postmerge-rehearsal/
+          if-no-files-found: error
+          retention-days: 14
+
+  postmerge:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    name: V2 merged-main research-only 123-case acceptance
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout full merged main history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Install schema and browser tooling
+        run: |
+          python -m pip install 'jsonschema==4.26.0'
+          npm install --prefix .ci/tooling --no-save --package-lock=false playwright@1.57.0
+          .ci/tooling/node_modules/.bin/playwright install --with-deps chromium
+          node -e 'const p=require("node:path"); const m=p.resolve(".ci/tooling/node_modules/playwright"); const c=require(m).chromium; console.log("PLAYWRIGHT_MODULE="+m); console.log("CHROMIUM_EXECUTABLE="+c.executablePath());' >> "$GITHUB_ENV"
+      - name: Verify actual merged W1-W4 trees, exact data provenance and all 123 cases
+        run: |
+          python ops/v2/postmerge_verify.py --root . --logs-dir .ci/postmerge-logs
+      - name: Preserve postmerge logs, test counts and actual main SHA
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v2-postmerge-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .ci/postmerge-logs/
+          if-no-files-found: error
+          retention-days: 14

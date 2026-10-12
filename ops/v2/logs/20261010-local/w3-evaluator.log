@@ -1,0 +1,27 @@
+$ /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python /workspace/work/w5/repo/ops/v2/run_unittest.py packages/core-v2/tests test_*.py /workspace/work/w5/logs-final/w3-evaluator.json
+test_boolean_not_coerced_from_number (test_evaluator.TestEvaluator.test_boolean_not_coerced_from_number) ... ok
+test_guidance_cannot_act_as_auto (test_evaluator.TestEvaluator.test_guidance_cannot_act_as_auto) ... ok
+test_invalid_time_is_unknown (test_evaluator.TestEvaluator.test_invalid_time_is_unknown) ... ok
+test_issued_after_valid_time_is_unknown (test_evaluator.TestEvaluator.test_issued_after_valid_time_is_unknown) ... ok
+test_missing_provenance_is_unknown (test_evaluator.TestEvaluator.test_missing_provenance_is_unknown) ... ok
+test_negative_blocker_triggered_overrides_quality (test_evaluator.TestEvaluator.test_negative_blocker_triggered_overrides_quality) ... ok
+test_negative_required_fail (test_evaluator.TestEvaluator.test_negative_required_fail) ... ok
+test_non_test_input_is_unknown (test_evaluator.TestEvaluator.test_non_test_input_is_unknown) ... ok
+test_positive_test_only (test_evaluator.TestEvaluator.test_positive_test_only) ... ok
+test_research_level_not_runtime_availability (test_evaluator.TestEvaluator.test_research_level_not_runtime_availability) ... ok
+test_research_only_never_ready (test_evaluator.TestEvaluator.test_research_only_never_ready) ... ok
+test_unapproved_contract_is_unknown_even_when_inputs_pass (test_evaluator.TestEvaluator.test_unapproved_contract_is_unknown_even_when_inputs_pass) ... ok
+test_unknown_missing_blocker (test_evaluator.TestEvaluator.test_unknown_missing_blocker) ... ok
+test_unknown_quality_does_not_override_critical (test_evaluator.TestEvaluator.test_unknown_quality_does_not_override_critical) ... ok
+test_unknown_stale_required (test_evaluator.TestEvaluator.test_unknown_stale_required) ... ok
+test_verify_cannot_act_as_auto (test_evaluator.TestEvaluator.test_verify_cannot_act_as_auto) ... ok
+test_guidance_rejects_any_synthetic_boolean (test_w2_p01_contract_failclosed.W2P01FailClosed.test_guidance_rejects_any_synthetic_boolean) ... ok
+test_provisional_gate_without_changing_w2 (test_w2_p01_contract_failclosed.W2P01FailClosed.test_provisional_gate_without_changing_w2) ... ok
+test_real_condition_is_not_auto_ready (test_w2_p01_contract_failclosed.W2P01FailClosed.test_real_condition_is_not_auto_ready) ... ok
+test_real_research_contract_has_no_live_or_provenance (test_w2_p01_contract_failclosed.W2P01FailClosed.test_real_research_contract_has_no_live_or_provenance) ... ok
+
+----------------------------------------------------------------------
+Ran 20 tests in 0.001s
+
+OK
+{"tests": 20, "fail": 0, "error": 0, "skip": 0, "expected_failure": 0, "unexpected_success": 0, "pass": 20}

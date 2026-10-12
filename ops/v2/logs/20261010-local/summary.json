@@ -1,0 +1,205 @@
+{
+  "research_only": true,
+  "live_recommendation": false,
+  "task_head": "7fead25f975a42a66182c63f0644b62f3a73ddcc",
+  "sources": {
+    "main": "7ff3ef03968c47a8c6f6ec1206a9553731e45420",
+    "w1": "62591034f0969d68ee68ba6e9839585c058ea3f4",
+    "w2": "7f10e9bd2757449d72546155c66714880c6d3ab1",
+    "w3": "d24af0dbea61c158482bea9522ac36eac016843d",
+    "w4": "7cc1ac237f806c737113bc753e1e8d1996b07c43"
+  },
+  "groups": [
+    {
+      "name": "w1-schema",
+      "exit_code": 0,
+      "counts": {
+        "tests": 15,
+        "fail": 0,
+        "error": 0,
+        "skip": 0,
+        "expected_failure": 0,
+        "unexpected_success": 0,
+        "pass": 15
+      },
+      "status": "PASS",
+      "timed_out": false,
+      "gate_error": null,
+      "log": "w1-schema.log"
+    },
+    {
+      "name": "w1-evaluation-schema",
+      "exit_code": 0,
+      "counts": {
+        "tests": 2,
+        "fail": 0,
+        "error": 0,
+        "skip": 0,
+        "expected_failure": 0,
+        "unexpected_success": 0,
+        "pass": 2
+      },
+      "status": "PASS",
+      "timed_out": false,
+      "gate_error": null,
+      "log": "w1-evaluation-schema.log"
+    },
+    {
+      "name": "w5-contract",
+      "exit_code": 0,
+      "counts": {
+        "tests": 7,
+        "fail": 0,
+        "error": 0,
+        "skip": 0,
+        "expected_failure": 0,
+        "unexpected_success": 0,
+        "pass": 7
+      },
+      "status": "PASS",
+      "timed_out": false,
+      "gate_error": null,
+      "log": "w5-contract.log"
+    },
+    {
+      "name": "w5-watchdog",
+      "exit_code": 0,
+      "counts": {
+        "tests": 3,
+        "fail": 0,
+        "error": 0,
+        "skip": 0,
+        "expected_failure": 0,
+        "unexpected_success": 0,
+        "pass": 3
+      },
+      "status": "PASS",
+      "timed_out": false,
+      "gate_error": null,
+      "log": "w5-watchdog.log"
+    },
+    {
+      "name": "w5-runner",
+      "exit_code": 0,
+      "counts": {
+        "tests": 6,
+        "fail": 0,
+        "error": 0,
+        "skip": 0,
+        "expected_failure": 0,
+        "unexpected_success": 0,
+        "pass": 6
+      },
+      "status": "PASS",
+      "timed_out": false,
+      "gate_error": null,
+      "log": "w5-runner.log"
+    },
+    {
+      "name": "w3-evaluator",
+      "exit_code": 0,
+      "counts": {
+        "tests": 20,
+        "fail": 0,
+        "error": 0,
+        "skip": 0,
+        "expected_failure": 0,
+        "unexpected_success": 0,
+        "pass": 20
+      },
+      "status": "PASS",
+      "timed_out": false,
+      "gate_error": null,
+      "log": "w3-evaluator.log"
+    },
+    {
+      "name": "w2-crosswalk-schema",
+      "exit_code": 0,
+      "counts": {
+        "tests": 5,
+        "fail": 0,
+        "error": 0,
+        "skip": 0,
+        "expected_failure": 0,
+        "unexpected_success": 0,
+        "pass": 5
+      },
+      "status": "PASS",
+      "timed_out": false,
+      "gate_error": null,
+      "log": "w2-crosswalk-schema.log"
+    },
+    {
+      "name": "w2-real-records",
+      "exit_code": 0,
+      "counts": {},
+      "status": "PASS",
+      "timed_out": false,
+      "gate_error": null,
+      "log": "w2-real-records.log"
+    },
+    {
+      "name": "schema-valid-fixture",
+      "exit_code": 0,
+      "counts": {},
+      "status": "PASS",
+      "timed_out": false,
+      "gate_error": null,
+      "log": "schema-valid-fixture.log"
+    },
+    {
+      "name": "w3-compile",
+      "exit_code": 0,
+      "counts": {},
+      "status": "PASS",
+      "timed_out": false,
+      "gate_error": null,
+      "log": "w3-compile.log"
+    },
+    {
+      "name": "w4-node",
+      "exit_code": 0,
+      "counts": {
+        "tests": 22,
+        "pass": 22,
+        "fail": 0,
+        "skip": 0
+      },
+      "status": "PASS",
+      "timed_out": false,
+      "gate_error": null,
+      "log": "w4-node.log"
+    },
+    {
+      "name": "local-isolation",
+      "exit_code": 0,
+      "counts": {},
+      "status": "PASS",
+      "timed_out": false,
+      "gate_error": null,
+      "log": "local-isolation.log"
+    },
+    {
+      "name": "browser-smoke",
+      "exit_code": 0,
+      "counts": {
+        "tests": 6,
+        "pass": 6,
+        "fail": 0,
+        "skip": 0
+      },
+      "status": "PASS",
+      "timed_out": false,
+      "gate_error": null,
+      "log": "browser-smoke.log"
+    }
+  ],
+  "historical_64": {
+    "tests": 64,
+    "pass": 64,
+    "fail": 0,
+    "error": 0,
+    "skip": 0
+  },
+  "status": "PASS"
+}

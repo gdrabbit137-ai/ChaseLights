@@ -1,0 +1,14 @@
+$ /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python /workspace/work/w5/repo/ops/v2/run_unittest.py ops/v2/tests test_integration_gate.py /workspace/work/w5/logs-final/w5-contract.json
+test_data_without_schema_is_blocked (test_integration_gate.V2IntegrationGateTests.test_data_without_schema_is_blocked) ... ok
+test_legacy_link_before_v2_is_blocked (test_integration_gate.V2IntegrationGateTests.test_legacy_link_before_v2_is_blocked) ... ok
+test_legacy_only_is_pending_not_deployed (test_integration_gate.V2IntegrationGateTests.test_legacy_only_is_pending_not_deployed) ... ok
+test_legacy_v2_entry_rejects_external_origin (test_integration_gate.V2IntegrationGateTests.test_legacy_v2_entry_rejects_external_origin) ... ok
+test_local_v2_assets_must_exist (test_integration_gate.V2IntegrationGateTests.test_local_v2_assets_must_exist) ... ok
+test_path_escape_and_external_assets_blocked (test_integration_gate.V2IntegrationGateTests.test_path_escape_and_external_assets_blocked) ... ok
+test_public_url_must_be_canonical (test_integration_gate.V2IntegrationGateTests.test_public_url_must_be_canonical) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.003s
+
+OK
+{"tests": 7, "fail": 0, "error": 0, "skip": 0, "expected_failure": 0, "unexpected_success": 0, "pass": 7}
