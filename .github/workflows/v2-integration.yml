@@ -45,39 +45,39 @@ jobs:
             /NAVIGATION_SPEC_R4_2.md
             /index.html
             /CNAME
-      - name: Checkout unified W1 specs (#450)
+      - name: Checkout corrected W1 access-advisory specs (#457)
         uses: actions/checkout@v4
         with:
-          ref: bf60a497e5338a45bda63d9bc24b33e9ea1d3b43
+          ref: ee1a660b0de1bb452d05539236c1834a32140d32
           path: .ci/sources/w1
           persist-credentials: false
           sparse-checkout: specs/v2
-      - name: Checkout W2 latest repaired source (#444)
+      - name: Checkout W2 latest access-advisory data (#458)
         uses: actions/checkout@v4
         with:
-          ref: 8725bf13348dfae371ae8358930a25dd424a3361
+          ref: 2177bd8c8b6c18e0a4b284e50b55d0ff12697ddd
           path: .ci/sources/w2
           persist-credentials: false
           sparse-checkout: data/v2
           fetch-depth: 0
-      - name: Checkout W3 latest evaluator (#447)
+      - name: Checkout W3 access-advisory evaluator (#459)
         uses: actions/checkout@v4
         with:
-          ref: b26a014fec9705d40f794ae3ddb02530d3cb5574
+          ref: 656c1e8919f5f720cd8e1e2f56b26e81d4b0dcc8
           path: .ci/sources/w3
           persist-credentials: false
           sparse-checkout: packages/core-v2
-      - name: Checkout W4 main-based consolidation (#454)
+      - name: Checkout W4 corrected website (#460)
         uses: actions/checkout@v4
         with:
-          ref: 32f557d998a4d12ec37af4d963f0f410030b1cc1
+          ref: 788ff19f537b927e5515d5be6272106302cf3f41
           path: .ci/sources/w4
           persist-credentials: false
           sparse-checkout: apps/web-v2
-      - name: Checkout historical W4 #448 for exact-tree comparison only
+      - name: Checkout parent W4 #454 for separate old-tree verification
         uses: actions/checkout@v4
         with:
-          ref: ddf9f2c4bd2eeb556bf0aa3b244f01de3256b05f
+          ref: 32f557d998a4d12ec37af4d963f0f410030b1cc1
           path: .ci/sources/w4-historical
           persist-credentials: false
           sparse-checkout: apps/web-v2
