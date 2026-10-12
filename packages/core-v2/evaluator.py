@@ -26,7 +26,8 @@ def _observe(condition, observations, at):
     mode = condition.get("evaluation_mode")
     obs = observations.get(cid)
     trace = {"condition_id": cid, "role": condition["role"],
-             "evaluation_mode": mode, "state": "UNKNOWN", "reason": ""}
+             "evaluation_mode": mode, "domain": condition.get("domain"),
+             "state": "UNKNOWN", "reason": ""}
     if mode != "AUTO":
         trace["reason"] = "NON_AUTO_MODE"
         return trace
@@ -35,6 +36,12 @@ def _observe(condition, observations, at):
         return trace
     if condition.get("validation_status") != "validated":
         trace["reason"] = "UNVALIDATED_CONDITION"
+        return trace
+    # A precision-composition claim needs a separate verified geometry engine.
+    # No synthetic boolean may stand in for alignment/reflection geometry.
+    # General WEATHER/ASTRONOMY conditions are never gated on this geometry.
+    if condition.get("domain") == "GEOMETRY_COMPOSITION":
+        trace["reason"] = "PRECISION_COMPOSITION_NOT_EVALUABLE"
         return trace
     if not isinstance(obs, dict):
         trace["reason"] = "MISSING_OBSERVATION"
@@ -94,11 +101,17 @@ def evaluate(contract, observations, readiness):
                    for mode in MODES} for role in ROLES}
     for trace in traces:
         axes[trace["role"]][trace["evaluation_mode"]][trace["state"]] += 1
+    # Never silently exclude a REQUIRED/BLOCKER precision-composition claim.
+    # The current contract has claim_refs but no explicit selected-claim gate:
+    # we cannot prove that a geometry dependency is merely optional. Treat
+    # its UNKNOWN as critical until W1 defines selection/dependency semantics.
+    # General regional contracts without geometry remain independently testable.
     blocking = any((t["role"] == "REQUIRED" and t["state"] == "FAIL") or
                    (t["role"] == "BLOCKER" and t["state"] == "PASS") for t in traces)
     critical_unknown = any(t["role"] in ("REQUIRED", "BLOCKER") and
                            t["state"] == "UNKNOWN" for t in traces)
-    # An all-QUALITY contract must not generate a favorable result.
+    # An all-QUALITY contract cannot pass; an all-geometry contract stays
+    # UNKNOWN because geometry evaluation itself is not implemented.
     missing_critical = not any(t["role"] in ("REQUIRED", "BLOCKER") for t in traces)
     research_only = (contract.get("status") != "approved" or
                      readiness.get("lifecycle_status") != "approved" or

@@ -41,6 +41,83 @@ class TestEvaluator(unittest.TestCase):
         self.assertEqual(result["decision"], "TEST_ONLY_CONDITIONS_MET")
         self.assertFalse(result["live_recommendation"])
 
+    def test_area_opportunity_without_fixed_camera_geometry(self):
+        # A place-specific, independently approved regional test contract can
+        # evaluate without a point GPS, camera-to-target angle or viewpoint.
+        readiness = dict(self.readiness, camera_contexts=[{
+            "kind": "area", "geometry": {"status": "unknown", "geojson": None},
+            "verification_status": "provisional"}],
+            observation_relations=[], recommended_viewpoints=[])
+        result = self.run_case({"req": obs(True), "block": obs(False)},
+                               readiness=readiness)
+        self.assertEqual(result["decision"], "TEST_ONLY_CONDITIONS_MET")
+        self.assertIs(result["live_recommendation"], False)
+
+    def test_required_geometry_unknown_cannot_pass_entire_contract(self):
+        precision = condition("solar_alignment", "REQUIRED")
+        precision["domain"] = "GEOMETRY_COMPOSITION"
+        contract = {"status": "approved", "conditions": [
+            condition("req", "REQUIRED"), condition("block", "BLOCKER"),
+            precision]}
+        result = self.run_case({"req": obs(True), "block": obs(False),
+                                "solar_alignment": obs(True)}, contract=contract)
+        self.assertEqual(result["decision"], "UNKNOWN")
+        self.assertTrue(result["unknown"])
+        trace = next(t for t in result["conditions"]
+                     if t["condition_id"] == "solar_alignment")
+        self.assertEqual(trace["state"], "UNKNOWN")
+        self.assertEqual(trace["reason"], "PRECISION_COMPOSITION_NOT_EVALUABLE")
+        self.assertIn("PRECISION_COMPOSITION_NOT_EVALUABLE", result["reasons"])
+        self.assertIs(result["live_recommendation"], False)
+
+    def test_blocker_geometry_unknown_cannot_silently_pass(self):
+        precision = condition("reflection_geometry", "BLOCKER")
+        precision["domain"] = "GEOMETRY_COMPOSITION"
+        contract = {"status": "approved", "conditions": [
+            condition("req", "REQUIRED"), condition("block", "BLOCKER"),
+            precision]}
+        result = self.run_case({"req": obs(True), "block": obs(False),
+                                "reflection_geometry": obs(False)}, contract=contract)
+        self.assertEqual(result["decision"], "UNKNOWN")
+        self.assertTrue(result["unknown"])
+        self.assertIn("PRECISION_COMPOSITION_NOT_EVALUABLE", result["reasons"])
+        self.assertIs(result["live_recommendation"], False)
+
+    def test_weather_astronomy_without_geometry_remains_test_evaluable(self):
+        astro = condition("astronomy", "REQUIRED")
+        astro["domain"] = "ASTRONOMY"
+        contract = {"status": "approved", "conditions": [
+            condition("req", "REQUIRED"), condition("block", "BLOCKER"), astro]}
+        result = self.run_case({"req": obs(True), "block": obs(False),
+                                "astronomy": obs(True)}, contract=contract)
+        self.assertEqual(result["decision"], "TEST_ONLY_CONDITIONS_MET")
+        self.assertFalse(result["unknown"])
+        self.assertIs(result["live_recommendation"], False)
+
+    def test_only_precision_claim_cannot_be_general_opportunity_pass(self):
+        precision = condition("mirror_angle", "REQUIRED")
+        precision["domain"] = "GEOMETRY_COMPOSITION"
+        contract = {"status": "approved", "conditions": [precision]}
+        result = self.run_case({"mirror_angle": obs(True)}, contract=contract)
+        self.assertEqual(result["decision"], "UNKNOWN")
+        self.assertTrue(result["unknown"])
+        self.assertEqual(result["conditions"][0]["state"], "UNKNOWN")
+        self.assertIs(result["live_recommendation"], False)
+
+    def test_unknown_provider_still_blocks_regional_evaluation(self):
+        result = self.run_case({"req": obs(True, provider=None),
+                                "block": obs(False)})
+        self.assertEqual(result["decision"], "UNKNOWN")
+        self.assertIs(result["live_recommendation"], False)
+
+    def test_research_only_cannot_be_live_even_without_camera_point(self):
+        readiness = dict(self.readiness, research_only=True,
+                         camera_contexts=[{"kind": "area", "geometry": None}])
+        result = self.run_case({"req": obs(True), "block": obs(False)},
+                               readiness=readiness)
+        self.assertEqual(result["decision"], "UNKNOWN")
+        self.assertIs(result["live_recommendation"], False)
+
     def test_negative_required_fail(self):
         result = self.run_case({"req": obs(False), "block": obs(False)})
         self.assertEqual(result["decision"], "BLOCKED")
