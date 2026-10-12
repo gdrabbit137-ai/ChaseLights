@@ -46,6 +46,12 @@ jobs:
             /NAVIGATION_SPEC_R4_2.md
             /index.html
             /CNAME
+      - name: Pin the reviewed main snapshot for both source assembly and merge rehearsal
+        id: main_snapshot
+        run: |
+          SHA="$(git -C .ci/sources/main rev-parse HEAD)"
+          echo "sha=$SHA" >> "$GITHUB_OUTPUT"
+          echo "Pinned assembly/merge main: $SHA"
       - name: Checkout corrected W1 access-advisory specs (#457)
         uses: actions/checkout@v4
         with:
@@ -100,7 +106,7 @@ jobs:
       - name: Checkout current main for detached merge simulation
         uses: actions/checkout@v4
         with:
-          ref: main
+          ref: ${{ steps.main_snapshot.outputs.sha }}
           path: .ci/merge-sim
           fetch-depth: 0
           persist-credentials: false
