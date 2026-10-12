@@ -117,27 +117,29 @@ def run_group(name, command, root, logs, env, expected=None, python=False, node=
 
 
 def check_w4_tree(current, historical, lock):
-    """Compare real old/new Git trees and all paths, independent of PR prose."""
+    """Verify corrected #460 and parent #454 using separate tree pins."""
     paths = None
-    for label, checkout, expected in (
-        ('#454', current, lock['sha']),
-        ('#448', historical, lock['historical_sha']),
+    for label, checkout, sha, expected_tree in (
+        ('#460', current, lock['sha'], lock['tree_sha']),
+        ('#454', historical, lock['historical_sha'], lock['historical_tree_sha']),
     ):
-        if git(checkout, 'rev-parse', 'HEAD') != expected:
+        if git(checkout, 'rev-parse', 'HEAD') != sha:
             raise ValueError('W4 ' + label + ' checkout is not pinned HEAD')
-        actual_tree = git(checkout, 'rev-parse', 'HEAD:apps/web-v2')
-        if actual_tree != lock['tree_sha']:
-            raise ValueError('W4 ' + label + ' web tree drift: ' + actual_tree)
+        tree = git(checkout, 'rev-parse', 'HEAD:apps/web-v2')
+        if tree != expected_tree:
+            raise ValueError('W4 ' + label + ' tree drift: ' + tree)
         actual_paths = git(checkout, 'ls-tree', '-r', '--name-only',
                            'HEAD', '--', 'apps/web-v2').splitlines()
         if len(actual_paths) != lock['file_count']:
             raise ValueError('W4 ' + label + ' web file count drift')
         if paths is not None and actual_paths != paths:
-            raise ValueError('W4 #454 and #448 web file paths differ')
+            raise ValueError('W4 corrected and parent file inventories differ')
         paths = actual_paths
+    if lock['tree_sha'] == lock['historical_tree_sha']:
+        raise ValueError('Corrected #460 tree must differ from pre-policy #454')
     return {'current': lock['sha'], 'historical': lock['historical_sha'],
-            'tree': lock['tree_sha'], 'files': len(paths)}
-
+            'tree': lock['tree_sha'], 'historical_tree': lock['historical_tree_sha'],
+            'files': len(paths)}
 
 
 def check_w2_lineage(w2_checkout, current_sha, content_sha, files):
@@ -170,6 +172,17 @@ def check_real_sources(root, w2_checkout, w2_sha, content_sha):
     if {item['source_path'] for item in manifest['files']} != expected_paths or len(manifest['files']) != 4:
         problems.append('W4 manifest must enumerate the exact four reviewed W2 files')
     check_w2_lineage(w2_checkout, w2_sha, content_sha, manifest['files'])
+    for path in sorted(p for p in expected_paths if '/opportunities/' in p):
+        record = json.loads((root / path).read_text())
+        if any(c.get('domain') == 'ACCESS_SAFETY'
+               for c in record['condition_contract']['conditions']):
+            problems.append('Access/closure in photo ConditionContract: ' + path)
+        for camera in record['camera_contexts']:
+            for field in ('access_notes_i18n', 'safety_notes_i18n'):
+                notes = camera.get(field, {})
+                if not all(isinstance(notes.get(lang), str) and notes[lang].strip()
+                           for lang in ('zh-TW', 'en', 'ja')):
+                    problems.append('Missing localized access warning: ' + path)
     for item in manifest['files']:
         source = root / item['source_path']
         fixture = web / item['fixture']
@@ -248,13 +261,13 @@ def main():
             sources['w4'], historical_w4, lock['sources']['w4'])
         report['sources']['w4-historical'] = lock['sources']['w4']['historical_sha']
         (logs / 'w4-tree.log').write_text(
-            'PASS: #454 and #448 have identical 52-file apps/web-v2 Git Tree\\n' +
+            'PASS: #460 and parent #454 have independently verified, differing 52-file Git Trees\\n' +
             json.dumps(report['w4_tree'], indent=2) + '\\n')
         root.mkdir(parents=True)
         report['w1_contract_blobs'] = check_w1_contract(
             sources['main'], sources['w1'], lock['w1_changed_blobs'])
         (logs / 'w1-provenance.log').write_text(
-            'PASS: complete W1 #450 specs delta matches reviewed blobs; '
+            'PASS: complete W1 #457 specs delta matches reviewed blobs; '
             'all other specs/v2 files match latest main\n' +
             json.dumps(report['w1_contract_blobs'], indent=2) + '\n')
         copy_directory(sources['w1'], root, 'specs/v2')
@@ -272,7 +285,7 @@ def main():
         (logs / 'provenance.log').write_text(
             json.dumps(report['sources'], indent=2) + '\n' +
             ('FAIL: ' + provenance_error if provenance_error else
-             'PASS: W2 declared commit is an ancestor with byte-identical current blobs; '
+             'PASS: corrected W2 #458 canonical and cross-owner fixtures match exact source; '
              'W3/W4 fixtures, preview and catalog match current W2\n' +
              json.dumps(verified_blobs, indent=2)) + '\n')
         report['groups'].append({
@@ -284,21 +297,21 @@ def main():
         env = dict(os.environ, PYTHONDONTWRITEBYTECODE='1',
                    WORKER2_DATA_DIR=str(root / 'data/v2/opportunities'))
         groups = [
-            ('w1-schema', ['specs/v2/tests', 'test_schema_smoke.py'], 15, True, False),
+            ('w1-schema', ['specs/v2/tests', 'test_schema_smoke.py'], 17, True, False),
             ('w1-evaluation-schema', ['specs/v2/tests', 'test_evaluation_result_security.py'], 4, True, False),
             ('w1-free-composition', ['specs/v2/tests', 'test_free_composition_contract.py'], 6, True, False),
             ('w5-contract', ['ops/v2/tests', 'test_integration_gate.py'], 7, True, False),
             ('w5-watchdog', ['ops/v2/tests', 'test_worker_watchdog.py'], 3, True, False),
             ('w5-runner', ['ops/v2/tests', 'test_ci_runner.py'], 7, True, False),
-            ('w3-evaluator', ['packages/core-v2/tests', 'test_*.py'], 29, True, False),
-            ('w2-crosswalk-schema', ['data/v2/tests', 'test_*.py'], 6, True, False),
+            ('w3-evaluator', ['packages/core-v2/tests', 'test_*.py'], 32, True, False),
+            ('w2-crosswalk-schema', ['data/v2/tests', 'test_*.py'], 10, True, False),
             ('w2-real-records', [sys.executable, 'specs/v2/tests/validate_contract.py',
                 *[str(p.relative_to(root)) for p in sorted((root / 'data/v2/opportunities').glob('*.json'))]], None, False, False),
             ('schema-valid-fixture', [sys.executable, 'specs/v2/tests/validate_contract.py'], None, False, False),
             ('w3-compile', [sys.executable, '-m', 'py_compile', 'packages/core-v2/evaluator.py',
                            'packages/core-v2/adapters/source_observation.py'], None, False, False),
             ('w4-node', ['node', '--test', '--test-isolation=none', '--test-timeout=120000', '--test-reporter=tap',
-                *[str(p.relative_to(root)) for p in sorted((root / 'apps/web-v2/tests').glob('*.test.mjs'))]], 30, False, True),
+                *[str(p.relative_to(root)) for p in sorted((root / 'apps/web-v2/tests').glob('*.test.mjs'))]], 31, False, True),
             ('local-isolation', [sys.executable, 'ops/v2/integration_gate.py', '--root', str(root)], None, False, False),
             ('browser-smoke', ['node', '--test', '--test-isolation=none', '--test-timeout=120000', '--test-reporter=tap', 'apps/web-v2/tests/browser-smoke.mjs'], 6, False, True),
         ]
