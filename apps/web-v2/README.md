@@ -4,13 +4,13 @@ Worker 4 owns only `apps/web-v2/`. This is an isolated research explorer, not a 
 
 ## Fixed real data and provenance
 
-The default `catalog.v2.json` is W2's real `tw-026-P01` research-only preview, with explicit Git provenance fields added. It is pinned to W2 branch `codex/v2-w2-batch03-crosswalk-20261011` at `452ff5a79e0e4617d6ddb834b5dbecdd0e896b55`:
+The default `catalog.v2.json` is W2's real `tw-026-P01` research-only preview, with explicit Git provenance fields added. It is pinned to W2 branch `fix/v2-access-advisory-w2-20261012` at `2177bd8c8b6c18e0a4b284e50b55d0ff12697ddd`:
 
-- Canonical path: `data/v2/opportunities/tw-026-P01.json`, blob `3459ee2afd51ffa48c5b986aaf86d00bac80999e`.
-- Preview path: `data/v2/previews/tw-026-P01.research-only.v21.json`, blob `4e0da88cd60bb9aaad010a1ef4ab6e28d876f4bb`.
+- Canonical path: `data/v2/opportunities/tw-026-P01.json`, blob `001a3380231e3d073e900bf2b415aac7dcc5fd79`.
+- Preview path: `data/v2/previews/tw-026-P01.research-only.v21.json`, blob `282297ca41be835517a22ea312f9898e9e5e8435`.
 - `tests/fixtures/worker2/` retains byte-exact W2 records `tw-016-P01`, `tw-026-P01`, `tw-026-P02` and the original preview. `manifest.json` records each path, commit, Git blob and SHA-256. These are read-only test inputs, not a second canonical source. Tests verify their bytes, including explicit `WORKER2_DATA_DIR` overrides; missing or changed inputs fail instead of SKIP.
 
-The canonical records are R1 / evidence_review. All 12 conditions are non-AUTO and provisional, with null thresholds and model bindings. Geometry remains unknown, and no independently verified NavigationTarget exists. Three-language source copy is retained unchanged; automated presence and display tests do not establish human semantic approval.
+The canonical records are R1 / evidence_review. All six photography conditions are non-AUTO and provisional, with null thresholds and model bindings. Geometry remains unknown, and no independently verified NavigationTarget exists. Three-language source copy is retained unchanged; automated presence and display tests do not establish human semantic approval.
 
 W2's latest evidence audits at this pin (`worker2_tw026p01_e026b_source_scope_20261010_0325.json` and `worker2_tw026p01_e026c_yonghua_scope_20261010_1325.json`) retain important limits: the original lookout closure does not prove whole-site closure or whole-site openness, the actual permitted camera area/geometry is unverified, opening-hour conflicts remain unresolved, and the Japanese wording/three-language semantic signoff still needs W2/W5 review. This change does not resolve those research gates.
 
@@ -45,3 +45,7 @@ Existing three-language skip/ARIA translation keys are reused. Missing semantic 
 Task A is based on W4 `e931981a31d2ade1a94f921edd66f069027ec47c`, with latest main specs reviewed at `68907dc2b21e6ef774cad18684917b1895818bd8`. W1 EvaluationResult PR #431 and W3 PR #435 were Draft, not merged contracts. Recheck these and worker HEADs before integration.
 
 Use a Draft PR against the W4 source branch so the Task A diff contains only this directory's changes; W5 must coordinate the W4 integration/base and review actual latest-main specs, checks and unresolved evidence/semantic gates. No merge, live deployment, Legacy link or production recommendation is authorized by these tests. The candidate public path is not verified by local browser checks.
+
+## Closure advisory policy (W1 #457 / W2 #458)
+
+Access/closure/safety warnings remain conspicuous and translated in all three languages, separate from WEATHER/ASTRONOMY condition evaluation. The projection defensively quarantines old ACCESS_SAFETY REQUIRED/BLOCKER records as `access_advisories`; neither opening status nor closure changes photographic suitability. Verified Directions still require separately evidenced lawful arrival targets. The default P01 catalog and all W2 fixtures are pinned to W2 #458; the original historical W4 #448 tree no longer matches this corrected tree.

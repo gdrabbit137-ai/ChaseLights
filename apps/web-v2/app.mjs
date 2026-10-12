@@ -81,7 +81,8 @@ function renderOpportunity(target,opp,c,place){
   const zones=c.camera_zones.filter(z=>(opp.camera_zone_ids||[]).includes(z.camera_zone_id)||z.opportunity_id===oid);
   const subjects=c.subject_geometries.filter(x=>(opp.subject_geometry_ids||[]).includes(x.subject_geometry_id)||x.opportunity_id===oid);
   const relations=c.view_relations.filter(r=>r.opportunity_id===oid);
-  const allConditions=c.conditions.filter(x=>x.opportunity_id===oid);
+  const allConditions=c.conditions.filter(x=>x.opportunity_id===oid && x.domain!=="ACCESS_SAFETY");
+  const accessAdvisories=(c.access_advisories||[]).filter(x=>x.opportunity_id===oid);
   const unknowns=c.unknowns.filter(x=>x.opportunity_id===oid);
   const refs=new Set([...(opp.evidence_refs||[]),...allConditions.flatMap(x=>x.evidence_refs||[])]);
   const ev=c.evidence.filter(x=>refs.has(x.evidence_id)||x.opportunity_id===oid);
@@ -90,6 +91,8 @@ function renderOpportunity(target,opp,c,place){
   const decision=node("section","decision-core");
   decision.append(node("p","meta",t("time")+": "+(localized(opp,"sky_geometry_summary",state.locale)||localized(opp,"season_time_summary",state.locale)||t("timeMissing"))));
   decision.append(node("h4","",rc.conditionsMain));
+  // Site access/closure is advisory-only; never render it as a required
+  // photographic condition, blocker or a reason to change the weather verdict.
   for(const [role,title] of [["REQUIRED","required"],["QUALITY","quality"]]){
     const items=allConditions.filter(x=>x.role===role);
     if(!items.length)continue;
@@ -98,15 +101,28 @@ function renderOpportunity(target,opp,c,place){
     for(const condition of items)ul.append(node("li","",localized(condition,"human_description",state.locale)||label(condition,"description")));
     decision.append(ul);
   }
-  const risk=node("section","decision-risks");
-  risk.append(node("h4","",rc.risksMain));
-  const riskItems=[
-    ...allConditions.filter(x=>x.role==="BLOCKER").map(x=>localized(x,"human_description",state.locale)||label(x,"description")),
+  // True photographic blockers remain separate from independently sourced
+  // area/road/viewpoint closure and lawful-entry warnings.
+  const photoBlockers=allConditions.filter(x=>x.role==="BLOCKER");
+  card.append(decision);
+  if(photoBlockers.length){
+    const risk=node("section","decision-risks");
+    risk.append(node("h4","",t("blocker")));
+    const ul=node("ul");
+    for(const item of photoBlockers)ul.append(node("li","",localized(item,"human_description",state.locale)||label(item,"description")));
+    risk.append(ul);card.append(risk);
+  }
+  const access=node("section","access-advisories");
+  access.setAttribute("role","note");
+  access.append(node("h4","",rc.accessNotes));
+  const accessItems=[
+    ...accessAdvisories.map(x=>localized(x,"human_description",state.locale)||label(x,"description")),
     ...zones.flatMap(x=>[localized(x,"access_notes",state.locale),localized(x,"safety_notes",state.locale)]).filter(Boolean)
   ];
-  if(riskItems.length){const ul=node("ul");for(const item of [...new Set(riskItems)])ul.append(node("li","",item));risk.append(ul);}
-  else risk.append(node("p","muted",rc.riskNotProvided));
-  card.append(decision,risk);
+  if(accessItems.length){
+    const ul=node("ul");for(const item of [...new Set(accessItems)])ul.append(node("li","",item));access.append(ul);
+  }else access.append(node("p","muted",rc.riskNotProvided));
+  card.append(access);
   if(unknowns.length){const unknown=node("section","decision-unknowns");unknown.append(node("h4","",rc.unknownMain));const ul=node("ul");for(const x of unknowns)ul.append(node("li","",localized(x,"text",state.locale)||t("notTranslated")));unknown.append(ul);card.append(unknown);}
   card.append(node("p","meta",rc.evidenceMain+": "+ev.length+" "+rc.evidenceItems+" · "+rc.seeDetails));
 
@@ -129,6 +145,12 @@ function renderOpportunity(target,opp,c,place){
   grid.append(infoBox(t("access"),localized(nav,"label",state.locale,true)||nav?.status||t("unknown")));
   group.append(grid);
   group.append(node("p","relation",t("relation")+": "+(relations.length?relations.map(relationText).join(" | "):t("unknown"))));
+  if(accessAdvisories.length){
+    group.append(node("h4","",rc.accessNotes));
+    const ul=node("ul");
+    for(const warning of accessAdvisories)ul.append(node("li","",localized(warning,"human_description",state.locale)||t("notTranslated")));
+    group.append(ul);
+  }
   if(zones.length){group.append(node("h4","",rc.accessNotes));const ul=node("ul");for(const z of zones)ul.append(node("li","",name(z)+": "+(localized(z,"access_notes",state.locale)||t("notTranslated"))+" · "+(localized(z,"safety_notes",state.locale)||t("notTranslated"))));group.append(ul);}
   for(const [role,title] of [["REQUIRED","required"],["BLOCKER","blocker"],["QUALITY","quality"]]){
     const items=allConditions.filter(x=>x.role===role);

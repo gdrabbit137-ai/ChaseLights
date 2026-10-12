@@ -29,13 +29,14 @@
       },
       "verification_status": "provisional",
       "evidence_refs": [
-        "e026c",
+        "e026b",
+        "e026e",
         "e026d"
       ],
       "access_notes_i18n": {
-        "zh-TW": "開放的鹽田公共區；施工瞭望台不使用。",
-        "en": "Open public salt-pan area only; exclude the closed lookout.",
-        "ja": "開放中の塩田公共区域のみ。閉鎖中の展望台は使わない。"
+        "zh-TW": "僅可從當日確實開放、允許一般遊客拍攝且安全的位置取景；具體公共區域及邊界尚未獨立核實，須依當日公告與現場管制確認，無法確認時不可使用該構圖。原瞭望台封閉期間不得進入；替代平台的開放不證明其他區域開放。",
+        "en": "Photograph only from a safe location actually open to visitors and permitting photography on the day. The specific public area and its boundaries have not been independently verified; check current notices and on-site restrictions, and do not use the composition if lawful access cannot be confirmed. Do not enter the original lookout while closed; the alternate platform does not establish that other areas are open.",
+        "ja": "当日実際に開放され、一般来訪者の撮影が認められた安全な場所からのみ撮影する。公共区域の具体的な場所と境界は独立に確認できていないため、当日の告知と現地の規制を確認し、合法的な立入りを確認できなければその構図は使わない。旧展望台の閉鎖中は立ち入らず、代替展望台の開放をもって他区域の開放とはみなさない。"
       },
       "safety_notes_i18n": {
         "zh-TW": "遵守施工及公共區域限制。",
@@ -65,7 +66,7 @@
       },
       "phenomenon_model_id": null,
       "evidence_refs": [
-        "e026c",
+        "e026e",
         "e026d"
       ],
       "components": []
@@ -82,7 +83,7 @@
       "elevation_deg": null,
       "distance_m": null,
       "evidence_refs": [
-        "e026c",
+        "e026e",
         "e026d"
       ],
       "derivation_method": null,
@@ -110,28 +111,6 @@
     "status": "review",
     "conditions": [
       {
-        "id": "C-tw-026-P02-01",
-        "role": "REQUIRED",
-        "domain": "ACCESS_SAFETY",
-        "evaluation_mode": "VERIFY",
-        "capability": "OBSERVATION",
-        "metric": "open_public_camera_area",
-        "operator": "none",
-        "threshold": null,
-        "unit": null,
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "tw-026-P02-claim-01"
-        ],
-        "model_binding": null,
-        "notes_i18n": {
-          "zh-TW": "必須從當下開放的公共區攝影。",
-          "en": "Photograph only from a currently open public area.",
-          "ja": "現在開放中の公共区域から撮影すること。"
-        },
-        "validation_status": "provisional"
-      },
-      {
         "id": "C-tw-026-P02-02",
         "role": "REQUIRED",
         "domain": "WEATHER",
@@ -150,28 +129,6 @@
           "zh-TW": "天空需實際出現可辨晚霞；不能以日期或一般雲量直接保證。",
           "en": "Visible afterglow must actually develop; neither the date nor generic cloud cover guarantees it.",
           "ja": "判別できる夕焼けが実際に発生すること。日付や一般的な雲量だけでは保証できない。"
-        },
-        "validation_status": "provisional"
-      },
-      {
-        "id": "C-tw-026-P02-03",
-        "role": "BLOCKER",
-        "domain": "ACCESS_SAFETY",
-        "evaluation_mode": "VERIFY",
-        "capability": "OBSERVATION",
-        "metric": "closed_platform_required",
-        "operator": "none",
-        "threshold": null,
-        "unit": null,
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "tw-026-P02-claim-03"
-        ],
-        "model_binding": null,
-        "notes_i18n": {
-          "zh-TW": "若構圖必須站在封閉瞭望台，該構圖不可用。",
-          "en": "A composition dependent on the closed lookout is unavailable.",
-          "ja": "閉鎖中の展望台を必要とする構図は利用できない。"
         },
         "validation_status": "provisional"
       },
@@ -205,7 +162,7 @@
       "claim_id": "tw-026-P02-existence",
       "claim_type": "existence",
       "evidence_refs": [
-        "e026c",
+        "e026e",
         "e026d"
       ],
       "audit_status": "OK",
@@ -215,7 +172,8 @@
       "claim_id": "tw-026-P02-camera",
       "claim_type": "camera_location",
       "evidence_refs": [
-        "e026c",
+        "e026b",
+        "e026e",
         "e026d"
       ],
       "audit_status": "PARTIAL",
@@ -241,7 +199,7 @@
       "claim_id": "tw-026-P02-claim-02",
       "claim_type": "other",
       "evidence_refs": [
-        "e026c"
+        "e026e"
       ],
       "audit_status": "PARTIAL",
       "scope_note": "Qualitative condition; no measured threshold, local runtime verification needed."
@@ -259,6 +217,7 @@
       "claim_id": "tw-026-P02-claim-04",
       "claim_type": "other",
       "evidence_refs": [
+        "e026e",
         "e026d"
       ],
       "audit_status": "PARTIAL",

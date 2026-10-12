@@ -12,7 +12,7 @@ export function idOf(record, keys = ["id"]) {
 export function normalizeCatalog(input) {
   if (!input || typeof input !== "object" || Array.isArray(input)) throw new Error("Invalid V2 document");
   const data = input.data && input.data.places ? input.data : input;
-  const fields = ["places","opportunities","camera_zones","subject_geometries","view_relations","condition_contracts","conditions","evidence","research_status","unknowns","evaluations"];
+  const fields = ["places","opportunities","camera_zones","subject_geometries","view_relations","condition_contracts","conditions","access_advisories","evidence","research_status","unknowns","evaluations"];
   const result = Object.fromEntries(fields.map(k => [k,rows(data[k])]));
   result.metadata = data.metadata && typeof data.metadata === "object" ? data.metadata : {};
   result.generated_at = data.generated_at || result.metadata.generated_at || null;

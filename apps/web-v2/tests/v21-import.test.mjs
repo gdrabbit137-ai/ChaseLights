@@ -21,6 +21,17 @@ test('V2.1 research projection preserves unknown, provenance, 3 locales, and no 
  assert.equal(localized(c.opportunities[0],'name','ja'),'鳶嘴山の岩稜');
  assert.equal(c.opportunities[0].provenance.imported_at,'2026-10-08T17:26:40Z');
 });
+test('legacy closed access conditions are warning-only, never REQUIRED/BLOCKER',()=>{
+ const original=doc();
+ const catalog=importV21Catalog(original);
+ assert.equal(catalog.conditions.length,0);
+ assert.equal(catalog.access_advisories.length,1);
+ const warning=catalog.access_advisories[0];
+ assert.equal(warning.reason,'ACCESS_ADVISORY_ONLY');
+ assert.equal(warning.legacy_role,'REQUIRED');
+ assert.equal(localized(warning,'human_description','en'),'Safe');
+ assert.equal(navigationAction(catalog.opportunities[0].navigation_target),null);
+});
 test('three Opportunity records preserve two distinct Place IDs',()=>{
  const a=doc(),b=doc(),c=doc();b.opportunity_id='tw-026-P01';b.place_id='tw-026';c.opportunity_id='tw-026-P02';c.place_id='tw-026';
  const catalog=importV21Catalog({schema_version:'2.1.0',opportunities:[a,b,c]});

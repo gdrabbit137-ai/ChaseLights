@@ -72,20 +72,26 @@ async function assertLocale(page, locale) {
   assert.equal(await page.locator('.opportunity h3').textContent(), current.name_i18n[locale]);
   // Photographer decision information precedes optional camera/subject geometry.
   assert.equal(await page.locator('.decision-core').count(), 1);
-  assert.equal(await page.locator('.decision-risks').count(), 1);
+  assert.equal(await page.locator('.access-advisories').count(), 1);
+  assert.equal(await page.locator('.access-advisories').getAttribute('role'),'note');
+  assert.equal(await page.locator('.decision-risks').count(), 0,
+    'access closures must not appear as photographic blockers');
   assert.equal(await page.locator('.technical .context-grid').count(), 1);
   assert.equal(await page.locator('.opportunity > .context-grid').count(), 0);
   const primaryConditions = await page.locator('.decision-core').innerText();
   for (const condition of current.condition_contract.conditions.filter(x=>x.role==='REQUIRED'||x.role==='QUALITY'))
     assert.ok(primaryConditions.includes(condition.notes_i18n[locale]), locale+': missing decision condition');
-  const riskText = await page.locator('.decision-risks').innerText();
+  const primary = await page.locator('.decision-core').innerText();
+  assert.ok(!primary.includes(current.camera_contexts[0].access_notes_i18n[locale]),
+    locale+': closure warning leaked into photo-condition requirements');
+  const riskText = await page.locator('.access-advisories').innerText();
   assert.ok(riskText.includes(current.camera_contexts[0].safety_notes_i18n[locale]), locale+': missing access risk');
   assert.ok(riskText.includes(current.camera_contexts[0].access_notes_i18n[locale]), locale+': hidden access restriction');
   assert.equal(await page.locator('.technical').getAttribute('open'), null, 'geometry must be opt-in');
   assert.equal(await page.locator('.technical .context-grid').isVisible(), false);
   assert.ok(await page.locator('.opportunity').evaluate(card => {
     const details=card.querySelector('.technical');
-    return ['.decision-core','.decision-risks','.decision-unknowns','.notice'].every(selector =>
+    return ['.decision-core','.access-advisories','.decision-unknowns','.notice'].every(selector =>
       Boolean(card.querySelector(selector)?.compareDocumentPosition(details) & Node.DOCUMENT_POSITION_FOLLOWING));
   }), 'conditions, limitations, unknowns and research warning must precede technical geometry');
   const framing = await page.locator('.framing-note').innerText();
