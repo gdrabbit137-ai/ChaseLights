@@ -1,0 +1,93 @@
+FILE apps/web-v2/tests/a11y-locale.test.mjs
+✔ HTML exposes accessible i18n hooks without hard-coded English (1.194105ms)
+✔ all three locales have distinct accessibility copy (2.52211ms)
+✔ real change handler updates skip, title, and four ARIA labels on every switch (3.362363ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 13.13569
+FILE apps/web-v2/tests/model.test.mjs
+✔ supports all three locales and stable place/opportunity IDs (1.42367ms)
+✔ does not silently fall back to Chinese for missing translations (0.169866ms)
+✔ does not invent camera-to-subject numbers (0.112068ms)
+✔ never routes to unverified or multiple access targets (0.287923ms)
+✔ provisional camera anchors without evidence cannot yield Directions or map links (0.203045ms)
+✔ never turns research scores into live forecasts (0.184317ms)
+✔ rejects unsafe evidence URLs and unsupported geometry types (0.169765ms)
+✔ rejects empty and malformed V2 catalogs (0.23276ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9.223982
+FILE apps/web-v2/tests/pinned-preview.test.mjs
+✔ default catalog is the byte-verified W2 preview with only explicit provenance additions (2.48239ms)
+✔ all real canonical records retain provisional non-AUTO conditions and unknown geometry (0.684899ms)
+✔ real preview never becomes a live evaluation even with adversarial runtime additions (0.846382ms)
+✔ latest W2 source preserves lawful-area uncertainty in all three languages (0.294052ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9.336171
+FILE apps/web-v2/tests/semantic-source-regression.test.mjs
+✔ declared source commit survives projection without promoting research or persisting across imports (2.331814ms)
+✔ zh-TW: real descriptions, access/safety, targets and conditions preserve exact W2 meaning (0.494893ms)
+✔ zh-TW: incomplete optional safety/access and navigation translations fail closed (1.007224ms)
+✔ en: real descriptions, access/safety, targets and conditions preserve exact W2 meaning (0.436696ms)
+✔ en: incomplete optional safety/access and navigation translations fail closed (0.415014ms)
+✔ ja: real descriptions, access/safety, targets and conditions preserve exact W2 meaning (0.152649ms)
+✔ ja: incomplete optional safety/access and navigation translations fail closed (0.369115ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 11.481965
+FILE apps/web-v2/tests/source-boundary.test.mjs
+✔ unverified targets never create directions (0.770999ms)
+✔ research is never promoted to runtime (0.141232ms)
+✔ evidence links reject executable URLs (0.122163ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6.890355
+FILE apps/web-v2/tests/v21-import.test.mjs
+✔ V2.1 research projection preserves unknown, provenance, 3 locales, and no runtime (1.398332ms)
+✔ three Opportunity records preserve two distinct Place IDs (1.046403ms)
+✔ invalid version, no data and missing translations fail closed (0.441734ms)
+✔ Directions require separately evidenced arrival, no fabricated live result (0.286861ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7.950808
+FILE apps/web-v2/tests/worker2-canonical-records.test.mjs
+✔ original Worker 2 canonical records preserve research-only semantics (4.013121ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8.745382
