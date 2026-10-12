@@ -10,7 +10,7 @@ Status: proposed W5 gate, 2026-10-12. This document is a review checklist, not a
 | W2 | #444 (8725bf13348dfae371ae8358930a25dd424a3361) | #440 (a816c833ac4f83f440d1d76350cb46da74f43013) |
 | W3 | #447 (b26a014fec9705d40f794ae3ddb02530d3cb5574) | #435 (d24af0dbea61c158482bea9522ac36eac016843d), #441 (77b040fd1af806a564282eea7e3a7c7166a180d3) |
 | W4 | #448 (ddf9f2c4bd2eeb556bf0aa3b244f01de3256b05f) | owner base e931981a31d2ade1a94f921edd66f069027ec47c, then #436, #442, #443, #446. The owner base is not in main and has no PR. |
-| W5 | Task J, from #451 (c81524d0a1feac771e5f9b9ce1b7ecb913a21380) | All accepted owner content; #437, #445, #449, #451 are cumulative ancestors, never independent final merges. |
+| W5 | #452 (d69953997d561a19f54330b652dd8c43ea904258) | All accepted owner content; #437, #445, #449, #451 are cumulative ancestors, never independent final merges. |
 
 For sequential merges, preserve each parent's full change before its child. Do not start at W4 #436 on main. A main-based W4 consolidation is acceptable if its final `apps/web-v2/` tree is byte-identical to #448 and its provenance lists the owner base and every replacement. The same approach may replace other stacked chains; do not merge both the stack and its consolidation. Review path ownership, actual merge output and CI after any new main commit. Keep old PRs open as traceable history until the approved replacement is merged, then close without merging.
 
@@ -30,12 +30,12 @@ The W5 Actions merge rehearsal checks the sequence on a detached main copy; its 
 
 | Check | Evidence presently available | Pending acceptance |
 | --- | --- | --- |
-| Contract and provenance | W5 #451 GitHub Actions run 38183587878: 113 PASS; current W1 HEAD has since advanced one ADR blob | New exact Task J run and merge rehearsal; post-merge CI after accepted heads |
+| Contract and provenance | W5 #452 GitHub Actions run 38186730009 attempt 4: 113 PASS/0 FAIL/ERROR/SKIP, pinned to W1 #450 bf60a497, W2 #444 8725bf13, W3 #447 b26a014f and W4 #448 ddf9f2c4; 13-step detached merge rehearsal PASS on main 84f211c27e426fc6db5bdb6b4bb310a4bf77218b | Re-run against current main or changed owner HEAD; independently review job logs and post-merge CI after accepted heads |
 | W2 human/canonical/crosswalk | W2 #444 source, six data tests and W5 byte-provenance gate | Independent full evidence-scope and human zh-TW/en/ja semantic approval |
 | tw-026-P01 | Official attraction describes salt-pan sunset; official closure notice says original lookout closed through planned 2026-11-30 | Current closure/access recheck, lawful shooting boundary, substitute platform precision; no invented GPS |
 | Navigation | All three staged records retain needs_review/null arrival coordinates | Verified arrival evidence before any Directions |
 | Runtime | Test-only W3 evaluator is fail-closed on missing prerequisites | Approved provider coverage, thresholds/bindings, freshness, evidence and genuine EvaluationResult before live use |
-| Governance | All final owner PRs and #451 are Draft; no approving reviews seen | Formal review, owner approval, merge and release decision |
+| Governance | All final owner PRs and #452 are Draft; no approving reviews seen | Formal review, owner approval, merge and release decision |
 | W4 root | Owner branch e931981a differs from main in apps/web-v2 and has no PR | W4 owner must submit base PR or reviewed main-based consolidation |
 
 ### Decision requested of the project owner after gates pass
