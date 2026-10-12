@@ -43,7 +43,7 @@ Status: W5 access-advisory correction proposal, 2026-10-12. Prior Task K rows be
 - W1 #457 `ee1a660b0de1bb452d05539236c1834a32140d32` (after #450).
 - W2 #458 `2177bd8c8b6c18e0a4b284e50b55d0ff12697ddd` (after #440 → #444 → #456).
 - W3 #459 `656c1e8919f5f720cd8e1e2f56b26e81d4b0dcc8` (after #435 → #441 → #447).
-- W4 #460 `788ff19f537b927e5515d5be6272106302cf3f41` (after #454; **new W4 tree intentionally differs** from the pre-correction #454/#448 tree).
+- W4 #460 `ec5dc9609596135ba1b2634dfa7d6c07a54fabdc` (after #454; **new W4 tree intentionally differs** from the pre-correction #454/#448 tree).
 - W5 corrected integration candidate: must run exact-head GitHub Actions and a 13-step detached merge rehearsal using all above heads.
 
 Earlier W5 #455's 113 PASS / eight-step rehearsal does **not** prove these corrected sources passed. New target full discovery is 123 counted tests, with 0 FAIL, ERROR or SKIP; verify raw logs before asserting success. Human research/evidence/translation review, legal access and navigation validation, project-owner merge and Preview publication decisions remain pending and are **separate** from the photography-weather verdict. Legacy runtime and scoring remain unchanged.
