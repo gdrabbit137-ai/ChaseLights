@@ -64,6 +64,30 @@ for (const locale of LOCALES) {
 }
 console.log("RESEARCH SAFETY FLAGS PASS", "No live score or fabricated Directions");
 
+// After the actual GitHub Pages deployment, require the authorized V1 entry.
+// Earlier pull-request smoke runs intentionally verify V2 without requiring a
+// link that has not been published yet.
+if (process.env.REQUIRE_PUBLIC_V1_LINK === "true") {
+  const rootResponse = await fetch("https://chaselights.app/", {
+    headers: {"cache-control": "no-cache", "user-agent": "ChaseLights-V2-LinkSmoke/1"},
+    signal: AbortSignal.timeout(20000),
+  });
+  assert.equal(rootResponse.status, 200, "Legacy root is not publicly reachable");
+  const legacyHtml = await rootResponse.text();
+  assert.match(legacyHtml, /href="\.\/apps\/web-v2\/"[^>]*data-i18n="v2_link"/,
+               "Verified public V1 entry to V2 Research Preview is missing");
+  const legacyScriptResponse = await fetch("https://chaselights.app/assets/app.js", {
+    headers: {"cache-control": "no-cache"},
+    signal: AbortSignal.timeout(20000),
+  });
+  assert.equal(legacyScriptResponse.status, 200);
+  const legacyScript = await legacyScriptResponse.text();
+  for (const phrase of ["🧭 V2 研究預覽", "🧭 V2 Research Preview", "🧭 V2 調査プレビュー"]) {
+    assert.ok(legacyScript.includes(phrase), "Missing public V1 entry translation: " + phrase);
+  }
+  console.log("PUBLIC V1 ENTRY PASS: V1 unchanged except translated, same-origin V2 link");
+}
+
 const browser = await chromium.launch({
   headless: true,
   ...(process.env.CHROMIUM_EXECUTABLE
