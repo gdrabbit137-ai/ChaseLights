@@ -229,6 +229,31 @@ class CrosswalkGate(unittest.TestCase):
         self.assertEqual(0, self.audit["release_gate"]["approved"])
         self.assertEqual(set(IDS), set(self.audit["staged_opportunity_ids"]))
 
+    def test_p02_access_uncertainty_survives_all_locales_and_crosswalk(self):
+        doc = self.docs["tw-026-P02"]
+        camera = doc["camera_contexts"][0]
+        notes = camera["access_notes_i18n"]
+        self.assertIn("尚未獨立核實", notes["zh-TW"])
+        self.assertIn("無法確認時不可使用", notes["zh-TW"])
+        self.assertIn("have not been independently verified", notes["en"])
+        self.assertIn("if lawful access cannot be confirmed", notes["en"])
+        self.assertIn("独立に確認できていない", notes["ja"])
+        self.assertIn("確認できなければ", notes["ja"])
+        self.assertIn("e026b", camera["evidence_refs"])
+        rows = [r for rs in self.rows.values() for r in rs]
+        camera_row = next(r for r in rows if r["human_claim_id"] == "H-tw-026-P02-camera")
+        self.assertEqual(notes["zh-TW"], camera_row["human_text"])
+        self.assertIn("e026b", camera_row["evidence_refs"])
+
+    def test_preview_is_exact_research_only_canonical_projection(self):
+        preview = json.loads((DATA / "previews" / "tw-026-P01.research-only.v21.json").read_text(encoding="utf-8"))
+        self.assertEqual([self.docs["tw-026-P01"]], preview["opportunities"])
+        self.assertIs(preview["research_only"], True)
+        self.assertIs(preview["selected_date_recommendation_eligible"], False)
+        self.assertIs(preview["forecast_available"], False)
+        self.assertEqual([], preview["evaluations"])
+        self.assertEqual({"e026b", "e026e"} <= self.evidence_ids, True)
+
 
 class SchemaGate(unittest.TestCase):
     def test_worker1_v21_schema(self):
