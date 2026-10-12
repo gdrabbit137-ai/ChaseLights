@@ -2,6 +2,8 @@
 
 Status: draft. Owner: Worker 1 (architecture and schema).
 
+`ACCESS_ADVISORY_SPEC.md` is the normative V2 separation: access/closure information is a prominent warning and navigation guard only, not a photography REQUIRED/BLOCKER, score or forecast-result gate. Legacy ACCESS_SAFETY conditions must be migrated out of Condition Contract; a climate-favorable forecast may coexist with a closed-area warning.
+
 Canonical research schema: `schema/opportunity-v2.1.schema.json`. Separate timestamped runtime result contract: `schema/evaluation-result-v0.1.schema.json`. Its structural validation is necessary but cannot by itself authorize a live recommendation: canonical contract approval, justified threshold and AUTO model binding, real provider coverage/freshness/time/provenance, and evidence must also be checked semantically.
 
 ## Composition and evaluation
