@@ -118,6 +118,42 @@ class TestEvaluator(unittest.TestCase):
         self.assertEqual(result["decision"], "UNKNOWN")
         self.assertIs(result["live_recommendation"], False)
 
+    def test_closed_viewpoint_warning_does_not_change_photo_verdict(self):
+        closed = condition("closed_lookout", "BLOCKER", "VERIFY")
+        closed["domain"] = "ACCESS_SAFETY"
+        closed["notes_i18n"] = {
+            "zh-TW": "瞭望台封閉，不得進入。",
+            "en": "Lookout closed; do not enter.",
+            "ja": "展望台は閉鎖中です。立ち入らないでください。"}
+        base = self.run_case({"req": obs(True), "block": obs(False)})
+        for role, value in (("REQUIRED", False), ("BLOCKER", True),
+                            ("QUALITY", True)):
+            with self.subTest(role=role):
+                legacy = dict(closed, role=role)
+                contract = {"status": "approved",
+                            "conditions": self.contract["conditions"] + [legacy]}
+                result = self.run_case({"req": obs(True), "block": obs(False),
+                                        "closed_lookout": obs(value)},
+                                       contract=contract)
+                self.assertEqual(base["decision"], result["decision"])
+                self.assertEqual(base["unknown"], result["unknown"])
+                self.assertEqual(base["axes"], result["axes"])
+                self.assertEqual(base["conditions"], result["conditions"])
+                self.assertEqual(1, len(result["access_advisories"]))
+                self.assertFalse(result["access_advisories"][0]["affects_photography_suitability"])
+                self.assertEqual(closed["notes_i18n"], result["access_advisories"][0]["notes_i18n"])
+                self.assertFalse(result["live_recommendation"])
+
+    def test_access_only_contract_cannot_manufacture_photo_favorable(self):
+        access = condition("road_closed", "REQUIRED", "VERIFY")
+        access["domain"] = "ACCESS_SAFETY"
+        result = self.run_case({"road_closed": obs(True)},
+                               contract={"status": "approved", "conditions": [access]})
+        self.assertEqual("UNKNOWN", result["decision"])
+        self.assertEqual([], result["conditions"])
+        self.assertEqual(1, len(result["access_advisories"]))
+        self.assertFalse(result["live_recommendation"])
+
     def test_negative_required_fail(self):
         result = self.run_case({"req": obs(False), "block": obs(False)})
         self.assertEqual(result["decision"], "BLOCKED")

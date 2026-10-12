@@ -88,6 +88,7 @@ def evaluate(contract, observations, readiness):
     at = _instant(readiness.get("evaluated_at"))
     seen = set()
     traces = []
+    access_advisories = []
     for condition in conditions:
         if (not isinstance(condition, dict) or
                 not isinstance(condition.get("id"), str) or not condition["id"] or
@@ -96,11 +97,26 @@ def evaluate(contract, observations, readiness):
             return {"decision": "UNKNOWN", "reasons": ["INVALID_CONTRACT_CONDITION"],
                     "unknown": True, "live_recommendation": False, "conditions": [], "axes": {}}
         seen.add(condition["id"])
+        # Legacy canonical contracts incorrectly encoded closures as REQUIRED/
+        # BLOCKER ACCESS_SAFETY. Never evaluate them as photography conditions.
+        # This quarantine is defensive; new canonical documents omit them.
+        if condition.get("domain") == "ACCESS_SAFETY":
+            access_advisories.append({
+                "condition_id": condition["id"],
+                "reason": "ACCESS_ADVISORY_ONLY",
+                "legacy_role": condition["role"],
+                "notes_i18n": condition.get("notes_i18n"),
+                "affects_photography_suitability": False,
+            })
+            continue
         traces.append(_observe(condition, observations, at))
     axes = {role: {mode: {state: 0 for state in ("PASS", "FAIL", "UNKNOWN")}
                    for mode in MODES} for role in ROLES}
     for trace in traces:
         axes[trace["role"]][trace["evaluation_mode"]][trace["state"]] += 1
+    # Access advisories never count as a photo REQUIRED/BLOCKER or missing
+    # critical observation. Source-confirmed legal navigation is a separate UI
+    # safeguard and cannot change environmental suitability.
     # Never silently exclude a REQUIRED/BLOCKER precision-composition claim.
     # The current contract has claim_refs but no explicit selected-claim gate:
     # we cannot prove that a geometry dependency is merely optional. Treat
@@ -134,4 +150,4 @@ def evaluate(contract, observations, readiness):
             "unknown": critical_unknown or missing_critical or research_only,
             "live_recommendation": False, "evaluated_at": readiness.get("evaluated_at"),
             "research_level": readiness.get("research_level"),
-            "conditions": traces, "axes": axes}
+            "conditions": traces, "access_advisories": access_advisories, "axes": axes}
