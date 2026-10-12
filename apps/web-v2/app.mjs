@@ -101,16 +101,28 @@ function renderOpportunity(target,opp,c,place){
     for(const condition of items)ul.append(node("li","",localized(condition,"human_description",state.locale)||label(condition,"description")));
     decision.append(ul);
   }
-  const risk=node("section","decision-risks");
-  risk.append(node("h4","",rc.risksMain));
-  const riskItems=[
+  // True photographic blockers remain separate from independently sourced
+  // area/road/viewpoint closure and lawful-entry warnings.
+  const photoBlockers=allConditions.filter(x=>x.role==="BLOCKER");
+  card.append(decision);
+  if(photoBlockers.length){
+    const risk=node("section","decision-risks");
+    risk.append(node("h4","",t("blocker")));
+    const ul=node("ul");
+    for(const item of photoBlockers)ul.append(node("li","",localized(item,"human_description",state.locale)||label(item,"description")));
+    risk.append(ul);card.append(risk);
+  }
+  const access=node("section","access-advisories");
+  access.setAttribute("role","note");
+  access.append(node("h4","",rc.accessNotes));
+  const accessItems=[
     ...accessAdvisories.map(x=>localized(x,"human_description",state.locale)||label(x,"description")),
-    ...allConditions.filter(x=>x.role==="BLOCKER").map(x=>localized(x,"human_description",state.locale)||label(x,"description")),
     ...zones.flatMap(x=>[localized(x,"access_notes",state.locale),localized(x,"safety_notes",state.locale)]).filter(Boolean)
   ];
-  if(riskItems.length){const ul=node("ul");for(const item of [...new Set(riskItems)])ul.append(node("li","",item));risk.append(ul);}
-  else risk.append(node("p","muted",rc.riskNotProvided));
-  card.append(decision,risk);
+  if(accessItems.length){
+    const ul=node("ul");for(const item of [...new Set(accessItems)])ul.append(node("li","",item));access.append(ul);
+  }else access.append(node("p","muted",rc.riskNotProvided));
+  card.append(access);
   if(unknowns.length){const unknown=node("section","decision-unknowns");unknown.append(node("h4","",rc.unknownMain));const ul=node("ul");for(const x of unknowns)ul.append(node("li","",localized(x,"text",state.locale)||t("notTranslated")));unknown.append(ul);card.append(unknown);}
   card.append(node("p","meta",rc.evidenceMain+": "+ev.length+" "+rc.evidenceItems+" · "+rc.seeDetails));
 
