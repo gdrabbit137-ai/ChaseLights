@@ -124,28 +124,6 @@
         "status": "review",
         "conditions": [
           {
-            "id": "C-tw-026-P01-01",
-            "role": "REQUIRED",
-            "domain": "ACCESS_SAFETY",
-            "evaluation_mode": "VERIFY",
-            "capability": "OBSERVATION",
-            "metric": "public_saltfield_access",
-            "operator": "none",
-            "threshold": null,
-            "unit": null,
-            "unknown_policy": "propagate_unknown",
-            "claim_refs": [
-              "tw-026-P01-claim-01"
-            ],
-            "model_binding": null,
-            "notes_i18n": {
-              "zh-TW": "拍攝當下須確認有合法開放且安全的取景位置；原瞭望台封閉不代表其他區域必然開放。",
-              "en": "Confirm that a safe, legally open place to photograph is available at the time. Closure of the original lookout does not prove that other areas are open.",
-              "ja": "撮影時に合法的に立ち入れる安全な場所があるか現地で確認する。旧展望台の閉鎖は他の区域の開放を証明しない。"
-            },
-            "validation_status": "provisional"
-          },
-          {
             "id": "C-tw-026-P01-02",
             "role": "REQUIRED",
             "domain": "ASTRONOMY",
@@ -164,28 +142,6 @@
               "zh-TW": "夕照需實際照亮鹽田構圖；未推定太陽方位或固定時刻。",
               "en": "Sunset light must reach the salt-pan composition; no fixed time or solar bearing is inferred.",
               "ja": "夕日の光が塩田の構図に届くこと。固定時刻や太陽方位は推定しない。"
-            },
-            "validation_status": "provisional"
-          },
-          {
-            "id": "C-tw-026-P01-03",
-            "role": "BLOCKER",
-            "domain": "ACCESS_SAFETY",
-            "evaluation_mode": "VERIFY",
-            "capability": "OBSERVATION",
-            "metric": "restricted_lookout_entry",
-            "operator": "none",
-            "threshold": null,
-            "unit": null,
-            "unknown_policy": "propagate_unknown",
-            "claim_refs": [
-              "tw-026-P01-claim-03"
-            ],
-            "model_binding": null,
-            "notes_i18n": {
-              "zh-TW": "若取景需要進入正在封閉的原瞭望台，該機位不可使用。",
-              "en": "A composition requiring entry to the closed original lookout is unavailable.",
-              "ja": "閉鎖中の旧展望台への立入りが必要な構図は利用不可。"
             },
             "validation_status": "provisional"
           },
@@ -297,9 +253,9 @@
       }
     }
   ],
-  "source_commit_sha": "452ff5a79e0e4617d6ddb834b5dbecdd0e896b55",
+  "source_commit_sha": "2177bd8c8b6c18e0a4b284e50b55d0ff12697ddd",
   "source_path": "data/v2/opportunities/tw-026-P01.json",
-  "source_blob_sha": "3459ee2afd51ffa48c5b986aaf86d00bac80999e",
+  "source_blob_sha": "001a3380231e3d073e900bf2b415aac7dcc5fd79",
   "source_preview_path": "data/v2/previews/tw-026-P01.research-only.v21.json",
-  "source_preview_blob_sha": "4e0da88cd60bb9aaad010a1ef4ab6e28d876f4bb"
+  "source_preview_blob_sha": "282297ca41be835517a22ea312f9898e9e5e8435"
 }

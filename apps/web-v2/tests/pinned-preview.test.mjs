@@ -25,6 +25,7 @@ test('all real canonical records retain provisional non-AUTO conditions and unkn
     assert.equal(original.readiness.research_level, 'R1');
     assert.equal(original.lifecycle_status, 'evidence_review');
     for (const condition of original.condition_contract.conditions) {
+      assert.notEqual(condition.domain, 'ACCESS_SAFETY');
       assert.notEqual(condition.evaluation_mode, 'AUTO');
       assert.equal(condition.validation_status, 'provisional');
       assert.equal(condition.threshold, null);

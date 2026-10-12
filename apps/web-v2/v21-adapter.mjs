@@ -18,7 +18,7 @@ export function projectV21(input) {
  const source = input?.data || input;
  const docs = isV21(source) ? [source] : list(source?.opportunities);
  if (!docs.length || !docs.every(isV21)) return null;
- const output = {metadata:{source_schema:"2.1.0",adapter:"read-only"},places:[],opportunities:[],camera_zones:[],subject_geometries:[],view_relations:[],condition_contracts:[],conditions:[],evidence:[],research_status:[],unknowns:[],evaluations:[]};
+ const output = {metadata:{source_schema:"2.1.0",adapter:"read-only"},places:[],opportunities:[],camera_zones:[],subject_geometries:[],view_relations:[],condition_contracts:[],conditions:[],access_advisories:[],evidence:[],research_status:[],unknowns:[],evaluations:[]};
  const sourcePlaces = list(source?.places);
  const seen = new Set();
  for (const doc of docs) {
@@ -40,7 +40,18 @@ export function projectV21(input) {
    else output.opportunities[output.opportunities.length-1].navigation_target={status:nav.length?"multiple_access_routes":"needs_review"};
    const contract=doc.condition_contract||{};
    output.condition_contracts.push({contract_id:contract.contract_id,opportunity_id:doc.opportunity_id,status:contract.status});
-   for (const c of list(contract.conditions)) output.conditions.push({condition_id:scopedId(doc,c.id),opportunity_id:doc.opportunity_id,role:c.role,domain:c.domain,metric:c.metric,operator:c.operator??null,threshold:c.threshold??null,unit:c.unit??null,unknown_policy:c.unknown_policy,confidence:c.validation_status||"unvalidated",human_description_i18n:c.notes_i18n||null,evidence_refs:c.claim_refs||[]});
+   for (const c of list(contract.conditions)) {
+     // Defensive migration for older W2 records. Access restrictions are
+     // independent warnings, never weather/photography scoring conditions.
+     if (c.domain === "ACCESS_SAFETY") {
+       output.access_advisories.push({condition_id:scopedId(doc,c.id),
+         opportunity_id:doc.opportunity_id,legacy_role:c.role,
+         human_description_i18n:c.notes_i18n||null,
+         reason:"ACCESS_ADVISORY_ONLY"});
+       continue;
+     }
+     output.conditions.push({condition_id:scopedId(doc,c.id),opportunity_id:doc.opportunity_id,role:c.role,domain:c.domain,metric:c.metric,operator:c.operator??null,threshold:c.threshold??null,unit:c.unit??null,unknown_policy:c.unknown_policy,confidence:c.validation_status||"unvalidated",human_description_i18n:c.notes_i18n||null,evidence_refs:c.claim_refs||[]});
+   }
    // Claim classification is not a resolved publisher, source URL or authority.
    for (const claim of list(doc.evidence_claims)) output.evidence.push({evidence_id:scopedId(doc,claim.claim_id),opportunity_id:doc.opportunity_id,claim_type:claim.claim_type,audit_status:claim.audit_status,evidence_refs:claim.evidence_refs||[],source:null,source_status:"unresolved_reference"});
    output.research_status.push({opportunity_id:doc.opportunity_id,status:doc.lifecycle_status,readiness:doc.readiness,provenance:doc.provenance});

@@ -78,6 +78,9 @@ async function assertLocale(page, locale) {
   const primaryConditions = await page.locator('.decision-core').innerText();
   for (const condition of current.condition_contract.conditions.filter(x=>x.role==='REQUIRED'||x.role==='QUALITY'))
     assert.ok(primaryConditions.includes(condition.notes_i18n[locale]), locale+': missing decision condition');
+  const primary = await page.locator('.decision-core').innerText();
+  assert.ok(!primary.includes(current.camera_contexts[0].access_notes_i18n[locale]),
+    locale+': closure warning leaked into photo-condition requirements');
   const riskText = await page.locator('.decision-risks').innerText();
   assert.ok(riskText.includes(current.camera_contexts[0].safety_notes_i18n[locale]), locale+': missing access risk');
   assert.ok(riskText.includes(current.camera_contexts[0].access_notes_i18n[locale]), locale+': hidden access restriction');
