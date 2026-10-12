@@ -1,18 +1,20 @@
 # ChaseLights V2 Research-only Preview release gate
 
-Status: W5 access-advisory correction proposal, 2026-10-12. Prior Task K rows below are historical. This review inventory grants no merge, deployment or live forecast approval. Recheck latest main and accepted owner heads at decision time.
+Status: corrected W1–W5 integration candidate, 2026-10-12. **No merge, deployment, human-approval or live-weather authorization**. Always validate current PR HEADs, CI and main immediately before a merge decision.
 
-## Candidate chain and technical order
+## Corrected candidate chain and merge order
 
-| Owner | Candidate | Dependency and action |
-| --- | --- | --- |
-| W1 | #450 `bf60a497e5338a45bda63d9bc24b33e9ea1d3b43` | Main-based, replaces old W1 drafts |
-| W2 | #440 `a816c833ac4f83f440d1d76350cb46da74f43013` → #444 `8725bf13348dfae371ae8358930a25dd424a3361` | Preserve the parent, then repaired Crosswalk child |
-| W3 | #435 `d24af0dbea61c158482bea9522ac36eac016843d` → #441 `77b040fd1af806a564282eea7e3a7c7166a180d3` → #447 `b26a014fec9705d40f794ae3ddb02530d3cb5574` | Preserve both parent PRs before child |
-| W4 | **#454** `32f557d998a4d12ec37af4d963f0f410030b1cc1` | Main-based consolidation; identical 52-file `apps/web-v2/` Git Tree to #448. Original owner base and #436/#442/#443/#446/#448 are historical only; do not merge them again |
-| W5 | Task K PR from #452 `d69953997d561a19f54330b652dd8c43ea904258` | Last, after accepted owners. Earlier W5 PRs are cumulative ancestors, not separate merges |
+| Owner | Accepted candidate chain | Latest corrected tip | Release note |
+| --- | --- | --- | --- |
+| W1 | #450 → **#457** | `ee1a660b0de1bb452d05539236c1834a32140d32` | Enforce access-warning separation in specs/schema |
+| W2 | #440 → #444 → #456 → **#458** | `2177bd8c8b6c18e0a4b284e50b55d0ff12697ddd` | Canonical, evidence, Crosswalk and localized access warnings |
+| W3 | #435 → #441 → #447 → **#459** | `656c1e8919f5f720cd8e1e2f56b26e81d4b0dcc8` | Quarantine legacy access conditions; keep genuine weather blockers |
+| W4 | #454 → **#460** | `ec5dc9609596135ba1b2634dfa7d6c07a54fabdc` | Explicit independent access-note section, verified W2 fixtures, three locales |
+| W5 | #455 → **#461** | Check actual latest HEAD | Last, pinned full CI, provenance and 13-step detached merge rehearsal |
 
-#454 resolves the **technical missing owner-base submission** identified in #453 by providing a main-based W4 PR. This does not close human review or access gates. W5 pins #454, compares both actual old/new Trees in CI and runs a detached latest-main merge rehearsal. Check its exact HEAD Actions run, job, raw logs and artifact; earlier #452 results do not validate Task K. The rehearsal is a candidate simulation, not post-merge-main CI. If main or owner HEADs change, repin and rerun. Close superseded historical PRs only after their accepted replacement has been merged; do not merge both routes.
+The original #448 W4 stack is **historical only**. Do not merge #448 or its stacked predecessors. W4 #454 is the accepted main-based ancestor of corrected #460. #460's reviewed `apps/web-v2/` tree `8427cb75fdb433a58d3a4941769a6c06f6f5dc3b` must deliberately **differ** from #454's pre-correction tree `a0438fb0f372b0e0e124b5ec3385d5184d9fbb2e`. Keep those source provenance checks; never require byte-parity with superseded #448.
+
+These are owner-isolated Git histories and the **simulated** safe merge order, not permission to merge all PRs or to deploy. #453's missing-main-based W4 technical problem has a traceable candidate (#454 → #460), but the issue remains open until human acceptance and completed integration. The latest successful predecessor run for corrected access warning logic was #461 run 38294110996 (123 PASS, 13-step rehearsal), which precedes the independent W4 UI warning-section patch. The newest #460/#461 HEADs need their own full GitHub Actions success and saved logs/artifacts. Any main/spec source drift requires an explicit new verification, never a presumed pass.
 
 ## Required human and evidence gates
 
@@ -23,11 +25,11 @@ Status: W5 access-advisory correction proposal, 2026-10-12. Prior Task K rows be
 5. Maintain a visible, equivalent research-only warning in all three languages. No selected-date recommendation, live score, current conditions or formal FAVORABLE from this preview. Require `research_only=true`, `selected_date_recommendation_eligible=false`, `forecast_available=false`, and empty `evaluations`. Missing real provider/coverage/issue and valid times, evidence, threshold or approved AUTO binding propagates UNKNOWN/NOT_EVALUABLE.
 6. After reviews and merge authorization, deploy V2 separately at a verified URL, then smoke real content/assets, 1440px and 390px behavior and the three locales. A minimal Legacy-to-V2 link requires its own verified URL and approval. Do not change Legacy forecast, scoring or navigation.
 
-## Status to update from the Task K Actions artifact
+## Current candidate status and remaining blockers
 
 | Check | Current interpretation |
 | --- | --- |
-| W4 submission | #454 provides the exact-tree main-based candidate; independent human review pending |
+| W4 submission | #454 → #460 are main-based and a corrected descendant; three-language and human UI review pending |
 | W2 evidence / Crosswalk | Automated byte and reference tests are necessary; human evidence scope and localization pending |
 | P01/P02 lawful area and access | Pending; no inferred GPS or Directions |
 | Navigation GPS | Pending independent arrival-target evidence |
@@ -39,11 +41,4 @@ Status: W5 access-advisory correction proposal, 2026-10-12. Prior Task K rows be
 
 **Owner-approved product requirement:** a closed/restricted road, trail, viewpoint or area, or unknown legal access, is a **warning only**. It MUST NOT be an environmental photography REQUIRED/BLOCKER/QUALITY, score penalty, critical UNKNOWN gate or reason to classify the weather as unfavorable. Nevertheless the interface MUST show accurate, sourced and fully localized warnings and MUST NOT navigate users to an unverified, unsafe or closed arrival point. This correction does not assert that any closed area is safe to visit.
 
-**Corrected release candidates** (supersede earlier heads; all draft):
-- W1 #457 `ee1a660b0de1bb452d05539236c1834a32140d32` (after #450).
-- W2 #458 `2177bd8c8b6c18e0a4b284e50b55d0ff12697ddd` (after #440 → #444 → #456).
-- W3 #459 `656c1e8919f5f720cd8e1e2f56b26e81d4b0dcc8` (after #435 → #441 → #447).
-- W4 #460 `ec5dc9609596135ba1b2634dfa7d6c07a54fabdc` (after #454; **new W4 tree intentionally differs** from the pre-correction #454/#448 tree).
-- W5 corrected integration candidate: must run exact-head GitHub Actions and a 13-step detached merge rehearsal using all above heads.
-
-Earlier W5 #455's 113 PASS / eight-step rehearsal does **not** prove these corrected sources passed. New target full discovery is 123 counted tests, with 0 FAIL, ERROR or SKIP; verify raw logs before asserting success. Human research/evidence/translation review, legal access and navigation validation, project-owner merge and Preview publication decisions remain pending and are **separate** from the photography-weather verdict. Legacy runtime and scoring remain unchanged.
+The original W5 #455 113 PASS / eight-step rehearsal and corrected pre-UI #461 123 PASS / 13-step rehearsal do **not** prove the *latest* W4 UI warning-section patch passed. New target full discovery is 123 counted tests, with 0 FAIL, ERROR or SKIP; verify raw logs before asserting success. Human research/evidence/translation review, legal access and navigation validation, project-owner merge and Preview publication decisions remain pending and are **separate** from the photography-weather verdict. Legacy runtime and scoring remain unchanged.
