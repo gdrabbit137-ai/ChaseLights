@@ -1,6 +1,6 @@
 # ChaseLights V2 Research-only Preview release gate
 
-Status: W5 Task K candidate, 2026-10-12. This review inventory grants no merge, deployment or live forecast approval. Recheck latest main and accepted owner heads at decision time.
+Status: W5 access-advisory correction proposal, 2026-10-12. Prior Task K rows below are historical. This review inventory grants no merge, deployment or live forecast approval. Recheck latest main and accepted owner heads at decision time.
 
 ## Candidate chain and technical order
 
@@ -34,3 +34,16 @@ Status: W5 Task K candidate, 2026-10-12. This review inventory grants no merge, 
 | Runtime | Research-only; test fixtures do not authenticate real provider or AUTO conditions |
 | Governance | Owner PRs remain Draft until submitted reviews and project-owner decision |
 | Preview publication | Pending the foregoing gates and post-merge public URL smoke |
+
+## 2026-10-12 — Access advisories are independent of photo suitability
+
+**Owner-approved product requirement:** a closed/restricted road, trail, viewpoint or area, or unknown legal access, is a **warning only**. It MUST NOT be an environmental photography REQUIRED/BLOCKER/QUALITY, score penalty, critical UNKNOWN gate or reason to classify the weather as unfavorable. Nevertheless the interface MUST show accurate, sourced and fully localized warnings and MUST NOT navigate users to an unverified, unsafe or closed arrival point. This correction does not assert that any closed area is safe to visit.
+
+**Corrected release candidates** (supersede earlier heads; all draft):
+- W1 #457 `ee1a660b0de1bb452d05539236c1834a32140d32` (after #450).
+- W2 #458 `2177bd8c8b6c18e0a4b284e50b55d0ff12697ddd` (after #440 → #444 → #456).
+- W3 #459 `656c1e8919f5f720cd8e1e2f56b26e81d4b0dcc8` (after #435 → #441 → #447).
+- W4 #460 `788ff19f537b927e5515d5be6272106302cf3f41` (after #454; **new W4 tree intentionally differs** from the pre-correction #454/#448 tree).
+- W5 corrected integration candidate: must run exact-head GitHub Actions and a 13-step detached merge rehearsal using all above heads.
+
+Earlier W5 #455's 113 PASS / eight-step rehearsal does **not** prove these corrected sources passed. New target full discovery is 123 counted tests, with 0 FAIL, ERROR or SKIP; verify raw logs before asserting success. Human research/evidence/translation review, legal access and navigation validation, project-owner merge and Preview publication decisions remain pending and are **separate** from the photography-weather verdict. Legacy runtime and scoring remain unchanged.
