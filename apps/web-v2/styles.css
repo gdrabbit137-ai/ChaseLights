@@ -4,9 +4,13 @@
 .opportunity-description{font-size:15px;color:#e1edf3!important}
 .opportunity .framing-note{border-left:3px solid #6bcabc;padding:8px 12px;color:#bfded8;font-size:13px}
 .decision-core{padding:10px 0;border-top:1px solid #355066}
-.decision-core h4,.decision-risks h4,.decision-unknowns h4{font-size:15px;color:#d5eaf0;margin:14px 0 9px}
+.decision-core h4,.decision-risks h4,.access-advisories h4,.decision-unknowns h4{font-size:15px;color:#d5eaf0;margin:14px 0 9px}
 .decision-core h5{font-size:13px;color:#95d8d0;margin:12px 0 6px}
-.decision-core ul,.decision-risks ul,.decision-unknowns ul{margin:6px 0 12px;padding-left:22px;line-height:1.65;font-size:14px;color:#d1dfe8}
-.decision-core li,.decision-risks li,.decision-unknowns li{margin:5px 0}
+.decision-core ul,.decision-risks ul,.access-advisories ul,.decision-unknowns ul{margin:6px 0 12px;padding-left:22px;line-height:1.65;font-size:14px;color:#d1dfe8}
+.decision-core li,.decision-risks li,.access-advisories li,.decision-unknowns li{margin:5px 0}
 .decision-risks{border-top:1px solid #365065;padding-top:4px}
 .decision-unknowns{border-top:1px solid #365065;padding-top:4px}
+
+/* Access notices are visible independently of weather/photography blockers. */
+.access-advisories{margin:14px 0;padding:6px 14px;border-left:3px solid #e2bc77;background:rgba(226,188,119,.06)}
+.access-advisories h4{margin-top:8px}
