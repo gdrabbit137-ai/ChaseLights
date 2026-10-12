@@ -8,7 +8,7 @@ W5 only: integrates W1 #457, W2 #458, W3 #459 and W4 #460 on top of the already 
 - W2 #440 → #444 → #456 → #458 `2177bd8c8b6c18e0a4b284e50b55d0ff12697ddd`.
 - W3 #435 → #441 → #447 → #459 `656c1e8919f5f720cd8e1e2f56b26e81d4b0dcc8`.
 - W4 #454 → #460 `788ff19f537b927e5515d5be6272106302cf3f41`.
-- W4 corrected tree `87fef33d8258c74b6946e7ac807384551c4e1533` differs intentionally from parent #454 `a0438fb0f372b0e0e124829f463a3e073c9f7bb2e` (historical pre-correction). The original #448 stack must never be merged.
+- W4 corrected tree `87fef33d8258c74b6946e7ac807384551c4e1533` differs intentionally from parent #454 `a0438fb0f372b0e0e124b5ec3385d5184d9fbb2e` (historical pre-correction). The original #448 stack must never be merged.
 
 ## Product rule and gates
 
