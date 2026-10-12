@@ -1,7 +1,7 @@
 """Worker 2 batch03 independent crosswalk and schema gates.
 
 Run: python -m unittest discover -s data/v2/tests -p 'test_worker2_batch03.py' -v
-The crosswalk gate runs even when Worker 1's schema is not yet merged.
+The crosswalk gate is independent; V2.1 schema validation uses the current main contract.
 """
 import copy
 import json
@@ -228,11 +228,14 @@ class CrosswalkGate(unittest.TestCase):
         self.assertFalse(manifest["canonical_import_complete"])
         self.assertEqual(0, self.audit["release_gate"]["approved"])
         self.assertEqual(set(IDS), set(self.audit["staged_opportunity_ids"]))
+        self.assertIn("specs/v2/schema/opportunity-v2.1.schema.json", self.audit["schema_source"])
+        self.assertTrue(any("Draft 2020-12" in gate for gate in self.audit["release_gate"]["requires"]))
+        self.assertFalse(any("Worker1 #428 schema merge" in gate for gate in self.audit["release_gate"]["requires"]))
 
 
 class SchemaGate(unittest.TestCase):
     def test_worker1_v21_schema(self):
-        self.assertTrue(SCHEMA.is_file(), "BLOCKED: Worker 1 PR #428 schema is not merged in this branch")
+        self.assertTrue(SCHEMA.is_file(), "BLOCKED: current-main V2.1 schema missing from checkout")
         try:
             from jsonschema import Draft202012Validator, FormatChecker
         except ImportError as exc:
