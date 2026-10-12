@@ -18,6 +18,10 @@ on:
       - apps/web-v2/**
       - index.html
       - assets/app.js
+  workflow_run:
+    workflows: ['pages build and deployment']
+    branches: [main]
+    types: [completed]
   workflow_dispatch:
 permissions:
   contents: read
@@ -26,6 +30,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   public-preview:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     name: Public V2 / 6 Chromium and source-safe smoke
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -62,6 +67,8 @@ jobs:
           set -o pipefail
           python ops/v2/integration_gate.py --root . --public 2>&1 | tee .ci/public-smoke/http-and-isolation.log
       - name: Verify live public URL with six Chrome locale/device scenarios
+        env:
+          REQUIRE_PUBLIC_V1_LINK: ${{ github.event_name == 'workflow_run' }}
         run: |
           set -o pipefail
           node ops/v2/public_browser_smoke.mjs 2>&1 | tee .ci/public-smoke/browser.log
