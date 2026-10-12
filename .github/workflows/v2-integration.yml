@@ -67,11 +67,18 @@ jobs:
           path: .ci/sources/w3
           persist-credentials: false
           sparse-checkout: packages/core-v2
-      - name: Checkout W4 latest web (#448)
+      - name: Checkout W4 main-based consolidation (#454)
+        uses: actions/checkout@v4
+        with:
+          ref: 32f557d998a4d12ec37af4d963f0f410030b1cc1
+          path: .ci/sources/w4
+          persist-credentials: false
+          sparse-checkout: apps/web-v2
+      - name: Checkout historical W4 #448 for exact-tree comparison only
         uses: actions/checkout@v4
         with:
           ref: ddf9f2c4bd2eeb556bf0aa3b244f01de3256b05f
-          path: .ci/sources/w4
+          path: .ci/sources/w4-historical
           persist-credentials: false
           sparse-checkout: apps/web-v2
       - uses: actions/setup-python@v5
@@ -108,9 +115,9 @@ jobs:
             /index.html
             /CNAME
             /assets/app.js
-      - name: Simulate every owner merge on detached main and compare final trees
+      - name: Simulate approved owner path on detached latest main and compare final trees
         run: |
-          python ops/v2/simulate_merges.py --repo .ci/merge-sim --log-dir .ci/logs
+          python ops/v2/simulate_merges.py --repo .ci/merge-sim --log-dir .ci/logs --assembly-main .ci/sources/main
       - name: Preserve raw logs, counts and source SHAs
         if: always()
         uses: actions/upload-artifact@v4

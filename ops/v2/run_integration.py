@@ -116,6 +116,30 @@ def run_group(name, command, root, logs, env, expected=None, python=False, node=
     return outcome
 
 
+def check_w4_tree(current, historical, lock):
+    """Compare real old/new Git trees and all paths, independent of PR prose."""
+    paths = None
+    for label, checkout, expected in (
+        ('#454', current, lock['sha']),
+        ('#448', historical, lock['historical_sha']),
+    ):
+        if git(checkout, 'rev-parse', 'HEAD') != expected:
+            raise ValueError('W4 ' + label + ' checkout is not pinned HEAD')
+        actual_tree = git(checkout, 'rev-parse', 'HEAD:apps/web-v2')
+        if actual_tree != lock['tree_sha']:
+            raise ValueError('W4 ' + label + ' web tree drift: ' + actual_tree)
+        actual_paths = git(checkout, 'ls-tree', '-r', '--name-only',
+                           'HEAD', '--', 'apps/web-v2').splitlines()
+        if len(actual_paths) != lock['file_count']:
+            raise ValueError('W4 ' + label + ' web file count drift')
+        if paths is not None and actual_paths != paths:
+            raise ValueError('W4 #454 and #448 web file paths differ')
+        paths = actual_paths
+    return {'current': lock['sha'], 'historical': lock['historical_sha'],
+            'tree': lock['tree_sha'], 'files': len(paths)}
+
+
+
 def check_w2_lineage(w2_checkout, current_sha, content_sha, files):
     """Accept an older declared source commit only for byte-identical data."""
     if git(w2_checkout, 'rev-parse', 'HEAD') != current_sha:
@@ -219,6 +243,13 @@ def main():
                 raise ValueError('Latest-main spec changed; review and repin: ' + path)
             if blob((TASK / path).read_bytes()) != expected:
                 raise ValueError('Task spec differs from reviewed main: ' + path)
+        historical_w4 = (args.sources_root / 'w4-historical').resolve()
+        report['w4_tree'] = check_w4_tree(
+            sources['w4'], historical_w4, lock['sources']['w4'])
+        report['sources']['w4-historical'] = lock['sources']['w4']['historical_sha']
+        (logs / 'w4-tree.log').write_text(
+            'PASS: #454 and #448 have identical 52-file apps/web-v2 Git Tree\\n' +
+            json.dumps(report['w4_tree'], indent=2) + '\\n')
         root.mkdir(parents=True)
         report['w1_contract_blobs'] = check_w1_contract(
             sources['main'], sources['w1'], lock['w1_changed_blobs'])
