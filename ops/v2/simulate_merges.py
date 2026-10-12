@@ -11,6 +11,11 @@ LEGACY = ("index.html", "CNAME", "assets/app.js")
 W2_BASE = "a816c833ac4f83f440d1d76350cb46da74f43013"
 W3_BASE = "d24af0dbea61c158482bea9522ac36eac016843d"
 W3_MIDDLE = "77b040fd1af806a564282eea7e3a7c7166a180d3"
+W1_PARENT = "bf60a497e5338a45bda63d9bc24b33e9ea1d3b43"
+W2_PARENT = "8725bf13348dfae371ae8358930a25dd424a3361"
+W2_REVIEW = "0face87b6f5aebeef3a7803699051902a197c4bd"
+W3_PARENT = "b26a014fec9705d40f794ae3ddb02530d3cb5574"
+W4_PARENT = "32f557d998a4d12ec37af4d963f0f410030b1cc1"
 
 
 def run(repo, *args, check=True):
@@ -58,30 +63,43 @@ def main():
         task_head = sha(ROOT, "HEAD")
         w1, w2, w3, w4 = (lock["sources"][key]["sha"] for key in ("w1", "w2", "w3", "w4"))
         steps = [
-            ("W1 #450", w1, ("specs/v2/",)),
+            ("W1 #450", W1_PARENT, ("specs/v2/",)),
+            ("W1 #457", w1, ("specs/v2/",)),
             ("W2 #440", W2_BASE, ("data/v2/",)),
-            ("W2 #444", w2, ("data/v2/",)),
+            ("W2 #444", W2_PARENT, ("data/v2/",)),
+            ("W2 #456", W2_REVIEW, ("data/v2/",)),
+            ("W2 #458", w2, ("data/v2/",)),
             ("W3 #435", W3_BASE, ("packages/core-v2/", "packages/models-v2/")),
             ("W3 #441", W3_MIDDLE, ("packages/core-v2/", "packages/models-v2/")),
-            ("W3 #447", w3, ("packages/core-v2/", "packages/models-v2/")),
-            ("W4 #454", w4, ("apps/web-v2/",)),
+            ("W3 #447", W3_PARENT, ("packages/core-v2/", "packages/models-v2/")),
+            ("W3 #459", w3, ("packages/core-v2/", "packages/models-v2/")),
+            ("W4 #454", W4_PARENT, ("apps/web-v2/",)),
+            ("W4 #460", w4, ("apps/web-v2/",)),
             ("W5 current HEAD", task_head, ("ops/v2/", ".github/workflows/v2-integration.yml")),
         ]
         for _, commit, _ in steps:
             fetch(repo, commit)
         historical = lock["sources"]["w4"]["historical_sha"]
-        fetch(repo, historical)  # Evidence only; never merge the obsolete W4 stack.
-        for older, newer in ((W2_BASE, w2), (W3_BASE, W3_MIDDLE), (W3_MIDDLE, w3)):
+        fetch(repo, historical)  # Parent W4 #454 is an actual ancestor of #460.
+        obsolete = lock["sources"]["w4"]["obsolete_sha"]
+        fetch(repo, obsolete)  # The old #448 stack must never be merged.
+        for older, newer in ((W1_PARENT, w1),
+                             (W2_BASE, W2_PARENT), (W2_PARENT, W2_REVIEW), (W2_REVIEW, w2),
+                             (W3_BASE, W3_MIDDLE), (W3_MIDDLE, W3_PARENT), (W3_PARENT, w3),
+                             (W4_PARENT, w4)):
             if run(repo, "merge-base", "--is-ancestor", older, newer, check=False).returncode:
                 raise RuntimeError("Owner chain is not an actual Git ancestor: " + older + " -> " + newer)
         web_tree = lock["sources"]["w4"]["tree_sha"]
-        if tree(repo, w4, "apps/web-v2") != web_tree or tree(repo, historical, "apps/web-v2") != web_tree:
-            raise RuntimeError("W4 #454/#448 web Git Trees differ from pinned 52-file source")
+        if (tree(repo, w4, "apps/web-v2") != web_tree or
+                tree(repo, historical, "apps/web-v2") != lock["sources"]["w4"]["historical_tree_sha"]):
+            raise RuntimeError("W4 #460 correction and #454 baseline trees differ from independent pins")
         paths = run(repo, "ls-tree", "-r", "--name-only", w4, "--", "apps/web-v2").stdout.splitlines()
         if len(paths) != lock["sources"]["w4"]["file_count"]:
             raise RuntimeError("W4 consolidated file count differs from reviewed source")
-        if run(repo, "merge-base", "--is-ancestor", historical, w4, check=False).returncode == 0:
-            raise RuntimeError("W4 #454 unexpectedly replays historical #448 ancestry")
+        if run(repo, "merge-base", "--is-ancestor", historical, w4, check=False).returncode != 0:
+            raise RuntimeError("W4 #460 is not descended from main-based #454")
+        if run(repo, "merge-base", "--is-ancestor", obsolete, w4, check=False).returncode == 0:
+            raise RuntimeError("W4 #460 unexpectedly includes obsolete #448 ancestry")
         original_legacy = {p: sha(repo, "HEAD:" + p) for p in LEGACY}
         owner_tips = {"specs/v2": w1, "data/v2": w2,
                       "packages/core-v2": w3, "packages/models-v2": w3,
@@ -130,7 +148,7 @@ def main():
                           ".github/workflows/v2-integration.yml": task_head}.items():
             if tree(repo, "HEAD", path) != tree(repo, tip, path):
                 raise RuntimeError("Final tree/blob lost source bytes: " + path)
-        if run(repo, "merge-base", "--is-ancestor", historical, "HEAD", check=False).returncode == 0:
+        if run(repo, "merge-base", "--is-ancestor", obsolete, "HEAD", check=False).returncode == 0:
             raise RuntimeError("Obsolete W4 #448 chain was included as a duplicate")
         if sha(repo, "HEAD:apps/web-v2") != web_tree:
             raise RuntimeError("Final website tree drifted")
