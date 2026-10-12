@@ -14,6 +14,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   integration:
+    if: github.event_name != 'push' || github.ref != 'refs/heads/main'
     name: V2 pinned integration / research-only
     runs-on: ubuntu-latest
     timeout-minutes: 20
@@ -124,5 +125,40 @@ jobs:
         with:
           name: v2-integration-${{ github.run_id }}-${{ github.run_attempt }}
           path: .ci/logs/
+          if-no-files-found: error
+          retention-days: 14
+
+  postmerge:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    name: V2 merged-main research-only 123-case acceptance
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout full merged main history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Install schema and browser tooling
+        run: |
+          python -m pip install 'jsonschema==4.26.0'
+          npm install --prefix .ci/tooling --no-save --package-lock=false playwright@1.57.0
+          .ci/tooling/node_modules/.bin/playwright install --with-deps chromium
+          node -e 'const p=require("node:path"); const m=p.resolve(".ci/tooling/node_modules/playwright"); const c=require(m).chromium; console.log("PLAYWRIGHT_MODULE="+m); console.log("CHROMIUM_EXECUTABLE="+c.executablePath());' >> "$GITHUB_ENV"
+      - name: Verify actual merged W1-W4 trees, exact data provenance and all 123 cases
+        run: |
+          python ops/v2/postmerge_verify.py --root . --logs-dir .ci/postmerge-logs
+      - name: Preserve postmerge logs, test counts and actual main SHA
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v2-postmerge-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .ci/postmerge-logs/
           if-no-files-found: error
           retention-days: 14
