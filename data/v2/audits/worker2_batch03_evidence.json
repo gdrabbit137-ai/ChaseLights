@@ -2,7 +2,7 @@
   "audit_version": "worker2-batch03-v2.1-draft",
   "as_of": "2026-10-09",
   "main_sha_at_review": "8901f31e9a3d669ab76d10ce6d481ff034ad5113",
-  "schema_source": "Worker1 draft PR #428 (schema 2.1.0, not in main)",
+  "schema_source": "At the 2026-10-09 review: Worker1 draft PR #428 (schema 2.1.0, then not in main). Current normative schema: specs/v2/schema/opportunity-v2.1.schema.json on main (blob b47ba6d7ecf8536a4483c06c835a6a7f8587b511).",
   "legacy_catalog_manifest": {
     "places": 216,
     "opportunities": 428,
@@ -208,10 +208,10 @@
   "release_gate": {
     "approved": 0,
     "requires": [
-      "Worker1 #428 schema merge",
+      "Draft 2020-12 validation against current-main specs/v2/schema/opportunity-v2.1.schema.json",
       "CI schema/crosswalk tests",
-      "human zh-TW/en/ja semantic audit",
-      "place-specific access and geometry review"
+      "human place-specific evidence and zh-TW/en/ja semantic parity review",
+      "human access/safety review and explicit documentation of unknown geometry/navigation (fixed Camera GPS not required for R1 research-only)"
     ]
   }
 }
