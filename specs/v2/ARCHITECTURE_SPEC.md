@@ -24,7 +24,8 @@ Start as a modular monolith, with separate batch ingestion/evaluation jobs. Cano
 - **NavigationTarget:** practical arrival point, never inferred automatically from a camera point, photographed subject or map search text. Retain R4.2 verified/provisional/review/multiple-route distinctions.
 - **EvidenceClaim:** specific assertion, source references, scope, grade, provenance and audit status.
 - **ConditionContract:** researched criteria with roles, evaluation modes, unknown policy and model bindings.
-- **EvaluationResult:** versioned runtime judgment with reproducible input and explanation references.
+- **EvaluationResult:** versioned photography-environment judgment with reproducible input and explanation references; access warnings are stored/displayed independently and never change the verdict.
+- **AccessAdvisory:** independently sourced, time-stamped access/closure/safety notice associated with a Place, CameraContext or NavigationTarget. Advisory may suppress an unsafe Directions link, not photographic suitability.
 
 Stable IDs must not be derived from translated names. Geometry must declare verification status, derivation method and uncertainty. A photograph alone does not establish exact GPS, camera orientation, capture time or forecast threshold.
 
@@ -32,7 +33,7 @@ Stable IDs must not be derived from translated names. Geometry must declare veri
 
 Each condition has a unique ID, domain, metric, operator, threshold/unit where justified, evidence/claim references, role and evaluation mode. Roles: REQUIRED, BLOCKER, QUALITY. Modes: AUTO, GUIDANCE, VERIFY. These axes are independent. Domains include WEATHER, ASTRONOMY, SEASON_TIME, ACCESS_SAFETY, SUBJECT_STATE, GEOMETRY_COMPOSITION, SPACE_WEATHER, OCEAN and HYDROLOGY.
 
-Capabilities are WINDOW (deterministic temporal geometry), CONDITIONS (favorable conditions, not certainty), PROBABILITY (only calibrated probability) and OBSERVATION (verified state with time/provenance). A missing threshold remains null/unknown; it never silently becomes zero or passing. An unverified required bloom, snow, aurora or fog state cannot be reported as confirmed. Quality score must never override blockers or safety.
+Capabilities are WINDOW (deterministic temporal geometry), CONDITIONS (favorable conditions, not certainty), PROBABILITY (only calibrated probability) and OBSERVATION (verified state with time/provenance). A missing threshold remains null/unknown; it never silently becomes zero or passing. An unverified required bloom, snow, aurora or fog state cannot be reported as confirmed. Quality score must never override photography-domain REQUIRED/BLOCKER conditions. Access/closure notices are separate non-scoring advisories: a site, trail, viewpoint or route closure, unknown lawful entry, or other access restriction MUST NOT become an Opportunity condition, BLOCKER, REQUIRED, score penalty, UNKNOWN gate or unfavorable weather verdict. Retain prominent, current, source-dated user-facing warnings; prohibit unverified/closed Directions and never invite entry. Weather/phenomenon hazards (e.g. lightning or whiteout) may still be modeled as weather conditions when scientifically supported.
 
 ## 5. Models and data
 

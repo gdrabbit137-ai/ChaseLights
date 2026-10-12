@@ -9,6 +9,7 @@ Status: Draft; Worker 1 owns this contract. The legacy specifications remain aut
 | Research Evidence §7 | Domain recommendation owns final conclusion, not UI score interpretation | Condition Contract and Evaluation Result | Unknown required inputs never pass |
 | Research Evidence §12 | Approved canonical source ownership and controlled release | V2 canonical revision and approval status | Schema, crosswalk and evidence audit |
 | Research Evidence §14 | Photo association is not camera/subject/navigation verification | Observation intake is separate from canonical geometry | EXIF/GPS unknown stays unknown |
+| V2 access-warning separation | Area/trail/viewpoint closures are warnings, not photo-weather blockers; do not imply lawful access | CameraContext access/safety notes and separately guarded NavigationTarget, outside ConditionContract | Unknown/closed access leaves photo-condition status unchanged, warnings remain visible, Directions fail closed |
 | Navigation Spec | Camera Zone and Navigation Target are separate | Camera Context and Navigation Target | Verified arrival point requires evidence |
 | Navigation Spec | Search text must not become navigation directions | map_query is metadata only | No keyword fallback |
 | Localization policy | Full semantic parity across supported languages | zh-TW, en and ja fields | Automated presence checks plus semantic review |

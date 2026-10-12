@@ -111,6 +111,28 @@ class ContractSmokeTests(unittest.TestCase):
                     f"Expected an actual schema validator failure, got: {errors}",
                 )
 
+    def test_access_closure_cannot_be_photography_condition(self):
+        """Access restrictions are warnings, never scoring gates."""
+        for role in ("REQUIRED", "BLOCKER", "QUALITY"):
+            with self.subTest(role=role):
+                record = copy.deepcopy(FIXTURE)
+                item = record["condition_contract"]["conditions"][0]
+                item["role"] = role
+                item["domain"] = "ACCESS_SAFETY"
+                item["metric"] = "site_closed"
+                self.assertTrue(validate_record(record, SCHEMA),
+                                "ACCESS_SAFETY must be outside Condition Contract")
+
+    def test_closed_site_warning_does_not_invalidate_weather_contract(self):
+        record = copy.deepcopy(FIXTURE)
+        for camera in record["camera_contexts"]:
+            camera["access_notes_i18n"] = {
+                "zh-TW": "觀景台封閉，不得進入。",
+                "en": "The lookout is closed; do not enter.",
+                "ja": "展望台は閉鎖中です。立ち入らないでください。"
+            }
+        self.assertEqual(validate_record(record, SCHEMA), [])
+
     def test_valid_declared_evidence_and_claim_reference(self):
         record = copy.deepcopy(FIXTURE)
         record["evidence_claims"].append({

@@ -10,11 +10,11 @@ Unknown reasons: RESEARCH_GAP, GEOMETRY_GAP, DATA_UNAVAILABLE, MODEL_UNSUPPORTED
 
 ## Evaluation
 
-Statuses: FAVORABLE, UNFAVORABLE, UNCERTAIN, NOT_EVALUABLE. An essential unknown prevents FAVORABLE. A blocker prevents favorable recommendation regardless of quality score. A missing threshold is not zero. An uncalibrated CONDITIONS result is not an occurrence probability.
+Statuses: FAVORABLE, UNFAVORABLE, UNCERTAIN, NOT_EVALUABLE. An essential unknown within the photography/environment contract prevents FAVORABLE. A photography-domain blocker prevents favorable recommendation regardless of quality score. An access closure, unknown opening status, restricted route, or entry warning is NEVER a photographic REQUIRED/BLOCKER, missing-critical gate, score component or forecast-status modifier. Access advisories are independent non-scoring metadata, prominently displayed and allowed to suppress unverified/closed Directions. A missing threshold is not zero. An uncalibrated CONDITIONS result is not an occurrence probability.
 
 ## Evidence and validation
 
-Preserve R4.2 place-specific evidence and navigation rules. Use Draft → Evidence Review → Schema Validation → Crosswalk Audit → Approval → Canonical Release. Grade C is research discovery, not sufficient production proof. Record sources, evidence scope, confidence, limitations and reviewer. Photos and EXIF may suggest Place association but cannot silently alter camera, subject or navigation geometry. Unknown EXIF remains unknown. Human-machine claim crosswalk status MISMATCH blocks publication.
+Preserve R4.2 place-specific evidence and navigation rules. V2's access-advisory separation is a deliberate V2 product rule; it does not assert closed locations are safe to enter or amend Legacy. In migrations, remove legacy ACCESS_SAFETY condition entries from scoring contracts, preserve their sourced zh-TW/en/ja warnings in CameraContext and review materials; verified forecast condition and access warning may appear together. Use Draft → Evidence Review → Schema Validation → Crosswalk Audit → Approval → Canonical Release. Grade C is research discovery, not sufficient production proof. Record sources, evidence scope, confidence, limitations and reviewer. Photos and EXIF may suggest Place association but cannot silently alter camera, subject or navigation geometry. Unknown EXIF remains unknown. Human-machine claim crosswalk status MISMATCH blocks publication.
 
 ## Traceability and language
 
