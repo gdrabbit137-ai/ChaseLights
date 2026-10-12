@@ -1,44 +1,43 @@
-# ChaseLights V2 Research-only Preview release gate
+# ChaseLights V2 — Release state, residual review and next gates
 
-Status: corrected W1–W5 integration candidate, 2026-10-12. **No merge, deployment, human-approval or live-weather authorization**. Always validate current PR HEADs, CI and main immediately before a merge decision.
+Last verified: 2026-10-12. Owner: W5 integration. This file is the **post-release state** of V2 Research-only Preview, not authority to enable live photographic forecasts, scores or Directions. Historical merge planning and reviewed pins remain in `ops/v2/INTEGRATION_CI.md` and `ops/v2/integration-sources.json`.
 
-## Corrected candidate chain and merge order
+## Completed, verified deployment
 
-| Owner | Accepted candidate chain | Latest corrected tip | Release note |
-| --- | --- | --- | --- |
-| W1 | #450 → **#457** | `ee1a660b0de1bb452d05539236c1834a32140d32` | Enforce access-warning separation in specs/schema |
-| W2 | #440 → #444 → #456 → **#458** | `2177bd8c8b6c18e0a4b284e50b55d0ff12697ddd` | Canonical, evidence, Crosswalk and localized access warnings |
-| W3 | #435 → #441 → #447 → **#459** | `656c1e8919f5f720cd8e1e2f56b26e81d4b0dcc8` | Quarantine legacy access conditions; keep genuine weather blockers |
-| W4 | #454 → **#460** | `ec5dc9609596135ba1b2634dfa7d6c07a54fabdc` | Explicit independent access-note section, verified W2 fixtures, three locales |
-| W5 | #455 → **#461** | Check actual latest HEAD | Last, pinned full CI, provenance and 13-step detached merge rehearsal |
+- **Real GitHub main merged** the accepted W1 #450 → #457, W2 #440 → #444 → #456 → #458, W3 #435 → #441 → #447 → #459, W4 main-based #454 → #460, and W5 #461. Do **not** replay obsolete W4 #448 or older stacked W4 branches.
+- Accepted W1–W5 main merge commit: `185bb6f2cddceb0a9c5a850f4b1df9cbbbbdc078`.
+- **Actual post-merge main** GitHub Actions [38311276969](https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/38311276969): **123 PASS / 0 FAIL / 0 ERROR / 0 SKIP**, real-record provenance and Legacy-isolation checks. The earlier [38310763386](https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/38310763386) independently passed the 13-step detached merge rehearsal **and another 123 tests on the simulated merged tree**.
+- GitHub Pages [38311277030](https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/38311277030) deployed V2. **Public URL verified:** https://chaselights.app/apps/web-v2/.
+- Owner-authorized Legacy→V2 trilingual header entry merged in #463 and delivered by Pages [38312337784](https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/38312337784); permanent public V1→V2 smoke hardgate merged in #464.
+- [Public smoke 38312808479](https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/38312808479): **public V1 entry PASS** and V2 Chromium desktop/mobile × zh-TW/en/ja **6/6 PASS**; actual HTTP/CSS/JS/JSON assets returned 200. Later WeatherGrid automatic data updates to main are **not** proof of V2 software changes.
+- [Issue #453](https://github.com/gdrabbit137-ai/ChaseLights/issues/453) (orphaned W4 branch) and [#462](https://github.com/gdrabbit137-ai/ChaseLights/issues/462) (Preview publication) are closed after verified implementation.
 
-The original #448 W4 stack is **historical only**. Do not merge #448 or its stacked predecessors. W4 #454 is the accepted main-based ancestor of corrected #460. #460's reviewed `apps/web-v2/` tree `8427cb75fdb433a58d3a4941769a6c06f6f5dc3b` must deliberately **differ** from #454's pre-correction tree `a0438fb0f372b0e0e124b5ec3385d5184d9fbb2e`. Keep those source provenance checks; never require byte-parity with superseded #448.
+## What is published and what remains pending
 
-These are owner-isolated Git histories and the **simulated** safe merge order, not permission to merge all PRs or to deploy. #453's missing-main-based W4 technical problem has a traceable candidate (#454 → #460), but the issue remains open until human acceptance and completed integration. The latest successful predecessor run for corrected access warning logic was #461 run 38294110996 (123 PASS, 13-step rehearsal), which precedes the independent W4 UI warning-section patch. The newest #460/#461 HEADs need their own full GitHub Actions success and saved logs/artifacts. Any main/spec source drift requires an explicit new verification, never a presumed pass.
+| Gate | Post-release status | Interpretation |
+| --- | --- | --- |
+| V1 production weather/runtime | **Unchanged** | V1 remains the original forecasting website; only a translated V2 entry was added. No automated V1/V2 comparison required. |
+| V2 static website | **Published and smoke-tested** | Independent Research-only Preview; does not claim calibrated forecasts. |
+| W2 Batch03 opportunities | **R1 / evidence_review** | One default research-preview opportunity in the public Catalog; three canonical candidate records remain in `data/v2/`. Their presence in GitHub is not human approval. |
+| W2 legal Camera Area / navigation | **UNKNOWN / needs_review** | No asserted open camera polygon, arrival coordinates, or verified Directions for the three records. |
+| Three-language automated UI checks | **PASS** | Key/display parity and six browser cases; **not** a human translation-semantic signoff. |
+| Evidence scope and permitted shooting areas | **PENDING human review** | [Issue #465](https://github.com/gdrabbit137-ai/ChaseLights/issues/465). The independent 2026-10-12 source recheck is documented in `ops/v2/reviews/BATCH03_EVIDENCE_RECHECK_2026-10-12.md`. |
+| W2 human semantic approval | **PENDING** | Keep `apps/web-v2/tests/fixtures/worker2/manifest.json` `human_semantic_signoff=PENDING`; do not assert an approver. |
+| Live V2 meteorology, astronomical model and photography scoring | **NOT RELEASED** | No trusted live provider/issued-at/valid-at/coverage/threshold/approved AUTO binding; no selected-date FAVORABLE/score, fabricated probability or Navigation Directions. |
 
-## Required human and evidence gates
+## Permanent product invariants
 
-1. Obtain formal PR reviews and project-owner merge decision for W1–W5. An AI audit or green Actions run is supporting technical evidence, never a submitted human Approval.
-2. Audit W2 research claims against their actual source scope and human-readable Crosswalk. All three records remain R1/evidence_review; no unverified item is promoted to approved/canonical release merely because its JSON is staged. Obtain human zh-TW, en and ja semantic signoff for subject, conditions, access, safety and UI wording.
-3. Recheck tw-026-P01 original-lookout closure and lawful camera area. An official alternate viewing platform does not prove an exact camera polygon or navigation point. Review tw-026-P02's short camera wording against its explicit access uncertainty. Recheck dated restrictions before public Preview.
-4. Verify NavigationTarget as a lawful, practical arrival point with evidence and current access before showing Directions. Keep camera context and photographed subject separate. Do not infer GPS from a Place name, map query, photo or unverified viewpoint.
-5. Maintain a visible, equivalent research-only warning in all three languages. No selected-date recommendation, live score, current conditions or formal FAVORABLE from this preview. Require `research_only=true`, `selected_date_recommendation_eligible=false`, `forecast_available=false`, and empty `evaluations`. Missing real provider/coverage/issue and valid times, evidence, threshold or approved AUTO binding propagates UNKNOWN/NOT_EVALUABLE.
-6. After reviews and merge authorization, deploy V2 separately at a verified URL, then smoke real content/assets, 1440px and 390px behavior and the three locales. A minimal Legacy-to-V2 link requires its own verified URL and approval. Do not change Legacy forecast, scoring or navigation.
+- Closed/restricted camera areas, viewpoints, access roads/trails, unclear lawful entry, opening hours and construction hazards are **visible independent Access Advisories, NOT photography REQUIRED/BLOCKER/QUALITY, score changes or environmental UNKNOWN gates**. Genuine environmental impossibility/hazards remain in the photographic condition contract. W2 keeps sourced zh-TW/en/ja warnings; W3 quarantines old ACCESS_SAFETY; W4 presents `access-advisories` as an independent section.
+- A warning does not grant lawful access. No inferred Navigation Target from a Place name, photographed subject, WeatherGrid sample or camera location. No Directions without independently verified practical arrival-point evidence.
+- Ordinary/free composition does **not** demand an exact tripod GPS; geometry is required only for geometry-specific claims. Dynamic events need not have fixed geographical target polygons.
+- R4.2 place-specific evidence determines **what exists**; tested astronomical/weather models may later determine **when conditions are favorable**. UNKNOWN remains UNKNOWN; Research-only R1 is not a live recommendation.
+- The published research Catalog must retain `research_only=true`, `forecast_available=false`, `selected_date_recommendation_eligible=false`, and `evaluations=[]` until independently authorized and verified.
 
-## Current candidate status and remaining blockers
+## Next-development and regression requirements
 
-| Check | Current interpretation |
-| --- | --- |
-| W4 submission | #454 → #460 are main-based and a corrected descendant; three-language and human UI review pending |
-| W2 evidence / Crosswalk | Automated byte and reference tests are necessary; human evidence scope and localization pending |
-| P01/P02 lawful area and access | Pending; no inferred GPS or Directions |
-| Navigation GPS | Pending independent arrival-target evidence |
-| Runtime | Research-only; test fixtures do not authenticate real provider or AUTO conditions |
-| Governance | Owner PRs remain Draft until submitted reviews and project-owner decision |
-| Preview publication | Pending the foregoing gates and post-merge public URL smoke |
+1. Resolve [#465](https://github.com/gdrabbit137-ai/ChaseLights/issues/465) by source-scoped, claim-by-claim and **real human** zh-TW/en/ja review. Do not silently mark an evidence finding as a photography permission, exact Camera Zone or lawful Directions.
+2. **Repin intentionally and retest** whenever any owner subtree or canonical opportunity changes. The original W5 `postmerge_verify.py` freezes the tested W1–W4 Git trees by design; proposed research or scientific updates will fail until an explicit new owner-approved tree pin, Source Manifest/Fixture/Catalog/Crosswalk sync (when canonical bytes change), and full 123+ case CI are reviewed. Never bypass checks by deleting provenance assertions or lowering test discovery thresholds.
+3. Add real provider data, run/freshness/validity, phenomenon-specific scientifically justified thresholds, provenance and confidence separately from W2 research evidence. Never reuse synthetic/test data as forecast evidence.
+4. Preserve Legacy, translated V2 link, public URL smoke, mobile/desktop browser coverage and source-safe Navigation. Every release must test **its own actual HEAD** and be verified publicly after Pages deployment.
 
-## 2026-10-12 — Access advisories are independent of photo suitability
-
-**Owner-approved product requirement:** a closed/restricted road, trail, viewpoint or area, or unknown legal access, is a **warning only**. It MUST NOT be an environmental photography REQUIRED/BLOCKER/QUALITY, score penalty, critical UNKNOWN gate or reason to classify the weather as unfavorable. Nevertheless the interface MUST show accurate, sourced and fully localized warnings and MUST NOT navigate users to an unverified, unsafe or closed arrival point. This correction does not assert that any closed area is safe to visit.
-
-The original W5 #455 113 PASS / eight-step rehearsal and corrected pre-UI #461 123 PASS / 13-step rehearsal do **not** prove the *latest* W4 UI warning-section patch passed. New target full discovery is 123 counted tests, with 0 FAIL, ERROR or SKIP; verify raw logs before asserting success. Human research/evidence/translation review, legal access and navigation validation, project-owner merge and Preview publication decisions remain pending and are **separate** from the photography-weather verdict. Legacy runtime and scoring remain unchanged.
+Previous pre-merge restrictions such as “V2 must not be deployed” referred only to the **then-pending** PR stack; they must not be mistaken for the present published Research-only state. A new **live-forecast production** release still requires its own explicit scientific and human acceptance gates.
