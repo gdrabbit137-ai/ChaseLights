@@ -111,28 +111,6 @@
     "status": "review",
     "conditions": [
       {
-        "id": "C-tw-026-P02-01",
-        "role": "REQUIRED",
-        "domain": "ACCESS_SAFETY",
-        "evaluation_mode": "VERIFY",
-        "capability": "OBSERVATION",
-        "metric": "open_public_camera_area",
-        "operator": "none",
-        "threshold": null,
-        "unit": null,
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "tw-026-P02-claim-01"
-        ],
-        "model_binding": null,
-        "notes_i18n": {
-          "zh-TW": "必須從當下開放的公共區攝影。",
-          "en": "Photograph only from a currently open public area.",
-          "ja": "現在開放中の公共区域から撮影すること。"
-        },
-        "validation_status": "provisional"
-      },
-      {
         "id": "C-tw-026-P02-02",
         "role": "REQUIRED",
         "domain": "WEATHER",
@@ -151,28 +129,6 @@
           "zh-TW": "天空需實際出現可辨晚霞；不能以日期或一般雲量直接保證。",
           "en": "Visible afterglow must actually develop; neither the date nor generic cloud cover guarantees it.",
           "ja": "判別できる夕焼けが実際に発生すること。日付や一般的な雲量だけでは保証できない。"
-        },
-        "validation_status": "provisional"
-      },
-      {
-        "id": "C-tw-026-P02-03",
-        "role": "BLOCKER",
-        "domain": "ACCESS_SAFETY",
-        "evaluation_mode": "VERIFY",
-        "capability": "OBSERVATION",
-        "metric": "closed_platform_required",
-        "operator": "none",
-        "threshold": null,
-        "unit": null,
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "tw-026-P02-claim-03"
-        ],
-        "model_binding": null,
-        "notes_i18n": {
-          "zh-TW": "若構圖必須站在封閉瞭望台，該構圖不可用。",
-          "en": "A composition dependent on the closed lookout is unavailable.",
-          "ja": "閉鎖中の展望台を必要とする構図は利用できない。"
         },
         "validation_status": "provisional"
       },
