@@ -3,7 +3,7 @@
 本輪五個景點完成證據盤點；其中 3 個 Opportunity 已轉為 schema v2.1 的 evidence_review 文件，尚未正式核准。
 
 ## 發布限制
-- Worker 1 的 schema v2.1 位於 Draft PR #428，尚未進 main。
+- V2.1 schema 已在 main：`specs/v2/schema/opportunity-v2.1.schema.json`；仍須依最新 main 執行 Schema 驗證及正式審查。
 - Camera/Subject 精確幾何、方位、仰角、距離與 Navigation GPS 均 unknown。
 - 所有 condition threshold 為 null，unknown_policy=propagate_unknown；不得用未知條件產生 favorable。
 
@@ -30,9 +30,9 @@ Readiness：研究成熟度 R1（evidence_review），仍有 GEOMETRY_GAP 與 RE
 
 ## tw-026-P01 井仔腳瓦盤鹽田夕照
 
-從開放的鹽田公共區拍攝格狀鹽池與夕照；2026年9月起整修的原瞭望台不可當作開放機位。
+井仔腳瓦盤鹽田的格狀鹽池與夕照已有現地攝影證據；到場可依當時合法開放範圍自行構圖，但可拍攝區域邊界尚未獨立核實；原瞭望台另有整修封閉公告。
 
-Camera：只用開放公共區；原瞭望台預計封閉至2026-11-30，應核對最新公告。
+Camera：一般遊客可合法拍攝的區域邊界尚未獨立核實；請依當日公告與現場規定選擇安全構圖。原瞭望台公告預計封閉至2026-11-30，須再次查證。
 安全：施工圍籬及管制區不可進入。
 Subject：瓦盤鹽池與夕照天空（area；geometry unknown）
 View relation：foreground_background；distance/azimuth/elevation unknown。
@@ -40,7 +40,7 @@ Navigation：needs_review；未核實抵達點。
 Readiness：研究成熟度 R1（evidence_review），仍有 GEOMETRY_GAP 與 RESEARCH_GAP；尚未核准發布。即時可拍攝狀態須由獨立 EvaluationResult 評估，不能由研究成熟度推定。
 
 ### REQUIRED
-- 鹽田公共攝影區須當下開放；原瞭望台封閉不等於整個景區封閉。（threshold unknown；VERIFY）
+- 拍攝當下須確認有合法開放且安全的取景位置；原瞭望台封閉不代表其他區域必然開放。（threshold unknown；VERIFY）
 - 夕照需實際照亮鹽田構圖；未推定太陽方位或固定時刻。（threshold unknown；GUIDANCE）
 
 ### BLOCKER
@@ -55,6 +55,7 @@ Readiness：研究成熟度 R1（evidence_review），仍有 GEOMETRY_GAP 與 RE
 
 Camera：開放的鹽田公共區；施工瞭望台不使用。
 安全：遵守施工及公共區域限制。
+研究限制：上述「開放的鹽田公共區」是條件性取景限制，並非已獨立核實某個公共區的實際開放狀態或邊界；到場須查當日公告與現場管制，若無法確認合法且安全的取景位置，該構圖不可使用。
 Subject：鹽田上空晚霞與格狀鹽池（dynamic_sky；geometry unknown）
 View relation：foreground_background；distance/azimuth/elevation unknown。
 Navigation：needs_review；未核實抵達點。
