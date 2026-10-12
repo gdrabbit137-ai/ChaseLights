@@ -70,7 +70,7 @@ jobs:
       - name: Checkout W4 corrected website (#460)
         uses: actions/checkout@v4
         with:
-          ref: 788ff19f537b927e5515d5be6272106302cf3f41
+          ref: ec5dc9609596135ba1b2634dfa7d6c07a54fabdc
           path: .ci/sources/w4
           persist-credentials: false
           sparse-checkout: apps/web-v2
