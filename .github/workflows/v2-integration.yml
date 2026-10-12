@@ -89,6 +89,28 @@ jobs:
       - name: Execute every required suite; zero tests or SKIP fail the gate
         run: |
           python ops/v2/run_integration.py --sources-root .ci/sources --work-root .ci/integration --logs-dir .ci/logs
+      - name: Checkout current main for detached merge simulation
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: .ci/merge-sim
+          fetch-depth: 0
+          persist-credentials: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /.github/workflows/v2-integration.yml
+            /ops/v2/
+            /specs/v2/
+            /data/v2/
+            /packages/core-v2/
+            /packages/models-v2/
+            /apps/web-v2/
+            /index.html
+            /CNAME
+            /assets/app.js
+      - name: Simulate every owner merge on detached main and compare final trees
+        run: |
+          python ops/v2/simulate_merges.py --repo .ci/merge-sim --log-dir .ci/logs
       - name: Preserve raw logs, counts and source SHAs
         if: always()
         uses: actions/upload-artifact@v4
