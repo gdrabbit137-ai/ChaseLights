@@ -48,7 +48,7 @@ jobs:
       - name: Checkout unified W1 specs (#450)
         uses: actions/checkout@v4
         with:
-          ref: 065fe5d27bcd33d492357321674c267e707b640d
+          ref: bf60a497e5338a45bda63d9bc24b33e9ea1d3b43
           path: .ci/sources/w1
           persist-credentials: false
           sparse-checkout: specs/v2
