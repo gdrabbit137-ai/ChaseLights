@@ -1,0 +1,118 @@
+✖ desktop zh-TW: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior (966.832997ms)
+✖ desktop en: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior (536.936912ms)
+✖ desktop ja: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior (501.788048ms)
+✖ mobile zh-TW: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior (518.897514ms)
+✖ mobile en: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior (513.488076ms)
+✖ mobile ja: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior (574.766095ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 0
+ℹ fail 6
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4125.402396
+
+✖ failing tests:
+
+test at apps/web-v2/tests/browser-smoke.mjs:93:5
+✖ desktop zh-TW: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior (966.832997ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+  '' !== 'content'
+
+      at TestContext.<anonymous> (file:///workspace/ChaseLights/apps/web-v2/tests/browser-smoke.mjs:107:16)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '',
+    expected: 'content',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at apps/web-v2/tests/browser-smoke.mjs:93:5
+✖ desktop en: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior (536.936912ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+  '' !== 'content'
+
+      at TestContext.<anonymous> (file:///workspace/ChaseLights/apps/web-v2/tests/browser-smoke.mjs:107:16)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '',
+    expected: 'content',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at apps/web-v2/tests/browser-smoke.mjs:93:5
+✖ desktop ja: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior (501.788048ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+  '' !== 'content'
+
+      at TestContext.<anonymous> (file:///workspace/ChaseLights/apps/web-v2/tests/browser-smoke.mjs:107:16)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '',
+    expected: 'content',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at apps/web-v2/tests/browser-smoke.mjs:93:5
+✖ mobile zh-TW: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior (518.897514ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+  '' !== 'content'
+
+      at TestContext.<anonymous> (file:///workspace/ChaseLights/apps/web-v2/tests/browser-smoke.mjs:107:16)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '',
+    expected: 'content',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at apps/web-v2/tests/browser-smoke.mjs:93:5
+✖ mobile en: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior (513.488076ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+  '' !== 'content'
+
+      at TestContext.<anonymous> (file:///workspace/ChaseLights/apps/web-v2/tests/browser-smoke.mjs:107:16)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '',
+    expected: 'content',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at apps/web-v2/tests/browser-smoke.mjs:93:5
+✖ mobile ja: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior (574.766095ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+  '' !== 'content'
+
+      at TestContext.<anonymous> (file:///workspace/ChaseLights/apps/web-v2/tests/browser-smoke.mjs:107:16)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '',
+    expected: 'content',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

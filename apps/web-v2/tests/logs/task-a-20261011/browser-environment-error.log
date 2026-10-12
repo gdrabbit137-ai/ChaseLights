@@ -1,0 +1,64 @@
+✖ desktop zh-TW: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior (17.990745ms)
+✖ desktop en: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior (0.713087ms)
+✖ desktop ja: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior (0.1329ms)
+✖ mobile zh-TW: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior (0.048914ms)
+✖ mobile en: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior (0.057037ms)
+✖ mobile ja: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior (0.042754ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 0
+ℹ fail 6
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 347.478937
+
+✖ failing tests:
+
+test at apps/web-v2/tests/browser-smoke.mjs:114:5
+✖ desktop zh-TW: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior (17.990745ms)
+  browserType.launch: Failed to launch chromium because executable doesn't exist at /usr/bin/chromium
+      at TestContext.<anonymous> (/workspace/scratch/b849065c05c8/ChaseLights/apps/web-v2/tests/browser-smoke.mjs:49:28) {
+    name: 'Error',
+    log: []
+  }
+
+test at apps/web-v2/tests/browser-smoke.mjs:114:5
+✖ desktop en: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior (0.713087ms)
+  browserType.launch: Failed to launch chromium because executable doesn't exist at /usr/bin/chromium
+      at TestContext.<anonymous> (/workspace/scratch/b849065c05c8/ChaseLights/apps/web-v2/tests/browser-smoke.mjs:49:28) {
+    name: 'Error',
+    log: []
+  }
+
+test at apps/web-v2/tests/browser-smoke.mjs:114:5
+✖ desktop ja: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior (0.1329ms)
+  browserType.launch: Failed to launch chromium because executable doesn't exist at /usr/bin/chromium
+      at TestContext.<anonymous> (/workspace/scratch/b849065c05c8/ChaseLights/apps/web-v2/tests/browser-smoke.mjs:49:28) {
+    name: 'Error',
+    log: []
+  }
+
+test at apps/web-v2/tests/browser-smoke.mjs:114:5
+✖ mobile zh-TW: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior (0.048914ms)
+  browserType.launch: Failed to launch chromium because executable doesn't exist at /usr/bin/chromium
+      at TestContext.<anonymous> (/workspace/scratch/b849065c05c8/ChaseLights/apps/web-v2/tests/browser-smoke.mjs:49:28) {
+    name: 'Error',
+    log: []
+  }
+
+test at apps/web-v2/tests/browser-smoke.mjs:114:5
+✖ mobile en: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior (0.057037ms)
+  browserType.launch: Failed to launch chromium because executable doesn't exist at /usr/bin/chromium
+      at TestContext.<anonymous> (/workspace/scratch/b849065c05c8/ChaseLights/apps/web-v2/tests/browser-smoke.mjs:49:28) {
+    name: 'Error',
+    log: []
+  }
+
+test at apps/web-v2/tests/browser-smoke.mjs:114:5
+✖ mobile ja: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior (0.042754ms)
+  browserType.launch: Failed to launch chromium because executable doesn't exist at /usr/bin/chromium
+      at TestContext.<anonymous> (/workspace/scratch/b849065c05c8/ChaseLights/apps/web-v2/tests/browser-smoke.mjs:49:28) {
+    name: 'Error',
+    log: []
+  }
