@@ -113,18 +113,26 @@ jobs:
             /packages/core-v2/
             /packages/models-v2/
             /apps/web-v2/
+            /AGENTS.md
+            /RESEARCH_EVIDENCE_SPEC_R4_2.md
+            /NAVIGATION_SPEC_R4_2.md
             /index.html
             /CNAME
             /assets/app.js
       - name: Simulate approved owner path on detached latest main and compare final trees
         run: |
           python ops/v2/simulate_merges.py --repo .ci/merge-sim --log-dir .ci/logs --assembly-main .ci/sources/main
+      - name: Verify the simulated post-merge main with all 123 real test cases
+        run: |
+          python .ci/merge-sim/ops/v2/postmerge_verify.py --root .ci/merge-sim --logs-dir .ci/postmerge-rehearsal
       - name: Preserve raw logs, counts and source SHAs
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: v2-integration-${{ github.run_id }}-${{ github.run_attempt }}
-          path: .ci/logs/
+          path: |
+            .ci/logs/
+            .ci/postmerge-rehearsal/
           if-no-files-found: error
           retention-days: 14
 
