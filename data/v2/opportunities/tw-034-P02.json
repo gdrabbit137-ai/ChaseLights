@@ -1,0 +1,222 @@
+{
+  "schema_version": "2.1.0",
+  "opportunity_id": "tw-034-P02",
+  "place_id": "tw-034",
+  "revision": 1,
+  "lifecycle_status": "evidence_review",
+  "name_i18n": {
+    "zh-TW": "崇德清水斷崖山海遠眺",
+    "en": "Qingshui Cliff and Pacific panorama from Chongde",
+    "ja": "崇徳から望む清水断崖と太平洋"
+  },
+  "description_i18n": {
+    "zh-TW": "太魯閣國家公園記述崇德步道觀景平台能北望清水斷崖與太平洋海天；觀景台現況與當日遠山能見度須另查證。",
+    "en": "Taroko National Park describes views of Qingshui Cliff to the north and the Pacific from Chongde Trail; facility status and actual visibility require separate checks.",
+    "ja": "太魯閣国家公園は崇徳歩道から北方の清水断崖と太平洋を眺められると案内している。展望施設の利用状況や当日の視程は別途確認が必要。"
+  },
+  "camera_contexts": [
+    {
+      "id": "CZ-tw-034-P02-01",
+      "kind": "area",
+      "geometry": {
+        "kind": "area",
+        "status": "unknown",
+        "geojson": null,
+        "uncertainty_m": null,
+        "derivation_method": null,
+        "source_geometry_revision": null,
+        "reason_if_absent": "No independently verified place-specific camera/subject geometry."
+      },
+      "verification_status": "provisional",
+      "evidence_refs": [
+        "b04-tw034-a",
+        "b04-tw034-b"
+      ],
+      "access_notes_i18n": {
+        "zh-TW": "道路、步道及觀景台可能受修繕或災害管制；請以官方當日公告為準，勿假設崖緣可進入。",
+        "en": "Road, trail and platform access can change after damage or repairs; check current official notices and never assume the cliff edge is accessible.",
+        "ja": "道路・歩道・展望台は災害や工事で規制され得る。最新の公式案内を確認し、断崖縁に立ち入れるとみなさない。"
+      },
+      "safety_notes_i18n": {
+        "zh-TW": "遵守護欄和步道封閉標示，不靠近落石或不穩定邊坡。",
+        "en": "Obey guardrails and closure signs; keep away from falling rocks and unstable slopes.",
+        "ja": "柵や閉鎖標識に従い、落石や不安定な斜面に近づかない。"
+      },
+      "altitude_m": null
+    }
+  ],
+  "targets": [
+    {
+      "id": "SG-tw-034-P02-01",
+      "kind": "fixed_geographic",
+      "name_i18n": {
+        "zh-TW": "清水斷崖岩壁、山海與太平洋",
+        "en": "Qingshui coastal cliffs, mountains and Pacific",
+        "ja": "清水断崖の岩壁・山海と太平洋"
+      },
+      "geometry": {
+        "kind": "ridge",
+        "status": "unknown",
+        "geojson": null,
+        "uncertainty_m": null,
+        "derivation_method": null,
+        "source_geometry_revision": null,
+        "reason_if_absent": "No independently verified place-specific camera/subject geometry."
+      },
+      "phenomenon_model_id": null,
+      "evidence_refs": [
+        "b04-tw034-a",
+        "b04-tw034-b"
+      ],
+      "components": []
+    }
+  ],
+  "observation_relations": [
+    {
+      "id": "VR-tw-034-P02-01",
+      "camera_context_id": "CZ-tw-034-P02-01",
+      "target_id": "SG-tw-034-P02-01",
+      "type": "line_of_sight",
+      "geometry_mode": "unknown",
+      "azimuth_deg": null,
+      "elevation_deg": null,
+      "distance_m": null,
+      "evidence_refs": [
+        "b04-tw034-a",
+        "b04-tw034-b"
+      ],
+      "derivation_method": null,
+      "uncertainty_note": "Azimuth, distance and exact legal photographic position not independently verified; celestial components have no fake ground coordinates."
+    }
+  ],
+  "navigation_targets": [
+    {
+      "id": "NAV-tw-034-P02-01",
+      "status": "needs_review",
+      "target_type": "other",
+      "lat": null,
+      "lon": null,
+      "label_i18n": {
+        "zh-TW": "尚未核實合法實際抵達點",
+        "en": "Lawful practical arrival point not verified",
+        "ja": "合法的な到着地点は未確認"
+      },
+      "evidence_refs": [],
+      "confidence": "unknown"
+    }
+  ],
+  "condition_contract": {
+    "contract_id": "CC-tw-034-P02-v1",
+    "status": "review",
+    "recommendation_policy_version": null,
+    "conditions": [
+      {
+        "id": "C-tw-034-P02-01",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "cliff_pacific_visibility",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-034-P02-condition-1"
+        ],
+        "model_binding": null,
+        "notes_i18n": {
+          "zh-TW": "斷崖與海天輪廓需可辨識；未驗證定量公里能見度門檻。",
+          "en": "Cliff and marine horizon must be discernible; no kilometer visibility cutoff is validated.",
+          "ja": "断崖と海の輪郭を判別できること。視程距離の数値基準は未検証。"
+        },
+        "validation_status": "provisional"
+      },
+      {
+        "id": "C-tw-034-P02-02",
+        "role": "QUALITY",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "low_cloud_coastal_haze",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-034-P02-condition-2"
+        ],
+        "model_binding": null,
+        "notes_i18n": {
+          "zh-TW": "低雲與霧霾可降低山海層次，但不能只用單一雲量代理保證清晰。",
+          "en": "Low clouds and haze reduce scene clarity; generic cloud cover alone cannot guarantee it.",
+          "ja": "低雲やかすみで山海の層次が低下する。一般的な雲量だけで明瞭さを保証できない。"
+        },
+        "validation_status": "provisional"
+      }
+    ]
+  },
+  "evidence_claims": [
+    {
+      "claim_id": "tw-034-P02-existence",
+      "claim_type": "existence",
+      "evidence_refs": [
+        "b04-tw034-a",
+        "b04-tw034-b"
+      ],
+      "audit_status": "OK",
+      "scope_note": "Official place-specific scene exists; not a date-specific forecast or camera permission."
+    },
+    {
+      "claim_id": "tw-034-P02-camera",
+      "claim_type": "camera_location",
+      "evidence_refs": [
+        "b04-tw034-a",
+        "b04-tw034-b"
+      ],
+      "audit_status": "PARTIAL",
+      "scope_note": "Public site documented; legal photography boundary and exact tripod position remain unverified."
+    },
+    {
+      "claim_id": "tw-034-P02-navigation",
+      "claim_type": "navigation_access",
+      "evidence_refs": [],
+      "audit_status": "UNKNOWN",
+      "scope_note": "No independently verified safe arrival coordinate; Directions remain disabled."
+    },
+    {
+      "claim_id": "tw-034-P02-condition-1",
+      "claim_type": "other",
+      "evidence_refs": [
+        "b04-tw034-a",
+        "b04-tw034-b"
+      ],
+      "audit_status": "PARTIAL",
+      "scope_note": "Qualitative photographic condition only; no validated numeric threshold or live provider binding."
+    },
+    {
+      "claim_id": "tw-034-P02-condition-2",
+      "claim_type": "other",
+      "evidence_refs": [
+        "b04-tw034-a",
+        "b04-tw034-b"
+      ],
+      "audit_status": "PARTIAL",
+      "scope_note": "Qualitative photographic condition only; no validated numeric threshold or live provider binding."
+    }
+  ],
+  "readiness": {
+    "research_level": "R1",
+    "gaps": [
+      "GEOMETRY_GAP",
+      "RESEARCH_GAP"
+    ]
+  },
+  "provenance": {
+    "source_catalog": "ChaseLights legacy R4.2 opportunity inventory + official source recheck",
+    "source_revision": "v2-w2-batch04-20261013",
+    "imported_at": "2026-10-13T15:36:00Z",
+    "review_status": "pending",
+    "reviewed_by": null
+  }
+}
