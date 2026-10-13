@@ -1,0 +1,33 @@
+name: V2 W5 Release Gate Dry Run
+
+on:
+  pull_request:
+    paths:
+      - 'ops/v2/release_gate_snapshot.py'
+      - 'ops/v2/test_release_gate_snapshot.py'
+      - '.github/workflows/v2-w5-release-gate-dry-run.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  offline-gate-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Run fail-closed snapshot unit tests
+        run: python3 -m unittest discover -s ops/v2 -p 'test_release_gate_snapshot.py' -v
+      - name: Confirm invalid input fails closed
+        shell: bash
+        run: |
+          set -eu
+          printf '%s\n' '{}' > "$RUNNER_TEMP/invalid-snapshot.json"
+          if python3 ops/v2/release_gate_snapshot.py "$RUNNER_TEMP/invalid-snapshot.json"; then
+            echo 'ERROR: empty snapshot was accepted' >&2
+            exit 1
+          fi
+          echo 'Empty snapshot rejected as expected'
