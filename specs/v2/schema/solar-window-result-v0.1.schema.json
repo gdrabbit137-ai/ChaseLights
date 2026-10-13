@@ -1,0 +1,373 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ChaseLights V2 M6a Solar Window Result v0.1",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "request_id",
+    "capability",
+    "local_date",
+    "time_zone",
+    "observer",
+    "model",
+    "computed_at_utc",
+    "polar_state",
+    "sunrise",
+    "sunset",
+    "recommendation_eligible",
+    "photography_verdict",
+    "limitations_i18n"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "0.1.0"
+    },
+    "request_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "capability": {
+      "const": "WINDOW"
+    },
+    "local_date": {
+      "type": "string",
+      "format": "date",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "time_zone": {
+      "type": "string",
+      "minLength": 3,
+      "description": "Implementation must verify IANA/zoneinfo membership, not just syntactic nonemptiness."
+    },
+    "observer": {
+      "type": "object",
+      "required": [
+        "coordinate_role",
+        "lat",
+        "lon",
+        "coordinate_source",
+        "uncertainty_m",
+        "altitude_m"
+      ],
+      "properties": {
+        "coordinate_role": {
+          "enum": [
+            "verified_camera_reference",
+            "representative_place_sample",
+            "unknown"
+          ]
+        },
+        "lat": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": -90,
+          "maximum": 90
+        },
+        "lon": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": -180,
+          "maximum": 180
+        },
+        "coordinate_source": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Evidence-backed geographic location reference; never an invented tripod GPS."
+        },
+        "uncertainty_m": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "altitude_m": {
+          "type": [
+            "number",
+            "null"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "coordinate_role": {
+                "const": "unknown"
+              }
+            },
+            "required": [
+              "coordinate_role"
+            ]
+          },
+          "then": {
+            "properties": {
+              "lat": {
+                "type": "null"
+              },
+              "lon": {
+                "type": "null"
+              },
+              "coordinate_source": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "lat": {
+                "type": "number"
+              },
+              "lon": {
+                "type": "number"
+              },
+              "coordinate_source": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      ],
+      "additionalProperties": false
+    },
+    "model": {
+      "type": "object",
+      "required": [
+        "model_id",
+        "algorithm_version",
+        "horizon_assumption",
+        "sun_altitude_crossing_deg"
+      ],
+      "properties": {
+        "model_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "algorithm_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "horizon_assumption": {
+          "const": "ideal_unobstructed"
+        },
+        "sun_altitude_crossing_deg": {
+          "const": -0.833
+        }
+      },
+      "additionalProperties": false
+    },
+    "computed_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "polar_state": {
+      "enum": [
+        "NORMAL",
+        "POLAR_DAY",
+        "POLAR_NIGHT",
+        "UNKNOWN"
+      ]
+    },
+    "sunrise": {
+      "type": "object",
+      "required": [
+        "status",
+        "time_utc",
+        "time_local",
+        "reason"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "CALCULATED",
+            "NO_EVENT",
+            "UNKNOWN"
+          ]
+        },
+        "time_utc": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "time_local": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "CALCULATED"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "time_utc": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "time_local": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "reason": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "time_utc": {
+                "type": "null"
+              },
+              "time_local": {
+                "type": "null"
+              },
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      ],
+      "additionalProperties": false
+    },
+    "sunset": {
+      "type": "object",
+      "required": [
+        "status",
+        "time_utc",
+        "time_local",
+        "reason"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "CALCULATED",
+            "NO_EVENT",
+            "UNKNOWN"
+          ]
+        },
+        "time_utc": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "time_local": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "CALCULATED"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "time_utc": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "time_local": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "reason": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "time_utc": {
+                "type": "null"
+              },
+              "time_local": {
+                "type": "null"
+              },
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      ],
+      "additionalProperties": false
+    },
+    "recommendation_eligible": {
+      "const": false
+    },
+    "photography_verdict": {
+      "const": "NOT_EVALUABLE"
+    },
+    "limitations_i18n": {
+      "type": "object",
+      "required": [
+        "zh-TW",
+        "en",
+        "ja"
+      ],
+      "properties": {
+        "zh-TW": {
+          "type": "string",
+          "minLength": 1
+        },
+        "en": {
+          "type": "string",
+          "minLength": 1
+        },
+        "ja": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
