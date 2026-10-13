@@ -20,9 +20,9 @@ from urllib.request import Request, HTTPRedirectHandler, build_opener
 from jsonschema import Draft202012Validator, FormatChecker
 
 SCHEMA = Path(__file__).resolve().parents[3] / "specs/v2/schema/weather-source-record-v0.1.schema.json"
-POINTS = re.compile(r"^/points/(-?\\d+(?:\\.\\d+)?),(-?\\d+(?:\\.\\d+)?)$")
-GRID = re.compile(r"^/gridpoints/([A-Z]{3})/(\\d+),(\\d+)$")
-DURATION = re.compile(r"^P(?:(?P<days>\\d+)D)?(?:T(?:(?P<hours>\\d+)H)?(?:(?P<mins>\\d+)M)?)?$")
+POINTS = re.compile(r"^/points/(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)$")
+GRID = re.compile(r"^/gridpoints/([A-Z]{3})/(\d+),(\d+)$")
+DURATION = re.compile(r"^P(?:(?P<days>\d+)D)?(?:T(?:(?P<hours>\d+)H)?(?:(?P<mins>\d+)M)?)?$")
 SOURCE_FIELDS = {
     "skyCover": {"wmoUnit:percent": (0, 100)},
     "relativeHumidity": {"wmoUnit:percent": (0, 100)},
