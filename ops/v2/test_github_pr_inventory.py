@@ -22,7 +22,7 @@ class InventoryTests(unittest.TestCase):
         self.assertEqual(result["authorization"], "UNKNOWN")
         self.assertEqual(result["head_sha"], "head")
         self.assertEqual(result["current_main_sha"], "main-new")
-        self.assertEqual(len(seen), 8)
+        self.assertEqual(len(seen), 7)
         self.assertEqual(result["errors"], [])
 
     def test_missing_pr_stops(self):
