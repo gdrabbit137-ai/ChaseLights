@@ -178,12 +178,13 @@ def main():
         groups = [
             ("w1-schema", ["specs/v2/tests", "test_schema_smoke.py"], 17, True, False),
             ("w1-solar-window-contract", ["specs/v2/tests", "test_solar_window_contract.py"], 4, True, False),
+            ("w1-weather-source-contract", ["specs/v2/tests", "test_weather_source_contract.py"], 5, True, False),
             ("w1-evaluation-schema", ["specs/v2/tests", "test_evaluation_result_security.py"], 4, True, False),
             ("w1-free-composition", ["specs/v2/tests", "test_free_composition_contract.py"], 6, True, False),
             ("w5-contract", ["ops/v2/tests", "test_integration_gate.py"], 7, True, False),
             ("w5-watchdog", ["ops/v2/tests", "test_worker_watchdog.py"], 3, True, False),
             ("w5-runner", ["ops/v2/tests", "test_ci_runner.py"], 7, True, False),
-            ("w3-evaluator", ["packages/core-v2/tests", "test_*.py"], 32, True, False),
+            ("w3-evaluator-and-nws-source", ["packages/core-v2/tests", "test_*.py"], 42, True, False),
             ("w3-solar-model", ["packages/models-v2/tests", "test_*.py"], 10, True, False),
             ("w2-crosswalk-schema", ["data/v2/tests", "test_*.py"], 15, True, False),
             ("w2-real-records", [sys.executable, "specs/v2/tests/validate_contract.py",
@@ -191,7 +192,8 @@ def main():
                 None, False, False),
             ("schema-valid-fixture", [sys.executable, "specs/v2/tests/validate_contract.py"], None, False, False),
             ("w3-compile", [sys.executable, "-m", "py_compile",
-                "packages/core-v2/evaluator.py", "packages/core-v2/adapters/source_observation.py"],
+                "packages/core-v2/evaluator.py", "packages/core-v2/adapters/source_observation.py",
+                "packages/core-v2/adapters/nws_gridpoint.py"],
                 None, False, False),
             ("w4-node", ["node", "--test", "--test-isolation=none", "--test-timeout=120000",
                 "--test-reporter=tap", *[str(p.relative_to(root)) for p in sorted(
@@ -209,9 +211,9 @@ def main():
             for key in ("tests", "pass", "fail", "error", "skip")
         }
         if report["counts"] != {
-            "tests": 142, "pass": 142, "fail": 0, "error": 0, "skip": 0
+            "tests": 157, "pass": 157, "fail": 0, "error": 0, "skip": 0
         }:
-            raise ValueError("Post-merge exact 142-case requirement failed")
+            raise ValueError("Post-merge exact 157-case requirement failed")
         if not all(g["status"] == "PASS" for g in report["groups"]):
             raise ValueError("One or more required suites failed")
         report["status"] = "PASS"
