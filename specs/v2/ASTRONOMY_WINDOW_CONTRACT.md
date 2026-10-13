@@ -1,0 +1,28 @@
+# ChaseLights V2 — M6a deterministic solar WINDOW contract
+
+**ID:** CL-V2-ASTRO-WINDOW-001 · **Version:** 0.1.0 · **Owner:** W1 (`specs/v2/`) · **Status:** proposed, pending PR review/merge. Not an approved live forecast, R2/R3 promotion or evidence signoff. Main remains authoritative.
+
+**Machine schema:** `schema/astronomy-window-v0.1.schema.json` (Draft 2020-12) defines separately validatable `WINDOW_REQUEST` and `WINDOW_RESULT` messages. The existing canonical Opportunity and EvaluationResult schemas are not changed. `WINDOW` means deterministic astronomical temporal geometry, **not** photographic FAVORABLE, a probability, approved ConditionContract threshold, or verified alignment.
+
+## Request, provenance and time
+- Require `algorithm.id/version` and `ephemeris_provider.id/version`, with an independently documented authoritative numerical method, parameters, license (if applicable), tolerance and source. Algorithmic ephemeris is not a live weather provider.
+- `request_sha256` is SHA-256 of the exact request JSON UTF-8, sorted keys, compact separators and no ASCII escaping. Echo request ID, version, algorithm/provider, issue/valid times, timezone and precision in result. Hash enables replay comparison, **not** source authentication.
+- `issued_at` is the request/input snapshot issuance. `valid_from_utc` inclusive and `valid_to_utc` exclusive define the evaluation interval. All are offset-aware RFC3339 UTC (`Z` or `+00:00`), with positive interval. No forecast issuance/freshness is implied.
+- `local_date` uses a valid IANA `timezone` civil date, not truncated UTC. The UTC interval must lie within that local day. DST days can be 23/25 hours; date-line local/UTC dates differ. Occurred events require both `at_utc` and offset-aware `at_local`, `utc_offset_minutes` and PEP495 `dst_fold` (0/1). Never invent nonexistent wall-clock times.
+- `precision_seconds` specifies event timestamp granularity. Reported event uncertainty must include at least half that quantization step and known ephemeris/location/horizon uncertainty; no false precision.
+
+## Location and horizon
+- `location` declares WGS84 EPSG:4326 latitude/longitude, source (`PLACE_REPRESENTATIVE`, `VERIFIED_CAMERA`, `UNVERIFIED_CANDIDATE`, `UNKNOWN`), source reference and spatial uncertainty in metres. A representative Place coordinate is **not** verified Camera GPS. Unknown position uses null coordinates and yields UNKNOWN/NOT_EVALUABLE, never a computed positive window.
+- `horizon.assumption` is `IDEAL_GEOMETRIC`, `STANDARD_REFRACTION`, `VERIFIED_LOCAL_PROFILE` or `UNKNOWN`, with altitude, angular uncertainty and verified local-profile evidence where applicable. Explicit `event_definition`: geometric solar centre versus apparent upper limb with standard refraction. W3 must document observer elevation, refraction and solar-disc conventions; ideal horizon cannot prove local terrain/building visibility. Unknown horizon fails closed for this v0.1 event contract.
+- Ordinary photography defaults to free composition; precise Camera GPS, target azimuth and camera-to-subject geometry are optional except for an independently evidenced claim that needs them. Never infer exact alignment, lawful access or Directions from Place coordinates.
+
+## Result and edge cases
+- `WINDOW_RESULT.capability=WINDOW`; `photographic_evaluation=NOT_AUTHORIZED`; `status` is AVAILABLE/PARTIAL/UNKNOWN/NOT_EVALUABLE, **never FAVORABLE**. Additional probability/score fields are forbidden.
+- `daylight_regime` distinguishes NORMAL, POLAR_DAY, POLAR_NIGHT, TRANSITION, UNKNOWN. Events distinguish SUNRISE/SUNSET/SOLAR_NOON, OCCURS/OUTSIDE_INTERVAL/NO_EVENT_POLAR_DAY/NO_EVENT_POLAR_NIGHT/UNKNOWN. Polar no-event must not become a fabricated midnight sunrise. Windows are half-open UTC segments ABOVE/BELOW **assumed** horizon. Solar altitude/azimuth samples carry uncertainty. Exact alignment is UNKNOWN/NOT_EVALUATED and horizon visibility UNKNOWN/IDEALIZED_ONLY.
+- Machine warning codes require fully semantically equivalent zh-TW/en/ja UI copy; access closure/uncertain legal boundary remains a prominent **separate, non-scoring advisory**. Weather/solar FAVORABLE is not safe/legal access. Directions only from independently verified lawful arrival targets; unknown/closed routes cannot produce Directions.
+- Synthetic fixtures set `provenance.test_only=true`. Passing Schema/tests is **not** a scientifically verified solar calculation or live provider run. R1 research-only and missing essential inputs remain fail-closed.
+
+## Handoff and acceptance
+W1 owns this versioned Schema, fixtures and structural/cross-message tests. W3 must **wait for formal W1 contract acceptance** before implementing a numerical model; then supply authoritative equations, replay and numerical tolerance tests across Taiwan/Japan/US-Alaska, DST folds, date line, polar day/night, time boundaries and precision. W1 fixtures are synthetic structural examples, not numeric truth vectors.
+
+W3 may not bind WINDOW to an approved Opportunity AUTO condition or emit live FAVORABLE without separate W2 human-reviewed Place evidence, approved opportunity-specific threshold/model binding, real matching provider where required, coverage, freshness and all environmental gates. Required UNKNOWN never becomes FAVORABLE. No W2/W3/W4/W5 or Legacy changes under W1 ownership. Main AGENTS, R4.2 Research/Navigation, GOVERNANCE, ACCESS_ADVISORY and FREE_COMPOSITION remain controlling. W2 R1 staging does **not** require this M6a model, fixed Camera GPS, R2/R3 or W3/W4 integration; human evidence/access/three-language semantic review remains required.
