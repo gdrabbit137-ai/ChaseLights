@@ -5,6 +5,8 @@ on:
     paths:
       - 'ops/v2/release_gate_snapshot.py'
       - 'ops/v2/test_release_gate_snapshot.py'
+      - 'ops/v2/github_pr_inventory.py'
+      - 'ops/v2/test_github_pr_inventory.py'
       - '.github/workflows/v2-w5-release-gate-dry-run.yml'
   workflow_dispatch:
 
@@ -20,7 +22,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Run fail-closed snapshot unit tests
-        run: python3 -m unittest discover -s ops/v2 -p 'test_release_gate_snapshot.py' -v
+        run: python3 -m unittest discover -s ops/v2 -p 'test_*.py' -v
       - name: Confirm invalid input fails closed
         shell: bash
         run: |
