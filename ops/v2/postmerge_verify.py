@@ -100,7 +100,9 @@ def verify_main(root, lock):
 
     preview = data["data/v2/previews/tw-026-P01.research-only.v21.json"]
     catalog = json.loads((root / "apps/web-v2/catalog.v2.json").read_text())
-    expected_source = lock["sources"]["w2"]["sha"]
+    # The public P01 Preview remains byte-pinned to the earlier verified Batch03 source,
+    # not to the later five-record Batch04 W2 owner HEAD.
+    expected_source = lock["sources"]["w2"]["canonical_content_sha"]
     if catalog.get("source_commit_sha") != expected_source:
         raise ValueError("Default catalog declares the wrong canonical commit")
     if catalog.get("source_blob_sha") != blob(p01):
@@ -120,6 +122,37 @@ def verify_main(root, lock):
             raise ValueError("Live score/recommendation promotion: " + name)
     if manifest.get("human_semantic_signoff") != "PENDING":
         raise ValueError("Human review completion was fabricated")
+    # Batch04 is an additive research admission only. The entire W2 subtree is
+    # pinned to the reviewed Batch04 owner commit; new subjects are not public
+    # just because their JSON exists. Independently verify the five-new-ID set.
+    batch04 = lock["sources"]["w2"]["batch04"]
+    audit = json.loads((root / batch04["audit_path"]).read_text(encoding="utf-8"))
+    expected_ids = set(batch04["ids"])
+    if (len(expected_ids) != 5 or len(audit["canonical_opportunity_ids"]) != 5
+            or set(audit["canonical_opportunity_ids"]) != expected_ids):
+        raise ValueError("Batch04 additions changed without coordinated audit")
+    if (batch04["human_signoff"] != "PENDING" or
+            audit["review"]["human_trilingual_semantics"] != "PENDING" or
+            audit["review"]["human_geo"] != "PENDING" or
+            batch04["live_eligible"] is not False):
+        raise ValueError("Batch04 R1 human approval or forecastability was fabricated")
+    for oid in batch04["ids"]:
+        path = f"data/v2/opportunities/{oid}.json"
+        candidate = json.loads((root / path).read_text(encoding="utf-8"))
+        if (candidate["opportunity_id"] != oid or
+                candidate["readiness"]["research_level"] != "R1" or
+                candidate["lifecycle_status"] != "evidence_review" or
+                candidate["provenance"]["review_status"] != "pending"):
+            raise ValueError("Unreviewed Batch04 opportunity was promoted: " + oid)
+        if any(c.get("domain") == "ACCESS_SAFETY" or
+               c.get("evaluation_mode") == "AUTO" or c.get("threshold") is not None
+               for c in candidate["condition_contract"]["conditions"]):
+            raise ValueError("Batch04 false scoring or access contract: " + oid)
+        if any(n.get("status") == "verified" or
+               n.get("lat") is not None or n.get("lon") is not None
+               for n in candidate["navigation_targets"]):
+            raise ValueError("Batch04 unverified Directions were promoted: " + oid)
+    out["batch04_ids"] = sorted(expected_ids)
     out["canonical_git_blobs"] = {x["source_path"]: x["blob_sha"] for x in manifest["files"]}
     out["research_only"] = True
     return out
@@ -150,7 +183,7 @@ def main():
             ("w5-watchdog", ["ops/v2/tests", "test_worker_watchdog.py"], 3, True, False),
             ("w5-runner", ["ops/v2/tests", "test_ci_runner.py"], 7, True, False),
             ("w3-evaluator", ["packages/core-v2/tests", "test_*.py"], 32, True, False),
-            ("w2-crosswalk-schema", ["data/v2/tests", "test_*.py"], 10, True, False),
+            ("w2-crosswalk-schema", ["data/v2/tests", "test_*.py"], 15, True, False),
             ("w2-real-records", [sys.executable, "specs/v2/tests/validate_contract.py",
                 *[str(p.relative_to(root)) for p in sorted((root / "data/v2/opportunities").glob("*.json"))]],
                 None, False, False),
@@ -174,9 +207,9 @@ def main():
             for key in ("tests", "pass", "fail", "error", "skip")
         }
         if report["counts"] != {
-            "tests": 123, "pass": 123, "fail": 0, "error": 0, "skip": 0
+            "tests": 128, "pass": 128, "fail": 0, "error": 0, "skip": 0
         }:
-            raise ValueError("Post-merge exact 123-case requirement failed")
+            raise ValueError("Post-merge exact 128-case requirement failed")
         if not all(g["status"] == "PASS" for g in report["groups"]):
             raise ValueError("One or more required suites failed")
         report["status"] = "PASS"
