@@ -36,7 +36,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   integration:
-    name: V2 real merged-tree 142-case research-only plus solar WINDOW acceptance
+    name: V2 real merged-tree 157-case research-only, solar WINDOW and NOAA source acceptance
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -72,7 +72,7 @@ jobs:
           npm install --prefix .ci/tooling --no-save --package-lock=false playwright@1.57.0
           .ci/tooling/node_modules/.bin/playwright install --with-deps chromium
           node -e 'const p=require("node:path"); const m=p.resolve(".ci/tooling/node_modules/playwright"); const c=require(m).chromium; console.log("PLAYWRIGHT_MODULE="+m); console.log("CHROMIUM_EXECUTABLE="+c.executablePath());' >> "$GITHUB_ENV"
-      - name: Require W1–W4 source trees, research-only safety, 14 new solar tests and all 142 checks
+      - name: Require W1–W4 source trees, research-only safety, 14 solar plus 15 NWS raw-source tests and all 157 checks
         run: |
           python ops/v2/postmerge_verify.py --root . --logs-dir .ci/postmerge-logs
       - name: Preserve real git-source provenance and full test results
