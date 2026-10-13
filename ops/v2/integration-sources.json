@@ -8,10 +8,23 @@
       "pr": 457
     },
     "w2": {
-      "sha": "2177bd8c8b6c18e0a4b284e50b55d0ff12697ddd",
+      "sha": "509a7c206413a4f8d13350ddb50c2a7ad075ca4a",
       "canonical_content_sha": "2177bd8c8b6c18e0a4b284e50b55d0ff12697ddd",
-      "branch": "fix/v2-access-advisory-w2-20261012",
-      "pr": 458
+      "branch": "research/v2-w2-batch04-five-places-20261013",
+      "pr": 468,
+      "batch04": {
+        "opportunities": [
+          "tw-082-P01",
+          "tw-036-P01",
+          "tw-034-P02",
+          "jp-010-P01",
+          "us-071-P01"
+        ],
+        "research_level": "R1",
+        "new_cases": 5,
+        "source_audit": "data/v2/audits/worker2_batch04_evidence.json",
+        "human_signoff": "PENDING"
+      }
     },
     "w3": {
       "sha": "656c1e8919f5f720cd8e1e2f56b26e81d4b0dcc8",
