@@ -1,0 +1,199 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ChaseLights V2 M6b NOAA NWS non-scoring grid forecast source v0.1",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_id",
+    "source_kind",
+    "provider",
+    "source_url",
+    "mapping_url",
+    "source_sha256",
+    "source_update_time_utc",
+    "retrieved_at_utc",
+    "provider_issued_at_utc",
+    "provider_run_id",
+    "grid",
+    "field",
+    "uom",
+    "raw_value",
+    "valid_from_utc",
+    "valid_until_utc",
+    "retrieval_mode",
+    "data_state",
+    "calibration_status",
+    "recommendation_eligible",
+    "photography_verdict",
+    "limitations_i18n"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "0.1.0"
+    },
+    "record_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120
+    },
+    "source_kind": {
+      "const": "FORECAST"
+    },
+    "provider": {
+      "const": "NOAA_NWS"
+    },
+    "source_url": {
+      "type": "string",
+      "pattern": "^https://api\\.weather\\.gov/gridpoints/[A-Z]{3}/\\d+,\\d+$"
+    },
+    "mapping_url": {
+      "type": "string",
+      "pattern": "^https://api\\.weather\\.gov/points/-?\\d+(?:\\.\\d+)?,-?\\d+(?:\\.\\d+)?$"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "source_update_time_utc": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d(?:\\.\\d+)?Z$"
+    },
+    "retrieved_at_utc": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d(?:\\.\\d+)?Z$"
+    },
+    "provider_issued_at_utc": {
+      "type": "null"
+    },
+    "provider_run_id": {
+      "type": "null"
+    },
+    "grid": {
+      "type": "object",
+      "required": [
+        "office",
+        "grid_x",
+        "grid_y",
+        "sample_lat",
+        "sample_lon",
+        "coordinate_role",
+        "coordinate_source",
+        "coordinate_uncertainty_m",
+        "native_resolution_m"
+      ],
+      "properties": {
+        "office": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$"
+        },
+        "grid_x": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "grid_y": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sample_lat": {
+          "type": "number",
+          "minimum": -90,
+          "maximum": 90
+        },
+        "sample_lon": {
+          "type": "number",
+          "minimum": -180,
+          "maximum": 180
+        },
+        "coordinate_role": {
+          "const": "representative_place_sample"
+        },
+        "coordinate_source": {
+          "type": "string",
+          "minLength": 4
+        },
+        "coordinate_uncertainty_m": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "native_resolution_m": {
+          "type": "null"
+        }
+      },
+      "additionalProperties": false
+    },
+    "field": {
+      "enum": [
+        "skyCover",
+        "windSpeed",
+        "relativeHumidity",
+        "probabilityOfPrecipitation",
+        "temperature"
+      ]
+    },
+    "uom": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 90
+    },
+    "raw_value": {
+      "type": "number"
+    },
+    "valid_from_utc": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d(?:\\.\\d+)?Z$"
+    },
+    "valid_until_utc": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d(?:\\.\\d+)?Z$"
+    },
+    "retrieval_mode": {
+      "enum": [
+        "HTTPS_TLS",
+        "TEST_FIXTURE"
+      ]
+    },
+    "data_state": {
+      "const": "RAW_ONLY"
+    },
+    "calibration_status": {
+      "const": "UNVALIDATED"
+    },
+    "recommendation_eligible": {
+      "const": false
+    },
+    "photography_verdict": {
+      "const": "NOT_EVALUABLE"
+    },
+    "limitations_i18n": {
+      "type": "object",
+      "required": [
+        "zh-TW",
+        "en",
+        "ja"
+      ],
+      "properties": {
+        "zh-TW": {
+          "type": "string",
+          "minLength": 4
+        },
+        "en": {
+          "type": "string",
+          "minLength": 4
+        },
+        "ja": {
+          "type": "string",
+          "minLength": 4
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
