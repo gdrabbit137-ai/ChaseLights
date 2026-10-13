@@ -1,0 +1,127 @@
+{
+  "audit_version": "v2-W2-Batch04-R1-evidence-1",
+  "as_of": "2026-10-13",
+  "source_main_sha": "3c447830a38fae3e001f1d748234a9505800215b",
+  "scope": "Five existing Legacy Places, one R1 research Opportunity each; no weather scores/navigation",
+  "target_place_ids": [
+    "tw-082",
+    "tw-036",
+    "tw-034",
+    "jp-010",
+    "us-071"
+  ],
+  "canonical_opportunity_ids": [
+    "tw-082-P01",
+    "tw-036-P01",
+    "tw-034-P02",
+    "jp-010-P01",
+    "us-071-P01"
+  ],
+  "source_records": [
+    {
+      "id": "b04-tw082-a",
+      "url": "https://www.erv-nsa.gov.tw/zh-tw/event/news/6820",
+      "authority": "花東縱谷國家風景區管理處",
+      "date": "2025-05-26",
+      "evidence_grade": "A",
+      "supports": "Liyu Lake tree, official photographic reflection, hills",
+      "limits": "No forecastable wind threshold, GPS or legal shoreline polygon"
+    },
+    {
+      "id": "b04-tw082-b",
+      "url": "https://www.erv-nsa.gov.tw/zh-tw/event/news/6742",
+      "authority": "花東縱谷國家風景區管理處",
+      "date": "2025-04-18",
+      "evidence_grade": "A",
+      "supports": "Tannan Wharf camera framing of Liyu Lake and distant hills",
+      "limits": "Not proof of exact public tripod area or any other shoreline"
+    },
+    {
+      "id": "b04-tw036-a",
+      "url": "https://tour-hualien.hl.gov.tw/jp/News_Content.aspx?n=288&s=8856",
+      "authority": "花蓮縣政府觀光處",
+      "date": "2024-07-08",
+      "evidence_grade": "A",
+      "supports": "Qixingtan sunrise photography, crescent pebble beach, wave and drone warnings",
+      "limits": "No precise allowed Camera Zone, solar bearing or cloud cutoff"
+    },
+    {
+      "id": "b04-tw036-b",
+      "url": "https://tour-hualien.hl.gov.tw/TourContent.aspx?n=109&s=1190",
+      "authority": "花蓮縣政府觀光資訊",
+      "date": null,
+      "evidence_grade": "A",
+      "supports": "Qixingtan as named coastal tourism area and viewpoint context",
+      "limits": "Tourism area metadata alone cannot authorize particular field access or a tripod GPS"
+    },
+    {
+      "id": "b04-tw034-a",
+      "url": "https://www.taroko.gov.tw/ch/trailsAttractions/trail-list/40",
+      "authority": "太魯閣國家公園管理處",
+      "date": null,
+      "evidence_grade": "A",
+      "supports": "Chongde Trail official north-view to Qingshui Cliff, Pacific and delta",
+      "limits": "Does not certify 2026-10-13 road/trail status or a precise legal Camera Area"
+    },
+    {
+      "id": "b04-tw034-b",
+      "url": "https://www.taiwan.nps.gov.tw/home/zh-tw/attractions/21010.html",
+      "authority": "國家公園署",
+      "date": null,
+      "evidence_grade": "A",
+      "supports": "Protected-area attraction context of Chongde/Qingshui scenery",
+      "limits": "No exact line-of-sight polygon or approved arrival navigation coordinate"
+    },
+    {
+      "id": "b04-jp010-a",
+      "url": "https://fujisan.ne.jp/sightseeing/1652/",
+      "authority": "富士河口湖町観光連盟",
+      "date": null,
+      "evidence_grade": "A",
+      "supports": "Oishi Park official Mt Fuji across Lake Kawaguchi, seasonal lavender/kochia, open park",
+      "limits": "Seasonal plant status, precise photo point and special use permissions not verified"
+    },
+    {
+      "id": "b04-jp010-b",
+      "url": "https://fujisan.ne.jp/model-course/967/",
+      "authority": "富士河口湖町観光連盟",
+      "date": null,
+      "evidence_grade": "A",
+      "supports": "Late June–mid July lavender scene, Fuji landscape and occasional inverted Fuji under calm conditions",
+      "limits": "No guarantee of blooming on chosen date, GPS or reflection"
+    },
+    {
+      "id": "b04-us071-a",
+      "url": "https://seattle.gov/parks/parks/kerry-park",
+      "authority": "Seattle Parks & Recreation",
+      "date": null,
+      "evidence_grade": "A",
+      "supports": "Kerry Park city/Elliott Bay/Space Needle view, occasional Rainier, sunset and city lights, 6am–10pm",
+      "limits": "Posted park hours may change; no surveyed lawful camera location or weather thresholds"
+    }
+  ],
+  "review": {
+    "schema": "pending GitHub Actions exact-head validation",
+    "human_geo": "PENDING",
+    "human_trilingual_semantics": "PENDING",
+    "permission_geometry": "unknown",
+    "navigation": "needs_review",
+    "numeric_thresholds": "not asserted",
+    "live_conditions": "disabled"
+  },
+  "policy": {
+    "access_advisory_not_scoring": true,
+    "original_three_opportunities_untouched": true,
+    "default_v2_public_preview_untouched": true,
+    "legacy_untouched": true
+  },
+  "reference_catalog": {
+    "legacy_places": 216,
+    "legacy_opportunities": 428,
+    "original_v2_places": 2,
+    "original_v2_opportunities": 3,
+    "candidate_new_places": 5,
+    "candidate_new_opportunities": 5,
+    "not_current_approved_live_or_public_catalog": true
+  }
+}
