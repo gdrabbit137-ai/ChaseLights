@@ -100,7 +100,7 @@ def verify_main(root, lock):
 
     preview = data["data/v2/previews/tw-026-P01.research-only.v21.json"]
     catalog = json.loads((root / "apps/web-v2/catalog.v2.json").read_text())
-    expected_source = lock["sources"]["w2"]["sha"]
+    expected_source = lock["sources"]["w2"]["canonical_content_sha"]
     if catalog.get("source_commit_sha") != expected_source:
         raise ValueError("Default catalog declares the wrong canonical commit")
     if catalog.get("source_blob_sha") != blob(p01):
@@ -120,6 +120,55 @@ def verify_main(root, lock):
             raise ValueError("Live score/recommendation promotion: " + name)
     if manifest.get("human_semantic_signoff") != "PENDING":
         raise ValueError("Human review completion was fabricated")
+    # W2 Batch04 adds five reviewed-source *research-only* records, without
+    # retroactively modifying the four byte-pinned original W2/W3/W4 inputs.
+    # This is additional coverage; provenance of the earlier Preview remains
+    # tied to canonical_content_sha, not the new W2 owner-branch commit.
+    batch = lock["sources"]["w2"].get("batch04")
+    if not batch or len(batch.get("opportunities", [])) != 5:
+        raise ValueError("Five-place Batch04 owner pin missing")
+    new_ids = batch["opportunities"]
+    if len(set(new_ids)) != 5:
+        raise ValueError("Duplicate Batch04 Opportunity ID")
+    new_audit = json.loads((root / batch["source_audit"]).read_text())
+    if set(new_audit["canonical_opportunity_ids"]) != set(new_ids):
+        raise ValueError("Batch04 official-source audit doesn't match the pinned five")
+    if new_audit["review"]["human_trilingual_semantics"] != "PENDING":
+        raise ValueError("Batch04 human translation signoff was fabricated")
+    if new_audit["review"]["human_geo"] != "PENDING":
+        raise ValueError("Batch04 human lawful-camera-area signoff was fabricated")
+    new_blobs = {}
+    for new_id in new_ids:
+        new_path = f"data/v2/opportunities/{new_id}.json"
+        item = json.loads((root / new_path).read_text())
+        if item["opportunity_id"] != new_id or item["place_id"] != new_id.split("-P")[0]:
+            raise ValueError("Wrong Batch04 Place/Opportunity identity " + new_id)
+        if item["readiness"]["research_level"] != "R1" or item["lifecycle_status"] != "evidence_review":
+            raise ValueError("Batch04 research level improperly promoted: " + new_id)
+        if item["provenance"]["review_status"] != "pending":
+            raise ValueError("Batch04 human review was fabricated: " + new_id)
+        if len(item["condition_contract"]["conditions"]) != 2:
+            raise ValueError("Batch04 unexpected condition count: " + new_id)
+        for condition in item["condition_contract"]["conditions"]:
+            if (condition["domain"] == "ACCESS_SAFETY" or condition["evaluation_mode"] == "AUTO"
+                    or condition.get("threshold") is not None or condition.get("model_binding") is not None):
+                raise ValueError("Batch04 fabricated access score or validated forecast: " + new_id)
+            if not all(condition.get("notes_i18n", {}).get(lang, "").strip()
+                       for lang in ("zh-TW", "en", "ja")):
+                raise ValueError("Batch04 missing condition translation: " + new_id)
+        for camera in item["camera_contexts"]:
+            if camera["geometry"]["status"] != "unknown":
+                raise ValueError("Batch04 unverified Camera geometry promoted: " + new_id)
+            for key in ("access_notes_i18n", "safety_notes_i18n"):
+                if not all(camera.get(key, {}).get(lang, "").strip()
+                           for lang in ("zh-TW", "en", "ja")):
+                    raise ValueError("Batch04 missing camera advisory: " + new_id)
+        for nav in item["navigation_targets"]:
+            if nav["status"] == "verified" or nav.get("lat") is not None or nav.get("lon") is not None:
+                raise ValueError("Batch04 unverified Directions promoted: " + new_id)
+        new_blobs[new_path] = git(root, "rev-parse", "HEAD:" + new_path)
+    out["batch04_canonical_git_blobs"] = new_blobs
+
     out["canonical_git_blobs"] = {x["source_path"]: x["blob_sha"] for x in manifest["files"]}
     out["research_only"] = True
     return out
@@ -150,7 +199,7 @@ def main():
             ("w5-watchdog", ["ops/v2/tests", "test_worker_watchdog.py"], 3, True, False),
             ("w5-runner", ["ops/v2/tests", "test_ci_runner.py"], 7, True, False),
             ("w3-evaluator", ["packages/core-v2/tests", "test_*.py"], 32, True, False),
-            ("w2-crosswalk-schema", ["data/v2/tests", "test_*.py"], 10, True, False),
+            ("w2-crosswalk-schema", ["data/v2/tests", "test_*.py"], 15, True, False),
             ("w2-real-records", [sys.executable, "specs/v2/tests/validate_contract.py",
                 *[str(p.relative_to(root)) for p in sorted((root / "data/v2/opportunities").glob("*.json"))]],
                 None, False, False),
@@ -174,9 +223,9 @@ def main():
             for key in ("tests", "pass", "fail", "error", "skip")
         }
         if report["counts"] != {
-            "tests": 123, "pass": 123, "fail": 0, "error": 0, "skip": 0
+            "tests": 128, "pass": 128, "fail": 0, "error": 0, "skip": 0
         }:
-            raise ValueError("Post-merge exact 123-case requirement failed")
+            raise ValueError("Post-merge exact 128-case requirement failed")
         if not all(g["status"] == "PASS" for g in report["groups"]):
             raise ValueError("One or more required suites failed")
         report["status"] = "PASS"
