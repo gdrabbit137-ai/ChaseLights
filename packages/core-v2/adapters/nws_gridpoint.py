@@ -14,6 +14,7 @@ import json
 import math
 from pathlib import Path
 import re
+from urllib.error import HTTPError, URLError
 from urllib.parse import urlsplit
 from urllib.request import Request, HTTPRedirectHandler, build_opener
 from jsonschema import Draft202012Validator, FormatChecker
@@ -272,5 +273,7 @@ def fetch_nws_gridpoint(*, latitude, longitude, field, valid_at,
                             freshness_policy=freshness_policy,
                             retrieval_mode="HTTPS_TLS" if opener is None else "TEST_FIXTURE")
         return result
+    except (HTTPError, URLError, OSError, TimeoutError) as exc:
+        return _no_record("PROVIDER_TRANSPORT_UNAVAILABLE", detail=type(exc).__name__)
     except (SourceFailure, KeyError, TypeError, ValueError, OverflowError) as exc:
         return _no_record(str(exc))
