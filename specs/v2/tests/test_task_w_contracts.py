@@ -92,7 +92,9 @@ def filter_oracle(index, topics, query, favorites=()):
             continue
         names = [v for v in p['name_i18n'].values() if v is not None]
         aliases = [v for values in p['aliases_i18n'].values() for v in values]
-        if not any(normalize(query['search']) in normalize(v) for v in [pid, *names, *aliases]):
+        region_labels = [v for r in index['regions'] if r['region_id'] in p['region_ids']
+                         for v in [r['region_id'], r['code'], *r['name_i18n'].values()]]
+        if not any(normalize(query['search']) in normalize(v) for v in [pid, *names, *aliases, *region_labels]):
             continue
         result.setdefault(pid, []).append(oid)
     return result
@@ -208,6 +210,22 @@ class DateQueryContractTests(unittest.TestCase):
                     start = datetime.fromisoformat(day['start_utc'])
                     bad['local_day']['end_utc'] = (start + timedelta(hours=24)).isoformat().replace('+00:00', 'Z')
                     self.assertTrue(validate_date_query(bad))
+
+    def test_relative_dates_per_place_and_shuffled_daily_date_keys(self):
+        # Frozen UTC: tomorrow is already a different civil day in TW and US.
+        now = datetime(2026, 10, 14, 2, tzinfo=timezone.utc)
+        expected = {'Asia/Taipei': '2026-10-15', 'America/Los_Angeles': '2026-10-14'}
+        for zone_name, wanted in expected.items():
+            today = now.astimezone(ZoneInfo(zone_name)).date()
+            tomorrow = today + timedelta(days=1)
+            self.assertEqual(wanted, tomorrow.isoformat())
+            self.assertEqual([], validate_date_query(resolved_query(zone_name, wanted)))
+            # Find by date, not position; second item is deliberately yesterday.
+            daily = [{'date': wanted}, {'date': (today - timedelta(days=1)).isoformat()},
+                     {'date': today.isoformat()}]
+            self.assertNotEqual(wanted, daily[1]['date'])
+            self.assertEqual(wanted, next(d for d in daily if d['date'] == wanted)['date'])
+            self.assertIsNone(next((d for d in daily if d['date'] == '2027-01-01'), None))
 
     def test_invalid_date_zone_offset_and_boundary_rejected(self):
         for change in ('date', 'zone', 'offset', 'boundary', 'local-date'):
@@ -357,6 +375,20 @@ class TopicsPreferencesSortTests(unittest.TestCase):
         self.assertEqual({'tw-026': ['tw-026-P01'], 'us-071': ['us-071-P01']}, filter_oracle(index, topics, q))
         q['region_ids'] = ['country:JP']
         self.assertEqual({}, filter_oracle(index, topics, q))
+
+    def test_sourced_admin_search_and_same_name_stable_identity(self):
+        index, topics, q = regional_index(), load('topic-index'), load('browse-query')
+        index['places'][0]['name_i18n'] = i18n('Same name')
+        index['places'][1]['name_i18n'] = i18n('Same name')
+        q['search'] = 'Same name'
+        self.assertEqual({'tw-026', 'us-071'}, set(filter_oracle(index, topics, q)))
+        q['search'] = 'US-WA'
+        self.assertEqual({'us-071': ['us-071-P01']}, filter_oracle(index, topics, q))
+        q['search'] = 'テスト TW-TNN'
+        q['locale'] = 'en'  # All available sourced language labels are searchable.
+        self.assertEqual({'tw-026': ['tw-026-P01', 'tw-026-P02']}, filter_oracle(index, topics, q))
+        q.update(search='', region_ids=['country:JP'])
+        self.assertEqual({'jp-010': ['jp-010-P01']}, filter_oracle(index, topics, q))
 
     def test_favorites_do_not_promote_research_or_duplicate_place(self):
         index, topics, q = load('place-index'), load('topic-index'), load('browse-query')
