@@ -2,7 +2,7 @@
 
 結論：**NOT READY（正式攝影預報上線）**。已存在且曾部署的 Research-only Preview 不等於正式預報產品。此 PR 為 W5 修復與驗證工具，不授權 merge 或 deployment。
 
-Reviewed main：`f8a1f83bfeda5dc75f7e00c847e7728a0cef79ec`。分支：`codex/w5-task-r-release-readiness-20261014`。Draft PR URL、最終 Head SHA 與 Task R GitHub CI 在發布後由 PR description 與交付版同名報告記錄；本檔不將尚未取得的結果寫成 PASS。
+Reviewed main：`f8a1f83bfeda5dc75f7e00c847e7728a0cef79ec`。分支：`codex/w5-task-r-release-readiness-20261014`。Draft PR：[**#486**](https://github.com/gdrabbit137-ai/ChaseLights/pull/486)。已完整審計的 implementation Head SHA：`15320eac3cfdacc4663b64d46bde4b6a712b2d48`；本機原 commit：`bea7ae01af913eadead24b6693da92188ecca56d`；完整 tree 相同：`5fb62f6c73d76cdad6aebd9a509f3ff862282665`。本次後續提交只補證據/報告，最終 PR Head 與其 CI 在 PR description 動態記錄；不能把舊 implementation CI冒稱成新文件 Head 的CI。
 
 ## 真實架構與隔離
 
@@ -53,7 +53,16 @@ Reviewed main：`f8a1f83bfeda5dc75f7e00c847e7728a0cef79ec`。分支：`codex/w5-
 
 本機固定 reviewed-main baseline：**151 PASS / 6 FAIL / 0 ERROR / 0 SKIP**（157 cases）；六個 browser cases 全部在 before hook 失敗。独立診斷 loopback `listen(127.0.0.1)` 返回 **EPERM**，不是 browser assertion 成功。public HTTP gate 另返回 `URLError … Operation not permitted`；Git fetch 是 proxy:8080 connection failure。保留 logs，不重試繞路或放寬網路。
 
-Task R 初次工具測試：**12 PASS / 0 FAIL / 0 ERROR / 0 SKIP**；static config PASS；七檔独立 build PASS；compile/diff checks PASS。後續 exact candidate 測試、Merge Rehearsal 及新 GitHub CI 必須另外記錄。GitHub 已有 #482～#485 success 並不代替 Task R 自己的 CI，也不代替本機公開網站驗證。
+Task R 初次工具測試：**12 PASS / 0 FAIL / 0 ERROR / 0 SKIP**；static config PASS；七檔独立 build PASS；compile/diff checks PASS。本機 fixed implementation commit 的完整 suite：**163 PASS / 6 FAIL / 0 ERROR / 0 SKIP**，總169，gate exit 1；完整分類與 runnable failure logs 為 `TASK_R_LOCAL_TESTS.json` / `TASK_R_LOCAL_FAILURES.log`。GitHub implementation Head 的真實本機 checkout 另跑12工具測試、build與fixed-SHA rehearsal均PASS；原始commit與GitHub commit完整tree相同。GitHub 已有 #482～#485 success 不代替 Task R 自己的 CI，也不覆寫本機公開網站失敗。
+
+Task R implementation CI 已真實完成（readback + 原始job log + artifact metadata）：
+
+| Workflow | 實際結果 / 被測 SHA |
+|---|---|
+| [V2 Integration 38564970193](https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/38564970193) | completed/success；**169 PASS / 0 FAIL / 0 ERROR / 0 SKIP**，job115855208137。head=`15320eac…`；actual checkout synthetic merge=`8f5107710a3da44cc84502dc78b792ff049e80f7`，父為reviewed main及15320eac head；tree=5fb62f6c…；public HTTP assets gate及6 local Chromium cases均PASS。 |
+| [Release Readiness Tools 38564970257](https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/38564970257) | completed/success，job115855209407；明確actual checkout=`15320eac3cfdacc4663b64d46bde4b6a712b2d48`。static plan、七檔build、immutable base/head merge-tree均PASS；沒有部署。 |
+
+`TASK_R_GITHUB_SNAPSHOT.json.task_r_ci_implementation_head` 保存兩個run與artifact ID/digest。GitHub artifact保留14天，期滿不能當仍可下載；snapshot與failure logs留在PR。`TASK_R_CHECKLIST.json` / `.md` 為對該implementation SHA實際执行27 gate的結果：**NOT READY，CLI exit 1，deployment_allowed=false**；未透過CI忽略該發布結果。
 
 public/Hosting：即時 Pages job success 已確認；本回合本機 live HTTP/Chromium 未成功。GitHub CI local browser 和公開資源 probe 是各自的執行證據；未做 Task R production deployment，所以沒有 Task R post-deploy PASS。
 
@@ -77,6 +86,8 @@ public/Hosting：即時 Pages job success 已確認；本回合本機 live HTTP/
 
 ## 正式發布仍需完成
 
-**必要阻塞**：#465 人類證據/三語評核；#467 reviewed pilot AUTO與真實 provider→runtime→UI；W4 loading/錯誤/無資料驗收；Hosting branch/environment protections及人工發布批准未驗；最新 candidate GitHub CI與當次 public source identity。GitHub CI全綠不能清除上述 gate。
+**必要阻塞**：#465 人類證據/三語評核；#467 reviewed pilot AUTO與真實 provider→runtime→UI；W4 loading/錯誤/無資料驗收；Hosting branch/environment protections及人工發布批准未驗；未來正式release當次source identity與公開驗收。本次implementation GitHub CI成功僅解除技術工具CI待驗，不能解除scientific/human/Hosting gates。GitHub CI全綠不能清除上述 gate。
 
 **下一個最小可執行任務**：W2 對一個 `tw-026-P01` pilot 完成存在證據與三語語意的真實 review（#465），並明確將未核准 formation/AUTO thresholds 留待 W1/W3契約；只修改 W2範圍，獨立 PR，不部署。先把一個 pilot 驗收做實，再擴大 runtime。
+
+修改檔案共17個，全部位於 W5 paths；除前述13個實作/文件，再加入兩個27項清單輸出與兩個本機失敗證據檔。W1～W4與Legacy committed blobs與reviewed main完全一致。未合併、未部署、未開auto-merge、未新增付費API或擴權。

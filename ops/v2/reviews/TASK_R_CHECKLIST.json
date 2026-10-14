@@ -1,0 +1,291 @@
+{
+  "schema_version": 1,
+  "candidate_sha": "15320eac3cfdacc4663b64d46bde4b6a712b2d48",
+  "reviewed_main_sha": "f8a1f83bfeda5dc75f7e00c847e7728a0cef79ec",
+  "status": "NOT READY",
+  "checks": [
+    {
+      "id": "A.owner_integration",
+      "owner": "W5",
+      "domain": "local",
+      "status": "PASS",
+      "reason": "verify_main fixed owner ancestry/tree in local provenance and GitHub postmerge logs",
+      "evidence": [
+        "ops/v2/reviews/TASK_R_RELEASE_READINESS.md"
+      ]
+    },
+    {
+      "id": "A.pending_dependencies",
+      "owner": "W5",
+      "domain": "github_inventory",
+      "status": "PASS",
+      "reason": "Current five open PRs independently inventoried; none is falsely treated as merged; #482/#483 separately reviewed, #420 outside V2 pilot",
+      "evidence": [
+        "ops/v2/reviews/TASK_R_RELEASE_READINESS.md"
+      ]
+    },
+    {
+      "id": "A.merge_rehearsal",
+      "owner": "W5",
+      "domain": "local",
+      "status": "PASS",
+      "reason": "real immutable f8a1 main + 15320eac candidate merge-tree PASS; refs unchanged",
+      "evidence": [
+        "ops/v2/reviews/TASK_R_RELEASE_READINESS.md",
+        "https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/38564970257"
+      ]
+    },
+    {
+      "id": "B.canonical_provenance",
+      "owner": "W2/W5",
+      "domain": "local",
+      "status": "PASS",
+      "reason": "W2 owner 509a7c / P01 content 2177bd; byte/blob/SHA256/fixture/catalog checks PASS",
+      "evidence": [
+        "ops/v2/reviews/TASK_R_RELEASE_READINESS.md"
+      ]
+    },
+    {
+      "id": "B.research_isolation",
+      "owner": "W2/W5",
+      "domain": "local",
+      "status": "PASS",
+      "reason": "seven-file V2 artifact; Research-only flags/no evaluations verified",
+      "evidence": [
+        "ops/v2/reviews/TASK_R_RELEASE_READINESS.md"
+      ]
+    },
+    {
+      "id": "B.camera_subject_free_composition",
+      "owner": "W1/W2",
+      "domain": "review",
+      "status": "PASS",
+      "reason": "Current merged W1 spec and regression preserve distinct spatial roles; no mandatory exact tripod for ordinary claims",
+      "evidence": [
+        "ops/v2/reviews/TASK_R_RELEASE_READINESS.md"
+      ]
+    },
+    {
+      "id": "B.navigation_separation",
+      "owner": "W2/W4",
+      "domain": "local",
+      "status": "PASS",
+      "reason": "All required no-Directions/no-coordinate-substitution regressions preserved and passed",
+      "evidence": [
+        "ops/v2/reviews/TASK_R_RELEASE_READINESS.md"
+      ]
+    },
+    {
+      "id": "B.evidence_uncertainty_review",
+      "owner": "W2",
+      "domain": "review",
+      "status": "BLOCKED",
+      "reason": "#465: claim-by-claim evidence review and Batch04 human geography are pending; uncertainty must be retained",
+      "evidence": [
+        "ops/v2/reviews/TASK_R_RELEASE_READINESS.md"
+      ]
+    },
+    {
+      "id": "B.trilingual_semantic_review",
+      "owner": "W2/W4",
+      "domain": "review",
+      "status": "BLOCKED",
+      "reason": "#465: genuine human zh-TW/en/ja semantic signoff is PENDING",
+      "evidence": [
+        "ops/v2/reviews/TASK_R_RELEASE_READINESS.md"
+      ]
+    },
+    {
+      "id": "C.latest_w2_binding",
+      "owner": "W3/W5",
+      "domain": "local",
+      "status": "PASS",
+      "reason": "W3 real P01 fixture byte-identical to latest unchanged W2 canonical content",
+      "evidence": [
+        "ops/v2/reviews/TASK_R_RELEASE_READINESS.md"
+      ]
+    },
+    {
+      "id": "C.real_weather_provider",
+      "owner": "W1/W3",
+      "domain": "provider",
+      "status": "BLOCKED",
+      "reason": "#482 proves Seattle raw transport only; approved pilot real provider coverage/run/freshness/calibration remain incomplete",
+      "evidence": [
+        "ops/v2/reviews/TASK_R_RELEASE_READINESS.md"
+      ]
+    },
+    {
+      "id": "C.astronomy_source",
+      "owner": "W1/W3",
+      "domain": "local",
+      "status": "PASS",
+      "reason": "M6a model and 14 schema/model tests PASS; WINDOW only, not photography verdict",
+      "evidence": [
+        "ops/v2/reviews/TASK_R_RELEASE_READINESS.md"
+      ]
+    },
+    {
+      "id": "C.approved_auto_thresholds",
+      "owner": "W1/W2/W3",
+      "domain": "review",
+      "status": "BLOCKED",
+      "reason": "#467: canonical pilot AUTO, threshold and model binding are not approved",
+      "evidence": [
+        "ops/v2/reviews/TASK_R_RELEASE_READINESS.md"
+      ]
+    },
+    {
+      "id": "C.unknown_no_false_score",
+      "owner": "W3",
+      "domain": "local",
+      "status": "PASS",
+      "reason": "W3 negative unknown/missing/provisional/research-only tests PASS",
+      "evidence": [
+        "ops/v2/reviews/TASK_R_RELEASE_READINESS.md"
+      ]
+    },
+    {
+      "id": "C.closure_warning_only",
+      "owner": "W3/W4",
+      "domain": "local",
+      "status": "PASS",
+      "reason": "W3 open/closed invariant and W4 independent advisory regressions PASS",
+      "evidence": [
+        "ops/v2/reviews/TASK_R_RELEASE_READINESS.md"
+      ]
+    },
+    {
+      "id": "D.static_build",
+      "owner": "W4/W5",
+      "domain": "local",
+      "status": "PASS",
+      "reason": "Exact GitHub head seven-file static build and manifest PASS",
+      "evidence": [
+        "ops/v2/reviews/TASK_R_RELEASE_READINESS.md",
+        "https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/38564970257"
+      ]
+    },
+    {
+      "id": "D.real_catalog_load",
+      "owner": "W4",
+      "domain": "browser",
+      "status": "PASS",
+      "reason": "GitHub six real-W2 browser locale/device scenarios PASS",
+      "evidence": [
+        "ops/v2/reviews/TASK_R_RELEASE_READINESS.md",
+        "https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/38564970193"
+      ]
+    },
+    {
+      "id": "D.locale_device_browser",
+      "owner": "W4/W5",
+      "domain": "browser",
+      "status": "PASS",
+      "reason": "GitHub six Chromium zh-TW/en/ja desktop/mobile scenarios PASS; local EPERM six FAIL retained separately",
+      "evidence": [
+        "ops/v2/reviews/TASK_R_RELEASE_READINESS.md",
+        "https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/38564970193"
+      ]
+    },
+    {
+      "id": "D.empty_error_loading",
+      "owner": "W4",
+      "domain": "browser",
+      "status": "BLOCKED",
+      "reason": "W4 app.mjs:168 lacks a distinct loading state; delayed-fetch/error/empty browser matrix still needed",
+      "evidence": [
+        "ops/v2/reviews/TASK_R_RELEASE_READINESS.md",
+        "https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/38564970193"
+      ]
+    },
+    {
+      "id": "D.live_ui_contract",
+      "owner": "W4",
+      "domain": "review",
+      "status": "BLOCKED",
+      "reason": "#467: W4 live WINDOW/weather/evaluation path is not integrated",
+      "evidence": [
+        "ops/v2/reviews/TASK_R_RELEASE_READINESS.md"
+      ]
+    },
+    {
+      "id": "D.public_url_assets",
+      "owner": "W5",
+      "domain": "public",
+      "status": "PASS",
+      "reason": "GitHub integration local-isolation real canonical public HTTPS/assets probe PASS; no Task R deployment",
+      "evidence": [
+        "ops/v2/reviews/TASK_R_RELEASE_READINESS.md",
+        "https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/38564970193"
+      ]
+    },
+    {
+      "id": "E.actual_commit_ci",
+      "owner": "W5",
+      "domain": "github",
+      "status": "PASS",
+      "reason": "GitHub Actions head/actual checkout/parents verified",
+      "evidence": [
+        "ops/v2/reviews/TASK_R_RELEASE_READINESS.md",
+        "https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/38564970193"
+      ]
+    },
+    {
+      "id": "E.no_failed_or_skipped_tests",
+      "owner": "W5",
+      "domain": "github",
+      "status": "PASS",
+      "reason": "GitHub actual job log 169 PASS / 0 FAIL / 0 ERROR / 0 SKIP; local 163/6 retained",
+      "evidence": [
+        "ops/v2/reviews/TASK_R_RELEASE_READINESS.md",
+        "https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/38564970193"
+      ]
+    },
+    {
+      "id": "E.fail_closed_missing_input",
+      "owner": "W5",
+      "domain": "local",
+      "status": "PASS",
+      "reason": "W5 12 regressions and CLI missing/SKIP/evidence tests PASS",
+      "evidence": [
+        "ops/v2/reviews/TASK_R_RELEASE_READINESS.md"
+      ]
+    },
+    {
+      "id": "E.hosting_protection",
+      "owner": "Owner/W5",
+      "domain": "review",
+      "status": "UNVERIFIED",
+      "reason": "Branch protection 403; direct Hosting/Environment protection rules cannot be verified with current integration",
+      "evidence": [
+        "ops/v2/reviews/TASK_R_RELEASE_READINESS.md"
+      ]
+    },
+    {
+      "id": "E.approval_stage_defined",
+      "owner": "Owner/W5",
+      "domain": "review",
+      "status": "PASS",
+      "reason": "Six-stage runbook requires explicit owner approval; no approval granted",
+      "evidence": [
+        "ops/v2/reviews/TASK_R_RELEASE_READINESS.md"
+      ]
+    },
+    {
+      "id": "E.health_rollback_plan",
+      "owner": "W5",
+      "domain": "review",
+      "status": "PASS",
+      "reason": "Existing HTTP/browser commands plus build SHA256 manifest and V2-only restore procedure prepared; no deployment executed",
+      "evidence": [
+        "ops/v2/reviews/TASK_R_RELEASE_READINESS.md"
+      ]
+    }
+  ],
+  "approval": "NOT_GRANTED",
+  "deployment_allowed": false,
+  "evidence_authenticity": "EXTERNAL_REVIEW_REQUIRED",
+  "scope": "LIVE_V2_RELEASE",
+  "limitations": "Caller evidence is advisory, not authenticated GitHub or human approval."
+}

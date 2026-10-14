@@ -828,5 +828,80 @@
       ]
     }
   ],
-  "retrieved_at_utc": "2026-10-14T12:33:04Z"
+  "retrieved_at_utc": "2026-10-14T12:33:04Z",
+  "task_r_ci_implementation_head": {
+    "head_sha": "15320eac3cfdacc4663b64d46bde4b6a712b2d48",
+    "implementation_tree": "5fb62f6c73d76cdad6aebd9a509f3ff862282665",
+    "integration": {
+      "run_id": 38564970193,
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/38564970193",
+      "status": "completed",
+      "conclusion": "success",
+      "job_id": 115855208137,
+      "tested_checkout_sha": "8f5107710a3da44cc84502dc78b792ff049e80f7",
+      "tested_parents": [
+        "f8a1f83bfeda5dc75f7e00c847e7728a0cef79ec",
+        "15320eac3cfdacc4663b64d46bde4b6a712b2d48"
+      ],
+      "counts": {
+        "tests": 169,
+        "pass": 169,
+        "fail": 0,
+        "error": 0,
+        "skip": 0
+      },
+      "artifact": [
+        {
+          "id": 11894275996,
+          "name": "v2-merged-tree-38564970193-1",
+          "size_in_bytes": 16644,
+          "url": "https://api.github.com/repos/gdrabbit137-ai/ChaseLights/actions/artifacts/11894275996",
+          "archive_download_url": "https://api.github.com/repos/gdrabbit137-ai/ChaseLights/actions/artifacts/11894275996/zip",
+          "expired": false,
+          "created_at": "2026-10-14T12:36:20Z",
+          "expires_at": "2026-10-28T12:36:19Z",
+          "updated_at": "2026-10-14T12:36:20Z",
+          "digest": "sha256:ef233dd4317142ae90a716bf48c161c5f7597086bf17210492542e63cf238a68",
+          "workflow_run": {
+            "id": 38564970193,
+            "repository_id": 1373292671,
+            "head_repository_id": 1373292671,
+            "head_branch": "codex/w5-task-r-release-readiness-20261014",
+            "head_sha": "15320eac3cfdacc4663b64d46bde4b6a712b2d48"
+          }
+        }
+      ]
+    },
+    "release_tools": {
+      "run_id": 38564970257,
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/38564970257",
+      "status": "completed",
+      "conclusion": "success",
+      "job_id": 115855209407,
+      "tested_checkout_sha": "15320eac3cfdacc4663b64d46bde4b6a712b2d48",
+      "artifact": [
+        {
+          "id": 11894920416,
+          "name": "v2-release-tools-38564970257-1",
+          "size_in_bytes": 24750,
+          "url": "https://api.github.com/repos/gdrabbit137-ai/ChaseLights/actions/artifacts/11894920416",
+          "archive_download_url": "https://api.github.com/repos/gdrabbit137-ai/ChaseLights/actions/artifacts/11894920416/zip",
+          "expired": false,
+          "created_at": "2026-10-14T12:35:37Z",
+          "expires_at": "2026-10-28T12:35:36Z",
+          "updated_at": "2026-10-14T12:35:37Z",
+          "digest": "sha256:8df87df07dff7df8c425160ff844120eeca1a5c3cca4144f7d05c26773f2984d",
+          "workflow_run": {
+            "id": 38564970257,
+            "repository_id": 1373292671,
+            "head_repository_id": 1373292671,
+            "head_branch": "codex/w5-task-r-release-readiness-20261014",
+            "head_sha": "15320eac3cfdacc4663b64d46bde4b6a712b2d48"
+          }
+        }
+      ]
+    },
+    "approval": "NOT_GRANTED",
+    "deployment_performed": false
+  }
 }
