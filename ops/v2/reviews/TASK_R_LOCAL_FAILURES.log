@@ -1,0 +1,84 @@
+Task R exact local implementation commit bea7ae01af913eadead24b6693da92188ecca56d
+GitHub implementation tree identical: 5fb62f6c73d76cdad6aebd9a509f3ff862282665
+Full suite: 169 cases / 163 PASS / 6 FAIL / 0 ERROR / 0 SKIP; gate exit 1.
+
+$ /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python ops/v2/integration_gate.py --root /workspace/work/task-r
+Local V2 integration state: v2_present
+Public HTTP smoke enforced: legacy link
+ERROR: V2 public HTTP unavailable: URLError: <urlopen error [Errno 1] Operation not permitted>
+
+$ node --test --test-isolation=none --test-timeout=120000 --test-reporter=tap apps/web-v2/tests/browser-smoke.mjs
+TAP version 13
+# Subtest: desktop zh-TW: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior
+not ok 1 - desktop zh-TW: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior
+  ---
+  duration_ms: 120004.96788
+  type: 'test'
+  location: '/workspace/work/task-r/apps/web-v2/tests/browser-smoke.mjs:120:5'
+  failureType: 'hookFailed'
+  error: 'failed running before hook'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# Subtest: desktop en: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior
+not ok 2 - desktop en: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior
+  ---
+  duration_ms: 0.102935
+  type: 'test'
+  location: '/workspace/work/task-r/apps/web-v2/tests/browser-smoke.mjs:120:5'
+  failureType: 'hookFailed'
+  error: 'failed running before hook'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# Subtest: desktop ja: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior
+not ok 3 - desktop ja: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior
+  ---
+  duration_ms: 0.045008
+  type: 'test'
+  location: '/workspace/work/task-r/apps/web-v2/tests/browser-smoke.mjs:120:5'
+  failureType: 'hookFailed'
+  error: 'failed running before hook'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# Subtest: mobile zh-TW: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior
+not ok 4 - mobile zh-TW: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior
+  ---
+  duration_ms: 0.047262
+  type: 'test'
+  location: '/workspace/work/task-r/apps/web-v2/tests/browser-smoke.mjs:120:5'
+  failureType: 'hookFailed'
+  error: 'failed running before hook'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# Subtest: mobile en: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior
+not ok 5 - mobile en: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior
+  ---
+  duration_ms: 0.048303
+  type: 'test'
+  location: '/workspace/work/task-r/apps/web-v2/tests/browser-smoke.mjs:120:5'
+  failureType: 'hookFailed'
+  error: 'failed running before hook'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# Subtest: mobile ja: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior
+not ok 6 - mobile ja: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior
+  ---
+  duration_ms: 0.050286
+  type: 'test'
+  location: '/workspace/work/task-r/apps/web-v2/tests/browser-smoke.mjs:120:5'
+  failureType: 'hookFailed'
+  error: 'failed running before hook'
+  code: 'ERR_TEST_FAILURE'
+  ...
+1..6
+# Error: Test hook "before" at apps/web-v2/tests/browser-smoke.mjs:36:1 generated asynchronous activity after the test ended. This activity created the error "Error: listen EPERM: operation not permitted 127.0.0.1" and would have caused the test to fail, but instead triggered an uncaughtException event.
+# tests 6
+# suites 0
+# pass 0
+# fail 6
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 120228.979338
+
+Independent diagnosis: node:http createServer().listen(0, 127.0.0.1) -> EPERM listen EPERM: operation not permitted 127.0.0.1
+Git fetch origin main -> Failed to connect to proxy port 8080. No credentials or network permissions changed.

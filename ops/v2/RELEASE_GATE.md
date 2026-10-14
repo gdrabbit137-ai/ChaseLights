@@ -1,3 +1,5 @@
+> Task R: current reviewed-main `f8a1f83bfeda5dc75f7e00c847e7728a0cef79ec`. The existing Research-only Preview is deployed; a live photography release is **NOT READY**. The current source-pinned technical gate is 169 tests (all previous 157 retained plus 12 W5 regressions), not the historical 123 count below. Hosting/environment protections and human/scientific gates are not implied by CI. Current executable plan and audit: `deployment_plan.json`, `release_readiness.py`, `reviews/TASK_R_RELEASE_READINESS.md`. This PR grants no merge/deploy permission.
+
 # ChaseLights V2 — Release state, residual review and next gates
 
 Last verified: 2026-10-12. Owner: W5 integration. This file is the **post-release state** of V2 Research-only Preview, not authority to enable live photographic forecasts, scores or Directions. Historical merge planning and reviewed pins remain in `ops/v2/INTEGRATION_CI.md` and `ops/v2/integration-sources.json`.

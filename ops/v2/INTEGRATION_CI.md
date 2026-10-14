@@ -1,3 +1,5 @@
+> Task R current-state notice: this document records the historical 123-case/13-step assembly. The current main-based gate retains those checks plus solar/NWS and 12 W5 release-tool regressions (169 counted cases). Use `postmerge_verify.py` and the fixed-SHA `simulate_merges.py` CLI; do not replay already-merged owner branches. See `reviews/TASK_R_RELEASE_READINESS.md` and `deployment_plan.json`.
+
 # W5 Access Advisory Integration — 2026-10-12
 
 W5 only: integrates W1 #457, W2 #458, W3 #459 and W4 #460 on top of the already tested W5 #455, without changing other worker-owned paths.
