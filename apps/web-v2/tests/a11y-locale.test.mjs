@@ -3,15 +3,17 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {fileURLToPath} from 'node:url';
 import vm from 'node:vm';
+import {createCatalogState} from '../catalog-state.mjs';
 
 const app = readFileSync(fileURLToPath(new URL('../app.mjs',import.meta.url)), 'utf8');
 const html = readFileSync(fileURLToPath(new URL('../index.html',import.meta.url)), 'utf8');
 const hooks = {language:'languageAria','source-strip':'provenanceAria',sidebar:'placesAria',detail:'opportunitiesAria'};
-const keys = ['pageTitle','skipToContent',...Object.values(hooks)];
+const keys = ['pageTitle','skipToContent',...Object.values(hooks),'browseResearch','closeResearch','researchHeading','researchScope','toolsHeading','sourceHeading','dateStatus','forecastStatus','forecastHelp','loading','unavailable','loadError','invalidData','emptyData','readyData','retry','reload','clearSearch','placeNameMissing'];
 
 function fakeElement() {
   return {
     textContent:'',value:'',placeholder:'',children:[],attrs:{},events:{},
+    querySelectorAll(){return []},contains(){return false},focus(){},
     append(...children){this.children.push(...children)},
     replaceChildren(...children){this.children=[...children]},
     addEventListener(name,callback){this.events[name]=callback},
@@ -21,9 +23,10 @@ function fakeElement() {
 }
 function mountApp() {
   const elements = new Map();
+  const ids=new Set([...html.matchAll(/\bid="([^"]+)"/g)].map(x=>x[1]));
   const document = {
     title:'',documentElement:{lang:''},
-    getElementById(id){if(!elements.has(id))elements.set(id,fakeElement());return elements.get(id)},
+    getElementById(id){if(!ids.has(id))throw Error('Missing actual HTML element: '+id);if(!elements.has(id))elements.set(id,fakeElement());return elements.get(id)},
     createElement(){return fakeElement()}
   };
   const store = new Map();
@@ -31,7 +34,7 @@ function mountApp() {
   const code = app.replace(/^import\s+[^\n]+\n/gm,'');
   vm.runInNewContext(code,{
     document,localStorage,LOCALES:['zh-TW','en','ja'],
-    fetch:async()=>({status:404}),
+    createCatalogState:options=>createCatalogState({...options,fetchImpl:async()=>({status:404})}),
     importV21Catalog:()=>{throw Error('unexpected import')},
     placeId:()=>null,opportunityId:()=>null,linkedPlaceId:()=>null,
     localized:()=>null,safeUrl:()=>null,navigationAction:()=>null,
@@ -55,7 +58,7 @@ test('HTML exposes accessible i18n hooks without hard-coded English',()=>{
 test('all three locales have distinct accessibility copy',()=>{
   const begin=app.indexOf('const copy = '),end=app.indexOf('const researchCopy=');
   assert.ok(begin>=0&&end>begin,'copy dictionary not found');
-  const copy=vm.runInNewContext(app.slice(begin,end)+'\ncopy');
+  const copy=vm.runInNewContext(app.slice(begin,end)+'\ncopy',{LOCALES:['zh-TW','en','ja']});
   for(const key of keys){
     const values=['zh-TW','en','ja'].map(locale=>copy[locale]?.[key]);
     assert.ok(values.every(v=>typeof v==='string'&&v.trim()),key+' missing');
@@ -66,9 +69,9 @@ test('all three locales have distinct accessibility copy',()=>{
 test('real change handler updates skip, title, and four ARIA labels on every switch',()=>{
   const {document,language,store}=mountApp();
   const expected={
-    'zh-TW':['ChaseLights V2 — 攝影機會研究','跳至主要內容','語言選擇','資料來源與時效','景點清單','攝影題材與研究資料'],
-    en:['ChaseLights V2 — Photography research','Skip to main content','Language selection','Data provenance and freshness','Places list','Photography opportunities and research'],
-    ja:['ChaseLights V2 — 撮影機会の調査','メインコンテンツへ移動','言語の選択','資料の出典と更新時刻','撮影地一覧','撮影機会と調査資料']
+    'zh-TW':['ChaseLights V2 — 攝影預報','跳至主要內容','語言選擇','資料來源與進階資訊','景點清單','攝影題材與研究資料'],
+    en:['ChaseLights V2 — Photography forecast','Skip to main content','Language selection','Data sources and advanced information','Places list','Photography opportunities and research'],
+    ja:['ChaseLights V2 — 撮影予報','メインコンテンツへ移動','言語の選択','データの出典と詳細情報','撮影地一覧','撮影機会と調査資料']
   };
   assert.equal(document.documentElement.lang,'zh-Hant');
   for(const locale of ['zh-TW','en','ja','zh-TW','en']){

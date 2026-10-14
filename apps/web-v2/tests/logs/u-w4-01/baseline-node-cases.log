@@ -1,0 +1,196 @@
+TAP version 13
+# Subtest: HTML exposes accessible i18n hooks without hard-coded English
+ok 1 - HTML exposes accessible i18n hooks without hard-coded English
+  ---
+  duration_ms: 3.869639
+  type: 'test'
+  ...
+# Subtest: all three locales have distinct accessibility copy
+ok 2 - all three locales have distinct accessibility copy
+  ---
+  duration_ms: 2.473185
+  type: 'test'
+  ...
+# Subtest: real change handler updates skip, title, and four ARIA labels on every switch
+ok 3 - real change handler updates skip, title, and four ARIA labels on every switch
+  ---
+  duration_ms: 3.968401
+  type: 'test'
+  ...
+# Subtest: supports all three locales and stable place/opportunity IDs
+ok 4 - supports all three locales and stable place/opportunity IDs
+  ---
+  duration_ms: 0.473388
+  type: 'test'
+  ...
+# Subtest: does not silently fall back to Chinese for missing translations
+ok 5 - does not silently fall back to Chinese for missing translations
+  ---
+  duration_ms: 0.657772
+  type: 'test'
+  ...
+# Subtest: does not invent camera-to-subject numbers
+ok 6 - does not invent camera-to-subject numbers
+  ---
+  duration_ms: 0.157193
+  type: 'test'
+  ...
+# Subtest: never routes to unverified or multiple access targets
+ok 7 - never routes to unverified or multiple access targets
+  ---
+  duration_ms: 0.529068
+  type: 'test'
+  ...
+# Subtest: provisional camera anchors without evidence cannot yield Directions or map links
+ok 8 - provisional camera anchors without evidence cannot yield Directions or map links
+  ---
+  duration_ms: 0.323724
+  type: 'test'
+  ...
+# Subtest: never turns research scores into live forecasts
+ok 9 - never turns research scores into live forecasts
+  ---
+  duration_ms: 0.193477
+  type: 'test'
+  ...
+# Subtest: rejects unsafe evidence URLs and unsupported geometry types
+ok 10 - rejects unsafe evidence URLs and unsupported geometry types
+  ---
+  duration_ms: 0.22957
+  type: 'test'
+  ...
+# Subtest: rejects empty and malformed V2 catalogs
+ok 11 - rejects empty and malformed V2 catalogs
+  ---
+  duration_ms: 0.441759
+  type: 'test'
+  ...
+# Subtest: default catalog is the byte-verified W2 preview with only explicit provenance additions
+ok 12 - default catalog is the byte-verified W2 preview with only explicit provenance additions
+  ---
+  duration_ms: 0.790616
+  type: 'test'
+  ...
+# Subtest: all real canonical records retain provisional non-AUTO conditions and unknown geometry
+ok 13 - all real canonical records retain provisional non-AUTO conditions and unknown geometry
+  ---
+  duration_ms: 0.581122
+  type: 'test'
+  ...
+# Subtest: real preview never becomes a live evaluation even with adversarial runtime additions
+ok 14 - real preview never becomes a live evaluation even with adversarial runtime additions
+  ---
+  duration_ms: 1.527222
+  type: 'test'
+  ...
+# Subtest: latest W2 source preserves lawful-area uncertainty in all three languages
+ok 15 - latest W2 source preserves lawful-area uncertainty in all three languages
+  ---
+  duration_ms: 1.370118
+  type: 'test'
+  ...
+# Subtest: declared source commit survives projection without promoting research or persisting across imports
+ok 16 - declared source commit survives projection without promoting research or persisting across imports
+  ---
+  duration_ms: 1.463075
+  type: 'test'
+  ...
+# Subtest: zh-TW: real descriptions, access/safety, targets and conditions preserve exact W2 meaning
+ok 17 - zh-TW: real descriptions, access/safety, targets and conditions preserve exact W2 meaning
+  ---
+  duration_ms: 0.712316
+  type: 'test'
+  ...
+# Subtest: zh-TW: incomplete optional safety/access and navigation translations fail closed
+ok 18 - zh-TW: incomplete optional safety/access and navigation translations fail closed
+  ---
+  duration_ms: 1.205034
+  type: 'test'
+  ...
+# Subtest: en: real descriptions, access/safety, targets and conditions preserve exact W2 meaning
+ok 19 - en: real descriptions, access/safety, targets and conditions preserve exact W2 meaning
+  ---
+  duration_ms: 0.215992
+  type: 'test'
+  ...
+# Subtest: en: incomplete optional safety/access and navigation translations fail closed
+ok 20 - en: incomplete optional safety/access and navigation translations fail closed
+  ---
+  duration_ms: 0.449007
+  type: 'test'
+  ...
+# Subtest: ja: real descriptions, access/safety, targets and conditions preserve exact W2 meaning
+ok 21 - ja: real descriptions, access/safety, targets and conditions preserve exact W2 meaning
+  ---
+  duration_ms: 0.245901
+  type: 'test'
+  ...
+# Subtest: ja: incomplete optional safety/access and navigation translations fail closed
+ok 22 - ja: incomplete optional safety/access and navigation translations fail closed
+  ---
+  duration_ms: 0.452415
+  type: 'test'
+  ...
+# Subtest: unverified targets never create directions
+ok 23 - unverified targets never create directions
+  ---
+  duration_ms: 0.116428
+  type: 'test'
+  ...
+# Subtest: research is never promoted to runtime
+ok 24 - research is never promoted to runtime
+  ---
+  duration_ms: 0.117302
+  type: 'test'
+  ...
+# Subtest: evidence links reject executable URLs
+ok 25 - evidence links reject executable URLs
+  ---
+  duration_ms: 0.080302
+  type: 'test'
+  ...
+# Subtest: V2.1 research projection preserves unknown, provenance, 3 locales, and no runtime
+ok 26 - V2.1 research projection preserves unknown, provenance, 3 locales, and no runtime
+  ---
+  duration_ms: 0.605943
+  type: 'test'
+  ...
+# Subtest: legacy closed access conditions are warning-only, never REQUIRED/BLOCKER
+ok 27 - legacy closed access conditions are warning-only, never REQUIRED/BLOCKER
+  ---
+  duration_ms: 0.177643
+  type: 'test'
+  ...
+# Subtest: three Opportunity records preserve two distinct Place IDs
+ok 28 - three Opportunity records preserve two distinct Place IDs
+  ---
+  duration_ms: 0.261062
+  type: 'test'
+  ...
+# Subtest: invalid version, no data and missing translations fail closed
+ok 29 - invalid version, no data and missing translations fail closed
+  ---
+  duration_ms: 0.287736
+  type: 'test'
+  ...
+# Subtest: Directions require separately evidenced arrival, no fabricated live result
+ok 30 - Directions require separately evidenced arrival, no fabricated live result
+  ---
+  duration_ms: 0.155988
+  type: 'test'
+  ...
+# Subtest: original Worker 2 canonical records preserve research-only semantics
+ok 31 - original Worker 2 canonical records preserve research-only semantics
+  ---
+  duration_ms: 0.81313
+  type: 'test'
+  ...
+1..31
+# tests 31
+# suites 0
+# pass 31
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 74.724961

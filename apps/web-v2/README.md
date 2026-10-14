@@ -1,6 +1,6 @@
-# ChaseLights V2 — independent research preview
+# ChaseLights V2 — photography home and research browser
 
-Worker 4 owns only `apps/web-v2/`. This is an isolated research explorer, not a selected-date forecast or a production launch. Legacy entry, weather data, runtime, workflows and deployment are unchanged.
+Worker 4 owns only `apps/web-v2/`. The home page answers forecast availability first and opens the existing research browser only on request. Date selection and date-specific forecast transport are not connected; no recommendation, shooting period or score is synthesized. Legacy entry, weather data, runtime, workflows and deployment are unchanged.
 
 ## Fixed real data and provenance
 
@@ -40,11 +40,32 @@ Claim types and audit statuses are retained as metadata, not relabeled as resolv
 
 Existing three-language skip/ARIA translation keys are reused. Missing semantic translations are not silently substituted. Human geographic/evidence and translation review remain required.
 
-## W5 handoff
+## U-W4-01 behavior and validation
 
-Task A is based on W4 `e931981a31d2ade1a94f921edd66f069027ec47c`, with latest main specs reviewed at `68907dc2b21e6ef774cad18684917b1895818bd8`. W1 EvaluationResult PR #431 and W3 PR #435 were Draft, not merged contracts. Recheck these and worker HEADs before integration.
+The default screen explicitly says no photography forecast is available and no date is selected. “Explore places and photography subjects” opens an inline research section, labeled research information rather than a selected-date forecast. Closing restores focus to the opening button; there is no modal or focus trap. Search, selection and the full source descriptions/conditions/unknowns remain available. Missing source-backed Place names use a localized “Place name not provided”; stable IDs remain searchable and available in advanced information. Names are never inferred from IDs or opportunity titles.
 
-Use a Draft PR against the W4 source branch so the Task A diff contains only this directory's changes; W5 must coordinate the W4 integration/base and review actual latest-main specs, checks and unresolved evidence/semantic gates. No merge, live deployment, Legacy link or production recommendation is authorized by these tests. The candidate public path is not verified by local browser checks.
+`catalog-state.mjs` owns operational loading/ready/unavailable/error/invalid/empty states only. Pending requests clear old cards and provenance; 404 is distinguished from server/network failures. Empty transports are recognized at the UI boundary without passing them off as schema-valid canonical data. Unsupported schemas, malformed JSON and missing localization clear cards and navigation. Retry performs a genuine fetch, deduplicates concurrent attempts, and rejects late results using a request generation and abort signal. Local file reads supersede pending fetches and older file reads; they stay in the browser and imported evaluations remain discarded. No cache or offline freshness promise is made.
+
+Data tools and source details are user-opened native disclosures. R1, revision, review status, SHA, evidence and geometry remain inspectable. Research generation/import/local load time are not forecast update or validity time. Access advisories stay visibly outside photography conditions. Changing locale preserves stable selection and open advanced panels; invalidated focused cards move focus to the research heading.
+
+All new product copy, dynamic statuses, button names, title and landmarks have zh-TW/en/ja text. Automated tests do not replace accountable human translation review; #465 and #474 remain pending. W3's deterministic solar WINDOW model and NOAA raw adapter exist on main; this UI has no approved live result-store/provider/AUTO integration. The research importer is deliberately not a forecast transport.
+
+Run the two task commands above. For individual case discovery on Node 24, use:
+
+```sh
+node --test --test-isolation=none --test-reporter=tap apps/web-v2/tests/*.test.mjs
+node --test --test-isolation=none --test-reporter=tap apps/web-v2/tests/browser-smoke.mjs
+```
+
+The original 31 Node cases are retained (accessibility expectations follow the new home title/provenance label). Twelve state regressions raise discovery to 43. The original six Chromium cases retain source meaning, warnings, security, keyboard and import checks, and now explicitly open research/data tools. Added transport tests cover delay ≥2 seconds, 404, 500, network failure, invalid JSON, incompatible schema, incomplete localization, empty data and recovery across 3 languages × 2 devices; refresh failure and import races are also covered. 360/390/1440 × 3-language tests capture home/research screenshots and verify native Tab/Enter, 44px controls and overflow. Chromium emulation is not physical Safari/iPhone review. `W4_SCREENSHOT_DIR` selects the screenshot output directory; by default it is `/workspace/work/u01/screenshots`.
+
+## W5 handoff — U-W4-01
+
+Implementation starts at reviewed main `380c36f6ce8cbc795990f19696801455d1cde9d0`, with W4 source #460 already merged (tree `8427cb75fdb433a58d3a4941769a6c06f6f5dc3b`). Task evidence records exact tested commit and the final source tree separately. This is a separate W4 Draft PR; W5 must deliberately repin the new W4 tree and raise discovery for actual additional cases, preserving every existing W1/W2/W3/W4/W5 guard. No W5 pin, workflow, build or deploy file is edited here. Existing 157-case integration expects 31 Node + 6 browser and the old W4 tree; its failure remains a real integration blocker, not a waived check.
+
+The new runtime dependency is `catalog-state.mjs`; W5's #486 seven-file static build/dependency allowlist must include it in a separate W5 change. W5 public browser smoke assumes research is initially visible, the old headline/advanced summary and old landmark copy; it must follow the explicit research/tools entry while retaining exact pinned P01, all source descriptions, no-score, access-warning and no-Directions checks. Public postdeployment smoke requires a separately authorized release; this PR does not verify a changed public website.
+
+Task 02A needs a W1-reviewed Place/index/date contract plus W2-sourced localized names, country/admin index and publication eligibility (including cross-region identity). Task 02B needs an approved date/query interface and verified IANA Place timezone, with local-day/DST tests. Task 02C needs the W1 taxonomy and W2 index, plus preference/favorite semantics; unsupported score/distance sort remains disabled. Seven-place/eight-opportunity publication is a later #471/Task 03 scope with per-record provenance, not part of Task 01. Re-read latest main and actual owner branches before each task; do not assume this Draft has merged.
 
 ## Closure advisory policy (W1 #457 / W2 #458)
 

@@ -1,0 +1,67 @@
+TAP version 13
+# Subtest: desktop zh-TW: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior
+not ok 1 - desktop zh-TW: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior
+  ---
+  duration_ms: 31492.045834
+  type: 'test'
+  location: '/workspace/ChaseLights/apps/web-v2/tests/browser-smoke.mjs:120:5'
+  failureType: 'testCodeFailure'
+  error: 'page.waitForFunction: Timeout 30000ms exceeded.'
+  code: 'ERR_TEST_FAILURE'
+  name: 'TimeoutError'
+  stack: |-
+    TestContext.<anonymous> (/workspace/ChaseLights/apps/web-v2/tests/browser-smoke.mjs:127:20)
+  ...
+# Subtest: desktop en: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior
+not ok 2 - desktop en: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior
+  ---
+  duration_ms: 30719.548428
+  type: 'test'
+  location: '/workspace/ChaseLights/apps/web-v2/tests/browser-smoke.mjs:120:5'
+  failureType: 'testCodeFailure'
+  error: 'page.waitForFunction: Timeout 30000ms exceeded.'
+  code: 'ERR_TEST_FAILURE'
+  name: 'TimeoutError'
+  stack: |-
+    TestContext.<anonymous> (/workspace/ChaseLights/apps/web-v2/tests/browser-smoke.mjs:127:20)
+  ...
+# Subtest: desktop ja: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior
+not ok 3 - desktop ja: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior
+  ---
+  duration_ms: 30609.333447
+  type: 'test'
+  location: '/workspace/ChaseLights/apps/web-v2/tests/browser-smoke.mjs:120:5'
+  failureType: 'testCodeFailure'
+  error: 'page.waitForFunction: Timeout 30000ms exceeded.'
+  code: 'ERR_TEST_FAILURE'
+  name: 'TimeoutError'
+  stack: |-
+    TestContext.<anonymous> (/workspace/ChaseLights/apps/web-v2/tests/browser-smoke.mjs:127:20)
+  ...
+# Subtest: mobile zh-TW: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior
+ok 4 - mobile zh-TW: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior
+  ---
+  duration_ms: 2238.695754
+  type: 'test'
+  ...
+# Subtest: mobile en: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior
+ok 5 - mobile en: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior
+  ---
+  duration_ms: 5199.938511
+  type: 'test'
+  ...
+# Subtest: mobile ja: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior
+ok 6 - mobile ja: real W2 automatic/imported data, ARIA, keyboard and fail-closed behavior
+  ---
+  duration_ms: 4976.064946
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 3
+# fail 3
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 105777.396187
