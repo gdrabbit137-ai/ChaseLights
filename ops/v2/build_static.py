@@ -11,7 +11,7 @@ from integration_gate import check_v2_assets
 from postmerge_verify import verify_main
 
 RUNTIME_FILES = ('index.html', 'styles.css', 'app.mjs', 'model.mjs',
-                 'catalog-loader.mjs', 'v21-adapter.mjs', 'catalog.v2.json')
+                 'catalog-loader.mjs', 'catalog-state.mjs', 'v21-adapter.mjs', 'catalog.v2.json')
 
 
 def git(root, *args):
@@ -25,7 +25,7 @@ def validate_refs(files):
         if not name.endswith('.mjs'):
             continue
         text = body.decode()
-        refs = re.findall(r'''(?m)^\s*import\b[^\n;]*?['"]([^'"]+)['"]''', text)
+        refs = re.findall(r'''(?m)^\s*(?:import|export)\s+(?:(?:[^;]*?)\bfrom\s+)?['"]([^'"]+)['"]''', text)
         refs += re.findall(r'''\b(?:fetch|import)\s*\(\s*['"]([^'"]+)['"]''', text)
         for ref in refs:
             if not ref.startswith('./') or ref[2:] not in files:

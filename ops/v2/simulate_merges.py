@@ -29,11 +29,54 @@ def w5_path(path):
     return path.startswith(('ops/v2/', '.github/workflows/'))
 
 
+def owner_transitions(repo, base, candidate, lock):
+    """Permit only separately committed, exact W4 source integration, never edits.
+
+    Pure W5 proposals retain the original gate. Task V imports an isolated W4
+    owner commit; the base must still match its declared predecessor (or the
+    new source if it was independently merged in the meantime).
+    """
+    rows = lock.get('owner_integrations', [])
+    if not isinstance(rows, list):
+        raise ValueError('Owner integration declarations must be a list')
+    transitions = []
+    seen = set()
+    for row in rows:
+        if (not isinstance(row, dict) or row.get('owner') != 'w4' or
+                row.get('paths') != ['apps/web-v2'] or row['owner'] in seen):
+            raise ValueError('Only one explicitly pinned W4 transition is supported')
+        seen.add(row['owner'])
+        source = fixed_commit(repo, row.get('source_sha'))
+        previous = fixed_commit(repo, row.get('previous_sha'))
+        if source == candidate or source != lock['sources']['w4']['sha']:
+            raise ValueError('W4 source must be an independent pinned owner commit')
+        if git(repo, 'merge-base', '--is-ancestor', previous, source, check=False).returncode:
+            raise ValueError('Previous W4 source is not an ancestor of the owner source')
+        common = git(repo, 'merge-base', base, source).stdout.strip()
+        owner_changes = git(repo, 'diff', '--name-only', common, source).stdout.splitlines()
+        if any(not p.startswith('apps/web-v2/') for p in owner_changes):
+            raise ValueError('W4 source contains nonowner changes: ' + repr(owner_changes))
+        prior_tree = git(repo, 'rev-parse', previous + ':apps/web-v2').stdout.strip()
+        source_tree = git(repo, 'rev-parse', source + ':apps/web-v2').stdout.strip()
+        if source_tree != lock['sources']['w4']['tree_sha']:
+            raise ValueError('W4 transition source tree pin mismatch')
+        base_tree = git(repo, 'rev-parse', base + ':apps/web-v2').stdout.strip()
+        if base_tree not in (prior_tree, source_tree):
+            raise ValueError('Base W4 tree is neither the predecessor nor accepted source')
+        transitions.append({**row, 'previous_tree_sha': prior_tree, 'source_tree_sha': source_tree})
+    return transitions
+
+
 def rehearse(repo, base, candidate):
     base, candidate = fixed_commit(repo, base), fixed_commit(repo, candidate)
+    lock = json.loads(git(repo, 'show', candidate + ':ops/v2/integration-sources.json').stdout)
+    transitions = owner_transitions(repo, base, candidate, lock)
+    def permitted(path):
+        return w5_path(path) or any(path.startswith(p + '/')
+                                  for row in transitions for p in row['paths'])
     common = git(repo, 'merge-base', base, candidate).stdout.strip()
     proposed = git(repo, 'diff', '--name-only', common, candidate).stdout.splitlines()
-    if not proposed or any(not w5_path(p) for p in proposed):
+    if not proposed or any(not permitted(p) for p in proposed):
         raise ValueError('W5 rehearsal requires a nonempty W5-only proposal: ' + repr(proposed))
     merged = git(repo, 'merge-tree', '--write-tree', base, candidate, check=False)
     if merged.returncode:
@@ -41,9 +84,8 @@ def rehearse(repo, base, candidate):
                          merged.stdout + merged.stderr)
     tree = merged.stdout.splitlines()[0]
     changed = git(repo, 'diff', '--name-only', base, tree).stdout.splitlines()
-    if any(not w5_path(p) for p in changed):
+    if any(not permitted(p) for p in changed):
         raise ValueError('Merged tree changes non-W5 paths: ' + repr(changed))
-    lock = json.loads(git(repo, 'show', candidate + ':ops/v2/integration-sources.json').stdout)
     source_trees = {}
     for owner, paths in (('w1', OWNER_PATHS[:1]), ('w2', OWNER_PATHS[1:2]),
                          ('w3', OWNER_PATHS[2:4]), ('w4', OWNER_PATHS[4:])):
@@ -60,6 +102,7 @@ def rehearse(repo, base, candidate):
     return {'status': 'PASS', 'base_sha': base, 'candidate_sha': candidate,
             'merge_base_sha': common, 'merged_tree_sha': tree,
             'changed_paths': changed, 'owner_trees': source_trees,
+            'verified_owner_transitions': transitions,
             'already_integrated_owner_pins': True, 'refs_changed': False,
             'deployment_allowed': False, 'approval': 'NOT_GRANTED'}
 

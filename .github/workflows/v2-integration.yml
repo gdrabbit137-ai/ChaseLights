@@ -36,9 +36,12 @@ concurrency:
   cancel-in-progress: true
 jobs:
   integration:
-    name: V2 real merged-tree 169-case research-only, solar WINDOW and NOAA source acceptance
+    name: V2 real merged-tree 267-case research-only, solar WINDOW and NOAA source acceptance
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    env:
+      W5_BASE_SHA: ${{ github.event.pull_request.base.sha || github.sha }}
+      W5_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
     steps:
       - name: Checkout actual proposed merge or merged main (full Git history)
         uses: actions/checkout@v4
@@ -47,7 +50,7 @@ jobs:
           persist-credentials: false
           sparse-checkout-cone-mode: false
           sparse-checkout: |
-            /.github/workflows/v2-integration.yml
+            /.github/workflows/
             /AGENTS.md
             /RESEARCH_EVIDENCE_SPEC_R4_2.md
             /NAVIGATION_SPEC_R4_2.md
@@ -72,7 +75,7 @@ jobs:
           npm install --prefix .ci/tooling --no-save --package-lock=false playwright@1.57.0
           .ci/tooling/node_modules/.bin/playwright install --with-deps chromium
           node -e 'const p=require("node:path"); const m=p.resolve(".ci/tooling/node_modules/playwright"); const c=require(m).chromium; console.log("PLAYWRIGHT_MODULE="+m); console.log("CHROMIUM_EXECUTABLE="+c.executablePath());' >> "$GITHUB_ENV"
-      - name: Require W1–W4 source trees, research-only safety, 14 solar plus 15 NWS raw-source tests and all 169 checks
+      - name: Require W1–W4 source trees, research-only safety, 14 solar plus 15 NWS raw-source tests and all 267 checks
         run: |
           python ops/v2/postmerge_verify.py --root . --logs-dir .ci/postmerge-logs
       - name: Preserve real git-source provenance and full test results

@@ -5,6 +5,7 @@ on:
     paths:
       - .github/workflows/v2_public_preview_smoke.yml
       - ops/v2/public_browser_smoke.mjs
+      - ops/v2/browser_contract.mjs
       - ops/v2/integration_gate.py
       - apps/web-v2/**
       - index.html
@@ -14,6 +15,7 @@ on:
     paths:
       - .github/workflows/v2_public_preview_smoke.yml
       - ops/v2/public_browser_smoke.mjs
+      - ops/v2/browser_contract.mjs
       - ops/v2/integration_gate.py
       - apps/web-v2/**
       - index.html
@@ -26,7 +28,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   public-preview:
-    name: Public V2 / 6 Chromium and source-safe smoke
+    name: Existing published Preview / 6 Chromium (candidate is tested separately)
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -64,6 +66,7 @@ jobs:
       - name: Verify live public URL with six Chrome locale/device scenarios
         env:
           REQUIRE_PUBLIC_V1_LINK: 'true'
+          V2_PUBLIC_UI: 'existing-preview'
         run: |
           set -o pipefail
           node ops/v2/public_browser_smoke.mjs 2>&1 | tee .ci/public-smoke/browser.log

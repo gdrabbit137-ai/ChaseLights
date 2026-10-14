@@ -2,8 +2,25 @@
 /** End-to-end smoke for the actual public V2 Research-only URL, never localhost. */
 import assert from "node:assert/strict";
 import {createRequire} from "node:module";
+import {readFile} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+import {verifyResearchPage} from './browser_contract.mjs';
 import {setTimeout as delay} from "node:timers/promises";
 
+const UI=process.env.V2_PUBLIC_UI || 'existing-preview';
+assert.ok(['existing-preview','forecast-home'].includes(UI),'Explicit public UI generation required');
+let expectedManifest=null;
+if(UI==='forecast-home'){
+  assert.ok(process.env.V2_EXPECTED_BUILD_MANIFEST,'Candidate public smoke requires an exact build manifest');
+  expectedManifest=JSON.parse(await readFile(process.env.V2_EXPECTED_BUILD_MANIFEST,'utf8'));
+  assert.equal(expectedManifest.status,'PASS');
+  assert.equal(expectedManifest.mode,'RESEARCH_ONLY');
+  assert.equal(expectedManifest.deployment_allowed,false);
+  assert.equal(expectedManifest.live_forecast_eligible,false);
+  assert.match(expectedManifest.source_commit_sha,/^[a-f0-9]{40}$/);
+  assert.equal(Object.keys(expectedManifest.files).length,8);
+}
+console.log('PUBLIC SMOKE SCOPE',UI==='forecast-home'?'PUBLISHED_CANDIDATE_EXACT_MANIFEST':'EXISTING_PUBLIC_PREVIEW_NOT_CANDIDATE');
 const BASE = "https://chaselights.app/apps/web-v2/";
 const LOCALES = ["zh-TW", "en", "ja"];
 const require = createRequire(import.meta.url);
@@ -36,12 +53,15 @@ async function fetchPublic(path, maxAttempts = 3) {
 const html = await fetchPublic("");
 assert.match(html.response.headers.get("content-type") || "", /text\/html/i);
 assert.match(html.body, /ChaseLights V2/);
+if(expectedManifest)assert.equal(createHash('sha256').update(html.body).digest('hex'),expectedManifest.files['apps/web-v2/index.html']);
 const assets = ["styles.css", "app.mjs", "model.mjs", "catalog-loader.mjs",
                 "v21-adapter.mjs", "catalog.v2.json"];
+if(UI==='forecast-home')assets.push('catalog-state.mjs');
 for (const path of assets) {
   const found = await fetchPublic(path);
   assert.ok(!/text\/html/i.test(found.response.headers.get("content-type") || ""),
             path + " served as HTML, likely fallback/404");
+  if(expectedManifest)assert.equal(createHash('sha256').update(found.body).digest('hex'),expectedManifest.files['apps/web-v2/'+path],path+' public bytes differ from candidate manifest');
   console.log("ASSET PASS", path, found.response.status,
               found.response.headers.get("content-type"), found.body.length);
 }
@@ -111,38 +131,14 @@ try {
     page.on("pageerror", e => errors.push(e.message));
     await page.goto(BASE, {waitUntil: "domcontentloaded", timeout: 45000});
     assert.equal(new URL(page.url()).hostname, "chaselights.app");
-    await page.locator(".opportunity").first().waitFor({state: "visible", timeout: 30000});
-    assert.equal(await page.locator(".opportunity").count(), 1);
     for (const locale of LOCALES) {
-      await page.locator("#language").selectOption(locale);
-      assert.equal(await page.locator("#language").inputValue(), locale);
-      const warning = page.locator(".access-advisories");
-      await warning.waitFor({state: "visible"});
-      assert.equal(await warning.getAttribute("role"), "note");
-      const note = opportunity.camera_contexts[0].access_notes_i18n[locale];
-      const safety = opportunity.camera_contexts[0].safety_notes_i18n[locale];
-      const text = await warning.textContent();
-      assert.ok(text.includes(note), locale + " missing exact source-backed access warning");
-      assert.ok(text.includes(safety), locale + " missing safety warning");
-      const conditions = await page.locator(".decision-core").textContent();
-      assert.ok(!conditions.includes(note), locale + " access restriction leaked into photo rules");
-      assert.equal(await page.locator(".decision-risks").count(), 0,
-                   "Access warning must not be a photographic blocker");
-      assert.equal(await page.locator(".nav-action").count(), 0,
-                   "Unverified navigation directions must remain unavailable");
-      const notices = await page.locator(".notice").allTextContents();
-      assert.ok(notices.some(s => /not a live|No verifiable|沒有可驗證|検証可能/.test(s)),
-                "Research-only, non-live status message is missing: " + locale);
-      const overflow = await page.evaluate(() =>
-        document.documentElement.scrollWidth - document.documentElement.clientWidth);
-      assert.ok(overflow <= 1, "Horizontal overflow " + device.name + " " + locale + " " + overflow);
-      assert.deepEqual(errors, [], "Browser errors on " + device.name + " " + locale);
-      console.log("PUBLIC BROWSER PASS", device.name, locale,
-                  "research-only", "access-warning-separated", "no-directions");
+      await verifyResearchPage(page,opportunity,locale,UI);
+      assert.deepEqual(errors,[],"Browser errors on "+device.name+" "+locale);
+      console.log("PUBLIC BROWSER PASS",device.name,locale,UI,"source-exact","access-warning-separated","no-directions");
       total++;
     }
     await context.close();
   }
 } finally { await browser.close(); }
 assert.equal(total, 6);
-console.log("PUBLIC V2 PREVIEW PASS: 6/6 locale-device combinations, 0 errors");
+console.log("PUBLIC V2 PREVIEW PASS: 6/6 locale-device combinations, 0 errors", "scope="+UI);

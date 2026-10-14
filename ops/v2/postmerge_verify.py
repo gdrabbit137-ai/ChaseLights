@@ -44,6 +44,11 @@ def verify_main(root, lock):
             out["owner_trees"][p] = current
     if out["owner_trees"]["apps/web-v2"] != lock["sources"]["w4"]["tree_sha"]:
         raise ValueError("W4 final app tree mismatches tested corrected tree")
+    if len(git(root, "ls-tree", "-r", "--name-only", "HEAD", "apps/web-v2").splitlines()) != lock["sources"]["w4"]["file_count"]:
+        raise ValueError("W4 source file discovery differs from pinned owner")
+    for p, expected in lock.get("effective_reviewed_blobs", {}).items():
+        if git(root, "rev-parse", "HEAD:" + p) != expected:
+            raise ValueError("Effective latest-main specification drift: " + p)
     for p in ("AGENTS.md", "RESEARCH_EVIDENCE_SPEC_R4_2.md", "NAVIGATION_SPEC_R4_2.md"):
         if git(root, "rev-parse", "HEAD:" + p) != lock["reviewed_blobs"][p]:
             raise ValueError("Main governance specification drift: " + p)
@@ -166,15 +171,30 @@ def main():
     root = args.root.resolve()
     logs = args.logs_dir.resolve()
     logs.mkdir(parents=True, exist_ok=True)
-    report = {"status": "FAIL", "root_head": None, "checks": [], "groups": []}
+    report = {"status": "FAIL", "root_head": git(root, "rev-parse", "HEAD"),
+              "tested_parents": git(root, "show", "-s", "--format=%P", "HEAD").split(),
+              "checks": [], "groups": []}
     try:
         lock = json.loads((root / "ops/v2/integration-sources.json").read_text())
+        report["reviewed_main_sha"] = lock["reviewed_main"]
+        report["actual_base_sha"] = os.environ.get("W5_BASE_SHA", lock["reviewed_main"])
+        report["candidate_sha"] = os.environ.get("W5_HEAD_SHA", report["root_head"])
+        for value in (report["actual_base_sha"], report["candidate_sha"]):
+            if len(value) != 40 or git(root, "rev-parse", value + "^{commit}") != value:
+                raise ValueError("Immutable base/head commit unavailable")
+        if (report["candidate_sha"] != report["root_head"] and
+                report["candidate_sha"] not in report["tested_parents"]):
+            raise ValueError("Actual checkout does not link to candidate HEAD")
+        report["source_shas"] = {owner: pin["sha"] for owner, pin in lock["sources"].items()}
         report["source_provenance"] = verify_main(root, lock)
         report["root_head"] = report["source_provenance"]["repository_head"]
         (logs / "provenance.json").write_text(
             json.dumps(report["source_provenance"], indent=2) + "\n")
         env = dict(os.environ, PYTHONDONTWRITEBYTECODE="1",
-                   WORKER2_DATA_DIR=str(root / "data/v2/opportunities"))
+                   WORKER2_DATA_DIR=str(root / "data/v2/opportunities"),
+                   W4_SCREENSHOT_DIR=str(logs / "w4-screenshots"),
+                   W5_SCREENSHOT_DIR=str(logs / "built-screenshots"),
+                   V2_BUILD_DIR=str(logs / "candidate-build"))
         groups = [
             ("w1-schema", ["specs/v2/tests", "test_schema_smoke.py"], 17, True, False),
             ("w1-solar-window-contract", ["specs/v2/tests", "test_solar_window_contract.py"], 4, True, False),
@@ -185,6 +205,7 @@ def main():
             ("w5-watchdog", ["ops/v2/tests", "test_worker_watchdog.py"], 3, True, False),
             ("w5-runner", ["ops/v2/tests", "test_ci_runner.py"], 7, True, False),
             ("w5-task-r-release-tools", ["ops/v2/tests", "test_task_r_release_tools.py"], 12, True, False),
+            ("w5-task-v-integration", ["ops/v2/tests", "test_task_v_integration.py"], 11, True, False),
             ("w3-evaluator-and-nws-source", ["packages/core-v2/tests", "test_*.py"], 42, True, False),
             ("w3-solar-model", ["packages/models-v2/tests", "test_*.py"], 10, True, False),
             ("w2-crosswalk-schema", ["data/v2/tests", "test_*.py"], 15, True, False),
@@ -198,11 +219,16 @@ def main():
                 None, False, False),
             ("w4-node", ["node", "--test", "--test-isolation=none", "--test-timeout=120000",
                 "--test-reporter=tap", *[str(p.relative_to(root)) for p in sorted(
-                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 31, False, True),
+                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 43, False, True),
             ("local-isolation", [sys.executable, "ops/v2/integration_gate.py", "--root", str(root)],
                 None, False, False),
             ("browser-smoke", ["node", "--test", "--test-isolation=none", "--test-timeout=120000",
-                "--test-reporter=tap", "apps/web-v2/tests/browser-smoke.mjs"], 6, False, True),
+                "--test-reporter=tap", "apps/web-v2/tests/browser-smoke.mjs"], 75, False, True),
+            ("static-build", [sys.executable, "ops/v2/build_static.py", "--root", str(root),
+                "--output", str(logs / "candidate-build")], None, False, False),
+            ("candidate-build-browser", ["node", "--test", "--test-isolation=none",
+                "--test-timeout=120000", "--test-reporter=tap",
+                "ops/v2/tests/static-build-smoke.mjs"], 6, False, True),
         ]
         for name, command, expected, python, node in groups:
             report["groups"].append(
@@ -212,9 +238,9 @@ def main():
             for key in ("tests", "pass", "fail", "error", "skip")
         }
         if report["counts"] != {
-            "tests": 169, "pass": 169, "fail": 0, "error": 0, "skip": 0
+            "tests": 267, "pass": 267, "fail": 0, "error": 0, "skip": 0
         }:
-            raise ValueError("Post-merge exact 169-case requirement failed")
+            raise ValueError("Post-merge exact 267-case requirement failed")
         if not all(g["status"] == "PASS" for g in report["groups"]):
             raise ValueError("One or more required suites failed")
         report["status"] = "PASS"
