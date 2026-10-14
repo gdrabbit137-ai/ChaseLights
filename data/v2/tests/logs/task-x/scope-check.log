@@ -1,0 +1,27 @@
+BASE 500ec3a76b5f77a0752ecdca5cc1b12fa63d223d
+PASS git diff --cached --check
+PASS all changed paths W2-only and additions only
+PASS every original W2 file unchanged
+PASS other-owner and Legacy isolation
+data/v2/indexes/research/README.md
+data/v2/indexes/research/curation.json
+data/v2/indexes/research/field-provenance.json
+data/v2/indexes/research/index-status.json
+data/v2/indexes/research/manifest.json
+data/v2/indexes/research/place-index.json
+data/v2/indexes/research/source-lock.json
+data/v2/indexes/research/topic-index.json
+data/v2/reviews/TASK_X_HANDOFF.md
+data/v2/tests/fixtures/task-x/README.md
+data/v2/tests/fixtures/task-x/browse-query.json
+data/v2/tests/fixtures/task-x/date-query.json
+data/v2/tests/fixtures/task-x/local-preferences.json
+data/v2/tests/fixtures/task-x/sort-capabilities.json
+data/v2/tests/logs/task-x/RESULTS.md
+data/v2/tests/logs/task-x/index-provenance.log
+data/v2/tests/logs/task-x/initial-failure.log
+data/v2/tests/logs/task-x/source-sha256.json
+data/v2/tests/logs/task-x/w1-six-contracts.log
+data/v2/tests/logs/task-x/w2-unittest.log
+data/v2/tests/test_task_x_research_index.py
+data/v2/tools/research_index.py
