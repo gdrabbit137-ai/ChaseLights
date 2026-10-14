@@ -2,7 +2,7 @@
 """After V2 owner merges, verify the actual main tree and run every V2 suite.
 
 No source pin is relaxed, no network weather inputs, no deployment or live
-scoring is performed here. This complements pre-merge 13-step rehearsal.
+scoring is performed here. This complements immutable base/head merge-tree rehearsal.
 """
 import argparse
 import hashlib
@@ -184,6 +184,7 @@ def main():
             ("w5-contract", ["ops/v2/tests", "test_integration_gate.py"], 7, True, False),
             ("w5-watchdog", ["ops/v2/tests", "test_worker_watchdog.py"], 3, True, False),
             ("w5-runner", ["ops/v2/tests", "test_ci_runner.py"], 7, True, False),
+            ("w5-task-r-release-tools", ["ops/v2/tests", "test_task_r_release_tools.py"], 12, True, False),
             ("w3-evaluator-and-nws-source", ["packages/core-v2/tests", "test_*.py"], 42, True, False),
             ("w3-solar-model", ["packages/models-v2/tests", "test_*.py"], 10, True, False),
             ("w2-crosswalk-schema", ["data/v2/tests", "test_*.py"], 15, True, False),
@@ -211,9 +212,9 @@ def main():
             for key in ("tests", "pass", "fail", "error", "skip")
         }
         if report["counts"] != {
-            "tests": 157, "pass": 157, "fail": 0, "error": 0, "skip": 0
+            "tests": 169, "pass": 169, "fail": 0, "error": 0, "skip": 0
         }:
-            raise ValueError("Post-merge exact 157-case requirement failed")
+            raise ValueError("Post-merge exact 169-case requirement failed")
         if not all(g["status"] == "PASS" for g in report["groups"]):
             raise ValueError("One or more required suites failed")
         report["status"] = "PASS"

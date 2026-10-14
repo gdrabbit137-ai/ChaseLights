@@ -1,0 +1,832 @@
+{
+  "schema_version": 1,
+  "reviewed_main_sha": "f8a1f83bfeda5dc75f7e00c847e7728a0cef79ec",
+  "repository": "gdrabbit137-ai/ChaseLights",
+  "open_prs": [
+    {
+      "number": 483,
+      "title": "W5: draft offline fail-closed release gate and autonomous workflow",
+      "state": "open",
+      "merged": false,
+      "draft": true,
+      "mergeable": true,
+      "head_sha": "543169a5e4c6df50a08fcc07c96a700bf49e7b15",
+      "base_sha": "abcd0bd8042c1cd883f922e8e2deeaca249b50ac",
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/483",
+      "checks": [
+        {
+          "name": "V2 real merged-tree 157-case research-only, solar WINDOW and NOAA source acceptance",
+          "head_sha": "543169a5e4c6df50a08fcc07c96a700bf49e7b15",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/38461152735/job/115516571063"
+        },
+        {
+          "name": "offline-gate-tests",
+          "head_sha": "543169a5e4c6df50a08fcc07c96a700bf49e7b15",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/38461152589/job/115516347289"
+        }
+      ]
+    },
+    {
+      "number": 484,
+      "title": "docs(v2): validate Codex Cloud Draft PR publication",
+      "state": "open",
+      "merged": false,
+      "draft": true,
+      "mergeable": true,
+      "head_sha": "412908e4ee8f9bfb6f739e76b9a43edc3780d903",
+      "base_sha": "a64a576148f41ad562d22734c3a16e252a15aac6",
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/484",
+      "checks": [
+        {
+          "name": "V2 real merged-tree 157-case research-only, solar WINDOW and NOAA source acceptance",
+          "head_sha": "412908e4ee8f9bfb6f739e76b9a43edc3780d903",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/38558862380/job/115834663323"
+        }
+      ]
+    },
+    {
+      "number": 485,
+      "title": "docs(v2): validate Task P Codex automation and W1–W5 collaboration",
+      "state": "open",
+      "merged": false,
+      "draft": true,
+      "mergeable": true,
+      "head_sha": "b52495c073ab85f96eb97d3160af29ba7eb08e21",
+      "base_sha": "f8a1f83bfeda5dc75f7e00c847e7728a0cef79ec",
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/485",
+      "checks": [
+        {
+          "name": "V2 real merged-tree 157-case research-only, solar WINDOW and NOAA source acceptance",
+          "head_sha": "b52495c073ab85f96eb97d3160af29ba7eb08e21",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/38561363744/job/115842960039"
+        }
+      ]
+    },
+    {
+      "number": 482,
+      "title": "qa(v2): verify actual NOAA NWS gridpoint source over HTTPS without photo scores",
+      "state": "open",
+      "merged": false,
+      "draft": false,
+      "mergeable": true,
+      "head_sha": "b429019a62a2c889f043dfd3836e96a636aad35f",
+      "base_sha": "feda614db9eaa4dd8c9bff5429a2358b44335618",
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/482",
+      "checks": [
+        {
+          "name": "Actual NOAA gridpoint TLS/interval/provenance, never photo scoring",
+          "head_sha": "b429019a62a2c889f043dfd3836e96a636aad35f",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/38437961512/job/115436803599"
+        },
+        {
+          "name": "V2 real merged-tree 157-case research-only, solar WINDOW and NOAA source acceptance",
+          "head_sha": "b429019a62a2c889f043dfd3836e96a636aad35f",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/38437961287/job/115436802724"
+        }
+      ]
+    },
+    {
+      "number": 420,
+      "title": "data: verify Shinhotaka base navigation target",
+      "state": "open",
+      "merged": false,
+      "draft": false,
+      "mergeable": false,
+      "head_sha": "6fb9ff59df5644d192df53598a06fcbd5ba3ccab",
+      "base_sha": "d62c16d6ba4a6ee0dbd0ed77e19b86f8b286c8d4",
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/420",
+      "checks": [
+        {
+          "name": "candidate-weather",
+          "head_sha": "6fb9ff59df5644d192df53598a06fcbd5ba3ccab",
+          "status": "completed",
+          "conclusion": "failure",
+          "url": "https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/37573885863/job/112638346358"
+        },
+        {
+          "name": "browser-smoke",
+          "head_sha": "6fb9ff59df5644d192df53598a06fcbd5ba3ccab",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/37573885835/job/112638345696"
+        },
+        {
+          "name": "candidate-weather",
+          "head_sha": "6fb9ff59df5644d192df53598a06fcbd5ba3ccab",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/37573885725/job/112638345620"
+        },
+        {
+          "name": "candidate-weather",
+          "head_sha": "6fb9ff59df5644d192df53598a06fcbd5ba3ccab",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/37573885741/job/112638345449"
+        },
+        {
+          "name": "adapter-test",
+          "head_sha": "6fb9ff59df5644d192df53598a06fcbd5ba3ccab",
+          "status": "completed",
+          "conclusion": "failure",
+          "url": "https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/37573885816/job/112638345301"
+        },
+        {
+          "name": "evidence-audit",
+          "head_sha": "6fb9ff59df5644d192df53598a06fcbd5ba3ccab",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/37573885717/job/112638345168"
+        }
+      ]
+    }
+  ],
+  "history": [
+    {
+      "number": 480,
+      "title": "ci(v2/W5): integrate NOAA NWS source contract and adapter with 157-case source-pinned gate",
+      "state": "closed",
+      "merged_at": null,
+      "head_sha": "4dbad8620a66c3585ea8b3d9c7cc1bd05ff39b8f",
+      "merge_commit_sha": null,
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/480",
+      "head_ancestor_of_reviewed_main": false
+    },
+    {
+      "number": 479,
+      "title": "feat(v2/W3): audited NOAA NWS raw gridpoint data adapter with 10 fail-closed tests",
+      "state": "closed",
+      "merged_at": null,
+      "head_sha": "8e6f5a1555294ff293a6d7b746b864924f96cfc1",
+      "merge_commit_sha": "ffa478aae5c5e901c823189fd60abdf6db1960c3",
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/479",
+      "head_ancestor_of_reviewed_main": true
+    },
+    {
+      "number": 478,
+      "title": "spec(v2/W1): M6b NOAA NWS gridpoint raw forecast provenance and strict no-score schema",
+      "state": "closed",
+      "merged_at": "2026-10-13T17:17:07Z",
+      "head_sha": "3bdcac69086f1e74850cb23515780d617fd754fa",
+      "merge_commit_sha": "3bdcac69086f1e74850cb23515780d617fd754fa",
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/478",
+      "head_ancestor_of_reviewed_main": true
+    },
+    {
+      "number": 481,
+      "title": "ci(v2/W5): corrected M6b NWS raw source integration with 157-case gate",
+      "state": "closed",
+      "merged_at": "2026-10-13T17:17:05Z",
+      "head_sha": "64eb180c0d87090155e3620d259ebba9add5d62d",
+      "merge_commit_sha": "feda614db9eaa4dd8c9bff5429a2358b44335618",
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/481",
+      "head_ancestor_of_reviewed_main": true
+    },
+    {
+      "number": 476,
+      "title": "feat(v2/W3): deterministic sunrise/sunset WINDOW model with NOAA benchmarks and 10 regressions",
+      "state": "closed",
+      "merged_at": null,
+      "head_sha": "a1501d72a7cde7d9ecb6af84eb845a49afa35790",
+      "merge_commit_sha": "5500ce61879d766d8a6b3843ad92fc537baffe9e",
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/476",
+      "head_ancestor_of_reviewed_main": true
+    },
+    {
+      "number": 473,
+      "title": "spec(v2/W1): start M6a solar-window request/result contract and fail-closed schema tests",
+      "state": "closed",
+      "merged_at": "2026-10-13T16:46:56Z",
+      "head_sha": "86b8b08a79a2056a5a22d183ffffbd456800217f",
+      "merge_commit_sha": "86b8b08a79a2056a5a22d183ffffbd456800217f",
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/473",
+      "head_ancestor_of_reviewed_main": true
+    },
+    {
+      "number": 477,
+      "title": "ci(v2/W5): integrate real M6a solar WINDOW with 142-case owner-pinned source gate",
+      "state": "closed",
+      "merged_at": "2026-10-13T16:46:54Z",
+      "head_sha": "fdf4ff6f28004318df3522a3d157b636083bfc2c",
+      "merge_commit_sha": "c5664a69bc78b299b332e0d0ef364e1cd7dafa22",
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/477",
+      "head_ancestor_of_reviewed_main": true
+    },
+    {
+      "number": 470,
+      "title": "ci(v2/W5): integrate five R1 Batch04 research records with full 128-case immutable-source gate",
+      "state": "closed",
+      "merged_at": null,
+      "head_sha": "8c671e5f0b4fc73e34abcf0ad89487d4ab482534",
+      "merge_commit_sha": null,
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/470",
+      "head_ancestor_of_reviewed_main": false
+    },
+    {
+      "number": 468,
+      "title": "data(v2/W2): restart Batch04 with five official-evidence R1 Places across TW/JP/US",
+      "state": "closed",
+      "merged_at": "2026-10-13T16:16:37Z",
+      "head_sha": "509a7c206413a4f8d13350ddb50c2a7ad075ca4a",
+      "merge_commit_sha": "509a7c206413a4f8d13350ddb50c2a7ad075ca4a",
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/468",
+      "head_ancestor_of_reviewed_main": true
+    },
+    {
+      "number": 469,
+      "title": "ci(v2/W5): integrate W2 five-place R1 Batch04 with immutable P01 provenance and 128-test gate",
+      "state": "closed",
+      "merged_at": "2026-10-13T16:16:34Z",
+      "head_sha": "5b90c6f915726b5bc333ce5c1f66ae266d4e4e30",
+      "merge_commit_sha": "088af654b97aacd66559384ab0836f11a1e3442c",
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/469",
+      "head_ancestor_of_reviewed_main": true
+    },
+    {
+      "number": 429,
+      "title": "docs(v2): track cross-worker integration blockers",
+      "state": "closed",
+      "merged_at": null,
+      "head_sha": "572574e3514ea143b666cca13e55aeef815d63ab",
+      "merge_commit_sha": "dfcb835c3554436f230fe9e8215ab693ab613f26",
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/429",
+      "head_ancestor_of_reviewed_main": false
+    },
+    {
+      "number": 466,
+      "title": "docs(v2/W5): correct deployed Preview release gate and independently recheck Batch03 official evidence",
+      "state": "closed",
+      "merged_at": "2026-10-12T22:56:50Z",
+      "head_sha": "455250080c086d92e6529b58ffba7497b3528c0e",
+      "merge_commit_sha": "be611a2fc03f034b063cc276761f6fe5c2435fc1",
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/466",
+      "head_ancestor_of_reviewed_main": true
+    },
+    {
+      "number": 464,
+      "title": "release(v2): require real published V1→V2 link on every public preview smoke",
+      "state": "closed",
+      "merged_at": "2026-10-12T21:47:23Z",
+      "head_sha": "1ac87c39b55944813d79a39e82a72c696b15977a",
+      "merge_commit_sha": "338e7a25845550ea1e8e2dc28e5852256323207a",
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/464",
+      "head_ancestor_of_reviewed_main": true
+    },
+    {
+      "number": 448,
+      "title": "test(v2/W4): validate real W2 source and six Chromium locale/device cases",
+      "state": "closed",
+      "merged_at": null,
+      "head_sha": "ddf9f2c4bd2eeb556bf0aa3b244f01de3256b05f",
+      "merge_commit_sha": "799c6f564e271730fdedb8eee21f8a7c3584105b",
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/448",
+      "head_ancestor_of_reviewed_main": false
+    },
+    {
+      "number": 446,
+      "title": "fix(v2/W4): synchronize PR #443 with verified W2 #444 canonical and research preview",
+      "state": "closed",
+      "merged_at": null,
+      "head_sha": "ff11d330884be5fdc90853f9dc100b012278c2f3",
+      "merge_commit_sha": "27bc9596bde29a9767d7ae7946603057b2e58f9e",
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/446",
+      "head_ancestor_of_reviewed_main": false
+    },
+    {
+      "number": 443,
+      "title": "[V2][W4] Task A: real W2 source and trilingual desktop/mobile regression",
+      "state": "closed",
+      "merged_at": null,
+      "head_sha": "97f7b5744d3b37153176dff12c9d87eac287df02",
+      "merge_commit_sha": "011f66897311e77f4db706e01350c17f02f324b7",
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/443",
+      "head_ancestor_of_reviewed_main": false
+    },
+    {
+      "number": 442,
+      "title": "draft(web-v2): put photographer decisions before camera geometry",
+      "state": "closed",
+      "merged_at": null,
+      "head_sha": "9fe8816e8e1c4d284cc56ee0435fc62278577fe7",
+      "merge_commit_sha": "ab3efd9551d84330cbc261d7d8684c55f177d5f8",
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/442",
+      "head_ancestor_of_reviewed_main": false
+    },
+    {
+      "number": 439,
+      "title": "docs(v2): define free composition and geometry-dependent evaluation",
+      "state": "closed",
+      "merged_at": null,
+      "head_sha": "e97625dd1a1105ad6c1429f7e47f0d170d19fd5c",
+      "merge_commit_sha": null,
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/439",
+      "head_ancestor_of_reviewed_main": false
+    },
+    {
+      "number": 438,
+      "title": "docs(v2): optional viewpoint guidance; free composition by default",
+      "state": "closed",
+      "merged_at": null,
+      "head_sha": "e248c3892daffef7e848cff91965f4ada4f29758",
+      "merge_commit_sha": null,
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/438",
+      "head_ancestor_of_reviewed_main": false
+    },
+    {
+      "number": 436,
+      "title": "[V2][W4] Codex Task A: pinned W2 fixtures, multilingual browser smoke and accessibility",
+      "state": "closed",
+      "merged_at": null,
+      "head_sha": "7cc1ac237f806c737113bc753e1e8d1996b07c43",
+      "merge_commit_sha": "ed537b4f514b7455db265711693e8ced777ab67d",
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/436",
+      "head_ancestor_of_reviewed_main": false
+    },
+    {
+      "number": 431,
+      "title": "draft(v2/W1): EvaluationResult v0.1 structural fail-closed contract and fixtures",
+      "state": "closed",
+      "merged_at": null,
+      "head_sha": "62591034f0969d68ee68ba6e9839585c058ea3f4",
+      "merge_commit_sha": null,
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/431",
+      "head_ancestor_of_reviewed_main": false
+    },
+    {
+      "number": 463,
+      "title": "release(v2): verify actual GitHub Pages research preview with 6 browser locales/devices",
+      "state": "closed",
+      "merged_at": "2026-10-12T21:41:44Z",
+      "head_sha": "999ea7e09d674827d2224a8832f7b6dcdb6a8235",
+      "merge_commit_sha": "0a45cd954a1c0fd96be58cacee0b3aeae3ea3169",
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/463",
+      "head_ancestor_of_reviewed_main": true
+    },
+    {
+      "number": 452,
+      "title": "draft(v2/W5): repin final W1 and gate full merge rehearsal",
+      "state": "closed",
+      "merged_at": "2026-10-12T21:32:32Z",
+      "head_sha": "d69953997d561a19f54330b652dd8c43ea904258",
+      "merge_commit_sha": "d69953997d561a19f54330b652dd8c43ea904258",
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/452",
+      "head_ancestor_of_reviewed_main": true
+    },
+    {
+      "number": 455,
+      "title": "draft(v2/W5): integrate main-based W4 #454 and rehearse final chain",
+      "state": "closed",
+      "merged_at": "2026-10-12T21:32:32Z",
+      "head_sha": "0db81356f48d0bea679b3c3003ba274f49f6302a",
+      "merge_commit_sha": "0db81356f48d0bea679b3c3003ba274f49f6302a",
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/455",
+      "head_ancestor_of_reviewed_main": true
+    },
+    {
+      "number": 451,
+      "title": "draft(v2/W5): integrate unified W1 #450 with final pinned CI",
+      "state": "closed",
+      "merged_at": "2026-10-12T21:32:32Z",
+      "head_sha": "c81524d0a1feac771e5f9b9ce1b7ecb913a21380",
+      "merge_commit_sha": "c81524d0a1feac771e5f9b9ce1b7ecb913a21380",
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/451",
+      "head_ancestor_of_reviewed_main": true
+    },
+    {
+      "number": 449,
+      "title": "draft(v2/W5): integrate repaired W2 W3 W4 in pinned Actions",
+      "state": "closed",
+      "merged_at": "2026-10-12T21:32:32Z",
+      "head_sha": "55d685dc58dba3a9b0ab1955266320d651853f67",
+      "merge_commit_sha": "55d685dc58dba3a9b0ab1955266320d651853f67",
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/449",
+      "head_ancestor_of_reviewed_main": true
+    },
+    {
+      "number": 445,
+      "title": "draft(v2/W5): gate latest W2 W3 W4 integration and expose source drift",
+      "state": "closed",
+      "merged_at": "2026-10-12T21:32:32Z",
+      "head_sha": "012a81c88a3b9e9c3a16d1c6dedb7d1669679720",
+      "merge_commit_sha": "012a81c88a3b9e9c3a16d1c6dedb7d1669679720",
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/445",
+      "head_ancestor_of_reviewed_main": true
+    },
+    {
+      "number": 437,
+      "title": "draft(v2/W5): real pinned integration CI and browser smoke",
+      "state": "closed",
+      "merged_at": "2026-10-12T21:32:32Z",
+      "head_sha": "b12b3677b0ce8d7db0c3807d8d2b879f0fb8b5e8",
+      "merge_commit_sha": "b12b3677b0ce8d7db0c3807d8d2b879f0fb8b5e8",
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/437",
+      "head_ancestor_of_reviewed_main": true
+    },
+    {
+      "number": 461,
+      "title": "fix(v2/W5): enforce access-warning-only policy across all five workers",
+      "state": "closed",
+      "merged_at": "2026-10-12T21:32:30Z",
+      "head_sha": "a10d5659761768c7acf173c76c0832e8b935763f",
+      "merge_commit_sha": "185bb6f2cddceb0a9c5a850f4b1df9cbbbbdc078",
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/461",
+      "head_ancestor_of_reviewed_main": true
+    },
+    {
+      "number": 460,
+      "title": "fix(v2/W4): separate access warnings and repin corrected W2 preview",
+      "state": "closed",
+      "merged_at": "2026-10-12T21:31:57Z",
+      "head_sha": "ec5dc9609596135ba1b2634dfa7d6c07a54fabdc",
+      "merge_commit_sha": "95d1d67b75a4b2fed51e240a15e4bc7857f7a2e3",
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/460",
+      "head_ancestor_of_reviewed_main": true
+    },
+    {
+      "number": 454,
+      "title": "draft(v2/W4): consolidate exact #448 website tree onto main",
+      "state": "closed",
+      "merged_at": "2026-10-12T21:31:46Z",
+      "head_sha": "32f557d998a4d12ec37af4d963f0f410030b1cc1",
+      "merge_commit_sha": "554ef9e427397f393996ef8319a8a7289a3a46c7",
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/454",
+      "head_ancestor_of_reviewed_main": true
+    },
+    {
+      "number": 459,
+      "title": "fix(v2/W3): closure warnings never alter photography suitability",
+      "state": "closed",
+      "merged_at": "2026-10-12T21:31:32Z",
+      "head_sha": "656c1e8919f5f720cd8e1e2f56b26e81d4b0dcc8",
+      "merge_commit_sha": "fc73c02a6764b455cce1d9039b6794bdb00438ed",
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/459",
+      "head_ancestor_of_reviewed_main": true
+    },
+    {
+      "number": 447,
+      "title": "fix(v2/W3): repin P01 canonical and restore evaluator test discovery",
+      "state": "closed",
+      "merged_at": "2026-10-12T21:31:21Z",
+      "head_sha": "b26a014fec9705d40f794ae3ddb02530d3cb5574",
+      "merge_commit_sha": "8233966b1c3bcfd7edd3d3d50f327e87740231bb",
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/447",
+      "head_ancestor_of_reviewed_main": true
+    },
+    {
+      "number": 441,
+      "title": "W3: decouple general opportunity evaluation from fixed camera geometry",
+      "state": "closed",
+      "merged_at": "2026-10-12T21:31:11Z",
+      "head_sha": "77b040fd1af806a564282eea7e3a7c7166a180d3",
+      "merge_commit_sha": "96ccd99cbff2af55ab3c64bf1968e6a52860e974",
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/441",
+      "head_ancestor_of_reviewed_main": true
+    },
+    {
+      "number": 435,
+      "title": "draft(v2/W3): deterministic test-only evaluator and pinned W2 fail-closed contract",
+      "state": "closed",
+      "merged_at": "2026-10-12T21:30:59Z",
+      "head_sha": "d24af0dbea61c158482bea9522ac36eac016843d",
+      "merge_commit_sha": "95553cca740f497c0f81d5356515ae5f0fa0fd09",
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/435",
+      "head_ancestor_of_reviewed_main": true
+    },
+    {
+      "number": 458,
+      "title": "fix(v2/W2): migrate closures from scoring contracts to localized advisories",
+      "state": "closed",
+      "merged_at": "2026-10-12T21:30:39Z",
+      "head_sha": "2177bd8c8b6c18e0a4b284e50b55d0ff12697ddd",
+      "merge_commit_sha": "5d60f3d27d2b025b08e11c3dda4b06dd671d9126",
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/458",
+      "head_ancestor_of_reviewed_main": true
+    },
+    {
+      "number": 456,
+      "title": "draft(v2/W2): audit Batch03 evidence and preserve P02 access uncertainty",
+      "state": "closed",
+      "merged_at": "2026-10-12T21:30:28Z",
+      "head_sha": "0face87b6f5aebeef3a7803699051902a197c4bd",
+      "merge_commit_sha": "c01acb2fde8b2b655a089bdac67c835f9d92fed7",
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/456",
+      "head_ancestor_of_reviewed_main": true
+    },
+    {
+      "number": 444,
+      "title": "data(v2): repair Batch03 human/canonical crosswalk",
+      "state": "closed",
+      "merged_at": "2026-10-12T21:30:14Z",
+      "head_sha": "8725bf13348dfae371ae8358930a25dd424a3361",
+      "merge_commit_sha": "eef20f9727fcf3d7fab9f531cf8105b79a879975",
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/444",
+      "head_ancestor_of_reviewed_main": true
+    },
+    {
+      "number": 440,
+      "title": "data(v2): stage Batch03 research-only opportunities",
+      "state": "closed",
+      "merged_at": "2026-10-12T21:30:02Z",
+      "head_sha": "a816c833ac4f83f440d1d76350cb46da74f43013",
+      "merge_commit_sha": "9c7395946c1e003f13e676d2f6e84564b3162bd7",
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/440",
+      "head_ancestor_of_reviewed_main": true
+    },
+    {
+      "number": 457,
+      "title": "fix(v2/W1): access/closure advisories must not block photo suitability",
+      "state": "closed",
+      "merged_at": "2026-10-12T21:29:43Z",
+      "head_sha": "ee1a660b0de1bb452d05539236c1834a32140d32",
+      "merge_commit_sha": "e84c7cdec66f9a186351b3f4a928098ea5414b78",
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/457",
+      "head_ancestor_of_reviewed_main": true
+    },
+    {
+      "number": 450,
+      "title": "draft(v2/W1): consolidate EvaluationResult and free-composition contracts",
+      "state": "closed",
+      "merged_at": "2026-10-12T21:29:32Z",
+      "head_sha": "bf60a497e5338a45bda63d9bc24b33e9ea1d3b43",
+      "merge_commit_sha": "7ddee94cdae884f2444c34e9f6423d8dc6825667",
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/450",
+      "head_ancestor_of_reviewed_main": true
+    },
+    {
+      "number": 432,
+      "title": "docs(v2): prepare Codex Cloud mobile onboarding and first-batch tasks",
+      "state": "closed",
+      "merged_at": "2026-10-10T13:40:02Z",
+      "head_sha": "060b4fbbbcb7a300f18b7bbdecc5dfa67867acf7",
+      "merge_commit_sha": "cd4de202c80900825013dcbfe9057505f5d03ea0",
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/432",
+      "head_ancestor_of_reviewed_main": false
+    },
+    {
+      "number": 430,
+      "title": "ci(v2): add read-only Worker progress watchdog for W5",
+      "state": "closed",
+      "merged_at": "2026-10-09T20:41:22Z",
+      "head_sha": "1c17c121adcb3c4852d2e2104a84679ea8395763",
+      "merge_commit_sha": "a251f4c7fc6cbe8dd6d4334f379cd4056a5f6b54",
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/430",
+      "head_ancestor_of_reviewed_main": false
+    },
+    {
+      "number": 428,
+      "title": "V2: establish canonical Photography Opportunity schema v2.1",
+      "state": "closed",
+      "merged_at": "2026-10-09T19:40:37Z",
+      "head_sha": "a0224b79b269dd9aa0c9d347bc9dc8c8f5f777e3",
+      "merge_commit_sha": "64a74d4ec94d735b1c025736e382c9b85c0e4a77",
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/pull/428",
+      "head_ancestor_of_reviewed_main": false
+    }
+  ],
+  "pages": {
+    "run_id": 38561249043,
+    "url": "https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/38561249043",
+    "head_sha": "f8a1f83bfeda5dc75f7e00c847e7728a0cef79ec",
+    "status": "completed",
+    "conclusion": "success",
+    "event": "dynamic",
+    "head_branch": "main",
+    "checkout_ref": "main",
+    "jekyll_source": ".",
+    "path": "dynamic/pages/pages-build-deployment"
+  },
+  "branch_protection": {
+    "state": "UNVERIFIED",
+    "http_status": 403,
+    "reason": "Resource not accessible by integration; stopped without permissions change"
+  },
+  "rulesets": [],
+  "issues": [
+    {
+      "number": 465,
+      "state": "open",
+      "title": "V2 W2 R1 human evidence, lawful-camera-area and zh-TW/en/ja semantic signoff",
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/issues/465"
+    },
+    {
+      "number": 467,
+      "state": "open",
+      "title": "V2 next runtime milestone — verifiable sun-window and real weather-provider contracts (no premature scores)",
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/issues/467"
+    }
+  ],
+  "scope": "READ_ONLY_GITHUB_SNAPSHOT; not a release authorization",
+  "historical_ci": [
+    {
+      "number": 481,
+      "head_sha": "64eb180c0d87090155e3620d259ebba9add5d62d",
+      "checks": [
+        {
+          "name": "V2 real merged-tree 157-case research-only, solar WINDOW and NOAA source acceptance",
+          "head_sha": "64eb180c0d87090155e3620d259ebba9add5d62d",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/38437152070/job/115434016140"
+        },
+        {
+          "name": "v2-schema-contract",
+          "head_sha": "64eb180c0d87090155e3620d259ebba9add5d62d",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/38437152011/job/115434014675"
+        }
+      ]
+    },
+    {
+      "number": 477,
+      "head_sha": "fdf4ff6f28004318df3522a3d157b636083bfc2c",
+      "checks": [
+        {
+          "name": "V2 real merged-tree 142-case research-only plus solar WINDOW acceptance",
+          "head_sha": "fdf4ff6f28004318df3522a3d157b636083bfc2c",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/38433058836/job/115419938834"
+        },
+        {
+          "name": "v2-schema-contract",
+          "head_sha": "fdf4ff6f28004318df3522a3d157b636083bfc2c",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/38433058609/job/115419937193"
+        }
+      ]
+    },
+    {
+      "number": 469,
+      "head_sha": "5b90c6f915726b5bc333ce5c1f66ae266d4e4e30",
+      "checks": [
+        {
+          "name": "V2 real merged-tree 123-case research-only acceptance",
+          "head_sha": "5b90c6f915726b5bc333ce5c1f66ae266d4e4e30",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/38428894845/job/115405539878"
+        }
+      ]
+    },
+    {
+      "number": 461,
+      "head_sha": "a10d5659761768c7acf173c76c0832e8b935763f",
+      "checks": [
+        {
+          "name": "V2 merged-main research-only 123-case acceptance",
+          "head_sha": "a10d5659761768c7acf173c76c0832e8b935763f",
+          "status": "completed",
+          "conclusion": "skipped",
+          "url": "https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/38310763386/job/115015652139"
+        },
+        {
+          "name": "V2 pinned integration / research-only",
+          "head_sha": "a10d5659761768c7acf173c76c0832e8b935763f",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/38310763386/job/115015650030"
+        }
+      ]
+    },
+    {
+      "number": 460,
+      "head_sha": "ec5dc9609596135ba1b2634dfa7d6c07a54fabdc",
+      "checks": []
+    },
+    {
+      "number": 459,
+      "head_sha": "656c1e8919f5f720cd8e1e2f56b26e81d4b0dcc8",
+      "checks": []
+    },
+    {
+      "number": 458,
+      "head_sha": "2177bd8c8b6c18e0a4b284e50b55d0ff12697ddd",
+      "checks": []
+    },
+    {
+      "number": 457,
+      "head_sha": "ee1a660b0de1bb452d05539236c1834a32140d32",
+      "checks": []
+    },
+    {
+      "number": 454,
+      "head_sha": "32f557d998a4d12ec37af4d963f0f410030b1cc1",
+      "checks": []
+    },
+    {
+      "number": 450,
+      "head_sha": "bf60a497e5338a45bda63d9bc24b33e9ea1d3b43",
+      "checks": [
+        {
+          "name": "v2-schema-contract",
+          "head_sha": "bf60a497e5338a45bda63d9bc24b33e9ea1d3b43",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/38184788428/job/114604689415"
+        }
+      ]
+    },
+    {
+      "number": 428,
+      "head_sha": "a0224b79b269dd9aa0c9d347bc9dc8c8f5f777e3",
+      "checks": [
+        {
+          "name": "v2-schema-contract",
+          "head_sha": "a0224b79b269dd9aa0c9d347bc9dc8c8f5f777e3",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/37981512246/job/113992929202"
+        },
+        {
+          "name": "v2-schema-contract",
+          "head_sha": "a0224b79b269dd9aa0c9d347bc9dc8c8f5f777e3",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/37981507134/job/113992913014"
+        }
+      ]
+    },
+    {
+      "number": 466,
+      "head_sha": "455250080c086d92e6529b58ffba7497b3528c0e",
+      "checks": [
+        {
+          "name": "V2 real merged-tree 123-case research-only acceptance",
+          "head_sha": "455250080c086d92e6529b58ffba7497b3528c0e",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/38319403058/job/115043623037"
+        }
+      ]
+    },
+    {
+      "number": 464,
+      "head_sha": "1ac87c39b55944813d79a39e82a72c696b15977a",
+      "checks": [
+        {
+          "name": "Public V2 / 6 Chromium and source-safe smoke",
+          "head_sha": "1ac87c39b55944813d79a39e82a72c696b15977a",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/38312694818/job/115021944198"
+        }
+      ]
+    },
+    {
+      "number": 463,
+      "head_sha": "999ea7e09d674827d2224a8832f7b6dcdb6a8235",
+      "checks": [
+        {
+          "name": "browser-smoke",
+          "head_sha": "999ea7e09d674827d2224a8832f7b6dcdb6a8235",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/38312029947/job/115019923303"
+        },
+        {
+          "name": "Public V2 / 6 Chromium and source-safe smoke",
+          "head_sha": "999ea7e09d674827d2224a8832f7b6dcdb6a8235",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/38312029850/job/115019899747"
+        },
+        {
+          "name": "V2 real merged-tree 123-case research-only acceptance",
+          "head_sha": "999ea7e09d674827d2224a8832f7b6dcdb6a8235",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/38312029860/job/115019812305"
+        },
+        {
+          "name": "field-intake-smoke",
+          "head_sha": "999ea7e09d674827d2224a8832f7b6dcdb6a8235",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/38312029844/job/115019787756"
+        },
+        {
+          "name": "adapter-test",
+          "head_sha": "999ea7e09d674827d2224a8832f7b6dcdb6a8235",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/38312029834/job/115019787598"
+        }
+      ]
+    }
+  ],
+  "retrieved_at_utc": "2026-10-14T12:33:04Z"
+}
