@@ -1,0 +1,158 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/gdrabbit137-ai/ChaseLights/blob/main/specs/v2/schema/topic-index-v0.1.schema.json",
+  "title": "topic-index-v0.1.schema.json",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "0.1.0"
+    },
+    "taxonomy_revision": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "index_revision": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "topics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "topic_id": {
+            "type": "string",
+            "pattern": "^topic:[a-z][a-z0-9-]*$"
+          },
+          "name_i18n": {
+            "type": "object",
+            "properties": {
+              "zh-TW": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "en": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "ja": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              }
+            },
+            "required": [
+              "zh-TW",
+              "en",
+              "ja"
+            ],
+            "additionalProperties": false
+          },
+          "definition_i18n": {
+            "type": "object",
+            "properties": {
+              "zh-TW": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "en": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "ja": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              }
+            },
+            "required": [
+              "zh-TW",
+              "en",
+              "ja"
+            ],
+            "additionalProperties": false
+          },
+          "status": {
+            "enum": [
+              "ACTIVE",
+              "DEPRECATED"
+            ]
+          },
+          "replaced_by": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        },
+        "required": [
+          "topic_id",
+          "name_i18n",
+          "definition_i18n",
+          "status",
+          "replaced_by"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "opportunity_topics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "opportunity_id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "topic_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "evidence_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "opportunity_id",
+          "topic_ids",
+          "evidence_refs"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    }
+  },
+  "required": [
+    "schema_version",
+    "taxonomy_revision",
+    "index_revision",
+    "topics",
+    "opportunity_topics"
+  ],
+  "additionalProperties": false
+}

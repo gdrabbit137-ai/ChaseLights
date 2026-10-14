@@ -1,0 +1,37 @@
+{
+  "schema_version": "0.1.0",
+  "query_id": "test-q1",
+  "candidate_set_revision": "synthetic-filtered-set-1",
+  "NAME": {
+    "enabled": true,
+    "reason_code": null,
+    "explanation_i18n": null,
+    "comparison_key": "name-nfkc-casefold-v1"
+  },
+  "REGION": {
+    "enabled": true,
+    "reason_code": null,
+    "explanation_i18n": null,
+    "comparison_key": "region-iso-v1"
+  },
+  "SCORE": {
+    "enabled": false,
+    "reason_code": "NO_COMPARABLE_SCORE",
+    "explanation_i18n": {
+      "zh-TW": "NO_COMPARABLE_SCORE（契約測試）",
+      "en": "NO_COMPARABLE_SCORE (contract test)",
+      "ja": "NO_COMPARABLE_SCORE（契約テスト）"
+    },
+    "comparison_key": null
+  },
+  "DISTANCE": {
+    "enabled": false,
+    "reason_code": "NO_TRUSTED_DISTANCE",
+    "explanation_i18n": {
+      "zh-TW": "NO_TRUSTED_DISTANCE（契約測試）",
+      "en": "NO_TRUSTED_DISTANCE (contract test)",
+      "ja": "NO_TRUSTED_DISTANCE（契約テスト）"
+    },
+    "comparison_key": null
+  }
+}

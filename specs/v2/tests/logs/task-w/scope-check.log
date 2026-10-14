@@ -1,0 +1,30 @@
+BASE dcb1a22f1af6f1d07f0e0e1fa1233c1d0f5d069f
+PASS git diff --cached --check
+PASS W1-only paths
+PASS other-owner, Legacy and existing runtime/canonical schema isolation
+specs/v2/DATE_QUERY_CONTRACT_V0_1.md
+specs/v2/PLACE_INDEX_CONTRACT_V0_1.md
+specs/v2/README.md
+specs/v2/TASK_W_HANDOFF.md
+specs/v2/TOPICS_FAVORITES_SORT_CONTRACT_V0_1.md
+specs/v2/schema/browse-query-v0.1.schema.json
+specs/v2/schema/date-query-v0.1.schema.json
+specs/v2/schema/local-preferences-v0.1.schema.json
+specs/v2/schema/place-index-v0.1.schema.json
+specs/v2/schema/sort-capabilities-v0.1.schema.json
+specs/v2/schema/topic-index-v0.1.schema.json
+specs/v2/tests/fixtures/task-w/README.md
+specs/v2/tests/fixtures/task-w/browse-query.json
+specs/v2/tests/fixtures/task-w/date-query.json
+specs/v2/tests/fixtures/task-w/local-preferences.json
+specs/v2/tests/fixtures/task-w/place-index.json
+specs/v2/tests/fixtures/task-w/sort-capabilities.json
+specs/v2/tests/fixtures/task-w/topic-index.json
+specs/v2/tests/logs/task-w/RESULTS.md
+specs/v2/tests/logs/task-w/canonical-validation.log
+specs/v2/tests/logs/task-w/scope-check.log
+specs/v2/tests/logs/task-w/source-sha256.json
+specs/v2/tests/logs/task-w/task-w-validation.log
+specs/v2/tests/logs/task-w/unittest.log
+specs/v2/tests/test_task_w_contracts.py
+specs/v2/tests/validate_task_w_contracts.py

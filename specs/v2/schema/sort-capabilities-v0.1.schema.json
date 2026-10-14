@@ -1,0 +1,188 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/gdrabbit137-ai/ChaseLights/blob/main/specs/v2/schema/sort-capabilities-v0.1.schema.json",
+  "title": "sort-capabilities-v0.1.schema.json",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "0.1.0"
+    },
+    "query_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "candidate_set_revision": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "NAME": {
+      "$ref": "#/$defs/capability"
+    },
+    "REGION": {
+      "$ref": "#/$defs/capability"
+    },
+    "SCORE": {
+      "$ref": "#/$defs/capability"
+    },
+    "DISTANCE": {
+      "$ref": "#/$defs/capability"
+    }
+  },
+  "required": [
+    "schema_version",
+    "query_id",
+    "candidate_set_revision",
+    "NAME",
+    "REGION",
+    "SCORE",
+    "DISTANCE"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "capability": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "reason_code": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "explanation_i18n": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "zh-TW": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "en": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "ja": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                }
+              },
+              "required": [
+                "zh-TW",
+                "en",
+                "ja"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "comparison_key": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      },
+      "required": [
+        "enabled",
+        "reason_code",
+        "explanation_i18n",
+        "comparison_key"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "enabled": {
+                "const": false
+              }
+            },
+            "required": [
+              "enabled"
+            ]
+          },
+          "then": {
+            "properties": {
+              "reason_code": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "explanation_i18n": {
+                "type": "object",
+                "properties": {
+                  "zh-TW": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S"
+                  },
+                  "en": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S"
+                  },
+                  "ja": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S"
+                  }
+                },
+                "required": [
+                  "zh-TW",
+                  "en",
+                  "ja"
+                ],
+                "additionalProperties": false
+              },
+              "comparison_key": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "enabled": {
+                "const": true
+              }
+            },
+            "required": [
+              "enabled"
+            ]
+          },
+          "then": {
+            "properties": {
+              "reason_code": {
+                "type": "null"
+              },
+              "explanation_i18n": {
+                "type": "null"
+              },
+              "comparison_key": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -17,3 +17,7 @@ All V2 workers must check the latest `main` and current R4.2 research and naviga
 Legacy website and V2 must remain independent; V2 does not overwrite Legacy routes, data or scoring. A Legacy-to-V2 link is added only after the V2 URL is verified. No automatic Legacy/V2 comparison is required.
 
 This index is not an approval to merge or publish a live forecast. Schema and reference validation, semantic runtime gates, evidence/access audit, translation review, current-head CI, and latest-main spec gate remain required.
+
+## U-W4-02 shared contracts (Task W, W1 proposal)
+
+[Place index / 02A](PLACE_INDEX_CONTRACT_V0_1.md), [date query / 02B](DATE_QUERY_CONTRACT_V0_1.md), and [topics, local favorites and sort / 02C](TOPICS_FAVORITES_SORT_CONTRACT_V0_1.md) define additive projections around the existing Canonical and EvaluationResult schemas. Six strict v0.1 schemas cover the index/query/registry/preferences/capability documents; none authorizes a forecast or changes Canonical v2.1. [Owner handoffs and pending human confirmations](TASK_W_HANDOFF.md) specify W2/W3/W4/W5 dependencies. Run `python specs/v2/tests/validate_task_w_contracts.py` alongside the existing validators and W1 unittest discovery.

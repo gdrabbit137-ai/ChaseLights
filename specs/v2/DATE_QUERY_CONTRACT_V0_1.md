@@ -1,0 +1,38 @@
+# U-W4-02B — Date, local-day and query contract v0.1
+
+Owner W1. Normative proposed additive envelope: [date-query-v0.1.schema.json](schema/date-query-v0.1.schema.json). Reuse M6a solar request/result and M6b raw source schemas unchanged; reuse EvaluationResult v0.1 for actual evaluations. This query envelope transports availability and references; it computes no photography forecast.
+
+## Dates and verified time zones
+
+`selected_date` is the user's literal Gregorian YYYY-MM-DD selection, with `date_basis=PLACE_LOCAL_DATE`. It is applied as that civil date **at each selected Place**, never parsed as UTC midnight and converted through a device timezone. `place_local_date` equals selected_date only after the Place zone/date is resolved. A multi-Place query creates one envelope per Place; there is no single device-local date-to-UTC conversion for the whole list. Device timezone may format an explicitly labeled secondary comparison but cannot populate Place fields.
+
+`time_zone` is VERIFIED with a valid IANA `iana_id` and Place-specific `evidence_ref`, or UNKNOWN with both null. A syntactically valid IANA zone is insufficient evidence for that Place. Country, browser, UTC offset, weather-grid coordinate and an unreviewed alias cannot stand in for verification. W2 owns verification; W3 verifies database membership and uses the declared `tzdb_version` at evaluation. The version is an actual IANA tzdb release identifier (e.g. `2026b`) or an auditable system-package version (`system:tzdata-…`), never an invented installed version. A source conflict or multi-zone extent without a defined evaluation scope remains UNKNOWN.
+
+Missing zone yields `state=NOT_EVALUABLE`, `reason_code=UNKNOWN_TIME_ZONE`, null `place_local_date`, `local_day`, and `artifact`. Underlying time-dependent conditions are UNKNOWN and overall evaluation is NOT_EVALUABLE when time is essential. No device/UTC/default-country fallback. Date-independent research stays available on its separate surface.
+
+## Local day, cross-midnight and DST
+
+`local_day` is a half-open UTC interval `[start_utc,end_utc)` corresponding to all instants on the selected Place civil date, with independent `start_offset_seconds` and `end_offset_seconds` (local minus UTC at each boundary), and `tzdb_version`. Both instants are Z timestamps. End is the next civil-date boundary, **not start + 24 hours**. W3 must round-trip boundaries through the named zone. A repeated midnight starts at its earliest valid instant; a midnight gap starts at the first valid instant of that civil date. A wholly skipped civil date returns NOT_EVALUABLE / NONEXISTENT_LOCAL_DATE and no interval. A library unable to resolve an unusual transition safely returns NOT_EVALUABLE / UNSUPPORTED_TIME_TRANSITION; it must not silently normalize a skipped date.
+
+A shooting period can begin on selected date D and finish on D+1. Its owning query date is the **local start date**, while absolute start/end instants and both local dates/offsets remain visible in the underlying artifact. Do not truncate at midnight, double count in D+1's results, or sort lexical local timestamps across DST folds. A selected-date provider extraction uses interval overlap; preserve native valid intervals, do not invent hourly samples. Late-window provider coverage/freshness must cover the actual end, even beyond the query day's midnight. Solar events retain M6a's rule that the individual event falls within its requested local date.
+
+DST folds: offset-bearing timestamps/UTC instants disambiguate repeated wall-clock time; bare ambiguous local time is invalid unless an explicit offset/fold resolves it consistently with IANA. Nonexistent wall-clock time is rejected. UTC offsets are derived for each instant, not stored as permanent Place timezone. `now`/today and upcoming/active/past use verified Place-local time and actual interval instants; future/history dates do not acquire a fabricated current recommendation.
+
+## Query identity, versions and availability
+
+| Field | Semantics |
+| --- | --- |
+| `query_id`, `generation` | Opaque attempt identity and monotonically increasing positive client generation. Every date, Place, timezone, canonical/index revision change or retry invalidates prior responses and increments generation; restore only an exact valid cache key. |
+| `index_revision` | Immutable 02A revision used to resolve Place/timezone. Never relabel an old response with a new revision. |
+| `state` | IDLE before dispatch; LOADING clears current result; READY has an authenticated exact-match artifact reference; EMPTY is a successful query with no matching artifact; ERROR is transport/parse/validation failure; STALE is expired/superseded data and cannot be shown as current; NOT_EVALUABLE is a known missing prerequisite. |
+| `reason_code` | Null for READY; required machine reason for EMPTY, ERROR, STALE or NOT_EVALUABLE. Translate via UI, never expose raw enums as default copy. Examples NO_MATCHING_DATA, OUTSIDE_PROVIDER_HORIZON, INVALID_RESPONSE, STALE_DATA. IDLE/LOADING may use null. |
+| `artifact` | Only READY has a non-null reference: `kind`, `artifact_ref`, SHA-256 of bytes, `data_revision`, `opportunity_id`, exact `opportunity_revision`, `contract_revision` (existing canonical revision carrying the condition contract, not a new canonical field). |
+| `recommendation_eligible` | Always false **for this transport envelope**. A separate validated EvaluationResult and owned recommendation decision can authorize presentation; query READY itself cannot. |
+
+The complete cache/acceptance key is Place ID + selected local date + verified zone + tzdb version + index revision + Opportunity/canonical/condition-contract identity/hash + provider/model/data revisions + query generation. The transport carries the canonical revision and data reference; the artifact supplies its existing contract hash, provider/model versions and issue/valid times. Consumers must validate all parts, not assume date equality alone is enough. Abort old work where possible; a response with a different query ID, generation, Place, date, zone, revision or artifact identity is discarded, never adopted as READY. A failed date switch cannot keep the old score/window under the new date. This is acceptance behavior for W4, not W1 implementation of W4's controller.
+
+READY means one referenced artifact is available, **not favorable**. RESEARCH_ONLY references remain research-only; WINDOW uses the existing solar result schema and remains NOT_EVALUABLE; RAW_ONLY uses the existing source schema and cannot generate a photo score; EVALUATION requires the existing schema plus approved canonical AUTO/threshold/provider/freshness/recommendation semantic gates. No invented provider run or result is added to satisfy a query. EMPTY and OUTSIDE_PROVIDER_HORIZON never imply bad photography conditions. Query schema validation cannot authenticate a reference, geographic timezone, provider response or live favorable claim.
+
+## Acceptance
+
+W1 tests use Python zoneinfo for Taipei/Tokyo, Seattle/Anchorage spring (23h) and autumn (25h) DST, a date-line UTC/local difference, a skipped Apia date, offset tampering and invalid IANA/date. Also test null unknown zone, no implicit device zone, LOADING/ERROR/STALE with no old artifact, and READY version mismatch. W3/W5 must add actual resolver tests for midnight gaps/folds, ambiguous/nonexistent wall times, cross-day shooting periods, native provider interval overlap and horizon/freshness over D+1. W4/W5 must test rapid A→B→A and late-response/retry races, local today states, locale switches and empty/error messaging on desktop/mobile in all three languages. W1 tests alone are not an evaluator/browser pass.

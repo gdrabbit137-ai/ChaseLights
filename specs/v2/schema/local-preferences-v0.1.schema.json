@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/gdrabbit137-ai/ChaseLights/blob/main/specs/v2/schema/local-preferences-v0.1.schema.json",
+  "title": "local-preferences-v0.1.schema.json",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "0.1.0"
+    },
+    "storage_revision": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "favorites": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "entity_type": {
+            "enum": [
+              "PLACE",
+              "OPPORTUNITY"
+            ]
+          },
+          "entity_id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "added_at_utc": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "Z$"
+          }
+        },
+        "required": [
+          "entity_type",
+          "entity_id",
+          "added_at_utc"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "preferred_locale": {
+      "enum": [
+        "zh-TW",
+        "en",
+        "ja"
+      ]
+    },
+    "updated_at_utc": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    }
+  },
+  "required": [
+    "schema_version",
+    "storage_revision",
+    "favorites",
+    "preferred_locale",
+    "updated_at_utc"
+  ],
+  "additionalProperties": false
+}
