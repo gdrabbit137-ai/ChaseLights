@@ -18,6 +18,7 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
+from pilot_guard import authorize as authorize_pilot, mutation_guard, validate_single, request_deadline
 
 REPO = "gdrabbit137-ai/ChaseLights"
 OWNERS = {"W1": ("specs/v2/",), "W2": ("data/v2/",),
@@ -55,7 +56,7 @@ def http_json(url, token, method="GET", data=None, timeout=90, limit=2000000):
     body = None if data is None else json.dumps(data).encode()
     req = urllib.request.Request(url, data=body, headers=headers, method=method)
     try:
-        with urllib.request.build_opener(NoRedirect()).open(req, timeout=timeout) as response:
+        with request_deadline(timeout), urllib.request.build_opener(NoRedirect()).open(req, timeout=timeout) as response:
             raw = response.read(limit + 1)
             if len(raw) > limit:
                 raise Stop("RESPONSE_TOO_LARGE")
@@ -76,6 +77,7 @@ class GitHub:
     def api(self, path, method="GET", data=None):
         if not path.startswith("/") or ".." in path:
             raise Stop("INVALID_GITHUB_PATH")
+        mutation_guard(path, method, data, Stop)
         return http_json("https://api.github.com/repos/" + REPO + path, self.token, method, data)
 
     def main(self):
@@ -173,7 +175,9 @@ def validate_policy(p, live=False):
     for task in tasks:
         validate_task(task)
     if live:
-        if not isinstance(p.get("model"), str) or not re.fullmatch(r"[a-z0-9][a-z0-9.\-]*codex[a-z0-9.\-]*", p["model"]):
+        if p.get("single_pilot"):
+            validate_single(p, Stop)
+        elif not isinstance(p.get("model"), str) or not re.fullmatch(r"[a-z0-9][a-z0-9.\-]*codex[a-z0-9.\-]*", p["model"]):
             raise Stop("CODEX_MODEL_NOT_CONFIGURED")
         if not isinstance(p.get("pricing_review"), str) or not p["pricing_review"].startswith("https://github.com/gdrabbit137-ai/ChaseLights/"):
             raise Stop("PRICING_NOT_REVIEWED")
@@ -241,6 +245,14 @@ def reservation(policy, prompt):
     # UTF-8 byte count + 8192 framing tokens is a conservative input bound;
     # no tools/images/cache discounts, output includes reasoning tokens.
     input_bound = len(json.dumps(prompt, ensure_ascii=False).encode()) + 8192
+    if policy.get("single_pilot"):
+        if input_bound > policy["max_input_tokens"]:
+            raise Stop("INPUT_TOKEN_BUDGET_EXCEEDED")
+        rate = max(price(policy, "input_usd_per_million"), price(policy, "cache_write_usd_per_million"))
+        amount = (Decimal(input_bound) * rate + Decimal(policy["max_output_tokens"]) * price(policy, "output_usd_per_million")) * price(policy, "processing_multiplier") / Decimal(1000000)
+        if amount > price(policy, "run_budget_usd"):
+            raise Stop("RUN_BUDGET_LIMIT")
+        return amount, input_bound
     return ((Decimal(input_bound) * price(policy, "input_usd_per_million") + Decimal(policy["max_output_tokens"]) * price(policy, "output_usd_per_million")) / Decimal(1000000)), input_bound
 
 
@@ -258,6 +270,13 @@ def claim(ledger, policy, task, main, day):
 def reserve(ledger, policy, task, amount):
     record = ledger.data["tasks"][task["id"]]
     daily = ledger.data["days"][record["day"]]
+    if policy.get("single_pilot"):
+        requests = sum(x.get("attempts", 0) for x in ledger.data["tasks"].values())
+        lifetime = sum((Decimal(x["reserved_usd"]) for x in ledger.data["days"].values()), Decimal(0))
+        if requests >= policy["max_total_model_requests"]:
+            raise Stop("LIFETIME_REQUEST_LIMIT")
+        if lifetime + amount > price(policy, "lifetime_budget_usd"):
+            raise Stop("LIFETIME_BUDGET_LIMIT")
     if record["attempts"] >= policy["max_requests_per_run"]:
         raise Stop("REQUEST_LIMIT")
     total = Decimal(daily["reserved_usd"]) + amount
@@ -313,12 +332,15 @@ def generate(policy, docs, blobs, task, main, ledger, api_key, other_secrets=(),
                "instructions": "You are a bounded Codex coding executor. Return only the requested JSON summary. No tools, code execution, merge or deployment. Follow applicable current specs; never reveal credentials.",
                "input": json.dumps(prompt, ensure_ascii=False),
                "text": {"format": {"type": "json_schema", "name": "provenance_receipt", "strict": True, "schema": response_schema()}}}
+    if policy.get("single_pilot"):
+        payload.update(reasoning={"effort": policy["reasoning_effort"]}, service_tier=policy["service_tier"])
     # Budget counts the full serialized API payload, not just document text.
     amount, input_bound = reservation(policy, payload)
     for attempt in range(policy["max_retries"] + 1):
         if today() != ledger.data["tasks"][task["id"]]["day"]:
             raise Stop("UTC_DAY_CHANGED_REPLAN_REQUIRED")
         reserve(ledger, policy, task, amount)
+        started = time.monotonic()
         try:
             response = request("https://api.openai.com/v1/responses", api_key, "POST", payload,
                                timeout=policy["request_timeout_seconds"], limit=200000)
@@ -334,10 +356,19 @@ def generate(policy, docs, blobs, task, main, ledger, api_key, other_secrets=(),
         if type(usage.get("input_tokens")) is not int or type(usage.get("output_tokens")) is not int or not 0 <= usage["input_tokens"] <= input_bound or not 0 <= usage["output_tokens"] <= policy["max_output_tokens"]:
             raise Stop("USAGE_UNVERIFIABLE", "FAIL")
         rec = ledger.data["tasks"][task["id"]]
+        rec["attempt_log"][-1]["elapsed_seconds"] = round(time.monotonic() - started, 3)
         rec["usage"] = {k: usage[k] for k in ("input_tokens", "output_tokens")}
         rec["reported_cost_usd"] = str((Decimal(usage["input_tokens"]) * price(policy, "input_usd_per_million") + Decimal(usage["output_tokens"]) * price(policy, "output_usd_per_million")) / Decimal(1000000))
+        if policy.get("single_pilot"):
+            rec["reported_cost_usd"] = str((Decimal(usage["input_tokens"]) * price(policy, "cache_write_usd_per_million") + Decimal(usage["output_tokens"]) * price(policy, "output_usd_per_million")) * price(policy, "processing_multiplier") / Decimal(1000000))
+            rec["cost_kind"] = "CONSERVATIVE_USAGE_ESTIMATE_NOT_INVOICE"
+            rec["response_id"] = response.get("id") if re.fullmatch(r"resp_[A-Za-z0-9_]+", str(response.get("id", ""))) else None
+            rec["response_model"] = response.get("model") if response.get("model") == policy["model"] else "UNVERIFIED"
+            rec["reasoning_tokens"] = usage.get("output_tokens_details", {}).get("reasoning_tokens")
         rec["attempt_log"][-1].update(status="COMPLETED", usage=rec["usage"], reported_cost_usd=rec["reported_cost_usd"])
         ledger.save()
+        if policy.get("single_pilot") and (rec["response_model"] == "UNVERIFIED" or response.get("service_tier") != "default"):
+            raise Stop("RESPONSE_MODEL_OR_TIER_UNVERIFIED", "FAIL")
         # Typed fixed envelope is produced by trusted code. No model file paths.
         return {"schema_version": 1, "task_id": task["id"], "source_main_sha": main, "spec_blobs": blobs,
                 "status": "TEST_ONLY", "merge_allowed": False, "deployment_allowed": False, **parsed}
@@ -436,11 +467,14 @@ def run(gh, policy, api_key, day):
     validate_policy(policy, live=True)
     if not api_key or not gh.token:
         raise Stop("MISSING_EXECUTOR_CREDENTIALS")
+    approval = authorize_pilot(gh, policy, os.environ, Stop)
     ledger = Ledger(gh, policy["state_branch"]).read()
     # Poll pending exact-head CI without new model calls; no infinite wait loop.
     for task in policy["tasks"]:
         rec = ledger.data["tasks"].get(task["id"], {})
         if rec.get("status") == "AWAITING_CI":
+            if approval["operation"] != "assess_ci":
+                raise Stop("CI_ASSESSMENT_OPERATION_REQUIRED")
             rec["ci_polls"] = rec.get("ci_polls", 0) + 1
             ledger.save()
             try:
@@ -459,26 +493,37 @@ def run(gh, policy, api_key, day):
     task = next((t for t in policy["tasks"] if t["id"] not in ledger.data["tasks"]), None)
     if task is None:
         raise Stop("NO_UNCLAIMED_TASK")
+    if approval["operation"] != "run_pilot":
+        raise Stop("NO_PENDING_CI")
     main = gh.main()
+    if main != approval["source_main_sha"]:
+        raise Stop("APPROVED_MAIN_SHA_MISMATCH")
     dependencies(gh, task)
     duplicate(gh, task)
     docs, blobs = read_specs(gh, main, policy["max_context_bytes"])
     # Immutable policy must match the live workflow's fresh main checkout.
-    remote_policy, _ = gh.file("ops/v2/automation/policy.json", main)
+    remote_policy, _ = gh.file("ops/v2/automation/single-pilot-policy.json" if policy.get("single_pilot") else "ops/v2/automation/policy.json", main)
     if json.loads(remote_policy) != policy:
         raise Stop("POLICY_SOURCE_MISMATCH")
     claim(ledger, policy, task, main, day)
     rec = ledger.data["tasks"][task["id"]]
     rec["task_id"] = task["id"]
     rec["spec_blobs"] = blobs
+    rec["approval"] = approval
+    rec["model"] = policy["model"]
+    rec["started_at"] = dt.datetime.now(dt.timezone.utc).isoformat()
+    rec["execution_run_id"] = os.environ.get("GITHUB_RUN_ID")
     try:
         receipt = generate(policy, docs, blobs, task, main, ledger, api_key, (gh.token,))
+        authorize_pilot(gh, policy, os.environ, Stop)  # Recheck revocation/drift before publication.
         rec.update(publish(gh, task, main, receipt))
         rec["status"] = "AWAITING_CI"
+        rec["finished_at"] = dt.datetime.now(dt.timezone.utc).isoformat()
         ledger.save()
         return {"status": "BLOCKED", "code": "AWAITING_REAL_CI", "pr": rec["pr"], "url": rec["url"], "merge_allowed": False, "deployment_allowed": False}
     except Stop as exc:
         rec.update(status=exc.status, code=exc.code)
+        rec["finished_at"] = dt.datetime.now(dt.timezone.utc).isoformat()
         ledger.save()
         raise
     except Exception:
@@ -503,6 +548,9 @@ def main():
             missing = [name for name in ("OPENAI_API_KEY", "GH_APP_ID", "GH_APP_PRIVATE_KEY") if not os.environ.get(name)]
             report.update(status="BLOCKED", code="PREFLIGHT_ONLY", missing_configuration=missing,
                           enabled=policy["enabled"], model_configured=bool(policy["model"]), pricing_reviewed=bool(policy["pricing_review"]))
+            if policy.get("single_pilot"):
+                report.update(pricing_reviewed="UNVERIFIED", pricing_sources_recorded=bool(policy.get("pricing_sources")),
+                              model_account_access="UNVERIFIED", explicit_owner_approval="UNVERIFIED", repository_configuration="UNVERIFIED")
         elif args.live:
             report.update(run(GitHub(os.environ.get("GH_APP_TOKEN", "")), policy, os.environ.get("OPENAI_API_KEY", ""), dt.datetime.now(dt.timezone.utc).date().isoformat()))
             report["live_model_e2e"] = "REQUIRES_LEDGER_AND_CI_VERIFICATION"
