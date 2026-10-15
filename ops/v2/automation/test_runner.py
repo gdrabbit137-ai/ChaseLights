@@ -395,7 +395,7 @@ class ExecutorTests(unittest.TestCase):
         original_file = gh.file
         gh.file = lambda path, sha: (json.dumps(self.p), HEAD) if path.endswith("policy.json") else original_file(path, sha)
         ledger = MemoryLedger()
-        with patch.object(r, "Ledger", return_value=ledger), patch.object(r, "read_specs", return_value=({"AGENTS.md": "rules"}, {})), patch.object(r, "generate", side_effect=generate or (lambda *a, **k: {"status": "TEST_ONLY"})):
+        with patch.object(r, "authorize_pilot", return_value={"operation": "run_pilot", "source_main_sha": MAIN}), patch.object(r, "Ledger", return_value=ledger), patch.object(r, "read_specs", return_value=({"AGENTS.md": "rules"}, {})), patch.object(r, "generate", side_effect=generate or (lambda *a, **k: {"status": "TEST_ONLY"})):
             outcome = r.run(gh, self.p, "fake-key", "2026-10-15")
         return outcome, ledger, gh
 
@@ -409,7 +409,7 @@ class ExecutorTests(unittest.TestCase):
         gh = FakeGitHub()
         ledger = MemoryLedger()
         gh.file = lambda path, sha: (json.dumps(self.p), HEAD)
-        with patch.object(r, "Ledger", return_value=ledger), patch.object(r, "read_specs", return_value=({}, {})), patch.object(r, "generate", side_effect=r.Stop("SAFETY_REFUSAL")):
+        with patch.object(r, "authorize_pilot", return_value={"operation": "run_pilot", "source_main_sha": MAIN}), patch.object(r, "Ledger", return_value=ledger), patch.object(r, "read_specs", return_value=({}, {})), patch.object(r, "generate", side_effect=r.Stop("SAFETY_REFUSAL")):
             self.blocked("SAFETY_REFUSAL", r.run, gh, self.p, "fake-key", "2026-10-15")
             self.blocked("NO_UNCLAIMED_TASK", r.run, gh, self.p, "fake-key", "2026-10-15")
         self.assertEqual(ledger.data["tasks"][self.task["id"]]["code"], "SAFETY_REFUSAL")
@@ -419,7 +419,7 @@ class ExecutorTests(unittest.TestCase):
         gh = FakeGitHub()
         gh.checks[0]["status"] = "in_progress"
         self.ledger.data["tasks"][self.task["id"]] = {**gh.record(), "status": "AWAITING_CI", "pr": 123, "ci_polls": self.p["max_ci_polls"] - 1}
-        with patch.object(r, "Ledger", return_value=self.ledger), patch.object(r, "generate", side_effect=AssertionError("model called")):
+        with patch.object(r, "authorize_pilot", return_value={"operation": "assess_ci", "source_main_sha": MAIN}), patch.object(r, "Ledger", return_value=self.ledger), patch.object(r, "generate", side_effect=AssertionError("model called")):
             self.blocked("REQUIRED_CI_NOT_SUCCESS", r.run, gh, self.p, "fake-key", "2026-10-15")
         self.assertEqual(self.ledger.data["tasks"][self.task["id"]]["status"], "BLOCKED")
 

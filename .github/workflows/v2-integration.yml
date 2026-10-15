@@ -1,7 +1,7 @@
 name: V2 Integration
 on:
   pull_request:
-    branches: [main]
+    branches: [main, codex/v2-w5-task-p-executor-wiring]
     paths:
       - .github/workflows/v2-integration.yml
       - ops/v2/**

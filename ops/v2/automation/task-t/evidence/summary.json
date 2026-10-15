@@ -1,0 +1,47 @@
+{
+  "kind": "ACTUAL_LOCAL_TEST_EXECUTION_NOT_LIVE_MODEL_E2E",
+  "base_sha": "bec25989330f1dec555b29c86e0d65f6b95e43c3",
+  "groups": {
+    "executor": {
+      "PASS": 56,
+      "FAIL": 0,
+      "ERROR": 0,
+      "SKIP": 0,
+      "log": "executor.log"
+    },
+    "security": {
+      "PASS": 36,
+      "FAIL": 0,
+      "ERROR": 0,
+      "SKIP": 0,
+      "log": "security.log"
+    },
+    "foundation": {
+      "PASS": 16,
+      "FAIL": 0,
+      "ERROR": 0,
+      "SKIP": 0,
+      "log": "foundation.log"
+    },
+    "w5": {
+      "PASS": 17,
+      "FAIL": 0,
+      "ERROR": 0,
+      "SKIP": 0,
+      "log": "w5.log"
+    }
+  },
+  "counts": {
+    "PASS": 125,
+    "FAIL": 0,
+    "ERROR": 0,
+    "SKIP": 0
+  },
+  "source_sha256": {
+    "ops/v2/automation/activate.py": "a66d8e0465655330003e7b39e59eed8fef1ab0d9bce467537d87851f784b24de",
+    "ops/v2/automation/runner.py": "20bc2da8c67724c9ebe21d847ebef415e0b563619cc28492a1cd20b6eeaa21f7",
+    "ops/v2/automation/test_runner.py": "aac1b73b16ab452a7e1402b1043e33446fd88239dd9efea401702e73b1d65407",
+    "ops/v2/automation/test_pilot_guard.py": "8a15bba23bcae3b15b6b0e3f57e9fb37907ca2d86776d208a22914f13a7143ce",
+    "ops/v2/automation/pilot_guard.py": "6b73fda35af5aabb1f925fb9ad57d8d80e6efd4272bd6aec83b718fe43ed5734"
+  }
+}
