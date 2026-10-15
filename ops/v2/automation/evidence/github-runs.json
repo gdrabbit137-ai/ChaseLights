@@ -1,0 +1,60 @@
+{
+  "note": "First real PR run, before final additional gate-hardening test. Latest-head CI is reported in PR #497 body. These are real GitHub Actions unit/integration runs; no live Codex API E2E.",
+  "pr": 497,
+  "runs": [
+    {
+      "id": 38703327507,
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/38703327507",
+      "workflow": ".github/workflows/v2-codex-executor.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "source_head_sha": "d609a4e079af01c600c0d2da693b61c7eb0e9da1",
+      "tested_merge_sha": "fa71f1ea66e30becd19885c28b317de7edb73a59",
+      "job_id": 116316539586,
+      "log_excerpt": "initial-ci-executor.log",
+      "counts": {
+        "PASS": 55,
+        "FAIL": 0,
+        "ERROR": 0,
+        "SKIP": 0
+      }
+    },
+    {
+      "id": 38703327608,
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/38703327608",
+      "workflow": ".github/workflows/v2-w5-release-gate-dry-run.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "source_head_sha": "d609a4e079af01c600c0d2da693b61c7eb0e9da1",
+      "tested_merge_sha": "fa71f1ea66e30becd19885c28b317de7edb73a59",
+      "job_id": 116316539584,
+      "log_excerpt": "initial-ci-foundation.log",
+      "counts": {
+        "PASS": 16,
+        "FAIL": 0,
+        "ERROR": 0,
+        "SKIP": 0
+      }
+    },
+    {
+      "id": 38703327438,
+      "url": "https://github.com/gdrabbit137-ai/ChaseLights/actions/runs/38703327438",
+      "workflow": ".github/workflows/v2-integration.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "source_head_sha": "d609a4e079af01c600c0d2da693b61c7eb0e9da1",
+      "tested_merge_sha": "fa71f1ea66e30becd19885c28b317de7edb73a59",
+      "job_id": 116316539509,
+      "log_excerpt": "initial-ci-integration.log",
+      "counts": {
+        "PASS": 157,
+        "FAIL": 0,
+        "ERROR": 0,
+        "SKIP": 0
+      }
+    }
+  ],
+  "live_model_e2e": "BLOCKED_NOT_RUN",
+  "unit_safety_scenarios": "OFFLINE_MOCKED_NOT_LIVE",
+  "inapplicable_live_executor_job": "skipped on pull_request by design; no skipped tests"
+}

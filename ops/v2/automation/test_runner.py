@@ -156,6 +156,10 @@ class ExecutorTests(unittest.TestCase):
         self.p["max_requests_per_run"] = 1
         self.blocked("INVALID_RETRY_LIMIT", r.validate_policy, self.p)
 
+    def test_policy_cannot_drop_existing_157_case_gate(self):
+        self.p["required_checks"] = ["bounded-executor-tests"]
+        self.blocked("REQUIRED_CHECKS_WEAKENED", r.validate_policy, self.p)
+
     def test_owner_allowlist(self):
         for owner, prefix in r.OWNERS.items():
             self.assertTrue(r.owner_path(owner, prefix[0] + "test.json"))

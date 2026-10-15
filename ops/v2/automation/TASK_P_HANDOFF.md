@@ -25,6 +25,8 @@ weather updates are not evidence of V2 executor development.
 | #492 | `ff944a781741606dc0d34c15374edd1aee057847` | merged | W1 pin integration; 38699547248 integration succeeded |
 | #493 | `b8570555c5cb1080b9a18059addadab427ba8c52` | open Draft | W2 disposition handoff; 38699861755 integration failed; not imported |
 | #494 | `577f4c31b302c4fd603222bef6dce419e36ea3a0` | open Draft | Stacked W5 pin; 38700042249 succeeded; not assumed merged/imported |
+| #495 | `c41567edcfa9efe95111f3306d6410f1934e7062` | open Draft | Concurrent W2 Task Q, data-only; no executor/path overlap |
+| #496 | `ba57ede02bfe004f49ac4b14b570d29bf18b96fa` | open Draft | Concurrent W1 Task R planning, no executor/path overlap |
 
 Task N/O original programs/handoffs were **NOT FOUND / UNVERIFIED** in the inspected
 main tree, recent PRs/issues/branches and accessible workspace artifacts. #485
@@ -143,7 +145,7 @@ After W5 reviews this Draft PR and the user approves merging:
 ## Evidence and acceptance
 
 Local raw results: `ops/v2/automation/evidence/local/`. Initial aggregate:
-**124 PASS / 0 FAIL / 0 ERROR / 0 SKIP** (55 executor, 16 reused foundation,
+**125 PASS / 0 FAIL / 0 ERROR / 0 SKIP** (56 executor, 16 reused foundation,
 17 unchanged W5 regression, 36 current W1 schema tests). Canonical fixture
 validation passes separately. Preflight exits 2 with BLOCKED/NOT_RUN; it is
 not counted as a failing test or a successful E2E. Existing full 157-case

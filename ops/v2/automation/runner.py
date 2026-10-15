@@ -24,6 +24,7 @@ OWNERS = {"W1": ("specs/v2/",), "W2": ("data/v2/",),
           "W3": ("packages/core-v2/", "packages/models-v2/"),
           "W4": ("apps/web-v2/",), "W5": ("ops/v2/", ".github/workflows/")}
 REQUIRED_DOCS = ("AGENTS.md", "RESEARCH_EVIDENCE_SPEC_R4_2.md", "NAVIGATION_SPEC_R4_2.md")
+MIN_REQUIRED_CHECKS = {"V2 real merged-tree 157-case research-only, solar WINDOW and NOAA source acceptance", "bounded-executor-tests"}
 SHA = re.compile(r"^[0-9a-f]{40}$")
 TERMINAL_FAILURES = {"failure", "cancelled", "timed_out", "action_required", "startup_failure", "stale"}
 
@@ -164,6 +165,8 @@ def validate_policy(p, live=False):
     checks = p.get("required_checks")
     if not isinstance(checks, list) or not checks or len(set(checks)) != len(checks) or not all(isinstance(x, str) and x for x in checks):
         raise Stop("REQUIRED_CHECKS_MISSING")
+    if not MIN_REQUIRED_CHECKS.issubset(checks):
+        raise Stop("REQUIRED_CHECKS_WEAKENED")
     tasks = p.get("tasks")
     if not isinstance(tasks, list) or not tasks or len({x.get("id") for x in tasks}) != len(tasks):
         raise Stop("INVALID_TASK_QUEUE")
