@@ -1,0 +1,61 @@
+test_401_does_not_retry (__main__.ExecutorTests.test_401_does_not_retry) ... ok
+test_429_retries_bounded_with_separate_reservations (__main__.ExecutorTests.test_429_retries_bounded_with_separate_reservations) ... ok
+test_budget_reservation_before_call (__main__.ExecutorTests.test_budget_reservation_before_call) ... ok
+test_ci_poll_limit_terminal_without_model_calls (__main__.ExecutorTests.test_ci_poll_limit_terminal_without_model_calls) ... ok
+test_claim_never_replayed (__main__.ExecutorTests.test_claim_never_replayed) ... ok
+test_closed_or_open_pr_duplicate_blocks (__main__.ExecutorTests.test_closed_or_open_pr_duplicate_blocks) ... ok
+test_cross_owner_diff_never_creates_branch (__main__.ExecutorTests.test_cross_owner_diff_never_creates_branch) ... ok
+test_daily_run_limit (__main__.ExecutorTests.test_daily_run_limit) ... ok
+test_default_disabled_and_missing_secrets (__main__.ExecutorTests.test_default_disabled_and_missing_secrets) ... ok
+test_enabled_policy_still_requires_credentials (__main__.ExecutorTests.test_enabled_policy_still_requires_credentials) ... ok
+test_failed_ledger_persistence_never_calls_api (__main__.ExecutorTests.test_failed_ledger_persistence_never_calls_api) ... ok
+test_fake_orchestration_claims_once_and_waits_for_real_ci (__main__.ExecutorTests.test_fake_orchestration_claims_once_and_waits_for_real_ci) ... ok
+test_fake_orchestration_refusal_is_terminal_and_recorded (__main__.ExecutorTests.test_fake_orchestration_refusal_is_terminal_and_recorded) ... ok
+test_incomplete_and_model_error_not_retried (__main__.ExecutorTests.test_incomplete_and_model_error_not_retried) ... ok
+test_insufficient_budget_never_calls_api (__main__.ExecutorTests.test_insufficient_budget_never_calls_api) ... ok
+test_invalid_dependency_pin_rejected (__main__.ExecutorTests.test_invalid_dependency_pin_rejected) ... ok
+test_invalid_model_json_and_added_keys_rejected (__main__.ExecutorTests.test_invalid_model_json_and_added_keys_rejected) ... ok
+test_ledger_cas_conflict_stops_second_writer (__main__.ExecutorTests.test_ledger_cas_conflict_stops_second_writer) ... ok
+test_ledger_writes_are_fast_forward_only (__main__.ExecutorTests.test_ledger_writes_are_fast_forward_only) ... ok
+test_missing_model_blocks (__main__.ExecutorTests.test_missing_model_blocks) ... ok
+test_missing_pricing_blocks (__main__.ExecutorTests.test_missing_pricing_blocks) ... ok
+test_missing_usage_is_fail (__main__.ExecutorTests.test_missing_usage_is_fail) ... ok
+test_no_cross_owner_or_workflow_output (__main__.ExecutorTests.test_no_cross_owner_or_workflow_output) ... ok
+test_no_unbounded_retry_or_budget (__main__.ExecutorTests.test_no_unbounded_retry_or_budget) ... ok
+test_non_codex_model_blocks (__main__.ExecutorTests.test_non_codex_model_blocks) ... ok
+test_nonfinite_and_negative_prices_block (__main__.ExecutorTests.test_nonfinite_and_negative_prices_block) ... ok
+test_orphan_branch_prevents_replay (__main__.ExecutorTests.test_orphan_branch_prevents_replay) ... ok
+test_over_output_limit_is_fail (__main__.ExecutorTests.test_over_output_limit_is_fail) ... ok
+test_owner_allowlist (__main__.ExecutorTests.test_owner_allowlist) ... ok
+test_publication_is_draft_only_no_merge_deploy (__main__.ExecutorTests.test_publication_is_draft_only_no_merge_deploy) ... ok
+test_read_specs_rejects_missing_required_files (__main__.ExecutorTests.test_read_specs_rejects_missing_required_files) ... ok
+test_read_specs_rejects_symlink (__main__.ExecutorTests.test_read_specs_rejects_symlink) ... ok
+test_read_specs_rejects_truncated_tree (__main__.ExecutorTests.test_read_specs_rejects_truncated_tree) ... ok
+test_redirects_and_untrusted_endpoints_rejected (__main__.ExecutorTests.test_redirects_and_untrusted_endpoints_rejected) ... ok
+test_refusal_stops_without_retry_or_rephrase (__main__.ExecutorTests.test_refusal_stops_without_retry_or_rephrase) ... ok
+test_retry_request_limit_consistency (__main__.ExecutorTests.test_retry_request_limit_consistency) ... ok
+test_secret_echo_rejected (__main__.ExecutorTests.test_secret_echo_rejected) ... ok
+test_server_retry_can_recover (__main__.ExecutorTests.test_server_retry_can_recover) ... ok
+test_source_movement_blocks_publication (__main__.ExecutorTests.test_source_movement_blocks_publication) ... ok
+test_spec_context_bound_and_hash (__main__.ExecutorTests.test_spec_context_bound_and_hash) ... ok
+test_timeout_retains_reservation_and_does_not_retry (__main__.ExecutorTests.test_timeout_retains_reservation_and_does_not_retry) ... ok
+test_tool_output_rejected (__main__.ExecutorTests.test_tool_output_rejected) ... ok
+test_traversal_absolute_empty_and_windows_paths_rejected (__main__.ExecutorTests.test_traversal_absolute_empty_and_windows_paths_rejected) ... ok
+test_unmerged_dependency_not_assumed (__main__.ExecutorTests.test_unmerged_dependency_not_assumed) ... ok
+test_unreviewed_pricing_link_blocks (__main__.ExecutorTests.test_unreviewed_pricing_link_blocks) ... ok
+test_utc_rollover_never_bills_previous_day (__main__.ExecutorTests.test_utc_rollover_never_bills_previous_day) ... ok
+test_w5_changed_receipt_fail (__main__.ExecutorTests.test_w5_changed_receipt_fail) ... ok
+test_w5_failure_is_fail (__main__.ExecutorTests.test_w5_failure_is_fail) ... ok
+test_w5_latest_check_wins (__main__.ExecutorTests.test_w5_latest_check_wins) ... ok
+test_w5_missing_check_is_blocked (__main__.ExecutorTests.test_w5_missing_check_is_blocked) ... ok
+test_w5_pass_is_technical_only (__main__.ExecutorTests.test_w5_pass_is_technical_only) ... ok
+test_w5_skipped_or_pending_is_blocked (__main__.ExecutorTests.test_w5_skipped_or_pending_is_blocked) ... ok
+test_w5_stale_source_and_head_block (__main__.ExecutorTests.test_w5_stale_source_and_head_block) ... ok
+test_w5_status_failure_not_ignored (__main__.ExecutorTests.test_w5_status_failure_not_ignored) ... ok
+test_w5_untrusted_check_app_blocks (__main__.ExecutorTests.test_w5_untrusted_check_app_blocks) ... ok
+
+----------------------------------------------------------------------
+Ran 55 tests in 0.010s
+
+OK
+{"kind": "OFFLINE_UNIT_TESTS_NOT_LIVE_E2E", "PASS": 55, "FAIL": 0, "ERROR": 0, "SKIP": 0}
