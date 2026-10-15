@@ -39,3 +39,12 @@ summary{cursor:pointer;min-height:44px;padding:12px 0;color:#a8e5e6}
 main,main section,.brand>div,.research-heading h2{min-width:0}
 @media(max-width:700px){.brand small{max-width:180px;font-size:12px}.masthead{gap:10px}.brand{gap:8px}.brand-mark{font-size:24px}.research-heading,.data-state{align-items:flex-start;flex-direction:column}.research-heading h2{margin-bottom:0}.data-state button{width:100%}.language select{padding:9px 6px}.forecast-empty{padding:22px 18px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+#open-filters,#close-filters{display:none}
+#topic-filters{border:0;padding:0;margin:16px 0;color:#c3d4df}
+#topic-filters legend{font-size:13px;font-weight:700;margin-bottom:9px}
+#topic-options{display:flex;flex-wrap:wrap;gap:8px}
+.topic-option{display:inline-flex;align-items:center;gap:7px;padding:7px 9px;border:1px solid #4c6d7e;border-radius:9px;cursor:pointer;font-size:13px;min-height:44px}
+.topic-option:has(input:checked){background:#275250;border-color:#82ddce;color:#fff}
+.topic-option input{accent-color:#81decd;width:17px;height:17px}
+#clear-filters{width:100%;margin:0 0 8px}
+@media(max-width:700px){#open-filters,#close-filters{display:block;width:100%;margin-top:12px}#close-filters{margin-bottom:14px}#filter-panel{padding:12px 0;border-bottom:1px solid #415b6c}}

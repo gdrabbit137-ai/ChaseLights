@@ -1,10 +1,48 @@
 # ChaseLights V2 — photography home and research browser
 
+## Task S — multi-Place research browsing (Draft W4)
+
+The default static bundle now contains the exact eight W2 R1 canonical Opportunities
+over seven Places. `browse-index.v2.json` packages W2 #490's manifest, Place,
+topic and status documents pinned to `c10976eb5e88fd32ec0adc58a1317ed70015821d`.
+`catalog.v2.json` carries per-Opportunity source commit/path/blob pins (the three
+Batch03 and five Batch04 source commits remain distinct). `browse-index.mjs`
+checks exact IDs, revisions, publication, unknown region/time-zone metadata and
+joins; both distributed JSON files have fixed SHA-256 checks, and canonical
+fixture tests check Git blob bytes. A changed/missing default bundle fails closed.
+
+The visible workspace searches names in all three languages and stable Place IDs
+with literal partial-text matching. Topic selections are **OR** within the set;
+search and topics combine with **AND**. The filter first retains matching
+Opportunities, then groups them by Place; it never includes an unmatched
+Opportunity from the same Place. Clearing filters preserves the user's selected
+Place. The mobile panel has separate open/close controls. Name ordering uses
+deterministic normalized code-point order plus Place ID, not inferred region.
+Local file imports remain available but are explicitly not the verified indexed
+bundle and cannot receive its topic classification.
+
+All eight records remain Research-only; the home has no selected-date forecast,
+and access notices never alter a photography verdict. Region/time-zone fields
+remain UNKNOWN, no GPS or subject geometry is fabricated, and no Directions,
+score, distance or date selection is inferred. Name semantic review and human
+release approval remain pending. Favorites, stored preferences, complete
+administrative filters, local dates, and score/distance sort require later owner
+work. This is not permission to merge or deploy.
+
+Run `node --test apps/web-v2/tests/*.test.mjs` and the existing
+`node --test apps/web-v2/tests/browser-smoke.mjs` plus
+`node --test apps/web-v2/tests/task-s-browser.mjs` with actual Chromium.
+For W5, accept #487's W4 base and #489/#490 exact dependencies, deliberately
+repin the W4 tree and static build/runtime dependency list (including
+`browse-index.mjs` and both JSON files), then run the full source/release gates.
+Do not treat W4's local tests or this bundled research catalog as live forecast
+approval. Task R #496 remains planning-only and unmerged.
+
 Worker 4 owns only `apps/web-v2/`. The home page answers forecast availability first and opens the existing research browser only on request. Date selection and date-specific forecast transport are not connected; no recommendation, shooting period or score is synthesized. Legacy entry, weather data, runtime, workflows and deployment are unchanged.
 
 ## Fixed real data and provenance
 
-The default `catalog.v2.json` is W2's real `tw-026-P01` research-only preview, with explicit Git provenance fields added. It is pinned to W2 branch `fix/v2-access-advisory-w2-20261012` at `2177bd8c8b6c18e0a4b284e50b55d0ff12697ddd`:
+The former single-record preview is retained as an immutable historical test fixture. The default `catalog.v2.json` now contains all eight source-pinned records. Its `tw-026-P01` member is pinned to W2 `2177bd8c8b6c18e0a4b284e50b55d0ff12697ddd`:
 
 - Canonical path: `data/v2/opportunities/tw-026-P01.json`, blob `001a3380231e3d073e900bf2b415aac7dcc5fd79`.
 - Preview path: `data/v2/previews/tw-026-P01.research-only.v21.json`, blob `282297ca41be835517a22ea312f9898e9e5e8435`.
@@ -22,13 +60,14 @@ Use the existing checkout; cloud tasks are isolated and do not need a worktree. 
 python -m http.server 8000 --bind 127.0.0.1
 node --test apps/web-v2/tests/*.test.mjs
 node --test apps/web-v2/tests/browser-smoke.mjs
+node --test apps/web-v2/tests/task-s-browser.mjs
 ```
 
 The browser runner starts its own temporary HTTP server on an unused loopback port and closes its browser/server afterward. It requires Playwright and Chromium; by default it uses this cloud image's `/opt/codex/cua_node/lib/node_modules/playwright` and `/usr/bin/chromium`. Elsewhere set `PLAYWRIGHT_MODULE` to a resolvable installed module name/path and `CHROMIUM_EXECUTABLE` to the browser path. Missing tooling is an explicit error, never a silent passing/zero-test result.
 
-The six browser cases cover desktop 1440×1000 and mobile 390×844 across zh-TW/en/ja: real automatic and local-file imports, visible source translations, title/landmark ARIA updates, native keyboard locale switching, locale persistence, skip-link focus, keyboard place selection with retained focus, search/empty search, expandable translated conditions/access notes, no unverified Directions, no synthetic live verdict, incomplete-localization rejection, no horizontal overflow and no import upload. Mobile means Chromium viewport/touch emulation, not physical-phone or Safari verification.
+The original browser suite covers desktop and mobile across zh-TW/en/ja: automatic/local imports, translated source/ARIA, keyboard, search, research warnings, no unverified Directions or synthetic verdict, transport errors and overflow. The Task S suite adds seven-Place browsing, multilingual name search, OR topic filters, combined queries, mobile open/close, locale persistence and tampered-index rejection. Mobile means Chromium viewport/touch emulation, not physical-phone or Safari verification.
 
-For canonical validation, use the latest main `specs/v2/tests/validate_contract.py` and schema (these may be absent from the W4 base); validate all three pinned opportunity files. Node's adapter is a defensive reader, not a replacement for W1's authoritative JSON Schema.
+For canonical validation, use the latest main `specs/v2/tests/validate_contract.py` and pinned #489 schema for all eight W2 records. Node's adapter is a defensive reader, not a replacement for W1's authoritative JSON Schema.
 
 Original command outputs and diagnosed pre-fix failures are retained under `tests/logs/task-a/`. Future changes should rerun the commands, rather than treat saved logs as fresh CI results.
 

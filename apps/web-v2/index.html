@@ -35,8 +35,15 @@
       <div class="workspace">
         <aside class="sidebar" id="sidebar" data-i18n-aria="placesAria" aria-label="景點清單">
           <div class="sidebar-top"><h2 id="places-heading"></h2><span id="place-count"></span></div>
-          <label class="search-label" for="search" id="search-label"></label>
-          <input id="search" type="search" autocomplete="off">
+          <p class="meta" id="sort-status"></p>
+          <button id="open-filters" type="button" aria-expanded="false" aria-controls="filter-panel"></button>
+          <div id="filter-panel">
+            <button id="close-filters" type="button"></button>
+            <label class="search-label" for="search" id="search-label"></label>
+            <input id="search" type="search" autocomplete="off">
+            <fieldset id="topic-filters"><legend id="topic-heading"></legend><div id="topic-options"></div></fieldset>
+            <button id="clear-filters" type="button"></button>
+          </div>
           <div id="places-list" class="places-list" aria-live="polite"></div>
           <button id="clear-search" type="button" hidden></button>
         </aside>

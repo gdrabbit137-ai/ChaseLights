@@ -1,14 +1,714 @@
 {
   "schema_version": "2.1.0",
-  "generated_at": "2026-10-11T06:30:54.590Z",
-  "preview_type": "research_only",
-  "source": "Worker 2 canonical research",
   "research_only": true,
-  "selected_date_recommendation_eligible": false,
   "forecast_available": false,
-  "evaluations": [],
-  "source_audit": "data/v2/audits/worker2_batch03_evidence.json",
+  "selected_date_recommendation_eligible": false,
+  "source_index_commit_sha": "c10976eb5e88fd32ec0adc58a1317ed70015821d",
+  "source_index_revision": "sha256:823a1a7daf51f9ae5abfe6200718da4fe4f6bd5bfe0b38bebc0862b2af7d8ced",
+  "source_pins": {
+    "jp-010-P01": {
+      "source_commit_sha": "509a7c206413a4f8d13350ddb50c2a7ad075ca4a",
+      "source_path": "data/v2/opportunities/jp-010-P01.json",
+      "source_blob_sha": "51d9bec700e86d3cefd5f33e3227191fbf12a482",
+      "revision": 1
+    },
+    "tw-016-P01": {
+      "source_commit_sha": "2177bd8c8b6c18e0a4b284e50b55d0ff12697ddd",
+      "source_path": "data/v2/opportunities/tw-016-P01.json",
+      "source_blob_sha": "83bfc4b1e7c697123f95b5dd2fdfeb0e0c01cf6e",
+      "revision": 1
+    },
+    "tw-026-P01": {
+      "source_commit_sha": "2177bd8c8b6c18e0a4b284e50b55d0ff12697ddd",
+      "source_path": "data/v2/opportunities/tw-026-P01.json",
+      "source_blob_sha": "001a3380231e3d073e900bf2b415aac7dcc5fd79",
+      "revision": 1
+    },
+    "tw-026-P02": {
+      "source_commit_sha": "2177bd8c8b6c18e0a4b284e50b55d0ff12697ddd",
+      "source_path": "data/v2/opportunities/tw-026-P02.json",
+      "source_blob_sha": "7932316f6f251380a4d98d69a6a8880ccafa4411",
+      "revision": 1
+    },
+    "tw-034-P02": {
+      "source_commit_sha": "509a7c206413a4f8d13350ddb50c2a7ad075ca4a",
+      "source_path": "data/v2/opportunities/tw-034-P02.json",
+      "source_blob_sha": "96006aaf004b9438c2ea8ca42eb287a7a7dfac5a",
+      "revision": 1
+    },
+    "tw-036-P01": {
+      "source_commit_sha": "509a7c206413a4f8d13350ddb50c2a7ad075ca4a",
+      "source_path": "data/v2/opportunities/tw-036-P01.json",
+      "source_blob_sha": "bfe5ec2f952b892cca60f5ef2e1b139182e7cee9",
+      "revision": 1
+    },
+    "tw-082-P01": {
+      "source_commit_sha": "509a7c206413a4f8d13350ddb50c2a7ad075ca4a",
+      "source_path": "data/v2/opportunities/tw-082-P01.json",
+      "source_blob_sha": "06e77c80c746b5eec97f444b2ea3a570990c5833",
+      "revision": 1
+    },
+    "us-071-P01": {
+      "source_commit_sha": "509a7c206413a4f8d13350ddb50c2a7ad075ca4a",
+      "source_path": "data/v2/opportunities/us-071-P01.json",
+      "source_blob_sha": "f1464bf3f1de639518e5cca2fb1d69b439e3f2de",
+      "revision": 1
+    }
+  },
+  "places": [
+    {
+      "place_id": "jp-010",
+      "name_i18n": {
+        "zh-TW": "大石公園",
+        "en": "Oishi Park",
+        "ja": "大石公園"
+      },
+      "aliases_i18n": {
+        "zh-TW": [],
+        "en": [],
+        "ja": []
+      },
+      "metadata_status": "COMPLETE",
+      "semantic_review": "PENDING",
+      "country_codes": [],
+      "region_ids": [],
+      "admin_status": "UNKNOWN",
+      "evidence_refs": [
+        "b04-jp010-a",
+        "b04-jp010-b"
+      ],
+      "time_zone": {
+        "status": "UNKNOWN",
+        "iana_id": null,
+        "evidence_ref": null
+      }
+    },
+    {
+      "place_id": "tw-016",
+      "name_i18n": {
+        "zh-TW": "鳶嘴山",
+        "en": "Yanzui Mountain",
+        "ja": "鳶嘴山"
+      },
+      "aliases_i18n": {
+        "zh-TW": [],
+        "en": [],
+        "ja": []
+      },
+      "metadata_status": "COMPLETE",
+      "semantic_review": "PENDING",
+      "country_codes": [],
+      "region_ids": [],
+      "admin_status": "UNKNOWN",
+      "evidence_refs": [
+        "e016a",
+        "e016b"
+      ],
+      "time_zone": {
+        "status": "UNKNOWN",
+        "iana_id": null,
+        "evidence_ref": null
+      }
+    },
+    {
+      "place_id": "tw-026",
+      "name_i18n": {
+        "zh-TW": "井仔腳瓦盤鹽田",
+        "en": "Jingzaijiao tiled salt pans",
+        "ja": "井仔脚瓦盤塩田"
+      },
+      "aliases_i18n": {
+        "zh-TW": [],
+        "en": [],
+        "ja": []
+      },
+      "metadata_status": "COMPLETE",
+      "semantic_review": "PENDING",
+      "country_codes": [],
+      "region_ids": [],
+      "admin_status": "UNKNOWN",
+      "evidence_refs": [
+        "e026a",
+        "e026b",
+        "e026d",
+        "e026e"
+      ],
+      "time_zone": {
+        "status": "UNKNOWN",
+        "iana_id": null,
+        "evidence_ref": null
+      }
+    },
+    {
+      "place_id": "tw-034",
+      "name_i18n": {
+        "zh-TW": "崇德",
+        "en": "Chongde",
+        "ja": "崇徳"
+      },
+      "aliases_i18n": {
+        "zh-TW": [],
+        "en": [],
+        "ja": []
+      },
+      "metadata_status": "PARTIAL",
+      "semantic_review": "PENDING",
+      "country_codes": [],
+      "region_ids": [],
+      "admin_status": "UNKNOWN",
+      "evidence_refs": [
+        "b04-tw034-a",
+        "b04-tw034-b"
+      ],
+      "time_zone": {
+        "status": "UNKNOWN",
+        "iana_id": null,
+        "evidence_ref": null
+      }
+    },
+    {
+      "place_id": "tw-036",
+      "name_i18n": {
+        "zh-TW": "七星潭",
+        "en": "Qixingtan",
+        "ja": "七星潭"
+      },
+      "aliases_i18n": {
+        "zh-TW": [],
+        "en": [],
+        "ja": []
+      },
+      "metadata_status": "COMPLETE",
+      "semantic_review": "PENDING",
+      "country_codes": [],
+      "region_ids": [],
+      "admin_status": "UNKNOWN",
+      "evidence_refs": [
+        "b04-tw036-a",
+        "b04-tw036-b"
+      ],
+      "time_zone": {
+        "status": "UNKNOWN",
+        "iana_id": null,
+        "evidence_ref": null
+      }
+    },
+    {
+      "place_id": "tw-082",
+      "name_i18n": {
+        "zh-TW": "鯉魚潭",
+        "en": "Liyu Lake",
+        "ja": "鯉魚潭"
+      },
+      "aliases_i18n": {
+        "zh-TW": [],
+        "en": [],
+        "ja": []
+      },
+      "metadata_status": "COMPLETE",
+      "semantic_review": "PENDING",
+      "country_codes": [],
+      "region_ids": [],
+      "admin_status": "UNKNOWN",
+      "evidence_refs": [
+        "b04-tw082-a",
+        "b04-tw082-b"
+      ],
+      "time_zone": {
+        "status": "UNKNOWN",
+        "iana_id": null,
+        "evidence_ref": null
+      }
+    },
+    {
+      "place_id": "us-071",
+      "name_i18n": {
+        "zh-TW": "Kerry Park",
+        "en": "Kerry Park",
+        "ja": "ケリー・パーク"
+      },
+      "aliases_i18n": {
+        "zh-TW": [],
+        "en": [],
+        "ja": []
+      },
+      "metadata_status": "COMPLETE",
+      "semantic_review": "PENDING",
+      "country_codes": [],
+      "region_ids": [],
+      "admin_status": "UNKNOWN",
+      "evidence_refs": [
+        "b04-us071-a"
+      ],
+      "time_zone": {
+        "status": "UNKNOWN",
+        "iana_id": null,
+        "evidence_ref": null
+      }
+    }
+  ],
   "opportunities": [
+    {
+      "schema_version": "2.1.0",
+      "opportunity_id": "jp-010-P01",
+      "place_id": "jp-010",
+      "revision": 1,
+      "lifecycle_status": "evidence_review",
+      "name_i18n": {
+        "zh-TW": "河口湖大石公園花景與富士山",
+        "en": "Mount Fuji and flowers from Oishi Park",
+        "ja": "大石公園の花景と富士山"
+      },
+      "description_i18n": {
+        "zh-TW": "富士河口湖觀光聯盟介紹大石公園隔河口湖眺望富士山，初夏薰衣草和秋天紅葉掃帚草可當前景；實際花況與山景可見度須另查證。",
+        "en": "The local tourism association documents views of Mount Fuji over Lake Kawaguchi with summer lavender and autumn red kochia; actual flowers and Fuji visibility vary.",
+        "ja": "富士河口湖町観光連盟は大石公園から河口湖越しに富士山を望み、初夏のラベンダーと秋の赤いコキアを前景にできると案内している。花の状態と山の可視性は変化する。"
+      },
+      "camera_contexts": [
+        {
+          "id": "CZ-jp-010-P01-01",
+          "kind": "area",
+          "geometry": {
+            "kind": "area",
+            "status": "unknown",
+            "geojson": null,
+            "uncertainty_m": null,
+            "derivation_method": null,
+            "source_geometry_revision": null,
+            "reason_if_absent": "No independently verified place-specific camera/subject geometry."
+          },
+          "verification_status": "provisional",
+          "evidence_refs": [
+            "b04-jp010-a",
+            "b04-jp010-b"
+          ],
+          "access_notes_i18n": {
+            "zh-TW": "官方顯示公園一般開放，但仍須遵守當日現場花壇、活動與通行規定；公園開放不代表可走入植栽。",
+            "en": "The park is officially listed as generally open; follow event, path and flowerbed restrictions. Open park access does not permit entering plantings.",
+            "ja": "公式では公園は通常開放されているが、イベントや歩道、花壇の規制を守る。開園は植栽内への立入り許可ではない。"
+          },
+          "safety_notes_i18n": {
+            "zh-TW": "請從步道或公共觀景位置取景，不踩踏花圃，特殊機材另查規定。",
+            "en": "Use paths and allowed viewing areas; do not enter flowerbeds, and check rules for special equipment.",
+            "ja": "歩道と許可された展望場所から撮影し、花壇に立ち入らない。特殊機材は別途規則を確認する。"
+          },
+          "altitude_m": null
+        }
+      ],
+      "targets": [
+        {
+          "id": "SG-jp-010-P01-01",
+          "kind": "multi_component",
+          "name_i18n": {
+            "zh-TW": "富士山、河口湖與季節花壇",
+            "en": "Mount Fuji, Lake Kawaguchi and seasonal flowers",
+            "ja": "富士山・河口湖・季節の花壇"
+          },
+          "geometry": {
+            "kind": "area",
+            "status": "unknown",
+            "geojson": null,
+            "uncertainty_m": null,
+            "derivation_method": null,
+            "source_geometry_revision": null,
+            "reason_if_absent": "No independently verified place-specific camera/subject geometry."
+          },
+          "phenomenon_model_id": null,
+          "evidence_refs": [
+            "b04-jp010-a",
+            "b04-jp010-b"
+          ],
+          "components": []
+        }
+      ],
+      "observation_relations": [
+        {
+          "id": "VR-jp-010-P01-01",
+          "camera_context_id": "CZ-jp-010-P01-01",
+          "target_id": "SG-jp-010-P01-01",
+          "type": "foreground_background",
+          "geometry_mode": "unknown",
+          "azimuth_deg": null,
+          "elevation_deg": null,
+          "distance_m": null,
+          "evidence_refs": [
+            "b04-jp010-a",
+            "b04-jp010-b"
+          ],
+          "derivation_method": null,
+          "uncertainty_note": "Azimuth, distance and exact legal photographic position not independently verified; celestial components have no fake ground coordinates."
+        }
+      ],
+      "navigation_targets": [
+        {
+          "id": "NAV-jp-010-P01-01",
+          "status": "needs_review",
+          "target_type": "other",
+          "lat": null,
+          "lon": null,
+          "label_i18n": {
+            "zh-TW": "尚未核實合法實際抵達點",
+            "en": "Lawful practical arrival point not verified",
+            "ja": "合法的な到着地点は未確認"
+          },
+          "evidence_refs": [],
+          "confidence": "unknown"
+        }
+      ],
+      "condition_contract": {
+        "contract_id": "CC-jp-010-P01-v1",
+        "status": "review",
+        "recommendation_policy_version": null,
+        "conditions": [
+          {
+            "id": "C-jp-010-P01-01",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "mount_fuji_visibility",
+            "operator": "none",
+            "threshold": null,
+            "unit": null,
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "jp-010-P01-condition-1"
+            ],
+            "model_binding": null,
+            "notes_i18n": {
+              "zh-TW": "富士山輪廓須當時可辨；沒有已校正的視程數值門檻。",
+              "en": "Mount Fuji must be discernible at the time; no numeric visibility threshold is calibrated.",
+              "ja": "当時富士山の輪郭が判別できること。視程の数値閾値は未校正。"
+            },
+            "validation_status": "provisional"
+          },
+          {
+            "id": "C-jp-010-P01-02",
+            "role": "QUALITY",
+            "domain": "SEASON_TIME",
+            "evaluation_mode": "VERIFY",
+            "capability": "OBSERVATION",
+            "metric": "lavender_kochia_seasonal_state",
+            "operator": "none",
+            "threshold": null,
+            "unit": null,
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "jp-010-P01-condition-2"
+            ],
+            "model_binding": null,
+            "notes_i18n": {
+              "zh-TW": "薰衣草或掃帚草狀態需要當期查證，不以固定日期保證花景。",
+              "en": "Lavender or kochia state needs current observation; fixed dates do not guarantee a flower scene.",
+              "ja": "ラベンダーやコキアの状態は現地で確認し、固定日付で花景を保証しない。"
+            },
+            "validation_status": "provisional"
+          }
+        ]
+      },
+      "evidence_claims": [
+        {
+          "claim_id": "jp-010-P01-existence",
+          "claim_type": "existence",
+          "evidence_refs": [
+            "b04-jp010-a",
+            "b04-jp010-b"
+          ],
+          "audit_status": "OK",
+          "scope_note": "Official place-specific scene exists; not a date-specific forecast or camera permission."
+        },
+        {
+          "claim_id": "jp-010-P01-camera",
+          "claim_type": "camera_location",
+          "evidence_refs": [
+            "b04-jp010-a",
+            "b04-jp010-b"
+          ],
+          "audit_status": "PARTIAL",
+          "scope_note": "Public site documented; legal photography boundary and exact tripod position remain unverified."
+        },
+        {
+          "claim_id": "jp-010-P01-navigation",
+          "claim_type": "navigation_access",
+          "evidence_refs": [],
+          "audit_status": "UNKNOWN",
+          "scope_note": "No independently verified safe arrival coordinate; Directions remain disabled."
+        },
+        {
+          "claim_id": "jp-010-P01-condition-1",
+          "claim_type": "other",
+          "evidence_refs": [
+            "b04-jp010-a",
+            "b04-jp010-b"
+          ],
+          "audit_status": "PARTIAL",
+          "scope_note": "Qualitative photographic condition only; no validated numeric threshold or live provider binding."
+        },
+        {
+          "claim_id": "jp-010-P01-condition-2",
+          "claim_type": "other",
+          "evidence_refs": [
+            "b04-jp010-a",
+            "b04-jp010-b"
+          ],
+          "audit_status": "PARTIAL",
+          "scope_note": "Qualitative photographic condition only; no validated numeric threshold or live provider binding."
+        }
+      ],
+      "readiness": {
+        "research_level": "R1",
+        "gaps": [
+          "GEOMETRY_GAP",
+          "RESEARCH_GAP"
+        ]
+      },
+      "provenance": {
+        "source_catalog": "ChaseLights legacy R4.2 opportunity inventory + official source recheck",
+        "source_revision": "v2-w2-batch04-20261013",
+        "imported_at": "2026-10-13T15:36:00Z",
+        "review_status": "pending",
+        "reviewed_by": null
+      }
+    },
+    {
+      "schema_version": "2.1.0",
+      "opportunity_id": "tw-016-P01",
+      "place_id": "tw-016",
+      "revision": 1,
+      "lifecycle_status": "evidence_review",
+      "name_i18n": {
+        "zh-TW": "鳶嘴山岩稜與遠山層次",
+        "en": "Yanzui Mountain rocky ridgeline and layered mountain views",
+        "ja": "鳶嘴山の岩稜と重なる山並み"
+      },
+      "description_i18n": {
+        "zh-TW": "從鳶嘴山合法步道的安全位置拍攝裸露岩稜與遠方山巒；精確機位、方位及距離尚未驗證。",
+        "en": "Photograph exposed rock ridges and distant mountain layers from a safe point on the legal Yanzui trail; the exact camera point, bearing and distance remain unverified.",
+        "ja": "鳶嘴山の正規登山道の安全な位置から露出した岩稜と遠方の山並みを撮る。正確な撮影位置・方位・距離は未確認。"
+      },
+      "camera_contexts": [
+        {
+          "id": "CZ-tw-016-P01-01",
+          "kind": "area",
+          "geometry": {
+            "kind": "area",
+            "status": "unknown",
+            "geojson": null,
+            "uncertainty_m": null,
+            "derivation_method": null,
+            "source_geometry_revision": null,
+            "reason_if_absent": "No independently verified source geometry"
+          },
+          "verification_status": "provisional",
+          "evidence_refs": [
+            "e016a",
+            "e016b"
+          ],
+          "access_notes_i18n": {
+            "zh-TW": "只使用合法步道的安全位置；官方記載有攀岩與危崖。",
+            "en": "Use only safe positions on the designated trail; the forestry authority documents scrambling and exposed cliffs.",
+            "ja": "指定登山道の安全な場所だけを使用。林業当局は岩登り区間と断崖を明記。"
+          },
+          "safety_notes_i18n": {
+            "zh-TW": "濕滑、強風或惡劣天候可能使暴露岩稜危險；不可為了取景跨越危險區。",
+            "en": "Wet rock, strong wind or severe weather can make exposed ridges hazardous; never enter unsafe terrain for a composition.",
+            "ja": "濡れた岩、強風、荒天時は露出した岩稜が危険。構図のために危険区域へ入らない。"
+          },
+          "altitude_m": null
+        }
+      ],
+      "targets": [
+        {
+          "id": "SG-tw-016-P01-01",
+          "kind": "fixed_geographic",
+          "name_i18n": {
+            "zh-TW": "鳶嘴山裸露岩稜及遠方山巒",
+            "en": "Yanzui rocky ridge and distant mountain layers",
+            "ja": "鳶嘴山の岩稜と遠方の山並み"
+          },
+          "geometry": {
+            "kind": "ridge",
+            "status": "unknown",
+            "geojson": null,
+            "uncertainty_m": null,
+            "derivation_method": null,
+            "source_geometry_revision": null,
+            "reason_if_absent": "No independently verified source geometry"
+          },
+          "phenomenon_model_id": null,
+          "evidence_refs": [
+            "e016a",
+            "e016b"
+          ],
+          "components": []
+        }
+      ],
+      "observation_relations": [
+        {
+          "id": "VR-tw-016-P01-01",
+          "camera_context_id": "CZ-tw-016-P01-01",
+          "target_id": "SG-tw-016-P01-01",
+          "type": "line_of_sight",
+          "geometry_mode": "unknown",
+          "azimuth_deg": null,
+          "elevation_deg": null,
+          "distance_m": null,
+          "evidence_refs": [
+            "e016a",
+            "e016b"
+          ],
+          "derivation_method": null,
+          "uncertainty_note": "No verified source geometry; angles, distance and corridor unknown."
+        }
+      ],
+      "navigation_targets": [
+        {
+          "id": "NAV-tw-016-P01-01",
+          "status": "needs_review",
+          "target_type": "other",
+          "lat": null,
+          "lon": null,
+          "label_i18n": {
+            "zh-TW": "尚未核實實際抵達點",
+            "en": "Practical arrival point not verified",
+            "ja": "実際の到着地点は未確認"
+          },
+          "evidence_refs": [],
+          "confidence": "unknown"
+        }
+      ],
+      "condition_contract": {
+        "contract_id": "CC-tw-016-P01-v1",
+        "status": "review",
+        "conditions": [
+          {
+            "id": "C-tw-016-P01-02",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "ridge_and_mountain_visibility",
+            "operator": "none",
+            "threshold": null,
+            "unit": null,
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "tw-016-P01-claim-02"
+            ],
+            "model_binding": null,
+            "notes_i18n": {
+              "zh-TW": "岩稜與遠山需可辨；未設定公里能見度門檻。",
+              "en": "The ridge and distant mountains must remain discernible; no visibility-distance threshold is asserted.",
+              "ja": "岩稜と遠方の山並みが判別できること。視程の数値基準は未設定。"
+            },
+            "validation_status": "provisional"
+          },
+          {
+            "id": "C-tw-016-P01-04",
+            "role": "QUALITY",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "mountain_layer_clarity",
+            "operator": "none",
+            "threshold": null,
+            "unit": null,
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "tw-016-P01-claim-04"
+            ],
+            "model_binding": null,
+            "notes_i18n": {
+              "zh-TW": "遠山輪廓與空氣透明度越清楚，層次越完整；無量化門檻。",
+              "en": "Clearer distant silhouettes and atmospheric transparency improve layering; no numeric cutoff is claimed.",
+              "ja": "遠景の輪郭と大気の透明度が高いほど山並みの層次が良くなる。数値基準なし。"
+            },
+            "validation_status": "provisional"
+          }
+        ],
+        "recommendation_policy_version": null
+      },
+      "evidence_claims": [
+        {
+          "claim_id": "tw-016-P01-existence",
+          "claim_type": "existence",
+          "evidence_refs": [
+            "e016a",
+            "e016b"
+          ],
+          "audit_status": "OK",
+          "scope_note": "Place-specific opportunity is supported; geometry remains unverified."
+        },
+        {
+          "claim_id": "tw-016-P01-camera",
+          "claim_type": "camera_location",
+          "evidence_refs": [
+            "e016a",
+            "e016b"
+          ],
+          "audit_status": "PARTIAL",
+          "scope_note": "Named public camera area only; exact polygon and GPS unverified."
+        },
+        {
+          "claim_id": "tw-016-P01-navigation",
+          "claim_type": "navigation_access",
+          "evidence_refs": [],
+          "audit_status": "UNKNOWN",
+          "scope_note": "No independently verified arrival coordinate."
+        },
+        {
+          "claim_id": "tw-016-P01-claim-01",
+          "claim_type": "navigation_access",
+          "evidence_refs": [
+            "e016a"
+          ],
+          "audit_status": "PARTIAL",
+          "scope_note": "Qualitative condition; no measured threshold, local runtime verification needed."
+        },
+        {
+          "claim_id": "tw-016-P01-claim-02",
+          "claim_type": "other",
+          "evidence_refs": [
+            "e016a",
+            "e016b"
+          ],
+          "audit_status": "PARTIAL",
+          "scope_note": "Qualitative condition; no measured threshold, local runtime verification needed."
+        },
+        {
+          "claim_id": "tw-016-P01-claim-03",
+          "claim_type": "navigation_access",
+          "evidence_refs": [
+            "e016a"
+          ],
+          "audit_status": "PARTIAL",
+          "scope_note": "Qualitative condition; no measured threshold, local runtime verification needed."
+        },
+        {
+          "claim_id": "tw-016-P01-claim-04",
+          "claim_type": "other",
+          "evidence_refs": [
+            "e016b"
+          ],
+          "audit_status": "PARTIAL",
+          "scope_note": "Qualitative condition; no measured threshold, local runtime verification needed."
+        }
+      ],
+      "readiness": {
+        "research_level": "R1",
+        "gaps": [
+          "GEOMETRY_GAP",
+          "RESEARCH_GAP"
+        ]
+      },
+      "provenance": {
+        "source_catalog": "worker2-offline-batch03",
+        "source_revision": "research-shard-batch03",
+        "imported_at": "2026-10-08T17:26:40Z",
+        "review_status": "reviewed",
+        "reviewed_by": "Worker 2 evidence review (automated; no human approval)"
+      }
+    },
     {
       "schema_version": "2.1.0",
       "opportunity_id": "tw-026-P01",
@@ -251,11 +951,1129 @@
         "review_status": "reviewed",
         "reviewed_by": "Worker 2 evidence review (automated; no human approval)"
       }
+    },
+    {
+      "schema_version": "2.1.0",
+      "opportunity_id": "tw-026-P02",
+      "place_id": "tw-026",
+      "revision": 1,
+      "lifecycle_status": "evidence_review",
+      "name_i18n": {
+        "zh-TW": "井仔腳鹽田晚霞",
+        "en": "Afterglow above Jingzaijiao salt pans",
+        "ja": "井仔脚塩田の夕焼け空"
+      },
+      "description_i18n": {
+        "zh-TW": "以鹽田格狀地景搭配日落前後的彩霞；彩霞是否出現須以實際天空狀態判斷。",
+        "en": "Frame the geometric salt pans beneath colorful clouds around sunset; actual afterglow must be verified rather than assumed.",
+        "ja": "格子状の塩田と日没前後の夕焼け雲を組み合わせる。夕焼けの発生は推測せず実際の空で確認する。"
+      },
+      "camera_contexts": [
+        {
+          "id": "CZ-tw-026-P02-01",
+          "kind": "area",
+          "geometry": {
+            "kind": "area",
+            "status": "unknown",
+            "geojson": null,
+            "uncertainty_m": null,
+            "derivation_method": null,
+            "source_geometry_revision": null,
+            "reason_if_absent": "No independently verified source geometry"
+          },
+          "verification_status": "provisional",
+          "evidence_refs": [
+            "e026b",
+            "e026e",
+            "e026d"
+          ],
+          "access_notes_i18n": {
+            "zh-TW": "僅可從當日確實開放、允許一般遊客拍攝且安全的位置取景；具體公共區域及邊界尚未獨立核實，須依當日公告與現場管制確認，無法確認時不可使用該構圖。原瞭望台封閉期間不得進入；替代平台的開放不證明其他區域開放。",
+            "en": "Photograph only from a safe location actually open to visitors and permitting photography on the day. The specific public area and its boundaries have not been independently verified; check current notices and on-site restrictions, and do not use the composition if lawful access cannot be confirmed. Do not enter the original lookout while closed; the alternate platform does not establish that other areas are open.",
+            "ja": "当日実際に開放され、一般来訪者の撮影が認められた安全な場所からのみ撮影する。公共区域の具体的な場所と境界は独立に確認できていないため、当日の告知と現地の規制を確認し、合法的な立入りを確認できなければその構図は使わない。旧展望台の閉鎖中は立ち入らず、代替展望台の開放をもって他区域の開放とはみなさない。"
+          },
+          "safety_notes_i18n": {
+            "zh-TW": "遵守施工及公共區域限制。",
+            "en": "Respect construction restrictions and public-area boundaries.",
+            "ja": "工事規制と公共区域の境界を守る。"
+          },
+          "altitude_m": null
+        }
+      ],
+      "targets": [
+        {
+          "id": "SG-tw-026-P02-01",
+          "kind": "multi_component",
+          "name_i18n": {
+            "zh-TW": "鹽田上空晚霞與格狀鹽池",
+            "en": "Afterglow sky and patterned salt pans",
+            "ja": "塩田上空の夕焼け雲と格子状の塩田"
+          },
+          "geometry": {
+            "kind": "dynamic_sky",
+            "status": "unknown",
+            "geojson": null,
+            "uncertainty_m": null,
+            "derivation_method": null,
+            "source_geometry_revision": null,
+            "reason_if_absent": "No independently verified source geometry"
+          },
+          "phenomenon_model_id": null,
+          "evidence_refs": [
+            "e026e",
+            "e026d"
+          ],
+          "components": []
+        }
+      ],
+      "observation_relations": [
+        {
+          "id": "VR-tw-026-P02-01",
+          "camera_context_id": "CZ-tw-026-P02-01",
+          "target_id": "SG-tw-026-P02-01",
+          "type": "foreground_background",
+          "geometry_mode": "unknown",
+          "azimuth_deg": null,
+          "elevation_deg": null,
+          "distance_m": null,
+          "evidence_refs": [
+            "e026e",
+            "e026d"
+          ],
+          "derivation_method": null,
+          "uncertainty_note": "No verified source geometry; angles, distance and corridor unknown."
+        }
+      ],
+      "navigation_targets": [
+        {
+          "id": "NAV-tw-026-P02-01",
+          "status": "needs_review",
+          "target_type": "other",
+          "lat": null,
+          "lon": null,
+          "label_i18n": {
+            "zh-TW": "尚未核實實際抵達點",
+            "en": "Practical arrival point not verified",
+            "ja": "実際の到着地点は未確認"
+          },
+          "evidence_refs": [],
+          "confidence": "unknown"
+        }
+      ],
+      "condition_contract": {
+        "contract_id": "CC-tw-026-P02-v1",
+        "status": "review",
+        "conditions": [
+          {
+            "id": "C-tw-026-P02-02",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "VERIFY",
+            "capability": "OBSERVATION",
+            "metric": "visible_sunset_afterglow",
+            "operator": "none",
+            "threshold": null,
+            "unit": null,
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "tw-026-P02-claim-02"
+            ],
+            "model_binding": null,
+            "notes_i18n": {
+              "zh-TW": "天空需實際出現可辨晚霞；不能以日期或一般雲量直接保證。",
+              "en": "Visible afterglow must actually develop; neither the date nor generic cloud cover guarantees it.",
+              "ja": "判別できる夕焼けが実際に発生すること。日付や一般的な雲量だけでは保証できない。"
+            },
+            "validation_status": "provisional"
+          },
+          {
+            "id": "C-tw-026-P02-04",
+            "role": "QUALITY",
+            "domain": "GEOMETRY_COMPOSITION",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "salt_pan_sky_balance",
+            "operator": "none",
+            "threshold": null,
+            "unit": null,
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "tw-026-P02-claim-04"
+            ],
+            "model_binding": null,
+            "notes_i18n": {
+              "zh-TW": "鹽池幾何線條與彩霞同框可增加地方辨識度。",
+              "en": "Including salt-pan geometry with the afterglow improves place-specific character.",
+              "ja": "塩田の幾何学的な線と夕焼けを同時に写すと場所の特徴が強まる。"
+            },
+            "validation_status": "provisional"
+          }
+        ],
+        "recommendation_policy_version": null
+      },
+      "evidence_claims": [
+        {
+          "claim_id": "tw-026-P02-existence",
+          "claim_type": "existence",
+          "evidence_refs": [
+            "e026e",
+            "e026d"
+          ],
+          "audit_status": "OK",
+          "scope_note": "Place-specific opportunity is supported; geometry remains unverified."
+        },
+        {
+          "claim_id": "tw-026-P02-camera",
+          "claim_type": "camera_location",
+          "evidence_refs": [
+            "e026b",
+            "e026e",
+            "e026d"
+          ],
+          "audit_status": "PARTIAL",
+          "scope_note": "Named public camera area only; exact polygon and GPS unverified."
+        },
+        {
+          "claim_id": "tw-026-P02-navigation",
+          "claim_type": "navigation_access",
+          "evidence_refs": [],
+          "audit_status": "UNKNOWN",
+          "scope_note": "No independently verified arrival coordinate."
+        },
+        {
+          "claim_id": "tw-026-P02-claim-01",
+          "claim_type": "navigation_access",
+          "evidence_refs": [
+            "e026b"
+          ],
+          "audit_status": "PARTIAL",
+          "scope_note": "Qualitative condition; no measured threshold, local runtime verification needed."
+        },
+        {
+          "claim_id": "tw-026-P02-claim-02",
+          "claim_type": "other",
+          "evidence_refs": [
+            "e026e"
+          ],
+          "audit_status": "PARTIAL",
+          "scope_note": "Qualitative condition; no measured threshold, local runtime verification needed."
+        },
+        {
+          "claim_id": "tw-026-P02-claim-03",
+          "claim_type": "navigation_access",
+          "evidence_refs": [
+            "e026b"
+          ],
+          "audit_status": "PARTIAL",
+          "scope_note": "Qualitative condition; no measured threshold, local runtime verification needed."
+        },
+        {
+          "claim_id": "tw-026-P02-claim-04",
+          "claim_type": "other",
+          "evidence_refs": [
+            "e026e",
+            "e026d"
+          ],
+          "audit_status": "PARTIAL",
+          "scope_note": "Qualitative condition; no measured threshold, local runtime verification needed."
+        }
+      ],
+      "readiness": {
+        "research_level": "R1",
+        "gaps": [
+          "GEOMETRY_GAP",
+          "RESEARCH_GAP"
+        ]
+      },
+      "provenance": {
+        "source_catalog": "worker2-offline-batch03",
+        "source_revision": "research-shard-batch03",
+        "imported_at": "2026-10-08T17:26:40Z",
+        "review_status": "reviewed",
+        "reviewed_by": "Worker 2 evidence review (automated; no human approval)"
+      }
+    },
+    {
+      "schema_version": "2.1.0",
+      "opportunity_id": "tw-034-P02",
+      "place_id": "tw-034",
+      "revision": 1,
+      "lifecycle_status": "evidence_review",
+      "name_i18n": {
+        "zh-TW": "崇德清水斷崖山海遠眺",
+        "en": "Qingshui Cliff and Pacific panorama from Chongde",
+        "ja": "崇徳から望む清水断崖と太平洋"
+      },
+      "description_i18n": {
+        "zh-TW": "太魯閣國家公園記述崇德步道觀景平台能北望清水斷崖與太平洋海天；觀景台現況與當日遠山能見度須另查證。",
+        "en": "Taroko National Park describes views of Qingshui Cliff to the north and the Pacific from Chongde Trail; facility status and actual visibility require separate checks.",
+        "ja": "太魯閣国家公園は崇徳歩道から北方の清水断崖と太平洋を眺められると案内している。展望施設の利用状況や当日の視程は別途確認が必要。"
+      },
+      "camera_contexts": [
+        {
+          "id": "CZ-tw-034-P02-01",
+          "kind": "area",
+          "geometry": {
+            "kind": "area",
+            "status": "unknown",
+            "geojson": null,
+            "uncertainty_m": null,
+            "derivation_method": null,
+            "source_geometry_revision": null,
+            "reason_if_absent": "No independently verified place-specific camera/subject geometry."
+          },
+          "verification_status": "provisional",
+          "evidence_refs": [
+            "b04-tw034-a",
+            "b04-tw034-b"
+          ],
+          "access_notes_i18n": {
+            "zh-TW": "道路、步道及觀景台可能受修繕或災害管制；請以官方當日公告為準，勿假設崖緣可進入。",
+            "en": "Road, trail and platform access can change after damage or repairs; check current official notices and never assume the cliff edge is accessible.",
+            "ja": "道路・歩道・展望台は災害や工事で規制され得る。最新の公式案内を確認し、断崖縁に立ち入れるとみなさない。"
+          },
+          "safety_notes_i18n": {
+            "zh-TW": "遵守護欄和步道封閉標示，不靠近落石或不穩定邊坡。",
+            "en": "Obey guardrails and closure signs; keep away from falling rocks and unstable slopes.",
+            "ja": "柵や閉鎖標識に従い、落石や不安定な斜面に近づかない。"
+          },
+          "altitude_m": null
+        }
+      ],
+      "targets": [
+        {
+          "id": "SG-tw-034-P02-01",
+          "kind": "fixed_geographic",
+          "name_i18n": {
+            "zh-TW": "清水斷崖岩壁、山海與太平洋",
+            "en": "Qingshui coastal cliffs, mountains and Pacific",
+            "ja": "清水断崖の岩壁・山海と太平洋"
+          },
+          "geometry": {
+            "kind": "ridge",
+            "status": "unknown",
+            "geojson": null,
+            "uncertainty_m": null,
+            "derivation_method": null,
+            "source_geometry_revision": null,
+            "reason_if_absent": "No independently verified place-specific camera/subject geometry."
+          },
+          "phenomenon_model_id": null,
+          "evidence_refs": [
+            "b04-tw034-a",
+            "b04-tw034-b"
+          ],
+          "components": []
+        }
+      ],
+      "observation_relations": [
+        {
+          "id": "VR-tw-034-P02-01",
+          "camera_context_id": "CZ-tw-034-P02-01",
+          "target_id": "SG-tw-034-P02-01",
+          "type": "line_of_sight",
+          "geometry_mode": "unknown",
+          "azimuth_deg": null,
+          "elevation_deg": null,
+          "distance_m": null,
+          "evidence_refs": [
+            "b04-tw034-a",
+            "b04-tw034-b"
+          ],
+          "derivation_method": null,
+          "uncertainty_note": "Azimuth, distance and exact legal photographic position not independently verified; celestial components have no fake ground coordinates."
+        }
+      ],
+      "navigation_targets": [
+        {
+          "id": "NAV-tw-034-P02-01",
+          "status": "needs_review",
+          "target_type": "other",
+          "lat": null,
+          "lon": null,
+          "label_i18n": {
+            "zh-TW": "尚未核實合法實際抵達點",
+            "en": "Lawful practical arrival point not verified",
+            "ja": "合法的な到着地点は未確認"
+          },
+          "evidence_refs": [],
+          "confidence": "unknown"
+        }
+      ],
+      "condition_contract": {
+        "contract_id": "CC-tw-034-P02-v1",
+        "status": "review",
+        "recommendation_policy_version": null,
+        "conditions": [
+          {
+            "id": "C-tw-034-P02-01",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "cliff_pacific_visibility",
+            "operator": "none",
+            "threshold": null,
+            "unit": null,
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "tw-034-P02-condition-1"
+            ],
+            "model_binding": null,
+            "notes_i18n": {
+              "zh-TW": "斷崖與海天輪廓需可辨識；未驗證定量公里能見度門檻。",
+              "en": "Cliff and marine horizon must be discernible; no kilometer visibility cutoff is validated.",
+              "ja": "断崖と海の輪郭を判別できること。視程距離の数値基準は未検証。"
+            },
+            "validation_status": "provisional"
+          },
+          {
+            "id": "C-tw-034-P02-02",
+            "role": "QUALITY",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "low_cloud_coastal_haze",
+            "operator": "none",
+            "threshold": null,
+            "unit": null,
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "tw-034-P02-condition-2"
+            ],
+            "model_binding": null,
+            "notes_i18n": {
+              "zh-TW": "低雲與霧霾可降低山海層次，但不能只用單一雲量代理保證清晰。",
+              "en": "Low clouds and haze reduce scene clarity; generic cloud cover alone cannot guarantee it.",
+              "ja": "低雲やかすみで山海の層次が低下する。一般的な雲量だけで明瞭さを保証できない。"
+            },
+            "validation_status": "provisional"
+          }
+        ]
+      },
+      "evidence_claims": [
+        {
+          "claim_id": "tw-034-P02-existence",
+          "claim_type": "existence",
+          "evidence_refs": [
+            "b04-tw034-a",
+            "b04-tw034-b"
+          ],
+          "audit_status": "OK",
+          "scope_note": "Official place-specific scene exists; not a date-specific forecast or camera permission."
+        },
+        {
+          "claim_id": "tw-034-P02-camera",
+          "claim_type": "camera_location",
+          "evidence_refs": [
+            "b04-tw034-a",
+            "b04-tw034-b"
+          ],
+          "audit_status": "PARTIAL",
+          "scope_note": "Public site documented; legal photography boundary and exact tripod position remain unverified."
+        },
+        {
+          "claim_id": "tw-034-P02-navigation",
+          "claim_type": "navigation_access",
+          "evidence_refs": [],
+          "audit_status": "UNKNOWN",
+          "scope_note": "No independently verified safe arrival coordinate; Directions remain disabled."
+        },
+        {
+          "claim_id": "tw-034-P02-condition-1",
+          "claim_type": "other",
+          "evidence_refs": [
+            "b04-tw034-a",
+            "b04-tw034-b"
+          ],
+          "audit_status": "PARTIAL",
+          "scope_note": "Qualitative photographic condition only; no validated numeric threshold or live provider binding."
+        },
+        {
+          "claim_id": "tw-034-P02-condition-2",
+          "claim_type": "other",
+          "evidence_refs": [
+            "b04-tw034-a",
+            "b04-tw034-b"
+          ],
+          "audit_status": "PARTIAL",
+          "scope_note": "Qualitative photographic condition only; no validated numeric threshold or live provider binding."
+        }
+      ],
+      "readiness": {
+        "research_level": "R1",
+        "gaps": [
+          "GEOMETRY_GAP",
+          "RESEARCH_GAP"
+        ]
+      },
+      "provenance": {
+        "source_catalog": "ChaseLights legacy R4.2 opportunity inventory + official source recheck",
+        "source_revision": "v2-w2-batch04-20261013",
+        "imported_at": "2026-10-13T15:36:00Z",
+        "review_status": "pending",
+        "reviewed_by": null
+      }
+    },
+    {
+      "schema_version": "2.1.0",
+      "opportunity_id": "tw-036-P01",
+      "place_id": "tw-036",
+      "revision": 1,
+      "lifecycle_status": "evidence_review",
+      "name_i18n": {
+        "zh-TW": "七星潭礫石海岸日出",
+        "en": "Sunrise over Qixingtan pebble shore",
+        "ja": "七星潭の礫石海岸と日の出"
+      },
+      "description_i18n": {
+        "zh-TW": "花蓮縣的官方攝影專文介紹七星潭月牙形礫石海岸與太平洋日出；實際太陽方位、海平線低雲及能見度尚待計算與驗證。",
+        "en": "A Hualien County photography guide documents sunrise over Qixingtan's crescent pebble coast; solar bearing, marine-horizon clouds and visibility require separate verification.",
+        "ja": "花蓮県の公式撮影記事は七星潭の三日月形の礫石海岸と太平洋の日の出を紹介している。太陽方位、水平線の低雲、視程は別途確認が必要。"
+      },
+      "camera_contexts": [
+        {
+          "id": "CZ-tw-036-P01-01",
+          "kind": "area",
+          "geometry": {
+            "kind": "area",
+            "status": "unknown",
+            "geojson": null,
+            "uncertainty_m": null,
+            "derivation_method": null,
+            "source_geometry_revision": null,
+            "reason_if_absent": "No independently verified place-specific camera/subject geometry."
+          },
+          "verification_status": "provisional",
+          "evidence_refs": [
+            "b04-tw036-a",
+            "b04-tw036-b"
+          ],
+          "access_notes_i18n": {
+            "zh-TW": "只能從當日允許的海岸或步道區域構圖；目前未核實完整攝影區域邊界與固定機位。",
+            "en": "Compose only from areas currently permitted on the coast or paths; the entire lawful camera boundary and a fixed tripod point are not verified.",
+            "ja": "当日立入りが認められた海岸や歩道から撮影する。撮影可能区域の境界と固定三脚位置は未確認。"
+          },
+          "safety_notes_i18n": {
+            "zh-TW": "官方警示海岸長浪及急深水域；遠離浪湧，勿假設空軍基地旁可操作無人機。",
+            "en": "Official guidance warns of large waves and nearshore drop-offs; stay clear of the surf and do not assume drone flight near the airfield is allowed.",
+            "ja": "公式案内は高波と急深を警告している。波打ち際を避け、飛行場付近でドローンが許可されていると推測しない。"
+          },
+          "altitude_m": null
+        }
+      ],
+      "targets": [
+        {
+          "id": "SG-tw-036-P01-01",
+          "kind": "multi_component",
+          "name_i18n": {
+            "zh-TW": "月牙灣礫石海岸與太平洋朝陽",
+            "en": "Pebble crescent bay and Pacific sunrise",
+            "ja": "礫石の弓状海岸と太平洋の朝日"
+          },
+          "geometry": {
+            "kind": "none",
+            "status": "unknown",
+            "geojson": null,
+            "uncertainty_m": null,
+            "derivation_method": null,
+            "source_geometry_revision": null,
+            "reason_if_absent": "No independently verified place-specific camera/subject geometry."
+          },
+          "phenomenon_model_id": null,
+          "evidence_refs": [
+            "b04-tw036-a",
+            "b04-tw036-b"
+          ],
+          "components": []
+        }
+      ],
+      "observation_relations": [
+        {
+          "id": "VR-tw-036-P01-01",
+          "camera_context_id": "CZ-tw-036-P01-01",
+          "target_id": "SG-tw-036-P01-01",
+          "type": "foreground_background",
+          "geometry_mode": "unknown",
+          "azimuth_deg": null,
+          "elevation_deg": null,
+          "distance_m": null,
+          "evidence_refs": [
+            "b04-tw036-a",
+            "b04-tw036-b"
+          ],
+          "derivation_method": null,
+          "uncertainty_note": "Azimuth, distance and exact legal photographic position not independently verified; celestial components have no fake ground coordinates."
+        }
+      ],
+      "navigation_targets": [
+        {
+          "id": "NAV-tw-036-P01-01",
+          "status": "needs_review",
+          "target_type": "other",
+          "lat": null,
+          "lon": null,
+          "label_i18n": {
+            "zh-TW": "尚未核實合法實際抵達點",
+            "en": "Lawful practical arrival point not verified",
+            "ja": "合法的な到着地点は未確認"
+          },
+          "evidence_refs": [],
+          "confidence": "unknown"
+        }
+      ],
+      "condition_contract": {
+        "contract_id": "CC-tw-036-P01-v1",
+        "status": "review",
+        "recommendation_policy_version": null,
+        "conditions": [
+          {
+            "id": "C-tw-036-P01-01",
+            "role": "REQUIRED",
+            "domain": "ASTRONOMY",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "WINDOW",
+            "metric": "sunrise_above_pacific_horizon",
+            "operator": "none",
+            "threshold": null,
+            "unit": null,
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "tw-036-P01-condition-1"
+            ],
+            "model_binding": null,
+            "notes_i18n": {
+              "zh-TW": "日出時間窗口及東向海面晨光須成立；不宣稱固定機位的太陽精確對位。",
+              "en": "The sunrise window and dawn over the Pacific must occur; no exact tripod-to-sun alignment is claimed.",
+              "ja": "日の出時間帯と太平洋側の朝光が必要で、固定位置での太陽の精密な整列は主張しない。"
+            },
+            "validation_status": "provisional"
+          },
+          {
+            "id": "C-tw-036-P01-02",
+            "role": "QUALITY",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "marine_horizon_clouds",
+            "operator": "none",
+            "threshold": null,
+            "unit": null,
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "tw-036-P01-condition-2"
+            ],
+            "model_binding": null,
+            "notes_i18n": {
+              "zh-TW": "海平線雲層與能見度影響照片；沒有經驗證的雲量百分比門檻。",
+              "en": "Marine-horizon clouds and visibility affect photos; no cloud-percentage cutoff is validated.",
+              "ja": "海の水平線付近の雲と視程は写真に影響する。検証済みの雲量閾値はない。"
+            },
+            "validation_status": "provisional"
+          }
+        ]
+      },
+      "evidence_claims": [
+        {
+          "claim_id": "tw-036-P01-existence",
+          "claim_type": "existence",
+          "evidence_refs": [
+            "b04-tw036-a",
+            "b04-tw036-b"
+          ],
+          "audit_status": "OK",
+          "scope_note": "Official place-specific scene exists; not a date-specific forecast or camera permission."
+        },
+        {
+          "claim_id": "tw-036-P01-camera",
+          "claim_type": "camera_location",
+          "evidence_refs": [
+            "b04-tw036-a",
+            "b04-tw036-b"
+          ],
+          "audit_status": "PARTIAL",
+          "scope_note": "Public site documented; legal photography boundary and exact tripod position remain unverified."
+        },
+        {
+          "claim_id": "tw-036-P01-navigation",
+          "claim_type": "navigation_access",
+          "evidence_refs": [],
+          "audit_status": "UNKNOWN",
+          "scope_note": "No independently verified safe arrival coordinate; Directions remain disabled."
+        },
+        {
+          "claim_id": "tw-036-P01-condition-1",
+          "claim_type": "other",
+          "evidence_refs": [
+            "b04-tw036-a",
+            "b04-tw036-b"
+          ],
+          "audit_status": "PARTIAL",
+          "scope_note": "Qualitative photographic condition only; no validated numeric threshold or live provider binding."
+        },
+        {
+          "claim_id": "tw-036-P01-condition-2",
+          "claim_type": "other",
+          "evidence_refs": [
+            "b04-tw036-a",
+            "b04-tw036-b"
+          ],
+          "audit_status": "PARTIAL",
+          "scope_note": "Qualitative photographic condition only; no validated numeric threshold or live provider binding."
+        }
+      ],
+      "readiness": {
+        "research_level": "R1",
+        "gaps": [
+          "GEOMETRY_GAP",
+          "RESEARCH_GAP"
+        ]
+      },
+      "provenance": {
+        "source_catalog": "ChaseLights legacy R4.2 opportunity inventory + official source recheck",
+        "source_revision": "v2-w2-batch04-20261013",
+        "imported_at": "2026-10-13T15:36:00Z",
+        "review_status": "pending",
+        "reviewed_by": null
+      }
+    },
+    {
+      "schema_version": "2.1.0",
+      "opportunity_id": "tw-082-P01",
+      "place_id": "tw-082",
+      "revision": 1,
+      "lifecycle_status": "evidence_review",
+      "name_i18n": {
+        "zh-TW": "鯉魚潭湖光與水面倒影",
+        "en": "Liyu Lake reflections and mountain scenery",
+        "ja": "鯉魚潭の湖面の反射と山並み"
+      },
+      "description_i18n": {
+        "zh-TW": "鯉魚潭的湖中樹、水面倒影與山景有官方影像及文字紀錄；實際倒影隨風浪與水面變化。請從現場允許的水岸自由構圖。",
+        "en": "Official materials show Liyu Lake's lake tree, reflections and hills; reflections vary with wind and water conditions. Compose freely only from currently permitted shore areas.",
+        "ja": "鯉魚潭の湖中の木、水面の映り込み、山並みは公式の画像と記事に記録されている。反射は風や水面の状態で変化する。現地で許可された湖岸から自由に構図を決める。"
+      },
+      "camera_contexts": [
+        {
+          "id": "CZ-tw-082-P01-01",
+          "kind": "area",
+          "geometry": {
+            "kind": "area",
+            "status": "unknown",
+            "geojson": null,
+            "uncertainty_m": null,
+            "derivation_method": null,
+            "source_geometry_revision": null,
+            "reason_if_absent": "No independently verified place-specific camera/subject geometry."
+          },
+          "verification_status": "provisional",
+          "evidence_refs": [
+            "b04-tw082-a",
+            "b04-tw082-b"
+          ],
+          "access_notes_i18n": {
+            "zh-TW": "湖岸、碼頭及步道的實際開放範圍須依當日公告；官方視角不證明所有岸線可進入。",
+            "en": "Follow current lakeside, wharf and path access notices; an official viewpoint does not establish open access along the entire shore.",
+            "ja": "湖岸・桟橋・遊歩道の当日の案内を確認する。公式撮影視点は湖岸全域の開放を示すものではない。"
+          },
+          "safety_notes_i18n": {
+            "zh-TW": "停留在允許的水岸與步道，勿進入水域或管制區。",
+            "en": "Stay on permitted shore paths; do not enter water or restricted areas.",
+            "ja": "許可された湖岸や歩道を利用し、水域や立入制限区域には入らない。"
+          },
+          "altitude_m": null
+        }
+      ],
+      "targets": [
+        {
+          "id": "SG-tw-082-P01-01",
+          "kind": "multi_component",
+          "name_i18n": {
+            "zh-TW": "湖面、湖中樹倒影與遠山",
+            "en": "Lake surface, lake-tree reflection and hills",
+            "ja": "湖面、湖中の木の映り込みと山並み"
+          },
+          "geometry": {
+            "kind": "water_surface",
+            "status": "unknown",
+            "geojson": null,
+            "uncertainty_m": null,
+            "derivation_method": null,
+            "source_geometry_revision": null,
+            "reason_if_absent": "No independently verified place-specific camera/subject geometry."
+          },
+          "phenomenon_model_id": null,
+          "evidence_refs": [
+            "b04-tw082-a",
+            "b04-tw082-b"
+          ],
+          "components": []
+        }
+      ],
+      "observation_relations": [
+        {
+          "id": "VR-tw-082-P01-01",
+          "camera_context_id": "CZ-tw-082-P01-01",
+          "target_id": "SG-tw-082-P01-01",
+          "type": "reflection",
+          "geometry_mode": "unknown",
+          "azimuth_deg": null,
+          "elevation_deg": null,
+          "distance_m": null,
+          "evidence_refs": [
+            "b04-tw082-a",
+            "b04-tw082-b"
+          ],
+          "derivation_method": null,
+          "uncertainty_note": "Azimuth, distance and exact legal photographic position not independently verified; celestial components have no fake ground coordinates."
+        }
+      ],
+      "navigation_targets": [
+        {
+          "id": "NAV-tw-082-P01-01",
+          "status": "needs_review",
+          "target_type": "other",
+          "lat": null,
+          "lon": null,
+          "label_i18n": {
+            "zh-TW": "尚未核實合法實際抵達點",
+            "en": "Lawful practical arrival point not verified",
+            "ja": "合法的な到着地点は未確認"
+          },
+          "evidence_refs": [],
+          "confidence": "unknown"
+        }
+      ],
+      "condition_contract": {
+        "contract_id": "CC-tw-082-P01-v1",
+        "status": "review",
+        "recommendation_policy_version": null,
+        "conditions": [
+          {
+            "id": "C-tw-082-P01-01",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "observable_lake_reflection",
+            "operator": "none",
+            "threshold": null,
+            "unit": null,
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "tw-082-P01-condition-1"
+            ],
+            "model_binding": null,
+            "notes_i18n": {
+              "zh-TW": "湖面需實際形成可辨倒影；不以未校正風速門檻保證。",
+              "en": "A visible lake reflection is required; no uncalibrated wind threshold is claimed.",
+              "ja": "実際に判別できる湖面の映り込みが必要で、未検証の風速閾値では保証しない。"
+            },
+            "validation_status": "provisional"
+          },
+          {
+            "id": "C-tw-082-P01-02",
+            "role": "QUALITY",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "wind_surface_stability",
+            "operator": "none",
+            "threshold": null,
+            "unit": null,
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "tw-082-P01-condition-2"
+            ],
+            "model_binding": null,
+            "notes_i18n": {
+              "zh-TW": "弱風及平靜水面可增加倒影品質，但尚無已驗證的量化門檻。",
+              "en": "Light wind and calm water can improve reflections, but no numeric cutoff is validated.",
+              "ja": "弱風と静かな水面は反射を高め得るが、検証済みの数値閾値はない。"
+            },
+            "validation_status": "provisional"
+          }
+        ]
+      },
+      "evidence_claims": [
+        {
+          "claim_id": "tw-082-P01-existence",
+          "claim_type": "existence",
+          "evidence_refs": [
+            "b04-tw082-a",
+            "b04-tw082-b"
+          ],
+          "audit_status": "OK",
+          "scope_note": "Official place-specific scene exists; not a date-specific forecast or camera permission."
+        },
+        {
+          "claim_id": "tw-082-P01-camera",
+          "claim_type": "camera_location",
+          "evidence_refs": [
+            "b04-tw082-a",
+            "b04-tw082-b"
+          ],
+          "audit_status": "PARTIAL",
+          "scope_note": "Public site documented; legal photography boundary and exact tripod position remain unverified."
+        },
+        {
+          "claim_id": "tw-082-P01-navigation",
+          "claim_type": "navigation_access",
+          "evidence_refs": [],
+          "audit_status": "UNKNOWN",
+          "scope_note": "No independently verified safe arrival coordinate; Directions remain disabled."
+        },
+        {
+          "claim_id": "tw-082-P01-condition-1",
+          "claim_type": "other",
+          "evidence_refs": [
+            "b04-tw082-a",
+            "b04-tw082-b"
+          ],
+          "audit_status": "PARTIAL",
+          "scope_note": "Qualitative photographic condition only; no validated numeric threshold or live provider binding."
+        },
+        {
+          "claim_id": "tw-082-P01-condition-2",
+          "claim_type": "other",
+          "evidence_refs": [
+            "b04-tw082-a",
+            "b04-tw082-b"
+          ],
+          "audit_status": "PARTIAL",
+          "scope_note": "Qualitative photographic condition only; no validated numeric threshold or live provider binding."
+        }
+      ],
+      "readiness": {
+        "research_level": "R1",
+        "gaps": [
+          "GEOMETRY_GAP",
+          "RESEARCH_GAP"
+        ]
+      },
+      "provenance": {
+        "source_catalog": "ChaseLights legacy R4.2 opportunity inventory + official source recheck",
+        "source_revision": "v2-w2-batch04-20261013",
+        "imported_at": "2026-10-13T15:36:00Z",
+        "review_status": "pending",
+        "reviewed_by": null
+      }
+    },
+    {
+      "schema_version": "2.1.0",
+      "opportunity_id": "us-071-P01",
+      "place_id": "us-071",
+      "revision": 1,
+      "lifecycle_status": "evidence_review",
+      "name_i18n": {
+        "zh-TW": "Kerry Park 西雅圖天際線暮色",
+        "en": "Seattle skyline at dusk from Kerry Park",
+        "ja": "ケリー・パークからのシアトル夕景"
+      },
+      "description_i18n": {
+        "zh-TW": "西雅圖市公園局官方介紹 Kerry Park 可看城市天際線、艾略特灣及太空針塔，雷尼爾山只有部分天氣可見，日落後城市燈光亦為攝影題材。",
+        "en": "Seattle Parks describes Kerry Park's views of the skyline, Elliott Bay and Space Needle, with Mount Rainier only occasionally visible, and the illuminated city around dusk.",
+        "ja": "シアトル市公園局はケリー・パークから市街地、エリオット湾、スペースニードルを望め、レーニア山は時に見えると説明している。夕暮れの街明かりも撮影対象となる。"
+      },
+      "camera_contexts": [
+        {
+          "id": "CZ-us-071-P01-01",
+          "kind": "area",
+          "geometry": {
+            "kind": "area",
+            "status": "unknown",
+            "geojson": null,
+            "uncertainty_m": null,
+            "derivation_method": null,
+            "source_geometry_revision": null,
+            "reason_if_absent": "No independently verified place-specific camera/subject geometry."
+          },
+          "verification_status": "provisional",
+          "evidence_refs": [
+            "b04-us071-a"
+          ],
+          "access_notes_i18n": {
+            "zh-TW": "官方目前列開園 06:00–22:00；臨時管制與活動規定依當日公告，開放時間不屬攝影評分條件。",
+            "en": "The city lists 6 a.m.–10 p.m. park hours; check temporary closure/event notices. Opening hours are not photography scoring conditions.",
+            "ja": "市の案内では開園時間は6～22時。臨時閉鎖やイベントの規則を確認する。開園時間は撮影適性スコアの条件ではない。"
+          },
+          "safety_notes_i18n": {
+            "zh-TW": "待在公園合法觀景區，注意護牆及擁擠；商業機材與無人機另確認相關規定。",
+            "en": "Remain in permitted park viewing areas and watch wall edges and crowds; check separate rules for commercial equipment or drones.",
+            "ja": "許可された公園展望エリアにとどまり、壁際や混雑に注意する。商業機材やドローンは別途規則を確認する。"
+          },
+          "altitude_m": null
+        }
+      ],
+      "targets": [
+        {
+          "id": "SG-us-071-P01-01",
+          "kind": "fixed_geographic",
+          "name_i18n": {
+            "zh-TW": "西雅圖市區、艾略特灣與太空針塔燈光",
+            "en": "Seattle skyline, Elliott Bay and Space Needle lights",
+            "ja": "シアトル市街、エリオット湾とスペースニードルの灯り"
+          },
+          "geometry": {
+            "kind": "area",
+            "status": "unknown",
+            "geojson": null,
+            "uncertainty_m": null,
+            "derivation_method": null,
+            "source_geometry_revision": null,
+            "reason_if_absent": "No independently verified place-specific camera/subject geometry."
+          },
+          "phenomenon_model_id": null,
+          "evidence_refs": [
+            "b04-us071-a"
+          ],
+          "components": []
+        }
+      ],
+      "observation_relations": [
+        {
+          "id": "VR-us-071-P01-01",
+          "camera_context_id": "CZ-us-071-P01-01",
+          "target_id": "SG-us-071-P01-01",
+          "type": "line_of_sight",
+          "geometry_mode": "unknown",
+          "azimuth_deg": null,
+          "elevation_deg": null,
+          "distance_m": null,
+          "evidence_refs": [
+            "b04-us071-a"
+          ],
+          "derivation_method": null,
+          "uncertainty_note": "Azimuth, distance and exact legal photographic position not independently verified; celestial components have no fake ground coordinates."
+        }
+      ],
+      "navigation_targets": [
+        {
+          "id": "NAV-us-071-P01-01",
+          "status": "needs_review",
+          "target_type": "other",
+          "lat": null,
+          "lon": null,
+          "label_i18n": {
+            "zh-TW": "尚未核實合法實際抵達點",
+            "en": "Lawful practical arrival point not verified",
+            "ja": "合法的な到着地点は未確認"
+          },
+          "evidence_refs": [],
+          "confidence": "unknown"
+        }
+      ],
+      "condition_contract": {
+        "contract_id": "CC-us-071-P01-v1",
+        "status": "review",
+        "recommendation_policy_version": null,
+        "conditions": [
+          {
+            "id": "C-us-071-P01-01",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "seattle_skyline_visibility",
+            "operator": "none",
+            "threshold": null,
+            "unit": null,
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "us-071-P01-condition-1"
+            ],
+            "model_binding": null,
+            "notes_i18n": {
+              "zh-TW": "天際線與太空針塔需可辨識；雷尼爾山不是必備條件。",
+              "en": "Skyline and Space Needle must be discernible; Mount Rainier is not required.",
+              "ja": "市街地とスペースニードルが判別できること。レーニア山は必須ではない。"
+            },
+            "validation_status": "provisional"
+          },
+          {
+            "id": "C-us-071-P01-02",
+            "role": "QUALITY",
+            "domain": "ASTRONOMY",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "WINDOW",
+            "metric": "dusk_city_lights_overlap",
+            "operator": "none",
+            "threshold": null,
+            "unit": null,
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "us-071-P01-condition-2"
+            ],
+            "model_binding": null,
+            "notes_i18n": {
+              "zh-TW": "暮色與城市燈光同時呈現可增加色彩，但固定亮燈分鐘尚未驗證。",
+              "en": "Dusk overlapping with city lights can enrich the scene; no exact switch-on minute is validated.",
+              "ja": "薄暮と街明かりの重なる時間帯は魅力的だが、正確な点灯時刻は未検証。"
+            },
+            "validation_status": "provisional"
+          }
+        ]
+      },
+      "evidence_claims": [
+        {
+          "claim_id": "us-071-P01-existence",
+          "claim_type": "existence",
+          "evidence_refs": [
+            "b04-us071-a"
+          ],
+          "audit_status": "OK",
+          "scope_note": "Official place-specific scene exists; not a date-specific forecast or camera permission."
+        },
+        {
+          "claim_id": "us-071-P01-camera",
+          "claim_type": "camera_location",
+          "evidence_refs": [
+            "b04-us071-a"
+          ],
+          "audit_status": "PARTIAL",
+          "scope_note": "Public site documented; legal photography boundary and exact tripod position remain unverified."
+        },
+        {
+          "claim_id": "us-071-P01-navigation",
+          "claim_type": "navigation_access",
+          "evidence_refs": [],
+          "audit_status": "UNKNOWN",
+          "scope_note": "No independently verified safe arrival coordinate; Directions remain disabled."
+        },
+        {
+          "claim_id": "us-071-P01-condition-1",
+          "claim_type": "other",
+          "evidence_refs": [
+            "b04-us071-a"
+          ],
+          "audit_status": "PARTIAL",
+          "scope_note": "Qualitative photographic condition only; no validated numeric threshold or live provider binding."
+        },
+        {
+          "claim_id": "us-071-P01-condition-2",
+          "claim_type": "other",
+          "evidence_refs": [
+            "b04-us071-a"
+          ],
+          "audit_status": "PARTIAL",
+          "scope_note": "Qualitative photographic condition only; no validated numeric threshold or live provider binding."
+        }
+      ],
+      "readiness": {
+        "research_level": "R1",
+        "gaps": [
+          "GEOMETRY_GAP",
+          "RESEARCH_GAP"
+        ]
+      },
+      "provenance": {
+        "source_catalog": "ChaseLights legacy R4.2 opportunity inventory + official source recheck",
+        "source_revision": "v2-w2-batch04-20261013",
+        "imported_at": "2026-10-13T15:36:00Z",
+        "review_status": "pending",
+        "reviewed_by": null
+      }
     }
   ],
-  "source_commit_sha": "2177bd8c8b6c18e0a4b284e50b55d0ff12697ddd",
-  "source_path": "data/v2/opportunities/tw-026-P01.json",
-  "source_blob_sha": "001a3380231e3d073e900bf2b415aac7dcc5fd79",
-  "source_preview_path": "data/v2/previews/tw-026-P01.research-only.v21.json",
-  "source_preview_blob_sha": "282297ca41be835517a22ea312f9898e9e5e8435"
+  "evaluations": []
 }

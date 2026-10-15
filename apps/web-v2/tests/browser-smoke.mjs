@@ -15,6 +15,7 @@ const root = resolve(fileURLToPath(new URL('../', import.meta.url)));
 const preview = readPinned('tw-026-P01.research-only.v21.json');
 const originals = readOriginals();
 const current = originals.find(row => row.opportunity_id === 'tw-026-P01');
+const INDEX_SHA='c10976eb5e88fd32ec0adc58a1317ed70015821d';
 const expected = {
   'zh-TW': {lang:'zh-Hant',title:'ChaseLights V2 — 攝影預報',skip:'跳至主要內容',
     aria:['語言選擇','資料來源與進階資訊','景點清單','攝影題材與研究資料'],
@@ -64,47 +65,49 @@ async function switchWithKeyboard(page, locale) {
 }
 async function assertLocale(page, locale) {
   const e = expected[locale];
+  await page.locator('.place-button[data-place-id="tw-026"]').click();
+  const card=page.locator('.opportunity').filter({has:page.locator('h3',{hasText:current.name_i18n[locale]})});
   assert.equal(await page.title(), e.title);
   assert.equal(await page.locator('#skip-link').textContent(), e.skip);
   assert.equal(await page.locator('#headline').textContent(), e.headline);
   for (const [i,id] of ['language','source-strip','sidebar','detail'].entries())
     assert.equal(await page.locator('#'+id).getAttribute('aria-label'), e.aria[i]);
-  assert.equal(await page.locator('.opportunity h3').textContent(), current.name_i18n[locale]);
+  assert.equal(await card.locator('h3').textContent(), current.name_i18n[locale]);
   // Photographer decision information precedes optional camera/subject geometry.
-  assert.equal(await page.locator('.decision-core').count(), 1);
-  assert.equal(await page.locator('.access-advisories').count(), 1);
-  assert.equal(await page.locator('.access-advisories').getAttribute('role'),'note');
-  assert.equal(await page.locator('.decision-risks').count(), 0,
+  assert.equal(await card.locator('.decision-core').count(), 1);
+  assert.equal(await card.locator('.access-advisories').count(), 1);
+  assert.equal(await card.locator('.access-advisories').getAttribute('role'),'note');
+  assert.equal(await card.locator('.decision-risks').count(), 0,
     'access closures must not appear as photographic blockers');
-  assert.equal(await page.locator('.technical .context-grid').count(), 1);
-  assert.equal(await page.locator('.opportunity > .context-grid').count(), 0);
-  const primaryConditions = await page.locator('.decision-core').innerText();
+  assert.equal(await card.locator('.technical .context-grid').count(), 1);
+  assert.equal(await card.locator('.context-grid').count(), 1);
+  const primaryConditions = await card.locator('.decision-core').innerText();
   for (const condition of current.condition_contract.conditions.filter(x=>x.role==='REQUIRED'||x.role==='QUALITY'))
     assert.ok(primaryConditions.includes(condition.notes_i18n[locale]), locale+': missing decision condition');
-  const primary = await page.locator('.decision-core').innerText();
+  const primary = await card.locator('.decision-core').innerText();
   assert.ok(!primary.includes(current.camera_contexts[0].access_notes_i18n[locale]),
     locale+': closure warning leaked into photo-condition requirements');
-  const riskText = await page.locator('.access-advisories').innerText();
+  const riskText = await card.locator('.access-advisories').innerText();
   assert.ok(riskText.includes(current.camera_contexts[0].safety_notes_i18n[locale]), locale+': missing access risk');
   assert.ok(riskText.includes(current.camera_contexts[0].access_notes_i18n[locale]), locale+': hidden access restriction');
-  assert.equal(await page.locator('.technical').getAttribute('open'), null, 'geometry must be opt-in');
-  assert.equal(await page.locator('.technical .context-grid').isVisible(), false);
-  assert.ok(await page.locator('.opportunity').evaluate(card => {
+  assert.equal(await card.locator('.technical').getAttribute('open'), null, 'geometry must be opt-in');
+  assert.equal(await card.locator('.technical .context-grid').isVisible(), false);
+  assert.ok(await card.evaluate(card => {
     const details=card.querySelector('.technical');
     return ['.decision-core','.access-advisories','.decision-unknowns','.notice'].every(selector =>
       Boolean(card.querySelector(selector)?.compareDocumentPosition(details) & Node.DOCUMENT_POSITION_FOLLOWING));
   }), 'conditions, limitations, unknowns and research warning must precede technical geometry');
-  const framing = await page.locator('.framing-note').innerText();
+  const framing = await card.locator('.framing-note').innerText();
   assert.ok(framing.length > 20 && !framing.includes('FAVORABLE'), locale+': invalid composition guidance');
 
-  assert.equal(await page.locator('.technical summary').textContent(), e.summary);
-  assert.equal(await page.locator('.notice').textContent(), e.notice);
-  assert.equal(await page.locator('.nav-action').count(), 0);
+  assert.equal(await card.locator('.technical summary').textContent(), e.summary);
+  assert.equal(await card.locator('.notice').textContent(), e.notice);
+  assert.equal(await card.locator('.nav-action').count(), 0);
   assert.equal(await page.locator('a[href*="/maps/"]').count(), 0);
-  await page.locator('.technical summary').focus();
+  await card.locator('.technical summary').focus();
   await page.keyboard.press('Enter');
-  assert.equal(await page.locator('.technical').getAttribute('open'), '');
-  const visible = await page.locator('.technical').innerText();
+  assert.equal(await card.locator('.technical').getAttribute('open'), '');
+  const visible = await card.locator('.technical').innerText();
   const camera = current.camera_contexts[0];
   for (const text of [camera.access_notes_i18n[locale],camera.safety_notes_i18n[locale],
     ...current.condition_contract.conditions.map(condition => condition.notes_i18n[locale])])
@@ -124,12 +127,12 @@ for (const [device, viewport] of [['desktop',{width:1440,height:1000}],['mobile'
       try {
         const response = await page.goto(baseURL);
         assert.equal(response.status(), 200);
-        await page.waitForFunction(()=>document.querySelector('#data-state').dataset.status==='ready');
+        await page.waitForFunction(()=>document.querySelectorAll('.place-button').length===7);
         assert.equal(await page.locator('#research-browser').isVisible(),false);
         assert.equal(await page.locator('.forecast-empty .opportunity').count(),0);
         assert.equal(await page.locator('.opportunity').count(), 1);
         assert.equal(await page.locator('#source-value').textContent(), 'catalog.v2.json');
-        assert.equal(await page.locator('#source-commit-value').textContent(), W2_SHA);
+        assert.equal(await page.locator('#source-commit-value').textContent(), INDEX_SHA);
         // Reach the skip link via a real Tab, then move keyboard focus to main.
         await page.keyboard.press('Tab');
         assert.equal(await page.evaluate(() => document.activeElement.id), 'skip-link');
@@ -145,7 +148,8 @@ for (const [device, viewport] of [['desktop',{width:1440,height:1000}],['mobile'
         await assertLocale(page, locale);
         assert.equal(await page.evaluate(() => localStorage.getItem('chaselights-v2-locale')), locale);
         assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, 'horizontal overflow');
-        await page.reload();await page.locator('#browse-research').click();await page.waitForSelector('.opportunity');
+        await page.reload();await page.locator('#browse-research').click();await page.waitForFunction(()=>document.querySelectorAll('.place-button').length===7);
+        if(device==='mobile')await page.locator('#open-filters').click();
         await assertLocale(page, locale);
         // Native file input loads exact pinned W2 preview bytes, without upload.
         await page.locator('#tools-heading').click();
@@ -170,7 +174,7 @@ for (const [device, viewport] of [['desktop',{width:1440,height:1000}],['mobile'
         await page.waitForFunction(() => document.querySelectorAll('.place-button').length === 2);
         await page.locator('#search').fill('tw-026');
         assert.equal(await page.locator('.place-button').count(), 1);
-        await page.locator('#search').press('Tab');
+        await page.locator('.place-button').focus();
         assert.equal(await page.evaluate(() => document.activeElement.className), 'place-button');
         await page.keyboard.press('Enter');
         await page.waitForFunction(() => document.querySelectorAll('.opportunity').length === 2);
@@ -216,7 +220,7 @@ const homeExpected = {
 const wait = ms => new Promise(resolve=>setTimeout(resolve,ms));
 const scenarios = [
   ['delayed','ready'],['404','unavailable'],['500','error'],['network','error'],
-  ['invalidJSON','invalid'],['schemaMismatch','invalid'],['missingLocale','invalid'],['empty','empty']
+  ['invalidJSON','invalid'],['schemaMismatch','invalid'],['missingLocale','invalid'],['empty','invalid']
 ];
 const catalogBytes = await readFile(resolve(root,'catalog.v2.json'),'utf8');
 async function waitStatus(page,status){await page.waitForFunction(s=>document.querySelector('#data-state').dataset.status===s,status);}
@@ -282,19 +286,20 @@ for(const [device,viewport] of [['desktop',{width:1440,height:1000}],['mobile',{
             await waitStatus(page,'ready');
           }
           assert.equal(requests,scenario==='delayed'?1:2);
+          await page.waitForFunction(()=>document.querySelectorAll('.place-button').length===7);
           assert.equal(await page.locator('.opportunity').count(),1);
-          assert.equal(await page.locator('.place-button strong').textContent(),homeExpected[locale].missing);
-          assert.equal(await page.locator('.opportunity-description').textContent(),current.description_i18n[locale]);
-          assert.equal(await page.locator('#source-commit-value').textContent(),W2_SHA);
+          assert.ok((await page.locator('.place-button strong').allTextContents()).every(Boolean));
+          assert.equal(await page.locator('#source-commit-value').textContent(),INDEX_SHA);
           await assertNoForecast(page,locale);
           assert.equal(await page.locator('.access-advisories').isVisible(),true);
           assert.equal(await page.locator('.decision-risks').count(),0);
+          if(device==='mobile')await page.locator('#open-filters').click();
           await page.locator('#search').fill('not-a-real-place');
           assert.equal(await page.locator('#data-state').getAttribute('data-status'),'ready');
           assert.equal(await page.locator('.place-button').count(),0);
           await page.locator('#clear-search').click();
           assert.equal(await page.evaluate(()=>document.activeElement.id),'search');
-          assert.equal(await page.locator('.place-button').count(),1);
+          assert.equal(await page.locator('.place-button').count(),7);
           await page.locator('#close-research').click();
           assert.equal(await page.evaluate(()=>document.activeElement.id),'browse-research');
           assert.deepEqual(errors,[]);
@@ -327,25 +332,27 @@ for(const width of [360,390,1440])for(const locale of ['zh-TW','en','ja']){
     const page=await context.newPage();
     try{
       await page.goto(baseURL);await waitStatus(page,'ready');
+      await page.waitForFunction(()=>document.querySelectorAll('.place-button').length===7);
       await page.keyboard.press('Tab');assert.equal(await page.evaluate(()=>document.activeElement.id),'skip-link');
       await page.keyboard.press('Enter');assert.equal(await page.evaluate(()=>document.activeElement.id),'content');
       await page.keyboard.press('Tab');assert.equal(await page.evaluate(()=>document.activeElement.id),'browse-research');
       const {mkdir}=await import('node:fs/promises');
-      const screenshotDir=resolve(process.env.W4_SCREENSHOT_DIR||'/workspace/work/u01/screenshots');
+      const screenshotDir=resolve(process.env.W4_SCREENSHOT_DIR||'/tmp/chaselights-task-s-browser');
       await mkdir(screenshotDir,{recursive:true});
       await page.screenshot({path:resolve(screenshotDir,`${width}-${locale}-home.png`),fullPage:true});
       await page.keyboard.press('Enter');assert.equal(await page.evaluate(()=>document.activeElement.id),'research-heading');
       await page.keyboard.press('Tab');assert.equal(await page.evaluate(()=>document.activeElement.id),'close-research');
       await page.keyboard.press('Tab');assert.equal(await page.evaluate(()=>document.activeElement.id),'retry');
-      await page.keyboard.press('Tab');assert.equal(await page.evaluate(()=>document.activeElement.id),'search');
-      await page.keyboard.press('Tab');assert.equal(await page.evaluate(()=>document.activeElement.className),'place-button');
+      await page.keyboard.press('Tab');assert.equal(await page.evaluate(()=>document.activeElement.id),width<700?'open-filters':'search');
+      if(width<700){await page.keyboard.press('Enter');assert.equal(await page.evaluate(()=>document.activeElement.id),'search');}
+      await page.locator('.place-button').first().focus();assert.equal(await page.evaluate(()=>document.activeElement.className),'place-button');
       await page.keyboard.press('Enter');assert.equal(await page.evaluate(()=>document.activeElement.className),'place-button');
-      await page.keyboard.press('Tab');assert.equal(await page.evaluate(()=>document.activeElement.tagName),'SUMMARY');
+      await page.locator('.technical summary').focus();assert.equal(await page.evaluate(()=>document.activeElement.tagName),'SUMMARY');
       await page.keyboard.press('Enter');assert.equal(await page.locator('.technical').getAttribute('open'),'');
       // Changing presentation retains selection and the open advanced panel.
       await switchWithKeyboard(page,locale==='en'?'ja':'en');await switchWithKeyboard(page,locale);
       assert.equal(await page.locator('.technical').getAttribute('open'),'');
-      assert.equal(await page.locator('.place-button').getAttribute('aria-current'),'true');
+      assert.equal(await page.locator('.place-button[aria-current="true"]').count(),1);
       await page.screenshot({path:resolve(screenshotDir,`${width}-${locale}-research.png`),fullPage:true});
       assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
       for(const id of ['browse-research','close-research','retry','language']){

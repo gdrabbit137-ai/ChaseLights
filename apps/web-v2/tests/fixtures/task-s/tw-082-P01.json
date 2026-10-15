@@ -1,0 +1,222 @@
+{
+  "schema_version": "2.1.0",
+  "opportunity_id": "tw-082-P01",
+  "place_id": "tw-082",
+  "revision": 1,
+  "lifecycle_status": "evidence_review",
+  "name_i18n": {
+    "zh-TW": "鯉魚潭湖光與水面倒影",
+    "en": "Liyu Lake reflections and mountain scenery",
+    "ja": "鯉魚潭の湖面の反射と山並み"
+  },
+  "description_i18n": {
+    "zh-TW": "鯉魚潭的湖中樹、水面倒影與山景有官方影像及文字紀錄；實際倒影隨風浪與水面變化。請從現場允許的水岸自由構圖。",
+    "en": "Official materials show Liyu Lake's lake tree, reflections and hills; reflections vary with wind and water conditions. Compose freely only from currently permitted shore areas.",
+    "ja": "鯉魚潭の湖中の木、水面の映り込み、山並みは公式の画像と記事に記録されている。反射は風や水面の状態で変化する。現地で許可された湖岸から自由に構図を決める。"
+  },
+  "camera_contexts": [
+    {
+      "id": "CZ-tw-082-P01-01",
+      "kind": "area",
+      "geometry": {
+        "kind": "area",
+        "status": "unknown",
+        "geojson": null,
+        "uncertainty_m": null,
+        "derivation_method": null,
+        "source_geometry_revision": null,
+        "reason_if_absent": "No independently verified place-specific camera/subject geometry."
+      },
+      "verification_status": "provisional",
+      "evidence_refs": [
+        "b04-tw082-a",
+        "b04-tw082-b"
+      ],
+      "access_notes_i18n": {
+        "zh-TW": "湖岸、碼頭及步道的實際開放範圍須依當日公告；官方視角不證明所有岸線可進入。",
+        "en": "Follow current lakeside, wharf and path access notices; an official viewpoint does not establish open access along the entire shore.",
+        "ja": "湖岸・桟橋・遊歩道の当日の案内を確認する。公式撮影視点は湖岸全域の開放を示すものではない。"
+      },
+      "safety_notes_i18n": {
+        "zh-TW": "停留在允許的水岸與步道，勿進入水域或管制區。",
+        "en": "Stay on permitted shore paths; do not enter water or restricted areas.",
+        "ja": "許可された湖岸や歩道を利用し、水域や立入制限区域には入らない。"
+      },
+      "altitude_m": null
+    }
+  ],
+  "targets": [
+    {
+      "id": "SG-tw-082-P01-01",
+      "kind": "multi_component",
+      "name_i18n": {
+        "zh-TW": "湖面、湖中樹倒影與遠山",
+        "en": "Lake surface, lake-tree reflection and hills",
+        "ja": "湖面、湖中の木の映り込みと山並み"
+      },
+      "geometry": {
+        "kind": "water_surface",
+        "status": "unknown",
+        "geojson": null,
+        "uncertainty_m": null,
+        "derivation_method": null,
+        "source_geometry_revision": null,
+        "reason_if_absent": "No independently verified place-specific camera/subject geometry."
+      },
+      "phenomenon_model_id": null,
+      "evidence_refs": [
+        "b04-tw082-a",
+        "b04-tw082-b"
+      ],
+      "components": []
+    }
+  ],
+  "observation_relations": [
+    {
+      "id": "VR-tw-082-P01-01",
+      "camera_context_id": "CZ-tw-082-P01-01",
+      "target_id": "SG-tw-082-P01-01",
+      "type": "reflection",
+      "geometry_mode": "unknown",
+      "azimuth_deg": null,
+      "elevation_deg": null,
+      "distance_m": null,
+      "evidence_refs": [
+        "b04-tw082-a",
+        "b04-tw082-b"
+      ],
+      "derivation_method": null,
+      "uncertainty_note": "Azimuth, distance and exact legal photographic position not independently verified; celestial components have no fake ground coordinates."
+    }
+  ],
+  "navigation_targets": [
+    {
+      "id": "NAV-tw-082-P01-01",
+      "status": "needs_review",
+      "target_type": "other",
+      "lat": null,
+      "lon": null,
+      "label_i18n": {
+        "zh-TW": "尚未核實合法實際抵達點",
+        "en": "Lawful practical arrival point not verified",
+        "ja": "合法的な到着地点は未確認"
+      },
+      "evidence_refs": [],
+      "confidence": "unknown"
+    }
+  ],
+  "condition_contract": {
+    "contract_id": "CC-tw-082-P01-v1",
+    "status": "review",
+    "recommendation_policy_version": null,
+    "conditions": [
+      {
+        "id": "C-tw-082-P01-01",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "observable_lake_reflection",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-082-P01-condition-1"
+        ],
+        "model_binding": null,
+        "notes_i18n": {
+          "zh-TW": "湖面需實際形成可辨倒影；不以未校正風速門檻保證。",
+          "en": "A visible lake reflection is required; no uncalibrated wind threshold is claimed.",
+          "ja": "実際に判別できる湖面の映り込みが必要で、未検証の風速閾値では保証しない。"
+        },
+        "validation_status": "provisional"
+      },
+      {
+        "id": "C-tw-082-P01-02",
+        "role": "QUALITY",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "wind_surface_stability",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-082-P01-condition-2"
+        ],
+        "model_binding": null,
+        "notes_i18n": {
+          "zh-TW": "弱風及平靜水面可增加倒影品質，但尚無已驗證的量化門檻。",
+          "en": "Light wind and calm water can improve reflections, but no numeric cutoff is validated.",
+          "ja": "弱風と静かな水面は反射を高め得るが、検証済みの数値閾値はない。"
+        },
+        "validation_status": "provisional"
+      }
+    ]
+  },
+  "evidence_claims": [
+    {
+      "claim_id": "tw-082-P01-existence",
+      "claim_type": "existence",
+      "evidence_refs": [
+        "b04-tw082-a",
+        "b04-tw082-b"
+      ],
+      "audit_status": "OK",
+      "scope_note": "Official place-specific scene exists; not a date-specific forecast or camera permission."
+    },
+    {
+      "claim_id": "tw-082-P01-camera",
+      "claim_type": "camera_location",
+      "evidence_refs": [
+        "b04-tw082-a",
+        "b04-tw082-b"
+      ],
+      "audit_status": "PARTIAL",
+      "scope_note": "Public site documented; legal photography boundary and exact tripod position remain unverified."
+    },
+    {
+      "claim_id": "tw-082-P01-navigation",
+      "claim_type": "navigation_access",
+      "evidence_refs": [],
+      "audit_status": "UNKNOWN",
+      "scope_note": "No independently verified safe arrival coordinate; Directions remain disabled."
+    },
+    {
+      "claim_id": "tw-082-P01-condition-1",
+      "claim_type": "other",
+      "evidence_refs": [
+        "b04-tw082-a",
+        "b04-tw082-b"
+      ],
+      "audit_status": "PARTIAL",
+      "scope_note": "Qualitative photographic condition only; no validated numeric threshold or live provider binding."
+    },
+    {
+      "claim_id": "tw-082-P01-condition-2",
+      "claim_type": "other",
+      "evidence_refs": [
+        "b04-tw082-a",
+        "b04-tw082-b"
+      ],
+      "audit_status": "PARTIAL",
+      "scope_note": "Qualitative photographic condition only; no validated numeric threshold or live provider binding."
+    }
+  ],
+  "readiness": {
+    "research_level": "R1",
+    "gaps": [
+      "GEOMETRY_GAP",
+      "RESEARCH_GAP"
+    ]
+  },
+  "provenance": {
+    "source_catalog": "ChaseLights legacy R4.2 opportunity inventory + official source recheck",
+    "source_revision": "v2-w2-batch04-20261013",
+    "imported_at": "2026-10-13T15:36:00Z",
+    "review_status": "pending",
+    "reviewed_by": null
+  }
+}

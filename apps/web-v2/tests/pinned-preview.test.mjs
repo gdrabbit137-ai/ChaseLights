@@ -8,15 +8,14 @@ import {manifest, readPinned, readOriginals, W2_SHA} from './pinned-worker2.mjs'
 const preview = readPinned('tw-026-P01.research-only.v21.json');
 const catalog = JSON.parse(readFileSync(new URL('../catalog.v2.json', import.meta.url), 'utf8'));
 
-test('default catalog is the byte-verified W2 preview with only explicit provenance additions', () => {
-  const additions = ['source_commit_sha','source_path','source_blob_sha','source_preview_path','source_preview_blob_sha'];
-  assert.deepEqual(Object.fromEntries(Object.entries(catalog).filter(([key]) => !additions.includes(key))), preview);
-  assert.equal(catalog.source_commit_sha, W2_SHA);
-  for (const [path, blob] of [['source_path','source_blob_sha'],['source_preview_path','source_preview_blob_sha']]) {
-    const entry = manifest.files.find(file => file.source_path === catalog[path]);
-    assert.ok(entry, catalog[path]);
-    assert.equal(catalog[blob], entry.blob_sha);
-  }
+test('default catalog retains the original pinned P01 source and research-only publication', () => {
+  const original = catalog.opportunities.find(o => o.opportunity_id === 'tw-026-P01');
+  assert.deepEqual(original, readPinned('tw-026-P01.json'));
+  assert.equal(catalog.source_pins['tw-026-P01'].source_commit_sha, W2_SHA);
+  assert.equal(catalog.source_pins['tw-026-P01'].source_blob_sha,
+    manifest.files.find(file => file.source_path === 'data/v2/opportunities/tw-026-P01.json').blob_sha);
+  assert.equal(catalog.opportunities.length,8);
+  assert.equal(catalog.places.length,7);
   assert.deepEqual(preview.opportunities, [readPinned('tw-026-P01.json')]);
 });
 
@@ -60,7 +59,7 @@ test('real preview never becomes a live evaluation even with adversarial runtime
 
 test('latest W2 source preserves lawful-area uncertainty in all three languages', () => {
   const canonical = readPinned('tw-026-P01.json');
-  const mirrored = catalog.opportunities[0];
+  const mirrored = catalog.opportunities.find(o => o.opportunity_id === 'tw-026-P01');
   const phrases = {
     'zh-TW': '可拍攝區域邊界尚未獨立核實',
     en: 'boundaries of permitted shooting areas have not been independently verified',

@@ -69,3 +69,23 @@ test('local forged runtime remains research-only and failed reads clear previous
   await state.importFile({name:'unreadable.json',text:async()=>{throw Error('raw file error');}});
   assert.equal(state.getState().status,'invalid');assertCleared(state.getState());
 });
+test('default bundle verification fails closed, while a local import is explicitly untrusted',async()=>{
+  let approved=false;
+  const state=createCatalogState({fetchImpl:async()=>response(preview),verifyDefault:async()=>approved});
+  await state.load();assert.equal(state.getState().status,'invalid');assertCleared(state.getState());
+  await state.importFile(local(preview));assert.equal(state.getState().status,'ready');
+  assert.equal(state.getState().verifiedBundle,false);
+  approved=true;await state.load();assert.equal(state.getState().status,'ready');
+  assert.equal(state.getState().verifiedBundle,true);
+});
+test('late default verification cannot erase a newer local import',async()=>{
+  const pending=deferred();
+  const state=createCatalogState({fetchImpl:async()=>response(preview),verifyDefault:()=>pending.promise});
+  const first=state.load();
+  await new Promise(resolve=>setImmediate(resolve));
+  await state.importFile(local({opportunities:readOriginals()}));
+  pending.resolve(false);await first;
+  assert.equal(state.getState().status,'ready');
+  assert.equal(state.getState().catalog.opportunities.length,3);
+  assert.equal(state.getState().verifiedBundle,false);
+});

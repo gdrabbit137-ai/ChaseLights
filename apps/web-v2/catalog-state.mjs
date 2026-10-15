@@ -3,11 +3,11 @@ import {importV21Catalog, SUPPORTED_OPPORTUNITY_SCHEMA} from './catalog-loader.m
 import {placeId} from './model.mjs';
 
 export function createCatalogState({fetchImpl = (...args) => fetch(...args),
-  onChange = () => {}, now = () => new Date().toISOString()} = {}) {
-  let state = {status:'loading', catalog:null, selected:null, source:null, loaded:null};
+  onChange = () => {}, now = () => new Date().toISOString(), verifyDefault = async () => true} = {}) {
+  let state = {status:'loading', catalog:null, selected:null, source:null, loaded:null, verifiedBundle:false};
   let generation = 0, active = null, preferred = null;
   const publish = update => {state = {...state, ...update}; onChange(state);};
-  const clear = status => publish({status, catalog:null, selected:null, source:null, loaded:null});
+  const clear = status => publish({status, catalog:null, selected:null, source:null, loaded:null, verifiedBundle:false});
   function begin() {
     if (state.selected) preferred = state.selected;
     active?.controller.abort();
@@ -16,7 +16,7 @@ export function createCatalogState({fetchImpl = (...args) => fetch(...args),
     clear('loading');
     return request;
   }
-  function accept(text, source) {
+  function accept(text, source, verifiedBundle=false) {
     if (!text.trim()) {clear('empty'); return;}
     const input = JSON.parse(text);
     const payload = input?.data ?? input;
@@ -32,7 +32,7 @@ export function createCatalogState({fetchImpl = (...args) => fetch(...args),
     const catalog = importV21Catalog(input);
     const selected = catalog.places.some(p => placeId(p) === preferred) ? preferred : placeId(catalog.places[0]);
     preferred = selected;
-    publish({status:'ready', catalog, selected, source, loaded:now()});
+    publish({status:'ready', catalog, selected, source, loaded:now(), verifiedBundle});
   }
   function run(request, operation) {
     request.promise = (async () => {
@@ -56,7 +56,12 @@ export function createCatalogState({fetchImpl = (...args) => fetch(...args),
       if (!response.ok) {clear('error'); return;}
       let text;
       try {text = await response.text();} catch {throw {code:'NETWORK_ERROR'};}
-      if (request.id === generation) accept(text, 'catalog.v2.json');
+      if (request.id === generation) {
+        const verified = await verifyDefault(text);
+        if (request.id !== generation) return;
+        if (!verified) {clear('invalid'); return;}
+        if (request.id === generation) accept(text, 'catalog.v2.json', true);
+      }
     });
   }
   function importFile(file) {
