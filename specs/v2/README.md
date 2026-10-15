@@ -17,3 +17,7 @@ All V2 workers must check the latest `main` and current R4.2 research and naviga
 Legacy website and V2 must remain independent; V2 does not overwrite Legacy routes, data or scoring. A Legacy-to-V2 link is added only after the V2 URL is verified. No automatic Legacy/V2 comparison is required.
 
 This index is not an approval to merge or publish a live forecast. Schema and reference validation, semantic runtime gates, evidence/access audit, translation review, current-head CI, and latest-main spec gate remain required.
+
+## Proportionate W2 R1 review
+
+`W2_PROPORTIONATE_REVIEW_PROPOSAL.md` defines a proposed exception-based A/B/C review disposition (distinct from R4.2 evidence grades). A supported R1 research-only claim with optional unknowns can be reviewed without blanket human signoff; unresolved subject-existence evidence, fabricated provenance, critical locale/canonical mismatch or unsupported legal assurance remains HOLD. No R1 review status authorizes W3 live FAVORABLE, verified Directions or a deployment. Until the proposal is reconciled with normative R4.2 and release gates, existing requirements continue to apply.
