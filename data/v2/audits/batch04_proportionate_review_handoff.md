@@ -28,3 +28,17 @@ Source ledger: `data/v2/audits/worker2_batch04_evidence.json`. Listed IDs are re
 ## W5 handoff
 
 No Batch04 data promotion is requested by this handoff. W5 must preserve source pins, 157-case CI, Research-only safety and explicit release gates. Issues #465 and #474 remain open for scoped material-risk/human signoff work. This triage is a **planning artifact**, not evidence of completed review.
+
+## Independent official-source spot check (2026-10-15 UTC)
+
+The official pages below were opened and their described subject claims checked independently of the existing source ledger. This is **subject-evidence verification only**, not canonical/crosswalk/three-language semantic certification or human signoff.
+
+| Opportunity | Verified official subject evidence | Limits retained |
+| --- | --- | --- |
+| tw-082-P01 | [East Rift Valley NSA, lake tree reflection](https://www.erv-nsa.gov.tw/zh-tw/event/news/6820) explicitly describes photographing the tree's reflection | No wind threshold, legal camera polygon or navigation fix verified |
+| tw-036-P01 | [Hualien County sunrise guide](https://tour-hualien.hl.gov.tw/jp/News_Content.aspx?n=288&s=8856) explicitly identifies Qixingtan sunrise photography | Wave hazard and drone restrictions are separate advisories; no forecast cutoff or verified camera GPS |
+| tw-034-P02 | [Taroko Chongde Trail](https://www.taroko.gov.tw/ch/trailsAttractions/trail-list/40) describes views north to Qingshui Cliff | [Taroko FAQ](https://www.taroko.gov.tw/ch/listicle/faq/404) says access only to first viewing platform; independently verify status at visit, do not imply whole trail is open |
+| jp-010-P01 | [Fujikawaguchiko tourism Oishi Park](https://fujisan.ne.jp/sightseeing/1652/) describes Fuji across Lake Kawaguchi and seasonal lavender/kochia | Not evidence of current blooming, reflection or special-use permission |
+| us-071-P01 | [Seattle Parks Kerry Park](https://seattle.gov/parks/parks/kerry-park) describes skyline, Elliott Bay, occasional Rainier, sunset and night city lights | Posted hours 6 a.m.–10 p.m. are not a verified photography time window or tripod authorization |
+
+**Disposition stays PENDING for all five.** Next W2 review must compare each exact canonical claim and its zh-TW/en/ja renderings to these verified source scopes, inspect crosswalk/source pointers and classify A/B/C with recorded per-field UNKNOWN. In particular, access limitations must not alter meteorological scores, and unverified navigation must remain disabled.
