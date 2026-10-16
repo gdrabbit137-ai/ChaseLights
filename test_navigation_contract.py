@@ -1,6 +1,6 @@
 import unittest
 
-from regions import NAVIGATION_TARGET_OVERRIDES, get_spots
+from regions import NAVIGATION_TARGET_OVERRIDES, REGIONS, get_spots
 
 STATUSES = {"verified", "provisional_camera_anchor", "needs_review", "multiple_access_routes"}
 TARGET_TYPES = {"entrance", "trailhead", "parking", "station", "street_access", "viewpoint", "camera_zone_or_place_anchor"}
@@ -36,11 +36,27 @@ class NavigationContractTests(unittest.TestCase):
                 self.assertTrue(-180 <= float(target["lon"]) <= 180)
                 self.assertNotEqual("camera_zone_or_place_anchor", target["target_type"])
 
+    def test_shinhotaka_directions_use_base_station_not_summit_camera_zone(self):
+        spot = next(
+            s for s in get_spots("jp")
+            if s["name_i18n"]["zh-TW"] == "新穗高・西穗高口展望台"
+        )
+        target = spot["navigation_target"]
+        self.assertEqual("verified", target["status"])
+        self.assertEqual("station", target["target_type"])
+        self.assertAlmostEqual(36.2858894, float(target["lat"]), places=6)
+        self.assertAlmostEqual(137.5753158, float(target["lon"]), places=6)
+        self.assertNotEqual((float(spot["lat"]), float(spot["lon"])), (float(target["lat"]), float(target["lon"])))
+
     def test_default_target_for_unreviewed_coordinate_is_provisional(self):
-        reviewed = set(NAVIGATION_TARGET_OVERRIDES)
+        reviewed_spot_ids = {
+            f"{region}-{index:03d}"
+            for region in ("tw", "jp", "us")
+            for index, raw_spot in enumerate(REGIONS[region]["spots"], start=1)
+            if raw_spot[2] in NAVIGATION_TARGET_OVERRIDES
+        }
         for spot in self.all_spots():
-            source_name = spot["name_local"]
-            if source_name in reviewed or spot["name_i18n"]["zh-TW"] in reviewed:
+            if spot["spot_id"] in reviewed_spot_ids:
                 continue
             target = spot["navigation_target"]
             with self.subTest(spot_id=spot["spot_id"]):
