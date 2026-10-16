@@ -197,7 +197,8 @@ for (const [device, viewport] of [['desktop',{width:1440,height:1000}],['mobile'
         // Reject incomplete localization instead of falling back or keeping old cards.
         const invalid = structuredClone(preview);delete invalid.opportunities[0].name_i18n.en;
         await page.locator('#file').setInputFiles({name:'test-only-invalid-localization.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(invalid))});
-        await page.waitForFunction(() => document.querySelectorAll('.opportunity').length === 0);
+        await page.waitForFunction(() => document.querySelector('#data-state').dataset.status === 'invalid');
+        assert.equal(await page.locator('.opportunity').count(), 0);
         assert.ok((await page.locator('#data-status').textContent()).includes(expected[locale].invalid));
         assert.equal(await page.locator('.nav-action').count(), 0);
         await page.locator('#close-research').click();
