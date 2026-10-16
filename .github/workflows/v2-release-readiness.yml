@@ -1,0 +1,60 @@
+name: V2 Release Readiness Tools
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - .github/workflows/v2-release-readiness.yml
+      - .github/workflows/v2-integration.yml
+      - ops/v2/**
+permissions:
+  contents: read
+concurrency:
+  group: v2-release-tools-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+jobs:
+  release-tools:
+    name: W5 immutable-head build and merge rehearsal (no deployment)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout actual PR head with source history
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /AGENTS.md
+            /*SPEC_R4_2.md
+            /specs/v2/
+            /data/v2/
+            /packages/core-v2/
+            /packages/models-v2/
+            /apps/web-v2/
+            /ops/v2/
+            /.github/workflows/
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned schema and YAML validators
+        run: python -m pip install 'jsonschema==4.26.0' 'PyYAML==6.0.3'
+      - name: Validate configuration and build only V2 static runtime
+        run: |
+          python ops/v2/validate_release_config.py --root .
+          python ops/v2/build_static.py --root . --output .ci/v2-build
+      - name: Compute real merge tree from immutable GitHub base and head
+        env:
+          RELEASE_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          RELEASE_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: python ops/v2/simulate_merges.py --repo . --base-sha "$RELEASE_BASE_SHA" --candidate-sha "$RELEASE_HEAD_SHA" --log-dir .ci/release-rehearsal
+      - name: Preserve build and rehearsal evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v2-release-tools-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            .ci/v2-build/
+            .ci/release-rehearsal/
+          if-no-files-found: error
+          retention-days: 14

@@ -11,7 +11,8 @@ const locales=['zh-TW','en','ja'];
 
 test('declared source commit survives projection without promoting research or persisting across imports',()=>{
   const projected=importV21Catalog(defaultCatalog);
-  assert.equal(projected.metadata.source_commit_sha,W2_SHA);
+  assert.equal(projected.metadata.source_commit_sha,null);
+  assert.equal(projected.metadata.source_pins['tw-026-P01'].source_commit_sha,W2_SHA);
   assert.equal(projected.metadata.research_only,true);
   assert.deepEqual(projected.evaluations,[]);
   assert.equal(importV21Catalog(records[0]).metadata.source_commit_sha,null);

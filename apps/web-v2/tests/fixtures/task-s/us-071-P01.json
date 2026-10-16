@@ -1,0 +1,215 @@
+{
+  "schema_version": "2.1.0",
+  "opportunity_id": "us-071-P01",
+  "place_id": "us-071",
+  "revision": 1,
+  "lifecycle_status": "evidence_review",
+  "name_i18n": {
+    "zh-TW": "Kerry Park 西雅圖天際線暮色",
+    "en": "Seattle skyline at dusk from Kerry Park",
+    "ja": "ケリー・パークからのシアトル夕景"
+  },
+  "description_i18n": {
+    "zh-TW": "西雅圖市公園局官方介紹 Kerry Park 可看城市天際線、艾略特灣及太空針塔，雷尼爾山只有部分天氣可見，日落後城市燈光亦為攝影題材。",
+    "en": "Seattle Parks describes Kerry Park's views of the skyline, Elliott Bay and Space Needle, with Mount Rainier only occasionally visible, and the illuminated city around dusk.",
+    "ja": "シアトル市公園局はケリー・パークから市街地、エリオット湾、スペースニードルを望め、レーニア山は時に見えると説明している。夕暮れの街明かりも撮影対象となる。"
+  },
+  "camera_contexts": [
+    {
+      "id": "CZ-us-071-P01-01",
+      "kind": "area",
+      "geometry": {
+        "kind": "area",
+        "status": "unknown",
+        "geojson": null,
+        "uncertainty_m": null,
+        "derivation_method": null,
+        "source_geometry_revision": null,
+        "reason_if_absent": "No independently verified place-specific camera/subject geometry."
+      },
+      "verification_status": "provisional",
+      "evidence_refs": [
+        "b04-us071-a"
+      ],
+      "access_notes_i18n": {
+        "zh-TW": "官方目前列開園 06:00–22:00；臨時管制與活動規定依當日公告，開放時間不屬攝影評分條件。",
+        "en": "The city lists 6 a.m.–10 p.m. park hours; check temporary closure/event notices. Opening hours are not photography scoring conditions.",
+        "ja": "市の案内では開園時間は6～22時。臨時閉鎖やイベントの規則を確認する。開園時間は撮影適性スコアの条件ではない。"
+      },
+      "safety_notes_i18n": {
+        "zh-TW": "待在公園合法觀景區，注意護牆及擁擠；商業機材與無人機另確認相關規定。",
+        "en": "Remain in permitted park viewing areas and watch wall edges and crowds; check separate rules for commercial equipment or drones.",
+        "ja": "許可された公園展望エリアにとどまり、壁際や混雑に注意する。商業機材やドローンは別途規則を確認する。"
+      },
+      "altitude_m": null
+    }
+  ],
+  "targets": [
+    {
+      "id": "SG-us-071-P01-01",
+      "kind": "fixed_geographic",
+      "name_i18n": {
+        "zh-TW": "西雅圖市區、艾略特灣與太空針塔燈光",
+        "en": "Seattle skyline, Elliott Bay and Space Needle lights",
+        "ja": "シアトル市街、エリオット湾とスペースニードルの灯り"
+      },
+      "geometry": {
+        "kind": "area",
+        "status": "unknown",
+        "geojson": null,
+        "uncertainty_m": null,
+        "derivation_method": null,
+        "source_geometry_revision": null,
+        "reason_if_absent": "No independently verified place-specific camera/subject geometry."
+      },
+      "phenomenon_model_id": null,
+      "evidence_refs": [
+        "b04-us071-a"
+      ],
+      "components": []
+    }
+  ],
+  "observation_relations": [
+    {
+      "id": "VR-us-071-P01-01",
+      "camera_context_id": "CZ-us-071-P01-01",
+      "target_id": "SG-us-071-P01-01",
+      "type": "line_of_sight",
+      "geometry_mode": "unknown",
+      "azimuth_deg": null,
+      "elevation_deg": null,
+      "distance_m": null,
+      "evidence_refs": [
+        "b04-us071-a"
+      ],
+      "derivation_method": null,
+      "uncertainty_note": "Azimuth, distance and exact legal photographic position not independently verified; celestial components have no fake ground coordinates."
+    }
+  ],
+  "navigation_targets": [
+    {
+      "id": "NAV-us-071-P01-01",
+      "status": "needs_review",
+      "target_type": "other",
+      "lat": null,
+      "lon": null,
+      "label_i18n": {
+        "zh-TW": "尚未核實合法實際抵達點",
+        "en": "Lawful practical arrival point not verified",
+        "ja": "合法的な到着地点は未確認"
+      },
+      "evidence_refs": [],
+      "confidence": "unknown"
+    }
+  ],
+  "condition_contract": {
+    "contract_id": "CC-us-071-P01-v1",
+    "status": "review",
+    "recommendation_policy_version": null,
+    "conditions": [
+      {
+        "id": "C-us-071-P01-01",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "seattle_skyline_visibility",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "us-071-P01-condition-1"
+        ],
+        "model_binding": null,
+        "notes_i18n": {
+          "zh-TW": "天際線與太空針塔需可辨識；雷尼爾山不是必備條件。",
+          "en": "Skyline and Space Needle must be discernible; Mount Rainier is not required.",
+          "ja": "市街地とスペースニードルが判別できること。レーニア山は必須ではない。"
+        },
+        "validation_status": "provisional"
+      },
+      {
+        "id": "C-us-071-P01-02",
+        "role": "QUALITY",
+        "domain": "ASTRONOMY",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "WINDOW",
+        "metric": "dusk_city_lights_overlap",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "us-071-P01-condition-2"
+        ],
+        "model_binding": null,
+        "notes_i18n": {
+          "zh-TW": "暮色與城市燈光同時呈現可增加色彩，但固定亮燈分鐘尚未驗證。",
+          "en": "Dusk overlapping with city lights can enrich the scene; no exact switch-on minute is validated.",
+          "ja": "薄暮と街明かりの重なる時間帯は魅力的だが、正確な点灯時刻は未検証。"
+        },
+        "validation_status": "provisional"
+      }
+    ]
+  },
+  "evidence_claims": [
+    {
+      "claim_id": "us-071-P01-existence",
+      "claim_type": "existence",
+      "evidence_refs": [
+        "b04-us071-a"
+      ],
+      "audit_status": "OK",
+      "scope_note": "Official place-specific scene exists; not a date-specific forecast or camera permission."
+    },
+    {
+      "claim_id": "us-071-P01-camera",
+      "claim_type": "camera_location",
+      "evidence_refs": [
+        "b04-us071-a"
+      ],
+      "audit_status": "PARTIAL",
+      "scope_note": "Public site documented; legal photography boundary and exact tripod position remain unverified."
+    },
+    {
+      "claim_id": "us-071-P01-navigation",
+      "claim_type": "navigation_access",
+      "evidence_refs": [],
+      "audit_status": "UNKNOWN",
+      "scope_note": "No independently verified safe arrival coordinate; Directions remain disabled."
+    },
+    {
+      "claim_id": "us-071-P01-condition-1",
+      "claim_type": "other",
+      "evidence_refs": [
+        "b04-us071-a"
+      ],
+      "audit_status": "PARTIAL",
+      "scope_note": "Qualitative photographic condition only; no validated numeric threshold or live provider binding."
+    },
+    {
+      "claim_id": "us-071-P01-condition-2",
+      "claim_type": "other",
+      "evidence_refs": [
+        "b04-us071-a"
+      ],
+      "audit_status": "PARTIAL",
+      "scope_note": "Qualitative photographic condition only; no validated numeric threshold or live provider binding."
+    }
+  ],
+  "readiness": {
+    "research_level": "R1",
+    "gaps": [
+      "GEOMETRY_GAP",
+      "RESEARCH_GAP"
+    ]
+  },
+  "provenance": {
+    "source_catalog": "ChaseLights legacy R4.2 opportunity inventory + official source recheck",
+    "source_revision": "v2-w2-batch04-20261013",
+    "imported_at": "2026-10-13T15:36:00Z",
+    "review_status": "pending",
+    "reviewed_by": null
+  }
+}

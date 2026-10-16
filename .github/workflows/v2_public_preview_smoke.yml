@@ -5,6 +5,7 @@ on:
     paths:
       - .github/workflows/v2_public_preview_smoke.yml
       - ops/v2/public_browser_smoke.mjs
+      - ops/v2/browser_contract.mjs
       - ops/v2/integration_gate.py
       - apps/web-v2/**
       - index.html
@@ -14,6 +15,7 @@ on:
     paths:
       - .github/workflows/v2_public_preview_smoke.yml
       - ops/v2/public_browser_smoke.mjs
+      - ops/v2/browser_contract.mjs
       - ops/v2/integration_gate.py
       - apps/web-v2/**
       - index.html
@@ -26,13 +28,14 @@ concurrency:
   cancel-in-progress: true
 jobs:
   public-preview:
-    name: Public V2 / 6 Chromium and source-safe smoke
+    name: Published V2 / six Chromium locale and device checks
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
       - name: Checkout current source (no weather forecast promotion)
         uses: actions/checkout@v4
         with:
+          fetch-depth: 0
           persist-credentials: false
           sparse-checkout-cone-mode: false
           sparse-checkout: |
@@ -43,6 +46,9 @@ jobs:
             /index.html
             /assets/app.js
             /specs/v2/
+            /data/v2/
+            /packages/core-v2/
+            /packages/models-v2/
             /apps/web-v2/
             /ops/v2/
       - uses: actions/setup-python@v5
@@ -61,9 +67,14 @@ jobs:
           mkdir -p .ci/public-smoke
           set -o pipefail
           python ops/v2/integration_gate.py --root . --public 2>&1 | tee .ci/public-smoke/http-and-isolation.log
+      - name: Build exact candidate manifest after main publication
+        if: github.event_name == 'push'
+        run: python ops/v2/build_static.py --root . --output .ci/v2-public-candidate
       - name: Verify live public URL with six Chrome locale/device scenarios
         env:
           REQUIRE_PUBLIC_V1_LINK: 'true'
+          V2_PUBLIC_UI: ${{ github.event_name == 'push' && 'forecast-home' || 'existing-preview' }}
+          V2_EXPECTED_BUILD_MANIFEST: ${{ github.event_name == 'push' && '.ci/v2-public-candidate/build-manifest.json' || '' }}
         run: |
           set -o pipefail
           node ops/v2/public_browser_smoke.mjs 2>&1 | tee .ci/public-smoke/browser.log
@@ -72,6 +83,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: v2-public-smoke-${{ github.run_id }}-${{ github.run_attempt }}
-          path: .ci/public-smoke/
+          path: |
+            .ci/public-smoke/
+            .ci/v2-public-candidate/build-manifest.json
           if-no-files-found: error
           retention-days: 14

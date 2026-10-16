@@ -1,3 +1,7 @@
+> Task V current proposal: integrates independent Draft sources #486 and #487 on reviewed main `15de1a4daf1f1a260cf3a553023d202eee6a0d99`. W4 source `f0da51f30252328f82babba7d90dd17f1559c68e`, tree `7ad5210b957e9e184f941a06b714106c528e0b0a`, remains byte-exact. The strict candidate suite now discovers 267 cases: W1 36, W2 15, W3 52, W4 Node 43 + Chromium 75, W5 40 + built-package Chromium 6. These are enforced discovery counts; actual execution results are reported separately. The new eight-file static package includes catalog-state.mjs and is never deployed by these workflows. Existing published Preview smoke and unpublished candidate smoke have explicit separate scopes. All historical records below remain historical. Live Release Readiness remains NOT READY; this proposal grants no merge/deployment or human signoff.
+
+> Task R current-state notice: this document records the historical 123-case/13-step assembly. The current main-based gate retains those checks plus solar/NWS and 12 W5 release-tool regressions (169 counted cases). Use `postmerge_verify.py` and the fixed-SHA `simulate_merges.py` CLI; do not replay already-merged owner branches. See `reviews/TASK_R_RELEASE_READINESS.md` and `deployment_plan.json`.
+
 # W5 Access Advisory Integration — 2026-10-12
 
 W5 only: integrates W1 #457, W2 #458, W3 #459 and W4 #460 on top of the already tested W5 #455, without changing other worker-owned paths.

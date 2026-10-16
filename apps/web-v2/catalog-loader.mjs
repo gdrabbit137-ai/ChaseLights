@@ -41,6 +41,9 @@ export function importV21Catalog(input) {
   result.generated_at=isObject(source) && typeof source.generated_at==='string' ? source.generated_at : null;
   result.metadata={...result.metadata,source_schema:SUPPORTED_OPPORTUNITY_SCHEMA,imported_opportunities:docs.length,
     source_commit_sha:typeof source.source_commit_sha==='string' && /^[a-f0-9]{40}$/.test(source.source_commit_sha) ? source.source_commit_sha : null,
+    source_index_commit_sha:source.source_index_commit_sha,
+    source_index_revision:source.source_index_revision,
+    source_pins:source.source_pins,
     research_only:true};
   result.evaluations=[]; // Fail closed pending Worker 3's authoritative evaluation contract.
   return result;

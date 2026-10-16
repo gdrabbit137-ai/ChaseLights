@@ -21,3 +21,8 @@ This index is not an approval to merge or publish a live forecast. Schema and re
 ## Proportionate W2 R1 review
 
 `W2_PROPORTIONATE_REVIEW_PROPOSAL.md` defines an exception-based A/B/C review disposition (distinct from R4.2 evidence grades). A supported R1 research-only claim with optional unknowns can be reviewed without blanket human signoff; unresolved subject-existence evidence, fabricated provenance, critical locale/canonical mismatch or unsupported legal assurance remains HOLD. No R1 review status authorizes W3 live FAVORABLE, verified Directions or a deployment. It is scoped to V2 R1 Research-only review and does not override R4.2 subject evidence, navigation, semantic parity, current-head CI or release approval gates.
+## U-W4-02 shared contracts (Task W, W1 proposal)
+
+[Place index / 02A](PLACE_INDEX_CONTRACT_V0_1.md), [date query / 02B](DATE_QUERY_CONTRACT_V0_1.md), and [topics, local favorites and sort / 02C](TOPICS_FAVORITES_SORT_CONTRACT_V0_1.md) define additive projections around the existing Canonical and EvaluationResult schemas. Six strict v0.1 schemas cover the index/query/registry/preferences/capability documents; none authorizes a forecast or changes Canonical v2.1. [Owner handoffs and pending human confirmations](TASK_W_HANDOFF.md) specify W2/W3/W4/W5 dependencies. Run `python specs/v2/tests/validate_task_w_contracts.py` alongside the existing validators and W1 unittest discovery.
+
+[Task U attachment reconciliation](TASK_U_REFERENCE_RECONCILIATION.md) records the subsequently supplied original matrix/Roadmap and bounded U-F05–U-F12 check; it is not a full 40-feature audit.

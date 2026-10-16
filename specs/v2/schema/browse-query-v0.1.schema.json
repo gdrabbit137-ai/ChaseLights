@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/gdrabbit137-ai/ChaseLights/blob/main/specs/v2/schema/browse-query-v0.1.schema.json",
+  "title": "browse-query-v0.1.schema.json",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "0.1.0"
+    },
+    "index_revision": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "taxonomy_revision": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "surface": {
+      "enum": [
+        "RECOMMENDATIONS",
+        "GUIDE",
+        "RESEARCH"
+      ]
+    },
+    "locale": {
+      "enum": [
+        "zh-TW",
+        "en",
+        "ja"
+      ]
+    },
+    "region_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "topic_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "search": {
+      "type": "string",
+      "maxLength": 256
+    },
+    "favorites_only": {
+      "type": "boolean"
+    },
+    "sort": {
+      "enum": [
+        "REGION",
+        "NAME",
+        "SCORE",
+        "DISTANCE"
+      ]
+    },
+    "direction": {
+      "enum": [
+        "ASC",
+        "DESC"
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "index_revision",
+    "taxonomy_revision",
+    "surface",
+    "locale",
+    "region_ids",
+    "topic_ids",
+    "search",
+    "favorites_only",
+    "sort",
+    "direction"
+  ],
+  "additionalProperties": false
+}
