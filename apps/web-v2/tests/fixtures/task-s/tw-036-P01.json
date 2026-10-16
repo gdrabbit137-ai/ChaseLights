@@ -1,0 +1,222 @@
+{
+  "schema_version": "2.1.0",
+  "opportunity_id": "tw-036-P01",
+  "place_id": "tw-036",
+  "revision": 1,
+  "lifecycle_status": "evidence_review",
+  "name_i18n": {
+    "zh-TW": "七星潭礫石海岸日出",
+    "en": "Sunrise over Qixingtan pebble shore",
+    "ja": "七星潭の礫石海岸と日の出"
+  },
+  "description_i18n": {
+    "zh-TW": "花蓮縣的官方攝影專文介紹七星潭月牙形礫石海岸與太平洋日出；實際太陽方位、海平線低雲及能見度尚待計算與驗證。",
+    "en": "A Hualien County photography guide documents sunrise over Qixingtan's crescent pebble coast; solar bearing, marine-horizon clouds and visibility require separate verification.",
+    "ja": "花蓮県の公式撮影記事は七星潭の三日月形の礫石海岸と太平洋の日の出を紹介している。太陽方位、水平線の低雲、視程は別途確認が必要。"
+  },
+  "camera_contexts": [
+    {
+      "id": "CZ-tw-036-P01-01",
+      "kind": "area",
+      "geometry": {
+        "kind": "area",
+        "status": "unknown",
+        "geojson": null,
+        "uncertainty_m": null,
+        "derivation_method": null,
+        "source_geometry_revision": null,
+        "reason_if_absent": "No independently verified place-specific camera/subject geometry."
+      },
+      "verification_status": "provisional",
+      "evidence_refs": [
+        "b04-tw036-a",
+        "b04-tw036-b"
+      ],
+      "access_notes_i18n": {
+        "zh-TW": "只能從當日允許的海岸或步道區域構圖；目前未核實完整攝影區域邊界與固定機位。",
+        "en": "Compose only from areas currently permitted on the coast or paths; the entire lawful camera boundary and a fixed tripod point are not verified.",
+        "ja": "当日立入りが認められた海岸や歩道から撮影する。撮影可能区域の境界と固定三脚位置は未確認。"
+      },
+      "safety_notes_i18n": {
+        "zh-TW": "官方警示海岸長浪及急深水域；遠離浪湧，勿假設空軍基地旁可操作無人機。",
+        "en": "Official guidance warns of large waves and nearshore drop-offs; stay clear of the surf and do not assume drone flight near the airfield is allowed.",
+        "ja": "公式案内は高波と急深を警告している。波打ち際を避け、飛行場付近でドローンが許可されていると推測しない。"
+      },
+      "altitude_m": null
+    }
+  ],
+  "targets": [
+    {
+      "id": "SG-tw-036-P01-01",
+      "kind": "multi_component",
+      "name_i18n": {
+        "zh-TW": "月牙灣礫石海岸與太平洋朝陽",
+        "en": "Pebble crescent bay and Pacific sunrise",
+        "ja": "礫石の弓状海岸と太平洋の朝日"
+      },
+      "geometry": {
+        "kind": "none",
+        "status": "unknown",
+        "geojson": null,
+        "uncertainty_m": null,
+        "derivation_method": null,
+        "source_geometry_revision": null,
+        "reason_if_absent": "No independently verified place-specific camera/subject geometry."
+      },
+      "phenomenon_model_id": null,
+      "evidence_refs": [
+        "b04-tw036-a",
+        "b04-tw036-b"
+      ],
+      "components": []
+    }
+  ],
+  "observation_relations": [
+    {
+      "id": "VR-tw-036-P01-01",
+      "camera_context_id": "CZ-tw-036-P01-01",
+      "target_id": "SG-tw-036-P01-01",
+      "type": "foreground_background",
+      "geometry_mode": "unknown",
+      "azimuth_deg": null,
+      "elevation_deg": null,
+      "distance_m": null,
+      "evidence_refs": [
+        "b04-tw036-a",
+        "b04-tw036-b"
+      ],
+      "derivation_method": null,
+      "uncertainty_note": "Azimuth, distance and exact legal photographic position not independently verified; celestial components have no fake ground coordinates."
+    }
+  ],
+  "navigation_targets": [
+    {
+      "id": "NAV-tw-036-P01-01",
+      "status": "needs_review",
+      "target_type": "other",
+      "lat": null,
+      "lon": null,
+      "label_i18n": {
+        "zh-TW": "尚未核實合法實際抵達點",
+        "en": "Lawful practical arrival point not verified",
+        "ja": "合法的な到着地点は未確認"
+      },
+      "evidence_refs": [],
+      "confidence": "unknown"
+    }
+  ],
+  "condition_contract": {
+    "contract_id": "CC-tw-036-P01-v1",
+    "status": "review",
+    "recommendation_policy_version": null,
+    "conditions": [
+      {
+        "id": "C-tw-036-P01-01",
+        "role": "REQUIRED",
+        "domain": "ASTRONOMY",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "WINDOW",
+        "metric": "sunrise_above_pacific_horizon",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-036-P01-condition-1"
+        ],
+        "model_binding": null,
+        "notes_i18n": {
+          "zh-TW": "日出時間窗口及東向海面晨光須成立；不宣稱固定機位的太陽精確對位。",
+          "en": "The sunrise window and dawn over the Pacific must occur; no exact tripod-to-sun alignment is claimed.",
+          "ja": "日の出時間帯と太平洋側の朝光が必要で、固定位置での太陽の精密な整列は主張しない。"
+        },
+        "validation_status": "provisional"
+      },
+      {
+        "id": "C-tw-036-P01-02",
+        "role": "QUALITY",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "marine_horizon_clouds",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-036-P01-condition-2"
+        ],
+        "model_binding": null,
+        "notes_i18n": {
+          "zh-TW": "海平線雲層與能見度影響照片；沒有經驗證的雲量百分比門檻。",
+          "en": "Marine-horizon clouds and visibility affect photos; no cloud-percentage cutoff is validated.",
+          "ja": "海の水平線付近の雲と視程は写真に影響する。検証済みの雲量閾値はない。"
+        },
+        "validation_status": "provisional"
+      }
+    ]
+  },
+  "evidence_claims": [
+    {
+      "claim_id": "tw-036-P01-existence",
+      "claim_type": "existence",
+      "evidence_refs": [
+        "b04-tw036-a",
+        "b04-tw036-b"
+      ],
+      "audit_status": "OK",
+      "scope_note": "Official place-specific scene exists; not a date-specific forecast or camera permission."
+    },
+    {
+      "claim_id": "tw-036-P01-camera",
+      "claim_type": "camera_location",
+      "evidence_refs": [
+        "b04-tw036-a",
+        "b04-tw036-b"
+      ],
+      "audit_status": "PARTIAL",
+      "scope_note": "Public site documented; legal photography boundary and exact tripod position remain unverified."
+    },
+    {
+      "claim_id": "tw-036-P01-navigation",
+      "claim_type": "navigation_access",
+      "evidence_refs": [],
+      "audit_status": "UNKNOWN",
+      "scope_note": "No independently verified safe arrival coordinate; Directions remain disabled."
+    },
+    {
+      "claim_id": "tw-036-P01-condition-1",
+      "claim_type": "other",
+      "evidence_refs": [
+        "b04-tw036-a",
+        "b04-tw036-b"
+      ],
+      "audit_status": "PARTIAL",
+      "scope_note": "Qualitative photographic condition only; no validated numeric threshold or live provider binding."
+    },
+    {
+      "claim_id": "tw-036-P01-condition-2",
+      "claim_type": "other",
+      "evidence_refs": [
+        "b04-tw036-a",
+        "b04-tw036-b"
+      ],
+      "audit_status": "PARTIAL",
+      "scope_note": "Qualitative photographic condition only; no validated numeric threshold or live provider binding."
+    }
+  ],
+  "readiness": {
+    "research_level": "R1",
+    "gaps": [
+      "GEOMETRY_GAP",
+      "RESEARCH_GAP"
+    ]
+  },
+  "provenance": {
+    "source_catalog": "ChaseLights legacy R4.2 opportunity inventory + official source recheck",
+    "source_revision": "v2-w2-batch04-20261013",
+    "imported_at": "2026-10-13T15:36:00Z",
+    "review_status": "pending",
+    "reviewed_by": null
+  }
+}

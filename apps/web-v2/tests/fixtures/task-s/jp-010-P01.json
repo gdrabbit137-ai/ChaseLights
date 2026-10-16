@@ -1,0 +1,222 @@
+{
+  "schema_version": "2.1.0",
+  "opportunity_id": "jp-010-P01",
+  "place_id": "jp-010",
+  "revision": 1,
+  "lifecycle_status": "evidence_review",
+  "name_i18n": {
+    "zh-TW": "河口湖大石公園花景與富士山",
+    "en": "Mount Fuji and flowers from Oishi Park",
+    "ja": "大石公園の花景と富士山"
+  },
+  "description_i18n": {
+    "zh-TW": "富士河口湖觀光聯盟介紹大石公園隔河口湖眺望富士山，初夏薰衣草和秋天紅葉掃帚草可當前景；實際花況與山景可見度須另查證。",
+    "en": "The local tourism association documents views of Mount Fuji over Lake Kawaguchi with summer lavender and autumn red kochia; actual flowers and Fuji visibility vary.",
+    "ja": "富士河口湖町観光連盟は大石公園から河口湖越しに富士山を望み、初夏のラベンダーと秋の赤いコキアを前景にできると案内している。花の状態と山の可視性は変化する。"
+  },
+  "camera_contexts": [
+    {
+      "id": "CZ-jp-010-P01-01",
+      "kind": "area",
+      "geometry": {
+        "kind": "area",
+        "status": "unknown",
+        "geojson": null,
+        "uncertainty_m": null,
+        "derivation_method": null,
+        "source_geometry_revision": null,
+        "reason_if_absent": "No independently verified place-specific camera/subject geometry."
+      },
+      "verification_status": "provisional",
+      "evidence_refs": [
+        "b04-jp010-a",
+        "b04-jp010-b"
+      ],
+      "access_notes_i18n": {
+        "zh-TW": "官方顯示公園一般開放，但仍須遵守當日現場花壇、活動與通行規定；公園開放不代表可走入植栽。",
+        "en": "The park is officially listed as generally open; follow event, path and flowerbed restrictions. Open park access does not permit entering plantings.",
+        "ja": "公式では公園は通常開放されているが、イベントや歩道、花壇の規制を守る。開園は植栽内への立入り許可ではない。"
+      },
+      "safety_notes_i18n": {
+        "zh-TW": "請從步道或公共觀景位置取景，不踩踏花圃，特殊機材另查規定。",
+        "en": "Use paths and allowed viewing areas; do not enter flowerbeds, and check rules for special equipment.",
+        "ja": "歩道と許可された展望場所から撮影し、花壇に立ち入らない。特殊機材は別途規則を確認する。"
+      },
+      "altitude_m": null
+    }
+  ],
+  "targets": [
+    {
+      "id": "SG-jp-010-P01-01",
+      "kind": "multi_component",
+      "name_i18n": {
+        "zh-TW": "富士山、河口湖與季節花壇",
+        "en": "Mount Fuji, Lake Kawaguchi and seasonal flowers",
+        "ja": "富士山・河口湖・季節の花壇"
+      },
+      "geometry": {
+        "kind": "area",
+        "status": "unknown",
+        "geojson": null,
+        "uncertainty_m": null,
+        "derivation_method": null,
+        "source_geometry_revision": null,
+        "reason_if_absent": "No independently verified place-specific camera/subject geometry."
+      },
+      "phenomenon_model_id": null,
+      "evidence_refs": [
+        "b04-jp010-a",
+        "b04-jp010-b"
+      ],
+      "components": []
+    }
+  ],
+  "observation_relations": [
+    {
+      "id": "VR-jp-010-P01-01",
+      "camera_context_id": "CZ-jp-010-P01-01",
+      "target_id": "SG-jp-010-P01-01",
+      "type": "foreground_background",
+      "geometry_mode": "unknown",
+      "azimuth_deg": null,
+      "elevation_deg": null,
+      "distance_m": null,
+      "evidence_refs": [
+        "b04-jp010-a",
+        "b04-jp010-b"
+      ],
+      "derivation_method": null,
+      "uncertainty_note": "Azimuth, distance and exact legal photographic position not independently verified; celestial components have no fake ground coordinates."
+    }
+  ],
+  "navigation_targets": [
+    {
+      "id": "NAV-jp-010-P01-01",
+      "status": "needs_review",
+      "target_type": "other",
+      "lat": null,
+      "lon": null,
+      "label_i18n": {
+        "zh-TW": "尚未核實合法實際抵達點",
+        "en": "Lawful practical arrival point not verified",
+        "ja": "合法的な到着地点は未確認"
+      },
+      "evidence_refs": [],
+      "confidence": "unknown"
+    }
+  ],
+  "condition_contract": {
+    "contract_id": "CC-jp-010-P01-v1",
+    "status": "review",
+    "recommendation_policy_version": null,
+    "conditions": [
+      {
+        "id": "C-jp-010-P01-01",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "mount_fuji_visibility",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "jp-010-P01-condition-1"
+        ],
+        "model_binding": null,
+        "notes_i18n": {
+          "zh-TW": "富士山輪廓須當時可辨；沒有已校正的視程數值門檻。",
+          "en": "Mount Fuji must be discernible at the time; no numeric visibility threshold is calibrated.",
+          "ja": "当時富士山の輪郭が判別できること。視程の数値閾値は未校正。"
+        },
+        "validation_status": "provisional"
+      },
+      {
+        "id": "C-jp-010-P01-02",
+        "role": "QUALITY",
+        "domain": "SEASON_TIME",
+        "evaluation_mode": "VERIFY",
+        "capability": "OBSERVATION",
+        "metric": "lavender_kochia_seasonal_state",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "jp-010-P01-condition-2"
+        ],
+        "model_binding": null,
+        "notes_i18n": {
+          "zh-TW": "薰衣草或掃帚草狀態需要當期查證，不以固定日期保證花景。",
+          "en": "Lavender or kochia state needs current observation; fixed dates do not guarantee a flower scene.",
+          "ja": "ラベンダーやコキアの状態は現地で確認し、固定日付で花景を保証しない。"
+        },
+        "validation_status": "provisional"
+      }
+    ]
+  },
+  "evidence_claims": [
+    {
+      "claim_id": "jp-010-P01-existence",
+      "claim_type": "existence",
+      "evidence_refs": [
+        "b04-jp010-a",
+        "b04-jp010-b"
+      ],
+      "audit_status": "OK",
+      "scope_note": "Official place-specific scene exists; not a date-specific forecast or camera permission."
+    },
+    {
+      "claim_id": "jp-010-P01-camera",
+      "claim_type": "camera_location",
+      "evidence_refs": [
+        "b04-jp010-a",
+        "b04-jp010-b"
+      ],
+      "audit_status": "PARTIAL",
+      "scope_note": "Public site documented; legal photography boundary and exact tripod position remain unverified."
+    },
+    {
+      "claim_id": "jp-010-P01-navigation",
+      "claim_type": "navigation_access",
+      "evidence_refs": [],
+      "audit_status": "UNKNOWN",
+      "scope_note": "No independently verified safe arrival coordinate; Directions remain disabled."
+    },
+    {
+      "claim_id": "jp-010-P01-condition-1",
+      "claim_type": "other",
+      "evidence_refs": [
+        "b04-jp010-a",
+        "b04-jp010-b"
+      ],
+      "audit_status": "PARTIAL",
+      "scope_note": "Qualitative photographic condition only; no validated numeric threshold or live provider binding."
+    },
+    {
+      "claim_id": "jp-010-P01-condition-2",
+      "claim_type": "other",
+      "evidence_refs": [
+        "b04-jp010-a",
+        "b04-jp010-b"
+      ],
+      "audit_status": "PARTIAL",
+      "scope_note": "Qualitative photographic condition only; no validated numeric threshold or live provider binding."
+    }
+  ],
+  "readiness": {
+    "research_level": "R1",
+    "gaps": [
+      "GEOMETRY_GAP",
+      "RESEARCH_GAP"
+    ]
+  },
+  "provenance": {
+    "source_catalog": "ChaseLights legacy R4.2 opportunity inventory + official source recheck",
+    "source_revision": "v2-w2-batch04-20261013",
+    "imported_at": "2026-10-13T15:36:00Z",
+    "review_status": "pending",
+    "reviewed_by": null
+  }
+}

@@ -1,0 +1,211 @@
+{
+  "schema_version": "0.1.0",
+  "index_revision": "sha256:823a1a7daf51f9ae5abfe6200718da4fe4f6bd5bfe0b38bebc0862b2af7d8ced",
+  "taxonomy_revision": "sha256:50c69521d12b2b00a7c52681545a0fd011eda0cca8c2f07518bd0bfac782dbad",
+  "topics": [
+    {
+      "topic_id": "topic:cityscape",
+      "name_i18n": {
+        "zh-TW": "城市景觀",
+        "en": "Cityscape",
+        "ja": "都市風景"
+      },
+      "definition_i18n": {
+        "zh-TW": "有證據支持的城市景觀；不推定亮燈時程。",
+        "ja": "証拠のある都市風景。点灯時刻を推定しない。",
+        "en": "Evidenced urban scene; no inferred illumination schedule."
+      },
+      "status": "ACTIVE",
+      "replaced_by": null
+    },
+    {
+      "topic_id": "topic:coastal-landscape",
+      "name_i18n": {
+        "zh-TW": "海岸景觀",
+        "en": "Coastal landscape",
+        "ja": "海岸風景"
+      },
+      "definition_i18n": {
+        "zh-TW": "有證據支持的海岸景觀；不推定浪況、潮汐或天候題材。",
+        "ja": "証拠のある海岸風景。波、潮汐、天候の撮影機会を推定しない。",
+        "en": "Evidenced coast scene; no inferred surf/tide/weather opportunity."
+      },
+      "status": "ACTIVE",
+      "replaced_by": null
+    },
+    {
+      "topic_id": "topic:colorful-clouds",
+      "name_i18n": {
+        "zh-TW": "彩霞",
+        "en": "Colorful clouds",
+        "ja": "彩雲・朝焼けと夕焼けの雲"
+      },
+      "definition_i18n": {
+        "zh-TW": "已研究的受光彩色雲層；不等於任何日落，也不保證天候。",
+        "ja": "研究された、光を受けた色のある雲。すべての日没を意味せず、天候も保証しない。",
+        "en": "Researched illuminated colored clouds; not any sunset or guaranteed weather."
+      },
+      "status": "ACTIVE",
+      "replaced_by": null
+    },
+    {
+      "topic_id": "topic:flowers",
+      "name_i18n": {
+        "zh-TW": "花卉",
+        "en": "Flowers",
+        "ja": "花"
+      },
+      "definition_i18n": {
+        "zh-TW": "有證據支持的花卉題材；不推定開花狀態或季節。",
+        "ja": "証拠のある花の被写体。開花状態や季節を推定しない。",
+        "en": "Evidenced floral subject; no inferred bloom presence or season."
+      },
+      "status": "ACTIVE",
+      "replaced_by": null
+    },
+    {
+      "topic_id": "topic:mountain-landscape",
+      "name_i18n": {
+        "zh-TW": "山岳景觀",
+        "en": "Mountain landscape",
+        "ja": "山岳風景"
+      },
+      "definition_i18n": {
+        "zh-TW": "有證據支持的山景；不推定雲海、積雪或可進入性。",
+        "ja": "証拠のある山の風景。雲海、積雪、立ち入り可能性を推定しない。",
+        "en": "Evidenced mountain scene; no inferred cloud sea, snow or access."
+      },
+      "status": "ACTIVE",
+      "replaced_by": null
+    },
+    {
+      "topic_id": "topic:reflection",
+      "name_i18n": {
+        "zh-TW": "倒影",
+        "en": "Reflections",
+        "ja": "水面の映り込み"
+      },
+      "definition_i18n": {
+        "zh-TW": "有證據支持的倒影構圖；幾何限制仍獨立處理。",
+        "ja": "証拠のある映り込みの構図。幾何の制約は引き続き独立して扱う。",
+        "en": "Evidenced reflective composition; geometry constraints remain independent."
+      },
+      "status": "ACTIVE",
+      "replaced_by": null
+    },
+    {
+      "topic_id": "topic:sunrise",
+      "name_i18n": {
+        "zh-TW": "日出",
+        "en": "Sunrise",
+        "ja": "日の出"
+      },
+      "definition_i18n": {
+        "zh-TW": "已研究的日出攝影，不代表能見度已獲證實。",
+        "ja": "研究された日の出撮影。視認できることの証明ではない。",
+        "en": "Researched sunrise photography, not proof of visibility."
+      },
+      "status": "ACTIVE",
+      "replaced_by": null
+    },
+    {
+      "topic_id": "topic:sunset",
+      "name_i18n": {
+        "zh-TW": "夕照",
+        "en": "Sunset light",
+        "ja": "夕景"
+      },
+      "definition_i18n": {
+        "zh-TW": "夕照光線或構圖；不得自動推定彩霞。",
+        "ja": "夕景の光や構図。彩色の雲を自動的に推定しない。",
+        "en": "Sunset light/composition; no automatic colorful-cloud inference."
+      },
+      "status": "ACTIVE",
+      "replaced_by": null
+    }
+  ],
+  "opportunity_topics": [
+    {
+      "opportunity_id": "jp-010-P01",
+      "topic_ids": [
+        "topic:mountain-landscape",
+        "topic:flowers"
+      ],
+      "evidence_refs": [
+        "b04-jp010-a",
+        "b04-jp010-b"
+      ]
+    },
+    {
+      "opportunity_id": "tw-016-P01",
+      "topic_ids": [
+        "topic:mountain-landscape"
+      ],
+      "evidence_refs": [
+        "e016a",
+        "e016b"
+      ]
+    },
+    {
+      "opportunity_id": "tw-026-P01",
+      "topic_ids": [
+        "topic:sunset"
+      ],
+      "evidence_refs": [
+        "e026a",
+        "e026b",
+        "e026d"
+      ]
+    },
+    {
+      "opportunity_id": "tw-026-P02",
+      "topic_ids": [
+        "topic:colorful-clouds"
+      ],
+      "evidence_refs": [
+        "e026e",
+        "e026d"
+      ]
+    },
+    {
+      "opportunity_id": "tw-034-P02",
+      "topic_ids": [
+        "topic:coastal-landscape"
+      ],
+      "evidence_refs": [
+        "b04-tw034-a",
+        "b04-tw034-b"
+      ]
+    },
+    {
+      "opportunity_id": "tw-036-P01",
+      "topic_ids": [
+        "topic:sunrise",
+        "topic:coastal-landscape"
+      ],
+      "evidence_refs": [
+        "b04-tw036-a",
+        "b04-tw036-b"
+      ]
+    },
+    {
+      "opportunity_id": "tw-082-P01",
+      "topic_ids": [
+        "topic:reflection"
+      ],
+      "evidence_refs": [
+        "b04-tw082-a",
+        "b04-tw082-b"
+      ]
+    },
+    {
+      "opportunity_id": "us-071-P01",
+      "topic_ids": [
+        "topic:cityscape"
+      ],
+      "evidence_refs": [
+        "b04-us071-a"
+      ]
+    }
+  ]
+}

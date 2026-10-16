@@ -1,18 +1,22 @@
 {
   "repository": "gdrabbit137-ai/ChaseLights",
-  "reviewed_main": "62287406507fbdc6e1cada121ed278df624ffaca",
+  "reviewed_main": "11f17f81ea5b54f29c55c535240082b53eff7c4d",
   "sources": {
     "w1": {
-      "sha": "9710d77dae3338123e4d93a47c720c2f4f929a4e",
-      "branch": "spec/v2-w1-m6b-nws-source-record-20261013",
-      "pr": 478,
-      "source_upgrade": "M6a solar plus M6b NOAA raw gridpoint schema, five non-skipped tests, never score"
+      "sha": "38b234ba5f4df4a751eaea14dcc79036b45ed180",
+      "branch": "codex/v2-w1-task-w-shared-contracts-20261014",
+      "pr": 489,
+      "source_upgrade": "Task W shared contracts plus V1 parity progression, Research-only",
+      "additional_required_shas": [
+        "6a774a95c3bc24ff06f004236fe8b225c7001c4d"
+      ],
+      "tree_sha": "3df84d67e10f90430547adca723f43421a0a10c9"
     },
     "w2": {
-      "sha": "509a7c206413a4f8d13350ddb50c2a7ad075ca4a",
+      "sha": "c10976eb5e88fd32ec0adc58a1317ed70015821d",
       "canonical_content_sha": "2177bd8c8b6c18e0a4b284e50b55d0ff12697ddd",
-      "branch": "research/v2-w2-batch04-five-places-20261013",
-      "pr": 468,
+      "branch": "codex/v2-w2-task-x-research-place-topic-index",
+      "pr": 490,
       "batch04": {
         "audit_path": "data/v2/audits/worker2_batch04_evidence.json",
         "count": 5,
@@ -25,7 +29,8 @@
         ],
         "human_signoff": "PENDING",
         "live_eligible": false
-      }
+      },
+      "tree_sha": "10791fc65c189e48fde35c9d6b76688efe8cdef7"
     },
     "w3": {
       "sha": "8e6f5a1555294ff293a6d7b746b864924f96cfc1",
@@ -34,31 +39,34 @@
       "source_upgrade": "M6a solar plus M6b NOAA raw source parser, ten transport/interval/uncertainty tests"
     },
     "w4": {
-      "sha": "ec5dc9609596135ba1b2634dfa7d6c07a54fabdc",
-      "branch": "fix/v2-access-advisory-w4-20261012",
-      "pr": 460,
+      "sha": "4607eb0dfac2c2afbeb29b4615a330420ff636ed",
+      "branch": "codex/w4-issue-503-invalid-import-browser",
+      "pr": 505,
       "historical_sha": "32f557d998a4d12ec37af4d963f0f410030b1cc1",
       "historical_pr": 454,
       "historical_tree_sha": "a0438fb0f372b0e0e124b5ec3385d5184d9fbb2e",
       "obsolete_sha": "ddf9f2c4bd2eeb556bf0aa3b244f01de3256b05f",
       "obsolete_pr": 448,
-      "tree_sha": "8427cb75fdb433a58d3a4941769a6c06f6f5dc3b",
-      "file_count": 52
+      "tree_sha": "41fb75e13b955dacc16913ba3b5f2a47ba209074",
+      "file_count": 92,
+      "previous_sha": "ec5dc9609596135ba1b2634dfa7d6c07a54fabdc",
+      "previous_tree_sha": "8427cb75fdb433a58d3a4941769a6c06f6f5dc3b",
+      "source_upgrade": "U-W4-01 photography home, operational research states and 43 Node / 75 Chromium cases; no forecast promotion"
     }
   },
   "reviewed_blobs": {
     "AGENTS.md": "c0a8c8da5cb00905b32f31d4b954aa7ed7c4b489",
     "NAVIGATION_SPEC_R4_2.md": "3d8f0bf898d7eb969b3058403a2630d9315514ed",
     "RESEARCH_EVIDENCE_SPEC_R4_2.md": "037f1fa25fe0f89eff220a1c22cb446ce63a6083",
-    "specs/v2/ADR_0001_READINESS.md": "36826588d58e5707cb005867693e0fb06a92ef58",
-    "specs/v2/ARCHITECTURE_SPEC.md": "07f372377bee495bbf2dcc4ebfd13735a9f55057",
+    "specs/v2/ADR_0001_READINESS.md": "e21064d59fcf9454b18133c9aa176695c963b31a",
+    "specs/v2/ARCHITECTURE_SPEC.md": "9de73be0fc147cd77340c44aa34d9c3223616509",
     "specs/v2/CODEX_CLOUD_RUNBOOK.md": "8aa33c79a0eb173c5ca870dc0db92e179e115d32",
-    "specs/v2/GOVERNANCE_SPEC.md": "a42125452bf360c290597486d670a43530eda2b8",
-    "specs/v2/R4_2_TO_V2_MATRIX.md": "f35aadc1d9ff5a6b58db12ef13ab2d0a0d881d7a",
-    "specs/v2/README.md": "59ad7298072089e6d8ce1762441f939d15f789ff",
+    "specs/v2/GOVERNANCE_SPEC.md": "b6e9cb32d34409deebca1d29ad7f49f6a30ff7bd",
+    "specs/v2/R4_2_TO_V2_MATRIX.md": "c76f0b38a425a1c96df428096d3773397ce65d9a",
+    "specs/v2/README.md": "339bbf30a2e57d6c31d0ddbbebabdaf97d7e00f0",
     "specs/v2/WORKER_CONTRACTS.md": "589d8507b7b14a2d07e1d753729637a96fdcbadb",
-    "specs/v2/schema/opportunity-v2.1.schema.json": "b47ba6d7ecf8536a4483c06c835a6a7f8587b511",
-    "specs/v2/tests/test_schema_smoke.py": "b90711c6f990d76908531785491c7aba6c8ffbaf",
+    "specs/v2/schema/opportunity-v2.1.schema.json": "cecfa8d29f545f22f3e1c199db60df5c8a38e57e",
+    "specs/v2/tests/test_schema_smoke.py": "6d433988473c15019dbb5f1ae91fb13d1532ffb4",
     "specs/v2/tests/validate_contract.py": "be09680722b8e5598e47a8655afbec73eb53125e"
   },
   "w5_reused_sha": "7cff8d1fd7dc714093ba521a4c599e980c11e136",
@@ -70,7 +78,7 @@
     "specs/v2/FREE_COMPOSITION_SPEC.md": "648cd0de2d0f00f1538388f9697b600bcee1e5bd",
     "specs/v2/GOVERNANCE_SPEC.md": "b6e9cb32d34409deebca1d29ad7f49f6a30ff7bd",
     "specs/v2/R4_2_TO_V2_MATRIX.md": "c76f0b38a425a1c96df428096d3773397ce65d9a",
-    "specs/v2/README.md": "11a5359ca15892d03c349fc0ee60060111bc506d",
+    "specs/v2/README.md": "339bbf30a2e57d6c31d0ddbbebabdaf97d7e00f0",
     "specs/v2/W2_PROPORTIONATE_REVIEW_PROPOSAL.md": "2484e0f95e248ee36e77f5d897d6c3150b2bb730",
     "specs/v2/schema/evaluation-result-v0.1.schema.json": "bf4cc0e959182279643b4326b7c9ee8f0e047b04",
     "specs/v2/schema/opportunity-v2.1.schema.json": "cecfa8d29f545f22f3e1c199db60df5c8a38e57e",
@@ -80,5 +88,70 @@
     "specs/v2/tests/test_evaluation_result_security.py": "6311589cfe3cdd55f98605be0611b7900e6c1f44",
     "specs/v2/tests/test_free_composition_contract.py": "40c34e6e9687904aae8ea62d0154e8633ba03df0",
     "specs/v2/tests/test_schema_smoke.py": "6d433988473c15019dbb5f1ae91fb13d1532ffb4"
-  }
+  },
+  "owner_integrations": [
+    {
+      "owner": "w4",
+      "previous_sha": "ec5dc9609596135ba1b2634dfa7d6c07a54fabdc",
+      "source_sha": "f0da51f30252328f82babba7d90dd17f1559c68e",
+      "paths": [
+        "apps/web-v2"
+      ]
+    }
+  ],
+  "w5_prerequisite": {
+    "pr": 486,
+    "sha": "0837dd555df9d8f647b9042223d5e766d6fd6afc"
+  },
+  "effective_reviewed_blobs": {
+    "AGENTS.md": "c0a8c8da5cb00905b32f31d4b954aa7ed7c4b489",
+    "RESEARCH_EVIDENCE_SPEC_R4_2.md": "037f1fa25fe0f89eff220a1c22cb446ce63a6083",
+    "NAVIGATION_SPEC_R4_2.md": "3d8f0bf898d7eb969b3058403a2630d9315514ed",
+    "specs/v2/ACCESS_ADVISORY_SPEC.md": "f07076e708a4787cd3c486de14035cd315343733",
+    "specs/v2/ADR_0001_READINESS.md": "e21064d59fcf9454b18133c9aa176695c963b31a",
+    "specs/v2/ARCHITECTURE_SPEC.md": "9de73be0fc147cd77340c44aa34d9c3223616509",
+    "specs/v2/ASTRONOMY_WINDOW_SPEC_V0_1.md": "1810ed09518766955ed95f8f4380cefbb7dc6999",
+    "specs/v2/CAMERA_AREA_COMPOSITION_POLICY.md": "bb998ce4d7a2020732753f245e8ff4e851afa02d",
+    "specs/v2/CODEX_CLOUD_RUNBOOK.md": "8aa33c79a0eb173c5ca870dc0db92e179e115d32",
+    "specs/v2/FREE_COMPOSITION_SPEC.md": "648cd0de2d0f00f1538388f9697b600bcee1e5bd",
+    "specs/v2/GOVERNANCE_SPEC.md": "b6e9cb32d34409deebca1d29ad7f49f6a30ff7bd",
+    "specs/v2/R4_2_TO_V2_MATRIX.md": "c76f0b38a425a1c96df428096d3773397ce65d9a",
+    "specs/v2/README.md": "339bbf30a2e57d6c31d0ddbbebabdaf97d7e00f0",
+    "specs/v2/WEATHER_SOURCE_NWS_SPEC_V0_1.md": "163c32a2ca4cbebd989f48cb3971363c512fafd6",
+    "specs/v2/WORKER_CONTRACTS.md": "589d8507b7b14a2d07e1d753729637a96fdcbadb"
+  },
+  "beta_owner_integrations": [
+    {
+      "owner": "w1",
+      "paths": [
+        "specs/v2"
+      ],
+      "source_shas": [
+        "38b234ba5f4df4a751eaea14dcc79036b45ed180",
+        "6a774a95c3bc24ff06f004236fe8b225c7001c4d"
+      ],
+      "previous_tree_sha": "8fc319e9996386ddd5c1b3cd26bef5b009c5e792"
+    },
+    {
+      "owner": "w2",
+      "paths": [
+        "data/v2"
+      ],
+      "source_shas": [
+        "c10976eb5e88fd32ec0adc58a1317ed70015821d"
+      ],
+      "previous_tree_sha": "9d660c1ebd0fb5a374300972a943de2b8cc5b348"
+    },
+    {
+      "owner": "w4",
+      "paths": [
+        "apps/web-v2"
+      ],
+      "source_shas": [
+        "b67e143f53b4cbc154120f7913bf35e6fc4ba783",
+        "4607eb0dfac2c2afbeb29b4615a330420ff636ed"
+      ],
+      "previous_tree_sha": "8427cb75fdb433a58d3a4941769a6c06f6f5dc3b"
+    }
+  ]
 }

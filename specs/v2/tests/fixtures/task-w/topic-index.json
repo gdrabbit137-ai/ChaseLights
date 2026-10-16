@@ -1,0 +1,75 @@
+{
+  "schema_version": "0.1.0",
+  "taxonomy_revision": "test-taxonomy-1",
+  "index_revision": "contract-fixture-index-1",
+  "topics": [
+    {
+      "topic_id": "topic:contract-a",
+      "name_i18n": {
+        "zh-TW": "a（契約測試）",
+        "en": "a (contract test)",
+        "ja": "a（契約テスト）"
+      },
+      "definition_i18n": {
+        "zh-TW": "Synthetic classification a（契約測試）",
+        "en": "Synthetic classification a (contract test)",
+        "ja": "Synthetic classification a（契約テスト）"
+      },
+      "status": "ACTIVE",
+      "replaced_by": null
+    },
+    {
+      "topic_id": "topic:contract-b",
+      "name_i18n": {
+        "zh-TW": "b（契約測試）",
+        "en": "b (contract test)",
+        "ja": "b（契約テスト）"
+      },
+      "definition_i18n": {
+        "zh-TW": "Synthetic classification b（契約測試）",
+        "en": "Synthetic classification b (contract test)",
+        "ja": "Synthetic classification b（契約テスト）"
+      },
+      "status": "ACTIVE",
+      "replaced_by": null
+    }
+  ],
+  "opportunity_topics": [
+    {
+      "opportunity_id": "tw-026-P01",
+      "topic_ids": [
+        "topic:contract-a"
+      ],
+      "evidence_refs": [
+        "SYNTHETIC_TEST_ONLY"
+      ]
+    },
+    {
+      "opportunity_id": "tw-026-P02",
+      "topic_ids": [
+        "topic:contract-b"
+      ],
+      "evidence_refs": [
+        "SYNTHETIC_TEST_ONLY"
+      ]
+    },
+    {
+      "opportunity_id": "us-071-P01",
+      "topic_ids": [
+        "topic:contract-a"
+      ],
+      "evidence_refs": [
+        "SYNTHETIC_TEST_ONLY"
+      ]
+    },
+    {
+      "opportunity_id": "jp-010-P01",
+      "topic_ids": [
+        "topic:contract-b"
+      ],
+      "evidence_refs": [
+        "SYNTHETIC_TEST_ONLY"
+      ]
+    }
+  ]
+}

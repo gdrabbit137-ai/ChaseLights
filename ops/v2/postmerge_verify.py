@@ -2,7 +2,7 @@
 """After V2 owner merges, verify the actual main tree and run every V2 suite.
 
 No source pin is relaxed, no network weather inputs, no deployment or live
-scoring is performed here. This complements pre-merge 13-step rehearsal.
+scoring is performed here. This complements immutable base/head merge-tree rehearsal.
 """
 import argparse
 import hashlib
@@ -36,14 +36,26 @@ def verify_main(root, lock):
             capture_output=True, check=False,
         ).returncode:
             raise ValueError("Owner head not merged into main: " + owner + " " + pinned)
+        for additional in lock["sources"][owner].get("additional_required_shas", []):
+            if subprocess.run(
+                ["git", "-C", str(root), "merge-base", "--is-ancestor", additional, "HEAD"],
+                capture_output=True, check=False,
+            ).returncode:
+                raise ValueError("Required owner dependency not merged: " + owner + " " + additional)
         for p in paths:
             current = git(root, "rev-parse", "HEAD:" + p)
-            expected = git(root, "rev-parse", pinned + ":" + p)
+            expected = lock["sources"][owner].get("tree_sha") if len(paths) == 1 else None
+            expected = expected or git(root, "rev-parse", pinned + ":" + p)
             if current != expected:
                 raise ValueError(f"Merged {owner} subtree differs from tested pin: {p}")
             out["owner_trees"][p] = current
     if out["owner_trees"]["apps/web-v2"] != lock["sources"]["w4"]["tree_sha"]:
         raise ValueError("W4 final app tree mismatches tested corrected tree")
+    if len(git(root, "ls-tree", "-r", "--name-only", "HEAD", "apps/web-v2").splitlines()) != lock["sources"]["w4"]["file_count"]:
+        raise ValueError("W4 source file discovery differs from pinned owner")
+    for p, expected in lock.get("effective_reviewed_blobs", {}).items():
+        if git(root, "rev-parse", "HEAD:" + p) != expected:
+            raise ValueError("Effective latest-main specification drift: " + p)
     for p in ("AGENTS.md", "RESEARCH_EVIDENCE_SPEC_R4_2.md", "NAVIGATION_SPEC_R4_2.md"):
         if git(root, "rev-parse", "HEAD:" + p) != lock["reviewed_blobs"][p]:
             raise ValueError("Main governance specification drift: " + p)
@@ -103,17 +115,23 @@ def verify_main(root, lock):
     # The public P01 Preview remains byte-pinned to the earlier verified Batch03 source,
     # not to the later five-record Batch04 W2 owner HEAD.
     expected_source = lock["sources"]["w2"]["canonical_content_sha"]
-    if catalog.get("source_commit_sha") != expected_source:
-        raise ValueError("Default catalog declares the wrong canonical commit")
-    if catalog.get("source_blob_sha") != blob(p01):
-        raise ValueError("Default catalog declares a non-canonical P01 blob")
-    if catalog.get("source_preview_blob_sha") != blob(
-        (root / "data/v2/previews/tw-026-P01.research-only.v21.json").read_bytes()
-    ):
-        raise ValueError("Default catalog preview blob drift")
+    if catalog.get("opportunities"):
+        if catalog.get("source_pins", {}).get("tw-026-P01", {}).get("source_commit_sha") != expected_source:
+            raise ValueError("Indexed P01 declares the wrong canonical commit")
+        if catalog["source_pins"]["tw-026-P01"].get("source_blob_sha") != blob(p01):
+            raise ValueError("Indexed P01 declares a non-canonical blob")
+    else:
+        if catalog.get("source_commit_sha") != expected_source:
+            raise ValueError("Default catalog declares the wrong canonical commit")
+        if catalog.get("source_blob_sha") != blob(p01):
+            raise ValueError("Default catalog declares a non-canonical P01 blob")
+        if catalog.get("source_preview_blob_sha") != blob(
+            (root / "data/v2/previews/tw-026-P01.research-only.v21.json").read_bytes()
+        ):
+            raise ValueError("Default catalog preview blob drift")
     extras = {"source_commit_sha", "source_path", "source_blob_sha",
               "source_preview_path", "source_preview_blob_sha"}
-    if {k: v for k, v in catalog.items() if k not in extras} != preview:
+    if not catalog.get("opportunities") and {k: v for k, v in catalog.items() if k not in extras} != preview:
         raise ValueError("Published research-only catalog differs from W2 preview")
     for name, d in (("preview", preview), ("catalog", catalog)):
         if not (d.get("research_only") is True and
@@ -152,6 +170,34 @@ def verify_main(root, lock):
                n.get("lat") is not None or n.get("lon") is not None
                for n in candidate["navigation_targets"]):
             raise ValueError("Batch04 unverified Directions were promoted: " + oid)
+    # The new browse bundle must be the exact reviewed W2 index projection and
+    # must carry byte-identical canonical records, including all five Batch04 IDs.
+    index_dir = root / "data/v2/indexes/research"
+    bundle = json.loads((root / "apps/web-v2/browse-index.v2.json").read_text())
+    if bundle.get("source_commit_sha") != lock["sources"]["w2"]["sha"]:
+        raise ValueError("Browse index does not identify the accepted W2 source")
+    index_manifest = json.loads((index_dir / "manifest.json").read_text())
+    if bundle.get("manifest") != index_manifest or index_manifest.get("mode") != "RESEARCH_ONLY":
+        raise ValueError("W4 browse manifest differs from W2")
+    for field in ("place_index", "topic_index", "field_provenance", "index_status"):
+        name = field.replace("_", "-") + ".json"
+        raw = (index_dir / name).read_bytes()
+        if hashlib.sha256(raw).hexdigest() != index_manifest["files"][name]:
+            raise ValueError("W2 browse index digest mismatch: " + name)
+        if bundle.get(field) != json.loads(raw):
+            raise ValueError("W4 browse index differs from W2: " + name)
+    if (catalog.get("source_index_revision") != index_manifest["index_revision"] or
+            catalog.get("source_index_commit_sha") != lock["sources"]["w2"]["sha"] or
+            len(catalog.get("places", [])) != 7 or len(catalog.get("opportunities", [])) != 8):
+        raise ValueError("W4 catalog is not the verified seven-place W2 index")
+    for row in catalog["opportunities"]:
+        oid = row["opportunity_id"]
+        path = f"data/v2/opportunities/{oid}.json"
+        raw = (root / path).read_bytes()
+        if (row != json.loads(raw) or
+                catalog["source_pins"][oid]["source_blob_sha"] != blob(raw) or
+                git(root, "rev-parse", "HEAD:" + path) != blob(raw)):
+            raise ValueError("W4 canonical browse record drift: " + oid)
     out["batch04_ids"] = sorted(expected_ids)
     out["canonical_git_blobs"] = {x["source_path"]: x["blob_sha"] for x in manifest["files"]}
     out["research_only"] = True
@@ -166,27 +212,46 @@ def main():
     root = args.root.resolve()
     logs = args.logs_dir.resolve()
     logs.mkdir(parents=True, exist_ok=True)
-    report = {"status": "FAIL", "root_head": None, "checks": [], "groups": []}
+    report = {"status": "FAIL", "root_head": git(root, "rev-parse", "HEAD"),
+              "tested_parents": git(root, "show", "-s", "--format=%P", "HEAD").split(),
+              "checks": [], "groups": []}
     try:
         lock = json.loads((root / "ops/v2/integration-sources.json").read_text())
+        report["reviewed_main_sha"] = lock["reviewed_main"]
+        report["actual_base_sha"] = os.environ.get("W5_BASE_SHA", lock["reviewed_main"])
+        report["candidate_sha"] = os.environ.get("W5_HEAD_SHA", report["root_head"])
+        for value in (report["actual_base_sha"], report["candidate_sha"]):
+            if len(value) != 40 or git(root, "rev-parse", value + "^{commit}") != value:
+                raise ValueError("Immutable base/head commit unavailable")
+        if (report["candidate_sha"] != report["root_head"] and
+                report["candidate_sha"] not in report["tested_parents"]):
+            raise ValueError("Actual checkout does not link to candidate HEAD")
+        report["source_shas"] = {owner: pin["sha"] for owner, pin in lock["sources"].items()}
         report["source_provenance"] = verify_main(root, lock)
         report["root_head"] = report["source_provenance"]["repository_head"]
         (logs / "provenance.json").write_text(
             json.dumps(report["source_provenance"], indent=2) + "\n")
         env = dict(os.environ, PYTHONDONTWRITEBYTECODE="1",
-                   WORKER2_DATA_DIR=str(root / "data/v2/opportunities"))
+                   WORKER2_DATA_DIR=str(root / "data/v2/opportunities"),
+                   CHASELIGHTS_W1_SPEC_ROOT=str(root / "specs/v2"),
+                   W4_SCREENSHOT_DIR=str(logs / "w4-screenshots"),
+                   W5_SCREENSHOT_DIR=str(logs / "built-screenshots"),
+                   V2_BUILD_DIR=str(logs / "candidate-build"))
         groups = [
             ("w1-schema", ["specs/v2/tests", "test_schema_smoke.py"], 17, True, False),
             ("w1-solar-window-contract", ["specs/v2/tests", "test_solar_window_contract.py"], 4, True, False),
             ("w1-weather-source-contract", ["specs/v2/tests", "test_weather_source_contract.py"], 5, True, False),
             ("w1-evaluation-schema", ["specs/v2/tests", "test_evaluation_result_security.py"], 4, True, False),
             ("w1-free-composition", ["specs/v2/tests", "test_free_composition_contract.py"], 6, True, False),
+            ("w1-shared-browse-contracts", ["specs/v2/tests", "test_task_w_contracts.py"], 31, True, False),
             ("w5-contract", ["ops/v2/tests", "test_integration_gate.py"], 7, True, False),
             ("w5-watchdog", ["ops/v2/tests", "test_worker_watchdog.py"], 3, True, False),
             ("w5-runner", ["ops/v2/tests", "test_ci_runner.py"], 7, True, False),
+            ("w5-task-r-release-tools", ["ops/v2/tests", "test_task_r_release_tools.py"], 12, True, False),
+            ("w5-task-v-integration", ["ops/v2/tests", "test_task_v_integration.py"], 11, True, False),
             ("w3-evaluator-and-nws-source", ["packages/core-v2/tests", "test_*.py"], 42, True, False),
             ("w3-solar-model", ["packages/models-v2/tests", "test_*.py"], 10, True, False),
-            ("w2-crosswalk-schema", ["data/v2/tests", "test_*.py"], 15, True, False),
+            ("w2-crosswalk-schema-and-index", ["data/v2/tests", "test_*.py"], 33, True, False),
             ("w2-real-records", [sys.executable, "specs/v2/tests/validate_contract.py",
                 *[str(p.relative_to(root)) for p in sorted((root / "data/v2/opportunities").glob("*.json"))]],
                 None, False, False),
@@ -197,11 +262,17 @@ def main():
                 None, False, False),
             ("w4-node", ["node", "--test", "--test-isolation=none", "--test-timeout=120000",
                 "--test-reporter=tap", *[str(p.relative_to(root)) for p in sorted(
-                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 31, False, True),
+                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 49, False, True),
             ("local-isolation", [sys.executable, "ops/v2/integration_gate.py", "--root", str(root)],
                 None, False, False),
             ("browser-smoke", ["node", "--test", "--test-isolation=none", "--test-timeout=120000",
-                "--test-reporter=tap", "apps/web-v2/tests/browser-smoke.mjs"], 6, False, True),
+                "--test-reporter=tap", "apps/web-v2/tests/browser-smoke.mjs",
+                "apps/web-v2/tests/task-s-browser.mjs"], 82, False, True),
+            ("static-build", [sys.executable, "ops/v2/build_static.py", "--root", str(root),
+                "--output", str(logs / "candidate-build")], None, False, False),
+            ("candidate-build-browser", ["node", "--test", "--test-isolation=none",
+                "--test-timeout=120000", "--test-reporter=tap",
+                "ops/v2/tests/static-build-smoke.mjs"], 6, False, True),
         ]
         for name, command, expected, python, node in groups:
             report["groups"].append(
@@ -211,9 +282,9 @@ def main():
             for key in ("tests", "pass", "fail", "error", "skip")
         }
         if report["counts"] != {
-            "tests": 157, "pass": 157, "fail": 0, "error": 0, "skip": 0
+            "tests": 329, "pass": 329, "fail": 0, "error": 0, "skip": 0
         }:
-            raise ValueError("Post-merge exact 157-case requirement failed")
+            raise ValueError("Post-merge exact 329-case requirement failed")
         if not all(g["status"] == "PASS" for g in report["groups"]):
             raise ValueError("One or more required suites failed")
         report["status"] = "PASS"
