@@ -25,7 +25,10 @@ before(async()=>{
   const catalog=JSON.parse(await readFile(resolve(root,'apps/web-v2/catalog.v2.json'),'utf8'));
   assert.equal(catalog.research_only,true);assert.equal(catalog.forecast_available,false);
   assert.equal(catalog.selected_date_recommendation_eligible,false);assert.deepEqual(catalog.evaluations,[]);
-  opportunity=catalog.opportunities[0];assert.equal(opportunity.opportunity_id,'tw-026-P01');
+  assert.equal(catalog.opportunities.length,8);
+  assert.equal(catalog.places.length,7);
+  opportunity=catalog.opportunities.find(x=>x.opportunity_id==='tw-026-P01');
+  assert.ok(opportunity,'The canonical P01 record must be in the packaged bundle');
   server=createServer(async(request,response)=>{
     try{
       const path=new URL(request.url,'http://localhost').pathname;
