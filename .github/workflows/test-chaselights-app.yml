@@ -1,0 +1,29 @@
+
+name: Test ChaseLights GitHub App
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-app:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.CHASELIGHTS_APP_ID }}
+          private-key: ${{ secrets.CHASELIGHTS_APP_PRIVATE_KEY }}
+          owner: gdrabbit137-ai
+          repositories: ChaseLights
+
+      - name: Verify repository access
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          gh api repos/gdrabbit137-ai/ChaseLights \
+            --jq '{name: .full_name, private: .private}'
+          echo "GitHub App authentication succeeded"
