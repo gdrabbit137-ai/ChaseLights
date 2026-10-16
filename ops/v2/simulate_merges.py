@@ -10,7 +10,8 @@ OWNER_PATHS = ('specs/v2', 'data/v2', 'packages/core-v2', 'packages/models-v2', 
 
 
 def git(repo, *args, check=True):
-    result = subprocess.run(['git', '-C', str(repo), *args], text=True,
+    result = subprocess.run(['git', '-c', 'gc.auto=0', '-c', 'maintenance.auto=false',
+                             '-C', str(repo), *args], text=True,
                             capture_output=True, check=False)
     if check and result.returncode:
         raise ValueError('git ' + ' '.join(args) + ': ' + result.stderr.strip())

@@ -21,7 +21,8 @@ class TaskVTests(unittest.TestCase):
     def fixture(self,directory,poison=False):
         root=Path(directory)
         def git(*args):
-            return subprocess.check_output(['git','-C',str(root),*args],stderr=subprocess.DEVNULL,text=True).strip()
+            return subprocess.check_output(['git','-c','gc.auto=0','-c','maintenance.auto=false',
+                                            '-C',str(root),*args],stderr=subprocess.DEVNULL,text=True).strip()
         git('init','-q');git('config','user.name','W5 synthetic test');git('config','user.email','test@example.invalid')
         for path in ['specs/v2','data/v2','packages/core-v2','packages/models-v2','apps/web-v2','ops/v2']:
             (root/path).mkdir(parents=True);(root/path/'test.txt').write_text('original\n')
