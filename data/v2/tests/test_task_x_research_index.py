@@ -60,7 +60,11 @@ class ResearchIndexTests(unittest.TestCase):
             self.assertEqual(pin['sha256'],hashlib.sha256(raw).hexdigest())
             self.assertEqual((pin['opportunity_id'],pin['place_id'],pin['revision']),
                              (d['opportunity_id'],d['place_id'],d['revision']))
-        self.assertEqual(2,len({p['commit_sha'] for p in self.lock['canonical_records']}))
+        self.assertEqual({
+            '2177bd8c8b6c18e0a4b284e50b55d0ff12697ddd',
+            '509a7c206413a4f8d13350ddb50c2a7ad075ca4a',
+            'b45169e42d3acfe9b287c6e16a9ac887bb8cd650',
+        }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         self.assertEqual('2177bd8c8b6c18e0a4b284e50b55d0ff12697ddd',p01['commit_sha'])
         self.assertEqual('001a3380231e3d073e900bf2b415aac7dcc5fd79',p01['blob_sha'])

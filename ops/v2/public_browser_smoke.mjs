@@ -8,7 +8,8 @@ import {verifyResearchPage} from './browser_contract.mjs';
 import {setTimeout as delay} from "node:timers/promises";
 
 const UI=process.env.V2_PUBLIC_UI || 'existing-preview';
-assert.ok(['existing-preview','forecast-home'].includes(UI),'Explicit public UI generation required');
+assert.ok(['existing-preview','existing-beta','forecast-home'].includes(UI),'Explicit public UI generation required');
+const HOME=UI==='existing-beta'||UI==='forecast-home';
 let expectedManifest=null;
 if(UI==='forecast-home'){
   assert.ok(process.env.V2_EXPECTED_BUILD_MANIFEST,'Candidate public smoke requires an exact build manifest');
@@ -62,7 +63,7 @@ assert.match(html.body, /ChaseLights V2/);
 if(expectedManifest)assert.equal(createHash('sha256').update(html.body).digest('hex'),expectedManifest.files['apps/web-v2/index.html']);
 const assets = ["styles.css", "app.mjs", "model.mjs", "catalog-loader.mjs",
                 "v21-adapter.mjs", "catalog.v2.json"];
-if(UI==='forecast-home')assets.push('catalog-state.mjs','browse-index.mjs','browse-index.v2.json');
+if(HOME)assets.push('catalog-state.mjs','browse-index.mjs','browse-index.v2.json');
 for (const path of assets) {
   const found = await fetchPublic(path);
   assert.ok(!/text\/html/i.test(found.response.headers.get("content-type") || ""),
@@ -76,13 +77,13 @@ assert.equal(catalog.research_only, true);
 assert.equal(catalog.selected_date_recommendation_eligible, false);
 assert.equal(catalog.forecast_available, false);
 assert.deepEqual(catalog.evaluations, []);
-assert.equal(catalog.opportunities.length, UI==='forecast-home'?8:1);
-if(UI==='forecast-home'){
+assert.equal(catalog.opportunities.length, HOME?8:1);
+if(HOME){
   assert.equal(catalog.places.length,7);
-  assert.equal(catalog.source_index_commit_sha,'c10976eb5e88fd32ec0adc58a1317ed70015821d');
+  assert.equal(catalog.source_index_commit_sha,expectedManifest ? 'cf29288ce47e2cccb2fb2e1453ad193200996a95' : 'c10976eb5e88fd32ec0adc58a1317ed70015821d');
   assert.equal(catalog.source_pins['tw-026-P01'].source_commit_sha,'2177bd8c8b6c18e0a4b284e50b55d0ff12697ddd');
 }else assert.equal(catalog.source_commit_sha, "2177bd8c8b6c18e0a4b284e50b55d0ff12697ddd");
-const opportunity = UI==='forecast-home' ? catalog.opportunities.find(x=>x.opportunity_id==='tw-026-P01') : catalog.opportunities[0];
+const opportunity = HOME ? catalog.opportunities.find(x=>x.opportunity_id==='tw-026-P01') : catalog.opportunities[0];
 assert.equal(opportunity.opportunity_id, "tw-026-P01");
 assert.equal(opportunity.readiness.research_level, "R1");
 assert.ok(opportunity.navigation_targets.every(x => x.status !== "verified"));
@@ -141,7 +142,7 @@ try {
     await page.goto(BASE, {waitUntil: "domcontentloaded", timeout: 45000});
     assert.equal(new URL(page.url()).hostname, "chaselights.app");
     for (const locale of LOCALES) {
-      await verifyResearchPage(page,opportunity,locale,UI);
+      await verifyResearchPage(page,opportunity,locale,HOME?'forecast-home':UI);
       assert.deepEqual(errors,[],"Browser errors on "+device.name+" "+locale);
       console.log("PUBLIC BROWSER PASS",device.name,locale,UI,"source-exact","access-warning-separated","no-directions");
       total++;

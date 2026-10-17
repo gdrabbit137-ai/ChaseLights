@@ -15,7 +15,7 @@ const root = resolve(fileURLToPath(new URL('../', import.meta.url)));
 const preview = readPinned('tw-026-P01.research-only.v21.json');
 const originals = readOriginals();
 const current = originals.find(row => row.opportunity_id === 'tw-026-P01');
-const INDEX_SHA='c10976eb5e88fd32ec0adc58a1317ed70015821d';
+const INDEX_SHA='cf29288ce47e2cccb2fb2e1453ad193200996a95';
 const expected = {
   'zh-TW': {lang:'zh-Hant',title:'ChaseLights V2 — 攝影預報',skip:'跳至主要內容',
     aria:['語言選擇','資料來源與進階資訊','景點清單','攝影題材與研究資料'],

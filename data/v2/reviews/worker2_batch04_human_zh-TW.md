@@ -66,7 +66,7 @@ Readiness：R1、evidence_review；GEOMETRY_GAP／RESEARCH_GAP；不提供 Live 
 ### Evidence（source claims only）
 
 - b04-tw036-a：https://tour-hualien.hl.gov.tw/jp/News_Content.aspx?n=288&s=8856
-- b04-tw036-b：https://tour-hualien.hl.gov.tw/TourContent.aspx?n=109&s=1190
+- b04-tw036-b：https://hualien.travel/zh-tw/attraction/68/
 
 ### Access Advisory（不影響攝影適合度）
 
@@ -78,7 +78,7 @@ Readiness：R1、evidence_review；GEOMETRY_GAP／RESEARCH_GAP；不提供 Live 
 
 太魯閣國家公園記述崇德步道觀景平台能北望清水斷崖與太平洋海天；觀景台現況與當日遠山能見度須另查證。
 
-Camera：道路、步道及觀景台可能受修繕或災害管制；請以官方當日公告為準，勿假設崖緣可進入。
+Camera：太魯閣官方 FAQ 說崇德步道目前僅開放至第一觀景平台；後段不可當作開放。道路與平台狀態仍須於出發當日核對官方公告，勿靠近崖緣。
 
 安全：遵守護欄和步道封閉標示，不靠近落石或不穩定邊坡。
 
@@ -101,15 +101,15 @@ Readiness：R1、evidence_review；GEOMETRY_GAP／RESEARCH_GAP；不提供 Live 
 ### Evidence（source claims only）
 
 - b04-tw034-a：https://www.taroko.gov.tw/ch/trailsAttractions/trail-list/40
-- b04-tw034-b：https://www.taiwan.nps.gov.tw/home/zh-tw/attractions/21010.html
+- b04-tw034-b：https://www.taroko.gov.tw/ch/listicle/faq/404
 
 ### Access Advisory（不影響攝影適合度）
 
-- 道路、步道及觀景台可能受修繕或災害管制；請以官方當日公告為準，勿假設崖緣可進入。
+- 太魯閣官方 FAQ 說崇德步道目前僅開放至第一觀景平台；後段不可當作開放。道路與平台狀態仍須於出發當日核對官方公告，勿靠近崖緣。
 
 ---
 
-## jp-010-P01 河口湖大石公園花景與富士山
+## jp-010-P01 河口湖大石公園季節植栽與富士山
 
 富士河口湖觀光聯盟介紹大石公園隔河口湖眺望富士山，初夏薰衣草和秋天紅葉掃帚草可當前景；實際花況與山景可見度須另查證。
 
@@ -117,7 +117,7 @@ Camera：官方顯示公園一般開放，但仍須遵守當日現場花壇、�
 
 安全：請從步道或公共觀景位置取景，不踩踏花圃，特殊機材另查規定。
 
-Subject：富士山、河口湖與季節花壇（multi_component；geometry unknown）
+Subject：富士山、河口湖與季節植栽（multi_component；geometry unknown）
 
 View relation：foreground_background；distance/azimuth/elevation unknown。
 
@@ -146,7 +146,7 @@ Readiness：R1、evidence_review；GEOMETRY_GAP／RESEARCH_GAP；不提供 Live 
 
 ## us-071-P01 Kerry Park 西雅圖天際線暮色
 
-西雅圖市公園局官方介紹 Kerry Park 可看城市天際線、艾略特灣及太空針塔，雷尼爾山只有部分天氣可見，日落後城市燈光亦為攝影題材。
+西雅圖市公園局官方介紹 Kerry Park 可看城市天際線、艾略特灣及太空針塔，雷尼爾山只有部分天氣可見，日落前後城市燈光亦為攝影題材。
 
 Camera：官方目前列開園 06:00–22:00；臨時管制與活動規定依當日公告，開放時間不屬攝影評分條件。
 

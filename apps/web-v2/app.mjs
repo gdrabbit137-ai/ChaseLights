@@ -32,7 +32,7 @@ let researchIndex=null,indexInvalid=false;
 const selectedTopics=new Set();
 async function sha256(raw){const bytes=new TextEncoder().encode(raw);return [...new Uint8Array(await crypto.subtle.digest('SHA-256',bytes))].map(x=>x.toString(16).padStart(2,'0')).join('');}
 const catalogState=createCatalogState({onChange:data=>{Object.assign(state,data);if(data.status==='ready'&&!data.verifiedBundle)selectedTopics.clear();render();},
-  verifyDefault:async raw=>(await sha256(raw))==='f31392087b043e975abcd95a7da45a9bfebf5f513364d7de126c7e75dafe51e8'});
+  verifyDefault:async raw=>(await sha256(raw))==='8a6872443f5be085bea18efe6ecdd9b35d8615a9a98a330b02e33f60b233c568'});
 try {const saved=localStorage.getItem("chaselights-v2-locale");if(LOCALES.includes(saved))state.locale=saved;}catch{}
 $("language").value=state.locale;
 $("language").addEventListener("change",e=>{state.locale=e.target.value;try{localStorage.setItem("chaselights-v2-locale",state.locale);}catch{}render();});
@@ -273,6 +273,6 @@ void catalogState.load();
 void (async()=>{try{
   const response=await fetch('./browse-index.v2.json',{cache:'no-store'});if(!response.ok)throw new Error('index HTTP');
   const raw=await response.text();const digest=await sha256(raw);
-  if(digest!=='bda316d5cfcf4cc945dc15202d1570d5e45503e88ef9bb43d4c5824ba7e55dac')throw new Error('index digest');
+  if(digest!=='b70b6e5a668a3b7545d1a7dd5b3ebcf4225e5b9b8276f3621c33b14bf1dfb3d9')throw new Error('index digest');
   researchIndex=JSON.parse(raw);indexInvalid=false;render();
 }catch{researchIndex=null;indexInvalid=true;render();}})();
