@@ -1634,7 +1634,8 @@ def test_adapter_integrity():
     # the generic researched best-time description.
     assert "guide_current:'所選日期最佳評分'" in frontend_source
     assert "guide_day_best:'最佳拍攝時段'" in frontend_source
-    assert "guide_score_why:'為什麼適合？'" in frontend_source
+    assert "guide_score_why:'評估依據'" in frontend_source
+    assert "guide_factors_unavailable:'目前沒有可顯示的逐項評估因素" in frontend_source
     assert "guide_details:'拍攝指南'" in frontend_source
     assert "guide_selected_date:'📅 所選日期拍攝機會'" in frontend_source
     assert "guide_no_selected_date:'所選日期目前沒有明確的拍攝建議。'" in frontend_source

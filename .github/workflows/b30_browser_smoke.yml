@@ -308,7 +308,8 @@ jobs:
               report["verdict_contract"] = verdict_contract
               report["stale_positive_without_runtime_decision"] = stale_positive
               assert "適合拍攝山景" not in stale_positive, stale_positive
-              assert "適合拍攝山景" in verdict_contract["suitable"], verdict_contract
+              assert "符合基本拍攝條件" in verdict_contract["suitable"], verdict_contract
+              assert "分數反映條件優劣" in verdict_contract["suitable"], verdict_contract
               assert "有機會拍到晨霧" in verdict_contract["chance"], verdict_contract
               assert "不利於拍攝山景" in verdict_contract["unfavorable"], verdict_contract
               assert "不是拍攝日落的建議時段" in verdict_contract["outside"], verdict_contract
