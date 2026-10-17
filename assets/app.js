@@ -981,7 +981,7 @@
           if(!name)return '';
           // "Camera Zone" denotes a broad area, not a verified tripod coordinate.
           return / Camera Zone$/i.test(name)
-            ?`${name.replace(/ Camera Zone$/i,'')} (${d().guide_camera_area})`
+            ?`${name.replace(/ Camera Zone$/i,'')} — ${d().guide_camera_area}`
             :name;
         }).filter(Boolean);
         let suppressedLocalizedGuide=false;
