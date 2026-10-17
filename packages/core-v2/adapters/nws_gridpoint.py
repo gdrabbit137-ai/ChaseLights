@@ -268,7 +268,9 @@ def fetch_nws_gridpoint(*, latitude, longitude, field, valid_at,
         grid, raw = _get_json_bytes(grid_url, timeout=timeout, opener=transport)
         result = _normalize(meta, grid, raw, points_url=points_url, grid_url=grid_url,
                             field=field, valid_at=valid_at,
-                            retrieved_at=retrieved_at or datetime.now(timezone.utc),
+                            retrieved_at=(datetime.now(timezone.utc) if opener is None
+                                          else (retrieved_at if retrieved_at is not None
+                                                else datetime.now(timezone.utc))),
                             coordinate_source=coordinate_source,
                             freshness_policy=freshness_policy,
                             retrieval_mode="HTTPS_TLS" if opener is None else "TEST_FIXTURE")
