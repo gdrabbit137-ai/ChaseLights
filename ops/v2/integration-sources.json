@@ -1,6 +1,6 @@
 {
   "repository": "gdrabbit137-ai/ChaseLights",
-  "reviewed_main": "11f17f81ea5b54f29c55c535240082b53eff7c4d",
+  "reviewed_main": "cf38747d9b04958ea0bbdd784d90708553ea1f4e",
   "sources": {
     "w1": {
       "sha": "38b234ba5f4df4a751eaea14dcc79036b45ed180",
@@ -13,10 +13,10 @@
       "tree_sha": "3df84d67e10f90430547adca723f43421a0a10c9"
     },
     "w2": {
-      "sha": "c10976eb5e88fd32ec0adc58a1317ed70015821d",
+      "sha": "cf29288ce47e2cccb2fb2e1453ad193200996a95",
       "canonical_content_sha": "2177bd8c8b6c18e0a4b284e50b55d0ff12697ddd",
-      "branch": "codex/v2-w2-task-x-research-place-topic-index",
-      "pr": 490,
+      "branch": "codex/w5-beta-r2-506",
+      "pr": null,
       "batch04": {
         "audit_path": "data/v2/audits/worker2_batch04_evidence.json",
         "count": 5,
@@ -30,7 +30,16 @@
         "human_signoff": "PENDING",
         "live_eligible": false
       },
-      "tree_sha": "10791fc65c189e48fde35c9d6b76688efe8cdef7"
+      "tree_sha": "228f92d949e4df87719c9a3ef6c341219f9b0714",
+      "reviewed_corrections": {
+        "source_prs": [
+          493,
+          495
+        ],
+        "source_head_sha": "c41567edcfa9efe95111f3306d6410f1934e7062",
+        "canonical_commit_sha": "b45169e42d3acfe9b287c6e16a9ac887bb8cd650",
+        "publication": "RESEARCH_ONLY"
+      }
     },
     "w3": {
       "sha": "8e6f5a1555294ff293a6d7b746b864924f96cfc1",
@@ -39,15 +48,15 @@
       "source_upgrade": "M6a solar plus M6b NOAA raw source parser, ten transport/interval/uncertainty tests"
     },
     "w4": {
-      "sha": "4607eb0dfac2c2afbeb29b4615a330420ff636ed",
-      "branch": "codex/w4-issue-503-invalid-import-browser",
-      "pr": 505,
+      "sha": "ca4e59cf5978347f1422fb1fd2d485c188b58edd",
+      "branch": "codex/w5-beta-r2-506",
+      "pr": null,
       "historical_sha": "32f557d998a4d12ec37af4d963f0f410030b1cc1",
       "historical_pr": 454,
       "historical_tree_sha": "a0438fb0f372b0e0e124b5ec3385d5184d9fbb2e",
       "obsolete_sha": "ddf9f2c4bd2eeb556bf0aa3b244f01de3256b05f",
       "obsolete_pr": 448,
-      "tree_sha": "41fb75e13b955dacc16913ba3b5f2a47ba209074",
+      "tree_sha": "70eb22ad22f3cad08aafab9ac71032ee8278139b",
       "file_count": 92,
       "previous_sha": "ec5dc9609596135ba1b2634dfa7d6c07a54fabdc",
       "previous_tree_sha": "8427cb75fdb433a58d3a4941769a6c06f6f5dc3b",
@@ -152,6 +161,24 @@
         "4607eb0dfac2c2afbeb29b4615a330420ff636ed"
       ],
       "previous_tree_sha": "8427cb75fdb433a58d3a4941769a6c06f6f5dc3b"
+    }
+  ],
+  "r2_owner_integrations": [
+    {
+      "owner": "w2",
+      "sha": "cf29288ce47e2cccb2fb2e1453ad193200996a95",
+      "tree_sha": "228f92d949e4df87719c9a3ef6c341219f9b0714",
+      "paths": [
+        "data/v2"
+      ]
+    },
+    {
+      "owner": "w4",
+      "sha": "ca4e59cf5978347f1422fb1fd2d485c188b58edd",
+      "tree_sha": "70eb22ad22f3cad08aafab9ac71032ee8278139b",
+      "paths": [
+        "apps/web-v2"
+      ]
     }
   ]
 }

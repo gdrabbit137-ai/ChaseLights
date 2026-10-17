@@ -79,7 +79,7 @@ assert.deepEqual(catalog.evaluations, []);
 assert.equal(catalog.opportunities.length, UI==='forecast-home'?8:1);
 if(UI==='forecast-home'){
   assert.equal(catalog.places.length,7);
-  assert.equal(catalog.source_index_commit_sha,'c10976eb5e88fd32ec0adc58a1317ed70015821d');
+  assert.equal(catalog.source_index_commit_sha,expectedManifest ? 'cf29288ce47e2cccb2fb2e1453ad193200996a95' : 'c10976eb5e88fd32ec0adc58a1317ed70015821d');
   assert.equal(catalog.source_pins['tw-026-P01'].source_commit_sha,'2177bd8c8b6c18e0a4b284e50b55d0ff12697ddd');
 }else assert.equal(catalog.source_commit_sha, "2177bd8c8b6c18e0a4b284e50b55d0ff12697ddd");
 const opportunity = UI==='forecast-home' ? catalog.opportunities.find(x=>x.opportunity_id==='tw-026-P01') : catalog.opportunities[0];
