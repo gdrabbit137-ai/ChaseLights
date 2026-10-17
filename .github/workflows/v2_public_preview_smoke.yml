@@ -73,7 +73,7 @@ jobs:
       - name: Verify live public URL with six Chrome locale/device scenarios
         env:
           REQUIRE_PUBLIC_V1_LINK: 'true'
-          V2_PUBLIC_UI: ${{ github.event_name == 'push' && 'forecast-home' || 'existing-preview' }}
+          V2_PUBLIC_UI: ${{ github.event_name == 'push' && 'forecast-home' || 'existing-beta' }}
           V2_EXPECTED_BUILD_MANIFEST: ${{ github.event_name == 'push' && '.ci/v2-public-candidate/build-manifest.json' || '' }}
         run: |
           set -o pipefail

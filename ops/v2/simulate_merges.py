@@ -37,6 +37,35 @@ def owner_transitions(repo, base, candidate, lock):
     owner commit; the base must still match its declared predecessor (or the
     new source if it was independently merged in the meantime).
     """
+    if 'r2_owner_integrations' in lock:
+        paths_by_owner = {'w1': 'specs/v2', 'w2': 'data/v2', 'w4': 'apps/web-v2'}
+        rows = lock['r2_owner_integrations']
+        if not isinstance(rows, list) or len(rows) != 3 or {r.get('owner') for r in rows} != set(paths_by_owner):
+            raise ValueError('R2 requires exactly W1, W2 and W4 source transitions')
+        transitions = []
+        for row in rows:
+            owner = row['owner']
+            path = paths_by_owner[owner]
+            source = fixed_commit(repo, row.get('sha'))
+            parent = fixed_commit(repo, row.get('source_parent_sha'))
+            if (row.get('paths') != [path] or source != lock['sources'][owner]['sha'] or
+                    git(repo, 'rev-parse', source + '^').stdout.strip() != parent or
+                    git(repo, 'merge-base', '--is-ancestor', source, candidate, check=False).returncode):
+                raise ValueError('R2 owner source/parent is not independently integrated: ' + owner)
+            changed = git(repo, 'diff', '--name-only', parent, source).stdout.splitlines()
+            if not changed or any(not p.startswith(path + '/') for p in changed):
+                raise ValueError('R2 source commit contains nonowner changes: ' + owner)
+            if (row.get('tree_sha') != lock['sources'][owner]['tree_sha'] or
+                    git(repo, 'rev-parse', source + ':' + path).stdout.strip() != row['tree_sha'] or
+                    git(repo, 'rev-parse', candidate + ':' + path).stdout.strip() != row['tree_sha'] or
+                    git(repo, 'rev-parse', base + ':' + path).stdout.strip() != row.get('previous_tree_sha')):
+                raise ValueError('R2 owner tree differs from exact source/base: ' + owner)
+            transitions.append(row)
+        # The two W2 commits between base and index must not smuggle other paths.
+        if any(not p.startswith('data/v2/') for p in
+               git(repo, 'diff', '--name-only', base, lock['sources']['w2']['sha']).stdout.splitlines()):
+            raise ValueError('R2 W2 source chain changes nonowner files')
+        return transitions
     if 'beta_owner_integrations' in lock:
         expected_paths = {'w1': ['specs/v2'], 'w2': ['data/v2'],
                           'w4': ['apps/web-v2']}

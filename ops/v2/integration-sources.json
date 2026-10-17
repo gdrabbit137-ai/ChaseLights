@@ -3,20 +3,20 @@
   "reviewed_main": "cf38747d9b04958ea0bbdd784d90708553ea1f4e",
   "sources": {
     "w1": {
-      "sha": "38b234ba5f4df4a751eaea14dcc79036b45ed180",
-      "branch": "codex/v2-w1-task-w-shared-contracts-20261014",
-      "pr": 489,
+      "sha": "c1fa5348e7ae2b3b4bc1d254773daca86ed5451e",
+      "branch": "codex/w5-beta-r2-506",
+      "pr": 512,
       "source_upgrade": "Task W shared contracts plus V1 parity progression, Research-only",
       "additional_required_shas": [
         "6a774a95c3bc24ff06f004236fe8b225c7001c4d"
       ],
-      "tree_sha": "3df84d67e10f90430547adca723f43421a0a10c9"
+      "tree_sha": "c5563eb2db8f719ea13fa19a64af1a2d7792bce2"
     },
     "w2": {
       "sha": "cf29288ce47e2cccb2fb2e1453ad193200996a95",
       "canonical_content_sha": "2177bd8c8b6c18e0a4b284e50b55d0ff12697ddd",
       "branch": "codex/w5-beta-r2-506",
-      "pr": null,
+      "pr": 512,
       "batch04": {
         "audit_path": "data/v2/audits/worker2_batch04_evidence.json",
         "count": 5,
@@ -50,7 +50,7 @@
     "w4": {
       "sha": "ca4e59cf5978347f1422fb1fd2d485c188b58edd",
       "branch": "codex/w5-beta-r2-506",
-      "pr": null,
+      "pr": 512,
       "historical_sha": "32f557d998a4d12ec37af4d963f0f410030b1cc1",
       "historical_pr": 454,
       "historical_tree_sha": "a0438fb0f372b0e0e124b5ec3385d5184d9fbb2e",
@@ -165,9 +165,21 @@
   ],
   "r2_owner_integrations": [
     {
+      "owner": "w1",
+      "sha": "c1fa5348e7ae2b3b4bc1d254773daca86ed5451e",
+      "source_parent_sha": "c6317c3980048f8ed50b84ba2400b81a632c550a",
+      "tree_sha": "c5563eb2db8f719ea13fa19a64af1a2d7792bce2",
+      "previous_tree_sha": "3df84d67e10f90430547adca723f43421a0a10c9",
+      "paths": [
+        "specs/v2"
+      ]
+    },
+    {
       "owner": "w2",
       "sha": "cf29288ce47e2cccb2fb2e1453ad193200996a95",
+      "source_parent_sha": "b45169e42d3acfe9b287c6e16a9ac887bb8cd650",
       "tree_sha": "228f92d949e4df87719c9a3ef6c341219f9b0714",
+      "previous_tree_sha": "10791fc65c189e48fde35c9d6b76688efe8cdef7",
       "paths": [
         "data/v2"
       ]
@@ -175,7 +187,9 @@
     {
       "owner": "w4",
       "sha": "ca4e59cf5978347f1422fb1fd2d485c188b58edd",
+      "source_parent_sha": "cf29288ce47e2cccb2fb2e1453ad193200996a95",
       "tree_sha": "70eb22ad22f3cad08aafab9ac71032ee8278139b",
+      "previous_tree_sha": "41fb75e13b955dacc16913ba3b5f2a47ba209074",
       "paths": [
         "apps/web-v2"
       ]
