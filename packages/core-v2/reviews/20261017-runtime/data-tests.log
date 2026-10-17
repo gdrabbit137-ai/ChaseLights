@@ -1,0 +1,30 @@
+setUpClass (test_task_x_research_index.ResearchIndexTests) ... ERROR
+test_access_warning_outside_photography_conditions (test_worker2_batch03.CrosswalkGate.test_access_warning_outside_photography_conditions) ... ok
+test_audit_release_hold (test_worker2_batch03.CrosswalkGate.test_audit_release_hold) ... ok
+test_conditions_references_geometry_and_readiness (test_worker2_batch03.CrosswalkGate.test_conditions_references_geometry_and_readiness) ... ok
+test_crosswalk_exact_coverage_paths_and_text (test_worker2_batch03.CrosswalkGate.test_crosswalk_exact_coverage_paths_and_text) ... ok
+test_crosswalk_excludes_access_as_scoring_gate (test_worker2_batch03.CrosswalkGate.test_crosswalk_excludes_access_as_scoring_gate) ... ok
+test_human_review_matches_canonical (test_worker2_batch03.CrosswalkGate.test_human_review_matches_canonical) ... ok
+test_negative_duplicate_and_mismatch_fail (test_worker2_batch03.CrosswalkGate.test_negative_duplicate_and_mismatch_fail) ... ok
+test_p02_access_uncertainty_survives_all_locales_and_crosswalk (test_worker2_batch03.CrosswalkGate.test_p02_access_uncertainty_survives_all_locales_and_crosswalk) ... ok
+test_preview_is_exact_research_only_canonical_projection (test_worker2_batch03.CrosswalkGate.test_preview_is_exact_research_only_canonical_projection) ... ok
+test_worker1_v21_schema (test_worker2_batch03.SchemaGate.test_worker1_v21_schema) ... ok
+test_01_records_match_schema_and_canonical_legacy_ids (test_worker2_batch04.Batch04Gate.test_01_records_match_schema_and_canonical_legacy_ids) ... ok
+test_02_sources_and_all_references_are_declared_with_narrow_scope (test_worker2_batch04.Batch04Gate.test_02_sources_and_all_references_are_declared_with_narrow_scope) ... ok
+test_03_research_only_no_misleading_live_navigation_or_access_score (test_worker2_batch04.Batch04Gate.test_03_research_only_no_misleading_live_navigation_or_access_score) ... ok
+test_04_crosswalk_exact_coverage_and_negative_conflict (test_worker2_batch04.Batch04Gate.test_04_crosswalk_exact_coverage_and_negative_conflict) ... ok
+test_05_human_readable_parity_and_original_preview_is_untouched (test_worker2_batch04.Batch04Gate.test_05_human_readable_parity_and_original_preview_is_untouched) ... ok
+
+======================================================================
+ERROR: setUpClass (test_task_x_research_index.ResearchIndexTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/ChaseLights/data/v2/tests/test_task_x_research_index.py", line 28, in setUpClass
+    raise RuntimeError('Required pinned W1 #489: set CHASELIGHTS_W1_SPEC_ROOT; no SKIP/fallback')
+RuntimeError: Required pinned W1 #489: set CHASELIGHTS_W1_SPEC_ROOT; no SKIP/fallback
+
+----------------------------------------------------------------------
+Ran 15 tests in 0.090s
+
+FAILED (errors=1)
+{"tests": 15, "fail": 0, "error": 1, "skip": 0, "expected_failure": 0, "unexpected_success": 0, "pass": 14}
