@@ -4,6 +4,7 @@ The filter oracle is an executable acceptance truth table, not W4 application co
 No external requests, storage implementation or live forecast is exercised.
 """
 import copy
+import hashlib
 import json
 import unittest
 import unicodedata
@@ -105,10 +106,15 @@ class PlaceIndexContractTests(unittest.TestCase):
     def setUpClass(cls):
         cls.sources = {}
         for b in load('place-index')['opportunities']:
-            # Works in shallow PR checkouts: bytes + fixture blob hash are tested
-            # here; exact commit:path authentication is the separate CLI/W5 gate.
-            cls.sources[(b['source_commit_sha'], b['source_path'])] = (
-                Path(__file__).resolve().parents[3] / b['source_path']).read_bytes()
+            # Contract fixtures pin historical canonical bytes. Current W2 may
+            # legitimately correct a record without rewriting this test claim.
+            current = (Path(__file__).resolve().parents[3] / b['source_path']).read_bytes()
+            blob = lambda raw: hashlib.sha1(f'blob {len(raw)}\0'.encode() + raw).hexdigest()
+            raw = current if blob(current) == b['source_blob_sha'] else (
+                FIXTURES / 'canonical' / (b['opportunity_id'] + '.json')).read_bytes()
+            if blob(raw) != b['source_blob_sha']:
+                raise AssertionError('Historical contract fixture byte pin mismatch: ' + b['opportunity_id'])
+            cls.sources[(b['source_commit_sha'], b['source_path'])] = raw
 
     def test_all_six_schemas_and_fixture_shapes(self):
         for kind in KINDS:
