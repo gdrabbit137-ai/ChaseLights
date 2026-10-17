@@ -1,0 +1,84 @@
+{
+  "kind": "LOCAL_ACTUAL_EXECUTION_NOT_LIVE_E2E",
+  "base_sha": "5bfad32f31007450496ce10123318ac3e8e37aad",
+  "groups": {
+    "executor": {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "ops/v2/automation/test_runner.py",
+        "--out",
+        "ops/v2/automation/evidence/local/executor.json"
+      ],
+      "exit_code": 0,
+      "PASS": 56,
+      "FAIL": 0,
+      "ERROR": 0,
+      "SKIP": 0
+    },
+    "foundation": {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "ops/v2",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "PASS": 16,
+      "FAIL": 0,
+      "ERROR": 0,
+      "SKIP": 0
+    },
+    "w5-regression": {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "ops/v2/tests",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "PASS": 17,
+      "FAIL": 0,
+      "ERROR": 0,
+      "SKIP": 0
+    },
+    "w1-schema": {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "specs/v2/tests",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "PASS": 36,
+      "FAIL": 0,
+      "ERROR": 0,
+      "SKIP": 0
+    }
+  },
+  "counts": {
+    "PASS": 125,
+    "FAIL": 0,
+    "ERROR": 0,
+    "SKIP": 0
+  },
+  "source_sha256": {
+    "ops/v2/automation/activate.py": "3c5b9170f59200f5d5aa1c604e26afc532aef1e0e15cd60547274e0314b00f25",
+    "ops/v2/automation/runner.py": "bb258d5708286c5aff4e23e342d488df67e489c7dcad5e4935a2da822dc13d8b",
+    "ops/v2/automation/test_runner.py": "5cbe33d358098ee5117c771ff4ba781ba0ac09fecd1b7abebb6012d76091d2ce"
+  }
+}
