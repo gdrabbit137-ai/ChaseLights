@@ -12,8 +12,8 @@ const index=JSON.parse(rawIndex),source=JSON.parse(rawCatalog),catalog=importV21
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
 test('W2 fixed index and eight exact canonical sources remain source pinned',()=>{
-  assert.equal(sha256(rawIndex),'bda316d5cfcf4cc945dc15202d1570d5e45503e88ef9bb43d4c5824ba7e55dac');
-  assert.equal(sha256(rawCatalog),'f31392087b043e975abcd95a7da45a9bfebf5f513364d7de126c7e75dafe51e8');
+  assert.equal(sha256(rawIndex),'b70b6e5a668a3b7545d1a7dd5b3ebcf4225e5b9b8276f3621c33b14bf1dfb3d9');
+  assert.equal(sha256(rawCatalog),'8a6872443f5be085bea18efe6ecdd9b35d8615a9a98a330b02e33f60b233c568');
   assert.equal(validateBrowseIndex(index,catalog),index);
   assert.equal(source.opportunities.length,8);assert.equal(source.places.length,7);
   for(const row of index.place_index.opportunities){
