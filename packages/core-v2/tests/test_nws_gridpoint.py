@@ -219,5 +219,42 @@ class GridpointSourceGate(unittest.TestCase):
         self.assertEqual("NO_APPROVED_PHOTO_THRESHOLD", res["reasons"][0])
 
 
+    def test_11_live_retrieval_time_ignores_forged_caller_clock(self):
+        """Mocked default transport only; no real NOAA network call."""
+        from unittest.mock import patch
+
+        p, g = fixture()
+        args = dict(latitude=47.6, longitude=-122.33, field="skyCover",
+                    valid_at=AS_OF, coordinate_source="Seattle regional sample",
+                    freshness_policy=POLICY)
+
+        class StaleClock(datetime):
+            @classmethod
+            def now(cls, tz=None):
+                return cls(2026, 10, 17, tzinfo=timezone.utc)
+
+        with patch.object(nws, "datetime", StaleClock), patch.object(
+                nws, "build_opener", return_value=FakeOpener(p, g)):
+            for forged in ("2026-10-13T13:00:00Z", "2026-10-20T13:00:00Z"):
+                with self.subTest(forged=forged):
+                    self.assert_unknown(nws.fetch_nws_gridpoint(
+                        **args, retrieved_at=forged), "STALE_SOURCE")
+
+        class FreshClock(datetime):
+            @classmethod
+            def now(cls, tz=None):
+                return cls(2026, 10, 13, 13, tzinfo=timezone.utc)
+
+        with patch.object(nws, "datetime", FreshClock), patch.object(
+                nws, "build_opener", return_value=FakeOpener(p, g)):
+            result = nws.fetch_nws_gridpoint(
+                **args, retrieved_at="2026-10-20T13:00:00Z")
+            self.assertEqual("RAW_SOURCE_ONLY", result["source_state"])
+            self.assertEqual("2026-10-13T13:00:00Z",
+                             result["record"]["retrieved_at_utc"])
+            self.assertFalse(result["live_recommendation"])
+
+
+
 if __name__ == "__main__":
     unittest.main()
