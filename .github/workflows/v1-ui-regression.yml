@@ -1,0 +1,31 @@
+name: V1 UI Regression
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'assets/app.js'
+      - 'tests/v1_spot_local_date.test.cjs'
+      - '.github/workflows/v1-ui-regression.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'assets/app.js'
+      - 'tests/v1_spot_local_date.test.cjs'
+      - '.github/workflows/v1-ui-regression.yml'
+permissions:
+  contents: read
+jobs:
+  v1-ui-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check V1 JavaScript syntax
+        run: node --check assets/app.js
+      - name: Verify spot-local dates and Alaska window formatting
+        run: node --test tests/v1_spot_local_date.test.cjs
