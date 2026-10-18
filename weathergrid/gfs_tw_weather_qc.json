@@ -4,8 +4,8 @@
   "model": "GFS",
   "cycle": {
     "date": "20261018",
-    "cycle": "00",
-    "cycle_time_utc": "2026-10-18T00:00:00+00:00"
+    "cycle": "06",
+    "cycle_time_utc": "2026-10-18T06:00:00+00:00"
   },
   "frame_count": 5,
   "grid_rows": 26,
@@ -14,194 +14,6 @@
   "frames": [
     {
       "forecast_hour": 0,
-      "valid_time_utc": "2026-10-18T00:00:00+00:00",
-      "fields": {
-        "low_cloud_percent": {
-          "count": 650,
-          "missing": 0,
-          "min": 0.0,
-          "max": 100.0,
-          "mean": 11.6215,
-          "unique_rounded": 192,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "mid_cloud_percent": {
-          "count": 650,
-          "missing": 0,
-          "min": 0.0,
-          "max": 0.0,
-          "mean": 0.0,
-          "unique_rounded": 1,
-          "range": 0.0,
-          "flags": [
-            "constant_field"
-          ],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "high_cloud_percent": {
-          "count": 650,
-          "missing": 0,
-          "min": 0.0,
-          "max": 41.8,
-          "mean": 3.1871,
-          "unique_rounded": 71,
-          "range": 41.8,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "visibility_km": {
-          "count": 650,
-          "missing": 0,
-          "min": 17.8041,
-          "max": 24.1349,
-          "mean": 24.1071,
-          "unique_rounded": 10,
-          "range": 6.3308,
-          "flags": [
-            "visibility_ceiling_dominant"
-          ],
-          "source_units": "m",
-          "normalized_units": "km"
-        },
-        "precip_rate_mm_h": {
-          "count": 650,
-          "missing": 0,
-          "min": 0.0,
-          "max": 0.2102,
-          "mean": 0.0126,
-          "unique_rounded": 47,
-          "range": 0.2102,
-          "flags": [],
-          "source_units": "kg m**-2 s**-1",
-          "normalized_units": "mm/h"
-        },
-        "wind_speed_10m_m_s": {
-          "count": 650,
-          "missing": 0,
-          "min": 0.0706,
-          "max": 10.3431,
-          "mean": 4.8209,
-          "unique_rounded": 628,
-          "range": 10.2725,
-          "flags": [],
-          "source_units": "m/s",
-          "normalized_units": "m/s"
-        },
-        "wind_direction_10m_deg": {
-          "count": 650,
-          "missing": 0,
-          "min": 0.1695,
-          "max": 359.5378,
-          "mean": 121.2727,
-          "unique_rounded": 650,
-          "range": 359.3683,
-          "flags": [],
-          "source_units": "degree",
-          "normalized_units": "degree"
-        }
-      }
-    },
-    {
-      "forecast_hour": 3,
-      "valid_time_utc": "2026-10-18T03:00:00+00:00",
-      "fields": {
-        "low_cloud_percent": {
-          "count": 650,
-          "missing": 0,
-          "min": 0.0,
-          "max": 100.0,
-          "mean": 6.6678,
-          "unique_rounded": 143,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "mid_cloud_percent": {
-          "count": 650,
-          "missing": 0,
-          "min": 0.0,
-          "max": 0.0,
-          "mean": 0.0,
-          "unique_rounded": 1,
-          "range": 0.0,
-          "flags": [
-            "constant_field"
-          ],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "high_cloud_percent": {
-          "count": 650,
-          "missing": 0,
-          "min": 0.0,
-          "max": 80.2,
-          "mean": 3.3294,
-          "unique_rounded": 62,
-          "range": 80.2,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "visibility_km": {
-          "count": 650,
-          "missing": 0,
-          "min": 22.2702,
-          "max": 24.135,
-          "mean": 24.1315,
-          "unique_rounded": 4,
-          "range": 1.8648,
-          "flags": [
-            "visibility_ceiling_dominant"
-          ],
-          "source_units": "m",
-          "normalized_units": "km"
-        },
-        "precip_rate_mm_h": {
-          "count": 650,
-          "missing": 0,
-          "min": 0.0,
-          "max": 0.1814,
-          "mean": 0.0066,
-          "unique_rounded": 31,
-          "range": 0.1814,
-          "flags": [],
-          "source_units": "kg m**-2 s**-1",
-          "normalized_units": "mm/h"
-        },
-        "wind_speed_10m_m_s": {
-          "count": 650,
-          "missing": 0,
-          "min": 0.0838,
-          "max": 10.0336,
-          "mean": 4.6803,
-          "unique_rounded": 626,
-          "range": 9.9498,
-          "flags": [],
-          "source_units": "m/s",
-          "normalized_units": "m/s"
-        },
-        "wind_direction_10m_deg": {
-          "count": 650,
-          "missing": 0,
-          "min": 0.3624,
-          "max": 359.9632,
-          "mean": 109.0962,
-          "unique_rounded": 647,
-          "range": 359.6008,
-          "flags": [],
-          "source_units": "degree",
-          "normalized_units": "degree"
-        }
-      }
-    },
-    {
-      "forecast_hour": 6,
       "valid_time_utc": "2026-10-18T06:00:00+00:00",
       "fields": {
         "low_cloud_percent": {
@@ -209,8 +21,8 @@
           "missing": 0,
           "min": 0.0,
           "max": 93.7,
-          "mean": 4.6638,
-          "unique_rounded": 142,
+          "mean": 5.1875,
+          "unique_rounded": 157,
           "range": 93.7,
           "flags": [],
           "source_units": "%",
@@ -234,10 +46,10 @@
           "count": 650,
           "missing": 0,
           "min": 0.0,
-          "max": 99.4,
-          "mean": 6.0535,
-          "unique_rounded": 96,
-          "range": 99.4,
+          "max": 99.7,
+          "mean": 6.626,
+          "unique_rounded": 118,
+          "range": 99.7,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -245,11 +57,11 @@
         "visibility_km": {
           "count": 650,
           "missing": 0,
-          "min": 22.1714,
-          "max": 24.135,
-          "mean": 24.1288,
-          "unique_rounded": 4,
-          "range": 1.9636,
+          "min": 22.1119,
+          "max": 24.1351,
+          "mean": 24.1306,
+          "unique_rounded": 5,
+          "range": 2.0232,
           "flags": [
             "visibility_ceiling_dominant"
           ],
@@ -260,10 +72,10 @@
           "count": 650,
           "missing": 0,
           "min": 0.0,
-          "max": 0.1915,
-          "mean": 0.0064,
+          "max": 0.1786,
+          "mean": 0.0071,
           "unique_rounded": 55,
-          "range": 0.1915,
+          "range": 0.1786,
           "flags": [],
           "source_units": "kg m**-2 s**-1",
           "normalized_units": "mm/h"
@@ -271,11 +83,11 @@
         "wind_speed_10m_m_s": {
           "count": 650,
           "missing": 0,
-          "min": 0.2159,
-          "max": 9.8043,
-          "mean": 5.1049,
-          "unique_rounded": 629,
-          "range": 9.5884,
+          "min": 0.1437,
+          "max": 9.7856,
+          "mean": 5.0821,
+          "unique_rounded": 626,
+          "range": 9.6419,
           "flags": [],
           "source_units": "m/s",
           "normalized_units": "m/s"
@@ -283,11 +95,199 @@
         "wind_direction_10m_deg": {
           "count": 650,
           "missing": 0,
-          "min": 0.3776,
-          "max": 357.8015,
-          "mean": 101.8137,
-          "unique_rounded": 649,
-          "range": 357.4239,
+          "min": 0.3587,
+          "max": 359.3623,
+          "mean": 103.796,
+          "unique_rounded": 648,
+          "range": 359.0036,
+          "flags": [],
+          "source_units": "degree",
+          "normalized_units": "degree"
+        }
+      }
+    },
+    {
+      "forecast_hour": 3,
+      "valid_time_utc": "2026-10-18T09:00:00+00:00",
+      "fields": {
+        "low_cloud_percent": {
+          "count": 650,
+          "missing": 0,
+          "min": 0.0,
+          "max": 86.4,
+          "mean": 4.7905,
+          "unique_rounded": 142,
+          "range": 86.4,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "mid_cloud_percent": {
+          "count": 650,
+          "missing": 0,
+          "min": 0.0,
+          "max": 0.0,
+          "mean": 0.0,
+          "unique_rounded": 1,
+          "range": 0.0,
+          "flags": [
+            "constant_field"
+          ],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "high_cloud_percent": {
+          "count": 650,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 28.8005,
+          "unique_rounded": 211,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "visibility_km": {
+          "count": 650,
+          "missing": 0,
+          "min": 6.3663,
+          "max": 24.1351,
+          "mean": 23.952,
+          "unique_rounded": 24,
+          "range": 17.7688,
+          "flags": [
+            "visibility_ceiling_dominant"
+          ],
+          "source_units": "m",
+          "normalized_units": "km"
+        },
+        "precip_rate_mm_h": {
+          "count": 650,
+          "missing": 0,
+          "min": 0.0,
+          "max": 0.9086,
+          "mean": 0.0116,
+          "unique_rounded": 61,
+          "range": 0.9086,
+          "flags": [],
+          "source_units": "kg m**-2 s**-1",
+          "normalized_units": "mm/h"
+        },
+        "wind_speed_10m_m_s": {
+          "count": 650,
+          "missing": 0,
+          "min": 0.201,
+          "max": 9.8177,
+          "mean": 5.3932,
+          "unique_rounded": 612,
+          "range": 9.6167,
+          "flags": [],
+          "source_units": "m/s",
+          "normalized_units": "m/s"
+        },
+        "wind_direction_10m_deg": {
+          "count": 650,
+          "missing": 0,
+          "min": 0.3903,
+          "max": 359.9297,
+          "mean": 87.0771,
+          "unique_rounded": 648,
+          "range": 359.5395,
+          "flags": [],
+          "source_units": "degree",
+          "normalized_units": "degree"
+        }
+      }
+    },
+    {
+      "forecast_hour": 6,
+      "valid_time_utc": "2026-10-18T12:00:00+00:00",
+      "fields": {
+        "low_cloud_percent": {
+          "count": 650,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 7.4434,
+          "unique_rounded": 168,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "mid_cloud_percent": {
+          "count": 650,
+          "missing": 0,
+          "min": 0.0,
+          "max": 0.0,
+          "mean": 0.0,
+          "unique_rounded": 1,
+          "range": 0.0,
+          "flags": [
+            "constant_field"
+          ],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "high_cloud_percent": {
+          "count": 650,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 19.162,
+          "unique_rounded": 208,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "visibility_km": {
+          "count": 650,
+          "missing": 0,
+          "min": 1.2508,
+          "max": 24.1352,
+          "mean": 23.8407,
+          "unique_rounded": 29,
+          "range": 22.8844,
+          "flags": [
+            "visibility_ceiling_dominant"
+          ],
+          "source_units": "m",
+          "normalized_units": "km"
+        },
+        "precip_rate_mm_h": {
+          "count": 650,
+          "missing": 0,
+          "min": 0.0,
+          "max": 1.7986,
+          "mean": 0.0368,
+          "unique_rounded": 69,
+          "range": 1.7986,
+          "flags": [],
+          "source_units": "kg m**-2 s**-1",
+          "normalized_units": "mm/h"
+        },
+        "wind_speed_10m_m_s": {
+          "count": 650,
+          "missing": 0,
+          "min": 0.0669,
+          "max": 11.0351,
+          "mean": 5.561,
+          "unique_rounded": 624,
+          "range": 10.9682,
+          "flags": [],
+          "source_units": "m/s",
+          "normalized_units": "m/s"
+        },
+        "wind_direction_10m_deg": {
+          "count": 650,
+          "missing": 0,
+          "min": 1.9745,
+          "max": 358.439,
+          "mean": 67.7825,
+          "unique_rounded": 648,
+          "range": 356.4645,
           "flags": [],
           "source_units": "degree",
           "normalized_units": "degree"
@@ -296,16 +296,16 @@
     },
     {
       "forecast_hour": 9,
-      "valid_time_utc": "2026-10-18T09:00:00+00:00",
+      "valid_time_utc": "2026-10-18T15:00:00+00:00",
       "fields": {
         "low_cloud_percent": {
           "count": 650,
           "missing": 0,
           "min": 0.0,
-          "max": 86.8,
-          "mean": 3.702,
-          "unique_rounded": 128,
-          "range": 86.8,
+          "max": 100.0,
+          "mean": 14.1729,
+          "unique_rounded": 203,
+          "range": 100.0,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -329,8 +329,8 @@
           "missing": 0,
           "min": 0.0,
           "max": 100.0,
-          "mean": 22.4043,
-          "unique_rounded": 196,
+          "mean": 12.6665,
+          "unique_rounded": 185,
           "range": 100.0,
           "flags": [],
           "source_units": "%",
@@ -339,11 +339,11 @@
         "visibility_km": {
           "count": 650,
           "missing": 0,
-          "min": 14.8058,
-          "max": 24.135,
-          "mean": 24.0342,
-          "unique_rounded": 21,
-          "range": 9.3292,
+          "min": 0.2865,
+          "max": 24.1349,
+          "mean": 23.7418,
+          "unique_rounded": 43,
+          "range": 23.8484,
           "flags": [
             "visibility_ceiling_dominant"
           ],
@@ -354,10 +354,10 @@
           "count": 650,
           "missing": 0,
           "min": 0.0,
-          "max": 0.3283,
-          "mean": 0.0078,
-          "unique_rounded": 55,
-          "range": 0.3283,
+          "max": 1.3421,
+          "mean": 0.0334,
+          "unique_rounded": 94,
+          "range": 1.3421,
           "flags": [],
           "source_units": "kg m**-2 s**-1",
           "normalized_units": "mm/h"
@@ -365,11 +365,11 @@
         "wind_speed_10m_m_s": {
           "count": 650,
           "missing": 0,
-          "min": 0.1674,
-          "max": 10.4069,
-          "mean": 5.4383,
-          "unique_rounded": 620,
-          "range": 10.2395,
+          "min": 0.0415,
+          "max": 11.6181,
+          "mean": 5.6548,
+          "unique_rounded": 632,
+          "range": 11.5766,
           "flags": [],
           "source_units": "m/s",
           "normalized_units": "m/s"
@@ -377,11 +377,11 @@
         "wind_direction_10m_deg": {
           "count": 650,
           "missing": 0,
-          "min": 0.834,
-          "max": 359.7594,
-          "mean": 84.979,
-          "unique_rounded": 646,
-          "range": 358.9254,
+          "min": 0.0522,
+          "max": 359.6617,
+          "mean": 78.2617,
+          "unique_rounded": 650,
+          "range": 359.6096,
           "flags": [],
           "source_units": "degree",
           "normalized_units": "degree"
@@ -390,15 +390,15 @@
     },
     {
       "forecast_hour": 12,
-      "valid_time_utc": "2026-10-18T12:00:00+00:00",
+      "valid_time_utc": "2026-10-18T18:00:00+00:00",
       "fields": {
         "low_cloud_percent": {
           "count": 650,
           "missing": 0,
           "min": 0.0,
           "max": 100.0,
-          "mean": 5.6945,
-          "unique_rounded": 152,
+          "mean": 16.1195,
+          "unique_rounded": 217,
           "range": 100.0,
           "flags": [],
           "source_units": "%",
@@ -423,8 +423,8 @@
           "missing": 0,
           "min": 0.0,
           "max": 100.0,
-          "mean": 14.0174,
-          "unique_rounded": 189,
+          "mean": 31.334,
+          "unique_rounded": 273,
           "range": 100.0,
           "flags": [],
           "source_units": "%",
@@ -433,11 +433,11 @@
         "visibility_km": {
           "count": 650,
           "missing": 0,
-          "min": 5.936,
-          "max": 24.1352,
-          "mean": 23.8773,
-          "unique_rounded": 26,
-          "range": 18.1992,
+          "min": 2.2495,
+          "max": 24.1351,
+          "mean": 23.6586,
+          "unique_rounded": 60,
+          "range": 21.8856,
           "flags": [
             "visibility_ceiling_dominant"
           ],
@@ -448,10 +448,10 @@
           "count": 650,
           "missing": 0,
           "min": 0.0,
-          "max": 1.2874,
-          "mean": 0.0192,
-          "unique_rounded": 68,
-          "range": 1.2874,
+          "max": 2.903,
+          "mean": 0.0561,
+          "unique_rounded": 109,
+          "range": 2.903,
           "flags": [],
           "source_units": "kg m**-2 s**-1",
           "normalized_units": "mm/h"
@@ -459,11 +459,11 @@
         "wind_speed_10m_m_s": {
           "count": 650,
           "missing": 0,
-          "min": 0.0991,
-          "max": 11.0383,
-          "mean": 5.5164,
-          "unique_rounded": 630,
-          "range": 10.9392,
+          "min": 0.193,
+          "max": 11.993,
+          "mean": 5.5839,
+          "unique_rounded": 631,
+          "range": 11.8001,
           "flags": [],
           "source_units": "m/s",
           "normalized_units": "m/s"
@@ -471,11 +471,11 @@
         "wind_direction_10m_deg": {
           "count": 650,
           "missing": 0,
-          "min": 0.5706,
-          "max": 358.9458,
-          "mean": 69.4081,
-          "unique_rounded": 648,
-          "range": 358.3752,
+          "min": 0.3871,
+          "max": 358.4585,
+          "mean": 91.7993,
+          "unique_rounded": 647,
+          "range": 358.0714,
           "flags": [],
           "source_units": "degree",
           "normalized_units": "degree"
