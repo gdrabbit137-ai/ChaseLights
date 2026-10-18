@@ -175,8 +175,25 @@ class SnapshotTests(unittest.TestCase):
         with self.assertRaises(TypeError):
             snapshot.fetch_nws_snapshot(**args, retrieved_at=RETRIEVED)
 
+    def test_historical_event_rejected_before_any_https_request(self):
+        # A past instant is rejected by the real UTC preflight; this is not
+        # a provider outage and must never open /points or /gridpoints.
+        with patch.object(snapshot.nws, "build_opener") as opener, \
+             patch.object(snapshot.nws, "_get_json_bytes") as request:
+            result = snapshot.fetch_nws_snapshot(
+                latitude=47.6, longitude=-122.33,
+                valid_at="2020-01-01T00:00:00Z",
+                coordinate_source="Seattle regional sample",
+                freshness_policy=POLICY)
+        self.assert_unknown(result, "PAST_EVENT_NOT_FORECASTABLE")
+        opener.assert_not_called()
+        request.assert_not_called()
+
     def test_real_transport_failure_stays_unknown_without_fallback(self):
-        with patch.object(snapshot.nws, "build_opener", side_effect=URLError("offline")):
+        # The fixture date is historical today. Freeze only the test clock so
+        # this still exercises the transport-failure path, not past-event preflight.
+        with patch.object(snapshot, "datetime", FixedClock), \
+             patch.object(snapshot.nws, "build_opener", side_effect=URLError("offline")):
             result = snapshot.fetch_nws_snapshot(latitude=47.6, longitude=-122.33,
                 valid_at=VALID, coordinate_source="Seattle regional sample", freshness_policy=POLICY)
         self.assert_unknown(result, "PROVIDER_TRANSPORT_UNAVAILABLE")
