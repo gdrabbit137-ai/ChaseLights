@@ -1,0 +1,36 @@
+name: V2 one-shot real NWS acceptance
+on:
+  pull_request:
+    types: [opened]
+    paths:
+      - .github/workflows/v2-nws-provider-acceptance.yml
+      - ops/v2/nws_provider_acceptance.py
+permissions:
+  contents: read
+jobs:
+  provider:
+    if: github.event.pull_request.head.repo.full_name == github.repository && github.head_ref == 'codex/w5-real-nws-acceptance-20261019'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      ACCEPTANCE_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install 'jsonschema==4.26.0'
+      - name: Real official-host capture and unchanged runtime, maximum four requests
+        run: python ops/v2/nws_provider_acceptance.py --output .ci/nws-acceptance
+      - name: Preserve original HTTP and independent validation even on failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nws-provider-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .ci/nws-acceptance/
+          if-no-files-found: error
+          retention-days: 90
