@@ -1,0 +1,17 @@
+{
+  "command": [
+    "python",
+    "packages/core-v2/forecast_runtime.py",
+    "--local-date",
+    "2026-10-18",
+    "--freshness-policy",
+    "operator-research-policy.json"
+  ],
+  "exit_code": 0,
+  "stderr": "",
+  "policy": {
+    "approved": true,
+    "source": "One-shot transport investigation only; not production/scientific approval",
+    "max_age_seconds": 86400
+  }
+}

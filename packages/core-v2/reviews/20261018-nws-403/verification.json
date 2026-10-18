@@ -1,0 +1,50 @@
+{
+  "base_sha": "92804a5c86d14e7855bb92b52d6623bf7fa5c91a",
+  "reviewed_main": "8cadcbed0c62ac128cd537c2a9b256b69662e611",
+  "executed_runtime_code_sha": "9821b5234c1fec127c7a19b4c4e5ea7f25c93f85",
+  "code_sha256": {
+    "packages/core-v2/nws_transport_probe.py": "886c8bd30e11e4234684a65a75a0853f8d4e9be7a13b9f0586dbf6a92ccd5426",
+    "packages/core-v2/tests/test_nws_transport_probe.py": "d3b3cad31c53ca66cd79408acfaaf6e8ce7f21a7b974ec288e20319cb727d72e"
+  },
+  "original_runtime_files_unchanged": true,
+  "raw_body_independent_rehash": [
+    {
+      "url": "https://api.weather.gov/points/47.6,-122.33",
+      "bytes": 3909,
+      "sha256": "3192fc89d391ec6bfccbc7cd9f46109f3059fbd3eb08c4f371be785f8ed584f2",
+      "matches": true
+    },
+    {
+      "url": "https://api.weather.gov/gridpoints/SEW/125,68",
+      "bytes": 186213,
+      "sha256": "16d5e83956645a7e527d96c2ab0424cc6e13d7455f7ff5eb0da5ab5843d5c71d",
+      "matches": true
+    }
+  ],
+  "raw_record_fields": [
+    "skyCover",
+    "windSpeed",
+    "probabilityOfPrecipitation"
+  ],
+  "live_status": "RAW_SOURCE_CAPTURED_PHOTOGRAPHY_NOT_EVALUABLE",
+  "external_production_runtime_validation": "NOT_PERFORMED",
+  "github_current_head_ci": "NOT_PERFORMED",
+  "core_results": {
+    "tests": 70,
+    "fail": 0,
+    "error": 0,
+    "skip": 0,
+    "expected_failure": 0,
+    "unexpected_success": 0,
+    "pass": 70
+  },
+  "model_results": {
+    "tests": 10,
+    "fail": 0,
+    "error": 0,
+    "skip": 0,
+    "expected_failure": 0,
+    "unexpected_success": 0,
+    "pass": 10
+  }
+}
