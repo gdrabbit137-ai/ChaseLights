@@ -1,0 +1,60 @@
+{
+  "artifact_kind": "TRANSPORT_DIAGNOSTIC_NOT_WEATHER_EVIDENCE",
+  "url": "https://api.weather.gov/points/47.6,-122.33",
+  "method": "GET",
+  "started_at_utc": "2026-10-18T18:49:39.236578+00:00",
+  "completed_at_utc": "2026-10-18T18:49:44.392539+00:00",
+  "request_headers": {
+    "User-Agent": "ChaseLights-V2-M6b/0.1 (source research; https://github.com/gdrabbit137-ai/ChaseLights)",
+    "Accept": "application/geo+json, application/json"
+  },
+  "proxy_environment_present": true,
+  "curl_exit": 0,
+  "connect_http_status": 200,
+  "target_http_status": 200,
+  "elapsed_seconds": 5.148032,
+  "classification": "HTTP_200_TRANSPORT_ONLY",
+  "response_header_blocks": [
+    {
+      "status_line": "HTTP/1.1 200 OK",
+      "headers": {
+        "date": [
+          "Sun, 18 Oct 2026 18:49:44 GMT"
+        ]
+      }
+    },
+    {
+      "status_line": "HTTP/2 200 ",
+      "headers": {
+        "server": [
+          "nginx/1.28.3"
+        ],
+        "content-type": [
+          "application/geo+json"
+        ],
+        "x-request-id": [
+          "01a15059-2e50-72f1-8157-30c4be2d7e03"
+        ],
+        "x-correlation-id": [
+          "c04c05a"
+        ],
+        "cache-control": [
+          "public, max-age=86400, s-maxage=86400"
+        ],
+        "expires": [
+          "Mon, 19 Oct 2026 18:49:44 GMT"
+        ],
+        "date": [
+          "Sun, 18 Oct 2026 18:49:44 GMT"
+        ],
+        "content-length": [
+          "3909"
+        ]
+      }
+    }
+  ],
+  "received_body_bytes": 3909,
+  "received_body_sha256": "3192fc89d391ec6bfccbc7cd9f46109f3059fbd3eb08c4f371be785f8ed584f2",
+  "photography_verdict": "NOT_EVALUABLE",
+  "recommendation_eligible": false
+}
