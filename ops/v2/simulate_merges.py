@@ -58,13 +58,30 @@ def owner_transitions(repo, base, candidate, lock):
             if (row.get('tree_sha') != lock['sources'][owner]['tree_sha'] or
                     git(repo, 'rev-parse', source + ':' + path).stdout.strip() != row['tree_sha'] or
                     git(repo, 'rev-parse', candidate + ':' + path).stdout.strip() != row['tree_sha'] or
-                    git(repo, 'rev-parse', base + ':' + path).stdout.strip() != row.get('previous_tree_sha')):
+                    git(repo, 'rev-parse', base + ':' + path).stdout.strip()
+                    not in (row.get('previous_tree_sha'), row['tree_sha'])):
                 raise ValueError('R2 owner tree differs from exact source/base: ' + owner)
             transitions.append(row)
         # The two W2 commits between base and index must not smuggle other paths.
-        if any(not p.startswith('data/v2/') for p in
-               git(repo, 'diff', '--name-only', base, lock['sources']['w2']['sha']).stdout.splitlines()):
+        w2_pin = lock['sources']['w2']['sha']
+        if (git(repo, 'merge-base', '--is-ancestor', w2_pin, base, check=False).returncode and
+                any(not p.startswith('data/v2/') for p in
+                    git(repo, 'diff', '--name-only', base, w2_pin).stdout.splitlines())):
             raise ValueError('R2 W2 source chain changes nonowner files')
+        adjustment = lock['sources']['w3'].get('integration_adjustment')
+        if adjustment:
+            source = fixed_commit(repo, lock['sources']['w3']['sha'])
+            if git(repo, 'merge-base', '--is-ancestor', source, candidate, check=False).returncode:
+                raise ValueError('W3 PR #513 source is not integrated')
+            common = git(repo, 'merge-base', base, source).stdout.strip()
+            changed = git(repo, 'diff', '--name-only', common, source).stdout.splitlines()
+            if not changed or any(not p.startswith('packages/core-v2/') for p in changed):
+                raise ValueError('W3 source contains nonowner changes')
+            if (git(repo, 'rev-parse', source + ':packages/core-v2').stdout.strip()
+                    == git(repo, 'rev-parse', candidate + ':packages/core-v2').stdout.strip()):
+                raise ValueError('W3 integration adjustment was not explicitly reviewed')
+            transitions.append({'owner': 'w3', 'paths': ['packages/core-v2', 'packages/models-v2'],
+                                'source_sha': source})
         return transitions
     if 'beta_owner_integrations' in lock:
         expected_paths = {'w1': ['specs/v2'], 'w2': ['data/v2'],
@@ -153,11 +170,23 @@ def rehearse(repo, base, candidate):
             raise ValueError('Owner pin is not integrated into either parent: ' + owner)
         for path in paths:
             actual = git(repo, 'rev-parse', tree + ':' + path).stdout.strip()
-            expected = lock['sources'][owner].get('tree_sha') if len(paths) == 1 else None
+            expected = lock['sources'][owner].get('tree_shas', {}).get(path)
+            expected = expected or (lock['sources'][owner].get('tree_sha') if len(paths) == 1 else None)
             expected = expected or git(repo, 'rev-parse', pin + ':' + path).stdout.strip()
             if actual != expected:
                 raise ValueError('Owner subtree differs from immutable pin: ' + path)
             source_trees[path] = actual
+    adjustment = lock['sources']['w3'].get('integration_adjustment')
+    if adjustment:
+        path = adjustment['path']
+        changed_w3 = git(repo, 'diff', '--name-only', lock['sources']['w3']['sha'], tree,
+                         '--', 'packages/core-v2', 'packages/models-v2').stdout.splitlines()
+        if (changed_w3 != [path] or
+                git(repo, 'rev-parse', lock['sources']['w3']['sha'] + ':' + path).stdout.strip()
+                != adjustment['source_blob_sha'] or
+                git(repo, 'rev-parse', tree + ':' + path).stdout.strip()
+                != adjustment['integrated_blob_sha']):
+            raise ValueError('W3 integration differs from the exact one-file Canonical hash adjustment')
     return {'status': 'PASS', 'base_sha': base, 'candidate_sha': candidate,
             'merge_base_sha': common, 'merged_tree_sha': tree,
             'changed_paths': changed, 'owner_trees': source_trees,

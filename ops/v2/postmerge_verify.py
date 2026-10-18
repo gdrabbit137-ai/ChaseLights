@@ -44,11 +44,25 @@ def verify_main(root, lock):
                 raise ValueError("Required owner dependency not merged: " + owner + " " + additional)
         for p in paths:
             current = git(root, "rev-parse", "HEAD:" + p)
-            expected = lock["sources"][owner].get("tree_sha") if len(paths) == 1 else None
+            expected = lock["sources"][owner].get("tree_shas", {}).get(p)
+            expected = expected or (lock["sources"][owner].get("tree_sha") if len(paths) == 1 else None)
             expected = expected or git(root, "rev-parse", pinned + ":" + p)
             if current != expected:
                 raise ValueError(f"Merged {owner} subtree differs from tested pin: {p}")
             out["owner_trees"][p] = current
+    adjustment = lock["sources"]["w3"].get("integration_adjustment")
+    if adjustment:
+        path = adjustment["path"]
+        changed = git(root, "diff", "--name-only", lock["sources"]["w3"]["sha"],
+                      "HEAD", "--", "packages/core-v2", "packages/models-v2").splitlines()
+        if changed != [path]:
+            raise ValueError("W3 integration changed paths beyond the reviewed Canonical hash test")
+        if (git(root, "rev-parse", lock["sources"]["w3"]["sha"] + ":" + path)
+                != adjustment["source_blob_sha"] or
+                git(root, "rev-parse", "HEAD:" + path) != adjustment["integrated_blob_sha"] or
+                hashlib.sha256((root / adjustment["canonical_path"]).read_bytes()).hexdigest()
+                != adjustment["canonical_sha256"]):
+            raise ValueError("W3 test-only integration adjustment or R2 Canonical bytes drifted")
     if out["owner_trees"]["apps/web-v2"] != lock["sources"]["w4"]["tree_sha"]:
         raise ValueError("W4 final app tree mismatches tested corrected tree")
     if len(git(root, "ls-tree", "-r", "--name-only", "HEAD", "apps/web-v2").splitlines()) != lock["sources"]["w4"]["file_count"]:
@@ -249,7 +263,7 @@ def main():
             ("w5-runner", ["ops/v2/tests", "test_ci_runner.py"], 7, True, False),
             ("w5-task-r-release-tools", ["ops/v2/tests", "test_task_r_release_tools.py"], 12, True, False),
             ("w5-task-v-integration", ["ops/v2/tests", "test_task_v_integration.py"], 11, True, False),
-            ("w3-evaluator-and-nws-source", ["packages/core-v2/tests", "test_*.py"], 42, True, False),
+            ("w3-evaluator-and-nws-source", ["packages/core-v2/tests", "test_*.py"], 66, True, False),
             ("w3-solar-model", ["packages/models-v2/tests", "test_*.py"], 10, True, False),
             ("w2-crosswalk-schema-and-index", ["data/v2/tests", "test_*.py"], 33, True, False),
             ("w2-real-records", [sys.executable, "specs/v2/tests/validate_contract.py",
@@ -258,7 +272,9 @@ def main():
             ("schema-valid-fixture", [sys.executable, "specs/v2/tests/validate_contract.py"], None, False, False),
             ("w3-compile", [sys.executable, "-m", "py_compile",
                 "packages/core-v2/evaluator.py", "packages/core-v2/adapters/source_observation.py",
-                "packages/core-v2/adapters/nws_gridpoint.py"],
+                "packages/core-v2/adapters/nws_gridpoint.py",
+                "packages/core-v2/adapters/nws_snapshot.py",
+                "packages/core-v2/forecast_runtime.py"],
                 None, False, False),
             ("w4-node", ["node", "--test", "--test-isolation=none", "--test-timeout=120000",
                 "--test-reporter=tap", *[str(p.relative_to(root)) for p in sorted(
@@ -282,9 +298,9 @@ def main():
             for key in ("tests", "pass", "fail", "error", "skip")
         }
         if report["counts"] != {
-            "tests": 329, "pass": 329, "fail": 0, "error": 0, "skip": 0
+            "tests": 353, "pass": 353, "fail": 0, "error": 0, "skip": 0
         }:
-            raise ValueError("Post-merge exact 329-case requirement failed")
+            raise ValueError("Post-merge exact 353-case requirement failed")
         if not all(g["status"] == "PASS" for g in report["groups"]):
             raise ValueError("One or more required suites failed")
         report["status"] = "PASS"

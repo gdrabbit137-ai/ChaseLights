@@ -1,6 +1,6 @@
 {
   "repository": "gdrabbit137-ai/ChaseLights",
-  "reviewed_main": "cf38747d9b04958ea0bbdd784d90708553ea1f4e",
+  "reviewed_main": "8cadcbed0c62ac128cd537c2a9b256b69662e611",
   "sources": {
     "w1": {
       "sha": "c1fa5348e7ae2b3b4bc1d254773daca86ed5451e",
@@ -42,10 +42,21 @@
       }
     },
     "w3": {
-      "sha": "8e6f5a1555294ff293a6d7b746b864924f96cfc1",
-      "branch": "feat/v2-w3-m6b-nws-gridpoint-source-20261013",
-      "pr": 479,
-      "source_upgrade": "M6a solar plus M6b NOAA raw source parser, ten transport/interval/uncertainty tests"
+      "sha": "92804a5c86d14e7855bb92b52d6623bf7fa5c91a",
+      "branch": "codex/w3-real-forecast-runtime-20261017",
+      "pr": 513,
+      "source_upgrade": "Kerry Park research-only real forecast diagnostic; 24 new fail-closed tests",
+      "tree_shas": {
+        "packages/core-v2": "edc073640812ff74bcf4ef01a2b9aa5e8ed30a08",
+        "packages/models-v2": "530a3fe48f460372b2f5ca7304c9fb75fedd0e6b"
+      },
+      "integration_adjustment": {
+        "path": "packages/core-v2/tests/test_forecast_runtime.py",
+        "source_blob_sha": "be81080c165028c89809ff7eba401a9967d39eb0",
+        "integrated_blob_sha": "10843b955e32ba13e50dd0dffe31f73973bcd5ca",
+        "canonical_path": "data/v2/opportunities/us-071-P01.json",
+        "canonical_sha256": "74c2284bbd1a2aa153330accea265e86fca27fcb23420512d112d750ac7779fc"
+      }
     },
     "w4": {
       "sha": "ca4e59cf5978347f1422fb1fd2d485c188b58edd",
