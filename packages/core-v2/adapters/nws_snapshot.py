@@ -131,9 +131,14 @@ def fetch_nws_snapshot(*, latitude, longitude, valid_at, coordinate_source,
             raise nws.SourceFailure("OUT_OF_RANGE_LOCATION")
         if type(timeout) not in (int, float) or not 0 < timeout <= 30:
             raise nws.SourceFailure("INVALID_TIMEOUT")
-        nws._time(valid_at)
+        requested = nws._time(valid_at)
         if not isinstance(coordinate_source, str) or len(coordinate_source.strip()) < 4:
             raise nws.SourceFailure("COORDINATE_SOURCE_UNVERIFIED")
+        # A historical forecast event is not queryable. Reject it before any
+        # TLS /points or /gridpoints request, so transport errors cannot hide
+        # the actual invalid-time reason. Live time is never caller-injected.
+        if requested < datetime.now(timezone.utc):
+            raise nws.SourceFailure("PAST_EVENT_NOT_FORECASTABLE")
         points_url = f"https://api.weather.gov/points/{latitude:g},{longitude:g}"
         transport = nws.build_opener(nws.NoRedirect)
         _, points_raw = nws._get_json_bytes(points_url, timeout=timeout, opener=transport)
