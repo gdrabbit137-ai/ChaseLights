@@ -139,6 +139,14 @@ def safe_evaluation(result):
     walk(result)
 
 
+def event_instant(serialized, solar_time):
+    """W3 serializes seconds; retain the exact solar instant for coverage checks."""
+    actual = instant(solar_time)
+    require(instant(serialized) == actual.replace(microsecond=0),
+            'solar/weather time differs beyond documented second serialization')
+    return actual
+
+
 def verify_runtime(out, result):
     safe_evaluation(result)
     weather = result['weather']
@@ -158,7 +166,8 @@ def verify_runtime(out, result):
     require((checked - updated).total_seconds() <= POLICY['max_age_seconds'], 'stale source')
     require(instant(weather['expires_at_utc']) == updated + timedelta(seconds=86400), 'age cutoff mismatch')
     event = result['solar_window'][result['selected_event']]
-    require(instant(event['time_utc']) == valid, 'solar/weather instant mismatch')
+    serialized_valid = valid
+    valid = event_instant(weather['valid_at_utc'], event['time_utc'])
     local = instant(event['time_utc']).astimezone(ZoneInfo('America/Los_Angeles'))
     require(local.isoformat() == event['time_local'] and
             str(local.date()) == result['selected_local_date'], 'local date/UTC offset mismatch')
@@ -190,12 +199,26 @@ def verify_runtime(out, result):
             require(record['raw_value'] == native['value'] and record['uom'] == layer['uom'] and
                     instant(record['valid_from_utc']) == start and instant(record['valid_until_utc']) == end,
                     'native field/interval differs: ' + field)
+            require(start <= serialized_valid < end and start <= valid < end,
+                    'subsecond serialization changed native interval')
             require(record['source_sha256'] == digest(raw[1]) and record['retrieval_mode'] == 'HTTPS_TLS',
                     'record provenance differs')
+            rg = record['grid']
+            gp = grid['properties']
+            require(record['mapping_url'] == POINTS and
+                    record['source_url'] == weather['documents'][1]['url'] and
+                    instant(record['source_update_time_utc']) == updated and
+                    instant(record['retrieved_at_utc']) == retrieved and
+                    (rg['office'], rg['grid_x'], rg['grid_y']) == (gp['gridId'], gp['gridX'], gp['gridY']) and
+                    (rg['sample_lat'], rg['sample_lon']) == (47.6, -122.33),
+                    'record grid/time/sample provenance differs')
     require(len(weather['records']) > 0, 'all fields unavailable')
     save(out, 'independent-verification.json', {'status': 'PASS', 'fields': fields,
          'updated_at_utc': updated.isoformat(), 'retrieved_at_utc': retrieved.isoformat(),
          'valid_at_utc': valid.isoformat(), 'expires_at_utc': weather['expires_at_utc'],
+         'serialized_weather_valid_at_utc': weather['valid_at_utc'],
+         'event_subsecond_precision_retained_for_coverage': True,
+         'refresh_required_before_event': instant(weather['expires_at_utc']) < valid,
          'zone_scope': 'regional sample only; W2 Place zone remains UNKNOWN',
          'provider_issued_at_utc': None, 'provider_run_id': None, 'native_resolution_m': None,
          'model_id': None, 'scientific_admission': 'NOT_GRANTED'})
@@ -222,6 +245,8 @@ def verify_runtime(out, result):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', required=True, type=Path)
+    parser.add_argument('--verify-archive', type=Path,
+                        help='Offline verification of the original Actions archive; no new HTTPS claim')
     args = parser.parse_args()
     out = args.output
     out.mkdir(parents=True, exist_ok=False)
@@ -233,6 +258,34 @@ def main():
               'candidate_head': os.environ.get('ACCEPTANCE_HEAD_SHA'),
               'checkout_sha': subprocess.check_output(['git', '-C', str(ROOT), 'rev-parse', 'HEAD'], text=True).strip()}
     try:
+        if args.verify_archive is not None:
+            archive = args.verify_archive
+            original = json.loads((archive / 'acceptance.json').read_text())
+            require(original['run_id'] == '39156798749' and
+                    original['candidate_head'] == 'ff4742de89004217eb3f8fef1982b252b24d4939',
+                    'archive is not the explicitly pinned original Actions capture')
+            hashes = json.loads((archive / 'sha256.json').read_text())
+            for name, expected in hashes.items():
+                require(Path(name).name == name and digest((archive / name).read_bytes()) == expected,
+                        'archive digest differs: ' + name)
+            points, grid = (json.loads((archive / (label + '.body')).read_bytes())
+                            for label in ('points', 'gridpoints'))
+            metadata = [json.loads((archive / (label + '.http.json')).read_text())
+                        for label in ('points', 'gridpoints')]
+            for meta in metadata:
+                body = (archive / meta['body_file']).read_bytes()
+                require(meta['status'] == 200 and meta['url'] == meta['final_url'] and
+                        digest(body) == meta['sha256'] and len(body) == meta['size_bytes'],
+                        'original HTTP metadata/body mismatch')
+            require(metadata[0]['url'] == POINTS, 'wrong independent sample')
+            verify_documents(points, grid, metadata[1]['url'])
+            result = json.loads((archive / 'runtime.json').read_text())
+            verify_runtime(out, result)
+            report.update(status='PASS', mode='OFFLINE_VERIFICATION_OF_ACTIONS_CAPTURE',
+                          capture_run_id=original['run_id'], capture_head=original['candidate_head'],
+                          capture_completed_at_utc=original['completed_at_utc'], new_http_requests=0,
+                          photography_verdict='NOT_EVALUABLE', evaluation_decision='UNKNOWN')
+            return 0
         points = capture(out, 'points', POINTS)
         grid_url = points['properties']['forecastGridData']
         require(GRID.fullmatch(grid_url) is not None, 'unsafe mapped URL')
