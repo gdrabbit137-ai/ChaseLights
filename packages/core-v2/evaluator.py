@@ -1,7 +1,8 @@
-"""Conservative V2.1 condition-contract evaluator (test-only, no network I/O).
+"""Conservative V2.1 evaluator (test booleans/raw diagnostics, no network I/O).
 
 This module consumes *pre-evaluated boolean* observations. It never computes
 weather/astronomy thresholds, verifies geographic facts, or recommends live use.
+Raw provider context can be traced separately; it never becomes a passing boolean.
 """
 
 from datetime import datetime
@@ -151,3 +152,26 @@ def evaluate(contract, observations, readiness):
             "live_recommendation": False, "evaluated_at": readiness.get("evaluated_at"),
             "research_level": readiness.get("research_level"),
             "conditions": traces, "access_advisories": access_advisories, "axes": axes}
+
+
+def evaluate_raw_forecast(contract, source_inputs, readiness):
+    """Send raw provider context through the existing conservative evaluator.
+
+    No raw field is a boolean condition observation. Even a fresh real forecast
+    cannot establish skyline visibility or city-light overlap. This diagnostic
+    bridge preserves the engine's REQUIRED/BLOCKER/GUIDANCE behavior and records
+    *why* the available input cannot satisfy each condition. Caller-supplied
+    source_inputs are context, never authenticated evidence or permission to pass.
+    """
+    result = evaluate(contract, {}, readiness)
+    for trace in result["conditions"]:
+        domain = trace.get("domain")
+        context = source_inputs.get(domain, {}) if isinstance(source_inputs, dict) else {}
+        context = context if isinstance(context, dict) else {}
+        trace["input_refs"] = list(context.get("refs", []))
+        trace["input_relationship"] = "CONTEXT_ONLY_NOT_CONDITION_EVIDENCE"
+        trace["input_reasons"] = list(context.get("reasons", ["MISSING_SOURCE"]))
+        trace["input_reasons"].append("NO_APPROVED_METRIC_PROVIDER_BINDING")
+    result["photography_verdict"] = "NOT_EVALUABLE"
+    result["recommendation_eligible"] = False
+    return result
