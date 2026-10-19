@@ -1,4 +1,4 @@
-import {LOCALES,placeId,opportunityId,linkedPlaceId,localized,safeUrl,navigationAction,geometryType,relationValue,runtimeEvaluation,associated} from "./model.mjs";
+import {LOCALES,placeId,opportunityId,linkedPlaceId,localized,safeUrl,navigationAction,geometryType,relationValue,runtimeEvaluation,associated,researchTopic} from "./model.mjs";
 import {createCatalogState} from "./catalog-state.mjs";
 import {browse,validateBrowseIndex} from "./browse-index.mjs";
 
@@ -19,6 +19,50 @@ en:{openFilters:"Search and topic filters",closeFilters:"Close filters",topicHea
 ja:{openFilters:"検索と題材フィルター",closeFilters:"フィルターを閉じる",topicHeading:"撮影題材（複数選択、いずれかに一致）",clearFilters:"すべての条件を解除",resultCount:"一致する撮影地",researchOnly:"調査資料のみ · 撮影予報は未提供",unknownMetadata:"行政区分と現地の時間帯は未確認",indexInvalid:"調査索引を検証できません。撮影予報として利用できません。",unclassified:"題材の分類は未提供",indexCommit:"調査索引の commit SHA",canonicalPin:"Canonical 出典 commit／Git Blob",sortStatus:"撮影地名順。確認済みの行政区分・点数・距離による並べ替えは未提供"}
 };
 for(const locale of LOCALES)Object.assign(copy[locale],browseCopy[locale]);
+const topicCopy={
+"zh-TW":{
+  topicsHere:"這裡可以拍什麼",topicGuide:"拍攝特色",topicTargets:"畫面中的主體",
+  topicScope:"這些題材仍為待審核的研究資料，並非已核准的正式拍攝指南。",
+  topicConditions:"特殊拍攝條件",topicConditionsHelp:"以下是題材的研究條件，並非目前已符合的結果。",
+  required:"拍攝所需的條件",requiredHelp:"這些條件會影響題材能否成立，目前尚未判定是否符合。",
+  quality:"可能提升拍攝效果的條件",qualityHelp:"這些因素可能改善照片，不代表已符合，也不會產生攝影分數。",
+  blocker:"可能妨礙拍攝的條件",blockerHelp:"若這些情況出現，可能不適合拍攝；此處沒有判定它們已發生。",
+  otherConditions:"其他研究條件",guidanceMode:"拍攝參考",verifyMode:"需另行確認",autoMode:"自動判斷尚未接線",modeMissing:"判斷方式尚未提供",
+  weatherDomain:"天氣",astronomyDomain:"天文與光線",seasonDomain:"季節與時段",compositionDomain:"構圖",
+  subjectDomain:"主體狀態",spaceDomain:"太空天氣",oceanDomain:"海象",waterDomain:"水況",otherDomain:"其他條件",
+  descriptionMissing:"這個題材的簡介尚未提供。",targetsMissing:"尚未提供更詳細的被攝主體資訊。",
+  conditionsMissing:"尚未提供特殊拍攝條件；不代表沒有條件限制。",
+  assessmentHeading:"條件判斷與未來即時評估",automationUnavailable:"此題材尚未支援可信的自動條件判斷。"
+},
+en:{
+  topicsHere:"What can you photograph here?",topicGuide:"Photographic character",topicTargets:"Subjects in the frame",
+  topicScope:"These subjects are research awaiting review, not an approved photography guide.",
+  topicConditions:"Special shooting conditions",topicConditionsHelp:"These are researched conditions for the subject, not results showing they are met now.",
+  required:"Conditions needed for the subject",requiredHelp:"These conditions affect whether the subject can be photographed. They have not been assessed here.",
+  quality:"Conditions that may improve the photograph",qualityHelp:"These factors may improve the photograph. They are not confirmed and do not produce a photography score.",
+  blocker:"Conditions that may prevent the photograph",blockerHelp:"If present, these conditions may make the photograph unsuitable. Their presence has not been assessed here.",
+  otherConditions:"Other researched conditions",guidanceMode:"Shooting reference",verifyMode:"Needs verification",autoMode:"Automatic evaluation not connected",modeMissing:"Evaluation method not provided",
+  weatherDomain:"Weather",astronomyDomain:"Astronomy and light",seasonDomain:"Season and timing",compositionDomain:"Composition",
+  subjectDomain:"Subject state",spaceDomain:"Space weather",oceanDomain:"Sea conditions",waterDomain:"Water conditions",otherDomain:"Other conditions",
+  descriptionMissing:"A description of this subject has not been provided.",targetsMissing:"Further details of the photographic subject have not been provided.",
+  conditionsMissing:"Special shooting conditions have not been provided. This does not mean there are no constraints.",
+  assessmentHeading:"Condition assessment and future live evaluation",automationUnavailable:"Trusted automatic condition assessment is not supported for this subject yet."
+},
+ja:{
+  topicsHere:"ここでは何を撮れる？",topicGuide:"撮影の特徴",topicTargets:"画面に収める被写体",
+  topicScope:"これらの題材は審査待ちの調査情報であり、承認済みの撮影ガイドではありません。",
+  topicConditions:"撮影に関わる特別な条件",topicConditionsHelp:"題材について調査された条件です。現在、条件を満たしているという判定ではありません。",
+  required:"撮影に必要な条件",requiredHelp:"題材を撮影できるかに関わる条件です。ここでは現在の成否を判定していません。",
+  quality:"写真の仕上がりを高める条件",qualityHelp:"写真の表現を高める可能性がある要素です。確認済みという意味ではなく、撮影スコアも算出しません。",
+  blocker:"撮影を妨げる可能性がある条件",blockerHelp:"該当すると撮影に適さない場合があります。現在発生していると判定したものではありません。",
+  otherConditions:"その他の調査条件",guidanceMode:"撮影の参考",verifyMode:"別途確認が必要",autoMode:"自動判定は未接続",modeMissing:"判定方法は未提供",
+  weatherDomain:"天気",astronomyDomain:"天文と光",seasonDomain:"季節と時間帯",compositionDomain:"構図",
+  subjectDomain:"被写体の状態",spaceDomain:"宇宙天気",oceanDomain:"海況",waterDomain:"水の状態",otherDomain:"その他の条件",
+  descriptionMissing:"この題材の説明はまだ提供されていません。",targetsMissing:"被写体の詳しい情報はまだ提供されていません。",
+  conditionsMissing:"特別な撮影条件は未提供です。制約がないことを意味しません。",
+  assessmentHeading:"条件の判定と今後のリアルタイム評価",automationUnavailable:"この題材の信頼できる自動条件判定はまだ利用できません。"
+}};
+for(const locale of LOCALES)Object.assign(copy[locale],topicCopy[locale]);
 const researchCopy={
 "zh-TW":{sourceCommit:"來源 commit SHA（資料聲明）",catalog:"研究來源",imported:"研究匯入時間（不是預報有效時間）",readiness:"研究成熟度",revision:"來源版本",review:"審核狀態",schema:"資料格式版本不相容",invalid:"資料結構或語系不完整",noData:"沒有可匯入的 V2.1 題材",accessNotes:"拍攝區域與安全資訊",missingEvidence:"來源索引尚未提供公開連結",framingHint:"攝影師可在開放且安全的範圍自行選擇構圖；研究中的拍攝範圍不是指定機位。",conditionsMain:"需要留意的環境與天文條件（非即時判定）",risksMain:"已知限制與風險",unknownMain:"尚待核實",evidenceMain:"研究證據索引",evidenceItems:"筆",seeDetails:"請展開查核來源",technicalGeometry:"拍攝範圍、被攝主體及觀測幾何（研究參考）",riskNotProvided:"尚無可核實的安全資訊，請現場查核"},
 en:{sourceCommit:"Source commit SHA (declared by data)",catalog:"Research source",imported:"Research imported (not forecast valid time)",readiness:"Research readiness",revision:"Source revision",review:"Review status",schema:"Unsupported schema version",invalid:"Invalid structure or incomplete localization",noData:"No V2.1 opportunities to import",accessNotes:"Camera access and safety",missingEvidence:"Evidence index has no public URL",framingHint:"Choose your own composition within open, safe areas; a researched camera area is not a prescribed tripod position.",conditionsMain:"Weather and astronomy requirements (not a live assessment)",risksMain:"Known restrictions and risks",unknownMain:"Still unverified",evidenceMain:"Research evidence references",evidenceItems:"entries",seeDetails:"Expand to inspect sources",technicalGeometry:"Camera area, subject and observation geometry (research reference)",riskNotProvided:"Verified safety information is unavailable; check local access"},
@@ -156,6 +200,15 @@ function renderDetail(){
   const opps=match.opportunities;
   target.append(node("p","meta",t("opportunities")+": "+opps.length));
   if(!opps.length){target.append(empty(t("noneOpp"),""));return;}
+  target.append(node("p","topic-list-heading",t("topicsHere")));
+  target.append(node("p","topic-scope",t("topicScope")));
+  const topicLinks=node("nav","topic-jump-list");topicLinks.setAttribute("aria-label",t("topicsHere"));
+  const topicList=node("ul");
+  for(const opp of opps){
+    const li=node("li"),a=node("a","",name(opp));
+    a.href="#"+encodeURIComponent("topic-"+opportunityId(opp));li.append(a);topicList.append(li);
+  }
+  topicLinks.append(topicList);target.append(topicLinks);
   for(const opp of opps)renderOpportunity(target,opp,c,p);
   for(const details of target.querySelectorAll("details")){
     const id=details.getAttribute("data-opportunity-id");
@@ -165,14 +218,22 @@ function renderDetail(){
 }
 function renderOpportunity(target,opp,c,place){
   const oid=opportunityId(opp);
+  const topic=researchTopic(c,opp,state.locale);
   const card=node("article","opportunity");
-  const top=node("div","opportunity-head");top.append(node("h3","",name(opp)),node("span","pill",t("researchOnly")));card.append(top);
+  card.setAttribute("data-opportunity-id",oid);
+  const heading=node("h3","",name(opp));heading.id="topic-"+oid;heading.tabIndex=-1;
+  card.setAttribute("aria-labelledby",heading.id);
+  const top=node("div","opportunity-head");top.append(heading,node("span","pill",t("researchOnly")));card.append(top);
   const topics=activeIndex()?.topic_index.opportunity_topics.find(x=>x.opportunity_id===oid)?.topic_ids||[];
   if(topics.length)card.append(node("p","meta",topics.map(id=>activeIndex().topic_index.topics.find(x=>x.topic_id===id)?.name_i18n[state.locale]).join(" · ")));
   else card.append(node("p","meta",t("unclassified")));
   const rc=researchCopy[state.locale],prov=opp.provenance||{};
-  const description=localized(opp,"description",state.locale);
-  if(description)card.append(node("p","opportunity-description",description));
+  const guide=node("section","topic-guide");guide.append(node("h4","",t("topicGuide")));
+  guide.append(node("p","opportunity-description",topic.description||t("descriptionMissing")));
+  guide.append(node("h5","",t("topicTargets")));
+  if(topic.targets.length){const ul=node("ul","topic-targets");for(const text of topic.targets)ul.append(node("li","",text));guide.append(ul);}
+  else guide.append(node("p","muted",t("targetsMissing")));
+  card.append(guide);
   card.append(node("p","framing-note",t("framingHint")));
   const zones=c.camera_zones.filter(z=>(opp.camera_zone_ids||[]).includes(z.camera_zone_id)||z.opportunity_id===oid);
   const subjects=c.subject_geometries.filter(x=>(opp.subject_geometry_ids||[]).includes(x.subject_geometry_id)||x.opportunity_id===oid);
@@ -183,29 +244,34 @@ function renderOpportunity(target,opp,c,place){
   const refs=new Set([...(opp.evidence_refs||[]),...allConditions.flatMap(x=>x.evidence_refs||[])]);
   const ev=c.evidence.filter(x=>refs.has(x.evidence_id)||x.opportunity_id===oid);
 
-  // Decision-first layout: research conditions are not current weather observations.
+  // Research role describes importance; mode describes how it would be checked.
+  // Neither axis is a current PASS/FAIL/UNKNOWN result or an approved Guide.
   const decision=node("section","decision-core");
-  decision.append(node("p","meta",t("time")+": "+(localized(opp,"sky_geometry_summary",state.locale)||localized(opp,"season_time_summary",state.locale)||t("timeMissing"))));
-  decision.append(node("h4","",rc.conditionsMain));
+  decision.append(node("h4","",t("topicConditions")),node("p","condition-scope",t("topicConditionsHelp")));
+  const timeSummary=localized(opp,"sky_geometry_summary",state.locale)||localized(opp,"season_time_summary",state.locale);
+  if(timeSummary)decision.append(node("p","meta",t("time")+": "+timeSummary));
   // Site access/closure is advisory-only; never render it as a required
   // photographic condition, blocker or a reason to change the weather verdict.
   for(const [role,title] of [["REQUIRED","required"],["QUALITY","quality"]]){
-    const items=allConditions.filter(x=>x.role===role);
+    const items=topic.conditions.filter(x=>x.role===role);
     if(!items.length)continue;
-    decision.append(node("h5","",t(title)));
+    decision.append(node("h5","",t(title)),node("p","condition-role-help",t(title+"Help")));
     const ul=node("ul");
-    for(const condition of items)ul.append(node("li","",localized(condition,"human_description",state.locale)||label(condition,"description")));
+    for(const condition of items)ul.append(renderTopicCondition(condition));
     decision.append(ul);
   }
+  const otherConditions=topic.conditions.filter(x=>x.role===null);
+  if(otherConditions.length){const ul=node("ul");for(const condition of otherConditions)ul.append(renderTopicCondition(condition));decision.append(node("h5","",t("otherConditions")),ul);}
+  if(!topic.conditions.length)decision.append(node("p","muted",t("conditionsMissing")));
   // True photographic blockers remain separate from independently sourced
   // area/road/viewpoint closure and lawful-entry warnings.
-  const photoBlockers=allConditions.filter(x=>x.role==="BLOCKER");
+  const photoBlockers=topic.conditions.filter(x=>x.role==="BLOCKER");
   card.append(decision);
   if(photoBlockers.length){
     const risk=node("section","decision-risks");
-    risk.append(node("h4","",t("blocker")));
+    risk.append(node("h4","",t("blocker")),node("p","condition-role-help",t("blockerHelp")));
     const ul=node("ul");
-    for(const item of photoBlockers)ul.append(node("li","",localized(item,"human_description",state.locale)||label(item,"description")));
+    for(const item of photoBlockers)ul.append(renderTopicCondition(item));
     risk.append(ul);card.append(risk);
   }
   const access=node("section","access-advisories");
@@ -229,7 +295,9 @@ function renderOpportunity(target,opp,c,place){
   else card.append(node("p","nav-disabled",t("navPending")));
   const evalRow=c.evaluations.find(e=>e.opportunity_id===oid);
   const runtime=runtimeEvaluation(evalRow);
-  card.append(node("p",runtime?"meta":"notice",runtime?(t("runtimeReady")+": "+(localized(runtime,"verdict",state.locale)||t("unknown"))):t("runtime")));
+  const assessment=node("section","topic-assessment");assessment.append(node("h4","",t("assessmentHeading")),node("p","automation-status",t("automationUnavailable")));
+  assessment.append(node("p",runtime?"meta":"notice",runtime?(t("runtimeReady")+": "+(localized(runtime,"verdict",state.locale)||t("unknown"))):t("runtime")));
+  card.append(assessment);
 
   // Geometric/camera research stays available, but never implies a mandatory viewpoint.
   const details=node("details","technical");details.setAttribute("data-opportunity-id",oid);details.append(node("summary","",t("advanced")));
@@ -265,6 +333,15 @@ function renderOpportunity(target,opp,c,place){
   if(unknowns.length){group.append(node("h4","",t("unknowns")));const ul=node("ul");for(const x of unknowns)ul.append(node("li","",localized(x,"text",state.locale)||t("notTranslated")));group.append(ul);}
   if(ev.length){group.append(node("h4","",t("evidence")));const ul=node("ul");for(const item of ev){const li=node("li","",item.evidence_id+" · "+(item.source||item.title||t("unknown"))+" ");appendLink(li,item.url,item.url);if(!item.url)li.append(node("span","muted"," · "+rc.missingEvidence));ul.append(li);}group.append(ul);}
   details.append(group);card.append(details);target.append(card);
+}
+function renderTopicCondition(condition){
+  const li=node("li","topic-condition");li.setAttribute("data-condition-id",condition.id);
+  li.append(node("p","condition-description",condition.description||t("notTranslated")));
+  const context=node("p","condition-context");
+  const domainKey={WEATHER:"weatherDomain",ASTRONOMY:"astronomyDomain",SEASON_TIME:"seasonDomain",GEOMETRY_COMPOSITION:"compositionDomain",SUBJECT_STATE:"subjectDomain",SPACE_WEATHER:"spaceDomain",OCEAN:"oceanDomain",HYDROLOGY:"waterDomain"}[condition.domain]||"otherDomain";
+  const modeKey={GUIDANCE:"guidanceMode",VERIFY:"verifyMode",AUTO:"autoMode"}[condition.mode]||"modeMissing";
+  context.append(node("span","condition-domain",t(domainKey)),node("span","condition-mode",t(modeKey)));li.append(context);
+  return li;
 }
 render();
 void catalogState.load();
