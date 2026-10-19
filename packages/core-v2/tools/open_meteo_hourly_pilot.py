@@ -112,7 +112,7 @@ def fetch_one(url, *, opener=None):
 
 
 def _write(path, value):
-    path.write_text(json.dumps(value, ensure_ascii=False, allow_nan=False, indent=2) + "\n", encoding="utf-8")
+    path.write_text(json.dumps(value, ensure_ascii=True, allow_nan=False, indent=2) + "\n", encoding="utf-8")
 
 
 def capture_once(output, ledger, quota_note, *, repo=None):

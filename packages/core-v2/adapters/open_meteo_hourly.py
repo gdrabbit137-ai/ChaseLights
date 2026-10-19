@@ -75,7 +75,7 @@ def decode(raw):
     try:
         return json.loads(raw.decode("utf-8"), object_pairs_hook=_unique_object,
                           parse_constant=lambda _: (_ for _ in ()).throw(PilotFailure("NONFINITE_JSON")))
-    except (UnicodeError, json.JSONDecodeError) as exc:
+    except (UnicodeError, json.JSONDecodeError, RecursionError) as exc:
         raise PilotFailure("INVALID_JSON") from exc
 
 

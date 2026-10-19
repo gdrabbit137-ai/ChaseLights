@@ -81,7 +81,8 @@ class OpenMeteoHourly(unittest.TestCase):
         for raw, reason in [(b"", "EMPTY_OR_OVERSIZED_BODY"), (b"<html>error</html>", "INVALID_JSON"),
                             (b'{"latitude":0,"latitude":1}', "DUPLICATE_JSON_KEY"),
                             (b"[]", "INVALID_SOURCE_OBJECT"), (b'{"error":true}', "INVALID_SOURCE_OBJECT"),
-                            (b'{"value":NaN}', "NONFINITE_JSON"), (b"\xff", "INVALID_JSON")]:
+                            (b'{"value":NaN}', "NONFINITE_JSON"), (b"\xff", "INVALID_JSON"),
+                            (b"["*1500+b"0"+b"]"*1500, "INVALID_JSON")]:
             with self.subTest(raw=raw): self.reject(normalize(raw=raw), reason)
 
     def test_oversized_body_rejected_before_decode(self):

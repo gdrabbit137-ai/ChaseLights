@@ -97,6 +97,11 @@ class ManualCapture(unittest.TestCase):
             packet = tool.fetch_one(URL, opener=Opener(response))
             self.assertEqual(packet["error"], reason)
             self.assertLessEqual(len(packet["raw"]), om.MAX_BYTES+1)
+        # An invalid source-unit string must not crash archive serialization.
+        with tempfile.TemporaryDirectory() as temp:
+            path=Path(temp)/"invalid-unit.json"
+            tool._write(path,{"source_unit":"\ud800"})
+            self.assertEqual(json.loads(path.read_text())["source_unit"],"\ud800")
 
     def test_wall_clock_deadline_restores_signal_handler(self):
         previous = signal.getsignal(signal.SIGALRM)
