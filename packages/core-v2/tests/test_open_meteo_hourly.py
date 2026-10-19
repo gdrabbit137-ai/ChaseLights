@@ -81,9 +81,15 @@ class OpenMeteoHourly(unittest.TestCase):
         for raw, reason in [(b"", "EMPTY_OR_OVERSIZED_BODY"), (b"<html>error</html>", "INVALID_JSON"),
                             (b'{"latitude":0,"latitude":1}', "DUPLICATE_JSON_KEY"),
                             (b"[]", "INVALID_SOURCE_OBJECT"), (b'{"error":true}', "INVALID_SOURCE_OBJECT"),
-                            (b'{"value":NaN}', "NONFINITE_JSON"), (b"\xff", "INVALID_JSON"),
-                            (b"["*1500+b"0"+b"]"*1500, "INVALID_JSON")]:
+                            (b'{"value":NaN}', "NONFINITE_JSON"), (b"\xff", "INVALID_JSON")]:
             with self.subTest(raw=raw): self.reject(normalize(raw=raw), reason)
+        # Parser depth depends on the interpreter's recursion limit. Either
+        # parse rejection or rejection of the decoded non-object is safe.
+        deep=normalize(raw=b"["*1500+b"0"+b"]"*1500)
+        self.assertIsNone(deep["artifact"])
+        self.assertIn(deep["reasons"][0], ["INVALID_JSON", "INVALID_SOURCE_OBJECT"])
+        with patch.object(om.json, "loads", side_effect=RecursionError("test decoder limit")):
+            with self.assertRaisesRegex(om.PilotFailure, "INVALID_JSON"): om.decode(b"{}")
 
     def test_oversized_body_rejected_before_decode(self):
         self.reject(normalize(raw=b"x" * (om.MAX_BYTES + 1)), "EMPTY_OR_OVERSIZED_BODY")
