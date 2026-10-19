@@ -4,7 +4,10 @@ Owner: W3, `packages/core-v2/` only. Independent Draft; no merge or deployment.
 
 ## Fixed sources
 
-- Base/latest reviewed main: `39c6d9fa4828acabf9976d505778f527f39c775e`.
+- Task base: `39c6d9fa4828acabf9976d505778f527f39c775e`.
+- PR base/latest rechecked main: `a1d3d417f23cac58fe353939243d09aa60eefdce`.
+  The only new commit is generated JMA WeatherGrid output; no governance,
+  specs/v2, data/v2 or W3 source differs from the task base.
 - Tested final implementation HEAD: `a4bed41483530037b09c258c366c65c94a3018a5`.
 - Tested core tree: `2228c6385fb22cbcf6f0837595f01395fd6db0a6`.
 - Only real capture HEAD: `9a8d4f58f8bd2ad4d749103db933b3f84118bb03`.
@@ -94,6 +97,9 @@ failure traces are in `json-depth-prefixed.log` and
 The intermediate full core run also failed that same over-specific diagnostic
 expectation (120 passed / 1 failed, zero skips); its complete log is
 `intermediate-core-parser-expectation.log`. The final 121-case run above passed.
+Those two readable failure logs strip trailing whitespace for Git formatting;
+their byte-exact originals are preserved losslessly as matching `.raw.log.gz`
+files. Compressed/uncompressed SHA256 digests are in `source-provenance.json`.
 
 The integration gate exits **1** before suite execution with
 `ValueError: Merged w3 subtree differs from tested pin: packages/core-v2`.
