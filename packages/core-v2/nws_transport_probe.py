@@ -64,9 +64,23 @@ def probe():
                    "--header", "Accept: " + ACCEPT, "--dump-header", str(headers),
                    "--output", str(body), "--write-out",
                    "%{http_connect}\n%{http_code}\n%{time_total}\n", URL]
-        completed = subprocess.run(command, capture_output=True, text=True, timeout=25)
-        parts = completed.stdout.splitlines()
-        connect, status = int(parts[0]), int(parts[1])
+        try:
+            completed = subprocess.run(command, capture_output=True, text=True, timeout=25)
+            timed_out = False
+        except subprocess.TimeoutExpired:
+            # Preserve a structured UNKNOWN diagnostic instead of crashing on
+            # an incomplete transfer; never claim an HTTP response was seen.
+            completed = subprocess.CompletedProcess(command, 124, stdout="")
+            timed_out = True
+        parts = (completed.stdout or "").splitlines()
+        try:
+            connect, status = int(parts[0]), int(parts[1])
+        except (IndexError, ValueError):
+            connect, status = 0, 0
+        try:
+            elapsed = float(parts[2])
+        except (IndexError, ValueError):
+            elapsed = None
         raw_body = body.read_bytes() if body.exists() else b""
         return {
             "artifact_kind": "TRANSPORT_DIAGNOSTIC_NOT_WEATHER_EVIDENCE",
@@ -76,7 +90,8 @@ def probe():
             "proxy_environment_present": any(os.environ.get(key) for key in
                 ("HTTPS_PROXY", "https_proxy", "ALL_PROXY", "all_proxy")),
             "curl_exit": completed.returncode, "connect_http_status": connect,
-            "target_http_status": status, "elapsed_seconds": float(parts[2]),
+            "target_http_status": status, "elapsed_seconds": elapsed,
+            "timed_out": timed_out, "status_output_complete": len(parts) >= 3,
             "classification": classify(connect, status, completed.returncode),
             "response_header_blocks": header_blocks(headers.read_text(errors="replace"))
                 if headers.exists() else [],
