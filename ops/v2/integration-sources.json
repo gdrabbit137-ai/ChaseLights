@@ -1,22 +1,22 @@
 {
   "repository": "gdrabbit137-ai/ChaseLights",
-  "reviewed_main": "67a154b163c3e9a868d07eccc35f46d37580be38",
+  "reviewed_main": "c743dfd6469937f715529014dcb781f7771db776",
   "sources": {
     "w1": {
-      "sha": "c1fa5348e7ae2b3b4bc1d254773daca86ed5451e",
-      "branch": "codex/w5-beta-r2-506",
-      "pr": 512,
-      "source_upgrade": "Task W shared contracts plus V1 parity progression, Research-only",
+      "sha": "74f21b365d366b0d1d12efbc23cf6cce484b6b5e",
+      "branch": "codex/w1-w2-hourly-pilot-gate-20261019",
+      "pr": 521,
+      "source_upgrade": "Open-Meteo Qixingtan hourly RAW_ONLY pilot",
       "additional_required_shas": [
         "6a774a95c3bc24ff06f004236fe8b225c7001c4d"
       ],
-      "tree_sha": "c5563eb2db8f719ea13fa19a64af1a2d7792bce2"
+      "tree_sha": "be9fed72b142f96469c3a69be94d04e047e7e09b"
     },
     "w2": {
-      "sha": "cf29288ce47e2cccb2fb2e1453ad193200996a95",
+      "sha": "74f21b365d366b0d1d12efbc23cf6cce484b6b5e",
       "canonical_content_sha": "2177bd8c8b6c18e0a4b284e50b55d0ff12697ddd",
-      "branch": "codex/w5-beta-r2-506",
-      "pr": 512,
+      "branch": "codex/w1-w2-hourly-pilot-gate-20261019",
+      "pr": 521,
       "batch04": {
         "audit_path": "data/v2/audits/worker2_batch04_evidence.json",
         "count": 5,
@@ -30,7 +30,7 @@
         "human_signoff": "PENDING",
         "live_eligible": false
       },
-      "tree_sha": "228f92d949e4df87719c9a3ef6c341219f9b0714",
+      "tree_sha": "a8cba14862ded1e11d063683578685a098a49849",
       "reviewed_corrections": {
         "source_prs": [
           493,
@@ -39,13 +39,17 @@
         "source_head_sha": "c41567edcfa9efe95111f3306d6410f1934e7062",
         "canonical_commit_sha": "b45169e42d3acfe9b287c6e16a9ac887bb8cd650",
         "publication": "RESEARCH_ONLY"
-      }
+      },
+      "source_upgrade": "Open-Meteo Qixingtan hourly RAW_ONLY pilot",
+      "browse_index_source_sha": "cf29288ce47e2cccb2fb2e1453ad193200996a95"
     },
     "w3": {
-      "sha": "8e6f5a1555294ff293a6d7b746b864924f96cfc1",
-      "branch": "feat/v2-w3-m6b-nws-gridpoint-source-20261013",
-      "pr": 479,
-      "source_upgrade": "M6a solar plus M6b NOAA raw source parser, ten transport/interval/uncertainty tests"
+      "sha": "c8bafcf88da996f0c3a4b4deed488bf5e5f855f8",
+      "branch": "codex/w3-open-meteo-hourly-raw-only-20261019",
+      "pr": 522,
+      "source_upgrade": "Open-Meteo Qixingtan hourly RAW_ONLY pilot",
+      "tree_sha": "8fec5021f6e9fd8710458106f8bbca027b767f51",
+      "models_tree_sha": "530a3fe48f460372b2f5ca7304c9fb75fedd0e6b"
     },
     "w4": {
       "sha": "ec067573e7c21a52e40021e87661c7489172e629",
@@ -72,7 +76,7 @@
     "specs/v2/CODEX_CLOUD_RUNBOOK.md": "8aa33c79a0eb173c5ca870dc0db92e179e115d32",
     "specs/v2/GOVERNANCE_SPEC.md": "b6e9cb32d34409deebca1d29ad7f49f6a30ff7bd",
     "specs/v2/R4_2_TO_V2_MATRIX.md": "c76f0b38a425a1c96df428096d3773397ce65d9a",
-    "specs/v2/README.md": "339bbf30a2e57d6c31d0ddbbebabdaf97d7e00f0",
+    "specs/v2/README.md": "0d10ca479a2efd0631adcce61d7ac1c9d3ddb446",
     "specs/v2/WORKER_CONTRACTS.md": "589d8507b7b14a2d07e1d753729637a96fdcbadb",
     "specs/v2/schema/opportunity-v2.1.schema.json": "cecfa8d29f545f22f3e1c199db60df5c8a38e57e",
     "specs/v2/tests/test_schema_smoke.py": "6d433988473c15019dbb5f1ae91fb13d1532ffb4",
@@ -87,7 +91,7 @@
     "specs/v2/FREE_COMPOSITION_SPEC.md": "648cd0de2d0f00f1538388f9697b600bcee1e5bd",
     "specs/v2/GOVERNANCE_SPEC.md": "b6e9cb32d34409deebca1d29ad7f49f6a30ff7bd",
     "specs/v2/R4_2_TO_V2_MATRIX.md": "c76f0b38a425a1c96df428096d3773397ce65d9a",
-    "specs/v2/README.md": "339bbf30a2e57d6c31d0ddbbebabdaf97d7e00f0",
+    "specs/v2/README.md": "0d10ca479a2efd0631adcce61d7ac1c9d3ddb446",
     "specs/v2/W2_PROPORTIONATE_REVIEW_PROPOSAL.md": "2484e0f95e248ee36e77f5d897d6c3150b2bb730",
     "specs/v2/schema/evaluation-result-v0.1.schema.json": "bf4cc0e959182279643b4326b7c9ee8f0e047b04",
     "specs/v2/schema/opportunity-v2.1.schema.json": "cecfa8d29f545f22f3e1c199db60df5c8a38e57e",
@@ -115,7 +119,7 @@
     "specs/v2/FREE_COMPOSITION_SPEC.md": "648cd0de2d0f00f1538388f9697b600bcee1e5bd",
     "specs/v2/GOVERNANCE_SPEC.md": "b6e9cb32d34409deebca1d29ad7f49f6a30ff7bd",
     "specs/v2/R4_2_TO_V2_MATRIX.md": "c76f0b38a425a1c96df428096d3773397ce65d9a",
-    "specs/v2/README.md": "339bbf30a2e57d6c31d0ddbbebabdaf97d7e00f0",
+    "specs/v2/README.md": "0d10ca479a2efd0631adcce61d7ac1c9d3ddb446",
     "specs/v2/WEATHER_SOURCE_NWS_SPEC_V0_1.md": "163c32a2ca4cbebd989f48cb3971363c512fafd6",
     "specs/v2/WORKER_CONTRACTS.md": "589d8507b7b14a2d07e1d753729637a96fdcbadb"
   },
@@ -206,5 +210,104 @@
         "apps/web-v2"
       ]
     }
-  ]
+  ],
+  "hourly_owner_integrations": [
+    {
+      "owner": "w1",
+      "source_sha": "74f21b365d366b0d1d12efbc23cf6cce484b6b5e",
+      "paths": [
+        "specs/v2"
+      ],
+      "previous_trees": {
+        "specs/v2": "c5563eb2db8f719ea13fa19a64af1a2d7792bce2"
+      }
+    },
+    {
+      "owner": "w2",
+      "source_sha": "74f21b365d366b0d1d12efbc23cf6cce484b6b5e",
+      "paths": [
+        "data/v2"
+      ],
+      "previous_trees": {
+        "data/v2": "228f92d949e4df87719c9a3ef6c341219f9b0714"
+      }
+    },
+    {
+      "owner": "w3",
+      "source_sha": "c8bafcf88da996f0c3a4b4deed488bf5e5f855f8",
+      "paths": [
+        "packages/core-v2",
+        "packages/models-v2"
+      ],
+      "previous_trees": {
+        "packages/core-v2": "6606116add0c195d1815e915f78e24b3e59d8f41",
+        "packages/models-v2": "530a3fe48f460372b2f5ca7304c9fb75fedd0e6b"
+      }
+    }
+  ],
+  "hourly_pilot": {
+    "pilot_id": "tw-036-open-meteo-hourly-v0.1",
+    "data_state": "RAW_ONLY",
+    "photography_verdict": "NOT_EVALUABLE",
+    "provider_acceptance": "UNVERIFIED",
+    "w3_provenance_path": "packages/core-v2/tests/evidence/open-meteo-hourly-20261019/source-provenance.json",
+    "w3_new_tests": 79,
+    "w1_new_tests": 12,
+    "w2_new_tests": 5,
+    "files": {
+      "schema": {
+        "path": "specs/v2/schema/hourly-weather-info-v0.1.schema.json",
+        "source_sha": "74f21b365d366b0d1d12efbc23cf6cce484b6b5e",
+        "blob_sha": "8688cbd5fa090a94087b2a9fdff9fb76948bd232",
+        "sha256": "ce29fee0f08fdd8c71d96a8d33dfb7f68b6235b67e175ac9e1e3775250b06a1a"
+      },
+      "binding": {
+        "path": "data/v2/weather-pilots/tw-036-open-meteo.json",
+        "source_sha": "74f21b365d366b0d1d12efbc23cf6cce484b6b5e",
+        "blob_sha": "38c58e742159f05f494dc29c3d96dcb9d75deba5",
+        "sha256": "9fb4cc6f89daae3ce851a30f2880847705b4afa6097b7c4c54d19d357b202921"
+      },
+      "adapter": {
+        "path": "packages/core-v2/adapters/open_meteo_hourly.py",
+        "source_sha": "c8bafcf88da996f0c3a4b4deed488bf5e5f855f8",
+        "blob_sha": "5702b6123340fbbf2ea8d0bc5b627a7881c0039d",
+        "sha256": "9717174797938801102845f19ab4038bdda2be8a2601c929304dca8cee8f3359"
+      },
+      "capture_tool": {
+        "path": "packages/core-v2/tools/open_meteo_hourly_pilot.py",
+        "source_sha": "c8bafcf88da996f0c3a4b4deed488bf5e5f855f8",
+        "blob_sha": "6038c7450683587108a482a764a4ad0e8197160e",
+        "sha256": "8c8e325ab3cc70ca135385a9f013860808449dea95c7160ea0d54327e2f72fdc"
+      },
+      "w3_provenance": {
+        "path": "packages/core-v2/tests/evidence/open-meteo-hourly-20261019/source-provenance.json",
+        "source_sha": "c8bafcf88da996f0c3a4b4deed488bf5e5f855f8",
+        "blob_sha": "20d7a53096c9f84c702286279b623f0889bfd8a7",
+        "sha256": "e564db483f61e14c6599a9f3f58f92e8859471219564a1c6563ed926376f0328"
+      }
+    },
+    "one_shot_evidence": {
+      "provider_acceptance": "VERIFIED_ONE_SHOT",
+      "evidence_source_sha": "93707e10850b6e61d63aa2c99473cfbb536f7d3e",
+      "execution_sha": "7ae2802047e2f6b445dbe00731749e0ccd13df64",
+      "source_sha256": "e441ea1bad2d42cfd89169bb030d7aec518d798c56aafe61e037f8a0e9406b1f",
+      "source_size_bytes": 4468,
+      "data_state": "RAW_ONLY",
+      "photography_verdict": "NOT_EVALUABLE",
+      "current_weather_eligible": false,
+      "pinned_blobs": {
+        "REPORT.md": "15d762a846242ff5ecfb834e3c1fd4ffa1b5ed1b",
+        "acceptance-summary.json": "ee434cc0f6665649e35a59f84e6f3762d24443b2",
+        "capture-artifact.json.gz": "4405188f6d1c25d6230312a27de8495113776426",
+        "capture-capture.json.gz": "509f4d6904dfcafae7744cc3b546d818610f89d6",
+        "capture-command.log": "9f8e072e8b5a999ced03008e8fa245b836a46c10",
+        "capture-ledger.jsonl": "778a15e730b573f112143af223e086af246b61b4",
+        "exit-status.json": "aa22dd2d565ff4a966138fef1bc700cd7e94f009",
+        "replay-command.log": "908ec56dd67122e288bc986215f0eb668a145977",
+        "replay.json.gz": "913e84cc7bc5d4b515910b571f91eef49cfb8968",
+        "response-body.bin": "bef32c19dc59417be5d2ae09776d8483eb86b6e7"
+      },
+      "note": "Immutable historic single-capture evidence only; not fresh current-weather, calibrated coastal representativeness or scoring"
+    }
+  }
 }

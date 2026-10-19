@@ -1,0 +1,19 @@
+test_html_wrong_encoding_and_oversized_bodies_cannot_be_json (__main__.ManualCapture.test_html_wrong_encoding_and_oversized_bodies_cannot_be_json) ... ERROR
+
+======================================================================
+ERROR: test_html_wrong_encoding_and_oversized_bodies_cannot_be_json (__main__.ManualCapture.test_html_wrong_encoding_and_oversized_bodies_cannot_be_json)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/ChaseLights/packages/core-v2/tests/test_open_meteo_capture.py", line 103, in test_html_wrong_encoding_and_oversized_bodies_cannot_be_json
+    tool._write(path,{"source_unit":"\ud800"})
+  File "/workspace/ChaseLights/packages/core-v2/tools/open_meteo_hourly_pilot.py", line 115, in _write
+    path.write_text(json.dumps(value, ensure_ascii=False, allow_nan=False, indent=2) + "\n", encoding="utf-8")
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1048, in write_text
+    return f.write(data)
+           ^^^^^^^^^^^^^
+UnicodeEncodeError: 'utf-8' codec can't encode character '\ud800' in position 20: surrogates not allowed
+
+----------------------------------------------------------------------
+Ran 1 test in 0.007s
+
+FAILED (errors=1)
