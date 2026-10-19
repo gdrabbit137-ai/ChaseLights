@@ -1,0 +1,304 @@
+TAP version 13
+# Subtest: HTML exposes accessible i18n hooks without hard-coded English
+ok 1 - HTML exposes accessible i18n hooks without hard-coded English
+  ---
+  duration_ms: 1.501204
+  type: 'test'
+  ...
+# Subtest: all three locales have distinct accessibility copy
+ok 2 - all three locales have distinct accessibility copy
+  ---
+  duration_ms: 1.697107
+  type: 'test'
+  ...
+# Subtest: real change handler updates skip, title, and four ARIA labels on every switch
+ok 3 - real change handler updates skip, title, and four ARIA labels on every switch
+  ---
+  duration_ms: 3.994509
+  type: 'test'
+  ...
+# Subtest: W2 fixed index and eight exact canonical sources remain source pinned
+ok 4 - W2 fixed index and eight exact canonical sources remain source pinned
+  ---
+  duration_ms: 2.409621
+  type: 'test'
+  ...
+# Subtest: partial multilingual name search and topic OR filter only matching opportunities
+ok 5 - partial multilingual name search and topic OR filter only matching opportunities
+  ---
+  duration_ms: 1.074796
+  type: 'test'
+  ...
+# Subtest: unknown joins, revisions, approval and metadata guesses fail closed
+ok 6 - unknown joins, revisions, approval and metadata guesses fail closed
+  ---
+  duration_ms: 2.006609
+  type: 'test'
+  ...
+# Subtest: duplicate display names retain two distinct stable Place identities
+ok 7 - duplicate display names retain two distinct stable Place identities
+  ---
+  duration_ms: 0.720106
+  type: 'test'
+  ...
+# Subtest: pending fetch has no stale record and retry clicks share one real request
+ok 8 - pending fetch has no stale record and retry clicks share one real request
+  ---
+  duration_ms: 1.049749
+  type: 'test'
+  ...
+# Subtest: HTTP 404 clears previous imported data and a genuine retry recovers
+ok 9 - HTTP 404 clears previous imported data and a genuine retry recovers
+  ---
+  duration_ms: 0.591635
+  type: 'test'
+  ...
+# Subtest: HTTP 500 clears previous imported data and a genuine retry recovers
+ok 10 - HTTP 500 clears previous imported data and a genuine retry recovers
+  ---
+  duration_ms: 0.402923
+  type: 'test'
+  ...
+# Subtest: network and interrupted response failures are errors, never raw exceptions or data
+ok 11 - network and interrupted response failures are errors, never raw exceptions or data
+  ---
+  duration_ms: 0.438685
+  type: 'test'
+  ...
+# Subtest: malformed JSON invalidates cards, selection and provenance
+ok 12 - malformed JSON invalidates cards, selection and provenance
+  ---
+  duration_ms: 0.316543
+  type: 'test'
+  ...
+# Subtest: schema mismatch invalidates cards, selection and provenance
+ok 13 - schema mismatch invalidates cards, selection and provenance
+  ---
+  duration_ms: 0.235852
+  type: 'test'
+  ...
+# Subtest: missing locale invalidates cards, selection and provenance
+ok 14 - missing locale invalidates cards, selection and provenance
+  ---
+  duration_ms: 0.342451
+  type: 'test'
+  ...
+# Subtest: empty transport is recognized without weakening canonical validation
+ok 15 - empty transport is recognized without weakening canonical validation
+  ---
+  duration_ms: 0.262713
+  type: 'test'
+  ...
+# Subtest: late fetch ignoring abort cannot overwrite the newer local import
+ok 16 - late fetch ignoring abort cannot overwrite the newer local import
+  ---
+  duration_ms: 0.663051
+  type: 'test'
+  ...
+# Subtest: latest local file wins when file reads resolve out of order
+ok 17 - latest local file wins when file reads resolve out of order
+  ---
+  duration_ms: 0.266879
+  type: 'test'
+  ...
+# Subtest: reload preserves an existing stable selection, clears it while pending and replaces a removed selection
+ok 18 - reload preserves an existing stable selection, clears it while pending and replaces a removed selection
+  ---
+  duration_ms: 2.185196
+  type: 'test'
+  ...
+# Subtest: local forged runtime remains research-only and failed reads clear previous truth
+ok 19 - local forged runtime remains research-only and failed reads clear previous truth
+  ---
+  duration_ms: 0.285306
+  type: 'test'
+  ...
+# Subtest: default bundle verification fails closed, while a local import is explicitly untrusted
+ok 20 - default bundle verification fails closed, while a local import is explicitly untrusted
+  ---
+  duration_ms: 0.296864
+  type: 'test'
+  ...
+# Subtest: late default verification cannot erase a newer local import
+ok 21 - late default verification cannot erase a newer local import
+  ---
+  duration_ms: 5.835311
+  type: 'test'
+  ...
+# Subtest: supports all three locales and stable place/opportunity IDs
+ok 22 - supports all three locales and stable place/opportunity IDs
+  ---
+  duration_ms: 0.155222
+  type: 'test'
+  ...
+# Subtest: does not silently fall back to Chinese for missing translations
+ok 23 - does not silently fall back to Chinese for missing translations
+  ---
+  duration_ms: 0.119249
+  type: 'test'
+  ...
+# Subtest: does not invent camera-to-subject numbers
+ok 24 - does not invent camera-to-subject numbers
+  ---
+  duration_ms: 0.068101
+  type: 'test'
+  ...
+# Subtest: never routes to unverified or multiple access targets
+ok 25 - never routes to unverified or multiple access targets
+  ---
+  duration_ms: 0.194841
+  type: 'test'
+  ...
+# Subtest: provisional camera anchors without evidence cannot yield Directions or map links
+ok 26 - provisional camera anchors without evidence cannot yield Directions or map links
+  ---
+  duration_ms: 0.153169
+  type: 'test'
+  ...
+# Subtest: never turns research scores into live forecasts
+ok 27 - never turns research scores into live forecasts
+  ---
+  duration_ms: 0.068623
+  type: 'test'
+  ...
+# Subtest: rejects unsafe evidence URLs and unsupported geometry types
+ok 28 - rejects unsafe evidence URLs and unsupported geometry types
+  ---
+  duration_ms: 0.126689
+  type: 'test'
+  ...
+# Subtest: rejects empty and malformed V2 catalogs
+ok 29 - rejects empty and malformed V2 catalogs
+  ---
+  duration_ms: 0.12729
+  type: 'test'
+  ...
+# Subtest: default catalog retains the original pinned P01 source and research-only publication
+ok 30 - default catalog retains the original pinned P01 source and research-only publication
+  ---
+  duration_ms: 0.548079
+  type: 'test'
+  ...
+# Subtest: all real canonical records retain provisional non-AUTO conditions and unknown geometry
+ok 31 - all real canonical records retain provisional non-AUTO conditions and unknown geometry
+  ---
+  duration_ms: 0.34149
+  type: 'test'
+  ...
+# Subtest: real preview never becomes a live evaluation even with adversarial runtime additions
+ok 32 - real preview never becomes a live evaluation even with adversarial runtime additions
+  ---
+  duration_ms: 0.171396
+  type: 'test'
+  ...
+# Subtest: latest W2 source preserves lawful-area uncertainty in all three languages
+ok 33 - latest W2 source preserves lawful-area uncertainty in all three languages
+  ---
+  duration_ms: 0.235902
+  type: 'test'
+  ...
+# Subtest: declared source commit survives projection without promoting research or persisting across imports
+ok 34 - declared source commit survives projection without promoting research or persisting across imports
+  ---
+  duration_ms: 0.906324
+  type: 'test'
+  ...
+# Subtest: zh-TW: real descriptions, access/safety, targets and conditions preserve exact W2 meaning
+ok 35 - zh-TW: real descriptions, access/safety, targets and conditions preserve exact W2 meaning
+  ---
+  duration_ms: 0.353969
+  type: 'test'
+  ...
+# Subtest: zh-TW: incomplete optional safety/access and navigation translations fail closed
+ok 36 - zh-TW: incomplete optional safety/access and navigation translations fail closed
+  ---
+  duration_ms: 0.496422
+  type: 'test'
+  ...
+# Subtest: en: real descriptions, access/safety, targets and conditions preserve exact W2 meaning
+ok 37 - en: real descriptions, access/safety, targets and conditions preserve exact W2 meaning
+  ---
+  duration_ms: 0.212257
+  type: 'test'
+  ...
+# Subtest: en: incomplete optional safety/access and navigation translations fail closed
+ok 38 - en: incomplete optional safety/access and navigation translations fail closed
+  ---
+  duration_ms: 0.452185
+  type: 'test'
+  ...
+# Subtest: ja: real descriptions, access/safety, targets and conditions preserve exact W2 meaning
+ok 39 - ja: real descriptions, access/safety, targets and conditions preserve exact W2 meaning
+  ---
+  duration_ms: 0.111958
+  type: 'test'
+  ...
+# Subtest: ja: incomplete optional safety/access and navigation translations fail closed
+ok 40 - ja: incomplete optional safety/access and navigation translations fail closed
+  ---
+  duration_ms: 0.325677
+  type: 'test'
+  ...
+# Subtest: unverified targets never create directions
+ok 41 - unverified targets never create directions
+  ---
+  duration_ms: 0.127891
+  type: 'test'
+  ...
+# Subtest: research is never promoted to runtime
+ok 42 - research is never promoted to runtime
+  ---
+  duration_ms: 0.061031
+  type: 'test'
+  ...
+# Subtest: evidence links reject executable URLs
+ok 43 - evidence links reject executable URLs
+  ---
+  duration_ms: 0.054421
+  type: 'test'
+  ...
+# Subtest: V2.1 research projection preserves unknown, provenance, 3 locales, and no runtime
+ok 44 - V2.1 research projection preserves unknown, provenance, 3 locales, and no runtime
+  ---
+  duration_ms: 0.237765
+  type: 'test'
+  ...
+# Subtest: legacy closed access conditions are warning-only, never REQUIRED/BLOCKER
+ok 45 - legacy closed access conditions are warning-only, never REQUIRED/BLOCKER
+  ---
+  duration_ms: 0.121682
+  type: 'test'
+  ...
+# Subtest: three Opportunity records preserve two distinct Place IDs
+ok 46 - three Opportunity records preserve two distinct Place IDs
+  ---
+  duration_ms: 0.169774
+  type: 'test'
+  ...
+# Subtest: invalid version, no data and missing translations fail closed
+ok 47 - invalid version, no data and missing translations fail closed
+  ---
+  duration_ms: 0.155563
+  type: 'test'
+  ...
+# Subtest: Directions require separately evidenced arrival, no fabricated live result
+ok 48 - Directions require separately evidenced arrival, no fabricated live result
+  ---
+  duration_ms: 0.131767
+  type: 'test'
+  ...
+# Subtest: original Worker 2 canonical records preserve research-only semantics
+ok 49 - original Worker 2 canonical records preserve research-only semantics
+  ---
+  duration_ms: 0.588389
+  type: 'test'
+  ...
+1..49
+# tests 49
+# suites 0
+# pass 49
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 71.193822

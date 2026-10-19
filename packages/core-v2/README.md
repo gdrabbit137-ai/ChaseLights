@@ -5,3 +5,8 @@ This directory is owned by Worker 3. The implementation consumes the Worker 1 dr
 Draft research records and missing/unsupported data must never produce live FAVORABLE recommendations. REQUIRED, BLOCKER and QUALITY are independent of AUTO, GUIDANCE and VERIFY. See evaluator.py and tests.
 
 Access/closure notices are **non-scoring advisories**. The evaluator defensively quarantines legacy `ACCESS_SAFETY` conditions and exposes `access_advisories` separately. A restricted viewpoint must not change the photography/weather verdict; verified Directions remain a separate navigation concern. Only test-only values are accepted by this evaluator.
+
+The additive `evaluate_raw_forecast()` bridge accepts raw provider **context**,
+keeps every condition UNKNOWN and links source IDs and missing binding reasons.
+`forecast_runtime.py` connects the existing solar model and a single NWS raw
+snapshot to this bridge. See [runtime and W5 handoff](REAL_FORECAST_RUNTIME.md).
