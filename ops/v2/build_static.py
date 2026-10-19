@@ -65,6 +65,7 @@ def build(root, output):
     for name, content in files.items():
         (public / name).write_bytes(content)
     report = {'status': 'PASS', 'source_commit_sha': head, 'mode': 'RESEARCH_ONLY',
+              'source_index_commit_sha': catalog.get('source_index_commit_sha'),
               'base_path': '/apps/web-v2/', 'public_directory': 'public',
               'deployment_allowed': False, 'live_forecast_eligible': False,
               'owner_trees': provenance['owner_trees'],

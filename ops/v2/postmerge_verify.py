@@ -235,6 +235,7 @@ def main():
                    WORKER2_DATA_DIR=str(root / "data/v2/opportunities"),
                    CHASELIGHTS_W1_SPEC_ROOT=str(root / "specs/v2"),
                    W4_SCREENSHOT_DIR=str(logs / "w4-screenshots"),
+                   W4_TOPICS_SCREENSHOT_DIR=str(logs / "topics-screenshots"),
                    W5_SCREENSHOT_DIR=str(logs / "built-screenshots"),
                    V2_BUILD_DIR=str(logs / "candidate-build"))
         groups = [
@@ -262,12 +263,15 @@ def main():
                 None, False, False),
             ("w4-node", ["node", "--test", "--test-isolation=none", "--test-timeout=120000",
                 "--test-reporter=tap", *[str(p.relative_to(root)) for p in sorted(
-                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 49, False, True),
+                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 56, False, True),
+            ("w5-public-source-contract", ["node", "--test", "--test-reporter=tap",
+                "ops/v2/tests/public-source-contract.test.mjs"], 6, False, True),
             ("local-isolation", [sys.executable, "ops/v2/integration_gate.py", "--root", str(root)],
                 None, False, False),
             ("browser-smoke", ["node", "--test", "--test-isolation=none", "--test-timeout=120000",
                 "--test-reporter=tap", "apps/web-v2/tests/browser-smoke.mjs",
-                "apps/web-v2/tests/task-s-browser.mjs"], 82, False, True),
+                "apps/web-v2/tests/task-s-browser.mjs",
+                "apps/web-v2/tests/photography-topics-browser.mjs"], 88, False, True),
             ("static-build", [sys.executable, "ops/v2/build_static.py", "--root", str(root),
                 "--output", str(logs / "candidate-build")], None, False, False),
             ("candidate-build-browser", ["node", "--test", "--test-isolation=none",
@@ -282,9 +286,9 @@ def main():
             for key in ("tests", "pass", "fail", "error", "skip")
         }
         if report["counts"] != {
-            "tests": 329, "pass": 329, "fail": 0, "error": 0, "skip": 0
+            "tests": 348, "pass": 348, "fail": 0, "error": 0, "skip": 0
         }:
-            raise ValueError("Post-merge exact 329-case requirement failed")
+            raise ValueError("Post-merge exact 348-case requirement failed")
         if not all(g["status"] == "PASS" for g in report["groups"]):
             raise ValueError("One or more required suites failed")
         report["status"] = "PASS"

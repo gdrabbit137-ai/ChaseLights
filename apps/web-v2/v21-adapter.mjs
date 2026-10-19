@@ -50,7 +50,7 @@ export function projectV21(input) {
          reason:"ACCESS_ADVISORY_ONLY"});
        continue;
      }
-     output.conditions.push({condition_id:scopedId(doc,c.id),opportunity_id:doc.opportunity_id,role:c.role,domain:c.domain,metric:c.metric,operator:c.operator??null,threshold:c.threshold??null,unit:c.unit??null,unknown_policy:c.unknown_policy,confidence:c.validation_status||"unvalidated",human_description_i18n:c.notes_i18n||null,evidence_refs:c.claim_refs||[]});
+     output.conditions.push({condition_id:scopedId(doc,c.id),opportunity_id:doc.opportunity_id,role:c.role,domain:c.domain,evaluation_mode:c.evaluation_mode??null,capability:c.capability??null,validation_status:c.validation_status??null,model_binding:c.model_binding??null,metric:c.metric,operator:c.operator??null,threshold:c.threshold??null,unit:c.unit??null,unknown_policy:c.unknown_policy,confidence:c.validation_status||"unvalidated",human_description_i18n:c.notes_i18n||null,evidence_refs:c.claim_refs||[]});
    }
    // Claim classification is not a resolved publisher, source URL or authority.
    for (const claim of list(doc.evidence_claims)) output.evidence.push({evidence_id:scopedId(doc,claim.claim_id),opportunity_id:doc.opportunity_id,claim_type:claim.claim_type,audit_status:claim.audit_status,evidence_refs:claim.evidence_refs||[],source:null,source_status:"unresolved_reference"});

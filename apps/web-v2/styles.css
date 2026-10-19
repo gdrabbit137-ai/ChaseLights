@@ -47,4 +47,23 @@ main,main section,.brand>div,.research-heading h2{min-width:0}
 .topic-option:has(input:checked){background:#275250;border-color:#82ddce;color:#fff}
 .topic-option input{accent-color:#81decd;width:17px;height:17px}
 #clear-filters{width:100%;margin:0 0 8px}
+.topic-list-heading{font-size:20px;font-weight:750;margin:24px 0 10px}
+.topic-scope{font-size:13px;line-height:1.7;color:#d2c5a8}
+.topic-jump-list ul{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:0 0 22px;padding:0}
+.topic-jump-list a{display:flex;align-items:center;min-height:44px;padding:9px 12px;border:1px solid #486c7d;border-radius:9px;text-decoration:none;line-height:1.5}
+.topic-jump-list a:hover,.topic-jump-list a:focus-visible{background:#203e4a;border-color:#8ce4d7}
+.opportunity h3{scroll-margin-top:24px}
+.topic-guide h4,.topic-assessment h4{font-size:16px;margin:20px 0 8px}
+.topic-guide h5,.decision-core h5{font-size:14px;margin:18px 0 5px;color:#d7e9ef}
+.topic-guide ul,.decision-core ul,.decision-risks ul{padding-left:20px;line-height:1.7}
+.opportunity .opportunity-description{color:#e0e9f0;line-height:1.8}
+.topic-targets{margin-top:8px}
+.condition-scope,.condition-role-help{font-size:13px;line-height:1.7}
+.condition-role-help{margin:4px 0 12px}
+.topic-condition{margin:12px 0 18px}
+.topic-condition .condition-description{margin:0 0 8px}
+.condition-context{display:flex;flex-wrap:wrap;gap:6px;margin:0;font-size:12px}
+.condition-domain,.condition-mode{padding:3px 9px;border:1px solid #496577;border-radius:6px;color:#c9dce5;background:#142637}
+.topic-assessment{border-top:1px solid #365065;margin-top:20px;padding-top:3px}
+.automation-status{font-size:14px}
 @media(max-width:700px){#open-filters,#close-filters{display:block;width:100%;margin-top:12px}#close-filters{margin-bottom:14px}#filter-panel{padding:12px 0;border-bottom:1px solid #415b6c}}
