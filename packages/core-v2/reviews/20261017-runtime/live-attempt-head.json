@@ -1,0 +1,218 @@
+{
+  "diagnostic_version": "w3-real-forecast/0.1.0",
+  "artifact_kind": "RESEARCH_RUNTIME_DIAGNOSTIC",
+  "opportunity_id": "us-071-P01",
+  "opportunity_revision": 1,
+  "canonical_sha256": "7546ab2c1cad9a1e3c0b5d7a7e8604eda7743cc8f24618510df9ea204ce75e8d",
+  "contract_sha256": "ddb057e8bb5fdb70a401f0c14366ea7e50ad49d2c40e5d4729875dfc16b2a905",
+  "time_zone": "America/Los_Angeles",
+  "time_zone_source": "packages/models-v2/README.md Seattle numerical benchmark; NWS /points properties.timeZone must corroborate weather sampling",
+  "time_zone_scope": "REGIONAL_SAMPLE_ONLY_NOT_VERIFIED_PLACE_ZONE",
+  "time_zone_verification": "REGIONAL_DIAGNOSTIC_ASSUMPTION",
+  "selected_local_date": "2026-10-17",
+  "selected_event": "sunset",
+  "source_kinds": {
+    "weather": "FORECAST",
+    "observation": "UNAVAILABLE",
+    "astronomy": "DETERMINISTIC_WINDOW"
+  },
+  "solar_window_sha256": "a150a9d486c75e43e91a47c57fda241420529aea06c2a853608c9e76889ef946",
+  "solar_window": {
+    "schema_version": "0.1.0",
+    "request_id": "us-071-P01-2026-10-17-sunset",
+    "local_date": "2026-10-17",
+    "time_zone": "America/Los_Angeles",
+    "observer": {
+      "coordinate_role": "representative_place_sample",
+      "lat": 47.6,
+      "lon": -122.33,
+      "uncertainty_m": null,
+      "altitude_m": null,
+      "coordinate_source": "https://github.com/gdrabbit137-ai/ChaseLights/pull/482 (Seattle regional sample only)"
+    },
+    "model": {
+      "model_id": "chase-v2-noaa-meeus",
+      "algorithm_version": "0.1.0",
+      "horizon_assumption": "ideal_unobstructed",
+      "sun_altitude_crossing_deg": -0.833
+    },
+    "capability": "WINDOW",
+    "computed_at_utc": "2026-10-17T22:03:43.543059Z",
+    "polar_state": "NORMAL",
+    "sunrise": {
+      "status": "CALCULATED",
+      "time_utc": "2026-10-17T14:31:18.701707Z",
+      "time_local": "2026-10-17T07:31:18.701707-07:00",
+      "reason": null
+    },
+    "sunset": {
+      "status": "CALCULATED",
+      "time_utc": "2026-10-18T01:17:06.118240Z",
+      "time_local": "2026-10-17T18:17:06.118240-07:00",
+      "reason": null
+    },
+    "recommendation_eligible": false,
+    "photography_verdict": "NOT_EVALUABLE",
+    "limitations_i18n": {
+      "zh-TW": "理想無遮蔽地平線的區域日出日落估算；未驗證實際地平線、折射、雲況、合法機位或攝影適合度。",
+      "en": "Regional sunrise/sunset at an ideal unobstructed horizon; actual horizon, refraction, clouds, lawful camera point and photographic suitability are unverified.",
+      "ja": "遮蔽のない理想水平線での日の出・日の入り推定。実際の地平線・屈折・雲・適法な撮影位置や撮影適性は未確認。"
+    }
+  },
+  "weather": {
+    "source_state": "UNKNOWN",
+    "records": [],
+    "fields": {},
+    "documents": [],
+    "reasons": [
+      "PROVIDER_TRANSPORT_UNAVAILABLE"
+    ],
+    "photography_verdict": "NOT_EVALUABLE",
+    "live_recommendation": false,
+    "transport_error": "URLError"
+  },
+  "evaluation": {
+    "decision": "UNKNOWN",
+    "reasons": [
+      "CONTRACT_OR_OPPORTUNITY_NOT_APPROVED",
+      "NON_AUTO_MODE"
+    ],
+    "unknown": true,
+    "live_recommendation": false,
+    "evaluated_at": "2026-10-17T22:03:43.559603Z",
+    "research_level": "R1",
+    "conditions": [
+      {
+        "condition_id": "C-us-071-P01-01",
+        "role": "REQUIRED",
+        "evaluation_mode": "GUIDANCE",
+        "domain": "WEATHER",
+        "state": "UNKNOWN",
+        "reason": "NON_AUTO_MODE",
+        "input_refs": [],
+        "input_relationship": "CONTEXT_ONLY_NOT_CONDITION_EVIDENCE",
+        "input_reasons": [
+          "PROVIDER_TRANSPORT_UNAVAILABLE",
+          "SKY_COVER_IS_NOT_SKYLINE_VISIBILITY",
+          "ALTITUDE_AND_LINE_OF_SIGHT_UNVERIFIED",
+          "NO_APPROVED_METRIC_PROVIDER_BINDING"
+        ],
+        "metric": "seattle_skyline_visibility",
+        "claim_refs": [
+          "us-071-P01-condition-1"
+        ],
+        "model_binding": null,
+        "threshold": null,
+        "unit": null
+      },
+      {
+        "condition_id": "C-us-071-P01-02",
+        "role": "QUALITY",
+        "evaluation_mode": "GUIDANCE",
+        "domain": "ASTRONOMY",
+        "state": "UNKNOWN",
+        "reason": "NON_AUTO_MODE",
+        "input_refs": [
+          "a150a9d486c75e43e91a47c57fda241420529aea06c2a853608c9e76889ef946"
+        ],
+        "input_relationship": "CONTEXT_ONLY_NOT_CONDITION_EVIDENCE",
+        "input_reasons": [
+          "REGIONAL_SOLAR_EVENT_ONLY",
+          "CITY_LIGHT_SWITCHING_AND_HORIZON_UNVERIFIED",
+          "NO_APPROVED_METRIC_PROVIDER_BINDING"
+        ],
+        "metric": "dusk_city_lights_overlap",
+        "claim_refs": [
+          "us-071-P01-condition-2"
+        ],
+        "model_binding": null,
+        "threshold": null,
+        "unit": null
+      }
+    ],
+    "access_advisories": [],
+    "axes": {
+      "REQUIRED": {
+        "AUTO": {
+          "PASS": 0,
+          "FAIL": 0,
+          "UNKNOWN": 0
+        },
+        "GUIDANCE": {
+          "PASS": 0,
+          "FAIL": 0,
+          "UNKNOWN": 1
+        },
+        "VERIFY": {
+          "PASS": 0,
+          "FAIL": 0,
+          "UNKNOWN": 0
+        }
+      },
+      "BLOCKER": {
+        "AUTO": {
+          "PASS": 0,
+          "FAIL": 0,
+          "UNKNOWN": 0
+        },
+        "GUIDANCE": {
+          "PASS": 0,
+          "FAIL": 0,
+          "UNKNOWN": 0
+        },
+        "VERIFY": {
+          "PASS": 0,
+          "FAIL": 0,
+          "UNKNOWN": 0
+        }
+      },
+      "QUALITY": {
+        "AUTO": {
+          "PASS": 0,
+          "FAIL": 0,
+          "UNKNOWN": 0
+        },
+        "GUIDANCE": {
+          "PASS": 0,
+          "FAIL": 0,
+          "UNKNOWN": 1
+        },
+        "VERIFY": {
+          "PASS": 0,
+          "FAIL": 0,
+          "UNKNOWN": 0
+        }
+      }
+    },
+    "photography_verdict": "NOT_EVALUABLE",
+    "recommendation_eligible": false
+  },
+  "access_advisories": [
+    {
+      "camera_context_id": "CZ-us-071-P01-01",
+      "access_notes_i18n": {
+        "zh-TW": "官方目前列開園 06:00–22:00；臨時管制與活動規定依當日公告，開放時間不屬攝影評分條件。",
+        "en": "The city lists 6 a.m.–10 p.m. park hours; check temporary closure/event notices. Opening hours are not photography scoring conditions.",
+        "ja": "市の案内では開園時間は6～22時。臨時閉鎖やイベントの規則を確認する。開園時間は撮影適性スコアの条件ではない。"
+      },
+      "safety_notes_i18n": {
+        "zh-TW": "待在公園合法觀景區，注意護牆及擁擠；商業機材與無人機另確認相關規定。",
+        "en": "Remain in permitted park viewing areas and watch wall edges and crowds; check separate rules for commercial equipment or drones.",
+        "ja": "許可された公園展望エリアにとどまり、壁際や混雑に注意する。商業機材やドローンは別途規則を確認する。"
+      },
+      "evidence_refs": [
+        "b04-us071-a"
+      ],
+      "affects_photography_suitability": false
+    }
+  ],
+  "directions_eligible": false,
+  "research_only": true,
+  "photography_verdict": "NOT_EVALUABLE",
+  "recommendation_eligible": false,
+  "limitations_i18n": {
+    "zh-TW": "此為西雅圖區域日出／日落與原始預報診斷，非機位或天際線能見度預報；街燈、地形遮蔽與攝影門檻未驗證，無拍攝建議或導航。",
+    "en": "Seattle regional sunrise/sunset and raw forecast diagnostic, not a camera or skyline visibility forecast. City lights, horizon obstruction and photo thresholds are unverified; no shooting recommendation or directions.",
+    "ja": "シアトル地域の日の出・日の入りと予報原データの診断。撮影地点や市街地の視認性の予報ではない。街明かり、地形の遮蔽、撮影条件の閾値は未検証で、撮影推奨や経路案内は行わない。"
+  }
+}
