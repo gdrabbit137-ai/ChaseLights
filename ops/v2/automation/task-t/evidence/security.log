@@ -1,0 +1,42 @@
+test_approval_ci_failure_skip_missing_and_spoof_block (__main__.PilotGuardTests.test_approval_ci_failure_skip_missing_and_spoof_block) ... ok
+test_approval_comment_id_required (__main__.PilotGuardTests.test_approval_comment_id_required) ... ok
+test_approved_runner_or_policy_drift_blocks (__main__.PilotGuardTests.test_approved_runner_or_policy_drift_blocks) ... ok
+test_budget_above_75_cents_rejected (__main__.PilotGuardTests.test_budget_above_75_cents_rejected) ... ok
+test_candidate_is_disabled_with_short_price_expiry (__main__.PilotGuardTests.test_candidate_is_disabled_with_short_price_expiry) ... ok
+test_comment_cannot_be_bot_or_other_user (__main__.PilotGuardTests.test_comment_cannot_be_bot_or_other_user) ... ok
+test_comment_on_different_pr_cannot_be_replayed (__main__.PilotGuardTests.test_comment_on_different_pr_cannot_be_replayed) ... ok
+test_comment_revocation_or_budget_edit_blocks (__main__.PilotGuardTests.test_comment_revocation_or_budget_edit_blocks) ... ok
+test_committed_pilot_fixtures_are_real_source_bound_test_data (__main__.PilotGuardTests.test_committed_pilot_fixtures_are_real_source_bound_test_data) ... ok
+test_conservative_worst_case_reservation (__main__.PilotGuardTests.test_conservative_worst_case_reservation) ... ok
+test_current_model_profile_validates (__main__.PilotGuardTests.test_current_model_profile_validates) ... ok
+test_disabled_profile_never_reaches_approval_or_network (__main__.PilotGuardTests.test_disabled_profile_never_reaches_approval_or_network) ... ok
+test_expired_prices_block (__main__.PilotGuardTests.test_expired_prices_block) ... ok
+test_explicit_owner_comment_authorizes_only_bound_task (__main__.PilotGuardTests.test_explicit_owner_comment_authorizes_only_bound_task) ... ok
+test_fast_tier_or_low_reasoning_cannot_replace_profile (__main__.PilotGuardTests.test_fast_tier_or_low_reasoning_cannot_replace_profile) ... ok
+test_future_prices_cannot_preauthorize (__main__.PilotGuardTests.test_future_prices_cannot_preauthorize) ... ok
+test_legacy_policy_cannot_activate_model (__main__.PilotGuardTests.test_legacy_policy_cannot_activate_model) ... ok
+test_lifetime_budget_includes_uncertain_prior_reservations (__main__.PilotGuardTests.test_lifetime_budget_includes_uncertain_prior_reservations) ... ok
+test_lifetime_request_limit_survives_another_day (__main__.PilotGuardTests.test_lifetime_request_limit_survives_another_day) ... ok
+test_main_drift_stops_before_approval_or_ledger_reads (__main__.PilotGuardTests.test_main_drift_stops_before_approval_or_ledger_reads) ... ok
+test_missing_credentials_never_performs_approval_network_calls (__main__.PilotGuardTests.test_missing_credentials_never_performs_approval_network_calls) ... ok
+test_mutation_api_allows_only_intended_writes (__main__.PilotGuardTests.test_mutation_api_allows_only_intended_writes) ... ok
+test_mutation_api_blocks_main_force_merge_deploy_and_cross_owner (__main__.PilotGuardTests.test_mutation_api_blocks_main_force_merge_deploy_and_cross_owner) ... ok
+test_no_long_context_surcharge (__main__.PilotGuardTests.test_no_long_context_surcharge) ... ok
+test_oversized_input_rejected_before_api (__main__.PilotGuardTests.test_oversized_input_rejected_before_api) ... ok
+test_payload_enforces_tier_reasoning_and_one_request (__main__.PilotGuardTests.test_payload_enforces_tier_reasoning_and_one_request) ... ok
+test_real_wall_deadline_interrupts (__main__.PilotGuardTests.test_real_wall_deadline_interrupts) ... ok
+test_retry_and_concurrency_cannot_expand (__main__.PilotGuardTests.test_retry_and_concurrency_cannot_expand) ... ok
+test_run_cost_cap_enforced (__main__.PilotGuardTests.test_run_cost_cap_enforced) ... ok
+test_schedule_pr_other_actor_and_other_repo_block (__main__.PilotGuardTests.test_schedule_pr_other_actor_and_other_repo_block) ... ok
+test_success_preserves_actual_usage_and_response_identifiers (__main__.PilotGuardTests.test_success_preserves_actual_usage_and_response_identifiers) ... ok
+test_unknown_task_and_operation_block (__main__.PilotGuardTests.test_unknown_task_and_operation_block) ... ok
+test_unmerged_activation_pr_blocks (__main__.PilotGuardTests.test_unmerged_activation_pr_blocks) ... ok
+test_unprotected_main_blocks_activation (__main__.PilotGuardTests.test_unprotected_main_blocks_activation) ... ok
+test_unreviewed_model_and_rate_changes_block (__main__.PilotGuardTests.test_unreviewed_model_and_rate_changes_block) ... ok
+test_unverified_returned_model_or_tier_blocks (__main__.PilotGuardTests.test_unverified_returned_model_or_tier_blocks) ... ok
+
+----------------------------------------------------------------------
+Ran 36 tests in 0.026s
+
+OK
+{"kind": "OFFLINE_SECURITY_TESTS_NOT_LIVE_E2E", "PASS": 36, "FAIL": 0, "ERROR": 0, "SKIP": 0}

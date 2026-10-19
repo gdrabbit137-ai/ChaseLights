@@ -1,0 +1,98 @@
+{
+  "scope": "Task T read-only source/credential review; no live model E2E",
+  "reviewed_main": "38561c8b862542587ee7756f59075517afe37efe",
+  "refreshed_main": "1733a46b152e5760540f59b4d4c192824222ac48",
+  "main_protected": false,
+  "code_spec_drift": "NONE: generated-only main movement; 32 AGENTS/R4.2/V2 source blobs match",
+  "pr497": {
+    "head": "bec25989330f1dec555b29c86e0d65f6b95e43c3",
+    "state": "open",
+    "draft": true,
+    "merged": false,
+    "actual_tested_merge": "d6989bebe5644c826f64e51a59b8b1392ca73bb9",
+    "ci": [
+      {
+        "run": 38703631711,
+        "job": 116317551361,
+        "PASS": 56,
+        "FAIL": 0,
+        "ERROR": 0,
+        "SKIP": 0
+      },
+      {
+        "run": 38703631715,
+        "job": 116317550953,
+        "PASS": 16,
+        "FAIL": 0,
+        "ERROR": 0,
+        "SKIP": 0
+      },
+      {
+        "run": 38703631686,
+        "job": 116317551730,
+        "PASS": 157,
+        "FAIL": 0,
+        "ERROR": 0,
+        "SKIP": 0
+      }
+    ]
+  },
+  "other_sources": {
+    "pr483": "543169a5e4c6df50a08fcc07c96a700bf49e7b15",
+    "pr495": "c41567edcfa9efe95111f3306d6410f1934e7062",
+    "pr496": "ba57ede02bfe004f49ac4b14b570d29bf18b96fa",
+    "states": "all open Draft; no duplicate executor in inspected recent PRs"
+  },
+  "settings": {
+    "V2_CODEX_APP_ID": {
+      "execution_environment": "MISSING",
+      "repository": "NOT_CONFIRMED"
+    },
+    "V2_CODEX_APP_PRIVATE_KEY": {
+      "execution_environment": "MISSING",
+      "repository": "NOT_CONFIRMED"
+    },
+    "OPENAI_API_KEY": {
+      "execution_environment": "MISSING",
+      "repository": "NOT_CONFIRMED"
+    }
+  },
+  "repository_settings_read": "connector HTTP 400 unsupported endpoint; not evidence of 403 or absence",
+  "app_installation_permissions": "UNVERIFIED; no App-authenticated request attempted",
+  "runtime": {
+    "observations_current": true,
+    "connected": true,
+    "network_policy": "restricted/enforced",
+    "secret_bindings": 0,
+    "outbound_identities": 0,
+    "openai_host_egress_allowed": false
+  },
+  "model": {
+    "id": "gpt-6.1-sol",
+    "public_docs": "SUPPORTED",
+    "account_access": "UNVERIFIED",
+    "model_source": "https://developers.openai.com/api/docs/models/gpt-6.1-sol",
+    "pricing_source": "https://developers.openai.com/api/docs/pricing",
+    "reasoning_source": "https://developers.openai.com/api/docs/guides/reasoning",
+    "codex_source": "https://learn.chatgpt.com/docs/models",
+    "rates_usd_per_million": {
+      "input": "2.00",
+      "cached_input": "0.10",
+      "cache_write": "2.50",
+      "output": "10.00"
+    },
+    "max_reserved_usd": "0.705056",
+    "cap_usd": "0.75"
+  },
+  "action_pins": {
+    "checkout": "11d5960a326750d5838078e36cf38b85af677262",
+    "setup-python": "a26af69be951a213d495a4c3e4e4022e16d87065",
+    "upload-artifact": "ea165f8d65b6e75b540449e92b4886f43607fa02",
+    "create-github-app-token": "fee1f7d63c2ff003460e3d139729b119787bc349"
+  },
+  "live_e2e": "BLOCKED_NOT_RUN",
+  "actual_model_usage": null,
+  "actual_model_cost": null,
+  "auto_published_pilot_pr": null,
+  "unit_tests": "explicit fakes, never live provider evidence"
+}

@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "enabled": false,
+  "repository": "gdrabbit137-ai/ChaseLights",
+  "state_branch": "automation/v2-autodev-state",
+  "model": null,
+  "pricing_review": null,
+  "input_usd_per_million": null,
+  "output_usd_per_million": null,
+  "daily_budget_usd": "1.00",
+  "max_runs_per_day": 1,
+  "max_requests_per_run": 2,
+  "max_retries": 1,
+  "max_ci_polls": 3,
+  "max_output_tokens": 4096,
+  "max_context_bytes": 300000,
+  "request_timeout_seconds": 90,
+  "required_checks": ["V2 real merged-tree 444-case Research-only Beta acceptance", "bounded-executor-tests"],
+  "tasks": [
+    {
+      "id": "w5-provenance-receipt-v1",
+      "owner": "W5",
+      "kind": "provenance_receipt",
+      "path": "ops/v2/automation/pilots/w5-provenance-receipt-v1.json",
+      "dependencies": []
+    }
+  ]
+}
