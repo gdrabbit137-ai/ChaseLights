@@ -1,0 +1,112 @@
+name: V2 Open-Meteo one-shot provider acceptance evidence
+
+# One branch push only. No schedule, dispatch, retry, or deployment.
+on:
+  push:
+    branches: [codex/open-meteo-one-shot-acceptance-20261019]
+    paths: [.github/workflows/v2-open-meteo-one-shot-20261019.yml]
+
+permissions:
+  contents: read
+
+jobs:
+  capture:
+    if: >-
+      github.run_attempt == 1 && github.event.head_commit.message == 'ci(v2/W5): repair one-shot workflow validation'
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned validation dependency
+        run: python -m pip install 'jsonschema==4.26.0'
+      - name: Enforce prior pilot interval and bounded one-shot window
+        run: |
+          python - <<'PY'
+          from datetime import datetime, timezone
+          from pathlib import Path
+          import json, time
+          previous = Path('packages/core-v2/tests/evidence/open-meteo-hourly-20261019/capture-ledger.jsonl')
+          records = [json.loads(line) for line in previous.read_text().splitlines()]
+          assert len(records) == 1 and records[0]['attempts_reserved'] == 1
+          last = datetime.fromisoformat(records[0]['requested_at_utc'].replace('Z', '+00:00'))
+          minimum = datetime.fromisoformat('2026-10-19T16:43:00+00:00')
+          cutoff = datetime.fromisoformat('2026-10-19T17:30:00+00:00')
+          assert minimum >= last.replace(tzinfo=timezone.utc) and (minimum - last).total_seconds() >= 10800
+          now = datetime.now(timezone.utc)
+          assert now < cutoff, 'One-shot window expired; no network attempt'
+          if now < minimum:
+              delay = (minimum - now).total_seconds()
+              assert delay < 2400, 'Unexpectedly early runner; no attempt'
+              print(f'Waiting {delay:.0f}s for minimum three-hour interval', flush=True)
+              time.sleep(delay)
+          assert minimum <= datetime.now(timezone.utc) < cutoff
+          PY
+      - name: Execute existing W3 capture exactly once, then offline replay
+        id: capture
+        shell: bash
+        run: |
+          set +e
+          mkdir -p .ci/open-meteo-one-shot
+          cp packages/core-v2/tests/evidence/open-meteo-hourly-20261019/capture-ledger.jsonl .ci/open-meteo-one-shot/capture-ledger.jsonl
+          python packages/core-v2/tools/open_meteo_hourly_pilot.py capture --live \
+            --quota-note '2026-10-19 one noncommercial research request. Previous V2 pilot reserved 13:41Z; this job gates >=16:43Z. V1 schedule is every 3h, last observed GitHub success at 12:44Z; shared application/IP usage remains unobservable. No automatic retries; stop on 429.' \
+            --ledger .ci/open-meteo-one-shot/capture-ledger.jsonl \
+            --output .ci/open-meteo-one-shot/capture > .ci/open-meteo-one-shot/capture-command.log 2>&1
+          capture_exit=$?
+          python packages/core-v2/tools/open_meteo_hourly_pilot.py replay \
+            --capture-dir .ci/open-meteo-one-shot/capture \
+            --output .ci/open-meteo-one-shot/replay.json > .ci/open-meteo-one-shot/replay-command.log 2>&1
+          replay_exit=$?
+          printf '{"capture_exit":%s,"replay_exit":%s,"network_attempt_limit":1,"replay_network_attempts":0}\n' "$capture_exit" "$replay_exit" > .ci/open-meteo-one-shot/exit-status.json
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          d = Path('.ci/open-meteo-one-shot')
+          receipt = json.loads((d / 'capture/capture.json').read_text())
+          replay = json.loads((d / 'replay.json').read_text())
+          raw = d / 'capture/response-body.bin'
+          source_sha = hashlib.sha256(raw.read_bytes()).hexdigest() if raw.exists() else None
+          live = receipt['result']['artifact']
+          offline = replay['result']['artifact']
+          # Replay has a later checked_at clock; every source-derived field must match.
+          if live is not None and offline is not None:
+              offline_comparable = json.loads(json.dumps(offline))
+              offline_comparable['retrieval_age_policy']['checked_at_utc'] = live['retrieval_age_policy']['checked_at_utc']
+          else:
+              offline_comparable = offline
+          cells = [cell for row in (live or {}).get('hours', []) for cell in row['values'].values()]
+          accepted = (source_sha is not None and source_sha == receipt['raw_sha256']
+                      and receipt['http_attempts'] == 1 and receipt['http_status'] == 200
+                      and receipt['result']['availability'] == 'COMPLETE'
+                      and replay['result']['availability'] == 'COMPLETE'
+                      and replay['network_attempts'] == 0 and live == offline_comparable
+                      and len(live['hours']) == 72 and len(cells) == 720
+                      and all(c['state'] == 'AVAILABLE' for c in cells)
+                      and live['time_zone'] == 'Asia/Taipei'
+                      and live['data_state'] == 'RAW_ONLY'
+                      and live['photography_verdict'] == 'NOT_EVALUABLE'
+                      and live['recommendation_eligible'] is False)
+          summary = {'provider_acceptance': 'VERIFIED_ONE_SHOT' if accepted else 'UNVERIFIED',
+                     'raw_sha256': source_sha, 'http_status': receipt.get('http_status'),
+                     'error': receipt.get('error'), 'availability': receipt['result']['availability'],
+                     'replay_availability': replay['result']['availability'],
+                     'replay_reasons': replay['result']['reasons'], 'hour_count': len((live or {}).get('hours', [])),
+                     'available_cells': sum(c['state'] == 'AVAILABLE' for c in cells),
+                     'missing_cells': sum(c['state'] == 'UNAVAILABLE' for c in cells)}
+          (d / 'acceptance-summary.json').write_text(json.dumps(summary, indent=2) + '\n')
+          print(json.dumps(summary))
+          PY
+      - name: Preserve raw response, ledger, receipt, replay and diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: open-meteo-one-shot-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .ci/open-meteo-one-shot/
+          if-no-files-found: error
+          retention-days: 30
