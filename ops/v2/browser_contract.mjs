@@ -2,6 +2,31 @@
 // summary invented by the test or an alternative language fallback.
 import assert from 'node:assert/strict';
 export const locales=['zh-TW','en','ja'];
+export async function verifyPhotographyTopics(page,catalog,locale){
+  await page.locator('#browse-research').click();
+  await page.waitForFunction(()=>document.querySelector('#data-state').dataset.status==='ready');
+  const seen=new Set();
+  for(const place of catalog.places){
+    await page.locator(`.place-button[data-place-id="${place.place_id}"]`).click();
+    const subjects=catalog.opportunities.filter(x=>x.place_id===place.place_id);
+    assert.equal(await page.locator('.opportunity').count(),subjects.length);
+    assert.equal(await page.locator('.topic-jump-list a').count(),subjects.length);
+    for(const subject of subjects){
+      seen.add(subject.opportunity_id);
+      const card=page.locator(`article[data-opportunity-id="${subject.opportunity_id}"]`);
+      assert.equal(await card.locator('.opportunity-description').textContent(),subject.description_i18n[locale]);
+      assert.deepEqual(await card.locator('.topic-targets li').allTextContents(),subject.targets.map(x=>x.name_i18n[locale]));
+      const conditions=subject.condition_contract.conditions.filter(x=>x.domain!=='ACCESS_SAFETY');
+      assert.deepEqual(await card.locator('.condition-description').allTextContents(),conditions.map(x=>x.notes_i18n[locale]));
+      assert.equal(await card.locator('.condition-mode').count(),conditions.length);
+      assert.equal(await card.locator('.topic-assessment .automation-status').count(),1);
+      assert.equal(await card.locator('.decision-core .access-advisories,.condition-result,.score,.nav-action').count(),0);
+      assert.equal(await card.locator('.access-advisories').count(),1);
+    }
+  }
+  assert.equal(seen.size,8);
+  await page.locator('#close-research').click();
+}
 const copy={
   'zh-TW':{forecast:'目前尚無可用的攝影預報',scope:'研究資料，非指定日期預報。',title:'ChaseLights V2 — 攝影預報',headline:'攝影預報',oldTitle:'ChaseLights V2 — 攝影機會研究',oldHeadline:'從景點與題材，規劃你的拍攝'},
   en:{forecast:'No photography forecast is available yet.',scope:'Research information, not a date-specific forecast.',title:'ChaseLights V2 — Photography forecast',headline:'Photography forecast',oldTitle:'ChaseLights V2 — Photography research',oldHeadline:'Explore places and what to photograph'},

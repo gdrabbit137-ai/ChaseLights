@@ -4,7 +4,8 @@ import assert from "node:assert/strict";
 import {createRequire} from "node:module";
 import {readFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
-import {verifyResearchPage} from './browser_contract.mjs';
+import {verifyResearchPage,verifyPhotographyTopics} from './browser_contract.mjs';
+import {validateManifest,verifyPublicAsset,verifyPublicIndex,runtimeFiles} from './public_source_contract.mjs';
 import {setTimeout as delay} from "node:timers/promises";
 
 const UI=process.env.V2_PUBLIC_UI || 'existing-preview';
@@ -14,13 +15,10 @@ let expectedManifest=null;
 if(UI==='forecast-home'){
   assert.ok(process.env.V2_EXPECTED_BUILD_MANIFEST,'Candidate public smoke requires an exact build manifest');
   expectedManifest=JSON.parse(await readFile(process.env.V2_EXPECTED_BUILD_MANIFEST,'utf8'));
-  assert.equal(expectedManifest.status,'PASS');
-  assert.equal(expectedManifest.mode,'RESEARCH_ONLY');
-  assert.equal(expectedManifest.deployment_allowed,false);
-  assert.equal(expectedManifest.live_forecast_eligible,false);
-  assert.match(expectedManifest.source_commit_sha,/^[a-f0-9]{40}$/);
-  assert.equal(Object.keys(expectedManifest.files).length,10);
+
 }
+if(UI==='existing-beta')expectedManifest=JSON.parse(await readFile(new URL('./public-beta-r2-manifest.json',import.meta.url),'utf8'));
+if(expectedManifest)validateManifest(expectedManifest);
 console.log('PUBLIC SMOKE SCOPE',UI==='forecast-home'?'PUBLISHED_CANDIDATE_EXACT_MANIFEST':'EXISTING_PUBLIC_PREVIEW_NOT_CANDIDATE');
 const BASE = "https://chaselights.app/apps/web-v2/";
 const LOCALES = ["zh-TW", "en", "ja"];
@@ -52,7 +50,7 @@ async function fetchPublic(path, maxAttempts = 3) {
 }
 
 let html = await fetchPublic("");
-if(expectedManifest){
+if(UI==='forecast-home'){
   for(let attempt=0;attempt<24 && createHash('sha256').update(html.body).digest('hex')!==expectedManifest.files['apps/web-v2/index.html'];attempt++){
     await delay(15000);
     html=await fetchPublic('');
@@ -61,14 +59,14 @@ if(expectedManifest){
 assert.match(html.response.headers.get("content-type") || "", /text\/html/i);
 assert.match(html.body, /ChaseLights V2/);
 if(expectedManifest)assert.equal(createHash('sha256').update(html.body).digest('hex'),expectedManifest.files['apps/web-v2/index.html']);
-const assets = ["styles.css", "app.mjs", "model.mjs", "catalog-loader.mjs",
+const legacyAssets = ["styles.css", "app.mjs", "model.mjs", "catalog-loader.mjs",
                 "v21-adapter.mjs", "catalog.v2.json"];
-if(HOME)assets.push('catalog-state.mjs','browse-index.mjs','browse-index.v2.json');
+const assets=HOME?runtimeFiles.filter(x=>x!=='index.html'):legacyAssets;
 for (const path of assets) {
   const found = await fetchPublic(path);
   assert.ok(!/text\/html/i.test(found.response.headers.get("content-type") || ""),
             path + " served as HTML, likely fallback/404");
-  if(expectedManifest)assert.equal(createHash('sha256').update(found.body).digest('hex'),expectedManifest.files['apps/web-v2/'+path],path+' public bytes differ from candidate manifest');
+  if(expectedManifest)verifyPublicAsset(expectedManifest,path,found.body);
   console.log("ASSET PASS", path, found.response.status,
               found.response.headers.get("content-type"), found.body.length);
 }
@@ -80,7 +78,7 @@ assert.deepEqual(catalog.evaluations, []);
 assert.equal(catalog.opportunities.length, HOME?8:1);
 if(HOME){
   assert.equal(catalog.places.length,7);
-  assert.equal(catalog.source_index_commit_sha,expectedManifest ? 'cf29288ce47e2cccb2fb2e1453ad193200996a95' : 'c10976eb5e88fd32ec0adc58a1317ed70015821d');
+  verifyPublicIndex(expectedManifest,catalog,JSON.parse((await fetchPublic('browse-index.v2.json')).body));
   assert.equal(catalog.source_pins['tw-026-P01'].source_commit_sha,'2177bd8c8b6c18e0a4b284e50b55d0ff12697ddd');
 }else assert.equal(catalog.source_commit_sha, "2177bd8c8b6c18e0a4b284e50b55d0ff12697ddd");
 const opportunity = HOME ? catalog.opportunities.find(x=>x.opportunity_id==='tw-026-P01') : catalog.opportunities[0];
@@ -143,6 +141,7 @@ try {
     assert.equal(new URL(page.url()).hostname, "chaselights.app");
     for (const locale of LOCALES) {
       await verifyResearchPage(page,opportunity,locale,HOME?'forecast-home':UI);
+      if(UI==='forecast-home')await verifyPhotographyTopics(page,catalog,locale);
       assert.deepEqual(errors,[],"Browser errors on "+device.name+" "+locale);
       console.log("PUBLIC BROWSER PASS",device.name,locale,UI,"source-exact","access-warning-separated","no-directions");
       total++;

@@ -56,3 +56,30 @@ export function runtimeEvaluation(record) {
   return null;
 }
 export function associated(rowsList, key, value) { return rowsList.filter(x => String(x[key] ?? "") === String(value)); }
+
+// A presentation of existing research, never a condition evaluator. Role and
+// evaluation mode are independent; even AUTO alone proves no connected result.
+export function researchTopic(catalog, opportunity, locale) {
+  const id = opportunityId(opportunity);
+  const conditions = rows(catalog?.conditions)
+    .filter(row => row.opportunity_id === id && row.domain !== 'ACCESS_SAFETY');
+  return {
+    id,
+    name: localized(opportunity, 'name', locale),
+    description: localized(opportunity, 'description', locale),
+    targets: rows(catalog?.subject_geometries)
+      .filter(row => row.opportunity_id === id)
+      .map(row => localized(row, 'name', locale)).filter(Boolean),
+    conditions: conditions.map(row => ({
+      id: row.condition_id,
+      description: localized(row, 'human_description', locale),
+      role: ['REQUIRED', 'QUALITY', 'BLOCKER'].includes(row.role) ? row.role : null,
+      mode: ['GUIDANCE', 'VERIFY', 'AUTO'].includes(row.evaluation_mode) ? row.evaluation_mode : null,
+      domain: row.domain
+    })),
+    // Canonical imports have no authenticated result channel. Do not treat
+    // a research condition, source availability or claimed AUTO flag as PASS.
+    automaticEvaluationConnected: false,
+    evaluation: null
+  };
+}

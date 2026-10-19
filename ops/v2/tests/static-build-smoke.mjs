@@ -7,10 +7,10 @@ import {createServer} from 'node:http';
 import {createRequire} from 'node:module';
 import {createHash} from 'node:crypto';
 import {resolve,extname,sep} from 'node:path';
-import {verifyResearchPage,locales} from '../browser_contract.mjs';
+import {verifyResearchPage,verifyPhotographyTopics,locales} from '../browser_contract.mjs';
 const require=createRequire(import.meta.url);
 const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'/opt/codex/cua_node/lib/node_modules/playwright');
-let browser,server,base,opportunity,manifest;
+let browser,server,base,opportunity,manifest,catalog;
 const requested=new Set();
 before(async()=>{
   assert.ok(process.env.V2_BUILD_DIR,'Actual static build output is required');
@@ -22,7 +22,7 @@ before(async()=>{
     const bytes=await readFile(resolve(root,file));
     assert.equal(createHash('sha256').update(bytes).digest('hex'),sha,file+' manifest bytes differ');
   }
-  const catalog=JSON.parse(await readFile(resolve(root,'apps/web-v2/catalog.v2.json'),'utf8'));
+  catalog=JSON.parse(await readFile(resolve(root,'apps/web-v2/catalog.v2.json'),'utf8'));
   assert.equal(catalog.research_only,true);assert.equal(catalog.forecast_available,false);
   assert.equal(catalog.selected_date_recommendation_eligible,false);assert.deepEqual(catalog.evaluations,[]);
   assert.equal(catalog.opportunities.length,8);
@@ -51,6 +51,7 @@ for(const [device,viewport] of [['desktop',{width:1440,height:1000}],['mobile',{
     try{
       const response=await page.goto(base);assert.equal(response.status(),200);
       await verifyResearchPage(page,opportunity,locale,'forecast-home');
+      await verifyPhotographyTopics(page,catalog,locale);
       assert.ok(requested.has('/apps/web-v2/catalog-state.mjs'));
       assert.ok(requested.has('/apps/web-v2/catalog.v2.json'));
       assert.deepEqual(errors,[]);

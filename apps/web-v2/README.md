@@ -1,5 +1,56 @@
 # ChaseLights V2 — photography home and research browser
 
+## W4 — Photography Topics First (2026-10-19)
+
+The research browser now opens each Place with a localized “What can you
+photograph here?” list. Each subject shows the existing Canonical name,
+description and targets, followed by special conditions and a separate future
+assessment section. The exact seven-Place/eight-Opportunity catalog and index
+bytes are unchanged. The existing home, search, OR topic selection, access
+warnings and advanced source disclosures remain available.
+
+Condition role and evaluation mode are independent: REQUIRED describes what
+the subject needs; QUALITY describes factors that may improve its appearance
+without producing a score. GUIDANCE is a shooting reference; VERIFY needs
+separate verification. Neither is a current successful result. AUTO metadata
+alone also cannot establish a connected evaluation. This research import has
+no trusted result transport, so it shows no PASS/FAIL/UNKNOWN condition badges,
+photography scores or new Directions. Missing optional descriptions or
+conditions receive localized placeholders without hiding other subjects.
+This is research awaiting review, not an approved photography Guide.
+
+Repeatable checks from the repository root:
+
+```sh
+node --test apps/web-v2/tests/*.test.mjs
+node --test --test-isolation=none --test-timeout=120000 --test-reporter=tap apps/web-v2/tests/browser-smoke.mjs apps/web-v2/tests/task-s-browser.mjs
+node --test --test-isolation=none --test-timeout=120000 --test-reporter=tap apps/web-v2/tests/photography-topics-browser.mjs
+```
+
+Actual local results: 56 Node cases, 82 existing browser cases and 6 new browser
+cases PASS; zero FAIL or SKIP in these suites. The new browser suite visits all
+seven Places/eight subjects in zh-TW/en/ja at 360px touch/mobile and 1440px
+desktop, including source text, role/mode labels, keyboard jumps, filters,
+locale preservation, independent warnings and absent invented results.
+Set `W4_TOPICS_SCREENSHOT_DIR` to retain its screenshots. Chromium emulation
+does not establish physical-phone/Safari or human translation approval.
+
+Source base: main `67a154b163c3e9a868d07eccc35f46d37580be38`; prior W4 tree
+`70eb22ad22f3cad08aafab9ac71032ee8278139b` and W2 index commit
+`cf29288ce47e2cccb2fb2e1453ad193200996a95`. Full per-record provenance remains
+in `catalog.v2.json` and is checked by the existing canonical tests. Evidence
+and exact commands are under `tests/logs/photography-topics-first-20261019/`.
+W5 must independently review this Draft, deliberately pin its final W4 tree
+and file discovery, register the additional seven Node/six browser cases, and
+rerun integration/build/release checks. Existing immutable W4 pins and counts
+are intentionally unchanged; local W4 PASS is not Release Gate approval.
+No runtime dependency was added to the ten-file static bundle.
+
+Next bounded extensions are source-backed detail for missing subjects,
+additional W2-reviewed topics, and independently approved condition-result
+transport after W1/W2/W3 validation. No provider, scientific threshold,
+photography scoring or production publication is introduced here.
+
 ## Task S — multi-Place research browsing (Draft W4)
 
 The default static bundle now contains the exact eight W2 R1 canonical Opportunities
