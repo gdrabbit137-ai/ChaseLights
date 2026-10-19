@@ -1,0 +1,91 @@
+{
+  "schema_version": "0.1.0",
+  "pilot_id": "tw-036-open-meteo-hourly-v0.1",
+  "revision": 1,
+  "status": "DRAFT_RESEARCH_PILOT",
+  "place_id": "tw-036",
+  "opportunity_context_id": "tw-036-P01",
+  "reviewed_main_sha": "67e8a14e9ccbfd0eef7ca96c09b4c872a3d519d2",
+  "canonical_binding": {
+    "path": "data/v2/opportunities/tw-036-P01.json",
+    "commit_sha": "67e8a14e9ccbfd0eef7ca96c09b4c872a3d519d2",
+    "blob_sha": "bfe5ec2f952b892cca60f5ef2e1b139182e7cee9"
+  },
+  "name_i18n": {
+    "zh-TW": "七星潭逐時天氣研究試點",
+    "en": "Qixingtan hourly weather research pilot",
+    "ja": "七星潭の毎時気象調査パイロット"
+  },
+  "time_zone": {
+    "status": "VERIFIED",
+    "iana_id": "Asia/Taipei",
+    "evidence_ref": "data/v2/weather-pilots/tw-036-open-meteo.json#/evidence",
+    "evidence_ids": [
+      "qixingtan-official-location",
+      "taiwan-national-time",
+      "iana-taipei-zone"
+    ],
+    "scope": "This named Hualien Place only. Recheck IANA rules at execution; never derive zone from browser, API auto or offset alone."
+  },
+  "sample": {
+    "latitude": 24.031426,
+    "longitude": 121.62717,
+    "crs": "WGS84",
+    "coordinate_role": "representative_place_weather_sample",
+    "coordinate_source_ref": "qixingtan-official-location",
+    "coordinate_uncertainty_m": null,
+    "representativeness": "REGIONAL_SAMPLE_UNVALIDATED",
+    "camera_coordinate_verified": false,
+    "navigation_eligible": false
+  },
+  "provider": "OPEN_METEO",
+  "endpoint": "https://api.open-meteo.com/v1/forecast",
+  "usage_admission": {
+    "scope": "NONCOMMERCIAL_RESEARCH_PILOT_ONLY",
+    "purpose": "Publicly reviewable personal noncommercial weather-information experiment. No advertising, subscription, commercial promotion or undisclosed commercial research in this admitted scope.",
+    "commercial_entitlement": "NOT_ESTABLISHED",
+    "public_release_authorized": false,
+    "terms_url": "https://open-meteo.com/en/terms",
+    "licence_url": "https://open-meteo.com/en/licence",
+    "licence": "CC-BY-4.0",
+    "checked_on": "2026-10-19",
+    "max_captures_per_day": 8,
+    "min_refresh_interval_seconds": 10800,
+    "max_http_attempts_per_capture": 3,
+    "note": "No schedule is created here. Budget is local to this pilot; shared V1/application/IP quotas must also be checked before capture."
+  },
+  "limitations_i18n": {
+    "zh-TW": "景點代表位置的網格預報研究資料；不是攝影機位、導航或拍攝適合度判斷。海岸風場與海平線狀況未經校正；模型更新時間未提供。",
+    "en": "Research grid forecast at a representative place sample; not a camera position, navigation or photography verdict. Coastal wind and horizon conditions are uncalibrated; model update time is not supplied.",
+    "ja": "撮影地の代表地点における格子予報の調査資料です。撮影位置、ナビ、撮影適性の判定ではありません。海岸の風や水平線の状態は未校正で、モデル更新時刻は未提供です。"
+  },
+  "evidence": [
+    {
+      "id": "qixingtan-official-location",
+      "url": "https://www.taiwan.net.tw/m1.aspx?id=9488&sno=0001124",
+      "checked_on": "2026-10-19",
+      "locator": "七星潭 / 花蓮縣新城鄉 / 經度與緯度",
+      "finding": "The named attraction is in Xincheng, Hualien; official longitude/latitude are 121.62717 / 24.031426. This is a tourism representative point, not a surveyed camera or arrival point."
+    },
+    {
+      "id": "taiwan-national-time",
+      "url": "https://www.stdtime.gov.tw/english/details/details.htm",
+      "checked_on": "2026-10-19",
+      "locator": "National Taiwan Standard Time paragraph",
+      "finding": "The national laboratory describes Taiwan official time as UTC plus eight hours. Combined with the place-specific Hualien location and IANA mapping, this supports this individual pilot binding; it is not a general country-code fallback."
+    },
+    {
+      "id": "iana-taipei-zone",
+      "url": "https://data.iana.org/time-zones/tzdb/zone1970.tab",
+      "checked_on": "2026-10-19",
+      "locator": "TW row / Asia/Taipei",
+      "finding": "IANA identifies Asia/Taipei for this civil-time region. Principal-location coordinates in the table are timezone metadata and must never be used as the pilot sample."
+    }
+  ],
+  "review": {
+    "method": "W1/W2 coding-agent source inspection",
+    "external_human_signoff": "PENDING",
+    "live_provider_capture": "NOT_PERFORMED",
+    "no_canonical_or_browse_index_promotion": true
+  }
+}

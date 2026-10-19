@@ -1,0 +1,51 @@
+{
+  "operation": "ONE_MANUAL_HTTPS_CAPTURE",
+  "contract_sha": "74f21b365d366b0d1d12efbc23cf6cce484b6b5e",
+  "w3_study_sha": "a649ace57cda5ca02edc1481660ef2f567eb86f1",
+  "pilot_binding_sha256": "9fb4cc6f89daae3ce851a30f2880847705b4afa6097b7c4c54d19d357b202921",
+  "schema_sha256": "ce29fee0f08fdd8c71d96a8d33dfb7f68b6235b67e175ac9e1e3775250b06a1a",
+  "request_url": "https://api.open-meteo.com/v1/forecast?latitude=24.031426&longitude=121.62717&forecast_hours=72&past_hours=0&timezone=GMT&timeformat=unixtime&cell_selection=land&temperature_unit=celsius&wind_speed_unit=ms&precipitation_unit=mm&hourly=temperature_2m%2Cdew_point_2m%2Crelative_humidity_2m%2Ccloud_cover_low%2Ccloud_cover_mid%2Ccloud_cover_high%2Cwind_speed_10m%2Cvisibility%2Cprecipitation%2Cprecipitation_probability",
+  "request": {
+    "latitude": 24.031426,
+    "longitude": 121.62717,
+    "coordinate_role": "representative_place_weather_sample",
+    "forecast_hours": 72,
+    "past_hours": 0,
+    "timezone": "GMT",
+    "timeformat": "unixtime",
+    "cell_selection": "land",
+    "temperature_unit": "celsius",
+    "wind_speed_unit": "ms",
+    "precipitation_unit": "mm",
+    "hourly": "temperature_2m,dew_point_2m,relative_humidity_2m,cloud_cover_low,cloud_cover_mid,cloud_cover_high,wind_speed_10m,visibility,precipitation,precipitation_probability"
+  },
+  "requested_at_utc": "2026-10-19T13:41:23.374081Z",
+  "http_attempts": 1,
+  "raw_sha256": null,
+  "raw_size": null,
+  "provider_acceptance": "UNVERIFIED",
+  "shared_quota_check_note": "Reviewed V1 scheduled workflow and local pilot history: no previous local pilot captures. V1 runs on separate GitHub runners; combined application/IP quota consumption is not observable here. One noncommercial research request only, no retries; stop on 429 and retain Retry-After. No shared quota availability guarantee.",
+  "scope": "NONCOMMERCIAL_RESEARCH_PILOT_ONLY",
+  "automatic_retries": 0,
+  "retrieval_mode": "HTTPS_TLS",
+  "retrieved_at_utc": "2026-10-19T13:41:23.418756Z",
+  "normalized_at_utc": "2026-10-19T13:41:23.418780Z",
+  "http_status": null,
+  "content_type": null,
+  "http_date": null,
+  "retry_after": null,
+  "final_url": null,
+  "body_complete": false,
+  "error": "URLError: Tunnel connection failed: 403 Forbidden",
+  "result": {
+    "availability": "ERROR",
+    "artifact": null,
+    "reasons": [
+      "URLError: Tunnel connection failed: 403 Forbidden"
+    ],
+    "data_state": "RAW_ONLY",
+    "calibration_status": "UNVALIDATED",
+    "recommendation_eligible": false,
+    "photography_verdict": "NOT_EVALUABLE"
+  }
+}

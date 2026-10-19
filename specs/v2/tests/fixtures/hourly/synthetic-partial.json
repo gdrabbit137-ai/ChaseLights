@@ -1,0 +1,151 @@
+{
+  "schema_version": "0.1.0",
+  "artifact_kind": "HOURLY_WEATHER_INFO",
+  "pilot_id": "tw-036-open-meteo-hourly-v0.1",
+  "pilot_binding_sha256": "9fb4cc6f89daae3ce851a30f2880847705b4afa6097b7c4c54d19d357b202921",
+  "place_id": "tw-036",
+  "time_zone": "Asia/Taipei",
+  "tzdb_version": "2024a",
+  "data_state": "RAW_ONLY",
+  "recommendation_eligible": false,
+  "photography_verdict": "NOT_EVALUABLE",
+  "calibration_status": "UNVALIDATED",
+  "availability": "PARTIAL",
+  "request": {
+    "latitude": 24.031426,
+    "longitude": 121.62717,
+    "coordinate_role": "representative_place_weather_sample",
+    "forecast_hours": 72,
+    "past_hours": 0,
+    "timezone": "GMT",
+    "timeformat": "unixtime",
+    "cell_selection": "land",
+    "temperature_unit": "celsius",
+    "wind_speed_unit": "ms",
+    "precipitation_unit": "mm",
+    "hourly": "temperature_2m,dew_point_2m,relative_humidity_2m,cloud_cover_low,cloud_cover_mid,cloud_cover_high,wind_speed_10m,visibility,precipitation,precipitation_probability"
+  },
+  "source": {
+    "provider": "OPEN_METEO",
+    "source_url": "https://api.open-meteo.com/v1/forecast?latitude=24.031426&longitude=121.62717&forecast_hours=72&past_hours=0&timezone=GMT&timeformat=unixtime&cell_selection=land&temperature_unit=celsius&wind_speed_unit=ms&precipitation_unit=mm&hourly=temperature_2m%2Cdew_point_2m%2Crelative_humidity_2m%2Ccloud_cover_low%2Ccloud_cover_mid%2Ccloud_cover_high%2Cwind_speed_10m%2Cvisibility%2Cprecipitation%2Cprecipitation_probability",
+    "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "retrieval_mode": "TEST_FIXTURE",
+    "retrieved_at_utc": "2026-10-19T09:00:00Z",
+    "normalized_at_utc": "2026-10-19T09:00:01Z",
+    "source_update_time_utc": null,
+    "provider_issued_at_utc": null,
+    "provider_run_id": null,
+    "model_selection": "provider_default_auto",
+    "resolved_model_ids": null,
+    "native_resolution_m": null,
+    "native_time_resolution_seconds": null,
+    "output_step_seconds": 3600,
+    "provider_timezone": "GMT",
+    "provider_utc_offset_seconds": 0,
+    "response_grid_latitude": 24.03,
+    "response_grid_longitude": 121.63,
+    "response_elevation_m": null,
+    "source_freshness": "UNKNOWN",
+    "source_metadata_reason": "NOT_SUPPLIED_BY_FORECAST_RESPONSE"
+  },
+  "retrieval_age_policy": {
+    "checked_at_utc": "2026-10-19T09:00:01Z",
+    "max_age_seconds": 21600,
+    "basis": "RETRIEVAL_AGE_ONLY_NOT_MODEL_AGE"
+  },
+  "hours": [
+    {
+      "valid_at_utc": "2026-10-19T16:00:00Z",
+      "preceding_hour": {
+        "start_utc": "2026-10-19T15:00:00Z",
+        "end_utc": "2026-10-19T16:00:00Z"
+      },
+      "values": {
+        "temperature_2m": {
+          "value": null,
+          "unit": "°C",
+          "source_unit": null,
+          "state": "UNAVAILABLE",
+          "reason_code": "MISSING_FIELD"
+        },
+        "dew_point_2m": {
+          "value": null,
+          "unit": "°C",
+          "source_unit": null,
+          "state": "UNAVAILABLE",
+          "reason_code": "MISSING_FIELD"
+        },
+        "relative_humidity_2m": {
+          "value": null,
+          "unit": "%",
+          "source_unit": null,
+          "state": "UNAVAILABLE",
+          "reason_code": "MISSING_FIELD"
+        },
+        "cloud_cover_low": {
+          "value": null,
+          "unit": "%",
+          "source_unit": null,
+          "state": "UNAVAILABLE",
+          "reason_code": "MISSING_FIELD"
+        },
+        "cloud_cover_mid": {
+          "value": null,
+          "unit": "%",
+          "source_unit": null,
+          "state": "UNAVAILABLE",
+          "reason_code": "MISSING_FIELD"
+        },
+        "cloud_cover_high": {
+          "value": null,
+          "unit": "%",
+          "source_unit": null,
+          "state": "UNAVAILABLE",
+          "reason_code": "MISSING_FIELD"
+        },
+        "wind_speed_10m": {
+          "value": null,
+          "unit": "m/s",
+          "source_unit": null,
+          "state": "UNAVAILABLE",
+          "reason_code": "MISSING_FIELD"
+        },
+        "visibility": {
+          "value": null,
+          "unit": "m",
+          "source_unit": null,
+          "state": "UNAVAILABLE",
+          "reason_code": "MISSING_FIELD"
+        },
+        "precipitation": {
+          "value": null,
+          "unit": "mm",
+          "source_unit": null,
+          "state": "UNAVAILABLE",
+          "reason_code": "MISSING_FIELD"
+        },
+        "precipitation_probability": {
+          "value": null,
+          "unit": "%",
+          "source_unit": null,
+          "state": "UNAVAILABLE",
+          "reason_code": "MISSING_FIELD"
+        }
+      }
+    }
+  ],
+  "attribution": {
+    "provider_url": "https://open-meteo.com/",
+    "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+    "modifications_i18n": {
+      "zh-TW": "時間轉為 UTC、欄位正規化；未插補缺值。",
+      "en": "Times converted to UTC and fields normalized; missing values were not filled.",
+      "ja": "時刻をUTCに変換し、項目を正規化しました。欠損値は補間していません。"
+    }
+  },
+  "limitations_i18n": {
+    "zh-TW": "景點代表位置的網格預報研究資料；不是攝影機位、導航或拍攝適合度判斷。海岸風場與海平線狀況未經校正；模型更新時間未提供。",
+    "en": "Research grid forecast at a representative place sample; not a camera position, navigation or photography verdict. Coastal wind and horizon conditions are uncalibrated; model update time is not supplied.",
+    "ja": "撮影地の代表地点における格子予報の調査資料です。撮影位置、ナビ、撮影適性の判定ではありません。海岸の風や水平線の状態は未校正で、モデル更新時刻は未提供です。"
+  }
+}

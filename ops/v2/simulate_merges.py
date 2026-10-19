@@ -94,6 +94,39 @@ def owner_transitions(repo, base, candidate, lock):
             transitions.append({'owner': owner, 'paths': paths, 'source_shas': row['source_shas'],
                                 'source_tree_sha': accepted, 'previous_tree_sha': row['previous_tree_sha']})
         return transitions
+    hourly = lock.get('hourly_owner_integrations', [])
+    if hourly:
+        expected = {'w1': ['specs/v2'], 'w2': ['data/v2'],
+                    'w3': ['packages/core-v2', 'packages/models-v2']}
+        if (len(hourly) != 3 or {row.get('owner') for row in hourly} != set(expected) or
+                lock['sources']['w1']['sha'] != lock['sources']['w2']['sha']):
+            raise ValueError('Hourly integration requires exact W1/W2/W3 owner sources')
+        for row in hourly:
+            owner = row['owner']
+            paths = expected[owner]
+            source = fixed_commit(repo, row.get('source_sha'))
+            if (row.get('paths') != paths or source != lock['sources'][owner]['sha'] or
+                    source == candidate or
+                    git(repo, 'merge-base', '--is-ancestor', source, candidate, check=False).returncode):
+                raise ValueError('Hourly owner source is not independently integrated: ' + owner)
+            common = git(repo, 'merge-base', base, source).stdout.strip()
+            changes = git(repo, 'diff', '--name-only', common, source).stdout.splitlines()
+            permitted = (['specs/v2/', 'data/v2/'] if owner in ('w1', 'w2') else
+                         ['packages/core-v2/'])
+            if not changes or any(not any(p.startswith(prefix) for prefix in permitted)
+                                  for p in changes):
+                raise ValueError('Hourly source has nonowner changes: ' + owner)
+            for path in paths:
+                source_tree = git(repo, 'rev-parse', source + ':' + path).stdout.strip()
+                candidate_tree = git(repo, 'rev-parse', candidate + ':' + path).stdout.strip()
+                base_tree = git(repo, 'rev-parse', base + ':' + path).stdout.strip()
+                if (source_tree != candidate_tree or
+                        base_tree != row['previous_trees'][path] or
+                        (len(paths) == 1 and source_tree != lock['sources'][owner]['tree_sha'])):
+                    raise ValueError('Hourly owner tree differs from source/base: ' + path)
+        hourly_transitions = hourly
+    else:
+        hourly_transitions = []
     rows = lock.get('owner_integrations', [])
     if not isinstance(rows, list):
         raise ValueError('Owner integration declarations must be a list')
@@ -122,7 +155,7 @@ def owner_transitions(repo, base, candidate, lock):
         if base_tree not in (prior_tree, source_tree):
             raise ValueError('Base W4 tree is neither the predecessor nor accepted source')
         transitions.append({**row, 'previous_tree_sha': prior_tree, 'source_tree_sha': source_tree})
-    return transitions
+    return hourly_transitions + transitions
 
 
 def rehearse(repo, base, candidate):
