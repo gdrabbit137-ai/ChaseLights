@@ -63,6 +63,28 @@ def verify_main(root, lock):
         if git(root, "rev-parse", "HEAD:" + p) != expected:
             raise ValueError("Corrected W1 contract blob drift: " + p)
 
+    pilot = lock["hourly_pilot"]
+    for label, entry in pilot["files"].items():
+        path = entry["path"]
+        raw = (root / path).read_bytes()
+        if (git(root, "rev-parse", "HEAD:" + path) != entry["blob_sha"] or
+                git(root, "rev-parse", entry["source_sha"] + ":" + path) != entry["blob_sha"] or
+                hashlib.sha256(raw).hexdigest() != entry["sha256"] or
+                blob(raw) != entry["blob_sha"]):
+            raise ValueError("Hourly pilot immutable source mismatch: " + label)
+    provenance = json.loads((root / pilot["w3_provenance_path"]).read_text())
+    if (provenance["w1_w2_pr521_sha"] != lock["sources"]["w1"]["sha"] or
+            provenance["schema_sha256"] != pilot["files"]["schema"]["sha256"] or
+            provenance["binding_sha256"] != pilot["files"]["binding"]["sha256"] or
+            provenance["provider_acceptance"] != "UNVERIFIED" or
+            provenance["real_provider_bytes_received"] is not False or
+            provenance["real_source_sha256"] is not None or
+            pilot["data_state"] != "RAW_ONLY" or
+            pilot["photography_verdict"] != "NOT_EVALUABLE"):
+        raise ValueError("Hourly pilot provenance or non-scoring status drift")
+    out["hourly_pilot"] = {"provider_acceptance": "UNVERIFIED",
+                            "data_state": "RAW_ONLY", "photography_verdict": "NOT_EVALUABLE"}
+
     manifest = json.loads(
         (root / "apps/web-v2/tests/fixtures/worker2/manifest.json").read_text()
     )
@@ -174,7 +196,14 @@ def verify_main(root, lock):
     # must carry byte-identical canonical records, including all five Batch04 IDs.
     index_dir = root / "data/v2/indexes/research"
     bundle = json.loads((root / "apps/web-v2/browse-index.v2.json").read_text())
-    if bundle.get("source_commit_sha") != lock["sources"]["w2"]["sha"]:
+    browse_source = lock["sources"]["w2"]["browse_index_source_sha"]
+    if (subprocess.run(["git", "-C", str(root), "merge-base", "--is-ancestor",
+                       browse_source, lock["sources"]["w2"]["sha"]],
+                      capture_output=True).returncode or
+            git(root, "rev-parse", "HEAD:data/v2/indexes/research") !=
+            git(root, "rev-parse", browse_source + ":data/v2/indexes/research")):
+        raise ValueError("W2 pilot changed the accepted browse index")
+    if bundle.get("source_commit_sha") != browse_source:
         raise ValueError("Browse index does not identify the accepted W2 source")
     index_manifest = json.loads((index_dir / "manifest.json").read_text())
     if bundle.get("manifest") != index_manifest or index_manifest.get("mode") != "RESEARCH_ONLY":
@@ -187,7 +216,7 @@ def verify_main(root, lock):
         if bundle.get(field) != json.loads(raw):
             raise ValueError("W4 browse index differs from W2: " + name)
     if (catalog.get("source_index_revision") != index_manifest["index_revision"] or
-            catalog.get("source_index_commit_sha") != lock["sources"]["w2"]["sha"] or
+            catalog.get("source_index_commit_sha") != browse_source or
             len(catalog.get("places", [])) != 7 or len(catalog.get("opportunities", [])) != 8):
         raise ValueError("W4 catalog is not the verified seven-place W2 index")
     for row in catalog["opportunities"]:
@@ -245,21 +274,24 @@ def main():
             ("w1-evaluation-schema", ["specs/v2/tests", "test_evaluation_result_security.py"], 4, True, False),
             ("w1-free-composition", ["specs/v2/tests", "test_free_composition_contract.py"], 6, True, False),
             ("w1-shared-browse-contracts", ["specs/v2/tests", "test_task_w_contracts.py"], 31, True, False),
+            ("w1-hourly-pilot-contract", ["specs/v2/tests", "test_hourly_weather_pilot_contract.py"], 12, True, False),
             ("w5-contract", ["ops/v2/tests", "test_integration_gate.py"], 7, True, False),
             ("w5-watchdog", ["ops/v2/tests", "test_worker_watchdog.py"], 3, True, False),
             ("w5-runner", ["ops/v2/tests", "test_ci_runner.py"], 7, True, False),
             ("w5-task-r-release-tools", ["ops/v2/tests", "test_task_r_release_tools.py"], 12, True, False),
             ("w5-task-v-integration", ["ops/v2/tests", "test_task_v_integration.py"], 11, True, False),
-            ("w3-evaluator-and-nws-source", ["packages/core-v2/tests", "test_*.py"], 42, True, False),
+            ("w3-evaluator-and-hourly-source", ["packages/core-v2/tests", "test_*.py"], 121, True, False),
             ("w3-solar-model", ["packages/models-v2/tests", "test_*.py"], 10, True, False),
-            ("w2-crosswalk-schema-and-index", ["data/v2/tests", "test_*.py"], 33, True, False),
+            ("w2-crosswalk-schema-index-and-hourly-binding", ["data/v2/tests", "test_*.py"], 38, True, False),
             ("w2-real-records", [sys.executable, "specs/v2/tests/validate_contract.py",
                 *[str(p.relative_to(root)) for p in sorted((root / "data/v2/opportunities").glob("*.json"))]],
                 None, False, False),
             ("schema-valid-fixture", [sys.executable, "specs/v2/tests/validate_contract.py"], None, False, False),
             ("w3-compile", [sys.executable, "-m", "py_compile",
                 "packages/core-v2/evaluator.py", "packages/core-v2/adapters/source_observation.py",
-                "packages/core-v2/adapters/nws_gridpoint.py"],
+                "packages/core-v2/adapters/nws_gridpoint.py",
+                "packages/core-v2/adapters/open_meteo_hourly.py",
+                "packages/core-v2/tools/open_meteo_hourly_pilot.py"],
                 None, False, False),
             ("w4-node", ["node", "--test", "--test-isolation=none", "--test-timeout=120000",
                 "--test-reporter=tap", *[str(p.relative_to(root)) for p in sorted(
@@ -286,9 +318,9 @@ def main():
             for key in ("tests", "pass", "fail", "error", "skip")
         }
         if report["counts"] != {
-            "tests": 348, "pass": 348, "fail": 0, "error": 0, "skip": 0
+            "tests": 444, "pass": 444, "fail": 0, "error": 0, "skip": 0
         }:
-            raise ValueError("Post-merge exact 348-case requirement failed")
+            raise ValueError("Post-merge exact 444-case requirement failed")
         if not all(g["status"] == "PASS" for g in report["groups"]):
             raise ValueError("One or more required suites failed")
         report["status"] = "PASS"

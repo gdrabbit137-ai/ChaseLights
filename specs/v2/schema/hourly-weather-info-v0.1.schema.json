@@ -1,0 +1,850 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Single-place Open-Meteo informational hourly pilot v0.1 (not EvaluationResult)",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "artifact_kind",
+    "pilot_id",
+    "pilot_binding_sha256",
+    "place_id",
+    "time_zone",
+    "tzdb_version",
+    "data_state",
+    "recommendation_eligible",
+    "photography_verdict",
+    "calibration_status",
+    "availability",
+    "request",
+    "source",
+    "retrieval_age_policy",
+    "hours",
+    "attribution",
+    "limitations_i18n"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "0.1.0"
+    },
+    "artifact_kind": {
+      "const": "HOURLY_WEATHER_INFO"
+    },
+    "pilot_id": {
+      "const": "tw-036-open-meteo-hourly-v0.1"
+    },
+    "pilot_binding_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "place_id": {
+      "const": "tw-036"
+    },
+    "time_zone": {
+      "const": "Asia/Taipei"
+    },
+    "tzdb_version": {
+      "type": "string",
+      "pattern": "^(20\\d{2}[a-z]|system:.+)$"
+    },
+    "data_state": {
+      "const": "RAW_ONLY"
+    },
+    "recommendation_eligible": {
+      "const": false
+    },
+    "photography_verdict": {
+      "const": "NOT_EVALUABLE"
+    },
+    "calibration_status": {
+      "const": "UNVALIDATED"
+    },
+    "availability": {
+      "enum": [
+        "COMPLETE",
+        "PARTIAL",
+        "STALE"
+      ]
+    },
+    "request": {
+      "type": "object",
+      "required": [
+        "latitude",
+        "longitude",
+        "coordinate_role",
+        "forecast_hours",
+        "past_hours",
+        "timezone",
+        "timeformat",
+        "cell_selection",
+        "temperature_unit",
+        "wind_speed_unit",
+        "precipitation_unit",
+        "hourly"
+      ],
+      "properties": {
+        "latitude": {
+          "const": 24.031426
+        },
+        "longitude": {
+          "const": 121.62717
+        },
+        "coordinate_role": {
+          "const": "representative_place_weather_sample"
+        },
+        "forecast_hours": {
+          "const": 72
+        },
+        "past_hours": {
+          "const": 0
+        },
+        "timezone": {
+          "const": "GMT"
+        },
+        "timeformat": {
+          "const": "unixtime"
+        },
+        "cell_selection": {
+          "const": "land"
+        },
+        "temperature_unit": {
+          "const": "celsius"
+        },
+        "wind_speed_unit": {
+          "const": "ms"
+        },
+        "precipitation_unit": {
+          "const": "mm"
+        },
+        "hourly": {
+          "const": "temperature_2m,dew_point_2m,relative_humidity_2m,cloud_cover_low,cloud_cover_mid,cloud_cover_high,wind_speed_10m,visibility,precipitation,precipitation_probability"
+        }
+      },
+      "additionalProperties": false
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "provider",
+        "source_url",
+        "source_sha256",
+        "retrieval_mode",
+        "retrieved_at_utc",
+        "normalized_at_utc",
+        "source_update_time_utc",
+        "provider_issued_at_utc",
+        "provider_run_id",
+        "model_selection",
+        "resolved_model_ids",
+        "native_resolution_m",
+        "native_time_resolution_seconds",
+        "output_step_seconds",
+        "provider_timezone",
+        "provider_utc_offset_seconds",
+        "response_grid_latitude",
+        "response_grid_longitude",
+        "response_elevation_m",
+        "source_freshness",
+        "source_metadata_reason"
+      ],
+      "properties": {
+        "provider": {
+          "const": "OPEN_METEO"
+        },
+        "source_url": {
+          "type": "string",
+          "pattern": "^https://api\\.open-meteo\\.com/v1/forecast\\?"
+        },
+        "source_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "retrieval_mode": {
+          "enum": [
+            "HTTPS_TLS",
+            "TEST_FIXTURE"
+          ]
+        },
+        "retrieved_at_utc": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d(?:\\.\\d+)?Z$"
+        },
+        "normalized_at_utc": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d(?:\\.\\d+)?Z$"
+        },
+        "source_update_time_utc": {
+          "const": null
+        },
+        "provider_issued_at_utc": {
+          "const": null
+        },
+        "provider_run_id": {
+          "const": null
+        },
+        "model_selection": {
+          "const": "provider_default_auto"
+        },
+        "resolved_model_ids": {
+          "const": null
+        },
+        "native_resolution_m": {
+          "const": null
+        },
+        "native_time_resolution_seconds": {
+          "const": null
+        },
+        "output_step_seconds": {
+          "const": 3600
+        },
+        "provider_timezone": {
+          "const": "GMT"
+        },
+        "provider_utc_offset_seconds": {
+          "const": 0
+        },
+        "response_grid_latitude": {
+          "type": "number",
+          "minimum": -90,
+          "maximum": 90
+        },
+        "response_grid_longitude": {
+          "type": "number",
+          "minimum": -180,
+          "maximum": 180
+        },
+        "response_elevation_m": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "source_freshness": {
+          "const": "UNKNOWN"
+        },
+        "source_metadata_reason": {
+          "const": "NOT_SUPPLIED_BY_FORECAST_RESPONSE"
+        }
+      },
+      "additionalProperties": false
+    },
+    "retrieval_age_policy": {
+      "type": "object",
+      "required": [
+        "checked_at_utc",
+        "max_age_seconds",
+        "basis"
+      ],
+      "properties": {
+        "checked_at_utc": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d(?:\\.\\d+)?Z$"
+        },
+        "max_age_seconds": {
+          "const": 21600
+        },
+        "basis": {
+          "const": "RETRIEVAL_AGE_ONLY_NOT_MODEL_AGE"
+        }
+      },
+      "additionalProperties": false
+    },
+    "hours": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 72,
+      "items": {
+        "type": "object",
+        "required": [
+          "valid_at_utc",
+          "preceding_hour",
+          "values"
+        ],
+        "properties": {
+          "valid_at_utc": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d(?:\\.\\d+)?Z$"
+          },
+          "preceding_hour": {
+            "type": "object",
+            "required": [
+              "start_utc",
+              "end_utc"
+            ],
+            "properties": {
+              "start_utc": {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d(?:\\.\\d+)?Z$"
+              },
+              "end_utc": {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d(?:\\.\\d+)?Z$"
+              }
+            },
+            "additionalProperties": false
+          },
+          "values": {
+            "type": "object",
+            "required": [
+              "temperature_2m",
+              "dew_point_2m",
+              "relative_humidity_2m",
+              "cloud_cover_low",
+              "cloud_cover_mid",
+              "cloud_cover_high",
+              "wind_speed_10m",
+              "visibility",
+              "precipitation",
+              "precipitation_probability"
+            ],
+            "properties": {
+              "temperature_2m": {
+                "$ref": "#/$defs/temperature"
+              },
+              "dew_point_2m": {
+                "$ref": "#/$defs/temperature"
+              },
+              "relative_humidity_2m": {
+                "$ref": "#/$defs/percent"
+              },
+              "cloud_cover_low": {
+                "$ref": "#/$defs/percent"
+              },
+              "cloud_cover_mid": {
+                "$ref": "#/$defs/percent"
+              },
+              "cloud_cover_high": {
+                "$ref": "#/$defs/percent"
+              },
+              "wind_speed_10m": {
+                "$ref": "#/$defs/speed"
+              },
+              "visibility": {
+                "$ref": "#/$defs/distance"
+              },
+              "precipitation": {
+                "$ref": "#/$defs/precipitation"
+              },
+              "precipitation_probability": {
+                "$ref": "#/$defs/percent"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "attribution": {
+      "type": "object",
+      "required": [
+        "provider_url",
+        "licence_url",
+        "modifications_i18n"
+      ],
+      "properties": {
+        "provider_url": {
+          "const": "https://open-meteo.com/"
+        },
+        "licence_url": {
+          "const": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        "modifications_i18n": {
+          "type": "object",
+          "required": [
+            "zh-TW",
+            "en",
+            "ja"
+          ],
+          "properties": {
+            "zh-TW": {
+              "type": "string",
+              "minLength": 1
+            },
+            "en": {
+              "type": "string",
+              "minLength": 1
+            },
+            "ja": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "limitations_i18n": {
+      "type": "object",
+      "required": [
+        "zh-TW",
+        "en",
+        "ja"
+      ],
+      "properties": {
+        "zh-TW": {
+          "type": "string",
+          "minLength": 1
+        },
+        "en": {
+          "type": "string",
+          "minLength": 1
+        },
+        "ja": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "temperature": {
+      "type": "object",
+      "required": [
+        "value",
+        "unit",
+        "source_unit",
+        "state",
+        "reason_code"
+      ],
+      "properties": {
+        "value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "unit": {
+          "const": "°C"
+        },
+        "source_unit": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "state": {
+          "enum": [
+            "AVAILABLE",
+            "UNAVAILABLE"
+          ]
+        },
+        "reason_code": {
+          "enum": [
+            null,
+            "MISSING_FIELD",
+            "NULL_VALUE",
+            "INVALID_VALUE",
+            "UNIT_MISMATCH"
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "state": {
+                "const": "AVAILABLE"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "number"
+              },
+              "source_unit": {
+                "const": "°C"
+              },
+              "reason_code": {
+                "const": null
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "value": {
+                "const": null
+              },
+              "reason_code": {
+                "enum": [
+                  "MISSING_FIELD",
+                  "NULL_VALUE",
+                  "INVALID_VALUE",
+                  "UNIT_MISMATCH"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "percent": {
+      "type": "object",
+      "required": [
+        "value",
+        "unit",
+        "source_unit",
+        "state",
+        "reason_code"
+      ],
+      "properties": {
+        "value": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "unit": {
+          "const": "%"
+        },
+        "source_unit": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "state": {
+          "enum": [
+            "AVAILABLE",
+            "UNAVAILABLE"
+          ]
+        },
+        "reason_code": {
+          "enum": [
+            null,
+            "MISSING_FIELD",
+            "NULL_VALUE",
+            "INVALID_VALUE",
+            "UNIT_MISMATCH"
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "state": {
+                "const": "AVAILABLE"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "source_unit": {
+                "const": "%"
+              },
+              "reason_code": {
+                "const": null
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "value": {
+                "const": null
+              },
+              "reason_code": {
+                "enum": [
+                  "MISSING_FIELD",
+                  "NULL_VALUE",
+                  "INVALID_VALUE",
+                  "UNIT_MISMATCH"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "speed": {
+      "type": "object",
+      "required": [
+        "value",
+        "unit",
+        "source_unit",
+        "state",
+        "reason_code"
+      ],
+      "properties": {
+        "value": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "unit": {
+          "const": "m/s"
+        },
+        "source_unit": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "state": {
+          "enum": [
+            "AVAILABLE",
+            "UNAVAILABLE"
+          ]
+        },
+        "reason_code": {
+          "enum": [
+            null,
+            "MISSING_FIELD",
+            "NULL_VALUE",
+            "INVALID_VALUE",
+            "UNIT_MISMATCH"
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "state": {
+                "const": "AVAILABLE"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "number",
+                "minimum": 0
+              },
+              "source_unit": {
+                "const": "m/s"
+              },
+              "reason_code": {
+                "const": null
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "value": {
+                "const": null
+              },
+              "reason_code": {
+                "enum": [
+                  "MISSING_FIELD",
+                  "NULL_VALUE",
+                  "INVALID_VALUE",
+                  "UNIT_MISMATCH"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "distance": {
+      "type": "object",
+      "required": [
+        "value",
+        "unit",
+        "source_unit",
+        "state",
+        "reason_code"
+      ],
+      "properties": {
+        "value": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "unit": {
+          "const": "m"
+        },
+        "source_unit": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "state": {
+          "enum": [
+            "AVAILABLE",
+            "UNAVAILABLE"
+          ]
+        },
+        "reason_code": {
+          "enum": [
+            null,
+            "MISSING_FIELD",
+            "NULL_VALUE",
+            "INVALID_VALUE",
+            "UNIT_MISMATCH"
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "state": {
+                "const": "AVAILABLE"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "number",
+                "minimum": 0
+              },
+              "source_unit": {
+                "const": "m"
+              },
+              "reason_code": {
+                "const": null
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "value": {
+                "const": null
+              },
+              "reason_code": {
+                "enum": [
+                  "MISSING_FIELD",
+                  "NULL_VALUE",
+                  "INVALID_VALUE",
+                  "UNIT_MISMATCH"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "precipitation": {
+      "type": "object",
+      "required": [
+        "value",
+        "unit",
+        "source_unit",
+        "state",
+        "reason_code"
+      ],
+      "properties": {
+        "value": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "unit": {
+          "const": "mm"
+        },
+        "source_unit": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "state": {
+          "enum": [
+            "AVAILABLE",
+            "UNAVAILABLE"
+          ]
+        },
+        "reason_code": {
+          "enum": [
+            null,
+            "MISSING_FIELD",
+            "NULL_VALUE",
+            "INVALID_VALUE",
+            "UNIT_MISMATCH"
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "state": {
+                "const": "AVAILABLE"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "number",
+                "minimum": 0
+              },
+              "source_unit": {
+                "const": "mm"
+              },
+              "reason_code": {
+                "const": null
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "value": {
+                "const": null
+              },
+              "reason_code": {
+                "enum": [
+                  "MISSING_FIELD",
+                  "NULL_VALUE",
+                  "INVALID_VALUE",
+                  "UNIT_MISMATCH"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
