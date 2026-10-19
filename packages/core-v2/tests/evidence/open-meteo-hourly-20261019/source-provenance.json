@@ -1,0 +1,36 @@
+{
+  "base_sha": "39c6d9fa4828acabf9976d505778f527f39c775e",
+  "tested_implementation_sha": "a4bed41483530037b09c258c366c65c94a3018a5",
+  "tested_core_tree_sha": "2228c6385fb22cbcf6f0837595f01395fd6db0a6",
+  "w1_w2_pr521_sha": "74f21b365d366b0d1d12efbc23cf6cce484b6b5e",
+  "w3_pr520_sha": "a649ace57cda5ca02edc1481660ef2f567eb86f1",
+  "schema_sha256": "ce29fee0f08fdd8c71d96a8d33dfb7f68b6235b67e175ac9e1e3775250b06a1a",
+  "binding_sha256": "9fb4cc6f89daae3ce851a30f2880847705b4afa6097b7c4c54d19d357b202921",
+  "canonical_binding": {
+    "path": "data/v2/opportunities/tw-036-P01.json",
+    "commit_sha": "67e8a14e9ccbfd0eef7ca96c09b4c872a3d519d2",
+    "blob_sha": "bfe5ec2f952b892cca60f5ef2e1b139182e7cee9"
+  },
+  "tested_files_sha256": {
+    "packages/core-v2/README.md": "b680b51fdaacee5cc92790e6a0d80165c4ebf51b270e96592788c912b39528cb",
+    "packages/core-v2/adapters/open_meteo_hourly.py": "9717174797938801102845f19ab4038bdda2be8a2601c929304dca8cee8f3359",
+    "packages/core-v2/tests/fixtures/open-meteo/README.md": "32e24d3de6d2b2aadd44f7e43fffff753de172149e4318576175d176bc0e964a",
+    "packages/core-v2/tests/fixtures/open-meteo/synthetic-hourly.json": "4f356f13e24cc2039a5faf6787e5799f3310959aa245dab80d8d56f9c433fa17",
+    "packages/core-v2/tests/test_open_meteo_capture.py": "93c13759d009fa98cb864779c7d69d1ead6ea2e6f183dcc5687d4cf7b72e6e3b",
+    "packages/core-v2/tests/test_open_meteo_hourly.py": "f224b7a96c999c734c0d801b6e5f59d337e23c2273840233b50fddc7465ec732",
+    "packages/core-v2/tools/open_meteo_hourly_pilot.py": "8c8e325ab3cc70ca135385a9f013860808449dea95c7160ea0d54327e2f72fdc"
+  },
+  "core_cases": 121,
+  "solar_cases": 10,
+  "original_core_cases_preserved": 42,
+  "new_cases": 79,
+  "failures": 0,
+  "skips": 0,
+  "provider_acceptance": "UNVERIFIED",
+  "real_http_attempts": 1,
+  "real_provider_bytes_received": false,
+  "real_source_sha256": null,
+  "installed_tzdb": "2026b",
+  "capture_implementation_sha": "9a8d4f58f8bd2ad4d749103db933b3f84118bb03",
+  "capture_core_tree_sha": "07a00b2034b8965ebdacd2d8afd5adc106a18f86"
+}
