@@ -11,7 +11,8 @@ permissions:
 
 jobs:
   capture:
-    if: github.run_attempt == 1 && github.event.head_commit.message == 'ci(v2/W5): run one Open-Meteo acceptance capture'
+    if: >-
+      github.run_attempt == 1 && github.event.head_commit.message == 'ci(v2/W5): repair one-shot workflow validation'
     runs-on: ubuntu-latest
     timeout-minutes: 50
     steps:
