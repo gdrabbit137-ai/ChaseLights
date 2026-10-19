@@ -1,0 +1,52 @@
+test_empty_discovery_fails (test_ci_runner.RunnerTests.test_empty_discovery_fails) ... RUN regression
+{"name": "regression", "exit_code": 1, "counts": {"tests": 0, "fail": 0, "error": 0, "skip": 0, "expected_failure": 0, "unexpected_success": 0, "pass": 0}, "status": "FAIL", "timed_out": false, "gate_error": "Zero tests or unsuccessful test cases", "log": "regression.log"}
+ok
+test_failing_suite_preserves_count_and_log (test_ci_runner.RunnerTests.test_failing_suite_preserves_count_and_log) ... RUN regression
+{"name": "regression", "exit_code": 1, "counts": {"tests": 1, "fail": 1, "error": 0, "skip": 0, "expected_failure": 0, "unexpected_success": 0, "pass": 0}, "status": "FAIL", "timed_out": false, "gate_error": "Zero tests or unsuccessful test cases", "log": "regression.log"}
+ok
+test_missing_or_duplicate_counts_fail (test_ci_runner.RunnerTests.test_missing_or_duplicate_counts_fail) ... ok
+test_missing_or_modified_checkout_cannot_be_copied (test_ci_runner.RunnerTests.test_missing_or_modified_checkout_cannot_be_copied) ... ok
+test_node_counts_are_test_cases (test_ci_runner.RunnerTests.test_node_counts_are_test_cases) ... ok
+test_skipped_suite_fails_even_with_exit_zero (test_ci_runner.RunnerTests.test_skipped_suite_fails_even_with_exit_zero) ... RUN regression
+{"name": "regression", "exit_code": 1, "counts": {"tests": 1, "fail": 0, "error": 0, "skip": 1, "expected_failure": 0, "unexpected_success": 0, "pass": 0}, "status": "FAIL", "timed_out": false, "gate_error": "SKIP/expected failure cannot satisfy integration", "log": "regression.log"}
+ok
+test_w2_new_head_allows_unchanged_blob_but_blocks_real_drift (test_ci_runner.RunnerTests.test_w2_new_head_allows_unchanged_blob_but_blocks_real_drift) ... ok
+test_data_without_schema_is_blocked (test_integration_gate.V2IntegrationGateTests.test_data_without_schema_is_blocked) ... ok
+test_legacy_link_before_v2_is_blocked (test_integration_gate.V2IntegrationGateTests.test_legacy_link_before_v2_is_blocked) ... ok
+test_legacy_only_is_pending_not_deployed (test_integration_gate.V2IntegrationGateTests.test_legacy_only_is_pending_not_deployed) ... ok
+test_legacy_v2_entry_rejects_external_origin (test_integration_gate.V2IntegrationGateTests.test_legacy_v2_entry_rejects_external_origin) ... ok
+test_local_v2_assets_must_exist (test_integration_gate.V2IntegrationGateTests.test_local_v2_assets_must_exist) ... ok
+test_path_escape_and_external_assets_blocked (test_integration_gate.V2IntegrationGateTests.test_path_escape_and_external_assets_blocked) ... ok
+test_public_url_must_be_canonical (test_integration_gate.V2IntegrationGateTests.test_public_url_must_be_canonical) ... ok
+test_already_integrated_owner_pins_rehearse_without_ref_updates (test_task_r_release_tools.ReleaseToolsTests.test_already_integrated_owner_pins_rehearse_without_ref_updates) ... ok
+test_build_rejects_dirty_sources_and_source_output (test_task_r_release_tools.ReleaseToolsTests.test_build_rejects_dirty_sources_and_source_output) ... ok
+test_ci_requires_actual_head_and_merge_parent_linkage (test_task_r_release_tools.ReleaseToolsTests.test_ci_requires_actual_head_and_merge_parent_linkage) ... ok
+test_duplicate_and_skip_cannot_be_accepted (test_task_r_release_tools.ReleaseToolsTests.test_duplicate_and_skip_cannot_be_accepted) ... ok
+test_failed_skipped_or_missing_counts_fail_closed (test_task_r_release_tools.ReleaseToolsTests.test_failed_skipped_or_missing_counts_fail_closed) ... ok
+test_full_advisory_checklist_still_requires_review_and_approval (test_task_r_release_tools.ReleaseToolsTests.test_full_advisory_checklist_still_requires_review_and_approval) ... ok
+test_green_ci_cannot_override_known_blocker (test_task_r_release_tools.ReleaseToolsTests.test_green_ci_cannot_override_known_blocker) ... ok
+test_merge_conflict_and_nonowner_changes_fail_without_ref_updates (test_task_r_release_tools.ReleaseToolsTests.test_merge_conflict_and_nonowner_changes_fail_without_ref_updates) ... ok
+test_missing_evidence_is_unverified_and_never_permission (test_task_r_release_tools.ReleaseToolsTests.test_missing_evidence_is_unverified_and_never_permission) ... ok
+test_unpackaged_external_and_parent_dependencies_are_rejected (test_task_r_release_tools.ReleaseToolsTests.test_unpackaged_external_and_parent_dependencies_are_rejected) ... ok
+test_unsafe_plan_or_ci_failure_bypass_is_rejected (test_task_r_release_tools.ReleaseToolsTests.test_unsafe_plan_or_ci_failure_bypass_is_rejected) ... ok
+test_wrong_candidate_sha_is_rejected (test_task_r_release_tools.ReleaseToolsTests.test_wrong_candidate_sha_is_rejected) ... ok
+test_actual_runtime_closure_requires_catalog_state_file (test_task_v_integration.TaskVTests.test_actual_runtime_closure_requires_catalog_state_file) ... ok
+test_candidate_public_contract_requires_manifest_before_any_network (test_task_v_integration.TaskVTests.test_candidate_public_contract_requires_manifest_before_any_network) ... ok
+test_independent_exact_w4_source_integrates_without_ref_changes (test_task_v_integration.TaskVTests.test_independent_exact_w4_source_integrates_without_ref_changes) ... ok
+test_legacy_w1_w2_w3_edits_remain_forbidden (test_task_v_integration.TaskVTests.test_legacy_w1_w2_w3_edits_remain_forbidden) ... ok
+test_missing_duplicate_or_other_owner_declaration_is_rejected (test_task_v_integration.TaskVTests.test_missing_duplicate_or_other_owner_declaration_is_rejected) ... ok
+test_multiline_export_and_dynamic_dependencies_cannot_escape_package (test_task_v_integration.TaskVTests.test_multiline_export_and_dynamic_dependencies_cannot_escape_package) ... ok
+test_owner_ancestry_and_exact_transition_tree_are_required (test_task_v_integration.TaskVTests.test_owner_ancestry_and_exact_transition_tree_are_required) ... ok
+test_real_workflows_are_readonly_non_deploying_and_new_manifest_complete (test_task_v_integration.TaskVTests.test_real_workflows_are_readonly_non_deploying_and_new_manifest_complete) ... ok
+test_self_pin_and_nonisolated_owner_source_fail_closed (test_task_v_integration.TaskVTests.test_self_pin_and_nonisolated_owner_source_fail_closed) ... ok
+test_unrecognized_new_main_w4_tree_cannot_be_overwritten (test_task_v_integration.TaskVTests.test_unrecognized_new_main_w4_tree_cannot_be_overwritten) ... ok
+test_w4_mutation_after_pinning_is_rejected (test_task_v_integration.TaskVTests.test_w4_mutation_after_pinning_is_rejected) ... ok
+test_age_is_advisory (test_worker_watchdog.Tests.test_age_is_advisory) ... ok
+test_real_github_signal_not_automation_success (test_worker_watchdog.Tests.test_real_github_signal_not_automation_success) ... ok
+test_worker_mapping (test_worker_watchdog.Tests.test_worker_mapping) ... ok
+
+----------------------------------------------------------------------
+Ran 40 tests in 1.166s
+
+OK
+{"tests": 40, "fail": 0, "error": 0, "skip": 0, "expected_failure": 0, "unexpected_success": 0, "pass": 40}
