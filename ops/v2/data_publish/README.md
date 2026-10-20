@@ -91,7 +91,7 @@ bytes**, so Git transport/build cost is material; measure the shadow build and
 keep short-lived Actions artifacts. Repository history growth merits later
 retention/compaction work, never force rewriting an active publication ref.
 
-CI includes read-only 23 publisher regressions, 28 compatibility cases and
+CI includes read-only 24 publisher regressions, 28 compatibility cases and
 full-size offline assembly + Jekyll build, plus a separate push-only
 GITHUB_TOKEN smoke restricted to `data-publish-smoke/528-<numeric run identity>`.
 The latter seeds fixture-only JSON, really pushes an update, rejects code and

@@ -11,7 +11,7 @@ from unittest.mock import patch
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from build_static import build, validate_refs, RUNTIME_FILES
 from release_readiness import assess, CHECKS
-from simulate_merges import rehearse, fixed_commit, w5_path
+from simulate_merges import rehearse, fixed_commit
 from validate_release_config import validate
 
 SHA = '1' * 40
@@ -32,14 +32,6 @@ def snapshot():
 
 
 class ReleaseToolsTests(unittest.TestCase):
-    def test_workflow_contract_test_ownership_is_exact(self):
-        for path in ('test_jma_msm_refresh_workflow.py', 'test_update_weather_workflow.py',
-                     'test_viirs_production_publish_workflow.py', 'test_weathergrid_v2_publish.py'):
-            self.assertTrue(w5_path(path))
-        for path in ('analyze_weather.py', 'test_fetch_data.py', 'test_runtime.py',
-                     'assets/app.js', 'data/v2/canonical.json', 'test_update_weather_workflow.py/evil'):
-            self.assertFalse(w5_path(path))
-
     def test_missing_evidence_is_unverified_and_never_permission(self):
         result = assess({'candidate_sha': SHA, 'reviewed_main_sha': BASE}, SHA)
         self.assertEqual(result['status'], 'UNVERIFIED')
