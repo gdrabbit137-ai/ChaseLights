@@ -42,6 +42,10 @@ jobs:
       - name: Checkout candidate
         uses: actions/checkout@v4
 
+      - name: Load validated generated-data snapshot (after reviewed cutover)
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        run: python ops/v2/data_publish/publisher.py prepare
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -150,25 +154,5 @@ jobs:
             --history weathergrid/calibration/cwa_low_cloud_history.json \
             --latest weathergrid/calibration/cwa_low_cloud_latest.json
 
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
           git add -A -- weathergrid/calibration
-
-          if git diff --cached --quiet; then
-            echo "CWA calibration history unchanged."
-            exit 0
-          fi
-
-          git commit -m "Auto-update CWA low-cloud calibration history"
-          pushed=false
-          for i in {1..5}; do
-            if git pull --rebase origin main && git push origin HEAD:main; then
-              pushed=true
-              break
-            fi
-            sleep 5
-          done
-          if [[ "$pushed" != "true" ]]; then
-            echo "Failed to publish CWA calibration history after retries."
-            exit 1
-          fi
+          python ops/v2/data_publish/publisher.py publish --producer calibration

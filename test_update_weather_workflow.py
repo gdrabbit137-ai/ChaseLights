@@ -16,19 +16,13 @@ class WeatherRefreshPublishWorkflowTests(unittest.TestCase):
         self.assertIn("contents: write", self.text)
 
     def test_publish_retry_fails_closed_after_five_attempts(self):
-        self.assertIn("pushed=false", self.text)
-        self.assertIn("for i in {1..5}; do", self.text)
-        self.assertIn("if git pull --rebase && git push; then", self.text)
-        self.assertIn("pushed=true", self.text)
-        self.assertIn(
-            'echo "::error::Failed to publish refreshed weather data after 5 attempts."',
-            self.text,
-        )
-        self.assertIn("exit 1", self.text)
-        self.assertNotIn(
-            "git pull --rebase && git push && break || sleep 5",
-            self.text,
-        )
+        self.assertIn('publisher.py publish --producer weather', self.text)
+        self.assertNotIn('git push', self.text)
+        publisher = (ROOT / 'ops/v2/data_publish/publisher.py').read_text()
+        self.assertIn('for attempt in range(5):', publisher)
+        self.assertIn('Main publication rejected after five bounded attempts', publisher)
+        self.assertNotIn('--force', publisher)
+
 
 
 if __name__ == "__main__":

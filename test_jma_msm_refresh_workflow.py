@@ -78,7 +78,8 @@ class JmaMsmRefreshWorkflowTests(unittest.TestCase):
         )
 
     def test_jma_data_commit_can_trigger_production_validation(self):
-        self.assertIn('git commit -m "Auto-update JMA MSM WeatherGrid"', self.text)
+        self.assertIn("publisher.py publish --producer jma", self.text)
+        self.assertNotIn("git push", self.text)
         self.assertNotIn("[skip ci]", self.text)
 
 

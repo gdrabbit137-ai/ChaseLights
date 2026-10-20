@@ -1,0 +1,79 @@
+name: Safe Weather Data Publication CI
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/**'
+      - 'ops/v2/data_publish/**'
+      - 'test_*workflow.py'
+      - 'test_weathergrid_v2_publish.py'
+  push:
+    branches: [codex/w5-safe-data-publication-528]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline:
+    name: Data publication safety and Legacy compatibility
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install 'PyYAML==6.0.3'
+      - name: Publisher, rollback and exhaustive writer inventory
+        run: |
+          mkdir -p .ci/publication
+          python -m unittest discover -s ops/v2/data_publish/tests -v 2>&1 | tee .ci/publication/safety-tests.log
+          python ops/v2/data_publish/inventory.py > .ci/publication/writer-inventory.json
+          python -m unittest -v test_update_weather_workflow test_weathergrid_refresh_workflow test_jma_msm_refresh_workflow test_himawari9_refresh_workflow test_viirs_production_publish_workflow test_weathergrid_v2_publish 2>&1 | tee .ci/publication/legacy-tests.log
+      - name: Compose full-size committed V1, WeatherGrid and V2 source (offline)
+        run: python ops/v2/data_publish/preview.py
+      - name: Build existing Jekyll site without Pages permission or deployment
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: .ci/publication-site-source
+          destination: .ci/publication-site-output
+      - name: Verify built routes and every generated JSON byte
+        run: |
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          report = json.loads(Path('.ci/publication/full-size-assembly.json').read_text())
+          out = Path('.ci/publication-site-output')
+          for path in ('index.html', 'weather-map.html', 'apps/web-v2/index.html', 'CNAME'):
+              assert (out / path).is_file(), path
+          for path, expected in report['data_manifest']['files'].items():
+              assert hashlib.sha256((out / path).read_bytes()).hexdigest() == expected, path
+          print('Built V1/WeatherGrid/V2 routes and all JSON hashes verified')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: publication-offline-${{ github.run_id }}
+          path: .ci/publication/
+          retention-days: 30
+  real-ref-smoke:
+    name: GITHUB_TOKEN isolated data update and rollback
+    if: github.event_name == 'push' && github.ref == 'refs/heads/codex/w5-safe-data-publication-528'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Fixture-only disposable ref; never push main, weather-data or Pages
+        run: python ops/v2/data_publish/github_smoke.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: publication-real-ref-${{ github.run_id }}
+          path: .ci/publication/
+          retention-days: 30

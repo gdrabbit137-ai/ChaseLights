@@ -109,7 +109,34 @@ def owner_transitions(repo, base, candidate, lock):
                     source == candidate or
                     git(repo, 'merge-base', '--is-ancestor', source, candidate, check=False).returncode):
                 raise ValueError('Hourly owner source is not independently integrated: ' + owner)
-            common = git(repo, 'merge-base', base, source).stdout.strip()
+
+            # In the original pilot integration base is the PREVIOUS tree.
+            # In a later W5-only PR, the same source is already in main.
+            # Treat these as two distinct, fail-closed states; never classify an
+            # accepted old owner commit as a new change relative to itself.
+            source_trees = {path: git(repo, 'rev-parse', source + ':' + path).stdout.strip()
+                            for path in paths}
+            base_trees = {path: git(repo, 'rev-parse', base + ':' + path).stdout.strip()
+                          for path in paths}
+            previous = row.get('previous_trees')
+            if not isinstance(previous, dict) or set(previous) != set(paths):
+                raise ValueError('Hourly previous owner tree pins missing: ' + owner)
+            already_in_base = all(base_trees[path] == source_trees[path] for path in paths)
+            if already_in_base:
+                reviewed = fixed_commit(repo, lock.get('reviewed_main'))
+                if (git(repo, 'merge-base', '--is-ancestor', reviewed, base, check=False).returncode or
+                        git(repo, 'merge-base', '--is-ancestor', source, base, check=False).returncode):
+                    raise ValueError('Hourly accepted source/review baseline not in main: ' + owner)
+                if any(git(repo, 'rev-parse', reviewed + ':' + path).stdout.strip() != previous[path]
+                       for path in paths):
+                    raise ValueError('Hourly historical previous owner tree mismatch: ' + owner)
+                comparison_base = reviewed
+            else:
+                if any(base_trees[path] != previous[path] for path in paths):
+                    raise ValueError('Hourly owner tree differs from source/base: ' + owner)
+                comparison_base = base
+
+            common = git(repo, 'merge-base', comparison_base, source).stdout.strip()
             changes = git(repo, 'diff', '--name-only', common, source).stdout.splitlines()
             permitted = (['specs/v2/', 'data/v2/'] if owner in ('w1', 'w2') else
                          ['packages/core-v2/'])
@@ -117,12 +144,9 @@ def owner_transitions(repo, base, candidate, lock):
                                   for p in changes):
                 raise ValueError('Hourly source has nonowner changes: ' + owner)
             for path in paths:
-                source_tree = git(repo, 'rev-parse', source + ':' + path).stdout.strip()
                 candidate_tree = git(repo, 'rev-parse', candidate + ':' + path).stdout.strip()
-                base_tree = git(repo, 'rev-parse', base + ':' + path).stdout.strip()
-                if (source_tree != candidate_tree or
-                        base_tree != row['previous_trees'][path] or
-                        (len(paths) == 1 and source_tree != lock['sources'][owner]['tree_sha'])):
+                if (source_trees[path] != candidate_tree or
+                        (len(paths) == 1 and source_trees[path] != lock['sources'][owner]['tree_sha'])):
                     raise ValueError('Hourly owner tree differs from source/base: ' + path)
         hourly_transitions = hourly
     else:

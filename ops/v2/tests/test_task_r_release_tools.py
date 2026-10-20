@@ -115,6 +115,60 @@ class ReleaseToolsTests(unittest.TestCase):
             self.assertEqual(before, git('show-ref'))
             with self.assertRaises(ValueError): fixed_commit(root, 'HEAD')
 
+        # Historical #521/#522-like owner sources already accepted on main
+        # must pass the next W5-only rehearsal, without weakening exact pins.
+        with tempfile.TemporaryDirectory() as tmp:
+            root, git, reviewed, _ = self.fixture_repo(tmp)
+            git('checkout', '--detach', reviewed)
+            (root / 'specs/v2/test.txt').write_text('w1 hourly pilot\\n')
+            (root / 'data/v2/test.txt').write_text('w2 hourly binding\\n')
+            git('add', '.'); git('commit', '-qm', 'synthetic W1/W2 hourly source')
+            w12 = git('rev-parse', 'HEAD')
+            git('checkout', '--detach', reviewed)
+            (root / 'packages/core-v2/test.txt').write_text('w3 hourly adapter\\n')
+            git('add', '.'); git('commit', '-qm', 'synthetic W3 hourly source')
+            w3 = git('rev-parse', 'HEAD')
+            git('checkout', '--detach', reviewed)
+            git('merge', '--no-edit', '--no-ff', w12)
+            git('merge', '--no-edit', '--no-ff', w3)
+            previous = {path: git('rev-parse', reviewed + ':' + path) for path in
+                        ['specs/v2', 'data/v2', 'packages/core-v2', 'packages/models-v2']}
+            lock = {
+                'reviewed_main': reviewed,
+                'sources': {
+                    'w1': {'sha': w12, 'tree_sha': git('rev-parse', w12 + ':specs/v2')},
+                    'w2': {'sha': w12, 'tree_sha': git('rev-parse', w12 + ':data/v2')},
+                    'w3': {'sha': w3, 'tree_sha': git('rev-parse', w3 + ':packages/core-v2')},
+                    'w4': {'sha': reviewed, 'tree_sha': git('rev-parse', reviewed + ':apps/web-v2')},
+                },
+                'hourly_owner_integrations': [
+                    {'owner': 'w1', 'source_sha': w12, 'paths': ['specs/v2'],
+                     'previous_trees': {'specs/v2': previous['specs/v2']}},
+                    {'owner': 'w2', 'source_sha': w12, 'paths': ['data/v2'],
+                     'previous_trees': {'data/v2': previous['data/v2']}},
+                    {'owner': 'w3', 'source_sha': w3,
+                     'paths': ['packages/core-v2', 'packages/models-v2'],
+                     'previous_trees': {path: previous[path] for path in
+                                        ['packages/core-v2', 'packages/models-v2']}},
+                ],
+            }
+            (root / 'ops/v2/integration-sources.json').write_text(json.dumps(lock))
+            git('add', '.'); git('commit', '-qm', 'synthetic integration already in main')
+            base = git('rev-parse', 'HEAD')
+            (root / 'ops/v2/test.txt').write_text('next W5-only executor change\\n')
+            git('add', '.'); git('commit', '-qm', 'synthetic next W5 candidate')
+            candidate = git('rev-parse', 'HEAD')
+            before = git('show-ref')
+            report = rehearse(root, base, candidate)
+            self.assertEqual(report['status'], 'PASS')
+            self.assertEqual(report['merged_tree_sha'], git('rev-parse', candidate + '^{tree}'))
+            self.assertEqual(before, git('show-ref'))
+            lock['hourly_owner_integrations'][0]['previous_trees']['specs/v2'] = 'f' * 40
+            (root / 'ops/v2/integration-sources.json').write_text(json.dumps(lock))
+            git('add', '.'); git('commit', '-qm', 'synthetic corrupt historic source pin')
+            with self.assertRaisesRegex(ValueError, 'historical previous owner tree mismatch'):
+                rehearse(root, base, git('rev-parse', 'HEAD'))
+
     def test_merge_conflict_and_nonowner_changes_fail_without_ref_updates(self):
         with tempfile.TemporaryDirectory() as tmp:
             root, git, base, candidate = self.fixture_repo(tmp)

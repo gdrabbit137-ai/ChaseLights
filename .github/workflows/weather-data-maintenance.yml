@@ -1,0 +1,38 @@
+name: Weather Data Maintenance
+on:
+  workflow_dispatch:
+    inputs:
+      operation:
+        type: choice
+        options: [bootstrap, rollback]
+        required: true
+      snapshot:
+        description: 'Rollback only: full ancestor data commit SHA'
+        required: false
+permissions:
+  contents: write
+concurrency:
+  group: weather-data-maintenance
+  cancel-in-progress: false
+jobs:
+  maintain:
+    if: github.ref == 'refs/heads/main' && github.actor == github.repository_owner
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Owner-dispatched data-only maintenance (no main write or deploy)
+        env:
+          OPERATION: ${{ inputs.operation }}
+          SNAPSHOT: ${{ inputs.snapshot }}
+        run: |
+          case "$OPERATION" in
+            bootstrap) python ops/v2/data_publish/publisher.py bootstrap ;;
+            rollback) python ops/v2/data_publish/publisher.py rollback --snapshot "$SNAPSHOT" ;;
+            *) exit 1 ;;
+          esac

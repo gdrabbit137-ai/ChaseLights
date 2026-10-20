@@ -1,0 +1,97 @@
+name: Weather Data Pages Assembly
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'weathergrid/**'
+      - 'weather_details/**'
+      - '*_weather*.json'
+  workflow_run:
+    workflows:
+      - Update ChaseLights Weather Data
+      - Update Live WeatherGrid Preview
+      - Update JMA MSM WeatherGrid
+      - Update Himawari-9 WeatherGrid
+      - Update WeatherGrid V2 CWA Derived Tiles
+      - Update WeatherGrid V2 JMA Native Tiles
+      - B169 VIIRS Live Taiwan Ingest
+      - B167 CAMS AOD + PM2.5 WeatherGrid
+      - CWA Low Cloud Calibration
+      - B117 GFS Multilayer POC
+      - Weather Data Maintenance
+    types: [completed]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: weather-data-pages
+  cancel-in-progress: false
+jobs:
+  gate:
+    if: github.ref == 'refs/heads/main' && (github.event_name != 'workflow_run' || (github.event.workflow_run.head_branch == 'main' && github.event.workflow_run.head_repository.full_name == github.repository))
+    runs-on: ubuntu-latest
+    outputs:
+      enabled: ${{ steps.policy.outputs.enabled }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: false
+      - id: policy
+        name: Read main-owned cutover policy (disabled in this PR)
+        run: |
+          python - <<'PY'
+          import os, sys
+          sys.path.insert(0, 'ops/v2/data_publish')
+          from publisher import policy
+          p = policy()
+          enabled = p['mode'] == 'data-branch' and p['pages_enabled'] is True
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+              f.write('enabled=' + str(enabled).lower() + '\n')
+          PY
+  build:
+    needs: gate
+    if: needs.gate.outputs.enabled == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          path: code
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          ref: weather-data
+          path: data
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Assemble code and verified JSON data; never run code from data ref
+        run: python code/ops/v2/data_publish/compose.py --code-root code --snapshot data --output site-source > assembly.json
+      - name: Preserve existing root Jekyll behavior
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: site-source
+          destination: site-output
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site-output
+      - uses: actions/upload-artifact@v4
+        with:
+          name: weather-data-assembly-${{ github.run_id }}
+          path: assembly.json
+  deploy:
+    needs: [gate, build]
+    if: needs.gate.outputs.enabled == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy only after separate owner-reviewed cutover
+        id: deployment
+        uses: actions/deploy-pages@v4
