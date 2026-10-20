@@ -136,7 +136,10 @@ class ReleaseToolsTests(unittest.TestCase):
             files['index.html'] = b'<title>V2</title><script type="module" src="./app.mjs"></script>'
             files['catalog.v2.json'] = json.dumps({'research_only': True, 'forecast_available': False,
                                                   'selected_date_recommendation_eligible': False, 'evaluations': []}).encode()
-            for name, body in files.items(): (root / 'apps/web-v2' / name).write_bytes(body)
+            for name, body in files.items():
+                path = root / 'apps/web-v2' / name
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_bytes(body)
             git('add', '.'); git('commit', '-qm', 'synthetic build files')
             with patch('build_static.verify_main', return_value={'owner_trees': {}}):
                 output = root / 'work/build'
