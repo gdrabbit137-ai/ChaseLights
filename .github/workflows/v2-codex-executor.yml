@@ -1,0 +1,103 @@
+name: V2 Bounded Codex Executor
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ops/v2/automation/**
+      - .github/workflows/v2-codex-executor.yml
+  workflow_dispatch:
+  schedule:
+    - cron: '23 */6 * * *'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: v2-bounded-codex-${{ github.event_name == 'pull_request' && github.event.pull_request.number || 'live' }}
+  cancel-in-progress: false
+
+jobs:
+  bounded-executor-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run failure, refusal, budget, ownership and CI decision tests (not live E2E)
+        run: python ops/v2/automation/test_runner.py --out work/task-p-tests.json
+      - name: Real credential-free preflight must report BLOCKED, never successful E2E
+        run: |
+          set +e
+          python ops/v2/automation/runner.py --preflight --out work/task-p-preflight.json
+          result=$?
+          set -e
+          test "$result" -eq 2
+          python -c 'import json; r=json.load(open("work/task-p-preflight.json")); assert r["status"]=="BLOCKED" and r["live_model_e2e"]=="NOT_RUN"'
+      - name: Preserve actual test and preflight results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: task-p-validation-${{ github.run_id }}-${{ github.run_attempt }}
+          path: work/task-p-*.json
+          if-no-files-found: error
+          retention-days: 30
+
+  live-executor:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    needs: bounded-executor-tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Read trusted executor and task policy from latest main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check activation and required configuration without exposing values
+        id: activation
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_APP_ID: ${{ vars.V2_CODEX_APP_ID }}
+          GH_APP_PRIVATE_KEY: ${{ secrets.V2_CODEX_APP_PRIVATE_KEY }}
+        run: |
+          python ops/v2/automation/activate.py --out work/task-p-activation.json
+      - name: Mint short-lived token for this repository only
+        if: steps.activation.outputs.ready == 'true'
+        id: app
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ vars.V2_CODEX_APP_ID }}
+          private-key: ${{ secrets.V2_CODEX_APP_PRIVATE_KEY }}
+          owner: gdrabbit137-ai
+          repositories: ChaseLights
+          permission-contents: write
+          permission-pull-requests: write
+          permission-checks: read
+          permission-statuses: read
+      - name: Run one reviewed task or bounded exact-head CI assessment
+        if: steps.activation.outputs.ready == 'true'
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_APP_TOKEN: ${{ steps.app.outputs.token }}
+        run: python ops/v2/automation/runner.py --live --out work/task-p-live.json
+      - name: Explicit disabled or missing-configuration result
+        if: steps.activation.outputs.ready != 'true'
+        run: |
+          cat work/task-p-activation.json
+          exit 2
+      - name: Preserve execution evidence, including BLOCKED/FAIL/ERROR
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: task-p-live-${{ github.run_id }}-${{ github.run_attempt }}
+          path: work/task-p-*.json
+          if-no-files-found: error
+          retention-days: 30
