@@ -29,3 +29,11 @@ unknown. Browser automation does not establish physical-phone or human
 translation approval. W5 must independently review this tree, add the fixture
 and modules to the static build, update exact source pin/test discovery and run
 full integration before a separately approved merge. No W5 file is modified.
+
+On the initial Draft PR head `f233ad77326b746f6e4b9480b6fdca0da307ddd8`,
+GitHub Actions V2 Integration run `39355921395` stopped before its suite with
+`Merged w4 subtree differs from tested pin: apps/web-v2`; Public Research
+Preview Smoke run `39355921424` stopped at the immutable public manifest with
+`styles.css public bytes differ from immutable manifest`. These expected W5
+source/publication gates remain intact. They are not W4 Node/Chromium passes,
+and W4 did not edit W5 files to override them.

@@ -26,9 +26,9 @@ before(async()=>{
 after(async()=>{await browser?.close();if(server?.listening)await new Promise(done=>server.close(done));});
 
 const expected={
-  'zh-TW':{title:'七星潭 · 72 小時逐時天氣歷史樣本',stale:'歷史／已過期',missing:'缺值',field:'前一小時降雨機率'},
-  en:{title:'Qixingtan · 72-hour historical hourly weather sample',stale:'Historical / expired',missing:'Unavailable',field:'Preceding-hour precipitation probability'},
-  ja:{title:'七星潭 · 過去の72時間分の毎時気象サンプル',stale:'過去のデータ／期限切れ',missing:'欠損',field:'直前1時間の降水確率'}
+  'zh-TW':{title:'七星潭 · 72 小時逐時天氣歷史樣本',stale:'歷史／已過期',missing:'缺值',field:'前一小時降雨機率',hours:'24 小時'},
+  en:{title:'Qixingtan · 72-hour historical hourly weather sample',stale:'Historical / expired',missing:'Unavailable',field:'Preceding-hour precipitation probability',hours:'24 hours'},
+  ja:{title:'七星潭 · 72時間分の毎時気象アーカイブ',stale:'過去のデータ／期限切れ',missing:'欠損',field:'直前1時間の降水確率',hours:'24 時間'}
 };
 for(const [device,width] of [['desktop',1440],['mobile',360]])for(const locale of ['zh-TW','en','ja']){
   test(`${device} ${locale}: archived hourly view, keyboard, source and research regression`,async()=>{
@@ -45,6 +45,7 @@ for(const [device,width] of [['desktop',1440],['mobile',360]])for(const locale o
       assert.equal(await panel.locator('h2').textContent(),expected[locale].title);
       assert.equal(await panel.locator('.hourly-state').textContent(),expected[locale].stale);
       assert.equal(await panel.locator('.hourly-day').count(),3);
+      assert.ok((await panel.locator('.hourly-day summary').first().textContent()).includes(expected[locale].hours));
       assert.equal(await panel.locator('.hourly-hour').count(),72);
       assert.equal(await panel.locator('.hourly-evaluation').count(),1);
       assert.match(await panel.innerText(),/Open-Meteo/);
