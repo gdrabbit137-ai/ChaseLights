@@ -42,7 +42,9 @@ jobs:
           source: .ci/publication-site-source
           destination: .ci/publication-site-output
       - name: Verify built routes, domain and every generated JSON byte
-        run: python ops/v2/data_publish/finalize.py --source .ci/publication-site-source --output .ci/publication-site-output --receipt .ci/publication/full-size-assembly.json
+        run: |
+          sudo chown -R "$(id -u):$(id -g)" .ci/publication-site-output
+          python ops/v2/data_publish/finalize.py --source .ci/publication-site-source --output .ci/publication-site-output --receipt .ci/publication/full-size-assembly.json
       - uses: actions/upload-artifact@v4
         if: always()
         with:

@@ -75,7 +75,9 @@ jobs:
           source: site-source
           destination: site-output
       - name: Preserve CNAME and verify all published data before artifact upload
-        run: python code/ops/v2/data_publish/finalize.py --source site-source --output site-output --receipt assembly.json
+        run: |
+          sudo chown -R "$(id -u):$(id -g)" site-output
+          python code/ops/v2/data_publish/finalize.py --source site-source --output site-output --receipt assembly.json
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site-output
