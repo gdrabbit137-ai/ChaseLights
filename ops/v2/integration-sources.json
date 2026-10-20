@@ -1,6 +1,6 @@
 {
   "repository": "gdrabbit137-ai/ChaseLights",
-  "reviewed_main": "c743dfd6469937f715529014dcb781f7771db776",
+  "reviewed_main": "5c5791bc422c6d2385781c96f5ebd6c3c83a0aae",
   "sources": {
     "w1": {
       "sha": "74f21b365d366b0d1d12efbc23cf6cce484b6b5e",
@@ -52,19 +52,19 @@
       "models_tree_sha": "530a3fe48f460372b2f5ca7304c9fb75fedd0e6b"
     },
     "w4": {
-      "sha": "ec067573e7c21a52e40021e87661c7489172e629",
-      "branch": "codex/w4-photography-topics-first-20261019",
-      "pr": 518,
+      "sha": "5d18ceb4fea5bf3e56ca9585ac34554d9a7d887a",
+      "branch": "codex/w4-issue-526-hourly-readonly-20261020",
+      "pr": 530,
       "historical_sha": "32f557d998a4d12ec37af4d963f0f410030b1cc1",
       "historical_pr": 454,
       "historical_tree_sha": "a0438fb0f372b0e0e124b5ec3385d5184d9fbb2e",
       "obsolete_sha": "ddf9f2c4bd2eeb556bf0aa3b244f01de3256b05f",
       "obsolete_pr": 448,
-      "tree_sha": "d3af0d46635ec0d49e796a94e9f5671682ba1f6a",
-      "file_count": 108,
-      "previous_sha": "ca4e59cf5978347f1422fb1fd2d485c188b58edd",
-      "previous_tree_sha": "70eb22ad22f3cad08aafab9ac71032ee8278139b",
-      "source_upgrade": "Photography subjects and special conditions: 56 Node + 88 Chromium, Research-only"
+      "tree_sha": "d0c423fd506639a45ecbd35e9d3a5ed575c7130b",
+      "file_count": 116,
+      "previous_sha": "ec067573e7c21a52e40021e87661c7489172e629",
+      "previous_tree_sha": "d3af0d46635ec0d49e796a94e9f5671682ba1f6a",
+      "source_upgrade": "Qixingtan historical 72-hour RAW_ONLY view: 60 Node + 96 Chromium, Research-only"
     }
   },
   "reviewed_blobs": {
@@ -204,45 +204,11 @@
   "owner_integrations": [
     {
       "owner": "w4",
-      "previous_sha": "ca4e59cf5978347f1422fb1fd2d485c188b58edd",
-      "source_sha": "ec067573e7c21a52e40021e87661c7489172e629",
+      "previous_sha": "ec067573e7c21a52e40021e87661c7489172e629",
+      "source_sha": "5d18ceb4fea5bf3e56ca9585ac34554d9a7d887a",
       "paths": [
         "apps/web-v2"
       ]
-    }
-  ],
-  "hourly_owner_integrations": [
-    {
-      "owner": "w1",
-      "source_sha": "74f21b365d366b0d1d12efbc23cf6cce484b6b5e",
-      "paths": [
-        "specs/v2"
-      ],
-      "previous_trees": {
-        "specs/v2": "c5563eb2db8f719ea13fa19a64af1a2d7792bce2"
-      }
-    },
-    {
-      "owner": "w2",
-      "source_sha": "74f21b365d366b0d1d12efbc23cf6cce484b6b5e",
-      "paths": [
-        "data/v2"
-      ],
-      "previous_trees": {
-        "data/v2": "228f92d949e4df87719c9a3ef6c341219f9b0714"
-      }
-    },
-    {
-      "owner": "w3",
-      "source_sha": "c8bafcf88da996f0c3a4b4deed488bf5e5f855f8",
-      "paths": [
-        "packages/core-v2",
-        "packages/models-v2"
-      ],
-      "previous_trees": {
-        "packages/core-v2": "6606116add0c195d1815e915f78e24b3e59d8f41",
-        "packages/models-v2": "530a3fe48f460372b2f5ca7304c9fb75fedd0e6b"
-      }
     }
   ],
   "hourly_pilot": {
@@ -308,6 +274,48 @@
         "response-body.bin": "bef32c19dc59417be5d2ae09776d8483eb86b6e7"
       },
       "note": "Immutable historic single-capture evidence only; not fresh current-weather, calibrated coastal representativeness or scoring"
+    },
+    "w4_archive": {
+      "path": "apps/web-v2/fixtures/hourly/qixingtan-one-shot-20261019.json",
+      "sha256": "e1ed353e7fcbe5a542d54da1c50e8f2b990fdade834b6fa54be0a53e1191b9ab",
+      "source_sha": "5d18ceb4fea5bf3e56ca9585ac34554d9a7d887a",
+      "data_state": "RAW_ONLY",
+      "photography_verdict": "NOT_EVALUABLE",
+      "historical_only": true
     }
-  }
+  },
+  "historical_hourly_owner_integrations": [
+    {
+      "owner": "w1",
+      "source_sha": "74f21b365d366b0d1d12efbc23cf6cce484b6b5e",
+      "paths": [
+        "specs/v2"
+      ],
+      "previous_trees": {
+        "specs/v2": "c5563eb2db8f719ea13fa19a64af1a2d7792bce2"
+      }
+    },
+    {
+      "owner": "w2",
+      "source_sha": "74f21b365d366b0d1d12efbc23cf6cce484b6b5e",
+      "paths": [
+        "data/v2"
+      ],
+      "previous_trees": {
+        "data/v2": "228f92d949e4df87719c9a3ef6c341219f9b0714"
+      }
+    },
+    {
+      "owner": "w3",
+      "source_sha": "c8bafcf88da996f0c3a4b4deed488bf5e5f855f8",
+      "paths": [
+        "packages/core-v2",
+        "packages/models-v2"
+      ],
+      "previous_trees": {
+        "packages/core-v2": "6606116add0c195d1815e915f78e24b3e59d8f41",
+        "packages/models-v2": "530a3fe48f460372b2f5ca7304c9fb75fedd0e6b"
+      }
+    }
+  ]
 }

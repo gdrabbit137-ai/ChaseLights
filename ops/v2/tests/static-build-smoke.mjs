@@ -17,7 +17,7 @@ before(async()=>{
   const build=resolve(process.env.V2_BUILD_DIR);const root=resolve(build,'public');
   manifest=JSON.parse(await readFile(resolve(build,'build-manifest.json'),'utf8'));
   assert.equal(manifest.status,'PASS');assert.equal(manifest.deployment_allowed,false);
-  assert.equal(Object.keys(manifest.files).length,10);
+  assert.equal(Object.keys(manifest.files).length,13);
   for(const [file,sha] of Object.entries(manifest.files)){
     const bytes=await readFile(resolve(root,file));
     assert.equal(createHash('sha256').update(bytes).digest('hex'),sha,file+' manifest bytes differ');
@@ -47,11 +47,18 @@ after(async()=>{await browser?.close();if(server?.listening)await new Promise(re
 for(const [device,viewport] of [['desktop',{width:1440,height:1000}],['mobile',{width:390,height:844}]])for(const locale of locales){
   test(`candidate static package ${device} ${locale}: real catalog-state dependency, exact source and research entry`,async()=>{
     const context=await browser.newContext({viewport,isMobile:device==='mobile',hasTouch:device==='mobile'});
-    const page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
+    const page=await context.newPage();const errors=[],outside=[];
+    page.on('pageerror',e=>errors.push(e.message));
+    page.on('request',request=>{if(!request.url().startsWith(base))outside.push(request.url());});
     try{
       const response=await page.goto(base);assert.equal(response.status(),200);
       await verifyResearchPage(page,opportunity,locale,'forecast-home');
       await verifyPhotographyTopics(page,catalog,locale);
+      await page.waitForFunction(()=>document.querySelector('.hourly-state')?.dataset.state==='STALE');
+      assert.equal(await page.locator('.hourly-hour').count(),72);
+      assert.equal(await page.locator('#hourly-weather .hourly-evaluation').count(),1);
+      assert.ok(requested.has('/apps/web-v2/fixtures/hourly/qixingtan-one-shot-20261019.json'));
+      assert.deepEqual(outside,[],'candidate must not request a live weather provider');
       assert.ok(requested.has('/apps/web-v2/catalog-state.mjs'));
       assert.ok(requested.has('/apps/web-v2/catalog.v2.json'));
       assert.deepEqual(errors,[]);

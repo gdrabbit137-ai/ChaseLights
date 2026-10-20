@@ -67,3 +67,24 @@ main,main section,.brand>div,.research-heading h2{min-width:0}
 .topic-assessment{border-top:1px solid #365065;margin-top:20px;padding-top:3px}
 .automation-status{font-size:14px}
 @media(max-width:700px){#open-filters,#close-filters{display:block;width:100%;margin-top:12px}#close-filters{margin-bottom:14px}#filter-panel{padding:12px 0;border-bottom:1px solid #415b6c}}
+
+/* Archived hourly weather is a separate read-only research view. */
+.hourly-panel{border:1px solid #59647a;border-radius:16px;background:#172432;padding:clamp(18px,3vw,30px);margin:0 0 32px;overflow-wrap:anywhere}
+.hourly-panel h2{font-size:clamp(20px,2.5vw,28px);margin:0 0 12px}
+.hourly-panel h3{font-size:17px;margin:24px 0 8px}
+.hourly-panel p{line-height:1.6}
+.hourly-scope,.hourly-state,.hourly-evaluation{font-weight:750;color:#f2d5a0}
+.hourly-state{display:inline-block;border:1px solid #d5ac6b;border-radius:99px;padding:5px 12px;margin:5px 10px 5px 0}
+.hourly-evaluation{display:inline-block;margin:5px 0}
+.hourly-explanation{color:#e3d6bf;max-width:80ch}
+.hourly-meta,.hourly-sample,.hourly-interval{color:#bdceda;font-size:14px}
+.hourly-day{border-top:1px solid #4b5d6d;margin-top:8px}
+.hourly-day>summary{font-weight:750;font-size:17px}
+.hourly-hours{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding-bottom:14px}
+.hourly-hour{border:1px solid #455e70;border-radius:9px;background:#102031;min-width:0;padding:0 12px}
+.hourly-hour>summary{font-weight:700}
+.hourly-values{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 12px;border-top:1px solid #456073;padding:14px 0;margin:0;font-size:13px}
+.hourly-values dt{color:#b2c7d4}.hourly-values dd{margin:0;text-align:right;color:#fff;font-variant-numeric:tabular-nums}
+.hourly-values .hourly-missing{color:#f2d5a0}
+@media(max-width:900px){.hourly-hours{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){.hourly-hours{grid-template-columns:1fr}.hourly-panel{padding:18px}.hourly-hour{padding:0 12px}}

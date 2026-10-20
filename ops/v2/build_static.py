@@ -12,7 +12,9 @@ from postmerge_verify import verify_main
 
 RUNTIME_FILES = ('index.html', 'styles.css', 'app.mjs', 'model.mjs',
                  'catalog-loader.mjs', 'catalog-state.mjs', 'v21-adapter.mjs',
-                 'browse-index.mjs', 'browse-index.v2.json', 'catalog.v2.json')
+                 'browse-index.mjs', 'browse-index.v2.json', 'catalog.v2.json',
+                 'hourly-weather.mjs', 'hourly-weather-ui.mjs',
+                 'fixtures/hourly/qixingtan-one-shot-20261019.json')
 
 
 def git(root, *args):
@@ -63,7 +65,9 @@ def build(root, output):
     public = output / 'public/apps/web-v2'
     public.mkdir(parents=True)
     for name, content in files.items():
-        (public / name).write_bytes(content)
+        destination = public / name
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        destination.write_bytes(content)
     report = {'status': 'PASS', 'source_commit_sha': head, 'mode': 'RESEARCH_ONLY',
               'source_index_commit_sha': catalog.get('source_index_commit_sha'),
               'base_path': '/apps/web-v2/', 'public_directory': 'public',
