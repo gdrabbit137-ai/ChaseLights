@@ -49,7 +49,7 @@ for(const [device,viewport] of [['desktop',{width:1440,height:1000}],['mobile',{
     const context=await browser.newContext({viewport,isMobile:device==='mobile',hasTouch:device==='mobile'});
     const page=await context.newPage();const errors=[],outside=[];
     page.on('pageerror',e=>errors.push(e.message));
-    page.on('request',request=>{if(!request.url().startsWith(base))outside.push(request.url());});
+    page.on('request',request=>{if(new URL(request.url()).origin!==new URL(base).origin)outside.push(request.url());});
     try{
       const response=await page.goto(base);assert.equal(response.status(),200);
       await verifyResearchPage(page,opportunity,locale,'forecast-home');
