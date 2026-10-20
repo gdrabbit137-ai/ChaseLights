@@ -1,0 +1,59 @@
+name: ChaseLights GitHub App Draft PR Smoke
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: v2-app-write-smoke
+  cancel-in-progress: false
+
+jobs:
+  draft-pr-smoke:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Obtain installation token
+        id: app
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.CHASELIGHTS_APP_ID }}
+          private-key: ${{ secrets.CHASELIGHTS_APP_PRIVATE_KEY }}
+          owner: gdrabbit137-ai
+          repositories: ChaseLights
+          permission-contents: write
+          permission-pull-requests: write
+
+      - name: Checkout main using App token
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          token: ${{ steps.app.outputs.token }}
+          persist-credentials: false
+
+      - name: Create isolated smoke branch and Draft PR
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+          REPO: gdrabbit137-ai/ChaseLights
+          RUN_ID: ${{ github.run_id }}
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "${{ github.ref }}" = "refs/heads/main"
+          branch="w5/app-smoke-${RUN_ID}-${RUN_ATTEMPT}"
+          file="ops/v2/automation/smoke-results/${RUN_ID}-${RUN_ATTEMPT}.txt"
+          git switch -c "$branch"
+          mkdir -p "$(dirname "$file")"
+          printf 'GitHub App write smoke. Workflow run: %s; attempt: %s. No model call or deployment.\n' "$RUN_ID" "$RUN_ATTEMPT" > "$file"
+          git add -- "$file"
+          git -c user.name='ChaseLights App Smoke' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -m 'test(w5): GitHub App Draft PR write smoke'
+          auth_header="AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)"
+          git -c http.https://github.com/.extraheader="$auth_header" push origin "HEAD:refs/heads/$branch"
+          gh pr create --repo "$REPO" --base main --head "$branch" --draft \
+            --title "test(w5): GitHub App write smoke run $RUN_ID" \
+            --body "W5-only GitHub App write test. Verifies branch creation, commit and Draft PR using the installation token. No Codex/model invocation, merge or deployment. Owner must review and close this disposable PR; do not merge."
+          echo "Draft PR created; leave unmerged."
