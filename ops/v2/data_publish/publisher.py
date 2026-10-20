@@ -344,6 +344,21 @@ def bootstrap(root):
         return {'data_sha': commit_push(dest, p['data_branch'], 'Bootstrap generated data only')}
 
 
+def synchronize(root):
+    require_main()
+    p = policy()
+    if p['mode'] != 'legacy-main':
+        raise ValueError('Final seed synchronization requires legacy mode and drained writers')
+    with tempfile.TemporaryDirectory() as tmp:
+        dest = Path(tmp)
+        previous = checkout_data(root, remote_url(root), p['data_branch'], dest)
+        read_snapshot(dest)
+        source = git(root, 'rev-parse', 'HEAD').stdout.decode().strip()
+        write_snapshot(dest, files(root), source, 'final-legacy-seed', previous,
+                       os.environ.get('GITHUB_RUN_ID'))
+        return {'data_sha': commit_push(dest, p['data_branch'], 'Synchronize final legacy main data')}
+
+
 def rollback(root, snapshot):
     require_main()
     p = policy()
@@ -382,7 +397,7 @@ def restore_snapshot(root, branch, snapshot):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('command', choices=['prepare', 'publish', 'bootstrap', 'rollback', 'verify'])
+    parser.add_argument('command', choices=['prepare', 'publish', 'bootstrap', 'synchronize', 'rollback', 'verify'])
     parser.add_argument('--producer', choices=SCOPES)
     parser.add_argument('--root', type=Path, default=Path('.'))
     parser.add_argument('--snapshot')
@@ -394,6 +409,7 @@ def main():
             if not args.producer: raise ValueError('Producer required')
             result = publish(root, args.producer)
         elif args.command == 'bootstrap': result = bootstrap(root)
+        elif args.command == 'synchronize': result = synchronize(root)
         elif args.command == 'rollback': result = rollback(root, args.snapshot or '')
         else:
             manifest, payload = read_snapshot(root)

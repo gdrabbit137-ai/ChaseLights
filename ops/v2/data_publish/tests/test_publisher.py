@@ -125,6 +125,20 @@ class PublicationTests(unittest.TestCase):
             p.prepare(self.code)
         self.assertEqual(self.main, self.ref('main'))
 
+    def test_final_seed_synchronizes_latest_legacy_without_rewinding_refs(self):
+        first = p.bootstrap(self.code)['data_sha']
+        (self.code / 'tw_weather.json').write_text('{"fixture_only": "latest legacy"}')
+        p.git(self.code, 'add', 'tw_weather.json')
+        p.publish(self.code, 'weather')
+        current_main = self.ref('main')
+        second = p.synchronize(self.code)['data_sha']
+        self.assertNotEqual(first, second)
+        p.git(self.remote, 'merge-base', '--is-ancestor', first, second)
+        self.assertEqual(current_main, self.ref('main'))
+        self.policy.update(mode='data-branch', pages_enabled=True)
+        with self.assertRaisesRegex(ValueError, 'legacy mode'):
+            p.synchronize(self.code)
+
     def test_bootstrap_refuses_existing_history(self):
         first = p.bootstrap(self.code)['data_sha']
         with self.assertRaisesRegex(ValueError, 'overwrite'):

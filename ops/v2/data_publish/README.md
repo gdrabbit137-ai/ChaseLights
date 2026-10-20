@@ -91,7 +91,7 @@ bytes**, so Git transport/build cost is material; measure the shadow build and
 keep short-lived Actions artifacts. Repository history growth merits later
 retention/compaction work, never force rewriting an active publication ref.
 
-CI includes read-only 22 publisher regressions, 28 compatibility cases and
+CI includes read-only 23 publisher regressions, 28 compatibility cases and
 full-size offline assembly + Jekyll build, plus a separate push-only
 GITHUB_TOKEN smoke restricted to `data-publish-smoke/528-<numeric run identity>`.
 The latter seeds fixture-only JSON, really pushes an update, rejects code and
@@ -120,9 +120,9 @@ none of #527's executor/policy/workflow files are imported or activated.
    This bootstrap is a shadow seed, not live data delivery. Record source/data
    SHA and verify publisher/Pages environment permissions. Do not change secrets.
 3. Prepare a separate owner-reviewed activation PR changing the two policy
-   fields together to `mode=data-branch`, `pages_enabled=true`. Re-seed/synchronize
-   from the last legacy main immediately before cutover, or run all producers
-   immediately afterward and verify their actual new data commits; an old shadow
+   fields together to `mode=data-branch`, `pages_enabled=true`. Owner-dispatch maintenance `synchronize`
+   from the last legacy main immediately before cutover, then verify all producers
+   immediately afterward and their actual new data commits; an old shadow
    seed must not be accepted as a current forecast. Use a brief coordinated
    maintenance window: stop new data writers, drain already-running legacy-mode
    jobs, take the final seed, then merge activation and change Pages source to

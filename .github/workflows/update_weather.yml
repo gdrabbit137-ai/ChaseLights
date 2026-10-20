@@ -68,6 +68,7 @@ jobs:
       - name: Commit and Push Updated Weather Data
         run: |
           git add tw_weather.json jp_weather.json us_weather.json weather_details/
-          git rm -f --ignore-unmatch tw_weather_details.json jp_weather_details.json us_weather_details.json usa_weather.json
+          git rm -f --ignore-unmatch tw_weather_details.json jp_weather_details.json us_weather_details.json
+          git rm -f --ignore-unmatch usa_weather.json
           git rm -f --ignore-unmatch *_weather_zh-TW.json *_weather_en.json *_weather_ja.json
           python ops/v2/data_publish/publisher.py publish --producer weather
