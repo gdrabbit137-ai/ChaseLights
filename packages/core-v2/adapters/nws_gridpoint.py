@@ -146,8 +146,10 @@ def _normalize(points_json, grid_json, original_grid_bytes, *,
             or type(meta.get("gridY")) is not int
             or meta["gridX"] != int(g.group(2)) or meta["gridY"] != int(g.group(3))):
         raise SourceFailure("GRID_MAPPING_CHANGED")
-    geometry = points_json.get("geometry") or {}
-    coords = geometry.get("coordinates") if isinstance(geometry, dict) else None
+    geometry = points_json.get("geometry")
+    if not isinstance(geometry, dict):
+        raise SourceFailure("POINTS_COORDINATE_MISMATCH")
+    coords = geometry.get("coordinates")
     if (geometry.get("type") != "Point" or not isinstance(coords, list)
             or len(coords) < 2 or any(type(n) not in (int, float)
                                        or not math.isfinite(n) for n in coords[:2])
