@@ -67,7 +67,9 @@ Existing production is dynamic main-root Jekyll, recently successful run
 activated, it assembles the committed main site plus a verified complete data
 snapshot, builds with the official Jekyll action, uploads a Pages artifact and
 deploys via the existing github-pages environment. CNAME, root routes,
-weather-map.html and apps/web-v2/ are retained. It reads latest refs at execution
+weather-map.html and apps/web-v2/ are retained. An explicit post-Jekyll finalizer copies the verified CNAME (the
+official action excludes it by default) and checks all data hashes before upload.
+It reads latest refs at execution
 time to coalesce queued refreshes. `workflow_run` checks trusted main and same
 repository and runs after failed producers too, because their stale-file
 removal may be an intentional publication. No untrusted artifact is consumed.
@@ -89,7 +91,7 @@ bytes**, so Git transport/build cost is material; measure the shadow build and
 keep short-lived Actions artifacts. Repository history growth merits later
 retention/compaction work, never force rewriting an active publication ref.
 
-CI includes read-only 21 publisher regressions, 28 compatibility cases and
+CI includes read-only 22 publisher regressions, 28 compatibility cases and
 full-size offline assembly + Jekyll build, plus a separate push-only
 GITHUB_TOKEN smoke restricted to `data-publish-smoke/528-<numeric run identity>`.
 The latter seeds fixture-only JSON, really pushes an update, rejects code and
@@ -101,9 +103,10 @@ are defense in depth, not substitutes for GitHub main protection.
 
 Four root workflow-contract tests are minimally updated to follow the delegated
 publisher; no Legacy runtime/test expectations about weather values change.
-The exact two-file immutable-merge rehearsal correction from #527 is reused
-byte-for-byte (`simulate_merges.py` blob `1ea0c2ae5fc49a97c37559d3df1414fd551a0aaa`,
-its test blob `ad7ab327cdff238282f744959daa08320b592789`). This avoids the known
+The accepted-source immutable-merge rehearsal correction from #527 is reused
+(original blobs `1ea0c2ae5fc49a97c37559d3df1414fd551a0aaa` and
+`ad7ab327cdff238282f744959daa08320b592789`), with an additional exact four-file
+W5 workflow-test ownership list and negative regression for arbitrary root tests. This avoids the known
 post-#525 accepted-owner-source rehearsal error in a standalone main-based PR;
 none of #527's executor/policy/workflow files are imported or activated.
 

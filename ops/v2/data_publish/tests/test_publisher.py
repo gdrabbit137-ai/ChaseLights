@@ -11,6 +11,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import publisher as p
 from compose import compose
 from inventory import inventory
+from finalize import finalize
 
 REPO = Path(__file__).resolve().parents[4]
 SOURCE = '1' * 40
@@ -228,6 +229,19 @@ class PublicationTests(unittest.TestCase):
                      'weathergrid/v2/cwa/current/code.py', 'data/v2/opportunity.json',
                      'weathergrid/unreviewed.json', '.github/workflows/test.json'):
             self.assertFalse(p.allowed(path), path)
+
+    def test_jekyll_finalizer_retains_domain_and_rejects_changed_json(self):
+        out = self.root / 'built'; out.mkdir()
+        for path in ('index.html', 'weather-map.html', 'apps/web-v2/index.html', 'tw_weather.json'):
+            target = out / path
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes((self.code / path).read_bytes())
+        receipt = {'data_manifest': {'files': {'tw_weather.json': p.digest((out / 'tw_weather.json').read_bytes())}}}
+        self.assertEqual(finalize(self.code, out, receipt)['json_files'], 1)
+        self.assertEqual((out / 'CNAME').read_bytes(), (self.code / 'CNAME').read_bytes())
+        (out / 'tw_weather.json').write_text('{"fixture_only": "modified"}')
+        with self.assertRaisesRegex(ValueError, 'differs'):
+            finalize(self.code, out, receipt)
 
     def test_exhaustive_current_workflow_inventory(self):
         self.assertEqual(len(inventory(REPO)), 11)

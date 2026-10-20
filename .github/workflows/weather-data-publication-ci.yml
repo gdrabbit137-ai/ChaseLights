@@ -12,6 +12,9 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+defaults:
+  run:
+    shell: bash
 jobs:
   offline:
     name: Data publication safety and Legacy compatibility
@@ -38,19 +41,8 @@ jobs:
         with:
           source: .ci/publication-site-source
           destination: .ci/publication-site-output
-      - name: Verify built routes and every generated JSON byte
-        run: |
-          python - <<'PY'
-          import hashlib, json
-          from pathlib import Path
-          report = json.loads(Path('.ci/publication/full-size-assembly.json').read_text())
-          out = Path('.ci/publication-site-output')
-          for path in ('index.html', 'weather-map.html', 'apps/web-v2/index.html', 'CNAME'):
-              assert (out / path).is_file(), path
-          for path, expected in report['data_manifest']['files'].items():
-              assert hashlib.sha256((out / path).read_bytes()).hexdigest() == expected, path
-          print('Built V1/WeatherGrid/V2 routes and all JSON hashes verified')
-          PY
+      - name: Verify built routes, domain and every generated JSON byte
+        run: python ops/v2/data_publish/finalize.py --source .ci/publication-site-source --output .ci/publication-site-output --receipt .ci/publication/full-size-assembly.json
       - uses: actions/upload-artifact@v4
         if: always()
         with:

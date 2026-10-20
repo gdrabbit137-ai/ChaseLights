@@ -27,7 +27,11 @@ def fixed_commit(repo, sha):
 
 
 def w5_path(path):
-    return path.startswith(('ops/v2/', '.github/workflows/'))
+    # These four existing root files test W5 workflow publication, not Legacy
+    # runtime. Keep an exact list: arbitrary root tests/code remain forbidden.
+    workflow_tests = {'test_jma_msm_refresh_workflow.py', 'test_update_weather_workflow.py',
+                      'test_viirs_production_publish_workflow.py', 'test_weathergrid_v2_publish.py'}
+    return path.startswith(('ops/v2/', '.github/workflows/')) or path in workflow_tests
 
 
 def owner_transitions(repo, base, candidate, lock):
