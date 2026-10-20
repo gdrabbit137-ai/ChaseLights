@@ -1,5 +1,39 @@
 # ChaseLights V2 — photography home and research browser
 
+## W4 — Qixingtan archived hourly weather view (Issue #526)
+
+The separate home panel shows the 2026-10-19 Open-Meteo one-shot for `tw-036` as
+an **offline historical sample**. Its 72 hourly rows and ten original fields
+come from W5's accepted one-shot replay; W4's copy is byte-pinned by SHA-256.
+The original provider response SHA-256 remains visible in the W3/W5 evidence,
+while the W4 display copy has its own digest. The panel fetches only its
+same-origin JSON file, never Open-Meteo. It always says historical/expired and
+not evaluable, even if a row's old valid time happens to fall in the future for
+a viewer with an earlier clock. A failed file, digest, identity, unit, time or
+clock check displays no weather cells.
+
+Times are formatted in `Asia/Taipei` from UTC instants. Rain and rain
+probability describe the preceding hour; the other eight fields are instant
+values. Missing/invalid cells say unavailable, and a genuine zero stays zero.
+Retrieval completion and the original valid times are separate; the provider's
+model issue/update time remains unknown. The source, CC BY 4.0 licence,
+transformations and coastal/grid limitations are visible in zh-TW, en and ja.
+No current-source transport, photography result, score, Directions, API call,
+scheduled collection or Legacy/WeatherGrid change is included.
+
+Run W4 tests from the repository root:
+
+```sh
+node --test --test-isolation=none --test-reporter=tap apps/web-v2/tests/*.test.mjs
+CHROMIUM_EXECUTABLE=/usr/bin/chromium node --test --test-isolation=none --test-timeout=120000 --test-reporter=tap apps/web-v2/tests/browser-smoke.mjs apps/web-v2/tests/task-s-browser.mjs apps/web-v2/tests/photography-topics-browser.mjs apps/web-v2/tests/hourly-weather-browser.mjs
+```
+
+W5 must independently accept and pin this exact W4 tree and add the new
+module/fixture to its static build and browser discovery before any merge.
+Current-weather TTL, permissions, provider usage, cache/cadence and redistribution
+are separate W3/W5 gates. The archived sample never upgrades `RAW_ONLY` or
+`NOT_EVALUABLE` to a shooting recommendation.
+
 ## W4 — Photography Topics First (2026-10-19)
 
 The research browser now opens each Place with a localized “What can you
