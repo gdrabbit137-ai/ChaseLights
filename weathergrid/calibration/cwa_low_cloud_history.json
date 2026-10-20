@@ -8226,6 +8226,335 @@
           }
         }
       ]
+    },
+    {
+      "pair_id": "2026-10-20T06:00:00Z__2026-10-20T12:00:00Z",
+      "generated_at": "2026-10-20T13:50:08.343467+00:00",
+      "calibration_id": "cwa-low-cloud-himawari-v1",
+      "training_slots": [
+        "2026-10-20T06:00:00Z"
+      ],
+      "validation_slot": "2026-10-20T12:00:00Z",
+      "baseline": {
+        "feature": "max(rh925,rh850)",
+        "transfer": {
+          "lower_rh_percent": 70,
+          "upper_rh_percent": 95
+        },
+        "training_metrics": {
+          "n": 36684,
+          "positive": 1591,
+          "negative": 35093,
+          "brier": 0.3061,
+          "auc": 0.6979,
+          "threshold": 50.0,
+          "sensitivity": 0.7775,
+          "specificity": 0.5135,
+          "balanced_accuracy": 0.6455,
+          "confusion": {
+            "tp": 1237,
+            "tn": 18019,
+            "fp": 17074,
+            "fn": 354
+          }
+        }
+      },
+      "selected_candidate": {
+        "feature": "rh_avg_spread75",
+        "transfer": {
+          "lower_rh_percent": 90,
+          "upper_rh_percent": 100
+        },
+        "training_metrics": {
+          "n": 36684,
+          "positive": 1591,
+          "negative": 35093,
+          "brier": 0.0436,
+          "auc": 0.4998,
+          "threshold": 50.0,
+          "sensitivity": 0.0,
+          "specificity": 0.9997,
+          "balanced_accuracy": 0.4999,
+          "confusion": {
+            "tp": 0,
+            "tn": 35083,
+            "fp": 10,
+            "fn": 1591
+          }
+        }
+      },
+      "validation": {
+        "slot_utc": "2026-10-20T12:00:00Z",
+        "baseline": {
+          "n": 36703,
+          "positive": 2044,
+          "negative": 34659,
+          "brier": 0.3099,
+          "auc": 0.7641,
+          "threshold": 50.0,
+          "sensitivity": 0.9041,
+          "specificity": 0.517,
+          "balanced_accuracy": 0.7105,
+          "confusion": {
+            "tp": 1848,
+            "tn": 17917,
+            "fp": 16742,
+            "fn": 196
+          }
+        },
+        "candidate": {
+          "n": 36703,
+          "positive": 2044,
+          "negative": 34659,
+          "brier": 0.056,
+          "auc": 0.4987,
+          "threshold": 50.0,
+          "sensitivity": 0.0,
+          "specificity": 0.9993,
+          "balanced_accuracy": 0.4997,
+          "confusion": {
+            "tp": 0,
+            "tn": 34635,
+            "fp": 24,
+            "fn": 2044
+          }
+        }
+      },
+      "validation_candidates": [
+        {
+          "feature": "rh_min",
+          "transfer": {
+            "lower_rh_percent": 90,
+            "upper_rh_percent": 100
+          },
+          "metrics": {
+            "n": 36703,
+            "positive": 2044,
+            "negative": 34659,
+            "brier": 0.0561,
+            "auc": 0.4982,
+            "threshold": 50.0,
+            "sensitivity": 0.0,
+            "specificity": 0.9991,
+            "balanced_accuracy": 0.4996,
+            "confusion": {
+              "tp": 0,
+              "tn": 34628,
+              "fp": 31,
+              "fn": 2044
+            }
+          },
+          "exploratory_only": true
+        },
+        {
+          "feature": "rh_avg",
+          "transfer": {
+            "lower_rh_percent": 87,
+            "upper_rh_percent": 100
+          },
+          "metrics": {
+            "n": 36703,
+            "positive": 2044,
+            "negative": 34659,
+            "brier": 0.0576,
+            "auc": 0.501,
+            "threshold": 50.0,
+            "sensitivity": 0.0,
+            "specificity": 0.9965,
+            "balanced_accuracy": 0.4983,
+            "confusion": {
+              "tp": 0,
+              "tn": 34538,
+              "fp": 121,
+              "fn": 2044
+            }
+          },
+          "exploratory_only": true
+        },
+        {
+          "feature": "rh_avg_spread25",
+          "transfer": {
+            "lower_rh_percent": 90,
+            "upper_rh_percent": 100
+          },
+          "metrics": {
+            "n": 36703,
+            "positive": 2044,
+            "negative": 34659,
+            "brier": 0.0563,
+            "auc": 0.4974,
+            "threshold": 50.0,
+            "sensitivity": 0.0,
+            "specificity": 0.9989,
+            "balanced_accuracy": 0.4995,
+            "confusion": {
+              "tp": 0,
+              "tn": 34622,
+              "fp": 37,
+              "fn": 2044
+            }
+          },
+          "exploratory_only": true
+        },
+        {
+          "feature": "rh_avg_spread50",
+          "transfer": {
+            "lower_rh_percent": 90,
+            "upper_rh_percent": 100
+          },
+          "metrics": {
+            "n": 36703,
+            "positive": 2044,
+            "negative": 34659,
+            "brier": 0.0561,
+            "auc": 0.4982,
+            "threshold": 50.0,
+            "sensitivity": 0.0,
+            "specificity": 0.9991,
+            "balanced_accuracy": 0.4996,
+            "confusion": {
+              "tp": 0,
+              "tn": 34628,
+              "fp": 31,
+              "fn": 2044
+            }
+          },
+          "exploratory_only": true
+        },
+        {
+          "feature": "rh_avg_spread75",
+          "transfer": {
+            "lower_rh_percent": 90,
+            "upper_rh_percent": 100
+          },
+          "metrics": {
+            "n": 36703,
+            "positive": 2044,
+            "negative": 34659,
+            "brier": 0.056,
+            "auc": 0.4987,
+            "threshold": 50.0,
+            "sensitivity": 0.0,
+            "specificity": 0.9993,
+            "balanced_accuracy": 0.4997,
+            "confusion": {
+              "tp": 0,
+              "tn": 34635,
+              "fp": 24,
+              "fn": 2044
+            }
+          },
+          "exploratory_only": false
+        }
+      ],
+      "promotion": {
+        "eligible": false,
+        "gate": {
+          "minimum_brier_improvement": 0.015,
+          "minimum_specificity_improvement": 0.1,
+          "maximum_sensitivity_loss": 0.2,
+          "auc_must_not_decrease": true
+        },
+        "observed": {
+          "brier_improvement": 0.2538,
+          "specificity_improvement": 0.4824,
+          "sensitivity_loss": 0.9041,
+          "auc_change": -0.2654
+        },
+        "reason": "candidate does not yet pass provisional two-slot promotion gate"
+      },
+      "snapshots": [
+        {
+          "slot_utc": "2026-10-20T06:00:00Z",
+          "cwa_valid_time_utc": "2026-10-20T06:00:00+00:00",
+          "time_delta_seconds": 0.0,
+          "label_counts": {
+            "positive_low_cloud": 1591,
+            "negative_clear": 35093,
+            "ambiguous_excluded": 116,
+            "usable": 36684
+          },
+          "baseline": {
+            "n": 36684,
+            "positive": 1591,
+            "negative": 35093,
+            "brier": 0.3061,
+            "auc": 0.6979,
+            "threshold": 50.0,
+            "sensitivity": 0.7775,
+            "specificity": 0.5135,
+            "balanced_accuracy": 0.6455,
+            "confusion": {
+              "tp": 1237,
+              "tn": 18019,
+              "fp": 17074,
+              "fn": 354
+            }
+          },
+          "candidate": {
+            "n": 36684,
+            "positive": 1591,
+            "negative": 35093,
+            "brier": 0.0436,
+            "auc": 0.4998,
+            "threshold": 50.0,
+            "sensitivity": 0.0,
+            "specificity": 0.9997,
+            "balanced_accuracy": 0.4999,
+            "confusion": {
+              "tp": 0,
+              "tn": 35083,
+              "fp": 10,
+              "fn": 1591
+            }
+          }
+        },
+        {
+          "slot_utc": "2026-10-20T12:00:00Z",
+          "cwa_valid_time_utc": "2026-10-20T12:00:00+00:00",
+          "time_delta_seconds": 0.0,
+          "label_counts": {
+            "positive_low_cloud": 2044,
+            "negative_clear": 34659,
+            "ambiguous_excluded": 97,
+            "usable": 36703
+          },
+          "baseline": {
+            "n": 36703,
+            "positive": 2044,
+            "negative": 34659,
+            "brier": 0.3099,
+            "auc": 0.7641,
+            "threshold": 50.0,
+            "sensitivity": 0.9041,
+            "specificity": 0.517,
+            "balanced_accuracy": 0.7105,
+            "confusion": {
+              "tp": 1848,
+              "tn": 17917,
+              "fp": 16742,
+              "fn": 196
+            }
+          },
+          "candidate": {
+            "n": 36703,
+            "positive": 2044,
+            "negative": 34659,
+            "brier": 0.056,
+            "auc": 0.4987,
+            "threshold": 50.0,
+            "sensitivity": 0.0,
+            "specificity": 0.9993,
+            "balanced_accuracy": 0.4997,
+            "confusion": {
+              "tp": 0,
+              "tn": 34635,
+              "fp": 24,
+              "fn": 2044
+            }
+          }
+        }
+      ]
     }
   ],
   "review_readiness": {
@@ -8233,28 +8562,28 @@
     "eligible_for_model_review": false,
     "automatic_production_change": false,
     "minimum_distinct_validation_slots": 6,
-    "observed_distinct_validation_slots": 25,
+    "observed_distinct_validation_slots": 26,
     "window_validation_slots": [
-      "2026-10-17T12:00:00Z",
       "2026-10-17T18:00:00Z",
       "2026-10-18T12:00:00Z",
       "2026-10-18T18:00:00Z",
       "2026-10-19T12:00:00Z",
-      "2026-10-19T18:00:00Z"
+      "2026-10-19T18:00:00Z",
+      "2026-10-20T12:00:00Z"
     ],
     "median_improvements": {
       "brier_improvement": 0.249,
-      "specificity_improvement": 0.5723,
-      "sensitivity_loss": 0.5843,
-      "auc_change": -0.0318
+      "specificity_improvement": 0.5296,
+      "sensitivity_loss": 0.6111,
+      "auc_change": -0.0336
     },
     "candidate_features_in_window": [
       "rh_avg",
       "rh_avg",
-      "rh_avg",
       "rh_avg_spread25",
       "rh_avg_spread25",
-      "rh_avg_spread25"
+      "rh_avg_spread25",
+      "rh_avg_spread75"
     ],
     "gates": {
       "minimum_distinct_validation_slots": true,
