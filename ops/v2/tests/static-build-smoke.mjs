@@ -55,7 +55,7 @@ for(const [device,viewport] of [['desktop',{width:1440,height:1000}],['mobile',{
       assert.ok(requested.has('/apps/web-v2/catalog-state.mjs'));
       assert.ok(requested.has('/apps/web-v2/catalog.v2.json'));
       assert.deepEqual(errors,[]);
-      const directory=process.env.W5_SCREENSHOT_DIR;
+      const directory=process.env.V2_SCREENSHOT_DIR;
       if(directory){await mkdir(directory,{recursive:true});await page.screenshot({path:resolve(directory,`${device}-${locale}-built-home.png`),fullPage:true});}
     }finally{await context.close();}
   });

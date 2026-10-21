@@ -250,8 +250,8 @@ def main():
     try:
         lock = json.loads((root / "ops/v2/integration-sources.json").read_text())
         report["reviewed_main_sha"] = lock["reviewed_main"]
-        report["actual_base_sha"] = os.environ.get("W5_BASE_SHA", lock["reviewed_main"])
-        report["candidate_sha"] = os.environ.get("W5_HEAD_SHA", report["root_head"])
+        report["actual_base_sha"] = os.environ.get("V2_BASE_SHA", lock["reviewed_main"])
+        report["candidate_sha"] = os.environ.get("V2_HEAD_SHA", report["root_head"])
         for value in (report["actual_base_sha"], report["candidate_sha"]):
             if len(value) != 40 or git(root, "rev-parse", value + "^{commit}") != value:
                 raise ValueError("Immutable base/head commit unavailable")
@@ -268,7 +268,7 @@ def main():
                    CHASELIGHTS_W1_SPEC_ROOT=str(root / "specs/v2"),
                    W4_SCREENSHOT_DIR=str(logs / "w4-screenshots"),
                    W4_TOPICS_SCREENSHOT_DIR=str(logs / "topics-screenshots"),
-                   W5_SCREENSHOT_DIR=str(logs / "built-screenshots"),
+                   V2_SCREENSHOT_DIR=str(logs / "built-screenshots"),
                    V2_BUILD_DIR=str(logs / "candidate-build"))
         groups = [
             ("w1-schema", ["specs/v2/tests", "test_schema_smoke.py"], 17, True, False),
