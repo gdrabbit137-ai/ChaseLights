@@ -13,7 +13,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   release-tools:
-    name: W5 immutable-head build and merge rehearsal (no deployment)
+    name: Release readiness immutable-head build and merge rehearsal (no deployment)
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
