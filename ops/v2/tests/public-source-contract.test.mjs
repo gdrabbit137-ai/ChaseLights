@@ -6,6 +6,17 @@ import {validateManifest,verifyPublicAsset,verifyPublicIndex} from '../public_so
 const manifest=JSON.parse(readFileSync(new URL('../public-beta-r2-manifest.json',import.meta.url),'utf8'));
 const raw=path=>execFileSync('git',['show',manifest.source_commit_sha+':apps/web-v2/'+path]);
 const catalog=JSON.parse(raw('catalog.v2.json')),bundle=JSON.parse(raw('browse-index.v2.json'));
+test('current public research manifest pins the separately observed ten published bytes',()=>{
+  const current=JSON.parse(readFileSync(new URL('../public-research-20261020-manifest.json',import.meta.url),'utf8'));
+  validateManifest(current);
+  for(const path of Object.keys(current.files)){
+    const name=path.replace('apps/web-v2/','');
+    verifyPublicAsset(current,name,execFileSync('git',['show',current.source_commit_sha+':'+path]));
+  }
+  verifyPublicIndex(current,
+    JSON.parse(execFileSync('git',['show',current.source_commit_sha+':apps/web-v2/catalog.v2.json'])),
+    JSON.parse(execFileSync('git',['show',current.source_commit_sha+':apps/web-v2/browse-index.v2.json'])));
+});
 test('R2 manifest pins all ten original Git release bytes, not mutable main',()=>{
   validateManifest(manifest);
   for(const path of Object.keys(manifest.files))verifyPublicAsset(manifest,path.replace('apps/web-v2/',''),raw(path.replace('apps/web-v2/','')));

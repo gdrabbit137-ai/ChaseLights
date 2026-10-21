@@ -88,6 +88,17 @@ def verify_main(root, lock):
 
     out["one_shot_acceptance"] = verify_one_shot_evidence(root, lock)
 
+    archive = pilot["w4_archive"]
+    archive_path = archive["path"]
+    archive_bytes = (root / archive_path).read_bytes()
+    if (git(root, "rev-parse", "HEAD:" + archive_path) !=
+            git(root, "rev-parse", archive["source_sha"] + ":" + archive_path) or
+            hashlib.sha256(archive_bytes).hexdigest() != archive["sha256"] or
+            archive["historical_only"] is not True or archive["data_state"] != "RAW_ONLY" or
+            archive["photography_verdict"] != "NOT_EVALUABLE"):
+        raise ValueError("W4 historical archive source or safety pin drift")
+    out["w4_historical_archive_sha256"] = archive["sha256"]
+
     manifest = json.loads(
         (root / "apps/web-v2/tests/fixtures/worker2/manifest.json").read_text()
     )
@@ -298,15 +309,16 @@ def main():
                 None, False, False),
             ("w4-node", ["node", "--test", "--test-isolation=none", "--test-timeout=120000",
                 "--test-reporter=tap", *[str(p.relative_to(root)) for p in sorted(
-                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 56, False, True),
+                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 60, False, True),
             ("w5-public-source-contract", ["node", "--test", "--test-reporter=tap",
-                "ops/v2/tests/public-source-contract.test.mjs"], 6, False, True),
+                "ops/v2/tests/public-source-contract.test.mjs"], 7, False, True),
             ("local-isolation", [sys.executable, "ops/v2/integration_gate.py", "--root", str(root)],
                 None, False, False),
             ("browser-smoke", ["node", "--test", "--test-isolation=none", "--test-timeout=120000",
                 "--test-reporter=tap", "apps/web-v2/tests/browser-smoke.mjs",
                 "apps/web-v2/tests/task-s-browser.mjs",
-                "apps/web-v2/tests/photography-topics-browser.mjs"], 88, False, True),
+                "apps/web-v2/tests/photography-topics-browser.mjs",
+                "apps/web-v2/tests/hourly-weather-browser.mjs"], 96, False, True),
             ("static-build", [sys.executable, "ops/v2/build_static.py", "--root", str(root),
                 "--output", str(logs / "candidate-build")], None, False, False),
             ("candidate-build-browser", ["node", "--test", "--test-isolation=none",
@@ -321,9 +333,9 @@ def main():
             for key in ("tests", "pass", "fail", "error", "skip")
         }
         if report["counts"] != {
-            "tests": 444, "pass": 444, "fail": 0, "error": 0, "skip": 0
+            "tests": 457, "pass": 457, "fail": 0, "error": 0, "skip": 0
         }:
-            raise ValueError("Post-merge exact 444-case requirement failed")
+            raise ValueError("Post-merge exact 457-case requirement failed")
         if not all(g["status"] == "PASS" for g in report["groups"]):
             raise ValueError("One or more required suites failed")
         report["status"] = "PASS"

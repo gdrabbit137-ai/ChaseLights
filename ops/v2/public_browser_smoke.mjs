@@ -5,7 +5,7 @@ import {createRequire} from "node:module";
 import {readFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import {verifyResearchPage,verifyPhotographyTopics} from './browser_contract.mjs';
-import {validateManifest,verifyPublicAsset,verifyPublicIndex,runtimeFiles} from './public_source_contract.mjs';
+import {validateManifest,verifyPublicAsset,verifyPublicIndex,runtimeFiles,candidateRuntimeFiles} from './public_source_contract.mjs';
 import {setTimeout as delay} from "node:timers/promises";
 
 const UI=process.env.V2_PUBLIC_UI || 'existing-preview';
@@ -17,8 +17,8 @@ if(UI==='forecast-home'){
   expectedManifest=JSON.parse(await readFile(process.env.V2_EXPECTED_BUILD_MANIFEST,'utf8'));
 
 }
-if(UI==='existing-beta')expectedManifest=JSON.parse(await readFile(new URL('./public-beta-r2-manifest.json',import.meta.url),'utf8'));
-if(expectedManifest)validateManifest(expectedManifest);
+if(UI==='existing-beta')expectedManifest=JSON.parse(await readFile(new URL('./public-research-20261020-manifest.json',import.meta.url),'utf8'));
+if(expectedManifest)validateManifest(expectedManifest,{candidate:UI==='forecast-home'});
 console.log('PUBLIC SMOKE SCOPE',UI==='forecast-home'?'PUBLISHED_CANDIDATE_EXACT_MANIFEST':'EXISTING_PUBLIC_PREVIEW_NOT_CANDIDATE');
 const BASE = "https://chaselights.app/apps/web-v2/";
 const LOCALES = ["zh-TW", "en", "ja"];
@@ -61,7 +61,7 @@ assert.match(html.body, /ChaseLights V2/);
 if(expectedManifest)assert.equal(createHash('sha256').update(html.body).digest('hex'),expectedManifest.files['apps/web-v2/index.html']);
 const legacyAssets = ["styles.css", "app.mjs", "model.mjs", "catalog-loader.mjs",
                 "v21-adapter.mjs", "catalog.v2.json"];
-const assets=HOME?runtimeFiles.filter(x=>x!=='index.html'):legacyAssets;
+const assets=HOME?(UI==='forecast-home'?candidateRuntimeFiles:runtimeFiles).filter(x=>x!=='index.html'):legacyAssets;
 for (const path of assets) {
   const found = await fetchPublic(path);
   assert.ok(!/text\/html/i.test(found.response.headers.get("content-type") || ""),

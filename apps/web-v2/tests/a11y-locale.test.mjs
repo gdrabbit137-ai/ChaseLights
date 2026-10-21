@@ -41,6 +41,7 @@ function mountApp() {
     geometryType:()=>null,relationValue:()=>null,runtimeEvaluation:()=>null,associated:()=>null,
     matchMedia:()=>({matches:false,addEventListener:()=>{}}),
     fetch:async()=>({ok:false}),browse:()=>[],validateBrowseIndex:()=>null,
+    initHourlyWeather:()=>({setLocale:()=>{}}),
     console,Intl,Date,Set,Map
   },{timeout:2000});
   return {document,store,language:document.getElementById('language')};

@@ -2,14 +2,16 @@
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 export const runtimeFiles=['index.html','styles.css','app.mjs','model.mjs','catalog-loader.mjs','catalog-state.mjs','v21-adapter.mjs','browse-index.mjs','browse-index.v2.json','catalog.v2.json'];
-export function validateManifest(manifest){
+// The R2 public manifest is immutable. A proposed new build has three more files.
+export const candidateRuntimeFiles=[...runtimeFiles,'hourly-weather.mjs','hourly-weather-ui.mjs','fixtures/hourly/qixingtan-one-shot-20261019.json'];
+export function validateManifest(manifest,{candidate=false}={}){
   assert.equal(manifest.status,'PASS');
   assert.equal(manifest.mode,'RESEARCH_ONLY');
   assert.equal(manifest.deployment_allowed,false);
   assert.equal(manifest.live_forecast_eligible,false);
   assert.match(manifest.source_commit_sha,/^[a-f0-9]{40}$/);
   assert.match(manifest.source_index_commit_sha,/^[a-f0-9]{40}$/);
-  assert.deepEqual(Object.keys(manifest.files).sort(),runtimeFiles.map(f=>'apps/web-v2/'+f).sort());
+  assert.deepEqual(Object.keys(manifest.files).sort(),(candidate?candidateRuntimeFiles:runtimeFiles).map(f=>'apps/web-v2/'+f).sort());
   for(const hash of Object.values(manifest.files))assert.match(hash,/^[a-f0-9]{64}$/);
   return manifest;
 }
