@@ -26,6 +26,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.10"
+      - name: Load validated generated-data snapshot (after reviewed cutover)
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        run: python ops/v2/data_publish/publisher.py prepare
+
       - name: Require Earthdata token secret
         run: |
           if [ -z "$EARTHDATA_TOKEN" ]; then
@@ -74,22 +78,8 @@ jobs:
           PY
       - name: Publish QC-passing VIIRS snapshot
         run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
           git add -- weathergrid/viirs_nightlights_tw_browser.json weathergrid/viirs_nightlights_tw_qc.json
-          if git diff --cached --quiet; then
-            echo "VIIRS snapshot unchanged."
-          else
-            git commit -m "Auto-update VIIRS nighttime-light snapshot [skip ci]"
-            for i in {1..5}; do
-              if git pull --rebase origin main && git push origin HEAD:main; then
-                exit 0
-              fi
-              sleep 5
-            done
-            echo "Failed to publish VIIRS snapshot after retries."
-            exit 1
-          fi
+          python ops/v2/data_publish/publisher.py publish --producer viirs
 
       - uses: actions/upload-artifact@v4
         with:

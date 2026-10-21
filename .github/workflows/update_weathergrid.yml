@@ -45,6 +45,10 @@ jobs:
           ref: main
           fetch-depth: 0
 
+      - name: Load validated generated-data snapshot (after reviewed cutover)
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        run: python ops/v2/data_publish/publisher.py prepare
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -245,31 +249,8 @@ jobs:
             rm -f weathergrid/cwa_wrf3_tw_weather_browser.json weathergrid/cwa_wrf3_tw_weather_qc.json
           fi
 
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git add -A \
-            weathergrid/gfs_tw_weather_browser.json \
-            weathergrid/gfs_tw_weather_qc.json \
-            weathergrid/weathergrid_coverage_browser.json \
-            weathergrid/icon_tw_cloud_browser.json \
-            weathergrid/icon_tw_cloud_qc.json \
-            weathergrid/cwa_wrf3_tw_weather_browser.json \
-            weathergrid/cwa_wrf3_tw_weather_qc.json
-
-          if git diff --cached --quiet; then
-            echo "WeatherGrid live snapshot unchanged."
-            exit 0
-          fi
-
-          git commit -m "Auto-update live WeatherGrid preview [skip ci]"
-          for i in {1..5}; do
-            if git pull --rebase origin main && git push origin HEAD:main; then
-              exit 0
-            fi
-            sleep 5
-          done
-          echo "Failed to publish WeatherGrid snapshot after retries."
-          exit 1
+          git add -A -- weathergrid/gfs_tw_weather_browser.json weathergrid/gfs_tw_weather_qc.json weathergrid/weathergrid_coverage_browser.json weathergrid/icon_tw_cloud_browser.json weathergrid/icon_tw_cloud_qc.json weathergrid/cwa_wrf3_tw_weather_browser.json weathergrid/cwa_wrf3_tw_weather_qc.json
+          python ops/v2/data_publish/publisher.py publish --producer grid
 
       - name: Upload validation artifact
         uses: actions/upload-artifact@v4

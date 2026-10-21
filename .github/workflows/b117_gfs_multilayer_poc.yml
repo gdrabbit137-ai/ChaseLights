@@ -467,6 +467,10 @@ jobs:
       - name: Checkout main
         uses: actions/checkout@v4
 
+      - name: Load validated generated-data snapshot (after reviewed cutover)
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        run: python ops/v2/data_publish/publisher.py prepare
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -593,26 +597,8 @@ jobs:
           else
             rm -f weathergrid/jma_msm_tw_cloud_browser.json weathergrid/jma_msm_tw_cloud_qc.json
           fi
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git add -A \
-            weathergrid/gfs_tw_weather_browser.json \
-            weathergrid/gfs_tw_weather_qc.json \
-            weathergrid/weathergrid_coverage_browser.json \
-            weathergrid/icon_tw_cloud_browser.json \
-            weathergrid/icon_tw_cloud_qc.json \
-            weathergrid/cwa_wrf3_tw_weather_browser.json \
-            weathergrid/cwa_wrf3_tw_weather_qc.json \
-            weathergrid/jma_msm_tw_cloud_browser.json \
-            weathergrid/jma_msm_tw_cloud_qc.json
-          if ! git diff --cached --quiet; then
-            git commit -m "Update WeatherGrid preview snapshot [skip ci]"
-            for i in {1..5}; do
-              git pull --rebase origin main && git push origin HEAD:main && break || sleep 5
-            done
-          else
-            echo "WeatherGrid preview snapshot unchanged."
-          fi
+          git add -A -- weathergrid
+          python ops/v2/data_publish/publisher.py publish --producer experiment
 
       - name: Upload multi-layer artifact
         uses: actions/upload-artifact@v4

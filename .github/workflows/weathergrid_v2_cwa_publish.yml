@@ -25,6 +25,10 @@ jobs:
           ref: main
           fetch-depth: 0
 
+      - name: Load validated generated-data snapshot (after reviewed cutover)
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        run: python ops/v2/data_publish/publisher.py prepare
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -83,28 +87,8 @@ jobs:
 
       - name: Publish V2 CWA snapshot to main
         run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
           git add -A -- weathergrid/v2
-
-          if git diff --cached --quiet; then
-            echo "WeatherGrid V2 CWA derived snapshot unchanged."
-            exit 0
-          fi
-
-          git commit -m "Auto-update WeatherGrid V2 CWA derived tiles"
-          pushed=false
-          for i in {1..5}; do
-            if git pull --rebase origin main && git push origin HEAD:main; then
-              pushed=true
-              break
-            fi
-            sleep 5
-          done
-          if [[ "$pushed" != "true" ]]; then
-            echo "Failed to publish WeatherGrid V2 CWA snapshot after retries."
-            exit 1
-          fi
+          python ops/v2/data_publish/publisher.py publish --producer v2-cwa
 
       - name: Upload CWA V2 publisher artifact
         if: always()

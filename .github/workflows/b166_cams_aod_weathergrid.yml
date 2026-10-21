@@ -51,6 +51,10 @@ jobs:
         with:
           ref: main
           fetch-depth: 0
+      - name: Load validated generated-data snapshot (after reviewed cutover)
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        run: python ops/v2/data_publish/publisher.py prepare
+
       - uses: actions/setup-python@v5
         with:
           python-version: "3.10"
@@ -91,21 +95,9 @@ jobs:
           mkdir -p weathergrid
           cp cams_aod_output/cams_global_tw_aod_browser.json weathergrid/cams_global_tw_aod_browser.json
           cp cams_aod_output/cams_global_tw_aod_qc.json weathergrid/cams_global_tw_aod_qc.json
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git add weathergrid/cams_global_tw_aod_browser.json weathergrid/cams_global_tw_aod_qc.json
-          if git diff --cached --quiet; then
-            echo "CAMS AOD WeatherGrid unchanged."
-            exit 0
-          fi
-          git commit -m "Auto-update CAMS AOD WeatherGrid [skip ci]"
-          for i in {1..5}; do
-            if git pull --rebase origin main && git push origin HEAD:main; then
-              exit 0
-            fi
-            sleep 5
-          done
-          exit 1
+          git add -- weathergrid/cams_global_tw_aod_browser.json weathergrid/cams_global_tw_aod_qc.json
+          python ops/v2/data_publish/publisher.py publish --producer cams
+
       - uses: actions/upload-artifact@v4
         with:
           name: cams-aod-weathergrid

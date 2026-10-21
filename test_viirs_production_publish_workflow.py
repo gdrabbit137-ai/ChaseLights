@@ -9,10 +9,11 @@ class ViirsProductionPublishWorkflowTests(unittest.TestCase):
     def setUp(self):
         self.text = WORKFLOW.read_text(encoding="utf-8")
 
-    def test_workflow_can_publish_to_main(self):
+    def test_workflow_uses_bounded_publication_route(self):
         self.assertIn("contents: write", self.text)
         self.assertIn("Publish QC-passing VIIRS snapshot", self.text)
-        self.assertIn("git push origin HEAD:main", self.text)
+        self.assertIn("publisher.py publish --producer viirs", self.text)
+        self.assertNotIn("git push", self.text)
 
     def test_only_runtime_browser_and_qc_files_are_committed(self):
         publish = self.text.split("- name: Publish QC-passing VIIRS snapshot", 1)[1]
