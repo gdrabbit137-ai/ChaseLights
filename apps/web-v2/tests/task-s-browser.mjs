@@ -31,11 +31,11 @@ for(const [device,width] of [['desktop',1440],['mobile',390]])for(const locale o
     await context.addInitScript(value=>localStorage.setItem('chaselights-v2-locale',value),locale);
     const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
     try{
-      await page.goto(url);await page.waitForFunction(()=>document.querySelectorAll('.place-button').length===7);
+      await page.goto(url);await page.waitForFunction(()=>document.querySelectorAll('.place-button').length===216);
       assert.equal(await page.locator('#research-browser').isVisible(),false);
       await page.locator('#browse-research').click();
       assert.equal(await page.locator('#place-count').textContent(),{
-        'zh-TW':'符合景點: 7',en:'Matching places: 7',ja:'一致する撮影地: 7'}[locale]);
+        'zh-TW':'符合景點: 216',en:'Matching places: 216',ja:'一致する撮影地: 216'}[locale]);
       assert.equal(await page.locator('#topic-options input').count(),8);
       assert.equal(await page.locator('.nav-action,.score').count(),0);
       if(device==='mobile'){
@@ -58,7 +58,7 @@ for(const [device,width] of [['desktop',1440],['mobile',390]])for(const locale o
       assert.equal(await page.locator('#topic-options input[value="topic:colorful-clouds"]').isChecked(),true);
       assert.equal(await page.locator('.opportunity').count(),1);
       await page.locator('#search').fill('[.*]');assert.equal(await page.locator('.place-button').count(),0);
-      await page.locator('#clear-filters').click();assert.equal(await page.locator('.place-button').count(),7);
+      await page.locator('#clear-filters').click();assert.equal(await page.locator('.place-button').count(),216);
       assert.equal(await page.locator('.opportunity .pill').first().count(),1);
       assert.ok(!(await page.locator('#detail').innerText()).includes('FAVORABLE'));
       assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
