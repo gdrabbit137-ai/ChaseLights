@@ -1,0 +1,208 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-052",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "荷馬沙嘴",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Homer Spit",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "ホーマー・スピット",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        59.62,
+        -151.45472
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "Travel Alaska official Spit subject + Wikidata/GeoNames landform anchor",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "medium_high",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 3.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/Anchorage",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "Alaska"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "blue_hour",
+        "mountain_view",
+        "sky_glow",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "coast"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "荷馬沙嘴",
+        "en": "Homer Spit",
+        "ja": "ホーマー・スピット"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-052-P01.best_time",
+      "value": "白天至暮色；Kachemak Bay與對岸山脈清楚可見時",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-052-P01.best_season",
+      "value": "全年；雪峰、冰河細節與船隻只作現況加分",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-052-P01.name_zh",
+      "value": "Homer Spit・Kachemak Bay＋山脈／冰河全景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-052-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-052-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-052-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Travel Alaska directly documents the Homer Spit, Kachemak Bay and surrounding mountain/glacier panorama. B74 moves the broad Homer city anchor onto the actual Spit landform using a cross-checked public geographic anchor.",
+          "name": "Homer Spit Waterfront Camera Zone",
+          "lat": 59.62,
+          "lon": -151.45472,
+          "coord_confidence": "medium_high",
+          "verification_status": "official_state_tourism_subject_plus_wikidata_geonames_spit_anchor",
+          "geometry_type": "area",
+          "geometry_extent_m": 3800,
+          "geometry_note": "Homer Spit公共道路、港灣、商業水岸與合法海灘觀景區；不把潮間帶行走當成必要條件。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-052-P02.best_time",
+      "value": "白天至暮色；港灣與商店活動較豐富時可加分",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-052-P02.best_season",
+      "value": "全年；夏季活動通常較多，但船隻、鳥類與商家營業不得由月份保證",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-052-P02.name_zh",
+      "value": "Homer Spit・港灣船隻／海濱店舖街景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-052-P02.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-052-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-052-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Travel Alaska explicitly describes harbor, boats, beach walking, shops and restaurants on the Spit. Wildlife and fishing activity remain boosters rather than guaranteed subjects.",
+          "name": "Homer Spit Harbor / Commercial Waterfront Camera Zone",
+          "lat": 59.62,
+          "lon": -151.45472,
+          "coord_confidence": "medium_high",
+          "verification_status": "official_state_tourism_harbor_subject_plus_spit_anchor",
+          "geometry_type": "area",
+          "geometry_extent_m": 3300,
+          "geometry_note": "Homer Spit港灣與公共商業水岸步行範圍。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

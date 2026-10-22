@@ -1,0 +1,206 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-057",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "北極圈地標",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Arctic Circle Monument",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "北極線標識",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        66.55601,
+        -150.8107
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "BLM official Arctic Circle Wayside + Travel Alaska official sign photo-op + cross-mapped sign coordinate",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 346.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/Anchorage",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "Alaska"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "aurora",
+        "milky_way",
+        "mountain_view"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "mountain"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "北極圈地標",
+        "en": "Arctic Circle Monument",
+        "ja": "北極線標識"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-057-P01.best_time",
+      "value": "Dalton Highway／Wayside當下可安全合法到達時；白天或暮色皆可",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-057-P01.best_season",
+      "value": "全年地標存在；冬季道路風險高，須依即時道路狀況",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-057-P01.name_zh",
+      "value": "Arctic Circle Wayside・北極圈標誌地標照",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-057-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-057-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-057-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "BLM identifies the Arctic Circle Wayside; Travel Alaska specifically calls the official sign a photo-op. The existing sign coordinate is retained as a cross-mapped arrival/weather anchor.",
+          "name": "Arctic Circle Wayside Sign Camera Zone",
+          "lat": 66.55601,
+          "lon": -150.8107,
+          "coord_confidence": "high",
+          "verification_status": "official_blm_wayside_plus_travel_alaska_photo_subject_cross_mapped_sign",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 450,
+          "geometry_note": "Arctic Circle Wayside公共停車與標誌周邊安全步行區。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-057-P02.best_time",
+      "value": "冬季／黑暗時段，Wayside可安全到達且有location-aware極光活動時",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-057-P02.best_season",
+      "value": "BLM明確指出冬季可由Arctic Circle Wayside觀賞Northern Lights；實際極光與道路狀況須即時確認",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-057-P02.name_zh",
+      "value": "Arctic Circle Wayside・北極圈標誌＋Aurora Borealis",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-057-P02.legacy_theme",
+      "value": "aurora",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-057-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-057-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "BLM explicitly states northern lights can be viewed from the Arctic Circle Wayside in winter. Runtime remains fail-closed on aurora_state and current road access.",
+          "name": "Arctic Circle Wayside Aurora Camera Zone",
+          "lat": 66.55601,
+          "lon": -150.8107,
+          "coord_confidence": "high",
+          "verification_status": "official_blm_exact_wayside_aurora_subject_plus_cross_mapped_sign",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 700,
+          "geometry_note": "Wayside公共停車／標誌周邊極光觀景範圍。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

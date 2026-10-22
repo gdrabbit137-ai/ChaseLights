@@ -1,0 +1,162 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "jp-030",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "jp_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "鳴門海峽漩渦",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Naruto Whirlpools",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "鳴門海峡",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        34.24,
+        134.651
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "best-effort Uzu-no-Michi viewpoint",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "medium",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 0.0,
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "Asia/Tokyo",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "徳島県"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "long_exposure",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "coast",
+        "geology"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "鳴門海峽漩渦",
+        "en": "Naruto Whirlpools",
+        "ja": "鳴門海峡"
+      },
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-030-P01.best_time",
+      "value": "僅官方潮見表所示滿／乾潮附近且渦之道實際開放時（JST）",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-030-P01.best_season",
+      "value": "全年皆可能；春季3月下旬–4月下旬與秋季9月下旬–10月下旬大潮通常更具規模，但仍依當日官方潮見",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-030-P01.name_zh",
+      "value": "鳴門渦之道・鳴門海峽漩渦",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-030-P01.legacy_theme",
+      "value": "long_exposure",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-030-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "jp-030-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Official sources establish Uzu-no-Michi as a direct whirlpool observation facility. Existing coordinate remains medium-confidence until an exact observation-window point is independently cross-checked.",
+          "name": "大鳴門橋遊歩道・渦の道 Camera Zone",
+          "lat": 34.24,
+          "lon": 134.651,
+          "elevation_m": null,
+          "coord_confidence": "medium",
+          "verification_status": "official_uzu_no_michi_subject_and_facility; exact_observation_window_coordinate_pending_crosscheck",
+          "geometry_type": "area",
+          "geometry_extent_m": 450,
+          "geometry_note": "渦之道遊步道及觀景窗的合法公共區域；漩渦位置隨潮流變化，Camera Zone 不代表固定漩渦中心。",
+          "geometry_confidence": "medium"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

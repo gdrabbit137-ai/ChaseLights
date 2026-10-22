@@ -1,0 +1,208 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-037",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "尼加拉瀑布",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Niagara Falls",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "ナイアガラの滝",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        43.08008,
+        -79.07443
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "Niagara Falls State Park official Terrapin Point overlook evidence + OSM/GeoNames viewpoint anchor",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 99.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/New_York",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "New York"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "blue_hour",
+        "city_night",
+        "long_exposure",
+        "mountain_view"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "city",
+        "waterfall"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "尼加拉瀑布",
+        "en": "Niagara Falls",
+        "ja": "ナイアガラの滝"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-037-P01.best_time",
+      "value": "白天可見光；以Terrapin Point公共觀景區實際可用狀態為準",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-037-P01.best_season",
+      "value": "全年；冬季冰景屬現況加分，不由月份保證",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-037-P01.name_zh",
+      "value": "Terrapin Point・Horseshoe Falls瀑布與水霧",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-037-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-037-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-037-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Official Niagara Falls State Park guidance identifies Terrapin Point as a primary Horseshoe Falls overlook. The waterfall itself is persistent enough that B71 does not require a generic waterfall-flow module; mist/visibility remains a scene-quality factor.",
+          "name": "Terrapin Point Camera Zone",
+          "lat": 43.08008,
+          "lon": -79.07443,
+          "coord_confidence": "high",
+          "verification_status": "official_park_terrapin_subject_plus_osm_geonames_viewpoint_anchor",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 300,
+          "geometry_note": "Terrapin Point公共觀景區與相鄰合法步道。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-037-P02.best_time",
+      "value": "官方當日晚間瀑布illumination實際點亮時",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-037-P02.best_season",
+      "value": "全年依官方當日illumination／特殊活動狀態",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-037-P02.name_zh",
+      "value": "Niagara Falls・夜間瀑布illumination",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-037-P02.legacy_theme",
+      "value": "city_night",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-037-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-037-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "New York State Parks explicitly lists nightly Falls illumination, but ChaseLights does not yet ingest the current illumination state/schedule. The Opportunity therefore remains module_pending.",
+          "name": "Niagara Falls Public Night-view Camera Zone",
+          "lat": 43.08008,
+          "lon": -79.07443,
+          "coord_confidence": "high",
+          "verification_status": "official_state_park_nightly_illumination_subject_plus_terrapin_area_anchor",
+          "geometry_type": "area",
+          "geometry_extent_m": 1200,
+          "geometry_note": "Goat Island／Terrapin Point等合法公共觀景區；不指定唯一夜拍腳架點。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

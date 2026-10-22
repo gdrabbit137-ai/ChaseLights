@@ -1,0 +1,169 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "jp-017",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "jp_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "金澤兼六園",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Kanazawa Kenroku-en",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "兼六園",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        36.563367,
+        136.662817
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "B32 official Kotoji-toro photo-spot guidance + cross-checked Kasumigaike camera location",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 46.0,
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "Asia/Tokyo",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "石川県"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "mountain_view"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "forest",
+        "lake",
+        "architecture"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "access_note_i18n",
+      "value": {
+        "zh-TW": "兼六園另有季節性早朝免費入園與一般入園時段；網站推薦以官方各時段最終入園時間作抵達截止。早朝僅開放指定入口，出發前仍請確認最新公告。",
+        "en": "Kenroku-en has seasonal early-morning free-entry and regular paid-entry windows. Recommendations use each official last-entry time as the arrival cutoff; early entry uses designated gates only.",
+        "ja": "兼六園は季節別の早朝無料入園と通常入園があります。推奨到着時刻は各公式最終入園時刻を締切とし、早朝入園は指定入口のみです。"
+      },
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "access_mode",
+      "value": "opening_hours",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "金澤兼六園",
+        "en": "Kanazawa Kenroku-en",
+        "ja": "兼六園"
+      },
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-017-P01.best_time",
+      "value": "官方開園／早朝入園時段內的可見光時間（景點當地時間／JST）",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-017-P01.best_season",
+      "value": "全年；紅葉、雪吊為季節加分題材，不作基本 Outcome 硬條件",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-017-P01.name_zh",
+      "value": "兼六園・徽軫燈籠與霞之池經典庭園景觀",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-017-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-017-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "jp-017-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Official photo-guide evidence identifies Kotoji-toro as a primary photo spot; coordinate is a cross-checked photographed Kasumigaike/Kotoji-toro viewpoint on the public garden-path area.",
+          "name": "徽軫燈籠／霞之池 Camera Zone",
+          "lat": 36.563367,
+          "lon": 136.662817,
+          "elevation_m": null,
+          "coord_confidence": "high",
+          "verification_status": "official_photo_spot_plus_cross_checked_camera_location",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 120,
+          "geometry_note": "徽軫燈籠、虹橋、霞之池周邊合法園路範圍；不是單一腳架位置。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

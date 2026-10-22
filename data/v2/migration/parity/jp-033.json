@@ -1,0 +1,264 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "jp-033",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "jp_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "唐津城",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Karatsu Castle",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "唐津城",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        33.453529,
+        129.97818
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "B51 Karatsu Tourism Association castle research + existing POI",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 10.0,
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "Asia/Tokyo",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "佐賀県"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "mountain_view"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "architecture",
+        "city",
+        "coast"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "access_note_i18n",
+      "value": {
+        "zh-TW": "舞鶴公園官方花巡資料列 05:00–22:00；天守內部另為 09:00–17:00、16:40 最終入館且可能季節調整。外部公園時段不可當作天守內部已開放。",
+        "en": "Official Maizuru Park guidance lists 05:00–22:00. The castle keep is separately 09:00–17:00 with last entry 16:40 and may change seasonally; park access does not prove keep access.",
+        "ja": "舞鶴公園は公式案内で05:00〜22:00。天守閣内部は別契約で09:00〜17:00（最終入館16:40、季節変更あり）。公園が開いていても天守開館を意味しません。"
+      },
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "access_mode",
+      "value": "opening_hours",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "access_hours",
+      "value": [
+        "05:00",
+        "22:00"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "唐津城",
+        "en": "Karatsu Castle",
+        "ja": "唐津城"
+      },
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-033-P01.best_time",
+      "value": "05:00–22:00 舞鶴公園開放時段內，以白天／暮色外部構圖為主",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-033-P01.best_season",
+      "value": "全年",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-033-P01.name_zh",
+      "value": "唐津城・舞鶴城外觀與海岸城郭",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-033-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-033-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "jp-033-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Official tourism identifies the castle and Maizuru Park as the exterior subject. Existing castle POI coordinate is retained for the broad public area.",
+          "name": "唐津城・舞鶴公園 exterior Camera Zone",
+          "lat": 33.453529,
+          "lon": 129.97818,
+          "coord_confidence": "high",
+          "verification_status": "official_castle_subject_plus_existing_poi_anchor",
+          "geometry_type": "area",
+          "geometry_extent_m": 500,
+          "geometry_note": "天守周邊與舞鶴公園公共區域；可移動構圖。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-033-P02.best_time",
+      "value": "天守開館 09:00–17:00（最終入館16:40；季節變更可能）",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-033-P02.best_season",
+      "value": "全年；遠景需良好能見度",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-033-P02.name_zh",
+      "value": "唐津城天守展望・唐津灣與虹之松原",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-033-P02.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-033-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "jp-033-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Official tourism states the fifth-floor keep panorama over the sea and Niji-no-Matsubara is a defining view. Facility access remains a separate runtime dependency.",
+          "name": "唐津城天守5F展望 Camera Zone",
+          "lat": 33.453529,
+          "lon": 129.97818,
+          "coord_confidence": "high",
+          "verification_status": "official_keep_panorama_subject",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 80,
+          "geometry_note": "天守5F展望樓層；需付費入館並受當日營運狀態約束。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-033-P03.best_time",
+      "value": "僅在花況實際成立時",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-033-P03.best_season",
+      "value": "櫻花通常春季；藤花約4月中旬～5月上旬；實際花況不得只靠月份保證",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-033-P03.name_zh",
+      "value": "唐津城・櫻花與藤花季節構圖",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-033-P03.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-033-P03.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "jp-033-VP03",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Karatsu Tourism Association explicitly identifies Karatsu Castle / Maizuru Park as a cherry and wisteria location.",
+          "name": "唐津城・舞鶴公園季節花木 Camera Zone",
+          "lat": 33.453529,
+          "lon": 129.97818,
+          "coord_confidence": "high",
+          "verification_status": "official_cherry_wisteria_subject",
+          "geometry_type": "area",
+          "geometry_extent_m": 650,
+          "geometry_note": "依實際開花位置在舞鶴公園公共區域移動構圖。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

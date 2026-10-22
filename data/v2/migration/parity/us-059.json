@@ -1,0 +1,210 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-059",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "卡特邁國家公園",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Katmai National Park",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "カトマイ国立公園",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        58.55476,
+        -155.79193
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "NPS official Brooks Falls Scenic View/Photo Spot + OSM/Mapcarta platform cross-check",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "medium_high",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 19.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/Anchorage",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "Alaska"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "fog_mist",
+        "mountain_view",
+        "sunbeam",
+        "sunrise",
+        "sunset",
+        "waterfall"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "forest",
+        "mountain"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "卡特邁國家公園",
+        "en": "Katmai National Park",
+        "ja": "カトマイ国立公園"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-059-P01.best_time",
+      "value": "Brooks Falls Platform官方當下開放且可進入時；遵守容量、等候與季節時段限制",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-059-P01.best_season",
+      "value": "春夏秋活動為主；實際平台hours／closure優先於靜態月份",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-059-P01.name_zh",
+      "value": "Brooks Falls Platform・瀑布／Brooks River景觀",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-059-P01.legacy_theme",
+      "value": "waterfall",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-059-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-059-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "NPS explicitly classifies Brooks Falls Platform as a Scenic View/Photo Spot. B75 corrects the legacy broad Katmai weather anchor to the actual Brooks Falls area using an OSM/Mapcarta platform coordinate cross-check.",
+          "name": "Brooks Falls Platform Camera Zone",
+          "lat": 58.55476,
+          "lon": -155.79193,
+          "coord_confidence": "medium_high",
+          "verification_status": "official_nps_photo_spot_subject_plus_osm_mapcarta_platform_crosscheck",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 450,
+          "geometry_note": "Brooks Falls官方平台與相連合法觀景結構；不可停留在禁止攝影／通行的walkway位置。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-059-P02.best_time",
+      "value": "官方平台可用且棕熊／鮭魚活動當下實際存在時；NPS指出7月通常最集中，但月份本身不能保證",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-059-P02.best_season",
+      "value": "NPS資料顯示6月中至10月中可能有熊，7月與9月較常見；實際個體與行為仍須即時wildlife state",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-059-P02.name_zh",
+      "value": "Brooks Falls・棕熊捕鮭",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-059-P02.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-059-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-059-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "NPS directly documents Brooks Falls and nearby platforms for bear photography, but bear abundance varies substantially by date. B75 therefore introduces a wildlife_state + dynamic_access dependency rather than inferring bears from month.",
+          "name": "Brooks Falls / Riffles Bear Viewing Camera Zone",
+          "lat": 58.55476,
+          "lon": -155.79193,
+          "coord_confidence": "medium_high",
+          "verification_status": "official_nps_bear_photo_subject_plus_platform_crosscheck",
+          "geometry_type": "area",
+          "geometry_extent_m": 900,
+          "geometry_note": "Brooks Falls、Riffles及授權觀景平台系統；只在NPS指定位置觀察熊。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

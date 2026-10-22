@@ -1,0 +1,205 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-046",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "哈徹山口",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Hatcher Pass",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "ハッチャーパス",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        61.7661,
+        -149.32137
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "Alaska State Parks Summit Lake photography subject + GeoNames/OSM lake cross-check",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "medium_high",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 1159.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/Anchorage",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "Alaska"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "aurora",
+        "mountain_view",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "mountain"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "Hatcher Pass・Summit Lake Parking",
+        "en": "Hatcher Pass · Summit Lake Parking",
+        "ja": "ハッチャー・パス・Summit Lake Parking"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-046-P01.best_time",
+      "value": "Summit Lake／Hatcher Pass summit road實際開放且山谷、湖泊與峰稜清楚可見時",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-046-P01.best_season",
+      "value": "車輛通常僅夏季可到Summit Lake；實際開放日期依積雪與Alaska State Parks／DOT狀態",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-046-P01.name_zh",
+      "value": "Summit Lake・Hatcher Pass高山湖與Talkeetna Mountains全景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-046-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-046-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-046-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Alaska State Parks explicitly lists photography at Summit Lake and describes the public alpine vista. The Camera Zone is the public lake/recreation-site area; current summit-road access remains fail-closed.",
+          "name": "Summit Lake State Recreation Site Camera Zone",
+          "lat": 61.7661,
+          "lon": -149.32137,
+          "coord_confidence": "medium_high",
+          "verification_status": "official_state_park_photo_subject_plus_geonames_osm_lake_crosscheck",
+          "geometry_type": "area",
+          "geometry_extent_m": 700,
+          "geometry_note": "Summit Lake公共停車、湖邊步道與鄰近合法觀景範圍；road access依當時開放狀態。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-046-P02.best_time",
+      "value": "秋冬至早春黑暗時段；需同時有location-aware極光活動、足夠黑暗、清澈天空與可合法到達的冬季公共停車／觀景區",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-046-P02.best_season",
+      "value": "官方資料支持冬季Hatcher Pass極光觀賞；實際可見性與道路／停車區可達性必須依當時狀態",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-046-P02.name_zh",
+      "value": "Hatcher Pass・山谷前景Aurora Borealis",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-046-P02.legacy_theme",
+      "value": "aurora",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-046-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-046-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Travel Alaska specifically recommends Hatcher Pass for aurora viewing and notes winter viewing from the accessible area below Independence Mine while the summit segment is closed. No single winter tripod coordinate is asserted.",
+          "name": "Hatcher Pass Winter Public Aurora Camera Zone",
+          "coord_confidence": "official_area_no_unique_tripod_claim",
+          "verification_status": "official_state_tourism_aurora_subject_plus_state_park_winter_access_context",
+          "geometry_type": "area",
+          "geometry_extent_m": 2500,
+          "geometry_note": "冬季僅限當下合法可達的Hatcher Pass公共停車／recreation範圍；不把Summit Lake夏季Camera Zone誤當冬季可達點。",
+          "geometry_confidence": "medium_high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

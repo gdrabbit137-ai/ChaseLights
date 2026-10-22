@@ -1,0 +1,212 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "jp-005",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "jp_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "小樽運河",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Otaru Canal",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "小樽運河",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        43.197887,
+        141.003034
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "B32 official photo-spot identification + NAVITIME mapped POI coordinate",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 4.0,
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "Asia/Tokyo",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "北海道"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "blue_hour",
+        "city_night",
+        "long_exposure",
+        "mountain_view",
+        "reflection"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "city",
+        "river",
+        "architecture"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "小樽運河",
+        "en": "Otaru Canal",
+        "ja": "小樽運河"
+      },
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-005-P01.best_time",
+      "value": "白天至日落前（景點當地時間／JST）",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-005-P01.best_season",
+      "value": "全年",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-005-P01.name_zh",
+      "value": "小樽運河石造倉庫與運河景觀",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-005-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-005-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "jp-005-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Official tourism identifies Asakusa Bridge Garden as the representative Otaru Canal photography spot; coordinate cross-checked to mapped POI.",
+          "name": "浅草橋街園 Camera Zone",
+          "lat": 43.197887,
+          "lon": 141.003034,
+          "elevation_m": null,
+          "coord_confidence": "high",
+          "verification_status": "official_photo_spot_plus_mapped_poi_coordinate",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 45,
+          "geometry_note": "淺草橋街園及橋頭公共拍攝區；代表 Camera Zone，不宣稱唯一腳架點。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-005-P02.best_time",
+      "value": "日落後至22:30（景點當地時間／JST；倉庫群點燈至22:30，散策路瓦斯燈至24:00）",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-005-P02.best_season",
+      "value": "全年；特殊活動另依官方公告",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-005-P02.name_zh",
+      "value": "小樽運河暮色瓦斯燈與倉庫點燈",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-005-P02.legacy_theme",
+      "value": "blue_hour",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-005-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "jp-005-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Same researched Camera Zone as daytime canal Opportunity.",
+          "name": "浅草橋街園 Camera Zone",
+          "lat": 43.197887,
+          "lon": 141.003034,
+          "elevation_m": null,
+          "coord_confidence": "high",
+          "verification_status": "official_photo_spot_plus_mapped_poi_coordinate",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 45,
+          "geometry_note": "淺草橋街園及橋頭公共拍攝區；代表 Camera Zone，不宣稱唯一腳架點。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

@@ -1,0 +1,208 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "tw-079",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "tw_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "池西柱狀玄武岩／池西岩瀑九孔池",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Chixi Columnar Basalt · Tidal Pools",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "池西柱状玄武岩・九孔池",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        23.60345,
+        119.50265
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "B28 multiple geotagged-photo Camera Zone; Penghu NSA official Place anchor cross-check",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 0.0,
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "Asia/Taipei",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "澎湖縣"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "mountain_view",
+        "sunset"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "coast",
+        "geology"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "池西柱狀玄武岩／池西岩瀑九孔池",
+        "en": "Chixi Columnar Basalt · Tidal Pools",
+        "ja": "池西柱状玄武岩・九孔池"
+      },
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-079-P01.best_time",
+      "value": "日落前後",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-079-P01.best_season",
+      "value": "全年",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-079-P01.name_zh",
+      "value": "池西柱狀玄武岩夕照",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-079-P01.legacy_theme",
+      "value": "sunset",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-079-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-079-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "B28 Batch4 verified Chixi geotagged Camera Zone.",
+          "name": "池西岩瀑／九孔池 Camera Zone",
+          "lat": 23.60345,
+          "lon": 119.50265,
+          "elevation_m": null,
+          "coord_confidence": "high",
+          "verification_status": "camera_zone_verified_by_multiple_geotagged_photos",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 180,
+          "geometry_note": "兩筆 Wikimedia geotag 約落在 23.60338–23.60350, 119.50243–119.50288，支持玄武岩與九孔池前方小範圍 Camera Zone。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-079-P02.best_time",
+      "value": "低潮至中低潮",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-079-P02.best_season",
+      "value": "全年",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-079-P02.name_zh",
+      "value": "池西九孔池退潮玄武岩全景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-079-P02.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-079-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-079-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "B28 Batch4 verified Chixi geotagged Camera Zone; tide determines usable foreground.",
+          "name": "池西岩瀑／九孔池 Camera Zone",
+          "lat": 23.60345,
+          "lon": 119.50265,
+          "elevation_m": null,
+          "coord_confidence": "high",
+          "verification_status": "camera_zone_verified_by_multiple_geotagged_photos",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 180,
+          "geometry_note": "兩筆 Wikimedia geotag 約落在 23.60338–23.60350, 119.50243–119.50288，支持玄武岩與九孔池前方小範圍 Camera Zone。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

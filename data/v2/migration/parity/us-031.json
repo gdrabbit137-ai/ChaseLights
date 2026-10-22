@@ -1,0 +1,161 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-031",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "落磯山國家公園",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Rocky Mountain National Park",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "ロッキー山脈国立公園",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        40.320586,
+        -105.604813
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "NPS Sprague Lake exact event/location coordinate + Scenic View/Photo Spot evidence",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 2648.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/Denver",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "Colorado"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "milky_way",
+        "mountain_view",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "mountain"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "Rocky Mountain NP・Sprague Lake Trailhead",
+        "en": "Rocky Mountain NP · Sprague Lake Trailhead",
+        "ja": "ロッキーマウンテン国立公園・Sprague Lake Trailhead"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-031-P01.best_time",
+      "value": "Bear Lake Road實際可進入且湖面／Continental Divide可見時；2026年特定日期時段需Timed Entry + Bear Lake Road reservation",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-031-P01.best_season",
+      "value": "全年題材成立；2026年5/22–10/18的05:00–18:00 Bear Lake Road進入需依官方Timed Entry規則，冬季另受道路／天候影響",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-031-P01.name_zh",
+      "value": "Sprague Lake・Continental Divide山景與湖面",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-031-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-031-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-031-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "NPS identifies Sprague Lake as a Scenic View/Photo Spot and explicitly supports lake + Continental Divide photographs. B70 replaces the broad RMNP inventory coordinate with the actual Sprague Lake Camera Zone/weather sample. Reflection remains a booster, not a hard water-surface requirement.",
+          "name": "Sprague Lake East-shore / Loop Camera Zone",
+          "lat": 40.320586,
+          "lon": -105.604813,
+          "coord_confidence": "high",
+          "verification_status": "official_nps_sprague_lake_exact_location_and_photo_subject",
+          "geometry_type": "area",
+          "geometry_extent_m": 650,
+          "geometry_note": "Sprague Lake 0.7–0.8 mile public loop與東岸觀景／休憩點；不宣稱單一腳架位置。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

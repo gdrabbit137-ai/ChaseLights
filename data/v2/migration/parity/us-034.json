@@ -1,0 +1,160 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-034",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "聖路易斯大拱門",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "St. Louis Gateway Arch",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "ゲートウェイ・アーチ",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        38.6246,
+        -90.185
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "official geographic POI",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 134.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/Chicago",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "Missouri"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "blue_hour",
+        "city_night",
+        "mountain_view"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "city"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "聖路易斯大拱門",
+        "en": "St. Louis Gateway Arch",
+        "ja": "ゲートウェイ・アーチ"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-034-P01.best_time",
+      "value": "05:00–23:00 grounds開放時段內的可見光；晨昏光線可加分但不是硬條件",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-034-P01.best_season",
+      "value": "全年；NPS明確指出各季節皆可形成Arch攝影背景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-034-P01.name_zh",
+      "value": "Gateway Arch grounds・拱門與公園城市構圖",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-034-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-034-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-034-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "NPS explicitly states the grounds provide multiple viewpoints and a photographic backdrop for the Arch. Existing high-confidence Arch POI remains a representative area anchor; no unique tripod location is asserted.",
+          "name": "Gateway Arch Grounds Camera Zone",
+          "lat": 38.6246,
+          "lon": -90.185,
+          "coord_confidence": "high",
+          "verification_status": "official_nps_arch_grounds_photo_subject_plus_existing_high_confidence_poi",
+          "geometry_type": "area",
+          "geometry_extent_m": 900,
+          "geometry_note": "Gateway Arch National Park公共grounds、步道與草地觀景範圍；室內設施另有獨立開放契約。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

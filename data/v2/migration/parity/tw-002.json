@@ -1,0 +1,288 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "tw-002",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "tw_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "象山六巨石攝影平台",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Xiangshan Six Boulders Viewpoint",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "象山六巨石展望台",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        25.02688,
+        121.57419
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "curated camera point",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 127.0,
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "Asia/Taipei",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "台北市"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "blue_hour",
+        "city_night",
+        "mountain_view",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "city",
+        "mountain"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "象山六巨石攝影平台",
+        "en": "Xiangshan Six Boulders Viewpoint",
+        "ja": "象山六巨石展望台"
+      },
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-002-P01.best_time",
+      "value": "日落後藍調",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-002-P01.best_season",
+      "value": "全年",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-002-P01.name_zh",
+      "value": "台北101與信義天際線暮色／藍調",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-002-P01.legacy_theme",
+      "value": "blue_hour",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-002-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-002-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "name": "象山六巨石",
+          "lat": 25.02688,
+          "lon": 121.57419,
+          "coord_confidence": "high",
+          "verification_status": "reference_coordinate_high_exact_tripod_optional",
+          "geometry_type": "point",
+          "geometry_extent_m": null,
+          "geometry_confidence": "medium"
+        },
+        {
+          "viewpoint_id": "tw-002-VP02",
+          "relation_role": "reference",
+          "sort_order": 2,
+          "name": "象山攝手／攝影平台",
+          "lat": 25.02713,
+          "lon": 121.57312,
+          "coord_confidence": "medium",
+          "verification_status": "verified_coordinate_B_needs_profile_assignment",
+          "geometry_type": "point",
+          "geometry_extent_m": null,
+          "geometry_confidence": "medium"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-002-P02.best_time",
+      "value": "夜間",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-002-P02.best_season",
+      "value": "全年",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-002-P02.name_zh",
+      "value": "台北101與信義天際線夜景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-002-P02.legacy_theme",
+      "value": "city_night",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-002-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-002-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "name": "象山六巨石",
+          "lat": 25.02688,
+          "lon": 121.57419,
+          "coord_confidence": "high",
+          "verification_status": "reference_coordinate_high_exact_tripod_optional",
+          "geometry_type": "point",
+          "geometry_extent_m": null,
+          "geometry_confidence": "medium"
+        },
+        {
+          "viewpoint_id": "tw-002-VP02",
+          "relation_role": "reference",
+          "sort_order": 2,
+          "name": "象山攝手／攝影平台",
+          "lat": 25.02713,
+          "lon": 121.57312,
+          "coord_confidence": "medium",
+          "verification_status": "verified_coordinate_B_needs_profile_assignment",
+          "geometry_type": "point",
+          "geometry_extent_m": null,
+          "geometry_confidence": "medium"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-002-P03.best_time",
+      "value": "活動時段",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-002-P03.best_season",
+      "value": "跨年限定",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-002-P03.name_zh",
+      "value": "台北101跨年煙火全景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-002-P03.legacy_theme",
+      "value": "city_night",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-002-P03.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-002-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "name": "象山六巨石",
+          "lat": 25.02688,
+          "lon": 121.57419,
+          "coord_confidence": "high",
+          "verification_status": "reference_coordinate_high_exact_tripod_optional",
+          "geometry_type": "point",
+          "geometry_extent_m": null,
+          "geometry_confidence": "medium"
+        },
+        {
+          "viewpoint_id": "tw-002-VP02",
+          "relation_role": "reference",
+          "sort_order": 2,
+          "name": "象山攝手／攝影平台",
+          "lat": 25.02713,
+          "lon": 121.57312,
+          "coord_confidence": "medium",
+          "verification_status": "verified_coordinate_B_needs_profile_assignment",
+          "geometry_type": "point",
+          "geometry_extent_m": null,
+          "geometry_confidence": "medium"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

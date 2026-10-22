@@ -1,0 +1,219 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "tw-074",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "tw_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "野柳地質公園",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Yehliu Geopark",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "野柳地質公園",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        25.20886,
+        121.69314
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "B28 geotagged Queen Head Camera Zone; official park access cross-check",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 0.0,
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "Asia/Taipei",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "新北市"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "mountain_view"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "coast",
+        "geology"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "access_note_i18n",
+      "value": {
+        "zh-TW": "一般開園 08:00–17:00，夏季通常至 18:00；特殊活動可能調整，拍攝前請查官方公告",
+        "en": "Normally open 08:00–17:00, usually to 18:00 in summer; verify official notices for event changes",
+        "ja": "通常08:00〜17:00、夏季は通常18:00まで。イベント時は公式案内を確認してください"
+      },
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "access_mode",
+      "value": "opening_hours",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "access_hours",
+      "value": [
+        "08:00",
+        "17:00"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "野柳地質公園",
+        "en": "Yehliu Geopark",
+        "ja": "野柳地質公園"
+      },
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-074-P01.best_time",
+      "value": "園區開放時段；低角度側光或柔光優先",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-074-P01.best_season",
+      "value": "全年",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-074-P01.name_zh",
+      "value": "野柳女王頭地景光影",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-074-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-074-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-074-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "B28 verified Queen's Head legal-path Camera Zone.",
+          "name": "女王頭合法步道攝影區",
+          "lat": 25.20886,
+          "lon": 121.69314,
+          "elevation_m": null,
+          "coord_confidence": "high",
+          "verification_status": "camera_zone_verified_by_multiple_geotagged_queen_head_photos",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 45,
+          "geometry_note": "多筆 2015–2025 地理標記照片集中於女王頭觀賞／拍攝動線；代表合法小區域，不宣稱唯一腳架點。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-074-P02.best_time",
+      "value": "園區開放時段；斜光或陰天柔光",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-074-P02.best_season",
+      "value": "全年",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-074-P02.name_zh",
+      "value": "野柳蕈狀岩與燭台石群紋理",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-074-P02.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-074-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-074-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "B28 verified mushroom/candle rock Camera Zone.",
+          "name": "蕈狀岩與燭台石地景 Camera Zone",
+          "lat": 25.20775,
+          "lon": 121.69155,
+          "elevation_m": null,
+          "coord_confidence": "high",
+          "verification_status": "camera_zone_verified_by_geotagged_mushroom_rock_cluster",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 130,
+          "geometry_note": "多筆蕈狀岩／冰淇淋石地理標記照片形成群聚；燭台石位於同一園區但構圖位置可移動。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

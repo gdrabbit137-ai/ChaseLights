@@ -1,0 +1,220 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "jp-011",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "jp_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "東京鐵塔",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Tokyo Tower",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "東京タワー",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        35.658656,
+        139.745364
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "Tokyo Tower official Main Deck identity + existing high-confidence tower POI",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 150,
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "Asia/Tokyo",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "東京都"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "city_night",
+        "mountain_view"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "city",
+        "architecture"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "access_note_i18n",
+      "value": {
+        "zh-TW": "Main Deck 官方營業 09:00–23:00，最終入場 22:30；推薦抵達時間以 22:30 為截止，臨時營運調整仍以官方公告為準。",
+        "en": "Main Deck is officially open 09:00–23:00 with last admission at 22:30; recommendations use 22:30 as the arrival cutoff. Verify same-day operational notices.",
+        "ja": "メインデッキは公式09:00〜23:00、最終入場22:30。推奨到着時刻は22:30を締切とし、当日の運営変更は公式案内を確認してください。"
+      },
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "access_mode",
+      "value": "opening_hours",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "access_hours",
+      "value": [
+        "09:00",
+        "22:30"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "東京鐵塔",
+        "en": "Tokyo Tower",
+        "ja": "東京タワー"
+      },
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-011-P01.best_time",
+      "value": "09:00 起至日落前、且須在 22:30 最終入場前（景點當地時間／JST）",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-011-P01.best_season",
+      "value": "全年；實際營運狀態仍以官方當日公告為準",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-011-P01.name_zh",
+      "value": "東京鐵塔 Main Deck・東京城市日間全景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-011-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-011-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "jp-011-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Horizontal anchor is the Tokyo Tower structure; the actual photography Camera Zone is the public Main Deck at 150 m, not an exterior ground-level composition.",
+          "name": "東京鐵塔 Main Deck 150m Camera Zone",
+          "lat": 35.658656,
+          "lon": 139.745364,
+          "elevation_m": 150,
+          "coord_confidence": "high",
+          "verification_status": "official_main_deck_identity_plus_existing_high_confidence_tower_poi",
+          "geometry_type": "vertical_area",
+          "geometry_extent_m": 80,
+          "geometry_note": "同一塔體水平座標上的 150m 展望層；不代表塔外拍攝點。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-011-P02.best_time",
+      "value": "暮色後至 22:30 最終入場前（景點當地時間／JST）",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-011-P02.best_season",
+      "value": "全年；實際營運狀態仍以官方當日公告為準",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-011-P02.name_zh",
+      "value": "東京鐵塔 Main Deck・東京城市夜景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-011-P02.legacy_theme",
+      "value": "city_night",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-011-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "jp-011-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Same official 150 m Main Deck; night is modeled separately so daytime and city-night temporal semantics do not leak into each other.",
+          "name": "東京鐵塔 Main Deck 150m Camera Zone",
+          "lat": 35.658656,
+          "lon": 139.745364,
+          "elevation_m": 150,
+          "coord_confidence": "high",
+          "verification_status": "official_main_deck_identity_plus_existing_high_confidence_tower_poi",
+          "geometry_type": "vertical_area",
+          "geometry_extent_m": 80,
+          "geometry_note": "同一塔體 150m 展望層的夜景 Camera Zone。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

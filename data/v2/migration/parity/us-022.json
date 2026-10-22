@@ -1,0 +1,207 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-022",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "約書亞樹國家公園",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Joshua Tree National Park",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "ジョシュア・ツリー国立公園",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        33.8270493,
+        -115.8600998
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "NPS Cholla Cactus Garden photo/location metadata",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 996.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/Los_Angeles",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "California"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "milky_way",
+        "mountain_view",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "mountain"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "約書亞樹國家公園",
+        "en": "Joshua Tree National Park",
+        "ja": "ジョシュア・ツリー国立公園"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-022-P01.best_time",
+      "value": "日出前後",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-022-P01.best_season",
+      "value": "全年；NPS稱全年可訪，春季可能另有花期但不作本題材硬條件",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-022-P01.name_zh",
+      "value": "Cholla Cactus Garden・仙人掌花園日出",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-022-P01.legacy_theme",
+      "value": "sunrise",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-022-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-022-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "NPS directly supports Cholla Cactus Garden as a sunrise/sunset photo location. B66 moves the Place weather/sample anchor from a broad park-center coordinate to the official photographed Cholla Garden area.",
+          "name": "Cholla Cactus Garden Camera Zone",
+          "lat": 33.8270493,
+          "lon": -115.8600998,
+          "coord_confidence": "high",
+          "verification_status": "official_nps_cholla_garden_subject_and_photo_location",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 550,
+          "geometry_note": "0.25-mile Cholla Cactus Garden指定步道與合法觀景區；不得離開步道進入脆弱植被。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-022-P02.best_time",
+      "value": "日落前後",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-022-P02.best_season",
+      "value": "全年",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-022-P02.name_zh",
+      "value": "Cholla Cactus Garden・仙人掌花園夕照",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-022-P02.legacy_theme",
+      "value": "sunset",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-022-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-022-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "NPS explicitly describes the Garden as a great sunset location and publishes sunset imagery from this exact area.",
+          "name": "Cholla Cactus Garden Sunset Camera Zone",
+          "lat": 33.8270493,
+          "lon": -115.8600998,
+          "coord_confidence": "high",
+          "verification_status": "official_nps_cholla_garden_sunset_subject",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 550,
+          "geometry_note": "Cholla Cactus Garden指定步道與公共觀景範圍。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

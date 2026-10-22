@@ -1,0 +1,208 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-065",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "楚加奇州立公園",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Chugach State Park",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "チュガッチ州立公園",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        61.10489,
+        -149.68461
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "Alaska State Parks official Glen Alps/Anchorage Overlook subject + OSM/Mapcarta viewpoint cross-check",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "medium_high",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 673.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/Anchorage",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "Alaska"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "aurora",
+        "milky_way",
+        "mountain_view",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "mountain"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "楚加奇州立公園",
+        "en": "Chugach State Park",
+        "ja": "チュガッチ州立公園"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-065-P01.best_time",
+      "value": "日落前約1小時至日落後短時間；Glen Alps公共觀景區可安全使用時",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-065-P01.best_season",
+      "value": "全年；雪景、Denali可見度與秋色只作現況加分",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-065-P01.name_zh",
+      "value": "Glen Alps Overlook・Anchorage／Cook Inlet／Alaska Range日落",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-065-P01.legacy_theme",
+      "value": "sunset",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-065-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-065-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Alaska State Parks explicitly identifies the Glen Alps / Anchorage Overlook panorama and says it is good for sunsets. B76 narrows the broad Chugach State Park inventory coordinate to this public overlook area.",
+          "name": "Glen Alps Overlook Camera Zone",
+          "lat": 61.10489,
+          "lon": -149.68461,
+          "coord_confidence": "medium_high",
+          "verification_status": "official_alaska_state_parks_view_subject_plus_cross_mapped_glen_alps_viewpoint",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 700,
+          "geometry_note": "Glen Alps公共viewpoint、短步道與合法觀景區。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-065-P02.best_time",
+      "value": "天空足夠黑暗、Glen Alps／Anchorage Hillside公共區域可安全使用且有location-aware極光活動時",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-065-P02.best_season",
+      "value": "Alaska State Parks明確列Anchorage Hillside為northern-lights攝影地區；實際可見性仍需即時aurora_state與雲況",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-065-P02.name_zh",
+      "value": "Anchorage Hillside／Glen Alps・Aurora Borealis",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-065-P02.legacy_theme",
+      "value": "aurora",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-065-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-065-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Alaska State Parks explicitly recommends Anchorage Hillside for northern-lights photography. Canonical eligibility remains fail-closed on location-aware aurora_state; planetary Kp alone remains insufficient.",
+          "name": "Glen Alps / Anchorage Hillside Aurora Camera Zone",
+          "lat": 61.10489,
+          "lon": -149.68461,
+          "coord_confidence": "medium_high",
+          "verification_status": "official_alaska_state_parks_aurora_subject_plus_cross_mapped_glen_alps_viewpoint",
+          "geometry_type": "area",
+          "geometry_extent_m": 1800,
+          "geometry_note": "Glen Alps／Anchorage Hillside合法、安全且可公開使用的觀景區；不宣稱唯一極光腳架位置。",
+          "geometry_confidence": "medium_high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

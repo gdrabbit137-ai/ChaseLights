@@ -1,0 +1,570 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "tw-035",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "tw_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "六十石山",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Liushidan Mountain",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "六十石山",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        23.21907,
+        121.3176
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "curated camera point",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 944.0,
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "Asia/Taipei",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "花蓮縣"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "cloud_sea",
+        "milky_way",
+        "mountain_view",
+        "sky_glow",
+        "sunbeam",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "mountain"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "六十石山・黃花亭停車場",
+        "en": "Liushishishan · Huanghua Pavilion parking",
+        "ja": "六十石山・黄花亭駐車場"
+      },
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P01.best_time",
+      "value": "白天至晨昏",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P01.best_season",
+      "value": "8–9月金針花；冬季亦有油菜花田景觀",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P01.name_zh",
+      "value": "六十石山花東縱谷層巒＋季節花田",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-035-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "name": "忘憂亭前周邊攝影點",
+          "lat": 23.221497,
+          "lon": 121.315444,
+          "coord_confidence": "medium",
+          "verification_status": "photography_point_supported_needs_official_coord",
+          "geometry_type": "small_area",
+          "geometry_extent_m": null,
+          "geometry_confidence": "medium"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P02.best_time",
+      "value": "15:00–17:00優先",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P02.best_season",
+      "value": "全年候選；官方特別標示15:00–17:00",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P02.name_zh",
+      "value": "六十石山午後雲隙光＋縱谷／花田",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P02.legacy_theme",
+      "value": "sunbeam",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-035-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "name": "六十石山小瑞士／官方即時影像區",
+          "lat": 23.21907,
+          "lon": 121.3176,
+          "coord_confidence": "medium",
+          "verification_status": "verified_area_needs_exact_camera_point",
+          "geometry_type": "small_area",
+          "geometry_extent_m": null,
+          "geometry_confidence": "medium"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P03.best_time",
+      "value": "日落前後",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P03.best_season",
+      "value": "全年；花季8–9月前景更具特色",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P03.name_zh",
+      "value": "六十石山丘陵／縱谷夕照",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P03.legacy_theme",
+      "value": "sunset",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P03.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-035-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "name": "忘憂亭前周邊攝影點",
+          "lat": 23.221497,
+          "lon": 121.315444,
+          "coord_confidence": "medium",
+          "verification_status": "photography_point_supported_needs_official_coord",
+          "geometry_type": "small_area",
+          "geometry_extent_m": null,
+          "geometry_confidence": "medium"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P04.best_time",
+      "value": "日落前後",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P04.best_season",
+      "value": "全年候選",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P04.name_zh",
+      "value": "六十石山黃昏彩霞＋丘陵／縱谷",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P04.legacy_theme",
+      "value": "sky_glow",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P04.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-035-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "name": "忘憂亭前周邊攝影點",
+          "lat": 23.221497,
+          "lon": 121.315444,
+          "coord_confidence": "medium",
+          "verification_status": "photography_point_supported_needs_official_coord",
+          "geometry_type": "small_area",
+          "geometry_extent_m": null,
+          "geometry_confidence": "medium"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P05.best_time",
+      "value": "天文黑夜",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P05.best_season",
+      "value": "銀河核心季節＋低月光",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P05.name_zh",
+      "value": "六十石山丘陵／涼亭銀河星空",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P05.legacy_theme",
+      "value": "milky_way",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P05.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-035-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "name": "忘憂亭前周邊攝影點",
+          "lat": 23.221497,
+          "lon": 121.315444,
+          "coord_confidence": "medium",
+          "verification_status": "photography_point_supported_needs_official_coord",
+          "geometry_type": "small_area",
+          "geometry_extent_m": null,
+          "geometry_confidence": "medium"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P06.best_time",
+      "value": "晨昏優先",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P06.best_season",
+      "value": "全年候選",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P06.name_zh",
+      "value": "六十石山觀景點下方縱谷雲海",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P06.legacy_theme",
+      "value": "cloud_sea",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P06.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-035-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "name": "六十石山小瑞士／官方即時影像區",
+          "lat": 23.21907,
+          "lon": 121.3176,
+          "coord_confidence": "medium",
+          "verification_status": "verified_area_needs_exact_camera_point",
+          "geometry_type": "small_area",
+          "geometry_extent_m": null,
+          "geometry_confidence": "medium"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P07.best_time",
+      "value": "8–9 月花季；日間柔和光線",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P07.best_season",
+      "value": "8–9 月",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P07.name_zh",
+      "value": "黃花亭金針花田與山景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P07.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P07.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-035-VP07",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Huanghua Pavilion photography zone; parking/arrival is modeled separately.",
+          "name": "黃花亭 Camera Zone",
+          "lat": 23.219472,
+          "lon": 121.308056,
+          "elevation_m": null,
+          "coord_confidence": "medium_high",
+          "verification_status": "official_pavilion_parking_presence_plus_mapped_camera_anchor",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 180,
+          "geometry_note": "代表黃花亭周邊合法觀景與花田構圖區，不宣稱唯一腳架位置。",
+          "geometry_confidence": "medium_high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P08.best_time",
+      "value": "8–9 月花季；午後斜射光較有層次",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P08.best_season",
+      "value": "8–9 月",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P08.name_zh",
+      "value": "小瑞士金針花坡與丘陵曲線",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P08.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P08.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-035-VP08",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Photography point only; not a verified parking destination.",
+          "name": "小瑞士觀景台 Camera Zone",
+          "lat": 23.22269,
+          "lon": 121.3156,
+          "elevation_m": null,
+          "coord_confidence": "medium_high",
+          "verification_status": "mapped_photo_viewpoint_with_official_no_parking_constraint",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 160,
+          "geometry_note": "攝影點；花季小瑞士旁禁止停車，導航不得把此點標為停車場。",
+          "geometry_confidence": "medium_high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P09.best_time",
+      "value": "15:00–17:00；官方旅遊資料列為雲隙光常見拍攝時段",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P09.best_season",
+      "value": "8–9 月花季；全年仍可拍縱谷夕照",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P09.name_zh",
+      "value": "忘憂亭縱谷雲隙光與夕照",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P09.legacy_theme",
+      "value": "sunbeam",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P09.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-035-VP09",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "West-facing photography zone near Wangyou Pavilion; parking/arrival kept separate.",
+          "name": "忘憂亭 Camera Zone",
+          "lat": 23.221497,
+          "lon": 121.315444,
+          "elevation_m": null,
+          "coord_confidence": "medium_high",
+          "verification_status": "mapped_photo_viewpoint_and_official_sunbeam_subject_evidence",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 180,
+          "geometry_note": "代表忘憂亭周邊西向縱谷構圖區；非唯一腳架點。",
+          "geometry_confidence": "medium_high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P10.best_time",
+      "value": "8–9 月花季；午後柔光或雲影時",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P10.best_season",
+      "value": "8–9 月",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P10.name_zh",
+      "value": "鹿蔥亭金針花丘陵與縱谷層次",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P10.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-035-P10.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-035-VP10",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Photography point; no official parking lot asserted.",
+          "name": "鹿蔥亭 Camera Zone",
+          "lat": 23.224528,
+          "lon": 121.309667,
+          "elevation_m": null,
+          "coord_confidence": "medium",
+          "verification_status": "mapped_photo_viewpoint_official_pavilion_presence",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 180,
+          "geometry_note": "代表鹿蔥亭周邊合法觀景構圖區；不宣稱有正式停車場。",
+          "geometry_confidence": "medium"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

@@ -1,0 +1,246 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "tw-085",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "tw_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "南子吝步道",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Nanzilin Trail",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "南子吝歩道",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        25.1201398,
+        121.887539
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "legacy Place/Camera coordinate; navigation target not independently verified",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "medium",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 7.0,
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "Asia/Taipei",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "新北市"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "blue_hour",
+        "mountain_view",
+        "sky_glow",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "coast",
+        "mountain"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "南子吝步道官方到達點",
+        "en": "Nanzilin Trail official arrival point",
+        "ja": "南子吝歩道 公式到着地点"
+      },
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-085-P01.best_time",
+      "value": "日出前約45分鐘至日出後約90分鐘；合法步道可安全通行時",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-085-P01.best_season",
+      "value": "全年；以當日步道與天候安全為準",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-085-P01.name_zh",
+      "value": "南子吝・山海360°晨景與海面日出",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-085-P01.legacy_theme",
+      "value": "sunrise",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-085-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-085-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Official tourism page supports the trail/viewing-platform mountain-sea panorama; the exact Camera Zone coordinate is intentionally unfilled until independently verified.",
+          "name": "南子吝步道山稜／觀景平台 Camera Zone",
+          "verification_status": "official_trail_area_exact_camera_coordinate_unverified",
+          "geometry_type": "area",
+          "geometry_extent_m": 900,
+          "geometry_note": "官方證實步道／觀景平台與攝影題材；精確 Camera Zone／腳架座標尚未獨立驗證，因此不填猜測 GPS。",
+          "geometry_confidence": "medium"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-085-P02.best_time",
+      "value": "日落前約90分鐘至日落後藍調初段；步道可安全下撤為前提",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-085-P02.best_season",
+      "value": "全年",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-085-P02.name_zh",
+      "value": "南子吝・基隆山方向夕景與山海層次",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-085-P02.legacy_theme",
+      "value": "sunset",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-085-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-085-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Official tourism material explicitly supports Keelung Mountain sunset photography from the trail.",
+          "name": "南子吝步道夕景 Camera Zone",
+          "verification_status": "official_trail_area_exact_camera_coordinate_unverified",
+          "geometry_type": "area",
+          "geometry_extent_m": 900,
+          "geometry_note": "官方證實步道／觀景平台與攝影題材；精確 Camera Zone／腳架座標尚未獨立驗證，因此不填猜測 GPS。",
+          "geometry_confidence": "medium"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-085-P03.best_time",
+      "value": "秋冬且現地芒草狀態已確認時；日間低角度光優先",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-085-P03.best_season",
+      "value": "秋冬；實際芒草花況不可由天氣推定",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-085-P03.name_zh",
+      "value": "南子吝・秋冬芒草與山海景觀",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-085-P03.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-085-P03.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-085-VP03",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Official tourism page explicitly documents autumn/winter silvergrass; exact stand location is treated as an area rather than a fixed tripod coordinate.",
+          "name": "南子吝步道芒草山稜 Camera Zone",
+          "verification_status": "official_trail_area_exact_camera_coordinate_unverified",
+          "geometry_type": "area",
+          "geometry_extent_m": 900,
+          "geometry_note": "官方證實步道／觀景平台與攝影題材；精確 Camera Zone／腳架座標尚未獨立驗證，因此不填猜測 GPS。",
+          "geometry_confidence": "medium"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

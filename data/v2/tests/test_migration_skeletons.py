@@ -71,6 +71,30 @@ class MigrationSkeletonTests(unittest.TestCase):
                 self.assertEqual(f"legacy_{v1['legacy_theme']}",
                                  doc["condition_contract"]["conditions"][0]["metric"])
 
+    def test_parity_checklists_cover_every_v1_place(self):
+        parity = sorted((ROOT / "data/v2/migration/parity").glob("*.json"))
+        self.assertEqual(216, len(parity))
+        for path in parity:
+            doc = json.loads(path.read_text(encoding="utf-8"))
+            with self.subTest(file=path.name):
+                self.assertEqual(path.stem, doc["spot_id"])
+                self.assertEqual("FIRST_PASS_PARITY_COMPLETE", doc["disposition"])
+                self.assertTrue(doc["transferred"])
+                self.assertTrue(all(m["status"] == "MISSING_IN_V1"
+                                    for m in doc["missing_or_unknown"]))
+
+    def test_v1_access_notes_carry_verbatim_as_warnings(self):
+        """V1 access notices migrate verbatim (non-scoring warning), not dropped or invented."""
+        wspot = None
+        for wp in gen.DEFAULT_WEATHER:
+            for s in json.loads(wp.read_text(encoding="utf-8"))["spots"]:
+                if s["spot_id"] == "tw-068":
+                    wspot = s
+        self.assertIsNotNone(wspot)
+        doc = json.loads((SKELETONS / "tw-068-P01.json").read_text(encoding="utf-8"))
+        self.assertEqual(wspot["access_note_i18n"],
+                         doc["camera_contexts"][0]["access_notes_i18n"])
+
     def test_skeletons_never_in_canonical_opportunities_dir(self):
         canonical = {p.stem for p in (ROOT / "data/v2/opportunities").glob("*.json")}
         skeletons = {p.stem for p in SKELETONS.glob("*.json")}

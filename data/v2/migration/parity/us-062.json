@@ -1,0 +1,163 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-062",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "埃克盧特納湖",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Eklutna Lake",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "エクルートナ湖",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        61.40975,
+        -149.13455
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "Alaska State Parks official photography subject + OSM/Mapcarta Lakeside Trailhead cross-check",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "medium_high",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 280.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/Anchorage",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "Alaska"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "aurora",
+        "fog_mist",
+        "mountain_view",
+        "reflection",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "lake"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "埃克盧特納湖",
+        "en": "Eklutna Lake",
+        "ja": "エクルートナ湖"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-062-P01.best_time",
+      "value": "白天可見光；湖岸／Lakeside Trail可安全使用且山壁清楚時",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-062-P01.best_season",
+      "value": "全年；反射、野花、雪景皆為現況加分，不由月份保證",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-062-P01.name_zh",
+      "value": "Eklutna Lake・湖景＋峽谷／Chugach山景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-062-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-062-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-062-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Alaska State Parks explicitly lists Eklutna Lake reflective lake shots, canyon walls and mountainous views as photography subjects. The trailhead coordinate is a cross-mapped planning anchor; reflection is a booster rather than a hard water-state gate.",
+          "name": "Eklutna Lakeside Trail / Shoreline Camera Zone",
+          "lat": 61.40975,
+          "lon": -149.13455,
+          "coord_confidence": "medium_high",
+          "verification_status": "official_alaska_state_parks_photo_subject_plus_cross_mapped_trailhead_anchor",
+          "geometry_type": "area",
+          "geometry_extent_m": 2200,
+          "geometry_note": "Eklutna Lake公共湖岸、Lakeside Trail起點及鄰近合法觀景區；不宣稱唯一腳架位置。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

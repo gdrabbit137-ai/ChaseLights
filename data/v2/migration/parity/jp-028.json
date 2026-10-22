@@ -1,0 +1,207 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "jp-028",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "jp_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "高野山",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Mt. Koya",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "高野山",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        34.213056,
+        135.579583
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "B50 Wakayama/Kongobuji official Danjo Garan research + existing mapped precinct anchor",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 841.0,
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "Asia/Tokyo",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "和歌山県"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "mountain_view"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "forest",
+        "architecture"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "高野山",
+        "en": "Mt. Koya",
+        "ja": "高野山"
+      },
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-028-P01.best_time",
+      "value": "白天可見光與公開參拜動線可用時（景點當地時間／JST）",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-028-P01.best_season",
+      "value": "全年；個別堂內拝觀限制不等同戶外伽藍全域關閉",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-028-P01.name_zh",
+      "value": "高野山壇上伽藍・根本大塔與伽藍建築",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-028-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-028-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "jp-028-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Official sources establish the Danjo Garan architectural subject; the existing mapped area coordinate is retained as the broad precinct anchor.",
+          "name": "高野山・壇上伽藍 Public Camera Zone",
+          "lat": 34.213056,
+          "lon": 135.579583,
+          "elevation_m": null,
+          "coord_confidence": "high",
+          "verification_status": "official_danjo_garan_subject_plus_existing_precinct_camera_anchor",
+          "geometry_type": "area",
+          "geometry_extent_m": 320,
+          "geometry_note": "壇上伽藍公共參拜區域；依現場宗教活動與封閉線調整，不宣稱堂內或單一腳架位置。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-028-P02.best_time",
+      "value": "紅葉實際著色期間的白天可見光；夜間照明僅限官方當年度公告",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-028-P02.best_season",
+      "value": "秋季；必須依實際紅葉狀態，不以月份保證見頃",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-028-P02.name_zh",
+      "value": "高野山壇上伽藍蛇腹路・紅葉與伽藍",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-028-P02.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-028-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "jp-028-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Official Wakayama tourism specifically identifies Jabaramichi in Danjo Garan as a popular autumn-foliage scene. Anchor represents the precinct, not an exact tree.",
+          "name": "高野山・壇上伽藍蛇腹路 Autumn Camera Zone",
+          "lat": 34.213056,
+          "lon": 135.579583,
+          "elevation_m": null,
+          "coord_confidence": "high",
+          "verification_status": "official_koyasan_autumn_foliage_subject_plus_precinct_anchor",
+          "geometry_type": "area",
+          "geometry_extent_m": 420,
+          "geometry_note": "蛇腹路與壇上伽藍周邊公共動線；實際葉況與可站位置需現場確認。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

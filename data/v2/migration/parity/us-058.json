@@ -1,0 +1,207 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-058",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "諾姆",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Nome",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "ノーム",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        64.501,
+        -165.406
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "Travel Alaska official Middle Beach / Nome coastal subject + existing downtown anchor",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "medium_high",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 12.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/Nome",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "Alaska"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "aurora",
+        "blue_hour",
+        "mountain_view",
+        "sky_glow",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "coast"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "諾姆",
+        "en": "Nome",
+        "ja": "ノーム"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-058-P01.best_time",
+      "value": "白天至暮色；Middle Beach／Front Street公共區域可安全使用時",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-058-P01.best_season",
+      "value": "全年；海冰、雪景、船隻與野生動物皆依現況，不由月份保證",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-058-P01.name_zh",
+      "value": "Middle Beach／Front Street・Bering Sea海岸城鎮景觀",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-058-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-058-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-058-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Travel Alaska explicitly places Middle Beach behind Historic Front Street. The legacy downtown Nome coordinate is retained as a local weather anchor; no sea-ice access is implied.",
+          "name": "Nome Middle Beach / Front Street Camera Zone",
+          "lat": 64.501,
+          "lon": -165.406,
+          "coord_confidence": "medium_high",
+          "verification_status": "official_state_tourism_middle_beach_subject_plus_existing_nome_anchor",
+          "geometry_type": "area",
+          "geometry_extent_m": 1800,
+          "geometry_note": "Middle Beach、Historic Front Street與鄰近合法公共海岸步行區。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-058-P02.best_time",
+      "value": "晚8月至晚4月黑暗且清朗的夜間；須有location-aware極光活動",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-058-P02.best_season",
+      "value": "Travel Alaska明確推薦Nome作為Arctic region極光目的地；實際可見性需即時資料",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-058-P02.name_zh",
+      "value": "Nome・Bering Sea沿岸Aurora Borealis",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-058-P02.legacy_theme",
+      "value": "aurora",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-058-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-058-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Travel Alaska explicitly recommends Nome for northern-lights viewing but does not establish one unique tripod site. B75 therefore models a safe public area-level Camera Zone and does not invent a precise aurora navigation target.",
+          "name": "Nome Nearby Public Aurora Camera Zone",
+          "coord_confidence": "official_area_no_unique_tripod_claim",
+          "verification_status": "official_state_tourism_nome_aurora_subject",
+          "geometry_type": "area",
+          "geometry_extent_m": 8000,
+          "geometry_note": "Nome周邊合法、安全、低光害公共區域；不把單一海灘或海冰位置宣稱成固定極光點。",
+          "geometry_confidence": "medium"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

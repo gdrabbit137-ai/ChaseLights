@@ -1,0 +1,207 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-055",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "威朗格利-聖埃利亞斯國家公園",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Wrangell-St. Elias NP",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "ランゲル・セントエライアス",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        61.481048,
+        -142.885231
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "NPS exact Kennecott Mines Scenic View/Photo Spot coordinate",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 594.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/Anchorage",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "Alaska"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "milky_way",
+        "mountain_view",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "mountain"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "威朗格利-聖埃利亞斯國家公園",
+        "en": "Wrangell-St. Elias NP",
+        "ja": "ランゲル・セントエライアス"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-055-P01.best_time",
+      "value": "Kennecott實際可到達且歷史建築、山脈與冰河背景清楚可見時",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-055-P01.best_season",
+      "value": "全年題材存在，但McCarthy Road、shuttle與冬季步行／滑雪條件差異大，必須依當下access狀態",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-055-P01.name_zh",
+      "value": "Kennecott Mines・紅色礦場建築＋Wrangell山地／冰河",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-055-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-055-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-055-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "NPS explicitly classifies Kennecott Mines as a Scenic View/Photo Spot and publishes its coordinate. B74 moves the broad park anchor to the actual Kennecott photographic district; public vehicle navigation must not be routed directly into the mill town.",
+          "name": "Kennecott Mines National Historic Landmark Camera Zone",
+          "lat": 61.481048,
+          "lon": -142.885231,
+          "coord_confidence": "high",
+          "verification_status": "official_nps_exact_kennecott_coordinate_and_photo_spot",
+          "geometry_type": "area",
+          "geometry_extent_m": 1200,
+          "geometry_note": "Kennecott Mines NHL合法公共mill-town範圍；私人土地與受限建築另依現場規則。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-055-P02.best_time",
+      "value": "官方Root Glacier reroute／trail實際開放且冰河、山地清楚可見時",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-055-P02.best_season",
+      "value": "全年自然景觀存在；2026曾因地質不穩定改道，現況access必須由最新NPS資訊確認",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-055-P02.name_zh",
+      "value": "Root Glacier・冰河步道／冰面與山地景觀",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-055-P02.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-055-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-055-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "NPS classifies Root Glacier as a Scenic View/Photo Spot and publishes the trailhead coordinate. Current access remains fail-closed because the 2026 landslide closure required an official reroute and the original hazardous segment remains closed.",
+          "name": "Root Glacier Trail / Glacier Camera Zone",
+          "lat": 61.487114,
+          "lon": -142.890863,
+          "coord_confidence": "high",
+          "verification_status": "official_nps_root_glacier_trailhead_coordinate_and_photo_spot",
+          "geometry_type": "area",
+          "geometry_extent_m": 2600,
+          "geometry_note": "Root Glacier Trail、官方reroute與合法冰河觀景／接近區；不把舊封閉路段視為可用。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

@@ -1,0 +1,210 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-076",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "漢密爾頓觀景公園",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Hamilton Viewpoint Park",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "ハミルトン・ビューポイント・パーク",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        47.59163,
+        -122.3846
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "legacy Place/Camera coordinate; navigation target not independently verified",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "medium",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 66.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/Los_Angeles",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "Washington"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "blue_hour",
+        "city_night",
+        "city_view",
+        "sky_glow",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "city",
+        "coast"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "漢密爾頓觀景公園",
+        "en": "Hamilton Viewpoint Park",
+        "ja": "ハミルトン・ビューポイント・パーク"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-076-P01.best_time",
+      "value": "白天至黃昏",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-076-P01.best_season",
+      "value": "全年",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-076-P01.name_zh",
+      "value": "Hamilton Viewpoint・Seattle City＋Elliott Bay＋Harbor＋Cascade Mountains",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-076-P01.legacy_theme",
+      "value": "city_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-076-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-076-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Official city/Elliott Bay/harbor/Cascade view; OSM/GeoNames coordinate anchor.",
+          "name": "Hamilton Viewpoint Camera Zone",
+          "lat": 47.59163,
+          "lon": -122.3846,
+          "coord_confidence": "medium_high",
+          "verification_status": "official_city_subject_public_coordinate",
+          "geometry_type": "area",
+          "geometry_extent_m": 250,
+          "geometry_note": "以合法公共區域為 Camera Zone；座標作天氣／地圖錨點，不宣稱唯一腳架位置。",
+          "geometry_confidence": "medium_high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-076-P02.best_time",
+      "value": "日落後藍調至21:45左右",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-076-P02.best_season",
+      "value": "全年",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-076-P02.name_zh",
+      "value": "Hamilton Viewpoint・Seattle 藍調／夜景＋Elliott Bay",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-076-P02.legacy_theme",
+      "value": "city_night",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-076-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-076-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Official 06:00–22:00 access and city-view subject.",
+          "name": "Hamilton Viewpoint night Camera Zone",
+          "lat": 47.59163,
+          "lon": -122.3846,
+          "coord_confidence": "medium_high",
+          "verification_status": "official_hours_city_view",
+          "geometry_type": "area",
+          "geometry_extent_m": 250,
+          "geometry_note": "以合法公共區域為 Camera Zone；座標作天氣／地圖錨點，不宣稱唯一腳架位置。",
+          "geometry_confidence": "medium_high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

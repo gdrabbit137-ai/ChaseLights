@@ -1,0 +1,208 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "tw-080",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "tw_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "帆船鼻大草原／海岬",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Fanchuanbi Grassland · Headland",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "帆船鼻大草原・海岬",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        22.63366,
+        121.5069
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "B28 Tourism Administration official Place anchor; broad grassland Camera Zone",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 4.0,
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "Asia/Taipei",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "台東縣"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "milky_way",
+        "sunrise"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "coast",
+        "grassland"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "帆船鼻大草原／海岬",
+        "en": "Fanchuanbi Grassland · Headland",
+        "ja": "帆船鼻大草原・海岬"
+      },
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-080-P01.best_time",
+      "value": "日出前後",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-080-P01.best_season",
+      "value": "全年",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-080-P01.name_zh",
+      "value": "帆船鼻草原海岬日出",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-080-P01.legacy_theme",
+      "value": "sunrise",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-080-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-080-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "B28 Batch5 official broad grassland Camera Zone; exact tripod optional.",
+          "name": "帆船鼻大草原海岬 Camera Zone",
+          "lat": 22.63366,
+          "lon": 121.5069,
+          "elevation_m": 30,
+          "coord_confidence": "high",
+          "verification_status": "official_place_anchor_broad_camera_zone",
+          "geometry_type": "area",
+          "geometry_extent_m": 450,
+          "geometry_note": "官方座標22.63366,121.5069作代表anchor；草原為平坦海岬台地，攝影位置可於合法步道／草原範圍移動。",
+          "geometry_confidence": "medium_high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-080-P02.best_time",
+      "value": "天文黑夜",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-080-P02.best_season",
+      "value": "全年；銀河核心以春夏秋較佳",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-080-P02.name_zh",
+      "value": "帆船鼻草原星空／銀河",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-080-P02.legacy_theme",
+      "value": "milky_way",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-080-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-080-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "B28 Batch5 broad grassland Camera Zone; no exact Milky Way alignment claimed.",
+          "name": "帆船鼻大草原海岬 Camera Zone",
+          "lat": 22.63366,
+          "lon": 121.5069,
+          "elevation_m": 30,
+          "coord_confidence": "high",
+          "verification_status": "official_place_anchor_broad_camera_zone",
+          "geometry_type": "area",
+          "geometry_extent_m": 450,
+          "geometry_note": "官方座標22.63366,121.5069作代表anchor；草原為平坦海岬台地，攝影位置可於合法步道／草原範圍移動。",
+          "geometry_confidence": "medium_high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

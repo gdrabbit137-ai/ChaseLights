@@ -1,0 +1,210 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-081",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "雷尼爾山・天堂區",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Mount Rainier — Paradise",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "マウント・レーニア・パラダイス",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        46.786,
+        -121.735
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "legacy Place/Camera coordinate; navigation target not independently verified",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "medium",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 1657.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/Los_Angeles",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "Washington"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "fog_mist",
+        "mountain_view",
+        "sunbeam",
+        "sunrise",
+        "sunset",
+        "waterfall"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "forest",
+        "mountain"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "雷尼爾山・天堂區",
+        "en": "Mount Rainier — Paradise",
+        "ja": "マウント・レーニア・パラダイス"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-081-P01.best_time",
+      "value": "日出後至黃昏；夏季野花、秋色、冬季雪景分季評估",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-081-P01.best_season",
+      "value": "全年；季節題材不同",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-081-P01.name_zh",
+      "value": "Paradise・Mount Rainier＋高山草甸／野花",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-081-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-081-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-081-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "NPS official Paradise/Skyline scenic area; fragile meadows require staying on trail.",
+          "name": "Paradise Meadows / Skyline Camera Zone",
+          "lat": 46.786,
+          "lon": -121.735,
+          "coord_confidence": "medium_high",
+          "verification_status": "official_subject_public_anchor",
+          "geometry_type": "area",
+          "geometry_extent_m": 1800,
+          "geometry_note": "合法公共 Camera Zone；座標作地圖／天氣錨點，不宣稱唯一腳架位置。",
+          "geometry_confidence": "medium_high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-081-P02.best_time",
+      "value": "步道可安全通行時；柔光或低角度光",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-081-P02.best_season",
+      "value": "主要依積雪與步道狀況",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-081-P02.name_zh",
+      "value": "Paradise・Myrtle Falls＋Mount Rainier",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-081-P02.legacy_theme",
+      "value": "waterfall",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-081-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-081-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "NPS explicitly identifies Myrtle Falls as scenic waterfall with Mount Rainier views.",
+          "name": "Myrtle Falls viewpoint",
+          "lat": 46.7868,
+          "lon": -121.7372,
+          "coord_confidence": "medium_high",
+          "verification_status": "official_subject_public_anchor",
+          "geometry_type": "area",
+          "geometry_extent_m": 250,
+          "geometry_note": "合法公共 Camera Zone；座標作地圖／天氣錨點，不宣稱唯一腳架位置。",
+          "geometry_confidence": "medium_high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

@@ -1,0 +1,265 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "jp-022",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "jp_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "彌彥山頂公園・Panorama Tower",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Mt. Yahiko Summit Park · Panorama Tower",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "弥彦山頂公園・パノラマタワー",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        37.710125,
+        138.809994
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "B32 Niigata/Yahiko official summit-park photography evidence + cross-checked Panorama Tower Geo URI",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 510.0,
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "Asia/Tokyo",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "新潟県"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "city_night",
+        "mountain_view",
+        "sunset"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "mountain",
+        "coast",
+        "city"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "access_note_i18n",
+      "value": {
+        "zh-TW": "彌彥山頂可由纜車、季節性彌彥山Skyline或步行路線到達，各路線限制不同；夜間纜車僅官方年度「夜景＆星空Cruise」指定日期運行，不可把一般晴朗夜晚視為可達。",
+        "en": "Mt. Yahiko summit access is multi-modal: ropeway, seasonal Skyline road and hiking routes have different constraints. Night ropeway access is limited to official annual Night View & Stargazing Cruise dates; ordinary clear nights are not assumed accessible.",
+        "ja": "弥彦山頂へのアクセスはロープウェイ、季節運用の弥彦山スカイライン、登山道で条件が異なります。夜間ロープウェイは公式の年間「夜景＆星空クルーズ」実施日に限り、通常の晴天夜を入場可能とは扱いません。"
+      },
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "access_mode",
+      "value": "dynamic_multi_route_summit_status",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "彌彥山多種進入路線",
+        "en": "Mt. Yahiko has multiple access routes",
+        "ja": "弥彦山は複数のアクセス経路があります"
+      },
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-022-P01.best_time",
+      "value": "山頂區可合法到達的白天可見光時段（景點當地時間／JST）",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-022-P01.best_season",
+      "value": "全年皆有景觀價值，但道路、纜車與塔體營運具有不同季節／臨時限制；不得把單一路線營運狀態當成整個山頂必然可達",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-022-P01.name_zh",
+      "value": "彌彥山頂公園・越後平野與日本海全景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-022-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-022-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "jp-022-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "lat": 37.710125,
+          "lon": 138.809994,
+          "elevation_m": null,
+          "coord_confidence": "high",
+          "verification_status": "official_summit_park_identity_plus_cross_checked_panorama_tower_geo_uri",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 250,
+          "geometry_note": "弥彦山頂公園／パノラマタワー周邊合法遊客觀景區；可在公園與展望區域內移動構圖，不宣稱單一腳架點。",
+          "geometry_confidence": "high",
+          "note": "Official prefectural and local tourism sources identify the summit park / Panorama Tower area as the 360-degree panorama destination. Coordinate is a cross-checked Panorama Tower POI anchor within that public Camera Zone.",
+          "name": "彌彥山頂公園／Panorama Tower Camera Zone"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-022-P02.best_time",
+      "value": "日落前後的黃金／暮光時段（景點當地時間／JST；山頂可達時）",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-022-P02.best_season",
+      "value": "官方資料明確支持日本海夕日；實際可達時段仍依季節道路／纜車／步行條件判定",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-022-P02.name_zh",
+      "value": "彌彥山頂公園・日本海夕日",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-022-P02.legacy_theme",
+      "value": "sunset",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-022-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "jp-022-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "lat": 37.710125,
+          "lon": 138.809994,
+          "elevation_m": null,
+          "coord_confidence": "high",
+          "verification_status": "official_summit_park_identity_plus_cross_checked_panorama_tower_geo_uri",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 250,
+          "geometry_note": "弥彦山頂公園／パノラマタワー周邊合法遊客觀景區；可在公園與展望區域內移動構圖，不宣稱單一腳架點。",
+          "geometry_confidence": "high",
+          "note": "Official tourism explicitly identifies sunset over the Sea of Japan from the summit area. The Camera Zone is the summit park / Panorama Tower vicinity, not the mountain centroid.",
+          "name": "彌彥山頂公園／Panorama Tower 西向夕日 Camera Zone"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-022-P03.best_time",
+      "value": "僅官方年度「夜景＆星空Cruise」指定夜間運行時段（JST；2026 上行18:00–20:30、下行末班21:00）",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-022-P03.best_season",
+      "value": "僅官方當年度指定活動日；2026 為 8/11–12、8/14–16、9/19–23，不得推論未發布年份",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-022-P03.name_zh",
+      "value": "彌彥山夜景＆星空Cruise・越後平野夜景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-022-P03.legacy_theme",
+      "value": "city_night",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-022-P03.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "jp-022-VP03",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "lat": 37.710125,
+          "lon": 138.809994,
+          "elevation_m": null,
+          "coord_confidence": "high",
+          "verification_status": "official_summit_park_identity_plus_cross_checked_panorama_tower_geo_uri",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 250,
+          "geometry_note": "弥彦山頂公園／パノラマタワー周邊合法遊客觀景區；可在公園與展望區域內移動構圖，不宣稱單一腳架點。",
+          "geometry_confidence": "high",
+          "note": "Official 2026 Night View & Stargazing Cruise explicitly advertises Echigo Plain night lights, Sea of Japan fishing lights and starry sky during date-limited night ropeway operation. This Opportunity scores the night-view outcome; event access remains a hard gate.",
+          "name": "彌彥山頂公園・夜間特別運行 Camera Zone"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

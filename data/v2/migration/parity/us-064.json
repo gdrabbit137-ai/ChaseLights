@@ -1,0 +1,160 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-064",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "艾利耶斯卡",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Alyeska Resort Girdwood",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "アリエスカ リゾート",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        60.96154,
+        -149.07937
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "Alyeska Resort official Mountain Station panorama subject + OSM/Mapcarta upper tram cross-check",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "medium_high",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 698.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/Anchorage",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "Alaska"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "mountain_view",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "mountain"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "艾利耶斯卡",
+        "en": "Alyeska Resort Girdwood",
+        "ja": "アリエスカ リゾート"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-064-P01.best_time",
+      "value": "Aerial Tram當下實際營運且Mountain Station／observation deck可進入的白天時段",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-064-P01.best_season",
+      "value": "夏冬皆有官方tram產品，但年度維修、天候、營運時間會變動；不得用月份或靜態時刻表保證可達",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-064-P01.name_zh",
+      "value": "Alyeska Mountain Station・Turnagain Arm／懸冰河／Chugach全景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-064-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-064-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-064-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Alyeska Resort directly documents the Mountain Station panorama. B76 moves the Camera Zone/weather sample from the resort base to the upper tram terminal area; it does not turn the summit coordinate into a road-navigation target.",
+          "name": "Alyeska Mountain Station / Observation Deck Camera Zone",
+          "lat": 60.96154,
+          "lon": -149.07937,
+          "coord_confidence": "medium_high",
+          "verification_status": "official_alyeska_mountain_station_subject_plus_cross_mapped_upper_tram_anchor",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 650,
+          "geometry_note": "Aerial Tram Mountain Station、observation deck與合法公共高處觀景區。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

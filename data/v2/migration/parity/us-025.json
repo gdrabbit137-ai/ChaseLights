@@ -1,0 +1,210 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-025",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "聖莫尼卡碼頭",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Santa Monica Pier",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "サンタモニカ・ピア",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        34.008611,
+        -118.498611
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "Wikidata POI",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 0.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/Los_Angeles",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "California"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "blue_hour",
+        "city_night",
+        "sky_glow",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "architecture",
+        "city",
+        "coast"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "聖莫尼卡碼頭",
+        "en": "Santa Monica Pier",
+        "ja": "サンタモニカ・ピア"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-025-P01.best_time",
+      "value": "日落前後",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-025-P01.best_season",
+      "value": "全年",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-025-P01.name_zh",
+      "value": "Santa Monica Pier・太平洋日落與碼頭剪影",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-025-P01.legacy_theme",
+      "value": "sunset",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-025-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-025-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Visit Santa Monica directly identifies the Pier at sunset as a representative view. Existing high-confidence Pier POI coordinate remains the weather/map anchor.",
+          "name": "Santa Monica Pier／Beach Sunset Camera Zone",
+          "lat": 34.008611,
+          "lon": -118.498611,
+          "coord_confidence": "high",
+          "verification_status": "official_destination_sunset_subject_plus_high_confidence_pier_anchor",
+          "geometry_type": "area",
+          "geometry_extent_m": 700,
+          "geometry_note": "Santa Monica Pier公共步行區與相鄰海灘合法區域，可依構圖前後移動。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-025-P02.best_time",
+      "value": "日落後；須有Pacific Wheel實際燈光狀態",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-025-P02.best_season",
+      "value": "全年常態夜間燈光；特殊節慶配色另屬年度／日期事件，不自動推定",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-025-P02.name_zh",
+      "value": "Santa Monica Pier・Pacific Wheel夜間LED燈光",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-025-P02.legacy_theme",
+      "value": "city_night",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-025-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-025-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Pacific Park officially documents nightly LED programming on the Pacific Wheel. Runtime stays pending because ChaseLights has no managed-lighting-state provider and must not assume maintenance/event state.",
+          "name": "Santa Monica Pier／Pacific Wheel Night Camera Zone",
+          "lat": 34.008611,
+          "lon": -118.498611,
+          "coord_confidence": "high",
+          "verification_status": "official_pacific_wheel_nightly_led_subject",
+          "geometry_type": "area",
+          "geometry_extent_m": 700,
+          "geometry_note": "碼頭與相鄰海灘可觀看Pacific Wheel夜間燈光的公共區域。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

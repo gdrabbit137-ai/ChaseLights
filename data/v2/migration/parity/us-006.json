@@ -1,0 +1,207 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-006",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "布萊斯峽谷國家公園",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Bryce Canyon National Park",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "ブライスキャニオン国立公園",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        37.628216,
+        -112.163029
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "USGS/Peakbagger camera point",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 2435.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/Denver",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "Utah"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "milky_way",
+        "mountain_view",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "geology",
+        "mountain"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "布萊斯峽谷國家公園",
+        "en": "Bryce Canyon National Park",
+        "ja": "ブライスキャニオン国立公園"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-006-P01.best_time",
+      "value": "日出前約30分鐘至日出後約1小時（景點當地時間）",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-006-P01.best_season",
+      "value": "全年；冬季道路可能因降雪暫時關閉",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-006-P01.name_zh",
+      "value": "Bryce Amphitheater・Sunrise Point 日出與hoodoo層次",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-006-P01.legacy_theme",
+      "value": "sunrise",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-006-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-006-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "NPS directly identifies Sunrise Point as a Bryce Amphitheater viewpoint and popular sunrise location. NPS parking information publishes the adjacent Sunrise Point parking coordinate.",
+          "name": "Sunrise Point Camera Zone",
+          "lat": 37.6312658742,
+          "lon": -112.164479698,
+          "elevation_m": 2469,
+          "coord_confidence": "high",
+          "verification_status": "official_nps_sunrise_viewpoint_and_parking_anchor",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 250,
+          "geometry_note": "Sunrise Point公共觀景區與相鄰Rim Trail合法區域；不越過欄杆／崖緣。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-006-P02.best_time",
+      "value": "天文黑夜；低月光／新月附近優先",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-006-P02.best_season",
+      "value": "全年暗夜；銀河核心可見方位與季節另由天文模組評估",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-006-P02.name_zh",
+      "value": "Bryce Canyon・星空／銀河與hoodoo前景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-006-P02.legacy_theme",
+      "value": "milky_way",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-006-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-006-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "NPS explicitly recommends Sunrise Point, Sunset Point, Inspiration Point and Paria View for stargazing and separately supports hoodoo foreground night photography. This is not an exact Milky Way alignment claim.",
+          "name": "Bryce Dark-Sky Camera Zone",
+          "coord_confidence": "official_area_subject_no_unique_tripod_claim",
+          "verification_status": "official_nps_dark_sky_and_night_photography_subject",
+          "geometry_type": "area",
+          "geometry_extent_m": 2500,
+          "geometry_note": "以NPS推薦之公共觀景區／合法夜間步道為範圍；不宣稱單一銀河核心精準對位點。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

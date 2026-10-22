@@ -85,7 +85,7 @@ def _point_geometry(lat, lon):
     }
 
 
-def build_skeleton(spot, opp, imported_at):
+def build_skeleton(spot, opp, imported_at, wspot=None):
     oid = opp["opportunity_id"]
     name_zh = opp["name_zh"]
     name = _i18n(name_zh)
@@ -98,18 +98,14 @@ def build_skeleton(spot, opp, imported_at):
         "revision": 1,
         "lifecycle_status": "draft",
         "name_i18n": name,
-        "description_i18n": {
-            "zh-TW": f"{name_zh}（{SKELETON_NOTE_ZH}）",
-            "en": f"{name_zh} ({SKELETON_NOTE_EN})",
-            "ja": f"{name_zh}（{SKELETON_NOTE_JA}）",
-        },
+        "description_i18n": _description_i18n(name_zh, opp),
         "camera_contexts": [{
             "id": f"CZ-{oid}-01",
             "kind": "area",
             "geometry": _point_geometry(lat, lon),
             "verification_status": "provisional",
             "evidence_refs": [],
-            "access_notes_i18n": ACCESS_NOTES,
+            "access_notes_i18n": (wspot["access_note_i18n"] if _truthy(wspot and wspot.get("access_note_i18n")) else ACCESS_NOTES),
             "safety_notes_i18n": SAFETY_NOTES,
             "altitude_m": spot.get("elevation") if spot.get("elevation") is not None else spot.get("api_elevation"),
         }],
@@ -141,7 +137,7 @@ def build_skeleton(spot, opp, imported_at):
             "target_type": "other",
             "lat": lat,
             "lon": lon,
-            "label_i18n": NAV_LABELS,
+            "label_i18n": _nav_labels(wspot),
             "evidence_refs": [],
             "confidence": "low",
         }],
@@ -184,6 +180,107 @@ def build_skeleton(spot, opp, imported_at):
     }
 
 
+def _truthy(value):
+    return bool(value) and value != {}
+
+
+def _nav_labels(wspot):
+    """V1 navigation label carried verbatim when available (legacy-derived)."""
+    if wspot:
+        nav = wspot.get("navigation_target") or {}
+        labels = nav.get("label_i18n")
+        if _truthy(labels):
+            return labels
+    return NAV_LABELS
+
+
+def _description_i18n(name_zh, opp):
+    """Carry V1 best_time/best_season verbatim (legacy-derived, zh source text).
+
+    en/ja keep the zh-TW source values with an explicit pending-translation
+    marker instead of invented translations (semantic parity without fabricating).
+    """
+    best_time = opp.get("best_time")
+    best_season = opp.get("best_season")
+    parts = []
+    if best_time:
+        parts.append(f"V1 最佳時段：{best_time}")
+    if best_season:
+        parts.append(f"V1 季節：{best_season}")
+    zh_detail = "；".join(parts) + "。" if parts else ""
+    en_detail = ("V1 best time: " + best_time if best_time else "") + \
+                ("; V1 season: " + best_season if best_season else "")
+    if en_detail:
+        en_detail += " (zh-TW source values retained pending translation). "
+    ja_detail = ("V1ベスト時間帯: " + best_time if best_time else "") + \
+                ("；V1季節: " + best_season if best_season else "")
+    if ja_detail:
+        ja_detail += "（zh-TW原文のまま、翻訳待ち）。"
+    return {
+        "zh-TW": f"{name_zh}（{zh_detail}{SKELETON_NOTE_ZH}）" if zh_detail else f"{name_zh}（{SKELETON_NOTE_ZH}）",
+        "en": f"{name_zh} ({en_detail}{SKELETON_NOTE_EN})" if en_detail else f"{name_zh} ({SKELETON_NOTE_EN})",
+        "ja": f"{name_zh}（{ja_detail}{SKELETON_NOTE_JA}）" if ja_detail else f"{name_zh}（{SKELETON_NOTE_JA}）",
+    }
+
+
+def parity_checklist(spot, opps, wspot, weather_source, catalog_source):
+    """Per-Place V1 parity checklist: what was transferred, from where, what is missing."""
+    transferred, missing = [], []
+    fields = [
+        ("place name zh-TW", wspot.get("name_i18n", {}).get("zh-TW"), weather_source),
+        ("place name en", (wspot.get("name_i18n") or {}).get("en"), weather_source),
+        ("place name ja", (wspot.get("name_i18n") or {}).get("ja"), weather_source),
+        ("coordinates", (wspot.get("lat"), wspot.get("lon")), weather_source),
+        ("coordinate_source", wspot.get("coordinate_source"), weather_source),
+        ("coordinate_confidence", wspot.get("coordinate_confidence"), weather_source),
+        ("elevation", wspot.get("elevation") or wspot.get("api_elevation"), weather_source),
+        ("timezone", wspot.get("timezone"), weather_source),
+        ("admin_areas", wspot.get("admin_areas"), weather_source),
+        ("themes", wspot.get("themes"), weather_source),
+        ("scenes", wspot.get("scenes"), weather_source),
+        ("access_note_i18n", wspot.get("access_note_i18n"), weather_source),
+        ("access_mode", wspot.get("access_mode"), weather_source),
+        ("access_hours", wspot.get("access_hours"), weather_source),
+        ("navigation_target label_i18n",
+         (wspot.get("navigation_target") or {}).get("label_i18n"), weather_source),
+    ]
+    for label, value, source in fields:
+        if value not in (None, [], {}, (None, None), ""):
+            transferred.append({"field": label, "value": value, "source": source,
+                                "provenance": "legacy-derived"})
+        else:
+            missing.append({"field": label, "status": "MISSING_IN_V1"})
+    for opp in opps:
+        for key in ("best_time", "best_season", "name_zh", "legacy_theme", "viewpoints"):
+            if opp.get(key):
+                transferred.append({"field": f"{opp['opportunity_id']}.{key}",
+                                    "value": opp[key], "source": catalog_source,
+                                    "provenance": "legacy-derived"})
+    return {
+        "format_version": "0.1.0",
+        "spot_id": spot["spot_id"],
+        "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+        "sources": {"weather": weather_source, "catalog": catalog_source},
+        "transferred": transferred,
+        "missing_or_unknown": missing,
+        "disposition": "FIRST_PASS_PARITY_COMPLETE" if not _has_integrity_blocker(opps) else "HOLD_R0",
+        "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated.",
+    }
+
+
+def _has_integrity_blocker(opps):
+    """Fabricated provenance or unsupported safety claims would HOLD; the V1
+    catalog fields transferred here carry no such claims, so default False."""
+    return False
+
+
+def _weather_source_of(spot_id, weather_paths):
+    for wp in weather_paths:
+        if spot_id in {s["spot_id"] for s in json.loads(Path(wp).read_text(encoding="utf-8"))["spots"]}:
+            return Path(wp).name
+    return "unknown"
+
+
 def load_inputs(catalog_path, weather_paths):
     catalog = json.loads(Path(catalog_path).read_text(encoding="utf-8"))
     coords = {}
@@ -212,6 +309,8 @@ def main():
     ap.add_argument("--weather", nargs="*", default=[str(p) for p in DEFAULT_WEATHER])
     ap.add_argument("--out", default=str(DEFAULT_OUT))
     ap.add_argument("--inventory", default=str(DEFAULT_INVENTORY))
+    ap.add_argument("--parity-dir", default=None,
+                    help="write per-Place V1 parity checklists here (default: <migration>/parity); use 'skip' to disable")
     ap.add_argument("--imported-at", default=None,
                     help="ISO-8601 UTC timestamp stamped into provenance; omit = current UTC")
     ap.add_argument("--force", action="store_true", help="overwrite existing skeleton files")
@@ -222,9 +321,14 @@ def main():
     args = ap.parse_args()
 
     imported_at = args.imported_at or datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-    catalog, coords, _ = load_inputs(args.catalog, args.weather)
+    catalog, coords, wspots = load_inputs(args.catalog, args.weather)
     out_dir = Path(args.out)
     out_dir.mkdir(parents=True, exist_ok=True)
+    parity_dir = None
+    if args.parity_dir != "skip":
+        parity_dir = Path(args.parity_dir) if args.parity_dir else Path(args.out).parent / "parity"
+        parity_dir.mkdir(parents=True, exist_ok=True)
+    weather_names = [Path(p).name for p in args.weather]
 
     schema = None
     if SCHEMA_PATH.exists():
@@ -252,10 +356,16 @@ def main():
         if args.limit_spots is not None and planned_spots >= args.limit_spots:
             break
         planned_spots += 1
+        wspot = wspots.get(sid)
+        if parity_dir is not None and not args.check_only:
+            (parity_dir / f"{sid}.json").write_text(
+                json.dumps(parity_checklist(spot, spot["opportunities"], wspot,
+                                            _weather_source_of(sid, args.weather), Path(args.catalog).name),
+                           ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
         opp_count = 0
         for opp in spot["opportunities"]:
             oid = opp["opportunity_id"]
-            doc = build_skeleton({**spot, "lat": coords[sid][0], "lon": coords[sid][1]}, opp, imported_at)
+            doc = build_skeleton({**spot, "lat": coords[sid][0], "lon": coords[sid][1]}, opp, imported_at, wspot)
             if schema:
                 errs = validate_document(doc, schema)
                 if errs and errs != ["jsonschema-not-installed"]:
@@ -304,6 +414,9 @@ def main():
             "per_region": per_region,
         },
         "skeleton_dir": "data/v2/migration/skeletons",
+        "parity_dir": "data/v2/migration/parity",
+        "parity_checklists": len(list((Path(args.out).parent / "parity").glob("*.json")))
+        if args.parity_dir != "skip" else 0,
         "note": "Skeletons are R0 draft research-only; admission into data/v2/opportunities/ requires the explicit W2 source re-review process. Never a live forecast.",
     }
     if not args.check_only:

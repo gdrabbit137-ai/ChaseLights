@@ -1,0 +1,206 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-066",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "白令陸橋國家保護區",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Bering Land Bridge National Preserve",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "ベーリング陸橋",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        65.8569,
+        -164.7142
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "NPS exact Serpentine Hot Springs coordinate",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 114.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/Nome",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "Alaska"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "aurora",
+        "blue_hour",
+        "mountain_view"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "architecture"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "白令陸橋國家保護區",
+        "en": "Bering Land Bridge National Preserve",
+        "ja": "ベーリング陸橋"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-066-P01.best_time",
+      "value": "有可靠運輸可抵達Serpentine、airstrip／現場條件允許且塔峰與谷地清楚時",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-066-P01.best_season",
+      "value": "全年保護區開放，但交通方式、雪況、airstrip與天候會顯著改變可達性",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-066-P01.name_zh",
+      "value": "Serpentine Hot Springs・花崗岩塔峰＋溫泉荒野景觀",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-066-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-066-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-066-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "NPS publishes the exact Serpentine Hot Springs location and documents the granite tors and remote facility landscape. The coordinate is a Camera Zone/weather anchor, not a road-navigation destination.",
+          "name": "Serpentine Hot Springs Camera Zone",
+          "lat": 65.8569,
+          "lon": -164.7142,
+          "coord_confidence": "high",
+          "verification_status": "official_nps_exact_serpentine_location_and_landscape_subject",
+          "geometry_type": "area",
+          "geometry_extent_m": 1800,
+          "geometry_note": "Serpentine Hot Springs airstrip、bunkhouse／bathhouse周邊與合法公共荒野活動範圍；不宣稱單一腳架點。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-066-P02.best_time",
+      "value": "天空足夠黑暗、Serpentine可安全到達且有location-aware極光活動時",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-066-P02.best_season",
+      "value": "NPS證明保護區可見極光；實際可拍仍取決於黑暗、雲況、location-aware aurora_state與交通",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-066-P02.name_zh",
+      "value": "Bering Land Bridge／Serpentine・Aurora Borealis",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-066-P02.legacy_theme",
+      "value": "aurora",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-066-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-066-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "NPS explicitly documents aurora in Bering Land Bridge National Preserve. Canonical eligibility remains fail-closed on location-aware aurora_state and current Serpentine transport/access state.",
+          "name": "Serpentine Hot Springs Aurora Camera Zone",
+          "lat": 65.8569,
+          "lon": -164.7142,
+          "coord_confidence": "high",
+          "verification_status": "official_nps_serpentine_exact_location_plus_preserve_aurora_evidence",
+          "geometry_type": "area",
+          "geometry_extent_m": 2400,
+          "geometry_note": "Serpentine周邊合法、安全且可公開使用的荒野區域；不建立道路導航終點。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

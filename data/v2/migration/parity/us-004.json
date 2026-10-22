@@ -1,0 +1,175 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-004",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "紀念碑谷",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Monument Valley",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "モニュメント・バレー",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        36.982436,
+        -110.112158
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "The View official GPS",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 1710.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/Denver",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "Arizona"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "milky_way",
+        "mountain_view",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "geology",
+        "desert"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "access_note_i18n",
+      "value": {
+        "zh-TW": "依Navajo Tribal Park官方季節營運時段；2/1–3/7採官方一般08:00–17:00保守基準。感恩節與Navajo Family Day屬浮動日期，網站尚未自動建模，出發前仍須查官方公告。Scenic Drive另有更早的最後車輛進入限制。",
+        "en": "Uses published Navajo Tribal Park seasonal hours; Feb 1–Mar 7 falls back conservatively to the official regular 08:00–17:00 window. Thanksgiving/Family Day are moving-date closures not yet auto-modeled. Scenic Drive also has an earlier last-vehicle-entry cutoff.",
+        "ja": "Navajo Tribal Park公式の季節営業時間を使用。2/1〜3/7は公式の一般08:00〜17:00を保守的に適用。感謝祭・Family Dayの変動休園日は未自動化のため公式確認が必要です。Scenic Driveは最終車両入場がさらに早い場合があります。"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "access_mode",
+      "value": "opening_hours",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "access_hours",
+      "value": [
+        "08:00",
+        "17:00"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "紀念碑谷",
+        "en": "Monument Valley",
+        "ja": "モニュメント・バレー"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-004-P01.best_time",
+      "value": "Tribal Park合法開放時段；低角度日光可加強砂岩立體感",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-004-P01.best_season",
+      "value": "全年依Navajo Tribal Park當期營運時段",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-004-P01.name_zh",
+      "value": "紀念碑谷・砂岩butte與mesa經典地景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-004-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-004-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-004-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Navajo Nation publishes the Tribal Park identity/GPS and explicitly describes the iconic sandstone landscape. This is an area subject rather than a single tripod point.",
+          "name": "Monument Valley Navajo Tribal Park Scenic Camera Zone",
+          "lat": 37.00414,
+          "lon": -110.09889,
+          "elevation_m": 1696,
+          "coord_confidence": "high",
+          "verification_status": "official_navajo_tribal_park_gps_and_landscape_subject",
+          "geometry_type": "area",
+          "geometry_extent_m": 5000,
+          "geometry_note": "代表Visitor Center／合法Scenic Drive公共觀景範圍；不得將整個保護地視為可任意越野進入。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

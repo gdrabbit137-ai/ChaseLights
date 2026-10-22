@@ -1,0 +1,208 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-050",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "朱諾",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Juneau",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "ジュノー",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        58.29913,
+        -134.40617
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "Travel Juneau downtown waterfront subject + OSM Marine Park cross-check",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "medium_high",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 5.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/Juneau",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "Alaska"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "blue_hour",
+        "city_night",
+        "mountain_view",
+        "sky_glow",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "city",
+        "coast"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "朱諾",
+        "en": "Juneau",
+        "ja": "ジュノー"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-050-P01.best_time",
+      "value": "白天至暮色；Marine Park／downtown waterfront公共區域可使用時",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-050-P01.best_season",
+      "value": "全年；郵輪、野生動物、雪峰與活動僅作現況加分",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-050-P01.name_zh",
+      "value": "Juneau Waterfront・Gastineau Channel＋Mt. Juneau城市山海景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-050-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-050-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-050-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Travel Juneau documents the downtown docks/Marine Park area and explicitly points visitors toward Mt. Juneau views. B73 shifts the generic city coordinate to the actual waterfront Camera Zone.",
+          "name": "Marine Park / Downtown Juneau Waterfront Camera Zone",
+          "lat": 58.29913,
+          "lon": -134.40617,
+          "coord_confidence": "medium_high",
+          "verification_status": "official_destination_waterfront_subject_plus_osm_marine_park_crosscheck",
+          "geometry_type": "area",
+          "geometry_extent_m": 800,
+          "geometry_note": "Marine Park Plaza、downtown docks與相鄰合法公共waterfront範圍。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-050-P02.best_time",
+      "value": "Goldbelt Tram與upper-area實際開放且能見度足夠的營運時段",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-050-P02.best_season",
+      "value": "通常為季節性營運；2026 operator目前報告暫時關閉，未恢復前不得推薦upper-terminal題材",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-050-P02.name_zh",
+      "value": "Goldbelt Tram・Juneau／Stephens Passage／Chilkat Mountains高處全景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-050-P02.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-050-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-050-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Travel Juneau calls the upper Goldbelt Tram area a premier photo spot. The operator currently reports temporary closure, therefore this Opportunity remains dynamic-access fail-closed. The lower-terminal coordinate is not presented as the upper Camera Zone.",
+          "name": "Goldbelt Tram Upper Panorama Camera Zone",
+          "coord_confidence": "official_facility_area_no_unique_tripod_claim",
+          "verification_status": "official_destination_photo_subject_plus_operator_access_status",
+          "geometry_type": "area",
+          "geometry_extent_m": 900,
+          "geometry_note": "Goldbelt Tram upper terminal、Sky Bridge與合法公共trail範圍；不以base terminal座標冒充upper Camera Zone。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}
