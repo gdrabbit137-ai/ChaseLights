@@ -95,10 +95,14 @@ class MigrationSkeletonTests(unittest.TestCase):
         self.assertEqual(wspot["access_note_i18n"],
                          doc["camera_contexts"][0]["access_notes_i18n"])
 
-    def test_skeletons_never_in_canonical_opportunities_dir(self):
-        canonical = {p.stem for p in (ROOT / "data/v2/opportunities").glob("*.json")}
-        skeletons = {p.stem for p in SKELETONS.glob("*.json")}
-        self.assertFalse(canonical & skeletons)
+    def test_admitted_canonical_matches_skeleton_bytes(self):
+        """Every admitted record is byte-identical to its staged skeleton (no review-cycle drift)."""
+        canonical_dir = ROOT / "data/v2/opportunities"
+        for path in SKELETONS.glob("*.json"):
+            admitted = canonical_dir / path.name
+            with self.subTest(file=path.name):
+                self.assertTrue(admitted.exists(), "not admitted: " + path.name)
+                self.assertEqual(path.read_bytes(), admitted.read_bytes())
 
     def test_generator_determinism_on_pilot(self):
         """Re-running the pilot inputs reproduces the committed bytes exactly."""

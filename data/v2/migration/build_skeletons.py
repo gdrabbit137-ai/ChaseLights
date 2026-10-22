@@ -372,7 +372,8 @@ def main():
                     errors.append(f"{oid}: schema {errs}")
                     continue
             target = out_dir / f"{oid}.json"
-            if oid in admitted:
+            if oid in admitted and out_dir.resolve() == (ROOT / "data/v2/opportunities").resolve():
+                # never write canonical files from this tool; skeletons dir stays regenerable
                 admitted_skipped.append(oid)
                 opp_count += 1
                 continue
