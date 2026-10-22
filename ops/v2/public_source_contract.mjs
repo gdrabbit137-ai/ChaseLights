@@ -1,7 +1,7 @@
 // Immutable public byte verification; research metadata is never deployment proof.
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-export const runtimeFiles=['index.html','styles.css','app.mjs','model.mjs','catalog-loader.mjs','catalog-state.mjs','v21-adapter.mjs','browse-index.mjs','browse-index.v2.json','catalog.v2.json'];
+export const runtimeFiles=['index.html','styles.css','app.mjs','model.mjs','catalog-loader.mjs','catalog-state.mjs','v21-adapter.mjs','browse-index.mjs','browse-index.v2.json','catalog.v2.json','bundle-digests.mjs'];
 export function validateManifest(manifest){
   assert.equal(manifest.status,'PASS');
   assert.equal(manifest.mode,'RESEARCH_ONLY');
