@@ -17,7 +17,7 @@ if(UI==='forecast-home'){
   expectedManifest=JSON.parse(await readFile(process.env.V2_EXPECTED_BUILD_MANIFEST,'utf8'));
 
 }
-if(UI==='existing-beta')expectedManifest=JSON.parse(await readFile(new URL('./public-beta-r2-manifest.json',import.meta.url),'utf8'));
+if(UI==='existing-beta')expectedManifest=JSON.parse(await readFile(new URL('./public-beta-r3-manifest.json',import.meta.url),'utf8'));
 if(expectedManifest)validateManifest(expectedManifest);
 console.log('PUBLIC SMOKE SCOPE',UI==='forecast-home'?'PUBLISHED_CANDIDATE_EXACT_MANIFEST':'EXISTING_PUBLIC_PREVIEW_NOT_CANDIDATE');
 const BASE = "https://chaselights.app/apps/web-v2/";
