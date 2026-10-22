@@ -165,8 +165,11 @@ def rehearse(repo, base, candidate):
                                   for row in transitions for p in row['paths'])
     common = git(repo, 'merge-base', base, candidate).stdout.strip()
     proposed = git(repo, 'diff', '--name-only', common, candidate).stdout.splitlines()
-    if not proposed or any(not permitted(p) for p in proposed):
-        raise ValueError('W5 rehearsal requires a nonempty W5-only proposal: ' + repr(proposed))
+    if not proposed:
+        raise ValueError('W5 rehearsal requires a nonempty W5-only proposal')
+    nonowner = [p for p in proposed if not permitted(p)]
+    if nonowner:
+        raise ValueError('W5-only proposal contains nonowner changes: ' + repr(nonowner))
     merged = git(repo, 'merge-tree', '--write-tree', base, candidate, check=False)
     if merged.returncode:
         raise ValueError('Merge conflict or missing object; no conflict is bypassed:\n' +

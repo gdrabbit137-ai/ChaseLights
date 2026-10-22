@@ -9,9 +9,10 @@
 // Usage: node tests/local-smoke.mjs [--browser <path-to-chrome/edge>]
 import {spawn} from 'node:child_process';
 import {createServer} from 'node:http';
-import {readFileSync} from 'node:fs';
+import {readFileSync, mkdtempSync} from 'node:fs';
 import {fileURLToPath} from 'node:url';
 import {dirname, join} from 'node:path';
+import {tmpdir} from 'node:os';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const WEB = join(HERE, '..');
@@ -33,19 +34,28 @@ const server = createServer((req,res)=>{
 await new Promise(r=>server.on('listening',r));
 const base = `http://127.0.0.1:${server.address().port}/`;
 
-const chrome = spawn(BROWSER,[
-  '--headless=new','--disable-gpu','--no-first-run','--remote-debugging-port=0',
-  '--user-data-dir='+process.env.TEMP+'/local-smoke-profile-'+Date.now(),'about:blank'],
-  {stdio:['ignore','ignore','pipe']});
-const wsUrl = await new Promise((resolve,reject)=>{
-  let buf='';const t=setTimeout(()=>reject(new Error('no devtools endpoint')),15000);
-  chrome.stderr.on('data',d=>{buf+=d;
-    const m=buf.match(/DevTools listening on (ws:\/\/\S+)/);
-    if(m){clearTimeout(t);resolve(m[1]);}});
-  chrome.on('exit',()=>{clearTimeout(t);reject(new Error('chrome exited: '+buf.slice(-400)));});
-});
-
-let id=0; const pending=new Map();
+let chrome;
+const results=[];
+const check=(name,ok,detail='')=>{results.push({name,ok});console.log(`${ok?'ok':'not ok'} - ${name}${detail?' :: '+detail:''}`);};
+try{
+  // Sandbox and shared-memory flags are mandatory in CI containers; without
+  // them the browser aborts during startup.
+  chrome = spawn(BROWSER,[
+    '--headless=new','--disable-gpu','--no-sandbox','--disable-dev-shm-usage',
+    '--no-first-run','--remote-debugging-port=0',
+    '--user-data-dir='+mkdtempSync(join(tmpdir(),'local-smoke-')),'about:blank'],
+    {stdio:['ignore','ignore','pipe']});
+  const wsUrl = await new Promise((resolve,reject)=>{
+    let buf='';const t=setTimeout(()=>reject(new Error('no devtools endpoint')),15000);
+    chrome.stderr.on('data',d=>{buf+=d;
+      const m=buf.match(/DevTools listening on (ws:\/\/\S+)/);
+      if(m){clearTimeout(t);resolve(m[1]);}});
+    chrome.on('exit',()=>{clearTimeout(t);reject(new Error('chrome exited: '+buf.slice(-400)));});
+    // spawn ENOENT etc. surfaces as an 'error' event; an unhandled error
+    // event would kill the process before the fail-closed TAP summary.
+    chrome.on('error',err=>{clearTimeout(t);reject(new Error('chrome spawn failed: '+err.message));});
+  });
+  let id=0; const pending=new Map();
 // Attach to the page target: browser-level sockets reject Page.* commands.
 const targets = await (await fetch(`http://${wsUrl.match(/ws:\/\/([^/]+)/)[1]}/json/list`)).json();
 const pageWs = targets.find(t=>t.type==='page').webSocketDebuggerUrl;
@@ -73,18 +83,15 @@ async function goto(path,locale,viewport){
   await send('Page.navigate',{url:base+path});
   await evaljs(`new Promise(r=>{const t=setInterval(()=>{if(document.querySelector('#browse-research')){clearInterval(t);r(true)}},50);setTimeout(()=>{clearInterval(t);r(false)},15000)})`);
 }
-async function openResearch(){
+const openResearch=async()=>{
   await evaljs(`document.readyState==='complete'?1:new Promise(r=>addEventListener('load',()=>r(1)))`);
   const shown = await evaljs(`new Promise(r=>{let n=0;const t=setInterval(()=>{
     if(document.querySelectorAll('.place-button').length===216){clearInterval(t);r(true);return}
     if(++n%10===0)document.querySelector('#browse-research')?.click()},100);setTimeout(()=>{clearInterval(t);r(false)},20000)})`);
   if(!shown) console.log('# body:',String(await evaljs(`document.body.innerText.slice(0,400)`)).replace(/\n/g,' | '));
-}
-const results=[];
-const check=(name,ok,detail='')=>{results.push({name,ok});console.log(`${ok?'ok':'not ok'} - ${name}${detail?' :: '+detail:''}`);};
-async function expect(name,expr,detail){ check(name,await evaljs(expr),detail); }
+};
+const expect=async(name,expr,detail)=>{ check(name,await evaljs(expr),detail); };
 
-try{
   await send('Page.enable'); await send('Runtime.enable');
   for(const locale of ['zh-TW','en','ja']){
     await goto('/',locale,'desktop');
@@ -127,7 +134,7 @@ try{
 }catch(e){
   check('harness error',false,e.message);
 }finally{
-  chrome.kill(); server.close();
+  chrome?.kill(); server.close();
   const pass=results.filter(r=>r.ok).length;
   console.log(`# local smoke: ${pass}/${results.length} passed`);
   // TAP summary for the CI group runner (parse_node requires exactly one of each).
