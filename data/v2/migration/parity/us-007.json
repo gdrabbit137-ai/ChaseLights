@@ -1,0 +1,203 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-007",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "錫安國家公園",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Zion National Park",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "ザイオン国立公園",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        37.2133,
+        -112.9401
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "Canyon Overlook camera area",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "medium",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 1580.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/Denver",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "Utah"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "mountain_view",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "geology",
+        "mountain"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "錫安國家公園",
+        "en": "Zion National Park",
+        "ja": "ザイオン国立公園"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-007-P01.best_time",
+      "value": "日出前後（景點當地時間）",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-007-P01.best_season",
+      "value": "全年依道路／步道實際狀態；停車極少",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-007-P01.name_zh",
+      "value": "Zion Canyon Overlook・日出晨光進入峽谷",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-007-P01.legacy_theme",
+      "value": "sunrise",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-007-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-007-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "NPS directly recommends Canyon Overlook Trail for sunrise and warns that parking is extremely limited. No unverified exact tripod coordinate is asserted.",
+          "name": "Canyon Overlook Trail Camera Zone",
+          "coord_confidence": "official_trail_subject_no_unique_tripod_claim",
+          "verification_status": "official_nps_sunrise_viewpoint",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 400,
+          "geometry_note": "Canyon Overlook Trail終點與合法公共觀景範圍；實際停車條件可能限制可達性。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-007-P02.best_time",
+      "value": "日落前後（景點當地時間）",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-007-P02.best_season",
+      "value": "全年依步道與天候狀態",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-007-P02.name_zh",
+      "value": "Pa’rus Trail・Watchman 夕照金色山壁",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-007-P02.legacy_theme",
+      "value": "sunset",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-007-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-007-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "NPS explicitly identifies Pa'rus Trail as the location for sunset views of golden light illuminating the Watchman and warns photographers not to stop in roads or on Canyon Junction Bridge.",
+          "name": "Pa’rus Trail Watchman Sunset Camera Zone",
+          "coord_confidence": "official_trail_subject_no_unique_tripod_claim",
+          "verification_status": "official_nps_watchman_sunset_subject",
+          "geometry_type": "area",
+          "geometry_extent_m": 1000,
+          "geometry_note": "Pa’rus Trail沿線可合法步行構圖區域；不使用道路或Canyon Junction Bridge作停留拍攝點。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

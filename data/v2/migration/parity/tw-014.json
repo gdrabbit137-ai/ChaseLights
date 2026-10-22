@@ -1,0 +1,203 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "tw-014",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "tw_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "雲洞山莊",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Yundong Villa",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "雲洞山荘",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        24.388806,
+        120.822056
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "official site DMS",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 797.0,
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "Asia/Taipei",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "苗栗縣"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "cloud_sea",
+        "mountain_view",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "mountain"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "雲洞山莊",
+        "en": "Yundong Villa",
+        "ja": "雲洞山荘"
+      },
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-014-P01.best_time",
+      "value": "日間/晨昏",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-014-P01.best_season",
+      "value": "全年",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-014-P01.name_zh",
+      "value": "雲洞山莊觀景台層巒遠眺",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-014-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-014-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-014-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "name": "雲洞山莊觀景平台",
+          "lat": 24.388806,
+          "lon": 120.822056,
+          "coord_confidence": "high",
+          "verification_status": "verified_location_access_dynamic",
+          "geometry_type": "point",
+          "geometry_extent_m": null,
+          "geometry_confidence": "medium"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-014-P02.best_time",
+      "value": "清晨優先",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-014-P02.best_season",
+      "value": "10月至翌年4月較易形成",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-014-P02.name_zh",
+      "value": "雲洞山莊山谷雲海／雲瀑",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-014-P02.legacy_theme",
+      "value": "cloud_sea",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-014-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-014-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "name": "雲洞山莊觀景平台",
+          "lat": 24.388806,
+          "lon": 120.822056,
+          "coord_confidence": "high",
+          "verification_status": "verified_location_access_dynamic",
+          "geometry_type": "point",
+          "geometry_extent_m": null,
+          "geometry_confidence": "medium"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

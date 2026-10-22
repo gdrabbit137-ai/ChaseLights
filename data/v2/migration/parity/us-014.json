@@ -1,0 +1,249 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-014",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "死亡谷國家公園",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Death Valley National Park",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "デスヴァレー国立公園",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        36.42002,
+        -116.8122
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "Zabriskie Point POI",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 188.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/Los_Angeles",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "California",
+        "Nevada"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "milky_way",
+        "mountain_view",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "desert",
+        "geology"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "死亡谷國家公園",
+        "en": "Death Valley National Park",
+        "ja": "デスヴァレー国立公園"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-014-P01.best_time",
+      "value": "日出前後",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-014-P01.best_season",
+      "value": "全年；高溫季清晨亦是較安全時段",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-014-P01.name_zh",
+      "value": "Zabriskie Point・日出badlands與Manly Beacon",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-014-P01.legacy_theme",
+      "value": "sunrise",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-014-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-014-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "NPS identifies Zabriskie Point as an iconic Scenic View/Photo Spot and favorite sunrise location.",
+          "name": "Zabriskie Point Camera Zone",
+          "coord_confidence": "official_viewpoint_subject_no_unique_tripod_claim",
+          "verification_status": "official_nps_zabriskie_sunrise_subject",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 260,
+          "geometry_note": "Zabriskie Point鋪面觀景區與合法步道。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-014-P02.best_time",
+      "value": "日落前後",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-014-P02.best_season",
+      "value": "全年；夏季日落仍可能極端高溫",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-014-P02.name_zh",
+      "value": "Zabriskie Point・日落badlands與Panamint層次",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-014-P02.legacy_theme",
+      "value": "sunset",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-014-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-014-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "NPS explicitly identifies Zabriskie Point as a favorite sunset location and highlights Manly Beacon at sunrise or sunset.",
+          "name": "Zabriskie Point Sunset Camera Zone",
+          "coord_confidence": "official_viewpoint_subject_no_unique_tripod_claim",
+          "verification_status": "official_nps_zabriskie_sunset_subject",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 260,
+          "geometry_note": "同一公共觀景區；高溫季需把熱風險與拍攝品質分開處理。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-014-P03.best_time",
+      "value": "天文黑夜；低月光／新月附近優先",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-014-P03.best_season",
+      "value": "全年暗夜；夏季夜間仍可能超過38°C",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-014-P03.name_zh",
+      "value": "Mesquite Flat Sand Dunes・暗夜星空／銀河與沙丘前景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-014-P03.legacy_theme",
+      "value": "milky_way",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-014-P03.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-014-VP03",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "NPS explicitly lists Mesquite Flat Sand Dunes as a dark-sky/stargazing location and describes the dunes as a Scenic View/Photo Spot. Exact Milky Way alignment is not claimed.",
+          "name": "Mesquite Flat Sand Dunes Night Camera Zone",
+          "coord_confidence": "official_area_subject_no_unique_tripod_claim",
+          "verification_status": "official_nps_dark_sky_dune_subject",
+          "geometry_type": "area",
+          "geometry_extent_m": 1800,
+          "geometry_note": "沙丘可跨地探索但無正式步道；夜間需自行確保定位、補水與高溫安全。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

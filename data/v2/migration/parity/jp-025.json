@@ -1,0 +1,208 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "jp-025",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "jp_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "萩城下町・菊屋橫町",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Hagi Castle Town · Kikuya Yokocho",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "萩城下町・菊屋横町",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        34.4119363,
+        131.3932271
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "B32 Hagi City/JNTO Kikuya Yokocho research + MapFan lane anchor + geotagged camera cross-check",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 8.0,
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "Asia/Tokyo",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "山口県"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "city_night",
+        "mountain_view"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "architecture",
+        "city"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "萩城下町・菊屋橫町",
+        "en": "Hagi Castle Town · Kikuya Yokocho",
+        "ja": "萩城下町・菊屋横町"
+      },
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-025-P01.best_time",
+      "value": "白天可見光時段（景點當地時間／JST）",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-025-P01.best_season",
+      "value": "全年；夏蜜柑、秋季和服活動等只在實際存在時作畫面加分，不是基本 Outcome 硬條件",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-025-P01.name_zh",
+      "value": "萩城下町・菊屋橫町白壁與江戶街景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-025-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-025-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "jp-025-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Official Hagi/JNTO sources identify Kikuya Yokocho as the representative picturesque historic lane. The anchor is the mapped street POI, cross-checked against geotagged photographs along the lane; it is not a fixed tripod point.",
+          "name": "萩城下町・菊屋橫町 Historic Lane Camera Zone",
+          "lat": 34.4119363,
+          "lon": 131.3932271,
+          "elevation_m": null,
+          "coord_confidence": "high",
+          "verification_status": "official_historic_streetscape_plus_mapfan_lane_and_geotagged_camera_crosscheck",
+          "geometry_type": "area",
+          "geometry_extent_m": 500,
+          "geometry_note": "菊屋橫町約500公尺歷史街巷公共動線；可沿街前後移動尋找白壁、海鼠壁、門與夏蜜柑構圖，不宣稱單一腳架位置。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-025-P02.best_time",
+      "value": "僅2026/10/9–10/11 18:00–21:00 官方竹灯路活動時段（景點當地時間／JST）",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-025-P02.best_season",
+      "value": "僅已發布的2026年活動日期；不得把年度活動自動推論到未發布年份或一般夜晚",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-025-P02.name_zh",
+      "value": "2026 萩・竹灯路物語・菊屋橫町竹燈夜景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-025-P02.legacy_theme",
+      "value": "city_night",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-025-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "jp-025-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "The official 2026 night-tour route explicitly passes through Kikuya Yokocho during the Bamboo Lamp Festival. Same historic-lane Camera Zone as P01; the night subject exists only during the verified event window.",
+          "name": "2026 竹灯路・菊屋橫町 Night Event Camera Zone",
+          "lat": 34.4119363,
+          "lon": 131.3932271,
+          "elevation_m": null,
+          "coord_confidence": "high",
+          "verification_status": "official_2026_bamboo_lamp_event_and_night_route_plus_mapped_lane_anchor",
+          "geometry_type": "area",
+          "geometry_extent_m": 500,
+          "geometry_note": "官方2026夜間路線明確經過菊屋橫町；實際竹燈分布可沿城下町街道延伸，因此此 anchor 表示街巷 Camera Zone，不是單一燈籠位置。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

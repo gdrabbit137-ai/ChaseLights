@@ -1,0 +1,205 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-016",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "拉斯維加斯大道",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Las Vegas Strip",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "ラスベガス・ストリップ",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        36.113264,
+        -115.176372
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "Wikimedia camera/object location",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 656.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/Los_Angeles",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "Nevada"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "blue_hour",
+        "city_night"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "city"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "拉斯維加斯大道",
+        "en": "Las Vegas Strip",
+        "ja": "ラスベガス・ストリップ"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-016-P01.best_time",
+      "value": "日落後至深夜；以霓虹、LED與飯店立面實際亮燈為主",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-016-P01.best_season",
+      "value": "全年；大型活動與道路／人流管制以現場公告為準",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-016-P01.name_zh",
+      "value": "Las Vegas Strip・霓虹與LED夜間城市街景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-016-P01.legacy_theme",
+      "value": "city_night",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-016-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-016-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "The existing Bellagio/central Strip coordinate is a practical high-confidence area anchor. This Opportunity covers public pedestrian viewpoints around the central Strip rather than a single tripod position.",
+          "name": "Bellagio／Central Strip Camera Zone",
+          "lat": 36.113264,
+          "lon": -115.176372,
+          "coord_confidence": "high",
+          "verification_status": "official_strip_night_subject_plus_existing_high_confidence_bellagio_anchor",
+          "geometry_type": "area",
+          "geometry_extent_m": 900,
+          "geometry_note": "Bellagio前方與中央Strip合法公共人行空間；不宣稱單一腳架點。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-016-P02.best_time",
+      "value": "官方當日噴泉演出時段；夜間燈光效果較完整",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-016-P02.best_season",
+      "value": "全年依官方當日／最新演出時刻；惡劣天候可能取消",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-016-P02.name_zh",
+      "value": "Bellagio噴泉・夜間水舞與Strip背景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-016-P02.legacy_theme",
+      "value": "city_night",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-016-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-016-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Official Las Vegas tourism publishes the recurring Bellagio fountain schedule and notes weather cancellation. A live recurring-show provider is not yet connected, so this remains module_pending.",
+          "name": "Bellagio Fountains Public View Camera Zone",
+          "lat": 36.113264,
+          "lon": -115.176372,
+          "coord_confidence": "high",
+          "verification_status": "official_recurring_fountain_show_subject_plus_existing_bellagio_anchor",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 700,
+          "geometry_note": "Bellagio湖面周邊合法公共觀賞區與相鄰人行道。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

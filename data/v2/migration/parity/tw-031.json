@@ -1,0 +1,204 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "tw-031",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "tw_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "抹茶山",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Matcha Mountain (Marian Hiking Trail)",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "抹茶山",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        24.8225,
+        121.735
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "best-effort camera area",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "medium",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 313.0,
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "Asia/Taipei",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "宜蘭縣"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "cloud_sea",
+        "fog_mist",
+        "mountain_view",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "mountain"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "抹茶山",
+        "en": "Matcha Mountain (Marian Hiking Trail)",
+        "ja": "抹茶山"
+      },
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-031-P01.best_time",
+      "value": "白天至晨間",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-031-P01.best_season",
+      "value": "全年候選；冬季東北季風偏濕，應以實際晴朗/雨後轉晴判斷",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-031-P01.name_zh",
+      "value": "抹茶山清晰層巒遠眺",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-031-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-031-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-031-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "name": "聖母登山步道終點觀景平台",
+          "lat": 24.8225,
+          "lon": 121.735,
+          "coord_confidence": "medium",
+          "verification_status": "temporarily_closed_until_2026-11-10",
+          "geometry_type": "point",
+          "geometry_extent_m": null,
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-031-P02.best_time",
+      "value": "晨間至白天；以步道開放與現場能見度為準",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-031-P02.best_season",
+      "value": "全年候選；官方資料記載夏季午後易起風、雲霧瀰漫，冬季潮濕多雨",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-031-P02.name_zh",
+      "value": "聖母登山步道雲霧草坡／山稜",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-031-P02.legacy_theme",
+      "value": "fog_mist",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-031-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-031-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "name": "聖母登山步道終點觀景平台",
+          "lat": 24.8225,
+          "lon": 121.735,
+          "coord_confidence": "medium",
+          "verification_status": "temporarily_closed_until_2026-11-10",
+          "geometry_type": "point",
+          "geometry_extent_m": null,
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

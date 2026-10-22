@@ -1,0 +1,587 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "tw-082",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "tw_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "鯉魚潭",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Liyu Lake · North Shore",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "鯉魚潭・北岸",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        23.93493,
+        121.50803
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "Taiwan Tourism official north-shore visitor-center coordinate and public lakeside evidence",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 141.0,
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "Asia/Taipei",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "花蓮縣"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "city_night",
+        "fog_mist",
+        "mountain_view",
+        "reflection",
+        "sunset"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "lake",
+        "mountain"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "鯉魚潭",
+        "en": "Liyu Lake · North Shore",
+        "ja": "鯉魚潭・北岸"
+      },
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P01.best_time",
+      "value": "清晨至上午；低風且湖面平靜時",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P01.best_season",
+      "value": "全年",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P01.name_zh",
+      "value": "鯉魚潭湖光山景與平靜倒影",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P01.legacy_theme",
+      "value": "reflection",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-082-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Official north-lakeside visitor-center waterfront; exact tripod optional.",
+          "name": "鯉魚潭潭北公共湖岸 Camera Zone",
+          "lat": 23.93493,
+          "lon": 121.50803,
+          "elevation_m": 140,
+          "coord_confidence": "high",
+          "verification_status": "official_tourism_north_lakeside_visitor_center_coordinate",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 350,
+          "geometry_note": "以官方潭北遊客中心湖岸為代表位置；沿公共親水與環潭動線可小幅移動構圖，非唯一腳架點。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P02.best_time",
+      "value": "日間；能見度較佳且降雨不明顯時",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P02.best_season",
+      "value": "全年",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P02.name_zh",
+      "value": "鯉魚潭湖光山色與水岸風景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P02.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-082-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Representative researched camera zone; exact tripod position is not asserted.",
+          "name": "鯉魚潭潭南／潭北公共水岸 Camera Zone",
+          "lat": 23.93493,
+          "lon": 121.50803,
+          "elevation_m": 140,
+          "coord_confidence": "medium_high",
+          "verification_status": "official_erv_waterfront_and_selfie_area_evidence",
+          "geometry_type": "area",
+          "geometry_extent_m": 1200,
+          "geometry_note": "代表合法可拍區域；實際構圖可沿現場允許動線調整。",
+          "geometry_confidence": "medium_high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P03.best_time",
+      "value": "日落前後；需依實際太陽位置與雲況",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P03.best_season",
+      "value": "全年",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P03.name_zh",
+      "value": "鯉魚潭日落、晚霞與湖面光影",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P03.legacy_theme",
+      "value": "sunset",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P03.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-082-VP03",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Representative researched camera zone; exact tripod position is not asserted.",
+          "name": "鯉魚潭公共水岸日落 Camera Zone",
+          "lat": 23.93493,
+          "lon": 121.50803,
+          "elevation_m": 140,
+          "coord_confidence": "medium_high",
+          "verification_status": "official_live_camera_sunset_waterfront_evidence",
+          "geometry_type": "area",
+          "geometry_extent_m": 800,
+          "geometry_note": "代表合法可拍區域；實際構圖可沿現場允許動線調整。",
+          "geometry_confidence": "medium_high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P04.best_time",
+      "value": "2026 官方賞螢活動日之入夜後",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P04.best_season",
+      "value": "2026/4/10–5/2 每週五、六；往後年度需官方更新",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P04.name_zh",
+      "value": "鯉魚潭春季螢火蟲生態攝影",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P04.legacy_theme",
+      "value": "city_night",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P04.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-082-VP04",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Representative researched camera zone; exact tripod position is not asserted.",
+          "name": "鯉魚潭潭南步道賞螢 Camera Zone",
+          "lat": 23.934,
+          "lon": 121.509,
+          "elevation_m": null,
+          "coord_confidence": "medium_high",
+          "verification_status": "official_2026_firefly_event_tannan_trail",
+          "geometry_type": "area",
+          "geometry_extent_m": 900,
+          "geometry_note": "代表合法可拍區域；實際構圖可沿現場允許動線調整。",
+          "geometry_confidence": "medium_high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P05.best_time",
+      "value": "日間；清晨或較安靜時段通常較利觀察",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P05.best_season",
+      "value": "全年",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P05.name_zh",
+      "value": "鯉魚潭鳥類、水鳥與自然生態紀錄",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P05.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P05.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-082-VP05",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Representative researched camera zone; exact tripod position is not asserted.",
+          "name": "鯉魚潭人工濕地與環潭生態 Camera Zone",
+          "lat": 23.93493,
+          "lon": 121.50803,
+          "elevation_m": null,
+          "coord_confidence": "medium_high",
+          "verification_status": "official_environmental_education_wildlife_evidence",
+          "geometry_type": "area",
+          "geometry_extent_m": 1800,
+          "geometry_note": "代表合法可拍區域；實際構圖可沿現場允許動線調整。",
+          "geometry_confidence": "medium_high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P06.best_time",
+      "value": "2026/11/28–2027/1/31 每日暫定 18:00–22:00",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P06.best_season",
+      "value": "2026/11/28–2027/1/31；往後年度需官方更新",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P06.name_zh",
+      "value": "鯉魚潭水岸光影節夜景與裝置藝術",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P06.legacy_theme",
+      "value": "city_night",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P06.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-082-VP06",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Representative researched camera zone; exact tripod position is not asserted.",
+          "name": "鯉魚潭潭北遊客中心光影節 Camera Zone",
+          "lat": 23.93493,
+          "lon": 121.50803,
+          "elevation_m": null,
+          "coord_confidence": "medium_high",
+          "verification_status": "official_2026_waterfront_light_festival",
+          "geometry_type": "area",
+          "geometry_extent_m": 600,
+          "geometry_note": "代表合法可拍區域；實際構圖可沿現場允許動線調整。",
+          "geometry_confidence": "medium_high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P07.best_time",
+      "value": "日間；柔光或林下反差較低時",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P07.best_season",
+      "value": "全年",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P07.name_zh",
+      "value": "鯉魚潭環潭步道與森林步道環境攝影",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P07.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P07.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-082-VP07",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Representative researched camera zone; exact tripod position is not asserted.",
+          "name": "鯉魚潭環潭與森林步道 Camera Zone",
+          "lat": 23.93493,
+          "lon": 121.50803,
+          "elevation_m": null,
+          "coord_confidence": "medium_high",
+          "verification_status": "official_erv_loop_and_forest_trail_evidence",
+          "geometry_type": "area",
+          "geometry_extent_m": 2500,
+          "geometry_note": "代表合法可拍區域；實際構圖可沿現場允許動線調整。",
+          "geometry_confidence": "medium_high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P08.best_time",
+      "value": "日間；實際水上活動是否出現不可由天氣預報保證",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P08.best_season",
+      "value": "活動依現場營運",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P08.name_zh",
+      "value": "鯉魚潭遊湖與水上活動紀實",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P08.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P08.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-082-VP08",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Representative researched camera zone; exact tripod position is not asserted.",
+          "name": "鯉魚潭碼頭與公共水岸活動 Camera Zone",
+          "lat": 23.93493,
+          "lon": 121.50803,
+          "elevation_m": null,
+          "coord_confidence": "medium_high",
+          "verification_status": "official_erv_water_activity_evidence",
+          "geometry_type": "area",
+          "geometry_extent_m": 900,
+          "geometry_note": "代表合法可拍區域；實際構圖可沿現場允許動線調整。",
+          "geometry_confidence": "medium_high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P09.best_time",
+      "value": "清晨優先；官方資料明確記載鯉魚潭清晨霧氣可形成拍攝場景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P09.best_season",
+      "value": "全年候選；官方與實拍資料均有晨霧紀錄，冬季亦有攝影實例",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P09.name_zh",
+      "value": "鯉魚潭湖岸薄霧、低雲與山影氛圍",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P09.legacy_theme",
+      "value": "fog_mist",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P09.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-082-VP09",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Mist Opportunity is retained because Liyu Lake itself has official morning-mist photography evidence. The Camera Zone is anchored to the public Tannan Wharf area; it is not inferred from lake terrain and is not an exact tripod point.",
+          "name": "鯉魚潭潭南碼頭晨霧 Camera Zone",
+          "lat": 23.923,
+          "lon": 121.5086,
+          "elevation_m": null,
+          "coord_confidence": "high",
+          "verification_status": "official_tannan_wharf_plus_official_morning_mist_photography_evidence",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 180,
+          "geometry_note": "潭南碼頭為官方拍攝視角之一；官方資料明確將鯉魚潭清晨霧氣列為拍攝場景。此座標代表碼頭公共拍攝區，不宣稱唯一腳架位置。",
+          "geometry_confidence": "medium_high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P10.best_time",
+      "value": "日間柔光；陰天、雨後或高濕時亦適合",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P10.best_season",
+      "value": "全年",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P10.name_zh",
+      "value": "鯉魚潭人工濕地與水岸近景細節",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P10.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-082-P10.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-082-VP10",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Official environmental-education wetland habitat is the subject basis; actual wildlife presence is never guaranteed.",
+          "name": "鯉魚潭人工濕地／環潭水岸近景 Camera Zone",
+          "lat": 23.93493,
+          "lon": 121.50803,
+          "elevation_m": null,
+          "coord_confidence": "medium_high",
+          "verification_status": "official_environmental_education_wetland_evidence",
+          "geometry_type": "area",
+          "geometry_extent_m": 1800,
+          "geometry_note": "代表人工濕地與環潭合法觀察區；適合植被、水岸、反射與棲地細節，不要求長距離能見度。",
+          "geometry_confidence": "medium_high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

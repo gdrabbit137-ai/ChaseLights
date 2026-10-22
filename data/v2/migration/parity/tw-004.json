@@ -1,0 +1,247 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "tw-004",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "tw_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "不厭亭",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Buyan Pavilion Viewpoint",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "不厭亭展望所",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        25.08923,
+        121.84752
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "New Taipei Tourism + direct photography GPS",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 505.0,
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "Asia/Taipei",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "新北市"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "cloud_sea",
+        "mountain_view",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "mountain"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "不厭亭",
+        "en": "Buyan Pavilion Viewpoint",
+        "ja": "不厭亭展望所"
+      },
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-004-P01.best_time",
+      "value": "晨昏/白天",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-004-P01.best_season",
+      "value": "全年；最佳季節待證據",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-004-P01.name_zh",
+      "value": "不厭亭雙溪／瑞芳層巒全景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-004-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-004-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-004-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "name": "不厭亭主要展望機位",
+          "lat": 25.08923,
+          "lon": 121.84752,
+          "coord_confidence": "high",
+          "verification_status": "reference_viewpoint_directional_sectors_exact_tripod_optional",
+          "geometry_type": "point",
+          "geometry_extent_m": null,
+          "geometry_confidence": "medium"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-004-P03.best_time",
+      "value": "晨昏優先",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-004-P03.best_season",
+      "value": "最佳季節尚無足夠證據",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-004-P03.name_zh",
+      "value": "不厭亭山谷雲海＋露出山頭",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-004-P03.legacy_theme",
+      "value": "cloud_sea",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-004-P03.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-004-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "name": "不厭亭主要展望機位",
+          "lat": 25.08923,
+          "lon": 121.84752,
+          "coord_confidence": "high",
+          "verification_status": "reference_viewpoint_directional_sectors_exact_tripod_optional",
+          "geometry_type": "point",
+          "geometry_extent_m": null,
+          "geometry_confidence": "medium"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-004-P04.best_time",
+      "value": "日落前後",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-004-P04.best_season",
+      "value": "依太陽方位季節",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-004-P04.name_zh",
+      "value": "不厭亭夕照山稜＋瑞雙公路",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-004-P04.legacy_theme",
+      "value": "sunset",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-004-P04.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-004-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "name": "不厭亭主要展望機位",
+          "lat": 25.08923,
+          "lon": 121.84752,
+          "coord_confidence": "high",
+          "verification_status": "reference_viewpoint_directional_sectors_exact_tripod_optional",
+          "geometry_type": "point",
+          "geometry_extent_m": null,
+          "geometry_confidence": "medium"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

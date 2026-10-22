@@ -1,0 +1,207 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "tw-012",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "tw_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "香山濕地賞蟹步道",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Xiangshan Wetland Crab Boardwalk",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "香山湿地カニ観察歩道",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        24.783421,
+        120.91431
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "Taiwan tourism POI",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 2.0,
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "Asia/Taipei",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "新竹市"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "blue_hour",
+        "fog_mist",
+        "landscape",
+        "reflection",
+        "sky_glow",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "wetland",
+        "coast"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "香山濕地賞蟹步道",
+        "en": "Xiangshan Wetland Crab Boardwalk",
+        "ja": "香山湿地カニ観察歩道"
+      },
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-012-P01.best_time",
+      "value": "日落前後",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-012-P01.best_season",
+      "value": "全年；需配合潮汐與步道開放",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-012-P01.name_zh",
+      "value": "香山潮間帶夕照",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-012-P01.legacy_theme",
+      "value": "sunset",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-012-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-012-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "name": "香山濕地賞蟹步道",
+          "lat": 24.783421,
+          "lon": 120.91431,
+          "coord_confidence": "high",
+          "verification_status": "verified_linear_boardwalk_area_exact_tripod_optional",
+          "geometry_type": "linear_corridor",
+          "geometry_extent_m": null,
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-012-P02.best_time",
+      "value": "退潮前後；以步道實際開放時段為準",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-012-P02.best_season",
+      "value": "全年；依潮汐、陣風與步道開放",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-012-P02.name_zh",
+      "value": "香山潮間帶泥灘／潮溝紋理",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-012-P02.legacy_theme",
+      "value": "landscape",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-012-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-012-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "name": "香山濕地賞蟹步道",
+          "lat": 24.783421,
+          "lon": 120.91431,
+          "coord_confidence": "high",
+          "verification_status": "verified_linear_boardwalk_area_exact_tripod_optional",
+          "geometry_type": "linear_corridor",
+          "geometry_extent_m": null,
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

@@ -1,0 +1,162 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "jp-003",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "jp_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "釧路濕原",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Kushiro Wetland",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "釧路湿原",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        43.0980769,
+        144.4492556
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "B32 Environment Ministry Hosooka sunset viewpoint + MapFan mapped coordinate",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 52.0,
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "Asia/Tokyo",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "北海道"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "fog_mist",
+        "reflection",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "wetland"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "釧路濕原",
+        "en": "Kushiro Wetland",
+        "ja": "釧路湿原"
+      },
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-003-P01.best_time",
+      "value": "日落前後（景點當地時間／JST）",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-003-P01.best_season",
+      "value": "全年",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-003-P01.name_zh",
+      "value": "細岡展望台釧路川濕原夕景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-003-P01.legacy_theme",
+      "value": "sunset",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-003-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "jp-003-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Environment Ministry explicitly recommends the Hosooka sunset; coordinate cross-checked to mapped viewpoint.",
+          "name": "細岡展望台 Camera Zone",
+          "lat": 43.0980769,
+          "lon": 144.4492556,
+          "elevation_m": null,
+          "coord_confidence": "high",
+          "verification_status": "official_viewpoint_and_sunset_recommendation_plus_mapped_coordinate",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 35,
+          "geometry_note": "細岡展望台／大觀望公共展望區；以觀景平台為 Camera Zone，不宣稱唯一腳架點。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

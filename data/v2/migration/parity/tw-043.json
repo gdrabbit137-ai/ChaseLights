@@ -1,0 +1,269 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "tw-043",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "tw_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "奇萊主峰",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Mt. Qilai Main Peak",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "奇莱主峰",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        24.086,
+        121.323
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "summit coordinate",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 3560,
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "Asia/Taipei",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "南投縣",
+        "花蓮縣"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "cloud_sea",
+        "milky_way",
+        "mountain_view",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "mountain"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "奇萊主峰",
+        "en": "Mt. Qilai Main Peak",
+        "ja": "奇莱主峰"
+      },
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-043-P01.best_time",
+      "value": "白天",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-043-P01.name_zh",
+      "value": "奇萊主山高山全景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-043-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-043-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-043-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "name": "奇萊主山山頂",
+          "lat": 24.085987,
+          "lon": 121.323148,
+          "coord_confidence": "high",
+          "verification_status": "verified_coordinate",
+          "geometry_type": "small_area",
+          "geometry_extent_m": null,
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-043-P02.best_time",
+      "value": "日落前後",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-043-P02.name_zh",
+      "value": "奇萊主稜夕照雲海",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-043-P02.legacy_theme",
+      "value": "sunset",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-043-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-043-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "name": "奇萊主稜6.4K／奇萊山屋附近合法活動區候選",
+          "lat": 24.109232,
+          "lon": 121.326454,
+          "coord_confidence": "high",
+          "verification_status": "camera_zone_anchor_verified_B_cwa_6_4k_exact_tripod_pending",
+          "geometry_type": "small_area",
+          "geometry_extent_m": null,
+          "geometry_confidence": "medium"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-043-P03.best_time",
+      "value": "晨昏優先",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-043-P03.name_zh",
+      "value": "奇萊主稜雲海",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-043-P03.legacy_theme",
+      "value": "cloud_sea",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-043-P03.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-043-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "name": "奇萊主稜6.4K／奇萊山屋附近合法活動區候選",
+          "lat": 24.109232,
+          "lon": 121.326454,
+          "coord_confidence": "high",
+          "verification_status": "camera_zone_anchor_verified_B_cwa_6_4k_exact_tripod_pending",
+          "geometry_type": "small_area",
+          "geometry_extent_m": null,
+          "geometry_confidence": "medium"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-043-P04.best_time",
+      "value": "日出前後",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-043-P04.name_zh",
+      "value": "奇萊主稜日出",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-043-P04.legacy_theme",
+      "value": "sunrise",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-043-P04.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-043-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "name": "奇萊主稜6.4K／奇萊山屋附近合法活動區候選",
+          "lat": 24.109232,
+          "lon": 121.326454,
+          "coord_confidence": "high",
+          "verification_status": "camera_zone_anchor_verified_B_cwa_6_4k_exact_tripod_pending",
+          "geometry_type": "small_area",
+          "geometry_extent_m": null,
+          "geometry_confidence": "medium"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

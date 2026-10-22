@@ -1,0 +1,206 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-015",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "舊金山金門大橋",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Golden Gate Bridge",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "ゴールデン・ゲート・ブリッジ",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        37.82802,
+        -122.48187
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "classic bridge viewpoint",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 125.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/Los_Angeles",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "California"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "blue_hour",
+        "city_night",
+        "sky_glow",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "architecture",
+        "city",
+        "coast"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "舊金山金門大橋",
+        "en": "Golden Gate Bridge",
+        "ja": "ゴールデン・ゲート・ブリッジ"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-015-P01.best_time",
+      "value": "日落前後",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-015-P01.best_season",
+      "value": "全年；夏季海霧可能成為題材或遮蔽風險，需依實際可見性判斷",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-015-P01.name_zh",
+      "value": "Golden Gate Overlook・金門大橋日落",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-015-P01.legacy_theme",
+      "value": "sunset",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-015-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-015-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "NPS directly classifies Golden Gate Overlook as a Scenic View/Photo Spot with stunning sunset views of the bridge.",
+          "name": "Golden Gate Overlook Camera Zone",
+          "coord_confidence": "official_viewpoint_subject_no_unique_tripod_claim",
+          "verification_status": "official_nps_golden_gate_sunset_photo_spot",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 350,
+          "geometry_note": "Presidio內Golden Gate Overlook公共觀景區；商業拍攝許可與一般個人旅遊攝影為不同契約。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-015-P02.best_time",
+      "value": "白天至暮色前後；本Opportunity只評估橋體／市景可讀性，不宣稱夜間停車或道路一定可用",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-015-P02.best_season",
+      "value": "全年依Marin Headlands道路與現場狀態",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-015-P02.name_zh",
+      "value": "Battery Spencer・金門大橋與舊金山市景全景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-015-P02.legacy_theme",
+      "value": "city_night",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-015-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-015-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "NPS identifies Battery Spencer as one of the most popular scenic overlooks for the Golden Gate Bridge. No exact tripod coordinate is asserted.",
+          "name": "Battery Spencer Scenic Camera Zone",
+          "coord_confidence": "official_viewpoint_subject_no_unique_tripod_claim",
+          "verification_status": "official_nps_battery_spencer_bridge_view",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 500,
+          "geometry_note": "Marin Headlands Battery Spencer公共觀景區；道路、停車與商業拍攝許可需依各管理單位規則。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

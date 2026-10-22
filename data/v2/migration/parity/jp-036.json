@@ -1,0 +1,249 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "jp-036",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "jp_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "高千穗峽",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Takachiho Gorge",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "高千穂峡",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        32.7016613,
+        131.3003766
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "legacy Place/Camera coordinate; navigation target not independently verified",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "medium",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 279.0,
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "Asia/Tokyo",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "宮崎県"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "fog_mist",
+        "long_exposure",
+        "mountain_view",
+        "sunbeam",
+        "sunrise",
+        "sunset",
+        "waterfall"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "forest",
+        "mountain",
+        "waterfall"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "高千穗峽有多個停車／步行／租船進入方式",
+        "en": "Takachiho Gorge has multiple parking, walking and boat access routes",
+        "ja": "高千穂峡は駐車・徒歩・貸しボートで複数のアクセス経路があります"
+      },
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-036-P01.best_time",
+      "value": "步道開放且日間光線可用時；柔光與雨後綠意可加分",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-036-P01.best_season",
+      "value": "全年；現場封閉優先於一般天氣",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-036-P01.name_zh",
+      "value": "高千穗峽・真名井瀑布＋柱狀節理峽谷",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-036-P01.legacy_theme",
+      "value": "waterfall",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-036-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "jp-036-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Official association supports Manai Falls and the walking-path gorge composition; the exact Camera Zone coordinate is intentionally unfilled until independently verified.",
+          "name": "高千穗峽遊步道・真名井瀑布 Camera Zone",
+          "verification_status": "official_gorge_photo_area_exact_camera_coordinate_unverified",
+          "geometry_type": "area",
+          "geometry_extent_m": 900,
+          "geometry_note": "官方證實峽谷步道／三橋攝影點／租船題材；精確 Camera Zone／腳架座標尚未獨立驗證，因此不填猜測 GPS。",
+          "geometry_confidence": "medium"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-036-P02.best_time",
+      "value": "日間；峽谷與橋體層次可辨時",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-036-P02.best_season",
+      "value": "全年",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-036-P02.name_zh",
+      "value": "高千穗峽・三橋重疊與柱狀節理景觀",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-036-P02.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-036-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "jp-036-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Official association explicitly identifies the Takachiho Three Bridges photo point; exact tripod coordinate is not asserted here.",
+          "name": "高千穗三橋 Photo Point Camera Zone",
+          "verification_status": "official_gorge_photo_area_exact_camera_coordinate_unverified",
+          "geometry_type": "area",
+          "geometry_extent_m": 1200,
+          "geometry_note": "官方證實峽谷步道／三橋攝影點／租船題材；精確 Camera Zone／腳架座標尚未獨立驗證，因此不填猜測 GPS。",
+          "geometry_confidence": "medium"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-036-P03.best_time",
+      "value": "僅官方當日確認租船營運且預約／現場條件允許時",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-036-P03.best_season",
+      "value": "全年；每日營運狀態由官方提供，不可由天氣推定",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-036-P03.name_zh",
+      "value": "高千穗峽・划船視角真名井瀑布",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-036-P03.legacy_theme",
+      "value": "waterfall",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-036-P03.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "jp-036-VP03",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Official rental-boat operation is a dynamic access mode; geometry is the managed boat route, not a road-navigation point.",
+          "name": "高千穗峽官方租船航線 Camera Zone",
+          "verification_status": "official_gorge_photo_area_exact_camera_coordinate_unverified",
+          "geometry_type": "area",
+          "geometry_extent_m": 800,
+          "geometry_note": "官方證實峽谷步道／三橋攝影點／租船題材；精確 Camera Zone／腳架座標尚未獨立驗證，因此不填猜測 GPS。",
+          "geometry_confidence": "medium"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

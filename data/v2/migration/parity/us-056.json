@@ -1,0 +1,207 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-056",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "布魯克斯山脈",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Brooks Range",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "ブルックス山脈",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        68.133,
+        -149.48
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "BLM official Atigun Pass subject + existing mapped pass anchor",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "medium_high",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 1391.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/Anchorage",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "Alaska"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "aurora",
+        "mountain_view",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "mountain"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "布魯克斯山脈",
+        "en": "Brooks Range",
+        "ja": "ブルックス山脈"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-056-P01.best_time",
+      "value": "Dalton Highway／Atigun Pass當下可安全合法到達且山稜、峽谷清楚可見時",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-056-P01.best_season",
+      "value": "全年道路原則上通行，但冬季冰雪與吹雪風險很高；實際道路狀態優先於季節與天氣評分",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-056-P01.name_zh",
+      "value": "Atigun Pass・Brooks Range高山峽谷全景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-056-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-056-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-056-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "BLM directly identifies Atigun Pass as the Dalton Highway crossing of the Brooks Range. The legacy coordinate already lies at the pass and is retained as a planning-grade Camera Zone/weather anchor; no unsafe roadside tripod point is asserted.",
+          "name": "Atigun Pass Public Roadside Camera Zone",
+          "lat": 68.133,
+          "lon": -149.48,
+          "coord_confidence": "medium_high",
+          "verification_status": "official_blm_atigun_pass_subject_plus_existing_mapped_pass_anchor",
+          "geometry_type": "area",
+          "geometry_extent_m": 2200,
+          "geometry_note": "Atigun Pass周邊合法roadside／pull-off觀景範圍；只在安全停車位置拍攝。",
+          "geometry_confidence": "medium_high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-056-P02.best_time",
+      "value": "無午夜太陽且天空足夠黑暗的秋冬春夜間；須同時有location-aware極光活動、清朗天空與安全道路",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-056-P02.best_season",
+      "value": "BLM說明Dalton Highway於黑暗季可觀極光；實際極光與道路安全皆需當下資料",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-056-P02.name_zh",
+      "value": "Dalton Highway／Atigun Pass・Brooks Range極光",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-056-P02.legacy_theme",
+      "value": "aurora",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-056-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-056-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "BLM identifies the Dalton Highway as an aurora-viewing corridor and Atigun Pass as the Brooks Range crossing. Canonical eligibility remains fail-closed because location-aware aurora_state and current safe-road access are not yet connected.",
+          "name": "Atigun Pass / Dalton Highway Aurora Camera Zone",
+          "lat": 68.133,
+          "lon": -149.48,
+          "coord_confidence": "medium_high",
+          "verification_status": "official_blm_dalton_aurora_context_plus_atigun_pass_subject",
+          "geometry_type": "area",
+          "geometry_extent_m": 3000,
+          "geometry_note": "Atigun Pass附近合法且安全的public roadside觀景範圍；不鼓勵在車道邊停留。",
+          "geometry_confidence": "medium_high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

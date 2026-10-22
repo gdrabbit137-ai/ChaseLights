@@ -1,0 +1,209 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-012",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "雷尼爾山國家公園",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Mt. Rainier National Park",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "マウント・レーニア国立公園",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        46.769167,
+        -121.723889
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "Reflection Lakes waypoint",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 1491.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/Los_Angeles",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "Washington"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "fog_mist",
+        "milky_way",
+        "mountain_view",
+        "reflection",
+        "snow_scene",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "mountain",
+        "lake",
+        "forest",
+        "snow_ice"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "雷尼爾山國家公園",
+        "en": "Mt. Rainier National Park",
+        "ja": "マウント・レーニア国立公園"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-012-P01.best_time",
+      "value": "清晨低風時優先；車輛通常僅夏季可由Stevens Canyon Road抵達",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-012-P01.best_season",
+      "value": "典型車輛季為6月底至9月；實際道路狀態必須以NPS即時資訊為準",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-012-P01.name_zh",
+      "value": "Reflection Lakes・Mount Rainier清晨鏡面倒影",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-012-P01.legacy_theme",
+      "value": "reflection",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-012-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-012-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "NPS directly identifies Reflection Lakes as a reflection photo subject and states early-morning still conditions are best. Exact tripod coordinate is not asserted.",
+          "name": "Reflection Lakes Camera Zone",
+          "coord_confidence": "official_place_subject_no_unique_tripod_claim",
+          "verification_status": "official_nps_reflection_photo_spot",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 600,
+          "geometry_note": "Reflection Lakes停車／合法步道周邊；必須留在正式步道以保護高山草甸。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-012-P02.best_time",
+      "value": "日出前後；SR410／Tipsoo Lake實際開放期間",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-012-P02.best_season",
+      "value": "車輛通常6–10月可達；實際季節道路狀態優先",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-012-P02.name_zh",
+      "value": "Tipsoo Lake・Mount Rainier日出暖光與湖面倒影",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-012-P02.legacy_theme",
+      "value": "sunrise",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-012-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-012-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "NPS identifies Tipsoo Lake as a Scenic View/Photo Spot; the official park brochure directly documents a sunrise-lit Mount Rainier mirror reflection. Vehicle access is seasonal.",
+          "name": "Tipsoo Lake Camera Zone",
+          "coord_confidence": "official_place_subject_no_unique_tripod_claim",
+          "verification_status": "official_nps_sunrise_reflection_subject",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 650,
+          "geometry_note": "Tipsoo Lake環湖正式步道與停車周邊；禁止涉水並應保護高山草甸。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

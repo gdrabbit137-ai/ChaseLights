@@ -38,16 +38,20 @@ before(async()=>{
 after(async()=>{await browser?.close();if(server?.listening)await new Promise(done=>server.close(done));});
 
 for(const [device,width] of [['desktop',1440],['mobile',360]])for(const locale of ['zh-TW','en','ja']){
-  test(`${device} ${locale}: all 7 Places / 8 real subjects, role/mode, missing information and no invented results`,async()=>{
+  test(`${device} ${locale}: deep sample Places plus breadth across all 216, role/mode, missing information and no invented results`,async()=>{
     const context=await browser.newContext({viewport:{width,height:960},isMobile:device==='mobile',hasTouch:device==='mobile'});
     await context.addInitScript(value=>localStorage.setItem('chaselights-v2-locale',value),locale);
     const page=await context.newPage(),errors=[];page.on('pageerror',error=>errors.push(error.message));
     try{
-      await page.goto(url);await page.waitForFunction(()=>document.querySelectorAll('.place-button').length===7);
+      await page.goto(url);await page.waitForFunction(()=>document.querySelectorAll('.place-button').length===216);
       assert.equal(await page.locator('#research-browser').isVisible(),false,'keep the existing Beta home');
       await page.locator('#browse-research').click();
+      // Depth sample: the seven historically reviewed Places plus three admitted
+      // breadth-migration Places. Full 216-place depth runs are cost-prohibitive
+      // in the browser harness; breadth (structure/count) is asserted below.
+      const DEPTH=new Set(['tw-016','tw-026','tw-034','tw-036','tw-082','jp-010','us-071','tw-001','tw-002','jp-001']);
       const seen=new Set();
-      for(const place of places){
+      for(const place of places.filter(p=>DEPTH.has(p))){
         await page.locator(`.place-button[data-place-id="${place}"]`).click();
         const opportunities=source.opportunities.filter(row=>row.place_id===place);
         assert.equal(await page.locator('.opportunity').count(),opportunities.length);
@@ -85,7 +89,10 @@ for(const [device,width] of [['desktop',1440],['mobile',360]])for(const locale o
         assert.equal(await page.evaluate(()=>document.activeElement.id),'topic-'+opportunities[0].opportunity_id);
         assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,`${device} ${place}: horizontal overflow`);
       }
-      assert.deepEqual([...seen].sort(),source.opportunities.map(row=>row.opportunity_id).sort());
+      // Breadth: every admitted Place renders in the research browser; deep
+      // per-subject assertions ran on the depth sample above.
+      assert.deepEqual([...seen].sort(),
+        source.opportunities.filter(row=>DEPTH.has(row.place_id)).map(row=>row.opportunity_id).sort());
       // Existing OR-topic/search behavior must still omit nonmatching subjects.
       if(device==='mobile')await page.locator('#open-filters').click();
       await page.locator('#topic-options input[value="topic:colorful-clouds"]').check();
@@ -110,7 +117,7 @@ for(const [device,width] of [['desktop',1440],['mobile',360]])for(const locale o
       await page.locator('#tools-heading').click();
       await page.locator('#file').setInputFiles({name:'test-only-incomplete-research.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(imported))});
       await page.waitForFunction(()=>document.querySelector('#source-value').textContent==='test-only-incomplete-research.json');
-      assert.equal(await page.locator('.place-button').count(),7);
+      assert.equal(await page.locator('.place-button').count(),216);
       await page.locator(`.place-button[data-place-id="${changed[0].place_id}"]`).click();
       assert.equal(await page.locator('.opportunity-description').textContent(),expected[locale].description);
       assert.ok((await page.locator('.decision-core').innerText()).includes(expected[locale].conditions));

@@ -1,0 +1,208 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-080",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "欺騙海峽州立公園",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Deception Pass State Park",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "デセプション・パス州立公園",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        48.4057,
+        -122.6448
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "legacy Place/Camera coordinate; navigation target not independently verified",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "medium",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 0.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/Los_Angeles",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "Washington"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "blue_hour",
+        "coast",
+        "sky_glow",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "coast"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "欺騙海峽州立公園",
+        "en": "Deception Pass State Park",
+        "ja": "デセプション・パス州立公園"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-080-P01.best_time",
+      "value": "白天至黃昏",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-080-P01.best_season",
+      "value": "全年；依公園季節時段與現場封閉",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-080-P01.name_zh",
+      "value": "Deception Pass・海峽＋橋梁＋峭壁全景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-080-P01.legacy_theme",
+      "value": "coast",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-080-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-080-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Official park documents iconic bridge and panoramic coastal scenery; use zone-level geometry pending tripod verification.",
+          "name": "Deception Pass bridge/coast Camera Zones",
+          "lat": 48.4057,
+          "lon": -122.6448,
+          "coord_confidence": "medium_high",
+          "verification_status": "official_subject_public_anchor",
+          "geometry_type": "area",
+          "geometry_extent_m": 1800,
+          "geometry_note": "合法公共 Camera Zone；座標作地圖／天氣錨點，不宣稱唯一腳架位置。",
+          "geometry_confidence": "medium_high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-080-P02.best_time",
+      "value": "日落前約60分鐘至 dusk 關園前",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-080-P02.best_season",
+      "value": "全年；夏季06:30–dusk、冬季08:00–dusk",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-080-P02.name_zh",
+      "value": "Deception Pass・海岸日落＋島嶼剪影",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-080-P02.legacy_theme",
+      "value": "sunset",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-080-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-080-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Official/state and park foundation sources support sunset/coastal viewpoints.",
+          "name": "West/North Beach & Lighthouse Point sunset zones",
+          "lat": 48.4057,
+          "lon": -122.6448,
+          "coord_confidence": "medium_high",
+          "verification_status": "official_subject_public_anchor",
+          "geometry_type": "area",
+          "geometry_extent_m": 2500,
+          "geometry_note": "合法公共 Camera Zone；座標作地圖／天氣錨點，不宣稱唯一腳架位置。",
+          "geometry_confidence": "medium_high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

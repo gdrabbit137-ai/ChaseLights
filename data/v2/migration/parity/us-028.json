@@ -1,0 +1,161 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-028",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "洛杉磯格里斐斯天文台",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Griffith Observatory LA",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "グリフィス天文台",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        34.11821,
+        -118.30037
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "OSM/Mapcarta POI",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 340.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/Los_Angeles",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "California"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "blue_hour",
+        "city_night",
+        "milky_way",
+        "mountain_view"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "city"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "洛杉磯格里斐斯天文台",
+        "en": "Griffith Observatory LA",
+        "ja": "グリフィス天文台"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-028-P01.best_time",
+      "value": "日出後至22:00前的terraces公共時段；屋頂區另依天文台建築開放時間",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-028-P01.best_season",
+      "value": "全年；實際臨時封閉／道路管制以官方公告為準",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-028-P01.name_zh",
+      "value": "Griffith Observatory terraces・Los Angeles與Hollywood Sign全景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-028-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-028-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-028-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Official Griffith Observatory material directly documents panoramic Los Angeles and Hollywood Sign views from the grounds/terraces. The existing Observatory POI coordinate is already close to the actual facility and is retained.",
+          "name": "Griffith Observatory Exterior Terraces Camera Zone",
+          "lat": 34.11821,
+          "lon": -118.30037,
+          "coord_confidence": "high",
+          "verification_status": "official_observatory_terrace_panorama_subject_plus_existing_poi_anchor",
+          "geometry_type": "area",
+          "geometry_extent_m": 320,
+          "geometry_note": "天文台外部terraces、草坪與合法公共步道；roof access另依建築開放狀態。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

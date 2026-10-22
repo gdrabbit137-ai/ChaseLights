@@ -1,0 +1,247 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "tw-017",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "tw_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "王功漁港",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Wanggong Fishing Port",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "王功漁港",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        23.969796,
+        120.326592
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "curated camera point",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 5.0,
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "Asia/Taipei",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "彰化縣"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "blue_hour",
+        "sky_glow",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "coast"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "王功漁港",
+        "en": "Wanggong Fishing Port",
+        "ja": "王功漁港"
+      },
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-017-P01.best_time",
+      "value": "日落前後",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-017-P01.best_season",
+      "value": "2015-11-22有直接夕陽穿弓實照；不足以證明11月為唯一或最佳月份，其他日期仍待同機位幾何驗證",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-017-P01.name_zh",
+      "value": "王者之弓夕陽穿弓對位",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-017-P01.legacy_theme",
+      "value": "sunset",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-017-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-017-VP04",
+          "relation_role": "geometry_required",
+          "sort_order": 1,
+          "name": "王者之弓橋夕陽穿弓機位（待定位）",
+          "lat": null,
+          "lon": null,
+          "coord_confidence": "pending",
+          "verification_status": "official_direct_sunset_alignment_verified_multiple_photo_samples_exact_camera_location_pending",
+          "geometry_type": "small_area",
+          "geometry_extent_m": null,
+          "geometry_confidence": "pending"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-017-P02.best_time",
+      "value": "日落前後",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-017-P02.best_season",
+      "value": "全年；潮汐主導",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-017-P02.name_zh",
+      "value": "生態景觀橋俯瞰後港溪潮汐濕地夕照",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-017-P02.legacy_theme",
+      "value": "sunset",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-017-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-017-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "name": "生態景觀橋潮汐／夕照機位",
+          "lat": 23.967356,
+          "lon": 120.330055,
+          "coord_confidence": "high",
+          "verification_status": "camera_zone_verified_B_official_bridge_map_center_exact_tripod_offset_optional",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 97.5,
+          "geometry_confidence": "medium"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-017-P03.best_time",
+      "value": "藍調時刻",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-017-P03.best_season",
+      "value": "全年",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-017-P03.name_zh",
+      "value": "芳苑燈塔＋王功漁港暮色／夜燈",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-017-P03.legacy_theme",
+      "value": "blue_hour",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-017-P03.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-017-VP03",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "name": "芳苑燈塔／海堤候選機位",
+          "lat": 23.969796,
+          "lon": 120.326592,
+          "coord_confidence": "medium",
+          "verification_status": "verified_harbour_lighthouse_area_exact_tripod_optional",
+          "geometry_type": "small_area",
+          "geometry_extent_m": null,
+          "geometry_confidence": "medium"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

@@ -1,0 +1,164 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "jp-006",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "jp_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "摩周湖",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Lake Mashu",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "摩周湖",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        43.556947,
+        144.507319
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "first observation deck",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 553.0,
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "Asia/Tokyo",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "北海道"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "fog_mist",
+        "mountain_view",
+        "reflection",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "lake",
+        "mountain"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "摩周湖",
+        "en": "Lake Mashu",
+        "ja": "摩周湖"
+      },
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-006-P01.best_time",
+      "value": "白天（景點當地時間／JST）",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-006-P01.best_season",
+      "value": "全年可見景觀；實際道路／設施狀態以官方公告為準",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-006-P01.name_zh",
+      "value": "摩周湖第一展望台・摩周藍湖景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-006-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-006-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "jp-006-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Representative anchor for Lake Mashu First Observatory / Kamuy Terrace; use the public observation area rather than a generic lake-center coordinate.",
+          "name": "摩周湖第一展望台／Kamuy Terrace Camera Zone",
+          "lat": 43.556947,
+          "lon": 144.507319,
+          "elevation_m": null,
+          "coord_confidence": "high",
+          "verification_status": "official_observatory_identity_plus_curated_first_observatory_coordinate",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 180,
+          "geometry_note": "第一展望台與 Kamuy Terrace 公共觀景區的代表 Camera Zone；非湖面中心或單一腳架點。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

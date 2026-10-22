@@ -1,0 +1,208 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "jp-016",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "jp_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "橫濱山下公園",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Yokohama Yamashita Park",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "横浜山下公園",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        35.447738,
+        139.646791
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "B32 Yokohama official recommended India Water Tower area + cross-checked POI coordinate",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 0.0,
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "Asia/Tokyo",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "神奈川県"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "city_night",
+        "mountain_view"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "coast",
+        "city"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "橫濱山下公園",
+        "en": "Yokohama Yamashita Park",
+        "ja": "横浜山下公園"
+      },
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-016-P01.best_time",
+      "value": "白天（景點當地時間／JST）",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-016-P01.best_season",
+      "value": "全年",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-016-P01.name_zh",
+      "value": "山下公園・橫濱港日間海灣景觀",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-016-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-016-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "jp-016-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Official Yokohama night-view guidance identifies the India Water Tower / central plaza area as a recommended view area; this anchor is also usable for the broad daytime harbor view.",
+          "name": "山下公園印度水塔一帶 Camera Zone",
+          "lat": 35.447738,
+          "lon": 139.646791,
+          "elevation_m": null,
+          "coord_confidence": "high",
+          "verification_status": "official_recommended_area_plus_cross_checked_poi_coordinate",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 250,
+          "geometry_note": "山下公園大棧橋側、印度水塔周邊公共臨港區域；不是整座公園中心點。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-016-P02.best_time",
+      "value": "藍調時刻至夜間（景點當地時間／JST）",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-016-P02.best_season",
+      "value": "全年",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-016-P02.name_zh",
+      "value": "山下公園・橫濱港夜景與水面光影",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-016-P02.legacy_theme",
+      "value": "city_night",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-016-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "jp-016-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Yokohama official night-view itinerary explicitly recommends the central plaza or India Water Tower area.",
+          "name": "山下公園印度水塔／中央廣場一帶 Camera Zone",
+          "lat": 35.447738,
+          "lon": 139.646791,
+          "elevation_m": null,
+          "coord_confidence": "high",
+          "verification_status": "official_recommended_night_view_area_plus_cross_checked_poi_coordinate",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 300,
+          "geometry_note": "官方建議的中央廣場／印度水塔夜景區域；不把水面完美倒影列為必要條件。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

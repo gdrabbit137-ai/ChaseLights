@@ -1,0 +1,206 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "tw-021",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "tw_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "武界部落",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Wujie Tribe",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "武界集落",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        23.90874,
+        121.03959
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "National Cultural Memory POI",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "medium",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 863.0,
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "Asia/Taipei",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "南投縣"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "cloud_sea",
+        "fog_mist",
+        "mountain_view",
+        "sunbeam",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "forest",
+        "mountain"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "武界部落",
+        "en": "Wujie Tribe",
+        "ja": "武界集落"
+      },
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-021-P01.best_time",
+      "value": "日出前後",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-021-P01.best_season",
+      "value": "全年候選；雨後/水氣充足條件可能更佳",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-021-P01.name_zh",
+      "value": "武界高山茶園日出＋群山",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-021-P01.legacy_theme",
+      "value": "sunrise",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-021-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-021-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "name": "武界高山茶園日出雲海私人Camera Zone",
+          "lat": null,
+          "lon": null,
+          "coord_confidence": "pending",
+          "verification_status": "private_camera_zone_verified_access_gate_exact_coordinate_nonpublic_pending",
+          "geometry_type": "private_zone",
+          "geometry_extent_m": null,
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-021-P02.best_time",
+      "value": "清晨",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-021-P02.best_season",
+      "value": "全年候選；季節統計待建",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-021-P02.name_zh",
+      "value": "武界高山茶園下方雲海／雲瀑",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-021-P02.legacy_theme",
+      "value": "cloud_sea",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-021-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-021-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "name": "武界高山茶園日出雲海私人Camera Zone",
+          "lat": null,
+          "lon": null,
+          "coord_confidence": "pending",
+          "verification_status": "private_camera_zone_verified_access_gate_exact_coordinate_nonpublic_pending",
+          "geometry_type": "private_zone",
+          "geometry_extent_m": null,
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

@@ -1,0 +1,166 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-047",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "馬塔努斯卡冰河",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Matanuska Glacier",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "マタヌスカ氷河",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        61.7994722,
+        -147.8180444
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "Alaska DNR published recreation-site GPS and public glacier-viewing evidence",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 512.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/Anchorage",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "Alaska"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "aurora",
+        "fog_mist",
+        "long_exposure",
+        "mountain_view",
+        "snow_scene",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "mountain",
+        "river",
+        "snow_ice"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "Matanuska Glacier State Recreation Site",
+        "en": "Matanuska Glacier State Recreation Site",
+        "ja": "マタヌスカ氷河州立レクリエーションサイト"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-047-P01.best_time",
+      "value": "State Recreation Site實際開放且冰河、河谷與Chugach Mountains清楚可見時",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-047-P01.best_season",
+      "value": "全年皆有景觀價值；State Recreation Site可因冬季雪冰條件關閉",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-047-P01.name_zh",
+      "value": "Matanuska Glacier SRS・冰河＋Matanuska Valley／Chugach Mountains",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-047-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-047-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-047-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Alaska DNR explicitly describes the State Recreation Site as a safe public glacier-viewing area and publishes a GPS anchor. B73 corrects the legacy Place coordinate, which was far from the actual public viewing site.",
+          "name": "Matanuska Glacier State Recreation Site Camera Zone",
+          "lat": 61.7994722,
+          "lon": -147.8180444,
+          "coord_confidence": "high",
+          "verification_status": "official_alaska_dnr_gps_and_public_glacier_viewing_subject",
+          "geometry_type": "area",
+          "geometry_extent_m": 700,
+          "geometry_note": "Mile 101公共停車區、Edge Nature Trail與冰河展望平台；不包含需導覽才能合法進入的冰河本體。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

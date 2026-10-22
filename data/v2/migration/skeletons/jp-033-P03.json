@@ -1,0 +1,163 @@
+{
+  "schema_version": "2.1.0",
+  "opportunity_id": "jp-033-P03",
+  "place_id": "jp-033",
+  "revision": 1,
+  "lifecycle_status": "draft",
+  "name_i18n": {
+    "zh-TW": "唐津城・櫻花與藤花季節構圖",
+    "en": "唐津城・櫻花與藤花季節構圖 (provisional English title, pending review)",
+    "ja": "唐津城・櫻花與藤花季節構圖（暫定日本語タイトル、レビュー待ち）"
+  },
+  "description_i18n": {
+    "zh-TW": "唐津城・櫻花與藤花季節構圖（V1 最佳時段：僅在花況實際成立時；V1 季節：櫻花通常春季；藤花約4月中旬～5月上旬；實際花況不得只靠月份保證。V1 遷移骨架；內容待第二輪研究完善。）",
+    "en": "唐津城・櫻花與藤花季節構圖 (V1 best time: 僅在花況實際成立時; V1 season: 櫻花通常春季；藤花約4月中旬～5月上旬；實際花況不得只靠月份保證 (zh-TW source values retained pending translation). V1 migration skeleton; content to be refined in round 2.)",
+    "ja": "唐津城・櫻花與藤花季節構圖（V1ベスト時間帯: 僅在花況實際成立時；V1季節: 櫻花通常春季；藤花約4月中旬～5月上旬；實際花況不得只靠月份保證（zh-TW原文のまま、翻訳待ち）。V1移行スケルトン。内容は第2ラウンドで精緻化予定。）"
+  },
+  "camera_contexts": [
+    {
+      "id": "CZ-jp-033-P03-01",
+      "kind": "area",
+      "geometry": {
+        "kind": "point",
+        "status": "provisional",
+        "geojson": {
+          "type": "Point",
+          "coordinates": [
+            129.97818,
+            33.453529
+          ]
+        },
+        "uncertainty_m": null,
+        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "source_geometry_revision": null,
+        "reason_if_absent": null
+      },
+      "verification_status": "provisional",
+      "evidence_refs": [],
+      "access_notes_i18n": {
+        "zh-TW": "舞鶴公園官方花巡資料列 05:00–22:00；天守內部另為 09:00–17:00、16:40 最終入館且可能季節調整。外部公園時段不可當作天守內部已開放。",
+        "en": "Official Maizuru Park guidance lists 05:00–22:00. The castle keep is separately 09:00–17:00 with last entry 16:40 and may change seasonally; park access does not prove keep access.",
+        "ja": "舞鶴公園は公式案内で05:00〜22:00。天守閣内部は別契約で09:00〜17:00（最終入館16:40、季節変更あり）。公園が開いていても天守開館を意味しません。"
+      },
+      "safety_notes_i18n": {
+        "zh-TW": "請依現場安全指示行動。",
+        "en": "Follow on-site safety guidance.",
+        "ja": "現地の安全指示に従ってください。"
+      },
+      "altitude_m": null
+    }
+  ],
+  "targets": [
+    {
+      "id": "SG-jp-033-P03-01",
+      "kind": "multi_component",
+      "name_i18n": {
+        "zh-TW": "唐津城・櫻花與藤花季節構圖",
+        "en": "唐津城・櫻花與藤花季節構圖 (provisional English title, pending review)",
+        "ja": "唐津城・櫻花與藤花季節構圖（暫定日本語タイトル、レビュー待ち）"
+      },
+      "geometry": {
+        "kind": "point",
+        "status": "provisional",
+        "geojson": {
+          "type": "Point",
+          "coordinates": [
+            129.97818,
+            33.453529
+          ]
+        },
+        "uncertainty_m": null,
+        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "source_geometry_revision": null,
+        "reason_if_absent": null
+      },
+      "phenomenon_model_id": null,
+      "evidence_refs": [],
+      "components": []
+    }
+  ],
+  "observation_relations": [
+    {
+      "id": "VR-jp-033-P03-01",
+      "camera_context_id": "CZ-jp-033-P03-01",
+      "target_id": "SG-jp-033-P03-01",
+      "type": "foreground_background",
+      "geometry_mode": "unknown",
+      "azimuth_deg": null,
+      "elevation_deg": null,
+      "distance_m": null,
+      "evidence_refs": [],
+      "derivation_method": null,
+      "uncertainty_note": "Imported V1 reference; angles and distance unknown."
+    }
+  ],
+  "navigation_targets": [
+    {
+      "id": "NAV-jp-033-P03-01",
+      "status": "needs_review",
+      "target_type": "other",
+      "lat": 33.453529,
+      "lon": 129.97818,
+      "label_i18n": {
+        "zh-TW": "唐津城",
+        "en": "Karatsu Castle",
+        "ja": "唐津城"
+      },
+      "evidence_refs": [],
+      "confidence": "low"
+    }
+  ],
+  "condition_contract": {
+    "contract_id": "CC-jp-033-P03-v1",
+    "status": "draft",
+    "conditions": [
+      {
+        "id": "C-jp-033-P03-01",
+        "role": "REQUIRED",
+        "domain": "ASTRONOMY",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "legacy_mountain_view",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "jp-033-P03-claim-01"
+        ],
+        "model_binding": null,
+        "notes_i18n": {
+          "zh-TW": "由 V1 主題對應的暫定條件；實際閾值待研究核實。",
+          "en": "Provisional condition mapped from the V1 theme; thresholds pending research.",
+          "ja": "V1テーマから対応した暫定条件。閾値は研究待ち。"
+        },
+        "validation_status": "provisional"
+      }
+    ],
+    "recommendation_policy_version": null
+  },
+  "evidence_claims": [
+    {
+      "claim_id": "jp-033-P03-claim-01",
+      "claim_type": "existence",
+      "evidence_refs": [],
+      "audit_status": "UNKNOWN",
+      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+    }
+  ],
+  "readiness": {
+    "research_level": "R0",
+    "gaps": [
+      "RESEARCH_GAP",
+      "GEOMETRY_GAP"
+    ]
+  },
+  "provenance": {
+    "source_catalog": "runtime_catalog_v004_r4_2.json",
+    "source_revision": "v1-spot-jp-033",
+    "imported_at": "2026-10-21T20:51:45Z",
+    "review_status": "pending",
+    "reviewed_by": null
+  }
+}

@@ -1,0 +1,248 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-001",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "大峽谷國家公園",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Grand Canyon National Park",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "グランド・キャニオン国立公園",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        36.065194,
+        -112.116306
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "Wikimedia camera point",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 2105.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/Phoenix",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "Arizona"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "milky_way",
+        "mountain_view",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "geology",
+        "mountain"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "大峽谷國家公園",
+        "en": "Grand Canyon National Park",
+        "ja": "グランド・キャニオン国立公園"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-001-P01.best_time",
+      "value": "日出前約30分鐘至日出後約1小時（景點當地時間）",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-001-P01.best_season",
+      "value": "全年；South Rim全年開放，冬季需另注意道路與低溫狀況",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-001-P01.name_zh",
+      "value": "大峽谷南緣・Mather Point 日出峽谷層次",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-001-P01.legacy_theme",
+      "value": "sunrise",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-001-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-001-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "NPS directly recommends Mather Point for sunrise. Area identity is official; no new unverified WGS84 tripod coordinate is asserted.",
+          "name": "Mather Point Camera Zone",
+          "coord_confidence": "not_required_for_area_subject",
+          "verification_status": "official_nps_sunrise_viewpoint",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 220,
+          "geometry_note": "Mather Point公共觀景區；可於合法平台／步道範圍調整構圖。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-001-P02.best_time",
+      "value": "日落前後（景點當地時間）",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-001-P02.best_season",
+      "value": "全年；South Rim與Desert View全年開放",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-001-P02.name_zh",
+      "value": "大峽谷南緣・Desert View 夕照與Watchtower前景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-001-P02.legacy_theme",
+      "value": "sunset",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-001-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-001-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "NPS photography guidance explicitly identifies Desert View Watchtower, river and Palisades as a strong sunset composition.",
+          "name": "Desert View Camera Zone",
+          "coord_confidence": "not_required_for_area_subject",
+          "verification_status": "official_nps_sunset_subject",
+          "geometry_type": "area",
+          "geometry_extent_m": 450,
+          "geometry_note": "Desert View公共觀景區與Watchtower外部周邊；建物開館時間不等同於戶外南緣24小時開放狀態。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-001-P03.best_time",
+      "value": "天文黑夜；新月附近或月光較弱時優先",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-001-P03.best_season",
+      "value": "全年暗夜；Milky Way核心構圖另受季節與方位影響",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-001-P03.name_zh",
+      "value": "大峽谷南緣・星空／銀河與峽谷或Watchtower前景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-001-P03.legacy_theme",
+      "value": "milky_way",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-001-P03.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-001-VP03",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "NPS explicitly recommends South Rim stargazing and identifies Desert View Watchtower as an excellent Milky Way-core foreground.",
+          "name": "Desert View／South Rim Dark-Sky Camera Zone",
+          "coord_confidence": "not_required_for_area_subject",
+          "verification_status": "official_nps_night_sky_and_milky_way_foreground",
+          "geometry_type": "area",
+          "geometry_extent_m": 1200,
+          "geometry_note": "以NPS明確推薦的South Rim公共暗空觀景區為範圍；不宣稱單一銀河精準對位點。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

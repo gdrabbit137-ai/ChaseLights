@@ -1,0 +1,550 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "tw-084",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "tw_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "大農大富平地森林園區",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Danongdafu Forest Park",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "大農大富平地森林園区",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        23.6143836,
+        121.4159714
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "Forestry and Nature Conservation Agency official forest-road feature and visitor-center coordinates",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 186.0,
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "Asia/Taipei",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "花蓮縣"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "city_night",
+        "milky_way",
+        "mountain_view"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "forest",
+        "rural"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "access_note_i18n",
+      "value": {
+        "zh-TW": "推薦時段採官方服務時間 08:00–17:00。園區全年開放；遊客中心除夕及每週一休館，寒暑假與國定假日例外。步道與自行車道遇落葉、潮濕或青苔可能濕滑。",
+        "en": "Recommendations use the official 08:00–17:00 service window. The park is open year-round; the visitor center closes on Lunar New Year's Eve and Mondays, except school vacations and national holidays. Paths may be slippery when wet or covered by leaves or moss.",
+        "ja": "推奨時間は公式サービス時間08:00〜17:00です。園区は通年開放で、ビジターセンターは旧暦大晦日と月曜休館（長期休暇・祝日を除く）。落葉・湿気・苔で路面が滑る場合があります。"
+      },
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "access_mode",
+      "value": "opening_hours",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "access_hours",
+      "value": [
+        "08:00",
+        "17:00"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "大農大富平地森林園區",
+        "en": "Danongdafu Forest Park",
+        "ja": "大農大富平地森林園区"
+      },
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-084-P01.best_time",
+      "value": "園區日間服務時段；斜射光需待林道方向與樹冠幾何驗證",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-084-P01.best_season",
+      "value": "全年",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-084-P01.name_zh",
+      "value": "大農大富森林廊道與林木層次",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-084-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-084-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-084-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "lat": 23.6143836,
+          "lon": 121.4159714,
+          "elevation_m": null,
+          "coord_confidence": "high",
+          "verification_status": "official_forest_recreation_map_feature_coordinate",
+          "geometry_type": "area",
+          "geometry_extent_m": 2500,
+          "geometry_confidence": "medium_high",
+          "note": "Representative official forest-road area; exact tripod position is not asserted.",
+          "name": "大農大富主環園道與森林自行車道 Camera Zone",
+          "geometry_note": "以官方主環園道與自行車道範圍作為代表 Camera Zone；實際構圖可沿合法公共動線移動。"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-084-P02.best_time",
+      "value": "日間；夏末至秋初，以現地花果狀態為準",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-084-P02.best_season",
+      "value": "夏末至秋初",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-084-P02.name_zh",
+      "value": "南環台灣欒樹黃花與粉紅果實",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-084-P02.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-084-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-084-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "lat": 23.6143836,
+          "lon": 121.4159714,
+          "elevation_m": null,
+          "coord_confidence": "high",
+          "verification_status": "official_forest_recreation_map_feature_coordinate",
+          "geometry_type": "area",
+          "geometry_extent_m": 2500,
+          "geometry_confidence": "medium_high",
+          "note": "Representative official forest-road area; exact tripod position is not asserted.",
+          "name": "大農大富南環自行車道台灣欒樹 Camera Zone",
+          "geometry_note": "以官方主環園道與自行車道範圍作為代表 Camera Zone；實際構圖可沿合法公共動線移動。"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-084-P03.best_time",
+      "value": "日間；12 月至翌年 1 月為官方推薦彩葉期",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-084-P03.best_season",
+      "value": "12 月至翌年 1 月",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-084-P03.name_zh",
+      "value": "南環秋冬彩葉森林道",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-084-P03.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-084-P03.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-084-VP03",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "lat": 23.6143836,
+          "lon": 121.4159714,
+          "elevation_m": null,
+          "coord_confidence": "high",
+          "verification_status": "official_forest_recreation_map_feature_coordinate",
+          "geometry_type": "area",
+          "geometry_extent_m": 2500,
+          "geometry_confidence": "medium_high",
+          "note": "Representative official forest-road area; exact tripod position is not asserted.",
+          "name": "大農大富南環自行車道彩葉 Camera Zone",
+          "geometry_note": "以官方主環園道與自行車道範圍作為代表 Camera Zone；實際構圖可沿合法公共動線移動。"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-084-P04.best_time",
+      "value": "官方當年度花海存在且園區日間開放時",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-084-P04.best_season",
+      "value": "依當年度官方花海公告",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-084-P04.name_zh",
+      "value": "春節季節花海與森林景觀",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-084-P04.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-084-P04.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-084-VP04",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "lat": 23.6143836,
+          "lon": 121.4159714,
+          "elevation_m": null,
+          "coord_confidence": "high",
+          "verification_status": "official_forest_recreation_map_feature_coordinate",
+          "geometry_type": "area",
+          "geometry_extent_m": 2500,
+          "geometry_confidence": "medium_high",
+          "note": "Representative official forest-road area; exact tripod position is not asserted.",
+          "name": "大農大富花海景觀區 Camera Zone",
+          "geometry_note": "以官方主環園道與自行車道範圍作為代表 Camera Zone；實際構圖可沿合法公共動線移動。"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-084-P05.best_time",
+      "value": "官方賞螢活動指定夜間時段",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-084-P05.best_season",
+      "value": "2026 已驗證 3/13–4/12；往後年度需官方更新",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-084-P05.name_zh",
+      "value": "春季螢火蟲生態攝影",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-084-P05.legacy_theme",
+      "value": "city_night",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-084-P05.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-084-VP05",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "lat": 23.6143836,
+          "lon": 121.4159714,
+          "elevation_m": null,
+          "coord_confidence": "high",
+          "verification_status": "official_forest_recreation_map_feature_coordinate",
+          "geometry_type": "area",
+          "geometry_extent_m": 2500,
+          "geometry_confidence": "medium_high",
+          "note": "Representative official forest-road area; exact tripod position is not asserted.",
+          "name": "大農大富官方賞螢活動路線 Camera Zone",
+          "geometry_note": "以官方主環園道與自行車道範圍作為代表 Camera Zone；實際構圖可沿合法公共動線移動。"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-084-P06.best_time",
+      "value": "僅官方夜間觀星活動日期；進入天文黑夜後較佳",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-084-P06.best_season",
+      "value": "2026 已驗證 3/27、3/28、4/10、4/11；往後年度需官方更新",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-084-P06.name_zh",
+      "value": "星空、星軌與森林夜景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-084-P06.legacy_theme",
+      "value": "milky_way",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-084-P06.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-084-VP06",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "lat": 23.6143836,
+          "lon": 121.4159714,
+          "elevation_m": null,
+          "coord_confidence": "high",
+          "verification_status": "official_forest_recreation_map_feature_coordinate",
+          "geometry_type": "area",
+          "geometry_extent_m": 2500,
+          "geometry_confidence": "medium_high",
+          "note": "Representative official forest-road area; exact tripod position is not asserted.",
+          "name": "大農大富官方觀星活動 Camera Zone",
+          "geometry_note": "以官方主環園道與自行車道範圍作為代表 Camera Zone；實際構圖可沿合法公共動線移動。"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-084-P07.best_time",
+      "value": "日間；實際物種出現不可由天氣預報保證",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-084-P07.best_season",
+      "value": "全年",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-084-P07.name_zh",
+      "value": "鳥類與森林野生動物生態紀錄",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-084-P07.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-084-P07.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-084-VP07",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "lat": 23.6143836,
+          "lon": 121.4159714,
+          "elevation_m": null,
+          "coord_confidence": "high",
+          "verification_status": "official_forest_recreation_map_feature_coordinate",
+          "geometry_type": "area",
+          "geometry_extent_m": 2500,
+          "geometry_confidence": "medium_high",
+          "note": "Representative official forest-road area; exact tripod position is not asserted.",
+          "name": "大農大富賞鳥平台與森林生態 Camera Zone",
+          "geometry_note": "以官方主環園道與自行車道範圍作為代表 Camera Zone；實際構圖可沿合法公共動線移動。"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-084-P08.best_time",
+      "value": "園區日間開放時段",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-084-P08.best_season",
+      "value": "全年；裝置內容以現場為準",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-084-P08.name_zh",
+      "value": "草原、裝置藝術與環境人文構圖",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-084-P08.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-084-P08.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-084-VP08",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "lat": 23.6143836,
+          "lon": 121.4159714,
+          "elevation_m": null,
+          "coord_confidence": "high",
+          "verification_status": "official_forest_recreation_map_feature_coordinate",
+          "geometry_type": "area",
+          "geometry_extent_m": 2500,
+          "geometry_confidence": "medium_high",
+          "note": "Representative official forest-road area; exact tripod position is not asserted.",
+          "name": "大農大富活動草坪與裝置藝術 Camera Zone",
+          "geometry_note": "以官方主環園道與自行車道範圍作為代表 Camera Zone；實際構圖可沿合法公共動線移動。"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-084-P09.best_time",
+      "value": "日間；能見度較佳時",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-084-P09.best_season",
+      "value": "全年",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-084-P09.name_zh",
+      "value": "花東縱谷山景、田園與開闊景觀",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-084-P09.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-084-P09.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-084-VP09",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "lat": 23.6143836,
+          "lon": 121.4159714,
+          "elevation_m": null,
+          "coord_confidence": "high",
+          "verification_status": "official_forest_recreation_map_feature_coordinate",
+          "geometry_type": "area",
+          "geometry_extent_m": 2500,
+          "geometry_confidence": "medium_high",
+          "note": "Representative official forest-road area; exact tripod position is not asserted.",
+          "name": "大農大富主環園道開闊縱谷 Camera Zone",
+          "geometry_note": "以官方主環園道與自行車道範圍作為代表 Camera Zone；實際構圖可沿合法公共動線移動。"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

@@ -1,0 +1,204 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-005",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "拱門國家公園",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Arches National Park",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "アーチズ国立公園",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        38.74402,
+        -109.49973
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "NPS Delicate Arch coordinate",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 1459.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/Denver",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "Utah"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "milky_way",
+        "mountain_view",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "geology",
+        "desert"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "拱門國家公園",
+        "en": "Arches National Park",
+        "ja": "アーチズ国立公園"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-005-P01.best_time",
+      "value": "日落前後；NPS明確將Delicate Arch列為晚午後／夕照攝影主題",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-005-P01.best_season",
+      "value": "全年；停車與步道人流在旺季可能非常擁擠",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-005-P01.name_zh",
+      "value": "Delicate Arch・夕照紅岩拱門",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-005-P01.legacy_theme",
+      "value": "sunset",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-005-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-005-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "NPS explicitly identifies Delicate Arch sunset as a core photography subject. Exact tripod placement is intentionally not claimed.",
+          "name": "Delicate Arch Sunset Camera Zone",
+          "coord_confidence": "official_subject_location_no_unique_tripod_claim",
+          "verification_status": "official_nps_delicate_arch_sunset_subject",
+          "geometry_type": "area",
+          "geometry_extent_m": 500,
+          "geometry_note": "Delicate Arch合法步道與觀景範圍；旺季夕陽時段可能非常擁擠。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-005-P02.best_time",
+      "value": "天文黑夜；低月光時優先",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-005-P02.best_season",
+      "value": "全年暗夜；Milky Way核心構圖另依季節與方位",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-005-P02.name_zh",
+      "value": "Balanced Rock・星空／銀河夜攝",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-005-P02.legacy_theme",
+      "value": "milky_way",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-005-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-005-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "NPS directly describes Balanced Rock as ideal for stargazing and night photography and shows it as a foreground for star trails.",
+          "name": "Balanced Rock Night Camera Zone",
+          "coord_confidence": "official_subject_location_no_unique_tripod_claim",
+          "verification_status": "official_nps_balanced_rock_night_photography_subject",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 500,
+          "geometry_note": "Balanced Rock viewpoint／短步道合法區域；人工光源照亮地景受NPS禁止。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

@@ -23,9 +23,13 @@ export function validateBrowseIndex(index, catalog) {
   const placeIds = place.places.map(p => p.place_id);
   const opportunityIds = place.opportunities.map(o => o.opportunity_id);
   const topicIds = topic.topics.map(t => t.topic_id);
+  // Owner decision 2026-10-22 (GOVERNANCE_DECISION_NO_REVIEW_GATE): unevidenced
+  // opportunities are honestly unclassified; topic bindings only cover pinned-evidence rows.
+  const unclassified = status.unclassified_opportunity_ids || [];
   if(status.counts.places!==placeIds.length || status.counts.opportunities!==opportunityIds.length ||
-     status.counts.topic_ids!==topicIds.length || status.unclassified_opportunity_ids?.length!==0 ||
-     topic.opportunity_topics.length!==opportunityIds.length ||
+     status.counts.topic_ids!==topicIds.length ||
+     unclassified.length!==opportunityIds.length - topic.opportunity_topics.length ||
+     !topic.opportunity_topics.every(o => opportunityIds.includes(o.opportunity_id) && !unclassified.includes(o.opportunity_id)) ||
      status.counts.opportunity_topic_links!==topic.opportunity_topics.reduce((n,o)=>n+o.topic_ids.length,0)) fail('status counts');
   if (![placeIds, opportunityIds, topicIds].every(unique) ||
       !place.places.every(p => names(p.name_i18n) && p.admin_status === 'UNKNOWN' &&

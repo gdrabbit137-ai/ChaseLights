@@ -1,0 +1,266 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "jp-035",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "jp_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "福岡塔",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Fukuoka Tower",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "福岡タワー",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        33.593274,
+        130.351467
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "B51 Fukuoka Tower official research + existing POI",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 5.0,
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "Asia/Tokyo",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "福岡県"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "city_night",
+        "mountain_view",
+        "sunset"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "architecture",
+        "city",
+        "coast"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "access_note_i18n",
+      "value": {
+        "zh-TW": "展望室官方營業 09:30–22:00，最終入館 21:30；推薦進入截止採21:30，若已在館內可停留至22:00，臨時營運調整仍以官方為準。",
+        "en": "Observation rooms are officially open 09:30–22:00 with last admission at 21:30. Recommendations use 21:30 as the entry cutoff; guests already inside may remain until closing.",
+        "ja": "展望室は公式09:30〜22:00、最終入館21:30。推奨入館締切は21:30とし、入館済みの場合は閉館22:00まで滞在できます。"
+      },
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "access_mode",
+      "value": "opening_hours",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "access_hours",
+      "value": [
+        "09:30",
+        "21:30"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "福岡塔",
+        "en": "Fukuoka Tower",
+        "ja": "福岡タワー"
+      },
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-035-P01.best_time",
+      "value": "09:30–21:30 入館截止前的白天可見光；展望室營業至22:00",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-035-P01.best_season",
+      "value": "全年；遠景需良好能見度",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-035-P01.name_zh",
+      "value": "福岡塔123m展望室・福岡市與博多灣360°全景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-035-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-035-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "jp-035-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Fukuoka Tower official page identifies the 123 m top observation room and 360-degree city/bay panorama.",
+          "name": "福岡塔・展望3F 123m Camera Zone",
+          "lat": 33.593274,
+          "lon": 130.351467,
+          "coord_confidence": "high",
+          "verification_status": "official_observation_floor_subject_plus_existing_tower_poi",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 80,
+          "geometry_note": "塔內123m展望樓層；需入館。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-035-P02.best_time",
+      "value": "日落前後至21:30最終入館前；展望室營業至22:00",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-035-P02.best_season",
+      "value": "全年",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-035-P02.name_zh",
+      "value": "福岡塔・夕景到城市夜景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-035-P02.legacy_theme",
+      "value": "city_night",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-035-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "jp-035-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Official night-view page explicitly promotes the transition from sunset to sparkling city night scenery.",
+          "name": "福岡塔・展望室 Sunset/Night Camera Zone",
+          "lat": 33.593274,
+          "lon": 130.351467,
+          "coord_confidence": "high",
+          "verification_status": "official_sunset_night_view_subject_plus_existing_tower_poi",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 80,
+          "geometry_note": "塔內展望室；玻璃反光與人流屬現場構圖條件。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-035-P03.best_time",
+      "value": "日落後至官方塔身 illumination 結束（官方目前記載至23:00）",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-035-P03.best_season",
+      "value": "全年依官方當日／季節 illumination 設計",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-035-P03.name_zh",
+      "value": "福岡塔外觀・季節塔身 illumination",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-035-P03.legacy_theme",
+      "value": "city_night",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-035-P03.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "jp-035-VP03",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Official Fukuoka Tower night page states the exterior tower illumination operates from sunset to 23:00 and changes seasonally.",
+          "name": "福岡塔 exterior illumination Camera Zone",
+          "lat": 33.593274,
+          "lon": 130.351467,
+          "coord_confidence": "medium_high",
+          "verification_status": "official_tower_illumination_subject_existing_tower_anchor",
+          "geometry_type": "area",
+          "geometry_extent_m": 450,
+          "geometry_note": "塔周邊公共區域可移動構圖；未指定唯一外拍腳架點。",
+          "geometry_confidence": "medium_high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

@@ -1,0 +1,210 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-039",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "邁阿密海灘",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Miami Beach",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "マイアミビーチ",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        25.76584,
+        -80.13402
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "City of Miami Beach South Pointe Park identity + official destination photo subject + OSM park anchor",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 2.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/New_York",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "Florida"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "blue_hour",
+        "city_night",
+        "mountain_view",
+        "sky_glow",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "city",
+        "coast"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "邁阿密海灘",
+        "en": "Miami Beach",
+        "ja": "マイアミビーチ"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-039-P01.best_time",
+      "value": "日出前後；使用South Pointe Beach／24h Beachwalk合法公共區域，不依賴尚未開門的公園設施",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-039-P01.best_season",
+      "value": "全年；熱帶風暴／海岸安全公告優先於攝影條件",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-039-P01.name_zh",
+      "value": "South Pointe Beach／Beachwalk・Atlantic日出",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-039-P01.legacy_theme",
+      "value": "sunrise",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-039-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-039-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Official Miami tourism explicitly recommends sunrise on Miami Beach. B71 uses South Pointe Beach/Beachwalk rather than the park interior so the sunrise Opportunity does not conflict with South Pointe Park's sunrise opening time.",
+          "name": "South Pointe Beach／Beachwalk Sunrise Camera Zone",
+          "lat": 25.76739,
+          "lon": -80.131,
+          "coord_confidence": "high",
+          "verification_status": "official_city_beachwalk_plus_official_tourism_sunrise_subject_and_osm_beach_anchor",
+          "geometry_type": "area",
+          "geometry_extent_m": 650,
+          "geometry_note": "South Pointe Beach與24h Beachwalk合法公共海岸步行／沙灘範圍。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-039-P02.best_time",
+      "value": "白天至暮色；以South Pointe合法公共海岸／Beachwalk實際可使用狀態為準",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-039-P02.best_season",
+      "value": "全年；cruise ship實際出現屬現場加分，不作基本Outcome保證",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-039-P02.name_zh",
+      "value": "South Pointe・PortMiami／Downtown Miami skyline海灣全景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-039-P02.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-039-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-039-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Official Miami tourism directly documents photo-worthy South Pointe views of Downtown Miami, PortMiami, Fisher Island and the shoreline. The weather anchor moves from broad South Beach to the actual South Pointe area.",
+          "name": "South Pointe Waterfront Panorama Camera Zone",
+          "lat": 25.76584,
+          "lon": -80.13402,
+          "coord_confidence": "high",
+          "verification_status": "official_city_south_pointe_identity_plus_official_tourism_photo_subject_and_osm_park_anchor",
+          "geometry_type": "area",
+          "geometry_extent_m": 850,
+          "geometry_note": "South Pointe Park／Beachwalk／鄰近公共waterfront合法觀景範圍；公園內部仍遵守官方開放時間。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

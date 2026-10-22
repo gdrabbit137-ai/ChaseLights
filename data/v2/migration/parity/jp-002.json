@@ -1,0 +1,164 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "jp-002",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "jp_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "旭岳",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Mt. Asahi",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "旭岳",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        43.6620489,
+        142.8250911
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "B32 official Sugatami scenic course + mapped Sugatami Station coordinate",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 1600,
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "Asia/Tokyo",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "北海道"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "milky_way",
+        "mountain_view",
+        "snow_scene",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "mountain",
+        "snow_ice"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "旭岳",
+        "en": "Mt. Asahi",
+        "ja": "旭岳"
+      },
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-002-P01.best_time",
+      "value": "纜車可用的白天時段（景點當地時間／JST；依當日運行與末班時間）",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-002-P01.best_season",
+      "value": "依姿見池散策路／纜車官方當期資訊；冬季不可沿用夏季步道假設",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-002-P01.name_zh",
+      "value": "姿見池周邊旭岳火山高山景觀",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-002-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-002-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "jp-002-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Anchor is Sugatami Station; the official scenic walking course extends ~1.7 km around Sugatami Pond, so this is an area Camera Zone rather than a single tripod point.",
+          "name": "姿見駅—姿見池散策路 Camera Zone",
+          "lat": 43.6620489,
+          "lon": 142.8250911,
+          "elevation_m": 1600,
+          "coord_confidence": "high",
+          "verification_status": "official_sugatami_course_plus_mapped_station_coordinate",
+          "geometry_type": "area",
+          "geometry_extent_m": 1100,
+          "geometry_note": "以姿見駅為 anchor，涵蓋官方約 1.7 km 姿見池散策環線；不以旭岳山頂座標代替一般攝影 Camera Zone。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

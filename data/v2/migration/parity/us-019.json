@@ -1,0 +1,211 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-019",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "奧林匹克國家公園",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Olympic National Park",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "オリンピック国立公園",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        47.710912,
+        -124.415477
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "NGA Ruby Beach coordinate",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 10.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/Los_Angeles",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "Washington"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "blue_hour",
+        "fog_mist",
+        "long_exposure",
+        "mountain_view",
+        "sky_glow",
+        "sunset"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "coast",
+        "forest",
+        "geology"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "奧林匹克國家公園",
+        "en": "Olympic National Park",
+        "ja": "オリンピック国立公園"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-019-P01.best_time",
+      "value": "白天可見光；低角度光可增加海蝕柱層次",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-019-P01.best_season",
+      "value": "全年；海岸步行仍須留意潮汐與漂流木",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-019-P01.name_zh",
+      "value": "Ruby Beach・海蝕柱與漂流木海岸景觀",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-019-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-019-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-019-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "NPS directly identifies Ruby Beach and its overlook as a scenic/photo location with dramatic sea stacks. The existing Ruby Beach coordinate is a high-confidence anchor.",
+          "name": "Ruby Beach／Overlook Camera Zone",
+          "lat": 47.710912,
+          "lon": -124.415477,
+          "coord_confidence": "high",
+          "verification_status": "official_nps_ruby_beach_photo_spot_plus_existing_high_confidence_anchor",
+          "geometry_type": "area",
+          "geometry_extent_m": 800,
+          "geometry_note": "Ruby Beach overlook、正式下切步道與合法海灘活動區；潮汐與漂流木安全獨立處理。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-019-P02.best_time",
+      "value": "日落前後",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-019-P02.best_season",
+      "value": "全年；海岸安全與當下浪況優先",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-019-P02.name_zh",
+      "value": "Ruby Beach・太平洋日落與海蝕柱",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-019-P02.legacy_theme",
+      "value": "sunset",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-019-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-019-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "NPS depicts and describes Ruby Beach as a sea-stack beach/photo spot with sunset imagery. Marine-state output remains model-scale quality context, not local shoreline safety certification.",
+          "name": "Ruby Beach Sunset Camera Zone",
+          "lat": 47.710912,
+          "lon": -124.415477,
+          "coord_confidence": "high",
+          "verification_status": "official_nps_ruby_beach_sunset_subject",
+          "geometry_type": "area",
+          "geometry_extent_m": 800,
+          "geometry_note": "Ruby Beach公共海岸與overlook；局部浪況、漂流木與潮汐需現場安全判斷。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

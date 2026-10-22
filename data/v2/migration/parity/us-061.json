@@ -1,0 +1,208 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-061",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "柯迪亞克島",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Kodiak Island",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "コディアック島",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        57.82759,
+        -152.35664
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "Alaska State Parks official facility GPS + scenic coastal/history subject",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 23.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/Anchorage",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "Alaska"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "blue_hour",
+        "mountain_view",
+        "sky_glow",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "coast"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "柯迪亞克島",
+        "en": "Kodiak Island",
+        "ja": "コディアック島"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-061-P01.best_time",
+      "value": "白天至暮色；Fort Abercrombie公共步道／scenic overlook可安全使用時",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-061-P01.best_season",
+      "value": "全年自然海岸題材成立；風浪、雪景、野花等只依當下現況加分",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-061-P01.name_zh",
+      "value": "Fort Abercrombie・海蝕峭壁／雲杉海岸景觀",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-061-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-061-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-061-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Alaska State Parks explicitly documents scenic ocean-cliff overlooks and public trails at Fort Abercrombie. B76 narrows the broad Kodiak Island inventory Place to this official public coastal photography area.",
+          "name": "Fort Abercrombie Scenic Overlooks Camera Zone",
+          "lat": 57.82759,
+          "lon": -152.35664,
+          "coord_confidence": "high",
+          "verification_status": "official_alaska_state_parks_facility_gps_and_scenic_overlook_subject",
+          "geometry_type": "area",
+          "geometry_extent_m": 1800,
+          "geometry_note": "Fort Abercrombie公共海岸步道、scenic overlooks與合法公園區域；不宣稱單一懸崖腳架點。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-061-P02.best_time",
+      "value": "白天可見光；依公園公共歷史遺構與步道實際開放狀態",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-061-P02.best_season",
+      "value": "全年；植被／雪景只作現況加分",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-061-P02.name_zh",
+      "value": "Fort Abercrombie・WWII碉堡／海岸歷史景觀",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-061-P02.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-061-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-061-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "The official Alaska State Parks material documents WWII coastal-defense structures and historic sites within the same public park. The park GPS is an area/weather anchor, not a claim that every bunker is at that coordinate.",
+          "name": "Fort Abercrombie Historic Sites Camera Zone",
+          "lat": 57.82759,
+          "lon": -152.35664,
+          "coord_confidence": "high",
+          "verification_status": "official_alaska_state_parks_historic_subject_and_facility_gps",
+          "geometry_type": "area",
+          "geometry_extent_m": 1800,
+          "geometry_note": "公園內合法公共WWII遺構與相連步道範圍。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

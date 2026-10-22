@@ -1,0 +1,163 @@
+{
+  "schema_version": "2.1.0",
+  "opportunity_id": "us-004-P01",
+  "place_id": "us-004",
+  "revision": 1,
+  "lifecycle_status": "draft",
+  "name_i18n": {
+    "zh-TW": "紀念碑谷・砂岩butte與mesa經典地景",
+    "en": "紀念碑谷・砂岩butte與mesa經典地景 (provisional English title, pending review)",
+    "ja": "紀念碑谷・砂岩butte與mesa經典地景（暫定日本語タイトル、レビュー待ち）"
+  },
+  "description_i18n": {
+    "zh-TW": "紀念碑谷・砂岩butte與mesa經典地景（V1 最佳時段：Tribal Park合法開放時段；低角度日光可加強砂岩立體感；V1 季節：全年依Navajo Tribal Park當期營運時段。V1 遷移骨架；內容待第二輪研究完善。）",
+    "en": "紀念碑谷・砂岩butte與mesa經典地景 (V1 best time: Tribal Park合法開放時段；低角度日光可加強砂岩立體感; V1 season: 全年依Navajo Tribal Park當期營運時段 (zh-TW source values retained pending translation). V1 migration skeleton; content to be refined in round 2.)",
+    "ja": "紀念碑谷・砂岩butte與mesa經典地景（V1ベスト時間帯: Tribal Park合法開放時段；低角度日光可加強砂岩立體感；V1季節: 全年依Navajo Tribal Park當期營運時段（zh-TW原文のまま、翻訳待ち）。V1移行スケルトン。内容は第2ラウンドで精緻化予定。）"
+  },
+  "camera_contexts": [
+    {
+      "id": "CZ-us-004-P01-01",
+      "kind": "area",
+      "geometry": {
+        "kind": "point",
+        "status": "provisional",
+        "geojson": {
+          "type": "Point",
+          "coordinates": [
+            -110.112158,
+            36.982436
+          ]
+        },
+        "uncertainty_m": null,
+        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "source_geometry_revision": null,
+        "reason_if_absent": null
+      },
+      "verification_status": "provisional",
+      "evidence_refs": [],
+      "access_notes_i18n": {
+        "zh-TW": "依Navajo Tribal Park官方季節營運時段；2/1–3/7採官方一般08:00–17:00保守基準。感恩節與Navajo Family Day屬浮動日期，網站尚未自動建模，出發前仍須查官方公告。Scenic Drive另有更早的最後車輛進入限制。",
+        "en": "Uses published Navajo Tribal Park seasonal hours; Feb 1–Mar 7 falls back conservatively to the official regular 08:00–17:00 window. Thanksgiving/Family Day are moving-date closures not yet auto-modeled. Scenic Drive also has an earlier last-vehicle-entry cutoff.",
+        "ja": "Navajo Tribal Park公式の季節営業時間を使用。2/1〜3/7は公式の一般08:00〜17:00を保守的に適用。感謝祭・Family Dayの変動休園日は未自動化のため公式確認が必要です。Scenic Driveは最終車両入場がさらに早い場合があります。"
+      },
+      "safety_notes_i18n": {
+        "zh-TW": "請依現場安全指示行動。",
+        "en": "Follow on-site safety guidance.",
+        "ja": "現地の安全指示に従ってください。"
+      },
+      "altitude_m": null
+    }
+  ],
+  "targets": [
+    {
+      "id": "SG-us-004-P01-01",
+      "kind": "multi_component",
+      "name_i18n": {
+        "zh-TW": "紀念碑谷・砂岩butte與mesa經典地景",
+        "en": "紀念碑谷・砂岩butte與mesa經典地景 (provisional English title, pending review)",
+        "ja": "紀念碑谷・砂岩butte與mesa經典地景（暫定日本語タイトル、レビュー待ち）"
+      },
+      "geometry": {
+        "kind": "point",
+        "status": "provisional",
+        "geojson": {
+          "type": "Point",
+          "coordinates": [
+            -110.112158,
+            36.982436
+          ]
+        },
+        "uncertainty_m": null,
+        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "source_geometry_revision": null,
+        "reason_if_absent": null
+      },
+      "phenomenon_model_id": null,
+      "evidence_refs": [],
+      "components": []
+    }
+  ],
+  "observation_relations": [
+    {
+      "id": "VR-us-004-P01-01",
+      "camera_context_id": "CZ-us-004-P01-01",
+      "target_id": "SG-us-004-P01-01",
+      "type": "foreground_background",
+      "geometry_mode": "unknown",
+      "azimuth_deg": null,
+      "elevation_deg": null,
+      "distance_m": null,
+      "evidence_refs": [],
+      "derivation_method": null,
+      "uncertainty_note": "Imported V1 reference; angles and distance unknown."
+    }
+  ],
+  "navigation_targets": [
+    {
+      "id": "NAV-us-004-P01-01",
+      "status": "needs_review",
+      "target_type": "other",
+      "lat": 36.982436,
+      "lon": -110.112158,
+      "label_i18n": {
+        "zh-TW": "紀念碑谷",
+        "en": "Monument Valley",
+        "ja": "モニュメント・バレー"
+      },
+      "evidence_refs": [],
+      "confidence": "low"
+    }
+  ],
+  "condition_contract": {
+    "contract_id": "CC-us-004-P01-v1",
+    "status": "draft",
+    "conditions": [
+      {
+        "id": "C-us-004-P01-01",
+        "role": "REQUIRED",
+        "domain": "ASTRONOMY",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "legacy_mountain_view",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "us-004-P01-claim-01"
+        ],
+        "model_binding": null,
+        "notes_i18n": {
+          "zh-TW": "由 V1 主題對應的暫定條件；實際閾值待研究核實。",
+          "en": "Provisional condition mapped from the V1 theme; thresholds pending research.",
+          "ja": "V1テーマから対応した暫定条件。閾値は研究待ち。"
+        },
+        "validation_status": "provisional"
+      }
+    ],
+    "recommendation_policy_version": null
+  },
+  "evidence_claims": [
+    {
+      "claim_id": "us-004-P01-claim-01",
+      "claim_type": "existence",
+      "evidence_refs": [],
+      "audit_status": "UNKNOWN",
+      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+    }
+  ],
+  "readiness": {
+    "research_level": "R0",
+    "gaps": [
+      "RESEARCH_GAP",
+      "GEOMETRY_GAP"
+    ]
+  },
+  "provenance": {
+    "source_catalog": "runtime_catalog_v004_r4_2.json",
+    "source_revision": "v1-spot-us-004",
+    "imported_at": "2026-10-21T20:51:45Z",
+    "review_status": "pending",
+    "reviewed_by": null
+  }
+}

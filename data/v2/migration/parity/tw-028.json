@@ -1,0 +1,292 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "tw-028",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "tw_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "駁二藝術特區",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Pier-2 Art Center",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "駁二芸術特区",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        22.62033,
+        120.2817
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "POI",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "medium",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 8.0,
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "Asia/Taipei",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "高雄市"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "blue_hour",
+        "city_night",
+        "sunset"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "city",
+        "architecture",
+        "coast"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "駁二藝術特區",
+        "en": "Pier-2 Art Center",
+        "ja": "駁二芸術特区"
+      },
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-028-P01.best_time",
+      "value": "日落前後",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-028-P01.best_season",
+      "value": "全年可拍黃昏／晚霞；目前 VP02 不支援太陽與橋體直接對位",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-028-P01.name_zh",
+      "value": "大港橋港灣夕照",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-028-P01.legacy_theme",
+      "value": "sunset",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-028-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-028-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "name": "駁二大義碼頭側拍大港橋候選機位",
+          "lat": 22.62033,
+          "lon": 120.2817,
+          "coord_confidence": "medium",
+          "verification_status": "needs_exact_camera_point",
+          "geometry_type": "small_area",
+          "geometry_extent_m": null,
+          "geometry_confidence": "medium"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-028-P02.best_time",
+      "value": "藍調時刻",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-028-P02.best_season",
+      "value": "全年",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-028-P02.name_zh",
+      "value": "大港橋藍調",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-028-P02.legacy_theme",
+      "value": "blue_hour",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-028-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-028-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "name": "駁二大義碼頭側拍大港橋候選機位",
+          "lat": 22.62033,
+          "lon": 120.2817,
+          "coord_confidence": "medium",
+          "verification_status": "needs_exact_camera_point",
+          "geometry_type": "small_area",
+          "geometry_extent_m": null,
+          "geometry_confidence": "medium"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-028-P03.best_time",
+      "value": "入夜後",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-028-P03.best_season",
+      "value": "全年",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-028-P03.name_zh",
+      "value": "大港橋港灣夜景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-028-P03.legacy_theme",
+      "value": "city_night",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-028-P03.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-028-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "name": "駁二大義碼頭側拍大港橋候選機位",
+          "lat": 22.62033,
+          "lon": 120.2817,
+          "coord_confidence": "medium",
+          "verification_status": "needs_exact_camera_point",
+          "geometry_type": "small_area",
+          "geometry_extent_m": null,
+          "geometry_confidence": "medium"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-028-P04.best_time",
+      "value": "sunset",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-028-P04.best_season",
+      "value": "冬季優先候選；EXIF實拍橋體中心heading約243.9°–256.0°與日落方位在冬季相交；精確太陽落點仍受地平線與構圖容許角影響",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-028-P04.name_zh",
+      "value": "大港橋西南向冬季夕照同框",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-028-P04.legacy_theme",
+      "value": "sunset",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-028-P04.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-028-VP03",
+          "relation_role": "geometry_required",
+          "sort_order": 1,
+          "name": "大港橋東側水岸西南向 EXIF 機位",
+          "lat": 22.618139,
+          "lon": 120.284478,
+          "coord_confidence": "high",
+          "verification_status": "verified_camera_exif_bridge_framing_access_dynamic",
+          "geometry_type": "point",
+          "geometry_extent_m": null,
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

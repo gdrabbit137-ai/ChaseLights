@@ -1,0 +1,44 @@
+{
+  "format_version": "0.1.0",
+  "mode": "RESEARCH_ONLY_R0_SKELETON",
+  "policy": "W2_V1_PARITY_PROGRESSION_PROPOSAL two-pass (Pass 1 breadth)",
+  "imported_at": "2026-10-21T20:51:45Z",
+  "v1_inventory": {
+    "spots_total": 216,
+    "opportunities_total": 428
+  },
+  "first_pass": {
+    "skeleton_files": 420,
+    "admitted_canonical": [
+      "jp-010-P01",
+      "tw-016-P01",
+      "tw-026-P01",
+      "tw-026-P02",
+      "tw-034-P02",
+      "tw-036-P01",
+      "tw-082-P01",
+      "us-071-P01"
+    ],
+    "places_with_skeleton": 215,
+    "places_first_pass_covered": 216,
+    "places_pending": [],
+    "per_region": {
+      "tw": {
+        "spots": 84,
+        "opportunities": 222
+      },
+      "jp": {
+        "spots": 36,
+        "opportunities": 56
+      },
+      "us": {
+        "spots": 96,
+        "opportunities": 150
+      }
+    }
+  },
+  "skeleton_dir": "data/v2/migration/skeletons",
+  "parity_dir": "data/v2/migration/parity",
+  "parity_checklists": 216,
+  "note": "Skeletons are R0 draft research-only; admission into data/v2/opportunities/ requires the explicit W2 source re-review process. Never a live forecast."
+}

@@ -1,0 +1,160 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-033",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "丹佛天際線",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Denver Skyline",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "デンバー スカイライン",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        39.7461222,
+        -104.9490116
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "Visit Denver City Park skyline subject + USGS/GeoNames Ferril Lake anchor",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "medium_high",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 1605.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/Denver",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "Colorado"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "blue_hour",
+        "city_night",
+        "sunset"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "city"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "丹佛天際線",
+        "en": "Denver Skyline",
+        "ja": "デンバー スカイライン"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-033-P01.best_time",
+      "value": "日落前約1小時至日落後短時間；需在Denver urban park 05:00–23:00開放時段內",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-033-P01.best_season",
+      "value": "全年；Rocky Mountain Front Range積雪等季節外觀只作現況加分",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-033-P01.name_zh",
+      "value": "City Park／Ferril Lake・Denver skyline＋Rocky Mountains日落",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-033-P01.legacy_theme",
+      "value": "sunset",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-033-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-033-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "VISIT DENVER directly identifies City Park as a skyline + Rocky Mountains photo panorama and recommends magic hour before dusk. B70 moves the Place/weather anchor from downtown Denver to the actual City Park/Ferril Lake photographic area.",
+          "name": "City Park／Ferril Lake Skyline Camera Zone",
+          "lat": 39.7461222,
+          "lon": -104.9490116,
+          "coord_confidence": "medium_high",
+          "verification_status": "official_destination_city_park_skyline_subject_plus_usgs_geonames_ferril_lake_anchor",
+          "geometry_type": "area",
+          "geometry_extent_m": 850,
+          "geometry_note": "City Park Ferril Lake周邊合法公共步行／草地觀景區；不宣稱唯一腳架點。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

@@ -1,0 +1,161 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "jp-020",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "jp_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "橫濱港未來21",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Yokohama Minato Mirai 21",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "横浜みなとみらい21",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        35.45099,
+        139.6467
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "Yokohama official Osanbashi rooftop + OSM scenic viewpoint node",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 0.0,
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "Asia/Tokyo",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "神奈川県"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "city_night"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "city",
+        "coast",
+        "architecture"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "橫濱港未來21",
+        "en": "Yokohama Minato Mirai 21",
+        "ja": "横浜みなとみらい21"
+      },
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-020-P01.best_time",
+      "value": "藍調時刻至夜間（景點當地時間／JST）",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-020-P01.best_season",
+      "value": "全年；特殊燈光、煙火、郵輪不屬於基本題材保證",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-020-P01.name_zh",
+      "value": "大棧橋屋頂・港未來城市夜景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-020-P01.legacy_theme",
+      "value": "city_night",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-020-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "jp-020-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "OSM tourism=viewpoint node on Osanbashi rooftop, cross-validated against Yokohama City's official 24-hour rooftop panorama description.",
+          "name": "OSANBASHI VIEWPOINT／大棧橋屋頂西側 Camera Zone",
+          "lat": 35.45099,
+          "lon": 139.6467,
+          "elevation_m": null,
+          "coord_confidence": "high",
+          "verification_status": "official_rooftop_identity_plus_osm_scenic_viewpoint",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 180,
+          "geometry_note": "大棧橋屋頂面向港未來側的公共觀景區；非港未來地區中心座標。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

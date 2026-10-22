@@ -1,0 +1,161 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-029",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "白沙國家公園",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "White Sands National Park",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "ホワイトサンズ国立公園",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        32.81137,
+        -106.26501
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "NPS 2026 Sunset Stroll exact event coordinate",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 1210.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/Denver",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "New Mexico"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "milky_way",
+        "mountain_view",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "mountain"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "White Sands・Sunset Stroll 停車區",
+        "en": "White Sands · Sunset Stroll parking area",
+        "ja": "ホワイトサンズ・Sunset Stroll 駐車エリア"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-029-P01.best_time",
+      "value": "日落前約2小時至園區當日允許停留的日落後短時段；以NPS當日關門與道路狀態為準",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-029-P01.best_season",
+      "value": "全年；園區每日開閉時間隨季節／日落變化，且可能因White Sands Missile Range測試、道路或極端天候臨時關閉",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-029-P01.name_zh",
+      "value": "White Sands・石膏沙丘與山脈日落",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-029-P01.legacy_theme",
+      "value": "sunset",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-029-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-029-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "NPS publishes the current Sunset Stroll parking-area coordinate and explicitly describes panoramic sunset photographic opportunities. B69 moves the Place weather/map anchor from the visitor center to this actual dune sunset area.",
+          "name": "White Sands Sunset Stroll / Dunes Camera Zone",
+          "lat": 32.81137,
+          "lon": -106.26501,
+          "coord_confidence": "high",
+          "verification_status": "official_nps_current_sunset_stroll_coordinate_and_photo_subject",
+          "geometry_type": "area",
+          "geometry_extent_m": 900,
+          "geometry_note": "Sunset Stroll停車區與鄰近合法沙丘活動範圍；需遵循NPS標誌、安全與關閉規定。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

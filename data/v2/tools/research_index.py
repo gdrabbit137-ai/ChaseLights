@@ -64,17 +64,29 @@ def load_w1(w1_root, lock):
 
 
 def verify_sources(lock, git_provenance=False):
+    # Canonical records are W2-owned and byte-frozen: verify them against the
+    # merged checkout. Supporting sources are the LEGACY V1 inputs, which the
+    # hourly legacy pipeline keeps mutating on main; their provenance is the
+    # immutable pinned COMMIT (git show commit:path), never the merged
+    # checkout's current bytes — otherwise every post-merge run fails on
+    # drift we did not make. (Owner-approved gate realignment 2026-10-22.)
     sources = {}
-    for pin in lock['canonical_records'] + lock['supporting_sources']:
+    for pin in lock['canonical_records']:
         path = ROOT / pin['path']
         raw = path.read_bytes()
         if sha256(raw) != pin['sha256'] or blob(raw) != pin['blob_sha']:
-            raise ValueError('Pinned W2 source bytes differ: ' + pin['path'])
+            raise ValueError('Pinned W2 canonical source bytes differ: ' + pin['path'])
         if git_provenance:
             actual = subprocess.check_output(['git', 'show', f"{pin['commit_sha']}:{pin['path']}"], cwd=ROOT)
             if actual != raw:
-                raise ValueError('Canonical/support commit:path mismatch: ' + pin['path'])
+                raise ValueError('Canonical commit:path mismatch: ' + pin['path'])
         sources[(pin['commit_sha'], pin['path'])] = raw
+    for pin in lock['supporting_sources']:
+        actual = subprocess.check_output(
+            ['git', 'show', f"{pin['commit_sha']}:{pin['path']}"], cwd=ROOT)
+        if sha256(actual) != pin['sha256'] or blob(actual) != pin['blob_sha']:
+            raise ValueError('Pinned W2 supporting source commit bytes differ: ' + pin['path'])
+        sources[(pin['commit_sha'], pin['path'])] = actual
     actual = {p.stem for p in (DATA / 'opportunities').glob('*.json')}
     expected = {p['opportunity_id'] for p in lock['canonical_records']}
     if actual != expected or len(expected) != len(lock['canonical_records']):
@@ -102,7 +114,7 @@ def taxonomy_from_contract(w1_root):
 def assemble(w1_root, lock=None, curation=None):
     lock = lock if lock is not None else read(INDEX / 'source-lock.json')
     curation = curation if curation is not None else read(INDEX / 'curation.json')
-    verify_sources(lock)
+    sources = verify_sources(lock)
     pins = {p['opportunity_id']: p for p in lock['canonical_records']}
     docs = {oid: read(ROOT / pin['path']) for oid, pin in pins.items()}
     place_ids = sorted({d['place_id'] for d in docs.values()})
@@ -110,12 +122,35 @@ def assemble(w1_root, lock=None, curation=None):
         raise ValueError('Curation must exactly cover Canonical Places/Opportunities')
     provenance = dict(format_version='0.1.0',name_method=curation['name_method'],
                       human_review='PENDING',names={},opportunities={},topic_definitions={})
+    supporting = {(p['commit_sha'], p['path']): p for p in lock['supporting_sources']}
     places = []
     for pid in place_ids:
         names = {}
         name_sources = {}
         for lang in LANGS:
             selection = curation['names'][pid][lang]
+            if selection.get('direct_source'):
+                # Direct byte-verified V1 source (weather JSON), per the no-review
+                # admission gate: verbatim legacy-derived value, never a new translation.
+                path = selection['source_path']
+                match = [(c, p) for (c, p) in supporting if p == path]
+                if len(match) != 1:
+                    raise ValueError('Direct name source not uniquely pinned: ' + path)
+                commit, _ = match[0]
+                pin = supporting[(commit, path)]
+                raw_doc = json.loads(sources[(commit, path)])
+                doc = {s['spot_id']: s for s in raw_doc.get('spots', [])} \
+                    if isinstance(raw_doc.get('spots'), list) else raw_doc
+                if doc.get(selection['spot_id'], {}).get('name_i18n', {}).get(lang) is None:
+                    raise ValueError(f'Direct V1 name missing: {pid}/{lang}')
+                full = doc[selection['spot_id']]['name_i18n'][lang]
+                if not isinstance(full, str) or not full:
+                    raise ValueError('Direct V1 name is not a non-empty string')
+                names[lang] = full
+                name_sources[lang] = {**selection, 'value': names[lang],
+                                     'source_commit_sha': commit,
+                                     'source_blob_sha': pin['blob_sha']}
+                continue
             oid = selection['opportunity_id']
             if docs[oid]['place_id'] != pid or selection['pointer'] != '/name_i18n/' + lang:
                 raise ValueError('Name source is not the same canonical Place/locale')
@@ -132,7 +167,7 @@ def assemble(w1_root, lock=None, curation=None):
                        if c['claim_type'] == 'existence' for r in c['evidence_refs']})
         places.append(dict(place_id=pid,name_i18n=names,
                            aliases_i18n={lang: [] for lang in LANGS},
-                           metadata_status='PARTIAL' if pid == 'tw-034' else 'COMPLETE',
+                           metadata_status='PARTIAL' if pid == 'tw-034' or not refs else 'COMPLETE',
                            semantic_review='PENDING',country_codes=[],region_ids=[],
                            admin_status='UNKNOWN',evidence_refs=refs,
                            time_zone=dict(status='UNKNOWN',iana_id=None,evidence_ref=None)))
@@ -150,8 +185,12 @@ def assemble(w1_root, lock=None, curation=None):
                              source_blob_sha=pin['blob_sha'],publication='RESEARCH_ONLY',
                              publication_reason_codes=['CANONICAL_R1_EVIDENCE_REVIEW','HUMAN_RELEASE_APPROVAL_PENDING'],
                              publication_approval_ref=None))
-        topic_bindings.append(dict(opportunity_id=oid,topic_ids=assignment['topic_ids'],
-                                   evidence_refs=assignment['evidence_refs']))
+        if assignment['topic_ids'] and assignment['evidence_refs']:
+            # W1 topic-index schema requires non-empty topic_ids AND evidence_refs
+            # resolving to pinned audit records. Opportunities without pinned
+            # evidence stay unclassified (recorded below), never force-fitted.
+            topic_bindings.append(dict(opportunity_id=oid,topic_ids=assignment['topic_ids'],
+                                       evidence_refs=assignment['evidence_refs']))
         provenance['opportunities'][oid] = dict(
             classification_method='CURATED_CANONICAL_TARGET_AND_EXISTENCE_EVIDENCE',
             classification=assignment,

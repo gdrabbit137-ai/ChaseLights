@@ -1,313 +1,313 @@
 {
-  "repository": "gdrabbit137-ai/ChaseLights",
-  "reviewed_main": "c743dfd6469937f715529014dcb781f7771db776",
-  "sources": {
-    "w1": {
-      "sha": "74f21b365d366b0d1d12efbc23cf6cce484b6b5e",
-      "branch": "codex/w1-w2-hourly-pilot-gate-20261019",
-      "pr": 521,
-      "source_upgrade": "Open-Meteo Qixingtan hourly RAW_ONLY pilot",
-      "additional_required_shas": [
-        "6a774a95c3bc24ff06f004236fe8b225c7001c4d"
-      ],
-      "tree_sha": "be9fed72b142f96469c3a69be94d04e047e7e09b"
-    },
-    "w2": {
-      "sha": "74f21b365d366b0d1d12efbc23cf6cce484b6b5e",
-      "canonical_content_sha": "2177bd8c8b6c18e0a4b284e50b55d0ff12697ddd",
-      "branch": "codex/w1-w2-hourly-pilot-gate-20261019",
-      "pr": 521,
-      "batch04": {
-        "audit_path": "data/v2/audits/worker2_batch04_evidence.json",
-        "count": 5,
-        "ids": [
-          "tw-082-P01",
-          "tw-036-P01",
-          "tw-034-P02",
-          "jp-010-P01",
-          "us-071-P01"
-        ],
-        "human_signoff": "PENDING",
-        "live_eligible": false
-      },
-      "tree_sha": "a8cba14862ded1e11d063683578685a098a49849",
-      "reviewed_corrections": {
-        "source_prs": [
-          493,
-          495
-        ],
-        "source_head_sha": "c41567edcfa9efe95111f3306d6410f1934e7062",
-        "canonical_commit_sha": "b45169e42d3acfe9b287c6e16a9ac887bb8cd650",
-        "publication": "RESEARCH_ONLY"
-      },
-      "source_upgrade": "Open-Meteo Qixingtan hourly RAW_ONLY pilot",
-      "browse_index_source_sha": "cf29288ce47e2cccb2fb2e1453ad193200996a95"
-    },
-    "w3": {
-      "sha": "c8bafcf88da996f0c3a4b4deed488bf5e5f855f8",
-      "branch": "codex/w3-open-meteo-hourly-raw-only-20261019",
-      "pr": 522,
-      "source_upgrade": "Open-Meteo Qixingtan hourly RAW_ONLY pilot",
-      "tree_sha": "8fec5021f6e9fd8710458106f8bbca027b767f51",
-      "models_tree_sha": "530a3fe48f460372b2f5ca7304c9fb75fedd0e6b"
-    },
-    "w4": {
-      "sha": "ec067573e7c21a52e40021e87661c7489172e629",
-      "branch": "codex/w4-photography-topics-first-20261019",
-      "pr": 518,
-      "historical_sha": "32f557d998a4d12ec37af4d963f0f410030b1cc1",
-      "historical_pr": 454,
-      "historical_tree_sha": "a0438fb0f372b0e0e124b5ec3385d5184d9fbb2e",
-      "obsolete_sha": "ddf9f2c4bd2eeb556bf0aa3b244f01de3256b05f",
-      "obsolete_pr": 448,
-      "tree_sha": "d3af0d46635ec0d49e796a94e9f5671682ba1f6a",
-      "file_count": 108,
-      "previous_sha": "ca4e59cf5978347f1422fb1fd2d485c188b58edd",
-      "previous_tree_sha": "70eb22ad22f3cad08aafab9ac71032ee8278139b",
-      "source_upgrade": "Photography subjects and special conditions: 56 Node + 88 Chromium, Research-only"
-    }
+ "repository": "gdrabbit137-ai/ChaseLights",
+ "reviewed_main": "c743dfd6469937f715529014dcb781f7771db776",
+ "sources": {
+  "w1": {
+   "sha": "74f21b365d366b0d1d12efbc23cf6cce484b6b5e",
+   "branch": "codex/w1-w2-hourly-pilot-gate-20261019",
+   "pr": 521,
+   "source_upgrade": "Open-Meteo Qixingtan hourly RAW_ONLY pilot",
+   "additional_required_shas": [
+    "6a774a95c3bc24ff06f004236fe8b225c7001c4d"
+   ],
+   "tree_sha": "be9fed72b142f96469c3a69be94d04e047e7e09b"
   },
-  "reviewed_blobs": {
-    "AGENTS.md": "c0a8c8da5cb00905b32f31d4b954aa7ed7c4b489",
-    "NAVIGATION_SPEC_R4_2.md": "3d8f0bf898d7eb969b3058403a2630d9315514ed",
-    "RESEARCH_EVIDENCE_SPEC_R4_2.md": "037f1fa25fe0f89eff220a1c22cb446ce63a6083",
-    "specs/v2/ADR_0001_READINESS.md": "e21064d59fcf9454b18133c9aa176695c963b31a",
-    "specs/v2/ARCHITECTURE_SPEC.md": "9de73be0fc147cd77340c44aa34d9c3223616509",
-    "specs/v2/CODEX_CLOUD_RUNBOOK.md": "8aa33c79a0eb173c5ca870dc0db92e179e115d32",
-    "specs/v2/GOVERNANCE_SPEC.md": "b6e9cb32d34409deebca1d29ad7f49f6a30ff7bd",
-    "specs/v2/R4_2_TO_V2_MATRIX.md": "c76f0b38a425a1c96df428096d3773397ce65d9a",
-    "specs/v2/README.md": "0d10ca479a2efd0631adcce61d7ac1c9d3ddb446",
-    "specs/v2/WORKER_CONTRACTS.md": "589d8507b7b14a2d07e1d753729637a96fdcbadb",
-    "specs/v2/schema/opportunity-v2.1.schema.json": "cecfa8d29f545f22f3e1c199db60df5c8a38e57e",
-    "specs/v2/tests/test_schema_smoke.py": "6d433988473c15019dbb5f1ae91fb13d1532ffb4",
-    "specs/v2/tests/validate_contract.py": "be09680722b8e5598e47a8655afbec73eb53125e"
-  },
-  "w5_reused_sha": "7cff8d1fd7dc714093ba521a4c599e980c11e136",
-  "w1_changed_blobs": {
-    "specs/v2/ACCESS_ADVISORY_SPEC.md": "f07076e708a4787cd3c486de14035cd315343733",
-    "specs/v2/ADR_0001_READINESS.md": "e21064d59fcf9454b18133c9aa176695c963b31a",
-    "specs/v2/ARCHITECTURE_SPEC.md": "9de73be0fc147cd77340c44aa34d9c3223616509",
-    "specs/v2/CAMERA_AREA_COMPOSITION_POLICY.md": "bb998ce4d7a2020732753f245e8ff4e851afa02d",
-    "specs/v2/FREE_COMPOSITION_SPEC.md": "648cd0de2d0f00f1538388f9697b600bcee1e5bd",
-    "specs/v2/GOVERNANCE_SPEC.md": "b6e9cb32d34409deebca1d29ad7f49f6a30ff7bd",
-    "specs/v2/R4_2_TO_V2_MATRIX.md": "c76f0b38a425a1c96df428096d3773397ce65d9a",
-    "specs/v2/README.md": "0d10ca479a2efd0631adcce61d7ac1c9d3ddb446",
-    "specs/v2/W2_PROPORTIONATE_REVIEW_PROPOSAL.md": "2484e0f95e248ee36e77f5d897d6c3150b2bb730",
-    "specs/v2/schema/evaluation-result-v0.1.schema.json": "bf4cc0e959182279643b4326b7c9ee8f0e047b04",
-    "specs/v2/schema/opportunity-v2.1.schema.json": "cecfa8d29f545f22f3e1c199db60df5c8a38e57e",
-    "specs/v2/tests/fixtures/evaluation/invalid_evaluation_forged_favorable_no_provider.json": "796ab66dcc113bb4c566a85c5688b7edfb0b3de7",
-    "specs/v2/tests/fixtures/evaluation/invalid_evaluation_unknown_as_favorable.json": "831b67e7fffecab130ef0d89ffdee7784b14a815",
-    "specs/v2/tests/fixtures/evaluation/valid_evaluation_unknown.json": "1d326f24b67dd930ad4ef6a8a594f032de6a6e00",
-    "specs/v2/tests/test_evaluation_result_security.py": "6311589cfe3cdd55f98605be0611b7900e6c1f44",
-    "specs/v2/tests/test_free_composition_contract.py": "40c34e6e9687904aae8ea62d0154e8633ba03df0",
-    "specs/v2/tests/test_schema_smoke.py": "6d433988473c15019dbb5f1ae91fb13d1532ffb4"
-  },
-  "w5_prerequisite": {
-    "pr": 486,
-    "sha": "0837dd555df9d8f647b9042223d5e766d6fd6afc"
-  },
-  "effective_reviewed_blobs": {
-    "AGENTS.md": "c0a8c8da5cb00905b32f31d4b954aa7ed7c4b489",
-    "RESEARCH_EVIDENCE_SPEC_R4_2.md": "037f1fa25fe0f89eff220a1c22cb446ce63a6083",
-    "NAVIGATION_SPEC_R4_2.md": "3d8f0bf898d7eb969b3058403a2630d9315514ed",
-    "specs/v2/ACCESS_ADVISORY_SPEC.md": "f07076e708a4787cd3c486de14035cd315343733",
-    "specs/v2/ADR_0001_READINESS.md": "e21064d59fcf9454b18133c9aa176695c963b31a",
-    "specs/v2/ARCHITECTURE_SPEC.md": "9de73be0fc147cd77340c44aa34d9c3223616509",
-    "specs/v2/ASTRONOMY_WINDOW_SPEC_V0_1.md": "1810ed09518766955ed95f8f4380cefbb7dc6999",
-    "specs/v2/CAMERA_AREA_COMPOSITION_POLICY.md": "bb998ce4d7a2020732753f245e8ff4e851afa02d",
-    "specs/v2/CODEX_CLOUD_RUNBOOK.md": "8aa33c79a0eb173c5ca870dc0db92e179e115d32",
-    "specs/v2/FREE_COMPOSITION_SPEC.md": "648cd0de2d0f00f1538388f9697b600bcee1e5bd",
-    "specs/v2/GOVERNANCE_SPEC.md": "b6e9cb32d34409deebca1d29ad7f49f6a30ff7bd",
-    "specs/v2/R4_2_TO_V2_MATRIX.md": "c76f0b38a425a1c96df428096d3773397ce65d9a",
-    "specs/v2/README.md": "0d10ca479a2efd0631adcce61d7ac1c9d3ddb446",
-    "specs/v2/WEATHER_SOURCE_NWS_SPEC_V0_1.md": "163c32a2ca4cbebd989f48cb3971363c512fafd6",
-    "specs/v2/WORKER_CONTRACTS.md": "589d8507b7b14a2d07e1d753729637a96fdcbadb"
-  },
-  "historical_owner_transitions": {
-    "r2_owner_integrations": [
-      {
-        "owner": "w1",
-        "sha": "c1fa5348e7ae2b3b4bc1d254773daca86ed5451e",
-        "source_parent_sha": "c6317c3980048f8ed50b84ba2400b81a632c550a",
-        "tree_sha": "c5563eb2db8f719ea13fa19a64af1a2d7792bce2",
-        "previous_tree_sha": "3df84d67e10f90430547adca723f43421a0a10c9",
-        "paths": [
-          "specs/v2"
-        ]
-      },
-      {
-        "owner": "w2",
-        "sha": "cf29288ce47e2cccb2fb2e1453ad193200996a95",
-        "source_parent_sha": "b45169e42d3acfe9b287c6e16a9ac887bb8cd650",
-        "tree_sha": "228f92d949e4df87719c9a3ef6c341219f9b0714",
-        "previous_tree_sha": "10791fc65c189e48fde35c9d6b76688efe8cdef7",
-        "paths": [
-          "data/v2"
-        ]
-      },
-      {
-        "owner": "w4",
-        "sha": "ca4e59cf5978347f1422fb1fd2d485c188b58edd",
-        "source_parent_sha": "cf29288ce47e2cccb2fb2e1453ad193200996a95",
-        "tree_sha": "70eb22ad22f3cad08aafab9ac71032ee8278139b",
-        "previous_tree_sha": "41fb75e13b955dacc16913ba3b5f2a47ba209074",
-        "paths": [
-          "apps/web-v2"
-        ]
-      }
+  "w2": {
+   "sha": "e8edf96b7b10f792569fce0d2f2ecbff976fdbb8",
+   "canonical_content_sha": "2177bd8c8b6c18e0a4b284e50b55d0ff12697ddd",
+   "branch": "codex/w1-w2-hourly-pilot-gate-20261019",
+   "pr": 521,
+   "batch04": {
+    "audit_path": "data/v2/audits/worker2_batch04_evidence.json",
+    "count": 5,
+    "ids": [
+     "tw-082-P01",
+     "tw-036-P01",
+     "tw-034-P02",
+     "jp-010-P01",
+     "us-071-P01"
     ],
-    "beta_owner_integrations": [
-      {
-        "owner": "w1",
-        "paths": [
-          "specs/v2"
-        ],
-        "source_shas": [
-          "38b234ba5f4df4a751eaea14dcc79036b45ed180",
-          "6a774a95c3bc24ff06f004236fe8b225c7001c4d"
-        ],
-        "previous_tree_sha": "8fc319e9996386ddd5c1b3cd26bef5b009c5e792"
-      },
-      {
-        "owner": "w2",
-        "paths": [
-          "data/v2"
-        ],
-        "source_shas": [
-          "c10976eb5e88fd32ec0adc58a1317ed70015821d"
-        ],
-        "previous_tree_sha": "9d660c1ebd0fb5a374300972a943de2b8cc5b348"
-      },
-      {
-        "owner": "w4",
-        "paths": [
-          "apps/web-v2"
-        ],
-        "source_shas": [
-          "b67e143f53b4cbc154120f7913bf35e6fc4ba783",
-          "4607eb0dfac2c2afbeb29b4615a330420ff636ed"
-        ],
-        "previous_tree_sha": "8427cb75fdb433a58d3a4941769a6c06f6f5dc3b"
-      }
+    "human_signoff": "PENDING",
+    "live_eligible": false
+   },
+   "tree_sha": "68228536b23b07ce8df85aeb129f872a8de6c0b6",
+   "reviewed_corrections": {
+    "source_prs": [
+     493,
+     495
     ],
-    "owner_integrations": [
-      {
-        "owner": "w4",
-        "previous_sha": "ec5dc9609596135ba1b2634dfa7d6c07a54fabdc",
-        "source_sha": "f0da51f30252328f82babba7d90dd17f1559c68e",
-        "paths": [
-          "apps/web-v2"
-        ]
-      }
-    ]
+    "source_head_sha": "c41567edcfa9efe95111f3306d6410f1934e7062",
+    "canonical_commit_sha": "b45169e42d3acfe9b287c6e16a9ac887bb8cd650",
+    "publication": "RESEARCH_ONLY"
+   },
+   "source_upgrade": "Open-Meteo Qixingtan hourly RAW_ONLY pilot",
+   "browse_index_source_sha": "f188209d9127fbe1f1be5a9a1e4231709300d841"
   },
-  "owner_integrations": [
-    {
-      "owner": "w4",
-      "previous_sha": "ca4e59cf5978347f1422fb1fd2d485c188b58edd",
-      "source_sha": "ec067573e7c21a52e40021e87661c7489172e629",
-      "paths": [
-        "apps/web-v2"
-      ]
-    }
-  ],
-  "hourly_owner_integrations": [
-    {
-      "owner": "w1",
-      "source_sha": "74f21b365d366b0d1d12efbc23cf6cce484b6b5e",
-      "paths": [
-        "specs/v2"
-      ],
-      "previous_trees": {
-        "specs/v2": "c5563eb2db8f719ea13fa19a64af1a2d7792bce2"
-      }
-    },
-    {
-      "owner": "w2",
-      "source_sha": "74f21b365d366b0d1d12efbc23cf6cce484b6b5e",
-      "paths": [
-        "data/v2"
-      ],
-      "previous_trees": {
-        "data/v2": "228f92d949e4df87719c9a3ef6c341219f9b0714"
-      }
-    },
-    {
-      "owner": "w3",
-      "source_sha": "c8bafcf88da996f0c3a4b4deed488bf5e5f855f8",
-      "paths": [
-        "packages/core-v2",
-        "packages/models-v2"
-      ],
-      "previous_trees": {
-        "packages/core-v2": "6606116add0c195d1815e915f78e24b3e59d8f41",
-        "packages/models-v2": "530a3fe48f460372b2f5ca7304c9fb75fedd0e6b"
-      }
-    }
-  ],
-  "hourly_pilot": {
-    "pilot_id": "tw-036-open-meteo-hourly-v0.1",
-    "data_state": "RAW_ONLY",
-    "photography_verdict": "NOT_EVALUABLE",
-    "provider_acceptance": "UNVERIFIED",
-    "w3_provenance_path": "packages/core-v2/tests/evidence/open-meteo-hourly-20261019/source-provenance.json",
-    "w3_new_tests": 79,
-    "w1_new_tests": 12,
-    "w2_new_tests": 5,
-    "files": {
-      "schema": {
-        "path": "specs/v2/schema/hourly-weather-info-v0.1.schema.json",
-        "source_sha": "74f21b365d366b0d1d12efbc23cf6cce484b6b5e",
-        "blob_sha": "8688cbd5fa090a94087b2a9fdff9fb76948bd232",
-        "sha256": "ce29fee0f08fdd8c71d96a8d33dfb7f68b6235b67e175ac9e1e3775250b06a1a"
-      },
-      "binding": {
-        "path": "data/v2/weather-pilots/tw-036-open-meteo.json",
-        "source_sha": "74f21b365d366b0d1d12efbc23cf6cce484b6b5e",
-        "blob_sha": "38c58e742159f05f494dc29c3d96dcb9d75deba5",
-        "sha256": "9fb4cc6f89daae3ce851a30f2880847705b4afa6097b7c4c54d19d357b202921"
-      },
-      "adapter": {
-        "path": "packages/core-v2/adapters/open_meteo_hourly.py",
-        "source_sha": "c8bafcf88da996f0c3a4b4deed488bf5e5f855f8",
-        "blob_sha": "5702b6123340fbbf2ea8d0bc5b627a7881c0039d",
-        "sha256": "9717174797938801102845f19ab4038bdda2be8a2601c929304dca8cee8f3359"
-      },
-      "capture_tool": {
-        "path": "packages/core-v2/tools/open_meteo_hourly_pilot.py",
-        "source_sha": "c8bafcf88da996f0c3a4b4deed488bf5e5f855f8",
-        "blob_sha": "6038c7450683587108a482a764a4ad0e8197160e",
-        "sha256": "8c8e325ab3cc70ca135385a9f013860808449dea95c7160ea0d54327e2f72fdc"
-      },
-      "w3_provenance": {
-        "path": "packages/core-v2/tests/evidence/open-meteo-hourly-20261019/source-provenance.json",
-        "source_sha": "c8bafcf88da996f0c3a4b4deed488bf5e5f855f8",
-        "blob_sha": "20d7a53096c9f84c702286279b623f0889bfd8a7",
-        "sha256": "e564db483f61e14c6599a9f3f58f92e8859471219564a1c6563ed926376f0328"
-      }
-    },
-    "one_shot_evidence": {
-      "provider_acceptance": "VERIFIED_ONE_SHOT",
-      "evidence_source_sha": "93707e10850b6e61d63aa2c99473cfbb536f7d3e",
-      "execution_sha": "7ae2802047e2f6b445dbe00731749e0ccd13df64",
-      "source_sha256": "e441ea1bad2d42cfd89169bb030d7aec518d798c56aafe61e037f8a0e9406b1f",
-      "source_size_bytes": 4468,
-      "data_state": "RAW_ONLY",
-      "photography_verdict": "NOT_EVALUABLE",
-      "current_weather_eligible": false,
-      "pinned_blobs": {
-        "REPORT.md": "15d762a846242ff5ecfb834e3c1fd4ffa1b5ed1b",
-        "acceptance-summary.json": "ee434cc0f6665649e35a59f84e6f3762d24443b2",
-        "capture-artifact.json.gz": "4405188f6d1c25d6230312a27de8495113776426",
-        "capture-capture.json.gz": "509f4d6904dfcafae7744cc3b546d818610f89d6",
-        "capture-command.log": "9f8e072e8b5a999ced03008e8fa245b836a46c10",
-        "capture-ledger.jsonl": "778a15e730b573f112143af223e086af246b61b4",
-        "exit-status.json": "aa22dd2d565ff4a966138fef1bc700cd7e94f009",
-        "replay-command.log": "908ec56dd67122e288bc986215f0eb668a145977",
-        "replay.json.gz": "913e84cc7bc5d4b515910b571f91eef49cfb8968",
-        "response-body.bin": "bef32c19dc59417be5d2ae09776d8483eb86b6e7"
-      },
-      "note": "Immutable historic single-capture evidence only; not fresh current-weather, calibrated coastal representativeness or scoring"
-    }
+  "w3": {
+   "sha": "c8bafcf88da996f0c3a4b4deed488bf5e5f855f8",
+   "branch": "codex/w3-open-meteo-hourly-raw-only-20261019",
+   "pr": 522,
+   "source_upgrade": "Open-Meteo Qixingtan hourly RAW_ONLY pilot",
+   "tree_sha": "8fec5021f6e9fd8710458106f8bbca027b767f51",
+   "models_tree_sha": "530a3fe48f460372b2f5ca7304c9fb75fedd0e6b"
+  },
+  "w4": {
+   "sha": "29bd0b63501052724eaf48d11f5e1339fde215c7",
+   "branch": "codex/w4-photography-topics-first-20261019",
+   "pr": 518,
+   "historical_sha": "32f557d998a4d12ec37af4d963f0f410030b1cc1",
+   "historical_pr": 454,
+   "historical_tree_sha": "a0438fb0f372b0e0e124b5ec3385d5184d9fbb2e",
+   "obsolete_sha": "ddf9f2c4bd2eeb556bf0aa3b244f01de3256b05f",
+   "obsolete_pr": 448,
+   "tree_sha": "456ac481c00d06848e58bcb083e4f0656695180a",
+   "file_count": 111,
+   "previous_sha": "ca4e59cf5978347f1422fb1fd2d485c188b58edd",
+   "previous_tree_sha": "70eb22ad22f3cad08aafab9ac71032ee8278139b",
+   "source_upgrade": "Photography subjects and special conditions: 56 Node + 88 Chromium, Research-only"
   }
+ },
+ "reviewed_blobs": {
+  "AGENTS.md": "c0a8c8da5cb00905b32f31d4b954aa7ed7c4b489",
+  "NAVIGATION_SPEC_R4_2.md": "3d8f0bf898d7eb969b3058403a2630d9315514ed",
+  "RESEARCH_EVIDENCE_SPEC_R4_2.md": "037f1fa25fe0f89eff220a1c22cb446ce63a6083",
+  "specs/v2/ADR_0001_READINESS.md": "e21064d59fcf9454b18133c9aa176695c963b31a",
+  "specs/v2/ARCHITECTURE_SPEC.md": "9de73be0fc147cd77340c44aa34d9c3223616509",
+  "specs/v2/CODEX_CLOUD_RUNBOOK.md": "8aa33c79a0eb173c5ca870dc0db92e179e115d32",
+  "specs/v2/GOVERNANCE_SPEC.md": "b6e9cb32d34409deebca1d29ad7f49f6a30ff7bd",
+  "specs/v2/R4_2_TO_V2_MATRIX.md": "c76f0b38a425a1c96df428096d3773397ce65d9a",
+  "specs/v2/README.md": "0d10ca479a2efd0631adcce61d7ac1c9d3ddb446",
+  "specs/v2/WORKER_CONTRACTS.md": "589d8507b7b14a2d07e1d753729637a96fdcbadb",
+  "specs/v2/schema/opportunity-v2.1.schema.json": "cecfa8d29f545f22f3e1c199db60df5c8a38e57e",
+  "specs/v2/tests/test_schema_smoke.py": "6d433988473c15019dbb5f1ae91fb13d1532ffb4",
+  "specs/v2/tests/validate_contract.py": "be09680722b8e5598e47a8655afbec73eb53125e"
+ },
+ "w5_reused_sha": "7cff8d1fd7dc714093ba521a4c599e980c11e136",
+ "w1_changed_blobs": {
+  "specs/v2/ACCESS_ADVISORY_SPEC.md": "f07076e708a4787cd3c486de14035cd315343733",
+  "specs/v2/ADR_0001_READINESS.md": "e21064d59fcf9454b18133c9aa176695c963b31a",
+  "specs/v2/ARCHITECTURE_SPEC.md": "9de73be0fc147cd77340c44aa34d9c3223616509",
+  "specs/v2/CAMERA_AREA_COMPOSITION_POLICY.md": "bb998ce4d7a2020732753f245e8ff4e851afa02d",
+  "specs/v2/FREE_COMPOSITION_SPEC.md": "648cd0de2d0f00f1538388f9697b600bcee1e5bd",
+  "specs/v2/GOVERNANCE_SPEC.md": "b6e9cb32d34409deebca1d29ad7f49f6a30ff7bd",
+  "specs/v2/R4_2_TO_V2_MATRIX.md": "c76f0b38a425a1c96df428096d3773397ce65d9a",
+  "specs/v2/README.md": "0d10ca479a2efd0631adcce61d7ac1c9d3ddb446",
+  "specs/v2/W2_PROPORTIONATE_REVIEW_PROPOSAL.md": "2484e0f95e248ee36e77f5d897d6c3150b2bb730",
+  "specs/v2/schema/evaluation-result-v0.1.schema.json": "bf4cc0e959182279643b4326b7c9ee8f0e047b04",
+  "specs/v2/schema/opportunity-v2.1.schema.json": "cecfa8d29f545f22f3e1c199db60df5c8a38e57e",
+  "specs/v2/tests/fixtures/evaluation/invalid_evaluation_forged_favorable_no_provider.json": "796ab66dcc113bb4c566a85c5688b7edfb0b3de7",
+  "specs/v2/tests/fixtures/evaluation/invalid_evaluation_unknown_as_favorable.json": "831b67e7fffecab130ef0d89ffdee7784b14a815",
+  "specs/v2/tests/fixtures/evaluation/valid_evaluation_unknown.json": "1d326f24b67dd930ad4ef6a8a594f032de6a6e00",
+  "specs/v2/tests/test_evaluation_result_security.py": "6311589cfe3cdd55f98605be0611b7900e6c1f44",
+  "specs/v2/tests/test_free_composition_contract.py": "40c34e6e9687904aae8ea62d0154e8633ba03df0",
+  "specs/v2/tests/test_schema_smoke.py": "6d433988473c15019dbb5f1ae91fb13d1532ffb4"
+ },
+ "w5_prerequisite": {
+  "pr": 486,
+  "sha": "0837dd555df9d8f647b9042223d5e766d6fd6afc"
+ },
+ "effective_reviewed_blobs": {
+  "AGENTS.md": "c0a8c8da5cb00905b32f31d4b954aa7ed7c4b489",
+  "RESEARCH_EVIDENCE_SPEC_R4_2.md": "037f1fa25fe0f89eff220a1c22cb446ce63a6083",
+  "NAVIGATION_SPEC_R4_2.md": "3d8f0bf898d7eb969b3058403a2630d9315514ed",
+  "specs/v2/ACCESS_ADVISORY_SPEC.md": "f07076e708a4787cd3c486de14035cd315343733",
+  "specs/v2/ADR_0001_READINESS.md": "e21064d59fcf9454b18133c9aa176695c963b31a",
+  "specs/v2/ARCHITECTURE_SPEC.md": "9de73be0fc147cd77340c44aa34d9c3223616509",
+  "specs/v2/ASTRONOMY_WINDOW_SPEC_V0_1.md": "1810ed09518766955ed95f8f4380cefbb7dc6999",
+  "specs/v2/CAMERA_AREA_COMPOSITION_POLICY.md": "bb998ce4d7a2020732753f245e8ff4e851afa02d",
+  "specs/v2/CODEX_CLOUD_RUNBOOK.md": "8aa33c79a0eb173c5ca870dc0db92e179e115d32",
+  "specs/v2/FREE_COMPOSITION_SPEC.md": "648cd0de2d0f00f1538388f9697b600bcee1e5bd",
+  "specs/v2/GOVERNANCE_SPEC.md": "b6e9cb32d34409deebca1d29ad7f49f6a30ff7bd",
+  "specs/v2/R4_2_TO_V2_MATRIX.md": "c76f0b38a425a1c96df428096d3773397ce65d9a",
+  "specs/v2/README.md": "0d10ca479a2efd0631adcce61d7ac1c9d3ddb446",
+  "specs/v2/WEATHER_SOURCE_NWS_SPEC_V0_1.md": "163c32a2ca4cbebd989f48cb3971363c512fafd6",
+  "specs/v2/WORKER_CONTRACTS.md": "589d8507b7b14a2d07e1d753729637a96fdcbadb"
+ },
+ "historical_owner_transitions": {
+  "r2_owner_integrations": [
+   {
+    "owner": "w1",
+    "sha": "c1fa5348e7ae2b3b4bc1d254773daca86ed5451e",
+    "source_parent_sha": "c6317c3980048f8ed50b84ba2400b81a632c550a",
+    "tree_sha": "c5563eb2db8f719ea13fa19a64af1a2d7792bce2",
+    "previous_tree_sha": "3df84d67e10f90430547adca723f43421a0a10c9",
+    "paths": [
+     "specs/v2"
+    ]
+   },
+   {
+    "owner": "w2",
+    "sha": "cf29288ce47e2cccb2fb2e1453ad193200996a95",
+    "source_parent_sha": "b45169e42d3acfe9b287c6e16a9ac887bb8cd650",
+    "tree_sha": "228f92d949e4df87719c9a3ef6c341219f9b0714",
+    "previous_tree_sha": "10791fc65c189e48fde35c9d6b76688efe8cdef7",
+    "paths": [
+     "data/v2"
+    ]
+   },
+   {
+    "owner": "w4",
+    "sha": "ca4e59cf5978347f1422fb1fd2d485c188b58edd",
+    "source_parent_sha": "cf29288ce47e2cccb2fb2e1453ad193200996a95",
+    "tree_sha": "70eb22ad22f3cad08aafab9ac71032ee8278139b",
+    "previous_tree_sha": "41fb75e13b955dacc16913ba3b5f2a47ba209074",
+    "paths": [
+     "apps/web-v2"
+    ]
+   }
+  ],
+  "beta_owner_integrations": [
+   {
+    "owner": "w1",
+    "paths": [
+     "specs/v2"
+    ],
+    "source_shas": [
+     "38b234ba5f4df4a751eaea14dcc79036b45ed180",
+     "6a774a95c3bc24ff06f004236fe8b225c7001c4d"
+    ],
+    "previous_tree_sha": "8fc319e9996386ddd5c1b3cd26bef5b009c5e792"
+   },
+   {
+    "owner": "w2",
+    "paths": [
+     "data/v2"
+    ],
+    "source_shas": [
+     "c10976eb5e88fd32ec0adc58a1317ed70015821d"
+    ],
+    "previous_tree_sha": "9d660c1ebd0fb5a374300972a943de2b8cc5b348"
+   },
+   {
+    "owner": "w4",
+    "paths": [
+     "apps/web-v2"
+    ],
+    "source_shas": [
+     "b67e143f53b4cbc154120f7913bf35e6fc4ba783",
+     "4607eb0dfac2c2afbeb29b4615a330420ff636ed"
+    ],
+    "previous_tree_sha": "8427cb75fdb433a58d3a4941769a6c06f6f5dc3b"
+   }
+  ],
+  "owner_integrations": [
+   {
+    "owner": "w4",
+    "previous_sha": "ec5dc9609596135ba1b2634dfa7d6c07a54fabdc",
+    "source_sha": "f0da51f30252328f82babba7d90dd17f1559c68e",
+    "paths": [
+     "apps/web-v2"
+    ]
+   }
+  ]
+ },
+ "owner_integrations": [
+  {
+   "owner": "w4",
+   "previous_sha": "ec067573e7c21a52e40021e87661c7489172e629",
+   "source_sha": "29bd0b63501052724eaf48d11f5e1339fde215c7",
+   "paths": [
+    "apps/web-v2"
+   ]
+  }
+ ],
+ "hourly_owner_integrations": [
+  {
+   "owner": "w1",
+   "source_sha": "74f21b365d366b0d1d12efbc23cf6cce484b6b5e",
+   "paths": [
+    "specs/v2"
+   ],
+   "previous_trees": {
+    "specs/v2": "be9fed72b142f96469c3a69be94d04e047e7e09b"
+   }
+  },
+  {
+   "owner": "w2",
+   "source_sha": "e8edf96b7b10f792569fce0d2f2ecbff976fdbb8",
+   "paths": [
+    "data/v2"
+   ],
+   "previous_trees": {
+    "data/v2": "a8cba14862ded1e11d063683578685a098a49849"
+   }
+  },
+  {
+   "owner": "w3",
+   "source_sha": "c8bafcf88da996f0c3a4b4deed488bf5e5f855f8",
+   "paths": [
+    "packages/core-v2",
+    "packages/models-v2"
+   ],
+   "previous_trees": {
+    "packages/core-v2": "8fec5021f6e9fd8710458106f8bbca027b767f51",
+    "packages/models-v2": "530a3fe48f460372b2f5ca7304c9fb75fedd0e6b"
+   }
+  }
+ ],
+ "hourly_pilot": {
+  "pilot_id": "tw-036-open-meteo-hourly-v0.1",
+  "data_state": "RAW_ONLY",
+  "photography_verdict": "NOT_EVALUABLE",
+  "provider_acceptance": "UNVERIFIED",
+  "w3_provenance_path": "packages/core-v2/tests/evidence/open-meteo-hourly-20261019/source-provenance.json",
+  "w3_new_tests": 79,
+  "w1_new_tests": 12,
+  "w2_new_tests": 5,
+  "files": {
+   "schema": {
+    "path": "specs/v2/schema/hourly-weather-info-v0.1.schema.json",
+    "source_sha": "74f21b365d366b0d1d12efbc23cf6cce484b6b5e",
+    "blob_sha": "8688cbd5fa090a94087b2a9fdff9fb76948bd232",
+    "sha256": "ce29fee0f08fdd8c71d96a8d33dfb7f68b6235b67e175ac9e1e3775250b06a1a"
+   },
+   "binding": {
+    "path": "data/v2/weather-pilots/tw-036-open-meteo.json",
+    "source_sha": "74f21b365d366b0d1d12efbc23cf6cce484b6b5e",
+    "blob_sha": "38c58e742159f05f494dc29c3d96dcb9d75deba5",
+    "sha256": "9fb4cc6f89daae3ce851a30f2880847705b4afa6097b7c4c54d19d357b202921"
+   },
+   "adapter": {
+    "path": "packages/core-v2/adapters/open_meteo_hourly.py",
+    "source_sha": "c8bafcf88da996f0c3a4b4deed488bf5e5f855f8",
+    "blob_sha": "5702b6123340fbbf2ea8d0bc5b627a7881c0039d",
+    "sha256": "9717174797938801102845f19ab4038bdda2be8a2601c929304dca8cee8f3359"
+   },
+   "capture_tool": {
+    "path": "packages/core-v2/tools/open_meteo_hourly_pilot.py",
+    "source_sha": "c8bafcf88da996f0c3a4b4deed488bf5e5f855f8",
+    "blob_sha": "6038c7450683587108a482a764a4ad0e8197160e",
+    "sha256": "8c8e325ab3cc70ca135385a9f013860808449dea95c7160ea0d54327e2f72fdc"
+   },
+   "w3_provenance": {
+    "path": "packages/core-v2/tests/evidence/open-meteo-hourly-20261019/source-provenance.json",
+    "source_sha": "c8bafcf88da996f0c3a4b4deed488bf5e5f855f8",
+    "blob_sha": "20d7a53096c9f84c702286279b623f0889bfd8a7",
+    "sha256": "e564db483f61e14c6599a9f3f58f92e8859471219564a1c6563ed926376f0328"
+   }
+  },
+  "one_shot_evidence": {
+   "provider_acceptance": "VERIFIED_ONE_SHOT",
+   "evidence_source_sha": "93707e10850b6e61d63aa2c99473cfbb536f7d3e",
+   "execution_sha": "7ae2802047e2f6b445dbe00731749e0ccd13df64",
+   "source_sha256": "e441ea1bad2d42cfd89169bb030d7aec518d798c56aafe61e037f8a0e9406b1f",
+   "source_size_bytes": 4468,
+   "data_state": "RAW_ONLY",
+   "photography_verdict": "NOT_EVALUABLE",
+   "current_weather_eligible": false,
+   "pinned_blobs": {
+    "REPORT.md": "15d762a846242ff5ecfb834e3c1fd4ffa1b5ed1b",
+    "acceptance-summary.json": "ee434cc0f6665649e35a59f84e6f3762d24443b2",
+    "capture-artifact.json.gz": "4405188f6d1c25d6230312a27de8495113776426",
+    "capture-capture.json.gz": "509f4d6904dfcafae7744cc3b546d818610f89d6",
+    "capture-command.log": "9f8e072e8b5a999ced03008e8fa245b836a46c10",
+    "capture-ledger.jsonl": "778a15e730b573f112143af223e086af246b61b4",
+    "exit-status.json": "aa22dd2d565ff4a966138fef1bc700cd7e94f009",
+    "replay-command.log": "908ec56dd67122e288bc986215f0eb668a145977",
+    "replay.json.gz": "913e84cc7bc5d4b515910b571f91eef49cfb8968",
+    "response-body.bin": "bef32c19dc59417be5d2ae09776d8483eb86b6e7"
+   },
+   "note": "Immutable historic single-capture evidence only; not fresh current-weather, calibrated coastal representativeness or scoring"
+  }
+ }
 }

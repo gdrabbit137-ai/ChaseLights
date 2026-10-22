@@ -1,0 +1,220 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "jp-027",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "jp_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "神戶六甲山",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Mt. Rokko Kobe",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "六甲山",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        34.752011,
+        135.237428
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "B50 Kobe Mt. Rokko official Tenrandai research + existing mapped observation-deck anchor",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 753.0,
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "Asia/Tokyo",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "兵庫県"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "city_night",
+        "mountain_view"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "mountain",
+        "city"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "access_note_i18n",
+      "value": {
+        "zh-TW": "天覽台官方目前開放 07:10–21:00、無固定休息日；停車場24小時開放不代表展望台24小時可進入。",
+        "en": "Tenrandai is currently listed open 07:10–21:00 with no regular closing day. The 24-hour parking lot does not mean the observation deck is open 24 hours.",
+        "ja": "天覧台の現在の公式開放時間は07:10〜21:00、定休日なし。駐車場が24時間開放でも、展望台自体が24時間開放という意味ではありません。"
+      },
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "access_mode",
+      "value": "opening_hours",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "access_hours",
+      "value": [
+        "07:10",
+        "21:00"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "神戶六甲山",
+        "en": "Mt. Rokko Kobe",
+        "ja": "六甲山"
+      },
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-027-P01.best_time",
+      "value": "07:10 至日落前的白天可見光（景點當地時間／JST）",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-027-P01.best_season",
+      "value": "全年；官方展望題材不依季節成立",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-027-P01.name_zh",
+      "value": "六甲山天覽台・神戶—大阪灣日間全景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-027-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-027-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "jp-027-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Official Tenrandai is the researched viewing facility. Existing mapped deck coordinate is used as an area anchor, not a mandatory tripod point.",
+          "name": "六甲山天覧台 Camera Zone",
+          "lat": 34.752011,
+          "lon": 135.237428,
+          "elevation_m": null,
+          "coord_confidence": "high",
+          "verification_status": "official_tenrandai_subject_and_facility_plus_existing_mapped_deck_anchor",
+          "geometry_type": "area",
+          "geometry_extent_m": 160,
+          "geometry_note": "天覽台平台與鄰接展望空間；可沿合法公共平台微調構圖，不宣稱單一腳架位置。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-027-P02.best_time",
+      "value": "日落後至21:00官方關閉前（景點當地時間／JST）",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-027-P02.best_season",
+      "value": "全年；夜景需在天覽台實際開放時成立",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-027-P02.name_zh",
+      "value": "六甲山天覽台・大阪灣城市夜景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-027-P02.legacy_theme",
+      "value": "city_night",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-027-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "jp-027-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Same official Tenrandai viewing deck as P01; official page directly documents the Osaka Bay night view.",
+          "name": "六甲山天覧台 Night Camera Zone",
+          "lat": 34.752011,
+          "lon": 135.237428,
+          "elevation_m": null,
+          "coord_confidence": "high",
+          "verification_status": "official_tenrandai_night_view_and_facility_plus_existing_mapped_deck_anchor",
+          "geometry_type": "area",
+          "geometry_extent_m": 160,
+          "geometry_note": "天覽台合法公共展望平台；夜間不延伸到未驗證的山路或私人範圍。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

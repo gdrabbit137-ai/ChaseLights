@@ -1,0 +1,163 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-045",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "蘇華德",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Seward",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "スワード",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        60.103141,
+        -149.434574
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "Visit Seward official waterfront subject + City of Seward published facility coordinate",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 7.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/Anchorage",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "Alaska"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "aurora",
+        "blue_hour",
+        "mountain_view",
+        "sky_glow",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "coast"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "Seward Waterfront Park",
+        "en": "Seward Waterfront Park",
+        "ja": "スワード・ウォーターフロントパーク"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-045-P01.best_time",
+      "value": "白天至暮色；以Seward Waterfront公共區域實際可使用狀態為準",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-045-P01.best_season",
+      "value": "全年；船隻、野生動物、積雪與特殊光線僅作現況加分",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-045-P01.name_zh",
+      "value": "Seward Waterfront・Resurrection Bay＋Mt. Alice山海景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-045-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-045-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-045-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Visit Seward explicitly documents Resurrection Bay and Mt. Alice views from the waterfront. B72 uses the municipal Waterfront Park area as the weather/camera anchor rather than a generic city-center coordinate.",
+          "name": "Seward Waterfront Park / Resurrection Bay Camera Zone",
+          "lat": 60.103141,
+          "lon": -149.434574,
+          "coord_confidence": "high",
+          "verification_status": "official_destination_waterfront_subject_plus_city_published_facility_coordinate",
+          "geometry_type": "area",
+          "geometry_extent_m": 1200,
+          "geometry_note": "Seward Waterfront Park公共shoreline、trail與觀景範圍；不把船班／野生動物出現視為基本Outcome。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

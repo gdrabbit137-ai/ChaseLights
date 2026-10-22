@@ -1,0 +1,159 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-010",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "黃石國家公園 大稜鏡溫泉",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Yellowstone Grand Prismatic Spring",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "イエローストーン グランド・プリズマティック",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        44.523693,
+        -110.839979
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "2026 Wikimedia camera point",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 2218.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/Denver",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "Wyoming"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "fog_mist",
+        "mountain_view",
+        "reflection"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "geology",
+        "lake"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "黃石國家公園 大稜鏡溫泉",
+        "en": "Yellowstone Grand Prismatic Spring",
+        "ja": "イエローストーン グランド・プリズマティック"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-010-P01.best_time",
+      "value": "官方Overlook Trail實際可達時；需兼顧蒸汽遮蔽與道路／步道狀態",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-010-P01.best_season",
+      "value": "依Yellowstone道路與步道實際開放；不以月份單獨保證可達或池面清晰",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-010-P01.name_zh",
+      "value": "Grand Prismatic Overlook・彩色地熱池高處俯瞰",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-010-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-010-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-010-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "NPS identifies the Fairy Falls Trailhead route as the public elevated overlook for Grand Prismatic. No unverified exact tripod coordinate is asserted and off-trail travel is explicitly prohibited.",
+          "name": "Grand Prismatic Overlook Trail Camera Zone",
+          "coord_confidence": "official_trail_subject_no_unique_tripod_claim",
+          "verification_status": "official_nps_grand_prismatic_overlook_photo_subject",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 350,
+          "geometry_note": "Grand Prismatic Overlook Trail合法高處觀景區；嚴禁離開步道進入熱泉地表。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

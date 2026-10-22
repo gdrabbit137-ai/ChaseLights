@@ -127,7 +127,7 @@ for (const [device, viewport] of [['desktop',{width:1440,height:1000}],['mobile'
       try {
         const response = await page.goto(baseURL);
         assert.equal(response.status(), 200);
-        await page.waitForFunction(()=>document.querySelectorAll('.place-button').length===7);
+        await page.waitForFunction(()=>document.querySelectorAll('.place-button').length===216);
         assert.equal(await page.locator('#research-browser').isVisible(),false);
         assert.equal(await page.locator('.forecast-empty .opportunity').count(),0);
         assert.equal(await page.locator('.opportunity').count(), 1);
@@ -148,7 +148,7 @@ for (const [device, viewport] of [['desktop',{width:1440,height:1000}],['mobile'
         await assertLocale(page, locale);
         assert.equal(await page.evaluate(() => localStorage.getItem('chaselights-v2-locale')), locale);
         assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, 'horizontal overflow');
-        await page.reload();await page.locator('#browse-research').click();await page.waitForFunction(()=>document.querySelectorAll('.place-button').length===7);
+        await page.reload();await page.locator('#browse-research').click();await page.waitForFunction(()=>document.querySelectorAll('.place-button').length===216);
         if(device==='mobile')await page.locator('#open-filters').click();
         await assertLocale(page, locale);
         // Native file input loads exact pinned W2 preview bytes, without upload.
@@ -287,7 +287,7 @@ for(const [device,viewport] of [['desktop',{width:1440,height:1000}],['mobile',{
             await waitStatus(page,'ready');
           }
           assert.equal(requests,scenario==='delayed'?1:2);
-          await page.waitForFunction(()=>document.querySelectorAll('.place-button').length===7);
+          await page.waitForFunction(()=>document.querySelectorAll('.place-button').length===216);
           assert.equal(await page.locator('.opportunity').count(),1);
           assert.ok((await page.locator('.place-button strong').allTextContents()).every(Boolean));
           assert.equal(await page.locator('#source-commit-value').textContent(),INDEX_SHA);
@@ -300,7 +300,7 @@ for(const [device,viewport] of [['desktop',{width:1440,height:1000}],['mobile',{
           assert.equal(await page.locator('.place-button').count(),0);
           await page.locator('#clear-search').click();
           assert.equal(await page.evaluate(()=>document.activeElement.id),'search');
-          assert.equal(await page.locator('.place-button').count(),7);
+          assert.equal(await page.locator('.place-button').count(),216);
           await page.locator('#close-research').click();
           assert.equal(await page.evaluate(()=>document.activeElement.id),'browse-research');
           assert.deepEqual(errors,[]);
@@ -333,7 +333,7 @@ for(const width of [360,390,1440])for(const locale of ['zh-TW','en','ja']){
     const page=await context.newPage();
     try{
       await page.goto(baseURL);await waitStatus(page,'ready');
-      await page.waitForFunction(()=>document.querySelectorAll('.place-button').length===7);
+      await page.waitForFunction(()=>document.querySelectorAll('.place-button').length===216);
       await page.keyboard.press('Tab');assert.equal(await page.evaluate(()=>document.activeElement.id),'skip-link');
       await page.keyboard.press('Enter');assert.equal(await page.evaluate(()=>document.activeElement.id),'content');
       await page.keyboard.press('Tab');assert.equal(await page.evaluate(()=>document.activeElement.id),'browse-research');

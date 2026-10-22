@@ -1,0 +1,232 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "jp-034",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "jp_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "長崎哥拉巴園",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Glover Garden Nagasaki",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "グラバー園",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        32.734389,
+        129.869083
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "B51 Glover Garden official research + existing POI",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 22.0,
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "Asia/Tokyo",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "長崎県"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "city_night",
+        "mountain_view"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "architecture",
+        "city",
+        "coast"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "access_note_i18n",
+      "value": {
+        "zh-TW": "全年保守基準採 08:00–18:00；2026 多個期間有延長夜間開園，且貸切／天候可改變時段。夜間題材只依當年度官方夜間公告，不把18:00後永久視為開放。",
+        "en": "A conservative 08:00–18:00 baseline is used. Several 2026 periods have extended night opening, and private events/weather may alter hours. Night Opportunities rely on current-year official notices rather than assuming permanent after-hours access.",
+        "ja": "通年の保守的な基準は08:00〜18:00。2026年は複数期間で夜間延長があり、貸切・天候で変更されます。夜間撮影は当年の公式案内に限定し、18時以降を恒常開園とは扱いません。"
+      },
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "access_mode",
+      "value": "opening_hours",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "access_hours",
+      "value": [
+        "08:00",
+        "18:00"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "長崎哥拉巴園",
+        "en": "Glover Garden Nagasaki",
+        "ja": "グラバー園"
+      },
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-034-P01.best_time",
+      "value": "至少以全年標準 08:00–18:00 開園時段作保守推薦；特定日期另有延長開園",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-034-P01.best_season",
+      "value": "全年",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-034-P01.name_zh",
+      "value": "哥拉巴園・舊哥拉巴住宅與洋館群",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-034-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-034-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "jp-034-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Official Glover Garden identifies Former Glover House as a World Heritage component and documents the historic Western-style buildings.",
+          "name": "哥拉巴園・舊哥拉巴住宅 heritage Camera Zone",
+          "lat": 32.734389,
+          "lon": 129.869083,
+          "coord_confidence": "high",
+          "verification_status": "official_heritage_architecture_subject_plus_existing_garden_poi",
+          "geometry_type": "area",
+          "geometry_extent_m": 650,
+          "geometry_note": "園內合法參觀動線；個別建物可能因保存修理限制觀覽。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-034-P02.best_time",
+      "value": "僅限2026官方夜間開園／Lantern Night有效日期，日落後至當日官方閉園前",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-034-P02.best_season",
+      "value": "2026官方公告：4/1–5/31、7/17–10/11、10/12–12/31（部分縮短／取消日依官方公告）",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-034-P02.name_zh",
+      "value": "哥拉巴園・2026 Lantern Night／洋館燈光與長崎夜景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-034-P02.legacy_theme",
+      "value": "city_night",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-034-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "jp-034-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Official 2026 Lantern Night notice explicitly verifies lanterns and illuminated Western houses.",
+          "name": "哥拉巴園 Lantern Night Camera Zone",
+          "lat": 32.734389,
+          "lon": 129.869083,
+          "coord_confidence": "high",
+          "verification_status": "official_2026_lantern_night_subject",
+          "geometry_type": "area",
+          "geometry_extent_m": 650,
+          "geometry_note": "2026官方夜間開園／活動範圍內的園內公共參觀區。",
+          "geometry_confidence": "high"
+        },
+        {
+          "viewpoint_id": "jp-034-VP03",
+          "relation_role": "secondary",
+          "sort_order": 2,
+          "note": "Official gallery directly identifies the night view from Former Mitsubishi No.2 Dock House.",
+          "name": "舊三菱第2ドックハウス Night View Camera Zone",
+          "coord_confidence": "official_subject_location_without_new_coordinate_claim",
+          "verification_status": "official_gallery_night_view_subject",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 120,
+          "geometry_note": "以園內舊三菱第2ドックハウス可合法觀景區為主；不新增未查證精確座標。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

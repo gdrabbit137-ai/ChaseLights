@@ -1,0 +1,161 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-070",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "獨立礦山",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Independence Mine",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "インデペンデンス鉱山",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        61.790493,
+        -149.283392
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "Alaska State Parks official Mile 17.3 subject/access + existing cross-mapped park anchor",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "medium_high",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 1059.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/Anchorage",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "Alaska"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "aurora",
+        "mountain_view",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "mountain"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "獨立礦山",
+        "en": "Independence Mine",
+        "ja": "インデペンデンス鉱山"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-070-P01.best_time",
+      "value": "公園／Independence Bowl當下可安全到達的白天時段；upper-lot gate關閉時依官方規則由下方停車區步行",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-070-P01.best_season",
+      "value": "全年可有不同形式的步行／冬季活動，但道路、雪況、雪崩與停車可達性需依官方當下條件",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-070-P01.name_zh",
+      "value": "Independence Mine・歷史礦區＋Talkeetna Mountains高山景觀",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-070-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-070-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-070-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Alaska State Parks directly documents the historic mine and pedestrian-access rules. The existing mapped park coordinate is retained as a Camera Zone/weather anchor; current road/parking/trail state remains a separate access gate.",
+          "name": "Independence Mine State Historical Park Camera Zone",
+          "lat": 61.790493,
+          "lon": -149.283392,
+          "coord_confidence": "medium_high",
+          "verification_status": "official_alaska_state_parks_subject_and_mile_17_3_access_plus_cross_mapped_park_anchor",
+          "geometry_type": "area",
+          "geometry_extent_m": 1200,
+          "geometry_note": "Independence Mine合法公共歷史區、步道與觀景範圍；封閉建築與危險礦區除外。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

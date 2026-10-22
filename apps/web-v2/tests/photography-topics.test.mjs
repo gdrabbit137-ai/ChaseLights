@@ -9,8 +9,8 @@ const before=JSON.stringify(source);
 for(const locale of ['zh-TW','en','ja']){
   test(`${locale}: all eight real subjects preserve descriptions, targets and independent role/mode`,()=>{
     const catalog=importV21Catalog(source);
-    assert.equal(catalog.places.length,7);
-    assert.equal(catalog.opportunities.length,8);
+    assert.equal(catalog.places.length,216);
+    assert.equal(catalog.opportunities.length,428);
     for(const original of source.opportunities){
       const opp=catalog.opportunities.find(row=>row.opportunity_id===original.opportunity_id);
       const topic=researchTopic(catalog,opp,locale);
@@ -46,7 +46,7 @@ test('missing optional topic information does not hide the other seven subjects'
   delete changed.opportunities[0].description_i18n;
   changed.opportunities[0].condition_contract.conditions=[];
   const catalog=importV21Catalog(changed);
-  assert.equal(catalog.opportunities.length,8);
+  assert.equal(catalog.opportunities.length,428);
   const incomplete=researchTopic(catalog,catalog.opportunities[0],'en');
   assert.equal(incomplete.description,null);
   assert.deepEqual(incomplete.conditions,[]);
@@ -71,12 +71,15 @@ test('an AUTO declaration or forged imported result cannot enable research condi
 });
 
 test('access warnings stay outside photography conditions, and unsupported modes remain unspecified',()=>{
-  const catalog=importV21Catalog(source),opp=catalog.opportunities[0];
+  const catalog=importV21Catalog(source);
+  const opp=catalog.opportunities.find(row=>row.opportunity_id==='tw-016-P01');
+  const original=source.opportunities.find(row=>row.opportunity_id==='tw-016-P01');
   catalog.conditions.push({opportunity_id:opp.opportunity_id,condition_id:'test-only-access',domain:'ACCESS_SAFETY',role:'BLOCKER',evaluation_mode:'VERIFY'});
   const first=catalog.conditions.find(row=>row.opportunity_id===opp.opportunity_id);
   delete first.evaluation_mode;
   const topic=researchTopic(catalog,opp,'en');
-  assert.equal(topic.conditions.length,2);
+  assert.equal(topic.conditions.length,
+    original.condition_contract.conditions.filter(row=>row.domain!=='ACCESS_SAFETY').length);
   assert.ok(topic.conditions.every(row=>row.domain!=='ACCESS_SAFETY'));
   assert.equal(topic.conditions[0].mode,null);
   assert.equal(topic.evaluation,null);

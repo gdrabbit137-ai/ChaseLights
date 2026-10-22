@@ -1,0 +1,211 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-068",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "諾阿塔克河",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Noatak River",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "ノアタック川",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        68.1814422607422,
+        -159.394500732422
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "NPS Gallery audited Noatak River asset location",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 418.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/Anchorage",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "Alaska"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "aurora",
+        "fog_mist",
+        "long_exposure",
+        "mountain_view",
+        "reflection",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "lake",
+        "river"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "諾阿塔克河",
+        "en": "Noatak River",
+        "ja": "ノアタック川"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-068-P01.best_time",
+      "value": "有可靠air taxi／river trip logistics且河谷、山地清楚可見時",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-068-P01.best_season",
+      "value": "依air taxi、河況與遠征條件；沒有設施服務，不能由月份或一般天氣推定可安全抵達",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-068-P01.name_zh",
+      "value": "Noatak River・荒野河谷＋Brooks Range山景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-068-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-068-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-068-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "NPS documents the Noatak's mountain-ringed wilderness and air-taxi access. The coordinate comes from official NPS media metadata and is only a representative river Camera Zone/weather sample; it is not a landing or Directions target.",
+          "name": "Noatak River Representative Wilderness Camera Zone",
+          "lat": 68.1814422607422,
+          "lon": -159.394500732422,
+          "coord_confidence": "high",
+          "verification_status": "official_nps_asset_location_on_noatak_river",
+          "geometry_type": "area",
+          "geometry_extent_m": 5000,
+          "geometry_note": "代表性Noatak River荒野河段；實際river trip Camera Zone會隨合法落點與行程改變。",
+          "geometry_confidence": "medium_high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-068-P02.best_time",
+      "value": "天空足夠黑暗、遠端行程合法安全且有location-aware極光活動時",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-068-P02.best_season",
+      "value": "NPS有Noatak River極光實拍證據；反射與實際極光強度仍需現況，不由月份保證",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-068-P02.name_zh",
+      "value": "Noatak River・Aurora Borealis河面反射",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-068-P02.legacy_theme",
+      "value": "aurora",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-068-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-068-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "NPS directly publishes an aurora-over-Noatak-River photograph. Reflection remains a booster, while eligibility stays fail-closed on aurora_state plus current remote-access logistics.",
+          "name": "Noatak River Aurora Camera Zone",
+          "lat": 68.1814422607422,
+          "lon": -159.394500732422,
+          "coord_confidence": "high",
+          "verification_status": "official_nps_noatak_river_location_plus_direct_aurora_subject_evidence",
+          "geometry_type": "area",
+          "geometry_extent_m": 5000,
+          "geometry_note": "代表性Noatak River合法荒野河段；不建立固定airstrip／導航目的地。",
+          "geometry_confidence": "medium_high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

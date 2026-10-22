@@ -1,0 +1,212 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "jp-031",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "jp_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "倉敷美觀地區",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Kurashiki Bikan Historical Quarter",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "倉敷美観地区",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        34.595688,
+        133.771619
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "MapFan district POI",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 6.0,
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "Asia/Tokyo",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "岡山県"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "blue_hour",
+        "city_night",
+        "long_exposure",
+        "mountain_view",
+        "reflection"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "city",
+        "architecture",
+        "river"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "倉敷美觀地區",
+        "en": "Kurashiki Bikan Historical Quarter",
+        "ja": "倉敷美観地区"
+      },
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-031-P01.best_time",
+      "value": "白天可見光（景點當地時間／JST）",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-031-P01.best_season",
+      "value": "全年；歷史街景本身不依季節成立",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-031-P01.name_zh",
+      "value": "倉敷美觀地區・倉敷川白壁歷史街景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-031-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-031-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "jp-031-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Official tourism sources identify the Kurashiki River corridor and preserved white-wall streetscape. Existing high-confidence district anchor is used as an area reference.",
+          "name": "倉敷美観地区・倉敷川 Riverside Camera Zone",
+          "lat": 34.595688,
+          "lon": 133.771619,
+          "elevation_m": null,
+          "coord_confidence": "high",
+          "verification_status": "kurashiki_official_river_streetscape_plus_existing_high_confidence_district_anchor",
+          "geometry_type": "area",
+          "geometry_extent_m": 500,
+          "geometry_note": "倉敷川沿岸公共步行區；可沿河調整白壁、柳樹與橋梁構圖，不宣稱中橋單一腳架位置。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-031-P02.best_time",
+      "value": "4–9月日落–22:00；10–3月日落–21:00 的官方標準景觀照明時段（JST）",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-031-P02.best_season",
+      "value": "全年標準夜間景觀照明；仍以官方當日變更為準",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-031-P02.name_zh",
+      "value": "倉敷美觀地區・夜間景觀照明與倉敷川倒影",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-031-P02.legacy_theme",
+      "value": "city_night",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-031-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "jp-031-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Official Kurashiki night-lighting page explicitly documents illuminated white-wall buildings reflected on the river. Anchor is the river corridor, not a single bridge tripod point.",
+          "name": "倉敷美観地区・倉敷川 Night Reflection Camera Zone",
+          "lat": 34.595688,
+          "lon": 133.771619,
+          "elevation_m": null,
+          "coord_confidence": "high",
+          "verification_status": "official_kurashiki_night_lighting_and_reflection_subject_plus_district_anchor",
+          "geometry_type": "area",
+          "geometry_extent_m": 500,
+          "geometry_note": "倉敷川沿岸夜間公共區域；反射構圖依現場水面與人流微調。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

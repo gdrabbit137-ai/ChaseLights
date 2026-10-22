@@ -1,0 +1,201 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "jp-032",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "jp_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "福岡城跡",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Fukuoka Castle Ruins",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "福岡城跡",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        33.5844,
+        130.3831
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "B51 official castle-area research; legacy castle-center anchor retained only as a broad map reference while Tenshudai is closed",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "low",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 25.0,
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "Asia/Tokyo",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "福岡県"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "mountain_view"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "architecture",
+        "city"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "福岡城跡：天守台封閉中，導航入口待獨立確認",
+        "en": "Fukuoka Castle Ruins: Tenshudai closed; arrival point pending verification",
+        "ja": "福岡城跡：天守台閉鎖中、到着地点は確認待ち"
+      },
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-032-P01.best_time",
+      "value": "白天可見光時段（景點當地時間／JST）",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-032-P01.best_season",
+      "value": "全年；2026 天守台封閉期間以仍可合法到達的城郭建築與石垣為主",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-032-P01.name_zh",
+      "value": "福岡城跡・多聞櫓／下之橋御門與石垣",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-032-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-032-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "jp-032-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Official Fukuoka Castle walking guide directly verifies Tamon Yagura and Shimonohashi Gate. Tenshudai is intentionally excluded while the 2026 excavation closure is active.",
+          "name": "福岡城跡・多聞櫓／下之橋御門公共 Camera Zone",
+          "coord_confidence": "not_required_for_area_subject",
+          "verification_status": "official_public_castle_structures_tenshudai_excluded",
+          "geometry_type": "area",
+          "geometry_extent_m": 900,
+          "geometry_note": "城跡內仍開放的公共散策區域；Camera Zone 不包含目前禁止進入的天守台。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-032-P02.best_time",
+      "value": "僅在對應花木實際進入可拍狀態時",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-032-P02.best_season",
+      "value": "梅1–2月、櫻3–4月、藤4–5月、紅葉約11月；實際狀態不得只靠月份保證",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-032-P02.name_zh",
+      "value": "福岡城跡・四季花木與城郭",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-032-P02.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-032-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "jp-032-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Official Fukuoka Castle seasonal guide explicitly documents plum, cherry, wisteria and autumn foliage inside the castle grounds.",
+          "name": "福岡城跡・舞鶴公園季節花木 Camera Zone",
+          "coord_confidence": "not_required_for_area_subject",
+          "verification_status": "official_seasonal_flora_subject",
+          "geometry_type": "area",
+          "geometry_extent_m": 1200,
+          "geometry_note": "依實際季節花木位置在公共園區內移動構圖；不把月份當成花況證明。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

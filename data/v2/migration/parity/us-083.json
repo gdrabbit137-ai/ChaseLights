@@ -1,0 +1,206 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-083",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "雷尼爾山・日出區",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Mount Rainier — Sunrise & Sunrise Point",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "マウント・レーニア・サンライズ",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        46.914,
+        -121.642
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "legacy Place/Camera coordinate; navigation target not independently verified",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "medium",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 1948.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/Los_Angeles",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "Washington"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "mountain_view",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "mountain"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "雷尼爾山・日出區",
+        "en": "Mount Rainier — Sunrise & Sunrise Point",
+        "ja": "マウント・レーニア・サンライズ"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-083-P01.best_time",
+      "value": "日出前至日出後約90分鐘",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-083-P01.best_season",
+      "value": "道路通常晚6月／7月初至9月底／10月初",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-083-P01.name_zh",
+      "value": "Sunrise・日出光照 Mount Rainier＋Emmons Glacier",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-083-P01.legacy_theme",
+      "value": "sunrise",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-083-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-083-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "NPS explicitly illustrates first rays of morning sun on Mount Rainier from Sunrise.",
+          "name": "Sunrise public Camera Zone",
+          "lat": 46.914,
+          "lon": -121.642,
+          "coord_confidence": "medium_high",
+          "verification_status": "official_subject_public_anchor",
+          "geometry_type": "area",
+          "geometry_extent_m": 1000,
+          "geometry_note": "合法公共 Camera Zone；座標作地圖／天氣錨點，不宣稱唯一腳架位置。",
+          "geometry_confidence": "medium_high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-083-P02.best_time",
+      "value": "白天至低角度光",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-083-P02.best_season",
+      "value": "道路開放季",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-083-P02.name_zh",
+      "value": "Sunrise Point・Rainier＋Cascade Range 近360°山景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-083-P02.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-083-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-083-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "NPS documents nearly 360-degree views of valleys, Rainier and Cascade volcanoes.",
+          "name": "Sunrise Point Camera Zone",
+          "lat": 46.9131,
+          "lon": -121.6942,
+          "coord_confidence": "medium_high",
+          "verification_status": "official_subject_public_anchor",
+          "geometry_type": "area",
+          "geometry_extent_m": 450,
+          "geometry_note": "合法公共 Camera Zone；座標作地圖／天氣錨點，不宣稱唯一腳架位置。",
+          "geometry_confidence": "medium_high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

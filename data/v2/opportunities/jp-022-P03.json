@@ -1,0 +1,163 @@
+{
+  "schema_version": "2.1.0",
+  "opportunity_id": "jp-022-P03",
+  "place_id": "jp-022",
+  "revision": 1,
+  "lifecycle_status": "draft",
+  "name_i18n": {
+    "zh-TW": "彌彥山夜景＆星空Cruise・越後平野夜景",
+    "en": "彌彥山夜景＆星空Cruise・越後平野夜景 (provisional English title, pending review)",
+    "ja": "彌彥山夜景＆星空Cruise・越後平野夜景（暫定日本語タイトル、レビュー待ち）"
+  },
+  "description_i18n": {
+    "zh-TW": "彌彥山夜景＆星空Cruise・越後平野夜景（V1 最佳時段：僅官方年度「夜景＆星空Cruise」指定夜間運行時段（JST；2026 上行18:00–20:30、下行末班21:00）；V1 季節：僅官方當年度指定活動日；2026 為 8/11–12、8/14–16、9/19–23，不得推論未發布年份。V1 遷移骨架；內容待第二輪研究完善。）",
+    "en": "彌彥山夜景＆星空Cruise・越後平野夜景 (V1 best time: 僅官方年度「夜景＆星空Cruise」指定夜間運行時段（JST；2026 上行18:00–20:30、下行末班21:00）; V1 season: 僅官方當年度指定活動日；2026 為 8/11–12、8/14–16、9/19–23，不得推論未發布年份 (zh-TW source values retained pending translation). V1 migration skeleton; content to be refined in round 2.)",
+    "ja": "彌彥山夜景＆星空Cruise・越後平野夜景（V1ベスト時間帯: 僅官方年度「夜景＆星空Cruise」指定夜間運行時段（JST；2026 上行18:00–20:30、下行末班21:00）；V1季節: 僅官方當年度指定活動日；2026 為 8/11–12、8/14–16、9/19–23，不得推論未發布年份（zh-TW原文のまま、翻訳待ち）。V1移行スケルトン。内容は第2ラウンドで精緻化予定。）"
+  },
+  "camera_contexts": [
+    {
+      "id": "CZ-jp-022-P03-01",
+      "kind": "area",
+      "geometry": {
+        "kind": "point",
+        "status": "provisional",
+        "geojson": {
+          "type": "Point",
+          "coordinates": [
+            138.809994,
+            37.710125
+          ]
+        },
+        "uncertainty_m": null,
+        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "source_geometry_revision": null,
+        "reason_if_absent": null
+      },
+      "verification_status": "provisional",
+      "evidence_refs": [],
+      "access_notes_i18n": {
+        "zh-TW": "彌彥山頂可由纜車、季節性彌彥山Skyline或步行路線到達，各路線限制不同；夜間纜車僅官方年度「夜景＆星空Cruise」指定日期運行，不可把一般晴朗夜晚視為可達。",
+        "en": "Mt. Yahiko summit access is multi-modal: ropeway, seasonal Skyline road and hiking routes have different constraints. Night ropeway access is limited to official annual Night View & Stargazing Cruise dates; ordinary clear nights are not assumed accessible.",
+        "ja": "弥彦山頂へのアクセスはロープウェイ、季節運用の弥彦山スカイライン、登山道で条件が異なります。夜間ロープウェイは公式の年間「夜景＆星空クルーズ」実施日に限り、通常の晴天夜を入場可能とは扱いません。"
+      },
+      "safety_notes_i18n": {
+        "zh-TW": "請依現場安全指示行動。",
+        "en": "Follow on-site safety guidance.",
+        "ja": "現地の安全指示に従ってください。"
+      },
+      "altitude_m": null
+    }
+  ],
+  "targets": [
+    {
+      "id": "SG-jp-022-P03-01",
+      "kind": "multi_component",
+      "name_i18n": {
+        "zh-TW": "彌彥山夜景＆星空Cruise・越後平野夜景",
+        "en": "彌彥山夜景＆星空Cruise・越後平野夜景 (provisional English title, pending review)",
+        "ja": "彌彥山夜景＆星空Cruise・越後平野夜景（暫定日本語タイトル、レビュー待ち）"
+      },
+      "geometry": {
+        "kind": "point",
+        "status": "provisional",
+        "geojson": {
+          "type": "Point",
+          "coordinates": [
+            138.809994,
+            37.710125
+          ]
+        },
+        "uncertainty_m": null,
+        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "source_geometry_revision": null,
+        "reason_if_absent": null
+      },
+      "phenomenon_model_id": null,
+      "evidence_refs": [],
+      "components": []
+    }
+  ],
+  "observation_relations": [
+    {
+      "id": "VR-jp-022-P03-01",
+      "camera_context_id": "CZ-jp-022-P03-01",
+      "target_id": "SG-jp-022-P03-01",
+      "type": "foreground_background",
+      "geometry_mode": "unknown",
+      "azimuth_deg": null,
+      "elevation_deg": null,
+      "distance_m": null,
+      "evidence_refs": [],
+      "derivation_method": null,
+      "uncertainty_note": "Imported V1 reference; angles and distance unknown."
+    }
+  ],
+  "navigation_targets": [
+    {
+      "id": "NAV-jp-022-P03-01",
+      "status": "needs_review",
+      "target_type": "other",
+      "lat": 37.710125,
+      "lon": 138.809994,
+      "label_i18n": {
+        "zh-TW": "彌彥山多種進入路線",
+        "en": "Mt. Yahiko has multiple access routes",
+        "ja": "弥彦山は複数のアクセス経路があります"
+      },
+      "evidence_refs": [],
+      "confidence": "low"
+    }
+  ],
+  "condition_contract": {
+    "contract_id": "CC-jp-022-P03-v1",
+    "status": "draft",
+    "conditions": [
+      {
+        "id": "C-jp-022-P03-01",
+        "role": "REQUIRED",
+        "domain": "ASTRONOMY",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "legacy_city_night",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "jp-022-P03-claim-01"
+        ],
+        "model_binding": null,
+        "notes_i18n": {
+          "zh-TW": "由 V1 主題對應的暫定條件；實際閾值待研究核實。",
+          "en": "Provisional condition mapped from the V1 theme; thresholds pending research.",
+          "ja": "V1テーマから対応した暫定条件。閾値は研究待ち。"
+        },
+        "validation_status": "provisional"
+      }
+    ],
+    "recommendation_policy_version": null
+  },
+  "evidence_claims": [
+    {
+      "claim_id": "jp-022-P03-claim-01",
+      "claim_type": "existence",
+      "evidence_refs": [],
+      "audit_status": "UNKNOWN",
+      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+    }
+  ],
+  "readiness": {
+    "research_level": "R0",
+    "gaps": [
+      "RESEARCH_GAP",
+      "GEOMETRY_GAP"
+    ]
+  },
+  "provenance": {
+    "source_catalog": "runtime_catalog_v004_r4_2.json",
+    "source_revision": "v1-spot-jp-022",
+    "imported_at": "2026-10-21T20:51:45Z",
+    "review_status": "pending",
+    "reviewed_by": null
+  }
+}

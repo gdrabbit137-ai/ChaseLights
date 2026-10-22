@@ -1,0 +1,163 @@
+{
+  "schema_version": "2.1.0",
+  "opportunity_id": "tw-084-P01",
+  "place_id": "tw-084",
+  "revision": 1,
+  "lifecycle_status": "draft",
+  "name_i18n": {
+    "zh-TW": "大農大富森林廊道與林木層次",
+    "en": "大農大富森林廊道與林木層次 (provisional English title, pending review)",
+    "ja": "大農大富森林廊道與林木層次（暫定日本語タイトル、レビュー待ち）"
+  },
+  "description_i18n": {
+    "zh-TW": "大農大富森林廊道與林木層次（V1 最佳時段：園區日間服務時段；斜射光需待林道方向與樹冠幾何驗證；V1 季節：全年。V1 遷移骨架；內容待第二輪研究完善。）",
+    "en": "大農大富森林廊道與林木層次 (V1 best time: 園區日間服務時段；斜射光需待林道方向與樹冠幾何驗證; V1 season: 全年 (zh-TW source values retained pending translation). V1 migration skeleton; content to be refined in round 2.)",
+    "ja": "大農大富森林廊道與林木層次（V1ベスト時間帯: 園區日間服務時段；斜射光需待林道方向與樹冠幾何驗證；V1季節: 全年（zh-TW原文のまま、翻訳待ち）。V1移行スケルトン。内容は第2ラウンドで精緻化予定。）"
+  },
+  "camera_contexts": [
+    {
+      "id": "CZ-tw-084-P01-01",
+      "kind": "area",
+      "geometry": {
+        "kind": "point",
+        "status": "provisional",
+        "geojson": {
+          "type": "Point",
+          "coordinates": [
+            121.4159714,
+            23.6143836
+          ]
+        },
+        "uncertainty_m": null,
+        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "source_geometry_revision": null,
+        "reason_if_absent": null
+      },
+      "verification_status": "provisional",
+      "evidence_refs": [],
+      "access_notes_i18n": {
+        "zh-TW": "推薦時段採官方服務時間 08:00–17:00。園區全年開放；遊客中心除夕及每週一休館，寒暑假與國定假日例外。步道與自行車道遇落葉、潮濕或青苔可能濕滑。",
+        "en": "Recommendations use the official 08:00–17:00 service window. The park is open year-round; the visitor center closes on Lunar New Year's Eve and Mondays, except school vacations and national holidays. Paths may be slippery when wet or covered by leaves or moss.",
+        "ja": "推奨時間は公式サービス時間08:00〜17:00です。園区は通年開放で、ビジターセンターは旧暦大晦日と月曜休館（長期休暇・祝日を除く）。落葉・湿気・苔で路面が滑る場合があります。"
+      },
+      "safety_notes_i18n": {
+        "zh-TW": "請依現場安全指示行動。",
+        "en": "Follow on-site safety guidance.",
+        "ja": "現地の安全指示に従ってください。"
+      },
+      "altitude_m": null
+    }
+  ],
+  "targets": [
+    {
+      "id": "SG-tw-084-P01-01",
+      "kind": "multi_component",
+      "name_i18n": {
+        "zh-TW": "大農大富森林廊道與林木層次",
+        "en": "大農大富森林廊道與林木層次 (provisional English title, pending review)",
+        "ja": "大農大富森林廊道與林木層次（暫定日本語タイトル、レビュー待ち）"
+      },
+      "geometry": {
+        "kind": "point",
+        "status": "provisional",
+        "geojson": {
+          "type": "Point",
+          "coordinates": [
+            121.4159714,
+            23.6143836
+          ]
+        },
+        "uncertainty_m": null,
+        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "source_geometry_revision": null,
+        "reason_if_absent": null
+      },
+      "phenomenon_model_id": null,
+      "evidence_refs": [],
+      "components": []
+    }
+  ],
+  "observation_relations": [
+    {
+      "id": "VR-tw-084-P01-01",
+      "camera_context_id": "CZ-tw-084-P01-01",
+      "target_id": "SG-tw-084-P01-01",
+      "type": "foreground_background",
+      "geometry_mode": "unknown",
+      "azimuth_deg": null,
+      "elevation_deg": null,
+      "distance_m": null,
+      "evidence_refs": [],
+      "derivation_method": null,
+      "uncertainty_note": "Imported V1 reference; angles and distance unknown."
+    }
+  ],
+  "navigation_targets": [
+    {
+      "id": "NAV-tw-084-P01-01",
+      "status": "needs_review",
+      "target_type": "other",
+      "lat": 23.6143836,
+      "lon": 121.4159714,
+      "label_i18n": {
+        "zh-TW": "大農大富平地森林園區",
+        "en": "Danongdafu Forest Park",
+        "ja": "大農大富平地森林園区"
+      },
+      "evidence_refs": [],
+      "confidence": "low"
+    }
+  ],
+  "condition_contract": {
+    "contract_id": "CC-tw-084-P01-v1",
+    "status": "draft",
+    "conditions": [
+      {
+        "id": "C-tw-084-P01-01",
+        "role": "REQUIRED",
+        "domain": "ASTRONOMY",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "legacy_mountain_view",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-084-P01-claim-01"
+        ],
+        "model_binding": null,
+        "notes_i18n": {
+          "zh-TW": "由 V1 主題對應的暫定條件；實際閾值待研究核實。",
+          "en": "Provisional condition mapped from the V1 theme; thresholds pending research.",
+          "ja": "V1テーマから対応した暫定条件。閾値は研究待ち。"
+        },
+        "validation_status": "provisional"
+      }
+    ],
+    "recommendation_policy_version": null
+  },
+  "evidence_claims": [
+    {
+      "claim_id": "tw-084-P01-claim-01",
+      "claim_type": "existence",
+      "evidence_refs": [],
+      "audit_status": "UNKNOWN",
+      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+    }
+  ],
+  "readiness": {
+    "research_level": "R0",
+    "gaps": [
+      "RESEARCH_GAP",
+      "GEOMETRY_GAP"
+    ]
+  },
+  "provenance": {
+    "source_catalog": "runtime_catalog_v004_r4_2.json",
+    "source_revision": "v1-spot-tw-084",
+    "imported_at": "2026-10-21T20:51:45Z",
+    "review_status": "pending",
+    "reviewed_by": null
+  }
+}

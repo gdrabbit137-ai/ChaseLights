@@ -1,0 +1,163 @@
+{
+  "schema_version": "2.1.0",
+  "opportunity_id": "jp-011-P02",
+  "place_id": "jp-011",
+  "revision": 1,
+  "lifecycle_status": "draft",
+  "name_i18n": {
+    "zh-TW": "東京鐵塔 Main Deck・東京城市夜景",
+    "en": "東京鐵塔 Main Deck・東京城市夜景 (provisional English title, pending review)",
+    "ja": "東京鐵塔 Main Deck・東京城市夜景（暫定日本語タイトル、レビュー待ち）"
+  },
+  "description_i18n": {
+    "zh-TW": "東京鐵塔 Main Deck・東京城市夜景（V1 最佳時段：暮色後至 22:30 最終入場前（景點當地時間／JST）；V1 季節：全年；實際營運狀態仍以官方當日公告為準。V1 遷移骨架；內容待第二輪研究完善。）",
+    "en": "東京鐵塔 Main Deck・東京城市夜景 (V1 best time: 暮色後至 22:30 最終入場前（景點當地時間／JST）; V1 season: 全年；實際營運狀態仍以官方當日公告為準 (zh-TW source values retained pending translation). V1 migration skeleton; content to be refined in round 2.)",
+    "ja": "東京鐵塔 Main Deck・東京城市夜景（V1ベスト時間帯: 暮色後至 22:30 最終入場前（景點當地時間／JST）；V1季節: 全年；實際營運狀態仍以官方當日公告為準（zh-TW原文のまま、翻訳待ち）。V1移行スケルトン。内容は第2ラウンドで精緻化予定。）"
+  },
+  "camera_contexts": [
+    {
+      "id": "CZ-jp-011-P02-01",
+      "kind": "area",
+      "geometry": {
+        "kind": "point",
+        "status": "provisional",
+        "geojson": {
+          "type": "Point",
+          "coordinates": [
+            139.745364,
+            35.658656
+          ]
+        },
+        "uncertainty_m": null,
+        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "source_geometry_revision": null,
+        "reason_if_absent": null
+      },
+      "verification_status": "provisional",
+      "evidence_refs": [],
+      "access_notes_i18n": {
+        "zh-TW": "Main Deck 官方營業 09:00–23:00，最終入場 22:30；推薦抵達時間以 22:30 為截止，臨時營運調整仍以官方公告為準。",
+        "en": "Main Deck is officially open 09:00–23:00 with last admission at 22:30; recommendations use 22:30 as the arrival cutoff. Verify same-day operational notices.",
+        "ja": "メインデッキは公式09:00〜23:00、最終入場22:30。推奨到着時刻は22:30を締切とし、当日の運営変更は公式案内を確認してください。"
+      },
+      "safety_notes_i18n": {
+        "zh-TW": "請依現場安全指示行動。",
+        "en": "Follow on-site safety guidance.",
+        "ja": "現地の安全指示に従ってください。"
+      },
+      "altitude_m": null
+    }
+  ],
+  "targets": [
+    {
+      "id": "SG-jp-011-P02-01",
+      "kind": "multi_component",
+      "name_i18n": {
+        "zh-TW": "東京鐵塔 Main Deck・東京城市夜景",
+        "en": "東京鐵塔 Main Deck・東京城市夜景 (provisional English title, pending review)",
+        "ja": "東京鐵塔 Main Deck・東京城市夜景（暫定日本語タイトル、レビュー待ち）"
+      },
+      "geometry": {
+        "kind": "point",
+        "status": "provisional",
+        "geojson": {
+          "type": "Point",
+          "coordinates": [
+            139.745364,
+            35.658656
+          ]
+        },
+        "uncertainty_m": null,
+        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "source_geometry_revision": null,
+        "reason_if_absent": null
+      },
+      "phenomenon_model_id": null,
+      "evidence_refs": [],
+      "components": []
+    }
+  ],
+  "observation_relations": [
+    {
+      "id": "VR-jp-011-P02-01",
+      "camera_context_id": "CZ-jp-011-P02-01",
+      "target_id": "SG-jp-011-P02-01",
+      "type": "foreground_background",
+      "geometry_mode": "unknown",
+      "azimuth_deg": null,
+      "elevation_deg": null,
+      "distance_m": null,
+      "evidence_refs": [],
+      "derivation_method": null,
+      "uncertainty_note": "Imported V1 reference; angles and distance unknown."
+    }
+  ],
+  "navigation_targets": [
+    {
+      "id": "NAV-jp-011-P02-01",
+      "status": "needs_review",
+      "target_type": "other",
+      "lat": 35.658656,
+      "lon": 139.745364,
+      "label_i18n": {
+        "zh-TW": "東京鐵塔",
+        "en": "Tokyo Tower",
+        "ja": "東京タワー"
+      },
+      "evidence_refs": [],
+      "confidence": "low"
+    }
+  ],
+  "condition_contract": {
+    "contract_id": "CC-jp-011-P02-v1",
+    "status": "draft",
+    "conditions": [
+      {
+        "id": "C-jp-011-P02-01",
+        "role": "REQUIRED",
+        "domain": "ASTRONOMY",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "legacy_city_night",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "jp-011-P02-claim-01"
+        ],
+        "model_binding": null,
+        "notes_i18n": {
+          "zh-TW": "由 V1 主題對應的暫定條件；實際閾值待研究核實。",
+          "en": "Provisional condition mapped from the V1 theme; thresholds pending research.",
+          "ja": "V1テーマから対応した暫定条件。閾値は研究待ち。"
+        },
+        "validation_status": "provisional"
+      }
+    ],
+    "recommendation_policy_version": null
+  },
+  "evidence_claims": [
+    {
+      "claim_id": "jp-011-P02-claim-01",
+      "claim_type": "existence",
+      "evidence_refs": [],
+      "audit_status": "UNKNOWN",
+      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+    }
+  ],
+  "readiness": {
+    "research_level": "R0",
+    "gaps": [
+      "RESEARCH_GAP",
+      "GEOMETRY_GAP"
+    ]
+  },
+  "provenance": {
+    "source_catalog": "runtime_catalog_v004_r4_2.json",
+    "source_revision": "v1-spot-jp-011",
+    "imported_at": "2026-10-21T20:51:45Z",
+    "review_status": "pending",
+    "reviewed_by": null
+  }
+}

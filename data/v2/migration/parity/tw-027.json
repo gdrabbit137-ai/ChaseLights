@@ -1,0 +1,260 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "tw-027",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "tw_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "田寮月世界",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Tianliao Moon World",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "田寮月世界",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        22.886,
+        120.38898
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "curated geology POI",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 34.0,
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "Asia/Taipei",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "高雄市"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "city_night",
+        "mountain_view",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "geology"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "田寮月世界",
+        "en": "Tianliao Moon World",
+        "ja": "田寮月世界"
+      },
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-027-P01.best_time",
+      "value": "白天/黃金時刻",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-027-P01.best_season",
+      "value": "四季皆宜",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-027-P01.name_zh",
+      "value": "月世界惡地層次",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-027-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-027-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-027-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "name": "田寮月世界環湖／登月步道觀景區",
+          "lat": 22.886,
+          "lon": 120.38898,
+          "coord_confidence": "medium",
+          "verification_status": "verified_area_needs_exact_viewpoints",
+          "geometry_type": "linear_corridor",
+          "geometry_extent_m": null,
+          "geometry_confidence": "high"
+        },
+        {
+          "viewpoint_id": "tw-027-VP02",
+          "relation_role": "reference",
+          "sort_order": 2,
+          "name": "弦月觀景台／嫦娥奔月絲路高位構圖候選",
+          "lat": 22.888111,
+          "lon": 120.388556,
+          "coord_confidence": "high",
+          "verification_status": "coordinate_verified_B_field_gps_named_viewpoint",
+          "geometry_type": "point",
+          "geometry_extent_m": null,
+          "geometry_confidence": "medium"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-027-P02.best_time",
+      "value": "藍調至22:00前",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-027-P02.best_season",
+      "value": "全年",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-027-P02.name_zh",
+      "value": "月世界夜間投光地景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-027-P02.legacy_theme",
+      "value": "city_night",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-027-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-027-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "name": "田寮月世界環湖／登月步道觀景區",
+          "lat": 22.886,
+          "lon": 120.38898,
+          "coord_confidence": "medium",
+          "verification_status": "verified_area_needs_exact_viewpoints",
+          "geometry_type": "linear_corridor",
+          "geometry_extent_m": null,
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-027-P03.best_time",
+      "value": "日落前",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-027-P03.best_season",
+      "value": "全年候選",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-027-P03.name_zh",
+      "value": "月世界夕照地貌",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-027-P03.legacy_theme",
+      "value": "sunset",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-027-P03.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-027-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "name": "田寮月世界環湖／登月步道觀景區",
+          "lat": 22.886,
+          "lon": 120.38898,
+          "coord_confidence": "medium",
+          "verification_status": "verified_area_needs_exact_viewpoints",
+          "geometry_type": "linear_corridor",
+          "geometry_extent_m": null,
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

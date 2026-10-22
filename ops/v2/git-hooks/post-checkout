@@ -1,0 +1,24 @@
+#!/bin/sh
+# Branch-switch audit hook. Installed by ops/git-hooks/install.sh.
+# Background automation (repo sync jobs) sometimes runs `git checkout main &&
+# git pull`, silently moving the working tree away from in-progress feature
+# work. This hook records every branch checkout and prints a loud warning when
+# the tree lands on main while a feature branch still holds unpushed commits.
+prev="$1"; new="$2"; branch_flag="$3"
+log=".git/branch-switch-log.txt"
+now=$(date '+%Y-%m-%d %H:%M:%S')
+prev_branch=$(git name-rev --name-only "$prev" 2>/dev/null)
+new_branch=$(git name-rev --name-only "$new" 2>/dev/null)
+[ "$branch_flag" = "1" ] || exit 0
+printf '%s  %s -> %s\n' "$now" "${prev_branch:-$prev}" "${new_branch:-$new}" >> "$log"
+if [ "$new_branch" = "main" ]; then
+  cat >&2 <<'MSG'
+
+*** WARNING: working tree moved to `main`. ***
+If you were mid-task on a feature branch, re-checkout your branch before
+continuing (`git checkout <branch>`). Check .git/branch-switch-log.txt to see
+who has been switching branches.
+
+MSG
+fi
+exit 0

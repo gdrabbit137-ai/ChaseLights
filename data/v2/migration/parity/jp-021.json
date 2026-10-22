@@ -1,0 +1,215 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "jp-021",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "jp_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "新穗高・西穗高口展望台",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Shinhotaka · Nishi-Hotakaguchi Observatory",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "新穂高・西穂高口展望台",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        36.268335,
+        137.60158
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "B32 official Nishi-Hotakaguchi rooftop viewpoint + MapFan station coordinate + geotagged camera cross-check",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 2156,
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "Asia/Tokyo",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "岐阜県"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "milky_way",
+        "mountain_view"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "mountain"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "access_note_i18n",
+      "value": {
+        "zh-TW": "西穗高口山頂區須搭乘新穗高纜車；營運可能因惡劣天候或定期維修停駛。夜間僅官方年度「星空觀賞便」指定日期可進入，不可把一般晴朗夜晚視為可達。",
+        "en": "The Nishi-Hotakaguchi summit area depends on Shinhotaka Ropeway operation, which may be suspended for adverse weather or maintenance. Night access is limited to official annual Stargazing Service dates; ordinary clear nights are not assumed accessible.",
+        "ja": "西穂高口の山頂エリアは新穂高ロープウェイの運行が前提で、悪天候や点検で運休する場合があります。夜間入場は公式の年間「星空観賞便」実施日に限り、通常の晴天夜を入場可能とは扱いません。"
+      },
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "access_mode",
+      "value": "dynamic_transport_status",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "新穗高纜車山麓進入點待查證",
+        "en": "Shinhotaka Ropeway base access pending verification",
+        "ja": "新穂高ロープウェイ山麓アクセスは確認待ち"
+      },
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-021-P01.best_time",
+      "value": "纜車可達的白天時段（景點當地時間／JST；依當日營運與末班時間）",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-021-P01.best_season",
+      "value": "全年；春季殘雪＋新綠、約10月中旬紅葉、冬季雪山為季節加分，不作全年固定保證",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-021-P01.name_zh",
+      "value": "西穗高口展望台・北阿爾卑斯360°高山景觀",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-021-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-021-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "jp-021-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Official facility identifies the rooftop deck and Itadaki no Mori as the summit panorama area. Anchor uses a cross-checked geotagged camera position within the mapped Nishi-Hotakaguchi Station summit zone, not the legacy valley coordinate.",
+          "name": "西穗高口站屋頂展望台／頂之森 Camera Zone",
+          "lat": 36.268335,
+          "lon": 137.60158,
+          "elevation_m": 2156,
+          "coord_confidence": "high",
+          "verification_status": "official_rooftop_viewpoint_plus_mapfan_station_and_geotagged_camera_crosscheck",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 120,
+          "geometry_note": "西穗高口站屋頂展望台與相鄰頂之森合法遊客觀景區；可在區域內移動構圖，不宣稱單一腳架點。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-021-P02.best_time",
+      "value": "僅官方星空觀賞便營運夜晚（景點當地時間／JST；2026 秋季下行最終 21:00）",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-021-P02.best_season",
+      "value": "僅官方當年度星空觀賞便指定日期；不得把一般晴朗夜晚視為可進入",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-021-P02.name_zh",
+      "value": "西穗高口限定星空觀賞便・北阿爾卑斯星空",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-021-P02.legacy_theme",
+      "value": "milky_way",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-021-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "jp-021-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Official 2026 stargazing service explicitly uses the Nishi-Hotakaguchi rooftop observation deck and Itadaki no Mori. Same summit Camera Zone as P01, but night access is event-only.",
+          "name": "西穗高口站屋頂展望台／頂之森夜間 Camera Zone",
+          "lat": 36.268335,
+          "lon": 137.60158,
+          "elevation_m": 2156,
+          "coord_confidence": "high",
+          "verification_status": "official_stargazing_venue_plus_mapfan_station_and_geotagged_camera_crosscheck",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 120,
+          "geometry_note": "僅官方星空觀賞便開放時使用的西穗高口站屋頂／頂之森觀景區；非全年夜間可達。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

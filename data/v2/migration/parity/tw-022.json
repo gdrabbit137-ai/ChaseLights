@@ -1,0 +1,292 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "tw-022",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "tw_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "二延平步道鋼構觀景平台",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Eryanping Trail Viewing Platform",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "二延平歩道展望台",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        23.422951,
+        120.651379
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "curated camera platform",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 1324.0,
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "Asia/Taipei",
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "嘉義縣"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "cloud_sea",
+        "mountain_view",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "mountain",
+        "rural"
+      ],
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "二延平步道鋼構觀景平台",
+        "en": "Eryanping Trail Viewing Platform",
+        "ja": "二延平歩道展望台"
+      },
+      "source": "tw_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-022-P01.best_time",
+      "value": "日落前後",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-022-P01.best_season",
+      "value": "全年；冬季常見雲海/雲瀑",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-022-P01.name_zh",
+      "value": "二延平茶園／山稜夕照",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-022-P01.legacy_theme",
+      "value": "sunset",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-022-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-022-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "name": "二延平步道觀雲平台",
+          "lat": 23.424306,
+          "lon": 120.652694,
+          "coord_confidence": "high",
+          "verification_status": "verified_area_needs_profile_azimuth",
+          "geometry_type": "point",
+          "geometry_extent_m": null,
+          "geometry_confidence": "medium"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-022-P02.best_time",
+      "value": "晨昏優先",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-022-P02.best_season",
+      "value": "冬季官方特別提及；全年仍可能",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-022-P02.name_zh",
+      "value": "二延平下方雲海／雲瀑＋茶園山稜",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-022-P02.legacy_theme",
+      "value": "cloud_sea",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-022-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-022-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "name": "二延平步道觀雲平台",
+          "lat": 23.424306,
+          "lon": 120.652694,
+          "coord_confidence": "high",
+          "verification_status": "verified_area_needs_profile_azimuth",
+          "geometry_type": "point",
+          "geometry_extent_m": null,
+          "geometry_confidence": "medium"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-022-P03.best_time",
+      "value": "日間/晨昏",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-022-P03.best_season",
+      "value": "全年",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-022-P03.name_zh",
+      "value": "二延平玉山群峰／嘉南平原遠眺",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-022-P03.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-022-P03.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-022-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "name": "二延平步道觀雲平台",
+          "lat": 23.424306,
+          "lon": 120.652694,
+          "coord_confidence": "high",
+          "verification_status": "verified_area_needs_profile_azimuth",
+          "geometry_type": "point",
+          "geometry_extent_m": null,
+          "geometry_confidence": "medium"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-022-P04.best_time",
+      "value": "日出前後",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-022-P04.best_season",
+      "value": "全年候選",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-022-P04.name_zh",
+      "value": "二延平東望玉山群峰晨光",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-022-P04.legacy_theme",
+      "value": "sunrise",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "tw-022-P04.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "tw-022-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "name": "二延平步道觀雲平台",
+          "lat": 23.424306,
+          "lon": 120.652694,
+          "coord_confidence": "high",
+          "verification_status": "verified_area_needs_profile_azimuth",
+          "geometry_type": "point",
+          "geometry_extent_m": null,
+          "geometry_confidence": "medium"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

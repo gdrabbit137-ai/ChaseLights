@@ -1,0 +1,209 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-003",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "羚羊峽谷",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Antelope Canyon",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "アンテロープ・キャニオン",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        36.8619,
+        -111.3743
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "canyon POI",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "medium",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 1335.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/Denver",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "Arizona"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "mountain_view",
+        "sunbeam"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "geology"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "access_note_i18n",
+      "value": {
+        "zh-TW": "需參加授權導覽，實際入場時段請以營運商公告為準",
+        "en": "Authorized tour required; verify current operator entry times",
+        "ja": "認可ツアー参加が必要です。最新の入場時間を運営会社で確認してください"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "access_mode",
+      "value": "daylight_only",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "羚羊峽谷",
+        "en": "Antelope Canyon",
+        "ja": "アンテロープ・キャニオン"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-003-P01.best_time",
+      "value": "依已預約的Navajo授權導覽時段；各時段皆可形成不同反射光色彩",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-003-P01.best_season",
+      "value": "全年依授權導覽營運與安全狀態",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-003-P01.name_zh",
+      "value": "Upper Antelope Canyon・砂岩曲面與反射光色彩",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-003-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-003-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-003-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "The Camera Zone is the guided-tour corridor itself; no independent public access or tripod point exists.",
+          "name": "Upper Antelope Canyon Guided-Tour Camera Zone",
+          "coord_confidence": "guided_corridor_no_public_tripod_point",
+          "verification_status": "official_navajo_guided_access_required",
+          "geometry_type": "controlled_zone",
+          "geometry_extent_m": null,
+          "geometry_note": "僅限授權導覽帶領的峽谷動線；不得把入口或legacy座標視為可自行進入的Camera Zone。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-003-P02.best_time",
+      "value": "通常4–9月晴天、接近正午的適當導覽時段；營運商明確表示不能保證陽光",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-003-P02.best_season",
+      "value": "4–9月為主要光束季；季節邊緣較短且較不穩定",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-003-P02.name_zh",
+      "value": "Upper Antelope Canyon・季節性直射光束",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-003-P02.legacy_theme",
+      "value": "sunbeam",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-003-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-003-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Place-specific operator evidence verifies the light-beam subject, but exact beam position changes along the guided corridor and no fixed tripod point is claimed.",
+          "name": "Upper Antelope Sunbeam Guided Camera Zone",
+          "coord_confidence": "guided_corridor_no_fixed_tripod_point",
+          "verification_status": "authorized_operator_sunbeam_subject_plus_navajo_guided_access",
+          "geometry_type": "controlled_zone",
+          "geometry_extent_m": null,
+          "geometry_note": "光束位置依日期／時段與峽谷段落變化；僅能在導覽允許動線手持拍攝。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

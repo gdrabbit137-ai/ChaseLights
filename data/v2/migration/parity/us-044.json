@@ -1,0 +1,207 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-044",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "安克拉治",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Anchorage",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "アンカレジ",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        61.2042,
+        -150.01871
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "Visit Anchorage official sunset/aurora subject + USGS/GeoNames point anchor",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 0.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/Anchorage",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "Alaska"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "aurora",
+        "blue_hour",
+        "city_night",
+        "sunset"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "city"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "安克拉治",
+        "en": "Anchorage",
+        "ja": "アンカレジ"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-044-P01.best_time",
+      "value": "日落前後；以Point Woronzof公共overlook／trail實際可使用狀態為準",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-044-P01.best_season",
+      "value": "全年；冬季積雪、海冰或Denali可見度只作現況加分",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-044-P01.name_zh",
+      "value": "Point Woronzof・Cook Inlet／Alaska Range日落",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-044-P01.legacy_theme",
+      "value": "sunset",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-044-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-044-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Visit Anchorage explicitly recommends Point Woronzof for sunset and broad Cook Inlet/Alaska Range views. B72 moves the generic Anchorage city weather sample to this actual coastal Camera Zone.",
+          "name": "Point Woronzof Sunset Camera Zone",
+          "lat": 61.2042,
+          "lon": -150.01871,
+          "coord_confidence": "high",
+          "verification_status": "official_destination_sunset_subject_plus_usgs_geonames_point_anchor",
+          "geometry_type": "area",
+          "geometry_extent_m": 650,
+          "geometry_note": "Point Woronzof公共overlook、停車周邊與Coastal Trail合法觀景範圍。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-044-P02.best_time",
+      "value": "官方建議的黑暗極光季夜間；需同時有極光活動、足夠黑暗與清澈天空",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-044-P02.best_season",
+      "value": "Visit Anchorage指出約9月至4月較適合；實際可見性取決於當時條件",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-044-P02.name_zh",
+      "value": "Point Woronzof・Anchorage Aurora Borealis",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-044-P02.legacy_theme",
+      "value": "aurora",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-044-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-044-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Visit Anchorage directly recommends Point Woronzof for aurora viewing because it provides a northern view away from city lights. Runtime remains fail-closed until a location-aware aurora-state provider is implemented.",
+          "name": "Point Woronzof Aurora Camera Zone",
+          "lat": 61.2042,
+          "lon": -150.01871,
+          "coord_confidence": "high",
+          "verification_status": "official_destination_aurora_location_plus_usgs_geonames_point_anchor",
+          "geometry_type": "area",
+          "geometry_extent_m": 650,
+          "geometry_note": "Point Woronzof公共夜間觀景／Coastal Trail範圍；依現場公共安全與使用限制。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

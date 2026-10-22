@@ -100,7 +100,7 @@ class TaskVTests(unittest.TestCase):
     def test_actual_runtime_closure_requires_catalog_state_file(self):
         root=Path(__file__).resolve().parents[3]
         files={name:(root/'apps/web-v2'/name).read_bytes() for name in RUNTIME_FILES}
-        self.assertEqual(len(files),10);validate_refs(files)
+        self.assertEqual(len(files),11);validate_refs(files)
         files.pop('catalog-state.mjs')
         with self.assertRaisesRegex(ValueError,'catalog-state.mjs'):validate_refs(files)
 
@@ -110,7 +110,7 @@ class TaskVTests(unittest.TestCase):
 
     def test_real_workflows_are_readonly_non_deploying_and_new_manifest_complete(self):
         root=Path(__file__).resolve().parents[3];plan=json.loads((root/'ops/v2/deployment_plan.json').read_text())
-        self.assertEqual(set(plan['runtime_files']),set(RUNTIME_FILES));self.assertEqual(len(plan['runtime_files']),10)
+        self.assertEqual(set(plan['runtime_files']),set(RUNTIME_FILES));self.assertEqual(len(plan['runtime_files']),11)
         for name,events in [('v2-integration.yml',None),('v2-release-readiness.yml',{'pull_request'}),('v2_public_preview_smoke.yml',None)]:
             flow=yaml.load((root/'.github/workflows'/name).read_text(),Loader=yaml.BaseLoader)
             result=validate(plan,flow,events);self.assertFalse(result['deployment_allowed'])

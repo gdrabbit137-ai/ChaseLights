@@ -1,0 +1,163 @@
+{
+  "schema_version": "2.1.0",
+  "opportunity_id": "jp-021-P01",
+  "place_id": "jp-021",
+  "revision": 1,
+  "lifecycle_status": "draft",
+  "name_i18n": {
+    "zh-TW": "西穗高口展望台・北阿爾卑斯360°高山景觀",
+    "en": "西穗高口展望台・北阿爾卑斯360°高山景觀 (provisional English title, pending review)",
+    "ja": "西穗高口展望台・北阿爾卑斯360°高山景觀（暫定日本語タイトル、レビュー待ち）"
+  },
+  "description_i18n": {
+    "zh-TW": "西穗高口展望台・北阿爾卑斯360°高山景觀（V1 最佳時段：纜車可達的白天時段（景點當地時間／JST；依當日營運與末班時間）；V1 季節：全年；春季殘雪＋新綠、約10月中旬紅葉、冬季雪山為季節加分，不作全年固定保證。V1 遷移骨架；內容待第二輪研究完善。）",
+    "en": "西穗高口展望台・北阿爾卑斯360°高山景觀 (V1 best time: 纜車可達的白天時段（景點當地時間／JST；依當日營運與末班時間）; V1 season: 全年；春季殘雪＋新綠、約10月中旬紅葉、冬季雪山為季節加分，不作全年固定保證 (zh-TW source values retained pending translation). V1 migration skeleton; content to be refined in round 2.)",
+    "ja": "西穗高口展望台・北阿爾卑斯360°高山景觀（V1ベスト時間帯: 纜車可達的白天時段（景點當地時間／JST；依當日營運與末班時間）；V1季節: 全年；春季殘雪＋新綠、約10月中旬紅葉、冬季雪山為季節加分，不作全年固定保證（zh-TW原文のまま、翻訳待ち）。V1移行スケルトン。内容は第2ラウンドで精緻化予定。）"
+  },
+  "camera_contexts": [
+    {
+      "id": "CZ-jp-021-P01-01",
+      "kind": "area",
+      "geometry": {
+        "kind": "point",
+        "status": "provisional",
+        "geojson": {
+          "type": "Point",
+          "coordinates": [
+            137.60158,
+            36.268335
+          ]
+        },
+        "uncertainty_m": null,
+        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "source_geometry_revision": null,
+        "reason_if_absent": null
+      },
+      "verification_status": "provisional",
+      "evidence_refs": [],
+      "access_notes_i18n": {
+        "zh-TW": "西穗高口山頂區須搭乘新穗高纜車；營運可能因惡劣天候或定期維修停駛。夜間僅官方年度「星空觀賞便」指定日期可進入，不可把一般晴朗夜晚視為可達。",
+        "en": "The Nishi-Hotakaguchi summit area depends on Shinhotaka Ropeway operation, which may be suspended for adverse weather or maintenance. Night access is limited to official annual Stargazing Service dates; ordinary clear nights are not assumed accessible.",
+        "ja": "西穂高口の山頂エリアは新穂高ロープウェイの運行が前提で、悪天候や点検で運休する場合があります。夜間入場は公式の年間「星空観賞便」実施日に限り、通常の晴天夜を入場可能とは扱いません。"
+      },
+      "safety_notes_i18n": {
+        "zh-TW": "請依現場安全指示行動。",
+        "en": "Follow on-site safety guidance.",
+        "ja": "現地の安全指示に従ってください。"
+      },
+      "altitude_m": null
+    }
+  ],
+  "targets": [
+    {
+      "id": "SG-jp-021-P01-01",
+      "kind": "multi_component",
+      "name_i18n": {
+        "zh-TW": "西穗高口展望台・北阿爾卑斯360°高山景觀",
+        "en": "西穗高口展望台・北阿爾卑斯360°高山景觀 (provisional English title, pending review)",
+        "ja": "西穗高口展望台・北阿爾卑斯360°高山景觀（暫定日本語タイトル、レビュー待ち）"
+      },
+      "geometry": {
+        "kind": "point",
+        "status": "provisional",
+        "geojson": {
+          "type": "Point",
+          "coordinates": [
+            137.60158,
+            36.268335
+          ]
+        },
+        "uncertainty_m": null,
+        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "source_geometry_revision": null,
+        "reason_if_absent": null
+      },
+      "phenomenon_model_id": null,
+      "evidence_refs": [],
+      "components": []
+    }
+  ],
+  "observation_relations": [
+    {
+      "id": "VR-jp-021-P01-01",
+      "camera_context_id": "CZ-jp-021-P01-01",
+      "target_id": "SG-jp-021-P01-01",
+      "type": "foreground_background",
+      "geometry_mode": "unknown",
+      "azimuth_deg": null,
+      "elevation_deg": null,
+      "distance_m": null,
+      "evidence_refs": [],
+      "derivation_method": null,
+      "uncertainty_note": "Imported V1 reference; angles and distance unknown."
+    }
+  ],
+  "navigation_targets": [
+    {
+      "id": "NAV-jp-021-P01-01",
+      "status": "needs_review",
+      "target_type": "other",
+      "lat": 36.268335,
+      "lon": 137.60158,
+      "label_i18n": {
+        "zh-TW": "新穗高纜車山麓進入點待查證",
+        "en": "Shinhotaka Ropeway base access pending verification",
+        "ja": "新穂高ロープウェイ山麓アクセスは確認待ち"
+      },
+      "evidence_refs": [],
+      "confidence": "low"
+    }
+  ],
+  "condition_contract": {
+    "contract_id": "CC-jp-021-P01-v1",
+    "status": "draft",
+    "conditions": [
+      {
+        "id": "C-jp-021-P01-01",
+        "role": "REQUIRED",
+        "domain": "ASTRONOMY",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "legacy_mountain_view",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "jp-021-P01-claim-01"
+        ],
+        "model_binding": null,
+        "notes_i18n": {
+          "zh-TW": "由 V1 主題對應的暫定條件；實際閾值待研究核實。",
+          "en": "Provisional condition mapped from the V1 theme; thresholds pending research.",
+          "ja": "V1テーマから対応した暫定条件。閾値は研究待ち。"
+        },
+        "validation_status": "provisional"
+      }
+    ],
+    "recommendation_policy_version": null
+  },
+  "evidence_claims": [
+    {
+      "claim_id": "jp-021-P01-claim-01",
+      "claim_type": "existence",
+      "evidence_refs": [],
+      "audit_status": "UNKNOWN",
+      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+    }
+  ],
+  "readiness": {
+    "research_level": "R0",
+    "gaps": [
+      "RESEARCH_GAP",
+      "GEOMETRY_GAP"
+    ]
+  },
+  "provenance": {
+    "source_catalog": "runtime_catalog_v004_r4_2.json",
+    "source_revision": "v1-spot-jp-021",
+    "imported_at": "2026-10-21T20:51:45Z",
+    "review_status": "pending",
+    "reviewed_by": null
+  }
+}

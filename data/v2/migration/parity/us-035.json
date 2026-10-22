@@ -1,0 +1,207 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-035",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "沃斯堡牲畜市場",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Fort Worth Stockyards",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "フォートワース・ストックヤード",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        32.78933,
+        -97.34672
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "Fort Worth Stockyards official 131 East Exchange address + OSM/Mapcarta building POI",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 169.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/Chicago",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "Texas"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "blue_hour",
+        "city_night",
+        "mountain_view"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "architecture",
+        "city"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "沃斯堡牲畜市場",
+        "en": "Fort Worth Stockyards",
+        "ja": "フォートワース・ストックヤード"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-035-P01.best_time",
+      "value": "白天至暮色；以Exchange Avenue公共街區實際可使用狀態為準",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-035-P01.best_season",
+      "value": "全年；節慶／活動佈置不由月份自動推定",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-035-P01.name_zh",
+      "value": "Fort Worth Stockyards・Exchange Avenue歷史西部街景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-035-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-035-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-035-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Official Stockyards material identifies the Livestock Exchange as a central preserved landmark. B70 moves the Place/weather anchor to the Exchange Avenue/Livestock Exchange Camera Zone rather than the broader district-center coordinate.",
+          "name": "Livestock Exchange／East Exchange Avenue Camera Zone",
+          "lat": 32.78933,
+          "lon": -97.34672,
+          "coord_confidence": "high",
+          "verification_status": "official_stockyards_landmark_address_plus_cross_mapped_building_poi",
+          "geometry_type": "area",
+          "geometry_extent_m": 550,
+          "geometry_note": "Livestock Exchange Building前方與East Exchange Avenue合法公共觀賞／步行區；私人場域另依規則。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-035-P02.best_time",
+      "value": "官方當日11:30或16:00 cattle drive；建議提早到場並確認最新取消資訊",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-035-P02.best_season",
+      "value": "2026官方列為全年每日，但Easter Sunday、Thanksgiving、Christmas不舉行，且天候／場地變更可取消",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-035-P02.name_zh",
+      "value": "Fort Worth Herd・Exchange Avenue長角牛遊行",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-035-P02.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-035-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-035-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "Official current guidance states the best cattle-drive viewing is in front of the Livestock Exchange Building and publishes twice-daily times. Runtime stays module_pending because ChaseLights does not yet ingest current Herd cancellation/site-change state.",
+          "name": "Fort Worth Herd / Livestock Exchange Public Viewing Camera Zone",
+          "lat": 32.78933,
+          "lon": -97.34672,
+          "coord_confidence": "high",
+          "verification_status": "official_stockyards_cattle_drive_viewing_location_plus_cross_mapped_building_poi",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 450,
+          "geometry_note": "East Exchange Avenue官方公共cattle-drive觀賞區；不得進入封鎖路段或牲畜動線。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

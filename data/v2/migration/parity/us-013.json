@@ -1,0 +1,206 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-013",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "火山口湖國家公園",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Crater Lake National Park",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "クレーターレイク国立公園",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        42.911253,
+        -122.146719
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "Rim Village camera point",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 2170.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/Los_Angeles",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "Oregon"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "fog_mist",
+        "milky_way",
+        "mountain_view",
+        "reflection",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "lake",
+        "mountain"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "火山口湖國家公園",
+        "en": "Crater Lake National Park",
+        "ja": "クレーターレイク国立公園"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-013-P01.best_time",
+      "value": "白天可見光；湖面與caldera輪廓清楚時",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-013-P01.best_season",
+      "value": "全年依Rim Village道路／天候實際狀況；冬季雲雪遮湖機率較高",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-013-P01.name_zh",
+      "value": "Rim Village・Crater Lake火山口湖全景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-013-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-013-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-013-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "NPS identifies Rim Village as a primary lake-view area and the promenade/observation bays as public viewpoints. Existing legacy Place coordinate remains weather/map anchor; no unique tripod point is claimed.",
+          "name": "Rim Village Promenade Camera Zone",
+          "coord_confidence": "official_area_subject_no_unique_tripod_claim",
+          "verification_status": "official_nps_rim_village_lake_view",
+          "geometry_type": "area",
+          "geometry_extent_m": 900,
+          "geometry_note": "Rim Village Promenade與合法公共觀景區；雪季注意結冰與封閉邊界。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-013-P02.best_time",
+      "value": "日落前後；Watchman Trail與West Rim Drive實際開放時",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-013-P02.best_season",
+      "value": "通常Rim Drive夏季至初秋較易到達；實際道路／步道狀態優先",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-013-P02.name_zh",
+      "value": "Watchman Peak・Crater Lake日落360度展望",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-013-P02.legacy_theme",
+      "value": "sunset",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-013-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-013-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "NPS hiking guidance explicitly notes Watchman Peak's 360-degree lake views and unusually high sunset crowding; access depends on West Rim Drive/trail conditions.",
+          "name": "Watchman Peak Camera Zone",
+          "coord_confidence": "official_trail_subject_no_unique_tripod_claim",
+          "verification_status": "official_nps_watchman_sunset_view",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 450,
+          "geometry_note": "Watchman Trail終點／fire lookout合法公共範圍；日落後回程需額外安全準備。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

@@ -1,0 +1,164 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-038",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "大霧山國家公園",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Great Smoky Mountains NP",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "グレート・スモーキー山脈国立公園",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        35.611092,
+        -83.425007
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "NPS Newfound Gap Scenic View/Photo Spot + published overlook coordinate",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 1536.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/New_York",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "Tennessee",
+        "North Carolina"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "fog_mist",
+        "mountain_view",
+        "sunbeam",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "forest",
+        "mountain"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "Great Smoky Mountains・Newfound Gap Overlook",
+        "en": "Great Smoky Mountains · Newfound Gap Overlook",
+        "ja": "グレート・スモーキー山脈・Newfound Gap Overlook"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-038-P01.best_time",
+      "value": "Newfound Gap Road實際開放且山稜可見的白天／暮色時段",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-038-P01.best_season",
+      "value": "全年；道路通常全年但weather permitting，冬季雪冰可能臨時封閉",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-038-P01.name_zh",
+      "value": "Newfound Gap Overlook・Smokies層疊山稜",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-038-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-038-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-038-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "NPS directly classifies Newfound Gap Overlook as a Scenic View/Photo Spot. B71 replaces the broad Great Smoky Mountains inventory coordinate with this exact overlook/weather area and keeps road access fail-closed.",
+          "name": "Newfound Gap Overlook Camera Zone",
+          "lat": 35.611092,
+          "lon": -83.425007,
+          "coord_confidence": "high",
+          "verification_status": "official_nps_photo_spot_plus_nps_published_newfound_gap_coordinate",
+          "geometry_type": "small_area",
+          "geometry_extent_m": 350,
+          "geometry_note": "Newfound Gap公共overlook與合法停車／步行觀景區。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

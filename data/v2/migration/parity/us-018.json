@@ -1,0 +1,212 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-018",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "冰川國家公園",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Glacier National Park",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "グレイシャー国立公園",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        48.527,
+        -113.997
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "Lake McDonald camera area",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "medium",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 969.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/Denver",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "Montana"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "milky_way",
+        "mountain_view",
+        "reflection",
+        "snow_scene",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "mountain",
+        "lake",
+        "forest",
+        "snow_ice"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "冰川國家公園",
+        "en": "Glacier National Park",
+        "ja": "グレイシャー国立公園"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-018-P01.best_time",
+      "value": "日落前後",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-018-P01.best_season",
+      "value": "全年依Apgar/Lake McDonald實際公共區域狀態",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-018-P01.name_zh",
+      "value": "Lake McDonald・Apgar湖岸日落與山稜剪影",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-018-P01.legacy_theme",
+      "value": "sunset",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-018-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-018-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "NPS directly recommends Lake McDonald sunset and identifies the Apgar public boat dock as a popular starting point. Existing Lake McDonald/Apgar coordinate remains the weather/map anchor.",
+          "name": "Apgar／Lake McDonald Sunset Camera Zone",
+          "lat": 48.527,
+          "lon": -113.997,
+          "coord_confidence": "medium",
+          "verification_status": "official_nps_sunset_subject_plus_existing_lake_mcdonald_anchor",
+          "geometry_type": "area",
+          "geometry_extent_m": 900,
+          "geometry_note": "Apgar Village公共湖岸／碼頭周邊與相鄰合法湖岸觀景區。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-018-P02.best_time",
+      "value": "天文黑夜；低月光時優先",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-018-P02.best_season",
+      "value": "全年暗夜；不保證極光或銀河核心與特定前景精準對位",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-018-P02.name_zh",
+      "value": "Lake McDonald・Apgar暗夜星空與湖泊前景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-018-P02.legacy_theme",
+      "value": "milky_way",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-018-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-018-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "NPS explicitly supports Glacier night-sky photography and identifies Apgar/Lake McDonald as a night-sky area. This Opportunity does not claim guaranteed aurora or exact Galactic Core alignment.",
+          "name": "Apgar／Lake McDonald Night Camera Zone",
+          "lat": 48.527,
+          "lon": -113.997,
+          "coord_confidence": "medium",
+          "verification_status": "official_nps_dark_sky_subject_plus_existing_lake_mcdonald_anchor",
+          "geometry_type": "area",
+          "geometry_extent_m": 900,
+          "geometry_note": "Apgar公共湖岸與允許夜間停留之公共區域；不可占用車道。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

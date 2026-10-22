@@ -1,0 +1,208 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-041",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "迪納利國家公園",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Denali National Park",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "デナリ国立公園",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        63.73209,
+        -148.90273
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "NPS Mountain Vista Scenic View/Photo Spot + NPS published event/location coordinate",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "medium_high",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 511.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/Anchorage",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "Alaska"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "aurora",
+        "milky_way",
+        "mountain_view",
+        "sunrise",
+        "sunset"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "mountain"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "Denali・Mountain Vista",
+        "en": "Denali · Mountain Vista",
+        "ja": "デナリ・Mountain Vista"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-041-P01.best_time",
+      "value": "Mountain Vista實際可到達且Denali／Alaska Range可見的白天或低角度光時段",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-041-P01.best_season",
+      "value": "全年皆有景觀價值；Mountain Vista道路車輛可達性受雪冰、季節與NPS即時道路狀態影響",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-041-P01.name_zh",
+      "value": "Mountain Vista・Denali／Alaska Range遠景",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-041-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-041-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-041-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "NPS classifies Mountain Vista as a Scenic View/Photo Spot and directly documents clear-day Denali views. B72 moves the broad Denali Visitor Center weather anchor to the actual Mountain Vista scene and keeps road access fail-closed.",
+          "name": "Mountain Vista Rest Area / Loop Camera Zone",
+          "lat": 63.73209,
+          "lon": -148.90273,
+          "coord_confidence": "medium_high",
+          "verification_status": "official_nps_mountain_vista_photo_spot_plus_nps_event_location_coordinate",
+          "geometry_type": "area",
+          "geometry_extent_m": 650,
+          "geometry_note": "Mountain Vista Rest Area、停車區與0.6-mile公共Loop Trail；實際道路可達性依NPS即時狀態。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-041-P02.best_time",
+      "value": "秋、冬、早春的黑暗時段；NPS說明需同時有極光活動、足夠黑暗與清澈天空",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-041-P02.best_season",
+      "value": "約8月中至4月中較有足夠黑暗；實際能否看見必須依當時極光活動、雲量與道路狀態",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-041-P02.name_zh",
+      "value": "Mountain Vista・Denali極光／夜空",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-041-P02.legacy_theme",
+      "value": "aurora",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-041-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-041-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "NPS explicitly describes Denali aurora viewing and notes Mountain Vista/Savage River night visits can be rewarding when access is open. ChaseLights does not yet treat NOAA planetary Kp alone as a sufficient local aurora-state provider.",
+          "name": "Mountain Vista Night Camera Zone",
+          "lat": 63.73209,
+          "lon": -148.90273,
+          "coord_confidence": "medium_high",
+          "verification_status": "official_nps_night_aurora_subject_plus_mountain_vista_public_area",
+          "geometry_type": "area",
+          "geometry_extent_m": 650,
+          "geometry_note": "Mountain Vista公共夜間觀景範圍；道路未開放時不得以步行距離或好天氣自動推定可達。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

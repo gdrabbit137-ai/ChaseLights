@@ -17,7 +17,7 @@ if(UI==='forecast-home'){
   expectedManifest=JSON.parse(await readFile(process.env.V2_EXPECTED_BUILD_MANIFEST,'utf8'));
 
 }
-if(UI==='existing-beta')expectedManifest=JSON.parse(await readFile(new URL('./public-beta-r2-manifest.json',import.meta.url),'utf8'));
+if(UI==='existing-beta')expectedManifest=JSON.parse(await readFile(new URL('./public-beta-r3-manifest.json',import.meta.url),'utf8'));
 if(expectedManifest)validateManifest(expectedManifest);
 console.log('PUBLIC SMOKE SCOPE',UI==='forecast-home'?'PUBLISHED_CANDIDATE_EXACT_MANIFEST':'EXISTING_PUBLIC_PREVIEW_NOT_CANDIDATE');
 const BASE = "https://chaselights.app/apps/web-v2/";
@@ -140,7 +140,11 @@ try {
     await page.goto(BASE, {waitUntil: "domcontentloaded", timeout: 45000});
     assert.equal(new URL(page.url()).hostname, "chaselights.app");
     for (const locale of LOCALES) {
-      await verifyResearchPage(page,opportunity,locale,HOME?'forecast-home':UI);
+      // placeCount / expectedOpportunities come from the LIVE catalog: the
+      // public page is a 7-place research pilot, so the count assertions must
+      // compare against what the live catalog itself declares.
+      await verifyResearchPage(page,opportunity,locale,HOME?'forecast-home':UI,catalog.places.length,
+        catalog.opportunities.filter(x=>x.place_id===opportunity.place_id).length);
       if(UI==='forecast-home')await verifyPhotographyTopics(page,catalog,locale);
       assert.deepEqual(errors,[],"Browser errors on "+device.name+" "+locale);
       console.log("PUBLIC BROWSER PASS",device.name,locale,UI,"source-exact","access-warning-separated","no-directions");

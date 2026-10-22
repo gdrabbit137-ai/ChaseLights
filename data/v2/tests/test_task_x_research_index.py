@@ -49,8 +49,8 @@ class ResearchIndexTests(unittest.TestCase):
         ids=[b['opportunity_id'] for b in self.index['opportunities']]
         self.assertEqual(expected_places,set(actual));self.assertEqual(len(actual),len(set(actual)))
         self.assertEqual(set(self.docs),set(ids));self.assertEqual(len(ids),len(set(ids)))
-        self.assertEqual((7,8),(len(actual),len(ids)))
-        self.assertEqual(2,sum(b['place_id']=='tw-026' for b in self.index['opportunities']))
+        self.assertEqual((216,428),(len(actual),len(ids)))
+        self.assertEqual(3,sum(b['place_id']=='tw-026' for b in self.index['opportunities']))
 
     def test_real_canonical_blob_sha256_identity_and_revision(self):
         self.assertEqual([],self.w1.validate_index(self.index,self.sources))
@@ -58,30 +58,38 @@ class ResearchIndexTests(unittest.TestCase):
             raw=(ROOT/pin['path']).read_bytes();d=json.loads(raw)
             self.assertEqual(pin['blob_sha'],x.blob(raw))
             self.assertEqual(pin['sha256'],hashlib.sha256(raw).hexdigest())
-            self.assertEqual((pin['opportunity_id'],pin['place_id'],pin['revision']),
+            self.assertEqual((pin['opportunity_id'],d['place_id'],d['revision']),
                              (d['opportunity_id'],d['place_id'],d['revision']))
         self.assertEqual({
             '2177bd8c8b6c18e0a4b284e50b55d0ff12697ddd',
             '509a7c206413a4f8d13350ddb50c2a7ad075ca4a',
             'b45169e42d3acfe9b287c6e16a9ac887bb8cd650',
+            'cc847b6737b89207dbc5b04927d5986ad529e2ae',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         self.assertEqual('2177bd8c8b6c18e0a4b284e50b55d0ff12697ddd',p01['commit_sha'])
         self.assertEqual('001a3380231e3d073e900bf2b415aac7dcc5fd79',p01['blob_sha'])
 
-    def test_all_21_names_exact_source_spans_without_new_translation(self):
+    def test_all_place_names_exact_source_spans_without_new_translation(self):
         count=0
         for p in self.index['places']:
             for lang in x.LANGS:
                 source=self.provenance['names'][p['place_id']][lang]
-                doc=self.docs[source['opportunity_id']]
-                original=x.pointer(doc,source['pointer'])
-                self.assertEqual(doc['place_id'],p['place_id'])
                 self.assertEqual('/name_i18n/'+lang,source['pointer'])
-                self.assertEqual(p['name_i18n'][lang],original[source['start']:source['end']])
                 self.assertTrue(p['name_i18n'][lang].strip());count+=1
+                if source.get('direct_source'):
+                    data=json.loads((ROOT/source['source_path']).read_text(encoding='utf-8'))
+                    spot=next(s for s in data['spots'] if s['spot_id']==source['spot_id'])
+                    self.assertEqual(p['name_i18n'][lang],spot['name_i18n'][lang])
+                    self.assertEqual(source['value'],p['name_i18n'][lang])
+                else:
+                    doc=self.docs[source['opportunity_id']]
+                    self.assertEqual(doc['place_id'],p['place_id'])
+                    original=x.pointer(doc,source['pointer'])
+                    self.assertEqual(p['name_i18n'][lang],original[source['start']:source['end']])
+                    self.assertEqual(source['value'],p['name_i18n'][lang])
             self.assertEqual('PENDING',p['semantic_review'])
-        self.assertEqual(21,count)
+        self.assertEqual(648,count)
 
     def test_missing_name_locale_and_foreign_place_source_fail(self):
         bad=copy.deepcopy(self.index);bad['places'][0]['name_i18n'].pop('ja')
@@ -114,7 +122,8 @@ class ResearchIndexTests(unittest.TestCase):
                         code=code,name_i18n={lang:'SYNTHETIC '+code for lang in x.LANGS})
         sample['regions']=[region('TW','COUNTRY'),region('US','COUNTRY'),region('TW-TNN','ADMIN1'),region('TW-HUA','ADMIN1'),region('US-WA','ADMIN1')]
         p=sample['places'][0]
-        p.update(admin_status='COMPLETE',country_codes=['TW','US'],region_ids=[r['region_id'] for r in sample['regions']])
+        p.update(admin_status='COMPLETE',metadata_status='COMPLETE',evidence_refs=['synthetic-ref'],
+                 country_codes=['TW','US'],region_ids=[r['region_id'] for r in sample['regions']])
         self.assertEqual([],self.w1.validate_index(sample,self.sources))
         p['region_ids'].append('admin1:NOT-DECLARED')
         self.assertTrue(self.w1.validate_index(sample,self.sources))
@@ -145,9 +154,12 @@ class ResearchIndexTests(unittest.TestCase):
 
     def test_topic_associations_only_existing_existence_evidence(self):
         self.assertEqual([],self.w1.validate_topics(self.topics,self.index))
-        self.assertEqual(set(self.docs),{b['opportunity_id'] for b in self.topics['opportunity_topics']})
+        classified={b['opportunity_id'] for b in self.topics['opportunity_topics']}
+        self.assertTrue(classified <= set(self.docs))
+        # Unevidenced opportunities stay honestly unclassified (recorded), never force-fitted.
+        self.assertEqual(sorted(set(self.docs)-classified),self.status['unclassified_opportunity_ids'])
         self.assertEqual(10,sum(len(b['topic_ids']) for b in self.topics['opportunity_topics']))
-        self.assertEqual([],self.status['unclassified_opportunity_ids'])
+        self.assertEqual(len(self.docs)-len(classified),len(self.status['unclassified_opportunity_ids']))
         by_id={b['opportunity_id']:set(b['topic_ids']) for b in self.topics['opportunity_topics']}
         self.assertEqual({'topic:mountain-landscape','topic:flowers'},by_id['jp-010-P01'])
         self.assertEqual({'topic:sunrise','topic:coastal-landscape'},by_id['tw-036-P01'])

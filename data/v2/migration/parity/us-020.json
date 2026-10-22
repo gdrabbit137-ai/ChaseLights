@@ -1,0 +1,206 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "us-020",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "us_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "紅木國家公園",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Redwood National Park",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "レッドウッド国立公園",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        41.30408,
+        -124.018237
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "NPS event location",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "high",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 436.0,
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "America/Los_Angeles",
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "California"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "fog_mist",
+        "mountain_view",
+        "sunbeam"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "forest"
+      ],
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "紅木國家公園",
+        "en": "Redwood National Park",
+        "ja": "レッドウッド国立公園"
+      },
+      "source": "us_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-020-P01.best_time",
+      "value": "白天可見光；陰天／柔光亦可成立",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-020-P01.best_season",
+      "value": "全年；冬季風雨與道路／步道狀態仍需查看官方公告",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-020-P01.name_zh",
+      "value": "Lady Bird Johnson Grove・巨木紅木森林與步道縱深",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-020-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-020-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-020-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "NPS identifies Lady Bird Johnson Grove as a popular old-growth redwood walk and multiple trail stops as Scenic View/Photo Spots. Existing NPS-based coordinate remains the Camera Zone anchor.",
+          "name": "Lady Bird Johnson Grove Camera Zone",
+          "lat": 41.30408,
+          "lon": -124.018237,
+          "coord_confidence": "high",
+          "verification_status": "official_nps_old_growth_photo_subject_plus_existing_high_confidence_anchor",
+          "geometry_type": "area",
+          "geometry_extent_m": 1400,
+          "geometry_note": "1.5-mile Lady Bird Johnson Grove正式環狀步道；只在合法步道內移動構圖。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-020-P02.best_time",
+      "value": "實際有林間霧／低雲進入紅木林時；夏季沿岸霧常見但不得由月份保證",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-020-P02.best_season",
+      "value": "全年可發生；NPS指出夏季霧常見",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-020-P02.name_zh",
+      "value": "Lady Bird Johnson Grove・霧中紅木森林",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-020-P02.legacy_theme",
+      "value": "fog_mist",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "us-020-P02.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "us-020-VP02",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "NPS explicitly documents fog blanketing the redwood forest at Lady Bird Johnson Grove and classifies the trail stop as a Scenic View/Photo Spot. Runtime mist-state support is not yet implemented.",
+          "name": "Lady Bird Johnson Grove Fog Camera Zone",
+          "lat": 41.30408,
+          "lon": -124.018237,
+          "coord_confidence": "high",
+          "verification_status": "official_nps_place_specific_fog_photo_evidence",
+          "geometry_type": "area",
+          "geometry_extent_m": 1400,
+          "geometry_note": "同一正式紅木林步道範圍；霧題材必須由實際林間水氣狀態證實。",
+          "geometry_confidence": "high"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [
+    {
+      "field": "access_note_i18n",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_mode",
+      "status": "MISSING_IN_V1"
+    },
+    {
+      "field": "access_hours",
+      "status": "MISSING_IN_V1"
+    }
+  ],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}

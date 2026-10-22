@@ -1,0 +1,165 @@
+{
+  "format_version": "0.1.0",
+  "spot_id": "jp-026",
+  "parity_basis": "W2_V1_PARITY_PROGRESSION_PROPOSAL (V1 information parity, first pass)",
+  "sources": {
+    "weather": "jp_weather.json",
+    "catalog": "runtime_catalog_v004_r4_2.json"
+  },
+  "transferred": [
+    {
+      "field": "place name zh-TW",
+      "value": "出雲大社",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name en",
+      "value": "Izumo Taisha",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "place name ja",
+      "value": "出雲大社",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinates",
+      "value": [
+        35.402083,
+        132.685556
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_source",
+      "value": "legacy shrine-area weather anchor; not a road destination or a tripod point",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "coordinate_confidence",
+      "value": "medium",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "elevation",
+      "value": 24.0,
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "timezone",
+      "value": "Asia/Tokyo",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "admin_areas",
+      "value": [
+        "島根県"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "themes",
+      "value": [
+        "mountain_view"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "scenes",
+      "value": [
+        "architecture"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "access_note_i18n",
+      "value": {
+        "zh-TW": "境內一般參拜 06:00–19:00；其他時段僅能在銅鳥居前參拜。私人紀念攝影應避免妨礙參拜；超出私人鑑賞的公開／商業拍攝須事先向神社申請。",
+        "en": "General precinct visiting hours are 06:00–19:00; outside those hours worship is from before the bronze torii. Personal photography should respect worshippers; public or commercial filming beyond personal use requires prior shrine permission.",
+        "ja": "境内の通常参拝時間は06:00～19:00。時間外は銅鳥居前からの参拝です。個人撮影は参拝者に配慮し、個人鑑賞の範囲を超える公開・業務撮影は事前許可が必要です。"
+      },
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "access_mode",
+      "value": "opening_hours",
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "access_hours",
+      "value": [
+        "06:00",
+        "19:00"
+      ],
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "navigation_target label_i18n",
+      "value": {
+        "zh-TW": "出雲大社：參道入口或停車場須擇一",
+        "en": "Izumo Taisha: choose approach entrance or parking",
+        "ja": "出雲大社：参道入口・駐車場を選択"
+      },
+      "source": "jp_weather.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-026-P01.best_time",
+      "value": "06:00–19:00 參拜開放時間內的白天可見光（景點當地時間／JST）",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-026-P01.name_zh",
+      "value": "出雲大社・松之參道與拝殿社殿",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-026-P01.legacy_theme",
+      "value": "mountain_view",
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    },
+    {
+      "field": "jp-026-P01.viewpoints",
+      "value": [
+        {
+          "viewpoint_id": "jp-026-VP01",
+          "relation_role": "reference",
+          "sort_order": 1,
+          "note": "The official precinct guide identifies the pine approach and Haiden as a visitor route. This geotagged point is a medium-confidence area reference near that route, not a mandatory tripod location, main-sanctuary entrance or road-navigation target.",
+          "name": "出雲大社・松之參道至拝殿公開步行區 Camera Zone",
+          "lat": 35.401383,
+          "lon": 132.686264,
+          "elevation_m": null,
+          "coord_confidence": "medium",
+          "verification_status": "official_precinct_route_plus_geotagged_area_reference; exact_camera_point_pending_on_site_check",
+          "geometry_type": "area",
+          "geometry_extent_m": 300,
+          "geometry_note": "沿官方公開參拜動線移動構圖；本殿及八足門內部不是公開拍攝區。此座標僅為大致 Camera Zone 錨點。",
+          "geometry_confidence": "medium"
+        }
+      ],
+      "source": "runtime_catalog_v004_r4_2.json",
+      "provenance": "legacy-derived"
+    }
+  ],
+  "missing_or_unknown": [],
+  "disposition": "FIRST_PASS_PARITY_COMPLETE",
+  "note": "Legacy-derived information only; no new primary research claimed. Missing fields are recorded, never fabricated."
+}
