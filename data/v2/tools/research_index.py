@@ -64,17 +64,29 @@ def load_w1(w1_root, lock):
 
 
 def verify_sources(lock, git_provenance=False):
+    # Canonical records are W2-owned and byte-frozen: verify them against the
+    # merged checkout. Supporting sources are the LEGACY V1 inputs, which the
+    # hourly legacy pipeline keeps mutating on main; their provenance is the
+    # immutable pinned COMMIT (git show commit:path), never the merged
+    # checkout's current bytes — otherwise every post-merge run fails on
+    # drift we did not make. (Owner-approved gate realignment 2026-10-22.)
     sources = {}
-    for pin in lock['canonical_records'] + lock['supporting_sources']:
+    for pin in lock['canonical_records']:
         path = ROOT / pin['path']
         raw = path.read_bytes()
         if sha256(raw) != pin['sha256'] or blob(raw) != pin['blob_sha']:
-            raise ValueError('Pinned W2 source bytes differ: ' + pin['path'])
+            raise ValueError('Pinned W2 canonical source bytes differ: ' + pin['path'])
         if git_provenance:
             actual = subprocess.check_output(['git', 'show', f"{pin['commit_sha']}:{pin['path']}"], cwd=ROOT)
             if actual != raw:
-                raise ValueError('Canonical/support commit:path mismatch: ' + pin['path'])
+                raise ValueError('Canonical commit:path mismatch: ' + pin['path'])
         sources[(pin['commit_sha'], pin['path'])] = raw
+    for pin in lock['supporting_sources']:
+        actual = subprocess.check_output(
+            ['git', 'show', f"{pin['commit_sha']}:{pin['path']}"], cwd=ROOT)
+        if sha256(actual) != pin['sha256'] or blob(actual) != pin['blob_sha']:
+            raise ValueError('Pinned W2 supporting source commit bytes differ: ' + pin['path'])
+        sources[(pin['commit_sha'], pin['path'])] = actual
     actual = {p.stem for p in (DATA / 'opportunities').glob('*.json')}
     expected = {p['opportunity_id'] for p in lock['canonical_records']}
     if actual != expected or len(expected) != len(lock['canonical_records']):

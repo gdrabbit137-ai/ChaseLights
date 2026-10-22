@@ -39,7 +39,7 @@ const copy={
   en:{forecast:'No photography forecast is available yet.',scope:'Research information, not a date-specific forecast.',title:'ChaseLights V2 — Photography forecast',headline:'Photography forecast',oldTitle:'ChaseLights V2 — Photography research',oldHeadline:'Explore places and what to photograph'},
   ja:{forecast:'撮影条件の予報はまだ利用できません。',scope:'調査情報であり、指定日の予報ではありません。',title:'ChaseLights V2 — 撮影予報',headline:'撮影予報',oldTitle:'ChaseLights V2 — 撮影機会の調査',oldHeadline:'撮影地と題材から、撮影を考える'}
 };
-export async function verifyResearchPage(page,opportunity,locale,ui,placeCount){
+export async function verifyResearchPage(page,opportunity,locale,ui,placeCount,expectedOpportunities){
   assert.ok(['existing-preview','forecast-home'].includes(ui),'Explicit UI generation required');
   await page.locator('#language').selectOption(locale);
   assert.equal(await page.locator('#language').inputValue(),locale);
@@ -62,7 +62,9 @@ export async function verifyResearchPage(page,opportunity,locale,ui,placeCount){
     }
   }
   await page.locator('.opportunity').first().waitFor({state:'visible',timeout:30000});
-  assert.equal(await page.locator('.opportunity').count(),ui==='forecast-home' && await page.locator('.place-button').count()>1?2:1);
+  // The pinned place's opportunity count is owner data (the admission added
+  // tw-026-P03), so callers pass the exact expected count from the catalog.
+  assert.equal(await page.locator('.opportunity').count(),ui==='forecast-home' && await page.locator('.place-button').count()>1?expectedOpportunities:1);
   const card=page.locator('.opportunity').first();
   assert.equal(await card.locator('h3').textContent(),opportunity.name_i18n[locale]);
   assert.equal(await card.locator('.opportunity-description').textContent(),opportunity.description_i18n[locale]);

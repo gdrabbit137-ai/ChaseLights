@@ -60,3 +60,16 @@ main → automated re-pin → W5 release gate → publication. A gate that can
 only express the retired codex-branch flow would either be permanently red
 or permanently exempted (exemption debt). Re-leveling the checks keeps the
 same integrity guarantee working for the flow the product actually uses.
+
+## Amendment (2026-10-22, same session): supporting-source provenance moves to the commit pin
+
+The legacy V1 weather inputs (`tw_weather.json`, `jp_weather.json`,
+`us_weather.json`) are mutated on main hourly by the LEGACY data pipeline
+("Auto-update ChaseLights weather data"). A post-merge rehearsal always
+contains main's newest bytes, so byte-checking the merged checkout against
+the migration-time pins is structurally impossible to satisfy. Provenance
+for supporting sources is therefore verified against the immutable pinned
+COMMIT (`git show commit:path`); canonical records (W2-owned, byte-frozen)
+remain verified against the merged checkout. The provenance guarantee is
+unchanged: a record is still tied to the exact bytes it was generated from,
+through an object GitHub can never rewrite.

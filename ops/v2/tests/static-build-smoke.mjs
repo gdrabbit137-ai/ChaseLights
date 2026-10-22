@@ -50,7 +50,8 @@ for(const [device,viewport] of [['desktop',{width:1440,height:1000}],['mobile',{
     const page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
     try{
       const response=await page.goto(base);assert.equal(response.status(),200);
-      await verifyResearchPage(page,opportunity,locale,'forecast-home',catalog.places.length);
+      await verifyResearchPage(page,opportunity,locale,'forecast-home',catalog.places.length,
+        catalog.opportunities.filter(x=>x.place_id==='tw-026').length);
       await verifyPhotographyTopics(page,catalog,locale);
       assert.ok(requested.has('/apps/web-v2/catalog-state.mjs'));
       assert.ok(requested.has('/apps/web-v2/catalog.v2.json'));
