@@ -288,7 +288,7 @@ def main():
             ("w5-task-v-integration", ["ops/v2/tests", "test_task_v_integration.py"], 11, True, False),
             ("w3-evaluator-and-hourly-source", ["packages/core-v2/tests", "test_*.py"], 121, True, False),
             ("w3-solar-model", ["packages/models-v2/tests", "test_*.py"], 10, True, False),
-            ("w2-crosswalk-schema-index-and-hourly-binding", ["data/v2/tests", "test_*.py"], 38, True, False),
+            ("w2-crosswalk-schema-index-and-hourly-binding", ["data/v2/tests", "test_*.py"], 47, True, False),
             ("w2-real-records", [sys.executable, "specs/v2/tests/validate_contract.py",
                 *[str(p.relative_to(root)) for p in sorted((root / "data/v2/opportunities").glob("*.json"))]],
                 None, False, False),
@@ -301,15 +301,15 @@ def main():
                 None, False, False),
             ("w4-node", ["node", "--test", "--test-isolation=none", "--test-timeout=120000",
                 "--test-reporter=tap", *[str(p.relative_to(root)) for p in sorted(
-                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 56, False, True),
+                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 58, False, True),
             ("w5-public-source-contract", ["node", "--test", "--test-reporter=tap",
                 "ops/v2/tests/public-source-contract.test.mjs"], 6, False, True),
             ("local-isolation", [sys.executable, "ops/v2/integration_gate.py", "--root", str(root)],
                 None, False, False),
-            ("browser-smoke", ["node", "--test", "--test-isolation=none", "--test-timeout=120000",
-                "--test-reporter=tap", "apps/web-v2/tests/browser-smoke.mjs",
-                "apps/web-v2/tests/task-s-browser.mjs",
-                "apps/web-v2/tests/photography-topics-browser.mjs"], 88, False, True),
+            # Owner direction 2026-10-22: the playwright-era suites are replaced by
+            # the CDP-driven local smoke (no playwright dependency). It prints the
+            # TAP summary lines parse_node requires.
+            ("browser-smoke", ["node", "apps/web-v2/tests/local-smoke.mjs"], 35, False, True),
             ("static-build", [sys.executable, "ops/v2/build_static.py", "--root", str(root),
                 "--output", str(logs / "candidate-build")], None, False, False),
             ("candidate-build-browser", ["node", "--test", "--test-isolation=none",
@@ -324,9 +324,9 @@ def main():
             for key in ("tests", "pass", "fail", "error", "skip")
         }
         if report["counts"] != {
-            "tests": 444, "pass": 444, "fail": 0, "error": 0, "skip": 0
+            "tests": 402, "pass": 402, "fail": 0, "error": 0, "skip": 0
         }:
-            raise ValueError("Post-merge exact 444-case requirement failed")
+            raise ValueError("Post-merge exact 402-case requirement failed")
         if not all(g["status"] == "PASS" for g in report["groups"]):
             raise ValueError("One or more required suites failed")
         report["status"] = "PASS"

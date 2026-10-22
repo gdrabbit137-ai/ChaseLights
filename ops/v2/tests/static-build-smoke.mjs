@@ -17,7 +17,7 @@ before(async()=>{
   const build=resolve(process.env.V2_BUILD_DIR);const root=resolve(build,'public');
   manifest=JSON.parse(await readFile(resolve(build,'build-manifest.json'),'utf8'));
   assert.equal(manifest.status,'PASS');assert.equal(manifest.deployment_allowed,false);
-  assert.equal(Object.keys(manifest.files).length,10);
+  assert.equal(Object.keys(manifest.files).length,11);
   for(const [file,sha] of Object.entries(manifest.files)){
     const bytes=await readFile(resolve(root,file));
     assert.equal(createHash('sha256').update(bytes).digest('hex'),sha,file+' manifest bytes differ');
@@ -25,8 +25,8 @@ before(async()=>{
   catalog=JSON.parse(await readFile(resolve(root,'apps/web-v2/catalog.v2.json'),'utf8'));
   assert.equal(catalog.research_only,true);assert.equal(catalog.forecast_available,false);
   assert.equal(catalog.selected_date_recommendation_eligible,false);assert.deepEqual(catalog.evaluations,[]);
-  assert.equal(catalog.opportunities.length,8);
-  assert.equal(catalog.places.length,7);
+  assert.equal(catalog.opportunities.length,428);
+  assert.equal(catalog.places.length,216);
   opportunity=catalog.opportunities.find(x=>x.opportunity_id==='tw-026-P01');
   assert.ok(opportunity,'The canonical P01 record must be in the packaged bundle');
   server=createServer(async(request,response)=>{
@@ -50,7 +50,7 @@ for(const [device,viewport] of [['desktop',{width:1440,height:1000}],['mobile',{
     const page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
     try{
       const response=await page.goto(base);assert.equal(response.status(),200);
-      await verifyResearchPage(page,opportunity,locale,'forecast-home');
+      await verifyResearchPage(page,opportunity,locale,'forecast-home',catalog.places.length);
       await verifyPhotographyTopics(page,catalog,locale);
       assert.ok(requested.has('/apps/web-v2/catalog-state.mjs'));
       assert.ok(requested.has('/apps/web-v2/catalog.v2.json'));

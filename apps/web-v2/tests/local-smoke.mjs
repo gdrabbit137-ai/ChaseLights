@@ -17,7 +17,8 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 const WEB = join(HERE, '..');
 const flagIx = process.argv.indexOf('--browser');
 const BROWSER = flagIx > 0 ? process.argv[flagIx+1]
-  : 'C:/Program Files/Google/Chrome/Application/chrome.exe';
+  : (process.env.CHROMIUM_EXECUTABLE
+     || 'C:/Program Files/Google/Chrome/Application/chrome.exe');
 
 const MIME = {'.html':'text/html','.mjs':'text/javascript','.css':'text/css',
   '.json':'application/json','.png':'image/png','.svg':'image/svg+xml'};
@@ -129,5 +130,10 @@ try{
   chrome.kill(); server.close();
   const pass=results.filter(r=>r.ok).length;
   console.log(`# local smoke: ${pass}/${results.length} passed`);
+  // TAP summary for the CI group runner (parse_node requires exactly one of each).
+  console.log(`# tests ${results.length}`);
+  console.log(`# pass ${pass}`);
+  console.log(`# fail ${results.length-pass}`);
+  console.log('# skipped 0');
   process.exitCode = pass===results.length && results.length>0 ? 0 : 1;
 }
