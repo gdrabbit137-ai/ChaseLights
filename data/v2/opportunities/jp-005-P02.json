@@ -1,0 +1,163 @@
+{
+  "schema_version": "2.1.0",
+  "opportunity_id": "jp-005-P02",
+  "place_id": "jp-005",
+  "revision": 1,
+  "lifecycle_status": "draft",
+  "name_i18n": {
+    "zh-TW": "小樽運河暮色瓦斯燈與倉庫點燈",
+    "en": "小樽運河暮色瓦斯燈與倉庫點燈 (provisional English title, pending review)",
+    "ja": "小樽運河暮色瓦斯燈與倉庫點燈（暫定日本語タイトル、レビュー待ち）"
+  },
+  "description_i18n": {
+    "zh-TW": "小樽運河暮色瓦斯燈與倉庫點燈（V1 最佳時段：日落後至22:30（景點當地時間／JST；倉庫群點燈至22:30，散策路瓦斯燈至24:00）；V1 季節：全年；特殊活動另依官方公告。V1 遷移骨架；內容待第二輪研究完善。）",
+    "en": "小樽運河暮色瓦斯燈與倉庫點燈 (V1 best time: 日落後至22:30（景點當地時間／JST；倉庫群點燈至22:30，散策路瓦斯燈至24:00）; V1 season: 全年；特殊活動另依官方公告 (zh-TW source values retained pending translation). V1 migration skeleton; content to be refined in round 2.)",
+    "ja": "小樽運河暮色瓦斯燈與倉庫點燈（V1ベスト時間帯: 日落後至22:30（景點當地時間／JST；倉庫群點燈至22:30，散策路瓦斯燈至24:00）；V1季節: 全年；特殊活動另依官方公告（zh-TW原文のまま、翻訳待ち）。V1移行スケルトン。内容は第2ラウンドで精緻化予定。）"
+  },
+  "camera_contexts": [
+    {
+      "id": "CZ-jp-005-P02-01",
+      "kind": "area",
+      "geometry": {
+        "kind": "point",
+        "status": "provisional",
+        "geojson": {
+          "type": "Point",
+          "coordinates": [
+            141.003034,
+            43.197887
+          ]
+        },
+        "uncertainty_m": null,
+        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "source_geometry_revision": null,
+        "reason_if_absent": null
+      },
+      "verification_status": "provisional",
+      "evidence_refs": [],
+      "access_notes_i18n": {
+        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
+        "en": "Access information not yet verified; follow on-site notices and rules.",
+        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+      },
+      "safety_notes_i18n": {
+        "zh-TW": "請依現場安全指示行動。",
+        "en": "Follow on-site safety guidance.",
+        "ja": "現地の安全指示に従ってください。"
+      },
+      "altitude_m": null
+    }
+  ],
+  "targets": [
+    {
+      "id": "SG-jp-005-P02-01",
+      "kind": "multi_component",
+      "name_i18n": {
+        "zh-TW": "小樽運河暮色瓦斯燈與倉庫點燈",
+        "en": "小樽運河暮色瓦斯燈與倉庫點燈 (provisional English title, pending review)",
+        "ja": "小樽運河暮色瓦斯燈與倉庫點燈（暫定日本語タイトル、レビュー待ち）"
+      },
+      "geometry": {
+        "kind": "point",
+        "status": "provisional",
+        "geojson": {
+          "type": "Point",
+          "coordinates": [
+            141.003034,
+            43.197887
+          ]
+        },
+        "uncertainty_m": null,
+        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "source_geometry_revision": null,
+        "reason_if_absent": null
+      },
+      "phenomenon_model_id": null,
+      "evidence_refs": [],
+      "components": []
+    }
+  ],
+  "observation_relations": [
+    {
+      "id": "VR-jp-005-P02-01",
+      "camera_context_id": "CZ-jp-005-P02-01",
+      "target_id": "SG-jp-005-P02-01",
+      "type": "foreground_background",
+      "geometry_mode": "unknown",
+      "azimuth_deg": null,
+      "elevation_deg": null,
+      "distance_m": null,
+      "evidence_refs": [],
+      "derivation_method": null,
+      "uncertainty_note": "Imported V1 reference; angles and distance unknown."
+    }
+  ],
+  "navigation_targets": [
+    {
+      "id": "NAV-jp-005-P02-01",
+      "status": "needs_review",
+      "target_type": "other",
+      "lat": 43.197887,
+      "lon": 141.003034,
+      "label_i18n": {
+        "zh-TW": "小樽運河",
+        "en": "Otaru Canal",
+        "ja": "小樽運河"
+      },
+      "evidence_refs": [],
+      "confidence": "low"
+    }
+  ],
+  "condition_contract": {
+    "contract_id": "CC-jp-005-P02-v1",
+    "status": "draft",
+    "conditions": [
+      {
+        "id": "C-jp-005-P02-01",
+        "role": "REQUIRED",
+        "domain": "ASTRONOMY",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "legacy_blue_hour",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "jp-005-P02-claim-01"
+        ],
+        "model_binding": null,
+        "notes_i18n": {
+          "zh-TW": "由 V1 主題對應的暫定條件；實際閾值待研究核實。",
+          "en": "Provisional condition mapped from the V1 theme; thresholds pending research.",
+          "ja": "V1テーマから対応した暫定条件。閾値は研究待ち。"
+        },
+        "validation_status": "provisional"
+      }
+    ],
+    "recommendation_policy_version": null
+  },
+  "evidence_claims": [
+    {
+      "claim_id": "jp-005-P02-claim-01",
+      "claim_type": "existence",
+      "evidence_refs": [],
+      "audit_status": "UNKNOWN",
+      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+    }
+  ],
+  "readiness": {
+    "research_level": "R0",
+    "gaps": [
+      "RESEARCH_GAP",
+      "GEOMETRY_GAP"
+    ]
+  },
+  "provenance": {
+    "source_catalog": "runtime_catalog_v004_r4_2.json",
+    "source_revision": "v1-spot-jp-005",
+    "imported_at": "2026-10-21T20:51:45Z",
+    "review_status": "pending",
+    "reviewed_by": null
+  }
+}
