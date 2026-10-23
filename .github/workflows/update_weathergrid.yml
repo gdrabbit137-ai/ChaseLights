@@ -269,8 +269,18 @@ jobs:
 
           git commit -m "Auto-update live WeatherGrid preview [skip ci]"
           for i in {1..5}; do
-            if git pull --rebase origin main && git push origin HEAD:main; then
-              exit 0
+            if git pull --rebase -X theirs origin main; then
+              # A concurrent publisher may have landed between checkout and
+              # push; regenerate the cache index on the merged base so it
+              # always describes this exact commit (and never conflicts).
+              python weathergrid_index_build.py weathergrid
+              if ! git diff --quiet -- weathergrid/index.json; then
+                git add weathergrid/index.json
+                git commit --amend --no-edit
+              fi
+              if git push origin HEAD:main; then
+                exit 0
+              fi
             fi
             sleep 5
           done
