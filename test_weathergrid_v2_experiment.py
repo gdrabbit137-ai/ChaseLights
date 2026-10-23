@@ -24,7 +24,7 @@ class WeatherGridV2ExperimentTest(unittest.TestCase):
             "bboxFromWestSpan",
             "bboxContains",
             "bboxCenterLon",
-            "sampleGrid(coverage, {",
+            "const grid = targetGridFor(provider, coverage)",
             "chunkPoints(grid.points, API_BATCH_SIZE)",
             "const API_BATCH_SIZE = 100",
             "const API_BATCH_CONCURRENCY = 1",
