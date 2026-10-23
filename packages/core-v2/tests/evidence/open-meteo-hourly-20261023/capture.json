@@ -1,0 +1,5808 @@
+{
+  "operation": "ONE_MANUAL_HTTPS_CAPTURE",
+  "contract_sha": "74f21b365d366b0d1d12efbc23cf6cce484b6b5e",
+  "w3_study_sha": "a649ace57cda5ca02edc1481660ef2f567eb86f1",
+  "pilot_binding_sha256": "9fb4cc6f89daae3ce851a30f2880847705b4afa6097b7c4c54d19d357b202921",
+  "schema_sha256": "ce29fee0f08fdd8c71d96a8d33dfb7f68b6235b67e175ac9e1e3775250b06a1a",
+  "request_url": "https://api.open-meteo.com/v1/forecast?latitude=24.031426&longitude=121.62717&forecast_hours=72&past_hours=0&timezone=GMT&timeformat=unixtime&cell_selection=land&temperature_unit=celsius&wind_speed_unit=ms&precipitation_unit=mm&hourly=temperature_2m%2Cdew_point_2m%2Crelative_humidity_2m%2Ccloud_cover_low%2Ccloud_cover_mid%2Ccloud_cover_high%2Cwind_speed_10m%2Cvisibility%2Cprecipitation%2Cprecipitation_probability",
+  "request": {
+    "latitude": 24.031426,
+    "longitude": 121.62717,
+    "coordinate_role": "representative_place_weather_sample",
+    "forecast_hours": 72,
+    "past_hours": 0,
+    "timezone": "GMT",
+    "timeformat": "unixtime",
+    "cell_selection": "land",
+    "temperature_unit": "celsius",
+    "wind_speed_unit": "ms",
+    "precipitation_unit": "mm",
+    "hourly": "temperature_2m,dew_point_2m,relative_humidity_2m,cloud_cover_low,cloud_cover_mid,cloud_cover_high,wind_speed_10m,visibility,precipitation,precipitation_probability"
+  },
+  "requested_at_utc": "2026-10-23T14:07:00.199098Z",
+  "http_attempts": 1,
+  "raw_sha256": "a121471780fae6b51912f2031e219428c46adaf6a7b07f83381f59b3f32291fb",
+  "raw_size": 4582,
+  "provider_acceptance": "CAPTURE_COMPLETE_REPLAY_PENDING",
+  "shared_quota_check_note": "Single manual capture from owner workstation; shared application/IP quota unknown beyond this one attempt today; no other ChaseLights capture to this endpoint recorded in local ledger.",
+  "scope": "NONCOMMERCIAL_RESEARCH_PILOT_ONLY",
+  "automatic_retries": 0,
+  "retrieval_mode": "HTTPS_TLS",
+  "retrieved_at_utc": "2026-10-23T14:07:04.383202Z",
+  "normalized_at_utc": "2026-10-23T14:07:04.383202Z",
+  "http_status": 200,
+  "content_type": "application/json; charset=utf-8",
+  "http_date": "Fri, 23 Oct 2026 14:07:04 GMT",
+  "retry_after": null,
+  "final_url": "https://api.open-meteo.com/v1/forecast?latitude=24.031426&longitude=121.62717&forecast_hours=72&past_hours=0&timezone=GMT&timeformat=unixtime&cell_selection=land&temperature_unit=celsius&wind_speed_unit=ms&precipitation_unit=mm&hourly=temperature_2m%2Cdew_point_2m%2Crelative_humidity_2m%2Ccloud_cover_low%2Ccloud_cover_mid%2Ccloud_cover_high%2Cwind_speed_10m%2Cvisibility%2Cprecipitation%2Cprecipitation_probability",
+  "body_complete": true,
+  "error": null,
+  "result": {
+    "availability": "COMPLETE",
+    "artifact": {
+      "schema_version": "0.1.0",
+      "artifact_kind": "HOURLY_WEATHER_INFO",
+      "pilot_id": "tw-036-open-meteo-hourly-v0.1",
+      "pilot_binding_sha256": "9fb4cc6f89daae3ce851a30f2880847705b4afa6097b7c4c54d19d357b202921",
+      "place_id": "tw-036",
+      "time_zone": "Asia/Taipei",
+      "tzdb_version": "2025c",
+      "data_state": "RAW_ONLY",
+      "recommendation_eligible": false,
+      "photography_verdict": "NOT_EVALUABLE",
+      "calibration_status": "UNVALIDATED",
+      "availability": "COMPLETE",
+      "request": {
+        "latitude": 24.031426,
+        "longitude": 121.62717,
+        "coordinate_role": "representative_place_weather_sample",
+        "forecast_hours": 72,
+        "past_hours": 0,
+        "timezone": "GMT",
+        "timeformat": "unixtime",
+        "cell_selection": "land",
+        "temperature_unit": "celsius",
+        "wind_speed_unit": "ms",
+        "precipitation_unit": "mm",
+        "hourly": "temperature_2m,dew_point_2m,relative_humidity_2m,cloud_cover_low,cloud_cover_mid,cloud_cover_high,wind_speed_10m,visibility,precipitation,precipitation_probability"
+      },
+      "source": {
+        "provider": "OPEN_METEO",
+        "source_url": "https://api.open-meteo.com/v1/forecast?latitude=24.031426&longitude=121.62717&forecast_hours=72&past_hours=0&timezone=GMT&timeformat=unixtime&cell_selection=land&temperature_unit=celsius&wind_speed_unit=ms&precipitation_unit=mm&hourly=temperature_2m%2Cdew_point_2m%2Crelative_humidity_2m%2Ccloud_cover_low%2Ccloud_cover_mid%2Ccloud_cover_high%2Cwind_speed_10m%2Cvisibility%2Cprecipitation%2Cprecipitation_probability",
+        "source_sha256": "a121471780fae6b51912f2031e219428c46adaf6a7b07f83381f59b3f32291fb",
+        "retrieval_mode": "HTTPS_TLS",
+        "retrieved_at_utc": "2026-10-23T14:07:04.383202Z",
+        "normalized_at_utc": "2026-10-23T14:07:04.383202Z",
+        "source_update_time_utc": null,
+        "provider_issued_at_utc": null,
+        "provider_run_id": null,
+        "model_selection": "provider_default_auto",
+        "resolved_model_ids": null,
+        "native_resolution_m": null,
+        "native_time_resolution_seconds": null,
+        "output_step_seconds": 3600,
+        "provider_timezone": "GMT",
+        "provider_utc_offset_seconds": 0,
+        "response_grid_latitude": 24.007029,
+        "response_grid_longitude": 121.59067,
+        "response_elevation_m": 14.0,
+        "source_freshness": "UNKNOWN",
+        "source_metadata_reason": "NOT_SUPPLIED_BY_FORECAST_RESPONSE"
+      },
+      "retrieval_age_policy": {
+        "checked_at_utc": "2026-10-23T14:07:04.383202Z",
+        "max_age_seconds": 21600,
+        "basis": "RETRIEVAL_AGE_ONLY_NOT_MODEL_AGE"
+      },
+      "hours": [
+        {
+          "valid_at_utc": "2026-10-23T14:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-23T13:00:00Z",
+            "end_utc": "2026-10-23T14:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 26.7,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 23.6,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 83,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 57,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 99,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 96,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 2.45,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 31620.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.0,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 84,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-23T15:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-23T14:00:00Z",
+            "end_utc": "2026-10-23T15:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 27.3,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 22.4,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 75,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 73,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 23,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 97,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 7.02,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 31840.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.0,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 82,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-23T16:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-23T15:00:00Z",
+            "end_utc": "2026-10-23T16:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 29.1,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 22.2,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 67,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 88,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 35,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 99,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 1.43,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 38500.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.0,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 83,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-23T17:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-23T16:00:00Z",
+            "end_utc": "2026-10-23T17:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 29.4,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 22.9,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 68,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 76,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 89,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 1.12,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 37860.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.0,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 85,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-23T18:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-23T17:00:00Z",
+            "end_utc": "2026-10-23T18:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 29.3,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 23.1,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 69,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 8,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 56,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 0.52,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 18280.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.1,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 82,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-23T19:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-23T18:00:00Z",
+            "end_utc": "2026-10-23T19:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 29.4,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 22.7,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 67,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 21,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 59,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 1.03,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 37580.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.0,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 71,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-23T20:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-23T19:00:00Z",
+            "end_utc": "2026-10-23T20:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 29.6,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 22.5,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 66,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 81,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 61,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 0.96,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 37620.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.0,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 56,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-23T21:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-23T20:00:00Z",
+            "end_utc": "2026-10-23T21:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 30.1,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 22.3,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 63,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 81,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 70,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 0.81,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 37480.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.0,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 43,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-23T22:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-23T21:00:00Z",
+            "end_utc": "2026-10-23T22:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 29.5,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 22.4,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 66,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 74,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 36,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 98,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 0.94,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 37120.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.0,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 34,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-23T23:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-23T22:00:00Z",
+            "end_utc": "2026-10-23T23:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 29.3,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 24.5,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 76,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 14,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 84,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 97,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 3.76,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 30460.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.0,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 27,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-24T00:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-23T23:00:00Z",
+            "end_utc": "2026-10-24T00:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 29.7,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 26.5,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 83,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 12,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 84,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 94,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 1.91,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 26500.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.0,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 22,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-24T01:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-24T00:00:00Z",
+            "end_utc": "2026-10-24T01:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 31.3,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 26.1,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 74,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 29,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 91,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 97,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 1.8,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 30180.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.0,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 20,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-24T02:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-24T01:00:00Z",
+            "end_utc": "2026-10-24T02:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 31.9,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 25.1,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 67,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 16,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 73,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 92,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 1.61,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 33420.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.0,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 19,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-24T03:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-24T02:00:00Z",
+            "end_utc": "2026-10-24T03:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 31.5,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 25.4,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 70,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 19,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 66,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 88,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 2.02,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 33360.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.0,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 20,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-24T04:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-24T03:00:00Z",
+            "end_utc": "2026-10-24T04:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 30.6,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 26.0,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 77,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 0,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 96,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 94,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 3.06,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 18620.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.0,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 21,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-24T05:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-24T04:00:00Z",
+            "end_utc": "2026-10-24T05:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 29.2,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 26.8,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 87,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 16,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 93,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 63,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 3.83,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 20720.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.0,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 23,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-24T06:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-24T05:00:00Z",
+            "end_utc": "2026-10-24T06:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 28.9,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 26.6,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 87,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 6,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 89,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 49,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 4.79,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 18000.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.0,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 27,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-24T07:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-24T06:00:00Z",
+            "end_utc": "2026-10-24T07:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 29.0,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 26.4,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 86,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 11,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 97,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 91,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 4.21,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 15640.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.0,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 34,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-24T08:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-24T07:00:00Z",
+            "end_utc": "2026-10-24T08:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 28.1,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 26.3,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 90,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 98,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 97,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 93,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 2.23,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 7780.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.1,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 42,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-24T09:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-24T08:00:00Z",
+            "end_utc": "2026-10-24T09:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 27.9,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 26.3,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 91,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 53,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 91,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 0.2,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 6000.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.2,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 47,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-24T10:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-24T09:00:00Z",
+            "end_utc": "2026-10-24T10:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 27.5,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 26.0,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 92,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 36,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 99,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 95,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 1.31,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 3420.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.2,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 44,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-24T11:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-24T10:00:00Z",
+            "end_utc": "2026-10-24T11:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 27.4,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 26.0,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 92,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 43,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 63,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 97,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 2.11,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 680.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.2,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 38,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-24T12:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-24T11:00:00Z",
+            "end_utc": "2026-10-24T12:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 27.3,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 25.9,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 92,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 55,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 69,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 99,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 2.58,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 400.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.2,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 35,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-24T13:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-24T12:00:00Z",
+            "end_utc": "2026-10-24T13:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 27.2,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 25.7,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 92,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 52,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 55,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 95,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 3.29,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 980.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.1,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 38,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-24T14:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-24T13:00:00Z",
+            "end_utc": "2026-10-24T14:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 26.8,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 25.6,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 93,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 35,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 23,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 93,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 3.94,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 2560.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.1,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 44,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-24T15:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-24T14:00:00Z",
+            "end_utc": "2026-10-24T15:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 26.7,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 25.4,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 93,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 28,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 40,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 93,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 3.29,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 4380.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.1,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 49,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-24T16:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-24T15:00:00Z",
+            "end_utc": "2026-10-24T16:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 26.5,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 25.3,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 93,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 74,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 95,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 3.14,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 6960.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.2,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 52,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-24T17:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-24T16:00:00Z",
+            "end_utc": "2026-10-24T17:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 26.4,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 25.2,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 93,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 95,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 99,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 98,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 3.2,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 6900.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.2,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 55,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-24T18:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-24T17:00:00Z",
+            "end_utc": "2026-10-24T18:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 26.1,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 25.2,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 95,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 95,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 99,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 3.09,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 8780.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.1,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 55,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-24T19:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-24T18:00:00Z",
+            "end_utc": "2026-10-24T19:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 26.0,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 24.8,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 93,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 99,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 92,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 2.51,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 4880.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.2,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 50,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-24T20:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-24T19:00:00Z",
+            "end_utc": "2026-10-24T20:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 25.8,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 24.6,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 93,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 59,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 1.52,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 2680.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 1.1,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 43,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-24T21:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-24T20:00:00Z",
+            "end_utc": "2026-10-24T21:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 25.7,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 24.9,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 95,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 51,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 1.17,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 2360.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 2.3,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 37,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-24T22:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-24T21:00:00Z",
+            "end_utc": "2026-10-24T22:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 25.6,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 24.9,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 96,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 32,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 0.91,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 2220.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 3.1,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 34,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-24T23:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-24T22:00:00Z",
+            "end_utc": "2026-10-24T23:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 25.8,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 25.2,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 97,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 99,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 50,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 0.56,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 2560.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 2.6,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 33,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-25T00:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-24T23:00:00Z",
+            "end_utc": "2026-10-25T00:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 26.4,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 25.5,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 95,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 40,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 0.32,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 2840.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 1.7,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 33,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-25T01:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-25T00:00:00Z",
+            "end_utc": "2026-10-25T01:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 26.5,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 25.5,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 94,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 99,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 26,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 0.63,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 3400.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 1.5,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 34,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-25T02:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-25T01:00:00Z",
+            "end_utc": "2026-10-25T02:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 26.7,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 25.8,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 95,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 74,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 4,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 1.27,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 4640.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.9,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 35,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-25T03:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-25T02:00:00Z",
+            "end_utc": "2026-10-25T03:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 26.6,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 26.2,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 98,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 98,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 34,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 22,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 1.47,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 8260.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.3,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 37,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-25T04:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-25T03:00:00Z",
+            "end_utc": "2026-10-25T04:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 26.7,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 25.4,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 92,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 22,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 25,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 1.95,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 8980.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.0,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 38,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-25T05:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-25T04:00:00Z",
+            "end_utc": "2026-10-25T05:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 26.1,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 24.9,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 93,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 95,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 70,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 58,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 1.1,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 6180.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.5,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 38,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-25T06:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-25T05:00:00Z",
+            "end_utc": "2026-10-25T06:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 25.9,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 24.9,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 94,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 97,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 70,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 1.62,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 3580.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.8,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 41,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-25T07:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-25T06:00:00Z",
+            "end_utc": "2026-10-25T07:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 25.4,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 24.7,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 96,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 93,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 1.3,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 3600.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.9,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 47,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-25T08:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-25T07:00:00Z",
+            "end_utc": "2026-10-25T08:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 25.4,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 24.6,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 95,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 0.43,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 2340.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 1.5,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 56,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-25T09:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-25T08:00:00Z",
+            "end_utc": "2026-10-25T09:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 25.6,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 24.4,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 93,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 98,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 0.67,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 2800.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 1.3,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 63,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-25T10:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-25T09:00:00Z",
+            "end_utc": "2026-10-25T10:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 25.3,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 24.4,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 95,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 72,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 0.5,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 3160.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 1.0,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 69,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-25T11:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-25T10:00:00Z",
+            "end_utc": "2026-10-25T11:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 25.0,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 24.3,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 96,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 26,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 0.65,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 2880.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 1.4,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 73,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-25T12:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-25T11:00:00Z",
+            "end_utc": "2026-10-25T12:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 24.9,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 24.2,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 96,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 52,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 1.04,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 2760.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 1.5,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 75,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-25T13:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-25T12:00:00Z",
+            "end_utc": "2026-10-25T13:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 24.6,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 24.1,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 97,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 0,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 1.07,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 3400.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 1.5,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 74,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-25T14:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-25T13:00:00Z",
+            "end_utc": "2026-10-25T14:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 24.5,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 24.1,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 97,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 0,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 0.81,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 4180.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.8,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 70,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-25T15:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-25T14:00:00Z",
+            "end_utc": "2026-10-25T15:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 24.4,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 24.1,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 98,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 52,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 0,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 0.65,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 7300.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.3,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 65,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-25T16:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-25T15:00:00Z",
+            "end_utc": "2026-10-25T16:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 24.4,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 24.0,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 98,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 27,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 0,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 0.53,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 8020.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.1,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 58,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-25T17:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-25T16:00:00Z",
+            "end_utc": "2026-10-25T17:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 24.2,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 23.9,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 98,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 32,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 0,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 0.5,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 9660.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.0,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 51,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-25T18:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-25T17:00:00Z",
+            "end_utc": "2026-10-25T18:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 23.9,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 23.6,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 98,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 99,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 21,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 0,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 0.5,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 9620.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.0,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 43,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-25T19:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-25T18:00:00Z",
+            "end_utc": "2026-10-25T19:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 23.9,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 23.4,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 97,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 71,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 14,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 0,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 0.1,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 12780.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.0,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 36,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-25T20:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-25T19:00:00Z",
+            "end_utc": "2026-10-25T20:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 23.7,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 23.2,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 97,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 9,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 15,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 0.43,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 13480.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.0,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 29,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-25T21:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-25T20:00:00Z",
+            "end_utc": "2026-10-25T21:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 23.6,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 22.9,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 96,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 99,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 20,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 24,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 0.69,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 340.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.0,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 24,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-25T22:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-25T21:00:00Z",
+            "end_utc": "2026-10-25T22:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 23.8,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 22.8,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 94,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 55,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 2,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 0.72,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 200.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.0,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 23,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-25T23:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-25T22:00:00Z",
+            "end_utc": "2026-10-25T23:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 24.7,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 23.5,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 93,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 70,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 0,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 0.63,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 260.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.0,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 24,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-26T00:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-25T23:00:00Z",
+            "end_utc": "2026-10-26T00:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 25.0,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 23.7,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 93,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 74,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 0,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 0.55,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 480.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.0,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 25,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-26T01:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-26T00:00:00Z",
+            "end_utc": "2026-10-26T01:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 25.2,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 23.7,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 92,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 75,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 0,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 0.35,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 2060.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.2,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 24,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-26T02:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-26T01:00:00Z",
+            "end_utc": "2026-10-26T02:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 24.9,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 23.7,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 93,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 82,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 0,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 0.5,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 5620.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.1,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 22,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-26T03:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-26T02:00:00Z",
+            "end_utc": "2026-10-26T03:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 24.9,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 23.5,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 92,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 97,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 57,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 0,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 0.43,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 2600.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.1,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 20,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-26T04:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-26T03:00:00Z",
+            "end_utc": "2026-10-26T04:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 25.3,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 23.4,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 89,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 99,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 64,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 0,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 0.11,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 1680.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.1,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 18,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-26T05:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-26T04:00:00Z",
+            "end_utc": "2026-10-26T05:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 25.1,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 23.2,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 89,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 61,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 0,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 0.96,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 4440.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.1,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 16,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-26T06:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-26T05:00:00Z",
+            "end_utc": "2026-10-26T06:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 25.2,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 22.9,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 87,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 80,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 0,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 1.1,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 940.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.0,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 16,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-26T07:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-26T06:00:00Z",
+            "end_utc": "2026-10-26T07:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 25.2,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 22.6,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 86,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 98,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 66,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 0,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 1.11,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 620.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.1,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 20,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-26T08:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-26T07:00:00Z",
+            "end_utc": "2026-10-26T08:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 25.0,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 22.5,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 86,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 99,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 74,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 0,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 1.16,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 840.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.1,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 26,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-26T09:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-26T08:00:00Z",
+            "end_utc": "2026-10-26T09:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 24.9,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 22.6,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 87,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 77,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 0,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 0.96,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 1660.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.1,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 31,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-26T10:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-26T09:00:00Z",
+            "end_utc": "2026-10-26T10:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 24.9,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 22.8,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 88,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 87,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 0,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 0.96,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 3040.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.1,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 34,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-26T11:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-26T10:00:00Z",
+            "end_utc": "2026-10-26T11:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 24.7,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 23.0,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 91,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 100,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 87,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 0,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 1.13,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 1980.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.3,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 35,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-26T12:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-26T11:00:00Z",
+            "end_utc": "2026-10-26T12:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 24.6,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 23.2,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 92,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 98,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 60,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 0,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 1.1,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 1360.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.2,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 35,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        },
+        {
+          "valid_at_utc": "2026-10-26T13:00:00Z",
+          "preceding_hour": {
+            "start_utc": "2026-10-26T12:00:00Z",
+            "end_utc": "2026-10-26T13:00:00Z"
+          },
+          "values": {
+            "temperature_2m": {
+              "value": 24.5,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "dew_point_2m": {
+              "value": 23.2,
+              "unit": "\u00b0C",
+              "source_unit": "\u00b0C",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "relative_humidity_2m": {
+              "value": 93,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_low": {
+              "value": 92,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_mid": {
+              "value": 45,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "cloud_cover_high": {
+              "value": 0,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "wind_speed_10m": {
+              "value": 1.28,
+              "unit": "m/s",
+              "source_unit": "m/s",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "visibility": {
+              "value": 1280.0,
+              "unit": "m",
+              "source_unit": "m",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation": {
+              "value": 0.1,
+              "unit": "mm",
+              "source_unit": "mm",
+              "state": "AVAILABLE",
+              "reason_code": null
+            },
+            "precipitation_probability": {
+              "value": 34,
+              "unit": "%",
+              "source_unit": "%",
+              "state": "AVAILABLE",
+              "reason_code": null
+            }
+          }
+        }
+      ],
+      "attribution": {
+        "provider_url": "https://open-meteo.com/",
+        "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+        "modifications_i18n": {
+          "zh-TW": "\u4fdd\u7559\u539f\u59cb\u6578\u503c\u8207\u55ae\u4f4d\uff0c\u8f49\u63db UTC \u6642\u9593\u683c\u5f0f\u4e26\u6a19\u793a\u7f3a\u503c\u3001\u7121\u6548\u503c\u53ca\u524d\u4e00\u5c0f\u6642\u5340\u9593\uff1b\u672a\u9032\u884c\u63d2\u88dc\u6216\u651d\u5f71\u8a55\u5206\u3002",
+          "en": "Original values and units retained; UTC timestamps, unavailable values and preceding-hour support normalized. No interpolation or photography scoring.",
+          "ja": "\u539f\u5024\u3068\u5358\u4f4d\u3092\u4fdd\u6301\u3057\u3001UTC\u6642\u523b\u3001\u6b20\u640d\u30fb\u7121\u52b9\u5024\u3001\u76f4\u524d1\u6642\u9593\u306e\u533a\u9593\u3092\u660e\u793a\u3057\u307e\u3057\u305f\u3002\u88dc\u9593\u3084\u64ae\u5f71\u30b9\u30b3\u30a2\u306e\u7b97\u51fa\u306f\u3057\u3066\u3044\u307e\u305b\u3093\u3002"
+        }
+      },
+      "limitations_i18n": {
+        "zh-TW": "\u666f\u9ede\u4ee3\u8868\u4f4d\u7f6e\u7684\u7db2\u683c\u9810\u5831\u7814\u7a76\u8cc7\u6599\uff1b\u4e0d\u662f\u651d\u5f71\u6a5f\u4f4d\u3001\u5c0e\u822a\u6216\u62cd\u651d\u9069\u5408\u5ea6\u5224\u65b7\u3002\u6d77\u5cb8\u98a8\u5834\u8207\u6d77\u5e73\u7dda\u72c0\u6cc1\u672a\u7d93\u6821\u6b63\uff1b\u6a21\u578b\u66f4\u65b0\u6642\u9593\u672a\u63d0\u4f9b\u3002",
+        "en": "Research grid forecast at a representative place sample; not a camera position, navigation or photography verdict. Coastal wind and horizon conditions are uncalibrated; model update time is not supplied.",
+        "ja": "\u64ae\u5f71\u5730\u306e\u4ee3\u8868\u5730\u70b9\u306b\u304a\u3051\u308b\u683c\u5b50\u4e88\u5831\u306e\u8abf\u67fb\u8cc7\u6599\u3067\u3059\u3002\u64ae\u5f71\u4f4d\u7f6e\u3001\u30ca\u30d3\u3001\u64ae\u5f71\u9069\u6027\u306e\u5224\u5b9a\u3067\u306f\u3042\u308a\u307e\u305b\u3093\u3002\u6d77\u5cb8\u306e\u98a8\u3084\u6c34\u5e73\u7dda\u306e\u72b6\u614b\u306f\u672a\u6821\u6b63\u3067\u3001\u30e2\u30c7\u30eb\u66f4\u65b0\u6642\u523b\u306f\u672a\u63d0\u4f9b\u3067\u3059\u3002"
+      }
+    },
+    "reasons": [],
+    "data_state": "RAW_ONLY",
+    "calibration_status": "UNVALIDATED",
+    "recommendation_eligible": false,
+    "photography_verdict": "NOT_EVALUABLE"
+  }
+}

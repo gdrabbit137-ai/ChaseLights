@@ -4,7 +4,6 @@ from __future__ import annotations
 import argparse
 from contextlib import contextmanager
 from datetime import datetime, timedelta, timezone
-import fcntl
 import hashlib
 from http.client import HTTPException
 import json
@@ -22,6 +21,19 @@ import open_meteo_hourly as adapter
 USER_AGENT = "ChaseLights-V2-OpenMeteo-Pilot/0.1 (noncommercial research; https://github.com/gdrabbit137-ai/ChaseLights)"
 
 
+try:  # advisory file lock is platform plumbing, not contract semantics
+    import fcntl
+
+    def _lock_ledger(file):
+        fcntl.flock(file, fcntl.LOCK_EX)
+except ImportError:  # Windows: msvcrt byte-range lock on the same handle
+    import msvcrt
+
+    def _lock_ledger(file):
+        file.seek(0)
+        msvcrt.locking(file.fileno(), msvcrt.LK_LOCK, 1)
+
+
 def now():
     return datetime.now(timezone.utc)
 
@@ -31,9 +43,22 @@ class NoRedirect(HTTPRedirectHandler):
         return None
 
 
+_POSIX_DEADLINE = hasattr(signal, "SIGALRM") and hasattr(signal, "setitimer")
+
+
 @contextmanager
 def network_deadline(seconds=20):
-    """Linux manual CLI: bound the complete open/read, including slow bodies."""
+    """Linux manual CLI: bound the complete open/read, including slow bodies.
+
+    On platforms without the POSIX real-time timer (e.g. Windows developer
+    workstations) the 20 s socket timeout passed to opener.open still bounds
+    every transport operation; the wall-clock deadline is POSIX-only extra
+    coverage and its absence is not a relaxation of the recorded contract on
+    supported capture environments.
+    """
+    if not _POSIX_DEADLINE:
+        yield
+        return
     previous = signal.getsignal(signal.SIGALRM)
     if signal.getitimer(signal.ITIMER_REAL)[0]:
         raise adapter.PilotFailure("NETWORK_TIMER_ALREADY_ACTIVE")
@@ -53,9 +78,9 @@ def reserve_capture(ledger, when):
     when = adapter.utc(when)
     ledger = Path(ledger)
     ledger.parent.mkdir(parents=True, exist_ok=True)
-    fd = os.open(ledger, os.O_RDWR | os.O_CREAT | os.O_NOFOLLOW, 0o600)
+    fd = os.open(ledger, os.O_RDWR | os.O_CREAT | getattr(os, "O_NOFOLLOW", 0), 0o600)
     with os.fdopen(fd, "r+", encoding="utf-8") as file:
-        fcntl.flock(file, fcntl.LOCK_EX)
+        _lock_ledger(file)
         text = file.read(65537)
         if len(text) > 65536:
             raise adapter.PilotFailure("CAPTURE_LEDGER_TOO_LARGE")

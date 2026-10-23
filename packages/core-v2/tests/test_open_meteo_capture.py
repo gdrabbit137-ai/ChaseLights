@@ -103,6 +103,8 @@ class ManualCapture(unittest.TestCase):
             tool._write(path,{"source_unit":"\ud800"})
             self.assertEqual(json.loads(path.read_text())["source_unit"],"\ud800")
 
+    @unittest.skipUnless(hasattr(signal, "SIGALRM") and hasattr(signal, "setitimer"),
+                         "POSIX wall-clock deadline is unavailable on this platform")
     def test_wall_clock_deadline_restores_signal_handler(self):
         previous = signal.getsignal(signal.SIGALRM)
         with self.assertRaises(TimeoutError):
