@@ -1666,6 +1666,109 @@
     ctx.fill();
   }
 
+  // Smooth-field fast path (ported from the WeatherGrid V2 experiment).
+  // Instead of filling thousands of interpolated sub-cell polygons per draw,
+  // the active frame is rasterised once into a cols x rows offscreen ImageData
+  // and upscaled with the browser's bilinear filtering. Per-cell alpha keeps
+  // the same weatherOpacity * layerOpacityCap * cellOpacityFor math as the
+  // polygon path; the opacity slider itself is applied via ctx.globalAlpha at
+  // drawImage time so the cached raster survives slider moves.
+  const SMOOTH_FIELD_MAX_SPAN_DEG=340;
+  const COLOR_RGB_CACHE=new Map();
+  let colorProbeCtx=null;
+
+  function rgbFromCss(css){
+    let hit=COLOR_RGB_CACHE.get(css);
+    if(hit) return hit;
+    if(!colorProbeCtx){
+      colorProbeCtx=document.createElement('canvas').getContext('2d');
+    }
+    colorProbeCtx.clearRect(0,0,1,1);
+    colorProbeCtx.fillStyle=css;
+    colorProbeCtx.fillRect(0,0,1,1);
+    const d=colorProbeCtx.getImageData(0,0,1,1).data;
+    hit=[d[0],d[1],d[2],d[3]];
+    COLOR_RGB_CACHE.set(css,hit);
+    return hit;
+  }
+
+  const smoothFieldCache={key:null,canvas:null};
+
+  function smoothFieldKey(data,layer){
+    const frame=data?.frames?.[state.frameIndex]?.valid_time_utc||'';
+    return `${data?.model||''}|${layer}|${frame}|${data?.grid?.rows||0}x${data?.grid?.cols||0}`;
+  }
+
+  function getSmoothFieldCanvas(data,vals,cfg,layer){
+    const rows=data.grid.rows, cols=data.grid.cols;
+    if(rows<2||cols<2) return null;
+    const key=smoothFieldKey(data,layer);
+    if(smoothFieldCache.key===key) return smoothFieldCache.canvas;
+    const off=document.createElement('canvas');
+    off.width=cols;
+    off.height=rows;
+    const octx=off.getContext('2d');
+    const image=octx.createImageData(cols,rows);
+    const cap=layerOpacityCap(cfg);
+    for(let i=0;i<rows*cols;i++){
+      const value=vals[i];
+      if(value==null || !Number.isFinite(value)) continue; // transparent hole
+      const rgb=rgbFromCss(colorFor(value,cfg));
+      const alpha=state.weatherOpacity===undefined?1:
+        Math.max(0,Math.min(1,state.weatherOpacity*cap*cellOpacityFor(value,cfg)));
+      image.data[i*4]=rgb[0];
+      image.data[i*4+1]=rgb[1];
+      image.data[i*4+2]=rgb[2];
+      image.data[i*4+3]=Math.round(alpha*255);
+    }
+    octx.putImageData(image,0,0);
+    smoothFieldCache.key=key;
+    smoothFieldCache.canvas=off;
+    return off;
+  }
+
+  function drawSmoothField(data,vals,cfg,visibleView){
+    const rows=data.grid.rows, cols=data.grid.cols;
+    if(rows<2||cols<2) return false;
+    const lats=data.grid.latitudes, lons=data.grid.longitudes;
+    const latMin=Math.min(lats[0],lats[rows-1]);
+    const latMax=Math.max(lats[0],lats[rows-1]);
+    const lonMin=Math.min(lons[0],lons[cols-1]);
+    const lonMax=Math.max(lons[0],lons[cols-1]);
+    // Regional grids only: a near-global span would wrap the seam and change
+    // global rendering behavior, so those keep the polygon path.
+    if(lonMax-lonMin>SMOOTH_FIELD_MAX_SPAN_DEG) return false;
+    const latStep=rows>1?Math.abs(lats[1]-lats[0]):.25;
+    const lonStep=cols>1?Math.abs(lons[1]-lons[0]):.25;
+    const centerLon=state.map&&state.mapReady
+      ? state.map.getCenter().lng
+      : (state.view.leftlon+state.view.rightlon)/2;
+    const norm=lon=>{
+      let v=Number(lon);
+      while(v-centerLon>180) v-=360;
+      while(v-centerLon<-180) v+=360;
+      return v;
+    };
+    const west=norm(lonMin)-lonStep/2;
+    const east=norm(lonMax)+lonStep/2;
+    const north=latMax+latStep/2;
+    const south=latMin-latStep/2;
+    if(east-west<=0 || north-south<=0) return false;
+    const nw=project(west,north);
+    const se=project(east,south);
+    const x=Math.min(nw.x,se.x);
+    const y=Math.min(nw.y,se.y);
+    const w=Math.abs(se.x-nw.x);
+    const h=Math.abs(se.y-nw.y);
+    if(!Number.isFinite(w)||!Number.isFinite(h)||w<4||h<4) return false;
+    const field=getSmoothFieldCanvas(data,vals,cfg,state.layer);
+    if(!field) return false;
+    ctx.imageSmoothingEnabled=true;
+    ctx.imageSmoothingQuality='high';
+    ctx.drawImage(field,x,y,w,h);
+    return true;
+  }
+
   function bilinearValue(q00,q10,q01,q11,wx,wy){
     if([q00,q10,q01,q11].some(v=>!Number.isFinite(v))) return null;
     return q00*(1-wx)*(1-wy)+q10*wx*(1-wy)+
@@ -1952,7 +2055,7 @@
     }else if(state.layer==='wind_direction_10m_deg'){
       const speeds=decodedArray('wind_speed_10m_m_s');
       drawCircularDirectionSubcells(data,vals,speeds,cfg,visibleView);
-    }else{
+    }else if(!drawSmoothField(data,vals,cfg,visibleView)){
       drawBilinearSubcells(data,vals,cfg,visibleView);
     }
     ctx.restore();
