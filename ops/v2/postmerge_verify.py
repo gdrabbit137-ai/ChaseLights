@@ -324,9 +324,9 @@ def main():
             for key in ("tests", "pass", "fail", "error", "skip")
         }
         if report["counts"] != {
-            "tests": 402, "pass": 402, "fail": 0, "error": 0, "skip": 0
+            "tests": 414, "pass": 414, "fail": 0, "error": 0, "skip": 0
         }:
-            raise ValueError("Post-merge exact 402-case requirement failed")
+            raise ValueError("Post-merge exact 414-case requirement failed")
         if not all(g["status"] == "PASS" for g in report["groups"]):
             raise ValueError("One or more required suites failed")
         report["status"] = "PASS"
