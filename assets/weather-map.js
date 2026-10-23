@@ -773,6 +773,102 @@
     return Math.max(0,(Date.now()-time)/60000);
   }
 
+  // Progressive load contract: the GFS baseline bundle blocks first paint,
+  // then every richer model arrives in the background and upgrades the auto
+  // selection as it lands (renderAll after each arrival). Each bundle keeps
+  // its own fail-soft try/catch, so a partial load degrades exactly like the
+  // old all-at-once path — just without making the user wait ~12 MB for a
+  // map they could already see.
+  async function loadEnhancementsSequentially(){
+    try{
+      state.iconData = await fetchVersioned('icon_tw_cloud_browser.json');
+      try{ state.iconQc = await fetchVersioned('icon_tw_cloud_qc.json'); }catch(_){ state.iconQc = null; }
+      refreshModelControls();
+      renderAll();
+    }catch(err){
+      console.warn('ICON Global cloud bundle unavailable; GFS remains active', err);
+      state.iconData = null;
+      state.iconQc = null;
+    }
+
+    try{
+      state.cwaData = await fetchVersioned('cwa_wrf3_tw_weather_browser.json');
+      try{ state.cwaQc = await fetchVersioned('cwa_wrf3_tw_weather_qc.json'); }catch(_){ state.cwaQc = null; }
+      refreshModelControls();
+      renderAll();
+    }catch(err){
+      console.warn('CWA WRF 3 km bundle unavailable', err);
+      state.cwaData = null;
+      state.cwaQc = null;
+    }
+
+    try{
+      state.jmaData = await fetchVersioned('jma_msm_tw_cloud_browser.json');
+      try{ state.jmaQc = await fetchVersioned('jma_msm_tw_cloud_qc.json'); }catch(_){ state.jmaQc = null; }
+      refreshModelControls();
+      renderAll();
+    }catch(err){
+      console.warn('JMA MSM 5 km bundle unavailable', err);
+      state.jmaData = null;
+      state.jmaQc = null;
+    }
+
+    try{
+      state.himawariData = normalizeHimawariBundle(
+        await fetchVersioned('himawari9_tw_cloud_browser.json')
+      );
+      try{ state.himawariQc = await fetchVersioned('himawari9_tw_cloud_qc.json'); }catch(_){ state.himawariQc = null; }
+      refreshModelControls();
+      renderAll();
+    }catch(err){
+      console.warn('Himawari-9 observation bundle unavailable', err);
+      state.himawariData = null;
+      state.himawariQc = null;
+    }
+
+    try{
+      state.camsData = await fetchVersioned('cams_global_tw_aod_browser.json');
+      try{ state.camsQc = await fetchVersioned('cams_global_tw_aod_qc.json'); }catch(_){ state.camsQc = null; }
+      refreshModelControls();
+      renderAll();
+    }catch(err){
+      console.warn('CAMS aerosol bundle unavailable', err);
+      state.camsData = null;
+      state.camsQc = null;
+    }
+
+    try{
+      const viirsData = await fetchVersioned('viirs_nightlights_tw_browser.json');
+      const viirsQc = await fetchVersioned('viirs_nightlights_tw_qc.json');
+      const qcFlags = Array.isArray(viirsQc?.flags) ? viirsQc.flags : ['qc_missing'];
+      const validContract = viirsData?.source==='nasa_black_marble_vnp46a4' &&
+        Boolean(viirsData?.fields?.nighttime_lights_radiance_nw_cm2_sr) &&
+        qcFlags.length===0;
+      if(!validContract) throw new Error('VIIRS nighttime-light artifact failed contract/QC gate');
+      state.viirsData = viirsData;
+      state.viirsQc = viirsQc;
+      refreshModelControls();
+      renderAll();
+    }catch(err){
+      // B169f fail-closed UI contract: no real+QC-passing artifact means
+      // no selectable nighttime-light source is exposed to the user.
+      console.info('VIIRS nighttime-light layer not published', err);
+      state.viirsData = null;
+      state.viirsQc = null;
+    }
+
+    try{
+      state.coverage = await fetchVersioned('weathergrid_coverage_browser.json');
+      state.coverageSource = 'live';
+    }catch(err){
+      console.warn('Live subject-aware coverage bundle unavailable', err);
+      state.coverage = {schema_version:1,spots:[]};
+      state.coverageSource = 'missing';
+    }
+    refreshModelControls();
+    renderAll();
+  }
+
   async function load(){
     await loadWeatherGridIndex();
     try{
@@ -786,90 +882,26 @@
       state.source = 'demo';
     }
 
+    setViewBbox(state.data.bbox);
+    initControls();
     if(state.source === 'live'){
-      try{
-        state.iconData = await fetchVersioned('icon_tw_cloud_browser.json');
-        try{ state.iconQc = await fetchVersioned('icon_tw_cloud_qc.json'); }catch(_){ state.iconQc = null; }
-      }catch(err){
-        console.warn('ICON Global cloud bundle unavailable; GFS remains active', err);
-        state.iconData = null;
-        state.iconQc = null;
-      }
-
-      try{
-        state.cwaData = await fetchVersioned('cwa_wrf3_tw_weather_browser.json');
-        try{ state.cwaQc = await fetchVersioned('cwa_wrf3_tw_weather_qc.json'); }catch(_){ state.cwaQc = null; }
-      }catch(err){
-        console.warn('CWA WRF 3 km bundle unavailable', err);
-        state.cwaData = null;
-        state.cwaQc = null;
-      }
-
-      try{
-        state.jmaData = await fetchVersioned('jma_msm_tw_cloud_browser.json');
-        try{ state.jmaQc = await fetchVersioned('jma_msm_tw_cloud_qc.json'); }catch(_){ state.jmaQc = null; }
-      }catch(err){
-        console.warn('JMA MSM 5 km bundle unavailable', err);
-        state.jmaData = null;
-        state.jmaQc = null;
-      }
-
-      try{
-        state.himawariData = normalizeHimawariBundle(
-          await fetchVersioned('himawari9_tw_cloud_browser.json')
-        );
-        try{ state.himawariQc = await fetchVersioned('himawari9_tw_cloud_qc.json'); }catch(_){ state.himawariQc = null; }
-      }catch(err){
-        console.warn('Himawari-9 observation bundle unavailable', err);
-        state.himawariData = null;
-        state.himawariQc = null;
-      }
-
-      try{
-        state.camsData = await fetchVersioned('cams_global_tw_aod_browser.json');
-        try{ state.camsQc = await fetchVersioned('cams_global_tw_aod_qc.json'); }catch(_){ state.camsQc = null; }
-      }catch(err){
-        console.warn('CAMS Global AOD bundle unavailable', err);
-        state.camsData = null;
-        state.camsQc = null;
-      }
-
-      try{
-        const viirsData = await fetchVersioned('viirs_nightlights_tw_browser.json');
-        const viirsQc = await fetchVersioned('viirs_nightlights_tw_qc.json');
-        const qcFlags = Array.isArray(viirsQc?.flags) ? viirsQc.flags : ['qc_missing'];
-        const validContract = viirsData?.source==='nasa_black_marble_vnp46a4' &&
-          Boolean(viirsData?.fields?.nighttime_lights_radiance_nw_cm2_sr) &&
-          qcFlags.length===0;
-        if(!validContract) throw new Error('VIIRS nighttime-light artifact failed contract/QC gate');
-        state.viirsData = viirsData;
-        state.viirsQc = viirsQc;
-      }catch(err){
-        // B169f fail-closed UI contract: no real+QC-passing artifact means
-        // no selectable nighttime-light source is exposed to the user.
-        console.info('VIIRS nighttime-light layer not published', err);
-        state.viirsData = null;
-        state.viirsQc = null;
-      }
-
-      try{
-        state.coverage = await fetchVersioned('weathergrid_coverage_browser.json');
-        state.coverageSource = 'live';
-      }catch(err){
-        console.warn('Live subject-aware coverage bundle unavailable', err);
-        state.coverage = {schema_version:1,spots:[]};
-        state.coverageSource = 'missing';
-      }
+      // First paint uses the GFS baseline; the richer regional models keep
+      // loading in the background and upgrade the auto selection as each
+      // bundle lands. The map is interactive immediately instead of after
+      // the full ~12 MB bundle set.
+      state.coverage = {schema_version:1,spots:[]};
+      state.coverageSource = 'loading';
+      renderAll();
+      initBasemap();
+      window.__weatherGridPreviewReady = true;
+      loadEnhancementsSequentially();
     }else{
       state.coverage = await fetchJson(FALLBACK_COVERAGE);
       state.coverageSource = 'demo';
+      renderAll();
+      initBasemap();
+      window.__weatherGridPreviewReady = true;
     }
-
-    setViewBbox(state.data.bbox);
-    initControls();
-    renderAll();
-    initBasemap();
-    window.__weatherGridPreviewReady = true;
   }
 
   function modelDataset(mode=state.modelMode){
@@ -2796,6 +2828,11 @@
     const host=$('coverage-status');
     if(!state.spotId){
       host.innerHTML='<div>先選景點。題材 coverage 會同時標示 Camera / Subject / Environment。</div>';
+      return;
+    }
+
+    if(state.coverageSource==='loading'){
+      host.innerHTML='<div>Live WeatherGrid 已載入，subject-aware coverage bundle 背景載入中…</div>';
       return;
     }
 
