@@ -17,7 +17,7 @@ before(async()=>{
   const build=resolve(process.env.V2_BUILD_DIR);const root=resolve(build,'public');
   manifest=JSON.parse(await readFile(resolve(build,'build-manifest.json'),'utf8'));
   assert.equal(manifest.status,'PASS');assert.equal(manifest.deployment_allowed,false);
-  assert.equal(Object.keys(manifest.files).length,14);
+  assert.equal(Object.keys(manifest.files).length,17);
   for(const [file,sha] of Object.entries(manifest.files)){
     const bytes=await readFile(resolve(root,file));
     assert.equal(createHash('sha256').update(bytes).digest('hex'),sha,file+' manifest bytes differ');

@@ -1,0 +1,647 @@
+{
+ "pilot_id": "tw-036-solar-window-v0.1",
+ "place_id": "tw-036",
+ "schema_version": "0.1.0",
+ "time_zone": "Asia/Taipei",
+ "window_days": [
+  "2026-10-24",
+  "2026-10-25",
+  "2026-10-26",
+  "2026-10-27",
+  "2026-10-28",
+  "2026-10-29",
+  "2026-10-30",
+  "2026-10-31",
+  "2026-11-01",
+  "2026-11-02",
+  "2026-11-03",
+  "2026-11-04",
+  "2026-11-05",
+  "2026-11-06"
+ ],
+ "observer": {
+  "coordinate_role": "representative_place_sample",
+  "lat": 24.0314,
+  "lon": 121.6272,
+  "coordinate_source": "representative place sample (tw-036 weather pilot request point)",
+  "uncertainty_m": null,
+  "altitude_m": 6
+ },
+ "model": {
+  "model_id": "chase-v2-noaa-meeus",
+  "algorithm_version": "0.1.0",
+  "horizon_assumption": "ideal_unobstructed",
+  "sun_altitude_crossing_deg": -0.833
+ },
+ "results": [
+  {
+   "schema_version": "0.1.0",
+   "request_id": "tw-036-solar-window-v0.1:2026-10-24",
+   "local_date": "2026-10-24",
+   "time_zone": "Asia/Taipei",
+   "observer": {
+    "coordinate_role": "representative_place_sample",
+    "lat": 24.0314,
+    "lon": 121.6272,
+    "coordinate_source": "representative place sample (tw-036 weather pilot request point)",
+    "uncertainty_m": null,
+    "altitude_m": 6
+   },
+   "model": {
+    "model_id": "chase-v2-noaa-meeus",
+    "algorithm_version": "0.1.0",
+    "horizon_assumption": "ideal_unobstructed",
+    "sun_altitude_crossing_deg": -0.833
+   },
+   "capability": "WINDOW",
+   "computed_at_utc": "2026-10-23T17:59:16.571349Z",
+   "polar_state": "NORMAL",
+   "sunrise": {
+    "status": "CALCULATED",
+    "time_utc": "2026-10-23T21:55:04.827805Z",
+    "time_local": "2026-10-24T05:55:04.827805+08:00",
+    "reason": null
+   },
+   "sunset": {
+    "status": "CALCULATED",
+    "time_utc": "2026-10-24T09:19:59.460984Z",
+    "time_local": "2026-10-24T17:19:59.460984+08:00",
+    "reason": null
+   },
+   "recommendation_eligible": false,
+   "photography_verdict": "NOT_EVALUABLE",
+   "limitations_i18n": {
+    "zh-TW": "理想無遮蔽地平線的區域日出日落估算；未驗證實際地平線、折射、雲況、合法機位或攝影適合度。",
+    "en": "Regional sunrise/sunset at an ideal unobstructed horizon; actual horizon, refraction, clouds, lawful camera point and photographic suitability are unverified.",
+    "ja": "遮蔽のない理想水平線での日の出・日の入り推定。実際の地平線・屈折・雲・適法な撮影位置や撮影適性は未確認。"
+   }
+  },
+  {
+   "schema_version": "0.1.0",
+   "request_id": "tw-036-solar-window-v0.1:2026-10-25",
+   "local_date": "2026-10-25",
+   "time_zone": "Asia/Taipei",
+   "observer": {
+    "coordinate_role": "representative_place_sample",
+    "lat": 24.0314,
+    "lon": 121.6272,
+    "coordinate_source": "representative place sample (tw-036 weather pilot request point)",
+    "uncertainty_m": null,
+    "altitude_m": 6
+   },
+   "model": {
+    "model_id": "chase-v2-noaa-meeus",
+    "algorithm_version": "0.1.0",
+    "horizon_assumption": "ideal_unobstructed",
+    "sun_altitude_crossing_deg": -0.833
+   },
+   "capability": "WINDOW",
+   "computed_at_utc": "2026-10-23T17:59:16.571349Z",
+   "polar_state": "NORMAL",
+   "sunrise": {
+    "status": "CALCULATED",
+    "time_utc": "2026-10-24T21:55:35.690232Z",
+    "time_local": "2026-10-25T05:55:35.690232+08:00",
+    "reason": null
+   },
+   "sunset": {
+    "status": "CALCULATED",
+    "time_utc": "2026-10-25T09:19:13.623276Z",
+    "time_local": "2026-10-25T17:19:13.623276+08:00",
+    "reason": null
+   },
+   "recommendation_eligible": false,
+   "photography_verdict": "NOT_EVALUABLE",
+   "limitations_i18n": {
+    "zh-TW": "理想無遮蔽地平線的區域日出日落估算；未驗證實際地平線、折射、雲況、合法機位或攝影適合度。",
+    "en": "Regional sunrise/sunset at an ideal unobstructed horizon; actual horizon, refraction, clouds, lawful camera point and photographic suitability are unverified.",
+    "ja": "遮蔽のない理想水平線での日の出・日の入り推定。実際の地平線・屈折・雲・適法な撮影位置や撮影適性は未確認。"
+   }
+  },
+  {
+   "schema_version": "0.1.0",
+   "request_id": "tw-036-solar-window-v0.1:2026-10-26",
+   "local_date": "2026-10-26",
+   "time_zone": "Asia/Taipei",
+   "observer": {
+    "coordinate_role": "representative_place_sample",
+    "lat": 24.0314,
+    "lon": 121.6272,
+    "coordinate_source": "representative place sample (tw-036 weather pilot request point)",
+    "uncertainty_m": null,
+    "altitude_m": 6
+   },
+   "model": {
+    "model_id": "chase-v2-noaa-meeus",
+    "algorithm_version": "0.1.0",
+    "horizon_assumption": "ideal_unobstructed",
+    "sun_altitude_crossing_deg": -0.833
+   },
+   "capability": "WINDOW",
+   "computed_at_utc": "2026-10-23T17:59:16.571349Z",
+   "polar_state": "NORMAL",
+   "sunrise": {
+    "status": "CALCULATED",
+    "time_utc": "2026-10-25T21:56:07.035141Z",
+    "time_local": "2026-10-26T05:56:07.035141+08:00",
+    "reason": null
+   },
+   "sunset": {
+    "status": "CALCULATED",
+    "time_utc": "2026-10-26T09:18:28.759690Z",
+    "time_local": "2026-10-26T17:18:28.759690+08:00",
+    "reason": null
+   },
+   "recommendation_eligible": false,
+   "photography_verdict": "NOT_EVALUABLE",
+   "limitations_i18n": {
+    "zh-TW": "理想無遮蔽地平線的區域日出日落估算；未驗證實際地平線、折射、雲況、合法機位或攝影適合度。",
+    "en": "Regional sunrise/sunset at an ideal unobstructed horizon; actual horizon, refraction, clouds, lawful camera point and photographic suitability are unverified.",
+    "ja": "遮蔽のない理想水平線での日の出・日の入り推定。実際の地平線・屈折・雲・適法な撮影位置や撮影適性は未確認。"
+   }
+  },
+  {
+   "schema_version": "0.1.0",
+   "request_id": "tw-036-solar-window-v0.1:2026-10-27",
+   "local_date": "2026-10-27",
+   "time_zone": "Asia/Taipei",
+   "observer": {
+    "coordinate_role": "representative_place_sample",
+    "lat": 24.0314,
+    "lon": 121.6272,
+    "coordinate_source": "representative place sample (tw-036 weather pilot request point)",
+    "uncertainty_m": null,
+    "altitude_m": 6
+   },
+   "model": {
+    "model_id": "chase-v2-noaa-meeus",
+    "algorithm_version": "0.1.0",
+    "horizon_assumption": "ideal_unobstructed",
+    "sun_altitude_crossing_deg": -0.833
+   },
+   "capability": "WINDOW",
+   "computed_at_utc": "2026-10-23T17:59:16.571349Z",
+   "polar_state": "NORMAL",
+   "sunrise": {
+    "status": "CALCULATED",
+    "time_utc": "2026-10-26T21:56:38.866196Z",
+    "time_local": "2026-10-27T05:56:38.866196+08:00",
+    "reason": null
+   },
+   "sunset": {
+    "status": "CALCULATED",
+    "time_utc": "2026-10-27T09:17:44.896775Z",
+    "time_local": "2026-10-27T17:17:44.896775+08:00",
+    "reason": null
+   },
+   "recommendation_eligible": false,
+   "photography_verdict": "NOT_EVALUABLE",
+   "limitations_i18n": {
+    "zh-TW": "理想無遮蔽地平線的區域日出日落估算；未驗證實際地平線、折射、雲況、合法機位或攝影適合度。",
+    "en": "Regional sunrise/sunset at an ideal unobstructed horizon; actual horizon, refraction, clouds, lawful camera point and photographic suitability are unverified.",
+    "ja": "遮蔽のない理想水平線での日の出・日の入り推定。実際の地平線・屈折・雲・適法な撮影位置や撮影適性は未確認。"
+   }
+  },
+  {
+   "schema_version": "0.1.0",
+   "request_id": "tw-036-solar-window-v0.1:2026-10-28",
+   "local_date": "2026-10-28",
+   "time_zone": "Asia/Taipei",
+   "observer": {
+    "coordinate_role": "representative_place_sample",
+    "lat": 24.0314,
+    "lon": 121.6272,
+    "coordinate_source": "representative place sample (tw-036 weather pilot request point)",
+    "uncertainty_m": null,
+    "altitude_m": 6
+   },
+   "model": {
+    "model_id": "chase-v2-noaa-meeus",
+    "algorithm_version": "0.1.0",
+    "horizon_assumption": "ideal_unobstructed",
+    "sun_altitude_crossing_deg": -0.833
+   },
+   "capability": "WINDOW",
+   "computed_at_utc": "2026-10-23T17:59:16.571349Z",
+   "polar_state": "NORMAL",
+   "sunrise": {
+    "status": "CALCULATED",
+    "time_utc": "2026-10-27T21:57:11.184769Z",
+    "time_local": "2026-10-28T05:57:11.184769+08:00",
+    "reason": null
+   },
+   "sunset": {
+    "status": "CALCULATED",
+    "time_utc": "2026-10-28T09:17:02.059708Z",
+    "time_local": "2026-10-28T17:17:02.059708+08:00",
+    "reason": null
+   },
+   "recommendation_eligible": false,
+   "photography_verdict": "NOT_EVALUABLE",
+   "limitations_i18n": {
+    "zh-TW": "理想無遮蔽地平線的區域日出日落估算；未驗證實際地平線、折射、雲況、合法機位或攝影適合度。",
+    "en": "Regional sunrise/sunset at an ideal unobstructed horizon; actual horizon, refraction, clouds, lawful camera point and photographic suitability are unverified.",
+    "ja": "遮蔽のない理想水平線での日の出・日の入り推定。実際の地平線・屈折・雲・適法な撮影位置や撮影適性は未確認。"
+   }
+  },
+  {
+   "schema_version": "0.1.0",
+   "request_id": "tw-036-solar-window-v0.1:2026-10-29",
+   "local_date": "2026-10-29",
+   "time_zone": "Asia/Taipei",
+   "observer": {
+    "coordinate_role": "representative_place_sample",
+    "lat": 24.0314,
+    "lon": 121.6272,
+    "coordinate_source": "representative place sample (tw-036 weather pilot request point)",
+    "uncertainty_m": null,
+    "altitude_m": 6
+   },
+   "model": {
+    "model_id": "chase-v2-noaa-meeus",
+    "algorithm_version": "0.1.0",
+    "horizon_assumption": "ideal_unobstructed",
+    "sun_altitude_crossing_deg": -0.833
+   },
+   "capability": "WINDOW",
+   "computed_at_utc": "2026-10-23T17:59:16.571349Z",
+   "polar_state": "NORMAL",
+   "sunrise": {
+    "status": "CALCULATED",
+    "time_utc": "2026-10-28T21:57:43.991318Z",
+    "time_local": "2026-10-29T05:57:43.991318+08:00",
+    "reason": null
+   },
+   "sunset": {
+    "status": "CALCULATED",
+    "time_utc": "2026-10-29T09:16:20.273209Z",
+    "time_local": "2026-10-29T17:16:20.273209+08:00",
+    "reason": null
+   },
+   "recommendation_eligible": false,
+   "photography_verdict": "NOT_EVALUABLE",
+   "limitations_i18n": {
+    "zh-TW": "理想無遮蔽地平線的區域日出日落估算；未驗證實際地平線、折射、雲況、合法機位或攝影適合度。",
+    "en": "Regional sunrise/sunset at an ideal unobstructed horizon; actual horizon, refraction, clouds, lawful camera point and photographic suitability are unverified.",
+    "ja": "遮蔽のない理想水平線での日の出・日の入り推定。実際の地平線・屈折・雲・適法な撮影位置や撮影適性は未確認。"
+   }
+  },
+  {
+   "schema_version": "0.1.0",
+   "request_id": "tw-036-solar-window-v0.1:2026-10-30",
+   "local_date": "2026-10-30",
+   "time_zone": "Asia/Taipei",
+   "observer": {
+    "coordinate_role": "representative_place_sample",
+    "lat": 24.0314,
+    "lon": 121.6272,
+    "coordinate_source": "representative place sample (tw-036 weather pilot request point)",
+    "uncertainty_m": null,
+    "altitude_m": 6
+   },
+   "model": {
+    "model_id": "chase-v2-noaa-meeus",
+    "algorithm_version": "0.1.0",
+    "horizon_assumption": "ideal_unobstructed",
+    "sun_altitude_crossing_deg": -0.833
+   },
+   "capability": "WINDOW",
+   "computed_at_utc": "2026-10-23T17:59:16.571349Z",
+   "polar_state": "NORMAL",
+   "sunrise": {
+    "status": "CALCULATED",
+    "time_utc": "2026-10-29T21:58:17.286302Z",
+    "time_local": "2026-10-30T05:58:17.286302+08:00",
+    "reason": null
+   },
+   "sunset": {
+    "status": "CALCULATED",
+    "time_utc": "2026-10-30T09:15:39.561997Z",
+    "time_local": "2026-10-30T17:15:39.561997+08:00",
+    "reason": null
+   },
+   "recommendation_eligible": false,
+   "photography_verdict": "NOT_EVALUABLE",
+   "limitations_i18n": {
+    "zh-TW": "理想無遮蔽地平線的區域日出日落估算；未驗證實際地平線、折射、雲況、合法機位或攝影適合度。",
+    "en": "Regional sunrise/sunset at an ideal unobstructed horizon; actual horizon, refraction, clouds, lawful camera point and photographic suitability are unverified.",
+    "ja": "遮蔽のない理想水平線での日の出・日の入り推定。実際の地平線・屈折・雲・適法な撮影位置や撮影適性は未確認。"
+   }
+  },
+  {
+   "schema_version": "0.1.0",
+   "request_id": "tw-036-solar-window-v0.1:2026-10-31",
+   "local_date": "2026-10-31",
+   "time_zone": "Asia/Taipei",
+   "observer": {
+    "coordinate_role": "representative_place_sample",
+    "lat": 24.0314,
+    "lon": 121.6272,
+    "coordinate_source": "representative place sample (tw-036 weather pilot request point)",
+    "uncertainty_m": null,
+    "altitude_m": 6
+   },
+   "model": {
+    "model_id": "chase-v2-noaa-meeus",
+    "algorithm_version": "0.1.0",
+    "horizon_assumption": "ideal_unobstructed",
+    "sun_altitude_crossing_deg": -0.833
+   },
+   "capability": "WINDOW",
+   "computed_at_utc": "2026-10-23T17:59:16.571349Z",
+   "polar_state": "NORMAL",
+   "sunrise": {
+    "status": "CALCULATED",
+    "time_utc": "2026-10-30T21:58:51.068344Z",
+    "time_local": "2026-10-31T05:58:51.068344+08:00",
+    "reason": null
+   },
+   "sunset": {
+    "status": "CALCULATED",
+    "time_utc": "2026-10-31T09:14:59.950333Z",
+    "time_local": "2026-10-31T17:14:59.950333+08:00",
+    "reason": null
+   },
+   "recommendation_eligible": false,
+   "photography_verdict": "NOT_EVALUABLE",
+   "limitations_i18n": {
+    "zh-TW": "理想無遮蔽地平線的區域日出日落估算；未驗證實際地平線、折射、雲況、合法機位或攝影適合度。",
+    "en": "Regional sunrise/sunset at an ideal unobstructed horizon; actual horizon, refraction, clouds, lawful camera point and photographic suitability are unverified.",
+    "ja": "遮蔽のない理想水平線での日の出・日の入り推定。実際の地平線・屈折・雲・適法な撮影位置や撮影適性は未確認。"
+   }
+  },
+  {
+   "schema_version": "0.1.0",
+   "request_id": "tw-036-solar-window-v0.1:2026-11-01",
+   "local_date": "2026-11-01",
+   "time_zone": "Asia/Taipei",
+   "observer": {
+    "coordinate_role": "representative_place_sample",
+    "lat": 24.0314,
+    "lon": 121.6272,
+    "coordinate_source": "representative place sample (tw-036 weather pilot request point)",
+    "uncertainty_m": null,
+    "altitude_m": 6
+   },
+   "model": {
+    "model_id": "chase-v2-noaa-meeus",
+    "algorithm_version": "0.1.0",
+    "horizon_assumption": "ideal_unobstructed",
+    "sun_altitude_crossing_deg": -0.833
+   },
+   "capability": "WINDOW",
+   "computed_at_utc": "2026-10-23T17:59:16.571349Z",
+   "polar_state": "NORMAL",
+   "sunrise": {
+    "status": "CALCULATED",
+    "time_utc": "2026-10-31T21:59:25.334701Z",
+    "time_local": "2026-11-01T05:59:25.334701+08:00",
+    "reason": null
+   },
+   "sunset": {
+    "status": "CALCULATED",
+    "time_utc": "2026-11-01T09:14:21.461563Z",
+    "time_local": "2026-11-01T17:14:21.461563+08:00",
+    "reason": null
+   },
+   "recommendation_eligible": false,
+   "photography_verdict": "NOT_EVALUABLE",
+   "limitations_i18n": {
+    "zh-TW": "理想無遮蔽地平線的區域日出日落估算；未驗證實際地平線、折射、雲況、合法機位或攝影適合度。",
+    "en": "Regional sunrise/sunset at an ideal unobstructed horizon; actual horizon, refraction, clouds, lawful camera point and photographic suitability are unverified.",
+    "ja": "遮蔽のない理想水平線での日の出・日の入り推定。実際の地平線・屈折・雲・適法な撮影位置や撮影適性は未確認。"
+   }
+  },
+  {
+   "schema_version": "0.1.0",
+   "request_id": "tw-036-solar-window-v0.1:2026-11-02",
+   "local_date": "2026-11-02",
+   "time_zone": "Asia/Taipei",
+   "observer": {
+    "coordinate_role": "representative_place_sample",
+    "lat": 24.0314,
+    "lon": 121.6272,
+    "coordinate_source": "representative place sample (tw-036 weather pilot request point)",
+    "uncertainty_m": null,
+    "altitude_m": 6
+   },
+   "model": {
+    "model_id": "chase-v2-noaa-meeus",
+    "algorithm_version": "0.1.0",
+    "horizon_assumption": "ideal_unobstructed",
+    "sun_altitude_crossing_deg": -0.833
+   },
+   "capability": "WINDOW",
+   "computed_at_utc": "2026-10-23T17:59:16.571349Z",
+   "polar_state": "NORMAL",
+   "sunrise": {
+    "status": "CALCULATED",
+    "time_utc": "2026-11-01T22:00:00.082168Z",
+    "time_local": "2026-11-02T06:00:00.082168+08:00",
+    "reason": null
+   },
+   "sunset": {
+    "status": "CALCULATED",
+    "time_utc": "2026-11-02T09:13:44.119034Z",
+    "time_local": "2026-11-02T17:13:44.119034+08:00",
+    "reason": null
+   },
+   "recommendation_eligible": false,
+   "photography_verdict": "NOT_EVALUABLE",
+   "limitations_i18n": {
+    "zh-TW": "理想無遮蔽地平線的區域日出日落估算；未驗證實際地平線、折射、雲況、合法機位或攝影適合度。",
+    "en": "Regional sunrise/sunset at an ideal unobstructed horizon; actual horizon, refraction, clouds, lawful camera point and photographic suitability are unverified.",
+    "ja": "遮蔽のない理想水平線での日の出・日の入り推定。実際の地平線・屈折・雲・適法な撮影位置や撮影適性は未確認。"
+   }
+  },
+  {
+   "schema_version": "0.1.0",
+   "request_id": "tw-036-solar-window-v0.1:2026-11-03",
+   "local_date": "2026-11-03",
+   "time_zone": "Asia/Taipei",
+   "observer": {
+    "coordinate_role": "representative_place_sample",
+    "lat": 24.0314,
+    "lon": 121.6272,
+    "coordinate_source": "representative place sample (tw-036 weather pilot request point)",
+    "uncertainty_m": null,
+    "altitude_m": 6
+   },
+   "model": {
+    "model_id": "chase-v2-noaa-meeus",
+    "algorithm_version": "0.1.0",
+    "horizon_assumption": "ideal_unobstructed",
+    "sun_altitude_crossing_deg": -0.833
+   },
+   "capability": "WINDOW",
+   "computed_at_utc": "2026-10-23T17:59:16.571349Z",
+   "polar_state": "NORMAL",
+   "sunrise": {
+    "status": "CALCULATED",
+    "time_utc": "2026-11-02T22:00:35.306626Z",
+    "time_local": "2026-11-03T06:00:35.306626+08:00",
+    "reason": null
+   },
+   "sunset": {
+    "status": "CALCULATED",
+    "time_utc": "2026-11-03T09:13:07.945633Z",
+    "time_local": "2026-11-03T17:13:07.945633+08:00",
+    "reason": null
+   },
+   "recommendation_eligible": false,
+   "photography_verdict": "NOT_EVALUABLE",
+   "limitations_i18n": {
+    "zh-TW": "理想無遮蔽地平線的區域日出日落估算；未驗證實際地平線、折射、雲況、合法機位或攝影適合度。",
+    "en": "Regional sunrise/sunset at an ideal unobstructed horizon; actual horizon, refraction, clouds, lawful camera point and photographic suitability are unverified.",
+    "ja": "遮蔽のない理想水平線での日の出・日の入り推定。実際の地平線・屈折・雲・適法な撮影位置や撮影適性は未確認。"
+   }
+  },
+  {
+   "schema_version": "0.1.0",
+   "request_id": "tw-036-solar-window-v0.1:2026-11-04",
+   "local_date": "2026-11-04",
+   "time_zone": "Asia/Taipei",
+   "observer": {
+    "coordinate_role": "representative_place_sample",
+    "lat": 24.0314,
+    "lon": 121.6272,
+    "coordinate_source": "representative place sample (tw-036 weather pilot request point)",
+    "uncertainty_m": null,
+    "altitude_m": 6
+   },
+   "model": {
+    "model_id": "chase-v2-noaa-meeus",
+    "algorithm_version": "0.1.0",
+    "horizon_assumption": "ideal_unobstructed",
+    "sun_altitude_crossing_deg": -0.833
+   },
+   "capability": "WINDOW",
+   "computed_at_utc": "2026-10-23T17:59:16.571349Z",
+   "polar_state": "NORMAL",
+   "sunrise": {
+    "status": "CALCULATED",
+    "time_utc": "2026-11-03T22:01:11.002578Z",
+    "time_local": "2026-11-04T06:01:11.002578+08:00",
+    "reason": null
+   },
+   "sunset": {
+    "status": "CALCULATED",
+    "time_utc": "2026-11-04T09:12:32.963334Z",
+    "time_local": "2026-11-04T17:12:32.963334+08:00",
+    "reason": null
+   },
+   "recommendation_eligible": false,
+   "photography_verdict": "NOT_EVALUABLE",
+   "limitations_i18n": {
+    "zh-TW": "理想無遮蔽地平線的區域日出日落估算；未驗證實際地平線、折射、雲況、合法機位或攝影適合度。",
+    "en": "Regional sunrise/sunset at an ideal unobstructed horizon; actual horizon, refraction, clouds, lawful camera point and photographic suitability are unverified.",
+    "ja": "遮蔽のない理想水平線での日の出・日の入り推定。実際の地平線・屈折・雲・適法な撮影位置や撮影適性は未確認。"
+   }
+  },
+  {
+   "schema_version": "0.1.0",
+   "request_id": "tw-036-solar-window-v0.1:2026-11-05",
+   "local_date": "2026-11-05",
+   "time_zone": "Asia/Taipei",
+   "observer": {
+    "coordinate_role": "representative_place_sample",
+    "lat": 24.0314,
+    "lon": 121.6272,
+    "coordinate_source": "representative place sample (tw-036 weather pilot request point)",
+    "uncertainty_m": null,
+    "altitude_m": 6
+   },
+   "model": {
+    "model_id": "chase-v2-noaa-meeus",
+    "algorithm_version": "0.1.0",
+    "horizon_assumption": "ideal_unobstructed",
+    "sun_altitude_crossing_deg": -0.833
+   },
+   "capability": "WINDOW",
+   "computed_at_utc": "2026-10-23T17:59:16.571349Z",
+   "polar_state": "NORMAL",
+   "sunrise": {
+    "status": "CALCULATED",
+    "time_utc": "2026-11-04T22:01:47.163162Z",
+    "time_local": "2026-11-05T06:01:47.163162+08:00",
+    "reason": null
+   },
+   "sunset": {
+    "status": "CALCULATED",
+    "time_utc": "2026-11-05T09:11:59.193650Z",
+    "time_local": "2026-11-05T17:11:59.193650+08:00",
+    "reason": null
+   },
+   "recommendation_eligible": false,
+   "photography_verdict": "NOT_EVALUABLE",
+   "limitations_i18n": {
+    "zh-TW": "理想無遮蔽地平線的區域日出日落估算；未驗證實際地平線、折射、雲況、合法機位或攝影適合度。",
+    "en": "Regional sunrise/sunset at an ideal unobstructed horizon; actual horizon, refraction, clouds, lawful camera point and photographic suitability are unverified.",
+    "ja": "遮蔽のない理想水平線での日の出・日の入り推定。実際の地平線・屈折・雲・適法な撮影位置や撮影適性は未確認。"
+   }
+  },
+  {
+   "schema_version": "0.1.0",
+   "request_id": "tw-036-solar-window-v0.1:2026-11-06",
+   "local_date": "2026-11-06",
+   "time_zone": "Asia/Taipei",
+   "observer": {
+    "coordinate_role": "representative_place_sample",
+    "lat": 24.0314,
+    "lon": 121.6272,
+    "coordinate_source": "representative place sample (tw-036 weather pilot request point)",
+    "uncertainty_m": null,
+    "altitude_m": 6
+   },
+   "model": {
+    "model_id": "chase-v2-noaa-meeus",
+    "algorithm_version": "0.1.0",
+    "horizon_assumption": "ideal_unobstructed",
+    "sun_altitude_crossing_deg": -0.833
+   },
+   "capability": "WINDOW",
+   "computed_at_utc": "2026-10-23T17:59:16.571349Z",
+   "polar_state": "NORMAL",
+   "sunrise": {
+    "status": "CALCULATED",
+    "time_utc": "2026-11-05T22:02:23.780136Z",
+    "time_local": "2026-11-06T06:02:23.780136+08:00",
+    "reason": null
+   },
+   "sunset": {
+    "status": "CALCULATED",
+    "time_utc": "2026-11-06T09:11:26.658097Z",
+    "time_local": "2026-11-06T17:11:26.658097+08:00",
+    "reason": null
+   },
+   "recommendation_eligible": false,
+   "photography_verdict": "NOT_EVALUABLE",
+   "limitations_i18n": {
+    "zh-TW": "理想無遮蔽地平線的區域日出日落估算；未驗證實際地平線、折射、雲況、合法機位或攝影適合度。",
+    "en": "Regional sunrise/sunset at an ideal unobstructed horizon; actual horizon, refraction, clouds, lawful camera point and photographic suitability are unverified.",
+    "ja": "遮蔽のない理想水平線での日の出・日の入り推定。実際の地平線・屈折・雲・適法な撮影位置や撮影適性は未確認。"
+   }
+  }
+ ],
+ "generation": {
+  "generated_at_utc": "2026-10-23T17:59:16.571349Z",
+  "generator_version": "0.1.0",
+  "tzdb_version": "2025.3",
+  "source": "deterministic local computation (no network, no provider data)"
+ },
+ "data_state": "RAW_ONLY",
+ "calibration_status": "UNVALIDATED",
+ "availability": "COMPLETE",
+ "recommendation_eligible": false,
+ "photography_verdict": "NOT_EVALUABLE",
+ "limitations_i18n": {
+  "zh-TW": "理想無遮蔽地平線的區域性日出日落估算（代表性地點樣本，非實測機位座標）；未驗證實際地形地平線、大氣折射、雲況或攝影適合度，不構成拍攝建議。",
+  "en": "Regional sunrise/sunset at an ideal unobstructed horizon from a representative place sample (not a surveyed camera point); actual terrain horizon, refraction, clouds and photographic suitability are unverified. Not a shooting recommendation.",
+  "ja": "代表地点サンプル（実測の撮影座標ではない）に基づく、遮蔽のない理想水平線での日の出・日の入り推定。実際の地形・屈折・雲・撮影適性は未確認で、撮影提案ではありません。"
+ },
+ "attribution_i18n": {
+  "zh-TW": "演算法：NOAA 太陽計算法（時間方程／赤緯）與 Jean Meeus《Astronomical Algorithms》；以 -0.833° 視高度近似。",
+  "en": "Algorithms: NOAA Solar Calculation Details (equation of time / declination) and Jean Meeus, Astronomical Algorithms; -0.833 deg apparent-altitude approximation.",
+  "ja": "アルゴリズム：NOAA 太陽計算法（均時差・赤緯）および Jean Meeus『Astronomical Algorithms』。-0.833 度近似。"
+ }
+}
