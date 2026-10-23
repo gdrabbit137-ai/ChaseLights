@@ -6,6 +6,7 @@ import json
 from datetime import datetime, timezone
 from pathlib import Path
 
+from weathergrid_packed_values import is_packed_entry, unpack_int16_gz
 from weathergrid_v2_cache_index import cells_for_region, write_index
 from weathergrid_v2_tile_export import valid_time_token
 
@@ -58,9 +59,13 @@ def _decoded_fields(bundle: dict, frame: dict) -> dict[str, list]:
         if source not in frame.get("values", {}) or source not in fields_meta:
             continue
         scale = float(fields_meta[source].get("scale", 1.0))
+        entry = frame["values"][source]
+        if is_packed_entry(entry):
+            # i16gz-packed quantized values hydrate back to int/None lists.
+            entry = unpack_int16_gz(entry)
         out[target] = [
             None if value is None else float(value) * scale
-            for value in frame["values"][source]
+            for value in entry
         ]
     missing = REQUIRED_DERIVED_FIELDS - set(out)
     if missing:

@@ -731,6 +731,46 @@
     return state.wgIndex;
   }
 
+  // Packed bundle hydration. Publishes mark themselves with
+  // bundle_encoding "i16gz-v1": every quantized field array travels as
+  // base64(gzip(int16 LE)) and hydrates back to the plain integer/missing
+  // arrays the rest of the pipeline already understands. decodeValue then
+  // applies the same field scale as before, so no downstream code changes.
+  const PACKED_NULL_SENTINEL = -32768;
+
+  async function decodePackedInt16Gz(entry){
+    if(typeof DecompressionStream === 'undefined'){
+      throw new Error('DecompressionStream unavailable for packed bundle');
+    }
+    const binary = atob(entry.data);
+    const bytes = new Uint8Array(binary.length);
+    for(let i=0;i<binary.length;i++) bytes[i] = binary.charCodeAt(i);
+    const stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
+    const buffer = await new Response(stream).arrayBuffer();
+    const ints = new Int16Array(buffer);
+    const out = new Array(ints.length);
+    for(let i=0;i<ints.length;i++){
+      out[i] = ints[i] === PACKED_NULL_SENTINEL ? null : ints[i];
+    }
+    return out;
+  }
+
+  async function hydratePackedBundle(bundle){
+    if(!bundle || bundle.bundle_encoding !== 'i16gz-v1') return bundle;
+    for(const frame of (bundle.frames || [])){
+      const values = frame.values || {};
+      const hydrated = {};
+      for(const key of Object.keys(values)){
+        const entry = values[key];
+        hydrated[key] = (entry && entry.enc === 'i16gz')
+          ? await decodePackedInt16Gz(entry)
+          : entry;
+      }
+      frame.values = hydrated;
+    }
+    return bundle;
+  }
+
   function normalizeHimawariBundle(raw){
     if(!raw?.grid || !raw?.fields || !raw?.values || !raw?.observation){
       throw new Error('Invalid Himawari-9 observation bundle');
@@ -792,7 +832,9 @@
     }
 
     try{
-      state.cwaData = await fetchVersioned('cwa_wrf3_tw_weather_browser.json');
+      state.cwaData = await hydratePackedBundle(
+        await fetchVersioned('cwa_wrf3_tw_weather_browser.json')
+      );
       try{ state.cwaQc = await fetchVersioned('cwa_wrf3_tw_weather_qc.json'); }catch(_){ state.cwaQc = null; }
       refreshModelControls();
       renderAll();
