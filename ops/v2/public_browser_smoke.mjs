@@ -64,7 +64,10 @@ const legacyAssets = ["styles.css", "app.mjs", "model.mjs", "catalog-loader.mjs"
 const assets=HOME?runtimeFiles.filter(x=>x!=='index.html'):legacyAssets;
 for (const path of assets) {
   const found = await fetchPublic(path);
-  assert.ok(!/text\/html/i.test(found.response.headers.get("content-type") || ""),
+  // The not-HTML guard detects JSON-fallback 404 pages; additional packaged
+  // research pages (weather-pilot.html) are legitimately served as HTML and
+  // are byte-verified against the manifest below instead.
+  if(!path.endsWith('.html'))assert.ok(!/text\/html/i.test(found.response.headers.get("content-type") || ""),
             path + " served as HTML, likely fallback/404");
   if(expectedManifest)verifyPublicAsset(expectedManifest,path,found.body);
   console.log("ASSET PASS", path, found.response.status,
