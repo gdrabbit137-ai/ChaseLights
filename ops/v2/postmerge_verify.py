@@ -286,7 +286,7 @@ def main():
             ("w5-runner", ["ops/v2/tests", "test_ci_runner.py"], 7, True, False),
             ("w5-task-r-release-tools", ["ops/v2/tests", "test_task_r_release_tools.py"], 12, True, False),
             ("w5-task-v-integration", ["ops/v2/tests", "test_task_v_integration.py"], 11, True, False),
-            ("w3-evaluator-and-hourly-source", ["packages/core-v2/tests", "test_*.py"], 121, True, False),
+            ("w3-evaluator-and-hourly-source", ["packages/core-v2/tests", "test_*.py"], 132, True, False),
             ("w3-solar-model", ["packages/models-v2/tests", "test_*.py"], 15, True, False),
             ("w2-crosswalk-schema-index-and-hourly-binding", ["data/v2/tests", "test_*.py"], 47, True, False),
             ("w2-real-records", [sys.executable, "specs/v2/tests/validate_contract.py",
@@ -297,7 +297,9 @@ def main():
                 "packages/core-v2/evaluator.py", "packages/core-v2/adapters/source_observation.py",
                 "packages/core-v2/adapters/nws_gridpoint.py",
                 "packages/core-v2/adapters/open_meteo_hourly.py",
-                "packages/core-v2/tools/open_meteo_hourly_pilot.py"],
+                "packages/core-v2/tools/open_meteo_hourly_pilot.py",
+                "packages/core-v2/tools/evaluate_condition_contract.py",
+                "packages/core-v2/adapters/threshold_observations.py"],
                 None, False, False),
             ("w4-node", ["node", "--test", "--test-isolation=none", "--test-timeout=120000",
                 "--test-reporter=tap", *[str(p.relative_to(root)) for p in sorted(
@@ -324,9 +326,9 @@ def main():
             for key in ("tests", "pass", "fail", "error", "skip")
         }
         if report["counts"] != {
-            "tests": 427, "pass": 427, "fail": 0, "error": 0, "skip": 0
+            "tests": 438, "pass": 438, "fail": 0, "error": 0, "skip": 0
         }:
-            raise ValueError("Post-merge exact 427-case requirement failed")
+            raise ValueError("Post-merge exact 438-case requirement failed")
         if not all(g["status"] == "PASS" for g in report["groups"]):
             raise ValueError("One or more required suites failed")
         report["status"] = "PASS"
