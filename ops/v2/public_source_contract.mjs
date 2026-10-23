@@ -6,7 +6,7 @@ import {createHash} from 'node:crypto';
 // from the immutable historical R2 release evidence — so it is allowed but
 // never required. Unknown files still fail closed.
 export const requiredRuntimeFiles=['index.html','styles.css','app.mjs','model.mjs','catalog-loader.mjs','catalog-state.mjs','v21-adapter.mjs','browse-index.mjs','browse-index.v2.json','catalog.v2.json'];
-export const optionalRuntimeFiles=['bundle-digests.mjs'];
+export const optionalRuntimeFiles=['bundle-digests.mjs','weather-pilot.html','weather-pilot.mjs','weather-pilot-tw036.json'];
 export const runtimeFiles=[...requiredRuntimeFiles,...optionalRuntimeFiles];
 export function validateManifest(manifest){
   assert.equal(manifest.status,'PASS');

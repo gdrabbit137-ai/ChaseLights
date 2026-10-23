@@ -301,7 +301,7 @@ def main():
                 None, False, False),
             ("w4-node", ["node", "--test", "--test-isolation=none", "--test-timeout=120000",
                 "--test-reporter=tap", *[str(p.relative_to(root)) for p in sorted(
-                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 58, False, True),
+                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 70, False, True),
             ("w5-public-source-contract", ["node", "--test", "--test-reporter=tap",
                 "ops/v2/tests/public-source-contract.test.mjs"], 6, False, True),
             ("local-isolation", [sys.executable, "ops/v2/integration_gate.py", "--root", str(root)],
