@@ -661,6 +661,76 @@
     return r.json();
   }
 
+  // Content-addressed cache layer. The publish pipelines hash every
+  // weathergrid bundle into weathergrid/index.json; a bundle whose bytes
+  // never change is fetched through an immutable ?v=<sha12> URL and stored
+  // in the Cache API, so repeat visits skip the download entirely. A new
+  // publish produces new hashes, hence new URLs, so a cached entry can
+  // never outlive the data it represents. Anything missing from the index
+  // (or a storage failure) falls back to the original no-store fetch.
+  const WG_CACHE = 'weathergrid-v1';
+  const WG_CACHE_MAX = 40;
+
+  async function cacheGet(url){
+    if(typeof caches === 'undefined') return null;
+    try{
+      const store = await caches.open(WG_CACHE);
+      return (await store.match(url)) || null;
+    }catch(_){ return null; }
+  }
+
+  async function cachePut(url, body){
+    if(typeof caches === 'undefined') return;
+    try{
+      const store = await caches.open(WG_CACHE);
+      const keys = await store.keys();
+      if(keys.length >= WG_CACHE_MAX){
+        // Evict oldest-first beyond the cap so the store stays bounded.
+        for(const key of keys.slice(0, keys.length - WG_CACHE_MAX + 1)){
+          await store.delete(key);
+        }
+      }
+      await store.put(url, new Response(body, {
+        headers:{'Content-Type':'application/json'}
+      }));
+    }catch(_){ /* storage unavailable: caching is best-effort */ }
+  }
+
+  async function fetchVersioned(path){
+    const index = state.wgIndex;
+    const entry = index && index.files ? index.files[path] : null;
+    if(!entry) return fetchJson(`./weathergrid/${path}`);
+    const version = entry.sha256.slice(0, 12);
+    const url = `./weathergrid/${path}?v=${version}`;
+    const cached = await cacheGet(url);
+    if(cached){
+      const body = await cached.text();
+      return JSON.parse(body);
+    }
+    let body;
+    try{
+      const r = await fetch(url, {cache:'no-store'});
+      if(!r.ok) throw new Error(`${r.status} ${url}`);
+      body = await r.text();
+    }catch(err){
+      // Versioned URL failed (e.g. CDN miss right after a publish):
+      // fall back to the canonical path rather than failing the layer.
+      console.warn(`versioned fetch failed for ${path}; retrying canonical`, err);
+      return fetchJson(`./weathergrid/${path}`);
+    }
+    await cachePut(url, body);
+    return JSON.parse(body);
+  }
+
+  async function loadWeatherGridIndex(){
+    try{
+      state.wgIndex = await fetchJson('./weathergrid/index.json');
+    }catch(_){
+      state.wgIndex = null;
+    }
+    return state.wgIndex;
+  }
+
   function normalizeHimawariBundle(raw){
     if(!raw?.grid || !raw?.fields || !raw?.values || !raw?.observation){
       throw new Error('Invalid Himawari-9 observation bundle');
@@ -704,10 +774,11 @@
   }
 
   async function load(){
+    await loadWeatherGridIndex();
     try{
-      state.data = await fetchJson(LIVE_DATA);
+      state.data = await fetchVersioned('gfs_tw_weather_browser.json');
       state.source = 'live';
-      try{ state.qc = await fetchJson(LIVE_QC); }catch(_){ state.qc = null; }
+      try{ state.qc = await fetchVersioned('gfs_tw_weather_qc.json'); }catch(_){ state.qc = null; }
     }catch(err){
       console.warn('WeatherGrid live bundle unavailable; using demo fixture', err);
       state.data = await fetchJson(FALLBACK_DATA);
@@ -717,8 +788,8 @@
 
     if(state.source === 'live'){
       try{
-        state.iconData = await fetchJson(LIVE_ICON_DATA);
-        try{ state.iconQc = await fetchJson(LIVE_ICON_QC); }catch(_){ state.iconQc = null; }
+        state.iconData = await fetchVersioned('icon_tw_cloud_browser.json');
+        try{ state.iconQc = await fetchVersioned('icon_tw_cloud_qc.json'); }catch(_){ state.iconQc = null; }
       }catch(err){
         console.warn('ICON Global cloud bundle unavailable; GFS remains active', err);
         state.iconData = null;
@@ -726,8 +797,8 @@
       }
 
       try{
-        state.cwaData = await fetchJson(LIVE_CWA_DATA);
-        try{ state.cwaQc = await fetchJson(LIVE_CWA_QC); }catch(_){ state.cwaQc = null; }
+        state.cwaData = await fetchVersioned('cwa_wrf3_tw_weather_browser.json');
+        try{ state.cwaQc = await fetchVersioned('cwa_wrf3_tw_weather_qc.json'); }catch(_){ state.cwaQc = null; }
       }catch(err){
         console.warn('CWA WRF 3 km bundle unavailable', err);
         state.cwaData = null;
@@ -735,8 +806,8 @@
       }
 
       try{
-        state.jmaData = await fetchJson(LIVE_JMA_DATA);
-        try{ state.jmaQc = await fetchJson(LIVE_JMA_QC); }catch(_){ state.jmaQc = null; }
+        state.jmaData = await fetchVersioned('jma_msm_tw_cloud_browser.json');
+        try{ state.jmaQc = await fetchVersioned('jma_msm_tw_cloud_qc.json'); }catch(_){ state.jmaQc = null; }
       }catch(err){
         console.warn('JMA MSM 5 km bundle unavailable', err);
         state.jmaData = null;
@@ -745,9 +816,9 @@
 
       try{
         state.himawariData = normalizeHimawariBundle(
-          await fetchJson(LIVE_HIMAWARI_DATA)
+          await fetchVersioned('himawari9_tw_cloud_browser.json')
         );
-        try{ state.himawariQc = await fetchJson(LIVE_HIMAWARI_QC); }catch(_){ state.himawariQc = null; }
+        try{ state.himawariQc = await fetchVersioned('himawari9_tw_cloud_qc.json'); }catch(_){ state.himawariQc = null; }
       }catch(err){
         console.warn('Himawari-9 observation bundle unavailable', err);
         state.himawariData = null;
@@ -755,8 +826,8 @@
       }
 
       try{
-        state.camsData = await fetchJson(LIVE_CAMS_DATA);
-        try{ state.camsQc = await fetchJson(LIVE_CAMS_QC); }catch(_){ state.camsQc = null; }
+        state.camsData = await fetchVersioned('cams_global_tw_aod_browser.json');
+        try{ state.camsQc = await fetchVersioned('cams_global_tw_aod_qc.json'); }catch(_){ state.camsQc = null; }
       }catch(err){
         console.warn('CAMS Global AOD bundle unavailable', err);
         state.camsData = null;
@@ -764,8 +835,8 @@
       }
 
       try{
-        const viirsData = await fetchJson(LIVE_VIIRS_DATA);
-        const viirsQc = await fetchJson(LIVE_VIIRS_QC);
+        const viirsData = await fetchVersioned('viirs_nightlights_tw_browser.json');
+        const viirsQc = await fetchVersioned('viirs_nightlights_tw_qc.json');
         const qcFlags = Array.isArray(viirsQc?.flags) ? viirsQc.flags : ['qc_missing'];
         const validContract = viirsData?.source==='nasa_black_marble_vnp46a4' &&
           Boolean(viirsData?.fields?.nighttime_lights_radiance_nw_cm2_sr) &&
@@ -782,7 +853,7 @@
       }
 
       try{
-        state.coverage = await fetchJson(LIVE_COVERAGE);
+        state.coverage = await fetchVersioned('weathergrid_coverage_browser.json');
         state.coverageSource = 'live';
       }catch(err){
         console.warn('Live subject-aware coverage bundle unavailable', err);

@@ -245,6 +245,12 @@ jobs:
             rm -f weathergrid/cwa_wrf3_tw_weather_browser.json weathergrid/cwa_wrf3_tw_weather_qc.json
           fi
 
+          # Rebuild the cache index so it always describes the files
+          # present in this exact commit (the browser cache layer keys
+          # immutable ?v=<sha12> fetches off these hashes).
+          python -m unittest test_weathergrid_index_build
+          python weathergrid_index_build.py weathergrid
+
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add -A \
