@@ -44,15 +44,17 @@
    "browse_index_source_sha": "f188209d9127fbe1f1be5a9a1e4231709300d841"
   },
   "w3": {
-   "sha": "c5aecb6ced4243bd571cd4bc9932e534afbe4ed8",
+   "sha": "c1afcfe7ee33a1a21dc88cf4350638c3ed634449",
    "branch": "codex/w3-open-meteo-hourly-raw-only-20261019",
    "pr": 522,
    "source_upgrade": "Open-Meteo Qixingtan hourly RAW_ONLY pilot",
-   "tree_sha": "166101833c61d145248d0807965419de63b9d2d8",
-   "models_tree_sha": "530a3fe48f460372b2f5ca7304c9fb75fedd0e6b"
+   "tree_sha": "a5d44acb7b3a3c3b8d3c929a0773d44611d605d5",
+   "models_tree_sha": "530a3fe48f460372b2f5ca7304c9fb75fedd0e6b",
+   "previous_sha": "c5aecb6ced4243bd571cd4bc9932e534afbe4ed8",
+   "previous_tree_sha": "166101833c61d145248d0807965419de63b9d2d8"
   },
   "w4": {
-   "sha": "16ded052fac2894b87f9ef5b1d75e721c6a47d72",
+   "sha": "c1afcfe7ee33a1a21dc88cf4350638c3ed634449",
    "branch": "codex/w4-photography-topics-first-20261019",
    "pr": 518,
    "historical_sha": "32f557d998a4d12ec37af4d963f0f410030b1cc1",
@@ -60,10 +62,10 @@
    "historical_tree_sha": "a0438fb0f372b0e0e124b5ec3385d5184d9fbb2e",
    "obsolete_sha": "ddf9f2c4bd2eeb556bf0aa3b244f01de3256b05f",
    "obsolete_pr": 448,
-   "tree_sha": "ab0df6a9c04748bd514cdae45ea0262c6c290969",
-   "file_count": 118,
-   "previous_sha": "29bd0b63501052724eaf48d11f5e1339fde215c7",
-   "previous_tree_sha": "456ac481c00d06848e58bcb083e4f0656695180a",
+   "tree_sha": "6c1a876f86bc4beb79be15f954462d092d313764",
+   "file_count": 119,
+   "previous_sha": "16ded052fac2894b87f9ef5b1d75e721c6a47d72",
+   "previous_tree_sha": "ab0df6a9c04748bd514cdae45ea0262c6c290969",
    "source_upgrade": "Photography subjects and special conditions: 56 Node + 88 Chromium, Research-only"
   }
  },
@@ -204,11 +206,12 @@
  "owner_integrations": [
   {
    "owner": "w4",
-   "previous_sha": "29bd0b63501052724eaf48d11f5e1339fde215c7",
-   "source_sha": "16ded052fac2894b87f9ef5b1d75e721c6a47d72",
+   "previous_sha": "16ded052fac2894b87f9ef5b1d75e721c6a47d72",
+   "source_sha": "c1afcfe7ee33a1a21dc88cf4350638c3ed634449",
    "paths": [
     "apps/web-v2"
-   ]
+   ],
+   "previous_tree_sha": "ab0df6a9c04748bd514cdae45ea0262c6c290969"
   }
  ],
  "hourly_owner_integrations": [
@@ -234,15 +237,16 @@
   },
   {
    "owner": "w3",
-   "source_sha": "c5aecb6ced4243bd571cd4bc9932e534afbe4ed8",
+   "source_sha": "c1afcfe7ee33a1a21dc88cf4350638c3ed634449",
    "paths": [
     "packages/core-v2",
     "packages/models-v2"
    ],
    "previous_trees": {
-    "packages/core-v2": "8fec5021f6e9fd8710458106f8bbca027b767f51",
+    "packages/core-v2": "166101833c61d145248d0807965419de63b9d2d8",
     "packages/models-v2": "530a3fe48f460372b2f5ca7304c9fb75fedd0e6b"
-   }
+   },
+   "previous_sha": "c5aecb6ced4243bd571cd4bc9932e534afbe4ed8"
   }
  ],
  "hourly_pilot": {
