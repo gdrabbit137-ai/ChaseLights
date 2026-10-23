@@ -79,7 +79,28 @@ def evaluate_hours(opportunity, artifact, selected_date, evaluated_at):
     opportunity_id = opportunity["opportunity_id"]
     opportunity_revision = int(opportunity["revision"])
     inputs = adapter.load_inputs(ROOT)
-    rows = adapter.select_local_date(artifact, selected_date, inputs)
+    try:
+        rows = adapter.select_local_date(artifact, selected_date, inputs)
+    except adapter.PilotFailure as failure:
+        # The date-query contract refuses evaluation when the local day cannot
+        # be aligned with the artifact's declared tzdb version; emit an honest
+        # empty NOT_EVALUABLE bundle instead of guessing a different zone.
+        if str(failure) in ("TZDB_VERSION_MISMATCH", "UNKNOWN_TZDB_VERSION",
+                            "TIME_ZONE_UNAVAILABLE"):
+            return {"evaluation_bundle_version": "0.1.0",
+                    "opportunity_id": opportunity["opportunity_id"],
+                    "condition_contract_id": contract["contract_id"],
+                    "condition_contract_sha256": contract_sha256(contract),
+                    "selected_local_date": selected_date,
+                    "time_zone": "Asia/Taipei",
+                    "tzdb_version": artifact["tzdb_version"],
+                    "evaluated_at": evaluated_at.isoformat().replace("+00:00", "Z"),
+                    "test_only": True,
+                    "state": "NOT_EVALUABLE",
+                    "reason_code": str(failure),
+                    "provider_run": None,
+                    "results": []}
+        raise
     if not rows:
         raise adapter.PilotFailure("NO_MATCHING_DATA")
     zone, _tzdb = adapter.taipei_zone()
