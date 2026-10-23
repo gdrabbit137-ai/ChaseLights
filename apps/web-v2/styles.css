@@ -67,3 +67,14 @@ main,main section,.brand>div,.research-heading h2{min-width:0}
 .topic-assessment{border-top:1px solid #365065;margin-top:20px;padding-top:3px}
 .automation-status{font-size:14px}
 @media(max-width:700px){#open-filters,#close-filters{display:block;width:100%;margin-top:12px}#close-filters{margin-bottom:14px}#filter-panel{padding:12px 0;border-bottom:1px solid #415b6c}}
+/* W4 hourly weather pilot (read-only research sidecar; RAW_ONLY) */
+.weather-pilot header{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:18px clamp(16px,4vw,64px);border-bottom:1px solid #26374b;background:#111d2c}
+.weather-pilot h1{font-size:clamp(24px,3.4vw,40px);letter-spacing:-.04em;margin:26px 0 8px}
+.weather-pilot h2{font-size:19px;margin:26px 0 10px;color:#8ce4d7}
+.weather-pilot table{border-collapse:collapse;width:100%;font-size:13px;margin:10px 0}
+.weather-pilot th,.weather-pilot td{border:1px solid #33495e;padding:6px 9px;text-align:left}
+.weather-pilot thead th{background:#172a3c;color:#a9e4dc}
+.weather-pilot tbody th{color:#9fb7c8;white-space:nowrap}
+.weather-pilot th,.weather-pilot td{font-variant-numeric:tabular-nums}
+.pilot-intro{color:#adbfcd}
+.pilot-footer{color:#819bae;font-size:12px;border-top:1px solid #26374b;padding-top:14px}
