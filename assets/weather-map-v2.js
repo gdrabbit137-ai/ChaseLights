@@ -176,14 +176,35 @@ function selectedProvider(b) {
   if (selected === 'jma' && (!['tw', 'jp'].includes(region) || field === 'visibility')) return null;
   return selected;
 }
+// A cached dataset is only valid for a viewport if it is at least as dense as
+// the grid we would fetch for that viewport today.  Without this check a
+// coarse grid fetched for a continent-scale viewport would be reused after
+// zooming in, keeping giant fallback cells on screen (the strait-view case).
+function targetGridFor(provider, v) {
+  const mapNode = map.getContainer();
+  const sourceStep = FALLBACK_SOURCE_STEP[provider] || {};
+  return sampleGrid(v, {
+    width: mapNode.clientWidth,
+    height: mapNode.clientHeight,
+    zoom: map.getZoom(),
+    minLonStepDeg: sourceStep.lon,
+    minLatStepDeg: sourceStep.lat,
+    maxPointsOverride: FALLBACK_MAX_POINTS[provider],
+  });
+}
 function cacheFind(provider, field, v) {
   const now = Date.now();
+  const target = targetGridFor(provider, v);
   for (const [key, item] of state.cache) {
     if (item.provider !== provider || item.field !== field || now - item.fetchedAt > 15 * 60 * 1000) continue;
     // Never let a partial/rate-limited response poison viewport cache hits.
     // An incomplete item may be rendered for the current request, but the next
     // move/refresh must remain eligible to refill missing coverage.
     if (item.coverageComplete === false) continue;
+    // Resolution guard: the cached sample step must be fine enough for the
+    // current viewport, otherwise refetch at the tighter grid.
+    if (item.dx > 0 && item.dx > target.dx * 1.05 + 1e-9) continue;
+    if (item.dy > 0 && item.dy > target.dy * 1.05 + 1e-9) continue;
     if (contains(item.coverage, v)) {
       state.cache.delete(key);
       state.cache.set(key, item);
@@ -391,15 +412,7 @@ async function fetchCoverage(provider, coverage, currentView) {
   if (state.aborter) state.aborter.abort();
   state.aborter = new AbortController();
   const mapNode = map.getContainer();
-  const sourceStep = FALLBACK_SOURCE_STEP[provider] || {};
-  const grid = sampleGrid(coverage, {
-    width: mapNode.clientWidth,
-    height: mapNode.clientHeight,
-    zoom: map.getZoom(),
-    minLonStepDeg: sourceStep.lon,
-    minLatStepDeg: sourceStep.lat,
-    maxPointsOverride: FALLBACK_MAX_POINTS[provider],
-  });
+  const grid = targetGridFor(provider, coverage);
   const field = $('layer').value;
   const batches = chunkPoints(grid.points, API_BATCH_SIZE);
   $('status').textContent = '補抓 ' + providerLabel(provider, field) + ' · ' + grid.points.length + ' samples / ' + batches.length + ' batches…';
