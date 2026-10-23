@@ -225,42 +225,209 @@ function reserveFallbackPoints(count) {
   state.fallbackUsage.push({ at: now, points: count });
   return true;
 }
+// Continuous colour ramps: [stop 0..1, r, g, b].  The smooth field renderer
+// bakes these at full opacity into an offscreen ImageData and lets the
+// browser's bilinear upscaling blend between samples, so colour is continuous
+// even when fallback grids are coarse.
+const RAMPS = {
+  cloud: [
+    [0.0, 235, 242, 250],
+    [0.25, 200, 220, 245],
+    [0.5, 140, 180, 235],
+    [0.7, 90, 135, 220],
+    [0.85, 60, 95, 200],
+    [1.0, 55, 70, 170],
+  ],
+  lcl: [
+    [0.0, 120, 95, 40],
+    [0.35, 205, 185, 130],
+    [0.7, 232, 224, 200],
+    [1.0, 240, 238, 230],
+  ],
+  cwa: [
+    [0.0, 235, 243, 248],
+    [0.3, 175, 210, 228],
+    [0.6, 110, 165, 205],
+    [0.85, 70, 120, 190],
+    [1.0, 50, 85, 165],
+  ],
+  visibility: [
+    [0.0, 200, 60, 60],
+    [0.2, 235, 130, 90],
+    [0.5, 235, 190, 120],
+    [0.8, 150, 205, 170],
+    [1.0, 110, 190, 150],
+  ],
+  precipitation: [
+    [0.0, 210, 230, 250],
+    [0.25, 120, 180, 245],
+    [0.5, 60, 130, 235],
+    [0.75, 40, 90, 205],
+    [1.0, 30, 55, 160],
+  ],
+  default: [
+    [0.0, 240, 220, 250],
+    [0.4, 190, 130, 235],
+    [0.75, 150, 80, 210],
+    [1.0, 110, 45, 175],
+  ],
+};
+function rampFor(field) {
+  if (isCloudField(field)) return RAMPS.cloud;
+  if (field === 'cwa_lcl_height') return RAMPS.lcl;
+  if (isCwaPercentField(field)) return RAMPS.cwa;
+  if (field === 'visibility') return RAMPS.visibility;
+  if (field === 'precipitation') return RAMPS.precipitation;
+  return RAMPS.default;
+}
+function rampNormalize(field, v) {
+  if (field === 'cwa_lcl_height') return 1 - clamp(v / 2500, 0, 1);
+  if (field === 'visibility') return clamp(v / 40, 0, 1);
+  if (field === 'precipitation') return clamp(v / 8, 0, 1);
+  if (isCwaPercentField(field) || isCloudField(field)) return clamp(v / 100, 0, 1);
+  return clamp(v / 15, 0, 1);
+}
+function rampColorRgb(field, value) {
+  if (value == null || Number.isNaN(Number(value))) return null;
+  const t = rampNormalize(field, Number(value));
+  const stops = rampFor(field);
+  for (let i = 1; i < stops.length; i += 1) {
+    if (t <= stops[i][0] || i === stops.length - 1) {
+      const [t0, r0, g0, b0] = stops[i - 1];
+      const [t1, r1, g1, b1] = stops[i];
+      const f = t1 > t0 ? (t - t0) / (t1 - t0) : 0;
+      return [
+        Math.round(r0 + (r1 - r0) * f),
+        Math.round(g0 + (g1 - g0) * f),
+        Math.round(b0 + (b1 - b0) * f),
+      ];
+    }
+  }
+  return null;
+}
 function colorFor(field, value) {
   if (value == null || Number.isNaN(Number(value))) return 'rgba(0,0,0,0)';
-  const v = Number(value);
-  if (isCloudField(field)) {
-    const a = 0.12 + clamp(v / 100, 0, 1) * 0.7;
-    return 'rgba(220,235,255,' + a.toFixed(3) + ')';
-  }
-  if (field === 'cwa_lcl_height') {
-    const a = 0.12 + (1 - clamp(v / 2500, 0, 1)) * 0.72;
-    return 'rgba(225,220,195,' + a.toFixed(3) + ')';
-  }
-  if (isCwaPercentField(field)) {
-    const a = 0.12 + clamp(v / 100, 0, 1) * 0.72;
-    return 'rgba(205,225,235,' + a.toFixed(3) + ')';
-  }
-  if (field === 'visibility') {
-    const t = clamp(v / 40, 0, 1);
-    return 'rgba(' + Math.round(235 - 110 * t) + ',' + Math.round(150 + 80 * t) + ',150,0.62)';
-  }
-  if (field === 'precipitation') {
-    const a = 0.18 + clamp(v / 8, 0, 1) * 0.72;
-    return 'rgba(60,145,255,' + a.toFixed(3) + ')';
-  }
-  const a = 0.2 + clamp(v / 15, 0, 1) * 0.65;
-  return 'rgba(185,105,235,' + a.toFixed(3) + ')';
+  const rgb = rampColorRgb(field, value);
+  if (!rgb) return 'rgba(0,0,0,0)';
+  // Per-sample rect path (sparse/degenerate grids) keeps a translucent wash so
+  // individual cells do not read as solid slabs.
+  const alphaByField = isCloudField(field) || isCwaPercentField(field) ? 0.62
+    : field === 'visibility' || field === 'precipitation' ? 0.66 : 0.6;
+  return 'rgba(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ',' + alphaByField + ')';
 }
 function displayValue(field, raw) {
   if (raw == null) return null;
   if (field === 'visibility') return Number(raw) / 1000;
   return Number(raw);
 }
+function buildFieldGrid(field) {
+  // Rebuild the sample list into a rows x cols grid using the dataset step.
+  // Returns null when samples do not fit a regular grid (rare partial fills);
+  // draw() then falls back to per-sample translucent rects.
+  const dx = Math.max(0.02, state.sampleDx);
+  const dy = Math.max(0.02, state.sampleDy);
+  const center = map.getCenter().lng;
+  const norm = (lon) => {
+    let value = Number(lon);
+    while (value - center > 180) value -= 360;
+    while (value - center < -180) value += 360;
+    return value;
+  };
+  let minLat = Infinity, maxLat = -Infinity, minLon = Infinity, maxLon = -Infinity;
+  const placed = [];
+  for (const sample of state.samples) {
+    const value = displayValue(field, sample.values[field]);
+    if (value == null) continue;
+    const lat = Number(sample.lat), lon = norm(sample.lon);
+    if (!Number.isFinite(lat) || !Number.isFinite(lon)) continue;
+    placed.push({ lat, lon, value });
+    if (lat < minLat) minLat = lat;
+    if (lat > maxLat) maxLat = lat;
+    if (lon < minLon) minLon = lon;
+    if (lon > maxLon) maxLon = lon;
+  }
+  if (!placed.length) return null;
+  const cols = Math.min(512, Math.round((maxLon - minLon) / dx) + 1);
+  const rows = Math.min(512, Math.round((maxLat - minLat) / dy) + 1);
+  if (cols < 2 || rows < 2 || cols * rows < placed.length) return null;
+  const colOf = (lon) => clamp(Math.round((lon - minLon) / dx), 0, cols - 1);
+  const rowOf = (lat) => clamp(Math.round((lat - minLat) / dy), 0, rows - 1);
+  const values = new Float64Array(cols * rows).fill(NaN);
+  let used = 0;
+  for (const p of placed) {
+    const idx = rowOf(p.lat) * cols + colOf(p.lon);
+    if (Number.isNaN(values[idx])) used += 1;
+    values[idx] = p.value;
+  }
+  if (used < placed.length) return null; // collisions mean it is not a clean grid
+  return { cols, rows, values, minLat, maxLat, minLon, maxLon, dx, dy };
+}
+
+// Fill isolated NaN holes by averaging valid neighbours so the bilinear
+// upscale does not smear transparent gaps through the field.
+function fillFieldHoles(grid) {
+  const { cols, rows, values } = grid;
+  for (let r = 0; r < rows; r += 1) {
+    for (let c = 0; c < cols; c += 1) {
+      const idx = r * cols + c;
+      if (!Number.isNaN(values[idx])) continue;
+      let sum = 0, n = 0;
+      for (let dr = -1; dr <= 1; dr += 1) {
+        for (let dc = -1; dc <= 1; dc += 1) {
+          if (!dr && !dc) continue;
+          const rr = r + dr, cc = c + dc;
+          if (rr < 0 || rr >= rows || cc < 0 || cc >= cols) continue;
+          const v = values[rr * cols + cc];
+          if (!Number.isNaN(v)) { sum += v; n += 1; }
+        }
+      }
+      if (n) values[idx] = sum / n;
+    }
+  }
+}
+
+const fieldCanvas = document.createElement('canvas');
+function drawSmoothField(field, grid) {
+  const { cols, rows, values, minLat, maxLat, minLon, maxLon, dx, dy } = grid;
+  fillFieldHoles(grid);
+  fieldCanvas.width = cols;
+  fieldCanvas.height = rows;
+  const fctx = fieldCanvas.getContext('2d');
+  const image = fctx.createImageData(cols, rows);
+  for (let i = 0; i < cols * rows; i += 1) {
+    const rgb = rampColorRgb(field, values[i]);
+    if (!rgb) continue; // stays transparent where no data exists at all
+    image.data[i * 4] = rgb[0];
+    image.data[i * 4 + 1] = rgb[1];
+    image.data[i * 4 + 2] = rgb[2];
+    image.data[i * 4 + 3] = 235;
+  }
+  fctx.putImageData(image, 0, 0);
+  const nw = map.project([mapLonNearCenter(minLon - dx / 2), maxLat + dy / 2]);
+  const se = map.project([mapLonNearCenter(maxLon + dx / 2), minLat - dy / 2]);
+  const x = Math.min(nw.x, se.x);
+  const y = Math.min(nw.y, se.y);
+  const w = Math.abs(se.x - nw.x);
+  const h = Math.abs(se.y - nw.y);
+  if (!Number.isFinite(w) || !Number.isFinite(h) || w < 4 || h < 4) return false;
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = 'high';
+  ctx.globalAlpha = 0.85;
+  ctx.drawImage(fieldCanvas, x, y, w, h);
+  ctx.globalAlpha = 1;
+  return true;
+}
+
 function draw() {
   const rect = canvas.getBoundingClientRect();
   ctx.clearRect(0, 0, rect.width, rect.height);
   if (!state.samples.length) return;
   const field = $('layer').value;
+  const grid = buildFieldGrid(field);
+  if (grid && drawSmoothField(field, grid)) {
+    $('legend').textContent = FIELDS[field].label + ' · ' + FIELDS[field].unit + ' · sampled viewport prototype (interpolated)';
+    return;
+  }
   const dx = Math.max(0.02, state.sampleDx);
   const dy = Math.max(0.02, state.sampleDy);
   for (const sample of state.samples) {
