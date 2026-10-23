@@ -1,7 +1,6 @@
 """First-batch ConditionContract evaluation bridge tests (offline, test-only)."""
 from __future__ import annotations
 
-import functools
 import importlib.util
 import json
 import sys
@@ -90,42 +89,42 @@ class BridgeTests(unittest.TestCase):
         self.assertEqual((failed["state"], failed["value"]), ("FAIL", False))
 
 
-_RUNTIME_TZDB = None
-try:
-    from adapters.open_meteo_hourly import taipei_zone as _tz
-    _RUNTIME_TZDB = _tz()[1]
-except Exception:  # pragma: no cover - environment without usable tzdata
-    _RUNTIME_TZDB = None
-_TZ_ALIGNED = _RUNTIME_TZDB == ARTIFACT["tzdb_version"]
-
-
 class ToolTests(unittest.TestCase):
-    @functools.lru_cache(maxsize=1)
-    def _bundle():
+    """Both tz paths are exercised deterministically in every environment by
+    monkeypatching tool.aligned_zone; no test may skip on tz availability."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls._real_aligned_zone = tool.aligned_zone
+
+    @classmethod
+    def tearDownClass(cls):
+        tool.aligned_zone = cls._real_aligned_zone
+
+    def aligned(self):
+        from zoneinfo import ZoneInfo
+        tool.aligned_zone = lambda declared: ZoneInfo("Asia/Taipei")
         return tool.evaluate_hours(OPPORTUNITY, ARTIFACT, "2026-10-24", EVALUATED_AT)
 
-    bundle = property(lambda self: type(self)._bundle())
-
-    @unittest.skipUnless(_TZ_ALIGNED,
-                         "runtime tzdb does not match the artifact's declared version")
     def test_full_local_day_is_evaluated_and_schema_valid(self):
-        self.assertEqual(len(self.bundle["results"]), 24)
-        self.assertEqual(self.bundle["time_zone"], "Asia/Taipei")
-        self.assertEqual(self.bundle["selected_local_date"], "2026-10-24")
+        bundle = self.aligned()
+        self.assertEqual(bundle["state"], "READY")
+        self.assertEqual(len(bundle["results"]), 24)
+        self.assertEqual(bundle["time_zone"], "Asia/Taipei")
+        self.assertEqual(bundle["selected_local_date"], "2026-10-24")
 
-    @unittest.skipUnless(_TZ_ALIGNED,
-                         "runtime tzdb does not match the artifact's declared version")
     def test_every_result_is_honest_test_only_not_evaluable(self):
-        for result in self.bundle["results"]:
+        for result in self.aligned()["results"]:
             self.assertEqual(result["status"], "NOT_EVALUABLE")
             self.assertFalse(result["live_recommendation"])
             self.assertTrue(result["provenance"]["test_only"])
             self.assertIn("NON_AUTO_MODE", result["unknown_reasons"])
             self.assertIn("PROVIDER_ISSUE_TIME_UNKNOWN", result["unknown_reasons"])
 
-    @unittest.skipUnless(_TZ_ALIGNED,
-                         "runtime tzdb does not match the artifact's declared version")
     def test_provider_run_cannot_claim_freshness_after_the_bound(self):
+        from zoneinfo import ZoneInfo
+        tool.aligned_zone = lambda declared: (type(self)._real_aligned_zone(declared)
+                                              or ZoneInfo("Asia/Taipei"))
         stale = tool.evaluate_hours(
             OPPORTUNITY, ARTIFACT, "2026-10-24",
             EVALUATED_AT.replace(hour=23))
@@ -133,28 +132,19 @@ class ToolTests(unittest.TestCase):
         self.assertEqual(stale["results"][0]["freshness"], "STALE")
 
     def test_tzdb_mismatch_yields_honest_empty_not_evaluable(self):
-        """Deterministic in every environment: a zone that cannot be aligned
-        with the artifact's declared tzdb version must stop evaluation
-        instead of silently assuming a different zone definition."""
-        original = tool.adapter.select_local_date
-
-        def misaligned(artifact_value, selected_date, inputs):
-            raise PilotFailure("TZDB_VERSION_MISMATCH")
-
-        tool.adapter.select_local_date = misaligned
-        try:
-            bundle = tool.evaluate_hours(OPPORTUNITY, ARTIFACT, "2026-10-24", EVALUATED_AT)
-        finally:
-            tool.adapter.select_local_date = original
+        """A zone definition that does not match the artifact's declared tzdb
+        version must stop evaluation instead of silently assuming a different
+        zone definition from the runtime environment."""
+        tool.aligned_zone = lambda declared: None
+        bundle = tool.evaluate_hours(OPPORTUNITY, ARTIFACT, "2026-10-24", EVALUATED_AT)
         self.assertEqual(bundle["state"], "NOT_EVALUABLE")
         self.assertEqual(bundle["reason_code"], "TZDB_VERSION_MISMATCH")
         self.assertEqual(bundle["results"], [])
         self.assertIsNone(bundle["provider_run"])
         self.assertTrue(bundle["test_only"])
 
-    @unittest.skipUnless(_TZ_ALIGNED,
-                         "date alignment requires the declared tzdb version")
     def test_outside_horizon_dates_fail_closed(self):
+        self.aligned()
         with self.assertRaises(PilotFailure):
             tool.evaluate_hours(OPPORTUNITY, ARTIFACT, "2026-11-20", EVALUATED_AT)
         with self.assertRaises(PilotFailure):
@@ -166,12 +156,11 @@ class ToolTests(unittest.TestCase):
             OPPORTUNITY["condition_contract"], sort_keys=True)))
         self.assertEqual(first, second)
         self.assertRegex(first, r"^[a-f0-9]{64}$")
-        self.assertEqual(self.bundle["condition_contract_sha256"], first)
+        self.assertEqual(self.aligned()["condition_contract_sha256"], first)
 
     def test_bundle_is_deterministic_for_fixed_inputs(self):
-        again = tool.evaluate_hours(OPPORTUNITY, ARTIFACT, "2026-10-24", EVALUATED_AT)
-        self.assertEqual(json.dumps(self.bundle, sort_keys=True),
-                         json.dumps(again, sort_keys=True))
+        self.assertEqual(json.dumps(self.aligned(), sort_keys=True),
+                         json.dumps(self.aligned(), sort_keys=True))
 
 
 if __name__ == "__main__":

@@ -35,6 +35,23 @@ for entry in (str(ROOT / "packages/core-v2"), str(ROOT / "packages/models-v2")):
 from adapters import open_meteo_hourly as adapter  # noqa: E402
 from adapters import threshold_observations as bridge  # noqa: E402
 from evaluator import evaluate  # noqa: E402
+from zoneinfo import ZoneInfo  # noqa: E402
+
+
+def aligned_zone(declared_version):
+    """Return an Asia/Taipei zone only when its definition version equals the
+    artifact's declared tzdb version. The pinned tzdata Python package is the
+    preferred source because its IANA version is machine-readable; a system
+    zoneinfo tree is never trusted sight-unseen."""
+    try:
+        import tzdata
+        if tzdata.IANA_VERSION == declared_version:
+            import importlib.resources as resources
+            with resources.files("tzdata.zoneinfo").joinpath("Asia/Taipei").open("rb") as file:
+                return ZoneInfo.from_file(file, key="Asia/Taipei")
+    except Exception:
+        return None
+    return None
 
 SCHEMA_PATH = ROOT / "specs/v2/schema/evaluation-result-v0.1.schema.json"
 OPPORTUNITY_PATH = ROOT / "data/v2/opportunities/tw-036-P01.json"
@@ -79,31 +96,34 @@ def evaluate_hours(opportunity, artifact, selected_date, evaluated_at):
     opportunity_id = opportunity["opportunity_id"]
     opportunity_revision = int(opportunity["revision"])
     inputs = adapter.load_inputs(ROOT)
-    try:
-        rows = adapter.select_local_date(artifact, selected_date, inputs)
-    except adapter.PilotFailure as failure:
-        # The date-query contract refuses evaluation when the local day cannot
-        # be aligned with the artifact's declared tzdb version; emit an honest
-        # empty NOT_EVALUABLE bundle instead of guessing a different zone.
-        if str(failure) in ("TZDB_VERSION_MISMATCH", "UNKNOWN_TZDB_VERSION",
-                            "TIME_ZONE_UNAVAILABLE"):
-            return {"evaluation_bundle_version": "0.1.0",
-                    "opportunity_id": opportunity["opportunity_id"],
-                    "condition_contract_id": contract["contract_id"],
-                    "condition_contract_sha256": contract_sha256(contract),
-                    "selected_local_date": selected_date,
-                    "time_zone": "Asia/Taipei",
-                    "tzdb_version": artifact["tzdb_version"],
-                    "evaluated_at": evaluated_at.isoformat().replace("+00:00", "Z"),
-                    "test_only": True,
-                    "state": "NOT_EVALUABLE",
-                    "reason_code": str(failure),
-                    "provider_run": None,
-                    "results": []}
-        raise
-    if not rows:
+    declared_zone = aligned_zone(artifact["tzdb_version"])
+    unaligned = None
+    if declared_zone is not None:
+        zone = declared_zone
+        rows = [row for row in artifact["hours"]
+                if adapter.utc(row["valid_at_utc"]).astimezone(zone).date().isoformat() == selected_date]
+    else:
+        # No zone definition matching the declared tzdb version: refuse to
+        # guess a different one and emit an honest NOT_EVALUABLE bundle.
+        zone = None
+        unaligned = "TZDB_VERSION_MISMATCH"
+        rows = []
+    if unaligned is None and not rows:
         raise adapter.PilotFailure("NO_MATCHING_DATA")
-    zone, _tzdb = adapter.taipei_zone()
+    if unaligned is not None:
+        return {"evaluation_bundle_version": "0.1.0",
+                "opportunity_id": opportunity["opportunity_id"],
+                "condition_contract_id": contract["contract_id"],
+                "condition_contract_sha256": contract_sha256(contract),
+                "selected_local_date": selected_date,
+                "time_zone": "Asia/Taipei",
+                "tzdb_version": artifact["tzdb_version"],
+                "evaluated_at": evaluated_at.isoformat().replace("+00:00", "Z"),
+                "test_only": True,
+                "state": "NOT_EVALUABLE",
+                "reason_code": unaligned,
+                "provider_run": None,
+                "results": []}
     provider_run = build_provider_run(artifact, evaluated_at)
     freshness = provider_run["freshness"]
     validator = jsonschema_validator()
@@ -172,6 +192,7 @@ def evaluate_hours(opportunity, artifact, selected_date, evaluated_at):
             "tzdb_version": artifact["tzdb_version"],
             "evaluated_at": evaluated_at.isoformat().replace("+00:00", "Z"),
             "test_only": True,
+            "state": "READY",
             "provider_run": provider_run,
             "results": results}
 
