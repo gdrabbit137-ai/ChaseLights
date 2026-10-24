@@ -28,6 +28,7 @@ import argparse
 import json
 import math
 import os
+import time
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
@@ -131,6 +132,13 @@ class CwaRunMetadata:
 
 def _norm(value) -> str:
     return str(value or "").lower().replace("_", "").replace(" ", "")
+
+
+# Bounded retry budget for mid-refresh model-cycle transitions (see the
+# refresh loop): 5 attempts x 10 minutes = up to 40 minutes of waiting for
+# CWA to finish publishing the new cycle before failing loudly.
+CWA_CYCLE_RETRY_ATTEMPTS = 5
+CWA_CYCLE_RETRY_DELAY_SECONDS = 600
 
 
 def validate_forecast_hours(hours: Iterable[int]) -> list[int]:
@@ -1168,17 +1176,38 @@ def main() -> int:
 
     for frame_index, fh in enumerate(hours):
         grib_path = out / f"cwa_wrf3_f{fh:03d}.grb2"
-        source = download_cwa_grib(fh, grib_path)
-        run = read_grib_run_metadata(grib_path, fh)
-
-        if expected_cycle is None:
-            expected_cycle = run.cycle_time_utc
-        elif run.cycle_time_utc != expected_cycle:
+        run = None
+        source = None
+        # CWA publishes the new model cycle progressively: mid-refresh, a
+        # later forecast-hour file can still carry the previous cycle while
+        # earlier files already switched. A mixed-cycle refresh would
+        # mislabel data, so the frame is re-downloaded on a bounded delay
+        # until the publisher catches up; if it never does within the
+        # budget the refresh fails loudly (never silently mixes cycles).
+        for attempt in range(CWA_CYCLE_RETRY_ATTEMPTS):
+            source = download_cwa_grib(fh, grib_path)
+            run = read_grib_run_metadata(grib_path, fh)
+            if expected_cycle is None or run.cycle_time_utc == expected_cycle:
+                break
+            if attempt + 1 < CWA_CYCLE_RETRY_ATTEMPTS:
+                print(
+                    f"CWA f{fh:03d} is from cycle "
+                    f"{run.cycle_time_utc.isoformat()} while refresh expects "
+                    f"{expected_cycle.isoformat()}; retrying in "
+                    f"{CWA_CYCLE_RETRY_DELAY_SECONDS}s "
+                    f"(attempt {attempt + 1}/{CWA_CYCLE_RETRY_ATTEMPTS})",
+                    flush=True,
+                )
+                time.sleep(CWA_CYCLE_RETRY_DELAY_SECONDS)
+        else:
             raise RuntimeError(
                 "CWA files crossed a model-cycle update during refresh: "
                 f"expected {expected_cycle.isoformat()}, got "
-                f"{run.cycle_time_utc.isoformat()} for f{fh:03d}"
+                f"{run.cycle_time_utc.isoformat()} for f{fh:03d} after "
+                f"{CWA_CYCLE_RETRY_ATTEMPTS} attempts"
             )
+        if expected_cycle is None:
+            expected_cycle = run.cycle_time_utc
 
         native_fields = extract_native_fields(grib_path)
         reference = native_fields["temperature_2m_c"]
