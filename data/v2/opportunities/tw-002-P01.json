@@ -5,14 +5,14 @@
   "revision": 1,
   "lifecycle_status": "draft",
   "name_i18n": {
-    "zh-TW": "台北101與信義天際線暮色／藍調",
-    "en": "台北101與信義天際線暮色／藍調 (provisional English title, pending review)",
-    "ja": "台北101與信義天際線暮色／藍調（暫定日本語タイトル、レビュー待ち）"
+    "zh-TW": "象山攝手平台望台北 101 暮色／藍調",
+    "en": "Taipei 101 dusk / blue hour from Xiangshan Photographers Platform (provisional English title, pending review)",
+    "ja": "象山撮影プラットフォームから望む台北101 暮色／ブルーアワー（暫定日本語タイトル、レビュー待ち）"
   },
   "description_i18n": {
-    "zh-TW": "台北101與信義天際線暮色／藍調（V1 最佳時段：日落後藍調；V1 季節：全年。V1 遷移骨架；內容待第二輪研究完善。）",
-    "en": "台北101與信義天際線暮色／藍調 (V1 best time: 日落後藍調; V1 season: 全年 (zh-TW source values retained pending translation). V1 migration skeleton; content to be refined in round 2.)",
-    "ja": "台北101與信義天際線暮色／藍調（V1ベスト時間帯: 日落後藍調；V1季節: 全年（zh-TW原文のまま、翻訳待ち）。V1移行スケルトン。内容は第2ラウンドで精緻化予定。）"
+    "zh-TW": "自象山拍攝台北 101 與信義天際線的暮色與藍調。攝手平台與六巨石是公認適合拍 101 的取景點；建議日落後太陽高度 −4°～−8° 的藍調時段前往。",
+    "en": "Shoot Taipei 101 and the Xinyi skyline at dusk and blue hour from Xiangshan. The Photographers Platform and the Six Giants Rocks are the recognized spots for framing 101; best in blue hour (sun -4 to -8 degrees after sunset).",
+    "ja": "象山から台北101と信義スカイラインの夕暮れ・ブルーアワーを撮影。撮影プラットフォームとシックスジャイアンツ岩は101の定番撮影スポット。日没後に太陽高度-4〜-8度のブルーアワーが狙い目。"
   },
   "camera_contexts": [
     {
@@ -24,12 +24,12 @@
         "geojson": {
           "type": "Point",
           "coordinates": [
-            121.57419,
-            25.02688
+            121.5722,
+            25.0288
           ]
         },
-        "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "uncertainty_m": 30,
+        "derivation_method": "operator_designated_spot_estimate",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
@@ -45,7 +45,7 @@
         "en": "Follow on-site safety guidance.",
         "ja": "現地の安全指示に従ってください。"
       },
-      "altitude_m": null
+      "altitude_m": 170.0
     }
   ],
   "targets": [
@@ -53,9 +53,9 @@
       "id": "SG-tw-002-P01-01",
       "kind": "multi_component",
       "name_i18n": {
-        "zh-TW": "台北101與信義天際線暮色／藍調",
-        "en": "台北101與信義天際線暮色／藍調 (provisional English title, pending review)",
-        "ja": "台北101與信義天際線暮色／藍調（暫定日本語タイトル、レビュー待ち）"
+        "zh-TW": "象山攝手平台望台北 101 暮色／藍調",
+        "en": "Taipei 101 dusk / blue hour from Xiangshan Photographers Platform (provisional English title, pending review)",
+        "ja": "象山撮影プラットフォームから望む台北101 暮色／ブルーアワー（暫定日本語タイトル、レビュー待ち）"
       },
       "geometry": {
         "kind": "point",
@@ -63,12 +63,12 @@
         "geojson": {
           "type": "Point",
           "coordinates": [
-            121.57419,
-            25.02688
+            121.56479,
+            25.03349
           ]
         },
-        "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "uncertainty_m": 15,
+        "derivation_method": "landmark_reference_building",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
@@ -83,13 +83,13 @@
       "camera_context_id": "CZ-tw-002-P01-01",
       "target_id": "SG-tw-002-P01-01",
       "type": "foreground_background",
-      "geometry_mode": "unknown",
-      "azimuth_deg": null,
+      "geometry_mode": "static_derived",
+      "azimuth_deg": 304.9,
       "elevation_deg": null,
-      "distance_m": null,
+      "distance_m": 911,
       "evidence_refs": [],
-      "derivation_method": null,
-      "uncertainty_note": "Imported V1 reference; angles and distance unknown."
+      "derivation_method": "computed_great_circle_from_designated_viewpoint",
+      "uncertainty_note": "Viewpoint designated by the operator as Xiangshan Photographers Platform (estimate, ~30 m positional uncertainty); altitude ~170 m estimated. Azimuth/distance great-circle from viewpoint to Taipei 101."
     }
   ],
   "navigation_targets": [
