@@ -97,7 +97,20 @@ FIELD_SPECS = {
     },
 }
 
-DEFAULT_FORECAST_HOURS = (0, 3, 6, 9, 12)
+def default_forecast_hours() -> tuple[int, ...]:
+    """Published GFS lead-time schedule.
+
+    3-hourly out to 48 h for the photographer-relevant short window, then
+    6-hourly out to 168 h so the score timeline reaches a week instead of
+    stopping at f012. The tiering spec (specs/v2/DATA_SOURCE_TIERING_SPEC.md)
+    makes GFS the MID/LONG backbone; CWA stays 0-12 h SHORT_HQ.
+    """
+    hours = list(range(0, 49, 3))
+    hours.extend(range(54, 169, 6))
+    return tuple(hours)
+
+
+DEFAULT_FORECAST_HOURS = default_forecast_hours()
 
 
 def build_multilayer_url(run: GFSRun, bbox: dict[str, float] | None = None) -> str:
