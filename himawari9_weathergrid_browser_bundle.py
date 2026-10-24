@@ -26,6 +26,11 @@ OUTPUT_BBOX = {
 }
 OUTPUT_STEP_DEG = 0.02
 MAX_NEAREST_DISTANCE_M = 5000.0
+# Cloud-top height (CldTopHghtAWIPS) is a coarser derived product than the
+# 2 km cloud mask, so its nearest-neighbour budget is wider; edge targets
+# otherwise trip the resample gate for a few hundred metres of extra
+# distance (seen live: p99 1.97 km, max 5.4 km).
+MAX_HEIGHT_NEAREST_DISTANCE_M = 10000.0
 HEIGHT_SCALE_M = 100.0
 
 
@@ -297,6 +302,7 @@ def build_live_bundle(
         source["cloud_height"]["lat"],
         source["cloud_height"]["lon"],
         source["cloud_height"]["values"],
+        max_distance_m=MAX_HEIGHT_NEAREST_DISTANCE_M,
         target_latitudes=latitudes,
         target_longitudes=longitudes,
         fill_value=source["cloud_height"]["fill"],

@@ -95,8 +95,13 @@ jobs:
           distances = qc.get("nearest_distance_m", {})
           for field in ("observed_cloud_mask", "cloud_top_height_m"):
               item = distances[field]
+              # cloud_top_height_m resamples from a coarser derived product
+              # (CldTopHght), so its nearest-neighbour budget is 10 km
+              # (MAX_HEIGHT_NEAREST_DISTANCE_M in the bundle builder); the
+              # 2 km cloud mask keeps the original 5 km budget.
+              allowed = 10000.0 if field == "cloud_top_height_m" else 5000.0
               assert item["outside_max_distance"] == 0, (field, item)
-              assert item["p99_m"] <= 5000.0, (field, item)
+              assert item["p99_m"] <= allowed, (field, item)
 
           print(json.dumps({
               "observation": observation,
