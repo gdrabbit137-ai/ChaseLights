@@ -158,6 +158,20 @@
     };
   }
 
+  // Tiering spec (specs/v2/DATA_SOURCE_TIERING_SPEC.md): the score's
+  // components are selected per field, not per dataset. CWA WRF 3 km is the
+  // SHORT_HQ source for 0-12 h but only publishes wind (no cloud layers or
+  // visibility), so wind takes CWA whenever the target frame is inside the
+  // CWA lead window and the remaining components stay on the GFS bundle.
+  // No spatial stitching is involved: both bundles fully cover the render
+  // grid, and provenance records the actual source per component.
+  function photographyComponentDataset(key, targetValidTime){
+    const t=targetValidTime || baseFrame()?.valid_time_utc;
+    const cwa=state.cwaData;
+    if(t && cwa?.fields?.[key] && (cwa.frames||[]).some(f=>f.valid_time_utc===t)) return cwa;
+    return state.data;
+  }
+
   function photographyProviderName(data){
     if(data===state.cwaData) return 'CWA WRF';
     if(data===state.jmaData) return 'JMA MSM';
@@ -167,7 +181,7 @@
   }
 
   function buildPhotographyComponentProvenance(key,targetValidTime,toleranceMinutes=90){
-    const data=autoDataset(key);
+    const data=photographyComponentDataset(key,targetValidTime);
     if(!data?.fields?.[key]) return {field:key,provider:photographyProviderName(data),status:'missing_field'};
     const frames=data.frames || [];
     if(!frames.length || !targetValidTime) return {field:key,provider:photographyProviderName(data),status:'missing_time'};
@@ -230,7 +244,7 @@
 
   function resamplePhotographyComponent(key,targetGrid,targetValidTime,toleranceMinutes=90){
     const provenance=buildPhotographyComponentProvenance(key,targetValidTime,toleranceMinutes);
-    const data=autoDataset(key);
+    const data=photographyComponentDataset(key,targetValidTime);
     const frame=photographyFrameForProvenance(data,provenance);
     const values=photographyDecodedValues(data,key,frame);
     const out=new Array(targetGrid?.cell_count||0).fill(null);
@@ -285,7 +299,7 @@
 
   function photographyNativePointSample(point,key,targetValidTime,toleranceMinutes=90){
     const provenance=buildPhotographyComponentProvenance(key,targetValidTime,toleranceMinutes);
-    const data=autoDataset(key);
+    const data=photographyComponentDataset(key,targetValidTime);
     const frame=photographyFrameForProvenance(data,provenance);
     if(provenance.status!=='ok') return {value:null,status:provenance.status,provenance};
     const values=photographyDecodedValues(data,key,frame);
