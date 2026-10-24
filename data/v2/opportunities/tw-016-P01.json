@@ -110,51 +110,87 @@
     "status": "review",
     "conditions": [
       {
+        "id": "C-tw-016-P01-01",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "aod_550nm",
+        "operator": "lte",
+        "threshold": 0.3,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-016-P01-claim-01"
+        ],
+        "model_binding": null,
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "層次山景＝看 5–25 km 的層疊山頭，霧霾是頭號殺手；門檻比城市嚴（0.3）。原「能見度 ≥15 km」依欄位語意規則改用 AOD。",
+          "en": "Layered mountain vistas read ridgelines 5-25 km away, where haze is the number-one killer; the threshold is stricter than urban (0.3). The original visibility >=15 km was replaced by AOD per the field-semantics rule.",
+          "ja": "層になった山並みは5-25km先の尾根を読む景で、ヘイズが最大の敵。閾値は都市（0.5）より厳しい0.3。当初の視程15km以上は欄位語意規則によりAODへ置換。"
+        }
+      },
+      {
         "id": "C-tw-016-P01-02",
         "role": "REQUIRED",
         "domain": "WEATHER",
         "evaluation_mode": "GUIDANCE",
         "capability": "CONDITIONS",
-        "metric": "ridge_and_mountain_visibility",
-        "operator": "none",
-        "threshold": null,
-        "unit": null,
+        "metric": "cloud_cover_mid",
+        "operator": "between",
+        "threshold": [
+          30,
+          60
+        ],
+        "unit": "%",
         "unknown_policy": "propagate_unknown",
         "claim_refs": [
-          "tw-016-P01-claim-02"
+          "tw-016-P01-claim-01"
         ],
         "model_binding": null,
-        "notes_i18n": {
-          "zh-TW": "岩稜與遠山需可辨；未設定公里能見度門檻。",
-          "en": "The ridge and distant mountains must remain discernible; no visibility-distance threshold is asserted.",
-          "ja": "岩稜と遠方の山並みが判別できること。視程の数値基準は未設定。"
-        },
-        "validation_status": "provisional"
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "完全無雲＝沒有層次；山腰雲帶（中雲 30–60%）形成層疊分明的畫面。",
+          "en": "A cloudless sky has no layering; mid-level cloud bands on the mountainsides (30-60%) build the stacked composition.",
+          "ja": "雲がなければ層はない。山腹の雲帯（中層雲30-60%）が重なりのある構図を作る。"
+        }
       },
       {
-        "id": "C-tw-016-P01-04",
-        "role": "QUALITY",
+        "id": "C-tw-016-P01-03",
+        "role": "REQUIRED",
         "domain": "WEATHER",
         "evaluation_mode": "GUIDANCE",
         "capability": "CONDITIONS",
-        "metric": "mountain_layer_clarity",
-        "operator": "none",
-        "threshold": null,
-        "unit": null,
+        "metric": "precipitation",
+        "operator": "lt",
+        "threshold": 0.2,
+        "unit": "mm/h",
         "unknown_policy": "propagate_unknown",
         "claim_refs": [
-          "tw-016-P01-claim-04"
+          "tw-016-P01-claim-01"
         ],
         "model_binding": null,
-        "notes_i18n": {
-          "zh-TW": "遠山輪廓與空氣透明度越清楚，層次越完整；無量化門檻。",
-          "en": "Clearer distant silhouettes and atmospheric transparency improve layering; no numeric cutoff is claimed.",
-          "ja": "遠景の輪郭と大気の透明度が高いほど山並みの層次が良くなる。数値基準なし。"
-        },
-        "validation_status": "provisional"
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "拍攝受影響下限。",
+          "en": "Minimum before the shoot is impaired.",
+          "ja": "撮影に支障が出る前の下限。"
+        }
       }
     ],
-    "recommendation_policy_version": null
+    "recommendation_policy_version": null,
+    "genre_template": "mountain_layers",
+    "template_version": "mountain_layers-v0.1"
   },
   "evidence_claims": [
     {

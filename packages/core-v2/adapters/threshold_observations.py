@@ -23,6 +23,18 @@ METRIC_FIELDS = {
     "visibility": "visibility",
     "precipitation": "precipitation",
     "precipitation_probability": "precipitation_probability",
+    # Genre-template metrics (specs/v2/GENRE_CONDITION_TEMPLATES.md).
+    # Registered ahead of the data landing so contract metric names are
+    # stable; rows that do not carry the field yet resolve to UNKNOWN /
+    # NOT_EVALUABLE, never to a fabricated comparison.
+    "relative_humidity_925hpa": "relative_humidity_925hpa",
+    "relative_humidity_850hpa": "relative_humidity_850hpa",
+    "lcl_height_m_agl": "lcl_height_m_agl",
+    "aod_550nm": "aod_550nm",
+    "temperature_delta_850_925_c": "temperature_delta_850_925_c",
+    "wind_speed_850hpa": "wind_speed_850hpa",
+    "cloud_cover_total": "cloud_cover_total",
+    "cloud_cover_mid_and_high": "cloud_cover_mid_and_high",
 }
 
 
