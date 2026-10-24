@@ -40,9 +40,17 @@ CLOUD_VERTICAL_DEFINITIONS = {
         "pressure_bounds_hpa": {"bottom": 350, "top": "model_top"},
         "definition_source": "NCEP UPP high cloud layer",
     },
+    "total_cloud_percent": {
+        "coordinate": "column",
+        "native_definition": "entire atmosphere (column integrated)",
+        "approx_height": "整層大氣（垂直積分）",
+        "pressure_bounds_hpa": {"bottom": "surface", "top": "model_top"},
+        "definition_source": "NCEP GFS TCDC",
+    },
 }
 
 FIELD_ENCODINGS = {
+    "total_cloud_percent": {"unit": "%", "scale": 1.0, "min": 0.0, "max": 100.0},
     "low_cloud_percent": {"unit": "%", "scale": 1.0, "min": 0.0, "max": 100.0},
     "mid_cloud_percent": {"unit": "%", "scale": 1.0, "min": 0.0, "max": 100.0},
     "high_cloud_percent": {"unit": "%", "scale": 1.0, "min": 0.0, "max": 100.0},

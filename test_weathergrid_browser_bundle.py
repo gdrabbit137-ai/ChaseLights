@@ -45,6 +45,7 @@ class WeatherGridBrowserBundleTest(unittest.TestCase):
             )
             base = _field([[0, 0], [0, 0]], "%")
             fields = {
+                "total_cloud_percent": base,
                 "low_cloud_percent": base,
                 "mid_cloud_percent": base,
                 "high_cloud_percent": base,
@@ -101,6 +102,7 @@ class WeatherGridBrowserBundleTest(unittest.TestCase):
                     "valid_time_utc": "2026-09-29T00:00:00+00:00",
                 },
                 "fields": {
+                    "total_cloud_percent": _field([[10, 60], [85, 100]], "%"),
                     "low_cloud_percent": _field([[0, 50], [75, 100]], "%"),
                     "mid_cloud_percent": _field([[0, 0], [0, 0]], "%"),
                     "high_cloud_percent": _field([[10, 20], [30, 40]], "%"),
@@ -159,6 +161,7 @@ class WeatherGridBrowserBundleTest(unittest.TestCase):
 
             fields = {}
             for key in [
+                "total_cloud_percent",
                 "low_cloud_percent",
                 "mid_cloud_percent",
                 "high_cloud_percent",

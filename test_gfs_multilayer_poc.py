@@ -48,6 +48,7 @@ class GFSMultilayerPOCTest(unittest.TestCase):
         self.assertEqual(
             set(FIELD_SPECS),
             {
+                "total_cloud_percent",
                 "low_cloud_percent",
                 "mid_cloud_percent",
                 "high_cloud_percent",

@@ -41,6 +41,7 @@ REQUEST_PARAMS = {
     "var_LCDC": "on",
     "var_MCDC": "on",
     "var_HCDC": "on",
+    "var_TCDC": "on",
     "var_VIS": "on",
     "var_PRATE": "on",
     "var_UGRD": "on",
@@ -48,6 +49,7 @@ REQUEST_PARAMS = {
     "lev_low_cloud_layer": "on",
     "lev_middle_cloud_layer": "on",
     "lev_high_cloud_layer": "on",
+    "lev_entire_atmosphere": "on",
     "lev_surface": "on",
     "lev_10_m_above_ground": "on",
 }
@@ -66,6 +68,11 @@ FIELD_SPECS = {
     "high_cloud_percent": {
         "aliases": {"hcc", "hcdc"},
         "level": "highcloudlayer",
+        "kind": "percent",
+    },
+    "total_cloud_percent": {
+        "aliases": {"tcc", "tcdc"},
+        "level": "atmosphere",
         "kind": "percent",
     },
     "visibility_km": {
@@ -386,6 +393,7 @@ def sample_place(fields: dict[str, dict], spot: dict) -> dict:
     lat, lon = spot["lat"], spot["lon"]
     output = {**spot, "weather": {}}
     sample_keys = [
+        "total_cloud_percent",
         "low_cloud_percent",
         "mid_cloud_percent",
         "high_cloud_percent",
@@ -461,12 +469,13 @@ def render_overview(
 
     projection = ccrs.PlateCarree()
     fig, axes = plt.subplots(
-        2, 3,
-        figsize=(15, 9),
+        2, 4,
+        figsize=(20, 9),
         subplot_kw={"projection": projection},
         constrained_layout=True,
     )
     specs = [
+        ("total_cloud_percent", "Total cloud (%)", 0, 100),
         ("low_cloud_percent", "Low cloud (%)", 0, 100),
         ("mid_cloud_percent", "Middle cloud (%)", 0, 100),
         ("high_cloud_percent", "High cloud (%)", 0, 100),
