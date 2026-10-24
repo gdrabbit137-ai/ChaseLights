@@ -36,6 +36,10 @@ params = {
     "timezone": "auto",
     "timeformat": "unixtime",
     "wind_speed_unit": "ms",
+    # Pinned to a single upstream model so the score provenance is
+    # reproducible; "best_match" silently mixes providers per variable.
+    # gfs_seamless also matches the WeatherGrid GFS bundle on the map.
+    "models": "gfs_seamless",
     "past_hours": 24,
     "forecast_hours": 72,
 }

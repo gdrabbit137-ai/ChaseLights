@@ -1671,6 +1671,16 @@ def _access_open_for_spot(spot, local_dt, is_day, is_twilight):
     return True
 
 
+# Open-Meteo is pinned to explicit models so every score's provenance is
+# reproducible: "best_match" silently mixes upstream providers per variable
+# and per location, which makes a score impossible to attribute or calibrate.
+# gfs_seamless (GFS + GraphCast) matches the WeatherGrid GFS bundle the map
+# already uses; MET Norway's global wave model covers the marine endpoints
+# (the marine API does not accept gfs_wave).
+OPEN_METEO_WEATHER_MODEL = "gfs_seamless"
+OPEN_METEO_MARINE_MODEL = "metno_seamless"
+
+
 def _build_open_meteo_url(spot):
     lat = spot.get("lat")
     lon = spot.get("lon")
@@ -1684,6 +1694,7 @@ def _build_open_meteo_url(spot):
         "timezone=auto",
         "timeformat=unixtime",
         "wind_speed_unit=ms",
+        f"models={OPEN_METEO_WEATHER_MODEL}",
     ]
     elevation = spot.get("elevation")
     if elevation is not None:
@@ -1716,6 +1727,7 @@ def _build_spatial_open_meteo_url(plan):
         "timezone=auto",
         "timeformat=unixtime",
         "wind_speed_unit=ms",
+        f"models={OPEN_METEO_WEATHER_MODEL}",
     ]
     return "https://api.open-meteo.com/v1/forecast?" + "&".join(params)
 
@@ -1774,6 +1786,7 @@ def _build_marine_open_meteo_url(spot):
         "timezone=auto",
         "timeformat=unixtime",
         "cell_selection=sea",
+        f"models={OPEN_METEO_MARINE_MODEL}",
     ]
     return "https://marine-api.open-meteo.com/v1/marine?" + "&".join(params)
 
@@ -1802,6 +1815,7 @@ def _build_tide_open_meteo_url(spot):
         "timezone=auto",
         "timeformat=unixtime",
         "cell_selection=sea",
+        f"models={OPEN_METEO_MARINE_MODEL}",
     ]
     return "https://marine-api.open-meteo.com/v1/marine?" + "&".join(params)
 
