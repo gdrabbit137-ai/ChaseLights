@@ -15,6 +15,7 @@
   "fields": [
     "temperature_2m_c",
     "relative_humidity_2m_percent",
+    "precip_total_mm",
     "shortwave_flux_w_m2",
     "wind_speed_10m_m_s",
     "wind_direction_10m_deg",
@@ -68,6 +69,20 @@
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
+        },
+        "precip_total_mm": {
+          "count": 62478,
+          "missing": 0,
+          "min": 0.0,
+          "max": 0.0,
+          "mean": 0.0,
+          "unique_rounded": 1,
+          "range": 0.0,
+          "flags": [
+            "constant_field"
+          ],
+          "source_units": "unknown",
+          "normalized_units": "mm"
         },
         "shortwave_flux_w_m2": {
           "count": 62478,
@@ -389,6 +404,18 @@
           "source_units": "%",
           "normalized_units": "%"
         },
+        "precip_total_mm": {
+          "count": 62478,
+          "missing": 0,
+          "min": 0.0,
+          "max": 55.2733,
+          "mean": 0.889,
+          "unique_rounded": 6487,
+          "range": 55.2733,
+          "flags": [],
+          "source_units": "unknown",
+          "normalized_units": "mm"
+        },
         "shortwave_flux_w_m2": {
           "count": 62478,
           "missing": 0,
@@ -709,6 +736,18 @@
           "source_units": "%",
           "normalized_units": "%"
         },
+        "precip_total_mm": {
+          "count": 62478,
+          "missing": 0,
+          "min": 0.0,
+          "max": 79.4649,
+          "mean": 1.3571,
+          "unique_rounded": 8082,
+          "range": 79.4649,
+          "flags": [],
+          "source_units": "unknown",
+          "normalized_units": "mm"
+        },
         "shortwave_flux_w_m2": {
           "count": 62478,
           "missing": 0,
@@ -1001,6 +1040,11 @@
     }
   ],
   "flags": [
+    {
+      "forecast_hour": 0,
+      "field": "precip_total_mm",
+      "flag": "constant_field"
+    },
     {
       "forecast_hour": 0,
       "field": "shortwave_flux_w_m2",
