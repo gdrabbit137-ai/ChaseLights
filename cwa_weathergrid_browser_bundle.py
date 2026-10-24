@@ -62,6 +62,14 @@ for _pressure_hpa in (1000, 925, 850, 700, 500, 400, 300):
 # levels): boundary-layer wind feeds sea-of-clouds / fog / stability
 # condition contracts where surface 10 m wind is decoupled from the deck.
 for _pressure_hpa in (925, 850, 700):
+    FIELD_ENCODINGS[f"temperature_{_pressure_hpa}hpa_c"] = {
+        "unit": "°C",
+        "scale": 0.1,
+        "min": -90.0,
+        "max": 60.0,
+    }
+
+for _pressure_hpa in (925, 850, 700):
     FIELD_ENCODINGS[f"wind_speed_{_pressure_hpa}hpa_m_s"] = {
         "unit": "m/s",
         "scale": 0.1,

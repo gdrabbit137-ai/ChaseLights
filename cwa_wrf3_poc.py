@@ -63,6 +63,10 @@ CWA_PRESSURE_RH_LEVELS_HPA = (1000, 925, 850, 700, 500, 400, 300)
 # from the mixing that erodes a cloud deck under an inversion, so the deck
 # persistence signal lives at these isobaric levels.
 CWA_PRESSURE_WIND_LEVELS_HPA = (925, 850, 700)
+# Isobaric temperature at the same boundary-layer levels: the deck-top
+# inversion delta-T (upper minus lower) is the primary stability signal
+# for sea-of-clouds / fog condition contracts.
+CWA_PRESSURE_TEMP_LEVELS_HPA = (925, 850, 700)
 
 # Official documentation reference corners for the 3 km regional grid.
 CWA_NATIVE_DOMAIN_REFERENCE = {
@@ -672,6 +676,86 @@ def _extract_pressure_wind_uv_fields(
     return found
 
 
+def _extract_pressure_temperature_field(
+    datasets, pressure_hpa: int
+) -> dict | None:
+    """Extract air temperature at one isobaric level from CWA M-A0064."""
+    import numpy as np
+
+    candidates = []
+    for ds in datasets:
+        for name, array in ds.data_vars.items():
+            view = _pressure_level_view(array, pressure_hpa)
+            if view is None:
+                continue
+            attrs = view.attrs or array.attrs or {}
+            short = _norm(attrs.get("GRIB_shortName", name))
+            data_name = _norm(name)
+            long_name = _norm(attrs.get("long_name") or attrs.get("GRIB_name"))
+            score = 0
+            if short in {"t", "temp", "temperature"}:
+                score += 14
+            if data_name in {"t", "temp", "temperature"}:
+                score += 10
+            if long_name == "temperature":
+                score += 8
+            if view.ndim >= 2:
+                score += 1
+            candidates.append((score, ds, name, view))
+
+    candidates.sort(key=lambda item: item[0], reverse=True)
+    if not candidates or candidates[0][0] < 9:
+        return None
+
+    score, ds, name, array = candidates[0]
+    values = np.squeeze(np.asarray(array.values, dtype=float))
+    if values.ndim != 2:
+        return None
+
+    lat = _coord_values(ds, ("latitude", "lat"))
+    lon = _coord_values(ds, ("longitude", "lon"))
+    if lat is None or lon is None:
+        return None
+    lat = np.asarray(lat, dtype=float)
+    lon = np.asarray(lon, dtype=float)
+    if lat.ndim == 1 and lon.ndim == 1:
+        lon2, lat2 = np.meshgrid(lon, lat)
+    elif lat.shape == lon.shape:
+        lat2, lon2 = lat, lon
+    else:
+        return None
+    if values.shape != lat2.shape:
+        if values.T.shape == lat2.shape:
+            values = values.T
+        else:
+            return None
+
+    normalized, normalized_unit = _normalize_values(
+        values,
+        "temperature",
+        (array.attrs or {}).get("units", ""),
+    )
+    return {
+        "field_name": name,
+        "candidate_score": score,
+        "field_attrs": {
+            "short_name": (array.attrs or {}).get("GRIB_shortName"),
+            "type_of_level": (array.attrs or {}).get("GRIB_typeOfLevel"),
+            "pressure_level_hpa": int(pressure_hpa),
+            "long_name": (
+                (array.attrs or {}).get("long_name")
+                or (array.attrs or {}).get("GRIB_name")
+                or f"Air temperature at {pressure_hpa} hPa"
+            ),
+            "source_units": (array.attrs or {}).get("units"),
+            "normalized_units": normalized_unit,
+        },
+        "latitudes_2d": lat2,
+        "longitudes_2d": lon2,
+        "values_2d": normalized,
+    }
+
+
 def extract_native_fields(grib_path: Path) -> dict[str, dict]:
     import cfgrib
 
@@ -720,6 +804,15 @@ def extract_native_fields(grib_path: Path) -> dict[str, dict]:
                 f"CWA WRF3 required pressure-level wind fields missing: {pressure_hpa} hPa"
             )
         fields.update(uv)
+
+    for pressure_hpa in CWA_PRESSURE_TEMP_LEVELS_HPA:
+        key = f"temperature_{pressure_hpa}hpa_c"
+        field = _extract_pressure_temperature_field(datasets, pressure_hpa)
+        if field is None:
+            raise RuntimeError(
+                f"CWA WRF3 required pressure-level temperature field missing: {pressure_hpa} hPa"
+            )
+        fields[key] = field
 
     return fields
 
