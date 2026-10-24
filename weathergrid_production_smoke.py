@@ -62,6 +62,15 @@ def run(url: str, screenshot: Path) -> dict:
         assert opacity == "62", opacity
 
         auto_layers = Select(driver.find_element(By.ID, "layer-select"))
+
+        def _auto_layers_have_total_cloud(d):
+            options = [o.get_attribute("value") for o in Select(d.find_element(By.ID, "layer-select")).options]
+            return "total_cloud_percent" in options
+
+        # AUTO builds the layer list from every loaded regional bundle; the
+        # JMA cloud bundle loads asynchronously after preview readiness, so
+        # wait for the full list instead of racing the load sequence.
+        wait_for(_auto_layers_have_total_cloud, wait, "AUTO layer list with total cloud")
         auto_layer_values = [o.get_attribute("value") for o in auto_layers.options]
         assert "total_cloud_percent" in auto_layer_values, auto_layer_values
         auto_layers.select_by_value("total_cloud_percent")
