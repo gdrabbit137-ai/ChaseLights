@@ -6,6 +6,7 @@ import argparse
 import json
 from pathlib import Path
 
+from weathergrid_packed_values import pack_int16_gz
 from weathergrid_browser_bundle import field_stats, qc_flags, quantize
 
 
@@ -140,8 +141,19 @@ def build_jma_bundle(input_dir: Path) -> tuple[dict, dict]:
         }
     )
 
+    # Pack every quantized cloud field as base64(gzip(int16 LE)) so the
+    # browser payload stays small despite the wider window; the loader
+    # hydrates with DecompressionStream and the -32768 sentinel maps back
+    # to missing cells.
+    for frame in frames_out:
+        frame["values"] = {
+            field_name: pack_int16_gz(encoded)
+            for field_name, encoded in frame["values"].items()
+        }
+
     bundle = {
         "schema_version": 2,
+        "bundle_encoding": "i16gz-v1",
         "model_id": "jma_msm",
         "provider": raw["provider"],
         "model": raw["model"],

@@ -122,9 +122,16 @@ class JmaMsmBrowserBundleTests(unittest.TestCase):
             self.assertEqual(bundle["grid"]["rows"], 2)
             self.assertEqual(bundle["grid"]["cols"], 2)
             self.assertEqual(len(bundle["frames"]), 2)
+            from weathergrid_packed_values import unpack_int16_gz
             self.assertEqual(
-                bundle["frames"][0]["values"]["total_cloud_percent"],
+                unpack_int16_gz(
+                    bundle["frames"][0]["values"]["total_cloud_percent"]
+                ),
                 [0, 25, 51, 100],
+            )
+            self.assertEqual(
+                bundle["bundle_encoding"],
+                "i16gz-v1",
             )
             self.assertEqual(
                 bundle["fields"]["low_cloud_percent"]["vertical_definition"][

@@ -43,12 +43,15 @@ JMA_MSM_NATIVE_DOMAIN = {
 # boundary instead of pretending the model covers islands west of 120E or the
 # portion of southern Taiwan below 22.4N.
 JMA_MSM_TAIWAN_BROWSER_BBOX = {
-    # Keep one native cell inside the official south/west edge for the initial
-    # browser footprint; the AWS adapter itself can read the exact model edge.
+    # Keep one native cell inside the official south/west edge; the AWS
+    # adapter itself can read the exact model edge. The window extends
+    # east/north (eastern sea area, southwestern Ryukyus) because the JMA MSM
+    # native domain allows it, while the west/south edges stay at the model
+    # boundary (no MSM data west of 120E or south of 22.4N exists to publish).
     "leftlon": 120.0625,
-    "rightlon": 122.5,
+    "rightlon": 124.5,
     "bottomlat": 22.45,
-    "toplat": 25.6,
+    "toplat": 27.0,
 }
 
 DEFAULT_FORECAST_HOURS = 40

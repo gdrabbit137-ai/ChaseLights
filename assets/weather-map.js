@@ -845,7 +845,9 @@
     }
 
     try{
-      state.jmaData = await fetchVersioned('jma_msm_tw_cloud_browser.json');
+      state.jmaData = await hydratePackedBundle(
+        await fetchVersioned('jma_msm_tw_cloud_browser.json')
+      );
       try{ state.jmaQc = await fetchVersioned('jma_msm_tw_cloud_qc.json'); }catch(_){ state.jmaQc = null; }
       refreshModelControls();
       renderAll();

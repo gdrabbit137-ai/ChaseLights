@@ -96,9 +96,9 @@ jobs:
           assert browser.get("cycle", {}).get("cycle_time_utc"), browser.get("cycle")
           assert browser.get("bbox") == {
               "leftlon": 120.0625,
-              "rightlon": 122.5,
+              "rightlon": 124.5,
               "bottomlat": 22.45,
-              "toplat": 25.6,
+              "toplat": 27.0,
           }, browser.get("bbox")
           for field in (
               "total_cloud_percent",

@@ -29,9 +29,9 @@ class JmaMsmRefreshWorkflowTests(unittest.TestCase):
     def test_jma_keeps_provider_owned_boundary_and_cloud_fields(self):
         for token in (
             '"leftlon": 120.0625',
-            '"rightlon": 122.5',
+            '"rightlon": 124.5',
             '"bottomlat": 22.45',
-            '"toplat": 25.6',
+            '"toplat": 27.0',
             '"total_cloud_percent"',
             '"low_cloud_percent"',
             '"mid_cloud_percent"',
