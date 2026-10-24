@@ -227,8 +227,8 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn("labels=['0','1','5','10','50+']", self.js)
 
     def test_assets_use_cache_busting_after_mobile_ui_updates(self):
-        self.assertIn('weather-map.css?v=b174ui2', self.html)
-        self.assertIn('weather-map.js?v=b174ui2', self.html)
+        self.assertIn('weather-map.css?v=b174ui3', self.html)
+        self.assertIn('weather-map.js?v=b174ui3', self.html)
 
     def test_mobile_opacity_control_is_single_row(self):
         self.assertIn('class="opacity-caption"', self.html)
