@@ -106,6 +106,20 @@
             "string",
             "null"
           ]
+        },
+        "genre_template": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Short genre name this contract follows (e.g. \"cloud_sea\"); the template defines the condition set and rationale layer. Spot bindings may override values with evidence_review provenance."
+        },
+        "template_version": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Version of the genre template applied, e.g. \"cloud_sea-v0.1\"."
         }
       },
       "additionalProperties": false
@@ -797,6 +811,90 @@
             "provisional",
             "validated"
           ]
+        },
+        "condition_tier": {
+          "enum": [
+            "MAIN",
+            "MODIFIER"
+          ],
+          "description": "Layered evaluation design (GENRE_CONDITION_TEMPLATES.md 1.1): MAIN conditions answer whether the phenomenon can form/persist and each carries one physical job; MODIFIER conditions only add or subtract when their activation condition holds (e.g. boundary-layer wind only when the inversion signal is weak) and never veto alone."
+        },
+        "threshold_source": {
+          "enum": [
+            "formula_derived",
+            "computed",
+            "evidence_review",
+            null
+          ],
+          "description": "Where the threshold number comes from (1.4). evidence_review (user-maintained / field evidence) takes precedence over the other two layers when they conflict."
+        },
+        "calibration_status": {
+          "enum": [
+            "provisional",
+            "calibrated",
+            null
+          ],
+          "description": "provisional thresholds never yield FAVORABLE evaluations (honest contract); calibrated requires accumulated real-shoot records."
+        },
+        "rationale_i18n": {
+          "$ref": "#/$defs/i18n",
+          "description": "Why this condition and this value, per language."
+        },
+        "binding": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "strategy"
+          ],
+          "properties": {
+            "strategy": {
+              "enum": [
+                "fixed_level",
+                "height_bound",
+                "nearest_gridpoint"
+              ]
+            },
+            "target_height_expression": {
+              "type": "string",
+              "minLength": 1,
+              "description": "height_bound: how the target altitude is computed, e.g. \"deck_top_estimate + 200m\". The evaluator must emit the actually selected level and its geopotential height in the evaluation output."
+            },
+            "candidate_levels_hpa": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              },
+              "minItems": 1
+            },
+            "gridpoint_selector": {
+              "type": "string",
+              "minLength": 1,
+              "description": "nearest_gridpoint: which grid cells the metric samples, e.g. \"basin_cells_below_viewpoint\" or \"sun_azimuth_sector\"."
+            }
+          },
+          "description": "Spatial/vertical binding of the metric. Fixed pressure levels wobble (~+-150 m at 850 hPa); height_bound resolves it by picking the candidate level whose geopotential height is closest to the target at evaluation time. Selection error is bounded by the candidate-level gap and must be annotated in the output."
+        },
+        "modifier_activation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "when_condition"
+          ],
+          "properties": {
+            "when_condition": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Condition id of the MAIN criterion gating this modifier."
+            },
+            "mode": {
+              "enum": [
+                "when_not_met",
+                "when_met",
+                "always"
+              ]
+            }
+          },
+          "description": "MODIFIER-tier only: the modifier engages only in the stated relation to the referenced MAIN condition, and never vetoes alone."
         }
       },
       "additionalProperties": false,
