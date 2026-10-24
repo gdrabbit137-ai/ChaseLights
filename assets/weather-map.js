@@ -3098,6 +3098,12 @@
       windVectorStep: windVectorStep(),
       windVectorCount: state.lastWindVectorCount,
       activeModel: activeDataset(state.layer)?.model || null,
+      datasets: {
+        gfs: state.data,
+        cwa: state.cwaData,
+        jma: state.jmaData,
+        icon: state.iconData,
+      },
       displayInterpolation: isObservationMode()?'nearest_observation':'bilinear_subcell',
       iconAvailable: Boolean(state.iconData),
       cwaAvailable: Boolean(state.cwaData),
