@@ -58,6 +58,24 @@ for _pressure_hpa in (1000, 925, 850, 700, 500, 400, 300):
         "max": 100.0,
     }
 
+# Pressure-level wind (verified present in M-A0064 GRIB2 U/V at isobaric
+# levels): boundary-layer wind feeds sea-of-clouds / fog / stability
+# condition contracts where surface 10 m wind is decoupled from the deck.
+for _pressure_hpa in (925, 850, 700):
+    FIELD_ENCODINGS[f"wind_speed_{_pressure_hpa}hpa_m_s"] = {
+        "unit": "m/s",
+        "scale": 0.1,
+        "min": 0.0,
+        "max": 150.0,
+    }
+    FIELD_ENCODINGS[f"wind_direction_{_pressure_hpa}hpa_deg"] = {
+        "unit": "°",
+        "scale": 1.0,
+        "min": 0.0,
+        "max": 359.0,
+        "wrap": 360.0,
+    }
+
 FIELD_ENCODINGS.update({
     "rh_cloud_potential_low_percent": {
         "unit": "%",
@@ -260,6 +278,7 @@ def build_cwa_bundle(input_dir: Path) -> tuple[dict, dict]:
 
     bundle = {
         "schema_version": 2,
+        "bundle_encoding": "i16gz-v1",
         "model_id": "cwa_wrf3",
         "provider": manifest["provider"],
         "model": manifest["model"],
@@ -329,7 +348,6 @@ def build_cwa_bundle(input_dir: Path) -> tuple[dict, dict]:
 
     qc = {
         "schema_version": 1,
-        "bundle_encoding": "i16gz-v1",
         "model_id": "cwa_wrf3",
         "provider": manifest["provider"],
         "model": manifest["model"],

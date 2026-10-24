@@ -58,6 +58,12 @@ CWA_BROWSER_GRID_DEG = 0.03
 DEFAULT_FORECAST_HOURS = (0, 6, 12, 18, 24)
 CWA_PRESSURE_RH_LEVELS_HPA = (1000, 925, 850, 700, 500, 400, 300)
 
+# Boundary-layer pressure levels whose wind is directly relevant to low
+# cloud / sea-of-clouds / fog persistence: surface 10 m wind is decoupled
+# from the mixing that erodes a cloud deck under an inversion, so the deck
+# persistence signal lives at these isobaric levels.
+CWA_PRESSURE_WIND_LEVELS_HPA = (925, 850, 700)
+
 # Official documentation reference corners for the 3 km regional grid.
 CWA_NATIVE_DOMAIN_REFERENCE = {
     "first_point": {"lat": 14.02224, "lon": 105.2500},
@@ -577,6 +583,95 @@ def _extract_pressure_rh_field(datasets, pressure_hpa: int) -> dict | None:
     }
 
 
+def _extract_pressure_wind_uv_fields(
+    datasets, pressure_hpa: int
+) -> dict[str, dict] | None:
+    """Extract U/V wind components at one isobaric level from CWA M-A0064.
+
+    Returns wind_u_{lvl}hpa_m_s and wind_v_{lvl}hpa_m_s native fields, or
+    None when the level/element pair is absent so callers can fail loud.
+    """
+    import numpy as np
+
+    found: dict[str, dict] = {}
+    for component in ("u", "v"):
+        candidates = []
+        for ds in datasets:
+            for name, array in ds.data_vars.items():
+                view = _pressure_level_view(array, pressure_hpa)
+                if view is None:
+                    continue
+                attrs = view.attrs or array.attrs or {}
+                short = _norm(attrs.get("GRIB_shortName", name))
+                data_name = _norm(name)
+                long_name = _norm(attrs.get("long_name") or attrs.get("GRIB_name"))
+                score = 0
+                if short in {component, f"{component}grd", f"{component}10"}:
+                    score += 14
+                if data_name in {component, f"{component}grd", f"{component}10"}:
+                    score += 10
+                if long_name and long_name.startswith(
+                    f"{component.upper()} component of wind"
+                ):
+                    score += 12
+                if view.ndim >= 2:
+                    score += 1
+                candidates.append((score, ds, name, view))
+
+        candidates.sort(key=lambda item: item[0], reverse=True)
+        if not candidates or candidates[0][0] < 9:
+            return None
+
+        score, ds, name, array = candidates[0]
+        values = np.squeeze(np.asarray(array.values, dtype=float))
+        if values.ndim != 2:
+            return None
+
+        lat = _coord_values(ds, ("latitude", "lat"))
+        lon = _coord_values(ds, ("longitude", "lon"))
+        if lat is None or lon is None:
+            return None
+        lat = np.asarray(lat, dtype=float)
+        lon = np.asarray(lon, dtype=float)
+        if lat.ndim == 1 and lon.ndim == 1:
+            lon2, lat2 = np.meshgrid(lon, lat)
+        elif lat.shape == lon.shape:
+            lat2, lon2 = lat, lon
+        else:
+            return None
+        if values.shape != lat2.shape:
+            if values.T.shape == lat2.shape:
+                values = values.T
+            else:
+                return None
+
+        normalized, normalized_unit = _normalize_values(
+            values,
+            "m/s",
+            (array.attrs or {}).get("units", ""),
+        )
+        found[f"wind_{component}_{pressure_hpa}hpa_m_s"] = {
+            "field_name": name,
+            "candidate_score": score,
+            "field_attrs": {
+                "short_name": (array.attrs or {}).get("GRIB_shortName"),
+                "type_of_level": (array.attrs or {}).get("GRIB_typeOfLevel"),
+                "pressure_level_hpa": int(pressure_hpa),
+                "long_name": (
+                    (array.attrs or {}).get("long_name")
+                    or (array.attrs or {}).get("GRIB_name")
+                    or f"{component.upper()} wind component at {pressure_hpa} hPa"
+                ),
+                "source_units": (array.attrs or {}).get("units"),
+                "normalized_units": normalized_unit,
+            },
+            "latitudes_2d": lat2,
+            "longitudes_2d": lon2,
+            "values_2d": normalized,
+        }
+    return found
+
+
 def extract_native_fields(grib_path: Path) -> dict[str, dict]:
     import cfgrib
 
@@ -617,6 +712,14 @@ def extract_native_fields(grib_path: Path) -> dict[str, dict]:
                 f"CWA WRF3 required pressure-level RH field missing: {pressure_hpa} hPa"
             )
         fields[key] = field
+
+    for pressure_hpa in CWA_PRESSURE_WIND_LEVELS_HPA:
+        uv = _extract_pressure_wind_uv_fields(datasets, pressure_hpa)
+        if uv is None:
+            raise RuntimeError(
+                f"CWA WRF3 required pressure-level wind fields missing: {pressure_hpa} hPa"
+            )
+        fields.update(uv)
 
     return fields
 
@@ -756,6 +859,55 @@ def derive_wind_fields(fields: dict[str, dict]) -> dict[str, dict]:
                 "native_resolution_km": CWA_NATIVE_RESOLUTION_KM,
                 "spatial_interpolation": "linear_native_to_regular",
             },
+            "values": direction.tolist(),
+        },
+    }
+
+
+def derive_pressure_wind_fields(u: dict, v: dict, pressure_hpa: int) -> dict[str, dict]:
+    """Derive speed/direction from U/V at one pressure level (same math as 10 m)."""
+    import numpy as np
+
+    ua = np.asarray(u["values_2d"] if "values_2d" in u else u["values"], dtype=float)
+    va = np.asarray(v["values_2d"] if "values_2d" in v else v["values"], dtype=float)
+    speed = np.sqrt(ua ** 2 + va ** 2)
+    direction = (270.0 - np.degrees(np.arctan2(va, ua))) % 360.0
+    latitudes = u.get("latitudes_2d", u.get("latitudes"))
+    longitudes = u.get("longitudes_2d", u.get("longitudes"))
+
+    base = {
+        "latitudes": latitudes,
+        "longitudes": longitudes,
+    }
+    label_hpa = f"{pressure_hpa} hPa"
+
+    def _attrs(kind: str, long_name: str) -> dict:
+        return {
+            "short_name": f"wind_{kind}_{pressure_hpa}hpa",
+            "long_name": long_name,
+            "pressure_level_hpa": int(pressure_hpa),
+            "source_units": "m/s" if kind == "speed" else "degree",
+            "normalized_units": "m/s" if kind == "speed" else "degree",
+            "native_resolution_km": CWA_NATIVE_RESOLUTION_KM,
+            "spatial_interpolation": "linear_native_to_regular",
+        }
+
+    return {
+        f"wind_speed_{pressure_hpa}hpa_m_s": {
+            **base,
+            "field_name": f"derived_wind_speed_{pressure_hpa}hpa",
+            "field_attrs": _attrs(
+                "speed", f"{label_hpa} wind speed derived from CWA WRF U/V"
+            ),
+            "values": speed.tolist(),
+        },
+        f"wind_direction_{pressure_hpa}hpa_deg": {
+            **base,
+            "field_name": f"derived_wind_direction_{pressure_hpa}hpa",
+            "field_attrs": _attrs(
+                "direction",
+                f"{label_hpa} meteorological wind direction derived from CWA WRF U/V",
+            ),
             "values": direction.tolist(),
         },
     }
@@ -949,6 +1101,13 @@ def main() -> int:
             for key, field in native_fields.items()
         }
         regular_fields.update(derive_wind_fields(regular_fields))
+        for pressure_hpa in CWA_PRESSURE_WIND_LEVELS_HPA:
+            u = regular_fields.get(f"wind_u_{pressure_hpa}hpa_m_s")
+            v = regular_fields.get(f"wind_v_{pressure_hpa}hpa_m_s")
+            if u is not None and v is not None:
+                regular_fields.update(
+                    derive_pressure_wind_fields(u, v, pressure_hpa)
+                )
         regular_fields.update(derive_cwa_photography_fields(regular_fields))
 
         sampled = sample_places(regular_fields, bbox, spots)

@@ -46,6 +46,12 @@
     precip_rate_mm_h:{label:'降雨率', unit:'mm/h', domain:[0,20], palette:'precip', scale:'precip_rate', ticks:[0,.1,.5,1,2,5,10,20]},
     wind_speed_10m_m_s:{label:'10 m 風場', unit:'m/s', domain:[0,20], palette:'wind'},
     wind_direction_10m_deg:{label:'10 m 風向', unit:'°', domain:[0,360], palette:'direction'},
+    wind_speed_925hpa_m_s:{label:'925 hPa 風場（約 1.2 km 高）', unit:'m/s', domain:[0,30], palette:'wind'},
+    wind_direction_925hpa_deg:{label:'925 hPa 風向', unit:'°', domain:[0,360], palette:'direction'},
+    wind_speed_850hpa_m_s:{label:'850 hPa 風場（約 1.5 km 高）', unit:'m/s', domain:[0,40], palette:'wind'},
+    wind_direction_850hpa_deg:{label:'850 hPa 風向', unit:'°', domain:[0,360], palette:'direction'},
+    wind_speed_700hpa_m_s:{label:'700 hPa 風場（約 3 km 高）', unit:'m/s', domain:[0,50], palette:'wind'},
+    wind_direction_700hpa_deg:{label:'700 hPa 風向', unit:'°', domain:[0,360], palette:'direction'},
     temperature_2m_c:{label:'2 m 氣溫', unit:'°C', domain:[-5,40], palette:'temperature'},
     relative_humidity_2m_percent:{label:'2 m 相對濕度', unit:'%', domain:[0,100], palette:'humidity'},
     precip_total_mm:{label:'累積降水', unit:'mm', domain:[0,100], palette:'precip'},
@@ -2096,7 +2102,7 @@
       // Himawari presentation-grid values are observations/retrievals.
       // Do not synthesize intermediate satellite values with forecast-style interpolation.
       drawNearestCells(data,vals,cfg,visibleView);
-    }else if(state.layer==='wind_direction_10m_deg'){
+    }else if(/^wind_direction_(10m|[0-9]{3}hpa)_deg$/.test(state.layer)){
       const speeds=decodedArray('wind_speed_10m_m_s');
       drawCircularDirectionSubcells(data,vals,speeds,cfg,visibleView);
     }else if(!drawSmoothField(data,vals,cfg,visibleView)){
