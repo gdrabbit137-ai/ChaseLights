@@ -423,6 +423,125 @@ def _normalize_values(values, kind: str, units: str):
     return arr, units or ""
 
 
+# GRIB2 discipline/category/number for total precipitation. CWA publishes
+# this message against a local table eccodes cannot resolve (paramId 0,
+# shortName "unknown"), so the cfgrib token matcher never sees it and the
+# message must be identified by its raw code triple instead.
+CWA_TOTAL_PRECIP_GRIB_CODES = (0, 1, 8)
+
+
+def derive_precip_rate_mm_h(total_mm, end_step_hours):
+    """Convert a 0-endStep accumulation into a window-average rate.
+
+    CWA M-A0064 accumulations run from the run start (startStep=0), so the
+    honest instantaneous-rate derivation for a frame is the full-window
+    mean, labelled as such in provenance. An f000 frame has no accumulation
+    window (endStep=0) and is reported as None so the browser falls back to
+    the other source for that frame instead of inventing a zero rate.
+    """
+    import numpy as np
+
+    if total_mm is None:
+        return None
+    hours = float(end_step_hours)
+    if not np.isfinite(hours) or hours <= 0:
+        return None
+    arr = np.asarray(total_mm, dtype=float)
+    return np.maximum(arr, 0.0) / hours
+
+
+def _extract_total_precip_field(grib_path: Path) -> dict[str, dict] | None:
+    """Extract CWA total precipitation by GRIB2 code triple.
+
+    Mirrors the field dict shape produced by _extract_one_field so the same
+    regrid/bundle pipeline consumes it. Publishes both the accumulation
+    (precip_total_mm) and the window-average rate (precip_rate_mm_h); the
+    rate is skipped for an f000 frame that has no accumulation window.
+    """
+    import eccodes as ec
+    import numpy as np
+
+    best = None
+    with grib_path.open("rb") as fh:
+        while True:
+            gid = ec.codes_grib_new_from_file(fh)
+            if gid is None:
+                break
+            try:
+                triple = (
+                    ec.codes_get(gid, "discipline"),
+                    ec.codes_get(gid, "parameterCategory"),
+                    ec.codes_get(gid, "parameterNumber"),
+                )
+                if triple != CWA_TOTAL_PRECIP_GRIB_CODES:
+                    continue
+                end_step = float(ec.codes_get(gid, "endStep"))
+                if best is None or end_step > best[0]:
+                    best = (
+                        end_step,
+                        np.asarray(ec.codes_grib_get_data(gid)),
+                        int(ec.codes_get(gid, "Ni")),
+                        int(ec.codes_get(gid, "Nj")),
+                        str(ec.codes_get(gid, "units") or ""),
+                    )
+            finally:
+                ec.codes_release(gid)
+    if best is None:
+        return None
+    end_step, points, ni, nj, units = best
+    # codes_grib_get_data returns a plain list of point dicts in scan order.
+    lats = np.fromiter((p["lat"] for p in points), dtype=float, count=len(points))
+    lons = np.fromiter((p["lon"] for p in points), dtype=float, count=len(points))
+    vals = np.fromiter((p["value"] for p in points), dtype=float, count=len(points))
+    if len(points) != ni * nj:
+        return None
+    lat2 = lats.reshape(nj, ni)
+    lon2 = lons.reshape(nj, ni)
+    total = _normalize_values(vals.reshape(nj, ni), "precip_total", units or "mm")[0]
+    fields = {
+        "precip_total_mm": {
+            "field_name": "unknown_precip_by_grib_code",
+            "field_attrs": {
+                "short_name": "unknown",
+                "type_of_level": "surface",
+                "long_name": (
+                    "CWA total precipitation accumulated from the run start, "
+                    "identified by GRIB2 discipline/category/number (0,1,8) "
+                    "because the local table lookup leaves the shortName unset"
+                ),
+                "source_units": units or "kg m-2",
+                "normalized_units": "mm",
+                "accumulation_window_hours": end_step,
+            },
+            "latitudes_2d": lat2,
+            "longitudes_2d": lon2,
+            "values_2d": total,
+        }
+    }
+    rate = derive_precip_rate_mm_h(total, end_step)
+    if rate is not None:
+        fields["precip_rate_mm_h"] = {
+            "field_name": "derived_precip_rate_mm_h",
+            "field_attrs": {
+                "short_name": "precip_rate",
+                "type_of_level": "surface",
+                "long_name": (
+                    "Precipitation rate from the CWA accumulation divided by "
+                    "the full 0-{hours:g} h window (window-average, not an "
+                    "instantaneous rate)".format(hours=end_step)
+                ),
+                "source_units": "mm",
+                "normalized_units": "mm/h",
+                "derivation": "window_average",
+                "accumulation_window_hours": end_step,
+            },
+            "latitudes_2d": lat2,
+            "longitudes_2d": lon2,
+            "values_2d": rate,
+        }
+    return fields
+
+
 def _extract_one_field(datasets, key: str, spec: dict) -> dict | None:
     import numpy as np
 
@@ -795,6 +914,10 @@ def extract_native_fields(grib_path: Path) -> dict[str, dict]:
         field = _extract_one_field(datasets, key, spec)
         if field is not None:
             fields[key] = field
+
+    precip = _extract_total_precip_field(grib_path)
+    if precip is not None:
+        fields.update(precip)
 
     for pressure_hpa in CWA_PRESSURE_RH_LEVELS_HPA:
         key = f"relative_humidity_{pressure_hpa}hpa_percent"

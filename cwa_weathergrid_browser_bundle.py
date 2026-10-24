@@ -29,6 +29,12 @@ FIELD_ENCODINGS = {
         "min": 0.0,
         "max": 1000.0,
     },
+    "precip_rate_mm_h": {
+        "unit": "mm/h",
+        "scale": 0.01,
+        "min": 0.0,
+        "max": 120.0,
+    },
     "shortwave_flux_w_m2": {
         "unit": "W/m²",
         "scale": 1.0,

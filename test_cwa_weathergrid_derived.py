@@ -75,3 +75,24 @@ class CwaWeatherGridDerivedTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+
+
+class CwaPrecipExtractionTests(unittest.TestCase):
+    def test_window_average_rate_divides_by_the_accumulation_window(self):
+        import cwa_wrf3_poc
+
+        rate = cwa_wrf3_poc.derive_precip_rate_mm_h(
+            np.array([0.0, 6.0, 173.0345]), 6.0
+        )
+        self.assertTrue(np.allclose(rate, [0.0, 1.0, 173.0345 / 6.0]))
+
+    def test_f000_frame_has_no_accumulation_window_and_gets_no_rate(self):
+        import cwa_wrf3_poc
+
+        self.assertIsNone(cwa_wrf3_poc.derive_precip_rate_mm_h(np.array([0.0]), 0.0))
+        self.assertIsNone(cwa_wrf3_poc.derive_precip_rate_mm_h(None, 6.0))
+
+    def test_grib_code_triple_targets_total_precipitation(self):
+        import cwa_wrf3_poc
+
+        self.assertEqual(cwa_wrf3_poc.CWA_TOTAL_PRECIP_GRIB_CODES, (0, 1, 8))
