@@ -2705,7 +2705,7 @@
         ? `年度合成 · ${f.composite_year || data.provenance?.composite_year || new Date(f.valid_time_utc).getUTCFullYear()}`
         : (usingCams
           ? `CAMS 預報時間 · ${formatTaipeiTime(f.valid_time_utc)} TST`
-          : `預報時間 · ${formatTaipeiTime(f.valid_time_utc)} · +${forecastHour}h`));
+          : `預報時間 · ${formatTaipeiTime(f.valid_time_utc)} · +${forecastHour}h${forecastHour > 48 ? '（參考）' : ''}`));
     $('opacity-label').textContent=`${Math.round(state.weatherOpacity*100)}%`;
     const opacityTitle=$('opacity-title');
     const opacitySlider=$('opacity-slider');
