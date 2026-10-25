@@ -33,7 +33,7 @@ for(const locale of locales){
       }
       for(const condition of original.condition_contract.conditions){
         const row=c.conditions.find(x=>x.condition_id===`${original.opportunity_id}/${condition.id}`);
-        assert.equal(localized(row,'human_description',locale),condition.notes_i18n[locale].trim());
+        assert.equal(localized(row,'human_description',locale),(condition.notes_i18n??condition.rationale_i18n)[locale].trim());
       }
       for(const target of original.targets){
         const row=c.subject_geometries.find(x=>x.subject_geometry_id===`${original.opportunity_id}/${target.id}`);

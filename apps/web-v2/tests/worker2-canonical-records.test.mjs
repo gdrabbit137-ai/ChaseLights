@@ -27,7 +27,7 @@ test('original Worker 2 canonical records preserve research-only semantics', () 
   assert.equal(catalog.camera_zones.length, 3);
   assert.equal(catalog.subject_geometries.length, 3);
   assert.equal(catalog.view_relations.length, 3);
-  assert.equal(catalog.conditions.length, 6);
+  assert.equal(catalog.conditions.length, 8); // tw-016-P01 condition contract filled by 2dc05b3cc (4 conditions)
   assert.equal(catalog.access_advisories.length, 0);
   assert.ok(catalog.conditions.every(c => c.domain !== "ACCESS_SAFETY"));
   assert.equal(catalog.evidence.length, 21);

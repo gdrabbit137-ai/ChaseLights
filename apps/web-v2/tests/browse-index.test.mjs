@@ -11,11 +11,11 @@ const rawCatalog=readFileSync(new URL('../catalog.v2.json',import.meta.url));
 const index=JSON.parse(rawIndex),source=JSON.parse(rawCatalog),catalog=importV21Catalog(source);
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
-test('W2 index and 428 exact canonical sources remain source pinned (no-review gate decision)',()=>{
-  assert.equal(sha256(rawIndex),'fb5c68def3ba7e772c93f0aa4d11490f50722df4cada22461061c901eb90bd36');
-  assert.equal(sha256(rawCatalog),'f376ce15115bf180985487ad7c5b9ea1adfaa263ebda5e179cb9385276cf63e4');
+test('W2 index and 416 exact canonical sources remain source pinned (aurora-only opportunities removed 2026-10-26)',()=>{
+  assert.equal(sha256(rawIndex),'b5d26fccd852bd95b993ab34d850542081f14db4a77256846b1875e16aa7f47e');
+  assert.equal(sha256(rawCatalog),'a9246273946c69d2b52216b6a8d4d373da82ee2527096d00a1be44efd38f7a5c');
   assert.equal(validateBrowseIndex(index,catalog),index);
-  assert.equal(source.opportunities.length,428);assert.equal(source.places.length,216);
+  assert.equal(source.opportunities.length,416);assert.equal(source.places.length,214);
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];
   const reviewedTaskS=['tw-034-P02','tw-036-P01','tw-082-P01','jp-010-P01','us-071-P01'];
   for(const row of index.place_index.opportunities){
@@ -41,7 +41,7 @@ test('partial multilingual name search and topic OR filter only matching opportu
   assert.equal(browse(index,catalog,{search:' OiShI '}).length,1);
   assert.equal(browse(index,catalog,{search:'井仔脚'}).length,1);
   assert.equal(browse(index,catalog,{search:'[.*]'}).length,0);
-  assert.equal(browse(index,catalog,{search:'  '}).length,216);
+  assert.equal(browse(index,catalog,{search:'  '}).length,214);
   const both=browse(index,catalog,{topicIds:['topic:sunset','topic:colorful-clouds']});
   assert.deepEqual(both.map(x=>x.place.place_id),['tw-026']);
   assert.deepEqual(both[0].opportunities.map(x=>x.opportunity_id),['tw-026-P01','tw-026-P02']);

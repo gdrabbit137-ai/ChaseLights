@@ -115,8 +115,8 @@
         "role": "REQUIRED",
         "domain": "ASTRONOMY",
         "evaluation_mode": "GUIDANCE",
-        "capability": "WINDOW",
-        "metric": "sunrise_above_pacific_horizon",
+        "capability": "CONDITIONS",
+        "metric": "sunrise_time_window",
         "operator": "none",
         "threshold": null,
         "unit": null,
@@ -125,36 +125,101 @@
           "tw-036-P01-condition-1"
         ],
         "model_binding": null,
-        "notes_i18n": {
-          "zh-TW": "日出時間窗口及東向海面晨光須成立；不宣稱固定機位的太陽精確對位。",
-          "en": "The sunrise window and dawn over the Pacific must occur; no exact tripod-to-sun alignment is claimed.",
-          "ja": "日の出時間帯と太平洋側の朝光が必要で、固定位置での太陽の精密な整列は主張しない。"
-        },
-        "validation_status": "provisional"
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "computed",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "天文窗＝日出時刻 ±40 分（座標＋日期計算）；DEM 已確認面向東南東海平線無遮擋。",
+          "en": "Astronomy window = sunrise time ±40 minutes (from coordinates and date); the DEM confirms an unobstructed horizon toward the ESE sea.",
+          "ja": "天文ウィンドウ＝日の出時刻±40分（座標と日付から計算）。DEMにより東南東の海平線に遮蔽がないことを確認済み。"
+        }
       },
       {
         "id": "C-tw-036-P01-02",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "cloud_cover_low",
+        "operator": "lte",
+        "threshold": 55,
+        "unit": "%",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-036-P01-condition-1"
+        ],
+        "model_binding": null,
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "日出方位扇形的低雲直接擋太陽；55% 允許塊狀雲——塊狀雲反而是上色主角。",
+          "en": "Low cloud in the sunrise-azimuth sector blocks the sun directly; 55% still allows broken cloud, which is what actually paints the colour.",
+          "ja": "日の出方位の扇形領域の低雲は太陽を直接遮る。55%は塊状の雲を許容し、塊状の雲こそが色を生む主役。"
+        },
+        "binding": {
+          "strategy": "nearest_gridpoint",
+          "gridpoint_selector": "sun_azimuth_sector"
+        }
+      },
+      {
+        "id": "C-tw-036-P01-03",
         "role": "QUALITY",
         "domain": "WEATHER",
         "evaluation_mode": "GUIDANCE",
         "capability": "CONDITIONS",
-        "metric": "marine_horizon_clouds",
-        "operator": "none",
-        "threshold": null,
-        "unit": null,
+        "metric": "cloud_cover_mid_and_high",
+        "operator": "between",
+        "threshold": [
+          20,
+          70
+        ],
+        "unit": "%",
         "unknown_policy": "propagate_unknown",
         "claim_refs": [
-          "tw-036-P01-condition-2"
+          "tw-036-P01-condition-1"
         ],
         "model_binding": null,
-        "notes_i18n": {
-          "zh-TW": "海平線雲層與能見度影響照片；沒有經驗證的雲量百分比門檻。",
-          "en": "Marine-horizon clouds and visibility affect photos; no cloud-percentage cutoff is validated.",
-          "ja": "海の水平線付近の雲と視程は写真に影響する。検証済みの雲量閾値はない。"
-        },
-        "validation_status": "provisional"
+        "validation_status": "provisional",
+        "condition_tier": "MODIFIER",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "中高雲是日出彩色的染料：全晴只有金黃、全陰無色彩；20–70% 區間加分。指標由管線以 mid+high 求和推導。",
+          "en": "Mid and high cloud are the dyes of sunrise colour: clear skies give plain gold and overcast gives none; the 20-70% band earns the bonus. The pipeline derives the metric as mid plus high cloud.",
+          "ja": "中層・上層の雲は日の出の色彩の染料：快晴はただの金色、完全な曇天は色彩なし。20-70%の帯で加点。指標はmid+highの和として導出。"
+        }
+      },
+      {
+        "id": "C-tw-036-P01-04",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "precipitation",
+        "operator": "lt",
+        "threshold": 0.3,
+        "unit": "mm/h",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-036-P01-condition-1"
+        ],
+        "model_binding": null,
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "雨量極低即可；海景微雨不影響拍攝。",
+          "en": "Precipitation just needs to stay very low; light rain does not affect a seascape shoot.",
+          "ja": "降水量は十分に低ければよい。海景では小雨でも撮影に支障はない。"
+        }
       }
-    ]
+    ],
+    "genre_template": "sunrise_coast",
+    "template_version": "sunrise_coast-v0.1"
   },
   "evidence_claims": [
     {

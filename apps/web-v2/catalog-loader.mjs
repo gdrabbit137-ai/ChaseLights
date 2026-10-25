@@ -16,7 +16,7 @@ function assertOpportunity(doc) {
   if (!Array.isArray(doc.camera_contexts) || !doc.camera_contexts.length || !Array.isArray(doc.targets) || !doc.targets.length || !Array.isArray(doc.observation_relations) || !Array.isArray(doc.navigation_targets) || !Array.isArray(doc.evidence_claims)) throw new CatalogImportError('INVALID_SCHEMA','camera/target/relation/navigation/evidence');
   if (!isObject(doc.condition_contract) || !Array.isArray(doc.condition_contract.conditions) || !isObject(doc.readiness) || !Array.isArray(doc.readiness.gaps) || !isObject(doc.provenance)) throw new CatalogImportError('INVALID_SCHEMA','condition/readiness/provenance');
   for (const t of doc.targets) if (!hasThree(t.name_i18n)) throw new CatalogImportError('INVALID_SCHEMA','target localization');
-  for (const c of doc.condition_contract.conditions) if (c.notes_i18n != null && !hasThree(c.notes_i18n)) throw new CatalogImportError('INVALID_SCHEMA','condition localization');
+  for (const c of doc.condition_contract.conditions) for (const key of ['notes_i18n','rationale_i18n']) if (c[key] != null && !hasThree(c[key])) throw new CatalogImportError('INVALID_SCHEMA','condition localization');
   if (doc.description_i18n != null && !hasThree(doc.description_i18n)) throw new CatalogImportError('INVALID_SCHEMA','description localization');
   for (const camera of doc.camera_contexts)
     for (const key of ['access_notes_i18n','safety_notes_i18n'])

@@ -38,12 +38,12 @@ before(async()=>{
 after(async()=>{await browser?.close();if(server?.listening)await new Promise(done=>server.close(done));});
 
 for(const [device,width] of [['desktop',1440],['mobile',360]])for(const locale of ['zh-TW','en','ja']){
-  test(`${device} ${locale}: deep sample Places plus breadth across all 216, role/mode, missing information and no invented results`,async()=>{
+  test(`${device} ${locale}: deep sample Places plus breadth across all 214, role/mode, missing information and no invented results`,async()=>{
     const context=await browser.newContext({viewport:{width,height:960},isMobile:device==='mobile',hasTouch:device==='mobile'});
     await context.addInitScript(value=>localStorage.setItem('chaselights-v2-locale',value),locale);
     const page=await context.newPage(),errors=[];page.on('pageerror',error=>errors.push(error.message));
     try{
-      await page.goto(url);await page.waitForFunction(()=>document.querySelectorAll('.place-button').length===216);
+      await page.goto(url);await page.waitForFunction(()=>document.querySelectorAll('.place-button').length===214);
       assert.equal(await page.locator('#research-browser').isVisible(),false,'keep the existing Beta home');
       await page.locator('#browse-research').click();
       // Depth sample: the seven historically reviewed Places plus three admitted
@@ -117,7 +117,7 @@ for(const [device,width] of [['desktop',1440],['mobile',360]])for(const locale o
       await page.locator('#tools-heading').click();
       await page.locator('#file').setInputFiles({name:'test-only-incomplete-research.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(imported))});
       await page.waitForFunction(()=>document.querySelector('#source-value').textContent==='test-only-incomplete-research.json');
-      assert.equal(await page.locator('.place-button').count(),216);
+      assert.equal(await page.locator('.place-button').count(),214);
       await page.locator(`.place-button[data-place-id="${changed[0].place_id}"]`).click();
       assert.equal(await page.locator('.opportunity-description').textContent(),expected[locale].description);
       assert.ok((await page.locator('.decision-core').innerText()).includes(expected[locale].conditions));
