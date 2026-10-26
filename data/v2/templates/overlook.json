@@ -1,7 +1,7 @@
 {
   "template_id": "overlook",
   "version": "0.2",
-  "status": "draft",
+  "status": "defined",
   "title_i18n": {
     "zh-TW": "眺望",
     "en": "Overlook",
@@ -128,9 +128,5 @@
       "threshold": 0.2
     }
   ],
-  "review_note_i18n": {
-    "zh-TW": "草稿待 owner 複審（2026-10-26 命名裁定：overlook，不用 vista 以避免英文語意上涵蓋 mountain_view 的父集宣稱）。判據由已審契約同構推導；V2 0.4 與 V3 70% 為新擬 provisional；V1 的 24 km 欄位上限缺口已誠實標註。預計收容 unsure 名單 17 個高處俯瞰機會。",
-    "en": "Draft pending owner review (2026-10-26 naming decision: overlook, not vista, to avoid the English superset claim over mountain_view). Derived structurally from approved contracts; V2 0.4 and V3 70% are newly proposed provisional values; the 24 km field-cap gap is honestly documented. Expected to house 17 high-vantage opportunities from the unsure list.",
-    "ja": "ドラフト。命名は2026-10-26裁定（vista ではなく overlook）。V2 0.4 と V3 70% は新規暫定値。24kmの飽和限界は誠実に注記。unsure名簿の17件を収容予定。"
-  }
+  "owner_review": "2026-10-26 approved at v0.2: cloud gate corrected to low cloud <=30% (mid/high clouds never veto), visibility >= min(view_range_km, 24) with the 24 km field cap documented, AOD <=0.4 as the true long-range determinant - AOD 0.4 and low-cloud 30% are the top calibration priorities. Naming: overlook (not vista) per owner decision. Houses the 17 OVERLOOK-PENDING opportunities."
 }
