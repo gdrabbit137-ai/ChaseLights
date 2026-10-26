@@ -1,7 +1,7 @@
 {
   "template_id": "seasonal_plant",
   "version": "0.1",
-  "status": "draft",
+  "status": "defined",
   "title_i18n": {
     "zh-TW": "季節植物景",
     "en": "Seasonal plant scene",
@@ -87,10 +87,5 @@
       "threshold": 5
     }
   ],
-  "owner_review": "Draft awaiting owner review. S1 reads the owner-maintained calendar (data/v2/seasonal-calendar.json); S2/S3 are generic shootability. Owner maintains plant windows + current-season sources; AI harvest writes only the current_season field, sourceless entries never written.",
-  "review_note_i18n": {
-    "zh-TW": "草稿待 owner 複審。S1 讀 owner 維護的季節窗日曆（data/v2/seasonal-calendar.json）；S2/S3 為通用可拍判據。owner 維護植物窗與今年實況來源；AI 採集僅寫 current_season 欄，無來源不寫入。",
-    "en": "Draft pending owner review. S1 reads the owner-maintained seasonal calendar (data/v2/seasonal-calendar.json); S2/S3 are generic shootability. Owner maintains plant windows and current-season sources; AI harvest writes only the current_season field and never without a source.",
-    "ja": "ドラフト。S1 はオーナー管理の季節カレンダー参照。S2/S3 は一般撮影可否。オーナーが植物窓と当年出典を管理し、AI 収集は current_season のみ書き込み、出典なき場合は書かない。"
-  }
+  "owner_review": "2026-10-26 owner-approved as drafted. S1 reads the owner-maintained calendar (data/v2/seasonal-calendar.json; fail-closed: current_season requires source_url + retrieved_at, otherwise only the typical window is displayed); S2 precip <0.2 mm/h carries the reviewed generic shootability threshold; S3 wind <5 m/s is provisional — per-plant differentiation (e.g. silvergrass may tolerate more wind) is recorded as calibration debt. Owner maintains plant windows and current-season sources; AI harvest writes only the current_season field and never without a source. Expansion is now enabled."
 }

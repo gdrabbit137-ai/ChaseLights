@@ -152,13 +152,6 @@ class ExpansionTests(unittest.TestCase):
             if mb is not None:
                 at.lint_binding_string(mb)
 
-    def test_scaffold_expansion_refused(self):
-        with tempfile.TemporaryDirectory() as td:
-            with self.assertRaises(SystemExit):
-                at.expand('seasonal_plant', 'tw-001-P01',
-                          REPO / 'data/v2/migration/skeletons/tw-001-P01.json',
-                          None, Path(td) / 'x.json', None, False)
-
     def test_draft_expansion_refused(self):
         templates = at.validate_registry()
         draft_ids = [x['template_id'] for x in templates if x['status'] == 'draft']
