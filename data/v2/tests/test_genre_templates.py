@@ -29,7 +29,7 @@ class RegistryTests(unittest.TestCase):
             self.assertEqual(statuses[tid], 'defined', tid)
         for tid in ('seasonal_plant',):
             self.assertEqual(statuses[tid], 'scaffold', tid)
-        for tid in ('reflection', 'night_sky'):
+        for tid in ('night_sky',):
             self.assertEqual(statuses[tid], 'draft', tid)
 
     def test_every_metric_in_templates_is_in_vocabulary(self):
@@ -50,7 +50,7 @@ class RegistryTests(unittest.TestCase):
             self.assertTrue(t.get('purpose_i18n', {}).get('zh-TW', '').strip())
 
     def test_draft_templates_are_complete_but_refused(self):
-        draft_ids = {'night_sky', 'reflection'}
+        draft_ids = {'night_sky'}
         for tid in draft_ids:
             t = json.loads((TEMPLATES / f'{tid}.json').read_text(encoding='utf-8'))
             self.assertEqual(t['status'], 'draft', tid)
@@ -151,7 +151,7 @@ class ExpansionTests(unittest.TestCase):
     def test_scaffold_expansion_refused(self):
         with tempfile.TemporaryDirectory() as td:
             with self.assertRaises(SystemExit):
-                at.expand('reflection', 'tw-001-P01',
+                at.expand('seasonal_plant', 'tw-001-P01',
                           REPO / 'data/v2/migration/skeletons/tw-001-P01.json',
                           None, Path(td) / 'x.json', None, False)
 
