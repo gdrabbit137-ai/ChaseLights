@@ -6,6 +6,7 @@ from pathlib import Path
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import StaleElementReferenceException
 from selenium.webdriver.support.ui import Select, WebDriverWait
 
 
@@ -71,10 +72,24 @@ def run(url: str, screenshot: Path) -> dict:
         # re-query the select afterwards (the list rebuild makes earlier
         # option references stale).
         wait_for(_auto_layers_have_total_cloud, wait, "AUTO layer list with total cloud")
-        auto_layers = Select(driver.find_element(By.ID, "layer-select"))
-        auto_layer_values = [o.get_attribute("value") for o in auto_layers.options]
-        assert "total_cloud_percent" in auto_layer_values, auto_layer_values
-        auto_layers.select_by_value("total_cloud_percent")
+        # The option list can be rebuilt again between the wait and the click
+        # (another async bundle lands), which makes the freshly located
+        # option stale inside Select.select_by_value. Retry the whole
+        # locate-assert-select sequence on staleness instead of racing it.
+        last_exc = None
+        for _ in range(5):
+            try:
+                auto_layers = Select(driver.find_element(By.ID, "layer-select"))
+                auto_layer_values = [o.get_attribute("value") for o in auto_layers.options]
+                assert "total_cloud_percent" in auto_layer_values, auto_layer_values
+                auto_layers.select_by_value("total_cloud_percent")
+                last_exc = None
+                break
+            except StaleElementReferenceException as exc:
+                last_exc = exc
+                time.sleep(1.0)
+        if last_exc is not None:
+            raise last_exc
         coverage_note = driver.find_element(By.ID, "provider-coverage-note")
         wait_for(
             lambda d: coverage_note.is_displayed()
