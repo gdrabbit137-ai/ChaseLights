@@ -158,7 +158,7 @@ class ExpansionTests(unittest.TestCase):
     def test_draft_expansion_refused(self):
         with tempfile.TemporaryDirectory() as td:
             with self.assertRaises(SystemExit):
-                at.expand('sunset', 'tw-016-P01',
+                at.expand('night_sky', 'tw-016-P01',
                           REPO / 'data/v2/opportunities/tw-016-P01.json',
                           None, Path(td) / 'x.json', None, False)
 
