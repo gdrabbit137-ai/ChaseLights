@@ -35,7 +35,7 @@ VOCAB = TEMPLATES / 'metric-vocabulary.json'
 
 ROLES = {'SHORT_HQ', 'MID', 'LONG', 'AEROSOL', 'OBS'}
 BIND_KEYS = {'dataset', 'field', 'level', 'role', 'sector'}
-OPERATORS = {'gte', 'lte', 'gt', 'lt', 'between', 'none'}
+OPERATORS = {'gte', 'lte', 'gt', 'lt', 'between', 'none', 'eq'}
 
 
 def _load_json(path: Path):
@@ -156,6 +156,8 @@ def validate_template(path: Path, vocab: dict):
         if c['operator'] == 'between':
             if not (isinstance(thr, list) and len(thr) == 2):
                 _fail(f'{tid}/{c["template_ref"]}: between requires a 2-element threshold')
+        if c['operator'] == 'eq' and (thr is None or not isinstance(thr, str)):
+            _fail(f'{tid}/{c["template_ref"]}: eq requires a non-null string threshold')
         if isinstance(thr, dict):
             if 'expr' not in thr:
                 _fail(f'{tid}/{c["template_ref"]}: object threshold must carry expr')

@@ -27,8 +27,6 @@ class RegistryTests(unittest.TestCase):
         statuses = {t['template_id']: t['status'] for t in templates}
         for tid in PROTOTYPE_SPOTS:
             self.assertEqual(statuses[tid], 'defined', tid)
-        for tid in ('seasonal_plant',):
-            self.assertEqual(statuses[tid], 'scaffold', tid)
         for tid in ():
             self.assertEqual(statuses[tid], 'draft', tid)
 
@@ -42,7 +40,10 @@ class RegistryTests(unittest.TestCase):
                 self.assertIn(c['metric'], vocab['metrics'], f'{path.name}/{c["template_ref"]}')
 
     def test_scaffold_has_owner_todo_and_no_conditions(self):
-        for tid in ('seasonal_plant',):
+        scaffold_ids = [x['template_id'] for x in at.validate_registry() if x['status'] == 'scaffold']
+        if not scaffold_ids:
+            self.skipTest('no scaffold templates in the registry')
+        for tid in scaffold_ids:
             t = json.loads((TEMPLATES / f'{tid}.json').read_text(encoding='utf-8'))
             self.assertEqual(t['status'], 'scaffold')
             self.assertEqual(t['conditions'], [])

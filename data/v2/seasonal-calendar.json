@@ -1,0 +1,189 @@
+{
+  "_meta": {
+    "file": "data/v2/seasonal-calendar.json",
+    "purpose": "Owner-maintained seasonal window calendar for the seasonal_plant genre. AI harvest may ONLY write entries' current_season (and only with a source_url). Pages display source links from current_season.source_url.",
+    "schema": {
+      "entry": {
+        "plant_id": "stable id (e.g. red_maple, daylily)",
+        "spots": [
+          "opportunity_ids carrying this plant"
+        ],
+        "name_i18n": {
+          "zh-TW": "...",
+          "en": "...",
+          "ja": "..."
+        },
+        "typical_window": {
+          "start": "MM-DD",
+          "end": "MM-DD"
+        },
+        "current_season": {
+          "start": "YYYY-MM-DD",
+          "end": "YYYY-MM-DD",
+          "source_url": "required if current_season present",
+          "retrieved_at": "YYYY-MM-DD",
+          "source_kind": "official_forecast | live_report"
+        },
+        "sources": [
+          {
+            "url": "...",
+            "kind": "...",
+            "note_i18n": "..."
+          }
+        ]
+      }
+    },
+    "fail_closed": "No current_season entry may exist without source_url+retrieved_at. Display without current_season = climatological typical window only, labeled 'typical'."
+  },
+  "entries": [
+    {
+      "plant_id": "daylily",
+      "spots": [
+        "tw-035-P08",
+        "tw-035-P10"
+      ],
+      "name_i18n": {
+        "zh-TW": "金針花",
+        "en": "Daylily",
+        "ja": "カンゾウ（金針花）"
+      },
+      "typical_window": {
+        "start": "08-25",
+        "end": "09-30"
+      },
+      "sources": [
+        {
+          "url": "https://www.forest.gov.tw/",
+          "kind": "official",
+          "note_i18n": {
+            "zh-TW": "林業保育署花況公告（每年更新）",
+            "en": "Forestry Bureau bloom bulletins (annual)",
+            "ja": "林業保育署の開花情報"
+          }
+        }
+      ]
+    },
+    {
+      "plant_id": "red_maple",
+      "spots": [
+        "jp-028-P02"
+      ],
+      "name_i18n": {
+        "zh-TW": "紅葉",
+        "en": "Autumn maple",
+        "ja": "紅葉"
+      },
+      "typical_window": {
+        "start": "10-20",
+        "end": "11-10"
+      },
+      "sources": [
+        {
+          "url": "https://www.weathernews.jp/koyo/",
+          "kind": "live_report",
+          "note_i18n": {
+            "zh-TW": "ウェザーニュース紅葉リポート（點位實況）",
+            "en": "Weathernews koyo live reports (spot-level)",
+            "ja": "ウェザーニュース紅葉リポート"
+          }
+        }
+      ]
+    },
+    {
+      "plant_id": "bald_cypress",
+      "spots": [
+        "tw-083-P02"
+      ],
+      "name_i18n": {
+        "zh-TW": "落羽松",
+        "en": "Bald cypress",
+        "ja": "ラクウショウ"
+      },
+      "typical_window": {
+        "start": "12-05",
+        "end": "01-15"
+      },
+      "sources": []
+    },
+    {
+      "plant_id": "iris",
+      "spots": [
+        "tw-083-P03"
+      ],
+      "name_i18n": {
+        "zh-TW": "鳶尾花",
+        "en": "Iris",
+        "ja": "アヤメ（ Iris ）"
+      },
+      "typical_window": {
+        "start": "03-15",
+        "end": "04-20"
+      },
+      "sources": []
+    },
+    {
+      "plant_id": "flame_goldenrain",
+      "spots": [
+        "tw-084-P02"
+      ],
+      "name_i18n": {
+        "zh-TW": "台灣欒樹",
+        "en": "Flame golden-rain tree",
+        "ja": "タイワンフウ（台湾栾樹）"
+      },
+      "typical_window": {
+        "start": "09-10",
+        "end": "10-31"
+      },
+      "sources": []
+    },
+    {
+      "plant_id": "autumn_foliage_mixed",
+      "spots": [
+        "tw-084-P03"
+      ],
+      "name_i18n": {
+        "zh-TW": "秋冬彩葉",
+        "en": "Autumn foliage (mixed)",
+        "ja": "秋冬の紅葉"
+      },
+      "typical_window": {
+        "start": "11-20",
+        "end": "01-15"
+      },
+      "sources": []
+    },
+    {
+      "plant_id": "spring_flower_fields",
+      "spots": [
+        "tw-084-P04"
+      ],
+      "name_i18n": {
+        "zh-TW": "春節花海",
+        "en": "Spring flower fields",
+        "ja": "春の花畑"
+      },
+      "typical_window": {
+        "start": "01-15",
+        "end": "03-15"
+      },
+      "sources": []
+    },
+    {
+      "plant_id": "silvergrass",
+      "spots": [
+        "tw-085-P03"
+      ],
+      "name_i18n": {
+        "zh-TW": "芒草",
+        "en": "Silvergrass",
+        "ja": "ススキ"
+      },
+      "typical_window": {
+        "start": "10-01",
+        "end": "12-15"
+      },
+      "sources": []
+    }
+  ]
+}
