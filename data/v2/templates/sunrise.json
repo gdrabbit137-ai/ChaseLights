@@ -1,0 +1,131 @@
+{
+  "template_id": "sunrise",
+  "version": "0.1",
+  "status": "draft",
+  "title_i18n": {
+    "zh-TW": "日出（內陸／山嶺通用）",
+    "en": "Sunrise (inland/mountain generic)",
+    "ja": "日の出（内陸・山岳汎用）"
+  },
+  "params": [
+    {
+      "name": "sun_azimuth_sector",
+      "kind": "geometry",
+      "desc_i18n": {
+        "zh-TW": "日出方位扇形格點帶（如東向 90°）",
+        "en": "sunrise azimuth sector of grid cells (e.g. eastern 90 deg)",
+        "ja": "日の出方位のセクター（例: 東90度）"
+      }
+    }
+  ],
+  "conditions": [
+    {
+      "template_ref": "T1",
+      "metric": "sunrise_time_window",
+      "role": "REQUIRED",
+      "domain": "ASTRONOMY",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "none",
+      "unit": null,
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "computed",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "天文窗＝日出時刻 ±40 分（座標＋日期計算）；與海岸版 tw-036-P01 相同窗口。",
+        "en": "Astronomy window = sunrise time +/- 40 minutes (from coordinates and date); same window as the coastal template tw-036-P01.",
+        "ja": "天文ウィンドウ＝日の出時刻±40分。海岸版 tw-036-P01 と同じ窓。"
+      },
+      "binding": null,
+      "threshold": null
+    },
+    {
+      "template_ref": "T2",
+      "metric": "cloud_cover_low",
+      "role": "REQUIRED",
+      "domain": "WEATHER",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "lte",
+      "unit": "%",
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "formula_derived",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "日出方位的低雲直接擋太陽；55% 允許塊狀雲（與 tw-036-P01 相同門檻）。山嶺場景另需個別視野/雲海判據時以 activate_when 疊加，不在本通用模板內。",
+        "en": "Low cloud in the sunrise azimuth blocks the sun; 55% allows broken cloud (same as tw-036-P01). Mountain scenes needing view/cloud-sea overlays add them via activate_when per spot, not in this generic template.",
+        "ja": "日の出方位の低雲は太陽を遮る。55%は塊状雲を許容（tw-036-P01と同じ）。山岳特有の視界/雲海判準は各spotでactivate_whenで追加。"
+      },
+      "binding": {
+        "dataset": "gfs_0p25",
+        "field": "cloud_cover_low_percent",
+        "role": "MID"
+      },
+      "threshold": 55,
+      "fetch": {
+        "strategy": "nearest_gridpoint",
+        "gridpoint_selector": "sun_azimuth_sector"
+      }
+    },
+    {
+      "template_ref": "T3",
+      "metric": "cloud_cover_mid_and_high",
+      "role": "REQUIRED",
+      "domain": "WEATHER",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MODIFIER",
+      "operator": "between",
+      "unit": "%",
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "formula_derived",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "中高雲是彩色的染料：20–70% 區間加分（mid+high 求和推導）。",
+        "en": "Mid and high cloud are the dyes: 20-70% scores (mid+high sum).",
+        "ja": "中高層雲は彩となる。20〜70%で加点（mid+highの和）。"
+      },
+      "binding": {
+        "dataset": "gfs_0p25",
+        "field": "cloud_cover_mid_percent+cloud_cover_high_percent",
+        "role": "MID"
+      },
+      "threshold": [
+        20,
+        70
+      ]
+    },
+    {
+      "template_ref": "T4",
+      "metric": "precipitation",
+      "role": "REQUIRED",
+      "domain": "WEATHER",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "lt",
+      "unit": "mm/h",
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "formula_derived",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "拍攝受雨影響；0.3 mm/h 以下不受影響。",
+        "en": "Rain interferes with shooting; below 0.3 mm/h is fine.",
+        "ja": "雨は撮影に影響。0.3mm/h未満なら影響なし。"
+      },
+      "binding": {
+        "dataset": "gfs_0p25",
+        "field": "precipitation_rate_mm_h",
+        "role": "MID"
+      },
+      "threshold": 0.3
+    }
+  ],
+  "review_note_i18n": {
+    "zh-TW": "草稿待 owner 複審；與 sunrise_coast 的差異僅在移除海平線/海岸專屬語意，門檻同構。",
+    "en": "Draft pending owner review; differs from sunrise_coast only by removing coast/sea-horizon semantics, thresholds isomorphic.",
+    "ja": "オーナー審査待ちの草稿。sunrise_coast との差は海岸/海平線語意の除去のみ、閾値は同型。"
+  }
+}

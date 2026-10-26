@@ -1,5 +1,5 @@
 {
-  "version": "0.1",
+  "version": "0.2",
   "note": "Metric vocabulary for genre condition templates. Condition metrics are unit-normalized ids; bindings map a metric to dataset fields (field naming follows DATA_SOURCE_TIERING_SPEC manifest style: name + unit suffix). '+' joins the fields a derived metric consumes.",
   "metrics": {
     "relative_humidity_925hpa": {
@@ -205,6 +205,31 @@
       "domain": "EPHEMERAL",
       "kind": "observation",
       "bindings": []
+    },
+    "wind_speed_10m": {
+      "unit": "m/s",
+      "domain": "WEATHER",
+      "bindings": [
+        {
+          "dataset": "gfs_0p25",
+          "field": "wind_speed_10m_m_s",
+          "role": "MID"
+        }
+      ]
+    },
+    "astronomical_darkness": {
+      "unit": null,
+      "domain": "ASTRONOMY",
+      "kind": "computed",
+      "bindings": [],
+      "note_i18n": {
+        "zh-TW": "天文暮光：太陽高度 ≤ -18° 的時段窗（座標＋日期計算）",
+        "en": "Astronomical darkness: the window when sun elevation is <= -18 deg (from coordinates and date)",
+        "ja": "天文的な暗さ：太陽高度≤-18度の時間帯（座標と日付から計算）"
+      }
     }
-  }
+  },
+  "changelog": [
+    "0.2 2026-10-26: add wind_speed_10m, astronomical_darkness (draft templates for reflection/milky_way)"
+  ]
 }

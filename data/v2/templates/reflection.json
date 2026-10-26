@@ -1,23 +1,117 @@
 {
   "template_id": "reflection",
-  "version": "0.0",
-  "status": "scaffold",
+  "version": "0.1",
+  "status": "draft",
   "title_i18n": {
     "zh-TW": "水面倒影",
     "en": "Water reflection",
     "ja": "水面反射"
   },
-  "purpose_i18n": {
-    "zh-TW": "平靜水面上的倒影題材。需要風的物理判據（水面擾動）與水位/水面存續判據；待 owner 定稿。",
-    "en": "Reflections on calm water. Needs a physical wind criterion (surface disturbance) plus a water-presence criterion; awaiting owner authoring.",
-    "ja": "穏やかな水面に映る倒し。風の物理判定（水面の擾乱）と水位の存続判定が必要；オーナーが確定させる。"
-  },
-  "metric_candidates": [
-    "wind_speed_10m",
-    "seasonal_state",
-    "water_surface_state"
-  ],
-  "todo": "Owner authors the conditions here (follow GENRE_CONDITION_TEMPLATES.md section 1 rules). Until status becomes 'defined' with version >= 0.1, expansion of this template is refused by apply_template.py.",
   "params": [],
-  "conditions": []
+  "conditions": [
+    {
+      "template_ref": "T1",
+      "metric": "wind_speed_10m",
+      "role": "REQUIRED",
+      "domain": "WEATHER",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "lte",
+      "unit": "m/s",
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "formula_derived",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "風速 ≤2 m/s：風生毛細波是倒影破碎的直接物理原因；2 m/s 約為鏡面與微漣的分界（實拍校準點）。",
+        "en": "Wind <= 2 m/s: wind-generated capillary waves are the direct physical cause of broken reflections; ~2 m/s is the mirror-vs-ripple boundary (calibration point).",
+        "ja": "風速≤2m/s。風による毛細波は反射を壊す直接の物理原因。約2m/sが鏡面とさざ波の境界（較正点）。"
+      },
+      "binding": {
+        "dataset": "gfs_0p25",
+        "field": "wind_speed_10m_m_s",
+        "role": "MID"
+      },
+      "threshold": 2
+    },
+    {
+      "template_ref": "T2",
+      "metric": "water_surface_state",
+      "role": "REQUIRED",
+      "domain": "EPHEMERAL",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "none",
+      "unit": null,
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "evidence_review",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "水面存續（不結冰、未乾涸）：季節性水體的存續由警語/公告層維護，屬純提示、不否決；缺公告時誠實 propagate unknown。",
+        "en": "Water presence (not frozen, not dried): seasonal-water existence is maintained in the advisory layer - pure notice, never a veto; propagates unknown when no advisory exists.",
+        "ja": "水面の存続（凍結・干上がりなし）。季節性水域の存続は警報層で管理。純粋な注意表示で否決しない。情報なければunknownを伝播。"
+      },
+      "binding": null,
+      "threshold": null
+    },
+    {
+      "template_ref": "T3",
+      "metric": "precipitation",
+      "role": "REQUIRED",
+      "domain": "WEATHER",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "lt",
+      "unit": "mm/h",
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "formula_derived",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "降雨同時打碎水面與妨礙拍攝；0.2 mm/h 以下不受影響。",
+        "en": "Rain both breaks the water surface and hampers shooting; below 0.2 mm/h is fine.",
+        "ja": "雨は水面を壊し撮影も妨げる。0.2mm/h未満なら影響なし。"
+      },
+      "binding": {
+        "dataset": "gfs_0p25",
+        "field": "precipitation_rate_mm_h",
+        "role": "MID"
+      },
+      "threshold": 0.2
+    },
+    {
+      "template_ref": "T4",
+      "metric": "cloud_cover_total",
+      "role": "REQUIRED",
+      "domain": "WEATHER",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MODIFIER",
+      "operator": "between",
+      "unit": "%",
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "formula_derived",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "總雲量 20–60%：雲與彩霞在鏡面裡的對稱構圖是倒影的加分主體；全晴只有山形、全陰無色彩。",
+        "en": "Total cloud 20-60%: clouds and glow mirrored in the water are the bonus subject of reflections; clear sky gives only the landform, overcast gives no colour.",
+        "ja": "全雲量20〜60%。水面に映る雲や彩が反射の加算対象。快晴は山容のみ、全層雲は色彩なし。"
+      },
+      "binding": {
+        "dataset": "gfs_0p25",
+        "field": "cloud_cover_total_percent",
+        "role": "MID"
+      },
+      "threshold": [
+        20,
+        60
+      ]
+    }
+  ],
+  "review_note_i18n": {
+    "zh-TW": "由 scaffold 升草稿：風判據為倒影核心物理（1.3 通用文件共識），水面存續採 advisory-only（V2 評分契約）；門檻 2 m/s 與 20–60% 待實拍校準。",
+    "en": "Promoted from scaffold to draft: the wind criterion is the core reflection physics (consensus in the general doc 1.3), water presence is advisory-only per the V2 scoring contract; the 2 m/s and 20-60% thresholds await calibration.",
+    "ja": "scaffoldからdraftへ昇格。風判準は反射の核となる物理（汎用資料1.3の合意）、水面存続はV2契約通りadvisory-only。2m/sと20〜60%は較正待ち。"
+  }
 }

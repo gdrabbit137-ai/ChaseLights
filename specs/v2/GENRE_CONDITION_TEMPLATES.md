@@ -129,8 +129,10 @@ opportunity 層，不屬於條件模板層）。一個模板可被多個景點�
 - **`metric-vocabulary.json`**：metric 目錄（單位、domain、每個 dataset 的
   欄位綁定候選；欄位命名依 §2 manifest 慣例「名稱＋單位後綴」；`+` 連接
   衍生 metric 消費的多個欄位）。
-- **`<template_id>.json`**：每個題材一份機器可讀模板。`status: defined`
-  （可展開）或 `scaffold`（owner 未定稿，展開被拒）。條件欄位：
+- **`<template_id>.json`**：每個題材一份機器可讀模板。三種狀態：
+  `defined`（owner 已核准，可展開）、`draft`（條件內容已草擬、
+  待 owner 複審核准，展開被拒）、`scaffold`（僅骨架，owner 未定稿，
+  展開被拒）。draft 檔附 `review_note_i18n` 說明草擬依據。條件欄位：
   `template_ref`（模板內唯一）、`metric`、`role`/`domain`/`evaluation_mode`/
   `capability`/`condition_tier`、`operator`/`threshold`/`unit`、
   `threshold_source`/`calibration_status`、`rationale_i18n`（三語必填）、

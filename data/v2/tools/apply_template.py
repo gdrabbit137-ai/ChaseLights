@@ -137,8 +137,8 @@ def validate_template(path: Path, vocab: dict):
     tid = t.get('template_id')
     if tid != path.stem:
         _fail(f'{path.name}: template_id {tid!r} != filename stem')
-    if t.get('status') not in {'defined', 'scaffold'}:
-        _fail(f'{tid}: status must be defined|scaffold, got {t.get("status")!r}')
+    if t.get('status') not in {'defined', 'scaffold', 'draft'}:
+        _fail(f'{tid}: status must be defined|scaffold|draft, got {t.get("status")!r}')
     refs = [c.get('template_ref') for c in t.get('conditions', [])]
     if len(refs) != len(set(refs)):
         _fail(f'{tid}: duplicate template_ref values')
@@ -207,7 +207,7 @@ def expand(template_id: str, opportunity_id: str, skeleton_path: Path,
         _fail(f'template {template_id!r} not found in registry')
     t = validate_template(tpath, vocab)
     if t['status'] != 'defined':
-        _fail(f"template {template_id!r} is a scaffold (status={t['status']}); owner must author it first")
+        _fail(f"template {template_id!r} is {t['status']}; owner must approve it (status=defined) before expansion")
     params = _load_json(params_path) if params_path else {}
     declared = {p['name'] for p in t['params']}
     unknown = set(params) - declared
@@ -301,8 +301,10 @@ def main(argv=None):
     if args.cmd == 'validate':
         templates = validate_registry()
         defined = [t['template_id'] for t in templates if t['status'] == 'defined']
+        draft = [t['template_id'] for t in templates if t['status'] == 'draft']
         scaffold = [t['template_id'] for t in templates if t['status'] == 'scaffold']
-        print(f"PASS registry: {len(defined)} defined ({', '.join(defined)}), {len(scaffold)} scaffold ({', '.join(scaffold)})")
+        print(f"PASS registry: {len(defined)} defined ({', '.join(defined)}), "
+              f"{len(draft)} draft ({', '.join(draft)}), {len(scaffold)} scaffold ({', '.join(scaffold)})")
     elif args.cmd == 'expand':
         expand(args.template, args.opportunity_id, Path(args.skeleton),
                Path(args.params) if args.params else None,

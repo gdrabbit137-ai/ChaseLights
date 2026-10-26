@@ -27,8 +27,10 @@ class RegistryTests(unittest.TestCase):
         statuses = {t['template_id']: t['status'] for t in templates}
         for tid in PROTOTYPE_SPOTS:
             self.assertEqual(statuses[tid], 'defined', tid)
-        for tid in ('reflection', 'milky_way', 'seasonal_plant'):
+        for tid in ('seasonal_plant',):
             self.assertEqual(statuses[tid], 'scaffold', tid)
+        for tid in ('reflection', 'milky_way'):
+            self.assertEqual(statuses[tid], 'draft', tid)
 
     def test_every_metric_in_templates_is_in_vocabulary(self):
         vocab = at.load_vocabulary()
@@ -40,12 +42,27 @@ class RegistryTests(unittest.TestCase):
                 self.assertIn(c['metric'], vocab['metrics'], f'{path.name}/{c["template_ref"]}')
 
     def test_scaffold_has_owner_todo_and_no_conditions(self):
-        for tid in ('reflection', 'milky_way', 'seasonal_plant'):
+        for tid in ('seasonal_plant',):
             t = json.loads((TEMPLATES / f'{tid}.json').read_text(encoding='utf-8'))
             self.assertEqual(t['status'], 'scaffold')
             self.assertEqual(t['conditions'], [])
             self.assertTrue(t.get('todo', '').strip())
             self.assertTrue(t.get('purpose_i18n', {}).get('zh-TW', '').strip())
+
+    def test_draft_templates_are_complete_but_refused(self):
+        draft_ids = {'city_night', 'milky_way', 'reflection', 'sunrise', 'sunset'}
+        for tid in draft_ids:
+            t = json.loads((TEMPLATES / f'{tid}.json').read_text(encoding='utf-8'))
+            self.assertEqual(t['status'], 'draft', tid)
+            self.assertTrue(t['conditions'], tid)
+            self.assertTrue((t.get('review_note_i18n') or {}).get('zh-TW', '').strip(), tid)
+            for c in t['conditions']:
+                self.assertIn(c['threshold_source'],
+                              ('formula_derived', 'computed', 'evidence_review'),
+                              f'{tid}/{c["template_ref"]}')
+                for lang in ('zh-TW', 'en', 'ja'):
+                    self.assertTrue((c['rationale_i18n'] or {}).get(lang, '').strip(),
+                                    f'{tid}/{c["template_ref"]}/{lang}')
 
 
 class BindingGrammarTests(unittest.TestCase):
@@ -130,6 +147,13 @@ class ExpansionTests(unittest.TestCase):
             with self.assertRaises(SystemExit):
                 at.expand('reflection', 'tw-001-P01',
                           REPO / 'data/v2/migration/skeletons/tw-001-P01.json',
+                          None, Path(td) / 'x.json', None, False)
+
+    def test_draft_expansion_refused(self):
+        with tempfile.TemporaryDirectory() as td:
+            with self.assertRaises(SystemExit):
+                at.expand('sunset', 'tw-016-P01',
+                          REPO / 'data/v2/opportunities/tw-016-P01.json',
                           None, Path(td) / 'x.json', None, False)
 
     def test_undeclared_param_refused(self):

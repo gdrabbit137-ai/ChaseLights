@@ -1,25 +1,152 @@
 {
   "template_id": "milky_way",
-  "version": "0.0",
-  "status": "scaffold",
+  "version": "0.1",
+  "status": "draft",
   "title_i18n": {
     "zh-TW": "銀河星空",
     "en": "Milky Way",
     "ja": "天の川"
   },
-  "purpose_i18n": {
-    "zh-TW": "銀河可視性題材。月亮相位/高度/日月分離為主判據，AOD 為透明度判據；天文計算用 moon_* 與天文曆。",
-    "en": "Milky-way visibility. Moon phase/altitude and sun-moon separation are the main criteria; AOD carries transparency; moon_* metrics plus the ephemeris cover the astronomy.",
-    "ja": "天の川の視認性。月相・月高度・日月分離が主判定，AODは透明度判定。moon_*と天文暦で計算する。"
-  },
-  "metric_candidates": [
-    "moon_altitude",
-    "moon_illumination_fraction",
-    "moonrise_moonset_separation_h",
-    "aod_550nm",
-    "cloud_cover_total"
-  ],
-  "todo": "Owner authors the conditions here (follow GENRE_CONDITION_TEMPLATES.md section 1 rules). Until status becomes 'defined' with version >= 0.1, expansion of this template is refused by apply_template.py.",
   "params": [],
-  "conditions": []
+  "conditions": [
+    {
+      "template_ref": "T1",
+      "metric": "astronomical_darkness",
+      "role": "REQUIRED",
+      "domain": "ASTRONOMY",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "none",
+      "unit": null,
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "computed",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "天文暮光窗（太陽高度 ≤ -18°）：天光蓋過銀河對比的唯一硬性天文前提。",
+        "en": "Astronomical darkness window (sun elevation <= -18 deg): the one hard astronomical prerequisite before skyglow drowns the Milky Way's contrast.",
+        "ja": "天文暮色帯（太陽高度≤-18度）。天光が天の川のコントラストを消す前に満たすべき唯一の硬い天文前提。"
+      },
+      "binding": null,
+      "threshold": null
+    },
+    {
+      "template_ref": "T2",
+      "metric": "moon_illumination_fraction",
+      "role": "REQUIRED",
+      "domain": "ASTRONOMY",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "lte",
+      "unit": null,
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "formula_derived",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "月照 ≤25%（殘月以下）：月光會直接壓過銀河亮度，25% 是殘月級上限。",
+        "en": "Moon illumination <= 25% (crescent or less): moonlight directly outshines the Milky Way; 25% is the crescent-grade ceiling.",
+        "ja": "月照度≤25%（細月以下）。月光は天の川を圧倒する。25%は細月級の上限。"
+      },
+      "binding": null,
+      "threshold": 0.25
+    },
+    {
+      "template_ref": "T3",
+      "metric": "moon_altitude",
+      "role": "REQUIRED",
+      "domain": "ASTRONOMY",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "lt",
+      "unit": "°",
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "formula_derived",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "月亮在地平線下（<0°）：即使細月，只要升到地平線上就會污染背景天空；兩條月判據並列是刻意的保守設計（校準後可放寬為二擇一）。",
+        "en": "Moon below the horizon (<0 deg): even a thin moon pollutes the sky background once up; keeping both moon criteria is deliberately conservative (may be relaxed to either-or after calibration).",
+        "ja": "月が地平線下（<0度）。細月でも地平線上に出れば空が汚れる。月判準の並列は意図的な保守設計（較正後に片方へ緩和可）。"
+      },
+      "binding": null,
+      "threshold": 0
+    },
+    {
+      "template_ref": "T4",
+      "metric": "cloud_cover_total",
+      "role": "REQUIRED",
+      "domain": "WEATHER",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "lte",
+      "unit": "%",
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "formula_derived",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "總雲量 ≤20%：銀河是長曝主體，任何雲帶都會蓋掉銀河段；比一般題材更嚴。",
+        "en": "Total cloud <= 20%: long exposures make any cloud band cover the galactic segment; stricter than ordinary genres.",
+        "ja": "全雲量≤20%。長時間露光では雲帯が天の川を覆う。一般題材より厳格。"
+      },
+      "binding": {
+        "dataset": "gfs_0p25",
+        "field": "cloud_cover_total_percent",
+        "role": "MID"
+      },
+      "threshold": 20
+    },
+    {
+      "template_ref": "T5",
+      "metric": "aod_550nm",
+      "role": "REQUIRED",
+      "domain": "WEATHER",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "lte",
+      "unit": null,
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "formula_derived",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "AOD ≤0.3：氣溶膠消光直接吃掉銀河對比；比地面題材的 0.4–0.6 更嚴（仰角高、光程仍長）。",
+        "en": "AOD <= 0.3: aerosol extinction eats galactic contrast directly; stricter than the 0.4-0.6 used by terrestrial genres.",
+        "ja": "AOD≤0.3。エアロゾル消光は天の川のコントラストを直接減らす。地上題材の0.4〜0.6より厳格。"
+      },
+      "binding": {
+        "dataset": "cams_global",
+        "field": "aerosol_optical_depth_550nm",
+        "role": "AEROSOL"
+      },
+      "threshold": 0.3
+    },
+    {
+      "template_ref": "T6",
+      "metric": "moonrise_moonset_separation_h",
+      "role": "REQUIRED",
+      "domain": "ASTRONOMY",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MODIFIER",
+      "operator": "gte",
+      "unit": "h",
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "formula_derived",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "月出/月落分離 ≥3 h：月不在場的暗窗長度，決定可工作時間（加分）。",
+        "en": "Moonrise/moonset separation >= 3 h: the length of the moonless dark window, which sets the usable shooting time (bonus).",
+        "ja": "月出/月没の間隔≥3時間。月のない暗い窓の長さ＝作業可能時間（加点）。"
+      },
+      "binding": null,
+      "threshold": 3
+    }
+  ],
+  "review_note_i18n": {
+    "zh-TW": "由 scaffold 升草稿：全部為天文/大氣物理推導（formula_derived/provisional），無任何已審 prototype；月判據並列為保守設計，待實拍校準。",
+    "en": "Promoted from scaffold to draft: all astronomy/atmosphere physics-derived (formula_derived/provisional), no reviewed prototype; the parallel moon criteria are deliberately conservative pending calibration.",
+    "ja": "scaffoldからdraftへ昇格。全て天文/大気物理由来（formula_derived/provisional）、審査済みprototypeなし。月判準の並列は保守設計、較正待ち。"
+  }
 }
