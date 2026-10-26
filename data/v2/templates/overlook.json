@@ -1,6 +1,6 @@
 {
   "template_id": "overlook",
-  "version": "0.1",
+  "version": "0.2",
   "status": "draft",
   "title_i18n": {
     "zh-TW": "眺望",
@@ -80,7 +80,7 @@
     },
     {
       "template_ref": "V3",
-      "metric": "cloud_cover_total",
+      "metric": "cloud_cover_low",
       "role": "REQUIRED",
       "domain": "WEATHER",
       "evaluation_mode": "GUIDANCE",
@@ -92,16 +92,15 @@
       "threshold_source": "formula_derived",
       "calibration_status": "provisional",
       "rationale_i18n": {
-        "zh-TW": "總雲量 ≤70%：全景不需要無雲——天空中的雲是構圖元素，只擋連續陰幕蓋住目標全域的情況。比 sunset（低雲方位判據）寬，因為俯瞰主體在地面上。",
-        "en": "Total cloud <= 70%: a panorama does not need a clear sky - clouds in the sky are compositional elements; only a continuous deck covering the whole target is vetoed. Looser than sunset's azimuth-based low-cloud criterion because the subject is on the ground.",
-        "ja": "全雲量≤70%。パノラマに晴天は不要。雲は構図要素。連続雲層が対象全体を覆う場合のみ否決。"
+        "zh-TW": "低雲量 ≤30%（2026-10-26 owner 修正，取代原總雲 70%）：俯瞰的主體在地面，真正擋住目標的是雲底低於視線路徑的低雲/霧層；高卷雲飄在天空是構圖元素、不該否決。總雲判據物理上分不開這兩種情況（65% 全低雲幕全景已毀、85% 全高雲全景很好），故改以 cloud_cover_low 為主判據，中高雲退出否決鏈。30% 語意：目標區上空基本淨空、允許零星雲影。provisional，與 AOD 0.4 並列校準第一優先。",
+        "en": "Low cloud <= 30% (owner correction 2026-10-26, replacing the original 70% total-cloud gate): the subject of an overlook lies on the ground, and what actually blocks it is low cloud/fog with a base below the sightline; high cirrus floats in the sky as a compositional element and must not veto. A total-cloud threshold cannot separate the two cases (65% all-low deck ruins the panorama, 85% all-high cloud leaves it fine), so cloud_cover_low becomes the main criterion and mid/high clouds leave the veto chain. 30% reads as 'target area essentially clear, scattered cloud shadows allowed'. Provisional, top calibration priority alongside AOD 0.4.",
+        "ja": "下層雲≤30%（2026-10-26 オーナー修正、従来の全雲量70%に代わる）。俯瞰の主題は地面にあり、邪魔するのは視線より低い雲底の下層雲/霧。高層雲は構図要素で否決しない。全雲量では両者を区別できないため cloud_cover_low を主判断とし、中上層雲は否決チェーンから外す。30%は「対象域ほぼ晴透、点在する雲影は許容」。暫定値。"
       },
       "binding": {
         "dataset": "gfs_0p25",
-        "field": "cloud_cover_total_percent",
+        "field": "cloud_cover_low_percent",
         "role": "MID"
-      },
-      "threshold": 70
+      }
     },
     {
       "template_ref": "V4",
