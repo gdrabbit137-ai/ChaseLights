@@ -17,7 +17,7 @@ PROTOTYPE_SPOTS = {
     'cloud_sea': 'tw-001-P02',
     'sunrise_coast': 'tw-036-P01',
     'blue_hour_city': 'tw-002-P01',
-    'mountain_layers': 'tw-016-P01',
+    'mountain_view': 'tw-016-P01',
 }
 
 
