@@ -1,7 +1,7 @@
 {
   "template_id": "overcast_soft",
   "version": "0.1",
-  "status": "draft",
+  "status": "defined",
   "title_i18n": {
     "zh-TW": "陰天柔光",
     "en": "Overcast soft light",
@@ -91,9 +91,5 @@
       "threshold": 5
     }
   ],
-  "review_note_i18n": {
-    "zh-TW": "草稿待 owner 複審。O1 ≥70% 為新擬（方向與所有現有雲判據相反，故獨立模板而非參數）；O2 0.5 為刻意放寬的新擬；O3 5 m/s 沿用常識界線。動機：架構審計 C1——庭園/森林/溪谷柔光判據無題材可掛，人文類多數可由此救回。",
-    "en": "Draft pending owner review. O1 >=70% is newly proposed (direction inverted from every existing cloud condition, hence a standalone template rather than a parameter); O2 0.5 is a deliberate relaxation; O3 5 m/s follows common practice. Motivated by C1: soft-light judgment for gardens/forest/gorges has no genre; most cultural/architecture spots are recoverable through it.",
-    "ja": "ドラフト。O1≥70%は新規（既存の雲判據と方向が逆のため独立テンプレート）。O2 0.5は意図的緩和。O3 5m/sは慣例値。背景：C1——庭園/森林/渓谷のソフト光判断を担う題材が不在。"
-  }
+  "owner_review": "2026-10-26 approved as drafted: total cloud >=70% as positive MAIN (the registry's first inverted-cloud genre), precip <0.5 deliberately loose for wet-surface colour, wind <5 m/s bonus-only. Immediate hosts: 13 pure-subject opportunities (waterfalls/forest/lake/geology) + 3 from the mountain_view review."
 }
