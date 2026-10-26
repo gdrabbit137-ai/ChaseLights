@@ -25,6 +25,7 @@ from __future__ import annotations
 import argparse
 import ast
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -178,6 +179,9 @@ def validate_template(path: Path, vocab: dict):
                 _fail(f'{tid}/{c["template_ref"]}: activate_when references unknown template_ref')
             if aw.get('mode') not in {'when_not_met', 'when_met'}:
                 _fail(f'{tid}/{c["template_ref"]}: activate_when mode must be when_not_met|when_met')
+        scope = c.get('genre_scope')
+        if scope is not None and not re.fullmatch(r'[a-z][a-z_]*', scope):
+            _fail(f'{tid}/{c["template_ref"]}: genre_scope must be a lowercase identifier')
         fetch = c.get('fetch')
         if fetch is not None:
             if not isinstance(fetch, dict) or fetch.get('strategy') not in {'nearest_gridpoint', 'height_bound'}:
@@ -285,6 +289,8 @@ def expand(template_id: str, opportunity_id: str, skeleton_path: Path,
         }
         if c.get('fetch'):
             cond['binding'] = c['fetch']
+        if c.get('genre_scope'):
+            cond['genre_scope'] = c['genre_scope']
         if c.get('activate_when'):
             cond['modifier_activation'] = {
                 'when_condition': ref_to_id[c['activate_when']['template_ref']],

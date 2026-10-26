@@ -29,7 +29,7 @@ class RegistryTests(unittest.TestCase):
             self.assertEqual(statuses[tid], 'defined', tid)
         for tid in ('seasonal_plant',):
             self.assertEqual(statuses[tid], 'scaffold', tid)
-        for tid in ('reflection', 'milky_way'):
+        for tid in ('reflection', 'night_sky'):
             self.assertEqual(statuses[tid], 'draft', tid)
 
     def test_every_metric_in_templates_is_in_vocabulary(self):
@@ -50,7 +50,7 @@ class RegistryTests(unittest.TestCase):
             self.assertTrue(t.get('purpose_i18n', {}).get('zh-TW', '').strip())
 
     def test_draft_templates_are_complete_but_refused(self):
-        draft_ids = {'milky_way', 'reflection', 'sunset'}
+        draft_ids = {'night_sky', 'reflection', 'sunset'}
         for tid in draft_ids:
             t = json.loads((TEMPLATES / f'{tid}.json').read_text(encoding='utf-8'))
             self.assertEqual(t['status'], 'draft', tid)

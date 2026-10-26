@@ -1,5 +1,5 @@
 {
-  "version": "0.2",
+  "version": "0.3",
   "note": "Metric vocabulary for genre condition templates. Condition metrics are unit-normalized ids; bindings map a metric to dataset fields (field naming follows DATA_SOURCE_TIERING_SPEC manifest style: name + unit suffix). '+' joins the fields a derived metric consumes.",
   "metrics": {
     "relative_humidity_925hpa": {
@@ -227,9 +227,32 @@
         "en": "Astronomical darkness: the window when sun elevation is <= -18 deg (from coordinates and date)",
         "ja": "天文的な暗さ：太陽高度≤-18度の時間帯（座標と日付から計算）"
       }
+    },
+    "galactic_core_altitude": {
+      "unit": "°",
+      "domain": "ASTRONOMY",
+      "kind": "computed",
+      "bindings": [],
+      "note_i18n": {
+        "zh-TW": "銀河核心（人馬座 A 方向）在該座標該時刻的高度角；由 lunar_ephemeris 銀河核心契約計算",
+        "en": "Altitude of the galactic core (Sagittarius A direction) at the coordinate and time; from the lunar_ephemeris galactic-core contract",
+        "ja": "その座標・時刻における銀河中心（いて座A方向）の高度角。lunar_ephemerisの銀河中心契約による計算"
+      }
+    },
+    "moon_target_separation_deg": {
+      "unit": "°",
+      "domain": "ASTRONOMY",
+      "kind": "computed",
+      "bindings": [],
+      "note_i18n": {
+        "zh-TW": "月亮與目標天體的角分離；對銀河題材目標＝銀河核心，由 lunar_ephemeris 輸出",
+        "en": "Angular separation between the moon and the target celestial object; for the Milky-Way scope the target is the galactic core, from lunar_ephemeris",
+        "ja": "月と対象天体の角距離。銀河スコープでは対象＝銀河中心。lunar_ephemerisが出力"
+      }
     }
   },
   "changelog": [
-    "0.2 2026-10-26: add wind_speed_10m, astronomical_darkness (draft templates for reflection/milky_way)"
+    "0.2 2026-10-26: add wind_speed_10m, astronomical_darkness (draft templates for reflection/milky_way)",
+    "0.3 2026-10-26: add galactic_core_altitude, moon_target_separation_deg (night_sky milky-way layer)"
   ]
 }
