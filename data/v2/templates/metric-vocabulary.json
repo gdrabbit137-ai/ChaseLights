@@ -1,0 +1,210 @@
+{
+  "version": "0.1",
+  "note": "Metric vocabulary for genre condition templates. Condition metrics are unit-normalized ids; bindings map a metric to dataset fields (field naming follows DATA_SOURCE_TIERING_SPEC manifest style: name + unit suffix). '+' joins the fields a derived metric consumes.",
+  "metrics": {
+    "relative_humidity_925hpa": {
+      "unit": "%",
+      "domain": "WEATHER",
+      "bindings": [
+        {
+          "dataset": "cwa_wrf3",
+          "field": "relative_humidity_925hpa_percent",
+          "level": "925hpa",
+          "role": "SHORT_HQ"
+        }
+      ]
+    },
+    "relative_humidity_850hpa": {
+      "unit": "%",
+      "domain": "WEATHER",
+      "bindings": [
+        {
+          "dataset": "cwa_wrf3",
+          "field": "relative_humidity_850hpa_percent",
+          "level": "850hpa",
+          "role": "SHORT_HQ"
+        }
+      ]
+    },
+    "lcl_height_m_agl": {
+      "unit": "m",
+      "domain": "WEATHER",
+      "bindings": [
+        {
+          "dataset": "cwa_wrf3",
+          "field": "lcl_height_m_agl",
+          "role": "SHORT_HQ"
+        }
+      ]
+    },
+    "cloud_cover_low": {
+      "unit": "%",
+      "domain": "WEATHER",
+      "bindings": [
+        {
+          "dataset": "gfs_0p25",
+          "field": "cloud_cover_low_percent",
+          "role": "MID"
+        },
+        {
+          "dataset": "jma_msm",
+          "field": "cloud_cover_low_percent",
+          "role": "MID",
+          "note": "partial bbox"
+        }
+      ]
+    },
+    "cloud_cover_mid": {
+      "unit": "%",
+      "domain": "WEATHER",
+      "bindings": [
+        {
+          "dataset": "gfs_0p25",
+          "field": "cloud_cover_mid_percent",
+          "role": "MID"
+        },
+        {
+          "dataset": "jma_msm",
+          "field": "cloud_cover_mid_percent",
+          "role": "MID",
+          "note": "partial bbox"
+        }
+      ]
+    },
+    "cloud_cover_mid_and_high": {
+      "unit": "%",
+      "domain": "WEATHER",
+      "kind": "derived",
+      "bindings": [
+        {
+          "dataset": "gfs_0p25",
+          "field": "cloud_cover_mid_percent+cloud_cover_high_percent",
+          "role": "MID"
+        }
+      ]
+    },
+    "cloud_cover_total": {
+      "unit": "%",
+      "domain": "WEATHER",
+      "bindings": [
+        {
+          "dataset": "gfs_0p25",
+          "field": "cloud_cover_total_percent",
+          "role": "MID"
+        },
+        {
+          "dataset": "jma_msm",
+          "field": "cloud_cover_total_percent",
+          "role": "MID",
+          "note": "partial bbox"
+        }
+      ]
+    },
+    "visibility": {
+      "unit": "km",
+      "domain": "WEATHER",
+      "bindings": [
+        {
+          "dataset": "gfs_0p25",
+          "field": "visibility_km",
+          "role": "MID"
+        }
+      ]
+    },
+    "aod_550nm": {
+      "unit": null,
+      "domain": "WEATHER",
+      "bindings": [
+        {
+          "dataset": "cams_global",
+          "field": "aerosol_optical_depth_550nm",
+          "role": "AEROSOL"
+        }
+      ]
+    },
+    "precipitation": {
+      "unit": "mm/h",
+      "domain": "WEATHER",
+      "bindings": [
+        {
+          "dataset": "gfs_0p25",
+          "field": "precipitation_rate_mm_h",
+          "role": "MID"
+        }
+      ]
+    },
+    "temperature_delta_850_925_c": {
+      "unit": "°C",
+      "domain": "WEATHER",
+      "kind": "derived",
+      "bindings": [
+        {
+          "dataset": "cwa_wrf3",
+          "field": "temperature_850hpa_c+temperature_925hpa_c",
+          "level": "850hpa,925hpa",
+          "role": "SHORT_HQ"
+        }
+      ]
+    },
+    "wind_speed_850hpa": {
+      "unit": "m/s",
+      "domain": "WEATHER",
+      "bindings": [
+        {
+          "dataset": "cwa_wrf3",
+          "field": "wind_speed_850hpa_m_s",
+          "level": "850hpa",
+          "role": "SHORT_HQ"
+        }
+      ]
+    },
+    "sunrise_time_window": {
+      "unit": null,
+      "domain": "ASTRONOMY",
+      "kind": "computed",
+      "bindings": []
+    },
+    "sunset_window": {
+      "unit": null,
+      "domain": "ASTRONOMY",
+      "kind": "computed",
+      "bindings": []
+    },
+    "blue_hour_window": {
+      "unit": null,
+      "domain": "ASTRONOMY",
+      "kind": "computed",
+      "bindings": []
+    },
+    "moon_altitude": {
+      "unit": "°",
+      "domain": "ASTRONOMY",
+      "kind": "computed",
+      "bindings": []
+    },
+    "moon_illumination_fraction": {
+      "unit": null,
+      "domain": "ASTRONOMY",
+      "kind": "computed",
+      "bindings": []
+    },
+    "moonrise_moonset_separation_h": {
+      "unit": "h",
+      "domain": "ASTRONOMY",
+      "kind": "computed",
+      "bindings": []
+    },
+    "seasonal_state": {
+      "unit": null,
+      "domain": "EPHEMERAL",
+      "kind": "observation",
+      "bindings": []
+    },
+    "water_surface_state": {
+      "unit": null,
+      "domain": "EPHEMERAL",
+      "kind": "observation",
+      "bindings": []
+    }
+  }
+}

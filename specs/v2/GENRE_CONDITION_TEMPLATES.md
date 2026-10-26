@@ -117,6 +117,44 @@ opportunity 層，不屬於條件模板層）。一個模板可被多個景點�
 極光（aurora）、雲瀑（waterfall_cloud）……沿用第 1 節原則另案
 設計；未定稿前不得在 contracts 填入數值。
 
+## 2.6 模板映射機制（template registry → condition contract）
+
+機制檔案在 `data/v2/templates/`，工具在 `data/v2/tools/apply_template.py`：
+
+- **`metric-vocabulary.json`**：metric 目錄（單位、domain、每個 dataset 的
+  欄位綁定候選；欄位命名依 §2 manifest 慣例「名稱＋單位後綴」；`+` 連接
+  衍生 metric 消費的多個欄位）。
+- **`<template_id>.json`**：每個題材一份機器可讀模板。`status: defined`
+  （可展開）或 `scaffold`（owner 未定稿，展開被拒）。條件欄位：
+  `template_ref`（模板內唯一）、`metric`、`role`/`domain`/`evaluation_mode`/
+  `capability`/`condition_tier`、`operator`/`threshold`/`unit`、
+  `threshold_source`/`calibration_status`、`rationale_i18n`（三語必填）、
+  `binding`（dataset/field/role/level 結構物件，展開時序列化為
+  `model_binding` 語法字串）、`fetch`（空間選點/選層策略，景點無關：
+  `nearest_gridpoint`＋`gridpoint_selector` 或 `height_bound`＋
+  `candidate_levels_hpa`＋`target_height_expression`）、`activate_when`
+  （修正項啟用條件，以 `template_ref` 引用，mode `when_not_met`/`when_met`）。
+- **參數化門檻**：`threshold` 可為 `{"expr": "viewpoint_altitude_m - 200"}`
+  形式；expr 僅允許已宣告 params、數字與 `+ - * / ( )`，且必須
+  `threshold_source: computed`。
+- **`model_binding` 語法**（opportunity schema 內的自由字串，由本工具
+  lint 把關，不改 schema 位元組）：
+  `dataset:<id>|field:<name>[+<name>…]|role:<ROLE>[|level:<固定層|dynamic:<param>>][|sector:<id>]`；
+  role 限五角色（SHORT_HQ/MID/LONG/AEROSOL/OBS）；未知鍵、重複鍵、缺
+  dataset/field 一律 fail-closed。
+- **展開流程**：`apply_template.py expand` ＝ 模板＋景點參數＋opportunity
+  骨架 → 填入 `condition_contract`（`genre_template`/`template_version`/
+  `contract_id` 自動帶入；條件 id `C-<opp>-NN`；claim 引用預設
+  `<opp>-claim-01`，可用 `--claim-ref` 覆寫）。**輸出一律進
+  `data/v2/staging/contracts/`**——canonical 目錄受覆蓋鎖保護，准入走
+  既有 build/validate 管線。
+- **回歸保證**：四個已定稿模板對其審閱過的試作景點（tw-001-P02、
+  tw-036-P01、tw-002-P01、tw-016-P01）展開結果與 canonical 逐位元組等價
+  （僅 `model_binding` 由 null 升級為語法字串）；此性質由
+  `data/v2/tests/test_genre_templates.py` 鎖住。
+- `binding-lint` 子指令掃描 `data/v2/opportunities/*.json` 全部
+  `model_binding` 字串。
+
 ## 3. 評估輸出契約
 
 - 每條門檻輸出：`threshold_source`、`rationale_i18n`（zh-TW/en/ja）、

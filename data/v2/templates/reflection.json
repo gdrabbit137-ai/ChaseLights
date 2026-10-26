@@ -1,0 +1,23 @@
+{
+  "template_id": "reflection",
+  "version": "0.0",
+  "status": "scaffold",
+  "title_i18n": {
+    "zh-TW": "水面倒影",
+    "en": "Water reflection",
+    "ja": "水面反射"
+  },
+  "purpose_i18n": {
+    "zh-TW": "平靜水面上的倒影題材。需要風的物理判據（水面擾動）與水位/水面存續判據；待 owner 定稿。",
+    "en": "Reflections on calm water. Needs a physical wind criterion (surface disturbance) plus a water-presence criterion; awaiting owner authoring.",
+    "ja": "穏やかな水面に映る倒し。風の物理判定（水面の擾乱）と水位の存続判定が必要；オーナーが確定させる。"
+  },
+  "metric_candidates": [
+    "wind_speed_10m",
+    "seasonal_state",
+    "water_surface_state"
+  ],
+  "todo": "Owner authors the conditions here (follow GENRE_CONDITION_TEMPLATES.md section 1 rules). Until status becomes 'defined' with version >= 0.1, expansion of this template is refused by apply_template.py.",
+  "params": [],
+  "conditions": []
+}

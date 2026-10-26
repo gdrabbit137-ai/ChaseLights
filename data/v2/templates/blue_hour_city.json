@@ -1,0 +1,112 @@
+{
+  "template_id": "blue_hour_city",
+  "version": "0.1",
+  "status": "defined",
+  "title_i18n": {
+    "zh-TW": "城市藍調",
+    "en": "City blue hour",
+    "ja": "都市ブルーアワー"
+  },
+  "instantiated_by": [
+    "tw-002-P01"
+  ],
+  "params": [],
+  "conditions": [
+    {
+      "template_ref": "T1",
+      "metric": "blue_hour_window",
+      "role": "REQUIRED",
+      "domain": "ASTRONOMY",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "none",
+      "unit": null,
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "computed",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "藍調定義式窗口：日落后太陽高度 −4°～−8°（日落後約 20–50 分），由座標＋日期計算。",
+        "en": "Definitional blue-hour window: sun elevation -4 to -8 degrees after sunset (roughly 20-50 minutes), computed from coordinates and date.",
+        "ja": "ブルーアワーの定義的ウィンドウ：日没後に太陽高度が-4〜-8度（およそ日没後20-50分）。座標と日付から計算。"
+      },
+      "binding": null,
+      "threshold": null
+    },
+    {
+      "template_ref": "T2",
+      "metric": "cloud_cover_total",
+      "role": "REQUIRED",
+      "domain": "WEATHER",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "lte",
+      "unit": "%",
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "formula_derived",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "天頂須透出藍色天空；70% 允許局部雲。",
+        "en": "The zenith must show blue sky; 70% still allows partial cloud.",
+        "ja": "天頂から青空が透けて見える必要がある。70%なら部分的な雲を許容。"
+      },
+      "binding": {
+        "dataset": "gfs_0p25",
+        "field": "cloud_cover_total_percent",
+        "role": "MID"
+      },
+      "threshold": 70
+    },
+    {
+      "template_ref": "T3",
+      "metric": "aod_550nm",
+      "role": "REQUIRED",
+      "domain": "WEATHER",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "lte",
+      "unit": null,
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "formula_derived",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "看約 5 km 的天際線，城市霧霾門檻比山景寬（0.5 對山景 0.3）。",
+        "en": "The skyline sits about 5 km away, so the urban haze tolerance is wider than for mountain vistas (0.5 vs 0.3).",
+        "ja": "スカイラインまで約5kmのため、都市のヘイズ許容は山景（0.3）より緩い0.5。"
+      },
+      "binding": {
+        "dataset": "cams_global",
+        "field": "aerosol_optical_depth_550nm",
+        "role": "AEROSOL"
+      },
+      "threshold": 0.5
+    },
+    {
+      "template_ref": "T4",
+      "metric": "precipitation",
+      "role": "REQUIRED",
+      "domain": "WEATHER",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "lt",
+      "unit": "mm/h",
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "formula_derived",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "雨中拍攝受影響；雨後濕地反光是加分項（quality 另列）。",
+        "en": "Shooting in rain is impaired; post-rain wet-surface reflections are a separate bonus item.",
+        "ja": "雨中の撮影は支障が出る。雨上がりの湿地反射は別の加点項目。"
+      },
+      "binding": {
+        "dataset": "gfs_0p25",
+        "field": "precipitation_rate_mm_h",
+        "role": "MID"
+      },
+      "threshold": 0.2
+    }
+  ]
+}

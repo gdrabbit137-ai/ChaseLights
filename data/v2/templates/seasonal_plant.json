@@ -1,0 +1,23 @@
+{
+  "template_id": "seasonal_plant",
+  "version": "0.0",
+  "status": "scaffold",
+  "title_i18n": {
+    "zh-TW": "季節植物景（花季/紅葉等）",
+    "en": "Seasonal plant scenery",
+    "ja": "季節の植物景観"
+  },
+  "purpose_i18n": {
+    "zh-TW": "季節限定植物景（金針花、紅葉、薰衣草…）。季節窗為主判據（seasonal_state），天氣僅保留基本可拍判據。",
+    "en": "Season-limited plant scenery (daylily, autumn leaves, lavender...). The season window is the main criterion (seasonal_state); weather keeps only basic shootability criteria.",
+    "ja": "季節限定の植物景観（タンポポ、紅葉、ラベンダーなど）。季節ウィンドウが主判定（seasonal_state）。"
+  },
+  "metric_candidates": [
+    "seasonal_state",
+    "precipitation",
+    "visibility"
+  ],
+  "todo": "Owner authors the conditions here (follow GENRE_CONDITION_TEMPLATES.md section 1 rules). Until status becomes 'defined' with version >= 0.1, expansion of this template is refused by apply_template.py.",
+  "params": [],
+  "conditions": []
+}

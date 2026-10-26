@@ -1,0 +1,25 @@
+{
+  "template_id": "milky_way",
+  "version": "0.0",
+  "status": "scaffold",
+  "title_i18n": {
+    "zh-TW": "銀河星空",
+    "en": "Milky Way",
+    "ja": "天の川"
+  },
+  "purpose_i18n": {
+    "zh-TW": "銀河可視性題材。月亮相位/高度/日月分離為主判據，AOD 為透明度判據；天文計算用 moon_* 與天文曆。",
+    "en": "Milky-way visibility. Moon phase/altitude and sun-moon separation are the main criteria; AOD carries transparency; moon_* metrics plus the ephemeris cover the astronomy.",
+    "ja": "天の川の視認性。月相・月高度・日月分離が主判定，AODは透明度判定。moon_*と天文暦で計算する。"
+  },
+  "metric_candidates": [
+    "moon_altitude",
+    "moon_illumination_fraction",
+    "moonrise_moonset_separation_h",
+    "aod_550nm",
+    "cloud_cover_total"
+  ],
+  "todo": "Owner authors the conditions here (follow GENRE_CONDITION_TEMPLATES.md section 1 rules). Until status becomes 'defined' with version >= 0.1, expansion of this template is refused by apply_template.py.",
+  "params": [],
+  "conditions": []
+}
