@@ -63,7 +63,13 @@ def run(url: str, screenshot: Path) -> dict:
         assert opacity == "62", opacity
 
         def _auto_layers_have_total_cloud(d):
-            options = [o.get_attribute("value") for o in Select(d.find_element(By.ID, "layer-select")).options]
+            # Read the option values in one synchronous DOM pass: locating
+            # the select and its options separately races the async list
+            # rebuild and raises StaleElementReferenceException.
+            options = d.execute_script(
+                "return Array.from(document.querySelectorAll('#layer-select option'))"
+                ".map(function (o) { return o.value; })"
+            ) or []
             return "total_cloud_percent" in options
 
         # AUTO builds the layer list from every loaded regional bundle; the
@@ -80,7 +86,10 @@ def run(url: str, screenshot: Path) -> dict:
         for _ in range(5):
             try:
                 auto_layers = Select(driver.find_element(By.ID, "layer-select"))
-                auto_layer_values = [o.get_attribute("value") for o in auto_layers.options]
+                auto_layer_values = driver.execute_script(
+                    "return Array.from(document.querySelectorAll('#layer-select option'))"
+                    ".map(function (o) { return o.value; })"
+                ) or []
                 assert "total_cloud_percent" in auto_layer_values, auto_layer_values
                 auto_layers.select_by_value("total_cloud_percent")
                 last_exc = None
