@@ -1,5 +1,5 @@
 {
-  "version": "0.4",
+  "version": "0.5",
   "note": "Metric vocabulary for genre condition templates. Condition metrics are unit-normalized ids; bindings map a metric to dataset fields (field naming follows DATA_SOURCE_TIERING_SPEC manifest style: name + unit suffix). '+' joins the fields a derived metric consumes.",
   "metrics": {
     "relative_humidity_925hpa": {
@@ -260,11 +260,23 @@
         "en": "Proxy for moonlight on the sky = moon_illumination_fraction x sin(moon_altitude). The bare illumination fraction ignores moon elevation (half moon at zenith vs full moon at the horizon differ greatly); this product is the more physically honest single measure, computed from the two lunar_ephemeris outputs",
         "ja": "空に対する月光の代理量＝moon_illumination_fraction×sin(moon_altitude)。月照度率だけでは月の高度を無視するため、この積が物理的により誠実な単一指標。lunar_ephemerisの2出力の積で求める"
       }
+    },
+    "golden_hour_window": {
+      "unit": null,
+      "domain": "ASTRONOMY",
+      "kind": "computed",
+      "bindings": [],
+      "note_i18n": {
+        "zh-TW": "金色時刻時段窗＝太陽高度 +6° 至 -6° 之間（座標＋日期計算）；上界為暖色低角度光的常用攝影界線，下界對齊民用暮光終止",
+        "en": "Golden-hour window = sun elevation between +6 and -6 deg (from coordinates and date); the upper bound is the common photography line for warm low-angle light, the lower bound matches the end of civil twilight",
+        "ja": "ゴールデンアワー帯＝太陽高度+6度〜-6度（座標と日付から計算）。上端は暖色の低角度光の一般的撮影基準、下端は市民薄明の終わりに対応"
+      }
     }
   },
   "changelog": [
     "0.2 2026-10-26: add wind_speed_10m, astronomical_darkness (draft templates for reflection/milky_way)",
     "0.3 2026-10-26: add galactic_core_altitude, moon_target_separation_deg (night_sky milky-way layer)",
-    "0.4 2026-10-26: add moon_illuminance_proxy (night_sky Milky-Way layer moon cap; closes the gibbous-moon gap left when the layer was restructured)"
+    "0.4 2026-10-26: add moon_illuminance_proxy (night_sky Milky-Way layer moon cap; closes the gibbous-moon gap left when the layer was restructured)",
+    "0.5 2026-10-26: add golden_hour_window (golden_hour / overcast_soft draft templates, light-direction condition genres for人文/architecture and soft-light subjects)"
   ]
 }

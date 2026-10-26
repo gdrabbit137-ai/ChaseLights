@@ -1,0 +1,99 @@
+{
+  "template_id": "overcast_soft",
+  "version": "0.1",
+  "status": "draft",
+  "title_i18n": {
+    "zh-TW": "陰天柔光",
+    "en": "Overcast soft light",
+    "ja": "曇天柔光"
+  },
+  "definition_i18n": {
+    "zh-TW": "柔光題材：連續雲幕把直射陽光擴散成巨大柔光箱——無硬影、色彩飽和、反差可控。登記表中唯一「雲多是好事」的題材。主體不限：庭園、森林步道、瀑布、溪谷、街景、建築細節；與 fog_mist 不同（霧是能見度現象，陰天柔光是雲幕光質）。",
+    "en": "Soft-light genre: a continuous cloud deck diffuses direct sun into one giant softbox - no hard shadows, saturated colour, controllable contrast. The only 'more cloud is better' genre in the registry. Subject-agnostic: gardens, forest trails, waterfalls, gorges, streetscapes, architectural detail. Distinct from fog_mist (fog is a visibility phenomenon; this is deck-light quality).",
+    "ja": "ソフト光の題材。連続雲層が直射日光を巨大なソフトボックスに拡散。硬い影なし・彩度高・コントラスト制御可。登録中唯一「雲が多いほど良い」題材。被写体を問わず。fog_mistとは別物（霧は視程現象、これは雲層の光質）。"
+  },
+  "instantiated_by": [],
+  "params": [],
+  "conditions": [
+    {
+      "template_ref": "O1",
+      "metric": "cloud_cover_total",
+      "role": "REQUIRED",
+      "domain": "WEATHER",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "gte",
+      "unit": "%",
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "formula_derived",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "總雲量 ≥70%：連續雲幕是柔光的前提；70% 以下直射光間歇出現，硬影破壞柔光語意。以總雲（低中高合計）為判據，因為柔光只需要『無直射』，不挑雲高。",
+        "en": "Total cloud >= 70%: a continuous deck is the precondition of soft light; below 70% direct sun appears intermittently and hard shadows break the soft-light reading. Judged on total cloud (low+mid+high) because softness only needs 'no direct sun', regardless of deck height.",
+        "ja": "全雲量≥70%。連続雲層がソフト光の前提。70%未満は直射が断続し硬い影が生じる。低中高合計の全雲量で判定。"
+      },
+      "binding": {
+        "dataset": "gfs_0p25",
+        "field": "cloud_cover_total_percent",
+        "role": "MID"
+      },
+      "threshold": 70
+    },
+    {
+      "template_ref": "O2",
+      "metric": "precipitation",
+      "role": "REQUIRED",
+      "domain": "WEATHER",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "lt",
+      "unit": "mm/h",
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "formula_derived",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "降水 <0.5 mm/h：微雨甚至有利（濕面發色、無塵），大雨破壞拍攝。0.5 比一般題材寬一倍，是刻意為柔光情境放寬的 provisional 值。",
+        "en": "Precipitation < 0.5 mm/h: light rain can even help (wet surfaces saturate colour, no dust), heavy rain ruins shooting. 0.5 is deliberately double the general threshold for the soft-light context, provisional.",
+        "ja": "降水<0.5mm/h。小雨はむしろ好条件（濡れ面の発色）、大雨は撮影不能。0.5は意図的に緩めた暫定値。"
+      },
+      "binding": {
+        "dataset": "gfs_0p25",
+        "field": "precipitation_rate_mm_h",
+        "role": "MID"
+      },
+      "threshold": 0.5
+    },
+    {
+      "template_ref": "O3",
+      "metric": "wind_speed_10m",
+      "role": "REQUIRED",
+      "domain": "WEATHER",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MODIFIER",
+      "operator": "lt",
+      "unit": "m/s",
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "formula_derived",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "風 <5 m/s 為加分：柔光下花草靜止、水面平滑可倒影；強風不否決柔光本身（柔光與風獨立）。",
+        "en": "Wind < 5 m/s as a bonus: still foliage and smooth water under soft light; strong wind does not veto the soft light itself (independent dimensions).",
+        "ja": "風<5m/sは加点。柔光下の静止した草木・平滑な水面。強風でも柔光自体は否決しない。"
+      },
+      "binding": {
+        "dataset": "gfs_0p25",
+        "field": "wind_speed_10m_m_s",
+        "role": "MID"
+      },
+      "threshold": 5
+    }
+  ],
+  "review_note_i18n": {
+    "zh-TW": "草稿待 owner 複審。O1 ≥70% 為新擬（方向與所有現有雲判據相反，故獨立模板而非參數）；O2 0.5 為刻意放寬的新擬；O3 5 m/s 沿用常識界線。動機：架構審計 C1——庭園/森林/溪谷柔光判據無題材可掛，人文類多數可由此救回。",
+    "en": "Draft pending owner review. O1 >=70% is newly proposed (direction inverted from every existing cloud condition, hence a standalone template rather than a parameter); O2 0.5 is a deliberate relaxation; O3 5 m/s follows common practice. Motivated by C1: soft-light judgment for gardens/forest/gorges has no genre; most cultural/architecture spots are recoverable through it.",
+    "ja": "ドラフト。O1≥70%は新規（既存の雲判據と方向が逆のため独立テンプレート）。O2 0.5は意図的緩和。O3 5m/sは慣例値。背景：C1——庭園/森林/渓谷のソフト光判断を担う題材が不在。"
+  }
+}

@@ -50,7 +50,7 @@ class RegistryTests(unittest.TestCase):
             self.assertTrue(t.get('purpose_i18n', {}).get('zh-TW', '').strip())
 
     def test_draft_templates_are_complete_but_refused(self):
-        draft_ids = {'night_sky'}
+        draft_ids = {'night_sky', 'golden_hour', 'overcast_soft'}
         for tid in draft_ids:
             t = json.loads((TEMPLATES / f'{tid}.json').read_text(encoding='utf-8'))
             self.assertEqual(t['status'], 'draft', tid)

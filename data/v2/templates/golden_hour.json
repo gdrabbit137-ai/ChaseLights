@@ -1,0 +1,120 @@
+{
+  "template_id": "golden_hour",
+  "version": "0.1",
+  "status": "draft",
+  "title_i18n": {
+    "zh-TW": "金色時刻",
+    "en": "Golden hour",
+    "ja": "ゴールデンアワー"
+  },
+  "definition_i18n": {
+    "zh-TW": "低角度暖色直射光題材：主體被太陽直接照到（側光/逆光刻紋理、暖色調），與 sunset/sunrise 的差別是雲判據反轉——sunset 要雲當染料，golden hour 要太陽露臉。主體不限（建築、地景、森林、人像前景皆可）；拍攝方位對應的太陽方位屬景點參數。",
+    "en": "Warm low-angle direct-light genre: the subject is lit by the sun itself (side/back light carving texture, warm tones). Opposite cloud logic from sunset/sunrise: sunset wants cloud as dye, golden hour wants the sun visible. Subject-agnostic (architecture, landforms, forest, foreground portraits); the shooting-azimuth sun sector is a spot parameter.",
+    "ja": "低角度の暖色直射光の題材。被写体が太陽に直接照らされる（斜光・逆光で質感を出す）。sunset/sunriseとは雲の論理が逆：sunsetは雲を色彩の源とし、golden hourは太陽の可視を要する。被写体を問わず。撮影方位はspotパラメータ。"
+  },
+  "instantiated_by": [],
+  "params": [],
+  "conditions": [
+    {
+      "template_ref": "G1",
+      "metric": "golden_hour_window",
+      "role": "REQUIRED",
+      "domain": "ASTRONOMY",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "none",
+      "unit": null,
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "computed",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "金色時刻窗＝太陽高度 +6° 至 -6°：暖色低角度直射光的時段。",
+        "en": "Golden-hour window = sun elevation +6 to -6 deg: the warm low-angle direct-light period.",
+        "ja": "ゴールデンアワー帯＝太陽高度+6〜-6度。暖色の低角度直射光の時間帯。"
+      },
+      "binding": null,
+      "threshold": null
+    },
+    {
+      "template_ref": "G2",
+      "metric": "cloud_cover_total",
+      "role": "REQUIRED",
+      "domain": "WEATHER",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "lte",
+      "unit": "%",
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "formula_derived",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "總雲量 ≤50%：與 sunset 相反的雲邏輯——太陽盤面必須可見，直射光才存在；塊狀雲可穿隙，連續雲幕即無直射光。50% 是初步折衷（允許局部雲隙光構圖），未校準。",
+        "en": "Total cloud <= 50%: the cloud logic is inverted from sunset - the solar disc must be visible or there is no direct light; broken cloud still passes gaps, a continuous deck kills it. 50% is a provisional compromise (allows gap-light compositions), uncalibrated.",
+        "ja": "全雲量≤50%。sunsetとは逆の雲論理：太陽が見えなければ直射光はない。隙間雲は可、連続雲層は不可。50%は暫定値。"
+      },
+      "binding": {
+        "dataset": "gfs_0p25",
+        "field": "cloud_cover_total_percent",
+        "role": "MID"
+      },
+      "threshold": 50
+    },
+    {
+      "template_ref": "G3",
+      "metric": "precipitation",
+      "role": "REQUIRED",
+      "domain": "WEATHER",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "lt",
+      "unit": "mm/h",
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "formula_derived",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "降雨 <0.2 mm/h：拍攝本身不受影響（沿用已審門檻）。",
+        "en": "Precipitation < 0.2 mm/h: shooting itself unaffected (approved threshold carried over).",
+        "ja": "降水<0.2mm/h。撮影への影響なし（既承認の閾値）。"
+      },
+      "binding": {
+        "dataset": "gfs_0p25",
+        "field": "precipitation_rate_mm_h",
+        "role": "MID"
+      },
+      "threshold": 0.2
+    },
+    {
+      "template_ref": "G4",
+      "metric": "aod_550nm",
+      "role": "REQUIRED",
+      "domain": "WEATHER",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "lte",
+      "unit": null,
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "formula_derived",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "AOD ≤0.6：適度氣溶膠暖化光線但 >0.6 時太陽盤面與主體輪廓被吞沒（與 mountain_view/sunset 同一上限，同一物理）。",
+        "en": "AOD <= 0.6: moderate aerosols warm the light but beyond 0.6 the solar disc and subject silhouettes are swallowed (same ceiling as mountain_view/sunset, same physics).",
+        "ja": "AOD≤0.6。適度なエアロゾルは光を暖色化するが、0.6超では太陽面と輪郭が埋没（mountain_view/sunsetと同一上限）。"
+      },
+      "binding": {
+        "dataset": "cams_global",
+        "field": "aerosol_optical_depth_550nm",
+        "role": "AEROSOL"
+      },
+      "threshold": 0.6
+    }
+  ],
+  "review_note_i18n": {
+    "zh-TW": "草稿待 owner 複審。由已審 sunset/mountain_view 判據同構推導；G2 雲 50% 與 golden hour 窗界線（+6/-6°）為新擬 provisional。動機：架構審計 C1——人文/建築與紋理主體的直射光判據目前無題材可掛。",
+    "en": "Draft pending owner review. Structurally derived from the approved sunset/mountain_view contracts; the G2 50% cloud ceiling and the +6/-6 deg window bounds are newly proposed provisional values. Motivated by architecture audit C1: direct-light judgment for architecture/texture subjects currently has no genre to attach to.",
+    "ja": "ドラフト。既承認のsunset/mountain_view判據から構造的に導出。G2の50%と+6/-6度は新規暫定値。背景：C1監査——建築・質感主題の直射光判断を担う題材が存在しない。"
+  }
+}
