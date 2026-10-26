@@ -1,7 +1,7 @@
 {
   "template_id": "night_sky",
-  "version": "0.3",
-  "status": "draft",
+  "version": "0.4",
+  "status": "defined",
   "title_i18n": {
     "zh-TW": "星空",
     "en": "Night sky",
@@ -182,28 +182,6 @@
       }
     },
     {
-      "template_ref": "M4",
-      "metric": "moonrise_moonset_separation_h",
-      "role": "REQUIRED",
-      "domain": "ASTRONOMY",
-      "evaluation_mode": "GUIDANCE",
-      "capability": "CONDITIONS",
-      "condition_tier": "MODIFIER",
-      "operator": "gte",
-      "unit": "h",
-      "unknown_policy": "propagate_unknown",
-      "threshold_source": "formula_derived",
-      "calibration_status": "provisional",
-      "rationale_i18n": {
-        "zh-TW": "無月暗窗 ≥3 h：月出/月落分離決定可工作時間（加分）。月升落時刻計算待實作，實作前誠實 propagate unknown。",
-        "en": "Moonless dark window >= 3 h: moonrise/moonset separation sets the usable time (bonus). Moon rise/set computation is pending; propagates unknown until implemented.",
-        "ja": "月のない暗い窓≥3時間。月出/月没の間隔が作業可能時間を決める（加点）。月出没計算は実装待ち、それまではunknownを伝播。"
-      },
-      "binding": null,
-      "threshold": 3,
-      "genre_scope": "milky_way"
-    },
-    {
       "template_ref": "M5",
       "metric": "moon_illuminance_proxy",
       "role": "REQUIRED",
@@ -230,9 +208,5 @@
       }
     }
   ],
-  "review_note_i18n": {
-    "zh-TW": "由 milky_way 改名重構（2026-10-26 owner 指示：銀河可見⇒星空可見，單向包含故不拆題材，改兩層判定）。B 層新增月照 ≤50% 為星空基層新擬門檻；M 層核心 ≥20°/分離 ≥40° 為新擬；M4 待實作。全部 provisional 待實拍校準。 0.3 修訂：補上層月照天花板 moon_illuminance_proxy ≤0.15（owner 2026-10-26 核准補上）。",
-    "en": "Renamed and restructured from milky_way (2026-10-26 owner direction: Milky-way visibility implies star visibility - a one-way inclusion, so one genre with two layers). New base-layer threshold moon <=50% and upper-layer 20 deg/40 deg are newly proposed; M4 pending implementation. All provisional pending calibration. 0.3 revision: added the upper-layer moon cap moon_illuminance_proxy <=0.15 (owner approved 2026-10-26).",
-    "ja": "milky_way から改名・再構成（2026-10-26 オーナー指示：銀河可視⇒星空可視の一方向包含により、題材を分けず二層判定）。基層の月照≤50%、上層の20度/40度は新規提案。M4は実装待ち。全てprovisional・較正待ち。 0.3改訂：上層の月輝度上限 moon_illuminance_proxy≤0.15 を追加（2026-10-26 オーナー承認）。"
-  }
+  "owner_review": "2026-10-26 approved; M4 moonrise/moonset window (>=3h) removed until the rise/set computation is implemented - it was the only condition with no data path; moon metrics stay in the vocabulary. Thresholds kept as drafted: base moon <=50%, core >=20 deg, separation >=40 deg, illuminance proxy <=0.15 - all to be loosened per calibration feedback if field results allow."
 }
