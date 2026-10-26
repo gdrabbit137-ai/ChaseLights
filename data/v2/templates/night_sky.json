@@ -1,6 +1,6 @@
 {
   "template_id": "night_sky",
-  "version": "0.2",
+  "version": "0.3",
   "status": "draft",
   "title_i18n": {
     "zh-TW": "星空",
@@ -202,11 +202,37 @@
       "binding": null,
       "threshold": 3,
       "genre_scope": "milky_way"
+    },
+    {
+      "template_ref": "M5",
+      "metric": "moon_illuminance_proxy",
+      "role": "REQUIRED",
+      "domain": "ASTRONOMY",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "lte",
+      "unit": null,
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "formula_derived",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "月光照度代理 ≤0.15（月照×sin 月高）：補上重構時遺漏的月亮亮度天花板——凸月即使離核心 ≥40°，灑出的天光仍壓低銀河對比。0.15 約當「半月需在 18° 以下、20% 細月可到 50°+」的組合空間；三個月判據（M2/M3/M5）共同構成月亮約束，全部 provisional、校準第一優先。",
+        "en": "Moon illuminance proxy <= 0.15 (illumination x sin(altitude)): closes the moon-brightness ceiling lost in the restructure - a gibbous moon even >=40 deg from the core still washes out galactic contrast. 0.15 corresponds roughly to 'half moon below 18 deg, or a 20% crescent anywhere up to 50 deg'. Together M2/M3/M5 form the moon constraint set; all provisional, first calibration priority.",
+        "ja": "月光照度代理≤0.15（照度率×sin高度）。再構成時に欠けた月輝度の上限を補完。凸月は中心から≥40度でも銀河コントラストを下げる。0.15はおおよそ「半月は高度18度以下、20%の細月なら50度以上」に相当。M2/M3/M5で月の制約セットを構成。全てprovisional・較正最優先。"
+      },
+      "binding": null,
+      "threshold": 0.15,
+      "genre_scope": "milky_way",
+      "activate_when": {
+        "template_ref": "M2",
+        "mode": "when_not_met"
+      }
     }
   ],
   "review_note_i18n": {
-    "zh-TW": "由 milky_way 改名重構（2026-10-26 owner 指示：銀河可見⇒星空可見，單向包含故不拆題材，改兩層判定）。B 層新增月照 ≤50% 為星空基層新擬門檻；M 層核心 ≥20°/分離 ≥40° 為新擬；M4 待實作。全部 provisional 待實拍校準。",
-    "en": "Renamed and restructured from milky_way (2026-10-26 owner direction: Milky-way visibility implies star visibility - a one-way inclusion, so one genre with two layers). New base-layer threshold moon <=50% and upper-layer 20 deg/40 deg are newly proposed; M4 pending implementation. All provisional pending calibration.",
-    "ja": "milky_way から改名・再構成（2026-10-26 オーナー指示：銀河可視⇒星空可視の一方向包含により、題材を分けず二層判定）。基層の月照≤50%、上層の20度/40度は新規提案。M4は実装待ち。全てprovisional・較正待ち。"
+    "zh-TW": "由 milky_way 改名重構（2026-10-26 owner 指示：銀河可見⇒星空可見，單向包含故不拆題材，改兩層判定）。B 層新增月照 ≤50% 為星空基層新擬門檻；M 層核心 ≥20°/分離 ≥40° 為新擬；M4 待實作。全部 provisional 待實拍校準。 0.3 修訂：補上層月照天花板 moon_illuminance_proxy ≤0.15（owner 2026-10-26 核准補上）。",
+    "en": "Renamed and restructured from milky_way (2026-10-26 owner direction: Milky-way visibility implies star visibility - a one-way inclusion, so one genre with two layers). New base-layer threshold moon <=50% and upper-layer 20 deg/40 deg are newly proposed; M4 pending implementation. All provisional pending calibration. 0.3 revision: added the upper-layer moon cap moon_illuminance_proxy <=0.15 (owner approved 2026-10-26).",
+    "ja": "milky_way から改名・再構成（2026-10-26 オーナー指示：銀河可視⇒星空可視の一方向包含により、題材を分けず二層判定）。基層の月照≤50%、上層の20度/40度は新規提案。M4は実装待ち。全てprovisional・較正待ち。 0.3改訂：上層の月輝度上限 moon_illuminance_proxy≤0.15 を追加（2026-10-26 オーナー承認）。"
   }
 }

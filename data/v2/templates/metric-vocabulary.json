@@ -1,5 +1,5 @@
 {
-  "version": "0.3",
+  "version": "0.4",
   "note": "Metric vocabulary for genre condition templates. Condition metrics are unit-normalized ids; bindings map a metric to dataset fields (field naming follows DATA_SOURCE_TIERING_SPEC manifest style: name + unit suffix). '+' joins the fields a derived metric consumes.",
   "metrics": {
     "relative_humidity_925hpa": {
@@ -249,10 +249,22 @@
         "en": "Angular separation between the moon and the target celestial object; for the Milky-Way scope the target is the galactic core, from lunar_ephemeris",
         "ja": "月と対象天体の角距離。銀河スコープでは対象＝銀河中心。lunar_ephemerisが出力"
       }
+    },
+    "moon_illuminance_proxy": {
+      "unit": null,
+      "domain": "ASTRONOMY",
+      "kind": "computed",
+      "bindings": [],
+      "note_i18n": {
+        "zh-TW": "月光對天空照度的代理量＝moon_illumination_fraction × sin(moon_altitude)。月照分數忽略月高角（半月天頂 vs 滿月貼地平線差異大），此組合量是物理上更誠實的單一判據；由 lunar_ephemeris 兩項輸出相乘求得",
+        "en": "Proxy for moonlight on the sky = moon_illumination_fraction x sin(moon_altitude). The bare illumination fraction ignores moon elevation (half moon at zenith vs full moon at the horizon differ greatly); this product is the more physically honest single measure, computed from the two lunar_ephemeris outputs",
+        "ja": "空に対する月光の代理量＝moon_illumination_fraction×sin(moon_altitude)。月照度率だけでは月の高度を無視するため、この積が物理的により誠実な単一指標。lunar_ephemerisの2出力の積で求める"
+      }
     }
   },
   "changelog": [
     "0.2 2026-10-26: add wind_speed_10m, astronomical_darkness (draft templates for reflection/milky_way)",
-    "0.3 2026-10-26: add galactic_core_altitude, moon_target_separation_deg (night_sky milky-way layer)"
+    "0.3 2026-10-26: add galactic_core_altitude, moon_target_separation_deg (night_sky milky-way layer)",
+    "0.4 2026-10-26: add moon_illuminance_proxy (night_sky Milky-Way layer moon cap; closes the gibbous-moon gap left when the layer was restructured)"
   ]
 }
