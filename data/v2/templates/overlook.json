@@ -1,0 +1,137 @@
+{
+  "template_id": "overlook",
+  "version": "0.1",
+  "status": "draft",
+  "title_i18n": {
+    "zh-TW": "眺望",
+    "en": "Overlook",
+    "ja": "眺望"
+  },
+  "definition_i18n": {
+    "zh-TW": "從高處俯瞰或遠眺非山主體的全景題材：城市、海灣、平原、湖面、河谷、群島。與 mountain_view 的邊界以主體為準——「看的是山」歸 mountain_view，「從山上往下看別的東西」歸 overlook；兩者可同框但掛點以主體為準。核心判據是空氣透明度（遠景層次被霧霾吃掉），不是天氣戲劇性。",
+    "en": "Panoramic genre shot from height at a non-mountain subject: city, bay, plain, lake, river valley, archipelago. The boundary with mountain_view follows the subject - 'the mountains are the subject' belongs to mountain_view, 'looking down at something else from a mountain' belongs to overlook; they may share the frame but attribution follows the subject. The core judgment is air clarity (distant layers are eaten by haze), not weather drama.",
+    "ja": "高所から非山岳主題を見下ろす/遠望するパノラマ題材：都市、湾、平野、湖、河谷、諸島。mountain_viewとの境界は主題で決める。核心の判断は大気の透明度（遠景の階調がヘイズに食べられる）であり、天気の劇 dramatさではない。"
+  },
+  "instantiated_by": [],
+  "params": [
+    {
+      "name": "view_range_km",
+      "type": "number",
+      "required": true,
+      "description_i18n": {
+        "zh-TW": "眺望目標的典型距離（公里）：市區 ~10、海灣/湖面 ~20-50、遠山脈/群島 50+。用於能見度門檻求值。",
+        "en": "Typical distance to the viewed target (km): urban ~10, bay/lake ~20-50, distant ranges 50+. Used to evaluate the visibility threshold.",
+        "ja": "眺望対象の典型的距離（km）。市街地~10、湾/湖~20-50、遠い山脈50+。視程閾値の評価に使用。"
+      }
+    }
+  ],
+  "conditions": [
+    {
+      "template_ref": "V1",
+      "metric": "visibility",
+      "role": "REQUIRED",
+      "domain": "WEATHER",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "gte",
+      "unit": "km",
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "computed",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "能見度 ≥ min(眺望距離, 24 km)：遠景清晰度的直接代理。誠實標註：GFS/Open-Meteo 能見度欄位上限約 24 km，超過後此判據鈍化（報 24 km 不代表能看 100 km）——長距離眺望由 V2（AOD）承擔真實判別。",
+        "en": "Visibility >= min(view range, 24 km): the direct proxy for distant-layer clarity. Honest note: the GFS/Open-Meteo visibility field caps near 24 km, so beyond that this criterion saturates (24 km reported does not mean 100 km visible) - long-range discrimination is carried by V2 (AOD).",
+        "ja": "視程≥min(眺望距離, 24km)。遠景の鮮明さの直接的代理。GFS/Open-Meteoの視程は約24kmで飽和するため、長距離の判別はV2(AOD)が担う。"
+      },
+      "binding": {
+        "dataset": "gfs_0p25",
+        "field": "visibility_km",
+        "role": "MID"
+      },
+      "threshold": {
+        "expr": "min(view_range_km, 24)"
+      }
+    },
+    {
+      "template_ref": "V2",
+      "metric": "aod_550nm",
+      "role": "REQUIRED",
+      "domain": "WEATHER",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "lte",
+      "unit": null,
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "formula_derived",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "AOD ≤0.4：長程能見度的實際決定因子（氣溶膠消光）。比 night_sky（0.3）寬、比 sunset（0.6）嚴——俯瞰全景需要跨數十公里的層次對比。provisional，長距離景點校準第一優先。",
+        "en": "AOD <= 0.4: the actual determinant of long-range visibility (aerosol extinction). Looser than night_sky (0.3), tighter than sunset (0.6) - a panorama needs layered contrast across tens of kilometres. Provisional; top calibration priority for long-range spots.",
+        "ja": "AOD≤0.4。長距離視程の実質的决定因子。night_sky(0.3)より緩くsunset(0.6)より厳しい。暫定値。"
+      },
+      "binding": {
+        "dataset": "cams_global",
+        "field": "aerosol_optical_depth_550nm",
+        "role": "AEROSOL"
+      },
+      "threshold": 0.4
+    },
+    {
+      "template_ref": "V3",
+      "metric": "cloud_cover_total",
+      "role": "REQUIRED",
+      "domain": "WEATHER",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "lte",
+      "unit": "%",
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "formula_derived",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "總雲量 ≤70%：全景不需要無雲——天空中的雲是構圖元素，只擋連續陰幕蓋住目標全域的情況。比 sunset（低雲方位判據）寬，因為俯瞰主體在地面上。",
+        "en": "Total cloud <= 70%: a panorama does not need a clear sky - clouds in the sky are compositional elements; only a continuous deck covering the whole target is vetoed. Looser than sunset's azimuth-based low-cloud criterion because the subject is on the ground.",
+        "ja": "全雲量≤70%。パノラマに晴天は不要。雲は構図要素。連続雲層が対象全体を覆う場合のみ否決。"
+      },
+      "binding": {
+        "dataset": "gfs_0p25",
+        "field": "cloud_cover_total_percent",
+        "role": "MID"
+      },
+      "threshold": 70
+    },
+    {
+      "template_ref": "V4",
+      "metric": "precipitation",
+      "role": "REQUIRED",
+      "domain": "WEATHER",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "lt",
+      "unit": "mm/h",
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "formula_derived",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "降雨 <0.2 mm/h：拍攝本身不受影響（沿用已審門檻）。",
+        "en": "Precipitation < 0.2 mm/h: shooting unaffected (approved threshold carried over).",
+        "ja": "降水<0.2mm/h。撮影への影響なし。"
+      },
+      "binding": {
+        "dataset": "gfs_0p25",
+        "field": "precipitation_rate_mm_h",
+        "role": "MID"
+      },
+      "threshold": 0.2
+    }
+  ],
+  "review_note_i18n": {
+    "zh-TW": "草稿待 owner 複審（2026-10-26 命名裁定：overlook，不用 vista 以避免英文語意上涵蓋 mountain_view 的父集宣稱）。判據由已審契約同構推導；V2 0.4 與 V3 70% 為新擬 provisional；V1 的 24 km 欄位上限缺口已誠實標註。預計收容 unsure 名單 17 個高處俯瞰機會。",
+    "en": "Draft pending owner review (2026-10-26 naming decision: overlook, not vista, to avoid the English superset claim over mountain_view). Derived structurally from approved contracts; V2 0.4 and V3 70% are newly proposed provisional values; the 24 km field-cap gap is honestly documented. Expected to house 17 high-vantage opportunities from the unsure list.",
+    "ja": "ドラフト。命名は2026-10-26裁定（vista ではなく overlook）。V2 0.4 と V3 70% は新規暫定値。24kmの飽和限界は誠実に注記。unsure名簿の17件を収容予定。"
+  }
+}
