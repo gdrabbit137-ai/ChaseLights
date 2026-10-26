@@ -198,9 +198,54 @@ def validate_registry() -> list:
     return out
 
 
+def _scope_sig(cond):
+    """Spatial scope signature: fetch binding dict, else point sampling."""
+    b = cond.get('binding')
+    if isinstance(b, dict):
+        return json.dumps(b, sort_keys=True)
+    return 'point'
+
+
+def _merge_conditions(existing, additions, template_id, template_version):
+    """Fail-closed merge: refuse metric overlaps that are not cleanly scoped."""
+    out = list(existing)
+    by_metric = {}
+    for c in existing:
+        by_metric.setdefault(c['metric'], []).append(c)
+    skipped = 0
+    for c in additions:
+        clashes = by_metric.get(c['metric'], [])
+        sig = _scope_sig(c)
+        conflict = False
+        for e in clashes:
+            esig = _scope_sig(e)
+            if esig == sig:
+                same = (e['operator'] == c['operator'] and e['threshold'] == c['threshold'])
+                if same:
+                    conflict = 'duplicate'
+                else:
+                    conflict = 'conflict'
+                break
+            if esig == 'point' or sig == 'point':
+                conflict = 'conflict'   # point vs sector sampling of the same metric
+                break
+        if conflict == 'duplicate':
+            skipped += 1
+            continue
+        if conflict:
+            _fail(f"merge conflict on metric {c['metric']!r} ({conflict}): identical sampling scope "
+                  f"with different operator/threshold between existing contract and template "
+                  f"{template_id!r}; resolve in the template or via a spot-level override")
+        c = dict(c)
+        c['genre_template'] = template_id          # schema-tolerant provenance keys
+        c['template_version'] = template_version
+        out.append(c)
+    return out, skipped
+
+
 def expand(template_id: str, opportunity_id: str, skeleton_path: Path,
            params_path: Path | None, out_path: Path | None, claim_ref: str | None = None,
-           print_only: bool = False):
+           print_only: bool = False, merge: bool = False):
     vocab = load_vocabulary()
     tpath = TEMPLATES / f'{template_id}.json'
     if not tpath.exists():
@@ -246,23 +291,46 @@ def expand(template_id: str, opportunity_id: str, skeleton_path: Path,
                 'mode': c['activate_when']['mode'],
             }
         conditions.append(cond)
-    skeleton['condition_contract'] = {
-        'contract_id': f'CC-{opportunity_id}-v1',
-        'status': 'draft',
-        'genre_template': template_id,
-        'template_version': f"{template_id}-v{t['version']}",
-        'recommendation_policy_version': None,
-        'conditions': conditions,
-    }
+    contract_version = f"{template_id}-v{t['version']}"
+    if merge:
+        existing_cc = skeleton.get('condition_contract')
+        if not existing_cc or not existing_cc.get('conditions'):
+            _fail('--merge requires a skeleton that already carries a condition_contract')
+        # ids continue after the existing numbering
+        n = len(existing_cc['conditions'])
+        renum = {}
+        for i, c in enumerate(conditions, n + 1):
+            renum[c['id']] = f'C-{opportunity_id}-{i:02d}'
+            c['id'] = f'C-{opportunity_id}-{i:02d}'
+        for c in conditions:
+            ma = c.get('modifier_activation')
+            if ma:
+                ma['when_condition'] = renum.get(ma['when_condition'], ma['when_condition'])
+        merged, skipped = _merge_conditions(existing_cc['conditions'], conditions,
+                                            template_id, contract_version)
+        existing_cc['conditions'] = merged
+        out = skeleton
+        note = f'merged {template_id}-v{t["version"]} -> {len(conditions)} offered, {skipped} duplicate skipped, {len(merged)} total'
+    else:
+        skeleton['condition_contract'] = {
+            'contract_id': f'CC-{opportunity_id}-v1',
+            'status': 'draft',
+            'genre_template': template_id,
+            'template_version': contract_version,
+            'recommendation_policy_version': None,
+            'conditions': conditions,
+        }
+        out = skeleton
+        note = f'expanded {template_id}-v{t["version"]} -> {len(conditions)} conditions'
     if print_only:
-        print(json.dumps(skeleton, ensure_ascii=False, indent=2))
-        return skeleton
+        print(json.dumps(out, ensure_ascii=False, indent=2))
+        return out
     if out_path is None:
         out_path = REPO / f'data/v2/staging/contracts/{opportunity_id}.json'
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(json.dumps(skeleton, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
-    print(f'expanded {template_id}-v{t["version"]} -> {out_path} ({len(conditions)} conditions)')
-    return skeleton
+    out_path.write_text(json.dumps(out, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+    print(f'{note} -> {out_path}')
+    return out
 
 
 def binding_lint():
@@ -295,6 +363,8 @@ def main(argv=None):
     ex.add_argument('--params')
     ex.add_argument('--out')
     ex.add_argument('--claim-ref', help='claim id every condition cites (default <opportunity-id>-claim-01)')
+    ex.add_argument('--merge', action='store_true',
+                    help='append conditions to an existing contract (fail-closed conflict check)')
     ex.add_argument('--print', action='store_true')
     sub.add_parser('binding-lint')
     args = ap.parse_args(argv)
@@ -308,7 +378,8 @@ def main(argv=None):
     elif args.cmd == 'expand':
         expand(args.template, args.opportunity_id, Path(args.skeleton),
                Path(args.params) if args.params else None,
-               Path(args.out) if args.out else None, args.claim_ref, args.print)
+               Path(args.out) if args.out else None, args.claim_ref, args.print,
+               merge=bool(args.merge))
     else:
         sys.exit(1 if binding_lint() else 0)
 

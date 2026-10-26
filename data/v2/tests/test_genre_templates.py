@@ -15,7 +15,7 @@ import apply_template as at  # noqa: E402
 TEMPLATES = REPO / 'data/v2/templates'
 PROTOTYPE_SPOTS = {
     'cloud_sea': 'tw-001-P02',
-    'sunrise_coast': 'tw-036-P01',
+    'sunrise': 'tw-036-P01',
     'blue_hour_city': 'tw-002-P01',
     'mountain_view': 'tw-016-P01',
 }
@@ -50,7 +50,7 @@ class RegistryTests(unittest.TestCase):
             self.assertTrue(t.get('purpose_i18n', {}).get('zh-TW', '').strip())
 
     def test_draft_templates_are_complete_but_refused(self):
-        draft_ids = {'city_night', 'milky_way', 'reflection', 'sunrise', 'sunset'}
+        draft_ids = {'city_night', 'milky_way', 'reflection', 'sunset'}
         for tid in draft_ids:
             t = json.loads((TEMPLATES / f'{tid}.json').read_text(encoding='utf-8'))
             self.assertEqual(t['status'], 'draft', tid)
@@ -116,6 +116,10 @@ class ExpansionTests(unittest.TestCase):
             return json.loads(out.read_text(encoding='utf-8'))
 
     def test_round_trip_matches_reviewed_canonical(self):
+        # rationale_i18n is owner-refinable per spot (e.g. tw-036-P01's DEM
+        # horizon fact is spot-level evidence); the template carries the
+        # generic wording. Everything else must stay byte-equal.
+        RATIONALE_REFINABLE = {'sunrise'}
         for template_id, opp in PROTOTYPE_SPOTS.items():
             expanded = self._expand(template_id, opp,
                                     {'viewpoint_altitude_m': 1090} if template_id == 'cloud_sea' else None,
@@ -129,6 +133,8 @@ class ExpansionTests(unittest.TestCase):
                 for key in set(e) | set(c):
                     if key == 'model_binding':
                         self.assertIsNone(c.get(key), f'{opp}: canonical binding should be null')
+                        continue
+                    if key == 'rationale_i18n' and template_id in RATIONALE_REFINABLE:
                         continue
                     self.assertEqual(e.get(key), c.get(key), f'{opp}/{c["id"]}/{key}')
             meta = expanded['condition_contract']
@@ -170,6 +176,79 @@ class ExpansionTests(unittest.TestCase):
         before = canonical.read_bytes()
         self._expand('cloud_sea', 'tw-001-P02', {'viewpoint_altitude_m': 1090})
         self.assertEqual(canonical.read_bytes(), before)
+
+
+class MergeTests(unittest.TestCase):
+    def _skeleton(self, td, conditions):
+        d = {'opportunity_id': 'tw-999-P99', 'name_i18n': {'zh-TW': '測試', 'en': 'test', 'ja': 'テスト'},
+             'condition_contract': {'contract_id': 'CC-tw-999-P99-v1', 'status': 'draft',
+                                    'genre_template': 'sunrise', 'template_version': 'sunrise-v0.1',
+                                    'recommendation_policy_version': None, 'conditions': conditions}}
+        p = Path(td) / 'skeleton.json'
+        p.write_text(json.dumps(d, ensure_ascii=False), encoding='utf-8')
+        return p
+
+    def _cond(self, mid, metric, op='lte', thr=10, fetch=None):
+        c = {'id': f'C-tw-999-P99-{mid}', 'role': 'REQUIRED', 'domain': 'WEATHER',
+             'evaluation_mode': 'GUIDANCE', 'capability': 'CONDITIONS', 'condition_tier': 'MAIN',
+             'metric': metric, 'operator': op, 'threshold': thr, 'unit': None,
+             'unknown_policy': 'propagate_unknown', 'claim_refs': ['tw-999-P99-claim-01'],
+             'model_binding': None, 'validation_status': 'provisional',
+             'condition_tier': 'MAIN', 'threshold_source': 'formula_derived',
+             'calibration_status': 'provisional',
+             'rationale_i18n': {'zh-TW': 'x', 'en': 'x', 'ja': 'x'}}
+        if fetch:
+            c['binding'] = fetch
+        return c
+
+    def _merge(self, skeleton_path, template_id, params=None, expect_fail=False):
+        with tempfile.TemporaryDirectory() as td:
+            out = Path(td) / 'out.json'
+            pfile = None
+            if params is not None:
+                pfile = Path(td) / 'params.json'
+                pfile.write_text(json.dumps(params), encoding='utf-8')
+            if expect_fail:
+                with self.assertRaises(SystemExit):
+                    at.expand(template_id, 'tw-999-P99', skeleton_path, pfile, out, None, False, merge=True)
+                return None
+            at.expand(template_id, 'tw-999-P99', skeleton_path, pfile, out, None, False, merge=True)
+            return json.loads(out.read_text(encoding='utf-8'))
+
+    def test_merge_scoped_overlap_is_allowed(self):
+        with tempfile.TemporaryDirectory() as td:
+            sk = self._skeleton(td, [self._cond('01', 'cloud_cover_low', 'lte', 55,
+                                                fetch={'strategy': 'nearest_gridpoint',
+                                                       'gridpoint_selector': 'sun_azimuth_sector'})])
+            out = self._merge(sk, 'cloud_sea', {'viewpoint_altitude_m': 1090})
+            cc = out['condition_contract']
+            metrics = [(c['metric'], (c.get('binding') or {}).get('gridpoint_selector')) for c in cc['conditions']]
+            self.assertIn(('cloud_cover_low', 'sun_azimuth_sector'), metrics)
+            self.assertIn(('cloud_cover_low', 'basin_cells_below_viewpoint'), metrics)
+            self.assertEqual(cc['genre_template'], 'sunrise')  # primary unchanged
+            appended = [c for c in cc['conditions'] if c.get('genre_template') == 'cloud_sea']
+            self.assertTrue(all(c['template_version'] == 'cloud_sea-v0.1' for c in appended))
+            self.assertTrue(all(c['id'].startswith('C-tw-999-P99-') for c in cc['conditions']))
+
+    def test_merge_point_conflict_refused(self):
+        with tempfile.TemporaryDirectory() as td:
+            sk = self._skeleton(td, [self._cond('01', 'visibility', 'gte', 5)])
+            self._merge(sk, 'cloud_sea', {'viewpoint_altitude_m': 1090}, expect_fail=True)
+            # cloud_sea T6 visibility >=1, same point scope, different threshold -> refuse
+
+    def test_merge_exact_duplicate_skipped(self):
+        with tempfile.TemporaryDirectory() as td:
+            sk = self._skeleton(td, [self._cond('01', 'aod_550nm', 'lte', 0.4)])
+            out = self._merge(sk, 'cloud_sea', {'viewpoint_altitude_m': 1090})
+            aods = [c for c in out['condition_contract']['conditions'] if c['metric'] == 'aod_550nm']
+            self.assertEqual(len(aods), 1)
+
+    def test_merge_requires_existing_contract(self):
+        with tempfile.TemporaryDirectory() as td:
+            p = Path(td) / 'bare.json'
+            p.write_text(json.dumps({'opportunity_id': 'tw-999-P99'}), encoding='utf-8')
+            with self.assertRaises(SystemExit):
+                at.expand('sunset', 'tw-999-P99', p, None, Path(td) / 'o.json', None, False, merge=True)
 
 
 if __name__ == '__main__':

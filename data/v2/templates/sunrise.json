@@ -1,20 +1,23 @@
 {
   "template_id": "sunrise",
   "version": "0.1",
-  "status": "draft",
+  "status": "defined",
   "title_i18n": {
-    "zh-TW": "日出（內陸／山嶺通用）",
-    "en": "Sunrise (inland/mountain generic)",
-    "ja": "日の出（内陸・山岳汎用）"
+    "zh-TW": "日出（通用）",
+    "en": "Sunrise (generic)",
+    "ja": "日の出（汎用）"
   },
+  "instantiated_by": [
+    "tw-036-P01"
+  ],
   "params": [
     {
       "name": "sun_azimuth_sector",
       "kind": "geometry",
       "desc_i18n": {
         "zh-TW": "日出方位扇形格點帶（如東向 90°）",
-        "en": "sunrise azimuth sector of grid cells (e.g. eastern 90 deg)",
-        "ja": "日の出方位のセクター（例: 東90度）"
+        "en": "sunrise azimuth sector of grid cells (e.g. eastern 90°)",
+        "ja": "日の出方位のセクター（例: 東90°）"
       }
     }
   ],
@@ -33,9 +36,9 @@
       "threshold_source": "computed",
       "calibration_status": "provisional",
       "rationale_i18n": {
-        "zh-TW": "天文窗＝日出時刻 ±40 分（座標＋日期計算）；與海岸版 tw-036-P01 相同窗口。",
-        "en": "Astronomy window = sunrise time +/- 40 minutes (from coordinates and date); same window as the coastal template tw-036-P01.",
-        "ja": "天文ウィンドウ＝日の出時刻±40分。海岸版 tw-036-P01 と同じ窓。"
+        "zh-TW": "天文窗＝日出時刻 ±40 分（座標＋日期計算）。海上景點海平線無遮擋時與實際日出一致；山嶺景點受地形遮擋，實際見日較晚（將來以地形遮擋角參數修正）。",
+        "en": "Astronomy window = sunrise time +/- 40 minutes (from coordinates and date). For sea-horizon spots this matches the visible sunrise; mountain spots see the sun later due to terrain occlusion (a terrain-occlusion-angle parameter may refine this later).",
+        "ja": "天文ウィンドウ＝日の出時刻±40分。海上spotは海平線が開けており一致。山岳spotは地形遮蔽で実際の見えは遅れる（将来は地形遮蔽角パラメータで補正）。"
       },
       "binding": null,
       "threshold": null
@@ -54,9 +57,9 @@
       "threshold_source": "formula_derived",
       "calibration_status": "provisional",
       "rationale_i18n": {
-        "zh-TW": "日出方位的低雲直接擋太陽；55% 允許塊狀雲（與 tw-036-P01 相同門檻）。山嶺場景另需個別視野/雲海判據時以 activate_when 疊加，不在本通用模板內。",
-        "en": "Low cloud in the sunrise azimuth blocks the sun; 55% allows broken cloud (same as tw-036-P01). Mountain scenes needing view/cloud-sea overlays add them via activate_when per spot, not in this generic template.",
-        "ja": "日の出方位の低雲は太陽を遮る。55%は塊状雲を許容（tw-036-P01と同じ）。山岳特有の視界/雲海判準は各spotでactivate_whenで追加。"
+        "zh-TW": "日出方位扇形的低雲直接擋太陽；55% 允許塊狀雲——塊狀雲反而是上色主角。海上景點扇形取海平線方位，山嶺景點取山脊方位；雲海等疊加判據不在此模板內（activate_when/merge 各自掛）。",
+        "en": "Low cloud in the sunrise-azimuth sector blocks the sun directly; 55% still allows broken cloud, which is what actually paints the colour. Coastal spots pick the sea-horizon sector, mountain spots the ridge sector; cloud-sea and other overlays are not part of this template (attached per spot via activate_when/merge).",
+        "ja": "日の出方位の扇形領域の低雲は太陽を直接遮る。55%は塊状雲を許容し、色を生む主役。海上spotは海平線方位、山岳spotは稜線方位。雲海等の重ね掛けはこのテンプレート外（activate_when/mergeで追加）。"
       },
       "binding": {
         "dataset": "gfs_0p25",
@@ -72,7 +75,7 @@
     {
       "template_ref": "T3",
       "metric": "cloud_cover_mid_and_high",
-      "role": "REQUIRED",
+      "role": "QUALITY",
       "domain": "WEATHER",
       "evaluation_mode": "GUIDANCE",
       "capability": "CONDITIONS",
@@ -83,9 +86,9 @@
       "threshold_source": "formula_derived",
       "calibration_status": "provisional",
       "rationale_i18n": {
-        "zh-TW": "中高雲是彩色的染料：20–70% 區間加分（mid+high 求和推導）。",
-        "en": "Mid and high cloud are the dyes: 20-70% scores (mid+high sum).",
-        "ja": "中高層雲は彩となる。20〜70%で加点（mid+highの和）。"
+        "zh-TW": "中高雲是日出彩色的染料：全晴只有金黃、全陰無色彩；20–70% 區間加分。指標由管線以 mid+high 求和推導。",
+        "en": "Mid and high cloud are the dyes of sunrise colour: clear skies give plain gold and overcast gives none; the 20-70% band earns the bonus. The pipeline derives the metric as mid plus high cloud.",
+        "ja": "中層・上層の雲は日の出の色彩の染料：快晴はただの金色、完全な曇天は色彩なし。20-70%の帯で加点。指標はmid+highの和として導出。"
       },
       "binding": {
         "dataset": "gfs_0p25",
@@ -111,9 +114,9 @@
       "threshold_source": "formula_derived",
       "calibration_status": "provisional",
       "rationale_i18n": {
-        "zh-TW": "拍攝受雨影響；0.3 mm/h 以下不受影響。",
-        "en": "Rain interferes with shooting; below 0.3 mm/h is fine.",
-        "ja": "雨は撮影に影響。0.3mm/h未満なら影響なし。"
+        "zh-TW": "雨量極低即可；海景微雨不影響拍攝。",
+        "en": "Precipitation just needs to stay very low; light rain does not affect a seascape shoot.",
+        "ja": "降水量は十分に低ければよい。海景では小雨でも撮影に支障はない。"
       },
       "binding": {
         "dataset": "gfs_0p25",
@@ -123,9 +126,9 @@
       "threshold": 0.3
     }
   ],
-  "review_note_i18n": {
-    "zh-TW": "草稿待 owner 複審；與 sunrise_coast 的差異僅在移除海平線/海岸專屬語意，門檻同構。",
-    "en": "Draft pending owner review; differs from sunrise_coast only by removing coast/sea-horizon semantics, thresholds isomorphic.",
-    "ja": "オーナー審査待ちの草稿。sunrise_coast との差は海岸/海平線語意の除去のみ、閾値は同型。"
+  "definition_i18n": {
+    "zh-TW": "日出題材通用模板：天文窗＋太陽方位低雲＋色彩染料＋降雨。海平線/地形視野屬景點參數（sun_azimuth_sector），雲海等疊加判據由各景點以 activate_when 或 merge 掛上。",
+    "en": "Generic sunrise template: astronomy window + solar-azimuth low cloud + colour dyes + precipitation. The sea horizon / terrain sightline is a spot parameter (sun_azimuth_sector); cloud-sea and other overlays attach per spot via activate_when or merge.",
+    "ja": "日の出の汎用テンプレート。海平線/地形視界はspotのパラメータ、雲海等の重ね掛けはactivate_when/mergeで各spotが追加。"
   }
 }
