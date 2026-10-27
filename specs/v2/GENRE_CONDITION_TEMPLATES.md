@@ -116,13 +116,37 @@ opportunity 層，不屬於條件模板層）。一個模板可被多個景點�
 
 排除項：原「風速（岩稜安全）」移除——作業面屬攝影師判斷（1.1）。
 
-### 2.5 待定稿模板
+### 2.5 瀑布（waterfall）〔draft 2026-10-26，待 owner 複審〕
+
+> 定義：以水量、水勢為主判據的瀑布主題攝影。主判據 `river_flow_state`
+> 由管線以過去 72h 累積雨量映射為 low/mid/high 三級（provisional：
+> <5 low、5–40 mid、>40 high），僅 waterfall 模板使用。
+
+| 層 | 條件 | 欄位與門檻 | 為什麼 |
+| :--- | :--- | :--- | :--- |
+| 主 | 水量 | `river_flow_state ≥ mid`（72h 累積雨量映射） | 乾季瀑布成細流即失主題；72h 累積雨量是可觀測的代理，映射三級待實測校準 |
+| 主 | 降雨（拍攝當下） | `precip < 0.2 mm/h` | 下大雨無法拍攝；注意與「水量」是兩回事——雨後水量好、拍攝時別下雨 |
+| 修正 | 黃金時刻 | 落在 golden_hour 窗口加分 | 低角度直射光讓水霧出彩虹與光斑，是加分非必須 |
+
+### 2.6 地質地景（geological_landform）〔draft 2026-10-26，待 owner 複審〕
+
+> 定義：以靜態岩質地景為主體（峽谷、拱門、奇岩、惡地）。主體存在性由
+> 機會定義聲明（owner 於景點建立時確認，`landform_present` observation
+> metric），非即時評估。可評判據全是大氣光學與拍攝舒適度。
+
+| 層 | 條件 | 欄位與門檻 | 為什麼 |
+| :--- | :--- | :--- | :--- |
+| 主 | 降雨 | `precip < 0.2 mm/h` | 靜態地景任何時候都在，唯一的拍攝否決是當下雨 |
+| 主 | 遠景透視 | `AOD ≤ 0.4` | 岩質地景色彩飽和、紋理層次靠乾淨空氣；門檻比 mountain_view（0.6）嚴——層次霧霾不是地景加分項 |
+| 修正 | 黃金時刻 | 落在 golden_hour 窗口加分 | 低角度直射光把岩壁的紋理與立體感拉出來 |
+
+### 2.7 待定稿模板
 
 銀河（galaxy）、霧（fog_valley）、火燒雲（sunset_burn）、
 極光（aurora）、雲瀑（waterfall_cloud）……沿用第 1 節原則另案
 設計；未定稿前不得在 contracts 填入數值。
 
-## 2.6 模板映射機制（template registry → condition contract）
+## 2.8 模板映射機制（template registry → condition contract）
 
 機制檔案在 `data/v2/templates/`，工具在 `data/v2/tools/apply_template.py`：
 

@@ -1,5 +1,5 @@
 {
-  "version": "0.5",
+  "version": "0.6",
   "note": "Metric vocabulary for genre condition templates. Condition metrics are unit-normalized ids; bindings map a metric to dataset fields (field naming follows DATA_SOURCE_TIERING_SPEC manifest style: name + unit suffix). '+' joins the fields a derived metric consumes.",
   "metrics": {
     "relative_humidity_925hpa": {
@@ -271,12 +271,41 @@
         "en": "Golden-hour window = sun elevation between +6 and -6 deg (from coordinates and date); the upper bound is the common photography line for warm low-angle light, the lower bound matches the end of civil twilight",
         "ja": "ゴールデンアワー帯＝太陽高度+6度〜-6度（座標と日付から計算）。上端は暖色の低角度光の一般的撮影基準、下端は市民薄明の終わりに対応"
       }
+    },
+    "river_flow_state": {
+      "unit": "level",
+      "domain": "WEATHER",
+      "kind": "computed",
+      "bindings": [
+        {
+          "dataset": "gfs_0p25",
+          "field": "precipitation_mm_72h",
+          "role": "MID"
+        }
+      ],
+      "note_i18n": {
+        "zh-TW": "水量狀態三級（low/mid/high）＝過去 72h 累積雨量映射；provisional：<5mm low、5–40mm mid、>40mm high。由 pipeline 以 gfs_0p25 的 72h 累積雨量欄位推導，待實測校準。僅供 waterfall 模板使用。",
+        "en": "Flow state (low/mid/high) = trailing 72h accumulated precipitation mapping; provisional: <5mm low, 5-40mm mid, >40mm high. Derived by the pipeline from gfs_0p25's 72h accumulated-precipitation field, pending calibration. Used only by the waterfall template.",
+        "ja": "水量状態（low/mid/high）＝直前72h累積雨量の暫定マッピング（<5mm低、5–40mm中、>40mm高）。pipelineがgfs_0p25の72h累積雨量欄位から推導、実測校正予定。waterfallテンプレートのみで使用。"
+      }
+    },
+    "landform_present": {
+      "unit": "level",
+      "domain": "LANDFORM",
+      "kind": "observation",
+      "bindings": [],
+      "note_i18n": {
+        "zh-TW": "岩質地景主體的存在性由機會定義聲明（owner 於景點建立時確認），非即時評估。propagate_unknown 保底。",
+        "en": "Presence of the static rock-landform subject is declared by the opportunity definition (confirmed by the owner at spot creation), not evaluated live; propagate_unknown as fallback.",
+        "ja": "静的な岩質地景の存在は機会定義側で宣言（オーナーが登録時に確認）。ライブ評価ではない。propagate_unknownでフォールバック。"
+      }
     }
   },
   "changelog": [
     "0.2 2026-10-26: add wind_speed_10m, astronomical_darkness (draft templates for reflection/milky_way)",
     "0.3 2026-10-26: add galactic_core_altitude, moon_target_separation_deg (night_sky milky-way layer)",
     "0.4 2026-10-26: add moon_illuminance_proxy (night_sky Milky-Way layer moon cap; closes the gibbous-moon gap left when the layer was restructured)",
-    "0.5 2026-10-26: add golden_hour_window (golden_hour / overcast_soft draft templates, light-direction condition genres for人文/architecture and soft-light subjects)"
+    "0.5 2026-10-26: add golden_hour_window (golden_hour / overcast_soft draft templates, light-direction condition genres for人文/architecture and soft-light subjects)",
+    "0.6 2026-10-26: add river_flow_state (waterfall template, 72h accumulated precip mapping, provisional), landform_present (geological_landform template, observation metric)"
   ]
 }
