@@ -2,7 +2,7 @@
   "schema_version": 1,
   "provider": "Copernicus CAMS via Open-Meteo",
   "model": "CAMS_GLOBAL",
-  "frame_count": 34,
+  "frame_count": 37,
   "grid_rows": 17,
   "grid_cols": 16,
   "request_point_count": 272,
@@ -10,755 +10,821 @@
   "frames": [
     {
       "forecast_hour": 0,
-      "valid_time_utc": "2026-10-27T21:00:00Z",
-      "fields": {
-        "aerosol_optical_depth_550nm": {
-          "count": 272,
-          "missing": 0,
-          "min": 0.08,
-          "max": 0.68,
-          "mean": 0.2937867647058826,
-          "flags": []
-        },
-        "pm2_5_ug_m3": {
-          "count": 272,
-          "missing": 0,
-          "min": 3.5,
-          "max": 54.1,
-          "mean": 21.65882352941176,
-          "flags": []
-        }
-      }
-    },
-    {
-      "forecast_hour": 3,
-      "valid_time_utc": "2026-10-28T00:00:00Z",
-      "fields": {
-        "aerosol_optical_depth_550nm": {
-          "count": 272,
-          "missing": 0,
-          "min": 0.07,
-          "max": 0.63,
-          "mean": 0.2744117647058825,
-          "flags": []
-        },
-        "pm2_5_ug_m3": {
-          "count": 272,
-          "missing": 0,
-          "min": 1.9,
-          "max": 37.1,
-          "mean": 20.630147058823532,
-          "flags": []
-        }
-      }
-    },
-    {
-      "forecast_hour": 6,
-      "valid_time_utc": "2026-10-28T03:00:00Z",
-      "fields": {
-        "aerosol_optical_depth_550nm": {
-          "count": 272,
-          "missing": 0,
-          "min": 0.09,
-          "max": 0.54,
-          "mean": 0.27386029411764745,
-          "flags": []
-        },
-        "pm2_5_ug_m3": {
-          "count": 272,
-          "missing": 0,
-          "min": 2.6,
-          "max": 35.4,
-          "mean": 20.425735294117647,
-          "flags": []
-        }
-      }
-    },
-    {
-      "forecast_hour": 9,
-      "valid_time_utc": "2026-10-28T06:00:00Z",
-      "fields": {
-        "aerosol_optical_depth_550nm": {
-          "count": 272,
-          "missing": 0,
-          "min": 0.14,
-          "max": 0.63,
-          "mean": 0.2876838235294119,
-          "flags": []
-        },
-        "pm2_5_ug_m3": {
-          "count": 272,
-          "missing": 0,
-          "min": 6.5,
-          "max": 39.5,
-          "mean": 21.03933823529412,
-          "flags": []
-        }
-      }
-    },
-    {
-      "forecast_hour": 12,
-      "valid_time_utc": "2026-10-28T09:00:00Z",
-      "fields": {
-        "aerosol_optical_depth_550nm": {
-          "count": 272,
-          "missing": 0,
-          "min": 0.13,
-          "max": 0.7,
-          "mean": 0.2860294117647059,
-          "flags": []
-        },
-        "pm2_5_ug_m3": {
-          "count": 272,
-          "missing": 0,
-          "min": 4.8,
-          "max": 41.1,
-          "mean": 20.49044117647059,
-          "flags": []
-        }
-      }
-    },
-    {
-      "forecast_hour": 15,
       "valid_time_utc": "2026-10-28T12:00:00Z",
       "fields": {
         "aerosol_optical_depth_550nm": {
           "count": 272,
           "missing": 0,
-          "min": 0.13,
-          "max": 0.72,
-          "mean": 0.266875,
-          "flags": []
-        },
-        "pm2_5_ug_m3": {
-          "count": 272,
-          "missing": 0,
-          "min": 3.7,
-          "max": 69.2,
-          "mean": 19.991911764705883,
-          "flags": []
-        }
-      }
-    },
-    {
-      "forecast_hour": 18,
-      "valid_time_utc": "2026-10-28T15:00:00Z",
-      "fields": {
-        "aerosol_optical_depth_550nm": {
-          "count": 272,
-          "missing": 0,
-          "min": 0.13,
-          "max": 0.77,
-          "mean": 0.2548161764705881,
-          "flags": []
-        },
-        "pm2_5_ug_m3": {
-          "count": 272,
-          "missing": 0,
-          "min": 3.6,
-          "max": 72.6,
-          "mean": 19.30404411764705,
-          "flags": []
-        }
-      }
-    },
-    {
-      "forecast_hour": 21,
-      "valid_time_utc": "2026-10-28T18:00:00Z",
-      "fields": {
-        "aerosol_optical_depth_550nm": {
-          "count": 272,
-          "missing": 0,
-          "min": 0.11,
-          "max": 0.8,
-          "mean": 0.24860294117647044,
-          "flags": []
-        },
-        "pm2_5_ug_m3": {
-          "count": 272,
-          "missing": 0,
-          "min": 3.1,
-          "max": 58.3,
-          "mean": 18.823529411764724,
-          "flags": []
-        }
-      }
-    },
-    {
-      "forecast_hour": 24,
-      "valid_time_utc": "2026-10-28T21:00:00Z",
-      "fields": {
-        "aerosol_optical_depth_550nm": {
-          "count": 272,
-          "missing": 0,
-          "min": 0.12,
-          "max": 0.59,
-          "mean": 0.24422794117647045,
-          "flags": []
-        },
-        "pm2_5_ug_m3": {
-          "count": 272,
-          "missing": 0,
-          "min": 2.9,
-          "max": 51.9,
-          "mean": 18.84338235294118,
-          "flags": []
-        }
-      }
-    },
-    {
-      "forecast_hour": 27,
-      "valid_time_utc": "2026-10-29T00:00:00Z",
-      "fields": {
-        "aerosol_optical_depth_550nm": {
-          "count": 272,
-          "missing": 0,
-          "min": 0.14,
-          "max": 0.46,
-          "mean": 0.2345955882352941,
-          "flags": []
-        },
-        "pm2_5_ug_m3": {
-          "count": 272,
-          "missing": 0,
-          "min": 5.6,
-          "max": 50.8,
-          "mean": 18.898897058823525,
-          "flags": []
-        }
-      }
-    },
-    {
-      "forecast_hour": 30,
-      "valid_time_utc": "2026-10-29T03:00:00Z",
-      "fields": {
-        "aerosol_optical_depth_550nm": {
-          "count": 272,
-          "missing": 0,
-          "min": 0.14,
-          "max": 0.52,
-          "mean": 0.24194852941176462,
-          "flags": []
-        },
-        "pm2_5_ug_m3": {
-          "count": 272,
-          "missing": 0,
-          "min": 9.9,
-          "max": 42.6,
-          "mean": 18.80294117647059,
-          "flags": []
-        }
-      }
-    },
-    {
-      "forecast_hour": 33,
-      "valid_time_utc": "2026-10-29T06:00:00Z",
-      "fields": {
-        "aerosol_optical_depth_550nm": {
-          "count": 272,
-          "missing": 0,
           "min": 0.15,
-          "max": 0.59,
-          "mean": 0.2532720588235294,
-          "flags": []
-        },
-        "pm2_5_ug_m3": {
-          "count": 272,
-          "missing": 0,
-          "min": 10.4,
-          "max": 42.7,
-          "mean": 19.848897058823542,
-          "flags": []
-        }
-      }
-    },
-    {
-      "forecast_hour": 36,
-      "valid_time_utc": "2026-10-29T09:00:00Z",
-      "fields": {
-        "aerosol_optical_depth_550nm": {
-          "count": 272,
-          "missing": 0,
-          "min": 0.14,
-          "max": 0.73,
-          "mean": 0.24882352941176478,
-          "flags": []
-        },
-        "pm2_5_ug_m3": {
-          "count": 272,
-          "missing": 0,
-          "min": 5.6,
-          "max": 40.5,
-          "mean": 19.303676470588226,
-          "flags": []
-        }
-      }
-    },
-    {
-      "forecast_hour": 39,
-      "valid_time_utc": "2026-10-29T12:00:00Z",
-      "fields": {
-        "aerosol_optical_depth_550nm": {
-          "count": 272,
-          "missing": 0,
-          "min": 0.14,
-          "max": 0.66,
-          "mean": 0.24533088235294123,
-          "flags": []
-        },
-        "pm2_5_ug_m3": {
-          "count": 272,
-          "missing": 0,
-          "min": 4.0,
-          "max": 58.3,
-          "mean": 20.000735294117643,
-          "flags": []
-        }
-      }
-    },
-    {
-      "forecast_hour": 42,
-      "valid_time_utc": "2026-10-29T15:00:00Z",
-      "fields": {
-        "aerosol_optical_depth_550nm": {
-          "count": 272,
-          "missing": 0,
-          "min": 0.12,
-          "max": 0.73,
-          "mean": 0.2469485294117646,
-          "flags": []
-        },
-        "pm2_5_ug_m3": {
-          "count": 272,
-          "missing": 0,
-          "min": 2.5,
-          "max": 79.4,
-          "mean": 20.792279411764724,
-          "flags": []
-        }
-      }
-    },
-    {
-      "forecast_hour": 45,
-      "valid_time_utc": "2026-10-29T18:00:00Z",
-      "fields": {
-        "aerosol_optical_depth_550nm": {
-          "count": 272,
-          "missing": 0,
-          "min": 0.11,
-          "max": 0.63,
-          "mean": 0.24220588235294122,
-          "flags": []
-        },
-        "pm2_5_ug_m3": {
-          "count": 272,
-          "missing": 0,
-          "min": 2.7,
-          "max": 82.9,
-          "mean": 20.75477941176471,
-          "flags": []
-        }
-      }
-    },
-    {
-      "forecast_hour": 48,
-      "valid_time_utc": "2026-10-29T21:00:00Z",
-      "fields": {
-        "aerosol_optical_depth_550nm": {
-          "count": 272,
-          "missing": 0,
-          "min": 0.13,
           "max": 0.58,
-          "mean": 0.23908088235294134,
-          "flags": []
-        },
-        "pm2_5_ug_m3": {
-          "count": 272,
-          "missing": 0,
-          "min": 3.4,
-          "max": 82.0,
-          "mean": 20.31139705882353,
-          "flags": []
-        }
-      }
-    },
-    {
-      "forecast_hour": 51,
-      "valid_time_utc": "2026-10-30T00:00:00Z",
-      "fields": {
-        "aerosol_optical_depth_550nm": {
-          "count": 272,
-          "missing": 0,
-          "min": 0.13,
-          "max": 0.53,
-          "mean": 0.23566176470588224,
-          "flags": []
-        },
-        "pm2_5_ug_m3": {
-          "count": 272,
-          "missing": 0,
-          "min": 4.8,
-          "max": 65.2,
-          "mean": 19.64595588235293,
-          "flags": []
-        }
-      }
-    },
-    {
-      "forecast_hour": 54,
-      "valid_time_utc": "2026-10-30T03:00:00Z",
-      "fields": {
-        "aerosol_optical_depth_550nm": {
-          "count": 272,
-          "missing": 0,
-          "min": 0.12,
-          "max": 0.65,
-          "mean": 0.24415441176470598,
-          "flags": []
-        },
-        "pm2_5_ug_m3": {
-          "count": 272,
-          "missing": 0,
-          "min": 6.0,
-          "max": 40.3,
-          "mean": 18.459558823529417,
-          "flags": []
-        }
-      }
-    },
-    {
-      "forecast_hour": 57,
-      "valid_time_utc": "2026-10-30T06:00:00Z",
-      "fields": {
-        "aerosol_optical_depth_550nm": {
-          "count": 272,
-          "missing": 0,
-          "min": 0.12,
-          "max": 0.72,
-          "mean": 0.25639705882352937,
-          "flags": []
-        },
-        "pm2_5_ug_m3": {
-          "count": 272,
-          "missing": 0,
-          "min": 5.5,
-          "max": 44.5,
-          "mean": 19.018749999999997,
-          "flags": []
-        }
-      }
-    },
-    {
-      "forecast_hour": 60,
-      "valid_time_utc": "2026-10-30T09:00:00Z",
-      "fields": {
-        "aerosol_optical_depth_550nm": {
-          "count": 272,
-          "missing": 0,
-          "min": 0.11,
-          "max": 0.69,
-          "mean": 0.24779411764705883,
-          "flags": []
-        },
-        "pm2_5_ug_m3": {
-          "count": 272,
-          "missing": 0,
-          "min": 5.4,
-          "max": 43.3,
-          "mean": 18.277205882352945,
-          "flags": []
-        }
-      }
-    },
-    {
-      "forecast_hour": 63,
-      "valid_time_utc": "2026-10-30T12:00:00Z",
-      "fields": {
-        "aerosol_optical_depth_550nm": {
-          "count": 272,
-          "missing": 0,
-          "min": 0.11,
-          "max": 0.66,
-          "mean": 0.24180147058823534,
-          "flags": []
-        },
-        "pm2_5_ug_m3": {
-          "count": 272,
-          "missing": 0,
-          "min": 4.5,
-          "max": 73.8,
-          "mean": 19.109191176470585,
-          "flags": []
-        }
-      }
-    },
-    {
-      "forecast_hour": 66,
-      "valid_time_utc": "2026-10-30T15:00:00Z",
-      "fields": {
-        "aerosol_optical_depth_550nm": {
-          "count": 272,
-          "missing": 0,
-          "min": 0.11,
-          "max": 0.64,
-          "mean": 0.23522058823529401,
-          "flags": []
-        },
-        "pm2_5_ug_m3": {
-          "count": 272,
-          "missing": 0,
-          "min": 3.3,
-          "max": 84.8,
-          "mean": 19.70735294117648,
-          "flags": []
-        }
-      }
-    },
-    {
-      "forecast_hour": 69,
-      "valid_time_utc": "2026-10-30T18:00:00Z",
-      "fields": {
-        "aerosol_optical_depth_550nm": {
-          "count": 272,
-          "missing": 0,
-          "min": 0.1,
-          "max": 0.63,
-          "mean": 0.23058823529411743,
-          "flags": []
-        },
-        "pm2_5_ug_m3": {
-          "count": 272,
-          "missing": 0,
-          "min": 3.2,
-          "max": 76.4,
-          "mean": 19.461029411764713,
-          "flags": []
-        }
-      }
-    },
-    {
-      "forecast_hour": 72,
-      "valid_time_utc": "2026-10-30T21:00:00Z",
-      "fields": {
-        "aerosol_optical_depth_550nm": {
-          "count": 272,
-          "missing": 0,
-          "min": 0.1,
-          "max": 0.54,
-          "mean": 0.23209558823529416,
-          "flags": []
-        },
-        "pm2_5_ug_m3": {
-          "count": 272,
-          "missing": 0,
-          "min": 3.2,
-          "max": 73.6,
-          "mean": 19.299264705882354,
-          "flags": []
-        }
-      }
-    },
-    {
-      "forecast_hour": 75,
-      "valid_time_utc": "2026-10-31T00:00:00Z",
-      "fields": {
-        "aerosol_optical_depth_550nm": {
-          "count": 272,
-          "missing": 0,
-          "min": 0.08,
-          "max": 0.52,
-          "mean": 0.23338235294117646,
-          "flags": []
-        },
-        "pm2_5_ug_m3": {
-          "count": 272,
-          "missing": 0,
-          "min": 3.5,
-          "max": 56.8,
-          "mean": 18.667647058823515,
-          "flags": []
-        }
-      }
-    },
-    {
-      "forecast_hour": 78,
-      "valid_time_utc": "2026-10-31T03:00:00Z",
-      "fields": {
-        "aerosol_optical_depth_550nm": {
-          "count": 272,
-          "missing": 0,
-          "min": 0.09,
-          "max": 0.52,
-          "mean": 0.24841911764705865,
-          "flags": []
-        },
-        "pm2_5_ug_m3": {
-          "count": 272,
-          "missing": 0,
-          "min": 3.1,
-          "max": 41.2,
-          "mean": 18.015441176470592,
-          "flags": []
-        }
-      }
-    },
-    {
-      "forecast_hour": 81,
-      "valid_time_utc": "2026-10-31T06:00:00Z",
-      "fields": {
-        "aerosol_optical_depth_550nm": {
-          "count": 272,
-          "missing": 0,
-          "min": 0.1,
-          "max": 0.76,
-          "mean": 0.2613235294117646,
+          "mean": 0.2512500000000001,
           "flags": []
         },
         "pm2_5_ug_m3": {
           "count": 272,
           "missing": 0,
           "min": 4.3,
-          "max": 38.5,
-          "mean": 19.123897058823534,
+          "max": 50.8,
+          "mean": 18.53051470588236,
           "flags": []
         }
       }
     },
     {
-      "forecast_hour": 84,
-      "valid_time_utc": "2026-10-31T09:00:00Z",
+      "forecast_hour": 3,
+      "valid_time_utc": "2026-10-28T15:00:00Z",
       "fields": {
         "aerosol_optical_depth_550nm": {
           "count": 272,
           "missing": 0,
-          "min": 0.09,
-          "max": 0.7,
-          "mean": 0.25823529411764706,
+          "min": 0.15,
+          "max": 0.72,
+          "mean": 0.23919117647058813,
           "flags": []
         },
         "pm2_5_ug_m3": {
           "count": 272,
           "missing": 0,
-          "min": 3.0,
-          "max": 44.8,
-          "mean": 19.11213235294117,
+          "min": 3.2,
+          "max": 59.3,
+          "mean": 18.193014705882366,
           "flags": []
         }
       }
     },
     {
-      "forecast_hour": 87,
+      "forecast_hour": 6,
+      "valid_time_utc": "2026-10-28T18:00:00Z",
+      "fields": {
+        "aerosol_optical_depth_550nm": {
+          "count": 272,
+          "missing": 0,
+          "min": 0.14,
+          "max": 0.66,
+          "mean": 0.23000000000000015,
+          "flags": []
+        },
+        "pm2_5_ug_m3": {
+          "count": 272,
+          "missing": 0,
+          "min": 3.3,
+          "max": 54.7,
+          "mean": 17.883088235294128,
+          "flags": []
+        }
+      }
+    },
+    {
+      "forecast_hour": 9,
+      "valid_time_utc": "2026-10-28T21:00:00Z",
+      "fields": {
+        "aerosol_optical_depth_550nm": {
+          "count": 272,
+          "missing": 0,
+          "min": 0.13,
+          "max": 0.53,
+          "mean": 0.22393382352941163,
+          "flags": []
+        },
+        "pm2_5_ug_m3": {
+          "count": 272,
+          "missing": 0,
+          "min": 3.8,
+          "max": 53.2,
+          "mean": 17.691911764705893,
+          "flags": []
+        }
+      }
+    },
+    {
+      "forecast_hour": 12,
+      "valid_time_utc": "2026-10-29T00:00:00Z",
+      "fields": {
+        "aerosol_optical_depth_550nm": {
+          "count": 272,
+          "missing": 0,
+          "min": 0.15,
+          "max": 0.52,
+          "mean": 0.22558823529411745,
+          "flags": []
+        },
+        "pm2_5_ug_m3": {
+          "count": 272,
+          "missing": 0,
+          "min": 6.0,
+          "max": 47.7,
+          "mean": 17.49779411764705,
+          "flags": []
+        }
+      }
+    },
+    {
+      "forecast_hour": 15,
+      "valid_time_utc": "2026-10-29T03:00:00Z",
+      "fields": {
+        "aerosol_optical_depth_550nm": {
+          "count": 272,
+          "missing": 0,
+          "min": 0.15,
+          "max": 0.51,
+          "mean": 0.23448529411764701,
+          "flags": []
+        },
+        "pm2_5_ug_m3": {
+          "count": 272,
+          "missing": 0,
+          "min": 9.9,
+          "max": 36.3,
+          "mean": 17.6264705882353,
+          "flags": []
+        }
+      }
+    },
+    {
+      "forecast_hour": 18,
+      "valid_time_utc": "2026-10-29T06:00:00Z",
+      "fields": {
+        "aerosol_optical_depth_550nm": {
+          "count": 272,
+          "missing": 0,
+          "min": 0.15,
+          "max": 0.53,
+          "mean": 0.24794117647058828,
+          "flags": []
+        },
+        "pm2_5_ug_m3": {
+          "count": 272,
+          "missing": 0,
+          "min": 9.7,
+          "max": 37.7,
+          "mean": 18.36875000000001,
+          "flags": []
+        }
+      }
+    },
+    {
+      "forecast_hour": 21,
+      "valid_time_utc": "2026-10-29T09:00:00Z",
+      "fields": {
+        "aerosol_optical_depth_550nm": {
+          "count": 272,
+          "missing": 0,
+          "min": 0.12,
+          "max": 0.6,
+          "mean": 0.2462132352941177,
+          "flags": []
+        },
+        "pm2_5_ug_m3": {
+          "count": 272,
+          "missing": 0,
+          "min": 4.6,
+          "max": 37.1,
+          "mean": 17.904411764705902,
+          "flags": []
+        }
+      }
+    },
+    {
+      "forecast_hour": 24,
+      "valid_time_utc": "2026-10-29T12:00:00Z",
+      "fields": {
+        "aerosol_optical_depth_550nm": {
+          "count": 272,
+          "missing": 0,
+          "min": 0.13,
+          "max": 0.74,
+          "mean": 0.2464338235294117,
+          "flags": []
+        },
+        "pm2_5_ug_m3": {
+          "count": 272,
+          "missing": 0,
+          "min": 4.3,
+          "max": 47.4,
+          "mean": 18.32904411764707,
+          "flags": []
+        }
+      }
+    },
+    {
+      "forecast_hour": 27,
+      "valid_time_utc": "2026-10-29T15:00:00Z",
+      "fields": {
+        "aerosol_optical_depth_550nm": {
+          "count": 272,
+          "missing": 0,
+          "min": 0.13,
+          "max": 0.59,
+          "mean": 0.24911764705882344,
+          "flags": []
+        },
+        "pm2_5_ug_m3": {
+          "count": 272,
+          "missing": 0,
+          "min": 4.4,
+          "max": 65.9,
+          "mean": 19.36875,
+          "flags": []
+        }
+      }
+    },
+    {
+      "forecast_hour": 30,
+      "valid_time_utc": "2026-10-29T18:00:00Z",
+      "fields": {
+        "aerosol_optical_depth_550nm": {
+          "count": 272,
+          "missing": 0,
+          "min": 0.13,
+          "max": 0.56,
+          "mean": 0.25029411764705883,
+          "flags": []
+        },
+        "pm2_5_ug_m3": {
+          "count": 272,
+          "missing": 0,
+          "min": 2.9,
+          "max": 76.4,
+          "mean": 20.23161764705883,
+          "flags": []
+        }
+      }
+    },
+    {
+      "forecast_hour": 33,
+      "valid_time_utc": "2026-10-29T21:00:00Z",
+      "fields": {
+        "aerosol_optical_depth_550nm": {
+          "count": 272,
+          "missing": 0,
+          "min": 0.13,
+          "max": 0.62,
+          "mean": 0.25040441176470585,
+          "flags": []
+        },
+        "pm2_5_ug_m3": {
+          "count": 272,
+          "missing": 0,
+          "min": 3.3,
+          "max": 78.2,
+          "mean": 20.29632352941175,
+          "flags": []
+        }
+      }
+    },
+    {
+      "forecast_hour": 36,
+      "valid_time_utc": "2026-10-30T00:00:00Z",
+      "fields": {
+        "aerosol_optical_depth_550nm": {
+          "count": 272,
+          "missing": 0,
+          "min": 0.13,
+          "max": 0.49,
+          "mean": 0.2462867647058823,
+          "flags": []
+        },
+        "pm2_5_ug_m3": {
+          "count": 272,
+          "missing": 0,
+          "min": 5.4,
+          "max": 64.7,
+          "mean": 19.675735294117647,
+          "flags": []
+        }
+      }
+    },
+    {
+      "forecast_hour": 39,
+      "valid_time_utc": "2026-10-30T03:00:00Z",
+      "fields": {
+        "aerosol_optical_depth_550nm": {
+          "count": 272,
+          "missing": 0,
+          "min": 0.15,
+          "max": 0.52,
+          "mean": 0.26047794117647066,
+          "flags": []
+        },
+        "pm2_5_ug_m3": {
+          "count": 272,
+          "missing": 0,
+          "min": 7.3,
+          "max": 36.2,
+          "mean": 18.482352941176476,
+          "flags": []
+        }
+      }
+    },
+    {
+      "forecast_hour": 42,
+      "valid_time_utc": "2026-10-30T06:00:00Z",
+      "fields": {
+        "aerosol_optical_depth_550nm": {
+          "count": 272,
+          "missing": 0,
+          "min": 0.14,
+          "max": 0.68,
+          "mean": 0.2770588235294117,
+          "flags": []
+        },
+        "pm2_5_ug_m3": {
+          "count": 272,
+          "missing": 0,
+          "min": 7.5,
+          "max": 38.3,
+          "mean": 19.31470588235295,
+          "flags": []
+        }
+      }
+    },
+    {
+      "forecast_hour": 45,
+      "valid_time_utc": "2026-10-30T09:00:00Z",
+      "fields": {
+        "aerosol_optical_depth_550nm": {
+          "count": 272,
+          "missing": 0,
+          "min": 0.11,
+          "max": 0.84,
+          "mean": 0.2731985294117647,
+          "flags": []
+        },
+        "pm2_5_ug_m3": {
+          "count": 272,
+          "missing": 0,
+          "min": 4.7,
+          "max": 40.0,
+          "mean": 18.879411764705882,
+          "flags": []
+        }
+      }
+    },
+    {
+      "forecast_hour": 48,
+      "valid_time_utc": "2026-10-30T12:00:00Z",
+      "fields": {
+        "aerosol_optical_depth_550nm": {
+          "count": 272,
+          "missing": 0,
+          "min": 0.13,
+          "max": 0.74,
+          "mean": 0.2709926470588237,
+          "flags": []
+        },
+        "pm2_5_ug_m3": {
+          "count": 272,
+          "missing": 0,
+          "min": 4.1,
+          "max": 51.5,
+          "mean": 20.205514705882354,
+          "flags": []
+        }
+      }
+    },
+    {
+      "forecast_hour": 51,
+      "valid_time_utc": "2026-10-30T15:00:00Z",
+      "fields": {
+        "aerosol_optical_depth_550nm": {
+          "count": 272,
+          "missing": 0,
+          "min": 0.11,
+          "max": 0.74,
+          "mean": 0.2738235294117648,
+          "flags": []
+        },
+        "pm2_5_ug_m3": {
+          "count": 272,
+          "missing": 0,
+          "min": 2.7,
+          "max": 67.1,
+          "mean": 21.62904411764705,
+          "flags": []
+        }
+      }
+    },
+    {
+      "forecast_hour": 54,
+      "valid_time_utc": "2026-10-30T18:00:00Z",
+      "fields": {
+        "aerosol_optical_depth_550nm": {
+          "count": 272,
+          "missing": 0,
+          "min": 0.1,
+          "max": 0.71,
+          "mean": 0.2779044117647059,
+          "flags": []
+        },
+        "pm2_5_ug_m3": {
+          "count": 272,
+          "missing": 0,
+          "min": 2.1,
+          "max": 69.8,
+          "mean": 22.347426470588243,
+          "flags": []
+        }
+      }
+    },
+    {
+      "forecast_hour": 57,
+      "valid_time_utc": "2026-10-30T21:00:00Z",
+      "fields": {
+        "aerosol_optical_depth_550nm": {
+          "count": 272,
+          "missing": 0,
+          "min": 0.1,
+          "max": 0.76,
+          "mean": 0.27474264705882345,
+          "flags": []
+        },
+        "pm2_5_ug_m3": {
+          "count": 272,
+          "missing": 0,
+          "min": 2.4,
+          "max": 75.7,
+          "mean": 22.767647058823542,
+          "flags": []
+        }
+      }
+    },
+    {
+      "forecast_hour": 60,
+      "valid_time_utc": "2026-10-31T00:00:00Z",
+      "fields": {
+        "aerosol_optical_depth_550nm": {
+          "count": 272,
+          "missing": 0,
+          "min": 0.08,
+          "max": 0.66,
+          "mean": 0.2632720588235295,
+          "flags": []
+        },
+        "pm2_5_ug_m3": {
+          "count": 272,
+          "missing": 0,
+          "min": 3.7,
+          "max": 60.5,
+          "mean": 22.46139705882353,
+          "flags": []
+        }
+      }
+    },
+    {
+      "forecast_hour": 63,
+      "valid_time_utc": "2026-10-31T03:00:00Z",
+      "fields": {
+        "aerosol_optical_depth_550nm": {
+          "count": 272,
+          "missing": 0,
+          "min": 0.08,
+          "max": 0.59,
+          "mean": 0.26647058823529407,
+          "flags": []
+        },
+        "pm2_5_ug_m3": {
+          "count": 272,
+          "missing": 0,
+          "min": 5.6,
+          "max": 43.9,
+          "mean": 22.070220588235287,
+          "flags": []
+        }
+      }
+    },
+    {
+      "forecast_hour": 66,
+      "valid_time_utc": "2026-10-31T06:00:00Z",
+      "fields": {
+        "aerosol_optical_depth_550nm": {
+          "count": 272,
+          "missing": 0,
+          "min": 0.11,
+          "max": 0.69,
+          "mean": 0.27279411764705885,
+          "flags": []
+        },
+        "pm2_5_ug_m3": {
+          "count": 272,
+          "missing": 0,
+          "min": 6.5,
+          "max": 42.8,
+          "mean": 23.116911764705893,
+          "flags": []
+        }
+      }
+    },
+    {
+      "forecast_hour": 69,
+      "valid_time_utc": "2026-10-31T09:00:00Z",
+      "fields": {
+        "aerosol_optical_depth_550nm": {
+          "count": 272,
+          "missing": 0,
+          "min": 0.12,
+          "max": 0.75,
+          "mean": 0.2685294117647059,
+          "flags": []
+        },
+        "pm2_5_ug_m3": {
+          "count": 272,
+          "missing": 0,
+          "min": 6.2,
+          "max": 43.0,
+          "mean": 22.648529411764713,
+          "flags": []
+        }
+      }
+    },
+    {
+      "forecast_hour": 72,
       "valid_time_utc": "2026-10-31T12:00:00Z",
       "fields": {
         "aerosol_optical_depth_550nm": {
           "count": 272,
           "missing": 0,
           "min": 0.07,
-          "max": 0.58,
-          "mean": 0.24720588235294122,
+          "max": 0.71,
+          "mean": 0.25375000000000003,
           "flags": []
         },
         "pm2_5_ug_m3": {
           "count": 272,
           "missing": 0,
-          "min": 1.7,
-          "max": 77.5,
-          "mean": 19.77830882352943,
+          "min": 6.0,
+          "max": 72.9,
+          "mean": 22.037499999999998,
           "flags": []
         }
       }
     },
     {
-      "forecast_hour": 90,
+      "forecast_hour": 75,
       "valid_time_utc": "2026-10-31T15:00:00Z",
       "fields": {
         "aerosol_optical_depth_550nm": {
           "count": 272,
           "missing": 0,
           "min": 0.06,
-          "max": 0.52,
-          "mean": 0.23621323529411775,
+          "max": 0.75,
+          "mean": 0.24419117647058802,
           "flags": []
         },
         "pm2_5_ug_m3": {
           "count": 272,
           "missing": 0,
-          "min": 0.9,
-          "max": 96.4,
-          "mean": 19.701470588235306,
+          "min": 2.4,
+          "max": 86.4,
+          "mean": 21.082720588235297,
+          "flags": []
+        }
+      }
+    },
+    {
+      "forecast_hour": 78,
+      "valid_time_utc": "2026-10-31T18:00:00Z",
+      "fields": {
+        "aerosol_optical_depth_550nm": {
+          "count": 272,
+          "missing": 0,
+          "min": 0.07,
+          "max": 0.78,
+          "mean": 0.2359558823529412,
+          "flags": []
+        },
+        "pm2_5_ug_m3": {
+          "count": 272,
+          "missing": 0,
+          "min": 1.4,
+          "max": 73.6,
+          "mean": 19.899999999999988,
+          "flags": []
+        }
+      }
+    },
+    {
+      "forecast_hour": 81,
+      "valid_time_utc": "2026-10-31T21:00:00Z",
+      "fields": {
+        "aerosol_optical_depth_550nm": {
+          "count": 272,
+          "missing": 0,
+          "min": 0.07,
+          "max": 0.75,
+          "mean": 0.22154411764705895,
+          "flags": []
+        },
+        "pm2_5_ug_m3": {
+          "count": 272,
+          "missing": 0,
+          "min": 1.1,
+          "max": 60.3,
+          "mean": 19.06617647058824,
+          "flags": []
+        }
+      }
+    },
+    {
+      "forecast_hour": 84,
+      "valid_time_utc": "2026-11-01T00:00:00Z",
+      "fields": {
+        "aerosol_optical_depth_550nm": {
+          "count": 272,
+          "missing": 0,
+          "min": 0.07,
+          "max": 0.59,
+          "mean": 0.20136029411764694,
+          "flags": []
+        },
+        "pm2_5_ug_m3": {
+          "count": 272,
+          "missing": 0,
+          "min": 2.7,
+          "max": 55.3,
+          "mean": 18.591176470588238,
+          "flags": []
+        }
+      }
+    },
+    {
+      "forecast_hour": 87,
+      "valid_time_utc": "2026-11-01T03:00:00Z",
+      "fields": {
+        "aerosol_optical_depth_550nm": {
+          "count": 272,
+          "missing": 0,
+          "min": 0.09,
+          "max": 0.58,
+          "mean": 0.19720588235294106,
+          "flags": []
+        },
+        "pm2_5_ug_m3": {
+          "count": 272,
+          "missing": 0,
+          "min": 4.9,
+          "max": 46.4,
+          "mean": 18.151102941176468,
+          "flags": []
+        }
+      }
+    },
+    {
+      "forecast_hour": 90,
+      "valid_time_utc": "2026-11-01T06:00:00Z",
+      "fields": {
+        "aerosol_optical_depth_550nm": {
+          "count": 272,
+          "missing": 0,
+          "min": 0.09,
+          "max": 0.66,
+          "mean": 0.20113970588235283,
+          "flags": []
+        },
+        "pm2_5_ug_m3": {
+          "count": 272,
+          "missing": 0,
+          "min": 4.8,
+          "max": 47.3,
+          "mean": 19.047794117647047,
           "flags": []
         }
       }
     },
     {
       "forecast_hour": 93,
-      "valid_time_utc": "2026-10-31T18:00:00Z",
+      "valid_time_utc": "2026-11-01T09:00:00Z",
       "fields": {
         "aerosol_optical_depth_550nm": {
           "count": 272,
           "missing": 0,
-          "min": 0.05,
-          "max": 0.55,
-          "mean": 0.22183823529411761,
+          "min": 0.09,
+          "max": 0.65,
+          "mean": 0.19077205882352946,
           "flags": []
         },
         "pm2_5_ug_m3": {
           "count": 272,
           "missing": 0,
-          "min": 0.8,
-          "max": 85.2,
-          "mean": 18.498897058823534,
+          "min": 4.2,
+          "max": 49.4,
+          "mean": 18.372794117647057,
           "flags": []
         }
       }
     },
     {
       "forecast_hour": 96,
-      "valid_time_utc": "2026-10-31T21:00:00Z",
+      "valid_time_utc": "2026-11-01T12:00:00Z",
       "fields": {
         "aerosol_optical_depth_550nm": {
           "count": 272,
           "missing": 0,
-          "min": 0.05,
-          "max": 0.58,
-          "mean": 0.20452205882352933,
+          "min": 0.09,
+          "max": 0.63,
+          "mean": 0.17963235294117644,
           "flags": []
         },
         "pm2_5_ug_m3": {
           "count": 272,
           "missing": 0,
-          "min": 0.8,
-          "max": 63.8,
-          "mean": 17.488235294117654,
+          "min": 3.6,
+          "max": 78.9,
+          "mean": 19.795220588235296,
           "flags": []
         }
       }
     },
     {
       "forecast_hour": 99,
-      "valid_time_utc": "2026-11-01T00:00:00Z",
+      "valid_time_utc": "2026-11-01T15:00:00Z",
       "fields": {
         "aerosol_optical_depth_550nm": {
           "count": 272,
           "missing": 0,
-          "min": 0.05,
-          "max": 0.6,
-          "mean": 0.1898161764705882,
+          "min": 0.09,
+          "max": 0.61,
+          "mean": 0.18007352941176458,
           "flags": []
         },
         "pm2_5_ug_m3": {
           "count": 272,
           "missing": 0,
-          "min": 1.0,
-          "max": 51.0,
-          "mean": 16.703308823529415,
+          "min": 3.9,
+          "max": 85.4,
+          "mean": 21.03382352941177,
+          "flags": []
+        }
+      }
+    },
+    {
+      "forecast_hour": 102,
+      "valid_time_utc": "2026-11-01T18:00:00Z",
+      "fields": {
+        "aerosol_optical_depth_550nm": {
+          "count": 272,
+          "missing": 0,
+          "min": 0.1,
+          "max": 0.65,
+          "mean": 0.1830882352941175,
+          "flags": []
+        },
+        "pm2_5_ug_m3": {
+          "count": 272,
+          "missing": 0,
+          "min": 3.9,
+          "max": 92.4,
+          "mean": 20.56948529411764,
+          "flags": []
+        }
+      }
+    },
+    {
+      "forecast_hour": 105,
+      "valid_time_utc": "2026-11-01T21:00:00Z",
+      "fields": {
+        "aerosol_optical_depth_550nm": {
+          "count": 272,
+          "missing": 0,
+          "min": 0.09,
+          "max": 0.62,
+          "mean": 0.18477941176470575,
+          "flags": []
+        },
+        "pm2_5_ug_m3": {
+          "count": 272,
+          "missing": 0,
+          "min": 4.1,
+          "max": 87.1,
+          "mean": 19.97683823529413,
+          "flags": []
+        }
+      }
+    },
+    {
+      "forecast_hour": 108,
+      "valid_time_utc": "2026-11-02T00:00:00Z",
+      "fields": {
+        "aerosol_optical_depth_550nm": {
+          "count": 272,
+          "missing": 0,
+          "min": 0.08,
+          "max": 0.51,
+          "mean": 0.1938235294117646,
+          "flags": []
+        },
+        "pm2_5_ug_m3": {
+          "count": 272,
+          "missing": 0,
+          "min": 4.4,
+          "max": 78.0,
+          "mean": 20.019485294117647,
           "flags": []
         }
       }
     }
   ],
   "flags": [],
-  "trimmed_trailing_all_missing_frames": 6,
+  "trimmed_trailing_all_missing_frames": 3,
   "notes": [
     "Browser coordinates are a 0.4 degree request/presentation lattice.",
     "PM2.5 and AOD share the same CAMS request/time lattice but retain distinct physical meanings.",
