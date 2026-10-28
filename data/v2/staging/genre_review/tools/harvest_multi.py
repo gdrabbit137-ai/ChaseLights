@@ -141,6 +141,57 @@ def wm_geo(lat, lon, radius=5000, limit=6):
         print("  geo err:", type(e).__name__, str(e)[:80], flush=True)
         return []
 
+def wm_category(spot, limit=24, take=4):
+    """category deep-dive: bypass search-ranking bias (single-photographer series
+    monopolizing results). Find the spot's Commons category, list all members,
+    pick a spread of files across the list for temporal/photographer diversity."""
+    names = core_names(spot)
+    got = []
+    for q in names[:4]:
+        try:
+            d = http_json(WM_API + "?" + urllib.parse.urlencode(
+                {"action": "query", "list": "search", "srsearch": q, "srnamespace": "14",
+                 "srlimit": "5", "format": "json"}))
+            cats = [x["title"] for x in d["query"]["search"]]
+        except Exception as e:
+            print("  cat err:", type(e).__name__, str(e)[:80], flush=True)
+            continue
+        for cat in cats:
+            if "by night" in cat.lower() or "by_year" in cat.lower():
+                continue  # night/series subcats are exactly the bias we avoid
+            try:
+                d = http_json(WM_API + "?" + urllib.parse.urlencode(
+                    {"action": "query", "list": "categorymembers", "cmtitle": cat,
+                     "cmtype": "file", "cmlimit": str(limit), "format": "json"}))
+                files = [m["title"] for m in d["query"]["categorymembers"]]
+            except Exception:
+                continue
+            if len(files) < 4:
+                continue
+            # diversity spread: sample across the whole list, skip same-prefix runs
+            stride = max(1, len(files) // take)
+            sample = files[::stride][:take * 2]
+            for t in sample:
+                if BAD_TITLE.search(t):
+                    continue
+                try:
+                    d2 = http_json(WM_API + "?" + urllib.parse.urlencode(
+                        {"action": "query", "titles": t, "prop": "imageinfo",
+                         "iiprop": "url|size|mime", "format": "json"}))
+                    pg = list(d2["query"]["pages"].values())[0]
+                    ii = (pg.get("imageinfo") or [{}])[0]
+                    if ii.get("mime", "").startswith("image/") and (ii.get("width") or 0) >= 800:
+                        got.append({"src": "wikimedia", "title": t, "url": ii["url"],
+                                    "w": ii.get("width"), "h": ii.get("height")})
+                except Exception:
+                    continue
+                if len(got) >= take:
+                    break
+            if got:
+                return got
+        time.sleep(2)
+    return got
+
 ZH_TAIL = re.compile(r"(層巒|遠眺|日出|夕景|夕照|晨曦|藍調|夜景|雲海|全景|鳥瞰|眺望|展望|"
                      r"海蝕|地景|花田|草原|森林|步道|溫泉|燈塔|大橋|老街|漁港|platform|"
                      r"sunrise|sunset|blue hour|night|panorama|viewpoint|lookout|forest|"
@@ -182,9 +233,20 @@ def core_names(spot):
 def harvest_one(oid, spot, outdir, n_target=6):
     zh = spot.get("zh") or ""
     name = spot.get("pname") or ""
-    queries = core_names(spot)
-    if name and name not in queries:
-        queries.append(name)
+    queries = spot.get("_r2_queries") or (core_names(spot) + ([name] if name and name not in core_names(spot) else []))
+    # split mixed-script queries (Commons treats zh+en as AND)
+    split = []
+    for q in queries:
+        if re.search(r"[\u4e00-\u9fff]", q) and re.search(r"[A-Za-z]", q):
+            zh_part = "".join(ch for ch in q if re.match(r"[\u4e00-\u9fff\u3000-\u303f]", ch) or not ch.isascii())
+            en_part = " ".join(re.findall(r"[A-Za-z][A-Za-z'\-]*", q))
+            if zh_part.strip(): split.append(zh_part.strip())
+            if en_part.strip(): split.append(en_part.strip())
+        else:
+            split.append(q)
+    queries = []
+    for q in split:
+        if q not in queries: queries.append(q)
     cands = {"wikimedia": [], "pixabay": [], "unsplash": []}
     for q in queries:
         if len(cands["wikimedia"]) >= 8 and len(cands["pixabay"]) >= 4:
@@ -199,17 +261,31 @@ def harvest_one(oid, spot, outdir, n_target=6):
     if len(cands["wikimedia"]) < 4 and spot.get("lat"):
         cands["wikimedia"] += [c for c in wm_geo(spot["lat"], spot["lon"])
                                if c not in cands["wikimedia"]]
+    # series-monopoly detection: >=3 titles sharing the same first-two-token prefix
+    # means one photographer's set dominates -> category deep-dive for diversity
+    pref = {}
+    for c in cands["wikimedia"]:
+        key = " ".join(c["title"][5:].split()[:2])
+        pref[key] = pref.get(key, 0) + 1
+    monopoly = max(pref.values()) >= 3 if pref else False
+    if monopoly or len(cands["wikimedia"]) < 2:
+        cat = wm_category(spot)
+        if cat:
+            cands["wikimedia"] = cat + [c for c in cands["wikimedia"] if c not in cat]
+            print(f"  category dive: {len(cat)} diverse files (monopoly={monopoly})", flush=True)
     # pick: wikimedia up to 4, pixabay up to 2, unsplash urls up to 2 (reference only)
     picks = cands["wikimedia"][:4] + cands["pixabay"][:2]
     got = []
     for i, c in enumerate(picks, 1):
-        fn = os.path.join(outdir, f"{oid}_m{i:02d}.jpg")
+        fn = os.path.join(outdir, f"{oid}_{"r2" if spot.get("_r2_queries") else "m"}{i:02d}.jpg")
         ok = (wm_download(c["title"], fn) if c["src"] == "wikimedia" else px_download(c["url"], fn))
         if ok:
             got.append({**c, "file": os.path.basename(fn)})
     refs = cands["unsplash"][:2]
     return {"cands": len(cands["wikimedia"]) + len(cands["pixabay"]), "got": len(got),
             "got_detail": got, "unsplash_refs": refs, "queries": queries}
+
+R2Q = os.path.join(os.path.dirname(os.path.abspath(__file__)), "round2_queries.json")
 
 def load_targets():
     tg = {}
@@ -229,11 +305,28 @@ def pending_oids():
     return sorted(set(zero))
 
 def main():
+    r2mode = "--round2" in os.sys.argv
+    args = [a for a in os.sys.argv[1:] if not a.startswith("--")]
     tgt = load_targets()
-    todo = pending_oids()
-    if len(os.sys.argv) > 1:  # optional explicit oids
-        todo = [o for o in os.sys.argv[1:] if o in tgt]
-    state_path = os.path.join(OUTDIR, "harvest_state_m.json")
+    global OUTDIR
+    if r2mode:
+        rq = json.load(open(R2Q, encoding="utf-8"))
+        OUTDIR = os.path.join(OUTDIR, "r2")
+        os.makedirs(OUTDIR, exist_ok=True)
+        todo = sorted(rq.keys())
+        for o in todo:  # merge spot fields + query override
+            spot = tgt.setdefault(o, {})
+            spot.update({"oid": o, **{k: v for k, v in rq[o].items() if k != "queries"}})
+            spot["_r2_queries"] = rq[o]["queries"]
+        state_path = os.path.join(OUTDIR, "harvest_state_r2.json")
+    else:
+        todo = pending_oids()
+    if args and not r2mode:
+        todo = [o for o in args if o in tgt]
+    elif args and r2mode:
+        todo = [o for o in args if o in tgt]
+        # keep the r2 state file; overriding to _m resurrects stale got>0 entries
+        # and silently skips one-off re-harvest runs
     state = json.load(open(state_path, encoding="utf-8")) if os.path.exists(state_path) else {}
     print(f"pending {len(todo)} oids", flush=True)
     for n, oid in enumerate(todo, 1):
