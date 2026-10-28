@@ -1,0 +1,85 @@
+# Round2 總審閱（408 機會）
+
+## 判定分布
+
+- D: 143
+- B:mountain_view: 51
+- B:sunset: 39
+- -: 23
+- B:overlook: 21
+- B:sunrise: 19
+- B:blue_hour_city: 19
+- B:city_night: 13
+- B:seasonal_plant: 12
+- B:night_sky: 10
+- B:geological_landform: 10
+- B:reflection: 9
+- KEEP: 9
+- B:cloud_sea: 7
+- B:mountain_view+reflection: 5
+- B:seasonal_plant+mountain_view: 4
+- B:sunrise+cloud_sea: 2
+- B:golden_hour: 2
+- B:seasonal_plant+overlook: 1
+- B:sunset+seasonal_plant: 1
+- B:overcast_soft: 1
+- B:seasonal_plant+golden_hour: 1
+- B:mountain_view+cloud_sea: 1
+- B:reflection+mountain_view: 1
+- B:overlook+sunset: 1
+- B:overlook+reflection(次要): 1
+- B:mountain_view+reflection(靜風): 1
+- B:mountain_view+reflection(次要): 1
+
+## 需 owner 裁定/複審（D high 或語意特殊）
+
+- jp-001-P01 美瑛青池藍色水面與落葉松景觀 → D（人文/模板外語意，請確認）
+- jp-014-P01 等等力溪谷・Golf Bridge 紅橋與綠蔭溪 → D（人文/模板外語意，請確認）
+- jp-016-P01 山下公園・橫濱港日間海灣景觀 → D（人文/模板外語意，請確認）
+- jp-025-P01 萩城下町・菊屋橫町白壁與江戶街景 → D（人文/模板外語意，請確認）
+- jp-028-P01 高野山壇上伽藍・根本大塔與伽藍建築 → D（人文/模板外語意，請確認）
+- jp-032-P01 福岡城跡・多聞櫓／下之橋御門與石垣 → D（人文/模板外語意，請確認）
+- jp-036-P02 高千穗峽・三橋重疊與柱狀節理景觀 → D（人文/模板外語意，請確認）
+- tw-007-P03 碧亭俯瞰碧潭河谷 → D（人文/模板外語意，請確認）
+- tw-009-P01 望幽谷V字草坡與基隆嶼山海 → D（人文/模板外語意，請確認）
+- tw-018-P01 向山270度日月潭湖景全景 → D（人文/模板外語意，請確認）
+- tw-058-P02 跨海大橋藍調 → D（人文/模板外語意，請確認）
+- tw-069-P01 東清灣海灣晨曦／拼板舟文化景觀 → D（人文/模板外語意，請確認）
+- tw-078-P01 建功嶼退潮石板道景觀 → D（人文/模板外語意，請確認）
+- tw-082-P04 鯉魚潭春季螢火蟲生態攝影 → D（人文/模板外語意，請確認）
+- tw-082-P05 鯉魚潭鳥類、水鳥與自然生態紀錄 → D（人文/模板外語意，請確認）
+- tw-082-P07 鯉魚潭環潭步道與森林步道環境攝影 → D（人文/模板外語意，請確認）
+- tw-082-P08 鯉魚潭遊湖與水上活動紀實 → D（人文/模板外語意，請確認）
+- tw-082-P09 鯉魚潭湖岸薄霧、低雲與山影氛圍 → D（人文/模板外語意，請確認）
+- tw-082-P10 鯉魚潭人工濕地與水岸近景細節 → D（人文/模板外語意，請確認）
+- tw-083-P05 雲山水石磚步道與湖畔園景 → D（人文/模板外語意，請確認）
+- tw-084-P01 大農大富森林廊道與林木層次 → D（人文/模板外語意，請確認）
+- tw-084-P02 南環台灣欒樹黃花與粉紅果實 → D（人文/模板外語意，請確認）
+- tw-084-P03 南環秋冬彩葉森林道 → D（人文/模板外語意，請確認）
+- tw-084-P07 鳥類與森林野生動物生態紀錄 → D（人文/模板外語意，請確認）
+- tw-084-P08 草原、裝置藝術與環境人文構圖 → D（人文/模板外語意，請確認）
+- tw-084-P09 花東縱谷山景、田園與開闊景觀 → D（人文/模板外語意，請確認）
+- us-020-P02 Lady Bird Johnson Grove・ → D（人文/模板外語意，請確認）
+- us-026-P01 Pike Place Market・Public → D（人文/模板外語意，請確認）
+- us-037-P01 Terrapin Point・Horseshoe → D（人文/模板外語意，請確認）
+- us-041-P01 Mountain Vista・Denali／Al → D（人文/模板外語意，請確認）
+- us-049-P01 Dock Point・Port Valdez港灣 → D（人文/模板外語意，請確認）
+- us-053-P01 Creek Street・木棧道／高腳屋歷史水岸 → D（人文/模板外語意，請確認）
+- us-055-P01 Kennecott Mines・紅色礦場建築＋W → D（人文/模板外語意，請確認）
+- us-057-P01 Arctic Circle Wayside・北極 → D（人文/模板外語意，請確認）
+- us-061-P01 Fort Abercrombie・海蝕峭壁／雲杉 → D（人文/模板外語意，請確認）
+- us-061-P02 Fort Abercrombie・WWII碉堡／ → D（人文/模板外語意，請確認）
+- us-066-P01 Serpentine Hot Springs・花 → D（人文/模板外語意，請確認）
+- us-067-P01 Yukon Crossing・育空河＋Dalto → D（人文/模板外語意，請確認）
+- us-068-P01 Noatak River・荒野河谷＋Brooks → D（人文/模板外語意，請確認）
+- us-070-P01 Independence Mine・歷史礦區＋T → D（人文/模板外語意，請確認）
+- us-073-P01 Alki Beach・Puget Sound＋O → D（人文/模板外語意，請確認）
+- us-073-P02 Alki Beach・Puget Sound 海 → D（人文/模板外語意，請確認）
+- us-077-P01 Dr. Jose Rizal Park・Sout → D（人文/模板外語意，請確認）
+- us-077-P02 Dr. Jose Rizal Park・Down → D（人文/模板外語意，請確認）
+- us-080-P01 Deception Pass・海峽＋橋梁＋峭壁全 → D（人文/模板外語意，請確認）
+- us-080-P02 Deception Pass・海岸日落＋島嶼剪影 → D（人文/模板外語意，請確認）
+- us-085-P01 Ruby Beach・Sea Stacks＋漂流 → D（人文/模板外語意，請確認）
+- us-088-P01 Hoh Rain Forest・苔蘚雨林＋薄霧／ → D（人文/模板外語意，請確認）
+- us-095-P01 Cape Disappointment・燈塔＋太 → D（人文/模板外語意，請確認）
+- us-096-P01 Dry Falls・冰河洪水巨型乾瀑／Chann → D（人文/模板外語意，請確認）
