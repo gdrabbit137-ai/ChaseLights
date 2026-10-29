@@ -111,31 +111,231 @@
   "condition_contract": {
     "contract_id": "CC-tw-014-P02-v1",
     "status": "draft",
+    "genre_template": "cloud_sea",
+    "template_version": "cloud_sea-v0.1",
+    "recommendation_policy_version": null,
     "conditions": [
       {
         "id": "C-tw-014-P02-01",
         "role": "REQUIRED",
-        "domain": "ASTRONOMY",
+        "domain": "WEATHER",
         "evaluation_mode": "GUIDANCE",
         "capability": "CONDITIONS",
-        "metric": "legacy_cloud_sea",
-        "operator": "none",
-        "threshold": null,
+        "metric": "relative_humidity_925hpa",
+        "operator": "gte",
+        "threshold": 85,
+        "unit": "%",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-014-P02-claim-01"
+        ],
+        "model_binding": "dataset:cwa_wrf3|field:relative_humidity_925hpa_percent|role:SHORT_HQ|level:925hpa",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "低層（925 hPa）相對濕度達飽和邊緣，盆地內才有雲在生成。85% 留緩衝：85–95% 區間已可堆積淺積雲。",
+          "en": "Near-saturation relative humidity at 925 hPa means cloud is forming inside the basin; 85% leaves buffer for shallow cumulus buildup.",
+          "ja": "925 hPaの相対湿度が飽和近くになると盆地内で雲が生成され始める。85%は浅い積雲の蓄積を見込んだ緩衝値。"
+        }
+      },
+      {
+        "id": "C-tw-014-P02-02",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "relative_humidity_850hpa",
+        "operator": "gte",
+        "threshold": 55,
+        "unit": "%",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-014-P02-claim-01"
+        ],
+        "model_binding": "dataset:cwa_wrf3|field:relative_humidity_850hpa_percent|role:SHORT_HQ|level:850hpa",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "濕層厚度的關鍵：925 濕而 850 乾只有淺霧或零星低雲；兩層連續飽和才可能形成有厚度的雲海。",
+          "en": "Wet-layer thickness hinge: moist at 925 but dry at 850 gives only shallow fog or scattered low cloud; continuous saturation across both levels is what makes a deep cloud sea.",
+          "ja": "湿層の厚さの要：925が湿っても850が乾いていれば浅い霧か散在する低雲に留まる。両層が連続して飽和して初めて厚みのある雲海になる。"
+        }
+      },
+      {
+        "id": "C-tw-014-P02-03",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "lcl_height_m_agl",
+        "operator": "lt",
+        "threshold": 597,
+        "unit": "m",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-014-P02-claim-01"
+        ],
+        "model_binding": "dataset:cwa_wrf3|field:lcl_height_m_agl|role:SHORT_HQ",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "computed",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "雲底須低於視線（觀點 1,090 m − 200 m 餘量），雲海才出現在眼前而非腳邊。LCL 為雲底代理。",
+          "en": "The cloud base must sit below the sightline (viewpoint 1,090 m minus a 200 m margin) for the sea of clouds to appear in front of the viewer, not at their feet. LCL proxies the cloud base.",
+          "ja": "雲底が視線より低いこと（視点1,090mから200mの余裕を引く）が、雲海が足元でなく眼前に現れる条件。LCLは雲底の代理指標。"
+        }
+      },
+      {
+        "id": "C-tw-014-P02-04",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "cloud_cover_low",
+        "operator": "gte",
+        "threshold": 60,
+        "unit": "%",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-014-P02-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:cloud_cover_low_percent|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "零星雲塊不成海；取「觀點下方盆地格點帶」的低雲覆蓋而非觀點格點。",
+          "en": "Scattered patches do not make a sea; low-cloud coverage is sampled over the basin grid cells below the viewpoint, not at the viewpoint cell.",
+          "ja": "点在する雲塊は海にならない。低雲の被覆率は視点のセルではなく、視点の下方にある盆地のグリッドで評価する。"
+        },
+        "binding": {
+          "strategy": "nearest_gridpoint",
+          "gridpoint_selector": "basin_cells_below_viewpoint"
+        }
+      },
+      {
+        "id": "C-tw-014-P02-05",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "aod_550nm",
+        "operator": "lte",
+        "threshold": 0.4,
         "unit": null,
         "unknown_policy": "propagate_unknown",
         "claim_refs": [
           "tw-014-P02-claim-01"
         ],
-        "model_binding": null,
-        "notes_i18n": {
-          "zh-TW": "由 V1 主題對應的暫定條件；實際閾值待研究核實。",
-          "en": "Provisional condition mapped from the V1 theme; thresholds pending research.",
-          "ja": "V1テーマから対応した暫定条件。閾値は研究待ち。"
+        "model_binding": "dataset:cams_global|field:aerosol_optical_depth_550nm|role:AEROSOL",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "越過雲頂看盆地輪廓的清晰度由整層氣膠（AOD）決定；不可用地面能見度——雲海形成時地表能見度自然轉差，會誤判。",
+          "en": "Clarity looking across the deck top is governed by the column aerosol optical depth; ground visibility must not be used, because the very formation of the cloud sea degrades it and would false-trigger.",
+          "ja": "雲海の上越しに盆地の輪郭を見通す明瞭さは気柱エアロゾル光学的厚み（AOD）で決まる。地上視程は雲海の形成自体が下げるため誤判定の元で使えない。"
+        }
+      },
+      {
+        "id": "C-tw-014-P02-06",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "visibility",
+        "operator": "gte",
+        "threshold": 1,
+        "unit": "km",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-014-P02-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:visibility_km|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "只排除「觀點本身在濃霧中」。門檻刻意低（1 km 而非 10 km）：雲海越好，地面能見度越差，10 km 會反過來懲罰成功條件。",
+          "en": "Only excludes the viewer standing inside fog. The threshold is deliberately low (1 km, not 10 km): the better the cloud sea, the worse the ground visibility, so 10 km would punish the very success case.",
+          "ja": "撮影者が濃霧の中に立っていないことだけを判定。閾値は意図的に低く（10kmでなく1km）：雲海が良くなるほど地上視程は悪化するため、10kmでは成功例を罰してしまう。"
         },
-        "validation_status": "provisional"
+        "binding": {
+          "strategy": "nearest_gridpoint",
+          "gridpoint_selector": "viewpoint_cell"
+        }
+      },
+      {
+        "id": "C-tw-014-P02-07",
+        "role": "QUALITY",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "temperature_delta_850_925_c",
+        "operator": "gte",
+        "threshold": 2.0,
+        "unit": "°C",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-014-P02-claim-01"
+        ],
+        "model_binding": "dataset:cwa_wrf3|field:temperature_850hpa_c+temperature_925hpa_c|role:SHORT_HQ|level:850hpa,925hpa",
+        "validation_status": "provisional",
+        "condition_tier": "MODIFIER",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "逆溫封蓋：850 hPa 比下層更暖＝蓋子存在，雲海存續的直接因果，強加分。資料欄位由管線以 T850−T925 推導；缺欄位時誠實 not_evaluatable。",
+          "en": "Inversion cap: warmer air at 850 hPa than below means a capping layer exists - the direct cause of a persistent cloud sea, hence a strong bonus. The pipeline derives the metric as T850 minus T925; missing columns stay honestly not_evaluatable.",
+          "ja": "逆転層の蓋：850 hPaが下層より暖かい＝蓋が存在し、雲海持続の直接的な因果として大きく加点。指標はT850−T925として導出し、列が欠ければ正直にnot_evaluatable。"
+        }
+      },
+      {
+        "id": "C-tw-014-P02-08",
+        "role": "QUALITY",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "wind_speed_850hpa",
+        "operator": "gte",
+        "threshold": 12.0,
+        "unit": "m/s",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-014-P02-claim-01"
+        ],
+        "model_binding": "dataset:cwa_wrf3|field:wind_speed_850hpa_m_s|role:SHORT_HQ|level:dynamic:cloud_top_estimate_plus_200m",
+        "validation_status": "provisional",
+        "condition_tier": "MODIFIER",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "邊界層風是雲海的侵蝕媒介，只在逆溫訊號弱時參與扣分（修正項，不單獨否決）。選層以高度綁定：目標＝雲頂估計（600–1,090 m）＋200 m，於 925/850 中取 geopotential 高度最接近者，輸出註明採用層；固定氣壓層高度浮動 ±150 m、兩層間空檔約 600 m，選層誤差 ±300 m 以內。地表 10 m 風不使用（三腳架等作業面屬攝影師判斷）。",
+          "en": "Boundary-layer wind erodes the deck, but only deducts when the inversion signal is weak (a modifier, never a lone veto). Level selection is height-bound: target = deck-top estimate (600-1,090 m) + 200 m, picking whichever of 925/850 hPa has the nearest geopotential height, with the selected level recorded in the output. Fixed pressure levels wobble ~150 m and the inter-level gap is ~600 m, so selection error stays within ~300 m. Surface 10 m wind is excluded: tripod handling is the photographer own business.",
+          "ja": "境界層の風は雲海を侵食するが、逆転層の信号が弱いときだけ減点に参加する（修正項であり単独では否決しない）。選層は高度束縛：目標＝雲頂推定（600-1,090m）+200m とし、925/850 hPa のうち geopotential 高度が最も近い層を採用し、出力に選択層を記録する。気圧面高度は約±150m変動し層間の空隙は約600mあるため、選層誤差は±300m以内。地上10m風は使用しない（三脚対応は撮影者の裁量）。"
+        },
+        "binding": {
+          "strategy": "height_bound",
+          "candidate_levels_hpa": [
+            925,
+            850
+          ],
+          "target_height_expression": "deck_top_estimate + 200m"
+        },
+        "modifier_activation": {
+          "when_condition": "C-tw-014-P02-07",
+          "mode": "when_not_met"
+        }
       }
-    ],
-    "recommendation_policy_version": null
+    ]
   },
   "evidence_claims": [
     {
