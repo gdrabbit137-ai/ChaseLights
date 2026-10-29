@@ -111,14 +111,67 @@
   "condition_contract": {
     "contract_id": "CC-tw-010-P02-v1",
     "status": "draft",
+    "genre_template": "geological_landform",
+    "template_version": "geological_landform-v0.1",
+    "recommendation_policy_version": null,
     "conditions": [
       {
         "id": "C-tw-010-P02-01",
         "role": "REQUIRED",
+        "domain": "LANDFORM",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "landform_present",
+        "operator": "none",
+        "threshold": null,
+        "unit": "level",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-010-P02-claim-01"
+        ],
+        "model_binding": null,
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "evidence_review",
+        "calibration_status": "approved",
+        "rationale_i18n": {
+          "zh-TW": "靜態主體存在性由機會定義聲明（owner 於景點建立時確認），非即時評估。propagate_unknown 保底。",
+          "en": "Presence of the static subject is declared by the opportunity definition (confirmed by the owner at spot creation), not evaluated live. propagate_unknown as fallback.",
+          "ja": "静的主体的存在は機会定義側で宣言（オーナーが登録時に確認）。ライブ評価ではない。propagate_unknown でフォールバック。"
+        }
+      },
+      {
+        "id": "C-tw-010-P02-02",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "precipitation",
+        "operator": "lte",
+        "threshold": 0.3,
+        "unit": "mm/h",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-010-P02-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:precipitation_mm_h|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "SHOOT",
+        "threshold_source": "evidence_review",
+        "calibration_status": "approved",
+        "rationale_i18n": {
+          "zh-TW": "拍攝時降雨 <0.3 mm/h：既審通用門檻。岩質地景拍攝忌雨（滑、濕反射、水霧模糊紋理）。",
+          "en": "Precipitation < 0.3 mm/h at shoot time: reviewed generic threshold. Rain hurts rock-landform shooting (slippery, wet glare, mist blurring texture).",
+          "ja": "撮影時の降水<0.3mm/h。既承認閾値。雨は岩質撮影に悪影響（滑り・濡れ反射・水煙で質感不明瞭）。"
+        }
+      },
+      {
+        "id": "C-tw-010-P02-03",
+        "role": "OPTIONAL",
         "domain": "ASTRONOMY",
         "evaluation_mode": "GUIDANCE",
         "capability": "CONDITIONS",
-        "metric": "legacy_sky_glow",
+        "metric": "golden_hour_window",
         "operator": "none",
         "threshold": null,
         "unit": null,
@@ -127,15 +180,42 @@
           "tw-010-P02-claim-01"
         ],
         "model_binding": null,
-        "notes_i18n": {
-          "zh-TW": "由 V1 主題對應的暫定條件；實際閾值待研究核實。",
-          "en": "Provisional condition mapped from the V1 theme; thresholds pending research.",
-          "ja": "V1テーマから対応した暫定条件。閾値は研究待ち。"
-        },
-        "validation_status": "provisional"
+        "validation_status": "provisional",
+        "condition_tier": "BONUS",
+        "threshold_source": "computed",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "低角度直射光強化岩層紋理與色彩（ sedimentary layers、拱門逆光）——加分項，非必要。",
+          "en": "Low-angle direct light strengthens rock texture and color (sedimentary layers, backlit arches) — bonus, not required.",
+          "ja": "低角度直射光は岩の質感と色を強調（堆積層、逆光のアーチ）——加点項目、必須ではない。"
+        }
+      },
+      {
+        "id": "C-tw-010-P02-04",
+        "role": "OPTIONAL",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "aod_550nm",
+        "operator": "lte",
+        "threshold": 0.4,
+        "unit": "AOD",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-010-P02-claim-01"
+        ],
+        "model_binding": "dataset:cams_global|field:aod_550nm|role:AEROSOL",
+        "validation_status": "provisional",
+        "condition_tier": "BONUS",
+        "threshold_source": "evidence_review",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "遠眺型地景（峽谷對岸、山層間）需要高透明度；AOD ≤0.4 為加分參考（沿用已審門檻）。近景地景不受此影響。",
+          "en": "Distant landform views (across canyon, between ridges) need high transparency; AOD <= 0.4 is a bonus reference (carried-over threshold). Close-up subjects unaffected.",
+          "ja": "遠景型地景（峡谷対岸、尾根越し）は透明度が要。AOD<=0.4を参考加点。近景地形は影響なし。"
+        }
       }
-    ],
-    "recommendation_policy_version": null
+    ]
   },
   "evidence_claims": [
     {
