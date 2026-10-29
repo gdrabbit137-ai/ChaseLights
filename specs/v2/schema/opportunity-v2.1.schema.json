@@ -815,9 +815,11 @@
         "condition_tier": {
           "enum": [
             "MAIN",
-            "MODIFIER"
+            "MODIFIER",
+            "SHOOT",
+            "BONUS"
           ],
-          "description": "Layered evaluation design (GENRE_CONDITION_TEMPLATES.md 1.1): MAIN conditions answer whether the phenomenon can form/persist and each carries one physical job; MODIFIER conditions only add or subtract when their activation condition holds (e.g. boundary-layer wind only when the inversion signal is weak) and never veto alone."
+          "description": "Layered evaluation design (GENRE_CONDITION_TEMPLATES.md 1.1): MAIN conditions answer whether the phenomenon can form/persist and each carries one physical job; MODIFIER conditions only add or subtract when their activation condition holds (e.g. boundary-layer wind only when the inversion signal is weak) and never veto alone. Genre condition templates (GENRE_CONDITION_TEMPLATES.md) additionally use SHOOT (shoot-window gate) and BONUS (advisory quality lift, never gates FAVORABLE). W1 crosswalk acceptance extended 2026-10-26, owner-approved."
         },
         "threshold_source": {
           "enum": [
@@ -832,9 +834,10 @@
           "enum": [
             "provisional",
             "calibrated",
+            "approved",
             null
           ],
-          "description": "provisional thresholds never yield FAVORABLE evaluations (honest contract); calibrated requires accumulated real-shoot records."
+          "description": "provisional thresholds never yield FAVORABLE evaluations (honest contract); calibrated requires accumulated real-shoot records. 'approved' marks template thresholds ratified by the owner during genre-template review (advisory tiers only; REQUIRED-tier thresholds must still be calibrated before live FAVORABLE)."
         },
         "rationale_i18n": {
           "$ref": "#/$defs/i18n",
@@ -895,6 +898,21 @@
             }
           },
           "description": "MODIFIER-tier only: the modifier engages only in the stated relation to the referenced MAIN condition, and never vetoes alone."
+        },
+        "genre_template": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Genre template id this condition was expanded from (apply_template.py provenance; advisory metadata, not an evaluation input)."
+        },
+        "template_version": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Version of the source genre template at expansion time."
+        },
+        "genre_scope": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Genre-scope qualifier for legacy/ad-hoc conditions (e.g. primary vs secondary genre)."
         }
       },
       "additionalProperties": false,
