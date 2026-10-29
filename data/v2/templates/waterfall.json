@@ -1,98 +1,98 @@
 {
- "template_id": "waterfall",
- "version": "0.1",
- "status": "draft",
- "title_i18n": {
-  "zh-TW": "瀑布（水量型）",
-  "en": "Waterfall (flow-based)",
-  "ja": "滝（水量型）"
- },
- "definition_i18n": {
-  "zh-TW": "瀑布主題攝影（水量、水勢為主判據）。主判據是近期累積降雨推導的水量狀態（river_flow_state：由管線以過去 72h 累積雨量映射為 low/mid/high 三級，provisional 映射，待實測校準）。拍攝本身只要求不被大雨影響；光線不作硬性要求（瀑布在陰天柔光下反而常見優異，故不加雲量條件）。",
-  "en": "Waterfall photography with flow as the main criterion. Main metric is river_flow_state (pipeline-derived low/mid/high from the trailing 72h accumulated precipitation; provisional mapping pending calibration). Shooting itself only needs to be rain-free; light is not gated (waterfalls often shoot best in soft overcast light, so no cloud conditions are imposed).",
-  "ja": "滝撮影。主判断は水量（river_flow_state：直前72hの累積雨量から low/mid/high を暫定マッピング、実測で校正予定）。撮影は雨がなければ可。光線は条件にしない（滝は曇天の柔光でも好適）。"
- },
- "instantiated_by": [
-  "us-079-P01"
- ],
- "params": [],
- "conditions": [
-  {
-   "template_ref": "T1",
-   "metric": "river_flow_state",
-   "role": "REQUIRED",
-   "domain": "WEATHER",
-   "evaluation_mode": "GUIDANCE",
-   "capability": "CONDITIONS",
-   "condition_tier": "MAIN",
-   "operator": "none",
-   "unit": "level",
-   "unknown_policy": "propagate_unknown",
-   "threshold_source": "formula_derived",
-   "calibration_status": "provisional",
-   "rationale_i18n": {
-    "zh-TW": "水量狀態＝過去 72h 累積雨量映射（provisional：<5mm low、5–40mm mid、>40mm high）。mid/high 為水量可拍窗；過多（>40mm）僅作注意提示而非排除。",
-    "en": "Flow state = trailing 72h accumulated precipitation mapped (provisional: <5mm low, 5-40mm mid, >40mm high). mid/high are the shootable window; very high is a caution note, not an exclusion.",
-    "ja": "水量状態＝直前72h累積雨量の暫定マッピング（<5mm低、5–40mm中、>40mm高）。中/高が撮影可窓。高は注意表示のみで排除しない。"
-   },
-   "binding": {
-    "dataset": "gfs_0p25",
-    "field": "precipitation_mm_72h",
-    "role": "MID"
-   },
-   "threshold": null
+  "template_id": "waterfall",
+  "version": "0.1",
+  "status": "draft",
+  "title_i18n": {
+    "zh-TW": "瀑布（水量型）",
+    "en": "Waterfall (flow-based)",
+    "ja": "滝（水量型）"
   },
-  {
-   "template_ref": "T2",
-   "metric": "precipitation",
-   "role": "REQUIRED",
-   "domain": "WEATHER",
-   "evaluation_mode": "GUIDANCE",
-   "capability": "CONDITIONS",
-   "condition_tier": "SHOOT",
-   "operator": "lte",
-   "unit": "mm/h",
-   "unknown_policy": "propagate_unknown",
-   "threshold_source": "evidence_review",
-   "calibration_status": "approved",
-   "rationale_i18n": {
-    "zh-TW": "拍攝時降雨 <0.3 mm/h：沿用已審門檻——拍攝本身不受雨影響；瀑布有雨易滑，僅作安全提示。",
-    "en": "Precipitation < 0.3 mm/h at shoot time: reviewed generic threshold carried over; heavy rain makes trails slippery, shown as a safety note.",
-    "ja": "撮影時の降水<0.3mm/h。既承認閾値。大雨時は滑りやすい旨の安全表示。"
-   },
-   "binding": {
-    "dataset": "gfs_0p25",
-    "field": "precipitation_mm_h",
-    "role": "MID"
-   },
-   "threshold": 0.3
+  "definition_i18n": {
+    "zh-TW": "瀑布主題攝影（水量、水勢為主判據）。主判據是近期累積降雨推導的水量狀態（river_flow_state：由管線以過去 72h 累積雨量映射為 low/mid/high 三級，provisional 映射，待實測校準）。拍攝本身只要求不被大雨影響；光線不作硬性要求（瀑布在陰天柔光下反而常見優異，故不加雲量條件）。",
+    "en": "Waterfall photography with flow as the main criterion. Main metric is river_flow_state (pipeline-derived low/mid/high from the trailing 72h accumulated precipitation; provisional mapping pending calibration). Shooting itself only needs to be rain-free; light is not gated (waterfalls often shoot best in soft overcast light, so no cloud conditions are imposed).",
+    "ja": "滝撮影。主判断は水量（river_flow_state：直前72hの累積雨量から low/mid/high を暫定マッピング、実測で校正予定）。撮影は雨がなければ可。光線は条件にしない（滝は曇天の柔光でも好適）。"
   },
-  {
-   "template_ref": "T3",
-   "metric": "golden_hour_window",
-   "role": "OPTIONAL",
-   "domain": "ASTRONOMY",
-   "evaluation_mode": "GUIDANCE",
-   "capability": "CONDITIONS",
-   "condition_tier": "BONUS",
-   "operator": "none",
-   "unit": null,
-   "unknown_policy": "propagate_unknown",
-   "threshold_source": "computed",
-   "calibration_status": "provisional",
-   "rationale_i18n": {
-    "zh-TW": "金色時刻窗為加分項：低角度直射光在瀑布水霧上會形成彩虹/光斑，非必要條件。",
-    "en": "Golden-hour window is a bonus: low-angle direct light can make rainbows and glints on the spray, but is not required.",
-    "ja": "ゴールデンアワー帯は加点項目：低角度直射光は水煙に虹や光斑を作るが必須ではない。"
-   },
-   "binding": null,
-   "threshold": null
+  "instantiated_by": [
+    "us-079-P01"
+  ],
+  "params": [],
+  "conditions": [
+    {
+      "template_ref": "T1",
+      "metric": "river_flow_state",
+      "role": "REQUIRED",
+      "domain": "WEATHER",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "none",
+      "unit": "level",
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "formula_derived",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "水量狀態＝過去 72h 累積雨量映射（provisional：<5mm low、5–40mm mid、>40mm high）。mid/high 為水量可拍窗；過多（>40mm）僅作注意提示而非排除。",
+        "en": "Flow state = trailing 72h accumulated precipitation mapped (provisional: <5mm low, 5-40mm mid, >40mm high). mid/high are the shootable window; very high is a caution note, not an exclusion.",
+        "ja": "水量状態＝直前72h累積雨量の暫定マッピング（<5mm低、5–40mm中、>40mm高）。中/高が撮影可窓。高は注意表示のみで排除しない。"
+      },
+      "binding": {
+        "dataset": "gfs_0p25",
+        "field": "precipitation_mm_72h",
+        "role": "MID"
+      },
+      "threshold": null
+    },
+    {
+      "template_ref": "T2",
+      "metric": "precipitation",
+      "role": "REQUIRED",
+      "domain": "WEATHER",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "SHOOT",
+      "operator": "lte",
+      "unit": "mm/h",
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "evidence_review",
+      "calibration_status": "approved",
+      "rationale_i18n": {
+        "zh-TW": "拍攝時降雨 <0.3 mm/h：沿用已審門檻——拍攝本身不受雨影響；瀑布有雨易滑，僅作安全提示。",
+        "en": "Precipitation < 0.3 mm/h at shoot time: reviewed generic threshold carried over; heavy rain makes trails slippery, shown as a safety note.",
+        "ja": "撮影時の降水<0.3mm/h。既承認閾値。大雨時は滑りやすい旨の安全表示。"
+      },
+      "binding": {
+        "dataset": "gfs_0p25",
+        "field": "precipitation_mm_h",
+        "role": "MID"
+      },
+      "threshold": 0.3
+    },
+    {
+      "template_ref": "T3",
+      "metric": "golden_hour_window",
+      "role": "QUALITY",
+      "domain": "ASTRONOMY",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "BONUS",
+      "operator": "none",
+      "unit": null,
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "computed",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "金色時刻窗為加分項：低角度直射光在瀑布水霧上會形成彩虹/光斑，非必要條件。",
+        "en": "Golden-hour window is a bonus: low-angle direct light can make rainbows and glints on the spray, but is not required.",
+        "ja": "ゴールデンアワー帯は加点項目：低角度直射光は水煙に虹や光斑を作るが必須ではない。"
+      },
+      "binding": null,
+      "threshold": null
+    }
+  ],
+  "owner_review": null,
+  "review_note_i18n": {
+    "zh-TW": "草擬自 6 個瀑布景點樣本＋對照河川水位判據經驗：主判據 river_flow_state 由管線以過去 72h 累積雨量映射為 low/mid/high（provisional，門檻 <5/5–40/>40 mm 為暫定，待實測校準）。拍攝當下另要求 precip<0.2 mm/h，與「水量」為兩個獨立條件。",
+    "en": "Drafted from 6 waterfall samples plus river-stage heuristics: the main criterion river_flow_state is derived by the pipeline from trailing-72h accumulated rainfall into low/mid/high (provisional cutoffs <5 / 5-40 / >40 mm, to be calibrated). Shoot-time rain is a separate condition (precip < 0.2 mm/h).",
+    "ja": "6つの滝サンプルと河川水位の経験則から草稿。主判断 river_flow_state は過去72時間累積雨量から low/mid/high にマッピング（暫定：<5／5-40／>40 mm、要較正）。撮影時の降水は別条件（<0.2 mm/h）。"
   }
- ],
- "owner_review": null,
- "review_note_i18n": {
-  "zh-TW": "草擬自 6 個瀑布景點樣本＋對照河川水位判據經驗：主判據 river_flow_state 由管線以過去 72h 累積雨量映射為 low/mid/high（provisional，門檻 <5/5–40/>40 mm 為暫定，待實測校準）。拍攝當下另要求 precip<0.2 mm/h，與「水量」為兩個獨立條件。",
-  "en": "Drafted from 6 waterfall samples plus river-stage heuristics: the main criterion river_flow_state is derived by the pipeline from trailing-72h accumulated rainfall into low/mid/high (provisional cutoffs <5 / 5-40 / >40 mm, to be calibrated). Shoot-time rain is a separate condition (precip < 0.2 mm/h).",
-  "ja": "6つの滝サンプルと河川水位の経験則から草稿。主判断 river_flow_state は過去72時間累積雨量から low/mid/high にマッピング（暫定：<5／5-40／>40 mm、要較正）。撮影時の降水は別条件（<0.2 mm/h）。"
- }
 }
