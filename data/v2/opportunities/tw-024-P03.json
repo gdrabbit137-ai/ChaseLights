@@ -111,6 +111,9 @@
   "condition_contract": {
     "contract_id": "CC-tw-024-P03-v1",
     "status": "draft",
+    "genre_template": "sunrise",
+    "template_version": "sunrise-v0.1",
+    "recommendation_policy_version": null,
     "conditions": [
       {
         "id": "C-tw-024-P03-01",
@@ -118,7 +121,7 @@
         "domain": "ASTRONOMY",
         "evaluation_mode": "GUIDANCE",
         "capability": "CONDITIONS",
-        "metric": "legacy_mountain_view",
+        "metric": "sunrise_time_window",
         "operator": "none",
         "threshold": null,
         "unit": null,
@@ -127,15 +130,99 @@
           "tw-024-P03-claim-01"
         ],
         "model_binding": null,
-        "notes_i18n": {
-          "zh-TW": "由 V1 主題對應的暫定條件；實際閾值待研究核實。",
-          "en": "Provisional condition mapped from the V1 theme; thresholds pending research.",
-          "ja": "V1テーマから対応した暫定条件。閾値は研究待ち。"
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "computed",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "天文窗＝日出時刻 ±40 分（座標＋日期計算）。海上景點海平線無遮擋時與實際日出一致；山嶺景點受地形遮擋，實際見日較晚（將來以地形遮擋角參數修正）。",
+          "en": "Astronomy window = sunrise time +/- 40 minutes (from coordinates and date). For sea-horizon spots this matches the visible sunrise; mountain spots see the sun later due to terrain occlusion (a terrain-occlusion-angle parameter may refine this later).",
+          "ja": "天文ウィンドウ＝日の出時刻±40分。海上spotは海平線が開けており一致。山岳spotは地形遮蔽で実際の見えは遅れる（将来は地形遮蔽角パラメータで補正）。"
+        }
+      },
+      {
+        "id": "C-tw-024-P03-02",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "cloud_cover_low",
+        "operator": "lte",
+        "threshold": 55,
+        "unit": "%",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-024-P03-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:cloud_cover_low_percent|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "日出方位扇形的低雲直接擋太陽；55% 允許塊狀雲——塊狀雲反而是上色主角。海上景點扇形取海平線方位，山嶺景點取山脊方位；雲海等疊加判據不在此模板內（activate_when/merge 各自掛）。",
+          "en": "Low cloud in the sunrise-azimuth sector blocks the sun directly; 55% still allows broken cloud, which is what actually paints the colour. Coastal spots pick the sea-horizon sector, mountain spots the ridge sector; cloud-sea and other overlays are not part of this template (attached per spot via activate_when/merge).",
+          "ja": "日の出方位の扇形領域の低雲は太陽を直接遮る。55%は塊状雲を許容し、色を生む主役。海上spotは海平線方位、山岳spotは稜線方位。雲海等の重ね掛けはこのテンプレート外（activate_when/mergeで追加）。"
         },
-        "validation_status": "provisional"
+        "binding": {
+          "strategy": "nearest_gridpoint",
+          "gridpoint_selector": "sun_azimuth_sector"
+        }
+      },
+      {
+        "id": "C-tw-024-P03-03",
+        "role": "QUALITY",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "cloud_cover_mid_and_high",
+        "operator": "between",
+        "threshold": [
+          20,
+          70
+        ],
+        "unit": "%",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-024-P03-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:cloud_cover_mid_percent+cloud_cover_high_percent|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MODIFIER",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "中高雲是日出彩色的染料：全晴只有金黃、全陰無色彩；20–70% 區間加分。指標由管線以 mid+high 求和推導。",
+          "en": "Mid and high cloud are the dyes of sunrise colour: clear skies give plain gold and overcast gives none; the 20-70% band earns the bonus. The pipeline derives the metric as mid plus high cloud.",
+          "ja": "中層・上層の雲は日の出の色彩の染料：快晴はただの金色、完全な曇天は色彩なし。20-70%の帯で加点。指標はmid+highの和として導出。"
+        }
+      },
+      {
+        "id": "C-tw-024-P03-04",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "precipitation",
+        "operator": "lt",
+        "threshold": 0.3,
+        "unit": "mm/h",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-024-P03-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "雨量極低即可；海景微雨不影響拍攝。",
+          "en": "Precipitation just needs to stay very low; light rain does not affect a seascape shoot.",
+          "ja": "降水量は十分に低ければよい。海景では小雨でも撮影に支障はない。"
+        }
       }
-    ],
-    "recommendation_policy_version": null
+    ]
   },
   "evidence_claims": [
     {

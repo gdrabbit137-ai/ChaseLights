@@ -1,0 +1,183 @@
+# mountain_view legacy 重新歸類 — 未決清單（勾選後整檔傳回）
+
+勾選方式：把行首 `- [ ]` 改成 `- [x]` 並在行尾加上 verdict。verdict 代碼：
+- A = 確認 mountain_view（可掛 mountain_view 模板）
+- B = 改掛其他模板（行尾註明，如 B:overlook / B:city_night+blue_hour_city / B:seasonal_plant）
+- D = 非山景題材、不掛任何模板（OUT）
+- KEEP = 維持 legacy_mountain_view 不重映射
+
+## 第一部分：未決 86 筆（vantage 43 / unlikely 43）
+
+- [ ] jp-001-P01 美瑛青池藍色水面與落葉松景觀（jp-001）| screen=unlikely | 建議: OUT（非山景）
+- [ ] jp-002-P01 姿見池周邊旭岳火山高山景觀（jp-002）| screen=vantage | 建議: mountain_view
+- [ ] jp-005-P01 小樽運河石造倉庫與運河景觀（jp-005）| screen=unlikely | 建議: OUT（非山景）
+- [ ] jp-006-P01 摩周湖第一展望台・摩周藍湖景（jp-006）| screen=vantage | 建議: mountain_view
+- [ ] jp-007-P01 休屋湖畔・十和田湖湖景（jp-007）| screen=unlikely | 建議: OUT（非山景）
+- [ ] jp-009-P01 中瀬沼展望台・中瀬沼與磐梯山（jp-009）| screen=vantage | 建議: mountain_view
+- [ ] jp-011-P01 東京鐵塔 Main Deck・東京城市日間全景（jp-011）| screen=unlikely | 建議: OUT（非山景）
+- [ ] jp-012-P01 高德院境內・鎌倉大佛日間造像景觀（jp-012）| screen=unlikely | 建議: OUT（非山景）
+- [ ] jp-014-P01 等等力溪谷・Golf Bridge 紅橋與綠蔭溪谷（jp-014）| screen=unlikely | 建議: OUT（非山景）
+- [ ] jp-015-P01 皇居外苑・二重橋與伏見櫓景觀（jp-015）| screen=unlikely | 建議: OUT（非山景）
+- [ ] jp-016-P01 山下公園・橫濱港日間海灣景觀（jp-016）| screen=unlikely | 建議: OUT（非山景）
+- [ ] jp-017-P01 兼六園・徽軫燈籠與霞之池經典庭園景觀（jp-017）| screen=unlikely | 建議: OUT（非山景）
+- [ ] jp-018-P01 名古屋城西之丸・西南隅櫓與天守景觀（jp-018）| screen=unlikely | 建議: OUT（非山景）
+- [ ] jp-021-P01 西穗高口展望台・北阿爾卑斯360°高山景觀（jp-021）| screen=vantage | 建議: mountain_view
+- [ ] jp-022-P01 彌彥山頂公園・越後平野與日本海全景（jp-022）| screen=vantage | 建議: mountain_view
+- [ ] jp-023-P01 清水寺奥之院・本堂舞台與京都市街景觀（jp-023）| screen=unlikely | 建議: OUT（非山景）
+- [ ] jp-024-P01 大阪城極樂橋・內護城河與天守閣景觀（jp-024）| screen=unlikely | 建議: OUT（非山景）
+- [ ] jp-025-P01 萩城下町・菊屋橫町白壁與江戶街景（jp-025）| screen=unlikely | 建議: OUT（非山景）
+- [ ] jp-028-P01 高野山壇上伽藍・根本大塔與伽藍建築（jp-028）| screen=unlikely | 建議: OUT（非山景）
+- [ ] jp-029-P01 伊賀上野城・白鳳城與高石垣（jp-029）| screen=unlikely | 建議: OUT（非山景）
+- [ ] jp-029-P02 伊賀上野城・白鳳城與櫻花（jp-029）| screen=unlikely | 建議: OUT（非山景）
+- [ ] jp-031-P01 倉敷美觀地區・倉敷川白壁歷史街景（jp-031）| screen=unlikely | 建議: OUT（非山景）
+- [ ] jp-032-P01 福岡城跡・多聞櫓／下之橋御門與石垣（jp-032）| screen=unlikely | 建議: OUT（非山景）
+- [ ] jp-032-P02 福岡城跡・四季花木與城郭（jp-032）| screen=unlikely | 建議: OUT（非山景）
+- [ ] jp-033-P01 唐津城・舞鶴城外觀與海岸城郭（jp-033）| screen=unlikely | 建議: OUT（非山景）
+- [ ] jp-033-P02 唐津城天守展望・唐津灣與虹之松原（jp-033）| screen=vantage | 建議: mountain_view
+- [ ] jp-033-P03 唐津城・櫻花與藤花季節構圖（jp-033）| screen=unlikely | 建議: OUT（非山景）
+- [ ] jp-035-P01 福岡塔123m展望室・福岡市與博多灣360°全景（jp-035）| screen=vantage | 建議: mountain_view
+- [ ] jp-036-P02 高千穗峽・三橋重疊與柱狀節理景觀（jp-036）| screen=unlikely | 建議: OUT（非山景）
+- [ ] tw-006-P01 關渡大橋＋觀音山河岸全景（tw-006）| screen=unlikely | 建議: OUT（非山景）
+- [ ] tw-008-P02 硬漢嶺淡水河口＋群山全景（tw-008）| screen=vantage | 建議: mountain_view
+- [ ] tw-009-P01 望幽谷V字草坡與基隆嶼山海（tw-009）| screen=vantage | 建議: mountain_view
+- [ ] tw-019-P03 合歡主峰360°高山群峰全景（tw-019）| screen=vantage | 建議: mountain_view
+- [ ] tw-020-P04 金龍山魚池／埔里盆地層巒遠眺（tw-020）| screen=unlikely | 建議: OUT（非山景）
+- [ ] tw-022-P03 二延平玉山群峰／嘉南平原遠眺（tw-022）| screen=vantage | 建議: mountain_view
+- [ ] tw-024-P03 小笠原山360°群山全景（tw-024）| screen=vantage | 建議: mountain_view
+- [ ] tw-029-P01 鵝鑾鼻燈塔日景（tw-029）| screen=unlikely | 建議: OUT（非山景）
+- [ ] tw-032-P01 見晴聖稜線／蘭陽平原遠眺（tw-032）| screen=vantage | 建議: mountain_view
+- [ ] tw-035-P01 六十石山花東縱谷層巒＋季節花田（tw-035）| screen=unlikely | 建議: OUT（非山景）
+- [ ] tw-035-P07 黃花亭金針花田與山景（tw-035）| screen=vantage | 建議: mountain_view
+- [ ] tw-036-P03 七星潭北望清水山／清水斷崖＋貼山雲帶（tw-036）| screen=vantage | 建議: mountain_view
+- [ ] tw-036-P04 七星潭北望清水斷崖／清水山山海遠眺（tw-036）| screen=vantage | 建議: mountain_view
+- [ ] tw-040-P02 玉山主峰四方群峰全景（tw-040）| screen=vantage | 建議: mountain_view
+- [ ] tw-041-P01 雪山主峰四向群峰遠眺（tw-041）| screen=vantage | 建議: mountain_view
+- [ ] tw-042-P01 雪山北峰四向聖稜全景（tw-042）| screen=vantage | 建議: mountain_view
+- [ ] tw-043-P01 奇萊主山高山全景（tw-043）| screen=vantage | 建議: mountain_view
+- [ ] tw-044-P01 南湖主峰高山全景（tw-044）| screen=vantage | 建議: mountain_view
+- [ ] tw-045-P05 三叉山草原＋嘉明湖高山全景（tw-045）| screen=vantage | 建議: mountain_view
+- [ ] tw-046-P02 霸基近距離大霸峰體（tw-046）| screen=vantage | 建議: mountain_view
+- [ ] tw-047-P03 北大武主峰高山全景（tw-047）| screen=vantage | 建議: mountain_view
+- [ ] tw-048-P01 池有名樹與岩稜群山（tw-048）| screen=vantage | 建議: mountain_view
+- [ ] tw-049-P01 桃山山頂四向全景（tw-049）| screen=vantage | 建議: mountain_view
+- [ ] tw-050-P01 品田山褶皺岩稜全景（tw-050）| screen=vantage | 建議: mountain_view
+- [ ] tw-057-P01 加羅湖高山湖泊＋草原全景（tw-057）| screen=vantage | 建議: mountain_view
+- [ ] tw-058-P01 通梁橋頭跨海大橋海景地標（tw-058）| screen=unlikely | 建議: OUT（非山景）
+- [ ] tw-077-P02 石梯坪壺穴潮池地景（tw-077）| screen=unlikely | 建議: OUT（非山景）
+- [ ] tw-079-P02 池西九孔池退潮玄武岩全景（tw-079）| screen=unlikely | 建議: OUT（非山景）
+- [ ] tw-083-P05 雲山水石磚步道與湖畔園景（tw-083）| screen=unlikely | 建議: OUT（非山景）
+- [ ] tw-084-P07 鳥類與森林野生動物生態紀錄（tw-084）| screen=unlikely | 建議: OUT（非山景）
+- [ ] tw-084-P09 花東縱谷山景、田園與開闊景觀（tw-084）| screen=vantage | 建議: mountain_view
+- [ ] us-010-P01 Grand Prismatic Overlook・彩色地熱池高處俯瞰（us-010）| screen=unlikely | 建議: OUT（非山景）
+- [ ] us-027-P01 Redfish Lake北岸・Sawtooth山峰與湖景（us-027）| screen=vantage | 建議: mountain_view
+- [ ] us-031-P01 Sprague Lake・Continental Divide山景與湖面（us-031）| screen=vantage | 建議: mountain_view
+- [ ] us-032-P01 French Quarter・Royal Street／Jackson Square歷史街景（us-032）| screen=unlikely | 建議: OUT（非山景）
+- [ ] us-034-P01 Gateway Arch grounds・拱門與公園城市構圖（us-034）| screen=unlikely | 建議: OUT（非山景）
+- [ ] us-035-P01 Fort Worth Stockyards・Exchange Avenue歷史西部街景（us-035）| screen=unlikely | 建議: OUT（非山景）
+- [ ] us-037-P01 Terrapin Point・Horseshoe Falls瀑布與水霧（us-037）| screen=unlikely | 建議: OUT（非山景）
+- [ ] us-038-P01 Newfound Gap Overlook・Smokies層疊山稜（us-038）| screen=vantage | 建議: mountain_view
+- [ ] us-046-P01 Summit Lake・Hatcher Pass高山湖與Talkeetna Mountains全景（us-046）| screen=vantage | 建議: mountain_view
+- [ ] us-048-P01 Portage Valley・Portage Lake／高山冰河與U形谷（us-048）| screen=vantage | 建議: mountain_view
+- [ ] us-048-P02 Portage Glacier・MV Ptarmigan船上冰河正面（us-048）| screen=unlikely | 建議: OUT（非山景）
+- [ ] us-049-P01 Dock Point・Port Valdez港灣＋Chugach山景（us-049）| screen=vantage | 建議: mountain_view
+- [ ] us-050-P01 Juneau Waterfront・Gastineau Channel＋Mt. Juneau城市山海景（us-050）| screen=unlikely | 建議: OUT（非山景）
+- [ ] us-052-P02 Homer Spit・港灣船隻／海濱店舖街景（us-052）| screen=unlikely | 建議: OUT（非山景）
+- [ ] us-053-P01 Creek Street・木棧道／高腳屋歷史水岸街景（us-053）| screen=unlikely | 建議: OUT（非山景）
+- [ ] us-054-P01 Arctic Brotherhood Hall・漂流木立面＋Broadway歷史街景（us-054）| screen=unlikely | 建議: OUT（非山景）
+- [ ] us-056-P01 Atigun Pass・Brooks Range高山峽谷全景（us-056）| screen=vantage | 建議: mountain_view
+- [ ] us-058-P01 Middle Beach／Front Street・Bering Sea海岸城鎮景觀（us-058）| screen=unlikely | 建議: OUT（非山景）
+- [ ] us-062-P01 Eklutna Lake・湖景＋峽谷／Chugach山景（us-062）| screen=vantage | 建議: mountain_view
+- [ ] us-066-P01 Serpentine Hot Springs・花崗岩塔峰＋溫泉荒野景觀（us-066）| screen=vantage | 建議: mountain_view
+- [ ] us-067-P01 Yukon Crossing・育空河＋Dalton Highway橋景（us-067）| screen=unlikely | 建議: OUT（非山景）
+- [ ] us-068-P01 Noatak River・荒野河谷＋Brooks Range山景（us-068）| screen=vantage | 建議: mountain_view
+- [ ] us-070-P01 Independence Mine・歷史礦區＋Talkeetna Mountains高山景觀（us-070）| screen=vantage | 建議: mountain_view
+- [ ] us-081-P01 Paradise・Mount Rainier＋高山草甸／野花（us-081）| screen=vantage | 建議: mountain_view
+- [ ] us-083-P02 Sunrise Point・Rainier＋Cascade Range 近360°山景（us-083）| screen=vantage | 建議: mountain_view
+- [ ] us-092-P01 Artist Point・Mount Shuksan／Mount Baker 高山雪景（us-092）| screen=vantage | 建議: mountain_view
+
+## 第二部分：已決但懸置 25 筆（原 verdict 標 PENDING，需給最終模板）
+
+- [ ] tw-007-P03 高處俯瞰非山主體；待 overlook/vista 題材 | 原 verdict: OVERLOOK-PENDING | 給最終: ______
+- [ ] tw-018-P01 高處俯瞰非山主體；待 overlook/vista 題材 | 原 verdict: OVERLOOK-PENDING | 給最終: ______
+- [ ] tw-018-P03 高處俯瞰非山主體；待 overlook/vista 題材 | 原 verdict: OVERLOOK-PENDING | 給最終: ______
+- [ ] tw-052-P01 高處俯瞰非山主體；待 overlook/vista 題材 | 原 verdict: OVERLOOK-PENDING | 給最終: ______
+- [ ] us-002-P01 高處俯瞰非山主體；待 overlook/vista 題材 | 原 verdict: OVERLOOK-PENDING | 給最終: ______
+- [ ] us-013-P01 高處俯瞰非山主體；待 overlook/vista 題材 | 原 verdict: OVERLOOK-PENDING | 給最終: ______
+- [ ] us-045-P01 高處俯瞰非山主體；待 overlook/vista 題材 | 原 verdict: OVERLOOK-PENDING | 給最終: ______
+- [ ] us-050-P02 高處俯瞰非山主體；待 overlook/vista 題材 | 原 verdict: OVERLOOK-PENDING | 給最終: ______
+- [ ] us-052-P01 高處俯瞰非山主體；待 overlook/vista 題材 | 原 verdict: OVERLOOK-PENDING | 給最終: ______
+- [ ] us-060-P01 高處俯瞰非山主體；待 overlook/vista 題材 | 原 verdict: OVERLOOK-PENDING | 給最終: ______
+- [ ] us-063-P01 高處俯瞰非山主體；待 overlook/vista 題材 | 原 verdict: OVERLOOK-PENDING | 給最終: ______
+- [ ] us-064-P01 高處俯瞰非山主體；待 overlook/vista 題材 | 原 verdict: OVERLOOK-PENDING | 給最終: ______
+- [ ] us-069-P01 高處俯瞰非山主體；待 overlook/vista 題材 | 原 verdict: OVERLOOK-PENDING | 給最終: ______
+- [ ] us-072-P01 高處俯瞰非山主體；待 overlook/vista 題材 | 原 verdict: OVERLOOK-PENDING | 給最終: ______
+- [ ] us-075-P01 高處俯瞰非山主體；待 overlook/vista 題材 | 原 verdict: OVERLOOK-PENDING | 給最終: ______
+- [ ] us-078-P01 高處俯瞰非山主體；待 overlook/vista 題材 | 原 verdict: OVERLOOK-PENDING | 給最終: ______
+- [ ] us-078-P02 高處俯瞰非山主體；待 overlook/vista 題材 | 原 verdict: OVERLOOK-PENDING | 給最終: ______
+- [ ] us-047-P01 KEEP-genre-pending (冰河主體) | 原 verdict: KEEP-genre-pending | 給最終: ______
+- [ ] us-051-P01 KEEP-genre-pending (冰河主體) | 原 verdict: KEEP-genre-pending | 給最終: ______
+- [ ] us-055-P02 KEEP-genre-pending (冰河主體) | 原 verdict: KEEP-genre-pending | 給最終: ______
+- [ ] us-060-P02 KEEP-genre-pending (冰河主體) | 原 verdict: KEEP-genre-pending | 給最終: ______
+- [ ] tw-082-P02 KEEP-reflection/overlook-pending (湖景) | 原 verdict: KEEP-reflection/overlook-pending | 給最終: ______
+- [ ] tw-082-P10 KEEP-genre-pending (濕地近景) | 原 verdict: KEEP-genre-pending | 給最終: ______
+- [ ] tw-029-P02 KEEP-genre-pending (山海地景) | 原 verdict: KEEP-genre-pending | 給最終: ______
+- [ ] tw-039-P01 KEEP-genre-pending (稻田遠山) | 原 verdict: KEEP-genre-pending | 給最終: ______
+
+## 附錄：其餘已定決策（僅供參考，不需勾）
+
+- [x] jp-026-P01 | D | 神社參道/社殿建築，非山景
+- [x] jp-027-P01 | B | city_night + blue_hour_city（夜景/藍調主體）；白天展望待 overlook/vista 題材決定
+- [x] jp-028-P02 | KEEP | 季節窗型：紅葉窗 10月下旬-11月上旬（例年，比京阪神早一個月）＋夜間點燈霧景語境；掛 seasonal_plant + overcast_soft/golden_hour
+- [x] tw-004-P01 | A | mountain_view
+- [x] tw-014-P01 | A | mountain_view
+- [x] tw-031-P01 | A | mountain_view
+- [x] tw-041-P03 | A | mountain_view
+- [x] tw-044-P02 | A | mountain_view
+- [x] tw-046-P01 | A | mountain_view
+- [x] us-041-P01 | A | mountain_view
+- [x] us-087-P01 | A | mountain_view
+- [x] us-009-P01 | A | mountain_view
+- [x] us-011-P02 | A | mountain_view
+- [x] us-017-P01 | A | mountain_view
+- [x] us-091-P01 | A | mountain_view
+- [x] us-055-P01 | A | mountain_view
+- [x] tw-037-P01 | B | sunset
+- [x] us-019-P01 | B | sunset
+- [x] tw-035-P08 | B | seasonal_plant（季節窗，owner 自維護）
+- [x] tw-035-P10 | B | seasonal_plant（季節窗，owner 自維護）
+- [x] tw-083-P02 | B | seasonal_plant（季節窗，owner 自維護）
+- [x] tw-083-P03 | B | seasonal_plant（季節窗，owner 自維護）
+- [x] tw-084-P02 | B | seasonal_plant（季節窗，owner 自維護）
+- [x] tw-084-P03 | B | seasonal_plant（季節窗，owner 自維護）
+- [x] tw-084-P04 | B | seasonal_plant（季節窗，owner 自維護）
+- [x] tw-085-P03 | B | seasonal_plant（季節窗，owner 自維護）
+- [x] tw-084-P01 | B | overcast_soft / golden_hour
+- [x] us-020-P01 | B | overcast_soft / golden_hour
+- [x] tw-082-P07 | B | overcast_soft / golden_hour
+- [x] us-026-P02 | B | city_night + blue_hour_city
+- [x] us-028-P01 | B | city_night + blue_hour_city
+- [x] us-030-P01 | B | city_night + blue_hour_city
+- [x] us-036-P01 | B | city_night + blue_hour_city
+- [x] us-039-P02 | B | city_night + blue_hour_city
+- [x] us-040-P01 | B | city_night + blue_hour_city
+- [x] jp-034-P01 | OUT | 無天氣/季節窗之純人文或活動紀實 → 退目錄
+- [x] tw-062-P01 | OUT | 無天氣/季節窗之純人文或活動紀實 → 退目錄
+- [x] tw-081-P01 | OUT | 無天氣/季節窗之純人文或活動紀實 → 退目錄
+- [x] tw-078-P01 | OUT | 無天氣/季節窗之純人文或活動紀實 → 退目錄
+- [x] tw-082-P05 | OUT | 無天氣/季節窗之純人文或活動紀實 → 退目錄
+- [x] tw-082-P08 | OUT | 無天氣/季節窗之純人文或活動紀實 → 退目錄
+- [x] tw-083-P04 | OUT | 無天氣/季節窗之純人文或活動紀實 → 退目錄
+- [x] tw-084-P08 | OUT | 無天氣/季節窗之純人文或活動紀實 → 退目錄
+- [x] us-026-P01 | OUT | 無天氣/季節窗之純人文或活動紀實 → 退目錄
+- [x] us-035-P02 | OUT | 無天氣/季節窗之純人文或活動紀實 → 退目錄
+- [x] us-057-P01 | OUT | 無天氣/季節窗之純人文或活動紀實 → 退目錄
+- [x] us-061-P02 | OUT | 無天氣/季節窗之純人文或活動紀實 → 退目錄
+- [x] us-059-P02 | OUT | 無天氣/季節窗之純人文或活動紀實 → 退目錄
+- [x] tw-013-P01 | A? | A?
+- [x] tw-027-P01 | A? | A?
+- [x] tw-025-P02 | A? | A?
+- [x] us-003-P01 | KEEP-no-template | KEEP-no-template (正午頂光光穴題材, sunbeam 語意外)
+- [x] us-004-P01 | KEEP-no-template | KEEP-no-template (地景主體, geology 語意)
+- [x] tw-074-P01 | KEEP | 地景主體；判據=golden_hour 側光刻紋理（女王頭光影）——地景/geology 歸屬待定，owner 自維護
+- [x] tw-074-P02 | KEEP | 蕈狀岩紋理——golden_hour/overcast_soft 語意；地景歸屬待定
+- [x] us-061-P01 | KEEP | 海蝕峭壁/雲杉海岸——海岸主體（coast/geology 語意），歸屬待定

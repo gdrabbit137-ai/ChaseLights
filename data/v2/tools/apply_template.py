@@ -107,6 +107,7 @@ def _eval_expr(expr: str, params: dict):
     """Safe arithmetic evaluator: numbers, declared params, + - * / ( )."""
     ALLOWED_BIN = {ast.Add: lambda a, b: a + b, ast.Sub: lambda a, b: a - b,
                    ast.Mult: lambda a, b: a * b, ast.Div: lambda a, b: a / b}
+    ALLOWED_CALL = {'min': min, 'max': max}  # whitelist: no attribute access, pure builtin math
 
     def _ev(node):
         if isinstance(node, ast.Expression):
@@ -119,6 +120,9 @@ def _eval_expr(expr: str, params: dict):
             return params[node.id]
         if isinstance(node, ast.BinOp) and type(node.op) in ALLOWED_BIN:
             return ALLOWED_BIN[type(node.op)](_ev(node.left), _ev(node.right))
+        if (isinstance(node, ast.Call) and isinstance(node.func, ast.Name)
+                and node.func.id in ALLOWED_CALL and not node.keywords):
+            return ALLOWED_CALL[node.func.id](*(_ev(a) for a in node.args))
         if isinstance(node, ast.UnaryOp) and isinstance(node.op, ast.USub):
             return -_ev(node.operand)
         _fail(f'disallowed syntax in threshold expression: {ast.dump(node)[:80]}')

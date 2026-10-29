@@ -111,31 +111,86 @@
   "condition_contract": {
     "contract_id": "CC-tw-032-P03-v1",
     "status": "draft",
+    "genre_template": "overcast_soft",
+    "template_version": "overcast_soft-v0.1",
+    "recommendation_policy_version": null,
     "conditions": [
       {
         "id": "C-tw-032-P03-01",
         "role": "REQUIRED",
-        "domain": "ASTRONOMY",
+        "domain": "WEATHER",
         "evaluation_mode": "GUIDANCE",
         "capability": "CONDITIONS",
-        "metric": "legacy_fog_mist",
-        "operator": "none",
-        "threshold": null,
-        "unit": null,
+        "metric": "cloud_cover_total",
+        "operator": "gte",
+        "threshold": 70,
+        "unit": "%",
         "unknown_policy": "propagate_unknown",
         "claim_refs": [
           "tw-032-P03-claim-01"
         ],
-        "model_binding": null,
-        "notes_i18n": {
-          "zh-TW": "由 V1 主題對應的暫定條件；實際閾值待研究核實。",
-          "en": "Provisional condition mapped from the V1 theme; thresholds pending research.",
-          "ja": "V1テーマから対応した暫定条件。閾値は研究待ち。"
-        },
-        "validation_status": "provisional"
+        "model_binding": "dataset:gfs_0p25|field:cloud_cover_total_percent|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "總雲量 ≥70%：連續雲幕是柔光的前提；70% 以下直射光間歇出現，硬影破壞柔光語意。以總雲（低中高合計）為判據，因為柔光只需要『無直射』，不挑雲高。",
+          "en": "Total cloud >= 70%: a continuous deck is the precondition of soft light; below 70% direct sun appears intermittently and hard shadows break the soft-light reading. Judged on total cloud (low+mid+high) because softness only needs 'no direct sun', regardless of deck height.",
+          "ja": "全雲量≥70%。連続雲層がソフト光の前提。70%未満は直射が断続し硬い影が生じる。低中高合計の全雲量で判定。"
+        }
+      },
+      {
+        "id": "C-tw-032-P03-02",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "precipitation",
+        "operator": "lt",
+        "threshold": 0.5,
+        "unit": "mm/h",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-032-P03-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "降水 <0.5 mm/h：微雨甚至有利（濕面發色、無塵），大雨破壞拍攝。0.5 比一般題材寬一倍，是刻意為柔光情境放寬的 provisional 值。",
+          "en": "Precipitation < 0.5 mm/h: light rain can even help (wet surfaces saturate colour, no dust), heavy rain ruins shooting. 0.5 is deliberately double the general threshold for the soft-light context, provisional.",
+          "ja": "降水<0.5mm/h。小雨はむしろ好条件（濡れ面の発色）、大雨は撮影不能。0.5は意図的に緩めた暫定値。"
+        }
+      },
+      {
+        "id": "C-tw-032-P03-03",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "wind_speed_10m",
+        "operator": "lt",
+        "threshold": 5,
+        "unit": "m/s",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-032-P03-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:wind_speed_10m_m_s|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MODIFIER",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "風 <5 m/s 為加分：柔光下花草靜止、水面平滑可倒影；強風不否決柔光本身（柔光與風獨立）。",
+          "en": "Wind < 5 m/s as a bonus: still foliage and smooth water under soft light; strong wind does not veto the soft light itself (independent dimensions).",
+          "ja": "風<5m/sは加点。柔光下の静止した草木・平滑な水面。強風でも柔光自体は否決しない。"
+        }
       }
-    ],
-    "recommendation_policy_version": null
+    ]
   },
   "evidence_claims": [
     {

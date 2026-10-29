@@ -111,31 +111,86 @@
   "condition_contract": {
     "contract_id": "CC-tw-035-P08-v1",
     "status": "draft",
+    "genre_template": "seasonal_plant",
+    "template_version": "seasonal_plant-v0.1",
+    "recommendation_policy_version": null,
     "conditions": [
       {
         "id": "C-tw-035-P08-01",
         "role": "REQUIRED",
-        "domain": "ASTRONOMY",
+        "domain": "EPHEMERAL",
         "evaluation_mode": "GUIDANCE",
         "capability": "CONDITIONS",
-        "metric": "legacy_mountain_view",
-        "operator": "none",
-        "threshold": null,
+        "metric": "seasonal_state",
+        "operator": "eq",
+        "threshold": "window_open",
         "unit": null,
         "unknown_policy": "propagate_unknown",
         "claim_refs": [
           "tw-035-P08-claim-01"
         ],
         "model_binding": null,
-        "notes_i18n": {
-          "zh-TW": "由 V1 主題對應的暫定條件；實際閾值待研究核實。",
-          "en": "Provisional condition mapped from the V1 theme; thresholds pending research.",
-          "ja": "V1テーマから対応した暫定条件。閾値は研究待ち。"
-        },
-        "validation_status": "provisional"
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "computed",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "季節窗判定：evaluation 取值為 window_open / window_closed（由 seasonal-calendar.json 的例年窗與今年實況窗對拍日曆得出；實況優先，兩者皆缺時誠實 not_evaluatable）。",
+          "en": "Seasonal-window verdict: the evaluation value is window_open / window_closed (resolved by matching the calendar date against typical and current-season windows in seasonal-calendar.json; observed takes precedence, and with neither present the genre is honestly not_evaluatable).",
+          "ja": "季節窓判定：評価値は window_open/window_closed（seasonal-calendar.json の例年窓・当年窓と日付の突き合わせで決定。実況優先、どちらも欠ければ誠実に not_evaluatable）。"
+        }
+      },
+      {
+        "id": "C-tw-035-P08-02",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "precipitation",
+        "operator": "lt",
+        "threshold": 0.2,
+        "unit": "mm/h",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-035-P08-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "降雨 <0.2 mm/h：花田步道基本可拍（沿用已審門檻）；微雨對花景反而有水珠加分效果，不設下限。",
+          "en": "Precipitation < 0.2 mm/h: basic shootability of flower fields and trails (approved threshold carried over); light drizzle adds droplet charm, so no lower bound is imposed.",
+          "ja": "降水<0.2mm/h。花畑・遊歩道の基本撮影可否。小雨は水滴として好条件のため下限は設けない。"
+        }
+      },
+      {
+        "id": "C-tw-035-P08-03",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "wind_speed_10m",
+        "operator": "lt",
+        "threshold": 5,
+        "unit": "m/s",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-035-P08-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:wind_speed_10m_m_s|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "風 <5 m/s：花穗搖曳是構圖元素、強風破壞拍攝（金針花特寫/芒草逆光都禁強風）。5 為 provisional，可依主題差異化（芒草或許更寬）。",
+          "en": "Wind < 5 m/s: sway is compositional up to a point, gale ruins the shot (daylily close-ups and backlit silvergrass both need calm). 5 is provisional and may be differentiated per plant (silvergrass might tolerate more).",
+          "ja": "風<5m/s。揺れは構図要素だが強風は撮影不能。5は暫定値で植物ごとの差別化も可。"
+        }
       }
-    ],
-    "recommendation_policy_version": null
+    ]
   },
   "evidence_claims": [
     {

@@ -111,6 +111,9 @@
   "condition_contract": {
     "contract_id": "CC-tw-045-P04-v1",
     "status": "draft",
+    "genre_template": "sunset",
+    "template_version": "sunset-v0.1",
+    "recommendation_policy_version": null,
     "conditions": [
       {
         "id": "C-tw-045-P04-01",
@@ -118,7 +121,7 @@
         "domain": "ASTRONOMY",
         "evaluation_mode": "GUIDANCE",
         "capability": "CONDITIONS",
-        "metric": "legacy_sunset",
+        "metric": "sunset_window",
         "operator": "none",
         "threshold": null,
         "unit": null,
@@ -127,15 +130,124 @@
           "tw-045-P04-claim-01"
         ],
         "model_binding": null,
-        "notes_i18n": {
-          "zh-TW": "由 V1 主題對應的暫定條件；實際閾值待研究核實。",
-          "en": "Provisional condition mapped from the V1 theme; thresholds pending research.",
-          "ja": "V1テーマから対応した暫定条件。閾値は研究待ち。"
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "computed",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "天文窗＝日落時刻 ±40 分（座標＋日期計算）。",
+          "en": "Astronomy window = sunset time +/- 40 minutes (from coordinates and date).",
+          "ja": "天文ウィンドウ＝日の入り時刻±40分（座標と日付から計算）。"
+        }
+      },
+      {
+        "id": "C-tw-045-P04-02",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "cloud_cover_low",
+        "operator": "lte",
+        "threshold": 55,
+        "unit": "%",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-045-P04-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:cloud_cover_low_percent|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "太陽方位扇形的低雲直接擋日落；55% 允許塊狀雲——塊狀雲反而是上色主角（與 tw-036-P01 日出判據同構）。",
+          "en": "Low cloud in the solar azimuth sector blocks the setting sun directly; 55% still allows broken cloud, which paints the colour (mirrors tw-036-P01 sunrise logic).",
+          "ja": "太陽方位の扇形領域の低雲は沈む太陽を直接遮る。55%は塊状の雲を許容し、色を生む主役（tw-036-P01の日の出判準と同型）。"
         },
-        "validation_status": "provisional"
+        "binding": {
+          "strategy": "nearest_gridpoint",
+          "gridpoint_selector": "sun_azimuth_sector"
+        }
+      },
+      {
+        "id": "C-tw-045-P04-03",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "cloud_cover_mid_and_high",
+        "operator": "between",
+        "threshold": [
+          20,
+          70
+        ],
+        "unit": "%",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-045-P04-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:cloud_cover_mid_percent+cloud_cover_high_percent|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MODIFIER",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "中高雲是彩霞的染料：全晴只有金黃、全陰無色彩；20–70% 區間加分。指標由管線以 mid+high 求和推導。",
+          "en": "Mid and high cloud are the dyes of the sunset glow: clear sky gives only gold, overcast gives none; 20-70% scores. Derived by the pipeline as mid+high.",
+          "ja": "中高層雲は夕焼けの彩となる。快晴は金色のみ、全層雲は色彩なし。20〜70%で加点。mid+highの和として算出。"
+        }
+      },
+      {
+        "id": "C-tw-045-P04-04",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "precipitation",
+        "operator": "lt",
+        "threshold": 0.3,
+        "unit": "mm/h",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-045-P04-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "拍攝受雨影響；0.3 mm/h 以下視為不受影響（與 tw-036-P01 相同門檻）。",
+          "en": "Rain interferes with shooting; below 0.3 mm/h is treated as not interfering (same threshold as tw-036-P01).",
+          "ja": "撮影は雨の影響を受ける。0.3mm/h未満は影響なしと扱う（tw-036-P01と同一閾値）。"
+        }
+      },
+      {
+        "id": "C-tw-045-P04-05",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "aod_550nm",
+        "operator": "lte",
+        "threshold": 0.6,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-045-P04-claim-01"
+        ],
+        "model_binding": "dataset:cams_global|field:aerosol_optical_depth_550nm|role:AEROSOL",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "適度霧霾散射強化紅橙色調，但 AOD > 0.6 時太陽盤面與地平線輪廓被吞沒（與 mountain_view 同一上限，依大氣透視同一物理）。",
+          "en": "Moderate haze scatters and enriches red-orange tones, but above AOD 0.6 the solar disc and horizon silhouette are swallowed (same limit as mountain_view, same physics of atmospheric perspective).",
+          "ja": "適度な煙霾は赤橙色を強めるが、AOD>0.6では太陽面と地平線の輪郭が呑まれる（mountain_viewと同じ上限、大気遠近法と同じ物理）。"
+        }
       }
-    ],
-    "recommendation_policy_version": null
+    ]
   },
   "evidence_claims": [
     {

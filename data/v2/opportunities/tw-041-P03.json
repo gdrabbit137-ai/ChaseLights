@@ -111,14 +111,95 @@
   "condition_contract": {
     "contract_id": "CC-tw-041-P03-v1",
     "status": "draft",
+    "genre_template": "mountain_view",
+    "template_version": "mountain_view-v0.1",
+    "recommendation_policy_version": null,
     "conditions": [
       {
         "id": "C-tw-041-P03-01",
         "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "aod_550nm",
+        "operator": "lte",
+        "threshold": 0.6,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-041-P03-claim-01"
+        ],
+        "model_binding": "dataset:cams_global|field:aerosol_optical_depth_550nm|role:AEROSOL",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "層次山景的「層」來自大氣透視：遠山隔著適度霧霾才會一層比一層淡、分出層次；完全乾淨的空氣反而讓輪廓銳利、畫面變平。因此只設上限：霧霾厚到遠山整個消失（AOD>0.6）才否決，中等霧霾是這個題材的正常狀態。",
+          "en": "The layers in a layered mountain vista come from aerial perspective: distant ridges fade step by step through moderate haze; perfectly clean air makes edges harsh and the composition flat. So only an upper bound applies - veto only when haze is thick enough to swallow the far ridges (AOD > 0.6); moderate haze is this genre's normal state.",
+          "ja": "層になる山並みの「層」は大気遠近法が作る。適度なヘイズを挟むことで遠い稜線ほど淡く重なる。空気が澄みすぎると輪郭がきつくなり画面が平坦になる。ゆえに上限のみ設定し、ヘイズが遠山を飲み込むほど濃い場合（AOD>0.6）だけ否決する。"
+        }
+      },
+      {
+        "id": "C-tw-041-P03-02",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "cloud_cover_mid",
+        "operator": "between",
+        "threshold": [
+          30,
+          60
+        ],
+        "unit": "%",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-041-P03-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:cloud_cover_mid_percent|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "完全無雲＝沒有層次；山腰雲帶（中雲 30–60%）形成層疊分明的畫面。",
+          "en": "A cloudless sky has no layering; mid-level cloud bands on the mountainsides (30-60%) build the stacked composition.",
+          "ja": "雲がなければ層はない。山腹の雲帯（中層雲30-60%）が重なりのある構図を作る。"
+        }
+      },
+      {
+        "id": "C-tw-041-P03-03",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "precipitation",
+        "operator": "lt",
+        "threshold": 0.2,
+        "unit": "mm/h",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-041-P03-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "拍攝受影響下限。",
+          "en": "Minimum before the shoot is impaired.",
+          "ja": "撮影に支障が出る前の下限。"
+        }
+      },
+      {
+        "id": "C-tw-041-P03-04",
+        "role": "QUALITY",
         "domain": "ASTRONOMY",
         "evaluation_mode": "GUIDANCE",
         "capability": "CONDITIONS",
-        "metric": "legacy_mountain_view",
+        "metric": "sunset_window",
         "operator": "none",
         "threshold": null,
         "unit": null,
@@ -127,15 +208,17 @@
           "tw-041-P03-claim-01"
         ],
         "model_binding": null,
-        "notes_i18n": {
-          "zh-TW": "由 V1 主題對應的暫定條件；實際閾值待研究核實。",
-          "en": "Provisional condition mapped from the V1 theme; thresholds pending research.",
-          "ja": "V1テーマから対応した暫定条件。閾値は研究待ち。"
-        },
-        "validation_status": "provisional"
+        "validation_status": "provisional",
+        "condition_tier": "MODIFIER",
+        "threshold_source": "computed",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "暮色低角度光是層次的點燈源：日落前後的逆光把稜線剪影、雲帶邊緣與遠山明暗節奏同時點亮，層次山景在這個窗口最明顯。作為加分項而非門檻（白天有雲帶時仍可拍，但層次感較弱）。",
+          "en": "Low-angle dusk light is what lights the layering: near sunset, backlight silhouettes the ridgeline, edges the cloud bands and sets the brightness rhythm between ridges, so layered vistas read best in this window. A bonus, not a gate - daytime shots with cloud bands still work, just with weaker layering.",
+          "ja": "夕暮れの低角度光が層を照らす：日没前後の逆光で稜線のシルエット、雲帯の縁、遠山の明暗リズムが同時に立ち、層になった山並みが最も読める。門檻ではなく加点（昼間でも雲帯があれば撮れるが、層は弱い）。"
+        }
       }
-    ],
-    "recommendation_policy_version": null
+    ]
   },
   "evidence_claims": [
     {

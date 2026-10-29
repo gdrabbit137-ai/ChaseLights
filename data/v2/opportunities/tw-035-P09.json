@@ -111,6 +111,9 @@
   "condition_contract": {
     "contract_id": "CC-tw-035-P09-v1",
     "status": "draft",
+    "genre_template": "golden_hour",
+    "template_version": "golden_hour-v0.1",
+    "recommendation_policy_version": null,
     "conditions": [
       {
         "id": "C-tw-035-P09-01",
@@ -118,7 +121,7 @@
         "domain": "ASTRONOMY",
         "evaluation_mode": "GUIDANCE",
         "capability": "CONDITIONS",
-        "metric": "legacy_sunbeam",
+        "metric": "golden_hour_window",
         "operator": "none",
         "threshold": null,
         "unit": null,
@@ -127,15 +130,92 @@
           "tw-035-P09-claim-01"
         ],
         "model_binding": null,
-        "notes_i18n": {
-          "zh-TW": "由 V1 主題對應的暫定條件；實際閾值待研究核實。",
-          "en": "Provisional condition mapped from the V1 theme; thresholds pending research.",
-          "ja": "V1テーマから対応した暫定条件。閾値は研究待ち。"
-        },
-        "validation_status": "provisional"
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "computed",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "金色時刻窗＝太陽高度 +6° 至 -6°：暖色低角度直射光的時段。",
+          "en": "Golden-hour window = sun elevation +6 to -6 deg: the warm low-angle direct-light period.",
+          "ja": "ゴールデンアワー帯＝太陽高度+6〜-6度。暖色の低角度直射光の時間帯。"
+        }
+      },
+      {
+        "id": "C-tw-035-P09-02",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "cloud_cover_total",
+        "operator": "lte",
+        "threshold": 50,
+        "unit": "%",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-035-P09-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:cloud_cover_total_percent|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "總雲量 ≤50%：與 sunset 相反的雲邏輯——太陽盤面必須可見，直射光才存在；塊狀雲可穿隙，連續雲幕即無直射光。50% 是初步折衷（允許局部雲隙光構圖），未校準。",
+          "en": "Total cloud <= 50%: the cloud logic is inverted from sunset - the solar disc must be visible or there is no direct light; broken cloud still passes gaps, a continuous deck kills it. 50% is a provisional compromise (allows gap-light compositions), uncalibrated.",
+          "ja": "全雲量≤50%。sunsetとは逆の雲論理：太陽が見えなければ直射光はない。隙間雲は可、連続雲層は不可。50%は暫定値。"
+        }
+      },
+      {
+        "id": "C-tw-035-P09-03",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "precipitation",
+        "operator": "lt",
+        "threshold": 0.2,
+        "unit": "mm/h",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-035-P09-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "降雨 <0.2 mm/h：拍攝本身不受影響（沿用已審門檻）。",
+          "en": "Precipitation < 0.2 mm/h: shooting itself unaffected (approved threshold carried over).",
+          "ja": "降水<0.2mm/h。撮影への影響なし（既承認の閾値）。"
+        }
+      },
+      {
+        "id": "C-tw-035-P09-04",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "aod_550nm",
+        "operator": "lte",
+        "threshold": 0.6,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-035-P09-claim-01"
+        ],
+        "model_binding": "dataset:cams_global|field:aerosol_optical_depth_550nm|role:AEROSOL",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "AOD ≤0.6：適度氣溶膠暖化光線但 >0.6 時太陽盤面與主體輪廓被吞沒（與 mountain_view/sunset 同一上限，同一物理）。",
+          "en": "AOD <= 0.6: moderate aerosols warm the light but beyond 0.6 the solar disc and subject silhouettes are swallowed (same ceiling as mountain_view/sunset, same physics).",
+          "ja": "AOD≤0.6。適度なエアロゾルは光を暖色化するが、0.6超では太陽面と輪郭が埋没（mountain_view/sunsetと同一上限）。"
+        }
       }
-    ],
-    "recommendation_policy_version": null
+    ]
   },
   "evidence_claims": [
     {

@@ -111,6 +111,9 @@
   "condition_contract": {
     "contract_id": "CC-tw-045-P03-v1",
     "status": "draft",
+    "genre_template": "night_sky",
+    "template_version": "night_sky-v0.4",
+    "recommendation_policy_version": null,
     "conditions": [
       {
         "id": "C-tw-045-P03-01",
@@ -118,7 +121,7 @@
         "domain": "ASTRONOMY",
         "evaluation_mode": "GUIDANCE",
         "capability": "CONDITIONS",
-        "metric": "legacy_milky_way",
+        "metric": "astronomical_darkness",
         "operator": "none",
         "threshold": null,
         "unit": null,
@@ -127,15 +130,208 @@
           "tw-045-P03-claim-01"
         ],
         "model_binding": null,
-        "notes_i18n": {
-          "zh-TW": "由 V1 主題對應的暫定條件；實際閾值待研究核實。",
-          "en": "Provisional condition mapped from the V1 theme; thresholds pending research.",
-          "ja": "V1テーマから対応した暫定条件。閾値は研究待ち。"
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "computed",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "天文暮光窗（太陽高度 ≤ -18°）：星星對比的天文前提。",
+          "en": "Astronomical darkness window (sun elevation <= -18 deg): the astronomical prerequisite for stellar contrast.",
+          "ja": "天文暮色帯（太陽高度≤-18度）。恒星コントラストの天文的前提。"
         },
-        "validation_status": "provisional"
+        "genre_scope": "starry_sky"
+      },
+      {
+        "id": "C-tw-045-P03-02",
+        "role": "REQUIRED",
+        "domain": "ASTRONOMY",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "moon_illumination_fraction",
+        "operator": "lte",
+        "threshold": 0.5,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-045-P03-claim-01"
+        ],
+        "model_binding": null,
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "月照 ≤50%（星空基層）：半月以下時亮星與星軌仍可拍；比銀河層（細月）寬鬆是刻意的分層。",
+          "en": "Moon illumination <= 50% (starry base): bright stars and star trails remain shootable at half moon or less; deliberately looser than the Milky-Way layer (crescent).",
+          "ja": "月照度≤50%（星空基層）。半月以下なら明るい星や星軌は撮れる。銀河層（細月）より意図的に緩い。"
+        },
+        "genre_scope": "starry_sky"
+      },
+      {
+        "id": "C-tw-045-P03-03",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "cloud_cover_total",
+        "operator": "lte",
+        "threshold": 20,
+        "unit": "%",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-045-P03-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:cloud_cover_total_percent|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "總雲量 ≤20%：星空是長曝主體，任何雲帶都蓋星點。",
+          "en": "Total cloud <= 20%: long exposures make any cloud band cover stars.",
+          "ja": "全雲量≤20%。長時間露光では雲帯が星を覆う。"
+        },
+        "genre_scope": "starry_sky"
+      },
+      {
+        "id": "C-tw-045-P03-04",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "aod_550nm",
+        "operator": "lte",
+        "threshold": 0.3,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-045-P03-claim-01"
+        ],
+        "model_binding": "dataset:cams_global|field:aerosol_optical_depth_550nm|role:AEROSOL",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "AOD ≤0.3：氣溶膠消光吃掉星點對比，與銀河層同一上限。",
+          "en": "AOD <= 0.3: aerosol extinction eats stellar contrast; same ceiling as the Milky-Way layer.",
+          "ja": "AOD≤0.3。エアロゾル消光は星のコントラストを減らす。銀河層と同じ上限。"
+        },
+        "genre_scope": "starry_sky"
+      },
+      {
+        "id": "C-tw-045-P03-05",
+        "role": "REQUIRED",
+        "domain": "ASTRONOMY",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "galactic_core_altitude",
+        "operator": "gte",
+        "threshold": 20,
+        "unit": "°",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-045-P03-claim-01"
+        ],
+        "model_binding": null,
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "銀河核心高度 ≥20°：核心在地平線下的季節（台灣 11–2 月夜間）銀河不成立——此層不通僅影響銀河判定，星空基層照常評估。",
+          "en": "Galactic core altitude >= 20 deg: in seasons when the core stays below the horizon (Taiwan Nov-Feb nights) the Milky-Way layer fails; only the Milky-Way verdict is affected, the starry base is still evaluated.",
+          "ja": "銀河中心高度≥20度。中心が地平線下の季節（台湾11〜2月の夜間）は銀河層不成立。星空基層の評価には影響しない。"
+        },
+        "genre_scope": "milky_way"
+      },
+      {
+        "id": "C-tw-045-P03-06",
+        "role": "REQUIRED",
+        "domain": "ASTRONOMY",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "moon_altitude",
+        "operator": "lt",
+        "threshold": 0,
+        "unit": "°",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-045-P03-claim-01"
+        ],
+        "model_binding": null,
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "月亮在地平線下（<0°）：上層的首選狀態；月亮升起時改由 M3（離核心夠遠）判定。",
+          "en": "Moon below the horizon (<0 deg): the preferred upper-layer state; when the moon is up, M3 (far from the core) takes over.",
+          "ja": "月が地平線下（<0度）。上層の望ましい状態。月が昇っている場合はM3（中心から十分遠い）が判定を引き継ぐ。"
+        },
+        "genre_scope": "milky_way"
+      },
+      {
+        "id": "C-tw-045-P03-07",
+        "role": "REQUIRED",
+        "domain": "ASTRONOMY",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "moon_target_separation_deg",
+        "operator": "gte",
+        "threshold": 40,
+        "unit": "°",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-045-P03-claim-01"
+        ],
+        "model_binding": null,
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "月亮離銀河核心 ≥40°：細月升起但夠遠時銀河帶仍可拍；目標＝銀河核心（lunar_ephemeris 輸出）。僅在月亮升起時啟用（M2 未成立時）。",
+          "en": "Moon at least 40 deg from the galactic core: with a thin moon up but far from the core the galactic band stays shootable; target = galactic core (from lunar_ephemeris). Active only while the moon is up (when M2 is not met).",
+          "ja": "月が銀河中心から≥40度。細い月でも中心から遠ければ銀河帯は撮れる。対象＝銀河中心（lunar_ephemeris出力）。月が昇っている間のみ有効（M2未成立時）。"
+        },
+        "genre_scope": "milky_way",
+        "modifier_activation": {
+          "when_condition": "C-tw-045-P03-06",
+          "mode": "when_not_met"
+        }
+      },
+      {
+        "id": "C-tw-045-P03-08",
+        "role": "REQUIRED",
+        "domain": "ASTRONOMY",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "moon_illuminance_proxy",
+        "operator": "lte",
+        "threshold": 0.15,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-045-P03-claim-01"
+        ],
+        "model_binding": null,
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "月光照度代理 ≤0.15（月照×sin 月高）：補上重構時遺漏的月亮亮度天花板——凸月即使離核心 ≥40°，灑出的天光仍壓低銀河對比。0.15 約當「半月需在 18° 以下、20% 細月可到 50°+」的組合空間；三個月判據（M2/M3/M5）共同構成月亮約束，全部 provisional、校準第一優先。",
+          "en": "Moon illuminance proxy <= 0.15 (illumination x sin(altitude)): closes the moon-brightness ceiling lost in the restructure - a gibbous moon even >=40 deg from the core still washes out galactic contrast. 0.15 corresponds roughly to 'half moon below 18 deg, or a 20% crescent anywhere up to 50 deg'. Together M2/M3/M5 form the moon constraint set; all provisional, first calibration priority.",
+          "ja": "月光照度代理≤0.15（照度率×sin高度）。再構成時に欠けた月輝度の上限を補完。凸月は中心から≥40度でも銀河コントラストを下げる。0.15はおおよそ「半月は高度18度以下、20%の細月なら50度以上」に相当。M2/M3/M5で月の制約セットを構成。全てprovisional・較正最優先。"
+        },
+        "genre_scope": "milky_way",
+        "modifier_activation": {
+          "when_condition": "C-tw-045-P03-06",
+          "mode": "when_not_met"
+        }
       }
-    ],
-    "recommendation_policy_version": null
+    ]
   },
   "evidence_claims": [
     {

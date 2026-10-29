@@ -111,14 +111,42 @@
   "condition_contract": {
     "contract_id": "CC-jp-001-P01-v1",
     "status": "draft",
+    "genre_template": "reflection",
+    "template_version": "reflection-v0.1",
+    "recommendation_policy_version": null,
     "conditions": [
       {
         "id": "C-jp-001-P01-01",
         "role": "REQUIRED",
-        "domain": "ASTRONOMY",
+        "domain": "WEATHER",
         "evaluation_mode": "GUIDANCE",
         "capability": "CONDITIONS",
-        "metric": "legacy_mountain_view",
+        "metric": "wind_speed_10m",
+        "operator": "lte",
+        "threshold": 2,
+        "unit": "m/s",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "jp-001-P01-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:wind_speed_10m_m_s|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "風速 ≤2 m/s：風生毛細波是倒影破碎的直接物理原因；2 m/s 約為鏡面與微漣的分界（實拍校準點）。",
+          "en": "Wind <= 2 m/s: wind-generated capillary waves are the direct physical cause of broken reflections; ~2 m/s is the mirror-vs-ripple boundary (calibration point).",
+          "ja": "風速≤2m/s。風による毛細波は反射を壊す直接の物理原因。約2m/sが鏡面とさざ波の境界（較正点）。"
+        }
+      },
+      {
+        "id": "C-jp-001-P01-02",
+        "role": "REQUIRED",
+        "domain": "EPHEMERAL",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "water_surface_state",
         "operator": "none",
         "threshold": null,
         "unit": null,
@@ -127,15 +155,70 @@
           "jp-001-P01-claim-01"
         ],
         "model_binding": null,
-        "notes_i18n": {
-          "zh-TW": "由 V1 主題對應的暫定條件；實際閾值待研究核實。",
-          "en": "Provisional condition mapped from the V1 theme; thresholds pending research.",
-          "ja": "V1テーマから対応した暫定条件。閾値は研究待ち。"
-        },
-        "validation_status": "provisional"
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "evidence_review",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "水面存續（不結冰、未乾涸）：季節性水體的存續由警語/公告層維護，屬純提示、不否決；缺公告時誠實 propagate unknown。",
+          "en": "Water presence (not frozen, not dried): seasonal-water existence is maintained in the advisory layer - pure notice, never a veto; propagates unknown when no advisory exists.",
+          "ja": "水面の存続（凍結・干上がりなし）。季節性水域の存続は警報層で管理。純粋な注意表示で否決しない。情報なければunknownを伝播。"
+        }
+      },
+      {
+        "id": "C-jp-001-P01-03",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "precipitation",
+        "operator": "lt",
+        "threshold": 0.2,
+        "unit": "mm/h",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "jp-001-P01-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "降雨同時打碎水面與妨礙拍攝；0.2 mm/h 以下不受影響。",
+          "en": "Rain both breaks the water surface and hampers shooting; below 0.2 mm/h is fine.",
+          "ja": "雨は水面を壊し撮影も妨げる。0.2mm/h未満なら影響なし。"
+        }
+      },
+      {
+        "id": "C-jp-001-P01-04",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "cloud_cover_total",
+        "operator": "between",
+        "threshold": [
+          20,
+          60
+        ],
+        "unit": "%",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "jp-001-P01-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:cloud_cover_total_percent|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MODIFIER",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "總雲量 20–60%：雲與彩霞在鏡面裡的對稱構圖是倒影的加分主體；全晴只有山形、全陰無色彩。",
+          "en": "Total cloud 20-60%: clouds and glow mirrored in the water are the bonus subject of reflections; clear sky gives only the landform, overcast gives no colour.",
+          "ja": "全雲量20〜60%。水面に映る雲や彩が反射の加算対象。快晴は山容のみ、全層雲は色彩なし。"
+        }
       }
-    ],
-    "recommendation_policy_version": null
+    ]
   },
   "evidence_claims": [
     {

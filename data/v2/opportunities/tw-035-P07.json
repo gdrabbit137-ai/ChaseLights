@@ -111,14 +111,149 @@
   "condition_contract": {
     "contract_id": "CC-tw-035-P07-v1",
     "status": "draft",
+    "genre_template": "seasonal_plant",
+    "template_version": "seasonal_plant-v0.1",
+    "recommendation_policy_version": null,
     "conditions": [
       {
         "id": "C-tw-035-P07-01",
         "role": "REQUIRED",
+        "domain": "EPHEMERAL",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "seasonal_state",
+        "operator": "eq",
+        "threshold": "window_open",
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-035-P07-claim-01"
+        ],
+        "model_binding": null,
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "computed",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "季節窗判定：evaluation 取值為 window_open / window_closed（由 seasonal-calendar.json 的例年窗與今年實況窗對拍日曆得出；實況優先，兩者皆缺時誠實 not_evaluatable）。",
+          "en": "Seasonal-window verdict: the evaluation value is window_open / window_closed (resolved by matching the calendar date against typical and current-season windows in seasonal-calendar.json; observed takes precedence, and with neither present the genre is honestly not_evaluatable).",
+          "ja": "季節窓判定：評価値は window_open/window_closed（seasonal-calendar.json の例年窓・当年窓と日付の突き合わせで決定。実況優先、どちらも欠ければ誠実に not_evaluatable）。"
+        }
+      },
+      {
+        "id": "C-tw-035-P07-02",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "precipitation",
+        "operator": "lt",
+        "threshold": 0.2,
+        "unit": "mm/h",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-035-P07-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "降雨 <0.2 mm/h：花田步道基本可拍（沿用已審門檻）；微雨對花景反而有水珠加分效果，不設下限。",
+          "en": "Precipitation < 0.2 mm/h: basic shootability of flower fields and trails (approved threshold carried over); light drizzle adds droplet charm, so no lower bound is imposed.",
+          "ja": "降水<0.2mm/h。花畑・遊歩道の基本撮影可否。小雨は水滴として好条件のため下限は設けない。"
+        }
+      },
+      {
+        "id": "C-tw-035-P07-03",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "wind_speed_10m",
+        "operator": "lt",
+        "threshold": 5,
+        "unit": "m/s",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-035-P07-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:wind_speed_10m_m_s|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "風 <5 m/s：花穗搖曳是構圖元素、強風破壞拍攝（金針花特寫/芒草逆光都禁強風）。5 為 provisional，可依主題差異化（芒草或許更寬）。",
+          "en": "Wind < 5 m/s: sway is compositional up to a point, gale ruins the shot (daylily close-ups and backlit silvergrass both need calm). 5 is provisional and may be differentiated per plant (silvergrass might tolerate more).",
+          "ja": "風<5m/s。揺れは構図要素だが強風は撮影不能。5は暫定値で植物ごとの差別化も可。"
+        }
+      },
+      {
+        "id": "C-tw-035-P07-04",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "aod_550nm",
+        "operator": "lte",
+        "threshold": 0.6,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-035-P07-claim-01"
+        ],
+        "model_binding": "dataset:cams_global|field:aerosol_optical_depth_550nm|role:AEROSOL",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "層次山景的「層」來自大氣透視：遠山隔著適度霧霾才會一層比一層淡、分出層次；完全乾淨的空氣反而讓輪廓銳利、畫面變平。因此只設上限：霧霾厚到遠山整個消失（AOD>0.6）才否決，中等霧霾是這個題材的正常狀態。",
+          "en": "The layers in a layered mountain vista come from aerial perspective: distant ridges fade step by step through moderate haze; perfectly clean air makes edges harsh and the composition flat. So only an upper bound applies - veto only when haze is thick enough to swallow the far ridges (AOD > 0.6); moderate haze is this genre's normal state.",
+          "ja": "層になる山並みの「層」は大気遠近法が作る。適度なヘイズを挟むことで遠い稜線ほど淡く重なる。空気が澄みすぎると輪郭がきつくなり画面が平坦になる。ゆえに上限のみ設定し、ヘイズが遠山を飲み込むほど濃い場合（AOD>0.6）だけ否決する。"
+        },
+        "genre_template": "mountain_view",
+        "template_version": "mountain_view-v0.1"
+      },
+      {
+        "id": "C-tw-035-P07-05",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "cloud_cover_mid",
+        "operator": "between",
+        "threshold": [
+          30,
+          60
+        ],
+        "unit": "%",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-035-P07-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:cloud_cover_mid_percent|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "完全無雲＝沒有層次；山腰雲帶（中雲 30–60%）形成層疊分明的畫面。",
+          "en": "A cloudless sky has no layering; mid-level cloud bands on the mountainsides (30-60%) build the stacked composition.",
+          "ja": "雲がなければ層はない。山腹の雲帯（中層雲30-60%）が重なりのある構図を作る。"
+        },
+        "genre_template": "mountain_view",
+        "template_version": "mountain_view-v0.1"
+      },
+      {
+        "id": "C-tw-035-P07-07",
+        "role": "QUALITY",
         "domain": "ASTRONOMY",
         "evaluation_mode": "GUIDANCE",
         "capability": "CONDITIONS",
-        "metric": "legacy_mountain_view",
+        "metric": "sunset_window",
         "operator": "none",
         "threshold": null,
         "unit": null,
@@ -127,15 +262,19 @@
           "tw-035-P07-claim-01"
         ],
         "model_binding": null,
-        "notes_i18n": {
-          "zh-TW": "由 V1 主題對應的暫定條件；實際閾值待研究核實。",
-          "en": "Provisional condition mapped from the V1 theme; thresholds pending research.",
-          "ja": "V1テーマから対応した暫定条件。閾値は研究待ち。"
+        "validation_status": "provisional",
+        "condition_tier": "MODIFIER",
+        "threshold_source": "computed",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "暮色低角度光是層次的點燈源：日落前後的逆光把稜線剪影、雲帶邊緣與遠山明暗節奏同時點亮，層次山景在這個窗口最明顯。作為加分項而非門檻（白天有雲帶時仍可拍，但層次感較弱）。",
+          "en": "Low-angle dusk light is what lights the layering: near sunset, backlight silhouettes the ridgeline, edges the cloud bands and sets the brightness rhythm between ridges, so layered vistas read best in this window. A bonus, not a gate - daytime shots with cloud bands still work, just with weaker layering.",
+          "ja": "夕暮れの低角度光が層を照らす：日没前後の逆光で稜線のシルエット、雲帯の縁、遠山の明暗リズムが同時に立ち、層になった山並みが最も読める。門檻ではなく加点（昼間でも雲帯があれば撮れるが、層は弱い）。"
         },
-        "validation_status": "provisional"
+        "genre_template": "mountain_view",
+        "template_version": "mountain_view-v0.1"
       }
-    ],
-    "recommendation_policy_version": null
+    ]
   },
   "evidence_claims": [
     {
