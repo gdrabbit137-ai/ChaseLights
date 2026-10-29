@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/gdrabbit137-ai/ChaseLights/blob/main/specs/v2/schema/evaluation-bundle-v0.1.schema.json",
+  "title": "ChaseLights V2 EvaluationBundle v0.1",
+  "description": "Batch GUIDANCE-only runtime evaluation artifact (owner-authorized 2026-10-26). Provisional/approved genre-template thresholds; never FAVORABLE; live_recommendation is always false. Grid forecast + deterministic astronomy; honest UNKNOWN for metrics without a live observation source.",
+  "type": "object",
+  "required": ["evaluation_bundle_version", "generated_at", "forecast_hours", "guidance_only", "live_recommendation", "calibration_status", "provider", "limitations_i18n", "place_count", "opportunity_count", "places"],
+  "additionalProperties": false,
+  "properties": {
+    "evaluation_bundle_version": {"const": "0.1.0"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "forecast_hours": {"type": "integer", "minimum": 1, "maximum": 168},
+    "guidance_only": {"const": true},
+    "live_recommendation": {"const": false},
+    "calibration_status": {"const": "PROVISIONAL_THRESHOLDS"},
+    "provider": {
+      "type": "object",
+      "required": ["name", "licence", "urls"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {"type": "string"},
+        "licence": {"const": "CC BY 4.0"},
+        "urls": {"type": "object", "required": ["terms", "licence"], "additionalProperties": false,
+                 "properties": {"terms": {"type": "string", "format": "uri"}, "licence": {"type": "string", "format": "uri"}}}
+      }
+    },
+    "limitations_i18n": {"type": "object", "required": ["zh-TW", "en", "ja"],
+      "properties": {"zh-TW": {"type": "string"}, "en": {"type": "string"}, "ja": {"type": "string"}},
+      "additionalProperties": false},
+    "place_count": {"type": "integer", "minimum": 0},
+    "opportunity_count": {"type": "integer", "minimum": 0},
+    "fetch_failures": {"type": "array", "items": {"type": "object"}},
+    "skipped": {"type": "array", "items": {"type": "object"}},
+    "provider_runs_count": {"type": "integer", "minimum": 0},
+    "places": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["place_id", "coordinate", "coordinate_source", "timezone_display", "opportunities"],
+        "additionalProperties": false,
+        "properties": {
+          "place_id": {"type": ["string", "null"]},
+          "name_i18n": {"type": "object"},
+          "coordinate": {"type": "array", "items": {"type": "number"}, "minItems": 2, "maxItems": 2},
+          "coordinate_source": {"type": "string"},
+          "timezone_display": {
+            "type": "object", "required": ["iana", "utc_offset_hours", "status"],
+            "additionalProperties": false,
+            "properties": {"iana": {"type": ["string", "null"]}, "utc_offset_hours": {"type": "number"},
+                           "status": {"const": "DISPLAY_APPROXIMATION"}}
+          },
+          "provider_run": {
+            "type": "object", "required": ["run_id", "provider", "source", "issued_at", "valid_at", "freshness"],
+            "additionalProperties": true,
+            "properties": {"run_id": {"type": "string"}, "provider": {"type": "string"},
+                           "source": {"type": "string"}, "issued_at": {"type": "string"},
+                           "valid_at": {"type": "string"}, "freshness": {"type": "string"}}
+          },
+          "opportunities": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["opportunity_id", "genre_template", "condition_contract_id", "condition_contract_sha256", "days"],
+              "additionalProperties": false,
+              "properties": {
+                "opportunity_id": {"type": "string", "pattern": "^[a-z]{2}-\\d{3}-P\\d{2}$"},
+                "name_i18n": {"type": "object"},
+                "genre_template": {"type": "string"},
+                "condition_contract_id": {"type": "string"},
+                "condition_contract_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+                "days": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": ["local_date", "state", "good_hours", "hour_counts", "conditions"],
+                    "additionalProperties": false,
+                    "properties": {
+                      "local_date": {"type": "string", "format": "date"},
+                      "state": {"enum": ["GUIDANCE_SATISFIED", "UNFAVORABLE", "NOT_EVALUABLE"]},
+                      "good_hours": {"type": "array", "items": {"type": "string", "pattern": "^\\d{2}:\\d{2}$"}},
+                      "hour_counts": {
+                        "type": "object", "required": ["GUIDANCE_SATISFIED", "UNFAVORABLE", "NOT_EVALUABLE"],
+                        "additionalProperties": {"type": "integer", "minimum": 0}
+                      },
+                      "conditions": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "required": ["id", "metric", "tier", "role", "day_verdict", "pass_hours"],
+                          "additionalProperties": false,
+                          "properties": {
+                            "id": {"type": "string"},
+                            "metric": {"type": "string"},
+                            "tier": {"enum": ["MAIN", "MODIFIER", "SHOOT", "BONUS"]},
+                            "role": {"enum": ["REQUIRED", "BLOCKER", "QUALITY"]},
+                            "day_verdict": {"enum": ["PASS", "FAIL", "PARTIAL", "UNKNOWN"]},
+                            "pass_hours": {"type": "integer", "minimum": 0}
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

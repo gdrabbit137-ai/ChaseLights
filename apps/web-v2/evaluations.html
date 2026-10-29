@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ChaseLights — 攝影條件評估</title>
+<style>
+:root{--ink:#1c2430;--mut:#5b6673;--line:#e3e7ec;--bg:#fbfcfd;--card:#fff;--ok:#1a7f4b;--no:#b3453a;--unk:#8a6d1f}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Noto Sans TC","Helvetica Neue",Arial,sans-serif;color:var(--ink);background:var(--bg)}
+header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--line);background:#fff}
+header h1{font-size:18px;margin:0;font-weight:600}
+.hlinks{display:flex;gap:14px;align-items:center}
+.hlinks a{color:#2456a6;text-decoration:none;font-size:14px}
+.lang button{border:1px solid var(--line);background:#fff;border-radius:6px;padding:3px 9px;margin-left:6px;font-size:13px;cursor:pointer}
+.lang button[aria-pressed="true"]{background:#eef3fb;border-color:#2456a6}
+main{max-width:980px;margin:0 auto;padding:18px}
+.notice{border:1px solid #e8d9a0;background:#fdf8e7;border-radius:8px;padding:10px 14px;font-size:13px;color:#6b5a1e;margin-bottom:16px;line-height:1.55}
+.meta{font-size:12px;color:var(--mut);margin-bottom:14px}
+.tabs{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.tabs button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:7px 16px;font-size:14px;cursor:pointer}
+.tabs button[aria-selected="true"]{background:#1c2430;color:#fff;border-color:#1c2430}
+.place{background:var(--card);border:1px solid var(--line);border-radius:10px;margin-bottom:14px;overflow:hidden}
+.place h2{font-size:16px;margin:0;padding:12px 16px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:baseline;cursor:pointer}
+.place h2 .tz{font-size:12px;color:var(--mut);font-weight:400}
+.opp{display:flex;gap:12px;align-items:baseline;padding:10px 16px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.opp:last-child{border-bottom:0}
+.opp .name{font-size:14px;min-width:180px}
+.opp .genre{font-size:12px;color:var(--mut)}
+.chip{font-size:12px;border-radius:6px;padding:2px 8px;white-space:nowrap}
+.chip.ok{background:#e5f4ec;color:var(--ok)}
+.chip.no{background:#f9e9e7;color:var(--no)}
+.chip.unk{background:#f6efdc;color:var(--unk)}
+.hours{font-size:12px;color:var(--mut)}
+.detail{width:100%;border-collapse:collapse;font-size:12px;margin:8px 0 4px}
+.detail td,.detail th{border-top:1px solid var(--line);padding:4px 8px;text-align:left}
+.detail th{color:var(--mut);font-weight:500}
+footer{padding:18px;text-align:center;font-size:12px;color:var(--mut)}
+details summary{cursor:pointer;font-size:13px;color:#2456a6;padding:2px 0}
+</style>
+</head>
+<body>
+<header>
+  <h1 id="t-title">攝影條件評估</h1>
+  <div class="hlinks">
+    <a href="index.html" id="t-home">Home</a>
+    <span class="lang">
+      <button data-lang="zh-TW" aria-pressed="true">繁</button>
+      <button data-lang="en">EN</button>
+      <button data-lang="ja">日</button>
+    </span>
+  </div>
+</header>
+<main>
+  <div class="notice" id="notice"></div>
+  <div class="meta" id="meta"></div>
+  <div class="tabs" id="tabs"></div>
+  <div id="content"></div>
+</main>
+<footer id="footer"></footer>
+<script type="module">
+const I18N={
+ "zh-TW":{title:"攝影條件評估",home:"首頁",guide:"GUIDANCE 參考",ok:"條件符合",no:"條件未符",unk:"資料不足",
+  good:"符合時段（當地近似時間）",noneGood:"無符合時段",detail:"條件明細",cond:"條件",tier:"層級",verdict:"判定",
+  passHours:"符合小時數",updated:"資料產生時間",valid:"預報窗口",places:"景點組",opps:"機會",prov:"資料來源",
+  tz:"時間為當地近似（顯示用）",genre:"題材",noData:"此機會無法評估（無已驗證座標）",
+  tiers:{MAIN:"主",MODIFIER:"修正",BONUS:"加分",SHOOT:"拍攝"},
+  verdicts:{PASS:"符合",FAIL:"未符",UNKNOWN:"未知"}},
+ en:{title:"Photography Condition Evaluation",home:"Home",guide:"GUIDANCE only",ok:"Conditions met",no:"Conditions not met",unk:"Insufficient data",
+  good:"Qualifying hours (approx. local time)",noneGood:"No qualifying hours",detail:"Condition detail",cond:"Condition",tier:"Tier",verdict:"Verdict",
+  passHours:"Qualifying hours",updated:"Generated at",valid:"Forecast window",places:"place groups",opps:"opportunities",prov:"Data source",
+  tz:"Times shown in approximate local clock (display only)",genre:"Genre",noData:"Not evaluable (no verified coordinate)",
+  tiers:{MAIN:"MAIN",MODIFIER:"MODIFIER",BONUS:"BONUS",SHOOT:"SHOOT"},
+  verdicts:{PASS:"PASS",FAIL:"FAIL",UNKNOWN:"UNKNOWN"}},
+ ja:{title:"撮影条件評価",home:"ホーム",guide:"GUIDANCE参考",ok:"条件を満たす",no:"条件を満たさず",unk:"データ不足",
+  good:"適合時間帯（現地近似時刻）",noneGood:"適合時間帯なし",detail:"条件明細",cond:"条件",tier:"層",verdict:"判定",
+  passHours:"適合時間数",updated:"生成時刻",valid:"予報期間",places:"地点グループ",opps:"機会",prov:"データ源",
+  tz:"時刻は現地近似（表示用）",genre:"ジャンル",noData:"評価不可（検証済み座標なし）",
+  tiers:{MAIN:"主",MODIFIER:"修正",BONUS:"ボーナス",SHOOT:"撮影"},
+  verdicts:{PASS:"適合",FAIL:"不適合",UNKNOWN:"不明"}}
+};
+const GENRE={
+ cloud_sea:{"zh-TW":"雲海",en:"Sea of clouds",ja:"雲海"},
+ sunrise:{"zh-TW":"日出",en:"Sunrise",ja:"ご来光"},
+ sunset:{"zh-TW":"夕景",en:"Sunset",ja:"夕景"},
+ golden_hour:{"zh-TW":"黃金時刻",en:"Golden hour",ja:"ゴールデンアワー"},
+ blue_hour_city:{"zh-TW":"城市藍調",en:"City blue hour",ja:"都市ブルーアワー"},
+ city_night:{"zh-TW":"城市夜景",en:"City night",ja:"都市夜景"},
+ night_sky:{"zh-TW":"星空",en:"Night sky",ja:"星空"},
+ mountain_view:{"zh-TW":"山景展望",en:"Mountain view",ja:"山岳展望"},
+ overlook:{"zh-TW":"展望台",en:"Overlook",ja:"展望台"},
+ reflection:{"zh-TW":"倒影",en:"Reflection",ja:"鏡面反射"},
+ overcast_soft:{"zh-TW":"柔和陰天",en:"Soft overcast",ja:"ソフトな曇天"},
+ seasonal_plant:{"zh-TW":"季節植物",en:"Seasonal plants",ja:"季節の植物"},
+ geological_landform:{"zh-TW":"地質地景",en:"Geological landform",ja:"地質地形"},
+ waterfall:{"zh-TW":"瀑布",en:"Waterfall",ja:"滝"}
+};
+let LANG=localStorage.getItem("cl-lang")||"zh-TW";
+let DATA=null,DAY=null,OPEN=new Set();
+const $=s=>document.querySelector(s);
+function T(){return I18N[LANG]}
+function chip(state){
+ const t=T();
+ if(state==="GUIDANCE_SATISFIED")return `<span class="chip ok">${t.ok}</span>`;
+ if(state==="UNFAVORABLE")return `<span class="chip no">${t.no}</span>`;
+ return `<span class="chip unk">${t.unk}</span>`;
+}
+function fmtHours(list){
+ if(!list||!list.length)return T().noneGood;
+ // collapse consecutive HH:MM into ranges
+ const mins=list.map(h=>{const[a,b]=h.split(":");return +a*60+ +b}).sort((x,y)=>x-y);
+ const out=[];let s=mins[0],p=mins[0];
+ for(let i=1;i<=mins.length;i++){
+  if(i<mins.length&&mins[i]===p+60){p=mins[i];continue}
+  const f=m=>String(Math.floor(m/60)).padStart(2,"0")+":"+String(m%60).padStart(2,"0");
+  out.push(s===p?f(s):`${f(s)}–${f(Math.min(p+59,1439))}`);
+  if(i<mins.length){s=p=mins[i]}
+ }
+ return out.join("、")||T().noneGood;
+}
+function render(){
+ const t=T();
+ $("#t-title").textContent=t.title;$("#t-home").textContent=t.home;
+ document.querySelectorAll(".lang button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.lang===LANG)));
+ $("#notice").textContent=DATA.limitations_i18n[LANG];
+ $("#meta").textContent=`${t.updated}: ${DATA.generated_at} ｜ ${t.valid}: ${DATA.valid_from} – ${DATA.valid_until} ｜ ${DATA.place_count} ${t.places} ｜ ${DATA.opportunity_count} ${t.opps} ｜ ${t.prov}: ${DATA.provider.name} (${DATA.provider.licence})`;
+ const tabs=$("#tabs");tabs.innerHTML="";
+ DATA.days.forEach(d=>{
+  const b=document.createElement("button");b.textContent=d;b.setAttribute("aria-selected",String(d===DAY));
+  b.onclick=()=>{DAY=d;render()};tabs.appendChild(b)});
+ if(!DAY)DAY=DATA.days[0];
+ const c=$("#content");c.innerHTML="";
+ for(const place of DATA.places){
+  const opps=place.opportunities.filter(o=>o.days.some(x=>x.local_date===DAY));
+  if(!opps.length)continue;
+  const card=document.createElement("section");card.className="place";
+  const name=place.name_i18n[LANG]||place.name_i18n["en"]||place.place_id;
+  const head=document.createElement("h2");
+  head.innerHTML=`<span>${name}</span><span class="tz">${place.timezone_display.iana} · ${t.tz}</span>`;
+  head.onclick=()=>{const key=place.place_id;OPEN.has(key)?OPEN.delete(key):OPEN.add(key);render()};
+  card.appendChild(head);
+  const isOpen=OPEN.has(place.place_id);
+  for(const o of opps){
+   if(!isOpen&&opps.length>1){/* collapsed: show first opp only as summary */}
+   const day=o.days.find(x=>x.local_date===DAY);
+   const row=document.createElement("div");row.className="opp";
+   const genre=GENRE[o.genre_template]?GENRE[o.genre_template][LANG]:o.genre_template;
+   row.innerHTML=`<span class="name">${name!==(o.name_i18n&&o.name_i18n[LANG])?oShort(o,LANG):""}</span>
+    <span class="genre">${genre}</span>${chip(day.state)}
+    <span class="hours">${day.state==="GUIDANCE_SATISFIED"?fmtHours(day.good_hours):""}</span>`;
+   card.appendChild(row);
+   if(isOpen){
+    const det=document.createElement("details");
+    det.innerHTML=`<summary>${t.detail}</summary>`;
+    const table=document.createElement("table");table.className="detail";
+    let rows="";
+    for(const cd of day.conditions||[]){
+     rows+=`<tr><td>${cd.metric}</td><td>${t.tiers[cd.tier]||cd.tier}</td><td>${t.verdicts[cd.day_verdict]||cd.day_verdict}</td><td>${cd.pass_hours}</td></tr>`;
+    }
+    table.innerHTML=`<tr><th>${t.cond}</th><th>${t.tier}</th><th>${t.verdict}</th><th>${t.passHours}</th></tr>`+rows;
+    det.appendChild(table);card.appendChild(det);
+   }
+  }
+  // collapse behaviour: when closed show only summary rows (already all rows; fine)
+  c.appendChild(card);
+ }
+ $("#footer").textContent=`${DATA.provider.name} ${DATA.provider.licence} · ChaseLights V2 evaluation ${DATA.evaluation_bundle_version}`;
+}
+function oShort(o,lang){
+ const n=o.name_i18n&&o.name_i18n[lang];return n||o.opportunity_id;
+}
+function enrich(){
+ // derive valid window + per-day condition aggregates are precomputed server-side
+}
+fetch("evaluations-latest.json",{cache:"no-store"}).then(r=>r.json()).then(d=>{
+ DATA=d;
+ const days=new Set();for(const p of DATA.places)for(const o of p.opportunities)for(const x of o.days)days.add(x.local_date);
+ DATA.days=[...days].sort();
+ DATA.valid_from=DATA.days[0];DATA.valid_until=DATA.days[DATA.days.length-1];
+ DATA.generated_at_display=DATA.generated_at;
+ render();
+ document.querySelectorAll(".lang button").forEach(b=>b.onclick=()=>{LANG=b.dataset.lang;localStorage.setItem("cl-lang",LANG);render()});
+});
+</script>
+</body>
+</html>
