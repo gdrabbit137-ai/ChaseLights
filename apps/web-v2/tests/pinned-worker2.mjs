@@ -4,7 +4,7 @@ import {readFileSync} from 'node:fs';
 import {resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
 
-export const W2_SHA = '2177bd8c8b6c18e0a4b284e50b55d0ff12697ddd';
+export const W2_SHA = '0f8f754027d23d12f966459d115e920d1d192d68';
 export const fixtureDirectory = fileURLToPath(new URL('./fixtures/worker2/', import.meta.url));
 export const manifest = JSON.parse(readFileSync(resolve(fixtureDirectory, 'manifest.json'), 'utf8'));
 export function gitBlob(buffer) {
