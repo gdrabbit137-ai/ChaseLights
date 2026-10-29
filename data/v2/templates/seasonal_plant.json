@@ -19,7 +19,7 @@
       "template_ref": "S1",
       "metric": "seasonal_state",
       "role": "REQUIRED",
-      "domain": "EPHEMERAL",
+      "domain": "SEASON_TIME",
       "evaluation_mode": "GUIDANCE",
       "capability": "CONDITIONS",
       "condition_tier": "MAIN",
@@ -87,5 +87,7 @@
       "threshold": 5
     }
   ],
-  "owner_review": "2026-10-26 owner-approved as drafted. S1 reads the owner-maintained calendar (data/v2/seasonal-calendar.json; fail-closed: current_season requires source_url + retrieved_at, otherwise only the typical window is displayed); S2 precip <0.2 mm/h carries the reviewed generic shootability threshold; S3 wind <5 m/s is provisional — per-plant differentiation (e.g. silvergrass may tolerate more wind) is recorded as calibration debt. Owner maintains plant windows and current-season sources; AI harvest writes only the current_season field and never without a source. Expansion is now enabled."
+  "owner_review": "2026-10-26 owner-approved as drafted. S1 reads the owner-maintained calendar (data/v2/seasonal-calendar.json; fail-closed: current_season requires source_url + retrieved_at, otherwise only the typical window is displayed); S2 precip <0.2 mm/h carries the reviewed generic shootability threshold; S3 wind <5 m/s is provisional — per-plant differentiation (e.g. silvergrass may tolerate more wind) is recorded as calibration debt. Owner maintains plant windows and current-season sources; AI harvest writes only the current_season field and never without a source. Expansion is now enabled.",
+  "revision": "0.1.1",
+  "revision_note": "2026-10-26 domain relabel to W1 enum for W1 crosswalk schema compliance (SEASON_TIME/HYDROLOGY/SUBJECT_STATE); no threshold or operator changes"
 }

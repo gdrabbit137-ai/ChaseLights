@@ -38,7 +38,7 @@
       "template_ref": "T2",
       "metric": "water_surface_state",
       "role": "REQUIRED",
-      "domain": "EPHEMERAL",
+      "domain": "HYDROLOGY",
       "evaluation_mode": "GUIDANCE",
       "capability": "CONDITIONS",
       "condition_tier": "MAIN",
@@ -109,5 +109,7 @@
       ]
     }
   ],
-  "owner_review": "2026-10-26 approved as drafted (wind <=2 m/s is the weakest proxy of all genres - top calibration priority; water-surface persistence stays advisory-only with honest unknown)"
+  "owner_review": "2026-10-26 approved as drafted (wind <=2 m/s is the weakest proxy of all genres - top calibration priority; water-surface persistence stays advisory-only with honest unknown)",
+  "revision": "0.1.1",
+  "revision_note": "2026-10-26 domain relabel to W1 enum for W1 crosswalk schema compliance (SEASON_TIME/HYDROLOGY/SUBJECT_STATE); no threshold or operator changes"
 }

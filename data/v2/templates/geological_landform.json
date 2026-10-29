@@ -23,7 +23,7 @@
       "template_ref": "L1",
       "metric": "landform_present",
       "role": "REQUIRED",
-      "domain": "LANDFORM",
+      "domain": "SUBJECT_STATE",
       "evaluation_mode": "GUIDANCE",
       "capability": "CONDITIONS",
       "condition_tier": "MAIN",
@@ -117,5 +117,7 @@
     "zh-TW": "草擬自 4 個地質景點樣本（拱門、峽谷、奇岩）＋現有閱覽條件模板：靜態主體無天氣主判據，僅保留可拍性（precip、AOD）與黃金時刻加分。映射由管線以過去 72h 累積雨量推導，provisional 待 owner 複審校準。",
     "en": "Drafted from 4 geological landform samples (arches, canyons, hoodoos) plus the existing viewing-condition template: a static subject has no weather main-criterion, so only shootability (precip, AOD) and a golden-hour bonus remain. Mapping is provisional, pending owner review and calibration.",
     "ja": "4つの地質景観サンプル（アーチ・峡谷・奇岩）と既存の展望条件テンプレートから草稿。静的主体は気象主判断が無く、撮影可否（降水・AOD）とゴールデンアワーの加点のみ。マッピングは暫定で、オーナー複審待ち。"
-  }
+  },
+  "revision": "0.1.1",
+  "revision_note": "2026-10-26 domain relabel to W1 enum for W1 crosswalk schema compliance (SEASON_TIME/HYDROLOGY/SUBJECT_STATE); no threshold or operator changes"
 }
