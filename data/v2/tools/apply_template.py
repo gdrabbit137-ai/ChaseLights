@@ -276,7 +276,7 @@ def expand(template_id: str, opportunity_id: str, skeleton_path: Path,
     for i, c in enumerate(t['conditions'], 1):
         ref_to_id[c['template_ref']] = f'C-{opportunity_id}-{i:02d}'
     for i, c in enumerate(t['conditions'], 1):
-        thr = c['threshold']
+        thr = c.get('threshold')
         if isinstance(thr, dict):
             thr = _eval_expr(thr['expr'], params)
         cond = {

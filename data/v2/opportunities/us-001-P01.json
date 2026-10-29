@@ -111,31 +111,111 @@
   "condition_contract": {
     "contract_id": "CC-us-001-P01-v1",
     "status": "draft",
+    "genre_template": "overlook",
+    "template_version": "overlook-v0.2",
+    "recommendation_policy_version": null,
     "conditions": [
       {
         "id": "C-us-001-P01-01",
         "role": "REQUIRED",
-        "domain": "ASTRONOMY",
+        "domain": "WEATHER",
         "evaluation_mode": "GUIDANCE",
         "capability": "CONDITIONS",
-        "metric": "legacy_sunrise",
-        "operator": "none",
-        "threshold": null,
+        "metric": "visibility",
+        "operator": "gte",
+        "threshold": 24,
+        "unit": "km",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "us-001-P01-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:visibility_km|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "computed",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "能見度 ≥ min(眺望距離, 24 km)：遠景清晰度的直接代理。誠實標註：GFS/Open-Meteo 能見度欄位上限約 24 km，超過後此判據鈍化（報 24 km 不代表能看 100 km）——長距離眺望由 V2（AOD）承擔真實判別。",
+          "en": "Visibility >= min(view range, 24 km): the direct proxy for distant-layer clarity. Honest note: the GFS/Open-Meteo visibility field caps near 24 km, so beyond that this criterion saturates (24 km reported does not mean 100 km visible) - long-range discrimination is carried by V2 (AOD).",
+          "ja": "視程≥min(眺望距離, 24km)。遠景の鮮明さの直接的代理。GFS/Open-Meteoの視程は約24kmで飽和するため、長距離の判別はV2(AOD)が担う。"
+        }
+      },
+      {
+        "id": "C-us-001-P01-02",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "aod_550nm",
+        "operator": "lte",
+        "threshold": 0.4,
         "unit": null,
         "unknown_policy": "propagate_unknown",
         "claim_refs": [
           "us-001-P01-claim-01"
         ],
-        "model_binding": null,
-        "notes_i18n": {
-          "zh-TW": "由 V1 主題對應的暫定條件；實際閾值待研究核實。",
-          "en": "Provisional condition mapped from the V1 theme; thresholds pending research.",
-          "ja": "V1テーマから対応した暫定条件。閾値は研究待ち。"
-        },
-        "validation_status": "provisional"
+        "model_binding": "dataset:cams_global|field:aerosol_optical_depth_550nm|role:AEROSOL",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "AOD ≤0.4：長程能見度的實際決定因子（氣溶膠消光）。比 night_sky（0.3）寬、比 sunset（0.6）嚴——俯瞰全景需要跨數十公里的層次對比。provisional，長距離景點校準第一優先。",
+          "en": "AOD <= 0.4: the actual determinant of long-range visibility (aerosol extinction). Looser than night_sky (0.3), tighter than sunset (0.6) - a panorama needs layered contrast across tens of kilometres. Provisional; top calibration priority for long-range spots.",
+          "ja": "AOD≤0.4。長距離視程の実質的决定因子。night_sky(0.3)より緩くsunset(0.6)より厳しい。暫定値。"
+        }
+      },
+      {
+        "id": "C-us-001-P01-03",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "cloud_cover_low",
+        "operator": "lte",
+        "threshold": null,
+        "unit": "%",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "us-001-P01-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:cloud_cover_low_percent|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "低雲量 ≤30%（2026-10-26 owner 修正，取代原總雲 70%）：俯瞰的主體在地面，真正擋住目標的是雲底低於視線路徑的低雲/霧層；高卷雲飄在天空是構圖元素、不該否決。總雲判據物理上分不開這兩種情況（65% 全低雲幕全景已毀、85% 全高雲全景很好），故改以 cloud_cover_low 為主判據，中高雲退出否決鏈。30% 語意：目標區上空基本淨空、允許零星雲影。provisional，與 AOD 0.4 並列校準第一優先。",
+          "en": "Low cloud <= 30% (owner correction 2026-10-26, replacing the original 70% total-cloud gate): the subject of an overlook lies on the ground, and what actually blocks it is low cloud/fog with a base below the sightline; high cirrus floats in the sky as a compositional element and must not veto. A total-cloud threshold cannot separate the two cases (65% all-low deck ruins the panorama, 85% all-high cloud leaves it fine), so cloud_cover_low becomes the main criterion and mid/high clouds leave the veto chain. 30% reads as 'target area essentially clear, scattered cloud shadows allowed'. Provisional, top calibration priority alongside AOD 0.4.",
+          "ja": "下層雲≤30%（2026-10-26 オーナー修正、従来の全雲量70%に代わる）。俯瞰の主題は地面にあり、邪魔するのは視線より低い雲底の下層雲/霧。高層雲は構図要素で否決しない。全雲量では両者を区別できないため cloud_cover_low を主判断とし、中上層雲は否決チェーンから外す。30%は「対象域ほぼ晴透、点在する雲影は許容」。暫定値。"
+        }
+      },
+      {
+        "id": "C-us-001-P01-04",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "precipitation",
+        "operator": "lt",
+        "threshold": 0.2,
+        "unit": "mm/h",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "us-001-P01-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "降雨 <0.2 mm/h：拍攝本身不受影響（沿用已審門檻）。",
+          "en": "Precipitation < 0.2 mm/h: shooting unaffected (approved threshold carried over).",
+          "ja": "降水<0.2mm/h。撮影への影響なし。"
+        }
       }
-    ],
-    "recommendation_policy_version": null
+    ]
   },
   "evidence_claims": [
     {
