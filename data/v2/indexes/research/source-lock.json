@@ -989,9 +989,9 @@
   {
    "opportunity_id": "tw-027-P02",
    "path": "data/v2/opportunities/tw-027-P02.json",
-   "blob_sha": "3f6d6d368750e644984a8f1cede63ccf4e992e4e",
-   "sha256": "0a6af6d5306e4f011c51cf3cb429c6462363f9a69b5d03f3457482222cee7082",
-   "commit_sha": "f011c3ca917b8fb5901b15766d19696de384901d"
+   "blob_sha": "5f339d30fec8f4edf49c8be0a9b7d1532385c194",
+   "sha256": "dc48ef6f3c393d1f8d1be3b2fb144343ed433ed60526d0f587bcd63c5dee39a9",
+   "commit_sha": "68f893cb51c8ca8ea209ff19bbb9cdf14608aa7c"
   },
   {
    "opportunity_id": "tw-027-P03",
@@ -1159,9 +1159,9 @@
   {
    "opportunity_id": "tw-035-P05",
    "path": "data/v2/opportunities/tw-035-P05.json",
-   "blob_sha": "6f2ca2804bc77f1bf09587a21d940cd35c599131",
-   "sha256": "3be0b4b9eac52a02a87d939f71e47ae6751389dfc47d4eb2d7b21dd1897fcabd",
-   "commit_sha": "f011c3ca917b8fb5901b15766d19696de384901d"
+   "blob_sha": "c78950c922e8e6ee1d1c9ff004354c2935a61f72",
+   "sha256": "62f7dc76dbd99a07852b87f6d6831704920cc2d70a7caf9bcc5ba73135b18358",
+   "commit_sha": "68f893cb51c8ca8ea209ff19bbb9cdf14608aa7c"
   },
   {
    "opportunity_id": "tw-035-P06",
@@ -1210,9 +1210,9 @@
   {
    "opportunity_id": "tw-036-P02",
    "path": "data/v2/opportunities/tw-036-P02.json",
-   "blob_sha": "85ba786f1daeb36bccf5f70d3faed70a67a66071",
-   "sha256": "2c19cee765395b0c2aec83eb82de3a6e206a19eba1e1bf8c35c22663e820aa8a",
-   "commit_sha": "f011c3ca917b8fb5901b15766d19696de384901d"
+   "blob_sha": "6503fc64ede42a22082a76bf4de7e175e080f5be",
+   "sha256": "1ba68e16eab9816e0bafaac31955a78b2429f1fafaadf0c368a54487d8a91df5",
+   "commit_sha": "68f893cb51c8ca8ea209ff19bbb9cdf14608aa7c"
   },
   {
    "opportunity_id": "tw-036-P03",
@@ -1245,9 +1245,9 @@
   {
    "opportunity_id": "tw-038-P02",
    "path": "data/v2/opportunities/tw-038-P02.json",
-   "blob_sha": "e6022f4f2969a8bd3ce578c1aa4a86dc811f1c0a",
-   "sha256": "4568af43c35a2c35bd32f7062165a2cff78ac327f51b3c6cea48f4fb6af25220",
-   "commit_sha": "f011c3ca917b8fb5901b15766d19696de384901d"
+   "blob_sha": "696ff17783aed44957b7e63f0093b1ec37b9c2ca",
+   "sha256": "5036b31c3950350008efec2db72fbe1434a53b32400322ee499aab74089a307b",
+   "commit_sha": "68f893cb51c8ca8ea209ff19bbb9cdf14608aa7c"
   },
   {
    "opportunity_id": "tw-039-P01",
@@ -2274,20 +2274,6 @@
    "commit_sha": "0f8f754027d23d12f966459d115e920d1d192d68"
   },
   {
-   "opportunity_id": "us-022-P01",
-   "path": "data/v2/opportunities/us-022-P01.json",
-   "blob_sha": "81505cd53cfab9b150fe78c717985c92a1dbe16a",
-   "sha256": "fe40ba8b564f5edb198a04cc52f8499355f01a66bd94df1c581c0202f9402e42",
-   "commit_sha": "0f8f754027d23d12f966459d115e920d1d192d68"
-  },
-  {
-   "opportunity_id": "us-022-P02",
-   "path": "data/v2/opportunities/us-022-P02.json",
-   "blob_sha": "4c8be9ac97fbea59dddf77492a6bddb65ad1d7c8",
-   "sha256": "77970435bffba0c730e8cf9a5b77f199f4db793fb9373162b270207121122be5",
-   "commit_sha": "0f8f754027d23d12f966459d115e920d1d192d68"
-  },
-  {
    "opportunity_id": "us-023-P01",
    "path": "data/v2/opportunities/us-023-P01.json",
    "blob_sha": "689eb89b503565aec0d8112184ffdb545c6a7440",
@@ -3104,6 +3090,20 @@
    "date": "2026-10-31",
    "commit_at_removal": "420fdf5a6a63c002dd20c7960de92e2f366907d5",
    "reason": "owner directive 2026-10-31: artificial light-show type subjects (人為燈光秀) are excluded from scope for now"
+  },
+  {
+   "opportunity_id": "us-022-P01",
+   "sha256_at_removal": "fe40ba8b564f5edb198a04cc52f8499355f01a66bd94df1c581c0202f9402e42",
+   "date": "2026-10-31",
+   "commit_at_removal": "68f893cb51c8ca8ea209ff19bbb9cdf14608aa7c",
+   "reason": "owner directive 2026-10-31: remove questionable classification (plant-landscape subjects outside the 12-genre vocabulary; Cholla Cactus Garden us-022)"
+  },
+  {
+   "opportunity_id": "us-022-P02",
+   "sha256_at_removal": "77970435bffba0c730e8cf9a5b77f199f4db793fb9373162b270207121122be5",
+   "date": "2026-10-31",
+   "commit_at_removal": "68f893cb51c8ca8ea209ff19bbb9cdf14608aa7c",
+   "reason": "owner directive 2026-10-31: remove questionable classification (plant-landscape subjects outside the 12-genre vocabulary; Cholla Cactus Garden us-022)"
   }
  ]
 }
