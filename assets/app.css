@@ -1844,3 +1844,17 @@
     font-size: .88rem;
   }
 }
+
+/* V2 evaluation strip inside place modal (GUIDANCE-only) */
+.v2-eval-block{margin-top:8px;padding:8px 10px;border:1px solid rgba(255,255,255,.12);border-radius:8px;background:rgba(255,255,255,.03)}
+.v2-title{font-size:.78rem;font-weight:600;color:#8fa1b3;margin-bottom:6px}
+.v2-day{display:flex;align-items:center;gap:8px;font-size:.8rem;padding:2px 0;flex-wrap:wrap}
+.v2-day-label{color:#cfd8e3;min-width:3.2em}
+.v2-badge{padding:1px 8px;border-radius:999px;font-size:.72rem;font-weight:600}
+.v2-badge.v2-ok{background:rgba(46,160,67,.18);color:#3fb950}
+.v2-badge.v2-bad{background:rgba(248,81,73,.15);color:#f85149}
+.v2-badge.v2-unk{background:rgba(187,128,9,.18);color:#d29922}
+.v2-hours{color:#8fa1b3;font-size:.75rem}
+.v2-fail-by{color:#f0817c;font-size:.72rem;padding-left:3.4em}
+.v2-now,.v2-next{font-size:.78rem;color:#cfd8e3;margin-top:4px}
+.v2-note{font-size:.75rem;color:#8fa1b3}
