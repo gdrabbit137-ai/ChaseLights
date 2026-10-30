@@ -1,0 +1,7712 @@
+{
+ "jp-001-P01": {
+  "genre_template": "reflection",
+  "conditions": [
+   {
+    "condition_id": "C-jp-001-P01-01",
+    "metric": "wind_speed_10m",
+    "layer_id": "base:wind_state"
+   },
+   {
+    "condition_id": "C-jp-001-P01-02",
+    "metric": "water_surface_state",
+    "layer_id": "base:water_surface"
+   },
+   {
+    "condition_id": "C-jp-001-P01-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-jp-001-P01-04",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   }
+  ]
+ },
+ "jp-002-P01": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-jp-002-P01-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-jp-002-P01-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-jp-002-P01-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-jp-002-P01-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-jp-002-P01-05",
+    "metric": "wind_speed_10m",
+    "layer_id": "base:wind_state"
+   },
+   {
+    "condition_id": "C-jp-002-P01-06",
+    "metric": "water_surface_state",
+    "layer_id": "base:water_surface"
+   },
+   {
+    "condition_id": "C-jp-002-P01-08",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   }
+  ]
+ },
+ "jp-003-P01": {
+  "genre_template": "overlook",
+  "conditions": [
+   {
+    "condition_id": "C-jp-003-P01-01",
+    "metric": "visibility",
+    "layer_id": "base:visibility"
+   },
+   {
+    "condition_id": "C-jp-003-P01-02",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-jp-003-P01-03",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-jp-003-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "jp-004-P01": {
+  "genre_template": "city_night",
+  "conditions": [
+   {
+    "condition_id": "C-jp-004-P01-01",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-jp-004-P01-02",
+    "metric": "visibility",
+    "layer_id": "base:visibility"
+   },
+   {
+    "condition_id": "C-jp-004-P01-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-jp-004-P01-04",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "jp-005-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "jp-005-P02": {
+  "genre_template": "city_night",
+  "conditions": [
+   {
+    "condition_id": "C-jp-005-P02-01",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-jp-005-P02-02",
+    "metric": "visibility",
+    "layer_id": "base:visibility"
+   },
+   {
+    "condition_id": "C-jp-005-P02-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-jp-005-P02-04",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "jp-006-P01": {
+  "genre_template": "overlook",
+  "conditions": [
+   {
+    "condition_id": "C-jp-006-P01-01",
+    "metric": "visibility",
+    "layer_id": "base:visibility"
+   },
+   {
+    "condition_id": "C-jp-006-P01-02",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-jp-006-P01-03",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-jp-006-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "jp-007-P01": {
+  "genre_template": "reflection",
+  "conditions": [
+   {
+    "condition_id": "C-jp-007-P01-01",
+    "metric": "wind_speed_10m",
+    "layer_id": "base:wind_state"
+   },
+   {
+    "condition_id": "C-jp-007-P01-02",
+    "metric": "water_surface_state",
+    "layer_id": "base:water_surface"
+   },
+   {
+    "condition_id": "C-jp-007-P01-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-jp-007-P01-04",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   }
+  ]
+ },
+ "jp-008-P01": {
+  "genre_template": "sunrise",
+  "conditions": [
+   {
+    "condition_id": "C-jp-008-P01-01",
+    "metric": "sunrise_time_window",
+    "layer_id": "spec:sunrise"
+   },
+   {
+    "condition_id": "C-jp-008-P01-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-jp-008-P01-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-jp-008-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "jp-009-P01": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-jp-009-P01-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-jp-009-P01-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-jp-009-P01-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-jp-009-P01-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "jp-010-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "jp-010-P02": {
+  "genre_template": "seasonal_plant",
+  "conditions": [
+   {
+    "condition_id": "C-jp-010-P02-01",
+    "metric": "seasonal_state",
+    "layer_id": "base:seasonal"
+   },
+   {
+    "condition_id": "C-jp-010-P02-02",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-jp-010-P02-03",
+    "metric": "wind_speed_10m",
+    "layer_id": "base:wind_state"
+   },
+   {
+    "condition_id": "C-jp-010-P02-04",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-jp-010-P02-05",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-jp-010-P02-07",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "jp-011-P01": {
+  "genre_template": "overlook",
+  "conditions": [
+   {
+    "condition_id": "C-jp-011-P01-01",
+    "metric": "visibility",
+    "layer_id": "base:visibility"
+   },
+   {
+    "condition_id": "C-jp-011-P01-02",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-jp-011-P01-03",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-jp-011-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "jp-011-P02": {
+  "genre_template": "city_night",
+  "conditions": [
+   {
+    "condition_id": "C-jp-011-P02-01",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-jp-011-P02-02",
+    "metric": "visibility",
+    "layer_id": "base:visibility"
+   },
+   {
+    "condition_id": "C-jp-011-P02-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-jp-011-P02-04",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "jp-012-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "jp-013-P01": {
+  "genre_template": "sunset",
+  "conditions": [
+   {
+    "condition_id": "C-jp-013-P01-01",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-jp-013-P01-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-jp-013-P01-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-jp-013-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-jp-013-P01-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "jp-014-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "jp-015-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "jp-016-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "jp-016-P02": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "jp-017-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "jp-018-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "jp-019-P01": {
+  "genre_template": "sunset",
+  "conditions": [
+   {
+    "condition_id": "C-jp-019-P01-01",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-jp-019-P01-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-jp-019-P01-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-jp-019-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-jp-019-P01-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "jp-020-P01": {
+  "genre_template": "city_night",
+  "conditions": [
+   {
+    "condition_id": "C-jp-020-P01-01",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-jp-020-P01-02",
+    "metric": "visibility",
+    "layer_id": "base:visibility"
+   },
+   {
+    "condition_id": "C-jp-020-P01-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-jp-020-P01-04",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "jp-021-P01": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-jp-021-P01-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-jp-021-P01-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-jp-021-P01-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-jp-021-P01-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "jp-021-P02": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "jp-022-P01": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-jp-022-P01-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-jp-022-P01-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-jp-022-P01-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-jp-022-P01-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "jp-022-P02": {
+  "genre_template": "sunset",
+  "conditions": [
+   {
+    "condition_id": "C-jp-022-P02-01",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-jp-022-P02-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-jp-022-P02-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-jp-022-P02-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-jp-022-P02-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "jp-022-P03": {
+  "genre_template": "night_sky",
+  "conditions": [
+   {
+    "condition_id": "C-jp-022-P03-01",
+    "metric": "astronomical_darkness",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-jp-022-P03-02",
+    "metric": "moon_illumination_fraction",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-jp-022-P03-03",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-jp-022-P03-04",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-jp-022-P03-05",
+    "metric": "galactic_core_altitude",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-jp-022-P03-06",
+    "metric": "moon_altitude",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-jp-022-P03-07",
+    "metric": "moon_target_separation_deg",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-jp-022-P03-08",
+    "metric": "moon_illuminance_proxy",
+    "layer_id": "spec:night"
+   }
+  ]
+ },
+ "jp-023-P01": {
+  "genre_template": "seasonal_plant",
+  "conditions": [
+   {
+    "condition_id": "C-jp-023-P01-01",
+    "metric": "seasonal_state",
+    "layer_id": "base:seasonal"
+   },
+   {
+    "condition_id": "C-jp-023-P01-02",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-jp-023-P01-03",
+    "metric": "wind_speed_10m",
+    "layer_id": "base:wind_state"
+   }
+  ]
+ },
+ "jp-024-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "jp-025-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "jp-025-P02": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "jp-026-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "jp-027-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "jp-027-P02": {
+  "genre_template": "city_night",
+  "conditions": [
+   {
+    "condition_id": "C-jp-027-P02-01",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-jp-027-P02-02",
+    "metric": "visibility",
+    "layer_id": "base:visibility"
+   },
+   {
+    "condition_id": "C-jp-027-P02-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-jp-027-P02-04",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "jp-028-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "jp-028-P02": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "jp-029-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "jp-029-P02": {
+  "genre_template": "seasonal_plant",
+  "conditions": [
+   {
+    "condition_id": "C-jp-029-P02-01",
+    "metric": "seasonal_state",
+    "layer_id": "base:seasonal"
+   },
+   {
+    "condition_id": "C-jp-029-P02-02",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-jp-029-P02-03",
+    "metric": "wind_speed_10m",
+    "layer_id": "base:wind_state"
+   }
+  ]
+ },
+ "jp-030-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "jp-031-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "jp-031-P02": {
+  "genre_template": "city_night",
+  "conditions": [
+   {
+    "condition_id": "C-jp-031-P02-01",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-jp-031-P02-02",
+    "metric": "visibility",
+    "layer_id": "base:visibility"
+   },
+   {
+    "condition_id": "C-jp-031-P02-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-jp-031-P02-04",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "jp-032-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "jp-032-P02": {
+  "genre_template": "seasonal_plant",
+  "conditions": [
+   {
+    "condition_id": "C-jp-032-P02-01",
+    "metric": "seasonal_state",
+    "layer_id": "base:seasonal"
+   },
+   {
+    "condition_id": "C-jp-032-P02-02",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-jp-032-P02-03",
+    "metric": "wind_speed_10m",
+    "layer_id": "base:wind_state"
+   }
+  ]
+ },
+ "jp-033-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "jp-033-P02": {
+  "genre_template": "seasonal_plant",
+  "conditions": [
+   {
+    "condition_id": "C-jp-033-P02-01",
+    "metric": "seasonal_state",
+    "layer_id": "base:seasonal"
+   },
+   {
+    "condition_id": "C-jp-033-P02-02",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-jp-033-P02-03",
+    "metric": "wind_speed_10m",
+    "layer_id": "base:wind_state"
+   }
+  ]
+ },
+ "jp-033-P03": {
+  "genre_template": "seasonal_plant",
+  "conditions": [
+   {
+    "condition_id": "C-jp-033-P03-01",
+    "metric": "seasonal_state",
+    "layer_id": "base:seasonal"
+   },
+   {
+    "condition_id": "C-jp-033-P03-02",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-jp-033-P03-03",
+    "metric": "wind_speed_10m",
+    "layer_id": "base:wind_state"
+   }
+  ]
+ },
+ "jp-034-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "jp-034-P02": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "jp-035-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "jp-035-P02": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "jp-035-P03": {
+  "genre_template": "city_night",
+  "conditions": [
+   {
+    "condition_id": "C-jp-035-P03-01",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-jp-035-P03-02",
+    "metric": "visibility",
+    "layer_id": "base:visibility"
+   },
+   {
+    "condition_id": "C-jp-035-P03-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-jp-035-P03-04",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "jp-036-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "jp-036-P02": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "jp-036-P03": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-001-P01": {
+  "genre_template": "sunset",
+  "conditions": [
+   {
+    "condition_id": "C-tw-001-P01-01",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-tw-001-P01-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-001-P01-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-001-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-001-P01-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "tw-001-P02": {
+  "genre_template": "cloud_sea",
+  "conditions": [
+   {
+    "condition_id": "C-tw-001-P02-01",
+    "metric": "relative_humidity_925hpa",
+    "layer_id": "base:atmospheric_profile"
+   },
+   {
+    "condition_id": "C-tw-001-P02-02",
+    "metric": "relative_humidity_850hpa",
+    "layer_id": "base:atmospheric_profile"
+   },
+   {
+    "condition_id": "C-tw-001-P02-03",
+    "metric": "lcl_height_m_agl",
+    "layer_id": "base:atmospheric_profile"
+   },
+   {
+    "condition_id": "C-tw-001-P02-04",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-001-P02-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-001-P02-06",
+    "metric": "visibility",
+    "layer_id": "base:visibility"
+   },
+   {
+    "condition_id": "C-tw-001-P02-07",
+    "metric": "temperature_delta_850_925_c",
+    "layer_id": "base:atmospheric_profile"
+   },
+   {
+    "condition_id": "C-tw-001-P02-08",
+    "metric": "wind_speed_850hpa",
+    "layer_id": "base:atmospheric_profile"
+   }
+  ]
+ },
+ "tw-001-P03": {
+  "genre_template": "blue_hour_city",
+  "conditions": [
+   {
+    "condition_id": "C-tw-001-P03-01",
+    "metric": "blue_hour_window",
+    "layer_id": "spec:blue"
+   },
+   {
+    "condition_id": "C-tw-001-P03-02",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-001-P03-03",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-001-P03-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "tw-002-P01": {
+  "genre_template": "blue_hour_city",
+  "conditions": [
+   {
+    "condition_id": "C-tw-002-P01-01",
+    "metric": "blue_hour_window",
+    "layer_id": "spec:blue"
+   },
+   {
+    "condition_id": "C-tw-002-P01-02",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-002-P01-03",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-002-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "tw-002-P02": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-002-P03": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-003-P01": {
+  "genre_template": "sunset",
+  "conditions": [
+   {
+    "condition_id": "C-tw-003-P01-01",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-tw-003-P01-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-003-P01-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-003-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-003-P01-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "tw-003-P02": {
+  "genre_template": "blue_hour_city",
+  "conditions": [
+   {
+    "condition_id": "C-tw-003-P02-01",
+    "metric": "blue_hour_window",
+    "layer_id": "spec:blue"
+   },
+   {
+    "condition_id": "C-tw-003-P02-02",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-003-P02-03",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-003-P02-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "tw-003-P03": {
+  "genre_template": "city_night",
+  "conditions": [
+   {
+    "condition_id": "C-tw-003-P03-01",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-003-P03-02",
+    "metric": "visibility",
+    "layer_id": "base:visibility"
+   },
+   {
+    "condition_id": "C-tw-003-P03-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-003-P03-04",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "tw-004-P01": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-tw-004-P01-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-004-P01-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-004-P01-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-004-P01-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "tw-004-P03": {
+  "genre_template": "cloud_sea",
+  "conditions": [
+   {
+    "condition_id": "C-tw-004-P03-01",
+    "metric": "relative_humidity_925hpa",
+    "layer_id": "base:atmospheric_profile"
+   },
+   {
+    "condition_id": "C-tw-004-P03-02",
+    "metric": "relative_humidity_850hpa",
+    "layer_id": "base:atmospheric_profile"
+   },
+   {
+    "condition_id": "C-tw-004-P03-03",
+    "metric": "lcl_height_m_agl",
+    "layer_id": "base:atmospheric_profile"
+   },
+   {
+    "condition_id": "C-tw-004-P03-04",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-004-P03-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-004-P03-06",
+    "metric": "visibility",
+    "layer_id": "base:visibility"
+   },
+   {
+    "condition_id": "C-tw-004-P03-07",
+    "metric": "temperature_delta_850_925_c",
+    "layer_id": "base:atmospheric_profile"
+   },
+   {
+    "condition_id": "C-tw-004-P03-08",
+    "metric": "wind_speed_850hpa",
+    "layer_id": "base:atmospheric_profile"
+   }
+  ]
+ },
+ "tw-004-P04": {
+  "genre_template": "sunset",
+  "conditions": [
+   {
+    "condition_id": "C-tw-004-P04-01",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-tw-004-P04-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-004-P04-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-004-P04-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-004-P04-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "tw-005-P01": {
+  "genre_template": "blue_hour_city",
+  "conditions": [
+   {
+    "condition_id": "C-tw-005-P01-01",
+    "metric": "blue_hour_window",
+    "layer_id": "spec:blue"
+   },
+   {
+    "condition_id": "C-tw-005-P01-02",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-005-P01-03",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-005-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "tw-005-P02": {
+  "genre_template": "blue_hour_city",
+  "conditions": [
+   {
+    "condition_id": "C-tw-005-P02-01",
+    "metric": "blue_hour_window",
+    "layer_id": "spec:blue"
+   },
+   {
+    "condition_id": "C-tw-005-P02-02",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-005-P02-03",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-005-P02-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "tw-006-P01": {
+  "genre_template": "sunset",
+  "conditions": [
+   {
+    "condition_id": "C-tw-006-P01-01",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-tw-006-P01-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-006-P01-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-006-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-006-P01-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "tw-006-P02": {
+  "genre_template": "city_night",
+  "conditions": [
+   {
+    "condition_id": "C-tw-006-P02-01",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-006-P02-02",
+    "metric": "visibility",
+    "layer_id": "base:visibility"
+   },
+   {
+    "condition_id": "C-tw-006-P02-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-006-P02-04",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "tw-006-P03": {
+  "genre_template": "city_night",
+  "conditions": [
+   {
+    "condition_id": "C-tw-006-P03-01",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-006-P03-02",
+    "metric": "visibility",
+    "layer_id": "base:visibility"
+   },
+   {
+    "condition_id": "C-tw-006-P03-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-006-P03-04",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "tw-007-P01": {
+  "genre_template": "city_night",
+  "conditions": [
+   {
+    "condition_id": "C-tw-007-P01-01",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-007-P01-02",
+    "metric": "visibility",
+    "layer_id": "base:visibility"
+   },
+   {
+    "condition_id": "C-tw-007-P01-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-007-P01-04",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "tw-007-P02": {
+  "genre_template": "city_night",
+  "conditions": [
+   {
+    "condition_id": "C-tw-007-P02-01",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-007-P02-02",
+    "metric": "visibility",
+    "layer_id": "base:visibility"
+   },
+   {
+    "condition_id": "C-tw-007-P02-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-007-P02-04",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "tw-007-P03": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-008-P01": {
+  "genre_template": "city_night",
+  "conditions": [
+   {
+    "condition_id": "C-tw-008-P01-01",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-008-P01-02",
+    "metric": "visibility",
+    "layer_id": "base:visibility"
+   },
+   {
+    "condition_id": "C-tw-008-P01-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-008-P01-04",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "tw-008-P02": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-tw-008-P02-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-008-P02-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-008-P02-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-008-P02-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "tw-008-P03": {
+  "genre_template": "cloud_sea",
+  "conditions": [
+   {
+    "condition_id": "C-tw-008-P03-01",
+    "metric": "relative_humidity_925hpa",
+    "layer_id": "base:atmospheric_profile"
+   },
+   {
+    "condition_id": "C-tw-008-P03-02",
+    "metric": "relative_humidity_850hpa",
+    "layer_id": "base:atmospheric_profile"
+   },
+   {
+    "condition_id": "C-tw-008-P03-03",
+    "metric": "lcl_height_m_agl",
+    "layer_id": "base:atmospheric_profile"
+   },
+   {
+    "condition_id": "C-tw-008-P03-04",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-008-P03-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-008-P03-06",
+    "metric": "visibility",
+    "layer_id": "base:visibility"
+   },
+   {
+    "condition_id": "C-tw-008-P03-07",
+    "metric": "temperature_delta_850_925_c",
+    "layer_id": "base:atmospheric_profile"
+   },
+   {
+    "condition_id": "C-tw-008-P03-08",
+    "metric": "wind_speed_850hpa",
+    "layer_id": "base:atmospheric_profile"
+   }
+  ]
+ },
+ "tw-009-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-009-P02": {
+  "genre_template": "sunset",
+  "conditions": [
+   {
+    "condition_id": "C-tw-009-P02-01",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-tw-009-P02-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-009-P02-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-009-P02-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-009-P02-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "tw-010-P01": {
+  "genre_template": "geological_landform",
+  "conditions": [
+   {
+    "condition_id": "C-tw-010-P01-01",
+    "metric": "landform_present",
+    "layer_id": "base:landform"
+   },
+   {
+    "condition_id": "C-tw-010-P01-02",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-010-P01-03",
+    "metric": "golden_hour_window",
+    "layer_id": "spec:golden"
+   },
+   {
+    "condition_id": "C-tw-010-P01-04",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "tw-010-P02": {
+  "genre_template": "geological_landform",
+  "conditions": [
+   {
+    "condition_id": "C-tw-010-P02-01",
+    "metric": "landform_present",
+    "layer_id": "base:landform"
+   },
+   {
+    "condition_id": "C-tw-010-P02-02",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-010-P02-03",
+    "metric": "golden_hour_window",
+    "layer_id": "spec:golden"
+   },
+   {
+    "condition_id": "C-tw-010-P02-04",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "tw-010-P03": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-011-P01": {
+  "genre_template": "sunset",
+  "conditions": [
+   {
+    "condition_id": "C-tw-011-P01-01",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-tw-011-P01-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-011-P01-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-011-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-011-P01-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "tw-011-P02": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-012-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-012-P02": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-013-P01": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-tw-013-P01-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-013-P01-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-013-P01-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-013-P01-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "tw-013-P02": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-014-P01": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-tw-014-P01-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-014-P01-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-014-P01-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-014-P01-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "tw-014-P02": {
+  "genre_template": "cloud_sea",
+  "conditions": [
+   {
+    "condition_id": "C-tw-014-P02-01",
+    "metric": "relative_humidity_925hpa",
+    "layer_id": "base:atmospheric_profile"
+   },
+   {
+    "condition_id": "C-tw-014-P02-02",
+    "metric": "relative_humidity_850hpa",
+    "layer_id": "base:atmospheric_profile"
+   },
+   {
+    "condition_id": "C-tw-014-P02-03",
+    "metric": "lcl_height_m_agl",
+    "layer_id": "base:atmospheric_profile"
+   },
+   {
+    "condition_id": "C-tw-014-P02-04",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-014-P02-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-014-P02-06",
+    "metric": "visibility",
+    "layer_id": "base:visibility"
+   },
+   {
+    "condition_id": "C-tw-014-P02-07",
+    "metric": "temperature_delta_850_925_c",
+    "layer_id": "base:atmospheric_profile"
+   },
+   {
+    "condition_id": "C-tw-014-P02-08",
+    "metric": "wind_speed_850hpa",
+    "layer_id": "base:atmospheric_profile"
+   }
+  ]
+ },
+ "tw-015-P01": {
+  "genre_template": "sunset",
+  "conditions": [
+   {
+    "condition_id": "C-tw-015-P01-01",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-tw-015-P01-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-015-P01-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-015-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-015-P01-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "tw-015-P02": {
+  "genre_template": "reflection",
+  "conditions": [
+   {
+    "condition_id": "C-tw-015-P02-01",
+    "metric": "wind_speed_10m",
+    "layer_id": "base:wind_state"
+   },
+   {
+    "condition_id": "C-tw-015-P02-02",
+    "metric": "water_surface_state",
+    "layer_id": "base:water_surface"
+   },
+   {
+    "condition_id": "C-tw-015-P02-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-015-P02-04",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   }
+  ]
+ },
+ "tw-016-P01": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-tw-016-P01-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-016-P01-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-016-P01-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-016-P01-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "tw-017-P01": {
+  "genre_template": "sunset",
+  "conditions": [
+   {
+    "condition_id": "C-tw-017-P01-01",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-tw-017-P01-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-017-P01-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-017-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-017-P01-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "tw-017-P02": {
+  "genre_template": "sunset",
+  "conditions": [
+   {
+    "condition_id": "C-tw-017-P02-01",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-tw-017-P02-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-017-P02-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-017-P02-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-017-P02-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "tw-017-P03": {
+  "genre_template": "blue_hour_city",
+  "conditions": [
+   {
+    "condition_id": "C-tw-017-P03-01",
+    "metric": "blue_hour_window",
+    "layer_id": "spec:blue"
+   },
+   {
+    "condition_id": "C-tw-017-P03-02",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-017-P03-03",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-017-P03-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "tw-018-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-018-P02": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-018-P03": {
+  "genre_template": "overlook",
+  "conditions": [
+   {
+    "condition_id": "C-tw-018-P03-01",
+    "metric": "visibility",
+    "layer_id": "base:visibility"
+   },
+   {
+    "condition_id": "C-tw-018-P03-02",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-018-P03-03",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-018-P03-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "tw-019-P01": {
+  "genre_template": "sunrise",
+  "conditions": [
+   {
+    "condition_id": "C-tw-019-P01-01",
+    "metric": "sunrise_time_window",
+    "layer_id": "spec:sunrise"
+   },
+   {
+    "condition_id": "C-tw-019-P01-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-019-P01-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-019-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "tw-019-P02": {
+  "genre_template": "sunset",
+  "conditions": [
+   {
+    "condition_id": "C-tw-019-P02-01",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-tw-019-P02-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-019-P02-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-019-P02-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-019-P02-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "tw-019-P03": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-tw-019-P03-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-019-P03-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-019-P03-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-019-P03-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "tw-019-P04": {
+  "genre_template": "cloud_sea",
+  "conditions": [
+   {
+    "condition_id": "C-tw-019-P04-01",
+    "metric": "relative_humidity_925hpa",
+    "layer_id": "base:atmospheric_profile"
+   },
+   {
+    "condition_id": "C-tw-019-P04-02",
+    "metric": "relative_humidity_850hpa",
+    "layer_id": "base:atmospheric_profile"
+   },
+   {
+    "condition_id": "C-tw-019-P04-03",
+    "metric": "lcl_height_m_agl",
+    "layer_id": "base:atmospheric_profile"
+   },
+   {
+    "condition_id": "C-tw-019-P04-04",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-019-P04-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-019-P04-06",
+    "metric": "visibility",
+    "layer_id": "base:visibility"
+   },
+   {
+    "condition_id": "C-tw-019-P04-07",
+    "metric": "temperature_delta_850_925_c",
+    "layer_id": "base:atmospheric_profile"
+   },
+   {
+    "condition_id": "C-tw-019-P04-08",
+    "metric": "wind_speed_850hpa",
+    "layer_id": "base:atmospheric_profile"
+   }
+  ]
+ },
+ "tw-019-P05": {
+  "genre_template": "night_sky",
+  "conditions": [
+   {
+    "condition_id": "C-tw-019-P05-01",
+    "metric": "astronomical_darkness",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-019-P05-02",
+    "metric": "moon_illumination_fraction",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-019-P05-03",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-019-P05-04",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-019-P05-05",
+    "metric": "galactic_core_altitude",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-019-P05-06",
+    "metric": "moon_altitude",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-019-P05-07",
+    "metric": "moon_target_separation_deg",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-019-P05-08",
+    "metric": "moon_illuminance_proxy",
+    "layer_id": "spec:night"
+   }
+  ]
+ },
+ "tw-019-P06": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-tw-019-P06-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-019-P06-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-019-P06-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-019-P06-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "tw-020-P01": {
+  "genre_template": "sunrise",
+  "conditions": [
+   {
+    "condition_id": "C-tw-020-P01-01",
+    "metric": "sunrise_time_window",
+    "layer_id": "spec:sunrise"
+   },
+   {
+    "condition_id": "C-tw-020-P01-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-020-P01-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-020-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "tw-020-P02": {
+  "genre_template": "cloud_sea",
+  "conditions": [
+   {
+    "condition_id": "C-tw-020-P02-01",
+    "metric": "relative_humidity_925hpa",
+    "layer_id": "base:atmospheric_profile"
+   },
+   {
+    "condition_id": "C-tw-020-P02-02",
+    "metric": "relative_humidity_850hpa",
+    "layer_id": "base:atmospheric_profile"
+   },
+   {
+    "condition_id": "C-tw-020-P02-03",
+    "metric": "lcl_height_m_agl",
+    "layer_id": "base:atmospheric_profile"
+   },
+   {
+    "condition_id": "C-tw-020-P02-04",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-020-P02-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-020-P02-06",
+    "metric": "visibility",
+    "layer_id": "base:visibility"
+   },
+   {
+    "condition_id": "C-tw-020-P02-07",
+    "metric": "temperature_delta_850_925_c",
+    "layer_id": "base:atmospheric_profile"
+   },
+   {
+    "condition_id": "C-tw-020-P02-08",
+    "metric": "wind_speed_850hpa",
+    "layer_id": "base:atmospheric_profile"
+   }
+  ]
+ },
+ "tw-020-P03": {
+  "genre_template": "blue_hour_city",
+  "conditions": [
+   {
+    "condition_id": "C-tw-020-P03-01",
+    "metric": "blue_hour_window",
+    "layer_id": "spec:blue"
+   },
+   {
+    "condition_id": "C-tw-020-P03-02",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-020-P03-03",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-020-P03-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "tw-020-P04": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-tw-020-P04-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-020-P04-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-020-P04-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-020-P04-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "tw-021-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-021-P02": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-022-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-022-P02": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-022-P03": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-022-P04": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-023-P01": {
+  "genre_template": "sunset",
+  "conditions": [
+   {
+    "condition_id": "C-tw-023-P01-01",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-tw-023-P01-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-023-P01-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-023-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-023-P01-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "tw-023-P02": {
+  "genre_template": "cloud_sea",
+  "conditions": [
+   {
+    "condition_id": "C-tw-023-P02-01",
+    "metric": "relative_humidity_925hpa",
+    "layer_id": "base:atmospheric_profile"
+   },
+   {
+    "condition_id": "C-tw-023-P02-02",
+    "metric": "relative_humidity_850hpa",
+    "layer_id": "base:atmospheric_profile"
+   },
+   {
+    "condition_id": "C-tw-023-P02-03",
+    "metric": "lcl_height_m_agl",
+    "layer_id": "base:atmospheric_profile"
+   },
+   {
+    "condition_id": "C-tw-023-P02-04",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-023-P02-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-023-P02-06",
+    "metric": "visibility",
+    "layer_id": "base:visibility"
+   },
+   {
+    "condition_id": "C-tw-023-P02-07",
+    "metric": "temperature_delta_850_925_c",
+    "layer_id": "base:atmospheric_profile"
+   },
+   {
+    "condition_id": "C-tw-023-P02-08",
+    "metric": "wind_speed_850hpa",
+    "layer_id": "base:atmospheric_profile"
+   }
+  ]
+ },
+ "tw-023-P03": {
+  "genre_template": "blue_hour_city",
+  "conditions": [
+   {
+    "condition_id": "C-tw-023-P03-01",
+    "metric": "blue_hour_window",
+    "layer_id": "spec:blue"
+   },
+   {
+    "condition_id": "C-tw-023-P03-02",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-023-P03-03",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-023-P03-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "tw-024-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-024-P02": {
+  "genre_template": "sunrise",
+  "conditions": [
+   {
+    "condition_id": "C-tw-024-P02-01",
+    "metric": "sunrise_time_window",
+    "layer_id": "spec:sunrise"
+   },
+   {
+    "condition_id": "C-tw-024-P02-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-024-P02-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-024-P02-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "tw-024-P03": {
+  "genre_template": "sunrise",
+  "conditions": [
+   {
+    "condition_id": "C-tw-024-P03-01",
+    "metric": "sunrise_time_window",
+    "layer_id": "spec:sunrise"
+   },
+   {
+    "condition_id": "C-tw-024-P03-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-024-P03-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-024-P03-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "tw-024-P04": {
+  "genre_template": "sunset",
+  "conditions": [
+   {
+    "condition_id": "C-tw-024-P04-01",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-tw-024-P04-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-024-P04-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-024-P04-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-024-P04-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "tw-024-P05": {
+  "genre_template": "night_sky",
+  "conditions": [
+   {
+    "condition_id": "C-tw-024-P05-01",
+    "metric": "astronomical_darkness",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-024-P05-02",
+    "metric": "moon_illumination_fraction",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-024-P05-03",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-024-P05-04",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-024-P05-05",
+    "metric": "galactic_core_altitude",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-024-P05-06",
+    "metric": "moon_altitude",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-024-P05-07",
+    "metric": "moon_target_separation_deg",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-024-P05-08",
+    "metric": "moon_illuminance_proxy",
+    "layer_id": "spec:night"
+   }
+  ]
+ },
+ "tw-025-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-025-P02": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-tw-025-P02-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-025-P02-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-025-P02-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-025-P02-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "tw-026-P01": {
+  "genre_template": null,
+  "conditions": [
+   {
+    "condition_id": "C-tw-026-P01-02",
+    "metric": "sunset_light_at_salt_pans",
+    "layer_id": "base:bespoke"
+   },
+   {
+    "condition_id": "C-tw-026-P01-04",
+    "metric": "sunset_cloud_texture",
+    "layer_id": "base:bespoke"
+   }
+  ]
+ },
+ "tw-026-P02": {
+  "genre_template": null,
+  "conditions": [
+   {
+    "condition_id": "C-tw-026-P02-02",
+    "metric": "visible_sunset_afterglow",
+    "layer_id": "base:bespoke"
+   },
+   {
+    "condition_id": "C-tw-026-P02-04",
+    "metric": "salt_pan_sky_balance",
+    "layer_id": "base:bespoke"
+   }
+  ]
+ },
+ "tw-026-P03": {
+  "genre_template": "reflection",
+  "conditions": [
+   {
+    "condition_id": "C-tw-026-P03-01",
+    "metric": "wind_speed_10m",
+    "layer_id": "base:wind_state"
+   },
+   {
+    "condition_id": "C-tw-026-P03-02",
+    "metric": "water_surface_state",
+    "layer_id": "base:water_surface"
+   },
+   {
+    "condition_id": "C-tw-026-P03-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-026-P03-04",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   }
+  ]
+ },
+ "tw-027-P01": {
+  "genre_template": "geological_landform",
+  "conditions": [
+   {
+    "condition_id": "C-tw-027-P01-01",
+    "metric": "landform_present",
+    "layer_id": "base:landform"
+   },
+   {
+    "condition_id": "C-tw-027-P01-02",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-027-P01-03",
+    "metric": "golden_hour_window",
+    "layer_id": "spec:golden"
+   },
+   {
+    "condition_id": "C-tw-027-P01-04",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "tw-027-P02": {
+  "genre_template": "geological_landform",
+  "conditions": [
+   {
+    "condition_id": "C-tw-027-P02-01",
+    "metric": "landform_present",
+    "layer_id": "base:landform"
+   },
+   {
+    "condition_id": "C-tw-027-P02-02",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-027-P02-03",
+    "metric": "golden_hour_window",
+    "layer_id": "spec:golden"
+   },
+   {
+    "condition_id": "C-tw-027-P02-04",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "tw-027-P03": {
+  "genre_template": "geological_landform",
+  "conditions": [
+   {
+    "condition_id": "C-tw-027-P03-01",
+    "metric": "landform_present",
+    "layer_id": "base:landform"
+   },
+   {
+    "condition_id": "C-tw-027-P03-02",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-027-P03-03",
+    "metric": "golden_hour_window",
+    "layer_id": "spec:golden"
+   },
+   {
+    "condition_id": "C-tw-027-P03-04",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "tw-028-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-028-P02": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-028-P03": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-028-P04": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-029-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-029-P02": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-030-P01": {
+  "genre_template": "sunset",
+  "conditions": [
+   {
+    "condition_id": "C-tw-030-P01-01",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-tw-030-P01-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-030-P01-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-030-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-030-P01-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "tw-030-P02": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-031-P01": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-tw-031-P01-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-031-P01-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-031-P01-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-031-P01-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "tw-031-P02": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-tw-031-P02-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-031-P02-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-031-P02-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-031-P02-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "tw-032-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-032-P02": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-032-P03": {
+  "genre_template": "overcast_soft",
+  "conditions": [
+   {
+    "condition_id": "C-tw-032-P03-01",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-032-P03-02",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-032-P03-03",
+    "metric": "wind_speed_10m",
+    "layer_id": "base:wind_state"
+   }
+  ]
+ },
+ "tw-033-P01": {
+  "genre_template": "sunrise",
+  "conditions": [
+   {
+    "condition_id": "C-tw-033-P01-01",
+    "metric": "sunrise_time_window",
+    "layer_id": "spec:sunrise"
+   },
+   {
+    "condition_id": "C-tw-033-P01-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-033-P01-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-033-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "tw-033-P02": {
+  "genre_template": "sunrise",
+  "conditions": [
+   {
+    "condition_id": "C-tw-033-P02-01",
+    "metric": "sunrise_time_window",
+    "layer_id": "spec:sunrise"
+   },
+   {
+    "condition_id": "C-tw-033-P02-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-033-P02-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-033-P02-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "tw-034-P01": {
+  "genre_template": "sunset",
+  "conditions": [
+   {
+    "condition_id": "C-tw-034-P01-01",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-tw-034-P01-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-034-P01-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-034-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-034-P01-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "tw-034-P02": {
+  "genre_template": null,
+  "conditions": [
+   {
+    "condition_id": "C-tw-034-P02-01",
+    "metric": "cliff_pacific_visibility",
+    "layer_id": "base:bespoke"
+   },
+   {
+    "condition_id": "C-tw-034-P02-02",
+    "metric": "low_cloud_coastal_haze",
+    "layer_id": "base:bespoke"
+   }
+  ]
+ },
+ "tw-034-P03": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-tw-034-P03-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-034-P03-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-034-P03-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-034-P03-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "tw-035-P01": {
+  "genre_template": "seasonal_plant",
+  "conditions": [
+   {
+    "condition_id": "C-tw-035-P01-01",
+    "metric": "seasonal_state",
+    "layer_id": "base:seasonal"
+   },
+   {
+    "condition_id": "C-tw-035-P01-02",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-035-P01-03",
+    "metric": "wind_speed_10m",
+    "layer_id": "base:wind_state"
+   },
+   {
+    "condition_id": "C-tw-035-P01-04",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-035-P01-05",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-035-P01-07",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "tw-035-P02": {
+  "genre_template": "seasonal_plant",
+  "conditions": [
+   {
+    "condition_id": "C-tw-035-P02-01",
+    "metric": "seasonal_state",
+    "layer_id": "base:seasonal"
+   },
+   {
+    "condition_id": "C-tw-035-P02-02",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-035-P02-03",
+    "metric": "wind_speed_10m",
+    "layer_id": "base:wind_state"
+   },
+   {
+    "condition_id": "C-tw-035-P02-04",
+    "metric": "golden_hour_window",
+    "layer_id": "spec:golden"
+   },
+   {
+    "condition_id": "C-tw-035-P02-05",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-035-P02-07",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "tw-035-P03": {
+  "genre_template": "sunset",
+  "conditions": [
+   {
+    "condition_id": "C-tw-035-P03-01",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-tw-035-P03-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-035-P03-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-035-P03-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-035-P03-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "tw-035-P04": {
+  "genre_template": "sunset",
+  "conditions": [
+   {
+    "condition_id": "C-tw-035-P04-01",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-tw-035-P04-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-035-P04-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-035-P04-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-035-P04-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "tw-035-P05": {
+  "genre_template": "seasonal_plant",
+  "conditions": [
+   {
+    "condition_id": "C-tw-035-P05-01",
+    "metric": "seasonal_state",
+    "layer_id": "base:seasonal"
+   },
+   {
+    "condition_id": "C-tw-035-P05-02",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-035-P05-03",
+    "metric": "wind_speed_10m",
+    "layer_id": "base:wind_state"
+   }
+  ]
+ },
+ "tw-035-P06": {
+  "genre_template": "seasonal_plant",
+  "conditions": [
+   {
+    "condition_id": "C-tw-035-P06-01",
+    "metric": "seasonal_state",
+    "layer_id": "base:seasonal"
+   },
+   {
+    "condition_id": "C-tw-035-P06-02",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-035-P06-03",
+    "metric": "wind_speed_10m",
+    "layer_id": "base:wind_state"
+   }
+  ]
+ },
+ "tw-035-P07": {
+  "genre_template": "seasonal_plant",
+  "conditions": [
+   {
+    "condition_id": "C-tw-035-P07-01",
+    "metric": "seasonal_state",
+    "layer_id": "base:seasonal"
+   },
+   {
+    "condition_id": "C-tw-035-P07-02",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-035-P07-03",
+    "metric": "wind_speed_10m",
+    "layer_id": "base:wind_state"
+   },
+   {
+    "condition_id": "C-tw-035-P07-04",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-035-P07-05",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-035-P07-07",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "tw-035-P08": {
+  "genre_template": "seasonal_plant",
+  "conditions": [
+   {
+    "condition_id": "C-tw-035-P08-01",
+    "metric": "seasonal_state",
+    "layer_id": "base:seasonal"
+   },
+   {
+    "condition_id": "C-tw-035-P08-02",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-035-P08-03",
+    "metric": "wind_speed_10m",
+    "layer_id": "base:wind_state"
+   }
+  ]
+ },
+ "tw-035-P09": {
+  "genre_template": "golden_hour",
+  "conditions": [
+   {
+    "condition_id": "C-tw-035-P09-01",
+    "metric": "golden_hour_window",
+    "layer_id": "spec:golden"
+   },
+   {
+    "condition_id": "C-tw-035-P09-02",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-035-P09-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-035-P09-04",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "tw-035-P10": {
+  "genre_template": "seasonal_plant",
+  "conditions": [
+   {
+    "condition_id": "C-tw-035-P10-01",
+    "metric": "seasonal_state",
+    "layer_id": "base:seasonal"
+   },
+   {
+    "condition_id": "C-tw-035-P10-02",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-035-P10-03",
+    "metric": "wind_speed_10m",
+    "layer_id": "base:wind_state"
+   }
+  ]
+ },
+ "tw-036-P01": {
+  "genre_template": "sunrise",
+  "conditions": [
+   {
+    "condition_id": "C-tw-036-P01-01",
+    "metric": "sunrise_time_window",
+    "layer_id": "spec:sunrise"
+   },
+   {
+    "condition_id": "C-tw-036-P01-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-036-P01-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-036-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "tw-036-P02": {
+  "genre_template": "sunset",
+  "conditions": [
+   {
+    "condition_id": "C-tw-036-P02-01",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-tw-036-P02-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-036-P02-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-036-P02-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-036-P02-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "tw-036-P03": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-tw-036-P03-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-036-P03-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-036-P03-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-036-P03-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "tw-036-P04": {
+  "genre_template": "sunrise",
+  "conditions": [
+   {
+    "condition_id": "C-tw-036-P04-01",
+    "metric": "sunrise_time_window",
+    "layer_id": "spec:sunrise"
+   },
+   {
+    "condition_id": "C-tw-036-P04-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-036-P04-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-036-P04-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "tw-037-P01": {
+  "genre_template": "sunset",
+  "conditions": [
+   {
+    "condition_id": "C-tw-037-P01-01",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-tw-037-P01-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-037-P01-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-037-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-037-P01-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "tw-038-P01": {
+  "genre_template": "sunrise",
+  "conditions": [
+   {
+    "condition_id": "C-tw-038-P01-01",
+    "metric": "sunrise_time_window",
+    "layer_id": "spec:sunrise"
+   },
+   {
+    "condition_id": "C-tw-038-P01-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-038-P01-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-038-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "tw-038-P02": {
+  "genre_template": "geological_landform",
+  "conditions": [
+   {
+    "condition_id": "C-tw-038-P02-01",
+    "metric": "landform_present",
+    "layer_id": "base:landform"
+   },
+   {
+    "condition_id": "C-tw-038-P02-02",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-038-P02-03",
+    "metric": "golden_hour_window",
+    "layer_id": "spec:golden"
+   },
+   {
+    "condition_id": "C-tw-038-P02-04",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "tw-039-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-040-P01": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-tw-040-P01-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-040-P01-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-040-P01-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-040-P01-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "tw-040-P02": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-tw-040-P02-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-040-P02-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-040-P02-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-040-P02-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "tw-040-P03": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-tw-040-P03-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-040-P03-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-040-P03-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-040-P03-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "tw-040-P04": {
+  "genre_template": "cloud_sea",
+  "conditions": [
+   {
+    "condition_id": "C-tw-040-P04-01",
+    "metric": "relative_humidity_925hpa",
+    "layer_id": "base:atmospheric_profile"
+   },
+   {
+    "condition_id": "C-tw-040-P04-02",
+    "metric": "relative_humidity_850hpa",
+    "layer_id": "base:atmospheric_profile"
+   },
+   {
+    "condition_id": "C-tw-040-P04-03",
+    "metric": "lcl_height_m_agl",
+    "layer_id": "base:atmospheric_profile"
+   },
+   {
+    "condition_id": "C-tw-040-P04-04",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-040-P04-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-040-P04-06",
+    "metric": "visibility",
+    "layer_id": "base:visibility"
+   },
+   {
+    "condition_id": "C-tw-040-P04-07",
+    "metric": "temperature_delta_850_925_c",
+    "layer_id": "base:atmospheric_profile"
+   },
+   {
+    "condition_id": "C-tw-040-P04-08",
+    "metric": "wind_speed_850hpa",
+    "layer_id": "base:atmospheric_profile"
+   }
+  ]
+ },
+ "tw-040-P05": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-tw-040-P05-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-040-P05-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-040-P05-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-040-P05-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "tw-040-P06": {
+  "genre_template": "night_sky",
+  "conditions": [
+   {
+    "condition_id": "C-tw-040-P06-01",
+    "metric": "astronomical_darkness",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-040-P06-02",
+    "metric": "moon_illumination_fraction",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-040-P06-03",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-040-P06-04",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-040-P06-05",
+    "metric": "galactic_core_altitude",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-040-P06-06",
+    "metric": "moon_altitude",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-040-P06-07",
+    "metric": "moon_target_separation_deg",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-040-P06-08",
+    "metric": "moon_illuminance_proxy",
+    "layer_id": "spec:night"
+   }
+  ]
+ },
+ "tw-041-P01": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-tw-041-P01-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-041-P01-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-041-P01-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-041-P01-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "tw-041-P02": {
+  "genre_template": "sunrise",
+  "conditions": [
+   {
+    "condition_id": "C-tw-041-P02-01",
+    "metric": "sunrise_time_window",
+    "layer_id": "spec:sunrise"
+   },
+   {
+    "condition_id": "C-tw-041-P02-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-041-P02-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-041-P02-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "tw-041-P03": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-tw-041-P03-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-041-P03-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-041-P03-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-041-P03-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "tw-041-P04": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-tw-041-P04-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-041-P04-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-041-P04-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-041-P04-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "tw-041-P05": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-tw-041-P05-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-041-P05-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-041-P05-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-041-P05-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "tw-042-P01": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-tw-042-P01-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-042-P01-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-042-P01-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-042-P01-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "tw-043-P01": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-tw-043-P01-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-043-P01-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-043-P01-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-043-P01-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "tw-043-P02": {
+  "genre_template": "sunset",
+  "conditions": [
+   {
+    "condition_id": "C-tw-043-P02-01",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-tw-043-P02-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-043-P02-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-043-P02-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-043-P02-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "tw-043-P03": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-043-P04": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-044-P01": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-tw-044-P01-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-044-P01-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-044-P01-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-044-P01-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "tw-044-P02": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-tw-044-P02-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-044-P02-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-044-P02-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-044-P02-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "tw-044-P03": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-tw-044-P03-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-044-P03-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-044-P03-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-044-P03-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "tw-045-P01": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-tw-045-P01-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-045-P01-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-045-P01-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-045-P01-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "tw-045-P02": {
+  "genre_template": "reflection",
+  "conditions": [
+   {
+    "condition_id": "C-tw-045-P02-01",
+    "metric": "wind_speed_10m",
+    "layer_id": "base:wind_state"
+   },
+   {
+    "condition_id": "C-tw-045-P02-02",
+    "metric": "water_surface_state",
+    "layer_id": "base:water_surface"
+   },
+   {
+    "condition_id": "C-tw-045-P02-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-045-P02-04",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   }
+  ]
+ },
+ "tw-045-P03": {
+  "genre_template": "night_sky",
+  "conditions": [
+   {
+    "condition_id": "C-tw-045-P03-01",
+    "metric": "astronomical_darkness",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-045-P03-02",
+    "metric": "moon_illumination_fraction",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-045-P03-03",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-045-P03-04",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-045-P03-05",
+    "metric": "galactic_core_altitude",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-045-P03-06",
+    "metric": "moon_altitude",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-045-P03-07",
+    "metric": "moon_target_separation_deg",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-045-P03-08",
+    "metric": "moon_illuminance_proxy",
+    "layer_id": "spec:night"
+   }
+  ]
+ },
+ "tw-045-P04": {
+  "genre_template": "sunset",
+  "conditions": [
+   {
+    "condition_id": "C-tw-045-P04-01",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-tw-045-P04-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-045-P04-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-045-P04-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-045-P04-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "tw-045-P05": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-tw-045-P05-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-045-P05-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-045-P05-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-045-P05-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "tw-046-P01": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-tw-046-P01-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-046-P01-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-046-P01-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-046-P01-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "tw-046-P02": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-tw-046-P02-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-046-P02-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-046-P02-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-046-P02-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "tw-047-P01": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-tw-047-P01-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-047-P01-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-047-P01-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-047-P01-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "tw-047-P02": {
+  "genre_template": "sunset",
+  "conditions": [
+   {
+    "condition_id": "C-tw-047-P02-01",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-tw-047-P02-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-047-P02-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-047-P02-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-047-P02-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "tw-047-P03": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-tw-047-P03-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-047-P03-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-047-P03-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-047-P03-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "tw-048-P01": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-tw-048-P01-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-048-P01-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-048-P01-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-048-P01-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "tw-049-P01": {
+  "genre_template": "sunrise",
+  "conditions": [
+   {
+    "condition_id": "C-tw-049-P01-01",
+    "metric": "sunrise_time_window",
+    "layer_id": "spec:sunrise"
+   },
+   {
+    "condition_id": "C-tw-049-P01-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-049-P01-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-049-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "tw-049-P02": {
+  "genre_template": "sunset",
+  "conditions": [
+   {
+    "condition_id": "C-tw-049-P02-01",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-tw-049-P02-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-049-P02-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-049-P02-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-049-P02-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "tw-049-P03": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-tw-049-P03-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-049-P03-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-049-P03-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-049-P03-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "tw-050-P01": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-tw-050-P01-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-050-P01-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-050-P01-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-050-P01-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "tw-051-P01": {
+  "genre_template": "sunset",
+  "conditions": [
+   {
+    "condition_id": "C-tw-051-P01-01",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-tw-051-P01-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-051-P01-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-051-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-051-P01-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "tw-051-P02": {
+  "genre_template": "blue_hour_city",
+  "conditions": [
+   {
+    "condition_id": "C-tw-051-P02-01",
+    "metric": "blue_hour_window",
+    "layer_id": "spec:blue"
+   },
+   {
+    "condition_id": "C-tw-051-P02-02",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-051-P02-03",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-051-P02-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "tw-052-P01": {
+  "genre_template": "sunset",
+  "conditions": [
+   {
+    "condition_id": "C-tw-052-P01-01",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-tw-052-P01-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-052-P01-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-052-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-052-P01-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "tw-053-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-053-P02": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-054-P01": {
+  "genre_template": "reflection",
+  "conditions": [
+   {
+    "condition_id": "C-tw-054-P01-01",
+    "metric": "wind_speed_10m",
+    "layer_id": "base:wind_state"
+   },
+   {
+    "condition_id": "C-tw-054-P01-02",
+    "metric": "water_surface_state",
+    "layer_id": "base:water_surface"
+   },
+   {
+    "condition_id": "C-tw-054-P01-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-054-P01-04",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   }
+  ]
+ },
+ "tw-054-P02": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-055-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-056-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-056-P02": {
+  "genre_template": "reflection",
+  "conditions": [
+   {
+    "condition_id": "C-tw-056-P02-01",
+    "metric": "wind_speed_10m",
+    "layer_id": "base:wind_state"
+   },
+   {
+    "condition_id": "C-tw-056-P02-02",
+    "metric": "water_surface_state",
+    "layer_id": "base:water_surface"
+   },
+   {
+    "condition_id": "C-tw-056-P02-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-056-P02-04",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   }
+  ]
+ },
+ "tw-057-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-057-P02": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-058-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-058-P02": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-059-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-060-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-060-P02": {
+  "genre_template": "sunset",
+  "conditions": [
+   {
+    "condition_id": "C-tw-060-P02-01",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-tw-060-P02-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-060-P02-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-060-P02-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-060-P02-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "tw-060-P03": {
+  "genre_template": "sunrise",
+  "conditions": [
+   {
+    "condition_id": "C-tw-060-P03-01",
+    "metric": "sunrise_time_window",
+    "layer_id": "spec:sunrise"
+   },
+   {
+    "condition_id": "C-tw-060-P03-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-060-P03-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-060-P03-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "tw-061-P01": {
+  "genre_template": "sunset",
+  "conditions": [
+   {
+    "condition_id": "C-tw-061-P01-01",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-tw-061-P01-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-061-P01-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-061-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-061-P01-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "tw-061-P02": {
+  "genre_template": "blue_hour_city",
+  "conditions": [
+   {
+    "condition_id": "C-tw-061-P02-01",
+    "metric": "blue_hour_window",
+    "layer_id": "spec:blue"
+   },
+   {
+    "condition_id": "C-tw-061-P02-02",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-061-P02-03",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-061-P02-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "tw-062-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-064-P01": {
+  "genre_template": "sunset",
+  "conditions": [
+   {
+    "condition_id": "C-tw-064-P01-01",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-tw-064-P01-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-064-P01-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-064-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-064-P01-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "tw-064-P02": {
+  "genre_template": "blue_hour_city",
+  "conditions": [
+   {
+    "condition_id": "C-tw-064-P02-01",
+    "metric": "blue_hour_window",
+    "layer_id": "spec:blue"
+   },
+   {
+    "condition_id": "C-tw-064-P02-02",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-064-P02-03",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-064-P02-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "tw-065-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-066-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-067-P01": {
+  "genre_template": "sunset",
+  "conditions": [
+   {
+    "condition_id": "C-tw-067-P01-01",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-tw-067-P01-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-067-P01-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-067-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-067-P01-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "tw-068-P01": {
+  "genre_template": "sunrise",
+  "conditions": [
+   {
+    "condition_id": "C-tw-068-P01-01",
+    "metric": "sunrise_time_window",
+    "layer_id": "spec:sunrise"
+   },
+   {
+    "condition_id": "C-tw-068-P01-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-068-P01-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-068-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "tw-069-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-070-P01": {
+  "genre_template": "sunset",
+  "conditions": [
+   {
+    "condition_id": "C-tw-070-P01-01",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-tw-070-P01-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-070-P01-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-070-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-070-P01-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "tw-070-P02": {
+  "genre_template": "night_sky",
+  "conditions": [
+   {
+    "condition_id": "C-tw-070-P02-01",
+    "metric": "astronomical_darkness",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-070-P02-02",
+    "metric": "moon_illumination_fraction",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-070-P02-03",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-070-P02-04",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-070-P02-05",
+    "metric": "galactic_core_altitude",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-070-P02-06",
+    "metric": "moon_altitude",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-070-P02-07",
+    "metric": "moon_target_separation_deg",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-070-P02-08",
+    "metric": "moon_illuminance_proxy",
+    "layer_id": "spec:night"
+   }
+  ]
+ },
+ "tw-071-P01": {
+  "genre_template": "sunrise",
+  "conditions": [
+   {
+    "condition_id": "C-tw-071-P01-01",
+    "metric": "sunrise_time_window",
+    "layer_id": "spec:sunrise"
+   },
+   {
+    "condition_id": "C-tw-071-P01-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-071-P01-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-071-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "tw-071-P02": {
+  "genre_template": "sunset",
+  "conditions": [
+   {
+    "condition_id": "C-tw-071-P02-01",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-tw-071-P02-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-071-P02-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-071-P02-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-071-P02-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "tw-072-P01": {
+  "genre_template": "sunrise",
+  "conditions": [
+   {
+    "condition_id": "C-tw-072-P01-01",
+    "metric": "sunrise_time_window",
+    "layer_id": "spec:sunrise"
+   },
+   {
+    "condition_id": "C-tw-072-P01-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-072-P01-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-072-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "tw-072-P02": {
+  "genre_template": "geological_landform",
+  "conditions": [
+   {
+    "condition_id": "C-tw-072-P02-01",
+    "metric": "landform_present",
+    "layer_id": "base:landform"
+   },
+   {
+    "condition_id": "C-tw-072-P02-02",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-072-P02-03",
+    "metric": "golden_hour_window",
+    "layer_id": "spec:golden"
+   },
+   {
+    "condition_id": "C-tw-072-P02-04",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "tw-073-P01": {
+  "genre_template": "sunrise",
+  "conditions": [
+   {
+    "condition_id": "C-tw-073-P01-01",
+    "metric": "sunrise_time_window",
+    "layer_id": "spec:sunrise"
+   },
+   {
+    "condition_id": "C-tw-073-P01-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-073-P01-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-073-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "tw-074-P01": {
+  "genre_template": "sunrise",
+  "conditions": [
+   {
+    "condition_id": "C-tw-074-P01-01",
+    "metric": "sunrise_time_window",
+    "layer_id": "spec:sunrise"
+   },
+   {
+    "condition_id": "C-tw-074-P01-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-074-P01-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-074-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "tw-074-P02": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-075-P01": {
+  "genre_template": "sunrise",
+  "conditions": [
+   {
+    "condition_id": "C-tw-075-P01-01",
+    "metric": "sunrise_time_window",
+    "layer_id": "spec:sunrise"
+   },
+   {
+    "condition_id": "C-tw-075-P01-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-075-P01-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-075-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "tw-076-P01": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-tw-076-P01-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-076-P01-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-076-P01-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-076-P01-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "tw-076-P02": {
+  "genre_template": "night_sky",
+  "conditions": [
+   {
+    "condition_id": "C-tw-076-P02-01",
+    "metric": "astronomical_darkness",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-076-P02-02",
+    "metric": "moon_illumination_fraction",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-076-P02-03",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-076-P02-04",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-076-P02-05",
+    "metric": "galactic_core_altitude",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-076-P02-06",
+    "metric": "moon_altitude",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-076-P02-07",
+    "metric": "moon_target_separation_deg",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-076-P02-08",
+    "metric": "moon_illuminance_proxy",
+    "layer_id": "spec:night"
+   }
+  ]
+ },
+ "tw-077-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-077-P02": {
+  "genre_template": "geological_landform",
+  "conditions": [
+   {
+    "condition_id": "C-tw-077-P02-01",
+    "metric": "landform_present",
+    "layer_id": "base:landform"
+   },
+   {
+    "condition_id": "C-tw-077-P02-02",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-077-P02-03",
+    "metric": "golden_hour_window",
+    "layer_id": "spec:golden"
+   },
+   {
+    "condition_id": "C-tw-077-P02-04",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "tw-078-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-079-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-079-P02": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-080-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-080-P02": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-081-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-082-P01": {
+  "genre_template": null,
+  "conditions": [
+   {
+    "condition_id": "C-tw-082-P01-01",
+    "metric": "observable_lake_reflection",
+    "layer_id": "base:bespoke"
+   },
+   {
+    "condition_id": "C-tw-082-P01-02",
+    "metric": "wind_surface_stability",
+    "layer_id": "base:bespoke"
+   }
+  ]
+ },
+ "tw-082-P02": {
+  "genre_template": "reflection",
+  "conditions": [
+   {
+    "condition_id": "C-tw-082-P02-01",
+    "metric": "wind_speed_10m",
+    "layer_id": "base:wind_state"
+   },
+   {
+    "condition_id": "C-tw-082-P02-02",
+    "metric": "water_surface_state",
+    "layer_id": "base:water_surface"
+   },
+   {
+    "condition_id": "C-tw-082-P02-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-082-P02-04",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-082-P02-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-082-P02-06",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-082-P02-08",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "tw-082-P03": {
+  "genre_template": "sunset",
+  "conditions": [
+   {
+    "condition_id": "C-tw-082-P03-01",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-tw-082-P03-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-082-P03-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-082-P03-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-082-P03-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "tw-082-P04": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-082-P05": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-082-P06": {
+  "genre_template": "sunset",
+  "conditions": [
+   {
+    "condition_id": "C-tw-082-P06-01",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-tw-082-P06-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-082-P06-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-082-P06-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-082-P06-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "tw-082-P07": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-082-P08": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-082-P09": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-082-P10": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-083-P01": {
+  "genre_template": "reflection",
+  "conditions": [
+   {
+    "condition_id": "C-tw-083-P01-01",
+    "metric": "wind_speed_10m",
+    "layer_id": "base:wind_state"
+   },
+   {
+    "condition_id": "C-tw-083-P01-02",
+    "metric": "water_surface_state",
+    "layer_id": "base:water_surface"
+   },
+   {
+    "condition_id": "C-tw-083-P01-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-083-P01-04",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   }
+  ]
+ },
+ "tw-083-P02": {
+  "genre_template": "reflection",
+  "conditions": [
+   {
+    "condition_id": "C-tw-083-P02-01",
+    "metric": "wind_speed_10m",
+    "layer_id": "base:wind_state"
+   },
+   {
+    "condition_id": "C-tw-083-P02-02",
+    "metric": "water_surface_state",
+    "layer_id": "base:water_surface"
+   },
+   {
+    "condition_id": "C-tw-083-P02-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-083-P02-04",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   }
+  ]
+ },
+ "tw-083-P03": {
+  "genre_template": "seasonal_plant",
+  "conditions": [
+   {
+    "condition_id": "C-tw-083-P03-01",
+    "metric": "seasonal_state",
+    "layer_id": "base:seasonal"
+   },
+   {
+    "condition_id": "C-tw-083-P03-02",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-083-P03-03",
+    "metric": "wind_speed_10m",
+    "layer_id": "base:wind_state"
+   }
+  ]
+ },
+ "tw-083-P04": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-083-P05": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-084-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-084-P02": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-084-P03": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-084-P04": {
+  "genre_template": "seasonal_plant",
+  "conditions": [
+   {
+    "condition_id": "C-tw-084-P04-01",
+    "metric": "seasonal_state",
+    "layer_id": "base:seasonal"
+   },
+   {
+    "condition_id": "C-tw-084-P04-02",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-tw-084-P04-03",
+    "metric": "wind_speed_10m",
+    "layer_id": "base:wind_state"
+   }
+  ]
+ },
+ "tw-084-P05": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-084-P06": {
+  "genre_template": "night_sky",
+  "conditions": [
+   {
+    "condition_id": "C-tw-084-P06-01",
+    "metric": "astronomical_darkness",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-084-P06-02",
+    "metric": "moon_illumination_fraction",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-084-P06-03",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-084-P06-04",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-084-P06-05",
+    "metric": "galactic_core_altitude",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-084-P06-06",
+    "metric": "moon_altitude",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-084-P06-07",
+    "metric": "moon_target_separation_deg",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-084-P06-08",
+    "metric": "moon_illuminance_proxy",
+    "layer_id": "spec:night"
+   }
+  ]
+ },
+ "tw-084-P07": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-084-P08": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-084-P09": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-085-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-085-P02": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "tw-085-P03": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-001-P01": {
+  "genre_template": "overlook",
+  "conditions": [
+   {
+    "condition_id": "C-us-001-P01-01",
+    "metric": "visibility",
+    "layer_id": "base:visibility"
+   },
+   {
+    "condition_id": "C-us-001-P01-02",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-001-P01-03",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-001-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "us-001-P02": {
+  "genre_template": "sunset",
+  "conditions": [
+   {
+    "condition_id": "C-us-001-P02-01",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-us-001-P02-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-001-P02-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-001-P02-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-us-001-P02-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "us-001-P03": {
+  "genre_template": "night_sky",
+  "conditions": [
+   {
+    "condition_id": "C-us-001-P03-01",
+    "metric": "astronomical_darkness",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-us-001-P03-02",
+    "metric": "moon_illumination_fraction",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-us-001-P03-03",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-001-P03-04",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-001-P03-05",
+    "metric": "galactic_core_altitude",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-us-001-P03-06",
+    "metric": "moon_altitude",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-us-001-P03-07",
+    "metric": "moon_target_separation_deg",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-us-001-P03-08",
+    "metric": "moon_illuminance_proxy",
+    "layer_id": "spec:night"
+   }
+  ]
+ },
+ "us-002-P01": {
+  "genre_template": "overlook",
+  "conditions": [
+   {
+    "condition_id": "C-us-002-P01-01",
+    "metric": "visibility",
+    "layer_id": "base:visibility"
+   },
+   {
+    "condition_id": "C-us-002-P01-02",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-002-P01-03",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-002-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "us-003-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-003-P02": {
+  "genre_template": "golden_hour",
+  "conditions": [
+   {
+    "condition_id": "C-us-003-P02-01",
+    "metric": "golden_hour_window",
+    "layer_id": "spec:golden"
+   },
+   {
+    "condition_id": "C-us-003-P02-02",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-003-P02-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-us-003-P02-04",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "us-004-P01": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-us-004-P01-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-004-P01-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-004-P01-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-us-004-P01-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "us-005-P01": {
+  "genre_template": "sunset",
+  "conditions": [
+   {
+    "condition_id": "C-us-005-P01-01",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-us-005-P01-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-005-P01-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-005-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-us-005-P01-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "us-005-P02": {
+  "genre_template": "night_sky",
+  "conditions": [
+   {
+    "condition_id": "C-us-005-P02-01",
+    "metric": "astronomical_darkness",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-us-005-P02-02",
+    "metric": "moon_illumination_fraction",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-us-005-P02-03",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-005-P02-04",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-005-P02-05",
+    "metric": "galactic_core_altitude",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-us-005-P02-06",
+    "metric": "moon_altitude",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-us-005-P02-07",
+    "metric": "moon_target_separation_deg",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-us-005-P02-08",
+    "metric": "moon_illuminance_proxy",
+    "layer_id": "spec:night"
+   }
+  ]
+ },
+ "us-006-P01": {
+  "genre_template": "overlook",
+  "conditions": [
+   {
+    "condition_id": "C-us-006-P01-01",
+    "metric": "visibility",
+    "layer_id": "base:visibility"
+   },
+   {
+    "condition_id": "C-us-006-P01-02",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-006-P01-03",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-006-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "us-006-P02": {
+  "genre_template": "night_sky",
+  "conditions": [
+   {
+    "condition_id": "C-us-006-P02-01",
+    "metric": "astronomical_darkness",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-us-006-P02-02",
+    "metric": "moon_illumination_fraction",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-us-006-P02-03",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-006-P02-04",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-006-P02-05",
+    "metric": "galactic_core_altitude",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-us-006-P02-06",
+    "metric": "moon_altitude",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-us-006-P02-07",
+    "metric": "moon_target_separation_deg",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-us-006-P02-08",
+    "metric": "moon_illuminance_proxy",
+    "layer_id": "spec:night"
+   }
+  ]
+ },
+ "us-007-P01": {
+  "genre_template": "overlook",
+  "conditions": [
+   {
+    "condition_id": "C-us-007-P01-01",
+    "metric": "visibility",
+    "layer_id": "base:visibility"
+   },
+   {
+    "condition_id": "C-us-007-P01-02",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-007-P01-03",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-007-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "us-007-P02": {
+  "genre_template": "geological_landform",
+  "conditions": [
+   {
+    "condition_id": "C-us-007-P02-01",
+    "metric": "landform_present",
+    "layer_id": "base:landform"
+   },
+   {
+    "condition_id": "C-us-007-P02-02",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-us-007-P02-03",
+    "metric": "golden_hour_window",
+    "layer_id": "spec:golden"
+   },
+   {
+    "condition_id": "C-us-007-P02-04",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "us-008-P01": {
+  "genre_template": "sunset",
+  "conditions": [
+   {
+    "condition_id": "C-us-008-P01-01",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-us-008-P01-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-008-P01-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-008-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-us-008-P01-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "us-009-P01": {
+  "genre_template": "overlook",
+  "conditions": [
+   {
+    "condition_id": "C-us-009-P01-01",
+    "metric": "visibility",
+    "layer_id": "base:visibility"
+   },
+   {
+    "condition_id": "C-us-009-P01-02",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-009-P01-03",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-009-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "us-010-P01": {
+  "genre_template": "overlook",
+  "conditions": [
+   {
+    "condition_id": "C-us-010-P01-01",
+    "metric": "visibility",
+    "layer_id": "base:visibility"
+   },
+   {
+    "condition_id": "C-us-010-P01-02",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-010-P01-03",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-010-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "us-011-P01": {
+  "genre_template": "sunrise",
+  "conditions": [
+   {
+    "condition_id": "C-us-011-P01-01",
+    "metric": "sunrise_time_window",
+    "layer_id": "spec:sunrise"
+   },
+   {
+    "condition_id": "C-us-011-P01-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-011-P01-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-011-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "us-011-P02": {
+  "genre_template": "overlook",
+  "conditions": [
+   {
+    "condition_id": "C-us-011-P02-01",
+    "metric": "visibility",
+    "layer_id": "base:visibility"
+   },
+   {
+    "condition_id": "C-us-011-P02-02",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-011-P02-03",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-011-P02-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "us-012-P01": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-us-012-P01-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-012-P01-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-012-P01-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-us-012-P01-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "us-012-P02": {
+  "genre_template": "seasonal_plant",
+  "conditions": [
+   {
+    "condition_id": "C-us-012-P02-01",
+    "metric": "seasonal_state",
+    "layer_id": "base:seasonal"
+   },
+   {
+    "condition_id": "C-us-012-P02-02",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-us-012-P02-03",
+    "metric": "wind_speed_10m",
+    "layer_id": "base:wind_state"
+   }
+  ]
+ },
+ "us-013-P01": {
+  "genre_template": "overlook",
+  "conditions": [
+   {
+    "condition_id": "C-us-013-P01-01",
+    "metric": "visibility",
+    "layer_id": "base:visibility"
+   },
+   {
+    "condition_id": "C-us-013-P01-02",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-013-P01-03",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-013-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "us-013-P02": {
+  "genre_template": "overlook",
+  "conditions": [
+   {
+    "condition_id": "C-us-013-P02-01",
+    "metric": "visibility",
+    "layer_id": "base:visibility"
+   },
+   {
+    "condition_id": "C-us-013-P02-02",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-013-P02-03",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-013-P02-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "us-014-P01": {
+  "genre_template": "geological_landform",
+  "conditions": [
+   {
+    "condition_id": "C-us-014-P01-01",
+    "metric": "landform_present",
+    "layer_id": "base:landform"
+   },
+   {
+    "condition_id": "C-us-014-P01-02",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-us-014-P01-03",
+    "metric": "golden_hour_window",
+    "layer_id": "spec:golden"
+   },
+   {
+    "condition_id": "C-us-014-P01-04",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "us-014-P02": {
+  "genre_template": "geological_landform",
+  "conditions": [
+   {
+    "condition_id": "C-us-014-P02-01",
+    "metric": "landform_present",
+    "layer_id": "base:landform"
+   },
+   {
+    "condition_id": "C-us-014-P02-02",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-us-014-P02-03",
+    "metric": "golden_hour_window",
+    "layer_id": "spec:golden"
+   },
+   {
+    "condition_id": "C-us-014-P02-04",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "us-014-P03": {
+  "genre_template": "night_sky",
+  "conditions": [
+   {
+    "condition_id": "C-us-014-P03-01",
+    "metric": "astronomical_darkness",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-us-014-P03-02",
+    "metric": "moon_illumination_fraction",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-us-014-P03-03",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-014-P03-04",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-014-P03-05",
+    "metric": "galactic_core_altitude",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-us-014-P03-06",
+    "metric": "moon_altitude",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-us-014-P03-07",
+    "metric": "moon_target_separation_deg",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-us-014-P03-08",
+    "metric": "moon_illuminance_proxy",
+    "layer_id": "spec:night"
+   }
+  ]
+ },
+ "us-015-P01": {
+  "genre_template": "sunset",
+  "conditions": [
+   {
+    "condition_id": "C-us-015-P01-01",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-us-015-P01-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-015-P01-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-015-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-us-015-P01-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "us-015-P02": {
+  "genre_template": "city_night",
+  "conditions": [
+   {
+    "condition_id": "C-us-015-P02-01",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-015-P02-02",
+    "metric": "visibility",
+    "layer_id": "base:visibility"
+   },
+   {
+    "condition_id": "C-us-015-P02-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-us-015-P02-04",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "us-016-P01": {
+  "genre_template": "city_night",
+  "conditions": [
+   {
+    "condition_id": "C-us-016-P01-01",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-016-P01-02",
+    "metric": "visibility",
+    "layer_id": "base:visibility"
+   },
+   {
+    "condition_id": "C-us-016-P01-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-us-016-P01-04",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "us-016-P02": {
+  "genre_template": "city_night",
+  "conditions": [
+   {
+    "condition_id": "C-us-016-P02-01",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-016-P02-02",
+    "metric": "visibility",
+    "layer_id": "base:visibility"
+   },
+   {
+    "condition_id": "C-us-016-P02-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-us-016-P02-04",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "us-017-P01": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-us-017-P01-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-017-P01-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-017-P01-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-us-017-P01-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "us-018-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-018-P02": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-019-P01": {
+  "genre_template": "geological_landform",
+  "conditions": [
+   {
+    "condition_id": "C-us-019-P01-01",
+    "metric": "landform_present",
+    "layer_id": "base:landform"
+   },
+   {
+    "condition_id": "C-us-019-P01-02",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-us-019-P01-03",
+    "metric": "golden_hour_window",
+    "layer_id": "spec:golden"
+   },
+   {
+    "condition_id": "C-us-019-P01-04",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "us-019-P02": {
+  "genre_template": "sunset",
+  "conditions": [
+   {
+    "condition_id": "C-us-019-P02-01",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-us-019-P02-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-019-P02-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-019-P02-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-us-019-P02-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "us-020-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-020-P02": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-021-P01": {
+  "genre_template": "sunrise",
+  "conditions": [
+   {
+    "condition_id": "C-us-021-P01-01",
+    "metric": "sunrise_time_window",
+    "layer_id": "spec:sunrise"
+   },
+   {
+    "condition_id": "C-us-021-P01-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-021-P01-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-021-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "us-022-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-022-P02": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-023-P01": {
+  "genre_template": "seasonal_plant",
+  "conditions": [
+   {
+    "condition_id": "C-us-023-P01-01",
+    "metric": "seasonal_state",
+    "layer_id": "base:seasonal"
+   },
+   {
+    "condition_id": "C-us-023-P01-02",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-us-023-P01-03",
+    "metric": "wind_speed_10m",
+    "layer_id": "base:wind_state"
+   }
+  ]
+ },
+ "us-024-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-024-P02": {
+  "genre_template": "city_night",
+  "conditions": [
+   {
+    "condition_id": "C-us-024-P02-01",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-024-P02-02",
+    "metric": "visibility",
+    "layer_id": "base:visibility"
+   },
+   {
+    "condition_id": "C-us-024-P02-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-us-024-P02-04",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "us-025-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-025-P02": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-026-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-026-P02": {
+  "genre_template": "overlook",
+  "conditions": [
+   {
+    "condition_id": "C-us-026-P02-01",
+    "metric": "visibility",
+    "layer_id": "base:visibility"
+   },
+   {
+    "condition_id": "C-us-026-P02-02",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-026-P02-03",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-026-P02-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "us-027-P01": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-us-027-P01-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-027-P01-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-027-P01-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-us-027-P01-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-us-027-P01-05",
+    "metric": "wind_speed_10m",
+    "layer_id": "base:wind_state"
+   },
+   {
+    "condition_id": "C-us-027-P01-06",
+    "metric": "water_surface_state",
+    "layer_id": "base:water_surface"
+   },
+   {
+    "condition_id": "C-us-027-P01-08",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   }
+  ]
+ },
+ "us-028-P01": {
+  "genre_template": "blue_hour_city",
+  "conditions": [
+   {
+    "condition_id": "C-us-028-P01-01",
+    "metric": "blue_hour_window",
+    "layer_id": "spec:blue"
+   },
+   {
+    "condition_id": "C-us-028-P01-02",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-028-P01-03",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-028-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "us-029-P01": {
+  "genre_template": "sunset",
+  "conditions": [
+   {
+    "condition_id": "C-us-029-P01-01",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-us-029-P01-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-029-P01-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-029-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-us-029-P01-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "us-030-P01": {
+  "genre_template": "blue_hour_city",
+  "conditions": [
+   {
+    "condition_id": "C-us-030-P01-01",
+    "metric": "blue_hour_window",
+    "layer_id": "spec:blue"
+   },
+   {
+    "condition_id": "C-us-030-P01-02",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-030-P01-03",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-030-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "us-031-P01": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-us-031-P01-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-031-P01-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-031-P01-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-us-031-P01-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-us-031-P01-05",
+    "metric": "wind_speed_10m",
+    "layer_id": "base:wind_state"
+   },
+   {
+    "condition_id": "C-us-031-P01-06",
+    "metric": "water_surface_state",
+    "layer_id": "base:water_surface"
+   },
+   {
+    "condition_id": "C-us-031-P01-08",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   }
+  ]
+ },
+ "us-032-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-033-P01": {
+  "genre_template": "blue_hour_city",
+  "conditions": [
+   {
+    "condition_id": "C-us-033-P01-01",
+    "metric": "blue_hour_window",
+    "layer_id": "spec:blue"
+   },
+   {
+    "condition_id": "C-us-033-P01-02",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-033-P01-03",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-033-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "us-034-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-035-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-035-P02": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-036-P01": {
+  "genre_template": "blue_hour_city",
+  "conditions": [
+   {
+    "condition_id": "C-us-036-P01-01",
+    "metric": "blue_hour_window",
+    "layer_id": "spec:blue"
+   },
+   {
+    "condition_id": "C-us-036-P01-02",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-036-P01-03",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-036-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "us-037-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-037-P02": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-038-P01": {
+  "genre_template": "overlook",
+  "conditions": [
+   {
+    "condition_id": "C-us-038-P01-01",
+    "metric": "visibility",
+    "layer_id": "base:visibility"
+   },
+   {
+    "condition_id": "C-us-038-P01-02",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-038-P01-03",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-038-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "us-039-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-039-P02": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-040-P01": {
+  "genre_template": "blue_hour_city",
+  "conditions": [
+   {
+    "condition_id": "C-us-040-P01-01",
+    "metric": "blue_hour_window",
+    "layer_id": "spec:blue"
+   },
+   {
+    "condition_id": "C-us-040-P01-02",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-040-P01-03",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-040-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "us-041-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-044-P01": {
+  "genre_template": "sunset",
+  "conditions": [
+   {
+    "condition_id": "C-us-044-P01-01",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-us-044-P01-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-044-P01-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-044-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-us-044-P01-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "us-045-P01": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-us-045-P01-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-045-P01-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-045-P01-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-us-045-P01-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "us-046-P01": {
+  "genre_template": "overlook",
+  "conditions": [
+   {
+    "condition_id": "C-us-046-P01-01",
+    "metric": "visibility",
+    "layer_id": "base:visibility"
+   },
+   {
+    "condition_id": "C-us-046-P01-02",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-046-P01-03",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-046-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "us-047-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-048-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-048-P02": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-049-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-050-P01": {
+  "genre_template": "overlook",
+  "conditions": [
+   {
+    "condition_id": "C-us-050-P01-01",
+    "metric": "visibility",
+    "layer_id": "base:visibility"
+   },
+   {
+    "condition_id": "C-us-050-P01-02",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-050-P01-03",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-050-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "us-050-P02": {
+  "genre_template": "overlook",
+  "conditions": [
+   {
+    "condition_id": "C-us-050-P02-01",
+    "metric": "visibility",
+    "layer_id": "base:visibility"
+   },
+   {
+    "condition_id": "C-us-050-P02-02",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-050-P02-03",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-050-P02-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "us-051-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-051-P02": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-052-P01": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-us-052-P01-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-052-P01-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-052-P01-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-us-052-P01-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "us-052-P02": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-us-052-P02-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-052-P02-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-052-P02-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-us-052-P02-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "us-053-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-054-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-055-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-055-P02": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-056-P01": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-us-056-P01-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-056-P01-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-056-P01-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-us-056-P01-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "us-057-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-058-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-059-P01": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-us-059-P01-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-059-P01-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-059-P01-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-us-059-P01-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "us-059-P02": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-us-059-P02-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-059-P02-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-059-P02-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-us-059-P02-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "us-060-P01": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-us-060-P01-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-060-P01-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-060-P01-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-us-060-P01-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "us-060-P02": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-us-060-P02-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-060-P02-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-060-P02-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-us-060-P02-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "us-061-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-061-P02": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-062-P01": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-us-062-P01-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-062-P01-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-062-P01-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-us-062-P01-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-us-062-P01-05",
+    "metric": "wind_speed_10m",
+    "layer_id": "base:wind_state"
+   },
+   {
+    "condition_id": "C-us-062-P01-06",
+    "metric": "water_surface_state",
+    "layer_id": "base:water_surface"
+   },
+   {
+    "condition_id": "C-us-062-P01-08",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   }
+  ]
+ },
+ "us-063-P01": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-us-063-P01-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-063-P01-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-063-P01-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-us-063-P01-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "us-064-P01": {
+  "genre_template": "overlook",
+  "conditions": [
+   {
+    "condition_id": "C-us-064-P01-01",
+    "metric": "visibility",
+    "layer_id": "base:visibility"
+   },
+   {
+    "condition_id": "C-us-064-P01-02",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-064-P01-03",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-064-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "us-065-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-066-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-067-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-068-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-069-P01": {
+  "genre_template": "reflection",
+  "conditions": [
+   {
+    "condition_id": "C-us-069-P01-01",
+    "metric": "wind_speed_10m",
+    "layer_id": "base:wind_state"
+   },
+   {
+    "condition_id": "C-us-069-P01-02",
+    "metric": "water_surface_state",
+    "layer_id": "base:water_surface"
+   },
+   {
+    "condition_id": "C-us-069-P01-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-us-069-P01-04",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   }
+  ]
+ },
+ "us-070-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-071-P01": {
+  "genre_template": null,
+  "conditions": [
+   {
+    "condition_id": "C-us-071-P01-01",
+    "metric": "seattle_skyline_visibility",
+    "layer_id": "base:bespoke"
+   },
+   {
+    "condition_id": "C-us-071-P01-02",
+    "metric": "dusk_city_lights_overlap",
+    "layer_id": "base:bespoke"
+   }
+  ]
+ },
+ "us-071-P02": {
+  "genre_template": "blue_hour_city",
+  "conditions": [
+   {
+    "condition_id": "C-us-071-P02-01",
+    "metric": "blue_hour_window",
+    "layer_id": "spec:blue"
+   },
+   {
+    "condition_id": "C-us-071-P02-02",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-071-P02-03",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-071-P02-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "us-071-P03": {
+  "genre_template": "blue_hour_city",
+  "conditions": [
+   {
+    "condition_id": "C-us-071-P03-01",
+    "metric": "blue_hour_window",
+    "layer_id": "spec:blue"
+   },
+   {
+    "condition_id": "C-us-071-P03-02",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-071-P03-03",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-071-P03-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "us-072-P01": {
+  "genre_template": "sunset",
+  "conditions": [
+   {
+    "condition_id": "C-us-072-P01-01",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-us-072-P01-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-072-P01-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-072-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-us-072-P01-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "us-072-P02": {
+  "genre_template": "sunset",
+  "conditions": [
+   {
+    "condition_id": "C-us-072-P02-01",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-us-072-P02-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-072-P02-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-072-P02-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-us-072-P02-05",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   }
+  ]
+ },
+ "us-073-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-073-P02": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-074-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-074-P02": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-075-P01": {
+  "genre_template": "overlook",
+  "conditions": [
+   {
+    "condition_id": "C-us-075-P01-01",
+    "metric": "visibility",
+    "layer_id": "base:visibility"
+   },
+   {
+    "condition_id": "C-us-075-P01-02",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-075-P01-03",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-075-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "us-075-P02": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-076-P01": {
+  "genre_template": "blue_hour_city",
+  "conditions": [
+   {
+    "condition_id": "C-us-076-P01-01",
+    "metric": "blue_hour_window",
+    "layer_id": "spec:blue"
+   },
+   {
+    "condition_id": "C-us-076-P01-02",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-076-P01-03",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-076-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "us-076-P02": {
+  "genre_template": "blue_hour_city",
+  "conditions": [
+   {
+    "condition_id": "C-us-076-P02-01",
+    "metric": "blue_hour_window",
+    "layer_id": "spec:blue"
+   },
+   {
+    "condition_id": "C-us-076-P02-02",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-076-P02-03",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-076-P02-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "us-077-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-077-P02": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-078-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-078-P02": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-078-P03": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-079-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-080-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-080-P02": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-081-P01": {
+  "genre_template": "seasonal_plant",
+  "conditions": [
+   {
+    "condition_id": "C-us-081-P01-01",
+    "metric": "seasonal_state",
+    "layer_id": "base:seasonal"
+   },
+   {
+    "condition_id": "C-us-081-P01-02",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-us-081-P01-03",
+    "metric": "wind_speed_10m",
+    "layer_id": "base:wind_state"
+   },
+   {
+    "condition_id": "C-us-081-P01-04",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-081-P01-05",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-081-P01-07",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "us-081-P02": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-082-P01": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-us-082-P01-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-082-P01-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-082-P01-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-us-082-P01-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-us-082-P01-05",
+    "metric": "wind_speed_10m",
+    "layer_id": "base:wind_state"
+   },
+   {
+    "condition_id": "C-us-082-P01-06",
+    "metric": "water_surface_state",
+    "layer_id": "base:water_surface"
+   },
+   {
+    "condition_id": "C-us-082-P01-08",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   }
+  ]
+ },
+ "us-083-P01": {
+  "genre_template": "overlook",
+  "conditions": [
+   {
+    "condition_id": "C-us-083-P01-01",
+    "metric": "visibility",
+    "layer_id": "base:visibility"
+   },
+   {
+    "condition_id": "C-us-083-P01-02",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-083-P01-03",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-083-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "us-083-P02": {
+  "genre_template": "overlook",
+  "conditions": [
+   {
+    "condition_id": "C-us-083-P02-01",
+    "metric": "visibility",
+    "layer_id": "base:visibility"
+   },
+   {
+    "condition_id": "C-us-083-P02-02",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-083-P02-03",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-083-P02-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "us-084-P01": {
+  "genre_template": "sunrise",
+  "conditions": [
+   {
+    "condition_id": "C-us-084-P01-01",
+    "metric": "sunrise_time_window",
+    "layer_id": "spec:sunrise"
+   },
+   {
+    "condition_id": "C-us-084-P01-02",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-084-P01-03",
+    "metric": "cloud_cover_mid_and_high",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-084-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "us-085-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-086-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-087-P01": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-us-087-P01-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-087-P01-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-087-P01-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-us-087-P01-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "us-088-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-089-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-090-P01": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-us-090-P01-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-090-P01-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-090-P01-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-us-090-P01-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-us-090-P01-05",
+    "metric": "wind_speed_10m",
+    "layer_id": "base:wind_state"
+   },
+   {
+    "condition_id": "C-us-090-P01-06",
+    "metric": "water_surface_state",
+    "layer_id": "base:water_surface"
+   },
+   {
+    "condition_id": "C-us-090-P01-08",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   }
+  ]
+ },
+ "us-091-P01": {
+  "genre_template": "overlook",
+  "conditions": [
+   {
+    "condition_id": "C-us-091-P01-01",
+    "metric": "visibility",
+    "layer_id": "base:visibility"
+   },
+   {
+    "condition_id": "C-us-091-P01-02",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-091-P01-03",
+    "metric": "cloud_cover_low",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-091-P01-04",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   }
+  ]
+ },
+ "us-092-P01": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-us-092-P01-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-092-P01-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-092-P01-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-us-092-P01-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "us-093-P01": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-us-093-P01-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-093-P01-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-093-P01-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-us-093-P01-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   },
+   {
+    "condition_id": "C-us-093-P01-05",
+    "metric": "wind_speed_10m",
+    "layer_id": "base:wind_state"
+   },
+   {
+    "condition_id": "C-us-093-P01-06",
+    "metric": "water_surface_state",
+    "layer_id": "base:water_surface"
+   },
+   {
+    "condition_id": "C-us-093-P01-08",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   }
+  ]
+ },
+ "us-094-P01": {
+  "genre_template": "mountain_view",
+  "conditions": [
+   {
+    "condition_id": "C-us-094-P01-01",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-us-094-P01-02",
+    "metric": "cloud_cover_mid",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-us-094-P01-03",
+    "metric": "precipitation",
+    "layer_id": "base:precipitation"
+   },
+   {
+    "condition_id": "C-us-094-P01-04",
+    "metric": "sunset_window",
+    "layer_id": "spec:sunset"
+   }
+  ]
+ },
+ "us-095-P01": {
+  "genre_template": null,
+  "conditions": []
+ },
+ "us-096-P01": {
+  "genre_template": null,
+  "conditions": []
+ }
+}

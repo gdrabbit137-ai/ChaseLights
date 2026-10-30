@@ -102,6 +102,13 @@ def hour_observations(dt_utc, lat, lon, events=None, need_moon=False):
 def moon_observation(dt_utc, lat, lon):
     lunar = lunar_ephemeris_for_galactic_core(dt_utc, lat, lon)
     altitude = lunar.get("moon_altitude_deg")
+    separation = lunar.get("moon_target_separation_deg")
+    # Moon below the horizon = zero interference: the separation gate
+    # (moon_target_separation_deg, "moon at least 40 deg from the core")
+    # is vacuously satisfied, so report a large sentinel instead of None
+    # (None would propagate UNKNOWN and wrongly block the night hours).
+    if altitude is not None and altitude < 0:
+        separation = 999.0
     illumination = lunar.get("moon_illumination_fraction")
     proxy = None
     if altitude is not None and illumination is not None:
@@ -116,7 +123,7 @@ def moon_observation(dt_utc, lat, lon):
     return {
         "moon_altitude": altitude,
         "moon_illumination_fraction": illumination,
-        "moon_target_separation_deg": lunar.get("moon_target_separation_deg"),
+        "moon_target_separation_deg": separation,
         "moon_illuminance_proxy": proxy,
         "galactic_core_altitude": core_altitude,
     }

@@ -1,0 +1,105 @@
+[
+ {
+  "opportunity_id": "tw-027-P02",
+  "old_genre": "geological_landform",
+  "new_genre": "night_sky",
+  "dropped_day_only": [
+   "golden_hour_window",
+   "aod_550nm"
+  ],
+  "added": [
+   "astronomical_darkness",
+   "moon_illumination_fraction",
+   "cloud_cover_total",
+   "aod_550nm",
+   "galactic_core_altitude",
+   "moon_altitude",
+   "moon_target_separation_deg",
+   "moon_illuminance_proxy"
+  ],
+  "stricter_merged": [],
+  "reason": "owner adjudication 2026-10-31 (time-specialization proposal section 3): night-sky subject carried a daytime template; night layer adds astronomical_darkness + moon constraints so daytime hours no longer report GUIDANCE_SATISFIED"
+ },
+ {
+  "opportunity_id": "tw-035-P05",
+  "old_genre": "seasonal_plant",
+  "new_genre": "night_sky",
+  "dropped_day_only": [],
+  "added": [
+   "astronomical_darkness",
+   "moon_illumination_fraction",
+   "cloud_cover_total",
+   "aod_550nm",
+   "galactic_core_altitude",
+   "moon_altitude",
+   "moon_target_separation_deg",
+   "moon_illuminance_proxy"
+  ],
+  "stricter_merged": [],
+  "reason": "owner adjudication 2026-10-31 (time-specialization proposal section 3): night-sky subject carried a daytime template; night layer adds astronomical_darkness + moon constraints so daytime hours no longer report GUIDANCE_SATISFIED"
+ },
+ {
+  "opportunity_id": "tw-036-P02",
+  "old_genre": "sunset",
+  "new_genre": "night_sky",
+  "dropped_day_only": [
+   "sunset_window",
+   "cloud_cover_low",
+   "cloud_cover_mid_and_high",
+   "aod_550nm"
+  ],
+  "added": [
+   "astronomical_darkness",
+   "moon_illumination_fraction",
+   "cloud_cover_total",
+   "aod_550nm",
+   "galactic_core_altitude",
+   "moon_altitude",
+   "moon_target_separation_deg",
+   "moon_illuminance_proxy"
+  ],
+  "stricter_merged": [],
+  "reason": "owner adjudication 2026-10-31 (time-specialization proposal section 3): night-sky subject carried a daytime template; night layer adds astronomical_darkness + moon constraints so daytime hours no longer report GUIDANCE_SATISFIED"
+ },
+ {
+  "opportunity_id": "tw-038-P02",
+  "old_genre": "geological_landform",
+  "new_genre": "night_sky",
+  "dropped_day_only": [
+   "golden_hour_window",
+   "aod_550nm"
+  ],
+  "added": [
+   "astronomical_darkness",
+   "moon_illumination_fraction",
+   "cloud_cover_total",
+   "aod_550nm",
+   "galactic_core_altitude",
+   "moon_altitude",
+   "moon_target_separation_deg",
+   "moon_illuminance_proxy"
+  ],
+  "stricter_merged": [],
+  "reason": "owner adjudication 2026-10-31 (time-specialization proposal section 3): night-sky subject carried a daytime template; night layer adds astronomical_darkness + moon constraints so daytime hours no longer report GUIDANCE_SATISFIED"
+ },
+ {
+  "opportunity_id": "tw-082-P06",
+  "old_genre": "sunset",
+  "new_genre": "city_night",
+  "dropped_day_only": [
+   "sunset_window",
+   "cloud_cover_low",
+   "cloud_cover_mid_and_high",
+   "aod_550nm"
+  ],
+  "added": [
+   "cloud_cover_total",
+   "visibility",
+   "aod_550nm"
+  ],
+  "stricter_merged": [
+   "precipitation"
+  ],
+  "reason": "owner adjudication 2026-10-31 (time-specialization proposal section 3): night-sky subject carried a daytime template; night layer adds astronomical_darkness + moon constraints so daytime hours no longer report GUIDANCE_SATISFIED"
+ }
+]
