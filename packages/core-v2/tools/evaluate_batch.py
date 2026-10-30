@@ -50,13 +50,12 @@ DECLARED_PASS_METRICS = {"landform_present"}
 NO_SOURCE_METRICS = {"water_surface_state", "seasonal_state"}
 # Display-only local clocks (approximate; Place index time_zone is UNKNOWN).
 TZ_DISPLAY = [
-    ((55, 90, -180, -130), "America/Anchorage", 9),
-    ((47, 55, -135, -110), "America/Los_Angeles", 8),
-    ((30, 50, -90, -75), "America/New_York", 5),
-    ((30, 40, -115, -100), "America/Phoenix", 7),
-    ((30, 40, -100, -85), "America/Chicago", 6),
-    ((20, 40, 120, 150), "Asia/Taipei", 8),
-    ((20, 46, 129, 146), "Asia/Tokyo", 9),
+    ((54, 72, -170, -130), "America/Anchorage", 9),
+    ((32, 55, -130, -114), "America/Los_Angeles", 8),
+    ((30, 49, -114, -96), "America/Denver", 7),
+    ((24, 50, -96, -66), "America/New_York", 5),
+    ((21, 26.6, 117.5, 122.2), "Asia/Taipei", 8),
+    ((23, 46, 122.2, 146), "Asia/Tokyo", 9),
 ]
 
 

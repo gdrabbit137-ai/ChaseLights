@@ -99,6 +99,12 @@ let LANG=localStorage.getItem("cl-lang")||"zh-TW";
 let DATA=null,DAY=null,OPEN=new Set();
 const $=s=>document.querySelector(s);
 function T(){return I18N[LANG]}
+const PROVISIONAL_RE=/\s*\((?:provisional[^)]*|暫定[^)]*|仮[・譯][^)]*)\)\s*/gi;
+function cleanName(raw,lang,oid){
+ let v=raw&&(raw[lang]||"").trim();
+ if(!v||/pending review|レビュー待ち|待審/.test(v)) v=(raw&&raw["zh-TW"])||oid;
+ return v.replace(PROVISIONAL_RE,"").trim()||oid;
+}
 function chip(state){
  const t=T();
  if(state==="GUIDANCE_SATISFIED")return `<span class="chip ok">${t.ok}</span>`;
@@ -134,9 +140,9 @@ function render(){
   const opps=place.opportunities.filter(o=>o.days.some(x=>x.local_date===DAY));
   if(!opps.length)continue;
   const card=document.createElement("section");card.className="place";
-  const name=place.name_i18n[LANG]||place.name_i18n["en"]||place.place_id;
+  const name=cleanName(place.name_i18n,LANG,place.place_id);
   const head=document.createElement("h2");
-  head.innerHTML=`<span>${name}</span><span class="tz">${place.timezone_display.iana} · ${t.tz}</span>`;
+  head.innerHTML=`<span>${name}</span><span class="tz">${place.timezone_display.iana?place.timezone_display.iana+" · ":""}${t.tz}</span>`;
   head.onclick=()=>{const key=place.place_id;OPEN.has(key)?OPEN.delete(key):OPEN.add(key);render()};
   card.appendChild(head);
   const isOpen=OPEN.has(place.place_id);
@@ -145,7 +151,7 @@ function render(){
    const day=o.days.find(x=>x.local_date===DAY);
    const row=document.createElement("div");row.className="opp";
    const genre=GENRE[o.genre_template]?GENRE[o.genre_template][LANG]:o.genre_template;
-   row.innerHTML=`<span class="name">${name!==(o.name_i18n&&o.name_i18n[LANG])?oShort(o,LANG):""}</span>
+   row.innerHTML=`<span class="name">${cleanName(o.name_i18n,LANG,o.opportunity_id)}</span>
     <span class="genre">${genre}</span>${chip(day.state)}
     <span class="hours">${day.state==="GUIDANCE_SATISFIED"?fmtHours(day.good_hours):""}</span>`;
    card.appendChild(row);
@@ -167,7 +173,7 @@ function render(){
  $("#footer").textContent=`${DATA.provider.name} ${DATA.provider.licence} · ChaseLights V2 evaluation ${DATA.evaluation_bundle_version}`;
 }
 function oShort(o,lang){
- const n=o.name_i18n&&o.name_i18n[lang];return n||o.opportunity_id;
+ return cleanName(o.name_i18n,lang,o.opportunity_id);
 }
 function enrich(){
  // derive valid window + per-day condition aggregates are precomputed server-side
