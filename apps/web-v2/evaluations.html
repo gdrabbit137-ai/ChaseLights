@@ -111,6 +111,20 @@ function chip(state){
  if(state==="UNFAVORABLE")return `<span class="chip no">${t.no}</span>`;
  return `<span class="chip unk">${t.unk}</span>`;
 }
+function dayLabel(d){
+ const dt=new Date(d+"T12:00:00");
+ const wd=new Intl.DateTimeFormat(LANG,{weekday:"short"}).format(dt);
+ const md=`${String(dt.getMonth()+1)}/${String(dt.getDate())}`;
+ return `${md} ${wd}`;
+}
+function fmtLocal(iso){
+ const d=new Date(iso);
+ const age=Math.max(0,(Date.now()-d.getTime())/3600000);
+ const label=new Intl.DateTimeFormat(LANG,{dateStyle:"short",timeStyle:"short"}).format(d);
+ const hours=age<1?null:Math.round(age);
+ const rel=hours===null?null:(hours<=6?{ "zh-TW":`${hours} 小時前`,en:`${hours}h ago`,ja:`${hours}時間前` }[LANG]:null);
+ return rel?`${label} (${rel})`:label;
+}
 function fmtHours(list){
  if(!list||!list.length)return T().noneGood;
  // collapse consecutive HH:MM into ranges
@@ -129,10 +143,10 @@ function render(){
  $("#t-title").textContent=t.title;$("#t-home").textContent=t.home;
  document.querySelectorAll(".lang button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.lang===LANG)));
  $("#notice").textContent=DATA.limitations_i18n[LANG];
- $("#meta").textContent=`${t.updated}: ${DATA.generated_at} ｜ ${t.valid}: ${DATA.valid_from} – ${DATA.valid_until} ｜ ${DATA.place_count} ${t.places} ｜ ${DATA.opportunity_count} ${t.opps} ｜ ${t.prov}: ${DATA.provider.name} (${DATA.provider.licence})`;
+ $("#meta").textContent=`${t.updated}: ${fmtLocal(DATA.generated_at)} ｜ ${t.valid}: ${DATA.valid_from} – ${DATA.valid_until} ｜ ${DATA.place_count} ${t.places} ｜ ${DATA.opportunity_count} ${t.opps} ｜ ${t.prov}: ${DATA.provider.name} (${DATA.provider.licence})`;
  const tabs=$("#tabs");tabs.innerHTML="";
  DATA.days.forEach(d=>{
-  const b=document.createElement("button");b.textContent=d;b.setAttribute("aria-selected",String(d===DAY));
+  const b=document.createElement("button");b.textContent=dayLabel(d);b.setAttribute("aria-selected",String(d===DAY));
   b.onclick=()=>{DAY=d;render()};tabs.appendChild(b)});
  if(!DAY)DAY=DATA.days[0];
  const c=$("#content");c.innerHTML="";
