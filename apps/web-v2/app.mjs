@@ -24,7 +24,7 @@ const topicCopy={
 "zh-TW":{
   topicsHere:"這裡可以拍什麼",topicGuide:"拍攝特色",topicTargets:"畫面中的主體",
   topicScope:"這些題材仍為待審核的研究資料，並非已核准的正式拍攝指南。",
-  topicConditions:"特殊拍攝條件",topicConditionsHelp:"以下是題材的研究條件，並非目前已符合的結果。",
+  topicConditions:"特殊拍攝條件",topicConditionsHelp:"以下是題材的研究條件，並非目前已符合的結果。",evalLiveCond:"條件",evalLiveVerdict:"判定",evalPass:"符合",evalFail:"未符",evalLiveTitle:"即時條件狀態（GUIDANCE 參考，非保證）",evalLiveValue:"現值",evalLiveThreshold:"門檻",evalLiveNext:"下一個符合時段",evalLiveLink:"開啟攝影條件評估",evalLiveNone:"目前無此機會的即時評估資料",evalNow:"現在",evalInWin:"窗內",evalOutWin:"窗外",evalDeclared:"宣告成立",
   required:"拍攝所需的條件",requiredHelp:"這些條件會影響題材能否成立，目前尚未判定是否符合。",
   quality:"可能提升拍攝效果的條件",qualityHelp:"這些因素可能改善照片，不代表已符合，也不會產生攝影分數。",
   blocker:"可能妨礙拍攝的條件",blockerHelp:"若這些情況出現，可能不適合拍攝；此處沒有判定它們已發生。",
@@ -38,7 +38,7 @@ const topicCopy={
 en:{
   topicsHere:"What can you photograph here?",topicGuide:"Photographic character",topicTargets:"Subjects in the frame",
   topicScope:"These subjects are research awaiting review, not an approved photography guide.",
-  topicConditions:"Special shooting conditions",topicConditionsHelp:"These are researched conditions for the subject, not results showing they are met now.",
+  topicConditions:"Special shooting conditions",topicConditionsHelp:"These are researched conditions for the subject, not results showing they are met now.",evalLiveCond:"Condition",evalLiveVerdict:"Status",evalPass:"Met",evalFail:"Not met",evalLiveTitle:"Live condition status (GUIDANCE only, not a guarantee)",evalLiveValue:"Value",evalLiveThreshold:"Threshold",evalLiveNext:"Next qualifying window",evalLiveLink:"Open the condition evaluation page",evalLiveNone:"No live evaluation data for this opportunity yet",evalNow:"Now",evalInWin:"in window",evalOutWin:"out of window",evalDeclared:"declared",
   required:"Conditions needed for the subject",requiredHelp:"These conditions affect whether the subject can be photographed. They have not been assessed here.",
   quality:"Conditions that may improve the photograph",qualityHelp:"These factors may improve the photograph. They are not confirmed and do not produce a photography score.",
   blocker:"Conditions that may prevent the photograph",blockerHelp:"If present, these conditions may make the photograph unsuitable. Their presence has not been assessed here.",
@@ -52,7 +52,7 @@ en:{
 ja:{
   topicsHere:"ここでは何を撮れる？",topicGuide:"撮影の特徴",topicTargets:"画面に収める被写体",
   topicScope:"これらの題材は審査待ちの調査情報であり、承認済みの撮影ガイドではありません。",
-  topicConditions:"撮影に関わる特別な条件",topicConditionsHelp:"題材について調査された条件です。現在、条件を満たしているという判定ではありません。",
+  topicConditions:"撮影に関わる特別な条件",topicConditionsHelp:"題材について調査された条件です。現在、条件を満たしているという判定ではありません。",evalLiveCond:"条件",evalLiveVerdict:"判定",evalPass:"適合",evalFail:"不適合",evalLiveTitle:"ライブ条件状態（GUIDANCE参考・保証なし）",evalLiveValue:"現在値",evalLiveThreshold:"閾値",evalLiveNext:"次の適合時間帯",evalLiveLink:"撮影条件評価を開く",evalLiveNone:"この機会のライブ評価データはまだありません",evalNow:"現在",evalInWin:"窓内",evalOutWin:"窓外",evalDeclared:"申告済み",
   required:"撮影に必要な条件",requiredHelp:"題材を撮影できるかに関わる条件です。ここでは現在の成否を判定していません。",
   quality:"写真の仕上がりを高める条件",qualityHelp:"写真の表現を高める可能性がある要素です。確認済みという意味ではなく、撮影スコアも算出しません。",
   blocker:"撮影を妨げる可能性がある条件",blockerHelp:"該当すると撮影に適さない場合があります。現在発生していると判定したものではありません。",
@@ -299,6 +299,49 @@ function renderOpportunity(target,opp,c,place){
   const assessment=node("section","topic-assessment");assessment.append(node("h4","",t("assessmentHeading")),node("p","automation-status",t("automationUnavailable")));
   assessment.append(node("p",runtime?"meta":"notice",runtime?(t("runtimeReady")+": "+(localized(runtime,"verdict",state.locale)||t("unknown"))):t("runtime")));
   card.append(assessment);
+  const liveSec=node("section","topic-live-eval");
+  liveSec.append(node("h4","",t("evalLiveTitle")));
+  liveSec.append(node("p","automation-status",t("evalLiveNone")));
+  card.append(liveSec);
+  const EVAL_METRICS={cloud_cover_low:{ "zh-TW":"低雲",en:"Low cloud",ja:"下層雲",unit:"%"},cloud_cover_mid_and_high:{"zh-TW":"中高雲",en:"Mid+high cloud",ja:"中上層雲",unit:"%"},cloud_cover_total:{"zh-TW":"總雲量",en:"Total cloud",ja:"雲量",unit:"%"},wind_speed_10m:{"zh-TW":"風速",en:"Wind",ja:"風速",unit:"m/s"},wind_speed_850hpa:{"zh-TW":"850hPa風速",en:"850hPa wind",ja:"850hPa風速",unit:"m/s"},precipitation:{"zh-TW":"降水",en:"Precipitation",ja:"降水",unit:"mm"},aod_550nm:{"zh-TW":"氣膠光學厚度",en:"Aerosol optical depth",ja:"エアロゾル光学的厚度",unit:""},visibility:{"zh-TW":"能見度",en:"Visibility",ja:"視程",unit:"km"},relative_humidity_2m:{"zh-TW":"相對濕度",en:"Humidity",ja:"相対湿度",unit:"%"},relative_humidity_925hpa:{"zh-TW":"925hPa濕度",en:"925hPa humidity",ja:"925hPa湿度",unit:"%"},relative_humidity_850hpa:{"zh-TW":"850hPa濕度",en:"850hPa humidity",ja:"850hPa湿度",unit:"%"},temperature_2m:{"zh-TW":"氣溫",en:"Temperature",ja:"気温",unit:"°C"},temperature_delta_850_925_c:{"zh-TW":"逆溫指標",en:"Inversion index",ja:"逆転指標",unit:"°C"},lcl_height_m_agl:{"zh-TW":"雲底高度(LCL)",en:"Cloud base (LCL)",ja:"雲底高度(LCL)",unit:"m"},sunrise_time_window:{"zh-TW":"日出窗口",en:"Sunrise window",ja:"日の出窓",unit:""},sunset_window:{"zh-TW":"日落窗口",en:"Sunset window",ja:"日没窓",unit:""},blue_hour_window:{"zh-TW":"藍調窗口",en:"Blue hour window",ja:"ブルーアワー窓",unit:""},golden_hour_window:{"zh-TW":"黃金時刻窗",en:"Golden hour window",ja:"ゴールデンアワー窓",unit:""},astronomical_darkness:{"zh-TW":"天文黑暗",en:"Astronomical darkness",ja:"天文学的暗闇",unit:""},moon_altitude:{"zh-TW":"月高角",en:"Moon altitude",ja:"月高度",unit:"°"},moon_illumination_fraction:{"zh-TW":"月照亮百分比",en:"Moon illumination",ja:"月照率",unit:"%"},moon_target_separation_deg:{"zh-TW":"月目標角距",en:"Moon separation",ja:"月と対象の角距離",unit:"°"},moon_illuminance_proxy:{"zh-TW":"月照強度",en:"Moon illumination proxy",ja:"月照強度",unit:""},galactic_core_altitude:{"zh-TW":"銀河核心高度",en:"Galactic core altitude",ja:"銀河中心高度",unit:"°"},seasonal_state:{"zh-TW":"花季狀態",en:"Seasonal state",ja:"季節状態",unit:""},water_surface_state:{"zh-TW":"水面狀態",en:"Water surface state",ja:"水面状態",unit:""},landform_present:{"zh-TW":"地形存在",en:"Landform present",ja:"地形存在",unit:""},river_flow_state:{"zh-TW":"河川流量狀態",en:"River flow state",ja:"河川流量状態",unit:""}};
+  const evalMetricLabel=m=>{const d=EVAL_METRICS[m];return d?(d[state.locale]||d.en):m};
+  const evalThreshold=c=>{const op=c.operator||"none",th=c.threshold;if(op==="none"||th==null)return "";if(op==="between"&&Array.isArray(th))return `${th[0]}–${th[1]}`;const sym={lt:"<",lte:"≤",gt:">",gte:"≥",eq:"="}[op]||op;return `${sym}${th}`};
+  const evalValue=(v,locale)=>{if(v==null)return "—";if(v===true)return t("evalInWin");if(v===false)return t("evalOutWin");if(v==="declared")return t("evalDeclared");return String(v)};
+  const liveVerdict=v=>v==="PASS"?t("evalPass"):v==="FAIL"?t("evalFail"):t("unknown");
+  (async()=>{
+    try{
+      const pid=place.place_id||place.id||null;
+      if(!pid)throw 0;
+      const res=await fetch(`evaluations-details/${encodeURIComponent(pid)}.json?v=${Date.now()}`,{cache:"no-store"});
+      if(!res.ok)throw 0;
+      const detail=await res.json();
+      const evalOpp=detail.opportunities&&detail.opportunities.find(x=>x.opportunity_id===oid);
+      const snap=evalOpp&&evalOpp.live&&evalOpp.live.now;
+      const nextGood=evalOpp&&evalOpp.live&&evalOpp.live.next_good;
+      liveSec.innerHTML="";
+      liveSec.append(node("h4","",t("evalLiveTitle")));
+      if(!snap){liveSec.append(node("p","automation-status",t("evalLiveNone")));return;}
+      liveSec.append(node("p","live-stamp",`${t("evalNow")}: ${snap.local} · ${snap.status==="GUIDANCE_SATISFIED"?"GUIDANCE":"—"}`));
+      const table=document.createElement("table");table.className="live-eval-table";
+      const headRow=document.createElement("tr");
+      for(const label of [t("evalLiveCond"),t("evalLiveValue"),t("evalLiveThreshold"),t("evalLiveVerdict")]){
+        const th=document.createElement("th");th.textContent=label;headRow.append(th);
+      }
+      table.append(headRow);
+      for(const c of snap.conditions){
+        const tr=document.createElement("tr");
+        for(const v of [evalMetricLabel(c.metric),evalValue(c.value,state.locale),evalThreshold(c),liveVerdict(c.verdict)]){
+          const td=document.createElement("td");td.textContent=v;tr.append(td);
+        }
+        table.append(tr);
+      }
+      liveSec.append(table);
+      if(nextGood)liveSec.append(node("p","meta",`${t("evalLiveNext")}: ${nextGood.local}`));
+      const link=node("a","nav-action",t("evalLiveLink"));
+      link.href="./evaluations.html?v=20261030a";link.rel="noopener";
+      liveSec.append(link);
+    }catch(e){liveSec.append(node("p","muted","eval-load-error: "+(e&&e.message||e)));}
+  })();
 
   // Geometric/camera research stays available, but never implies a mandatory viewpoint.
   const details=node("details","technical");details.setAttribute("data-opportunity-id",oid);details.append(node("summary","",t("advanced")));

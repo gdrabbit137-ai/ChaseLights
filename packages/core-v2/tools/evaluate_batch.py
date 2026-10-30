@@ -107,6 +107,22 @@ def condition_verdict(condition, values, astro_row):
     return ("PASS" if passed else "FAIL"), "FORECAST_THRESHOLD"
 
 
+def condition_value(condition, values, astro_row):
+    """Observation used for the verdict, for live display (not a score)."""
+    metric = condition.get("metric")
+    operator = condition.get("operator") or "none"
+    if metric in NO_SOURCE_METRICS:
+        return None
+    if metric in DECLARED_PASS_METRICS:
+        return "declared"
+    if metric in ASTRO_METRICS:
+        return astro_row.get(metric)
+    cell = values.get(metric)
+    if not isinstance(cell, dict) or cell.get("state") != "AVAILABLE":
+        return None
+    return cell.get("value")
+
+
 def hour_status(roles, verdicts):
     """Aggregate one hour into its status, honouring role semantics:
     REQUIRED FAIL or BLOCKER PASS -> UNFAVORABLE; REQUIRED/BLOCKER UNKNOWN ->
@@ -151,6 +167,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--out", default=str(ROOT / "apps/web-v2/evaluations-latest.json"))
     parser.add_argument("--archive", default=str(ROOT / "data/v2/evaluations"))
+    parser.add_argument("--details-dir", default=str(ROOT / "apps/web-v2/evaluations-details"))
     parser.add_argument("--forecast-hours", type=int, default=72)
     arguments = parser.parse_args()
 
@@ -208,6 +225,11 @@ def main():
                                           "status": "DISPLAY_APPROXIMATION"},
                      "provider_run": provider_runs[-1],
                      "opportunities": []}
+        place_detail = {"place_id": None, "coordinate": [lat, lon],
+                        "coordinate_source": group["source"],
+                        "timezone_display": {"iana": zone, "utc_offset_hours": offset,
+                                             "status": "DISPLAY_APPROXIMATION"},
+                        "opportunities": []}
         for doc in group["opportunities"]:
             oid = doc["opportunity_id"]
             contract = doc["condition_contract"]
@@ -215,6 +237,7 @@ def main():
                 json.dumps(contract, sort_keys=True, separators=(",", ":"))
                 .encode("utf-8")).hexdigest()
             days = {}
+            hour_ctxs = []
             for hour_row in hours:
                 at = datetime.fromisoformat(hour_row["valid_at_utc"].replace("Z", "+00:00"))
                 astro_row = hour_observations(at, lat, lon, events=events,
@@ -235,6 +258,20 @@ def main():
                     "status": status,
                     "failed": fails,
                     "unknown": unknowns,
+                })
+                hour_ctxs.append((at, hour_row, astro_row, states, status))
+                entry.setdefault("detail_hours", []).append({
+                    "utc": hour_row["valid_at_utc"],
+                    "local": local_stamp.strftime("%H:%M"),
+                    "status": status,
+                    "conditions": [
+                        {"id": c["id"], "metric": c["metric"],
+                         "tier": c.get("condition_tier"), "role": c.get("role"),
+                         "operator": c.get("operator") or "none",
+                         "threshold": c.get("threshold"),
+                         "value": condition_value(c, hour_row["values"], astro_row),
+                         "verdict": states[c["id"]]}
+                        for c in contract["conditions"]],
                 })
             day_out = []
             condition_by_id = {c["id"]: c for c in contract["conditions"]}
@@ -281,6 +318,27 @@ def main():
                     "hour_counts": counts,
                     "conditions": conditions_day,
                 })
+            def _snapshot(ctx):
+                if ctx is None:
+                    return None
+                snap_at, snap_row, snap_astro, snap_states, snap_status = ctx
+                return {
+                    "utc": snap_row["valid_at_utc"],
+                    "local": (snap_at + timedelta(hours=offset)).strftime("%Y-%m-%d %H:%M"),
+                    "status": snap_status,
+                    "conditions": [
+                        {"id": c["id"], "metric": c["metric"],
+                         "tier": c.get("condition_tier"), "role": c.get("role"),
+                         "operator": c.get("operator") or "none",
+                         "threshold": c.get("threshold"),
+                         "value": condition_value(c, snap_row["values"], snap_astro),
+                         "verdict": snap_states[c["id"]]}
+                        for c in contract["conditions"]],
+                }
+
+            now_ctx = next((c for c in hour_ctxs if c[0] >= generated_at), None)
+            good_ctx = next((c for c in hour_ctxs if c[4] == "GUIDANCE_SATISFIED"), None)
+            live = {"now": _snapshot(now_ctx), "next_good": _snapshot(good_ctx)}
             place_out["opportunities"].append({
                 "opportunity_id": oid,
                 "name_i18n": doc.get("name_i18n") or {},
@@ -288,11 +346,29 @@ def main():
                 "condition_contract_id": contract.get("contract_id"),
                 "condition_contract_sha256": contract_sha,
                 "days": day_out,
+                "live": live,
+            })
+            place_detail["opportunities"].append({
+                "opportunity_id": oid,
+                "name_i18n": doc.get("name_i18n") or {},
+                "genre_template": contract.get("genre_template"),
+                "days": [{"local_date": key, "hours": days[key]["detail_hours"]}
+                         for key in sorted(days)],
+                "live": live,
             })
             if place_out["place_id"] is None:
                 place_out["place_id"] = doc["place_id"]
         place_out["name_i18n"] = names.get(place_out["place_id"], {})
         places_out.append(place_out)
+        place_key = place_out["place_id"] or f"coord-{lat:.4f}-{lon:.4f}"
+        place_detail["place_id"] = place_out["place_id"]
+        place_detail["name_i18n"] = place_out["name_i18n"]
+        place_detail["generated_at"] = generated_iso
+        details_dir = Path(arguments.details_dir)
+        details_dir.mkdir(parents=True, exist_ok=True)
+        (details_dir / f"{place_key}.json").write_text(
+            json.dumps(place_detail, ensure_ascii=False, separators=(",", ":")) + "\n",
+            encoding="utf-8")
         time.sleep(0.25)
 
     bundle = {

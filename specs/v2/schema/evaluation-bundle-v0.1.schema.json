@@ -4,6 +4,36 @@
   "title": "ChaseLights V2 EvaluationBundle v0.1",
   "description": "Batch GUIDANCE-only runtime evaluation artifact (owner-authorized 2026-10-26). Provisional/approved genre-template thresholds; never FAVORABLE; live_recommendation is always false. Grid forecast + deterministic astronomy; honest UNKNOWN for metrics without a live observation source.",
   "type": "object",
+  "$defs": {
+    "liveSnapshot": {
+      "type": ["object", "null"],
+      "required": ["utc", "local", "status", "conditions"],
+      "additionalProperties": false,
+      "properties": {
+        "utc": {"type": "string"},
+        "local": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}$"},
+        "status": {"enum": ["GUIDANCE_SATISFIED", "UNFAVORABLE", "NOT_EVALUABLE"]},
+        "conditions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "metric", "operator", "verdict"],
+            "additionalProperties": false,
+            "properties": {
+              "id": {"type": "string"},
+              "metric": {"type": "string"},
+              "tier": {"enum": ["MAIN", "MODIFIER", "SHOOT", "BONUS", null]},
+              "role": {"enum": ["REQUIRED", "BLOCKER", "QUALITY", null]},
+              "operator": {"enum": ["none", "lt", "lte", "gt", "gte", "eq", "between"]},
+              "threshold": {},
+              "value": {},
+              "verdict": {"enum": ["PASS", "FAIL", "UNKNOWN"]}
+            }
+          }
+        }
+      }
+    }
+  },
   "required": ["evaluation_bundle_version", "generated_at", "forecast_hours", "guidance_only", "live_recommendation", "calibration_status", "provider", "limitations_i18n", "place_count", "opportunity_count", "places"],
   "additionalProperties": false,
   "properties": {
@@ -68,6 +98,13 @@
                 "genre_template": {"type": "string"},
                 "condition_contract_id": {"type": "string"},
                 "condition_contract_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+                "live": {
+                  "type": "object", "required": ["now", "next_good"], "additionalProperties": false,
+                  "properties": {
+                    "now": {"$ref": "#/$defs/liveSnapshot"},
+                    "next_good": {"$ref": "#/$defs/liveSnapshot"}
+                  }
+                },
                 "days": {
                   "type": "array",
                   "items": {

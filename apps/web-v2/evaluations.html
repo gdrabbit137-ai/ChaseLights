@@ -34,6 +34,15 @@ main{max-width:980px;margin:0 auto;padding:18px}
 .hours{font-size:12px;color:var(--mut)}
 .detail{width:100%;border-collapse:collapse;font-size:12px;margin:8px 0 4px}
 .detail td,.detail th{border-top:1px solid var(--line);padding:4px 8px;text-align:left}
+.live{display:flex;flex-direction:column;gap:8px;margin:8px 0}
+.live-block{border:1px solid var(--line);border-radius:8px;padding:8px}
+.live-title{font-weight:600;margin-bottom:6px}
+.live-table{width:100%;border-collapse:collapse;font-size:12px}
+.live-table td,.live-table th{border-top:1px solid var(--line);padding:4px 8px;text-align:left}
+.hourly .best-row{background:rgba(64,140,255,.18)}
+.tag-now{color:#4fa3ff;font-weight:700}
+.hourly-title{font-weight:600;margin:10px 0 4px}
+.hourly-loading{color:var(--mut)}
 .detail th{color:var(--mut);font-weight:500}
 footer{padding:18px;text-align:center;font-size:12px;color:var(--mut)}
 details summary{cursor:pointer;font-size:13px;color:#2456a6;padding:2px 0}
@@ -64,21 +73,63 @@ const I18N={
   good:"符合時段（當地近似時間）",noneGood:"無符合時段",detail:"條件明細",cond:"條件",tier:"層級",verdict:"判定",
   passHours:"符合小時數",updated:"資料產生時間",valid:"預報窗口",places:"景點組",opps:"機會",prov:"資料來源",
   tz:"時間為當地近似（顯示用）",genre:"題材",noData:"此機會無法評估（無已驗證座標）",
+  now:"現在",nextGood:"下一個符合時段",value:"現值",thr:"門檻",inWin:"窗內",outWin:"窗外",declared:"宣告成立",time:"時間",verdictLabel:"判定",
+  hourTable:"逐時評估（當地近似時間）",
   tiers:{MAIN:"主",MODIFIER:"修正",BONUS:"加分",SHOOT:"拍攝"},
   verdicts:{PASS:"符合",FAIL:"未符",UNKNOWN:"未知"}},
  en:{title:"Photography Condition Evaluation",home:"Home",guide:"GUIDANCE only",ok:"Conditions met",no:"Conditions not met",unk:"Insufficient data",
   good:"Qualifying hours (approx. local time)",noneGood:"No qualifying hours",detail:"Condition detail",cond:"Condition",tier:"Tier",verdict:"Verdict",
   passHours:"Qualifying hours",updated:"Generated at",valid:"Forecast window",places:"place groups",opps:"opportunities",prov:"Data source",
   tz:"Times shown in approximate local clock (display only)",genre:"Genre",noData:"Not evaluable (no verified coordinate)",
+  now:"Now",nextGood:"Next qualifying window",value:"Value",thr:"Threshold",inWin:"in window",outWin:"out of window",declared:"declared",time:"Time",verdictLabel:"Status",
+  hourTable:"Hourly assessment (approx. local time)",
   tiers:{MAIN:"MAIN",MODIFIER:"MODIFIER",BONUS:"BONUS",SHOOT:"SHOOT"},
   verdicts:{PASS:"PASS",FAIL:"FAIL",UNKNOWN:"UNKNOWN"}},
  ja:{title:"撮影条件評価",home:"ホーム",guide:"GUIDANCE参考",ok:"条件を満たす",no:"条件を満たさず",unk:"データ不足",
   good:"適合時間帯（現地近似時刻）",noneGood:"適合時間帯なし",detail:"条件明細",cond:"条件",tier:"層",verdict:"判定",
   passHours:"適合時間数",updated:"生成時刻",valid:"予報期間",places:"地点グループ",opps:"機会",prov:"データ源",
   tz:"時刻は現地近似（表示用）",genre:"ジャンル",noData:"評価不可（検証済み座標なし）",
+  now:"現在",nextGood:"次の適合時間帯",value:"現在値",thr:"閾値",inWin:"窓内",outWin:"窓外",declared:"申告済み",time:"時刻",verdictLabel:"判定",
+  hourTable:"時間別評価（現地近似時刻）",
   tiers:{MAIN:"主",MODIFIER:"修正",BONUS:"ボーナス",SHOOT:"撮影"},
   verdicts:{PASS:"適合",FAIL:"不適合",UNKNOWN:"不明"}}
 };
+const METRICS={
+ cloud_cover_low:{"zh-TW":"低雲",en:"Low cloud",ja:"下層雲",unit:"%"},
+ cloud_cover_mid:{"zh-TW":"中雲",en:"Mid cloud",ja:"中層雲",unit:"%"},
+ cloud_cover_high:{"zh-TW":"高雲",en:"High cloud",ja:"上層雲",unit:"%"},
+ cloud_cover_total:{"zh-TW":"總雲量",en:"Total cloud",ja:"雲量",unit:"%"},
+ cloud_cover_mid_and_high:{"zh-TW":"中高雲",en:"Mid+high cloud",ja:"中上層雲",unit:"%"},
+ wind_speed_10m:{"zh-TW":"風速",en:"Wind",ja:"風速",unit:"m/s"},
+ wind_speed_850hpa:{"zh-TW":"850hPa風速",en:"850hPa wind",ja:"850hPa風速",unit:"m/s"},
+ precipitation:{"zh-TW":"降水",en:"Precipitation",ja:"降水",unit:"mm"},
+ precipitation_probability:{"zh-TW":"降水機率",en:"Precip probability",ja:"降水確率",unit:"%"},
+ aod_550nm:{"zh-TW":"氣膠光學厚度",en:"Aerosol optical depth",ja:"エアロゾル光学的厚度",unit:""},
+ visibility:{"zh-TW":"能見度",en:"Visibility",ja:"視程",unit:"km"},
+ relative_humidity_2m:{"zh-TW":"相對濕度",en:"Humidity",ja:"相対湿度",unit:"%"},
+ relative_humidity_925hpa:{"zh-TW":"925hPa濕度",en:"925hPa humidity",ja:"925hPa湿度",unit:"%"},
+ relative_humidity_850hpa:{"zh-TW":"850hPa濕度",en:"850hPa humidity",ja:"850hPa湿度",unit:"%"},
+ temperature_2m:{"zh-TW":"氣溫",en:"Temperature",ja:"気温",unit:"°C"},
+ temperature_delta_850_925_c:{"zh-TW":"逆溫指標",en:"Inversion index",ja:"逆転指標",unit:"°C"},
+ lcl_height_m_agl:{"zh-TW":"雲底高度(LCL)",en:"Cloud base (LCL)",ja:"雲底高度(LCL)",unit:"m"},
+ sunrise_time_window:{"zh-TW":"日出窗口",en:"Sunrise window",ja:"日の出窓",unit:""},
+ sunset_window:{"zh-TW":"日落窗口",en:"Sunset window",ja:"日没窓",unit:""},
+ moon_illumination_fraction:{"zh-TW":"月照亮百分比",en:"Moon illumination fraction",ja:"月照率",unit:"%"},
+ moon_target_separation_deg:{"zh-TW":"月目標角距",en:"Moon separation",ja:"月と対象の角距離",unit:"°"},
+ river_flow_state:{"zh-TW":"河川流量狀態",en:"River flow state",ja:"河川流量状態",unit:""},
+ blue_hour_window:{"zh-TW":"藍調窗口",en:"Blue hour window",ja:"ブルーアワー窓",unit:""},
+ golden_hour_window:{"zh-TW":"黃金時刻窗",en:"Golden hour window",ja:"ゴールデンアワー窓",unit:""},
+ astronomical_darkness:{"zh-TW":"天文黑暗",en:"Astronomical darkness",ja:"天文学的暗闇",unit:""},
+ moon_altitude:{"zh-TW":"月高角",en:"Moon altitude",ja:"月高度",unit:"°"},
+ moon_illuminance_proxy:{"zh-TW":"月照強度",en:"Moon illumination",ja:"月照強度",unit:""},
+ galactic_core_altitude:{"zh-TW":"銀河核心高度",en:"Galactic core altitude",ja:"銀河中心高度",unit:"°"},
+ seasonal_state:{"zh-TW":"花季狀態",en:"Seasonal state",ja:"季節状態",unit:""},
+ water_surface_state:{"zh-TW":"水面狀態",en:"Water surface state",ja:"水面状態",unit:""},
+ landform_present:{"zh-TW":"地形存在",en:"Landform present",ja:"地形存在",unit:""}
+};
+function metricLabel(m){
+ const def=METRICS[m];return def?def[LANG]:m;
+}
 const GENRE={
  cloud_sea:{"zh-TW":"雲海",en:"Sea of clouds",ja:"雲海"},
  sunrise:{"zh-TW":"日出",en:"Sunrise",ja:"ご来光"},
@@ -138,6 +189,54 @@ function fmtHours(list){
  }
  return out.join("、")||T().noneGood;
 }
+const DETAILS={};
+function loadDetail(pid){
+ if(DETAILS[pid])return Promise.resolve(DETAILS[pid]);
+ return fetch(`evaluations-details/${encodeURIComponent(pid)}.json?v=${DATA.generated_at}`,{cache:"no-store"})
+  .then(r=>{if(!r.ok)throw 0;return r.json()}).then(d=>{DETAILS[pid]=d;return d});
+}
+function fmtThreshold(op,th,t){
+ if(op==="none"||th===null||th===undefined)return "";
+ if(op==="between"&&Array.isArray(th))return `${th[0]}–${th[1]}`;
+ const sym={lt:"<",lte:"≤",gt:">",gte:"≥",eq:"="}[op]||op;
+ return `${sym}${th}`;
+}
+function fmtValue(v,t){
+ if(v===null||v===undefined)return "—";
+ if(v===true)return t.inWin;
+ if(v===false)return t.outWin;
+ if(v==="declared")return t.declared;
+ return String(v);
+}
+function liveBlock(snap,title){
+ if(!snap)return "";
+ const t=T();
+ const rows=snap.conditions.map(c=>{
+  const th=fmtThreshold(c.operator,c.threshold,t);
+  return `<tr><td>${metricLabel(c.metric)}</td><td>${fmtValue(c.value,t)}</td><td>${th}</td><td>${t.verdicts[c.verdict]||c.verdict}</td></tr>`;
+ }).join("");
+ return `<div class="live-block"><div class="live-title">${title} · ${snap.local}</div><table class="live-table"><tr><th>${t.cond}</th><th>${t.value}</th><th>${t.thr}</th><th>${t.verdict}</th></tr>${rows}</table></div>`;
+}
+function hourTableHTML(pd,o,dayKey,t){
+ const opp=pd&&pd.opportunities&&pd.opportunities.find(x=>x.opportunity_id===o.opportunity_id);
+ if(!opp)return `<div class="hourly-loading">—</div>`;
+ const day=opp.days.find(x=>x.local_date===dayKey);
+ if(!day)return `<div class="hourly-loading">—</div>`;
+ const nowLocal=o.live&&o.live.now?o.live.now.local:null;
+ const cols=["cloud_cover_low","cloud_cover_mid_and_high","wind_speed_10m","precipitation","aod_550nm","visibility"].filter(m=>day.hours.some(h=>h.conditions.some(c=>c.metric===m)));
+ let html=`<div class="timeline-table-wrap" style="overflow-x:auto"><table class="detail hourly"><tr><th>${t.time}</th><th>${t.verdictLabel}</th>${cols.map(m=>`<th>${metricLabel(m)}</th>`).join("")}</tr>`;
+ for(const h of day.hours){
+  const vals=cols.map(m=>{
+   const c=h.conditions.find(x=>x.metric===m);
+   if(!c)return "<td>—</td>";
+   const v=fmtValue(c.value,T());
+   return `<td>${v==="—"?"—":v}</td>`;
+  }).join("");
+  const cls=h.status==="GUIDANCE_SATISFIED"?' class="best-row"':"";
+  html+=`<tr${cls}><td>${h.local}${nowLocal&&h.local===nowLocal.slice(11)?' <span class="tag-now">●</span>':""}</td><td>${t.verdicts[h.status==="GUIDANCE_SATISFIED"?"PASS":h.status==="UNFAVORABLE"?"FAIL":"UNKNOWN"]}</td>${vals}</tr>`;
+ }
+ return html+"</table></div>";
+}
 function render(){
  const t=T();
  $("#t-title").textContent=t.title;$("#t-home").textContent=t.home;
@@ -170,15 +269,25 @@ function render(){
     <span class="hours">${day.state==="GUIDANCE_SATISFIED"?fmtHours(day.good_hours):""}</span>`;
    card.appendChild(row);
    if(isOpen){
-    const det=document.createElement("details");
+    const det=document.createElement("details");det.open=true;
     det.innerHTML=`<summary>${t.detail}</summary>`;
-    const table=document.createElement("table");table.className="detail";
-    let rows="";
-    for(const cd of day.conditions||[]){
-     rows+=`<tr><td>${cd.metric}</td><td>${t.tiers[cd.tier]||cd.tier}</td><td>${t.verdicts[cd.day_verdict]||cd.day_verdict}</td><td>${cd.pass_hours}</td></tr>`;
-    }
-    table.innerHTML=`<tr><th>${t.cond}</th><th>${t.tier}</th><th>${t.verdict}</th><th>${t.passHours}</th></tr>`+rows;
-    det.appendChild(table);card.appendChild(det);
+    // live snapshot blocks (from bundle, no extra fetch)
+    const liveBox=document.createElement("div");liveBox.className="live";
+    liveBox.innerHTML=liveBlock(o.live&&o.live.now,t.now)+liveBlock(o.live&&o.live.next_good,t.nextGood);
+    det.appendChild(liveBox);
+    // V1-style hourly table (lazy per-place detail fetch)
+    const holder=document.createElement("div");holder.className="hourly-holder";
+    holder.innerHTML=`<div class="hourly-title">${t.hourTable}</div><div class="hourly-loading">…</div>`;
+    det.appendChild(holder);
+    det.addEventListener("toggle",()=>{
+     if(!det.open||holder.dataset.done)return;
+     loadDetail(place.place_id).then(pd=>{
+      holder.dataset.done="1";
+      holder.innerHTML=`<div class="hourly-title">${t.hourTable}</div>`+hourTableHTML(pd,o,DAY,t);
+     }).catch(()=>{holder.innerHTML=`<div class="hourly-title">${t.hourTable}</div><div class="hourly-loading">—</div>`;});
+    });
+    if(det.open){det.dispatchEvent(new Event("toggle"));}
+    card.appendChild(det);
    }
   }
   // collapse behaviour: when closed show only summary rows (already all rows; fine)
