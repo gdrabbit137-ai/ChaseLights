@@ -128,9 +128,11 @@ def fetch_place(lat, lon, forecast_hours=72):
         if later - earlier != 3600:
             raise FetchFailure("NON_CONTIGUOUS_HOURS")
     aq_times = aq["hourly"]["time"]
+    # AQ API returns "YYYY-MM-DDTHH:00" (no zone marker) while the forecast
+    # axis is epoch seconds — normalise AQ stamps to UTC-hour ISO keys.
     aod_by_time = {}
     for t, v in zip(aq_times, aq["hourly"]["aerosol_optical_depth"]):
-        aod_by_time[t] = v
+        aod_by_time[t.replace("Z", "") + "Z"] = v
     hours = []
     for index, t in enumerate(times):
         values = {
@@ -148,7 +150,10 @@ def fetch_place(lat, lon, forecast_hours=72):
             "relative_humidity_925hpa": _cell(_at(hourly, "relative_humidity_925hPa", index), "%", minimum=0, maximum=100),
             "relative_humidity_850hpa": _cell(_at(hourly, "relative_humidity_850hPa", index), "%", minimum=0, maximum=100),
             "wind_speed_850hpa": _cell(_at(hourly, "wind_speed_850hPa", index), "m/s", minimum=0),
-            "aod_550nm": _cell(aod_by_time.get(t), "1", minimum=0, maximum=5),
+            "aod_550nm": _cell(
+                aod_by_time.get(
+                    datetime.fromtimestamp(t, timezone.utc).strftime("%Y-%m-%dT%H:00Z")),
+                "1", minimum=0, maximum=5),
         }
         t925 = _at(hourly, "temperature_925hPa", index)
         t850 = _at(hourly, "temperature_850hPa", index)
