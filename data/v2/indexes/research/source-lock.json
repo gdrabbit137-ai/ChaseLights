@@ -1868,13 +1868,6 @@
    "commit_sha": "0f8f754027d23d12f966459d115e920d1d192d68"
   },
   {
-   "opportunity_id": "tw-082-P06",
-   "path": "data/v2/opportunities/tw-082-P06.json",
-   "blob_sha": "ae58c7745427e008dde0e1f2b59415d7cbcdb5ec",
-   "sha256": "62f827bc90340b3fa0d082500b8a11759c23a0c317fdf27ebe091aeebcbfa509",
-   "commit_sha": "f011c3ca917b8fb5901b15766d19696de384901d"
-  },
-  {
    "opportunity_id": "tw-082-P07",
    "path": "data/v2/opportunities/tw-082-P07.json",
    "blob_sha": "631741860f17f4daafd37e1e5c6ea58d0a285dcd",
@@ -3103,5 +3096,14 @@
  "admission_basis": "GOVERNANCE_DECISION_NO_REVIEW_GATE_20261022",
  "deletion_note_20261026": "user-directed removal of aurora-only opportunities (aurora excluded from scoring system; dedicated aurora system planned separately)",
  "repin_note_20261026": "re-pinned the four prototype files after 2dc05b3cc filled their condition contracts (lock had gone stale; bytes match HEAD) | re-pinned 247 records after genre contract expansion waves c113c5fcc..911bf2e46 (apply_template expand, tests green; bytes match HEAD) | commit_sha corrected to post-rebase 0f8f75402 (bytes unchanged)",
- "w1_repin_note_20261026": "W1 crosswalk schema extended for genre templates (owner-approved A); pinned to 6875de4a5"
+ "w1_repin_note_20261026": "W1 crosswalk schema extended for genre templates (owner-approved A); pinned to 6875de4a5",
+ "deletions": [
+  {
+   "opportunity_id": "tw-082-P06",
+   "sha256_at_removal": "62f827bc90340b3fa0d082500b8a11759c23a0c317fdf27ebe091aeebcbfa509",
+   "date": "2026-10-31",
+   "commit_at_removal": "420fdf5a6a63c002dd20c7960de92e2f366907d5",
+   "reason": "owner directive 2026-10-31: artificial light-show type subjects (人為燈光秀) are excluded from scope for now"
+  }
+ ]
 }

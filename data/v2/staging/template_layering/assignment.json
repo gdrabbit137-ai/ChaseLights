@@ -2522,7 +2522,7 @@
   ]
  },
  "tw-027-P02": {
-  "genre_template": "geological_landform",
+  "genre_template": "night_sky",
   "conditions": [
    {
     "condition_id": "C-tw-027-P02-01",
@@ -2536,13 +2536,43 @@
    },
    {
     "condition_id": "C-tw-027-P02-03",
-    "metric": "golden_hour_window",
-    "layer_id": "spec:golden"
+    "metric": "astronomical_darkness",
+    "layer_id": "spec:night"
    },
    {
     "condition_id": "C-tw-027-P02-04",
+    "metric": "moon_illumination_fraction",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-027-P02-05",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-027-P02-06",
     "metric": "aod_550nm",
     "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-027-P02-07",
+    "metric": "galactic_core_altitude",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-027-P02-08",
+    "metric": "moon_altitude",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-027-P02-09",
+    "metric": "moon_target_separation_deg",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-027-P02-10",
+    "metric": "moon_illuminance_proxy",
+    "layer_id": "spec:night"
    }
   ]
  },
@@ -2958,7 +2988,7 @@
   ]
  },
  "tw-035-P05": {
-  "genre_template": "seasonal_plant",
+  "genre_template": "night_sky",
   "conditions": [
    {
     "condition_id": "C-tw-035-P05-01",
@@ -2974,6 +3004,46 @@
     "condition_id": "C-tw-035-P05-03",
     "metric": "wind_speed_10m",
     "layer_id": "base:wind_state"
+   },
+   {
+    "condition_id": "C-tw-035-P05-04",
+    "metric": "astronomical_darkness",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-035-P05-05",
+    "metric": "moon_illumination_fraction",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-035-P05-06",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-035-P05-07",
+    "metric": "aod_550nm",
+    "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-035-P05-08",
+    "metric": "galactic_core_altitude",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-035-P05-09",
+    "metric": "moon_altitude",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-035-P05-10",
+    "metric": "moon_target_separation_deg",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-035-P05-11",
+    "metric": "moon_illuminance_proxy",
+    "layer_id": "spec:night"
    }
   ]
  },
@@ -3123,23 +3193,8 @@
   ]
  },
  "tw-036-P02": {
-  "genre_template": "sunset",
+  "genre_template": "night_sky",
   "conditions": [
-   {
-    "condition_id": "C-tw-036-P02-01",
-    "metric": "sunset_window",
-    "layer_id": "spec:sunset"
-   },
-   {
-    "condition_id": "C-tw-036-P02-02",
-    "metric": "cloud_cover_low",
-    "layer_id": "base:cloud_state"
-   },
-   {
-    "condition_id": "C-tw-036-P02-03",
-    "metric": "cloud_cover_mid_and_high",
-    "layer_id": "base:cloud_state"
-   },
    {
     "condition_id": "C-tw-036-P02-04",
     "metric": "precipitation",
@@ -3147,8 +3202,43 @@
    },
    {
     "condition_id": "C-tw-036-P02-05",
+    "metric": "astronomical_darkness",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-036-P02-06",
+    "metric": "moon_illumination_fraction",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-036-P02-07",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-036-P02-08",
     "metric": "aod_550nm",
     "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-036-P02-09",
+    "metric": "galactic_core_altitude",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-036-P02-10",
+    "metric": "moon_altitude",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-036-P02-11",
+    "metric": "moon_target_separation_deg",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-036-P02-12",
+    "metric": "moon_illuminance_proxy",
+    "layer_id": "spec:night"
    }
   ]
  },
@@ -3258,7 +3348,7 @@
   ]
  },
  "tw-038-P02": {
-  "genre_template": "geological_landform",
+  "genre_template": "night_sky",
   "conditions": [
    {
     "condition_id": "C-tw-038-P02-01",
@@ -3272,13 +3362,43 @@
    },
    {
     "condition_id": "C-tw-038-P02-03",
-    "metric": "golden_hour_window",
-    "layer_id": "spec:golden"
+    "metric": "astronomical_darkness",
+    "layer_id": "spec:night"
    },
    {
     "condition_id": "C-tw-038-P02-04",
+    "metric": "moon_illumination_fraction",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-038-P02-05",
+    "metric": "cloud_cover_total",
+    "layer_id": "base:cloud_state"
+   },
+   {
+    "condition_id": "C-tw-038-P02-06",
     "metric": "aod_550nm",
     "layer_id": "base:atmospheric_clarity"
+   },
+   {
+    "condition_id": "C-tw-038-P02-07",
+    "metric": "galactic_core_altitude",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-038-P02-08",
+    "metric": "moon_altitude",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-038-P02-09",
+    "metric": "moon_target_separation_deg",
+    "layer_id": "spec:night"
+   },
+   {
+    "condition_id": "C-tw-038-P02-10",
+    "metric": "moon_illuminance_proxy",
+    "layer_id": "spec:night"
    }
   ]
  },
@@ -5063,36 +5183,6 @@
  "tw-082-P05": {
   "genre_template": null,
   "conditions": []
- },
- "tw-082-P06": {
-  "genre_template": "sunset",
-  "conditions": [
-   {
-    "condition_id": "C-tw-082-P06-01",
-    "metric": "sunset_window",
-    "layer_id": "spec:sunset"
-   },
-   {
-    "condition_id": "C-tw-082-P06-02",
-    "metric": "cloud_cover_low",
-    "layer_id": "base:cloud_state"
-   },
-   {
-    "condition_id": "C-tw-082-P06-03",
-    "metric": "cloud_cover_mid_and_high",
-    "layer_id": "base:cloud_state"
-   },
-   {
-    "condition_id": "C-tw-082-P06-04",
-    "metric": "precipitation",
-    "layer_id": "base:precipitation"
-   },
-   {
-    "condition_id": "C-tw-082-P06-05",
-    "metric": "aod_550nm",
-    "layer_id": "base:atmospheric_clarity"
-   }
-  ]
  },
  "tw-082-P07": {
   "genre_template": null,
