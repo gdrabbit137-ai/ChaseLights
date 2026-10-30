@@ -1004,7 +1004,12 @@
 
         const modalSubject=opportunityDisplayName(spot,op.opportunity_id,op.legacy_theme,op.name_zh);
         const scoreVerdict=!guideOnly&&m?opportunityVerdict(m,modalSubject):{primary:'',detail:''};
-        const current=!guideOnly&&m&&scoreVerdict.primary?`<div class="opportunity-current">${esc(scoreVerdict.primary)}</div>`:'';
+        const v2pl=(v2EvalBundle&&(v2EvalBundle.places||[]).find(pl=>pl.place_id===spot.spot_id))||null;
+        const v2op=v2pl?(v2pl.opportunities||[]).find(o=>o.opportunity_id===op.opportunity_id):null;
+        const v2day=v2op?(v2op.days||[])[selectedDayOffset()]:null;
+        const v2CurLabel=v2day?(v2day.state==='GUIDANCE_SATISFIED'?d().state_ok:v2day.state==='UNFAVORABLE'?d().state_bad:d().eval2_unk):'';
+        const v2CurWin=v2day&&(v2day.good_hours||[]).length?` · ${esc(v2day.good_hours[0])}${v2day.good_hours.length>1?'–'+esc(v2day.good_hours[v2day.good_hours.length-1]):''}`:'';
+        const current=!guideOnly&&v2day?`<div class="opportunity-current">${esc(v2CurLabel)}${v2CurWin}</div>`:'';
         const scoreFactors='';
         const scoreStatus=!guideOnly&&m?scoreVerdict.primary:'';
         const scoreStatusDetail=!guideOnly&&m?scoreVerdict.detail:'';
@@ -1129,9 +1134,10 @@
       const darkSky=darkSkyText(spot,activeTheme);document.getElementById('modal-summary').innerHTML=`<div class="modal-summary-main">${d().best_theme}${esc(activeOpportunityName)}</div><div class="modal-summary-window">${d().best_window}${fmtWindow(summaryMetric)}</div>${darkSky?`<div class="modal-summary-extra">${darkSky}</div>`:''}`;
       const isAurora=activeTheme==='aurora',thead=document.getElementById('timeline-head'),tbody=document.getElementById('timeline-body'),mobile=document.getElementById('timeline-mobile');thead.innerHTML=`<tr><th>${d().th_time}</th><th>${d().th_status}</th>${isAurora?`<th>${d().th_kp}</th>`:''}<th class="key-metric">${d().th_cloud_base}</th><th>${d().th_temp} (${tempUnitLabel()})</th><th>${d().th_rh}</th><th class="key-metric">${d().th_clow}</th><th>${d().th_cmid}</th><th>${d().th_chigh}</th><th>${d().th_wind}</th><th class="key-metric">${d().th_vis}</th><th>${d().th_astro}</th></tr>`;tbody.innerHTML='';mobile.innerHTML='';
       let nowAnchorAssigned=false;
-      (spot.hourly_forecast||[]).forEach(item=>{const metrics=(activeOpportunityId&&item.opportunity_scores?.[activeOpportunityId])||item.theme_scores?.[activeTheme];if(!metrics)return;const isNowAnchor=!nowAnchorAssigned&&!item.is_past;if(isNowAnchor)nowAnchorAssigned=true;const isBest=!!(selectedDate&&item.local_date===selectedDate&&summaryMetric?.window_start&&item.time>=summaryMetric.window_start&&item.time<summaryMetric.window_end);const rowClass=isBest?'best-row':(item.is_past?'past-row':'');const tr=document.createElement('tr');tr.className=rowClass;if(isNowAnchor)tr.dataset.nowAnchor='true';const astro=astroText(item,activeTheme);tr.innerHTML=`<td>${item.time}${item.is_past?` <span class="tag-past">${esc(d().tag_past)}</span>`:''}${isBest?` <span class="tag-best">${esc(d().tag_best)}</span>`:''}</td><td>${esc(shortOpportunityState(metrics))}</td>${isAurora?`<td>${item.kp??'—'}</td>`:''}<td class="key-metric">${item.cloud_base_agl??'—'}m</td><td>${formatTemp(item.temp)}</td><td>${item.rh??'—'}%</td><td class="key-metric">${item.c_low??'—'}%</td><td>${item.c_mid??'—'}%</td><td>${item.c_high??'—'}%</td><td>${item.wind??'—'}m/s</td><td class="key-metric">${item.visibility??'—'}km</td><td>${astro||'—'}</td>`;tbody.appendChild(tr);
-        const card=document.createElement('div');card.className=`timeline-mobile-card ${rowClass}`;if(isNowAnchor)card.dataset.nowAnchor='true';card.innerHTML=`<div class="timeline-mobile-head"><div><div class="timeline-mobile-time">${esc(item.time)}${item.is_past?` <span class="tag-past">${esc(d().tag_past)}</span>`:''}${isBest?` <span class="tag-best">${esc(d().tag_best)}</span>`:''}</div><div class="timeline-mobile-status">${esc(shortOpportunityState(metrics))}</div></div></div><div class="timeline-mobile-metrics"><div class="timeline-mobile-metric"><b>${d().th_temp}</b> ${formatTemp(item.temp)}</div><div class="timeline-mobile-metric primary"><b>${d().th_vis}</b> ${item.visibility??'—'} km</div><div class="timeline-mobile-metric primary"><b>${d().th_clow}</b> ${item.c_low??'—'}%</div><div class="timeline-mobile-metric"><b>${d().th_cmid}</b> ${item.c_mid??'—'}%</div><div class="timeline-mobile-metric"><b>${d().th_chigh}</b> ${item.c_high??'—'}%</div><div class="timeline-mobile-metric"><b>${d().th_wind}</b> ${item.wind??'—'} m/s</div><div class="timeline-mobile-metric primary"><b>${d().th_cloud_base}</b> ${item.cloud_base_agl??'—'} m</div><div class="timeline-mobile-metric"><b>${d().th_rh}</b> ${item.rh??'—'}%</div>${isAurora?`<div class="timeline-mobile-metric"><b>${d().th_kp}</b> ${item.kp??'—'}</div>`:''}</div>${astro?`<div class="timeline-mobile-astro">${esc(astro)}</div>`:''}`;mobile.appendChild(card);
+      (spot.hourly_forecast||[]).forEach(item=>{const metrics=(activeOpportunityId&&item.opportunity_scores?.[activeOpportunityId])||item.theme_scores?.[activeTheme];if(!metrics)return;const isNowAnchor=!nowAnchorAssigned&&!item.is_past;if(isNowAnchor)nowAnchorAssigned=true;const isBest=!!(selectedDate&&item.local_date===selectedDate&&summaryMetric?.window_start&&item.time>=summaryMetric.window_start&&item.time<summaryMetric.window_end);const rowClass=isBest?'best-row':(item.is_past?'past-row':'');const tr=document.createElement('tr');tr.className=rowClass;if(isNowAnchor)tr.dataset.nowAnchor='true';tr.dataset.v2t=item.local_date+'|'+item.time.slice(-5);const astro=astroText(item,activeTheme);tr.innerHTML=`<td>${item.time}${item.is_past?` <span class="tag-past">${esc(d().tag_past)}</span>`:''}${isBest?` <span class="tag-best">${esc(d().tag_best)}</span>`:''}</td><td>${esc(shortOpportunityState(metrics))}</td>${isAurora?`<td>${item.kp??'—'}</td>`:''}<td class="key-metric">${item.cloud_base_agl??'—'}m</td><td>${formatTemp(item.temp)}</td><td>${item.rh??'—'}%</td><td class="key-metric">${item.c_low??'—'}%</td><td>${item.c_mid??'—'}%</td><td>${item.c_high??'—'}%</td><td>${item.wind??'—'}m/s</td><td class="key-metric">${item.visibility??'—'}km</td><td>${astro||'—'}</td>`;tbody.appendChild(tr);
+        const card=document.createElement('div');card.className=`timeline-mobile-card ${rowClass}`;if(isNowAnchor)card.dataset.nowAnchor='true';card.dataset.v2t=item.local_date+'|'+item.time.slice(-5);card.innerHTML=`<div class="timeline-mobile-head"><div><div class="timeline-mobile-time">${esc(item.time)}${item.is_past?` <span class="tag-past">${esc(d().tag_past)}</span>`:''}${isBest?` <span class="tag-best">${esc(d().tag_best)}</span>`:''}</div><div class="timeline-mobile-status">${esc(shortOpportunityState(metrics))}</div></div></div><div class="timeline-mobile-metrics"><div class="timeline-mobile-metric"><b>${d().th_temp}</b> ${formatTemp(item.temp)}</div><div class="timeline-mobile-metric primary"><b>${d().th_vis}</b> ${item.visibility??'—'} km</div><div class="timeline-mobile-metric primary"><b>${d().th_clow}</b> ${item.c_low??'—'}%</div><div class="timeline-mobile-metric"><b>${d().th_cmid}</b> ${item.c_mid??'—'}%</div><div class="timeline-mobile-metric"><b>${d().th_chigh}</b> ${item.c_high??'—'}%</div><div class="timeline-mobile-metric"><b>${d().th_wind}</b> ${item.wind??'—'} m/s</div><div class="timeline-mobile-metric primary"><b>${d().th_cloud_base}</b> ${item.cloud_base_agl??'—'} m</div><div class="timeline-mobile-metric"><b>${d().th_rh}</b> ${item.rh??'—'}%</div>${isAurora?`<div class="timeline-mobile-metric"><b>${d().th_kp}</b> ${item.kp??'—'}</div>`:''}</div>${astro?`<div class="timeline-mobile-astro">${esc(astro)}</div>`:''}`;mobile.appendChild(card);
       });
+      decorateWeatherTimeline(spot,activeOpportunityId);
       scrollWeatherModalToCurrent();
     }
     function closeModal(){document.getElementById('modal-overlay').style.display='none';activeModalSpot=null;activeModalSummary=null;syncModalScrollLock();}
@@ -1228,6 +1234,37 @@
       return `<div class="v2-day ${cls}"><span class="v2-day-label">${esc(label)}</span>`+
         `<span class="v2-badge ${cls}">${esc(lab)}</span>`+
         `<span class="v2-hours">${esc(d().eval2_hours)} ${hours}${goodList?' · '+esc(goodList):''}</span></div>${failBits}`;
+    }
+    let v2Details={};
+    function ensureV2Detail(spotId){
+      if(!v2Details[spotId]){
+        v2Details[spotId]=fetch('./apps/web-v2/evaluations-details/'+spotId+'.json',{cache:'no-cache'})
+          .then(r=>r.ok?r.json():null).catch(()=>null);
+      }
+      return v2Details[spotId];
+    }
+    function v2HourLabel(status){return status==='GUIDANCE_SATISFIED'?d().state_ok:status==='UNFAVORABLE'?d().state_bad:d().eval2_unk;}
+    function decorateWeatherTimeline(spot,activeOpportunityId){
+      ensureV2Detail(spot.spot_id).then(detail=>{
+        const host=document.getElementById('timeline-body');
+        if(!host)return;
+        const opp=detail?(detail.opportunities||[]).find(o=>o.opportunity_id===activeOpportunityId):null;
+        if(!opp)return;
+        const map={};
+        (opp.days||[]).forEach(day=>(day.hours||[]).forEach(h=>{map[day.local_date+'|'+h.local]=h.status;}));
+        host.querySelectorAll('tr[data-v2t]').forEach(tr=>{
+          const st=map[tr.dataset.v2t];
+          if(!st)return;
+          const cell=tr.cells[1];
+          if(cell)cell.textContent=v2HourLabel(st);
+        });
+        document.querySelectorAll('#timeline-mobile [data-v2t]').forEach(card=>{
+          const st=map[card.dataset.v2t];
+          if(!st)return;
+          const el=card.querySelector('.timeline-mobile-status');
+          if(el)el.textContent=v2HourLabel(st);
+        });
+      });
     }
     function decorateV2Eval(spot){
       const host=document.getElementById('place-modal-body');
