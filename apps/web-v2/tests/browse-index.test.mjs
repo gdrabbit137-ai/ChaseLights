@@ -11,11 +11,11 @@ const rawCatalog=readFileSync(new URL('../catalog.v2.json',import.meta.url));
 const index=JSON.parse(rawIndex),source=JSON.parse(rawCatalog),catalog=importV21Catalog(source);
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
-test('W2 index and 416 exact canonical sources remain source pinned (aurora-only opportunities removed 2026-10-26)',()=>{
-  assert.equal(sha256(rawIndex),'de5a35e2a3b7217e47941f5342c27f1d85d22b71ad1b2fc17bee9b7cfb228601');
-  assert.equal(sha256(rawCatalog),'589db54a41594b79a22ecf83c2924d8c8f36c4cc4a6e0314d4567d4cb468b266');
+test('W2 index and 413 exact canonical sources remain source pinned (aurora removed 2026-10-26; us-022/tw-082-P06 removed 2026-10-31)',()=>{
+  assert.equal(sha256(rawIndex),'0a0d4954c6be79f3616d4d44a83f613aa26de05cd749cf422ece76dbeec97158');
+  assert.equal(sha256(rawCatalog),'fb2b97e398300278af187dba53ef5e6b8281716b94adf029104b6221311b37c7');
   assert.equal(validateBrowseIndex(index,catalog),index);
-  assert.equal(source.opportunities.length,416);assert.equal(source.places.length,214);
+  assert.equal(source.opportunities.length,413);assert.equal(source.places.length,213);
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];
   const reviewedTaskS=['tw-034-P02','tw-036-P01','tw-082-P01','jp-010-P01','us-071-P01'];
   for(const row of index.place_index.opportunities){
@@ -41,7 +41,7 @@ test('partial multilingual name search and topic OR filter only matching opportu
   assert.equal(browse(index,catalog,{search:' OiShI '}).length,1);
   assert.equal(browse(index,catalog,{search:'井仔脚'}).length,1);
   assert.equal(browse(index,catalog,{search:'[.*]'}).length,0);
-  assert.equal(browse(index,catalog,{search:'  '}).length,214);
+  assert.equal(browse(index,catalog,{search:'  '}).length,213);
   const both=browse(index,catalog,{topicIds:['topic:sunset','topic:colorful-clouds']});
   assert.deepEqual(both.map(x=>x.place.place_id),['tw-026']);
   assert.deepEqual(both[0].opportunities.map(x=>x.opportunity_id),['tw-026-P01','tw-026-P02']);
