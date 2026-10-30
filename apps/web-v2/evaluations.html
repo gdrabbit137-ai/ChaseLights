@@ -192,7 +192,7 @@ function oShort(o,lang){
 function enrich(){
  // derive valid window + per-day condition aggregates are precomputed server-side
 }
-fetch("evaluations-latest.json",{cache:"no-store"}).then(r=>r.json()).then(d=>{
+fetch("evaluations-latest.json?v=" + Date.now(),{cache:"no-store"}).then(r=>r.json()).then(d=>{
  DATA=d;
  const days=new Set();for(const p of DATA.places)for(const o of p.opportunities)for(const x of o.days)days.add(x.local_date);
  DATA.days=[...days].sort();
