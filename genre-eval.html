@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChaseLights — 攝影題材條件評估</title>
+  <link rel="stylesheet" href="./assets/app.css">
+  <style>
+    .eval-banner{background:var(--panel,#141a22);border:1px solid var(--line,rgba(255,255,255,.12));
+      border-radius:8px;padding:10px 14px;margin:12px auto;max-width:1100px;font-size:.85rem;color:#cfd8e3}
+    .eval-banner b{color:#ffd479}
+    .eval-controls{display:flex;gap:10px;align-items:center;max-width:1100px;margin:0 auto 12px;flex-wrap:wrap}
+    .eval-search{flex:1;min-width:200px;padding:8px 12px;border-radius:8px;border:1px solid var(--line,rgba(255,255,255,.15));
+      background:var(--panel,#141a22);color:inherit;font-size:.9rem}
+    .eval-wrap{max-width:1100px;margin:0 auto;padding:0 12px 60px}
+    .eval-place{border:1px solid var(--line,rgba(255,255,255,.12));border-radius:10px;margin-bottom:14px;
+      background:var(--panel,#141a22);overflow:hidden}
+    .eval-place-head{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;cursor:pointer;gap:10px}
+    .eval-place-head h3{margin:0;font-size:1rem}
+    .eval-place-head .count{color:#8fa1b3;font-size:.85rem;white-space:nowrap}
+    .eval-opps{display:none;padding:0 16px 14px}
+    .eval-place.open .eval-opps{display:block}
+    .eval-opp{border-top:1px solid var(--line,rgba(255,255,255,.1));padding:12px 0}
+    .eval-opp-head{display:flex;justify-content:space-between;align-items:center;gap:10px;cursor:pointer;flex-wrap:wrap}
+    .eval-opp-head .gname{font-weight:600}
+    .eval-days{display:flex;gap:6px;margin:8px 0;flex-wrap:wrap}
+    .eval-day-btn{padding:4px 10px;border-radius:6px;border:1px solid var(--line,rgba(255,255,255,.15));
+      background:transparent;color:inherit;cursor:pointer;font-size:.8rem}
+    .eval-day-btn.active{background:var(--accent,#2f81f7);color:#fff;border-color:transparent}
+    .badge{padding:2px 10px;border-radius:999px;font-size:.78rem;font-weight:600;white-space:nowrap}
+    .b-good{background:rgba(46,160,67,.18);color:#3fb950;border:1px solid rgba(63,185,80,.4)}
+    .b-bad{background:rgba(248,81,73,.15);color:#f85149;border:1px solid rgba(248,81,73,.35)}
+    .b-unk{background:rgba(187,128,9,.18);color:#d29922;border:1px solid rgba(210,153,34,.4)}
+    .live-table{width:100%;border-collapse:collapse;font-size:.8rem;margin-top:8px}
+    .live-table th,.live-table td{border-top:1px solid var(--line,rgba(255,255,255,.1));padding:5px 8px;text-align:left}
+    .live-table thead th{border-top:none;color:#8fa1b3;font-weight:600}
+    .v-pass{color:#3fb950}.v-fail{color:#f85149}.v-unk{color:#d29922}
+    .hourly-wrap{overflow-x:auto;margin-top:8px}
+    .best-row{background:rgba(47,129,247,.16)}
+    .now-anchor{color:#58a6ff;font-weight:700}
+    .eval-muted{color:#8fa1b3;font-size:.82rem}
+    .eval-note{margin:6px 0 0;font-size:.78rem;color:#8fa1b3}
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-top">
+      <h1>🌗 <span id="page-title">攝影題材條件評估</span></h1>
+      <div class="header-right">
+        <select id="region-select" class="control-dropdown country-dropdown" aria-label="區域">
+          <option value="tw" selected>🇹🇼 台灣</option>
+          <option value="jp">🇯🇵 日本</option>
+          <option value="us">🇺🇸 美國</option>
+        </select>
+        <select id="lang-select" class="control-dropdown lang-dropdown" aria-label="語言">
+          <option value="zh-TW" selected>🌐 繁體中文</option>
+          <option value="en">🌐 English</option>
+          <option value="ja">🌐 日本語</option>
+        </select>
+        <a class="weather-map-link" href="./index.html">📸 主頁</a>
+        <div class="updated" id="update-time"></div>
+      </div>
+    </div>
+  </header>
+
+  <div class="eval-banner" id="guidance-banner"></div>
+
+  <div class="eval-controls">
+    <input id="eval-search" class="eval-search" type="search" autocomplete="off">
+  </div>
+
+  <div id="eval-loading" style="text-align:center;padding:40px"></div>
+  <div class="eval-wrap" id="eval-wrap"></div>
+
+  <script src="./assets/genre-eval.js"></script>
+</body>
+</html>
