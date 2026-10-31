@@ -3,9 +3,9 @@
   "provider": "DWD Open Data",
   "model": "ICON_GLOBAL",
   "cycle": {
-    "date": "20261030",
-    "cycle": "12",
-    "cycle_time_utc": "2026-10-30T12:00:00+00:00"
+    "date": "20261031",
+    "cycle": "00",
+    "cycle_time_utc": "2026-10-31T00:00:00+00:00"
   },
   "frame_count": 37,
   "grid_rows": 51,
@@ -16,16 +16,16 @@
   "frames": [
     {
       "forecast_hour": 0,
-      "valid_time_utc": "2026-10-30T12:00:00+00:00",
+      "valid_time_utc": "2026-10-31T00:00:00+00:00",
       "fields": {
         "low_cloud_percent": {
           "count": 2499,
           "missing": 0,
           "min": 0.0,
-          "max": 100.0,
-          "mean": 42.6427,
-          "unique_rounded": 2001,
-          "range": 100.0,
+          "max": 95.6621,
+          "mean": 49.0591,
+          "unique_rounded": 2037,
+          "range": 95.6621,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -34,10 +34,10 @@
           "count": 2499,
           "missing": 0,
           "min": 0.0,
-          "max": 100.0,
-          "mean": 13.3361,
-          "unique_rounded": 865,
-          "range": 100.0,
+          "max": 81.7715,
+          "mean": 19.8562,
+          "unique_rounded": 1110,
+          "range": 81.7715,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -46,13 +46,11 @@
           "count": 2499,
           "missing": 0,
           "min": 0.0,
-          "max": 0.0,
-          "mean": 0.0,
-          "unique_rounded": 1,
-          "range": 0.0,
-          "flags": [
-            "constant_field"
-          ],
+          "max": 19.7305,
+          "mean": 0.8119,
+          "unique_rounded": 166,
+          "range": 19.7305,
+          "flags": [],
           "source_units": "%",
           "normalized_units": "%"
         }
@@ -60,15 +58,15 @@
     },
     {
       "forecast_hour": 3,
-      "valid_time_utc": "2026-10-30T15:00:00+00:00",
+      "valid_time_utc": "2026-10-31T03:00:00+00:00",
       "fields": {
         "low_cloud_percent": {
           "count": 2499,
           "missing": 0,
           "min": 0.0,
           "max": 100.0,
-          "mean": 46.0057,
-          "unique_rounded": 1998,
+          "mean": 47.8963,
+          "unique_rounded": 2116,
           "range": 100.0,
           "flags": [],
           "source_units": "%",
@@ -78,10 +76,10 @@
           "count": 2499,
           "missing": 0,
           "min": 0.0,
-          "max": 100.0,
-          "mean": 15.6331,
-          "unique_rounded": 1029,
-          "range": 100.0,
+          "max": 92.918,
+          "mean": 19.0145,
+          "unique_rounded": 998,
+          "range": 92.918,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -90,10 +88,10 @@
           "count": 2499,
           "missing": 0,
           "min": 0.0,
-          "max": 23.623,
-          "mean": 0.1893,
-          "unique_rounded": 55,
-          "range": 23.623,
+          "max": 15.3809,
+          "mean": 1.0511,
+          "unique_rounded": 403,
+          "range": 15.3809,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -102,15 +100,15 @@
     },
     {
       "forecast_hour": 6,
-      "valid_time_utc": "2026-10-30T18:00:00+00:00",
+      "valid_time_utc": "2026-10-31T06:00:00+00:00",
       "fields": {
         "low_cloud_percent": {
           "count": 2499,
           "missing": 0,
           "min": 0.0,
           "max": 100.0,
-          "mean": 45.9242,
-          "unique_rounded": 2043,
+          "mean": 46.8533,
+          "unique_rounded": 2105,
           "range": 100.0,
           "flags": [],
           "source_units": "%",
@@ -120,52 +118,10 @@
           "count": 2499,
           "missing": 0,
           "min": 0.0,
-          "max": 100.0,
-          "mean": 17.8002,
-          "unique_rounded": 1116,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "high_cloud_percent": {
-          "count": 2499,
-          "missing": 0,
-          "min": 0.0,
-          "max": 25.1719,
-          "mean": 0.7463,
-          "unique_rounded": 203,
-          "range": 25.1719,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        }
-      }
-    },
-    {
-      "forecast_hour": 9,
-      "valid_time_utc": "2026-10-30T21:00:00+00:00",
-      "fields": {
-        "low_cloud_percent": {
-          "count": 2499,
-          "missing": 0,
-          "min": 0.0,
-          "max": 94.1074,
-          "mean": 48.6906,
-          "unique_rounded": 2026,
-          "range": 94.1074,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "mid_cloud_percent": {
-          "count": 2499,
-          "missing": 0,
-          "min": 0.0,
-          "max": 80.4512,
-          "mean": 16.7773,
-          "unique_rounded": 1125,
-          "range": 80.4512,
+          "max": 91.3984,
+          "mean": 20.4042,
+          "unique_rounded": 1080,
+          "range": 91.3984,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -187,17 +143,17 @@
       }
     },
     {
-      "forecast_hour": 12,
-      "valid_time_utc": "2026-10-31T00:00:00+00:00",
+      "forecast_hour": 9,
+      "valid_time_utc": "2026-10-31T09:00:00+00:00",
       "fields": {
         "low_cloud_percent": {
           "count": 2499,
           "missing": 0,
           "min": 0.0,
-          "max": 96.168,
-          "mean": 48.1863,
-          "unique_rounded": 2014,
-          "range": 96.168,
+          "max": 100.0,
+          "mean": 47.2912,
+          "unique_rounded": 2071,
+          "range": 100.0,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -206,10 +162,10 @@
           "count": 2499,
           "missing": 0,
           "min": 0.0,
-          "max": 87.1973,
-          "mean": 20.0628,
-          "unique_rounded": 1075,
-          "range": 87.1973,
+          "max": 100.0,
+          "mean": 19.1063,
+          "unique_rounded": 1068,
+          "range": 100.0,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -218,10 +174,52 @@
           "count": 2499,
           "missing": 0,
           "min": 0.0,
-          "max": 33.7539,
-          "mean": 0.8936,
-          "unique_rounded": 101,
-          "range": 33.7539,
+          "max": 31.5,
+          "mean": 0.3002,
+          "unique_rounded": 82,
+          "range": 31.5,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        }
+      }
+    },
+    {
+      "forecast_hour": 12,
+      "valid_time_utc": "2026-10-31T12:00:00+00:00",
+      "fields": {
+        "low_cloud_percent": {
+          "count": 2499,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 51.9656,
+          "unique_rounded": 2061,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "mid_cloud_percent": {
+          "count": 2499,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 19.9541,
+          "unique_rounded": 1210,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "high_cloud_percent": {
+          "count": 2499,
+          "missing": 0,
+          "min": 0.0,
+          "max": 50.8086,
+          "mean": 0.663,
+          "unique_rounded": 114,
+          "range": 50.8086,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -230,16 +228,16 @@
     },
     {
       "forecast_hour": 15,
-      "valid_time_utc": "2026-10-31T03:00:00+00:00",
+      "valid_time_utc": "2026-10-31T15:00:00+00:00",
       "fields": {
         "low_cloud_percent": {
           "count": 2499,
           "missing": 0,
           "min": 0.0,
-          "max": 98.8789,
-          "mean": 49.5597,
-          "unique_rounded": 2108,
-          "range": 98.8789,
+          "max": 99.9453,
+          "mean": 52.0255,
+          "unique_rounded": 2074,
+          "range": 99.9453,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -248,10 +246,10 @@
           "count": 2499,
           "missing": 0,
           "min": 0.0,
-          "max": 93.3574,
-          "mean": 19.9457,
-          "unique_rounded": 998,
-          "range": 93.3574,
+          "max": 82.6191,
+          "mean": 20.9322,
+          "unique_rounded": 1237,
+          "range": 82.6191,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -260,10 +258,10 @@
           "count": 2499,
           "missing": 0,
           "min": 0.0,
-          "max": 60.8066,
-          "mean": 3.8448,
-          "unique_rounded": 411,
-          "range": 60.8066,
+          "max": 13.4082,
+          "mean": 0.387,
+          "unique_rounded": 251,
+          "range": 13.4082,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -272,16 +270,16 @@
     },
     {
       "forecast_hour": 18,
-      "valid_time_utc": "2026-10-31T06:00:00+00:00",
+      "valid_time_utc": "2026-10-31T18:00:00+00:00",
       "fields": {
         "low_cloud_percent": {
           "count": 2499,
           "missing": 0,
           "min": 0.0,
-          "max": 100.0,
-          "mean": 47.2191,
-          "unique_rounded": 2107,
-          "range": 100.0,
+          "max": 96.7578,
+          "mean": 48.8438,
+          "unique_rounded": 2070,
+          "range": 96.7578,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -290,10 +288,10 @@
           "count": 2499,
           "missing": 0,
           "min": 0.0,
-          "max": 92.998,
-          "mean": 18.156,
-          "unique_rounded": 1069,
-          "range": 92.998,
+          "max": 83.1465,
+          "mean": 21.4828,
+          "unique_rounded": 1204,
+          "range": 83.1465,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -302,10 +300,10 @@
           "count": 2499,
           "missing": 0,
           "min": 0.0,
-          "max": 16.9512,
-          "mean": 0.5138,
-          "unique_rounded": 355,
-          "range": 16.9512,
+          "max": 84.6191,
+          "mean": 3.264,
+          "unique_rounded": 632,
+          "range": 84.6191,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -314,16 +312,16 @@
     },
     {
       "forecast_hour": 21,
-      "valid_time_utc": "2026-10-31T09:00:00+00:00",
+      "valid_time_utc": "2026-10-31T21:00:00+00:00",
       "fields": {
         "low_cloud_percent": {
           "count": 2499,
           "missing": 0,
           "min": 0.0,
-          "max": 100.0,
-          "mean": 47.0703,
-          "unique_rounded": 2081,
-          "range": 100.0,
+          "max": 93.0117,
+          "mean": 46.8023,
+          "unique_rounded": 2045,
+          "range": 93.0117,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -332,10 +330,10 @@
           "count": 2499,
           "missing": 0,
           "min": 0.0,
-          "max": 100.0,
-          "mean": 16.7142,
-          "unique_rounded": 1024,
-          "range": 100.0,
+          "max": 83.4062,
+          "mean": 22.8531,
+          "unique_rounded": 1203,
+          "range": 83.4062,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -344,13 +342,11 @@
           "count": 2499,
           "missing": 0,
           "min": 0.0,
-          "max": 0.0,
-          "mean": 0.0,
-          "unique_rounded": 1,
-          "range": 0.0,
-          "flags": [
-            "constant_field"
-          ],
+          "max": 46.9277,
+          "mean": 0.9509,
+          "unique_rounded": 450,
+          "range": 46.9277,
+          "flags": [],
           "source_units": "%",
           "normalized_units": "%"
         }
@@ -358,16 +354,16 @@
     },
     {
       "forecast_hour": 24,
-      "valid_time_utc": "2026-10-31T12:00:00+00:00",
+      "valid_time_utc": "2026-11-01T00:00:00+00:00",
       "fields": {
         "low_cloud_percent": {
           "count": 2499,
           "missing": 0,
           "min": 0.0,
-          "max": 100.0,
-          "mean": 52.2307,
-          "unique_rounded": 2080,
-          "range": 100.0,
+          "max": 93.793,
+          "mean": 41.8759,
+          "unique_rounded": 2034,
+          "range": 93.793,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -376,10 +372,10 @@
           "count": 2499,
           "missing": 0,
           "min": 0.0,
-          "max": 100.0,
-          "mean": 19.8632,
-          "unique_rounded": 1167,
-          "range": 100.0,
+          "max": 92.6465,
+          "mean": 23.3511,
+          "unique_rounded": 1191,
+          "range": 92.6465,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -388,10 +384,10 @@
           "count": 2499,
           "missing": 0,
           "min": 0.0,
-          "max": 19.5254,
-          "mean": 0.1099,
-          "unique_rounded": 44,
-          "range": 19.5254,
+          "max": 100.0,
+          "mean": 2.4381,
+          "unique_rounded": 242,
+          "range": 100.0,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -400,16 +396,16 @@
     },
     {
       "forecast_hour": 27,
-      "valid_time_utc": "2026-10-31T15:00:00+00:00",
+      "valid_time_utc": "2026-11-01T03:00:00+00:00",
       "fields": {
         "low_cloud_percent": {
           "count": 2499,
           "missing": 0,
           "min": 0.0,
-          "max": 94.7461,
-          "mean": 52.7704,
-          "unique_rounded": 2066,
-          "range": 94.7461,
+          "max": 90.9082,
+          "mean": 32.1521,
+          "unique_rounded": 1917,
+          "range": 90.9082,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -418,10 +414,346 @@
           "count": 2499,
           "missing": 0,
           "min": 0.0,
-          "max": 82.6602,
-          "mean": 22.3356,
-          "unique_rounded": 1262,
-          "range": 82.6602,
+          "max": 83.0059,
+          "mean": 18.6666,
+          "unique_rounded": 1199,
+          "range": 83.0059,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "high_cloud_percent": {
+          "count": 2499,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 2.4289,
+          "unique_rounded": 259,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        }
+      }
+    },
+    {
+      "forecast_hour": 30,
+      "valid_time_utc": "2026-11-01T06:00:00+00:00",
+      "fields": {
+        "low_cloud_percent": {
+          "count": 2499,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 26.6257,
+          "unique_rounded": 1762,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "mid_cloud_percent": {
+          "count": 2499,
+          "missing": 0,
+          "min": 0.0,
+          "max": 96.6445,
+          "mean": 10.5715,
+          "unique_rounded": 1097,
+          "range": 96.6445,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "high_cloud_percent": {
+          "count": 2499,
+          "missing": 0,
+          "min": 0.0,
+          "max": 89.8672,
+          "mean": 5.0051,
+          "unique_rounded": 563,
+          "range": 89.8672,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        }
+      }
+    },
+    {
+      "forecast_hour": 33,
+      "valid_time_utc": "2026-11-01T09:00:00+00:00",
+      "fields": {
+        "low_cloud_percent": {
+          "count": 2499,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 20.2494,
+          "unique_rounded": 1407,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "mid_cloud_percent": {
+          "count": 2499,
+          "missing": 0,
+          "min": 0.0,
+          "max": 93.1738,
+          "mean": 6.841,
+          "unique_rounded": 753,
+          "range": 93.1738,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "high_cloud_percent": {
+          "count": 2499,
+          "missing": 0,
+          "min": 0.0,
+          "max": 96.0938,
+          "mean": 4.6723,
+          "unique_rounded": 755,
+          "range": 96.0938,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        }
+      }
+    },
+    {
+      "forecast_hour": 36,
+      "valid_time_utc": "2026-11-01T12:00:00+00:00",
+      "fields": {
+        "low_cloud_percent": {
+          "count": 2499,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 20.3161,
+          "unique_rounded": 1316,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "mid_cloud_percent": {
+          "count": 2499,
+          "missing": 0,
+          "min": 0.0,
+          "max": 81.0605,
+          "mean": 7.0792,
+          "unique_rounded": 689,
+          "range": 81.0605,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "high_cloud_percent": {
+          "count": 2499,
+          "missing": 0,
+          "min": 0.0,
+          "max": 80.7266,
+          "mean": 0.9261,
+          "unique_rounded": 365,
+          "range": 80.7266,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        }
+      }
+    },
+    {
+      "forecast_hour": 39,
+      "valid_time_utc": "2026-11-01T15:00:00+00:00",
+      "fields": {
+        "low_cloud_percent": {
+          "count": 2499,
+          "missing": 0,
+          "min": 0.0,
+          "max": 88.4707,
+          "mean": 22.4648,
+          "unique_rounded": 1370,
+          "range": 88.4707,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "mid_cloud_percent": {
+          "count": 2499,
+          "missing": 0,
+          "min": 0.0,
+          "max": 79.4141,
+          "mean": 8.603,
+          "unique_rounded": 767,
+          "range": 79.4141,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "high_cloud_percent": {
+          "count": 2499,
+          "missing": 0,
+          "min": 0.0,
+          "max": 14.6582,
+          "mean": 0.318,
+          "unique_rounded": 157,
+          "range": 14.6582,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        }
+      }
+    },
+    {
+      "forecast_hour": 42,
+      "valid_time_utc": "2026-11-01T18:00:00+00:00",
+      "fields": {
+        "low_cloud_percent": {
+          "count": 2499,
+          "missing": 0,
+          "min": 0.0,
+          "max": 77.332,
+          "mean": 26.603,
+          "unique_rounded": 1444,
+          "range": 77.332,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "mid_cloud_percent": {
+          "count": 2499,
+          "missing": 0,
+          "min": 0.0,
+          "max": 84.2676,
+          "mean": 8.8773,
+          "unique_rounded": 807,
+          "range": 84.2676,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "high_cloud_percent": {
+          "count": 2499,
+          "missing": 0,
+          "min": 0.0,
+          "max": 3.9473,
+          "mean": 0.0261,
+          "unique_rounded": 54,
+          "range": 3.9473,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        }
+      }
+    },
+    {
+      "forecast_hour": 45,
+      "valid_time_utc": "2026-11-01T21:00:00+00:00",
+      "fields": {
+        "low_cloud_percent": {
+          "count": 2499,
+          "missing": 0,
+          "min": 0.0,
+          "max": 85.2832,
+          "mean": 28.2228,
+          "unique_rounded": 1518,
+          "range": 85.2832,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "mid_cloud_percent": {
+          "count": 2499,
+          "missing": 0,
+          "min": 0.0,
+          "max": 75.9688,
+          "mean": 8.9118,
+          "unique_rounded": 844,
+          "range": 75.9688,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "high_cloud_percent": {
+          "count": 2499,
+          "missing": 0,
+          "min": 0.0,
+          "max": 16.2656,
+          "mean": 0.2421,
+          "unique_rounded": 89,
+          "range": 16.2656,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        }
+      }
+    },
+    {
+      "forecast_hour": 48,
+      "valid_time_utc": "2026-11-02T00:00:00+00:00",
+      "fields": {
+        "low_cloud_percent": {
+          "count": 2499,
+          "missing": 0,
+          "min": 0.0,
+          "max": 88.9043,
+          "mean": 27.8995,
+          "unique_rounded": 1491,
+          "range": 88.9043,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "mid_cloud_percent": {
+          "count": 2499,
+          "missing": 0,
+          "min": 0.0,
+          "max": 78.9238,
+          "mean": 7.3982,
+          "unique_rounded": 772,
+          "range": 78.9238,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "high_cloud_percent": {
+          "count": 2499,
+          "missing": 0,
+          "min": 0.0,
+          "max": 3.1758,
+          "mean": 0.0063,
+          "unique_rounded": 16,
+          "range": 3.1758,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        }
+      }
+    },
+    {
+      "forecast_hour": 54,
+      "valid_time_utc": "2026-11-02T06:00:00+00:00",
+      "fields": {
+        "low_cloud_percent": {
+          "count": 2499,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 43.3503,
+          "unique_rounded": 1854,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "mid_cloud_percent": {
+          "count": 2499,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 10.8111,
+          "unique_rounded": 751,
+          "range": 100.0,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -443,353 +775,17 @@
       }
     },
     {
-      "forecast_hour": 30,
-      "valid_time_utc": "2026-10-31T18:00:00+00:00",
-      "fields": {
-        "low_cloud_percent": {
-          "count": 2499,
-          "missing": 0,
-          "min": 0.0,
-          "max": 100.0,
-          "mean": 50.5161,
-          "unique_rounded": 2080,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "mid_cloud_percent": {
-          "count": 2499,
-          "missing": 0,
-          "min": 0.0,
-          "max": 88.4648,
-          "mean": 23.3856,
-          "unique_rounded": 1232,
-          "range": 88.4648,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "high_cloud_percent": {
-          "count": 2499,
-          "missing": 0,
-          "min": 0.0,
-          "max": 5.6641,
-          "mean": 0.0521,
-          "unique_rounded": 44,
-          "range": 5.6641,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        }
-      }
-    },
-    {
-      "forecast_hour": 33,
-      "valid_time_utc": "2026-10-31T21:00:00+00:00",
-      "fields": {
-        "low_cloud_percent": {
-          "count": 2499,
-          "missing": 0,
-          "min": 0.0,
-          "max": 92.0391,
-          "mean": 47.0003,
-          "unique_rounded": 2084,
-          "range": 92.0391,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "mid_cloud_percent": {
-          "count": 2499,
-          "missing": 0,
-          "min": 0.0,
-          "max": 79.1934,
-          "mean": 24.6497,
-          "unique_rounded": 1310,
-          "range": 79.1934,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "high_cloud_percent": {
-          "count": 2499,
-          "missing": 0,
-          "min": 0.0,
-          "max": 54.8184,
-          "mean": 0.8724,
-          "unique_rounded": 199,
-          "range": 54.8184,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        }
-      }
-    },
-    {
-      "forecast_hour": 36,
-      "valid_time_utc": "2026-11-01T00:00:00+00:00",
-      "fields": {
-        "low_cloud_percent": {
-          "count": 2499,
-          "missing": 0,
-          "min": 0.0,
-          "max": 91.084,
-          "mean": 39.4044,
-          "unique_rounded": 1986,
-          "range": 91.084,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "mid_cloud_percent": {
-          "count": 2499,
-          "missing": 0,
-          "min": 0.0,
-          "max": 88.291,
-          "mean": 22.0896,
-          "unique_rounded": 1275,
-          "range": 88.291,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "high_cloud_percent": {
-          "count": 2499,
-          "missing": 0,
-          "min": 0.0,
-          "max": 66.9785,
-          "mean": 0.8416,
-          "unique_rounded": 184,
-          "range": 66.9785,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        }
-      }
-    },
-    {
-      "forecast_hour": 39,
-      "valid_time_utc": "2026-11-01T03:00:00+00:00",
-      "fields": {
-        "low_cloud_percent": {
-          "count": 2499,
-          "missing": 0,
-          "min": 0.0,
-          "max": 88.6816,
-          "mean": 31.8149,
-          "unique_rounded": 1868,
-          "range": 88.6816,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "mid_cloud_percent": {
-          "count": 2499,
-          "missing": 0,
-          "min": 0.0,
-          "max": 82.4414,
-          "mean": 14.2126,
-          "unique_rounded": 1057,
-          "range": 82.4414,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "high_cloud_percent": {
-          "count": 2499,
-          "missing": 0,
-          "min": 0.0,
-          "max": 94.2656,
-          "mean": 2.1209,
-          "unique_rounded": 268,
-          "range": 94.2656,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        }
-      }
-    },
-    {
-      "forecast_hour": 42,
-      "valid_time_utc": "2026-11-01T06:00:00+00:00",
-      "fields": {
-        "low_cloud_percent": {
-          "count": 2499,
-          "missing": 0,
-          "min": 0.0,
-          "max": 99.6406,
-          "mean": 26.9471,
-          "unique_rounded": 1697,
-          "range": 99.6406,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "mid_cloud_percent": {
-          "count": 2499,
-          "missing": 0,
-          "min": 0.0,
-          "max": 75.0801,
-          "mean": 8.0388,
-          "unique_rounded": 912,
-          "range": 75.0801,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "high_cloud_percent": {
-          "count": 2499,
-          "missing": 0,
-          "min": 0.0,
-          "max": 100.0,
-          "mean": 1.9795,
-          "unique_rounded": 215,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        }
-      }
-    },
-    {
-      "forecast_hour": 45,
-      "valid_time_utc": "2026-11-01T09:00:00+00:00",
-      "fields": {
-        "low_cloud_percent": {
-          "count": 2499,
-          "missing": 0,
-          "min": 0.0,
-          "max": 100.0,
-          "mean": 20.6361,
-          "unique_rounded": 1419,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "mid_cloud_percent": {
-          "count": 2499,
-          "missing": 0,
-          "min": 0.0,
-          "max": 82.8281,
-          "mean": 7.1347,
-          "unique_rounded": 636,
-          "range": 82.8281,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "high_cloud_percent": {
-          "count": 2499,
-          "missing": 0,
-          "min": 0.0,
-          "max": 100.0,
-          "mean": 2.4246,
-          "unique_rounded": 339,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        }
-      }
-    },
-    {
-      "forecast_hour": 48,
-      "valid_time_utc": "2026-11-01T12:00:00+00:00",
-      "fields": {
-        "low_cloud_percent": {
-          "count": 2499,
-          "missing": 0,
-          "min": 0.0,
-          "max": 93.1445,
-          "mean": 19.9463,
-          "unique_rounded": 1381,
-          "range": 93.1445,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "mid_cloud_percent": {
-          "count": 2499,
-          "missing": 0,
-          "min": 0.0,
-          "max": 76.4258,
-          "mean": 8.1471,
-          "unique_rounded": 653,
-          "range": 76.4258,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "high_cloud_percent": {
-          "count": 2499,
-          "missing": 0,
-          "min": 0.0,
-          "max": 20.1191,
-          "mean": 0.2922,
-          "unique_rounded": 184,
-          "range": 20.1191,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        }
-      }
-    },
-    {
-      "forecast_hour": 54,
-      "valid_time_utc": "2026-11-01T18:00:00+00:00",
-      "fields": {
-        "low_cloud_percent": {
-          "count": 2499,
-          "missing": 0,
-          "min": 0.0,
-          "max": 73.5391,
-          "mean": 25.3354,
-          "unique_rounded": 1439,
-          "range": 73.5391,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "mid_cloud_percent": {
-          "count": 2499,
-          "missing": 0,
-          "min": 0.0,
-          "max": 79.082,
-          "mean": 8.58,
-          "unique_rounded": 707,
-          "range": 79.082,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "high_cloud_percent": {
-          "count": 2499,
-          "missing": 0,
-          "min": 0.0,
-          "max": 58.5215,
-          "mean": 0.3121,
-          "unique_rounded": 97,
-          "range": 58.5215,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        }
-      }
-    },
-    {
       "forecast_hour": 60,
-      "valid_time_utc": "2026-11-02T00:00:00+00:00",
+      "valid_time_utc": "2026-11-02T12:00:00+00:00",
       "fields": {
         "low_cloud_percent": {
           "count": 2499,
           "missing": 0,
           "min": 0.0,
-          "max": 89.7422,
-          "mean": 30.1515,
-          "unique_rounded": 1539,
-          "range": 89.7422,
+          "max": 100.0,
+          "mean": 59.7114,
+          "unique_rounded": 2020,
+          "range": 100.0,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -798,10 +794,10 @@
           "count": 2499,
           "missing": 0,
           "min": 0.0,
-          "max": 89.3906,
-          "mean": 7.51,
-          "unique_rounded": 606,
-          "range": 89.3906,
+          "max": 100.0,
+          "mean": 25.7557,
+          "unique_rounded": 1302,
+          "range": 100.0,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -810,10 +806,10 @@
           "count": 2499,
           "missing": 0,
           "min": 0.0,
-          "max": 9.9668,
-          "mean": 0.0355,
-          "unique_rounded": 21,
-          "range": 9.9668,
+          "max": 100.0,
+          "mean": 0.7758,
+          "unique_rounded": 23,
+          "range": 100.0,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -822,90 +818,6 @@
     },
     {
       "forecast_hour": 66,
-      "valid_time_utc": "2026-11-02T06:00:00+00:00",
-      "fields": {
-        "low_cloud_percent": {
-          "count": 2499,
-          "missing": 0,
-          "min": 0.0,
-          "max": 100.0,
-          "mean": 46.9021,
-          "unique_rounded": 1977,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "mid_cloud_percent": {
-          "count": 2499,
-          "missing": 0,
-          "min": 0.0,
-          "max": 100.0,
-          "mean": 11.7294,
-          "unique_rounded": 796,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "high_cloud_percent": {
-          "count": 2499,
-          "missing": 0,
-          "min": 0.0,
-          "max": 100.0,
-          "mean": 0.3601,
-          "unique_rounded": 16,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        }
-      }
-    },
-    {
-      "forecast_hour": 72,
-      "valid_time_utc": "2026-11-02T12:00:00+00:00",
-      "fields": {
-        "low_cloud_percent": {
-          "count": 2499,
-          "missing": 0,
-          "min": 0.0,
-          "max": 100.0,
-          "mean": 62.0721,
-          "unique_rounded": 2030,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "mid_cloud_percent": {
-          "count": 2499,
-          "missing": 0,
-          "min": 0.0,
-          "max": 100.0,
-          "mean": 27.3331,
-          "unique_rounded": 1452,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "high_cloud_percent": {
-          "count": 2499,
-          "missing": 0,
-          "min": 0.0,
-          "max": 93.416,
-          "mean": 0.6774,
-          "unique_rounded": 70,
-          "range": 93.416,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        }
-      }
-    },
-    {
-      "forecast_hour": 78,
       "valid_time_utc": "2026-11-02T18:00:00+00:00",
       "fields": {
         "low_cloud_percent": {
@@ -913,49 +825,7 @@
           "missing": 0,
           "min": 0.0,
           "max": 100.0,
-          "mean": 67.2578,
-          "unique_rounded": 2009,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "mid_cloud_percent": {
-          "count": 2499,
-          "missing": 0,
-          "min": 0.0,
-          "max": 100.0,
-          "mean": 34.1923,
-          "unique_rounded": 1672,
-          "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "high_cloud_percent": {
-          "count": 2499,
-          "missing": 0,
-          "min": 0.0,
-          "max": 20.1934,
-          "mean": 0.0385,
-          "unique_rounded": 11,
-          "range": 20.1934,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        }
-      }
-    },
-    {
-      "forecast_hour": 84,
-      "valid_time_utc": "2026-11-03T00:00:00+00:00",
-      "fields": {
-        "low_cloud_percent": {
-          "count": 2499,
-          "missing": 0,
-          "min": 0.0,
-          "max": 100.0,
-          "mean": 61.9492,
+          "mean": 67.4269,
           "unique_rounded": 2001,
           "range": 100.0,
           "flags": [],
@@ -967,8 +837,8 @@
           "missing": 0,
           "min": 0.0,
           "max": 100.0,
-          "mean": 25.7319,
-          "unique_rounded": 1621,
+          "mean": 32.4594,
+          "unique_rounded": 1653,
           "range": 100.0,
           "flags": [],
           "source_units": "%",
@@ -978,10 +848,10 @@
           "count": 2499,
           "missing": 0,
           "min": 0.0,
-          "max": 1.6738,
-          "mean": 0.0007,
-          "unique_rounded": 2,
-          "range": 1.6738,
+          "max": 2.5586,
+          "mean": 0.0063,
+          "unique_rounded": 20,
+          "range": 2.5586,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -989,7 +859,51 @@
       }
     },
     {
-      "forecast_hour": 90,
+      "forecast_hour": 72,
+      "valid_time_utc": "2026-11-03T00:00:00+00:00",
+      "fields": {
+        "low_cloud_percent": {
+          "count": 2499,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 62.5428,
+          "unique_rounded": 2024,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "mid_cloud_percent": {
+          "count": 2499,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 29.34,
+          "unique_rounded": 1625,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "high_cloud_percent": {
+          "count": 2499,
+          "missing": 0,
+          "min": 0.0,
+          "max": 0.0,
+          "mean": 0.0,
+          "unique_rounded": 1,
+          "range": 0.0,
+          "flags": [
+            "constant_field"
+          ],
+          "source_units": "%",
+          "normalized_units": "%"
+        }
+      }
+    },
+    {
+      "forecast_hour": 78,
       "valid_time_utc": "2026-11-03T06:00:00+00:00",
       "fields": {
         "low_cloud_percent": {
@@ -997,8 +911,8 @@
           "missing": 0,
           "min": 0.0,
           "max": 100.0,
-          "mean": 60.2678,
-          "unique_rounded": 2050,
+          "mean": 59.2459,
+          "unique_rounded": 2076,
           "range": 100.0,
           "flags": [],
           "source_units": "%",
@@ -1009,8 +923,8 @@
           "missing": 0,
           "min": 0.0,
           "max": 100.0,
-          "mean": 22.3906,
-          "unique_rounded": 1555,
+          "mean": 23.4912,
+          "unique_rounded": 1648,
           "range": 100.0,
           "flags": [],
           "source_units": "%",
@@ -1020,18 +934,20 @@
           "count": 2499,
           "missing": 0,
           "min": 0.0,
-          "max": 100.0,
-          "mean": 0.04,
-          "unique_rounded": 2,
-          "range": 100.0,
-          "flags": [],
+          "max": 0.0,
+          "mean": 0.0,
+          "unique_rounded": 1,
+          "range": 0.0,
+          "flags": [
+            "constant_field"
+          ],
           "source_units": "%",
           "normalized_units": "%"
         }
       }
     },
     {
-      "forecast_hour": 96,
+      "forecast_hour": 84,
       "valid_time_utc": "2026-11-03T12:00:00+00:00",
       "fields": {
         "low_cloud_percent": {
@@ -1039,8 +955,8 @@
           "missing": 0,
           "min": 0.0,
           "max": 100.0,
-          "mean": 60.8015,
-          "unique_rounded": 2046,
+          "mean": 60.4356,
+          "unique_rounded": 2074,
           "range": 100.0,
           "flags": [],
           "source_units": "%",
@@ -1051,9 +967,97 @@
           "missing": 0,
           "min": 0.0,
           "max": 100.0,
-          "mean": 24.4676,
-          "unique_rounded": 1545,
+          "mean": 23.6313,
+          "unique_rounded": 1510,
           "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "high_cloud_percent": {
+          "count": 2499,
+          "missing": 0,
+          "min": 0.0,
+          "max": 0.0,
+          "mean": 0.0,
+          "unique_rounded": 1,
+          "range": 0.0,
+          "flags": [
+            "constant_field"
+          ],
+          "source_units": "%",
+          "normalized_units": "%"
+        }
+      }
+    },
+    {
+      "forecast_hour": 90,
+      "valid_time_utc": "2026-11-03T18:00:00+00:00",
+      "fields": {
+        "low_cloud_percent": {
+          "count": 2499,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 64.8981,
+          "unique_rounded": 2079,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "mid_cloud_percent": {
+          "count": 2499,
+          "missing": 0,
+          "min": 0.0,
+          "max": 85.8066,
+          "mean": 18.4889,
+          "unique_rounded": 1446,
+          "range": 85.8066,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "high_cloud_percent": {
+          "count": 2499,
+          "missing": 0,
+          "min": 0.0,
+          "max": 0.0,
+          "mean": 0.0,
+          "unique_rounded": 1,
+          "range": 0.0,
+          "flags": [
+            "constant_field"
+          ],
+          "source_units": "%",
+          "normalized_units": "%"
+        }
+      }
+    },
+    {
+      "forecast_hour": 96,
+      "valid_time_utc": "2026-11-04T00:00:00+00:00",
+      "fields": {
+        "low_cloud_percent": {
+          "count": 2499,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 56.5702,
+          "unique_rounded": 2073,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "mid_cloud_percent": {
+          "count": 2499,
+          "missing": 0,
+          "min": 0.0,
+          "max": 75.375,
+          "mean": 11.9589,
+          "unique_rounded": 1068,
+          "range": 75.375,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -1076,15 +1080,15 @@
     },
     {
       "forecast_hour": 102,
-      "valid_time_utc": "2026-11-03T18:00:00+00:00",
+      "valid_time_utc": "2026-11-04T06:00:00+00:00",
       "fields": {
         "low_cloud_percent": {
           "count": 2499,
           "missing": 0,
           "min": 0.0,
           "max": 100.0,
-          "mean": 64.2032,
-          "unique_rounded": 2082,
+          "mean": 41.3086,
+          "unique_rounded": 2045,
           "range": 100.0,
           "flags": [],
           "source_units": "%",
@@ -1094,10 +1098,10 @@
           "count": 2499,
           "missing": 0,
           "min": 0.0,
-          "max": 92.6074,
-          "mean": 24.7553,
-          "unique_rounded": 1652,
-          "range": 92.6074,
+          "max": 96.4707,
+          "mean": 5.2277,
+          "unique_rounded": 485,
+          "range": 96.4707,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -1120,15 +1124,15 @@
     },
     {
       "forecast_hour": 108,
-      "valid_time_utc": "2026-11-04T00:00:00+00:00",
+      "valid_time_utc": "2026-11-04T12:00:00+00:00",
       "fields": {
         "low_cloud_percent": {
           "count": 2499,
           "missing": 0,
           "min": 0.0,
           "max": 100.0,
-          "mean": 54.8345,
-          "unique_rounded": 2066,
+          "mean": 31.3506,
+          "unique_rounded": 1826,
           "range": 100.0,
           "flags": [],
           "source_units": "%",
@@ -1138,10 +1142,10 @@
           "count": 2499,
           "missing": 0,
           "min": 0.0,
-          "max": 64.9727,
-          "mean": 12.5985,
-          "unique_rounded": 1083,
-          "range": 64.9727,
+          "max": 85.6113,
+          "mean": 4.4556,
+          "unique_rounded": 400,
+          "range": 85.6113,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -1164,16 +1168,16 @@
     },
     {
       "forecast_hour": 114,
-      "valid_time_utc": "2026-11-04T06:00:00+00:00",
+      "valid_time_utc": "2026-11-04T18:00:00+00:00",
       "fields": {
         "low_cloud_percent": {
           "count": 2499,
           "missing": 0,
           "min": 0.0,
-          "max": 100.0,
-          "mean": 41.5278,
-          "unique_rounded": 2028,
-          "range": 100.0,
+          "max": 87.5703,
+          "mean": 30.3155,
+          "unique_rounded": 1784,
+          "range": 87.5703,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -1182,10 +1186,10 @@
           "count": 2499,
           "missing": 0,
           "min": 0.0,
-          "max": 87.4082,
-          "mean": 6.4081,
-          "unique_rounded": 557,
-          "range": 87.4082,
+          "max": 81.377,
+          "mean": 3.3242,
+          "unique_rounded": 398,
+          "range": 81.377,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -1208,15 +1212,99 @@
     },
     {
       "forecast_hour": 120,
-      "valid_time_utc": "2026-11-04T12:00:00+00:00",
+      "valid_time_utc": "2026-11-05T00:00:00+00:00",
+      "fields": {
+        "low_cloud_percent": {
+          "count": 2499,
+          "missing": 0,
+          "min": 0.0,
+          "max": 90.9336,
+          "mean": 27.9076,
+          "unique_rounded": 1606,
+          "range": 90.9336,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "mid_cloud_percent": {
+          "count": 2499,
+          "missing": 0,
+          "min": 0.0,
+          "max": 88.791,
+          "mean": 4.8279,
+          "unique_rounded": 551,
+          "range": 88.791,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "high_cloud_percent": {
+          "count": 2499,
+          "missing": 0,
+          "min": 0.0,
+          "max": 2.4609,
+          "mean": 0.0101,
+          "unique_rounded": 23,
+          "range": 2.4609,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        }
+      }
+    },
+    {
+      "forecast_hour": 126,
+      "valid_time_utc": "2026-11-05T06:00:00+00:00",
+      "fields": {
+        "low_cloud_percent": {
+          "count": 2499,
+          "missing": 0,
+          "min": 0.0,
+          "max": 94.3164,
+          "mean": 29.7834,
+          "unique_rounded": 1798,
+          "range": 94.3164,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "mid_cloud_percent": {
+          "count": 2499,
+          "missing": 0,
+          "min": 0.0,
+          "max": 83.7676,
+          "mean": 6.7745,
+          "unique_rounded": 464,
+          "range": 83.7676,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "high_cloud_percent": {
+          "count": 2499,
+          "missing": 0,
+          "min": 0.0,
+          "max": 67.1875,
+          "mean": 0.0269,
+          "unique_rounded": 2,
+          "range": 67.1875,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        }
+      }
+    },
+    {
+      "forecast_hour": 132,
+      "valid_time_utc": "2026-11-05T12:00:00+00:00",
       "fields": {
         "low_cloud_percent": {
           "count": 2499,
           "missing": 0,
           "min": 0.0,
           "max": 100.0,
-          "mean": 28.2445,
-          "unique_rounded": 1820,
+          "mean": 44.1013,
+          "unique_rounded": 2008,
           "range": 100.0,
           "flags": [],
           "source_units": "%",
@@ -1226,52 +1314,10 @@
           "count": 2499,
           "missing": 0,
           "min": 0.0,
-          "max": 66.4121,
-          "mean": 4.4511,
-          "unique_rounded": 560,
-          "range": 66.4121,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "high_cloud_percent": {
-          "count": 2499,
-          "missing": 0,
-          "min": 0.0,
-          "max": 3.1191,
-          "mean": 0.0026,
-          "unique_rounded": 4,
-          "range": 3.1191,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        }
-      }
-    },
-    {
-      "forecast_hour": 126,
-      "valid_time_utc": "2026-11-04T18:00:00+00:00",
-      "fields": {
-        "low_cloud_percent": {
-          "count": 2499,
-          "missing": 0,
-          "min": 0.0,
-          "max": 84.4727,
-          "mean": 28.2583,
-          "unique_rounded": 1756,
-          "range": 84.4727,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "mid_cloud_percent": {
-          "count": 2499,
-          "missing": 0,
-          "min": 0.0,
-          "max": 88.8223,
-          "mean": 5.4128,
-          "unique_rounded": 584,
-          "range": 88.8223,
+          "max": 91.8242,
+          "mean": 13.4476,
+          "unique_rounded": 749,
+          "range": 91.8242,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -1293,17 +1339,17 @@
       }
     },
     {
-      "forecast_hour": 132,
-      "valid_time_utc": "2026-11-05T00:00:00+00:00",
+      "forecast_hour": 138,
+      "valid_time_utc": "2026-11-05T18:00:00+00:00",
       "fields": {
         "low_cloud_percent": {
           "count": 2499,
           "missing": 0,
           "min": 0.0,
-          "max": 90.7246,
-          "mean": 30.0723,
-          "unique_rounded": 1644,
-          "range": 90.7246,
+          "max": 100.0,
+          "mean": 59.412,
+          "unique_rounded": 2064,
+          "range": 100.0,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -1313,51 +1359,9 @@
           "missing": 0,
           "min": 0.0,
           "max": 100.0,
-          "mean": 8.6905,
-          "unique_rounded": 503,
+          "mean": 26.7694,
+          "unique_rounded": 998,
           "range": 100.0,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "high_cloud_percent": {
-          "count": 2499,
-          "missing": 0,
-          "min": 0.0,
-          "max": 9.0215,
-          "mean": 0.0898,
-          "unique_rounded": 91,
-          "range": 9.0215,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        }
-      }
-    },
-    {
-      "forecast_hour": 138,
-      "valid_time_utc": "2026-11-05T06:00:00+00:00",
-      "fields": {
-        "low_cloud_percent": {
-          "count": 2499,
-          "missing": 0,
-          "min": 0.0,
-          "max": 95.0879,
-          "mean": 39.728,
-          "unique_rounded": 1931,
-          "range": 95.0879,
-          "flags": [],
-          "source_units": "%",
-          "normalized_units": "%"
-        },
-        "mid_cloud_percent": {
-          "count": 2499,
-          "missing": 0,
-          "min": 0.0,
-          "max": 93.3027,
-          "mean": 11.6003,
-          "unique_rounded": 647,
-          "range": 93.3027,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -1380,15 +1384,15 @@
     },
     {
       "forecast_hour": 144,
-      "valid_time_utc": "2026-11-05T12:00:00+00:00",
+      "valid_time_utc": "2026-11-06T00:00:00+00:00",
       "fields": {
         "low_cloud_percent": {
           "count": 2499,
           "missing": 0,
           "min": 0.0,
           "max": 100.0,
-          "mean": 51.8591,
-          "unique_rounded": 2023,
+          "mean": 56.903,
+          "unique_rounded": 2011,
           "range": 100.0,
           "flags": [],
           "source_units": "%",
@@ -1399,8 +1403,8 @@
           "missing": 0,
           "min": 0.0,
           "max": 100.0,
-          "mean": 21.3811,
-          "unique_rounded": 958,
+          "mean": 32.9885,
+          "unique_rounded": 1049,
           "range": 100.0,
           "flags": [],
           "source_units": "%",
@@ -1410,13 +1414,11 @@
           "count": 2499,
           "missing": 0,
           "min": 0.0,
-          "max": 0.0,
-          "mean": 0.0,
-          "unique_rounded": 1,
-          "range": 0.0,
-          "flags": [
-            "constant_field"
-          ],
+          "max": 37.8184,
+          "mean": 0.2173,
+          "unique_rounded": 47,
+          "range": 37.8184,
+          "flags": [],
           "source_units": "%",
           "normalized_units": "%"
         }
@@ -1424,15 +1426,15 @@
     },
     {
       "forecast_hour": 150,
-      "valid_time_utc": "2026-11-05T18:00:00+00:00",
+      "valid_time_utc": "2026-11-06T06:00:00+00:00",
       "fields": {
         "low_cloud_percent": {
           "count": 2499,
           "missing": 0,
           "min": 0.0,
           "max": 100.0,
-          "mean": 59.4396,
-          "unique_rounded": 2015,
+          "mean": 58.1052,
+          "unique_rounded": 2059,
           "range": 100.0,
           "flags": [],
           "source_units": "%",
@@ -1443,8 +1445,8 @@
           "missing": 0,
           "min": 0.0,
           "max": 100.0,
-          "mean": 28.4016,
-          "unique_rounded": 1369,
+          "mean": 28.9655,
+          "unique_rounded": 1296,
           "range": 100.0,
           "flags": [],
           "source_units": "%",
@@ -1454,10 +1456,10 @@
           "count": 2499,
           "missing": 0,
           "min": 0.0,
-          "max": 19.1152,
-          "mean": 0.046,
-          "unique_rounded": 21,
-          "range": 19.1152,
+          "max": 100.0,
+          "mean": 1.9785,
+          "unique_rounded": 176,
+          "range": 100.0,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -1466,15 +1468,15 @@
     },
     {
       "forecast_hour": 156,
-      "valid_time_utc": "2026-11-06T00:00:00+00:00",
+      "valid_time_utc": "2026-11-06T12:00:00+00:00",
       "fields": {
         "low_cloud_percent": {
           "count": 2499,
           "missing": 0,
           "min": 0.0,
           "max": 100.0,
-          "mean": 60.7631,
-          "unique_rounded": 2052,
+          "mean": 64.427,
+          "unique_rounded": 2026,
           "range": 100.0,
           "flags": [],
           "source_units": "%",
@@ -1485,8 +1487,8 @@
           "missing": 0,
           "min": 0.0,
           "max": 100.0,
-          "mean": 31.3214,
-          "unique_rounded": 1482,
+          "mean": 38.8331,
+          "unique_rounded": 1491,
           "range": 100.0,
           "flags": [],
           "source_units": "%",
@@ -1496,10 +1498,10 @@
           "count": 2499,
           "missing": 0,
           "min": 0.0,
-          "max": 99.998,
-          "mean": 2.0399,
-          "unique_rounded": 254,
-          "range": 99.998,
+          "max": 100.0,
+          "mean": 5.888,
+          "unique_rounded": 314,
+          "range": 100.0,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -1508,15 +1510,15 @@
     },
     {
       "forecast_hour": 162,
-      "valid_time_utc": "2026-11-06T06:00:00+00:00",
+      "valid_time_utc": "2026-11-06T18:00:00+00:00",
       "fields": {
         "low_cloud_percent": {
           "count": 2499,
           "missing": 0,
           "min": 0.0,
           "max": 100.0,
-          "mean": 57.1164,
-          "unique_rounded": 2051,
+          "mean": 63.8583,
+          "unique_rounded": 2013,
           "range": 100.0,
           "flags": [],
           "source_units": "%",
@@ -1526,10 +1528,10 @@
           "count": 2499,
           "missing": 0,
           "min": 0.0,
-          "max": 94.1465,
-          "mean": 30.282,
-          "unique_rounded": 1563,
-          "range": 94.1465,
+          "max": 100.0,
+          "mean": 35.5154,
+          "unique_rounded": 1666,
+          "range": 100.0,
           "flags": [],
           "source_units": "%",
           "normalized_units": "%"
@@ -1539,8 +1541,8 @@
           "missing": 0,
           "min": 0.0,
           "max": 100.0,
-          "mean": 4.5725,
-          "unique_rounded": 226,
+          "mean": 4.2383,
+          "unique_rounded": 375,
           "range": 100.0,
           "flags": [],
           "source_units": "%",
@@ -1550,15 +1552,15 @@
     },
     {
       "forecast_hour": 168,
-      "valid_time_utc": "2026-11-06T12:00:00+00:00",
+      "valid_time_utc": "2026-11-07T00:00:00+00:00",
       "fields": {
         "low_cloud_percent": {
           "count": 2499,
           "missing": 0,
           "min": 0.0,
           "max": 100.0,
-          "mean": 56.5642,
-          "unique_rounded": 2025,
+          "mean": 58.8005,
+          "unique_rounded": 2044,
           "range": 100.0,
           "flags": [],
           "source_units": "%",
@@ -1569,8 +1571,8 @@
           "missing": 0,
           "min": 0.0,
           "max": 100.0,
-          "mean": 32.0958,
-          "unique_rounded": 1569,
+          "mean": 32.4848,
+          "unique_rounded": 1712,
           "range": 100.0,
           "flags": [],
           "source_units": "%",
@@ -1581,8 +1583,8 @@
           "missing": 0,
           "min": 0.0,
           "max": 100.0,
-          "mean": 9.6059,
-          "unique_rounded": 517,
+          "mean": 5.8596,
+          "unique_rounded": 753,
           "range": 100.0,
           "flags": [],
           "source_units": "%",
@@ -1593,22 +1595,32 @@
   ],
   "flags": [
     {
-      "forecast_hour": 0,
+      "forecast_hour": 6,
       "field": "high_cloud_percent",
       "flag": "constant_field"
     },
     {
-      "forecast_hour": 9,
+      "forecast_hour": 54,
       "field": "high_cloud_percent",
       "flag": "constant_field"
     },
     {
-      "forecast_hour": 21,
+      "forecast_hour": 72,
       "field": "high_cloud_percent",
       "flag": "constant_field"
     },
     {
-      "forecast_hour": 27,
+      "forecast_hour": 78,
+      "field": "high_cloud_percent",
+      "flag": "constant_field"
+    },
+    {
+      "forecast_hour": 84,
+      "field": "high_cloud_percent",
+      "flag": "constant_field"
+    },
+    {
+      "forecast_hour": 90,
       "field": "high_cloud_percent",
       "flag": "constant_field"
     },
@@ -1633,17 +1645,12 @@
       "flag": "constant_field"
     },
     {
-      "forecast_hour": 126,
+      "forecast_hour": 132,
       "field": "high_cloud_percent",
       "flag": "constant_field"
     },
     {
       "forecast_hour": 138,
-      "field": "high_cloud_percent",
-      "flag": "constant_field"
-    },
-    {
-      "forecast_hour": 144,
       "field": "high_cloud_percent",
       "flag": "constant_field"
     }
