@@ -49,7 +49,7 @@ class ResearchIndexTests(unittest.TestCase):
         ids=[b['opportunity_id'] for b in self.index['opportunities']]
         self.assertEqual(expected_places,set(actual));self.assertEqual(len(actual),len(set(actual)))
         self.assertEqual(set(self.docs),set(ids));self.assertEqual(len(ids),len(set(ids)))
-        self.assertEqual((214,416),(len(actual),len(ids)))
+        self.assertEqual((189,353),(len(actual),len(ids)))
         self.assertEqual(3,sum(b['place_id']=='tw-026' for b in self.index['opportunities']))
 
     def test_real_canonical_blob_sha256_identity_and_revision(self):
@@ -61,16 +61,12 @@ class ResearchIndexTests(unittest.TestCase):
             self.assertEqual((pin['opportunity_id'],d['place_id'],d['revision']),
                              (d['opportunity_id'],d['place_id'],d['revision']))
         self.assertEqual({
-            '2177bd8c8b6c18e0a4b284e50b55d0ff12697ddd',
-            '509a7c206413a4f8d13350ddb50c2a7ad075ca4a',
-            'b45169e42d3acfe9b287c6e16a9ac887bb8cd650',
-            'cc847b6737b89207dbc5b04927d5986ad529e2ae',
-            '2dc05b3cc8000167ce087a59b79d7d3f4948c645',
-            '611ba3ed50f3f1ff873359f9bc54b4a7292149d2',
-            '101ca9d39019ca00b83e6e01ba18c28b81a488b5',
+            '0f8f754027d23d12f966459d115e920d1d192d68',
+            '165436ed77bdb7dd2e658d263d0dd451b8377146',
+            '4f42427ce0eb856f0be5f034f316aca86640ec4a',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
-        self.assertEqual('2177bd8c8b6c18e0a4b284e50b55d0ff12697ddd',p01['commit_sha'])
+        self.assertEqual('0f8f754027d23d12f966459d115e920d1d192d68',p01['commit_sha'])
         self.assertEqual('001a3380231e3d073e900bf2b415aac7dcc5fd79',p01['blob_sha'])
 
     def test_all_place_names_exact_source_spans_without_new_translation(self):
@@ -92,7 +88,7 @@ class ResearchIndexTests(unittest.TestCase):
                     self.assertEqual(p['name_i18n'][lang],original[source['start']:source['end']])
                     self.assertEqual(source['value'],p['name_i18n'][lang])
             self.assertEqual('PENDING',p['semantic_review'])
-        self.assertEqual(642,count)  # 214 places x 3 (aurora-only removal 2026-10-26)
+        self.assertEqual(567,count)  # 189 places x 3 (evidence-D removal 2026-10-31)
 
     def test_missing_name_locale_and_foreign_place_source_fail(self):
         bad=copy.deepcopy(self.index);bad['places'][0]['name_i18n'].pop('ja')

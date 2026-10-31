@@ -79,10 +79,10 @@ assert.equal(catalog.selected_date_recommendation_eligible, false);
 assert.equal(catalog.forecast_available, false);
 assert.deepEqual(catalog.evaluations, []);
 // Full breadth migration is published (PR #533): the live pilot grew from the
-// 7-place preview to the admitted 216-place / 428-opportunity catalog. The
+// 7-place preview to the admitted 189-place / 353-opportunity catalog. The
 // byte-exactness guarantee is the per-file digest verification against the
 // pinned manifest; these counts are the breadth sanity assertions.
-assert.equal(catalog.opportunities.length, HOME?428:1);
+assert.equal(catalog.opportunities.length, HOME?353:1);
 if(HOME){
   assert.equal(catalog.places.length,216);
   verifyPublicIndex(expectedManifest,catalog,JSON.parse((await fetchPublic('browse-index.v2.json')).body));

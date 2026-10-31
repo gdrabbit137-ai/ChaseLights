@@ -3,7 +3,7 @@
 import assert from 'node:assert/strict';
 export const locales=['zh-TW','en','ja'];
 // No-review-gate breadth admission (2026-10-22): the catalog is 216 Places /
-// 428 Opportunities. Deep browser checks SAMPLE a small place set; breadth is
+// 353 Opportunities. Deep browser checks SAMPLE a small place set; breadth is
 // asserted by exact counts (full 216-place deep coverage is cost-prohibitive).
 export async function verifyPhotographyTopics(page,catalog,locale,sample=3){
   await page.locator('#browse-research').click();

@@ -35,15 +35,15 @@ class MigrationSkeletonTests(unittest.TestCase):
         admitted = set(self.inventory["first_pass"]["admitted_canonical"])
         self.assertEqual((216, 428), (len(spots), opps))
         canonical = sorted((ROOT / "data/v2/opportunities").glob("*.json"))
-        self.assertEqual(416, len(canonical))
+        self.assertEqual(353, len(canonical))
         self.assertEqual(len(admitted), 8)
-        self.assertEqual(len(canonical), len(admitted) + 408)
+        self.assertEqual(len(canonical), len(admitted) + 345)
         self.assertEqual(len(spots), self.inventory["first_pass"]["places_first_pass_covered"])
         self.assertEqual([], self.inventory["first_pass"]["places_pending"])
 
     def test_every_committed_skeleton_is_schema_valid(self):
         files = sorted(SKELETONS.glob("*.json"))
-        self.assertEqual(408, len(files))
+        self.assertEqual(345, len(files))
         for path in files:
             with self.subTest(file=path.name):
                 doc = json.loads(path.read_text(encoding="utf-8"))

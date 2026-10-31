@@ -25,7 +25,7 @@ before(async()=>{
   catalog=JSON.parse(await readFile(resolve(root,'apps/web-v2/catalog.v2.json'),'utf8'));
   assert.equal(catalog.research_only,true);assert.equal(catalog.forecast_available,false);
   assert.equal(catalog.selected_date_recommendation_eligible,false);assert.deepEqual(catalog.evaluations,[]);
-  assert.equal(catalog.opportunities.length,428);
+  assert.equal(catalog.opportunities.length,353);
   assert.equal(catalog.places.length,216);
   opportunity=catalog.opportunities.find(x=>x.opportunity_id==='tw-026-P01');
   assert.ok(opportunity,'The canonical P01 record must be in the packaged bundle');
