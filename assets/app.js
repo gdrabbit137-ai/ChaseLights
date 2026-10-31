@@ -857,7 +857,7 @@
       const theme=metric.theme||'mountain_view',opportunityName=researchPending?d().research_pending_card:(noViable?d().no_viable_card:opportunityDisplayName(spot,metric.opportunity_id,theme,metric.opportunity_name));const verdict=(researchPending||noViable)?{primary:'',detail:''}:opportunityVerdict(metric,opportunityName);const recommendationStateValue=(researchPending||noViable)?'unavailable':recommendationState(metric);const status=verdict.primary,indicator=(researchPending||noViable||!['recommended','candidate'].includes(recommendationStateValue))?'':trMessage(metric.indicator_key);const astro=(researchPending||noViable)?'':astroText(metric,theme);const darkSky=(researchPending||noViable)?'':darkSkyText(spot,theme);const navTool=navigationToolHtml(spot);const access=localeText(spot.access_note_i18n);const showIndicator=indicator&&indicator!==status;const factors=(researchPending||noViable)?[]:(metric.factors||[]);const factorHtml=factors.map(f=>{const text=trFactor(f);return text?`<span class="factor-pill ${f.type==='minus'?'factor-minus':'factor-plus'}">${f.type==='minus'?'−':'＋'} ${text}</span>`:'';}).filter(Boolean).join('');const factorMore=factors.length>2?`<span class="factor-pill factor-more">+${factors.length-2}</span>`:'';
       const v2PlaceData=(v2EvalBundle&&(v2EvalBundle.places||[]).find(p=>p.place_id===spot.spot_id))||null;
       const v2Best=v2PlaceData?v2BestForSpot(v2PlaceData):null;
-      const v2Summary=v2Best?`<div class="theme-winner">📷 ${esc(d().v2_best_subject)}：${esc(v2Best.name)}${v2Best.hours?` <span class="v2-chip-ok">${esc(d().eval2_hours)} ${v2Best.hours}</span>`:` <span class="v2-chip-bad">${esc(v2Best.stateLabel)}</span>`}</div>${v2Best.hoursList&&v2Best.hoursList.length?`<div class="best-window-row">${esc(d().best_window)}<b>${esc(v2Best.hoursList[0])}${v2Best.hoursList.length>1?'–'+esc(v2Best.hoursList[v2Best.hoursList.length-1]):''}</b></div>`:(v2Best.nextLocal?`<div class="best-window-row">${esc(d().v2_next_window)}<b>${esc(v2Best.nextLocal)}</b></div>`:'')}`:'';
+      const v2Summary=v2Best?`<div class="theme-winner">📷 ${esc(d().v2_best_subject)}：${esc(v2Best.name)}${v2Best.hours?` <span class="v2-chip-ok">${esc(d().eval2_hours)} ${v2Best.hours}</span>`:` <span class="v2-chip-bad">${esc(v2Best.stateLabel)}</span>`}</div>${v2Best.hoursList&&v2Best.hoursList.length?`<div class="best-window-row">${esc(d().best_window)}<b>${esc(formatHourSegments(v2Best.hoursList))}</b></div>`:(v2Best.nextLocal?`<div class="best-window-row">${esc(d().v2_next_window)}<b>${esc(v2Best.nextLocal)}</b></div>`:'')}`:'';
       const reasonHtml=(researchPending||noViable||v2Summary)?'':`${showIndicator?`<div><span class="indicator-pill">${indicator}</span></div>`:''}${factorHtml?`<div class="factor-row card-factor-row">${factorHtml}${factorMore}</div>`:''}`;
       const distance=distanceToSpotKm(spot);const distanceChip=currentSortMode.startsWith('distance_')&&distance!==null?`<span class="metric-chip">📍 ${distance<10?distance.toFixed(1):Math.round(distance)} km</span>`:'';
       const compactMetrics=(researchPending||noViable)?`<span class="metric-chip">🌡 ${formatTemp(metric.temp)}</span>`:[
@@ -976,11 +976,16 @@
         body.innerHTML=`<div class="unresearched-note">${esc(d().guide_unresearched)}</div>`;
         overlay.style.display='flex';syncModalScrollLock();return;
       }
-      const rankedOpportunities=opportunities.map((op,index)=>{const raw=dayScores[op.opportunity_id]?.score;const score=raw===null||raw===undefined?null:Number(raw);return {op,index,score:Number.isFinite(score)?score:null};}).sort((a,b)=>{if(a.score===null&&b.score===null)return a.index-b.index;if(a.score===null)return 1;if(b.score===null)return -1;return (b.score-a.score)||(a.index-b.index);}).map(x=>x.op);
-      const hasSelectedDateEvaluation=op=>{
-        const m=dayScores[op.opportunity_id];
-        return !!m&&!m.research_pending&&!m.no_viable_opportunity;
-      };
+      const v2pl=(v2EvalBundle&&(v2EvalBundle.places||[]).find(pl=>pl.place_id===spot.spot_id))||null;
+      const v2Hours={};
+      (v2pl?(v2pl.opportunities||[]):[]).forEach(o=>{const dy=(o.days||[])[selectedDayOffset()];v2Hours[o.opportunity_id]=dy?((dy.hour_counts&&dy.hour_counts.GUIDANCE_SATISFIED)||0):null;});
+      const rankedOpportunities=opportunities.map((op,index)=>{const hours=v2Hours[op.opportunity_id];return {op,index,hours:Number.isFinite(hours)?hours:null};}).sort((a,b)=>{
+        if(a.hours===null&&b.hours===null)return a.index-b.index;
+        if(a.hours===null)return 1;
+        if(b.hours===null)return -1;
+        return (b.hours-a.hours)||(a.index-b.index);
+      }).map(x=>x.op);
+      const hasSelectedDateEvaluation=op=>v2Hours[op.opportunity_id]!==undefined&&v2Hours[op.opportunity_id]!==null;
       const selectedDateOpportunities=rankedOpportunities.filter(hasSelectedDateEvaluation);
       const selectedDateIds=new Set(selectedDateOpportunities.map(op=>op.opportunity_id));
       const guideOnlyOpportunities=rankedOpportunities.filter(op=>!selectedDateIds.has(op.opportunity_id));
@@ -1008,14 +1013,14 @@
         const v2op=v2pl?(v2pl.opportunities||[]).find(o=>o.opportunity_id===op.opportunity_id):null;
         const v2day=v2op?(v2op.days||[])[selectedDayOffset()]:null;
         const v2CurLabel=v2day?(v2day.state==='GUIDANCE_SATISFIED'?d().state_ok:v2day.state==='UNFAVORABLE'?d().state_bad:d().eval2_unk):'';
-        const v2CurWin=v2day&&(v2day.good_hours||[]).length?` · ${esc(v2day.good_hours[0])}${v2day.good_hours.length>1?'–'+esc(v2day.good_hours[v2day.good_hours.length-1]):''}`:'';
+        const v2CurWin=v2day&&(v2day.good_hours||[]).length?` · ${esc(formatHourSegments(v2day.good_hours))}`:'';
         const current=!guideOnly&&v2day?`<div class="opportunity-current">${esc(v2CurLabel)}${v2CurWin}</div>`:'';
         const scoreFactors='';
         const scoreStatus=!guideOnly&&m?scoreVerdict.primary:'';
         const scoreStatusDetail=!guideOnly&&m?scoreVerdict.detail:'';
         const scoreIndicator=!guideOnly&&m&&['recommended','candidate'].includes(recommendationState(m))?trMessage(m.indicator_key):'';
         const scoreConfidence=!guideOnly&&m?.score_confidence?`<div class="score-explain-confidence"><span class="research-label">${esc(d().guide_confidence)}：</span>${esc(confidenceLabel(m.score_confidence))}</div>`:'';
-        const scoreExplain=!guideOnly&&m?`<details class="score-explain"><summary>${esc(d().guide_score_why)}</summary><div class="score-explain-body"><div class="score-explain-status"><span class="research-label">${esc(d().guide_score_status)}：</span>${esc(scoreStatus)}${scoreStatusDetail&&scoreStatusDetail!==scoreStatus?`<br>${esc(scoreStatusDetail)}`:''}${scoreIndicator&&scoreIndicator!==scoreStatus&&scoreIndicator!==scoreStatusDetail?`<br>${esc(scoreIndicator)}`:''}</div>${scoreConfidence}${scoreFactors?`<div class="factor-row">${scoreFactors}</div>`:''}</div></details>`:'';
+        const scoreExplain='';
         const metaRows=[];
         const dayBestWindow=!guideOnly&&m&&(m.window_start||m.best_time)?fmtWindow(m):'';
         const modalRecommendationState=!guideOnly&&m?recommendationState(m):'unavailable';
@@ -1172,6 +1177,18 @@
       ja: { mountain_view:'山の眺望', overlook:'高所展望', reflection:'水面反射', cloud_sea:'雲海', sunrise:'日の出', sunset:'夕景', golden_hour:'ゴールデンアワー', blue_hour_city:'都市ブルーアワー', overcast_soft:'曇天ソフトライト', city_night:'都市夜景', night_sky:'星空', seasonal_plant:'季節の植物', geological_landform:'地形・地質', waterfall:'滝' }
     };
     function v2GenreName(g){const dict=V2_GENRES[currentLang]||V2_GENRES['zh-TW'];return dict[g]||g;}
+    function formatHourSegments(list){
+      const times=(list||[]).map(t=>{const h=String(t||'').slice(-5);const m=/^(\d{2}):(\d{2})$/.exec(h);return m?Number(m[1])*60+Number(m[2]):null;}).filter(v=>v!==null).sort((a,b)=>a-b);
+      if(!times.length)return '';
+      const segs=[];let st=times[0],en=times[0];
+      for(let i=1;i<times.length;i++){
+        if(times[i]-en<=60){en=times[i];}
+        else{segs.push([st,en]);st=times[i];en=times[i];}
+      }
+      segs.push([st,en]);
+      const fmt=v=>String(Math.floor(v/60)).padStart(2,'0')+':'+String(v%60).padStart(2,'0');
+      return segs.map(sg=>sg[0]===sg[1]?fmt(sg[0]):fmt(sg[0])+'–'+fmt(sg[1])).join('、');
+    }
     function v2ContractThreshold(c){
       const th=c.threshold;
       if(th==null)return'—';
