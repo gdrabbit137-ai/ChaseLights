@@ -1,4 +1,4 @@
-import {LOCALES,placeId,opportunityId,linkedPlaceId,localized,safeUrl,navigationAction,geometryType,relationValue,runtimeEvaluation,associated,researchTopic} from "./model.mjs";
+import {LOCALES,placeId,opportunityId,linkedPlaceId,localized,safeUrl,navigationAction,geometryType,relationValue,runtimeEvaluation,associated,researchTopic,displayLocalizedName} from "./model.mjs";
 import {createCatalogState} from "./catalog-state.mjs";
 import {browse,validateBrowseIndex} from "./browse-index.mjs";
 import {CATALOG_SHA256,BROWSE_INDEX_SHA256} from "./bundle-digests.mjs";
@@ -156,7 +156,7 @@ function renderTopics(){
   for(const topic of index.topic_index.topics){
     const label=node("label","topic-option");const input=node("input");input.type="checkbox";input.value=topic.topic_id;input.checked=selectedTopics.has(topic.topic_id);
     input.addEventListener("change",()=>{if(input.checked)selectedTopics.add(topic.topic_id);else selectedTopics.delete(topic.topic_id);renderPlaces();renderDetail();});
-    label.append(input,node("span","",topic.name_i18n[state.locale]));target.append(label);
+    label.append(input,node("span","",displayLocalizedName(topic.name_i18n,state.locale)));target.append(label);
   }
 }
 function matchingRows(){
@@ -226,7 +226,7 @@ function renderOpportunity(target,opp,c,place){
   card.setAttribute("aria-labelledby",heading.id);
   const top=node("div","opportunity-head");top.append(heading,node("span","pill",t("researchOnly")));card.append(top);
   const topics=activeIndex()?.topic_index.opportunity_topics.find(x=>x.opportunity_id===oid)?.topic_ids||[];
-  if(topics.length)card.append(node("p","meta",topics.map(id=>activeIndex().topic_index.topics.find(x=>x.topic_id===id)?.name_i18n[state.locale]).join(" · ")));
+  if(topics.length)card.append(node("p","meta",topics.map(id=>displayLocalizedName(activeIndex().topic_index.topics.find(x=>x.topic_id===id)?.name_i18n,state.locale)).join(" · ")));
   else card.append(node("p","meta",t("unclassified")));
   const rc=researchCopy[state.locale],prov=opp.provenance||{};
   const guide=node("section","topic-guide");guide.append(node("h4","",t("topicGuide")));

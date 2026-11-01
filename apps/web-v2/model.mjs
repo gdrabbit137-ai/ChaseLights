@@ -22,13 +22,60 @@ export function normalizeCatalog(input) {
 export function placeId(place) { return idOf(place,["spot_id","place_id","id"]); }
 export function opportunityId(opp) { return idOf(opp,["opportunity_id","id"]); }
 export function linkedPlaceId(opp) { return idOf(opp,["place_id","spot_id"]); }
+// CL-UI-07: provisional/pending internal-state markers must never reach the UI.
+// These are the exact marker strings the pre-fix W2 generator baked into name
+// and description display strings; matching them exactly (not fuzzily) means
+// honest degradation/advisory copy is never filtered by mistake. Shipped
+// bundles are regenerated without them; this filter is defense in depth for
+// stale cached data and for any imported JSON that still carries markers.
+const PROVISIONAL_MARKERS = [
+  " (provisional English title, pending review)",
+  "（暫定日本語タイトル、レビュー待ち）",
+  " (zh-TW source values retained pending translation).",
+  "（zh-TW原文のまま、翻訳待ち）。",
+];
+function markerTainted(value) {
+  return typeof value === "string" && PROVISIONAL_MARKERS.some((m) => value.includes(m));
+}
+export function displayLocalizedName(i18n, locale) {
+  // Safe display for any raw name_i18n object (topic labels etc.): requested
+  // locale first, then the zh-TW source value as a neutral readable fallback.
+  if (!i18n || typeof i18n !== "object") return null;
+  for (const l of [locale, "zh-TW"]) {
+    const v = typeof i18n[l] === "string" ? i18n[l].trim() : "";
+    if (v && !markerTainted(v)) return v;
+  }
+  return null;
+}
+// Name-display paths (place/opportunity/subject names) fall back to the zh-TW
+// source name when the requested locale has no reviewed value; other semantic
+// fields keep the no-silent-fallback rule (callers show the missing-translation
+// notice instead). CL-UI-07, owner-approved.
+const NAME_KEYS = new Set(["name", "canonical_name", "title"]);
 export function localized(record, key, locale, properName = false) {
   if (!record || !LOCALES.includes(locale)) return null;
-  for (const value of [record[key + "_i18n"],record[key]]) {
-    if (value && typeof value === "object" && !Array.isArray(value) && typeof value[locale] === "string" && value[locale].trim()) return value[locale].trim();
+  const usable = (v) => {
+    const s = typeof v === "string" ? v.trim() : "";
+    return s && !markerTainted(s) ? s : null;
+  };
+  for (const value of [record[key + "_i18n"], record[key]]) {
+    if (value && typeof value === "object" && !Array.isArray(value)) {
+      const v = usable(value[locale]);
+      if (v) return v;
+      if (NAME_KEYS.has(key) && locale !== "zh-TW") {
+        const zh = usable(value["zh-TW"]);
+        if (zh) return zh;
+      }
+    }
   }
-  if (locale === "zh-TW" && typeof record[key + "_zh"] === "string" && record[key + "_zh"].trim()) return record[key + "_zh"].trim();
-  if (properName && typeof record[key] === "string" && record[key].trim()) return record[key].trim();
+  if (locale === "zh-TW" && typeof record[key + "_zh"] === "string") {
+    const v = usable(record[key + "_zh"]);
+    if (v) return v;
+  }
+  if (properName && typeof record[key] === "string") {
+    const v = usable(record[key]);
+    if (v) return v;
+  }
   return null;
 }
 export function safeUrl(value) {
