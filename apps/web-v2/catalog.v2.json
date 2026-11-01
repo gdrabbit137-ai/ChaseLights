@@ -3,8 +3,8 @@
   "research_only": true,
   "forecast_available": false,
   "selected_date_recommendation_eligible": false,
-  "source_index_commit_sha": "47907cdd4f15843540a50eed25fc4bab9d6d81c8",
-  "source_index_revision": "sha256:8f5962879af45e243047e5f48fc124900680d791e6fa64359f08ae12322b3732",
+  "source_index_commit_sha": "daa700116ffecc97b39463ce0f835bb85e45f02b",
+  "source_index_revision": "sha256:cf5afa860b4e58deca5030aea623bb224e9b0487a9b7b1aa306c25f81a4bf877",
   "source_pins": {
     "jp-002-P01": {
       "source_commit_sha": "0f8f754027d23d12f966459d115e920d1d192d68",
@@ -487,9 +487,9 @@
       "revision": 1
     },
     "tw-019-P04": {
-      "source_commit_sha": "ea0f68b974d6897b1029d5fb718b0ae4fb229535",
+      "source_commit_sha": "640960c2049547a55da01230497d0cd6462c90a3",
       "source_path": "data/v2/opportunities/tw-019-P04.json",
-      "source_blob_sha": "bdedcdaeb80a64ca8122c87298592a6852e8d6ed",
+      "source_blob_sha": "83f08f2f30fb6879cb84f05cb819880dcf3a8614",
       "revision": 1
     },
     "tw-019-P05": {
@@ -877,9 +877,9 @@
       "revision": 1
     },
     "tw-040-P04": {
-      "source_commit_sha": "ea0f68b974d6897b1029d5fb718b0ae4fb229535",
+      "source_commit_sha": "640960c2049547a55da01230497d0cd6462c90a3",
       "source_path": "data/v2/opportunities/tw-040-P04.json",
-      "source_blob_sha": "8924602e44550885fbcd476955b5e1baa7de1998",
+      "source_blob_sha": "e9e2b2e924ff34f774679b808e28216a04647623",
       "revision": 1
     },
     "tw-040-P05": {
@@ -25808,7 +25808,7 @@
             "domain": "WEATHER",
             "evaluation_mode": "GUIDANCE",
             "capability": "CONDITIONS",
-            "metric": "temperature_delta_850_925_c",
+            "metric": "temperature_delta_700_600_c",
             "operator": "gte",
             "threshold": 0.0,
             "unit": "°C",
@@ -25833,7 +25833,7 @@
             "domain": "WEATHER",
             "evaluation_mode": "GUIDANCE",
             "capability": "CONDITIONS",
-            "metric": "wind_speed_850hpa",
+            "metric": "wind_speed_600hpa",
             "operator": "lt",
             "threshold": 12.0,
             "unit": "m/s",
@@ -42028,7 +42028,7 @@
             "domain": "WEATHER",
             "evaluation_mode": "GUIDANCE",
             "capability": "CONDITIONS",
-            "metric": "temperature_delta_850_925_c",
+            "metric": "temperature_delta_700_600_c",
             "operator": "gte",
             "threshold": 0.0,
             "unit": "°C",
@@ -42053,7 +42053,7 @@
             "domain": "WEATHER",
             "evaluation_mode": "GUIDANCE",
             "capability": "CONDITIONS",
-            "metric": "wind_speed_850hpa",
+            "metric": "wind_speed_600hpa",
             "operator": "lt",
             "threshold": 12.0,
             "unit": "m/s",

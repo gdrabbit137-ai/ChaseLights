@@ -12,8 +12,8 @@ const index=JSON.parse(rawIndex),source=JSON.parse(rawCatalog),catalog=importV21
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
 test('W2 index and 353 canonical sources remain source pinned (aurora removed 2026-10-26; us-022/tw-082-P06 removed 2026-10-31)',()=>{
-  assert.equal(sha256(rawIndex),'2d502d03527ab529b0702cdd5d0d7a80542d8a327634629f2ebf14d43b2fe5af');
-  assert.equal(sha256(rawCatalog),'0a8c091f9ae57aa2662adcd502a9b1d79b0dc6309fda7524b60f3583845c477b');
+  assert.equal(sha256(rawIndex),'cc5b79fbe6c4ea8dfd91e803f46a594659c43e49e571414f2bbf77444ca26742');
+  assert.equal(sha256(rawCatalog),'207db8029d2d0e92c321f7ecd2bccb223e99f4ffbbf7c71d8224a4e7223b9c43');
   assert.equal(validateBrowseIndex(index,catalog),index);
   assert.equal(source.opportunities.length,353);assert.equal(source.places.length,189);
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];
