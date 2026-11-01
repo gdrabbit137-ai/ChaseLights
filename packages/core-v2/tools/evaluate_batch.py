@@ -107,8 +107,31 @@ def condition_verdict(condition, values, astro_row):
     return ("PASS" if passed else "FAIL"), "FORECAST_THRESHOLD"
 
 
+BOOLEAN_VALUE_SATISFIED = "satisfied"
+BOOLEAN_VALUE_UNSATISFIED = "unsatisfied"
+
+
+def boolean_value_label(value):
+    """Map a raw boolean observation to the stable display enum (CL-UI-06).
+
+    Contract (owner-ratified 2026-11): condition.value must never be a raw
+    JSON boolean. Boolean window-membership metrics (sunset_window,
+    sunrise_time_window, golden_hour_window, blue_hour_window,
+    astronomical_darkness, ...) are published as the enum strings
+    'satisfied' / 'unsatisfied'; the UI maps these to localized labels.
+    Non-boolean values pass through unchanged.
+    """
+    if isinstance(value, bool):
+        return BOOLEAN_VALUE_SATISFIED if value else BOOLEAN_VALUE_UNSATISFIED
+    return value
+
+
 def condition_value(condition, values, astro_row):
-    """Observation used for the verdict, for live display (not a score)."""
+    """Observation used for the verdict, for live display (not a score).
+
+    Boolean observations are published as 'satisfied'/'unsatisfied' (never a
+    raw true/false) so no UI surface can leak an untranslated boolean.
+    """
     metric = condition.get("metric")
     operator = condition.get("operator") or "none"
     if metric in NO_SOURCE_METRICS:
@@ -116,11 +139,11 @@ def condition_value(condition, values, astro_row):
     if metric in DECLARED_PASS_METRICS:
         return "declared"
     if metric in ASTRO_METRICS:
-        return astro_row.get(metric)
+        return boolean_value_label(astro_row.get(metric))
     cell = values.get(metric)
     if not isinstance(cell, dict) or cell.get("state") != "AVAILABLE":
         return None
-    return cell.get("value")
+    return boolean_value_label(cell.get("value"))
 
 
 def hour_status(roles, verdicts):

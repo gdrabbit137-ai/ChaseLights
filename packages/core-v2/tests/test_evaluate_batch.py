@@ -88,6 +88,62 @@ class ConditionVerdictTests(unittest.TestCase):
         self.assertEqual(eb.condition_verdict(condition, {}, {}), ("UNKNOWN", "METRIC_NOT_MAPPED"))
 
 
+class ConditionValueContractTests(unittest.TestCase):
+    """CL-UI-06: condition.value must never be a raw JSON boolean."""
+
+    def test_astro_window_bool_maps_to_enum(self):
+        condition = {"metric": "sunset_window", "operator": "none",
+                     "threshold": None, "role": "QUALITY"}
+        self.assertEqual(eb.condition_value(condition, {}, {"sunset_window": True}),
+                         "satisfied")
+        self.assertEqual(eb.condition_value(condition, {}, {"sunset_window": False}),
+                         "unsatisfied")
+
+    def test_astro_bool_metrics_never_emit_raw_boolean(self):
+        condition = {"metric": "astronomical_darkness", "operator": "none",
+                     "threshold": None, "role": "REQUIRED"}
+        for raw in (True, False):
+            self.assertIn(eb.condition_value(condition, {}, {"astronomical_darkness": raw}),
+                          ("satisfied", "unsatisfied"))
+
+    def test_astro_numeric_passes_through(self):
+        condition = {"metric": "moon_altitude", "operator": "gte",
+                     "threshold": 10, "role": "REQUIRED"}
+        self.assertEqual(eb.condition_value(condition, {}, {"moon_altitude": 25.5}), 25.5)
+        self.assertIsNone(eb.condition_value(condition, {}, {"moon_altitude": None}))
+
+    def test_no_source_metric_value_none(self):
+        condition = {"metric": "water_surface_state", "operator": "none",
+                     "threshold": None, "role": "REQUIRED"}
+        self.assertIsNone(eb.condition_value(condition, {}, {}))
+
+    def test_declared_metric_value_enum(self):
+        condition = {"metric": "landform_present", "operator": "none",
+                     "threshold": None, "role": "REQUIRED"}
+        self.assertEqual(eb.condition_value(condition, {}, {}), "declared")
+
+    def test_weather_boolean_cell_maps_to_enum(self):
+        condition = {"metric": "river_flow_state", "operator": "is_true",
+                     "threshold": None, "role": "REQUIRED"}
+        cell = {"value": True, "state": "AVAILABLE"}
+        self.assertEqual(eb.condition_value(condition, {"river_flow_state": cell}, {}),
+                         "satisfied")
+        cell["value"] = False
+        self.assertEqual(eb.condition_value(condition, {"river_flow_state": cell}, {}),
+                         "unsatisfied")
+
+    def test_unavailable_weather_cell_value_none(self):
+        condition = {"metric": "cloud_cover_low", "operator": "lte",
+                     "threshold": 55, "role": "REQUIRED"}
+        cell = {"value": None, "state": "UNAVAILABLE"}
+        self.assertIsNone(eb.condition_value(condition, {"cloud_cover_low": cell}, {}))
+
+    def test_enum_constants_are_strings(self):
+        self.assertEqual(eb.BOOLEAN_VALUE_SATISFIED, "satisfied")
+        self.assertEqual(eb.BOOLEAN_VALUE_UNSATISFIED, "unsatisfied")
+        self.assertNotIsInstance(eb.BOOLEAN_VALUE_SATISFIED, bool)
+
+
 class BundleShapeTests(unittest.TestCase):
     def test_generated_bundle_validates(self):
         import json
