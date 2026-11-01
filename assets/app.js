@@ -1253,7 +1253,12 @@
     }
     function ensureV2EvalBundle(){
       if(!v2EvalBundlePromise){
-        v2EvalBundlePromise=fetch('./apps/web-v2/evaluations-latest.json',{cache:'no-cache'})
+        // 15s timeout: a hung fetch must never leave the promise unsettled,
+        // otherwise the single gated render never fires and the page stays
+        // blank on first load. 15s tolerates slow mobile networks; timing out
+        // rejects into .catch → resolves null → fail-closed research_pending
+        // card (a later reload retries via the null-reset path).
+        v2EvalBundlePromise=fetch('./apps/web-v2/evaluations-latest.json',{cache:'no-cache',signal:AbortSignal.timeout(15000)})
           .then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
           .then(j=>{v2EvalBundle=j;return j;})
           .catch(()=>{v2EvalBundlePromise=null;return null;});

@@ -21,7 +21,7 @@ const showUpdateBlock = block('function showUpdateIndicator', 'function hideUpda
 
 test('CL-UI-10 (a): reload/region-switch with existing content does not wipe the container', () => {
   // The container must only be cleared inside the no-existing-content branch.
-  assert.match(applyDataBlock.length >= 0 ? loadDataBlock : loadDataBlock, /const hasRendered=container\.children\.length>0&&currentData!==null;/);
+  assert.match(loadDataBlock, /const hasRendered=container\.children\.length>0&&currentData!==null;/);
   const branch = loadDataBlock.slice(loadDataBlock.indexOf('if(hasRendered)'), loadDataBlock.indexOf('const url='));
   assert.ok(branch.length > 0, 'hasRendered branch not found in loadData');
   // The wipe + loading splash only happens when there is no existing content.
@@ -61,6 +61,29 @@ test('CL-UI-10 (b): gate semantics unchanged — fail-closed conservative copy w
   // The bundle promise resolves null on failure (fail-closed stays reachable).
   const ensureBundleBlock = block('function ensureV2EvalBundle', 'function v2MetricName');
   assert.match(ensureBundleBlock, /catch\(\(\)=>\{v2EvalBundlePromise=null;return null;\}\)/);
+});
+
+test('CL-UI-10 (b): fetch timeout guarantees the bundle promise always settles', () => {
+  // Regression: an unresolved fetch left the promise pending forever, so the
+  // single gated render never ran and first load stayed blank. The fetch must
+  // carry an abort timeout (10–15s chosen to tolerate slow mobile networks)
+  // so a hang rejects → .catch resets the promise → resolves null → the same
+  // single filterAndRender runs once and the card shows research_pending copy.
+  const ensureBundleBlock = block('function ensureV2EvalBundle', 'function v2MetricName');
+  assert.match(ensureBundleBlock, /signal:AbortSignal\.timeout\(\d+\)/,
+    'the bundle fetch must carry an AbortSignal.timeout');
+  const ms = Number(ensureBundleBlock.match(/AbortSignal\.timeout\((\d+)\)/)[1]);
+  assert.ok(ms >= 10000 && ms <= 15000, `timeout must be 10-15s, got ${ms}ms`);
+  // Timeout rejection reaches the existing catch: nothing added between the
+  // fetch chain and the null-reset catch, so fail-closed stays the only path.
+  const chain = ensureBundleBlock.slice(ensureBundleBlock.indexOf('fetch('));
+  const catchIdx = chain.indexOf('.catch(()=>{v2EvalBundlePromise=null;return null;})');
+  assert.ok(catchIdx >= 0, 'the null-reset catch must still terminate the fetch chain');
+  assert.equal(chain.indexOf('.then(', catchIdx), -1,
+    'no handler may be chained after the null-reset catch');
+  // No second render path: applyData still renders exactly once, via the gate.
+  const calls = (applyDataBlock.match(/filterAndRender\(\)/g) || []).length;
+  assert.equal(calls, 1);
 });
 
 test('CL-UI-10 (c): the update indicator uses the shared i18n "updating" copy, no internal labels', () => {
