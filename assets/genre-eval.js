@@ -48,7 +48,7 @@
     }
   };
 
-  let lang = localStorage.getItem('chaselights_lang') || 'zh-TW';
+  let lang = (typeof localStorage !== 'undefined' && localStorage.getItem('chaselights_lang')) || 'zh-TW';
   if (!I18N[lang]) lang = 'zh-TW';
   let bundle = null;
   let expandedPlaces = new Set();
@@ -60,6 +60,14 @@
   const t = () => I18N[lang];
 
   function esc(v) { return String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+
+  // CL-UI-09: English count pluralization — 1 subject / N subjects.
+  // zh-TW/ja do not inflect for count (個題材/题材 are invariant).
+  function subjectCountLabel(n, lang) {
+    if (lang === 'en') return n === 1 ? 'subject' : 'subjects';
+    if (lang === 'ja') return '题材';
+    return '個題材';
+  }
 
   function localizedName(obj) {
     if (!obj) return '';
@@ -181,7 +189,7 @@
       return `<div class="eval-place ${open ? 'open' : ''}" data-place-id="${esc(p.place_id)}">
         <div class="eval-place-head" data-place="${esc(p.place_id)}">
           <h3>${esc(localizedName(p.name_i18n))}</h3>
-          <span class="count">${opps.length} ${lang === 'en' ? 'subjects' : lang === 'ja' ? '题材' : '個題材'}</span>
+          <span class="count">${opps.length} ${subjectCountLabel(opps.length, lang)}</span>
         </div>
         <div class="eval-opps">${open ? (oppHtml || `<p class="eval-muted">${esc(t().no_data)}</p>`) : ''}</div>
       </div>`;
@@ -264,5 +272,10 @@
     render();
   }
 
-  init();
+  // Test/export hook: allow Node (node --test) to import the pure helpers
+  // without booting the DOM-driven UI.
+  if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { subjectCountLabel };
+  }
+  if (typeof document !== 'undefined') init();
 })();
