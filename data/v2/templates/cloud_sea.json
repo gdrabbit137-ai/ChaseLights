@@ -210,9 +210,9 @@
       "threshold_source": "formula_derived",
       "calibration_status": "provisional",
       "rationale_i18n": {
-        "zh-TW": "逆溫封蓋：850 hPa 比下層更暖＝蓋子存在，雲海存續的直接因果，強加分。資料欄位由管線以 T850−T925 推導；缺欄位時誠實 not_evaluatable。",
-        "en": "Inversion cap: warmer air at 850 hPa than below means a capping layer exists - the direct cause of a persistent cloud sea, hence a strong bonus. The pipeline derives the metric as T850 minus T925; missing columns stay honestly not_evaluatable.",
-        "ja": "逆転層の蓋：850 hPaが下層より暖かい＝蓋が存在し、雲海持続の直接的な因果として大きく加点。指標はT850−T925として導出し、列が欠ければ正直にnot_evaluatable。"
+        "zh-TW": "逆溫封蓋：上層不比下層冷（Δ≥0 °C）即視為蓋子存在——等溫或弱逆溫已足以把水氣壓在下方，門檻由 ≥2.0 °C 放寬以降低漏報。屬加分項，不否決。氣壓層依景點高度綁定；缺欄位時誠實 not_evaluatable。",
+        "en": "Inversion lid: as soon as the upper level is not colder than the lower one (delta >= 0 C) a lid exists - isothermal or weakly inverted air already traps moisture below; the threshold was relaxed from 2.0 C to cut false negatives. Advisory bonus, never a veto. Pressure levels are bound to the spot elevation; missing columns stay honestly not_evaluatable.",
+        "ja": "逆転層の蓋：上位面が下位面より寒くなければ（Δ≥0 ℃）蓋があるとみなす——等温や弱い逆転でも下の湿気を押さえるには十分で、誤否定を減らすため閾値を2.0 ℃から緩和。加点項であり単独では否決しない。気圧面は地点の標高に応じて選定し、欠損時は正直にnot_evaluatable。"
       },
       "binding": {
         "dataset": "cwa_wrf3",
@@ -220,7 +220,7 @@
         "level": "850hpa,925hpa",
         "role": "SHORT_HQ"
       },
-      "threshold": 2.0
+      "threshold": 0.0
     },
     {
       "template_ref": "T8",
@@ -230,15 +230,15 @@
       "evaluation_mode": "GUIDANCE",
       "capability": "CONDITIONS",
       "condition_tier": "MODIFIER",
-      "operator": "gte",
+      "operator": "lt",
       "unit": "m/s",
       "unknown_policy": "propagate_unknown",
       "threshold_source": "formula_derived",
       "calibration_status": "provisional",
       "rationale_i18n": {
-        "zh-TW": "邊界層風是雲海的侵蝕媒介，只在逆溫訊號弱時參與扣分（修正項，不單獨否決）。選層以高度綁定：目標＝雲頂估計（600–1,090 m）＋200 m，於 925/850 中取 geopotential 高度最接近者，輸出註明採用層；固定氣壓層高度浮動 ±150 m、兩層間空檔約 600 m，選層誤差 ±300 m 以內。地表 10 m 風不使用（三腳架等作業面屬攝影師判斷）。",
-        "en": "Boundary-layer wind erodes the deck, but only deducts when the inversion signal is weak (a modifier, never a lone veto). Level selection is height-bound: target = deck-top estimate (600-1,090 m) + 200 m, picking whichever of 925/850 hPa has the nearest geopotential height, with the selected level recorded in the output. Fixed pressure levels wobble ~150 m and the inter-level gap is ~600 m, so selection error stays within ~300 m. Surface 10 m wind is excluded: tripod handling is the photographer own business.",
-        "ja": "境界層の風は雲海を侵食するが、逆転層の信号が弱いときだけ減点に参加する（修正項であり単独では否決しない）。選層は高度束縛：目標＝雲頂推定（600-1,090m）+200m とし、925/850 hPa のうち geopotential 高度が最も近い層を採用し、出力に選択層を記録する。気圧面高度は約±150m変動し層間の空隙は約600mあるため、選層誤差は±300m以内。地上10m風は使用しない（三脚対応は撮影者の裁量）。"
+        "zh-TW": "邊界層微風（<12 m/s）有利雲海存續：風是雲海的侵蝕媒介，強風時此加分項不成立（修正項，不單獨否決）。氣壓層依景點高度綁定；地表 10 m 風不使用（三腳架作業屬攝影師判斷）。",
+        "en": "Light boundary-layer wind (<12 m/s) favours persistence: wind erodes a sea of clouds, so in strong wind this bonus does not apply (advisory, never a lone veto). The pressure level is bound to the spot elevation; surface 10 m wind is excluded - tripod handling is the photographer own call.",
+        "ja": "境界層の微風（<12 m/s）は雲海の維持に有利：風は雲海を侵食するため、強風時はこの加点は成立しない（参考項、単独では否決しない）。気圧面は地点標高に応じて選定。地上10m風は使用しない（三脚対応は撮影者の裁量）。"
       },
       "binding": {
         "dataset": "cwa_wrf3",

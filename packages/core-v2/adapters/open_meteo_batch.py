@@ -32,6 +32,8 @@ FORECAST_FIELDS = [
     "wind_speed_10m", "visibility", "precipitation", "precipitation_probability",
     "temperature_925hPa", "relative_humidity_925hPa",
     "temperature_850hPa", "relative_humidity_850hPa", "wind_speed_850hPa",
+    "temperature_700hPa", "relative_humidity_700hPa", "wind_speed_700hPa",
+    "temperature_600hPa", "relative_humidity_600hPa", "wind_speed_600hPa",
 ]
 AQ_FIELDS = ["aerosol_optical_depth"]
 FORECAST_URL = "https://api.open-meteo.com/v1/forecast"
@@ -150,6 +152,10 @@ def fetch_place(lat, lon, forecast_hours=72):
             "relative_humidity_925hpa": _cell(_at(hourly, "relative_humidity_925hPa", index), "%", minimum=0, maximum=100),
             "relative_humidity_850hpa": _cell(_at(hourly, "relative_humidity_850hPa", index), "%", minimum=0, maximum=100),
             "wind_speed_850hpa": _cell(_at(hourly, "wind_speed_850hPa", index), "m/s", minimum=0),
+            "relative_humidity_700hpa": _cell(_at(hourly, "relative_humidity_700hPa", index), "%", minimum=0, maximum=100),
+            "relative_humidity_600hpa": _cell(_at(hourly, "relative_humidity_600hPa", index), "%", minimum=0, maximum=100),
+            "wind_speed_700hpa": _cell(_at(hourly, "wind_speed_700hPa", index), "m/s", minimum=0),
+            "wind_speed_600hpa": _cell(_at(hourly, "wind_speed_600hPa", index), "m/s", minimum=0),
             "aod_550nm": _cell(
                 aod_by_time.get(
                     datetime.fromtimestamp(t, timezone.utc).strftime("%Y-%m-%dT%H:00Z")),
@@ -162,6 +168,16 @@ def fetch_place(lat, lon, forecast_hours=72):
         else:
             delta = None
         values["temperature_delta_850_925_c"] = _cell(delta, "°C")
+        t700 = _at(hourly, "temperature_700hPa", index)
+        t600 = _at(hourly, "temperature_600hPa", index)
+        if t850 is not None and t700 is not None:
+            values["temperature_delta_850_700_c"] = _cell(t700 - t850, "°C")
+        else:
+            values["temperature_delta_850_700_c"] = _cell(None, "°C")
+        if t700 is not None and t600 is not None:
+            values["temperature_delta_700_600_c"] = _cell(t600 - t700, "°C")
+        else:
+            values["temperature_delta_700_600_c"] = _cell(None, "°C")
         t2m = _at(hourly, "temperature_2m", index)
         td2m = _at(hourly, "dew_point_2m", index)
         values["lcl_height_m_agl"] = _cell(_lcl_height_m(t2m, td2m), "m", minimum=0)
@@ -192,6 +208,12 @@ def fetch_place(lat, lon, forecast_hours=72):
             "lcl_height_m_agl": "125*(T2m-Td2m) parcel approximation, metres above ground",
             "cloud_cover_mid_and_high": "max(mid, high) worst-layer",
             "temperature_delta_850_925_c": "T850-T925 inversion indicator",
+            "temperature_delta_850_700_c": "T850-T700 inversion indicator (mid elevations)",
+            "temperature_delta_700_600_c": "T700-T600 inversion indicator (high-mountain spots)",
+            "relative_humidity_700hpa": "elevation-bound lower-layer humidity",
+            "relative_humidity_600hpa": "elevation-bound upper-layer humidity",
+            "wind_speed_600hpa": "elevation-bound boundary-layer wind (high-mountain spots)",
+            "wind_speed_700hpa": "elevation-bound boundary-layer wind (mid elevations)",
         },
         "hours": hours,
     }

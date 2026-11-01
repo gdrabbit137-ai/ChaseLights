@@ -1,5 +1,5 @@
 {
-  "version": "0.6",
+  "version": "0.7",
   "note": "Metric vocabulary for genre condition templates. Condition metrics are unit-normalized ids; bindings map a metric to dataset fields (field naming follows DATA_SOURCE_TIERING_SPEC manifest style: name + unit suffix). '+' joins the fields a derived metric consumes.",
   "metrics": {
     "relative_humidity_925hpa": {
@@ -299,6 +299,80 @@
         "en": "Presence of the static rock-landform subject is declared by the opportunity definition (confirmed by the owner at spot creation), not evaluated live; propagate_unknown as fallback.",
         "ja": "静的な岩質地景の存在は機会定義側で宣言（オーナーが登録時に確認）。ライブ評価ではない。propagate_unknownでフォールバック。"
       }
+    },
+    "relative_humidity_700hpa": {
+      "unit": "%",
+      "domain": "WEATHER",
+      "bindings": [
+        {
+          "dataset": "cwa_wrf3",
+          "field": "relative_humidity_700hpa_percent",
+          "level": "700hpa",
+          "role": "SHORT_HQ"
+        }
+      ]
+    },
+    "relative_humidity_600hpa": {
+      "unit": "%",
+      "domain": "WEATHER",
+      "bindings": [
+        {
+          "dataset": "cwa_wrf3",
+          "field": "relative_humidity_600hpa_percent",
+          "level": "600hpa",
+          "role": "SHORT_HQ"
+        }
+      ]
+    },
+    "wind_speed_600hpa": {
+      "unit": "m/s",
+      "domain": "WEATHER",
+      "bindings": [
+        {
+          "dataset": "cwa_wrf3",
+          "field": "wind_speed_600hpa_m_s",
+          "level": "600hpa",
+          "role": "SHORT_HQ"
+        }
+      ]
+    },
+    "wind_speed_700hpa": {
+      "unit": "m/s",
+      "domain": "WEATHER",
+      "bindings": [
+        {
+          "dataset": "cwa_wrf3",
+          "field": "wind_speed_700hpa_m_s",
+          "level": "700hpa",
+          "role": "SHORT_HQ"
+        }
+      ]
+    },
+    "temperature_delta_850_700_c": {
+      "unit": "°C",
+      "domain": "WEATHER",
+      "kind": "derived",
+      "bindings": [
+        {
+          "dataset": "cwa_wrf3",
+          "field": "temperature_850hpa_c+temperature_700hpa_c",
+          "level": "850hpa,700hpa",
+          "role": "SHORT_HQ"
+        }
+      ]
+    },
+    "temperature_delta_700_600_c": {
+      "unit": "°C",
+      "domain": "WEATHER",
+      "kind": "derived",
+      "bindings": [
+        {
+          "dataset": "cwa_wrf3",
+          "field": "temperature_700hpa_c+temperature_600hpa_c",
+          "level": "700hpa,600hpa",
+          "role": "SHORT_HQ"
+        }
+      ]
     }
   },
   "changelog": [
@@ -306,6 +380,7 @@
     "0.3 2026-10-26: add galactic_core_altitude, moon_target_separation_deg (night_sky milky-way layer)",
     "0.4 2026-10-26: add moon_illuminance_proxy (night_sky Milky-Way layer moon cap; closes the gibbous-moon gap left when the layer was restructured)",
     "0.5 2026-10-26: add golden_hour_window (golden_hour / overcast_soft draft templates, light-direction condition genres for人文/architecture and soft-light subjects)",
-    "0.6 2026-10-26: add river_flow_state (waterfall template, 72h accumulated precip mapping, provisional), landform_present (geological_landform template, observation metric)"
+    "0.6 2026-10-26: add river_flow_state (waterfall template, 72h accumulated precip mapping, provisional), landform_present (geological_landform template, observation metric)",
+    "0.7 2026-10-31: elevation-bound pressure levels for high-mountain cloud sea (700/600 hPa): add relative_humidity_700hpa/600hpa, wind_speed_600hpa/700hpa, temperature_delta_850_700_c, temperature_delta_700_600_c; cloud_sea inversion threshold relaxed to >=0C, wind flipped to lt 12 (calm bonus), galactic core altitude lowered to >=10 deg (spring low-core window)"
   ]
 }
