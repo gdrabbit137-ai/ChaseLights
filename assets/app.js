@@ -263,6 +263,46 @@
     const MIN_SCHEMA_VERSION=7, MAX_SCHEMA_VERSION=11;
     const schemaSupported=j=>Number.isInteger(j?.schema_version)&&j.schema_version>=MIN_SCHEMA_VERSION&&j.schema_version<=MAX_SCHEMA_VERSION;
     function clearMemoryDetails(region){for(const key of memoryDetails.keys())if(key.startsWith(`${region}:`))memoryDetails.delete(key);}
+    // CL-UI-11: F5 paints a fresh document, so even with CL-UI-10's in-page
+    // stale-while-revalidate a reload still flashed the loading splash before
+    // the cards appeared. We persist the last gated render (the HTML that
+    // already passed the CL-UI-05 verdict gate, plus the state that produced
+    // it) in sessionStorage and restore it synchronously on boot when it
+    // matches region/lang/day and is young. Key is per region+lang+day
+    // because the card output depends on all three.
+    const RENDER_SNAPSHOT_KEY_PREFIX='chaselights_last_render_';
+    // 10 minutes keeps the restored view inside one data refresh cycle: older
+    // snapshots go back to the normal loading path rather than showing
+    // materially stale weather behind a live-looking page.
+    const RENDER_SNAPSHOT_MAX_AGE_MS=10*60*1000;
+    const renderSnapshotKey=(region,lang,day)=>`${RENDER_SNAPSHOT_KEY_PREFIX}${region}_${lang}_${day}`;
+    function saveRenderSnapshot(){
+      if(!currentData)return;
+      const container=document.getElementById('spots-container');
+      if(!container||!container.children.length)return;
+      try{
+        const payload={v:1,region:currentRegion,lang:currentLang,day:currentDayFilter,updated_at:currentData.updated_at||null,saved_at:Date.now(),html:container.innerHTML};
+        const json=JSON.stringify(payload);
+        // Quota guard: only the card area is stored, and an oversized payload
+        // is skipped whole — never truncated mid-markup.
+        if(json.length>2000000)return;
+        sessionStorage.setItem(renderSnapshotKey(currentRegion,currentLang,currentDayFilter),json);
+      }catch{}
+    }
+    function loadRenderSnapshot(region){
+      try{
+        const raw=sessionStorage.getItem(renderSnapshotKey(region,currentLang,currentDayFilter));
+        if(!raw)return null;
+        const snap=JSON.parse(raw);
+        if(snap?.v!==1||snap.region!==region||snap.lang!==currentLang||snap.day!==currentDayFilter)return null;
+        if(typeof snap.html!=='string'||!snap.html)return null;
+        if(!Number.isFinite(snap.saved_at)||Date.now()-snap.saved_at>RENDER_SNAPSHOT_MAX_AGE_MS){
+          try{sessionStorage.removeItem(renderSnapshotKey(region,currentLang,currentDayFilter));}catch{}
+          return null;
+        }
+        return snap;
+      }catch{return null;}
+    }
 
     const d=()=>i18nDict[currentLang]||i18nDict['zh-TW'];
     // Place names are the one intentional locale exception: when a translated
@@ -841,12 +881,35 @@
       // loading splash — that wipe-then-repaint was the reload flash. Only a
       // first load with no existing content shows the loading message.
       const hasRendered=container.children.length>0&&currentData!==null;
+      let snapshotRestored=false;
       if(hasRendered){showUpdateIndicator();loading.style.display='none';}
-      else{container.innerHTML='';currentSpots=[];currentData=null;renderSubNav();loading.innerText=d().loading;loading.style.display='block';updateHeader();}
+      else{
+        // CL-UI-11: instant boot. The snapshot is the previous fully gated
+        // render (CL-UI-05/CL-UI-10 semantics baked into its HTML), so
+        // restoring it paints no unevaluated verdict. Cards stay inert until
+        // fresh data arrives (same non-interactive window as the splash, but
+        // without the flash); the fetch below keeps running and updates in
+        // place through the same single gated render. The header shows the
+        // snapshot's real data time — never presented as live.
+        const snapshot=hasRendered?null:loadRenderSnapshot(region);
+        if(snapshot){
+          snapshotRestored=true;
+          container.innerHTML=snapshot.html;
+          loading.style.display='none';
+          showUpdateIndicator();
+          const header=document.getElementById('update-time');
+          if(header)header.innerText=`${d().last_updated}${formatUpdated(snapshot.updated_at)}`;
+        }
+        else{container.innerHTML='';currentSpots=[];currentData=null;renderSubNav();loading.innerText=d().loading;loading.style.display='block';updateHeader();}
+      }
       const url=`./${region}_weather.json`;
       if(memorySummary.has(region)){applyData(memorySummary.get(region),region,seq);refreshSummary(region,url,seq,activeLoadController,true);return;}
       const cached=await cacheMatch(url);if(seq!==activeLoadSequence)return;if(cached){applyData(cached,region,seq);refreshSummary(region,url,seq,activeLoadController,true);return;}
-      await refreshSummary(region,url,seq,activeLoadController,false);
+      // CL-UI-11: after a snapshot restore, a fetch failure must not blast an
+      // error message over the restored cards — treat it like the CL-UI-10
+      // revalidate path (banner clears; the snapshot's own updated_at stays
+      // honest about the data age).
+      await refreshSummary(region,url,seq,activeLoadController,hasRendered||snapshotRestored);
     }
 
     function selectedDayOffset(){return currentDayFilter==='tomorrow'?1:currentDayFilter==='after_tomorrow'?2:0;}
@@ -994,7 +1057,7 @@
       const rows=[];for(const spot of filtered){const metric=getMetric(spot);if(metric)rows.push({spot,metric,distance:null});}
       sortRows(rows);
       updateFilterResultSummary(rows.length);
-      if(!rows.length){container.innerHTML=`<div class="empty-state">📭 ${esc(d().no_spots)}</div>`;return;}
+      if(!rows.length){container.innerHTML=`<div class="empty-state">📭 ${esc(d().no_spots)}</div>`;saveRenderSnapshot();return;}
 
       const viableRows=rows.filter(({metric})=>!metric.no_viable_opportunity);
       const deferredRows=rows.filter(({metric})=>!!metric.no_viable_opportunity);
@@ -1007,6 +1070,9 @@
         appendSpotRows(grid,deferredRows);
         details.append(summary,grid);container.appendChild(details);
       }
+      // CL-UI-11: persist the settled gated render so the next full reload can
+      // boot instantly from it (see loadRenderSnapshot).
+      saveRenderSnapshot();
     }
 
     function opportunityScoreClass(score){return score>=80?'high':score>=65?'mid':'low';}
