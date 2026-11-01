@@ -23,7 +23,8 @@ from datetime import datetime, timezone
 import sys
 from pathlib import Path
 
-_REPO = Path(__file__).resolve().parents[3]
+# repo root = packages/models-v2/astro_hourly.py -> parents[2]
+_REPO = Path(__file__).resolve().parents[2]
 for entry in (str(_REPO / "packages" / "models-v2"), str(_REPO)):
     if entry not in sys.path:
         sys.path.insert(0, entry)
@@ -41,8 +42,24 @@ GOLDEN_LOW_DEG = -6.0
 GOLDEN_HIGH_DEG = 6.0
 DARKNESS_MAX_DEG = -18.0
 
-# Solar-noon offset trick: local apparent noon in UTC minutes is derived from
-# the altitude curve; we classify sunrise/sunset side by the altitude trend.
+# CL-UI-08: window metrics are evaluated by SUB-HOUR INTERVAL SAMPLING, not by
+# the single grid instant. Narrow windows (blue hour 20-50 min, sunrise/sunset
+# ±40 min, golden hour) can fall entirely between two whole-hour grid points;
+# sampling the hour bucket [h, h+1h) at SUBHOUR_STEP_MIN guarantees that any
+# window at least one step wide is detected (any interval longer than the step
+# contains a step-aligned sample). Provenance for the sampling regime is
+# published with the evaluation artifacts (see evaluate_batch.py).
+SUBHOUR_STEP_MIN = 5
+WINDOW_SAMPLE_OFFSETS = list(range(0, 60, SUBHOUR_STEP_MIN))
+ASTRO_SAMPLING_PROVENANCE = {
+    "mode": "sub_hour_interval_scan",
+    "step_minutes": SUBHOUR_STEP_MIN,
+    "samples_per_hour": len(WINDOW_SAMPLE_OFFSETS),
+    "sample_offsets_minutes": WINDOW_SAMPLE_OFFSETS,
+    "metrics": ["astronomical_darkness", "golden_hour_window",
+                "blue_hour_window", "sunrise_time_window", "sunset_window"],
+    "bucket": "[hour_start, hour_start+60min)",
+}
 
 
 def _sun_altitude(dt_utc, lat, lon):
@@ -72,27 +89,40 @@ def sun_events_span(lat, lon, start_epoch, end_epoch, step_s=600):
 
 
 def hour_observations(dt_utc, lat, lon, events=None, need_moon=False):
-    """Astronomy metric values for one instant. `events` is the precomputed
+    """Astronomy metric values for one hour bucket. `events` is the precomputed
     sun_events_span list for this coordinate (computed once per place when
-    omitted). Window membership compares against the NEAREST crossing."""
+    omitted). Window metrics are evaluated by SUB-HOUR INTERVAL SAMPLING over
+    the bucket [dt, dt+60min) at SUBHOUR_STEP_MIN spacing: a window metric is
+    PASS for the hour if ANY sampled instant inside the bucket falls inside the
+    window. This removes the systematic false negative where a narrow window
+    (blue hour, sunrise/sunset, golden hour) falls entirely between two
+    whole-hour grid points. Altitude-based membership compares the sampled
+    altitude against the window bounds; sunrise/sunset membership compares
+    each sample against the NEAREST crossing of that kind. Non-window metrics
+    (moon/galactic-core) remain evaluated at the grid instant."""
     if events is None:
         epoch0 = dt_utc.timestamp()
         events = sun_events_span(lat, lon, epoch0 - 86400, epoch0 + 86400)
-    altitude = _sun_altitude(dt_utc, lat, lon)
-    out = {
-        "astronomical_darkness": altitude <= DARKNESS_MAX_DEG,
-        "golden_hour_window": GOLDEN_LOW_DEG <= altitude <= GOLDEN_HIGH_DEG,
-        "blue_hour_window": BLUE_LOW_DEG <= altitude <= BLUE_HIGH_DEG,
-    }
     epoch = dt_utc.timestamp()
+    samples = [epoch + off * 60.0 for off in WINDOW_SAMPLE_OFFSETS]
+    altitudes = [_sun_altitude(datetime.fromtimestamp(t, timezone.utc), lat, lon)
+                 for t in samples]
+    out = {
+        "astronomical_darkness": any(a <= DARKNESS_MAX_DEG for a in altitudes),
+        "golden_hour_window": any(GOLDEN_LOW_DEG <= a <= GOLDEN_HIGH_DEG
+                                  for a in altitudes),
+        "blue_hour_window": any(BLUE_LOW_DEG <= a <= BLUE_HIGH_DEG
+                                for a in altitudes),
+    }
     for key, kind, half in (("sunrise_time_window", "sunrise", SUNRISE_HALF_WIDTH_MIN * 60),
                             ("sunset_window", "sunset", SUNSET_HALF_WIDTH_MIN * 60)):
         best = None
-        for event_t, event_kind in events:
-            if event_kind == kind:
-                delta = abs(event_t - epoch)
-                if best is None or delta < best:
-                    best = delta
+        for t in samples:
+            for event_t, event_kind in events:
+                if event_kind == kind:
+                    delta = abs(event_t - t)
+                    if best is None or delta < best:
+                        best = delta
         out[key] = None if best is None else best <= half
     if need_moon:
         out.update(moon_observation(dt_utc, lat, lon))

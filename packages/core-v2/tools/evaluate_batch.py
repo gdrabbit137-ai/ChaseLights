@@ -38,7 +38,8 @@ for entry in (str(ROOT / "packages/core-v2"), str(ROOT / "packages/models-v2"), 
 
 from adapters import open_meteo_batch as adapter  # noqa: E402
 from adapters.threshold_observations import METRIC_FIELDS, compare  # noqa: E402
-from astro_hourly import hour_observations, sun_events_span  # noqa: E402
+from astro_hourly import (  # noqa: E402
+    ASTRO_SAMPLING_PROVENANCE, hour_observations, sun_events_span)
 
 BUNDLE_VERSION = "0.1.0"
 ASTRO_METRICS = {"sunrise_time_window", "sunset_window", "blue_hour_window",
@@ -387,6 +388,10 @@ def main():
         place_detail["place_id"] = place_out["place_id"]
         place_detail["name_i18n"] = place_out["name_i18n"]
         place_detail["generated_at"] = generated_iso
+        # CL-UI-08 provenance: the sub-hour sampling regime used for the
+        # narrow astro window metrics (evaluations-details is not
+        # schema-gated; evaluations-latest.json keeps its v0.1 shape).
+        place_detail["astro_sampling"] = ASTRO_SAMPLING_PROVENANCE
         details_dir = Path(arguments.details_dir)
         details_dir.mkdir(parents=True, exist_ok=True)
         (details_dir / f"{place_key}.json").write_text(
