@@ -791,7 +791,14 @@
 
     async function cacheMatch(url){try{if(!('caches'in window))return null;const c=await caches.open(CACHE_NAME);const r=await c.match(url);if(!r)return null;const j=await r.json();return schemaSupported(j)?j:null;}catch{return null;}}
     async function fetchAndCache(url,signal,cacheKey=url){const opts={cache:'no-cache'};if(signal)opts.signal=signal;const r=await fetch(url,opts);if(!r.ok)throw new Error(`HTTP ${r.status}`);const clone=r.clone();try{if('caches'in window){const c=await caches.open(CACHE_NAME);await c.put(cacheKey,clone);}}catch{}const j=await r.json();if(!schemaSupported(j))throw new Error(`Schema mismatch: expected ${MIN_SCHEMA_VERSION}-${MAX_SCHEMA_VERSION}, got ${j?.schema_version??'missing'}`);return j;}
-    function applyData(data,region,seq){if(seq!==activeLoadSequence||region!==currentRegion||data.region!==region)return false;const prev=memorySummary.get(region);if(prev?.updated_at&&data?.updated_at&&prev.updated_at!==data.updated_at)clearMemoryDetails(region);currentData=data;currentSpots=data.spots||[];memorySummary.set(region,data);ensureOpContracts();ensureV2EvalBundle().then(()=>{filterAndRender();});document.getElementById('loading').style.display='none';migrateFavorites(region);renderSubNav();syncDayButtons();updateHeader();filterAndRender();return true;}
+    function applyData(data,region,seq){if(seq!==activeLoadSequence||region!==currentRegion||data.region!==region)return false;const prev=memorySummary.get(region);if(prev?.updated_at&&data?.updated_at&&prev.updated_at!==data.updated_at)clearMemoryDetails(region);currentData=data;currentSpots=data.spots||[];memorySummary.set(region,data);ensureOpContracts();document.getElementById('loading').style.display='none';hideUpdateIndicator();migrateFavorites(region);renderSubNav();syncDayButtons();updateHeader();
+      // CL-UI-10: render exactly once, after the V2 evaluation bundle promise
+      // settles — no second paint when the bundle arrives. Gate semantics are
+      // unchanged: until the bundle is available (including a bundle load
+      // failure, where it stays null) the cards fail closed with the
+      // conservative research-pending copy, so no ungated legacy verdict is
+      // ever painted.
+      ensureV2EvalBundle().then(()=>{if(seq===activeLoadSequence&&region===currentRegion)filterAndRender();});return true;}
     function migrateFavorites(region){
       if(!legacyFavorites.length||favoriteMigrationRegions.includes(region))return;
       const migratedNames=new Set();
@@ -808,10 +815,34 @@
       persistFavoriteMigrationRegions();
       persistLegacyFavorites();
     }
-    async function refreshSummary(region,url,seq,controller,silent=false){try{const fresh=await fetchAndCache(url,controller.signal);if(applyData(fresh,region,seq))memorySummary.set(region,fresh);}catch(e){if(e?.name==='AbortError'||seq!==activeLoadSequence)return;if(!silent){const l=document.getElementById('loading');l.style.display='block';l.innerText=`⚠️ ${d().load_error}`;}}}
+    async function refreshSummary(region,url,seq,controller,silent=false){try{const fresh=await fetchAndCache(url,controller.signal);if(applyData(fresh,region,seq))memorySummary.set(region,fresh);}catch(e){if(e?.name==='AbortError'||seq!==activeLoadSequence)return;hideUpdateIndicator();if(!silent){const l=document.getElementById('loading');l.style.display='block';l.innerText=`⚠️ ${d().load_error}`;}}}
+    let updateBanner=null;
+    function showUpdateIndicator(){
+      // CL-UI-10: non-intrusive background-update hint for reloads / region
+      // switches that already have rendered content on screen. Never shows
+      // internal or provisional labels — only the i18n "updating" copy.
+      if(!updateBanner){
+        updateBanner=document.createElement('div');
+        updateBanner.id='update-banner';
+        updateBanner.setAttribute('role','status');
+        updateBanner.style.cssText='position:fixed;top:0;left:0;right:0;z-index:10000;padding:4px 12px;font-size:12px;line-height:1.4;text-align:center;background:rgba(15,18,26,.78);color:#fff;pointer-events:none;display:none;';
+        document.body.appendChild(updateBanner);
+      }
+      updateBanner.textContent=d().updating;
+      updateBanner.style.display='block';
+    }
+    function hideUpdateIndicator(){if(updateBanner)updateBanner.style.display='none';}
     async function loadData(region){
       const seq=++activeLoadSequence;if(activeLoadController)activeLoadController.abort();activeLoadController=new AbortController();
-      const container=document.getElementById('spots-container'), loading=document.getElementById('loading');container.innerHTML='';currentSpots=[];currentData=null;renderSubNav();loading.innerText=d().loading;loading.style.display='block';updateHeader();
+      const container=document.getElementById('spots-container'), loading=document.getElementById('loading');
+      // CL-UI-10: stale-while-revalidate. When cards are already rendered
+      // (reload, region switch, background refresh), keep them on screen and
+      // show a slim update banner instead of wiping the container into the
+      // loading splash — that wipe-then-repaint was the reload flash. Only a
+      // first load with no existing content shows the loading message.
+      const hasRendered=container.children.length>0&&currentData!==null;
+      if(hasRendered){showUpdateIndicator();loading.style.display='none';}
+      else{container.innerHTML='';currentSpots=[];currentData=null;renderSubNav();loading.innerText=d().loading;loading.style.display='block';updateHeader();}
       const url=`./${region}_weather.json`;
       if(memorySummary.has(region)){applyData(memorySummary.get(region),region,seq);refreshSummary(region,url,seq,activeLoadController,true);return;}
       const cached=await cacheMatch(url);if(seq!==activeLoadSequence)return;if(cached){applyData(cached,region,seq);refreshSummary(region,url,seq,activeLoadController,true);return;}
@@ -1222,7 +1253,12 @@
     }
     function ensureV2EvalBundle(){
       if(!v2EvalBundlePromise){
-        v2EvalBundlePromise=fetch('./apps/web-v2/evaluations-latest.json',{cache:'no-cache'})
+        // 15s timeout: a hung fetch must never leave the promise unsettled,
+        // otherwise the single gated render never fires and the page stays
+        // blank on first load. 15s tolerates slow mobile networks; timing out
+        // rejects into .catch → resolves null → fail-closed research_pending
+        // card (a later reload retries via the null-reset path).
+        v2EvalBundlePromise=fetch('./apps/web-v2/evaluations-latest.json',{cache:'no-cache',signal:AbortSignal.timeout(15000)})
           .then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
           .then(j=>{v2EvalBundle=j;return j;})
           .catch(()=>{v2EvalBundlePromise=null;return null;});
