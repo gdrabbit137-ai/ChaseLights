@@ -111,13 +111,13 @@
   "condition_contract": {
     "contract_id": "CC-us-093-P01-v1",
     "status": "draft",
-    "genre_template": "mountain_view",
-    "template_version": "mountain_view-v0.1",
+    "genre_template": "reflection",
+    "template_version": "reflection-v0.1",
     "recommendation_policy_version": null,
     "conditions": [
       {
         "id": "C-us-093-P01-01",
-        "role": "REQUIRED",
+        "role": "QUALITY",
         "domain": "WEATHER",
         "evaluation_mode": "GUIDANCE",
         "capability": "CONDITIONS",
@@ -131,13 +131,13 @@
         ],
         "model_binding": "dataset:cams_global|field:aerosol_optical_depth_550nm|role:AEROSOL",
         "validation_status": "provisional",
-        "condition_tier": "MAIN",
+        "condition_tier": "BONUS",
         "threshold_source": "formula_derived",
         "calibration_status": "provisional",
         "rationale_i18n": {
-          "zh-TW": "層次山景的「層」來自大氣透視：遠山隔著適度霧霾才會一層比一層淡、分出層次；完全乾淨的空氣反而讓輪廓銳利、畫面變平。因此只設上限：霧霾厚到遠山整個消失（AOD>0.6）才否決，中等霧霾是這個題材的正常狀態。",
-          "en": "The layers in a layered mountain vista come from aerial perspective: distant ridges fade step by step through moderate haze; perfectly clean air makes edges harsh and the composition flat. So only an upper bound applies - veto only when haze is thick enough to swallow the far ridges (AOD > 0.6); moderate haze is this genre's normal state.",
-          "ja": "層になる山並みの「層」は大気遠近法が作る。適度なヘイズを挟むことで遠い稜線ほど淡く重なる。空気が澄みすぎると輪郭がきつくなり画面が平坦になる。ゆえに上限のみ設定し、ヘイズが遠山を飲み込むほど濃い場合（AOD>0.6）だけ否決する。"
+          "zh-TW": "山景層次由 AOD 承擔（遠山霧霾層次）。【2026-11-01 審查修正】 由成立改加分：主體為倒影，山景層次非否決條件。",
+          "en": "Mountain-layer depth is carried by AOD (haze layering of distant ridges). [2026-11-01 review fix] Moved from gating to bonus: the subject is the reflection; mountain-layer depth is not a veto condition.",
+          "ja": "山景の層次はAODが担う（遠山の靄による層）。【2026-11-01審査修正】成立条件から加点へ変更：主体は倒影であり、山景の層次は否決条件ではない。"
         }
       },
       {
@@ -188,9 +188,9 @@
         "threshold_source": "formula_derived",
         "calibration_status": "provisional",
         "rationale_i18n": {
-          "zh-TW": "拍攝受影響下限。",
-          "en": "Minimum before the shoot is impaired.",
-          "ja": "撮影に支障が出る前の下限。"
+          "zh-TW": "降雨同時打碎水面與妨礙拍攝；0.2 mm/h 以下不受影響。",
+          "en": "Rain both breaks the water surface and hampers shooting; below 0.2 mm/h is fine.",
+          "ja": "雨は水面を壊し撮影も妨げる。0.2mm/h未満なら影響なし。"
         }
       },
       {
@@ -274,7 +274,7 @@
       },
       {
         "id": "C-us-093-P01-08",
-        "role": "REQUIRED",
+        "role": "QUALITY",
         "domain": "WEATHER",
         "evaluation_mode": "GUIDANCE",
         "capability": "CONDITIONS",
@@ -291,13 +291,13 @@
         ],
         "model_binding": "dataset:gfs_0p25|field:cloud_cover_total_percent|role:MID",
         "validation_status": "provisional",
-        "condition_tier": "MODIFIER",
+        "condition_tier": "BONUS",
         "threshold_source": "formula_derived",
         "calibration_status": "provisional",
         "rationale_i18n": {
-          "zh-TW": "總雲量 20–60%：雲與彩霞在鏡面裡的對稱構圖是倒影的加分主體；全晴只有山形、全陰無色彩。",
-          "en": "Total cloud 20-60%: clouds and glow mirrored in the water are the bonus subject of reflections; clear sky gives only the landform, overcast gives no colour.",
-          "ja": "全雲量20〜60%。水面に映る雲や彩が反射の加算対象。快晴は山容のみ、全層雲は色彩なし。"
+          "zh-TW": "雲與彩霞在鏡面裡的對稱構圖是倒影的加分主體；全晴只有山形、全陰無色彩。（2026-11-01 審查：由成立條件改加分，與口語一致）",
+          "en": "Symmetric cloud/glow reflections in the mirror are the bonus core of a reflection shot; fully clear gives only the mountain silhouette, fully overcast gives no colour. (2026-11-01 review: moved from gating to bonus, matching the wording.)",
+          "ja": "鏡面に映る雲と彩雲の対称構図は倒影の加点主体；快晴なら山影のみ、全曇なら色彩がない。（2026-11-01審査：成立条件から加点へ変更、口語と一致）"
         },
         "genre_template": "reflection",
         "template_version": "reflection-v0.1"

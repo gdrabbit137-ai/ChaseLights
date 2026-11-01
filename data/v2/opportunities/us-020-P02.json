@@ -111,31 +111,71 @@
   "condition_contract": {
     "contract_id": "CC-us-020-P02-v1",
     "status": "draft",
+    "genre_template": "cloud_sea",
+    "template_version": "cloud_sea-v0.1",
+    "recommendation_policy_version": null,
     "conditions": [
       {
         "id": "C-us-020-P02-01",
         "role": "REQUIRED",
-        "domain": "ASTRONOMY",
+        "domain": "WEATHER",
         "evaluation_mode": "GUIDANCE",
         "capability": "CONDITIONS",
-        "metric": "legacy_fog_mist",
-        "operator": "none",
-        "threshold": null,
-        "unit": null,
+        "metric": "relative_humidity_925hpa",
+        "operator": "gte",
+        "threshold": 85,
+        "unit": "%",
         "unknown_policy": "propagate_unknown",
         "claim_refs": [
           "us-020-P02-claim-01"
         ],
-        "model_binding": null,
-        "notes_i18n": {
-          "zh-TW": "由 V1 主題對應的暫定條件；實際閾值待研究核實。",
-          "en": "Provisional condition mapped from the V1 theme; thresholds pending research.",
-          "ja": "V1テーマから対応した暫定条件。閾値は研究待ち。"
+        "model_binding": "dataset:cwa_wrf3|field:relative_humidity_925hpa_percent|role:SHORT_HQ|level:925hpa",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "en": "Near-saturation low-level humidity is required for fog/mist to form. provisional (atmosphere subject).",
+          "ja": "下層の飽和に近い湿度は霧・薄霧生成の必要条件。暫定（雰囲気題材）。",
+          "zh-TW": "低層近飽和為霧/薄霧生成的必要條件。provisional（氛圍題材）。"
         },
-        "validation_status": "provisional"
+        "notes_i18n": {
+          "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
+          "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
+          "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
+        }
+      },
+      {
+        "id": "C-us-020-P02-02",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "precipitation",
+        "operator": "lt",
+        "threshold": 0.3,
+        "unit": "mm/h",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "us-020-P02-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "en": "Heavy rain ruins the shot; drizzle/mist is the subject itself. provisional.",
+          "ja": "大雨は撮影を壊す。霧雨や霧はむしろ主体。暫定。",
+          "zh-TW": "大雨破壞拍攝；毛毛雨/霧反而是主體。provisional。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
+          "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
+          "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
+        }
       }
-    ],
-    "recommendation_policy_version": null
+    ]
   },
   "evidence_claims": [
     {

@@ -111,35 +111,10 @@
   "condition_contract": {
     "contract_id": "CC-tw-049-P02-v1",
     "status": "draft",
-    "genre_template": "sunset",
-    "template_version": "sunset-v0.1",
+    "genre_template": "sunrise",
+    "template_version": "sunrise-v0.1",
     "recommendation_policy_version": null,
     "conditions": [
-      {
-        "id": "C-tw-049-P02-01",
-        "role": "REQUIRED",
-        "domain": "ASTRONOMY",
-        "evaluation_mode": "GUIDANCE",
-        "capability": "CONDITIONS",
-        "metric": "sunset_window",
-        "operator": "none",
-        "threshold": null,
-        "unit": null,
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "tw-049-P02-claim-01"
-        ],
-        "model_binding": null,
-        "validation_status": "provisional",
-        "condition_tier": "MAIN",
-        "threshold_source": "computed",
-        "calibration_status": "provisional",
-        "rationale_i18n": {
-          "zh-TW": "天文窗＝日落時刻 ±40 分（座標＋日期計算）。",
-          "en": "Astronomy window = sunset time +/- 40 minutes (from coordinates and date).",
-          "ja": "天文ウィンドウ＝日の入り時刻±40分（座標と日付から計算）。"
-        }
-      },
       {
         "id": "C-tw-049-P02-02",
         "role": "REQUIRED",
@@ -160,9 +135,9 @@
         "threshold_source": "formula_derived",
         "calibration_status": "provisional",
         "rationale_i18n": {
-          "zh-TW": "太陽方位扇形的低雲直接擋日落；55% 允許塊狀雲——塊狀雲反而是上色主角（與 tw-036-P01 日出判據同構）。",
-          "en": "Low cloud in the solar azimuth sector blocks the setting sun directly; 55% still allows broken cloud, which paints the colour (mirrors tw-036-P01 sunrise logic).",
-          "ja": "太陽方位の扇形領域の低雲は沈む太陽を直接遮る。55%は塊状の雲を許容し、色を生む主役（tw-036-P01の日の出判準と同型）。"
+          "zh-TW": "日出方位扇形的低雲直接擋太陽；55% 允許塊狀雲——塊狀雲反而是上色主角。海上景點扇形取海平線方位，山嶺景點取山脊方位；雲海等疊加判據不在此模板內（activate_when/merge 各自掛）。",
+          "en": "Low cloud in the sunrise-azimuth sector blocks the sun directly; 55% still allows broken cloud, which is what actually paints the colour. Coastal spots pick the sea-horizon sector, mountain spots the ridge sector; cloud-sea and other overlays are not part of this template (attached per spot via activate_when/merge).",
+          "ja": "日の出方位の扇形領域の低雲は太陽を直接遮る。55%は塊状雲を許容し、色を生む主役。海上spotは海平線方位、山岳spotは稜線方位。雲海等の重ね掛けはこのテンプレート外（activate_when/mergeで追加）。"
         },
         "binding": {
           "strategy": "nearest_gridpoint",
@@ -171,7 +146,7 @@
       },
       {
         "id": "C-tw-049-P02-03",
-        "role": "REQUIRED",
+        "role": "QUALITY",
         "domain": "WEATHER",
         "evaluation_mode": "GUIDANCE",
         "capability": "CONDITIONS",
@@ -192,9 +167,9 @@
         "threshold_source": "formula_derived",
         "calibration_status": "provisional",
         "rationale_i18n": {
-          "zh-TW": "中高雲是彩霞的染料：全晴只有金黃、全陰無色彩；20–70% 區間加分。指標由管線以 mid+high 求和推導。",
-          "en": "Mid and high cloud are the dyes of the sunset glow: clear sky gives only gold, overcast gives none; 20-70% scores. Derived by the pipeline as mid+high.",
-          "ja": "中高層雲は夕焼けの彩となる。快晴は金色のみ、全層雲は色彩なし。20〜70%で加点。mid+highの和として算出。"
+          "zh-TW": "中高雲是日出彩色的染料：全晴只有金黃、全陰無色彩；20–70% 區間加分。指標由管線以 mid+high 求和推導。",
+          "en": "Mid and high cloud are the dyes of sunrise colour: clear skies give plain gold and overcast gives none; the 20-70% band earns the bonus. The pipeline derives the metric as mid plus high cloud.",
+          "ja": "中層・上層の雲は日の出の色彩の染料：快晴はただの金色、完全な曇天は色彩なし。20-70%の帯で加点。指標はmid+highの和として導出。"
         }
       },
       {
@@ -217,34 +192,39 @@
         "threshold_source": "formula_derived",
         "calibration_status": "provisional",
         "rationale_i18n": {
-          "zh-TW": "拍攝受雨影響；0.3 mm/h 以下視為不受影響（與 tw-036-P01 相同門檻）。",
-          "en": "Rain interferes with shooting; below 0.3 mm/h is treated as not interfering (same threshold as tw-036-P01).",
-          "ja": "撮影は雨の影響を受ける。0.3mm/h未満は影響なしと扱う（tw-036-P01と同一閾値）。"
+          "zh-TW": "雨量極低即可；海景微雨不影響拍攝。",
+          "en": "Precipitation just needs to stay very low; light rain does not affect a seascape shoot.",
+          "ja": "降水量は十分に低ければよい。海景では小雨でも撮影に支障はない。"
         }
       },
       {
-        "id": "C-tw-049-P02-05",
+        "id": "C-tw-049-P02-06",
         "role": "REQUIRED",
-        "domain": "WEATHER",
+        "domain": "ASTRONOMY",
         "evaluation_mode": "GUIDANCE",
         "capability": "CONDITIONS",
-        "metric": "aod_550nm",
-        "operator": "lte",
-        "threshold": 0.6,
+        "metric": "sunrise_time_window",
+        "operator": "none",
+        "threshold": null,
         "unit": null,
         "unknown_policy": "propagate_unknown",
         "claim_refs": [
           "tw-049-P02-claim-01"
         ],
-        "model_binding": "dataset:cams_global|field:aerosol_optical_depth_550nm|role:AEROSOL",
+        "model_binding": null,
         "validation_status": "provisional",
         "condition_tier": "MAIN",
-        "threshold_source": "formula_derived",
+        "threshold_source": "computed",
         "calibration_status": "provisional",
         "rationale_i18n": {
-          "zh-TW": "適度霧霾散射強化紅橙色調，但 AOD > 0.6 時太陽盤面與地平線輪廓被吞沒（與 mountain_view 同一上限，依大氣透視同一物理）。",
-          "en": "Moderate haze scatters and enriches red-orange tones, but above AOD 0.6 the solar disc and horizon silhouette are swallowed (same limit as mountain_view, same physics of atmospheric perspective).",
-          "ja": "適度な煙霾は赤橙色を強めるが、AOD>0.6では太陽面と地平線の輪郭が呑まれる（mountain_viewと同じ上限、大気遠近法と同じ物理）。"
+          "zh-TW": "天文窗＝日出時刻 ±40 分（座標＋日期計算）。海上景點海平線無遮擋時與實際日出一致；山嶺景點受地形遮擋，實際見日較晚（將來以地形遮擋角參數修正）。",
+          "en": "Astronomy window = sunrise time +/- 40 minutes (from coordinates and date). For sea-horizon spots this matches the visible sunrise; mountain spots see the sun later due to terrain occlusion (a terrain-occlusion-angle parameter may refine this later).",
+          "ja": "天文ウィンドウ＝日の出時刻±40分。海上spotは海平線が開けており一致。山岳spotは地形遮蔽で実際の見えは遅れる（将来は地形遮蔽角パラメータで補正）。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
+          "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
+          "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
         }
       }
     ]
