@@ -203,8 +203,8 @@ function fmtThreshold(op,th,t){
 }
 function fmtValue(v,t){
  if(v===null||v===undefined)return "—";
- if(v===true)return t.inWin;
- if(v===false)return t.outWin;
+ if(v===true||v==="satisfied")return t.inWin;
+ if(v===false||v==="unsatisfied")return t.outWin;
  if(v==="declared")return t.declared;
  return String(v);
 }
