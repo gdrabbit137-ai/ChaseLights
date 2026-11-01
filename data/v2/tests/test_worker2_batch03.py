@@ -5,6 +5,7 @@ The crosswalk gate runs even when Worker 1's schema is not yet merged.
 """
 import copy
 import json
+import re
 from pathlib import Path
 import unittest
 
@@ -161,8 +162,12 @@ class CrosswalkGate(unittest.TestCase):
                     role = condition["role"]
                     self.assertIn(f"\n### {role}\n", section)
                     role_section = section.split(f"\n### {role}\n", 1)[1].split("\n### ", 1)[0]
+                    # 2026-11-02 owner ruling: thresholds follow the review-
+                    # revised contract; declared windows stay "unknown".
+                    shown = json.dumps(condition["threshold"], ensure_ascii=False) \
+                        if condition["threshold"] is not None else "unknown"
                     expected = ("- " + condition["notes_i18n"]["zh-TW"]
-                                + f"（threshold unknown；{condition['evaluation_mode']}）")
+                                + f"（threshold {shown}；{condition['evaluation_mode']}）")
                     self.assertIn(expected, role_section)
 
     def test_negative_duplicate_and_mismatch_fail(self):
@@ -223,9 +228,16 @@ class CrosswalkGate(unittest.TestCase):
                         self.assertEqual("none", condition.get("operator"))
 
     def test_access_warning_outside_photography_conditions(self):
+        expected_conditions = {
+            # Owner ruling 2026-11-02: tw-026-P01/P02 rebuilt from the
+            # review-revised xlsx (sunset template); tw-016-P01 keeps its
+            # 2026-11-01 manager-reviewed mountain_view contract.
+            "tw-016-P01": 4, "tw-026-P01": 5, "tw-026-P02": 5,
+        }
         for oid, doc in self.docs.items():
             with self.subTest(opportunity=oid):
-                self.assertEqual(2, len(doc["condition_contract"]["conditions"]))
+                self.assertEqual(expected_conditions[oid],
+                                 len(doc["condition_contract"]["conditions"]))
                 self.assertFalse(any(c["domain"] == "ACCESS_SAFETY"
                                      for c in doc["condition_contract"]["conditions"]))
                 self.assertFalse(any(c["metric"].lower().find("closed_platform") >= 0
@@ -237,14 +249,25 @@ class CrosswalkGate(unittest.TestCase):
                 self.assertNotEqual("verified", doc["navigation_targets"][0]["status"])
 
     def test_crosswalk_excludes_access_as_scoring_gate(self):
+        expected_conditions = {"tw-016-P01": 4, "tw-026-P01": 5, "tw-026-P02": 5}
         for oid, doc in self.docs.items():
             filename = next(name for name in CROSSWALK_FILES if oid in name)
             rows = self.rows[filename]
-            self.assertEqual(6, sum("condition-" in row["human_claim_id"]
-                                   for row in rows))
-            self.assertFalse(any("condition-3" in row["human_claim_id"]
-                                 or "condition-4" in row["human_claim_id"]
+            # every condition carries exactly three crosswalk rows
+            # (condition / threshold / unknown-policy); access/safety stays out.
+            self.assertEqual(3 * expected_conditions[oid],
+                             sum("condition-" in row["human_claim_id"]
                                  for row in rows))
+            self.assertFalse(any(
+                row["human_claim_id"].startswith(
+                    f"H-{oid}-condition-{expected_conditions[oid] + 1}")
+                for row in rows))
+            condition_rows = [r for r in rows
+                              if re.match(r"H-%s-condition-\d+$" % re.escape(oid),
+                                          r["human_claim_id"])]
+            self.assertTrue(condition_rows)
+            self.assertFalse(any("ACCESS_SAFETY" in r["human_text"]
+                                 for r in condition_rows))
 
     def test_audit_release_hold(self):
         manifest = self.audit["legacy_catalog_manifest"]

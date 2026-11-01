@@ -14,12 +14,25 @@ DATA = ROOT / "data/v2"
 IDS = ("tw-082-P01", "tw-036-P01", "tw-034-P02", "jp-010-P01", "us-071-P01")
 LANGS = ("zh-TW", "en", "ja")
 EXPECTED = {
-    "tw-082-P01": ("WEATHER", "WEATHER"),
-    "tw-036-P01": ("ASTRONOMY", "WEATHER"),
-    "tw-034-P02": ("WEATHER", "WEATHER"),
-    "jp-010-P01": ("WEATHER", "SEASON_TIME"),
-    "us-071-P01": ("WEATHER", "ASTRONOMY"),
+    # 2026-11-02 owner ruling: the four xlsx-rebuilt subjects (tw-082/tw-034/
+    # jp-010/us-071) adopt the review-revised template contracts; tw-036-P01
+    # keeps its 2026-11-01 manager-reviewed sunrise contract.
+    "tw-082-P01": ("WEATHER", "HYDROLOGY", "WEATHER", "WEATHER"),
+    "tw-036-P01": ("ASTRONOMY", "WEATHER", "WEATHER", "WEATHER"),
+    "tw-034-P02": ("WEATHER", "WEATHER", "WEATHER", "WEATHER"),
+    "jp-010-P01": ("SEASON_TIME", "WEATHER", "WEATHER"),
+    "us-071-P01": ("ASTRONOMY", "WEATHER", "WEATHER", "WEATHER"),
 }
+EXPECTED_ROLES = {
+    "tw-082-P01": ("REQUIRED", "REQUIRED", "REQUIRED", "QUALITY"),
+    "tw-036-P01": ("REQUIRED", "REQUIRED", "QUALITY", "REQUIRED"),
+    "tw-034-P02": ("REQUIRED", "REQUIRED", "REQUIRED", "REQUIRED"),
+    "jp-010-P01": ("REQUIRED", "REQUIRED", "REQUIRED"),
+    "us-071-P01": ("REQUIRED", "REQUIRED", "REQUIRED", "REQUIRED"),
+}
+# Subjects whose conditions were rebuilt under the 2026-11-02 owner ruling
+# (provenance must carry the ruling + the git-history rollback pointer).
+OWNER_RULED = ("tw-082-P01", "tw-034-P02", "jp-010-P01", "us-071-P01")
 
 
 def read_json(path):
@@ -71,8 +84,9 @@ class Batch04Gate(unittest.TestCase):
                 self.assertEqual(id_.split("-P")[0], doc["place_id"])
                 errors = sorted(e.message for e in self.validator.iter_errors(doc))
                 self.assertEqual([], errors, errors)
-                self.assertEqual(["REQUIRED", "QUALITY"],
-                                 [c["role"] for c in doc["condition_contract"]["conditions"]])
+                self.assertEqual(EXPECTED_ROLES[id_],
+                                 tuple(c["role"] for c in
+                                       doc["condition_contract"]["conditions"]))
                 self.assertEqual(EXPECTED[id_], tuple(
                     c["domain"] for c in doc["condition_contract"]["conditions"]))
 
@@ -119,21 +133,50 @@ class Batch04Gate(unittest.TestCase):
                     self.assertIsNone(nav["lon"])
                 for cond in doc["condition_contract"]["conditions"]:
                     self.assertIn(cond["domain"],
-                        ("WEATHER", "ASTRONOMY", "SEASON_TIME", "GEOMETRY_COMPOSITION"))
+                        ("WEATHER", "ASTRONOMY", "SEASON_TIME", "GEOMETRY_COMPOSITION",
+                         "HYDROLOGY", "SUBJECT_STATE"))
                     self.assertNotEqual("AUTO", cond["evaluation_mode"])
-                    self.assertIsNone(cond["threshold"])
-                    self.assertIsNone(cond["model_binding"])
+                    # 2026-11-02 owner ruling: declared windows keep operator
+                    # "none"; review-revised numeric gates stay provisional and
+                    # never raw booleans.
+                    if cond["operator"] == "eq" and \
+                            isinstance(cond["threshold"], str):
+                        # seasonal/event window sentinel (window_open/closed)
+                        self.assertIn(cond["threshold"],
+                                      ("window_open", "window_closed"))
+                    elif cond["threshold"] is None:
+                        self.assertEqual("none", cond["operator"])
+                    else:
+                        self.assertTrue(
+                            isinstance(cond["threshold"], (int, float))
+                            or (isinstance(cond["threshold"], list)
+                                and len(cond["threshold"]) == 2
+                                and all(isinstance(x, (int, float))
+                                        for x in cond["threshold"])),
+                            cond["metric"])
+                    # Registry-carried model_binding strings are declared
+                    # dataset/field/role bindings (no geojson geometry claim).
+                    self.assertNotEqual("AUTO", cond["evaluation_mode"])
                     self.assertEqual("propagate_unknown", cond["unknown_policy"])
-                    self.assertNotEqual("validated", cond["validation_status"])
+                    self.assertIn(cond["validation_status"],
+                                  ("provisional", "unvalidated"))
+                    self.assertNotEqual("defined", cond.get("calibration_status"))
                     for lang in LANGS:
                         self.assertTrue(cond["notes_i18n"][lang].strip())
+                    if id_ in OWNER_RULED:
+                        zh = cond["notes_i18n"]["zh-TW"]
+                        self.assertIn("2026-11-02 owner（Richard）裁決", zh)
+                        self.assertIn("34cb70f39", zh)
+                        self.assertIn("未校準", zh)
 
     def test_04_crosswalk_exact_coverage_and_negative_conflict(self):
+        expected_rows = {"tw-082-P01": 36, "tw-036-P01": 36, "tw-034-P02": 36,
+                         "jp-010-P01": 33, "us-071-P01": 36}
         for id_, doc in self.docs.items():
             rows = self.rows[id_]
             with self.subTest(id=id_):
-                self.assertEqual(30, len(rows))
-                self.assertEqual(30, len({r["human_claim_id"] for r in rows}))
+                self.assertEqual(expected_rows[id_], len(rows))
+                self.assertEqual(expected_rows[id_], len({r["human_claim_id"] for r in rows}))
                 for row in rows:
                     self.assertNotIn(row["consistency_status"], ("MISMATCH", "UNSUPPORTED"))
                     expected = f"data/v2/opportunities/{id_}.json#"

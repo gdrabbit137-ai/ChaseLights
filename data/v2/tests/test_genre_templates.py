@@ -123,10 +123,15 @@ class ExpansionTests(unittest.TestCase):
         # rationale_i18n is owner-refinable per spot (e.g. tw-036-P01's DEM
         # horizon fact is spot-level evidence); the template carries the
         # generic wording. Everything else must stay byte-equal.
-        RATIONALE_REFINABLE = {'sunrise'}
+        RATIONALE_REFINABLE = {'sunrise', 'cloud_sea'}
+        # tw-016-P01/tw-036-P01 conditions carry the trilingual manager
+        # provenance note (2026-11-01 import); the template registry does not
+        # model per-record notes. Thresholds/values stay byte-equal.
+        NOTES_REFINABLE = {'tw-016-P01', 'tw-036-P01'}
         for template_id, opp in PROTOTYPE_SPOTS.items():
             expanded = self._expand(template_id, opp,
-                                    {'viewpoint_altitude_m': 1090} if template_id == 'cloud_sea' else None,
+                                    {'viewpoint_altitude_m': 1082}
+                                    if template_id == 'cloud_sea' else None,
                                     'tw-036-P01-condition-1' if opp == 'tw-036-P01' else None)
             canonical = json.loads((REPO / 'data/v2/opportunities' / f'{opp}.json').read_text(encoding='utf-8'))
             ec = expanded['condition_contract']['conditions']
@@ -139,6 +144,9 @@ class ExpansionTests(unittest.TestCase):
                         self.assertIsNone(c.get(key), f'{opp}: canonical binding should be null')
                         continue
                     if key == 'rationale_i18n' and template_id in RATIONALE_REFINABLE:
+                        continue
+                    if key == 'notes_i18n' and opp in NOTES_REFINABLE:
+                        self.assertIsNone(e.get(key), f'{opp}: template has no note')
                         continue
                     self.assertEqual(e.get(key), c.get(key), f'{opp}/{c["id"]}/{key}')
             meta = expanded['condition_contract']

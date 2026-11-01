@@ -111,14 +111,47 @@
   "condition_contract": {
     "contract_id": "CC-tw-082-P04-v1",
     "status": "draft",
+    "genre_template": "seasonal_plant",
+    "template_version": "seasonal_plant-v0.1",
+    "recommendation_policy_version": null,
     "conditions": [
       {
         "id": "C-tw-082-P04-01",
         "role": "REQUIRED",
+        "domain": "SEASON_TIME",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "seasonal_state",
+        "operator": "eq",
+        "threshold": "window_open",
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-082-P04-claim-01"
+        ],
+        "model_binding": null,
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "computed",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "en": "Firefly season window (seasonal-calendar). Light-pollution level has no data source and honestly propagates unknown (2026-11-01).",
+          "ja": "蛍の季節窓（seasonal-calendar）。 光害レベルはデータソースがなく、誠実にunknownを伝播する（2026-11-01設定）。",
+          "zh-TW": "螢火蟲季節窗（seasonal-calendar）。 光害程度無資料源，誠實 propagate unknown（2026-11-01 訂立）。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
+          "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
+          "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
+        }
+      },
+      {
+        "id": "C-tw-082-P04-02",
+        "role": "REQUIRED",
         "domain": "ASTRONOMY",
         "evaluation_mode": "GUIDANCE",
         "capability": "CONDITIONS",
-        "metric": "legacy_city_night",
+        "metric": "astronomical_darkness",
         "operator": "none",
         "threshold": null,
         "unit": null,
@@ -127,15 +160,82 @@
           "tw-082-P04-claim-01"
         ],
         "model_binding": null,
-        "notes_i18n": {
-          "zh-TW": "由 V1 主題對應的暫定條件；實際閾值待研究核實。",
-          "en": "Provisional condition mapped from the V1 theme; thresholds pending research.",
-          "ja": "V1テーマから対応した暫定条件。閾値は研究待ち。"
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "computed",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "en": "Astronomical darkness: firefly observation needs a dark environment.",
+          "ja": "天文の薄明窓：蛍の観察には暗い環境が必要。",
+          "zh-TW": "螢火蟲觀察需黑暗環境。"
         },
-        "validation_status": "provisional"
+        "notes_i18n": {
+          "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
+          "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
+          "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
+        }
+      },
+      {
+        "id": "C-tw-082-P04-03",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "precipitation",
+        "operator": "lt",
+        "threshold": 0.2,
+        "unit": "mm/h",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-082-P04-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "en": "No fireflies in the rain.",
+          "ja": "雨では蛍が見られない。",
+          "zh-TW": "雨天不見螢火。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
+          "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
+          "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
+        }
+      },
+      {
+        "id": "C-tw-082-P04-04",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "wind_speed_10m",
+        "operator": "lt",
+        "threshold": 5,
+        "unit": "m/s",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-082-P04-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:wind_speed_10m_m_s|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "en": "Strong wind hurts firefly observation and long exposures.",
+          "ja": "強風は蛍の観察と長時間露出に不利。",
+          "zh-TW": "強風不利螢火觀察與長曝。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
+          "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
+          "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
+        }
       }
-    ],
-    "recommendation_policy_version": null
+    ]
   },
   "evidence_claims": [
     {

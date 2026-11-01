@@ -111,31 +111,101 @@
   "condition_contract": {
     "contract_id": "CC-tw-002-P03-v1",
     "status": "draft",
+    "genre_template": "city_night",
+    "template_version": "city_night-v0.1",
+    "recommendation_policy_version": null,
     "conditions": [
       {
         "id": "C-tw-002-P03-01",
         "role": "REQUIRED",
-        "domain": "ASTRONOMY",
+        "domain": "WEATHER",
         "evaluation_mode": "GUIDANCE",
         "capability": "CONDITIONS",
-        "metric": "legacy_city_night",
-        "operator": "none",
-        "threshold": null,
+        "metric": "precipitation",
+        "operator": "lt",
+        "threshold": 0.2,
+        "unit": "mm/h",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-002-P03-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "en": "Minimum weather threshold on the event side.",
+          "ja": "イベント側の最低天気閾値。",
+          "zh-TW": "活動側最低門檻。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
+          "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
+          "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
+        }
+      },
+      {
+        "id": "C-tw-002-P03-02",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "visibility",
+        "operator": "gte",
+        "threshold": 10,
+        "unit": "km",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-002-P03-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:visibility_km|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "en": "Proxy for fireworks/sea-of-lights clarity.",
+          "ja": "花火・灯の海の鮮明さの代理指標。",
+          "zh-TW": "煙火/燈海清晰度代理。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
+          "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
+          "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
+        }
+      },
+      {
+        "id": "C-tw-002-P03-03",
+        "role": "REQUIRED",
+        "domain": "SEASON_TIME",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "seasonal_state",
+        "operator": "eq",
+        "threshold": "window_open",
         "unit": null,
         "unknown_policy": "propagate_unknown",
         "claim_refs": [
           "tw-002-P03-claim-01"
         ],
         "model_binding": null,
-        "notes_i18n": {
-          "zh-TW": "由 V1 主題對應的暫定條件；實際閾值待研究核實。",
-          "en": "Provisional condition mapped from the V1 theme; thresholds pending research.",
-          "ja": "V1テーマから対応した暫定条件。閾値は研究待ち。"
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "computed",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "季節／活動窗判定（window_open/closed）：主導條件為活動行事曆（跨年煙火/燈節）；現無活動資料源，誠實 propagate unknown（2026-11-01 訂立）。",
+          "en": "Season/event-window verdict (window_open/closed): the governing condition is the event calendar (fireworks / lantern festivals / parades / firefly season). No live event source exists, so this honestly propagates unknown (established 2026-11-01); only the minimum weather thresholds evaluate.",
+          "ja": "季節・イベント窓判定（window_open/closed）：支配的条件はイベントカレンダー（花火・灯節・パレード・蛍シーズン）。現在イベントソースがなく、誠実にunknownを伝播する（2026-11-01設定）。天気側の最低閾値のみ評価する。"
         },
-        "validation_status": "provisional"
+        "notes_i18n": {
+          "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
+          "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
+          "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
+        }
       }
-    ],
-    "recommendation_policy_version": null
+    ]
   },
   "evidence_claims": [
     {

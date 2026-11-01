@@ -112,34 +112,9 @@
     "contract_id": "CC-tw-035-P05-v1",
     "status": "draft",
     "genre_template": "night_sky",
-    "template_version": "seasonal_plant-v0.1",
+    "template_version": "night_sky-v0.4",
     "recommendation_policy_version": null,
     "conditions": [
-      {
-        "id": "C-tw-035-P05-01",
-        "role": "REQUIRED",
-        "domain": "SEASON_TIME",
-        "evaluation_mode": "GUIDANCE",
-        "capability": "CONDITIONS",
-        "metric": "seasonal_state",
-        "operator": "eq",
-        "threshold": "window_open",
-        "unit": null,
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "tw-035-P05-claim-01"
-        ],
-        "model_binding": null,
-        "validation_status": "provisional",
-        "condition_tier": "MAIN",
-        "threshold_source": "computed",
-        "calibration_status": "provisional",
-        "rationale_i18n": {
-          "zh-TW": "季節窗判定：evaluation 取值為 window_open / window_closed（由 seasonal-calendar.json 的例年窗與今年實況窗對拍日曆得出；實況優先，兩者皆缺時誠實 not_evaluatable）。",
-          "en": "Seasonal-window verdict: the evaluation value is window_open / window_closed (resolved by matching the calendar date against typical and current-season windows in seasonal-calendar.json; observed takes precedence, and with neither present the genre is honestly not_evaluatable).",
-          "ja": "季節窓判定：評価値は window_open/window_closed（seasonal-calendar.json の例年窓・当年窓と日付の突き合わせで決定。実況優先、どちらも欠ければ誠実に not_evaluatable）。"
-        }
-      },
       {
         "id": "C-tw-035-P05-02",
         "role": "REQUIRED",
