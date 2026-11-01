@@ -61,13 +61,17 @@ class ResearchIndexTests(unittest.TestCase):
             self.assertEqual((pin['opportunity_id'],d['place_id'],d['revision']),
                              (d['opportunity_id'],d['place_id'],d['revision']))
         self.assertEqual({
-            '0f8f754027d23d12f966459d115e920d1d192d68',
-            '165436ed77bdb7dd2e658d263d0dd451b8377146',
-            'ea0f68b974d6897b1029d5fb718b0ae4fb229535',
+            # CL-DATA-02 owner ruling 2026-11-02: the six review-gated records
+            # re-pinned to the ruling data commit 76e926d16 (rollback pointer
+            # for the original human-review contracts: 34cb70f39 and earlier).
+            '34cb70f39f8d959e9b68cfa3a6768a74cb29de99',
+            '06b51d046fd391ab44708535464e7478cfc13ee4',
+            '3eb466432807185bc8b9271d006666b72d1fa406',
+            '76e926d16f3cfd6f2983ec2c0f6fe6ac7004104d',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
-        self.assertEqual('0f8f754027d23d12f966459d115e920d1d192d68',p01['commit_sha'])
-        self.assertEqual('001a3380231e3d073e900bf2b415aac7dcc5fd79',p01['blob_sha'])
+        self.assertEqual('76e926d16f3cfd6f2983ec2c0f6fe6ac7004104d',p01['commit_sha'])
+        self.assertEqual('1544edabdddc133a740bab4f0acb4186f7bd370e',p01['blob_sha'])
 
     def test_all_place_names_exact_source_spans_without_new_translation(self):
         count=0

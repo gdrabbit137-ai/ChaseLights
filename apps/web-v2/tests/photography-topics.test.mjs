@@ -32,12 +32,16 @@ for(const locale of ['zh-TW','en','ja']){
   });
 }
 
-test('seasonal verification remains QUALITY; REQUIRED does not imply AUTO or a successful result',()=>{
+test('seasonal window stays honest (no live event source); REQUIRED does not imply AUTO or a successful result',()=>{
   const catalog=importV21Catalog(source);
   const jp=catalog.opportunities.find(row=>row.opportunity_id==='jp-010-P01');
   const topic=researchTopic(catalog,jp,'en');
-  assert.ok(topic.conditions.some(row=>row.role==='QUALITY'&&row.mode==='VERIFY'&&row.domain==='SEASON_TIME'));
-  assert.ok(topic.conditions.some(row=>row.role==='REQUIRED'&&row.mode==='GUIDANCE'));
+  // 2026-11-02 owner ruling: jp-010-P01 adopts the seasonal_plant template.
+  // The seasonal window is REQUIRED/GUIDANCE with the window_open sentinel;
+  // the weather minimum thresholds stay REQUIRED/GUIDANCE provisional.
+  assert.ok(topic.conditions.some(row=>row.role==='REQUIRED'&&row.mode==='GUIDANCE'&&row.domain==='SEASON_TIME'));
+  assert.ok(topic.conditions.every(row=>row.mode!=='AUTO'));
+  assert.ok(topic.conditions.some(row=>row.role==='REQUIRED'&&row.mode==='GUIDANCE'&&row.domain==='WEATHER'));
   assert.equal(topic.evaluation,null);
 });
 
