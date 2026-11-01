@@ -120,10 +120,14 @@ STALE_XLSX = {
     ("wind_speed_600hpa", "gte", 12.0): ("lt", 12.0),
 }
 TIDAL_GENRE = "潮汐主導"
-# worker2_batch03/04 human-review crosswalk gates pin these subjects' bespoke
-# research-only contracts (exact condition shapes, notes texts, 30-row crosswalk
-# byte comparisons). Their xlsx rows conflict with that human-review evidence;
-# deferred to owner instead of overwriting review artifacts (CL-DATA-01).
+# worker2_batch03/04 human-review crosswalk gates previously pinned these
+# subjects' bespoke research-only contracts; the importer deferred to the
+# owner instead of overwriting review artifacts (CL-DATA-01).
+# OWNER RULING 2026-11-02 (Richard): "這 6 個題材依照 Excel 內的條件" — the
+# human-review gate is overridden; these subjects are rebuilt from the xlsx
+# review-revised rows with OWNER_PROVENANCE_NOTE (provisional, not calibrated).
+# The original human-review research contracts remain recoverable in git
+# history at/before 34cb70f39.
 REVIEW_GATED_SUBJECTS = {
     "tw-026-P01", "tw-026-P02",          # worker2_batch03 crosswalk gates
     "tw-082-P01", "tw-034-P02", "jp-010-P01", "us-071-P01",  # worker2_batch04
@@ -133,6 +137,14 @@ PROVENANCE_NOTE = {
     "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
     "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
     "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。",
+}
+
+# Owner ruling 2026-11-02: overrides the worker2 human-review gate for the six
+# REVIEW_GATED_SUBJECTS; conditions come from the review-revised xlsx rows.
+OWNER_PROVENANCE_NOTE = {
+    "zh-TW": "2026-11-02 owner（Richard）裁決覆寫 worker2 人審 gate，改採審查修訂條件（provisional，未校準）；原人審研究契約見 git 歷史 34cb70f39 之前版本。",
+    "en": "On 2026-11-02 the owner (Richard) ruled to override the worker2 human-review gate and adopt the review-revised conditions (provisional, not calibrated); the original human-review research contract is preserved in git history at/before 34cb70f39.",
+    "ja": "2026-11-02、オーナー（Richard）の裁定によりworker2の人間レビューゲートを覆し、審査改訂条件を採用（暫定・未校正）。元の人間レビュー研究契約はgit履歴の34cb70f39以前のバージョンに保存されている。",
 }
 
 # Subject-specific manager texts (fog/firefly/activity) that differ from the
@@ -404,7 +416,7 @@ def binding_to_string(binding):
 
 def build_condition(oid, index, metric, op, threshold, unit, cat, row, *,
                     base=None, docs=None, registry=None, template_id=None,
-                    provenance=False):
+                    provenance=False, note=None):
     """Assemble one canonical condition object.
 
     base: existing condition to update in place semantics (returns new dict).
@@ -480,7 +492,7 @@ def build_condition(oid, index, metric, op, threshold, unit, cat, row, *,
         cond["threshold"] = threshold
         cond["unit"] = base.get("unit") or unit
     if provenance:
-        cond["notes_i18n"] = dict(PROVENANCE_NOTE)
+        cond["notes_i18n"] = dict(note or PROVENANCE_NOTE)
     return cond
 
 
@@ -514,15 +526,11 @@ def main():
         target_template = GENRE_ZH.get(xg)
         is_legacy = cc.get("genre_template") is None
 
-        # ---------------- review-gated subjects (worker2_batch03/04 human
-        # crosswalk gates pin their bespoke research-only contracts). Rebuilding
-        # them would contradict human-review evidence; defer to the owner.
-        if is_legacy and oid in REVIEW_GATED_SUBJECTS:
-            warnings.append(
-                f"{oid}: review-gated (batch03/04 crosswalk); manager's template "
-                f"rows deferred to owner decision")
-            stats["review_gated_deferred"] += 1
-            continue
+        # ---------------- owner ruling 2026-11-02: the six previously
+        # review-gated subjects are rebuilt from the xlsx rows with the
+        # owner-ruling provenance note (human-review gate overridden).
+        owner_note = (OWNER_PROVENANCE_NOTE
+                      if oid in REVIEW_GATED_SUBJECTS else PROVENANCE_NOTE)
 
         # ---------------- tidal subjects: honest not_evaluatable, keep contract
         if xg == TIDAL_GENRE:
@@ -575,7 +583,7 @@ def main():
                                        unit, r["條件分類"], r, docs=docs,
                                        registry=registry,
                                        template_id=target_template,
-                                       provenance=True)
+                                       provenance=True, note=owner_note)
                 if rationale:
                     cond["rationale_i18n"] = rationale
                 xzh = str(r["口語化說明"] or "").strip()
@@ -609,7 +617,7 @@ def main():
                             "en": "Season/event-window verdict (window_open/closed): the governing condition is the event calendar (fireworks / lantern festivals / parades / firefly season). No live event source exists, so this honestly propagates unknown (established 2026-11-01); only the minimum weather thresholds evaluate.",
                             "ja": "季節・イベント窓判定（window_open/closed）：支配的条件はイベントカレンダー（花火・灯節・パレード・蛍シーズン）。現在イベントソースがなく、誠実にunknownを伝播する（2026-11-01設定）。天気側の最低閾値のみ評価する。",
                         },
-                        "notes_i18n": dict(PROVENANCE_NOTE),
+                        "notes_i18n": dict(owner_note),
                     }
                     conditions.append(cond)
                 elif label == "光害/環境":

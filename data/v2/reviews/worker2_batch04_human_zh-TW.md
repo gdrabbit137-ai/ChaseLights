@@ -4,6 +4,10 @@ Research date: 2026-10-13; W2 ownership: `data/v2/`. This is an *independently s
 
 The five place-specific source citations and claim scopes are captured in `data/v2/audits/worker2_batch04_evidence.json`. Do not convert a place-name search, old Legacy camera/subject representative coordinate, a photo or source text into a verified tripod or navigation GPS. All access status is a visible non-scoring advisory.
 
+## 2026-11-02 owner 裁決（覆寫本輪人審 gate）
+
+owner（Richard）於 2026-11-02 裁決「這 6 個題材依照 Excel 內的條件」，覆寫 worker2 人審 gate：改採審查修訂條件（provisional，未校準）。下方各題材的條件清單已同步更新為現行 canonical 契約；原人審研究契約（threshold 全為 unknown 的研究版）見 git 歷史 34cb70f39 之前版本，可回滾查閱。
+
 ## tw-082-P01 鯉魚潭湖光與水面倒影
 
 鯉魚潭的湖中樹、水面倒影與山景有官方影像及文字紀錄；實際倒影隨風浪與水面變化。請從現場允許的水岸自由構圖。
@@ -20,13 +24,18 @@ Navigation：needs_review；實際抵達 GPS 未經驗證。
 
 Readiness：R1、evidence_review；GEOMETRY_GAP／RESEARCH_GAP；不提供 Live 分數、FAVORABLE、Directions。
 
+
+
 ### REQUIRED
 
-- 湖面需實際形成可辨倒影；不以未校正風速門檻保證。（threshold unknown；GUIDANCE）
+- 2026-11-02 owner（Richard）裁決覆寫 worker2 人審 gate，改採審查修訂條件（provisional，未校準）；原人審研究契約見 git 歷史 34cb70f39 之前版本。（threshold 2；GUIDANCE）
+- 2026-11-02 owner（Richard）裁決覆寫 worker2 人審 gate，改採審查修訂條件（provisional，未校準）；原人審研究契約見 git 歷史 34cb70f39 之前版本。（threshold unknown；GUIDANCE）
+- 2026-11-02 owner（Richard）裁決覆寫 worker2 人審 gate，改採審查修訂條件（provisional，未校準）；原人審研究契約見 git 歷史 34cb70f39 之前版本。（threshold 0.2；GUIDANCE）
 
 ### QUALITY
 
-- 弱風及平靜水面可增加倒影品質，但尚無已驗證的量化門檻。（threshold unknown；GUIDANCE）
+- 2026-11-02 owner（Richard）裁決覆寫 worker2 人審 gate，改採審查修訂條件（provisional，未校準）；原人審研究契約見 git 歷史 34cb70f39 之前版本。（threshold [20, 60]；GUIDANCE）
+
 
 ### Evidence（source claims only）
 
@@ -55,13 +64,18 @@ Navigation：needs_review；實際抵達 GPS 未經驗證。
 
 Readiness：R1、evidence_review；GEOMETRY_GAP／RESEARCH_GAP；不提供 Live 分數、FAVORABLE、Directions。
 
+
+
 ### REQUIRED
 
-- 日出時間窗口及東向海面晨光須成立；不宣稱固定機位的太陽精確對位。（threshold unknown；GUIDANCE）
+- 2026-11-01 manager 依既有已審模板訂立，未校準。（threshold unknown；GUIDANCE）
+- 2026-11-01 manager 依既有已審模板訂立，未校準。（threshold 55；GUIDANCE）
+- 2026-11-01 manager 依既有已審模板訂立，未校準。（threshold 0.3；GUIDANCE）
 
 ### QUALITY
 
-- 海平線雲層與能見度影響照片；沒有經驗證的雲量百分比門檻。（threshold unknown；GUIDANCE）
+- 2026-11-01 manager 依既有已審模板訂立，未校準。（threshold [20, 70]；GUIDANCE）
+
 
 ### Evidence（source claims only）
 
@@ -90,13 +104,15 @@ Navigation：needs_review；實際抵達 GPS 未經驗證。
 
 Readiness：R1、evidence_review；GEOMETRY_GAP／RESEARCH_GAP；不提供 Live 分數、FAVORABLE、Directions。
 
+
+
 ### REQUIRED
 
-- 斷崖與海天輪廓需可辨識；未驗證定量公里能見度門檻。（threshold unknown；GUIDANCE）
+- 2026-11-02 owner（Richard）裁決覆寫 worker2 人審 gate，改採審查修訂條件（provisional，未校準）；原人審研究契約見 git 歷史 34cb70f39 之前版本。（threshold 15；GUIDANCE）
+- 2026-11-02 owner（Richard）裁決覆寫 worker2 人審 gate，改採審查修訂條件（provisional，未校準）；原人審研究契約見 git 歷史 34cb70f39 之前版本。（threshold 0.4；GUIDANCE）
+- 2026-11-02 owner（Richard）裁決覆寫 worker2 人審 gate，改採審查修訂條件（provisional，未校準）；原人審研究契約見 git 歷史 34cb70f39 之前版本。（threshold unknown；GUIDANCE）
+- 2026-11-02 owner（Richard）裁決覆寫 worker2 人審 gate，改採審查修訂條件（provisional，未校準）；原人審研究契約見 git 歷史 34cb70f39 之前版本。（threshold 0.2；GUIDANCE）
 
-### QUALITY
-
-- 低雲與霧霾可降低山海層次，但不能只用單一雲量代理保證清晰。（threshold unknown；GUIDANCE）
 
 ### Evidence（source claims only）
 
@@ -125,13 +141,14 @@ Navigation：needs_review；實際抵達 GPS 未經驗證。
 
 Readiness：R1、evidence_review；GEOMETRY_GAP／RESEARCH_GAP；不提供 Live 分數、FAVORABLE、Directions。
 
+
+
 ### REQUIRED
 
-- 富士山輪廓須當時可辨；沒有已校正的視程數值門檻。（threshold unknown；GUIDANCE）
+- 2026-11-02 owner（Richard）裁決覆寫 worker2 人審 gate，改採審查修訂條件（provisional，未校準）；原人審研究契約見 git 歷史 34cb70f39 之前版本。（threshold "window_open"；GUIDANCE）
+- 2026-11-02 owner（Richard）裁決覆寫 worker2 人審 gate，改採審查修訂條件（provisional，未校準）；原人審研究契約見 git 歷史 34cb70f39 之前版本。（threshold 0.2；GUIDANCE）
+- 2026-11-02 owner（Richard）裁決覆寫 worker2 人審 gate，改採審查修訂條件（provisional，未校準）；原人審研究契約見 git 歷史 34cb70f39 之前版本。（threshold 5；GUIDANCE）
 
-### QUALITY
-
-- 薰衣草或掃帚草狀態需要當期查證，不以固定日期保證花景。（threshold unknown；VERIFY）
 
 ### Evidence（source claims only）
 
@@ -160,13 +177,15 @@ Navigation：needs_review；實際抵達 GPS 未經驗證。
 
 Readiness：R1、evidence_review；GEOMETRY_GAP／RESEARCH_GAP；不提供 Live 分數、FAVORABLE、Directions。
 
+
+
 ### REQUIRED
 
-- 天際線與太空針塔需可辨識；雷尼爾山不是必備條件。（threshold unknown；GUIDANCE）
+- 2026-11-02 owner（Richard）裁決覆寫 worker2 人審 gate，改採審查修訂條件（provisional，未校準）；原人審研究契約見 git 歷史 34cb70f39 之前版本。（threshold unknown；GUIDANCE）
+- 2026-11-02 owner（Richard）裁決覆寫 worker2 人審 gate，改採審查修訂條件（provisional，未校準）；原人審研究契約見 git 歷史 34cb70f39 之前版本。（threshold 70；GUIDANCE）
+- 2026-11-02 owner（Richard）裁決覆寫 worker2 人審 gate，改採審查修訂條件（provisional，未校準）；原人審研究契約見 git 歷史 34cb70f39 之前版本。（threshold 0.5；GUIDANCE）
+- 2026-11-02 owner（Richard）裁決覆寫 worker2 人審 gate，改採審查修訂條件（provisional，未校準）；原人審研究契約見 git 歷史 34cb70f39 之前版本。（threshold 0.2；GUIDANCE）
 
-### QUALITY
-
-- 暮色與城市燈光同時呈現可增加色彩，但固定亮燈分鐘尚未驗證。（threshold unknown；GUIDANCE）
 
 ### Evidence（source claims only）
 

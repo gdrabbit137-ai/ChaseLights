@@ -27,9 +27,11 @@ test('all real canonical records retain provisional non-AUTO conditions and unkn
       assert.notEqual(condition.domain, 'ACCESS_SAFETY');
       assert.notEqual(condition.evaluation_mode, 'AUTO');
       assert.equal(condition.validation_status, 'provisional');
-      assert.ok(condition.threshold === null || typeof condition.threshold === 'number' || Array.isArray(condition.threshold));
-      assert.equal(condition.model_binding, null);
+      assert.ok(condition.threshold === null || typeof condition.threshold === 'number' || Array.isArray(condition.threshold) || typeof condition.threshold === 'string');
       assert.equal(condition.unknown_policy, 'propagate_unknown');
+      // 2026-11-02 owner ruling: rebuilt tw-026 contracts may carry declared
+      // dataset/field/role binding strings; never a geojson geometry claim.
+      assert.ok(typeof condition.model_binding === 'string' || condition.model_binding === null);
     }
     for (const relation of original.observation_relations) {
       assert.equal(relation.geometry_mode, 'unknown');

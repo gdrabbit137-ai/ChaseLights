@@ -5,7 +5,11 @@
 ## 發布限制
 - V2.1 schema 已在 main：`specs/v2/schema/opportunity-v2.1.schema.json`；仍須依最新 main 執行 Schema 驗證及正式審查。
 - Camera/Subject 精確幾何、方位、仰角、距離與 Navigation GPS 均 unknown。
-- 所有攝影 condition threshold 為 null，unknown_policy=propagate_unknown；不得用未知條件產生 favorable。區域封閉／步道限制獨立列為警告，不得充當 REQUIRED／BLOCKER 或改變天氣適合度；未知導航點不得生成路線。
+- 條件門檻依 2026-11-02 owner 裁決改採審查修訂值（provisional，未校準；tw-016/tw-036 為 2026-11-01 manager 修訂），unknown_policy=propagate_unknown；不得用未校準條件產生 favorable。原人審研究契約（threshold 全 null）見 git 歷史 34cb70f39 之前版本。區域封閉／步道限制獨立列為警告，不得充當 REQUIRED／BLOCKER 或改變天氣適合度；未知導航點不得生成路線。
+
+## 2026-11-02 owner 裁決（覆寫本輪人審 gate）
+
+owner（Richard）於 2026-11-02 裁決「這 6 個題材依照 Excel 內的條件」，覆寫 worker2 人審 gate：改採審查修訂條件（provisional，未校準）。下方各題材的條件清單已同步更新為現行 canonical 契約；原人審研究契約（threshold 全為 unknown 的研究版）見 git 歷史 34cb70f39 之前版本，可回滾查閱。
 
 ## tw-016-P01 鳶嘴山岩稜與遠山層次
 
@@ -18,14 +22,21 @@ View relation：line_of_sight；distance/azimuth/elevation unknown。
 Navigation：needs_review；未核實抵達點。
 Readiness：研究成熟度 R1（evidence_review），仍有 GEOMETRY_GAP 與 RESEARCH_GAP；尚未核准發布。即時可拍攝狀態須由獨立 EvaluationResult 評估，不能由研究成熟度推定。
 
+
 ### REQUIRED
-- 岩稜與遠山需可辨；未設定公里能見度門檻。（threshold unknown；GUIDANCE）
+
+- 2026-11-01 manager 依既有已審模板訂立，未校準。（threshold 0.6；GUIDANCE）
+- 2026-11-01 manager 依既有已審模板訂立，未校準。（threshold [30, 60]；GUIDANCE）
+- 2026-11-01 manager 依既有已審模板訂立，未校準。（threshold 0.2；GUIDANCE）
+
+### QUALITY
+
+- 2026-11-01 manager 依既有已審模板訂立，未校準。（threshold unknown；GUIDANCE）
+
 
 ### 進入警告（不影響攝影條件）
 - 封閉、危險路段與未核實合法取景範圍僅作安全／進入提醒，不降低天氣攝影適合度。導航仍須核實抵達點。
 
-### QUALITY
-- 遠山輪廓與空氣透明度越清楚，層次越完整；無量化門檻。（threshold unknown；GUIDANCE）
 
 ## tw-026-P01 井仔腳瓦盤鹽田夕照
 
@@ -38,14 +49,19 @@ View relation：foreground_background；distance/azimuth/elevation unknown。
 Navigation：needs_review；未核實抵達點。
 Readiness：研究成熟度 R1（evidence_review），仍有 GEOMETRY_GAP 與 RESEARCH_GAP；尚未核准發布。即時可拍攝狀態須由獨立 EvaluationResult 評估，不能由研究成熟度推定。
 
+
 ### REQUIRED
-- 夕照需實際照亮鹽田構圖；未推定太陽方位或固定時刻。（threshold unknown；GUIDANCE）
+
+- 2026-11-02 owner（Richard）裁決覆寫 worker2 人審 gate，改採審查修訂條件（provisional，未校準）；原人審研究契約見 git 歷史 34cb70f39 之前版本。（threshold unknown；GUIDANCE）
+- 2026-11-02 owner（Richard）裁決覆寫 worker2 人審 gate，改採審查修訂條件（provisional，未校準）；原人審研究契約見 git 歷史 34cb70f39 之前版本。（threshold 55；GUIDANCE）
+- 2026-11-02 owner（Richard）裁決覆寫 worker2 人審 gate，改採審查修訂條件（provisional，未校準）；原人審研究契約見 git 歷史 34cb70f39 之前版本。（threshold [20, 70]；GUIDANCE）
+- 2026-11-02 owner（Richard）裁決覆寫 worker2 人審 gate，改採審查修訂條件（provisional，未校準）；原人審研究契約見 git 歷史 34cb70f39 之前版本。（threshold 0.3；GUIDANCE）
+- 2026-11-02 owner（Richard）裁決覆寫 worker2 人審 gate，改採審查修訂條件（provisional，未校準）；原人審研究契約見 git 歷史 34cb70f39 之前版本。（threshold 0.6；GUIDANCE）
+
 
 ### 進入警告（不影響攝影條件）
 - 封閉、危險路段與未核實合法取景範圍僅作安全／進入提醒，不降低天氣攝影適合度。導航仍須核實抵達點。
 
-### QUALITY
-- 適當的晚霞雲層可增加色彩，但不保證每次出現。（threshold unknown；GUIDANCE）
 
 ## tw-026-P02 井仔腳鹽田晚霞
 
@@ -59,14 +75,19 @@ View relation：foreground_background；distance/azimuth/elevation unknown。
 Navigation：needs_review；未核實抵達點。
 Readiness：研究成熟度 R1（evidence_review），仍有 GEOMETRY_GAP 與 RESEARCH_GAP；尚未核准發布。即時可拍攝狀態須由獨立 EvaluationResult 評估，不能由研究成熟度推定。
 
+
 ### REQUIRED
-- 天空需實際出現可辨晚霞；不能以日期或一般雲量直接保證。（threshold unknown；VERIFY）
+
+- 2026-11-02 owner（Richard）裁決覆寫 worker2 人審 gate，改採審查修訂條件（provisional，未校準）；原人審研究契約見 git 歷史 34cb70f39 之前版本。（threshold unknown；GUIDANCE）
+- 2026-11-02 owner（Richard）裁決覆寫 worker2 人審 gate，改採審查修訂條件（provisional，未校準）；原人審研究契約見 git 歷史 34cb70f39 之前版本。（threshold 55；GUIDANCE）
+- 2026-11-02 owner（Richard）裁決覆寫 worker2 人審 gate，改採審查修訂條件（provisional，未校準）；原人審研究契約見 git 歷史 34cb70f39 之前版本。（threshold [20, 70]；GUIDANCE）
+- 2026-11-02 owner（Richard）裁決覆寫 worker2 人審 gate，改採審查修訂條件（provisional，未校準）；原人審研究契約見 git 歷史 34cb70f39 之前版本。（threshold 0.3；GUIDANCE）
+- 2026-11-02 owner（Richard）裁決覆寫 worker2 人審 gate，改採審查修訂條件（provisional，未校準）；原人審研究契約見 git 歷史 34cb70f39 之前版本。（threshold 0.6；GUIDANCE）
+
 
 ### 進入警告（不影響攝影條件）
 - 封閉、危險路段與未核實合法取景範圍僅作安全／進入提醒，不降低天氣攝影適合度。導航仍須核實抵達點。
 
-### QUALITY
-- 鹽池幾何線條與彩霞同框可增加地方辨識度。（threshold unknown；GUIDANCE）
 
 ## 暫緩候選
 

@@ -175,6 +175,37 @@ def load_contracted():
     return opportunities
 
 
+OWNER_RULING_COORDINATE_SUBJECTS = {
+    # Owner ruling 2026-11-02: the six previously review-gated subjects adopt
+    # the review-revised conditions and are evaluated from their place-level
+    # coordinates (V1 weather snapshot geocodes) when the camera-context
+    # geometry has no independently verified geojson yet.
+    "tw-026-P01", "tw-026-P02", "tw-082-P01", "tw-034-P02", "jp-010-P01",
+    "us-071-P01",
+}
+V1_WEATHER_FILES = ("tw_weather.json", "jp_weather.json", "us_weather.json")
+
+
+def v1_place_coordinates():
+    """Place-level coordinates carried by the V1 weather snapshots."""
+    coords = {}
+    for name in V1_WEATHER_FILES:
+        path = ROOT / name
+        if not path.exists():
+            continue
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        for spot in data.get("spots") or []:
+            spot_id = spot.get("spot_id")
+            lat, lon = spot.get("lat"), spot.get("lon")
+            if spot_id and isinstance(lat, (int, float)) \
+                    and isinstance(lon, (int, float)):
+                coords.setdefault(spot_id, (float(lat), float(lon)))
+    return coords
+
+
 def coordinate_of(opportunity):
     oid = opportunity["opportunity_id"]
     if oid == "tw-036-P01":
@@ -183,6 +214,11 @@ def coordinate_of(opportunity):
     camera = opportunity["camera_contexts"][0]
     geo = ((camera.get("geometry") or {}).get("geojson") or {}).get("coordinates")
     if not geo:
+        if oid in OWNER_RULING_COORDINATE_SUBJECTS:
+            coords = v1_place_coordinates()
+            place = coords.get(opportunity["place_id"])
+            if place is not None:
+                return place[0], place[1], "v1_weather_snapshot_place_coordinate"
         return None
     return geo[1], geo[0], "camera_context_provisional"
 
