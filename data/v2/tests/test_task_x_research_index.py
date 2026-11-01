@@ -63,7 +63,7 @@ class ResearchIndexTests(unittest.TestCase):
         self.assertEqual({
             '0f8f754027d23d12f966459d115e920d1d192d68',
             '165436ed77bdb7dd2e658d263d0dd451b8377146',
-            '4f42427ce0eb856f0be5f034f316aca86640ec4a',
+            'ea0f68b974d6897b1029d5fb718b0ae4fb229535',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         self.assertEqual('0f8f754027d23d12f966459d115e920d1d192d68',p01['commit_sha'])

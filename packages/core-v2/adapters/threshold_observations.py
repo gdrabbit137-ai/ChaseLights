@@ -33,6 +33,12 @@ METRIC_FIELDS = {
     "aod_550nm": "aod_550nm",
     "temperature_delta_850_925_c": "temperature_delta_850_925_c",
     "wind_speed_850hpa": "wind_speed_850hpa",
+    "relative_humidity_700hpa": "relative_humidity_700hpa",
+    "relative_humidity_600hpa": "relative_humidity_600hpa",
+    "wind_speed_700hpa": "wind_speed_700hpa",
+    "wind_speed_600hpa": "wind_speed_600hpa",
+    "temperature_delta_850_700_c": "temperature_delta_850_700_c",
+    "temperature_delta_700_600_c": "temperature_delta_700_600_c",
     "cloud_cover_total": "cloud_cover_total",
     "cloud_cover_mid_and_high": "cloud_cover_mid_and_high",
 }
