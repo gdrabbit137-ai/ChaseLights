@@ -88,9 +88,10 @@ test('CL-UI-05 (c): eval2_none (not generated) and eval2_unk (NOT_EVALUABLE) sta
 });
 
 test('CL-UI-05 (d): next qualifying window shows when live.next_good exists',()=>{
-  // v2BestForSpot wires nextLocal from the V2 live payload (live.next_good).
+  // v2BestForSpot wires nextLocal through the CL-UI-13 validation (the raw
+  // bundle value is shown only when still in the spot-local future).
   assert.match(v2BestForSpotBlock,
-    /const ng=best\.live&&best\.live\.next_good;\s*best\.nextLocal=ng\?ng\.local:'';/);
+    /best\.nextLocal=v2NextWindowLocal\(best\.oppDays,v2LocalNow\(tz\),ng\?ng\.local:''\);/);
   // The card's no-qualifying-hours summary renders the wired next window and
   // falls back to pure copy when there is none.
   const summary=cardBlock('const v2Summary=v2Best&&v2Best.hours?','const reasonHtml=');

@@ -112,7 +112,7 @@ test('CL-UI-12 (c): day0 qualifying hours count only the remaining part of the d
   // A today card whose remaining hours hit 0 lands in the deferred group,
   // which surfaces the next qualifying window (v2Best.nextLocal path).
   assert.match(v2VerdictBlock,/return best\.hours>0\?'viable':'deferred';/);
-  assert.match(v2VerdictBlock,/best\.nextLocal=ng\?ng\.local:'';/);
+  assert.match(v2VerdictBlock,/best\.nextLocal=v2NextWindowLocal\(best\.oppDays,v2LocalNow\(tz\),ng\?ng\.local:''\);/);
   // The css knows the past-hours note.
   assert.match(cssSource,/\.v2-past-note\{/);
 });

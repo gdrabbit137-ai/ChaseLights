@@ -1384,6 +1384,43 @@
       if(!v2IsToday(day,tz))return (day.good_hours||[]).filter(t=>/^([01]\d|2[0-3]):[0-5]\d$/.test(String(t||'')));
       return v2RemainingHoursList(day.good_hours||[],localNowMinutes(tz));
     }
+    // CL-UI-13: "next qualifying window" helpers. The bundle's live.next_good
+    // is relative to the bundle generation time — after the spot-local day's
+    // remaining qualifying hours are gone (night), it can point into the past.
+    // The card must never display a past time: validate the bundle value
+    // against the spot's own local now; a past (or unverifiable) value falls
+    // back to scanning the opportunity's day rows for the first still-future
+    // qualifying hour; if none exists the whole row is omitted. Pure helpers
+    // (now injected) so the tests can run them deterministically.
+    function v2ParseLocalStamp(s){
+      const m=/^(\d{4})-(\d{2})-(\d{2})[ T]([01]\d|2[0-3]):([0-5]\d)/.exec(String(s||''));
+      if(!m)return null;
+      return {date:m[1]+'-'+m[2]+'-'+m[3],minutes:Number(m[4])*60+Number(m[5])};
+    }
+    function v2LocalNow(tz){
+      const mins=localNowMinutes(tz);
+      if(mins===null||mins===undefined)return null;
+      const date=localDateString(tz||'UTC',0);
+      if(!/^\d{4}-\d{2}-\d{2}$/.test(date))return null;
+      return {date,minutes:mins};
+    }
+    function v2NextWindowLocal(oppDays,now,fallback){
+      if(!now)return '';
+      const fb=v2ParseLocalStamp(fallback);
+      // The bundle value is shown as-is only when it is still in the future
+      // in the spot's own timezone.
+      if(fb&&(fb.date>now.date||(fb.date===now.date&&fb.minutes>=now.minutes)))return fallback;
+      const hoursOf=day=>(day.good_hours||[]).filter(t=>/^([01]\d|2[0-3]):[0-5]\d$/.test(String(t||'')));
+      for(const day of (oppDays||[])){
+        if(!day||!/^\d{4}-\d{2}-\d{2}$/.test(String(day.local_date||'')))continue;
+        if(day.local_date<now.date)continue; // a past day row is never a window
+        const isToday=day.local_date===now.date;
+        let list=hoursOf(day);
+        if(isToday)list=v2RemainingHoursList(list,now.minutes);
+        if(list.length)return day.local_date+' '+list[0];
+      }
+      return '';
+    }
     function v2BestForSpot(place,tz){
       const dayIndex=selectedDayOffset();
       let best=null;
@@ -1396,12 +1433,15 @@
         const hours=hoursList.length;
         const c=v2Contract(o.opportunity_id);
         const name=(c&&localeText(c.name_i18n))||localeText(o.name_i18n)||o.opportunity_id;
-        if(!best||hours>best.hours)best={oppId:o.opportunity_id,name,hours,hoursList,state:day.state,live:o.live||{}};
+        if(!best||hours>best.hours)best={oppId:o.opportunity_id,name,hours,hoursList,state:day.state,live:o.live||{},oppDays:o.days||[]};
       });
       if(best){
         best.stateLabel=v2CardStateLabel(best.state);
         const ng=best.live&&best.live.next_good;
-        best.nextLocal=ng?ng.local:'';
+        // CL-UI-13: nextLocal is validated against the spot-local now; a past
+        // bundle value falls back to the day rows, and with no future window
+        // at all the row is omitted ('').
+        best.nextLocal=v2NextWindowLocal(best.oppDays,v2LocalNow(tz),ng?ng.local:'');
       }
       return best;
     }
