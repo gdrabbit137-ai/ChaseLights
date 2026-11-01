@@ -56,11 +56,26 @@ class MigrationSkeletonTests(unittest.TestCase):
             self.assertEqual(path.stem.rsplit("-P", 1)[0], doc["place_id"])
 
     def test_provisional_placeholders_present_in_all_three_locales(self):
+        """CL-UI-07: no provisional/pending marker in any user-visible string.
+
+        Unreviewed en/ja titles carry the zh-TW source value verbatim (never
+        invented translations); the unreviewed state stays internal in
+        provenance.review_status='pending'. The UI falls back to the zh-TW
+        name for locales without a reviewed title.
+        """
+        markers = ("(provisional English title, pending review)",
+                   "（暫定日本語タイトル、レビュー待ち）",
+                   "(zh-TW source values retained pending translation).",
+                   "（zh-TW原文のまま、翻訳待ち）。")
         for path in SKELETONS.glob("*.json"):
             doc = json.loads(path.read_text(encoding="utf-8"))
             with self.subTest(file=path.name):
-                self.assertIn("pending review", doc["name_i18n"]["en"])
-                self.assertIn("レビュー待ち", doc["name_i18n"]["ja"])
+                self.assertEqual(doc["name_i18n"]["zh-TW"], doc["name_i18n"]["en"])
+                self.assertEqual(doc["name_i18n"]["zh-TW"], doc["name_i18n"]["ja"])
+                for field in ("name_i18n", "description_i18n"):
+                    for value in doc[field].values():
+                        for marker in markers:
+                            self.assertNotIn(marker, value)
                 self.assertEqual("pending", doc["provenance"]["review_status"])
                 self.assertEqual("R0", doc["readiness"]["research_level"])
 
