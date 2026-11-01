@@ -6,8 +6,12 @@ schema-valid V2 opportunity skeleton under data/v2/migration/skeletons/.
 
 Rules (from the tw-001/tw-002 pilot and W2_V1_PARITY_PROGRESSION_PROPOSAL.md):
 - One skeleton per V1 opportunity; place_id = V1 spot_id.
-- V1 information parity: name_zh carried verbatim as zh-TW; en/ja are explicit
-  provisional placeholders (never invented translations).
+- V1 information parity: name_zh carried verbatim as zh-TW; en/ja carry the
+  zh-TW source value verbatim (never invented translations). No provisional
+  or pending-review marker is ever baked into a user-visible display string
+  (CL-UI-07); the unreviewed state stays recorded internally in
+  provenance.review_status = "pending" (schema-legal enum value) and the UI
+  falls back to the zh-TW name for locales without a reviewed title.
 - Camera context / target geometry = V1 spot point, status provisional,
   derivation_method imported_from_v1_viewpoint_reference.
 - Condition: one provisional GUIDANCE condition, metric = legacy_<legacy_theme>,
@@ -35,8 +39,9 @@ DEFAULT_OUT = Path(__file__).resolve().parent / "skeletons"
 DEFAULT_INVENTORY = Path(__file__).resolve().parent / "inventory.json"
 SCHEMA_PATH = ROOT / "specs/v2/schema/opportunity-v2.1.schema.json"
 
-PROVISIONAL_SUFFIX_EN = "(provisional English title, pending review)"
-PROVISIONAL_SUFFIX_JA = "（暫定日本語タイトル、レビュー待ち）"
+# CL-UI-07: provisional/pending title markers must never reach a user-visible
+# display string. Unreviewed en/ja titles carry the zh-TW source value verbatim;
+# the review state lives only in provenance.review_status (internal field).
 SKELETON_NOTE_ZH = "V1 遷移骨架；內容待第二輪研究完善。"
 SKELETON_NOTE_EN = "V1 migration skeleton; content to be refined in round 2."
 SKELETON_NOTE_JA = "V1移行スケルトン。内容は第2ラウンドで精緻化予定。"
@@ -66,11 +71,13 @@ CLAIM_SCOPE = "Skeleton import from V1 catalog; no independent evidence attached
 
 
 def _i18n(zh_text):
-    return {
-        "zh-TW": zh_text,
-        "en": f"{zh_text} {PROVISIONAL_SUFFIX_EN}",
-        "ja": f"{zh_text}{PROVISIONAL_SUFFIX_JA}",
-    }
+    """Carry the zh-TW source value verbatim for all locales (CL-UI-07).
+
+    No invented translations and no provisional/pending marker in display
+    strings; unreviewed state stays in provenance.review_status="pending" and
+    the UI falls back to the zh-TW name for locales without a reviewed title.
+    """
+    return {"zh-TW": zh_text, "en": zh_text, "ja": zh_text}
 
 
 def _point_geometry(lat, lon):
@@ -197,8 +204,10 @@ def _nav_labels(wspot):
 def _description_i18n(name_zh, opp):
     """Carry V1 best_time/best_season verbatim (legacy-derived, zh source text).
 
-    en/ja keep the zh-TW source values with an explicit pending-translation
-    marker instead of invented translations (semantic parity without fabricating).
+    en/ja keep the zh-TW source values verbatim instead of invented
+    translations (semantic parity without fabricating). Pending-translation
+    markers are NOT emitted into user-visible display strings (CL-UI-07); the
+    UI falls back to the zh-TW value for locales without a reviewed text.
     """
     best_time = opp.get("best_time")
     best_season = opp.get("best_season")
@@ -211,11 +220,11 @@ def _description_i18n(name_zh, opp):
     en_detail = ("V1 best time: " + best_time if best_time else "") + \
                 ("; V1 season: " + best_season if best_season else "")
     if en_detail:
-        en_detail += " (zh-TW source values retained pending translation). "
+        en_detail += " "
     ja_detail = ("V1ベスト時間帯: " + best_time if best_time else "") + \
                 ("；V1季節: " + best_season if best_season else "")
     if ja_detail:
-        ja_detail += "（zh-TW原文のまま、翻訳待ち）。"
+        ja_detail += "。"
     return {
         "zh-TW": f"{name_zh}（{zh_detail}{SKELETON_NOTE_ZH}）" if zh_detail else f"{name_zh}（{SKELETON_NOTE_ZH}）",
         "en": f"{name_zh} ({en_detail}{SKELETON_NOTE_EN})" if en_detail else f"{name_zh} ({SKELETON_NOTE_EN})",
