@@ -79,7 +79,7 @@ const I18N={
   verdicts:{PASS:"符合",FAIL:"未符",UNKNOWN:"未知"}},
  en:{title:"Photography Condition Evaluation",home:"Home",guide:"GUIDANCE only",ok:"Conditions met",no:"Conditions not met",unk:"Insufficient data",
   good:"Qualifying hours (approx. local time)",noneGood:"No qualifying hours",detail:"Condition detail",cond:"Condition",tier:"Tier",verdict:"Verdict",
-  passHours:"Qualifying hours",updated:"Generated at",valid:"Forecast window",places:"place groups",opps:"opportunities",prov:"Data source",
+  passHours:"Qualifying hours",updated:"Generated at",valid:"Forecast window",places:{one:"place group",other:"place groups"},opps:{one:"opportunity",other:"opportunities"},prov:"Data source",
   tz:"Times shown in approximate local clock (display only)",genre:"Genre",noData:"Not evaluable (no verified coordinate)",
   now:"Now",nextGood:"Next qualifying window",value:"Value",thr:"Threshold",inWin:"in window",outWin:"out of window",declared:"declared",time:"Time",verdictLabel:"Status",
   hourTable:"Hourly assessment (approx. local time)",
@@ -242,7 +242,8 @@ function render(){
  $("#t-title").textContent=t.title;$("#t-home").textContent=t.home;
  document.querySelectorAll(".lang button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.lang===LANG)));
  $("#notice").textContent=DATA.limitations_i18n[LANG];
- $("#meta").textContent=`${t.updated}: ${fmtLocal(DATA.generated_at)} ｜ ${t.valid}: ${DATA.valid_from} – ${DATA.valid_until} ｜ ${DATA.place_count} ${t.places} ｜ ${DATA.opportunity_count} ${t.opps} ｜ ${t.prov}: ${DATA.provider.name} (${DATA.provider.licence})`;
+ const pickCount=(value,count)=>(value&&typeof value==="object"&&!Array.isArray(value))?(count===1?value.one:value.other):value;
+$("#meta").textContent=`${t.updated}: ${fmtLocal(DATA.generated_at)} ｜ ${t.valid}: ${DATA.valid_from} – ${DATA.valid_until} ｜ ${DATA.place_count} ${pickCount(t.places,DATA.place_count)} ｜ ${DATA.opportunity_count} ${pickCount(t.opps,DATA.opportunity_count)} ｜ ${t.prov}: ${DATA.provider.name} (${DATA.provider.licence})`;
  const tabs=$("#tabs");tabs.innerHTML="";
  DATA.days.forEach(d=>{
   const b=document.createElement("button");b.textContent=dayLabel(d);b.setAttribute("aria-selected",String(d===DAY));
