@@ -116,6 +116,7 @@ TW_ADMIN_AREAS = {
     "tw-083": ["花蓮縣"],
     "tw-084": ["花蓮縣"],
     "tw-085": ["新北市"],
+    "tw-086": ["新北市"],
 }
 
 # B137 country-neutral first-level administrative-area metadata.
@@ -367,6 +368,7 @@ REGIONS = {
             (23.827018, 121.51548, "雲山水夢幻湖", "Yun Shan Shui Dream Lake", "雲山水夢幻湖", "雲山水夢幻湖", "本島", ["lake", "forest"]),
             (23.6143836, 121.4159714, "大農大富平地森林園區", "Danongdafu Forest Park", "大農大富平地森林園区", "大農大富平地森林園區", "本島", ["forest"]),
             (25.1201398, 121.887539, "南子吝步道", "Nanzilin Trail", "南子吝歩道", "南子吝步道", "本島", ["mountain", "coast"]),
+            (25.140639, 121.420333, "八里崁頭里・淡水大橋觀景點", "Bali Kantou Guandu Bridge Viewpoint", "八里崁頭・淡水大橋展望地", "八里崁頭里・淡水大橋觀景點", "本島", ["coast", "city", "cloud_sea"]),
         ],
     },
     "jp": {
@@ -1988,6 +1990,13 @@ SPOT_OVERRIDES.update({
     "諾阿塔克河": {"lat": 68.1814422607422, "lon": -159.394500732422, "map_query": "Noatak River Noatak National Preserve", "coordinate_source": "NPS Gallery audited Noatak River asset location", "coordinate_confidence": "high"},
     "克拉克湖國家公園": {"lat": 60.1973667, "lon": -154.3226167, "map_query": "Port Alsworth Lake Clark", "coordinate_source": "NPS published Port Alsworth coordinate + Lake Clark/aurora subject evidence", "coordinate_confidence": "high"},
     "獨立礦山": {"lat": 61.790493, "lon": -149.283392, "map_query": "Independence Mine State Historical Park", "coordinate_source": "Alaska State Parks official Mile 17.3 subject/access + existing cross-mapped park anchor", "coordinate_confidence": "medium_high"},
+ '八里崁頭里・淡水大橋觀景點': {'lat': 25.140639,
+                  'lon': 121.420333,
+                  'scenes': ['coast', 'city'],
+                  'themes': ['fog_mist', 'cloud_sea', 'mountain_view', 'sunset'],
+                  'map_query': '八里崁頭里 淡水大橋觀景點 新北市八里區',
+                  'coordinate_source': 'owner-provided Google Maps link resolved @25.140639,121.420333 (2026-11-02); viewpoint bearing and practical arrival not independently verified',
+                  'coordinate_confidence': 'medium'},
 })
 
 

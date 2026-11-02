@@ -189,8 +189,8 @@ def test_adapter_integrity():
     )
 
     tw = get_spots("tw")
-    assert len(tw) == 85
-    assert [s["spot_id"] for s in tw] == [f"tw-{i:03d}" for i in range(1, 86)]
+    assert len(tw) == 86
+    assert [s["spot_id"] for s in tw] == [f"tw-{i:03d}" for i in range(1, 87)]
     assert PRODUCT_STATUS_BY_SPOT == {"tw-063": "retired"}
     assert product_status("tw-063") == "retired"
     assert active_in_catalog("tw-063") is False

@@ -33,7 +33,7 @@ class MigrationSkeletonTests(unittest.TestCase):
         spots = self.catalog["spots"]
         opps = sum(len(s["opportunities"]) for s in spots)
         admitted = set(self.inventory["first_pass"]["admitted_canonical"])
-        self.assertEqual((216, 428), (len(spots), opps))
+        self.assertEqual((217, 431), (len(spots), opps))
         canonical = sorted((ROOT / "data/v2/opportunities").glob("*.json"))
         self.assertEqual(356, len(canonical))
         self.assertEqual(len(admitted), 8)

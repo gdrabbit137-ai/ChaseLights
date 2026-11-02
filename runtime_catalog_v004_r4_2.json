@@ -14,10 +14,10 @@
     "runtime_catalog_v004_r4_2_b35_liyu_subjects.json"
   ],
   "counts": {
-    "spots": 216,
-    "opportunities": 428,
-    "condition_variants": 443,
-    "profile_viewpoint_relations": 434
+    "spots": 217,
+    "opportunities": 431,
+    "condition_variants": 446,
+    "profile_viewpoint_relations": 437
   },
   "spots": [
     {
@@ -9553,6 +9553,265 @@
               "geometry_confidence": "medium"
             }
           ]
+        }
+      ]
+    },
+    {
+      "spot_id": "tw-086",
+      "canonical_name": "八里崁頭里・淡水大橋觀景點",
+      "product_status": "KEEP",
+      "product_review_stage": "R4_2_OWNER_TW086_BALI_KANTOU_VIEWPOINT",
+      "research_sources": [
+        {
+          "authority": "Owner (Richard) — Google Maps place definition",
+          "url": "https://maps.app.goo.gl/FVGstdckGqjZrvgp7",
+          "verified_on": "2026-11-02",
+          "supports": "Owner-defined viewpoint in Bali District, New Taipei (崁頭里 hillside) looking across the Tamsui River at Guandu Bridge (淡水大橋): link resolved to @25.140639,121.420333. Owner states three subjects (fog, daytime clarity, blazing sunset). Exact bearing, tripod position and practical arrival/access are NOT independently verified; deliberately distinct from the legacy on-the-bridge 關渡大橋 subject."
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "tw-086-P01",
+          "spot_id": "tw-086",
+          "name_zh": "八里崁頭・霧中淡水大橋（霧景）",
+          "legacy_theme": "fog_mist",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_mist_state_module",
+          "formula_version": "v0.04-owner-bali-bridge-fog-mist",
+          "formula_confidence": 80,
+          "best_time": "清晨河谷霧生成時段為主；白天霧退或夜間燈光霧景偶有機會",
+          "best_season": "全年候選；河谷霧以秋冬清晨較常見，實際成立與否以當日資料為準",
+          "condition_variants": [
+            {
+              "variant_id": "VAR-236",
+              "variant_name": "霧中淡水大橋",
+              "condition_geometry": "{\"camera_zone\":\"八里崁頭里山側眺望點 Camera Zone (provisional, owner-provided coordinate)\",\"subject\":\"Guandu Bridge half-hidden in river-valley fog + Tamsui river surface + far city skyline\"}",
+              "hard_gates": "眺望點合法可達且安全；山側道路濕滑或官方封閉時不成立",
+              "required_conditions": "河谷／河面霧氣生成（低雲覆蓋與近飽和濕度，provisional 未校準）；降水不足以沖散霧；弱風 (provisional, owner 實務門檻)",
+              "boosters": "河面霧帶連續；橋身半隱半現輪廓；對岸城市輪廓被霧隱去一半",
+              "penalties": "強降水沖散霧；強風吹散河谷霧；霧過濃完全遮蔽橋身成白牆",
+              "formula_status": "needs_mist_state_module",
+              "variant_name_i18n": {
+                "zh-TW": "霧中淡水大橋",
+                "en": "Guandu Bridge in fog",
+                "ja": "霧の淡水大橋"
+              },
+              "required_conditions_i18n": {
+                "zh-TW": "河谷／河面霧氣生成（低雲覆蓋與近飽和濕度，provisional 未校準）；降水不足以沖散霧；弱風 (provisional, owner 實務門檻)",
+                "en": "River-valley / river-surface fog forming (low-cloud cover and near-saturated humidity, provisional uncalibrated); precipitation not strong enough to wash the fog out; light wind (provisional, owner's field threshold).",
+                "ja": "河谷・川面の霧の発生（下層雲の覆いとほぼ飽和の湿度、暫定・未校正）。降水は霧を洗い流すほどでないこと。弱風（暫定・オーナーの実務基準）。"
+              },
+              "boosters_i18n": {
+                "zh-TW": "河面霧帶連續；橋身半隱半現輪廓；對岸城市輪廓被霧隱去一半",
+                "en": "Continuous fog band on the river; the bridge half-hidden, half-revealed; the far city skyline half-erased by fog.",
+                "ja": "川面に連続する霧の帯。半隠れ半現れの橋。霧に半分消える対岸の街の輪郭。"
+              },
+              "penalties_i18n": {
+                "zh-TW": "強降水沖散霧；強風吹散河谷霧；霧過濃完全遮蔽橋身成白牆",
+                "en": "Heavy precipitation washing the fog out; strong wind scattering the valley fog; fog so thick it becomes a white wall hiding the bridge entirely.",
+                "ja": "強い降水が霧を流す。強風が谷霧を散らす。霧が濃すぎて橋を完全に隠す白壁になる。"
+              }
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "tw-086-VP01",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Owner-provided viewpoint coordinate (Google Maps resolved @25.140639,121.420333); exact tripod position, bearing to the bridge and practical arrival are intentionally unfilled until independently verified.",
+              "name": "八里崁頭里山側眺望點 Camera Zone",
+              "verification_status": "owner_provided_exact_camera_coordinate_unverified",
+              "geometry_type": "area",
+              "geometry_extent_m": 300,
+              "geometry_note": "Owner 提供 Google Maps 座標作為地圖定位 anchor；實際抵達點、腳架位置與方位角尚未獨立驗證，因此以區域（area）而非單點處理，不填猜測 GPS。",
+              "geometry_confidence": "medium",
+              "name_i18n": {
+                "zh-TW": "八里崁頭里山側眺望點 Camera Zone",
+                "en": "Bali Kantou Li hillside viewpoint Camera Zone",
+                "ja": "八里崁頭・山側展望地のカメラゾーン"
+              }
+            }
+          ],
+          "name_i18n": {
+            "zh-TW": "八里崁頭・霧中淡水大橋（霧景）",
+            "en": "Bali Kantou - Guandu Bridge in fog (fog scene)",
+            "ja": "八里崁頭・霧の淡水大橋（霧景）"
+          },
+          "best_time_i18n": {
+            "zh-TW": "清晨河谷霧生成時段為主；白天霧退或夜間燈光霧景偶有機會",
+            "en": "Mainly the early-morning window when river-valley fog forms; occasional chances when daytime fog lifts, or on foggy lit-up nights.",
+            "ja": "主に早朝、河谷の霧が発生する時間帯。日中に霧が晴れる直後や、ライトアップの霧の夜に機会があることもある。"
+          },
+          "best_season_i18n": {
+            "zh-TW": "全年候選；河谷霧以秋冬清晨較常見，實際成立與否以當日資料為準",
+            "en": "All-year candidate; river-valley fog is more common on autumn/winter mornings, and whether it forms is judged from the day's data.",
+            "ja": "通年の候補。河谷の霧は秋冬の早朝に多い。成立するかは当日のデータで判断する。"
+          }
+        },
+        {
+          "opportunity_id": "tw-086-P02",
+          "spot_id": "tw-086",
+          "name_zh": "八里崁頭・淡水大橋日景通透",
+          "legacy_theme": "city_view",
+          "mode": "area_opportunity",
+          "sampling_topology": "local_area",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_visibility_module",
+          "formula_version": "v0.04-owner-bali-bridge-daytime-clarity",
+          "formula_confidence": 80,
+          "best_time": "白天通透時段；低角度光（上午東向順光、傍晚西向逆光）依現場選擇",
+          "best_season": "全年候選；通透度以當日資料為準",
+          "condition_variants": [
+            {
+              "variant_id": "VAR-237",
+              "variant_name": "日景通透",
+              "condition_geometry": "{\"camera_zone\":\"八里崁頭里山側眺望點 Camera Zone (provisional, owner-provided coordinate)\",\"subject\":\"daytime Guandu Bridge + Tamsui River + far city skyline, fully readable\"}",
+              "hard_gates": "眺望點合法可達且安全",
+              "required_conditions": "能見度 >= 5 km（provisional, owner-corrected）且 AOD <= 0.4；低雲 <= 30% 不遮蔽主體；降水 < 0.2 mm/h",
+              "boosters": "遠景輪廓清楚；中高雲少量；低角度暖光加分",
+              "penalties": "霾害／AOD 偏高；低雲遮蔽橋身與對岸；濃霧白牆",
+              "formula_status": "needs_visibility_module",
+              "variant_name_i18n": {
+                "zh-TW": "日景通透",
+                "en": "Daytime clarity",
+                "ja": "昼景の透過"
+              },
+              "required_conditions_i18n": {
+                "zh-TW": "能見度 >= 5 km（provisional, owner-corrected）且 AOD <= 0.4；低雲 <= 30% 不遮蔽主體；降水 < 0.2 mm/h",
+                "en": "Visibility >= 5 km (provisional, owner-corrected) and AOD <= 0.4; low cloud <= 30% not hiding the subject; precipitation < 0.2 mm/h.",
+                "ja": "視程 5 km 以上（暫定・オーナー訂正）かつ AOD 0.4 以下。下層雲 30% 以下で主役を隠さない。降水 0.2 mm/h 未満。"
+              },
+              "boosters_i18n": {
+                "zh-TW": "遠景輪廓清楚；中高雲少量；低角度暖光加分",
+                "en": "Crisp distant outlines; a little mid/high cloud; low-angle warm light adds to the scene.",
+                "ja": "遠景の輪郭がくっきり。少量の中・上層雲。低角度の暖かい光はプラス。"
+              },
+              "penalties_i18n": {
+                "zh-TW": "霾害／AOD 偏高；低雲遮蔽橋身與對岸；濃霧白牆",
+                "en": "Haze / elevated AOD; low cloud hiding the bridge and the far shore; thick fog as a white wall.",
+                "ja": "霾やAODの増加。下層雲が橋と対岸を隠す。濃い霧の白壁。"
+              }
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "tw-086-VP02",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Owner-provided viewpoint coordinate; daytime clarity subject evaluated on atmospheric clarity, exact bearing unverified.",
+              "name": "八里崁頭里山側眺望點 Camera Zone",
+              "verification_status": "owner_provided_exact_camera_coordinate_unverified",
+              "geometry_type": "area",
+              "geometry_extent_m": 300,
+              "geometry_note": "Owner 提供 Google Maps 座標作為地圖定位 anchor；日景通透題材以大氣通透條件評估，方位角尚未驗證。",
+              "geometry_confidence": "medium",
+              "name_i18n": {
+                "zh-TW": "八里崁頭里山側眺望點 Camera Zone",
+                "en": "Bali Kantou Li hillside viewpoint Camera Zone",
+                "ja": "八里崁頭・山側展望地のカメラゾーン"
+              }
+            }
+          ],
+          "name_i18n": {
+            "zh-TW": "八里崁頭・淡水大橋日景通透",
+            "en": "Bali Kantou - Guandu Bridge daytime clarity",
+            "ja": "八里崁頭・淡水大橋の昼景の透過"
+          },
+          "best_time_i18n": {
+            "zh-TW": "白天通透時段；低角度光（上午東向順光、傍晚西向逆光）依現場選擇",
+            "en": "Daytime windows with good atmospheric clarity; low-angle light (morning light from the east, evening backlight from the west) chosen on site.",
+            "ja": "日中、大気が澄んでいる時間帯。低角度の光（午前は東向きの順光、夕方は西向きの逆光）は現場で選ぶ。"
+          },
+          "best_season_i18n": {
+            "zh-TW": "全年候選；通透度以當日資料為準",
+            "en": "All-year candidate; clarity is judged from the day's data.",
+            "ja": "通年の候補。透過度は当日のデータで判断する。"
+          }
+        },
+        {
+          "opportunity_id": "tw-086-P03",
+          "spot_id": "tw-086",
+          "name_zh": "八里崁頭・淡水大橋火燒雲（日落）",
+          "legacy_theme": "sunset",
+          "mode": "area_opportunity",
+          "sampling_topology": "directional_sector",
+          "geometry_required": false,
+          "opportunity_confidence": "high",
+          "formula_status": "needs_directional_horizon_visibility_module",
+          "formula_version": "v0.04-owner-bali-bridge-blazing-sunset",
+          "formula_confidence": 80,
+          "best_time": "日落前後約 90 分鐘；火燒雲以日落後霞色為主",
+          "best_season": "全年候選；以當日雲層與通透度為準",
+          "condition_variants": [
+            {
+              "variant_id": "VAR-238",
+              "variant_name": "淡水大橋火燒雲",
+              "condition_geometry": "{\"camera_zone\":\"八里崁頭里山側眺望點 Camera Zone (provisional, owner-provided coordinate)\",\"subject\":\"blazing sunset sky over the Tamsui River + Guandu Bridge silhouette\"}",
+              "hard_gates": "眺望點合法可達且安全",
+              "required_conditions": "日落時窗成立；低雲 <= 55%（provisional）不封鎖霞色；中高雲 20-70% 供染色；降水 < 0.3 mm/h；AOD <= 0.6",
+              "boosters": "西向透光；中高雲火燒染色；河面反射霞色；橋樑剪影",
+              "penalties": "厚低雲封鎖西向地平線；霾害；霧白牆；強降水",
+              "formula_status": "needs_directional_horizon_visibility_module",
+              "variant_name_i18n": {
+                "zh-TW": "淡水大橋火燒雲",
+                "en": "Blazing sunset over Guandu Bridge",
+                "ja": "淡水大橋の焼け空"
+              },
+              "required_conditions_i18n": {
+                "zh-TW": "日落時窗成立；低雲 <= 55%（provisional）不封鎖霞色；中高雲 20-70% 供染色；降水 < 0.3 mm/h；AOD <= 0.6",
+                "en": "Sunset window valid; low cloud <= 55% (provisional) not blocking the afterglow; 20-70% mid/high cloud to take the color; precipitation < 0.3 mm/h; AOD <= 0.6.",
+                "ja": "日の入りの時間帯が成立。下層雲 55% 以下（暫定）で残照をふさがない。中・上層雲 20-70% で色づく。降水 0.3 mm/h 未満。AOD 0.6 以下。"
+              },
+              "boosters_i18n": {
+                "zh-TW": "西向透光；中高雲火燒染色；河面反射霞色；橋樑剪影",
+                "en": "Clear light toward the west; mid/high cloud taking the blazing color; the river reflecting the afterglow; the bridge in silhouette.",
+                "ja": "西向きの光。焼けるように色づく中・上層雲。残照を映す川面。橋のシルエット。"
+              },
+              "penalties_i18n": {
+                "zh-TW": "厚低雲封鎖西向地平線；霾害；霧白牆；強降水",
+                "en": "Thick low cloud blocking the western horizon; haze; fog as a white wall; heavy precipitation.",
+                "ja": "西の地平線をふさぐ厚い下層雲。霾。白壁の霧。強い降水。"
+              }
+            }
+          ],
+          "viewpoints": [
+            {
+              "viewpoint_id": "tw-086-VP03",
+              "relation_role": "reference",
+              "sort_order": 1,
+              "note": "Owner states the viewpoint faces the Tamsui River and Guandu Bridge (west-facing in broad terms); exact azimuth is unverified, so no directional-horizon sector is configured and the Opportunity stays runtime-pending.",
+              "name": "八里崁頭里山側眺望點 Camera Zone",
+              "verification_status": "owner_provided_exact_camera_coordinate_unverified",
+              "geometry_type": "area",
+              "geometry_extent_m": 300,
+              "geometry_note": "Owner 提供 Google Maps 座標作為地圖定位 anchor；日落方向的大致朝向未經驗證，因此不登記 directional_horizon sector，維持 module_pending。",
+              "geometry_confidence": "medium",
+              "name_i18n": {
+                "zh-TW": "八里崁頭里山側眺望點 Camera Zone",
+                "en": "Bali Kantou Li hillside viewpoint Camera Zone",
+                "ja": "八里崁頭・山側展望地のカメラゾーン"
+              }
+            }
+          ],
+          "name_i18n": {
+            "zh-TW": "八里崁頭・淡水大橋火燒雲（日落）",
+            "en": "Bali Kantou - blazing sunset over Guandu Bridge (sunset)",
+            "ja": "八里崁頭・淡水大橋の焼け空（夕景）"
+          },
+          "best_time_i18n": {
+            "zh-TW": "日落前後約 90 分鐘；火燒雲以日落後霞色為主",
+            "en": "About 90 minutes around sunset; the blazing-cloud look is mainly the afterglow colors after sunset.",
+            "ja": "日の出入りの前後約90分。焼け空は日没後の残照色が中心。"
+          },
+          "best_season_i18n": {
+            "zh-TW": "全年候選；以當日雲層與通透度為準",
+            "en": "All-year candidate; judged from the day's cloud cover and clarity.",
+            "ja": "通年の候補。当日の雲量と透過度で判断する。"
+          }
         }
       ]
     },
