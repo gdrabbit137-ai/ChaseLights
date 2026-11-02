@@ -1,0 +1,284 @@
+{
+  "schema_version": "2.1.0",
+  "opportunity_id": "tw-086-P02",
+  "place_id": "tw-086",
+  "revision": 1,
+  "lifecycle_status": "draft",
+  "name_i18n": {
+    "zh-TW": "八里崁頭里・淡水大橋觀景點：淡水大橋日景通透（白天通透）",
+    "en": "Bali Kantou Guandu Bridge Viewpoint - clear daytime view of Guandu Bridge",
+    "ja": "八里崁頭・淡水大橋展望地：快晴時の淡水大橋（昼間の透明度）"
+  },
+  "description_i18n": {
+    "zh-TW": "白天從八里山側眺望點通透拍攝淡水大橋與淡水河面：空氣乾淨（能見度 ≥ 5 km、AOD ≤ 0.4）、低雲少（≤ 30%）時橋樑結構與河面反光清楚可讀。座標與方位語義同 P01，與 legacy「關渡大橋」不得合併。",
+    "en": "A clear daytime view of the Guandu Bridge and the Tamsui River from the Bali hillside viewpoint: with clean air (visibility >= 5 km, AOD <= 0.4) and little low cloud (<= 30%), the bridge structure and river reflections stay readable. Same owner-provided coordinate and facing as P01; adjacent to, but distinct from, the legacy Guandu Bridge subject.",
+    "ja": "八里の山側展望地から昼間に淡水大橋と淡水河を透明度よく撮る。空気が澄み（視程 5 km 以上、AOD 0.4 以下）、下層雲が少ない（30% 以下）と橋の構造と川面の反射がはっきり読める。座標と向きは P01 と同じ。legacyの「関渡大橋」とは別地点。"
+  },
+  "camera_contexts": [
+    {
+      "id": "CZ-tw-086-P02-01",
+      "kind": "point",
+      "geometry": {
+        "kind": "point",
+        "status": "provisional",
+        "geojson": {
+          "type": "Point",
+          "coordinates": [
+            121.420333,
+            25.140639
+          ]
+        },
+        "uncertainty_m": null,
+        "derivation_method": "owner_provided_google_maps_2026-11-02; https://maps.app.goo.gl/FVGstdckGqjZrvgp7 resolved to @25.140639,121.420333",
+        "source_geometry_revision": null,
+        "reason_if_absent": null
+      },
+      "verification_status": "provisional",
+      "evidence_refs": [],
+      "access_notes_i18n": {
+        "zh-TW": "位於八里山側眺望點；實際抵達路線與停車資訊尚未核實，請依現場公告與規定。",
+        "en": "Bali hillside viewpoint; practical arrival route and parking not yet verified - follow on-site notices and rules.",
+        "ja": "八里の山側展望地。実際の到着経路と駐車情報は未確認。現地の告知と規定に従ってください。"
+      },
+      "safety_notes_i18n": {
+        "zh-TW": "夜間與霧中山側道路濕滑視線差；請注意交通與落腳處，勿站上車道取景。",
+        "en": "Fog and wet roads make night approaches on the hillside hazardous; watch traffic and footing, never stand on the carriageway for a composition.",
+        "ja": "霧や濡れた道路では夜間の視界と足場が悪い。交通と足元に注意し、車道に立って撮影しない。"
+      },
+      "altitude_m": null
+    }
+  ],
+  "targets": [
+    {
+      "id": "SG-tw-086-P02-01",
+      "kind": "fixed_geographic",
+      "name_i18n": {
+        "zh-TW": "八里崁頭里・淡水大橋觀景點淡水大橋日景通透（白天通透）",
+        "en": "Bali Kantou Guandu Bridge Viewpointclear daytime view of Guandu Bridge",
+        "ja": "八里崁頭・淡水大橋展望地快晴時の淡水大橋（昼間の透明度）"
+      },
+      "geometry": {
+        "kind": "point",
+        "status": "provisional",
+        "geojson": {
+          "type": "Point",
+          "coordinates": [
+            121.420333,
+            25.140639
+          ]
+        },
+        "uncertainty_m": null,
+        "derivation_method": "owner_provided_google_maps_2026-11-02; https://maps.app.goo.gl/FVGstdckGqjZrvgp7 resolved to @25.140639,121.420333",
+        "source_geometry_revision": null,
+        "reason_if_absent": null
+      },
+      "phenomenon_model_id": null,
+      "evidence_refs": [],
+      "components": []
+    }
+  ],
+  "observation_relations": [
+    {
+      "id": "VR-tw-086-P02-01",
+      "camera_context_id": "CZ-tw-086-P02-01",
+      "target_id": "SG-tw-086-P02-01",
+      "type": "line_of_sight",
+      "geometry_mode": "unknown",
+      "azimuth_deg": null,
+      "elevation_deg": null,
+      "distance_m": null,
+      "evidence_refs": [],
+      "derivation_method": null,
+      "uncertainty_note": "Owner states the viewpoint faces the Tamsui River and Guandu Bridge; no verified azimuth, distance or corridor numbers yet."
+    }
+  ],
+  "navigation_targets": [
+    {
+      "id": "NAV-tw-086-P02-01",
+      "status": "needs_review",
+      "target_type": "other",
+      "lat": null,
+      "lon": null,
+      "label_i18n": {
+        "zh-TW": "實際抵達點未核實",
+        "en": "Practical arrival point not verified",
+        "ja": "実際の到着地点は未確認"
+      },
+      "evidence_refs": [],
+      "confidence": "unknown"
+    }
+  ],
+  "condition_contract": {
+    "contract_id": "CC-tw-086-P02-v1",
+    "status": "draft",
+    "genre_template": "overlook",
+    "template_version": "overlook-v0.1",
+    "recommendation_policy_version": null,
+    "conditions": [
+      {
+        "id": "C-tw-086-P02-01",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "visibility",
+        "operator": "gte",
+        "threshold": 5,
+        "unit": "km",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-086-P02-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:visibility_m|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "evidence_review",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "白天通透最低門檻：能見度 ≥ 5 km（2026-10-26 owner 修正口徑），遠處橋樑與對岸輪廓可辨。",
+          "en": "Minimum clarity for the daytime subject: visibility >= 5 km (owner-corrected gauge, 2026-10-26) so the far bridge and opposite shoreline stay readable.",
+          "ja": "昼間の透視の最低基準：視程 5 km 以上（2026-10-26 オーナー修正）で遠くの橋と対岸の輪郭が判別できる。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-02 owner（Richard）定義地點與題材；條件依既有已審模板訂立，未校準。",
+          "en": "Defined by the owner (Richard) on 2026-11-02: the place and subjects; conditions follow already-reviewed template values and are not calibrated.",
+          "ja": "2026-11-02、オーナー（Richard）が場所と題材を定義。条件は承認済みテンプレート値に基づき、未校正。"
+        }
+      },
+      {
+        "id": "C-tw-086-P02-02",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "aod_550nm",
+        "operator": "lte",
+        "threshold": 0.4,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-086-P02-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:aerosol_optical_depth_550nm|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "氣膠光學厚度 ≤ 0.4（與已審 overlook 模板同值）：霾量不足以把遠景洗成灰白。",
+          "en": "Aerosol optical depth <= 0.4 (same value as the reviewed overlook template): haze thin enough not to wash the distant view into grey.",
+          "ja": "エアロゾル光学的厚さ 0.4 以下（承認済み展望テンプレートと同値）：遠景が灰色に褪せない量。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-02 owner（Richard）定義地點與題材；條件依既有已審模板訂立，未校準。",
+          "en": "Defined by the owner (Richard) on 2026-11-02: the place and subjects; conditions follow already-reviewed template values and are not calibrated.",
+          "ja": "2026-11-02、オーナー（Richard）が場所と題材を定義。条件は承認済みテンプレート値に基づき、未校正。"
+        }
+      },
+      {
+        "id": "C-tw-086-P02-03",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "cloud_cover_low",
+        "operator": "lte",
+        "threshold": 30,
+        "unit": "%",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-086-P02-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:cloud_cover_low_percent|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "evidence_review",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "低雲 ≤ 30%（2026-10-26 owner 修正口徑）：低雲過多會整片蓋住河面與橋樑輪廓。",
+          "en": "Low cloud <= 30% (owner-corrected gauge, 2026-10-26): more low cloud blankets the river surface and the bridge outline.",
+          "ja": "下層雲 30% 以下（2026-10-26 オーナー修正）：これ以上は川面と橋の輪郭を覆う。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-02 owner（Richard）定義地點與題材；條件依既有已審模板訂立，未校準。",
+          "en": "Defined by the owner (Richard) on 2026-11-02: the place and subjects; conditions follow already-reviewed template values and are not calibrated.",
+          "ja": "2026-11-02、オーナー（Richard）が場所と題材を定義。条件は承認済みテンプレート値に基づき、未校正。"
+        }
+      },
+      {
+        "id": "C-tw-086-P02-04",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "precipitation",
+        "operator": "lt",
+        "threshold": 0.2,
+        "unit": "mm/h",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-086-P02-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "降水 < 0.2 mm/h（與已審 overlook 模板同值）：拍攝不受雨勢影響的下限。",
+          "en": "Precipitation < 0.2 mm/h (same value as the reviewed overlook template): the shoot is not impaired by rain.",
+          "ja": "降水量 0.2 mm/h 未満（承認済み展望テンプレートと同値）：雨で撮影が阻害されない上限。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-02 owner（Richard）定義地點與題材；條件依既有已審模板訂立，未校準。",
+          "en": "Defined by the owner (Richard) on 2026-11-02: the place and subjects; conditions follow already-reviewed template values and are not calibrated.",
+          "ja": "2026-11-02、オーナー（Richard）が場所と題材を定義。条件は承認済みテンプレート値に基づき、未校正。"
+        }
+      }
+    ]
+  },
+  "evidence_claims": [
+    {
+      "claim_id": "tw-086-P02-existence",
+      "claim_type": "existence",
+      "evidence_refs": [],
+      "audit_status": "PARTIAL",
+      "scope_note": "Owner-declared place and subject definition (Richard, 2026-11-02) with an owner-provided Google Maps link (https://maps.app.goo.gl/FVGstdckGqjZrvgp7, resolved to @25.140639,121.420333); no independently published source audit yet. Deliberately distinct from the legacy Guandu Bridge on-the-bridge subject: this is the Bali hillside viewpoint looking at the bridge, not a bridge-crossing subject."
+    },
+    {
+      "claim_id": "tw-086-P02-camera",
+      "claim_type": "camera_location",
+      "evidence_refs": [],
+      "audit_status": "PARTIAL",
+      "scope_note": "Owner-provided viewpoint coordinate (2026-11-02, owner Google Maps); exact tripod position, azimuth number and legal-access boundary unverified."
+    },
+    {
+      "claim_id": "tw-086-P02-navigation",
+      "claim_type": "navigation_access",
+      "evidence_refs": [],
+      "audit_status": "UNKNOWN",
+      "scope_note": "No independently verified practical arrival point; Directions stay disabled."
+    },
+    {
+      "claim_id": "tw-086-P02-claim-01",
+      "claim_type": "other",
+      "evidence_refs": [],
+      "audit_status": "PARTIAL",
+      "scope_note": "Owner-stated condition set (2026-11-02) following already-reviewed genre-template values; thresholds provisional/uncalibrated, no live provider binding beyond template intent."
+    }
+  ],
+  "readiness": {
+    "research_level": "R0",
+    "gaps": [
+      "RESEARCH_GAP",
+      "GEOMETRY_GAP"
+    ]
+  },
+  "provenance": {
+    "source_catalog": "owner-definition-2026-11-02",
+    "source_revision": "owner-provided-google-maps-2026-11-02",
+    "imported_at": "2026-11-02T00:00:00Z",
+    "review_status": "pending",
+    "reviewed_by": null
+  }
+}
