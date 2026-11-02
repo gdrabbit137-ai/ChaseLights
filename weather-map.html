@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>ChaseLights WeatherGrid Preview</title>
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-gl.css">
-  <link rel="stylesheet" href="./assets/weather-map.css?v=b174ui6">
+  <link rel="stylesheet" href="./assets/weather-map.css?v=bclwg04">
 </head>
 <body>
   <header class="weather-header">
@@ -30,6 +30,7 @@
   <main class="weather-layout">
     <section class="map-panel">
       <div class="control-bar">
+        <div id="region-switch" class="region-switch" role="tablist" aria-label="地區切換"></div>
         <label class="model-control advanced-control">
           <span>進階 · 資料來源</span>
           <select id="model-select">
@@ -152,6 +153,7 @@
     </div>
   </dialog>
 
-  <script src="./assets/weather-map.js?v=b174ui6"></script>
+  <script src="./assets/weather-map-regions.js?v=bclwg04"></script>
+  <script src="./assets/weather-map.js?v=bclwg04"></script>
 </body>
 </html>

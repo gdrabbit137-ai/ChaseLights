@@ -19,6 +19,111 @@
   const MAPLIBRE_MODULE = 'https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-gl.mjs';
   const BASEMAP_STYLE = 'https://tiles.openfreemap.org/styles/liberty';
 
+  // CL-WG-04 region-scoped source manifest. Every region only lists sources
+  // whose published bundle fully covers the region bbox (see
+  // assets/weather-map-regions.js for the bbox constants and coverage rule).
+  // Source order is photographer-first priority: highest usable resolution /
+  // most complete photography fields first, free sources only.
+  const REGION_SOURCE_CATALOG = {
+    gfs: {
+      label: 'GFS 0.25°',
+      field: 'data',
+      layers: ['total_cloud_percent','low_cloud_percent','mid_cloud_percent','high_cloud_percent','visibility_km','precip_rate_mm_h','wind_speed_10m_m_s','wind_direction_10m_deg'],
+      coverage: {
+        tw: {leftlon:117.5, rightlon:123.5, bottomlat:20.5, toplat:26.75},
+        jp: {leftlon:122, rightlon:146, bottomlat:24, toplat:46},
+        us: {leftlon:-125, rightlon:-70.5, bottomlat:25, toplat:49.5}
+      },
+      file: region => region === 'tw' ? 'gfs_tw_weather_browser.json' : `gfs_${region}_weather_browser.json`,
+      qcFile: region => region === 'tw' ? 'gfs_tw_weather_qc.json' : `gfs_${region}_weather_qc.json`
+    },
+    icon: {
+      label: 'ICON Global',
+      field: 'iconData',
+      layers: ['low_cloud_percent','mid_cloud_percent','high_cloud_percent'],
+      coverage: {
+        tw: {leftlon:117.5, rightlon:123.5, bottomlat:20.5, toplat:26.75},
+        jp: {leftlon:122, rightlon:146, bottomlat:24, toplat:46},
+        us: {leftlon:-125, rightlon:-70.5, bottomlat:25, toplat:49.5}
+      },
+      file: region => region === 'tw' ? 'icon_tw_cloud_browser.json' : `icon_${region}_cloud_browser.json`,
+      qcFile: region => region === 'tw' ? 'icon_tw_cloud_qc.json' : `icon_${region}_cloud_qc.json`
+    },
+    cwa: {
+      label: 'CWA WRF 3 km',
+      field: 'cwaData',
+      layers: ['relative_humidity_2m_percent','temperature_2m_c','precip_total_mm','shortwave_flux_w_m2','wind_speed_10m_m_s','wind_direction_10m_deg','temperature_925hpa_c','temperature_850hpa_c','temperature_700hpa_c','wind_speed_925hpa_m_s','wind_direction_925hpa_deg','wind_speed_850hpa_m_s','wind_direction_850hpa_deg','wind_speed_700hpa_m_s','wind_direction_700hpa_deg'],
+      coverage: {
+        tw: {leftlon:117.5, rightlon:125.5, bottomlat:20, toplat:27}
+      },
+      file: region => region === 'tw' ? 'cwa_wrf3_tw_weather_browser.json' : `cwa_wrf3_${region}_weather_browser.json`,
+      qcFile: region => region === 'tw' ? 'cwa_wrf3_tw_weather_qc.json' : `cwa_wrf3_${region}_weather_qc.json`
+    },
+    jma: {
+      label: 'JMA MSM 5 km',
+      field: 'jmaData',
+      layers: ['total_cloud_percent','low_cloud_percent','mid_cloud_percent','high_cloud_percent'],
+      coverage: {
+        // MSM native domain starts at 120.0625°E / 22.45°N in the HTTP
+        // transport, so the bundle does NOT cover the TW region bbox and is
+        // withheld from the Taiwan dropdown (owner rule); it fully covers Japan.
+        tw: {leftlon:120.0625, rightlon:124.5, bottomlat:22.45, toplat:27},
+        jp: {leftlon:122, rightlon:146, bottomlat:24, toplat:46}
+      },
+      file: region => region === 'tw' ? 'jma_msm_tw_cloud_browser.json' : `jma_msm_${region}_cloud_browser.json`,
+      qcFile: region => region === 'tw' ? 'jma_msm_tw_cloud_qc.json' : `jma_msm_${region}_cloud_qc.json`
+    },
+    himawari: {
+      label: 'Himawari-9 2 km',
+      field: 'himawariData',
+      layers: ['observed_cloud_mask','cloud_top_height_m'],
+      coverage: {
+        tw: {leftlon:118, rightlon:124, bottomlat:21.5, toplat:27}
+      },
+      file: region => region === 'tw' ? 'himawari9_tw_cloud_browser.json' : `himawari9_${region}_cloud_browser.json`,
+      qcFile: region => region === 'tw' ? 'himawari9_tw_cloud_qc.json' : `himawari9_${region}_cloud_qc.json`
+    },
+    cams: {
+      label: 'CAMS Global · 霧霾',
+      field: 'camsData',
+      layers: ['aerosol_optical_depth_550nm','pm2_5_ug_m3'],
+      coverage: {
+        tw: {leftlon:117.6, rightlon:123.6, bottomlat:20.4, toplat:26.8},
+        jp: {leftlon:122, rightlon:146, bottomlat:24, toplat:46},
+        us: {leftlon:-125, rightlon:-70.5, bottomlat:25, toplat:49.5}
+      },
+      file: region => region === 'tw' ? 'cams_global_tw_aod_browser.json' : `cams_global_${region}_aod_browser.json`,
+      qcFile: region => region === 'tw' ? 'cams_global_tw_aod_qc.json' : `cams_global_${region}_aod_qc.json`
+    },
+    viirs: {
+      label: 'NASA Black Marble · 夜間燈光',
+      field: 'viirsData',
+      layers: ['nighttime_lights_radiance_nw_cm2_sr'],
+      coverage: {
+        tw: {leftlon:117.5, rightlon:123.5, bottomlat:20.5, toplat:26.75},
+        jp: {leftlon:122, rightlon:146, bottomlat:24, toplat:46},
+        us: {leftlon:-125, rightlon:-70.5, bottomlat:25, toplat:49.5}
+      },
+      file: region => region === 'tw' ? 'viirs_nightlights_tw_browser.json' : `viirs_nightlights_${region}_browser.json`,
+      qcFile: region => region === 'tw' ? 'viirs_nightlights_tw_qc.json' : `viirs_nightlights_${region}_qc.json`
+    }
+  };
+
+  // Photographer-first priority order used for the region source dropdown.
+  const REGION_SOURCE_PRIORITY = ['gfs','icon','cwa','jma','himawari','cams','viirs'];
+  const REGION_BASELINE_SOURCE = 'gfs';
+
+  function regionManifest(regionId){
+    const enabled = window.WeatherMapRegions.sourcesForRegion(regionId, REGION_SOURCE_CATALOG);
+    return REGION_SOURCE_PRIORITY
+      .filter(id => enabled.includes(id))
+      .map(id => ({id, ...REGION_SOURCE_CATALOG[id]}));
+  }
+
+  function regionBbox(){
+    return window.WeatherMapRegions.REGION_BBOXES[state.region];
+  }
+
   // One provider-independent forecast cloud scale keeps JMA, CWA, ICON and
   // GFS directly comparable. Observation layers keep separate semantics.
   const CLOUD_PERCENT_BREAKS=[0,20,40,50,70,85,100];
@@ -80,6 +185,7 @@
     viirsData:null,
     viirsQc:null,
     modelMode:'auto',
+    region:'tw',
     coverage:{spots:[]},
     frameIndex:0,
     layer:'low_cloud_percent',
@@ -573,12 +679,27 @@
   }
 
   function renderViewBbox(){
-    if(!state.mapReady || !state.map) return state.view;
-    const b=state.map.getBounds();
-    return {
-      leftlon:b.getWest(),rightlon:b.getEast(),
-      bottomlat:b.getSouth(),toplat:b.getNorth()
+    let v;
+    if(state.mapReady && state.map){
+      const b=state.map.getBounds();
+      v={leftlon:b.getWest(),rightlon:b.getEast(),bottomlat:b.getSouth(),toplat:b.getNorth()};
+    }else{
+      v=state.view;
+    }
+    // CL-WG-04 render clip: never draw cells outside the active region bbox.
+    const region=window.WeatherMapRegions.normalizeBbox(regionBbox());
+    if(!region || !v) return v;
+    const clipped={
+      leftlon:Math.max(v.leftlon,region.leftlon),
+      rightlon:Math.min(v.rightlon,region.rightlon),
+      bottomlat:Math.max(v.bottomlat,region.bottomlat),
+      toplat:Math.min(v.toplat,region.toplat)
     };
+    if(clipped.rightlon<=clipped.leftlon || clipped.toplat<=clipped.bottomlat){
+      // View left the region entirely; render the region bbox itself.
+      return {...region};
+    }
+    return clipped;
   }
 
   function syncCanvasSize(){
@@ -842,132 +963,197 @@
   // its own fail-soft try/catch, so a partial load degrades exactly like the
   // old all-at-once path — just without making the user wait ~12 MB for a
   // map they could already see.
-  async function loadEnhancementsSequentially(){
-    try{
-      state.iconData = await fetchVersioned('icon_tw_cloud_browser.json');
-      try{ state.iconQc = await fetchVersioned('icon_tw_cloud_qc.json'); }catch(_){ state.iconQc = null; }
-      refreshModelControls();
-      renderAll();
-    }catch(err){
-      console.warn('ICON Global cloud bundle unavailable; GFS remains active', err);
-      state.iconData = null;
-      state.iconQc = null;
-    }
+  function unloadAllSources(){
+    state.data = null;
+    state.qc = null;
+    state.iconData = null;
+    state.iconQc = null;
+    state.cwaData = null;
+    state.cwaQc = null;
+    state.jmaData = null;
+    state.jmaQc = null;
+    state.himawariData = null;
+    state.himawariQc = null;
+    state.camsData = null;
+    state.camsQc = null;
+    state.viirsData = null;
+    state.viirsQc = null;
+  }
 
-    try{
-      state.cwaData = await hydratePackedBundle(
-        await fetchVersioned('cwa_wrf3_tw_weather_browser.json')
-      );
-      try{ state.cwaQc = await fetchVersioned('cwa_wrf3_tw_weather_qc.json'); }catch(_){ state.cwaQc = null; }
-      refreshModelControls();
-      renderAll();
-    }catch(err){
-      console.warn('CWA WRF 3 km bundle unavailable', err);
-      state.cwaData = null;
-      state.cwaQc = null;
-    }
+  function emptyRegionDataset(regionId){
+    const bbox = window.WeatherMapRegions.REGION_BBOXES[regionId];
+    return {schema_version:1, provider:'none', model:'unavailable',
+      bbox:{...bbox}, grid:{longitudes:[], latitudes:[], cols:0, rows:0},
+      fields:{}, frames:[], spots:[]};
+  }
 
-    try{
-      state.jmaData = await hydratePackedBundle(
-        await fetchVersioned('jma_msm_tw_cloud_browser.json')
-      );
-      try{ state.jmaQc = await fetchVersioned('jma_msm_tw_cloud_qc.json'); }catch(_){ state.jmaQc = null; }
-      refreshModelControls();
-      renderAll();
-    }catch(err){
-      console.warn('JMA MSM 5 km bundle unavailable', err);
-      state.jmaData = null;
-      state.jmaQc = null;
+  async function loadSourceBundle(entry, regionId){
+    const dataPath = entry.file(regionId);
+    const data = await hydratePackedBundle(await fetchVersioned(dataPath));
+    let qc = null;
+    try{ qc = await fetchVersioned(entry.qcFile(regionId)); }catch(_){ qc = null; }
+    if(entry.id === 'himawari'){
+      const normalized = normalizeHimawariBundle(data);
+      return {data: normalized, qc};
     }
-
-    try{
-      state.himawariData = normalizeHimawariBundle(
-        await fetchVersioned('himawari9_tw_cloud_browser.json')
-      );
-      try{ state.himawariQc = await fetchVersioned('himawari9_tw_cloud_qc.json'); }catch(_){ state.himawariQc = null; }
-      refreshModelControls();
-      renderAll();
-    }catch(err){
-      console.warn('Himawari-9 observation bundle unavailable', err);
-      state.himawariData = null;
-      state.himawariQc = null;
-    }
-
-    try{
-      state.camsData = await fetchVersioned('cams_global_tw_aod_browser.json');
-      try{ state.camsQc = await fetchVersioned('cams_global_tw_aod_qc.json'); }catch(_){ state.camsQc = null; }
-      refreshModelControls();
-      renderAll();
-    }catch(err){
-      console.warn('CAMS aerosol bundle unavailable', err);
-      state.camsData = null;
-      state.camsQc = null;
-    }
-
-    try{
-      const viirsData = await fetchVersioned('viirs_nightlights_tw_browser.json');
-      const viirsQc = await fetchVersioned('viirs_nightlights_tw_qc.json');
-      const qcFlags = Array.isArray(viirsQc?.flags) ? viirsQc.flags : ['qc_missing'];
+    if(entry.id === 'viirs'){
+      const qcFlags = Array.isArray(qc?.flags) ? qc.flags : ['qc_missing'];
+      const viirsData = data;
       const validContract = viirsData?.source==='nasa_black_marble_vnp46a4' &&
         Boolean(viirsData?.fields?.nighttime_lights_radiance_nw_cm2_sr) &&
         qcFlags.length===0;
       if(!validContract) throw new Error('VIIRS nighttime-light artifact failed contract/QC gate');
-      state.viirsData = viirsData;
-      state.viirsQc = viirsQc;
-      refreshModelControls();
-      renderAll();
-    }catch(err){
-      // B169f fail-closed UI contract: no real+QC-passing artifact means
-      // no selectable nighttime-light source is exposed to the user.
-      console.info('VIIRS nighttime-light layer not published', err);
-      state.viirsData = null;
-      state.viirsQc = null;
+    }
+    return {data, qc};
+  }
+
+  function assignSourceBundle(entry, bundle){
+    if(!bundle) return;
+    state[entry.field] = bundle.data;
+    const qcField = entry.field === 'data' ? 'qc' : entry.field.replace(/Data$/, 'Qc');
+    state[qcField] = bundle.qc;
+  }
+
+  function regionStatusText(status){
+    if(status==='unavailable') return '此地區尚無已發布資料源';
+    if(status==='loading') return '資料載入中…';
+    if(status==='demo') return 'DEMO 範例資料';
+    return '已載入';
+  }
+
+  async function loadEnhancementsSequentially(){
+    const regionId = state.region;
+    const manifest = regionManifest(regionId);
+    for(const entry of manifest){
+      if(entry.id === REGION_BASELINE_SOURCE) continue;
+      try{
+        const bundle = await loadSourceBundle(entry, regionId);
+        // Region may have switched while bundles were in flight.
+        if(state.region !== regionId) return;
+        assignSourceBundle(entry, bundle);
+        refreshModelControls();
+        renderAll();
+      }catch(err){
+        console.warn(`WeatherGrid ${entry.id} bundle unavailable for ${regionId}`, err);
+      }
     }
 
     try{
-      state.coverage = await fetchVersioned('weathergrid_coverage_browser.json');
+      const coveragePath = regionId === 'tw'
+        ? 'weathergrid_coverage_browser.json'
+        : `weathergrid_coverage_${regionId}_browser.json`;
+      state.coverage = await fetchVersioned(coveragePath);
       state.coverageSource = 'live';
     }catch(err){
-      console.warn('Live subject-aware coverage bundle unavailable', err);
+      console.warn(`Live subject-aware coverage bundle unavailable for ${regionId}`, err);
       state.coverage = {schema_version:1,spots:[]};
-      state.coverageSource = 'missing';
+      state.coverageSource = regionId === 'tw' ? 'missing' : 'unpublished';
     }
+    if(state.region !== regionId) return;
     refreshModelControls();
     renderAll();
+  }
+
+  async function activateRegion(regionId, {initial=false}={}){
+    state.region = regionId;
+    stopTimelinePlayback();
+    unloadAllSources();
+    state.modelMode = 'auto';
+    state.layer = 'low_cloud_percent';
+    state.spotId = '';
+    state.opportunityId = '';
+    state.frameIndex = 0;
+    state.source = 'loading';
+    state.coverage = {schema_version:1,spots:[]};
+    state.coverageSource = 'loading';
+    const bbox = regionBbox();
+    state.view = window.WeatherMapRegions.normalizeBbox(bbox);
+
+    const manifest = regionManifest(regionId);
+    const baseline = manifest.find(entry => entry.id === REGION_BASELINE_SOURCE) || manifest[0];
+    let baselineLoaded = false;
+    if(baseline){
+      try{
+        const bundle = await loadSourceBundle(baseline, regionId);
+        assignSourceBundle(baseline, bundle);
+        state.source = 'live';
+        baselineLoaded = true;
+      }catch(err){
+        console.warn(`WeatherGrid baseline bundle unavailable for ${regionId}`, err);
+      }
+    }
+    if(!baselineLoaded){
+      if(initial && regionId === 'tw'){
+        state.data = await fetchJson(FALLBACK_DATA);
+        state.qc = null;
+        state.source = 'demo';
+      }else{
+        // Honest empty region: no published source covers this bbox yet.
+        state.data = emptyRegionDataset(regionId);
+        state.source = 'unavailable';
+      }
+    }
+
+    setViewBbox(state.data.bbox || bbox);
+    if(initial){
+      initControls();
+      initBasemap();
+      window.__weatherGridPreviewReady = true;
+    }
+    refreshModelControls();
+    renderRegionCards();
+    refreshSpotOptions();
+    if(state.source === 'live' && baselineLoaded){
+      renderAll();
+      loadEnhancementsSequentially();
+    }else{
+      renderAll();
+    }
+  }
+
+  async function switchRegion(regionId){
+    if(!window.WeatherMapRegions.REGION_BBOXES[regionId]) return;
+    if(regionId === state.region) return;
+    await activateRegion(regionId);
+  }
+
+  function renderRegionCards(){
+    const host = $('region-switch');
+    if(!host) return;
+    const labels = window.WeatherMapRegions.REGION_LABELS;
+    const meta = window.WeatherMapRegions.REGION_CARD_META;
+    host.innerHTML = window.WeatherMapRegions.REGION_ORDER.map(id => {
+      const active = id === state.region;
+      const label = labels[id];
+      const subtitle = [label.en, label.ja].join(' · ');
+      return `<button type="button" class="region-card${active ? ' active' : ''}" ` +
+        `data-region="${id}" aria-pressed="${active}" ` +
+        `title="${escapeHtml(subtitle)}">` +
+        `<span class="region-card-flag">${meta[id].flag}</span>` +
+        `<span class="region-card-name">${escapeHtml(label['zh-TW'])}</span>` +
+        `<span class="region-card-sub">${escapeHtml(subtitle)}</span>` +
+        `</button>`;
+    }).join('');
+    for(const card of host.querySelectorAll('button[data-region]')){
+      card.addEventListener('click', () => switchRegion(card.dataset.region));
+    }
   }
 
   async function load(){
     await loadWeatherGridIndex();
     try{
-      state.data = await fetchVersioned('gfs_tw_weather_browser.json');
-      state.source = 'live';
-      try{ state.qc = await fetchVersioned('gfs_tw_weather_qc.json'); }catch(_){ state.qc = null; }
+      await activateRegion('tw', {initial:true});
     }catch(err){
       console.warn('WeatherGrid live bundle unavailable; using demo fixture', err);
       state.data = await fetchJson(FALLBACK_DATA);
       state.qc = null;
       state.source = 'demo';
-    }
-
-    setViewBbox(state.data.bbox);
-    initControls();
-    if(state.source === 'live'){
-      // First paint uses the GFS baseline; the richer regional models keep
-      // loading in the background and upgrade the auto selection as each
-      // bundle lands. The map is interactive immediately instead of after
-      // the full ~12 MB bundle set.
-      state.coverage = {schema_version:1,spots:[]};
-      state.coverageSource = 'loading';
-      renderAll();
-      initBasemap();
-      window.__weatherGridPreviewReady = true;
-      loadEnhancementsSequentially();
-    }else{
-      state.coverage = await fetchJson(FALLBACK_COVERAGE);
+      try{ state.coverage = await fetchJson(FALLBACK_COVERAGE); }catch(_){ state.coverage={schema_version:1,spots:[]}; }
       state.coverageSource = 'demo';
-      renderAll();
+      initControls();
       initBasemap();
       window.__weatherGridPreviewReady = true;
+      renderAll();
     }
   }
 
@@ -1007,7 +1193,7 @@
     if(mode==='jma') return Boolean(state.jmaData);
     if(mode==='cwa') return Boolean(state.cwaData);
     if(mode==='icon') return Boolean(state.iconData);
-    if(mode==='gfs') return Boolean(state.data);
+    if(mode==='gfs') return Boolean(state.data?.frames?.length);
     if(mode==='cams') return Boolean(state.camsData);
     if(mode==='viirs') return Boolean(state.viirsData);
     return true;
@@ -1026,15 +1212,33 @@
     return best;
   }
 
+  function regionFieldsBySource(){
+    const map={};
+    for(const entry of regionManifest(state.region)){
+      const data=state[entry.field];
+      if(data?.fields) map[entry.id]=data.fields;
+    }
+    return map;
+  }
+
   function availableLayerKeys(){
     const visibleLayerKeys=Object.keys(layerConfig).filter(key=>key!=='wind_direction_10m_deg');
+    let keys;
     if(state.modelMode==='auto'){
-      return photographerLayerOrder.filter(key=>
+      keys=photographerLayerOrder.filter(key=>
         visibleLayerKeys.includes(key) && Boolean(autoDataset(key)?.fields?.[key])
       );
+    }else{
+      const data=modelDataset();
+      keys=visibleLayerKeys.filter(key=>Boolean(data?.fields?.[key]));
     }
-    const data=modelDataset();
-    return visibleLayerKeys.filter(key=>Boolean(data?.fields?.[key]));
+    // Region layer mask (CL-WG-04): never offer a layer key that no enabled
+    // source of this region both declares and actually carries.
+    return window.WeatherMapRegions.maskLayersForRegion(
+      keys,
+      regionManifest(state.region),
+      regionFieldsBySource()
+    );
   }
 
   function windFieldsAvailable(){
@@ -1268,10 +1472,6 @@
     $('time-play').addEventListener('click',toggleTimelinePlayback);
 
     const spotSelect = $('spot-select');
-    spotSelect.innerHTML = '<option value="">全部景點</option>' +
-      state.data.spots.map(s =>
-        '<option value="'+escapeHtml(s.spot_id)+'">'+escapeHtml(s.name)+'</option>'
-      ).join('');
     spotSelect.addEventListener('change', () => {
       selectSpot(spotSelect.value);
     });
@@ -1298,6 +1498,17 @@
     syncInspectorVisibility();
     refreshModelControls();
   }
+  function refreshSpotOptions(){
+    const spotSelect = $('spot-select');
+    if(!spotSelect) return;
+    const spots = state.data?.spots || [];
+    spotSelect.innerHTML = '<option value="">全部景點</option>' +
+      spots.map(s =>
+        '<option value="'+escapeHtml(s.spot_id)+'">'+escapeHtml(s.name)+'</option>'
+      ).join('');
+    spotSelect.value = state.spotId || '';
+  }
+
   function selectSpot(spotId){
     state.spotId = spotId;
     state.opportunityId = '';
@@ -2697,15 +2908,17 @@
     const usingCams=data===state.camsData;
     const usingViirs=data===state.viirsData;
     $('time-slider').value=state.frameIndex;
-    const forecastHour=Number(f.forecast_hour || 0);
+    const forecastHour=Number(f?.forecast_hour || 0);
     const frameLead=`f${String(forecastHour).padStart(3,'0')}`;
-    $('time-label').textContent=usingHimawari
+    $('time-label').textContent=!f
+      ? '此地區尚無可顯示的時間軸'
+      : (usingHimawari
       ? `觀測時間 · ${formatTaipeiTime(f.valid_time_utc)} TST`
       : (usingViirs
         ? `年度合成 · ${f.composite_year || data.provenance?.composite_year || new Date(f.valid_time_utc).getUTCFullYear()}`
         : (usingCams
           ? `CAMS 預報時間 · ${formatTaipeiTime(f.valid_time_utc)} TST`
-          : `預報時間 · ${formatTaipeiTime(f.valid_time_utc)} · +${forecastHour}h${forecastHour > 48 ? '（參考）' : ''}`));
+          : `預報時間 · ${formatTaipeiTime(f.valid_time_utc)} · +${forecastHour}h${forecastHour > 48 ? '（參考）' : ''}`)));
     $('opacity-label').textContent=`${Math.round(state.weatherOpacity*100)}%`;
     const opacityTitle=$('opacity-title');
     const opacitySlider=$('opacity-slider');
@@ -2725,6 +2938,9 @@
     if(state.source==='demo'){
       status.textContent='DEMO 範例資料';
       status.className='source-pill demo';
+    }else if(state.source==='unavailable'){
+      status.textContent=regionStatusText('unavailable');
+      status.className='source-pill error';
     }else{
       if(usingHimawari){
         status.textContent='OBS · Himawari-9 2 km';
@@ -2850,7 +3066,7 @@
     }
     const unitText=usingHimawari && state.layer==='cloud_top_height_m'
       ? '原始單位 m · 顯示 km'
-      : `單位 ${data.fields[state.layer].unit}`;
+      : `單位 ${data.fields[state.layer]?.unit || '—'}`;
     $('layer-unit').textContent=usingHimawari
       ? `${providerRole} · ${unitText} · 單張最新觀測`
       : (usingViirs
