@@ -1628,7 +1628,7 @@ def test_adapter_integrity():
     assert "op.condition_variants" in frontend_source
     assert "day?.opportunities||{}" in frontend_source
     assert "const rankedOpportunities=opportunities.map((op,index)=>" in frontend_source
-    assert "if(a.score===null)return 1;if(b.score===null)return -1;return (b.score-a.score)||(a.index-b.index);" in frontend_source
+    assert "if(a.hours===null&&b.hours===null)return a.index-b.index;\n        if(a.hours===null)return 1;\n        if(b.hours===null)return -1;\n        return (b.hours-a.hours)||(a.index-b.index);" in frontend_source
     # B95: day-score cards must expose the actual winning forecast window and
     # confidence so a daily score is not mistaken for the current hour or for
     # the generic researched best-time description.
@@ -1645,9 +1645,9 @@ def test_adapter_integrity():
     assert "function opportunityDisplayName(spot,opportunityId,theme,legacyName)" in frontend_source
     assert "const selectedDateOpportunities=rankedOpportunities.filter(hasSelectedDateEvaluation);" in frontend_source
     assert "const guideOnlyOpportunities=rankedOpportunities.filter(op=>!selectedDateIds.has(op.opportunity_id));" in frontend_source
-    assert "const current=!guideOnly&&m&&scoreVerdict.primary?" in frontend_source
+    assert "const current=!guideOnly&&v2day?" in frontend_source
     assert "const scoreConfidence=!guideOnly&&m?.score_confidence?" in frontend_source
-    assert "const dayBestWindow=!guideOnly&&m&&(m.window_start||m.best_time)?fmtWindow(m):'';" in frontend_source
+    assert "const dayBestWindow=!guideOnly&&!v2op&&m&&(m.window_start||m.best_time)?fmtWindow(m):'';" in frontend_source
     assert "const bestSeason=localizedResearchValue(op,'best_season');" in frontend_source
     assert "const guideTime=localizedResearchValue(op,'best_time');" in frontend_source
     assert '${score} · ${esc(scoreVerdict.primary)}' not in frontend_source
@@ -1655,17 +1655,16 @@ def test_adapter_integrity():
     assert "result_count:'依所選日期最佳拍攝機會排序 · {n} 個景點'" in frontend_source
     assert "guide_confidence:'信心'" in frontend_source
     assert "function confidenceLabel(value)" in frontend_source
-    assert "const dayBestWindow=!guideOnly&&m&&(m.window_start||m.best_time)?fmtWindow(m):'';" in frontend_source
+    assert "const dayBestWindow=!guideOnly&&!v2op&&m&&(m.window_start||m.best_time)?fmtWindow(m):'';" in frontend_source
     assert "m.score_confidence" in frontend_source
     assert "no_viable_opportunity" in frontend_source
-    assert "no_viable_card:'所選日期目前沒有明確的拍攝建議'" in frontend_source
-    assert "no_viable_card:'There is no clear shooting recommendation for the selected date'" in frontend_source
-    assert "no_viable_card:'選択日には明確な撮影提案がありません'" in frontend_source
+    assert "guide_no_selected_date:'所選日期目前沒有明確的拍攝建議。'" in frontend_source
+    assert "guide_no_selected_date:'There is no clear shooting recommendation for the selected date.'" in frontend_source
+    assert "guide_no_selected_date:'選択日には明確におすすめできる撮影時間がありません。'" in frontend_source
     assert "今天剩餘時段沒有合適的已研究拍攝機會" not in frontend_source
     assert "No researched shooting opportunity remains viable today" not in frontend_source
     assert "本日の残り時間に適した調査済み撮影機会はありません" not in frontend_source
-    assert "const researchPending=!!metric.research_pending||!spot.opportunities?.length;const hasScore=" in frontend_source
-    assert "&&!researchPending&&!noViable" in frontend_source
+    assert "const noViable=!!metric.no_viable_opportunity;const researchPending=!!metric.research_pending||!spot.opportunities?.length;" in frontend_source
 
     # B45: Weather Forecast uses only the selected Place detail shard.
     assert "chaselights-v11-weather" in frontend_source
