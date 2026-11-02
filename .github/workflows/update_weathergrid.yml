@@ -67,36 +67,37 @@ jobs:
           path: .cache/dwd-icon-cdo
           key: dwd-icon-global-0125-cdo-v1
 
-      - name: Fetch regional live GFS WeatherGrid
+      - name: Fetch regional live GFS WeatherGrid (tw jp us ak hi)
         env:
           FORECAST_HOURS: ${{ inputs.forecast_hours || '0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,54,60,66,72,78,84,90,96,102,108,114,120,126,132,138,144,150,156,162,168' }}
         run: |
-          python gfs_multilayer_poc.py \
-            --forecast-hours "$FORECAST_HOURS" \
-            --output-dir gfs_multilayer_output \
-            --coverage-scope region
+          for region in tw jp us ak hi; do
+            python gfs_multilayer_poc.py \
+              --region "$region" \
+              --forecast-hours "$FORECAST_HOURS" \
+              --output-dir "gfs_multilayer_${region}_output" \
+              --coverage-scope region
+            python weathergrid_browser_bundle.py \
+              --region "$region" \
+              --input-dir "gfs_multilayer_${region}_output"
+          done
 
-      - name: Build compact GFS browser bundle and QC
-        run: |
-          python weathergrid_browser_bundle.py \
-            --input-dir gfs_multilayer_output
-
-      - name: Fetch ICON Global cloud WeatherGrid
+      - name: Fetch ICON Global cloud WeatherGrid (tw jp us ak hi)
         id: icon_cloud
         continue-on-error: true
         env:
           FORECAST_HOURS: ${{ inputs.forecast_hours || '0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,54,60,66,72,78,84,90,96,102,108,114,120,126,132,138,144,150,156,162,168' }}
         run: |
-          python icon_global_cloud_poc.py \
-            --forecast-hours "$FORECAST_HOURS" \
-            --output-dir icon_cloud_output \
-            --cdo-cache-dir .cache/dwd-icon-cdo
-
-      - name: Build ICON cloud browser bundle and QC
-        if: steps.icon_cloud.outcome == 'success'
-        run: |
-          python icon_weathergrid_browser_bundle.py \
-            --input-dir icon_cloud_output
+          for region in tw jp us ak hi; do
+            python icon_global_cloud_poc.py \
+              --region "$region" \
+              --forecast-hours "$FORECAST_HOURS" \
+              --output-dir "icon_cloud_${region}_output" \
+              --cdo-cache-dir .cache/dwd-icon-cdo
+            python icon_weathergrid_browser_bundle.py \
+              --region "$region" \
+              --input-dir "icon_cloud_${region}_output"
+          done
 
       - name: Fetch CWA WRF 3 km WeatherGrid
         id: cwa_wrf3
@@ -117,7 +118,7 @@ jobs:
       - name: Build subject-aware coverage browser bundle
         run: |
           python build_weathergrid_coverage_browser.py \
-            --output gfs_multilayer_output/weathergrid_coverage_browser.json
+            --output gfs_multilayer_tw_output/weathergrid_coverage_browser.json
 
       - name: Validate publish payload
         run: |
@@ -125,21 +126,44 @@ jobs:
           import json
           from pathlib import Path
 
-          out = Path("gfs_multilayer_output")
+          regions = ["tw", "jp", "us", "ak", "hi"]
+
+          # Per-region GFS bundle validation: bbox coverage + field completeness.
+          for region in regions:
+              out = Path(f"gfs_multilayer_{region}_output")
+              browser = json.loads((out / f"gfs_{region}_weather_browser.json").read_text())
+              qc = json.loads((out / f"gfs_{region}_weather_qc.json").read_text())
+              assert browser.get("frames"), f"{region}: browser bundle has no forecast frames"
+              assert qc.get("frame_count") == len(browser["frames"]), (region, qc)
+              bbox = browser.get("bbox") or {}
+              latitudes = browser.get("grid", {}).get("latitudes") or []
+              longitudes = browser.get("grid", {}).get("longitudes") or []
+              assert latitudes and longitudes, f"{region}: bundle grid missing coordinates"
+              assert (
+                  min(latitudes) <= bbox["bottomlat"] + 1e-6
+                  and max(latitudes) >= bbox["toplat"] - 1e-6
+                  and min(longitudes) <= bbox["leftlon"] + 1e-6
+                  and max(longitudes) >= bbox["rightlon"] - 1e-6
+              ), (
+                  f"{region}: bundle grid {min(latitudes)}..{max(latitudes)} / "
+                  f"{min(longitudes)}..{max(longitudes)} does not fully cover "
+                  f"the published bbox {bbox}"
+              )
+              assert browser.get("fields"), f"{region}: bundle has no field encodings"
+
+          out = Path("gfs_multilayer_tw_output")
           browser = json.loads((out / "gfs_tw_weather_browser.json").read_text())
           qc = json.loads((out / "gfs_tw_weather_qc.json").read_text())
           coverage = json.loads((out / "weathergrid_coverage_browser.json").read_text())
-
-          assert browser.get("frames"), "browser bundle has no forecast frames"
-          assert browser.get("spots"), "browser bundle has no Places"
           assert qc.get("frame_count") == len(browser["frames"]), (qc, len(browser["frames"]))
 
-          icon_path = Path("icon_cloud_output/icon_tw_cloud_browser.json")
-          icon_qc_path = Path("icon_cloud_output/icon_tw_cloud_qc.json")
           icon_summary = {"published": False}
+          icon_path = Path("icon_cloud_tw_output/icon_tw_cloud_browser.json")
           if icon_path.exists():
               icon = json.loads(icon_path.read_text())
-              icon_qc = json.loads(icon_qc_path.read_text())
+              icon_qc = json.loads(
+                  Path("icon_cloud_tw_output/icon_tw_cloud_qc.json").read_text()
+              )
               assert icon.get("model") == "ICON_GLOBAL", icon.get("model")
               assert icon.get("frames"), "ICON bundle has no forecast frames"
               assert icon_qc.get("frame_count") == len(icon["frames"])
@@ -215,6 +239,19 @@ jobs:
               "coverage_spots": len(coverage.get("spots", [])),
               "tw_073_complete": by_spot["tw-073"]["all_topics_complete"],
               "tw_075_complete": by_spot["tw-075"]["all_topics_complete"],
+              "region_bundles": {
+                  region: {
+                      "frames": len(json.loads(
+                          Path(f"gfs_multilayer_{region}_output/"
+                               f"gfs_{region}_weather_browser.json").read_text()
+                      )["frames"]),
+                      "spots": len(json.loads(
+                          Path(f"gfs_multilayer_{region}_output/"
+                               f"gfs_{region}_weather_browser.json").read_text()
+                      ).get("spots", [])),
+                  }
+                  for region in regions
+              },
               "icon": icon_summary,
               "cwa_wrf3": cwa_summary,
           }, indent=2))
@@ -223,17 +260,29 @@ jobs:
       - name: Publish compact live snapshot
         run: |
           mkdir -p weathergrid
-          cp gfs_multilayer_output/gfs_tw_weather_browser.json weathergrid/gfs_tw_weather_browser.json
-          cp gfs_multilayer_output/gfs_tw_weather_qc.json weathergrid/gfs_tw_weather_qc.json
-          cp gfs_multilayer_output/weathergrid_coverage_browser.json weathergrid/weathergrid_coverage_browser.json
+          for region in tw jp us ak hi; do
+            cp "gfs_multilayer_${region}_output/gfs_${region}_weather_browser.json" "weathergrid/gfs_${region}_weather_browser.json"
+            cp "gfs_multilayer_${region}_output/gfs_${region}_weather_qc.json" "weathergrid/gfs_${region}_weather_qc.json"
+          done
+          cp gfs_multilayer_tw_output/weathergrid_coverage_browser.json weathergrid/weathergrid_coverage_browser.json
 
-          if [[ -f icon_cloud_output/icon_tw_cloud_browser.json ]]; then
-            cp icon_cloud_output/icon_tw_cloud_browser.json weathergrid/icon_tw_cloud_browser.json
-            cp icon_cloud_output/icon_tw_cloud_qc.json weathergrid/icon_tw_cloud_qc.json
+          if [[ -f icon_cloud_tw_output/icon_tw_cloud_browser.json ]]; then
+            for region in tw jp us ak hi; do
+              if [[ -f "icon_cloud_${region}_output/icon_${region}_cloud_browser.json" ]]; then
+                cp "icon_cloud_${region}_output/icon_${region}_cloud_browser.json" "weathergrid/icon_${region}_cloud_browser.json"
+                cp "icon_cloud_${region}_output/icon_${region}_cloud_qc.json" "weathergrid/icon_${region}_cloud_qc.json"
+              else
+                # ICON is per-region optional; a missing region bundle falls
+                # back to that region's fresh GFS bundle in the browser.
+                rm -f "weathergrid/icon_${region}_cloud_browser.json" "weathergrid/icon_${region}_cloud_qc.json"
+              fi
+            done
           else
             # Never leave a stale ICON bundle active after a failed refresh.
             # The browser will immediately fall back to the fresh GFS bundle.
-            rm -f weathergrid/icon_tw_cloud_browser.json weathergrid/icon_tw_cloud_qc.json
+            for region in tw jp us ak hi; do
+              rm -f "weathergrid/icon_${region}_cloud_browser.json" "weathergrid/icon_${region}_cloud_qc.json"
+            done
           fi
 
           if [[ -f cwa_wrf3_output/cwa_wrf3_tw_weather_browser.json ]]; then
@@ -257,9 +306,25 @@ jobs:
             weathergrid/index.json \
             weathergrid/gfs_tw_weather_browser.json \
             weathergrid/gfs_tw_weather_qc.json \
+            weathergrid/gfs_jp_weather_browser.json \
+            weathergrid/gfs_jp_weather_qc.json \
+            weathergrid/gfs_us_weather_browser.json \
+            weathergrid/gfs_us_weather_qc.json \
+            weathergrid/gfs_ak_weather_browser.json \
+            weathergrid/gfs_ak_weather_qc.json \
+            weathergrid/gfs_hi_weather_browser.json \
+            weathergrid/gfs_hi_weather_qc.json \
             weathergrid/weathergrid_coverage_browser.json \
             weathergrid/icon_tw_cloud_browser.json \
             weathergrid/icon_tw_cloud_qc.json \
+            weathergrid/icon_jp_cloud_browser.json \
+            weathergrid/icon_jp_cloud_qc.json \
+            weathergrid/icon_us_cloud_browser.json \
+            weathergrid/icon_us_cloud_qc.json \
+            weathergrid/icon_ak_cloud_browser.json \
+            weathergrid/icon_ak_cloud_qc.json \
+            weathergrid/icon_hi_cloud_browser.json \
+            weathergrid/icon_hi_cloud_qc.json \
             weathergrid/cwa_wrf3_tw_weather_browser.json \
             weathergrid/cwa_wrf3_tw_weather_qc.json
 

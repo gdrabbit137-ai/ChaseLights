@@ -38,8 +38,8 @@ JMA_FIELD_ENCODINGS = {
 }
 
 
-def build_jma_bundle(input_dir: Path) -> tuple[dict, dict]:
-    raw_path = input_dir / "jma_msm_tw_cloud_raw.json"
+def build_jma_bundle(input_dir: Path, region: str = "tw") -> tuple[dict, dict]:
+    raw_path = input_dir / f"jma_msm_{region}_cloud_raw.json"
     raw = json.loads(raw_path.read_text(encoding="utf-8"))
     if raw.get("model") != "JMA_MSM":
         raise ValueError(f"unexpected JMA model: {raw.get('model')}")
@@ -208,6 +208,12 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--input-dir", default="jma_msm_output")
     parser.add_argument("--output-dir", default=None)
+    parser.add_argument(
+        "--region",
+        choices=("tw", "jp"),
+        default="tw",
+        help="Regional frame naming (CL-WG-05): jma_msm_<region>_cloud_browser.json.",
+    )
     return parser.parse_args()
 
 
@@ -217,9 +223,9 @@ def main() -> int:
     output_dir = Path(args.output_dir) if args.output_dir else input_dir
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    bundle, qc = build_jma_bundle(input_dir)
-    bundle_path = output_dir / "jma_msm_tw_cloud_browser.json"
-    qc_path = output_dir / "jma_msm_tw_cloud_qc.json"
+    bundle, qc = build_jma_bundle(input_dir, region=args.region)
+    bundle_path = output_dir / f"jma_msm_{args.region}_cloud_browser.json"
+    qc_path = output_dir / f"jma_msm_{args.region}_cloud_qc.json"
     bundle_path.write_text(
         json.dumps(bundle, ensure_ascii=False, separators=(",", ":")),
         encoding="utf-8",

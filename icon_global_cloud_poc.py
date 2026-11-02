@@ -22,7 +22,7 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 
-from gfs_raw_poc import TAIWAN_BBOX, active_taiwan_spots, parse_forecast_hours
+from gfs_raw_poc import REGIONAL_BBOXES, TAIWAN_BBOX, active_taiwan_spots, parse_forecast_hours
 from gfs_multilayer_poc import sample_field_bilinear, sample_field_nearest
 from weathergrid_model_resolver import (
     CloudModelRun,
@@ -457,6 +457,12 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--output-dir", default="icon_cloud_output")
     parser.add_argument(
+        "--region",
+        choices=("tw", "jp", "us", "ak", "hi"),
+        default="tw",
+        help="Regional frame bbox/naming for the ICON remap (CL-WG-05).",
+    )
+    parser.add_argument(
         "--cdo-cache-dir",
         default=".cache/dwd-icon-cdo",
         help="Cache directory for DWD's stable CDO remapping package.",
@@ -474,7 +480,8 @@ def main() -> int:
     max_fh = max(forecast_hours)
     out = Path(args.output_dir)
     out.mkdir(parents=True, exist_ok=True)
-    bbox = dict(TAIWAN_BBOX)
+    bbox = dict(REGIONAL_BBOXES.get(args.region, TAIWAN_BBOX))
+    prefix = f"icon_{args.region}_cloud"
 
     if args.date:
         cycle_time = _explicit_cycle(args.date, args.cycle)
@@ -511,7 +518,7 @@ def main() -> int:
 
     # Probe the furthest low-cloud file first, then keep one model cycle for
     # every field/frame in this browser series.
-    anchor_grib = out / f"icon_tw_clcl_f{max_fh:03d}.grib2"
+    anchor_grib = out / f"{prefix}_clcl_f{max_fh:03d}.grib2"
     anchor_run, anchor_url = download_icon_field(
         candidates,
         variable_dir=ICON_CLOUD_FIELDS["low_cloud_percent"][0],
@@ -530,7 +537,7 @@ def main() -> int:
         for field_index, (key, (variable_dir, variable_code)) in enumerate(
             ICON_CLOUD_FIELDS.items()
         ):
-            grib_path = out / f"icon_tw_{variable_dir}_f{fh:03d}.grib2"
+            grib_path = out / f"{prefix}_{variable_dir}_f{fh:03d}.grib2"
             if fh == max_fh and key == "low_cloud_percent":
                 if grib_path != anchor_grib:
                     grib_path.write_bytes(anchor_grib.read_bytes())
@@ -544,7 +551,7 @@ def main() -> int:
                     retry_wait_seconds=0,
                 )
 
-            netcdf_path = out / f"icon_tw_{variable_dir}_f{fh:03d}.nc"
+            netcdf_path = out / f"{prefix}_{variable_dir}_f{fh:03d}.nc"
             remap_icon_field(
                 input_grib=grib_path,
                 output_netcdf=netcdf_path,
@@ -559,7 +566,7 @@ def main() -> int:
                 time.sleep(0.15)
 
         sampled = sample_places(fields, spots)
-        frame_path = out / f"icon_tw_cloud_f{fh:03d}.json"
+        frame_path = out / f"{prefix}_f{fh:03d}.json"
         write_frame(
             fields=fields,
             spots=sampled,
@@ -573,7 +580,7 @@ def main() -> int:
         if frame_index < len(forecast_hours) - 1:
             time.sleep(0.35)
 
-    manifest_path = out / "icon_tw_cloud_manifest.json"
+    manifest_path = out / f"{prefix}_manifest.json"
     write_manifest(frames=frames, bbox=bbox, output_path=manifest_path)
 
     print(json.dumps({

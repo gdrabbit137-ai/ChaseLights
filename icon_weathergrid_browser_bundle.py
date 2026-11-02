@@ -66,9 +66,9 @@ def _grid_signature(field: dict) -> tuple:
     )
 
 
-def build_icon_bundle(input_dir: Path) -> tuple[dict, dict]:
+def build_icon_bundle(input_dir: Path, region: str = "tw") -> tuple[dict, dict]:
     manifest = json.loads(
-        (input_dir / "icon_tw_cloud_manifest.json").read_text(encoding="utf-8")
+        (input_dir / f"icon_{region}_cloud_manifest.json").read_text(encoding="utf-8")
     )
     if not manifest.get("frames"):
         raise ValueError("ICON manifest has no frames")
@@ -237,6 +237,12 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--input-dir", default="icon_cloud_output")
     parser.add_argument("--output-dir", default=None)
+    parser.add_argument(
+        "--region",
+        choices=("tw", "jp", "us", "ak", "hi"),
+        default="tw",
+        help="Regional frame naming (CL-WG-05): icon_<region>_cloud_browser.json.",
+    )
     return parser.parse_args()
 
 
@@ -246,9 +252,9 @@ def main() -> int:
     output_dir = Path(args.output_dir) if args.output_dir else input_dir
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    bundle, qc = build_icon_bundle(input_dir)
-    bundle_path = output_dir / "icon_tw_cloud_browser.json"
-    qc_path = output_dir / "icon_tw_cloud_qc.json"
+    bundle, qc = build_icon_bundle(input_dir, region=args.region)
+    bundle_path = output_dir / f"icon_{args.region}_cloud_browser.json"
+    qc_path = output_dir / f"icon_{args.region}_cloud_qc.json"
     bundle_path.write_text(
         json.dumps(bundle, ensure_ascii=False, separators=(",", ":")),
         encoding="utf-8",

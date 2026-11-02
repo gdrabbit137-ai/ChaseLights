@@ -3,7 +3,7 @@
 This step does not fetch weather data. It consumes the already-decoded B117
 frame JSON files and produces:
 
-- gfs_tw_weather_browser.json
+- gfs_tw_weather_browser.json (tw region; other regions: gfs_<region>_weather_browser.json)
 - gfs_tw_weather_qc.json
 
 The browser bundle uses simple quantization metadata so the front end can load
@@ -141,8 +141,8 @@ def _grid_signature(field: dict) -> tuple:
     )
 
 
-def build_bundle(input_dir: Path) -> tuple[dict, dict]:
-    manifest_path = input_dir / "gfs_tw_weather_manifest.json"
+def build_bundle(input_dir: Path, region: str = "tw") -> tuple[dict, dict]:
+    manifest_path = input_dir / f"gfs_{region}_weather_manifest.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
 
     if not manifest.get("frames"):
@@ -304,6 +304,12 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--input-dir", default="gfs_multilayer_output")
     parser.add_argument("--output-dir", default=None)
+    parser.add_argument(
+        "--region",
+        choices=("tw", "jp", "us", "ak", "hi"),
+        default="tw",
+        help="Regional frame naming (CL-WG-05): gfs_<region>_weather_browser.json.",
+    )
     return parser.parse_args()
 
 
@@ -313,9 +319,9 @@ def main() -> int:
     output_dir = Path(args.output_dir) if args.output_dir else input_dir
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    bundle, qc = build_bundle(input_dir)
-    bundle_path = output_dir / "gfs_tw_weather_browser.json"
-    qc_path = output_dir / "gfs_tw_weather_qc.json"
+    bundle, qc = build_bundle(input_dir, region=args.region)
+    bundle_path = output_dir / f"gfs_{args.region}_weather_browser.json"
+    qc_path = output_dir / f"gfs_{args.region}_weather_qc.json"
     bundle_path.write_text(
         json.dumps(bundle, ensure_ascii=False, separators=(",", ":")),
         encoding="utf-8",

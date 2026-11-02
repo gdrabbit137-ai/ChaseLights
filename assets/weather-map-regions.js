@@ -15,34 +15,47 @@
  * - jp  122–146°E / 24–46°N (covers catalogued places 32.7–43.7°N,
  *   129.9–144.5°E).
  * - us  "US Mainland" per owner spec: 125°W–70.5°W / 25–49.5°N covering all
- *   63 CONUS places (25.8–48.9°N, 124.6–71.0°W). Alaska/Hawaii places lie
- *   outside the mainland box by definition and are not offered in this view.
+ *   63 CONUS places (25.8–48.9°N, 124.6–71.0°W). Alaska/Hawaii places are
+ *   routed to their own independent regional frames (owner ruling
+ *   2026-11-03: 阿拉斯加跟夏威夷可以獨立框架) and are NOT part of this view.
+ * - ak  Alaska independent frame: 158°W–132°W / 55–69.5°N, widened around the
+ *   20 catalogued Alaska places (57.83–68.13°N, 155.79–134.41°W) with margin.
+ * - hi  Hawaii independent frame: owner spec 160.3°W–154.8°W / 18.8–22.4°N.
+ *   The catalog currently has NO Hawaii places, so the region renders an
+ *   honest empty state (no fabricated places or data).
  *
  * A data source is only listed for a region when its published bundle fully
  * covers that region's bbox. Source selection priority is photographer-first:
  * highest usable resolution / most complete photography fields first, all
- * free sources.
+ * free sources. NASA Black Marble (VIIRS) is fail-closed: it is not listed
+ * for a new region until its provenance-verified download covers that bbox.
  */
 (() => {
-  const REGION_ORDER = ['tw', 'jp', 'us'];
+  const REGION_ORDER = ['tw', 'jp', 'us', 'ak', 'hi'];
 
   const REGION_BBOXES = {
     tw: {leftlon: 118, rightlon: 123, bottomlat: 21.5, toplat: 26.5},
     jp: {leftlon: 122, rightlon: 146, bottomlat: 24, toplat: 46},
-    us: {leftlon: -125, rightlon: -70.5, bottomlat: 25, toplat: 49.5}
+    us: {leftlon: -125, rightlon: -70.5, bottomlat: 25, toplat: 49.5},
+    ak: {leftlon: -158, rightlon: -132, bottomlat: 55, toplat: 69.5},
+    hi: {leftlon: -160.3, rightlon: -154.8, bottomlat: 18.8, toplat: 22.4}
   };
 
   // Trilingual equivalent labels (zh-TW / en / ja) for the region cards.
   const REGION_LABELS = {
     tw: {'zh-TW': '台灣', en: 'Taiwan', ja: '台湾'},
     jp: {'zh-TW': '日本', en: 'Japan', ja: '日本'},
-    us: {'zh-TW': '美國本土', en: 'US Mainland', ja: 'アメリカ本土'}
+    us: {'zh-TW': '美國本土', en: 'US Mainland', ja: 'アメリカ本土'},
+    ak: {'zh-TW': '阿拉斯加', en: 'Alaska', ja: 'アラスカ'},
+    hi: {'zh-TW': '夏威夷', en: 'Hawaii', ja: 'ハワイ'}
   };
 
   const REGION_CARD_META = {
     tw: {flag: '🇹🇼'},
     jp: {flag: '🇯🇵'},
-    us: {flag: '🇺🇸'}
+    us: {flag: '🇺🇸'},
+    ak: {flag: '🇺🇸'},
+    hi: {flag: '🇺🇸'}
   };
 
   // Catalog-derived place extremes per region (apps/web-v2/catalog.v2.json,
@@ -51,9 +64,14 @@
   const PLACE_EXTREMES = {
     tw: {north: 26.36542, south: 21.929, west: 118.29849, east: 121.89314},
     jp: {north: 43.6620489, south: 32.7016613, west: 129.869083, east: 144.507319},
-    // Mainland-only: Alaska/Hawaii places are outside the mainland box by
-    // owner spec ("美國本土（或現有覆蓋區域）").
-    us: {north: 48.8682, south: 25.76584, west: -124.638, east: -71.0372}
+    // Mainland-only: Alaska/Hawaii places are routed to their own
+    // independent regional frames (ak/hi), never to this box.
+    us: {north: 48.8682, south: 25.76584, west: -124.638, east: -71.0372},
+    // Catalog-derived extremes for the 20 Alaska places.
+    ak: {north: 68.133, south: 57.82759, west: -155.79193, east: -134.40617},
+    // The catalog has no Hawaii places yet; null = vacuously empty so the
+    // region stays an honest empty state until real places are catalogued.
+    hi: null
   };
 
   function normalizeBbox(bbox) {
@@ -89,9 +107,24 @@
   function regionContainsAllPlaces(regionId) {
     const extreme = PLACE_EXTREMES[regionId];
     const region = normalizeBbox(REGION_BBOXES[regionId]);
-    if (!extreme || !region) return false;
+    if (!region) return false;
+    // A region with no catalogued places is vacuously complete (honest
+    // empty state) — it must not be failed for missing data.
+    if (!extreme) return true;
     return extreme.south >= region.bottomlat && extreme.north <= region.toplat &&
       extreme.west >= region.leftlon && extreme.east <= region.rightlon;
+  }
+
+  /**
+   * Route a place coordinate to its region: ak and hi are independent frames
+   * checked before the mainland us box so outlying US places never fall back
+   * into the US Mainland card. Returns null for coordinates in no region.
+   */
+  function regionForPoint(lat, lon) {
+    for (const id of ['ak', 'hi', 'jp', 'us', 'tw']) {
+      if (regionContainsPoint(id, lat, lon)) return id;
+    }
+    return null;
   }
 
   /**
@@ -129,7 +162,7 @@
   const api = {
     REGION_ORDER, REGION_BBOXES, REGION_LABELS, REGION_CARD_META, PLACE_EXTREMES,
     normalizeBbox, sourceCoversRegion, regionContainsPoint,
-    regionContainsAllPlaces, sourcesForRegion, maskLayersForRegion
+    regionContainsAllPlaces, regionForPoint, sourcesForRegion, maskLayersForRegion
   };
 
   if (typeof window !== 'undefined') {

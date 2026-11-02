@@ -18,7 +18,7 @@ import json
 import math
 from pathlib import Path
 
-from gfs_raw_poc import TAIWAN_BBOX
+from gfs_raw_poc import REGIONAL_BBOXES, TAIWAN_BBOX
 from weathergrid_coverage import (
     CoverageError,
     apply_registry_entry,
@@ -179,9 +179,14 @@ def _spot_index(catalog: dict) -> dict[str, dict]:
 
 
 def _regional_plan(region: str, reason: str | None = None) -> dict:
-    if region != "tw":
+    if region not in REGIONAL_BBOXES:
         raise CoverageError(f"B123 currently has no curated regional fallback for {region!r}")
-    bbox = dict(TAIWAN_BBOX)
+    # Snap outward to the provider grid so the fetched cells fully cover the
+    # owner bbox even when its edges fall between grid points (e.g. hi).
+    bbox = snap_nomads_bbox_outward(
+        dict(REGIONAL_BBOXES[region]),
+        grid_spacing_deg=GFS_GRID_SPACING_DEG,
+    )
     return {
         "provider": "NOAA/NCEP NOMADS",
         "model": "GFS",
