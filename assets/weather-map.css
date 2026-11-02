@@ -37,6 +37,20 @@ body{padding:18px}
 .control-bar button:hover{border-color:var(--accent)}
 #spot-select,#opportunity-select{overflow:hidden;text-overflow:ellipsis}
 
+/* CL-WG-04 region cards: card-style region switch, like the place cards. */
+.region-switch{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.region-card{display:flex !important;flex-direction:column;align-items:flex-start;gap:2px;
+  background:#0b1628 !important;color:#e2e8f0 !important;border:1px solid #334155 !important;
+  border-radius:9px !important;padding:8px 10px !important;font-size:.8rem !important;text-align:left;
+  cursor:pointer;transition:border-color .15s,background .15s}
+.region-card:hover{border-color:var(--accent) !important}
+.region-card.active{background:#12325a !important;border-color:#0ea5e9 !important;
+  box-shadow:0 0 0 1px #0ea5e9 inset;color:#e0f2fe !important}
+.region-card-flag{font-size:.95rem;line-height:1}
+.region-card-name{font-weight:800}
+.region-card-sub{font-size:.6rem;color:#94a3b8;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.region-card.active .region-card-sub{color:#7dd3fc}
+
 .map-reset-button{position:absolute;z-index:7;right:50px;top:10px;border:1px solid #475569;
   border-radius:999px;padding:6px 10px;background:rgba(15,23,42,.88);color:#bae6fd;
   font-size:.72rem;font-weight:800;cursor:pointer;backdrop-filter:blur(6px)}
