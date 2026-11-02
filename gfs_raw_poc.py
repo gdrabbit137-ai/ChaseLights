@@ -44,6 +44,17 @@ TAIWAN_BBOX = {
     "bottomlat": 20.5,
 }
 
+# CL-WG-05 regional WeatherGrid bboxes (owner ruling 2026-11-03). They mirror
+# assets/weather-map-regions.js REGION_BBOXES exactly; the fetch layer snaps
+# them outward to the provider grid when needed.
+REGIONAL_BBOXES = {
+    "tw": TAIWAN_BBOX,
+    "jp": {"leftlon": 122.0, "rightlon": 146.0, "toplat": 46.0, "bottomlat": 24.0},
+    "us": {"leftlon": -125.0, "rightlon": -70.5, "toplat": 49.5, "bottomlat": 25.0},
+    "ak": {"leftlon": -158.0, "rightlon": -132.0, "toplat": 69.5, "bottomlat": 55.0},
+    "hi": {"leftlon": -160.3, "rightlon": -154.8, "toplat": 22.4, "bottomlat": 18.8},
+}
+
 REQUEST_VARIABLES = {
     "var_LCDC": "on",
     "lev_low_cloud_layer": "on",
@@ -269,6 +280,48 @@ def active_taiwan_spots() -> list[dict]:
         for spot in get_spots("tw")
         if spot.get("active_in_catalog", True)
     ]
+
+
+def active_region_places(region: str) -> list[dict]:
+    """Catalog-derived Places for a CL-WG-05 regional frame (jp/us/ak/hi).
+
+    Reads apps/web-v2/catalog.v2.json navigation_targets (the same source the
+    region registry extremes were derived from) and keeps only Places inside
+    the region bbox. This routing is what keeps the US Mainland bundle free of
+    Alaska/Hawaii places: those belong to the independent ak/hi frames.
+    """
+    if region == "tw":
+        raise ValueError("tw keeps active_taiwan_spots() sampling")
+    import json
+
+    from gfs_raw_poc import REGIONAL_BBOXES
+
+    bbox = REGIONAL_BBOXES[region]
+    catalog_path = Path("apps/web-v2/catalog.v2.json")
+    if not catalog_path.exists():
+        raise FileNotFoundError(f"catalog not found: {catalog_path}")
+    catalog = json.loads(catalog_path.read_text(encoding="utf-8"))
+    seen: dict[str, dict] = {}
+    for opportunity in catalog.get("opportunities", []) or []:
+        for target in opportunity.get("navigation_targets", []) or []:
+            place_id = opportunity.get("place_id")
+            lat, lon = target.get("lat"), target.get("lon")
+            if place_id in seen or lat is None or lon is None:
+                continue
+            if not str(place_id).startswith("us-") and not str(place_id).startswith("jp-"):
+                continue
+            if not (
+                bbox["leftlon"] <= float(lon) <= bbox["rightlon"]
+                and bbox["bottomlat"] <= float(lat) <= bbox["toplat"]
+            ):
+                continue
+            seen[place_id] = {
+                "spot_id": place_id,
+                "name": opportunity.get("name_i18n", {}).get("zh-TW", place_id),
+                "lat": float(lat),
+                "lon": float(lon),
+            }
+    return list(seen.values())
 
 
 def _mesh_coordinates(grid: dict):

@@ -238,6 +238,12 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", default="jma_msm_output")
     parser.add_argument(
+        "--region",
+        choices=("tw", "jp"),
+        default="tw",
+        help="Regional frame bbox/naming (CL-WG-05): jp uses the Japan region bbox.",
+    )
+    parser.add_argument(
         "--forecast-hours",
         type=int,
         default=DEFAULT_FORECAST_HOURS,
@@ -253,7 +259,12 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> int:
     args = parse_args()
-    bbox = dict(JMA_MSM_TAIWAN_BROWSER_BBOX)
+    if args.region == "jp":
+        from gfs_raw_poc import REGIONAL_BBOXES
+
+        bbox = dict(REGIONAL_BBOXES["jp"])
+    else:
+        bbox = dict(JMA_MSM_TAIWAN_BROWSER_BBOX)
     for key in ("leftlon", "rightlon", "bottomlat", "toplat"):
         value = getattr(args, key)
         if value is not None:
@@ -294,7 +305,7 @@ def main() -> int:
     )
     out = Path(args.output_dir)
     out.mkdir(parents=True, exist_ok=True)
-    path = out / "jma_msm_tw_cloud_raw.json"
+    path = out / f"jma_msm_{args.region}_cloud_raw.json"
     path.write_text(
         json.dumps(snapshot, ensure_ascii=False, separators=(",", ":")),
         encoding="utf-8",

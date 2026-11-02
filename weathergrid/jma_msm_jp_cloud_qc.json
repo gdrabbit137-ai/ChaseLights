@@ -1,0 +1,190 @@
+{
+  "schema_version": 1,
+  "model_id": "jma_msm",
+  "provider": "Japan Meteorological Agency (JMA)",
+  "model": "JMA_MSM",
+  "cycle": {
+    "cycle_time_utc": "2026-11-02T12:00:00Z",
+    "label": "2026-11-02T12:00:00Z"
+  },
+  "frame_count": 3,
+  "grid_rows": 441,
+  "grid_cols": 385,
+  "fields": [
+    "total_cloud_percent",
+    "low_cloud_percent",
+    "mid_cloud_percent",
+    "high_cloud_percent"
+  ],
+  "frames": [
+    {
+      "forecast_hour": 0,
+      "valid_time_utc": "2026-11-02T12:00:00Z",
+      "fields": {
+        "total_cloud_percent": {
+          "count": 169785,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 32.8959,
+          "unique_rounded": 101,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "low_cloud_percent": {
+          "count": 169785,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 19.9087,
+          "unique_rounded": 101,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "mid_cloud_percent": {
+          "count": 169785,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 24.414,
+          "unique_rounded": 101,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "high_cloud_percent": {
+          "count": 169785,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 10.9777,
+          "unique_rounded": 101,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        }
+      }
+    },
+    {
+      "forecast_hour": 1,
+      "valid_time_utc": "2026-11-02T13:00:00Z",
+      "fields": {
+        "total_cloud_percent": {
+          "count": 169785,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 32.4465,
+          "unique_rounded": 101,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "low_cloud_percent": {
+          "count": 169785,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 19.8613,
+          "unique_rounded": 101,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "mid_cloud_percent": {
+          "count": 169785,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 24.0215,
+          "unique_rounded": 101,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "high_cloud_percent": {
+          "count": 169785,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 10.4925,
+          "unique_rounded": 101,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        }
+      }
+    },
+    {
+      "forecast_hour": 2,
+      "valid_time_utc": "2026-11-02T14:00:00Z",
+      "fields": {
+        "total_cloud_percent": {
+          "count": 169785,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 32.2359,
+          "unique_rounded": 101,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "low_cloud_percent": {
+          "count": 169785,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 19.8286,
+          "unique_rounded": 101,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "mid_cloud_percent": {
+          "count": 169785,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 23.887,
+          "unique_rounded": 101,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        },
+        "high_cloud_percent": {
+          "count": 169785,
+          "missing": 0,
+          "min": 0.0,
+          "max": 100.0,
+          "mean": 10.0004,
+          "unique_rounded": 101,
+          "range": 100.0,
+          "flags": [],
+          "source_units": "%",
+          "normalized_units": "%"
+        }
+      }
+    }
+  ],
+  "flags": [],
+  "notes": [
+    "JMA MSM total/low/mid/high cloud cover are native JMA surface GPV cloud fields read directly from Open-Meteo AWS Open Data spatial OM files.",
+    "The Taiwan subset is an exact slice of the native JMA MSM regular grid; no API point sampling or terrain downscaling is applied.",
+    "JMA cloud-layer pressure boundaries are model-specific and are stored in each field's vertical_definition metadata.",
+    "Browser bilinear interpolation is presentation-only and does not increase the native ~5 km model resolution."
+  ]
+}

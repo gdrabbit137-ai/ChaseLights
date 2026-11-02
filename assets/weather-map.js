@@ -32,7 +32,9 @@
       coverage: {
         tw: {leftlon:117.5, rightlon:123.5, bottomlat:20.5, toplat:26.75},
         jp: {leftlon:122, rightlon:146, bottomlat:24, toplat:46},
-        us: {leftlon:-125, rightlon:-70.5, bottomlat:25, toplat:49.5}
+        us: {leftlon:-125, rightlon:-70.5, bottomlat:25, toplat:49.5},
+        ak: {leftlon:-158, rightlon:-132, bottomlat:55, toplat:69.5},
+        hi: {leftlon:-160.3, rightlon:-154.8, bottomlat:18.8, toplat:22.4}
       },
       file: region => region === 'tw' ? 'gfs_tw_weather_browser.json' : `gfs_${region}_weather_browser.json`,
       qcFile: region => region === 'tw' ? 'gfs_tw_weather_qc.json' : `gfs_${region}_weather_qc.json`
@@ -44,7 +46,9 @@
       coverage: {
         tw: {leftlon:117.5, rightlon:123.5, bottomlat:20.5, toplat:26.75},
         jp: {leftlon:122, rightlon:146, bottomlat:24, toplat:46},
-        us: {leftlon:-125, rightlon:-70.5, bottomlat:25, toplat:49.5}
+        us: {leftlon:-125, rightlon:-70.5, bottomlat:25, toplat:49.5},
+        ak: {leftlon:-158, rightlon:-132, bottomlat:55, toplat:69.5},
+        hi: {leftlon:-160.3, rightlon:-154.8, bottomlat:18.8, toplat:22.4}
       },
       file: region => region === 'tw' ? 'icon_tw_cloud_browser.json' : `icon_${region}_cloud_browser.json`,
       qcFile: region => region === 'tw' ? 'icon_tw_cloud_qc.json' : `icon_${region}_cloud_qc.json`
@@ -90,7 +94,9 @@
       coverage: {
         tw: {leftlon:117.6, rightlon:123.6, bottomlat:20.4, toplat:26.8},
         jp: {leftlon:122, rightlon:146, bottomlat:24, toplat:46},
-        us: {leftlon:-125, rightlon:-70.5, bottomlat:25, toplat:49.5}
+        us: {leftlon:-125, rightlon:-70.5, bottomlat:25, toplat:49.5},
+        ak: {leftlon:-158, rightlon:-132, bottomlat:55, toplat:69.5},
+        hi: {leftlon:-160.3, rightlon:-154.8, bottomlat:18.8, toplat:22.4}
       },
       file: region => region === 'tw' ? 'cams_global_tw_aod_browser.json' : `cams_global_${region}_aod_browser.json`,
       qcFile: region => region === 'tw' ? 'cams_global_tw_aod_qc.json' : `cams_global_${region}_aod_qc.json`

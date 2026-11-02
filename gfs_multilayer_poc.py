@@ -29,13 +29,17 @@ from urllib.parse import urlencode
 from gfs_raw_poc import (
     GFSRun,
     NOMADS_FILTER_URL,
+    REGIONAL_BBOXES,
     TAIWAN_BBOX,
+    active_region_places,
     active_taiwan_spots,
     candidate_runs,
     haversine_km,
     parse_forecast_hours,
     validate_cycle,
 )
+
+REGION_PREFIX = "gfs_{region}_weather"
 
 REQUEST_PARAMS = {
     "var_LCDC": "on",
@@ -252,6 +256,13 @@ def extract_fields(grib_path: Path) -> dict[str, dict]:
         lon = _coord_values(ds, ("longitude", "lon"))
         if lat is None or lon is None:
             raise RuntimeError(f"{key} is missing latitude/longitude coordinates")
+
+        # NOMADS delivers Western-hemisphere longitudes in the 0-360
+        # convention. Normalize to -180..180 so regional bundles (us/ak/hi)
+        # match their published leftlon/rightlon bbox exactly.
+        lon = np.where(np.asarray(lon, dtype=float) > 180.0,
+                       np.asarray(lon, dtype=float) - 360.0,
+                       np.asarray(lon, dtype=float))
 
         normalized, normalized_unit = _normalize_values(
             values,
@@ -673,6 +684,12 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--output-dir", default="gfs_multilayer_output")
     parser.add_argument(
+        "--region",
+        choices=sorted(REGIONAL_BBOXES),
+        default="tw",
+        help="Regional WeatherGrid frame to fetch (CL-WG-05).",
+    )
+    parser.add_argument(
         "--coverage-scope",
         choices=("region", "place", "opportunity"),
         default="region",
@@ -701,10 +718,12 @@ def main() -> int:
 
     from weathergrid_fetch_plan import build_gfs_fetch_plan, write_fetch_plan
 
+    region = args.region
+    prefix = REGION_PREFIX.format(region=region)
     fetch_plan = build_gfs_fetch_plan(
         scope_type=args.coverage_scope,
         scope_id=args.coverage_id,
-        region="tw",
+        region=region,
         strict=args.strict_coverage,
     )
     if len(fetch_plan["segments"]) != 1:
@@ -713,7 +732,7 @@ def main() -> int:
             "antimeridian split plans are validated but not yet downloaded."
         )
     request_bbox = fetch_plan["segments"][0]
-    fetch_plan_path = out / "gfs_tw_weather_fetch_plan.json"
+    fetch_plan_path = out / f"{prefix}_fetch_plan.json"
     write_fetch_plan(fetch_plan, fetch_plan_path)
 
     if args.date and args.cycle:
@@ -749,14 +768,16 @@ def main() -> int:
         return 0
 
     anchor_fh = max(forecast_hours)
-    anchor_path = out / f"gfs_tw_weather_f{anchor_fh:03d}.grib2"
+    anchor_path = out / f"{prefix}_f{anchor_fh:03d}.grib2"
     anchor_run, anchor_url = download_multilayer_grib(
         candidate_base_runs,
         anchor_path,
         bbox=request_bbox,
     )
     selected_date, selected_cycle = anchor_run.date, anchor_run.cycle
-    spots = active_taiwan_spots()
+    spots = (
+        active_taiwan_spots() if region == "tw" else active_region_places(region)
+    )
     scoped_spot_ids = set(fetch_plan.get("spot_ids") or [])
     if scoped_spot_ids:
         spots = [spot for spot in spots if spot.get("spot_id") in scoped_spot_ids]
@@ -764,7 +785,7 @@ def main() -> int:
 
     for index, fh in enumerate(forecast_hours):
         run = GFSRun(selected_date, selected_cycle, fh)
-        grib_path = out / f"gfs_tw_weather_f{fh:03d}.grib2"
+        grib_path = out / f"{prefix}_f{fh:03d}.grib2"
         if fh == anchor_fh:
             source_url = anchor_url
         else:
@@ -779,8 +800,8 @@ def main() -> int:
 
         fields = extract_fields(grib_path)
         sampled_spots = sample_places(fields, spots)
-        json_path = out / f"gfs_tw_weather_f{fh:03d}.json"
-        png_path = out / f"gfs_tw_weather_f{fh:03d}.png"
+        json_path = out / f"{prefix}_f{fh:03d}.json"
+        png_path = out / f"{prefix}_f{fh:03d}.png"
         write_frame_json(
             fields,
             sampled_spots,
@@ -808,8 +829,8 @@ def main() -> int:
             "png_path": png_path,
         })
 
-    manifest_path = out / "gfs_tw_weather_manifest.json"
-    series_path = out / "gfs_tw_weather_spot_series.json"
+    manifest_path = out / f"{prefix}_manifest.json"
+    series_path = out / f"{prefix}_spot_series.json"
     write_manifest(frames, manifest_path, request_bbox, fetch_plan)
     write_spot_series(frames, spots, series_path)
 
