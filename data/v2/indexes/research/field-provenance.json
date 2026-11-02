@@ -3077,6 +3077,35 @@
         "source_blob_sha": "e7011a3c30c4632a7620541ec485f54d74a70a7e"
       }
     },
+    "tw-086": {
+      "zh-TW": {
+        "opportunity_id": "tw-086-P01",
+        "pointer": "/name_i18n/zh-TW",
+        "start": 0,
+        "end": 13,
+        "value": "八里崁頭里・淡水大橋觀景點",
+        "source_commit_sha": "cebb9689ee339f24655aafa010ecfc7977178368",
+        "source_blob_sha": "8765dd278953bcb7b202b18b0dc8ed2c40c3fca0"
+      },
+      "en": {
+        "opportunity_id": "tw-086-P01",
+        "pointer": "/name_i18n/en",
+        "start": 0,
+        "end": 35,
+        "value": "Bali Kantou Guandu Bridge Viewpoint",
+        "source_commit_sha": "cebb9689ee339f24655aafa010ecfc7977178368",
+        "source_blob_sha": "8765dd278953bcb7b202b18b0dc8ed2c40c3fca0"
+      },
+      "ja": {
+        "opportunity_id": "tw-086-P01",
+        "pointer": "/name_i18n/ja",
+        "start": 0,
+        "end": 12,
+        "value": "八里崁頭・淡水大橋展望地",
+        "source_commit_sha": "cebb9689ee339f24655aafa010ecfc7977178368",
+        "source_blob_sha": "8765dd278953bcb7b202b18b0dc8ed2c40c3fca0"
+      }
+    },
     "us-001": {
       "zh-TW": {
         "direct_source": true,
@@ -13471,6 +13500,107 @@
         "data/v2/opportunities/tw-085-P03.json#/camera_contexts/0/safety_notes_i18n"
       ],
       "navigation_ref": "data/v2/opportunities/tw-085-P03.json#/navigation_targets"
+    },
+    "tw-086-P01": {
+      "classification_method": "CURATED_CANONICAL_TARGET_AND_EXISTENCE_EVIDENCE",
+      "classification": {
+        "topic_ids": [],
+        "canonical_pointers": [
+          "/targets/0/name_i18n",
+          "/description_i18n"
+        ],
+        "evidence_claim_id": "tw-086-P01-existence",
+        "evidence_refs": [],
+        "classification_basis": "owner_ruling_2026-11-02 fog genre; no W1 topic vocabulary for fog - honestly unclassified"
+      },
+      "classification_excerpts": {
+        "/targets/0/name_i18n": {
+          "zh-TW": "八里崁頭里・淡水大橋觀景點霧中淡水大橋（霧景）",
+          "en": "Bali Kantou Guandu Bridge ViewpointGuandu Bridge half-hidden in fog",
+          "ja": "八里崁頭・淡水大橋展望地霧の淡水大橋（霧景）"
+        },
+        "/description_i18n": {
+          "zh-TW": "從八里山側眺望點拍攝霧中半隱的淡水大橋：河谷霧把橋樑與對岸城市輪廓隱去一半，是低能見度反而正確的題材。座標為 owner 提供（Google Maps 已解析至 @25.140639,121.420333），方位朝向淡水河與橋樑（確切方位角未驗證）。與既有 legacy「關渡大橋」橋上拍攝點相鄰但不同，不得合併。",
+          "en": "Photograph the Guandu Bridge half-hidden in river-valley fog from the Bali hillside viewpoint: valley fog half-erases the bridge and the far city skyline - a subject where low visibility is exactly right. Coordinates are owner-provided (Google Maps resolved to @25.140639,121.420333); the viewpoint faces the Tamsui River and the bridge (exact bearing unverified). Adjacent to, but deliberately distinct from, the legacy on-the-bridge Guandu Bridge subject.",
+          "ja": "八里の山側展望地から、谷霧に半分隠れた淡水大橋を撮る。霧は橋と対岸の街の輪郭を半分消す、視程が低いほうが成立する題材。座標はオーナー提供（Google Maps、@25.140639,121.420333 に解決済み）、展望地は淡水河と橋を向く（正確な方位角は未確認）。legacyの「関渡大橋（橋上）」とは隣接するが別地点。"
+        }
+      },
+      "description_ref": "data/v2/opportunities/tw-086-P01.json#/description_i18n",
+      "access_advisory_refs": [
+        "data/v2/opportunities/tw-086-P01.json#/camera_contexts/0/access_notes_i18n"
+      ],
+      "safety_refs": [
+        "data/v2/opportunities/tw-086-P01.json#/camera_contexts/0/safety_notes_i18n"
+      ],
+      "navigation_ref": "data/v2/opportunities/tw-086-P01.json#/navigation_targets"
+    },
+    "tw-086-P02": {
+      "classification_method": "CURATED_CANONICAL_TARGET_AND_EXISTENCE_EVIDENCE",
+      "classification": {
+        "topic_ids": [],
+        "canonical_pointers": [
+          "/targets/0/name_i18n",
+          "/description_i18n"
+        ],
+        "evidence_claim_id": "tw-086-P02-existence",
+        "evidence_refs": [],
+        "classification_basis": "owner_ruling_2026-11-02 overlook genre; river-bridge scene does not fit coastal-landscape scope - honestly unclassified"
+      },
+      "classification_excerpts": {
+        "/targets/0/name_i18n": {
+          "zh-TW": "八里崁頭里・淡水大橋觀景點淡水大橋日景通透（白天通透）",
+          "en": "Bali Kantou Guandu Bridge Viewpointclear daytime view of Guandu Bridge",
+          "ja": "八里崁頭・淡水大橋展望地快晴時の淡水大橋（昼間の透明度）"
+        },
+        "/description_i18n": {
+          "zh-TW": "白天從八里山側眺望點通透拍攝淡水大橋與淡水河面：空氣乾淨（能見度 ≥ 5 km、AOD ≤ 0.4）、低雲少（≤ 30%）時橋樑結構與河面反光清楚可讀。座標與方位語義同 P01，與 legacy「關渡大橋」不得合併。",
+          "en": "A clear daytime view of the Guandu Bridge and the Tamsui River from the Bali hillside viewpoint: with clean air (visibility >= 5 km, AOD <= 0.4) and little low cloud (<= 30%), the bridge structure and river reflections stay readable. Same owner-provided coordinate and facing as P01; adjacent to, but distinct from, the legacy Guandu Bridge subject.",
+          "ja": "八里の山側展望地から昼間に淡水大橋と淡水河を透明度よく撮る。空気が澄み（視程 5 km 以上、AOD 0.4 以下）、下層雲が少ない（30% 以下）と橋の構造と川面の反射がはっきり読める。座標と向きは P01 と同じ。legacyの「関渡大橋」とは別地点。"
+        }
+      },
+      "description_ref": "data/v2/opportunities/tw-086-P02.json#/description_i18n",
+      "access_advisory_refs": [
+        "data/v2/opportunities/tw-086-P02.json#/camera_contexts/0/access_notes_i18n"
+      ],
+      "safety_refs": [
+        "data/v2/opportunities/tw-086-P02.json#/camera_contexts/0/safety_notes_i18n"
+      ],
+      "navigation_ref": "data/v2/opportunities/tw-086-P02.json#/navigation_targets"
+    },
+    "tw-086-P03": {
+      "classification_method": "CURATED_CANONICAL_TARGET_AND_EXISTENCE_EVIDENCE",
+      "classification": {
+        "topic_ids": [
+          "topic:sunset"
+        ],
+        "canonical_pointers": [
+          "/targets/0/name_i18n",
+          "/description_i18n"
+        ],
+        "evidence_claim_id": "tw-086-P03-existence",
+        "evidence_refs": [],
+        "classification_basis": "owner_ruling_2026-11-02 sunset genre (blazing sunset clouds)"
+      },
+      "classification_excerpts": {
+        "/targets/0/name_i18n": {
+          "zh-TW": "八里崁頭里・淡水大橋觀景點淡水大橋火燒雲（日落）",
+          "en": "Bali Kantou Guandu Bridge Viewpointblazing sunset clouds over Guandu Bridge",
+          "ja": "八里崁頭・淡水大橋展望地焼け雲の夕景（日没）"
+        },
+        "/description_i18n": {
+          "zh-TW": "日落時段從八里山側眺望點拍攝淡水大橋上空的火燒雲：低角度逆光把中高雲染成紅橙，橋樑剪影成為前景。「火燒雲」對應日落彩霞語義。座標與方位語義同 P01，與 legacy「關渡大橋」不得合併。",
+          "en": "At sunset the Bali hillside viewpoint frames blazing clouds above the Guandu Bridge: low-angle backlight dyes mid/high cloud red-orange with the bridge as silhouette. \"Blazing clouds\" means the sunset-glow semantics. Same owner-provided coordinate and facing as P01; adjacent to, but distinct from, the legacy Guandu Bridge subject.",
+          "ja": "日没時に八里の山側展望地から淡水大橋の空に焼け雲を撮る。低角度の逆光が中・高層雲を赤橙に染め、橋がシルエットの前景になる。「焼け雲」は日没彩霞の意味。座標と向きは P01 と同じ。legacyの「関渡大橋」とは別地点。"
+        }
+      },
+      "description_ref": "data/v2/opportunities/tw-086-P03.json#/description_i18n",
+      "access_advisory_refs": [
+        "data/v2/opportunities/tw-086-P03.json#/camera_contexts/0/access_notes_i18n"
+      ],
+      "safety_refs": [
+        "data/v2/opportunities/tw-086-P03.json#/camera_contexts/0/safety_notes_i18n"
+      ],
+      "navigation_ref": "data/v2/opportunities/tw-086-P03.json#/navigation_targets"
     },
     "us-001-P01": {
       "classification_method": "CURATED_CANONICAL_TARGET_AND_EXISTENCE_EVIDENCE",
