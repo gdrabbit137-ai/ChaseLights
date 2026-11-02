@@ -1,0 +1,284 @@
+{
+  "schema_version": "2.1.0",
+  "opportunity_id": "tw-086-P01",
+  "place_id": "tw-086",
+  "revision": 1,
+  "lifecycle_status": "draft",
+  "name_i18n": {
+    "zh-TW": "八里崁頭里・淡水大橋觀景點：霧中淡水大橋（霧景）",
+    "en": "Bali Kantou Guandu Bridge Viewpoint - Guandu Bridge half-hidden in fog",
+    "ja": "八里崁頭・淡水大橋展望地：霧の淡水大橋（霧景）"
+  },
+  "description_i18n": {
+    "zh-TW": "從八里山側眺望點拍攝霧中半隱的淡水大橋：河谷霧把橋樑與對岸城市輪廓隱去一半，是低能見度反而正確的題材。座標為 owner 提供（Google Maps 已解析至 @25.140639,121.420333），方位朝向淡水河與橋樑（確切方位角未驗證）。與既有 legacy「關渡大橋」橋上拍攝點相鄰但不同，不得合併。",
+    "en": "Photograph the Guandu Bridge half-hidden in river-valley fog from the Bali hillside viewpoint: valley fog half-erases the bridge and the far city skyline - a subject where low visibility is exactly right. Coordinates are owner-provided (Google Maps resolved to @25.140639,121.420333); the viewpoint faces the Tamsui River and the bridge (exact bearing unverified). Adjacent to, but deliberately distinct from, the legacy on-the-bridge Guandu Bridge subject.",
+    "ja": "八里の山側展望地から、谷霧に半分隠れた淡水大橋を撮る。霧は橋と対岸の街の輪郭を半分消す、視程が低いほうが成立する題材。座標はオーナー提供（Google Maps、@25.140639,121.420333 に解決済み）、展望地は淡水河と橋を向く（正確な方位角は未確認）。legacyの「関渡大橋（橋上）」とは隣接するが別地点。"
+  },
+  "camera_contexts": [
+    {
+      "id": "CZ-tw-086-P01-01",
+      "kind": "point",
+      "geometry": {
+        "kind": "point",
+        "status": "provisional",
+        "geojson": {
+          "type": "Point",
+          "coordinates": [
+            121.420333,
+            25.140639
+          ]
+        },
+        "uncertainty_m": null,
+        "derivation_method": "owner_provided_google_maps_2026-11-02; https://maps.app.goo.gl/FVGstdckGqjZrvgp7 resolved to @25.140639,121.420333",
+        "source_geometry_revision": null,
+        "reason_if_absent": null
+      },
+      "verification_status": "provisional",
+      "evidence_refs": [],
+      "access_notes_i18n": {
+        "zh-TW": "位於八里山側眺望點；實際抵達路線與停車資訊尚未核實，請依現場公告與規定。",
+        "en": "Bali hillside viewpoint; practical arrival route and parking not yet verified - follow on-site notices and rules.",
+        "ja": "八里の山側展望地。実際の到着経路と駐車情報は未確認。現地の告知と規定に従ってください。"
+      },
+      "safety_notes_i18n": {
+        "zh-TW": "夜間與霧中山側道路濕滑視線差；請注意交通與落腳處，勿站上車道取景。",
+        "en": "Fog and wet roads make night approaches on the hillside hazardous; watch traffic and footing, never stand on the carriageway for a composition.",
+        "ja": "霧や濡れた道路では夜間の視界と足場が悪い。交通と足元に注意し、車道に立って撮影しない。"
+      },
+      "altitude_m": null
+    }
+  ],
+  "targets": [
+    {
+      "id": "SG-tw-086-P01-01",
+      "kind": "atmospheric_volume",
+      "name_i18n": {
+        "zh-TW": "八里崁頭里・淡水大橋觀景點霧中淡水大橋（霧景）",
+        "en": "Bali Kantou Guandu Bridge ViewpointGuandu Bridge half-hidden in fog",
+        "ja": "八里崁頭・淡水大橋展望地霧の淡水大橋（霧景）"
+      },
+      "geometry": {
+        "kind": "point",
+        "status": "provisional",
+        "geojson": {
+          "type": "Point",
+          "coordinates": [
+            121.420333,
+            25.140639
+          ]
+        },
+        "uncertainty_m": null,
+        "derivation_method": "owner_provided_google_maps_2026-11-02; https://maps.app.goo.gl/FVGstdckGqjZrvgp7 resolved to @25.140639,121.420333",
+        "source_geometry_revision": null,
+        "reason_if_absent": null
+      },
+      "phenomenon_model_id": null,
+      "evidence_refs": [],
+      "components": []
+    }
+  ],
+  "observation_relations": [
+    {
+      "id": "VR-tw-086-P01-01",
+      "camera_context_id": "CZ-tw-086-P01-01",
+      "target_id": "SG-tw-086-P01-01",
+      "type": "line_of_sight",
+      "geometry_mode": "unknown",
+      "azimuth_deg": null,
+      "elevation_deg": null,
+      "distance_m": null,
+      "evidence_refs": [],
+      "derivation_method": null,
+      "uncertainty_note": "Owner states the viewpoint faces the Tamsui River and Guandu Bridge; no verified azimuth, distance or corridor numbers yet."
+    }
+  ],
+  "navigation_targets": [
+    {
+      "id": "NAV-tw-086-P01-01",
+      "status": "needs_review",
+      "target_type": "other",
+      "lat": null,
+      "lon": null,
+      "label_i18n": {
+        "zh-TW": "實際抵達點未核實",
+        "en": "Practical arrival point not verified",
+        "ja": "実際の到着地点は未確認"
+      },
+      "evidence_refs": [],
+      "confidence": "unknown"
+    }
+  ],
+  "condition_contract": {
+    "contract_id": "CC-tw-086-P01-v1",
+    "status": "draft",
+    "genre_template": "cloud_sea",
+    "template_version": "cloud_sea-v0.1",
+    "recommendation_policy_version": null,
+    "conditions": [
+      {
+        "id": "C-tw-086-P01-01",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "relative_humidity_925hpa",
+        "operator": "gte",
+        "threshold": 85,
+        "unit": "%",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-086-P01-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:relative_humidity_925hpa_percent|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "河谷霧生成的必要條件：中低層水氣接近飽和（相對濕度 925hPa ≥ 85%）霧才會在河谷與河面成長。霧景語義與一般「能見度越好越對」相反——能見度低反而正確：主體就是霧中半隱的橋。評估器用濕度與低雲兩個霧生成代理判據表達這個語義，不需要反向能見度門檻；本條件未校準，為 provisional。",
+          "en": "Necessary condition for river-valley fog to form: near-saturated mid/lower-level moisture (RH at 925 hPa >= 85%). Fog semantics run opposite to usual visibility logic - LOW visibility is the correct look here, because the subject is the bridge half-hidden in fog. The evaluator expresses this with the humidity and low-cloud fog-formation proxies, so no inverted-visibility operator is needed. Provisional, not calibrated.",
+          "ja": "河谷霧の生成に必要な条件：中下層の水蒸気が飽和に近い（925hPa 相対湿度 85% 以上）と霧が河川域で発達する。霧景は通常の視程どおりの常識と逆で、視程が低いほうが正しい（主役は霧に半分隠れた橋）。評価器は湿度と下層雲という霧生成の代理指標でこの意味を表現でき、逆転した視程閾値は不要。未校正の暫定値。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-02 owner（Richard）定義地點與題材；條件依既有已審模板訂立，未校準。",
+          "en": "Defined by the owner (Richard) on 2026-11-02: the place and subjects; conditions follow already-reviewed template values and are not calibrated.",
+          "ja": "2026-11-02、オーナー（Richard）が場所と題材を定義。条件は承認済みテンプレート値に基づき、未校正。"
+        }
+      },
+      {
+        "id": "C-tw-086-P01-02",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "cloud_cover_low",
+        "operator": "gte",
+        "threshold": 60,
+        "unit": "%",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-086-P01-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:cloud_cover_low_percent|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "河谷雲霧覆蓋：低雲 ≥ 60% 代表河谷與河面正被雲霧填滿，橋身才會呈半隱半現的霧中輪廓（與已審雲海模板 T4 同值同義）。",
+          "en": "River-valley cloud-fog coverage: low cloud >= 60% means valley and river surface are filling with cloud-fog, which is what half-hides the bridge (same value and meaning as the reviewed cloud-sea template T4).",
+          "ja": "河谷の雲霧の覆蓋：下層雲 60% 以上は河谷と川面が雲霧で満たされている状態を示し、橋が半分隠れる輪郭を作る（承認済み雲海テンプレートT4と同値）。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-02 owner（Richard）定義地點與題材；條件依既有已審模板訂立，未校準。",
+          "en": "Defined by the owner (Richard) on 2026-11-02: the place and subjects; conditions follow already-reviewed template values and are not calibrated.",
+          "ja": "2026-11-02、オーナー（Richard）が場所と題材を定義。条件は承認済みテンプレート値に基づき、未校正。"
+        }
+      },
+      {
+        "id": "C-tw-086-P01-03",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "precipitation",
+        "operator": "lt",
+        "threshold": 0.3,
+        "unit": "mm/h",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-086-P01-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "降水 < 0.3 mm/h：毛毛細雨以下不沖散霧、也不打壞拍攝（與既有已審日落/日出模板同值）。",
+          "en": "Precipitation < 0.3 mm/h: drizzle or less does not wash the fog out or ruin the shoot (same value as the reviewed sunset/sunrise templates).",
+          "ja": "降水量 0.3 mm/h 未満：小雨以下では霧が洗い流されず、撮影も支障しない（承認済みの日没・日の出テンプレートと同値）。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-02 owner（Richard）定義地點與題材；條件依既有已審模板訂立，未校準。",
+          "en": "Defined by the owner (Richard) on 2026-11-02: the place and subjects; conditions follow already-reviewed template values and are not calibrated.",
+          "ja": "2026-11-02、オーナー（Richard）が場所と題材を定義。条件は承認済みテンプレート値に基づき、未校正。"
+        }
+      },
+      {
+        "id": "C-tw-086-P01-04",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "wind_speed_10m",
+        "operator": "lt",
+        "threshold": 3,
+        "unit": "m/s",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-086-P01-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:wind_speed_10m_m_s|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "evidence_review",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "地表風速 < 3 m/s（provisional，owner 新增）：弱風讓霧不被吹散、維持在河谷與橋樑之間。此門檻來自 owner 對霧景的實務經驗，尚無現地校準。",
+          "en": "Surface wind < 3 m/s (provisional, owner-added): light wind keeps the fog from being blown apart between the valley and the bridge. This threshold is the owner's field judgement on fog scenes; no local calibration yet.",
+          "ja": "地表風速 3 m/s 未満（暫定、オーナー追加）：弱風では霧が吹き散らされず、河谷と橋の間に保たれる。この閾値は霧景に関するオーナーの現場判断で、現地校正は未実施。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-02 owner（Richard）定義地點與題材；條件依既有已審模板訂立，未校準。",
+          "en": "Defined by the owner (Richard) on 2026-11-02: the place and subjects; conditions follow already-reviewed template values and are not calibrated.",
+          "ja": "2026-11-02、オーナー（Richard）が場所と題材を定義。条件は承認済みテンプレート値に基づき、未校正。"
+        }
+      }
+    ]
+  },
+  "evidence_claims": [
+    {
+      "claim_id": "tw-086-P01-existence",
+      "claim_type": "existence",
+      "evidence_refs": [],
+      "audit_status": "PARTIAL",
+      "scope_note": "Owner-declared place and subject definition (Richard, 2026-11-02) with an owner-provided Google Maps link (https://maps.app.goo.gl/FVGstdckGqjZrvgp7, resolved to @25.140639,121.420333); no independently published source audit yet. Deliberately distinct from the legacy Guandu Bridge on-the-bridge subject: this is the Bali hillside viewpoint looking at the bridge, not a bridge-crossing subject."
+    },
+    {
+      "claim_id": "tw-086-P01-camera",
+      "claim_type": "camera_location",
+      "evidence_refs": [],
+      "audit_status": "PARTIAL",
+      "scope_note": "Owner-provided viewpoint coordinate (2026-11-02, owner Google Maps); exact tripod position, azimuth number and legal-access boundary unverified."
+    },
+    {
+      "claim_id": "tw-086-P01-navigation",
+      "claim_type": "navigation_access",
+      "evidence_refs": [],
+      "audit_status": "UNKNOWN",
+      "scope_note": "No independently verified practical arrival point; Directions stay disabled."
+    },
+    {
+      "claim_id": "tw-086-P01-claim-01",
+      "claim_type": "other",
+      "evidence_refs": [],
+      "audit_status": "PARTIAL",
+      "scope_note": "Owner-stated condition set (2026-11-02) following already-reviewed genre-template values; thresholds provisional/uncalibrated, no live provider binding beyond template intent."
+    }
+  ],
+  "readiness": {
+    "research_level": "R0",
+    "gaps": [
+      "RESEARCH_GAP",
+      "GEOMETRY_GAP"
+    ]
+  },
+  "provenance": {
+    "source_catalog": "owner-definition-2026-11-02",
+    "source_revision": "owner-provided-google-maps-2026-11-02",
+    "imported_at": "2026-11-02T00:00:00Z",
+    "review_status": "pending",
+    "reviewed_by": null
+  }
+}

@@ -49,7 +49,7 @@ class ResearchIndexTests(unittest.TestCase):
         ids=[b['opportunity_id'] for b in self.index['opportunities']]
         self.assertEqual(expected_places,set(actual));self.assertEqual(len(actual),len(set(actual)))
         self.assertEqual(set(self.docs),set(ids));self.assertEqual(len(ids),len(set(ids)))
-        self.assertEqual((189,353),(len(actual),len(ids)))
+        self.assertEqual((190,356),(len(actual),len(ids)))
         self.assertEqual(3,sum(b['place_id']=='tw-026' for b in self.index['opportunities']))
 
     def test_real_canonical_blob_sha256_identity_and_revision(self):
@@ -68,6 +68,9 @@ class ResearchIndexTests(unittest.TestCase):
             '06b51d046fd391ab44708535464e7478cfc13ee4',
             '3eb466432807185bc8b9271d006666b72d1fa406',
             '76e926d16f3cfd6f2983ec2c0f6fe6ac7004104d',
+            # CL-DATA-04: three new owner-defined records pinned to the
+            # owner-definition data commit.
+            'cebb9689ee339f24655aafa010ecfc7977178368',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         self.assertEqual('76e926d16f3cfd6f2983ec2c0f6fe6ac7004104d',p01['commit_sha'])
@@ -92,7 +95,7 @@ class ResearchIndexTests(unittest.TestCase):
                     self.assertEqual(p['name_i18n'][lang],original[source['start']:source['end']])
                     self.assertEqual(source['value'],p['name_i18n'][lang])
             self.assertEqual('PENDING',p['semantic_review'])
-        self.assertEqual(567,count)  # 189 places x 3 (evidence-D removal 2026-10-31)
+        self.assertEqual(570,count)  # 190 places x 3 (evidence-D removal 2026-10-31)
 
     def test_missing_name_locale_and_foreign_place_source_fail(self):
         bad=copy.deepcopy(self.index);bad['places'][0]['name_i18n'].pop('ja')

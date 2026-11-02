@@ -3781,6 +3781,26 @@
         "spot_id": "us-096",
         "pointer": "/name_i18n/ja"
       }
+    },
+    "tw-086": {
+      "zh-TW": {
+        "opportunity_id": "tw-086-P01",
+        "pointer": "/name_i18n/zh-TW",
+        "start": 0,
+        "end": 13
+      },
+      "en": {
+        "opportunity_id": "tw-086-P01",
+        "pointer": "/name_i18n/en",
+        "start": 0,
+        "end": 35
+      },
+      "ja": {
+        "opportunity_id": "tw-086-P01",
+        "pointer": "/name_i18n/ja",
+        "start": 0,
+        "end": 12
+      }
     }
   },
   "topic_definitions": {
@@ -7921,6 +7941,38 @@
       "evidence_claim_id": "us-096-P01-claim-01",
       "evidence_refs": [],
       "classification_basis": "legacy_theme=geology"
+    },
+    "tw-086-P01": {
+      "topic_ids": [],
+      "canonical_pointers": [
+        "/targets/0/name_i18n",
+        "/description_i18n"
+      ],
+      "evidence_claim_id": "tw-086-P01-existence",
+      "evidence_refs": [],
+      "classification_basis": "owner_ruling_2026-11-02 fog genre; no W1 topic vocabulary for fog - honestly unclassified"
+    },
+    "tw-086-P02": {
+      "topic_ids": [],
+      "canonical_pointers": [
+        "/targets/0/name_i18n",
+        "/description_i18n"
+      ],
+      "evidence_claim_id": "tw-086-P02-existence",
+      "evidence_refs": [],
+      "classification_basis": "owner_ruling_2026-11-02 overlook genre; river-bridge scene does not fit coastal-landscape scope - honestly unclassified"
+    },
+    "tw-086-P03": {
+      "topic_ids": [
+        "topic:sunset"
+      ],
+      "canonical_pointers": [
+        "/targets/0/name_i18n",
+        "/description_i18n"
+      ],
+      "evidence_claim_id": "tw-086-P03-existence",
+      "evidence_refs": [],
+      "classification_basis": "owner_ruling_2026-11-02 sunset genre (blazing sunset clouds)"
     }
   },
   "classification_method": "DETERMINISTIC_LEGACY_THEME_FORMULA_UNEVIDENCED_STAY_UNCLASSIFIED",
