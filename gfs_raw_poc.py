@@ -35,13 +35,16 @@ from urllib.parse import urlencode
 
 NOMADS_FILTER_URL = "https://nomads.ncep.noaa.gov/cgi-bin/filter_gfs_0p25.pl"
 
-# Slightly wider than Taiwan so offshore weather approaching the island is
-# visible in the proof-of-concept map.
+# CL-WG-12: the Taiwan GFS fetch window must cover the full camera pan range,
+# not just the region bbox. maxBounds is the fitted view expanded 25% per side
+# (~116.75–124.25 / 20.25–27.75), so the window extends ~2° beyond the region
+# bbox on every side — the CL-WG-11 GFS fill layer needs GFS data to paint the
+# whole pannable extent instead of a bare basemap.
 TAIWAN_BBOX = {
-    "leftlon": 117.5,
-    "rightlon": 123.5,
-    "toplat": 26.75,
-    "bottomlat": 20.5,
+    "leftlon": 116.0,
+    "rightlon": 125.0,
+    "toplat": 28.0,
+    "bottomlat": 20.0,
 }
 
 # CL-WG-05 regional WeatherGrid bboxes (owner ruling 2026-11-03). They mirror

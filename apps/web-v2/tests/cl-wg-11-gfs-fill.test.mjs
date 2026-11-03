@@ -7,8 +7,8 @@ import { createRequire } from 'node:module';
 const require = createRequire(import.meta.url);
 const fill = require('../../../assets/weather-map-gfs-fill.js');
 
-// Bboxes matching the GFS TW bundle and the region registry.
-const GFS_TW = {leftlon: 117.5, rightlon: 123.5, bottomlat: 20.5, toplat: 26.75};
+// Bboxes matching the GFS TW bundle (CL-WG-12 widened window) and the region registry.
+const GFS_TW = {leftlon: 116, rightlon: 125, bottomlat: 20, toplat: 28};
 const REGION_TW = {leftlon: 118, rightlon: 123, bottomlat: 21.5, toplat: 26.5};
 
 function gfsDataset() {

@@ -53,7 +53,10 @@
       field: 'data',
       layers: ['total_cloud_percent','low_cloud_percent','mid_cloud_percent','high_cloud_percent','visibility_km','precip_rate_mm_h','wind_speed_10m_m_s','wind_direction_10m_deg'],
       coverage: {
-        tw: {leftlon:117.5, rightlon:123.5, bottomlat:20.5, toplat:26.75},
+        // CL-WG-12: matches the gfs_tw_weather_browser.json fetch window
+        // (gfs_raw_poc.py TAIWAN_BBOX), extended to cover the camera
+        // maxBounds pan range — see CL-WG-11 GFS fill.
+        tw: {leftlon:116, rightlon:125, bottomlat:20, toplat:28},
         jp: {leftlon:122, rightlon:146, bottomlat:24, toplat:46},
         us: {leftlon:-125, rightlon:-70.5, bottomlat:25, toplat:49.5},
         ak: {leftlon:-158, rightlon:-132, bottomlat:55, toplat:69.5},

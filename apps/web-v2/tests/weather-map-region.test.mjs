@@ -12,7 +12,7 @@ const regions = require('../../../assets/weather-map-regions.js');
 const CATALOG = {
   gfs: {
     coverage: {
-      tw: {leftlon: 117.5, rightlon: 123.5, bottomlat: 20.5, toplat: 26.75},
+      tw: {leftlon: 116, rightlon: 125, bottomlat: 20, toplat: 28},
       jp: {leftlon: 122, rightlon: 146, bottomlat: 24, toplat: 46},
       us: {leftlon: -125, rightlon: -70.5, bottomlat: 25, toplat: 49.5},
       ak: {leftlon: -158, rightlon: -132, bottomlat: 55, toplat: 69.5},
