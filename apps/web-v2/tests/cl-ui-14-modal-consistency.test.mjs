@@ -156,7 +156,10 @@ test('CL-UI-14 F7: a single timezone convention (GMT+8) across card and modal',(
   // No other convention is ever rendered.
   assert.doesNotMatch(appSource,/'UTC\+8'/);
   assert.doesNotMatch(appSource,/title="[^"]*CST/);
-  assert.match(appSource,/tzAbbrLabel\(metric\.timezone_abbr/);
+  // CL-UI-15: the card list no longer renders a per-card timezone row (the
+  // page header carries the unified GMT clock); tzAbbrLabel stays for the
+  // header clock and the modal windows.
+  assert.match(appSource,/function tzAbbrLabel\(/);
   const fmt=grab('function fmtWindow','function confidenceLabel');
   assert.match(fmt,/tzAbbrLabel\(tz\)/);
   assert.match(appSource,/clock card-timezone|'GMT\+8'/);

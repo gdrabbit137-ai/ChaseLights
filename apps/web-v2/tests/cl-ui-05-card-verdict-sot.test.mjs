@@ -45,9 +45,11 @@ test('CL-UI-05 (a): no V2 evaluation fails closed to the conservative copy',()=>
   const v2SummaryBlock=cardBlock('const v2Summary=v2Best&&v2Best.hours?','const reasonHtml=');
   const noneBranch=v2SummaryBlock.slice(v2SummaryBlock.indexOf('(v2Best?'));
   assert.equal(/d\(\)\.best_window/.test(noneBranch),false,'no-evaluation path must not show a best-window row');
-  // Forecast status row only renders when a V2 evaluation exists.
+  // Forecast status row renders only for non-satisfied V2 evaluations:
+  // CL-UI-15 omits it on GUIDANCE_SATISFIED cards (the summary line and the
+  // card colour already express the state).
   assert.match(createSpotCardBlock,
-    /\$\{v2Best\?`<div class="info-row forecast-status-row card-meta-row">\$\{d\(\)\.forecast_status\}\$\{esc\(v2StateLabel\)\}<\/div>`:''\}/);
+    /\$\{v2Best&&v2Best\.state!=='GUIDANCE_SATISFIED'\?`<div class="info-row forecast-status-row card-meta-row">\$\{d\(\)\.forecast_status\}\$\{esc\(v2StateLabel\)\}<\/div>`:''\}/);
 });
 
 test('CL-UI-05 (b): evaluated card uses V2-derived day-state labels shared with the modal',()=>{

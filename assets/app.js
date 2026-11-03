@@ -379,6 +379,27 @@
       if(state==='outside_time')return {primary:fill(d().verdict_outside),detail:''};
       return {primary:d().status_unavailable,detail:''};
     }
+    // CL-UI-15: display-level de-dup for the best-subject summary line. When
+    // the subject string begins with the spot name (either the current-language
+    // name or name_local), strip that prefix so the summary does not repeat the
+    // card title. Data is untouched — only the rendered string is cleaned —
+    // and the match is safe-prefix (strip only on a true prefix, and keep the
+    // original when nothing would remain after the separator).
+    function stripSpotNamePrefix(subject,spot){
+      const s=String(subject||'').trim();
+      if(!s)return subject;
+      const names=[spotName(spot),spot.name_local].filter(Boolean).filter((n,i,a)=>a.indexOf(n)===i)
+        .sort((a,b)=>b.length-a.length);
+      for(const n of names){
+        if(s.startsWith(n)){
+          // Longest name wins, so a longer name that merely begins with a
+          // shorter one (合歡山 vs 合歡山主峰) is never partially stripped.
+          const rest=s.slice(n.length).replace(/^[\s：:·・\-–—]+/,'');
+          if(rest)return rest;
+        }
+      }
+      return subject;
+    }
     // CL-UI-05: single V2 day-state label mapping for the homepage card. The
     // place modal keeps its own label families (modal current-day row and the
     // modal day grid); this helper is only consumed by card rendering, so the
@@ -1035,14 +1056,18 @@
       const v2StateLabel=v2Evaluated?v2CardStateLabel(v2Best.state):'';
       const indicator=(!researchPending&&!noViable&&v2Evaluated&&v2Best.state==='GUIDANCE_SATISFIED')?trMessage(metric.indicator_key):'';
       const astro=(researchPending||noViable)?'':astroText(metric,theme);const darkSky=(researchPending||noViable)?'':darkSkyText(spot,theme);const navTool=navigationToolHtml(spot);const access=localeText(spot.access_note_i18n);const showIndicator=!!indicator;const factors=(researchPending||noViable)?[]:(metric.factors||[]);const factorHtml=factors.map(f=>{const text=trFactor(f);return text?`<span class="factor-pill ${f.type==='minus'?'factor-minus':'factor-plus'}">${f.type==='minus'?'−':'＋'} ${text}</span>`:'';}).filter(Boolean).join('');const factorMore=factors.length>2?`<span class="factor-pill factor-more">+${factors.length-2}</span>`:'';
-      const v2Summary=v2Best&&v2Best.hours?`<div class="theme-winner">📷 ${esc(d().v2_best_subject)}：${esc(v2Best.name)} <span class="v2-chip-ok">${esc(d().eval2_hours)} ${v2Best.hours}</span></div><div class="best-window-row">${esc(d().best_window)}<b>${esc(formatHourSegments(v2Best.hoursList))}</b></div>`:(v2Best?`${v2Best.state==='NOT_EVALUABLE'?`<div class="theme-winner v2-none">📅 ${esc(d().eval2_unk)}</div>`:`<div class="theme-winner v2-none">📅 ${esc(d().v2_none_today)}</div>`}${v2Best.nextLocal?`<div class="best-window-row">${esc(d().v2_next_window)}<b>${esc(v2Best.nextLocal)}</b></div>`:''}`:'');
+      const v2Summary=v2Best&&v2Best.hours?`<div class="theme-winner">📷 ${esc(d().v2_best_subject)}：${esc(stripSpotNamePrefix(v2Best.name,spot))} <span class="v2-chip-ok">${esc(d().eval2_hours)} ${v2Best.hours}</span></div><div class="best-window-row">${esc(d().best_window)}<b>${esc(formatHourSegments(v2Best.hoursList))}</b></div>`:(v2Best?`${v2Best.state==='NOT_EVALUABLE'?`<div class="theme-winner v2-none">📅 ${esc(d().eval2_unk)}</div>`:`<div class="theme-winner v2-none">📅 ${esc(d().v2_none_today)}</div>`}${v2Best.nextLocal?`<div class="best-window-row">${esc(d().v2_next_window)}<b>${esc(v2Best.nextLocal)}</b></div>`:''}`:'');
       const reasonHtml=(researchPending||noViable||v2Summary)?'':`${showIndicator?`<div><span class="indicator-pill">${indicator}</span></div>`:''}${factorHtml?`<div class="factor-row card-factor-row">${factorHtml}${factorMore}</div>`:''}`;
       const distance=distanceToSpotKm(spot);const distanceChip=currentSortMode.startsWith('distance_')&&distance!==null?`<span class="metric-chip">📍 ${distance<10?distance.toFixed(1):Math.round(distance)} km</span>`:'';
       const compactMetrics=(researchPending||noViable)?tempChipHtml(metric.temp):[
         metric.cloud_base_agl!=null?`<span class="metric-chip">☁️ ${metric.cloud_base_agl}m</span>`:'',
         tempChipHtml(metric.temp)
       ].filter(Boolean).join('');
-      card.innerHTML=`<div><div class="card-header"><div class="spot-title-group"><span class="spot-name"></span><div class="spot-local-name"></div><div style="margin-top:4px"><span class="category-tag">${esc(spotAdminAreas(spot).map(adminAreaLabel).join(" · ")||categoryLabel(spot.category))}</span></div></div><div class="card-header-actions"><button class="fav-btn ${fav?'active':''}" data-fav aria-label="${esc(d().favorite_label)}">★</button></div></div><div class="tags-wrapper">${scenePills}${sceneMore}</div><div class="shooting-summary">${v2Summary||`<div class="theme-winner">📷 ${esc(opportunityName)}</div>`}</div>${reasonHtml?`<div class="recommendation-reasons">${reasonHtml}</div>`:''}<div class="card-secondary-meta"><div class="card-quick-meta"><span class="card-timezone">🕒 ${(spot.timezone==='Asia/Taipei'?'GMT+8':tzAbbrLabel(metric.timezone_abbr||spot.timezone_abbr||spot.timezone||'—'))}</span><span class="card-metric-chips">${compactMetrics}${distanceChip}</span></div>${v2Best?`<div class="info-row forecast-status-row card-meta-row">${d().forecast_status}${esc(v2StateLabel)}</div>`:''}${astro?`<div class="info-row card-meta-row card-meta-astro">${astro}</div>`:''}${darkSky?`<div class="info-row card-meta-row card-meta-dark">${darkSky}</div>`:''}${access?`<div class="info-row access-note card-meta-row card-meta-access" title="${esc(access)}">⏰ ${esc(access)}</div>`:''}</div></div><div class="card-footer-tools" data-tools><div></div><div><a href="#" class="tool-link" data-weather>${d().weather_link}</a>${navTool}<a href="${radarUrl()}" target="_blank" rel="noopener noreferrer" class="tool-link">${d().radar_link}</a></div></div>`;
+      // CL-UI-15: the per-card timezone row (card-timezone) was removed — the
+      // page header already carries the unified GMT clock, so the row only
+      // repeated on every card. If a multi-timezone card list is ever needed,
+      // restore a tzAbbrLabel()-based label here (see fmtWindow()).
+      card.innerHTML=`<div><div class="card-header"><div class="spot-title-group"><span class="spot-name"></span><div class="spot-local-name"></div><div style="margin-top:4px"><span class="category-tag">${esc(spotAdminAreas(spot).map(adminAreaLabel).join(" · ")||categoryLabel(spot.category))}</span></div></div><div class="card-header-actions"><button class="fav-btn ${fav?'active':''}" data-fav aria-label="${esc(d().favorite_label)}">★</button></div></div><div class="tags-wrapper">${scenePills}${sceneMore}</div><div class="shooting-summary">${v2Summary||`<div class="theme-winner">📷 ${esc(opportunityName)}</div>`}</div>${reasonHtml?`<div class="recommendation-reasons">${reasonHtml}</div>`:''}<div class="card-secondary-meta"><div class="card-quick-meta"><span class="card-metric-chips">${compactMetrics}${distanceChip}</span></div>${v2Best&&v2Best.state!=='GUIDANCE_SATISFIED'?`<div class="info-row forecast-status-row card-meta-row">${d().forecast_status}${esc(v2StateLabel)}</div>`:''}${astro?`<div class="info-row card-meta-row card-meta-astro">${astro}</div>`:''}${darkSky?`<div class="info-row card-meta-row card-meta-dark">${darkSky}</div>`:''}${access?`<div class="info-row access-note card-meta-row card-meta-access" title="${esc(access)}">⏰ ${esc(access)}</div>`:''}</div></div><div class="card-footer-tools" data-tools><div></div><div><a href="#" class="tool-link" data-weather>${d().weather_link}</a>${navTool}<a href="${radarUrl()}" target="_blank" rel="noopener noreferrer" class="tool-link">${d().radar_link}</a></div></div>`;
       card.querySelector('.spot-name').textContent=spotName(spot);const local=card.querySelector('.spot-local-name');const showLocal=!(currentRegion==='tw'&&currentLang==='zh-TW');local.textContent=showLocal&&spot.name_local&&spot.name_local!==spotName(spot)?spot.name_local:'';card.querySelector('[data-fav]').onclick=e=>toggleFavorite(spot.spot_id,e);card.querySelector('[data-tools]').onclick=e=>e.stopPropagation();card.querySelector('[data-weather]').onclick=e=>{e.preventDefault();e.stopPropagation();openWeatherModal(spot,metric);};
       return card;
     }
