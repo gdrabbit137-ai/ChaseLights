@@ -161,9 +161,9 @@
 
   /**
    * CL-WG-06 camera confinement helpers. Each region's map camera is limited
-   * to that region's data bbox: maxBounds sits on the bbox edges, minZoom sits
-   * just below the zoom that fits the bbox (so the view can never be zoomed
-   * out past the region), and a fixed maxZoom keeps spot-level detail.
+   * to that region's data bbox: maxBounds sits on the bbox edges, minZoom sits just below the zoom that fits
+   * the bbox (a fixed floor, CL-WG-07), and a fixed maxZoom keeps spot-level
+   * detail.
    */
   function cameraBounds(bbox) {
     const region = normalizeBbox(bbox);
@@ -171,14 +171,16 @@
     return [[region.leftlon, region.bottomlat], [region.rightlon, region.toplat]];
   }
 
-  // Allow at most a quarter zoom level of slack below the bbox-fit zoom (or
-  // the current zoom, whichever is smaller) so the fitted region always stays
-  // the dominant view and the camera can never pull back to a continent view.
-  function cameraMinZoom(fitZoom, currentZoom) {
+  // Allow a small margin below the bbox-fit zoom so the fitted region always
+  // stays the dominant view and the camera can never pull back to a
+  // continent view. CL-WG-07: the floor is a FIXED value derived only from
+  // fitZoom, never from the current zoom — otherwise zooming in raises the
+  // floor with it and the minus button can no longer return to the full
+  // region view.
+  function cameraMinZoom(fitZoom) {
     const fit = Number(fitZoom);
-    const current = Number(currentZoom);
-    if (!Number.isFinite(fit) || !Number.isFinite(current)) return null;
-    return Math.max(0, Math.min(fit, current) - 0.25);
+    if (!Number.isFinite(fit)) return null;
+    return Math.max(0, fit - 0.05);
   }
 
   const CAMERA_MAX_ZOOM = 13;

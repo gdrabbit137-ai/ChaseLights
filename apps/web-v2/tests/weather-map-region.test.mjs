@@ -192,13 +192,27 @@ test('camera bounds sit exactly on the region bbox edges', () => {
     'degenerate bbox is rejected');
 });
 
-test('camera minZoom stays a quarter level below the bbox-fit zoom', () => {
-  assert.equal(regions.cameraMinZoom(6.4, 9), 6.15);
-  assert.equal(regions.cameraMinZoom(9, 6.4), 6.15,
-    'an aspect-ratio-zoomed-out camera is the floor, not the fit zoom');
-  assert.equal(regions.cameraMinZoom(0.1, 0.05), 0, 'never negative');
-  assert.equal(regions.cameraMinZoom(Number.NaN, 5), null);
-  assert.equal(regions.cameraMinZoom(5, undefined), null);
+test('camera minZoom is a fixed floor just below the bbox-fit zoom (CL-WG-07)', () => {
+  const floor = regions.cameraMinZoom(6.4);
+  assert.ok(Math.abs(floor - 6.35) < 1e-9, 'fitZoom minus a small margin');
+  assert.equal(regions.cameraMinZoom(0.03), 0, 'never negative');
+  assert.equal(regions.cameraMinZoom(Number.NaN), null);
+  assert.equal(regions.cameraMinZoom(undefined), null);
+});
+
+test('camera minZoom ignores the current zoom so zooming in never raises the floor (CL-WG-07)', () => {
+  const fit = 6.4;
+  const floor = regions.cameraMinZoom(fit);
+  for (const currentZoom of [fit, 8, 9, 11, 13]) {
+    assert.equal(regions.cameraMinZoom(fit, currentZoom), floor,
+      `zoomed in to ${currentZoom}, minus must still return to the fit view`);
+  }
+  // 模擬 owner 情境：放大後連按 −，每一步都允許繼續縮小，最終回到 fit。
+  let zoom = 11;
+  while (zoom > floor + 1e-9) {
+    zoom = Math.max(floor, zoom - 1);
+  }
+  assert.ok(Math.abs(zoom - floor) < 1e-9, 'repeated minus presses reach the full-region fit zoom');
 });
 
 test('camera max zoom keeps spot-level detail', () => {
