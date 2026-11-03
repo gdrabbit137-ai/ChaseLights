@@ -19,6 +19,29 @@
   const MAPLIBRE_MODULE = 'https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-gl.mjs';
   const BASEMAP_STYLE = 'https://tiles.openfreemap.org/styles/liberty';
 
+  // CL-WG-11 (Taiwan pilot): outside the main source bbox, layers with an
+  // identical-semantics field in the GFS bundle are filled from GFS with a
+  // feathered seam. Pure helpers live in assets/weather-map-gfs-fill.js.
+  // The fill plan uses the UNCLIPPED camera view: the main render stays
+  // clipped to the region bbox (CL-WG-04), but the bare-basemap padding
+  // outside it is exactly what the GFS fill covers.
+  function rawViewBbox(){
+    if(state.mapReady && state.map){
+      const b=state.map.getBounds();
+      return {leftlon:b.getWest(),rightlon:b.getEast(),
+        bottomlat:b.getSouth(),toplat:b.getNorth()};
+    }
+    return state.view;
+  }
+  function gfsFillPlanForView(){
+    if(!window.WeatherMapGfsFill || state.region!=='tw') return null;
+    return window.WeatherMapGfsFill.gfsFillPlan({
+      regionId:state.region, layerKey:state.layer,
+      gfsDataset:state.data, viewBbox:rawViewBbox(),
+      regionBbox:regionBbox()
+    });
+  }
+
   // CL-WG-04 region-scoped source manifest. Every region only lists sources
   // whose published bundle fully covers the region bbox (see
   // assets/weather-map-regions.js for the bbox constants and coverage rule).
@@ -203,6 +226,7 @@
     windVectorTouched:false,
     lastWindVectorCount:0,
     timelinePlaying:false,
+    gfsFillActive:false,
     timelineTimer:null,
     spotHitTargets:[],
     map:null,
@@ -2012,13 +2036,76 @@
     return `hsl(${(value%360+360)%360} 76% 52%)`;
   }
 
-  function fillWeatherPolygon(points,value,cfg){
+  function fillWeatherPolygon(points,value,cfg,alphaMultiplier=1){
     ctx.beginPath();
     points.forEach((p,i)=>i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y));
     ctx.closePath();
-    ctx.globalAlpha=state.weatherOpacity*layerOpacityCap(cfg)*cellOpacityFor(value,cfg);
+    ctx.globalAlpha=state.weatherOpacity*layerOpacityCap(cfg)*cellOpacityFor(value,cfg)*alphaMultiplier;
     ctx.fillStyle=colorFor(value,cfg);
     ctx.fill();
+  }
+
+  // CL-WG-11: GFS fill layer outside the main source bbox. Sub-cell polygons
+  // (same bilinear display smoothing as the main path) sample the feather
+  // alpha at each sub-cell center, so the seam is a 0.5° alpha gradient.
+  // Only cells of the GFS grid that overlap the visible view AND lie outside
+  // the main bbox (alpha > 0) are painted; inside the bbox the main source
+  // is never overwritten. Reuses the existing per-frame polygon path — no
+  // new raster/cache and no main-thread blocking beyond the existing draw.
+  function drawGfsFillLayer(plan,cfg,visibleView,targetValidTime){
+    const gfs=state.data;
+    const align=window.WeatherMapGfsFill.nearestGfsFrame(gfs,targetValidTime);
+    if(!align?.frame?.values?.[plan.layerKey]) return false;
+    const encoded=align.frame.values[plan.layerKey];
+    const vals=encoded.map(v=>decodeValue(plan.layerKey,v,gfs));
+    const speeds=/^wind_direction_(10m|[0-9]{3}hpa)_deg$/.test(plan.layerKey)
+      ? (align.frame.values.wind_speed_10m_m_s||[]).map(v=>decodeValue('wind_speed_10m_m_s',v,gfs))
+      : null;
+    const rows=gfs.grid.rows, cols=gfs.grid.cols;
+    const lats=gfs.grid.latitudes, lons=gfs.grid.longitudes;
+    if(rows<2||cols<2) return false;
+    const alphaAt=(lon,lat)=>window.WeatherMapGfsFill.gfsFillFeatherAlpha(
+      {lon,lat},plan.main_bbox,plan.band_deg);
+    const lonStep=Math.abs(lons[1]-lons[0]);
+    const subdivisions=lonStep>=.20 ? 4 : (lonStep>=.10 ? 2 : 1);
+    const {row0,row1,col0,col1}=visibleGridRange(gfs,visibleView,1);
+    const maxRow=Math.min(rows-2,row1), maxCol=Math.min(cols-2,col1);
+    let painted=0;
+    for(let r=Math.min(row0,maxRow);r<=maxRow;r++){
+      for(let c=Math.min(col0,maxCol);c<=maxCol;c++){
+        const lon0=lons[c], lon1=lons[c+1], lat0=lats[r], lat1=lats[r+1];
+        const left=Math.min(lon0,lon1), right=Math.max(lon0,lon1);
+        const bottom=Math.min(lat0,lat1), top=Math.max(lat0,lat1);
+        if(right < visibleView.leftlon || left > visibleView.rightlon ||
+           top < visibleView.bottomlat || bottom > visibleView.toplat) continue;
+        const i00=r*cols+c;
+        const q00=vals[i00],q10=vals[i00+1],q01=vals[i00+cols],q11=vals[i00+cols+1];
+        const s00=speeds?speeds[i00]:null,s10=speeds?speeds[i00+1]:null;
+        const s01=speeds?speeds[i00+cols]:null,s11=speeds?speeds[i00+cols+1]:null;
+        for(let sy=0;sy<subdivisions;sy++){
+          for(let sx=0;sx<subdivisions;sx++){
+            const wx=(sx+.5)/subdivisions, wy=(sy+.5)/subdivisions;
+            const value=speeds
+              ? bilinearWindDirection(q00,q10,q01,q11,s00,s10,s01,s11,wx,wy)
+              : bilinearValue(q00,q10,q01,q11,wx,wy);
+            if(value==null) continue;
+            const subLon0=lon0+(lon1-lon0)*(sx/subdivisions);
+            const subLon1=lon0+(lon1-lon0)*((sx+1)/subdivisions);
+            const subLat0=lat0+(lat1-lat0)*(sy/subdivisions);
+            const subLat1=lat0+(lat1-lat0)*((sy+1)/subdivisions);
+            const cx=subLon0+(subLon1-subLon0)/2, cy=subLat0+(subLat1-subLat0)/2;
+            const alpha=alphaAt(cx,cy);
+            if(alpha<=0.01) continue; // main-source territory or unfillable gap
+            fillWeatherPolygon([
+              project(subLon0,subLat0),project(subLon1,subLat0),
+              project(subLon1,subLat1),project(subLon0,subLat1)
+            ],value,cfg,alpha);
+            painted++;
+          }
+        }
+      }
+    }
+    return painted>0;
   }
 
   // Smooth-field fast path (ported from the WeatherGrid V2 experiment).
@@ -2412,6 +2499,14 @@
       drawCircularDirectionSubcells(data,vals,speeds,cfg,visibleView);
     }else if(!drawSmoothField(data,vals,cfg,visibleView)){
       drawBilinearSubcells(data,vals,cfg,visibleView);
+    }
+    // CL-WG-11: bare-basemap area outside the main bbox is filled from the
+    // GFS bundle (same-semantics fields only, feathered seam). The main
+    // source above is never overwritten — fill alpha is 0 inside its bbox.
+    const fillPlan=gfsFillPlanForView();
+    state.gfsFillActive=false;
+    if(fillPlan){
+      state.gfsFillActive=drawGfsFillLayer(fillPlan,cfg,rawViewBbox(),frame()?.valid_time_utc);
     }
     ctx.restore();
 
@@ -3360,6 +3455,13 @@
     summary.textContent=`資料品質 · ${text}`;
   }
 
+  // CL-WG-11 honest-degradation label: the area outside the main source bbox
+  // is filled from the GFS bundle and the seam band mixes two sources.
+  function gfsFillNoteHtml(){
+    if(!state.gfsFillActive) return '';
+    return '<div class="warn">△ bbox 外為 GFS 預報填充，與主源解析度/語義不同；接合帶為混合來源。</div>';
+  }
+
   function updateQc(){
     const host=$('qc-status');
     if(state.source==='demo'){
@@ -3370,7 +3472,7 @@
     const qc=activeQc(state.layer);
     if(!qc){
       setQcSummary('warn','QC 未提供');
-      host.innerHTML='<div class="warn">△ QC 資料未提供</div>';return;
+      host.innerHTML='<div class="warn">△ QC 資料未提供</div>'+gfsFillNoteHtml();return;
     }
     if(isObservationMode()){
       setQcSummary('ok','觀測正常');
@@ -3387,17 +3489,19 @@
         `<div class="ok">✓ Himawari-9 最新觀測 · ${Number.isFinite(age)?Math.round(age)+' 分鐘前':'時間未知'}</div>`+
         `<div>${escapeHtml(distanceText)}</div>`+
         `<div>${escapeHtml(missingText)}</div>`+
-        '<div>雲頂高度缺值可為晴空／無反演，不視為資料錯誤。</div>';
+        '<div>雲頂高度缺值可為晴空／無反演，不視為資料錯誤。</div>'+
+        gfsFillNoteHtml();
       return;
     }
     const fh=frame().forecast_hour;
     const flags=qc.flags.filter(x=>x.forecast_hour===fh && x.field===state.layer);
     if(!flags.length){
       setQcSummary('ok','資料正常');
-      host.innerHTML='<div class="ok">✓ 資料正常</div>';
+      host.innerHTML='<div class="ok">✓ 資料正常</div>'+gfsFillNoteHtml();
     }else{
       setQcSummary('warn','需注意');
-      host.innerHTML=flags.map(x=>`<div class="warn">⚠ ${escapeHtml(qcMessage(x.flag))}<span class="qc-code" title="內部 QC 代碼">${escapeHtml(x.flag)}</span></div>`).join('');
+      host.innerHTML=flags.map(x=>`<div class="warn">⚠ ${escapeHtml(qcMessage(x.flag))}<span class="qc-code" title="內部 QC 代碼">${escapeHtml(x.flag)}</span></div>`).join('')+
+        gfsFillNoteHtml();
     }
   }
 
@@ -3413,6 +3517,7 @@
       windVectorStep: windVectorStep(),
       windVectorCount: state.lastWindVectorCount,
       activeModel: activeDataset(state.layer)?.model || null,
+      gfsFillActive: state.gfsFillActive,
       datasets: {
         gfs: state.data,
         cwa: state.cwaData,
