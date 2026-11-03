@@ -246,6 +246,29 @@ test('weather-map.js confines the camera per region (CL-WG-06)', () => {
     'reset-view must target the region bbox');
 });
 
+test('the initial basemap camera fits the region bbox at first load (CL-WG-09)', () => {
+  const js = require('node:fs').readFileSync(
+    require('node:path').join(require('node:url').fileURLToPath(new URL('../../../assets/weather-map.js', import.meta.url))), 'utf8');
+  // The Map constructor's fixed zoom is only a transient state: right after
+  // state.map=map, the initial camera must be fitted to the region bbox
+  // (zoomed fully out, whole data range in frame) and then camera-limited.
+  const start = js.indexOf('state.map=map;');
+  assert.ok(start !== -1, 'initBasemap must assign state.map');
+  const block = js.slice(start, js.indexOf("map.on('load'", start));
+  const setView = block.indexOf('setViewBbox(state.view || state.data.bbox);');
+  const applyLimits = block.indexOf('applyCameraLimits();');
+  assert.ok(setView !== -1,
+    'the initial camera must fit the region bbox immediately after map creation (CL-WG-09)');
+  assert.ok(applyLimits !== -1,
+    'the initial camera fit must be followed by applyCameraLimits (CL-WG-09)');
+  assert.ok(setView < applyLimits,
+    'camera limits must be applied after the initial fit (CL-WG-09)');
+  // No residual hash/URL camera state: this page never enables MapLibre's
+  // hash plugin and never reads location.hash for camera state.
+  assert.ok(!js.includes('.Hash'), 'MapLibre hash plugin must stay disabled (CL-WG-09)');
+  assert.ok(!js.includes('location.hash'), 'no location.hash camera state (CL-WG-09)');
+});
+
 test('reset-view re-applies the camera limits after returning to the region bbox', () => {
   const js = require('node:fs').readFileSync(
     require('node:path').join(require('node:url').fileURLToPath(new URL('../../../assets/weather-map.js', import.meta.url))), 'utf8');
