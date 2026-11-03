@@ -7,12 +7,9 @@ concurrency:
 on:
   pull_request:
     paths:
-      - "weather-map-v2.html"
-      - "assets/weather-map-v2.js"
       - "assets/weather-map-v2-tile-loader.js"
       - "assets/weather-map-v2-sampling.js"
       - "test_weathergrid_v2_browser_tiles.py"
-      - "assets/weather-map-v2.css"
       - "test_weathergrid_v2_experiment.py"
       - "test_weathergrid_v2_geo.mjs"
       - "test_weathergrid_viewport_fetch.py"
@@ -34,11 +31,8 @@ on:
   push:
     branches: [main]
     paths:
-      - "weather-map-v2.html"
-      - "assets/weather-map-v2.js"
       - "assets/weather-map-v2-tile-loader.js"
       - "assets/weather-map-v2-sampling.js"
-      - "assets/weather-map-v2.css"
       - "weathergrid/v2/**"
       - "weathergrid_v2_public_smoke.py"
       - ".github/workflows/weathergrid_v2_experiment.yml"
@@ -81,13 +75,16 @@ jobs:
           server_pid=$!
           trap 'kill "$server_pid" 2>/dev/null || true' EXIT
           for attempt in 1 2 3 4 5; do
-            if curl --fail --silent http://127.0.0.1:8000/weather-map-v2.html > /tmp/weather-map-v2.html; then
+            if curl --fail --silent http://127.0.0.1:8000/assets/weather-map-v2-tile-loader.js > /tmp/v2-loader.js \
+              && curl --fail --silent http://127.0.0.1:8000/assets/weather-map-v2-sampling.js > /tmp/v2-sampling.js; then
               break
             fi
             sleep 1
           done
-          grep -q "WeatherGrid V2" /tmp/weather-map-v2.html
-          grep -q "weather-map-v2.js" /tmp/weather-map-v2.html
+          test -s /tmp/v2-loader.js
+          test -s /tmp/v2-sampling.js
+          grep -q "coverageContainsViewport" /tmp/v2-loader.js
+          grep -q "sampleGrid\|chunkPoints" /tmp/v2-sampling.js
 
 
   deployed-smoke:
@@ -106,8 +103,6 @@ jobs:
         run: python -m pip install --disable-pip-version-check selenium
       - name: Wait for V2 GitHub Pages publication
         run: |
-          expected_html_sha="$(sha256sum weather-map-v2.html | awk '{print $1}')"
-          expected_js_sha="$(sha256sum assets/weather-map-v2.js | awk '{print $1}')"
           expected_loader_sha="$(sha256sum assets/weather-map-v2-tile-loader.js | awk '{print $1}')"
           expected_sampling_sha="$(sha256sum assets/weather-map-v2-sampling.js | awk '{print $1}')"
           expected_index_sha="$(sha256sum weathergrid/v2/index.json | awk '{print $1}')"
@@ -115,15 +110,11 @@ jobs:
           ready=0
           for i in {1..60}; do
             nonce="${GITHUB_SHA}-${i}-$(date +%s)"
-            curl -fsSL --max-time 20 -H 'Cache-Control: no-cache' "https://chaselights.app/weather-map-v2.html?pages_probe=${nonce}" -o /tmp/v2.html || true
-            curl -fsSL --max-time 20 -H 'Cache-Control: no-cache' "https://chaselights.app/assets/weather-map-v2.js?pages_probe=${nonce}" -o /tmp/v2.js || true
             curl -fsSL --max-time 20 -H 'Cache-Control: no-cache' "https://chaselights.app/assets/weather-map-v2-tile-loader.js?pages_probe=${nonce}" -o /tmp/v2-loader.js || true
             curl -fsSL --max-time 20 -H 'Cache-Control: no-cache' "https://chaselights.app/assets/weather-map-v2-sampling.js?pages_probe=${nonce}" -o /tmp/v2-sampling.js || true
             curl -fsSL --max-time 20 -H 'Cache-Control: no-cache' "https://chaselights.app/weathergrid/v2/index.json?pages_probe=${nonce}" -o /tmp/v2-index.json || true
             curl -fsSL --max-time 20 -H 'Cache-Control: no-cache' "https://chaselights.app/weathergrid/v2/jma/current/manifest.json?pages_probe=${nonce}" -o /tmp/v2-jma-manifest.json || true
-            if [[ -s /tmp/v2.html && -s /tmp/v2.js && -s /tmp/v2-loader.js && -s /tmp/v2-sampling.js && -s /tmp/v2-index.json && -s /tmp/v2-jma-manifest.json ]] \
-              && [[ "$(sha256sum /tmp/v2.html | awk '{print $1}')" == "$expected_html_sha" ]] \
-              && [[ "$(sha256sum /tmp/v2.js | awk '{print $1}')" == "$expected_js_sha" ]] \
+            if [[ -s /tmp/v2-loader.js && -s /tmp/v2-sampling.js && -s /tmp/v2-index.json && -s /tmp/v2-jma-manifest.json ]] \
               && [[ "$(sha256sum /tmp/v2-loader.js | awk '{print $1}')" == "$expected_loader_sha" ]] \
               && [[ "$(sha256sum /tmp/v2-sampling.js | awk '{print $1}')" == "$expected_sampling_sha" ]] \
               && [[ "$(sha256sum /tmp/v2-index.json | awk '{print $1}')" == "$expected_index_sha" ]] \
@@ -131,16 +122,7 @@ jobs:
             sleep 15
           done
           test "$ready" -eq 1
-      - name: Run deployed V2 browser smoke
+      - name: Deployed V2 page browser smoke (removed with page)
         run: |
-          set -o pipefail
-          mkdir -p artifacts
-          python weathergrid_v2_public_smoke.py --screenshot artifacts/weathergrid-v2-public-smoke.png | tee artifacts/weathergrid-v2-public-smoke.json
-      - name: Upload V2 smoke evidence
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: weathergrid-v2-public-smoke
-          path: artifacts/
-          if-no-files-found: warn
-          retention-days: 7
+          echo "weather-map-v2.html was removed (CL-WG-06); tile publication checks above cover the retained artifacts."
+          echo "weathergrid_v2_public_smoke.py is kept for tile-pipeline work but has no deployed page to drive."

@@ -169,30 +169,6 @@ if (chunks.some((chunk) => chunk.length > 100)) process.exit(38);
         self.assertIn("dedupeSamples", s)
         self.assertIn("toFixed(6)", s)
 
-    def test_v2_page_prefers_published_native_tiles_before_point_fallback(self):
-        s = Path("assets/weather-map-v2.js").read_text()
-        self.assertIn("tryNativeProvider", s)
-        self.assertIn("providerSupportsField", s)
-        self.assertIn("nearestValidTime", s)
-        self.assertIn("regionForView(currentView)", s)
-        self.assertIn("loadViewportTiles(state.v2Index,region,coverage,provider,validTime)", s)
-        self.assertIn("if(!result.loaded.length || !result.complete) return false", s)
-        self.assertIn("cachePut(bboxKey(provider,field,coverage),item)", s)
-        self.assertIn("applyDataset(item,'native-tile')", s)
-        self.assertIn("FALLBACK_MAX_POINTS = { jma: 240, gfs: 240 }", s)
-        self.assertIn("FALLBACK_RATE_POINT_BUDGET = 500", s)
-        self.assertIn("function reserveFallbackPoints(", s)
-        self.assertIn("maxPointsOverride: FALLBACK_MAX_POINTS[provider]", s)
-        self.assertIn("const API_BATCH_CONCURRENCY = 1", s)
-        self.assertIn("rate-safe point fallback", s)
-        self.assertIn("if (provider === 'jma') return 'JMA MSM'", s)
-        self.assertIn("nativeProviderLabel(item.provider,item.field)", s)
-        self.assertIn("fallbackLimited: !!fallbackError", s)
-        self.assertNotIn("native-tile-partial", s)
-        self.assertIn("coverageComplete:true", s)
-        self.assertIn("資料不完整", s)
-        self.assertIn("addEventListener('change', () => schedule(true))", s)
-
-
-if __name__ == "__main__":
-    unittest.main()
+    # CL-WG-06: the V2 experiment page controller was removed with the page;
+    # the native-tile preference pin retired with it. The tile-loader module
+    # and its pins above remain (the publish pipeline still ships v2 tiles).

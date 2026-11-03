@@ -684,6 +684,26 @@
     return true;
   }
 
+  // CL-WG-06 視野收斂：把地圖相機限制在目前地區的資料 bbox 內。
+  // maxBounds 擋住拖曳出界；minZoom 取「bbox fit 縮放」與目前縮放較小者再降
+  // 0.25 級，讓 fit 後的視野完整呈現且無法縮小到 bbox 以外的陸塊／海面；
+  // maxZoom 保留景點層級細節。bbox 以外的地名與瓦片因此不會成為主要視野。
+  function applyCameraLimits(){
+    if(!(state.mapReady && state.map)) return;
+    const bounds=window.WeatherMapRegions.cameraBounds(regionBbox());
+    if(!bounds) return;
+    const map=state.map;
+    const currentCenter=map.getCenter();
+    const currentZoom=map.getZoom();
+    map.fitBounds(bounds,{padding:28,duration:0});
+    const fitZoom=map.getZoom();
+    map.jumpTo({center:currentCenter,zoom:currentZoom});
+    map.setMaxBounds(bounds);
+    const minZoom=window.WeatherMapRegions.cameraMinZoom(fitZoom,currentZoom);
+    if(Number.isFinite(minZoom)) map.setMinZoom(minZoom);
+    map.setMaxZoom(window.WeatherMapRegions.CAMERA_MAX_ZOOM);
+  }
+
   function renderViewBbox(){
     let v;
     if(state.mapReady && state.map){
@@ -777,6 +797,7 @@
         canvas.style.pointerEvents='none';
         setBasemapStatus('ready','MapLibre · OpenFreeMap');
         setViewBbox(state.view || state.data.bbox);
+        applyCameraLimits();
         renderAll();
       });
       map.on('move',()=>{
@@ -785,6 +806,7 @@
       });
       map.on('resize',()=>{
         syncCanvasSize();
+        applyCameraLimits();
         draw();
       });
       map.on('click',ev=>pickSpotAtPoint(ev.point.x,ev.point.y));
@@ -1100,7 +1122,11 @@
       }
     }
 
-    setViewBbox(state.data.bbox || bbox);
+    // CL-WG-06: fit the camera to the region's data bbox (the region bbox is
+    // the owner-scoped display extent; the source bundle bbox can be wider
+    // and would show sea/other land outside the data range).
+    setViewBbox(bbox);
+    applyCameraLimits();
     if(initial){
       initControls();
       initBasemap();
@@ -1490,7 +1516,10 @@
     });
 
     $('reset-view').addEventListener('click', () => {
-      setViewBbox(timelineDataset().bbox,{animate:true,maxZoom:8});
+      // CL-WG-06: reset returns to the region's data bbox, not the (possibly
+      // wider) source bundle bbox, so the view stays inside the data range.
+      setViewBbox(regionBbox(),{animate:true,maxZoom:8});
+      applyCameraLimits();
       renderAll();
     });
 

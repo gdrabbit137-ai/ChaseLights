@@ -402,6 +402,7 @@ def run(url, screenshot):
 
 if __name__=="__main__":
     p=argparse.ArgumentParser()
-    p.add_argument("--url",default="https://chaselights.app/weather-map-v2.html")
+    # weather-map-v2.html was removed (CL-WG-06); pass the target URL explicitly.
+    p.add_argument("--url",required=True)
     p.add_argument("--screenshot",type=Path,default=Path("artifacts/weathergrid-v2-public-smoke.png"))
     a=p.parse_args(); print(json.dumps(run(a.url,a.screenshot),ensure_ascii=False,indent=2))
