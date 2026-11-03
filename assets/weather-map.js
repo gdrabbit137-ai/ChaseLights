@@ -706,10 +706,24 @@
     const currentZoom=map.getZoom();
     map.fitBounds(bounds,{padding:28,duration:0});
     const fitZoom=map.getZoom();
+    const fitted=map.getBounds();
     if(preserveCamera){
       map.jumpTo({center:currentCenter,zoom:currentZoom});
     }
-    map.setMaxBounds(bounds);
+    // CL-WG-10：maxBounds 不能剛好壓在地區 bbox 邊線上。MapLibre 的 maxBounds
+    // 會把相機夾到「整個視窗都落在 maxBounds 之內」——fitBounds 的自然結果
+    // 在寬鬆方向本來就比 bbox 寬（長寬比造成的留白），一旦 maxBounds=bbox，
+    // 相機會被強迫再放大到視窗塞進 bbox 為止，bbox 邊緣反而出框（實測 jp：
+    // 自然 fit zoom 3.74 可完整入鏡，setMaxBounds(bbox) 後被夾到 4.62、
+    // 南北緣被裁掉）。因此以 fit 後的實際視窗為基礎、各方向再放寬其跨度的
+    // 25% 當作 maxBounds：任何長寬比下 fit 相機都不會被二次夾縮，仍可平移
+    // 瀏覽整個地區，且不致大幅漂出資料範圍。
+    const lonPad=(fitted.getEast()-fitted.getWest())*0.25;
+    const latPad=(fitted.getNorth()-fitted.getSouth())*0.25;
+    map.setMaxBounds([
+      [fitted.getWest()-lonPad,fitted.getSouth()-latPad],
+      [fitted.getEast()+lonPad,fitted.getNorth()+latPad]
+    ]);
     const minZoom=window.WeatherMapRegions.cameraMinZoom(fitZoom);
     if(Number.isFinite(minZoom)) map.setMinZoom(minZoom);
     map.setMaxZoom(window.WeatherMapRegions.CAMERA_MAX_ZOOM);

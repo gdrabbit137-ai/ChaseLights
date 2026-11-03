@@ -54,6 +54,19 @@ function makeFakeMap(initial) {
     },
     getCenter() { return this._center; },
     getZoom() { return this._zoom; },
+    // Viewport bounds implied by the current center/zoom (equirectangular,
+    // 256px world — consistent with this fake's fitBounds math).
+    getBounds() {
+      const worldPx = 256 * Math.pow(2, this._zoom);
+      const lonSpan = VIEW_W * 360 / worldPx;
+      const latSpan = VIEW_H * 360 / worldPx;
+      return {
+        getWest: () => this._center.lng - lonSpan / 2,
+        getEast: () => this._center.lng + lonSpan / 2,
+        getSouth: () => this._center.lat - latSpan / 2,
+        getNorth: () => this._center.lat + latSpan / 2
+      };
+    },
     fitBounds([[w, s], [e, n]], opts) {
       calls.push(['fitBounds', [w, s, e, n], opts?.padding]);
       const spanLon = e - w, spanLat = n - s;
@@ -72,6 +85,18 @@ function makeFakeMap(initial) {
     setMaxBounds(b) {
       calls.push(['setMaxBounds', b ? 'bounds' : 'null']);
       this._maxBounds = b;
+      // Emulate MapLibre 6 behavior observed in the real browser: with
+      // maxBounds active the camera is clamped (zoomed in) until the whole
+      // viewport fits inside maxBounds — this is exactly what used to crop
+      // the region bbox edges when maxBounds sat on the bbox.
+      if (b) {
+        const [[w, s], [e, n]] = b;
+        const zLon = Math.log2(VIEW_W * 360 / (256 * (e - w)));
+        const zLat = Math.log2(VIEW_H * 360 / (256 * (n - s)));
+        const zMin = Math.max(zLon, zLat);
+        if (this._zoom < zMin) this._zoom = zMin;
+        this._center = this._clampCenter(this._center);
+      }
     },
     setMinZoom(z) {
       calls.push(['setMinZoom', z]);
@@ -145,7 +170,20 @@ test('CL-WG-10: switching to hi fits the hi bbox centered, not clamped by the ol
     'the hi bbox must fit fully in the viewport after the switch');
   assert.ok(Math.abs(hi.getZoom() - regions.cameraMinZoom(hi.getZoom()) - 0.05) < 1e-9,
     'the zoom floor sits just below the hi fit zoom (CL-WG-07 margin preserved)');
+  // CL-WG-10 core guarantee: after the switch the whole hi bbox is inside the
+  // viewport (maxBounds must never zoom-clamp the fit camera into the box).
+  const b = regions.REGION_BBOXES.hi;
+  const view = map2View(hi);
+  assert.ok(view[0] <= b.leftlon && view[2] >= b.rightlon &&
+            view[1] <= b.bottomlat && view[3] >= b.toplat,
+    `hi bbox must be fully inside the viewport after the switch (view ${JSON.stringify(view)})`);
 });
+
+function map2View(map) {
+  const b = map.getBounds();
+  return [+b.getWest().toFixed(2), +b.getSouth().toFixed(2),
+          +b.getEast().toFixed(2), +b.getNorth().toFixed(2)];
+}
 
 test('CL-WG-10: switching tw→jp (wider box) is not zoomed in by the old minZoom', () => {
   const twFit = runLimits('tw', { lng: 120.5, lat: 24, zoom: 5.4 });
@@ -154,6 +192,13 @@ test('CL-WG-10: switching tw→jp (wider box) is not zoomed in by the old minZoo
   assert.ok(Math.abs(jp.getCenter().lng - (122 + 146) / 2) < 1e-9,
     'jp switch must center on the jp bbox, not the old region edge');
   assert.ok(Math.abs(jp.getCenter().lat - (24 + 46) / 2) < 1e-9);
+  // CL-WG-10 core guarantee: the whole jp bbox stays inside the viewport —
+  // maxBounds derived from the fitted viewport never zoom-clamps the fit.
+  const b = regions.REGION_BBOXES.jp;
+  const view = map2View(jp);
+  assert.ok(view[0] <= b.leftlon && view[2] >= b.rightlon &&
+            view[1] <= b.bottomlat && view[3] >= b.toplat,
+    `jp bbox must be fully inside the viewport after the switch (view ${JSON.stringify(view)})`);
 });
 
 test('CL-WG-10: resize preserves the user camera (preserveCamera)', () => {

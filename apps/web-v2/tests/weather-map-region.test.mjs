@@ -224,7 +224,7 @@ test('weather-map.js confines the camera per region (CL-WG-06)', () => {
     require('node:path').join(require('node:url').fileURLToPath(new URL('../../../assets/weather-map.js', import.meta.url))), 'utf8');
   assert.ok(js.includes('function applyCameraLimits({preserveCamera=false}={})'),
     'applyCameraLimits must be defined');
-  assert.ok(js.includes('map.setMaxBounds(bounds)'), 'maxBounds must clamp panning');
+  assert.ok(js.includes('map.setMaxBounds(['), 'maxBounds must clamp panning');
   assert.ok(js.includes('map.setMinZoom(minZoom)'), 'minZoom must clamp zooming out');
   assert.ok(js.includes('window.WeatherMapRegions.CAMERA_MAX_ZOOM'),
     'maxZoom must come from the regions registry');
