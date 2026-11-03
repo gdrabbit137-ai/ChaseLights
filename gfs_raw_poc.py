@@ -35,16 +35,17 @@ from urllib.parse import urlencode
 
 NOMADS_FILTER_URL = "https://nomads.ncep.noaa.gov/cgi-bin/filter_gfs_0p25.pl"
 
-# CL-WG-12: the Taiwan GFS fetch window must cover the full camera pan range,
-# not just the region bbox. maxBounds is the fitted view expanded 25% per side
-# (~116.75–124.25 / 20.25–27.75), so the window extends ~2° beyond the region
-# bbox on every side — the CL-WG-11 GFS fill layer needs GFS data to paint the
-# whole pannable extent instead of a bare basemap.
+# CL-WG-13: the tw display range is widened to the CWA official satellite
+# cloud-map extent (西太平洋, owner ruling 2026-11-04 with the CWA cloud
+# screenshot) — 105–145°E / 5–40°N. With this full-frame window the GFS 0.25°
+# bundle IS the single main source over the whole region (方案 A: no seam),
+# so the CL-WG-11 GFS fill is naturally inactive whenever GFS is the main
+# source; the fetch window no longer needs to extend past the region bbox.
 TAIWAN_BBOX = {
-    "leftlon": 116.0,
-    "rightlon": 125.0,
-    "toplat": 28.0,
-    "bottomlat": 20.0,
+    "leftlon": 105.0,
+    "rightlon": 145.0,
+    "toplat": 40.0,
+    "bottomlat": 5.0,
 }
 
 # CL-WG-05 regional WeatherGrid bboxes (owner ruling 2026-11-03). They mirror

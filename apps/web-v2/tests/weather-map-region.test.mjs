@@ -12,7 +12,7 @@ const regions = require('../../../assets/weather-map-regions.js');
 const CATALOG = {
   gfs: {
     coverage: {
-      tw: {leftlon: 116, rightlon: 125, bottomlat: 20, toplat: 28},
+      tw: {leftlon: 105, rightlon: 145, bottomlat: 5, toplat: 40},
       jp: {leftlon: 122, rightlon: 146, bottomlat: 24, toplat: 46},
       us: {leftlon: -125, rightlon: -70.5, bottomlat: 25, toplat: 49.5},
       ak: {leftlon: -158, rightlon: -132, bottomlat: 55, toplat: 69.5},
@@ -21,7 +21,7 @@ const CATALOG = {
   },
   icon: {
     coverage: {
-      tw: {leftlon: 117.5, rightlon: 123.5, bottomlat: 20.5, toplat: 26.75},
+      tw: {leftlon: 105, rightlon: 145, bottomlat: 5, toplat: 40},
       jp: {leftlon: 122, rightlon: 146, bottomlat: 24, toplat: 46},
       us: {leftlon: -125, rightlon: -70.5, bottomlat: 25, toplat: 49.5},
       ak: {leftlon: -158, rightlon: -132, bottomlat: 55, toplat: 69.5},
@@ -46,7 +46,7 @@ const CATALOG = {
   },
   cams: {
     coverage: {
-      tw: {leftlon: 117.6, rightlon: 123.6, bottomlat: 20.4, toplat: 26.8},
+      tw: {leftlon: 104.8, rightlon: 145.2, bottomlat: 4.8, toplat: 40},
       jp: {leftlon: 122, rightlon: 146, bottomlat: 24, toplat: 46},
       us: {leftlon: -125, rightlon: -70.5, bottomlat: 25, toplat: 49.5},
       ak: {leftlon: -158, rightlon: -132, bottomlat: 55, toplat: 69.5},
@@ -63,8 +63,9 @@ const CATALOG = {
 };
 
 test('region bbox constants match the owner spec', () => {
+  // CL-WG-13: tw display range = CWA official satellite cloud-map extent.
   assert.deepEqual(regions.REGION_BBOXES.tw,
-    {leftlon: 118, rightlon: 123, bottomlat: 21.5, toplat: 26.5});
+    {leftlon: 105, rightlon: 145, bottomlat: 5, toplat: 40});
   assert.deepEqual(regions.REGION_BBOXES.jp,
     {leftlon: 122, rightlon: 146, bottomlat: 24, toplat: 46});
   assert.deepEqual(regions.REGION_BBOXES.us,
@@ -86,12 +87,30 @@ test('region bboxes contain every catalogued place of the region', () => {
 });
 
 test('source coverage gate withholds partial sources (JMA vs Taiwan)', () => {
+  // The strict gate itself still fails for a partial source...
   assert.equal(regions.sourceCoversRegion(
     regions.REGION_BBOXES.tw, CATALOG.jma.coverage.tw), false);
   assert.equal(regions.sourceCoversRegion(
-    regions.REGION_BBOXES.tw, CATALOG.himawari.coverage.tw), true);
+    regions.REGION_BBOXES.tw, CATALOG.himawari.coverage.tw), false);
   assert.equal(regions.sourceCoversRegion(
     regions.REGION_BBOXES.jp, CATALOG.jma.coverage.jp), true);
+});
+
+test('regional model options: partial sources with a published coverage entry stay listed for tw (CL-WG-13)', () => {
+  // CL-WG-13: on the widened tw display range the regional high-resolution
+  // models (cwa/jma/himawari) and the limited-extent observation layer
+  // (viirs) stay offered as regional model options — they render honestly
+  // inside their own coverage and stay blank outside.
+  assert.deepEqual(regions.REGIONAL_MODEL_SOURCES,
+    new Set(['cwa', 'jma', 'himawari', 'viirs']));
+  const tw = regions.sourcesForRegion('tw', CATALOG);
+  assert.deepEqual(tw, ['gfs', 'icon', 'cwa', 'jma', 'himawari', 'cams', 'viirs']);
+  // A regional source without a published coverage entry for the region is
+  // still not offered (cwa/jma/himawari have no jp/us coverage entries).
+  const jp = regions.sourcesForRegion('jp', CATALOG);
+  assert.deepEqual(jp, ['gfs', 'icon', 'jma', 'cams', 'viirs']);
+  const us = regions.sourcesForRegion('us', CATALOG);
+  assert.deepEqual(us, ['gfs', 'icon', 'cams', 'viirs']);
 });
 
 test('ak/hi route outlying US places out of the US Mainland frame', () => {
@@ -144,10 +163,12 @@ test('ak/hi source lists follow the coverage rule and stay fail-closed on VIIRS'
 });
 
 test('per-region source lists follow the coverage rule', () => {
+  // CL-WG-13: on the widened tw display range, regional high-resolution
+  // models stay listed as model options (honest blank outside coverage);
+  // JMA MSM is now one of them (its native transport boundary is disclosed
+  // in the data-info panel).
   const tw = regions.sourcesForRegion('tw', CATALOG);
-  assert.equal(tw.includes('jma'), false,
-    'JMA MSM does not fully cover the Taiwan bbox and must not be listed');
-  assert.deepEqual(tw, ['gfs', 'icon', 'cwa', 'himawari', 'cams', 'viirs']);
+  assert.deepEqual(tw, ['gfs', 'icon', 'cwa', 'jma', 'himawari', 'cams', 'viirs']);
 
   const jp = regions.sourcesForRegion('jp', CATALOG);
   assert.deepEqual(jp, ['gfs', 'icon', 'jma', 'cams', 'viirs']);
@@ -184,7 +205,7 @@ test('region labels are trilingual', () => {
 // CL-WG-06 視野收斂: the map camera is confined to the active region bbox.
 test('camera bounds sit exactly on the region bbox edges', () => {
   assert.deepEqual(regions.cameraBounds(regions.REGION_BBOXES.tw),
-    [[118, 21.5], [123, 26.5]]);
+    [[105, 5], [145, 40]]);
   assert.deepEqual(regions.cameraBounds(regions.REGION_BBOXES.us),
     [[-125, 25], [-70.5, 49.5]]);
   assert.equal(regions.cameraBounds(null), null);

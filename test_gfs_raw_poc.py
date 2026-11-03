@@ -16,35 +16,24 @@ from gfs_raw_poc import (
 
 
 class GFSRawPOCTest(unittest.TestCase):
-    def test_taiwan_fetch_window_pinned_to_cl_wg_12_extent(self):
-        # CL-WG-12: the tw GFS fetch window must cover the camera maxBounds
-        # pan range (region bbox expanded 25% of its span per side, ~
-        # 116.75–124.25 / 20.25–27.75) so the CL-WG-11 GFS fill layer can
-        # paint the whole pannable extent instead of a bare basemap.
+    def test_taiwan_fetch_window_pinned_to_cl_wg_13_extent(self):
+        # CL-WG-13: the tw display range is the CWA official satellite
+        # cloud-map extent (105–145°E / 5–40°N). The GFS bundle IS the single
+        # full-frame main source over that range, so the fetch window matches
+        # the region bbox exactly (the CL-WG-11 fill is inactive when GFS is
+        # the main source and no longer needs pan-range padding).
         self.assertEqual(TAIWAN_BBOX, {
-            "leftlon": 116.0,
-            "rightlon": 125.0,
-            "toplat": 28.0,
-            "bottomlat": 20.0,
+            "leftlon": 105.0,
+            "rightlon": 145.0,
+            "toplat": 40.0,
+            "bottomlat": 5.0,
         })
 
-    def test_taiwan_fetch_window_covers_camera_max_bounds(self):
+    def test_taiwan_fetch_window_matches_region_bbox(self):
         from gfs_raw_poc import REGIONAL_BBOXES
         self.assertIs(REGIONAL_BBOXES["tw"], TAIWAN_BBOX)
-        region = {"leftlon": 118, "rightlon": 123,
-                  "bottomlat": 21.5, "toplat": 26.5}
-        lon_pad = (region["rightlon"] - region["leftlon"]) * 0.25
-        lat_pad = (region["toplat"] - region["bottomlat"]) * 0.25
-        max_bounds = {
-            "leftlon": region["leftlon"] - lon_pad,
-            "rightlon": region["rightlon"] + lon_pad,
-            "bottomlat": region["bottomlat"] - lat_pad,
-            "toplat": region["toplat"] + lat_pad,
-        }
-        self.assertLessEqual(TAIWAN_BBOX["leftlon"], max_bounds["leftlon"])
-        self.assertGreaterEqual(TAIWAN_BBOX["rightlon"], max_bounds["rightlon"])
-        self.assertLessEqual(TAIWAN_BBOX["bottomlat"], max_bounds["bottomlat"])
-        self.assertGreaterEqual(TAIWAN_BBOX["toplat"], max_bounds["toplat"])
+        # CL-WG-13: window == region bbox (single-source full-frame rendering).
+        self.assertEqual(REGIONAL_BBOXES["tw"], TAIWAN_BBOX)
 
     def test_run_filename_directory_and_valid_time(self):
         run = GFSRun("20260929", "00", 6)

@@ -35,10 +35,19 @@
   }
   function gfsFillPlanForView(){
     if(!window.WeatherMapGfsFill || state.region!=='tw') return null;
+    // CL-WG-13: with the widened tw window the GFS 0.25° bundle is the single
+    // full-frame main source (方案 A) — one source over the whole region means
+    // there is no seam to fill, so the CL-WG-11 fill is naturally disabled
+    // whenever GFS itself is the main source. When a regional high-resolution
+    // model is the main source, the fill anchors on THAT model's own bundle
+    // bbox instead of the region bbox (the region bbox is now the huge
+    // display range the regional model cannot cover).
+    const mainData=modelDataset();
+    if(mainData===state.data) return null;
     return window.WeatherMapGfsFill.gfsFillPlan({
       regionId:state.region, layerKey:state.layer,
       gfsDataset:state.data, viewBbox:rawViewBbox(),
-      regionBbox:regionBbox()
+      regionBbox:regionBbox(), mainBbox:mainData?.bbox||null
     });
   }
 
@@ -53,10 +62,10 @@
       field: 'data',
       layers: ['total_cloud_percent','low_cloud_percent','mid_cloud_percent','high_cloud_percent','visibility_km','precip_rate_mm_h','wind_speed_10m_m_s','wind_direction_10m_deg'],
       coverage: {
-        // CL-WG-12: matches the gfs_tw_weather_browser.json fetch window
-        // (gfs_raw_poc.py TAIWAN_BBOX), extended to cover the camera
-        // maxBounds pan range — see CL-WG-11 GFS fill.
-        tw: {leftlon:116, rightlon:125, bottomlat:20, toplat:28},
+        // CL-WG-13: matches the gfs_tw_weather_browser.json fetch window
+        // (gfs_raw_poc.py TAIWAN_BBOX) — the full CWA official cloud-map
+        // extent; GFS is the single full-frame main source for tw (方案 A).
+        tw: {leftlon:105, rightlon:145, bottomlat:5, toplat:40},
         jp: {leftlon:122, rightlon:146, bottomlat:24, toplat:46},
         us: {leftlon:-125, rightlon:-70.5, bottomlat:25, toplat:49.5},
         ak: {leftlon:-158, rightlon:-132, bottomlat:55, toplat:69.5},
@@ -70,7 +79,9 @@
       field: 'iconData',
       layers: ['low_cloud_percent','mid_cloud_percent','high_cloud_percent'],
       coverage: {
-        tw: {leftlon:117.5, rightlon:123.5, bottomlat:20.5, toplat:26.75},
+        // CL-WG-13: ICON follows the tw display range too (global free source;
+        // icon_global_cloud_poc.py reuses gfs_raw_poc.py TAIWAN_BBOX).
+        tw: {leftlon:105, rightlon:145, bottomlat:5, toplat:40},
         jp: {leftlon:122, rightlon:146, bottomlat:24, toplat:46},
         us: {leftlon:-125, rightlon:-70.5, bottomlat:25, toplat:49.5},
         ak: {leftlon:-158, rightlon:-132, bottomlat:55, toplat:69.5},
@@ -118,7 +129,9 @@
       field: 'camsData',
       layers: ['aerosol_optical_depth_550nm','pm2_5_ug_m3'],
       coverage: {
-        tw: {leftlon:117.6, rightlon:123.6, bottomlat:20.4, toplat:26.8},
+        // CL-WG-13: CAMS follows the tw display range too (global free source;
+        // cams_aod_weathergrid.py TAIWAN_BBOX, 0.4° request lattice margin).
+        tw: {leftlon:104.8, rightlon:145.2, bottomlat:4.8, toplat:40},
         jp: {leftlon:122, rightlon:146, bottomlat:24, toplat:46},
         us: {leftlon:-125, rightlon:-70.5, bottomlat:25, toplat:49.5},
         ak: {leftlon:-158, rightlon:-132, bottomlat:55, toplat:69.5},
@@ -3465,6 +3478,15 @@
     return '<div class="warn">△ bbox 外為 GFS 預報填充，與主源解析度/語義不同；接合帶為混合來源。</div>';
   }
 
+  // CL-WG-13 honest-degradation label: a regional high-resolution model on the
+  // widened tw display range renders only inside its own coverage; the area
+  // outside it is honestly blank (never a fabricated value).
+  function regionalModelNoteHtml(){
+    const mainData=modelDataset();
+    if(mainData===state.data || !mainData?.bbox) return '';
+    return '<div class="warn">△ 區域高解析模型僅在其原生涵蓋範圍內繪製，範圍外誠實留白（不代表晴朗）。</div>';
+  }
+
   function updateQc(){
     const host=$('qc-status');
     if(state.source==='demo'){
@@ -3475,7 +3497,7 @@
     const qc=activeQc(state.layer);
     if(!qc){
       setQcSummary('warn','QC 未提供');
-      host.innerHTML='<div class="warn">△ QC 資料未提供</div>'+gfsFillNoteHtml();return;
+      host.innerHTML='<div class="warn">△ QC 資料未提供</div>'+regionalModelNoteHtml()+gfsFillNoteHtml();return;
     }
     if(isObservationMode()){
       setQcSummary('ok','觀測正常');
@@ -3493,18 +3515,18 @@
         `<div>${escapeHtml(distanceText)}</div>`+
         `<div>${escapeHtml(missingText)}</div>`+
         '<div>雲頂高度缺值可為晴空／無反演，不視為資料錯誤。</div>'+
-        gfsFillNoteHtml();
+        regionalModelNoteHtml()+gfsFillNoteHtml();
       return;
     }
     const fh=frame().forecast_hour;
     const flags=qc.flags.filter(x=>x.forecast_hour===fh && x.field===state.layer);
     if(!flags.length){
       setQcSummary('ok','資料正常');
-      host.innerHTML='<div class="ok">✓ 資料正常</div>'+gfsFillNoteHtml();
+      host.innerHTML='<div class="ok">✓ 資料正常</div>'+regionalModelNoteHtml()+gfsFillNoteHtml();
     }else{
       setQcSummary('warn','需注意');
       host.innerHTML=flags.map(x=>`<div class="warn">⚠ ${escapeHtml(qcMessage(x.flag))}<span class="qc-code" title="內部 QC 代碼">${escapeHtml(x.flag)}</span></div>`).join('')+
-        gfsFillNoteHtml();
+        regionalModelNoteHtml()+gfsFillNoteHtml();
     }
   }
 

@@ -6,12 +6,15 @@
  * checked against the catalogued place coordinates (apps/web-v2/catalog.v2.json)
  * so every live place inside the region stays inside the box:
  *
- * - tw  118–123°E / 21.5–26.5°N
- *   Owner base box 118–123°E / 21–26°N with outlying-island margin. The
- *   northmost catalogued place is Dongyin (tw-066, 26.365°N) and the
- *   southmost is Tainan-area 21.929°N, so the box is widened to 21.5–26.5°N.
- *   The 21.5°N south edge also keeps the Himawari-9 bundle (118–124°E /
- *   21.5–27°N) a full-cover source for the region.
+ * - tw  105–145°E / 5–40°N
+ *   CL-WG-13 (owner ruling 2026-11-04, with the CWA official satellite
+ *   cloud-map screenshot 「台灣地區的圖我想要這麼大」): the display range is
+ *   the CWA official cloud-map extent over the western Pacific. The global
+ *   free sources (GFS / ICON / CAMS) publish full-frame bundles over this
+ *   exact box, so the main render is one single source with no seam; the
+ *   regional high-resolution models (CWA WRF 3 km / JMA MSM / Himawari-9)
+ *   stay listed as model options and render honestly only inside their own
+ *   coverage (blank outside, never a fabricated value).
  * - jp  122–146°E / 24–46°N (covers catalogued places 32.7–43.7°N,
  *   129.9–144.5°E).
  * - us  "US Mainland" per owner spec: 125°W–70.5°W / 25–49.5°N covering all
@@ -34,7 +37,8 @@
   const REGION_ORDER = ['tw', 'jp', 'us', 'ak', 'hi'];
 
   const REGION_BBOXES = {
-    tw: {leftlon: 118, rightlon: 123, bottomlat: 21.5, toplat: 26.5},
+    // CL-WG-13: CWA official satellite cloud-map extent (105–145°E / 5–40°N).
+    tw: {leftlon: 105, rightlon: 145, bottomlat: 5, toplat: 40},
     jp: {leftlon: 122, rightlon: 146, bottomlat: 24, toplat: 46},
     us: {leftlon: -125, rightlon: -70.5, bottomlat: 25, toplat: 49.5},
     ak: {leftlon: -158, rightlon: -132, bottomlat: 55, toplat: 69.5},
@@ -128,16 +132,30 @@
   }
 
   /**
-   * Filter a source catalog down to the sources that fully cover `regionId`.
+   * Filter a source catalog down to the sources offered for `regionId`.
    * `catalog` maps source id -> { coverage: {<regionId>: bbox}, ... }.
    * Returns ids in catalog insertion order (insertion order = priority).
+   *
+   * CL-WG-13: global full-frame sources (gfs/icon/cams) keep the strict
+   * cover-gate — they must fully contain the region bbox or they are not
+   * offered. Regional high-resolution models (cwa/jma/himawari) and
+   * limited-extent observation layers (viirs) are offered as REGIONAL MODEL
+   * OPTIONS whenever a published coverage entry exists for the region: they
+   * render only inside their own coverage and stay honestly blank outside
+   * (the layer panel / QC panel labels this), so full containment is no
+   * longer required for them.
    */
+  const REGIONAL_MODEL_SOURCES = new Set(['cwa', 'jma', 'himawari', 'viirs']);
+
   function sourcesForRegion(regionId, catalog) {
     const region = normalizeBbox(REGION_BBOXES[regionId]);
     if (!region || !catalog) return [];
     return Object.keys(catalog).filter(id => {
       const entry = catalog[id] || {};
-      return sourceCoversRegion(region, entry.coverage?.[regionId]);
+      const coverage = normalizeBbox(entry.coverage?.[regionId]);
+      if (!coverage) return false;
+      if (REGIONAL_MODEL_SOURCES.has(id)) return true;
+      return sourceCoversRegion(region, coverage);
     });
   }
 
@@ -187,6 +205,7 @@
 
   const api = {
     REGION_ORDER, REGION_BBOXES, REGION_LABELS, REGION_CARD_META, PLACE_EXTREMES,
+    REGIONAL_MODEL_SOURCES,
     normalizeBbox, sourceCoversRegion, regionContainsPoint,
     regionContainsAllPlaces, regionForPoint, sourcesForRegion, maskLayersForRegion,
     cameraBounds, cameraMinZoom, CAMERA_MAX_ZOOM

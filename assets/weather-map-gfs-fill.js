@@ -85,19 +85,24 @@
   // Trigger conditions for the fill pass. Returns a plan object or null.
   // - region must be in the pilot scope (tw).
   // - the layer must have a same-semantics GFS field with frame data.
-  // - the GFS bundle must extend beyond the region bbox (otherwise there is
-  //   nothing it can contribute).
-  // - the camera view must actually extend beyond the region bbox (the
+  // - the GFS bundle must extend beyond the MAIN source bbox (otherwise there
+  //   is nothing it can contribute).
+  // - the camera view must actually extend beyond the main bbox (the
   //   bare-basemap padding is exactly what the fill covers).
-  // The feather seam is anchored on the REGION bbox edge: inside it the main
-  // source always wins (fill alpha = 0), the ~0.5° band outside it ramps the
-  // GFS fill 0 → 1.
-  function gfsFillPlan({regionId, layerKey, gfsDataset, viewBbox, regionBbox}) {
+  // The feather seam is anchored on the MAIN SOURCE bbox edge: inside it the
+  // main source always wins (fill alpha = 0), the ~0.5° band outside it ramps
+  // the GFS fill 0 → 1.
+  // CL-WG-13: `mainBbox` overrides the region bbox as the seam anchor. With
+  // the widened tw display range the region bbox is no longer the main
+  // source's extent — callers pass the active regional model's own bundle
+  // bbox here (GFS as main source never reaches the fill at all: one source
+  // over the whole frame has no seam).
+  function gfsFillPlan({regionId, layerKey, gfsDataset, viewBbox, regionBbox, mainBbox}) {
     if (!regionId || !GFS_FILL_REGIONS.has(regionId)) return null;
     if (!gfsDataset?.frames?.length || !gfsDataset?.fields?.[layerKey]) return null;
     if (!gfsFillFieldAvailable(layerKey)) return null;
     const gfsBbox = gfsDataset.bbox;
-    const region = regionBbox;
+    const region = mainBbox || regionBbox;
     if (!gfsBbox || !region || !viewBbox) return null;
     const view = {
       leftlon: Math.min(viewBbox.leftlon, viewBbox.rightlon),

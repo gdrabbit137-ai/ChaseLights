@@ -40,12 +40,12 @@ def fake_responses(hours=13):
 class CamsAodWeatherGridTests(unittest.TestCase):
     def test_request_grid_covers_taiwan_region_on_point_four_degree_lattice(self):
         lats, lons, points = request_grid()
-        self.assertEqual(lats[0], 20.4)
-        self.assertEqual(lats[-1], 26.8)
-        self.assertEqual(lons[0], 117.6)
-        self.assertEqual(lons[-1], 123.6)
+        self.assertEqual(lats[0], 4.8)
+        self.assertEqual(lats[-1], 40.0)
+        self.assertEqual(lons[0], 104.8)
+        self.assertEqual(lons[-1], 145.2)
         self.assertEqual(len(points), len(lats) * len(lons))
-        self.assertEqual((len(lats), len(lons)), (17, 16))
+        self.assertEqual((len(lats), len(lons)), (89, 102))
 
     def test_bundle_publishes_native_three_hour_timeline(self):
         bundle, qc = build_bundle(
@@ -80,7 +80,7 @@ class CamsAodWeatherGridTests(unittest.TestCase):
             "request_presentation_lattice",
         )
         self.assertEqual(provenance["provider_cell_selection"], "nearest")
-        self.assertEqual(qc["request_point_count"], 272)
+        self.assertEqual(qc["request_point_count"], 89 * 102)
 
     def test_aod_uses_milli_aod_integer_encoding(self):
         bundle, _ = build_bundle(fake_responses())

@@ -18,11 +18,15 @@ FIELD_GRID = "aerosol_optical_depth_550nm"
 PM25_FIELD_API = "pm2_5"
 PM25_FIELD_GRID = "pm2_5_ug_m3"
 PM25_ENCODING_SCALE = 0.1
+# CL-WG-13: widened to the tw display range (CWA official satellite cloud-map
+# extent, 105–145°E / 5–40°N) with a small outward margin on the 0.4° request
+# lattice. CAMS is a global free source, so the tw window follows the region
+# just like GFS/ICON.
 TAIWAN_BBOX = {
-    "leftlon": 117.6,
-    "rightlon": 123.6,
-    "bottomlat": 20.4,
-    "toplat": 26.8,
+    "leftlon": 104.8,
+    "rightlon": 145.2,
+    "bottomlat": 4.8,
+    "toplat": 40.0,
 }
 REQUEST_STEP_DEG = 0.4
 ENCODING_SCALE = 0.001

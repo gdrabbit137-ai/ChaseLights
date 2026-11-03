@@ -141,3 +141,40 @@ test('frame alignment: GFS frame is the nearest valid time to the main source fr
   assert.equal(fill.nearestGfsFrame(gfs, null), null);
   assert.equal(fill.nearestGfsFrame({frames: []}, '2026-11-04T03:00:00+00:00'), null);
 });
+
+// CL-WG-13: the seam anchor is the MAIN SOURCE bbox, overridable per call.
+// With the widened tw display range (105–145°E / 5–40°N) the region bbox is
+// no longer the regional model's extent — a regional model's own bundle bbox
+// is the anchor, and GFS as main source never reaches the fill at all.
+const CWA_TW = {leftlon: 117.5, rightlon: 125.5, bottomlat: 20, toplat: 27};
+
+test('CL-WG-13: mainBbox overrides the region bbox as the feather anchor', () => {
+  // View extends past the CWA bundle edge into the pan padding.
+  const view = {leftlon: 116.7, rightlon: 126.2, bottomlat: 19.6, toplat: 27.6};
+  const plan = fill.gfsFillPlan({
+    regionId: 'tw', layerKey: 'low_cloud_percent',
+    gfsDataset: gfsDataset(), viewBbox: view,
+    regionBbox: regions_tw_bbox(), mainBbox: CWA_TW
+  });
+  assert.ok(plan, 'fill activates for a regional model outside its own bbox');
+  assert.deepEqual(plan.main_bbox, CWA_TW,
+    'the feather seam must anchor on the regional model bundle bbox');
+  assert.equal(plan.band_deg, 0.5);
+  // The GFS bundle (116–125/20–28 in this fixture) must still extend past
+  // the main bbox for the fill to contribute.
+  assert.deepEqual(plan.gfs_bbox, GFS_TW);
+});
+
+test('CL-WG-13: no fill when the regional model bbox already covers the view', () => {
+  const plan = fill.gfsFillPlan({
+    regionId: 'tw', layerKey: 'low_cloud_percent',
+    gfsDataset: gfsDataset(), viewBbox: CWA_TW,
+    regionBbox: regions_tw_bbox(), mainBbox: CWA_TW
+  });
+  assert.equal(plan, null);
+});
+
+function regions_tw_bbox() {
+  // The widened CL-WG-13 tw display range.
+  return {leftlon: 105, rightlon: 145, bottomlat: 5, toplat: 40};
+}
