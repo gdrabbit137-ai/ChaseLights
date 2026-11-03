@@ -685,8 +685,8 @@
   }
 
   // CL-WG-06 視野收斂：把地圖相機限制在目前地區的資料 bbox 內。
-  // maxBounds 擋住拖曳出界；minZoom 取「bbox fit 縮放」與目前縮放較小者再降
-  // 0.25 級，讓 fit 後的視野完整呈現且無法縮小到 bbox 以外的陸塊／海面；
+  // maxBounds 擋住拖曳出界；minZoom 取「bbox fit 縮放」再降 0.05 級的固定值
+  // （CL-WG-07：不依賴 currentZoom，放大後連按 − 仍能一路縮回完整資料範圍）；
   // maxZoom 保留景點層級細節。bbox 以外的地名與瓦片因此不會成為主要視野。
   function applyCameraLimits(){
     if(!(state.mapReady && state.map)) return;
@@ -699,7 +699,7 @@
     const fitZoom=map.getZoom();
     map.jumpTo({center:currentCenter,zoom:currentZoom});
     map.setMaxBounds(bounds);
-    const minZoom=window.WeatherMapRegions.cameraMinZoom(fitZoom,currentZoom);
+    const minZoom=window.WeatherMapRegions.cameraMinZoom(fitZoom);
     if(Number.isFinite(minZoom)) map.setMinZoom(minZoom);
     map.setMaxZoom(window.WeatherMapRegions.CAMERA_MAX_ZOOM);
   }
