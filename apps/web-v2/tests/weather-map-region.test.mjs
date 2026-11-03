@@ -222,7 +222,7 @@ test('camera max zoom keeps spot-level detail', () => {
 test('weather-map.js confines the camera per region (CL-WG-06)', () => {
   const js = require('node:fs').readFileSync(
     require('node:path').join(require('node:url').fileURLToPath(new URL('../../../assets/weather-map.js', import.meta.url))), 'utf8');
-  assert.ok(js.includes('function applyCameraLimits()'),
+  assert.ok(js.includes('function applyCameraLimits({preserveCamera=false}={})'),
     'applyCameraLimits must be defined');
   assert.ok(js.includes('map.setMaxBounds(bounds)'), 'maxBounds must clamp panning');
   assert.ok(js.includes('map.setMinZoom(minZoom)'), 'minZoom must clamp zooming out');
@@ -239,8 +239,8 @@ test('weather-map.js confines the camera per region (CL-WG-06)', () => {
   assert.ok(loadBlock.includes('applyCameraLimits()'),
     'basemap load must apply camera limits');
   const resizeBlock = js.slice(js.indexOf("map.on('resize'"), js.indexOf("map.on('click'"));
-  assert.ok(resizeBlock.includes('applyCameraLimits()'),
-    'viewport resize must re-apply camera limits');
+  assert.ok(resizeBlock.includes('applyCameraLimits({preserveCamera:true})'),
+    'viewport resize must re-apply camera limits (CL-WG-10: preserveCamera so the user view survives resize)');
   // Reset returns to the region bbox.
   assert.ok(js.includes('setViewBbox(regionBbox(),{animate:true,maxZoom:8})'),
     'reset-view must target the region bbox');

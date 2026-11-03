@@ -688,16 +688,27 @@
   // maxBounds 擋住拖曳出界；minZoom 取「bbox fit 縮放」再降 0.05 級的固定值
   // （CL-WG-07：不依賴 currentZoom，放大後連按 − 仍能一路縮回完整資料範圍）；
   // maxZoom 保留景點層級細節。bbox 以外的地名與瓦片因此不會成為主要視野。
-  function applyCameraLimits(){
+  // CL-WG-10：切換地區時，上一個地區的 maxBounds/minZoom 仍然掛在地圖上，
+  // fitBounds 的目標相機會被夾回舊範圍（舊邊界外的地方名/海面佔滿畫面、
+  // 新地區只出現在邊角，例：切到 hi 時整面太平洋、夏威夷群島只剩邊緣）。
+  // 因此先解除舊限制再 fit；fit 當下讀取的 zoom 才是新地區的 fitZoom，
+  // 並以此重設限制。preserveCamera 僅用於視窗 resize 等情境：使用者相機
+  // 仍在新地區範圍內時保留原視角，不強制拉回全景。
+  function applyCameraLimits({preserveCamera=false}={}){
     if(!(state.mapReady && state.map)) return;
     const bounds=window.WeatherMapRegions.cameraBounds(regionBbox());
     if(!bounds) return;
     const map=state.map;
+    map.setMaxBounds(null);
+    map.setMinZoom(null);
+    map.setMaxZoom(null);
     const currentCenter=map.getCenter();
     const currentZoom=map.getZoom();
     map.fitBounds(bounds,{padding:28,duration:0});
     const fitZoom=map.getZoom();
-    map.jumpTo({center:currentCenter,zoom:currentZoom});
+    if(preserveCamera){
+      map.jumpTo({center:currentCenter,zoom:currentZoom});
+    }
     map.setMaxBounds(bounds);
     const minZoom=window.WeatherMapRegions.cameraMinZoom(fitZoom);
     if(Number.isFinite(minZoom)) map.setMinZoom(minZoom);
@@ -814,7 +825,8 @@
       });
       map.on('resize',()=>{
         syncCanvasSize();
-        applyCameraLimits();
+        // CL-WG-10: resize 時使用者相機仍在新地區範圍內，保留原視角。
+        applyCameraLimits({preserveCamera:true});
         draw();
       });
       map.on('click',ev=>pickSpotAtPoint(ev.point.x,ev.point.y));
