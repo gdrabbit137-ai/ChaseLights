@@ -232,6 +232,21 @@ test('weather-map.js confines the camera per region (CL-WG-06)', () => {
     'reset-view must target the region bbox');
 });
 
+test('reset-view re-applies the camera limits after returning to the region bbox', () => {
+  const js = require('node:fs').readFileSync(
+    require('node:path').join(require('node:url').fileURLToPath(new URL('../../../assets/weather-map.js', import.meta.url))), 'utf8');
+  const start = js.indexOf("$('reset-view').addEventListener('click'");
+  assert.ok(start !== -1, 'reset-view handler must exist');
+  const block = js.slice(start, js.indexOf('\n    });', start));
+  const setView = block.indexOf('setViewBbox(regionBbox(),{animate:true,maxZoom:8})');
+  const applyLimits = block.indexOf('applyCameraLimits()');
+  assert.ok(setView !== -1, 'reset-view must fit the region bbox');
+  assert.ok(applyLimits !== -1,
+    'reset-view must re-apply applyCameraLimits so the camera is re-confined to the region bbox');
+  assert.ok(setView < applyLimits,
+    'camera limits must be applied after the reset view is set');
+});
+
 test('the single WeatherGrid page has no V2 experiment entry left', () => {
   const fs = require('node:fs');
   const root = require('node:path').resolve(
