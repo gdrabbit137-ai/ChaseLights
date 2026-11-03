@@ -180,3 +180,67 @@ test('region labels are trilingual', () => {
     }
   }
 });
+
+// CL-WG-06 視野收斂: the map camera is confined to the active region bbox.
+test('camera bounds sit exactly on the region bbox edges', () => {
+  assert.deepEqual(regions.cameraBounds(regions.REGION_BBOXES.tw),
+    [[118, 21.5], [123, 26.5]]);
+  assert.deepEqual(regions.cameraBounds(regions.REGION_BBOXES.us),
+    [[-125, 25], [-70.5, 49.5]]);
+  assert.equal(regions.cameraBounds(null), null);
+  assert.equal(regions.cameraBounds({leftlon: 5, rightlon: 5, bottomlat: 0, toplat: 1}), null,
+    'degenerate bbox is rejected');
+});
+
+test('camera minZoom stays a quarter level below the bbox-fit zoom', () => {
+  assert.equal(regions.cameraMinZoom(6.4, 9), 6.15);
+  assert.equal(regions.cameraMinZoom(9, 6.4), 6.15,
+    'an aspect-ratio-zoomed-out camera is the floor, not the fit zoom');
+  assert.equal(regions.cameraMinZoom(0.1, 0.05), 0, 'never negative');
+  assert.equal(regions.cameraMinZoom(Number.NaN, 5), null);
+  assert.equal(regions.cameraMinZoom(5, undefined), null);
+});
+
+test('camera max zoom keeps spot-level detail', () => {
+  assert.equal(regions.CAMERA_MAX_ZOOM, 13);
+});
+
+test('weather-map.js confines the camera per region (CL-WG-06)', () => {
+  const js = require('node:fs').readFileSync(
+    require('node:path').join(require('node:url').fileURLToPath(new URL('../../../assets/weather-map.js', import.meta.url))), 'utf8');
+  assert.ok(js.includes('function applyCameraLimits()'),
+    'applyCameraLimits must be defined');
+  assert.ok(js.includes('map.setMaxBounds(bounds)'), 'maxBounds must clamp panning');
+  assert.ok(js.includes('map.setMinZoom(minZoom)'), 'minZoom must clamp zooming out');
+  assert.ok(js.includes('window.WeatherMapRegions.CAMERA_MAX_ZOOM'),
+    'maxZoom must come from the regions registry');
+  // Region activation fits the region bbox (not the wider source bundle bbox)
+  // and then applies the camera limits.
+  assert.ok(js.includes('setViewBbox(bbox);\n    applyCameraLimits();'),
+    'activateRegion must fit the region bbox then apply camera limits');
+  assert.ok(!js.includes('setViewBbox(state.data.bbox || bbox)'),
+    'the wider source bundle bbox must no longer drive the initial view');
+  // The camera limits are re-applied on basemap load and viewport resize.
+  const loadBlock = js.slice(js.indexOf("map.on('load'"), js.indexOf("map.on('move'"));
+  assert.ok(loadBlock.includes('applyCameraLimits()'),
+    'basemap load must apply camera limits');
+  const resizeBlock = js.slice(js.indexOf("map.on('resize'"), js.indexOf("map.on('click'"));
+  assert.ok(resizeBlock.includes('applyCameraLimits()'),
+    'viewport resize must re-apply camera limits');
+  // Reset returns to the region bbox.
+  assert.ok(js.includes('setViewBbox(regionBbox(),{animate:true,maxZoom:8})'),
+    'reset-view must target the region bbox');
+});
+
+test('the single WeatherGrid page has no V2 experiment entry left', () => {
+  const fs = require('node:fs');
+  const root = require('node:path').resolve(
+    require('node:url').fileURLToPath(new URL('../../..', import.meta.url)));
+  assert.ok(fs.existsSync(require('node:path').join(root, 'weather-map.html')), 'weather-map.html stays');
+  assert.ok(!fs.existsSync(require('node:path').join(root, 'weather-map-v2.html')),
+    'weather-map-v2.html was removed (CL-WG-06)');
+  assert.ok(!fs.existsSync(require('node:path').join(root, 'assets', 'weather-map-v2.js')),
+    'the V2 page controller was removed with its page');
+  const index = fs.readFileSync(require('node:path').join(root, 'index.html'), 'utf8');
+  assert.ok(!index.includes('weather-map-v2'), 'index.html must not link the V2 page');
+});

@@ -159,10 +159,35 @@
     return (candidateKeys || []).filter(key => usable.has(key));
   }
 
+  /**
+   * CL-WG-06 camera confinement helpers. Each region's map camera is limited
+   * to that region's data bbox: maxBounds sits on the bbox edges, minZoom sits
+   * just below the zoom that fits the bbox (so the view can never be zoomed
+   * out past the region), and a fixed maxZoom keeps spot-level detail.
+   */
+  function cameraBounds(bbox) {
+    const region = normalizeBbox(bbox);
+    if (!region) return null;
+    return [[region.leftlon, region.bottomlat], [region.rightlon, region.toplat]];
+  }
+
+  // Allow at most a quarter zoom level of slack below the bbox-fit zoom (or
+  // the current zoom, whichever is smaller) so the fitted region always stays
+  // the dominant view and the camera can never pull back to a continent view.
+  function cameraMinZoom(fitZoom, currentZoom) {
+    const fit = Number(fitZoom);
+    const current = Number(currentZoom);
+    if (!Number.isFinite(fit) || !Number.isFinite(current)) return null;
+    return Math.max(0, Math.min(fit, current) - 0.25);
+  }
+
+  const CAMERA_MAX_ZOOM = 13;
+
   const api = {
     REGION_ORDER, REGION_BBOXES, REGION_LABELS, REGION_CARD_META, PLACE_EXTREMES,
     normalizeBbox, sourceCoversRegion, regionContainsPoint,
-    regionContainsAllPlaces, regionForPoint, sourcesForRegion, maskLayersForRegion
+    regionContainsAllPlaces, regionForPoint, sourcesForRegion, maskLayersForRegion,
+    cameraBounds, cameraMinZoom, CAMERA_MAX_ZOOM
   };
 
   if (typeof window !== 'undefined') {

@@ -109,7 +109,6 @@ class LocalizationCompletenessStaticTests(unittest.TestCase):
             "country_aria",
             "temp_unit_aria",
             "weathergrid_title",
-            "weathergrid_v2_title",
             "field_intake_title",
             "close_place",
             "close_weather",
@@ -123,9 +122,10 @@ class LocalizationCompletenessStaticTests(unittest.TestCase):
         self.assertIn('data-i18n-aria-label="country_aria"', INDEX)
         self.assertIn('data-i18n-aria-label="temp_unit_aria"', INDEX)
         self.assertIn('data-i18n-title="weathergrid_title"', INDEX)
-        self.assertIn('href="./weather-map-v2.html"', INDEX)
-        self.assertIn('data-i18n-title="weathergrid_v2_title"', INDEX)
-        self.assertIn('>🧪 WeatherGrid V2</a>', INDEX)
+        # CL-WG-06: the V2 experiment page and its entry link were removed;
+        # WeatherGrid is a single page now.
+        self.assertNotIn('weather-map-v2', INDEX)
+        self.assertNotIn('weathergrid_v2_title', APP)
         self.assertIn('data-i18n-title="field_intake_title"', INDEX)
 
     def test_open_dynamic_surfaces_are_rerendered_on_language_switch(self):
