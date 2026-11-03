@@ -293,7 +293,17 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn('進階 · 資料來源', self.html)
         self.assertIn("function autoDataset(key=state.layer)", self.js)
         self.assertIn("function photographyLayerLabel(key)", self.js)
-        self.assertIn("🌫️ 低雲／山霧", self.js)
+        # CL-WG-08: dropdown labels are clean single layer names (no use annotations).
+        self.assertIn("🌫️ 山霧", self.js)
+        self.assertIn("🌤️ 高雲", self.js)
+        self.assertIn("☀️ 短波", self.js)
+        self.assertNotIn("低雲／山霧", self.js)
+        self.assertNotIn("高雲／霞光參考", self.js)
+        self.assertNotIn("日照／短波", self.js)
+        # Use annotations moved into the「目前圖層」detail panel.
+        self.assertIn("PHOTOGRAPHY_LAYER_NOTES", self.js)
+        self.assertIn("霞光拍攝的參考", self.js)
+        self.assertIn("常形成山霧", self.js)
         self.assertIn(".layer-control.primary-control{grid-column:span 2}", self.css)
 
     def test_auto_provider_prefers_available_regional_data_by_layer_and_time(self):

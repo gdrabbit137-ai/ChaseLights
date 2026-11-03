@@ -273,3 +273,21 @@ test('the single WeatherGrid page has no V2 experiment entry left', () => {
   const index = fs.readFileSync(require('node:path').join(root, 'index.html'), 'utf8');
   assert.ok(!index.includes('weather-map-v2'), 'index.html must not link the V2 page');
 });
+
+// CL-WG-08: the layer dropdown shows clean single layer names; photography-use
+// annotations live in the「目前圖層」detail panel (PHOTOGRAPHY_LAYER_NOTES).
+test('layer dropdown labels are clean and use notes live in the detail panel (CL-WG-08)', () => {
+  const js = require('node:fs').readFileSync(
+    require('node:path').join(require('node:url').fileURLToPath(new URL('../../../assets/weather-map.js', import.meta.url))), 'utf8');
+  const labelFnStart = js.indexOf('function photographyLayerLabel(key)');
+  const labelFnEnd = js.indexOf('return labels[key]', labelFnStart);
+  const labelBlock = js.slice(labelFnStart, labelFnEnd);
+  assert.ok(labelBlock.includes("'🌫️ 山霧'"), 'low-cloud dropdown label must be 山霧');
+  assert.ok(labelBlock.includes("'🌤️ 高雲'"), 'high-cloud dropdown label must be 高雲');
+  assert.ok(labelBlock.includes("'☀️ 短波'"), 'shortwave dropdown label must be 短波');
+  assert.ok(!labelBlock.includes('霞光'), 'dropdown labels must not carry use annotations');
+  assert.ok(js.includes('const PHOTOGRAPHY_LAYER_NOTES={'), 'panel notes table must exist');
+  assert.ok(js.includes('PHOTOGRAPHY_LAYER_NOTES[state.layer]'),
+    'the detail panel must render the layer use note');
+  assert.ok(js.includes('霞光拍攝的參考'), 'the high-cloud use note (霞光參考) must live in the panel');
+});
