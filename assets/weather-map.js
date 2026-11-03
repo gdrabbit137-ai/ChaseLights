@@ -778,6 +778,14 @@
         attributionControl:false
       });
       state.map=map;
+      // CL-WG-09: 頁面初次載入的相機狀態＝fitBounds(地區 bbox, 適當 padding)
+      // ——縮到最小、完整資料範圍入鏡。建構子原本的固定 zoom 5.4 只是
+      // MapLibre 初始化的暫態；在建好 map 後立刻以 fitBounds 覆蓋
+      // （MapLibre fitBounds 依容器長寬比自動決定縮放，寬/窄螢幕皆然，
+      // 不自行計算 zoom 數值）。本頁不啟用 MapLibre Hash 外掛、也不讀寫
+      // URL hash，故無殘留 hash 狀態需要覆蓋；相機一律從全景開始。
+      setViewBbox(state.view || state.data.bbox);
+      applyCameraLimits();
       map.touchZoomRotate.disableRotation();
       map.addControl(new maplibregl.NavigationControl({showCompass:false}),'top-right');
       map.addControl(new maplibregl.AttributionControl({compact:true}),'bottom-right');
