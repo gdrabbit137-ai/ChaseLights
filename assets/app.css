@@ -1859,6 +1859,54 @@
 .v2-now,.v2-next{font-size:.78rem;color:#cfd8e3;margin-top:4px}
 .v2-note{font-size:.75rem;color:#8fa1b3}
 .v2-past-note{font-size:.72rem;color:#8fa1b3;padding-left:3.4em}
+/* CL-UI-16: late-night rescue banner, sparse-featured banner, and the
+   tomorrow badge on rescue cards. Honest labeling — the badge and the banner
+   never present tomorrow's cards as today's. */
+.late-night-banner{
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin: 4px 0 10px;
+  padding: 10px 14px;
+  border: 1px solid #3b82f6;
+  border-radius: 10px;
+  background: rgba(59, 130, 246, .12);
+  color: #dbeafe;
+  font-size: .86rem;
+  font-weight: 700;
+}
+.late-night-banner-none{
+  border-color: #64748b;
+  background: rgba(100, 116, 139, .14);
+  color: #cbd5e1;
+}
+.late-night-back{
+  margin-left: auto;
+  padding: 6px 12px;
+  border: 1px solid #3b82f6;
+  border-radius: 8px;
+  background: #1d4ed8;
+  color: #eff6ff;
+  font-size: .8rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.late-night-back:hover{background: #2563eb;}
+.tomorrow-badge{
+  display: inline-block;
+  margin-right: 6px;
+  padding: 2px 8px;
+  border: 1px solid #3b82f6;
+  border-radius: 999px;
+  background: #1d4ed8;
+  color: #eff6ff;
+  font-size: .72rem;
+  font-weight: 800;
+  vertical-align: middle;
+  white-space: nowrap;
+}
 
 /* V2 subject replacement (owner directive 2026-10-31) */
 .v2-genre-chip{display:inline-block;padding:1px 8px;border-radius:999px;font-size:.7rem;font-weight:600;background:rgba(88,166,255,.15);color:#58a6ff;vertical-align:middle}
