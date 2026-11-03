@@ -1290,12 +1290,20 @@
     }
   }
 
+  // CL-WG-08: photography-use annotations for the「目前圖層」detail panel
+  // (dropdown labels stay clean single layer names).
+  const PHOTOGRAPHY_LAYER_NOTES={
+    low_cloud_percent:'低雲靠近山頭時常形成山霧，是拍山景與雲霧題材的主要參考。',
+    high_cloud_percent:'薄高雲會把日出／日落染成霞光，作為霞光拍攝的參考。',
+    shortwave_flux_w_m2:'地表短波輻射代表實際日照強度，用來判斷光線是否被雲擋住。'
+  };
+
   function photographyLayerLabel(key){
     const labels={
       total_cloud_percent:'☁️ 全雲量',
-      low_cloud_percent:'🌫️ 低雲／山霧',
+      low_cloud_percent:'🌫️ 山霧',
       mid_cloud_percent:'☁️ 中雲',
-      high_cloud_percent:'🌤️ 高雲／霞光參考',
+      high_cloud_percent:'🌤️ 高雲',
       precip_rate_mm_h:'🌧️ 即時降雨',
       visibility_km:'👁️ 能見度',
       wind_speed_10m_m_s:'💨 風場',
@@ -1304,7 +1312,7 @@
       relative_humidity_2m_percent:'💧 相對濕度',
       temperature_2m_c:'🌡️ 氣溫',
       precip_total_mm:'🌧️ 累積降水',
-      shortwave_flux_w_m2:'☀️ 日照／短波',
+      shortwave_flux_w_m2:'☀️ 短波',
       observed_cloud_mask:'🛰️ 衛星雲遮罩',
       cloud_top_height_m:'🛰️ 雲頂高度',
       nighttime_lights_radiance_nw_cm2_sr:'🌃 夜間燈光'
@@ -3126,6 +3134,14 @@
       verticalHost.innerHTML='<div>CWA M-A0064 目前未提供原生低／中／高雲量；不以相對濕度代理冒充雲量。</div>';
     }else{
       verticalHost.innerHTML='';
+    }
+    // CL-WG-08: photography-use annotations moved out of the dropdown labels
+    // into the「目前圖層」detail panel.
+    const photographyNote=PHOTOGRAPHY_LAYER_NOTES[state.layer];
+    if(photographyNote){
+      const noteDiv=document.createElement('div');
+      noteDiv.textContent=photographyNote;
+      verticalHost.appendChild(noteDiv);
     }
 
     syncInspectorVisibility();
