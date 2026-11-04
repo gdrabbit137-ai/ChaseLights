@@ -137,50 +137,46 @@
     return window.WeatherMapRegions.REGION_BBOXES[state.region];
   }
 
-  // One provider-independent forecast cloud scale keeps JMA, CWA, ICON and
-  // GFS directly comparable. Observation layers keep separate semantics.
-  const CLOUD_PERCENT_BREAKS=[0,20,40,50,70,85,100];
-  const CLOUD_PERCENT_BANDS=[
-    {min:0,max:20,color:'hsl(190 78% 68%)'},
-    {min:20,max:40,color:'hsl(199 82% 56%)'},
-    {min:40,max:50,color:'hsl(216 82% 50%)'},
-    {min:50,max:70,color:'hsl(238 78% 50%)'},
-    {min:70,max:85,color:'hsl(263 72% 60%)'},
-    {min:85,max:100,color:'hsl(285 48% 82%)'}
-  ];
-  const CLOUD_OPACITY_STOPS=[
-    [0,.02],[20,.12],[40,.32],[50,.55],[70,.72],[85,.88],[100,1]
-  ];
-  const CLOUD_MAX_OVERLAY_ALPHA=.78;
+  // CL-WG-16: color/opacity rendering lives in assets/weather-map-palette.js —
+  // the single source shared with the CI-side PNG prerender generator, so the
+  // pre-rendered frames use exactly the same配色函式 as live rendering.
+  const {
+    CLOUD_PERCENT_BREAKS, CLOUD_PERCENT_BANDS, CLOUD_OPACITY_STOPS,
+    CLOUD_MAX_OVERLAY_ALPHA, normalizedValue, interpolateStops,
+    cloudColorFor, layerOpacityCap, cellOpacityFor, colorFor
+  } = window.WeatherMapPalette;
+  const PNG_PALETTE_VERSION = window.WeatherMapPalette.PALETTE_VERSION;
 
-  const layerConfig = {
-    total_cloud_percent:{label:'全雲量', unit:'%', domain:[0,100], palette:'cloud', scale:'cloud_percent', ticks:CLOUD_PERCENT_BREAKS},
-    low_cloud_percent: {label:'低雲', unit:'%', domain:[0,100], palette:'cloud', scale:'cloud_percent', ticks:CLOUD_PERCENT_BREAKS},
-    mid_cloud_percent: {label:'中雲', unit:'%', domain:[0,100], palette:'cloud', scale:'cloud_percent', ticks:CLOUD_PERCENT_BREAKS},
-    high_cloud_percent:{label:'高雲', unit:'%', domain:[0,100], palette:'cloud', scale:'cloud_percent', ticks:CLOUD_PERCENT_BREAKS},
-    observed_cloud_mask:{label:'衛星雲遮罩', unit:'類別', domain:[0,1], palette:'cloudMask'},
-    cloud_top_height_m:{label:'雲頂高度', unit:'m', domain:[0,16000], palette:'cloudHeight'},
-    visibility_km:{label:'能見度', unit:'km', domain:[0,30], palette:'visibility'},
-    precip_rate_mm_h:{label:'降雨率', unit:'mm/h', domain:[0,20], palette:'precip', scale:'precip_rate', ticks:[0,.1,.5,1,2,5,10,20]},
-    wind_speed_10m_m_s:{label:'10 m 風場', unit:'m/s', domain:[0,20], palette:'wind'},
-    wind_direction_10m_deg:{label:'10 m 風向', unit:'°', domain:[0,360], palette:'direction'},
-    wind_speed_925hpa_m_s:{label:'925 hPa 風場（約 1.2 km 高）', unit:'m/s', domain:[0,30], palette:'wind'},
-    wind_direction_925hpa_deg:{label:'925 hPa 風向', unit:'°', domain:[0,360], palette:'direction'},
-    wind_speed_850hpa_m_s:{label:'850 hPa 風場（約 1.5 km 高）', unit:'m/s', domain:[0,40], palette:'wind'},
-    wind_direction_850hpa_deg:{label:'850 hPa 風向', unit:'°', domain:[0,360], palette:'direction'},
-    wind_speed_700hpa_m_s:{label:'700 hPa 風場（約 3 km 高）', unit:'m/s', domain:[0,50], palette:'wind'},
-    wind_direction_700hpa_deg:{label:'700 hPa 風向', unit:'°', domain:[0,360], palette:'direction'},
-    temperature_925hpa_c:{label:'925 hPa 氣溫（約 1.2 km 高）', unit:'°C', domain:[-10,30], palette:'temperature'},
-    temperature_850hpa_c:{label:'850 hPa 氣溫（約 1.5 km 高）', unit:'°C', domain:[-20,25], palette:'temperature'},
-    temperature_700hpa_c:{label:'700 hPa 氣溫（約 3 km 高）', unit:'°C', domain:[-35,15], palette:'temperature'},
-    temperature_2m_c:{label:'2 m 氣溫', unit:'°C', domain:[-5,40], palette:'temperature'},
-    relative_humidity_2m_percent:{label:'2 m 相對濕度', unit:'%', domain:[0,100], palette:'humidity'},
-    precip_total_mm:{label:'累積降水', unit:'mm', domain:[0,100], palette:'precip'},
-    shortwave_flux_w_m2:{label:'地表淨短波輻射', unit:'W/m²', domain:[0,1000], palette:'solar'},
-    aerosol_optical_depth_550nm:{label:'AOD 550 nm', unit:'1', domain:[0,1.5], palette:'haze', scale:'aod', ticks:[0,.05,.1,.2,.4,.8,1.5]},
-    pm2_5_ug_m3:{label:'PM2.5', unit:'µg/m³', domain:[0,75], palette:'pm25', scale:'pm25', ticks:[0,5,10,15,25,35,50,75]},
-    nighttime_lights_radiance_nw_cm2_sr:{label:'夜間燈光', unit:'nW/(cm²·sr)', domain:[0,50], palette:'nightlights', scale:'nightlights', ticks:[0,.5,1,2,5,10,25,50]}
-  };
+
+  // Labels only — palette/domain/scale/ticks come from the shared
+  // WeatherMapPalette.LAYER_RENDER_CONFIG (CL-WG-16 single render source).
+  const layerConfig = {};
+  layerConfig['total_cloud_percent']={label:'全雲量',...window.WeatherMapPalette.LAYER_RENDER_CONFIG['total_cloud_percent']};
+  layerConfig['low_cloud_percent']={label:'低雲',...window.WeatherMapPalette.LAYER_RENDER_CONFIG['low_cloud_percent']};
+  layerConfig['mid_cloud_percent']={label:'中雲',...window.WeatherMapPalette.LAYER_RENDER_CONFIG['mid_cloud_percent']};
+  layerConfig['high_cloud_percent']={label:'高雲',...window.WeatherMapPalette.LAYER_RENDER_CONFIG['high_cloud_percent']};
+  layerConfig['observed_cloud_mask']={label:'衛星雲遮罩',...window.WeatherMapPalette.LAYER_RENDER_CONFIG['observed_cloud_mask']};
+  layerConfig['cloud_top_height_m']={label:'雲頂高度',...window.WeatherMapPalette.LAYER_RENDER_CONFIG['cloud_top_height_m']};
+  layerConfig['visibility_km']={label:'能見度',...window.WeatherMapPalette.LAYER_RENDER_CONFIG['visibility_km']};
+  layerConfig['precip_rate_mm_h']={label:'降雨率',...window.WeatherMapPalette.LAYER_RENDER_CONFIG['precip_rate_mm_h']};
+  layerConfig['wind_speed_10m_m_s']={label:'10 m 風場',...window.WeatherMapPalette.LAYER_RENDER_CONFIG['wind_speed_10m_m_s']};
+  layerConfig['wind_direction_10m_deg']={label:'10 m 風向',...window.WeatherMapPalette.LAYER_RENDER_CONFIG['wind_direction_10m_deg']};
+  layerConfig['wind_speed_925hpa_m_s']={label:'925 hPa 風場（約 1.2 km 高）',...window.WeatherMapPalette.LAYER_RENDER_CONFIG['wind_speed_925hpa_m_s']};
+  layerConfig['wind_direction_925hpa_deg']={label:'925 hPa 風向',...window.WeatherMapPalette.LAYER_RENDER_CONFIG['wind_direction_925hpa_deg']};
+  layerConfig['wind_speed_850hpa_m_s']={label:'850 hPa 風場（約 1.5 km 高）',...window.WeatherMapPalette.LAYER_RENDER_CONFIG['wind_speed_850hpa_m_s']};
+  layerConfig['wind_direction_850hpa_deg']={label:'850 hPa 風向',...window.WeatherMapPalette.LAYER_RENDER_CONFIG['wind_direction_850hpa_deg']};
+  layerConfig['wind_speed_700hpa_m_s']={label:'700 hPa 風場（約 3 km 高）',...window.WeatherMapPalette.LAYER_RENDER_CONFIG['wind_speed_700hpa_m_s']};
+  layerConfig['wind_direction_700hpa_deg']={label:'700 hPa 風向',...window.WeatherMapPalette.LAYER_RENDER_CONFIG['wind_direction_700hpa_deg']};
+  layerConfig['temperature_925hpa_c']={label:'925 hPa 氣溫（約 1.2 km 高）',...window.WeatherMapPalette.LAYER_RENDER_CONFIG['temperature_925hpa_c']};
+  layerConfig['temperature_850hpa_c']={label:'850 hPa 氣溫（約 1.5 km 高）',...window.WeatherMapPalette.LAYER_RENDER_CONFIG['temperature_850hpa_c']};
+  layerConfig['temperature_700hpa_c']={label:'700 hPa 氣溫（約 3 km 高）',...window.WeatherMapPalette.LAYER_RENDER_CONFIG['temperature_700hpa_c']};
+  layerConfig['temperature_2m_c']={label:'2 m 氣溫',...window.WeatherMapPalette.LAYER_RENDER_CONFIG['temperature_2m_c']};
+  layerConfig['relative_humidity_2m_percent']={label:'2 m 相對濕度',...window.WeatherMapPalette.LAYER_RENDER_CONFIG['relative_humidity_2m_percent']};
+  layerConfig['precip_total_mm']={label:'累積降水',...window.WeatherMapPalette.LAYER_RENDER_CONFIG['precip_total_mm']};
+  layerConfig['shortwave_flux_w_m2']={label:'地表淨短波輻射',...window.WeatherMapPalette.LAYER_RENDER_CONFIG['shortwave_flux_w_m2']};
+  layerConfig['aerosol_optical_depth_550nm']={label:'AOD 550 nm',...window.WeatherMapPalette.LAYER_RENDER_CONFIG['aerosol_optical_depth_550nm']};
+  layerConfig['pm2_5_ug_m3']={label:'PM2.5',...window.WeatherMapPalette.LAYER_RENDER_CONFIG['pm2_5_ug_m3']};
+  layerConfig['nighttime_lights_radiance_nw_cm2_sr']={label:'夜間燈光',...window.WeatherMapPalette.LAYER_RENDER_CONFIG['nighttime_lights_radiance_nw_cm2_sr']};
 
   const state = {
     data:null,
@@ -212,6 +208,8 @@
     timelinePlaying:false,
     timelineTimer:null,
     spotHitTargets:[],
+    pngManifest:null,
+    pngImages:new Map(),
     map:null,
     mapReady:false,
     basemapStatus:'loading',
@@ -936,13 +934,177 @@
   }
 
   async function loadWeatherGridIndex(){
-    try{
-      state.wgIndex = await fetchJson('./weathergrid/index.json');
-    }catch(_){
-      state.wgIndex = null;
+      try{
+        state.wgIndex = await fetchJson('./weathergrid/index.json');
+      }catch(_){
+        state.wgIndex = null;
+      }
+      return state.wgIndex;
     }
-    return state.wgIndex;
-  }
+
+    // ===== CL-WG-16: pre-rendered PNG frame path =====
+    // CI publishes per-layer/per-frame PNGs rasterised by
+    // tools/weathergrid_png_prerender.mjs from the same palette module the
+    // browser draws with. When the manifest covers the active source+layer+
+    // frame and its palette_version matches, the map pastes the frame image
+    // instead of rasterising the JSON grid — the JSON bundle then loads in the
+    // background for interactive features (cursor readout, uncovered layers).
+    // Any mismatch (missing manifest, palette drift, uncovered layer/frame)
+    // falls back to the original JSON rendering.
+
+    async function loadPngManifest(regionId){
+      // A/B escape hatch for measurement and incident triage.
+      try{
+        if(new URLSearchParams(window.location.search).has('nopng')) return null;
+        const r = await fetch(`./weathergrid/png/${regionId}/manifest.json`, {cache:'no-store'});
+        if(!r.ok) return null;
+        const m = await r.json();
+        return (m && m.schema_version===1) ? m : null;
+      }catch(_){ return null; }
+    }
+
+    function pngManifestUsable(manifest){
+      return Boolean(
+        manifest &&
+        manifest.palette_version === PNG_PALETTE_VERSION &&
+        manifest.sources
+      );
+    }
+
+    // Which region source does this dataset belong to (identity match on the
+    // state field the catalog assigns bundles to)?
+    function pngSourceIdFor(dataset){
+      if(!dataset) return null;
+      for(const entry of regionManifest(state.region)){
+        if(state[entry.field] === dataset) return entry.id;
+      }
+      return null;
+    }
+
+    // Pure decision helper (unit-tested): should this dataset/layer/frame draw
+    // from a pre-rendered PNG, and which file?
+    function pngFrameDecision(dataset, layer, frameInfo, manifest){
+      if(!pngManifestUsable(manifest)) return {ok:false, reason:'manifest_unavailable_or_version'};
+      if(!frameInfo?.valid_time_utc) return {ok:false, reason:'no_frame'};
+      const sourceId = pngSourceIdFor(dataset);
+      if(!sourceId) return {ok:false, reason:'source_unknown'};
+      const src = manifest.sources[sourceId];
+      if(!src) return {ok:false, reason:'source_not_prerendered'};
+      const layerEntry = src.layers?.[layer];
+      if(!layerEntry?.covered) return {ok:false, reason:'layer_not_covered'};
+      const frame = layerEntry.frames?.find(f => f.valid_time_utc === frameInfo.valid_time_utc);
+      if(!frame) return {ok:false, reason:'frame_not_covered'};
+      return {ok:true, sourceId, src, layerEntry, frame};
+    }
+
+    function pngImageEntry(file){
+      let entry = state.pngImages.get(file);
+      if(entry) return entry;
+      const img = new Image();
+      entry = {img, ready:false};
+      img.onload = () => {
+        entry.ready = true;
+        // A frame that arrives after a draw attempt must still appear.
+        renderAll();
+      };
+      img.onerror = () => { entry.failed = true; };
+      img.src = `./weathergrid/png/${state.region}/${file}`;
+      state.pngImages.set(file, entry);
+      return entry;
+    }
+
+    function pngPrefetchNeighbors(decision){
+      if(!decision.ok) return;
+      const frames = decision.layerEntry.frames || [];
+      const idx = frames.findIndex(f => f.valid_time_utc === decision.frame.valid_time_utc);
+      const next = frames[idx + 1];
+      if(next && !state.pngImages.has(next.file)) pngImageEntry(next.file);
+    }
+
+    // Returns true when the active frame was (or is being) drawn from a PNG.
+    // Only returns true once the image is actually decoded, so the caller can
+    // fall back to JSON rendering until then.
+    function drawPngFrame(data,cfg,visibleView){
+      const decision = pngFrameDecision(data, state.layer, frame(), state.pngManifest);
+      if(!decision.ok) return false;
+      const entry = pngImageEntry(decision.frame.file);
+      if(!entry.ready) return false;
+      const src = decision.src;
+      const b = normalizeViewBbox(src.bbox);
+      if(!b) return false;
+      const rows = src.grid?.rows, cols = src.grid?.cols;
+      if(!rows || !cols) return false;
+      const lats = src.grid.latitudes, lons = src.grid.longitudes;
+      const latStep = rows>1 ? Math.abs(lats[1]-lats[0]) : .25;
+      const lonStep = cols>1 ? Math.abs(lons[1]-lons[0]) : .25;
+      const centerLon = state.map && state.mapReady
+        ? state.map.getCenter().lng
+        : (state.view.leftlon+state.view.rightlon)/2;
+      const norm = lon => {
+        let v = Number(lon);
+        while(v-centerLon>180) v-=360;
+        while(v-centerLon<-180) v+=360;
+        return v;
+      };
+      const west=norm(b.leftlon)-lonStep/2;
+      const east=norm(b.rightlon)+lonStep/2;
+      const north=b.toplat+latStep/2;
+      const south=b.bottomlat-latStep/2;
+      const nw=project(west,north);
+      const se=project(east,south);
+          const x=Math.min(nw.x,se.x);
+          const y=Math.min(nw.y,se.y);
+          const w=Math.abs(se.x-nw.x);
+          const h=Math.abs(se.y-nw.y);
+      if(!Number.isFinite(w)||!Number.isFinite(h)||w<4||h<4) return false;
+      pngPrefetchNeighbors(decision);
+      ctx.save();
+      // Per-cell alpha is baked into the PNG; the user slider and the cloud
+      // overlay cap apply here (same product as the smooth-field path bakes).
+      ctx.globalAlpha=Math.max(0,Math.min(1,(state.weatherOpacity===undefined?1:state.weatherOpacity)*layerOpacityCap(cfg)));
+      ctx.imageSmoothingEnabled=true;
+      ctx.imageSmoothingQuality='high';
+      ctx.drawImage(entry.img,x,y,w,h);
+      ctx.restore();
+      // CL-WG-16 telemetry (debug-only globals, mirrors __weatherGridPreviewReady):
+      if(!window.__weatherGridPngFirstDraw) window.__weatherGridPngFirstDraw = performance.now();
+      window.__weatherGridPngDrawCount = (window.__weatherGridPngDrawCount||0)+1;
+      return true;
+    }
+
+    // Lightweight dataset built from the PNG manifest so the first paint can
+    // render before the heavy JSON bundle arrives. Declares only the covered
+    // layers; frame values are empty (the PNG carries the pixels) and the real
+    // bundle replaces this object when it lands.
+    function stubDatasetFromManifest(manifest, sourceId){
+      const src = manifest.sources[sourceId];
+      if(!src) return null;
+      const covered = Object.entries(src.layers||{}).filter(([,l])=>l.covered);
+      if(!covered.length) return null;
+      const fields = {};
+      for(const [key, layerEntry] of covered){
+        const meta={scale:Number.isFinite(layerEntry.scale)?layerEntry.scale:1};
+        if(Number.isFinite(layerEntry.wrap)) meta.wrap=layerEntry.wrap;
+        fields[key]=meta;
+      }
+      const frames = (covered[0][1].frames||[]).map(f=>({
+        forecast_hour:f.forecast_hour,
+        valid_time_utc:f.valid_time_utc,
+        values:{}
+      }));
+      if(!frames.length) return null;
+      return {
+      model: src.model || sourceId,
+      source_kind: src.source_kind || 'forecast',
+      png_prerendered: true,
+      bbox: src.bbox,
+      grid: src.grid,
+      cycle: src.cycle || null,
+      spots: [],
+      fields,
+      frames
+    };
+    }
 
   // Packed bundle hydration. Publishes mark themselves with
   // bundle_encoding "i16gz-v1": every quantized field array travels as
@@ -1127,6 +1289,8 @@
     state.region = regionId;
     stopTimelinePlayback();
     unloadAllSources();
+    state.pngManifest = null;
+    state.pngImages = new Map();
     state.modelMode = 'auto';
     state.layer = 'low_cloud_percent';
     state.spotId = '';
@@ -1142,13 +1306,60 @@
     const baseline = manifest.find(entry => entry.id === REGION_BASELINE_SOURCE) || manifest[0];
     let baselineLoaded = false;
     if(baseline){
-      try{
-        const bundle = await loadSourceBundle(baseline, regionId);
-        assignSourceBundle(baseline, bundle);
+      // CL-WG-16: if the CI-published PNG manifest covers this baseline
+      // source, first paint uses pre-rendered frames and the heavy JSON
+      // bundle loads in the background; otherwise load the bundle directly
+      // (original path).
+      const pngManifest = await loadPngManifest(regionId);
+      if(pngManifest) state.pngManifest = pngManifest;
+      const stub = pngManifestUsable(pngManifest) && pngManifest.sources[baseline.id]
+        ? stubDatasetFromManifest(pngManifest, baseline.id)
+        : null;
+      if(stub){
+        state.data = stub;
         state.source = 'live';
+        window.__wg16StubAt = performance.now();
         baselineLoaded = true;
-      }catch(err){
-        console.warn(`WeatherGrid baseline bundle unavailable for ${regionId}`, err);
+        // The small QC artifact travels ahead of the bundle so honest QC
+        // labels never wait for the full forecast payload.
+        try{ state.qc = await fetchVersioned(baseline.qcFile(regionId)); }
+        catch(qcErr){ console.warn('WeatherGrid baseline QC unavailable', qcErr); state.qc = null; }
+        // Full bundle lands in the background and replaces the stub.
+        (async () => {
+          try{
+            const bundle = await loadSourceBundle(baseline, regionId);
+            if(state.region !== regionId) return;
+            assignSourceBundle(baseline, bundle);
+            window.__weatherGridBaselineBundleReadyAt = performance.now();
+          }catch(err){
+            if(state.region !== regionId || !state.data?.png_prerendered) return;
+            console.warn(`WeatherGrid baseline bundle unavailable for ${regionId}`, err);
+            if(initial && regionId === 'tw'){
+              try{
+                state.data = await fetchJson(FALLBACK_DATA);
+                state.qc = null;
+                state.source = 'demo';
+              }catch(_){ return; }
+            }else{
+              state.data = emptyRegionDataset(regionId);
+              state.source = 'unavailable';
+            }
+          }
+          refreshModelControls();
+          renderAll();
+          // Enhancement bundles are loaded by activateRegion's normal tail
+          // (source==='live' && baselineLoaded), so nothing extra here.
+        })();
+      }else{
+        try{
+          const bundle = await loadSourceBundle(baseline, regionId);
+          assignSourceBundle(baseline, bundle);
+          state.source = 'live';
+          window.__weatherGridBaselineBundleReadyAt = performance.now();
+          baselineLoaded = true;
+        }catch(err){
+          console.warn(`WeatherGrid baseline bundle unavailable for ${regionId}`, err);
+        }
       }
     }
     if(!baselineLoaded){
@@ -1218,6 +1429,7 @@
       await activateRegion('tw', {initial:true});
     }catch(err){
       console.warn('WeatherGrid live bundle unavailable; using demo fixture', err);
+      window.__wg16LoadError = String((err && err.stack) || err);
       state.data = await fetchJson(FALLBACK_DATA);
       state.qc = null;
       state.source = 'demo';
@@ -1645,7 +1857,7 @@
   }
 
   function selectedSpot(){
-    return state.data.spots.find(s => s.spot_id === state.spotId) || null;
+    return (state.data?.spots || []).find(s => s.spot_id === state.spotId) || null;
   }
 
   function coverageGroupForSpot(spotId){
@@ -1861,49 +2073,11 @@
     };
   }
 
-  function normalizedPiecewise(value,breaks){
-    if(!Number.isFinite(value) || !breaks?.length) return 0;
-    if(value<=breaks[0]) return 0;
-    const last=breaks.length-1;
-    if(value>=breaks[last]) return 1;
-    for(let i=1;i<breaks.length;i++){
-      if(value<=breaks[i]){
-        const local=(value-breaks[i-1])/(breaks[i]-breaks[i-1]);
-        return ((i-1)+local)/last;
-      }
-    }
-    return 1;
-  }
-
-  function normalizedValue(value,cfg){
-    if(value == null || !Number.isFinite(value)) return 0;
-    if(cfg.scale==='precip_rate' || cfg.scale==='aod' || cfg.scale==='nightlights') return normalizedPiecewise(value,cfg.ticks);
-    const span=cfg.domain[1]-cfg.domain[0];
-    if(!span) return 0;
-    return Math.max(0,Math.min(1,(value-cfg.domain[0])/span));
-  }
-
-  function interpolateStops(value,stops){
-    const v=Number(value);
-    if(!Number.isFinite(v) || !stops?.length) return 0;
-    if(v<=stops[0][0]) return stops[0][1];
-    for(let i=1;i<stops.length;i++){
-      const [x1,y1]=stops[i];
-      const [x0,y0]=stops[i-1];
-      if(v<=x1){
-        const t=(v-x0)/(x1-x0);
-        return y0+(y1-y0)*t;
-      }
-    }
-    return stops[stops.length-1][1];
-  }
-
-  function cloudColorFor(value){
-    const v=Math.max(0,Math.min(100,Number(value)));
-    const band=CLOUD_PERCENT_BANDS.find(item=>v<item.max) ||
-      CLOUD_PERCENT_BANDS[CLOUD_PERCENT_BANDS.length-1];
-    return band.color;
-  }
+  // CL-WG-16: normalizedPiecewise / normalizedValue / interpolateStops /
+  // cloudColorFor / cellOpacityFor / colorFor / layerOpacityCap all live in
+  // assets/weather-map-palette.js (the single source shared with the CI-side
+  // PNG prerender generator, so pre-rendered frames and live rendering can
+  // never drift apart).
 
   function cloudLegendGradient(){
     return CLOUD_PERCENT_BANDS.flatMap(item=>[
@@ -1921,116 +2095,10 @@
     }).join('');
   }
 
-  function layerOpacityCap(cfg){
-    return cfg.palette==='cloud' ? CLOUD_MAX_OVERLAY_ALPHA : 1;
-  }
+// CL-WG-16 continued: layerOpacityCap / cellOpacityFor / colorFor are in
+  // assets/weather-map-palette.js (single source with the PNG prerender
+  // generator).
 
-  function cellOpacityFor(value,cfg){
-    if(value == null || !Number.isFinite(value)){
-      if(cfg.palette==='cloudMask' || cfg.palette==='cloudHeight') return 0;
-      return .08;
-    }
-    const t=normalizedValue(value,cfg);
-    if(cfg.palette==='cloudMask') return value>=.5 ? .84 : 0;
-    if(cfg.palette==='cloudHeight') return .28 + .72*t;
-    if(cfg.palette==='cloud'){
-      // Low percentages recede quickly; 50% becomes an explicit visual hinge.
-      return interpolateStops(value,CLOUD_OPACITY_STOPS);
-    }
-    if(cfg.palette==='precip'){
-      // Dry cells should not paint a dark blanket across the whole map.
-      if(value < .01) return 0;
-      return .18 + .82*Math.sqrt(t);
-    }
-    if(cfg.palette==='visibility'){
-      // Poor visibility is the signal. Clear-air / ceiling-saturated cells recede.
-      return .08 + .92*Math.pow(1-t,.8);
-    }
-    if(cfg.palette==='wind'){
-      return .12 + .88*t;
-    }
-    if(cfg.palette==='temperature' || cfg.palette==='humidity' || cfg.palette==='solar'){
-      return .18 + .82*Math.max(.12,t);
-    }
-    if(cfg.palette==='haze'){
-      return .06 + .94*Math.pow(t,.78);
-    }
-    if(cfg.palette==='pm25'){
-      return .06 + .94*Math.pow(t,.72);
-    }
-    if(cfg.palette==='nightlights'){
-      return value<=0 ? 0 : .10 + .90*Math.pow(t,.68);
-    }
-    if(cfg.palette==='direction'){
-      return .48;
-    }
-    return 1;
-  }
-
-  function colorFor(value,cfg){
-    if(value == null || !Number.isFinite(value)) return 'rgba(30,41,59,.35)';
-    let t = normalizedValue(value,cfg);
-    if(cfg.palette==='cloudMask'){
-      return value>=.5 ? 'hsl(205 18% 92%)' : 'rgba(0,0,0,0)';
-    }
-    if(cfg.palette==='cloudHeight'){
-      const hue=205 + t*115;
-      const light=46 + t*16;
-      return `hsl(${hue} 72% ${light}%)`;
-    }
-    if(cfg.palette==='cloud'){
-      return cloudColorFor(value);
-    }
-    if(cfg.palette==='visibility'){
-      const hue = 5 + t*145;
-      return `hsl(${hue} 72% 46%)`;
-    }
-    if(cfg.palette==='precip'){
-      if(value < .01) return 'rgba(15,23,42,.82)';
-      const hue = 215 - t*175;
-      return `hsl(${hue} 82% 48%)`;
-    }
-    if(cfg.palette==='wind'){
-      const hue = 260 - t*220;
-      return `hsl(${hue} 78% 52%)`;
-    }
-    if(cfg.palette==='temperature'){
-      const hue = 220 - t*220;
-      return `hsl(${hue} 82% 52%)`;
-    }
-    if(cfg.palette==='humidity'){
-      const light = 30 + t*48;
-      return `hsl(198 72% ${light}%)`;
-    }
-    if(cfg.palette==='solar'){
-      const hue = 48 - t*30;
-      const light = 30 + t*32;
-      return `hsl(${hue} 90% ${light}%)`;
-    }
-    if(cfg.palette==='haze'){
-      const hue = 55 - t*48;
-      const saturation = 72 + t*12;
-      const light = 58 - t*20;
-      return `hsl(${hue} ${saturation}% ${light}%)`;
-    }
-    if(cfg.palette==='pm25'){
-      const hue = 150 - t*145;
-      const saturation = 64 + t*18;
-      const light = 54 - t*18;
-      return `hsl(${hue} ${saturation}% ${light}%)`;
-    }
-    if(cfg.palette==='nightlights'){
-      const hue = 275 - t*225;
-      const saturation = 62 + t*28;
-      const light = 24 + t*38;
-      return `hsl(${hue} ${saturation}% ${light}%)`;
-    }
-    if(cfg.palette==='direction'){
-      const hue=((value%360)+360)%360;
-      return `hsl(${hue} 76% 52%)`;
-    }
-    return `hsl(${(value%360+360)%360} 76% 52%)`;
-  }
 
   function fillWeatherPolygon(points,value,cfg,alphaMultiplier=1){
     ctx.beginPath();
@@ -2293,6 +2361,7 @@
   }
 
   function drawCloudThresholdContour(data,vals,threshold,visibleView){
+    if(!vals || !vals.length) return; // values still loading (PNG stub path)
     const rows=data.grid.rows, cols=data.grid.cols;
     const lats=data.grid.latitudes, lons=data.grid.longitudes;
     if(rows<2 || cols<2) return;
@@ -2430,6 +2499,10 @@
     }else if(/^wind_direction_(10m|[0-9]{3}hpa)_deg$/.test(state.layer)){
       const speeds=decodedArray('wind_speed_10m_m_s');
       drawCircularDirectionSubcells(data,vals,speeds,cfg,visibleView);
+    }else if(drawPngFrame(data,cfg,visibleView)){
+      // CL-WG-16: pre-rendered frame pasted; per-cell palette/alpha baked at
+      // CI time from the shared palette module. JSON values (loaded in the
+      // background) still power the cloud contour and cursor readout below.
     }else if(!drawSmoothField(data,vals,cfg,visibleView)){
       drawBilinearSubcells(data,vals,cfg,visibleView);
     }
@@ -3550,6 +3623,10 @@
       observationTime: state.himawariData?.observation?.time_coverage_end || null,
       modelMode: state.modelMode,
       timelineModel: timelineDataset()?.model || null,
+      pngPrerender: (() => {
+        const d = pngFrameDecision(activeDataset(state.layer), state.layer, frame(), state.pngManifest);
+        return {ok: d.ok, reason: d.reason || null, file: d.frame?.file || null};
+      })(),
       spotPanelVisible: !$('spot-panel').hidden,
       coveragePanelVisible: !$('coverage-panel').hidden,
       view: {...state.view}

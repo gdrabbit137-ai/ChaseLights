@@ -10,6 +10,9 @@ class Himawari9WeatherGridUiTests(unittest.TestCase):
     def setUpClass(cls):
         cls.html = (ROOT / "weather-map.html").read_text(encoding="utf-8")
         cls.js = (ROOT / "assets" / "weather-map.js").read_text(encoding="utf-8")
+        # CL-WG-16: palette/domain declarations moved to the shared render
+        # config module (single source with the PNG prerender generator).
+        cls.palette = (ROOT / "assets" / "weather-map-palette.js").read_text(encoding="utf-8")
 
     def test_selector_exposes_himawari_as_observation_source(self):
         self.assertIn("<span>進階 · 資料來源</span>", self.html)
@@ -38,7 +41,7 @@ class Himawari9WeatherGridUiTests(unittest.TestCase):
         self.assertIn("不等同低／中／高雲量百分比", self.js)
 
     def test_cloud_mask_is_categorical_and_not_bilinear(self):
-        self.assertIn("palette:'cloudMask'", self.js)
+        self.assertIn("palette:'cloudMask'", self.palette)
         self.assertIn(
             "if(isObservationMode()){",
             self.js,
@@ -47,7 +50,7 @@ class Himawari9WeatherGridUiTests(unittest.TestCase):
         self.assertIn("衛星 presentation grid 最近鄰取樣", self.js)
 
     def test_cloud_top_height_uses_observation_units_and_nearest_sampling(self):
-        self.assertIn("palette:'cloudHeight'", self.js)
+        self.assertIn("palette:'cloudHeight'", self.palette)
         self.assertIn("cloud_top_height_m", self.js)
         self.assertIn("原始單位 m · 顯示 km", self.js)
         self.assertIn("視差校正座標", self.js)

@@ -297,6 +297,25 @@ jobs:
           # Rebuild the cache index so it always describes the files
           # present in this exact commit (the browser cache layer keys
           # immutable ?v=<sha12> fetches off these hashes).
+          # CL-WG-16: prerender PNG frames from the bundles above (same Node
+          # runtime the frontend palette pins against), then include them in
+          # the published snapshot. Old frame PNGs of a retired source stay
+          # harmlessly on disk; the frontend only trusts frames whose
+          # valid_time matches the live bundle.
+          node scripts/weathergrid_png_prerender.mjs --out weathergrid/png \
+            region=tw,source=gfs,bundle=weathergrid/gfs_tw_weather_browser.json \
+            region=jp,source=gfs,bundle=weathergrid/gfs_jp_weather_browser.json \
+            region=us,source=gfs,bundle=weathergrid/gfs_us_weather_browser.json \
+            region=ak,source=gfs,bundle=weathergrid/gfs_ak_weather_browser.json \
+            region=hi,source=gfs,bundle=weathergrid/gfs_hi_weather_browser.json \
+            region=tw,source=icon,bundle=weathergrid/icon_tw_cloud_browser.json \
+            region=jp,source=icon,bundle=weathergrid/icon_jp_cloud_browser.json \
+            region=us,source=icon,bundle=weathergrid/icon_us_cloud_browser.json \
+            region=ak,source=icon,bundle=weathergrid/icon_ak_cloud_browser.json \
+            region=hi,source=icon,bundle=weathergrid/icon_hi_cloud_browser.json \
+            region=tw,source=jma,bundle=weathergrid/jma_msm_tw_cloud_browser.json \
+            region=jp,source=jma,bundle=weathergrid/jma_msm_jp_cloud_browser.json
+          python -m unittest test_weathergrid_png_prerender
           python -m unittest test_weathergrid_index_build
           python weathergrid_index_build.py weathergrid
 
@@ -326,7 +345,8 @@ jobs:
             weathergrid/icon_hi_cloud_browser.json \
             weathergrid/icon_hi_cloud_qc.json \
             weathergrid/cwa_wrf3_tw_weather_browser.json \
-            weathergrid/cwa_wrf3_tw_weather_qc.json
+            weathergrid/cwa_wrf3_tw_weather_qc.json \
+            weathergrid/png
 
           if git diff --cached --quiet; then
             echo "WeatherGrid live snapshot unchanged."
