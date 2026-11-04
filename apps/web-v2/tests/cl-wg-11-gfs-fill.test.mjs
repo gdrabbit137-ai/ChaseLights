@@ -41,7 +41,7 @@ test('CL-WG-14: regional-model mode keeps the honest-blank QC note without mixed
     'the note text must be the CL-WG-14 regional-product wording');
   assert.doesNotMatch(JS, /混合來源/,
     'no mixed-source (blended-source) wording may remain');
-  // All four updateQc output paths still append the regional-model note alone.
+  // All five updateQc output paths still append the regional-model note alone.
   const appends = JS.match(/regionalModelNoteHtml\(\)/g) || [];
-  assert.equal(appends.length, 5, '1 definition + 4 updateQc append paths');
+  assert.equal(appends.length, 6, '1 definition + 5 updateQc append paths (CL-WG-18 added the data-not-rendered honesty path)');
 });

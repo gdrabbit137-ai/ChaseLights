@@ -200,6 +200,12 @@
     region:'tw',
     coverage:{spots:[]},
     frameIndex:0,
+    // CL-WG-18: the timeline opens anchored to the frame nearest "now".
+    // Any manual navigation (slider drag, prev/next, playback) sets this
+    // flag so the anchor never fights the user's rewind.
+    frameAnchorTouched:false,
+    // CL-WG-18: honest QC — true only when draw() actually painted the layer.
+    lastDataRendered:false,
     layer:'low_cloud_percent',
     spotId:'',
     opportunityId:'',
@@ -1299,6 +1305,7 @@
     state.spotId = '';
     state.opportunityId = '';
     state.frameIndex = 0;
+    state.frameAnchorTouched = false;
     state.source = 'loading';
     state.coverage = {schema_version:1,spots:[]};
     state.coverageSource = 'loading';
@@ -1624,6 +1631,15 @@
     slider.max=Math.max(0,(timeline?.frames?.length || 1)-1);
     state.frameIndex=Math.min(state.frameIndex,Number(slider.max));
     slider.value=state.frameIndex;
+    // CL-WG-18: on open / region switch / fresh bundle arrival, default the
+    // timeline to the frame nearest the current hour (absolute "now" in the
+    // spot's local wall clock = UTC now; frames carry UTC valid times), not
+    // the model base time that sits days in the past. A user who drags the
+    // slider back has frameAnchorTouched and keeps their position.
+    if(!state.frameAnchorTouched && timeline?.frames?.length>1){
+      state.frameIndex=nearestFrameIndex(timeline,new Date().toISOString());
+      slider.value=state.frameIndex;
+    }
     slider.disabled=isObservationMode() || isStaticEnvironmentMode();
 
     syncWindVectorDefault();
@@ -1662,6 +1678,8 @@
   function setFrameIndex(index){
     const max=Math.max(0,(timelineDataset()?.frames?.length || 1)-1);
     state.frameIndex=Math.max(0,Math.min(max,Number(index) || 0));
+    // CL-WG-18: manual navigation owns the timeline from here on.
+    state.frameAnchorTouched=true;
     $('time-slider').value=state.frameIndex;
     renderAll();
   }
@@ -1679,6 +1697,9 @@
       return;
     }
     state.timelinePlaying=true;
+    // CL-WG-18: playback is manual navigation — the now-anchor must not
+    // yank the timeline back on the next controls refresh.
+    state.frameAnchorTouched=true;
     state.timelineTimer=window.setInterval(()=>{
       const count=timelineDataset()?.frames?.length || 0;
       if(count<2){
@@ -2283,6 +2304,7 @@
     const lonStep=cols>1 ? Math.abs(lons[1]-lons[0]) : .25;
     const latStep=rows>1 ? Math.abs(lats[1]-lats[0]) : .25;
     const {row0,row1,col0,col1}=visibleGridRange(data,visibleView,1);
+    let drawn=0;
     for(let r=row0;r<=row1;r++){
       for(let c=col0;c<=col1;c++){
         const lon=lons[c], lat=lats[r];
@@ -2294,16 +2316,17 @@
           project(left,top),project(right,top),
           project(right,bottom),project(left,bottom)
         ],vals[r*cols+c],cfg);
+        drawn++;
       }
     }
+    return drawn;
   }
 
   function drawBilinearSubcells(data,vals,cfg,visibleView){
     const rows=data.grid.rows, cols=data.grid.cols;
     const lats=data.grid.latitudes, lons=data.grid.longitudes;
     if(rows<2 || cols<2){
-      drawNearestCells(data,vals,cfg,visibleView);
-      return;
+      return drawNearestCells(data,vals,cfg,visibleView);
     }
 
     // Provider-independent display interpolation:
@@ -2315,6 +2338,7 @@
     const {row0,row1,col0,col1}=visibleGridRange(data,visibleView,1);
     const maxRow=Math.min(rows-2,row1);
     const maxCol=Math.min(cols-2,col1);
+    let drawn=0;
     for(let r=Math.min(row0,maxRow);r<=maxRow;r++){
       for(let c=Math.min(col0,maxCol);c<=maxCol;c++){
         const lon0=lons[c], lon1=lons[c+1];
@@ -2345,10 +2369,12 @@
               project(subLon0,subLat0),project(subLon1,subLat0),
               project(subLon1,subLat1),project(subLon0,subLat1)
             ],value,cfg);
+            drawn++;
           }
         }
       }
     }
+    return drawn;
   }
 
   function contourCrossing(p1,p2,v1,v2,threshold){
@@ -2428,11 +2454,11 @@
     const rows=data.grid.rows, cols=data.grid.cols;
     const lats=data.grid.latitudes, lons=data.grid.longitudes;
     if(rows<2 || cols<2){
-      drawNearestCells(data,directions,cfg,visibleView);
-      return;
+      return drawNearestCells(data,directions,cfg,visibleView);
     }
     const lonStep=Math.abs(lons[1]-lons[0]);
     const subdivisions=lonStep>=.20 ? 4 : (lonStep>=.10 ? 2 : 1);
+    let drawn=0;
     for(let r=0;r<rows-1;r++){
       for(let c=0;c<cols-1;c++){
         const lon0=lons[c], lon1=lons[c+1], lat0=lats[r], lat1=lats[r+1];
@@ -2457,10 +2483,12 @@
               project(subLon0,subLat0),project(subLon1,subLat0),
               project(subLon1,subLat1),project(subLon0,subLat1)
             ],value,cfg);
+            drawn++;
           }
         }
       }
     }
+    return drawn;
   }
 
   function drawProviderBoundary(data){
@@ -2495,20 +2523,26 @@
     }
 
     ctx.save();
+    // CL-WG-18: track whether the data layer actually painted anything this
+    // frame, so the QC panel can tell the truth when nothing rendered
+    // (e.g. basemap timeout + Canvas fallback with no drawable field).
+    let fieldDrawn=0;
     if(isObservationMode()){
       // Himawari presentation-grid values are observations/retrievals.
       // Do not synthesize intermediate satellite values with forecast-style interpolation.
-      drawNearestCells(data,vals,cfg,visibleView);
+      fieldDrawn=drawNearestCells(data,vals,cfg,visibleView);
     }else if(/^wind_direction_(10m|[0-9]{3}hpa)_deg$/.test(state.layer)){
       const speeds=decodedArray('wind_speed_10m_m_s');
-      drawCircularDirectionSubcells(data,vals,speeds,cfg,visibleView);
+      fieldDrawn=drawCircularDirectionSubcells(data,vals,speeds,cfg,visibleView);
     }else if(drawPngFrame(data,cfg,visibleView)){
       // CL-WG-16: pre-rendered frame pasted; per-cell palette/alpha baked at
       // CI time from the shared palette module. JSON values (loaded in the
       // background) still power the cloud contour and cursor readout below.
+      fieldDrawn=1;
     }else if(!drawSmoothField(data,vals,cfg,visibleView)){
-      drawBilinearSubcells(data,vals,cfg,visibleView);
+      fieldDrawn=drawBilinearSubcells(data,vals,cfg,visibleView);
     }
+    state.lastDataRendered=fieldDrawn>0;
     ctx.restore();
 
     if(!isObservationMode() && cfg.palette==='cloud'){
@@ -3567,6 +3601,18 @@
     if(!qc){
       setQcSummary('warn','QC 未提供');
       host.innerHTML='<div class="warn">△ QC 資料未提供</div>'+regionalModelNoteHtml();return;
+    }
+    // CL-WG-18: QC must never claim "✓ 資料正常" when the data layer did not
+    // actually render this frame (e.g. basemap timed out, Canvas fallback
+    // active, and the field could not be drawn). Show an honest degraded
+    // status instead of a green checkmark decoupled from the visible canvas.
+    if(!state.lastDataRendered){
+      setQcSummary('warn','資料層未顯示');
+      const reason=!state.mapReady
+        ? '底圖逾時，資料層未顯示'
+        : '資料層未顯示（此圖層無可繪資料）';
+      host.innerHTML='<div class="warn">⚠ '+escapeHtml(reason)+'</div>'+regionalModelNoteHtml();
+      return;
     }
     if(isObservationMode()){
       setQcSummary('ok','觀測正常');
