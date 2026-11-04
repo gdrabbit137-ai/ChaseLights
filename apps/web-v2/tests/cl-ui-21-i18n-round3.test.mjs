@@ -118,7 +118,9 @@ test('CL-UI-21 C3: no full-width separators remain in en rendering paths',()=>{
 test('CL-UI-21 D4: place-modal now/next lines re-anchor to spot-local day vocabulary + 11/04 15:00 stamp',()=>{
   assert.match(appSource,/const nowLabel=v2DayLabel\(nowLocal\.slice\(0,10\),spot\.timezone,0\);/);
   assert.match(appSource,/\$\{esc\(nowLabel\)\} \$\{esc\(shortDateStamp\(live\.now\.local\)\)\}/);
-  assert.match(appSource,/\$\{esc\(shortDateStamp\(live\.next_good\.local\)\)\}/);
+  // CL-UI-22: the next line is re-anchored via v2NextWindowLocal and stamped
+  // from the validated nextLocal instead of the raw bundle value.
+  assert.match(appSource,/\$\{esc\(shortDateStamp\(nextLocal\)\)\}/);
 });
 
 test('CL-UI-21 F6: provisional map link title is localized and short',()=>{

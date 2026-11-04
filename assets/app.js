@@ -1897,7 +1897,12 @@
           const nowLocal=String(live.now?.local||'');
           const nowLabel=v2DayLabel(nowLocal.slice(0,10),spot.timezone,0);
           const nowLine=live.now?`<div class="v2-now">⏱ ${esc(nowLabel)} ${esc(shortDateStamp(live.now.local))} — ${live.now.status==='GUIDANCE_SATISFIED'?esc(d().eval2_ok):live.now.status==='NOT_EVALUABLE'?esc(d().eval2_unk):esc(d().eval2_bad)}</div>`:'';
-          const nextLine=live.next_good?`<div class="v2-next">🎯 ${esc(d().guide_day_best)}${colonSep()}${esc(shortDateStamp(live.next_good.local))}</div>`:'';
+          // CL-UI-22: the place-guide modal must re-anchor the next window to
+          // the spot's local now exactly like the weather modal — a stale
+          // bundle value (e.g. yesterday's next_good) is never shown; with no
+          // still-future qualifying window the whole row is omitted.
+          const nextLocal=v2NextWindowLocal(opp.days||[],v2LocalNow(spot.timezone),live.next_good?live.next_good.local:'');
+          const nextLine=nextLocal?`<div class="v2-next">🎯 ${esc(d().v2_next_window)}${esc(shortDateStamp(nextLocal))}</div>`:'';
           el.innerHTML=`<div class="v2-eval-block"><div class="v2-title">${esc(d().eval2_title)}</div>${dayHtml}${nowLine}${nextLine}</div>`;
           decorateV2CondLive(spot,el);
         });
