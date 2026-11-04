@@ -87,7 +87,10 @@
       field: 'himawariData',
       layers: ['observed_cloud_mask','cloud_top_height_m'],
       coverage: {
-        tw: {leftlon:118, rightlon:124, bottomlat:21.5, toplat:27}
+        // CL-WG-17: bundle widened to the full tw display frame (CL-WG-13
+        // extent, 105–145/5–40); himawari9_weathergrid_browser_bundle.py
+        // OUTPUT_BBOX is the same box at a 0.04° presentation grid.
+        tw: {leftlon:105, rightlon:145, bottomlat:5, toplat:40}
       },
       file: region => region === 'tw' ? 'himawari9_tw_cloud_browser.json' : `himawari9_${region}_cloud_browser.json`,
       qcFile: region => region === 'tw' ? 'himawari9_tw_cloud_qc.json' : `himawari9_${region}_cloud_qc.json`

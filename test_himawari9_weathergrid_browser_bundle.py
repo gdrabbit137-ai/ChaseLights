@@ -5,13 +5,45 @@ from datetime import datetime, timezone
 import numpy as np
 
 from himawari9_weathergrid_browser_bundle import (
+    FULL_WINDOW_BBOX_WSEN,
     HEIGHT_SCALE_M,
+    OUTPUT_BBOX,
+    OUTPUT_STEP_DEG,
     _attr_text,
     nearest_regular_grid,
     parse_slot_utc,
     quantize_height,
     regular_axis,
 )
+
+
+class Himawari9FullFrameWindowTest(unittest.TestCase):
+    """CL-WG-17: the tw extraction window covers the full region display frame."""
+
+    def test_output_bbox_is_full_frame(self):
+        self.assertEqual(
+            OUTPUT_BBOX,
+            {"leftlon": 105.0, "rightlon": 145.0, "bottomlat": 5.0, "toplat": 40.0},
+        )
+        self.assertEqual(FULL_WINDOW_BBOX_WSEN, (105.0, 5.0, 145.0, 40.0))
+
+    def test_output_axis_endpoints_are_exact(self):
+        lats = regular_axis(OUTPUT_BBOX["bottomlat"], OUTPUT_BBOX["toplat"], OUTPUT_STEP_DEG)
+        lons = regular_axis(OUTPUT_BBOX["leftlon"], OUTPUT_BBOX["rightlon"], OUTPUT_STEP_DEG)
+        self.assertEqual(lats[0], 5.0)
+        self.assertEqual(lats[-1], 40.0)
+        self.assertEqual(lons[0], 105.0)
+        self.assertEqual(lons[-1], 145.0)
+        self.assertEqual(len(lats), 876)
+        self.assertEqual(len(lons), 1001)
+
+    def test_output_bbox_contains_region_bbox(self):
+        # The published bundle must fully contain the tw region bbox so the
+        # browser cover-gate accepts it (weather-map-regions.js REGION_BBOXES.tw).
+        self.assertLessEqual(OUTPUT_BBOX["leftlon"], 105)
+        self.assertGreaterEqual(OUTPUT_BBOX["rightlon"], 145)
+        self.assertLessEqual(OUTPUT_BBOX["bottomlat"], 5)
+        self.assertGreaterEqual(OUTPUT_BBOX["toplat"], 40)
 
 
 class Himawari9WeatherGridBundleTest(unittest.TestCase):

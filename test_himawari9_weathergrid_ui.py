@@ -32,6 +32,12 @@ class Himawari9WeatherGridUiTests(unittest.TestCase):
         self.assertIn("normalizeHimawariBundle", self.js)
         self.assertIn("HIMAWARI9_AHI_OBS", self.js)
 
+    def test_himawari_tw_coverage_matches_full_frame_bundle(self):
+        # CL-WG-17: the page-side himawari tw coverage constant must equal the
+        # widened bundle bbox (105–145/5–40); blank-outside logic relies on it.
+        self.assertIn("tw: {leftlon:105, rightlon:145, bottomlat:5, toplat:40}", self.js)
+        self.assertNotIn("leftlon:118, rightlon:124", self.js)
+
     def test_observed_layers_are_not_forecast_cloud_layers(self):
         self.assertIn("observed_cloud_mask", self.js)
         self.assertIn("cloud_top_height_m", self.js)

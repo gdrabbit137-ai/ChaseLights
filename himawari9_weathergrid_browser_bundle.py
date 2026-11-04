@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build a compact Taiwan browser bundle from current Himawari-9 cloud observations."""
+"""Build a compact full-frame Taiwan-region browser bundle from current Himawari-9 cloud observations."""
 
 from __future__ import annotations
 
@@ -10,7 +10,6 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from himawari9_cloud_poc import (
-    TAIWAN_QC_BBOX,
     build_fs,
     find_latest_pair,
     find_pair_for_slot,
@@ -18,13 +17,26 @@ from himawari9_cloud_poc import (
     normalize_slot_utc,
 )
 
+# CL-WG-17: the Himawari tw window is widened from the small 118–124/21.5–27
+# QC box to the full Taiwan-region display frame (CL-WG-13 owner spec,
+# 105–145°E / 5–40°N), matching weather-map-regions.js REGION_BBOXES.tw. The
+# satellite itself photographs the entire western Pacific full disc, so this
+# window is fully inside the observable disc.
+FULL_WINDOW_BBOX_WSEN = (105.0, 5.0, 145.0, 40.0)
+
 OUTPUT_BBOX = {
-    "leftlon": 118.0,
-    "rightlon": 124.0,
-    "bottomlat": 21.5,
-    "toplat": 27.0,
+    "leftlon": 105.0,
+    "rightlon": 145.0,
+    "bottomlat": 5.0,
+    "toplat": 40.0,
 }
-OUTPUT_STEP_DEG = 0.02
+# Size tradeoff (CL-WG-17): at the native-2km presentation step of 0.02° the
+# full-frame grid is ~5.5M cells per field and the gzipped bundle blows past
+# the 5 MB budget. 0.04° (≈4 km, still near the 2 km native resolution given
+# off-nadir stretching) yields 876×1001 ≈ 0.88M cells and keeps the gzip
+# bundle well under budget while the 2 km source still resamples 1:1 within
+# each 4 km cell.
+OUTPUT_STEP_DEG = 0.04
 MAX_NEAREST_DISTANCE_M = 5000.0
 # Cloud-top height (CldTopHghtAWIPS) is a coarser derived product than the
 # 2 km cloud mask, so its nearest-neighbour budget is wider; edge targets
@@ -276,7 +288,7 @@ def build_live_bundle(
         slot, pair = find_latest_pair(fs, now=now, lookback_slots=lookback_slots)
     else:
         slot, pair = find_pair_for_slot(fs, slot=normalize_slot_utc(slot_utc))
-    source_window = fixed_grid_window(TAIWAN_QC_BBOX)
+    source_window = fixed_grid_window(FULL_WINDOW_BBOX_WSEN)
     source = _read_source_arrays(fs, pair, source_window)
 
     latitudes = regular_axis(
