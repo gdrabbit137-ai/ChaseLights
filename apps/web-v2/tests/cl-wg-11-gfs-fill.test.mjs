@@ -1,180 +1,47 @@
-// CL-WG-11: GFS bbox-outside fill (Taiwan pilot) — trigger conditions,
-// feather-band alpha gradient, and GFS frame-axis alignment.
+// CL-WG-14 (owner ruling 2026-11-04): the CL-WG-11 GFS feathered-seam fill
+// design is CANCELLED. In regional-model mode the regional product is drawn
+// only inside its own coverage and the area outside it stays honestly blank
+// (QC note), with no GFS fill pass, no feather seam, and no mixed-source
+// label. This file is now a NEGATIVE test: the fill machinery must be gone.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createRequire } from 'node:module';
+import fs from 'node:fs';
+import path from 'node:path';
 
-const require = createRequire(import.meta.url);
-const fill = require('../../../assets/weather-map-gfs-fill.js');
+const ROOT = path.resolve(import.meta.dirname, '../../..');
+const JS = fs.readFileSync(path.join(ROOT, 'assets/weather-map.js'), 'utf8');
+const HTML = fs.readFileSync(path.join(ROOT, 'weather-map.html'), 'utf8');
 
-// Bboxes matching the GFS TW bundle (CL-WG-12 widened window) and the region registry.
-const GFS_TW = {leftlon: 116, rightlon: 125, bottomlat: 20, toplat: 28};
-const REGION_TW = {leftlon: 118, rightlon: 123, bottomlat: 21.5, toplat: 26.5};
-
-function gfsDataset() {
-  return {
-    bbox: GFS_TW,
-    grid: {rows: 26, cols: 25, longitudes: [], latitudes: []},
-    fields: {low_cloud_percent: {scale: 1}, visibility_km: {scale: .1},
-      wind_speed_10m_m_s: {scale: .1}, wind_direction_10m_deg: {scale: 1}},
-    frames: [
-      {valid_time_utc: '2026-11-04T00:00:00+00:00', values: {low_cloud_percent: [0]}},
-      {valid_time_utc: '2026-11-04T03:00:00+00:00', values: {low_cloud_percent: [1]}},
-      {valid_time_utc: '2026-11-04T06:00:00+00:00', values: {low_cloud_percent: [2]}}
-    ]
-  };
-}
-
-test('fill trigger: activates when the view extends past the region bbox', () => {
-  // Camera padding shows area west of the 118°E region edge.
-  const view = {leftlon: 116.7, rightlon: 123.4, bottomlat: 21.3, toplat: 26.5};
-  const plan = fill.gfsFillPlan({
-    regionId: 'tw', layerKey: 'low_cloud_percent',
-    gfsDataset: gfsDataset(), viewBbox: view, regionBbox: REGION_TW
-  });
-  assert.ok(plan, 'plan must activate outside the region bbox');
-  assert.equal(plan.layerKey, 'low_cloud_percent');
-  assert.deepEqual(plan.main_bbox, REGION_TW,
-    'the feather seam must be anchored on the region bbox');
-  assert.deepEqual(plan.gfs_bbox, GFS_TW);
-  assert.equal(plan.band_deg, 0.5);
+test('CL-WG-14: no GFS fill machinery remains in weather-map.js (regional-model mode draws no fill)', () => {
+  assert.doesNotMatch(JS, /gfsFillPlanForView/,
+    'gfsFillPlanForView must be removed');
+  assert.doesNotMatch(JS, /drawGfsFillLayer/,
+    'drawGfsFillLayer must be removed');
+  assert.doesNotMatch(JS, /gfsFillNoteHtml/,
+    'gfsFillNoteHtml (mixed-source QC note) must be removed');
+  assert.doesNotMatch(JS, /gfsFillActive/,
+    'state.gfsFillActive must be removed');
+  assert.doesNotMatch(JS, /WeatherMapGfsFill/,
+    'no reference to the removed helper may remain');
+  assert.doesNotMatch(JS, /rawViewBbox/,
+    'rawViewBbox existed only for the fill plan and must be removed');
 });
 
-test('fill trigger: inactive when the view is fully inside the region bbox', () => {
-  const plan = fill.gfsFillPlan({
-    regionId: 'tw', layerKey: 'low_cloud_percent',
-    gfsDataset: gfsDataset(), viewBbox: REGION_TW, regionBbox: REGION_TW
-  });
-  assert.equal(plan, null);
+test('CL-WG-14: the fill helper bundle is gone and the page no longer loads it', () => {
+  assert.equal(fs.existsSync(path.join(ROOT, 'assets/weather-map-gfs-fill.js')), false,
+    'assets/weather-map-gfs-fill.js must be deleted');
+  assert.doesNotMatch(HTML, /weather-map-gfs-fill/,
+    'weather-map.html must not load the fill helper');
 });
 
-test('fill trigger: inactive for layers without a same-semantics GFS field (honest blank)', () => {
-  const view = {leftlon: 116.7, rightlon: 123.4, bottomlat: 21.3, toplat: 26.5};
-  for (const key of ['observed_cloud_mask', 'cloud_top_height_m',
-    'aerosol_optical_depth_550nm', 'pm2_5_ug_m3',
-    'nighttime_lights_radiance_nw_cm2_sr',
-    'relative_humidity_2m_percent', 'temperature_2m_c',
-    'precip_total_mm', 'shortwave_flux_w_m2']) {
-    assert.equal(fill.gfsFillFieldAvailable(key), false, `${key} must not be filled`);
-    const plan = fill.gfsFillPlan({
-      regionId: 'tw', layerKey: key,
-      gfsDataset: gfsDataset(), viewBbox: view, regionBbox: REGION_TW
-    });
-    assert.equal(plan, null, `${key} fill must stay blank (semantic mismatch)`);
-  }
+test('CL-WG-14: regional-model mode keeps the honest-blank QC note without mixed-source semantics', () => {
+  assert.match(JS, /function regionalModelNoteHtml\(\)/,
+    'the regional-product honest-blank note must stay');
+  assert.match(JS, /此為區域產品，僅在其涵蓋範圍內繪製，範圍外留白/,
+    'the note text must be the CL-WG-14 regional-product wording');
+  assert.doesNotMatch(JS, /混合來源/,
+    'no mixed-source (blended-source) wording may remain');
+  // All four updateQc output paths still append the regional-model note alone.
+  const appends = JS.match(/regionalModelNoteHtml\(\)/g) || [];
+  assert.equal(appends.length, 5, '1 definition + 4 updateQc append paths');
 });
-
-test('fill trigger: pilot scope is Taiwan only', () => {
-  const view = {leftlon: 116.7, rightlon: 123.4, bottomlat: 21.3, toplat: 26.5};
-  const plan = fill.gfsFillPlan({
-    regionId: 'jp', layerKey: 'low_cloud_percent',
-    gfsDataset: gfsDataset(), viewBbox: view, regionBbox: REGION_TW
-  });
-  assert.equal(plan, null);
-});
-
-test('fill trigger: inactive when the GFS bundle lacks the layer field or frames', () => {
-  const view = {leftlon: 116.7, rightlon: 123.4, bottomlat: 21.3, toplat: 26.5};
-  const noField = gfsDataset();
-  delete noField.fields.low_cloud_percent;
-  assert.equal(fill.gfsFillPlan({
-    regionId: 'tw', layerKey: 'low_cloud_percent',
-    gfsDataset: noField, viewBbox: view, regionBbox: REGION_TW
-  }), null);
-  const noFrames = gfsDataset();
-  noFrames.frames = [];
-  assert.equal(fill.gfsFillPlan({
-    regionId: 'tw', layerKey: 'low_cloud_percent',
-    gfsDataset: noFrames, viewBbox: view, regionBbox: REGION_TW
-  }), null);
-});
-
-test('fill trigger: inactive when the GFS bundle does not extend past the region bbox', () => {
-  const view = {leftlon: 116.7, rightlon: 123.4, bottomlat: 21.3, toplat: 26.5};
-  const narrow = gfsDataset();
-  narrow.bbox = {...REGION_TW};
-  assert.equal(fill.gfsFillPlan({
-    regionId: 'tw', layerKey: 'low_cloud_percent',
-    gfsDataset: narrow, viewBbox: view, regionBbox: REGION_TW
-  }), null);
-});
-
-test('feather band: alpha is 0 inside the region bbox and ramps 0→1 across 0.5° outside', () => {
-  // Inside the region bbox: zero (main-source territory, never overwritten).
-  assert.equal(fill.gfsFillFeatherAlpha({lon: 120.5, lat: 24}, REGION_TW), 0);
-  // Exactly on the west edge: still 0.
-  assert.equal(fill.gfsFillFeatherAlpha({lon: 118, lat: 24}, REGION_TW), 0);
-  // Monotonic gradient across the band, reaching 1 at 0.5° out.
-  const alphas = [];
-  for (let d = 0; d <= 0.5; d += 0.1) {
-    alphas.push(fill.gfsFillFeatherAlpha({lon: 118 - d, lat: 24}, REGION_TW));
-  }
-  for (let i = 1; i < alphas.length; i++) {
-    assert.ok(alphas[i] > alphas[i - 1], `alpha must increase across the band at d=${i * 0.1}`);
-  }
-  assert.ok(Math.abs(alphas[0]) < 1e-9);
-  assert.ok(Math.abs(alphas[alphas.length - 1] - 1) < 1e-9,
-    'alpha reaches 1 at the band outer edge');
-  // Farther out stays saturated at 1.
-  assert.equal(fill.gfsFillFeatherAlpha({lon: 117.0, lat: 24}, REGION_TW), 1);
-  // Works on every side of the bbox (east, south, north).
-  assert.ok(fill.gfsFillFeatherAlpha({lon: 123.25, lat: 24}, REGION_TW) > 0);
-  assert.ok(fill.gfsFillFeatherAlpha({lon: 120.5, lat: 21.25}, REGION_TW) > 0);
-  assert.ok(fill.gfsFillFeatherAlpha({lon: 120.5, lat: 26.75}, REGION_TW) > 0);
-});
-
-test('feather band: 0.5° band matches the ticket spec constant', () => {
-  assert.equal(fill.GFS_FILL_BAND_DEG, 0.5);
-});
-
-test('frame alignment: GFS frame is the nearest valid time to the main source frame', () => {
-  const gfs = gfsDataset();
-  // Main frame at 03:10 → nearest GFS frame is 03:00 (offset -10 min).
-  let hit = fill.nearestGfsFrame(gfs, '2026-11-04T03:10:00+00:00');
-  assert.equal(hit.frame.valid_time_utc, '2026-11-04T03:00:00+00:00');
-  assert.equal(hit.offset_minutes, -10);
-  // 05:40 → nearest is 06:00 (+20), not 03:00 (-160).
-  hit = fill.nearestGfsFrame(gfs, '2026-11-04T05:40:00+00:00');
-  assert.equal(hit.frame.valid_time_utc, '2026-11-04T06:00:00+00:00');
-  assert.equal(hit.offset_minutes, 20);
-  // Missing target time → null (no fabricated alignment).
-  assert.equal(fill.nearestGfsFrame(gfs, null), null);
-  assert.equal(fill.nearestGfsFrame({frames: []}, '2026-11-04T03:00:00+00:00'), null);
-});
-
-// CL-WG-13: the seam anchor is the MAIN SOURCE bbox, overridable per call.
-// With the widened tw display range (105–145°E / 5–40°N) the region bbox is
-// no longer the regional model's extent — a regional model's own bundle bbox
-// is the anchor, and GFS as main source never reaches the fill at all.
-const CWA_TW = {leftlon: 117.5, rightlon: 125.5, bottomlat: 20, toplat: 27};
-
-test('CL-WG-13: mainBbox overrides the region bbox as the feather anchor', () => {
-  // View extends past the CWA bundle edge into the pan padding.
-  const view = {leftlon: 116.7, rightlon: 126.2, bottomlat: 19.6, toplat: 27.6};
-  const plan = fill.gfsFillPlan({
-    regionId: 'tw', layerKey: 'low_cloud_percent',
-    gfsDataset: gfsDataset(), viewBbox: view,
-    regionBbox: regions_tw_bbox(), mainBbox: CWA_TW
-  });
-  assert.ok(plan, 'fill activates for a regional model outside its own bbox');
-  assert.deepEqual(plan.main_bbox, CWA_TW,
-    'the feather seam must anchor on the regional model bundle bbox');
-  assert.equal(plan.band_deg, 0.5);
-  // The GFS bundle (116–125/20–28 in this fixture) must still extend past
-  // the main bbox for the fill to contribute.
-  assert.deepEqual(plan.gfs_bbox, GFS_TW);
-});
-
-test('CL-WG-13: no fill when the regional model bbox already covers the view', () => {
-  const plan = fill.gfsFillPlan({
-    regionId: 'tw', layerKey: 'low_cloud_percent',
-    gfsDataset: gfsDataset(), viewBbox: CWA_TW,
-    regionBbox: regions_tw_bbox(), mainBbox: CWA_TW
-  });
-  assert.equal(plan, null);
-});
-
-function regions_tw_bbox() {
-  // The widened CL-WG-13 tw display range.
-  return {leftlon: 105, rightlon: 145, bottomlat: 5, toplat: 40};
-}

@@ -1,9 +1,8 @@
 // CL-WG-13: tw single-source full-frame rendering (方案 A). GFS is the main
-// source over the whole widened display range, so gfsFillPlanForView must
-// return null (no fill, no feather, no mixed-source label) whenever GFS is
-// the main source; the fill only returns in regional-model mode, anchored on
-// that model's own bundle bbox, and the QC panel labels the honest blank
-// outside a regional model's coverage.
+// source over the whole widened display range. CL-WG-14 (owner ruling
+// 2026-11-04) cancels the CL-WG-11 feathered-seam fill entirely: there is no
+// fill plan, no seam, and no mixed-source label in any mode — a regional
+// product renders only inside its own coverage, honestly blank outside it.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -17,12 +16,6 @@ const ROOT = path.resolve(import.meta.dirname, '../../..');
 const JS = fs.readFileSync(path.join(ROOT, 'assets/weather-map.js'), 'utf8');
 const REGIONS_JS = fs.readFileSync(path.join(ROOT, 'assets/weather-map-regions.js'), 'utf8');
 
-function gfsFillPlanForViewSource() {
-  const start = JS.indexOf('function gfsFillPlanForView');
-  const end = JS.indexOf('function', start + 10);
-  return JS.slice(start, end);
-}
-
 test('tw display range is pinned to the CWA official cloud-map extent', () => {
   assert.deepEqual(regions.REGION_BBOXES.tw,
     {leftlon: 105, rightlon: 145, bottomlat: 5, toplat: 40});
@@ -30,26 +23,27 @@ test('tw display range is pinned to the CWA official cloud-map extent', () => {
     'the region registry header documents the CWA cloud-map extent');
 });
 
-test('gfsFillPlanForView is disabled when GFS is the main source (single source, no seam)', () => {
-  const src = gfsFillPlanForViewSource();
-  assert.match(src, /const mainData=modelDataset\(\)/,
-    'the plan must resolve the active main source dataset');
-  assert.match(src, /if\(mainData===state\.data\) return null/,
-    'GFS main source → no fill plan (one source over the whole frame has no seam)');
-  assert.match(src, /mainBbox:mainData\?\.bbox\|\|null/,
-    'regional-model mode anchors the fill on the model bundle bbox');
+test('CL-WG-14: no GFS fill machinery exists in any mode (fill design cancelled)', () => {
+  assert.doesNotMatch(JS, /gfsFillPlanForView/,
+    'gfsFillPlanForView must be removed');
+  assert.doesNotMatch(JS, /drawGfsFillLayer/,
+    'drawGfsFillLayer must be removed');
+  assert.doesNotMatch(JS, /WeatherMapGfsFill/,
+    'no reference to the removed fill helper may remain');
 });
 
-test('QC panel labels: mixed-source note only via active fill state; regional-model blank note added', () => {
+test('QC panel labels: regional-product honest-blank note on every updateQc path, no mixed-source note', () => {
   assert.match(JS, /function regionalModelNoteHtml\(\)/,
-    'regional-model honest-blank QC note must exist');
+    'regional-product honest-blank QC note must exist');
   assert.match(JS, /mainData===state\.data \|\| !mainData\?\.bbox\) return ''/,
-    'the regional-model note must never show in GFS single-source mode');
-  assert.match(JS, /範圍外誠實留白（不代表晴朗）/);
-  // Every QC output path appends both notes (they are mutually exclusive).
-  const qcHostAppends = JS.match(/regionalModelNoteHtml\(\)\+gfsFillNoteHtml\(\)/g) || [];
-  assert.equal(qcHostAppends.length, 4,
-    'all four updateQc output paths append the regional-model note before the fill note');
+    'the regional-product note must never show in GFS single-source mode');
+  assert.match(JS, /此為區域產品，僅在其涵蓋範圍內繪製，範圍外留白/,
+    'CL-WG-14 regional-product wording');
+  assert.doesNotMatch(JS, /gfsFillNoteHtml|混合來源/,
+    'the mixed-source fill note must be gone');
+  const qcHostAppends = JS.match(/regionalModelNoteHtml\(\)/g) || [];
+  assert.equal(qcHostAppends.length, 5,
+    'definition + all four updateQc output paths append the regional-product note');
 });
 
 test('single-source mode keeps the region clipped render and camera confined to the widened bbox', () => {
