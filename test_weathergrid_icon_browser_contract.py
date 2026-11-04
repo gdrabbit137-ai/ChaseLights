@@ -41,8 +41,16 @@ class WeatherGridIconBrowserContractTests(unittest.TestCase):
         self.assertIn("內插只改善", self.html)
 
     def test_circular_wind_direction_is_not_bilinearly_interpolated(self):
+        # CL-WG-15 pin-drift: the interpolation-label condition moved from the
+        # single 10 m literal to the shared isWindDirectionLayer() predicate
+        # (covers 925/850/700 hPa too). The circular-path draw branch is the
+        # behavioral pin and is unchanged.
         self.assertIn(
-            "state.layer==='wind_direction_10m_deg'",
+            "}else if(/^wind_direction_(10m|[0-9]{3}hpa)_deg$/.test(state.layer)){",
+            self.js,
+        )
+        self.assertIn(
+            "isWindDirectionLayer()",
             self.js,
         )
         self.assertIn("drawNearestCells(data,vals,cfg,visibleView)", self.js)

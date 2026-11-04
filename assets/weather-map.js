@@ -1325,6 +1325,19 @@
     return layer==='wind_speed_10m_m_s';
   }
 
+  // CL-WG-15: every wind-direction color field (10 m + 925/850/700 hPa) carries
+  // a faint flow-arrow overlay. A meteorological angle already encodes the
+  // direction, so arrows can be drawn straight from the angle field even when
+  // the matching wind-speed (u/v magnitude) field is absent.
+  function isWindDirectionLayer(layer=state.layer){
+    return /^wind_direction_(10m|[0-9]{3}hpa)_deg$/.test(layer);
+  }
+
+  function windDirectionSpeedKey(layer=state.layer){
+    const m=/^wind_direction_([0-9]{3})hpa_deg$/.exec(layer);
+    return m ? `wind_speed_${m[1]}hpa_m_s` : 'wind_speed_10m_m_s';
+  }
+
   function syncWindVectorDefault(){
     if(!state.windVectorTouched){
       state.windVectors=isWindLayer() && windFieldsAvailable();
@@ -2477,6 +2490,10 @@
 
   function drawWindVectors(){
     state.lastWindVectorCount=0;
+    // CL-WG-15: wind-direction color fields always carry a faint flow-arrow
+    // overlay (arrows point toward the motion) drawn from the layer's own
+    // angle field; the 10 m wind-speed layer keeps its toggle-driven vectors.
+    if(isWindDirectionLayer()) drawDirectionFlowArrows();
     if(!state.windVectors && !isWindLayer()) return;
     const data=activeDataset('wind_speed_10m_m_s');
     if(!data?.fields?.wind_speed_10m_m_s ||
@@ -2525,6 +2542,71 @@
 
         strokeWindArrow(sx,sy,ex,ey,'rgba(2,6,23,.72)',compactUi?3.5:4.5);
         strokeWindArrow(sx,sy,ex,ey,'rgba(224,242,254,.94)',compactUi?1.6:2);
+        state.lastWindVectorCount+=1;
+      }
+    }
+    ctx.restore();
+  }
+
+  // CL-WG-15: faint flow-arrow overlay on wind-direction color fields.
+  // Shares the speed-layer conventions (windVectorStep sampling, screen-space
+  // occupancy buckets, meteorological "from" angle flipped toward the motion)
+  // but draws thinner, sparser and dimmer so the direction color field stays
+  // the primary reading.
+  function drawDirectionFlowArrows(){
+    const dirKey=state.layer;
+    const data=activeDataset(dirKey);
+    if(!data?.fields?.[dirKey] || !data?.grid) return;
+    const directions=decodedArray(dirKey);
+    if(!directions.length) return;
+    const rows=data.grid.rows, cols=data.grid.cols;
+    const lats=data.grid.latitudes, lons=data.grid.longitudes;
+    // Speed magnitude is optional: use it only when it comes from the SAME
+    // dataset (same grid) as the direction field; otherwise draw fixed-length
+    // direction-only arrows.
+    const speedKey=windDirectionSpeedKey(dirKey);
+    const speeds=data.fields[speedKey] ? decodedArray(speedKey) : null;
+    const usableSpeeds=(speeds && speeds.length===rows*cols) ? speeds : null;
+
+    const visible=renderViewBbox();
+    const step=windVectorStep();
+    const compactUi=window.matchMedia('(max-width:720px)').matches;
+    const minArrowSpacingPx=compactUi?36:40;
+    const occupiedArrowCells=new Set();
+
+    ctx.save();
+    ctx.lineCap='round';
+    ctx.lineJoin='round';
+
+    for(let r=0;r<rows;r+=step){
+      for(let c=0;c<cols;c+=step){
+        const i=r*cols+c;
+        const direction=directions[i];
+        if(!Number.isFinite(direction)) continue;
+        const speed=usableSpeeds?usableSpeeds[i]:NaN;
+        if(usableSpeeds && (!Number.isFinite(speed) || speed<0.5)) continue;
+
+        const lon=lons[c], lat=lats[r];
+        if(lon<visible.leftlon || lon>visible.rightlon ||
+           lat<visible.bottomlat || lat>visible.toplat) continue;
+
+        const p=project(lon,lat);
+        const bucketX=Math.floor(p.x/minArrowSpacingPx);
+        const bucketY=Math.floor(p.y/minArrowSpacingPx);
+        const bucketKey=`${bucketX}:${bucketY}`;
+        if(occupiedArrowCells.has(bucketKey)) continue;
+        occupiedArrowCells.add(bucketKey);
+
+        const speedScale=(Number.isFinite(speed)?speed:10)/20;
+        const length=(compactUi?8:10)+Math.min(speedScale,1)*(compactUi?10:13);
+        // Normalized provider direction is meteorological "from". Arrow points toward motion.
+        const toward=((direction+180)%360)*Math.PI/180;
+        const dx=Math.sin(toward)*length/2;
+        const dy=-Math.cos(toward)*length/2;
+        const sx=p.x-dx, sy=p.y-dy, ex=p.x+dx, ey=p.y+dy;
+
+        strokeWindArrow(sx,sy,ex,ey,'rgba(2,6,23,.45)',compactUi?2.4:3);
+        strokeWindArrow(sx,sy,ex,ey,'rgba(241,245,249,.68)',compactUi?1.1:1.4);
         state.lastWindVectorCount+=1;
       }
     }
@@ -3036,7 +3118,7 @@
       status.className='source-pill';
     }
 
-    const interpolationLabel=state.layer==='wind_direction_10m_deg'
+    const interpolationLabel=isWindDirectionLayer()
       ? '風向採 u/v 向量循環內插'
       : '顯示雙線性內插';
     let resolution;
@@ -3184,6 +3266,13 @@
       noteDiv.textContent=photographyNote;
       verticalHost.appendChild(noteDiv);
     }
+    // CL-WG-15: wind-direction layers explain the flow-arrow overlay here
+    // (dropdown labels stay clean; the color-wheel legend is unchanged).
+    if(isWindDirectionLayer()){
+      const arrowNote=document.createElement('div');
+      arrowNote.textContent='箭頭指示氣流吹往方向（疊加於風向色場之上）';
+      verticalHost.appendChild(arrowNote);
+    }
 
     syncInspectorVisibility();
 
@@ -3257,7 +3346,7 @@
       labelsHtml=`<div class="legend-row">${labelHtml}</div>`;
     }
 
-    const windKey=(state.windVectors || isWindLayer()) ? `
+    const windKey=(state.windVectors || isWindLayer() || isWindDirectionLayer()) ? `
       <div class="wind-key"><span class="wind-arrow-icon">→</span> 箭頭＝風去向</div>` : '';
     const coverageKey=state.spotId ? `
       <div class="coverage-key">
