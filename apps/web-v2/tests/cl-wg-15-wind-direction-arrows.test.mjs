@@ -7,9 +7,12 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
+import { createRequire } from 'node:module';
 
 const ROOT = path.resolve(import.meta.dirname, '../../..');
 const JS = fs.readFileSync(path.join(ROOT, 'assets/weather-map.js'), 'utf8');
+const require_ = createRequire(import.meta.url);
+const paletteModule = () => require_(path.join(ROOT, 'assets/weather-map-palette.js'));
 
 function dirSpeedKeyStub(layer = 'wind_direction_10m_deg') {
   const m = /^wind_direction_([0-9]{3})hpa_deg$/.exec(layer);
@@ -29,7 +32,7 @@ test('all four wind-direction layers are covered by the direction-layer predicat
   const body = grab('function isWindDirectionLayer', 'function windDirectionSpeedKey');
   assert.match(body, /\/\^wind_direction_\(10m\|\[0-9\]\{3\}hpa\)_deg\$\//);
   // The predicate must match every layerConfig direction entry's key shape.
-  const cfgKeys = [...JS.matchAll(/(wind_direction_(?:10m|[0-9]{3}hpa)_deg):\{label/g)].map(m => m[1]);
+  const cfgKeys = [...JS.matchAll(/layerConfig\['(wind_direction_(?:10m|[0-9]{3}hpa)_deg)'\]=\{label/g)].map(m => m[1]);
   assert.equal(cfgKeys.length, 4, 'layerConfig declares exactly four wind-direction layers');
   assert.equal(cfgKeys.filter(k => k.endsWith('hpa_deg')).length, 3,
     '925/850/700 hPa pressure-level direction layers all exist');
@@ -85,7 +88,9 @@ test('legend keeps the color wheel and gains the arrow key on direction layers; 
     '「目前圖層」detail panel carries the arrow-direction note');
   assert.match(JS, /箭頭＝風去向/, 'existing legend wording preserved');
   // QC/legend color wheel untouched: direction palette + compass labels stay.
-  assert.match(JS, /wind_direction_10m_deg:\{label:'10 m 風向', unit:'°', domain:\[0,360\], palette:'direction'\}/);
+  assert.match(JS, /layerConfig\['wind_direction_10m_deg'\]=\{label:'10 m 風向',\.\.\.window\.WeatherMapPalette\.LAYER_RENDER_CONFIG\['wind_direction_10m_deg'\]\}/);
+  // The palette/domain fields live in the shared render config (CL-WG-16).
+  assert.equal(paletteModule().LAYER_RENDER_CONFIG.wind_direction_10m_deg.domain[1], 360);
 });
 
 test('extracted overlay loop: sampling, occupancy, mobile density and arrow direction', () => {

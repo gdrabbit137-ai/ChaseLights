@@ -10,6 +10,9 @@ class WeatherGridOverlayReadabilityTests(unittest.TestCase):
     def setUpClass(cls):
         cls.html = (ROOT / "weather-map.html").read_text(encoding="utf-8")
         cls.js = (ROOT / "assets" / "weather-map.js").read_text(encoding="utf-8")
+        # CL-WG-16: the opacity/color formulas live in the shared palette
+        # module (single source with the PNG prerender generator).
+        cls.palette = (ROOT / "assets" / "weather-map-palette.js").read_text(encoding="utf-8")
         cls.workflow = (
             ROOT / ".github" / "workflows" / "b117_gfs_multilayer_poc.yml"
         ).read_text(encoding="utf-8")
@@ -21,8 +24,9 @@ class WeatherGridOverlayReadabilityTests(unittest.TestCase):
         )
 
     def test_weather_cells_use_value_aware_opacity(self):
-        self.assertIn("function cellOpacityFor(value,cfg)", self.js)
-        self.assertIn("function layerOpacityCap(cfg)", self.js)
+        self.assertIn("function cellOpacityFor(value,cfg)", self.palette)
+        self.assertIn("function layerOpacityCap(cfg)", self.palette)
+        self.assertIn("layerOpacityCap, cellOpacityFor", self.js)
         self.assertIn(
             "state.weatherOpacity*layerOpacityCap(cfg)*cellOpacityFor(value,cfg)",
             self.js,
@@ -31,18 +35,18 @@ class WeatherGridOverlayReadabilityTests(unittest.TestCase):
 
     def test_clear_cloud_and_dry_precip_recede(self):
         self.assertIn(
-            "CLOUD_OPACITY_STOPS=[\n"
+            "const CLOUD_OPACITY_STOPS=[\n"
             "    [0,.02],[20,.12],[40,.32],[50,.55],[70,.72],[85,.88],[100,1]\n"
-            "  ]",
-            self.js,
+            "  ];",
+            self.palette,
         )
-        self.assertIn("return interpolateStops(value,CLOUD_OPACITY_STOPS)", self.js)
-        self.assertIn("CLOUD_MAX_OVERLAY_ALPHA=.78", self.js)
-        self.assertIn("if(value < .01) return 0", self.js)
+        self.assertIn("return interpolateStops(value,CLOUD_OPACITY_STOPS)", self.palette)
+        self.assertIn("CLOUD_MAX_OVERLAY_ALPHA=.78", self.palette)
+        self.assertIn("if(value < .01) return 0", self.palette)
 
     def test_clear_visibility_and_low_wind_recede(self):
-        self.assertIn("return .08 + .92*Math.pow(1-t,.8)", self.js)
-        self.assertIn("return .12 + .88*t", self.js)
+        self.assertIn("return .08 + .92*Math.pow(1-t,.8)", self.palette)
+        self.assertIn("return .12 + .88*t", self.palette)
 
     def test_b117_ci_runs_readability_contract(self):
         self.assertIn('"test_weathergrid_overlay_readability.py"', self.workflow)

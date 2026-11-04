@@ -11,6 +11,12 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         cls.html = (ROOT / "weather-map.html").read_text(encoding="utf-8")
         cls.css = (ROOT / "assets" / "weather-map.css").read_text(encoding="utf-8")
         cls.js = (ROOT / "assets" / "weather-map.js").read_text(encoding="utf-8")
+        # CL-WG-16R: palette/layer render config moved to the shared palette
+        # module (single source with the PNG prerender generator).
+        cls.palette = (ROOT / "assets" / "weather-map-palette.js").read_text(encoding="utf-8")
+        # Field units (e.g. PM2.5 µg/m³) come from the live bundle metadata,
+        # not from the JS layer config.
+        cls.cams_bundle = (ROOT / "weathergrid" / "cams_global_tw_aod_browser.json").read_text(encoding="utf-8")
         cls.workflow = (
             ROOT / ".github" / "workflows" / "b117_gfs_multilayer_poc.yml"
         ).read_text(encoding="utf-8")
@@ -30,7 +36,8 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertNotIn('class="time-control"', self.html)
 
     def test_wind_direction_is_encoded_by_vectors_in_combined_layer(self):
-        self.assertIn("wind_speed_10m_m_s:{label:'10 m 風場'", self.js)
+        self.assertIn("layerConfig['wind_speed_10m_m_s']={label:'10 m 風場'", self.js)
+        self.assertIn("wind_speed_10m_m_s:{palette:'wind', domain:[0,20]}", self.palette)
         self.assertIn("key=>key!=='wind_direction_10m_deg'", self.js)
         self.assertIn("const toward=((direction+180)%360)", self.js)
         self.assertIn("if(!state.windVectors && !isWindLayer()) return", self.js)
@@ -46,9 +53,9 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn("北 360°", self.js)
 
     def test_rain_rate_uses_non_linear_threshold_scale(self):
-        self.assertIn("scale:'precip_rate'", self.js)
-        self.assertIn("ticks:[0,.1,.5,1,2,5,10,20]", self.js)
-        self.assertIn("function normalizedPiecewise(value,breaks)", self.js)
+        self.assertIn("scale:'precip_rate'", self.palette)
+        self.assertIn("ticks:[0,.1,.5,1,2,5,10,20]", self.palette)
+        self.assertIn("function normalizedPiecewise(value,ticks)", self.palette)
 
     def test_spots_cluster_at_low_zoom_and_keep_selected_spot_distinct(self):
         self.assertIn("function spotClusterRadius()", self.js)
@@ -116,15 +123,15 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn(".coverage-outline-key{display:none}", self.css)
 
     def test_cloud_percent_palette_has_explicit_50_percent_hinge(self):
-        self.assertIn("CLOUD_PERCENT_BREAKS=[0,20,40,50,70,85,100]", self.js)
-        self.assertIn("scale:'cloud_percent'", self.js)
-        self.assertIn("function cloudColorFor(value)", self.js)
+        self.assertIn("CLOUD_PERCENT_BREAKS=[0,20,40,50,70,85,100]", self.palette)
+        self.assertIn("scale:'cloud_percent'", self.palette)
+        self.assertIn("function cloudColorFor(value)", self.palette)
         self.assertIn("50% 雲量分界", self.js)
         self.assertIn("cloud-midline", self.css)
 
     def test_cloud_overlay_never_fully_hides_basemap(self):
-        self.assertIn("CLOUD_MAX_OVERLAY_ALPHA=.78", self.js)
-        self.assertIn("function layerOpacityCap(cfg)", self.js)
+        self.assertIn("CLOUD_MAX_OVERLAY_ALPHA=.78", self.palette)
+        self.assertIn("function layerOpacityCap(cfg)", self.palette)
         self.assertIn("state.weatherOpacity*layerOpacityCap(cfg)*cellOpacityFor", self.js)
         self.assertIn('id="opacity-title"', self.html)
         self.assertIn("雲層顯示強度", self.js)
@@ -160,7 +167,7 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn('<option value="cams">CAMS Global · 霧霾</option>', self.html)
         self.assertIn("LIVE_CAMS_DATA", self.js)
         self.assertIn("aerosol_optical_depth_550nm", self.js)
-        self.assertIn("palette:'haze'", self.js)
+        self.assertIn("palette:'haze'", self.palette)
         self.assertIn("if(mode==='cams') return 'CAMS Global · 霧霾'", self.js)
         self.assertIn("CAMS 預報時間", self.js)
         self.assertIn("資料更新 ", self.js)
@@ -175,8 +182,8 @@ class WeatherGridUiPolishTests(unittest.TestCase):
     def test_b167_cams_pm25_layer_is_exposed_with_distinct_semantics(self):
         self.assertIn("pm2_5_ug_m3", self.js)
         self.assertIn("label:'PM2.5'", self.js)
-        self.assertIn("unit:'µg/m³'", self.js)
-        self.assertIn("palette:'pm25'", self.js)
+        self.assertIn('"pm2_5_ug_m3":{"unit":"µg/m³"', self.cams_bundle)
+        self.assertIn("palette:'pm25'", self.palette)
         self.assertIn("CAMS Global · PM2.5", self.js)
         self.assertIn("PM2.5 是近地面細懸浮微粒質量濃度", self.html)
 
@@ -201,7 +208,7 @@ class WeatherGridUiPolishTests(unittest.TestCase):
     def test_b169f_viirs_keeps_static_environment_semantics(self):
         self.assertIn("nighttime_lights_radiance_nw_cm2_sr", self.js)
         self.assertIn("label:'夜間燈光'", self.js)
-        self.assertIn("palette:'nightlights'", self.js)
+        self.assertIn("palette:'nightlights'", self.palette)
         self.assertIn("function isStaticEnvironmentMode()", self.js)
         self.assertIn("靜態年度背景，不隨氣象預報時間軸變化", self.js)
         self.assertIn("不等同 Bortle 或天空亮度", self.js)
