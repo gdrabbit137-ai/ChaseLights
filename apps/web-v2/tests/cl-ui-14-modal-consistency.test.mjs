@@ -76,7 +76,8 @@ test('CL-UI-14 F2: modal summary is a 3-day overview with an honest none-fallbac
   const noHours={hours:0,list:[],state:'UNFAVORABLE',date:'2026-11-04'};
   const row=modalDayRow('後天',noHours);
   assert.match(row,/modal-day-none/);
-  assert.match(row,/本日無建議時段/);
+  // CL-UI-21: the none wording carries the row's own day label.
+  assert.match(row,/後天無建議時段/);
   assert.doesNotMatch(row,/最佳拍攝時段/);
   const met={hours:2,list:['17:00','18:00'],state:'GUIDANCE_SATISFIED',date:'2026-11-02'};
   const okRow=modalDayRow('今天',met);
@@ -217,6 +218,6 @@ test('CL-UI-14 U5: all new copy exists in all three languages and carries no int
     const occurrences=(appSource.match(new RegExp(`${key}:'`,'g'))||[]).length;
     assert.ok(occurrences>=3,`${key} not present in all three languages (${occurrences})`);
   }
-  const newCopy=grab("modal_window_none:'本日無建議時段'","modal_headline_unknown:'現在、撮影サマリーを表示できません'");
+  const newCopy=grab("modal_window_none:'{day}無建議時段'","modal_headline_unknown:'現在、撮影サマリーを表示できません'");
   assert.doesNotMatch(newCopy,/internal|provisional|待證據|研究中/i);
 });

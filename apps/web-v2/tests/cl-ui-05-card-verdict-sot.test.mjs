@@ -75,9 +75,9 @@ test('CL-UI-05 (c): eval2_none (not generated) and eval2_unk (NOT_EVALUABLE) sta
   assert.match(appSource,
     /day\.state==='GUIDANCE_SATISFIED'\?d\(\)\.eval2_ok:day\.state==='NOT_EVALUABLE'\?d\(\)\.eval2_unk:d\(\)\.eval2_bad/);
   // Card honours the same split: NOT_EVALUABLE shows eval2_unk, an evaluated
-  // day without qualifying hours shows the v2_none_today copy.
+  // day without qualifying hours shows the day-aware v2_none copy (v2NoneSubjectKey).
   const summary=cardBlock('const v2Summary=v2Best&&v2Best.hours?','const reasonHtml=');
-  assert.match(summary,/v2Best\.state==='NOT_EVALUABLE'\?`<div class="theme-winner v2-none">📅 \$\{esc\(d\(\)\.eval2_unk\)\}<\/div>`:`<div class="theme-winner v2-none">📅 \$\{esc\(d\(\)\.v2_none_today\)\}<\/div>`/);
+  assert.match(summary,/v2Best\.state==='NOT_EVALUABLE'\?`<div class="theme-winner v2-none">📅 \$\{esc\(d\(\)\.eval2_unk\)\}<\/div>`:`<div class="theme-winner v2-none">📅 \$\{esc\(d\(\)\[v2NoneSubjectKey\(\)\]\)\}<\/div>`/);
   // i18n: the not-generated copy is date-scoped and distinct from the
   // NOT_EVALUABLE label in every supported locale.
   const i18n=cardBlock("const i18nDict = {","const categoryKeys = {");
@@ -101,5 +101,5 @@ test('CL-UI-05 (d): next qualifying window shows when live.next_good exists',()=
     /\$\{v2Best\.nextLocal\?`<div class="best-window-row">\$\{esc\(d\(\)\.v2_next_window\)\}<b>\$\{esc\(shortDateStamp\(v2Best\.nextLocal\)\)\}<\/b><\/div>`:''\}/);
   // The modal's live path keeps its own next_good display.
   assert.match(appSource,
-    /const nextLine=live\.next_good\?`<div class="v2-next">🎯 \$\{esc\(d\(\)\.guide_day_best\)\}：\$\{esc\(live\.next_good\.local\|\|''\)\}<\/div>`:'';/);
+    /const nextLine=live\.next_good\?`<div class="v2-next">🎯 \$\{esc\(d\(\)\.guide_day_best\)\}\$\{colonSep\(\)\}\$\{esc\(shortDateStamp\(live\.next_good\.local\)\)\}<\/div>`:'';/);
 });

@@ -1,0 +1,137 @@
+// CL-UI-21: round-3 i18n residual fixes. The headline verification below is
+// DOM-level in the sense that it renders the exact string the modal injects
+// into .modal-headline (esc(modalHeadline(summaryData))) — the actual rendered
+// text, not a source-string pin. Live headless evidence is captured separately
+// in the ticket report.
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+
+const appSource=readFileSync(new URL('../../../assets/app.js',import.meta.url),'utf8');
+const block=(start,end)=>appSource.slice(
+  appSource.indexOf(start),
+  appSource.indexOf(end,appSource.indexOf(start))
+);
+const grab=(start,end)=>appSource.slice(appSource.indexOf(start),appSource.indexOf(end,appSource.indexOf(start)));
+
+const factory=new Function([
+  block('const i18nDict','const categoryKeys'),
+  "let currentLang='zh-TW',currentTempUnit='C',currentRegion='tw',currentDayFilter='today';",
+  'const d=()=>i18nDict[currentLang]||i18nDict["zh-TW"];',
+  'const listSep=()=>currentLang==="en"?", ":"、";',
+  'const colonSep=()=>currentLang==="en"?": ":"：";',
+  'const slashSep=()=>currentLang==="en"?" / ":"／";',
+  grab('function esc','const OPPORTUNITY_NEGATIVE_STATUS_KEYS'),
+  grab('function localDateString','function selectedDateForSpot'),
+  grab('function localNowMinutes','function v2IsToday'),
+  grab('function v2IsToday','function v2RemainingHoursList'),
+  grab('function v2RemainingHoursList','function v2ParseLocalStamp'),
+  grab('function formatHourSegments','function v2ContractThreshold'),
+  grab('// CL-UI-14/F1: the modal','function radarUrl'),
+  'return {esc,modalDayInfo,modalWindowSegment,modalHeadline,modalDayRow,v2DayLabel,shortDateStamp};'
+].join('\n'));
+const {esc,modalDayInfo,modalWindowSegment,modalHeadline,modalDayRow,v2DayLabel,shortDateStamp}=factory();
+
+const setLang=(lang)=>{ /* dict is closed over; factory rebuild instead */ };
+const buildFor=(lang)=>{
+  const f=new Function([
+    block('const i18nDict','const categoryKeys'),
+    `let currentLang='${lang}',currentTempUnit='C',currentRegion='tw',currentDayFilter='today';`,
+    'const d=()=>i18nDict[currentLang]||i18nDict["zh-TW"];',
+    'const listSep=()=>currentLang==="en"?", ":"、";',
+    'const colonSep=()=>currentLang==="en"?": ":"：";',
+    'const slashSep=()=>currentLang==="en"?" / ":"／";',
+    grab('function esc','const OPPORTUNITY_NEGATIVE_STATUS_KEYS'),
+    grab('function localDateString','function selectedDateForSpot'),
+    grab('function localNowMinutes','function v2IsToday'),
+    grab('function v2IsToday','function v2RemainingHoursList'),
+    grab('function v2RemainingHoursList','function v2ParseLocalStamp'),
+    grab('function formatHourSegments','function v2ContractThreshold'),
+    grab('// CL-UI-14/F1: the modal','function radarUrl'),
+    'return {esc,modalDayInfo,modalWindowSegment,modalHeadline,modalDayRow,v2DayLabel,shortDateStamp};'
+  ].join('\n'));
+  return f();
+};
+
+// Deterministic bundle day rows for 2026-11-05 (Today) with one remaining hour.
+const days=['2026-11-05','2026-11-06','2026-11-07'].map((d)=>({local_date:d,good_hours:[],state:'UNFAVORABLE'}));
+days[0]={local_date:'2026-11-05',good_hours:['17:00'],state:'GUIDANCE_SATISFIED'};
+const summary=(f,tz,now)=>{
+  const infos=[0,1,2].map(i=>f.modalDayInfo(days[i],tz,now));
+  const labels=infos.map((info,i)=>f.v2DayLabel(info&&info.date,tz,i));
+  return {dayInfos:infos,labels};
+};
+
+test('CL-UI-21 A1: en modal headline renders the day-first sentence (actual rendered text)',()=>{
+  const en=buildFor('en');
+  const data=summary(en,'Asia/Taipei',10*60); // 10:00 spot-local
+  const rendered=esc(en.modalHeadline(data));
+  assert.equal(rendered,'Today: 1 suitable hour(s) (from 11/05 17:00)');
+  // never the pre-CL-UI-20 order (window before day)
+  assert.ok(!/suitable hour\(s\) from/.test(rendered));
+  const ja=buildFor('ja');
+  assert.equal(esc(ja.modalHeadline(summary(ja,'Asia/Taipei',10*60))),'今日 11/05 17:00 からあと 1 時間撮影に適しています');
+  const zh=buildFor('zh-TW');
+  assert.equal(esc(zh.modalHeadline(summary(zh,'Asia/Taipei',10*60))),'今天 11/05 17:00 起還有 1 小時適合拍攝');
+});
+
+test('CL-UI-21 B2: day-tab none rows carry the selected date\u2019s day vocabulary (en not "today")',()=>{
+  const en=buildFor('en');
+  const tomorrow={local_date:'2026-11-06',good_hours:[],state:'UNFAVORABLE'};
+  const info=en.modalDayInfo(tomorrow,'Asia/Taipei',10*60);
+  const label=en.v2DayLabel(info.date,'Asia/Taipei',1);
+  assert.equal(label,'Tomorrow');
+  const rowHtml=en.modalDayRow(label,info);
+  assert.ok(rowHtml.includes('no suggested time'));
+  assert.ok(!rowHtml.includes('No suggested time today'));
+});
+
+test('CL-UI-21 B2: v2 none-copy follows the day filter in all three languages',()=>{
+  for(const [lang,today,tmrw,after] of [
+    ['en','No qualifying subject today','No qualifying subject tomorrow','No qualifying subject day after'],
+    ['zh-TW','本日無符合題材','明日無符合題材','後日無符合題材'],
+    ['ja','本日に適したテーマなし','明日に適したテーマなし','明後日に適したテーマなし'],
+  ]){
+    assert.ok(appSource.includes(`v2_none_today:'${today}`),lang+' today key');
+    assert.ok(appSource.includes(`v2_none_tomorrow:'${tmrw}`),lang+' tomorrow key');
+    assert.ok(appSource.includes(`v2_none_after:'${after}`),lang+' day-after key');
+  }
+  assert.ok(appSource.includes("const v2NoneSubjectKey=()=>currentDayFilter==='tomorrow'?'v2_none_tomorrow':currentDayFilter==='after_tomorrow'?'v2_none_after':'v2_none_today';"));
+  assert.ok(appSource.includes('${esc(d()[v2NoneSubjectKey()])}'));
+});
+
+test('CL-UI-21 C3: no full-width separators remain in en rendering paths',()=>{
+  // guide-label colon sites use the language-aware separator
+  for(const key of ['guide_required','guide_boosters','guide_penalties','guide_confidence','guide_viewpoint','guide_time','guide_season']){
+    const re=new RegExp(`\\$\\{esc\\(d\\(\\)\\.${key}\\)\\}：`);
+    assert.ok(!re.test(appSource),key+' still hardcodes ：');
+  }
+  assert.ok(appSource.includes('${esc(d().guide_required)}${colonSep()}'));
+  // v2-group labels too (3 sites)
+  assert.ok(appSource.split('${esc(d().guide_required)}${colonSep()}').length>=3);
+  assert.ok(!appSource.includes("${esc(viewpoints.join('／'))}"));
+  assert.ok(appSource.includes("${esc(viewpoints.join(slashSep()))}"));
+  // live reference-hour stamp uses parens() (en half-width) + short stamp
+  assert.ok(appSource.includes('div.textContent=line+parens(shortDateStamp(refH.local));'));
+});
+
+test('CL-UI-21 D4: place-modal now/next lines re-anchor to spot-local day vocabulary + 11/04 15:00 stamp',()=>{
+  assert.match(appSource,/const nowLabel=v2DayLabel\(nowLocal\.slice\(0,10\),spot\.timezone,0\);/);
+  assert.match(appSource,/\$\{esc\(nowLabel\)\} \$\{esc\(shortDateStamp\(live\.now\.local\)\)\}/);
+  assert.match(appSource,/\$\{esc\(shortDateStamp\(live\.next_good\.local\)\)\}/);
+});
+
+test('CL-UI-21 F6: provisional map link title is localized and short',()=>{
+  assert.ok(appSource.includes("map_link_approx:'📍 Map (approximate pin)'"));
+  assert.ok(appSource.includes("map_link_approx:'📍 地圖（概略座標）'"));
+  assert.ok(appSource.includes("map_link_approx:'📍 地図（概略座標）'"));
+  assert.ok(appSource.includes('${toolButtonAttrs(d().map_link_approx)}'));
+  assert.ok(!appSource.includes('provisional-map-pin"${toolButtonAttrs(d().map_link,note)}'));
+  assert.ok(!appSource.includes('toolButtonAttrs(d().map_link,note)'));
+});
+
+test('CL-UI-21 G1: app.js is cache-busted from index.html (CL-UI-20 root cause)',()=>{
+  const index=readFileSync(new URL('../../../index.html',import.meta.url),'utf8');
+  assert.ok(/<script src="\.\/assets\/app\.js\?v=[^"]+"><\/script>/.test(index));
+  assert.ok(/<link rel="stylesheet" href="\.\/assets\/app\.css\?v=[^"]+"/.test(index));
+});
