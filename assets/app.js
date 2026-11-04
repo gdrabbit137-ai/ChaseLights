@@ -1026,6 +1026,19 @@
       return localeText(notes);
     }
 
+    // CL-UI-17R: split the emoji prefix from the localized label so the
+      // button row can render icon-first (icon-only on touch widths) without
+      // changing the tool destinations or the i18n strings.
+      function toolButtonInner(label){
+      const icoMatch=label.match(/^(\S+)\s*(.*)$/);
+      const ico=icoMatch?icoMatch[1]:label;
+      const txt=icoMatch?icoMatch[2]:'';
+      return `<span class="tool-ico" aria-hidden="true">${ico}</span><span class="tool-txt">${esc(txt)}</span>`;
+    }
+    function toolButtonAttrs(label,extraTitle){
+      const title=extraTitle?`${extraTitle} · ${label}`:label;
+      return ` title="${esc(title)}" aria-label="${esc(label)}"`;
+    }
     function navigationToolHtml(spot){
       const target=spot?.navigation_target||null;
       const status=target?.status||'needs_review';
@@ -1035,13 +1048,13 @@
 
       if(status==='verified'&&hasCoords){
         const url=`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${lat},${lon}`)}`;
-        return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="tool-link" data-navigation-mode="verified" title="${esc(note)}">${d().nav_link}</a>`;
+        return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="tool-link" data-navigation-mode="verified"${toolButtonAttrs(d().nav_link,note)}>${toolButtonInner(d().nav_link)}</a>`;
       }
       if(status==='provisional_camera_anchor'&&hasCoords){
         const url=`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${lat},${lon}`)}`;
-        return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="tool-link" data-navigation-mode="provisional-map-pin" title="${esc(note)}">${d().map_link}</a>`;
+        return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="tool-link" data-navigation-mode="provisional-map-pin"${toolButtonAttrs(d().map_link,note)}>${toolButtonInner(d().map_link)}</a>`;
       }
-      return `<span class="tool-link disabled" data-navigation-mode="${esc(status)}" title="${esc(note)}">${d().nav_pending}</span>`;
+      return `<span class="tool-link disabled" data-navigation-mode="${esc(status)}"${toolButtonAttrs(d().nav_pending,note)}>${toolButtonInner(d().nav_pending)}</span>`;
     }
 
     function createSpotCard(spot,metric){
@@ -1078,7 +1091,7 @@
       // page header already carries the unified GMT clock, so the row only
       // repeated on every card. If a multi-timezone card list is ever needed,
       // restore a tzAbbrLabel()-based label here (see fmtWindow()).
-      card.innerHTML=`<div><div class="card-header"><div class="spot-title-group"><span class="spot-name"></span><div class="spot-local-name"></div><div style="margin-top:4px"><span class="category-tag">${esc(spotAdminAreas(spot).map(adminAreaLabel).join(" · ")||categoryLabel(spot.category))}</span></div></div><div class="card-header-actions"><button class="fav-btn ${fav?'active':''}" data-fav aria-label="${esc(d().favorite_label)}">★</button></div></div><div class="tags-wrapper">${scenePills}${sceneMore}</div><div class="shooting-summary">${v2Summary||`<div class="theme-winner">📷 ${esc(opportunityName)}</div>`}</div>${reasonHtml?`<div class="recommendation-reasons">${reasonHtml}</div>`:''}<div class="card-secondary-meta"><div class="card-quick-meta"><span class="card-metric-chips">${compactMetrics}${distanceChip}</span></div>${v2Best&&v2Best.state!=='GUIDANCE_SATISFIED'?`<div class="info-row forecast-status-row card-meta-row">${d().forecast_status}${esc(v2StateLabel)}</div>`:''}${astro?`<div class="info-row card-meta-row card-meta-astro">${astro}</div>`:''}${darkSky?`<div class="info-row card-meta-row card-meta-dark">${darkSky}</div>`:''}${access?`<div class="info-row access-note card-meta-row card-meta-access" title="${esc(access)}">⏰ ${esc(access)}</div>`:''}</div></div><div class="card-footer-tools" data-tools><div></div><div><a href="#" class="tool-link" data-weather>${d().weather_link}</a>${navTool}<a href="${radarUrl()}" target="_blank" rel="noopener noreferrer" class="tool-link">${d().radar_link}</a></div></div>`;
+      card.innerHTML=`<div><div class="card-header"><div class="spot-title-group"><span class="spot-name"></span><div class="spot-local-name"></div><div style="margin-top:4px"><span class="category-tag">${esc(spotAdminAreas(spot).map(adminAreaLabel).join(" · ")||categoryLabel(spot.category))}</span></div></div><div class="card-header-actions"><button class="fav-btn ${fav?'active':''}" data-fav aria-label="${esc(d().favorite_label)}">★</button></div></div><div class="tags-wrapper">${scenePills}${sceneMore}</div><div class="shooting-summary">${v2Summary||`<div class="theme-winner">📷 ${esc(opportunityName)}</div>`}</div>${reasonHtml?`<div class="recommendation-reasons">${reasonHtml}</div>`:''}<div class="card-secondary-meta"><div class="card-quick-meta"><span class="card-metric-chips">${compactMetrics}${distanceChip}</span></div>${v2Best&&v2Best.state!=='GUIDANCE_SATISFIED'?`<div class="info-row forecast-status-row card-meta-row">${d().forecast_status}${esc(v2StateLabel)}</div>`:''}${astro?`<div class="info-row card-meta-row card-meta-astro">${astro}</div>`:''}${darkSky?`<div class="info-row card-meta-row card-meta-dark">${darkSky}</div>`:''}${access?`<div class="info-row access-note card-meta-row card-meta-access" title="${esc(access)}">⏰ ${esc(access)}</div>`:''}</div></div><div class="card-footer-tools" data-tools><div></div><div><a href="#" class="tool-link" data-weather${toolButtonAttrs(d().weather_link)}>${toolButtonInner(d().weather_link)}</a>${navTool}<a href="${radarUrl()}" target="_blank" rel="noopener noreferrer" class="tool-link"${toolButtonAttrs(d().radar_link)}>${toolButtonInner(d().radar_link)}</a></div></div>`;
       card.querySelector('.spot-name').textContent=spotName(spot);const local=card.querySelector('.spot-local-name');const showLocal=!(currentRegion==='tw'&&currentLang==='zh-TW');local.textContent=showLocal&&spot.name_local&&spot.name_local!==spotName(spot)?spot.name_local:'';card.querySelector('[data-fav]').onclick=e=>toggleFavorite(spot.spot_id,e);card.querySelector('[data-tools]').onclick=e=>e.stopPropagation();card.querySelector('[data-weather]').onclick=e=>{e.preventDefault();e.stopPropagation();openWeatherModal(spot,metric);};
       return card;
     }

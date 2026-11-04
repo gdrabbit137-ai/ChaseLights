@@ -498,29 +498,34 @@
       border-top:1px dashed #334155;
     }
     .card-footer-tools > div:first-child { display:none; }
+    /* CL-UI-17R: buttons no longer stretch across the full card width;
+       they shrink-wrap to icon+label and right-align to cut vertical/horizontal share. */
     .card-footer-tools > div:last-child {
-      display:grid;
-      grid-template-columns:repeat(3,minmax(0,1fr));
-      gap:7px;
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+      align-items:center;
+      gap:8px;
     }
     .tool-link {
-      display:flex;
+      display:inline-flex;
       align-items:center;
       justify-content:center;
-      min-width:0;
-      font-size:0.78rem;
+      gap:5px;
+      font-size:0.74rem;
       line-height:1.2;
       text-align:center;
       white-space:nowrap;
       color:var(--accent);
       text-decoration:none;
       background:#0f172a;
-      padding:6px 8px;
-      border-radius:6px;
+      padding:5px 10px;
+      border-radius:7px;
       border:1px solid #334155;
       transition:background .2s ease,border-color .2s ease,color .18s ease,transform .12s ease;
       cursor:pointer;
     }
+    .tool-ico { font-size:.88rem; line-height:1; }
     .tool-link:hover { background:#334155; border-color:#64748b; color:#7dd3fc; }
     .tool-link:active { transform:translateY(1px); }
     .card-footer-tools { cursor:default; }
@@ -529,21 +534,20 @@
 
     @media (max-width:640px) {
       .card-footer-tools {
-        margin-top:10px;
-        padding-top:8px;
+        margin-top:8px;
+        padding-top:7px;
       }
-      .card-footer-tools > div:last-child { gap:6px; }
+      /* CL-UI-17R: icon-only square buttons on touch widths — 44px minimum
+         touch target, label moved to title/aria-label, row right-aligned. */
+      .card-footer-tools > div:last-child { gap:10px; }
       .card-footer-tools .tool-link {
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        min-width:0;
-        padding:7px 5px;
-        font-size:.74rem;
-        line-height:1.2;
-        text-align:center;
-        white-space:nowrap;
+        min-width:44px;
+        min-height:44px;
+        padding:0;
+        border-radius:9px;
       }
+      .card-footer-tools .tool-ico { font-size:1.08rem; }
+      .card-footer-tools .tool-txt { display:none; }
     }
 
     #loading {
@@ -1677,9 +1681,9 @@
   }
 
   .tool-link {
-    min-height: 30px;
-    padding: 5px 7px;
-    font-size: .72rem;
+    min-height: 26px;
+    padding: 3px 8px;
+    font-size: .71rem;
     color: #9bdcf8;
     background: rgba(15,23,42,.66);
   }
