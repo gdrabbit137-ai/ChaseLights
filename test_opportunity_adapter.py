@@ -1609,8 +1609,11 @@ def test_adapter_integrity():
     app_js = Path("assets/app.js").read_text(encoding="utf-8")
     app_css = Path("assets/app.css").read_text(encoding="utf-8")
     frontend_source = index_html + "\n" + app_js + "\n" + app_css
-    assert '<link rel="stylesheet" href="./assets/app.css">' in index_html
-    assert '<script src="./assets/app.js"></script>' in index_html
+    # CL-UI-21: app.js/app.css are cache-busted (?v=) so i18n key fixes
+    # (e.g. CL-UI-20's en modal headline) actually reach returning clients.
+    import re as _re
+    assert _re.search(r'<link rel="stylesheet" href="\./assets/app\.css\?v=[^"]+">', index_html)
+    assert _re.search(r'<script src="\./assets/app\.js\?v=[^"]+"></script>', index_html)
     assert "<style>" not in index_html
     assert "<script>" not in index_html
     assert 'id="theme-nav"' not in frontend_source
