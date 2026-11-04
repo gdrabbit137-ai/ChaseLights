@@ -30,7 +30,7 @@ test('CL-UI-09: zh-TW count string is count-invariant', () => {
 });
 
 test('CL-UI-09: ja count string is count-invariant', () => {
-  assert.equal(subjectCountLabel(1, 'ja'), '题材');
-  assert.equal(subjectCountLabel(2, 'ja'), '题材');
-  assert.equal(subjectCountLabel(0, 'ja'), '题材');
+  assert.equal(subjectCountLabel(1, 'ja'), '題材');
+  assert.equal(subjectCountLabel(2, 'ja'), '題材');
+  assert.equal(subjectCountLabel(0, 'ja'), '題材');
 });
