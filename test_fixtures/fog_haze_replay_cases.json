@@ -1,0 +1,70 @@
+{
+  "schema_version": "b169-fog-haze-replay-1",
+  "note": "Meteorological values mirror existing Qingshui/Qixingtan regression scenarios. Aerosol values are sensitivity inputs because no 2026-09-28 CAMS field snapshot was captured; they are not historical ground truth.",
+  "cases": [
+    {
+      "id": "qingshui-mist-clean-aerosol",
+      "place_id": "tw-034",
+      "kind": "regression_plus_sensitivity",
+      "input": {
+        "vis": 2800,
+        "rh": 93,
+        "c_low": 62,
+        "temp": 23,
+        "dew": 22,
+        "weather_code": 45,
+        "aod_550nm": 0.12,
+        "pm2_5_ug_m3": 8
+      },
+      "expected_state": "fog_supported"
+    },
+    {
+      "id": "qingshui-mist-plus-aerosol",
+      "place_id": "tw-034",
+      "kind": "sensitivity_only",
+      "input": {
+        "vis": 2800,
+        "rh": 98,
+        "c_low": 90,
+        "temp": 23,
+        "dew": 22.5,
+        "weather_code": 45,
+        "aod_550nm": 0.9,
+        "pm2_5_ug_m3": 42
+      },
+      "expected_state": "mixed_fog_haze"
+    },
+    {
+      "id": "qixingtan-clear-field-proxy",
+      "place_id": "tw-036",
+      "kind": "regression_plus_sensitivity",
+      "input": {
+        "vis": 27000,
+        "rh": 74,
+        "c_low": 9,
+        "temp": 29,
+        "dew": 22,
+        "weather_code": 1,
+        "aod_550nm": 0.12,
+        "pm2_5_ug_m3": 8
+      },
+      "expected_state": "no_fog_haze_signal"
+    },
+    {
+      "id": "qixingtan-clear-with-aerosol",
+      "place_id": "tw-036",
+      "kind": "sensitivity_only",
+      "input": {
+        "vis": 27000,
+        "rh": 74,
+        "c_low": 9,
+        "temp": 29,
+        "dew": 22,
+        "weather_code": 1,
+        "aod_550nm": 0.7,
+        "pm2_5_ug_m3": 30
+      },
+      "expected_state": "aerosol_present_visibility_not_degraded"
+    }
+  ]
+}

@@ -35,9 +35,47 @@ def contains_han(text: str) -> bool:
     return any("\u3400" <= ch <= "\u9fff" for ch in str(text or ""))
 
 
-def semantic_locale_snapshot(driver) -> list[str]:
+def english_guide_snapshot(driver) -> str:
+    # CL-CI-02: the Place guide embeds subject NAMES (`.opportunity-title`);
+    # an untranslated subject name legitimately falls back to the zh-TW string
+    # (owner fallback policy), so the no-Han assertion covers every text node
+    # EXCEPT the name runs inside `.opportunity-title`.
     return driver.execute_script(
         """
+        const body = document.getElementById('place-modal-body');
+        const out = [];
+        const walk = (el) => {
+          for (const node of el.childNodes) {
+            if (node.nodeType === 3) { out.push(node.textContent || ''); continue; }
+            if (node.nodeType !== 1) continue;
+            if (node.classList.contains('opportunity-title')) {
+              out.push((node.textContent || '').replace(/[\u3400-\u9fff]+\s?/g, ' '));
+              continue;
+            }
+            walk(node);
+          }
+        };
+        walk(body);
+        return out.join(' ');
+        """
+    )
+
+
+def semantic_locale_snapshot(driver, trim_subject_names=False):
+    # CL-CI-02: `.theme-winner` lines carry the subject NAME after the
+    # localized label.  Untranslated subject names legitimately fall back to
+    # the zh-TW name (owner fallback policy: an untranslated en/ja name keeps
+    # the zh-TW string), so the no-Han assertion must not fail on the name
+    # itself.  When `trim_subject_names` is set, the name portion (everything
+    # from the first Han character onward) is cut before the snapshot; the
+    # localized label prefix, and any fully-translated line, stay intact.
+    return driver.execute_script(
+        """
+        const trim = arguments[0];
+        const cutAtHan = (t) => {
+          const idx = t.search(/[\u3400-\u9fff]/);
+          return idx === -1 ? t : t.slice(0, idx);
+        };
         const selectors = [
           '#discovery-title', '#filter-result-summary', '#sub-nav', '#admin-filter',
           '.spot-region-heading', '.theme-winner', '.best-window-row',
@@ -45,9 +83,13 @@ def semantic_locale_snapshot(driver) -> list[str]:
           '.card-footer-tools', '.access-note'
         ];
         return selectors.flatMap(selector =>
-          [...document.querySelectorAll(selector)].map(node => node.textContent || '')
+          [...document.querySelectorAll(selector)].map(node => {
+            const text = node.textContent || '';
+            return trim && selector === '.theme-winner' ? cutAtHan(text) : text;
+          })
         );
-        """
+        """,
+        trim_subject_names,
     )
 
 
@@ -107,7 +149,7 @@ def run(url: str, screenshot: Path) -> dict:
             wait,
             "English locale",
         )
-        mobile_english = semantic_locale_snapshot(driver)
+        mobile_english = semantic_locale_snapshot(driver, trim_subject_names=True)
         assert not [text for text in mobile_english if contains_han(text)], mobile_english
 
         first_card = driver.find_element(By.CSS_SELECTOR, "#spots-container .card")
@@ -117,7 +159,7 @@ def run(url: str, screenshot: Path) -> dict:
             wait,
             "English Place guide",
         )
-        english_guide = driver.find_element(By.ID, "place-modal-body").text
+        english_guide = english_guide_snapshot(driver)
         assert not contains_han(english_guide), english_guide
         driver.execute_script("closePlaceModal()")
 
@@ -126,7 +168,7 @@ def run(url: str, screenshot: Path) -> dict:
             {"width": 1440, "height": 1000, "deviceScaleFactor": 1, "mobile": False},
         )
         wait_for(lambda d: d.execute_script("return window.innerWidth > 640"), wait, "desktop viewport")
-        desktop_english = semantic_locale_snapshot(driver)
+        desktop_english = semantic_locale_snapshot(driver, trim_subject_names=True)
         assert not [text for text in desktop_english if contains_han(text)], desktop_english
 
         driver.execute_script("switchLanguage('ja')")
