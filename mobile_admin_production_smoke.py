@@ -95,7 +95,9 @@ def semantic_locale_snapshot(driver, trim_subject_names=False):
 
 def run(url: str, screenshot: Path) -> dict:
     driver = build_driver()
-    wait = WebDriverWait(driver, 45)
+    # CL-CI-04: prod homepage forecast can lag its asset convergence by the
+    # cache-purge window right after a deploy; 45s flaked on the runner.
+    wait = WebDriverWait(driver, 90)
     report = {"url": url}
 
     try:
