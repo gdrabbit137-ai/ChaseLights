@@ -103,7 +103,7 @@ test('CL-UI-13 (g): wiring — v2BestForSpot validates nextLocal via the spot ti
   assert.match(v2VerdictBlock,/oppDays:o\.days\|\|\[\]/);
   // The card renders the row only when a validated future value exists.
   const createSpotCardBlock=block('function createSpotCard','function distanceToSpotKm');
-  assert.match(createSpotCardBlock,/v2Best\.nextLocal\?`<div class="best-window-row">\$\{esc\(d\(\)\.v2_next_window\)\}<b>\$\{esc\(v2Best\.nextLocal\)\}<\/b><\/div>`:''/);
+  assert.match(createSpotCardBlock,/v2Best\.nextLocal\?`<div class="best-window-row">\$\{esc\(d\(\)\.v2_next_window\)\}<b>\$\{esc\(shortDateStamp\(v2Best\.nextLocal\)\)\}<\/b><\/div>`:''/);
   // Fail-closed doc: the row renders only through the guarded ternary above;
   // there is no unconditional v2_next_window rendering outside it.
   const summaryMatches=[...createSpotCardBlock.matchAll(/best-window-row">\$\{esc\(d\(\)\.v2_next_window\)\}/g)].length;

@@ -2,7 +2,7 @@
       'zh-TW': {
         page_title:'ChaseLights — 攝影氣象預報', country_aria:'國家／區域', temp_unit_aria:'溫度單位', weathergrid_title:'開啟 WeatherGrid 天氣圖', field_intake_title:'開啟實拍驗證', place_modal_title:'景點攝影資訊', weather_modal_title:'景點氣象分析', close_place:'關閉景點攝影資訊', close_weather:'關閉景點氣象分析', load_error:'暫時無法載入攝影氣象資料。',
         country_label:'📍 選擇國家/區域：', opt_tw:'🇹🇼 台灣', opt_jp:'🇯🇵 日本', opt_us:'🇺🇸 美國',
-        btn_today:'📅 今天', btn_tomorrow:'📅 明天', btn_after_tomorrow:'📅 後天', eval2_title:'即時條件評估', eval2_d0:'今天', eval2_d1:'明天', eval2_d2:'後天', eval2_ok:'符合', eval2_bad:'未符', eval2_unk:'資料不足', eval2_hours:'符合時數', eval2_fail_by:'未符條件', eval2_none:'此日期的評估尚未生成', eval2_load_fail:'評估資料暫時無法載入', v2_best_subject:'本日最佳題材', v2_next_window:'下一個符合時段：', v2_none_today:'本日無符合題材，建議改期或看下一個符合時段', v2_conditions_from:'拍攝條件', v2_cond_now:'現況', v2_gap_ok:'已達門檻', v2_gap_short:'尚差 {n}', v2_gap_over:'超過 {n}', v2_pass_hours:'達成時段 {t}', v2_never_num:'全日未達 · 今日 {r}', v2_never:'全日未達', loading:'正在獲取攝影氣象數據...', updating:'背景更新中…',
+        btn_today:'📅 今天', btn_tomorrow:'📅 明天', btn_after_tomorrow:'📅 後天', eval2_title:'即時條件評估', eval2_d0:'今天', eval2_d1:'明天', eval2_d2:'後天', eval2_d_past:'昨天', eval2_ok:'符合', eval2_bad:'未符', eval2_unk:'資料不足', eval2_hours:'符合時數', eval2_fail_by:'未符條件', eval2_none:'此日期的評估尚未生成', eval2_load_fail:'評估資料暫時無法載入', v2_best_subject:'本日最佳題材', v2_next_window:'下一個符合時段：', v2_none_today:'本日無符合題材，可參考下一個符合時段', v2_conditions_from:'拍攝條件', v2_cond_now:'現況', v2_gap_ok:'已達門檻', v2_gap_short:'尚差 {n}', v2_gap_over:'超過 {n}', v2_pass_hours:'達成時段 {t}', v2_never_num:'全日未達 · 今日 {r}', v2_never:'全日未達', loading:'正在獲取攝影氣象數據...', updating:'背景更新中…',
         last_updated:'最後更新：', click_detail:'查看詳細資訊', weather_link:'🌦️ 天氣預報', nav_link:'🗺️ 導航', map_link:'📍 地圖', nav_pending:'🗺️ 導航待確認', radar_link:'📡 雷達', field_intake_link:'📷 實拍驗證', genre_eval_link:'🌗 題材評估', genre_eval_title:'開啟攝影題材條件評估',place_suitable:'📸 這裡適合拍什麼', researched_only:'只顯示已逐點查證的攝影題材；未查證內容不自動生成。', place_time_note:'拍攝時間皆以景點當地時區顯示。', guide_selected_date:'📅 所選日期拍攝機會', guide_no_selected_date:'所選日期目前沒有明確的拍攝建議。', guide_more_subjects:'其他已查證拍攝題材（{n}）', guide_all_subjects:'查看這裡可以拍什麼（{n}）', guide_subjects_note:'以下是這個景點已查證的拍攝題材，不代表所選日期條件適合。', guide_time:'適合時間（景點當地時間）', guide_season:'季節', guide_viewpoint:'拍攝位置', guide_required:'成立條件', guide_boosters:'加分條件', guide_penalties:'不利條件', guide_current:'所選日期最佳評分', guide_day_best:'最佳拍攝時段', guide_day_relative:'相對較佳時段', guide_confidence:'信心', confidence_high:'高', confidence_medium:'中', confidence_low:'低', guide_details:'拍攝指南', guide_score_why:'為什麼適合？', guide_score_status:'判定', guide_unresearched:'目前沒有可提供的拍攝指南。', research_pending_card:'所選日期目前無法提供可靠的拍攝建議', no_viable_group:'暫無合適拍攝機會（{n}）', no_eval_group:'尚無本日評估的景點（{n}）', late_night_banner_sparse:'今日接近尾聲，以下為剩餘的建議時段', late_night_banner:'今日拍攝時段已結束，以下顯示明天的建議', late_night_banner_both:'今日與明日目前均無符合時段', back_today:'回到今天', tomorrow_badge:'明天', eval2_past_hours:'今日已過時段不計', scene_label:'🖼️ 景觀類型：', theme_label:'📸 題材：', advanced_filters:'🔎 更多篩選', result_count:'依所選日期最佳拍攝機會排序 · {n} 個景點', search_result:'找到 {n} 個景點', search_placeholder:'搜尋景點名稱…', where_today:'📍 今天去哪裡拍？', where_tomorrow:'📍 明天去哪裡拍？', where_after:'📍 後天去哪裡拍？', recommendation_reasons:'推薦理由', narrow_result:'目前僅 {n} 個景點，範圍較窄', clear_scene:'清除景觀類型', admin_area_filter:'地區', admin_area_all:'全部地區', admin_area_selected:'已選 {n} 個地區', admin_area_clear:'清除地區', admin_area_search:'搜尋地區…', admin_area_no_match:'找不到符合的地區', admin_area_done:'完成', admin_area_close:'關閉地區選單', admin_area_show_empty:'顯示尚未收錄的地區', admin_area_hide_empty:'隱藏尚未收錄的地區', sort_label:'排序', sort_region:'地區順序', sort_hours:'符合時數：高到低', sort_score_desc:'評分：高到低', sort_score_asc:'評分：低到高', sort_distance_near:'距離：近到遠', sort_distance_far:'距離：遠到近', sort_location_requesting:'正在取得目前位置…', sort_location_using_current:'以目前位置排序', sort_location_unavailable:'無法取得位置，已改回地區順序', result_count_region:'依地區順序 · {n} 個景點', result_count_score_desc:'依評分高到低 · {n} 個景點', result_count_score_asc:'依評分低到高 · {n} 個景點', result_count_hours_desc:'依符合時數高到低 · {n} 個景點', result_count_distance_near:'依距離近到遠 · {n} 個景點', result_count_distance_far:'依距離遠到近 · {n} 個景點', region_group_count:'{n} 個景點',
         best_window:'⏱️ 最佳拍攝時段：', relative_window:'⏱️ 相對較佳時段：', forecast_status:'📍 預報狀態：', cloud_base_label:'估算凝結高度', best_theme:'📸 所選日期較適合：', local_time:'當地時間', dark_sky:'暗空',
         modal_subtitle:'⏱️ 逐時拍攝條件：過去 24 小時 + 未來 72 小時（藍底＝所選日期中相對較佳的時段；仍需看整體評分與條件）', tag_best:'最佳',
@@ -11,7 +11,7 @@
       'en': {
         page_title:'ChaseLights — Photography Weather Forecast', country_aria:'Country / region', temp_unit_aria:'Temperature unit', weathergrid_title:'Open WeatherGrid weather map', field_intake_title:'Open field validation', place_modal_title:'Place photography guide', weather_modal_title:'Place weather analysis', close_place:'Close place photography guide', close_weather:'Close place weather analysis', load_error:'Photography weather data is temporarily unavailable.',
         country_label:'📍 Select Region:', opt_tw:'🇹🇼 Taiwan', opt_jp:'🇯🇵 Japan', opt_us:'🇺🇸 United States',
-        btn_today:'📅 Today', btn_tomorrow:'📅 Tomorrow', btn_after_tomorrow:'📅 Day After', eval2_title:'Live condition assessment', eval2_d0:'Today', eval2_d1:'Tomorrow', eval2_d2:'Day after', eval2_ok:'Met', eval2_bad:'Not met', eval2_unk:'Insufficient data', eval2_hours:'qualifying hours', eval2_fail_by:'Unmet conditions', eval2_none:'Evaluation for this date has not been generated yet', eval2_load_fail:'Evaluation data temporarily unavailable', v2_best_subject:'Best subject today', v2_next_window:'Next qualifying window: ', v2_none_today:'No qualifying subject today — check the next qualifying window', v2_conditions_from:'Shooting conditions', v2_cond_now:'Now', v2_gap_ok:'meets threshold', v2_gap_short:'short by {n}', v2_gap_over:'over by {n}', v2_pass_hours:'Met at {t}', v2_never_num:'Not met all day · today {r}', v2_never:'Not met all day', loading:'Fetching photography weather data...', updating:'Updating in background…',
+        btn_today:'📅 Today', btn_tomorrow:'📅 Tomorrow', btn_after_tomorrow:'📅 Day After', eval2_title:'Live condition assessment', eval2_d0:'Today', eval2_d1:'Tomorrow', eval2_d2:'Day after', eval2_d_past:'Yesterday', eval2_ok:'Met', eval2_bad:'Not met', eval2_unk:'Insufficient data', eval2_hours:'qualifying hours', eval2_fail_by:'Unmet conditions', eval2_none:'Evaluation for this date has not been generated yet', eval2_load_fail:'Evaluation data temporarily unavailable', v2_best_subject:'Best subject today', v2_next_window:'Next qualifying window: ', v2_none_today:'No qualifying subject today — check the next qualifying window', v2_conditions_from:'Shooting conditions', v2_cond_now:'Now', v2_gap_ok:'meets threshold', v2_gap_short:'short by {n}', v2_gap_over:'over by {n}', v2_pass_hours:'Met at {t}', v2_never_num:'Not met all day · today {r}', v2_never:'Not met all day', loading:'Fetching photography weather data...', updating:'Updating in background…',
         last_updated:'Last Updated: ', click_detail:'View details', weather_link:'🌦️ Weather', nav_link:'🗺️ Nav', map_link:'📍 Map', nav_pending:'🗺️ Nav pending', radar_link:'📡 Radar', field_intake_link:'📷 Field Check', genre_eval_link:'🌗 Genre Assessment', genre_eval_title:'Open genre condition assessment',place_suitable:'📸 What can you photograph here?', researched_only:'Only individually researched photography opportunities are shown; unverified ideas are not generated.', place_time_note:'Shooting times are shown in the place’s local time zone.', guide_selected_date:'📅 Selected-date shooting opportunities', guide_no_selected_date:'There is no clear shooting recommendation for the selected date.', guide_more_subjects:'Other verified subjects ({n})', guide_all_subjects:'What can you photograph here? ({n})', guide_subjects_note:'These are verified subjects for this place; they do not imply suitable conditions on the selected date.', guide_time:'Best time (place local time)', guide_season:'Season', guide_viewpoint:'Shooting area', guide_required:'Required conditions', guide_boosters:'Boosters', guide_penalties:'Penalties', guide_current:'Best score for selected date', guide_day_best:'Best shooting time', guide_day_relative:'Relatively better time', guide_confidence:'Confidence', confidence_high:'High', confidence_medium:'Medium', confidence_low:'Low', guide_details:'Shooting guide', guide_score_why:'Why is this suitable?', guide_score_status:'Assessment', guide_unresearched:'No shooting guide is currently available for this place.', research_pending_card:'A reliable shooting recommendation is not currently available for the selected date', no_viable_group:'No viable shooting opportunity ({n})', no_eval_group:'No evaluation yet for this date ({n})', late_night_banner_sparse:'Today is winding down — here are the remaining shooting suggestions', late_night_banner:"Today's shooting hours have ended — showing tomorrow's suggestions", late_night_banner_both:'No qualifying windows today or tomorrow yet', back_today:'Back to today', tomorrow_badge:'Tomorrow', eval2_past_hours:'Hours already past today are excluded', scene_label:'🖼️ Landscape type:', theme_label:'📸 Subject:', advanced_filters:'🔎 More filters', result_count:'Ranked by best opportunity for selected date · {n} spots', search_result:'Found {n} spots', search_placeholder:'Search places…', where_today:'📍 Where should I shoot today?', where_tomorrow:'📍 Where should I shoot tomorrow?', where_after:'📍 Where should I shoot the day after tomorrow?', recommendation_reasons:'Why it stands out', narrow_result:'Only {n} spots — narrow filter', clear_scene:'Clear landscape type', admin_area_filter:'Area', admin_area_all:'All areas', admin_area_selected:'{n} selected', admin_area_clear:'Clear areas', admin_area_search:'Search areas…', admin_area_no_match:'No matching area', admin_area_done:'Done', admin_area_close:'Close area picker', admin_area_show_empty:'Show areas not yet covered', admin_area_hide_empty:'Hide areas not yet covered', sort_label:'Sort', sort_region:'Geographic order', sort_hours:'Qualifying hours: high to low', sort_score_desc:'Score: high to low', sort_score_asc:'Score: low to high', sort_distance_near:'Distance: near to far', sort_distance_far:'Distance: far to near', sort_location_requesting:'Getting your current location…', sort_location_using_current:'Sorted from current location', sort_location_unavailable:'Location unavailable; switched to geographic order', result_count_region:'Geographic order · {n} spots', result_count_score_desc:'Score high to low · {n} spots', result_count_score_asc:'Score low to high · {n} spots', result_count_hours_desc:'By qualifying hours, high to low · {n} spots', result_count_distance_near:'Nearest first · {n} spots', result_count_distance_far:'Farthest first · {n} spots', region_group_count:'{n} spots',
         best_window:'⏱️ Best shooting time: ', relative_window:'⏱️ Relatively better time: ', forecast_status:'📍 Status: ', cloud_base_label:'Est. LCL', best_theme:'📸 Best for selected date: ', local_time:'Local time', dark_sky:'Dark sky',
         modal_subtitle:'⏱️ Hourly shooting conditions: past 24 hours + next 72 hours (blue = a relatively better time on the selected date; check the overall score and conditions)', tag_best:'BEST',
@@ -20,7 +20,7 @@
       'ja': {
         page_title:'ChaseLights — 撮影向け気象予報', country_aria:'国・地域', temp_unit_aria:'温度単位', weathergrid_title:'WeatherGrid 天気マップを開く', field_intake_title:'実写検証を開く', place_modal_title:'撮影スポットガイド', weather_modal_title:'撮影スポット気象分析', close_place:'撮影スポットガイドを閉じる', close_weather:'撮影スポット気象分析を閉じる', load_error:'撮影向け気象データを一時的に読み込めません。',
         country_label:'📍 地域を選択：', opt_tw:'🇹🇼 台湾', opt_jp:'🇯🇵 日本', opt_us:'🇺🇸 アメリカ',
-        btn_today:'📅 今日', btn_tomorrow:'📅 明日', btn_after_tomorrow:'📅 明後日', eval2_title:'リアルタイム条件評価', eval2_d0:'今日', eval2_d1:'明日', eval2_d2:'明後日', eval2_ok:'達成', eval2_bad:'未達成', eval2_unk:'データ不足', eval2_hours:'適合時間数', eval2_fail_by:'未達成の条件', eval2_none:'この日付の評価はまだ生成されていません', eval2_load_fail:'評価データを読み込めません', v2_best_subject:'本日の最適题材', v2_next_window:'次の適合時間帯：', v2_none_today:'本日適合するテーマなし——次の適合時間帯を確認', v2_conditions_from:'撮影条件', v2_cond_now:'現況', v2_gap_ok:'しきい値達成', v2_gap_short:'あと{n}', v2_gap_over:'{n} 超過', v2_pass_hours:'達成時間帯 {t}', v2_never_num:'終日未達成・本日 {r}', v2_never:'終日未達成', loading:'撮影気象データを取得中...', updating:'バックグラウンド更新中…',
+        btn_today:'📅 今日', btn_tomorrow:'📅 明日', btn_after_tomorrow:'📅 明後日', eval2_title:'リアルタイム条件評価', eval2_d0:'今日', eval2_d1:'明日', eval2_d2:'明後日', eval2_d_past:'昨日', eval2_ok:'達成', eval2_bad:'未達成', eval2_unk:'データ不足', eval2_hours:'適合時間数', eval2_fail_by:'未達成の条件', eval2_none:'この日付の評価はまだ生成されていません', eval2_load_fail:'評価データを読み込めません', v2_best_subject:'本日の最適题材', v2_next_window:'次の適合時間帯：', v2_none_today:'本日適合するテーマなし——次の適合時間帯を確認', v2_conditions_from:'撮影条件', v2_cond_now:'現況', v2_gap_ok:'しきい値達成', v2_gap_short:'あと{n}', v2_gap_over:'{n} 超過', v2_pass_hours:'達成時間帯 {t}', v2_never_num:'終日未達成・本日 {r}', v2_never:'終日未達成', loading:'撮影気象データを取得中...', updating:'バックグラウンド更新中…',
         last_updated:'最終更新：', click_detail:'詳細を見る', weather_link:'🌦️ 天気予報', nav_link:'🗺️ ナビ', map_link:'📍 地図', nav_pending:'🗺️ ナビ確認待ち', radar_link:'📡 レーダー', field_intake_link:'📷 実写検証', genre_eval_link:'🌗 题材評価', genre_eval_title:'撮影题材の条件評価を開く',place_suitable:'📸 ここで何が撮れる？', researched_only:'個別調査済みの撮影機会のみ表示し、未確認の内容は自動生成しません。', place_time_note:'撮影時間はすべて現地のタイムゾーンで表示します。', guide_selected_date:'📅 選択日の撮影機会', guide_no_selected_date:'選択日には明確におすすめできる撮影時間がありません。', guide_more_subjects:'その他の確認済み撮影テーマ（{n}）', guide_all_subjects:'ここで撮影できるものを見る（{n}）', guide_subjects_note:'以下はこの場所で確認済みの撮影テーマです。選択日の条件が適していることを意味しません。', guide_time:'適した時間（現地時間）', guide_season:'季節', guide_viewpoint:'撮影位置', guide_required:'成立条件', guide_boosters:'加点条件', guide_penalties:'不利条件', guide_current:'選択日の最良スコア', guide_day_best:'最適な撮影時間', guide_day_relative:'比較的良い時間帯', guide_confidence:'信頼度', confidence_high:'高', confidence_medium:'中', confidence_low:'低', guide_details:'撮影ガイド', guide_score_why:'なぜ撮影に適している？', guide_score_status:'判定', guide_unresearched:'この場所では現在、撮影ガイドを提供できません。', research_pending_card:'選択日は信頼できる撮影提案を現在提供できません', no_viable_group:'適した撮影機会なし（{n}）', no_eval_group:'この日の評価がまだないスポット（{n}）', late_night_banner_sparse:'本日は終盤です。残りの撮影候補を表示します', late_night_banner:'本日の撮影時間帯は終了しました。明日の提案を表示します', late_night_banner_both:'本日も明日も現在適合する時間帯はありません', back_today:'今日に戻る', tomorrow_badge:'明日', eval2_past_hours:'本日すでに過ぎた時間帯は除外', scene_label:'🖼️ 景観タイプ：', theme_label:'📸 テーマ：', advanced_filters:'🔎 その他の絞り込み', result_count:'選択日の最良撮影機会順 · {n} スポット', search_result:'{n} スポット見つかりました', search_placeholder:'スポット名を検索…', where_today:'📍 今日はどこへ撮りに行く？', where_tomorrow:'📍 明日はどこへ撮りに行く？', where_after:'📍 明後日はどこへ撮りに行く？', recommendation_reasons:'おすすめ理由', narrow_result:'{n} スポットのみ・絞り込みが狭いです', clear_scene:'景観タイプを解除', admin_area_filter:'地域', admin_area_all:'すべての地域', admin_area_selected:'{n} 件選択', admin_area_clear:'地域を解除', admin_area_search:'地域を検索…', admin_area_no_match:'該当する地域がありません', admin_area_done:'完了', admin_area_close:'地域選択を閉じる', admin_area_show_empty:'未収録の地域を表示', admin_area_hide_empty:'未収録の地域を隠す', sort_label:'並び順', sort_region:'地域順', sort_hours:'適合時間数：多い順', sort_score_desc:'評価：高い順', sort_score_asc:'評価：低い順', sort_distance_near:'距離：近い順', sort_distance_far:'距離：遠い順', sort_location_requesting:'現在地を取得中…', sort_location_using_current:'現在地からの距離順', sort_location_unavailable:'現在地を取得できないため地域順に戻しました', result_count_region:'地域順 · {n} スポット', result_count_score_desc:'評価の高い順 · {n} スポット', result_count_score_asc:'評価の低い順 · {n} スポット', result_count_hours_desc:'適合時間数の多い順 · {n} スポット', result_count_distance_near:'近い順 · {n} スポット', result_count_distance_far:'遠い順 · {n} スポット', region_group_count:'{n} スポット',
         best_window:'⏱️ 最適時間：', relative_window:'⏱️ 比較的良い時間帯：', forecast_status:'📍 予報状況：', cloud_base_label:'推定LCL', best_theme:'📸 選択日に向く：', local_time:'現地時間', dark_sky:'暗空',
         modal_subtitle:'⏱️ 時間別の撮影条件：過去24時間＋未来72時間（青色＝選択日の中で相対的に条件が良い時間帯。総合評価と条件も確認してください）', tag_best:'最適',
@@ -966,7 +966,10 @@
     function tzAbbrLabel(abbr){const s=String(abbr||'');if(s==='CST')return'GMT+8';if(s==='JST')return'GMT+9';return s;}
     function visibilityText(km){if(km===null||km===undefined||km==='')return null;const n=Number(km);if(!Number.isFinite(n))return null;if(n>=VIS_CAP_KM)return d().vis_cap;return `${n} km`;}
     function tempChipHtml(temp){const t=formatTemp(temp);const title=t==='—'?` title="${esc(d().temp_unavailable)}"`:'';return `<span class="metric-chip"${title}>🌡 ${esc(t)}</span>`;}
-    function astroMissingHtml(){return `<span class="astro-missing" title="${esc(d().astro_missing)}">${esc(d().astro_missing)}</span>`;}
+    // CL-UI-18: the per-row marker is a compact symbol (the full reason lives in
+    // the tooltip and the one-time legend note) so 24+ history rows don't each
+    // repeat the full sentence.
+    function astroMissingHtml(){return `<span class="astro-missing" title="${esc(d().astro_missing)}">※</span>`;}
     // CL-UI-14/F1: the modal's window wording is keyed off the same V2 day state
     // the row statuses come from. Only a GUIDANCE_SATISFIED day may be called
     // "best"; anything else with candidate hours is "relatively better, still
@@ -984,20 +987,41 @@
       const seg=formatHourSegments(info.list);
       return date?`${date} ${seg}`:seg;
     }
+    // CL-UI-18: modal day labels follow the spot's wall clock, not the bundle
+    // generation date. A stale bundle's first row is labeled "yesterday", and
+    // the "還有 n 小時" phrasing can then only attach to a real remaining-today
+    // list (past days carry zero hours by construction).
+    function v2DayLabel(date,tz,fallbackIdx){
+      const defaults=[d().eval2_d0,d().eval2_d1,d().eval2_d2];
+      if(!/^\d{4}-\d{2}-\d{2}$/.test(String(date||'')))return defaults[fallbackIdx]||'';
+      const rel=v2DayRel(date,tz);
+      if(rel==='past')return d().eval2_d_past;
+      if(rel==='today')return d().eval2_d0;
+      if(date===localDateString(tz||'UTC',1))return d().eval2_d1;
+      if(date===localDateString(tz||'UTC',2))return d().eval2_d2;
+      return String(date).slice(5).replace('-','/');
+    }
+    // CL-UI-18: user-facing stamps follow the page-header convention (11/05),
+    // never raw ISO dates.
+    function shortDateStamp(s){
+      const m=/^(\d{4})-(\d{2})-(\d{2})(.*)$/.exec(String(s||''));
+      return m?`${m[2]}/${m[3]}${m[4]}`:s;
+    }
     function v2OpportunityById(place,opportunityId){if(!place)return null;return ((place.opportunities||[]).find(o=>o.opportunity_id===opportunityId))||null;}
     function modalSummaryData(summarySpot,opportunityId){
       const place=v2PlaceForSpot(summarySpot);
       const opp=v2OpportunityById(place,opportunityId);
       if(!place||!opp)return null;
       const tz=summarySpot?.timezone;
-      const dayInfos=[0,1,2].map(i=>modalDayInfo((opp.days||[])[i],tz));
+      const dayInfos=[0,1,2].map(i=>modalDayInfo(v2DayForOffset(opp,i,tz),tz));
+      const labels=dayInfos.map((info,i)=>v2DayLabel(info&&info.date,tz,i));
       const ng=opp.live&&opp.live.next_good;
       const nextLocal=v2NextWindowLocal(opp.days||[],v2LocalNow(tz),ng?ng.local:'');
-      return {place,opp,tz,dayInfos,nextLocal};
+      return {place,opp,tz,dayInfos,labels,nextLocal};
     }
     function modalHeadline(data){
       if(!data)return d().modal_headline_unknown;
-      const labels=[d().eval2_d0,d().eval2_d1,d().eval2_d2];
+      const labels=data.labels||[d().eval2_d0,d().eval2_d1,d().eval2_d2];
       const first=data.dayInfos[0];
       let sentence;
       if(first.hours>0){
@@ -1048,7 +1072,11 @@
 
       if(status==='verified'&&hasCoords){
         const url=`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${lat},${lon}`)}`;
-        return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="tool-link" data-navigation-mode="verified"${toolButtonAttrs(d().nav_link,note)}>${toolButtonInner(d().nav_link)}</a>`;
+        // CL-UI-18: the action column is unified on one label; a bare-coordinate
+        // destination always carries the spot name so the pin is never
+        // coordinate-only. The URL keeps exact coords (no geocode drift).
+        const labelNote=`${note?note+' · ':''}${spotName(spot)}`;
+        return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="tool-link" data-navigation-mode="verified" title="${esc(labelNote)}"${toolButtonAttrs(d().map_link,labelNote)}>${toolButtonInner(d().map_link)}</a>`;
       }
       if(status==='provisional_camera_anchor'&&hasCoords){
         const url=`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${lat},${lon}`)}`;
@@ -1080,10 +1108,10 @@
       const v2StateLabel=v2Evaluated?v2CardStateLabel(v2Best.state):'';
       const indicator=(!researchPending&&!noViable&&v2Evaluated&&v2Best.state==='GUIDANCE_SATISFIED')?trMessage(metric.indicator_key):'';
       const astro=(researchPending||noViable)?'':astroText(metric,theme);const darkSky=(researchPending||noViable)?'':darkSkyText(spot,theme);const navTool=navigationToolHtml(spot);const access=localeText(spot.access_note_i18n);const showIndicator=!!indicator;const factors=(researchPending||noViable)?[]:(metric.factors||[]);const factorHtml=factors.map(f=>{const text=trFactor(f);return text?`<span class="factor-pill ${f.type==='minus'?'factor-minus':'factor-plus'}">${f.type==='minus'?'−':'＋'} ${text}</span>`:'';}).filter(Boolean).join('');const factorMore=factors.length>2?`<span class="factor-pill factor-more">+${factors.length-2}</span>`:'';
-      const v2Summary=v2Best&&v2Best.hours?`<div class="theme-winner">📷 ${esc(d().v2_best_subject)}：${esc(stripSpotNamePrefix(v2Best.name,spot))} <span class="v2-chip-ok">${esc(d().eval2_hours)} ${v2Best.hours}</span></div><div class="best-window-row">${esc(d().best_window)}<b>${esc(formatHourSegments(v2Best.hoursList))}</b></div>`:(v2Best?`${v2Best.state==='NOT_EVALUABLE'?`<div class="theme-winner v2-none">📅 ${esc(d().eval2_unk)}</div>`:`<div class="theme-winner v2-none">📅 ${esc(d().v2_none_today)}</div>`}${v2Best.nextLocal?`<div class="best-window-row">${esc(d().v2_next_window)}<b>${esc(v2Best.nextLocal)}</b></div>`:''}`:'');
+      const v2Summary=v2Best&&v2Best.hours?`<div class="theme-winner">📷 ${esc(d().v2_best_subject)}：${esc(stripSpotNamePrefix(v2Best.name,spot))} <span class="v2-chip-ok">${esc(d().eval2_hours)} ${v2Best.hours}</span></div><div class="best-window-row">${esc(d().best_window)}<b>${esc(formatHourSegments(v2Best.hoursList))}</b></div>`:(v2Best?`${v2Best.state==='NOT_EVALUABLE'?`<div class="theme-winner v2-none">📅 ${esc(d().eval2_unk)}</div>`:`<div class="theme-winner v2-none">📅 ${esc(d().v2_none_today)}</div>`}${v2Best.nextLocal?`<div class="best-window-row">${esc(d().v2_next_window)}<b>${esc(shortDateStamp(v2Best.nextLocal))}</b></div>`:''}`:'');
       const reasonHtml=(researchPending||noViable||v2Summary)?'':`${showIndicator?`<div><span class="indicator-pill">${indicator}</span></div>`:''}${factorHtml?`<div class="factor-row card-factor-row">${factorHtml}${factorMore}</div>`:''}`;
       const distance=distanceToSpotKm(spot);const distanceChip=currentSortMode.startsWith('distance_')&&distance!==null?`<span class="metric-chip">📍 ${distance<10?distance.toFixed(1):Math.round(distance)} km</span>`:'';
-      const compactMetrics=(researchPending||noViable)?tempChipHtml(metric.temp):[
+      const compactMetrics=(researchPending||noViable)?(formatTemp(metric.temp)==='—'?'':tempChipHtml(metric.temp)):[
         metric.cloud_base_agl!=null?`<span class="metric-chip">☁️ ${metric.cloud_base_agl}m</span>`:'',
         tempChipHtml(metric.temp)
       ].filter(Boolean).join('');
@@ -1445,10 +1473,10 @@
       // card's "qualifying hours", so card and modal can never contradict each
       // other; the window is only called "best" on a GUIDANCE_SATISFIED day.
       const summaryData=modalSummaryData(summarySpot,activeOpportunityId);
-      const dayLabels=[d().eval2_d0,d().eval2_d1,d().eval2_d2];
+      const dayLabels=summaryData?summaryData.labels:[d().eval2_d0,d().eval2_d1,d().eval2_d2];
       const overviewRows=summaryData?summaryData.dayInfos.map((info,i)=>modalDayRow(dayLabels[i],info)).join(''):`<div class="modal-day-none">${esc(d().modal_window_none)}</div>`;
       const headline=esc(modalHeadline(summaryData));
-      const nextWindow=summaryData&&summaryData.nextLocal?`<div class="modal-next-window">🎯 ${esc(d().v2_next_window)}<b>${esc(summaryData.nextLocal)}</b></div>`:'';
+      const nextWindow=summaryData&&summaryData.nextLocal?`<div class="modal-next-window">🎯 ${esc(d().v2_next_window)}<b>${esc(shortDateStamp(summaryData.nextLocal))}</b></div>`:'';
       const daySwitch=[['today',d().eval2_d0],['tomorrow',d().eval2_d1],['after_tomorrow',d().eval2_d2]].map(([k,l])=>`<button type="button" class="modal-day-btn ${currentDayFilter===k?'active':''}" data-modal-day="${k}" aria-pressed="${currentDayFilter===k?'true':'false'}">${esc(l)}</button>`).join('');
       document.getElementById('modal-summary').innerHTML=`<div class="modal-headline">${headline}</div>${nextWindow}<div class="modal-day-switch" role="group">${daySwitch}</div><div class="modal-overview">${overviewRows}</div><div class="modal-summary-main">${esc(d().best_theme)}${esc(activeOpportunityName)}</div>${darkSky?`<div class="modal-summary-extra">${esc(darkSky)}</div>`:''}`;
       // CL-UI-14/U4: the modal's own prominent date switch. It reuses the page's
@@ -1470,10 +1498,16 @@
         legend.innerHTML=`<span class="legend-title">${esc(d().legend_title)}</span><span class="legend-item legend-ok">${esc(d().state_ok)}</span><span class="legend-item legend-chance">${esc(d().state_chance)}</span><span class="legend-item legend-bad">${esc(d().state_bad)}</span><span class="legend-item legend-outside">${esc(d().state_outside)}</span>`;
       }
       const isAurora=activeTheme==='aurora',thead=document.getElementById('timeline-head'),tbody=document.getElementById('timeline-body'),mobile=document.getElementById('timeline-mobile');thead.innerHTML=`<tr><th>${d().th_time}</th><th>${d().th_status}</th>${isAurora?`<th>${d().th_kp}</th>`:''}<th class="key-metric" title="${esc(d().tip_cloud_base)}">${d().th_cloud_base}</th><th>${d().th_temp} (${tempUnitLabel()})</th><th>${d().th_rh}</th><th class="key-metric" title="${esc(d().tip_low_cloud)}">${d().th_clow}</th><th>${d().th_cmid}</th><th>${d().th_chigh}</th><th title="${esc(d().tip_wind)}">${d().th_wind}</th><th class="key-metric" title="${esc(d().tip_vis)}">${d().th_vis}</th><th>${d().th_astro}</th></tr>`;tbody.innerHTML='';mobile.innerHTML='';
-      let nowAnchorAssigned=false;
-      (spot.hourly_forecast||[]).forEach(item=>{const metrics=(activeOpportunityId&&item.opportunity_scores?.[activeOpportunityId])||item.theme_scores?.[activeTheme];if(!metrics)return;const isNowAnchor=!nowAnchorAssigned&&!item.is_past;if(isNowAnchor)nowAnchorAssigned=true;const isBest=!!(selectedDate&&item.local_date===selectedDate&&summaryMetric?.window_start&&item.time>=summaryMetric.window_start&&item.time<summaryMetric.window_end);const rowClass=isBest?'best-row':(item.is_past?'past-row':'');const tr=document.createElement('tr');tr.className=rowClass;if(isNowAnchor)tr.dataset.nowAnchor='true';tr.dataset.v2t=item.local_date+'|'+item.time.slice(-5);const astro=astroText(item,activeTheme);tr.innerHTML=`<td>${item.time}${item.is_past?` <span class="tag-past">${esc(d().tag_past)}</span>`:''}${isBest?` <span class="tag-best">${esc(d().tag_best)}</span>`:''}</td><td>${esc(shortOpportunityState(metrics))}</td>${isAurora?`<td>${item.kp??'—'}</td>`:''}<td class="key-metric">${item.cloud_base_agl??'—'}m</td><td>${formatTemp(item.temp)}</td><td>${item.rh??'—'}%</td><td class="key-metric">${item.c_low??'—'}%</td><td>${item.c_mid??'—'}%</td><td>${item.c_high??'—'}%</td><td>${item.wind??'—'}m/s</td><td class="key-metric">${visibilityText(item.visibility)??'—'}</td><td>${astro||astroMissingHtml()}</td>`;tbody.appendChild(tr);
-        const card=document.createElement('div');card.className=`timeline-mobile-card ${rowClass}`;if(isNowAnchor)card.dataset.nowAnchor='true';card.dataset.v2t=item.local_date+'|'+item.time.slice(-5);card.innerHTML=`<div class="timeline-mobile-head"><div><div class="timeline-mobile-time">${esc(item.time)}${item.is_past?` <span class="tag-past">${esc(d().tag_past)}</span>`:''}${isBest?` <span class="tag-best">${esc(d().tag_best)}</span>`:''}</div><div class="timeline-mobile-status">${esc(shortOpportunityState(metrics))}</div></div></div><div class="timeline-mobile-metrics"><div class="timeline-mobile-metric"><b>${d().th_temp}</b> ${formatTemp(item.temp)}</div><div class="timeline-mobile-metric primary"><b>${d().th_vis}</b> ${visibilityText(item.visibility)??'—'}</div><div class="timeline-mobile-metric primary"><b>${d().th_clow}</b> ${item.c_low??'—'}%</div><div class="timeline-mobile-metric"><b>${d().th_cmid}</b> ${item.c_mid??'—'}%</div><div class="timeline-mobile-metric"><b>${d().th_chigh}</b> ${item.c_high??'—'}%</div><div class="timeline-mobile-metric"><b>${d().th_wind}</b> ${item.wind??'—'} m/s</div><div class="timeline-mobile-metric primary"><b>${d().th_cloud_base}</b> ${item.cloud_base_agl??'—'} m</div><div class="timeline-mobile-metric"><b>${d().th_rh}</b> ${item.rh??'—'}%</div>${isAurora?`<div class="timeline-mobile-metric"><b>${d().th_kp}</b> ${item.kp??'—'}</div>`:''}</div>${astro?`<div class="timeline-mobile-astro">${esc(astro)}</div>`:`<div class="timeline-mobile-astro astro-missing">${esc(d().astro_missing)}</div>`}`;mobile.appendChild(card);
+      let nowAnchorAssigned=false;let astroMissingRows=0;
+      (spot.hourly_forecast||[]).forEach(item=>{const metrics=(activeOpportunityId&&item.opportunity_scores?.[activeOpportunityId])||item.theme_scores?.[activeTheme];if(!metrics)return;const isNowAnchor=!nowAnchorAssigned&&!item.is_past;if(isNowAnchor)nowAnchorAssigned=true;const isBest=!!(selectedDate&&item.local_date===selectedDate&&summaryMetric?.window_start&&item.time>=summaryMetric.window_start&&item.time<summaryMetric.window_end);const rowClass=isBest?'best-row':(item.is_past?'past-row':'');const tr=document.createElement('tr');tr.className=rowClass;if(isNowAnchor)tr.dataset.nowAnchor='true';tr.dataset.v2t=item.local_date+'|'+item.time.slice(-5);const astro=astroText(item,activeTheme);if(!astro)astroMissingRows++;tr.innerHTML=`<td>${item.time}${item.is_past?` <span class="tag-past">${esc(d().tag_past)}</span>`:''}${isBest?` <span class="tag-best">${esc(d().tag_best)}</span>`:''}</td><td>${esc(shortOpportunityState(metrics))}</td>${isAurora?`<td>${item.kp??'—'}</td>`:''}<td class="key-metric">${item.cloud_base_agl??'—'}m</td><td>${formatTemp(item.temp)}</td><td>${item.rh??'—'}%</td><td class="key-metric">${item.c_low??'—'}%</td><td>${item.c_mid??'—'}%</td><td>${item.c_high??'—'}%</td><td>${item.wind??'—'}m/s</td><td class="key-metric">${visibilityText(item.visibility)??'—'}</td><td>${astro||astroMissingHtml()}</td>`;tbody.appendChild(tr);
+        const card=document.createElement('div');card.className=`timeline-mobile-card ${rowClass}`;if(isNowAnchor)card.dataset.nowAnchor='true';card.dataset.v2t=item.local_date+'|'+item.time.slice(-5);card.innerHTML=`<div class="timeline-mobile-head"><div><div class="timeline-mobile-time">${esc(item.time)}${item.is_past?` <span class="tag-past">${esc(d().tag_past)}</span>`:''}${isBest?` <span class="tag-best">${esc(d().tag_best)}</span>`:''}</div><div class="timeline-mobile-status">${esc(shortOpportunityState(metrics))}</div></div></div><div class="timeline-mobile-metrics"><div class="timeline-mobile-metric"><b>${d().th_temp}</b> ${formatTemp(item.temp)}</div><div class="timeline-mobile-metric primary"><b>${d().th_vis}</b> ${visibilityText(item.visibility)??'—'}</div><div class="timeline-mobile-metric primary"><b>${d().th_clow}</b> ${item.c_low??'—'}%</div><div class="timeline-mobile-metric"><b>${d().th_cmid}</b> ${item.c_mid??'—'}%</div><div class="timeline-mobile-metric"><b>${d().th_chigh}</b> ${item.c_high??'—'}%</div><div class="timeline-mobile-metric"><b>${d().th_wind}</b> ${item.wind??'—'} m/s</div><div class="timeline-mobile-metric primary"><b>${d().th_cloud_base}</b> ${item.cloud_base_agl??'—'} m</div><div class="timeline-mobile-metric"><b>${d().th_rh}</b> ${item.rh??'—'}%</div>${isAurora?`<div class="timeline-mobile-metric"><b>${d().th_kp}</b> ${item.kp??'—'}</div>`:''}</div>${astro?`<div class="timeline-mobile-astro">${esc(astro)}</div>`:`<div class="timeline-mobile-astro astro-missing" title="${esc(d().astro_missing)}">※</div>`}`;mobile.appendChild(card);
       });
+      // CL-UI-18: the missing-astronomy reason is stated once (legend note),
+      // not repeated on every history row.
+      if(astroMissingRows){
+        const legendEl=document.getElementById('timeline-legend');
+        if(legendEl)legendEl.insertAdjacentHTML('beforeend',`<span class="legend-item legend-astro" title="${esc(d().astro_missing)}">※ ${esc(d().astro_missing)}</span>`);
+      }
       decorateWeatherTimeline(spot,activeOpportunityId);
       scrollWeatherModalToCurrent();
     }
@@ -1560,6 +1594,23 @@
     function v2IsToday(day,tz){
       return !!(day&&day.local_date===localDateString(tz||'UTC',0));
     }
+    // CL-UI-18: the bundle's day rows are anchored to the bundle generation
+    // date, not the spot's wall clock. After midnight in the spot's timezone
+    // the row indexed [0] is yesterday. All consumers therefore resolve the
+    // row BY DATE first (spot-local wall clock), and treat a past day as
+    // having zero actionable hours — a past hour is history, never "remaining".
+    function v2DayRel(date,tz){
+      const today=localDateString(tz||'UTC',0);
+      if(!/^\d{4}-\d{2}-\d{2}$/.test(String(date||'')))return 'unknown';
+      return date<today?'past':date===today?'today':'future';
+    }
+    function v2DayForOffset(opp,offsetDays,tz){
+      const days=(opp&&opp.days)||[];
+      const target=localDateString(tz||'UTC',offsetDays||0);
+      const byDate=days.find(day=>day&&day.local_date===target);
+      if(byDate)return byDate;
+      return days[offsetDays]||null;
+    }
     function v2RemainingHoursList(times,nowMinutes){
       const list=(times||[]).filter(t=>/^([01]\d|2[0-3]):[0-5]\d$/.test(String(t||'')));
       if(nowMinutes===null||nowMinutes===undefined)return [];
@@ -1572,6 +1623,7 @@
     // recommending hours that already passed).
     function v2EffectiveHours(day,tz){
       if(!day)return [];
+      if(v2DayRel(day.local_date,tz)==='past')return [];
       if(!v2IsToday(day,tz))return (day.good_hours||[]).filter(t=>/^([01]\d|2[0-3]):[0-5]\d$/.test(String(t||'')));
       return v2RemainingHoursList(day.good_hours||[],localNowMinutes(tz));
     }
@@ -1616,7 +1668,7 @@
       const dayIndex=selectedDayOffset();
       let best=null;
       (place.opportunities||[]).forEach(o=>{
-        const day=(o.days||[])[dayIndex];
+        const day=v2DayForOffset(o,dayIndex,tz);
         if(!day)return;
         // CL-UI-12: card hours/window come from the remaining-hours list, so a
         // "today" card never advertises hours that already passed.
@@ -1655,8 +1707,11 @@
       const dayIndex=selectedDayOffset();
       let total=0,seen=false;
       (place.opportunities||[]).forEach(o=>{
-        const day=(o.days||[])[dayIndex];
+        const day=v2DayForOffset(o,dayIndex,spot.timezone);
         if(!day)return;
+        // CL-UI-18: a past day's full-day counts are not actionable hours —
+        // skip them so sorting never boosts a stale bundle's yesterday.
+        if(v2DayRel(day.local_date,spot.timezone)==='past')return;
         seen=true;
         total+=((day.hour_counts&&day.hour_counts.GUIDANCE_SATISFIED)||0);
       });
@@ -1689,7 +1744,7 @@
     }
     function v2HourLabel(status){return status==='GUIDANCE_SATISFIED'?d().state_ok:status==='UNFAVORABLE'?d().state_bad:d().eval2_unk;}
     function v2PickRefHour(opp,tz){
-      const day=(opp.days||[])[selectedDayOffset()];
+      const day=v2DayForOffset(opp,selectedDayOffset(),tz);
       const all=day?(day.hours||[]):[];
       // CL-UI-12: for "today", hours already past are not an action basis —
       // pick the reference hour from the remaining ones first.
@@ -1721,8 +1776,8 @@
       if(cond.verdict==='FAIL')return t.v2_cond_now+' '+t.eval2_bad;
       return null;
     }
-    function v2CondDaySummary(opp,metric){
-      const day=(opp.days||[])[selectedDayOffset()];
+    function v2CondDaySummary(opp,metric,tz){
+      const day=v2DayForOffset(opp,selectedDayOffset(),tz);
       const hours=day?(day.hours||[]):[];
       const t=d();
       let pass=[],vals=[];
@@ -1760,7 +1815,7 @@
             div.textContent=line+'（'+(refH.local||'')+'）';
             node.appendChild(div);
           }
-          const summary=v2CondDaySummary(dop,cond.metric);
+          const summary=v2CondDaySummary(dop,cond.metric,spot.timezone);
           if(summary){
             const div2=document.createElement('div');
             div2.className='v2-cond-live';
