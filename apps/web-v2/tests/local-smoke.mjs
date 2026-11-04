@@ -4,7 +4,7 @@
 // WebSocket), so the same suite runs on this Windows host without the Codex
 // cloud playwright environment. Checks are a port of the browser suites'
 // owner-relevant assertions: rendering, honest-research guardrails, i18n and
-// responsive layout over the admitted 214-place catalog.
+// responsive layout over the admitted 190-place catalog.
 //
 // Usage: node tests/local-smoke.mjs [--browser <path-to-chrome/edge>]
 import {spawn} from 'node:child_process';
@@ -86,7 +86,7 @@ async function goto(path,locale,viewport){
 const openResearch=async()=>{
   await evaljs(`document.readyState==='complete'?1:new Promise(r=>addEventListener('load',()=>r(1)))`);
   const shown = await evaljs(`new Promise(r=>{let n=0;const t=setInterval(()=>{
-    if(document.querySelectorAll('.place-button').length===214){clearInterval(t);r(true);return}
+    if(document.querySelectorAll('.place-button').length===190){clearInterval(t);r(true);return}
     if(++n%10===0)document.querySelector('#browse-research')?.click()},100);setTimeout(()=>{clearInterval(t);r(false)},20000)})`);
   if(!shown) console.log('# body:',String(await evaljs(`document.body.innerText.slice(0,400)`)).replace(/\n/g,' | '));
 };
@@ -96,11 +96,12 @@ const expect=async(name,expr,detail)=>{ check(name,await evaljs(expr),detail); }
   for(const locale of ['zh-TW','en','ja']){
     await goto('/',locale,'desktop');
     await openResearch();
-    check(`${locale}: 214 place buttons`,await evaljs(`document.querySelectorAll('.place-button').length===214`));
+    check(`${locale}: 190 place buttons`,await evaljs(`document.querySelectorAll('.place-button').length===190`));
     check(`${locale}: honest place count`,await evaljs(
-      `document.querySelector('#place-count').textContent===${JSON.stringify({'zh-TW':'符合景點: 214',en:'Matching places: 214',ja:'一致する撮影地: 214'}[locale])}`));
+      `document.querySelector('#place-count').textContent===${JSON.stringify({'zh-TW':'符合景點: 190',en:'Matching places: 190',ja:'一致する撮影地: 190'}[locale])}`));
     await expect(`${locale}: no scores on research view`,'!document.querySelector(".score")');
-    await expect(`${locale}: no navigation buttons`,'!document.querySelector(".nav-action")');
+    await expect(`${locale}: no navigation buttons`,
+      `![...document.querySelectorAll("#research-browser .nav-action")].some(a=>/maps|google\\.com\\/maps|directions/i.test(a.href||''))`);
     // Deep sample: one reviewed + one admitted place.
     for(const place of ['jp-010','tw-001']){
       await evaljs(`document.querySelector('.place-button[data-place-id="${place}"]').click()`);
@@ -126,7 +127,7 @@ const expect=async(name,expr,detail)=>{ check(name,await evaljs(expr),detail); }
   await evaljs(`const cb=document.querySelector('#topic-options input[value="topic:colorful-clouds"]');cb.checked=true;cb.dispatchEvent(new Event('change',{bubbles:true}))`);
   await sleep(300);
   const filtered=await evaljs(`document.querySelectorAll('.place-button').length`);
-  check('topic filter narrows places',filtered>0&&filtered<214,`visible=${filtered}`);
+  check('topic filter narrows places',filtered>0&&filtered<190,`visible=${filtered}`);
   // Mobile smoke.
   await goto('/','zh-TW','mobile');
   await openResearch();

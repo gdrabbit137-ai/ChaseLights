@@ -227,8 +227,27 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn("labels=['0','1','5','10','50+']", self.js)
 
     def test_assets_use_cache_busting_after_mobile_ui_updates(self):
-        self.assertIn('weather-map.css?v=bclwg04', self.html)
-        self.assertIn('weather-map.js?v=bclwg04', self.html)
+        # The stamp drifts with every WeatherGrid change (CL-WG-04..15), so
+        # parse the current stamps from weather-map.html instead of pinning a
+        # literal. The contract is: every versioned asset is referenced with a
+        # non-empty ?v= cache-bust token, and repeated references to the same
+        # asset file use one consistent stamp (no split-brain caching).
+        import re
+
+        def stamps(asset: str) -> list[str]:
+            return re.findall(
+                r'"\.?/?assets/' + re.escape(asset) + r'\?v=([A-Za-z0-9_-]+)"',
+                self.html,
+            )
+
+        for asset in ("weather-map.css", "weather-map.js", "weather-map-regions.js"):
+            found = stamps(asset)
+            self.assertTrue(
+                found, f"{asset} must be referenced with a ?v= cache-bust stamp"
+            )
+            self.assertEqual(
+                len(set(found)), 1, f"{asset} referenced with inconsistent stamps: {found}"
+            )
 
     def test_mobile_opacity_control_is_single_row(self):
         self.assertIn('class="opacity-caption"', self.html)

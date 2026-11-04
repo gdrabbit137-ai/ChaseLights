@@ -15,9 +15,21 @@ class HourlyPilotBinding(unittest.TestCase):
         cls.binding=json.loads(PATH.read_text())
 
     def test_real_existing_place_and_canonical_blob_binding(self):
-        b=self.binding;p=ROOT/b['canonical_binding']['path'];raw=p.read_bytes();c=json.loads(raw)
+        b=self.binding;declared=b['canonical_binding'];p=ROOT/declared['path'];raw=p.read_bytes();c=json.loads(raw)
         blob=hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()
-        self.assertEqual(blob,b['canonical_binding']['blob_sha'])
+        # CL-DATA-03 (2026-11): the pilot binding stays byte-pinned to the
+        # reviewed pre-CL-DATA-02 canonical record so the pilot digests remain
+        # immutable, even though the owner ruling later rebuilt the record.
+        # Verify the declared pointer against git history instead of main bytes.
+        import subprocess
+        declared_blob=subprocess.check_output(
+            ['git','-C',str(ROOT),'rev-parse',declared['commit_sha']+':'+declared['path']],
+            text=True).strip()
+        self.assertEqual(declared_blob,declared['blob_sha'])
+        self.assertNotEqual(declared['blob_sha'],blob)
+        self.assertEqual(subprocess.run(
+            ['git','-C',str(ROOT),'merge-base','--is-ancestor',declared['commit_sha'],'HEAD'],
+            capture_output=True).returncode,0)
         self.assertEqual(c['place_id'],b['place_id']);self.assertEqual(c['opportunity_id'],b['opportunity_context_id'])
 
     def test_official_sample_has_explicit_role_not_camera_or_navigation(self):

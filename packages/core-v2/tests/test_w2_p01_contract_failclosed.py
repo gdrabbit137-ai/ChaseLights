@@ -7,10 +7,11 @@ import unittest
 
 ROOT = Path(__file__).resolve().parent
 # The fixture filename is historical. Its bytes are the canonical record at
-# W2 access-advisory correction head #458, not the earlier W2 revision named in that filename.
-W2_SOURCE_COMMIT = "2177bd8c8b6c18e0a4b284e50b55d0ff12697ddd"
+# the CL-DATA-02 owner-ruling W2 rebuild (2026-11-02), not the earlier W2
+# revision named in that filename.
+W2_SOURCE_COMMIT = "76e926d16f3cfd6f2983ec2c0f6fe6ac7004104d"
 FIXTURE = ROOT / "fixtures" / "tw-026-P01.w2-fe52720.json"
-BLOB_SHA = "001a3380231e3d073e900bf2b415aac7dcc5fd79"
+BLOB_SHA = "1544edabdddc133a740bab4f0acb4186f7bd370e"
 AT = "2026-10-09T12:00:00+00:00"
 spec = importlib.util.spec_from_file_location("core_v2_evaluator", ROOT.parent / "evaluator.py")
 evaluator = importlib.util.module_from_spec(spec)
@@ -45,7 +46,7 @@ class W2P01FailClosed(unittest.TestCase):
         self.assertTrue(all(t["state"] == "UNKNOWN" for t in result["conditions"]))
 
     def test_w2_contract_has_only_photo_conditions(self):
-        self.assertEqual(2, len(self.contract["conditions"]))
+        self.assertEqual(5, len(self.contract["conditions"]))
         self.assertFalse(any(c["domain"] == "ACCESS_SAFETY"
                              for c in self.contract["conditions"]))
         for locale in ("zh-TW", "en", "ja"):
@@ -55,17 +56,27 @@ class W2P01FailClosed(unittest.TestCase):
         self.assertEqual(self.record["opportunity_id"], "tw-026-P01")
         self.assertEqual(self.condition["evaluation_mode"], "GUIDANCE")
         self.assertEqual(self.condition["validation_status"], "provisional")
-        self.assertIsNone(self.condition["threshold"])
-        self.assertIsNone(self.condition["model_binding"])
+        # 2026-11-02 owner ruling: review-revised numeric gates are declared
+        # provisional and uncalibrated; they never carry a calibration claim.
+        self.assertEqual(self.condition["calibration_status"], "provisional")
+        # Registry-carried model_binding strings are declared dataset/field/role
+        # bindings (no geojson geometry claim), per the 2026-11-02 owner ruling.
+        self.assertRegex(self.condition["model_binding"] or "", r"^dataset:[^|]+\|field:[^|]+\|role:[A-Z_]+$")
 
     def test_real_contract_has_no_auto_binding_or_threshold(self):
         self.assertEqual(self.record["lifecycle_status"], "evidence_review")
-        self.assertEqual(self.contract["status"], "review")
+        self.assertEqual(self.contract["status"], "draft")
         for condition in self.contract["conditions"]:
             with self.subTest(condition=condition["id"]):
                 self.assertNotEqual(condition["evaluation_mode"], "AUTO")
-                self.assertIsNone(condition["threshold"])
-                self.assertIsNone(condition["model_binding"])
+                if condition["threshold"] is not None:
+                    # Declared numeric gates stay provisional and uncalibrated.
+                    self.assertIn(condition["validation_status"],
+                                  ("provisional", "unvalidated"))
+                    self.assertNotEqual(condition["calibration_status"], "defined")
+                if condition["model_binding"] is not None:
+                    self.assertRegex(condition["model_binding"],
+                                     r"^dataset:[^|]+\|field:[^|]+\|role:[A-Z_]+$")
                 self.assertNotEqual(condition["validation_status"], "validated")
 
     def test_foreign_provider_cannot_promote_taiwan_research_record(self):

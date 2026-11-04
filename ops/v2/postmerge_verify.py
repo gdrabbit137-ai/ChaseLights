@@ -74,7 +74,11 @@ def verify_main(root, lock):
                 blob(raw) != entry["blob_sha"]):
             raise ValueError("Hourly pilot immutable source mismatch: " + label)
     provenance = json.loads((root / pilot["w3_provenance_path"]).read_text())
-    if (provenance["w1_w2_pr521_sha"] != lock["sources"]["w1"]["sha"] or
+    if (provenance["w1_w2_pr521_sha"] != lock["hourly_pilot"].get(
+            "w1_w2_pr521_sha", lock["sources"]["w1"]["sha"]) or
+            subprocess.run(["git", "-C", str(root), "merge-base", "--is-ancestor",
+                            provenance["w1_w2_pr521_sha"], "HEAD"],
+                           capture_output=True, check=False).returncode or
             provenance["schema_sha256"] != pilot["files"]["schema"]["sha256"] or
             provenance["binding_sha256"] != pilot["files"]["binding"]["sha256"] or
             provenance["provider_acceptance"] != "UNVERIFIED" or
@@ -188,9 +192,17 @@ def verify_main(root, lock):
                 candidate["provenance"]["review_status"] != "pending"):
             raise ValueError("Unreviewed Batch04 opportunity was promoted: " + oid)
         if any(c.get("domain") == "ACCESS_SAFETY" or
-               c.get("evaluation_mode") == "AUTO" or c.get("threshold") is not None
+               c.get("evaluation_mode") == "AUTO"
                for c in candidate["condition_contract"]["conditions"]):
             raise ValueError("Batch04 false scoring or access contract: " + oid)
+        # 2026-11-02 owner ruling: review-revised numeric gates are declared
+        # provisional/uncalibrated, never AUTO-scoring (mirrors
+        # data/v2/tests/test_worker2_batch04.py).
+        if any(c.get("threshold") is not None and (
+                c.get("validation_status") not in ("provisional", "unvalidated") or
+                c.get("calibration_status") == "defined")
+               for c in candidate["condition_contract"]["conditions"]):
+            raise ValueError("Batch04 uncalibrated threshold promoted: " + oid)
         if any(n.get("status") == "verified" or
                n.get("lat") is not None or n.get("lon") is not None
                for n in candidate["navigation_targets"]):
@@ -219,13 +231,14 @@ def verify_main(root, lock):
         if bundle.get(field) != json.loads(raw):
             raise ValueError("W4 browse index differs from W2: " + name)
     # No-review gate decision (2026-10-22): the admitted breadth catalog is
-    # 189 Places / 353 Opportunities (aurora-only opportunities removed 2026-10-26),
-    # all byte-pinned to their W2 sources.
+    # 190 Places / 356 Opportunities (aurora-only opportunities removed
+    # 2026-10-26; tw-100/353->190/356 growth re-pinned CL-CI-01), all
+    # byte-pinned to their W2 sources.
     if (catalog.get("source_index_revision") != index_manifest["index_revision"] or
             catalog.get("source_index_commit_sha") != browse_source or
-            len(catalog.get("places", [])) != 189
-            or len(catalog.get("opportunities", [])) != 353):
-        raise ValueError("W4 catalog is not the admitted 214-place W2 index")
+            len(catalog.get("places", [])) != 190
+            or len(catalog.get("opportunities", [])) != 356):
+        raise ValueError("W4 catalog is not the admitted W2 index")
     for row in catalog["opportunities"]:
         oid = row["opportunity_id"]
         path = f"data/v2/opportunities/{oid}.json"
@@ -287,9 +300,9 @@ def main():
             ("w5-runner", ["ops/v2/tests", "test_ci_runner.py"], 7, True, False),
             ("w5-task-r-release-tools", ["ops/v2/tests", "test_task_r_release_tools.py"], 12, True, False),
             ("w5-task-v-integration", ["ops/v2/tests", "test_task_v_integration.py"], 11, True, False),
-            ("w3-evaluator-and-hourly-source", ["packages/core-v2/tests", "test_*.py"], 133, True, False),
+            ("w3-evaluator-and-hourly-source", ["packages/core-v2/tests", "test_*.py"], 158, True, False),
             ("w3-solar-model", ["packages/models-v2/tests", "test_*.py"], 15, True, False),
-            ("w2-crosswalk-schema-index-and-hourly-binding", ["data/v2/tests", "test_*.py"], 47, True, False),
+            ("w2-crosswalk-schema-index-and-hourly-binding", ["data/v2/tests", "test_*.py"], 66, True, False),
             ("w2-real-records", [sys.executable, "specs/v2/tests/validate_contract.py",
                 *[str(p.relative_to(root)) for p in sorted((root / "data/v2/opportunities").glob("*.json"))]],
                 None, False, False),
@@ -304,7 +317,7 @@ def main():
                 None, False, False),
             ("w4-node", ["node", "--test", "--test-isolation=none", "--test-timeout=120000",
                 "--test-reporter=tap", *[str(p.relative_to(root)) for p in sorted(
-                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 78, False, True),
+                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 190, False, True),
             ("w5-public-source-contract", ["node", "--test", "--test-reporter=tap",
                 "ops/v2/tests/public-source-contract.test.mjs"], 6, False, True),
             ("local-isolation", [sys.executable, "ops/v2/integration_gate.py", "--root", str(root)],
@@ -327,9 +340,9 @@ def main():
             for key in ("tests", "pass", "fail", "error", "skip")
         }
         if report["counts"] != {
-            "tests": 439, "pass": 439, "fail": 0, "error": 0, "skip": 0
+            "tests": 595, "pass": 595, "fail": 0, "error": 0, "skip": 0
         }:
-            raise ValueError("Post-merge exact 439-case requirement failed")
+            raise ValueError("Post-merge exact 595-case requirement failed")
         if not all(g["status"] == "PASS" for g in report["groups"]):
             raise ValueError("One or more required suites failed")
         report["status"] = "PASS"

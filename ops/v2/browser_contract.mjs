@@ -23,7 +23,9 @@ export async function verifyPhotographyTopics(page,catalog,locale,sample=3){
       assert.equal(await card.locator('.opportunity-description').textContent(),subject.description_i18n[locale]);
       assert.deepEqual(await card.locator('.topic-targets li').allTextContents(),subject.targets.map(x=>x.name_i18n[locale]));
       const conditions=subject.condition_contract.conditions.filter(x=>x.domain!=='ACCESS_SAFETY');
-      assert.deepEqual(await card.locator('.condition-description').allTextContents(),conditions.map(x=>x.notes_i18n[locale]));
+      // CL-DATA-01/02 moved condition prose to rationale_i18n; the UI adapter
+      // falls back notes_i18n -> rationale_i18n (v21-adapter.mjs).
+      assert.deepEqual(await card.locator('.condition-description').allTextContents(),conditions.map(x=>(x.notes_i18n||x.rationale_i18n)[locale]));
       assert.equal(await card.locator('.condition-mode').count(),conditions.length);
       assert.equal(await card.locator('.topic-assessment .automation-status').count(),1);
       assert.equal(await card.locator('.decision-core .access-advisories,.condition-result,.score,.nav-action').count(),0);
