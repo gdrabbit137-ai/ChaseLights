@@ -99,7 +99,11 @@ test('CL-UI-05 (d): next qualifying window shows when live.next_good exists',()=
   const summary=cardBlock('const v2Summary=v2Best&&v2Best.hours?','const reasonHtml=');
   assert.match(summary,
     /\$\{v2Best\.nextLocal\?`<div class="best-window-row">\$\{esc\(d\(\)\.v2_next_window\)\}<b>\$\{esc\(shortDateStamp\(v2Best\.nextLocal\)\)\}<\/b><\/div>`:''\}/);
-  // The modal's live path keeps its own next_good display.
+  // CL-UI-22: the place-guide modal's v2-next row went through the same
+  // v2NextWindowLocal re-anchor as the weather modal, with the shared
+  // v2_next_window label and fail-closed rendering.
   assert.match(appSource,
-    /const nextLine=live\.next_good\?`<div class="v2-next">🎯 \$\{esc\(d\(\)\.guide_day_best\)\}\$\{colonSep\(\)\}\$\{esc\(shortDateStamp\(live\.next_good\.local\)\)\}<\/div>`:'';/);
+    /const nextLocal=v2NextWindowLocal\(opp\.days\|\|\[\],v2LocalNow\(spot\.timezone\),live\.next_good\?live\.next_good\.local:''\);/);
+  assert.match(appSource,
+    /const nextLine=nextLocal\?`<div class="v2-next">🎯 \$\{esc\(d\(\)\.v2_next_window\)\}\$\{esc\(shortDateStamp\(nextLocal\)\)\}<\/div>`:'';/);
 });
