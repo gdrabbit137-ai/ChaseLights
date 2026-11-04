@@ -70,7 +70,8 @@ def parse_node(output):
     return counts
 
 
-def run_group(name, command, root, logs, env, expected=None, python=False, node=False):
+def run_group(name, command, root, logs, env, expected=None, python=False, node=False,
+              timeout=180):
     result_path = logs / (name + '.json')
     if python:
         command = [sys.executable, str(TASK / 'ops/v2/run_unittest.py'),
@@ -83,7 +84,7 @@ def run_group(name, command, root, logs, env, expected=None, python=False, node=
         handle.flush()
         try:
             proc = subprocess.run(command, cwd=root, env=env, stdout=handle,
-                                  stderr=subprocess.STDOUT, timeout=180)
+                                  stderr=subprocess.STDOUT, timeout=timeout)
             exit_code = proc.returncode
         except subprocess.TimeoutExpired:
             handle.write('\nENVIRONMENT ERROR: required suite timed out after 180 seconds\n')

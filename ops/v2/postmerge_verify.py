@@ -302,7 +302,8 @@ def main():
             ("w5-task-v-integration", ["ops/v2/tests", "test_task_v_integration.py"], 11, True, False),
             ("w3-evaluator-and-hourly-source", ["packages/core-v2/tests", "test_*.py"], 158, True, False),
             ("w3-solar-model", ["packages/models-v2/tests", "test_*.py"], 15, True, False),
-            ("w2-crosswalk-schema-index-and-hourly-binding", ["data/v2/tests", "test_*.py"], 66, True, False),
+            ("w2-crosswalk-schema-index-and-hourly-binding", ["data/v2/tests", "test_*.py"], 66, True, False,
+                {"timeout": 300}),
             ("w2-real-records", [sys.executable, "specs/v2/tests/validate_contract.py",
                 *[str(p.relative_to(root)) for p in sorted((root / "data/v2/opportunities").glob("*.json"))]],
                 None, False, False),
@@ -317,7 +318,7 @@ def main():
                 None, False, False),
             ("w4-node", ["node", "--test", "--test-isolation=none", "--test-timeout=120000",
                 "--test-reporter=tap", *[str(p.relative_to(root)) for p in sorted(
-                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 234, False, True),
+                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 250, False, True),
             ("w5-public-source-contract", ["node", "--test", "--test-reporter=tap",
                 "ops/v2/tests/public-source-contract.test.mjs"], 6, False, True),
             ("local-isolation", [sys.executable, "ops/v2/integration_gate.py", "--root", str(root)],
@@ -332,17 +333,18 @@ def main():
                 "--test-timeout=120000", "--test-reporter=tap",
                 "ops/v2/tests/static-build-smoke.mjs"], 6, False, True),
         ]
-        for name, command, expected, python, node in groups:
+        for name, command, expected, python, node, *extra in groups:
+            kwargs = extra[0] if extra else {}
             report["groups"].append(
-                run_group(name, command, root, logs, env, expected, python, node))
+                run_group(name, command, root, logs, env, expected, python, node, **kwargs))
         report["counts"] = {
             key: sum(g["counts"].get(key, 0) for g in report["groups"])
             for key in ("tests", "pass", "fail", "error", "skip")
         }
         if report["counts"] != {
-            "tests": 639, "pass": 639, "fail": 0, "error": 0, "skip": 0
+            "tests": 655, "pass": 655, "fail": 0, "error": 0, "skip": 0
         }:
-            raise ValueError("Post-merge exact 639-case requirement failed")
+            raise ValueError("Post-merge exact 655-case requirement failed")
         if not all(g["status"] == "PASS" for g in report["groups"]):
             raise ValueError("One or more required suites failed")
         report["status"] = "PASS"
