@@ -41,7 +41,7 @@ const CATALOG = {
   },
   himawari: {
     coverage: {
-      tw: {leftlon: 118, rightlon: 124, bottomlat: 21.5, toplat: 27}
+      tw: {leftlon: 105, rightlon: 145, bottomlat: 5, toplat: 40}
     }
   },
   cams: {
@@ -90,8 +90,10 @@ test('source coverage gate withholds partial sources (JMA vs Taiwan)', () => {
   // The strict gate itself still fails for a partial source...
   assert.equal(regions.sourceCoversRegion(
     regions.REGION_BBOXES.tw, CATALOG.jma.coverage.tw), false);
+  // CL-WG-17: himawari was widened to the full tw frame, so it now passes the
+  // strict gate (it used to be the partial-source example here).
   assert.equal(regions.sourceCoversRegion(
-    regions.REGION_BBOXES.tw, CATALOG.himawari.coverage.tw), false);
+    regions.REGION_BBOXES.tw, CATALOG.himawari.coverage.tw), true);
   assert.equal(regions.sourceCoversRegion(
     regions.REGION_BBOXES.jp, CATALOG.jma.coverage.jp), true);
 });
