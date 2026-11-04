@@ -38,11 +38,11 @@
       state_labels: { GUIDANCE_SATISFIED: 'Met', UNFAVORABLE: 'Not met', NOT_EVALUABLE: 'Insufficient data' }
     },
     ja: {
-      title: '撮影题材の条件評価', search: '撮影地を検索…', loading: '評価データを読み込み中…',
+      title: '撮影題材の条件評価', search: '撮影地を検索…', loading: '評価データを読み込み中…',
       load_error: '読み込みに失敗しました', updated: '評価生成時刻',
-      hours: '適合時間数', next: '次の適合時間帯', now: '現在', expand: '展開',
+      hours: '撮影に適した時間数', next: '次の撮影に適した時間帯', now: '現在', expand: '展開',
       cond: '条件', value: '現在値', threshold: 'しきい値', verdict: '判定',
-      no_data: 'この撮影地には現在評価可能な题材がありません。', time: '時刻', state: '状態',
+      no_data: 'この撮影地には現在評価可能な題材がありません。', time: '時刻', state: '状態',
       day_prefix: '日目', guidance: '撮影条件がしきい値を満たすかを表示します。',
       banner: '撮影条件のしきい値達成状況を撮影前の参考として表示します。',
       none: '—',
@@ -68,10 +68,10 @@
   function esc(v) { return String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 
   // CL-UI-09: English count pluralization — 1 subject / N subjects.
-  // zh-TW/ja do not inflect for count (個題材/题材 are invariant).
+  // zh-TW/ja do not inflect for count (個題材/題材 are invariant).
   function subjectCountLabel(n, lang) {
     if (lang === 'en') return n === 1 ? 'subject' : 'subjects';
-    if (lang === 'ja') return '题材';
+    if (lang === 'ja') return '題材';
     return '個題材';
   }
 
@@ -281,7 +281,16 @@
     $('eval-search').placeholder = t().search;
     $('eval-loading').textContent = t().loading;
     $('guidance-banner').textContent = '⚠️ ' + t().banner;
-    if (bundle) $('update-time').textContent = `${t().updated}: ${bundle.generated_at.replace('T', ' ').replace('Z', ' UTC')}`;
+    if (bundle) {
+      // CL-UI-19: the evaluation timestamp is displayed in the page-header
+      // GMT+8 convention — the UTC value is converted for display only and the
+      // underlying data stays untouched.
+      const generated = new Date(bundle.generated_at);
+      const stamp = isNaN(generated)
+        ? String(bundle.generated_at).replace('T', ' ').replace('Z', ' UTC')
+        : new Date(generated.getTime() + 8 * 3600 * 1000).toISOString().slice(0, 19).replace('T', ' ') + ' GMT+8';
+      $('update-time').textContent = `${t().updated}: ${stamp}`;
+    }
     $('lang-select').value = lang;
   }
 
