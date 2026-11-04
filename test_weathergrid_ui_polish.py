@@ -161,7 +161,10 @@ class WeatherGridUiPolishTests(unittest.TestCase):
 
     def test_mobile_maplibre_controls_are_compact(self):
         self.assertIn(".maplibregl-ctrl-group button{width:34px;height:34px}", self.css)
-        self.assertIn("max-width:112px", self.css)
+        # CL-WG-18: the mobile basemap badge wraps instead of one-line
+        # ellipsis ("底圖逾時 · Canvas fallback" was cut off at 390px).
+        self.assertIn("max-width:min(230px,72%)", self.css)
+        self.assertIn("white-space:normal;overflow-wrap:anywhere", self.css)
 
     def test_b166_cams_aod_source_and_layer_are_exposed(self):
         self.assertIn('<option value="cams">CAMS Global · 霧霾</option>', self.html)

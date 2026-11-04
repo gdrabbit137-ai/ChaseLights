@@ -196,8 +196,15 @@ body{padding:18px}
     min-height:26px;min-width:26px;border-radius:999px
   }
   .basemap-status{
-    left:8px;top:8px;max-width:112px;padding:3px 7px;font-size:.61rem;
-    overflow:hidden;text-overflow:ellipsis;white-space:nowrap
+    left:8px;top:8px;max-width:min(230px,72%);padding:3px 7px;font-size:.61rem;
+    /* CL-WG-18: the fallback badge text ("底圖逾時 · Canvas fallback") must
+       escape its one-line ellipsis on phones — wrap to two lines instead. */
+    white-space:normal;overflow-wrap:anywhere;text-overflow:clip
+  }
+  .region-card-sub{
+    /* CL-WG-18: "US Mainland · アメリカ本土" truncated to "…ア…" at 390px;
+       allow the subtitle to wrap instead of ellipsizing mid-word. */
+    white-space:normal;overflow:visible;text-overflow:clip;line-height:1.3
   }
   .legend{
     left:8px;bottom:8px;min-width:132px;max-width:44%;
