@@ -98,7 +98,7 @@ test('CL-UI-05 (d): next qualifying window shows when live.next_good exists',()=
   // falls back to pure copy when there is none.
   const summary=cardBlock('const v2Summary=v2Best&&v2Best.hours?','const reasonHtml=');
   assert.match(summary,
-    /\$\{v2Best\.nextLocal\?`<div class="best-window-row">\$\{esc\(d\(\)\.v2_next_window\)\}<b>\$\{esc\(v2Best\.nextLocal\)\}<\/b><\/div>`:''\}/);
+    /\$\{v2Best\.nextLocal\?`<div class="best-window-row">\$\{esc\(d\(\)\.v2_next_window\)\}<b>\$\{esc\(shortDateStamp\(v2Best\.nextLocal\)\)\}<\/b><\/div>`:''\}/);
   // The modal's live path keeps its own next_good display.
   assert.match(appSource,
     /const nextLine=live\.next_good\?`<div class="v2-next">🎯 \$\{esc\(d\(\)\.guide_day_best\)\}：\$\{esc\(live\.next_good\.local\|\|''\)\}<\/div>`:'';/);
