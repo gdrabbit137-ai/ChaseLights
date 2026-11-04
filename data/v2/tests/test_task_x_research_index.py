@@ -71,6 +71,10 @@ class ResearchIndexTests(unittest.TestCase):
             # CL-DATA-04: three new owner-defined records pinned to the
             # owner-definition data commit.
             'cebb9689ee339f24655aafa010ecfc7977178368',
+            # CL-UI-20 round-2: 63 high-exposure subject records re-pinned to
+            # the task-branch commit carrying verified en/ja subject names
+            # (tw-036-P01 / tw-082-P01 keep their review-gated round-1 pins).
+            'b97f7bb87a46db4a3e21922d7f6058b8b64a6385',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         self.assertEqual('76e926d16f3cfd6f2983ec2c0f6fe6ac7004104d',p01['commit_sha'])
