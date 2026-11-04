@@ -1,7 +1,7 @@
 // CL-WG-16: single source of truth for WeatherGrid color/opacity rendering.
 // Extracted verbatim from weather-map.js so the CI-side PNG prerender
 // generator imports THE SAME functions the browser draws with — the honest
-// rule for pre-rendered frames. The generator (tools/weathergrid_png_prerender.mjs)
+// rule for pre-rendered frames. The generator (scripts/weathergrid_png_prerender.mjs)
 // imports this module directly; PALETTE_VERSION is stamped into the PNG
 // manifest and the frontend falls back to live JSON rendering on mismatch.
 (function(global){

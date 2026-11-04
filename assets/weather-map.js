@@ -944,7 +944,7 @@
 
     // ===== CL-WG-16: pre-rendered PNG frame path =====
     // CI publishes per-layer/per-frame PNGs rasterised by
-    // tools/weathergrid_png_prerender.mjs from the same palette module the
+    // scripts/weathergrid_png_prerender.mjs from the same palette module the
     // browser draws with. When the manifest covers the active source+layer+
     // frame and its palette_version matches, the map pastes the frame image
     // instead of rasterising the JSON grid — the JSON bundle then loads in the

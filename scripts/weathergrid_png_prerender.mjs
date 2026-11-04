@@ -194,7 +194,10 @@ function rasterizeFrame(values, rows, cols, cfg, meta = {}) {
     colorCache.set(value, hit);
     return hit;
   };
-  const ascendingLat = true; // bundle latitudes ascend (row 0 = south) for these products
+  // CL-WG-16R: ascendingLat comes from the bundle's own latitude axes
+  // (meta.ascendingLat); the previous hardcoded `true` was correct for every
+  // published bundle (row 0 = south) but would flip a descending bundle.
+  const ascendingLat = meta.ascendingLat !== false; // bundle latitudes ascend (row 0 = south) for these products
   for (let py = 0; py < rows; py++) {
     const r = ascendingLat ? rows - 1 - py : py;
     for (let c = 0; c < cols; c++) {
@@ -250,6 +253,15 @@ function processSpec(spec, args) {
     lons = latitudesFor(bundle.bbox, rows, cols).lons;
   }
   const frames = bundle.frames.slice(0, args.maxFrames === Infinity ? undefined : args.maxFrames);
+  // CL-WG-16R: trust the bundle's own latitude order instead of assuming
+  // ascending rows — a descending-latitude bundle rendered with ascendingLat
+  // would come out vertically flipped.
+  const bundleAscendingLat = Array.isArray(bundle.grid.latitudes) && bundle.grid.latitudes.length === rows
+    ? bundle.grid.latitudes[0] <= bundle.grid.latitudes[rows - 1]
+    : true; // derived axes from latitudesFor() ascend (row 0 = south)
+  if (!bundleAscendingLat) {
+    console.warn(`${bundlePath}: grid latitudes DESCEND (row 0 = north); rendering with matching row order`);
+  }
   const outDir = path.join(args.out, spec.region, spec.source);
   const layerEntries = {};
   const written = [];
@@ -271,7 +283,8 @@ function processSpec(spec, args) {
       const file = `${key}/f${String(fh).padStart(3, '0')}.png`;
       const png = rasterizeFrame(values, rows, cols, cfg, {
         scale: fieldMeta(bundle.fields, key)?.scale,
-        wrap: fieldMeta(bundle.fields, key)?.wrap
+        wrap: fieldMeta(bundle.fields, key)?.wrap,
+        ascendingLat: bundleAscendingLat
       });
       const abs = path.join(outDir, file);
       fs.mkdirSync(path.dirname(abs), { recursive: true });
