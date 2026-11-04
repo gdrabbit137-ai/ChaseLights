@@ -19,6 +19,9 @@ const factory=new Function([
   block('const i18nDict','const categoryKeys'),
   "let currentLang='zh-TW',currentTempUnit='C',currentRegion='tw',currentDayFilter='today';",
   'const d=()=>i18nDict[currentLang]||i18nDict["zh-TW"];',
+  // CL-UI-20: the shared helpers now delegate separators to these two fns.
+  'const listSep=()=>currentLang==="en"?", ":"、";',
+  'const colonSep=()=>currentLang==="en"?": ":"：";',
   grab('const tempUnitLabel','function trMessage'),
   grab('function esc','const OPPORTUNITY_NEGATIVE_STATUS_KEYS'),
   grab('function localDateString','function selectedDateForSpot'),
