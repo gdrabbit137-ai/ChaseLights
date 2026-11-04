@@ -82,12 +82,12 @@ assert.deepEqual(catalog.evaluations, []);
 // 7-place preview to the admitted 189-place / 353-opportunity catalog. The
 // byte-exactness guarantee is the per-file digest verification against the
 // pinned manifest; these counts are the breadth sanity assertions.
-assert.equal(catalog.opportunities.length, HOME?353:1);
+assert.equal(catalog.opportunities.length, HOME?356:1);
 if(HOME){
-  assert.equal(catalog.places.length,216);
+  assert.equal(catalog.places.length,190);
   verifyPublicIndex(expectedManifest,catalog,JSON.parse((await fetchPublic('browse-index.v2.json')).body));
-  assert.equal(catalog.source_pins['tw-026-P01'].source_commit_sha,'2177bd8c8b6c18e0a4b284e50b55d0ff12697ddd');
-}else assert.equal(catalog.source_commit_sha, "2177bd8c8b6c18e0a4b284e50b55d0ff12697ddd");
+  assert.equal(catalog.source_pins['tw-026-P01'].source_commit_sha,'76e926d16f3cfd6f2983ec2c0f6fe6ac7004104d');
+}else assert.equal(catalog.source_commit_sha, "76e926d16f3cfd6f2983ec2c0f6fe6ac7004104d");
 const opportunity = HOME ? catalog.opportunities.find(x=>x.opportunity_id==='tw-026-P01') : catalog.opportunities[0];
 assert.equal(opportunity.opportunity_id, "tw-026-P01");
 assert.equal(opportunity.readiness.research_level, "R1");
@@ -99,9 +99,11 @@ for (const locale of LOCALES) {
 }
 console.log("RESEARCH SAFETY FLAGS PASS", "No live score or fabricated Directions");
 
-// After the actual GitHub Pages deployment, require the authorized V1 entry.
-// Earlier pull-request smoke runs intentionally verify V2 without requiring a
-// link that has not been published yet.
+// After the actual GitHub Pages deployment, require the legacy V1 page to be
+// publicly reachable.  The dedicated "🧭 V2 研究預覽" header entry was
+// deliberately removed from the V1 shell (V2 subjects are now the main UI;
+// apps/web-v2/ data endpoints remain) — the removed link must NOT be required
+// here, only same-origin reachability of the legacy page and its script.
 if (process.env.REQUIRE_PUBLIC_V1_LINK === "true") {
   const rootResponse = await fetch("https://chaselights.app/", {
     headers: {"cache-control": "no-cache", "user-agent": "ChaseLights-V2-LinkSmoke/1"},
@@ -109,18 +111,14 @@ if (process.env.REQUIRE_PUBLIC_V1_LINK === "true") {
   });
   assert.equal(rootResponse.status, 200, "Legacy root is not publicly reachable");
   const legacyHtml = await rootResponse.text();
-  assert.match(legacyHtml, /href="\.\/apps\/web-v2\/"[^>]*data-i18n="v2_link"/,
-               "Verified public V1 entry to V2 Research Preview is missing");
+  assert.doesNotMatch(legacyHtml, /href="\.\/apps\/web-v2\/"[^>]*data-i18n="v2_link"/,
+               "Removed V2 header entry must stay removed from the V1 shell");
   const legacyScriptResponse = await fetch("https://chaselights.app/assets/app.js", {
     headers: {"cache-control": "no-cache"},
     signal: AbortSignal.timeout(20000),
   });
   assert.equal(legacyScriptResponse.status, 200);
-  const legacyScript = await legacyScriptResponse.text();
-  for (const phrase of ["🧭 V2 研究預覽", "🧭 V2 Research Preview", "🧭 V2 調査プレビュー"]) {
-    assert.ok(legacyScript.includes(phrase), "Missing public V1 entry translation: " + phrase);
-  }
-  console.log("PUBLIC V1 ENTRY PASS: V1 unchanged except translated, same-origin V2 link");
+  console.log("PUBLIC V1 REACHABLE PASS: legacy page published, removed V2 entry stays removed");
 }
 
 const browser = await chromium.launch({
