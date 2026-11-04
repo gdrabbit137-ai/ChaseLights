@@ -128,9 +128,12 @@ jobs:
                   "forecast_hour_semantics"
               ),
           }, indent=2))
-          PY
 
           # CL-WG-05: the jp region bundle must fully cover the jp bbox.
+          # (CL-CI-03: this jp check previously sat outside the <<'PY'
+          # heredoc; bash then parsed the Python code and failed with
+          # "syntax error near unexpected token '('". Kept inside so both
+          # region validations run in Python.)
           jp = json.loads(
               Path("jma_msm_jp_output/jma_msm_jp_cloud_browser.json").read_text()
           )
@@ -146,6 +149,12 @@ jobs:
               min(jp_latitudes) <= 24.0 and max(jp_latitudes) >= 46.0
               and min(jp_longitudes) <= 122.0 and max(jp_longitudes) >= 146.0
           ), f"jma_msm_jp bundle does not cover the jp region bbox: {jp_bbox}"
+
+          print(json.dumps({
+              "jp_frames": len(jp["frames"]),
+              "jp_bbox": jp_bbox,
+          }, indent=2))
+          PY
 
       - name: Publish current JMA MSM snapshot state
         if: always() && !cancelled()
