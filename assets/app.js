@@ -1725,6 +1725,7 @@
       ja: { cloud_cover_low:'下層雲', cloud_cover_mid:'中層雲', cloud_cover_high:'上層雲', cloud_cover_mid_and_high:'中上層雲', cloud_cover_total:'全雲量', wind_speed_10m:'風速', wind_speed_850hpa:'850hPa風速', precipitation:'降水', aod_550nm:'エアロゾル光学的厚さ', visibility:'視程', relative_humidity_2m:'相対湿度', relative_humidity_700hpa:'相対湿度700hPa', relative_humidity_600hpa:'相対湿度600hPa', wind_speed_700hpa:'700hPa風速', wind_speed_600hpa:'600hPa風速', temperature_delta_850_700_c:'T850−T700温度差', temperature_delta_700_600_c:'T700−T600温度差', relative_humidity_925hpa:'相対湿度925hPa', relative_humidity_850hpa:'相対湿度850hPa', lcl_height_m_agl:'LCL高度', temperature_delta_850_925_c:'T850−T925温度差', sunrise_time_window:'日の出時間帯', sunset_window:'日の入り時間帯', golden_hour_window:'ゴールデンアワー', blue_hour_window:'ブルーアワー', astronomical_darkness:'天文学的薄明', moon_illumination_fraction:'月照亮率', moon_altitude:'月高度', moon_target_separation_deg:'月角距離', moon_illuminance_proxy:'月光照度プロキシ', galactic_core_altitude:'銀河中心高度', water_surface_state:'水面状態', seasonal_state:'季節状態', landform_present:'地形の存在', river_flow_state:'河川流量状態' }
     };
     let v2EvalBundle=null, v2EvalBundlePromise=null;
+    let v2FailOverrides=null, v2FailOverridesPromise=null;
     let opContracts=null, opContractsPromise=null;
     function ensureOpContracts(){
       if(!opContractsPromise){
@@ -1773,12 +1774,23 @@
         // card (a later reload retries via the null-reset path).
         v2EvalBundlePromise=fetch('./apps/web-v2/evaluations-latest.json',{cache:'no-cache',signal:AbortSignal.timeout(15000)})
           .then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
-          .then(j=>{v2EvalBundle=j;return j;})
+          .then(j=>{v2EvalBundle=j;return ensureFailOverrides().then(()=>j);})
           .catch(()=>{v2EvalBundlePromise=null;return null;});
       }
       return v2EvalBundlePromise;
     }
     function v2MetricName(m){const dict=V2_EVAL_METRICS[currentLang]||V2_EVAL_METRICS['zh-TW'];return dict[m]||m;}
+    // CL-COPY-01: handwritten fail-reason overrides. A load failure never
+    // blocks rendering — cards fall back to the mechanical map honestly.
+    function ensureFailOverrides(){
+      if(!v2FailOverridesPromise){
+        v2FailOverridesPromise=fetch('./data/v2/copy/fail_reason_overrides.json',{cache:'no-cache'})
+          .then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
+          .then(j=>{v2FailOverrides=j;return j;})
+          .catch(()=>{v2FailOverrides=null;return null;});
+      }
+      return v2FailOverridesPromise;
+    }
     // CL-UI-26: every 不符 verdict shown to a photographer carries a SHORT
     // plain-language reason (下大雨視線不清 / 大霧看不到 / 空氣霧霾嚴重看不清).
     // The reason is DERIVED AT RENDER TIME from the evaluation bundle's
@@ -1786,6 +1798,11 @@
     // field is introduced; provenance is the same V2 evaluation bundle that
     // produced the verdict. Only the DOMINANT (most decisive for a
     // photographer) failure metric is named, never an item-by-item list.
+    // CL-COPY-01: handwritten per-opportunity fail-reason overrides (owner
+    // ruling 2026-11-05 — 逐景點×題材手寫為標準). Loaded from the built table
+    // data/v2/copy/fail_reason_overrides.json; lookup order is
+    // overrides[oppId][metric] -> context map (below) -> generic map. A miss
+    // falls through honestly to the mechanical mapping (behavior unchanged).
     const V2_FAIL_PRIORITY=['precipitation','visibility','aod_550nm','cloud_cover_low','cloud_cover_mid','cloud_cover_mid_and_high','cloud_cover_total','wind_speed_10m','lcl_height_m_agl','relative_humidity_925hpa','relative_humidity_700hpa','relative_humidity_600hpa','relative_humidity_850hpa','galactic_core_altitude','sunrise_time_window','sunset_window','golden_hour_window','blue_hour_window','city_night_window','astronomical_darkness','moon_illumination_fraction','moon_illuminance_proxy','moon_altitude','moon_target_separation_deg','wind_speed_850hpa','wind_speed_600hpa','temperature_delta_850_925_c','temperature_delta_700_600_c','water_surface_state','seasonal_state','river_flow_state','landform_present'];
     const V2_FAIL_REASONS={
       'zh-TW':{precipitation:'下大雨視線不清',visibility:'大霧看不到',aod_550nm:'空氣霧霾嚴重，看不清楚',cloud_cover_low:'低雲太厚，山頭沒入雲中',cloud_cover_mid:'雲層太厚，看不到',cloud_cover_mid_and_high:'中高雲太厚，看不到',cloud_cover_total:'雲層太厚，看不到',wind_speed_10m:'風太大，畫面容易晃',lcl_height_m_agl:'雲底太低，容易身處雲中',relative_humidity_925hpa:'水汽太重，容易起霧',relative_humidity_700hpa:'水汽太重，容易起霧',relative_humidity_600hpa:'水汽太重，容易起霧',relative_humidity_850hpa:'水汽太重，容易起霧',galactic_core_altitude:'需夜間時段，銀河核心未升起',sunrise_time_window:'需日出時段',sunset_window:'需日落時段',golden_hour_window:'需黃金時段',blue_hour_window:'需藍調時段',city_night_window:'需夜間時段',astronomical_darkness:'需夜間時段',moon_illumination_fraction:'月光太亮，星空不明顯',moon_illuminance_proxy:'月光太亮，星空不明顯',moon_altitude:'月亮位置不理想',moon_target_separation_deg:'月亮位置不理想',wind_speed_850hpa:'高空風太強，雲層變化快',wind_speed_600hpa:'高空風太強，雲層變化快',temperature_delta_850_925_c:'大氣不穩定',temperature_delta_700_600_c:'大氣不穩定',water_surface_state:'水面狀態不佳',seasonal_state:'目前不是合適的季節',river_flow_state:'河川狀態不佳',landform_present:'地形條件不符'},
@@ -1815,13 +1832,19 @@
       const dict=V2_FAIL_REASONS[currentLang]||V2_FAIL_REASONS['zh-TW'];
       return dict[metric]||null;
     }
-    function v2DominantFailReason(conditions,spot,genre){
+    function v2DominantFailReason(conditions,spot,genre,opportunityId){
       const dict=V2_FAIL_REASONS[currentLang]||V2_FAIL_REASONS['zh-TW'];
       // Newer evaluation schema also marks partially-decisive conditions as
       // 'PARTIAL' (e.g. cloud_cover_total at 60%); for a not-met day those are
       // legitimate plain-language causes. UNKNOWN stays honest (no reason).
       const failSet=new Set((conditions||[]).filter(c=>c&&(c.day_verdict==='FAIL'||c.day_verdict==='PARTIAL')).map(c=>c.metric));
-      for(const m of V2_FAIL_PRIORITY){ if(failSet.has(m))return v2FailReasonText(m,spot,genre)||dict[m]||null; }
+      // CL-COPY-01: handwritten entry wins; context variant, then generic map.
+      const ov=opportunityId&&typeof v2FailOverrides!=='undefined'&&v2FailOverrides?v2FailOverrides[opportunityId]:null;
+      for(const m of V2_FAIL_PRIORITY){
+        if(!failSet.has(m))continue;
+        const o=ov&&ov[m];
+        return (o&&(o[currentLang]||o['zh-TW']))||v2FailReasonText(m,spot,genre)||dict[m]||null;
+      }
       return null;
     }
     // Card state-row suffix: every not-satisfied verdict names its DOMINANT
@@ -1832,7 +1855,7 @@
     // card may show 「本日無符合題材」 while known failures exist).
     function v2FailReasonSuffix(best,spot){
       if(!best||best.state==='GUIDANCE_SATISFIED')return '';
-      const own=v2DominantFailReason(best.day&&best.day.conditions,spot,best.genre);
+      const own=v2DominantFailReason(best.day&&best.day.conditions,spot,best.genre,best.oppId);
       if(own)return ' · '+own;
       if(!best.day)return '';
       const place=v2PlaceForSpot(spot);
@@ -1841,7 +1864,7 @@
           if(o.opportunity_id===best.oppId)continue;
           for(const d2 of (o.days||[])){
             if(d2.local_date!==best.day.local_date)continue;
-            const r=v2DominantFailReason(d2.conditions,spot,o.genre_template);
+            const r=v2DominantFailReason(d2.conditions,spot,o.genre_template,o.opportunity_id);
             if(r)return ' · '+r;
           }
         }
@@ -1985,7 +2008,7 @@
       });
       return seen?total:null;
     }
-    function v2DayHtml(day,label,tz,spot,genre){
+    function v2DayHtml(day,label,tz,spot,genre,opportunityId){
       const cls=day.state==='GUIDANCE_SATISFIED'?'v2-ok':day.state==='NOT_EVALUABLE'?'v2-unk':'v2-bad';
       const lab=day.state==='GUIDANCE_SATISFIED'?d().eval2_ok:day.state==='NOT_EVALUABLE'?d().eval2_unk:d().eval2_bad;
       const allHours=(day.good_hours||[]).filter(t=>/^([01]\d|2[0-3]):[0-5]\d$/.test(String(t||'')));
@@ -1999,7 +2022,7 @@
       // CL-UI-26: the day row names the DOMINANT plain-language failure
       // reason (derived from day.conditions) instead of enumerating metric
       // names; NOT_EVALUABLE rows carry no conditions and stay honest.
-      const failReason=(day.state!=='GUIDANCE_SATISFIED')?v2DominantFailReason(day.conditions,spot,genre):null;
+      const failReason=(day.state!=='GUIDANCE_SATISFIED')?v2DominantFailReason(day.conditions,spot,genre,opportunityId):null;
       const failBits=failReason?`<div class="v2-fail-by">${esc(d().v2_fail_reason)}${esc(failReason)}</div>`:'';
       return `<div class="v2-day ${cls}"><span class="v2-day-label">${esc(label)}</span>`+
         `<span class="v2-badge ${cls}">${esc(lab)}</span>`+
@@ -2133,7 +2156,7 @@
           // CL-DATA-06: show the full 7-day evaluation window.
           const days=opp.days.slice(0,DAY_KEYS.length);
           const labels=evalDayLabels(spot.timezone,DAY_KEYS.length);
-          const dayHtml=days.map((day,i)=>v2DayHtml(day,labels[i]||day.local_date,spot.timezone,spot,opp.genre_template||'')).join('');
+          const dayHtml=days.map((day,i)=>v2DayHtml(day,labels[i]||day.local_date,spot.timezone,spot,opp.genre_template||'',opp.opportunity_id)).join('');
           const live=opp.live||{};
           // CL-UI-21: the "now" line follows the spot's own local date for its
           // day word (an evening page in Taipei must not call a JP spot's
