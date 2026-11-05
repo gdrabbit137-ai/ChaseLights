@@ -137,25 +137,29 @@ function makeEngine({
   ].join('\n');
   const fn = new Function(
     'state', 'document', 'window', 'canvas', 'project',
-    'isWindDirectionLayer', 'activeDataset', 'decodedArray', 'renderViewBbox',
+    'isWindDirectionLayer', 'activeGfsDataset', 'decodeValue', 'renderViewBbox',
     body);
   const api = fn(
     state, documentStub, windowStub, mainCanvas,
     (lon, lat) => ({ x: (lon - 100) * 1000, y: (40 - lat) * 1000 }),
     () => dirLayer,
     () => activeData,
-    (key) => decoded[key] || [],
+    (key, v) => (v == null ? null : v),
     () => VIEW);
   return { api, state, ctx, rec, rafCalls, mainCanvas, windowStub, documentStub };
 }
 
 // windParticleField standalone harness (field-construction logic only).
-function makeFieldHarness({ activeData, decoded }) {
-  const state = { layer: 'wind_direction_10m_deg' };
-  const fn = new Function('state', 'activeDataset', 'decodedArray',
+// CL-WG-24: the field now reads the GFS dataset (activeGfsDataset) and decodes
+// the frame values itself, so the harness supplies those instead of
+// activeDataset/decodedArray.
+function makeFieldHarness({ gfsData }) {
+  const state = { layer: 'wind_direction_10m_deg', frameIndex: 0 };
+  const fn = new Function('state', 'activeGfsDataset', 'decodeValue',
     UVKEYS_BLOCK + FIELD_BLOCK +
     'return {windParticleUvKeys, windParticleField, windParticleAvailable};');
-  return fn(state, () => activeData, (key) => decoded[key] || []);
+  return fn(state, () => gfsData,
+    (key, v, data) => (v == null ? null : v));
 }
 
 // ===== 1. u/v key derivation =====
@@ -175,21 +179,27 @@ test('windParticleUvKeys: default layer maps to 10 m u/v; pressure layers map to
 
 // ===== 2. field construction (single source: only u/v fields qualify) =====
 
-test('windParticleField: built from the active dataset u/v fields with grid metadata; null when u/v or grid missing; null on length mismatch', () => {
+test('windParticleField: built from the GFS dataset (activeGfsDataset) frame values with grid metadata; null when u/v or grid/frame missing; null on length mismatch', () => {
   const grid = { rows: G_ROWS, cols: G_COLS, latitudes: G_LATS, longitudes: G_LONS };
-  const missing = makeFieldHarness({ activeData: { grid, fields: {} }, decoded: {} });
+  const missing = makeFieldHarness({ gfsData: { grid, fields: {}, frames: [] } });
   assert.equal(missing.windParticleField(), null);
   const badLen = makeFieldHarness({
-    activeData: { grid, fields: { wind_u_10m_m_s: {}, wind_v_10m_m_s: {} } },
-    decoded: { wind_u_10m_m_s: FIX_U, wind_v_10m_m_s: FIX_V.slice(0, 5) },
+    gfsData: {
+      grid,
+      fields: { wind_u_10m_m_s: {}, wind_v_10m_m_s: {} },
+      frames: [{ values: { wind_u_10m_m_s: FIX_U, wind_v_10m_m_s: FIX_V.slice(0, 5) } }],
+    },
   });
   assert.equal(badLen.windParticleField(), null);
   const ok = makeFieldHarness({
-    activeData: { grid, fields: { wind_u_10m_m_s: {}, wind_v_10m_m_s: {} } },
-    decoded: { wind_u_10m_m_s: FIX_U, wind_v_10m_m_s: FIX_V },
+    gfsData: {
+      grid,
+      fields: { wind_u_10m_m_s: {}, wind_v_10m_m_s: {} },
+      frames: [{ values: { wind_u_10m_m_s: FIX_U, wind_v_10m_m_s: FIX_V } }],
+    },
   });
   const field = ok.windParticleField();
-  assert.ok(field, 'field should be built when u/v + grid present');
+  assert.ok(field, 'field should be built when u/v + grid + frame present');
   assert.deepEqual(field.u, FIX_U);
   assert.deepEqual(field.v, FIX_V);
   assert.equal(field.rows, G_ROWS);

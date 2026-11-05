@@ -127,6 +127,6 @@ test('CL-UI-28 (9): index.html stamp bumped clui33 → clui36', () => {
 });
 
 test('CL-UI-28 (10): weather-map.js stamp bumped in weather-map.html (same commit)', () => {
-  assert.match(wgHtml, /assets\/weather-map\.js\?v=bclwg26/);
+  assert.match(wgHtml, /assets\/weather-map\.js\?v=bclwg27/);
   assert.doesNotMatch(wgHtml, /bclwg23|bclwg24/);
 });
