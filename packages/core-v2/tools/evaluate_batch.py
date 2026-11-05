@@ -104,11 +104,14 @@ def eval_conditions_for(contract):
 DECLARED_PASS_METRICS = {"landform_present"}
 NO_SOURCE_METRICS = {"water_surface_state", "seasonal_state"}
 # Display-only local clocks (approximate; Place index time_zone is UNKNOWN).
+# CL-UI-24: offset = local time − UTC, so western (negative-longitude) zones
+# are NEGATIVE (America/Los_Angeles −8, Denver −7, New_York −5, Anchorage −9).
+# These are standard-time (display approximation) values; DST is out of scope.
 TZ_DISPLAY = [
-    ((54, 72, -170, -130), "America/Anchorage", 9),
-    ((32, 55, -130, -114), "America/Los_Angeles", 8),
-    ((30, 49, -114, -96), "America/Denver", 7),
-    ((24, 50, -96, -66), "America/New_York", 5),
+    ((54, 72, -170, -130), "America/Anchorage", -9),
+    ((32, 55, -130, -114), "America/Los_Angeles", -8),
+    ((30, 49, -114, -96), "America/Denver", -7),
+    ((24, 50, -96, -66), "America/New_York", -5),
     ((21, 26.6, 117.5, 122.2), "Asia/Taipei", 8),
     ((23, 46, 122.2, 146), "Asia/Tokyo", 9),
 ]
