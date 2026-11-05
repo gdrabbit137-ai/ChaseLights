@@ -3,8 +3,8 @@
   "research_only": true,
   "forecast_available": false,
   "selected_date_recommendation_eligible": false,
-  "source_index_commit_sha": "6202143269fb71d63112a44c6012e8ef94bd6ab0",
-  "source_index_revision": "sha256:4e88000f73b359bfd243c65317d79c71f356148ad0c1e86751fcc6603c36cb7d",
+  "source_index_commit_sha": "d4ec134b373d93fbc80955822d7508547ad6497d",
+  "source_index_revision": "sha256:dc2f61733c9dffc56ea632c81f4b482cb419dd518bb5ae02ffc657756e05845a",
   "source_pins": {
     "jp-002-P01": {
       "source_commit_sha": "34cb70f39f8d959e9b68cfa3a6768a74cb29de99",
@@ -649,10 +649,10 @@
       "revision": 1
     },
     "tw-027-P02": {
-      "source_commit_sha": "3eb466432807185bc8b9271d006666b72d1fa406",
+      "source_commit_sha": "d4ec134b373d93fbc80955822d7508547ad6497d",
       "source_path": "data/v2/opportunities/tw-027-P02.json",
-      "source_blob_sha": "db2342c143c5d788b070ab2b96808c82c633d490",
-      "revision": 1
+      "source_blob_sha": "3a8948a30b6479509013a6ec50145d6726acb401",
+      "revision": 2
     },
     "tw-027-P03": {
       "source_commit_sha": "3eb466432807185bc8b9271d006666b72d1fa406",
@@ -35992,7 +35992,7 @@
       "schema_version": "2.1.0",
       "opportunity_id": "tw-027-P02",
       "place_id": "tw-027",
-      "revision": 1,
+      "revision": 2,
       "lifecycle_status": "draft",
       "name_i18n": {
         "zh-TW": "月世界夜間投光地景",
@@ -36361,6 +36361,36 @@
             "modifier_activation": {
               "when_condition": "C-tw-027-P02-08",
               "mode": "when_not_met"
+            }
+          },
+          {
+            "id": "C-tw-027-P02-11",
+            "role": "REQUIRED",
+            "domain": "ASTRONOMY",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "city_night_window",
+            "operator": "none",
+            "threshold": null,
+            "unit": null,
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "tw-027-P02-claim-01"
+            ],
+            "model_binding": null,
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "computed",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "時間窗＝整小時太陽仰角 ≤ −6°（民用黑暗）。夜間投光地景以人工投光為主體，民用黑暗後投光即可拍；白天時段即使天氣全過也不成立。",
+              "en": "Time window = the whole hour bucket with sun elevation <= -6 deg (civil darkness). The night floodlit landform is lit artificially, so it is shootable once civil darkness falls; a daytime hour cannot qualify even if every weather condition passes.",
+              "ja": "時間窓＝1時間全体で太陽高度 ≤ −6°（市民薄明後）。夜間照明の地形は人工照明が主題のため、市民薄明後なら撮影可能。昼間は天候条件が全て通過しても成立しない。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-05 owner 裁定（CL-DATA-09）：補入契約層民用黑暗時間窗，照 CL-UI-25 同源定義；評估層閘門（EVALGATE-city_night-window）在契約已含時間窗時自動退位。",
+              "en": "2026-11-05 owner ruling (CL-DATA-09): contract-level civil-darkness time window added, mirroring the CL-UI-25 same-source definition; the evaluation-layer gate (EVALGATE-city_night-window) stands down automatically once the contract declares a window.",
+              "ja": "2026-11-05 オーナー裁定（CL-DATA-09）：契約層に市民薄明後の時間窓を追加（CL-UI-25と同一定義）。契約が時間窓を持つ場合、評価層ゲート（EVALGATE-city_night-window）は自動解除。"
             }
           }
         ]

@@ -79,6 +79,11 @@ class ResearchIndexTests(unittest.TestCase):
             # commit adding the contract-level city_night_window condition
             # (mirrors the CL-UI-23 evaluation-layer gate semantics).
             '6a420db5100bb184f655b4b765d29fdf3494588d',
+            # CL-DATA-09: tw-027-P02 re-pinned to the task-branch commit adding
+            # the contract-level city_night_window condition (civil darkness
+            # <= -6 deg; TIME_SPECIALIZATION §3 misplacement, owner ruling
+            # 2026-11-05, CL-UI-25 same-source definition).
+            'd4ec134b373d93fbc80955822d7508547ad6497d',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         self.assertEqual('76e926d16f3cfd6f2983ec2c0f6fe6ac7004104d',p01['commit_sha'])
