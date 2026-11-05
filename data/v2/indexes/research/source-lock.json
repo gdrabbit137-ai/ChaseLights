@@ -813,9 +813,9 @@
     {
       "opportunity_id": "tw-027-P02",
       "path": "data/v2/opportunities/tw-027-P02.json",
-      "blob_sha": "db2342c143c5d788b070ab2b96808c82c633d490",
-      "sha256": "21c77670090deee3bd935b37541941cd4c2984ad18b5c05e0e6fdbbe8e9c55b1",
-      "commit_sha": "3eb466432807185bc8b9271d006666b72d1fa406"
+      "blob_sha": "3a8948a30b6479509013a6ec50145d6726acb401",
+      "sha256": "f6ac2581400fc19e3a14d3674a554460a8d474bfd8929a44de529d4adc776fcd",
+      "commit_sha": "d4ec134b373d93fbc80955822d7508547ad6497d"
     },
     {
       "opportunity_id": "tw-027-P03",
@@ -3112,5 +3112,6 @@
     }
   ],
   "deletion_note_20261031": "60 opportunities removed (24 places vanish entirely) per owner directive 2026-10-31: all evidence-D opportunities plus the six owner-named places in full (tw-006, tw-007, tw-058, tw-083, tw-084, jp-012).",
-  "repin_note_20261031b": "Re-pinned 23 canonical opportunity files after owner-directed condition fixes (cloud_sea thresholds/wind operators, night galactic core altitude, LCL rationale elevations; tw-019/tw-040 elevation-bound 700/600 hPa metrics). Pins computed over committed LF bytes at ea0f68b974d6."
+  "repin_note_20261031b": "Re-pinned 23 canonical opportunity files after owner-directed condition fixes (cloud_sea thresholds/wind operators, night galactic core altitude, LCL rationale elevations; tw-019/tw-040 elevation-bound 700/600 hPa metrics). Pins computed over committed LF bytes at ea0f68b974d6.",
+  "repin_note_cl_data_09_20261105": "CL-DATA-09: tw-027-P02 re-pinned to commit d4ec134b adding the contract-level city_night_window condition (civil darkness <= -6 deg) per TIME_SPECIALIZATION_PROPOSAL.md section 3 misplacement owner ruling 2026-11-05 (night floodlit landform subject, CL-UI-25 same-source definition; the tw-035-P05 / tw-036-P02 / tw-038-P02 records were verified to already carry astronomical_darkness + the moon cluster, no re-pin). Layering parity gate exempt for this record; change documented in the condition notes_i18n (revision 2)."
 }
