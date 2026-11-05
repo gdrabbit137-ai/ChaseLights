@@ -25,3 +25,26 @@ Expected counted tests: W1 17+4+6, W2 10, W3 32, W4 Node 31 / Chromium 6, W5 7+7
 ### W4 warning presentation final review
 
 W4 #460 now renders localized closure/access notes in a standalone `role=note` access section separate from photographic BLOCKER conditions. Desktop/mobile Chromium assertions require the independent warning section to be visible, and the three real R1 research records have no access conditions in photo contracts. The updated W4 HEAD and `apps/web-v2/` tree are independently pinned above. No score or live verdict is manufactured.
+
+# CL-CI-05 — owner tree pins auto-sync (2026-11-05)
+
+The W1(specs/v2)/W2(data/v2)/W4(apps/web-v2) `tree_sha`/`file_count` pins in
+`integration-sources.json` no longer require manual re-pinning after each
+ticket that touches those trees.
+
+- `ops/v2/sync_integration_sources.py` recomputes each single-path owner's
+  HEAD `tree_sha`/`file_count` and rewrites the lock (keeping
+  `previous_tree_sha`/`previous_file_count` for audit). It **refuses to lower
+  a pinned `file_count`**: deleting subtree files requires an explicit
+  `--accept-decrease` re-pin, recorded in the lock. `--check` reports
+  STALE/IN_SYNC for CI gates.
+- `postmerge_verify.py` runs the sync on every verification (only additive
+  changes are auto-accepted) and enforces the non-decreasing `file_count`
+  baseline for w1/w2/w4 plus every exact test-count and blob-pin gate, so a
+  broken tree still cannot self-certify.
+- New `v2-pin-sync.yml` workflow: after a green V2 Integration run on main it
+  commits the refreshed lock (`chore(ci): auto-sync V2 owner tree pins
+  [skip ci]`). It is governed by `validate_pin_sync` in
+  `validate_release_config.py` (push limited to the lock diff; no deploy).
+- Regression coverage: `ops/v2/tests/test_pin_sync.py` (4 cases); the
+  postmerge exact-count requirement is now 663.

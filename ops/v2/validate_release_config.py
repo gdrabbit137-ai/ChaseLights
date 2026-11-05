@@ -43,6 +43,37 @@ def validate(plan, workflow, events_required=None):
             'scope': 'W5 static configuration only; actual Hosting protections remain unverified'}
 
 
+def validate_pin_sync(workflow):
+    """Static guard for the CL-CI-05 auto-repin workflow.
+
+    It is the only workflow allowed a push, and the push must be limited to
+    committing the auto-regenerated integration-sources.json lock. It must
+    never deploy or merge anything.
+    """
+    events = workflow.get('on', {})
+    if (set(events) != {'push', 'workflow_dispatch'} or
+            events.get('push', {}).get('branches') != ['main']):
+        raise ValueError('Pin-sync workflow may only run on pushes to main')
+    if not workflow.get('jobs'):
+        raise ValueError('Pin-sync job missing')
+    for job in workflow['jobs'].values():
+        if any(k in job for k in ('environment', 'continue-on-error')):
+            raise ValueError('Pin-sync job must not add environments or ignored failures')
+        for step in job.get('steps', []):
+            if any(k in step for k in ('continue-on-error', 'permissions')):
+                raise ValueError('Pin-sync step override is forbidden')
+            text = str(step.get('run', '')) + ' ' + str(step.get('uses', ''))
+            if re.search(r'deploy-pages|upload-pages-artifact|gh\s+pr\s+merge|\|\|\s*true|set\s+\+e', text):
+                raise ValueError('Pin-sync workflow contains publish/merge or ignored failure')
+            if 'git push' in text and not re.search(
+                    r'sync_integration_sources\.py\s+--root\s+\.', text):
+                raise ValueError('Pin-sync must refresh the lock before pushing')
+            if 'git push' in text and 'integration-sources.json' not in text:
+                raise ValueError('Pin-sync push must be gated on the lock diff only')
+    return {'status': 'PASS', 'deployment_allowed': False,
+            'scope': 'Pin-sync commits the auto-regenerated lock only'}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--root', type=Path, default=Path('.'))
@@ -54,6 +85,8 @@ def main():
         validate(plan, workflow)
         release_workflow = yaml.load((args.root / '.github/workflows/v2-release-readiness.yml').read_text(), Loader=yaml.BaseLoader)
         print(json.dumps(validate(plan, release_workflow, {'pull_request'})))
+        pin_sync_workflow = yaml.load((args.root / '.github/workflows/v2-pin-sync.yml').read_text(), Loader=yaml.BaseLoader)
+        print(json.dumps(validate_pin_sync(pin_sync_workflow)))
         return 0
     except Exception as exc:
         print(json.dumps({'status': 'FAIL', 'error': str(exc), 'deployment_allowed': False}))

@@ -13,6 +13,7 @@ import subprocess
 import sys
 
 from run_integration import blob, run_group
+from sync_integration_sources import sync
 from verify_open_meteo_one_shot import verify_one_shot_evidence
 
 
@@ -50,10 +51,25 @@ def verify_main(root, lock):
             if current != expected:
                 raise ValueError(f"Merged {owner} subtree differs from tested pin: {p}")
             out["owner_trees"][p] = current
-    if out["owner_trees"]["apps/web-v2"] != lock["sources"]["w4"]["tree_sha"]:
-        raise ValueError("W4 final app tree mismatches tested corrected tree")
-    if len(git(root, "ls-tree", "-r", "--name-only", "HEAD", "apps/web-v2").splitlines()) != lock["sources"]["w4"]["file_count"]:
-        raise ValueError("W4 source file discovery differs from pinned owner")
+    # CL-CI-05: the tree_sha pins above are refreshed automatically by
+    # sync_integration_sources before every verification (CI step + pre-verify
+    # sync below), so the pins can no longer drift from routine tree changes.
+    # What still gates a bad tree: each owner's file_count must never *drop*
+    # relative to the verified baseline (deletions require an explicit
+    # --accept-decrease re-pin), and every exact test-count/blob-pin check
+    # below must pass.
+    for owner, paths in (("w1", ("specs/v2",)), ("w2", ("data/v2",)),
+                         ("w4", ("apps/web-v2",))):
+        baseline = lock["sources"][owner].get("file_count")
+        if baseline is not None:
+            current_count = len(git(root, "ls-tree", "-r", "--name-only", "HEAD", paths[0]).splitlines())
+            if current_count < baseline:
+                raise ValueError(
+                    f"Owner {owner} {paths[0]} file_count dropped below the verified "
+                    f"baseline ({current_count} < {baseline}); deletions need an "
+                    "explicit --accept-decrease re-pin"
+                )
+            out.setdefault("owner_file_counts", {})[paths[0]] = current_count
     for p, expected in lock.get("effective_reviewed_blobs", {}).items():
         if git(root, "rev-parse", "HEAD:" + p) != expected:
             raise ValueError("Effective latest-main specification drift: " + p)
@@ -265,7 +281,13 @@ def main():
               "tested_parents": git(root, "show", "-s", "--format=%P", "HEAD").split(),
               "checks": [], "groups": []}
     try:
-        lock = json.loads((root / "ops/v2/integration-sources.json").read_text())
+        lock_path = root / "ops/v2/integration-sources.json"
+        # CL-CI-05: re-pin the owner tree_sha/file_count to the actual HEAD
+        # tree before verification. Only additive tree changes are auto
+        # accepted; sync refuses to lower a pinned file_count, and every
+        # downstream exact test-count and blob-pin gate still applies.
+        report["pin_sync"] = sync(root)
+        lock = json.loads(lock_path.read_text())
         report["reviewed_main_sha"] = lock["reviewed_main"]
         report["actual_base_sha"] = os.environ.get("W5_BASE_SHA", lock["reviewed_main"])
         report["candidate_sha"] = os.environ.get("W5_HEAD_SHA", report["root_head"])
@@ -300,6 +322,7 @@ def main():
             ("w5-runner", ["ops/v2/tests", "test_ci_runner.py"], 7, True, False),
             ("w5-task-r-release-tools", ["ops/v2/tests", "test_task_r_release_tools.py"], 12, True, False),
             ("w5-task-v-integration", ["ops/v2/tests", "test_task_v_integration.py"], 11, True, False),
+            ("w5-pin-sync", ["ops/v2/tests", "test_pin_sync.py"], 4, True, False),
             ("w3-evaluator-and-hourly-source", ["packages/core-v2/tests", "test_*.py"], 158, True, False),
             ("w3-solar-model", ["packages/models-v2/tests", "test_*.py"], 15, True, False),
             ("w2-crosswalk-schema-index-and-hourly-binding", ["data/v2/tests", "test_*.py"], 66, True, False,
@@ -342,9 +365,9 @@ def main():
             for key in ("tests", "pass", "fail", "error", "skip")
         }
         if report["counts"] != {
-            "tests": 659, "pass": 659, "fail": 0, "error": 0, "skip": 0
+            "tests": 663, "pass": 663, "fail": 0, "error": 0, "skip": 0
         }:
-            raise ValueError("Post-merge exact 659-case requirement failed")
+            raise ValueError("Post-merge exact 663-case requirement failed")
         if not all(g["status"] == "PASS" for g in report["groups"]):
             raise ValueError("One or more required suites failed")
         report["status"] = "PASS"

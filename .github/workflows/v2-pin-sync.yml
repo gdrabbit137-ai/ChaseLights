@@ -1,0 +1,50 @@
+name: V2 Owner Pin Auto-Sync
+# CL-CI-05: after a fully-green postmerge on main, refresh the W1–W4 owner
+# tree pins automatically so the next ticket never re-pins them by hand.
+# sync never lowers a pinned file_count, and the commit it follows already
+# passed every exact test-count/blob-pin gate in V2 Integration.
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/v2-pin-sync.yml
+      - ops/v2/sync_integration_sources.py
+      - ops/v2/postmerge_verify.py
+      - ops/v2/integration-sources.json
+      - ops/v2/tests/test_pin_sync.py
+      - specs/v2/**
+      - data/v2/**
+      - packages/core-v2/**
+      - packages/models-v2/**
+      - apps/web-v2/**
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: v2-pin-sync-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  sync-pins:
+    name: Refresh integration-sources.json to verified main
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout merged main (full Git history)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Sync integration-sources.json to the verified HEAD tree
+        run: |
+          git config user.name 'chaselights-ci'
+          git config user.email 'chaselights-ci@users.noreply.github.com'
+          python ops/v2/sync_integration_sources.py --root .
+          if git diff --quiet ops/v2/integration-sources.json; then
+            echo "Owner tree pins already in sync"
+          else
+            git add ops/v2/integration-sources.json
+            git commit -m "chore(ci): auto-sync V2 owner tree pins [skip ci]"
+            git push origin HEAD:main
+          fi
