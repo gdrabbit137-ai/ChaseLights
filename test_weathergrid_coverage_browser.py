@@ -323,5 +323,82 @@ class WeatherGridCoverageBrowserTest(unittest.TestCase):
         self.assertNotIn("lon", camera)
 
 
+class RegionCoverageBrowserTest(unittest.TestCase):
+    """CL-DATA-07: per-region coverage exports carry the region layer list."""
+
+    def test_region_layer_list_is_data_driven_fail_closed(self):
+        from build_weathergrid_coverage_browser import region_layer_list
+
+        layers = region_layer_list("us", "weathergrid")
+        # Only sources with a PUBLISHED us bundle may appear — a missing
+        # bundle (e.g. VIIRS pending the live-ingest dispatch, CAMS pending
+        # a quota-available fetch) must never advertise layers the region
+        # cannot render.
+        self.assertIn("gfs", layers)
+        self.assertIn("icon", layers)
+        self.assertNotIn("viirs", layers, "no us VIIRS bundle is published yet")
+        self.assertNotIn("cwa", layers)
+        self.assertNotIn("jma", layers)
+        self.assertNotIn("himawari", layers)
+        self.assertNotIn("cams", layers,
+            "no us CAMS bundle is published yet (free-tier daily quota)")
+
+    def test_region_layer_list_keys_always_match_published_bundle_files(self):
+        # Structural guarantee that survives bundle landings: every source
+        # key in the layer list must correspond to an existing bundle file,
+        # and every listed layer must be a field that bundle actually carries.
+        from build_weathergrid_coverage_browser import region_layer_list
+
+        files = {
+            "gfs": "gfs_{r}_weather_browser.json",
+            "icon": "icon_{r}_cloud_browser.json",
+            "cwa": "cwa_wrf3_{r}_weather_browser.json",
+            "jma": "jma_msm_{r}_cloud_browser.json",
+            "himawari": "himawari9_{r}_cloud_browser.json",
+            "cams": "cams_global_{r}_aod_browser.json",
+            "viirs": "viirs_nightlights_{r}_browser.json",
+        }
+        for region in ("tw", "us"):
+            layers = region_layer_list(region, "weathergrid")
+            for source_id, field_names in layers.items():
+                path = Path("weathergrid") / files[source_id].format(r=region)
+                self.assertTrue(path.exists(), f"{source_id} listed without {path}")
+                bundle = json.loads(path.read_text(encoding="utf-8"))
+                self.assertTrue(set(field_names) <= set(bundle.get("fields", {})))
+
+    def test_region_layer_list_ignores_missing_or_malformed_bundles(self):
+        import tempfile
+
+        from build_weathergrid_coverage_browser import region_layer_list
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "gfs_tw_weather_browser.json").write_text(
+                json.dumps({"fields": {"total_cloud_percent": {}}}), encoding="utf-8"
+            )
+            (root / "icon_tw_cloud_browser.json").write_text("not json", encoding="utf-8")
+            layers = region_layer_list("tw", str(root))
+            self.assertEqual(layers, {"gfs": ["total_cloud_percent"]})
+
+    def test_apply_region_scope_filters_spots_and_tags_region(self):
+        from build_weathergrid_coverage_browser import apply_region_scope
+
+        payload = {
+            "schema_version": 1,
+            "spots": [
+                {"spot_id": "tw-001", "opportunities": []},
+                {"spot_id": "us-014", "opportunities": []},
+            ],
+        }
+        scoped = apply_region_scope(payload, "us", "weathergrid")
+        self.assertEqual([s["spot_id"] for s in scoped["spots"]], ["us-014"])
+        self.assertEqual(scoped["region"], "us")
+        self.assertIsInstance(scoped["region_layers"], dict)
+        # The tw default path (no --region) must stay untouched.
+        untouched = {"schema_version": 1, "spots": [{"spot_id": "tw-001"}]}
+        self.assertNotIn("region", untouched)
+        self.assertNotIn("region_layers", untouched)
+
+
 if __name__ == "__main__":
     unittest.main()

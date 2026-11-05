@@ -1,4 +1,4 @@
-name: B169 VIIRS Live Taiwan Ingest
+name: B169 VIIRS Live WeatherGrid Ingest
 
 on:
   workflow_dispatch:
@@ -7,10 +7,14 @@ on:
         description: "VNP46A4 composite year"
         required: true
         default: "2025"
-      bbox:
-        description: "left,bottom,right,top"
+      region:
+        description: "Region to ingest (tw | us)"
         required: true
-        default: "119.5,21.5,122.5,25.5"
+        default: "tw"
+      bbox:
+        description: "left,bottom,right,top (empty = region default)"
+        required: false
+        default: ""
 
 permissions:
   contents: write
@@ -18,7 +22,9 @@ permissions:
 jobs:
   live-ingest:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    # CL-DATA-07: the us window pulls ~18 VNP46A4 tiles (~1 GB+); 30 minutes
+    # let a slow LAADS transfer cancel the whole ingest silently.
+    timeout-minutes: 60
     env:
       EARTHDATA_TOKEN: ${{ secrets.EARTHDATA_TOKEN }}
     steps:
@@ -34,18 +40,45 @@ jobs:
           fi
       - name: Install HDF5 reader
         run: python -m pip install --disable-pip-version-check h5py
+      - name: Resolve region parameters
+        id: region
+        run: |
+          # CL-DATA-07: the ingest is region-parameterized. us uses the us
+          # region bbox (125-70.5°W / 25-49.5°N, the GFS us convention);
+          # tw keeps its historical default. Outputs follow
+          # viirs_nightlights_<region>_browser.json, matching
+          # assets/weather-map.js REGION_SOURCE_CATALOG.viirs.file().
+          if [ "${{ inputs.region }}" = "us" ]; then
+            default_bbox="125,25,-70.5,49.5"
+            browser="viirs_nightlights_us_browser.json"
+            qc="viirs_nightlights_us_qc.json"
+            label="US"
+          else
+            default_bbox="119.5,21.5,122.5,25.5"
+            browser="viirs_nightlights_tw_browser.json"
+            qc="viirs_nightlights_tw_qc.json"
+            label="Taiwan"
+          fi
+          if [ -n "${{ inputs.bbox }}" ]; then
+            echo "bbox=${{ inputs.bbox }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "bbox=$default_bbox" >> "$GITHUB_OUTPUT"
+          fi
+          echo "browser=$browser" >> "$GITHUB_OUTPUT"
+          echo "qc=$qc" >> "$GITHUB_OUTPUT"
+          echo "label=$label" >> "$GITHUB_OUTPUT"
       - name: Discover and download VNP46A4
         run: |
           python viirs_lads_download.py \
             --year "${{ inputs.year }}" \
-            --bbox "${{ inputs.bbox }}" \
+            --bbox "${{ steps.region.outputs.bbox }}" \
             --output-dir .cache/viirs
-      - name: Build Taiwan WeatherGrid mosaic
+      - name: Build WeatherGrid mosaic
         shell: bash
         run: |
           mapfile -t files < <(find .cache/viirs -maxdepth 1 -name 'VNP46A4*.h5' -type f | sort)
           if [ "${#files[@]}" -lt 1 ]; then
-            echo "::error::No VNP46A4 source tiles were downloaded for the requested Taiwan bbox."
+            echo "::error::No VNP46A4 source tiles were downloaded for the requested ${{ steps.region.outputs.label }} bbox."
             exit 1
           fi
           args=()
@@ -55,28 +88,29 @@ jobs:
           python viirs_nightlights_ingest.py \
             "${args[@]}" \
             --year "${{ inputs.year }}" \
-            --bbox "${{ inputs.bbox }}" \
-            --output weathergrid/viirs_nightlights_tw_browser.json \
-            --qc-output weathergrid/viirs_nightlights_tw_qc.json
+            --bbox "${{ steps.region.outputs.bbox }}" \
+            --output "weathergrid/${{ steps.region.outputs.browser }}" \
+            --qc-output "weathergrid/${{ steps.region.outputs.qc }}"
       - name: Validate artifact semantics
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
-          data=json.loads(Path("weathergrid/viirs_nightlights_tw_browser.json").read_text())
-          qc=json.loads(Path("weathergrid/viirs_nightlights_tw_qc.json").read_text())
+          browser = "${{ steps.region.outputs.browser }}"
+          data=json.loads(Path(f"weathergrid/{browser}").read_text())
+          qcj=json.loads(Path("weathergrid/${{ steps.region.outputs.qc }}").read_text())
           assert data["source"]=="nasa_black_marble_vnp46a4"
           assert "nighttime_lights_radiance_nw_cm2_sr" in data["fields"]
           assert data["provenance"]["doi"]=="10.5067/VIIRS/VNP46A4.002"
           assert "not Bortle class" in data["provenance"]["semantics"]
-          assert not qc["flags"], qc
-          print({"rows":data["grid"]["rows"],"cols":data["grid"]["cols"],"qc":qc["quality_counts"]})
+          assert not qcj["flags"], qcj
+          print({"browser":browser,"rows":data["grid"]["rows"],"cols":data["grid"]["cols"],"qc":qcj["quality_counts"]})
           PY
       - name: Publish QC-passing VIIRS snapshot
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add -- weathergrid/viirs_nightlights_tw_browser.json weathergrid/viirs_nightlights_tw_qc.json
+          git add -- "weathergrid/${{ steps.region.outputs.browser }}" "weathergrid/${{ steps.region.outputs.qc }}"
           if git diff --cached --quiet; then
             echo "VIIRS snapshot unchanged."
           else
@@ -93,7 +127,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: viirs-nightlights-tw-${{ inputs.year }}
+          name: viirs-nightlights-${{ inputs.region }}-${{ inputs.year }}
           path: |
-            weathergrid/viirs_nightlights_tw_browser.json
-            weathergrid/viirs_nightlights_tw_qc.json
+            weathergrid/${{ steps.region.outputs.browser }}
+            weathergrid/${{ steps.region.outputs.qc }}

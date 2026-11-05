@@ -29,6 +29,18 @@ TAIWAN_BBOX = {
     "bottomlat": 4.8,
     "toplat": 40.0,
 }
+# CL-DATA-07: us display range (125–70.5°W / 25–49.5°N, the GFS us convention)
+# with the same small outward margin on the 0.4° request lattice. The lattice
+# corners are the lattice-aligned points that still contain the region bbox:
+# left/bottom extend 0.2° outward; right/top sit at the first lattice points
+# at or beyond the region edge (−70.4 / 49.6).
+US_BBOX = {
+    "leftlon": -125.2,
+    "rightlon": -70.4,
+    "bottomlat": 24.8,
+    "toplat": 49.6,
+}
+REGION_BBOXES = {"tw": TAIWAN_BBOX, "us": US_BBOX}
 REQUEST_STEP_DEG = 0.4
 ENCODING_SCALE = 0.001
 NATIVE_RESOLUTION_KM = 45.0
@@ -44,15 +56,25 @@ def axis_values(start: float, stop: float, step: float) -> list[float]:
     return values
 
 
-def request_grid() -> tuple[list[float], list[float], list[tuple[float, float]]]:
+def request_grid(bbox: dict | None = None) -> tuple[list[float], list[float], list[tuple[float, float]]]:
+    window = bbox if bbox is not None else TAIWAN_BBOX
     lats = axis_values(
-        TAIWAN_BBOX["bottomlat"], TAIWAN_BBOX["toplat"], REQUEST_STEP_DEG
+        window["bottomlat"], window["toplat"], REQUEST_STEP_DEG
     )
     lons = axis_values(
-        TAIWAN_BBOX["leftlon"], TAIWAN_BBOX["rightlon"], REQUEST_STEP_DEG
+        window["leftlon"], window["rightlon"], REQUEST_STEP_DEG
     )
     points = [(lat, lon) for lat in lats for lon in lons]
     return lats, lons, points
+
+
+def region_bundle_filename(region: str) -> str:
+    """Browser bundle filename for a region (tw keeps its legacy name)."""
+    return f"cams_global_{region}_aod_browser.json"
+
+
+def region_qc_filename(region: str) -> str:
+    return f"cams_global_{region}_aod_qc.json"
 
 
 def _chunks(items: list[tuple[float, float]], size: int) -> Iterable[list[tuple[float, float]]]:
@@ -147,9 +169,11 @@ def fetch_responses(
 def build_bundle(
     responses: list[dict],
     *,
+    region: str = "tw",
     retrieved_at: datetime | None = None,
 ) -> tuple[dict, dict]:
-    lats, lons, points = request_grid()
+    bbox = REGION_BBOXES[region]
+    lats, lons, points = request_grid(bbox)
     if len(responses) != len(points):
         raise ValueError(f"Expected {len(points)} location responses, got {len(responses)}")
 
@@ -289,7 +313,7 @@ def build_bundle(
             "label": "CAMS Global latest via Open-Meteo",
             "retrieved_at_utc": retrieved_iso,
         },
-        "bbox": dict(TAIWAN_BBOX),
+        "bbox": dict(bbox),
         "provenance": {
             "upstream_model": "CAMS Global Atmospheric Composition Forecast",
             "api": "Open-Meteo Air Quality API",
@@ -370,24 +394,84 @@ def build_bundle(
     return bundle, qc
 
 
+def _state_key(batch: list[tuple[float, float]]) -> str:
+    lat, lon = batch[0]
+    return f"{lat:.4f},{lon:.4f}"
+
+
+def load_state(path: str | None) -> dict[str, list[dict]]:
+    if not path:
+        return {}
+    state_path = Path(path)
+    if not state_path.exists():
+        return {}
+    try:
+        data = json.loads(state_path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+    return data if isinstance(data, dict) else {}
+
+
+def save_state(path: str | None, state: dict[str, list[dict]]) -> None:
+    if not path:
+        return
+    state_path = Path(path)
+    state_path.parent.mkdir(parents=True, exist_ok=True)
+    state_path.write_text(
+        json.dumps(state, ensure_ascii=False, separators=(",", ":")),
+        encoding="utf-8",
+    )
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--output-dir", default="cams_aod_output")
     parser.add_argument("--forecast-hours", type=int, default=120)
     parser.add_argument("--batch-size", type=int, default=60)
+    parser.add_argument("--region", choices=sorted(REGION_BBOXES), default="tw")
+    parser.add_argument("--batch-delay-s", type=float, default=2.0)
+    parser.add_argument("--retries", type=int, default=5)
+    parser.add_argument("--state-file", default=None)
+    parser.add_argument("--resume", action="store_true")
     args = parser.parse_args()
+    region = args.region
 
     out = Path(args.output_dir)
     out.mkdir(parents=True, exist_ok=True)
-    _, _, points = request_grid()
-    responses = fetch_responses(
-        points,
-        forecast_hours=args.forecast_hours,
-        batch_size=args.batch_size,
+    _, _, points = request_grid(REGION_BBOXES[region])
+    state = load_state(args.state_file) if args.resume else {}
+    responses: list[dict] = []
+    fetched_batches = 0
+    # CL-DATA-07: the Open-Meteo free tier enforces an hourly request quota
+    # that one full-width sweep (~8.7k location-calls) can exhaust mid-run.
+    # Each completed batch is persisted to --state-file so a quota-limited
+    # run can be re-invoked with --resume until the sweep completes; the
+    # bundle is only built once every request-grid batch is on disk.
+    for batch in _chunks(points, args.batch_size):
+        key = _state_key(batch)
+        if key in state:
+            responses.extend(state[key])
+            continue
+        batch_responses = fetch_responses(
+            batch,
+            forecast_hours=args.forecast_hours,
+            batch_size=args.batch_size,
+            batch_delay_s=args.batch_delay_s,
+            retries=args.retries,
+        )
+        state[key] = batch_responses
+        save_state(args.state_file, state)
+        responses.extend(batch_responses)
+        fetched_batches += 1
+    print(
+        json.dumps(
+            {"fetched_batches": fetched_batches, "resumed_batches": len(state) - fetched_batches},
+            indent=2,
+        )
     )
-    bundle, qc = build_bundle(responses)
-    bundle_path = out / "cams_global_tw_aod_browser.json"
-    qc_path = out / "cams_global_tw_aod_qc.json"
+    bundle, qc = build_bundle(responses, region=region)
+    bundle_path = out / region_bundle_filename(region)
+    qc_path = out / region_qc_filename(region)
     bundle_path.write_text(
         json.dumps(bundle, ensure_ascii=False, separators=(",", ":")),
         encoding="utf-8",

@@ -6,15 +6,19 @@ from cams_aod_weathergrid import (
     FIELD_GRID,
     PM25_FIELD_GRID,
     PM25_ENCODING_SCALE,
+    REGION_BBOXES,
+    US_BBOX,
     build_bundle,
     fetch_responses,
+    region_bundle_filename,
+    region_qc_filename,
     request_grid,
 )
 import time as _time
 
 
-def fake_responses(hours=13):
-    lats, lons, points = request_grid()
+def fake_responses(hours=13, bbox=None):
+    lats, lons, points = request_grid(bbox)
     times = [f"2026-10-01T{hour:02d}:00" for hour in range(hours)]
     responses = []
     for index, (lat, lon) in enumerate(points):
@@ -190,6 +194,45 @@ class CamsAodWeatherGridTests(unittest.TestCase):
         self.assertEqual(lons[-1], 145.2)
         self.assertEqual(len(points), len(lats) * len(lons))
         self.assertEqual((len(lats), len(lons)), (89, 102))
+
+    def test_request_grid_covers_us_region_on_point_four_degree_lattice(self):
+        # CL-DATA-07: us window (125–70.5°W / 25–49.5°N region bbox) on the
+        # same 0.4° request lattice, with the same small outward margin.
+        lats, lons, points = request_grid(US_BBOX)
+        self.assertEqual(lats[0], 24.8)
+        self.assertEqual(lats[-1], 49.6)
+        self.assertEqual(lons[0], -125.2)
+        self.assertEqual(lons[-1], -70.4)
+        self.assertEqual(len(points), len(lats) * len(lons))
+        self.assertEqual((len(lats), len(lons)), (63, 138))
+
+    def test_us_window_fully_contains_the_us_region_bbox(self):
+        # The GFS/ICON us convention (weather-map-regions.js REGION_BBOXES.us);
+        # a source that does not fully contain it must not be offered in the
+        # us dropdown (sourcesForRegion coverage rule).
+        region = {"leftlon": -125.0, "rightlon": -70.5, "bottomlat": 25.0, "toplat": 49.5}
+        self.assertLessEqual(US_BBOX["leftlon"], region["leftlon"])
+        self.assertGreaterEqual(US_BBOX["rightlon"], region["rightlon"])
+        self.assertLessEqual(US_BBOX["bottomlat"], region["bottomlat"])
+        self.assertGreaterEqual(US_BBOX["toplat"], region["toplat"])
+        self.assertEqual(REGION_BBOXES["tw"], {
+            "leftlon": 104.8, "rightlon": 145.2, "bottomlat": 4.8, "toplat": 40.0,
+        })
+
+    def test_us_bundle_carries_us_window_and_legacy_tw_filenames_unchanged(self):
+        bundle, qc = build_bundle(
+            fake_responses(bbox=US_BBOX),
+            region="us",
+            retrieved_at=datetime(2026, 10, 1, 8, tzinfo=timezone.utc),
+        )
+        self.assertEqual(bundle["model"], "CAMS_GLOBAL")
+        self.assertEqual(bundle["bbox"], US_BBOX)
+        self.assertEqual(qc["grid_rows"], 63)
+        self.assertEqual(qc["grid_cols"], 138)
+        self.assertEqual(qc["request_point_count"], 63 * 138)
+        self.assertEqual(region_bundle_filename("us"), "cams_global_us_aod_browser.json")
+        self.assertEqual(region_qc_filename("us"), "cams_global_us_aod_qc.json")
+        self.assertEqual(region_bundle_filename("tw"), "cams_global_tw_aod_browser.json")
 
     def test_bundle_publishes_native_three_hour_timeline(self):
         bundle, qc = build_bundle(

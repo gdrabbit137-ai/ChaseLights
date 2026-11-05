@@ -14,10 +14,23 @@ class ViirsLiveWorkflowContractTest(unittest.TestCase):
         self.assertNotIn("echo $EARTHDATA_TOKEN", self.workflow)
 
     def test_live_ingest_mosaics_all_discovered_tiles(self):
-        self.assertIn("Build Taiwan WeatherGrid mosaic", self.workflow)
+        self.assertIn("Build WeatherGrid mosaic", self.workflow)
         self.assertIn('args+=(--input-h5 "$file")', self.workflow)
         self.assertIn('"${args[@]}"', self.workflow)
         self.assertIn("No VNP46A4 source tiles were downloaded", self.workflow)
+
+    def test_live_ingest_is_region_parameterized(self):
+        # CL-DATA-07: tw is the default, us uses the us region bbox and the
+        # viirs_nightlights_<region> filename convention that
+        # assets/weather-map.js REGION_SOURCE_CATALOG.viirs.file() resolves.
+        self.assertIn('default: "tw"', self.workflow)
+        self.assertIn('default_bbox="125,25,-70.5,49.5"', self.workflow)
+        self.assertIn('browser="viirs_nightlights_us_browser.json"', self.workflow)
+        self.assertIn('qc="viirs_nightlights_us_qc.json"', self.workflow)
+        self.assertIn('default_bbox="119.5,21.5,122.5,25.5"', self.workflow)
+        self.assertIn('browser="viirs_nightlights_tw_browser.json"', self.workflow)
+        # The explicit bbox input still overrides the region default.
+        self.assertIn('if [ -n "${{ inputs.bbox }}" ]', self.workflow)
 
 
     def test_artifact_keeps_nasa_semantics(self):
