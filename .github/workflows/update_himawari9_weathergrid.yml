@@ -92,7 +92,16 @@ jobs:
           age_minutes = (
               datetime.now(timezone.utc) - observed_end
           ).total_seconds() / 60.0
-          assert -5 <= age_minutes <= 90, age_minutes
+          # CL-CI-09: this gate already picks the NEWEST complete CMSK+CHGT
+          # pair available (36-slot lookback), so a high age here is upstream
+          # NOAA L2 distribution lag, not a local staleness bug. The old
+          # 90-minute bound was tighter than observed lag windows and turned
+          # brief distribution delays into intermittent AssertionError runs
+          # (which blank the layer entirely). 180 minutes (~18x the 10-min
+          # slot cadence) still fails on pathological staleness while riding
+          # through normal upstream lag; the every-10-min cron publishes a
+          # newer snapshot as soon as it appears.
+          assert -5 <= age_minutes <= 180, age_minutes
 
           distances = qc.get("nearest_distance_m", {})
           for field in ("observed_cloud_mask", "cloud_top_height_m"):

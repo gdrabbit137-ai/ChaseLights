@@ -45,4 +45,22 @@ jobs:
           git config user.email "actions@users.noreply.github.com"
           git add apps/web-v2/evaluations-latest.json apps/web-v2/evaluations-details data/v2/evaluations/
           git diff --cached --quiet || git commit -m "evaluations(v2): scheduled GUIDANCE bundle refresh ($(date -u +%FT%TZ))"
-          git push
+          # CL-CI-09: fetch-first retry protocol (ops-playbook snapshot-conflict
+          # protocol) — two consecutive nights the push was rejected with
+          # "remote contains work that you do not have locally" (concurrent
+          # publisher/worker landed between checkout and push). fetch -> rebase
+          # -> push, retried with backoff, instead of a bare one-shot `git push`.
+          pushed=false
+          for i in 1 2 3 4 5; do
+            if git fetch origin main --no-tags \
+              && git rebase origin/main \
+              && git push origin HEAD:main; then
+              pushed=true
+              break
+            fi
+            sleep $((i * 5))
+          done
+          if [[ "$pushed" != "true" ]]; then
+            echo "Failed to publish evaluation bundle after fetch-first retries."
+            exit 1
+          fi

@@ -64,8 +64,28 @@ jobs:
             /tw_weather.json
             /jp_weather.json
             /us_weather.json
-            # Root modules imported by w3 astro tests and w4 node tests
+            # Root modules imported by w3 astro tests and w4 node tests.
+            # CL-CI-09: astro_hourly lazily does `from fetch_data import
+            # _radec_to_altaz` (moon_target_separation path), and fetch_data
+            # imports the full runtime-module chain below — every transitive
+            # root module must be in this list or the sparse checkout fails
+            # the ASTRO_SAMPLING_PROVENANCE import with a truncated tree.
             /fetch_data.py
+            /opportunity_runtime.py
+            /access_state.py
+            /astrophotography_environment.py
+            /aurora_state.py
+            /denali_access.py
+            /johnston_ridge_access.py
+            /marine_state.py
+            /photography_environment.py
+            /photography_transparency.py
+            /runtime_dependencies.py
+            /shinhotaka_access.py
+            /spatial_weather.py
+            /tide_state.py
+            /viirs_nightlights_weathergrid.py
+            /yahiko_access.py
             /scripts/
             /weathergrid/
             /specs/v2/

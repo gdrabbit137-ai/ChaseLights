@@ -36,6 +36,38 @@ on:
   workflow_run:
     workflows: ["Update WeatherGrid V2 JMA Native Tiles", "Update WeatherGrid V2 CWA Derived Tiles"]
     types: [completed]
+  # CL-CI-09: re-add a push trigger scoped to CODE paths only (no
+  # weathergrid/v2/** bot data, which is what raced Pages publication and
+  # made CL-CI-08 drop the trigger). PR paths + workflow_run (publishers)
+  # cover code changes only when the change came in via PR or a publisher
+  # completion; direct pushes to main of code files — e.g.
+  # test_weathergrid_v2_experiment.py itself or the publish modules —
+  # currently run nothing. Bot data commits stay outside the trigger.
+  push:
+    branches: [main]
+    paths:
+      - "assets/weather-map-v2-tile-loader.js"
+      - "assets/weather-map-v2-sampling.js"
+      - "test_weathergrid_v2_experiment.py"
+      - "test_weathergrid_v2_geo.mjs"
+      - "test_weathergrid_v2_browser_tiles.py"
+      - "test_weathergrid_viewport_fetch.py"
+      - "weathergrid_viewport_fetch.py"
+      - "weathergrid_native_viewport.py"
+      - "weathergrid_v2_cache_index.py"
+      - "test_weathergrid_v2_cache_index.py"
+      - "weathergrid_v2_capacity.py"
+      - "test_weathergrid_v2_capacity.py"
+      - "weathergrid_v2_tile_export.py"
+      - "test_weathergrid_v2_tile_export.py"
+      - "weathergrid_v2_publish.py"
+      - "test_weathergrid_v2_publish.py"
+      - "weathergrid_v2_cwa_publish.py"
+      - "test_weathergrid_v2_cwa_publish.py"
+      - "test_weathergrid_v2_browser_tiles.py"
+      - "weathergrid_v2_public_smoke.py"
+      - "cwa_weathergrid_derived.py"
+      - ".github/workflows/weathergrid_v2_experiment.yml"
   workflow_dispatch:
 
 jobs:
