@@ -85,6 +85,33 @@ assert.equal(rendered['zh-TW'],'低雲太厚，山頭沒入雲中');
 assert.equal(rendered.en,'Low cloud swallows the peak');
 assert.equal(rendered.ja,'低層雲が厚く、山頂が雲に埋もれます');
 console.log('CL-UI-32 headless render OK:', JSON.stringify(rendered));
+
+// CL-COPY-01: the handwritten overrides table must be SERVED, and the three
+// showcase cards (漁人碼頭 tw-003-P01 / 大屯山雲海 tw-001-P02 / 象山 tw-002-P02)
+// must render their new per-spot copy through the real lookup order.
+const overridesServed = await evaljs(`fetch('./data/v2/copy/fail_reason_overrides.json').then(r=>r.json()).then(j=>({size:Object.keys(j).length, hit:!!j['tw-003-P01']}))`);
+assert.ok(overridesServed.hit, 'overrides table served');
+const showcase = await evaljs(`(async () => {
+  const src = await fetch('./assets/app.js?v=cl-copy-01-check').then(r=>r.text());
+  const i = src.indexOf('const V2_FAIL_PRIORITY');
+  const code = src.slice(i, src.indexOf('// CL-UI-12: day0 (today) qualifying hours', i));
+  const ov = await fetch('./data/v2/copy/fail_reason_overrides.json').then(r=>r.json());
+  const out = {};
+  for (const [id, day] of [
+    ['tw-003-P01', {conditions:[{metric:'cloud_cover_low',day_verdict:'FAIL'}]}],
+    ['tw-001-P02', {conditions:[{metric:'lcl_height_m_agl',day_verdict:'FAIL'}]}],
+    ['tw-002-P02', {conditions:[{metric:'city_night_window',day_verdict:'FAIL'}]}],
+  ]) {
+    const fns = new Function('let currentLang="zh-TW";v2FailOverrides='+JSON.stringify(ov)+';'+code+
+      'return {v2DominantFailReason};')();
+    out[id] = fns.v2DominantFailReason(day.conditions, id);
+  }
+  return out;
+})()`);
+assert.equal(showcase['tw-003-P01'], '低雲太厚，碼頭與水面灰成一片');
+assert.equal(showcase['tw-001-P02'], '雲底太高，盆地裡沒有雲海');
+assert.equal(showcase['tw-002-P02'], '還沒暗到夜景好看');
+console.log('CL-COPY-01 headless showcase OK:', JSON.stringify(showcase));
 const shot = await send('Page.captureScreenshot',{format:'png'});
 console.log('shot:', join(OUT,'render.png'), Buffer.from(shot.data,'base64').length, 'bytes');
 chrome.kill(); server.close(); process.exit(0);
