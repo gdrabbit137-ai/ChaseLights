@@ -1,5 +1,10 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
+<!-- CL-CI-09: this page does NOT support a ?lang=en/ja URL parameter.
+     Language derives solely from the document lang attribute (zh-TW);
+     regional notes in weather-map.js follow documentElement.lang. Nothing
+     in the repo links to weather-map.html?lang=*, so no wiring was added
+     (and no path to remove) — the ambiguous URL form is unsupported. -->
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">

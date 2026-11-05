@@ -44,7 +44,12 @@ jobs:
     if: github.event_name != 'pull_request'
     needs: contract-tests
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    # CL-CI-09: the CL-CI-08 ReadTimeout retry (up to 6 attempts x 300s read
+    # timeout + backoff per batch) trades a fast crash for a long but legitimate
+    # refresh; 15 minutes let the job-timeout cancel it mid-run. The publish
+    # step itself stays short — 30 minutes gives the fetch retry chain room
+    # to complete instead of being silently cancelled and leaving stale data.
+    timeout-minutes: 30
     steps:
       - name: Checkout main
         uses: actions/checkout@v4
