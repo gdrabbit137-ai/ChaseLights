@@ -353,7 +353,7 @@ def main():
                 None, False, False),
             ("w4-node", ["node", "--test", "--test-isolation=none", "--test-timeout=120000",
                 "--test-reporter=tap", *[str(p.relative_to(root)) for p in sorted(
-                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 257, False, True),
+                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 260, False, True),
             ("w5-public-source-contract", ["node", "--test", "--test-reporter=tap",
                 "ops/v2/tests/public-source-contract.test.mjs"], 6, False, True),
             ("local-isolation", [sys.executable, "ops/v2/integration_gate.py", "--root", str(root)],
@@ -377,11 +377,12 @@ def main():
             for key in ("tests", "pass", "fail", "error", "skip")
         }
         # CL-CI-11: suite-count pins re-baselined after CL-UI-23/24 and the
-        # w3 evaluator/hourly additions: w3=170, w4-node=257, exact total=679.
+        # w3 evaluator/hourly additions: w3=170, w4-node=260 (CL-DATA-09 +3
+        # night-window pins), exact total=682.
         if report["counts"] != {
-            "tests": 679, "pass": 679, "fail": 0, "error": 0, "skip": 0
+            "tests": 682, "pass": 682, "fail": 0, "error": 0, "skip": 0
         }:
-            raise ValueError("Post-merge exact 679-case requirement failed")
+            raise ValueError("Post-merge exact 682-case requirement failed")
         if not all(g["status"] == "PASS" for g in report["groups"]):
             raise ValueError("One or more required suites failed")
         report["status"] = "PASS"

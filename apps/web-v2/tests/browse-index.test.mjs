@@ -12,8 +12,8 @@ const index=JSON.parse(rawIndex),source=JSON.parse(rawCatalog),catalog=importV21
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
 test('W2 index and 356 canonical sources remain source pinned (aurora removed 2026-10-26; us-022/tw-082-P06 removed 2026-10-31)',()=>{
-  assert.equal(sha256(rawIndex),'95dd5b750009e8c269fd55ebf281bb077d9188f16b3731bdb639aa76b15a54c0'); // CL-UI-25 re-anchor: 22 city_night contracts gained city_night_window
-  assert.equal(sha256(rawCatalog),'fcb481ba750aa242055d1fd413d4985fd339d7df1fee4791ac3deb871bb64703'); // CL-CI-13 re-anchor: browse/catalog source pointer advanced to CL-UI-25 regen commit
+  assert.equal(sha256(rawIndex),'ff58a297db248c01f4aaf6c12f5f2d69f44f7f5a3e79898c630546d37ec242c9'); // CL-DATA-09 re-anchor: tw-027-P02 gained the contract-level city_night_window (revision 2)
+  assert.equal(sha256(rawCatalog),'c0ce92a498ae2b2662caac8f538bc4b2b5c8392add10091518f17dbd8e3c8bc5'); // CL-DATA-09 re-anchor: browse/catalog source pointer advanced to the CL-DATA-09 regen commit
   assert.equal(validateBrowseIndex(index,catalog),index);
   assert.equal(source.opportunities.length,356);assert.equal(source.places.length,190);
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];
