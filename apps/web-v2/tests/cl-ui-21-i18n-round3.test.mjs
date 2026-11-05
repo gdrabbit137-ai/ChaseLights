@@ -97,7 +97,7 @@ test('CL-UI-21 B2: v2 none-copy follows the day filter in all three languages',(
     assert.ok(appSource.includes(`v2_none_after:'${after}`),lang+' day-after key');
   }
   assert.ok(appSource.includes("const v2NoneSubjectKey=()=>currentDayFilter==='tomorrow'?'v2_none_tomorrow':currentDayFilter==='after_tomorrow'?'v2_none_after':isFarDay(currentDayFilter)?'v2_none_far':'v2_none_today';"));
-  assert.ok(appSource.includes('${esc(d()[v2NoneSubjectKey()])}'));
+  assert.ok(appSource.includes("${esc(v2Best.state==='NOT_EVALUABLE'?d().eval2_unk:d()[v2NoneSubjectKey()])}"));
 });
 
 test('CL-UI-21 C3: no full-width separators remain in en rendering paths',()=>{
@@ -120,7 +120,7 @@ test('CL-UI-21 D4: place-modal now/next lines re-anchor to spot-local day vocabu
   assert.match(appSource,/\$\{esc\(nowLabel\)\} \$\{esc\(shortDateStamp\(live\.now\.local\)\)\}/);
   // CL-UI-22: the next line is re-anchored via v2NextWindowLocal and stamped
   // from the validated nextLocal instead of the raw bundle value.
-  assert.match(appSource,/\$\{esc\(shortDateStamp\(nextLocal\)\)\}/);
+  assert.match(appSource,/\$\{esc\(nextWindowStamp\(nextLocal,spot\.timezone\)\)\}/);
 });
 
 test('CL-UI-21 F6: provisional map link title is localized and short',()=>{

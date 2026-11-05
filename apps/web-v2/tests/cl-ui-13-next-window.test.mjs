@@ -103,9 +103,9 @@ test('CL-UI-13 (g): wiring — v2BestForSpot validates nextLocal via the spot ti
   assert.match(v2VerdictBlock,/oppDays:o\.days\|\|\[\]/);
   // The card renders the row only when a validated future value exists.
   const createSpotCardBlock=block('function createSpotCard','function distanceToSpotKm');
-  assert.match(createSpotCardBlock,/v2Best\.nextLocal\?`<div class="best-window-row">\$\{esc\(d\(\)\.v2_next_window\)\}<b>\$\{esc\(shortDateStamp\(v2Best\.nextLocal\)\)\}<\/b><\/div>`:''/);
-  // Fail-closed doc: the row renders only through the guarded ternary above;
-  // there is no unconditional v2_next_window rendering outside it.
+  assert.match(createSpotCardBlock,/v2Best\.nextLocal\?` · \$\{esc\(d\(\)\.v2_next_window\)\}<b>\$\{esc\(nextWindowStamp\(v2Best\.nextLocal,spot\.timezone\)\)\}<\/b>`:''/);
+  // CL-UI-27: the none-copy and the next window merged into ONE line — the
+  // old separate best-window-row for the none path no longer exists.
   const summaryMatches=[...createSpotCardBlock.matchAll(/best-window-row">\$\{esc\(d\(\)\.v2_next_window\)\}/g)].length;
-  assert.equal(summaryMatches,1);
+  assert.equal(summaryMatches,0);
 });

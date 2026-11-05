@@ -59,7 +59,7 @@ test('CL-UI-19 B1: v2_best_subject carries per-language punctuation, template ad
 test('CL-UI-19 B2: ja copy is natural Japanese with zero simplified 题',()=>{
   assert.ok(jaLine.includes("eval2_hours:'撮影に適した時間数'"));
   assert.ok(jaLine.includes("v2_next_window:'次の撮影に適した時間帯：'"));
-  assert.ok(jaLine.includes("v2_none_today:'本日に適したテーマなし。次の撮影に適した時間帯を確認してください'"));
+  assert.ok(jaLine.includes("v2_none_today:'本日に適したテーマなし'"));
   assert.ok(appSource.includes("genre_eval_link:'🌗 題材評価'"));
   assert.ok(appSource.includes("genre_eval_title:'撮影題材の条件評価を開く'"));
   assert.ok(appSource.includes("sort_hours:'撮影に適した時間数が多い順'"));
