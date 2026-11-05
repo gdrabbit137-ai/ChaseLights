@@ -1678,6 +1678,9 @@ def _access_open_for_spot(spot, local_dt, is_day, is_twilight):
 # already uses; MET Norway's global wave model covers the marine endpoints
 # (the marine API does not accept gfs_wave).
 OPEN_METEO_WEATHER_MODEL = "gfs_seamless"
+# CL-DATA-06R: legacy homepage cards consume daily conclusions from these
+# hourly payloads; 168h (7 days) matches the V2 evaluation horizon.
+FORECAST_HOURS = 168
 OPEN_METEO_MARINE_MODEL = "metno_seamless"
 
 
@@ -1690,7 +1693,7 @@ def _build_open_meteo_url(spot):
         "hourly=temperature_2m,dew_point_2m,relative_humidity_2m,cloud_cover_low,cloud_cover_mid,cloud_cover_high,wind_speed_10m,visibility,weather_code,precipitation,precipitation_probability,snowfall,snow_depth,direct_normal_irradiance,is_day",
         "daily=sunrise,sunset",
         "past_hours=24",
-        "forecast_hours=72",
+        f"forecast_hours={FORECAST_HOURS}",
         "timezone=auto",
         "timeformat=unixtime",
         "wind_speed_unit=ms",
@@ -1723,7 +1726,7 @@ def _build_spatial_open_meteo_url(plan):
         f"longitude={longitudes}",
         "hourly=temperature_2m,dew_point_2m,relative_humidity_2m,cloud_cover_low,visibility,weather_code,precipitation,wind_speed_10m",
         "past_hours=24",
-        "forecast_hours=72",
+        f"forecast_hours={FORECAST_HOURS}",
         "timezone=auto",
         "timeformat=unixtime",
         "wind_speed_unit=ms",
@@ -1782,7 +1785,7 @@ def _build_marine_open_meteo_url(spot):
         f"longitude={lon}",
         "hourly=wave_height,wave_direction,wave_period,wind_wave_height,wind_wave_direction,wind_wave_period,swell_wave_height,swell_wave_direction,swell_wave_period,swell_wave_peak_period",
         "past_hours=24",
-        "forecast_hours=72",
+        f"forecast_hours={FORECAST_HOURS}",
         "timezone=auto",
         "timeformat=unixtime",
         "cell_selection=sea",
@@ -1811,7 +1814,7 @@ def _build_tide_open_meteo_url(spot):
         f"longitude={lon}",
         "hourly=sea_level_height_msl",
         "past_hours=24",
-        "forecast_hours=72",
+        f"forecast_hours={FORECAST_HOURS}",
         "timezone=auto",
         "timeformat=unixtime",
         "cell_selection=sea",

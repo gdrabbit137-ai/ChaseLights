@@ -4,7 +4,7 @@ Usage:
     python get_weather.py <lat> <lon> [elevation_m]
 
 This helper intentionally mirrors the Score V5 production request shape: local timezone,
-24h past + 72h forecast, Unix timestamps, and wind speed in m/s.
+24h past + 168h (7-day) forecast, Unix timestamps, and wind speed in m/s.
 """
 import sys
 import json
@@ -41,7 +41,7 @@ params = {
     # gfs_seamless also matches the WeatherGrid GFS bundle on the map.
     "models": "gfs_seamless",
     "past_hours": 24,
-    "forecast_hours": 72,
+    "forecast_hours": 168,
 }
 if elevation is not None:
     params["elevation"] = elevation

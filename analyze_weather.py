@@ -173,6 +173,9 @@ def _compact_opportunity_snapshot(item, opportunity, window_start=None, window_e
     return snap
 
 
+LEGACY_DAILY_DAYS = 7  # CL-DATA-06R: legacy daily now spans the 7-day forecast window
+
+
 def _build_day_summaries(hourly, themes, opportunities=None, local_today=None):
     future = [h for h in hourly if not h.get("is_past")]
     by_date = defaultdict(list)
@@ -199,7 +202,7 @@ def _build_day_summaries(hourly, themes, opportunities=None, local_today=None):
         dates = [local_today] + dates
 
     days = []
-    for date in dates[:3]:
+    for date in dates[:LEGACY_DAILY_DAYS]:
         items = sorted(by_date.get(date, []), key=lambda x: x.get("time_utc", ""))
 
         # Opportunity-first summaries are authoritative for researched Places.
