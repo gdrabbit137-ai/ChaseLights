@@ -27,7 +27,7 @@ const factory=new Function([
   grab('function v2IsToday','function v2RemainingHoursList'),
   grab('function v2RemainingHoursList','function v2ParseLocalStamp'),
   grab('function formatHourSegments','function v2ContractThreshold'),
-  grab('// CL-UI-14/F1: the modal','function radarUrl'),
+  grab('// CL-UI-14/F1: the modal','function navigationTargetNote'),
   'return {esc,modalDayInfo,modalWindowSegment,modalHeadline,modalDayRow,v2DayLabel,shortDateStamp};'
 ].join('\n'));
 const {esc,modalDayInfo,modalWindowSegment,modalHeadline,modalDayRow,v2DayLabel,shortDateStamp}=factory();
@@ -47,7 +47,7 @@ const buildFor=(lang)=>{
     grab('function v2IsToday','function v2RemainingHoursList'),
     grab('function v2RemainingHoursList','function v2ParseLocalStamp'),
     grab('function formatHourSegments','function v2ContractThreshold'),
-    grab('// CL-UI-14/F1: the modal','function radarUrl'),
+    grab('// CL-UI-14/F1: the modal','function navigationTargetNote'),
     'return {esc,modalDayInfo,modalWindowSegment,modalHeadline,modalDayRow,v2DayLabel,shortDateStamp};'
   ].join('\n'));
   return f();
