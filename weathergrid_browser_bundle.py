@@ -311,6 +311,70 @@ def build_bundle(input_dir: Path, region: str = "tw") -> tuple[dict, dict]:
     return bundle, qc
 
 
+SIDECAR_FIELDS = frozenset((
+    "wind_u_10m_m_s", "wind_v_10m_m_s",
+    "wind_u_925hpa_m_s", "wind_v_925hpa_m_s",
+    "wind_u_850hpa_m_s", "wind_v_850hpa_m_s",
+    "wind_u_700hpa_m_s", "wind_v_700hpa_m_s",
+))
+SIDECAR_SUFFIX = "_wind_uv_sidecar.json"
+
+
+def split_uv_bundle(bundle: dict) -> tuple[dict, dict]:
+    """CL-WG-22: partition a full bundle into main bundle + u/v sidecar.
+
+    The eight u/v vector fields only feed the opt-in particle-flow animation,
+    yet CL-DATA-08 merged them into the main bundle and doubled the mobile
+    load (tw 19.4 MB -> 43.9 MB). The main bundle returns to the original
+    field set; the u/v fields move to a per-region sidecar carrying the same
+    bbox/grid/frame structure so the frontend can merge it on demand.
+    """
+    main = {k: v for k, v in bundle.items() if k not in ("fields", "frames")}
+    main["fields"] = {
+        key: meta for key, meta in bundle["fields"].items()
+        if key not in SIDECAR_FIELDS
+    }
+    main["frames"] = [
+        {
+            "forecast_hour": frame["forecast_hour"],
+            "valid_time_utc": frame["valid_time_utc"],
+            "values": {
+                key: values for key, values in frame["values"].items()
+                if key not in SIDECAR_FIELDS
+            },
+        }
+        for frame in bundle["frames"]
+    ]
+    sidecar = dict(main)
+    sidecar["fields"] = {
+        key: meta for key, meta in bundle["fields"].items()
+        if key in SIDECAR_FIELDS
+    }
+    sidecar["frames"] = [
+        {
+            "forecast_hour": frame["forecast_hour"],
+            "valid_time_utc": frame["valid_time_utc"],
+            "values": {
+                key: values for key, values in frame["values"].items()
+                if key in SIDECAR_FIELDS
+            },
+        }
+        for frame in bundle["frames"]
+    ]
+    sidecar["sidecar"] = {
+        "purpose": "wind_uv_particle_flow",
+        "main_bundle": "on_demand_only",
+        "note": (
+            "u/v vector components for the opt-in particle-flow animation "
+            "(CL-WG-22). Loaded only when the particle switch is turned on; "
+            "the main bundle intentionally excludes these fields."
+        ),
+    }
+    if not sidecar["fields"]:
+        raise ValueError("sidecar has no u/v fields to carry")
+    return main, sidecar
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--input-dir", default="gfs_multilayer_output")
@@ -321,29 +385,67 @@ def parse_args() -> argparse.Namespace:
         default="tw",
         help="Regional frame naming (CL-WG-05): gfs_<region>_weather_browser.json.",
     )
+    parser.add_argument(
+        "--split-bundle",
+        default=None,
+        help=(
+            "CL-WG-22 migration: path to an already-built full browser "
+            "bundle; splits its u/v fields into the sidecar and rewrites "
+            "the main bundle instead of rebuilding from manifest frames."
+        ),
+    )
     return parser.parse_args()
+
+
+def write_bundle_outputs(output_dir: Path, region: str, bundle: dict) -> dict:
+    """Write main bundle + u/v sidecar + QC; returns written file paths."""
+    main, sidecar = split_uv_bundle(bundle)
+    paths = {
+        "browser_bundle": output_dir / f"gfs_{region}_weather_browser.json",
+        "sidecar": output_dir / f"gfs_{region}{SIDECAR_SUFFIX}",
+        "qc_report": output_dir / f"gfs_{region}_weather_qc.json",
+    }
+    output_dir.mkdir(parents=True, exist_ok=True)
+    paths["browser_bundle"].write_text(
+        json.dumps(main, ensure_ascii=False, separators=(",", ":")),
+        encoding="utf-8",
+    )
+    paths["sidecar"].write_text(
+        json.dumps(sidecar, ensure_ascii=False, separators=(",", ":")),
+        encoding="utf-8",
+    )
+    return paths
 
 
 def main() -> int:
     args = parse_args()
-    input_dir = Path(args.input_dir)
-    output_dir = Path(args.output_dir) if args.output_dir else input_dir
-    output_dir.mkdir(parents=True, exist_ok=True)
+    output_dir = Path(args.output_dir) if args.output_dir else Path(args.input_dir)
 
+    if args.split_bundle:
+        # CL-WG-22 migration path: split u/v out of an already-published
+        # bundle (identical partition to the manifest-input generation).
+        bundle = json.loads(Path(args.split_bundle).read_text(encoding="utf-8"))
+        region = args.region
+        paths = write_bundle_outputs(output_dir, region, bundle)
+        print(json.dumps({
+            "browser_bundle": str(paths["browser_bundle"]),
+            "sidecar": str(paths["sidecar"]),
+            "split_from": args.split_bundle,
+        }, indent=2))
+        return 0
+
+    input_dir = Path(args.input_dir)
     bundle, qc = build_bundle(input_dir, region=args.region)
-    bundle_path = output_dir / f"gfs_{args.region}_weather_browser.json"
+    paths = write_bundle_outputs(output_dir, args.region, bundle)
     qc_path = output_dir / f"gfs_{args.region}_weather_qc.json"
-    bundle_path.write_text(
-        json.dumps(bundle, ensure_ascii=False, separators=(",", ":")),
-        encoding="utf-8",
-    )
     qc_path.write_text(
         json.dumps(qc, ensure_ascii=False, indent=2),
         encoding="utf-8",
     )
 
     print(json.dumps({
-        "browser_bundle": str(bundle_path),
+        "browser_bundle": str(paths["browser_bundle"]),
+        "sidecar": str(paths["sidecar"]),
         "qc_report": str(qc_path),
         "frames": len(bundle["frames"]),
         "spots": len(bundle["spots"]),

@@ -224,6 +224,11 @@
     particleFieldKey:null,
     particleFrameSeq:null,
     particleField:null,
+    // CL-WG-22: u/v vector sidecars are fetched ONLY when the particle switch
+    // is turned on. Map<cacheKey, sidecar-object|'failed'>, FIFO-capped so a
+    // long session cannot accumulate every region's sidecar.
+    windUvSidecars:new Map(),
+    windUvSidecarState:'idle',
     timelinePlaying:false,
     timelineTimer:null,
     spotHitTargets:[],
@@ -1981,10 +1986,25 @@
 
     const particleToggle=$('wind-particle-toggle');
     if(particleToggle){
-      particleToggle.addEventListener('change',()=>{
+      particleToggle.addEventListener('change',async()=>{
+        if(state.windUvSidecarState==='loading') return;
         state.windParticles=particleToggle.checked;
         state.particleField=null;
-        syncWindParticleAnimation();
+        if(state.windParticles && windUvSidecarNeeded()){
+          // CL-WG-22: u/v lives in an on-demand sidecar — fetch it only now,
+          // with an honest disabled/loading state while it is in flight.
+          particleToggle.disabled=true;
+          const ok=await ensureWindUvSidecar();
+          particleToggle.disabled=false;
+          if(!ok){
+            // Honest degradation: sidecar missing/failed -> no particle layer.
+            // Never block the main map; the switch hides itself.
+            state.windParticles=false;
+            particleToggle.checked=false;
+            state.particleField=null;
+          }
+        }
+        syncWindParticleControl();
       });
       document.addEventListener('visibilitychange',()=>{
         if(document.hidden) stopWindParticles();
@@ -3117,6 +3137,107 @@
     return Boolean(windParticleField(layer));
   }
 
+  // ===== CL-WG-22: on-demand u/v sidecar =====
+  // CL-DATA-08 merged the eight u/v fields into every main GFS bundle and
+  // doubled the mobile load (tw 19.4 MB -> 43.9 MB) even though the particle
+  // animation defaults OFF. The fields now live in a per-region sidecar
+  // (gfs_<region>_wind_uv_sidecar.json, identical bbox/grid/frame structure)
+  // that is fetched only when the particle switch is turned ON, then merged
+  // into the active GFS dataset frame-by-frame. The default map load never
+  // downloads it; a missing/failed sidecar honestly degrades to "no
+  // particles" and never blocks the main map.
+  const WIND_UV_SIDECAR_CACHE_MAX=3;
+
+  function windUvSidecarPath(region=state.region){
+    return region==='tw'
+      ? 'gfs_tw_wind_uv_sidecar.json'
+      : `gfs_${region}_wind_uv_sidecar.json`;
+  }
+
+  // Only the GFS region bundle ships a u/v sidecar (CL-DATA-08 scope);
+  // regional products (CWA/JMA) stay particle-less as before.
+  function activeGfsDataset(){
+    return (state.modelMode==='gfs' || state.modelMode==='auto')
+      ? state.data : null;
+  }
+
+  function windUvSidecarNeeded(){
+    const data=activeGfsDataset();
+    if(!data?.grid?.latitudes || !data?.fields) return false;
+    const keys=windParticleUvKeys();
+    return !(data.fields[keys.u] && data.fields[keys.v]);
+  }
+
+  function windUvSidecarCacheKey(data){
+    return `${state.region}:${JSON.stringify(data?.cycle ?? null)}`;
+  }
+
+  function rememberWindUvSidecar(cacheKey, value){
+    if(state.windUvSidecars.has(cacheKey)) state.windUvSidecars.delete(cacheKey);
+    state.windUvSidecars.set(cacheKey, value);
+    while(state.windUvSidecars.size > WIND_UV_SIDECAR_CACHE_MAX){
+      const oldest=state.windUvSidecars.keys().next().value;
+      state.windUvSidecars.delete(oldest);
+    }
+  }
+
+  function mergeWindUvSidecar(data, keys, sidecar){
+    // Merge every u/v field the sidecar carries (10 m + 925/850/700 hPa) so
+    // switching between wind-direction levels never triggers a refetch.
+    for(const [key,meta] of Object.entries(sidecar.fields)){
+      data.fields[key]=meta;
+    }
+    sidecar.frames.forEach((frame,i)=>{
+      const target=data.frames[i];
+      if(target && target.valid_time_utc===frame.valid_time_utc){
+        for(const [key,values] of Object.entries(frame.values)){
+          target.values[key]=values;
+        }
+      }
+    });
+  }
+
+  async function ensureWindUvSidecar(){
+    const data=activeGfsDataset();
+    if(!data) return false;
+    const keys=windParticleUvKeys();
+    if(data.fields[keys.u] && data.fields[keys.v]) return true;
+    const cacheKey=windUvSidecarCacheKey(data);
+    const cached=state.windUvSidecars.get(cacheKey);
+    if(cached && cached!=='failed'){
+      mergeWindUvSidecar(data, keys, cached);
+      state.windUvSidecarState='ready';
+      return true;
+    }
+    if(cached==='failed') return false;
+    state.windUvSidecarState='loading';
+    syncWindParticleControl();
+    try{
+      const sidecar=await fetchVersioned(windUvSidecarPath());
+      // Contract gate: ANY structural mismatch with the main bundle is an
+      // honest refusal — never a silent guess or partial merge.
+      if(!sidecar?.fields?.[keys.u] || !sidecar?.fields?.[keys.v]
+        || JSON.stringify(sidecar.bbox)!==JSON.stringify(data.bbox)
+        || JSON.stringify(sidecar.grid)!==JSON.stringify(data.grid)
+        || JSON.stringify(sidecar.cycle)!==JSON.stringify(data.cycle)
+        || !Array.isArray(sidecar.frames)
+        || sidecar.frames.length!==data.frames.length
+        || sidecar.frames.some((f,i)=>f.forecast_hour!==data.frames[i].forecast_hour
+          || f.valid_time_utc!==data.frames[i].valid_time_utc)){
+        throw new Error('wind u/v sidecar contract mismatch');
+      }
+      mergeWindUvSidecar(data, keys, sidecar);
+      rememberWindUvSidecar(cacheKey, sidecar);
+      state.windUvSidecarState='ready';
+      return true;
+    }catch(err){
+      console.warn('wind u/v sidecar unavailable', err);
+      rememberWindUvSidecar(cacheKey, 'failed');
+      state.windUvSidecarState='failed';
+      return false;
+    }
+  }
+
   function particleFieldSignature(){
     const f=state.particleField;
     return f ? `${state.layer}:${f.data.model||''}:${state.frameIndex}` : null;
@@ -3291,18 +3412,37 @@
     }
   }
 
-  // Toggle visibility: the particle switch only exists on wind-direction
-  // layers whose active single-source bundle actually carries u/v; it hides
-  // itself (and switches off) everywhere else.
+  // Toggle visibility (CL-WG-22 revised): the particle switch exists on
+  // wind-direction layers when the active source is the GFS region bundle.
+  // u/v lives in the on-demand sidecar, so the switch is shown (disabled,
+  // honest loading note) while the sidecar is being fetched; a failed or
+  // missing sidecar hides the switch and switches the animation off.
   function syncWindParticleControl(){
     const label=$('wind-particle-toggle-label');
     const note=$('wind-particle-note');
     const toggle=$('wind-particle-toggle');
     if(!label || !toggle) return;
-    const available=isWindDirectionLayer() && windParticleAvailable();
+    const dirLayer=isWindDirectionLayer();
+    const sidecarCandidate=dirLayer && Boolean(activeGfsDataset());
+    let available=sidecarCandidate;
+    if(sidecarCandidate && windUvSidecarNeeded()){
+      const cached=state.windUvSidecars.get(
+        windUvSidecarCacheKey(activeGfsDataset()));
+      if(cached==='failed') available=false;
+    }
     if(!available) state.windParticles=false;
     label.hidden=!available;
-    if(note) note.hidden=!available;
+    if(note){
+      if(state.windUvSidecarState==='loading' && available && windUvSidecarNeeded()){
+        note.textContent='粒子層 u/v 風場資料載入中…（sidecar 僅在開啟粒子動畫時下載，失敗時誠實退回無粒子層）';
+      }else if(!note.dataset.defaultText){
+        note.dataset.defaultText=note.textContent;
+      }else{
+        note.textContent=note.dataset.defaultText;
+      }
+      note.hidden=!available;
+    }
+    toggle.disabled=state.windUvSidecarState==='loading';
     toggle.checked=state.windParticles;
     if(state.particleFieldKey!==particleFieldSignature()) state.particleField=null;
     syncWindParticleAnimation();

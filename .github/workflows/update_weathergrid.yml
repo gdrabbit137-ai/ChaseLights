@@ -153,17 +153,33 @@ jobs:
                   f"the published bbox {bbox}"
               )
               assert browser.get("fields"), f"{region}: bundle has no field encodings"
-              # CL-DATA-08: u/v vector components per level must ship with
-              # every GFS bundle so the particle-flow layer is single-source.
+              # CL-WG-22: u/v moved OUT of the main bundle into a per-region
+              # sidecar (on-demand particle layer). The main bundle must NOT
+              # carry them; the sidecar must carry all eight with the same
+              # bbox/grid/cycle/frame structure.
               uv_fields = {
                   "wind_u_10m_m_s", "wind_v_10m_m_s",
                   "wind_u_925hpa_m_s", "wind_v_925hpa_m_s",
                   "wind_u_850hpa_m_s", "wind_v_850hpa_m_s",
                   "wind_u_700hpa_m_s", "wind_v_700hpa_m_s",
               }
-              assert uv_fields <= set(browser.get("fields", {})), (
-                  region, sorted(set(browser.get("fields", {})) - uv_fields)
+              leaked = uv_fields & set(browser.get("fields", {}))
+              assert not leaked, (region, sorted(leaked))
+              sidecar = json.loads(
+                  (out / f"gfs_{region}_wind_uv_sidecar.json").read_text()
               )
+              assert uv_fields <= set(sidecar.get("fields", {})), (
+                  region, sorted(uv_fields - set(sidecar.get("fields", {})))
+              )
+              assert sidecar.get("bbox") == browser.get("bbox"), region
+              assert sidecar.get("grid") == browser.get("grid"), region
+              assert sidecar.get("cycle") == browser.get("cycle"), region
+              assert len(sidecar.get("frames", [])) == len(browser["frames"]), region
+              assert all(
+                  s.get("forecast_hour") == b.get("forecast_hour")
+                  and s.get("valid_time_utc") == b.get("valid_time_utc")
+                  for s, b in zip(sidecar["frames"], browser["frames"])
+              ), region
 
           out = Path("gfs_multilayer_tw_output")
           browser = json.loads((out / "gfs_tw_weather_browser.json").read_text())
@@ -276,6 +292,7 @@ jobs:
           mkdir -p weathergrid
           for region in tw jp us ak hi; do
             cp "gfs_multilayer_${region}_output/gfs_${region}_weather_browser.json" "weathergrid/gfs_${region}_weather_browser.json"
+            cp "gfs_multilayer_${region}_output/gfs_${region}_wind_uv_sidecar.json" "weathergrid/gfs_${region}_wind_uv_sidecar.json"
             cp "gfs_multilayer_${region}_output/gfs_${region}_weather_qc.json" "weathergrid/gfs_${region}_weather_qc.json"
           done
           cp gfs_multilayer_tw_output/weathergrid_coverage_browser.json weathergrid/weathergrid_coverage_browser.json
@@ -338,14 +355,19 @@ jobs:
           git add -A \
             weathergrid/index.json \
             weathergrid/gfs_tw_weather_browser.json \
+            weathergrid/gfs_tw_wind_uv_sidecar.json \
             weathergrid/gfs_tw_weather_qc.json \
             weathergrid/gfs_jp_weather_browser.json \
+            weathergrid/gfs_jp_wind_uv_sidecar.json \
             weathergrid/gfs_jp_weather_qc.json \
             weathergrid/gfs_us_weather_browser.json \
+            weathergrid/gfs_us_wind_uv_sidecar.json \
             weathergrid/gfs_us_weather_qc.json \
             weathergrid/gfs_ak_weather_browser.json \
+            weathergrid/gfs_ak_wind_uv_sidecar.json \
             weathergrid/gfs_ak_weather_qc.json \
             weathergrid/gfs_hi_weather_browser.json \
+            weathergrid/gfs_hi_wind_uv_sidecar.json \
             weathergrid/gfs_hi_weather_qc.json \
             weathergrid/weathergrid_coverage_browser.json \
             weathergrid/icon_tw_cloud_browser.json \
