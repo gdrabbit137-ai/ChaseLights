@@ -118,11 +118,11 @@ test('CL-UI-28 (8): nav i18n keys exist in all three dictionaries', () => {
   }
 });
 
-test('CL-UI-28 (9): index.html stamp bumped clui33 → clui38', () => {
-  assert.match(indexHtml, /assets\/site-nav\.css\?v=clui38/);
-  assert.match(indexHtml, /assets\/site-nav\.js\?v=clui38/);
-  assert.match(indexHtml, /assets\/app\.js\?v=clui38/);
-  assert.match(indexHtml, /assets\/app\.css\?v=clui38/);
+test('CL-UI-28 (9): index.html stamp bumped clui33 → clui39', () => {
+  assert.match(indexHtml, /assets\/site-nav\.css\?v=clui39/);
+  assert.match(indexHtml, /assets\/site-nav\.js\?v=clui39/);
+  assert.match(indexHtml, /assets\/app\.js\?v=clui39/);
+  assert.match(indexHtml, /assets\/app\.css\?v=clui39/);
   assert.doesNotMatch(indexHtml, /clui29/);
 });
 

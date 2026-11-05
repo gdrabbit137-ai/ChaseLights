@@ -225,7 +225,11 @@
     const isFarDay=k=>typeof DAY_OFFSETS[k]==='number'&&DAY_OFFSETS[k]>=3;
     const VALID_SORT_MODES=['region','hours_desc','distance_near','distance_far'];
     let currentRegion=VALID_REGIONS.includes(localStorage.getItem('chaselights_region'))?localStorage.getItem('chaselights_region'):'tw';
-    let currentLang=VALID_LANGS.includes(localStorage.getItem('chaselights_lang'))?localStorage.getItem('chaselights_lang'):'zh-TW';
+    // CL-UI-35: URL ?lang= wins over localStorage memory (same precedence the
+    // region param already has); the resolved value is written back so the
+    // stored preference stays in sync with the URL.
+    const urlLang=new URLSearchParams(location.search).get('lang');
+    let currentLang=VALID_LANGS.includes(urlLang)?(localStorage.setItem('chaselights_lang',urlLang),urlLang):(VALID_LANGS.includes(localStorage.getItem('chaselights_lang'))?localStorage.getItem('chaselights_lang'):'zh-TW');
     let currentDayFilter=VALID_DAYS.includes(localStorage.getItem('chaselights_day'))?localStorage.getItem('chaselights_day'):'today';
     // CL-UI-16: late-night rescue state. When "today" has no viable card, the
     // main grid switches to tomorrow's suggestions (same verdict source, day
@@ -902,7 +906,10 @@
     function switchDay(k){currentDayFilter=k;localStorage.setItem('chaselights_day',k);if(k!=='today')lateNightRescueDismissed=false;syncDayButtons();updateDiscoveryText();filterAndRender();}
     function switchLanguage(k){
       if(!VALID_LANGS.includes(k))return;
-      currentLang=k;localStorage.setItem('chaselights_lang',k);applyStaticI18n();renderSubNav();syncDayButtons();updateHeader();filterAndRender();
+      currentLang=k;localStorage.setItem('chaselights_lang',k);
+      // CL-UI-35: keep the URL's lang param in sync with the active language.
+      try{const u=new URL(location.href);u.searchParams.set('lang',k);history.replaceState(null,'',u);}catch{}
+      applyStaticI18n();renderSubNav();syncDayButtons();updateHeader();filterAndRender();
       if(activePlaceSpot&&document.getElementById('place-modal-overlay').style.display==='flex')openPlaceModal(activePlaceSpot,activePlaceSummary);
       if(activeModalSpot&&document.getElementById('modal-overlay').style.display==='flex')renderWeatherModal(activeModalSpot,activeModalSummary);
     }

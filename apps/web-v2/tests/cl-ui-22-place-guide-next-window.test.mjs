@@ -52,6 +52,6 @@ test('CL-UI-22 (c): no other live.next_good rendering path skips the re-anchor',
 
 test('CL-UI-22 (d): cache-bust stamp bumped for the edited app.js',()=>{
   const index=readFileSync(new URL('../../../index.html',import.meta.url),'utf8');
-  assert.match(index,/assets\/app\.js\?v=clui38/);
-  assert.match(index,/assets\/app\.css\?v=clui38/);
+  assert.match(index,/assets\/app\.js\?v=clui39/);
+  assert.match(index,/assets\/app\.css\?v=clui39/);
 });
