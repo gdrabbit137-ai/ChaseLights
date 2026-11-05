@@ -15,6 +15,7 @@ Guard rails that survive automation:
 """
 import argparse
 import json
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -45,6 +46,41 @@ def git(root, *args):
     return subprocess.check_output(
         ["git", "-C", str(root), *args], text=True, stderr=subprocess.PIPE
     ).strip()
+
+
+# CL-CI-13: the scheduled evaluations workflow rotates data/v2/evaluations
+# bundles with a rolling retention (oldest bundle-<timestamp>.json files are
+# deleted, a fresh one is added). That is generated-artifact churn, not a
+# suspicious hand deletion — before this carve-out, the first bundle rotation
+# after a green pin sync permanently red-lit every push (the 1746 -> 1743
+# refusal) because sync refuses to lower file_count. Rotation paths are still
+# counted normally (no exemption); the decrease is just auto-accepted and
+# recorded for audit. Any OTHER deleted file still requires --accept-decrease.
+GENERATED_BUNDLE_RE = re.compile(r"^data/v2/evaluations/bundle-\d{8}T\d{6}Z\.json$")
+
+
+def generated_bundle_rotation(root, owner_path, old_tree, new_tree):
+    """Deleted paths between two subtree trees if ALL of them are generated
+    bundle rotations; None when nothing was deleted or any deletion is not a
+    generated bundle. `git diff` between two subtree TREES reports paths
+    relative to that subtree, so they are re-anchored to owner_path."""
+    if not old_tree or not new_tree or old_tree == new_tree:
+        return None
+    deleted = []
+    for line in git(root, "diff", "--name-status", old_tree, new_tree).splitlines():
+        parts = line.split("\t")
+        status = parts[0] if parts else ""
+        if status == "D" and len(parts) >= 2:
+            deleted.append(parts[1])
+        elif status.startswith("R") and len(parts) >= 3:
+            deleted.append(parts[1])
+    if not deleted:
+        return None
+    full = [p if p.startswith(owner_path + "/") else f"{owner_path}/{p}"
+            for p in deleted]
+    if not all(GENERATED_BUNDLE_RE.match(p) for p in full):
+        return None
+    return full
 
 
 def current_trees(root):
@@ -101,8 +137,25 @@ def sync(root, accept_decrease=False):
                     "previous_" + key: old_extra, key: info[key]}
         if old_count != info["file_count"]:
             if old_count is not None and info["file_count"] < old_count and not accept_decrease:
-                refusals.append(f"{owner} {info['paths'][0]}: file_count "
-                                f"{old_count} -> {info['file_count']} (decrease requires --accept-decrease)")
+                # CL-CI-13: a decrease caused purely by generated evaluations
+                # bundle rotation is auto-accepted (and recorded); any other
+                # deletion still requires --accept-decrease.
+                rotated = generated_bundle_rotation(
+                    root, info["paths"][0], old_tree, info["tree_sha"])
+                if rotated is None:
+                    refusals.append(f"{owner} {info['paths'][0]}: file_count "
+                                    f"{old_count} -> {info['file_count']} (decrease requires --accept-decrease)")
+                else:
+                    pin["accepted_file_count_decrease"] = {
+                        "previous_file_count": old_count,
+                        "file_count": info["file_count"],
+                        "via": "auto-generated-bundle-rotation",
+                        "generated_paths": rotated,
+                    }
+                    pin["previous_file_count"] = old_count
+                    pin["file_count"] = info["file_count"]
+                    changes.setdefault(owner, {})["file_count"] = {
+                        "previous": old_count, "current": info["file_count"]}
             else:
                 if old_count is not None and info["file_count"] < old_count:
                     pin["accepted_file_count_decrease"] = {

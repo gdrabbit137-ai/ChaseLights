@@ -120,6 +120,56 @@ class PinSyncTests(unittest.TestCase):
         self.assertEqual(lock["sources"]["w3"]["accepted_file_count_decrease"]
                          ["previous_file_count"], baseline)
 
+    def test_generated_bundle_rotation_is_auto_accepted(self):
+        """CL-CI-13: scheduled evaluations runs rotate data/v2/evaluations
+        bundle files (oldest deleted, fresh added). That generated-artifact
+        churn must auto-accept the file_count decrease instead of refusing —
+        the 1746 -> 1743 refusal red-lit every push for a full day."""
+        root, git, lock = self.fixture()
+        eval_dir = root / "data/v2/evaluations"
+        eval_dir.mkdir(parents=True, exist_ok=True)
+        (eval_dir / "bundle-20261101T183625Z.json").write_text("{}\n")
+        (eval_dir / "bundle-20261102T171832Z.json").write_text("{}\n")
+        git("add", ".")
+        git("commit", "-qm", "w2 generated bundles")
+        sync(root)
+        baseline = json.loads((root / "ops/v2/integration-sources.json")
+                              .read_text())["sources"]["w2"]["file_count"]
+        # Rolling retention: delete the two old bundles, add a fresh one.
+        (eval_dir / "bundle-20261101T183625Z.json").unlink()
+        (eval_dir / "bundle-20261102T171832Z.json").unlink()
+        (eval_dir / "bundle-20261105T071926Z.json").write_text("{}\n")
+        git("add", ".")
+        git("commit", "-qm", "w2 scheduled bundle rotation")
+        changes = sync(root)  # must NOT raise
+        after = json.loads((root / "ops/v2/integration-sources.json").read_text())
+        self.assertEqual(after["sources"]["w2"]["file_count"], baseline - 1)
+        accepted = after["sources"]["w2"]["accepted_file_count_decrease"]
+        self.assertEqual(accepted["previous_file_count"], baseline)
+        self.assertEqual(accepted["via"], "auto-generated-bundle-rotation")
+        self.assertEqual(sorted(accepted["generated_paths"]),
+                         ["data/v2/evaluations/bundle-20261101T183625Z.json",
+                          "data/v2/evaluations/bundle-20261102T171832Z.json"])
+        self.assertIn("file_count", changes["w2"])
+
+    def test_hand_deletion_next_to_rotation_still_refused(self):
+        """CL-CI-13: one non-generated deletion beside bundle rotation still
+        requires an explicit --accept-decrease."""
+        root, git, lock = self.fixture()
+        eval_dir = root / "data/v2/evaluations"
+        eval_dir.mkdir(parents=True, exist_ok=True)
+        (eval_dir / "bundle-20261101T183625Z.json").write_text("{}\n")
+        (root / "data/v2/seasonal-calendar.json").write_text("{}\n")
+        git("add", ".")
+        git("commit", "-qm", "w2 generated bundle")
+        sync(root)
+        (eval_dir / "bundle-20261101T183625Z.json").unlink()
+        (root / "data/v2/seasonal-calendar.json").unlink()
+        git("add", ".")
+        git("commit", "-qm", "w2 mixed deletion")
+        with self.assertRaisesRegex(ValueError, "accept-decrease"):
+            sync(root)
+
     def test_real_pin_sync_workflow_pushes_only_the_lock(self):
         root = Path(__file__).resolve().parents[3]
         flow = yaml.load((root / '.github/workflows/v2-pin-sync.yml').read_text(),

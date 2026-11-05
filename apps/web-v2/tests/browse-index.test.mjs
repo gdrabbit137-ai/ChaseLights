@@ -12,8 +12,8 @@ const index=JSON.parse(rawIndex),source=JSON.parse(rawCatalog),catalog=importV21
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
 test('W2 index and 356 canonical sources remain source pinned (aurora removed 2026-10-26; us-022/tw-082-P06 removed 2026-10-31)',()=>{
-  assert.equal(sha256(rawIndex),'f9fcbb26ce2e2b98e5867bec94a9cce10938ebd28e52a176a33d52c1deaacf46'); // CL-UI-25 re-anchor: 22 city_night contracts gained city_night_window
-  assert.equal(sha256(rawCatalog),'0f6b927a1a1473410370aa0348849f9b743f3c100a32a430edb222e124a776b3'); // CL-UI-25 re-anchor: same contract wave
+  assert.equal(sha256(rawIndex),'95dd5b750009e8c269fd55ebf281bb077d9188f16b3731bdb639aa76b15a54c0'); // CL-UI-25 re-anchor: 22 city_night contracts gained city_night_window
+  assert.equal(sha256(rawCatalog),'fcb481ba750aa242055d1fd413d4985fd339d7df1fee4791ac3deb871bb64703'); // CL-CI-13 re-anchor: browse/catalog source pointer advanced to CL-UI-25 regen commit
   assert.equal(validateBrowseIndex(index,catalog),index);
   assert.equal(source.opportunities.length,356);assert.equal(source.places.length,190);
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];
