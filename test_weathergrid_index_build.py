@@ -14,6 +14,7 @@ class IndexBuildTests(unittest.TestCase):
         g = root / "weathergrid"
         (g / "gfs_tw_weather_browser.json").write_text('{"a":1}')
         (g / "gfs_tw_weather_qc.json").write_text('{"b":2}')
+        (g / "gfs_tw_wind_uv_sidecar.json").write_text('{"c":3}')
         (g / "himawari9_tw_cloud_browser.json").write_text('{"c":3}')
         (g / "unrelated.txt").write_text("skip me")
         (g / "notes.md").write_text("skip me too")
@@ -27,6 +28,7 @@ class IndexBuildTests(unittest.TestCase):
             self.assertEqual(set(index["files"]), {
                 "gfs_tw_weather_browser.json",
                 "gfs_tw_weather_qc.json",
+                "gfs_tw_wind_uv_sidecar.json",
                 "himawari9_tw_cloud_browser.json",
             })
 

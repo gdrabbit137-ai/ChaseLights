@@ -18,7 +18,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 INDEX_VERSION = 1
-SUFFIXES = ("_browser.json", "_qc.json")
+SUFFIXES = ("_browser.json", "_qc.json", "_wind_uv_sidecar.json")
 
 
 def build_index(root: Path) -> dict:
