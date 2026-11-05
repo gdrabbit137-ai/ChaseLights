@@ -864,11 +864,24 @@
         canvas.style.pointerEvents='none';
         setBasemapStatus('ready','MapLibre · OpenFreeMap');
         setViewBbox(state.view || state.data.bbox);
-        applyCameraLimits();
+        clampSpotCameraZoom();
+        // CL-WG-24: preserve the camera that setViewBbox just fitted. A
+        // deep-link spot camera can land on state.view BEFORE the basemap
+        // 'load' event fires (deferred full-bundle spot application while
+        // MapLibre is still initializing); the plain applyCameraLimits()
+        // here re-fit the region bbox and clobbered that spot view, so the
+        // deep link landed on the region fit with the spot marker only.
+        // preserveCamera keeps the just-fitted state.view camera while the
+        // limits (maxBounds/minZoom) still derive from the region fit, so
+        // CL-WG-06/07/10 region confinement is unchanged.
+        applyCameraLimits({preserveCamera:true});
         renderAll();
       });
       map.on('move',()=>{
         if(!state.mapReady) return;
+        // CL-WG-24: live camera hook for headless verification (same spirit
+        // as __weatherGridCoverageDebug / __weatherGridDeepLink).
+        try{ window.__weatherGridCamera={center:map.getCenter(),zoom:map.getZoom()}; }catch(_){}
         draw();
       });
       map.on('resize',()=>{
@@ -1547,11 +1560,29 @@
 
   // spot without focus: fit a spot-centered view sized from the region bbox
   // scale (module pure fn; zoom settles ~9–11 via fitBounds, CL-WG-19 #3).
+  // CL-WG-24: the spot landing view must settle at photography zoom 9-11
+  // regardless of viewport aspect (fitBounds alone lands below 9 on wide
+  // windows). Applied both on the live-map path and again on the basemap
+  // 'load' handler, because the deferred spot application can run before
+  // MapLibre finishes initializing. focus param keeps its explicit zoom.
+  function clampSpotCameraZoom(){
+    const dl=state.deepLink;
+    if(!dl || dl.focus || !state.deepLinkSpotApplied) return false;
+    if(!(state.mapReady && state.map)) return false;
+    const z=state.map.getZoom();
+    const clamped=Math.max(9,Math.min(11,z));
+    if(Math.abs(clamped-z)>1e-6){
+      state.map.jumpTo({center:state.map.getCenter(),zoom:clamped});
+    }
+    return true;
+  }
+
   function applyDeepLinkSpotCamera(spot){
     const bbox = window.WeatherMapDeepLink.spotFocusBbox(
       spot.lat, spot.lon, state.region, window.WeatherMapRegions.REGION_BBOXES);
     if(!bbox) return false;
     setViewBbox(bbox,{animate:true,maxZoom:11});
+    clampSpotCameraZoom();
     // preserveCamera: the spot view is the current camera here; limits
     // (maxBounds/minZoom) still derive from the region fit so the region
     // confinement of CL-WG-06/07/10 is never weakened.
