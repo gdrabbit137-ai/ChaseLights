@@ -9,7 +9,6 @@ body{padding:18px}
 .weather-header{max-width:1600px;margin:0 auto 14px;display:flex;justify-content:space-between;
   gap:18px;align-items:flex-end;border-bottom:1px solid var(--line);padding-bottom:14px}
 .header-title-line{display:flex;flex-direction:column;align-items:flex-start}
-.back-link{color:#7dd3fc;text-decoration:none;font-weight:700;font-size:.86rem}
 .weather-header h1{margin:6px 0 2px;font-size:1.65rem;color:var(--accent)}
 .subtitle{margin:0;color:var(--muted);font-size:.86rem}
 .source-meta{text-align:right;min-width:220px}
@@ -140,7 +139,6 @@ body{padding:18px}
   .header-title-line{
     flex-direction:row;align-items:center;gap:9px;min-width:0
   }
-  .back-link{font-size:.72rem;white-space:nowrap}
   .weather-header h1{font-size:1.18rem;margin:0;line-height:1.2;white-space:nowrap}
   .weather-header .subtitle{display:none}
   .source-meta{

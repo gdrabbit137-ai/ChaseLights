@@ -1,7 +1,7 @@
 // CL-UI-27 — 未符卡文案聚焦與資訊一致性
 // 1) none-copy + next window merged into ONE line; 2) 「預報狀態：」 prefix
 // removed and synonymous visibility reason deduped; 3) relative-day words on
-// the next-window stamp; 4) chip row all-or-nothing; stamp bump clui31.
+// the next-window stamp; 4) chip row all-or-nothing; stamp bump clui32.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -95,8 +95,8 @@ test('CL-UI-27 (4): the metric-chip row is all-or-nothing', () => {
   assert.ok(appSource.includes('chip row is all-or-nothing'));
 });
 
-test('CL-UI-27 (5): index.html cache-bust stamp bumped to clui31', () => {
-  assert.match(indexSource, /assets\/app\.js\?v=clui31/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui31/);
+test('CL-UI-27 (5): index.html cache-bust stamp bumped to clui32', () => {
+  assert.match(indexSource, /assets\/app\.js\?v=clui32/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui32/);
   assert.ok(!indexSource.includes('clui27'));
 });
