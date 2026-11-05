@@ -345,14 +345,29 @@
       // exists rather than leaking mixed-language copy.
       return currentLang==='zh-TW'?userFacingResearchValue(owner?.[key]):'';
     }
+    // CL-UI-25: fallback subject strings are zh-TW canonical (an en/ja copy is
+    // not a reviewed translation), but the JOINER SYMBOLS follow the display
+    // language: en uses half-width connectors, ja natural Japanese ones. Only
+    // connectors change — the zh-TW content itself is kept verbatim.
+    function fallbackConnectors(s){
+      let out=String(s||'');
+      if(currentLang==='en'){
+        out=out.replace(/・/g,' · ').replace(/／/g,' / ').replace(/＋/g,' + ')
+          .replace(/([\w])與(?=[\w])/g,'$1 & ');
+      }else if(currentLang==='ja'){
+        out=out.replace(/([\w])與(?=[\w])/g,'$1と');
+      }
+      return out;
+    }
     const reviewedLocaleName=values=>{
       // CL-UI-19: subject names follow the honest-translation rule — an "en"/"ja"
       // field that merely copies the zh-TW string is NOT a reviewed translation,
       // so the zh-TW name stays (never the raw opportunity id, never a
-      // fabricated translation).
+      // fabricated translation). CL-UI-25: the fallback gets locale-consistent
+      // connector symbols (half-width for en, natural for ja).
       const zh=typeof values?.['zh-TW']==='string'?values['zh-TW'].trim():'';
       const localized=localeText(values);
-      if(!localized||localized===zh)return zh;
+      if(!localized||localized===zh)return currentLang==='zh-TW'?zh:fallbackConnectors(zh);
       return localized;
     };
     function opportunityDisplayName(spot,opportunityId,theme,legacyName){
@@ -363,7 +378,7 @@
       const translated=reviewedLocaleName(op?.name_i18n);
       if(translated)return translated;
       if(currentLang==='zh-TW')return op?.name_zh||legacyName||themeLabel(op?.legacy_theme||theme||'mountain_view');
-      return op?.name_i18n?.['zh-TW']||op?.name_zh||legacyName||themeLabel(op?.legacy_theme||theme||'mountain_view');
+      return fallbackConnectors(op?.name_i18n?.['zh-TW'])||op?.name_zh||legacyName||themeLabel(op?.legacy_theme||theme||'mountain_view');
     }
     const tempUnitLabel=()=>currentTempUnit==='F'?'°F':'°C';
     function formatTemp(c){
@@ -1702,7 +1717,7 @@
         const hoursList=v2EffectiveHours(day,tz);
         const hours=hoursList.length;
         const c=v2Contract(o.opportunity_id);
-        const name=(c?reviewedLocaleName(c.name_i18n):'')||reviewedLocaleName(o.name_i18n)||o.name_i18n?.['zh-TW']||o.opportunity_id;
+        const name=(c?reviewedLocaleName(c.name_i18n):'')||reviewedLocaleName(o.name_i18n)||(currentLang!=='zh-TW'?fallbackConnectors(o.name_i18n?.['zh-TW']||''):o.name_i18n?.['zh-TW'])||o.opportunity_id;
         if(!best||hours>best.hours)best={oppId:o.opportunity_id,name,hours,hoursList,state:day.state,live:o.live||{},oppDays:o.days||[]};
       });
       if(best){

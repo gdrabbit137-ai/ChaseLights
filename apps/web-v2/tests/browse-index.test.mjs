@@ -12,8 +12,8 @@ const index=JSON.parse(rawIndex),source=JSON.parse(rawCatalog),catalog=importV21
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
 test('W2 index and 356 canonical sources remain source pinned (aurora removed 2026-10-26; us-022/tw-082-P06 removed 2026-10-31)',()=>{
-  assert.equal(sha256(rawIndex),'9533aa2ceea6c392537ce31fb0b2abf10c009a8bd356df9a05de7ccd6d1878bd'); // CL-CI-04 re-anchor to main source f5b927752c
-  assert.equal(sha256(rawCatalog),'eeeaa32fefeec4606a08be2ce0b7c9573f9c950e46dd08d3d90097d02ec32f20'); // CL-CI-04 re-anchor to main source f5b927752c
+  assert.equal(sha256(rawIndex),'f9fcbb26ce2e2b98e5867bec94a9cce10938ebd28e52a176a33d52c1deaacf46'); // CL-UI-25 re-anchor: 22 city_night contracts gained city_night_window
+  assert.equal(sha256(rawCatalog),'0f6b927a1a1473410370aa0348849f9b743f3c100a32a430edb222e124a776b3'); // CL-UI-25 re-anchor: same contract wave
   assert.equal(validateBrowseIndex(index,catalog),index);
   assert.equal(source.opportunities.length,356);assert.equal(source.places.length,190);
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];
