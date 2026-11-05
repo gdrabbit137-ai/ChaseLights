@@ -72,15 +72,31 @@ test('CL-UI-26 (4): modal day rows name the dominant reason instead of a metric 
 
 test('CL-UI-26 (5): the v2_fail_reason label exists in all three dictionaries',()=>{
   for(const lang of ['zh-TW','en','ja']){
-    assert.match(appSource,new RegExp(`v2_fail_reason:'[^']+'`),'i18n key for '+lang);
+  assert.match(appSource,new RegExp(`v2_fail_reason:'[^']+'`),'i18n key for '+lang);
   }
   assert.match(appSource,/v2_fail_reason:'未符原因：'/);
   assert.match(appSource,/v2_fail_reason:'Reason: '/);
   assert.match(appSource,/v2_fail_reason:'未達成の理由：'/);
 });
 
+test('CL-UI-32: low-cloud fail reason copy pinned in all three languages',()=>{
+  const reasons=lang=>new Function('let currentLang='+JSON.stringify(lang)+';\n'+failCode+'\nreturn V2_FAIL_REASONS;')()[lang];
+  assert.equal(reasons('zh-TW').cloud_cover_low,'低雲太厚，山頭沒入雲中');
+  assert.equal(reasons('en').cloud_cover_low,'Low cloud swallows the peak');
+  assert.equal(reasons('ja').cloud_cover_low,'低層雲が厚く、山頂が雲に埋もれます');
+  // ja copy carries zero simplified-han characters.
+  assert.equal(/(题|视|湿|风)/.test(reasons('ja').cloud_cover_low),false);
+  // Sibling cloud copy stays distinct: mid/total are generic visibility, LCL is the
+  // cloud-sea metric, low cloud names the engulfed peak.
+  const zh=reasons('zh-TW');
+  assert.equal(zh.cloud_cover_mid,'雲層太厚，看不到');
+  assert.equal(zh.cloud_cover_total,'雲層太厚，看不到');
+  assert.equal(zh.lcl_height_m_agl,'雲底太低，容易身處雲中');
+  assert.notEqual(zh.cloud_cover_low,zh.cloud_cover_mid);
+});
+
 test('CL-UI-26 (6): cache-bust stamp bumped for the edited app.js',()=>{
   const index=readFileSync(new URL('../../../index.html',import.meta.url),'utf8');
-  assert.match(index,/assets\/app\.js\?v=clui33/);
-  assert.match(index,/assets\/app\.css\?v=clui33/);
+  assert.match(index,/assets\/app\.js\?v=clui34/);
+  assert.match(index,/assets\/app\.css\?v=clui34/);
 });
