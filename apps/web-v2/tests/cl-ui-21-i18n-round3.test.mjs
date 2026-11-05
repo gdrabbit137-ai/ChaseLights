@@ -53,9 +53,24 @@ const buildFor=(lang)=>{
   return f();
 };
 
-// Deterministic bundle day rows for 2026-11-05 (Today) with one remaining hour.
-const days=['2026-11-05','2026-11-06','2026-11-07'].map((d)=>({local_date:d,good_hours:[],state:'UNFAVORABLE'}));
-days[0]={local_date:'2026-11-05',good_hours:['17:00'],state:'GUIDANCE_SATISFIED'};
+// CL-UI-34: bundle day rows must follow the real wall clock — the app's
+// v2DayLabel/v2IsToday vocabulary anchors to the spot's local now (CL-UI-18),
+// so hardcoded 2026-11-0X fixtures go stale the moment the clock crosses
+// midnight. Derive today/today+1/today+2 with the same en-CA formatToParts
+// Asia/Taipei local-date logic as assets/app.js localDateString(). The
+// nowOverride=10*60 (10:00 spot-local) in each call keeps the hour list
+// deterministic; only the date labels follow the clock.
+const FIXTZ='Asia/Taipei';
+const fixLocalDate=(offsetDays=0)=>{
+  const parts=new Intl.DateTimeFormat('en-CA',{timeZone:FIXTZ,year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());
+  const values=Object.fromEntries(parts.map(p=>[p.type,p.value]));
+  const base=new Date(Date.UTC(Number(values.year),Number(values.month)-1,Number(values.day)+offsetDays));
+  return `${base.getUTCFullYear()}-${String(base.getUTCMonth()+1).padStart(2,'0')}-${String(base.getUTCDate()).padStart(2,'0')}`;
+};
+const D0=fixLocalDate(0),D1=fixLocalDate(1),D2=fixLocalDate(2);
+// Deterministic bundle day rows for D0 (Today) with one remaining hour.
+const days=[D0,D1,D2].map((d)=>({local_date:d,good_hours:[],state:'UNFAVORABLE'}));
+days[0]={local_date:D0,good_hours:['17:00'],state:'GUIDANCE_SATISFIED'};
 const summary=(f,tz,now)=>{
   const infos=[0,1,2].map(i=>f.modalDayInfo(days[i],tz,now));
   const labels=infos.map((info,i)=>f.v2DayLabel(info&&info.date,tz,i));
@@ -63,21 +78,22 @@ const summary=(f,tz,now)=>{
 };
 
 test('CL-UI-21 A1: en modal headline renders the day-first sentence (actual rendered text)',()=>{
+  const stamp0=shortDateStamp(D0); // CL-UI-34: clock-derived MM/DD stamp
   const en=buildFor('en');
   const data=summary(en,'Asia/Taipei',10*60); // 10:00 spot-local
   const rendered=esc(en.modalHeadline(data));
-  assert.equal(rendered,'Today: 1 suitable hour(s) (from 11/05 17:00)');
+  assert.equal(rendered,`Today: 1 suitable hour(s) (from ${stamp0} 17:00)`);
   // never the pre-CL-UI-20 order (window before day)
   assert.ok(!/suitable hour\(s\) from/.test(rendered));
   const ja=buildFor('ja');
-  assert.equal(esc(ja.modalHeadline(summary(ja,'Asia/Taipei',10*60))),'今日 11/05 17:00 からあと 1 時間撮影に適しています');
+  assert.equal(esc(ja.modalHeadline(summary(ja,'Asia/Taipei',10*60))),`今日 ${stamp0} 17:00 からあと 1 時間撮影に適しています`);
   const zh=buildFor('zh-TW');
-  assert.equal(esc(zh.modalHeadline(summary(zh,'Asia/Taipei',10*60))),'今天 11/05 17:00 起還有 1 小時適合拍攝');
+  assert.equal(esc(zh.modalHeadline(summary(zh,'Asia/Taipei',10*60))),`今天 ${stamp0} 17:00 起還有 1 小時適合拍攝`);
 });
 
 test('CL-UI-21 B2: day-tab none rows carry the selected date\u2019s day vocabulary (en not "today")',()=>{
   const en=buildFor('en');
-  const tomorrow={local_date:'2026-11-06',good_hours:[],state:'UNFAVORABLE'};
+  const tomorrow={local_date:D1,good_hours:[],state:'UNFAVORABLE'};
   const info=en.modalDayInfo(tomorrow,'Asia/Taipei',10*60);
   const label=en.v2DayLabel(info.date,'Asia/Taipei',1);
   assert.equal(label,'Tomorrow');
