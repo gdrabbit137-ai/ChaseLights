@@ -27,7 +27,7 @@ test('CL-UI-26 (1): dominant reason picks the strongest failing metric, not a li
   // visibility beats low cloud in the priority order.
   assert.equal(zh.v2DominantFailReason([
     {metric:'cloud_cover_total',day_verdict:'FAIL'},
-    {metric:'visibility',day_verdict:'FAIL'}]),'大霧看不到，能見度差');
+    {metric:'visibility',day_verdict:'FAIL'}]),'大霧看不到');
   // Only day_verdict FAIL/PARTIAL conditions count; PASS/UNKNOWN is never a reason.
   assert.equal(zh.v2DominantFailReason([{metric:'precipitation',day_verdict:'PASS'}]),null);
   assert.equal(zh.v2DominantFailReason([{metric:'precipitation',day_verdict:'UNKNOWN'}]),null);
@@ -81,6 +81,6 @@ test('CL-UI-26 (5): the v2_fail_reason label exists in all three dictionaries',(
 
 test('CL-UI-26 (6): cache-bust stamp bumped for the edited app.js',()=>{
   const index=readFileSync(new URL('../../../index.html',import.meta.url),'utf8');
-  assert.match(index,/assets\/app\.js\?v=clui27/);
-  assert.match(index,/assets\/app\.css\?v=clui27/);
+  assert.match(index,/assets\/app\.js\?v=clui28/);
+  assert.match(index,/assets\/app\.css\?v=clui28/);
 });

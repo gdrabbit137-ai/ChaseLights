@@ -17,11 +17,11 @@ const grab=(start,end)=>appSource.slice(appSource.indexOf(start),appSource.index
 // --------------------------------------------------------------------------
 test('CL-DATA-06 A1: far-day keys exist in zh-TW / en / ja',()=>{
   assert.ok(appSource.includes("v2_best_subject_far:'當日最佳題材：'"));
-  assert.ok(appSource.includes("v2_none_far:'當日無符合題材，可參考下一個符合時段'"));
+  assert.ok(appSource.includes("v2_none_far:'當日無符合題材'"));
   assert.ok(appSource.includes("where_far:'📍 當天去哪裡拍？'"));
   assert.ok(appSource.includes("day_conf_note:'第4天起預報可信度逐日遞減'"));
   assert.ok(appSource.includes("v2_best_subject_far:'Best subject that day: '"));
-  assert.ok(appSource.includes("v2_none_far:'No qualifying subject that day — check the next qualifying window'"));
+  assert.ok(appSource.includes("v2_none_far:'No qualifying subject that day'"));
   assert.ok(appSource.includes("day_conf_note:'Forecast confidence decreases day by day from day 4'"));
   assert.ok(appSource.includes("v2_best_subject_far:'当日の最適な題材：'"));
   assert.ok(appSource.includes("day_conf_note:'4日目以降は予報の信頼度が日ごとに低下します'"));

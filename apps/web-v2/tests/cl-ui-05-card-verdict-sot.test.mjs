@@ -49,7 +49,7 @@ test('CL-UI-05 (a): no V2 evaluation fails closed to the conservative copy',()=>
   // CL-UI-15 omits it on GUIDANCE_SATISFIED cards (the summary line and the
   // card colour already express the state).
   assert.match(createSpotCardBlock,
-    /\$\{v2Best&&v2Best\.state!=='GUIDANCE_SATISFIED'\?`<div class="info-row forecast-status-row card-meta-row">\$\{d\(\)\.forecast_status\}\$\{esc\(v2StateLabel\)\}\${esc\(v2FailReasonSuffix\(v2Best\.state,v2Best\.day\)\)}<\/div>`:''\}/);
+    /\$\{v2Best&&v2Best\.state!=='GUIDANCE_SATISFIED'\?`<div class="info-row forecast-status-row card-meta-row">\$\{esc\(v2StateLabel\)\}\$\{esc\(v2FailReasonSuffix\(v2Best\.state,v2Best\.day\)\)\}<\/div>`:''\}/);
 });
 
 test('CL-UI-05 (b): evaluated card uses V2-derived day-state labels shared with the modal',()=>{
@@ -77,7 +77,7 @@ test('CL-UI-05 (c): eval2_none (not generated) and eval2_unk (NOT_EVALUABLE) sta
   // Card honours the same split: NOT_EVALUABLE shows eval2_unk, an evaluated
   // day without qualifying hours shows the day-aware v2_none copy (v2NoneSubjectKey).
   const summary=cardBlock('const v2Summary=v2Best&&v2Best.hours?','const reasonHtml=');
-  assert.match(summary,/v2Best\.state==='NOT_EVALUABLE'\?`<div class="theme-winner v2-none">📅 \$\{esc\(d\(\)\.eval2_unk\)\}<\/div>`:`<div class="theme-winner v2-none">📅 \$\{esc\(d\(\)\[v2NoneSubjectKey\(\)\]\)\}<\/div>`/);
+  assert.match(summary,/v2Best\.state==='NOT_EVALUABLE'\?d\(\)\.eval2_unk:d\(\)\[v2NoneSubjectKey\(\)\]/);
   // i18n: the not-generated copy is date-scoped and distinct from the
   // NOT_EVALUABLE label in every supported locale.
   const i18n=cardBlock("const i18nDict = {","const categoryKeys = {");
@@ -98,12 +98,12 @@ test('CL-UI-05 (d): next qualifying window shows when live.next_good exists',()=
   // falls back to pure copy when there is none.
   const summary=cardBlock('const v2Summary=v2Best&&v2Best.hours?','const reasonHtml=');
   assert.match(summary,
-    /\$\{v2Best\.nextLocal\?`<div class="best-window-row">\$\{esc\(d\(\)\.v2_next_window\)\}<b>\$\{esc\(shortDateStamp\(v2Best\.nextLocal\)\)\}<\/b><\/div>`:''\}/);
+    /v2Best\.nextLocal\?` · \$\{esc\(d\(\)\.v2_next_window\)\}<b>\$\{esc\(nextWindowStamp\(v2Best\.nextLocal,spot\.timezone\)\)\}<\/b>`:''/);
   // CL-UI-22: the place-guide modal's v2-next row went through the same
   // v2NextWindowLocal re-anchor as the weather modal, with the shared
   // v2_next_window label and fail-closed rendering.
   assert.match(appSource,
     /const nextLocal=v2NextWindowLocal\(opp\.days\|\|\[\],v2LocalNow\(spot\.timezone\),live\.next_good\?live\.next_good\.local:''\);/);
   assert.match(appSource,
-    /const nextLine=nextLocal\?`<div class="v2-next">🎯 \$\{esc\(d\(\)\.v2_next_window\)\}\$\{esc\(shortDateStamp\(nextLocal\)\)\}<\/div>`:'';/);
+    /const nextLine=nextLocal\?`<div class="v2-next">🎯 \$\{esc\(d\(\)\.v2_next_window\)\}\$\{esc\(nextWindowStamp\(nextLocal,spot\.timezone\)\)\}<\/div>`:'';/);
 });
