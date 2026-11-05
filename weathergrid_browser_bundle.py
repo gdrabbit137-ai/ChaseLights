@@ -58,6 +58,17 @@ FIELD_ENCODINGS = {
     "precip_rate_mm_h": {"unit": "mm/h", "scale": 0.01, "min": 0.0, "max": 500.0},
     "wind_speed_10m_m_s": {"unit": "m/s", "scale": 0.1, "min": 0.0, "max": 100.0},
     "wind_direction_10m_deg": {"unit": "degree", "scale": 1.0, "min": 0.0, "max": 360.0, "wrap": 360},
+    # CL-DATA-08: u/v vector components per level (eastward u / northward v,
+    # m/s). u/v avoids re-deriving motion from the wrapped direction angle in
+    # the browser particle-flow layer. Range covers GFS jet-stream maxima.
+    "wind_u_10m_m_s": {"unit": "m/s", "scale": 0.1, "min": -150.0, "max": 150.0},
+    "wind_v_10m_m_s": {"unit": "m/s", "scale": 0.1, "min": -150.0, "max": 150.0},
+    "wind_u_925hpa_m_s": {"unit": "m/s", "scale": 0.1, "min": -150.0, "max": 150.0},
+    "wind_v_925hpa_m_s": {"unit": "m/s", "scale": 0.1, "min": -150.0, "max": 150.0},
+    "wind_u_850hpa_m_s": {"unit": "m/s", "scale": 0.1, "min": -150.0, "max": 150.0},
+    "wind_v_850hpa_m_s": {"unit": "m/s", "scale": 0.1, "min": -150.0, "max": 150.0},
+    "wind_u_700hpa_m_s": {"unit": "m/s", "scale": 0.1, "min": -150.0, "max": 150.0},
+    "wind_v_700hpa_m_s": {"unit": "m/s", "scale": 0.1, "min": -150.0, "max": 150.0},
 }
 
 

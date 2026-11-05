@@ -214,6 +214,16 @@
     windVectors:false,
     windVectorTouched:false,
     lastWindVectorCount:0,
+    // CL-WG-20: particle-flow animation (Windy-style), default OFF for
+    // battery/performance; only runs while a wind-direction layer is active.
+    windParticles:false,
+    particleCanvas:null,
+    particleCtx:null,
+    particleRaf:null,
+    particleLastTs:null,
+    particleFieldKey:null,
+    particleFrameSeq:null,
+    particleField:null,
     timelinePlaying:false,
     timelineTimer:null,
     spotHitTargets:[],
@@ -1717,7 +1727,10 @@
   }
 
   function availableLayerKeys(){
-    const visibleLayerKeys=Object.keys(layerConfig).filter(key=>key!=='wind_direction_10m_deg');
+    // CL-WG-20: wind_direction_10m_deg returns to the picker now that GFS
+    // bundles carry u/v; B169 hid it while only speed+vectors existed. The
+    // particle-flow switch rides on this layer's detail panel.
+    const visibleLayerKeys=Object.keys(layerConfig);
     let keys;
     if(state.modelMode==='auto'){
       keys=photographerLayerOrder.filter(key=>
@@ -1966,6 +1979,19 @@
       });
     }
 
+    const particleToggle=$('wind-particle-toggle');
+    if(particleToggle){
+      particleToggle.addEventListener('change',()=>{
+        state.windParticles=particleToggle.checked;
+        state.particleField=null;
+        syncWindParticleAnimation();
+      });
+      document.addEventListener('visibilitychange',()=>{
+        if(document.hidden) stopWindParticles();
+        else syncWindParticleAnimation();
+      });
+    }
+
     windToggle.addEventListener('change',()=>{
       state.windVectors=windToggle.checked;
       state.windVectorTouched=true;
@@ -2191,7 +2217,7 @@
   ]);
 
   const photographerLayerOrder = [    'total_cloud_percent','low_cloud_percent','mid_cloud_percent','high_cloud_percent',
-    'precip_rate_mm_h','visibility_km','wind_speed_10m_m_s',
+    'precip_rate_mm_h','visibility_km','wind_speed_10m_m_s','wind_direction_10m_deg',
     'aerosol_optical_depth_550nm','pm2_5_ug_m3',
     'relative_humidity_2m_percent','temperature_2m_c','precip_total_mm','shortwave_flux_w_m2',
     'observed_cloud_mask','cloud_top_height_m','nighttime_lights_radiance_nw_cm2_sr'
@@ -3059,6 +3085,231 @@
     }
   }
 
+  // CL-WG-20: Windy-style particle flow animation over wind-direction color
+  // fields. The particles are advected by the ACTIVE dataset's own u/v vector
+  // components (single source, never re-derived from the wrapped angle), drawn
+  // on a dedicated transparent canvas so the trail fade never touches the
+  // color field. Neutral light strokes only - no hue - so the direction color
+  // wheel semantics stay untouched. Off by default; the loop self-stops the
+  // moment the layer/field is no longer available (leaving the layer stops
+  // the animation and the battery drain).
+  function windParticleUvKeys(layer){
+    layer=layer===undefined?state.layer:layer;
+    const m=/^wind_direction_([0-9]{3})hpa_deg$/.exec(layer);
+    const level=m?`${m[1]}hpa`:'10m';
+    return {u:`wind_u_${level}_m_s`,v:`wind_v_${level}_m_s`};
+  }
+
+  function windParticleField(layer){
+    layer=layer===undefined?state.layer:layer;
+    const keys=windParticleUvKeys(layer);
+    const data=activeDataset(layer);
+    if(!data?.grid?.latitudes || !data?.grid?.longitudes) return null;
+    if(!data?.fields?.[keys.u] || !data?.fields?.[keys.v]) return null;
+    const u=decodedArray(keys.u), v=decodedArray(keys.v);
+    if(!u.length || u.length!==v.length) return null;
+    return {data,u,v,rows:data.grid.rows,cols:data.grid.cols,
+      lats:data.grid.latitudes,lons:data.grid.longitudes};
+  }
+
+  function windParticleAvailable(layer){
+    layer=layer===undefined?state.layer:layer;
+    return Boolean(windParticleField(layer));
+  }
+
+  function particleFieldSignature(){
+    const f=state.particleField;
+    return f ? `${state.layer}:${f.data.model||''}:${state.frameIndex}` : null;
+  }
+
+  function ensureParticleCanvas(){
+    if(state.particleCanvas && document.body.contains(state.particleCanvas)){
+      return state.particleCanvas;
+    }
+    const el=document.createElement('canvas');
+    el.id='weather-particle-canvas';
+    el.setAttribute('aria-hidden','true');
+    canvas.parentNode.insertBefore(el,canvas.nextSibling);
+    state.particleCanvas=el;
+    state.particleCtx=el.getContext('2d');
+    return el;
+  }
+
+  function syncParticleCanvasSize(pctx,pcanvas){
+    const rect=canvas.getBoundingClientRect();
+    const dpr=Math.min(window.devicePixelRatio||1,2);
+    const width=Math.max(1,Math.round(rect.width*dpr));
+    const height=Math.max(1,Math.round(rect.height*dpr));
+    if(pcanvas.width!==width || pcanvas.height!==height){
+      pcanvas.width=width;
+      pcanvas.height=height;
+    }
+    pctx.setTransform(dpr,0,0,dpr,0,0);
+    return rect;
+  }
+
+  function particleTargetCount(rect){
+    const compactUi=window.matchMedia('(max-width:720px)').matches;
+    const area=Math.max(1,rect.width*rect.height);
+    const base=Math.round(area/2600);
+    // 390 px phones run at roughly half the desktop density; desktop is
+    // capped so a 4K window cannot spawn an unbounded particle swarm.
+    const count=compactUi?Math.round(base*0.5):base;
+    return Math.max(48,Math.min(compactUi?220:640,count));
+  }
+
+  function sampleParticleUv(field,lat,lon){
+    const rows=field.rows,cols=field.cols,lats=field.lats,lons=field.lons;
+    if(lon<lons[0]||lon>lons[cols-1]||lat<Math.min(lats[0],lats[rows-1])||
+       lat>Math.max(lats[0],lats[rows-1])) return null;
+    const fr=(lat-lats[0])/(lats[rows-1]-lats[0])*(rows-1);
+    const fc=(lon-lons[0])/(lons[cols-1]-lons[0])*(cols-1);
+    let r0=Math.floor(fr),c0=Math.floor(fc);
+    r0=Math.max(0,Math.min(rows-2,r0));
+    c0=Math.max(0,Math.min(cols-2,c0));
+    const wy=fr-r0,wx=fc-c0;
+    const i00=r0*cols+c0,i10=i00+1,i01=i00+cols,i11=i01+1;
+    const a=field.u[i00],b=field.u[i10],c=field.u[i01],d=field.u[i11];
+    const e=field.v[i00],f2=field.v[i10],g=field.v[i01],h=field.v[i11];
+    if(![a,b,c,d,e,f2,g,h].every(Number.isFinite)) return null;
+    return {
+      u:(a*(1-wx)+b*wx)*(1-wy)+(c*(1-wx)+d*wx)*wy,
+      v:(e*(1-wx)+f2*wx)*(1-wy)+(g*(1-wx)+h*wx)*wy
+    };
+  }
+
+  function spawnParticle(field,rect){
+    const lats=field.lats,lons=field.lons;
+    const latMin=Math.min(lats[0],lats[field.rows-1]);
+    const latMax=Math.max(lats[0],lats[field.rows-1]);
+    const visible=renderViewBbox();
+    const lonMin=Math.max(visible.leftlon,lons[0]);
+    const lonMax=Math.min(visible.rightlon,lons[field.cols-1]);
+    const laMin=Math.max(visible.bottomlat,latMin);
+    const laMax=Math.min(visible.toplat,latMax);
+    const lat=laMin+Math.random()*(laMax-laMin);
+    const lon=lonMin+Math.random()*(lonMax-lonMin);
+    return {lat,lon,age:0,life:60+Math.random()*90};
+  }
+
+  function particleLoop(ts){
+    state.particleRaf=null;
+    // Self-stop: leaving the wind-direction layer, losing the u/v field, or
+    // hiding the tab all end the animation loop (energy rule).
+    if(!state.windParticles || !isWindDirectionLayer() || document.hidden){
+      stopWindParticles();
+      return;
+    }
+    if(!state.particleField) state.particleField=windParticleField();
+    const field=state.particleField;
+    if(!field){ stopWindParticles(); return; }
+    const signature=particleFieldSignature();
+    if(signature!==state.particleFieldKey){
+      state.particleFieldKey=signature;
+      state.particles=null;
+    }
+    const pcanvas=ensureParticleCanvas();
+    const pctx=state.particleCtx;
+    const rect=syncParticleCanvasSize(pctx,pcanvas);
+    if(!state.particles || state.particles.length!==particleTargetCount(rect)){
+      const count=particleTargetCount(rect);
+      state.particles=Array.from({length:count},()=>spawnParticle(field,rect));
+      pctx.clearRect(0,0,pcanvas.width,pcanvas.height);
+    }
+    const dt=state.particleLastTs
+      ?Math.min(Math.max((ts-state.particleLastTs)/1000,0.001),0.05)
+      :0.016;
+    state.particleLastTs=ts;
+    // Trail fade: erase a slice of alpha each frame instead of repainting,
+    // which leaves the fading tails behind the moving heads.
+    pctx.globalCompositeOperation='destination-out';
+    pctx.fillStyle='rgba(0,0,0,0.085)';
+    pctx.fillRect(0,0,rect.width,rect.height);
+    pctx.globalCompositeOperation='source-over';
+    pctx.lineCap='round';
+    for(const p of state.particles){
+      const sample=sampleParticleUv(field,p.lat,p.lon);
+      p.age+=1;
+      if(!sample || p.age>p.life){
+        Object.assign(p,spawnParticle(field,rect));
+        p.age=0;
+        continue;
+      }
+      // u = eastward m/s, v = northward m/s. WIND_PARTICLE_TIME_SCALE
+      // exaggerates real time so 10 m/s wind crosses the field at a
+      // readable pace instead of glacial real-time drift.
+      const scale=dt*WIND_PARTICLE_TIME_SCALE;
+      const dLat=sample.v*scale/111320;
+      const dLon=sample.u*scale/(111320*Math.max(0.2,Math.cos(p.lat*Math.PI/180)));
+      const p0=project(p.lon,p.lat);
+      const nLat=p.lat+dLat,nLon=p.lon+dLon;
+      const p1=project(nLon,nLat);
+      p.lat=nLat; p.lon=nLon;
+      if(Math.abs(p1.x-p0.x)<0.05 && Math.abs(p1.y-p0.y)<0.05) continue;
+      pctx.beginPath();
+      pctx.moveTo(p0.x,p0.y);
+      pctx.lineTo(p1.x,p1.y);
+      pctx.strokeStyle='rgba(2,6,23,.38)';
+      pctx.lineWidth=2.6;
+      pctx.stroke();
+      pctx.beginPath();
+      pctx.moveTo(p0.x,p0.y);
+      pctx.lineTo(p1.x,p1.y);
+      pctx.strokeStyle='rgba(248,250,252,.85)';
+      pctx.lineWidth=1.2;
+      pctx.stroke();
+    }
+    state.particleRaf=window.requestAnimationFrame(particleLoop);
+  }
+
+  function stopWindParticles(){
+    if(state.particleRaf){
+      window.cancelAnimationFrame(state.particleRaf);
+      state.particleRaf=null;
+    }
+    state.particleLastTs=null;
+    if(state.particleCtx && state.particleCanvas){
+      const pctx=state.particleCtx;
+      pctx.save();
+      pctx.setTransform(1,0,0,1,0,0);
+      pctx.clearRect(0,0,state.particleCanvas.width,state.particleCanvas.height);
+      pctx.restore();
+    }
+  }
+
+  function syncWindParticleAnimation(){
+    const active=state.windParticles && isWindDirectionLayer() &&
+      Boolean(state.particleField || windParticleField());
+    if(active){
+      ensureParticleCanvas();
+      if(!state.particleRaf && !document.hidden){
+        state.particleLastTs=null;
+        state.particleRaf=window.requestAnimationFrame(particleLoop);
+      }
+    }else{
+      stopWindParticles();
+    }
+  }
+
+  // Toggle visibility: the particle switch only exists on wind-direction
+  // layers whose active single-source bundle actually carries u/v; it hides
+  // itself (and switches off) everywhere else.
+  function syncWindParticleControl(){
+    const label=$('wind-particle-toggle-label');
+    const note=$('wind-particle-note');
+    const toggle=$('wind-particle-toggle');
+    if(!label || !toggle) return;
+    const available=isWindDirectionLayer() && windParticleAvailable();
+    if(!available) state.windParticles=false;
+    label.hidden=!available;
+    if(note) note.hidden=!available;
+    toggle.checked=state.windParticles;
+    if(state.particleFieldKey!==particleFieldSignature()) state.particleField=null;
+    syncWindParticleAnimation();
+  }
+
+  const WIND_PARTICLE_TIME_SCALE=700;
+
   function drawCoverage(){
     const opportunities=activeCoverageOpportunities();
     if(!opportunities.length) return;
@@ -3849,6 +4100,7 @@
     if(!state.data) return;
     draw();
     updateControls();
+    syncWindParticleControl();
     window.__weatherGridCoverageDebug = {
       spotId: state.spotId,
       opportunityId: state.opportunityId,
@@ -3856,6 +4108,9 @@
       windVectors: state.windVectors,
       windVectorStep: windVectorStep(),
       windVectorCount: state.lastWindVectorCount,
+      windParticles: state.windParticles,
+      windParticleRunning: Boolean(state.particleRaf),
+      windParticleCount: state.particles ? state.particles.length : 0,
       activeModel: activeDataset(state.layer)?.model || null,
       datasets: {
         gfs: state.data,

@@ -55,6 +55,14 @@ class WeatherGridBrowserBundleTest(unittest.TestCase):
                 "wind_direction_10m_deg": _field(
                     [[359.6, 359.4], [0.4, 180.0]], "degree"
                 ),
+                    "wind_u_10m_m_s": _field([[1, 1], [1, 1]], "m/s"),
+                    "wind_v_10m_m_s": _field([[1, 1], [1, 1]], "m/s"),
+                    "wind_u_925hpa_m_s": _field([[1, 1], [1, 1]], "m/s"),
+                    "wind_v_925hpa_m_s": _field([[1, 1], [1, 1]], "m/s"),
+                    "wind_u_850hpa_m_s": _field([[1, 1], [1, 1]], "m/s"),
+                    "wind_v_850hpa_m_s": _field([[1, 1], [1, 1]], "m/s"),
+                    "wind_u_700hpa_m_s": _field([[1, 1], [1, 1]], "m/s"),
+                    "wind_v_700hpa_m_s": _field([[1, 1], [1, 1]], "m/s"),
             }
             frame = {
                 "run": {"forecast_hour": 0, "valid_time_utc": "x"},
@@ -114,6 +122,14 @@ class WeatherGridBrowserBundleTest(unittest.TestCase):
                     "wind_direction_10m_deg": _field(
                         [[0, 90], [180, 270]], "degree"
                     ),
+                    "wind_u_10m_m_s": _field([[-3, 0], [5, 12]], "m/s"),
+                    "wind_v_10m_m_s": _field([[-3, 0], [5, 12]], "m/s"),
+                    "wind_u_925hpa_m_s": _field([[-3, 0], [5, 12]], "m/s"),
+                    "wind_v_925hpa_m_s": _field([[-3, 0], [5, 12]], "m/s"),
+                    "wind_u_850hpa_m_s": _field([[-3, 0], [5, 12]], "m/s"),
+                    "wind_v_850hpa_m_s": _field([[-3, 0], [5, 12]], "m/s"),
+                    "wind_u_700hpa_m_s": _field([[-3, 0], [5, 12]], "m/s"),
+                    "wind_v_700hpa_m_s": _field([[-3, 0], [5, 12]], "m/s"),
                 },
                 "spots": [
                     {
@@ -169,6 +185,10 @@ class WeatherGridBrowserBundleTest(unittest.TestCase):
                 "precip_rate_mm_h",
                 "wind_speed_10m_m_s",
                 "wind_direction_10m_deg",
+                "wind_u_10m_m_s", "wind_v_10m_m_s",
+                "wind_u_925hpa_m_s", "wind_v_925hpa_m_s",
+                "wind_u_850hpa_m_s", "wind_v_850hpa_m_s",
+                "wind_u_700hpa_m_s", "wind_v_700hpa_m_s",
             ]:
                 fields[key] = _field([[0, 0], [0, 0]], "%")
             fields["visibility_km"]["longitudes"] = [121.0, 121.5]
