@@ -18,39 +18,12 @@
       border-bottom: 1px solid #334155;
       padding-bottom: 16px;
     }
-    .header-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-    }
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
     h1 { margin: 0; font-size: 1.8rem; color: var(--accent); }
     .updated { font-size: 0.85rem; color: var(--muted); text-align: right; }
 
     @media (max-width: 640px) {
       body { padding: 12px; }
       header { margin-bottom: 14px; padding-bottom: 12px; }
-      .header-top {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 10px;
-        margin-bottom: 10px;
-      }
-      .header-top h1 { font-size: 1.65rem; }
-      .header-right {
-        width: 100%;
-        flex-wrap: wrap;
-        gap: 8px;
-      }
-      .header-right .control-dropdown {
-        flex: 0 1 auto;
-        max-width: calc(100vw - 24px);
-      }
       .updated {
         flex-basis: 100%;
         width: 100%;
@@ -120,22 +93,6 @@
     .control-dropdown:hover { border-color: #38bdf8; }
     .lang-dropdown { background: #0f172a; color: #cbd5e1; }
     .country-dropdown { background: #1e293b; color: #38bdf8; border-color: #0284c7; }
-    .weather-map-link {
-      display: inline-flex;
-      align-items: center;
-      min-height: 32px;
-      padding: 6px 10px;
-      border: 1px solid #334155;
-      border-radius: 6px;
-      background: #0f172a;
-      color: #7dd3fc;
-      text-decoration: none;
-      font-size: .8rem;
-      font-weight: 800;
-      white-space: nowrap;
-    }
-    .weather-map-link:hover { border-color: #38bdf8; color: #bae6fd; }
-
     .sub-nav-bar, .tag-nav-bar, .day-nav-bar {
       display: flex;
       gap: 8px;
@@ -814,12 +771,6 @@
 }
 
 /* B102 desktop stage 1: wider dashboard, sticky unified filters, denser cards */
-.site-header {
-  max-width: 1600px;
-  margin: 0 auto 10px;
-  padding-bottom: 0;
-  border-bottom: 0;
-}
 .filter-shell {
   position: sticky;
   top: 0;
@@ -978,9 +929,6 @@
 }
 
 @media (max-width: 640px) {
-  .site-header {
-    margin-bottom: 8px;
-  }
   .filter-shell {
     position: static;
     margin-bottom: 12px;
@@ -1533,26 +1481,9 @@
     padding-right: clamp(18px, 2vw, 36px);
   }
 
-  .site-header,
   .filter-toolbar,
   .container {
     max-width: var(--desktop-shell-max);
-  }
-
-  .site-header {
-    margin-bottom: 6px;
-  }
-
-  .header-top {
-    min-height: 48px;
-    margin-bottom: 0;
-    gap: 20px;
-  }
-
-  .header-right {
-    justify-content: flex-end;
-    flex-wrap: wrap;
-    gap: 8px;
   }
 
   h1 {
@@ -1561,8 +1492,7 @@
     white-space: nowrap;
   }
 
-  .control-dropdown,
-  .weather-map-link {
+  .control-dropdown {
     min-height: 34px;
     box-sizing: border-box;
   }
