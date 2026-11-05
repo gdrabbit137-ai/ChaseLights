@@ -34,7 +34,7 @@ jobs:
   public-preview:
     name: Published V2 / six Chromium locale and device checks
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
     steps:
       - name: Checkout current source (no weather forecast promotion)
         uses: actions/checkout@v4
@@ -71,9 +71,37 @@ jobs:
           mkdir -p .ci/public-smoke
           set -o pipefail
           python ops/v2/integration_gate.py --root . --public 2>&1 | tee .ci/public-smoke/http-and-isolation.log
+      - name: Sync integration-sources lock before building candidate manifest
+        if: github.event_name == 'push'
+        run: python ops/v2/sync_integration_sources.py --root .
       - name: Build exact candidate manifest after main publication
         if: github.event_name == 'push'
         run: python ops/v2/build_static.py --root . --output .ci/v2-public-candidate
+      - name: Wait for GitHub Pages publication (bounded retry)
+        if: github.event_name == 'push'
+        run: |
+          expected_index_sha="$(sha256sum index.html | awk '{print $1}')"
+          expected_app_sha="$(sha256sum assets/app.js | awk '{print $1}')"
+          ready=0
+          # Bounded wait mirroring the deployed-smoke pattern in
+          # weathergrid_v2_experiment.yml: Pages can lag the push, so poll
+          # the live site with a cache-busting nonce until the published
+          # index.html and app.js match the tested commit's bytes. Hard cap
+          # 30 attempts x 15s (~7.5 min) — never wait indefinitely.
+          for i in {1..30}; do
+            nonce="${GITHUB_SHA}-${i}-$(date +%s)"
+            curl -fsSL --max-time 20 -H 'Cache-Control: no-cache' \
+              "https://chaselights.app/index.html?pages_probe=${nonce}" -o /tmp/probe-index.html || true
+            curl -fsSL --max-time 20 -H 'Cache-Control: no-cache' \
+              "https://chaselights.app/assets/app.js?pages_probe=${nonce}" -o /tmp/probe-app.js || true
+            if [[ -s /tmp/probe-index.html && -s /tmp/probe-app.js ]] \
+              && [[ "$(sha256sum /tmp/probe-index.html | awk '{print $1}')" == "$expected_index_sha" ]] \
+              && [[ "$(sha256sum /tmp/probe-app.js | awk '{print $1}')" == "$expected_app_sha" ]]; then
+              ready=1; break
+            fi
+            sleep 15
+          done
+          test "$ready" -eq 1
       - name: Verify live public URL with six Chrome locale/device scenarios
         env:
           REQUIRE_PUBLIC_V1_LINK: 'true'
