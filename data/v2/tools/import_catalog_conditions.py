@@ -190,9 +190,9 @@ SUBJECT_TEXTS = {
 
 
 TIDAL_NOTE = {
-    "zh-TW": "主導條件為潮汐（分海／退潮石板道／石滬露出／漩渦規模），非天氣。系統現無潮汐資料源：誠實 not_evaluatable，不提供天氣契約以免誤導（2026-11-01 訂立，待潮汐資料源實作後再建契約）。",
+    "zh-TW": "主導條件為潮汐（分海／退潮石板道／石滬露出／漩渦規模），非天氣。系統現無潮汐資料源：誠實 not_evaluatable，不提供天氣契約以免誤導",
     "en": "The governing condition is the tide (sandbar parting / exposed flagstone causeway / exposed stone weirs / whirlpool scale), not weather. The system has no tidal data source: honestly not_evaluatable, no weather contract is offered to avoid misleading (established 2026-11-01; contract to be built once a tidal source is implemented).",
-    "ja": "支配的条件は潮汐（干潮で砂洲が分かれる／石板路の露出／石垣の露出／渦の規模）であり天気ではない。システムには潮汐データソースが現状ない：誠実に not_evaluatable とし、誤解を招かないよう天気契約は提供しない（2026-11-01 設定。潮汐ソース実装後に契約を構築）。",
+    "ja": "支配的条件は潮汐（干潮で砂洲が分かれる／石板路の露出／石垣の露出／渦の規模）であり天気ではない。システムには潮汐データソースが現状ない：誠実に not_evaluatable とし、誤解を招かないよう天気契約は提供しない",
 }
 
 
@@ -289,24 +289,24 @@ def load_canonical():
 
 # ---------------------------------------------------------------- translations
 T_CLOUD_TOTAL_BONUS = {
-    "zh-TW": "總雲量 20–60%：雲與彩霞在鏡面裡的對稱構圖是倒影的加分主體；全晴只有山形、全陰無色彩。 【2026-11-01 審查修正】 由成立改加分：口語自述『加分主體』，與分類一致化。",
-    "en": "Total cloud 20-60%: symmetric cloud/glow reflections in the mirror are the bonus core of a reflection shot; fully clear gives only the mountain silhouette, fully overcast gives no colour. [2026-11-01 review fix] Moved from gating to bonus: the wording itself calls it a bonus subject; the classification now matches.",
-    "ja": "全雲量20〜60%：鏡面に映る雲と彩雲の対称構図は倒影の加点主体；快晴なら山影のみ、全曇なら色彩がない。【2026-11-01審査修正】成立条件から加点へ変更：口語自体が『加点主体』と述べており、分類を一致させた。",
+    "zh-TW": "總雲量 20–60%：雲與彩霞在鏡面裡的對稱構圖是倒影的加分主體；全晴只有山形、全陰無色彩。",
+    "en": "Total cloud 20-60%: symmetric cloud/glow reflections in the mirror are the bonus core of a reflection shot; fully clear gives only the mountain silhouette, fully overcast gives no colour.",
+    "ja": "全雲量20〜60%：鏡面に映る雲と彩雲の対称構図は倒影の加点主体；快晴なら山影のみ、全曇なら色彩がない。",
 }
 T_AOD_BONUS_REWRITE = {
-    "zh-TW": "山景層次由 AOD 承擔（遠山霧霾層次）。【2026-11-01 審查修正】 由成立改加分：主體為倒影，山景層次非否決條件。",
-    "en": "Mountain-layer depth is carried by AOD (haze layering of distant ridges). [2026-11-01 review fix] Moved from gating to bonus: the subject is the reflection; mountain-layer depth is not a veto condition.",
-    "ja": "山景の層次はAODが担う（遠山の靄による層）。【2026-11-01審査修正】成立条件から加点へ変更：主体は倒影であり、山景の層次は否決条件ではない。",
+    "zh-TW": "山景層次由 AOD 承擔（遠山霧霾層次）。",
+    "en": "Mountain-layer depth is carried by AOD (haze layering of distant ridges).",
+    "ja": "山景の層次はAODが担う（遠山の靄による層）。",
 }
 T_CLOUD_TOTAL_BONUS_REWRITE = {
-    "zh-TW": "雲與彩霞在鏡面裡的對稱構圖是倒影的加分主體；全晴只有山形、全陰無色彩。（2026-11-01 審查：由成立條件改加分，與口語一致）",
-    "en": "Symmetric cloud/glow reflections in the mirror are the bonus core of a reflection shot; fully clear gives only the mountain silhouette, fully overcast gives no colour. (2026-11-01 review: moved from gating to bonus, matching the wording.)",
-    "ja": "鏡面に映る雲と彩雲の対称構図は倒影の加点主体；快晴なら山影のみ、全曇なら色彩がない。（2026-11-01審査：成立条件から加点へ変更、口語と一致）",
+    "zh-TW": "雲與彩霞在鏡面裡的對稱構圖是倒影的加分主體；全晴只有山形、全陰無色彩。",
+    "en": "Symmetric cloud/glow reflections in the mirror are the bonus core of a reflection shot; fully clear gives only the mountain silhouette, fully overcast gives no colour.",
+    "ja": "鏡面に映る雲と彩雲の対称構図は倒影の加点主体；快晴なら山影のみ、全曇なら色彩がない。",
 }
 T_VIS_US010 = {
-    "zh-TW": "能見度 ≥ min(眺望距離, 24 km)：遠景清晰度的直接代理。誠實標註：GFS/Open-Meteo 能見度欄位上限約 24 km，超過後此判據鈍化（報 24 km 不代表能看 100 km）——長距離眺望由 V2（AOD）承擔真實判別。【2026-11-01 審查修正】 俯瞰距離僅數百公尺，3 km 過嚴，依 min(眺望,24) 規則修正。",
-    "en": "Visibility >= min(view range, 24 km): the direct proxy for distant-scene clarity. Honest caveat: the GFS/Open-Meteo visibility field caps near 24 km and the criterion dulls beyond that (a 24 km report does not mean 100 km sight) - long-range discrimination is carried by V2 AOD. [2026-11-01 review fix] The overlook distance is only a few hundred metres; 3 km was too strict, corrected per the min(view,24) rule.",
-    "ja": "視程 >= min(眺望距離, 24 km)：遠景の鮮明さの直接代理。誠実な注記：GFS/Open-Meteoの視程欄は約24 kmが上限で、それを超えると判定は鈍化する（24 kmの報告は100 km見える意味ではない）——長距離の判別はV2のAODが担う。【2026-11-01審査修正】俯瞰距離は数百メートルしかなく、3 kmは厳しすぎたため、min(眺望,24)規則に従い修正。",
+    "zh-TW": "能見度 ≥ min(眺望距離, 24 km)：遠景清晰度的直接代理。誠實標註：GFS/Open-Meteo 能見度欄位上限約 24 km，超過後此判據鈍化（報 24 km 不代表能看 100 km）——長距離眺望由 V2（AOD）承擔真實判別。",
+    "en": "Visibility >= min(view range, 24 km): the direct proxy for distant-scene clarity. Honest caveat: the GFS/Open-Meteo visibility field caps near 24 km and the criterion dulls beyond that (a 24 km report does not mean 100 km sight) - long-range discrimination is carried by V2 AOD.",
+    "ja": "視程 >= min(眺望距離, 24 km)：遠景の鮮明さの直接代理。誠実な注記：GFS/Open-Meteoの視程欄は約24 kmが上限で、それを超えると判定は鈍化する（24 kmの報告は100 km見える意味ではない）——長距離の判別はV2のAODが担う。",
 }
 
 
@@ -315,14 +315,14 @@ def lcl_rationale(alt_m, lcl_m, *, fix_note=True):
     lcl = f"{lcl_m:,.0f}"
     if fix_note:
         return {
-            "zh-TW": f"雲底須低於視線（觀點 {alt} m − 200 m ＝ {lcl} m 餘量），雲海才出現在眼前而非腳邊。LCL 為雲底代理。【2026-11-01 審查修正】 口語原誤寫『觀點 1,090 m』為模板複製錯誤；LCL 數值由 RD 以各點實際海拔（Open-Meteo Elevation API）− 200 m 重算確認。",
-            "en": f"The cloud base must sit below the sightline (viewpoint {alt} m minus a 200 m margin = {lcl} m) for the sea of clouds to appear in front of the viewer, not at their feet. LCL proxies the cloud base. [2026-11-01 review fix] The wording previously said 'viewpoint 1,090 m' - a template copy-paste error; the LCL value was recomputed by RD as the actual elevation (Open-Meteo Elevation API) minus 200 m.",
-            "ja": f"雲底が視線より低いこと（視点{alt}mから200mの余裕＝{lcl}m）で、雲海が足元ではなく眼前に現れる。LCLは雲底の代理指標。【2026-11-01審査修正】口語が『視点1,090m』と誤記（テンプレート複製ミス）。LCL値はRDが実際の標高（Open-Meteo Elevation API）から200mを引いて再計算・確認した。",
+            "zh-TW": f"雲底須低於視線（觀點 {alt} m − 200 m ＝ {lcl} m 餘量），雲海才出現在眼前而非腳邊。LCL 為雲底代理。",
+            "en": f"The cloud base must sit below the sightline (viewpoint {alt} m minus a 200 m margin = {lcl} m) for the sea of clouds to appear in front of the viewer, not at their feet. LCL proxies the cloud base.",
+            "ja": f"雲底が視線より低いこと（視点{alt}mから200mの余裕＝{lcl}m）で、雲海が足元ではなく眼前に現れる。LCLは雲底の代理指標。",
         }
     return {
-        "zh-TW": f"雲底須低於視線（觀點 {alt} m − 200 m ＝ {lcl} m 餘量），雲海才出現在眼前而非腳邊。LCL 為雲底代理。（2026-11-01 審查：數值由 RD 以各點實際觀點海拔 −200 m 重算取代；原口語誤寫 1,090 m 為模板複製錯誤）",
-        "en": f"The cloud base must sit below the sightline (viewpoint {alt} m minus a 200 m margin = {lcl} m) for the sea of clouds to appear in front of the viewer, not at their feet. LCL proxies the cloud base. (2026-11-01 review: the value was recomputed by RD as the actual viewpoint elevation minus 200 m; the wording previously carried the copy-pasted 1,090 m.)",
-        "ja": f"雲底が視線より低いこと（視点{alt}mから200mの余裕＝{lcl}m）で、雲海が足元ではなく眼前に現れる。LCLは雲底の代理指標。（2026-11-01審査：値はRDが実際の視点標高から200mを引いて再計算；元の口語は1,090mと誤記＝テンプレート複製ミス）",
+        "zh-TW": f"雲底須低於視線（觀點 {alt} m − 200 m ＝ {lcl} m 餘量），雲海才出現在眼前而非腳邊。LCL 為雲底代理。",
+        "en": f"The cloud base must sit below the sightline (viewpoint {alt} m minus a 200 m margin = {lcl} m) for the sea of clouds to appear in front of the viewer, not at their feet. LCL proxies the cloud base.",
+        "ja": f"雲底が視線より低いこと（視点{alt}mから200mの余裕＝{lcl}m）で、雲海が足元ではなく眼前に現れる。LCLは雲底の代理指標。",
     }
 
 
@@ -615,7 +615,7 @@ def main():
                         "rationale_i18n": {
                             "zh-TW": f"季節／活動窗判定（window_open/closed）：{zh}",
                             "en": "Season/event-window verdict (window_open/closed): the governing condition is the event calendar (fireworks / lantern festivals / parades / firefly season). No live event source exists, so this honestly propagates unknown (established 2026-11-01); only the minimum weather thresholds evaluate.",
-                            "ja": "季節・イベント窓判定（window_open/closed）：支配的条件はイベントカレンダー（花火・灯節・パレード・蛍シーズン）。現在イベントソースがなく、誠実にunknownを伝播する（2026-11-01設定）。天気側の最低閾値のみ評価する。",
+                            "ja": "季節・イベント窓判定（window_open/closed）：支配的条件はイベントカレンダー（花火・灯節・パレード・蛍シーズン）。現在イベントソースがなく、誠実にunknownを伝播する",
                         },
                         "notes_i18n": dict(owner_note),
                     }
@@ -627,7 +627,7 @@ def main():
                         if c["metric"] == "seasonal_state":
                             c["rationale_i18n"]["zh-TW"] += " " + zh
                             c["rationale_i18n"]["en"] += " Light-pollution level has no data source and honestly propagates unknown (2026-11-01)."
-                            c["rationale_i18n"]["ja"] += " 光害レベルはデータソースがなく、誠実にunknownを伝播する（2026-11-01設定）。"
+                            c["rationale_i18n"]["ja"] += " 光害レベルはデータソースがなく、誠実にunknownを伝播する"
                             break
                     else:
                         warnings.append(f"{oid}: light-pollution caveat without a seasonal anchor")

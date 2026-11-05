@@ -12,8 +12,8 @@ const index=JSON.parse(rawIndex),source=JSON.parse(rawCatalog),catalog=importV21
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
 test('W2 index and 356 canonical sources remain source pinned (aurora removed 2026-10-26; us-022/tw-082-P06 removed 2026-10-31)',()=>{
-  assert.equal(sha256(rawIndex),'cd1a7d5792162a12d8682314505762a44dc6396ac258f70f950ebbf6c2d04406'); // CL-DATA-09 re-anchor: tw-027-P02 gained the contract-level city_night_window (revision 2)
-  assert.equal(sha256(rawCatalog),'6a532b483529ac76074107f6f3fb31f013b943de82c23f3d3e19ee2d874fb158'); // CL-DATA-09 re-anchor: browse/catalog source pointer advanced to the CL-DATA-09 regen commit
+  assert.equal(sha256(rawIndex),'1ccb0917dc2dfcc7080253b61d532f60696addbdecfcc58b14ada4f951db83d5'); // CL-UI-36 re-anchor: internal review notes stripped from rationale_i18n across canonical records
+  assert.equal(sha256(rawCatalog),'a3cdb4d1c48088ef5da90ae571d4ccb1d78a9767a89e1af2eed9fb93bf5f4563'); // CL-UI-36 re-anchor: catalog regenerated from the note-stripped records
   assert.equal(validateBrowseIndex(index,catalog),index);
   assert.equal(source.opportunities.length,356);assert.equal(source.places.length,190);
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];

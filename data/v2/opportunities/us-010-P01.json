@@ -135,9 +135,9 @@
         "threshold_source": "computed",
         "calibration_status": "provisional",
         "rationale_i18n": {
-          "zh-TW": "能見度 ≥ min(眺望距離, 24 km)：遠景清晰度的直接代理。誠實標註：GFS/Open-Meteo 能見度欄位上限約 24 km，超過後此判據鈍化（報 24 km 不代表能看 100 km）——長距離眺望由 V2（AOD）承擔真實判別。【2026-11-01 審查修正】 俯瞰距離僅數百公尺，3 km 過嚴，依 min(眺望,24) 規則修正。",
-          "en": "Visibility >= min(view range, 24 km): the direct proxy for distant-scene clarity. Honest caveat: the GFS/Open-Meteo visibility field caps near 24 km and the criterion dulls beyond that (a 24 km report does not mean 100 km sight) - long-range discrimination is carried by V2 AOD. [2026-11-01 review fix] The overlook distance is only a few hundred metres; 3 km was too strict, corrected per the min(view,24) rule.",
-          "ja": "視程 >= min(眺望距離, 24 km)：遠景の鮮明さの直接代理。誠実な注記：GFS/Open-Meteoの視程欄は約24 kmが上限で、それを超えると判定は鈍化する（24 kmの報告は100 km見える意味ではない）——長距離の判別はV2のAODが担う。【2026-11-01審査修正】俯瞰距離は数百メートルしかなく、3 kmは厳しすぎたため、min(眺望,24)規則に従い修正。"
+          "zh-TW": "能見度 ≥ min(眺望距離, 24 km)：遠景清晰度的直接代理。誠實標註：GFS/Open-Meteo 能見度欄位上限約 24 km，超過後此判據鈍化（報 24 km 不代表能看 100 km）——長距離眺望由 V2（AOD）承擔真實判別。",
+          "en": "Visibility >= min(view range, 24 km): the direct proxy for distant-scene clarity. Honest caveat: the GFS/Open-Meteo visibility field caps near 24 km and the criterion dulls beyond that (a 24 km report does not mean 100 km sight) - long-range discrimination is carried by V2 AOD.",
+          "ja": "視程 >= min(眺望距離, 24 km)：遠景の鮮明さの直接代理。誠実な注記：GFS/Open-Meteoの視程欄は約24 kmが上限で、それを超えると判定は鈍化する（24 kmの報告は100 km見える意味ではない）——長距離の判別はV2のAODが担う。"
         }
       },
       {
