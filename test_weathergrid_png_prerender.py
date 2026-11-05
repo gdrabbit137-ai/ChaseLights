@@ -63,22 +63,34 @@ def visibility_opacity(value):
     return .08 + .92 * (1 - t) ** .8
 
 
+# CL-WG-21: Windy-style monotonic lightness ramp (deep blue -> gray-white -> white).
 CLOUD_BANDS = [
-    (0, 20, "hsl(190 78% 68%)"),
-    (20, 40, "hsl(199 82% 56%)"),
-    (40, 50, "hsl(216 82% 50%)"),
-    (50, 70, "hsl(238 78% 50%)"),
-    (70, 85, "hsl(263 72% 60%)"),
-    (85, 100, "hsl(285 48% 82%)"),
+    (0, 20, "hsl(214 78% 44%)"),
+    (20, 40, "hsl(211 66% 58%)"),
+    (40, 50, "hsl(209 44% 71%)"),
+    (50, 70, "hsl(208 28% 82%)"),
+    (70, 85, "hsl(207 16% 91%)"),
+    (85, 100, "hsl(206 8% 97%)"),
+]
+
+# CL-WG-21: low cloud keeps the same ladder with a slate gray-blue base tone.
+LOW_CLOUD_BANDS = [
+    (0, 20, "hsl(205 62% 48%)"),
+    (20, 40, "hsl(204 50% 60%)"),
+    (40, 50, "hsl(203 34% 70%)"),
+    (50, 70, "hsl(202 24% 79%)"),
+    (70, 85, "hsl(201 16% 87%)"),
+    (85, 100, "hsl(200 12% 92%)"),
 ]
 
 
-def cloud_color(value):
+def cloud_color(value, bands=None):
     v = max(0.0, min(100.0, float(value)))
-    for _lo, hi, css in CLOUD_BANDS:
+    table = bands if bands is not None else CLOUD_BANDS
+    for _lo, hi, css in table:
         if v < hi:
             return css
-    return CLOUD_BANDS[-1][2]
+    return table[-1][2]
 
 
 def parse_hsl(css):
@@ -128,11 +140,13 @@ class PalettePinTest(unittest.TestCase):
         # Dump a grid of pinned palette outputs from the shared module.
         script = (
             "const p = require('./assets/weather-map-palette.js');"
-            "const cloud = p.LAYER_RENDER_CONFIG.low_cloud_percent;"
+            "const cloud = p.LAYER_RENDER_CONFIG.total_cloud_percent;"
+            "const low = p.LAYER_RENDER_CONFIG.low_cloud_percent;"
             "const vis = p.LAYER_RENDER_CONFIG.visibility_km;"
             "const out = [];"
             "for (const v of [0, 5, 19.9, 20, 30, 45, 50, 55, 70, 80, 99, 100]) {"
             "  out.push({layer:'cloud', value:v, color:p.colorFor(v, cloud), alpha:p.cellOpacityFor(v, cloud)});"
+            "  out.push({layer:'cloudLow', value:v, color:p.colorFor(v, low), alpha:p.cellOpacityFor(v, low)});"
             "}"
             "for (const v of [0, 3, 10, 15, 22, 30]) {"
             "  out.push({layer:'visibility', value:v, color:p.colorFor(v, vis), alpha:p.cellOpacityFor(v, vis)});"
@@ -161,12 +175,30 @@ class PalettePinTest(unittest.TestCase):
             rgb = hsl_to_rgb(*parse_hsl(s["color"]))
             # Pinned canonical RGB values (computed once, hand-verified):
             pins = {
-                "hsl(190 78% 68%)": (110, 216, 237),
-                "hsl(199 82% 56%)": (51, 177, 235),
-                "hsl(216 82% 50%)": (23, 107, 232),
-                "hsl(238 78% 50%)": (28, 35, 227),
-                "hsl(263 72% 60%)": (136, 80, 226),
-                "hsl(285 48% 82%)": (220, 187, 231),
+                "hsl(214 78% 44%)": (25, 101, 200),
+                "hsl(211 66% 58%)": (77, 146, 219),
+                "hsl(209 44% 71%)": (149, 182, 214),
+                "hsl(208 28% 82%)": (196, 210, 222),
+                "hsl(207 16% 91%)": (228, 232, 236),
+                "hsl(206 8% 97%)": (247, 247, 248),
+            }
+            self.assertEqual(rgb, pins[s["color"]], f"RGB pin failed for {s['color']}")
+
+    def test_low_cloud_colors_match_independent_hsl_math(self):
+        for s in self.dump["samples"]:
+            if s["layer"] != "cloudLow":
+                continue
+            expected_css = cloud_color(s["value"], LOW_CLOUD_BANDS)
+            self.assertEqual(s["color"], expected_css,
+                             f"low cloud color drift at value {s['value']}")
+            rgb = hsl_to_rgb(*parse_hsl(s["color"]))
+            pins = {
+                "hsl(205 62% 48%)": (47, 135, 198),
+                "hsl(204 50% 60%)": (102, 163, 204),
+                "hsl(203 34% 70%)": (152, 185, 205),
+                "hsl(202 24% 79%)": (189, 205, 214),
+                "hsl(201 16% 87%)": (217, 223, 227),
+                "hsl(200 12% 92%)": (232, 235, 237),
             }
             self.assertEqual(rgb, pins[s["color"]], f"RGB pin failed for {s['color']}")
 
@@ -184,13 +216,15 @@ class PalettePinTest(unittest.TestCase):
                 continue
             t = max(0.0, min(1.0, s["value"] / 30.0))
             hue = 5 + t * 145
-            expected_css = f"hsl({hue} 72% 46%)"
-            # Exact string form: JS builds `hsl(${hue} 72% 46%)` — the hue may
-            # be a float; compare parsed numbers instead of raw strings.
-            self.assertEqual(parse_hsl(s["color"])[1:], (72.0, 46.0))
+            light = 36 + t * 28
+            # Exact string form: JS builds `hsl(${hue} 72% ${light}%)` — the
+            # hue/light may be floats; compare parsed numbers instead of raw
+            # strings.
+            self.assertEqual(parse_hsl(s["color"])[1], 72.0)
+            self.assertAlmostEqual(parse_hsl(s["color"])[2], light, places=9)
             self.assertAlmostEqual(parse_hsl(s["color"])[0], hue, places=9)
             rgb = hsl_to_rgb(*parse_hsl(s["color"]))
-            self.assertEqual(rgb, hsl_to_rgb(hue, 72, 46))
+            self.assertEqual(rgb, hsl_to_rgb(hue, 72, light))
             expected_alpha = round(visibility_opacity(s["value"]) * 255)
             self.assertEqual(round(s["alpha"] * 255), expected_alpha,
                              f"visibility alpha drift at value {s['value']}")
@@ -295,7 +329,7 @@ class GeneratedBundlePinTest(unittest.TestCase):
                 continue
             v = v * scale
             t = max(0.0, min(1.0, v / 30.0))
-            expected_rgb = hsl_to_rgb(5 + t * 145, 72, 46)
+            expected_rgb = hsl_to_rgb(5 + t * 145, 72, 36 + t * 28)
             expected_a = round(visibility_opacity(v) * 255)
             self.assertEqual(got[:3], expected_rgb)
             self.assertEqual(got[3], expected_a)

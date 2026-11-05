@@ -284,7 +284,7 @@ test('loading state is honest: toggle disabled + loading note while the sidecar 
     'failed sidecar hides the switch');
 });
 
-test('cache-bust stamp bumped in the same ticket (weather-map.js ?v=bclwg24)', () => {
+test('cache-bust stamp bumped in the same ticket (weather-map.js ?v=bclwg25)', () => {
   const html = fs.readFileSync(path.join(ROOT, 'weather-map.html'), 'utf8');
-  assert.match(html, /assets\/weather-map\.js\?v=bclwg24/);
+  assert.match(html, /assets\/weather-map\.js\?v=bclwg25/);
 });

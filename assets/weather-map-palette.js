@@ -10,18 +10,33 @@
   // Bump whenever any color/opacity formula or band table below changes.
   // Changing this invalidates every published PNG frame (frontend falls back
   // to JSON rendering until a new manifest with the matching version ships).
-  const PALETTE_VERSION = 'wg16-p1';
+  const PALETTE_VERSION = 'wg21-p1';
 
   // One provider-independent forecast cloud scale keeps JMA, CWA, ICON and
   // GFS directly comparable. Observation layers keep separate semantics.
   const CLOUD_PERCENT_BREAKS=[0,20,40,50,70,85,100];
+  // CL-WG-21: Windy-style cloud ramp — a single monotonic lightness ladder
+  // (deep sea blue at 0% clear sky → neutral gray-white near 50% → pure white
+  // at 100% overcast). No purple/pink hue jumps: readability comes from
+  // lightness, which is also colorblind-safe by construction.
   const CLOUD_PERCENT_BANDS=[
-    {min:0,max:20,color:'hsl(190 78% 68%)'},
-    {min:20,max:40,color:'hsl(199 82% 56%)'},
-    {min:40,max:50,color:'hsl(216 82% 50%)'},
-    {min:50,max:70,color:'hsl(238 78% 50%)'},
-    {min:70,max:85,color:'hsl(263 72% 60%)'},
-    {min:85,max:100,color:'hsl(285 48% 82%)'}
+    {min:0,max:20,color:'hsl(214 78% 44%)'},
+    {min:20,max:40,color:'hsl(211 66% 58%)'},
+    {min:40,max:50,color:'hsl(209 44% 71%)'},
+    {min:50,max:70,color:'hsl(208 28% 82%)'},
+    {min:70,max:85,color:'hsl(207 16% 91%)'},
+    {min:85,max:100,color:'hsl(206 8% 97%)'}
+  ];
+  // CL-WG-21: low cloud keeps a gray-blue (slate) base tone — same monotonic
+  // lightness ladder, slightly darker/duller than total cloud at every stop so
+  // the layers stay kin but distinguishable (Windy low-cloud convention).
+  const LOW_CLOUD_PERCENT_BANDS=[
+    {min:0,max:20,color:'hsl(205 62% 48%)'},
+    {min:20,max:40,color:'hsl(204 50% 60%)'},
+    {min:40,max:50,color:'hsl(203 34% 70%)'},
+    {min:50,max:70,color:'hsl(202 24% 79%)'},
+    {min:70,max:85,color:'hsl(201 16% 87%)'},
+    {min:85,max:100,color:'hsl(200 12% 92%)'}
   ];
   const CLOUD_OPACITY_STOPS=[
     [0,.02],[20,.12],[40,.32],[50,.55],[70,.72],[85,.88],[100,1]
@@ -65,15 +80,16 @@
     return stops[stops.length-1][1];
   }
 
-  function cloudColorFor(value){
+  function cloudColorFor(value,bands){
+    const table=bands||CLOUD_PERCENT_BANDS;
     const v=Math.max(0,Math.min(100,Number(value)));
-    const band=CLOUD_PERCENT_BANDS.find(item=>v<item.max) ||
-      CLOUD_PERCENT_BANDS[CLOUD_PERCENT_BANDS.length-1];
+    const band=table.find(item=>v<item.max) ||
+      table[table.length-1];
     return band.color;
   }
 
   function layerOpacityCap(cfg){
-    return cfg.palette==='cloud' ? CLOUD_MAX_OVERLAY_ALPHA : 1;
+    return cfg.palette==='cloud' || cfg.palette==='cloudLow' ? CLOUD_MAX_OVERLAY_ALPHA : 1;
   }
 
   function cellOpacityFor(value,cfg){
@@ -84,7 +100,7 @@
     const t=normalizedValue(value,cfg);
     if(cfg.palette==='cloudMask') return value>=.5 ? .84 : 0;
     if(cfg.palette==='cloudHeight') return .28 + .72*t;
-    if(cfg.palette==='cloud'){
+    if(cfg.palette==='cloud' || cfg.palette==='cloudLow'){
       // Low percentages recede quickly; 50% becomes an explicit visual hinge.
       return interpolateStops(value,CLOUD_OPACITY_STOPS);
     }
@@ -132,9 +148,16 @@
     if(cfg.palette==='cloud'){
       return cloudColorFor(value);
     }
+    if(cfg.palette==='cloudLow'){
+      return cloudColorFor(value,LOW_CLOUD_PERCENT_BANDS);
+    }
     if(cfg.palette==='visibility'){
+      // CL-WG-21 audit: keep poor-visibility=warm semantics but make the ramp
+      // a monotonic lightness ladder (dark/dim at poor → bright at clear) so
+      // adjacent ticks are separable by lightness, not hue alone.
       const hue = 5 + t*145;
-      return `hsl(${hue} 72% 46%)`;
+      const light = 36 + t*28;
+      return `hsl(${hue} 72% ${light}%)`;
     }
     if(cfg.palette==='precip'){
       if(value < .01) return 'rgba(15,23,42,.82)';
@@ -188,7 +211,7 @@
   // adds only display labels on top of these entries.
   const LAYER_RENDER_CONFIG = {
     total_cloud_percent:{palette:'cloud', domain:[0,100], scale:'cloud_percent', ticks:CLOUD_PERCENT_BREAKS},
-    low_cloud_percent: {palette:'cloud', domain:[0,100], scale:'cloud_percent', ticks:CLOUD_PERCENT_BREAKS},
+    low_cloud_percent: {palette:'cloudLow', domain:[0,100], scale:'cloud_percent', ticks:CLOUD_PERCENT_BREAKS},
     mid_cloud_percent: {palette:'cloud', domain:[0,100], scale:'cloud_percent', ticks:CLOUD_PERCENT_BREAKS},
     high_cloud_percent:{palette:'cloud', domain:[0,100], scale:'cloud_percent', ticks:CLOUD_PERCENT_BREAKS},
     observed_cloud_mask:{palette:'cloudMask', domain:[0,1]},
@@ -219,6 +242,7 @@
     PALETTE_VERSION,
     CLOUD_PERCENT_BREAKS,
     CLOUD_PERCENT_BANDS,
+    LOW_CLOUD_PERCENT_BANDS,
     CLOUD_OPACITY_STOPS,
     CLOUD_MAX_OVERLAY_ALPHA,
     normalizedValue,
