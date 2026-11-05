@@ -90,12 +90,15 @@ jobs:
           # 30 attempts x 15s (~7.5 min) — never wait indefinitely.
           for i in {1..30}; do
             nonce="${GITHUB_SHA}-${i}-$(date +%s)"
-            curl -fsSL --max-time 20 -H 'Cache-Control: no-cache' \
-              "https://chaselights.app/index.html?pages_probe=${nonce}" -o /tmp/probe-index.html || true
-            curl -fsSL --max-time 20 -H 'Cache-Control: no-cache' \
-              "https://chaselights.app/assets/app.js?pages_probe=${nonce}" -o /tmp/probe-app.js || true
-            if [[ -s /tmp/probe-index.html && -s /tmp/probe-app.js ]] \
-              && [[ "$(sha256sum /tmp/probe-index.html | awk '{print $1}')" == "$expected_index_sha" ]] \
+            # probe failure is EXPECTED while Pages is still publishing; the
+            # result is recorded explicitly and checked below (the W5
+            # validator forbids ignored-failure shell patterns).
+            if curl -fsSL --max-time 20 -H 'Cache-Control: no-cache' \
+              "https://chaselights.app/index.html?pages_probe=${nonce}" -o /tmp/probe-index.html; then got_index=1; else got_index=0; fi
+            if curl -fsSL --max-time 20 -H 'Cache-Control: no-cache' \
+              "https://chaselights.app/assets/app.js?pages_probe=${nonce}" -o /tmp/probe-app.js; then got_app=1; else got_app=0; fi
+            if [[ "$got_index" -eq 1 && "$got_app" -eq 1 ]] &&
+              [[ "$(sha256sum /tmp/probe-index.html | awk '{print $1}')" == "$expected_index_sha" ]] \
               && [[ "$(sha256sum /tmp/probe-app.js | awk '{print $1}')" == "$expected_app_sha" ]]; then
               ready=1; break
             fi
