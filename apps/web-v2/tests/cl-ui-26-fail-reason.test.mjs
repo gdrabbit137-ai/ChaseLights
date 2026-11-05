@@ -70,7 +70,7 @@ test('CL-UI-26 (3): card state row appends the dominant known failure reason',()
 });
 
 test('CL-UI-26 (4): modal day rows name the dominant reason instead of a metric list',()=>{
-  assert.match(appSource,/const failReason=\(day\.state!=='GUIDANCE_SATISFIED'\)\?v2DominantFailReason\(day\.conditions,spot,genre\):null;/);
+  assert.match(appSource,/const failReason=\(day\.state!=='GUIDANCE_SATISFIED'\)\?v2DominantFailReason\(day\.conditions,spot,genre,opportunityId\):null;/);
   assert.match(appSource,/\$\{esc\(d\(\)\.v2_fail_reason\)\}\$\{esc\(failReason\)\}/);
   // The honest NOT_EVALUABLE mapping is untouched in the day-row renderer.
   assert.match(appSource,/day\.state==='NOT_EVALUABLE'\?d\(\)\.eval2_unk/);
@@ -103,6 +103,6 @@ test('CL-UI-32: low-cloud fail reason copy pinned in all three languages',()=>{
 
 test('CL-UI-26 (6): cache-bust stamp bumped for the edited app.js',()=>{
   const index=readFileSync(new URL('../../../index.html',import.meta.url),'utf8');
-  assert.match(index,/assets\/app\.js\?v=clui35/);
-  assert.match(index,/assets\/app\.css\?v=clui35/);
+  assert.match(index,/assets\/app\.js\?v=clui36/);
+  assert.match(index,/assets\/app\.css\?v=clui36/);
 });

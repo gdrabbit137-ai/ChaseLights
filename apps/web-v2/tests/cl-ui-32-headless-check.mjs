@@ -1,5 +1,5 @@
 // CL-UI-32 headless render check: serve the repo, open index.html in headless
-// Chrome, rebuild the fail-reason mapping from the SERVED app.js (clui35 stamp),
+// Chrome, rebuild the fail-reason mapping from the SERVED app.js (clui36 stamp),
 // and render the new low-cloud copy into the page DOM via the real
 // v2DominantFailReason path. Run: node apps/web-v2/tests/cl-ui-32-headless-check.mjs
 import {spawn} from 'node:child_process';
@@ -58,13 +58,13 @@ await send('Page.navigate',{url:base});
 await evaljs(`new Promise(r=>{const t=setInterval(()=>{if(document.readyState==='complete'){clearInterval(t);r(1)}},50);})`);
 await new Promise(r=>setTimeout(r,1500));
 
-// The stamp actually served must be clui35 (cache-buster proof).
+// The stamp actually served must be clui36 (cache-buster proof).
 const stamp = await evaljs(`fetch('./assets/app.js?v=probe').then(r=>r.url)`);
 assert.ok(stamp.includes('?v=probe') || stamp.startsWith(base), 'served via local server: '+stamp);
 
 // Rebuild the mapping from the SERVED app.js bytes, then render into DOM.
 const rendered = await evaljs(`(async () => {
-  const src = await fetch('./assets/app.js?v=clui35-check').then(r=>r.text());
+  const src = await fetch('./assets/app.js?v=clui36-check').then(r=>r.text());
   const i = src.indexOf('const V2_FAIL_PRIORITY');
   const code = src.slice(i, src.indexOf('// CL-UI-12: day0 (today) qualifying hours', i));
   const lowCloudDay = {state:'UNFAVORABLE', conditions:[{metric:'cloud_cover_low', day_verdict:'FAIL'}]};
@@ -88,6 +88,47 @@ assert.equal(rendered['zh-TW'],'低雲太厚，山頭沒入雲中 | 低雲太厚
 assert.equal(rendered.en,'Low cloud swallows the peak | Thick low cloud blocks the view');
 assert.equal(rendered.ja,'低層雲が厚く、山頂が雲に埋もれます | 低層雲が厚く、景観が遮られます');
 console.log('CL-UI-32 headless render OK:', JSON.stringify(rendered));
+
+// CL-COPY-01: the handwritten overrides table must be SERVED, and the three
+// showcase cards (漁人碼頭 tw-003-P01 / 大屯山雲海 tw-001-P02 / 象山 tw-002-P02)
+// must render their new per-spot copy through the real lookup order.
+const overridesServed = await evaljs(`fetch('./data/v2/copy/fail_reason_overrides.json').then(r=>r.json()).then(j=>({size:Object.keys(j).length, hit:!!j['tw-003-P01']}))`);
+assert.ok(overridesServed.hit, 'overrides table served');
+const showcase = await evaljs(`(async () => {
+  const src = await fetch('./assets/app.js?v=cl-copy-01-check').then(r=>r.text());
+  const i = src.indexOf('const V2_FAIL_PRIORITY');
+  const code = src.slice(i, src.indexOf('// CL-UI-12: day0 (today) qualifying hours', i));
+  const ov = await fetch('./data/v2/copy/fail_reason_overrides.json').then(r=>r.json());
+  const out = {};
+  for (const [id, day] of [
+    ['tw-003-P01', {conditions:[{metric:'cloud_cover_low',day_verdict:'FAIL'}]}],
+    ['tw-001-P02', {conditions:[{metric:'lcl_height_m_agl',day_verdict:'FAIL'}]}],
+    ['tw-002-P02', {conditions:[{metric:'city_night_window',day_verdict:'FAIL'}]}],
+    ['tw-051-P01', {conditions:[{metric:'cloud_cover_low',day_verdict:'FAIL'}]}],
+  ]) {
+    const fns = new Function('let currentLang="zh-TW";v2FailOverrides='+JSON.stringify(ov)+';'+code+
+      'return {v2DominantFailReason};')();
+    out[id] = fns.v2DominantFailReason(day.conditions, null, null, id);
+  }
+  return out;
+})()`);
+assert.equal(showcase['tw-003-P01'], '低雲太厚，碼頭與水面灰成一片');
+assert.equal(showcase['tw-001-P02'], '雲底太高，盆地裡沒有雲海');
+assert.equal(showcase['tw-002-P02'], '還沒暗到夜景好看');
+// 大古山（tw-051-P01）：手寫表有請條目, 取其手寫, 語境變體不撞表
+assert.equal(showcase['tw-051-P01'], '低雲太厚，海面整片灰白');
+console.log('CL-COPY-01 headless showcase OK:', JSON.stringify(showcase));
 const shot = await send('Page.captureScreenshot',{format:'png'});
 console.log('shot:', join(OUT,'render.png'), Buffer.from(shot.data,'base64').length, 'bytes');
+
+const mountainCtx = await evaljs(`(async () => {
+  const src = await fetch('./assets/app.js?v=cl-copy-01-check').then(r=>r.text());
+  const i = src.indexOf('const V2_FAIL_PRIORITY');
+  const code = src.slice(i, src.indexOf('// CL-UI-12: day0 (today) qualifying hours', i));
+  const fns = new Function('let currentLang="zh-TW";v2FailOverrides=null;'+code+'return {v2DominantFailReason};')();
+  return fns.v2DominantFailReason([{metric:'cloud_cover_low',day_verdict:'FAIL'}], null, 'mountain_view');
+})()`);
+// 大古山 山岳語境 fallback：手寫表沒有條目時，山岳語境取山頂文案
+assert.equal(mountainCtx, '低雲太厚，山頭沒入雲中');
+console.log('CL-COPY-01 headless showcase OK:', JSON.stringify(showcase), 'mountainCtx:', mountainCtx);
 chrome.kill(); server.close(); process.exit(0);

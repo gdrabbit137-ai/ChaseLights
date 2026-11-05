@@ -102,7 +102,7 @@ test('CL-UI-12 (c): day0 qualifying hours count only the remaining part of the d
   const v2DayHtmlBlock=block('function v2DayHtml','let v2Details={}');
   assert.match(v2DayHtmlBlock,/const hoursList=v2IsToday\(day,tz\)\?v2RemainingHoursList\(allHours,localNowMinutes\(tz\)\):allHours;/);
   assert.match(v2DayHtmlBlock,/v2-past-note/);
-  assert.match(appSource,/v2DayHtml\(day,labels\[i\]\|\|day\.local_date,spot\.timezone,spot,opp\.genre_template\|\|''\)/);
+  assert.match(appSource,/v2DayHtml\(day,labels\[i\]\|\|day\.local_date,spot\.timezone,spot,opp\.genre_template\|\|'',opp\.opportunity_id\)/);
   // The modal's "current-conditions" reference hour never resolves to a
   // today-hour that already passed.
   const v2PickRefHourBlock=block('function v2PickRefHour','function v2FmtNum');
