@@ -7,8 +7,10 @@ from cams_aod_weathergrid import (
     PM25_FIELD_GRID,
     PM25_ENCODING_SCALE,
     build_bundle,
+    fetch_responses,
     request_grid,
 )
+import time as _time
 
 
 def fake_responses(hours=13):
@@ -38,6 +40,78 @@ def fake_responses(hours=13):
 
 
 class CamsAodWeatherGridTests(unittest.TestCase):
+    def test_fetch_responses_retries_transient_429_then_succeeds(self):
+        # CL-CI-07: scheduled runs hit Open-Meteo 429s; the fetcher must
+        # retry transient statuses instead of failing the whole refresh.
+        payload = fake_responses(hours=3)
+        calls = {"n": 0}
+
+        class FakeResponse:
+            status_code = 429
+            headers = {"Retry-After": "0"}
+
+            def json(self):
+                return payload
+
+            def raise_for_status(self):
+                if calls["n"] < 2:
+                    raise AssertionError("429 must not be raised while retryable")
+
+        class FakeSession:
+            def get(self, url, params=None, timeout=None):
+                calls["n"] += 1
+                count = len(params["latitude"].split(","))
+                response = FakeResponse()
+                if calls["n"] >= 2:
+                    response.status_code = 200
+                    response.json = lambda count=count: payload[:count]
+                return response
+
+        sleeps = []
+        original_sleep = _time.sleep
+        _time.sleep = sleeps.append
+        try:
+            responses = fetch_responses(
+                [(10.0, 120.0), (10.4, 120.4)],
+                forecast_hours=3,
+                batch_size=2,
+                session=FakeSession(),  # type: ignore[arg-type]
+                batch_delay_s=0.0,
+            )
+        finally:
+            _time.sleep = original_sleep
+        self.assertEqual(calls["n"], 2)  # one 429 retry + one success
+        self.assertEqual(len(responses), 2)
+        self.assertTrue(sleeps)  # backoff actually slept before retrying
+
+    def test_fetch_responses_gives_up_after_retries_and_raises(self):
+        class Always429:
+            status_code = 429
+            headers = {}
+
+            def raise_for_status(self):
+                raise RuntimeError("HTTP 429")
+
+        class FakeSession:
+            def get(self, url, params=None, timeout=None):
+                return Always429()
+
+        original_sleep = _time.sleep
+        _time.sleep = lambda *_: None
+        try:
+            with self.assertRaises(RuntimeError):
+                fetch_responses(
+                    [(10.0, 120.0)],
+                    forecast_hours=3,
+                    batch_size=1,
+                    retries=2,
+                    batch_delay_s=0.0,
+                    session=FakeSession(),  # type: ignore[arg-type]
+                )
+        finally:
+            _time.sleep = original_sleep
+
+
     def test_request_grid_covers_taiwan_region_on_point_four_degree_lattice(self):
         lats, lons, points = request_grid()
         self.assertEqual(lats[0], 4.8)

@@ -73,15 +73,17 @@ jobs:
           assert browser.get("platform") == "Himawari-9", browser.get("platform")
           assert browser.get("provenance", {}).get("forecast") is False
           assert browser.get("provenance", {}).get("api_key_required") is False
-          assert browser.get("grid", {}).get("rows") == 276, browser.get("grid")
-          assert browser.get("grid", {}).get("cols") == 301, browser.get("grid")
-          assert browser.get("grid", {}).get("step_degrees") == 0.02
+          assert browser.get("grid", {}).get("rows") == 876, browser.get("grid")
+          assert browser.get("grid", {}).get("cols") == 1001, browser.get("grid")
+          # Full-frame 105–145E / 5–40N at 0.04° (matches OUTPUT_STEP_DEG in
+          # himawari9_weathergrid_browser_bundle.py; 0.02° broke the 5 MB budget).
+          assert browser.get("grid", {}).get("step_degrees") == 0.04
           assert set(browser.get("fields", {})) == {
               "observed_cloud_mask",
               "cloud_top_height_m",
           }
-          assert len(browser["values"]["observed_cloud_mask"]) == 276 * 301
-          assert len(browser["values"]["cloud_top_height_m"]) == 276 * 301
+          assert len(browser["values"]["observed_cloud_mask"]) == 876 * 1001
+          assert len(browser["values"]["cloud_top_height_m"]) == 876 * 1001
 
           observation = browser.get("observation", {})
           end = observation.get("time_coverage_end")

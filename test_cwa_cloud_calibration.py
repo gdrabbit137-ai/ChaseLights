@@ -1,6 +1,7 @@
 import unittest
 
 from cwa_cloud_calibration import calibrate, collocate_snapshot
+from weathergrid_packed_values import pack_int16_gz
 
 
 def cwa_bundle():
@@ -108,6 +109,22 @@ class CwaLowCloudCalibrationTests(unittest.TestCase):
         )
         self.assertTrue(result["semantics"]["not_native_cloud_fraction"])
         self.assertTrue(result["semantics"]["not_photography_opportunity_scoring"])
+
+    def test_packed_i16gz_cwa_values_decode_like_plain_lists(self):
+        # CL-CI-07 regression: CWA WRF browser bundles now ship quantized
+        # fields as i16gz-packed entries; collocation must decode them
+        # instead of failing on float('enc').
+        plain = cwa_bundle()
+        packed = cwa_bundle()
+        for frame in packed["frames"]:
+            frame["values"] = {
+                name: pack_int16_gz(values)
+                for name, values in frame["values"].items()
+            }
+        h = himawari("2026-10-06T12:00:00Z")
+        self.assertEqual(
+            collocate_snapshot(packed, h), collocate_snapshot(plain, h)
+        )
 
 
 if __name__ == "__main__":

@@ -19,6 +19,8 @@ import math
 from datetime import datetime, timezone
 from pathlib import Path
 
+from weathergrid_packed_values import is_packed_entry, unpack_int16_gz
+
 LOW_CLOUD_TOP_MAX_M = 3700.0
 MIN_TIME_MATCH_MINUTES = 1.0
 CANDIDATE_FEATURES = (
@@ -39,6 +41,10 @@ def _utc(value: str) -> datetime:
 
 def _decode(values, meta):
     scale = float(meta.get("scale", 1.0))
+    # Browser bundles may ship quantized fields as i16gz-packed entries
+    # ({"enc": ..., "data": ...}) instead of plain JSON number lists.
+    if is_packed_entry(values):
+        values = unpack_int16_gz(values)
     return [None if value is None else float(value) * scale for value in values]
 
 
