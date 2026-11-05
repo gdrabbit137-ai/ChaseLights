@@ -48,4 +48,4 @@ ticket that touches those trees.
   `validate_release_config.py` (push limited to the lock diff; no deploy).
 - Regression coverage: `ops/v2/tests/test_pin_sync.py` (5 cases, incl. the
   CL-CI-10 w3 multi-subtree sync); the postmerge exact-count requirement
-  is now 664.
+  is now 679 (CL-CI-11 re-baseline: w3=170, w4-node=257).

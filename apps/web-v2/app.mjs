@@ -337,7 +337,7 @@ function renderOpportunity(target,opp,c,place){
       }
       liveSec.append(table);
       if(nextGood)liveSec.append(node("p","meta",`${t("evalLiveNext")}: ${nextGood.local}`));
-      const link=node("a","nav-action",t("evalLiveLink"));
+      const link=node("a","eval-live-link",t("evalLiveLink"));
       link.href="./evaluations.html?v=20261030a";link.rel="noopener";
       liveSec.append(link);
     }catch(e){liveSec.append(node("p","muted","eval-load-error: "+(e&&e.message||e)));}
