@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Iterable
 
 import requests
+import time
 
 
 API_URL = "https://air-quality-api.open-meteo.com/v1/air-quality"
@@ -84,20 +85,39 @@ def fetch_responses(
     *,
     forecast_hours: int = 120,
     batch_size: int = 60,
+    retries: int = 5,
+    batch_delay_s: float = 2.0,
     session=requests,
 ) -> list[dict]:
     responses: list[dict] = []
     for batch in _chunks(points, batch_size):
-        params = {
-            "latitude": ",".join(f"{lat:.4f}" for lat, _ in batch),
-            "longitude": ",".join(f"{lon:.4f}" for _, lon in batch),
-            "hourly": f"{FIELD_API},{PM25_FIELD_API}",
-            "domains": "cams_global",
-            "forecast_hours": int(forecast_hours),
-            "timezone": "GMT",
-            "cell_selection": "nearest",
-        }
-        response = session.get(API_URL, params=params, timeout=60)
+        response = None
+        for attempt in range(retries + 1):
+            params = {
+                "latitude": ",".join(f"{lat:.4f}" for lat, _ in batch),
+                "longitude": ",".join(f"{lon:.4f}" for _, lon in batch),
+                "hourly": f"{FIELD_API},{PM25_FIELD_API}",
+                "domains": "cams_global",
+                "forecast_hours": int(forecast_hours),
+                "timezone": "GMT",
+                "cell_selection": "nearest",
+            }
+            response = session.get(API_URL, params=params, timeout=60)
+            transient = (
+                response.status_code == 429
+                or 500 <= response.status_code < 600
+            )
+            if not transient:
+                break
+            if attempt == retries:
+                break
+            try:
+                retry_after = float(response.headers.get("Retry-After") or 0)
+            except ValueError:
+                retry_after = 0.0
+            time.sleep(max(retry_after, 5.0 * 2**attempt))
+        if response is None:
+            raise RuntimeError("fetch_responses: retry loop never produced a response")
         response.raise_for_status()
         payload = response.json()
         items = payload if isinstance(payload, list) else [payload]
@@ -106,6 +126,9 @@ def fetch_responses(
                 f"Open-Meteo returned {len(items)} locations for {len(batch)} requests"
             )
         responses.extend(items)
+        # Stay under the Open-Meteo free-tier rate budget between batches.
+        if batch_delay_s:
+            time.sleep(batch_delay_s)
     return responses
 
 
