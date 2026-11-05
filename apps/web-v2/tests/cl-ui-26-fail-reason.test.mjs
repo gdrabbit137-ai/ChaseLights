@@ -57,14 +57,14 @@ test('CL-UI-26 (3): card state row appends the reason only for UNFAVORABLE',()=>
   assert.equal(zh.v2FailReasonSuffix('GUIDANCE_SATISFIED',rainDay),'');
   assert.equal(zh.v2FailReasonSuffix('UNFAVORABLE',null),'');
   // Render path consumes the helper in the card state row.
-  assert.match(appSource,/\$\{esc\(v2FailReasonSuffix\(v2Best\.state,v2Best\.day\)\)\}/);
+  assert.match(appSource,/\$\{esc\(v2FailReasonSuffix\(v2Best\.state,v2Best\.day,v2Best\.oppId\)\)\}/);
   // The winning day row is carried on the best object so card and day share
   // one source of conditions.
   assert.match(appSource,/oppDays:o\.days\|\|\[\],day\}/);
 });
 
 test('CL-UI-26 (4): modal day rows name the dominant reason instead of a metric list',()=>{
-  assert.match(appSource,/const failReason=\(day\.state==='UNFAVORABLE'\)\?v2DominantFailReason\(day\.conditions\):null;/);
+  assert.match(appSource,/const failReason=\(day\.state==='UNFAVORABLE'\)\?v2DominantFailReason\(day\.conditions,opportunityId\):null;/);
   assert.match(appSource,/\$\{esc\(d\(\)\.v2_fail_reason\)\}\$\{esc\(failReason\)\}/);
   // The honest NOT_EVALUABLE mapping is untouched in the day-row renderer.
   assert.match(appSource,/day\.state==='NOT_EVALUABLE'\?d\(\)\.eval2_unk/);
