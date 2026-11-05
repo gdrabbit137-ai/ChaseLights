@@ -153,7 +153,7 @@ ChaseLights 是風景攝影師的「拍攝決策工具」。它回答一個問�
 
 | # | 項目 | 建議 |
 |---|---|---|
-| 1 | **風向粒子動畫** | 需資料層先備 wind u/v 原語（向量分量）；現行色輪+箭頭先滿足正確性。待風 u/v 進 bundle 後再評粒子層（依賴順序：資料 → 渲染）。 |
+| 1 | **風向粒子動畫** | ✅ 已實作（CL-DATA-08＋CL-WG-20）：GFS bundle 攜 10m/925/850/700 hPa u/v 向量分量；風向圖層詳情面板提供可開關的粒子流線動畫（單源 u/v 驅動、中性白拖尾、390px 自適應密度、預設關閉、離開圖層即停）。`wind_direction_10m_deg` 隨 u/v 上線重回圖層選單（B169 曾隱藏）。 |
 | 2 | **瓦片第二階段** | 預渲染 PNG 已過第一階段；瓦片化（deep-zoom）待 PNG 幀數與載入資料量成長到痛點再開工，避免過早抽象。 |
 | 3 | **TIME_SPECIALIZATION 錯置 5 筆** | 見 §3.1；待 owner 逐筆裁定後以語意修正執行（parity gate 豁免＋revision note）。 |
 | 4 | **evaluations-details 以 place_id 命名導致兩組座標共用 place_id 互相覆蓋**（2 個 city_night 明細遺失） | 已列 backlog：先修命名方案，再排查「modal 列消失」。 |

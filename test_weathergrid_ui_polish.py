@@ -38,7 +38,10 @@ class WeatherGridUiPolishTests(unittest.TestCase):
     def test_wind_direction_is_encoded_by_vectors_in_combined_layer(self):
         self.assertIn("layerConfig['wind_speed_10m_m_s']={label:'10 m 風場'", self.js)
         self.assertIn("wind_speed_10m_m_s:{palette:'wind', domain:[0,20]}", self.palette)
-        self.assertIn("key=>key!=='wind_direction_10m_deg'", self.js)
+        # CL-WG-20: the 10 m direction layer returns to the picker once GFS
+        # bundles carry u/v (B169 had hidden it while only speed existed).
+        self.assertIn("const visibleLayerKeys=Object.keys(layerConfig);", self.js)
+        self.assertIn("layerConfig['wind_direction_10m_deg']={label:'10 m 風向'", self.js)
         self.assertIn("const toward=((direction+180)%360)", self.js)
         self.assertIn("if(!state.windVectors && !isWindLayer()) return", self.js)
 

@@ -153,6 +153,17 @@ jobs:
                   f"the published bbox {bbox}"
               )
               assert browser.get("fields"), f"{region}: bundle has no field encodings"
+              # CL-DATA-08: u/v vector components per level must ship with
+              # every GFS bundle so the particle-flow layer is single-source.
+              uv_fields = {
+                  "wind_u_10m_m_s", "wind_v_10m_m_s",
+                  "wind_u_925hpa_m_s", "wind_v_925hpa_m_s",
+                  "wind_u_850hpa_m_s", "wind_v_850hpa_m_s",
+                  "wind_u_700hpa_m_s", "wind_v_700hpa_m_s",
+              }
+              assert uv_fields <= set(browser.get("fields", {})), (
+                  region, sorted(set(browser.get("fields", {})) - uv_fields)
+              )
 
           out = Path("gfs_multilayer_tw_output")
           browser = json.loads((out / "gfs_tw_weather_browser.json").read_text())

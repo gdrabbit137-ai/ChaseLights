@@ -12,7 +12,7 @@
   <link rel="icon" href="/assets/favicon.ico" sizes="32x32">
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-gl.css">
   <link rel="stylesheet" href="./assets/site-nav.css">
-  <link rel="stylesheet" href="./assets/weather-map.css?v=bclwg21">
+  <link rel="stylesheet" href="./assets/weather-map.css?v=bclwg22">
 </head>
 <body>
   <nav class="site-nav" aria-label="全站導覽">
@@ -129,6 +129,11 @@
             <span>在其他圖層疊加 10 m 風向箭頭</span>
           </label>
           <div class="muted wind-vector-note">「10 m 風場」會固定同時顯示風速色階與風向箭頭；箭頭指向風的移動方向，風向數值仍採氣象「來向」。此開關只控制是否在其他圖層額外疊加風向箭頭。</div>
+          <label id="wind-particle-toggle-label" class="wind-particle-toggle" hidden>
+            <input id="wind-particle-toggle" type="checkbox">
+            <span>風向粒子流線動畫</span>
+          </label>
+          <div id="wind-particle-note" class="muted wind-particle-note" hidden>以單一來源 u/v 風向量場驅動粒子沿風移動並留下淡色拖尾（實驗功能）。僅在風向圖層上可開啟；離開圖層或切換來源時動畫自動停止以節省電力。預設關閉，手機自動降低密度。</div>
           <div class="layer-qc">
             <div class="layer-qc-label">資料品質詳細資訊</div>
             <div id="qc-status" class="detail-list">
@@ -181,6 +186,6 @@
   <script src="./assets/weather-map-palette.js?v=bclwg17"></script>
   <script src="./assets/weather-map-deeplink.js?v=bclwg19"></script>
   <script src="./assets/site-nav.js"></script>
-  <script src="./assets/weather-map.js?v=bclwg21"></script>
+  <script src="./assets/weather-map.js?v=bclwg22"></script>
 </body>
 </html>

@@ -21,6 +21,8 @@ class GFSMultilayerPOCTest(unittest.TestCase):
             "var_VIS", "var_PRATE", "var_UGRD", "var_VGRD",
             "lev_low_cloud_layer", "lev_middle_cloud_layer",
             "lev_high_cloud_layer", "lev_surface", "lev_10_m_above_ground",
+            # CL-DATA-08: pressure-level U/V for the particle-flow layer.
+            "lev_925_mb", "lev_850_mb", "lev_700_mb",
         ]:
             self.assertEqual(query[key], ["on"], key)
 
@@ -56,8 +58,43 @@ class GFSMultilayerPOCTest(unittest.TestCase):
                 "precip_rate_mm_h",
                 "wind_u_10m_m_s",
                 "wind_v_10m_m_s",
+                # CL-DATA-08: pressure-level U/V vector components.
+                "wind_u_925hpa_m_s", "wind_v_925hpa_m_s",
+                "wind_u_850hpa_m_s", "wind_v_850hpa_m_s",
+                "wind_u_700hpa_m_s", "wind_v_700hpa_m_s",
             },
         )
+
+    def test_pressure_level_uv_specs_pin_exact_hpa_levels(self):
+        from gfs_multilayer_poc import _field_candidates
+        import types
+
+        def fake_array(level, type_of_level, short):
+            attrs = {
+                "GRIB_shortName": short,
+                "GRIB_typeOfLevel": type_of_level,
+                "GRIB_level": level,
+            }
+            arr = types.SimpleNamespace()
+            arr.attrs = attrs
+            arr.ndim = 2
+            arr.values = [[0.0, 0.0], [0.0, 0.0]]
+            return arr
+
+        ds = types.SimpleNamespace()
+        ds.data_vars = {
+            "u925": fake_array(925, "isobaricInhPa", "u"),
+            "u850": fake_array(850, "isobaricInhPa", "u"),
+            "u10": fake_array(10, "heightAboveGround", "u"),
+        }
+        spec = FIELD_SPECS["wind_u_925hpa_m_s"]
+        best = _field_candidates([ds], spec)[0]
+        self.assertEqual(best[2], "u925",
+            "the 925 hPa U spec must select exactly the 925 hPa GRIB message")
+        spec10 = FIELD_SPECS["wind_u_10m_m_s"]
+        best10 = _field_candidates([ds], spec10)[0]
+        self.assertEqual(best10[2], "u10",
+            "the 10 m U spec must keep selecting the heightAboveGround message")
 
     def test_generic_sampling(self):
         field = {

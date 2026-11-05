@@ -56,6 +56,10 @@ REQUEST_PARAMS = {
     "lev_entire_atmosphere": "on",
     "lev_surface": "on",
     "lev_10_m_above_ground": "on",
+    # CL-DATA-08: pressure-level U/V components for the wind-particle layer.
+    "lev_925_mb": "on",
+    "lev_850_mb": "on",
+    "lev_700_mb": "on",
 }
 
 FIELD_SPECS = {
@@ -98,6 +102,47 @@ FIELD_SPECS = {
         "aliases": {"10v", "v10", "v", "vgrd"},
         "level": "heightaboveground",
         "kind": "wind",
+    },
+    # CL-DATA-08: pressure-level U/V vector components (m/s, eastward u /
+    # northward v) so the browser particle-flow layer can advect particles
+    # through a single-source vector field without reconstructing direction
+    # from a wrapped angle. Same GRIB short names (UGRD/VGRD); the level
+    # discriminator below separates 10 m from isobaric levels.
+    "wind_u_925hpa_m_s": {
+        "aliases": {"u", "ugrd"},
+        "level": "isobaricinhpa",
+        "kind": "wind",
+        "pressure_hpa": 925,
+    },
+    "wind_v_925hpa_m_s": {
+        "aliases": {"v", "vgrd"},
+        "level": "isobaricinhpa",
+        "kind": "wind",
+        "pressure_hpa": 925,
+    },
+    "wind_u_850hpa_m_s": {
+        "aliases": {"u", "ugrd"},
+        "level": "isobaricinhpa",
+        "kind": "wind",
+        "pressure_hpa": 850,
+    },
+    "wind_v_850hpa_m_s": {
+        "aliases": {"v", "vgrd"},
+        "level": "isobaricinhpa",
+        "kind": "wind",
+        "pressure_hpa": 850,
+    },
+    "wind_u_700hpa_m_s": {
+        "aliases": {"u", "ugrd"},
+        "level": "isobaricinhpa",
+        "kind": "wind",
+        "pressure_hpa": 700,
+    },
+    "wind_v_700hpa_m_s": {
+        "aliases": {"v", "vgrd"},
+        "level": "isobaricinhpa",
+        "kind": "wind",
+        "pressure_hpa": 700,
     },
 }
 
@@ -190,6 +235,26 @@ def _field_candidates(datasets, spec: dict):
                 score += 5
             if spec["level"] == type_of_level:
                 score += 8
+            # CL-DATA-08: isobaric U/V exist at many pressure levels. cfgrib
+            # merges same-variable messages into one multi-level data var with
+            # an `isobaricInhPa` dimension; the exact hPa discriminator is that
+            # coordinate (or the GRIB_level attribute on single-level vars).
+            if spec.get("pressure_hpa") is not None:
+                if _norm_token(attrs.get("GRIB_typeOfLevel", "")) == "isobaricinhpa":
+                    wanted = int(spec["pressure_hpa"])
+                    level_attr = (array.attrs or {}).get("GRIB_level")
+                    if level_attr is not None:
+                        score += 8 if int(level_attr) == wanted else -100
+                    elif "isobaricInhPa" in array.dims and wanted in [
+                        int(v) for v in ds.coords["isobaricInhPa"].values
+                    ]:
+                        score += 8
+                    else:
+                        score -= 100
+                elif int((array.attrs or {}).get("GRIB_level") or 0):
+                    score -= 100
+            elif int((array.attrs or {}).get("GRIB_level") or 0) and                     _norm_token(attrs.get("GRIB_typeOfLevel", "")) == "isobaricinhpa":
+                score -= 100
             if array.ndim >= 2:
                 score += 1
             candidates.append((score, ds, name, array))
@@ -248,6 +313,10 @@ def extract_fields(grib_path: Path) -> dict[str, dict]:
             )
 
         score, ds, name, array = candidates[0]
+        # CL-DATA-08: multi-level merged arrays carry an `isobaricInhPa`
+        # dimension; select the exact pressure level before squeezing.
+        if spec.get("pressure_hpa") is not None and "isobaricInhPa" in array.dims:
+            array = array.sel(isobaricInhPa=int(spec["pressure_hpa"]))
         values = np.squeeze(np.asarray(array.values, dtype=float))
         if values.ndim != 2:
             raise RuntimeError(f"{key} expected 2-D grid, got {values.shape}")
@@ -291,46 +360,60 @@ def extract_fields(grib_path: Path) -> dict[str, dict]:
 
 
 def _derive_wind_fields(fields: dict[str, dict]) -> dict[str, dict]:
+    """Derive speed/direction from U/V for every level that carries both.
+
+    CL-DATA-08 keeps the existing 10 m derived fields and reuses the same
+    u/v -> speed/direction math per pressure level so future consumers see
+    one consistent convention (meteorological "from" direction, degrees).
+    """
     import numpy as np
 
-    u = fields["wind_u_10m_m_s"]
-    v = fields["wind_v_10m_m_s"]
-    ua = np.asarray(u["values"], dtype=float)
-    va = np.asarray(v["values"], dtype=float)
-    speed = np.sqrt(ua ** 2 + va ** 2)
-    # Meteorological direction: direction wind is coming from.
-    direction = (270.0 - np.degrees(np.arctan2(va, ua))) % 360.0
+    derived = {}
+    for level, label, type_of_level in (
+        ("10m", "10 m", "heightAboveGround"),
+        ("925hpa", "925 hPa", "isobaricInhPa"),
+        ("850hpa", "850 hPa", "isobaricInhPa"),
+        ("700hpa", "700 hPa", "isobaricInhPa"),
+    ):
+        u = fields.get(f"wind_u_{level}_m_s")
+        v = fields.get(f"wind_v_{level}_m_s")
+        if u is None or v is None:
+            continue
+        ua = np.asarray(u["values"], dtype=float)
+        va = np.asarray(v["values"], dtype=float)
+        speed = np.sqrt(ua ** 2 + va ** 2)
+        # Meteorological direction: direction wind is coming from.
+        direction = (270.0 - np.degrees(np.arctan2(va, ua))) % 360.0
 
-    base = {
-        "latitudes": u["latitudes"],
-        "longitudes": u["longitudes"],
-    }
-    return {
-        "wind_speed_10m_m_s": {
+        base = {
+            "latitudes": u["latitudes"],
+            "longitudes": u["longitudes"],
+        }
+        derived[f"wind_speed_{level}_m_s"] = {
             **base,
-            "field_name": "derived_wind_speed_10m",
+            "field_name": f"derived_wind_speed_{level}",
             "field_attrs": {
-                "short_name": "wind_speed_10m",
-                "type_of_level": "heightAboveGround",
-                "long_name": "10 m wind speed derived from GFS U/V",
+                "short_name": f"wind_speed_{level}",
+                "type_of_level": type_of_level,
+                "long_name": f"{label} wind speed derived from GFS U/V",
                 "source_units": "m/s",
                 "normalized_units": "m/s",
             },
             "values": speed.tolist(),
-        },
-        "wind_direction_10m_deg": {
+        }
+        derived[f"wind_direction_{level}_deg"] = {
             **base,
-            "field_name": "derived_wind_direction_10m",
+            "field_name": f"derived_wind_direction_{level}",
             "field_attrs": {
-                "short_name": "wind_direction_10m",
-                "type_of_level": "heightAboveGround",
-                "long_name": "10 m meteorological wind direction derived from GFS U/V",
+                "short_name": f"wind_direction_{level}",
+                "type_of_level": type_of_level,
+                "long_name": f"{label} meteorological wind direction derived from GFS U/V",
                 "source_units": "degree",
                 "normalized_units": "degree",
             },
             "values": direction.tolist(),
-        },
-    }
+        }
+    return derived
 
 
 def _mesh(field: dict):
