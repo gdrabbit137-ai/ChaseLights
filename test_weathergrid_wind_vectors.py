@@ -27,7 +27,7 @@ class WeatherGridWindVectorTests(unittest.TestCase):
         self.assertIn("speed<0.5", self.js)
 
     def test_wind_speed_and_direction_are_one_map_layer(self):
-        self.assertIn("wind_speed_10m_m_s:{label:'10 m 風場'", self.js)
+        self.assertIn("layerConfig['wind_speed_10m_m_s']={label:'10 m 風場'", self.js)
         self.assertIn("key=>key!=='wind_direction_10m_deg'", self.js)
         self.assertIn("return layer==='wind_speed_10m_m_s';", self.js)
         self.assertIn("if(!state.windVectors && !isWindLayer()) return", self.js)

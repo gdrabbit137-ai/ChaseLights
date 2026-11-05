@@ -15,8 +15,7 @@ class PlaceDiscoverySortingStaticTests(unittest.TestCase):
     def test_sort_control_exposes_required_modes(self):
         for value in (
             'value="region"',
-            'value="score_desc"',
-            'value="score_asc"',
+            'value="hours_desc"',
             'value="distance_near"',
             'value="distance_far"',
         ):

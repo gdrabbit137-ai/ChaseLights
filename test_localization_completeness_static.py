@@ -41,7 +41,7 @@ class LocalizationCompletenessStaticTests(unittest.TestCase):
         self.assertIn("const localeText=values=>", APP)
         self.assertIn("return localeText(t)||d().status_unavailable;", APP)
         self.assertIn("return currentLang==='zh-TW'?userFacingResearchValue(owner?.[key]):'';", APP)
-        self.assertIn("return themeLabel(op?.legacy_theme||theme||'mountain_view');", APP)
+        self.assertIn("themeLabel(op?.legacy_theme||theme||'mountain_view')", APP)
 
     def test_weather_timeline_copy_uses_photographer_language_in_all_locales(self):
         for obsolete in (
@@ -91,7 +91,7 @@ class LocalizationCompletenessStaticTests(unittest.TestCase):
             "There is no clear shooting recommendation for the selected date",
             "この場所では現在、撮影ガイドを提供できません。",
             "選択日は信頼できる撮影提案を現在提供できません",
-            "選択日には明確な撮影提案がありません",
+            "選択日には明確におすすめできる撮影時間がありません",
         ):
             with self.subTest(expected=expected):
                 self.assertIn(expected, APP)
