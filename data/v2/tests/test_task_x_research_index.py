@@ -75,6 +75,10 @@ class ResearchIndexTests(unittest.TestCase):
             # the task-branch commit carrying verified en/ja subject names
             # (tw-036-P01 / tw-082-P01 keep their review-gated round-1 pins).
             'b97f7bb87a46db4a3e21922d7f6058b8b64a6385',
+            # CL-UI-25: 22 city_night contracts re-pinned to the task-branch
+            # commit adding the contract-level city_night_window condition
+            # (mirrors the CL-UI-23 evaluation-layer gate semantics).
+            '6a420db5100bb184f655b4b765d29fdf3494588d',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         self.assertEqual('76e926d16f3cfd6f2983ec2c0f6fe6ac7004104d',p01['commit_sha'])

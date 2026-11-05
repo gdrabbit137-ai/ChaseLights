@@ -285,6 +285,11 @@ def main():
     parser.add_argument("--out", default=str(ROOT / "apps/web-v2/evaluations-latest.json"))
     parser.add_argument("--archive", default=str(ROOT / "data/v2/evaluations"))
     parser.add_argument("--details-dir", default=str(ROOT / "apps/web-v2/evaluations-details"))
+    # CL-UI-25: optional targeted regeneration (one place_id only). Bundles and
+    # archive output should be redirected when using it, so a partial run never
+    # clobbers the full published artifacts.
+    parser.add_argument("--only-place-id", default=None,
+                        help="evaluate only the coordinate groups of this place_id")
     parser.add_argument("--forecast-hours", type=int, default=72)
     arguments = parser.parse_args()
 
@@ -296,6 +301,10 @@ def main():
     by_coordinate = {}
     skipped = []
     for doc in opportunities:
+        # CL-UI-25: targeted regeneration filter — applied before coordinate
+        # grouping so only the requested place's coordinates are fetched.
+        if arguments.only_place_id and doc["place_id"] != arguments.only_place_id:
+            continue
         coord = coordinate_of(doc)
         if coord is None:
             skipped.append({"opportunity_id": doc["opportunity_id"],
@@ -314,6 +323,16 @@ def main():
     places_out = []
     provider_runs = []
     failures = []
+    # CL-UI-25: detail artifacts are keyed by place_id, but a place_id can span
+    # more than one coordinate group (e.g. tw-002 evaluates P01 from one
+    # viewpoint and P02/P03 from another ~300 m away). Writing one file per
+    # coordinate group clobbered the earlier group's opportunities (two
+    # city_night details lost). Detail docs are now accumulated per place_key
+    # and written once after the loop; a merged doc carries per-opportunity
+    # coordinate provenance (coordinate / coordinate_source) plus a
+    # coordinate_groups manifest so the single file stays honest about which
+    # evaluation came from which viewpoint.
+    detail_docs = {}
     for index, (key, group) in enumerate(sorted(by_coordinate.items())):
         lat, lon = group["lat"], group["lon"]
         try:
@@ -488,12 +507,44 @@ def main():
         # narrow astro window metrics (evaluations-details is not
         # schema-gated; evaluations-latest.json keeps its v0.1 shape).
         place_detail["astro_sampling"] = ASTRO_SAMPLING_PROVENANCE
-        details_dir = Path(arguments.details_dir)
-        details_dir.mkdir(parents=True, exist_ok=True)
+        entry = detail_docs.get(place_key)
+        if entry is None:
+            detail_docs[place_key] = {"detail": place_detail, "groups": [
+                {"coordinate": [lat, lon], "coordinate_source": group["source"],
+                 "opportunity_ids": [o["opportunity_id"]
+                                     for o in place_detail["opportunities"]]}]}
+        else:
+            entry["detail"]["opportunities"].extend(place_detail["opportunities"])
+            entry["groups"].append(
+                {"coordinate": [lat, lon], "coordinate_source": group["source"],
+                 "opportunity_ids": [o["opportunity_id"]
+                                     for o in place_detail["opportunities"]]})
+        time.sleep(0.25)
+
+    details_dir = Path(arguments.details_dir)
+    details_dir.mkdir(parents=True, exist_ok=True)
+    for place_key, entry in detail_docs.items():
+        place_detail = entry["detail"]
+        # CL-UI-25 merge provenance: when one place_id covers several
+        # coordinate groups, the detail doc keeps the FIRST group's coordinate
+        # at file level and annotates every opportunity (and a
+        # coordinate_groups manifest) with the coordinate it was actually
+        # evaluated at — never a silent overwrite of the earlier group.
+        if len(entry["groups"]) > 1:
+            for opp in place_detail["opportunities"]:
+                group = next((g for g in entry["groups"]
+                              if opp["opportunity_id"] in g["opportunity_ids"]), None)
+                if group is not None:
+                    opp["coordinate"] = group["coordinate"]
+                    opp["coordinate_source"] = group["coordinate_source"]
+            place_detail["coordinate_groups"] = [
+                {"coordinate": g["coordinate"],
+                 "coordinate_source": g["coordinate_source"],
+                 "opportunity_ids": g["opportunity_ids"]}
+                for g in entry["groups"]]
         (details_dir / f"{place_key}.json").write_text(
             json.dumps(place_detail, ensure_ascii=False, separators=(",", ":")) + "\n",
             encoding="utf-8")
-        time.sleep(0.25)
 
     bundle = {
         "evaluation_bundle_version": BUNDLE_VERSION,

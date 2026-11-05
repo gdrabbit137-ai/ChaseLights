@@ -72,8 +72,10 @@ test('CL-UI-19 B2: ja copy is natural Japanese with zero simplified 题',()=>{
 });
 
 test('CL-UI-19 B3: the name fallback chain never ends on the raw opportunity id first',()=>{
-  assert.ok(appSource.includes("const name=(c?reviewedLocaleName(c.name_i18n):'')||reviewedLocaleName(o.name_i18n)||o.name_i18n?.['zh-TW']||o.opportunity_id;"));
-  assert.ok(appSource.includes("return op?.name_i18n?.['zh-TW']||op?.name_zh||legacyName||themeLabel(op?.legacy_theme||theme||'mountain_view');"));
+  // CL-UI-25: the raw zh-TW fallback arms now run through fallbackConnectors
+  // so en/ja display keeps zh-TW content with locale-consistent joiners.
+  assert.ok(appSource.includes("(currentLang!=='zh-TW'?fallbackConnectors(o.name_i18n?.['zh-TW']||''):o.name_i18n?.['zh-TW'])||o.opportunity_id;"));
+  assert.ok(appSource.includes("return fallbackConnectors(op?.name_i18n?.['zh-TW'])||op?.name_zh||legacyName||themeLabel(op?.legacy_theme||theme||'mountain_view');"));
 });
 
 test('CL-UI-19 B4: modal summary falls back to the V2 best opportunity',()=>{
