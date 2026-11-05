@@ -16,8 +16,10 @@ class ViirsProductionPublishWorkflowTests(unittest.TestCase):
 
     def test_only_runtime_browser_and_qc_files_are_committed(self):
         publish = self.text.split("- name: Publish QC-passing VIIRS snapshot", 1)[1]
-        self.assertIn("weathergrid/viirs_nightlights_tw_browser.json", publish)
-        self.assertIn("weathergrid/viirs_nightlights_tw_qc.json", publish)
+        # CL-DATA-07: publication follows the region-resolved
+        # viirs_nightlights_<region>_{browser,qc} filenames.
+        self.assertIn('${{ steps.region.outputs.browser }}', publish)
+        self.assertIn('${{ steps.region.outputs.qc }}', publish)
         self.assertNotIn(".cache/viirs", publish.split("- uses: actions/upload-artifact", 1)[0])
         self.assertNotIn("*.h5", publish.split("- uses: actions/upload-artifact", 1)[0])
 
@@ -25,7 +27,7 @@ class ViirsProductionPublishWorkflowTests(unittest.TestCase):
         validate = self.text.index("- name: Validate artifact semantics")
         publish = self.text.index("- name: Publish QC-passing VIIRS snapshot")
         self.assertLess(validate, publish)
-        self.assertIn('assert not qc["flags"], qc', self.text)
+        self.assertIn('assert not qcj["flags"], qcj', self.text)
 
 
 if __name__ == "__main__":

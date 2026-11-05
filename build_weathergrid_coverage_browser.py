@@ -133,7 +133,58 @@ def parse_args() -> argparse.Namespace:
         "--output",
         default="weathergrid_coverage_browser.json",
     )
+    # CL-DATA-07: optional per-region export (e.g. us). When given, the
+    # payload is scoped to that region's spots and carries the region's
+    # photography layer list derived from its published WeatherGrid bundles
+    # (data-driven; a source without a published bundle contributes nothing).
+    parser.add_argument("--region", default=None)
+    parser.add_argument("--bundles-dir", default="weathergrid")
     return parser.parse_args()
+
+
+def region_layer_list(region: str, bundles_dir: str) -> dict:
+    """Photography layers per source for a region, from its published bundles.
+
+    Fail-closed by construction: only sources with an existing published
+    bundle appear, and only fields those bundles actually carry. A missing
+    VIIRS/CAMS bundle therefore never advertises layers the region cannot
+    render.
+    """
+    bundle_names = {
+        "gfs": f"gfs_{region}_weather_browser.json",
+        "icon": f"icon_{region}_cloud_browser.json",
+        "cwa": f"cwa_wrf3_{region}_weather_browser.json",
+        "jma": f"jma_msm_{region}_cloud_browser.json",
+        "himawari": f"himawari9_{region}_cloud_browser.json",
+        "cams": f"cams_global_{region}_aod_browser.json",
+        "viirs": f"viirs_nightlights_{region}_browser.json",
+    }
+    result = {}
+    for source_id, filename in bundle_names.items():
+        path = Path(bundles_dir) / filename
+        if not path.exists():
+            continue
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        fields = data.get("fields")
+        if isinstance(fields, dict) and fields:
+            result[source_id] = sorted(fields)
+    return result
+
+
+def apply_region_scope(payload: dict, region: str, bundles_dir: str) -> dict:
+    """Scope a coverage browser payload to one region and attach its layers."""
+    prefix = region.lower() + "-"
+    payload["spots"] = [
+        spot
+        for spot in payload["spots"]
+        if str(spot.get("spot_id", "")).startswith(prefix)
+    ]
+    payload["region"] = region.lower()
+    payload["region_layers"] = region_layer_list(region, bundles_dir)
+    return payload
 
 
 def main() -> int:
@@ -141,14 +192,18 @@ def main() -> int:
     catalog = json.loads(Path(args.catalog).read_text(encoding="utf-8"))
     registry = json.loads(Path(args.registry).read_text(encoding="utf-8"))
     payload = build_coverage_browser_payload(catalog, registry)
+    if args.region:
+        payload = apply_region_scope(payload, args.region, args.bundles_dir)
     Path(args.output).write_text(
         json.dumps(payload, ensure_ascii=False, separators=(",", ":")),
         encoding="utf-8",
     )
     print(json.dumps({
         "output": args.output,
+        "region": args.region,
         "spots": len(payload["spots"]),
         "opportunities": sum(len(s["opportunities"]) for s in payload["spots"]),
+        "region_layers": payload.get("region_layers"),
     }, ensure_ascii=False, indent=2))
     return 0
 
