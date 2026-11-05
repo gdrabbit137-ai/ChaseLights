@@ -49,7 +49,7 @@ test('CL-UI-05 (a): no V2 evaluation fails closed to the conservative copy',()=>
   // CL-UI-15 omits it on GUIDANCE_SATISFIED cards (the summary line and the
   // card colour already express the state).
   assert.match(createSpotCardBlock,
-    /\$\{v2Best&&v2Best\.state!=='GUIDANCE_SATISFIED'\?`<div class="info-row forecast-status-row card-meta-row">\$\{d\(\)\.forecast_status\}\$\{esc\(v2StateLabel\)\}<\/div>`:''\}/);
+    /\$\{v2Best&&v2Best\.state!=='GUIDANCE_SATISFIED'\?`<div class="info-row forecast-status-row card-meta-row">\$\{d\(\)\.forecast_status\}\$\{esc\(v2StateLabel\)\}\${esc\(v2FailReasonSuffix\(v2Best\.state,v2Best\.day\)\)}<\/div>`:''\}/);
 });
 
 test('CL-UI-05 (b): evaluated card uses V2-derived day-state labels shared with the modal',()=>{
