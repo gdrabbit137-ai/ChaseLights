@@ -84,7 +84,7 @@ ChaseLights 是風景攝影師的「拍攝決策工具」。它回答一個問�
 ## 3. 語義決策總帳
 
 ### 3.1 時間窗定義（權威值，不得另立口語模板數字）
-- **夜景（night_sky／spec:night）**：太陽仰角 ≤ −6°（nautical darkness）為夜景題材的時間窗必要條件。夜間題材（如銀河）另加天文黑暗叢集（astronomical_darkness＋月照六 metric）。`city_night` 是城市人工光影題材，不受天文黑暗約束（現行語意保留）。
+- **夜景（night_sky／spec:night）**：太陽仰角 ≤ −6°（民用暮光界線，civil darkness）為夜景題材的時間窗必要條件。夜間題材（如銀河）另加天文黑暗叢集（astronomical_darkness＋月照六 metric）。`city_night` 是城市人工光影題材，不受天文黑暗約束（現行語意保留）。
 - **日出行窗（sunrise_window）**：日出前後的霞光窗（含日出時刻）。
 - **日落窗（sunset_window）**：日落前後至太陽沒入。
 - **霞光（golden_hour）**：太陽仰角低角的暖光窗（golden_hour_window）。
@@ -156,7 +156,7 @@ ChaseLights 是風景攝影師的「拍攝決策工具」。它回答一個問�
 | 2 | **瓦片第二階段** | 預渲染 PNG 已過第一階段；瓦片化（deep-zoom）待 PNG 幀數與載入資料量成長到痛點再開工，避免過早抽象。 |
 | 3 | **TIME_SPECIALIZATION 錯置 5 筆** | 見 §3.1；待 owner 逐筆裁定後以語意修正執行（parity gate 豁免＋revision note）。 |
 | 4 | **evaluations-details 以 place_id 命名導致兩組座標共用 place_id 互相覆蓋**（2 個 city_night 明細遺失） | 已列 backlog：先修命名方案，再排查「modal 列消失」。 |
-| 5 | **22 個 city_night 契約缺時間窗** | owner-gate backlog：city_night 是否需要人工光影時間窗（燈光點燈時段）待裁定。 |
+| 5 | **22 個 city_night 契約缺時間窗** | 已常態化施工（CL-UI-25 項目 4）：22 份 city_night 契約補 −6° 民用暮光時間窗，與評估層閘門同源。 |
 | 6 | **Wind u/v 以外的動畫原語**（如海浪流向） | 與 #1 同一資料層 ticket 類型：先定義 bundle 欄位，再 ticket UI。 |
 
 ---
