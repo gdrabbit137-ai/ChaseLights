@@ -20,22 +20,33 @@ const palette = require_(path.join(REPO, 'assets/weather-map-palette.js'));
 
 // ---------- shared palette pins (single render source) ----------
 test('palette module exports PALETTE_VERSION and pinned cloud bands', () => {
-  assert.equal(palette.PALETTE_VERSION, 'wg16-p1');
+  assert.equal(palette.PALETTE_VERSION, 'wg21-p1');
   assert.deepEqual(palette.CLOUD_PERCENT_BREAKS, [0, 20, 40, 50, 70, 85, 100]);
   assert.equal(palette.CLOUD_MAX_OVERLAY_ALPHA, .78);
 });
 
 test('pinned colors: cloud band colors are the exact live palette strings', () => {
   const cloud = palette.LAYER_RENDER_CONFIG.low_cloud_percent;
-  assert.equal(palette.cloudColorFor(0), 'hsl(190 78% 68%)');
-  assert.equal(palette.cloudColorFor(19.9), 'hsl(190 78% 68%)');
-  assert.equal(palette.cloudColorFor(30), 'hsl(199 82% 56%)');
-  assert.equal(palette.cloudColorFor(45), 'hsl(216 82% 50%)');
-  assert.equal(palette.cloudColorFor(55), 'hsl(238 78% 50%)');
-  assert.equal(palette.cloudColorFor(80), 'hsl(263 72% 60%)');
-  assert.equal(palette.cloudColorFor(99), 'hsl(285 48% 82%)');
-  assert.equal(palette.cloudColorFor(100), 'hsl(285 48% 82%)');
+  // CL-WG-21: monotonic lightness ramp — deep blue 0% -> gray-white 50% -> white 100%.
+  assert.equal(palette.cloudColorFor(0), 'hsl(214 78% 44%)');
+  assert.equal(palette.cloudColorFor(19.9), 'hsl(214 78% 44%)');
+  assert.equal(palette.cloudColorFor(30), 'hsl(211 66% 58%)');
+  assert.equal(palette.cloudColorFor(45), 'hsl(209 44% 71%)');
+  assert.equal(palette.cloudColorFor(55), 'hsl(208 28% 82%)');
+  assert.equal(palette.cloudColorFor(80), 'hsl(207 16% 91%)');
+  assert.equal(palette.cloudColorFor(99), 'hsl(206 8% 97%)');
+  assert.equal(palette.cloudColorFor(100), 'hsl(206 8% 97%)');
   assert.ok(cloud.domain);
+});
+
+test('pinned colors: low cloud uses the slate gray-blue variant ramp', () => {
+  const low = palette.LAYER_RENDER_CONFIG.low_cloud_percent;
+  assert.equal(low.palette, 'cloudLow');
+  assert.equal(palette.cloudColorFor(0, palette.LOW_CLOUD_PERCENT_BANDS), 'hsl(205 62% 48%)');
+  assert.equal(palette.cloudColorFor(55, palette.LOW_CLOUD_PERCENT_BANDS), 'hsl(202 24% 79%)');
+  assert.equal(palette.cloudColorFor(100, palette.LOW_CLOUD_PERCENT_BANDS), 'hsl(200 12% 92%)');
+  assert.equal(palette.colorFor(30, low), 'hsl(204 50% 60%)');
+  assert.equal(palette.cellOpacityFor(50, low), .55);
 });
 
 test('pinned opacities: cloud hinge at 50% and visibility falloff', () => {
@@ -59,6 +70,19 @@ test('pinned RGB: hsl strings convert to the canonical 8-bit colors', () => {
   assert.deepEqual(rgbForTest('hsl(199 82% 56%)'), [51, 177, 235]);
   assert.deepEqual(rgbForTest('hsl(5 72% 46%)'), [202, 47, 33]);
   assert.deepEqual(rgbForTest('hsl(150 72% 46%)'), [33, 202, 117]);
+  // CL-WG-21 new ramp pins (cross-pinned in test_weathergrid_png_prerender.py).
+  assert.deepEqual(rgbForTest('hsl(214 78% 44%)'), [25, 101, 200]);
+  assert.deepEqual(rgbForTest('hsl(211 66% 58%)'), [77, 146, 219]);
+  assert.deepEqual(rgbForTest('hsl(209 44% 71%)'), [149, 182, 214]);
+  assert.deepEqual(rgbForTest('hsl(208 28% 82%)'), [196, 210, 222]);
+  assert.deepEqual(rgbForTest('hsl(207 16% 91%)'), [228, 232, 236]);
+  assert.deepEqual(rgbForTest('hsl(206 8% 97%)'), [247, 247, 248]);
+  assert.deepEqual(rgbForTest('hsl(205 62% 48%)'), [47, 135, 198]);
+  assert.deepEqual(rgbForTest('hsl(204 50% 60%)'), [102, 163, 204]);
+  assert.deepEqual(rgbForTest('hsl(203 34% 70%)'), [152, 185, 205]);
+  assert.deepEqual(rgbForTest('hsl(202 24% 79%)'), [189, 205, 214]);
+  assert.deepEqual(rgbForTest('hsl(201 16% 87%)'), [217, 223, 227]);
+  assert.deepEqual(rgbForTest('hsl(200 12% 92%)'), [232, 235, 237]);
 });
 
 // ---------- weather-map.js layerConfig single-source assertion ----------
@@ -308,12 +332,12 @@ test('generator: pixels equal the shared palette for pinned values, rows flipped
     const o = (y * img.width + x) * 4;
     return [img.rgba[o], img.rgba[o + 1], img.rgba[o + 2], img.rgba[o + 3]];
   };
-  // value 55 -> hsl(238 78% 50%) -> rgb(28,35,227); alpha = stops(55)=.5925 -> 151
-    assert.deepEqual(px(cloudPng, 0, 0), [28, 35, 227, 151]);
-  // value 100 (row1 col1) -> hsl(285 48% 82%) rgb(220,187,231), alpha 255
-  assert.deepEqual(px(cloudPng, 1, 0), [220, 187, 231, 255]);
-  // value 30 (south-west) -> hsl(199 82% 56%) rgb(51,177,235), alpha 56
-  assert.deepEqual(px(cloudPng, 0, 1), [51, 177, 235, 56]);
+  // value 55 -> hsl(208 28% 82%) -> rgb(196,210,222); alpha = stops(55)=.5925 -> 151
+    assert.deepEqual(px(cloudPng, 0, 0), [196, 210, 222, 151]);
+  // value 100 (row1 col1) -> hsl(206 8% 97%) rgb(247,247,248), alpha 255
+  assert.deepEqual(px(cloudPng, 1, 0), [247, 247, 248, 255]);
+  // value 30 (south-west) -> hsl(211 66% 58%) rgb(77,146,219), alpha 56
+  assert.deepEqual(px(cloudPng, 0, 1), [77, 146, 219, 56]);
   // null cell -> fully transparent
   assert.deepEqual(px(cloudPng, 1, 1), [0, 0, 0, 0]);
 
@@ -323,10 +347,10 @@ test('generator: pixels equal the shared palette for pinned values, rows flipped
     const o = (y * visPng.width + x) * 4;
     return [visPng.rgba[o], visPng.rgba[o + 1], visPng.rgba[o + 2], visPng.rgba[o + 3]];
   };
-  // visibility 0 (south-west) -> hsl(5 72% 46%) rgb(202,47,33), alpha 255
-  assert.deepEqual(vpx(0, 1), [202, 47, 33, 255]);
-  // visibility 30 (north-east) -> t=1 -> hue 150 -> rgb(33,202,117), alpha 20
-  assert.deepEqual(vpx(1, 0), [33, 202, 117, 20]);
+  // visibility 0 (south-west) -> hsl(5 72% 36%) rgb(158,37,26), alpha 255
+  assert.deepEqual(vpx(0, 1), [158, 37, 26, 255]);
+  // visibility 30 (north-east) -> t=1 -> hsl(150 72% 64%) rgb(97,229,163), alpha 20
+  assert.deepEqual(vpx(1, 0), [97, 229, 163, 20]);
 });
 
 test('generator: packed i16gz bundles decode with scale applied', {timeout: 30000}, () => {
@@ -356,10 +380,10 @@ test('generator: packed i16gz bundles decode with scale applied', {timeout: 3000
     const o = (y * png.width + x) * 4;
     return [png.rgba[o], png.rgba[o + 1], png.rgba[o + 2], png.rgba[o + 3]];
   };
-  // north row: [100, 25] -> 100 = last band hsl(285 48% 82%); 25 alpha stops(25)=.17 -> 43
-  assert.deepEqual(px(0, 0), [220, 187, 231, 255]);
-  assert.deepEqual(px(1, 0), [51, 177, 235, 43]);
-  // south row: [50, null] -> 50 = hsl(238 78% 50%) alpha 140; null transparent
-  assert.deepEqual(px(0, 1), [28, 35, 227, 140]);
+  // north row: [100, 25] -> 100 = last band hsl(206 8% 97%); 25 alpha stops(25)=.17 -> 43
+  assert.deepEqual(px(0, 0), [247, 247, 248, 255]);
+  assert.deepEqual(px(1, 0), [77, 146, 219, 43]);
+  // south row: [50, null] -> 50 lands in the 50-70 band = hsl(208 28% 82%) alpha 140; null transparent
+  assert.deepEqual(px(0, 1), [196, 210, 222, 140]);
   assert.deepEqual(px(1, 1), [0, 0, 0, 0]);
 });

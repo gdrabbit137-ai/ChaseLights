@@ -144,7 +144,7 @@
   // the single source shared with the CI-side PNG prerender generator, so the
   // pre-rendered frames use exactly the same配色函式 as live rendering.
   const {
-    CLOUD_PERCENT_BREAKS, CLOUD_PERCENT_BANDS, CLOUD_OPACITY_STOPS,
+    CLOUD_PERCENT_BREAKS, CLOUD_PERCENT_BANDS, LOW_CLOUD_PERCENT_BANDS, CLOUD_OPACITY_STOPS,
     CLOUD_MAX_OVERLAY_ALPHA, normalizedValue, interpolateStops,
     cloudColorFor, layerOpacityCap, cellOpacityFor, colorFor
   } = window.WeatherMapPalette;
@@ -2329,8 +2329,8 @@
   // PNG prerender generator, so pre-rendered frames and live rendering can
   // never drift apart).
 
-  function cloudLegendGradient(){
-    return CLOUD_PERCENT_BANDS.flatMap(item=>[
+  function cloudLegendGradient(bands){
+    return (bands||CLOUD_PERCENT_BANDS).flatMap(item=>[
       `${item.color} ${item.min}%`,
       `${item.color} ${item.max}%`
     ]).join(',');
@@ -2771,7 +2771,7 @@
     state.lastDataRendered=fieldDrawn>0;
     ctx.restore();
 
-    if(!isObservationMode() && cfg.palette==='cloud'){
+    if(!isObservationMode() && (cfg.palette==='cloud'||cfg.palette==='cloudLow')){
       drawCloudThresholdContour(data,vals,50,visibleView);
     }
 
@@ -3436,7 +3436,7 @@
       const p=project(selected.lon,selected.lat);
       let selectedLabel=selected.name;
       const selectedCfg=layerConfig[state.layer];
-      if(selectedCfg?.palette==='cloud' && !isObservationMode()){
+      if((selectedCfg?.palette==='cloud'||selectedCfg?.palette==='cloudLow') && !isObservationMode()){
         const value=samplePointValue({lat:selected.lat,lon:selected.lon},state.layer);
         if(Number.isFinite(value)){
           selectedLabel=`${selected.name} · ${formatValue(value,state.layer)}`;
@@ -3652,11 +3652,11 @@
     if(opacityTitle){
       const compactUi=window.matchMedia('(max-width:720px)').matches;
       opacityTitle.textContent=compactUi
-        ? (cfg.palette==='cloud'?'雲層透明度':'圖層透明度')
-        : (cfg.palette==='cloud'?'雲層顯示強度':'圖層顯示強度');
+        ? (cfg.palette==='cloud'||cfg.palette==='cloudLow'?'雲層透明度':'圖層透明度')
+        : (cfg.palette==='cloud'||cfg.palette==='cloudLow'?'雲層顯示強度':'圖層顯示強度');
     }
     if(opacitySlider){
-      opacitySlider.title=cfg.palette==='cloud'
+      opacitySlider.title=(cfg.palette==='cloud'||cfg.palette==='cloudLow')
         ? '100% 顯示強度仍保留底圖；雲層最高不透明度限制為 78%'
         : '調整圖層顯示強度';
     }
@@ -3896,8 +3896,9 @@
     let barHtml;
     let labelsHtml;
     let thresholdKey='';
-    if(cfg.palette==='cloud'){
-      barHtml=`<div class="legend-bar cloud-percent" style="background:linear-gradient(90deg,${cloudLegendGradient()})"><span class="cloud-midline" aria-hidden="true"></span></div>`;
+    if(cfg.palette==='cloud'||cfg.palette==='cloudLow'){
+      const bands=cfg.palette==='cloudLow'?LOW_CLOUD_PERCENT_BANDS:CLOUD_PERCENT_BANDS;
+      barHtml=`<div class="legend-bar cloud-percent" style="background:linear-gradient(90deg,${cloudLegendGradient(bands)})"><span class="cloud-midline" aria-hidden="true"></span></div>`;
       labelsHtml=`<div class="cloud-legend-labels">${cloudLegendLabels()}</div>`;
       thresholdKey='<div class="cloud-threshold-key"><span class="cloud-threshold-swatch"></span>50% 雲量分界</div>';
     }else{

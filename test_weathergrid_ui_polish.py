@@ -128,7 +128,7 @@ class WeatherGridUiPolishTests(unittest.TestCase):
     def test_cloud_percent_palette_has_explicit_50_percent_hinge(self):
         self.assertIn("CLOUD_PERCENT_BREAKS=[0,20,40,50,70,85,100]", self.palette)
         self.assertIn("scale:'cloud_percent'", self.palette)
-        self.assertIn("function cloudColorFor(value)", self.palette)
+        self.assertIn("function cloudColorFor(value,bands)", self.palette)
         self.assertIn("50% 雲量分界", self.js)
         self.assertIn("cloud-midline", self.css)
 
@@ -142,7 +142,7 @@ class WeatherGridUiPolishTests(unittest.TestCase):
     def test_forecast_cloud_map_draws_50_percent_contour_and_selected_value(self):
         self.assertIn("function drawCloudThresholdContour(", self.js)
         self.assertIn("drawCloudThresholdContour(data,vals,50,visibleView)", self.js)
-        self.assertIn("!isObservationMode() && cfg.palette==='cloud'", self.js)
+        self.assertIn("!isObservationMode() && (cfg.palette==='cloud'||cfg.palette==='cloudLow')", self.js)
         self.assertIn("selectedLabel=", self.js)
         self.assertIn("formatValue(value,state.layer)", self.js)
 
@@ -267,7 +267,7 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn("grid-template-columns:max-content minmax(0,1fr)", self.css)
         self.assertIn("display:grid!important", self.css)
         self.assertIn("const compactUi=window.matchMedia('(max-width:720px)').matches", self.js)
-        self.assertIn("? (cfg.palette==='cloud'?'雲層透明度':'圖層透明度')", self.js)
+        self.assertIn("? (cfg.palette==='cloud'||cfg.palette==='cloudLow'?'雲層透明度':'圖層透明度')", self.js)
 
     def test_map_attribution_is_compact_on_mobile(self):
         self.assertIn("attributionControl:false", self.js)
