@@ -92,6 +92,7 @@ const dayRow=(date,good)=>({local_date:date,state:good.length?'GUIDANCE_SATISFIE
 test('CL-UI-18 B1: 03:21 modal summary — headline never cites the past window',()=>{
   const grabModal=(start,end)=>appSource.slice(appSource.indexOf(start),appSource.indexOf(end,appSource.indexOf(start)));
   const factoryB=new Function('Date',[
+    "const DAY_KEYS=['today','tomorrow','after_tomorrow','day3','day4','day5','day6'];",
     grabModal('function localDateString','function selectedDateForSpot'),
     grabModal('function localNowMinutes','function v2IsToday'),
     grabModal('function v2IsToday','function v2RemainingHoursList'),

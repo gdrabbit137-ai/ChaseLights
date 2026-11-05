@@ -36,6 +36,13 @@ FORECAST_FIELDS = [
     "temperature_600hPa", "relative_humidity_600hPa", "wind_speed_600hPa",
 ]
 AQ_FIELDS = ["aerosol_optical_depth"]
+# CL-DATA-06: the CAMS AOD product behind the Open-Meteo air-quality API is
+# hard-capped at 168 hours (7 days) — requesting more than 168 is a 400
+# provider error, so the AQ call is always clamped to this bound while the
+# forecast call may span up to 384 hours. Hours past the clamp keep their
+# forecast fields and carry aod_550nm=UNAVAILABLE (never zero-filled).
+AQ_MAX_FORECAST_HOURS = 168
+FORECAST_MAX_HOURS = 384  # Open-Meteo forecast API ceiling (16 days)
 FORECAST_URL = "https://api.open-meteo.com/v1/forecast"
 AQ_URL = "https://air-quality-api.open-meteo.com/v1/air-quality"
 TIMEOUT_S = 30
@@ -116,7 +123,9 @@ def fetch_place(lat, lon, forecast_hours=72):
     }
     aq_params = {
         "latitude": f"{lat:.6f}", "longitude": f"{lon:.6f}",
-        "forecast_hours": str(forecast_hours), "timezone": "GMT",
+        # CL-DATA-06: AOD source ceiling — never request past 168h.
+        "forecast_hours": str(min(forecast_hours, AQ_MAX_FORECAST_HOURS)),
+        "timezone": "GMT",
         "hourly": ",".join(AQ_FIELDS),
     }
     forecast, forecast_url, forecast_sha = _get_json(FORECAST_URL, forecast_params)

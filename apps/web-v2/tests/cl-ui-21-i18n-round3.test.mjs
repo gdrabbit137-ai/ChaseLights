@@ -96,7 +96,7 @@ test('CL-UI-21 B2: v2 none-copy follows the day filter in all three languages',(
     assert.ok(appSource.includes(`v2_none_tomorrow:'${tmrw}`),lang+' tomorrow key');
     assert.ok(appSource.includes(`v2_none_after:'${after}`),lang+' day-after key');
   }
-  assert.ok(appSource.includes("const v2NoneSubjectKey=()=>currentDayFilter==='tomorrow'?'v2_none_tomorrow':currentDayFilter==='after_tomorrow'?'v2_none_after':'v2_none_today';"));
+  assert.ok(appSource.includes("const v2NoneSubjectKey=()=>currentDayFilter==='tomorrow'?'v2_none_tomorrow':currentDayFilter==='after_tomorrow'?'v2_none_after':isFarDay(currentDayFilter)?'v2_none_far':'v2_none_today';"));
   assert.ok(appSource.includes('${esc(d()[v2NoneSubjectKey()])}'));
 });
 

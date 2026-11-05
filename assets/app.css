@@ -151,6 +151,15 @@
     .tag-btn { font-size: 0.78rem; padding: 3px 8px; background: #0f172a; border-color: #334155; border-radius: 12px; }
     .day-btn { font-size: 0.82rem; padding: 4px 12px; background: #1e293b; border-color: #0284c7; color: #38bdf8; }
 
+    /* CL-DATA-06: the day strip holds 7 tabs; on narrow viewports it scrolls
+       horizontally instead of wrapping so 390px stays one clean row. */
+    .day-nav-strip { flex-wrap: nowrap; }
+    .day-nav-strip { overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+    .day-nav-strip::-webkit-scrollbar { display: none; }
+    .day-nav-strip .day-btn { flex: 0 0 auto; white-space: nowrap; }
+    .day-btn-far { border-color: #334155; color: #7dd3fc; }
+    .day-btn-far.active { border-color: #38bdf8; }
+
     @media (max-width: 640px) {
       .day-nav-bar {
         display: grid;
@@ -161,6 +170,13 @@
         border-radius: 8px;
         overflow: hidden;
       }
+      .day-nav-strip {
+        display: flex;
+        border: 0;
+        border-radius: 0;
+        overflow: hidden;
+      }
+      .day-nav-strip .day-btn { border: 1px solid #0284c7; border-radius: 6px; padding: 7px 10px; }
       .day-nav-bar .day-btn {
         width: 100%;
         min-width: 0;

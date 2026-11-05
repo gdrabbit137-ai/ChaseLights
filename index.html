@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ChaseLights — 攝影氣象預報</title>
-  <link rel="stylesheet" href="./assets/app.css?v=clui22">
+  <link rel="stylesheet" href="./assets/app.css?v=clui23">
 
 </head>
 <body>
@@ -44,10 +44,14 @@
       </div>
 
       <div class="filter-toolbar-secondary">
-        <div class="day-nav-bar" id="day-nav">
-          <button class="day-btn active" onclick="switchDay('today', this)" data-i18n="btn_today">📅 今天</button>
-          <button class="day-btn" onclick="switchDay('tomorrow', this)" data-i18n="btn_tomorrow">📅 明天</button>
-          <button class="day-btn" onclick="switchDay('after_tomorrow', this)" data-i18n="btn_after_tomorrow">📅 後天</button>
+        <div class="day-nav-bar day-nav-strip" id="day-nav">
+          <button class="day-btn active" onclick="switchDay('today', this)" data-day="today" data-i18n="btn_today">📅 今天</button>
+          <button class="day-btn" onclick="switchDay('tomorrow', this)" data-day="tomorrow" data-i18n="btn_tomorrow">📅 明天</button>
+          <button class="day-btn" onclick="switchDay('after_tomorrow', this)" data-day="after_tomorrow" data-i18n="btn_after_tomorrow">📅 後天</button>
+          <button class="day-btn day-btn-far" onclick="switchDay('day3', this)" data-day="day3" data-day-offset="3" title="">3</button>
+          <button class="day-btn day-btn-far" onclick="switchDay('day4', this)" data-day="day4" data-day-offset="4" title="">4</button>
+          <button class="day-btn day-btn-far" onclick="switchDay('day5', this)" data-day="day5" data-day-offset="5" title="">5</button>
+          <button class="day-btn day-btn-far" onclick="switchDay('day6', this)" data-day="day6" data-day-offset="6" title="">6</button>
         </div>
         <div id="admin-filter" class="admin-filter-host" hidden></div>
         <div class="sort-control">
@@ -103,7 +107,7 @@
     </div>
   </div>
 
-  <script src="./assets/app.js?v=clui22"></script>
+  <script src="./assets/app.js?v=clui23"></script>
 
 </body>
 </html>

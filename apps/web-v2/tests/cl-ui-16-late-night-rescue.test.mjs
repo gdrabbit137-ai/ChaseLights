@@ -101,17 +101,17 @@ test('CL-UI-16 (f): executing the selectedDayOffset override + hours sort for re
   // dayOffsetOverride scoping: null → filter value, 1 → tomorrow even on today.
   const selectedDayOffset=extract(
     'function selectedDayOffset','function localDateString','selectedDayOffset',
-    "let dayOffsetOverride=null;let currentDayFilter='today';"
+    "const DAY_OFFSETS={today:0,tomorrow:1,after_tomorrow:2,day3:3,day4:4,day5:5,day6:6};let dayOffsetOverride=null;let currentDayFilter='today';"
   );
   assert.equal(selectedDayOffset(),0);
   const selectedDayOffsetTomorrow=extract(
     'function selectedDayOffset','function localDateString','selectedDayOffset',
-    "let dayOffsetOverride=1;let currentDayFilter='today';"
+    "const DAY_OFFSETS={today:0,tomorrow:1,after_tomorrow:2,day3:3,day4:4,day5:5,day6:6};let dayOffsetOverride=1;let currentDayFilter='today';"
   );
   assert.equal(selectedDayOffsetTomorrow(),1,'the rescue render must evaluate offset 1 while scoped');
   const selectedDayOffsetAfter=extract(
     'function selectedDayOffset','function localDateString','selectedDayOffset',
-    "let dayOffsetOverride=null;let currentDayFilter='tomorrow';"
+    "const DAY_OFFSETS={today:0,tomorrow:1,after_tomorrow:2,day3:3,day4:4,day5:5,day6:6};let dayOffsetOverride=null;let currentDayFilter='tomorrow';"
   );
   assert.equal(selectedDayOffsetAfter(),1,'without the override the tab value drives the offset');
   // The featured-list comparator orders by qualifying hours high→low.
