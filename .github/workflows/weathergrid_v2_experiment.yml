@@ -28,14 +28,11 @@ on:
       - "test_weathergrid_v2_capacity.py"
       - ".github/workflows/weathergrid_v2_experiment.yml"
       - "weathergrid_v2_public_smoke.py"
-  push:
-    branches: [main]
-    paths:
-      - "assets/weather-map-v2-tile-loader.js"
-      - "assets/weather-map-v2-sampling.js"
-      - "weathergrid/v2/**"
-      - "weathergrid_v2_public_smoke.py"
-      - ".github/workflows/weathergrid_v2_experiment.yml"
+  # push trigger removed (CL-CI-08): bot data commits touch
+  # weathergrid/v2/** on every scheduled refresh, and the push-run
+  # deployed-smoke SHA match races Pages publication and goes red.
+  # PR paths + workflow_run (publishers) still cover all code/data changes;
+  # tile publication itself is unaffected.
   workflow_run:
     workflows: ["Update WeatherGrid V2 JMA Native Tiles", "Update WeatherGrid V2 CWA Derived Tiles"]
     types: [completed]

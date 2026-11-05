@@ -102,7 +102,19 @@ def fetch_responses(
                 "timezone": "GMT",
                 "cell_selection": "nearest",
             }
-            response = session.get(API_URL, params=params, timeout=60)
+            try:
+                # CL-CI-08: generous read timeout — CAMS responses can take
+                # well over a minute on the free tier.
+                response = session.get(API_URL, params=params, timeout=(10, 300))
+            except requests.RequestException as exc:
+                # CL-CI-08: ReadTimeout/connection errors are just as
+                # transient as a 429/5xx — retry with backoff instead of
+                # failing the whole refresh.
+                response = None
+                if attempt == retries:
+                    raise
+                time.sleep(5.0 * 2**attempt)
+                continue
             transient = (
                 response.status_code == 429
                 or 500 <= response.status_code < 600

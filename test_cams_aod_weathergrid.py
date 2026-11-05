@@ -111,6 +111,76 @@ class CamsAodWeatherGridTests(unittest.TestCase):
         finally:
             _time.sleep = original_sleep
 
+    def test_fetch_responses_retries_read_timeout_then_succeeds(self):
+        # CL-CI-08: CAMS reads can hang past the client timeout; a
+        # ReadTimeout is transient and must be retried, not raised.
+        import requests as _requests
+        payload = fake_responses(hours=3)
+        calls = {"n": 0}
+        session_probe = {}
+
+        class FakeResponse:
+            status_code = 200
+            headers = {}
+
+            def __init__(self, count):
+                self._count = count
+
+            def json(self):
+                return payload[: self._count]
+
+            def raise_for_status(self):
+                pass
+
+        class FakeSession:
+            def get(self, url, params=None, timeout=None):
+                calls["n"] += 1
+                session_probe["timeout"] = timeout
+                if calls["n"] < 2:
+                    raise _requests.ReadTimeout("read timed out")
+                count = len(params["latitude"].split(","))
+                return FakeResponse(count)
+
+        sleeps = []
+        original_sleep = _time.sleep
+        _time.sleep = sleeps.append
+        try:
+            responses = fetch_responses(
+                [(10.0, 120.0), (10.4, 120.4)],
+                forecast_hours=3,
+                batch_size=2,
+                session=FakeSession(),  # type: ignore[arg-type]
+                batch_delay_s=0.0,
+            )
+        finally:
+            _time.sleep = original_sleep
+        self.assertEqual(calls["n"], 2)  # one ReadTimeout retry + one success
+        self.assertEqual(len(responses), 2)
+        self.assertTrue(sleeps)  # backoff actually slept before retrying
+        # Read timeout is widened so a slow CAMS response does not fail.
+        self.assertGreater(session_probe["timeout"][1], 60)
+
+    def test_fetch_responses_raises_after_retries_on_read_timeout(self):
+        import requests as _requests
+
+        class AlwaysTimeout:
+            def get(self, url, params=None, timeout=None):
+                raise _requests.ReadTimeout("read timed out")
+
+        original_sleep = _time.sleep
+        _time.sleep = lambda *_: None
+        try:
+            with self.assertRaises(_requests.ReadTimeout):
+                fetch_responses(
+                    [(10.0, 120.0)],
+                    forecast_hours=3,
+                    batch_size=1,
+                    retries=2,
+                    batch_delay_s=0.0,
+                    session=AlwaysTimeout(),  # type: ignore[arg-type]
+                )
+        finally:
+            _time.sleep = original_sleep
 
     def test_request_grid_covers_taiwan_region_on_point_four_degree_lattice(self):
         lats, lons, points = request_grid()
