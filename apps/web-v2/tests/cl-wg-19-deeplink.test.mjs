@@ -240,7 +240,7 @@ test('CL-WG-19 (21): weather-map.html loads the deeplink module with a cache-bus
 });
 
 test('CL-WG-19 (22): index.html homepage stamp bumped to clui33', () => {
-  assert.match(indexSource, /assets\/app\.js\?v=clui33/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui34/);
   assert.match(indexSource, /assets\/app\.css\?v=clui33/);
   assert.doesNotMatch(indexSource, /clui29/);
 });
