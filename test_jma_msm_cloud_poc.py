@@ -1,13 +1,17 @@
 import unittest
 
+from datetime import datetime, timezone
+
 import numpy as np
 
 from jma_msm_aws_om import (
     IN_PROGRESS_METADATA_URL,
+    JMA_MSM_MAX_CYCLE_AGE_HOURS,
     LATEST_METADATA_URL,
     SOURCE_TO_TARGET,
     fetch_aws_snapshot,
     fetch_best_metadata,
+    fetch_metadata_candidates,
     grid_slice_for_bbox,
     spatial_s3_uri,
 )
@@ -17,6 +21,7 @@ from jma_msm_cloud_poc import (
     JMA_MSM_NATIVE_DOMAIN,
     JMA_MSM_TAIWAN_BROWSER_BBOX,
     build_grid,
+    cycle_age_hours,
     fetch_snapshot,
 )
 
@@ -43,6 +48,7 @@ class _MetadataSession:
 
 class JmaMsmAwsOmProviderTests(unittest.TestCase):
     def setUp(self):
+        self.now = datetime(2026, 9, 30, 15, 0, tzinfo=timezone.utc)
         self.bbox = {
             "leftlon": 120.0625,
             "rightlon": 120.125,
@@ -104,6 +110,7 @@ class JmaMsmAwsOmProviderTests(unittest.TestCase):
         chosen = fetch_best_metadata(
             forecast_hours=2,
             session=session,
+            now=self.now,
         )
         self.assertEqual(chosen["reference_time"], "2026-09-30T12:00:00Z")
         self.assertEqual(chosen["_metadata_url"], IN_PROGRESS_METADATA_URL)
@@ -121,6 +128,7 @@ class JmaMsmAwsOmProviderTests(unittest.TestCase):
         chosen = fetch_best_metadata(
             forecast_hours=2,
             session=session,
+            now=self.now,
         )
         self.assertEqual(chosen["reference_time"], "2026-09-30T09:00:00Z")
         self.assertEqual(chosen["_metadata_url"], LATEST_METADATA_URL)
@@ -159,6 +167,7 @@ class JmaMsmAwsOmProviderTests(unittest.TestCase):
             forecast_hours=2,
             session=session,
             reader=reader,
+            now=self.now,
         )
         self.assertEqual(
             snapshot["reference_time_utc"],
@@ -225,6 +234,77 @@ class JmaMsmAwsOmProviderTests(unittest.TestCase):
         bad["leftlon"] = 120.07
         with self.assertRaisesRegex(ValueError, "not aligned"):
             grid_slice_for_bbox(bad)
+
+    def test_stale_metadata_run_is_rejected_instead_of_silently_published(self):
+        # CL-CI-06 regression: an upstream metadata rollback (or every fresh
+        # run failing the frame threshold) previously made the resolver
+        # silently fall back to a multi-cycle-old completed run.
+        stale = dict(self.metadata)
+        stale["reference_time"] = "2026-09-29T21:00:00Z"
+        session = _MetadataSession({
+            IN_PROGRESS_METADATA_URL: stale,
+            LATEST_METADATA_URL: stale,
+        })
+        with self.assertRaisesRegex(RuntimeError, "stale"):
+            fetch_metadata_candidates(
+                forecast_hours=2,
+                session=session,
+                now=self.now,
+            )
+
+    def test_fresh_older_run_survives_stale_newest_candidate(self):
+        # A stale in-progress reference combined with a fresh completed run
+        # must resolve to the fresh completed run (frame-race fallback with a
+        # freshness floor), not fail and not publish the stale run.
+        stale_progress = dict(self.metadata)
+        stale_progress["reference_time"] = "2026-09-29T21:00:00Z"
+        fresh_latest = dict(self.metadata)
+        fresh_latest["reference_time"] = "2026-09-30T12:00:00Z"
+        session = _MetadataSession({
+            IN_PROGRESS_METADATA_URL: stale_progress,
+            LATEST_METADATA_URL: fresh_latest,
+        })
+        chosen = fetch_best_metadata(
+            forecast_hours=2,
+            session=session,
+            now=self.now,
+        )
+        self.assertEqual(chosen["reference_time"], "2026-09-30T12:00:00Z")
+
+    def test_frame_threshold_still_requires_the_full_window(self):
+        # The freshness gate does not relax the frame threshold: a fresh run
+        # that exposes fewer valid times than requested stays unusable and
+        # cannot be silently published with a truncated window.
+        short = dict(self.metadata)
+        short["reference_time"] = "2026-09-30T12:00:00Z"
+        short["valid_times"] = ["2026-09-30T12:00Z"]
+        stale_complete = dict(self.metadata)
+        stale_complete["reference_time"] = "2026-09-29T18:00:00Z"
+        stale_complete["valid_times"] = [
+            "2026-09-29T18:00Z",
+            "2026-09-29T19:00Z",
+        ]
+        session = _MetadataSession({
+            IN_PROGRESS_METADATA_URL: short,
+            LATEST_METADATA_URL: stale_complete,
+        })
+        with self.assertRaisesRegex(RuntimeError, "stale"):
+            fetch_metadata_candidates(
+                forecast_hours=2,
+                session=session,
+                now=self.now,
+            )
+
+    def test_cycle_age_hours_gate_constant_is_sane_for_msm_cadence(self):
+        self.assertEqual(JMA_MSM_MAX_CYCLE_AGE_HOURS, 15)
+        self.assertEqual(
+            cycle_age_hours("2026-09-30T12:00:00Z", now=self.now),
+            3.0,
+        )
+        self.assertEqual(
+            cycle_age_hours("2026-09-30T18:00:00Z", now=self.now),
+            -3.0,
+        )
 
 
 if __name__ == "__main__":

@@ -45,6 +45,24 @@ class JmaMsmRefreshWorkflowTests(unittest.TestCase):
         self.assertIn('"cycle_timestamp_available") is True', self.text)
         self.assertIn('"cycle_time_utc"', self.text)
 
+    def test_validate_step_asserts_bundle_cycle_freshness(self):
+        # CL-CI-06: stale cycles must fail validation instead of silently
+        # passing through with schema/bbox/provenance checks only.
+        self.assertIn("id: validate_jma_msm", self.text)
+        self.assertIn("JMA_MSM_MAX_CYCLE_AGE_HOURS = 15", self.text)
+        self.assertIn("def assert_fresh(bundle, label)", self.text)
+        self.assertEqual(self.text.count('assert_fresh('), 3)  # def + tw + jp
+        self.assertIn('assert_fresh(browser, "tw")', self.text)
+        self.assertIn('assert_fresh(jp, "jp")', self.text)
+        self.assertIn("refusing to publish", self.text)
+
+    def test_failed_validation_blocks_publish_but_keeps_stale_removal(self):
+        # CL-CI-06: the publish step must not run when validation failed,
+        # while fetch-failure cleanup (stale-file removal) still runs.
+        self.assertIn(
+            "steps.validate_jma_msm.outcome != 'failure'", self.text
+        )
+
     def test_failed_refresh_removes_stale_jma_files_and_surfaces_failure(self):
         self.assertIn("continue-on-error: true", self.text)
         self.assertIn(

@@ -27,6 +27,13 @@ IN_PROGRESS_METADATA_URL = (
     f"{AWS_METADATA_ROOT}/{JMA_MSM_MODEL}/in-progress.json"
 )
 
+# CL-CI-06: JMA MSM initializes every 3 h (extended runs 0/12Z). A completed
+# run should therefore never be more than a few hours old under normal
+# operations. 15 h gives ~5 missed cycles of slack while still turning
+# multi-cycle upstream stagnation (metadata rollback / stale latest.json)
+# into a hard failure instead of a silent stale publish.
+JMA_MSM_MAX_CYCLE_AGE_HOURS = 15
+
 NATIVE_LAT_MIN = 22.4
 NATIVE_LON_MIN = 120.0
 NATIVE_DY = 0.05
@@ -131,13 +138,21 @@ def fetch_metadata_candidates(
     forecast_hours: int,
     session: requests.Session | None = None,
     timeout: int = 30,
+    now: datetime | None = None,
 ) -> list[dict]:
     """Return usable AWS run metadata newest-first.
 
     Both in-progress and latest-completed metadata are retained so a spatial
     file race in the newest run can fall back to the previous completed run.
+
+    CL-CI-06: candidates older than JMA_MSM_MAX_CYCLE_AGE_HOURS are rejected.
+    Without this gate an upstream metadata rollback (or a frame-threshold
+    rejection of every fresh run) made the resolver silently publish a
+    multi-cycle-old run that still "succeeded".
     """
+    now = now or datetime.now(timezone.utc)
     candidates = []
+    stale_refs = []
     errors = []
     for url in (IN_PROGRESS_METADATA_URL, LATEST_METADATA_URL):
         try:
@@ -147,10 +162,26 @@ def fetch_metadata_candidates(
         except Exception as exc:
             errors.append(f"{url}: {exc}")
             continue
-        if _metadata_is_usable(metadata, forecast_hours):
-            candidates.append(metadata)
+        if not _metadata_is_usable(metadata, forecast_hours):
+            continue
+        age_hours = (
+            now - _parse_utc(metadata["reference_time"])
+        ).total_seconds() / 3600.0
+        if age_hours > JMA_MSM_MAX_CYCLE_AGE_HOURS:
+            stale_refs.append(
+                f"{metadata['reference_time']} ({age_hours:.1f}h old)"
+            )
+            continue
+        candidates.append(metadata)
 
     if not candidates:
+        if stale_refs:
+            raise RuntimeError(
+                "JMA MSM AWS metadata is stale (>"
+                f"{JMA_MSM_MAX_CYCLE_AGE_HOURS}h old) for every usable run; "
+                "refusing to publish a stale cycle. "
+                f"Upstream runs: {'; '.join(stale_refs)}"
+            )
         raise RuntimeError(
             "No usable JMA MSM AWS metadata for requested window; "
             + "; ".join(errors)
@@ -168,12 +199,14 @@ def fetch_best_metadata(
     forecast_hours: int,
     session: requests.Session | None = None,
     timeout: int = 30,
+    now: datetime | None = None,
 ) -> dict:
     """Return the freshest metadata candidate for callers needing one run."""
     return fetch_metadata_candidates(
         forecast_hours=forecast_hours,
         session=session,
         timeout=timeout,
+        now=now,
     )[0]
 
 
@@ -225,6 +258,7 @@ def fetch_aws_snapshot(
     metadata: dict | None = None,
     session: requests.Session | None = None,
     reader: Callable[[str, GridSlice], dict[str, np.ndarray]] | None = None,
+    now: datetime | None = None,
 ) -> dict:
     if forecast_hours < 1:
         raise ValueError("forecast_hours must be >= 1")
@@ -235,6 +269,7 @@ def fetch_aws_snapshot(
         else fetch_metadata_candidates(
             forecast_hours=forecast_hours,
             session=session,
+            now=now,
         )
     )
     errors = []

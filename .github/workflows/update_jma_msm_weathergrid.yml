@@ -73,11 +73,33 @@ jobs:
             --region jp --input-dir jma_msm_jp_output
 
       - name: Validate JMA MSM publish payload
+        id: validate_jma_msm
         if: steps.jma_msm.outcome == 'success'
         run: |
           python - <<'PY'
           import json
+          from datetime import datetime, timedelta, timezone
           from pathlib import Path
+
+          # CL-CI-06: JMA MSM refreshes every 3 h; a completed run is never
+          # legitimately older than 15 h. A stale bundle must fail this
+          # validation (and block the publish) instead of silently going out.
+          JMA_MSM_MAX_CYCLE_AGE_HOURS = 15
+          now = datetime.now(timezone.utc)
+
+          def assert_fresh(bundle, label):
+              cycle_time = bundle["cycle"]["cycle_time_utc"]
+              cycle = datetime.fromisoformat(
+                  cycle_time.replace("Z", "+00:00")
+              ).astimezone(timezone.utc)
+              age = now - cycle
+              assert age <= timedelta(hours=JMA_MSM_MAX_CYCLE_AGE_HOURS), (
+                  f"{label} JMA MSM bundle cycle {cycle_time} is "
+                  f"{age.total_seconds() / 3600:.1f}h old (limit "
+                  f"{JMA_MSM_MAX_CYCLE_AGE_HOURS}h); refusing to publish "
+                  "a stale cycle"
+              )
+              return cycle_time
 
           root = Path("jma_msm_tw_output")
           browser = json.loads(
@@ -100,6 +122,7 @@ jobs:
               == "hours_from_model_cycle"
           ), provenance
           assert provenance.get("cycle_timestamp_available") is True, provenance
+          tw_cycle_time = assert_fresh(browser, "tw")
           assert browser.get("cycle", {}).get("cycle_time_utc"), browser.get("cycle")
           assert browser.get("bbox") == {
               "leftlon": 120.0625,
@@ -118,6 +141,7 @@ jobs:
 
           print(json.dumps({
               "frames": len(browser["frames"]),
+              "cycle_time_utc": tw_cycle_time,
               "grid": [
                   browser["grid"]["rows"],
                   browser["grid"]["cols"],
@@ -142,6 +166,7 @@ jobs:
           )
           assert jp.get("model") == "JMA_MSM", jp.get("model")
           assert jp_qc.get("frame_count") == len(jp["frames"])
+          jp_cycle_time = assert_fresh(jp, "jp")
           jp_bbox = jp.get("bbox") or {}
           jp_latitudes = jp.get("grid", {}).get("latitudes") or []
           jp_longitudes = jp.get("grid", {}).get("longitudes") or []
@@ -152,12 +177,16 @@ jobs:
 
           print(json.dumps({
               "jp_frames": len(jp["frames"]),
+              "jp_cycle_time_utc": jp_cycle_time,
               "jp_bbox": jp_bbox,
           }, indent=2))
           PY
 
       - name: Publish current JMA MSM snapshot state
-        if: always() && !cancelled()
+        # CL-CI-06: a failed freshness/schema validation must block the
+        # publish. On fetch failure (validate skipped) this still runs so
+        # stale browser files are removed and the failure surfaces.
+        if: always() && !cancelled() && steps.validate_jma_msm.outcome != 'failure'
         run: |
           mkdir -p weathergrid
 

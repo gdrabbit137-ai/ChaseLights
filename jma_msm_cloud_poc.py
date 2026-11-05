@@ -19,7 +19,10 @@ import json
 from datetime import datetime, timezone
 from pathlib import Path
 
-from jma_msm_aws_om import fetch_aws_snapshot
+from jma_msm_aws_om import (
+    JMA_MSM_MAX_CYCLE_AGE_HOURS,
+    fetch_aws_snapshot,
+)
 
 
 JMA_MSM_MODEL = "jma_msm"
@@ -127,6 +130,19 @@ def _utc_iso(value: str) -> str:
     return value
 
 
+def cycle_age_hours(
+    cycle_time_utc: str,
+    *,
+    now: datetime | None = None,
+) -> float:
+    """Age of a JMA MSM model cycle in hours (CL-CI-06 freshness gate)."""
+    now = now or datetime.now(timezone.utc)
+    parsed = datetime.fromisoformat(
+        str(cycle_time_utc).replace("Z", "+00:00")
+    ).astimezone(timezone.utc)
+    return (now - parsed).total_seconds() / 3600.0
+
+
 def _axis(start: float, stop: float, step: float) -> list[float]:
     count = int(round((stop - start) / step))
     values = [round(start + i * step, 6) for i in range(count + 1)]
@@ -205,6 +221,7 @@ def fetch_snapshot(
             "extended_forecast_horizon_hours": JMA_MSM_EXTENDED_HORIZON_HOURS,
             "extended_cycles_utc": list(JMA_MSM_EXTENDED_CYCLES_UTC),
             "published_forecast_hours": len(frames),
+            "max_cycle_age_hours": JMA_MSM_MAX_CYCLE_AGE_HOURS,
             "forecast_hour_semantics": "hours_from_model_cycle",
             "cycle_timestamp_available": True,
             "transport_note": (
@@ -303,6 +320,17 @@ def main() -> int:
         bbox=bbox,
         forecast_hours=args.forecast_hours,
     )
+    # CL-CI-06: never write a bundle from a stale cycle. The AWS resolver
+    # already refuses stale metadata; this is the last line of defense for
+    # callers that pass explicit (possibly stale) run metadata.
+    cycle = snapshot["cycle"]["cycle_time_utc"]
+    age = cycle_age_hours(cycle)
+    if age > JMA_MSM_MAX_CYCLE_AGE_HOURS:
+        raise RuntimeError(
+            f"JMA MSM cycle {cycle} is {age:.1f}h old "
+            f"(limit {JMA_MSM_MAX_CYCLE_AGE_HOURS}h); refusing to "
+            "publish a stale run"
+        )
     out = Path(args.output_dir)
     out.mkdir(parents=True, exist_ok=True)
     path = out / f"jma_msm_{args.region}_cloud_raw.json"
