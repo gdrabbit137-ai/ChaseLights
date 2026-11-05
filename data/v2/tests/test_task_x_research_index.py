@@ -84,6 +84,10 @@ class ResearchIndexTests(unittest.TestCase):
             # <= -6 deg; TIME_SPECIALIZATION §3 misplacement, owner ruling
             # 2026-11-05, CL-UI-25 same-source definition).
             'd4ec134b373d93fbc80955822d7508547ad6497d',
+            # CL-UI-36: rationale_i18n review-note strip re-pinned the affected
+            # canonical records to the task-branch commit holding the new bytes.
+            'dce2f6ed0812ad418fc6d87cb358c9162aa2c255',
+            '4e51267ba7b7130d28efa41e50d2ef3d36de81a8',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         self.assertEqual('76e926d16f3cfd6f2983ec2c0f6fe6ac7004104d',p01['commit_sha'])
