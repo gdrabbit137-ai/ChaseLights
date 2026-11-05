@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ChaseLights — 攝影題材條件評估</title>
   <link rel="icon" href="/assets/favicon.ico" sizes="32x32">
+  <link rel="stylesheet" href="./assets/site-nav.css">
   <link rel="stylesheet" href="./assets/app.css">
   <style>
     .eval-banner{background:var(--panel,#141a22);border:1px solid var(--line,rgba(255,255,255,.12));
@@ -45,6 +46,23 @@
 </head>
 <body>
 
+  <nav class="site-nav" aria-label="全站導覽">
+    <div class="site-nav-inner">
+      <a class="site-nav-brand" href="./index.html">📸 ChaseLights</a>
+      <div class="site-nav-links">
+        <a class="site-nav-item" data-nav-target="cards" href="./index.html" data-i18n="nav_cards">卡片</a>
+        <a class="site-nav-item" data-nav-target="weather" href="./weather-map.html" data-i18n="nav_weathermap">天氣圖</a>
+        <div class="site-nav-more" data-nav-more>
+          <button class="site-nav-more-btn" type="button" aria-haspopup="true" aria-expanded="false" data-i18n="nav_more_tools">更多工具 ▾</button>
+          <div class="site-nav-menu" hidden>
+            <a href="./genre-eval.html" data-active="page" data-i18n="nav_genre_eval">題材評估</a>
+            <a href="./field-intake.html" data-i18n="nav_field_intake">實拍驗證</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
   <header class="site-header">
     <div class="header-top">
       <h1>🌗 <span id="page-title">攝影題材條件評估</span></h1>
@@ -74,6 +92,7 @@
   <div id="eval-loading" style="text-align:center;padding:40px"></div>
   <div class="eval-wrap" id="eval-wrap"></div>
 
+  <script src="./assets/site-nav.js"></script>
   <script src="./assets/genre-eval.js"></script>
 </body>
 </html>

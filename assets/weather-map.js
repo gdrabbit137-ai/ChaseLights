@@ -1481,6 +1481,15 @@
     try{
       window.localStorage.setItem(window.WeatherMapDeepLink.REGION_MEMORY_KEY, regionId);
     }catch(_){ /* storage unavailable: memory is best-effort */ }
+    // CL-UI-28: cross-page region carry back to the cards page — the nav
+    // 卡片 item carries ?region= so the cards page locates its dropdown to
+    // the region being viewed here (blueprint §7.2; card page fail-closes
+    // to its own tw/jp/us set on unknown regions).
+    try{
+      document.querySelectorAll('.site-nav a[data-nav-target="cards"]').forEach(a=>{
+        a.href='./index.html?region='+encodeURIComponent(regionId);
+      });
+    }catch(_){ /* nav absent: carry is best-effort */ }
   }
 
   // URL sync: replaceState only. On a user region switch the stale
