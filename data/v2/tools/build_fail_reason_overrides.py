@@ -623,7 +623,15 @@ ARCH_KEYWS = [
                "玄武岩", "石槽", "奇岩", "石坪", "沙嘴", "漁港"]),
     ("geology", ["月世界", "岩", "地質", "惡地", "石門", "石筍", "化石"]),
     ("field", ["草原", "茶園", "田", "花", "芒", "公園", "梯田"]),
-    ("mountain", ["山", "嶺", "峰", "稜", "主峰", "北大武", "太平"]),
+    ("mountain", ["山", "嶺", "峰", "稜", "主峰", "北大武", "太平", "Mount",
+                  "Mountain", "Peak", "高山", "山脈", "氷河", "Glacier", "Alps"]),
+    ("canyon", ["Canyon", "Gorge", "Valley"]),
+    ("harbor", ["Pier", "Wharf", "Harbor", "Port", "橋"]),
+    ("lake", ["Lake", "Lakes"]),
+    ("river", ["River", "Falls", "Waterfall", "Creek"]),
+    ("coast", ["Beach", "Bay", "Coast", "Point", "Spit", "Island"]),
+    ("field", ["Dunes", "Sand", "Forest", "Meadow", "Grass"]),
+    ("geology", ["Arch", "Rock", "Cactus", "Geolog", "Stone"]),
     ("city", ["101", "夜景", "天際線", "都市", "市區", "跨年"]),
 ]
 
