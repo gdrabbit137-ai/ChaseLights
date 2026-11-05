@@ -19,11 +19,26 @@ import subprocess
 import sys
 from pathlib import Path
 
+# CL-CI-10: w3 owns two subtrees (packages/core-v2, packages/models-v2).
+# Leaving w3 out of this map was the Round 9 race: sync refreshed only the
+# w1/w2/w4 pins while verify_main still checked the w3 subtrees against a
+# frozen tree_sha, so every push touching packages/** red-lit V2 Integration
+# ("w3 subtree pin differs") until a manual re-pin landed.
 OWNER_PATHS = {
     "w1": ("specs/v2",),
     "w2": ("data/v2",),
+    "w3": ("packages/core-v2", "packages/models-v2"),
     "w4": ("apps/web-v2",),
 }
+
+# Lock key for a subtree beyond the owner's primary path. The w3 lock already
+# uses "models_tree_sha" for packages/models-v2 (CL-CI-10 keeps that key).
+EXTRA_TREE_KEYS = {"packages/models-v2": "models_tree_sha"}
+
+
+def tree_sha_key(path):
+    return (EXTRA_TREE_KEYS.get(path) or
+            path.rsplit("/", 1)[-1].replace("-", "_") + "_tree_sha")
 
 
 def git(root, *args):
@@ -33,11 +48,31 @@ def git(root, *args):
 
 
 def current_trees(root):
+    def _rev(path):
+        # A path absent from HEAD (e.g. every file deleted) has no tree;
+        # report None so the file_count guard (0 files) refuses the drop
+        # instead of crashing the sync.
+        proc = subprocess.run(["git", "-C", str(root), "rev-parse", "HEAD:" + path],
+                              capture_output=True, check=False, text=True)
+        return proc.stdout.strip() if proc.returncode == 0 else None
+
+    def _count(path):
+        proc = subprocess.run(
+            ["git", "-C", str(root), "ls-tree", "-r", "--name-only", "HEAD", path],
+            capture_output=True, check=False, text=True)
+        return len(proc.stdout.splitlines()) if proc.returncode == 0 else 0
+
     out = {}
     for owner, paths in OWNER_PATHS.items():
-        tree = git(root, "rev-parse", "HEAD:" + paths[0])
-        count = len(git(root, "ls-tree", "-r", "--name-only", "HEAD", paths[0]).splitlines())
-        out[owner] = {"tree_sha": tree, "file_count": count, "paths": list(paths)}
+        # Per-subtree tree SHAs. paths[0] keeps the legacy "tree_sha" key;
+        # every additional subtree is keyed by tree_sha_key(path) so w3's
+        # models-v2 subtree is pinned independently of core-v2.
+        trees = {p: _rev(p) for p in paths}
+        count = sum(_count(p) for p in paths)
+        info = {"tree_sha": trees[paths[0]], "file_count": count, "paths": list(paths)}
+        for p in paths[1:]:
+            info[tree_sha_key(p)] = trees[p]
+        out[owner] = info
     return out
 
 
@@ -54,6 +89,16 @@ def sync(root, accept_decrease=False):
             pin["tree_sha"] = info["tree_sha"]
             changes[owner] = {"path": info["paths"][0], "previous_tree_sha": old_tree,
                               "tree_sha": info["tree_sha"]}
+        # CL-CI-10: additional owned subtrees (w3 models-v2) follow the same
+        # auto-sync guard rails as the primary subtree.
+        for extra_path in info["paths"][1:]:
+            key = tree_sha_key(extra_path)
+            old_extra = pin.get(key)
+            if old_extra != info[key]:
+                pin["previous_" + key] = old_extra
+                pin[key] = info[key]
+                changes.setdefault(owner, {})[extra_path] = {
+                    "previous_" + key: old_extra, key: info[key]}
         if old_count != info["file_count"]:
             if old_count is not None and info["file_count"] < old_count and not accept_decrease:
                 refusals.append(f"{owner} {info['paths'][0]}: file_count "
@@ -86,10 +131,11 @@ def main():
     root = args.root.resolve()
     if args.check:
         lock = json.loads((root / "ops/v2/integration-sources.json").read_text(encoding="utf-8"))
-        stale = {owner: {"path": info["paths"][0], "pinned_tree_sha": lock["sources"][owner]["tree_sha"],
-                         "current_tree_sha": info["tree_sha"]}
+        stale = {owner: {key: lock["sources"][owner].get(key),
+                         "current": info[key]}
                  for owner, info in current_trees(root).items()
-                 if lock["sources"][owner]["tree_sha"] != info["tree_sha"]}
+                 for key in ["tree_sha"] + [tree_sha_key(p) for p in info["paths"][1:]]
+                 if lock["sources"][owner].get(key) != info[key]}
         if stale:
             print(json.dumps({"status": "STALE", "stale": stale}))
             return 1

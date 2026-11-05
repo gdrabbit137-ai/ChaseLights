@@ -22,7 +22,8 @@ class PinSyncTests(unittest.TestCase):
         git("init", "-q")
         git("config", "user.name", "pin sync test")
         git("config", "user.email", "test@example.invalid")
-        for path in ("specs/v2", "data/v2", "apps/web-v2"):
+        for path in ("specs/v2", "data/v2", "packages/core-v2",
+                     "packages/models-v2", "apps/web-v2"):
             (root / path).mkdir(parents=True)
             (root / path / "a.txt").write_text("original\n")
         (root / "apps/web-v2" / "b.txt").write_text("original\n")
@@ -30,8 +31,7 @@ class PinSyncTests(unittest.TestCase):
         git("commit", "-qm", "synthetic base")
         lock = {"sources": {}}
         for owner, info in current_trees(root).items():
-            lock["sources"][owner] = {"tree_sha": info["tree_sha"],
-                                      "file_count": info["file_count"]}
+            lock["sources"][owner] = dict(info)
         (root / "ops").mkdir()
         (root / "ops/v2").mkdir(parents=True)
         (root / "ops/v2/integration-sources.json").write_text(json.dumps(lock))
@@ -74,7 +74,9 @@ class PinSyncTests(unittest.TestCase):
         git("add", ".")
         git("commit", "-qm", "w2 addition")
         # --check must report stale before sync and in-sync after.
-        stale = subprocess.run([sys.executable, "ops/v2/sync_integration_sources.py",
+        stale = subprocess.run([sys.executable,
+                                str(Path(__file__).resolve().parents[1] /
+                                    "sync_integration_sources.py"),
                                 "--root", str(root), "--check"], capture_output=True, text=True)
         self.assertEqual(stale.returncode, 1)
         self.assertIn("STALE", stale.stdout)
@@ -82,12 +84,41 @@ class PinSyncTests(unittest.TestCase):
                             (root / "ops/v2/integration-sources.json").read_text())
         self.assertEqual(before["sources"]["w2"]["file_count"], 1)
         sync(root)
-        clean = subprocess.run([sys.executable, "ops/v2/sync_integration_sources.py",
+        clean = subprocess.run([sys.executable,
+                                str(Path(__file__).resolve().parents[1] /
+                                    "sync_integration_sources.py"),
                                 "--root", str(root), "--check"], capture_output=True, text=True)
         self.assertEqual(clean.returncode, 0)
         self.assertIn("IN_SYNC", clean.stdout)
         after = json.loads((root / "ops/v2/integration-sources.json").read_text())
         self.assertEqual(after["sources"]["w2"]["file_count"], 2)
+
+    def test_w3_multi_subtree_pins_auto_follow(self):
+        """CL-CI-10: a w3 tree change syncs both owned subtrees (core-v2 +
+        models-v2) and the sync cannot lower the combined file_count."""
+        root, git, lock = self.fixture()
+        (root / "packages/models-v2/new_model.py").write_text("new w3 content\n")
+        git("add", ".")
+        git("commit", "-qm", "w3 models-v2 tree change without manual re-pin")
+        sync(root)
+        lock = json.loads((root / "ops/v2/integration-sources.json").read_text())
+        self.assertEqual(lock["sources"]["w3"]["tree_sha"],
+                         git("rev-parse", "HEAD:packages/core-v2"))
+        self.assertEqual(lock["sources"]["w3"]["models_tree_sha"],
+                         git("rev-parse", "HEAD:packages/models-v2"))
+        self.assertEqual(lock["sources"]["w3"]["previous_models_tree_sha"],
+                         git("rev-parse", "HEAD~1:packages/models-v2"))
+        baseline = lock["sources"]["w3"]["file_count"]
+        (root / "packages/core-v2/a.txt").unlink()
+        git("add", "-A")
+        git("commit", "-qm", "w3 file deleted")
+        with self.assertRaisesRegex(ValueError, "accept-decrease"):
+            sync(root)
+        sync(root, accept_decrease=True)
+        lock = json.loads((root / "ops/v2/integration-sources.json").read_text())
+        self.assertEqual(lock["sources"]["w3"]["file_count"], baseline - 1)
+        self.assertEqual(lock["sources"]["w3"]["accepted_file_count_decrease"]
+                         ["previous_file_count"], baseline)
 
     def test_real_pin_sync_workflow_pushes_only_the_lock(self):
         root = Path(__file__).resolve().parents[3]

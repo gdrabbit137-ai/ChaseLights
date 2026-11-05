@@ -13,7 +13,7 @@ import subprocess
 import sys
 
 from run_integration import blob, run_group
-from sync_integration_sources import sync
+from sync_integration_sources import sync, tree_sha_key
 from verify_open_meteo_one_shot import verify_one_shot_evidence
 
 
@@ -46,8 +46,14 @@ def verify_main(root, lock):
                 raise ValueError("Required owner dependency not merged: " + owner + " " + additional)
         for p in paths:
             current = git(root, "rev-parse", "HEAD:" + p)
-            expected = lock["sources"][owner].get("tree_sha") if len(paths) == 1 else None
-            expected = expected or git(root, "rev-parse", pinned + ":" + p)
+            # CL-CI-10: every owned subtree is checked against its own
+            # auto-synced pin — "tree_sha" for the owner's primary path and
+            # <basename>_tree_sha (e.g. w3's models_tree_sha) for additional
+            # ones — instead of the frozen tree of the pinned owner-head
+            # commit, so routine w3 tree changes are healed by the pre-verify
+            # sync and no longer red-light integration.
+            key = "tree_sha" if p == paths[0] else tree_sha_key(p)
+            expected = lock["sources"][owner].get(key)
             if current != expected:
                 raise ValueError(f"Merged {owner} subtree differs from tested pin: {p}")
             out["owner_trees"][p] = current
@@ -58,11 +64,17 @@ def verify_main(root, lock):
     # relative to the verified baseline (deletions require an explicit
     # --accept-decrease re-pin), and every exact test-count/blob-pin check
     # below must pass.
+    # CL-CI-10: w3 is now under the same non-decreasing file_count guard
+    # (its baseline is the combined count of both owned subtrees).
     for owner, paths in (("w1", ("specs/v2",)), ("w2", ("data/v2",)),
+                         ("w3", ("packages/core-v2", "packages/models-v2")),
                          ("w4", ("apps/web-v2",))):
         baseline = lock["sources"][owner].get("file_count")
         if baseline is not None:
-            current_count = len(git(root, "ls-tree", "-r", "--name-only", "HEAD", paths[0]).splitlines())
+            current_count = sum(
+                len(git(root, "ls-tree", "-r", "--name-only", "HEAD", p).splitlines())
+                for p in paths
+            )
             if current_count < baseline:
                 raise ValueError(
                     f"Owner {owner} {paths[0]} file_count dropped below the verified "
@@ -322,7 +334,7 @@ def main():
             ("w5-runner", ["ops/v2/tests", "test_ci_runner.py"], 7, True, False),
             ("w5-task-r-release-tools", ["ops/v2/tests", "test_task_r_release_tools.py"], 12, True, False),
             ("w5-task-v-integration", ["ops/v2/tests", "test_task_v_integration.py"], 11, True, False),
-            ("w5-pin-sync", ["ops/v2/tests", "test_pin_sync.py"], 4, True, False),
+            ("w5-pin-sync", ["ops/v2/tests", "test_pin_sync.py"], 5, True, False),
             ("w3-evaluator-and-hourly-source", ["packages/core-v2/tests", "test_*.py"], 158, True, False),
             ("w3-solar-model", ["packages/models-v2/tests", "test_*.py"], 15, True, False),
             ("w2-crosswalk-schema-index-and-hourly-binding", ["data/v2/tests", "test_*.py"], 66, True, False,
@@ -365,9 +377,9 @@ def main():
             for key in ("tests", "pass", "fail", "error", "skip")
         }
         if report["counts"] != {
-            "tests": 663, "pass": 663, "fail": 0, "error": 0, "skip": 0
+            "tests": 664, "pass": 664, "fail": 0, "error": 0, "skip": 0
         }:
-            raise ValueError("Post-merge exact 663-case requirement failed")
+            raise ValueError("Post-merge exact 664-case requirement failed")
         if not all(g["status"] == "PASS" for g in report["groups"]):
             raise ValueError("One or more required suites failed")
         report["status"] = "PASS"

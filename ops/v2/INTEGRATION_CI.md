@@ -46,5 +46,6 @@ ticket that touches those trees.
   commits the refreshed lock (`chore(ci): auto-sync V2 owner tree pins
   [skip ci]`). It is governed by `validate_pin_sync` in
   `validate_release_config.py` (push limited to the lock diff; no deploy).
-- Regression coverage: `ops/v2/tests/test_pin_sync.py` (4 cases); the
-  postmerge exact-count requirement is now 663.
+- Regression coverage: `ops/v2/tests/test_pin_sync.py` (5 cases, incl. the
+  CL-CI-10 w3 multi-subtree sync); the postmerge exact-count requirement
+  is now 664.
