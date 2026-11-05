@@ -46,7 +46,61 @@ ASTRO_METRICS = {"sunrise_time_window", "sunset_window", "blue_hour_window",
                  "golden_hour_window", "astronomical_darkness",
                  "moon_illumination_fraction", "moon_altitude",
                  "moon_target_separation_deg", "moon_illuminance_proxy",
-                 "galactic_core_altitude"}
+                 "galactic_core_altitude", "city_night_window"}
+
+# CL-UI-23: metrics that ARE a time window (window membership). A contract that
+# already declares one of these is time-window aware; the evaluation layer does
+# not second-guess it.
+TIME_WINDOW_METRICS = {"sunrise_time_window", "sunset_window",
+                       "blue_hour_window", "golden_hour_window",
+                       "astronomical_darkness", "city_night_window"}
+# CL-UI-23: genre templates whose subject semantics require a night hours
+# window but whose current owner contracts carry no time-window condition
+# (data-layer gap, owner gate pending). The evaluation layer enforces the
+# window deterministically from astronomy so a daytime hour can never become
+# a "good hour" for a night subject. Syncing these into the contracts remains
+# an owner decision; when a contract adds a real time-window condition, the
+# gate automatically stands down (condition already in TIME_WINDOW_METRICS).
+EVAL_TIME_WINDOW_GATES = {"city_night": "city_night_window"}
+GATE_CONDITION_ID = "EVALGATE-city_night-window"
+GATE_CONDITION = {
+    "id": GATE_CONDITION_ID,
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "city_night_window",
+    "operator": "none",
+    "condition_tier": "MAIN",
+    "notes_i18n": {
+        "zh-TW": "CL-UI-23 評估層時間窗：夜景題材的小時桶須整桶日落在地平線下"
+                 "（太陽仰角 ≤ -6°）。此閘門來自評估層（契約尚未含時間窗，待 owner 補）。",
+        "en": "CL-UI-23 evaluation-layer time gate: a city-night hour bucket "
+              "qualifies only when the whole bucket is after civil dusk (sun "
+              "elevation <= -6 deg). Owner contracts pending a real window "
+              "condition; this gate stands down automatically once added.",
+        "ja": "CL-UI-23 評価層の時間ゲート: 夜景題材の時間バケツは全体が薄暮後"
+              "（太陽高度 ≤ -6°）であることを要する。契約の時間窓追加後は自動解除。",
+    },
+}
+
+
+def eval_conditions_for(contract):
+    """Owner conditions plus the evaluation-layer time-window gate.
+
+    The gate is injected at evaluation time (never written into the owner
+    contract): a genre whose subject requires night hours gets a REQUIRED
+    window-membership condition when the contract itself declares no
+    time-window metric. condition_contract_sha256 stays over the owner
+    contract only.
+    """
+    conditions = list(contract.get("conditions") or [])
+    metric = EVAL_TIME_WINDOW_GATES.get(contract.get("genre_template"))
+    if not metric:
+        return conditions
+    if any(c.get("metric") in TIME_WINDOW_METRICS for c in conditions):
+        return conditions
+    return conditions + [GATE_CONDITION]
 DECLARED_PASS_METRICS = {"landform_present"}
 NO_SOURCE_METRICS = {"water_surface_state", "seasonal_state"}
 # Display-only local clocks (approximate; Place index time_zone is UNKNOWN).
@@ -293,9 +347,12 @@ def main():
         for doc in group["opportunities"]:
             oid = doc["opportunity_id"]
             contract = doc["condition_contract"]
+            # CL-UI-23: the sha stays over the OWNER contract; the gate is
+            # evaluation-layer only and must never leak into provenance.
             contract_sha = hashlib.sha256(
                 json.dumps(contract, sort_keys=True, separators=(",", ":"))
                 .encode("utf-8")).hexdigest()
+            conditions_eval = eval_conditions_for(contract)
             days = {}
             hour_ctxs = []
             for hour_row in hours:
@@ -304,7 +361,7 @@ def main():
                                               need_moon=need_moon)
                 states = {}
                 roles = {}
-                for condition in contract["conditions"]:
+                for condition in conditions_eval:
                     states[condition["id"]] = condition_verdict(
                         condition, hour_row["values"], astro_row)[0]
                     roles[condition["id"]] = condition.get("role")
@@ -331,10 +388,10 @@ def main():
                          "threshold": c.get("threshold"),
                          "value": condition_value(c, hour_row["values"], astro_row),
                          "verdict": states[c["id"]]}
-                        for c in contract["conditions"]],
+                        for c in conditions_eval],
                 })
             day_out = []
-            condition_by_id = {c["id"]: c for c in contract["conditions"]}
+            condition_by_id = {c["id"]: c for c in conditions_eval}
             for day_key in sorted(days):
                 hours_out = days[day_key]["hours"]
                 counts = {"GUIDANCE_SATISFIED": 0, "UNFAVORABLE": 0,
@@ -393,7 +450,7 @@ def main():
                          "threshold": c.get("threshold"),
                          "value": condition_value(c, snap_row["values"], snap_astro),
                          "verdict": snap_states[c["id"]]}
-                        for c in contract["conditions"]],
+                        for c in conditions_eval],
                 }
 
             now_ctx = next((c for c in hour_ctxs if c[0] >= generated_at), None)

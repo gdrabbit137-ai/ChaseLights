@@ -10,6 +10,9 @@ GENRE_CONDITION_TEMPLATES.md:
 - blue_hour_window: sun elevation between -8° and -4°
 - golden_hour_window: sun elevation between -6° and +6°
 - astronomical_darkness: sun elevation <= -18°
+- city_night_window: EVERY sampled instant in the hour bucket has sun
+  elevation <= -6° (civil darkness) — CL-UI-23 evaluation-layer gate for
+  city_night contracts that carry no contract-level time window yet
 - moon_illuminance_proxy: illumination_fraction × sin(moon_altitude), 0 below horizon
 - galactic_core_altitude: lunar_ephemeris galactic-core contract
 
@@ -41,6 +44,12 @@ BLUE_HIGH_DEG = -4.0
 GOLDEN_LOW_DEG = -6.0
 GOLDEN_HIGH_DEG = 6.0
 DARKNESS_MAX_DEG = -18.0
+# CL-UI-23: night-subject hours gate (evaluation layer). A city-night hour
+# bucket qualifies only when EVERY sampled instant inside [h, h+1h) has the
+# sun at or below -6° (civil darkness): city lights are the subject, so a
+# daytime or mid-dusk hour must never appear as a "good hour" even when the
+# weather conditions alone would pass.
+CITY_NIGHT_MAX_DEG = -6.0
 
 # CL-UI-08: window metrics are evaluated by SUB-HOUR INTERVAL SAMPLING, not by
 # the single grid instant. Narrow windows (blue hour 20-50 min, sunrise/sunset
@@ -56,7 +65,7 @@ ASTRO_SAMPLING_PROVENANCE = {
     "step_minutes": SUBHOUR_STEP_MIN,
     "samples_per_hour": len(WINDOW_SAMPLE_OFFSETS),
     "sample_offsets_minutes": WINDOW_SAMPLE_OFFSETS,
-    "metrics": ["astronomical_darkness", "golden_hour_window",
+    "metrics": ["astronomical_darkness", "city_night_window", "golden_hour_window",
                 "blue_hour_window", "sunrise_time_window", "sunset_window"],
     "bucket": "[hour_start, hour_start+60min)",
 }
@@ -109,6 +118,7 @@ def hour_observations(dt_utc, lat, lon, events=None, need_moon=False):
                  for t in samples]
     out = {
         "astronomical_darkness": any(a <= DARKNESS_MAX_DEG for a in altitudes),
+        "city_night_window": all(a <= CITY_NIGHT_MAX_DEG for a in altitudes),
         "golden_hour_window": any(GOLDEN_LOW_DEG <= a <= GOLDEN_HIGH_DEG
                                   for a in altitudes),
         "blue_hour_window": any(BLUE_LOW_DEG <= a <= BLUE_HIGH_DEG
