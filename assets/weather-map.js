@@ -3154,10 +3154,19 @@
   function windParticleField(layer){
     layer=layer===undefined?state.layer:layer;
     const keys=windParticleUvKeys(layer);
-    const data=activeDataset(layer);
+    // CL-WG-24 root cause: in AUTO model mode activeDataset(wind_direction)
+    // resolves to the regional bundle (CWA/JMA has its own direction field),
+    // while the u/v sidecar merges into the GFS dataset (activeGfsDataset).
+    // Decoding from activeDataset() therefore never saw u/v and the start
+    // gate stayed false forever. Particles are GFS-only: always read the
+    // field from the exact dataset object the sidecar merges into.
+    const data=activeGfsDataset();
     if(!data?.grid?.latitudes || !data?.grid?.longitudes) return null;
     if(!data?.fields?.[keys.u] || !data?.fields?.[keys.v]) return null;
-    const u=decodedArray(keys.u), v=decodedArray(keys.v);
+    const frame=data.frames?.[state.frameIndex] || null;
+    if(!frame?.values?.[keys.u] || !frame?.values?.[keys.v]) return null;
+    const u=frame.values[keys.u].map(v=>decodeValue(keys.u,v,data));
+    const v=frame.values[keys.v].map(v=>decodeValue(keys.v,v,data));
     if(!u.length || u.length!==v.length) return null;
     return {data,u,v,rows:data.grid.rows,cols:data.grid.cols,
       lats:data.grid.latitudes,lons:data.grid.longitudes};
@@ -3397,16 +3406,25 @@
       const nLat=p.lat+dLat,nLon=p.lon+dLon;
       const p1=project(nLon,nLat);
       p.lat=nLat; p.lon=nLon;
-      if(Math.abs(p1.x-p0.x)<0.05 && Math.abs(p1.y-p0.y)<0.05) continue;
+      // CL-WG-24: at region zoom a 10 m/s wind moves ~0.02px per frame, so
+      // skipping sub-pixel steps blanked the whole canvas. Draw a minimum
+      // 0.5px dash along the true heading instead of skipping.
+      const pdx=p1.x-p0.x, pdy=p1.y-p0.y;
+      const pdist=Math.hypot(pdx,pdy);
+      if(pdist===0) continue; // exactly zero wind: no heading, no phantom dot
+      let ex=pdx, ey=pdy;
+      if(pdist<0.5){
+        ex=pdx/pdist*0.5; ey=pdy/pdist*0.5;
+      }
       pctx.beginPath();
       pctx.moveTo(p0.x,p0.y);
-      pctx.lineTo(p1.x,p1.y);
+      pctx.lineTo(p0.x+ex,p0.y+ey);
       pctx.strokeStyle='rgba(2,6,23,.38)';
       pctx.lineWidth=2.6;
       pctx.stroke();
       pctx.beginPath();
       pctx.moveTo(p0.x,p0.y);
-      pctx.lineTo(p1.x,p1.y);
+      pctx.lineTo(p0.x+ex,p0.y+ey);
       pctx.strokeStyle='rgba(248,250,252,.85)';
       pctx.lineWidth=1.2;
       pctx.stroke();
