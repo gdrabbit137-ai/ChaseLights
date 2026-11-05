@@ -223,7 +223,12 @@
     mapReady:false,
     basemapStatus:'loading',
     source:'loading',
-    coverageSource:'loading'
+    coverageSource:'loading',
+    // CL-WG-19: parsed URL deep-link entry params + the keys that came from
+    // the URL (kept across region switches only while the URL region wins).
+    deepLink:{region:null,spot:null,layer:null,subject:null,focus:null,urlKeys:[],hasAny:false},
+    deepLinkFromUrl:false,
+    deepLinkSpotApplied:false
   };
 
   const $ = id => document.getElementById(id);
@@ -1357,6 +1362,9 @@
           }
           refreshModelControls();
           renderAll();
+          // CL-WG-19: the deferred spot deep-link part lands with the full
+          // bundle (the PNG-stub first paint carries no spots).
+          applyDeepLinkSpotEntry();
           // Enhancement bundles are loaded by activateRegion's normal tail
           // (source==='live' && baselineLoaded), so nothing extra here.
         })();
@@ -1397,6 +1405,15 @@
     refreshModelControls();
     renderRegionCards();
     refreshSpotOptions();
+    if(initial){
+      // CL-WG-19: region-context memory + URL sync on the entry load. The
+      // region param (if any) is authoritative and the URL keys that came
+      // with the deep link are preserved; the memory records the region
+      // that actually loaded for the next param-less visit.
+      persistRegion(state.region);
+      syncDeepLinkUrl(state.region, {keepEntryKeys:true});
+      applyDeepLinkEntry();
+    }
     if(state.source === 'live' && baselineLoaded){
       renderAll();
       loadEnhancementsSequentially();
@@ -1409,6 +1426,9 @@
     if(!window.WeatherMapRegions.REGION_BBOXES[regionId]) return;
     if(regionId === state.region) return;
     await activateRegion(regionId);
+    // CL-WG-19: region-context memory + URL sync on every region switch.
+    persistRegion(regionId);
+    syncDeepLinkUrl(regionId);
   }
 
   function renderRegionCards(){
@@ -1433,10 +1453,179 @@
     }
   }
 
+  // ===== CL-WG-19: deep-link entry state =====
+  // URL 參數驅動初始狀態（卡片頁深連結）。解析在純模組
+  // assets/weather-map-deeplink.js；任何非法參數 fail-closed 退預設，
+  // 不報錯。URL 同步一律 history.replaceState，不污染瀏覽歷史。
+
+  function readDeepLinkParams(){
+    try{
+      const sp = new URLSearchParams(window.location.search);
+      return window.WeatherMapDeepLink.parseDeepLinkParams(sp, {
+        validRegions: window.WeatherMapRegions.REGION_ORDER,
+        maxZoom: window.WeatherMapRegions.CAMERA_MAX_ZOOM
+      });
+    }catch(_){
+      return window.WeatherMapDeepLink.parseDeepLinkParams(null, {});
+    }
+  }
+
+  function readStoredRegion(){
+    try{
+      const v = window.localStorage.getItem(window.WeatherMapDeepLink.REGION_MEMORY_KEY);
+      return typeof v === 'string' ? v : null;
+    }catch(_){ return null; }
+  }
+
+  function persistRegion(regionId){
+    try{
+      window.localStorage.setItem(window.WeatherMapDeepLink.REGION_MEMORY_KEY, regionId);
+    }catch(_){ /* storage unavailable: memory is best-effort */ }
+  }
+
+  // URL sync: replaceState only. On a user region switch the stale
+  // spot/layer/subject/focus params are dropped; on the deep-link entry load
+  // the original URL keys are preserved while the URL region still wins.
+  function syncDeepLinkUrl(regionId, {keepEntryKeys=false}={}){
+    try{
+      const url = new URL(window.location.href);
+      url.searchParams.set('region', regionId);
+      // Keep only the entry keys whose parameter actually parsed to a valid
+      // value (fail-closed: illegal params are dropped from the URL too).
+      const keep = new Set(keepEntryKeys
+        ? (state.deepLink.urlKeys || []).filter(k => {
+            const v = state.deepLink[k];
+            return v !== null && v !== undefined && v !== '';
+          })
+        : []);
+      for(const key of ['spot','layer','subject','focus']){
+        if(!keep.has(key)) url.searchParams.delete(key);
+      }
+      // searchParams encodes commas; keep the focus param human-readable.
+      url.search = url.search.replace(/%2C/gi, ',');
+      window.history.replaceState(null, '', url);
+    }catch(_){ /* URL sync is best-effort */ }
+  }
+
+  // &focus=lat,lon,zoom camera: jump the MapLibre camera (clamped by the
+  // region maxBounds set by applyCameraLimits); the canvas-fallback path
+  // still lands on the same view because state.view mirrors the focus bbox.
+  function applyDeepLinkFocusCamera(focus){
+    const cam = window.WeatherMapDeepLink.focusCamera(focus, window.WeatherMapRegions.CAMERA_MAX_ZOOM);
+    if(!cam) return false;
+    const bbox = window.WeatherMapDeepLink.focusBboxFromCamera(cam.center[1], cam.center[0], cam.zoom);
+    if(bbox) setViewBbox(bbox);
+    if(state.mapReady && state.map){
+      state.map.jumpTo({center:cam.center, zoom:cam.zoom});
+    }
+    return true;
+  }
+
+  // spot without focus: fit a spot-centered view sized from the region bbox
+  // scale (module pure fn; zoom settles ~9–11 via fitBounds, CL-WG-19 #3).
+  function applyDeepLinkSpotCamera(spot){
+    const bbox = window.WeatherMapDeepLink.spotFocusBbox(
+      spot.lat, spot.lon, state.region, window.WeatherMapRegions.REGION_BBOXES);
+    if(!bbox) return false;
+    setViewBbox(bbox,{animate:true,maxZoom:11});
+    // preserveCamera: the spot view is the current camera here; limits
+    // (maxBounds/minZoom) still derive from the region fit so the region
+    // confinement of CL-WG-06/07/10 is never weakened.
+    applyCameraLimits({preserveCamera:true});
+    return true;
+  }
+
+  // Entry application, initial load only. Priority: layer param > subject
+  // mapping > region default (already set by activateRegion); focus param >
+  // spot-centered camera > region fit (already done by activateRegion).
+  // The spot part is deferred when the spots list is not on disk yet (the
+  // PNG-stub first-paint path swaps in the full bundle in the background;
+  // applyDeepLinkSpotEntry is retried on its arrival).
+  function applyDeepLinkEntry(){
+    const dl = state.deepLink;
+    if(!dl || !dl.hasAny) return;
+    const layers = availableLayerKeys();
+    let wanted = null;
+    if(dl.layer && layers.includes(dl.layer)){
+      wanted = dl.layer;
+    }else if(dl.subject){
+      wanted = window.WeatherMapDeepLink.resolveSubjectLayer(dl.subject, layers);
+    }
+    if(wanted){
+      state.layer = wanted;
+      refreshModelControls();
+    }
+    if(dl.layer && wanted !== dl.layer){
+      // Layer param invalid for this region: fail-closed to the default and
+      // drop the illegal key from the synced URL as well.
+      dl.layer = null;
+      dl.urlKeys = (dl.urlKeys || []).filter(k => k !== 'layer');
+      syncDeepLinkUrl(state.region, {keepEntryKeys:true});
+    }
+    // A focus param applies regardless of the spot param (focus wins over
+    // the spot-centered camera when both are present).
+    if(dl.focus) applyDeepLinkFocusCamera(dl.focus);
+    applyDeepLinkSpotEntry();
+    if(!state.deepLinkSpotApplied){
+      // No spot camera pending (no spot param, unknown id, or spots not on
+      // disk yet) — still publish the entry state for verification.
+      window.__weatherGridDeepLink = {
+        applied:true,
+        region:state.region,
+        layer:state.layer,
+        spotId:state.spotId,
+        requested:{...dl},
+        mapCenter:(state.mapReady&&state.map)?state.map.getCenter():null,
+        mapZoom:(state.mapReady&&state.map)?state.map.getZoom():null,
+        view:state.view ? {...state.view} : null
+      };
+    }
+  }
+
+  // Spot deep-link part: select the spot and set the camera (focus param
+  // wins; otherwise the spot-centered adaptive view). No-op until the
+  // active dataset actually carries spots.
+  function applyDeepLinkSpotEntry(){
+    const dl = state.deepLink;
+    if(!dl || !dl.spot || state.deepLinkSpotApplied) return false;
+    const spot = (state.data?.spots || []).find(s => s.spot_id === dl.spot) || null;
+    if(!spot) return false;
+    state.deepLinkSpotApplied = true;
+    state.spotId = spot.spot_id;
+    state.opportunityId = '';
+    refreshSpotOptions();
+    refreshOpportunityOptions();
+    if(!dl.focus){
+      applyDeepLinkSpotCamera(spot);
+    }
+    // Headless-verification hook (also used by the smoke harness): the
+    // deep-link entry state after application.
+    window.__weatherGridDeepLink = {
+      applied:true,
+      region:state.region,
+      layer:state.layer,
+      spotId:state.spotId,
+      requested:{...dl},
+      mapCenter:(state.mapReady&&state.map)?state.map.getCenter():null,
+      mapZoom:(state.mapReady&&state.map)?state.map.getZoom():null,
+      view:state.view ? {...state.view} : null
+    };
+    return true;
+  }
+
   async function load(){
     await loadWeatherGridIndex();
+    // CL-WG-19: URL region param > localStorage memory > 'tw' (owner spec).
+    // The URL is authoritative whenever it carries a region param, even if
+    // it differs from the last browsed region.
+    state.deepLink = readDeepLinkParams();
+    state.deepLinkFromUrl = Boolean(state.deepLink.region);
+    const entryRegion = window.WeatherMapDeepLink.resolveInitialRegion({
+      urlRegion: state.deepLink.region,
+      storedRegion: readStoredRegion()
+    });
     try{
-      await activateRegion('tw', {initial:true});
+      await activateRegion(entryRegion, {initial:true});
     }catch(err){
       console.warn('WeatherGrid live bundle unavailable; using demo fixture', err);
       window.__wg16LoadError = String((err && err.stack) || err);
@@ -1448,6 +1637,8 @@
       initControls();
       initBasemap();
       window.__weatherGridPreviewReady = true;
+      // CL-WG-19: demo-fallback path still applies the deep-link entry.
+      applyDeepLinkEntry();
       renderAll();
     }
   }

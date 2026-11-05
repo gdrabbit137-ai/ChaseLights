@@ -74,6 +74,7 @@ ChaseLights 是風景攝影師的「拍攝決策工具」。它回答一個問�
 - **JMA 邊界禁令**：絕不跨越 120.06°E / 22.45°N 空間拼接。
 - **渲染依賴外部資料時**：bundle fetch window 必須超出 bbox 至少相機 maxBounds padding——0.5° 邊距的 bundle 會讓 maxBounds 環完全無資料，fill 靜默不畫（模組正確、測試綠也會出空白地圖）。驗證要讀 bundle 的 grid min/max 經緯度對比 cameraBounds，不能只看 JS。
 - **預渲染 PNG**：色階邏輯唯一實作在 `assets/weather-map-palette.js`（前端與 `scripts/weathergrid_png_prerender.mjs` 共用——兩套色階數學必漂移，結構性禁令）。前端以 manifest 存在＋版本＋源一致＋frame 有效為閘，任何不符退回 live JSON（`?nopng=1` 為 A/B 旁路）。
+- **深連結（CL-WG-19）**：`weather-map.html` 支援 URL 參數驅動初始狀態（卡片頁深連結）：`?region=` 初始區域（覆寫 localStorage 記憶；無參數用上次瀏覽區域，皆無預設 tw）、`&spot=` 景點 ID、`&layer=` 圖層 ID（無 layer 用 region 預設主圖層）、`&focus=lat,lon,zoom` 相機（無 focus 且有 spot 時以景點為中心、依區 bbox 尺度自適應 fit，zoom 約 9–11）、`&subject=` 題材 genre → 相關性映射選圖層（映射表為純函式 `assets/weather-map-deeplink.js`＋測試；無法映射退預設圖層）。任何非法參數 fail-closed 退預設、不報錯；切區寫 localStorage、URL 同步一律 `history.replaceState`（不污染瀏覽歷史）。
 
 ### 2.5 地區 bbox 表（常數表，可擴充）
 - 每區固定 lat/lon bbox，大小 = 該區天氣播報雲量的範圍，且必須包含該區全部收錄景點（驗證時逐點檢查）。

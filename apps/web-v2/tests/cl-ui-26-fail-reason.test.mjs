@@ -81,6 +81,6 @@ test('CL-UI-26 (5): the v2_fail_reason label exists in all three dictionaries',(
 
 test('CL-UI-26 (6): cache-bust stamp bumped for the edited app.js',()=>{
   const index=readFileSync(new URL('../../../index.html',import.meta.url),'utf8');
-  assert.match(index,/assets\/app\.js\?v=clui28/);
-  assert.match(index,/assets\/app\.css\?v=clui28/);
+  assert.match(index,/assets\/app\.js\?v=clui29/);
+  assert.match(index,/assets\/app\.css\?v=clui29/);
 });
