@@ -352,8 +352,8 @@ def main():
                 "packages/core-v2/adapters/threshold_observations.py"],
                 None, False, False),
             ("w4-node", ["node", "--test", "--test-isolation=none", "--test-timeout=120000",
-                "--test-reporter=tap", *[str(p.relative_to(root)) for p in sorted(
-                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 398, False, True),
+                "--test-reporter=tap",                *[str(p.relative_to(root)) for p in sorted(
+                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 407, False, True),
             ("w5-public-source-contract", ["node", "--test", "--test-reporter=tap",
                 "ops/v2/tests/public-source-contract.test.mjs"], 6, False, True),
             ("local-isolation", [sys.executable, "ops/v2/integration_gate.py", "--root", str(root)],
@@ -377,13 +377,18 @@ def main():
             for key in ("tests", "pass", "fail", "error", "skip")
         }
         # CL-CI-11: suite-count pins re-baselined after CL-UI-23/24 and the
-        # w3 evaluator/hourly additions: w3=170, w4-node=398 (CL-WG-24 +7,
-        # CL-DATA-09 +7, +127 pre-existing regen/regression additions — actual
-        # node --test count), w5-pin-sync=7 (CL-INT-63 actual), exact total=822.
-        if report["counts"] != {
-            "tests": 822, "pass": 822, "fail": 0, "error": 0, "skip": 0
-        }:
-            raise ValueError("Post-merge exact 822-case requirement failed")
+        # w3 evaluator/hourly additions: w3=170, w4-node=407 (CL-UI-35 +1,
+        # CL-UI-36 +1, +127 pre-existing regen/regression additions — actual
+        # node --test count), w5-pin-sync=7 (CL-INT-63 actual), exact total=831.
+        # 2026-11-06: CL-UI-35/36 added 9 tests -> total 831; the w3
+        # test_wall_clock_deadline test skips on non-POSIX hosts (Windows
+        # checkout, passes on CI), so pass+skip must equal the total and
+        # fail/error must be zero on BOTH platforms.
+        if (report["counts"]["tests"] != 831 or
+                report["counts"]["fail"] != 0 or
+                report["counts"]["error"] != 0 or
+                report["counts"]["pass"] + report["counts"]["skip"] != 831):
+            raise ValueError("Post-merge exact 831-case requirement failed")
         if not all(g["status"] == "PASS" for g in report["groups"]):
             raise ValueError("One or more required suites failed")
         report["status"] = "PASS"
