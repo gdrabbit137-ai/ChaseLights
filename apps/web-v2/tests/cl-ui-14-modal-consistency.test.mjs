@@ -30,7 +30,7 @@ const factory=new Function([
   grab('function v2RemainingHoursList','function v2ParseLocalStamp'),
   grab('function formatHourSegments','function v2ContractThreshold'),
   grab('const VIS_CAP_KM','function astroMissingHtml'),
-  grab('// CL-UI-14/F1: the modal','function radarUrl'),
+  grab('// CL-UI-14/F1: the modal','function navigationTargetNote'),
   'return {formatTemp,esc,tzAbbrLabel,visibilityText,tempChipHtml,modalWindowKey,modalDayInfo,modalWindowSegment,modalHeadline,modalDayRow};'
 ].join('\n'));
 const {formatTemp,esc,tzAbbrLabel,visibilityText,tempChipHtml,modalWindowKey,modalDayInfo,modalWindowSegment,modalHeadline,modalDayRow}=factory();

@@ -239,10 +239,10 @@ test('CL-WG-19 (21): weather-map.html loads the deeplink module with a cache-bus
   }
 });
 
-test('CL-WG-19 (22): index.html homepage stamp bumped to clui30', () => {
-  assert.match(indexSource, /assets\/app\.js\?v=clui30/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui30/);
-  assert.doesNotMatch(indexSource, /clui28/);
+test('CL-WG-19 (22): index.html homepage stamp bumped to clui31', () => {
+  assert.match(indexSource, /assets\/app\.js\?v=clui31/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui31/);
+  assert.doesNotMatch(indexSource, /clui29/);
 });
 
 test('CL-WG-19 (23): fail-closed parse never throws on garbage input', () => {
