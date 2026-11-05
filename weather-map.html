@@ -11,9 +11,26 @@
   <title>ChaseLights WeatherGrid Preview</title>
   <link rel="icon" href="/assets/favicon.ico" sizes="32x32">
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-gl.css">
-  <link rel="stylesheet" href="./assets/weather-map.css?v=bclwg20">
+  <link rel="stylesheet" href="./assets/site-nav.css">
+  <link rel="stylesheet" href="./assets/weather-map.css?v=bclwg21">
 </head>
 <body>
+  <nav class="site-nav" aria-label="全站導覽">
+    <div class="site-nav-inner">
+      <a class="site-nav-brand" href="./index.html">📸 ChaseLights</a>
+      <div class="site-nav-links">
+        <a class="site-nav-item" data-nav-target="cards" href="./index.html" data-i18n="nav_cards">卡片</a>
+        <a class="site-nav-item" data-nav-target="weather" data-active="page" href="./weather-map.html" data-i18n="nav_weathermap">天氣圖</a>
+        <div class="site-nav-more" data-nav-more>
+          <button class="site-nav-more-btn" type="button" aria-haspopup="true" aria-expanded="false" data-i18n="nav_more_tools">更多工具 ▾</button>
+          <div class="site-nav-menu" hidden>
+            <a href="./genre-eval.html" data-i18n="nav_genre_eval">題材評估</a>
+            <a href="./field-intake.html" data-i18n="nav_field_intake">實拍驗證</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
   <header class="weather-header">
     <div class="header-intro">
       <div class="header-title-line">
@@ -163,6 +180,7 @@
   <script src="./assets/weather-map-regions.js?v=bclwg13"></script>
   <script src="./assets/weather-map-palette.js?v=bclwg17"></script>
   <script src="./assets/weather-map-deeplink.js?v=bclwg19"></script>
-  <script src="./assets/weather-map.js?v=bclwg20"></script>
+  <script src="./assets/site-nav.js"></script>
+  <script src="./assets/weather-map.js?v=bclwg21"></script>
 </body>
 </html>
