@@ -45,7 +45,7 @@ test('CL-UI-27 (1): none-copy and next window render as ONE merged line', () => 
 
 test('CL-UI-27 (2a): the card status row drops the 「預報狀態：」 prefix', () => {
   const card = grab('function createSpotCard', 'function distanceToSpotKm');
-  assert.match(card, /forecast-status-row card-meta-row">\$\{esc\(v2StateLabel\)\}\$\{esc\(v2FailReasonSuffix\(v2Best\.state,v2Best\.day\)\)\}/);
+  assert.match(card, /forecast-status-row card-meta-row">\$\{esc\(v2StateLabel\)\}\$\{esc\(v2FailReasonSuffix\(v2Best,spot\)\)\}/);
   assert.ok(!card.includes('forecast_status'), 'createSpotCard must not render d().forecast_status');
 });
 

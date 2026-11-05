@@ -72,18 +72,21 @@ const rendered = await evaljs(`(async () => {
   for (const lang of ['zh-TW','en','ja']) {
     const fns = new Function('let currentLang='+JSON.stringify(lang)+';\\n'+code+
       '\\nreturn {v2DominantFailReason:v2DominantFailReason};')();
-    const text = fns.v2DominantFailReason(lowCloudDay.conditions);
+    // CL-UI-33: context variants — mountain scene keeps the peak wording,
+    // no-context (flat) renders the neutral view-blocked wording.
+    const mountain = fns.v2DominantFailReason(lowCloudDay.conditions, {scenes:['mountain']}, 'sunset');
+    const flat = fns.v2DominantFailReason(lowCloudDay.conditions, null, 'sunset');
     const el = document.createElement('div');
     el.className = 'card-state'; el.dataset.lang = lang;
-    el.textContent = text;              // esc-equivalent: textContent, no HTML injection
+    el.textContent = mountain + ' | ' + flat;   // esc-equivalent: textContent, no HTML injection
     document.body.appendChild(el);
     out[lang] = document.querySelector('.card-state[data-lang="'+lang+'"]').textContent;
   }
   return out;
 })()`);
-assert.equal(rendered['zh-TW'],'低雲太厚，山頭沒入雲中');
-assert.equal(rendered.en,'Low cloud swallows the peak');
-assert.equal(rendered.ja,'低層雲が厚く、山頂が雲に埋もれます');
+assert.equal(rendered['zh-TW'],'低雲太厚，山頭沒入雲中 | 低雲太厚，遮蔽景觀');
+assert.equal(rendered.en,'Low cloud swallows the peak | Thick low cloud blocks the view');
+assert.equal(rendered.ja,'低層雲が厚く、山頂が雲に埋もれます | 低層雲が厚く、景観が遮られます');
 console.log('CL-UI-32 headless render OK:', JSON.stringify(rendered));
 const shot = await send('Page.captureScreenshot',{format:'png'});
 console.log('shot:', join(OUT,'render.png'), Buffer.from(shot.data,'base64').length, 'bytes');
