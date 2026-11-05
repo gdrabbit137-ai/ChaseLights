@@ -1667,6 +1667,11 @@
       const dayLabels=summaryData?summaryData.labels:[d().eval2_d0,d().eval2_d1,d().eval2_d2];
       const overviewRows=summaryData?summaryData.dayInfos.map((info,i)=>modalDayRow(dayLabels[i],info)).join(''):`<div class="modal-day-none">${esc(d().modal_window_none)}</div>`;
       const headline=esc(modalHeadline(summaryData));
+      // CL-UI-33: the render path needs the spot timezone, but `tz` was only a
+      // local of modalSummaryData — referencing it here threw
+      // "tz is not defined", aborting the whole hourly render (regression made
+      // visible by the CL-CI-13 retry path catching the throw as a load error).
+      const tz=summaryData?summaryData.tz:(summarySpot?.timezone||'UTC');
       const nextWindow=summaryData&&summaryData.nextLocal?`<div class="modal-next-window">🎯 ${esc(d().v2_next_window)}<b>${esc(nextWindowStamp(summaryData.nextLocal,tz))}</b></div>`:'';
       // CL-DATA-06: seven day tabs, same day keys as the homepage strip; the
       // labels follow the spot's own wall clock via the eval-day label chain.
