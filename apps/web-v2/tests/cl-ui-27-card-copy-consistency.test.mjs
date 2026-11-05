@@ -1,7 +1,7 @@
 // CL-UI-27 — 未符卡文案聚焦與資訊一致性
 // 1) none-copy + next window merged into ONE line; 2) 「預報狀態：」 prefix
 // removed and synonymous visibility reason deduped; 3) relative-day words on
-// the next-window stamp; 4) chip row all-or-nothing; stamp bump clui34.
+// the next-window stamp; 4) chip row all-or-nothing; stamp bump clui35.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -45,7 +45,7 @@ test('CL-UI-27 (1): none-copy and next window render as ONE merged line', () => 
 
 test('CL-UI-27 (2a): the card status row drops the 「預報狀態：」 prefix', () => {
   const card = grab('function createSpotCard', 'function distanceToSpotKm');
-  assert.match(card, /forecast-status-row card-meta-row">\$\{esc\(v2StateLabel\)\}\$\{esc\(v2FailReasonSuffix\(v2Best\.state,v2Best\.day\)\)\}/);
+  assert.match(card, /forecast-status-row card-meta-row">\$\{esc\(v2StateLabel\)\}\$\{esc\(v2FailReasonSuffix\(v2Best,spot\)\)\}/);
   assert.ok(!card.includes('forecast_status'), 'createSpotCard must not render d().forecast_status');
 });
 
@@ -95,8 +95,8 @@ test('CL-UI-27 (4): the metric-chip row is all-or-nothing', () => {
   assert.ok(appSource.includes('chip row is all-or-nothing'));
 });
 
-test('CL-UI-27 (5): index.html cache-bust stamp bumped to clui34', () => {
-  assert.match(indexSource, /assets\/app\.js\?v=clui34/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui34/);
+test('CL-UI-27 (5): index.html cache-bust stamp bumped to clui35', () => {
+  assert.match(indexSource, /assets\/app\.js\?v=clui35/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui35/);
   assert.ok(!indexSource.includes('clui27'));
 });

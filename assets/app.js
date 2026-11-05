@@ -1273,7 +1273,7 @@
       // page header already carries the unified GMT clock, so the row only
       // repeated on every card. If a multi-timezone card list is ever needed,
       // restore a tzAbbrLabel()-based label here (see fmtWindow()).
-      card.innerHTML=`<div><div class="card-header"><div class="spot-title-group"><span class="spot-name"></span><div class="spot-local-name"></div><div style="margin-top:4px"><span class="category-tag">${esc(spotAdminAreas(spot).map(adminAreaLabel).join(" · ")||categoryLabel(spot.category))}</span></div></div><div class="card-header-actions"><button class="fav-btn ${fav?'active':''}" data-fav aria-label="${esc(d().favorite_label)}">★</button></div></div><div class="tags-wrapper">${scenePills}${sceneMore}</div><div class="shooting-summary">${v2Summary||`<div class="theme-winner">📷 ${esc(opportunityName)}</div>`}</div>${reasonHtml?`<div class="recommendation-reasons">${reasonHtml}</div>`:''}<div class="card-secondary-meta"><div class="card-quick-meta"><span class="card-metric-chips">${compactMetrics}${distanceChip}</span></div>${v2Best&&v2Best.state!=='GUIDANCE_SATISFIED'?`<div class="info-row forecast-status-row card-meta-row">${esc(v2StateLabel)}${esc(v2FailReasonSuffix(v2Best.state,v2Best.day))}</div>`:''}${astro?`<div class="info-row card-meta-row card-meta-astro">${astro}</div>`:''}${darkSky?`<div class="info-row card-meta-row card-meta-dark">${darkSky}</div>`:''}${access?`<div class="info-row access-note card-meta-row card-meta-access" title="${esc(access)}">⏰ ${esc(access)}</div>`:''}</div></div><div class="card-footer-tools" data-tools><div></div><div><a href="#" class="tool-link" data-weather${toolButtonAttrs(d().weather_link)}>${toolButtonInner(d().weather_link)}</a>${navTool}<a href="${weatherMapDeepLinkUrl(spot)}" target="_blank" rel="noopener noreferrer" class="tool-link"${toolButtonAttrs(d().radar_link)}>${toolButtonInner(d().radar_link)}</a></div></div>`;
+      card.innerHTML=`<div><div class="card-header"><div class="spot-title-group"><span class="spot-name"></span><div class="spot-local-name"></div><div style="margin-top:4px"><span class="category-tag">${esc(spotAdminAreas(spot).map(adminAreaLabel).join(" · ")||categoryLabel(spot.category))}</span></div></div><div class="card-header-actions"><button class="fav-btn ${fav?'active':''}" data-fav aria-label="${esc(d().favorite_label)}">★</button></div></div><div class="tags-wrapper">${scenePills}${sceneMore}</div><div class="shooting-summary">${v2Summary||`<div class="theme-winner">📷 ${esc(opportunityName)}</div>`}</div>${reasonHtml?`<div class="recommendation-reasons">${reasonHtml}</div>`:''}<div class="card-secondary-meta"><div class="card-quick-meta"><span class="card-metric-chips">${compactMetrics}${distanceChip}</span></div>${v2Best&&v2Best.state!=='GUIDANCE_SATISFIED'?`<div class="info-row forecast-status-row card-meta-row">${esc(v2StateLabel)}${esc(v2FailReasonSuffix(v2Best,spot))}</div>`:''}${astro?`<div class="info-row card-meta-row card-meta-astro">${astro}</div>`:''}${darkSky?`<div class="info-row card-meta-row card-meta-dark">${darkSky}</div>`:''}${access?`<div class="info-row access-note card-meta-row card-meta-access" title="${esc(access)}">⏰ ${esc(access)}</div>`:''}</div></div><div class="card-footer-tools" data-tools><div></div><div><a href="#" class="tool-link" data-weather${toolButtonAttrs(d().weather_link)}>${toolButtonInner(d().weather_link)}</a>${navTool}<a href="${weatherMapDeepLinkUrl(spot)}" target="_blank" rel="noopener noreferrer" class="tool-link"${toolButtonAttrs(d().radar_link)}>${toolButtonInner(d().radar_link)}</a></div></div>`;
       card.querySelector('.spot-name').textContent=spotName(spot);const local=card.querySelector('.spot-local-name');const showLocal=!(currentRegion==='tw'&&currentLang==='zh-TW');local.textContent=showLocal&&spot.name_local&&spot.name_local!==spotName(spot)?spot.name_local:'';card.querySelector('[data-fav]').onclick=e=>toggleFavorite(spot.spot_id,e);card.querySelector('[data-tools]').onclick=e=>e.stopPropagation();card.querySelector('[data-weather]').onclick=e=>{e.preventDefault();e.stopPropagation();openWeatherModal(spot,metric);};
       return card;
     }
@@ -1787,21 +1787,61 @@
       en:{precipitation:'Heavy rain — the view is not clear',visibility:'Fog or haze — you cannot see clearly',aod_550nm:'Air haze is severe — the view is not clear',cloud_cover_low:'Low cloud swallows the peak',cloud_cover_mid:'Too much cloud cover',cloud_cover_mid_and_high:'Too much cloud cover',cloud_cover_total:'Too much cloud cover',wind_speed_10m:'Too windy — the camera shakes',lcl_height_m_agl:'Cloud base below the viewpoint — you may be inside the cloud',relative_humidity_925hpa:'Very moist air — fog is likely',relative_humidity_700hpa:'Very moist air — fog is likely',relative_humidity_600hpa:'Very moist air — fog is likely',relative_humidity_850hpa:'Very moist air — fog is likely',galactic_core_altitude:'Needs night hours — the galactic core is below the horizon',sunrise_time_window:'Needs the sunrise window',sunset_window:'Needs the sunset window',golden_hour_window:'Needs the golden hour window',blue_hour_window:'Needs the blue hour window',city_night_window:'Needs night hours',astronomical_darkness:'Needs night hours',moon_illumination_fraction:'Moonlight too bright for the stars',moon_illuminance_proxy:'Moonlight too bright for the stars',moon_altitude:'Moon not in the right position',moon_target_separation_deg:'Moon not in the right position',wind_speed_850hpa:'Strong upper-level winds — clouds move fast',wind_speed_600hpa:'Strong upper-level winds — clouds move fast',temperature_delta_850_925_c:'Unstable atmosphere',temperature_delta_700_600_c:'Unstable atmosphere',water_surface_state:'Water surface conditions are not right',seasonal_state:'Not the right season yet',river_flow_state:'River conditions are not right',landform_present:'Landform conditions not met'},
       ja:{precipitation:'大雨で視界が悪く、よく見えません',visibility:'霧や霞がひどく、よく見えません',aod_550nm:'大気の霞がひどく、よく見えません',cloud_cover_low:'低層雲が厚く、山頂が雲に埋もれます',cloud_cover_mid:'雲が多く、よく見えません',cloud_cover_mid_and_high:'中・上層雲が厚く、よく見えません',cloud_cover_total:'雲が多く、よく見えません',wind_speed_10m:'風が強すぎて、写真がブレます',lcl_height_m_agl:'雲底が低く、雲の中に入る可能性があります',relative_humidity_925hpa:'湿気が多く、霧が出やすいです',relative_humidity_700hpa:'湿気が多く、霧が出やすいです',relative_humidity_600hpa:'湿気が多く、霧が出やすいです',relative_humidity_850hpa:'湿気が多く、霧が出やすいです',galactic_core_altitude:'夜間の時間帯が必要で、銀河中心が昇っていません',sunrise_time_window:'日の出時間帯が必要です',sunset_window:'日の入り時間帯が必要です',golden_hour_window:'ゴールデンアワーが必要です',blue_hour_window:'ブルーアワーが必要です',city_night_window:'夜間の時間帯が必要です',astronomical_darkness:'夜間の時間帯が必要です',moon_illumination_fraction:'月光が強く、星空が見えません',moon_illuminance_proxy:'月光が強く、星空が見えません',moon_altitude:'月の位置が良くありません',moon_target_separation_deg:'月の位置が良くありません',wind_speed_850hpa:'上空の風が強く、雲の動きが速いです',wind_speed_600hpa:'上空の風が強く、雲の動きが速いです',temperature_delta_850_925_c:'大気が不安定です',temperature_delta_700_600_c:'大気が不安定です',water_surface_state:'水面の状態が良くありません',seasonal_state:'まだ適した季節ではありません',river_flow_state:'河川の状態が良くありません',landform_present:'地形の条件を満たしていません'}
     };
-    function v2DominantFailReason(conditions){
+    // CL-UI-33: the same failure metric reads differently by terrain —
+    // 「山頭沒入雲中」 is wrong on a flat waterfront (漁人碼頭). Variant is a
+    // MECHANICAL genre/scene mapping (not per-card hand copy): mountain
+    // contexts (mountain_view/cloud_sea/overlook genres, or mountain scene)
+    // keep the peak wording; flat contexts (harbor/city/coast) get the
+    // neutral view-blocked wording. Reflection genres get the still-water
+    // wind wording per blueprint §4 (風太大，水面不平).
+    const V2_MOUNTAIN_GENRES=['mountain_view','cloud_sea','overlook'];
+    const V2_FAIL_REASON_CONTEXT={
+      'zh-TW':{cloud_cover_low:{default:'低雲太厚，遮蔽景觀',mountain:'低雲太厚，山頭沒入雲中'},wind_speed_10m:{default:'風太大，畫面容易晃',water:'風太大，水面不平'}},
+      en:{cloud_cover_low:{default:'Thick low cloud blocks the view',mountain:'Low cloud swallows the peak'},wind_speed_10m:{default:'Too windy — the camera shakes',water:'Too windy — the water surface is not still'}},
+      ja:{cloud_cover_low:{default:'低層雲が厚く、景観が遮られます',mountain:'低層雲が厚く、山頂が雲に埋もれます'},wind_speed_10m:{default:'風が強すぎて、写真がブレます',water:'風が強すぎて、水面が揺れています'}}
+    };
+    function v2FailReasonContext(spot,genre){return (V2_MOUNTAIN_GENRES.includes(genre)||((spot&&spot.scenes)||[]).includes('mountain'))?'mountain':'flat';}
+    function v2FailReasonText(metric,spot,genre){
+      const ctxMap=(V2_FAIL_REASON_CONTEXT[currentLang]||V2_FAIL_REASON_CONTEXT['zh-TW'])[metric];
+      if(ctxMap){
+        const ctx=metric==='wind_speed_10m'?(genre==='reflection'?'water':'default'):v2FailReasonContext(spot,genre);
+        return ctxMap[ctx]||ctxMap.default||null;
+      }
+      const dict=V2_FAIL_REASONS[currentLang]||V2_FAIL_REASONS['zh-TW'];
+      return dict[metric]||null;
+    }
+    function v2DominantFailReason(conditions,spot,genre){
       const dict=V2_FAIL_REASONS[currentLang]||V2_FAIL_REASONS['zh-TW'];
       // Newer evaluation schema also marks partially-decisive conditions as
       // 'PARTIAL' (e.g. cloud_cover_total at 60%); for a not-met day those are
       // legitimate plain-language causes. UNKNOWN stays honest (no reason).
       const failSet=new Set((conditions||[]).filter(c=>c&&(c.day_verdict==='FAIL'||c.day_verdict==='PARTIAL')).map(c=>c.metric));
-      for(const m of V2_FAIL_PRIORITY){ if(failSet.has(m))return dict[m]||null; }
+      for(const m of V2_FAIL_PRIORITY){ if(failSet.has(m))return v2FailReasonText(m,spot,genre)||dict[m]||null; }
       return null;
     }
-    // Card state-row suffix: only an UNFAVORABLE evaluation gets a reason —
-    // NOT_EVALUABLE keeps its honest 資料不足 label with no invented cause.
-    function v2FailReasonSuffix(state,day){
-      if(state!=='UNFAVORABLE'||!day)return '';
-      const r=v2DominantFailReason(day.conditions);
-      return r?' · '+r:'';
+    // Card state-row suffix: every not-satisfied verdict names its DOMINANT
+    // known failure when one exists. A NOT_EVALUABLE day stays honest
+    // (資料不足, no invented cause) ONLY when nothing is known — if the day's
+    // own conditions or a sibling opportunity on the same local date carries
+    // a known FAIL/PARTIAL metric, that real failure is named (CL-UI-33: no
+    // card may show 「本日無符合題材」 while known failures exist).
+    function v2FailReasonSuffix(best,spot){
+      if(!best||best.state==='GUIDANCE_SATISFIED')return '';
+      const own=v2DominantFailReason(best.day&&best.day.conditions,spot,best.genre);
+      if(own)return ' · '+own;
+      if(!best.day)return '';
+      const place=v2PlaceForSpot(spot);
+      if(place){
+        for(const o of (place.opportunities||[])){
+          if(o.opportunity_id===best.oppId)continue;
+          for(const d2 of (o.days||[])){
+            if(d2.local_date!==best.day.local_date)continue;
+            const r=v2DominantFailReason(d2.conditions,spot,o.genre_template);
+            if(r)return ' · '+r;
+          }
+        }
+      }
+      return '';
     }
     // CL-UI-12: day0 (today) qualifying hours are counted from the remaining
     // part of the day only, using the spot's own local time. Pure helpers so
@@ -1899,7 +1939,7 @@
         const hours=hoursList.length;
         const c=v2Contract(o.opportunity_id);
         const name=(c?reviewedLocaleName(c.name_i18n):'')||reviewedLocaleName(o.name_i18n)||(currentLang!=='zh-TW'?fallbackConnectors(o.name_i18n?.['zh-TW']||''):o.name_i18n?.['zh-TW'])||o.opportunity_id;
-        if(!best||hours>best.hours)best={oppId:o.opportunity_id,name,hours,hoursList,state:day.state,live:o.live||{},oppDays:o.days||[],day};
+        if(!best||hours>best.hours)best={oppId:o.opportunity_id,name,hours,hoursList,state:day.state,live:o.live||{},oppDays:o.days||[],day,genre:o.genre_template||''};
       });
       if(best){
         best.stateLabel=v2CardStateLabel(best.state);
@@ -1940,7 +1980,7 @@
       });
       return seen?total:null;
     }
-    function v2DayHtml(day,label,tz){
+    function v2DayHtml(day,label,tz,spot,genre){
       const cls=day.state==='GUIDANCE_SATISFIED'?'v2-ok':day.state==='NOT_EVALUABLE'?'v2-unk':'v2-bad';
       const lab=day.state==='GUIDANCE_SATISFIED'?d().eval2_ok:day.state==='NOT_EVALUABLE'?d().eval2_unk:d().eval2_bad;
       const allHours=(day.good_hours||[]).filter(t=>/^([01]\d|2[0-3]):[0-5]\d$/.test(String(t||'')));
@@ -1954,7 +1994,7 @@
       // CL-UI-26: the day row names the DOMINANT plain-language failure
       // reason (derived from day.conditions) instead of enumerating metric
       // names; NOT_EVALUABLE rows carry no conditions and stay honest.
-      const failReason=(day.state==='UNFAVORABLE')?v2DominantFailReason(day.conditions):null;
+      const failReason=(day.state!=='GUIDANCE_SATISFIED')?v2DominantFailReason(day.conditions,spot,genre):null;
       const failBits=failReason?`<div class="v2-fail-by">${esc(d().v2_fail_reason)}${esc(failReason)}</div>`:'';
       return `<div class="v2-day ${cls}"><span class="v2-day-label">${esc(label)}</span>`+
         `<span class="v2-badge ${cls}">${esc(lab)}</span>`+
@@ -2088,7 +2128,7 @@
           // CL-DATA-06: show the full 7-day evaluation window.
           const days=opp.days.slice(0,DAY_KEYS.length);
           const labels=evalDayLabels(spot.timezone,DAY_KEYS.length);
-          const dayHtml=days.map((day,i)=>v2DayHtml(day,labels[i]||day.local_date,spot.timezone)).join('');
+          const dayHtml=days.map((day,i)=>v2DayHtml(day,labels[i]||day.local_date,spot.timezone,spot,opp.genre_template||'')).join('');
           const live=opp.live||{};
           // CL-UI-21: the "now" line follows the spot's own local date for its
           // day word (an evening page in Taipei must not call a JP spot's

@@ -8,7 +8,7 @@
 // 2. Favicon: the homepage must not 404 on favicon.ico — index.html links
 //    ./assets/favicon.ico + ./assets/favicon.svg and both files exist.
 // 3. Cache-bust: app.js was edited this ticket, so index.html carries a
-//    monotonic stamp bump (?v=clui34).
+//    monotonic stamp bump (?v=clui35).
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
@@ -81,6 +81,6 @@ test('CL-UI-25 B2: other html pages reference the shared favicon asset', () => {
 });
 
 test('CL-UI-25 B3: index.html cache-bust stamp bumped for this app.js edit', () => {
-  assert.match(indexSource, /assets\/app\.js\?v=clui34/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui34/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui35/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui35/);
 });

@@ -8,7 +8,7 @@ import {readFileSync} from 'node:fs';
 const appSource=readFileSync(new URL('../../../assets/app.js',import.meta.url),'utf8');
 const grab=(start,end)=>{const i=appSource.indexOf(start);return appSource.slice(i,appSource.indexOf(end,i));};
 const failCode=grab('const V2_FAIL_PRIORITY','// CL-UI-12: day0 (today) qualifying hours');
-const makeFns=lang=>new Function(`let currentLang=${JSON.stringify(lang)};\n${failCode}\nreturn {v2DominantFailReason,v2FailReasonSuffix};`)();
+const makeFns=lang=>new Function(`let currentLang=${JSON.stringify(lang)};\n${failCode}\nconst v2PlaceForSpot=()=>null;\nreturn {v2DominantFailReason,v2FailReasonSuffix};`)();
 
 const rainDay={state:'UNFAVORABLE',conditions:[
   {metric:'cloud_cover_mid',day_verdict:'FAIL'},
@@ -49,22 +49,28 @@ test('CL-UI-26 (2): reason strings exist and stay equivalent in zh-TW/en/ja',()=
   assert.equal(/(题|视|湿|风)/.test(jaRain),false);
 });
 
-test('CL-UI-26 (3): card state row appends the reason only for UNFAVORABLE',()=>{
+test('CL-UI-26 (3): card state row appends the dominant known failure reason',()=>{
   const zh=makeFns('zh-TW');
-  assert.equal(zh.v2FailReasonSuffix('UNFAVORABLE',rainDay),' · 下大雨視線不清');
-  // NOT_EVALUABLE keeps the honest 資料不足 label with no invented cause.
-  assert.equal(zh.v2FailReasonSuffix('NOT_EVALUABLE',rainDay),'');
-  assert.equal(zh.v2FailReasonSuffix('GUIDANCE_SATISFIED',rainDay),'');
-  assert.equal(zh.v2FailReasonSuffix('UNFAVORABLE',null),'');
+  const bestRain={state:'UNFAVORABLE',day:rainDay};
+  assert.equal(zh.v2FailReasonSuffix(bestRain,null),' · 下大雨視線不清');
+  // CL-UI-33: a NOT_EVALUABLE day with a KNOWN failing condition still names
+  // it — only a genuinely unknown day stays silent (資料不足).
+  const bestUnk={state:'NOT_EVALUABLE',day:rainDay};
+  assert.equal(zh.v2FailReasonSuffix(bestUnk,null),' · 下大雨視線不清');
+  // A NOT_EVALUABLE day with no known fail at all keeps the honest silence.
+  const unknownDay={state:'NOT_EVALUABLE',conditions:[{metric:'cloud_cover_low',day_verdict:'UNKNOWN'},{metric:'precipitation',day_verdict:'PASS'}]};
+  assert.equal(zh.v2FailReasonSuffix({state:'NOT_EVALUABLE',day:unknownDay},null),'');
+  assert.equal(zh.v2FailReasonSuffix({state:'GUIDANCE_SATISFIED',day:rainDay},null),'');
+  assert.equal(zh.v2FailReasonSuffix(null,null),'');
   // Render path consumes the helper in the card state row.
-  assert.match(appSource,/\$\{esc\(v2FailReasonSuffix\(v2Best\.state,v2Best\.day\)\)\}/);
+  assert.match(appSource,/\$\{esc\(v2FailReasonSuffix\(v2Best,spot\)\)\}/);
   // The winning day row is carried on the best object so card and day share
-  // one source of conditions.
-  assert.match(appSource,/oppDays:o\.days\|\|\[\],day\}/);
+  // one source of conditions, plus the context genre.
+  assert.match(appSource,/oppDays:o\.days\|\|\[\],day,genre:o\.genre_template/);
 });
 
 test('CL-UI-26 (4): modal day rows name the dominant reason instead of a metric list',()=>{
-  assert.match(appSource,/const failReason=\(day\.state==='UNFAVORABLE'\)\?v2DominantFailReason\(day\.conditions\):null;/);
+  assert.match(appSource,/const failReason=\(day\.state!=='GUIDANCE_SATISFIED'\)\?v2DominantFailReason\(day\.conditions,spot,genre\):null;/);
   assert.match(appSource,/\$\{esc\(d\(\)\.v2_fail_reason\)\}\$\{esc\(failReason\)\}/);
   // The honest NOT_EVALUABLE mapping is untouched in the day-row renderer.
   assert.match(appSource,/day\.state==='NOT_EVALUABLE'\?d\(\)\.eval2_unk/);
@@ -97,6 +103,6 @@ test('CL-UI-32: low-cloud fail reason copy pinned in all three languages',()=>{
 
 test('CL-UI-26 (6): cache-bust stamp bumped for the edited app.js',()=>{
   const index=readFileSync(new URL('../../../index.html',import.meta.url),'utf8');
-  assert.match(index,/assets\/app\.js\?v=clui34/);
-  assert.match(index,/assets\/app\.css\?v=clui34/);
+  assert.match(index,/assets\/app\.js\?v=clui35/);
+  assert.match(index,/assets\/app\.css\?v=clui35/);
 });
