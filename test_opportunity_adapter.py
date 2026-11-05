@@ -4925,8 +4925,11 @@ def test_active_catalog_weather_generation_guard():
         [sunrise_only],
         local_today="2026-09-26",
     )
+    # 2026-11-05 CL-INT-44 pin-drift: CL-DATA-06R extended the legacy daily
+    # window to 7 days, so the day list now carries every fixture day inside
+    # the window (09-26..09-29) — behavior change is the accepted 7-day span.
     assert [day["date"] for day in midnight_days] == [
-        "2026-09-26", "2026-09-27", "2026-09-28"
+        "2026-09-26", "2026-09-27", "2026-09-28", "2026-09-29"
     ]
     assert midnight_days[0]["all"]["no_viable_opportunity"] is True
     assert midnight_days[0]["all"]["research_pending"] is False
