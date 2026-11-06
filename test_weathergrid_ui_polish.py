@@ -68,7 +68,7 @@ class WeatherGridUiPolishTests(unittest.TestCase):
 
     def test_inspector_prioritizes_layer_identity_over_raw_min_max(self):
         self.assertIn('id="layer-range"', self.html)
-        self.assertIn("$('layer-summary').textContent=cfg.label", self.js)
+        self.assertIn("$('layer-summary').textContent=wmT(cfg.label)", self.js)
         self.assertIn("畫面資料範圍", self.js)
 
     def test_cloud_coverage_gap_is_not_presented_as_clear_weather(self):
@@ -170,14 +170,14 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn("white-space:normal;overflow-wrap:anywhere", self.css)
 
     def test_b166_cams_aod_source_and_layer_are_exposed(self):
-        self.assertIn('<option value="cams">CAMS Global · 霧霾</option>', self.html)
+        self.assertIn('<option value="cams" data-i18n="wm_model_cams">CAMS Global · 霧霾</option>', self.html)
         self.assertIn("LIVE_CAMS_DATA", self.js)
         self.assertIn("aerosol_optical_depth_550nm", self.js)
         self.assertIn("palette:'haze'", self.palette)
-        self.assertIn("if(mode==='cams') return 'CAMS Global · 霧霾'", self.js)
+        self.assertIn("if(mode==='cams') return wmT('CAMS Global · 霧霾')", self.js)
         self.assertIn("CAMS 預報時間", self.js)
         self.assertIn("資料更新 ", self.js)
-        self.assertIn("? `更新 ", self.js)
+        self.assertIn("? `${wmT('更新 ')}", self.js)
 
     def test_b166_cams_provenance_is_visible_in_ui(self):
         self.assertIn("CAMS Global 原生約", self.js)
@@ -253,6 +253,9 @@ class WeatherGridUiPolishTests(unittest.TestCase):
                 self.html,
             )
 
+        # CL-UI-37: explicit stamp pin for the weather-map.js language-carry
+        # change (bumped bclwg27 -> bclwg28 in the same commit).
+        self.assertIn("assets/weather-map.js?v=bclwg28", self.html)
         for asset in ("weather-map.css", "weather-map.js", "weather-map-regions.js"):
             found = stamps(asset)
             self.assertTrue(
@@ -267,7 +270,7 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn("grid-template-columns:max-content minmax(0,1fr)", self.css)
         self.assertIn("display:grid!important", self.css)
         self.assertIn("const compactUi=window.matchMedia('(max-width:720px)').matches", self.js)
-        self.assertIn("? (cfg.palette==='cloud'||cfg.palette==='cloudLow'?'雲層透明度':'圖層透明度')", self.js)
+        self.assertIn("? wmT(cfg.palette==='cloud'||cfg.palette==='cloudLow'?'雲層透明度':'圖層透明度')", self.js)
 
     def test_map_attribution_is_compact_on_mobile(self):
         self.assertIn("attributionControl:false", self.js)
@@ -305,7 +308,7 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn(".layer-details{display:block}", self.css)
         self.assertIn(".layer-details.mobile-collapsed.is-expanded{display:block", self.css)
         self.assertIn("layerDetails.classList.toggle('is-expanded',next)", self.js)
-        self.assertIn("layerDetailsToggle.textContent=next?'收合':'詳細'", self.js)
+        self.assertIn("layerDetailsToggle.textContent=next?wmT('收合'):wmT('詳細')", self.js)
 
     def test_layer_qc_summary_tracks_status(self):
         self.assertIn("function setQcSummary(tone,text)", self.js)

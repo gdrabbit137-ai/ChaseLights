@@ -109,7 +109,7 @@ test('label dictionaries stay 正體中文 — no simplified han in dropdown lab
   hanOnly(REGIONS, 'weather-map-regions.js');
   // The dropdown is always rendered through the label dictionaries.
   assert.match(grab(JS, 'function photographyLayerLabel(', 'function refreshModelControls('),
-    /return labels\[key\] \|\| layerConfig\[key\]\?\.label \|\| key;/,
+    /return wmT\(labels\[key\] \|\| layerConfig\[key\]\?\.label \|\| key\);/,
     'dropdown labels resolve through a single dictionary chain');
   assert.match(grab(JS, 'function refreshModelControls(){', 'function switchModel('),
     /photographyLayerLabel\(key\)/,

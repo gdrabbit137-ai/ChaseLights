@@ -55,7 +55,7 @@ test('CL-UI-35: switchLanguage syncs the URL lang param via replaceState', () =>
   assert.match(slice, /searchParams\.set\('lang'/);
 });
 
-test('CL-UI-35: homepage cache-bust stamp bumped to clui40', () => {
-  assert.match(indexSource, /assets\/app\.js\?v=clui40/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui40/);
+test('CL-UI-35: homepage cache-bust stamp bumped to clui41', () => {
+  assert.match(indexSource, /assets\/app\.js\?v=clui41/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui41/);
 });

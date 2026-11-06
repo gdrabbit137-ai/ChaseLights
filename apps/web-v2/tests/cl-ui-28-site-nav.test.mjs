@@ -118,15 +118,15 @@ test('CL-UI-28 (8): nav i18n keys exist in all three dictionaries', () => {
   }
 });
 
-test('CL-UI-28 (9): index.html stamp bumped clui33 → clui40', () => {
-  assert.match(indexHtml, /assets\/site-nav\.css\?v=clui40/);
-  assert.match(indexHtml, /assets\/site-nav\.js\?v=clui40/);
-  assert.match(indexHtml, /assets\/app\.js\?v=clui40/);
-  assert.match(indexHtml, /assets\/app\.css\?v=clui40/);
+test('CL-UI-28 (9): index.html stamp bumped clui33 → clui41', () => {
+  assert.match(indexHtml, /assets\/site-nav\.css\?v=clui41/);
+  assert.match(indexHtml, /assets\/site-nav\.js\?v=clui41/);
+  assert.match(indexHtml, /assets\/app\.js\?v=clui41/);
+  assert.match(indexHtml, /assets\/app\.css\?v=clui41/);
   assert.doesNotMatch(indexHtml, /clui29/);
 });
 
 test('CL-UI-28 (10): weather-map.js stamp bumped in weather-map.html (same commit)', () => {
-  assert.match(wgHtml, /assets\/weather-map\.js\?v=bclwg27/);
+  assert.match(wgHtml, /assets\/weather-map\.js\?v=bclwg28/);
   assert.doesNotMatch(wgHtml, /bclwg23|bclwg24/);
 });
