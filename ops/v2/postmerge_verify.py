@@ -354,7 +354,7 @@ def main():
                 None, False, False),
             ("w4-node", ["node", "--test", "--test-isolation=none", "--test-timeout=120000",
                 "--test-reporter=tap",                *[str(p.relative_to(root)) for p in sorted(
-                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 483, False, True),
+                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 487, False, True),
             ("w5-public-source-contract", ["node", "--test", "--test-reporter=tap",
                 "ops/v2/tests/public-source-contract.test.mjs",
                 "ops/v2/tests/cl-int-76-provenance.test.mjs"], 9, False, True),
@@ -404,12 +404,13 @@ def main():
         # 2026-11-06 CL-INT-82: merged CL-UI-41 (+7 node) + CL-WG-30 (+5 node)
         # -> w4-node re-measured on the merged tree = 479 -> exact total 923.
         # 2026-11-06 CL-DATA-21: +1 cl-data-21-card-modal-source test
-        # -> w4-node re-measured on the merged union tree (exact count set below).
-        if (report["counts"]["tests"] != 931 or
+        # CL-INT-88 union re-measure: origin w4-node 483 + CL-DATA-21 +4 node tests
+        # -> w4-node re-measured on the merged union tree = 487 -> exact total 934.
+        if (report["counts"]["tests"] != 934 or
                 report["counts"]["fail"] != 0 or
                 report["counts"]["error"] != 0 or
-                report["counts"]["pass"] + report["counts"]["skip"] != 931):
-            raise ValueError("Post-merge exact 931-case requirement failed")
+                report["counts"]["pass"] + report["counts"]["skip"] != 934):
+            raise ValueError("Post-merge exact 934-case requirement failed")
         if not all(g["status"] == "PASS" for g in report["groups"]):
             raise ValueError("One or more required suites failed")
         report["status"] = "PASS"
