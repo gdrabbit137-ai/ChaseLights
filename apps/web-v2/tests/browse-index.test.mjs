@@ -13,7 +13,7 @@ const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
 test('W2 index and 374 canonical sources remain source pinned (aurora removed 2026-10-26; us-022/tw-082-P06 removed 2026-10-31)',()=>{
   assert.equal(sha256(rawIndex),'af73343f70545df26adbde040a51db9d02cd44c9422a39d406d88fa4d9a07f37'); // CL-INT-86 re-anchor: postmerge regenerated index (374 opportunities / 197 places, CL-DATA-19+20 union)
-  assert.equal(sha256(rawCatalog),'91159967127337974ec4e5beae4ef799c3dba5efce003802b2c1b635939690e3'); // CL-DATA-23 re-anchor: 9 visible-light contracts gain the civil light_window
+  assert.equal(sha256(rawCatalog),'1e92b23d0e26de7ce4ba92b3ce8965019ce39eee47d051535ece33c9d1407b2c'); // CL-DATA-23 re-anchor: 9 visible-light contracts gain the civil light_window
   assert.equal(validateBrowseIndex(index,catalog),index);
   assert.equal(source.opportunities.length,374);assert.equal(source.places.length,197);
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];
