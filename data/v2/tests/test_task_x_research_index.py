@@ -62,12 +62,13 @@ class ResearchIndexTests(unittest.TestCase):
                              (d['opportunity_id'],d['place_id'],d['revision']))
         self.assertEqual({
             # CL-DATA-02 owner ruling 2026-11-02: the six review-gated records
-            # re-pinned to the ruling data commit 76e926d16 (rollback pointer
-            # for the original human-review contracts: 34cb70f39 and earlier).
+            # (rollback pointer for the original human-review contracts:
+            # 34cb70f39 and earlier). 76e926d16 left the set in CL-INT-83:
+            # its records were byte-changed on main by later AI-verified
+            # fact-check waves and re-pinned to the merge commit (below).
             '34cb70f39f8d959e9b68cfa3a6768a74cb29de99',
             '06b51d046fd391ab44708535464e7478cfc13ee4',
             '3eb466432807185bc8b9271d006666b72d1fa406',
-            '76e926d16f3cfd6f2983ec2c0f6fe6ac7004104d',
             # CL-DATA-04: three new owner-defined records pinned to the
             # owner-definition data commit. (tw-086-P02 — the last holder of
             # cebb9689 — was byte-changed and re-pinned by CL-DATA-16, so the
@@ -106,13 +107,15 @@ class ResearchIndexTests(unittest.TestCase):
             # 37 stale commit_sha provenance pointers (CL-CI-14 latent)
             # re-pointed to the merge commit carrying the verified bytes.
             '3682e14ec5ed7eb4b78d2b7a47d0b43c1b836c98',
-            'b801dd4eba545a76879828b25e869f3c45df33ac',
             # CL-DATA-15 (merged side): owner-verified elevation corrections
             # (Paiyun Lodge 3,402 m / Datun 1,092 m / Zhushan 2,451 m;
             # Hehuan 3,417 m confirmed) — tw-001-P02/tw-019-P04/tw-024-P02/
             # tw-040-P04 byte-changed on main after CL-DATA-16 forked and
             # remain re-pinned to the task-branch commit carrying those
-            # corrections (union merge, CL-INT-81).
+            # corrections (union merge, CL-INT-81). b801dd4eb (CL-DATA-16
+            # fact-check wave 1) left the set in CL-INT-83: its 25 records
+            # were re-pinned to the CL-INT-83 merge commit carrying the union
+            # bytes (CL-DATA-16 elevations + CL-DATA-18 AI-verified fills).
             'c90f56712550ae46824e30684442bbc44855c9b5',
             # CL-DATA-18: AI-verified geometry/light-window records
             # (tw-034-P02/tw-036-P01/tw-082-P01/jp-010-P01/us-071-P01/
@@ -121,6 +124,10 @@ class ResearchIndexTests(unittest.TestCase):
             # AI fact-check with source URL+date replaces human review;
             # original human-review bytes at 3682e14ec).
             '2af08fb9eec9994ab5862197c4a0d8a45587e440',
+            # CL-INT-83 merge (f360266ed): 25 canonical records byte-changed
+            # on main since the branch base (CL-DATA-16/17 fact-check waves)
+            # re-pinned to the merge commit carrying the union bytes.
+            'f360266ed8e9bf79ec651715da60e08c340f3917',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         self.assertEqual('2af08fb9eec9994ab5862197c4a0d8a45587e440',p01['commit_sha'])
