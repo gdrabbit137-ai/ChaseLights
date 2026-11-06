@@ -8138,7 +8138,15 @@
         "source_revision": "v1-spot-jp-005",
         "imported_at": "2026-10-21T20:51:45Z",
         "review_status": "pending",
-        "reviewed_by": null
+        "reviewed_by": null,
+        "history": [
+          {
+            "2026-11-06": {
+              "source": "CL-DATA-23",
+              "note": "2026-11-06 CL-DATA-23 修復稽查：非夜景題材（可見光）補 light_window（civil，太陽仰角 > −6°，CL-DATA-11/19 同源定義；夜間一律不符合），修復 good_hours 仍含 22:00–06:00 的違規。語意修正，layering parity gate 豁免，理由記於本註記。"
+            }
+          }
+        ]
       }
     },
     {
@@ -21752,7 +21760,7 @@
       "schema_version": "2.1.0",
       "opportunity_id": "tw-005-P01",
       "place_id": "tw-005",
-      "revision": 2,
+      "revision": 3,
       "lifecycle_status": "draft",
       "name_i18n": {
         "zh-TW": "大稻埕淡水河夕照",
@@ -21969,6 +21977,36 @@
               "en": "Shooting in rain is impaired; post-rain wet-surface reflections are a separate bonus item.",
               "ja": "雨中の撮影は支障が出る。雨上がりの湿地反射は別の加点項目。"
             }
+          },
+          {
+            "id": "C-tw-005-P01-LW1",
+            "role": "REQUIRED",
+            "domain": "ASTRONOMY",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "light_window",
+            "operator": "none",
+            "threshold": null,
+            "unit": null,
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              null
+            ],
+            "model_binding": null,
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "computed",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "2026-11-06 CL-DATA-23 修復稽查：非夜景題材（可見光）補 light_window（civil，太陽仰角 > −6°，CL-DATA-11/19 同源定義；夜間一律不符合），修復 good_hours 仍含 22:00–06:00 的違規。語意修正，layering parity gate 豁免，理由記於本註記。",
+              "en": "2026-11-06 CL-DATA-23 fix audit: visible-light (non-night) subject gains a civil light_window (sun elevation > -6 deg, CL-DATA-11/19 same-source definition; night hours never qualify), fixing good_hours still containing 22:00-06:00. Semantic correction; layering parity gate exempt, documented here.",
+              "ja": "2026-11-06 CL-DATA-23 修正監査：非夜景（可視光）題材に light_window を追加（市民光、太陽高度 > -6°、CL-DATA-11/19 同源定義；夜間は一律成立しない）、good_hours が 22:00–06:00 を含む違規を修正。意味修正のため layering parity ゲートは免除。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-06 CL-DATA-23 修復稽查：非夜景題材（可見光）補 light_window（civil，太陽仰角 > −6°，CL-DATA-11/19 同源定義；夜間一律不符合），修復 good_hours 仍含 22:00–06:00 的違規。語意修正，layering parity gate 豁免，理由記於本註記。",
+              "en": "2026-11-06 CL-DATA-23 fix audit: visible-light (non-night) subject gains a civil light_window (sun elevation > -6 deg, CL-DATA-11/19 same-source definition; night hours never qualify), fixing good_hours still containing 22:00-06:00. Semantic correction; layering parity gate exempt, documented here.",
+              "ja": "2026-11-06 CL-DATA-23 修正監査：非夜景（可視光）題材に light_window を追加（市民光、太陽高度 > -6°、CL-DATA-11/19 同源定義；夜間は一律成立しない）、good_hours が 22:00–06:00 を含む違規を修正。意味修正のため layering parity ゲートは免除。"
+            }
           }
         ]
       },
@@ -21993,14 +22031,22 @@
         "source_revision": "v1-spot-tw-005",
         "imported_at": "2026-10-21T20:51:45Z",
         "review_status": "pending",
-        "reviewed_by": null
+        "reviewed_by": null,
+        "history": [
+          {
+            "2026-11-06": {
+              "source": "CL-DATA-23",
+              "note": "2026-11-06 CL-DATA-23 修復稽查：非夜景題材（可見光）補 light_window（civil，太陽仰角 > −6°，CL-DATA-11/19 同源定義；夜間一律不符合），修復 good_hours 仍含 22:00–06:00 的違規。語意修正，layering parity gate 豁免，理由記於本註記。"
+            }
+          }
+        ]
       }
     },
     {
       "schema_version": "2.1.0",
       "opportunity_id": "tw-005-P02",
       "place_id": "tw-005",
-      "revision": 1,
+      "revision": 2,
       "lifecycle_status": "draft",
       "name_i18n": {
         "zh-TW": "大稻埕河岸暮色／夜景",
@@ -22212,6 +22258,36 @@
               "en": "Shooting in rain is impaired; post-rain wet-surface reflections are a separate bonus item.",
               "ja": "雨中の撮影は支障が出る。雨上がりの湿地反射は別の加点項目。"
             }
+          },
+          {
+            "id": "C-tw-005-P02-LW1",
+            "role": "REQUIRED",
+            "domain": "ASTRONOMY",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "light_window",
+            "operator": "none",
+            "threshold": null,
+            "unit": null,
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              null
+            ],
+            "model_binding": null,
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "computed",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "2026-11-06 CL-DATA-23 修復稽查：非夜景題材（可見光）補 light_window（civil，太陽仰角 > −6°，CL-DATA-11/19 同源定義；夜間一律不符合），修復 good_hours 仍含 22:00–06:00 的違規。語意修正，layering parity gate 豁免，理由記於本註記。",
+              "en": "2026-11-06 CL-DATA-23 fix audit: visible-light (non-night) subject gains a civil light_window (sun elevation > -6 deg, CL-DATA-11/19 same-source definition; night hours never qualify), fixing good_hours still containing 22:00-06:00. Semantic correction; layering parity gate exempt, documented here.",
+              "ja": "2026-11-06 CL-DATA-23 修正監査：非夜景（可視光）題材に light_window を追加（市民光、太陽高度 > -6°、CL-DATA-11/19 同源定義；夜間は一律成立しない）、good_hours が 22:00–06:00 を含む違規を修正。意味修正のため layering parity ゲートは免除。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-06 CL-DATA-23 修復稽查：非夜景題材（可見光）補 light_window（civil，太陽仰角 > −6°，CL-DATA-11/19 同源定義；夜間一律不符合），修復 good_hours 仍含 22:00–06:00 的違規。語意修正，layering parity gate 豁免，理由記於本註記。",
+              "en": "2026-11-06 CL-DATA-23 fix audit: visible-light (non-night) subject gains a civil light_window (sun elevation > -6 deg, CL-DATA-11/19 same-source definition; night hours never qualify), fixing good_hours still containing 22:00-06:00. Semantic correction; layering parity gate exempt, documented here.",
+              "ja": "2026-11-06 CL-DATA-23 修正監査：非夜景（可視光）題材に light_window を追加（市民光、太陽高度 > -6°、CL-DATA-11/19 同源定義；夜間は一律成立しない）、good_hours が 22:00–06:00 を含む違規を修正。意味修正のため layering parity ゲートは免除。"
+            }
           }
         ]
       },
@@ -22236,7 +22312,15 @@
         "source_revision": "v1-spot-tw-005",
         "imported_at": "2026-10-21T20:51:45Z",
         "review_status": "pending",
-        "reviewed_by": null
+        "reviewed_by": null,
+        "history": [
+          {
+            "2026-11-06": {
+              "source": "CL-DATA-23",
+              "note": "2026-11-06 CL-DATA-23 修復稽查：非夜景題材（可見光）補 light_window（civil，太陽仰角 > −6°，CL-DATA-11/19 同源定義；夜間一律不符合），修復 good_hours 仍含 22:00–06:00 的違規。語意修正，layering parity gate 豁免，理由記於本註記。"
+            }
+          }
+        ]
       }
     },
     {
@@ -37066,7 +37150,7 @@
       "schema_version": "2.1.0",
       "opportunity_id": "tw-024-P03",
       "place_id": "tw-024",
-      "revision": 2,
+      "revision": 3,
       "lifecycle_status": "draft",
       "name_i18n": {
         "zh-TW": "小笠原山360°群山全景",
@@ -37290,6 +37374,36 @@
               "en": "Precipitation just needs to stay very low; light rain does not affect a seascape shoot.",
               "ja": "降水量は十分に低ければよい。海景では小雨でも撮影に支障はない。"
             }
+          },
+          {
+            "id": "C-tw-024-P03-LW1",
+            "role": "REQUIRED",
+            "domain": "ASTRONOMY",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "light_window",
+            "operator": "none",
+            "threshold": null,
+            "unit": null,
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              null
+            ],
+            "model_binding": null,
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "computed",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "2026-11-06 CL-DATA-23 修復稽查：非夜景題材（可見光）補 light_window（civil，太陽仰角 > −6°，CL-DATA-11/19 同源定義；夜間一律不符合），修復 good_hours 仍含 22:00–06:00 的違規。語意修正，layering parity gate 豁免，理由記於本註記。",
+              "en": "2026-11-06 CL-DATA-23 fix audit: visible-light (non-night) subject gains a civil light_window (sun elevation > -6 deg, CL-DATA-11/19 same-source definition; night hours never qualify), fixing good_hours still containing 22:00-06:00. Semantic correction; layering parity gate exempt, documented here.",
+              "ja": "2026-11-06 CL-DATA-23 修正監査：非夜景（可視光）題材に light_window を追加（市民光、太陽高度 > -6°、CL-DATA-11/19 同源定義；夜間は一律成立しない）、good_hours が 22:00–06:00 を含む違規を修正。意味修正のため layering parity ゲートは免除。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-06 CL-DATA-23 修復稽查：非夜景題材（可見光）補 light_window（civil，太陽仰角 > −6°，CL-DATA-11/19 同源定義；夜間一律不符合），修復 good_hours 仍含 22:00–06:00 的違規。語意修正，layering parity gate 豁免，理由記於本註記。",
+              "en": "2026-11-06 CL-DATA-23 fix audit: visible-light (non-night) subject gains a civil light_window (sun elevation > -6 deg, CL-DATA-11/19 same-source definition; night hours never qualify), fixing good_hours still containing 22:00-06:00. Semantic correction; layering parity gate exempt, documented here.",
+              "ja": "2026-11-06 CL-DATA-23 修正監査：非夜景（可視光）題材に light_window を追加（市民光、太陽高度 > -6°、CL-DATA-11/19 同源定義；夜間は一律成立しない）、good_hours が 22:00–06:00 を含む違規を修正。意味修正のため layering parity ゲートは免除。"
+            }
           }
         ]
       },
@@ -37314,7 +37428,15 @@
         "source_revision": "v1-spot-tw-024",
         "imported_at": "2026-10-21T20:51:45Z",
         "review_status": "pending",
-        "reviewed_by": null
+        "reviewed_by": null,
+        "history": [
+          {
+            "2026-11-06": {
+              "source": "CL-DATA-23",
+              "note": "2026-11-06 CL-DATA-23 修復稽查：非夜景題材（可見光）補 light_window（civil，太陽仰角 > −6°，CL-DATA-11/19 同源定義；夜間一律不符合），修復 good_hours 仍含 22:00–06:00 的違規。語意修正，layering parity gate 豁免，理由記於本註記。"
+            }
+          }
+        ]
       }
     },
     {
@@ -49400,7 +49522,7 @@
       "schema_version": "2.1.0",
       "opportunity_id": "tw-036-P04",
       "place_id": "tw-036",
-      "revision": 2,
+      "revision": 3,
       "lifecycle_status": "draft",
       "name_i18n": {
         "zh-TW": "七星潭北望清水斷崖／清水山山海遠眺",
@@ -49624,6 +49746,36 @@
               "en": "Precipitation just needs to stay very low; light rain does not affect a seascape shoot.",
               "ja": "降水量は十分に低ければよい。海景では小雨でも撮影に支障はない。"
             }
+          },
+          {
+            "id": "C-tw-036-P04-LW1",
+            "role": "REQUIRED",
+            "domain": "ASTRONOMY",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "light_window",
+            "operator": "none",
+            "threshold": null,
+            "unit": null,
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              null
+            ],
+            "model_binding": null,
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "computed",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "2026-11-06 CL-DATA-23 修復稽查：非夜景題材（可見光）補 light_window（civil，太陽仰角 > −6°，CL-DATA-11/19 同源定義；夜間一律不符合），修復 good_hours 仍含 22:00–06:00 的違規。語意修正，layering parity gate 豁免，理由記於本註記。",
+              "en": "2026-11-06 CL-DATA-23 fix audit: visible-light (non-night) subject gains a civil light_window (sun elevation > -6 deg, CL-DATA-11/19 same-source definition; night hours never qualify), fixing good_hours still containing 22:00-06:00. Semantic correction; layering parity gate exempt, documented here.",
+              "ja": "2026-11-06 CL-DATA-23 修正監査：非夜景（可視光）題材に light_window を追加（市民光、太陽高度 > -6°、CL-DATA-11/19 同源定義；夜間は一律成立しない）、good_hours が 22:00–06:00 を含む違規を修正。意味修正のため layering parity ゲートは免除。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-06 CL-DATA-23 修復稽查：非夜景題材（可見光）補 light_window（civil，太陽仰角 > −6°，CL-DATA-11/19 同源定義；夜間一律不符合），修復 good_hours 仍含 22:00–06:00 的違規。語意修正，layering parity gate 豁免，理由記於本註記。",
+              "en": "2026-11-06 CL-DATA-23 fix audit: visible-light (non-night) subject gains a civil light_window (sun elevation > -6 deg, CL-DATA-11/19 same-source definition; night hours never qualify), fixing good_hours still containing 22:00-06:00. Semantic correction; layering parity gate exempt, documented here.",
+              "ja": "2026-11-06 CL-DATA-23 修正監査：非夜景（可視光）題材に light_window を追加（市民光、太陽高度 > -6°、CL-DATA-11/19 同源定義；夜間は一律成立しない）、good_hours が 22:00–06:00 を含む違規を修正。意味修正のため layering parity ゲートは免除。"
+            }
           }
         ]
       },
@@ -49648,7 +49800,15 @@
         "source_revision": "v1-spot-tw-036",
         "imported_at": "2026-10-21T20:51:45Z",
         "review_status": "pending",
-        "reviewed_by": null
+        "reviewed_by": null,
+        "history": [
+          {
+            "2026-11-06": {
+              "source": "CL-DATA-23",
+              "note": "2026-11-06 CL-DATA-23 修復稽查：非夜景題材（可見光）補 light_window（civil，太陽仰角 > −6°，CL-DATA-11/19 同源定義；夜間一律不符合），修復 good_hours 仍含 22:00–06:00 的違規。語意修正，layering parity gate 豁免，理由記於本註記。"
+            }
+          }
+        ]
       }
     },
     {
@@ -60050,7 +60210,7 @@
       "schema_version": "2.1.0",
       "opportunity_id": "tw-049-P01",
       "place_id": "tw-049",
-      "revision": 2,
+      "revision": 3,
       "lifecycle_status": "draft",
       "name_i18n": {
         "zh-TW": "桃山山頂四向全景",
@@ -60274,6 +60434,36 @@
               "en": "Precipitation just needs to stay very low; light rain does not affect a seascape shoot.",
               "ja": "降水量は十分に低ければよい。海景では小雨でも撮影に支障はない。"
             }
+          },
+          {
+            "id": "C-tw-049-P01-LW1",
+            "role": "REQUIRED",
+            "domain": "ASTRONOMY",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "light_window",
+            "operator": "none",
+            "threshold": null,
+            "unit": null,
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              null
+            ],
+            "model_binding": null,
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "computed",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "2026-11-06 CL-DATA-23 修復稽查：非夜景題材（可見光）補 light_window（civil，太陽仰角 > −6°，CL-DATA-11/19 同源定義；夜間一律不符合），修復 good_hours 仍含 22:00–06:00 的違規。語意修正，layering parity gate 豁免，理由記於本註記。",
+              "en": "2026-11-06 CL-DATA-23 fix audit: visible-light (non-night) subject gains a civil light_window (sun elevation > -6 deg, CL-DATA-11/19 same-source definition; night hours never qualify), fixing good_hours still containing 22:00-06:00. Semantic correction; layering parity gate exempt, documented here.",
+              "ja": "2026-11-06 CL-DATA-23 修正監査：非夜景（可視光）題材に light_window を追加（市民光、太陽高度 > -6°、CL-DATA-11/19 同源定義；夜間は一律成立しない）、good_hours が 22:00–06:00 を含む違規を修正。意味修正のため layering parity ゲートは免除。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-06 CL-DATA-23 修復稽查：非夜景題材（可見光）補 light_window（civil，太陽仰角 > −6°，CL-DATA-11/19 同源定義；夜間一律不符合），修復 good_hours 仍含 22:00–06:00 的違規。語意修正，layering parity gate 豁免，理由記於本註記。",
+              "en": "2026-11-06 CL-DATA-23 fix audit: visible-light (non-night) subject gains a civil light_window (sun elevation > -6 deg, CL-DATA-11/19 same-source definition; night hours never qualify), fixing good_hours still containing 22:00-06:00. Semantic correction; layering parity gate exempt, documented here.",
+              "ja": "2026-11-06 CL-DATA-23 修正監査：非夜景（可視光）題材に light_window を追加（市民光、太陽高度 > -6°、CL-DATA-11/19 同源定義；夜間は一律成立しない）、good_hours が 22:00–06:00 を含む違規を修正。意味修正のため layering parity ゲートは免除。"
+            }
           }
         ]
       },
@@ -60298,7 +60488,15 @@
         "source_revision": "v1-spot-tw-049",
         "imported_at": "2026-10-21T20:51:45Z",
         "review_status": "pending",
-        "reviewed_by": null
+        "reviewed_by": null,
+        "history": [
+          {
+            "2026-11-06": {
+              "source": "CL-DATA-23",
+              "note": "2026-11-06 CL-DATA-23 修復稽查：非夜景題材（可見光）補 light_window（civil，太陽仰角 > −6°，CL-DATA-11/19 同源定義；夜間一律不符合），修復 good_hours 仍含 22:00–06:00 的違規。語意修正，layering parity gate 豁免，理由記於本註記。"
+            }
+          }
+        ]
       }
     },
     {
@@ -69975,7 +70173,7 @@
       "schema_version": "2.1.0",
       "opportunity_id": "tw-072-P02",
       "place_id": "tw-072",
-      "revision": 2,
+      "revision": 3,
       "lifecycle_status": "draft",
       "name_i18n": {
         "zh-TW": "南雅奇岩夕照雲霞",
@@ -70192,6 +70390,36 @@
               "en": "Distant landform views (across canyon, between ridges) need high transparency; AOD <= 0.4 is a bonus reference (carried-over threshold). Close-up subjects unaffected.",
               "ja": "遠景型地景（峡谷対岸、尾根越し）は透明度が要。AOD<=0.4を参考加点。近景地形は影響なし。"
             }
+          },
+          {
+            "id": "C-tw-072-P02-LW1",
+            "role": "REQUIRED",
+            "domain": "ASTRONOMY",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "light_window",
+            "operator": "none",
+            "threshold": null,
+            "unit": null,
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              null
+            ],
+            "model_binding": null,
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "computed",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "2026-11-06 CL-DATA-23 修復稽查：非夜景題材（可見光）補 light_window（civil，太陽仰角 > −6°，CL-DATA-11/19 同源定義；夜間一律不符合），修復 good_hours 仍含 22:00–06:00 的違規。語意修正，layering parity gate 豁免，理由記於本註記。",
+              "en": "2026-11-06 CL-DATA-23 fix audit: visible-light (non-night) subject gains a civil light_window (sun elevation > -6 deg, CL-DATA-11/19 same-source definition; night hours never qualify), fixing good_hours still containing 22:00-06:00. Semantic correction; layering parity gate exempt, documented here.",
+              "ja": "2026-11-06 CL-DATA-23 修正監査：非夜景（可視光）題材に light_window を追加（市民光、太陽高度 > -6°、CL-DATA-11/19 同源定義；夜間は一律成立しない）、good_hours が 22:00–06:00 を含む違規を修正。意味修正のため layering parity ゲートは免除。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-06 CL-DATA-23 修復稽查：非夜景題材（可見光）補 light_window（civil，太陽仰角 > −6°，CL-DATA-11/19 同源定義；夜間一律不符合），修復 good_hours 仍含 22:00–06:00 的違規。語意修正，layering parity gate 豁免，理由記於本註記。",
+              "en": "2026-11-06 CL-DATA-23 fix audit: visible-light (non-night) subject gains a civil light_window (sun elevation > -6 deg, CL-DATA-11/19 same-source definition; night hours never qualify), fixing good_hours still containing 22:00-06:00. Semantic correction; layering parity gate exempt, documented here.",
+              "ja": "2026-11-06 CL-DATA-23 修正監査：非夜景（可視光）題材に light_window を追加（市民光、太陽高度 > -6°、CL-DATA-11/19 同源定義；夜間は一律成立しない）、good_hours が 22:00–06:00 を含む違規を修正。意味修正のため layering parity ゲートは免除。"
+            }
           }
         ]
       },
@@ -70216,7 +70444,15 @@
         "source_revision": "v1-spot-tw-072",
         "imported_at": "2026-10-21T20:51:45Z",
         "review_status": "pending",
-        "reviewed_by": null
+        "reviewed_by": null,
+        "history": [
+          {
+            "2026-11-06": {
+              "source": "CL-DATA-23",
+              "note": "2026-11-06 CL-DATA-23 修復稽查：非夜景題材（可見光）補 light_window（civil，太陽仰角 > −6°，CL-DATA-11/19 同源定義；夜間一律不符合），修復 good_hours 仍含 22:00–06:00 的違規。語意修正，layering parity gate 豁免，理由記於本註記。"
+            }
+          }
+        ]
       }
     },
     {
@@ -85350,7 +85586,7 @@
       "schema_version": "2.1.0",
       "opportunity_id": "us-014-P01",
       "place_id": "us-014",
-      "revision": 2,
+      "revision": 3,
       "lifecycle_status": "draft",
       "name_i18n": {
         "zh-TW": "Zabriskie Point・日出badlands與Manly Beacon",
@@ -85591,6 +85827,36 @@
               "en": "2026-11-06 CL-DATA-12 full audit (batch j): the Zabriskie sunrise semantics - adds sunrise_time_window REQUIRED (only a golden_hour_window QUALITY/BONUS existed). Semantic correction; layering parity gate exempt, documented here.",
               "ja": "2026-11-06 CL-DATA-12 全面監査（batch j）：Zabriskie の日の出の語義——sunrise_time_window REQUIRED を追加（現状は golden_hour_window QUALITY/BONUS のみ）。 意味修正のため layering parity ゲートは免除。"
             }
+          },
+          {
+            "id": "C-us-014-P01-LW1",
+            "role": "REQUIRED",
+            "domain": "ASTRONOMY",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "light_window",
+            "operator": "none",
+            "threshold": null,
+            "unit": null,
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              null
+            ],
+            "model_binding": null,
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "computed",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "2026-11-06 CL-DATA-23 修復稽查：非夜景題材（可見光）補 light_window（civil，太陽仰角 > −6°，CL-DATA-11/19 同源定義；夜間一律不符合），修復 good_hours 仍含 22:00–06:00 的違規。語意修正，layering parity gate 豁免，理由記於本註記。",
+              "en": "2026-11-06 CL-DATA-23 fix audit: visible-light (non-night) subject gains a civil light_window (sun elevation > -6 deg, CL-DATA-11/19 same-source definition; night hours never qualify), fixing good_hours still containing 22:00-06:00. Semantic correction; layering parity gate exempt, documented here.",
+              "ja": "2026-11-06 CL-DATA-23 修正監査：非夜景（可視光）題材に light_window を追加（市民光、太陽高度 > -6°、CL-DATA-11/19 同源定義；夜間は一律成立しない）、good_hours が 22:00–06:00 を含む違規を修正。意味修正のため layering parity ゲートは免除。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-06 CL-DATA-23 修復稽查：非夜景題材（可見光）補 light_window（civil，太陽仰角 > −6°，CL-DATA-11/19 同源定義；夜間一律不符合），修復 good_hours 仍含 22:00–06:00 的違規。語意修正，layering parity gate 豁免，理由記於本註記。",
+              "en": "2026-11-06 CL-DATA-23 fix audit: visible-light (non-night) subject gains a civil light_window (sun elevation > -6 deg, CL-DATA-11/19 same-source definition; night hours never qualify), fixing good_hours still containing 22:00-06:00. Semantic correction; layering parity gate exempt, documented here.",
+              "ja": "2026-11-06 CL-DATA-23 修正監査：非夜景（可視光）題材に light_window を追加（市民光、太陽高度 > -6°、CL-DATA-11/19 同源定義；夜間は一律成立しない）、good_hours が 22:00–06:00 を含む違規を修正。意味修正のため layering parity ゲートは免除。"
+            }
           }
         ]
       },
@@ -85615,7 +85881,15 @@
         "source_revision": "v1-spot-us-014",
         "imported_at": "2026-10-21T20:51:45Z",
         "review_status": "pending",
-        "reviewed_by": null
+        "reviewed_by": null,
+        "history": [
+          {
+            "2026-11-06": {
+              "source": "CL-DATA-23",
+              "note": "2026-11-06 CL-DATA-23 修復稽查：非夜景題材（可見光）補 light_window（civil，太陽仰角 > −6°，CL-DATA-11/19 同源定義；夜間一律不符合），修復 good_hours 仍含 22:00–06:00 的違規。語意修正，layering parity gate 豁免，理由記於本註記。"
+            }
+          }
+        ]
       }
     },
     {
@@ -99773,7 +100047,7 @@
       "schema_version": "2.1.0",
       "opportunity_id": "us-057-P01",
       "place_id": "us-057",
-      "revision": 1,
+      "revision": 2,
       "lifecycle_status": "draft",
       "name_i18n": {
         "zh-TW": "Arctic Circle Wayside・北極圈標誌地標照",
@@ -100005,6 +100279,36 @@
               "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
               "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
             }
+          },
+          {
+            "id": "C-us-057-P01-LW1",
+            "role": "REQUIRED",
+            "domain": "ASTRONOMY",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "light_window",
+            "operator": "none",
+            "threshold": null,
+            "unit": null,
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              null
+            ],
+            "model_binding": null,
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "computed",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "2026-11-06 CL-DATA-23 修復稽查：非夜景題材（可見光）補 light_window（civil，太陽仰角 > −6°，CL-DATA-11/19 同源定義；夜間一律不符合），修復 good_hours 仍含 22:00–06:00 的違規。語意修正，layering parity gate 豁免，理由記於本註記。",
+              "en": "2026-11-06 CL-DATA-23 fix audit: visible-light (non-night) subject gains a civil light_window (sun elevation > -6 deg, CL-DATA-11/19 same-source definition; night hours never qualify), fixing good_hours still containing 22:00-06:00. Semantic correction; layering parity gate exempt, documented here.",
+              "ja": "2026-11-06 CL-DATA-23 修正監査：非夜景（可視光）題材に light_window を追加（市民光、太陽高度 > -6°、CL-DATA-11/19 同源定義；夜間は一律成立しない）、good_hours が 22:00–06:00 を含む違規を修正。意味修正のため layering parity ゲートは免除。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-06 CL-DATA-23 修復稽查：非夜景題材（可見光）補 light_window（civil，太陽仰角 > −6°，CL-DATA-11/19 同源定義；夜間一律不符合），修復 good_hours 仍含 22:00–06:00 的違規。語意修正，layering parity gate 豁免，理由記於本註記。",
+              "en": "2026-11-06 CL-DATA-23 fix audit: visible-light (non-night) subject gains a civil light_window (sun elevation > -6 deg, CL-DATA-11/19 same-source definition; night hours never qualify), fixing good_hours still containing 22:00-06:00. Semantic correction; layering parity gate exempt, documented here.",
+              "ja": "2026-11-06 CL-DATA-23 修正監査：非夜景（可視光）題材に light_window を追加（市民光、太陽高度 > -6°、CL-DATA-11/19 同源定義；夜間は一律成立しない）、good_hours が 22:00–06:00 を含む違規を修正。意味修正のため layering parity ゲートは免除。"
+            }
           }
         ]
       },
@@ -100029,7 +100333,15 @@
         "source_revision": "v1-spot-us-057",
         "imported_at": "2026-10-21T20:51:45Z",
         "review_status": "pending",
-        "reviewed_by": null
+        "reviewed_by": null,
+        "history": [
+          {
+            "2026-11-06": {
+              "source": "CL-DATA-23",
+              "note": "2026-11-06 CL-DATA-23 修復稽查：非夜景題材（可見光）補 light_window（civil，太陽仰角 > −6°，CL-DATA-11/19 同源定義；夜間一律不符合），修復 good_hours 仍含 22:00–06:00 的違規。語意修正，layering parity gate 豁免，理由記於本註記。"
+            }
+          }
+        ]
       }
     },
     {
