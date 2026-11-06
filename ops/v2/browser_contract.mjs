@@ -23,10 +23,17 @@ export async function verifyPhotographyTopics(page,catalog,locale,sample=3){
       assert.equal(await card.locator('.opportunity-description').textContent(),subject.description_i18n[locale]);
       assert.deepEqual(await card.locator('.topic-targets li').allTextContents(),subject.targets.map(x=>x.name_i18n[locale]));
       const conditions=subject.condition_contract.conditions.filter(x=>x.domain!=='ACCESS_SAFETY');
-      // CL-DATA-01/02 moved condition prose to rationale_i18n; the UI adapter
-      // falls back notes_i18n -> rationale_i18n (v21-adapter.mjs).
-      assert.deepEqual(await card.locator('.condition-description').allTextContents(),conditions.map(x=>(x.notes_i18n||x.rationale_i18n)[locale]));
-      assert.equal(await card.locator('.condition-mode').count(),conditions.length);
+      // CL-CI-18: the UI renders conditions role-grouped for photographer
+      // reading order (REQUIRED -> QUALITY -> other -> BLOCKER), stable within
+      // each group by catalog order. The catalog generation order is NOT the
+      // presentation contract: CL-DATA-19 appended light_window (REQUIRED) at
+      // the end of many records after earlier QUALITY conditions, which broke
+      // a raw-order deepEqual. The blueprint contract is the grouping; the
+      // catalog order only fixes within-group stability.
+      const groupRank=x=>({REQUIRED:0,QUALITY:1,BLOCKER:3})[x.role]??2;
+      const ordered=[...conditions].sort((a,b)=>groupRank(a)-groupRank(b));
+      assert.deepEqual(await card.locator('.condition-description').allTextContents(),ordered.map(x=>(x.notes_i18n||x.rationale_i18n)[locale]));
+      assert.equal(await card.locator('.condition-mode').count(),ordered.length);
       assert.equal(await card.locator('.topic-assessment .automation-status').count(),1);
       assert.equal(await card.locator('.decision-core .access-advisories,.condition-result,.score,.nav-action').count(),0);
       assert.equal(await card.locator('.access-advisories').count(),1);
