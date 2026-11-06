@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-001-P02",
   "place_id": "tw-001",
-  "revision": 4,
+  "revision": 5,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "大屯山台北盆地下方雲海",
@@ -45,7 +45,7 @@
         "en": "Follow on-site safety guidance.",
         "ja": "現地の安全指示に従ってください。"
       },
-      "altitude_m": 1082
+      "altitude_m": 1092
     }
   ],
   "targets": [
@@ -170,7 +170,7 @@
         "capability": "CONDITIONS",
         "metric": "lcl_height_m_agl",
         "operator": "lt",
-        "threshold": 882,
+        "threshold": 892,
         "unit": "m",
         "unknown_policy": "propagate_unknown",
         "claim_refs": [
@@ -182,14 +182,14 @@
         "threshold_source": "computed",
         "calibration_status": "provisional",
         "rationale_i18n": {
-          "zh-TW": "雲底須低於視線（觀點 1,082 m − 200 m ＝ 882 m 餘量），雲海才出現在眼前而非腳邊。LCL 為雲底代理。",
-          "en": "The cloud base must sit below the sightline (viewpoint 1,082 m minus a 200 m margin = 882 m) for the sea of clouds to appear in front of the viewer, not at their feet. LCL proxies the cloud base.",
-          "ja": "雲底が視線より低いこと（視点1,082mから200mの余裕＝882m）で、雲海が足元ではなく眼前に現れる。LCLは雲底の代理指標。"
+          "zh-TW": "雲底須低於視線（觀點 1,092 m − 200 m ＝ 892 m 餘量），雲海才出現在眼前而非腳邊。LCL 為雲底代理。",
+          "en": "The cloud base must sit below the sightline (viewpoint 1,092 m minus a 200 m margin = 892 m) for the sea of clouds to appear in front of the viewer, not at their feet. LCL proxies the cloud base.",
+          "ja": "雲底が視線より低いこと（視点1,092mから200mの余裕＝892m）で、雲海が足元ではなく眼前に現れる。LCLは雲底の代理指標。"
         },
         "notes_i18n": {
-          "zh-TW": "2026-11-06 CL-DATA-14（CL-PHOTO-02 委託書稽查修正）：camera_contexts.altitude_m 補 1,082 m（DEM 溯源：V1 天氣快照 tw_weather.json api_elevation，Open-Meteo Elevation API 值）；門檻 882 m ＝ 1,082 − 200（owner 公式），可複算。",
-          "en": "2026-11-06 CL-DATA-14 (CL-PHOTO-02 photographer-brief audit correction): camera_contexts.altitude_m filled with 1,082 m (DEM provenance: V1 weather snapshot tw_weather.json api_elevation, an Open-Meteo Elevation API value); threshold 882 m = 1,082 − 200 (owner formula), reproducible.",
-          "ja": "2026-11-06 CL-DATA-14（CL-PHOTO-02 撮影依頼書監査修正）：camera_contexts.altitude_m に1,082mを補記（DEM出所：V1気象スナップショット tw_weather.json の api_elevation、Open-Meteo Elevation API 値）；閾値882m＝1,082−200（オーナー式）で再計算可能。"
+          "zh-TW": "2026-11-06 CL-DATA-15（公開權威值校正）：大屯山主峰海拔 1,092 m（zh.wikipedia 大屯山），取代 CL-DATA-14 之 DEM 估計值 1,082 m；門檻 892 m ＝ 1,092 − 200（owner 公式），camera_contexts.altitude_m 已同步 1092。",
+          "en": "2026-11-06 CL-DATA-15 (public authoritative value correction): Mt. Datun main-peak elevation 1,092 m (zh.wikipedia Datun), replacing the CL-DATA-14 DEM estimate of 1,082 m; threshold 892 m = 1,092 - 200 (owner formula); camera_contexts.altitude_m synced to 1092.",
+          "ja": "2026-11-06 CL-DATA-15（公開権威値による校正）：大屯山主峰の標高 1,092 m（zh.wikipedia 大屯山、CL-DATA-14 の DEM 推定値 1,082 m を差し替え）；閾値 892 m ＝ 1,092 − 200（オーナー式）、camera_contexts.altitude_m は 1092 に同期。"
         }
       },
       {

@@ -105,6 +105,11 @@ class ResearchIndexTests(unittest.TestCase):
             # 37 stale commit_sha provenance pointers (CL-CI-14 latent)
             # re-pointed to the merge commit carrying the verified bytes.
             '3682e14ec5ed7eb4b78d2b7a47d0b43c1b836c98',
+            # CL-DATA-15: owner-verified elevation corrections (Paiyun Lodge
+            # 3,402 m / Datun 1,092 m / Zhushan 2,451 m; Hehuan 3,417 m
+            # confirmed) — the 4 LCL cloud-sea records byte-changed and were
+            # re-pinned to the task-branch commit carrying the corrections.
+            'c90f56712550ae46824e30684442bbc44855c9b5',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         self.assertEqual('3682e14ec5ed7eb4b78d2b7a47d0b43c1b836c98',p01['commit_sha'])

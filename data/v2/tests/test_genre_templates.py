@@ -143,7 +143,7 @@ class ExpansionTests(unittest.TestCase):
         NOTES_REFINABLE.add('tw-001-P02')
         for template_id, opp in PROTOTYPE_SPOTS.items():
             expanded = self._expand(template_id, opp,
-                                    {'viewpoint_altitude_m': 1082}
+                                    {'viewpoint_altitude_m': 1092}
                                     if template_id == 'cloud_sea' else None,
                                     'tw-036-P01-condition-1' if opp == 'tw-036-P01' else None)
             canonical = json.loads((REPO / 'data/v2/opportunities' / f'{opp}.json').read_text(encoding='utf-8'))
