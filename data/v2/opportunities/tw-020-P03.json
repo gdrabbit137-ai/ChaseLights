@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-020-P03",
   "place_id": "tw-020",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "金龍山盆地低雲琉璃光",
@@ -29,11 +29,11 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference; CL-DATA-16 elevation 820 m verified 2026-11-06; source: https://media.taiwan.net.tw/zh-tw/portal/travel Attraction_A15010600H_000094（金龍山約 820 m，日月潭風管處）",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
-      "verification_status": "provisional",
+      "verification_status": "verified",
       "evidence_refs": [],
       "access_notes_i18n": {
         "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
@@ -45,7 +45,7 @@
         "en": "Follow on-site safety guidance.",
         "ja": "現地の安全指示に従ってください。"
       },
-      "altitude_m": null
+      "altitude_m": 820.0
     }
   ],
   "targets": [
@@ -256,7 +256,7 @@
         "capability": "CONDITIONS",
         "metric": "lcl_height_m_agl",
         "operator": "lt",
-        "threshold": 466,
+        "threshold": 620,
         "unit": "m",
         "unknown_policy": "propagate_unknown",
         "claim_refs": [
@@ -267,14 +267,14 @@
         "condition_tier": "MAIN",
         "threshold_source": "computed",
         "rationale_i18n": {
-          "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch b）：琉璃光（聚落被低雲覆蓋、雲隙投光）語義與「總雲量 ≤70%」相反——改用雲海式代理判據（與同一觀景點的雲海契約 tw-020-P02 同一 viewpoint、同一 LCL 門檻 lcl lt 466 m）：RH925 ≥85%、RH850 ≥55%、LCL 高度低於景點（觀點 DEM − 200 m 慣例）、低雲 ≥60%；中高雲不設上限（放寬）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
-          "en": "2026-11-06 CL-DATA-12 full audit (batch b): Glass-light (settlement covered by low cloud, light thrown through gaps) is the OPPOSITE of 'total cloud <=70%' - replaced with the cloud-sea proxy suite used by the cloud-sea contract at the same viewpoint (tw-020-P02, lcl lt 466 m): RH925 >=85%, RH850 >=55%, LCL below the viewpoint (DEM - 200 m convention), low cloud >=60%; mid/high cloud left uncapped (relaxed). Semantic correction; layering parity gate exempt, documented here.",
-          "ja": "2026-11-06 CL-DATA-12 全面監査（batch b）：ガラス光（集落が低雲に覆われ、雲隙から差す光）の意味は「全雲量 <=70%」と正反対——同一視点の雲海契約（tw-020-P02、lcl lt 466 m）と同じ雲海式代理判定へ置換：RH925 >=85%、RH850 >=55%、LCL は展望点より低く（DEM - 200 m 慣例）、下層雲 >=60%；中上層雲に上限なし（緩和）。 意味修正のため layering parity ゲートは免除。"
+          "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch b）：琉璃光（聚落被低雲覆蓋、雲隙投光）語義與「總雲量 ≤70%」相反——改用雲海式代理判據（與同一觀景點的雲海契約 tw-020-P02 同一 viewpoint、同一 LCL 門檻 lcl lt 620 m）：RH925 ≥85%、RH850 ≥55%、LCL 高度低於景點（觀點 DEM − 200 m 慣例）、低雲 ≥60%；中高雲不設上限（放寬）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+          "en": "2026-11-06 CL-DATA-12 full audit (batch b): Glass-light (settlement covered by low cloud, light thrown through gaps) is the OPPOSITE of 'total cloud <=70%' - replaced with the cloud-sea proxy suite used by the cloud-sea contract at the same viewpoint (tw-020-P02, lcl lt 620 m): RH925 >=85%, RH850 >=55%, LCL below the viewpoint (DEM - 200 m convention), low cloud >=60%; mid/high cloud left uncapped (relaxed). Semantic correction; layering parity gate exempt, documented here.",
+          "ja": "2026-11-06 CL-DATA-12 全面監査（batch b）：ガラス光（集落が低雲に覆われ、雲隙から差す光）の意味は「全雲量 <=70%」と正反対——同一視点の雲海契約（tw-020-P02、lcl lt 620 m）と同じ雲海式代理判定へ置換：RH925 >=85%、RH850 >=55%、LCL は展望点より低く（DEM - 200 m 慣例）、下層雲 >=60%；中上層雲に上限なし（緩和）。 意味修正のため layering parity ゲートは免除。"
         },
         "notes_i18n": {
-          "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch b）：琉璃光（聚落被低雲覆蓋、雲隙投光）語義與「總雲量 ≤70%」相反——改用雲海式代理判據（與同一觀景點的雲海契約 tw-020-P02 同一 viewpoint、同一 LCL 門檻 lcl lt 466 m）：RH925 ≥85%、RH850 ≥55%、LCL 高度低於景點（觀點 DEM − 200 m 慣例）、低雲 ≥60%；中高雲不設上限（放寬）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
-          "en": "2026-11-06 CL-DATA-12 full audit (batch b): Glass-light (settlement covered by low cloud, light thrown through gaps) is the OPPOSITE of 'total cloud <=70%' - replaced with the cloud-sea proxy suite used by the cloud-sea contract at the same viewpoint (tw-020-P02, lcl lt 466 m): RH925 >=85%, RH850 >=55%, LCL below the viewpoint (DEM - 200 m convention), low cloud >=60%; mid/high cloud left uncapped (relaxed). Semantic correction; layering parity gate exempt, documented here.",
-          "ja": "2026-11-06 CL-DATA-12 全面監査（batch b）：ガラス光（集落が低雲に覆われ、雲隙から差す光）の意味は「全雲量 <=70%」と正反対——同一視点の雲海契約（tw-020-P02、lcl lt 466 m）と同じ雲海式代理判定へ置換：RH925 >=85%、RH850 >=55%、LCL は展望点より低く（DEM - 200 m 慣例）、下層雲 >=60%；中上層雲に上限なし（緩和）。 意味修正のため layering parity ゲートは免除。"
+          "zh-TW": "CL-DATA-16 2026-11-06：觀點海拔依權威源複驗修正（來源：https://media.taiwan.net.tw/zh-tw/portal/travel Attraction_A15010600H_000094（金龍山約 820 m，日月潭風管處）），LCL 門檻依 owner 公式重算 = 620 m（820.0 m − 200 m），原 466 m。",
+          "en": "CL-DATA-16 2026-11-06: viewpoint elevation re-verified against the authoritative source (https://media.taiwan.net.tw/zh-tw/portal/travel Attraction_A15010600H_000094（金龍山約 820 m，日月潭風管處）); LCL threshold recomputed per owner formula = 620 m (820.0 m - 200 m), previously 466 m.",
+          "ja": "CL-DATA-16 2026-11-06：視点標高を権威ソースで再検証・修正（出典：https://media.taiwan.net.tw/zh-tw/portal/travel Attraction_A15010600H_000094（金龍山約 820 m，日月潭風管處））。LCLしきい値はオーナー式で再計算 = 620 m（820.0 m - 200 m）、旧 466 m。"
         }
       },
       {

@@ -69,8 +69,9 @@ class ResearchIndexTests(unittest.TestCase):
             '3eb466432807185bc8b9271d006666b72d1fa406',
             '76e926d16f3cfd6f2983ec2c0f6fe6ac7004104d',
             # CL-DATA-04: three new owner-defined records pinned to the
-            # owner-definition data commit.
-            'cebb9689ee339f24655aafa010ecfc7977178368',
+            # owner-definition data commit. (tw-086-P02 — the last holder of
+            # cebb9689 — was byte-changed and re-pinned by CL-DATA-16, so the
+            # cebb9689 pin left the set.)
             # CL-UI-20 round-2: 63 high-exposure subject records re-pinned to
             # the task-branch commit carrying verified en/ja subject names
             # (tw-036-P01 / tw-082-P01 keep their review-gated round-1 pins).
@@ -105,10 +106,13 @@ class ResearchIndexTests(unittest.TestCase):
             # 37 stale commit_sha provenance pointers (CL-CI-14 latent)
             # re-pointed to the merge commit carrying the verified bytes.
             '3682e14ec5ed7eb4b78d2b7a47d0b43c1b836c98',
-            # CL-DATA-15: owner-verified elevation corrections (Paiyun Lodge
-            # 3,402 m / Datun 1,092 m / Zhushan 2,451 m; Hehuan 3,417 m
-            # confirmed) — the 4 LCL cloud-sea records byte-changed and were
-            # re-pinned to the task-branch commit carrying the corrections.
+            'b801dd4eba545a76879828b25e869f3c45df33ac',
+            # CL-DATA-15 (merged side): owner-verified elevation corrections
+            # (Paiyun Lodge 3,402 m / Datun 1,092 m / Zhushan 2,451 m;
+            # Hehuan 3,417 m confirmed) — tw-001-P02/tw-019-P04/tw-024-P02/
+            # tw-040-P04 byte-changed on main after CL-DATA-16 forked and
+            # remain re-pinned to the task-branch commit carrying those
+            # corrections (union merge, CL-INT-81).
             'c90f56712550ae46824e30684442bbc44855c9b5',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
