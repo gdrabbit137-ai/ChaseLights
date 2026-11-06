@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-016-P01",
   "place_id": "tw-016",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "evidence_review",
   "name_i18n": {
     "zh-TW": "鳶嘴山岩稜與遠山層次",
@@ -23,14 +23,15 @@
         "status": "unknown",
         "geojson": null,
         "uncertainty_m": null,
-        "derivation_method": null,
+        "derivation_method": "CL-DATA-16 elevation 2180 m verified 2026-11-06; source: https://recreation.forest.gov.tw/Trail/RT?tr_id=060（鳶嘴-稍來步道 2180 m）",
         "source_geometry_revision": null,
         "reason_if_absent": "No independently verified source geometry"
       },
-      "verification_status": "provisional",
+      "verification_status": "verified",
       "evidence_refs": [
         "e016a",
-        "e016b"
+        "e016b",
+        "CL-DATA-16:elevation:tw-016:https://recreation.forest.gov.tw/Trail/RT?tr_id=060（鳶嘴-稍來步道 2180 m）"
       ],
       "access_notes_i18n": {
         "zh-TW": "只使用合法步道的安全位置；官方記載有攀岩與危崖。",
@@ -42,7 +43,7 @@
         "en": "Wet rock, strong wind or severe weather can make exposed ridges hazardous; never enter unsafe terrain for a composition.",
         "ja": "濡れた岩、強風、荒天時は露出した岩稜が危険。構図のために危険区域へ入らない。"
       },
-      "altitude_m": null
+      "altitude_m": 2180.0
     }
   ],
   "targets": [

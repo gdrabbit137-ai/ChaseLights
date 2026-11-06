@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-025-P02",
   "place_id": "tw-025",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "二寮白堊丘陵長焦層巒",
@@ -29,12 +29,14 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference; CL-DATA-16 elevation 185 m verified 2026-11-06; source: https://www.siraya-nsa.gov.tw/zh-tw/attractions/detail/30 + https://www.taiwanviptravel.com/articles/erliao-sunrise（二寮觀日平台約 185 m）",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
-      "verification_status": "provisional",
-      "evidence_refs": [],
+      "verification_status": "verified",
+      "evidence_refs": [
+        "CL-DATA-16:elevation:tw-025:https://www.siraya-nsa.gov.tw/zh-tw/attractions/detail/30 + https://www.taiwanviptravel.com/articles/erliao-sunrise（二寮觀日平台約 185 m）"
+      ],
       "access_notes_i18n": {
         "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
         "en": "Access information not yet verified; follow on-site notices and rules.",
@@ -45,7 +47,7 @@
         "en": "Follow on-site safety guidance.",
         "ja": "現地の安全指示に従ってください。"
       },
-      "altitude_m": null
+      "altitude_m": 185.0
     }
   ],
   "targets": [

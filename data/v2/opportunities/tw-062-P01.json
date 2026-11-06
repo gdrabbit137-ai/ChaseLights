@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-062-P01",
   "place_id": "tw-062",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "得月樓與水頭洋樓建築外觀",
@@ -20,21 +20,23 @@
       "kind": "area",
       "geometry": {
         "kind": "point",
-        "status": "provisional",
+        "status": "verified",
         "geojson": {
           "type": "Point",
           "coordinates": [
-            118.29849,
-            24.40971
+            118.30056,
+            24.40583
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference; CL-DATA-16 coordinate corrected 2026-11-06; source: https://zh.wikipedia.org/zh-hant/前水頭得月樓及黃輝煌洋樓（24°24′21″N 118°18′2″E）",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
-      "verification_status": "provisional",
-      "evidence_refs": [],
+      "verification_status": "verified",
+      "evidence_refs": [
+        "CL-DATA-16:coordinate:tw-062-P01:https://zh.wikipedia.org/zh-hant/前水頭得月樓及黃輝煌洋樓"
+      ],
       "access_notes_i18n": {
         "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
         "en": "Access information not yet verified; follow on-site notices and rules.",

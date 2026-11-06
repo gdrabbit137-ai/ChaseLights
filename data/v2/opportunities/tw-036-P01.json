@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-036-P01",
   "place_id": "tw-036",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "evidence_review",
   "name_i18n": {
     "zh-TW": "七星潭礫石海岸日出",
@@ -20,17 +20,22 @@
       "kind": "area",
       "geometry": {
         "kind": "area",
-        "status": "unknown",
-        "geojson": null,
+        "status": "derived",
+        "geojson": {
+          "type": "Point",
+          "coordinates": [
+            121.62717,
+            24.031426
+          ]
+        },
         "uncertainty_m": null,
-        "derivation_method": null,
+        "derivation_method": "CL-DATA-16 gap-fill 2026-11-06: coordinates carried from sibling camera context data/v2/opportunities/tw-036-P02.json (same place, verified camera point)",
         "source_geometry_revision": null,
         "reason_if_absent": "No independently verified place-specific camera/subject geometry."
       },
-      "verification_status": "provisional",
+      "verification_status": "representative",
       "evidence_refs": [
-        "b04-tw036-a",
-        "b04-tw036-b"
+        "CL-DATA-16:coordinate-gap:tw-036-P01:sibling=data/v2/opportunities/tw-036-P02.json"
       ],
       "access_notes_i18n": {
         "zh-TW": "只能從當日允許的海岸或步道區域構圖；目前未核實完整攝影區域邊界與固定機位。",

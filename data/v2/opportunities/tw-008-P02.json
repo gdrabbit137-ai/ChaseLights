@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-008-P02",
   "place_id": "tw-008",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "硬漢嶺淡水河口＋群山全景",
@@ -29,12 +29,14 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference; CL-DATA-16 elevation 616 m verified 2026-11-06; source: https://www.northguan-nsa.gov.tw/user/article.aspx?Lang=1&SNo=04002861（硬漢嶺 616 m，北觀處官方）",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
-      "verification_status": "provisional",
-      "evidence_refs": [],
+      "verification_status": "verified",
+      "evidence_refs": [
+        "CL-DATA-16:elevation:tw-008:https://www.northguan-nsa.gov.tw/user/article.aspx?Lang=1&SNo=04002861（硬漢嶺 616 m，北觀處官方）"
+      ],
       "access_notes_i18n": {
         "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
         "en": "Access information not yet verified; follow on-site notices and rules.",
@@ -45,7 +47,7 @@
         "en": "Follow on-site safety guidance.",
         "ja": "現地の安全指示に従ってください。"
       },
-      "altitude_m": null
+      "altitude_m": 616.0
     }
   ],
   "targets": [
