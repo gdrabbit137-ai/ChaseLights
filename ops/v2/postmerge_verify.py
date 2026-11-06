@@ -335,7 +335,7 @@ def main():
             ("w5-task-r-release-tools", ["ops/v2/tests", "test_task_r_release_tools.py"], 12, True, False),
             ("w5-task-v-integration", ["ops/v2/tests", "test_task_v_integration.py"], 11, True, False),
             ("w5-pin-sync", ["ops/v2/tests", "test_pin_sync.py"], 7, True, False),
-            ("w3-evaluator-and-hourly-source", ["packages/core-v2/tests", "test_*.py"], 170, True, False),
+            ("w3-evaluator-and-hourly-source", ["packages/core-v2/tests", "test_*.py"], 174, True, False),
             ("w3-solar-model", ["packages/models-v2/tests", "test_*.py"], 15, True, False),
             ("w2-crosswalk-schema-index-and-hourly-binding", ["data/v2/tests", "test_*.py"], 66, True, False,
                 {"timeout": 300}),
@@ -353,7 +353,7 @@ def main():
                 None, False, False),
             ("w4-node", ["node", "--test", "--test-isolation=none", "--test-timeout=120000",
                 "--test-reporter=tap",                *[str(p.relative_to(root)) for p in sorted(
-                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 407, False, True),
+                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 412, False, True),
             ("w5-public-source-contract", ["node", "--test", "--test-reporter=tap",
                 "ops/v2/tests/public-source-contract.test.mjs"], 6, False, True),
             ("local-isolation", [sys.executable, "ops/v2/integration_gate.py", "--root", str(root)],
@@ -377,18 +377,19 @@ def main():
             for key in ("tests", "pass", "fail", "error", "skip")
         }
         # CL-CI-11: suite-count pins re-baselined after CL-UI-23/24 and the
-        # w3 evaluator/hourly additions: w3=170, w4-node=407 (CL-UI-35 +1,
+        # w3 evaluator/hourly additions: w3=174, w4-node=412 (CL-UI-35 +1,
         # CL-UI-36 +1, +127 pre-existing regen/regression additions — actual
-        # node --test count), w5-pin-sync=7 (CL-INT-63 actual), exact total=831.
-        # 2026-11-06: CL-UI-35/36 added 9 tests -> total 831; the w3
-        # test_wall_clock_deadline test skips on non-POSIX hosts (Windows
+        # node --test count), w5-pin-sync=7 (CL-INT-63 actual), exact total=840.
+        # 2026-11-06: CL-DATA-11 +4 w3 tests (test_cl_data_11_light_window.py)
+        # and CL-INT-65-era node additions +5 -> w3=174, w4-node=412, total 840;
+        # the w3 test_wall_clock_deadline test skips on non-POSIX hosts (Windows
         # checkout, passes on CI), so pass+skip must equal the total and
         # fail/error must be zero on BOTH platforms.
-        if (report["counts"]["tests"] != 831 or
+        if (report["counts"]["tests"] != 840 or
                 report["counts"]["fail"] != 0 or
                 report["counts"]["error"] != 0 or
-                report["counts"]["pass"] + report["counts"]["skip"] != 831):
-            raise ValueError("Post-merge exact 831-case requirement failed")
+                report["counts"]["pass"] + report["counts"]["skip"] != 840):
+            raise ValueError("Post-merge exact 840-case requirement failed")
         if not all(g["status"] == "PASS" for g in report["groups"]):
             raise ValueError("One or more required suites failed")
         report["status"] = "PASS"
