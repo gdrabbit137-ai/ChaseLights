@@ -1,15 +1,15 @@
-"""CL-DATA-11: cloud-sea light window (owner ruling 2026-11-05).
+"""CL-DATA-11: cloud-sea light window (owner ruling + clarification 2026-11-05).
 
-雲海晚上除非有月光否則看不到 — a sea of clouds is invisible at night unless
-there is moonlight. The new `light_window` metric is a necessary hourly
-condition for cloud_sea contracts: EVERY sampled instant of the hour bucket
-must be lit — sun elevation > -6 deg (civil light) OR moon above the horizon
-with moon illumination fraction >= 0.5 (reusing the existing
-moon_illumination_fraction semantics). Pinned scenarios:
-- a fully sunlit hour passes on the solar branch alone (no moon data needed);
-- a dark night hour with a moonless sky (or sub-50% moon) FAILS — 23:00 with
-  no moon can no longer qualify a cloud-sea hour;
-- a dark night hour lit by a >= 50%-illuminated moon PASSES;
+雲海只在民用光線下可拍 - the earlier "unless there is moonlight" reading was
+an owner rhetorical question, NOT a ruling; the moonlight exception is
+withdrawn. The `light_window` metric is a necessary hourly condition for
+cloud_sea contracts with a single semantics: EVERY sampled instant of the hour
+bucket must have sun elevation > -6 deg (civil light). Night hours never
+qualify REGARDLESS of the moon - no moon metric is consulted. Pinned
+scenarios:
+- a fully sunlit hour passes (pure solar geometry, no moon data);
+- a dark night hour FAILS even with a high, well-illuminated moon - 23:00
+  can never qualify a cloud-sea hour;
 - a mid-morning hour fails the golden-hour window (sunset subject red line).
 Offline tests, no network.
 """
@@ -39,50 +39,27 @@ def utc(hours_local_gmt8):
                     tzinfo=timezone.utc)
 
 
-class LightWindowSolarBranchTests(unittest.TestCase):
-    def test_fully_sunlit_hour_passes_without_moon_data(self):
+class LightWindowCivilLightTests(unittest.TestCase):
+    def test_fully_sunlit_hour_passes(self):
         obs = ah.hour_observations(utc(13), LAT, LON, need_moon=False)
         self.assertIs(obs["light_window"], True)
 
-    def test_straddle_dusk_without_moon_data_is_unknown(self):
-        obs = ah.hour_observations(utc(18), LAT, LON, need_moon=False)
-        self.assertIsNone(obs["light_window"])
+    def test_straddle_dusk_hour_fails(self):
+        # A bucket straddling civil dusk has dark-tail samples: it can never
+        # qualify, the whole-bucket rule excludes the going-dark hour.
+        obs = ah.hour_observations(utc(18), LAT, LON, need_moon=True)
+        self.assertIs(obs["light_window"], False)
 
-
-class LightWindowMoonBranchTests(unittest.TestCase):
-    """Dark buckets decided by the moon branch (mocked ephemeris)."""
-
-    def run_dark_hour(self, moon_alt_deg, illum):
-        def fake_ephem(dt_utc, lat, lon):
-            return {"moon_altitude_deg": moon_alt_deg,
-                    "moon_illumination_fraction": illum,
+    def test_night_hour_fails_regardless_of_moon(self):
+        # 23:00 local with a high, well-illuminated moon: still no cloud sea.
+        def bright_moon(dt_utc, lat, lon):
+            return {"moon_altitude_deg": 55.0,
+                    "moon_illumination_fraction": 1.0,
                     "moon_target_separation_deg": 90.0,
-                    "moon_illuminance_proxy": illum, "galactic_core_altitude": 5.0}
-        with patch.object(ah, "lunar_ephemeris_for_galactic_core", fake_ephem):
-            return ah.hour_observations(utc(23), LAT, LON, need_moon=True)
-
-    def test_moonless_night_fails(self):
-        # 23:00 local, moon below horizon: cloud sea no longer qualifies.
-        self.assertIs(self.run_dark_hour(-10.0, 0.9)["light_window"], False)
-
-    def test_low_illumination_night_fails(self):
-        # Moon up but < 50% illumination: not enough moonlight.
-        self.assertIs(self.run_dark_hour(40.0, 0.3)["light_window"], False)
-
-    def test_half_moon_night_passes(self):
-        # Moon above horizon with illumination >= 50%: the night hour qualifies.
-        self.assertIs(self.run_dark_hour(40.0, 0.5)["light_window"], True)
-
-    def test_partially_dark_bucket_fails_even_with_moon(self):
-        # A bucket that straddles civil dusk with a dark tail fails: the
-        # whole-bucket rule keeps a going-dark hour from qualifying.
-        def fake_ephem(dt_utc, lat, lon):
-            return {"moon_altitude_deg": -20.0,
-                    "moon_illumination_fraction": 0.9,
-                    "moon_target_separation_deg": 90.0,
-                    "moon_illuminance_proxy": 0.0, "galactic_core_altitude": 5.0}
-        with patch.object(ah, "lunar_ephemeris_for_galactic_core", fake_ephem):
-            obs = ah.hour_observations(utc(18), LAT, LON, need_moon=True)
+                    "moon_illuminance_proxy": 1.0,
+                    "galactic_core_altitude": 5.0}
+        with patch.object(ah, "lunar_ephemeris_for_galactic_core", bright_moon):
+            obs = ah.hour_observations(utc(23), LAT, LON, need_moon=True)
         self.assertIs(obs["light_window"], False)
 
 

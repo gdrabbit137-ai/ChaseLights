@@ -354,7 +354,6 @@ def main():
         events = sun_events_span(lat, lon, span_start, span_end)
         zone, offset = static_timezone(lat, lon)
         need_moon = any("moon" in c["metric"] or "galactic" in c["metric"]
-                        or "light_window" in c["metric"]
                         for doc in group["opportunities"]
                         for c in doc["condition_contract"]["conditions"])
         hours = artifact["hours"]

@@ -1,10 +1,12 @@
 // CL-DATA-11: cloud-sea light window + sunset-named window fixes (contract level).
 //
-// Owner ruling 2026-11-05: 雲海晚上除非有月光否則看不到 — every cloud_sea
-// contract that had no light window now carries a REQUIRED `light_window`
-// condition (threshold_source=computed; moon branch reuses the existing
-// moon_illumination_fraction semantics with illumination >= 0.5). Parity gate
-// exempt for these semantic corrections; revision note lives in notes_i18n.
+// Owner ruling + clarification 2026-11-05: the cloud sea is visible ONLY in
+// civil light (sun elevation > -6 deg) — the earlier "unless moonlight"
+// reading was withdrawn as a rhetorical question, so night hours never
+// qualify regardless of the moon and no moon metric is consulted. Every
+// cloud_sea contract that had no light window now carries a REQUIRED
+// `light_window` condition (threshold_source=computed). Parity gate exempt
+// for these semantic corrections; revision note lives in notes_i18n.
 // Also pinned: the 南雅奇岩「夕照雲霞」misplacement (geological_landform x
 // spec:day → golden_hour x spec:golden, window REQUIRED) and the three
 // sunset-named subjects that lacked any time window.
