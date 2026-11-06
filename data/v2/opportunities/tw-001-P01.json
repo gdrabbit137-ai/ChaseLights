@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-001-P01",
   "place_id": "tw-001",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "大屯山夕照山稜＋秋芒",
@@ -245,6 +245,36 @@
           "zh-TW": "適度霧霾散射強化紅橙色調，但 AOD > 0.6 時太陽盤面與地平線輪廓被吞沒（與 mountain_view 同一上限，依大氣透視同一物理）。",
           "en": "Moderate haze scatters and enriches red-orange tones, but above AOD 0.6 the solar disc and horizon silhouette are swallowed (same limit as mountain_view, same physics of atmospheric perspective).",
           "ja": "適度な煙霾は赤橙色を強めるが、AOD>0.6では太陽面と地平線の輪郭が呑まれる（mountain_viewと同じ上限、大気遠近法と同じ物理）。"
+        }
+      },
+      {
+        "id": "C-tw-001-P01-06",
+        "role": "REQUIRED",
+        "domain": "SEASON_TIME",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "seasonal_state",
+        "operator": "eq",
+        "threshold": "window_open",
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-001-P01-claim-01"
+        ],
+        "model_binding": null,
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "computed",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "秋芒為秋季芒草期主體：僅 10–11 月芒草開花成景；季節窗外本主體不成立（一般夕照請改評其他非季節主體）。一般夕照與秋芒兩種成立語義分離。",
+          "en": "Silver-grass (Autumn miscanthus) is an October–November blooming-season subject; outside the window this subject does not hold (general sunset is judged by the separate non-seasonal subject). The generic-sunset and silver-grass semantics are now separated.",
+          "ja": "秋芒は10〜11月のススキ期の題材；窓外では本題材は不成立（通常の夕焼けは別の非季節題材で判定）。「通常の夕景」と「秋芒」の成立意味を分離。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-06 CL-DATA-14（CL-PHOTO-02 委託書稽查修正）：季節窗值由 seasonal-calendar 對拍原則得出（evaluation 取值 window_open/window_closed；無實況來源時誠實 propagate_unknown）。主體「秋芒」含季節成分，補 REQUIRED/MAIN seasonal_state（10–11 月，provisional；examples: silvergrass 例年窗 10-01~12-15 在 data/v2/seasonal-calendar.json，本票依票面取 10–11 月，未校準待 owner 複核）。",
+          "en": "2026-11-06 CL-DATA-14 (CL-PHOTO-02 photographer-brief audit correction): Seasonal-window value follows the seasonal-calendar matching convention (evaluation value window_open/window_closed; with no live source it propagates unknown honestly). 主體「秋芒」含季節成分，補 REQUIRED/MAIN seasonal_state（10–11 月，provisional；examples: silvergrass 例年窗 10-01~12-15 在 data/v2/seasonal-calendar.json，本票依票面取 10–11 月，未校準待 owner 複核）。",
+          "ja": "2026-11-06 CL-DATA-14（CL-PHOTO-02 撮影依頼書監査修正）：季節窓値は seasonal-calendar 突合せ規約に従う（評価値 window_open/window_closed；実況ソース欠落時は誠実に unknown 伝播）。主體「秋芒」含季節成分，補 REQUIRED/MAIN seasonal_state（10–11 月，provisional；examples: silvergrass 例年窗 10-01~12-15 在 data/v2/seasonal-calendar.json，本票依票面取 10–11 月，未校準待 owner 複核）。"
         }
       },
       {

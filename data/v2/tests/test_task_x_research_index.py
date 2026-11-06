@@ -100,10 +100,15 @@ class ResearchIndexTests(unittest.TestCase):
             # were re-anchored below, but the W2 provenance commit_sha of each
             # record is preserved (bytes live at the recorded provenance
             # commits' successors; the blob pins carry the new state).
+            # CL-DATA-14 merge (3682e14ec): 10 records byte-changed by the
+            # CL-PHOTO-02 audit corrections (seasonal_state unions etc.) and
+            # 37 stale commit_sha provenance pointers (CL-CI-14 latent)
+            # re-pointed to the merge commit carrying the verified bytes.
+            '3682e14ec5ed7eb4b78d2b7a47d0b43c1b836c98',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
-        self.assertEqual('76e926d16f3cfd6f2983ec2c0f6fe6ac7004104d',p01['commit_sha'])
-        # CL-CI-14: blob pin re-anchored to the CL-DATA-13 view_azimuth-backfilled bytes (derivation_method-gated)
+        self.assertEqual('3682e14ec5ed7eb4b78d2b7a47d0b43c1b836c98',p01['commit_sha'])
+        # CL-DATA-14: bytes unchanged by the merge (provenance commit_sha re-pointed only)
         self.assertEqual('c74a75dcedbc6ebc56993477e7aea6bb9a1d013f',p01['blob_sha'])
 
     def test_all_place_names_exact_source_spans_without_new_translation(self):

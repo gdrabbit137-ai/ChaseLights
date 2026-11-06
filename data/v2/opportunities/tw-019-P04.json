@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-019-P04",
   "place_id": "tw-019",
-  "revision": 3,
+  "revision": 4,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "合歡主峰下方雲海與露出群峰",
@@ -45,7 +45,7 @@
         "en": "Follow on-site safety guidance.",
         "ja": "現地の安全指示に従ってください。"
       },
-      "altitude_m": null
+      "altitude_m": 3417
     }
   ],
   "targets": [
@@ -188,6 +188,11 @@
           "zh-TW": "雲底須低於視線（觀點 3,417 m − 200 m ＝ 3,217 m 餘量），雲海才出現在眼前而非腳邊。LCL 為雲底代理。",
           "en": "The cloud base must sit below the sightline (viewpoint 3,417 m minus a 200 m margin = 3,217 m) for the sea of clouds to appear in front of the viewer, not at their feet. LCL proxies the cloud base.",
           "ja": "雲底が視線より低いこと（視点3,417mから200mの余裕＝3,217m）で、雲海が足元ではなく眼前に現れる。LCLは雲底の代理指標。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-06 CL-DATA-14（CL-PHOTO-02 委託書稽查修正）：camera_contexts.altitude_m 補 3,417 m（DEM 溯源：V1 天氣快照 tw_weather.json elevation/api_elevation，Open-Meteo Elevation API 值）；門檻 3,217 m ＝ 3,417 − 200（owner 公式），可複算。",
+          "en": "2026-11-06 CL-DATA-14 (CL-PHOTO-02 photographer-brief audit correction): camera_contexts.altitude_m filled with 3,417 m (DEM provenance: V1 weather snapshot tw_weather.json elevation/api_elevation, an Open-Meteo Elevation API value); threshold 3,217 m = 3,417 − 200 (owner formula), reproducible.",
+          "ja": "2026-11-06 CL-DATA-14（CL-PHOTO-02 撮影依頼書監査修正）：camera_contexts.altitude_m に3,417mを補記（DEM出所：V1気象スナップショット tw_weather.json の elevation/api_elevation、Open-Meteo Elevation API 値）；閾値3,217m＝3,417−200（オーナー式）。"
         }
       },
       {

@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-040-P04",
   "place_id": "tw-040",
-  "revision": 3,
+  "revision": 4,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "排雲山莊下方雲海與山稜",
@@ -45,7 +45,7 @@
         "en": "Follow on-site safety guidance.",
         "ja": "現地の安全指示に従ってください。"
       },
-      "altitude_m": null
+      "altitude_m": 3468
     }
   ],
   "targets": [
@@ -173,7 +173,7 @@
         "capability": "CONDITIONS",
         "metric": "lcl_height_m_agl",
         "operator": "lt",
-        "threshold": 3752,
+        "threshold": 3268,
         "unit": "m",
         "unknown_policy": "propagate_unknown",
         "claim_refs": [
@@ -185,9 +185,14 @@
         "threshold_source": "computed",
         "calibration_status": "provisional",
         "rationale_i18n": {
-          "zh-TW": "雲底須低於視線（觀點 3,952 m − 200 m ＝ 3,752 m 餘量），雲海才出現在眼前而非腳邊。LCL 為雲底代理。",
-          "en": "The cloud base must sit below the sightline (viewpoint 3,952 m minus a 200 m margin = 3,752 m) for the sea of clouds to appear in front of the viewer, not at their feet. LCL proxies the cloud base.",
-          "ja": "雲底が視線より低いこと（視点3,952mから200mの余裕＝3,752m）で、雲海が足元ではなく眼前に現れる。LCLは雲底の代理指標。"
+          "zh-TW": "雲底須低於視線（排雲山莊觀點約 3,468 m − 200 m ＝ 約 3,268 m 餘量），雲海才出現在眼前而非腳邊。LCL 為雲底代理。",
+          "en": "The cloud base must sit below the sightline (Paiyun Lodge viewpoint approx. 3,468 m minus a 200 m margin = approx. 3,268 m) for the sea of clouds to appear in front of the viewer, not at their feet. LCL proxies the cloud base.",
+          "ja": "雲底が視線より低いこと（排雲山荘の視点約3,468mから200mの余裕＝約3,268m）で、雲海が足元ではなく眼前に現れる。LCLは雲底の代理指標。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-06 CL-DATA-14（CL-PHOTO-02 委託書稽查修正）：原門檻 3,752 m 誤用玉山主峰高度（3,952 m）扣 200 m；本機會觀點為排雲山莊，高度約 3,468 m（稽查報告 photo_brief_pilot_20261106 之估計值，建議 owner 以實測高度複核），門檻修正為約 3,268 m。camera_contexts.altitude_m 已補 3468 以供複算（DEM−200 owner 公式）。",
+          "en": "2026-11-06 CL-DATA-14 (CL-PHOTO-02 photographer-brief audit correction): Previous threshold 3,752 m wrongly used the Yushan main-peak elevation (3,952 m); this opportunity's viewpoint is Paiyun Lodge at approx. 3,468 m (estimate from audit photo_brief_pilot_20261106; owner should re-verify with a measured elevation). Threshold corrected to approx. 3,268 m. camera_contexts.altitude_m is now filled with 3468 for reproducibility (DEM-200 owner formula).",
+          "ja": "2026-11-06 CL-DATA-14（CL-PHOTO-02 撮影依頼書監査修正）：旧閾値3,752mは玉山主峰高度（3,952m）の誤用。本機会の視点は排雲山荘（約3,468m、監査 photo_brief_pilot_20261106 の推定値、実測での再確認を推奨）。閾値を約3,268mに修正。camera_contexts.altitude_m に3468を補記（DEM−200オーナー式）。"
         }
       },
       {

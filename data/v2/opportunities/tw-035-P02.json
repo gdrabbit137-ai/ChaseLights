@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-035-P02",
   "place_id": "tw-035",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "六十石山午後雲隙光＋縱谷／花田",
@@ -223,26 +223,59 @@
         "domain": "WEATHER",
         "evaluation_mode": "GUIDANCE",
         "capability": "CONDITIONS",
-        "metric": "cloud_cover_total",
+        "metric": "cloud_cover_low",
         "operator": "lte",
-        "threshold": 50,
+        "threshold": 55,
         "unit": "%",
         "unknown_policy": "propagate_unknown",
         "claim_refs": [
           "tw-035-P02-claim-01"
         ],
-        "model_binding": "dataset:gfs_0p25|field:cloud_cover_total_percent|role:MID",
+        "model_binding": "dataset:gfs_0p25|field:cloud_cover_low_percent|role:MID",
         "validation_status": "provisional",
         "condition_tier": "MAIN",
         "threshold_source": "formula_derived",
         "calibration_status": "provisional",
         "rationale_i18n": {
-          "zh-TW": "總雲量 ≤50%：與 sunset 相反的雲邏輯——太陽盤面必須可見，直射光才存在；塊狀雲可穿隙，連續雲幕即無直射光。50% 是初步折衷（允許局部雲隙光構圖），未校準。",
-          "en": "Total cloud <= 50%: the cloud logic is inverted from sunset - the solar disc must be visible or there is no direct light; broken cloud still passes gaps, a continuous deck kills it. 50% is a provisional compromise (allows gap-light compositions), uncalibrated.",
-          "ja": "全雲量≤50%。sunsetとは逆の雲論理：太陽が見えなければ直射光はない。隙間雲は可、連続雲層は不可。50%は暫定値。"
+          "zh-TW": "低雲 lte 55%（provisional）：低雲不封鎖縱谷與花田；雲隙光光柱主要由中高雲供給（下條），連續低雲幕以外的雲況不再以總雲量一票否決。",
+          "en": "Low cloud <= 55% (provisional): low cloud must not block the valley and flower fields; crepuscular-ray beams are mainly supplied by mid/high cloud (next condition), so cloud situations other than a continuous low-cloud deck are no longer vetoed by a single total-cloud figure.",
+          "ja": "下層雲 lte 55%（暫定）：下層雲が谷と花畑を塞がないこと；薄明光柱は中・上層雲が主に供給（次の条件）。連続した下層雲の帳以外は、全雲量の一括否決を廃止。"
         },
         "genre_template": "golden_hour",
-        "template_version": "golden_hour-v0.1"
+        "template_version": "golden_hour-v0.1",
+        "notes_i18n": {
+          "zh-TW": "2026-11-06 CL-DATA-14（CL-PHOTO-02 委託書稽查修正）：原 C-tw-035-P02-05 cloud_cover_total lte 50 以總雲量代理，語義矛盾：連續雲幕可通過、碎積雲反被否決。修正照 sunset/夕照級總雲、低雲分層慣例：改 cloud_cover_low lte 55 ＋ 新增 C-tw-035-P02-06 cloud_cover_mid_and_high between [20,70]（provisional）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+          "en": "2026-11-06 CL-DATA-14 (CL-PHOTO-02 photographer-brief audit correction): Original C-tw-035-P02-05 cloud_cover_total lte 50 used total cloud as a proxy — a semantic contradiction: a continuous cloud deck passed while broken cumulus was vetoed. Corrected per the sunset-style total/low-cloud layering convention: cloud_cover_low lte 55 plus new C-tw-035-P02-06 cloud_cover_mid_and_high between [20,70] (provisional). Semantic correction; layering parity gate exempt; rationale in this note.",
+          "ja": "2026-11-06 CL-DATA-14（CL-PHOTO-02 撮影依頼書監査修正）：旧 C-tw-035-P02-05 cloud_cover_total lte 50 は全雲量代理で意味矛盾（連続雲帳は通過、積雲は否決）。sunset の総雲/下層雲分層慣例に従い修正：cloud_cover_low lte 55 ＋ 新規 C-tw-035-P02-06 cloud_cover_mid_and_high between [20,70]（暫定）。意味修正のため layering parity gate 豁免。"
+        }
+      },
+      {
+        "id": "C-tw-035-P02-06",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "cloud_cover_mid_and_high",
+        "operator": "between",
+        "threshold": [
+          20,
+          70
+        ],
+        "unit": "%",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-035-P02-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:cloud_cover_mid_percent+cloud_cover_high_percent|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MODIFIER",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "中高雲 20–70%（provisional）：中高雲供給雲隙光光柱與天光染色，全晴無光柱、全陰無光隙。",
+          "en": "Mid/high cloud 20-70% (provisional): mid/high cloud supplies the crepuscular-ray beams and sky colour; clear sky has no beams, full overcast has no gaps.",
+          "ja": "中・上層雲 20–70%（暫定）：薄明光柱と空の彩りを中・上層雲が供給；快晴では光柱なし、全曇では隙間なし。"
+        }
       },
       {
         "id": "C-tw-035-P02-07",

@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-086-P03",
   "place_id": "tw-086",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "八里崁頭里・淡水大橋觀景點：淡水大橋火燒雲（日落）",
@@ -252,7 +252,7 @@
         "claim_refs": [
           "tw-086-P03-claim-01"
         ],
-        "model_binding": "dataset:gfs_0p25|field:aerosol_optical_depth_550nm|role:MID",
+        "model_binding": "dataset:cams_global|field:aerosol_optical_depth_550nm|role:AEROSOL",
         "validation_status": "provisional",
         "condition_tier": "MAIN",
         "threshold_source": "formula_derived",
@@ -263,9 +263,9 @@
           "ja": "AOD 0.6 以下（承認済み日没テンプレートT5と同値）：ヘイズが光を散乱して色を付けてもよいが、色調を飲み込むほど濃くてはならない。"
         },
         "notes_i18n": {
-          "zh-TW": "2026-11-02 owner（Richard）定義地點與題材；條件依既有已審模板訂立，未校準。",
-          "en": "Defined by the owner (Richard) on 2026-11-02: the place and subjects; conditions follow already-reviewed template values and are not calibrated.",
-          "ja": "2026-11-02、オーナー（Richard）が場所と題材を定義。条件は承認済みテンプレート値に基づき、未校正。"
+          "zh-TW": "2026-11-06 CL-DATA-14（CL-PHOTO-02 委託書稽查修正）：model_binding 由 dataset:gfs_0p25|field:aerosol_optical_depth_550nm|role:MID 改為 cams_global AEROSOL 慣例（GFS 無 AOD 實測欄位；其餘機會 AOD 皆綁 cams_global），欄位字尾同步對齊 metric-vocabulary。",
+          "en": "2026-11-06 CL-DATA-14 (CL-PHOTO-02 photographer-brief audit correction): model_binding corrected from dataset:gfs_0p25|field:aerosol_optical_depth_550nm|role:MID to the cams_global AEROSOL convention (GFS carries no measured AOD field; every other opportunity binds AOD to cams_global), field suffix aligned with metric-vocabulary.",
+          "ja": "2026-11-06 CL-DATA-14（CL-PHOTO-02 撮影依頼書監査修正）：model_binding を dataset:gfs_0p25|...|role:MID から cams_global AEROSOL 慣例へ修正（GFSにAOD実測欄位なし；他の機会のAODは全てcams_globalに紐付け）、欄位接尾辞は metric-vocabulary に同期。"
         }
       }
     ]

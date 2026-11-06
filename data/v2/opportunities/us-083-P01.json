@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-083-P01",
   "place_id": "us-083",
-  "revision": 3,
+  "revision": 4,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Sunrise・日出光照 Mount Rainier＋Emmons Glacier",
@@ -247,6 +247,36 @@
           "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch h）：「日出光照 Rainier」語義優先——補 sunrise_time_window MAIN（alpenglow 只在日出時段）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
           "en": "2026-11-06 CL-DATA-12 full audit (batch h): the 'sunrise light on Rainier' semantics win - adds sunrise_time_window MAIN (alpenglow exists only at sunrise). Semantic correction; layering parity gate exempt, documented here.",
           "ja": "2026-11-06 CL-DATA-12 全面監査（batch h）：「日の出の光が Rainier を照らす」の意味を優先——sunrise_time_window MAIN を追加（アルペングローは日の出時刻にのみ）。 意味修正のため layering parity ゲートは免除。"
+        }
+      },
+      {
+        "id": "C-us-083-P01-SN1",
+        "role": "QUALITY",
+        "domain": "SEASON_TIME",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "seasonal_state",
+        "operator": "eq",
+        "threshold": "window_open",
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "us-083-P01-claim-01"
+        ],
+        "model_binding": null,
+        "validation_status": "provisional",
+        "condition_tier": "BONUS",
+        "threshold_source": "computed",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "Emmons 冰川為永久冰體全年可拍；11–5 月雪季的山頭新雪景為加分條件，非成立門檻。",
+          "en": "The Emmons Glacier is permanent ice and photographable year-round; the November–May snowy-season fresh-snow look is a bonus, not a gate.",
+          "ja": "Emmons氷河は永久氷体で通年撮影可能；11〜5月の雪季の新雪景は加点条件。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-06 CL-DATA-14（CL-PHOTO-02 委託書稽查修正）：季節窗值由 seasonal-calendar 對拍原則得出（evaluation 取值 window_open/window_closed；無實況來源時誠實 propagate_unknown）。主體為冰川（永久冰體），雪況語義以 QUALITY/BONUS seasonal_state（11–5 月雪季加分，provisional）編碼——夏季冰川成立語義正確，不設 REQUIRED 門檻；未校準待 owner 複核。",
+          "en": "2026-11-06 CL-DATA-14 (CL-PHOTO-02 photographer-brief audit correction): Seasonal-window value follows the seasonal-calendar matching convention (evaluation value window_open/window_closed; with no live source it propagates unknown honestly). 主體為冰川（永久冰體），雪況語義以 QUALITY/BONUS seasonal_state（11–5 月雪季加分，provisional）編碼——夏季冰川成立語義正確，不設 REQUIRED 門檻；未校準待 owner 複核。",
+          "ja": "2026-11-06 CL-DATA-14（CL-PHOTO-02 撮影依頼書監査修正）：季節窓値は seasonal-calendar 突合せ規約に従う（評価値 window_open/window_closed；実況ソース欠落時は誠実に unknown 伝播）。主體為冰川（永久冰體），雪況語義以 QUALITY/BONUS seasonal_state（11–5 月雪季加分，provisional）編碼——夏季冰川成立語義正確，不設 REQUIRED 門檻；未校準待 owner 複核。"
         }
       }
     ]
