@@ -336,7 +336,7 @@ def main():
             ("w5-task-r-release-tools", ["ops/v2/tests", "test_task_r_release_tools.py"], 12, True, False),
             ("w5-task-v-integration", ["ops/v2/tests", "test_task_v_integration.py"], 11, True, False),
             ("w5-pin-sync", ["ops/v2/tests", "test_pin_sync.py"], 7, True, False),
-            ("w3-evaluator-and-hourly-source", ["packages/core-v2/tests", "test_*.py"], 187, True, False),
+            ("w3-evaluator-and-hourly-source", ["packages/core-v2/tests", "test_*.py"], 190, True, False),
             ("w3-solar-model", ["packages/models-v2/tests", "test_*.py"], 15, True, False),
             ("w2-crosswalk-schema-index-and-hourly-binding", ["data/v2/tests", "test_*.py"], 66, True, False,
                 {"timeout": 600}),  # CL-INT-78: 600s covers the Windows-local w2 suite duration (~380-600s under load); CI ubuntu is well under
@@ -400,14 +400,14 @@ def main():
         # 2026-11-06 CL-WG-26: +5 contour zoom gate tests -> w4-node=445, exact total 886.
         # CL-INT-80 sequential merge (WG-27 + WG-28R, stamps re-anchored
         # bclwg29->bclwg30): w4-node RE-MEASURED on the merged tree = 459
-        # (node v26.7.0, --test-isolation=none) -> exact total 886+14=900; CL-INT-81/77 combined integration re-measures on the union tree (CL-UI-38 +8 node, w5-public +3) -> w4-node 467, exact total 911 (re-measured on union tree; candidate-build-browser +6 in CI env). CL-INT-78 (CL-DATA-17 union with CL-INT-81/82): w4-node re-measured 479 on the merged tree; CL-DATA-19 union: 483 (re-measured). CL-INT-86: re-measured w4-node=483 on the rebuilt-catalog tree (node v26.7.0, --test-isolation=none, 483 pass / 0 fail) -> exact total 923->927.
+        # (node v26.7.0, --test-isolation=none) -> exact total 886+14=900; CL-INT-81/77 combined integration re-measures on the union tree (CL-UI-38 +8 node, w5-public +3) -> w4-node 467, exact total 911 (re-measured on union tree; candidate-build-browser +6 in CI env). CL-INT-78 (CL-DATA-17 union with CL-INT-81/82): w4-node re-measured 479 on the merged tree; CL-DATA-19 union: 483 (re-measured). CL-INT-86: re-measured w4-node=483 on the rebuilt-catalog tree (node v26.7.0, --test-isolation=none, 483 pass / 0 fail) -> exact total 923->927. CL-INT-86 follow-up: merged tree re-measured w3=190 (+3 CL-DATA-19/20 tests), exact total 930; w3 suite passes locally with 1 POSIX-skip (189 pass + 1 skip on Windows, pass+skip=190).
         # 2026-11-06 CL-INT-82: merged CL-UI-41 (+7 node) + CL-WG-30 (+5 node)
         # -> w4-node re-measured on the merged tree = 479 -> exact total 923.
-        if (report["counts"]["tests"] != 927 or
+        if (report["counts"]["tests"] != 930 or
                 report["counts"]["fail"] != 0 or
                 report["counts"]["error"] != 0 or
-                report["counts"]["pass"] + report["counts"]["skip"] != 927):
-            raise ValueError("Post-merge exact 927-case requirement failed")
+                report["counts"]["pass"] + report["counts"]["skip"] != 930):
+            raise ValueError("Post-merge exact 930-case requirement failed")
         if not all(g["status"] == "PASS" for g in report["groups"]):
             raise ValueError("One or more required suites failed")
         report["status"] = "PASS"
