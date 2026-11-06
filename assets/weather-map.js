@@ -18,6 +18,888 @@
   const FALLBACK_COVERAGE = './weathergrid_coverage_sample.json';
   const MAPLIBRE_MODULE = 'https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-gl.mjs';
   const BASEMAP_STYLE = 'https://tiles.openfreemap.org/styles/liberty';
+  // ===== CL-UI-37: language context carried across pages =====
+  // URL ?lang= wins over localStorage (same precedence as assets/app.js
+  // CL-UI-35); the resolved value is written back to the shared
+  // 'chaselights_lang' key so index <-> weather-map round trips keep the
+  // language. zh-TW literals stay in the code as the source of truth:
+  // wmT() maps the exact zh-TW string to en/ja and falls back to the
+  // literal itself (honest degradation instead of a missing label).
+  const WM_LANGS=['zh-TW','en','ja'];
+  function wmResolveLang(){
+    try{
+      const urlLang=new URLSearchParams(location.search).get('lang');
+      if(WM_LANGS.includes(urlLang)){
+        localStorage.setItem('chaselights_lang',urlLang);
+        return urlLang;
+      }
+      const stored=localStorage.getItem('chaselights_lang');
+      if(WM_LANGS.includes(stored)) return stored;
+    }catch{}
+    return 'zh-TW';
+  }
+  const WM_LANG=wmResolveLang();
+  try{document.documentElement.lang=WM_LANG;}catch{}
+  function wmT(s,vars){
+    const m=WM_I18N[WM_LANG];
+    let out=(m&&Object.prototype.hasOwnProperty.call(m,s))?m[s]:s;
+    if(vars)for(const k in vars)out=out.split('{'+k+'}').join(String(vars[k]));
+    return out;
+  }
+  window.__weatherGridLang=()=>WM_LANG;
+
+
+  const WM_STATIC={
+    'zh-TW':{
+      nav_cards:'卡片',nav_weathermap:'天氣圖',nav_more_tools:'更多工具 ▾',nav_genre_eval:'題材評估',nav_field_intake:'實拍驗證',
+      wm_subtitle:'可切換 Himawari-9 衛星觀測、JMA MSM / CWA WRF / ICON / GFS 預報，以及 CAMS 攝影環境圖層 · 各來源保留自己的語意、範圍與時間',
+      wm_source_loading:'載入中…',wm_source_mobile_loading:'資料載入中…',
+      wm_info_long:'資料說明',wm_info_short:'資料',
+      wm_model_caption:'進階 · 資料來源',wm_model_auto:'自動預報',wm_model_himawari:'觀測 · Himawari-9 2 km',wm_model_cams:'CAMS Global · 霧霾',
+      wm_layer_caption:'攝影圖層',wm_opacity_caption:'圖層顯示強度',
+      wm_spot_caption:'景點',wm_spot_all:'全部景點',wm_opp_caption:'題材',wm_opp_placeholder:'先選景點',
+      wm_basemap_loading:'底圖載入中…',
+      wm_reset_aria:'回到目前資料來源範圍',wm_reset_text:'模型範圍',
+      wm_time_label:'預報時間',wm_time_play:'播放',
+      wm_layer_panel:'目前圖層',wm_details:'詳細',wm_qc_pending:'資料品質 · 等待',
+      wm_wv_toggle:'在其他圖層疊加 10 m 風向箭頭',
+      wm_wv_note:'「10 m 風場」會固定同時顯示風速色階與風向箭頭；箭頭指向風的移動方向，風向數值仍採氣象「來向」。此開關只控制是否在其他圖層額外疊加風向箭頭。',
+      wm_wp_toggle:'風向粒子流線動畫',
+      wm_wp_note:'以單一來源 u/v 風向量場驅動粒子沿風移動並留下淡色拖尾（實驗功能）。u/v 風場 sidecar 僅在開啟粒子時另行下載；載入失敗時誠實退回無粒子層。僅在風向圖層上可開啟；離開圖層或切換來源時動畫自動停止以節省電力。預設關閉，手機自動降低密度。',
+      wm_qc_label:'資料品質詳細資訊',wm_qc_waiting:'等待 QC 資料…',
+      wm_spot_panel:'選取景點',wm_spot_none:'尚未選取',
+      wm_coverage_panel:'題材範圍',wm_coverage_placeholder:'先選景點與題材。',
+      wm_dialog_title:'資料與模型說明',wm_dialog_close:'關閉資料說明',
+      wm_dialog_p1:'目前已加入 Himawari-9 衛星觀測，以及 JMA MSM 5 km、CWA WRF 3 km、ICON Global 與 GFS 預報。「自動預報」採攝影優先、依圖層與有效時間選擇可用來源：優先使用可提供該圖層的區域模型，再以全球模型備援；Himawari-9 不會被自動混入預報模式。CWA M-A0064 實際 GRIB 驗證未發現原生低／中／高雲量，因此不以壓力層相對濕度冒充雲量。',
+      wm_dialog_p2:'CAMS Global 提供 AOD 550 nm 與 PM2.5 攝影環境圖層，資料經 Open-Meteo Air Quality API 取得。CAMS Global 原生約 45 km / 3 小時、約每 12 小時更新；WeatherGrid 的 0.4° 顯示格是取樣／呈現網格，不代表提高原生解析度。AOD 是整層大氣的氣膠光學厚度；PM2.5 是近地面細懸浮微粒質量濃度，兩者物理意義不同，也不會單獨被當成霧。',
+      wm_dialog_p3:'Himawari-9 提供衛星雲遮罩與雲頂高度實況。這些是觀測／反演資料，不會標示成預報低／中／高雲百分比；雲頂高度缺值也不會被當成 0 m。',
+      wm_dialog_p4:'JMA MSM 官方原生範圍從 22.4°N、120°E 起；目前 HTTP transport 為避開邊界座標拒絕，瀏覽資料從 22.45°N、120.0625°E 起。台灣最南端及西側離島因此不在目前 JMA 瀏覽圖層內；切換模型時地圖會使用 JMA 自己的實際資料邊界。',
+      wm_dialog_p5:'台灣地區的顯示範圍對齊中央氣象署官方衛星雲圖（約 105–145°E、5–40°N，西太平洋）。GFS 0.25° 為主源時整個範圍用同一份預報全幅渲染，不會出現接合縫；ICON 與 CAMS 亦提供同範圍的全幅選項。切到區域高解析模型（CWA WRF 3 km、JMA MSM、Himawari-9）時，只在該模型自己的涵蓋範圍內繪製，範圍外誠實留白，不代表晴朗。',
+      wm_dialog_p6:'每個來源使用自己的資料邊界、網格解析度與時間語意；Himawari-9 為單張最新觀測，其餘模型為預報時間軸。衛星觀測採最近鄰呈現；預報的畫面內插只改善顯示連續性，不增加原始資料的真實解析度。',
+      wm_dialog_p7:'底圖採 MapLibre + OpenFreeMap；若外部底圖無法載入，WeatherGrid 會自動退回既有 Canvas 經緯網格，不影響 GFS 圖層與景點取樣。'
+    },
+    'en':{
+      nav_cards:'Cards',nav_weathermap:'Weather map',nav_more_tools:'More tools ▾',nav_genre_eval:'Genre assessment',nav_field_intake:'Field check',
+      wm_subtitle:'Switch between Himawari-9 satellite observations, JMA MSM / CWA WRF / ICON / GFS forecasts, and CAMS photography-environment layers · each source keeps its own semantics, coverage and timing',
+      wm_source_loading:'Loading…',wm_source_mobile_loading:'Loading data…',
+      wm_info_long:'Data notes',wm_info_short:'Data',
+      wm_model_caption:'Advanced · Data source',wm_model_auto:'Auto forecast',wm_model_himawari:'Observed · Himawari-9 2 km',wm_model_cams:'CAMS Global · Haze',
+      wm_layer_caption:'Photography layers',wm_opacity_caption:'Layer display strength',
+      wm_spot_caption:'Spot',wm_spot_all:'All spots',wm_opp_caption:'Subject',wm_opp_placeholder:'Pick a spot first',
+      wm_basemap_loading:'Loading basemap…',
+      wm_reset_aria:'Back to the current data source coverage',wm_reset_text:'Model range',
+      wm_time_label:'Forecast time',wm_time_play:'Play',
+      wm_layer_panel:'Current layer',wm_details:'Details',wm_qc_pending:'Data quality · waiting',
+      wm_wv_toggle:'Overlay 10 m wind-direction arrows on other layers',
+      wm_wv_note:'"10 m wind" always shows the wind-speed color scale together with direction arrows; arrows point where the wind is moving while the direction value keeps the meteorological "coming from" convention. This toggle only controls whether direction arrows are additionally overlaid on other layers.',
+      wm_wp_toggle:'Wind-direction particle flow animation',
+      wm_wp_note:'Particles move along the wind and leave faint trails, driven by a single-source u/v vector field (experimental). The u/v wind sidecar is downloaded separately only when particles are on; on load failure it honestly falls back to no particle layer. It can be enabled only on wind-direction layers; the animation stops automatically when leaving the layer or switching sources to save power. Off by default; density is reduced automatically on mobile.',
+      wm_qc_label:'Data quality details',wm_qc_waiting:'Waiting for QC data…',
+      wm_spot_panel:'Selected spot',wm_spot_none:'Not selected',
+      wm_coverage_panel:'Subject coverage',wm_coverage_placeholder:'Pick a spot and a subject first.',
+      wm_dialog_title:'Data & model notes',wm_dialog_close:'Close data notes',
+      wm_dialog_p1:'Currently included: Himawari-9 satellite observations plus JMA MSM 5 km, CWA WRF 3 km, ICON Global and GFS forecasts. "Auto forecast" is photography-first: it picks an available source by layer and valid time — a regional model that provides the layer first, with a global model as fallback; Himawari-9 is never blended into forecast mode automatically. GRIB verification of CWA M-A0064 found no native low/mid/high cloud fields, so pressure-level relative humidity is not passed off as cloud cover.',
+      wm_dialog_p2:'CAMS Global provides the AOD 550 nm and PM2.5 photography-environment layers; data comes via the Open-Meteo Air Quality API. CAMS Global is natively about 45 km / 3-hourly, refreshed about every 12 hours; WeatherGrid\'s 0.4° display cells are a sampling/presentation grid and do not imply higher native resolution. AOD is the column aerosol optical depth; PM2.5 is the near-surface fine particulate mass concentration. The two have different physical meanings and neither is treated alone as fog.',
+      wm_dialog_p3:'Himawari-9 provides the satellite cloud mask and cloud-top height nowcasts. These are observation/retrieval data and are never labelled as forecast low/mid/high cloud percentages; missing cloud-top height is never treated as 0 m.',
+      wm_dialog_p4:'JMA MSM\'s official native domain starts at 22.4°N, 120°E; the current HTTP transport starts the browsable data at 22.45°N, 120.0625°E to avoid boundary-coordinate rejection. Taiwan\'s southern tip and western offshore islands are therefore outside the current JMA browsing layers; when switching models the map uses JMA\'s own actual data boundary.',
+      wm_dialog_p5:'The Taiwan display range aligns with the Central Weather Administration\'s official satellite imagery (about 105–145°E, 5–40°N, western Pacific). With GFS 0.25° as the main source the whole range is rendered from one forecast full-frame with no stitching seams; ICON and CAMS also offer same-range full-frame options. When switching to regional high-resolution models (CWA WRF 3 km, JMA MSM, Himawari-9), rendering stays inside that model\'s own coverage and the outside is honestly blank — it does not mean clear.',
+      wm_dialog_p6:'Each source keeps its own data boundary, grid resolution and time semantics; Himawari-9 is a single latest observation while the other models are forecast timelines. Satellite observations use nearest-neighbor presentation; forecast display interpolation only improves visual continuity and does not add real resolution to the underlying data.',
+      wm_dialog_p7:'The basemap uses MapLibre + OpenFreeMap; if the external basemap cannot load, WeatherGrid automatically falls back to the existing Canvas lat/lon grid without affecting GFS layers or spot sampling.'
+    },
+    'ja':{
+      nav_cards:'カード',nav_weathermap:'天気マップ',nav_more_tools:'その他のツール ▾',nav_genre_eval:'題材評価',nav_field_intake:'実写検証',
+      wm_subtitle:'Himawari-9 衛星観測、JMA MSM / CWA WRF / ICON / GFS 予報、CAMS 撮影環境レイヤーを切り替えられます · 各ソースは独自の語意・範囲・時間を保持します',
+      wm_source_loading:'読み込み中…',wm_source_mobile_loading:'データを読み込み中…',
+      wm_info_long:'データ説明',wm_info_short:'データ',
+      wm_model_caption:'詳細 · データソース',wm_model_auto:'自動予報',wm_model_himawari:'観測 · Himawari-9 2 km',wm_model_cams:'CAMS Global · ヘイズ',
+      wm_layer_caption:'撮影レイヤー',wm_opacity_caption:'レイヤー表示強度',
+      wm_spot_caption:'スポット',wm_spot_all:'全スポット',wm_opp_caption:'題材',wm_opp_placeholder:'先にスポットを選択',
+      wm_basemap_loading:'背景地図を読み込み中…',
+      wm_reset_aria:'現在のデータソース範囲へ戻る',wm_reset_text:'モデル範囲',
+      wm_time_label:'予報時刻',wm_time_play:'再生',
+      wm_layer_panel:'現在のレイヤー',wm_details:'詳細',wm_qc_pending:'データ品質 · 待機中',
+      wm_wv_toggle:'他のレイヤーに 10 m 風向矢印を重ねる',
+      wm_wv_note:'「10 m 風」は風速のカラースケールと風向矢印を常に同時に表示します。矢印は風の移動方向を指し、風向の数値は気象の「来向」表記のままです。このスイッチは、他のレイヤーに風向矢印を追加で重ねるかどうかだけを制御します。',
+      wm_wp_toggle:'風向パーティクル流線アニメーション',
+      wm_wp_note:'単一ソースの u/v ベクトル場で粒子を風に沿って動かし、淡いトレイルを残します（実験機能）。u/v 風 sidecar は粒子を有効にした時だけ別途取得し、読み込み失敗時は正直に粒子なしへ戻ります。風向レイヤーでのみ有効化でき、レイヤーを離れるかソースを切替えると節電のため自動停止します。既定はオフで、モバイルでは密度を自動的に下げます。',
+      wm_qc_label:'データ品質の詳細',wm_qc_waiting:'QC データを待機中…',
+      wm_spot_panel:'選択したスポット',wm_spot_none:'未選択',
+      wm_coverage_panel:'題材カバレッジ',wm_coverage_placeholder:'先にスポットと題材を選択。',
+      wm_dialog_title:'データとモデルの説明',wm_dialog_close:'データ説明を閉じる',
+      wm_dialog_p1:'現在、Himawari-9 衛星観測と JMA MSM 5 km・CWA WRF 3 km・ICON Global・GFS 予報を収録。「自動予報」は撮影優先で、レイヤーと有効時刻ごとに利用可能なソースを選びます。そのレイヤーを提供できる地域モデルを優先し、全球モデルが予備です。Himawari-9 が予報モードへ自動的に混入されることはありません。CWA M-A0064 の GRIB 実検証ではネイティブの下層／中層／上層雲量が見つからなかったため、気圧面の相対湿度を雲量の代わりには使いません。',
+      wm_dialog_p2:'CAMS Global は AOD 550 nm と PM2.5 の撮影環境レイヤーを提供します。データは Open-Meteo Air Quality API 経由。CAMS Global はネイティブ約 45 km／3 時間で、約 12 時間ごとに更新。WeatherGrid の 0.4° 表示セルはサンプリング／表示グリッドであり、ネイティブ解像度が上がることを意味しません。AOD は気柱全体のエアロゾル光学厚、PM2.5 は地表近くの微粒子質量濃度で、物理的意味が異なり、単独では霧として扱いません。',
+      wm_dialog_p3:'Himawari-9 は衛星雲マスクと雲頂高度の実況を提供します。これらは観測／反演データで、予報の下層／中層／上層雲パーセントとしては表示されません。雲頂高度の欠損が 0 m として扱われることもありません。',
+      wm_dialog_p4:'JMA MSM の公式ネイティブ領域は 22.4°N・120°E から始まります。現在の HTTP transport は境界座標の拒否を避けるため、表示データは 22.45°N・120.0625°E からです。台湾最南端と西側の離島は現在の JMA 表示レイヤーに入りません。モデル切替時、地図は JMA 自身の実際のデータ境界を使用します。',
+      wm_dialog_p5:'台湾地域の表示範囲は中央気象署の公式衛星雲図に揃えています（約 105–145°E、5–40°N、西太平洋）。GFS 0.25° が主ソースの場合、範囲全体を同一の予報フルフレームで描画し、継ぎ目は出ません。ICON と CAMS も同範囲のフルフレームを提供します。地域高解像度モデル（CWA WRF 3 km・JMA MSM・Himawari-9）へ切替時は、そのモデル自身のカバー範囲内のみ描画し、範囲外は正直に空白です。晴れを意味しません。',
+      wm_dialog_p6:'各ソースは独自のデータ境界・グリッド解像度・時間語意を持ちます。Himawari-9 は単一の最新観測、他のモデルは予報タイムラインです。衛星観測は最近隣表示。予報の表示補間は見た目の連続性を改善するだけで、元データの実解像度は増えません。',
+      wm_dialog_p7:'背景地図は MapLibre + OpenFreeMap を使用します。外部の背景地図が読み込めない場合、WeatherGrid は既存の Canvas 経緯度グリッドへ自動的に戻り、GFS レイヤーとスポットサンプリングには影響しません。'
+    }
+  };
+
+  const WM_I18N={
+    'en':{
+    '底圖載入中…':'Loading basemap…'
+,
+    '底圖逾時 · Canvas fallback':'Basemap timed out · Canvas fallback'
+,
+    '底圖離線 · Canvas fallback':'Basemap offline · Canvas fallback'
+,
+    '此地區尚無已發布資料源':'No published data source for this region yet'
+,
+    '資料載入中…':'Loading data…'
+,
+    'DEMO 範例資料':'DEMO sample data'
+,
+    '已載入':'Loaded'
+,
+    'CAMS Global · 霧霾':'CAMS Global · Haze'
+,
+    'NASA Black Marble · 夜間燈光':'NASA Black Marble · Night lights'
+,
+    '自動':'Auto'
+,
+    '全雲量':'Total cloud'
+,
+    '低雲':'Low cloud'
+,
+    '中雲':'Mid cloud'
+,
+    '高雲':'High cloud'
+,
+    '衛星雲遮罩':'Satellite cloud mask'
+,
+    '雲頂高度':'Cloud-top height'
+,
+    '能見度':'Visibility'
+,
+    '降雨率':'Rain rate'
+,
+    '10 m 風場':'10 m wind'
+,
+    '10 m 風向':'10 m wind direction'
+,
+    '925 hPa 風場（約 1.2 km 高）':'925 hPa wind (≈1.2 km aloft)'
+,
+    '925 hPa 風向（約 1.2 km 高）':'925 hPa wind direction (≈1.2 km aloft)'
+,
+    '850 hPa 風場（約 1.5 km 高）':'850 hPa wind (≈1.5 km aloft)'
+,
+    '850 hPa 風向（約 1.5 km 高）':'850 hPa wind direction (≈1.5 km aloft)'
+,
+    '700 hPa 風場（約 3 km 高）':'700 hPa wind (≈3 km aloft)'
+,
+    '700 hPa 風向（約 3 km 高）':'700 hPa wind direction (≈3 km aloft)'
+,
+    '925 hPa 氣溫（約 1.2 km 高）':'925 hPa temperature (≈1.2 km aloft)'
+,
+    '850 hPa 氣溫（約 1.5 km 高）':'850 hPa temperature (≈1.5 km aloft)'
+,
+    '700 hPa 氣溫（約 3 km 高）':'700 hPa temperature (≈3 km aloft)'
+,
+    '2 m 氣溫':'2 m temperature'
+,
+    '2 m 相對濕度':'2 m relative humidity'
+,
+    '累積降水':'Accumulated precipitation'
+,
+    '地表淨短波輻射':'Surface net shortwave radiation'
+,
+    '夜間燈光':'Night lights'
+,
+    '☁️ 全雲量':'☁️ Total cloud'
+,
+    '🌫️ 山霧':'🌫️ Mountain fog'
+,
+    '☁️ 中雲':'☁️ Mid cloud'
+,
+    '🌤️ 高雲':'🌤️ High cloud'
+,
+    '🌧️ 即時降雨':'🌧️ Rain now'
+,
+    '👁️ 能見度':'👁️ Visibility'
+,
+    '💨 風場':'💨 Wind'
+,
+    '🌁 霧霾 AOD':'🌁 Haze AOD'
+,
+    '💧 相對濕度':'💧 Humidity'
+,
+    '🌡️ 氣溫':'🌡️ Temperature'
+,
+    '🌧️ 累積降水':'🌧️ Accumulated rain'
+,
+    '☀️ 短波':'☀️ Shortwave'
+,
+    '🛰️ 衛星雲遮罩':'🛰️ Satellite cloud mask'
+,
+    '🛰️ 雲頂高度':'🛰️ Cloud-top height'
+,
+    '🌃 夜間燈光':'🌃 Night lights'
+,
+    '低雲靠近山頭時常形成山霧，是拍山景與雲霧題材的主要參考。':'Low cloud near ridge tops often forms mountain fog; a key reference for mountain and cloud-fog subjects.'
+,
+    '薄高雲會把日出／日落染成霞光，作為霞光拍攝的參考。':'Thin high clouds tint sunrise/sunset into afterglow; a reference for afterglow shoots.'
+,
+    '地表短波輻射代表實際日照強度，用來判斷光線是否被雲擋住。':'Surface shortwave radiation shows the actual sunlight strength; use it to judge whether cloud blocks the light.'
+,
+    '收合':'Collapse'
+,
+    '詳細':'Details'
+,
+    '全部景點':'All spots'
+,
+    '先選景點':'Pick a spot first'
+,
+    '尚未建立題材 coverage':'No subject coverage built yet'
+,
+    '全部已建 coverage 題材':'All subjects with coverage'
+,
+    '粒子層 u/v 風場資料載入中…（sidecar 僅在開啟粒子動畫時下載，失敗時誠實退回無粒子層）':'Loading u/v wind data for the particle layer… (the sidecar is fetched only when the particle animation is on; on failure it honestly falls back to no particles)'
+,
+    '霧訊號較強':'Strong fog signal'
+,
+    '霾／氣膠訊號較強':'Strong haze/aerosol signal'
+,
+    '霧與霾訊號並存':'Both fog and haze signals'
+,
+    '低能見度，原因未定':'Low visibility, cause undetermined'
+,
+    '有氣膠訊號，但目前能見度未明顯下降':'Aerosol signal present, but visibility not clearly reduced'
+,
+    '目前無明顯霧／霾訊號':'No obvious fog/haze signal now'
+,
+    '能見度證據不足':'Insufficient visibility evidence'
+,
+    '中信心':'Medium confidence'
+,
+    '低信心':'Low confidence'
+,
+    '能見度 {v} km':'Visibility {v} km'
+,
+    '資料不足':'Insufficient data'
+,
+    '攝影環境診斷':'Photography environment diagnostic'
+,
+    '診斷用：GFS 能見度／低雲 + CWA RH + CAMS AOD／PM2.5；目前不影響攝影評分。':'Diagnostic only: GFS visibility/low cloud + CWA RH + CAMS AOD/PM2.5; it does not affect photography scoring.'
+,
+    '景點代表點':'Spot reference point'
+,
+    '有雲':'Cloudy'
+,
+    '晴空':'Clear'
+,
+    '此地區尚無可顯示的時間軸':'No displayable timeline for this region'
+,
+    '觀測時間 · {t} TST':'Observation time · {t} TST'
+,
+    '年度合成 · {y}':'Annual composite · {y}'
+,
+    'CAMS 預報時間 · {t} TST':'CAMS forecast time · {t} TST'
+,
+    '預報時間 · {t} · +{h}h{ref}':'Forecast time · {t} · +{h}h{ref}'
+,
+    '（參考）':' (reference)'
+,
+    '雲層透明度':'Cloud opacity'
+,
+    '圖層透明度':'Layer opacity'
+,
+    '雲層顯示強度':'Cloud display strength'
+,
+    '圖層顯示強度':'Layer display strength'
+,
+    '100% 顯示強度仍保留底圖；雲層最高不透明度限制為 78%':'100% strength still keeps the basemap visible; cloud opacity is capped at 78%'
+,
+    '調整圖層顯示強度':'Adjust layer display strength'
+,
+    '風向採 u/v 向量循環內插':'Wind direction uses cyclic u/v vector interpolation'
+,
+    '顯示雙線性內插':'Display uses bilinear interpolation'
+,
+    '原生約 {r} · 瀏覽格 {g}° · 觀測更新約 {m} 分鐘':'Native ≈ {r} · display grid {g}° · obs refresh ≈ {m} min'
+,
+    '原生約 {r} km · {la}°×{lo}° · 原生時間間隔 {h} h':'Native ≈ {r} km · {la}°×{lo}° · native time step {h} h'
+,
+    '原生約 {r} km · 瀏覽格 {g}° · 公開資料間隔 {h} h':'Native ≈ {r} km · display grid {g}° · public product interval {h} h'
+,
+    '原生約 ':'Native ≈ '
+,
+    'CAMS Global 原生約 {r} km · {h} h · 0.4° 取樣顯示格':'CAMS Global native ≈ {r} km · {h} h · 0.4° sampling display grid'
+,
+    '年度夜間燈光合成':'annual night-lights composite'
+,
+    '原生 ':'Native '
+,
+    '自動模式：依圖層選優先模型 · ':'Auto mode: picks the priority model per layer · '
+,
+    '資料年齡 {n} 分':'data age {n} min'
+,
+    '衛星觀測 ':'Satellite observation '
+,
+    '{n} 分前':'{n} min ago'
+,
+    '觀測 ':'Obs '
+,
+    '年度合成 ':'Annual composite '
+,
+    '資料更新 ':'Data updated '
+,
+    '模型起報 ':'Model cycle '
+,
+    '年度 ':'Annual '
+,
+    '更新 ':'Updated '
+,
+    '起報 ':'Cycle '
+,
+    '約 ':'≈ '
+,
+    '衛星觀測：JMA Himawari-9 / AHI · Distribution: NOAA NODD / AWS Open Data':'Satellite: JMA Himawari-9 / AHI · Distribution: NOAA NODD / AWS Open Data'
+,
+    '資料模型：JMA MSM · Open Data transport: <a href="https://registry.opendata.aws/open-meteo/" target="_blank" rel="noopener noreferrer">Open-Meteo AWS</a>':'Model data: JMA MSM · Open Data transport: <a href="https://registry.opendata.aws/open-meteo/" target="_blank" rel="noopener noreferrer">Open-Meteo AWS</a>'
+,
+    '霧霾資料：Copernicus CAMS Global · API: <a href="https://open-meteo.com/en/docs/air-quality-api" target="_blank" rel="noopener noreferrer">Open-Meteo</a>':'Haze data: Copernicus CAMS Global · API: <a href="https://open-meteo.com/en/docs/air-quality-api" target="_blank" rel="noopener noreferrer">Open-Meteo</a>'
+,
+    '夜間燈光：NASA Black Marble VNP46A4 Collection 2 · 衛星輻亮度；QA 0 good / 1 poor / 2 gap-filled；不等同 Bortle 或天空亮度':'Night lights: NASA Black Marble VNP46A4 Collection 2 · satellite radiance; QA 0 good / 1 poor / 2 gap-filled; not equivalent to Bortle or sky brightness'
+,
+    '畫面資料範圍：—':'Displayed data range: —'
+,
+    '畫面資料範圍：{a} – {b}':'Displayed data range: {a} – {b}'
+,
+    'Himawari-9 AHI · 觀測':'Himawari-9 AHI · observation'
+,
+    'NASA Black Marble VNP46A4 · 年度環境背景':'NASA Black Marble VNP46A4 · annual environment background'
+,
+    '空白區＝目前 {p} 無資料，不代表晴朗；切換雲層時自動預報可能改用不同模型。':'Blank area = no data from the current {p}; not clear sky. Auto forecast may switch models when changing cloud layers.'
+,
+    '空白區＝目前 {p} 無資料，不代表晴朗。':'Blank area = no data from the current {p}; not clear sky.'
+,
+    '原始單位 m · 顯示 km':'Native unit m · displayed km'
+,
+    '單位 ':'Unit '
+,
+    '單張最新觀測':'single latest observation'
+,
+    '靜態年度背景，不隨氣象預報時間軸變化':'static annual background, not on the forecast timeline'
+,
+    '各模型保留自己的範圍／解析度／時間軸':'each model keeps its own coverage/resolution/timeline'
+,
+    '目前衛星觀測：0＝晴空、1＝有雲。這不是預報雲量百分比。':'Current satellite observation: 0 = clear, 1 = cloudy. This is not a forecast cloud percentage.'
+,
+    '使用 NOAA L2 雲頂高度與視差校正座標定位；缺值常代表晴空或沒有成功雲頂反演。':'Uses NOAA L2 cloud-top height with parallax-corrected coordinates; missing values usually mean clear sky or no successful cloud-top retrieval.'
+,
+    '雲頂高度不能證明下方沒有其他雲層，也不等同低／中／高雲量百分比。':'Cloud-top height cannot prove there are no other cloud layers below, and is not equivalent to low/mid/high cloud percentages.'
+,
+    'CWA M-A0064 目前未提供原生低／中／高雲量；不以相對濕度代理冒充雲量。':'CWA M-A0064 currently provides no native low/mid/high cloud fields; relative humidity proxies are not passed off as cloud cover.'
+,
+    '箭頭指示氣流吹往方向（疊加於風向色場之上）':'Arrows show where the airflow blows toward (overlaid on the wind-direction color field)'
+,
+    '衛星 presentation grid 最近鄰取樣（觀測／反演資料不做雙線性混合）':'Nearest-neighbor sampling on the satellite presentation grid (observation/retrieval data is never bilinearly blended)'
+,
+    '年度夜間燈光顯示可內插；品質旗標以最近原始顯示格判讀':'Annual night-lights display may interpolate; quality flags are read from the nearest native cell'
+,
+    '瀏覽器雙線性插值（風向以 u/v 向量循環插值；超出資料範圍不外推）':'Browser bilinear interpolation (wind direction via cyclic u/v vectors; no extrapolation beyond data coverage)'
+,
+    'good（原始年度合成）':'good (native annual composite)'
+,
+    'poor（品質較低）':'poor (lower quality)'
+,
+    'gap-filled（缺口填補）':'gap-filled (gaps filled)'
+,
+    '未知／缺值':'Unknown / missing'
+,
+    'VNP46A4 QA：':'VNP46A4 QA: '
+,
+    '取樣：':'Sampling: '
+,
+    '可從下拉選單或地圖上的景點點位選取。':'Select from the dropdown or a spot marker on the map.'
+,
+    '東 90°':'E 90°'
+,
+    '南 180°':'S 180°'
+,
+    '西 270°':'W 270°'
+,
+    '北 0°':'N 0°'
+,
+    '北 360°':'N 360°'
+,
+    '50% 雲量分界':'50% cloud boundary'
+,
+    '箭頭＝風去向':'arrow = wind blowing toward'
+,
+    '（游標查值）':' (cursor readout)'
+,
+    '展開／收合完整圖例刻度':'Expand/collapse the full legend ticks'
+,
+    '虛線＝目前資料來源範圍':'Dashed = current data-source coverage'
+,
+    '觀測時間':'Observation time'
+,
+    '預報時間':'Forecast time'
+,
+    '前一個':'previous '
+,
+    '下一個':'next '
+,
+    '暫停':'Pause'
+,
+    '播放':'Play'
+,
+    '先選景點。題材 coverage 會同時標示 Camera / Subject / Environment。':'Pick a spot first. Subject coverage lists Camera / Subject / Environment together.'
+,
+    'Live WeatherGrid 已載入，subject-aware coverage bundle 背景載入中…':'Live WeatherGrid loaded; subject-aware coverage bundle loading in background…'
+,
+    '⚠ Live WeatherGrid 已載入，但尚未發布 subject-aware coverage bundle。請執行 publish_preview。':'⚠ Live WeatherGrid loaded, but the subject-aware coverage bundle is not published yet. Run publish_preview.'
+,
+    '⚠ 此景點尚未進入 B120/B121 coverage migration；目前不能宣稱所有題材的相機與被攝主體均已涵蓋。':'⚠ This spot has not entered the B120/B121 coverage migration; camera and subject coverage for all subjects cannot be claimed yet.'
+,
+    '已建立 coverage：{a} / {b} 個題材；其中 {c} 個仍不完整。':'Coverage built: {a} / {b} subjects; {c} still incomplete.'
+,
+    '✓ 目前 WeatherGrid bbox 可涵蓋已建立的題材視野。':'✓ The current WeatherGrid bbox covers the built subject viewports.'
+,
+    '⚠ 目前 WeatherGrid bbox 無法完整涵蓋已建立題材視野。':'⚠ The current WeatherGrid bbox cannot fully cover the built subject viewports.'
+,
+    '選擇單一題材可檢查 Camera / Subject / Environment。':'Pick a single subject to inspect Camera / Subject / Environment.'
+,
+    '✓ 當前氣象資料涵蓋題材 viewport。':'✓ Current weather data covers the subject viewport.'
+,
+    '⚠ 題材 viewport 超出當前氣象資料範圍；空白區不可視為晴朗。':'⚠ The subject viewport exceeds current weather data coverage; blank areas are not clear sky.'
+,
+    '能見度大量達模型上限，實際遠距能見度可能高於圖示值。':'Visibility frequently hits the model ceiling; actual long-range visibility may exceed the displayed value.'
+,
+    '此圖層在目前時段幾乎沒有空間差異；可能是合理狀態，仍建議搭配相鄰時段判讀。':'This layer shows almost no spatial variation in the current frame; that may be legitimate — still read it alongside adjacent times.'
+,
+    '此圖層有資料品質提示，請搭配相鄰時段與其他模型判讀。':'This layer has a data-quality note; read it alongside adjacent times and other models.'
+,
+    '資料品質':'Data quality'
+,
+    '⚠️ 目前顯示 DEMO fixture；發布 live WeatherGrid 後會自動採 ICON cloud / GFS fallback。':'⚠️ Showing the DEMO fixture; once live WeatherGrid is published it auto-switches to ICON cloud / GFS fallback.'
+,
+    'QC 未提供':'QC not provided'
+,
+    '△ QC 資料未提供':'△ QC data not provided'
+,
+    '資料層未顯示':'Data layer not drawn'
+,
+    '底圖逾時，資料層未顯示':'Basemap timed out; data layer not drawn'
+,
+    '資料層未顯示（此圖層無可繪資料）':'Data layer not drawn (no drawable data for this layer)'
+,
+    '觀測正常':'Observation OK'
+,
+    '最近鄰對位 p99 {a} km · 最大 {b} km':'Nearest-neighbor alignment p99 {a} km · max {b} km'
+,
+    '無對位距離 QC':'No alignment-distance QC'
+,
+    '有效 {a} / {b} 格':'{a} / {b} cells valid'
+,
+    '最新觀測 · {a}':'latest observation · {a}'
+,
+    '分鐘前':'min ago'
+,
+    '時間未知':'Time unknown'
+,
+    '雲頂高度缺值可為晴空／無反演，不視為資料錯誤。':'Missing cloud-top height can mean clear sky or a failed retrieval; it is not treated as a data error.'
+,
+    '資料正常':'Data OK'
+,
+    '需注意':'Caution'
+,
+    '內部 QC 代碼':'internal QC code'
+,
+    '載入失敗':'Load failed'
+,
+    '尚未選取':'Not selected'
+    },
+    'ja':{
+    '底圖載入中…':'背景地図を読み込み中…'
+,
+    '底圖逾時 · Canvas fallback':'背景地図がタイムアウト · Canvas フォールバック'
+,
+    '底圖離線 · Canvas fallback':'背景地図がオフライン · Canvas フォールバック'
+,
+    '此地區尚無已發布資料源':'この地域にはまだ公開済みのデータソースがありません'
+,
+    '資料載入中…':'データを読み込み中…'
+,
+    'DEMO 範例資料':'DEMO サンプルデータ'
+,
+    '已載入':'読み込み済み'
+,
+    'CAMS Global · 霧霾':'CAMS Global · ヘイズ'
+,
+    'NASA Black Marble · 夜間燈光':'NASA Black Marble · 夜間ライト'
+,
+    '自動':'自動'
+,
+    '全雲量':'全雲量'
+,
+    '低雲':'下層雲'
+,
+    '中雲':'中層雲'
+,
+    '高雲':'上層雲'
+,
+    '衛星雲遮罩':'衛星雲マスク'
+,
+    '雲頂高度':'雲頂高度'
+,
+    '能見度':'視程'
+,
+    '降雨率':'降雨強度'
+,
+    '10 m 風場':'10 m 風'
+,
+    '10 m 風向':'10 m 風向'
+,
+    '925 hPa 風場（約 1.2 km 高）':'925 hPa 風（約 1.2 km 高度）'
+,
+    '925 hPa 風向（約 1.2 km 高）':'925 hPa 風向（約 1.2 km 高度）'
+,
+    '850 hPa 風場（約 1.5 km 高）':'850 hPa 風（約 1.5 km 高度）'
+,
+    '850 hPa 風向（約 1.5 km 高）':'850 hPa 風向（約 1.5 km 高度）'
+,
+    '700 hPa 風場（約 3 km 高）':'700 hPa 風（約 3 km 高度）'
+,
+    '700 hPa 風向（約 3 km 高）':'700 hPa 風向（約 3 km 高度）'
+,
+    '925 hPa 氣溫（約 1.2 km 高）':'925 hPa 気温（約 1.2 km 高度）'
+,
+    '850 hPa 氣溫（約 1.5 km 高）':'850 hPa 気温（約 1.5 km 高度）'
+,
+    '700 hPa 氣溫（約 3 km 高）':'700 hPa 気温（約 3 km 高度）'
+,
+    '2 m 氣溫':'2 m 気温'
+,
+    '2 m 相對濕度':'2 m 相対湿度'
+,
+    '累積降水':'積算降水'
+,
+    '地表淨短波輻射':'地表純短波放射'
+,
+    '夜間燈光':'夜間ライト'
+,
+    '☁️ 全雲量':'☁️ 全雲量'
+,
+    '🌫️ 山霧':'🌫️ 山霧'
+,
+    '☁️ 中雲':'☁️ 中層雲'
+,
+    '🌤️ 高雲':'🌤️ 上層雲'
+,
+    '🌧️ 即時降雨':'🌧️ 降雨率'
+,
+    '👁️ 能見度':'👁️ 視程'
+,
+    '💨 風場':'💨 風'
+,
+    '🌁 霧霾 AOD':'🌁 ヘイズ AOD'
+,
+    '💧 相對濕度':'💧 相対湿度'
+,
+    '🌡️ 氣溫':'🌡️ 気温'
+,
+    '🌧️ 累積降水':'🌧️ 積算降水'
+,
+    '☀️ 短波':'☀️ 短波'
+,
+    '🛰️ 衛星雲遮罩':'🛰️ 衛星雲マスク'
+,
+    '🛰️ 雲頂高度':'🛰️ 雲頂高度'
+,
+    '🌃 夜間燈光':'🌃 夜間ライト'
+,
+    '低雲靠近山頭時常形成山霧，是拍山景與雲霧題材的主要參考。':'尾根付近の下層雲は山霧を作ることが多く、山景や雲霧の題材の主要な参考です。'
+,
+    '薄高雲會把日出／日落染成霞光，作為霞光拍攝的參考。':'薄い上層雲は日の出・日の入りを霞光に染めます。霞光撮影の参考に。'
+,
+    '地表短波輻射代表實際日照強度，用來判斷光線是否被雲擋住。':'地表短波放射は実際の日照強度を示し、光が雲に遮られているかの判断に使います。'
+,
+    '收合':'折りたたむ'
+,
+    '詳細':'詳細'
+,
+    '全部景點':'全スポット'
+,
+    '先選景點':'先にスポットを選択'
+,
+    '尚未建立題材 coverage':'題材 coverage は未作成'
+,
+    '全部已建 coverage 題材':'作成済み coverage の全題材'
+,
+    '粒子層 u/v 風場資料載入中…（sidecar 僅在開啟粒子動畫時下載，失敗時誠實退回無粒子層）':'粒子レイヤーの u/v 風データを読み込み中…（sidecar は粒子アニメ有効時のみ取得し、失敗時は正直に粒子なしへ戻ります）'
+,
+    '霧訊號較強':'霧シグナルが強い'
+,
+    '霾／氣膠訊號較強':'もや／エアロゾルシグナルが強い'
+,
+    '霧與霾訊號並存':'霧ともやのシグナルが併存'
+,
+    '低能見度，原因未定':'視程低下、原因未確定'
+,
+    '有氣膠訊號，但目前能見度未明顯下降':'エアロゾルシグナルあり。ただし現在の視程は明確には低下していません'
+,
+    '目前無明顯霧／霾訊號':'現在は目立った霧／もやのシグナルなし'
+,
+    '能見度證據不足':'視程の証拠が不足'
+,
+    '中信心':'中程度の確度'
+,
+    '低信心':'低い確度'
+,
+    '能見度 {v} km':'視程 {v} km'
+,
+    '資料不足':'データ不足'
+,
+    '攝影環境診斷':'撮影環境診断'
+,
+    '診斷用：GFS 能見度／低雲 + CWA RH + CAMS AOD／PM2.5；目前不影響攝影評分。':'診断用：GFS 視程／下層雲 + CWA RH + CAMS AOD／PM2.5。現在は撮影スコアに影響しません。'
+,
+    '景點代表點':'スポット代表点'
+,
+    '有雲':'雲あり'
+,
+    '晴空':'快晴'
+,
+    '此地區尚無可顯示的時間軸':'この地域には表示できるタイムラインがありません'
+,
+    '觀測時間 · {t} TST':'観測時刻 · {t} TST'
+,
+    '年度合成 · {y}':'年次合成 · {y}'
+,
+    'CAMS 預報時間 · {t} TST':'CAMS 予報時刻 · {t} TST'
+,
+    '預報時間 · {t} · +{h}h{ref}':'予報時刻 · {t} · +{h}h{ref}'
+,
+    '（參考）':'（参考）'
+,
+    '雲層透明度':'雲の不透明度'
+,
+    '圖層透明度':'レイヤーの不透明度'
+,
+    '雲層顯示強度':'雲の表示強度'
+,
+    '圖層顯示強度':'レイヤー表示強度'
+,
+    '100% 顯示強度仍保留底圖；雲層最高不透明度限制為 78%':'100% でも背景地図は残ります。雲の不透明度上限は 78% です'
+,
+    '調整圖層顯示強度':'レイヤー表示強度を調整'
+,
+    '風向採 u/v 向量循環內插':'風向は u/v ベクトルの循環補間を使用'
+,
+    '顯示雙線性內插':'表示は双線形補間'
+,
+    '原生約 {r} · 瀏覽格 {g}° · 觀測更新約 {m} 分鐘':'ネイティブ約 {r} · 表示グリッド {g}° · 観測更新約 {m} 分'
+,
+    '原生約 {r} km · {la}°×{lo}° · 原生時間間隔 {h} h':'ネイティブ約 {r} km · {la}°×{lo}° · ネイティブ時間間隔 {h} h'
+,
+    '原生約 {r} km · 瀏覽格 {g}° · 公開資料間隔 {h} h':'ネイティブ約 {r} km · 表示グリッド {g}° · 公開データ間隔 {h} h'
+,
+    '原生約 ':'ネイティブ約 '
+,
+    'CAMS Global 原生約 {r} km · {h} h · 0.4° 取樣顯示格':'CAMS Global ネイティブ約 {r} km · {h} h · 0.4° サンプリング表示グリッド'
+,
+    '年度夜間燈光合成':'年次夜間ライト合成'
+,
+    '原生 ':'ネイティブ '
+,
+    '自動模式：依圖層選優先模型 · ':'自動モード：レイヤーごとに優先モデルを選択 · '
+,
+    '資料年齡 {n} 分':'データ年齢 {n} 分'
+,
+    '衛星觀測 ':'衛星観測 '
+,
+    '{n} 分前':'{n} 分前'
+,
+    '觀測 ':'観測 '
+,
+    '年度合成 ':'年次合成 '
+,
+    '資料更新 ':'データ更新 '
+,
+    '模型起報 ':'モデル起報 '
+,
+    '年度 ':'年次 '
+,
+    '更新 ':'更新 '
+,
+    '起報 ':'起報 '
+,
+    '約 ':'約 '
+,
+    '衛星觀測：JMA Himawari-9 / AHI · Distribution: NOAA NODD / AWS Open Data':'衛星観測：JMA Himawari-9 / AHI · 配信: NOAA NODD / AWS Open Data'
+,
+    '資料模型：JMA MSM · Open Data transport: <a href="https://registry.opendata.aws/open-meteo/" target="_blank" rel="noopener noreferrer">Open-Meteo AWS</a>':'モデルデータ：JMA MSM · Open Data transport: <a href="https://registry.opendata.aws/open-meteo/" target="_blank" rel="noopener noreferrer">Open-Meteo AWS</a>'
+,
+    '霧霾資料：Copernicus CAMS Global · API: <a href="https://open-meteo.com/en/docs/air-quality-api" target="_blank" rel="noopener noreferrer">Open-Meteo</a>':'ヘイズデータ：Copernicus CAMS Global · API: <a href="https://open-meteo.com/en/docs/air-quality-api" target="_blank" rel="noopener noreferrer">Open-Meteo</a>'
+,
+    '夜間燈光：NASA Black Marble VNP46A4 Collection 2 · 衛星輻亮度；QA 0 good / 1 poor / 2 gap-filled；不等同 Bortle 或天空亮度':'夜間ライト：NASA Black Marble VNP46A4 Collection 2 · 衛星放射輝度。QA 0 good / 1 poor / 2 gap-filled。Bortle や天空亮度と同一ではありません'
+,
+    '畫面資料範圍：—':'表示データ範囲: —'
+,
+    '畫面資料範圍：{a} – {b}':'表示データ範囲: {a} – {b}'
+,
+    'Himawari-9 AHI · 觀測':'Himawari-9 AHI · 観測'
+,
+    'NASA Black Marble VNP46A4 · 年度環境背景':'NASA Black Marble VNP46A4 · 年次環境背景'
+,
+    '空白區＝目前 {p} 無資料，不代表晴朗；切換雲層時自動預報可能改用不同模型。':'空白部＝現在の {p} にはデータがなく、晴れを意味しません。雲レイヤー切替時に自動予報は別のモデルを使う場合があります。'
+,
+    '空白區＝目前 {p} 無資料，不代表晴朗。':'空白部＝現在の {p} にはデータがなく、晴れを意味しません。'
+,
+    '原始單位 m · 顯示 km':'原生単位 m · 表示 km'
+,
+    '單位 ':'単位 '
+,
+    '單張最新觀測':'単一の最新観測'
+,
+    '靜態年度背景，不隨氣象預報時間軸變化':'静的な年次背景。気象予報タイムラインには追従しません'
+,
+    '各模型保留自己的範圍／解析度／時間軸':'各モデルは独自の範囲／解像度／タイムラインを保持します'
+,
+    '目前衛星觀測：0＝晴空、1＝有雲。這不是預報雲量百分比。':'現在の衛星観測：0＝快晴、1＝雲あり。予報雲量のパーセントではありません。'
+,
+    '使用 NOAA L2 雲頂高度與視差校正座標定位；缺值常代表晴空或沒有成功雲頂反演。':'NOAA L2 雲頂高度と視差補正座標で位置付けます。欠損は多くの場合、快晴か雲頂反演の失敗を意味します。'
+,
+    '雲頂高度不能證明下方沒有其他雲層，也不等同低／中／高雲量百分比。':'雲頂高度は下に他の雲層がないことを証明できず、下層／中層／上層雲量のパーセントとも同一ではありません。'
+,
+    'CWA M-A0064 目前未提供原生低／中／高雲量；不以相對濕度代理冒充雲量。':'CWA M-A0064 は現在ネイティブの下層／中層／上層雲量を提供しません。相対湿度の代理を雲量と見せかけません。'
+,
+    '箭頭指示氣流吹往方向（疊加於風向色場之上）':'矢印は気流が吹いていく向きを示します（風向カラーフィールドの上に重ねます）'
+,
+    '衛星 presentation grid 最近鄰取樣（觀測／反演資料不做雙線性混合）':'衛星表示グリッドの最近隣サンプリング（観測／反演データは双線形混合しません）'
+,
+    '年度夜間燈光顯示可內插；品質旗標以最近原始顯示格判讀':'年次夜間ライトの表示は補間できます。品質フラグは最近傍のネイティブセルで判断します'
+,
+    '瀏覽器雙線性插值（風向以 u/v 向量循環插值；超出資料範圍不外推）':'ブラウザー双線形補間（風向は u/v ベクトル循環補間。データ範囲外は外挿しません）'
+,
+    'good（原始年度合成）':'good（元の年次合成）'
+,
+    'poor（品質較低）':'poor（品質低め）'
+,
+    'gap-filled（缺口填補）':'gap-filled（欠損補完）'
+,
+    '未知／缺值':'不明／欠損'
+,
+    'VNP46A4 QA：':'VNP46A4 QA：'
+,
+    '取樣：':'サンプリング: '
+,
+    '可從下拉選單或地圖上的景點點位選取。':'ドロップダウンまたは地図上のスポットから選択できます。'
+,
+    '東 90°':'東 90°'
+,
+    '南 180°':'南 180°'
+,
+    '西 270°':'西 270°'
+,
+    '北 0°':'北 0°'
+,
+    '北 360°':'北 360°'
+,
+    '50% 雲量分界':'50% 雲量境界'
+,
+    '箭頭＝風去向':'矢印＝風の向かう先'
+,
+    '（游標查值）':'（カーソル照合）'
+,
+    '展開／收合完整圖例刻度':'凡例の全目盛りを展開／折りたたむ'
+,
+    '虛線＝目前資料來源範圍':'破線＝現在のデータソース範囲'
+,
+    '觀測時間':'観測時刻'
+,
+    '預報時間':'予報時刻'
+,
+    '前一個':'前の'
+,
+    '下一個':'次の'
+,
+    '暫停':'一時停止'
+,
+    '播放':'再生'
+,
+    '先選景點。題材 coverage 會同時標示 Camera / Subject / Environment。':'先にスポットを選択。題材 coverage は Camera / Subject / Environment を同時に示します。'
+,
+    'Live WeatherGrid 已載入，subject-aware coverage bundle 背景載入中…':'Live WeatherGrid を読み込み済み。subject-aware coverage bundle をバックグラウンドで読み込み中…'
+,
+    '⚠ Live WeatherGrid 已載入，但尚未發布 subject-aware coverage bundle。請執行 publish_preview。':'⚠ Live WeatherGrid を読み込み済みですが、subject-aware coverage bundle が未公開です。publish_preview を実行してください。'
+,
+    '⚠ 此景點尚未進入 B120/B121 coverage migration；目前不能宣稱所有題材的相機與被攝主體均已涵蓋。':'⚠ このスポットはまだ B120/B121 coverage migration に入っていません。全題材のカメラと被写体のカバーは現時点で主張できません。'
+,
+    '已建立 coverage：{a} / {b} 個題材；其中 {c} 個仍不完整。':'作成済み coverage: {a} / {b} 題材。うち {c} 件が未完成です。'
+,
+    '✓ 目前 WeatherGrid bbox 可涵蓋已建立的題材視野。':'✓ 現在の WeatherGrid bbox は作成済みの題材ビューポートをカバーします。'
+,
+    '⚠ 目前 WeatherGrid bbox 無法完整涵蓋已建立題材視野。':'⚠ 現在の WeatherGrid bbox は作成済みの題材ビューポートを完全にはカバーできません。'
+,
+    '選擇單一題材可檢查 Camera / Subject / Environment。':'単一の題材を選ぶと Camera / Subject / Environment を確認できます。'
+,
+    '✓ 當前氣象資料涵蓋題材 viewport。':'✓ 現在の気象データは題材 viewport をカバーします。'
+,
+    '⚠ 題材 viewport 超出當前氣象資料範圍；空白區不可視為晴朗。':'⚠ 題材 viewport が現在の気象データ範囲を超えています。空白部は晴れと見なせません。'
+,
+    '能見度大量達模型上限，實際遠距能見度可能高於圖示值。':'視程がモデル上限に多く達しており、実際の遠距離視程は表示値より良い場合があります。'
+,
+    '此圖層在目前時段幾乎沒有空間差異；可能是合理狀態，仍建議搭配相鄰時段判讀。':'このレイヤーは現在のフレームで空間差がほとんどありません。妥当な状態の可能性がありますが、隣接時刻と併せて判断してください。'
+,
+    '此圖層有資料品質提示，請搭配相鄰時段與其他模型判讀。':'このレイヤーにはデータ品質の注意があります。隣接時刻と他モデルと併せて判断してください。'
+,
+    '資料品質':'データ品質'
+,
+    '⚠️ 目前顯示 DEMO fixture；發布 live WeatherGrid 後會自動採 ICON cloud / GFS fallback。':'⚠️ 現在は DEMO fixture を表示。Live WeatherGrid の公開後は自動で ICON cloud / GFS フォールバックに切り替わります。'
+,
+    'QC 未提供':'QC 未提供'
+,
+    '△ QC 資料未提供':'△ QC データ未提供'
+,
+    '資料層未顯示':'データレイヤー未表示'
+,
+    '底圖逾時，資料層未顯示':'背景地図がタイムアウトし、データレイヤーは未表示'
+,
+    '資料層未顯示（此圖層無可繪資料）':'データレイヤー未表示（このレイヤーに描画可能なデータなし）'
+,
+    '觀測正常':'観測正常'
+,
+    '最近鄰對位 p99 {a} km · 最大 {b} km':'最近隣対位 p99 {a} km · 最大 {b} km'
+,
+    '無對位距離 QC':'対位距離 QC なし'
+,
+    '有效 {a} / {b} 格':'有効 {a} / {b} セル'
+,
+    '最新觀測 · {a}':'最新観測 · {a}'
+,
+    '分鐘前':'分前'
+,
+    '時間未知':'時刻不明'
+,
+    '雲頂高度缺值可為晴空／無反演，不視為資料錯誤。':'雲頂高度の欠損は快晴／反演失敗の可能性があり、データエラーとは扱いません。'
+,
+    '資料正常':'データ正常'
+,
+    '需注意':'要注意'
+,
+    '內部 QC 代碼':'内部 QC コード'
+,
+    '載入失敗':'読み込み失敗'
+,
+    '尚未選取':'未選択'
+    }
+  };
+
+  function applyStaticI18n(){
+    const dict=WM_STATIC[WM_LANG]||WM_STATIC['zh-TW'];
+    document.querySelectorAll('[data-i18n]').forEach(el=>{
+      const v=dict[el.dataset.i18n];
+      if(typeof v==='string'&&v) el.textContent=v;
+      const aria=el.getAttribute('data-i18n-aria');
+      if(aria&&dict[aria]) el.setAttribute('aria-label',dict[aria]);
+    });
+  }
+  applyStaticI18n();
+
 
   // CL-WG-04 region-scoped source manifest. Every region only lists sources
   // whose published bundle fully covers the region bbox (see
@@ -140,6 +1022,21 @@
     return window.WeatherMapRegions.REGION_BBOXES[state.region];
   }
 
+  // CL-WG-27: container aspect-ratio hugs the region bbox's Web Mercator
+  // visual proportion (CL-WG-25: fixed 1.46:1 letterboxed tw, ~22 deg of
+  // surplus ocean horizontally). Pure per-region value from
+  // WeatherMapRegions.regionMercatorAspect; set as a CSS variable on the
+  // .map-wrap container so desktop and mobile both follow the active region
+  // (tw 1.033 / jp 0.883 / us 1.741 / ak 0.816 / hi 1.431). Called from
+  // activateRegion, so every entry path (initial load, region switch) lands.
+  function applyRegionAspect(regionId){
+    const aspect = window.WeatherMapRegions.regionMercatorAspect(regionId);
+    if(!Number.isFinite(aspect) || aspect <= 0) return;
+    document.querySelectorAll('.map-wrap').forEach(el => {
+      el.style.setProperty('--wg-map-aspect', String(aspect));
+    });
+  }
+
   // CL-WG-16: color/opacity rendering lives in assets/weather-map-palette.js —
   // the single source shared with the CI-side PNG prerender generator, so the
   // pre-rendered frames use exactly the same配色函式 as live rendering.
@@ -212,6 +1109,7 @@
     view:null,
     weatherOpacity:0.62,
     windVectors:false,
+    legendExpanded:false,
     windVectorTouched:false,
     lastWindVectorCount:0,
     // CL-WG-20: particle-flow animation (Windy-style), default OFF for
@@ -434,7 +1332,9 @@
     if(g.type==='sector'){
       const origin=geometryOrigin(g,op);
       if(!origin) return [];
-      const bearings=sectorBearings(g.azimuth_start_deg,g.azimuth_end_deg);
+      const arc=resolvedSectorArc(g);
+      if(!arc) return [];
+      const bearings=sectorBearings(arc.start,arc.end);
       const min=Number(g.min_range_km||0),max=Number(g.max_range_km||0);
       const range=min+(max-min)*.65;
       const sampled=bearings.length<=11?bearings:Array.from({length:11},(_,i)=>bearings[Math.round(i*(bearings.length-1)/10)]);
@@ -827,6 +1727,62 @@
     return {width:rect.width,height:rect.height};
   }
 
+  // CL-WG-28: cursor value readout. Maps the pointer position back to
+  // lat/lon (MapLibre unproject when the basemap is live, view-bbox math in
+  // the Canvas fallback), then samples the SAME cell the spot inspector uses
+  // (samplePointValue) so the readout can never disagree with the inspector.
+  // Hidden honestly when the pointer is outside the data bbox or the cell has
+  // no value. Touch: dragging a finger over the map shows the readout too.
+  function wireCursorReadout(){
+    const host=$('weather-basemap');
+    if(!host || host.dataset.cursorReadoutWired==='1') return;
+    host.dataset.cursorReadoutWired='1';
+    host.addEventListener('pointermove',updateCursorReadout);
+    host.addEventListener('pointerdown',updateCursorReadout);
+    host.addEventListener('pointerleave',hideCursorReadout);
+  }
+  function hideCursorReadout(){
+    const el=$('cursor-readout');
+    if(el) el.hidden=true;
+  }
+  function cursorLatLon(clientX,clientY){
+    const host=$('weather-basemap');
+    const rect=host.getBoundingClientRect();
+    const px=clientX-rect.left, py=clientY-rect.top;
+    if(state.mapReady && state.map){
+      const ll=state.map.unproject([px,py]);
+      return {lon:ll.lng,lat:ll.lat,px,py,rect};
+    }
+    const v=state.view;
+    return {
+      lon:v.leftlon+px/rect.width*(v.rightlon-v.leftlon),
+      lat:v.toplat-py/rect.height*(v.toplat-v.bottomlat),
+      px,py,rect
+    };
+  }
+  function updateCursorReadout(ev){
+    const el=$('cursor-readout');
+    if(!el) return;
+    if(!activeFrame(state.layer)){ el.hidden=true; return; }
+    const data=activeDataset(state.layer);
+    const bbox=normalizeViewBbox(data?.bbox || state.view);
+    const p=cursorLatLon(ev.clientX,ev.clientY);
+    if(!bbox || p.lon<bbox.leftlon || p.lon>bbox.rightlon || p.lat<bbox.bottomlat || p.lat>bbox.toplat){
+      el.hidden=true;
+      return;
+    }
+    const value=samplePointValue({lon:p.lon,lat:p.lat},state.layer);
+    if(!Number.isFinite(value)){
+      el.hidden=true;
+      return;
+    }
+    const cfg=layerConfig[state.layer];
+    el.textContent=`${cfg?cfg.label:state.layer}：${formatValue(value,state.layer)}${wmT('（游標查值）')}`;
+    el.style.left=`${Math.max(4,Math.min(p.px+12,p.rect.width-el.offsetWidth-4))}px`;
+    el.style.top=`${Math.max(4,p.py-34)}px`;
+    el.hidden=false;
+  }
+
   function pickSpotAtPoint(px,py){
     let best=null;
     const targets=state.spotHitTargets || [];
@@ -848,7 +1804,7 @@
   }
 
   async function initBasemap(){
-    setBasemapStatus('loading','底圖載入中…');
+    setBasemapStatus('loading',wmT('底圖載入中…'));
     try{
       const maplibregl=await import(MAPLIBRE_MODULE);
       const b=normalizeViewBbox(state.data.bbox);
@@ -881,11 +1837,12 @@
         try{ map.remove(); }catch(_){}
         state.map=null;
         canvas.style.pointerEvents='auto';
-        setBasemapStatus('fallback','底圖逾時 · Canvas fallback');
+        setBasemapStatus('fallback',wmT('底圖逾時 · Canvas fallback'));
         renderAll();
       },8000);
 
       map.on('load',()=>{
+        try{ window.__weatherGridMap=map; }catch(_){}
         window.clearTimeout(timeout);
         state.mapReady=true;
         canvas.style.pointerEvents='none';
@@ -919,13 +1876,17 @@
         draw();
       });
       map.on('click',ev=>pickSpotAtPoint(ev.point.x,ev.point.y));
+      // CL-WG-28: cursor value readout — the PRIMARY value-query channel
+      // (the legend is an aid). Wires the pointermove/pointerleave handlers
+      // on the basemap container; see updateCursorReadout below.
+      wireCursorReadout();
       map.on('error',ev=>console.warn('WeatherGrid basemap error',ev?.error || ev));
     }catch(err){
       console.warn('WeatherGrid basemap unavailable; using Canvas fallback',err);
       state.map=null;
       state.mapReady=false;
       canvas.style.pointerEvents='auto';
-      setBasemapStatus('fallback','底圖離線 · Canvas fallback');
+      setBasemapStatus('fallback',wmT('底圖離線 · Canvas fallback'));
       renderAll();
     }
   }
@@ -1316,10 +2277,10 @@
   }
 
   function regionStatusText(status){
-    if(status==='unavailable') return '此地區尚無已發布資料源';
-    if(status==='loading') return '資料載入中…';
-    if(status==='demo') return 'DEMO 範例資料';
-    return '已載入';
+    if(status==='unavailable') return wmT('此地區尚無已發布資料源');
+    if(status==='loading') return wmT('資料載入中…');
+    if(status==='demo') return wmT('DEMO 範例資料');
+    return wmT('已載入');
   }
 
   async function loadEnhancementsSequentially(){
@@ -1357,6 +2318,7 @@
 
   async function activateRegion(regionId, {initial=false}={}){
     state.region = regionId;
+    applyRegionAspect(regionId);
     stopTimelinePlayback();
     unloadAllSources();
     state.pngManifest = null;
@@ -1752,9 +2714,9 @@
     if(mode==='cwa') return 'CWA WRF 3 km';
     if(mode==='icon') return 'ICON Global';
     if(mode==='gfs') return 'GFS 0.25°';
-    if(mode==='cams') return 'CAMS Global · 霧霾';
-    if(mode==='viirs') return 'NASA Black Marble · 夜間燈光';
-    return '自動';
+    if(mode==='cams') return wmT('CAMS Global · 霧霾');
+    if(mode==='viirs') return wmT('NASA Black Marble · 夜間燈光');
+    return wmT('自動');
   }
 
   function modelAvailable(mode){
@@ -1870,7 +2832,7 @@
       cloud_top_height_m:'🛰️ 雲頂高度',
       nighttime_lights_radiance_nw_cm2_sr:'🌃 夜間燈光'
     };
-    return labels[key] || layerConfig[key]?.label || key;
+    return wmT(labels[key] || layerConfig[key]?.label || key);
   }
 
   function refreshModelControls(){
@@ -1879,7 +2841,7 @@
     if(state.viirsData && !viirsOption){
       viirsOption=document.createElement('option');
       viirsOption.value='viirs';
-      viirsOption.textContent='NASA Black Marble · 夜間燈光';
+      viirsOption.textContent=wmT('NASA Black Marble · 夜間燈光');
       modelSelect.appendChild(viirsOption);
     }else if(!state.viirsData && viirsOption){
       viirsOption.remove();
@@ -2038,7 +3000,7 @@
         const expanded=layerDetailsToggle.getAttribute('aria-expanded')==='true';
         const next=!expanded;
         layerDetailsToggle.setAttribute('aria-expanded',next?'true':'false');
-        layerDetailsToggle.textContent=next?'收合':'詳細';
+        layerDetailsToggle.textContent=next?wmT('收合'):wmT('詳細');
         layerDetails.classList.toggle('is-expanded',next);
       });
     }
@@ -2140,7 +3102,7 @@
     const spotSelect = $('spot-select');
     if(!spotSelect) return;
     const spots = state.data?.spots || [];
-    spotSelect.innerHTML = '<option value="">全部景點</option>' +
+    spotSelect.innerHTML = '<option value="">'+wmT('全部景點')+'</option>' +
       spots.map(s =>
         '<option value="'+escapeHtml(s.spot_id)+'">'+escapeHtml(s.name)+'</option>'
       ).join('');
@@ -2167,17 +3129,17 @@
     const group = selectedCoverageGroup();
     if(!state.spotId){
       select.disabled = true;
-      select.innerHTML = '<option value="">先選景點</option>';
+      select.innerHTML = '<option value="">'+wmT('先選景點')+'</option>';
       return;
     }
     if(!group || !group.opportunities.length){
       select.disabled = true;
-      select.innerHTML = '<option value="">尚未建立題材 coverage</option>';
+      select.innerHTML = '<option value="">'+wmT('尚未建立題材 coverage')+'</option>';
       return;
     }
     select.disabled = false;
     select.innerHTML =
-      '<option value="">全部已建 coverage 題材</option>' +
+      '<option value="">'+wmT('全部已建 coverage 題材')+'</option>' +
       group.opportunities.map(op => {
         const suffix = op.complete ? '' : ' ⚠';
         return `<option value="${escapeHtml(op.opportunity_id)}">${escapeHtml(op.name_zh || op.opportunity_id)}${suffix}</option>`;
@@ -2682,6 +3644,22 @@
     return drawn;
   }
 
+  // CL-WG-26: contour zoom gate. At low zoom levels the grid resolution
+  // cannot support a 50% contour line — the dash degenerates into dense
+  // dotted noise (e.g. ICON/GFS low-cloud field hovering ~50% over open
+  // sea). The contour is drawn only when the camera zoom is >= 6 AND each
+  // grid cell measures >= 10px on screen; below the gate the legend keeps
+  // the 50% boundary key with a trilingual "please zoom in" hint.
+  const CONTOUR_MIN_ZOOM=6;
+  const CONTOUR_MIN_CELL_PX=10;
+  function cloudContourGateAllowed(zoom,cellPx){
+    // No live camera (Canvas fallback / pre-map frames): keep the previous
+    // always-draw behavior — the fallback view is a fixed region fit, not a
+    // zoomable camera, so the noise scenario does not apply.
+    if(!Number.isFinite(zoom)||!Number.isFinite(cellPx)) return true;
+    return zoom>=CONTOUR_MIN_ZOOM && cellPx>=CONTOUR_MIN_CELL_PX;
+  }
+
   function contourCrossing(p1,p2,v1,v2,threshold){
     if(!Number.isFinite(v1) || !Number.isFinite(v2) || v1===v2) return null;
     const a=v1-threshold,b=v2-threshold;
@@ -2753,6 +3731,28 @@
       }
     }
     ctx.restore();
+  }
+
+  // CL-WG-26: live camera probe for the contour gate. cellPx is the larger
+  // on-screen pixel dimension of one grid cell at the map center.
+  function cloudContourGateState(data){
+    const hasMap=state.mapReady&&state.map;
+    if(!hasMap) return {allowed:true,cellPx:null,zoom:null};
+    const zoom=state.map.getZoom();
+    let cellPx=null;
+    const grid=data?.grid;
+    if(grid?.longitudes?.length>1&&grid?.latitudes?.length>1){
+      const stepLon=Math.abs(grid.longitudes[1]-grid.longitudes[0]);
+      const stepLat=Math.abs(grid.latitudes[1]-grid.latitudes[0]);
+      const center=state.map.getCenter();
+      const p1=state.map.project([center.lng-stepLon/2,center.lat-stepLat/2]);
+      const p2=state.map.project([center.lng+stepLon/2,center.lat+stepLat/2]);
+      cellPx=Math.max(Math.abs(p2.x-p1.x),Math.abs(p2.y-p1.y));
+    }
+    return {allowed:cloudContourGateAllowed(zoom,cellPx),cellPx,zoom};
+  }
+  function shouldDrawCloudContour(data){
+    return cloudContourGateState(data).allowed;
   }
 
   function drawCircularDirectionSubcells(data,directions,speeds,cfg,visibleView){
@@ -2851,8 +3851,14 @@
     ctx.restore();
 
     if(!isObservationMode() && (cfg.palette==='cloud'||cfg.palette==='cloudLow')){
-      drawCloudThresholdContour(data,vals,50,visibleView);
+      // CL-WG-26: only draw the 50% contour when the zoom level supports it.
+      const gate=cloudContourGateState(data);
+      try{ window.__weatherGridContourGate={...gate,layer:state.layer}; }catch(_){}
+      if(gate.allowed){
+        drawCloudThresholdContour(data,vals,50,visibleView);
+      }
     }
+    refreshCloudThresholdKey();
 
     drawProviderBoundary(data);
     if(!state.mapReady) drawGrid();
@@ -3075,6 +4081,23 @@
     return Array.from({length:count+1},(_,i)=>(s+span*i/count)%360);
   }
 
+  // CL-WG-30: month-calibrated light wedges (CL-DATA-13 sectors mechanism).
+  // A coverage geometry may declare `sectors_monthly`: 12
+  // {arc_center_deg, arc_half_width_deg} entries in Jan..Dec order (the
+  // same semantics as the V2 evaluator's sectors[month-1]). The wedge is
+  // resolved to the CURRENT Asia/Taipei month at draw time.
+  function resolvedSectorArc(g){
+    if(g && Array.isArray(g.sectors_monthly) && g.sectors_monthly.length===12){
+      const m=Number(new Intl.DateTimeFormat('en-US',{timeZone:'Asia/Taipei',month:'numeric'}).format(new Date()));
+      const arc=g.sectors_monthly[m-1];
+      if(arc && Number.isFinite(arc.arc_center_deg) && Number.isFinite(arc.arc_half_width_deg)){
+        return {start:arc.arc_center_deg-arc.arc_half_width_deg,end:arc.arc_center_deg+arc.arc_half_width_deg};
+      }
+      return null;
+    }
+    return {start:g.azimuth_start_deg,end:g.azimuth_end_deg};
+  }
+
   function cameraById(op,id){
     return (op.camera_zones||[]).find(c=>c.viewpoint_id===id) || null;
   }
@@ -3149,7 +4172,9 @@
     if(g.type==='sector'){
       const origin=geometryOrigin(g,op);
       if(!origin) return;
-      const bearings=sectorBearings(g.azimuth_start_deg,g.azimuth_end_deg);
+      const arc=resolvedSectorArc(g);
+      if(!arc) return;
+      const bearings=sectorBearings(arc.start,arc.end);
       const maxRange=Number(g.max_range_km||0);
       const minRange=Number(g.min_range_km||0);
       const outer=bearings.map(b=>destination(origin.lat,origin.lon,b,maxRange));
@@ -3511,7 +4536,7 @@
     label.hidden=!available;
     if(note){
       if(state.windUvSidecarState==='loading' && available && windUvSidecarNeeded()){
-        note.textContent='粒子層 u/v 風場資料載入中…（sidecar 僅在開啟粒子動畫時下載，失敗時誠實退回無粒子層）';
+        note.textContent=wmT('粒子層 u/v 風場資料載入中…（sidecar 僅在開啟粒子動畫時下載，失敗時誠實退回無粒子層）');
       }else if(!note.dataset.defaultText){
         note.dataset.defaultText=note.textContent;
       }else{
@@ -3656,7 +4681,7 @@
       if((selectedCfg?.palette==='cloud'||selectedCfg?.palette==='cloudLow') && !isObservationMode()){
         const value=samplePointValue({lat:selected.lat,lon:selected.lon},state.layer);
         if(Number.isFinite(value)){
-          selectedLabel=`${selected.name} · ${formatValue(value,state.layer)}`;
+          selectedLabel=`${selected.name} · ${selectedCfg.label} ${formatValue(value,state.layer)}`;
         }
       }
       ctx.font=compactMap?'bold 16px -apple-system, sans-serif':'bold 20px -apple-system, sans-serif';
@@ -3743,15 +4768,15 @@
       no_fog_haze_signal:'目前無明顯霧／霾訊號',
       insufficient_visibility_evidence:'能見度證據不足'
     };
-    const confidence=d.confidence==='medium'?'中信心':'低信心';
+    const confidence=d.confidence==='medium'?wmT('中信心'):wmT('低信心');
     const metrics=[];
-    if(Number.isFinite(d.visibilityKm)) metrics.push(`能見度 ${d.visibilityKm.toFixed(1)} km`);
+    if(Number.isFinite(d.visibilityKm)) metrics.push(wmT('能見度 {v} km',{v:d.visibilityKm.toFixed(1)}));
     if(Number.isFinite(d.rh)) metrics.push(`RH ${Math.round(d.rh)}%`);
     if(Number.isFinite(d.aod)) metrics.push(`AOD ${d.aod.toFixed(2)}`);
     if(Number.isFinite(d.pm25)) metrics.push(`PM2.5 ${d.pm25.toFixed(1)} µg/m³`);
-    return `<div><strong>攝影環境診斷 · ${escapeHtml(labels[d.state]||d.state)}</strong> · ${confidence}</div>`+
-      `<div>${escapeHtml(metrics.join(' · ') || '資料不足')}</div>`+
-      '<div class="muted">診斷用：GFS 能見度／低雲 + CWA RH + CAMS AOD／PM2.5；目前不影響攝影評分。</div>';
+    return `<div><strong>${wmT('攝影環境診斷')} · ${escapeHtml(labels[d.state]?wmT(labels[d.state]):d.state)}</strong> · ${confidence}</div>`+
+      `<div>${escapeHtml(metrics.join(' · ') || wmT('資料不足'))}</div>`+
+      '<div class="muted">'+wmT('診斷用：GFS 能見度／低雲 + CWA RH + CAMS AOD／PM2.5；目前不影響攝影評分。')+'</div>';
   }
 
   function samplingPoint(){
@@ -3759,7 +4784,7 @@
     const camera=(op?.camera_zones||[]).find(c=>Number.isFinite(Number(c.lat))&&Number.isFinite(Number(c.lon)));
     if(camera) return {lat:Number(camera.lat),lon:Number(camera.lon),label:'Camera Zone'};
     const spot=selectedSpot();
-    return spot ? {lat:spot.lat,lon:spot.lon,label:'景點代表點'} : null;
+    return spot ? {lat:spot.lat,lon:spot.lon,label:wmT('景點代表點')} : null;
   }
 
   function samplePointValue(point,key){
@@ -3816,7 +4841,7 @@
 
   function formatValue(v,key){
     if(v==null || !Number.isFinite(v)) return '—';
-    if(key==='observed_cloud_mask') return v>=.5 ? '有雲' : '晴空';
+    if(key==='observed_cloud_mask') return v>=.5 ? wmT('有雲') : wmT('晴空');
     if(key==='cloud_top_height_m') return `${(v/1000).toFixed(1)} km`;
     if(key.includes('cloud')) return `${Math.round(v)}%`;
     if(key==='visibility_km') return `${v.toFixed(1)} km`;
@@ -3855,32 +4880,32 @@
     const forecastHour=Number(f?.forecast_hour || 0);
     const frameLead=`f${String(forecastHour).padStart(3,'0')}`;
     $('time-label').textContent=!f
-      ? '此地區尚無可顯示的時間軸'
+      ? wmT('此地區尚無可顯示的時間軸')
       : (usingHimawari
-      ? `觀測時間 · ${formatTaipeiTime(f.valid_time_utc)} TST`
+      ? wmT('觀測時間 · {t} TST',{t:formatTaipeiTime(f.valid_time_utc)})
       : (usingViirs
-        ? `年度合成 · ${f.composite_year || data.provenance?.composite_year || new Date(f.valid_time_utc).getUTCFullYear()}`
+        ? wmT('年度合成 · {y}',{y:f.composite_year || data.provenance?.composite_year || new Date(f.valid_time_utc).getUTCFullYear()})
         : (usingCams
-          ? `CAMS 預報時間 · ${formatTaipeiTime(f.valid_time_utc)} TST`
-          : `預報時間 · ${formatTaipeiTime(f.valid_time_utc)} · +${forecastHour}h${forecastHour > 48 ? '（參考）' : ''}`)));
+          ? wmT('CAMS 預報時間 · {t} TST',{t:formatTaipeiTime(f.valid_time_utc)})
+          : wmT('預報時間 · {t} · +{h}h{ref}',{t:formatTaipeiTime(f.valid_time_utc),h:forecastHour,ref:forecastHour > 48 ? '（參考）' : ''}))));
     $('opacity-label').textContent=`${Math.round(state.weatherOpacity*100)}%`;
     const opacityTitle=$('opacity-title');
     const opacitySlider=$('opacity-slider');
     if(opacityTitle){
       const compactUi=window.matchMedia('(max-width:720px)').matches;
       opacityTitle.textContent=compactUi
-        ? (cfg.palette==='cloud'||cfg.palette==='cloudLow'?'雲層透明度':'圖層透明度')
-        : (cfg.palette==='cloud'||cfg.palette==='cloudLow'?'雲層顯示強度':'圖層顯示強度');
+        ? wmT(cfg.palette==='cloud'||cfg.palette==='cloudLow'?'雲層透明度':'圖層透明度')
+        : wmT(cfg.palette==='cloud'||cfg.palette==='cloudLow'?'雲層顯示強度':'圖層顯示強度');
     }
     if(opacitySlider){
       opacitySlider.title=(cfg.palette==='cloud'||cfg.palette==='cloudLow')
-        ? '100% 顯示強度仍保留底圖；雲層最高不透明度限制為 78%'
-        : '調整圖層顯示強度';
+        ? wmT('100% 顯示強度仍保留底圖；雲層最高不透明度限制為 78%')
+        : wmT('調整圖層顯示強度');
     }
 
     const status=$('source-state');
     if(state.source==='demo'){
-      status.textContent='DEMO 範例資料';
+      status.textContent=wmT('DEMO 範例資料');
       status.className='source-pill demo';
     }else if(state.source==='unavailable'){
       status.textContent=regionStatusText('unavailable');
@@ -3897,28 +4922,28 @@
     }
 
     const interpolationLabel=isWindDirectionLayer()
-      ? '風向採 u/v 向量循環內插'
-      : '顯示雙線性內插';
+      ? wmT('風向採 u/v 向量循環內插')
+      : wmT('顯示雙線性內插');
     let resolution;
     if(usingHimawari){
       const p=data.provenance || {};
-      resolution=`原生約 ${p.nominal_native_resolution || '2 km at nadir'} · 瀏覽格 ${data.grid.step_degrees || 0.02}° · 觀測更新約 ${p.nominal_cadence_minutes || 10} 分鐘`;
+      resolution=wmT('原生約 {r} · 瀏覽格 {g}° · 觀測更新約 {m} 分鐘',{r:p.nominal_native_resolution || '2 km at nadir',g:data.grid.step_degrees || 0.02,m:p.nominal_cadence_minutes || 10});
     }else if(usingJma){
       const p=data.provenance || {};
-      resolution=`原生約 ${p.native_resolution_km || 5} km · ${p.native_lat_step_degrees || 0.05}°×${p.native_lon_step_degrees || 0.0625}° · 原生時間間隔 ${p.native_time_interval_hours || 1} h`;
+      resolution=wmT('原生約 {r} km · {la}°×{lo}° · 原生時間間隔 {h} h',{r:p.native_resolution_km || 5,la:p.native_lat_step_degrees || 0.05,lo:p.native_lon_step_degrees || 0.0625,h:p.native_time_interval_hours || 1});
     }else if(usingCwa){
       const p=data.provenance || {};
-      resolution=`原生約 ${p.native_resolution_km || 3} km · 瀏覽格 ${p.browser_grid_spacing_degrees || 0.03}° · 公開資料間隔 ${p.public_product_interval_hours || 6} h`;
+      resolution=wmT('原生約 {r} km · 瀏覽格 {g}° · 公開資料間隔 {h} h',{r:p.native_resolution_km || 3,g:p.browser_grid_spacing_degrees || 0.03,h:p.public_product_interval_hours || 6});
     }else if(usingIcon){
-      resolution=`原生約 ${data.provenance?.native_resolution_km || 13} km · 0.125° remap · ${interpolationLabel}`;
+      resolution=`${wmT('原生約 ')}${data.provenance?.native_resolution_km || 13} km · 0.125° remap · ${interpolationLabel}`;
     }else if(usingCams){
       const p=data.provenance || {};
-      resolution=`CAMS Global 原生約 ${p.native_resolution_km || 45} km · ${p.native_time_interval_hours || 3} h · 0.4° 取樣顯示格`;
+      resolution=wmT('CAMS Global 原生約 {r} km · {h} h · 0.4° 取樣顯示格',{r:p.native_resolution_km || 45,h:p.native_time_interval_hours || 3});
     }else if(usingViirs){
       const p=data.provenance || {};
-      resolution=`NASA Black Marble · ${p.native_resolution || '15 arc-second'} · 年度夜間燈光合成`;
+      resolution=`NASA Black Marble · ${p.native_resolution || '15 arc-second'} · ${wmT('年度夜間燈光合成')}`;
     }else{
-      resolution=`原生 0.25° · ${interpolationLabel}`;
+      resolution=`${wmT('原生 ')}0.25° · ${interpolationLabel}`;
     }
     const cycleText=usingViirs
       ? String(f.composite_year || new Date(f.valid_time_utc).getUTCFullYear())
@@ -3928,22 +4953,22 @@
     const cycleDisplay=Number.isFinite(Date.parse(cycleText))
       ? `${formatTaipeiTime(cycleText)} TST`
       : cycleText;
-    const autoPrefix=state.modelMode==='auto'?'自動模式：依圖層選優先模型 · ':'';
+    const autoPrefix=state.modelMode==='auto'?wmT('自動模式：依圖層選優先模型 · '):'';
     const compactSummary=$('source-mobile-summary');
     if(usingHimawari){
       const age=observationAgeMinutes(data);
-      const ageText=Number.isFinite(age) ? ` · 資料年齡 ${Math.round(age)} 分` : '';
-      $('cycle-label').textContent=`衛星觀測 ${formatTaipeiTime(f.valid_time_utc)} TST${ageText} · ${data.grid.rows}×${data.grid.cols} · ${resolution}`;
+      const ageText=Number.isFinite(age) ? ` · ${wmT('資料年齡 {n} 分',{n:Math.round(age)})}` : '';
+      $('cycle-label').textContent=`${wmT('衛星觀測 ')}${formatTaipeiTime(f.valid_time_utc)} TST${ageText} · ${data.grid.rows}×${data.grid.cols} · ${resolution}`;
       if(compactSummary){
-        const ageCompact=Number.isFinite(age)?` · ${Math.round(age)} 分前`:'';
-        compactSummary.textContent=`觀測 ${formatTaipeiTime(f.valid_time_utc)} · 2 km${ageCompact}`;
+        const ageCompact=Number.isFinite(age)?` · ${wmT('{n} 分前',{n:Math.round(age)})}`:'';
+        compactSummary.textContent=`${wmT('觀測 ')}${formatTaipeiTime(f.valid_time_utc)} · 2 km${ageCompact}`;
       }
     }else{
       $('cycle-label').textContent=usingViirs
-        ? `年度合成 ${cycleText} · ${data.grid.rows}×${data.grid.cols} · ${resolution}`
+        ? `${wmT('年度合成 ')}${cycleText} · ${data.grid.rows}×${data.grid.cols} · ${resolution}`
         : (usingCams
-          ? `資料更新 ${cycleDisplay} · ${data.grid.rows}×${data.grid.cols} · ${resolution}`
-          : `${autoPrefix}模型起報 ${cycleDisplay} · ${data.grid.rows}×${data.grid.cols} · ${resolution}`);
+          ? `${wmT('資料更新 ')}${cycleDisplay} · ${data.grid.rows}×${data.grid.cols} · ${resolution}`
+          : `${autoPrefix}${wmT('模型起報 ')}${cycleDisplay} · ${data.grid.rows}×${data.grid.cols} · ${resolution}`);
       if(compactSummary){
         let compactResolution='0.25°';
         let compactCadence='';
@@ -3956,46 +4981,46 @@
           compactResolution=`${p.native_resolution_km || 3} km`;
           compactCadence=` · ${p.public_product_interval_hours || 6}h`;
         }else if(usingIcon){
-          compactResolution=`約 ${data.provenance?.native_resolution_km || 13} km`;
+          compactResolution=`${wmT('約 ')}${data.provenance?.native_resolution_km || 13} km`;
         }else if(usingCams){
-          compactResolution=`約 ${data.provenance?.native_resolution_km || 45} km`;
+          compactResolution=`${wmT('約 ')}${data.provenance?.native_resolution_km || 45} km`;
           compactCadence=` · ${data.provenance?.native_time_interval_hours || 3}h`;
         }else if(usingViirs){
           compactResolution=data.provenance?.native_resolution || '15 arc-second';
         }
         compactSummary.textContent=usingViirs
-          ? `年度 ${cycleText} · ${compactResolution}`
+          ? `${wmT('年度 ')}${cycleText} · ${compactResolution}`
           : (usingCams
-            ? `更新 ${cycleDisplay.replace(' TST','')} · ${compactResolution}${compactCadence}`
-            : `起報 ${cycleDisplay.replace(' TST','')} · ${compactResolution}${compactCadence}`);
+            ? `${wmT('更新 ')}${cycleDisplay.replace(' TST','')} · ${compactResolution}${compactCadence}`
+            : `${wmT('起報 ')}${cycleDisplay.replace(' TST','')} · ${compactResolution}${compactCadence}`);
       }
     }
     const attributionHost=$('source-attribution');
     if(usingHimawari){
-      attributionHost.textContent='衛星觀測：JMA Himawari-9 / AHI · Distribution: NOAA NODD / AWS Open Data';
+      attributionHost.textContent=wmT('衛星觀測：JMA Himawari-9 / AHI · Distribution: NOAA NODD / AWS Open Data');
     }else if(usingJma){
-      attributionHost.innerHTML='資料模型：JMA MSM · Open Data transport: <a href="https://registry.opendata.aws/open-meteo/" target="_blank" rel="noopener noreferrer">Open-Meteo AWS</a>';
+      attributionHost.innerHTML=wmT('資料模型：JMA MSM · Open Data transport: <a href="https://registry.opendata.aws/open-meteo/" target="_blank" rel="noopener noreferrer">Open-Meteo AWS</a>');
     }else if(usingCams){
-      attributionHost.innerHTML='霧霾資料：Copernicus CAMS Global · API: <a href="https://open-meteo.com/en/docs/air-quality-api" target="_blank" rel="noopener noreferrer">Open-Meteo</a>';
+      attributionHost.innerHTML=wmT('霧霾資料：Copernicus CAMS Global · API: <a href="https://open-meteo.com/en/docs/air-quality-api" target="_blank" rel="noopener noreferrer">Open-Meteo</a>');
     }else if(usingViirs){
-      attributionHost.textContent='夜間燈光：NASA Black Marble VNP46A4 Collection 2 · 衛星輻亮度；QA 0 good / 1 poor / 2 gap-filled；不等同 Bortle 或天空亮度';
+      attributionHost.textContent=wmT('夜間燈光：NASA Black Marble VNP46A4 Collection 2 · 衛星輻亮度；QA 0 good / 1 poor / 2 gap-filled；不等同 Bortle 或天空亮度');
     }else{
       attributionHost.innerHTML='';
     }
 
     const arr=decodedArray(state.layer).filter(Number.isFinite);
     const min=arr.length?Math.min(...arr):null, max=arr.length?Math.max(...arr):null;
-    $('layer-summary').textContent=cfg.label;
+    $('layer-summary').textContent=wmT(cfg.label);
     $('layer-range').textContent=min==null
-      ? '畫面資料範圍：—'
-      : `畫面資料範圍：${formatValue(min,state.layer)} – ${formatValue(max,state.layer)}`;
+      ? wmT('畫面資料範圍：—')
+      : wmT('畫面資料範圍：{a} – {b}',{a:formatValue(min,state.layer),b:formatValue(max,state.layer)});
     let providerRole='GFS';
-    if(usingHimawari) providerRole='Himawari-9 AHI · 觀測';
+    if(usingHimawari) providerRole=wmT('Himawari-9 AHI · 觀測');
     else if(usingJma) providerRole='JMA MSM 5 km';
     else if(usingCwa) providerRole='CWA WRF 3 km';
     else if(usingIcon) providerRole=state.modelMode==='auto'?'ICON Global · auto':'ICON Global';
     else if(usingCams) providerRole=state.layer==='pm2_5_ug_m3'?'CAMS Global · PM2.5':'CAMS Global · AOD 550 nm';
-    else if(usingViirs) providerRole='NASA Black Marble VNP46A4 · 年度環境背景';
+    else if(usingViirs) providerRole=wmT('NASA Black Marble VNP46A4 · 年度環境背景');
     else if(state.modelMode==='auto' && cloudLayers.has(state.layer)) providerRole='GFS fallback';
     const coverageProvider=usingHimawari?'Himawari-9':(usingJma?'JMA MSM 5 km':(usingCwa?'CWA WRF 3 km':(usingIcon?'ICON Global':(usingCams?'CAMS Global':(usingViirs?'NASA Black Marble':'GFS 0.25°')))));
     const coverageNote=$('provider-coverage-note');
@@ -4004,24 +5029,24 @@
       coverageNote.hidden=!showCoverageNote;
       if(showCoverageNote){
         coverageNote.textContent=state.modelMode==='auto'
-          ? `空白區＝目前 ${coverageProvider} 無資料，不代表晴朗；切換雲層時自動預報可能改用不同模型。`
-          : `空白區＝目前 ${coverageProvider} 無資料，不代表晴朗。`;
+          ? wmT('空白區＝目前 {p} 無資料，不代表晴朗；切換雲層時自動預報可能改用不同模型。',{p:coverageProvider})
+          : wmT('空白區＝目前 {p} 無資料，不代表晴朗。',{p:coverageProvider});
       }
     }
     const unitText=usingHimawari && state.layer==='cloud_top_height_m'
-      ? '原始單位 m · 顯示 km'
-      : `單位 ${data.fields[state.layer]?.unit || '—'}`;
+      ? wmT('原始單位 m · 顯示 km')
+      : `${wmT('單位 ')}${data.fields[state.layer]?.unit || '—'}`;
     $('layer-unit').textContent=usingHimawari
-      ? `${providerRole} · ${unitText} · 單張最新觀測`
+      ? `${providerRole} · ${unitText} · ${wmT('單張最新觀測')}`
       : (usingViirs
-        ? `${providerRole} · ${unitText} · 靜態年度背景，不隨氣象預報時間軸變化`
-        : `${providerRole} · ${unitText} · 各模型保留自己的範圍／解析度／時間軸`);
+        ? `${providerRole} · ${unitText} · ${wmT('靜態年度背景，不隨氣象預報時間軸變化')}`
+        : `${providerRole} · ${unitText} · ${wmT('各模型保留自己的範圍／解析度／時間軸')}`);
     const vertical=data.fields[state.layer]?.vertical_definition || null;
     const verticalHost=$('layer-vertical');
     if(usingHimawari && state.layer==='observed_cloud_mask'){
-      verticalHost.innerHTML='<div><strong>Himawari-9 — 衛星雲遮罩</strong></div><div>目前衛星觀測：0＝晴空、1＝有雲。這不是預報雲量百分比。</div>';
+      verticalHost.innerHTML='<div><strong>Himawari-9 — '+wmT('衛星雲遮罩')+'</strong></div><div>'+wmT('目前衛星觀測：0＝晴空、1＝有雲。這不是預報雲量百分比。')+'</div>';
     }else if(usingHimawari && state.layer==='cloud_top_height_m'){
-      verticalHost.innerHTML='<div><strong>Himawari-9 — 雲頂高度</strong></div><div>使用 NOAA L2 雲頂高度與視差校正座標定位；缺值常代表晴空或沒有成功雲頂反演。</div><div>雲頂高度不能證明下方沒有其他雲層，也不等同低／中／高雲量百分比。</div>';
+      verticalHost.innerHTML='<div><strong>Himawari-9 — '+wmT('雲頂高度')+'</strong></div><div>'+wmT('使用 NOAA L2 雲頂高度與視差校正座標定位；缺值常代表晴空或沒有成功雲頂反演。')+'</div><div>'+wmT('雲頂高度不能證明下方沒有其他雲層，也不等同低／中／高雲量百分比。')+'</div>';
     }else if(vertical){
       const modelName=usingJma?'JMA MSM 5 km':(usingCwa?'CWA WRF 3 km':(usingIcon?'ICON Global':'GFS 0.25°'));
       verticalHost.innerHTML=
@@ -4032,7 +5057,7 @@
       usingCwa &&
       data.provenance?.cloud_layer_capability?.native_low_mid_high===false
     ){
-      verticalHost.innerHTML='<div>CWA M-A0064 目前未提供原生低／中／高雲量；不以相對濕度代理冒充雲量。</div>';
+      verticalHost.innerHTML='<div>'+wmT('CWA M-A0064 目前未提供原生低／中／高雲量；不以相對濕度代理冒充雲量。')+'</div>';
     }else{
       verticalHost.innerHTML='';
     }
@@ -4041,14 +5066,14 @@
     const photographyNote=PHOTOGRAPHY_LAYER_NOTES[state.layer];
     if(photographyNote){
       const noteDiv=document.createElement('div');
-      noteDiv.textContent=photographyNote;
+      noteDiv.textContent=wmT(photographyNote);
       verticalHost.appendChild(noteDiv);
     }
     // CL-WG-15: wind-direction layers explain the flow-arrow overlay here
     // (dropdown labels stay clean; the color-wheel legend is unchanged).
     if(isWindDirectionLayer()){
       const arrowNote=document.createElement('div');
-      arrowNote.textContent='箭頭指示氣流吹往方向（疊加於風向色場之上）';
+      arrowNote.textContent=wmT('箭頭指示氣流吹往方向（疊加於風向色場之上）');
       verticalHost.appendChild(arrowNote);
     }
 
@@ -4056,27 +5081,27 @@
 
     const spot=selectedSpot();
     const point=samplingPoint();
-    $('spot-name').textContent=spot?spot.name:'尚未選取';
+    $('spot-name').textContent=spot?spot.name:wmT('尚未選取');
     const sv=samplePointValue(point,state.layer);
     $('spot-value').textContent=point?formatValue(sv,state.layer):'—';
     const sampleMethod=isObservationMode()
-      ? '衛星 presentation grid 最近鄰取樣（觀測／反演資料不做雙線性混合）'
+      ? wmT('衛星 presentation grid 最近鄰取樣（觀測／反演資料不做雙線性混合）')
       : (usingViirs
-        ? '年度夜間燈光顯示可內插；品質旗標以最近原始顯示格判讀'
-        : '瀏覽器雙線性插值（風向以 u/v 向量循環插值；超出資料範圍不外推）');
+        ? wmT('年度夜間燈光顯示可內插；品質旗標以最近原始顯示格判讀')
+        : wmT('瀏覽器雙線性插值（風向以 u/v 向量循環插值；超出資料範圍不外推）'));
     let viirsQualityHtml='';
     if(usingViirs && point){
       const q=sampleDatasetNearest(
         point,data,'nighttime_lights_quality_flag',f.valid_time_utc
       );
-      const qualityLabel=q===0?'good（原始年度合成）'
-        :(q===1?'poor（品質較低）'
-          :(q===2?'gap-filled（缺口填補）':'未知／缺值'));
-      viirsQualityHtml=`<div>VNP46A4 QA：${escapeHtml(qualityLabel)}</div>`;
+      const qualityLabel=q===0?wmT('good（原始年度合成）')
+        :(q===1?wmT('poor（品質較低）')
+          :(q===2?wmT('gap-filled（缺口填補）'):wmT('未知／缺值')));
+      viirsQualityHtml=`<div>${wmT('VNP46A4 QA：')}${escapeHtml(qualityLabel)}</div>`;
     }
     $('spot-details').innerHTML=point
-      ? `<div>${point.lat.toFixed(4)}°, ${point.lon.toFixed(4)}° · ${escapeHtml(point.label)}</div><div>取樣：${sampleMethod}</div>${viirsQualityHtml}`
-      : '<div>可從下拉選單或地圖上的景點點位選取。</div>';
+      ? `<div>${point.lat.toFixed(4)}°, ${point.lon.toFixed(4)}° · ${escapeHtml(point.label)}</div><div>${wmT('取樣：')}${sampleMethod}</div>${viirsQualityHtml}`
+      : '<div>'+wmT('可從下拉選單或地圖上的景點點位選取。')+'</div>';
     const environmentHost=$('spot-environment');
     if(environmentHost){
       const environmentHtml=fogHazeDiagnosticHtml(point);
@@ -4089,16 +5114,62 @@
     updateCoverageStatus();
     updateQc();
   }
+  // CL-WG-26: the 50% threshold key is trilingual and, below the contour
+  // zoom gate, keeps the explanation but appends a "please zoom in" hint.
+  const CLOUD_THRESHOLD_LABELS={
+    'zh-TW':'50% 雲量分界',
+    'en':'50% cloud boundary',
+    'ja':'50% 雲量境界'
+  };
+  const CLOUD_THRESHOLD_ZOOM_HINTS={
+    'zh-TW':'請放大檢視',
+    'en':'Zoom in to view the contour',
+    'ja':'拡大してご覧ください'
+  };
+  function cloudThresholdKeyHtml(data){
+    const lang=weatherMapNoteLang();
+    const gated=!cloudContourGateState(data).allowed;
+    return {
+      gated,
+      html:`<div class="cloud-threshold-key" id="cloud-threshold-key" data-zoom-gated="${gated}"><span class="cloud-threshold-swatch"></span>${CLOUD_THRESHOLD_LABELS[lang]}${gated?` <span class="cloud-threshold-hint">（${CLOUD_THRESHOLD_ZOOM_HINTS[lang]}）</span>`:''}</div>`
+    };
+  }
+  // Zoom events redraw the map via draw(); the legend key follows the same
+  // gate in real time (only touches the DOM when the gate state flips).
+  function refreshCloudThresholdKey(){
+    const host=document.getElementById('cloud-threshold-key');
+    if(!host) return;
+    const next=cloudThresholdKeyHtml(activeDataset(state.layer));
+    if(host.dataset.zoomGated===String(next.gated)) return;
+    const wrap=document.createElement('div');
+    wrap.innerHTML=next.html;
+    host.replaceWith(wrap.firstElementChild);
+  }
+
+  // CL-WG-28: redesigned legend (owner ruling — Windy has no legend and that
+  // is a long-running user complaint there, so OUR legend is a differentiator,
+  // but it must stay restrained). Compact state = one slim gradient bar +
+  // ONLY the first/last value labels; click/tap (or a 500ms long-press on
+  // touch) expands the full tick detail. Every gradient/tick below is derived
+  // from assets/weather-map-palette.js (LAYER_RENDER_CONFIG / bands /
+  // colorFor) — the single source shared with the PNG prerender generator;
+  // never hand-copy palette values here. The cursor readout (see
+  // updateCursorReadout) remains the PRIMARY value-query channel; the legend
+  // is an aid. The legend only renders while the active layer actually has
+  // decodable data.
   function updateLegend(cfg){
+    const hasData=decodedArray(state.layer).some(Number.isFinite);
+    $('legend').hidden=!hasData;
+    if(!hasData) return;
     const min=cfg.domain[0], max=cfg.domain[1], mid=(min+max)/2;
     let stopValues=[min,min+(max-min)*.25,mid,min+(max-min)*.75,max];
     let labels=[formatValue(min,state.layer),formatValue(mid,state.layer),formatValue(max,state.layer)];
     if(cfg.palette==='cloudMask'){
       stopValues=[0,1];
-      labels=['晴空','有雲'];
+      labels=[wmT('晴空'),wmT('有雲')];
     }else if(cfg.palette==='direction'){
       stopValues=[0,90,180,270,360];
-      labels=['北 0°','東 90°','南 180°','西 270°','北 360°'];
+      labels=[wmT('北 0°'),wmT('東 90°'),wmT('南 180°'),wmT('西 270°'),wmT('北 360°')];
     }else if(cfg.scale==='precip_rate'){
       stopValues=cfg.ticks;
       labels=['0','1','5','20 mm/h'];
@@ -4110,23 +5181,22 @@
       labels=['0','1','5','10','50+'];
     }
 
-    let barHtml;
-    let labelsHtml;
-    let thresholdKey='';
-    if(cfg.palette==='cloud'||cfg.palette==='cloudLow'){
+    const isCloud=cfg.palette==='cloud'||cfg.palette==='cloudLow';
+    let barGradient;
+    if(isCloud){
       const bands=cfg.palette==='cloudLow'?LOW_CLOUD_PERCENT_BANDS:CLOUD_PERCENT_BANDS;
-      barHtml=`<div class="legend-bar cloud-percent" style="background:linear-gradient(90deg,${cloudLegendGradient(bands)})"><span class="cloud-midline" aria-hidden="true"></span></div>`;
-      labelsHtml=`<div class="cloud-legend-labels">${cloudLegendLabels()}</div>`;
-      thresholdKey='<div class="cloud-threshold-key"><span class="cloud-threshold-swatch"></span>50% 雲量分界</div>';
+      barGradient=`linear-gradient(90deg,${cloudLegendGradient(bands)})`;
     }else{
-      const stops=stopValues.map(v=>colorFor(v,cfg));
-      const labelHtml=labels.map(v=>`<span>${escapeHtml(v)}</span>`).join('');
-      barHtml=`<div class="legend-bar" style="background:linear-gradient(90deg,${stops.join(',')})"></div>`;
-      labelsHtml=`<div class="legend-row">${labelHtml}</div>`;
+      barGradient=`linear-gradient(90deg,${stopValues.map(v=>colorFor(v,cfg)).join(',')})`;
     }
-
+    // CL-WG-28: the 50% cloud hinge keeps its one-line key (PM ruling item 3);
+    // everything else collapse-worthy lives in the expanded panel.
+    const thresholdKey=isCloud?cloudThresholdKeyHtml(activeDataset(state.layer)).html:'';
+    const expandedLabels=isCloud
+      ? `<div class="cloud-legend-labels">${cloudLegendLabels()}</div>`
+      : `<div class="legend-row">${labels.map(v=>`<span>${escapeHtml(v)}</span>`).join('')}</div>`;
     const windKey=(state.windVectors || isWindLayer() || isWindDirectionLayer()) ? `
-      <div class="wind-key"><span class="wind-arrow-icon">→</span> 箭頭＝風去向</div>` : '';
+      <div class="wind-key"><span class="wind-arrow-icon">→</span> ${wmT('箭頭＝風去向')}</div>` : '';
     const coverageKey=state.spotId ? `
       <div class="coverage-key">
         <span><i class="coverage-swatch camera"></i>Camera</span>
@@ -4134,13 +5204,48 @@
         <span><i class="coverage-swatch environment"></i>Environment</span>
       </div>` : '';
     $('legend').innerHTML=`
-      <strong>${cfg.label}</strong>
-      ${barHtml}
-      ${labelsHtml}
-      ${thresholdKey}
-      <div class="coverage-outline-key">虛線＝目前資料來源範圍</div>
+      <strong>${wmT(cfg.label)}</strong>
+      <button type="button" class="legend-toggle" aria-expanded="${state.legendExpanded?'true':'false'}" aria-label="${wmT('展開／收合完整圖例刻度')}">
+        <span class="legend-bar${isCloud?' cloud-percent':''}" style="background:${barGradient}">${isCloud?'<span class="cloud-midline" aria-hidden="true"></span>':''}</span>
+        <span class="legend-compact-labels"><span>${escapeHtml(labels[0])}</span><span>${escapeHtml(labels[labels.length-1])}</span></span>
+      </button>
+      <div class="legend-expanded"${state.legendExpanded?'':' hidden'}>${expandedLabels}
+        ${thresholdKey}
+      </div>
+      <div class="coverage-outline-key">${wmT('虛線＝目前資料來源範圍')}</div>
       ${windKey}
       ${coverageKey}`;
+    const toggle=$('legend').querySelector('.legend-toggle');
+    // Click handling lives in attachLegendLongPress (single listener — a
+    // duplicate here would double-toggle and cancel every click out).
+    attachLegendLongPress(toggle);
+  }
+  function toggleLegendExpanded(btn){
+    state.legendExpanded=!state.legendExpanded;
+    btn.setAttribute('aria-expanded',state.legendExpanded?'true':'false');
+    const panel=$('legend').querySelector('.legend-expanded');
+    if(panel) panel.hidden=!state.legendExpanded;
+  }
+  // CL-WG-28: touch users get a 500ms long-press instead of a stray tap; the
+  // long-press suppresses the click that fires on pointerup so the panel
+  // toggles exactly once per gesture.
+  function attachLegendLongPress(btn){
+    let timer=null;
+    let longPressed=false;
+    const start=e=>{
+      if(e.pointerType==='mouse') return;
+      longPressed=false;
+      timer=window.setTimeout(()=>{timer=null;longPressed=true;toggleLegendExpanded(btn);},500);
+    };
+    const cancel=()=>{ if(timer){window.clearTimeout(timer);timer=null;} };
+    btn.addEventListener('pointerdown',start);
+    btn.addEventListener('pointerup',cancel);
+    btn.addEventListener('pointercancel',cancel);
+    btn.addEventListener('pointerleave',cancel);
+    btn.addEventListener('click',()=>{
+      if(longPressed){ longPressed=false; return; }
+      toggleLegendExpanded(btn);
+    });
   }
 
   function updateTimeline(){
@@ -4149,18 +5254,18 @@
     const frameLabels=timelineDataset().frames.map(f=>formatTaipeiTime(f.valid_time_utc));
     const last=Math.max(0,frames.length-1);
     const observation=isObservationMode();
-    const timeKind=observation?'觀測時間':'預報時間';
+    const timeKind=observation?wmT('觀測時間'):wmT('預報時間');
     const tickIndices=[0,Math.round(last*.25),Math.round(last*.5),Math.round(last*.75),last]
       .filter((v,i,a)=>a.indexOf(v)===i);
     $('timeline').innerHTML=tickIndices.map(i=>`<span>${escapeHtml(frameLabels[i] || '')}</span>`).join('');
     $('time-prev').disabled=observation || state.frameIndex<=0;
     $('time-next').disabled=observation || state.frameIndex>=last;
-    $('time-prev').setAttribute('aria-label',`前一個${timeKind}`);
-    $('time-next').setAttribute('aria-label',`下一個${timeKind}`);
+    $('time-prev').setAttribute('aria-label',wmT('前一個')+timeKind);
+    $('time-next').setAttribute('aria-label',wmT('下一個')+timeKind);
     $('time-slider').setAttribute('aria-label',timeKind);
     const play=$('time-play');
     play.disabled=observation || frames.length<2;
-    play.textContent=state.timelinePlaying?'暫停':'播放';
+    play.textContent=state.timelinePlaying?wmT('暫停'):wmT('播放');
     play.setAttribute('aria-pressed',state.timelinePlaying?'true':'false');
   }
 
@@ -4173,23 +5278,23 @@
   function updateCoverageStatus(){
     const host=$('coverage-status');
     if(!state.spotId){
-      host.innerHTML='<div>先選景點。題材 coverage 會同時標示 Camera / Subject / Environment。</div>';
+      host.innerHTML='<div>'+wmT('先選景點。題材 coverage 會同時標示 Camera / Subject / Environment。')+'</div>';
       return;
     }
 
     if(state.coverageSource==='loading'){
-      host.innerHTML='<div>Live WeatherGrid 已載入，subject-aware coverage bundle 背景載入中…</div>';
+      host.innerHTML='<div>'+wmT('Live WeatherGrid 已載入，subject-aware coverage bundle 背景載入中…')+'</div>';
       return;
     }
 
     if(state.coverageSource==='missing'){
-      host.innerHTML='<div class="warn">⚠ Live WeatherGrid 已載入，但尚未發布 subject-aware coverage bundle。請執行 publish_preview。</div>';
+      host.innerHTML='<div class="warn">'+wmT('⚠ Live WeatherGrid 已載入，但尚未發布 subject-aware coverage bundle。請執行 publish_preview。')+'</div>';
       return;
     }
 
     const group=selectedCoverageGroup();
     if(!group){
-      host.innerHTML='<div class="warn">⚠ 此景點尚未進入 B120/B121 coverage migration；目前不能宣稱所有題材的相機與被攝主體均已涵蓋。</div>';
+      host.innerHTML='<div class="warn">'+wmT('⚠ 此景點尚未進入 B120/B121 coverage migration；目前不能宣稱所有題材的相機與被攝主體均已涵蓋。')+'</div>';
       return;
     }
 
@@ -4202,10 +5307,10 @@
       const union=unionViewport(group.opportunities);
       const providerOk=union ? providerCoversBbox(union) : false;
       host.innerHTML=`
-        <div>${allComplete?'<span class="coverage-badge ok">all topics covered</span>':'<span class="coverage-badge provisional">partial migration</span>'}</div>
-        <div>已建立 coverage：${migrated} / ${total} 個題材；其中 ${incomplete} 個仍不完整。</div>
-        <div>${providerOk?'✓ 目前 WeatherGrid bbox 可涵蓋已建立的題材視野。':'⚠ 目前 WeatherGrid bbox 無法完整涵蓋已建立題材視野。'}</div>
-        <div>選擇單一題材可檢查 Camera / Subject / Environment。</div>`;
+        <div>${allComplete?`<span class="coverage-badge ok">遷移完成 ${migrated}/${total}（資料仍為 provisional）</span>`:'<span class="coverage-badge provisional">partial migration</span>'}</div>
+        <div>${wmT('已建立 coverage：{a} / {b} 個題材；其中 {c} 個仍不完整。',{a:migrated,b:total,c:incomplete})}</div>
+        <div>${providerOk?wmT('✓ 目前 WeatherGrid bbox 可涵蓋已建立的題材視野。'):wmT('⚠ 目前 WeatherGrid bbox 無法完整涵蓋已建立題材視野。')}</div>
+        <div>${wmT('選擇單一題材可檢查 Camera / Subject / Environment。')}</div>`;
       return;
     }
 
@@ -4215,7 +5320,8 @@
     host.innerHTML=`
       <div>${statusBadge(op)} <strong>${escapeHtml(op.name_zh||op.opportunity_id)}</strong></div>
       <div>Camera ${(op.camera_zones||[]).length} · Subject ${(op.subject_geometries||[]).length} · Environment ${(op.environment_geometries||[]).length}</div>
-      <div>${providerOk?'✓ 當前氣象資料涵蓋題材 viewport。':'⚠ 題材 viewport 超出當前氣象資料範圍；空白區不可視為晴朗。'}</div>
+      ${(!op.subject_geometries||op.subject_geometries.length===0)?'<div class="warn">未建立方位資料，僅顯示機位（不以全向環冒充主體扇）。</div>':''}
+      <div>${providerOk?wmT('✓ 當前氣象資料涵蓋題材 viewport。'):wmT('⚠ 題材 viewport 超出當前氣象資料範圍；空白區不可視為晴朗。')}</div>
       ${op.note?`<div>${escapeHtml(op.note)}</div>`:''}
       ${errors}${warnings}`;
   }
@@ -4225,14 +5331,14 @@
       visibility_ceiling_dominant:'能見度大量達模型上限，實際遠距能見度可能高於圖示值。',
       constant_field:'此圖層在目前時段幾乎沒有空間差異；可能是合理狀態，仍建議搭配相鄰時段判讀。'
     };
-    return messages[flag] || '此圖層有資料品質提示，請搭配相鄰時段與其他模型判讀。';
+    return wmT(messages[flag] || '此圖層有資料品質提示，請搭配相鄰時段與其他模型判讀。');
   }
 
   function setQcSummary(tone,text){
     const summary=$('qc-summary');
     if(!summary) return;
     summary.className=`qc-summary ${tone}`;
-    summary.textContent=`資料品質 · ${text}`;
+    summary.textContent=`${wmT('資料品質')} · ${wmT(text)}`;
   }
 
   // CL-WG-14 note language is derived from the page's lang attribute (the
@@ -4263,13 +5369,13 @@
     const host=$('qc-status');
     if(state.source==='demo'){
       setQcSummary('warn','DEMO');
-      host.innerHTML='<div class="warn">⚠️ 目前顯示 DEMO fixture；發布 live WeatherGrid 後會自動採 ICON cloud / GFS fallback。</div>';
+      host.innerHTML='<div class="warn">'+wmT('⚠️ 目前顯示 DEMO fixture；發布 live WeatherGrid 後會自動採 ICON cloud / GFS fallback。')+'</div>';
       return;
     }
     const qc=activeQc(state.layer);
     if(!qc){
       setQcSummary('warn','QC 未提供');
-      host.innerHTML='<div class="warn">△ QC 資料未提供</div>'+regionalModelNoteHtml();return;
+      host.innerHTML='<div class="warn">'+wmT('△ QC 資料未提供')+'</div>'+regionalModelNoteHtml();return;
     }
     // CL-WG-18: QC must never claim "✓ 資料正常" when the data layer did not
     // actually render this frame (e.g. basemap timed out, Canvas fallback
@@ -4278,8 +5384,8 @@
     if(!state.lastDataRendered){
       setQcSummary('warn','資料層未顯示');
       const reason=!state.mapReady
-        ? '底圖逾時，資料層未顯示'
-        : '資料層未顯示（此圖層無可繪資料）';
+        ? wmT('底圖逾時，資料層未顯示')
+        : wmT('資料層未顯示（此圖層無可繪資料）');
       host.innerHTML='<div class="warn">⚠ '+escapeHtml(reason)+'</div>'+regionalModelNoteHtml();
       return;
     }
@@ -4289,16 +5395,16 @@
       const stats=qc.field_stats?.[state.layer];
       const age=observationAgeMinutes();
       const distanceText=distance
-        ? `最近鄰對位 p99 ${(distance.p99_m/1000).toFixed(2)} km · 最大 ${(distance.max_m/1000).toFixed(2)} km`
-        : '無對位距離 QC';
+        ? wmT('最近鄰對位 p99 {a} km · 最大 {b} km',{a:(distance.p99_m/1000).toFixed(2),b:(distance.max_m/1000).toFixed(2)})
+        : wmT('無對位距離 QC');
       const missingText=stats
-        ? `有效 ${stats.count.toLocaleString()} / ${(stats.count+stats.missing).toLocaleString()} 格`
+        ? wmT('有效 {a} / {b} 格',{a:stats.count.toLocaleString(),b:(stats.count+stats.missing).toLocaleString()})
         : '';
       host.innerHTML=
-        `<div class="ok">✓ Himawari-9 最新觀測 · ${Number.isFinite(age)?Math.round(age)+' 分鐘前':'時間未知'}</div>`+
+        `<div class="ok">✓ Himawari-9 ${wmT('最新觀測 · {a}',{a:Number.isFinite(age)?Math.round(age)+' '+wmT('分鐘前'):wmT('時間未知')})}</div>`+
         `<div>${escapeHtml(distanceText)}</div>`+
         `<div>${escapeHtml(missingText)}</div>`+
-        '<div>雲頂高度缺值可為晴空／無反演，不視為資料錯誤。</div>'+
+        '<div>'+wmT('雲頂高度缺值可為晴空／無反演，不視為資料錯誤。')+'</div>'+
         regionalModelNoteHtml();
       return;
     }
@@ -4309,7 +5415,7 @@
       host.innerHTML='<div class="ok">✓ 資料正常</div>'+regionalModelNoteHtml();
     }else{
       setQcSummary('warn','需注意');
-      host.innerHTML=flags.map(x=>`<div class="warn">⚠ ${escapeHtml(qcMessage(x.flag))}<span class="qc-code" title="內部 QC 代碼">${escapeHtml(x.flag)}</span></div>`).join('')+
+      host.innerHTML=flags.map(x=>`<div class="warn">⚠ ${escapeHtml(qcMessage(x.flag))}<span class="qc-code" title="${escapeHtml(wmT('內部 QC 代碼'))}">${escapeHtml(x.flag)}</span></div>`).join('')+
         regionalModelNoteHtml();
     }
   }
@@ -4361,9 +5467,9 @@
   });
   load().catch(err=>{
     console.error(err);
-    $('source-state').textContent='載入失敗';
+    $('source-state').textContent=wmT('載入失敗');
     $('source-state').className='source-pill error';
-    setQcSummary('warn','載入失敗');
+    setQcSummary('warn',wmT('載入失敗'));
     $('qc-status').innerHTML=`<div class="warn">${escapeHtml(err.message)}</div>`;
   });
 })();

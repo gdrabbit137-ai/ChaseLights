@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-052-P01",
   "place_id": "tw-052",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "崗山之眼天空廊道與水庫平原全景",
@@ -20,20 +20,20 @@
       "kind": "area",
       "geometry": {
         "kind": "point",
-        "status": "provisional",
+        "status": "verified",
         "geojson": {
           "type": "Point",
           "coordinates": [
-            120.3497,
-            22.8229
+            120.33472,
+            22.81278
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference; CL-DATA-16 coordinate corrected 2026-11-06; source: https://zh.wikipedia.org/zh-tw/崗山之眼（22°48′46″N 120°20′5″E）+ https://whuy123.pixnet.net/blog/posts/8226710251（22.811964,120.333821）；複驗值與報告所引 120.356,22.825 不一致，以維基＋獨立實測一致值為準",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
-      "verification_status": "provisional",
+      "verification_status": "verified",
       "evidence_refs": [],
       "access_notes_i18n": {
         "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",

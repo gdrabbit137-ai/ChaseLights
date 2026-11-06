@@ -523,6 +523,21 @@ REGIONS = {
 # elevation helps Open-Meteo select/downscale to a terrain height closer to
 # the photographer instead of relying only on the grid-cell DEM.
 ELEVATION_OVERRIDES = {
+    # CL-DATA-16 2026-11-06 fact-check wave 1 (authoritative re-verification):
+    # 九份不厭亭 531 (myjourney.tw/smilertaiwan), 觀音山硬漢嶺 616 (北觀處官方),
+    # 火炎山 602 (林業署 forest.gov.tw/0007960), 鳶嘴山 2180 (recreation.forest.gov.tw tr_id=060),
+    # 金龍山 820 (日月潭風管處), 武界部落 800 (通行引用 760-820 區間), 二寮觀日亭 185 (西拉雅風管處),
+    # 墾丁鵝鑾鼻 56.4 (航港局燈高＝高潮面至燈火中心，焦點海拔語義, 非地面海拔),
+    # 屏東關山 152 (大鵬灣風管處).
+    "九份不厭亭": 531,
+    "觀音山硬漢嶺": 616,
+    "火炎山": 602,
+    "鳶嘴山": 2180,
+    "金龍山": 820,
+    "武界部落": 800,
+    "二寮觀日亭": 185,
+    "墾丁鵝鑾鼻": 56.4,
+    "屏東關山": 152,
     # CL-DATA-17 2026-11-06 fact-check wave (US coordinates/elevations, authoritative re-verification):
     # 大峽谷 Mather Point 2170 m (USGS GNIS 7,119 ft); 優勝美地 Sentinel Bridge 1208 m (OSM 3,963 ft).
     "大峽谷國家公園": 2170,

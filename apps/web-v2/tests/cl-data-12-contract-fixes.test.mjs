@@ -49,7 +49,7 @@ test('CL-DATA-12 A/G: threshold=null cloud_cover_low conditions carry the owner-
 });
 
 test('CL-DATA-12 B: 琉璃光 night low-cloud proxy replaces the inverted total-cloud cap', () => {
-  for (const [oid, lcl] of [['tw-020-P03', 466], ['tw-023-P03', 1170]]) {
+  for (const [oid, lcl] of [['tw-020-P03', 620], ['tw-023-P03', 1170]]) {
     const doc = loadContract(oid);
     const cs = conds(oid);
     assert.equal(doc.condition_contract.genre_template, 'blue_hour_city',

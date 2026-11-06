@@ -120,7 +120,7 @@ test('CL-UI-29: radar_link label reads 天氣圖 in all three languages', () => 
   assert.ok(!appSource.includes('レーダー'), 'ja レーダー wording must be gone');
 });
 
-test('CL-UI-29: homepage cache-bust stamp bumped to clui40', () => {
-  assert.ok(indexSource.includes('?v=clui40'), 'index.html must carry ?v=clui40');
+test('CL-UI-29: homepage cache-bust stamp bumped to clui41', () => {
+  assert.ok(indexSource.includes('?v=clui43'), 'index.html must carry ?v=clui43');
   assert.ok(!indexSource.includes('?v=clui30'), 'stale clui30 stamp must be gone');
 });

@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-021-P02",
   "place_id": "tw-021",
-  "revision": 3,
+  "revision": 4,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "武界高山茶園下方雲海／雲瀑",
@@ -29,11 +29,11 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference; CL-DATA-16 elevation 800 m verified 2026-11-06; source: https://gofunit.com/南投武界 + http://www.chang-you.com.tw/EW/GO/MGroupDetail.asp?prodCd=9PEH0201（武界部落 760–820 m，通行引用約 800 m）",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
-      "verification_status": "provisional",
+      "verification_status": "verified",
       "evidence_refs": [],
       "access_notes_i18n": {
         "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
@@ -45,7 +45,7 @@
         "en": "Follow on-site safety guidance.",
         "ja": "現地の安全指示に従ってください。"
       },
-      "altitude_m": null
+      "altitude_m": 800.0
     }
   ],
   "targets": [
@@ -183,7 +183,7 @@
         "capability": "CONDITIONS",
         "metric": "lcl_height_m_agl",
         "operator": "lt",
-        "threshold": 663,
+        "threshold": 600,
         "unit": "m",
         "unknown_policy": "propagate_unknown",
         "claim_refs": [
@@ -195,14 +195,14 @@
         "threshold_source": "computed",
         "calibration_status": "provisional",
         "rationale_i18n": {
-          "zh-TW": "雲底須低於視線（觀點 863 m − 200 m ＝ 663 m 餘量），雲海才出現在眼前而非腳邊。LCL 為雲底代理。",
-          "en": "The cloud base must sit below the sightline (viewpoint 863 m minus a 200 m margin = 663 m) for the sea of clouds to appear in front of the viewer, not at their feet. LCL proxies the cloud base.",
-          "ja": "雲底が視線より低いこと（視点863mから200mの余裕＝663m）で、雲海が足元ではなく眼前に現れる。LCLは雲底の代理指標。"
+          "zh-TW": "雲底須低於視線（觀點 800 m − 200 m ＝ 600 m 餘量），雲海才出現在眼前而非腳邊。LCL 為雲底代理。",
+          "en": "The cloud base must sit below the sightline (viewpoint 800 m minus a 200 m margin = 600 m) for the sea of clouds to appear in front of the viewer, not at their feet. LCL proxies the cloud base.",
+          "ja": "雲底が視線より低いこと（視点800mから200mの余裕＝600m）で、雲海が足元ではなく眼前に現れる。LCLは雲底の代理指標。"
         },
         "notes_i18n": {
-          "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
-          "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
-          "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
+          "zh-TW": "CL-DATA-16 2026-11-06：觀點海拔依權威源複驗修正（來源：https://gofunit.com/南投武界 + http://www.chang-you.com.tw/EW/GO/MGroupDetail.asp?prodCd=9PEH0201（武界部落 760–820 m，通行引用約 800 m）），LCL 門檻依 owner 公式重算 = 600 m（800.0 m − 200 m），原 663 m。",
+          "en": "CL-DATA-16 2026-11-06: viewpoint elevation re-verified against the authoritative source (https://gofunit.com/南投武界 + http://www.chang-you.com.tw/EW/GO/MGroupDetail.asp?prodCd=9PEH0201（武界部落 760–820 m，通行引用約 800 m）); LCL threshold recomputed per owner formula = 600 m (800.0 m - 200 m), previously 663 m.",
+          "ja": "CL-DATA-16 2026-11-06：視点標高を権威ソースで再検証・修正（出典：https://gofunit.com/南投武界 + http://www.chang-you.com.tw/EW/GO/MGroupDetail.asp?prodCd=9PEH0201（武界部落 760–820 m，通行引用約 800 m））。LCLしきい値はオーナー式で再計算 = 600 m（800.0 m - 200 m）、旧 663 m。"
         }
       },
       {
