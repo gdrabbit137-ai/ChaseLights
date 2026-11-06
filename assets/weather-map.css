@@ -82,6 +82,8 @@ body{padding:18px}
 .cloud-tick.last{transform:translateX(-100%)}
 .cloud-tick.midpoint{color:#fef08a;font-weight:900}
 .cloud-threshold-key{margin-top:2px;display:flex;align-items:center;gap:6px;color:#fde68a;font-size:.67rem}
+.cloud-threshold-key[data-zoom-gated="true"] .cloud-threshold-swatch{opacity:.45}
+.cloud-threshold-hint{color:#cbd5e1;font-size:.62rem}
 .cloud-threshold-swatch{width:22px;border-top:1px dotted rgba(254,240,138,.9);display:inline-block}
 
 .time-navigator{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;gap:8px;align-items:center;padding-top:10px}
