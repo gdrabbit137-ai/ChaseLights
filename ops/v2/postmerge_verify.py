@@ -338,7 +338,7 @@ def main():
             ("w3-evaluator-and-hourly-source", ["packages/core-v2/tests", "test_*.py"], 187, True, False),
             ("w3-solar-model", ["packages/models-v2/tests", "test_*.py"], 15, True, False),
             ("w2-crosswalk-schema-index-and-hourly-binding", ["data/v2/tests", "test_*.py"], 66, True, False,
-                {"timeout": 300}),
+                {"timeout": 600}),  # CL-INT-78: 600s covers the Windows-local w2 suite duration (~380-600s under load); CI ubuntu is well under
             ("w2-real-records", [sys.executable, "specs/v2/tests/validate_contract.py",
                 *[str(p.relative_to(root)) for p in sorted((root / "data/v2/opportunities").glob("*.json"))]],
                 None, False, False),
@@ -353,7 +353,7 @@ def main():
                 None, False, False),
             ("w4-node", ["node", "--test", "--test-isolation=none", "--test-timeout=120000",
                 "--test-reporter=tap",                *[str(p.relative_to(root)) for p in sorted(
-                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 467, False, True),
+                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 479, False, True),
             ("w5-public-source-contract", ["node", "--test", "--test-reporter=tap",
                 "ops/v2/tests/public-source-contract.test.mjs",
                 "ops/v2/tests/cl-int-76-provenance.test.mjs"], 9, False, True),
@@ -399,7 +399,7 @@ def main():
         # 2026-11-06 CL-WG-26: +5 contour zoom gate tests -> w4-node=445, exact total 886.
         # CL-INT-80 sequential merge (WG-27 + WG-28R, stamps re-anchored
         # bclwg29->bclwg30): w4-node RE-MEASURED on the merged tree = 459
-        # (node v26.7.0, --test-isolation=none) -> exact total 886+14=900; CL-INT-81/77 combined integration re-measures on the union tree (CL-UI-38 +8 node, w5-public +3) -> w4-node 467, exact total 911 (re-measured on union tree; candidate-build-browser +6 in CI env).
+        # (node v26.7.0, --test-isolation=none) -> exact total 886+14=900; CL-INT-81/77 combined integration re-measures on the union tree (CL-UI-38 +8 node, w5-public +3) -> w4-node 467, exact total 911 (re-measured on union tree; candidate-build-browser +6 in CI env). CL-INT-78 (CL-DATA-17 union with CL-INT-81/82): w4-node re-measured 479 on the merged tree.
         # 2026-11-06 CL-INT-82: merged CL-UI-41 (+7 node) + CL-WG-30 (+5 node)
         # -> w4-node re-measured on the merged tree = 479 -> exact total 923.
         if (report["counts"]["tests"] != 923 or
