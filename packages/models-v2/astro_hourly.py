@@ -64,6 +64,15 @@ CITY_NIGHT_MAX_DEG = -6.0
 # moon data is consulted.
 CIVIL_LIGHT_MIN_DEG = -6.0
 
+# CL-DATA-24: the sun's phase for an hour bucket — "dawn" (morning side of
+# the day, nearest horizon crossing is a sunrise) or "dusk" (evening side,
+# nearest crossing is a sunset). blue_hour_window / golden_hour_window are
+# symmetric by elevation alone, so a dusk-named subject evaluated without a
+# phase constraint matched 05:00 morning twilight hours as well; the phase
+# scalar lets window conditions declare `phase: dusk|dawn` and the evaluator
+# keeps only the phase the subject name names.
+SUN_PHASE = ("dawn", "dusk")
+
 # CL-UI-08: window metrics are evaluated by SUB-HOUR INTERVAL SAMPLING, not by
 # the single grid instant. Narrow windows (blue hour 20-50 min, sunrise/sunset
 # ±40 min, golden hour) can fall entirely between two whole-hour grid points;
@@ -87,6 +96,18 @@ ASTRO_SAMPLING_PROVENANCE = {
 
 def _sun_altitude(dt_utc, lat, lon):
     return _solar_altitude_deg(dt_utc.astimezone(timezone.utc), lat, lon)
+
+
+def _sun_phase(dt_utc, events):
+    """CL-DATA-24: the hour bucket's phase, from the horizon crossing nearest
+    the bucket centre. A bucket whose nearest crossing is a sunrise belongs to
+    the dawn side of the day (morning twilight + morning golden hour); a
+    sunset-nearest bucket is dusk side. No events (polar day/night) -> None."""
+    if not events:
+        return None
+    centre = dt_utc.timestamp() + 1800.0
+    _t, kind = min(events, key=lambda e: abs(e[0] - centre))
+    return "dawn" if kind == "sunrise" else "dusk"
 
 
 def _sun_azimuth(dt_utc, lat, lon):
@@ -147,6 +168,7 @@ def hour_observations(dt_utc, lat, lon, events=None, need_moon=False):
     # granularity as the altitude scalar (windows sample; scalars don't).
     out = {
         "sun_azimuth_deg": _sun_azimuth(dt_utc, lat, lon),
+        "phase": _sun_phase(dt_utc, events),
         "astronomical_darkness": any(a <= DARKNESS_MAX_DEG for a in altitudes),
         "city_night_window": all(a <= CITY_NIGHT_MAX_DEG for a in altitudes),
         "golden_hour_window": any(GOLDEN_LOW_DEG <= a <= GOLDEN_HIGH_DEG
