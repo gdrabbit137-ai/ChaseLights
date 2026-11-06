@@ -24,6 +24,35 @@ SUPPORTED_GEOMETRY_TYPES = {"point", "bbox", "polygon", "sector", "corridor"}
 COVERAGE_STATUSES = {"verified", "provisional", "needs_research"}
 BROWSER_EXPOSURES = {"public", "generalized", "internal_only"}
 
+# CL-WG-30 batch 2: subject-family environment-radius rule table
+# (CL-WG-29 design doc section 5). The coverage compiler (publish_preview
+# path) computes a DEFAULT Environment geometry from the Subject geometry
+# when a registry entry omits one, keyed by the Opportunity's legacy_theme
+# family. Semantics:
+# - "arc": "subject" -> ENV copies the Subject arc (including monthly
+#   sectors_monthly) up to the family's max_range_km.
+# - "scale": Subject max_range multiplier (mountain_view 1.2 / city_night
+#   1.2 with a >=15 km visibility band).
+# - "ring_below_camera": cloud-sea family only - the 0-8 km full-ring
+#   lower-terrain environment (pre-existing registry precedent).
+# - "ring": celestial families only - the 0-20 km full-ring atmospheric
+#   envelope. THIS IS THE ONLY OTHER OMNI RING THE COMPILER MAY EMIT
+#   (CL-WG-29 section 4.2: 全向環僅限雲海／天體兩語義).
+# Families without a rule (reflection/seasonal wildlife/panoramic near
+# rings) get NO computed ENV: their Environment is the same extent as the
+# Subject and must not be double-drawn.
+FAMILY_ENV_RULES = {
+    "sunrise": {"arc": "subject", "max_range_km": 20.0},
+    "sunset": {"arc": "subject", "max_range_km": 20.0},
+    "cloud_sea": {"ring_below_camera": (0.0, 8.0)},
+    "mountain_view": {"arc": "subject", "scale": 1.2},
+    "overlook": {"arc": "subject", "scale": 1.2},
+    "milky_way": {"ring": 20.0},
+    "night_sky": {"ring": 20.0},
+    "city_night": {"arc": "subject", "scale": 1.2, "min_max_range_km": 15.0},
+    "fog_mist": {"arc": "subject", "min_range_km": 2.5, "max_range_km": 5.0},
+}
+
 
 class CoverageError(ValueError):
     pass
@@ -162,9 +191,32 @@ def geometry_points(
     if min_range < 0 or max_range < 0 or min_range > max_range:
         raise CoverageError("sector range must satisfy 0 <= min <= max")
 
-    start = float(geometry["azimuth_start_deg"])
-    end = float(geometry["azimuth_end_deg"])
-    bearings = _sample_sector_bearings(start, end)
+    # CL-WG-30: month-calibrated light wedges (CL-DATA-13 sectors mechanism).
+    # A geometry may declare `sectors_monthly`: 12 {arc_center_deg,
+    # arc_half_width_deg} entries in Jan..Dec order (same semantics as
+    # evaluate_batch condition_verdict sectors[month-1]). For bbox/planning
+    # purposes the coverage envelope is the union of all 12 monthly arcs, so
+    # no month's wedge can fall outside the planned fetch window; the browser
+    # resolves the current month at render time.
+    monthly = geometry.get("sectors_monthly")
+    if monthly is not None:
+        if not isinstance(monthly, list) or len(monthly) != 12:
+            raise CoverageError(
+                "sector sectors_monthly requires exactly 12 monthly arcs"
+            )
+        bearings: list[float] = []
+        for arc in monthly:
+            if not isinstance(arc, dict):
+                raise CoverageError("sectors_monthly entries must be objects")
+            center = float(arc["arc_center_deg"])
+            half = float(arc["arc_half_width_deg"])
+            if half < 0 or half > 180:
+                raise CoverageError("arc_half_width_deg must be within [0, 180]")
+            bearings.extend(_sample_sector_bearings(center - half, center + half))
+    else:
+        start = float(geometry["azimuth_start_deg"])
+        end = float(geometry["azimuth_end_deg"])
+        bearings = _sample_sector_bearings(start, end)
     points = [(origin_lat, origin_lon)]
     for bearing in bearings:
         if min_range:
@@ -320,6 +372,118 @@ class CoveragePlan:
             "errors": self.errors,
             "warnings": self.warnings,
         }
+
+
+def computed_environment_geometries(opportunity: dict, coverage: dict) -> list[dict]:
+    """CL-WG-30 batch 2: derive default Environment geometries from the
+    FAMILY_ENV_RULES table when a registry entry provides Subject geometry
+    but no Environment geometry. Every computed geometry carries an explicit
+    provenance marker so the browser/audit layer can distinguish a computed
+    family default from researched evidence. The compiler never emits an
+    omni ring outside the cloud-sea and celestial families (CL-WG-29 §4.2).
+    """
+    theme = opportunity.get("legacy_theme")
+    rule = FAMILY_ENV_RULES.get(theme)
+    if not rule:
+        return []
+    if coverage.get("environment_geometries"):
+        return []
+    subjects = coverage.get("subject_geometries") or []
+    subject = next(
+        (s for s in subjects
+         if isinstance(s, dict) and (s.get("geometry") or {}).get("type") == "sector"),
+        None,
+    )
+    if subject is None:
+        return []
+    subject_geometry = dict(subject["geometry"])
+
+    def provenance(rule_id: str) -> dict:
+        return {
+            "source": "family_env_rules",
+            "rule_id": rule_id,
+            "legacy_theme": theme,
+            "computed": True,
+        }
+
+    provenance_ref = f"weathergrid_coverage.FAMILY_ENV_RULES.{theme}"
+
+    if "ring_below_camera" in rule:
+        lo, hi = rule["ring_below_camera"]
+        geometry = dict(subject_geometry)
+        geometry["azimuth_start_deg"] = 0
+        geometry["azimuth_end_deg"] = 360
+        geometry["min_range_km"] = lo
+        geometry["max_range_km"] = hi
+        geometry.pop("sectors_monthly", None)
+        geometry.pop("sector_resolution", None)
+        geometry.pop("omni_semantics", None)
+        return [{
+            "environment_id": f"{opportunity.get('opportunity_id')}-ENVC01",
+            "role": "family_computed_environment_zone",
+            "name": f"computed {theme} environment ring (family_env_rules)",
+            "geometry": geometry,
+            "computed": True,
+            "rule_id": f"family_env_rules.{theme}",
+            "provenance": provenance(f"family_env_rules.{theme}"),
+            "coord_confidence": "medium",
+            "source_evidence_ids": [provenance_ref],
+            "browser_exposure": "public",
+        }]
+
+    if "ring" in rule:
+        geometry = dict(subject_geometry)
+        geometry["azimuth_start_deg"] = 0
+        geometry["azimuth_end_deg"] = 360
+        geometry["min_range_km"] = 0
+        geometry["max_range_km"] = float(rule["ring"])
+        geometry.pop("sectors_monthly", None)
+        geometry.pop("sector_resolution", None)
+        geometry.pop("omni_semantics", None)
+        return [{
+            "environment_id": f"{opportunity.get('opportunity_id')}-ENVC01",
+            "role": "family_computed_celestial_envelope",
+            "name": f"computed {theme} atmospheric envelope (family_env_rules)",
+            "geometry": geometry,
+            "computed": True,
+            "rule_id": f"family_env_rules.{theme}",
+            "provenance": provenance(f"family_env_rules.{theme}"),
+            "coord_confidence": "medium",
+            "source_evidence_ids": [provenance_ref],
+            "browser_exposure": "public",
+        }]
+
+    if rule.get("arc") == "subject":
+        max_range = float(rule.get("max_range_km") or float(subject_geometry.get("max_range_km") or 0))
+        if "scale" in rule:
+            max_range = float(subject_geometry.get("max_range_km") or 0) * float(rule["scale"])
+            if "min_max_range_km" in rule:
+                max_range = max(max_range, float(rule["min_max_range_km"]))
+        # Guard (CL-WG-29 §4.2): the compiler must refuse to compute an
+        # omni environment ring outside the cloud-sea/celestial families.
+        # A subject that is itself omni (no researched arc) yields no ENV.
+        is_omni_subject = not subject_geometry.get("sectors_monthly") and (
+            float(subject_geometry.get("azimuth_start_deg") or 0) == 0
+            and float(subject_geometry.get("azimuth_end_deg") or 0) == 360
+        )
+        if is_omni_subject:
+            return []
+        geometry = dict(subject_geometry)
+        geometry["min_range_km"] = float(rule.get("min_range_km", 0.0))
+        geometry["max_range_km"] = round(max_range, 3)
+        return [{
+            "environment_id": f"{opportunity.get('opportunity_id')}-ENVC01",
+            "role": "family_computed_environment_sector",
+            "name": f"computed {theme} environment sector (family_env_rules)",
+            "geometry": geometry,
+            "computed": True,
+            "rule_id": f"family_env_rules.{theme}",
+            "provenance": provenance(f"family_env_rules.{theme}"),
+            "coord_confidence": subject.get("coord_confidence") or "medium",
+            "source_evidence_ids": [provenance_ref],
+            "browser_exposure": "public",
+        }]
+    return []
 
 
 def plan_opportunity_coverage(

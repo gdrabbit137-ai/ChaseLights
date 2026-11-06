@@ -76,7 +76,7 @@ test('zoom changes flip the legend key in real time (draw() wiring)', () => {
 });
 
 test('cache-bust stamps bumped in the same ticket (?v=bclwg31)', () => {
-  assert.match(HTML, /assets\/weather-map\.js\?v=bclwg31/);
+  assert.match(HTML, /assets\/weather-map\.js\?v=bclwg32/);
   assert.match(HTML, /assets\/weather-map\.css\?v=bclwg31/);
   assert.doesNotMatch(HTML, /weather-map\.js\?v=bclwg28/);
 });

@@ -1,13 +1,14 @@
 {
   "schema_version": 1,
-  "registry_version": "B121.17",
+  "registry_version": "B121.18",
   "contract": "WEATHERGRID_COVERAGE_SPEC_R4_2.md",
-  "generated_or_reviewed_at": "2026-09-30",
+  "generated_or_reviewed_at": "2026-11-06",
   "notes": [
     "B121.17 adds subject-aware WeatherGrid coverage for tw-062 水頭聚落・得月樓 while retaining prior complete entries.",
     "Kinmen Travel official material identifies Deyue Tower, Huang Huihuang Western-style House and the surrounding Shuitou settlement as a compact cluster of preserved traditional and overseas-influenced architecture.",
     "B142 uses a conservative 0–0.3 km full-circle local subject envelope around the public exterior Camera Zone. This is a WeatherGrid planning envelope, not an exact building footprint, property boundary, or tripod polygon.",
-    "Golden-hour quality, night lighting, interior opening, crowding and temporary access remain separate runtime/on-site concerns; no Photography Opportunity scoring changes are made."
+    "Golden-hour quality, night lighting, interior opening, crowding and temporary access remain separate runtime/on-site concerns; no Photography Opportunity scoring changes are made.",
+    "B121.18 (CL-WG-30 Batch 1 pilot wedges): adds subject/environment coverage for tw-002-P01 (Xiangshan static_derived az 304.9 / 911 m -> SUB 294.9-314.9 deg, 0.5-1.2 km + city_night ENV 15 km), tw-003-P01 (Tamsui sunset monthly sectors, CL-DATA-13 mechanism: 12 x {arc_center_deg, arc_half_width_deg}, sunset azimuth 246.6-295.9 deg), tw-001-P02 (cloud-sea lower-terrain ENV ring, same family precedent as tw-004-P03), tw-027-P01 (Moon World panoramic badlands near-ring 0-1 km), tw-072-P01 (Nanya odd-rock foreground ring 0-0.3 km + eastern dawn sector 60-120 deg/0-15 km), tw-076-P01/P02 (Longpan eastern sea cliff sunrise sector 50-130 deg/0-20 km + celestial envelope ring). tw-027/tw-072/tw-076 arcs are commissioned at photography-common-sense evidence tier per CL-WG-29 section 3 (coord_confidence medium, Grade-A per-spot verification pending). Deliberately NOT migrated (azimuth evidence absent, honest camera-only pending, CL-WG-29 section 4.1): tw-001-P01/P03, tw-002-P02/P03, tw-003-P02/P03, tw-004-P01/P04, tw-019-P01/P02/P03/P05/P06, tw-027-P02/P03, tw-072-P02, us-015-P01/P02 (us-015 catalog viewpoints carry no coordinates, so no sector can be derived)."
   ],
   "entries": [
     {
@@ -2332,6 +2333,483 @@
         "camera_zone_browser_exposure": {
           "tw-062-VP01": "generalized"
         }
+      }
+    },
+    {
+      "opportunity_id": "tw-002-P01",
+      "spot_id": "tw-002",
+      "provenance": {
+        "basis": "CL-WG-30 Batch 1: promoted tw-002 static_derived observation_relation (azimuth_deg 304.9, distance_m 911, derivation_method computed_great_circle_from_designated_viewpoint) into the B121 coverage migration. CL-WG-29 section 3 item 8.",
+        "geometry_interpretation": "SUB arc is the designated-viewpoint great-circle bearing to Taipei 101 (+/-10 deg, 0.5-1.2 km); ENV is the same arc extended to a 15 km city-night visibility band. The arc is observation-relation evidence, not a camera-pan width."
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-002-VP01",
+          "tw-002-VP02"
+        ],
+        "camera_zone_browser_exposure": {
+          "tw-002-VP01": "generalized",
+          "tw-002-VP02": "generalized"
+        },
+        "subject_geometries": [
+          {
+            "subject_id": "tw-002-P01-SUB01",
+            "role": "taipei_101_subject_sector",
+            "name": "象山機位西北望台北101／信義天際線主體扇區",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-002-VP01",
+              "min_range_km": 0.5,
+              "max_range_km": 1.2,
+              "azimuth_start_deg": 294.9,
+              "azimuth_end_deg": 314.9
+            },
+            "coord_confidence": "medium",
+            "source_evidence_ids": [
+              "CL-WG-29.camera_subject_wedges_design.section3"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "environment_geometries": [
+          {
+            "environment_id": "tw-002-P01-ENV01",
+            "role": "city_night_visibility_environment_sector",
+            "name": "象山機位西北望天際線暮色／藍調大氣環境區",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-002-VP01",
+              "min_range_km": 0,
+              "max_range_km": 15,
+              "azimuth_start_deg": 294.9,
+              "azimuth_end_deg": 314.9
+            },
+            "coord_confidence": "medium",
+            "source_evidence_ids": [
+              "CL-WG-29.camera_subject_wedges_design.section3"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "display_padding_km": 5,
+        "coverage_confidence": "medium_high",
+        "note": "CL-WG-30：將 tw-002-P01 既有的 static_derived 回填（az 304.9°／911 m）轉正為 Subject 扇（294.9°–314.9°／0.5–1.2 km），並依 city_night 家族規則補同弧 15 km 遠眺能見度環境區。方位取自 designated viewpoint 大圓計算，屬 observation-relation 級證據；藍調／夜景可見性仍由獨立 gate 判定。tw-002-P02／P03 觀測關係無方位資料，依 CL-WG-29 §4.1 誠實僅顯示機位（pending）。"
+      }
+    },
+    {
+      "opportunity_id": "tw-003-P01",
+      "spot_id": "tw-003",
+      "provenance": {
+        "basis": "CL-WG-30 Batch 1: Tamsui sunset wedge month-calibrated with the CL-DATA-13 light_direction sectors mechanism. Monthly sunset azimuths 246.6-295.9 deg (Jan-Dec order) are taken from the already-reviewed condition_contract sectors of data/v2/opportunities/tw-003-P01.json. CL-WG-29 section 3 item 5.",
+        "geometry_interpretation": "A single spot-level az 285 is only correct for the second half of summer; the coverage wedge therefore resolves to the CURRENT MONTH's sunset arc (center +/-27.5 deg), matching the light_direction policy. ENV is the same monthly arc over the Tamsui river-mouth sea."
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-003-VP01"
+        ],
+        "camera_zone_browser_exposure": {
+          "tw-003-VP01": "generalized"
+        },
+        "subject_geometries": [
+          {
+            "subject_id": "tw-003-P01-SUB01",
+            "role": "sunset_horizon_monthly_sector",
+            "name": "淡水河口夕照月別化主體扇區",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-003-VP01",
+              "min_range_km": 0,
+              "max_range_km": 20,
+              "sectors_monthly": [
+                {
+                  "arc_center_deg": 246.6,
+                  "arc_half_width_deg": 27.5
+                },
+                {
+                  "arc_center_deg": 256.0,
+                  "arc_half_width_deg": 27.5
+                },
+                {
+                  "arc_center_deg": 267.7,
+                  "arc_half_width_deg": 27.5
+                },
+                {
+                  "arc_center_deg": 280.9,
+                  "arc_half_width_deg": 27.5
+                },
+                {
+                  "arc_center_deg": 291.0,
+                  "arc_half_width_deg": 27.5
+                },
+                {
+                  "arc_center_deg": 295.9,
+                  "arc_half_width_deg": 27.5
+                },
+                {
+                  "arc_center_deg": 293.9,
+                  "arc_half_width_deg": 27.5
+                },
+                {
+                  "arc_center_deg": 285.5,
+                  "arc_half_width_deg": 27.5
+                },
+                {
+                  "arc_center_deg": 273.3,
+                  "arc_half_width_deg": 27.5
+                },
+                {
+                  "arc_center_deg": 260.5,
+                  "arc_half_width_deg": 27.5
+                },
+                {
+                  "arc_center_deg": 249.4,
+                  "arc_half_width_deg": 27.5
+                },
+                {
+                  "arc_center_deg": 244.1,
+                  "arc_half_width_deg": 27.5
+                }
+              ],
+              "sector_resolution": "monthly"
+            },
+            "coord_confidence": "medium",
+            "source_evidence_ids": [
+              "CL-WG-29.camera_subject_wedges_design.section3"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "environment_geometries": [
+          {
+            "environment_id": "tw-003-P01-ENV01",
+            "role": "rivermouth_sunset_weather_sector_monthly",
+            "name": "淡水河口海面夕照／晚霞環境區（月別化）",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-003-VP01",
+              "min_range_km": 0,
+              "max_range_km": 20,
+              "sectors_monthly": [
+                {
+                  "arc_center_deg": 246.6,
+                  "arc_half_width_deg": 27.5
+                },
+                {
+                  "arc_center_deg": 256.0,
+                  "arc_half_width_deg": 27.5
+                },
+                {
+                  "arc_center_deg": 267.7,
+                  "arc_half_width_deg": 27.5
+                },
+                {
+                  "arc_center_deg": 280.9,
+                  "arc_half_width_deg": 27.5
+                },
+                {
+                  "arc_center_deg": 291.0,
+                  "arc_half_width_deg": 27.5
+                },
+                {
+                  "arc_center_deg": 295.9,
+                  "arc_half_width_deg": 27.5
+                },
+                {
+                  "arc_center_deg": 293.9,
+                  "arc_half_width_deg": 27.5
+                },
+                {
+                  "arc_center_deg": 285.5,
+                  "arc_half_width_deg": 27.5
+                },
+                {
+                  "arc_center_deg": 273.3,
+                  "arc_half_width_deg": 27.5
+                },
+                {
+                  "arc_center_deg": 260.5,
+                  "arc_half_width_deg": 27.5
+                },
+                {
+                  "arc_center_deg": 249.4,
+                  "arc_half_width_deg": 27.5
+                },
+                {
+                  "arc_center_deg": 244.1,
+                  "arc_half_width_deg": 27.5
+                }
+              ],
+              "sector_resolution": "monthly"
+            },
+            "coord_confidence": "medium",
+            "source_evidence_ids": [
+              "CL-WG-29.camera_subject_wedges_design.section3"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "display_padding_km": 5,
+        "coverage_confidence": "medium",
+        "note": "CL-WG-30：取代 CL-DATA-13 的 spot-level az 285（僅夏季後半正確），Subject／Environment 改為月別化扇形（sectors_monthly 12 月 {arc_center_deg, arc_half_width_deg}，與 condition_contract light_direction 同源同月別）。渲染端依當月（Asia/Taipei）選弧心；月份取值語義與 evaluate_batch sectors[month-1] 一致（1=一月）。tw-003-P02／P03 無獨立方位證據，誠實僅顯示機位（pending）。"
+      }
+    },
+    {
+      "opportunity_id": "tw-001-P02",
+      "spot_id": "tw-001",
+      "provenance": {
+        "basis": "CL-WG-30 Batch 1: cloud-sea family lower-terrain environment ring, same precedent as tw-004-P03/tw-019-P04. CL-WG-29 section 3 item 2.",
+        "geometry_interpretation": "The photographed phenomenon is low cloud below the camera. 8 km full-ring environment zone reuses the spatial-weather profile precedent; it is not an observed cloud boundary."
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-001-VP01"
+        ],
+        "camera_zone_browser_exposure": {
+          "tw-001-VP01": "generalized"
+        },
+        "subject_geometries": [],
+        "environment_geometries": [
+          {
+            "environment_id": "tw-001-P02-ENV01",
+            "role": "cloud_sea_subject_environment_zone",
+            "name": "大屯山台北盆地下方雲海－下方低雲／雲海環境區",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-001-VP01",
+              "azimuth_start_deg": 0,
+              "azimuth_end_deg": 360,
+              "min_range_km": 0,
+              "max_range_km": 8
+            },
+            "coord_confidence": "medium",
+            "source_evidence_ids": [
+              "spatial_weather.SPATIAL_WEATHER_PROFILES.tw-001-P02",
+              "CL-WG-29.camera_subject_wedges_design.section5"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "display_padding_km": 5,
+        "coverage_confidence": "medium",
+        "note": "此 Opportunity 的被攝現象本身是相機下方低層雲／雲海，沿用雲海家族 8 km 全向下環（與 tw-004-P03 同一語義與先例），不宣稱精確雲海邊界。tw-001-P01／P03 的主體方位（日落 240–300°、台北夜景 20–35°）為攝影常識層級，依 CL-WG-29 §4.1 於 Grade-A 證據到位前不建扇、誠實僅顯示機位（pending）。"
+      }
+    },
+    {
+      "opportunity_id": "tw-027-P01",
+      "spot_id": "tw-027",
+      "provenance": {
+        "basis": "CL-WG-30 Batch 1: Moon World badlands terrain surrounds the camera on the boardwalk loop; the subject is the near-field eroded terrain itself. CL-WG-29 section 3 item 6 / section 5 panoramic family.",
+        "geometry_interpretation": "0-1 km full-circle near ring: the badlands basin is the terrain around the photography platform, so the omni ring is the subject semantics (panoramic_terrain_ring), not a claim that every bearing contains a distant subject. Grade-A per-spot verification pending."
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-027-VP01",
+          "tw-027-VP02"
+        ],
+        "camera_zone_browser_exposure": {
+          "tw-027-VP01": "generalized",
+          "tw-027-VP02": "generalized"
+        },
+        "subject_geometries": [
+          {
+            "subject_id": "tw-027-P01-SUB01",
+            "role": "panoramic_badlands_near_ring",
+            "name": "月世界惡地形近環主體（環狀谷地）",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-027-VP01",
+              "min_range_km": 0,
+              "max_range_km": 1,
+              "azimuth_start_deg": 0,
+              "azimuth_end_deg": 360,
+              "omni_semantics": "panoramic_terrain_ring"
+            },
+            "coord_confidence": "medium",
+            "source_evidence_ids": [
+              "CL-WG-29.camera_subject_wedges_design.section3"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "environment_geometries": [],
+        "display_padding_km": 5,
+        "coverage_confidence": "medium",
+        "note": "月世界地景是機位四周的環狀谷地：主體即近域地形，依 CL-WG-29 §5 panoramic 家族以 0–1 km 近環涵蓋（omni_semantics=panoramic_terrain_ring），Environment 與 Subject 同弧同距離帶時不雙畫。tw-027-P02／P03 無方位資料，誠實僅顯示機位（pending）。方位證據為攝影常識層級（Grade-A 查證 pending，provisional）。"
+      }
+    },
+    {
+      "opportunity_id": "tw-072-P01",
+      "spot_id": "tw-072",
+      "provenance": {
+        "basis": "CL-WG-30 Batch 1: Nanya odd-rock foreground sits at the photographer's feet on the coast; morning light comes over the east-facing sea. CL-WG-29 section 3 item 10 / section 5 seascape family.",
+        "geometry_interpretation": "SUB = 0-0.3 km near foreground ring (the odd-rock coast is terrain around the camera); ENV = 60-120 deg eastern dawn sector, 0-15 km sea band (same envelope class as tw-068-P01/tw-073-P01). Grade-A per-spot verification pending."
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-072-VP01"
+        ],
+        "camera_zone_browser_exposure": {
+          "tw-072-VP01": "generalized"
+        },
+        "subject_geometries": [
+          {
+            "subject_id": "tw-072-P01-SUB01",
+            "role": "coastal_foreground_rock_ring",
+            "name": "南雅奇岩前景近環（腳下奇岩海岸）",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-072-VP01",
+              "min_range_km": 0,
+              "max_range_km": 0.3,
+              "azimuth_start_deg": 0,
+              "azimuth_end_deg": 360,
+              "omni_semantics": "panoramic_terrain_ring"
+            },
+            "coord_confidence": "medium",
+            "source_evidence_ids": [
+              "CL-WG-29.camera_subject_wedges_design.section3"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "environment_geometries": [
+          {
+            "environment_id": "tw-072-P01-ENV01",
+            "role": "eastern_dawn_horizon_sector",
+            "name": "南雅東向海面晨曦環境區",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-072-VP01",
+              "azimuth_start_deg": 60,
+              "azimuth_end_deg": 120,
+              "min_range_km": 0,
+              "max_range_km": 15
+            },
+            "coord_confidence": "medium",
+            "source_evidence_ids": [
+              "CL-WG-29.camera_subject_wedges_design.section3"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "display_padding_km": 5,
+        "coverage_confidence": "medium",
+        "note": "奇岩前景以 0–0.3 km 近環涵蓋（omni_semantics=panoramic_terrain_ring），晨曦以 60°–120°／0–15 km 東向扇區涵蓋海面大氣；與 tw-068/tw-073 同一家族先例。方位證據為攝影常識層級（Grade-A 查證 pending，provisional）。tw-072-P02（夕照）方位資料未建立，依 §4.1 誠實僅顯示機位（pending）。"
+      }
+    },
+    {
+      "opportunity_id": "tw-076-P01",
+      "spot_id": "tw-076",
+      "provenance": {
+        "basis": "CL-WG-30 Batch 1: Longpan grassland cliff faces the Pacific to the east; sunrise subject and environment share the eastern sea arc per the sunrise family rule (same as tw-036-P01). CL-WG-29 section 3 item 9.",
+        "geometry_interpretation": "SUB 50-130 deg / 0-10 km eastern sea-and-grassland arc; ENV the same arc to 20 km horizon band. Grade-A per-spot verification pending."
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-076-VP01"
+        ],
+        "camera_zone_browser_exposure": {
+          "tw-076-VP01": "generalized"
+        },
+        "subject_geometries": [
+          {
+            "subject_id": "tw-076-P01-SUB01",
+            "role": "eastern_coast_sunrise_subject_sector",
+            "name": "龍磐東向太平洋草原斷崖主體扇區",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-076-VP01",
+              "min_range_km": 0,
+              "max_range_km": 10,
+              "azimuth_start_deg": 50,
+              "azimuth_end_deg": 130
+            },
+            "coord_confidence": "medium",
+            "source_evidence_ids": [
+              "CL-WG-29.camera_subject_wedges_design.section3"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "environment_geometries": [
+          {
+            "environment_id": "tw-076-P01-ENV01",
+            "role": "sunrise_horizon_environment_sector",
+            "name": "龍磐東向海面日出環境區",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-076-VP01",
+              "min_range_km": 0,
+              "max_range_km": 20,
+              "azimuth_start_deg": 50,
+              "azimuth_end_deg": 130
+            },
+            "coord_confidence": "medium",
+            "source_evidence_ids": [
+              "CL-WG-29.camera_subject_wedges_design.section3"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "display_padding_km": 5,
+        "coverage_confidence": "medium",
+        "note": "龍磐草原斷崖東向太平洋（legacy 回填 az 90 為海岸朝向）：主體弧 50°–130°／0–10 km，環境帶依 sunrise 家族規則同弧 0–20 km。方位證據為攝影常識層級（Grade-A 查證 pending，provisional）。"
+      }
+    },
+    {
+      "opportunity_id": "tw-076-P02",
+      "spot_id": "tw-076",
+      "provenance": {
+        "basis": "CL-WG-30 Batch 1: celestial subject - no terrestrial subject sector may be fabricated; environment is the 20 km atmospheric envelope ring per the milky_way family rule (same precedent as tw-036-P02). CL-WG-29 section 3 item 9 / section 5.",
+        "geometry_interpretation": "0-20 km full-ring atmospheric envelope for the celestial band; omni_semantics=celestial_envelope. Not a claim of terrestrial subject geometry."
+      },
+      "weather_coverage": {
+        "schema_version": 1,
+        "status": "provisional",
+        "camera_zone_refs": [
+          "tw-076-VP01"
+        ],
+        "camera_zone_browser_exposure": {
+          "tw-076-VP01": "generalized"
+        },
+        "subject_geometries": [],
+        "environment_geometries": [
+          {
+            "environment_id": "tw-076-P02-ENV01",
+            "role": "celestial_atmosphere_envelope_ring",
+            "name": "龍磐星空／銀河大氣環境環",
+            "geometry": {
+              "type": "sector",
+              "origin_viewpoint_id": "tw-076-VP01",
+              "min_range_km": 0,
+              "max_range_km": 20,
+              "azimuth_start_deg": 0,
+              "azimuth_end_deg": 360,
+              "omni_semantics": "celestial_envelope"
+            },
+            "coord_confidence": "medium",
+            "source_evidence_ids": [
+              "spatial_weather.SPATIAL_WEATHER_PROFILES.tw-076-P02",
+              "CL-WG-29.camera_subject_wedges_design.section5"
+            ],
+            "browser_exposure": "public"
+          }
+        ],
+        "display_padding_km": 5,
+        "coverage_confidence": "medium",
+        "note": "天體題材禁止建立地面主體扇（CL-WG-29 §4.2）：僅以 0–20 km 全向大氣 envelope 涵蓋星空／銀河題材的氣象判讀範圍，不宣稱任何地面主體幾何。"
       }
     }
   ]

@@ -1332,7 +1332,9 @@
     if(g.type==='sector'){
       const origin=geometryOrigin(g,op);
       if(!origin) return [];
-      const bearings=sectorBearings(g.azimuth_start_deg,g.azimuth_end_deg);
+      const arc=resolvedSectorArc(g);
+      if(!arc) return [];
+      const bearings=sectorBearings(arc.start,arc.end);
       const min=Number(g.min_range_km||0),max=Number(g.max_range_km||0);
       const range=min+(max-min)*.65;
       const sampled=bearings.length<=11?bearings:Array.from({length:11},(_,i)=>bearings[Math.round(i*(bearings.length-1)/10)]);
@@ -4079,6 +4081,23 @@
     return Array.from({length:count+1},(_,i)=>(s+span*i/count)%360);
   }
 
+  // CL-WG-30: month-calibrated light wedges (CL-DATA-13 sectors mechanism).
+  // A coverage geometry may declare `sectors_monthly`: 12
+  // {arc_center_deg, arc_half_width_deg} entries in Jan..Dec order (the
+  // same semantics as the V2 evaluator's sectors[month-1]). The wedge is
+  // resolved to the CURRENT Asia/Taipei month at draw time.
+  function resolvedSectorArc(g){
+    if(g && Array.isArray(g.sectors_monthly) && g.sectors_monthly.length===12){
+      const m=Number(new Intl.DateTimeFormat('en-US',{timeZone:'Asia/Taipei',month:'numeric'}).format(new Date()));
+      const arc=g.sectors_monthly[m-1];
+      if(arc && Number.isFinite(arc.arc_center_deg) && Number.isFinite(arc.arc_half_width_deg)){
+        return {start:arc.arc_center_deg-arc.arc_half_width_deg,end:arc.arc_center_deg+arc.arc_half_width_deg};
+      }
+      return null;
+    }
+    return {start:g.azimuth_start_deg,end:g.azimuth_end_deg};
+  }
+
   function cameraById(op,id){
     return (op.camera_zones||[]).find(c=>c.viewpoint_id===id) || null;
   }
@@ -4153,7 +4172,9 @@
     if(g.type==='sector'){
       const origin=geometryOrigin(g,op);
       if(!origin) return;
-      const bearings=sectorBearings(g.azimuth_start_deg,g.azimuth_end_deg);
+      const arc=resolvedSectorArc(g);
+      if(!arc) return;
+      const bearings=sectorBearings(arc.start,arc.end);
       const maxRange=Number(g.max_range_km||0);
       const minRange=Number(g.min_range_km||0);
       const outer=bearings.map(b=>destination(origin.lat,origin.lon,b,maxRange));
@@ -4660,7 +4681,7 @@
       if((selectedCfg?.palette==='cloud'||selectedCfg?.palette==='cloudLow') && !isObservationMode()){
         const value=samplePointValue({lat:selected.lat,lon:selected.lon},state.layer);
         if(Number.isFinite(value)){
-          selectedLabel=`${selected.name} · ${formatValue(value,state.layer)}`;
+          selectedLabel=`${selected.name} · ${selectedCfg.label} ${formatValue(value,state.layer)}`;
         }
       }
       ctx.font=compactMap?'bold 16px -apple-system, sans-serif':'bold 20px -apple-system, sans-serif';
@@ -5286,7 +5307,7 @@
       const union=unionViewport(group.opportunities);
       const providerOk=union ? providerCoversBbox(union) : false;
       host.innerHTML=`
-        <div>${allComplete?'<span class="coverage-badge ok">all topics covered</span>':'<span class="coverage-badge provisional">partial migration</span>'}</div>
+        <div>${allComplete?`<span class="coverage-badge ok">遷移完成 ${migrated}/${total}（資料仍為 provisional）</span>`:'<span class="coverage-badge provisional">partial migration</span>'}</div>
         <div>${wmT('已建立 coverage：{a} / {b} 個題材；其中 {c} 個仍不完整。',{a:migrated,b:total,c:incomplete})}</div>
         <div>${providerOk?wmT('✓ 目前 WeatherGrid bbox 可涵蓋已建立的題材視野。'):wmT('⚠ 目前 WeatherGrid bbox 無法完整涵蓋已建立題材視野。')}</div>
         <div>${wmT('選擇單一題材可檢查 Camera / Subject / Environment。')}</div>`;
@@ -5299,6 +5320,7 @@
     host.innerHTML=`
       <div>${statusBadge(op)} <strong>${escapeHtml(op.name_zh||op.opportunity_id)}</strong></div>
       <div>Camera ${(op.camera_zones||[]).length} · Subject ${(op.subject_geometries||[]).length} · Environment ${(op.environment_geometries||[]).length}</div>
+      ${(!op.subject_geometries||op.subject_geometries.length===0)?'<div class="warn">未建立方位資料，僅顯示機位（不以全向環冒充主體扇）。</div>':''}
       <div>${providerOk?wmT('✓ 當前氣象資料涵蓋題材 viewport。'):wmT('⚠ 題材 viewport 超出當前氣象資料範圍；空白區不可視為晴朗。')}</div>
       ${op.note?`<div>${escapeHtml(op.note)}</div>`:''}
       ${errors}${warnings}`;
