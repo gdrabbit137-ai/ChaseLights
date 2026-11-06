@@ -886,6 +886,7 @@
       },8000);
 
       map.on('load',()=>{
+        try{ window.__weatherGridMap=map; }catch(_){}
         window.clearTimeout(timeout);
         state.mapReady=true;
         canvas.style.pointerEvents='none';
@@ -2682,6 +2683,22 @@
     return drawn;
   }
 
+  // CL-WG-26: contour zoom gate. At low zoom levels the grid resolution
+  // cannot support a 50% contour line — the dash degenerates into dense
+  // dotted noise (e.g. ICON/GFS low-cloud field hovering ~50% over open
+  // sea). The contour is drawn only when the camera zoom is >= 6 AND each
+  // grid cell measures >= 10px on screen; below the gate the legend keeps
+  // the 50% boundary key with a trilingual "please zoom in" hint.
+  const CONTOUR_MIN_ZOOM=6;
+  const CONTOUR_MIN_CELL_PX=10;
+  function cloudContourGateAllowed(zoom,cellPx){
+    // No live camera (Canvas fallback / pre-map frames): keep the previous
+    // always-draw behavior — the fallback view is a fixed region fit, not a
+    // zoomable camera, so the noise scenario does not apply.
+    if(!Number.isFinite(zoom)||!Number.isFinite(cellPx)) return true;
+    return zoom>=CONTOUR_MIN_ZOOM && cellPx>=CONTOUR_MIN_CELL_PX;
+  }
+
   function contourCrossing(p1,p2,v1,v2,threshold){
     if(!Number.isFinite(v1) || !Number.isFinite(v2) || v1===v2) return null;
     const a=v1-threshold,b=v2-threshold;
@@ -2753,6 +2770,28 @@
       }
     }
     ctx.restore();
+  }
+
+  // CL-WG-26: live camera probe for the contour gate. cellPx is the larger
+  // on-screen pixel dimension of one grid cell at the map center.
+  function cloudContourGateState(data){
+    const hasMap=state.mapReady&&state.map;
+    if(!hasMap) return {allowed:true,cellPx:null,zoom:null};
+    const zoom=state.map.getZoom();
+    let cellPx=null;
+    const grid=data?.grid;
+    if(grid?.longitudes?.length>1&&grid?.latitudes?.length>1){
+      const stepLon=Math.abs(grid.longitudes[1]-grid.longitudes[0]);
+      const stepLat=Math.abs(grid.latitudes[1]-grid.latitudes[0]);
+      const center=state.map.getCenter();
+      const p1=state.map.project([center.lng-stepLon/2,center.lat-stepLat/2]);
+      const p2=state.map.project([center.lng+stepLon/2,center.lat+stepLat/2]);
+      cellPx=Math.max(Math.abs(p2.x-p1.x),Math.abs(p2.y-p1.y));
+    }
+    return {allowed:cloudContourGateAllowed(zoom,cellPx),cellPx,zoom};
+  }
+  function shouldDrawCloudContour(data){
+    return cloudContourGateState(data).allowed;
   }
 
   function drawCircularDirectionSubcells(data,directions,speeds,cfg,visibleView){
@@ -2851,8 +2890,14 @@
     ctx.restore();
 
     if(!isObservationMode() && (cfg.palette==='cloud'||cfg.palette==='cloudLow')){
-      drawCloudThresholdContour(data,vals,50,visibleView);
+      // CL-WG-26: only draw the 50% contour when the zoom level supports it.
+      const gate=cloudContourGateState(data);
+      try{ window.__weatherGridContourGate={...gate,layer:state.layer}; }catch(_){}
+      if(gate.allowed){
+        drawCloudThresholdContour(data,vals,50,visibleView);
+      }
     }
+    refreshCloudThresholdKey();
 
     drawProviderBoundary(data);
     if(!state.mapReady) drawGrid();
@@ -4089,6 +4134,38 @@
     updateCoverageStatus();
     updateQc();
   }
+  // CL-WG-26: the 50% threshold key is trilingual and, below the contour
+  // zoom gate, keeps the explanation but appends a "please zoom in" hint.
+  const CLOUD_THRESHOLD_LABELS={
+    'zh-TW':'50% 雲量分界',
+    'en':'50% cloud boundary',
+    'ja':'50% 雲量境界'
+  };
+  const CLOUD_THRESHOLD_ZOOM_HINTS={
+    'zh-TW':'請放大檢視',
+    'en':'Zoom in to view the contour',
+    'ja':'拡大してご覧ください'
+  };
+  function cloudThresholdKeyHtml(data){
+    const lang=weatherMapNoteLang();
+    const gated=!cloudContourGateState(data).allowed;
+    return {
+      gated,
+      html:`<div class="cloud-threshold-key" id="cloud-threshold-key" data-zoom-gated="${gated}"><span class="cloud-threshold-swatch"></span>${CLOUD_THRESHOLD_LABELS[lang]}${gated?` <span class="cloud-threshold-hint">（${CLOUD_THRESHOLD_ZOOM_HINTS[lang]}）</span>`:''}</div>`
+    };
+  }
+  // Zoom events redraw the map via draw(); the legend key follows the same
+  // gate in real time (only touches the DOM when the gate state flips).
+  function refreshCloudThresholdKey(){
+    const host=document.getElementById('cloud-threshold-key');
+    if(!host) return;
+    const next=cloudThresholdKeyHtml(activeDataset(state.layer));
+    if(host.dataset.zoomGated===String(next.gated)) return;
+    const wrap=document.createElement('div');
+    wrap.innerHTML=next.html;
+    host.replaceWith(wrap.firstElementChild);
+  }
+
   function updateLegend(cfg){
     const min=cfg.domain[0], max=cfg.domain[1], mid=(min+max)/2;
     let stopValues=[min,min+(max-min)*.25,mid,min+(max-min)*.75,max];
@@ -4117,7 +4194,7 @@
       const bands=cfg.palette==='cloudLow'?LOW_CLOUD_PERCENT_BANDS:CLOUD_PERCENT_BANDS;
       barHtml=`<div class="legend-bar cloud-percent" style="background:linear-gradient(90deg,${cloudLegendGradient(bands)})"><span class="cloud-midline" aria-hidden="true"></span></div>`;
       labelsHtml=`<div class="cloud-legend-labels">${cloudLegendLabels()}</div>`;
-      thresholdKey='<div class="cloud-threshold-key"><span class="cloud-threshold-swatch"></span>50% 雲量分界</div>';
+      thresholdKey=cloudThresholdKeyHtml(activeDataset(state.layer)).html;
     }else{
       const stops=stopValues.map(v=>colorFor(v,cfg));
       const labelHtml=labels.map(v=>`<span>${escapeHtml(v)}</span>`).join('');

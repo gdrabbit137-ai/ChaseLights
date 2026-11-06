@@ -260,8 +260,8 @@ test('CL-WG-25: hide runs on the basemap load path, after the camera limits', ()
 // ---------------------------------------------------------------------------
 // Stamp discipline: same-commit cache-bust bump (per-file weather-map family)
 // ---------------------------------------------------------------------------
-test('CL-WG-25: weather-map.html stamps bumped to bclwg28 in the same ticket', () => {
-  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg28/);
+test('CL-WG-25: weather-map.html stamps bumped to bclwg29 in the same ticket', () => {
+  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg29/);
   assert.ok(!/assets\/weather-map\.js\?v=bclwg27/.test(WG_HTML),
     'old stamp must not linger');
 });
