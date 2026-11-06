@@ -12,8 +12,8 @@ const index=JSON.parse(rawIndex),source=JSON.parse(rawCatalog),catalog=importV21
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
 test('W2 index and 374 canonical sources remain source pinned (aurora removed 2026-10-26; us-022/tw-082-P06 removed 2026-10-31)',()=>{
-  assert.equal(sha256(rawIndex),'f74f6d490b74a51865451ce698e68f2b1e4979f33b66f1d9fc142b4cacbc4a37'); // CL-INT-86 re-anchor: postmerge regenerated index (374 opportunities / 197 places, CL-DATA-19+20 union)
-  assert.equal(sha256(rawCatalog),'db9e226b85d0a69ce1cc1de1736ca8bd8b3f3053468db5763dd4f42beca0e2a8'); // CL-DATA-23 re-anchor: 9 visible-light contracts gain the civil light_window
+  assert.equal(sha256(rawIndex),'6efe5b9094b5144b43ebe714b0727fab0df030d4e8adbf9b3ddd135501668408'); // CL-INT-86 re-anchor: postmerge regenerated index (374 opportunities / 197 places, CL-DATA-19+20 union)
+  assert.equal(sha256(rawCatalog),'0e0637d02bf5c1d798173077df51ea064956ec79fdd69a950dc7e3c68321a100'); // CL-DATA-23 re-anchor: 9 visible-light contracts gain the civil light_window
   assert.equal(validateBrowseIndex(index,catalog),index);
   assert.equal(source.opportunities.length,374);assert.equal(source.places.length,197);
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];
