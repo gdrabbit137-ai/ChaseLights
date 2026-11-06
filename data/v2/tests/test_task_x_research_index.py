@@ -69,8 +69,9 @@ class ResearchIndexTests(unittest.TestCase):
             '3eb466432807185bc8b9271d006666b72d1fa406',
             '76e926d16f3cfd6f2983ec2c0f6fe6ac7004104d',
             # CL-DATA-04: three new owner-defined records pinned to the
-            # owner-definition data commit.
-            'cebb9689ee339f24655aafa010ecfc7977178368',
+            # owner-definition data commit. (tw-086-P02 — the last holder of
+            # cebb9689 — was byte-changed and re-pinned by CL-DATA-16, so the
+            # cebb9689 pin left the set.)
             # CL-UI-20 round-2: 63 high-exposure subject records re-pinned to
             # the task-branch commit carrying verified en/ja subject names
             # (tw-036-P01 / tw-082-P01 keep their review-gated round-1 pins).
@@ -105,6 +106,11 @@ class ResearchIndexTests(unittest.TestCase):
             # 37 stale commit_sha provenance pointers (CL-CI-14 latent)
             # re-pointed to the merge commit carrying the verified bytes.
             '3682e14ec5ed7eb4b78d2b7a47d0b43c1b836c98',
+            # CL-DATA-16: fact-check wave 1 (elevations/LCL recompute, coordinate
+            # corrections us-065/tw-052/tw-062, tw-086 rename, tw-016-P01
+            # altitude_m) re-pinned the touched canonical records to the data
+            # commit carrying the corrected bytes.
+            'b801dd4eba545a76879828b25e869f3c45df33ac',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         self.assertEqual('3682e14ec5ed7eb4b78d2b7a47d0b43c1b836c98',p01['commit_sha'])
