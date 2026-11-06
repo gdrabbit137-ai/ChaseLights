@@ -1,19 +1,19 @@
 {
-  "source_commit_sha": "9731a6146227389de4977b42fee10cba73016e0b",
+  "source_commit_sha": "7a290aa086aa3dc048b6a7f57c22bd5327fbcc1c",
   "manifest": {
     "format_version": "0.1.0",
     "mode": "RESEARCH_ONLY",
-    "index_revision": "sha256:1234719c77e90683a293509a6b93c7da9fea41e72889509d92b6c1f3c08f1efd",
+    "index_revision": "sha256:6665944070ba1839b9fe903c88c28a9193e4de9f29a2c41d3ede33bca6d27563",
     "taxonomy_revision": "sha256:50c69521d12b2b00a7c52681545a0fd011eda0cca8c2f07518bd0bfac782dbad",
     "w1_contract_commit_sha": "b56632b090aa79c28806f30b10aed79cbb0cfb31",
     "canonical_source_lock": "source-lock.json",
-    "source_lock_sha256": "774a85461dcede6aa45e4d210d3f51e1978b4b4850f337f52e8f4f3df887a774",
+    "source_lock_sha256": "0a87c10821d42aac8cb7f9861a6a5c8edd7b949096fbc3b9f54cbdf65091f909",
     "curation_sha256": "37d71b6b4f341e1e65f9fa692c9030d59be7866086611dbcac155869bae9943b",
     "files": {
-      "place-index.json": "1a4d3f30816fe49bd6170c5c0acc7253ad0fc63020599da7c14f71ce4097d77d",
-      "topic-index.json": "d874ffb7db79cf0f29ec17614da2a3cec653a614606703019421f7bc09d9a453",
+      "place-index.json": "fc7a9ea8797da4ed9615f8f5f6ca38637fb0301016e31f2934bdff877a9d1433",
+      "topic-index.json": "d8472129770805d9978e547d9d0ad58473f0242ab555923528ce5c806525f395",
       "field-provenance.json": "2ac7f11b2c95f7e8574719c0192d2bd6ce0f2d4b3214ba9542f66e9996e9477b",
-      "index-status.json": "609932868a80dfa085555787cf831ab041de04845649467eb21f33820210d122"
+      "index-status.json": "4b42f3663bc323691db0089d56c32c63c0a3fb8c4241f4fd9b2e48c57261cee8"
     }
   },
   "place_index": {
@@ -2620,12 +2620,19 @@
           "en": [],
           "ja": []
         },
-        "metadata_status": "PARTIAL",
+        "metadata_status": "COMPLETE",
         "semantic_review": "PENDING",
         "country_codes": [],
         "region_ids": [],
         "admin_status": "UNKNOWN",
-        "evidence_refs": [],
+        "evidence_refs": [
+          "CL-DATA-17:coordinate:us-001-P01:https://en.wikipedia.org/wiki/Mather_Point + https://www.topozone.com/arizona/coconino-az/cliff/mather-point/",
+          "CL-DATA-17:coordinate:us-001-P02:https://en.wikipedia.org/wiki/Mather_Point + https://www.topozone.com/arizona/coconino-az/cliff/mather-point/",
+          "CL-DATA-17:coordinate:us-001-P03:https://en.wikipedia.org/wiki/Mather_Point + https://www.topozone.com/arizona/coconino-az/cliff/mather-point/",
+          "CL-DATA-17:elevation:us-001-P01:https://en.wikipedia.org/wiki/Mather_Point + https://www.topozone.com/arizona/coconino-az/cliff/mather-point/（2170 m）",
+          "CL-DATA-17:elevation:us-001-P02:https://en.wikipedia.org/wiki/Mather_Point + https://www.topozone.com/arizona/coconino-az/cliff/mather-point/（2170 m）",
+          "CL-DATA-17:elevation:us-001-P03:https://en.wikipedia.org/wiki/Mather_Point + https://www.topozone.com/arizona/coconino-az/cliff/mather-point/（2170 m）"
+        ],
         "time_zone": {
           "status": "UNKNOWN",
           "iana_id": null,
@@ -2716,12 +2723,14 @@
           "en": [],
           "ja": []
         },
-        "metadata_status": "PARTIAL",
+        "metadata_status": "COMPLETE",
         "semantic_review": "PENDING",
         "country_codes": [],
         "region_ids": [],
         "admin_status": "UNKNOWN",
-        "evidence_refs": [],
+        "evidence_refs": [
+          "CL-DATA-17:coordinate:us-005-P02:https://www.utah.com/destinations/national-parks/arches-national-park/things-to-do/hiking/balanced-rock-trail/ + https://www.nps.gov/arch/planyourvisit/balancedrock.htm"
+        ],
         "time_zone": {
           "status": "UNKNOWN",
           "iana_id": null,
@@ -2788,12 +2797,15 @@
           "en": [],
           "ja": []
         },
-        "metadata_status": "PARTIAL",
+        "metadata_status": "COMPLETE",
         "semantic_review": "PENDING",
         "country_codes": [],
         "region_ids": [],
         "admin_status": "UNKNOWN",
-        "evidence_refs": [],
+        "evidence_refs": [
+          "CL-DATA-17:coordinate:us-008-P01:https://www.nps.gov/places/000/sentinel-bridge.htm + https://mapcarta.com/23134462",
+          "CL-DATA-17:elevation:us-008-P01:https://www.nps.gov/places/000/sentinel-bridge.htm + https://mapcarta.com/23134462（1208 m）"
+        ],
         "time_zone": {
           "status": "UNKNOWN",
           "iana_id": null,
@@ -2860,12 +2872,15 @@
           "en": [],
           "ja": []
         },
-        "metadata_status": "PARTIAL",
+        "metadata_status": "COMPLETE",
         "semantic_review": "PENDING",
         "country_codes": [],
         "region_ids": [],
         "admin_status": "UNKNOWN",
-        "evidence_refs": [],
+        "evidence_refs": [
+          "CL-DATA-17:coordinate:us-011-P01:https://parksandtrips.com/oxbow-bend-in-grand-teton-national-park + https://oceanlight.com/spotlight.php?img=07450",
+          "CL-DATA-17:coordinate:us-011-P02:https://www.nps.gov/grte/planyourvisit/sroverlookcl.htm"
+        ],
         "time_zone": {
           "status": "UNKNOWN",
           "iana_id": null,
@@ -2908,12 +2923,14 @@
           "en": [],
           "ja": []
         },
-        "metadata_status": "PARTIAL",
+        "metadata_status": "COMPLETE",
         "semantic_review": "PENDING",
         "country_codes": [],
         "region_ids": [],
         "admin_status": "UNKNOWN",
-        "evidence_refs": [],
+        "evidence_refs": [
+          "CL-DATA-17:coordinate:us-013-P02:https://www.summitpost.org/the-watchman/157164 + https://www.craterlakeinstitute.com/what-to-do/planning-your-visit/hiking/trails-index/watchman-peak-trail"
+        ],
         "time_zone": {
           "status": "UNKNOWN",
           "iana_id": null,
@@ -7883,10 +7900,10 @@
       {
         "opportunity_id": "us-001-P01",
         "place_id": "us-001",
-        "revision": 2,
-        "source_commit_sha": "d57d40f8966631783f1385908659bd8c1b82adbd",
+        "revision": 3,
+        "source_commit_sha": "7a290aa086aa3dc048b6a7f57c22bd5327fbcc1c",
         "source_path": "data/v2/opportunities/us-001-P01.json",
-        "source_blob_sha": "b592f0331ce406c5d908cf83d5a4a21dfeea47e4",
+        "source_blob_sha": "c4728ab9a71a14770a54b1941f63e3c644a7a4e5",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -7897,10 +7914,10 @@
       {
         "opportunity_id": "us-001-P02",
         "place_id": "us-001",
-        "revision": 1,
-        "source_commit_sha": "3eb466432807185bc8b9271d006666b72d1fa406",
+        "revision": 2,
+        "source_commit_sha": "7a290aa086aa3dc048b6a7f57c22bd5327fbcc1c",
         "source_path": "data/v2/opportunities/us-001-P02.json",
-        "source_blob_sha": "71c14821d9d9ca389b7222338132053cc75df433",
+        "source_blob_sha": "c619c2f774b681996211475fe841a118c7eebeaa",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -7911,10 +7928,10 @@
       {
         "opportunity_id": "us-001-P03",
         "place_id": "us-001",
-        "revision": 1,
-        "source_commit_sha": "3eb466432807185bc8b9271d006666b72d1fa406",
+        "revision": 2,
+        "source_commit_sha": "7a290aa086aa3dc048b6a7f57c22bd5327fbcc1c",
         "source_path": "data/v2/opportunities/us-001-P03.json",
-        "source_blob_sha": "aaa83525d0e8b9874cfb1f8b6da315d81e47b58a",
+        "source_blob_sha": "23aaf3d0860dea39b0cdec8cda0040c3e711840c",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -7995,10 +8012,10 @@
       {
         "opportunity_id": "us-005-P02",
         "place_id": "us-005",
-        "revision": 1,
-        "source_commit_sha": "3eb466432807185bc8b9271d006666b72d1fa406",
+        "revision": 2,
+        "source_commit_sha": "7a290aa086aa3dc048b6a7f57c22bd5327fbcc1c",
         "source_path": "data/v2/opportunities/us-005-P02.json",
-        "source_blob_sha": "acc8b44a2d22fa5480df6bb27db2d6ed716447f6",
+        "source_blob_sha": "56ba5dc6000183b959c02d4bf9faf6d896b1c968",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -8065,10 +8082,10 @@
       {
         "opportunity_id": "us-008-P01",
         "place_id": "us-008",
-        "revision": 1,
-        "source_commit_sha": "3eb466432807185bc8b9271d006666b72d1fa406",
+        "revision": 2,
+        "source_commit_sha": "7a290aa086aa3dc048b6a7f57c22bd5327fbcc1c",
         "source_path": "data/v2/opportunities/us-008-P01.json",
-        "source_blob_sha": "f9039633deb6a92925115330d57fdc9744d6cf48",
+        "source_blob_sha": "fc9c9d7a7de8ee25fd938666e62e1d95b57619ff",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -8107,10 +8124,10 @@
       {
         "opportunity_id": "us-011-P01",
         "place_id": "us-011",
-        "revision": 1,
-        "source_commit_sha": "3eb466432807185bc8b9271d006666b72d1fa406",
+        "revision": 2,
+        "source_commit_sha": "7a290aa086aa3dc048b6a7f57c22bd5327fbcc1c",
         "source_path": "data/v2/opportunities/us-011-P01.json",
-        "source_blob_sha": "9a979b0339a8994cfadf2126b2a6646b4919e79c",
+        "source_blob_sha": "fbed6efb5ea3a0c6ca3ec201fad28499674a39ab",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -8122,9 +8139,9 @@
         "opportunity_id": "us-011-P02",
         "place_id": "us-011",
         "revision": 2,
-        "source_commit_sha": "e261cc9817e720d852bd5aee9b1b555edd253d8c",
+        "source_commit_sha": "7a290aa086aa3dc048b6a7f57c22bd5327fbcc1c",
         "source_path": "data/v2/opportunities/us-011-P02.json",
-        "source_blob_sha": "a3a58138c884d5038e64ca46b0791becaf236951",
+        "source_blob_sha": "7fca8ef4d8d823f9b3c2c64590c73cac277ead19",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -8177,10 +8194,10 @@
       {
         "opportunity_id": "us-013-P02",
         "place_id": "us-013",
-        "revision": 2,
-        "source_commit_sha": "d57d40f8966631783f1385908659bd8c1b82adbd",
+        "revision": 3,
+        "source_commit_sha": "7a290aa086aa3dc048b6a7f57c22bd5327fbcc1c",
         "source_path": "data/v2/opportunities/us-013-P02.json",
-        "source_blob_sha": "146265bc5e145eae10eea2b29c21f06d543a3c63",
+        "source_blob_sha": "d1be9585fd86711bc0c8d76cc7a8d370cfc42b8d",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -9589,11 +9606,11 @@
         "publication_approval_ref": null
       }
     ],
-    "index_revision": "sha256:1234719c77e90683a293509a6b93c7da9fea41e72889509d92b6c1f3c08f1efd"
+    "index_revision": "sha256:6665944070ba1839b9fe903c88c28a9193e4de9f29a2c41d3ede33bca6d27563"
   },
   "topic_index": {
     "schema_version": "0.1.0",
-    "index_revision": "sha256:1234719c77e90683a293509a6b93c7da9fea41e72889509d92b6c1f3c08f1efd",
+    "index_revision": "sha256:6665944070ba1839b9fe903c88c28a9193e4de9f29a2c41d3ede33bca6d27563",
     "taxonomy_revision": "sha256:50c69521d12b2b00a7c52681545a0fd011eda0cca8c2f07518bd0bfac782dbad",
     "topics": [
       {
@@ -27722,7 +27739,7 @@
   "index_status": {
     "format_version": "0.1.0",
     "mode": "RESEARCH_ONLY",
-    "index_revision": "sha256:1234719c77e90683a293509a6b93c7da9fea41e72889509d92b6c1f3c08f1efd",
+    "index_revision": "sha256:6665944070ba1839b9fe903c88c28a9193e4de9f29a2c41d3ede33bca6d27563",
     "taxonomy_revision": "sha256:50c69521d12b2b00a7c52681545a0fd011eda0cca8c2f07518bd0bfac782dbad",
     "selected_date_recommendation_eligible": false,
     "forecast_available": false,
