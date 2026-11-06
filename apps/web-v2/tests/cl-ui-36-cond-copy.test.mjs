@@ -32,10 +32,10 @@ test('CL-UI-36 B: v2CondLive current value carries the unit', () => {
   assert.ok(!/t\.v2_cond_now\+' '\+v2FmtNum\(v\)\+' · '/.test(slice), 'bare unit-less 現況 value must be gone');
 });
 
-test('CL-UI-36: homepage cache-bust stamp bumped to clui40', () => {
+test('CL-UI-36: homepage cache-bust stamp bumped to clui41', () => {
   const index = readFileSync(new URL('../../../index.html', import.meta.url), 'utf8');
-  assert.match(index, /assets\/app\.js\?v=clui40/);
-  assert.match(index, /assets\/app\.css\?v=clui40/);
+  assert.match(index, /assets\/app\.js\?v=clui41/);
+  assert.match(index, /assets\/app\.css\?v=clui41/);
 });
 
 test('CL-UI-36 A: no internal review note leaks into user-facing bundles', () => {

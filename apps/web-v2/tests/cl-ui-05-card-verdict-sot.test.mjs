@@ -36,8 +36,11 @@ test('CL-UI-05 (a): no V2 evaluation fails closed to the conservative copy',()=>
   // selected date (v2Best null), the card shows research_pending_card and no
   // best-window row.
   assert.match(createSpotCardBlock,/const v2Evaluated=!!v2Best;/);
+  // CL-UI-41: the fail-closed copy is the named-reason lookup — it maps the
+  // bundle's machine-derived skip reason to a specific missing-data line and
+  // keeps research_pending_card only as the unknown-reason fallback.
   assert.match(createSpotCardBlock,
-    /v2Evaluated\?opportunityDisplayName\(spot,metric\.opportunity_id,theme,metric\.opportunity_name\):d\(\)\.research_pending_card/);
+    /v2Evaluated\?opportunityDisplayName\(spot,metric\.opportunity_id,theme,metric\.opportunity_name\):v2NoEvalReasonText\(spot\)/);
   // The fallback summary is the conservative pending copy only — no best window.
   assert.match(createSpotCardBlock,
     /\$\{v2Summary\|\|`<div class="theme-winner">📷 \$\{esc\(opportunityName\)\}<\/div>`\}/);

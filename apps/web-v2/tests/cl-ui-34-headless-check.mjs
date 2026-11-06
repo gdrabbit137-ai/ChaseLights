@@ -67,7 +67,7 @@ await new Promise(r=>setTimeout(r,2500));
 
 // The SERVED html must carry the new stamp (cache-buster proof).
 const stamp = await evaljs(`document.querySelector('script[src*="app.js"]').src`);
-assert.ok(stamp.includes('?v=clui40'),'served app.js stamp: '+stamp);
+assert.ok(stamp.includes('?v=clui41'),'served app.js stamp: '+stamp);
 
 const opened = await evaljs(`(async () => {
   await new Promise(r=>{const t=setInterval(()=>{try{if(typeof currentSpots!=='undefined'&&currentSpots.length){clearInterval(t);r(1)}}catch(e){}},100);setTimeout(r,20000);});
