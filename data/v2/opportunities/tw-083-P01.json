@@ -1,0 +1,273 @@
+{
+  "schema_version": "2.1.0",
+  "opportunity_id": "tw-083-P01",
+  "place_id": "tw-083",
+  "revision": 1,
+  "lifecycle_status": "draft",
+  "name_i18n": {
+    "zh-TW": "雲山水夢幻湖落羽松湖面倒影",
+    "en": "Yunshan Shui Dream Lake bald-cypress reflection",
+    "ja": "雲山水夢幻湖の落羽松の水面反射"
+  },
+  "description_i18n": {
+    "zh-TW": "約 4 公頃夢幻湖與湖畔落羽松的湖面倒影：上午低風柔光時潭面最靜，倒影與群山對稱；園區開放時段內拍攝。",
+    "en": "Reflection of lakeside bald cypress in the roughly 4-hectare Dream Lake: the pool is calmest in windless soft morning light, mirroring the mountains; shoot within park opening hours.",
+    "ja": "約4ヘクタールの夢幻湖と湖畔の落羽松の水面反射。風のない柔らかい午前の光が最も水面が静かで、山並みと対称になる。園内開放時間内に撮影。"
+  },
+  "camera_contexts": [
+    {
+      "id": "CZ-tw-083-P01-01",
+      "kind": "area",
+      "geometry": {
+        "kind": "point",
+        "status": "provisional",
+        "geojson": {
+          "type": "Point",
+          "coordinates": [
+            121.51548,
+            23.827018
+          ]
+        },
+        "uncertainty_m": null,
+        "derivation_method": "imported_from_v1_east_rift_valley_official_evidence; CL-DATA-20 AI web verification 2026-11-06: 園區報導（s045488.pixnet.net/blog/posts/9073559566）記載夢幻湖約 4 公頃、湖畔落羽松水森林、開放時間 08:00–17:00（另見 24 小時說法，開放狀態以現場公告為準）；晨間低風柔光為倒影最佳條件",
+        "source_geometry_revision": null,
+        "reason_if_absent": null
+      },
+      "verification_status": "provisional",
+      "evidence_refs": [],
+      "access_notes_i18n": {
+        "zh-TW": "私人莊園園區，步遊為主；開放時間與收費以現場公告為準（常見 08:00–17:00）。",
+        "en": "Private estate grounds, walking only; opening hours and fees follow on-site notices (commonly 08:00-17:00).",
+        "ja": "個人荘園の園内は徒歩移動。開放時間と料金は現地の案内に従う（一般に08:00-17:00）。"
+      },
+      "safety_notes_i18n": {
+        "zh-TW": "湖畔與木棧道濕滑；晨霧時能見度低，注意腳下；園內民宿區域請勿闖入。",
+        "en": "Slippery lakeside and boardwalks; low visibility in morning mist — watch your footing; do not enter guesthouse grounds.",
+        "ja": "湖畔と木道は滑りやすい。朝霧で視界が悪い時は足元注意。民宿エリアに立ち入らない。"
+      },
+      "altitude_m": 52.0
+    }
+  ],
+  "targets": [
+    {
+      "id": "SG-tw-083-P01-01",
+      "kind": "multi_component",
+      "name_i18n": {
+        "zh-TW": "雲山水夢幻湖落羽松湖面倒影",
+        "en": "Yunshan Shui Dream Lake bald-cypress reflection",
+        "ja": "雲山水夢幻湖の落羽松の水面反射"
+      },
+      "geometry": {
+        "kind": "point",
+        "status": "provisional",
+        "geojson": {
+          "type": "Point",
+          "coordinates": [
+            121.51548,
+            23.827018
+          ]
+        },
+        "uncertainty_m": null,
+        "derivation_method": "imported_from_v1_viewpoint_reference; terrain and shooting points web-verified 2026-11-06 (see camera derivation_method)",
+        "source_geometry_revision": null,
+        "reason_if_absent": null
+      },
+      "phenomenon_model_id": null,
+      "evidence_refs": [],
+      "components": []
+    }
+  ],
+  "observation_relations": [
+    {
+      "id": "VR-tw-083-P01-01",
+      "camera_context_id": "CZ-tw-083-P01-01",
+      "target_id": "SG-tw-083-P01-01",
+      "type": "foreground_background",
+      "geometry_mode": "unknown",
+      "azimuth_deg": null,
+      "elevation_deg": null,
+      "distance_m": null,
+      "evidence_refs": [],
+      "derivation_method": null,
+      "uncertainty_note": "Imported V1 reference; angles and distance unknown."
+    }
+  ],
+  "navigation_targets": [
+    {
+      "id": "NAV-tw-083-P01-01",
+      "status": "needs_review",
+      "target_type": "other",
+      "lat": 23.827018,
+      "lon": 121.51548,
+      "label_i18n": {
+        "zh-TW": "雲山水夢幻湖",
+        "en": "Yun Shan Shui Dream Lake",
+        "ja": "雲山水夢幻湖"
+      },
+      "evidence_refs": [],
+      "confidence": "low"
+    }
+  ],
+  "condition_contract": {
+    "contract_id": "CC-tw-083-P01-v1",
+    "status": "draft",
+    "genre_template": "reflection",
+    "template_version": "reflection-v0.1",
+    "recommendation_policy_version": null,
+    "conditions": [
+      {
+        "id": "C-tw-083-P01-01",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "wind_speed_10m",
+        "operator": "lte",
+        "threshold": 2,
+        "unit": "m/s",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-083-P01-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:wind_speed_10m_m_s|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "風速 ≤2 m/s：風生毛細波是倒影破碎的直接物理原因；2 m/s 約為鏡面與微漣的分界（實拍校準點）。",
+          "en": "Wind <= 2 m/s: wind-generated capillary waves are the direct physical cause of broken reflections; ~2 m/s is the mirror-vs-ripple boundary (calibration point).",
+          "ja": "風速≤2m/s。風による毛細波は反射を壊す直接の物理原因。約2m/sが鏡面とさざ波の境界（較正点）。"
+        }
+      },
+      {
+        "id": "C-tw-083-P01-02",
+        "role": "REQUIRED",
+        "domain": "HYDROLOGY",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "water_surface_state",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-083-P01-claim-01"
+        ],
+        "model_binding": null,
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "evidence_review",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "水面存續（不結冰、未乾涸）：季節性水體的存續由警語/公告層維護，屬純提示、不否決；缺公告時誠實 propagate unknown。",
+          "en": "Water presence (not frozen, not dried): seasonal-water existence is maintained in the advisory layer - pure notice, never a veto; propagates unknown when no advisory exists.",
+          "ja": "水面の存続（凍結・干上がりなし）。季節性水域の存続は警報層で管理。純粋な注意表示で否決しない。情報なければunknownを伝播。"
+        }
+      },
+      {
+        "id": "C-tw-083-P01-03",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "precipitation",
+        "operator": "lt",
+        "threshold": 0.2,
+        "unit": "mm/h",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-083-P01-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "降雨同時打碎水面與妨礙拍攝；0.2 mm/h 以下不受影響。",
+          "en": "Rain both breaks the water surface and hampers shooting; below 0.2 mm/h is fine.",
+          "ja": "雨は水面を壊し撮影も妨げる。0.2mm/h未満なら影響なし。"
+        }
+      },
+      {
+        "id": "C-tw-083-P01-04",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "cloud_cover_total",
+        "operator": "between",
+        "threshold": [
+          20,
+          60
+        ],
+        "unit": "%",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-083-P01-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:cloud_cover_total_percent|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MODIFIER",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "總雲量 20–60%：雲與彩霞在鏡面裡的對稱構圖是倒影的加分主體；全晴只有山形、全陰無色彩。",
+          "en": "Total cloud 20-60%: clouds and glow mirrored in the water are the bonus subject of reflections; clear sky gives only the landform, overcast gives no colour.",
+          "ja": "全雲量20〜60%。水面に映る雲や彩が反射の加算対象。快晴は山容のみ、全層雲は色彩なし。"
+        }
+      },
+      {
+        "id": "C-tw-083-P01-LW1",
+        "role": "REQUIRED",
+        "domain": "ASTRONOMY",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "light_window",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-083-P01-claim-01"
+        ],
+        "model_binding": null,
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "computed",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "必要光線窗：全日可見光題材只在民用光（太陽仰角 > −6°）內成立（CL-DATA-11 同源定義；夜間一律不符合）。本契約建置時即納入（CL-DATA-19 全面稽查語意）。",
+          "en": "Required light window: an all-day visible-light subject only qualifies in civil light (sun elevation > -6 deg; CL-DATA-11 same-source definition; night hours never qualify). Built in at contract creation (CL-DATA-19 audit semantics).",
+          "ja": "必要な光の窓：全日型の可視光題材は市民光（太陽高度 > -6°）の時間帯でのみ成立（CL-DATA-11 同源定義、夜間は一律不成立）。契約作成時に組み込み（CL-DATA-19 監査の語義）。"
+        }
+      }
+    ]
+  },
+  "evidence_claims": [
+    {
+      "claim_id": "tw-083-P01-claim-01",
+      "claim_type": "existence",
+      "evidence_refs": [
+        "e-d20-k"
+      ],
+      "audit_status": "UNKNOWN",
+      "scope_note": "Subject existence per V1 catalog; terrain/shooting-point facts web-verified 2026-11-06 (sources in camera derivation_method). Thresholds provisional pending real-shoot calibration."
+    }
+  ],
+  "readiness": {
+    "research_level": "R1",
+    "gaps": [
+      "GEOMETRY_GAP",
+      "RESEARCH_GAP"
+    ]
+  },
+  "provenance": {
+    "source_catalog": "runtime_catalog_v004_r4_2.json",
+    "source_revision": "v1-spot-tw-083",
+    "imported_at": "2026-11-06T00:00:00Z",
+    "review_status": "pending",
+    "reviewed_by": null
+  }
+}
