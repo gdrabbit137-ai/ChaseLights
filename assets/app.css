@@ -1952,3 +1952,16 @@
   .timeline-legend{font-size:.78rem}
   #modal-close-mobile{display:block;position:sticky;bottom:0;padding:10px 2px 2px;background:linear-gradient(transparent,#0c0c0c 40%)}
 }
+
+/* CL-UI-38: at 390px the ja bottom-bar label その他のツール overflowed the
+   nowrap site-nav items. Allow the bar labels to shrink and wrap so every
+   label stays fully visible on the narrowest supported viewport. */
+@media (max-width: 640px) {
+  .site-nav-item,
+  .site-nav-more-btn {
+    white-space: normal;
+    font-size: .8rem;
+    padding: 0 4px;
+    text-align: center;
+  }
+}
