@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-006-P01",
   "place_id": "us-006",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Bryce Amphitheater・Sunrise Point 日出與hoodoo層次",
@@ -213,6 +213,35 @@
           "zh-TW": "降雨 <0.2 mm/h：拍攝本身不受影響（沿用已審門檻）。",
           "en": "Precipitation < 0.2 mm/h: shooting unaffected (approved threshold carried over).",
           "ja": "降水<0.2mm/h。撮影への影響なし。"
+        }
+      },
+      {
+        "id": "C-us-006-P01-SR1",
+        "role": "REQUIRED",
+        "domain": "ASTRONOMY",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "sunrise_time_window",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "us-006-P01-claim-01"
+        ],
+        "model_binding": null,
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "computed",
+        "rationale_i18n": {
+          "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch j）：名稱含日出，overlook 全日契約無窗——補 sunrise_time_window REQUIRED/MAIN（照 us-011-P01 慣例）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+          "en": "2026-11-06 CL-DATA-12 full audit (batch j): the name carries sunrise but the all-day overlook contract has no window - adds sunrise_time_window REQUIRED/MAIN (us-011-P01 convention). Semantic correction; layering parity gate exempt, documented here.",
+          "ja": "2026-11-06 CL-DATA-12 全面監査（batch j）：名称が日の出を含むが overlook 全日契約に窓がない——sunrise_time_window REQUIRED/MAIN を追加（us-011-P01 慣例）。 意味修正のため layering parity ゲートは免除。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch j）：名稱含日出，overlook 全日契約無窗——補 sunrise_time_window REQUIRED/MAIN（照 us-011-P01 慣例）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+          "en": "2026-11-06 CL-DATA-12 full audit (batch j): the name carries sunrise but the all-day overlook contract has no window - adds sunrise_time_window REQUIRED/MAIN (us-011-P01 convention). Semantic correction; layering parity gate exempt, documented here.",
+          "ja": "2026-11-06 CL-DATA-12 全面監査（batch j）：名称が日の出を含むが overlook 全日契約に窓がない——sunrise_time_window REQUIRED/MAIN を追加（us-011-P01 慣例）。 意味修正のため layering parity ゲートは免除。"
         }
       }
     ]

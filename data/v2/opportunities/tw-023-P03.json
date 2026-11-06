@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-023-P03",
   "place_id": "tw-023",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "台18線63.5K頂石棹聚落琉璃光",
@@ -141,31 +141,6 @@
         }
       },
       {
-        "id": "C-tw-023-P03-02",
-        "role": "REQUIRED",
-        "domain": "WEATHER",
-        "evaluation_mode": "GUIDANCE",
-        "capability": "CONDITIONS",
-        "metric": "cloud_cover_total",
-        "operator": "lte",
-        "threshold": 70,
-        "unit": "%",
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "tw-023-P03-claim-01"
-        ],
-        "model_binding": "dataset:gfs_0p25|field:cloud_cover_total_percent|role:MID",
-        "validation_status": "provisional",
-        "condition_tier": "MAIN",
-        "threshold_source": "formula_derived",
-        "calibration_status": "provisional",
-        "rationale_i18n": {
-          "zh-TW": "天頂須透出藍色天空；70% 允許局部雲。",
-          "en": "The zenith must show blue sky; 70% still allows partial cloud.",
-          "ja": "天頂から青空が透けて見える必要がある。70%なら部分的な雲を許容。"
-        }
-      },
-      {
         "id": "C-tw-023-P03-03",
         "role": "REQUIRED",
         "domain": "WEATHER",
@@ -213,6 +188,122 @@
           "zh-TW": "雨中拍攝受影響；雨後濕地反光是加分項（quality 另列）。",
           "en": "Shooting in rain is impaired; post-rain wet-surface reflections are a separate bonus item.",
           "ja": "雨中の撮影は支障が出る。雨上がりの湿地反射は別の加点項目。"
+        }
+      },
+      {
+        "id": "C-tw-023-P03-GL1",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "relative_humidity_925hpa",
+        "operator": "gte",
+        "threshold": 85,
+        "unit": "%",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-023-P03-claim-01"
+        ],
+        "model_binding": "dataset:cwa_wrf3|field:relative_humidity_925hpa_percent|role:SHORT_HQ|level:925hpa",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "rationale_i18n": {
+          "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch b）：琉璃光（聚落被低雲覆蓋、雲隙投光）語義與「總雲量 ≤70%」相反——改用雲海式代理判據（與同一觀景點的雲海契約 tw-023-P02 同一 viewpoint、同一 LCL 門檻 lcl lt 1170 m）：RH925 ≥85%、RH850 ≥55%、LCL 高度低於景點（觀點 DEM − 200 m 慣例）、低雲 ≥60%；中高雲不設上限（放寬）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+          "en": "2026-11-06 CL-DATA-12 full audit (batch b): Glass-light (settlement covered by low cloud, light thrown through gaps) is the OPPOSITE of 'total cloud <=70%' - replaced with the cloud-sea proxy suite used by the cloud-sea contract at the same viewpoint (tw-023-P02, lcl lt 1170 m): RH925 >=85%, RH850 >=55%, LCL below the viewpoint (DEM - 200 m convention), low cloud >=60%; mid/high cloud left uncapped (relaxed). Semantic correction; layering parity gate exempt, documented here.",
+          "ja": "2026-11-06 CL-DATA-12 全面監査（batch b）：ガラス光（集落が低雲に覆われ、雲隙から差す光）の意味は「全雲量 <=70%」と正反対——同一視点の雲海契約（tw-023-P02、lcl lt 1170 m）と同じ雲海式代理判定へ置換：RH925 >=85%、RH850 >=55%、LCL は展望点より低く（DEM - 200 m 慣例）、下層雲 >=60%；中上層雲に上限なし（緩和）。 意味修正のため layering parity ゲートは免除。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch b）：琉璃光（聚落被低雲覆蓋、雲隙投光）語義與「總雲量 ≤70%」相反——改用雲海式代理判據（與同一觀景點的雲海契約 tw-023-P02 同一 viewpoint、同一 LCL 門檻 lcl lt 1170 m）：RH925 ≥85%、RH850 ≥55%、LCL 高度低於景點（觀點 DEM − 200 m 慣例）、低雲 ≥60%；中高雲不設上限（放寬）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+          "en": "2026-11-06 CL-DATA-12 full audit (batch b): Glass-light (settlement covered by low cloud, light thrown through gaps) is the OPPOSITE of 'total cloud <=70%' - replaced with the cloud-sea proxy suite used by the cloud-sea contract at the same viewpoint (tw-023-P02, lcl lt 1170 m): RH925 >=85%, RH850 >=55%, LCL below the viewpoint (DEM - 200 m convention), low cloud >=60%; mid/high cloud left uncapped (relaxed). Semantic correction; layering parity gate exempt, documented here.",
+          "ja": "2026-11-06 CL-DATA-12 全面監査（batch b）：ガラス光（集落が低雲に覆われ、雲隙から差す光）の意味は「全雲量 <=70%」と正反対——同一視点の雲海契約（tw-023-P02、lcl lt 1170 m）と同じ雲海式代理判定へ置換：RH925 >=85%、RH850 >=55%、LCL は展望点より低く（DEM - 200 m 慣例）、下層雲 >=60%；中上層雲に上限なし（緩和）。 意味修正のため layering parity ゲートは免除。"
+        }
+      },
+      {
+        "id": "C-tw-023-P03-GL2",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "relative_humidity_850hpa",
+        "operator": "gte",
+        "threshold": 55,
+        "unit": "%",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-023-P03-claim-01"
+        ],
+        "model_binding": "dataset:cwa_wrf3|field:relative_humidity_850hpa_percent|role:SHORT_HQ|level:850hpa",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "rationale_i18n": {
+          "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch b）：琉璃光（聚落被低雲覆蓋、雲隙投光）語義與「總雲量 ≤70%」相反——改用雲海式代理判據（與同一觀景點的雲海契約 tw-023-P02 同一 viewpoint、同一 LCL 門檻 lcl lt 1170 m）：RH925 ≥85%、RH850 ≥55%、LCL 高度低於景點（觀點 DEM − 200 m 慣例）、低雲 ≥60%；中高雲不設上限（放寬）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+          "en": "2026-11-06 CL-DATA-12 full audit (batch b): Glass-light (settlement covered by low cloud, light thrown through gaps) is the OPPOSITE of 'total cloud <=70%' - replaced with the cloud-sea proxy suite used by the cloud-sea contract at the same viewpoint (tw-023-P02, lcl lt 1170 m): RH925 >=85%, RH850 >=55%, LCL below the viewpoint (DEM - 200 m convention), low cloud >=60%; mid/high cloud left uncapped (relaxed). Semantic correction; layering parity gate exempt, documented here.",
+          "ja": "2026-11-06 CL-DATA-12 全面監査（batch b）：ガラス光（集落が低雲に覆われ、雲隙から差す光）の意味は「全雲量 <=70%」と正反対——同一視点の雲海契約（tw-023-P02、lcl lt 1170 m）と同じ雲海式代理判定へ置換：RH925 >=85%、RH850 >=55%、LCL は展望点より低く（DEM - 200 m 慣例）、下層雲 >=60%；中上層雲に上限なし（緩和）。 意味修正のため layering parity ゲートは免除。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch b）：琉璃光（聚落被低雲覆蓋、雲隙投光）語義與「總雲量 ≤70%」相反——改用雲海式代理判據（與同一觀景點的雲海契約 tw-023-P02 同一 viewpoint、同一 LCL 門檻 lcl lt 1170 m）：RH925 ≥85%、RH850 ≥55%、LCL 高度低於景點（觀點 DEM − 200 m 慣例）、低雲 ≥60%；中高雲不設上限（放寬）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+          "en": "2026-11-06 CL-DATA-12 full audit (batch b): Glass-light (settlement covered by low cloud, light thrown through gaps) is the OPPOSITE of 'total cloud <=70%' - replaced with the cloud-sea proxy suite used by the cloud-sea contract at the same viewpoint (tw-023-P02, lcl lt 1170 m): RH925 >=85%, RH850 >=55%, LCL below the viewpoint (DEM - 200 m convention), low cloud >=60%; mid/high cloud left uncapped (relaxed). Semantic correction; layering parity gate exempt, documented here.",
+          "ja": "2026-11-06 CL-DATA-12 全面監査（batch b）：ガラス光（集落が低雲に覆われ、雲隙から差す光）の意味は「全雲量 <=70%」と正反対——同一視点の雲海契約（tw-023-P02、lcl lt 1170 m）と同じ雲海式代理判定へ置換：RH925 >=85%、RH850 >=55%、LCL は展望点より低く（DEM - 200 m 慣例）、下層雲 >=60%；中上層雲に上限なし（緩和）。 意味修正のため layering parity ゲートは免除。"
+        }
+      },
+      {
+        "id": "C-tw-023-P03-GL3",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "lcl_height_m_agl",
+        "operator": "lt",
+        "threshold": 1170,
+        "unit": "m",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-023-P03-claim-01"
+        ],
+        "model_binding": "dataset:cwa_wrf3|field:lcl_height_m_agl|role:SHORT_HQ",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "computed",
+        "rationale_i18n": {
+          "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch b）：琉璃光（聚落被低雲覆蓋、雲隙投光）語義與「總雲量 ≤70%」相反——改用雲海式代理判據（與同一觀景點的雲海契約 tw-023-P02 同一 viewpoint、同一 LCL 門檻 lcl lt 1170 m）：RH925 ≥85%、RH850 ≥55%、LCL 高度低於景點（觀點 DEM − 200 m 慣例）、低雲 ≥60%；中高雲不設上限（放寬）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+          "en": "2026-11-06 CL-DATA-12 full audit (batch b): Glass-light (settlement covered by low cloud, light thrown through gaps) is the OPPOSITE of 'total cloud <=70%' - replaced with the cloud-sea proxy suite used by the cloud-sea contract at the same viewpoint (tw-023-P02, lcl lt 1170 m): RH925 >=85%, RH850 >=55%, LCL below the viewpoint (DEM - 200 m convention), low cloud >=60%; mid/high cloud left uncapped (relaxed). Semantic correction; layering parity gate exempt, documented here.",
+          "ja": "2026-11-06 CL-DATA-12 全面監査（batch b）：ガラス光（集落が低雲に覆われ、雲隙から差す光）の意味は「全雲量 <=70%」と正反対——同一視点の雲海契約（tw-023-P02、lcl lt 1170 m）と同じ雲海式代理判定へ置換：RH925 >=85%、RH850 >=55%、LCL は展望点より低く（DEM - 200 m 慣例）、下層雲 >=60%；中上層雲に上限なし（緩和）。 意味修正のため layering parity ゲートは免除。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch b）：琉璃光（聚落被低雲覆蓋、雲隙投光）語義與「總雲量 ≤70%」相反——改用雲海式代理判據（與同一觀景點的雲海契約 tw-023-P02 同一 viewpoint、同一 LCL 門檻 lcl lt 1170 m）：RH925 ≥85%、RH850 ≥55%、LCL 高度低於景點（觀點 DEM − 200 m 慣例）、低雲 ≥60%；中高雲不設上限（放寬）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+          "en": "2026-11-06 CL-DATA-12 full audit (batch b): Glass-light (settlement covered by low cloud, light thrown through gaps) is the OPPOSITE of 'total cloud <=70%' - replaced with the cloud-sea proxy suite used by the cloud-sea contract at the same viewpoint (tw-023-P02, lcl lt 1170 m): RH925 >=85%, RH850 >=55%, LCL below the viewpoint (DEM - 200 m convention), low cloud >=60%; mid/high cloud left uncapped (relaxed). Semantic correction; layering parity gate exempt, documented here.",
+          "ja": "2026-11-06 CL-DATA-12 全面監査（batch b）：ガラス光（集落が低雲に覆われ、雲隙から差す光）の意味は「全雲量 <=70%」と正反対——同一視点の雲海契約（tw-023-P02、lcl lt 1170 m）と同じ雲海式代理判定へ置換：RH925 >=85%、RH850 >=55%、LCL は展望点より低く（DEM - 200 m 慣例）、下層雲 >=60%；中上層雲に上限なし（緩和）。 意味修正のため layering parity ゲートは免除。"
+        }
+      },
+      {
+        "id": "C-tw-023-P03-GL4",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "cloud_cover_low",
+        "operator": "gte",
+        "threshold": 60,
+        "unit": "%",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-023-P03-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:cloud_cover_low_percent|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "rationale_i18n": {
+          "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch b）：琉璃光（聚落被低雲覆蓋、雲隙投光）語義與「總雲量 ≤70%」相反——改用雲海式代理判據（與同一觀景點的雲海契約 tw-023-P02 同一 viewpoint、同一 LCL 門檻 lcl lt 1170 m）：RH925 ≥85%、RH850 ≥55%、LCL 高度低於景點（觀點 DEM − 200 m 慣例）、低雲 ≥60%；中高雲不設上限（放寬）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+          "en": "2026-11-06 CL-DATA-12 full audit (batch b): Glass-light (settlement covered by low cloud, light thrown through gaps) is the OPPOSITE of 'total cloud <=70%' - replaced with the cloud-sea proxy suite used by the cloud-sea contract at the same viewpoint (tw-023-P02, lcl lt 1170 m): RH925 >=85%, RH850 >=55%, LCL below the viewpoint (DEM - 200 m convention), low cloud >=60%; mid/high cloud left uncapped (relaxed). Semantic correction; layering parity gate exempt, documented here.",
+          "ja": "2026-11-06 CL-DATA-12 全面監査（batch b）：ガラス光（集落が低雲に覆われ、雲隙から差す光）の意味は「全雲量 <=70%」と正反対——同一視点の雲海契約（tw-023-P02、lcl lt 1170 m）と同じ雲海式代理判定へ置換：RH925 >=85%、RH850 >=55%、LCL は展望点より低く（DEM - 200 m 慣例）、下層雲 >=60%；中上層雲に上限なし（緩和）。 意味修正のため layering parity ゲートは免除。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch b）：琉璃光（聚落被低雲覆蓋、雲隙投光）語義與「總雲量 ≤70%」相反——改用雲海式代理判據（與同一觀景點的雲海契約 tw-023-P02 同一 viewpoint、同一 LCL 門檻 lcl lt 1170 m）：RH925 ≥85%、RH850 ≥55%、LCL 高度低於景點（觀點 DEM − 200 m 慣例）、低雲 ≥60%；中高雲不設上限（放寬）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+          "en": "2026-11-06 CL-DATA-12 full audit (batch b): Glass-light (settlement covered by low cloud, light thrown through gaps) is the OPPOSITE of 'total cloud <=70%' - replaced with the cloud-sea proxy suite used by the cloud-sea contract at the same viewpoint (tw-023-P02, lcl lt 1170 m): RH925 >=85%, RH850 >=55%, LCL below the viewpoint (DEM - 200 m convention), low cloud >=60%; mid/high cloud left uncapped (relaxed). Semantic correction; layering parity gate exempt, documented here.",
+          "ja": "2026-11-06 CL-DATA-12 全面監査（batch b）：ガラス光（集落が低雲に覆われ、雲隙から差す光）の意味は「全雲量 <=70%」と正反対——同一視点の雲海契約（tw-023-P02、lcl lt 1170 m）と同じ雲海式代理判定へ置換：RH925 >=85%、RH850 >=55%、LCL は展望点より低く（DEM - 200 m 慣例）、下層雲 >=60%；中上層雲に上限なし（緩和）。 意味修正のため layering parity ゲートは免除。"
         }
       }
     ]

@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-074-P01",
   "place_id": "tw-074",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "野柳女王頭地景光影",
@@ -117,7 +117,7 @@
     "conditions": [
       {
         "id": "C-tw-074-P01-01",
-        "role": "REQUIRED",
+        "role": "QUALITY",
         "domain": "ASTRONOMY",
         "evaluation_mode": "GUIDANCE",
         "capability": "CONDITIONS",
@@ -131,13 +131,18 @@
         ],
         "model_binding": null,
         "validation_status": "provisional",
-        "condition_tier": "MAIN",
+        "condition_tier": "MODIFIER",
         "threshold_source": "computed",
         "calibration_status": "provisional",
         "rationale_i18n": {
           "zh-TW": "天文窗＝日出時刻 ±40 分（座標＋日期計算）。海上景點海平線無遮擋時與實際日出一致；山嶺景點受地形遮擋，實際見日較晚（將來以地形遮擋角參數修正）。",
           "en": "Astronomy window = sunrise time +/- 40 minutes (from coordinates and date). For sea-horizon spots this matches the visible sunrise; mountain spots see the sun later due to terrain occlusion (a terrain-occlusion-angle parameter may refine this later).",
           "ja": "天文ウィンドウ＝日の出時刻±40分。海上spotは海平線が開けており一致。山岳spotは地形遮蔽で実際の見えは遅れる（将来は地形遮蔽角パラメータで補正）。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch m）：野柳女王頭為白天開放時段題材——sunrise MAIN 降 MODIFIER，並補 light_window（civil，太陽仰角 > −6°）作為日間窗（近似公園開放時段：日間有光才可拍攝）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+          "en": "2026-11-06 CL-DATA-12 full audit (batch m): Yehliu Queen's Head is a daytime-opening-hours subject - sunrise MAIN downgraded to MODIFIER, and a civil light_window (sun elevation > -6 deg) is added as the daylight window (approximating park opening hours: shootable only while lit). Semantic correction; layering parity gate exempt, documented here.",
+          "ja": "2026-11-06 CL-DATA-12 全面監査（batch m）：野柳女王頭は昼間開放の題材——日の出 MAIN を MODIFIER に降格し、light_window（市民光、太陽高度 > -6°）を日中窓として追加（園の開放時間に近似：光がある昼間のみ撮影可能）。 意味修正のため layering parity ゲートは免除。"
         }
       },
       {
@@ -220,6 +225,35 @@
           "zh-TW": "雨量極低即可；海景微雨不影響拍攝。",
           "en": "Precipitation just needs to stay very low; light rain does not affect a seascape shoot.",
           "ja": "降水量は十分に低ければよい。海景では小雨でも撮影に支障はない。"
+        }
+      },
+      {
+        "id": "C-tw-074-P01-LW1",
+        "role": "REQUIRED",
+        "domain": "ASTRONOMY",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "light_window",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-074-P01-claim-01"
+        ],
+        "model_binding": null,
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "computed",
+        "rationale_i18n": {
+          "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch m）：野柳女王頭為白天開放時段題材——sunrise MAIN 降 MODIFIER，並補 light_window（civil，太陽仰角 > −6°）作為日間窗（近似公園開放時段：日間有光才可拍攝）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+          "en": "2026-11-06 CL-DATA-12 full audit (batch m): Yehliu Queen's Head is a daytime-opening-hours subject - sunrise MAIN downgraded to MODIFIER, and a civil light_window (sun elevation > -6 deg) is added as the daylight window (approximating park opening hours: shootable only while lit). Semantic correction; layering parity gate exempt, documented here.",
+          "ja": "2026-11-06 CL-DATA-12 全面監査（batch m）：野柳女王頭は昼間開放の題材——日の出 MAIN を MODIFIER に降格し、light_window（市民光、太陽高度 > -6°）を日中窓として追加（園の開放時間に近似：光がある昼間のみ撮影可能）。 意味修正のため layering parity ゲートは免除。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch m）：野柳女王頭為白天開放時段題材——sunrise MAIN 降 MODIFIER，並補 light_window（civil，太陽仰角 > −6°）作為日間窗（近似公園開放時段：日間有光才可拍攝）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+          "en": "2026-11-06 CL-DATA-12 full audit (batch m): Yehliu Queen's Head is a daytime-opening-hours subject - sunrise MAIN downgraded to MODIFIER, and a civil light_window (sun elevation > -6 deg) is added as the daylight window (approximating park opening hours: shootable only while lit). Semantic correction; layering parity gate exempt, documented here.",
+          "ja": "2026-11-06 CL-DATA-12 全面監査（batch m）：野柳女王頭は昼間開放の題材——日の出 MAIN を MODIFIER に降格し、light_window（市民光、太陽高度 > -6°）を日中窓として追加（園の開放時間に近似：光がある昼間のみ撮影可能）。 意味修正のため layering parity ゲートは免除。"
         }
       }
     ]

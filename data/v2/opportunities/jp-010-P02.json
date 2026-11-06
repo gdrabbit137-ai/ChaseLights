@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "jp-010-P02",
   "place_id": "jp-010",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "大石公園・逆さ富士",
@@ -111,8 +111,8 @@
   "condition_contract": {
     "contract_id": "CC-jp-010-P02-v1",
     "status": "draft",
-    "genre_template": "seasonal_plant",
-    "template_version": "seasonal_plant-v0.1",
+    "genre_template": "reflection",
+    "template_version": "reflection-v0.1",
     "recommendation_policy_version": null,
     "conditions": [
       {
@@ -172,8 +172,8 @@
         "evaluation_mode": "GUIDANCE",
         "capability": "CONDITIONS",
         "metric": "wind_speed_10m",
-        "operator": "lt",
-        "threshold": 5,
+        "operator": "lte",
+        "threshold": 2,
         "unit": "m/s",
         "unknown_policy": "propagate_unknown",
         "claim_refs": [
@@ -188,6 +188,11 @@
           "zh-TW": "風 <5 m/s：花穗搖曳是構圖元素、強風破壞拍攝（金針花特寫/芒草逆光都禁強風）。5 為 provisional，可依主題差異化（芒草或許更寬）。",
           "en": "Wind < 5 m/s: sway is compositional up to a point, gale ruins the shot (daylily close-ups and backlit silvergrass both need calm). 5 is provisional and may be differentiated per plant (silvergrass might tolerate more).",
           "ja": "風<5m/s。揺れは構図要素だが強風は撮影不能。5は暫定値で植物ごとの差別化も可。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch d）：逆さ富士語義優先——reflection 模板風速 ≤2 m/s（原 seasonal_plant 的 lt 5 過鬆，湖面鏡面需要無風）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+          "en": "2026-11-06 CL-DATA-12 full audit (batch d): the reverse-Fuji (sakasa-Fuji) reflection semantics win - reflection template wind <=2 m/s (the seasonal_plant lt 5 was too loose; a mirror lake needs calm air). Semantic correction; layering parity gate exempt, documented here.",
+          "ja": "2026-11-06 CL-DATA-12 全面監査（batch d）：逆さ富士の意味を優先——reflection テンプレートの風速 <=2 m/s（旧 seasonal_plant の lt 5 は緩すぎる；湖面鏡面には無風が必要）。 意味修正のため layering parity ゲートは免除。"
         }
       },
       {
@@ -219,7 +224,7 @@
       },
       {
         "id": "C-jp-010-P02-05",
-        "role": "REQUIRED",
+        "role": "QUALITY",
         "domain": "WEATHER",
         "evaluation_mode": "GUIDANCE",
         "capability": "CONDITIONS",
@@ -236,7 +241,7 @@
         ],
         "model_binding": "dataset:gfs_0p25|field:cloud_cover_mid_percent|role:MID",
         "validation_status": "provisional",
-        "condition_tier": "MAIN",
+        "condition_tier": "BONUS",
         "threshold_source": "formula_derived",
         "calibration_status": "provisional",
         "rationale_i18n": {
@@ -245,7 +250,12 @@
           "ja": "雲がなければ層はない。山腹の雲帯（中層雲30-60%）が重なりのある構図を作る。"
         },
         "genre_template": "mountain_view",
-        "template_version": "mountain_view-v0.1"
+        "template_version": "mountain_view-v0.1",
+        "notes_i18n": {
+          "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch d）：reflection 模板下雲帶僅為品質加分（鏡面成立不依賴中雲帶）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+          "en": "2026-11-06 CL-DATA-12 full audit (batch d): under the reflection template the mid-cloud band is only a quality bonus (the mirror does not depend on it). Semantic correction; layering parity gate exempt, documented here.",
+          "ja": "2026-11-06 CL-DATA-12 全面監査（batch d）：reflection テンプレートでは中雲帯は品質加点のみ（鏡面成立は中雲帯に依存しない）。 意味修正のため layering parity ゲートは免除。"
+        }
       },
       {
         "id": "C-jp-010-P02-07",
@@ -273,6 +283,35 @@
         },
         "genre_template": "mountain_view",
         "template_version": "mountain_view-v0.1"
+      },
+      {
+        "id": "C-jp-010-P02-WS1",
+        "role": "REQUIRED",
+        "domain": "HYDROLOGY",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "water_surface_state",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "jp-010-P02-claim-01"
+        ],
+        "model_binding": null,
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "evidence_review",
+        "rationale_i18n": {
+          "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch d）：補 water_surface_state（reflection 模板 T2：無即時觀測源→propagate_unknown 誠實未知）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+          "en": "2026-11-06 CL-DATA-12 full audit (batch d): adds water_surface_state (reflection template T2: no real-time observation source -> propagate_unknown honest unknown). Semantic correction; layering parity gate exempt, documented here.",
+          "ja": "2026-11-06 CL-DATA-12 全面監査（batch d）：water_surface_state を追加（reflection テンプレート T2：即時観測源なし→propagate_unknown の誠実な未知）。 意味修正のため layering parity ゲートは免除。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch d）：補 water_surface_state（reflection 模板 T2：無即時觀測源→propagate_unknown 誠實未知）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+          "en": "2026-11-06 CL-DATA-12 full audit (batch d): adds water_surface_state (reflection template T2: no real-time observation source -> propagate_unknown honest unknown). Semantic correction; layering parity gate exempt, documented here.",
+          "ja": "2026-11-06 CL-DATA-12 全面監査（batch d）：water_surface_state を追加（reflection テンプレート T2：即時観測源なし→propagate_unknown の誠実な未知）。 意味修正のため layering parity ゲートは免除。"
+        }
       }
     ]
   },

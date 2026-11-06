@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-080-P01",
   "place_id": "us-080",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Deception Pass・海峽＋橋梁＋峭壁全景",
@@ -182,8 +182,8 @@
         "evaluation_mode": "GUIDANCE",
         "capability": "CONDITIONS",
         "metric": "cloud_cover_low",
-        "operator": "none",
-        "threshold": null,
+        "operator": "lte",
+        "threshold": 30,
         "unit": "%",
         "unknown_policy": "propagate_unknown",
         "claim_refs": [
@@ -200,9 +200,9 @@
           "ja": "下層雲≤30%（2026-10-26 オーナー修正、従来の全雲量70%に代わる）。俯瞰の主題は地面にあり、邪魔するのは視線より低い雲底の下層雲/霧。高層雲は構図要素で否決しない。全雲量では両者を区別できないため cloud_cover_low を主判断とし、中上層雲は否決チェーンから外す。30%は「対象域ほぼ晴透、点在する雲影は許容」。暫定値。"
         },
         "notes_i18n": {
-          "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
-          "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
-          "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
+          "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。 2026-11-06 CL-DATA-12 全面稽查（batch g）：低雲門檻原為機讀 null（owner 2026-10-26 已裁定修正值 30、lte，僅未落入本欄位）——補上 threshold=30、operator=lte。稽查來源：CL-DATA-12 契約語義修正第一波全面稽查。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+          "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated. 2026-11-06 CL-DATA-12 full audit (batch g): the low-cloud threshold was null in the machine-readable field (owner ruled the corrected value 30, lte, on 2026-10-26; it just never landed in this column) - threshold=30, operator=lte restored. Audit source: CL-DATA-12 wave-1 full audit. Semantic correction; layering parity gate exempt, documented here.",
+          "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。 2026-11-06 CL-DATA-12 全面監査（batch g）：低雲の閾値が機械可読欄位では null だった（オーナーが 2026-10-26 に修正値 30・lte と裁定済みだが欄位に未反映）——threshold=30、operator=lte を補完。監査源：CL-DATA-12 第1波全面監査。 意味修正のため layering parity ゲートは免除。"
         }
       },
       {

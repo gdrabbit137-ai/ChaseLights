@@ -7,6 +7,11 @@
 //   <= -6 deg), same-source definition as CL-UI-25;
 // - tw-035-P05 / tw-036-P02 / tw-038-P02 (galaxy subjects): REQUIRED
 //   astronomical_darkness + the full moon cluster (night_sky convention).
+// CL-DATA-12 re-anchor (2026-11-06, batch e): the owner's civil-twilight
+// ruling for 月世界 takes priority — the astronomical_darkness + moon triple
+// is removed and city_night_window becomes the sole night window. The pin
+// below is re-measured to that state (revision 3); it is NOT a deletion of
+// the gate — the semantics live on in the window condition.
 // The source-lock canonical record for tw-027-P02 is re-pinned with a revision
 // note (parity gate exempt for this semantic correction).
 import test from 'node:test';
@@ -21,8 +26,8 @@ const repo = path.resolve(here, '..', '..', '..');
 const PINNED = {
   'tw-027-P02': {
     windowMetric: 'city_night_window',
-    moonCluster: [],
-    revision: 2,
+    moonCluster: false,
+    revision: 3,
   },
   'tw-035-P05': { windowMetric: 'astronomical_darkness', moonCluster: true },
   'tw-036-P02': { windowMetric: 'astronomical_darkness', moonCluster: true },
@@ -75,7 +80,7 @@ test('CL-DATA-09: tw-027-P02 provenance records the owner ruling in source-lock'
     path.join(repo, 'data/v2/indexes/research/source-lock.json'), 'utf8'));
   const rec = lock.canonical_records.find(r => r.opportunity_id === 'tw-027-P02');
   assert.ok(rec, 'tw-027-P02 is a pinned canonical record');
-  assert.equal(rec.commit_sha, 'd4ec134b373d93fbc80955822d7508547ad6497d');
+  assert.equal(rec.commit_sha, 'd57d40f8966631783f1385908659bd8c1b82adbd');
   assert.ok(/CL-DATA-09/.test(lock.repin_note_cl_data_09_20261105),
     'repin revision note records the ruling');
 });

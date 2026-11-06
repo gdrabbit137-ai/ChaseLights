@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-076-P01",
   "place_id": "tw-076",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "龍磐草原海岸日出",
@@ -194,12 +194,12 @@
         }
       },
       {
-        "id": "C-tw-076-P01-04",
-        "role": "QUALITY",
+        "id": "C-tw-076-P01-SR1",
+        "role": "REQUIRED",
         "domain": "ASTRONOMY",
         "evaluation_mode": "GUIDANCE",
         "capability": "CONDITIONS",
-        "metric": "sunset_window",
+        "metric": "sunrise_time_window",
         "operator": "none",
         "threshold": null,
         "unit": null,
@@ -209,13 +209,17 @@
         ],
         "model_binding": null,
         "validation_status": "provisional",
-        "condition_tier": "MODIFIER",
+        "condition_tier": "MAIN",
         "threshold_source": "computed",
-        "calibration_status": "provisional",
         "rationale_i18n": {
-          "zh-TW": "暮色低角度光是層次的點燈源：日落前後的逆光把稜線剪影、雲帶邊緣與遠山明暗節奏同時點亮，層次山景在這個窗口最明顯。作為加分項而非門檻（白天有雲帶時仍可拍，但層次感較弱）。",
-          "en": "Low-angle dusk light is what lights the layering: near sunset, backlight silhouettes the ridgeline, edges the cloud bands and sets the brightness rhythm between ridges, so layered vistas read best in this window. A bonus, not a gate - daytime shots with cloud bands still work, just with weaker layering.",
-          "ja": "夕暮れの低角度光が層を照らす：日没前後の逆光で稜線のシルエット、雲帯の縁、遠山の明暗リズムが同時に立ち、層になった山並みが最も読める。門檻ではなく加点（昼間でも雲帯があれば撮れるが、層は弱い）。"
+          "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch m）：龍磐草原海岸日出——補 sunrise_time_window MAIN；移除 sunset MODIFIER（名稱語義是日出）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+          "en": "2026-11-06 CL-DATA-12 full audit (batch m): Longpan grassland coastal sunrise - adds sunrise_time_window MAIN; the sunset MODIFIER is removed (the name semantics are sunrise). Semantic correction; layering parity gate exempt, documented here.",
+          "ja": "2026-11-06 CL-DATA-12 全面監査（batch m）：龍磐草原の海岸日の出——sunrise_time_window MAIN を追加；sunset MODIFIER は削除（名称語義は日の出）。 意味修正のため layering parity ゲートは免除。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch m）：龍磐草原海岸日出——補 sunrise_time_window MAIN；移除 sunset MODIFIER（名稱語義是日出）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+          "en": "2026-11-06 CL-DATA-12 full audit (batch m): Longpan grassland coastal sunrise - adds sunrise_time_window MAIN; the sunset MODIFIER is removed (the name semantics are sunrise). Semantic correction; layering parity gate exempt, documented here.",
+          "ja": "2026-11-06 CL-DATA-12 全面監査（batch m）：龍磐草原の海岸日の出——sunrise_time_window MAIN を追加；sunset MODIFIER は削除（名称語義は日の出）。 意味修正のため layering parity ゲートは免除。"
         }
       }
     ]

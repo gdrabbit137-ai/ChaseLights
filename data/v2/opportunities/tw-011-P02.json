@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-011-P02",
   "place_id": "tw-011",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "觀海橋暮色／夜間燈景＋港池倒影",
@@ -263,6 +263,35 @@
           "zh-TW": "2026-11-05 自動化補充（CL-UI-25）：依 CL-UI-23 評估層閘門（EVALGATE-city_night-window）語義補入契約層時間窗；閘門在契約已含時間窗時自動退位。",
           "en": "2026-11-05 automated supplement (CL-UI-25): contract-level time window added to mirror the CL-UI-23 evaluation-layer gate (EVALGATE-city_night-window) semantics; the evaluation-layer gate stands down automatically once the contract declares a window.",
           "ja": "2026-11-05 自動補完（CL-UI-25）：CL-UI-23 の評価層ゲート（EVALGATE-city_night-window）の語義に合わせて契約層の時間窓を追加。契約が時間窓を持つ場合、評価層ゲートは自動的に解除される。"
+        }
+      },
+      {
+        "id": "C-tw-011-P02-WD1",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "wind_speed_10m",
+        "operator": "lte",
+        "threshold": 2,
+        "unit": "m/s",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-011-P02-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:wind_speed_10m_m_s|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "rationale_i18n": {
+          "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch c）：本題材含水面／港池／湖面倒影或鏡面語義，無風是成立前提——補 wind_speed_10m ≤2 m/s 為 REQUIRED/MAIN（tw-045 高山湖面夜空倒影放寬至 ≤3）。稽查來源：CL-DATA-12 全面稽查確認倒影題材缺風速判據。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+          "en": "2026-11-06 CL-DATA-12 full audit (batch c): this subject carries water/harbor/lake reflection semantics, so calm wind is a prerequisite - added wind_speed_10m <=2 m/s as REQUIRED/MAIN (tw-045 high-mountain lake night-sky reflection relaxed to <=3). Audit source: CL-DATA-12 full audit found reflection subjects missing the wind gate. Semantic correction; layering parity gate exempt, documented here.",
+          "ja": "2026-11-06 CL-DATA-12 全面監査（batch c）：本題材は水面／港池／湖面の反射・鏡面を含み、無風が成立前提——wind_speed_10m <=2 m/s を REQUIRED/MAIN で追加（tw-045 高山湖の夜空反射は <=3 に緩和）。監査源：CL-DATA-12 全面監査。 意味修正のため layering parity ゲートは免除。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch c）：本題材含水面／港池／湖面倒影或鏡面語義，無風是成立前提——補 wind_speed_10m ≤2 m/s 為 REQUIRED/MAIN（tw-045 高山湖面夜空倒影放寬至 ≤3）。稽查來源：CL-DATA-12 全面稽查確認倒影題材缺風速判據。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+          "en": "2026-11-06 CL-DATA-12 full audit (batch c): this subject carries water/harbor/lake reflection semantics, so calm wind is a prerequisite - added wind_speed_10m <=2 m/s as REQUIRED/MAIN (tw-045 high-mountain lake night-sky reflection relaxed to <=3). Audit source: CL-DATA-12 full audit found reflection subjects missing the wind gate. Semantic correction; layering parity gate exempt, documented here.",
+          "ja": "2026-11-06 CL-DATA-12 全面監査（batch c）：本題材は水面／港池／湖面の反射・鏡面を含み、無風が成立前提——wind_speed_10m <=2 m/s を REQUIRED/MAIN で追加（tw-045 高山湖の夜空反射は <=3 に緩和）。監査源：CL-DATA-12 全面監査。 意味修正のため layering parity ゲートは免除。"
         }
       }
     ]

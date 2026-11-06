@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-005-P01",
   "place_id": "tw-005",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "大稻埕淡水河夕照",
@@ -111,8 +111,8 @@
   "condition_contract": {
     "contract_id": "CC-tw-005-P01-v1",
     "status": "draft",
-    "genre_template": "blue_hour_city",
-    "template_version": "blue_hour_city-v0.1",
+    "genre_template": "golden_hour",
+    "template_version": "golden_hour-v0.1",
     "recommendation_policy_version": null,
     "conditions": [
       {
@@ -121,7 +121,7 @@
         "domain": "ASTRONOMY",
         "evaluation_mode": "GUIDANCE",
         "capability": "CONDITIONS",
-        "metric": "blue_hour_window",
+        "metric": "golden_hour_window",
         "operator": "none",
         "threshold": null,
         "unit": null,
@@ -135,9 +135,14 @@
         "threshold_source": "computed",
         "calibration_status": "provisional",
         "rationale_i18n": {
-          "zh-TW": "藍調定義式窗口：日落后太陽高度 −4°～−8°（日落後約 20–50 分），由座標＋日期計算。",
-          "en": "Definitional blue-hour window: sun elevation -4 to -8 degrees after sunset (roughly 20-50 minutes), computed from coordinates and date.",
-          "ja": "ブルーアワーの定義的ウィンドウ：日没後に太陽高度が-4〜-8度（およそ日没後20-50分）。座標と日付から計算。"
+          "zh-TW": "夕照是日落前太陽仍在水平線上的光（golden_hour），不是日落後的藍調時刻（blue_hour）。",
+          "en": "a sunset glow (夕照) is light while the sun is still above the horizon - the golden hour, not the after-sunset blue hour.",
+          "ja": "夕焼けの光は太陽が地平線上にある間の光（ゴールデンアワー）で、日没後のブルーアワーではない。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch d）：大稻埕淡水河夕照語義優先——golden_hour × spec:golden（夕照是日落前光，非 blue_hour 日落後）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+          "en": "2026-11-06 CL-DATA-12 full audit (batch d): the Tamsui-river sunset-glow semantics win - remapped to golden_hour × spec:golden (a sunset glow is pre-sunset light, not the after-sunset blue hour). Semantic correction; layering parity gate exempt, documented here.",
+          "ja": "2026-11-06 CL-DATA-12 全面監査（batch d）：大稲埕・淡水河の夕焼けの意味を優先——golden_hour × spec:golden へ再配置（夕焼けは日没前の光で、日没後のブルーアワーではない）。 意味修正のため layering parity ゲートは免除。"
         }
       },
       {

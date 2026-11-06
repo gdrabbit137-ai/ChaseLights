@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-040-P01",
   "place_id": "tw-040",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "玉山主峰日出與高山群峰",
@@ -216,6 +216,35 @@
           "zh-TW": "暮色低角度光是層次的點燈源：日落前後的逆光把稜線剪影、雲帶邊緣與遠山明暗節奏同時點亮，層次山景在這個窗口最明顯。作為加分項而非門檻（白天有雲帶時仍可拍，但層次感較弱）。",
           "en": "Low-angle dusk light is what lights the layering: near sunset, backlight silhouettes the ridgeline, edges the cloud bands and sets the brightness rhythm between ridges, so layered vistas read best in this window. A bonus, not a gate - daytime shots with cloud bands still work, just with weaker layering.",
           "ja": "夕暮れの低角度光が層を照らす：日没前後の逆光で稜線のシルエット、雲帯の縁、遠山の明暗リズムが同時に立ち、層になった山並みが最も読める。門檻ではなく加点（昼間でも雲帯があれば撮れるが、層は弱い）。"
+        }
+      },
+      {
+        "id": "C-tw-040-P01-SR1",
+        "role": "REQUIRED",
+        "domain": "ASTRONOMY",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "sunrise_time_window",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-040-P01-claim-01"
+        ],
+        "model_binding": null,
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "computed",
+        "rationale_i18n": {
+          "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch e）：玉山主峰日出名稱語義優先——補 sunrise_time_window REQUIRED/MAIN（原僅 sunset_window MODIFIER 為名稱/時間窗錯位）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+          "en": "2026-11-06 CL-DATA-12 full audit (batch e): the Yushan-main-peak sunrise name semantics win - adds sunrise_time_window REQUIRED/MAIN (only a sunset_window MODIFIER existed - a name/window mismatch). Semantic correction; layering parity gate exempt, documented here.",
+          "ja": "2026-11-06 CL-DATA-12 全面監査（batch e）：玉山主峰日の出の名称の意味を優先——sunrise_time_window REQUIRED/MAIN を追加（旧来は sunset_window MODIFIER のみで名称と時間窓が錯位）。 意味修正のため layering parity ゲートは免除。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch e）：玉山主峰日出名稱語義優先——補 sunrise_time_window REQUIRED/MAIN（原僅 sunset_window MODIFIER 為名稱/時間窗錯位）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+          "en": "2026-11-06 CL-DATA-12 full audit (batch e): the Yushan-main-peak sunrise name semantics win - adds sunrise_time_window REQUIRED/MAIN (only a sunset_window MODIFIER existed - a name/window mismatch). Semantic correction; layering parity gate exempt, documented here.",
+          "ja": "2026-11-06 CL-DATA-12 全面監査（batch e）：玉山主峰日の出の名称の意味を優先——sunrise_time_window REQUIRED/MAIN を追加（旧来は sunset_window MODIFIER のみで名称と時間窓が錯位）。 意味修正のため layering parity ゲートは免除。"
         }
       }
     ]

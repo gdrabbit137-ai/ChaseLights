@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-060-P02",
   "place_id": "us-060",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Glacier Bay Day Tour・潮水冰河正面／山海景觀",
@@ -216,6 +216,35 @@
           "zh-TW": "暮色低角度光是層次的點燈源：日落前後的逆光把稜線剪影、雲帶邊緣與遠山明暗節奏同時點亮，層次山景在這個窗口最明顯。作為加分項而非門檻（白天有雲帶時仍可拍，但層次感較弱）。",
           "en": "Low-angle dusk light is what lights the layering: near sunset, backlight silhouettes the ridgeline, edges the cloud bands and sets the brightness rhythm between ridges, so layered vistas read best in this window. A bonus, not a gate - daytime shots with cloud bands still work, just with weaker layering.",
           "ja": "夕暮れの低角度光が層を照らす：日没前後の逆光で稜線のシルエット、雲帯の縁、遠山の明暗リズムが同時に立ち、層になった山並みが最も読める。門檻ではなく加点（昼間でも雲帯があれば撮れるが、層は弱い）。"
+        }
+      },
+      {
+        "id": "C-us-060-P02-LW1",
+        "role": "REQUIRED",
+        "domain": "ASTRONOMY",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "light_window",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "us-060-P02-claim-01"
+        ],
+        "model_binding": null,
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "computed",
+        "rationale_i18n": {
+          "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch f）：高緯度（>55°N）全日題材補 light_window（civil，太陽仰角 > −6°，CL-DATA-11 同源定義；中緯度同模板不受影響，補上是高緯語義正確化——極夜/白夜時全日題材需有光才可拍）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+          "en": "2026-11-06 CL-DATA-12 full audit (batch f): high-latitude (>55N) all-day subject gains a civil light_window (sun elevation > -6 deg, CL-DATA-11 same-source definition); mid-latitude twins are unaffected - this is a semantic correctness fix for polar night/midnight-sun latitudes. Semantic correction; layering parity gate exempt, documented here.",
+          "ja": "2026-11-06 CL-DATA-12 全面監査（batch f）：高緯度（>55°N）の全日題材に light_window を追加（市民光、太陽高度 > -6°、CL-DATA-11 同源定義）；中緯度の同型は影響なし——極夜・白夜緯度での全日題材に光があることを担保する語義修正。 意味修正のため layering parity ゲートは免除。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch f）：高緯度（>55°N）全日題材補 light_window（civil，太陽仰角 > −6°，CL-DATA-11 同源定義；中緯度同模板不受影響，補上是高緯語義正確化——極夜/白夜時全日題材需有光才可拍）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+          "en": "2026-11-06 CL-DATA-12 full audit (batch f): high-latitude (>55N) all-day subject gains a civil light_window (sun elevation > -6 deg, CL-DATA-11 same-source definition); mid-latitude twins are unaffected - this is a semantic correctness fix for polar night/midnight-sun latitudes. Semantic correction; layering parity gate exempt, documented here.",
+          "ja": "2026-11-06 CL-DATA-12 全面監査（batch f）：高緯度（>55°N）の全日題材に light_window を追加（市民光、太陽高度 > -6°、CL-DATA-11 同源定義）；中緯度の同型は影響なし——極夜・白夜緯度での全日題材に光があることを担保する語義修正。 意味修正のため layering parity ゲートは免除。"
         }
       }
     ]

@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-071-P02",
   "place_id": "us-071",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Kerry Park・日落彩霞＋Seattle Skyline",
@@ -111,13 +111,13 @@
   "condition_contract": {
     "contract_id": "CC-us-071-P02-v1",
     "status": "draft",
-    "genre_template": "blue_hour_city",
-    "template_version": "blue_hour_city-v0.1",
+    "genre_template": "sunset",
+    "template_version": "sunset-v0.1",
     "recommendation_policy_version": null,
     "conditions": [
       {
         "id": "C-us-071-P02-01",
-        "role": "REQUIRED",
+        "role": "QUALITY",
         "domain": "ASTRONOMY",
         "evaluation_mode": "GUIDANCE",
         "capability": "CONDITIONS",
@@ -131,13 +131,18 @@
         ],
         "model_binding": null,
         "validation_status": "provisional",
-        "condition_tier": "MAIN",
+        "condition_tier": "BONUS",
         "threshold_source": "computed",
         "calibration_status": "provisional",
         "rationale_i18n": {
           "zh-TW": "藍調定義式窗口：日落后太陽高度 −4°～−8°（日落後約 20–50 分），由座標＋日期計算。",
           "en": "Definitional blue-hour window: sun elevation -4 to -8 degrees after sunset (roughly 20-50 minutes), computed from coordinates and date.",
           "ja": "ブルーアワーの定義的ウィンドウ：日没後に太陽高度が-4〜-8度（およそ日没後20-50分）。座標と日付から計算。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch h）：Kerry Park「日落彩霞」語義優先——sunset 模板；blue_hour 窗降為 QUALITY/BONUS（日後藍調僅加分）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+          "en": "2026-11-06 CL-DATA-12 full audit (batch h): the Kerry Park 'sunset-glow' semantics win - sunset template; the blue-hour window is downgraded to QUALITY/BONUS (the after-sunset blue adds value only). Semantic correction; layering parity gate exempt, documented here.",
+          "ja": "2026-11-06 CL-DATA-12 全面監査（batch h）：Kerry Park「夕焼け彩霞」の意味を優先——sunset テンプレート；ブルーアワー窓は QUALITY/BONUS に降格。 意味修正のため layering parity ゲートは免除。"
         }
       },
       {
@@ -146,15 +151,15 @@
         "domain": "WEATHER",
         "evaluation_mode": "GUIDANCE",
         "capability": "CONDITIONS",
-        "metric": "cloud_cover_total",
+        "metric": "cloud_cover_low",
         "operator": "lte",
-        "threshold": 70,
+        "threshold": 55,
         "unit": "%",
         "unknown_policy": "propagate_unknown",
         "claim_refs": [
           "us-071-P02-claim-01"
         ],
-        "model_binding": "dataset:gfs_0p25|field:cloud_cover_total_percent|role:MID",
+        "model_binding": "dataset:gfs_0p25|field:cloud_cover_low_percent|role:MID",
         "validation_status": "provisional",
         "condition_tier": "MAIN",
         "threshold_source": "formula_derived",
@@ -163,6 +168,11 @@
           "zh-TW": "天頂須透出藍色天空；70% 允許局部雲。",
           "en": "The zenith must show blue sky; 70% still allows partial cloud.",
           "ja": "天頂から青空が透けて見える必要がある。70%なら部分的な雲を許容。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch h）：sunset 模板判據：低雲 ≤55%（太陽光可達低雲底）；另補中高雲帶 [20,70] REQ/MODIFIER（彩霞需要雲層反光）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+          "en": "2026-11-06 CL-DATA-12 full audit (batch h): sunset-template criteria: low cloud <=55% (sunlight reaches the low-cloud base); a mid/high band [20,70] REQ/MODIFIER is added (the glow needs cloud to light up). Semantic correction; layering parity gate exempt, documented here.",
+          "ja": "2026-11-06 CL-DATA-12 全面監査（batch h）：sunset テンプレート判定：下層雲 <=55%（太陽光が雲底に届く）；中上層雲帯 [20,70] REQ/MODIFIER を追加（彩霞は雲の反射光が必要）。 意味修正のため layering parity ゲートは免除。"
         }
       },
       {
@@ -213,6 +223,67 @@
           "zh-TW": "雨中拍攝受影響；雨後濕地反光是加分項（quality 另列）。",
           "en": "Shooting in rain is impaired; post-rain wet-surface reflections are a separate bonus item.",
           "ja": "雨中の撮影は支障が出る。雨上がりの湿地反射は別の加点項目。"
+        }
+      },
+      {
+        "id": "C-us-071-P02-SW1",
+        "role": "REQUIRED",
+        "domain": "ASTRONOMY",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "sunset_window",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "us-071-P02-claim-01"
+        ],
+        "model_binding": null,
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "computed",
+        "rationale_i18n": {
+          "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch h）：sunset_window REQUIRED/MAIN（日落彩霞只在日落時段成立）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+          "en": "2026-11-06 CL-DATA-12 full audit (batch h): sunset_window REQUIRED/MAIN (the sunset glow exists only at sunset). Semantic correction; layering parity gate exempt, documented here.",
+          "ja": "2026-11-06 CL-DATA-12 全面監査（batch h）：sunset_window REQUIRED/MAIN（夕焼け彩霞は日没時刻にのみ成立）。 意味修正のため layering parity ゲートは免除。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch h）：sunset_window REQUIRED/MAIN（日落彩霞只在日落時段成立）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+          "en": "2026-11-06 CL-DATA-12 full audit (batch h): sunset_window REQUIRED/MAIN (the sunset glow exists only at sunset). Semantic correction; layering parity gate exempt, documented here.",
+          "ja": "2026-11-06 CL-DATA-12 全面監査（batch h）：sunset_window REQUIRED/MAIN（夕焼け彩霞は日没時刻にのみ成立）。 意味修正のため layering parity ゲートは免除。"
+        }
+      },
+      {
+        "id": "C-us-071-P02-SW2",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "cloud_cover_mid_and_high",
+        "operator": "between",
+        "threshold": [
+          20,
+          70
+        ],
+        "unit": "%",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "us-071-P02-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:cloud_cover_mid_percent+cloud_cover_high_percent|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MODIFIER",
+        "threshold_source": "formula_derived",
+        "rationale_i18n": {
+          "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch h）：sunset 模板中高雲帶 REQ/MODIFIER（彩霞需要雲層反光，不是否決項）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+          "en": "2026-11-06 CL-DATA-12 full audit (batch h): sunset-template mid/high band REQ/MODIFIER (the glow needs cloud reflection; it does not veto). Semantic correction; layering parity gate exempt, documented here.",
+          "ja": "2026-11-06 CL-DATA-12 全面監査（batch h）：sunset テンプレート中上層雲帯 REQ/MODIFIER（彩霞は雲の反射光が必要；拒否項ではない）。 意味修正のため layering parity ゲートは免除。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch h）：sunset 模板中高雲帶 REQ/MODIFIER（彩霞需要雲層反光，不是否決項）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+          "en": "2026-11-06 CL-DATA-12 full audit (batch h): sunset-template mid/high band REQ/MODIFIER (the glow needs cloud reflection; it does not veto). Semantic correction; layering parity gate exempt, documented here.",
+          "ja": "2026-11-06 CL-DATA-12 全面監査（batch h）：sunset テンプレート中上層雲帯 REQ/MODIFIER（彩霞は雲の反射光が必要；拒否項ではない）。 意味修正のため layering parity ゲートは免除。"
         }
       }
     ]
