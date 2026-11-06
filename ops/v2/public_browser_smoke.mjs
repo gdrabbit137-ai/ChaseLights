@@ -25,6 +25,16 @@ const LOCALES = ["zh-TW", "en", "ja"];
 const require = createRequire(import.meta.url);
 const {chromium} = require(process.env.PLAYWRIGHT_MODULE || "playwright");
 
+// CL-INT-76: provenance expectations are read from the repo's own build/pin
+// artifacts, never hardcoded sha literals — when the catalog is regenerated
+// (new canonical commit) the artifacts move and this smoke follows instead of
+// silently going red. The block below is slice-tested in
+// tests/cl-int-76-provenance.test.mjs with simulated regeneration fixtures.
+// BEGIN provenance-artifact block
+const repoCatalog=JSON.parse(await readFile(new URL('../../apps/web-v2/catalog.v2.json',import.meta.url),'utf8'));
+const legacySourceCommitSha=JSON.parse(await readFile(new URL('./integration-sources.json',import.meta.url),'utf8')).sources.w2.canonical_content_sha;
+// END provenance-artifact block
+
 async function fetchPublic(path, maxAttempts = 3) {
   const address = new URL(path, BASE);
   assert.equal(address.origin, "https://chaselights.app");
@@ -86,8 +96,11 @@ assert.equal(catalog.opportunities.length, HOME?356:1);
 if(HOME){
   assert.equal(catalog.places.length,190);
   verifyPublicIndex(expectedManifest,catalog,JSON.parse((await fetchPublic('browse-index.v2.json')).body));
-  assert.equal(catalog.source_pins['tw-026-P01'].source_commit_sha,'76e926d16f3cfd6f2983ec2c0f6fe6ac7004104d');
-}else assert.equal(catalog.source_commit_sha, "76e926d16f3cfd6f2983ec2c0f6fe6ac7004104d");
+  // Same-origin pin check: the live candidate catalog must declare exactly the
+  // source pins the repo's own build artifact declares (structural comparison;
+  // survives catalog regeneration because both sides move together).
+  assert.deepEqual(catalog.source_pins,repoCatalog.source_pins);
+}else assert.equal(catalog.source_commit_sha, legacySourceCommitSha);
 const opportunity = HOME ? catalog.opportunities.find(x=>x.opportunity_id==='tw-026-P01') : catalog.opportunities[0];
 assert.equal(opportunity.opportunity_id, "tw-026-P01");
 assert.equal(opportunity.readiness.research_level, "R1");
