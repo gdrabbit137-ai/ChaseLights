@@ -194,11 +194,11 @@ class WeatherGridCoverageTest(unittest.TestCase):
         )
         audit = audit_coverage_registry(catalog, registry)
 
-        self.assertEqual(audit["counts"]["entries"], 43)
+        self.assertEqual(audit["counts"]["entries"], 50)
         self.assertEqual(audit["counts"]["missing_opportunity"], 0)
-        self.assertEqual(audit["counts"]["provisional"], 43)
+        self.assertEqual(audit["counts"]["provisional"], 50)
         self.assertEqual(audit["counts"]["needs_research"], 0)
-        self.assertEqual(audit["counts"]["complete"], 43)
+        self.assertEqual(audit["counts"]["complete"], 50)
         self.assertEqual(audit["counts"]["incomplete"], 0)
 
         by_id = {row["opportunity_id"]: row for row in audit["results"]}

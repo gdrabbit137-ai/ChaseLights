@@ -162,9 +162,32 @@ def geometry_points(
     if min_range < 0 or max_range < 0 or min_range > max_range:
         raise CoverageError("sector range must satisfy 0 <= min <= max")
 
-    start = float(geometry["azimuth_start_deg"])
-    end = float(geometry["azimuth_end_deg"])
-    bearings = _sample_sector_bearings(start, end)
+    # CL-WG-30: month-calibrated light wedges (CL-DATA-13 sectors mechanism).
+    # A geometry may declare `sectors_monthly`: 12 {arc_center_deg,
+    # arc_half_width_deg} entries in Jan..Dec order (same semantics as
+    # evaluate_batch condition_verdict sectors[month-1]). For bbox/planning
+    # purposes the coverage envelope is the union of all 12 monthly arcs, so
+    # no month's wedge can fall outside the planned fetch window; the browser
+    # resolves the current month at render time.
+    monthly = geometry.get("sectors_monthly")
+    if monthly is not None:
+        if not isinstance(monthly, list) or len(monthly) != 12:
+            raise CoverageError(
+                "sector sectors_monthly requires exactly 12 monthly arcs"
+            )
+        bearings: list[float] = []
+        for arc in monthly:
+            if not isinstance(arc, dict):
+                raise CoverageError("sectors_monthly entries must be objects")
+            center = float(arc["arc_center_deg"])
+            half = float(arc["arc_half_width_deg"])
+            if half < 0 or half > 180:
+                raise CoverageError("arc_half_width_deg must be within [0, 180]")
+            bearings.extend(_sample_sector_bearings(center - half, center + half))
+    else:
+        start = float(geometry["azimuth_start_deg"])
+        end = float(geometry["azimuth_end_deg"])
+        bearings = _sample_sector_bearings(start, end)
     points = [(origin_lat, origin_lon)]
     for bearing in bearings:
         if min_range:
