@@ -335,7 +335,7 @@ def main():
             ("w5-task-r-release-tools", ["ops/v2/tests", "test_task_r_release_tools.py"], 12, True, False),
             ("w5-task-v-integration", ["ops/v2/tests", "test_task_v_integration.py"], 11, True, False),
             ("w5-pin-sync", ["ops/v2/tests", "test_pin_sync.py"], 7, True, False),
-            ("w3-evaluator-and-hourly-source", ["packages/core-v2/tests", "test_*.py"], 174, True, False),
+            ("w3-evaluator-and-hourly-source", ["packages/core-v2/tests", "test_*.py"], 180, True, False),
             ("w3-solar-model", ["packages/models-v2/tests", "test_*.py"], 15, True, False),
             ("w2-crosswalk-schema-index-and-hourly-binding", ["data/v2/tests", "test_*.py"], 66, True, False,
                 {"timeout": 300}),
@@ -389,13 +389,13 @@ def main():
         # contract-fixes tests) -> w4-node=421, exact total=849, measured on
         # the merged tree (node v26.7.0, --test-isolation=none).
         # 2026-11-06 CL-DATA-14: +8 cl-data-14 data-correction pins ->
-        # w4-node=429, exact total=857, measured on the task tree
+        # 2026-11-06 CL-INT-72: w3 suite re-measured at 180 (grew from stale pin 174 on main), exact total=870 (non-candidate groups measured 864 on merged tree + candidate-build-browser 6, CI playwright env)
         # (node v26.7.0, --test-isolation=none).
-        if (report["counts"]["tests"] != 857 or
+        if (report["counts"]["tests"] != 870 or
                 report["counts"]["fail"] != 0 or
                 report["counts"]["error"] != 0 or
-                report["counts"]["pass"] + report["counts"]["skip"] != 857):
-            raise ValueError("Post-merge exact 857-case requirement failed")
+                report["counts"]["pass"] + report["counts"]["skip"] != 870):
+            raise ValueError("Post-merge exact 870-case requirement failed")
         if not all(g["status"] == "PASS" for g in report["groups"]):
             raise ValueError("One or more required suites failed")
         report["status"] = "PASS"
